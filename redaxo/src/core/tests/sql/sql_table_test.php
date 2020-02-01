@@ -185,7 +185,7 @@ class rex_sql_table_test extends TestCase
 
         $this->assertSame(['id', 'description', 'title'], array_keys($table->getColumns()));
 
-        $amount = new rex_sql_column('amount', 'int(10)', true);
+        $amount = new rex_sql_column('amount', 'int(5)', true);
 
         $table
             ->ensureColumn($title, 'id')
