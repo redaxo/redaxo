@@ -185,14 +185,17 @@ class rex_sql_table_test extends TestCase
 
         $this->assertSame(['id', 'description', 'title'], array_keys($table->getColumns()));
 
+        $amount = new rex_sql_column('amount', 'int(10)', true);
+
         $table
             ->ensureColumn($title, 'id')
             ->ensureColumn(new rex_sql_column('status', 'tinyint(1)'), 'id')
             ->ensureColumn(new rex_sql_column('created', 'datetime', false, 'CURRENT_TIMESTAMP'), 'status')
             ->ensureColumn($title, 'status')
+            ->ensureColumn($amount)
             ->alter();
 
-        $expectedOrder = ['id', 'status', 'title', 'created', 'description'];
+        $expectedOrder = ['id', 'status', 'title', 'created', 'description', 'amount'];
 
         $this->assertSame($expectedOrder, array_keys($table->getColumns()));
 
@@ -200,6 +203,8 @@ class rex_sql_table_test extends TestCase
         $table = rex_sql_table::get(self::TABLE);
 
         $this->assertSame($expectedOrder, array_keys($table->getColumns()));
+
+        $this->assertEquals($amount, $table->getColumn('amount'));
     }
 
     public function testEnsurePrimaryIdColumn()
