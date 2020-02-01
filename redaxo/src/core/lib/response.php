@@ -449,7 +449,7 @@ class rex_response
 
     /**
      * @param string      $name    The name of the cookie
-     * @param string|null $value   The value of the cookie, a empty value to delete the cookie.
+     * @param string|null $value   the value of the cookie, a empty value to delete the cookie
      * @param array       $options Different cookie Options. Supported keys are:
      *                             "expires" int|string|\DateTimeInterface The time the cookie expires
      *                             "path" string                           The path on the server in which the cookie will be available on

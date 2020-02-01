@@ -261,7 +261,7 @@ class rex_request
     /**
      * Returns whether the current request is served via https/ssl.
      *
-     * @return bool true when https/ssl, otherwise false.
+     * @return bool true when https/ssl, otherwise false
      */
     public static function isHttps()
     {
