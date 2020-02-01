@@ -14,6 +14,12 @@ parameters:
         - redaxo/src/addons/tests/vendor/
         - redaxo/src/core/vendor/
         - redaxo/src/core/tests/
+    # make phpstan aware of never returning methods
+    # https://github.com/phpstan/phpstan/issues/2900
+    parameters:
+        earlyTerminatingMethodCalls:
+            rex_response:
+                - sendRedirect
     ignoreErrors:
         -
             # allow undefined variable errors in pages, because we rely on variables beeing available from the includer scope
