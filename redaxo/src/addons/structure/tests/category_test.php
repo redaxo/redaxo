@@ -7,17 +7,6 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_category_test extends TestCase
 {
-    protected function tearDown()
-    {
-        // reset static properties
-        $class = new ReflectionClass(rex_article::class);
-        $classVarsProperty = $class->getProperty('classVars');
-        $classVarsProperty->setAccessible(true);
-        $classVarsProperty->setValue(null);
-
-        rex_category::clearInstancePool();
-    }
-
     protected function setUp()
     {
         // generate classVars and add test column
@@ -31,6 +20,17 @@ class rex_category_test extends TestCase
                 ['cat_foo']
             )
         );
+    }
+
+    protected function tearDown()
+    {
+        // reset static properties
+        $class = new ReflectionClass(rex_article::class);
+        $classVarsProperty = $class->getProperty('classVars');
+        $classVarsProperty->setAccessible(true);
+        $classVarsProperty->setValue(null);
+
+        rex_category::clearInstancePool();
     }
 
     public function testHasValue()

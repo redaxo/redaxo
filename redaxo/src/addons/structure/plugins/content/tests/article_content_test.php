@@ -7,24 +7,6 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_article_content_test extends TestCase
 {
-    protected function tearDown()
-    {
-        // delete all fake structure cache files
-        $finder = rex_finder::factory(rex_path::addonCache('structure'))
-            ->recursive()
-            ->childFirst()
-            ->ignoreSystemStuff(false);
-        rex_dir::deleteIterator($finder);
-
-        // reset static properties
-        $class = new ReflectionClass(rex_article::class);
-        $classVarsProperty = $class->getProperty('classVars');
-        $classVarsProperty->setAccessible(true);
-        $classVarsProperty->setValue(null);
-
-        rex_article::clearInstancePool();
-    }
-
     protected function setUp()
     {
         // fake article
@@ -62,6 +44,24 @@ class rex_article_content_test extends TestCase
                 ['art_foo']
             )
         );
+    }
+
+    protected function tearDown()
+    {
+        // delete all fake structure cache files
+        $finder = rex_finder::factory(rex_path::addonCache('structure'))
+            ->recursive()
+            ->childFirst()
+            ->ignoreSystemStuff(false);
+        rex_dir::deleteIterator($finder);
+
+        // reset static properties
+        $class = new ReflectionClass(rex_article::class);
+        $classVarsProperty = $class->getProperty('classVars');
+        $classVarsProperty->setAccessible(true);
+        $classVarsProperty->setValue(null);
+
+        rex_article::clearInstancePool();
     }
 
     public function testBcHasValue()
