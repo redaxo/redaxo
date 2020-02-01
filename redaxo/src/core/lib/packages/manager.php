@@ -745,7 +745,7 @@ abstract class rex_package_manager
                     $sub = substr($match['version'], 0, $pos);
                     if (false !== ($pos = strrpos($sub, '.'))) {
                         $main = substr($sub, 0, $pos + 1);
-                        $sub = substr($sub, $pos + 1);
+                        $sub = (int) substr($sub, $pos + 1);
                     }
                     // add "-foo" to get a version lower than a "-dev" version
                     $constraints[] = ['<', $main . ($sub + 1) . '-foo'];
