@@ -21,12 +21,12 @@ class rex_extension_test extends TestCase
     {
         $EP = 'TEST_IS_REGISTERED';
 
-        $this->assertFalse(rex_extension::isRegistered($EP), 'isRegistered() returns false for non-registered extension points');
+        static::assertFalse(rex_extension::isRegistered($EP), 'isRegistered() returns false for non-registered extension points');
 
         rex_extension::register($EP, static function () {
         });
 
-        $this->assertTrue(rex_extension::isRegistered($EP), 'isRegistered() returns true for registered extension points');
+        static::assertTrue(rex_extension::isRegistered($EP), 'isRegistered() returns true for registered extension points');
     }
 
     public function testRegisterPoint()
@@ -48,8 +48,8 @@ class rex_extension_test extends TestCase
 
         $result = rex_extension::registerPoint(new rex_extension_point($EP, 'test'));
 
-        $this->assertEquals($EP, $EPParam, '$params["extension_point"] contains the extension point name');
-        $this->assertEquals('test test2 test3', $result, 'registerPoint() returns the returned value of last extension');
+        static::assertEquals($EP, $EPParam, '$params["extension_point"] contains the extension point name');
+        static::assertEquals('test test2 test3', $result, 'registerPoint() returns the returned value of last extension');
     }
 
     public function testRegisterPointReadOnly()
@@ -68,7 +68,7 @@ class rex_extension_test extends TestCase
         $subject = 'test';
         rex_extension::registerPoint(new rex_extension_point($EP, $subject, [], true));
 
-        $this->assertEquals($subject, $subjectActual, 'read-only extention points don\'t change subject param');
+        static::assertEquals($subject, $subjectActual, 'read-only extention points don\'t change subject param');
     }
 
     public function testRegisterPointWithParams()
@@ -83,7 +83,7 @@ class rex_extension_test extends TestCase
         $myparam = 'myparam';
         rex_extension::registerPoint(new rex_extension_point($EP, null, ['myparam' => $myparam]));
 
-        $this->assertEquals($myparam, $myparamActual, 'additional params will be available in extentions');
+        static::assertEquals($myparam, $myparamActual, 'additional params will be available in extentions');
     }
 
     public function testRegister()
@@ -106,7 +106,7 @@ class rex_extension_test extends TestCase
         $expected = 'early1 early2 normal1 normal2 late1 late2 ';
         $actual = rex_extension::registerPoint(new rex_extension_point($EP, ''));
 
-        $this->assertEquals($expected, $actual);
+        static::assertEquals($expected, $actual);
     }
 
     public function testRegisterMultiple()
@@ -118,7 +118,7 @@ class rex_extension_test extends TestCase
             return 'foo';
         });
 
-        $this->assertSame('foo', rex_extension::registerPoint(new rex_extension_point($EP1)));
-        $this->assertSame('foo', rex_extension::registerPoint(new rex_extension_point($EP2)));
+        static::assertSame('foo', rex_extension::registerPoint(new rex_extension_point($EP1)));
+        static::assertSame('foo', rex_extension::registerPoint(new rex_extension_point($EP2)));
     }
 }

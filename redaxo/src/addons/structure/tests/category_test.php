@@ -40,11 +40,11 @@ class rex_category_test extends TestCase
         $instance = $class->newInstanceWithoutConstructor();
         $instance->cat_foo = 'teststring';
 
-        $this->assertTrue($instance->hasValue('foo'));
-        $this->assertTrue($instance->hasValue('cat_foo'));
+        static::assertTrue($instance->hasValue('foo'));
+        static::assertTrue($instance->hasValue('cat_foo'));
 
-        $this->assertFalse($instance->hasValue('bar'));
-        $this->assertFalse($instance->hasValue('cat_bar'));
+        static::assertFalse($instance->hasValue('bar'));
+        static::assertFalse($instance->hasValue('cat_bar'));
     }
 
     public function testGetValue()
@@ -54,10 +54,10 @@ class rex_category_test extends TestCase
         $instance = $class->newInstanceWithoutConstructor();
         $instance->cat_foo = 'teststring';
 
-        $this->assertEquals('teststring', $instance->getValue('foo'));
-        $this->assertEquals('teststring', $instance->getValue('cat_foo'));
+        static::assertEquals('teststring', $instance->getValue('foo'));
+        static::assertEquals('teststring', $instance->getValue('cat_foo'));
 
-        $this->assertNull($instance->getValue('bar'));
-        $this->assertNull($instance->getValue('cat_bar'));
+        static::assertNull($instance->getValue('bar'));
+        static::assertNull($instance->getValue('cat_bar'));
     }
 }

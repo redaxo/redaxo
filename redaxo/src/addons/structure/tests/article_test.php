@@ -41,11 +41,11 @@ class rex_article_test extends TestCase
 
         $instance->art_foo = 'teststring';
 
-        $this->assertTrue($instance->hasValue('foo'));
-        $this->assertTrue($instance->hasValue('art_foo'));
+        static::assertTrue($instance->hasValue('foo'));
+        static::assertTrue($instance->hasValue('art_foo'));
 
-        $this->assertFalse($instance->hasValue('bar'));
-        $this->assertFalse($instance->hasValue('art_bar'));
+        static::assertFalse($instance->hasValue('bar'));
+        static::assertFalse($instance->hasValue('art_bar'));
     }
 
     public function testGetValue()
@@ -56,10 +56,10 @@ class rex_article_test extends TestCase
 
         $instance->art_foo = 'teststring';
 
-        $this->assertEquals('teststring', $instance->getValue('foo'));
-        $this->assertEquals('teststring', $instance->getValue('art_foo'));
+        static::assertEquals('teststring', $instance->getValue('foo'));
+        static::assertEquals('teststring', $instance->getValue('art_foo'));
 
-        $this->assertNull($instance->getValue('bar'));
-        $this->assertNull($instance->getValue('art_bar'));
+        static::assertNull($instance->getValue('bar'));
+        static::assertNull($instance->getValue('art_bar'));
     }
 }
