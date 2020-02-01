@@ -107,9 +107,8 @@ class rex_input_date extends rex_input
 
     public function getHtml()
     {
-        $thisYear = (int) date('Y');
         $yearSelect = clone $this->yearSelect;
-        $yearSelect->addOptions(range($this->startYear ?: 2005, $this->endYear ?: $thisYear + 10), true);
+        $yearSelect->addOptions(range($this->startYear ?: 2005, $this->endYear ?: idate('Y') + 10), true);
 
         return $this->daySelect->get() . $this->monthSelect->get() . $yearSelect->get();
     }
