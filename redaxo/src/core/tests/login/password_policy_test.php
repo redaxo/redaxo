@@ -19,7 +19,7 @@ class rex_password_policy_test extends TestCase
         if ($expected) {
             static::assertTrue($result);
         } else {
-            static::assertInternalType('string', $result);
+            static::assertIsString($result);
         }
     }
 
