@@ -146,9 +146,13 @@ class rex_sql_table
                 $columns[$part['column_name']] = $part['referenced_column_name'] ?? $part['REFERENCED_COLUMN_NAME'];
             }
 
+            // since mysql8  upper-case keys are returned
             $fk = $parts[0];
+            $refTable = $fk['referenced_table_name'] ?? $fk['REFERENCED_TABLE_NAME'];
+            $updateRule = $fk['update_rule'] ?? $fk['UPDATE_RULE'];
+            $deleteRule = $fk['delete_rule'] ?? $fk['DELETE_RULE'];
 
-            $this->foreignKeys[$fkName] = new rex_sql_foreign_key($fkName, $fk['referenced_table_name'], $columns, $fk['update_rule'], $fk['delete_rule']);
+            $this->foreignKeys[$fkName] = new rex_sql_foreign_key($fkName, $refTable, $columns, $updateRule, $deleteRule);
             $this->foreignKeysExisting[$fkName] = $fkName;
         }
     }
