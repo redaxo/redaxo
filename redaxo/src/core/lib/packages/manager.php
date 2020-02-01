@@ -12,7 +12,7 @@ abstract class rex_package_manager
     use rex_factory_trait;
 
     /**
-     * @var T $package
+     * @var T
      */
     protected $package;
 
