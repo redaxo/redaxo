@@ -135,6 +135,7 @@ class rex_sql_table
             WHERE c.constraint_schema = DATABASE() AND c.table_name = ?', [$name]);
         $foreignKeys = [];
         foreach ($foreignKeyParts as $part) {
+            var_dump($part);
             $foreignKeys[$part['constraint_name']][] = $part;
         }
 
