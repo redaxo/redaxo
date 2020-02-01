@@ -225,8 +225,8 @@ class rex_login
                 // message schreiben und falls falsch auf error verweisen
 
                 $ok = true;
-
-                if (($this->getSessionVar('STAMP') + $this->sessionDuration) < time()) {
+                $sessionStartStamp = (int) $this->getSessionVar('STAMP');
+                if (($sessionStartStamp + $this->sessionDuration) < time()) {
                     $ok = false;
                     $this->message = rex_i18n::msg('login_session_expired');
 
