@@ -129,30 +129,24 @@ class rex_sql_table
         }
 
         $foreignKeyParts = $this->sql->getArray('
-            SELECT c.constraint_name, c.referenced_table_name, c.update_rule, c.delete_rule, k.column_name, k.referenced_column_name
-            FROM information_schema.referential_constraints c
-            LEFT JOIN information_schema.key_column_usage k ON c.constraint_name = k.constraint_name
-            WHERE c.constraint_schema = DATABASE() AND c.table_name = ?', [$name]);
+            SELECT c.CONSTRAINT_NAME, c.REFERENCED_TABLE_NAME, c.UPDATE_RULE, c.DELETE_RULE, k.COLUMN_NAME, k.REFERENCED_COLUMN_NAME
+            FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS c
+            LEFT JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE k ON c.CONSTRAINT_NAME = k.CONSTRAINT_NAME
+            WHERE c.CONSTRAINT_SCHEMA = DATABASE() AND c.TABLE_NAME = ?', [$name]);
         $foreignKeys = [];
         foreach ($foreignKeyParts as $part) {
-            // since mysql8  upper-case keys are returned
-            $foreignKeys[$part['constraint_name'] ?? $part['CONSTRAINT_NAME']][] = $part;
+            $foreignKeys[$part['CONSTRAINT_NAME']][] = $part;
         }
 
         foreach ($foreignKeys as $fkName => $parts) {
             $columns = [];
             foreach ($parts as $part) {
-                // since mysql8  upper-case keys are returned
-                $columns[$part['column_name']] = $part['referenced_column_name'] ?? $part['REFERENCED_COLUMN_NAME'];
+                $columns[$part['COLUMN_NAME']] = $part['REFERENCED_COLUMN_NAME'];
             }
 
-            // since mysql8  upper-case keys are returned
             $fk = $parts[0];
-            $refTable = $fk['referenced_table_name'] ?? $fk['REFERENCED_TABLE_NAME'];
-            $updateRule = $fk['update_rule'] ?? $fk['UPDATE_RULE'];
-            $deleteRule = $fk['delete_rule'] ?? $fk['DELETE_RULE'];
 
-            $this->foreignKeys[$fkName] = new rex_sql_foreign_key($fkName, $refTable, $columns, $updateRule, $deleteRule);
+            $this->foreignKeys[$fkName] = new rex_sql_foreign_key($fkName, $fk['REFERENCED_TABLE_NAME'], $columns, $fk['UPDATE_RULE'], $fk['DELETE_RULE']);
             $this->foreignKeysExisting[$fkName] = $fkName;
         }
     }
