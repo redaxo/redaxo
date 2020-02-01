@@ -1,6 +1,19 @@
 Changelog
 =========
 
+Version 2.6.0 – XX.XX.2020
+--------------------------
+
+### Neu
+
+* Artikel-Metainfos können auf Templates beschränkt werden (@felixheidecke)
+* Bei (Re)Installation/Update wird `rex_sql_table` verwendet (@tbaddade)
+
+### Bugfixes
+
+* Manche Queries wurden unnötigt doppelt ausgeführt (@tbaddade)
+
+
 Version 2.5.1 – 01.11.2019
 --------------------------
 

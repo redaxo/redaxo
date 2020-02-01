@@ -4,6 +4,17 @@
  * @package redaxo5
  */
 
+// defaults for globals passed in from index.php
+if (!isset($success)) {
+    $success = '';
+}
+if (!isset($error)) {
+    $error = '';
+}
+if (!isset($arg_url)) {
+    $arg_url = '';
+}
+
 $hasCategoryPerm = rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category);
 
 if ($hasCategoryPerm && 'updatecat_selectedmedia' == $media_method) {

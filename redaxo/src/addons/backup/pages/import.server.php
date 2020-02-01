@@ -110,10 +110,13 @@ if ('' != $error) {
     echo rex_view::error($error);
 }
 
+$body = '<p>' . rex_i18n::msg('backup_intro_import') . '</p>';
+$body .= '<p>' . rex_i18n::msg('backup_version_warning') . '</p>';
+
 $fragment = new rex_fragment();
 $fragment->setVar('class', 'info');
 $fragment->setVar('title', rex_i18n::msg('backup_note'), false);
-$fragment->setVar('body', '<p>' . rex_i18n::msg('backup_intro_import') . '</p>', false);
+$fragment->setVar('body', $body, false);
 echo $fragment->parse('core/page/section.php');
 
 $content = '<table class="table table-striped table-hover">

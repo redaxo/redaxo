@@ -69,6 +69,7 @@ if (rex::isSetup()) {
 
     $config['setup'] = false;
     if (rex_file::putConfig($configFile, $config)) {
+        rex_delete_cache();
         echo 'instance setup successfull', PHP_EOL;
         exit(0);
     }

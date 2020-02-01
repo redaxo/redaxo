@@ -70,7 +70,7 @@ echo rex_extension::registerPoint(new rex_extension_point('PAGE_STRUCTURE_HEADER
 
 $KAT = rex_sql::factory();
 // $KAT->setDebug();
-if (count($structureContext->getMountpoints()) > 0 && 0 == $structureContext->getMountpoints()) {
+if (count($structureContext->getMountpoints()) > 0 && 0 == $structureContext->getCategoryId()) {
     $parent_id = implode(',', $structureContext->getMountpoints());
     $KAT->setQuery('SELECT COUNT(*) as rowCount FROM ' . rex::getTablePrefix() . 'article WHERE id IN (' . $parent_id . ') AND startarticle=1 AND clang_id=' . $structureContext->getClangId());
 } else {

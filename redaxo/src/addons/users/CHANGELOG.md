@@ -1,6 +1,21 @@
 Changelog
 =========
 
+Version 2.6.0 – XX.XX.2020
+--------------------------
+
+### Neu
+
+* Perm-Selects in Rollenverwaltung:
+    - Perms mit vorangestellten Perm-Key (`perm[]`) und alphabetisch sortiert (@tbaddade)
+    - Bei Bedarf bis zu 20 Zeilen lang statt 10 (@gharlan)
+* Bei (Re)Installation/Update wird `rex_sql_table` verwendet (@tbaddade)
+
+### Bugfixes
+
+* Bei Benutzern mit mehreren Rollen konnte es bei den complex_perms (z.B. Mountpoints) zu Dopplungen kommen (@gharlan)
+
+
 Version 2.5.3 – 01.11.2019
 --------------------------
 
