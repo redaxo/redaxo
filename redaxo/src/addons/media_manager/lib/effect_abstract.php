@@ -57,6 +57,7 @@ abstract class rex_effect_abstract
     public function getParams()
     {
         // implement me in your subclass.
+        return array();
     }
 
     protected function keepTransparent($des)
