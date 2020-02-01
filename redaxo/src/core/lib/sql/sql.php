@@ -1647,7 +1647,6 @@ class rex_sql implements Iterator
 
         $columns = [];
         foreach ($sql as $col) {
-            var_dump($col);
             $columns[] = [
                 'name' => $col->getValue('Field'),
                 'type' => $col->getValue('Type'),
