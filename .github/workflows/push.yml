@@ -114,7 +114,7 @@ jobs:
                 extensions: intl
                 coverage: none # disable xdebug, pcov
           - run: |
-                composer global require friendsofphp/php-cs-fixer:2.14.*
+                composer global require friendsofphp/php-cs-fixer:2.16.*
                 composer require staabm/annotate-pull-request-from-checkstyle:^1.0
                 ~/.composer/vendor/bin/php-cs-fixer fix --diff --dry-run --format=checkstyle | vendor/bin/cs2pr
 
