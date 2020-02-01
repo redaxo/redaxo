@@ -82,6 +82,7 @@ class rex_clang
         foreach (self::getAll() as $id => $clang) {
             return $id;
         }
+        throw new LogicException('No clang found.');
     }
 
     /**
