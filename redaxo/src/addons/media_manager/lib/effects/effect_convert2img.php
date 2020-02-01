@@ -63,7 +63,7 @@ class rex_effect_convert2img extends rex_effect_abstract
 
         if (class_exists(Imagick::class)) {
             $imagick = new Imagick();
-            $imagick->readImage($from_path."[0]");
+            $imagick->readImage($from_path.'[0]');
             $imagick->setResolution($density, $density);
             $imagick->setImageColorspace(Imagick::COLORSPACE_RGB);
             $imagick->setImageFormat($convert_to['ext']);
@@ -89,7 +89,6 @@ class rex_effect_convert2img extends rex_effect_abstract
 
         $to_path = rex_path::addonCache('media_manager', 'media_manager__convert2img_' . md5($this->media->getMediaPath()) . '_' . $filename_wo_ext . $convert_to['ext']);
 
-        //use exec-convert
         $cmd = $convert_path . ' -density '.$density.' "' . $from_path . '[0]" -colorspace RGB "' . $to_path . '"';
 
         exec($cmd, $out, $ret);
