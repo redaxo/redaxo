@@ -142,8 +142,6 @@ class rex_addon extends rex_package implements rex_addon_interface
 
     /**
      * {@inheritdoc}
-     *
-     * @return rex_null_plugin|rex_plugin
      */
     public function getPlugin($plugin)
     {
