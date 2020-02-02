@@ -204,7 +204,13 @@ class rex_sql_table_test extends TestCase
 
         static::assertSame($expectedOrder, array_keys($table->getColumns()));
 
-        static::assertEquals($amount, $table->getColumn('amount'));
+        $sql = rex_sql::factory();
+        if (rex_sql::MYSQL === $sql->getDbType() && 8 <= (int) $sql->getDbType()) {
+            // In MySQL 8 the display width of integers is simulated by rex_sql_table to the max width.
+            static::assertEquals('int(11)', $table->getColumn('amount')->getType());
+        } else {
+            static::assertEquals('int(5)', $table->getColumn('amount')->getType());
+        }
     }
 
     public function testEnsurePrimaryIdColumn()
