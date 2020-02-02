@@ -1,13 +1,18 @@
 Changelog
 =========
 
-Version 2.8.0 – XX.XX.2020
+Version 2.8.0 – 02.02.2020
 --------------------------
 
 ### Neu
 
 * Statt des Error-Bildes wird nun der 404-Statuscode gesendet (@gharlan)
+* Effekt `convert2img`: Funktioniert nun auch ohne `exec()`-Rechte, wenn die PHP-Extension `imagick` installiert ist (@iceman-fx, @gharlan)
 * Umbenennung "Mediatyp" in "Medientyp" (@alexplusde)
+
+### Bugfixes
+
+* Effekt `rotate`: Transparenz wurde nicht erhalten (@gharlan)
 
 
 Version 2.7.0 – 20.08.2019
