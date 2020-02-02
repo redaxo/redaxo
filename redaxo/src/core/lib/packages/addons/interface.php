@@ -14,7 +14,7 @@ interface rex_addon_interface extends rex_package_interface
      *
      * @param string $plugin Name of the plugin
      *
-     * @return rex_plugin
+     * @return rex_plugin_interface
      */
     public function getPlugin($plugin);
 
