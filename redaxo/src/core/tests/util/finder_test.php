@@ -38,9 +38,9 @@ class rex_finder_test extends TestCase
     private function assertIteratorContains($iterator, $contains)
     {
         $array = iterator_to_array($iterator, true);
-        $this->assertCount(count($contains), $array);
+        static::assertCount(count($contains), $array);
         foreach ($contains as $file) {
-            $this->assertArrayHasKey($this->getPath($file), $array, $file . ' is in array');
+            static::assertArrayHasKey($this->getPath($file), $array, $file . ' is in array');
         }
     }
 

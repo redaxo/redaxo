@@ -14,7 +14,7 @@ class rex_console_command_test extends TestCase
 
         $command = $this->getMockForAbstractClass(rex_console_command::class);
 
-        $this->assertSame("\"Foo\"\nbar\nbaz\nabc\ndef", $method->invoke($command, "&quot;Foo&quot;<br><b>bar</b><br />\nbaz<br/>\rabc<br>\r\ndef"));
+        static::assertSame("\"Foo\"\nbar\nbaz\nabc\ndef", $method->invoke($command, "&quot;Foo&quot;<br><b>bar</b><br />\nbaz<br/>\rabc<br>\r\ndef"));
     }
 
     public function testDecodeMessageSingleQuotes()
@@ -24,6 +24,6 @@ class rex_console_command_test extends TestCase
 
         $command = $this->getMockForAbstractClass(rex_console_command::class);
 
-        $this->assertSame("Couldn't find the required PHP extension module session!", $method->invoke($command, 'Couldn&#039;t find the required PHP extension module session!'));
+        static::assertSame("Couldn't find the required PHP extension module session!", $method->invoke($command, 'Couldn&#039;t find the required PHP extension module session!'));
     }
 }

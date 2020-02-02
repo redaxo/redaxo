@@ -7,24 +7,6 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_article_content_test extends TestCase
 {
-    protected function tearDown()
-    {
-        // delete all fake structure cache files
-        $finder = rex_finder::factory(rex_path::addonCache('structure'))
-            ->recursive()
-            ->childFirst()
-            ->ignoreSystemStuff(false);
-        rex_dir::deleteIterator($finder);
-
-        // reset static properties
-        $class = new ReflectionClass(rex_article::class);
-        $classVarsProperty = $class->getProperty('classVars');
-        $classVarsProperty->setAccessible(true);
-        $classVarsProperty->setValue(null);
-
-        rex_article::clearInstancePool();
-    }
-
     protected function setUp()
     {
         // fake article
@@ -64,6 +46,24 @@ class rex_article_content_test extends TestCase
         );
     }
 
+    protected function tearDown()
+    {
+        // delete all fake structure cache files
+        $finder = rex_finder::factory(rex_path::addonCache('structure'))
+            ->recursive()
+            ->childFirst()
+            ->ignoreSystemStuff(false);
+        rex_dir::deleteIterator($finder);
+
+        // reset static properties
+        $class = new ReflectionClass(rex_article::class);
+        $classVarsProperty = $class->getProperty('classVars');
+        $classVarsProperty->setAccessible(true);
+        $classVarsProperty->setValue(null);
+
+        rex_article::clearInstancePool();
+    }
+
     public function testBcHasValue()
     {
         $class = new ReflectionClass(rex_article_content::class);
@@ -80,11 +80,11 @@ class rex_article_content_test extends TestCase
         $propArticle->setAccessible(true);
         $propArticle->setValue($instance, rex_sql::factory()->setValue('art_foo', 'teststring'));
 
-        $this->assertTrue($instance->hasValue('foo'));
-        $this->assertTrue($instance->hasValue('art_foo'));
+        static::assertTrue($instance->hasValue('foo'));
+        static::assertTrue($instance->hasValue('art_foo'));
 
-        $this->assertFalse($instance->hasValue('bar'));
-        $this->assertFalse($instance->hasValue('art_bar'));
+        static::assertFalse($instance->hasValue('bar'));
+        static::assertFalse($instance->hasValue('art_bar'));
     }
 
     public function testBcGetValue()
@@ -102,11 +102,11 @@ class rex_article_content_test extends TestCase
         $propArticle->setAccessible(true);
         $propArticle->setValue($instance, rex_sql::factory()->setValue('art_foo', 'teststring'));
 
-        $this->assertEquals('teststring', $instance->getValue('foo'));
-        $this->assertEquals('teststring', $instance->getValue('art_foo'));
+        static::assertEquals('teststring', $instance->getValue('foo'));
+        static::assertEquals('teststring', $instance->getValue('art_foo'));
 
-        $this->assertEquals('[bar not found]', $instance->getValue('bar'));
-        $this->assertEquals('[art_bar not found]', $instance->getValue('art_bar'));
+        static::assertEquals('[bar not found]', $instance->getValue('bar'));
+        static::assertEquals('[art_bar not found]', $instance->getValue('art_bar'));
     }
 
     public function testHasValue()
@@ -116,11 +116,11 @@ class rex_article_content_test extends TestCase
         /** @var rex_article_content $instance */
         $instance = $class->newInstance(1, 1);
 
-        $this->assertTrue($instance->hasValue('foo'));
-        $this->assertTrue($instance->hasValue('art_foo'));
+        static::assertTrue($instance->hasValue('foo'));
+        static::assertTrue($instance->hasValue('art_foo'));
 
-        $this->assertFalse($instance->hasValue('bar'));
-        $this->assertFalse($instance->hasValue('art_bar'));
+        static::assertFalse($instance->hasValue('bar'));
+        static::assertFalse($instance->hasValue('art_bar'));
     }
 
     public function testGetValue()
@@ -129,10 +129,10 @@ class rex_article_content_test extends TestCase
         /** @var rex_article_content $instance */
         $instance = $class->newInstance(1, 1);
 
-        $this->assertEquals('teststring', $instance->getValue('foo'));
-        $this->assertEquals('teststring', $instance->getValue('art_foo'));
+        static::assertEquals('teststring', $instance->getValue('foo'));
+        static::assertEquals('teststring', $instance->getValue('art_foo'));
 
-        $this->assertEquals('[bar not found]', $instance->getValue('bar'));
-        $this->assertEquals('[art_bar not found]', $instance->getValue('art_bar'));
+        static::assertEquals('[bar not found]', $instance->getValue('bar'));
+        static::assertEquals('[art_bar not found]', $instance->getValue('art_bar'));
     }
 }

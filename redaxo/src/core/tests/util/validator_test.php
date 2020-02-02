@@ -10,9 +10,9 @@ class rex_validator_test extends TestCase
     public function testNotEmpty()
     {
         $validator = rex_validator::factory();
-        $this->assertFalse($validator->notEmpty(''));
-        $this->assertTrue($validator->notEmpty('0'));
-        $this->assertTrue($validator->notEmpty('aaa'));
+        static::assertFalse($validator->notEmpty(''));
+        static::assertTrue($validator->notEmpty('0'));
+        static::assertTrue($validator->notEmpty('aaa'));
     }
 
     public function dataType()
@@ -36,35 +36,35 @@ class rex_validator_test extends TestCase
      */
     public function testType($value, $type, $expected)
     {
-        $this->assertEquals($expected, rex_validator::factory()->type($value, $type));
+        static::assertEquals($expected, rex_validator::factory()->type($value, $type));
     }
 
     public function testMinLength()
     {
         $validator = rex_validator::factory();
-        $this->assertFalse($validator->minLength('ab', 3));
-        $this->assertTrue($validator->minLength('abc', 3));
+        static::assertFalse($validator->minLength('ab', 3));
+        static::assertTrue($validator->minLength('abc', 3));
     }
 
     public function testMaxLength()
     {
         $validator = rex_validator::factory();
-        $this->assertFalse($validator->maxLength('abc', 2));
-        $this->assertTrue($validator->maxLength('ab', 2));
+        static::assertFalse($validator->maxLength('abc', 2));
+        static::assertTrue($validator->maxLength('ab', 2));
     }
 
     public function testMin()
     {
         $validator = rex_validator::factory();
-        $this->assertFalse($validator->min('4', 5));
-        $this->assertTrue($validator->min('5', 5));
+        static::assertFalse($validator->min('4', 5));
+        static::assertTrue($validator->min('5', 5));
     }
 
     public function testMax()
     {
         $validator = rex_validator::factory();
-        $this->assertFalse($validator->max('5', 4));
-        $this->assertTrue($validator->max('4', 4));
+        static::assertFalse($validator->max('5', 4));
+        static::assertTrue($validator->max('4', 4));
     }
 
     public function dataUrl()
@@ -84,7 +84,7 @@ class rex_validator_test extends TestCase
      */
     public function testUrl($value, $isValid)
     {
-        $this->assertEquals($isValid, rex_validator::factory()->url($value));
+        static::assertEquals($isValid, rex_validator::factory()->url($value));
     }
 
     public function dataEmail()
@@ -103,28 +103,28 @@ class rex_validator_test extends TestCase
      */
     public function testEmail($value, $isValid)
     {
-        $this->assertEquals($isValid, rex_validator::factory()->email($value));
+        static::assertEquals($isValid, rex_validator::factory()->email($value));
     }
 
     public function testMatch()
     {
         $validator = rex_validator::factory();
-        $this->assertFalse($validator->match('aa', '/^.$/'));
-        $this->assertTrue($validator->match('a', '/^.$/'));
+        static::assertFalse($validator->match('aa', '/^.$/'));
+        static::assertTrue($validator->match('a', '/^.$/'));
     }
 
     public function testNotMatch()
     {
         $validator = rex_validator::factory();
-        $this->assertTrue($validator->notMatch('aa', '/^.$/'));
-        $this->assertFalse($validator->notMatch('a', '/^.$/'));
+        static::assertTrue($validator->notMatch('aa', '/^.$/'));
+        static::assertFalse($validator->notMatch('a', '/^.$/'));
     }
 
     public function testValues()
     {
         $validator = rex_validator::factory();
-        $this->assertFalse($validator->values('abc', ['def', 'ghi']));
-        $this->assertTrue($validator->values('ghi', ['def', 'ghi']));
+        static::assertFalse($validator->values('abc', ['def', 'ghi']));
+        static::assertTrue($validator->values('ghi', ['def', 'ghi']));
     }
 
     public function testCustom()
@@ -139,32 +139,32 @@ class rex_validator_test extends TestCase
 
         $isCalled = false;
         $value = 'abc';
-        $this->assertTrue($validator->custom($value, $callback));
-        $this->assertTrue($isCalled, 'Custom callback is called');
+        static::assertTrue($validator->custom($value, $callback));
+        static::assertTrue($isCalled, 'Custom callback is called');
 
         $isCalled = false;
         $value = 'def';
-        $this->assertFalse($validator->custom($value, $callback));
-        $this->assertTrue($isCalled, 'Custom callback is called');
+        static::assertFalse($validator->custom($value, $callback));
+        static::assertTrue($isCalled, 'Custom callback is called');
     }
 
     public function testIsValid()
     {
         $validator = rex_validator::factory();
 
-        $this->assertTrue($validator->isValid(''));
-        $this->assertNull($validator->getMessage());
+        static::assertTrue($validator->isValid(''));
+        static::assertNull($validator->getMessage());
 
         $validator->add('notEmpty', 'not-empty');
         $validator->add('minLength', 'min-length', 3);
 
-        $this->assertFalse($validator->isValid(''));
-        $this->assertEquals('not-empty', $validator->getMessage());
+        static::assertFalse($validator->isValid(''));
+        static::assertEquals('not-empty', $validator->getMessage());
 
-        $this->assertFalse($validator->isValid('ab'));
-        $this->assertEquals('min-length', $validator->getMessage());
+        static::assertFalse($validator->isValid('ab'));
+        static::assertEquals('min-length', $validator->getMessage());
 
-        $this->assertTrue($validator->isValid('abc'));
-        $this->assertNull($validator->getMessage());
+        static::assertTrue($validator->isValid('abc'));
+        static::assertNull($validator->getMessage());
     }
 }

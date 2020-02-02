@@ -30,17 +30,17 @@ class rex_timer_test extends TestCase
         };
 
         $result = rex_timer::measure('test', $callable);
-        $this->assertSame('result1', $result);
+        static::assertSame('result1', $result);
 
-        $this->assertArrayHasKey('test', rex_timer::$serverTimings);
+        static::assertArrayHasKey('test', rex_timer::$serverTimings);
         $timing = rex_timer::$serverTimings['test'];
-        $this->assertIsFloat($timing);
-        $this->assertGreaterThan(0, $timing);
+        static::assertIsFloat($timing);
+        static::assertGreaterThan(0, $timing);
 
         $result = rex_timer::measure('test', $callable);
 
-        $this->assertSame('result2', $result);
-        $this->assertGreaterThan($timing, rex_timer::$serverTimings['test']);
+        static::assertSame('result2', $result);
+        static::assertGreaterThan($timing, rex_timer::$serverTimings['test']);
 
         $exception = null;
         try {
@@ -50,11 +50,11 @@ class rex_timer_test extends TestCase
         } catch (Throwable $exception) {
         }
 
-        $this->assertInstanceOf(RuntimeException::class, $exception);
+        static::assertInstanceOf(RuntimeException::class, $exception);
 
-        $this->assertArrayHasKey('test2', rex_timer::$serverTimings);
+        static::assertArrayHasKey('test2', rex_timer::$serverTimings);
         $timing = rex_timer::$serverTimings['test2'];
-        $this->assertIsFloat($timing);
-        $this->assertGreaterThan(0, $timing);
+        static::assertIsFloat($timing);
+        static::assertGreaterThan(0, $timing);
     }
 }
