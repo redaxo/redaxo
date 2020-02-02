@@ -130,7 +130,7 @@ class rex_effect_mirror extends rex_effect_abstract
     }
 
     /**
-     * @return false|resource
+     * @return resource
      */
     private function imagereflection(&$src_img, $reflection_height, $trans, $bgcolor)
     {
