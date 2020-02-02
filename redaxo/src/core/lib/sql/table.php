@@ -89,6 +89,7 @@ class rex_sql_table
 
             // Since MySQL 8.0.17 the display width for integer columns is deprecated.
             // To be compatible with our code for MySQL 5 and MariaDB we simulate the max display width.
+            // https://dev.mysql.com/doc/refman/8.0/en/numeric-type-attributes.html
             if ('int' === $type) {
                 $type = 'int(11)';
             } elseif ('int unsigned' === $type) {
