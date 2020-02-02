@@ -104,7 +104,7 @@ class rex_sql_column
     }
 
     /**
-     * @return string
+     * @return string The column type, including its size, e.g. int(10) or varchar(255)
      */
     public function getType()
     {

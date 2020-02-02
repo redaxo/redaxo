@@ -185,14 +185,17 @@ class rex_sql_table_test extends TestCase
 
         static::assertSame(['id', 'description', 'title'], array_keys($table->getColumns()));
 
+        $amount = new rex_sql_column('amount', 'int(5)', true);
+
         $table
             ->ensureColumn($title, 'id')
             ->ensureColumn(new rex_sql_column('status', 'tinyint(1)'), 'id')
             ->ensureColumn(new rex_sql_column('created', 'datetime', false, 'CURRENT_TIMESTAMP'), 'status')
             ->ensureColumn($title, 'status')
+            ->ensureColumn($amount)
             ->alter();
 
-        $expectedOrder = ['id', 'status', 'title', 'created', 'description'];
+        $expectedOrder = ['id', 'status', 'title', 'created', 'description', 'amount'];
 
         static::assertSame($expectedOrder, array_keys($table->getColumns()));
 
@@ -200,6 +203,14 @@ class rex_sql_table_test extends TestCase
         $table = rex_sql_table::get(self::TABLE);
 
         static::assertSame($expectedOrder, array_keys($table->getColumns()));
+
+        $sql = rex_sql::factory();
+        if (rex_sql::MYSQL === $sql->getDbType() && 8 <= (int) $sql->getDbVersion()) {
+            // In MySQL 8 the display width of integers is simulated by rex_sql_table to the max width.
+            static::assertEquals('int(11)', $table->getColumn('amount')->getType());
+        } else {
+            static::assertEquals('int(5)', $table->getColumn('amount')->getType());
+        }
     }
 
     public function testEnsurePrimaryIdColumn()
