@@ -142,7 +142,7 @@ media_manager_effect_convert2img_density = Auflösungsdichte
 media_manager_effect_convert2img_convertto = Zielformat
 media_manager_effect_convert2img_density_notice = Auflösungsdichte in ppi (pixel per inch), mit der EPS- oder PDF-Dateien gerastert werden.
 media_manager_effect_convert2img_convertto_notice = Zielformat, in das die Datei konvertiert wird. Es werden folgende Dateiendungen berücksichtigt: <code>.pdf,.ps,.psd,.tif,.tiff,.bmp,.eps,.ico</code>.
-media_manager_effect_convert2img_noimagemagick = Achtung: ImageMagick konnte nicht gefunden werden. Dieser Effekt benötigt ImageMagick als "commandline binary", ausführbar per exec().  
+media_manager_effect_convert2img_noimagemagick = Achtung: ImageMagick konnte nicht gefunden werden. Dieser Effekt benötigt entweder die PHP-Extension "imagick" oder ImageMagick als "commandline binary", ausführbar per exec().
 
 media_manager_effect_image_properties = Bild: Einstellungen (Qualität, Interlace, ...)
 media_manager_effect_image_properties_jpg_quality_notice = [0-100]. Leer lassen für Standardwert.
