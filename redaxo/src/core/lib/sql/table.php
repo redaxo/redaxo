@@ -85,9 +85,20 @@ class rex_sql_table
         }
 
         foreach ($columns as $column) {
+            $type = $column['type'];
+
+            // Since MySQL 8.0.17 the display width for integer columns is deprecated.
+            // To be compatible with our code for MySQL 5 and MariaDB we simulate the max display width.
+            // https://dev.mysql.com/doc/refman/8.0/en/numeric-type-attributes.html
+            if ('int' === $type) {
+                $type = 'int(11)';
+            } elseif ('int unsigned' === $type) {
+                $type = 'int(10) unsigned';
+            }
+
             $this->columns[$column['name']] = new rex_sql_column(
                 $column['name'],
-                $column['type'],
+                $type,
                 'YES' === $column['null'],
                 $column['default'],
                 $column['extra'] ?: null
@@ -129,24 +140,24 @@ class rex_sql_table
         }
 
         $foreignKeyParts = $this->sql->getArray('
-            SELECT c.constraint_name, c.referenced_table_name, c.update_rule, c.delete_rule, k.column_name, k.referenced_column_name
-            FROM information_schema.referential_constraints c
-            LEFT JOIN information_schema.key_column_usage k ON c.constraint_name = k.constraint_name
-            WHERE c.constraint_schema = DATABASE() AND c.table_name = ?', [$name]);
+            SELECT c.CONSTRAINT_NAME, c.REFERENCED_TABLE_NAME, c.UPDATE_RULE, c.DELETE_RULE, k.COLUMN_NAME, k.REFERENCED_COLUMN_NAME
+            FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS c
+            LEFT JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE k ON c.CONSTRAINT_NAME = k.CONSTRAINT_NAME
+            WHERE c.CONSTRAINT_SCHEMA = DATABASE() AND c.TABLE_NAME = ?', [$name]);
         $foreignKeys = [];
         foreach ($foreignKeyParts as $part) {
-            $foreignKeys[$part['constraint_name']][] = $part;
+            $foreignKeys[$part['CONSTRAINT_NAME']][] = $part;
         }
 
         foreach ($foreignKeys as $fkName => $parts) {
             $columns = [];
             foreach ($parts as $part) {
-                $columns[$part['column_name']] = $part['referenced_column_name'];
+                $columns[$part['COLUMN_NAME']] = $part['REFERENCED_COLUMN_NAME'];
             }
 
             $fk = $parts[0];
 
-            $this->foreignKeys[$fkName] = new rex_sql_foreign_key($fkName, $fk['referenced_table_name'], $columns, $fk['update_rule'], $fk['delete_rule']);
+            $this->foreignKeys[$fkName] = new rex_sql_foreign_key($fkName, $fk['REFERENCED_TABLE_NAME'], $columns, $fk['UPDATE_RULE'], $fk['DELETE_RULE']);
             $this->foreignKeysExisting[$fkName] = $fkName;
         }
     }

@@ -1637,6 +1637,7 @@ class rex_sql implements Iterator
      * @throws rex_sql_exception
      *
      * @return array Ein mehrdimensionales Array das die Metadaten enthaelt
+     * @psalm-return array{name: string, type: string, null: string, key: string, default: string, extra: string}
      */
     public static function showColumns($table, $DBID = 1)
     {
