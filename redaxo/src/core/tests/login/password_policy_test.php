@@ -17,9 +17,9 @@ class rex_password_policy_test extends TestCase
         $result = $policy->check($password);
 
         if ($expected) {
-            $this->assertTrue($result);
+            static::assertTrue($result);
         } else {
-            $this->assertInternalType('string', $result);
+            static::assertIsString($result);
         }
     }
 

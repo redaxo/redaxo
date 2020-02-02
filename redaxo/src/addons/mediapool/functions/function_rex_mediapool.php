@@ -86,7 +86,6 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
 
     $FILENAME = $FILE['name'];
     $FILESIZE = $FILE['size'];
-    $FILETYPE = mime_content_type($FILE['tmp_name']);
     $NFILENAME = rex_mediapool_filename($FILENAME, $doSubindexing);
     $message = [];
 
@@ -96,11 +95,15 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
 
     $success = true;
     if ($isFileUpload) { // Fileupload?
+        $FILETYPE = mime_content_type($FILE['tmp_name']);
+
         if (!@move_uploaded_file($FILE['tmp_name'], $dstFile)) {
             $message[] = rex_i18n::msg('pool_file_movefailed');
             $success = false;
         }
     } else { // Filesync?
+        $FILETYPE = mime_content_type($srcFile);
+
         if (!@rename($srcFile, $dstFile)) {
             $message[] = rex_i18n::msg('pool_file_movefailed');
             $success = false;

@@ -9,7 +9,7 @@ class rex_string_test extends TestCase
 {
     public function testSize()
     {
-        $this->assertEquals(3, rex_string::size('aä'));
+        static::assertEquals(3, rex_string::size('aä'));
     }
 
     public function normalizeProvider()
@@ -30,7 +30,7 @@ class rex_string_test extends TestCase
      */
     public function testNormalize($expected, $string, $replaceChar = '_', $allowedChars = '')
     {
-        $this->assertEquals($expected, rex_string::normalize($string, $replaceChar, $allowedChars));
+        static::assertEquals($expected, rex_string::normalize($string, $replaceChar, $allowedChars));
     }
 
     public function splitProvider()
@@ -52,7 +52,7 @@ class rex_string_test extends TestCase
      */
     public function testSplit($string, $expectedArray)
     {
-        $this->assertEquals($expectedArray, rex_string::split($string));
+        static::assertEquals($expectedArray, rex_string::split($string));
     }
 
     public function versionSplitProvider()
@@ -70,7 +70,7 @@ class rex_string_test extends TestCase
      */
     public function testVersionSplit($version, $expected)
     {
-        $this->assertEquals($expected, rex_string::versionSplit($version));
+        static::assertEquals($expected, rex_string::versionSplit($version));
     }
 
     public function versionCompareProvider()
@@ -107,7 +107,7 @@ class rex_string_test extends TestCase
      */
     public function testVersionCompare($version1, $version2, $comparator)
     {
-        $this->assertTrue(rex_string::versionCompare($version1, $version2, $comparator));
+        static::assertTrue(rex_string::versionCompare($version1, $version2, $comparator));
     }
 
     public function buildQueryProvider()
@@ -125,12 +125,12 @@ class rex_string_test extends TestCase
      */
     public function testBuildQuery($expected, $params, $argSeparator = '&')
     {
-        $this->assertEquals($expected, rex_string::buildQuery($params, $argSeparator));
+        static::assertEquals($expected, rex_string::buildQuery($params, $argSeparator));
     }
 
     public function testBuildAttributes()
     {
-        $this->assertEquals(
+        static::assertEquals(
             ' id="rex-test" class="a b" alt="" checked data-foo="&lt;foo&gt; &amp; &quot;bar&quot;" href="index.php?foo=1&amp;bar=2"',
             rex_string::buildAttributes([
                 'id' => 'rex-test',

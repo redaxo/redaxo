@@ -48,18 +48,18 @@ class rex_sql_select_test extends TestCase
         $sql = rex_sql::factory();
         $sql->setQuery('SELECT * FROM ' . self::TABLE . ' WHERE col_int = ?', [5]);
 
-        $this->assertCount(6, $sql->getRow(), 'getRow() returns an array containing all columns of the ResultSet');
-        $this->assertEquals(3, $sql->getRows(), 'getRows() returns the number of rows');
+        static::assertCount(6, $sql->getRow(), 'getRow() returns an array containing all columns of the ResultSet');
+        static::assertEquals(3, $sql->getRows(), 'getRows() returns the number of rows');
 
         foreach ($sql as $row) {
-            $this->assertTrue($row->hasValue('col_str'), 'values exist in each row');
-            $this->assertTrue($row->hasValue('col_int'), 'values exist in each row');
+            static::assertTrue($row->hasValue('col_str'), 'values exist in each row');
+            static::assertTrue($row->hasValue('col_int'), 'values exist in each row');
 
-            $this->assertEquals('abc', $row->getValue('col_str'), 'get a string');
-            $this->assertEquals(5, $row->getValue('col_int'), 'get an int ');
+            static::assertEquals('abc', $row->getValue('col_str'), 'get a string');
+            static::assertEquals(5, $row->getValue('col_int'), 'get an int ');
 
-            $this->assertEquals('abc', $row->getValue(self::TABLE . '.col_str'), 'get a string with table.col notation');
-            $this->assertEquals(5, $row->getValue(self::TABLE . '.col_int'), 'get an int with table.col notation');
+            static::assertEquals('abc', $row->getValue(self::TABLE . '.col_str'), 'get a string with table.col notation');
+            static::assertEquals(5, $row->getValue(self::TABLE . '.col_int'), 'get an int with table.col notation');
         }
     }
 
@@ -73,14 +73,14 @@ class rex_sql_select_test extends TestCase
 
         $row = $sql->getRow(PDO::FETCH_OBJ);
 
-        $this->assertInstanceOf(stdClass::class, $row);
-        $this->assertEquals(1, $row->{self::TABLE.'.id'});
+        static::assertInstanceOf(stdClass::class, $row);
+        static::assertEquals(1, $row->{self::TABLE.'.id'});
 
         $sql->next();
         $row = $sql->getRow(PDO::FETCH_OBJ);
 
-        $this->assertInstanceOf(stdClass::class, $row);
-        $this->assertEquals(2, $row->{self::TABLE.'.id'});
+        static::assertInstanceOf(stdClass::class, $row);
+        static::assertEquals(2, $row->{self::TABLE.'.id'});
     }
 
     public function testGetVariations()
@@ -88,13 +88,13 @@ class rex_sql_select_test extends TestCase
         $sql = rex_sql::factory();
         $sql->setQuery('SELECT * FROM ' . self::TABLE . ' WHERE col_int = 5');
 
-        $this->assertEquals(1, $sql->getRows());
+        static::assertEquals(1, $sql->getRows());
 
-        $this->assertTrue($sql->hasValue('col_str'), 'hasValue() checks field by name');
-        $this->assertTrue($sql->hasValue(self::TABLE . '.col_str'), 'hasValue() checks field by table.fieldname');
+        static::assertTrue($sql->hasValue('col_str'), 'hasValue() checks field by name');
+        static::assertTrue($sql->hasValue(self::TABLE . '.col_str'), 'hasValue() checks field by table.fieldname');
 
-        $this->assertEquals('abc', $sql->getValue('col_str'), 'getValue() retrievs field by name');
-        $this->assertEquals('abc', $sql->getValue(self::TABLE . '.col_str'), 'getValue() retrievs field by table.fieldname');
+        static::assertEquals('abc', $sql->getValue('col_str'), 'getValue() retrievs field by name');
+        static::assertEquals('abc', $sql->getValue(self::TABLE . '.col_str'), 'getValue() retrievs field by table.fieldname');
     }
 
     public function testGetArray()
@@ -102,13 +102,13 @@ class rex_sql_select_test extends TestCase
         $sql = rex_sql::factory();
         $array = $sql->getArray('SELECT * FROM ' . self::TABLE . ' WHERE col_int = 5');
 
-        $this->assertEquals(1, $sql->getRows(), 'getRows() returns the number of rows');
-        $this->assertCount(1, $array, 'the returned array contain the correct number of rows');
-        $this->assertArrayHasKey(0, $array);
+        static::assertEquals(1, $sql->getRows(), 'getRows() returns the number of rows');
+        static::assertCount(1, $array, 'the returned array contain the correct number of rows');
+        static::assertArrayHasKey(0, $array);
 
         $row1 = $array[0];
-        $this->assertEquals('abc', $row1['col_str']);
-        $this->assertEquals('5', $row1['col_int']);
+        static::assertEquals('abc', $row1['col_str']);
+        static::assertEquals('5', $row1['col_int']);
     }
 
     public function testGetDbArray()
@@ -116,13 +116,13 @@ class rex_sql_select_test extends TestCase
         $sql = rex_sql::factory();
         $array = $sql->getDBArray('(DB1) SELECT * FROM ' . self::TABLE . ' WHERE col_int = 5');
 
-        $this->assertEquals(1, $sql->getRows(), 'getRows() returns the number of rows');
-        $this->assertCount(1, $array, 'the returned array contain the correct number of rows');
-        $this->assertArrayHasKey(0, $array);
+        static::assertEquals(1, $sql->getRows(), 'getRows() returns the number of rows');
+        static::assertCount(1, $array, 'the returned array contain the correct number of rows');
+        static::assertArrayHasKey(0, $array);
 
         $row1 = $array[0];
-        $this->assertEquals('abc', $row1['col_str']);
-        $this->assertEquals('5', $row1['col_int']);
+        static::assertEquals('abc', $row1['col_str']);
+        static::assertEquals('5', $row1['col_int']);
     }
 
     public function testPreparedSetQuery()
@@ -130,7 +130,7 @@ class rex_sql_select_test extends TestCase
         $sql = rex_sql::factory();
         $sql->setQuery('SELECT * FROM ' . self::TABLE . ' WHERE col_str = ? and col_int = ?', ['abc', 5]);
 
-        $this->assertEquals(1, $sql->getRows());
+        static::assertEquals(1, $sql->getRows());
     }
 
     public function testPreparedNamedSetQuery()
@@ -138,7 +138,7 @@ class rex_sql_select_test extends TestCase
         $sql = rex_sql::factory();
         $sql->setQuery('SELECT * FROM ' . self::TABLE . ' WHERE col_str = :mystr and col_int = :myint', ['mystr' => 'abc', ':myint' => 5]);
 
-        $this->assertEquals(1, $sql->getRows());
+        static::assertEquals(1, $sql->getRows());
     }
 
     public function testPreparedSetQueryWithReset()
@@ -148,7 +148,7 @@ class rex_sql_select_test extends TestCase
 
         $sql->reset();
 
-        $this->assertEquals(1, $sql->getRows());
+        static::assertEquals(1, $sql->getRows());
     }
 
     public function testGetArrayAfterPreparedSetQuery()
@@ -157,12 +157,12 @@ class rex_sql_select_test extends TestCase
         $sql->setQuery('SELECT * FROM ' . self::TABLE . ' WHERE col_int = ?', [5]);
         $array = $sql->getArray();
 
-        $this->assertEquals(1, $sql->getRows());
-        $this->assertArrayHasKey(0, $array);
+        static::assertEquals(1, $sql->getRows());
+        static::assertArrayHasKey(0, $array);
 
         $row1 = $array[0];
-        $this->assertEquals('abc', $row1['col_str']);
-        $this->assertEquals('5', $row1['col_int']);
+        static::assertEquals('abc', $row1['col_str']);
+        static::assertEquals('5', $row1['col_int']);
     }
 
     public function testGetArrayAfterSetQuery()
@@ -171,12 +171,12 @@ class rex_sql_select_test extends TestCase
         $sql->setQuery('SELECT * FROM ' . self::TABLE . ' WHERE col_int = 5');
         $array = $sql->getArray();
 
-        $this->assertEquals(1, $sql->getRows());
-        $this->assertArrayHasKey(0, $array);
+        static::assertEquals(1, $sql->getRows());
+        static::assertArrayHasKey(0, $array);
 
         $row1 = $array[0];
-        $this->assertEquals('abc', $row1['col_str']);
-        $this->assertEquals('5', $row1['col_int']);
+        static::assertEquals('abc', $row1['col_str']);
+        static::assertEquals('5', $row1['col_int']);
     }
 
     public function testArrayFetchTypeNum()
@@ -185,10 +185,10 @@ class rex_sql_select_test extends TestCase
         $array = $sql->getArray('SELECT * FROM ' . self::TABLE . ' WHERE col_int = 5', [], PDO::FETCH_NUM);
 
         $row1 = $array[0];
-        $this->assertEquals('abc', $row1[1]);
-        $this->assertEquals('5', $row1[2]);
-        $this->assertEquals('mytext', $row1[5]);
-        $this->assertEquals('mytext', $row1[5]);
+        static::assertEquals('abc', $row1[1]);
+        static::assertEquals('5', $row1[2]);
+        static::assertEquals('mytext', $row1[5]);
+        static::assertEquals('mytext', $row1[5]);
     }
 
     public function testDBArrayFetchTypeNum()
@@ -197,10 +197,10 @@ class rex_sql_select_test extends TestCase
         $array = $sql->getDBArray('SELECT * FROM ' . self::TABLE . ' WHERE col_int = 5', [], PDO::FETCH_NUM);
 
         $row1 = $array[0];
-        $this->assertEquals('abc', $row1[1]);
-        $this->assertEquals('5', $row1[2]);
-        $this->assertEquals('mytext', $row1[5]);
-        $this->assertEquals('mytext', $row1[5]);
+        static::assertEquals('abc', $row1[1]);
+        static::assertEquals('5', $row1[2]);
+        static::assertEquals('mytext', $row1[5]);
+        static::assertEquals('mytext', $row1[5]);
     }
 
     public function testHasNext()
@@ -208,13 +208,13 @@ class rex_sql_select_test extends TestCase
         $sql = rex_sql::factory();
         $sql->setQuery('SELECT * FROM ' . self::TABLE);
 
-        $this->assertTrue($sql->hasNext());
+        static::assertTrue($sql->hasNext());
 
         $sql->next();
-        $this->assertFalse($sql->hasNext());
+        static::assertFalse($sql->hasNext());
 
         $sql->next();
-        $this->assertFalse($sql->hasNext());
+        static::assertFalse($sql->hasNext());
     }
 
     public function testError()
@@ -223,8 +223,8 @@ class rex_sql_select_test extends TestCase
 
         $sql->setQuery('SELECT * FROM '.self::TABLE);
 
-        $this->assertFalse($sql->hasError());
-        $this->assertEquals(0, $sql->getErrno());
+        static::assertFalse($sql->hasError());
+        static::assertEquals(0, $sql->getErrno());
 
         $exception = null;
         try {
@@ -232,11 +232,11 @@ class rex_sql_select_test extends TestCase
         } catch (rex_sql_exception $exception) {
         }
 
-        $this->assertInstanceOf(rex_sql_exception::class, $exception);
-        $this->assertTrue($sql->hasError());
-        $this->assertEquals('42S22', $sql->getErrno());
-        $this->assertEquals(1054, $sql->getMysqlErrno());
-        $this->assertEquals("Unknown column 'rex_tests' in 'field list'", $sql->getError());
+        static::assertInstanceOf(rex_sql_exception::class, $exception);
+        static::assertTrue($sql->hasError());
+        static::assertEquals('42S22', $sql->getErrno());
+        static::assertEquals(1054, $sql->getMysqlErrno());
+        static::assertEquals("Unknown column 'rex_tests' in 'field list'", $sql->getError());
 
         $exception = null;
         try {
@@ -244,11 +244,11 @@ class rex_sql_select_test extends TestCase
         } catch (rex_sql_exception $exception) {
         }
 
-        $this->assertInstanceOf(rex_sql_exception::class, $exception);
-        $this->assertTrue($sql->hasError());
-        $this->assertEquals('42S22', $sql->getErrno());
-        $this->assertEquals(1054, $sql->getMysqlErrno());
-        $this->assertEquals("Unknown column 'idx' in 'where clause'", $sql->getError());
+        static::assertInstanceOf(rex_sql_exception::class, $exception);
+        static::assertTrue($sql->hasError());
+        static::assertEquals('42S22', $sql->getErrno());
+        static::assertEquals(1054, $sql->getMysqlErrno());
+        static::assertEquals("Unknown column 'idx' in 'where clause'", $sql->getError());
     }
 
     public function testUnbufferedQuery()
@@ -261,13 +261,13 @@ class rex_sql_select_test extends TestCase
         /** @var PDO $pdo */
         $pdo = $property->getValue()[1];
 
-        $this->assertEquals(1, $pdo->getAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY));
+        static::assertEquals(1, $pdo->getAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY));
 
         $sql->setQuery('SELECT * FROM '.self::TABLE, [], [
             rex_sql::OPT_BUFFERED => false,
         ]);
 
-        $this->assertEquals(1, $pdo->getAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY));
+        static::assertEquals(1, $pdo->getAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY));
 
         try {
             $sql->setQuery('SELECT '.self::TABLE, [], [
@@ -276,7 +276,7 @@ class rex_sql_select_test extends TestCase
         } catch (rex_sql_exception $e) {
         }
 
-        $this->assertEquals(1, $pdo->getAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY));
+        static::assertEquals(1, $pdo->getAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY));
     }
 
     private function insertRow()

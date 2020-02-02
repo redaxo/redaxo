@@ -46,21 +46,21 @@ class rex_factory_trait_test extends TestCase
 {
     public function testFactoryCreation()
     {
-        $this->assertFalse(rex_test_factory::hasFactoryClass(), 'initially no factory class is set');
-        $this->assertEquals('rex_test_factory', rex_test_factory::getFactoryClass(), 'original factory class will be returned');
+        static::assertFalse(rex_test_factory::hasFactoryClass(), 'initially no factory class is set');
+        static::assertEquals('rex_test_factory', rex_test_factory::getFactoryClass(), 'original factory class will be returned');
         $clazz = rex_test_factory::factory();
-        $this->assertEquals('rex_test_factory', $clazz, 'factory class defaults to the original impl');
+        static::assertEquals('rex_test_factory', $clazz, 'factory class defaults to the original impl');
         $obj = new $clazz();
-        $this->assertEquals('base', $obj->doSomething(), 'call method of the original impl');
-        $this->assertEquals('static-base', rex_test_factory::staticCall(), 'static method of original impl');
+        static::assertEquals('base', $obj->doSomething(), 'call method of the original impl');
+        static::assertEquals('static-base', rex_test_factory::staticCall(), 'static method of original impl');
 
         rex_test_factory::setFactoryClass('rex_alternative_test_factory');
-        $this->assertTrue(rex_test_factory::hasFactoryClass(), 'factory class was set');
-        $this->assertEquals('rex_alternative_test_factory', rex_test_factory::getFactoryClass(), 'factory class will be returned');
+        static::assertTrue(rex_test_factory::hasFactoryClass(), 'factory class was set');
+        static::assertEquals('rex_alternative_test_factory', rex_test_factory::getFactoryClass(), 'factory class will be returned');
         $clazz = rex_test_factory::factory();
-        $this->assertEquals('rex_alternative_test_factory', $clazz, 'alternative factory class will be used');
+        static::assertEquals('rex_alternative_test_factory', $clazz, 'alternative factory class will be used');
         $obj = new $clazz();
-        $this->assertEquals('overridden', $obj->doSomething(), 'call method of the alternative impl');
-        $this->assertEquals('static-overridden', rex_test_factory::staticCall(), 'static method of alternative impl');
+        static::assertEquals('overridden', $obj->doSomething(), 'call method of the alternative impl');
+        static::assertEquals('static-overridden', rex_test_factory::staticCall(), 'static method of alternative impl');
     }
 }

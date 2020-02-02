@@ -12,7 +12,7 @@ class rex_markdown_test extends TestCase
      */
     public function testParse($expected, $code)
     {
-        $this->assertSame($expected, rex_markdown::factory()->parse($code));
+        static::assertSame($expected, rex_markdown::factory()->parse($code));
     }
 
     public function parseProvider()
@@ -92,6 +92,6 @@ MARKDOWN;
 
 HTML;
 
-        $this->assertSame($expected, $toc);
+        static::assertSame($expected, $toc);
     }
 }

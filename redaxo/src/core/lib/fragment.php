@@ -27,6 +27,13 @@ class rex_fragment
     private $decorator;
 
     /**
+     * array which contains all folders in which fragments will be searched for at runtime.
+     *
+     * @var array
+     */
+    private static $fragmentDirs = [];
+
+    /**
      * Creates a fragment with the given variables.
      *
      * @param array $vars A array of key-value pairs to pass as local parameters
@@ -220,15 +227,6 @@ class rex_fragment
     {
         return isset($this->vars[$name]) || array_key_exists($name, $this->vars);
     }
-
-    // /-------------------------- in-fragment helpers
-
-    /**
-     * array which contains all folders in which fragments will be searched for at runtime.
-     *
-     * @var array
-     */
-    private static $fragmentDirs = [];
 
     /**
      * Add a path to the fragment search path.

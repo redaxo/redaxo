@@ -198,7 +198,7 @@ class rex_navigation
      *
      * @param string     $metafield Datenbankfeld der Kategorie
      * @param mixed      $value     Wert für den Vergleich
-     * @param string     $type      Art des Vergleichs =/</.
+     * @param string     $type      art des Vergleichs =/</
      * @param int|string $depth     "" wenn auf allen Ebenen, wenn definiert, dann wird der Filter nur auf dieser Ebene angewendet
      */
     public function addFilter($metafield = 'id', $value = '1', $type = '=', $depth = '')

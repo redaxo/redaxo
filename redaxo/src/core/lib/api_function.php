@@ -41,6 +41,18 @@ abstract class rex_api_function
     protected $result;
 
     /**
+     * The api function which is bound to the current request.
+     *
+     * @var rex_api_function
+     */
+    private static $instance;
+
+    protected function __construct()
+    {
+        // NOOP
+    }
+
+    /**
      * This method have to be overriden by a subclass and does all logic which the api function represents.
      *
      * In the first place this method may retrieve and validate parameters from the request.
@@ -51,13 +63,6 @@ abstract class rex_api_function
      * @return rex_api_result The result of the api-function
      */
     abstract public function execute();
-
-    /**
-     * The api function which is bound to the current request.
-     *
-     * @var rex_api_function
-     */
-    private static $instance;
 
     /**
      * Returns the api function instance which is bound to the current request, or null if no api function was bound.
@@ -226,11 +231,6 @@ abstract class rex_api_function
         }
         // return a placeholder which can later be used by ajax requests to display messages
         return '<div id="rex-message-container">' . $message . '</div>';
-    }
-
-    protected function __construct()
-    {
-        // NOOP
     }
 
     /**

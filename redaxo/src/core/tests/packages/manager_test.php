@@ -15,7 +15,7 @@ class rex_package_manager_test extends TestCase
         $method = new ReflectionMethod('rex_package_manager', 'matchVersionConstraints');
         $method->setAccessible(true);
 
-        $this->assertSame($expected, $method->invoke(null, $version, $constraints));
+        static::assertSame($expected, $method->invoke(null, $version, $constraints));
     }
 
     public function dataMatchVersionConstraints()
