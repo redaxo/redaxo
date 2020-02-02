@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.5.1 – 02.02.2020
+--------------------------
+
+### Bugfixes
+
+* `NULL`-Werte wurden nicht als solche exportiert, was zu Problemen bei den neuen Template-Keys führte (@gharlan)
+
+
 Version 2.5.0 – 02.02.2020
 --------------------------
 
