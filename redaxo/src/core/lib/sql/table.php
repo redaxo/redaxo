@@ -70,7 +70,8 @@ class rex_sql_table
         $this->name = $name;
         $this->originalName = $name;
 
-        var_dump($this->sql->getArray('SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = "rex_user" ORDER BY ORDINAL_POSITION'));exit;
+        var_dump($this->sql->getArray('SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = "rex_user" ORDER BY ORDINAL_POSITION'));
+        exit;
         try {
             $columns = rex_sql::showColumns($name, $db);
             $this->new = false;
