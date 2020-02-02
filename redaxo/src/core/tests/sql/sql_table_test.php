@@ -204,7 +204,6 @@ class rex_sql_table_test extends TestCase
 
         static::assertSame($expectedOrder, array_keys($table->getColumns()));
 
-        var_dump(rex_sql::factory()->getArray('SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = "rex_sql_table_test" ORDER BY ORDINAL_POSITION'));
         static::assertEquals($amount, $table->getColumn('amount'));
     }
 
