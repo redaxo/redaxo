@@ -7,6 +7,7 @@ Version 5.9.0 – 02.02.2020
 ### Neu
 
 * Update der externen Bibliotheken (u.a. jQuery v3 und pjax v2) (@skerbis, @schuer, @gharlan)
+* MySQL 8 wird unterstützt (@staabm, @gharlan)
 * utf8mb4-Unterstützung (vollständiger Unicode-Zeichensatz inkl. Emojis): Kann über das Setup aktiviert werden (@gharlan)
 * Neuer zentraler Ordner für Logdateien: `redaxo/data/log` (`rex_path::log()`; Pfad kann über Pathprovider geändert werden) (@gharlan)
 * Setup:
