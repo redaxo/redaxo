@@ -11,3 +11,7 @@ page:
 
 pages:
     system/customizer: { title: 'translate:customizer', icon: rex-icon rex-icon-customizer }
+
+requires:
+    php:
+        extensions: [zip]
