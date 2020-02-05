@@ -37,7 +37,7 @@ interface TagFactory
      * @param string $name
      * @param mixed  $value
      *
-     *
+     * @return void
      */
     public function addParameter($name, $value);
 
@@ -53,7 +53,7 @@ interface TagFactory
      * @param object $service
      * @param string $alias
      *
-     *
+     * @return void
      */
     public function addService($service);
 
@@ -87,7 +87,7 @@ interface TagFactory
      * @throws \InvalidArgumentException if the handler is not an existing class
      * @throws \InvalidArgumentException if the handler does not implement the {@see Tag} interface
      *
-     *
+     * @return void
      */
     public function registerTagHandler($tagName, $handler);
 }
