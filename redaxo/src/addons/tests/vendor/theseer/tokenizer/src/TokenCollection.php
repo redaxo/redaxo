@@ -35,7 +35,7 @@ class TokenCollection implements \ArrayAccess, \Iterator, \Countable {
     }
 
     /**
-     *
+     * @return void
      */
     public function next() {
         next($this->tokens);
@@ -50,7 +50,7 @@ class TokenCollection implements \ArrayAccess, \Iterator, \Countable {
     }
 
     /**
-     *
+     * @return void
      */
     public function rewind() {
         reset($this->tokens);
