@@ -44,7 +44,7 @@ class SystemFacade
     }
 
     /**
-     *
+     * @return void
      */
     public function restoreExceptionHandler()
     {
@@ -52,7 +52,7 @@ class SystemFacade
     }
 
     /**
-     *
+     * @return void
      */
     public function restoreErrorHandler()
     {
@@ -62,7 +62,7 @@ class SystemFacade
     /**
      * @param callable $function
      *
-     *
+     * @return void
      */
     public function registerShutdownFunction(callable $function)
     {
@@ -94,7 +94,7 @@ class SystemFacade
     }
 
     /**
-     *
+     * @return void
      */
     public function flushOutputBuffer()
     {
