@@ -30,7 +30,7 @@ interface StreamInterface
     /**
      * Closes the stream and any underlying resources.
      *
-     *
+     * @return void
      */
     public function close();
 
