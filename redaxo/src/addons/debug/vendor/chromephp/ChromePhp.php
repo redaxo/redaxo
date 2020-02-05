@@ -153,7 +153,7 @@ class ChromePhp
      * logs a variable to the console
      *
      * @param mixed $data,... unlimited OPTIONAL number of additional logs [...]
-     *
+     * @return void
      */
     public static function log()
     {
@@ -165,7 +165,7 @@ class ChromePhp
      * logs a warning to the console
      *
      * @param mixed $data,... unlimited OPTIONAL number of additional logs [...]
-     *
+     * @return void
      */
     public static function warn()
     {
@@ -177,7 +177,7 @@ class ChromePhp
      * logs an error to the console
      *
      * @param mixed $data,... unlimited OPTIONAL number of additional logs [...]
-     *
+     * @return void
      */
     public static function error()
     {
@@ -200,7 +200,7 @@ class ChromePhp
      * sends an info log
      *
      * @param mixed $data,... unlimited OPTIONAL number of additional logs [...]
-     *
+     * @return void
      */
     public static function info()
     {
@@ -245,7 +245,7 @@ class ChromePhp
      * internal logging call
      *
      * @param string $type
-     *
+     * @return void
      */
     protected static function _log($type, array $args)
     {
@@ -364,7 +364,7 @@ class ChromePhp
      * adds a value to the data array
      *
      * @var mixed
-     *
+     * @return void
      */
     protected function _addRow(array $logs, $backtrace, $type)
     {
@@ -410,7 +410,7 @@ class ChromePhp
      *
      * @param string key
      * @param mixed value
-     *
+     * @return void
      */
     public function addSetting($key, $value)
     {
@@ -421,7 +421,7 @@ class ChromePhp
      * add ability to set multiple settings in one call
      *
      * @param array $settings
-     *
+     * @return void
      */
     public function addSettings(array $settings)
     {
