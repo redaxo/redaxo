@@ -77,7 +77,7 @@ class Generic extends BaseTag implements Factory\StaticMethod
      *
      * @param string $name
      *
-     *
+     * @return void
      */
     private function validateTagName($name)
     {
