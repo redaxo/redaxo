@@ -1022,7 +1022,7 @@ abstract class rex_form_base
      *   $val   = $el->getValue();
      * erreichbar.
      *
-     * @return string|true
+     * @return bool|string
      */
     protected function validate()
     {
