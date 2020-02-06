@@ -19,6 +19,8 @@ class rex_null_addon extends rex_null_package implements rex_addon_interface
 
     /**
      * {@inheritdoc}
+     *
+     * @return rex_null_plugin
      */
     public function getPlugin($plugin)
     {
