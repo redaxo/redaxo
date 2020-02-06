@@ -205,6 +205,9 @@ class rex_metainfo_table_expander extends rex_form
         return $string;
     }
 
+    /**
+     * @return bool|string
+     */
     protected function validate()
     {
         $fieldName = $this->elementPostValue($this->getFieldsetName(), 'name');

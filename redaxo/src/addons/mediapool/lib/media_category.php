@@ -136,6 +136,8 @@ class rex_media_category
      * Returns the path ids of the category as an array.
      *
      * @return int[]
+     *
+     * @psalm-return list<int>
      */
     public function getPathAsArray()
     {

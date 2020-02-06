@@ -21,6 +21,8 @@ abstract class rex_null_package implements rex_package_interface
 
     /**
      * {@inheritdoc}
+     *
+     * @return rex_null_addon
      */
     public function getAddon()
     {

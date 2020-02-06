@@ -30,7 +30,7 @@ class rex_addon extends rex_package implements rex_addon_interface
      *
      * @throws InvalidArgumentException
      *
-     * @return self
+     * @return rex_addon_interface
      */
     public static function get($addon)
     {

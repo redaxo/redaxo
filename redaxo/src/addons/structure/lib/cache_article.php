@@ -125,7 +125,7 @@ class rex_article_cache
      * @param int $article_id Id des zu generierenden Artikels
      * @param int $clang      ClangId des Artikels
      *
-     * @return bool TRUE bei Erfolg, FALSE wenn eine ungütlige article_id übergeben wird, sonst eine Fehlermeldung
+     * @return bool|string TRUE bei Erfolg, FALSE wenn eine ungütlige article_id übergeben wird, sonst eine Fehlermeldung
      */
     public static function generateMeta($article_id, $clang = null)
     {
@@ -172,7 +172,7 @@ class rex_article_cache
      *
      * @param int $parent_id KategorieId oder ArtikelId, die erneuert werden soll
      *
-     * @return bool TRUE wenn der Artikel gelöscht wurde, sonst eine Fehlermeldung
+     * @return bool|string TRUE wenn der Artikel gelöscht wurde, sonst eine Fehlermeldung
      */
     public static function generateLists($parent_id)
     {
