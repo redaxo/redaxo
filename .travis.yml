@@ -28,7 +28,6 @@ jobs:
             php: 7.1
             dist: trusty
             env:
-                - TYPE=phpunit
                 - DB=mariadb
             addons:
                 mariadb: 10.1
@@ -36,16 +35,34 @@ jobs:
             php: 7.3
             addons:
                 mariadb: 10.4
+        -   <<: *TEST
+            dist: xenial
+            php: 7.4
+            env:
+                - DB=mysql8
+            addons: {}
+            before_install:
+                - phpenv config-rm xdebug.ini || echo "xdebug not available"
+                # inspired by https://github.com/BenMorel/dbal/blob/f7b417785452d241d18676f76f700fd27735c577/tests/travis/install-mysql-8.0.sh
+                - echo "Installing MySQL 8.0..."
+                - echo mysql-apt-config mysql-apt-config/select-server select mysql-8.0 | sudo debconf-set-selections
+                - wget https://dev.mysql.com/get/mysql-apt-config_0.8.10-1_all.deb
+                - sudo dpkg --install mysql-apt-config_0.8.10-1_all.deb
+                - sudo apt-get update -q
+                - sudo apt-get install -q -y --force-yes -o Dpkg::Options::=--force-confnew mysql-server
+                - echo -e "[mysqld]\ndefault_authentication_plugin=mysql_native_password" | sudo tee --append /etc/mysql/my.cnf
+                - sudo /etc/init.d/mysql start
+                - sudo mysql_upgrade
+                - mysql --version
         -   &TEST_MYSQL
             <<: *TEST
             php: 7.1
             dist: bionic
             env:
-                - TYPE=phpunit
-                - DB=mysql
+                - DB=mysql5
             services:
                 - mysql
-            addons: ~
+            addons: {}
         -   <<: *TEST_MYSQL
             php: 7.2
         -   <<: *TEST_MYSQL

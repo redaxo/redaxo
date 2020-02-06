@@ -44,7 +44,7 @@ class rex_type_test extends TestCase
      */
     public function testCast($var, $vartype, $expectedResult)
     {
-        $this->assertSame($expectedResult, rex_type::cast($var, $vartype));
+        static::assertSame($expectedResult, rex_type::cast($var, $vartype));
     }
 
     public function castWrongVartypeProvider()

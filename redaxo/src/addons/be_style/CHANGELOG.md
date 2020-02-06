@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 2.9.0 – XX.XX.2020
+Version 2.9.0 – 02.02.2020
 --------------------------
 
 * Der Ajax-Loader-Layer erscheint erst mit Verzögerung um Flackern bei sehr schnellen Seitenladungen zu vermeiden (@gharlan)

@@ -585,7 +585,6 @@ class rex_sql implements Iterator
     /**
      * Returns the tuple of `where` string and `where` params.
      *
-     * @return array
      * @psalm-return array{0: string, 1: array}
      */
     private function buildWhere(): array
@@ -1404,7 +1403,7 @@ class rex_sql implements Iterator
     }
 
     /**
-     * @return bool Whether a transaction was already started/is already running.
+     * @return bool whether a transaction was already started/is already running
      */
     public function inTransaction()
     {
@@ -1638,6 +1637,7 @@ class rex_sql implements Iterator
      * @throws rex_sql_exception
      *
      * @return array Ein mehrdimensionales Array das die Metadaten enthaelt
+     * @psalm-return array{name: string, type: string, null: string, key: string, default: string, extra: string}
      */
     public static function showColumns($table, $DBID = 1)
     {
