@@ -520,6 +520,12 @@ class rex_backup
                 foreach ($fields as $idx => $type) {
                     $column = $array[$idx];
 
+                    if (null === $column) {
+                        $record[] = 'NULL';
+
+                        continue;
+                    }
+
                     switch ($type) {
                         // prevent calling sql->escape() on values with a known format
                         case 'raw':
