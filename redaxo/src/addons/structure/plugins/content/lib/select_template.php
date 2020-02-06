@@ -9,7 +9,7 @@ class rex_template_select extends rex_select
      */
     private $loaded = false;
     /**
-     * @var int
+     * @var null|int
      */
     private $categoryId;
     /**
@@ -22,13 +22,13 @@ class rex_template_select extends rex_select
     private $clangId;
 
     /**
-     * @param int $categoryId
-     * @param int $clangId
+     * @param null|int $categoryId
+     * @param null|int $clangId
      */
-    public function __construct($categoryId, $clangId)
+    public function __construct($categoryId = null, $clangId = null)
     {
-        $this->categoryId = (int) $categoryId;
-        $this->clangId = (int) $clangId;
+        $this->categoryId = $categoryId;
+        $this->clangId = null === $clangId ? rex_clang::getCurrentId() : (int) $clangId;
 
         parent::__construct();
     }
@@ -92,12 +92,15 @@ class rex_template_select extends rex_select
         if (!isset($this->templates)) {
             $this->templates = [];
 
-            $templates = rex_template::getTemplatesForCategory($this->categoryId);
+            if (null !== $this->categoryId) {
+                $templates = rex_template::getTemplatesForCategory($this->categoryId);
+            } else {
+                $templates = rex_sql::factory()->getArray('SELECT id, name FROM '.rex::getTable('template').' WHERE active = 1 ORDER BY name');
+                $templates = array_column($templates, 'name', 'id');
+            }
 
-            if (count($templates) > 0) {
-                foreach ($templates as $templateId => $templateName) {
-                    $this->templates[$templateId] = rex_i18n::translate($templateName, false);
-                }
+            foreach ($templates as $templateId => $templateName) {
+                $this->templates[$templateId] = rex_i18n::translate($templateName, false);
             }
         }
 
