@@ -107,7 +107,7 @@ class rex_media_manager
     /**
      * @return array
      *
-     * @psalm-return list<array{effect: mixed, params: array<string, mixed>}>
+     * @psalm-return list<array{effect: string, params: array<string, mixed>}>
      */
     public function effectsFromType($type)
     {
