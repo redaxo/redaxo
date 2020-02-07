@@ -596,10 +596,15 @@ abstract class rex_package_manager
      */
     public static function generatePackageOrder()
     {
+        /** @var string[] $early */
         $early = [];
+        /** @var string[] $normal */
         $normal = [];
+        /** @var string[] $late */
         $late = [];
+        /** @var array<string, array<string, true>> $requires */
         $requires = [];
+
         $add = static function ($id) use (&$add, &$normal, &$requires) {
             $normal[] = $id;
             unset($requires[$id]);
