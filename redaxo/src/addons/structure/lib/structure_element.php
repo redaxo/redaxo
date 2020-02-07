@@ -434,6 +434,8 @@ abstract class rex_structure_element
      * Returns an array of rex_structure_element objects.
      *
      * @return rex_category[]
+     *
+     * @psalm-return list<rex_category>
      */
     public function getParentTree()
     {
@@ -449,7 +451,11 @@ abstract class rex_structure_element
             if (is_array($explode)) {
                 foreach ($explode as $var) {
                     if ('' != $var) {
-                        $return[] = rex_category::get($var, $this->clang_id);
+                        $cat = rex_category::get($var, $this->clang_id);
+                        if (!$cat) {
+                            throw new LogicException('no category found with id='. $var .' and clang='. $this->clang);
+                        }
+                        $return[] = $cat;
                     }
                 }
             }
