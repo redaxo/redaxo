@@ -262,11 +262,6 @@ class rex_metainfo_table_expander extends rex_form
             $fieldDbType = $result[0]['dbtype'];
             $fieldDbLength = $result[0]['dblength'];
 
-            // TEXT Spalten duerfen in MySQL keine Defaultwerte haben
-            if ('text' == $fieldDbType) {
-                $fieldDefault = null;
-            }
-
             if (
                 strlen($fieldDefault) &&
                 (rex_metainfo_table_manager::FIELD_CHECKBOX === $fieldType || rex_metainfo_table_manager::FIELD_SELECT === $fieldType && isset(rex_string::split($fieldAttributes)['multiple']))
