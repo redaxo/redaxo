@@ -453,7 +453,7 @@ abstract class rex_structure_element
                     if ('' != $var) {
                         $cat = rex_category::get($var, $this->clang_id);
                         if (!$cat) {
-                            throw new LogicException('no category found with id='. $var .' and clang='. $this->clang);
+                            throw new LogicException('no category found with id='. $var .' and clang='. $this->clang_id);
                         }
                         $return[] = $cat;
                     }
