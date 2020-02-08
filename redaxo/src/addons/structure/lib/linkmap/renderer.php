@@ -146,11 +146,11 @@ abstract class rex_linkmap_article_list_renderer
     }
 
     /**
-     * @return null|string
+     * @return string
      */
     public function renderList(array $articles, $category_id)
     {
-        $list = null;
+        $list = '';
         if ($articles) {
             foreach ($articles as $article) {
                 $list .= $this->listItem($article, $category_id);
