@@ -29,9 +29,6 @@ class rex_system_setting_phpmailer_errormail extends rex_system_setting
         return $field;
     }
 
-    /**
-     * @return true
-     */
     public function setValue($value)
     {
         $value = (int) $value;
