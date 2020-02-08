@@ -459,6 +459,6 @@ class rex_be_controller
         if (isset($matches[2])) {
             $package = $package->getPlugin($matches[2]);
         }
-        return $package->includeFile(str_replace($package->getPath(), '', $path), $context);
+        return $package->includeFile(str_replace($package->getPath(), '', $path));
     }
 }
