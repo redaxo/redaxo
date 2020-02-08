@@ -94,7 +94,10 @@ class rex_effect_convert2img extends rex_effect_abstract
         exec($cmd, $out, $ret);
 
         if (0 != $ret) {
-            throw new rex_exception(error_get_last());
+            if ($error = error_get_last()) {
+                        throw new rex_exception('Unable to exec command '. $cmd .': '.$error['message']);
+                    }
+            throw new rex_exception('Unable to exec command '. $cmd .');
         }
 
         $this->media->setSourcePath($to_path);
