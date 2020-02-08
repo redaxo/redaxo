@@ -95,8 +95,8 @@ class rex_effect_convert2img extends rex_effect_abstract
 
         if (0 != $ret) {
             if ($error = error_get_last()) {
-                        throw new rex_exception('Unable to exec command '. $cmd .': '.$error['message']);
-                    }
+                throw new rex_exception('Unable to exec command '. $cmd .': '.$error['message']);
+            }
             throw new rex_exception('Unable to exec command '. $cmd);
         }
 
