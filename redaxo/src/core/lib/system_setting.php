@@ -35,7 +35,7 @@ abstract class rex_system_setting
      *
      * @param mixed $value
      *
-     * @return string|bool True, when everyting went well. String a errormessage in case of failure.
+     * @return string|bool True, when everything went well. String a errormessage in case of failure.
      */
     abstract public function setValue($value);
 
