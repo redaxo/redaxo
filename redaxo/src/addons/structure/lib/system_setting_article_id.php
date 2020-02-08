@@ -38,7 +38,7 @@ class rex_system_setting_article_id extends rex_system_setting
     }
 
     /**
-     * @return string|true
+     * @return string|bool
      */
     public function setValue($value)
     {
