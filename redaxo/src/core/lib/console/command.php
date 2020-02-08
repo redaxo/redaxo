@@ -14,7 +14,7 @@ abstract class rex_console_command extends Command
     protected $package;
 
     /**
-     * @return self
+     * @return $this
      */
     public function setPackage(rex_package $package = null)
     {
