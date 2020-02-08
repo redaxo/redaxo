@@ -44,9 +44,7 @@ parameters:
         -
             message: '#Call to an undefined method object::subfragment\(\)\.#'
             path: '*/fragments/*'
-        -
-            message: '#Cannot unset offset mixed on array.#'
-            path: '*/core/lib/packages/manager.php'
+
         - '#Undefined variable: \$this#'
         - '#Unsafe usage of new static\(\)\.#'
         - '#Constructor of class rex_form_.*_element has an unused parameter \$tag.#'
