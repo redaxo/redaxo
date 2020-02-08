@@ -107,9 +107,6 @@ class rex_category_select extends rex_select
         return parent::get();
     }
 
-    /**
-     * @return string
-     */
     protected function outGroup($parent_id, $level = 0)
     {
         if ($level > 100) {
