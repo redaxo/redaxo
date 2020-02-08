@@ -1,5 +1,5 @@
 parameters:
-    level: 4
+    level: 3
     paths:
         - redaxo/src/
     bootstrap: phpstan-bootstrap.php
