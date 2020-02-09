@@ -20,7 +20,7 @@ if (!function_exists('posix_getuid')) {
 	$webuser = posix_getpwuid(fileowner($REX['HTDOCS_PATH'].$REX['BACKEND_FOLDER']));
 	if ($currentuser['name'] !== $webuser['name']) {
         echo "REDAXO console". PHP_EOL;
-		echo "Please run console with the user that owns the folder /redaxo" . PHP_EOL;
+		echo "Please run console as the user that owns the folder /redaxo" . PHP_EOL;
         echo "-----------------------------------------------" . PHP_EOL;
 		echo "Current user: " . $currentuser['name'] . PHP_EOL;
         echo "-----------------------------------------------" . PHP_EOL;
