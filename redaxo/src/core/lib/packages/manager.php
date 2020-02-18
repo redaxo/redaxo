@@ -35,6 +35,7 @@ abstract class rex_package_manager
     /**
      * @param rex_package $package    Package
      * @param string      $i18nPrefix Prefix for i18n
+     * @psalm-param T $package
      */
     protected function __construct(rex_package $package, $i18nPrefix)
     {
