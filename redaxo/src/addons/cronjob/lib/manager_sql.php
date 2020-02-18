@@ -146,7 +146,7 @@ class rex_cronjob_manager_sql
         }
 
         ignore_user_abort(true);
-        register_shutdown_function(function () use (&$jobs) {
+        register_shutdown_function(function () use (&$jobs): void {
             foreach ($jobs as $job) {
                 if (isset($job['finished'])) {
                     continue;
@@ -272,7 +272,7 @@ class rex_cronjob_manager_sql
         }
 
         $date = new \DateTime('+5 min');
-        $date->setTime($date->format('H'), floor($date->format('i') / 5) * 5, 0);
+        $date->setTime((int) $date->format('G'), (int) floor($date->format('i') / 5) * 5, 0);
 
         $isValid = static function ($value, $current) {
             return 'all' === $value || in_array($current, $value);
@@ -281,7 +281,7 @@ class rex_cronjob_manager_sql
         $validateTime = static function () use ($interval, $date, $isValid) {
             while (!$isValid($interval['hours'], $date->format('G'))) {
                 $date->modify('+1 hour');
-                $date->setTime($date->format('H'), 0, 0);
+                $date->setTime((int) $date->format('G'), 0, 0);
             }
 
             while (!$isValid($interval['minutes'], (int) $date->format('i'))) {
@@ -289,7 +289,7 @@ class rex_cronjob_manager_sql
 
                 while (!$isValid($interval['hours'], $date->format('G'))) {
                     $date->modify('+1 hour');
-                    $date->setTime($date->format('H'), 0, 0);
+                    $date->setTime((int) $date->format('G'), 0, 0);
                 }
             }
         };
