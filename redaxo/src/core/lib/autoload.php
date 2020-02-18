@@ -276,6 +276,13 @@ class rex_autoload
             $classes = self::findClasses($path);
             foreach ($classes as $class) {
                 $class = strtolower($class);
+
+                // Force usage of Parsedown and ParsedownExtra from core vendors (via composer autoloader)
+                // to avoid problems between incompatible version of Parsedown (from addon) and ParsedownExtra (from core)
+                if (in_array($class, ['parsedown', 'parsedownextra'], true)) {
+                    continue;
+                }
+
                 if (!isset(self::$classes[$class])) {
                     self::$classes[$class] = $file;
                 }
