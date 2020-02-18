@@ -22,7 +22,7 @@ $path = __DIR__.'/assets/vendor/codemirror.zip';
 
 try {
     if (true === $zipArchive->open($path) &&
-        true === $zipArchive->extractTo($plugin->getAssetsUrl('vendor/'))
+        true === $zipArchive->extractTo($plugin->getAssetsPath('vendor/'))
     ) {
         $zipArchive->close();
     } else {
