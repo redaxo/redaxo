@@ -133,7 +133,7 @@ class rex_metainfo_table_expander extends rex_form
             $field = $this->addRestrictionsField('templates');
             $field->setLabel(rex_i18n::msg('minfo_field_label_templates'));
             $field->setAllCheckboxLabel(rex_i18n::msg('minfo_field_label_all_templates'));
-            $field->setSelect(new rex_template_select(0, rex_clang::getCurrentId()));
+            $field->setSelect(new rex_template_select(null, rex_clang::getCurrentId()));
         }
 
         parent::init();
@@ -264,11 +264,6 @@ class rex_metainfo_table_expander extends rex_form
             $result = $sql->getArray('SELECT `dbtype`, `dblength` FROM `' . rex::getTablePrefix() . 'metainfo_type` WHERE id=' . $fieldType);
             $fieldDbType = $result[0]['dbtype'];
             $fieldDbLength = $result[0]['dblength'];
-
-            // TEXT Spalten duerfen in MySQL keine Defaultwerte haben
-            if ('text' == $fieldDbType) {
-                $fieldDefault = null;
-            }
 
             if (
                 strlen($fieldDefault) &&

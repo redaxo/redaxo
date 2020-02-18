@@ -423,11 +423,7 @@ class rex_media_manager
             }
         }
 
-        if (rex::isBackend()) {
-            $url = rex_url::backendController($params, $escape);
-        } else {
-            $url = rex_url::frontendController($params, $escape);
-        }
+        $url = rex_url::frontendController($params, $escape);
 
         return rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_URL', $url, [
             'type' => $type,
