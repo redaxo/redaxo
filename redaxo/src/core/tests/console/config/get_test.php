@@ -1,12 +1,16 @@
 <?php
 
-class rex_command_config_get_test extends \PHPUnit\Framework\TestCase {
-
-    public function testGetConfig() {
+/**
+ * @internal
+ */
+class rex_command_config_get_test extends \PHPUnit\Framework\TestCase
+{
+    public function testGetConfig()
+    {
         $commandTester = new \Symfony\Component\Console\Tester\CommandTester(new rex_command_config_get());
         $configValue = $commandTester->execute([
-            'config-key' => 'setup'
+            'config-key' => 'setup',
         ]);
-        $this->assertTrue($configValue);
+        static::assertTrue($configValue);
     }
 }
