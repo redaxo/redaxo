@@ -1,11 +1,13 @@
 .php_cs.cache
 /.htaccess
+/composer.lock
 /assets/
 /media/
 /redaxo/cache/
 /redaxo/data/
 /releases/
 /resources/
+/vendor/
 
 # Addons
 /redaxo/src/addons/*
