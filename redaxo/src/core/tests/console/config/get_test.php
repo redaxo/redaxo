@@ -1,6 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * @internal
@@ -12,11 +13,12 @@ class rex_command_config_get_test extends TestCase
      */
     public function testKeyFound($expectedValue, $key)
     {
-        $commandTester = new rex_console_command_tester(new rex_command_config_get());
+        $commandTester = new CommandTester(new rex_command_config_get());
         $commandTester->execute([
             'config-key' => $key,
         ]);
         static::assertEquals($expectedValue, $commandTester->getDisplay());
+        static::assertEquals(0, $commandTester->getStatusCode());
     }
 
     public function dataKeyFound()
