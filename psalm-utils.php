@@ -1,6 +1,5 @@
 <?php
 
-use PhpParser;
 use Psalm\CodeLocation;
 use Psalm\Context;
 use Psalm\StatementsSource;
@@ -35,7 +34,7 @@ class RexTypeReturnProvider implements \Psalm\Plugin\Hook\MethodReturnTypeProvid
             && $call_args[1]->value->inferredType->isSingleStringLiteral()
         ) {
              $vartype = (string) $call_args[1]->value->inferredType->getSingleStringLiteral()->value;
-             
+
              switch ($vartype) {
                 case 'bool':
                 case 'boolean':
