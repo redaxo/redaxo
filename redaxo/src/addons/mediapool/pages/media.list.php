@@ -12,7 +12,7 @@ if (!isset($error)) {
     $error = '';
 }
 if (!isset($arg_url)) {
-    $arg_url = '';
+    $arg_url = [];
 }
 
 $hasCategoryPerm = rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category);
