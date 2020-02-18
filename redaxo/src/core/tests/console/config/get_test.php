@@ -16,16 +16,15 @@ class rex_command_config_get_test extends TestCase
         $commandTester->execute([
             'config-key' => $key,
         ]);
-        dump($commandTester->getDisplay());
         static::assertEquals($expectedValue, $commandTester->getDisplay());
     }
 
     public function dataKeyFound()
     {
         return [
-            [0, 'setup'],
-            [null, 'session.cookie.backend.lifetime'],
-            ['root', 'db.1.login'],
+            ["false\n", 'setup'],
+            ["null\n", 'session.backend.cookie.lifetime'],
+            ["\"root\"\n", 'db.1.login'],
         ];
     }
 
