@@ -2,7 +2,7 @@
 /**
  * SCSSPHP
  *
- * @copyright 2012-2019 Leaf Corcoran
+ * @copyright 2012-2020 Leaf Corcoran
  *
  * @license http://opensource.org/licenses/MIT MIT
  *
@@ -874,6 +874,11 @@ class Compiler
         $tag    = [];
         $out    = [];
         $wasTag = false;
+        $pseudo = [];
+
+        while (count($other) && strpos(end($other), ':')===0) {
+            array_unshift($pseudo, array_pop($other));
+        }
 
         foreach ([array_reverse($base), array_reverse($other)] as $single) {
             foreach ($single as $part) {
@@ -896,6 +901,9 @@ class Compiler
 
         if (count($tag)) {
             array_unshift($out, $tag[0]);
+        }
+        while (count($pseudo)) {
+            $out[] = array_shift($pseudo);
         }
 
         return $out;
@@ -2600,6 +2608,8 @@ class Compiler
                 $list = $this->coerceList($this->reduce($each->list));
 
                 $this->pushEnv();
+                $storeEnv = $this->storeEnv;
+                $this->storeEnv = $this->env;
 
                 foreach ($list[2] as $item) {
                     if (count($each->vars) === 1) {
@@ -2616,7 +2626,14 @@ class Compiler
 
                     if ($ret) {
                         if ($ret[0] !== Type::T_CONTROL) {
+                            $store = $this->env->store;
+                            $this->storeEnv = $storeEnv;
                             $this->popEnv();
+                            foreach ($store as $key => $value) {
+                                if (!in_array($key, $each->vars)) {
+                                    $this->set($key, $value, true);
+                                }
+                            }
 
                             return $ret;
                         }
@@ -2626,8 +2643,15 @@ class Compiler
                         }
                     }
                 }
-
+                $store = $this->env->store;
+                $this->storeEnv = $storeEnv;
                 $this->popEnv();
+                foreach ($store as $key => $value) {
+                    if (!in_array($key, $each->vars)) {
+                        $this->set($key, $value, true);
+                    }
+                }
+
                 break;
 
             case Type::T_WHILE:
@@ -4169,6 +4193,7 @@ class Compiler
     protected function setExisting($name, $value, Environment $env, $valueUnreduced = null)
     {
         $storeEnv = $env;
+        $specialContentKey = static::$namespaces['special'] . 'content';
 
         $hasNamespace = $name[0] === '^' || $name[0] === '@' || $name[0] === '%';
 
@@ -4178,8 +4203,18 @@ class Compiler
             }
 
             if (! $hasNamespace && isset($env->marker)) {
-                $env = $storeEnv;
-                break;
+                if (! empty($env->store[$specialContentKey])) {
+                    $env = $env->store[$specialContentKey]->scope;
+                    continue;
+                }
+
+                if (! empty($env->declarationScopeParent)) {
+                    $env = $env->declarationScopeParent;
+                    continue;
+                } else {
+                    $env = $storeEnv;
+                    break;
+                }
             }
 
             if (! isset($env->parent)) {
