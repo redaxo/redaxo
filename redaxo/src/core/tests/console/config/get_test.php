@@ -19,7 +19,8 @@ class rex_command_config_get_test extends TestCase
         static::assertEquals($expectedValue, $commandTester->getDisplay());
     }
 
-    public function dataKeyFound() {
+    public function dataKeyFound()
+    {
         return [
             [0, 'setup'],
             [null, 'session.cookie.backend.lifetime'],
@@ -27,11 +28,12 @@ class rex_command_config_get_test extends TestCase
         ];
     }
 
-    public function testKeyNotFound() {
+    public function testKeyNotFound()
+    {
         $commandTester = new rex_console_command_tester(new rex_command_config_get());
         $commandTester->execute([
-            'config-key' => 'foo.bar'
+            'config-key' => 'foo.bar',
         ]);
-        $this->assertEquals(1, $commandTester->getStatusCode());
+        static::assertEquals(1, $commandTester->getStatusCode());
     }
 }
