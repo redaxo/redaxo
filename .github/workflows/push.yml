@@ -52,7 +52,7 @@ jobs:
             uses: shivammathur/setup-php@v1
             with:
                 php-version: 7.3
-                extensions: intl
+                extensions: intl, imagick
                 coverage: none # disable xdebug, pcov
           - run: |
                 mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
@@ -84,7 +84,7 @@ jobs:
             uses: shivammathur/setup-php@v1
             with:
                 php-version: 7.3
-                extensions: intl
+                extensions: intl, imagick
                 coverage: none # disable xdebug, pcov
           - run: |
                 mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
