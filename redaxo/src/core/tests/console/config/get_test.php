@@ -23,7 +23,6 @@ class rex_command_config_get_test extends TestCase
     {
         return [
             ["false\n", 'setup'],
-            ["null\n", 'session.backend.cookie.lifetime'],
             ["\"root\"\n", 'db.1.login'],
         ];
     }
