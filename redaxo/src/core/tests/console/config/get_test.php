@@ -13,10 +13,10 @@ class rex_command_config_get_test extends TestCase
     public function testKeyFound($expectedValue, $key)
     {
         $commandTester = new rex_console_command_tester(new rex_command_config_get());
-        $configValue = $commandTester->execute([
+        $commandTester->execute([
             'config-key' => $key,
         ]);
-        static::assertEquals($expectedValue, $configValue);
+        static::assertEquals($expectedValue, $commandTester->getDisplay());
     }
 
     public function dataKeyFound() {
