@@ -17,6 +17,7 @@ if (!$sql->setQuery('SELECT 1 FROM '.rex::getTable('clang').' LIMIT 1')->getRows
 }
 
 rex_sql_table::get(rex::getTable('config'))
+    ->removeColumn('id')
     ->ensureColumn(new rex_sql_column('namespace', 'varchar(75)'))
     ->ensureColumn(new rex_sql_column('key', 'varchar(255)'))
     ->ensureColumn(new rex_sql_column('value', 'text'))
