@@ -4,7 +4,6 @@ $src = __DIR__.'/redaxo/src';
 $bootPath = realpath($src.'/core/boot.php');
 
 $finder = PhpCsFixer\Finder::create()
-    ->exclude('fragments')
     ->in([
         $src.'/core',
         $src.'/addons/backup',
@@ -24,6 +23,7 @@ $finder = PhpCsFixer\Finder::create()
     ->append([
         __FILE__,
         __DIR__.'/phpstan-bootstrap.php',
+        __DIR__.'/psalm-utils.php',
     ])
     ->filter(static function (\SplFileInfo $file) use ($bootPath) {
         return $bootPath !== $file->getRealPath();
@@ -75,6 +75,7 @@ return PhpCsFixer\Config::create()
         'phpdoc_order' => true,
         'phpdoc_types_order' => false,
         'phpdoc_var_annotation_correct_order' => true,
+        'phpdoc_var_without_name' => false,
         'psr4' => false,
         'semicolon_after_instruction' => false,
         'static_lambda' => true,

@@ -8,14 +8,13 @@ use Psalm\Type;
 
 class RexTypeReturnProvider implements \Psalm\Plugin\Hook\MethodReturnTypeProviderInterface
 {
-
-    public static function getClassLikeNames() : array
+    public static function getClassLikeNames(): array
     {
         return ['rex_type'];
     }
 
     /**
-     * @param  array<PhpParser\Node\Arg>    $call_args
+     * @param array<PhpParser\Node\Arg> $call_args
      *
      * @return ?Type\Union
      */
@@ -30,13 +29,13 @@ class RexTypeReturnProvider implements \Psalm\Plugin\Hook\MethodReturnTypeProvid
         string $called_fq_classlike_name = null,
         string $called_method_name_lowercase = null
     ) {
-        if ($method_name_lowercase === 'cast'
+        if ('cast' === $method_name_lowercase
             && isset($call_args[1]->value->inferredType)
             && $call_args[1]->value->inferredType->isSingleStringLiteral()
         ) {
-             $vartype = (string) $call_args[1]->value->inferredType->getSingleStringLiteral()->value;
-             
-             switch ($vartype) {
+            $vartype = (string) $call_args[1]->value->inferredType->getSingleStringLiteral()->value;
+
+            switch ($vartype) {
                 case 'bool':
                 case 'boolean':
                 case 'int':
