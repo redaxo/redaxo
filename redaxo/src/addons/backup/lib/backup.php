@@ -153,7 +153,7 @@ class rex_backup
             return $return;
         }
 
-        $msg .= rex_i18n::msg('backup_database_imported') . '. ' . rex_i18n::msg('backup_entry_count', count($lines)) . '<br />';
+        $msg .= rex_i18n::msg('backup_database_imported') . '. ' . rex_i18n::msg('backup_entry_count', (string) count($lines)) . '<br />';
         unset($lines);
 
         // prüfen, ob eine user tabelle angelegt wurde

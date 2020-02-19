@@ -436,7 +436,7 @@ class tar {
     $activeDir    = &$this->directories[];
     $activeDir["name"]  = $dirname;
     $activeDir["mode"]  = $file_information["mode"];
-    $activeDir["time"]  = $file_information["time"];
+    $activeDir["time"]  = $file_information["mtime"];
     $activeDir["user_id"] = $file_information["uid"];
     $activeDir["group_id"]  = $file_information["gid"];
     // STM: Warnung gefixed
