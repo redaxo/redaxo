@@ -157,6 +157,7 @@ class rex_api_install_core_update extends rex_api_function
             rex::setConfig('version', $version['version']);
 
             // ---- update package order
+            /** @var rex_addon $addon */
             foreach ($updateAddons as $addon) {
                 if ($addon->isAvailable()) {
                     $addon->loadProperties();

@@ -676,7 +676,12 @@ abstract class rex_package_manager
         $addons = self::readPackageFolder(rex_path::src('addons'));
         $registeredAddons = array_keys(rex_addon::getRegisteredAddons());
         foreach (array_diff($registeredAddons, $addons) as $addonName) {
-            $manager = rex_addon_manager::factory(rex_addon::get($addonName));
+            $addon = rex_addon::get($addonName);
+            if (!$addon instanceof rex_addon) {
+                throw new LogicException('Registered addon "'.$addonName.'" should be an instance of '.rex_addon::class.' instead of '.get_class($addon).'.');
+            }
+
+            $manager = rex_addon_manager::factory($addon);
             $manager->_delete(true);
             unset($config[$addonName]);
         }

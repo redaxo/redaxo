@@ -35,6 +35,7 @@ class rex_cronjob_form extends rex_form
     {
         $attributes['internal::fieldClass'] = 'rex_cronjob_form_interval_element';
         $attributes['class'] = 'form-control';
+        /** @var rex_cronjob_form_interval_element $field */
         $field = $this->addField('', $name, $value, $attributes, true);
         $this->intervalField = $field;
         return $field;
@@ -90,7 +91,7 @@ class rex_cronjob_form_interval_element extends rex_form_element
     {
         $range = static function ($low, $high, $step = 1) {
             foreach (range($low, $high, $step) as $i) {
-                yield $i => str_pad($i, 2, '0', STR_PAD_LEFT);
+                yield $i => str_pad((string) $i, 2, '0', STR_PAD_LEFT);
             }
         };
 
