@@ -175,21 +175,29 @@ class rex_file
     {
         $mimeType = mime_content_type($file);
 
-        switch ($mimeType) {
-            case 'image/svg':
-                $mimeType = 'image/svg+xml';
-                break;
-            case 'text/plain':
-                $extension = self::extension($file);
-                if ('css' === $extension) {
-                    $mimeType = 'text/css';
-                } elseif ('js' === $extension) {
-                    $mimeType = 'application/javascript';
-                }
-                break;
+        if (false === $mimeType) {
+            return null;
         }
 
-        return $mimeType ?: null;
+        // map less common types to their more common equivalent
+        static $mapping = [
+            'application/xml' => 'text/xml',
+            'image/svg' => 'image/svg+xml',
+        ];
+
+        if ('text/plain' !== $mimeType) {
+            $mimeType = $mapping[$mimeType] ?? $mimeType;
+
+            return $mimeType ?: null;
+        }
+
+        static $extensions = [
+            'css' => 'text/css',
+            'js' => 'application/javascript',
+            'svg' => 'image/svg+xml',
+        ];
+
+        return $extensions[strtolower(self::extension($file))] ?? $mimeType;
     }
 
     /**
