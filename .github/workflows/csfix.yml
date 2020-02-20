@@ -16,7 +16,20 @@ jobs:
       uses: shivammathur/setup-php@v1
       with:
         php-version: 7.1
-    - run: composer global require friendsofphp/php-cs-fixer:2.16.* && ~/.composer/vendor/bin/php-cs-fixer fix --diff # global to not modify project-local files
+
+    - name: Get Composer Cache Directory
+      id: composer-cache
+      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+    - name: Cache dependencies
+      uses: actions/cache@v1
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+        restore-keys: ${{ runner.os }}-composer-
+    - name: Install Dependencies
+      run: composer install --prefer-dist
+
+    - run: vendor/bin/php-cs-fixer fix --diff # global to not modify project-local files
 
     - name: Commit changed files
       uses: stefanzweifel/git-auto-commit-action@v2.5.0

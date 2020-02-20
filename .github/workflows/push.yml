@@ -65,6 +65,18 @@ jobs:
                 php-version: 7.3
                 extensions: intl, imagick
                 coverage: none # disable xdebug, pcov
+                tools: cs2pr
+          - name: Get Composer Cache Directory
+            id: composer-cache
+            run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+          - name: Cache dependencies
+            uses: actions/cache@v1
+            with:
+                path: ${{ steps.composer-cache.outputs.dir }}
+                key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+                restore-keys: ${{ runner.os }}-composer-
+          - name: Install Dependencies
+            run: composer install --prefer-dist
           - run: |
                 mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
                 git apply .github/workflows/default.config.yml.github-action.diff
@@ -77,9 +89,7 @@ jobs:
                 php redaxo/bin/console package:install debug
                 php redaxo/bin/console package:install structure/history
                 php redaxo/bin/console package:install structure/version
-                composer require --dev vimeo/psalm:^3.8.1
-                composer require staabm/annotate-pull-request-from-checkstyle:^1.0
-                vendor/bin/psalm --show-info=false --shepherd --output-format=checkstyle | vendor/bin/cs2pr
+                vendor/bin/psalm --show-info=false --shepherd --output-format=checkstyle | cs2pr
 
   phpstan-analysis:
       name: phpstan static code analysis
@@ -97,6 +107,18 @@ jobs:
                 php-version: 7.3
                 extensions: intl, imagick
                 coverage: none # disable xdebug, pcov
+                tools: cs2pr
+          - name: Get Composer Cache Directory
+            id: composer-cache
+            run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+          - name: Cache dependencies
+            uses: actions/cache@v1
+            with:
+                path: ${{ steps.composer-cache.outputs.dir }}
+                key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+                restore-keys: ${{ runner.os }}-composer-
+          - name: Install Dependencies
+            run: composer install --prefer-dist
           - run: |
                 mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
                 git apply .github/workflows/default.config.yml.github-action.diff
@@ -109,9 +131,7 @@ jobs:
                 php redaxo/bin/console package:install debug
                 php redaxo/bin/console package:install structure/history
                 php redaxo/bin/console package:install structure/version
-                composer require --dev phpstan/phpstan:^0.12
-                composer require staabm/annotate-pull-request-from-checkstyle:^1.0
-                vendor/bin/phpstan analyse --no-progress --error-format=checkstyle | vendor/bin/cs2pr
+                vendor/bin/phpstan analyse --no-progress --error-format=checkstyle | cs2pr
 
   php-cs-fixer:
       name: check php-cs-fixer codestyles
@@ -124,10 +144,19 @@ jobs:
                 php-version: 7.1
                 extensions: intl
                 coverage: none # disable xdebug, pcov
-          - run: |
-                composer global require friendsofphp/php-cs-fixer:2.16.*
-                composer require staabm/annotate-pull-request-from-checkstyle:^1.0
-                ~/.composer/vendor/bin/php-cs-fixer fix --diff --dry-run --format=checkstyle | vendor/bin/cs2pr
+                tools: cs2pr
+          - name: Get Composer Cache Directory
+            id: composer-cache
+            run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+          - name: Cache dependencies
+            uses: actions/cache@v1
+            with:
+                path: ${{ steps.composer-cache.outputs.dir }}
+                key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+                restore-keys: ${{ runner.os }}-composer-
+          - name: Install Dependencies
+            run: composer install --prefer-dist
+          - run: vendor/bin/php-cs-fixer fix --diff --dry-run --format=checkstyle | cs2pr
 
   phpunit:
     name: unit tests
