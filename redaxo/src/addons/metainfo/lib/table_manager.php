@@ -53,7 +53,8 @@ class rex_metainfo_table_manager
             $qry .= '(' . $length . ')';
         }
 
-        if (null !== $default) {
+        // `text` columns in mysql can not have default values
+        if ('text' !== $type && null !== $default) {
             $qry .= ' DEFAULT \'' . str_replace("'", "\'", $default) . '\'';
         }
 
@@ -81,7 +82,8 @@ class rex_metainfo_table_manager
             $qry .= '(' . $length . ')';
         }
 
-        if (null !== $default) {
+        // `text` columns in mysql can not have default values
+        if ('text' !== $type && null !== $default) {
             $qry .= ' DEFAULT \'' . str_replace("'", "\'", $default) . '\'';
         }
 

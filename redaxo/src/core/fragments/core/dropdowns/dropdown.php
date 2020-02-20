@@ -4,7 +4,7 @@
 ?>
 
 <?php if (!$toolbar && !$group): ?>
-<div class="dropdown<?= (isset($this->block) ? ' btn-block' : '')?><?= ((isset($this->class) && $this->class != '') ? ' ' . $this->class : '') ?>">
+<div class="dropdown<?= (isset($this->block) ? ' btn-block' : '')?><?= ((isset($this->class) && '' != $this->class) ? ' ' . $this->class : '') ?>">
 <?php endif; ?>
 
     <?php if ($toolbar): ?>
@@ -12,10 +12,10 @@
     <?php else: ?>
     <button class="btn btn-default<?= (isset($this->block) ? ' btn-block' : '')?> dropdown-toggle" type="button" data-toggle="dropdown"<?= ((isset($this->disabled) && $this->disabled) ? ' disabled' : '') ?>>
     <?php endif; ?>
-        <?php if (isset($this->button_prefix) && $this->button_prefix != ''): ?>
+        <?php if (isset($this->button_prefix) && '' != $this->button_prefix): ?>
         <?= $this->button_prefix ?>
         <?php endif; ?>
-        <?php if (isset($this->button_label) && $this->button_label != ''): ?>
+        <?php if (isset($this->button_label) && '' != $this->button_label): ?>
         <?= ' <b>' . $this->button_label . '</b>' ?>
         <?php endif; ?>
         <span class="caret"></span>
@@ -25,17 +25,17 @@
     </button>
     <?php endif; ?>
     <ul class="dropdown-menu<?= (isset($this->right) ? ' dropdown-menu-right' : '')?><?= (isset($this->block) ? ' btn-block' : '')?>" role="menu">
-        <?php if (isset($this->header) && $this->header != ''): ?>
+        <?php if (isset($this->header) && '' != $this->header): ?>
             <li class="dropdown-header"><?= $this->header ?></li>
         <?php endif; ?>
         <?php
         foreach ($this->items as $item) {
             echo '<li' . ((isset($item['active']) && $item['active']) ? ' class="active"' : '') . (isset($item['attributes']) ? ' ' . trim($item['attributes']) : '') . '>';
-            echo(isset($item['href']) && $item['href'] != '') ? '<a href="' . $item['href'] . '">' . $item['title'] . '</a>' : $item['title'];
+            echo(isset($item['href']) && '' != $item['href']) ? '<a href="' . $item['href'] . '">' . $item['title'] . '</a>' : $item['title'];
             echo '</li>';
         }
         ?>
-        <?php if (isset($this->footer) && $this->footer != ''): ?>
+        <?php if (isset($this->footer) && '' != $this->footer): ?>
             <li class="divider"></li>
             <li><?= $this->footer ?></li>
         <?php endif; ?>

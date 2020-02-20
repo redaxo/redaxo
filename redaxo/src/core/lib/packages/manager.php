@@ -35,6 +35,7 @@ abstract class rex_package_manager
     /**
      * @param rex_package $package    Package
      * @param string      $i18nPrefix Prefix for i18n
+     * @psalm-param T $package
      */
     protected function __construct(rex_package $package, $i18nPrefix)
     {
@@ -596,10 +597,15 @@ abstract class rex_package_manager
      */
     public static function generatePackageOrder()
     {
+        /** @var string[] $early */
         $early = [];
+        /** @var string[] $normal */
         $normal = [];
+        /** @var string[] $late */
         $late = [];
+        /** @var array<string, array<string, true>> $requires */
         $requires = [];
+
         $add = static function ($id) use (&$add, &$normal, &$requires) {
             $normal[] = $id;
             unset($requires[$id]);
@@ -631,7 +637,7 @@ abstract class rex_package_manager
                 if (isset($req['packages']) && is_array($req['packages'])) {
                     foreach ($req['packages'] as $packageId => $reqP) {
                         $package = rex_package::get($packageId);
-                        if (!in_array($package, $normal) && !in_array($package->getProperty('load'), ['early', 'late'])) {
+                        if (!in_array($packageId, $normal) && !in_array($package->getProperty('load'), ['early', 'late'])) {
                             $requires[$id][$packageId] = true;
                         }
                     }
@@ -670,7 +676,12 @@ abstract class rex_package_manager
         $addons = self::readPackageFolder(rex_path::src('addons'));
         $registeredAddons = array_keys(rex_addon::getRegisteredAddons());
         foreach (array_diff($registeredAddons, $addons) as $addonName) {
-            $manager = rex_addon_manager::factory(rex_addon::get($addonName));
+            $addon = rex_addon::get($addonName);
+            if (!$addon instanceof rex_addon) {
+                throw new LogicException('Registered addon "'.$addonName.'" should be an instance of '.rex_addon::class.' instead of '.get_class($addon).'.');
+            }
+
+            $manager = rex_addon_manager::factory($addon);
             $manager->_delete(true);
             unset($config[$addonName]);
         }

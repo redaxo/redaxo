@@ -177,9 +177,10 @@ interface rex_package_interface
     /**
      * Includes a file in the package context.
      *
-     * @param string $file Filename
+     * @param string $file    Filename
+     * @param array  $context Context values, available as variables in given file
      */
-    public function includeFile($file);
+    public function includeFile($file, array $context = []);
 
     /**
      * Adds the package prefix to the given key and returns the translation for it.

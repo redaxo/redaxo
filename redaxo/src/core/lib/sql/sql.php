@@ -1197,15 +1197,21 @@ class rex_sql implements Iterator
             $i = 0;
             $errors['fullquery'] = preg_replace_callback(
                 '/\?|((?<!:):[a-z0-9_]+)/i',
-                static function ($matches) use ($params, &$i) {
-                    $key = substr($matches[0], 1);
-                    if (!array_key_exists($i, $params) && (false === $key || !array_key_exists($key, $params))) {
-                        return $matches[0];
+                function ($matches) use ($params, &$i) {
+                    if ('?' === $matches[0]) {
+                        $keys = [$i];
+                    } else {
+                        $keys = [$matches[0], substr($matches[0], 1)];
                     }
-                    $value = array_key_exists($i, $params) ? $params[$i] : $params[$key];
-                    $result = self::factory()->escape($value);
-                    ++$i;
-                    return $result;
+
+                    foreach ($keys as $key) {
+                        if (array_key_exists($key, $params)) {
+                            ++$i;
+                            return $this->escape($params[$key]);
+                        }
+                    }
+
+                    return $matches[0];
                 },
                 $qry
             );
@@ -1641,7 +1647,7 @@ class rex_sql implements Iterator
      * @throws rex_sql_exception
      *
      * @return array Ein mehrdimensionales Array das die Metadaten enthaelt
-     * @psalm-return array{name: string, type: string, null: string, key: string, default: string, extra: string}
+     * @psalm-return list<array{name: string, type: string, null: string, key: string, default: string, extra: string}>
      */
     public static function showColumns($table, $DBID = 1)
     {

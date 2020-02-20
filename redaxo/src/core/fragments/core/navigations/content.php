@@ -36,7 +36,7 @@ foreach ($navigations as $nav_key => $navigation) {
 
         $attributes = [];
 
-        if ($nav_key == 'right') {
+        if ('right' == $nav_key) {
             if (isset($navi['itemClasses']) && is_array($navi['itemClasses'])) {
                 array_unshift($navi['itemClasses'], 'pull-right');
             } else {
@@ -44,7 +44,7 @@ foreach ($navigations as $nav_key => $navigation) {
             }
         }
 
-        if (isset($navi['itemAttr']['class']) && $navi['itemAttr']['class'] != '') {
+        if (isset($navi['itemAttr']['class']) && '' != $navi['itemAttr']['class']) {
             if (!in_array($navi['itemAttr']['class'], $navi['itemClasses'])) {
                 array_unshift($navi['itemClasses'], $navi['itemAttr']['class']);
             }
@@ -59,13 +59,13 @@ foreach ($navigations as $nav_key => $navigation) {
             }
         }
 
-        if (isset($navi['itemClasses']) && is_array($navi['itemClasses']) && count($navi['itemClasses']) > 0 && isset($navi['itemClasses'][0]) && $navi['itemClasses'][0] != '') {
+        if (isset($navi['itemClasses']) && is_array($navi['itemClasses']) && count($navi['itemClasses']) > 0 && isset($navi['itemClasses'][0]) && '' != $navi['itemClasses'][0]) {
             $attributes['class'] = implode(' ', $navi['itemClasses']);
         }
 
         if (isset($navi['itemAttr']) && is_array($navi['itemAttr']) && count($navi['itemAttr']) > 0) {
             foreach ($navi['itemAttr'] as $key => $value) {
-                if ($value != '') {
+                if ('' != $value) {
                     $attributes[$key] = $value;
                 }
             }
@@ -73,17 +73,17 @@ foreach ($navigations as $nav_key => $navigation) {
 
         $li_a .= '<li' . rex_string::buildAttributes($attributes) . '>';
 
-        if (isset($navi['href']) && $navi['href'] != '') {
+        if (isset($navi['href']) && '' != $navi['href']) {
             $attributes = [];
             $attributes['href'] = $navi['href'];
 
-            if (isset($navi['linkClasses']) && is_array($navi['linkClasses']) && count($navi['linkClasses']) > 0 && isset($navi['linkClasses'][0]) && $navi['linkClasses'][0] != '') {
+            if (isset($navi['linkClasses']) && is_array($navi['linkClasses']) && count($navi['linkClasses']) > 0 && isset($navi['linkClasses'][0]) && '' != $navi['linkClasses'][0]) {
                 $attributes['class'] = implode(' ', $navi['linkClasses']);
             }
 
             if (isset($navi['linkAttr']) && is_array($navi['linkAttr']) && count($navi['linkAttr']) > 0) {
                 foreach ($navi['linkAttr'] as $key => $value) {
-                    if ($value != '') {
+                    if ('' != $value) {
                         $attributes[$key] = $value;
                     }
                 }
@@ -92,13 +92,13 @@ foreach ($navigations as $nav_key => $navigation) {
             $li_a .= '<a' . rex_string::buildAttributes($attributes) . '>';
         }
 
-        if (isset($navi['icon']) && $navi['icon'] != '') {
+        if (isset($navi['icon']) && '' != $navi['icon']) {
             $li_a .= '<i class="' . $navi['icon'] . '"></i> ';
         }
 
         $li_a .= $navi['title'];
 
-        if (isset($navi['href']) && $navi['href'] != '') {
+        if (isset($navi['href']) && '' != $navi['href']) {
             $li_a .= '</a>';
         }
 
@@ -106,20 +106,20 @@ foreach ($navigations as $nav_key => $navigation) {
         $li[] = $li_a;
     }
 
-    $navigations[$nav_key] = implode($li);
+    $navigations[$nav_key] = implode('', $li);
 }
 
 $out = '';
 
 $tabs = '';
-$tabs .= isset($navigations['left']) ? $navigations['left'] : '';
-$tabs .= isset($navigations['right']) ? $navigations['right'] : '';
-$out .= $tabs == '' ? '' : '<ul class="nav nav-tabs">' . $tabs . '</ul>';
+$tabs .= $navigations['left'] ?? '';
+$tabs .= $navigations['right'] ?? '';
+$out .= '' == $tabs ? '' : '<ul class="nav nav-tabs">' . $tabs . '</ul>';
 
 if (isset($navigations['children'])) {
     $out .= '<nav class="navbar navbar-default"><ul class="nav navbar-nav">' . $navigations['children'] . '</ul></nav>';
 }
 
-if ($out != '') {
-    echo '<div' . ((isset($this->id) && $this->id != '') ? ' id="' .  $this->id . '"' : '') . ' class="nav rex-page-nav">' . $out . '</div>';
+if ('' != $out) {
+    echo '<div' . ((isset($this->id) && '' != $this->id) ? ' id="' .  $this->id . '"' : '') . ' class="nav rex-page-nav">' . $out . '</div>';
 }
