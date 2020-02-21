@@ -76,8 +76,6 @@ class rex_stream
 
     /**
      * @see http://www.php.net/manual/en/streamwrapper.stream-open.php
-     *
-     * @return bool
      */
     public function stream_open($path, $mode, $options, &$opened_path)
     {
@@ -94,8 +92,6 @@ class rex_stream
 
     /**
      * @see http://www.php.net/manual/en/streamwrapper.stream-read.php
-     *
-     * @return false|string
      */
     public function stream_read($count)
     {
@@ -106,8 +102,6 @@ class rex_stream
 
     /**
      * @see http://www.php.net/manual/en/streamwrapper.stream-eof.php
-     *
-     * @return bool
      */
     public function stream_eof()
     {
@@ -116,8 +110,6 @@ class rex_stream
 
     /**
      * @see http://www.php.net/manual/en/streamwrapper.stream-seek.php
-     *
-     * @return bool
      */
     public function stream_seek($offset, $whence = SEEK_SET)
     {
@@ -138,8 +130,6 @@ class rex_stream
 
     /**
      * @see http://www.php.net/manual/en/streamwrapper.stream-set-option.php
-     *
-     * @return false
      */
     public function stream_set_option()
     {
@@ -156,8 +146,6 @@ class rex_stream
 
     /**
      * @see http://www.php.net/manual/en/streamwrapper.stream-flush.php
-     *
-     * @return true
      */
     public function stream_flush()
     {
