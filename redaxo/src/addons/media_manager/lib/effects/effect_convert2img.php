@@ -65,7 +65,8 @@ class rex_effect_convert2img extends rex_effect_abstract
             $imagick = new Imagick();
             if ('' != $color) {
                 $imagick->setImageBackgroundColor($color);
-                $imagick = $imagick->flattenImages();
+                $imagick->setImageAlphaChannel(11);
+                $imagick->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
             }
 
             $imagick->readImage($from_path.'[0]');
