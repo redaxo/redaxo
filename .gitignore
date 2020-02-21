@@ -1,11 +1,13 @@
 .php_cs.cache
 /.htaccess
+/composer.lock
 /assets/
 /media/
 /redaxo/cache/
 /redaxo/data/
 /releases/
 /resources/
+/vendor/
 
 # Addons
 /redaxo/src/addons/*
@@ -22,3 +24,15 @@
 !/redaxo/src/addons/structure/
 !/redaxo/src/addons/tests/
 !/redaxo/src/addons/users/
+
+# PhpStorm setting
+/.idea/*
+!/.idea/encodings.xml
+!/.idea/modules.xml
+!/.idea/php.xml
+!/.idea/redaxo.iml
+!/.idea/sqldialects.xml
+!/.idea/codeStyles/
+!/.idea/fileTemplates/
+!/.idea/inspectionProfiles/
+!/.idea/scopes/
