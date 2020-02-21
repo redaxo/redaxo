@@ -326,8 +326,8 @@ class rex_response
 
     /**
      * @param mixed  $data         data to be json encoded and sent
-     * @param int    $lastModified HTTP Last-Modified Timestamp
-     * @param string $etag         HTTP Cachekey to identify the cache
+     * @param int|null    $lastModified HTTP Last-Modified Timestamp
+     * @param string|null $etag         HTTP Cachekey to identify the cache
      */
     public static function sendJson($data, ?int $lastModified = null, ?string $etag = null)
     {
