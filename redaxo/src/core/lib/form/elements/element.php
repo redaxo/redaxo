@@ -7,7 +7,7 @@ class rex_form_element
 {
     /** @var string */
     protected $value;
-    /** @var string */
+    /** @var string|int */
     protected $defaultSaveValue = '';
     /** @var string */
     protected $label;
@@ -63,11 +63,17 @@ class rex_form_element
         $this->value = $value;
     }
 
+    /**
+     * @param string|int $value
+     */
     public function setDefaultSaveValue($value)
     {
         $this->defaultSaveValue = $value;
     }
 
+    /**
+     * @return string|int
+     */
     public function getSaveValue()
     {
         $value = $this->getValue();
