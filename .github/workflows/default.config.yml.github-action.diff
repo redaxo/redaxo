@@ -1,5 +1,5 @@
 diff --git a/redaxo/src/core/default.config.yml b/redaxo/src/core/default.config.yml
-index 8f1931d5b..d7b27f82e 100644
+index 8f1931d..d7b27f8 100644
 --- a/redaxo/src/core/default.config.yml
 +++ b/redaxo/src/core/default.config.yml
 @@ -63,9 +63,9 @@ table_prefix: rex_
