@@ -504,14 +504,14 @@ class rex_login
     {
         $password = $isPreHashed ? $password : sha1($password);
         $hash = password_hash($password, PASSWORD_DEFAULT);
-        if ($hash === null || $hash === false) {
+        if (null === $hash || false === $hash) {
             throw new rex_exception('error while hashing password');
         }
         return $hash;
     }
 
     /**
-     * @return bool Returns TRUE if the password and hash match, or FALSE otherwise.
+     * @return bool returns TRUE if the password and hash match, or FALSE otherwise
      */
     public static function passwordVerify($password, $hash, $isPreHashed = false)
     {
@@ -520,7 +520,7 @@ class rex_login
     }
 
     /**
-     * @return bool Returns TRUE if the hash should be rehashed to match the given algo and options, or FALSE otherwise.
+     * @return bool returns TRUE if the hash should be rehashed to match the given algo and options, or FALSE otherwise
      */
     public static function passwordNeedsRehash($hash)
     {
