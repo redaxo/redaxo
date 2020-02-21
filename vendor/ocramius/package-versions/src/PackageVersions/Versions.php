@@ -60,7 +60,7 @@ final class Versions
   'webmozart/assert' => '1.7.0@aed98a490f9a8f78468232db345ab9cf606cf598',
   'webmozart/glob' => '4.1.0@3cbf63d4973cf9d780b93d2da8eec7e4a9e63bbe',
   'webmozart/path-util' => '2.3.0@d939f7edc24c9a1bb9c0dee5cb05d8e859490725',
-  '__root__' => 'dev-fdc7606dbb645ff3521d5f26e677aed0c6f2ed68@fdc7606dbb645ff3521d5f26e677aed0c6f2ed68',
+  '__root__' => 'dev-361ed1f525aacb4645a133bdc33539f6792008f8@361ed1f525aacb4645a133bdc33539f6792008f8',
 );
 
     private function __construct()
