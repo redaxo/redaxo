@@ -508,7 +508,7 @@ if (5 === $step) {
     $dbType = $sql->getDbType();
     $security = '';
 
-    if ($dbType === rex_sql::MARIADB) {
+    if (rex_sql::MARIADB === $dbType) {
         // https://en.wikipedia.org/wiki/MariaDB#Versioning
         if (1 == version_compare($dbVersion, '5.2', '<') && time() > strtotime('1 Feb 2015')) {
             $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion));
@@ -530,7 +530,7 @@ if (5 === $step) {
             $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion));
         }
         // 10.5 is not yet released
-    } elseif ($dbType === rex_sql::MYSQL) {
+    } elseif (rex_sql::MYSQL === $dbType) {
         // https://en.wikipedia.org/wiki/MySQL#Release_history
         if (1 == version_compare($dbVersion, '5.5', '<') && time() > strtotime('1 Dec 2013')) {
             $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_mysql', $dbVersion));
