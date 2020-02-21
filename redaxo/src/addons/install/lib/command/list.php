@@ -15,6 +15,7 @@ class rex_command_install_list extends rex_console_command
     {
         $this->setDescription('Lists available packages on redaxo.org')
             ->addOption('search', 's', InputOption::VALUE_REQUIRED, 'filter list')
+            ->addOption('update-only', 'u', InputOption::VALUE_NONE, 'only lists packages with available update')
             ->addOption('json', null, InputOption::VALUE_NONE, 'output table as json')
             ;
     }
@@ -24,27 +25,48 @@ class rex_command_install_list extends rex_console_command
         $io = $this->getStyle($input, $output);
 
         $search = $input->getOption('search');
+        $updateOnly = false !== $input->getOption('update-only');
+
+        if ($updateOnly) {
+            $allPackages = rex_install_packages::getUpdatePackages();
+        } else {
+            $allPackages = rex_install_packages::getAddPackages();
+        }
 
         $packages = [];
-        foreach (rex_install_packages::getAddPackages() as $key => $package) {
-            if (null !== $search && false === stripos($key, $search)) {
-                continue;
-            }
-            $packages[] = [
+        foreach ($allPackages as $key => $package) {
+            $tableHeader = ['key', 'name', 'author', 'last updated'];
+            $rowData = [
                 'key' => $key,
                 'name' => $package['name'],
                 'author' => $package['author'],
                 'last updated' => rex_formatter::strftime($package['updated']),
-                'latest version' => reset($package['files'])['version'],
             ];
+
+            if ($updateOnly) {
+                $tableHeader[] = 'installed version';
+                $rowData['installed version'] = rex_addon::get($key)->getVersion();
+            }
+
+            $tableHeader[] = 'latest version';
+            $rowData['latest version'] = reset($package['files'])['version'];
+
+            if (null !== $search
+                && false === in_array($search, $rowData)
+                && false === stripos($package['shortdescription'], $search)) {
+                continue;
+            }
+            $packages[] = $rowData;
         }
+
+
 
         if (false !== $input->getOption('json')) {
             $io->writeln(json_encode($packages));
             return 0;
         }
 
-        $io->table(['key', 'name', 'author', 'last updated', 'latest version'], $packages);
+        $io->table($tableHeader, $packages);
         return 0;
     }
 }
