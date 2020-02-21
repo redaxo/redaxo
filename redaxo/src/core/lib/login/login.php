@@ -498,12 +498,16 @@ class rex_login
     /**
      * Verschlüsselt den übergebnen String.
      *
-     * @return string|false|null Returns the hashed password, or FALSE on failure, or null if the algorithm is invalid
+     * @return string Returns the hashed password, or FALSE on failure, or null if the algorithm is invalid
      */
     public static function passwordHash($password, $isPreHashed = false)
     {
         $password = $isPreHashed ? $password : sha1($password);
-        return password_hash($password, PASSWORD_DEFAULT);
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        if ($hash === null || $hash === false) {
+            throw new rex_exception('error while hashing password');
+        }
+        return $hash;
     }
 
     /**
