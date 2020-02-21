@@ -334,9 +334,9 @@ class tar {
     return true;
   }
 
-
-  // Open a TAR file
   /**
+   * Open a TAR file
+   *
    * @return bool
    */
   public function openTAR($filename) {
@@ -361,9 +361,9 @@ class tar {
     return true;
   }
 
-
-  // Appends a tar file to the end of the currently opened tar file
   /**
+   * Appends a tar file to the end of the currently opened tar file
+   *
    * @return bool
    */
   public function appendTar($filename) {
@@ -402,9 +402,9 @@ class tar {
     return false;
   }
 
-
-  // Check if this tar archive contains a specific file
   /**
+   * Check if this tar archive contains a specific file
+   *
    * @return bool
    */
   public function containsFile($filename) {
@@ -419,8 +419,9 @@ class tar {
   }
 
 
-  // Check if this tar archive contains a specific directory
   /**
+   * Check if this tar archive contains a specific directory
+   *
    * @return bool
    */
   public function containsDirectory($dirname) {
@@ -435,8 +436,9 @@ class tar {
   }
 
 
-  // Add a directory to this tar archive
   /**
+   * Add a directory to this tar archive
+   *
    * @return bool
    */
   public function addDirectory($dirname) {
@@ -461,8 +463,9 @@ class tar {
   }
 
 
-  // Add a file to the tar archive
   /**
+   * Add a file to the tar archive
+   *
    * @return bool
    */
   public function addFile($filename) {
@@ -500,9 +503,9 @@ class tar {
     return true;
   }
 
-
-  // Remove a file from the tar archive
   /**
+   * Remove a file from the tar archive
+   *
    * @return bool
    */
   public function removeFile($filename) {
@@ -519,9 +522,9 @@ class tar {
     return false;
   }
 
-
-  // Remove a directory from the tar archive
   /**
+   * Remove a directory from the tar archive
+   *
    * @return bool
    */
   public function removeDirectory($dirname) {
@@ -538,9 +541,9 @@ class tar {
     return false;
   }
 
-
-  // Write the currently loaded tar archive to disk
   /**
+   * Write the currently loaded tar archive to disk
+   *
    * @return bool
    */
   public function saveTar() {
@@ -553,9 +556,9 @@ class tar {
     return true;
   }
 
-
-  // Saves tar archive to a different file than the current file
   /**
+   * Saves tar archive to a different file than the current file
+   * 
    * @return bool
    */
   public function toTar($filename,$useGzip) {
