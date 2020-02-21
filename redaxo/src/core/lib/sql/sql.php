@@ -89,13 +89,24 @@ class rex_sql implements Iterator
 
         try {
             if (!isset(self::$pdo[$DBID])) {
+                $options = array();
                 $dbconfig = rex::getProperty('db');
+
+                if (isset($dbconfig[$DBID]['ssl_key'], $dbconfig[$DBID]['ssl_cert'], $dbconfig[$DBID]['ssl_ca'])) {
+                    $options = array(
+                        PDO::MYSQL_ATTR_SSL_KEY    => $dbconfig[$DBID]['ssl_key'],
+                        PDO::MYSQL_ATTR_SSL_CERT=>$dbconfig[$DBID]['ssl_cert'],
+                        PDO::MYSQL_ATTR_SSL_CA    =>$dbconfig[$DBID]['ssl_ca']
+                    );
+                }
+
                 $conn = self::createConnection(
                     $dbconfig[$DBID]['host'],
                     $dbconfig[$DBID]['name'],
                     $dbconfig[$DBID]['login'],
                     $dbconfig[$DBID]['password'],
                     $dbconfig[$DBID]['persistent']
+                    $options
                 );
                 self::$pdo[$DBID] = $conn;
 
@@ -116,7 +127,7 @@ class rex_sql implements Iterator
      *
      * @return PDO
      */
-    protected static function createConnection($host, $database, $login, $password, $persistent = false)
+    protected static function createConnection($host, $database, $login, $password, $persistent = false, array $options = array())
     {
         if (!$database) {
             throw new InvalidArgumentException('Database name can not be empty.');
@@ -133,12 +144,10 @@ class rex_sql implements Iterator
         }
         $dsn .= ';dbname=' . $database;
 
-        $options = [
+        $options = array_merge([
             PDO::ATTR_PERSISTENT => (bool) $persistent,
             PDO::ATTR_FETCH_TABLE_NAMES => true,
-            // PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL,
-            // PDO::ATTR_EMULATE_PREPARES => true,
-        ];
+        ], $options);
 
         $dbh = @new PDO($dsn, $login, $password, $options);
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
