@@ -111,6 +111,7 @@ class rex_sql_util
         return false;
     }
 
+    // Taken from phpmyadmin (read_dump.lib.php: PMA_splitSqlFile)
     /**
      * Removes comment lines and splits up large sql files into individual queries.
      *
@@ -122,11 +123,6 @@ class rex_sql_util
      *                        can't get the value of a constant from within a function)
      *
      * @return bool always true
-     */
-    // Taken from phpmyadmin (read_dump.lib.php: PMA_splitSqlFile)
-
-    /**
-     * @return true
      */
     public static function splitSqlFile(&$ret, $sql, $release)
     {
