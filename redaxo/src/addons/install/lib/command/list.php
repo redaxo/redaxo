@@ -45,5 +45,6 @@ class rex_command_install_list extends rex_console_command
         }
 
         $io->table(['key', 'name', 'author', 'last updated', 'latest version'], $packages);
+        return 0;
     }
 }
