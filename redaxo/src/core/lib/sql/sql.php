@@ -89,15 +89,15 @@ class rex_sql implements Iterator
 
         try {
             if (!isset(self::$pdo[$DBID])) {
-                $options = array();
+                $options = [];
                 $dbconfig = rex::getProperty('db');
 
                 if (isset($dbconfig[$DBID]['ssl_key'], $dbconfig[$DBID]['ssl_cert'], $dbconfig[$DBID]['ssl_ca'])) {
-                    $options = array(
-                        PDO::MYSQL_ATTR_SSL_KEY    => $dbconfig[$DBID]['ssl_key'],
-                        PDO::MYSQL_ATTR_SSL_CERT=>$dbconfig[$DBID]['ssl_cert'],
-                        PDO::MYSQL_ATTR_SSL_CA    =>$dbconfig[$DBID]['ssl_ca']
-                    );
+                    $options = [
+                        PDO::MYSQL_ATTR_SSL_KEY => $dbconfig[$DBID]['ssl_key'],
+                        PDO::MYSQL_ATTR_SSL_CERT => $dbconfig[$DBID]['ssl_cert'],
+                        PDO::MYSQL_ATTR_SSL_CA => $dbconfig[$DBID]['ssl_ca'],
+                    ];
                 }
 
                 $conn = self::createConnection(
@@ -127,7 +127,7 @@ class rex_sql implements Iterator
      *
      * @return PDO
      */
-    protected static function createConnection($host, $database, $login, $password, $persistent = false, array $options = array())
+    protected static function createConnection($host, $database, $login, $password, $persistent = false, array $options = [])
     {
         if (!$database) {
             throw new InvalidArgumentException('Database name can not be empty.');
