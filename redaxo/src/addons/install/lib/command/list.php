@@ -9,7 +9,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @internal
  */
-class rex_command_install_list extends rex_console_command {
+class rex_command_install_list extends rex_console_command
+{
     protected function configure()
     {
         $this->setDescription('Lists available packages on redaxo.org')
@@ -25,8 +26,8 @@ class rex_command_install_list extends rex_console_command {
         $search = $input->getOption('search');
 
         $packages = [];
-        foreach(rex_install_packages::getAddPackages() as $key => $package) {
-            if (null !== $search && stripos($key, $search) === false) {
+        foreach (rex_install_packages::getAddPackages() as $key => $package) {
+            if (null !== $search && false === stripos($key, $search)) {
                 continue;
             }
             $packages[] = [
@@ -34,7 +35,7 @@ class rex_command_install_list extends rex_console_command {
                 'name' => $package['name'],
                 'author' => $package['author'],
                 'last updated' => rex_formatter::strftime($package['updated']),
-                'latest version' => reset($package['files'])['version']
+                'latest version' => reset($package['files'])['version'],
             ];
         }
 
