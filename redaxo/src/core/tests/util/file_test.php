@@ -133,6 +133,25 @@ class rex_file_test extends TestCase
         static::assertEquals($expectedExtension, rex_file::extension($file), 'extension() returns file extension');
     }
 
+    public function dataTestMimeType(): iterable
+    {
+        return [
+            ['image/png', rex_path::pluginAssets('be_style', 'redaxo', 'icons/apple-touch-icon.png')],
+            ['text/xml', rex_path::pluginAssets('be_style', 'redaxo', 'icons/browserconfig.xml')],
+            ['text/css', rex_path::pluginAssets('be_style', 'redaxo', 'css/styles.css')],
+            ['application/javascript', rex_path::pluginAssets('be_style', 'redaxo', 'javascripts/redaxo.js')],
+            ['image/svg+xml', rex_path::addonAssets('be_style', 'images/redaxo-logo.svg')],
+        ];
+    }
+
+    /**
+     * @dataProvider dataTestMimeType
+     */
+    public function testMimeType(string $expectedMimeType, string $file): void
+    {
+        static::assertEquals($expectedMimeType, rex_file::mimeType($file));
+    }
+
     public function testGetOutput()
     {
         $file = $this->getPath('test.php');
