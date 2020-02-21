@@ -105,7 +105,7 @@ class rex_sql implements Iterator
                     $dbconfig[$DBID]['name'],
                     $dbconfig[$DBID]['login'],
                     $dbconfig[$DBID]['password'],
-                    $dbconfig[$DBID]['persistent']
+                    $dbconfig[$DBID]['persistent'],
                     $options
                 );
                 self::$pdo[$DBID] = $conn;
