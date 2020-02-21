@@ -27,15 +27,17 @@ class rex_command_install_list extends rex_console_command
         $search = $input->getOption('search');
         $updateOnly = false !== $input->getOption('update-only');
 
+        $tableHeader = ['key', 'name', 'author', 'last updated'];
         if ($updateOnly) {
-            $allPackages = rex_install_packages::getUpdatePackages();
+            $tableHeader[] = 'installed version';
+            $packages = rex_install_packages::getUpdatePackages();
         } else {
-            $allPackages = rex_install_packages::getAddPackages();
+            $packages = rex_install_packages::getAddPackages();
         }
+        $tableHeader[] = 'latest version';
 
-        $packages = [];
-        foreach ($allPackages as $key => $package) {
-            $tableHeader = ['key', 'name', 'author', 'last updated'];
+        $rows = [];
+        foreach ($packages as $key => $package) {
             $rowData = [
                 'key' => $key,
                 'name' => $package['name'],
@@ -44,11 +46,9 @@ class rex_command_install_list extends rex_console_command
             ];
 
             if ($updateOnly) {
-                $tableHeader[] = 'installed version';
                 $rowData['installed version'] = rex_addon::get($key)->getVersion();
             }
 
-            $tableHeader[] = 'latest version';
             $rowData['latest version'] = reset($package['files'])['version'];
 
             if (null !== $search
@@ -56,15 +56,15 @@ class rex_command_install_list extends rex_console_command
                 && false === stripos($package['shortdescription'], $search)) {
                 continue;
             }
-            $packages[] = $rowData;
+            $rows[] = $rowData;
         }
 
         if (false !== $input->getOption('json')) {
-            $io->writeln(json_encode($packages));
+            $io->writeln(json_encode($rows));
             return 0;
         }
 
-        $io->table($tableHeader, $packages);
+        $io->table($tableHeader, $rows);
         return 0;
     }
 }
