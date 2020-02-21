@@ -325,7 +325,7 @@ class rex_response
     }
 
     /**
-     * @param mixed  $data         data to be json encoded and sent
+     * @param mixed       $data         data to be json encoded and sent
      * @param int|null    $lastModified HTTP Last-Modified Timestamp
      * @param string|null $etag         HTTP Cachekey to identify the cache
      */
