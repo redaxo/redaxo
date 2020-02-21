@@ -153,7 +153,8 @@ class rex_setup
      *
      * @return string
      */
-    public static function checkPhpSecurity() {
+    public static function checkPhpSecurity()
+    {
         $security = '';
 
         if (PHP_SAPI !== 'cli' && !rex_request::isHttps()) {
@@ -186,8 +187,8 @@ class rex_setup
      *
      * @return string
      */
-    public static function checkDbSecurity() {
-
+    public static function checkDbSecurity()
+    {
         $sql = rex_sql::factory();
         $dbVersion = $sql->getDbVersion();
         $dbType = $sql->getDbType();
