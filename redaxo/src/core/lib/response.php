@@ -329,7 +329,7 @@ class rex_response
      * @param int    $lastModified HTTP Last-Modified Timestamp
      * @param string $etag         HTTP Cachekey to identify the cache
      */
-    public static function sendJson($data, $lastModified = null, $etag = null)
+    public static function sendJson($data, ?int $lastModified = null, ?string $etag = null)
     {
         return self::sendContent(json_encode($data), 'application/json', $lastModified, $etag);
     }
