@@ -214,6 +214,7 @@ if ('' == $func) {
                     break;
                 case 'select':
                     $type = $param['type'];
+                    /** @var rex_form_select_element $field */
                     $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
                     $field->setLabel($param['label']);
                     $field->setAttribute('id', "media_manager $name $type");

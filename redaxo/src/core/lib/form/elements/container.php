@@ -41,6 +41,9 @@ class rex_form_container_element extends rex_form_element
         return $this->addGroupedField('elementContainer', $type, $name, $value, $attributes);
     }
 
+    /**
+     * @return rex_form_element
+     */
     public function addGroupedField($group, $type, $name, $value = null, array $attributes = [])
     {
         $field = $this->table->createInput($type, $name, $value, $attributes);
@@ -85,6 +88,9 @@ class rex_form_container_element extends rex_form_element
         }
     }
 
+    /**
+     * @return string
+     */
     public function formatElement()
     {
         $this->prepareInnerFields();
@@ -113,11 +119,17 @@ class rex_form_container_element extends rex_form_element
         return $format;
     }
 
+    /**
+     * @return string
+     */
     protected function getFragment()
     {
         return 'core/form/container.php';
     }
 
+    /**
+     * @return string
+     */
     public function getSaveValue()
     {
         $this->prepareInnerFields();

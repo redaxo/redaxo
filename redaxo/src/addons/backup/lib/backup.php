@@ -473,6 +473,11 @@ class rex_backup
         closedir($handle);
     }
 
+    /**
+     * @return string[]
+     *
+     * @psalm-return list<string>
+     */
     public static function getTables()
     {
         $tables = [];

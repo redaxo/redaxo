@@ -12,16 +12,25 @@ class rex_api_install_package_update extends rex_api_install_package_download
      */
     private $addon;
 
+    /**
+     * @return string
+     */
     protected function getErrorMessage()
     {
         return rex_i18n::msg('install_warning_addon_not_updated', $this->addonkey);
     }
 
+    /**
+     * @return string
+     */
     protected function getSuccessMessage()
     {
         return rex_i18n::msg('install_info_addon_updated', $this->addonkey);
     }
 
+    /**
+     * @return array
+     */
     protected function getPackages()
     {
         return rex_install_packages::getUpdatePackages();
@@ -130,6 +139,9 @@ class rex_api_install_package_update extends rex_api_install_package_download
         }
     }
 
+    /**
+     * @return string|true
+     */
     private function checkRequirements($config)
     {
         $temppath = rex_path::addon('.new.' . $this->addonkey);

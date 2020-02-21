@@ -233,6 +233,9 @@ class rex_article_content_editor extends rex_article_content
         return $this->getStreamOutput('module/' . $moduleId . '/output', $moduleOutput);
     }
 
+    /**
+     * @return string
+     */
     private function getModuleSelect($sliceId)
     {
         // ----- BLOCKAUSWAHL - SELECT
@@ -331,6 +334,10 @@ class rex_article_content_editor extends rex_article_content
     }
 
     // ----- ADD Slice
+
+    /**
+     * @return string
+     */
     protected function addSlice($sliceId, $moduleIdToAdd)
     {
         $MOD = rex_sql::factory();
@@ -417,6 +424,10 @@ class rex_article_content_editor extends rex_article_content
     }
 
     // ----- EDIT Slice
+
+    /**
+     * @return string
+     */
     protected function editSlice($RE_CONTS, $RE_MODUL_IN, $RE_CTYPE, $RE_MODUL_ID, $artDataSql)
     {
         $msg = '';

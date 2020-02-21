@@ -7,6 +7,9 @@
  */
 class rex_article_slice_history
 {
+    /**
+     * @return string
+     */
     public static function getTable()
     {
         return rex::getTablePrefix() . 'article_slice_history';
@@ -48,6 +51,9 @@ class rex_article_slice_history
         }
     }
 
+    /**
+     * @return array
+     */
     public static function getSnapshots($article_id, $clang_id)
     {
         return rex_sql::factory()->getArray(
@@ -56,6 +62,9 @@ class rex_article_slice_history
         );
     }
 
+    /**
+     * @return bool
+     */
     public static function restoreSnapshot($history_date, $article_id, $clang_id)
     {
         self::checkTables();

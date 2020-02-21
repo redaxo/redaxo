@@ -843,6 +843,9 @@ class rex_list implements rex_url_provider_interface
 
     // ---------------------- Generate Output
 
+    /**
+     * @return string
+     */
     public function replaceVariable($string, $varname)
     {
         return str_replace('###' . $varname . '###', rex_escape($this->getValue($varname)), $string);
@@ -876,6 +879,9 @@ class rex_list implements rex_url_provider_interface
         return $value;
     }
 
+    /**
+     * @return bool
+     */
     public function isCustomFormat($format)
     {
         return is_array($format) && isset($format[0]) && 'custom' == $format[0];
@@ -911,6 +917,9 @@ class rex_list implements rex_url_provider_interface
         return $value;
     }
 
+    /**
+     * @return string
+     */
     protected function _getAttributeString($array)
     {
         $s = '';
@@ -922,6 +931,9 @@ class rex_list implements rex_url_provider_interface
         return $s;
     }
 
+    /**
+     * @return string
+     */
     public function getColumnLink($columnName, $columnValue, $params = [])
     {
         return '<a href="' . $this->getParsedUrl(array_merge($this->getColumnParams($columnName), $params)) . '"' . $this->_getAttributeString($this->getLinkAttributes($columnName, [])) . '>' . $columnValue . '</a>';

@@ -110,6 +110,8 @@ function rex_env($varname, $vartype = '', $default = '')
  * @see rex_request::requestMethod()
  *
  * @package redaxo\core
+ *
+ * @return string
  */
 function rex_request_method()
 {

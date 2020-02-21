@@ -217,6 +217,9 @@ class rex_managed_media
         return $this->asImage || file_exists($this->sourcePath);
     }
 
+    /**
+     * @return string
+     */
     protected function getImageSource()
     {
         $addon = rex_addon::get('media_manager');

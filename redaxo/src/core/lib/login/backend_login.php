@@ -135,11 +135,17 @@ class rex_backend_login extends rex_login
         rex_response::sendCookie(self::getStayLoggedInCookieName(), '');
     }
 
+    /**
+     * @return string
+     */
     private static function getStayLoggedInCookieName()
     {
         return 'rex_user_' . sha1(rex::getProperty('instname'));
     }
 
+    /**
+     * @return bool
+     */
     public static function hasSession()
     {
         // try to fast-fail, so we dont need to start a session in all cases (which would require a session lock...)
