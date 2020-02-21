@@ -498,7 +498,7 @@ class rex_login
     /**
      * Verschlüsselt den übergebnen String.
      *
-     * @return null|string
+     * @return string|false|null Returns the hashed password, or FALSE on failure, or null if the algorithm is invalid
      */
     public static function passwordHash($password, $isPreHashed = false)
     {
@@ -507,7 +507,7 @@ class rex_login
     }
 
     /**
-     * @return bool
+     * @return bool Returns TRUE if the password and hash match, or FALSE otherwise.
      */
     public static function passwordVerify($password, $hash, $isPreHashed = false)
     {
@@ -516,7 +516,7 @@ class rex_login
     }
 
     /**
-     * @return bool
+     * @return bool Returns TRUE if the hash should be rehashed to match the given algo and options, or FALSE otherwise.
      */
     public static function passwordNeedsRehash($hash)
     {
