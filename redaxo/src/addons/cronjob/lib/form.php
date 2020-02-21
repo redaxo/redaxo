@@ -72,6 +72,9 @@ class rex_cronjob_form_interval_element extends rex_form_element
         $this->value = $value;
     }
 
+    /**
+     * @return array
+     */
     public function getValue()
     {
         return $this->value;
