@@ -5,6 +5,7 @@ xmlns="https://getpsalm.org/schema/config"
 autoloader="phpstan-bootstrap.php"
 >
     <projectFiles>
+        <!-- restrict to core and core addons, ignore other locally installed addons -->
         <directory name="redaxo/src/core"/>
         <directory name="redaxo/src/addons/backup"/>
         <directory name="redaxo/src/addons/be_style"/>

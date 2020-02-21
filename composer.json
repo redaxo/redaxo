@@ -1,0 +1,16 @@
+{
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "friendsofredaxo/linter": "^1.2",
+        "phpstan/phpstan": "^0.12.11",
+        "vimeo/psalm": "^3.9"
+    },
+
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true,
+        "platform": {
+            "php": "7.1.3"
+        }
+    }
+}
