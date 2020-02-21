@@ -59,8 +59,6 @@ class rex_command_install_list extends rex_console_command
             $packages[] = $rowData;
         }
 
-
-
         if (false !== $input->getOption('json')) {
             $io->writeln(json_encode($packages));
             return 0;
