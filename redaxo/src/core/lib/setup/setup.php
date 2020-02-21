@@ -10,7 +10,7 @@ class rex_setup
     public const MIN_PHP_VERSION = REX_MIN_PHP_VERSION;
     public const MIN_MYSQL_VERSION = '5.5.3';
 
-    private static $MIN_PHP_EXTENSIONS = ['session', 'pdo', 'pdo_mysql', 'pcre', 'tokenizer'];
+    private static $MIN_PHP_EXTENSIONS = ['fileinfo', 'pcre', 'pdo', 'pdo_mysql', 'session', 'tokenizer'];
 
     /**
      * very basic setup steps, so everything is in place for our browser-based setup wizard.
