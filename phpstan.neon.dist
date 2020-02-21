@@ -1,7 +1,21 @@
 parameters:
     level: 2
     paths:
-        - redaxo/src/
+        # restrict to core and core addons, ignore other locally installed addons
+        - redaxo/src/core
+        - redaxo/src/addons/backup
+        - redaxo/src/addons/be_style
+        - redaxo/src/addons/cronjob
+        - redaxo/src/addons/debug
+        - redaxo/src/addons/install
+        - redaxo/src/addons/media_manager
+        - redaxo/src/addons/mediapool
+        - redaxo/src/addons/metainfo
+        - redaxo/src/addons/phpmailer
+        - redaxo/src/addons/project
+        - redaxo/src/addons/structure
+        - redaxo/src/addons/tests
+        - redaxo/src/addons/users
     bootstrap: phpstan-bootstrap.php
     excludes_analyse:
         - redaxo/src/addons/be_style/vendor/
