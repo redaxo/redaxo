@@ -579,6 +579,9 @@ abstract class rex_form_base
         return $element;
     }
 
+    /**
+     * @return string
+     */
     protected function getId($name)
     {
         return $this->fieldset . '_' . $name;

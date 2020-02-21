@@ -7,7 +7,7 @@ class rex_form_element
 {
     /** @var string */
     protected $value;
-    /** @var string */
+    /** @var string|int */
     protected $defaultSaveValue = '';
     /** @var string */
     protected $label;
@@ -63,17 +63,26 @@ class rex_form_element
         $this->value = $value;
     }
 
+    /**
+     * @param string|int $value
+     */
     public function setDefaultSaveValue($value)
     {
         $this->defaultSaveValue = $value;
     }
 
+    /**
+     * @return string|int
+     */
     public function getSaveValue()
     {
         $value = $this->getValue();
         return '' !== $value ? $value : $this->defaultSaveValue;
     }
 
+    /**
+     * @return string
+     */
     public function getValue()
     {
         return $this->value;
@@ -84,6 +93,9 @@ class rex_form_element
         $this->fieldName = $name;
     }
 
+    /**
+     * @return string
+     */
     public function getFieldName()
     {
         return $this->fieldName;
@@ -94,6 +106,9 @@ class rex_form_element
         $this->label = $label;
     }
 
+    /**
+     * @return string
+     */
     public function getLabel()
     {
         return $this->label;
@@ -104,11 +119,17 @@ class rex_form_element
         $this->notice = $notice;
     }
 
+    /**
+     * @return string
+     */
     public function getNotice()
     {
         return $this->notice;
     }
 
+    /**
+     * @return string
+     */
     public function getTag()
     {
         return $this->tag;
@@ -119,6 +140,9 @@ class rex_form_element
         $this->suffix = $suffix;
     }
 
+    /**
+     * @return string
+     */
     public function getSuffix()
     {
         return $this->suffix;
@@ -129,6 +153,9 @@ class rex_form_element
         $this->prefix = $prefix;
     }
 
+    /**
+     * @return string
+     */
     public function getPrefix()
     {
         return $this->prefix;
@@ -139,6 +166,9 @@ class rex_form_element
         $this->header = $header;
     }
 
+    /**
+     * @return string
+     */
     public function getHeader()
     {
         return $this->header;
@@ -149,6 +179,9 @@ class rex_form_element
         $this->footer = $footer;
     }
 
+    /**
+     * @return string
+     */
     public function getFooter()
     {
         return $this->footer;
@@ -190,16 +223,25 @@ class rex_form_element
         }
     }
 
+    /**
+     * @return array
+     */
     public function getAttributes()
     {
         return $this->attributes;
     }
 
+    /**
+     * @return bool
+     */
     public function hasAttribute($name)
     {
         return isset($this->attributes[$name]);
     }
 
+    /**
+     * @return bool
+     */
     public function hasSeparateEnding()
     {
         return $this->separateEnding;
@@ -220,6 +262,9 @@ class rex_form_element
         return $this->getAttribute('class');
     }
 
+    /**
+     * @return string
+     */
     protected function formatLabel()
     {
         $s = '';
@@ -232,6 +277,9 @@ class rex_form_element
         return $s;
     }
 
+    /**
+     * @return string
+     */
     public function formatElement()
     {
         $attr = '';
@@ -266,11 +314,17 @@ class rex_form_element
         return $content;
     }
 
+    /**
+     * @return string
+     */
     protected function getFragment()
     {
         return 'core/form/form.php';
     }
 
+    /**
+     * @return string
+     */
     protected function _get()
     {
         $class = $this->formatClass();

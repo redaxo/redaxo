@@ -22,6 +22,9 @@ class rex_metainfo_clang_handler extends rex_metainfo_handler
         return $ep->getSubject();
     }
 
+    /**
+     * @return array
+     */
     public function handleSave(array $params, rex_sql $sqlFields)
     {
         if ('post' != rex_request_method() || !isset($params['id'])) {

@@ -405,6 +405,8 @@ function rex_mediapool_mediaIsInUse($filename)
 
 /**
  * Ausgabe des Medienpool Formulars.
+ *
+ * @return string
  */
 function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category, $file_chooser, $close_form)
 {

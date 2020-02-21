@@ -9,11 +9,17 @@ class rex_system_report
     {
     }
 
+    /**
+     * @return self
+     */
     public static function factory()
     {
         return new self();
     }
 
+    /**
+     * @return array[]
+     */
     public function get()
     {
         $data = [];
@@ -80,6 +86,9 @@ class rex_system_report
         return $data;
     }
 
+    /**
+     * @return string
+     */
     public function asMarkdown()
     {
         $report = $this->get();

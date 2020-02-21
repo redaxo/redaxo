@@ -31,11 +31,17 @@ class rex_history_login extends rex_backend_login
         return null;
     }
 
+    /**
+     * @return null|string
+     */
     public static function createSessionKey($login, $session, $validtime)
     {
         return password_hash($login . $session . $validtime, PASSWORD_DEFAULT);
     }
 
+    /**
+     * @return bool
+     */
     public static function verifySessionKey($key1, $key2)
     {
         return password_verify($key1, $key2);

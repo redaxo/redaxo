@@ -129,6 +129,9 @@ class rex_effect_mirror extends rex_effect_abstract
         ];
     }
 
+    /**
+     * @return resource
+     */
     private function imagereflection(&$src_img, $reflection_height, $trans, $bgcolor)
     {
         $src_height = imagesy($src_img);
@@ -137,6 +140,9 @@ class rex_effect_mirror extends rex_effect_abstract
         $dest_width = $src_width;
 
         $reflected = imagecreatetruecolor($dest_width, $dest_height);
+        if (!$reflected) {
+            throw new LogicException('unable to create image');
+        }
         if ($trans) {
             imagealphablending($reflected, false);
             imagesavealpha($reflected, true);

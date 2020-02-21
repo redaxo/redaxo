@@ -335,6 +335,9 @@ class rex_content_service
         return true;
     }
 
+    /**
+     * @return string
+     */
     private static function getUser()
     {
         if (rex::getUser()) {

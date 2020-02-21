@@ -1047,6 +1047,8 @@ class rex_sql implements Iterator
 
     /**
      * Prueft ob das Resultset weitere Datensaetze enthaelt.
+     *
+     * @return bool
      */
     public function hasNext()
     {
@@ -1073,6 +1075,8 @@ class rex_sql implements Iterator
 
     /**
      * Gibt die letzte InsertId zurueck.
+     *
+     * @return string
      */
     public function getLastId()
     {

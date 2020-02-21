@@ -222,6 +222,9 @@ class rex_navigation
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     private function _setActivePath()
     {
         $article_id = rex_article::getCurrentId();
@@ -241,6 +244,9 @@ class rex_navigation
         return false;
     }
 
+    /**
+     * @return bool
+     */
     private function checkFilter(rex_category $category, $depth)
     {
         foreach ($this->filter as $f) {
@@ -294,6 +300,9 @@ class rex_navigation
         return true;
     }
 
+    /**
+     * @return bool
+     */
     private function checkCallbacks(rex_category $category, $depth, &$li, &$a, &$a_content)
     {
         foreach ($this->callbacks as $c) {
