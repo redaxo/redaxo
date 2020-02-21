@@ -112,6 +112,7 @@ class rex_sql_util
     }
 
     // Taken from phpmyadmin (read_dump.lib.php: PMA_splitSqlFile)
+
     /**
      * Removes comment lines and splits up large sql files into individual queries.
      *
