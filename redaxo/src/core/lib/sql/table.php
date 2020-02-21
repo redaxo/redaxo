@@ -719,7 +719,7 @@ class rex_sql_table
 
         $query = 'CREATE TABLE '.$this->sql->escapeIdentifier($this->name)." (\n    ";
         $query .= implode(",\n    ", $parts);
-        $query .= "\n) ENGINE=InnoDB DEFAULT CHARSET=$charset;";
+        $query .= "\n) ENGINE=InnoDB DEFAULT CHARSET=$charset COLLATE={$charset}_unicode_ci;";
 
         $this->sql->setQuery($query);
 
