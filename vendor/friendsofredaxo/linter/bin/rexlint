@@ -1,0 +1,24 @@
+#!/usr/bin/env php
+<?php
+
+use Symfony\Component\Console\Application;
+
+set_time_limit(0);
+
+$autoloaderInWorkingDirectory = getcwd() . '/vendor/autoload.php';
+if (is_file($autoloaderInWorkingDirectory)) {
+    require_once $autoloaderInWorkingDirectory;
+}
+$composerAutoloadFile = __DIR__ . '/../vendor/autoload.php';
+if (!is_file($composerAutoloadFile)) {
+    $composerAutoloadFile = __DIR__ . '/../../../autoload.php';
+}
+require_once $composerAutoloadFile;
+
+$application = new Application();
+
+$lintCmd = new LintCommand();
+$application->add($lintCmd);
+$application->setDefaultCommand($lintCmd->getName(), true);
+
+$application->run();

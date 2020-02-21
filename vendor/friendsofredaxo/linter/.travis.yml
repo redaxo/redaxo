@@ -1,0 +1,20 @@
+language: php
+
+php:
+  - '7.1'
+
+before_install:
+  - phpenv config-rm xdebug.ini || echo "xdebug not available"
+
+script:
+  - composer install
+  # negative tests
+  - php bin/rexlint tests/fail/yml/   > /dev/null 2>&1 ; lintstatus=$?; if [ $lintstatus -ne  1 ]; then echo "expected fail, got $lintstatus" && exit 50; fi
+  - php bin/rexlint tests/fail/php/   > /dev/null 2>&1 ; lintstatus=$?; if [ $lintstatus -ne  2 ]; then echo "expected fail, got $lintstatus" && exit 50; fi
+  - php bin/rexlint tests/fail/json/  > /dev/null 2>&1 ; lintstatus=$?; if [ $lintstatus -ne  4 ]; then echo "expected fail, got $lintstatus" && exit 50; fi
+  - php bin/rexlint tests/fail/sql/   > /dev/null 2>&1 ; lintstatus=$?; if [ $lintstatus -ne 16 ]; then echo "expected fail, got $lintstatus" && exit 50; fi
+  - php bin/rexlint tests/fail/mixed/ > /dev/null 2>&1 ; lintstatus=$?; if [ $lintstatus -ne  7 ]; then echo "expected fail, got $lintstatus" && exit 50; fi
+  
+  # positive tests
+  - php bin/rexlint tests/succeed/
+  - cd / && php $TRAVIS_BUILD_DIR/bin/rexlint $TRAVIS_BUILD_DIR/tests/succeed/

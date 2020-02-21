@@ -1,0 +1,20 @@
+{
+	"name": "phpstan/phpstan",
+	"description": "PHPStan - PHP Static Analysis Tool",
+	"license": ["MIT"],
+	"require": {
+		"php": "^7.1"
+	},
+	"bin": [
+		"phpstan",
+		"phpstan.phar"
+	],
+	"extra": {
+		"branch-alias": {
+			"dev-master": "0.12-dev"
+		}
+	},
+	"autoload": {
+		"files": ["bootstrap.php"]
+	}
+}

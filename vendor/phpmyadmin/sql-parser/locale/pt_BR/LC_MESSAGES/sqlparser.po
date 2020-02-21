@@ -1,0 +1,220 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: SQL parser 0\n"
+"Report-Msgid-Bugs-To: translators@phpmyadmin.net\n"
+"POT-Creation-Date: 2017-08-21 12:54+0200\n"
+"PO-Revision-Date: 2017-08-21 13:50+0000\n"
+"Last-Translator: Daniel Palmeira Huanca <daniel46758@hotmail.com>\n"
+"Language-Team: Portuguese (Brazil) "
+"<https://hosted.weblate.org/projects/phpmyadmin/sql-parser/pt_BR/>\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 2.17-dev\n"
+
+#: src/Component.php:43 src/Component.php:63
+msgid "Not implemented yet."
+msgstr "Ainda não implementado."
+
+#: src/Components/AlterOperation.php:241 src/Statement.php:334
+msgid ""
+"A new statement was found, but no delimiter between it and the previous one."
+msgstr ""
+"Uma nova declaração foi encontrada, porém não há delimitador entre esta e a "
+"anterior."
+
+#: src/Components/AlterOperation.php:253
+msgid "Unrecognized alter operation."
+msgstr "Operação de alteração desconhecida."
+
+#: src/Components/Array2d.php:88
+#, php-format
+msgid "%1$d values were expected, but found %2$d."
+msgstr "Eram esperados %1$d valores, mas foram encontrados %2$d."
+
+#: src/Components/Array2d.php:111
+msgid "An opening bracket followed by a set of values was expected."
+msgstr ""
+"Era esperado um colchete de abertura seguido por um conjunto de valores."
+
+#: src/Components/ArrayObj.php:114 src/Components/CreateDefinition.php:201
+msgid "An opening bracket was expected."
+msgstr "Era esperado um colchete de abertura."
+
+#: src/Components/CaseExpression.php:135 src/Components/CaseExpression.php:164
+#: src/Components/CaseExpression.php:176 src/Components/CaseExpression.php:190
+#: src/Statements/DeleteStatement.php:227
+#: src/Statements/DeleteStatement.php:244
+#: src/Statements/DeleteStatement.php:292
+#: src/Statements/DeleteStatement.php:303
+#: src/Statements/DeleteStatement.php:333
+#: src/Statements/DeleteStatement.php:344
+#: src/Statements/InsertStatement.php:189
+#: src/Statements/InsertStatement.php:217 src/Statements/LoadStatement.php:258
+#: src/Statements/ReplaceStatement.php:155
+#: src/Statements/ReplaceStatement.php:182
+msgid "Unexpected keyword."
+msgstr "Caracter inesperado."
+
+#: src/Components/CaseExpression.php:199
+msgid "Unexpected end of CASE expression"
+msgstr "Final inesperado da expressão CASE"
+
+#: src/Components/CreateDefinition.php:223
+msgid ""
+"A symbol name was expected! A reserved keyword can not be used as a column "
+"name without backquotes."
+msgstr ""
+"Era esperado um nome de símbolo! Um caracter reservado não pode ser usado "
+"como um nome de coluna sem apóstrofo."
+
+#: src/Components/CreateDefinition.php:237
+msgid "A symbol name was expected!"
+msgstr "Era esperado um nome de símbolo!"
+
+#: src/Components/CreateDefinition.php:270
+msgid "A comma or a closing bracket was expected."
+msgstr "Era esperado uma vírgula ou um colchete de fechamento."
+
+#: src/Components/CreateDefinition.php:286
+msgid "A closing bracket was expected."
+msgstr "Era esperado um colchete de fechamento."
+
+#: src/Components/DataType.php:123
+msgid "Unrecognized data type."
+msgstr "Tipo de dado desconhecido."
+
+#: src/Components/Expression.php:244 src/Components/Expression.php:394
+msgid "An alias was expected."
+msgstr "Era esperado um nome de correlação."
+
+#: src/Components/Expression.php:332 src/Components/Expression.php:351
+#: src/Components/Expression.php:383
+msgid "An alias was previously found."
+msgstr "Um nome correlação foi encontrado anteriormente."
+
+#: src/Components/Expression.php:364
+msgid "Unexpected dot."
+msgstr "Ponto inesperado."
+
+#: src/Components/ExpressionArray.php:102
+msgid "An expression was expected."
+msgstr "Era esperado uma expressão."
+
+#: src/Components/Limit.php:86 src/Components/Limit.php:108
+msgid "An offset was expected."
+msgstr "Era esperado um espaçamento."
+
+#: src/Components/OptionsArray.php:143
+#, php-format
+msgid "This option conflicts with \"%1$s\"."
+msgstr "Esta opção está em conflito com \"%1$s\"."
+
+#: src/Components/RenameOperation.php:109
+msgid "The old name of the table was expected."
+msgstr "Era esperado o nome anterior da tabela."
+
+#: src/Components/RenameOperation.php:119
+msgid "Keyword \"TO\" was expected."
+msgstr "Era esperado o caracter \"TO\"."
+
+#: src/Components/RenameOperation.php:135
+msgid "The new name of the table was expected."
+msgstr "Era esperado o novo nome da tabela."
+
+#: src/Components/RenameOperation.php:153
+msgid "A rename operation was expected."
+msgstr "Era esperado uma operação renomear."
+
+#: src/Components/SetOperation.php:117
+msgid "Missing expression."
+msgstr "Faltando expressão."
+
+#: src/Lexer.php:237
+msgid "Unexpected character."
+msgstr "Caracter inesperado."
+
+#: src/Lexer.php:278
+msgid "Expected whitespace(s) before delimiter."
+msgstr "Era(m) esperado(s) espaço(s) em branco antes do delimitador."
+
+#: src/Lexer.php:296 src/Lexer.php:314
+msgid "Expected delimiter."
+msgstr "Esperado delimitador."
+
+#: src/Lexer.php:843
+#, php-format
+msgid "Ending quote %1$s was expected."
+msgstr "Era esperado fechar aspas %1$s."
+
+#: src/Lexer.php:884
+msgid "Variable name was expected."
+msgstr "Era perado nome de variável."
+
+#: src/Parser.php:423
+msgid "Unexpected beginning of statement."
+msgstr "Início de declaração inesperado."
+
+#: src/Parser.php:442
+msgid "Unrecognized statement type."
+msgstr "Tipo de declaração desconhecido."
+
+#: src/Parser.php:527
+msgid "No transaction was previously started."
+msgstr "Nenhuma operação foi iniciada anteriormente."
+
+#: src/Statement.php:242 src/Statements/DeleteStatement.php:254
+#: src/Statements/DeleteStatement.php:306
+#: src/Statements/InsertStatement.php:226
+#: src/Statements/InsertStatement.php:246 src/Statements/LoadStatement.php:261
+#: src/Statements/LoadStatement.php:291 src/Statements/LoadStatement.php:310
+#: src/Statements/ReplaceStatement.php:190
+msgid "Unexpected token."
+msgstr "Símbolo (token) inesperado."
+
+#: src/Statement.php:306
+msgid "This type of clause was previously parsed."
+msgstr "Este tipo de sentença foi previamente analisado."
+
+#: src/Statement.php:366
+msgid "Unrecognized keyword."
+msgstr "Comando desconhecido."
+
+#: src/Statement.php:377
+msgid "Keyword at end of statement."
+msgstr "Palavra-chave no final da declaração."
+
+#: src/Statement.php:503
+msgid "Unexpected ordering of clauses."
+msgstr "Ordenamento de sentenças inesperado."
+
+#: src/Statements/CreateStatement.php:375
+msgid "The name of the entity was expected."
+msgstr "Era esperado o nome da entidade."
+
+#: src/Statements/CreateStatement.php:430
+msgid "A table name was expected."
+msgstr "Era esperado um nome de tabela."
+
+#: src/Statements/CreateStatement.php:438
+msgid "At least one column definition was expected."
+msgstr "Era esperado a definição de pelo menos uma coluna."
+
+#: src/Statements/CreateStatement.php:550
+msgid "A \"RETURNS\" keyword was expected."
+msgstr "Era esperado um comando \"RETURNS\"."
+
+#: src/Statements/DeleteStatement.php:314
+msgid "This type of clause is not valid in Multi-table queries."
+msgstr "Este tipo de sentença não é válida em consultas à várias tabelas."
+
+#: tests/Lexer/LexerTest.php:19 tests/Parser/ParserTest.php:58
+msgid "error #1"
+msgstr "erro #1"
+
+#: tests/Lexer/LexerTest.php:46 tests/Parser/ParserTest.php:80
+msgid "strict error"
+msgstr "Erro estrito"

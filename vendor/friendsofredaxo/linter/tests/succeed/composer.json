@@ -1,0 +1,25 @@
+{
+    "name": "friendsofredaxo/linter",
+    "description": "Linter commandline für REDAXO",
+    "license": "MIT",
+
+    "require": {
+        "php": "^7.1",
+        "seld/jsonlint": "^1.7",
+        "j13k/yaml-lint": "^1.1",
+        "jakub-onderka/php-parallel-lint" :"^1.0",
+        "symfony/console": "^4.2",
+        "symfony/process": "^4.2",
+        "phpmyadmin/sql-parser": "dev-master"
+    },
+
+    "autoload": {
+        "classmap": [
+            "lib/"
+        ]
+    },
+
+    "bin": [
+        "bin/rexlint"
+    ]
+}

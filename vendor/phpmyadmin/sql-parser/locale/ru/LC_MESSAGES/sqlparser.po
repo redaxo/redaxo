@@ -1,0 +1,220 @@
+# Automatically generated <>, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: SQL parser 0\n"
+"Report-Msgid-Bugs-To: translators@phpmyadmin.net\n"
+"POT-Creation-Date: 2017-08-21 12:54+0200\n"
+"PO-Revision-Date: 2017-09-05 16:20+0000\n"
+"Last-Translator: pitchblack <pitchblack@mail.ru>\n"
+"Language-Team: Russian <https://hosted.weblate.org/projects/phpmyadmin/sql-"
+"parser/ru/>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 2.17-dev\n"
+
+#: src/Component.php:43 src/Component.php:63
+msgid "Not implemented yet."
+msgstr "Ещё не реализовано."
+
+#: src/Components/AlterOperation.php:241 src/Statement.php:334
+msgid ""
+"A new statement was found, but no delimiter between it and the previous one."
+msgstr ""
+"Было найдено новое утверждение, но не было разделителя между ним и "
+"предыдущим."
+
+#: src/Components/AlterOperation.php:253
+msgid "Unrecognized alter operation."
+msgstr "Нераспознанная операция изменения."
+
+#: src/Components/Array2d.php:88
+#, php-format
+msgid "%1$d values were expected, but found %2$d."
+msgstr "Ожидалось %1$d значений, найдено %2$d."
+
+#: src/Components/Array2d.php:111
+msgid "An opening bracket followed by a set of values was expected."
+msgstr "Ожидалась открывающая скобка и список значений."
+
+#: src/Components/ArrayObj.php:114 src/Components/CreateDefinition.php:201
+msgid "An opening bracket was expected."
+msgstr "Ожидалась открывающая скобка."
+
+#: src/Components/CaseExpression.php:135 src/Components/CaseExpression.php:164
+#: src/Components/CaseExpression.php:176 src/Components/CaseExpression.php:190
+#: src/Statements/DeleteStatement.php:227
+#: src/Statements/DeleteStatement.php:244
+#: src/Statements/DeleteStatement.php:292
+#: src/Statements/DeleteStatement.php:303
+#: src/Statements/DeleteStatement.php:333
+#: src/Statements/DeleteStatement.php:344
+#: src/Statements/InsertStatement.php:189
+#: src/Statements/InsertStatement.php:217 src/Statements/LoadStatement.php:258
+#: src/Statements/ReplaceStatement.php:155
+#: src/Statements/ReplaceStatement.php:182
+msgid "Unexpected keyword."
+msgstr "Неожиданное ключевое слово."
+
+#: src/Components/CaseExpression.php:199
+msgid "Unexpected end of CASE expression"
+msgstr "Неожиданное окончание CASE выражения"
+
+#: src/Components/CreateDefinition.php:223
+msgid ""
+"A symbol name was expected! A reserved keyword can not be used as a column "
+"name without backquotes."
+msgstr ""
+"Ожидалось имя символа! Зарезервированное ключевое слово не может "
+"использоваться как имя столбца без обратных запросов."
+
+#: src/Components/CreateDefinition.php:237
+msgid "A symbol name was expected!"
+msgstr "Ожидалось имя символа!"
+
+#: src/Components/CreateDefinition.php:270
+msgid "A comma or a closing bracket was expected."
+msgstr "Ожидалась запятая или закрывающая скобка."
+
+#: src/Components/CreateDefinition.php:286
+msgid "A closing bracket was expected."
+msgstr "Ожидалась закрывающая скобка."
+
+#: src/Components/DataType.php:123
+msgid "Unrecognized data type."
+msgstr "Нераспознанный тип данных."
+
+#: src/Components/Expression.php:244 src/Components/Expression.php:394
+msgid "An alias was expected."
+msgstr "Ожидался псевдоним."
+
+#: src/Components/Expression.php:332 src/Components/Expression.php:351
+#: src/Components/Expression.php:383
+msgid "An alias was previously found."
+msgstr "Псевдоним был найден ранее."
+
+#: src/Components/Expression.php:364
+msgid "Unexpected dot."
+msgstr "Неожиданная точка."
+
+#: src/Components/ExpressionArray.php:102
+msgid "An expression was expected."
+msgstr "Ожидалось выражение."
+
+#: src/Components/Limit.php:86 src/Components/Limit.php:108
+msgid "An offset was expected."
+msgstr "Ожидалось смещение."
+
+#: src/Components/OptionsArray.php:143
+#, php-format
+msgid "This option conflicts with \"%1$s\"."
+msgstr "Этот параметр конфликтует с \"%1$s\"."
+
+#: src/Components/RenameOperation.php:109
+msgid "The old name of the table was expected."
+msgstr "Ожидалось старое имя таблицы."
+
+#: src/Components/RenameOperation.php:119
+msgid "Keyword \"TO\" was expected."
+msgstr "Ожидалось ключевое слово \"TO\"."
+
+#: src/Components/RenameOperation.php:135
+msgid "The new name of the table was expected."
+msgstr "Ожидалось новое имя таблицы."
+
+#: src/Components/RenameOperation.php:153
+msgid "A rename operation was expected."
+msgstr "Ожидалась операция переименования."
+
+#: src/Components/SetOperation.php:117
+msgid "Missing expression."
+msgstr "Отсутствует выражение."
+
+#: src/Lexer.php:237
+msgid "Unexpected character."
+msgstr "Неожиданный символ."
+
+#: src/Lexer.php:278
+msgid "Expected whitespace(s) before delimiter."
+msgstr "Ожидался пробел перед разделителем."
+
+#: src/Lexer.php:296 src/Lexer.php:314
+msgid "Expected delimiter."
+msgstr "Ожидается разделитель."
+
+#: src/Lexer.php:843
+#, php-format
+msgid "Ending quote %1$s was expected."
+msgstr "Ожидалась закрывающая кавычка %1$s."
+
+#: src/Lexer.php:884
+msgid "Variable name was expected."
+msgstr "Ожидалось имя переменной."
+
+#: src/Parser.php:423
+msgid "Unexpected beginning of statement."
+msgstr "Неожиданное начало выражения."
+
+#: src/Parser.php:442
+msgid "Unrecognized statement type."
+msgstr "Неизвестный оператор."
+
+#: src/Parser.php:527
+msgid "No transaction was previously started."
+msgstr "Ни одна транзакция не была ранее начата."
+
+#: src/Statement.php:242 src/Statements/DeleteStatement.php:254
+#: src/Statements/DeleteStatement.php:306
+#: src/Statements/InsertStatement.php:226
+#: src/Statements/InsertStatement.php:246 src/Statements/LoadStatement.php:261
+#: src/Statements/LoadStatement.php:291 src/Statements/LoadStatement.php:310
+#: src/Statements/ReplaceStatement.php:190
+msgid "Unexpected token."
+msgstr "Неожиданный токен."
+
+#: src/Statement.php:306
+msgid "This type of clause was previously parsed."
+msgstr "Этот тип предложения ранее анализировался."
+
+#: src/Statement.php:366
+msgid "Unrecognized keyword."
+msgstr "Неизвестное ключевое слово."
+
+#: src/Statement.php:377
+msgid "Keyword at end of statement."
+msgstr "Ключевое слово в конце инструкции."
+
+#: src/Statement.php:503
+msgid "Unexpected ordering of clauses."
+msgstr "Неожиданный порядок предложений."
+
+#: src/Statements/CreateStatement.php:375
+msgid "The name of the entity was expected."
+msgstr "Ожидалось имя сущности."
+
+#: src/Statements/CreateStatement.php:430
+msgid "A table name was expected."
+msgstr "Ожидалось имя таблицы."
+
+#: src/Statements/CreateStatement.php:438
+msgid "At least one column definition was expected."
+msgstr "Ожидалось объявление, по крайней мере, одного столбца."
+
+#: src/Statements/CreateStatement.php:550
+msgid "A \"RETURNS\" keyword was expected."
+msgstr "Ожидалось ключевое слово \"RETURNS\"."
+
+#: src/Statements/DeleteStatement.php:314
+msgid "This type of clause is not valid in Multi-table queries."
+msgstr "Такого рода выражения не поддерживаются в мульти-табличных запросах."
+
+#: tests/Lexer/LexerTest.php:19 tests/Parser/ParserTest.php:58
+msgid "error #1"
+msgstr "ошибка #1"
+
+#: tests/Lexer/LexerTest.php:46 tests/Parser/ParserTest.php:80
+msgid "strict error"
+msgstr "строгая ошибка"

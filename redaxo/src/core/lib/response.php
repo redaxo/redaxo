@@ -269,7 +269,7 @@ class rex_response
     /**
      * Sends content to the client.
      *
-     * @param string $content      Content
+     * @param string      $content      Content
      * @param string|null $contentType  Content type
      * @param int|null    $lastModified HTTP Last-Modified Timestamp
      * @param string|null $etag         HTTP Cachekey to identify the cache

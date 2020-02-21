@@ -1,0 +1,218 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: SQL parser 0\n"
+"Report-Msgid-Bugs-To: translators@phpmyadmin.net\n"
+"POT-Creation-Date: 2017-08-21 12:54+0200\n"
+"PO-Revision-Date: 2018-04-25 11:54+0000\n"
+"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
+"Language-Team: Hebrew <https://hosted.weblate.org/projects/phpmyadmin/"
+"sql-parser/he/>\n"
+"Language: he\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
+"n % 10 == 0) ? 2 : 3));\n"
+"X-Generator: Weblate 3.0-dev\n"
+
+#: src/Component.php:43 src/Component.php:63
+msgid "Not implemented yet."
+msgstr "לא מוטמע עדיין."
+
+#: src/Components/AlterOperation.php:241 src/Statement.php:334
+msgid ""
+"A new statement was found, but no delimiter between it and the previous one."
+msgstr "נמצא ביטוי חדש, אך לא נמצא מפריד בינו לבין הביטוי הקודם."
+
+#: src/Components/AlterOperation.php:253
+msgid "Unrecognized alter operation."
+msgstr "פעולת שינוי בלתי מזוהה."
+
+#: src/Components/Array2d.php:88
+#, php-format
+msgid "%1$d values were expected, but found %2$d."
+msgstr "היו אמורים להיות %1$d ערכים, אך נמצאו %2$d."
+
+#: src/Components/Array2d.php:111
+msgid "An opening bracket followed by a set of values was expected."
+msgstr "היו אמורים להיות סוגריים מרובעים פותחים ואחריהם סדרה של ערכים."
+
+#: src/Components/ArrayObj.php:114 src/Components/CreateDefinition.php:201
+msgid "An opening bracket was expected."
+msgstr "היו אמורים להיות סוגריים מרובעים פותחים."
+
+#: src/Components/CaseExpression.php:135 src/Components/CaseExpression.php:164
+#: src/Components/CaseExpression.php:176 src/Components/CaseExpression.php:190
+#: src/Statements/DeleteStatement.php:227
+#: src/Statements/DeleteStatement.php:244
+#: src/Statements/DeleteStatement.php:292
+#: src/Statements/DeleteStatement.php:303
+#: src/Statements/DeleteStatement.php:333
+#: src/Statements/DeleteStatement.php:344
+#: src/Statements/InsertStatement.php:189
+#: src/Statements/InsertStatement.php:217 src/Statements/LoadStatement.php:258
+#: src/Statements/ReplaceStatement.php:155
+#: src/Statements/ReplaceStatement.php:182
+msgid "Unexpected keyword."
+msgstr "מילת מפתח בלתי צפויה."
+
+#: src/Components/CaseExpression.php:199
+msgid "Unexpected end of CASE expression"
+msgstr "סיום בלתי צפוי לביטוי התניה (CASE)"
+
+#: src/Components/CreateDefinition.php:223
+msgid ""
+"A symbol name was expected! A reserved keyword can not be used as a column "
+"name without backquotes."
+msgstr ""
+"אמור היה להיות שם של סמל! אסור להשתמש במילה שמורה בתור שם עמודה ללא סימן "
+"הטעמה משני (`)."
+
+#: src/Components/CreateDefinition.php:237
+msgid "A symbol name was expected!"
+msgstr "אמור היה להיות שם סמל!"
+
+#: src/Components/CreateDefinition.php:270
+msgid "A comma or a closing bracket was expected."
+msgstr "אמורים היו להיות פסיק או סוגריים סוגרים."
+
+#: src/Components/CreateDefinition.php:286
+msgid "A closing bracket was expected."
+msgstr "אמורים היו להיות סוגריים סוגרים."
+
+#: src/Components/DataType.php:123
+msgid "Unrecognized data type."
+msgstr "סוג הנתונים אינו מזוהה."
+
+#: src/Components/Expression.php:244 src/Components/Expression.php:394
+msgid "An alias was expected."
+msgstr "אמור היה להיות כינוי."
+
+#: src/Components/Expression.php:332 src/Components/Expression.php:351
+#: src/Components/Expression.php:383
+msgid "An alias was previously found."
+msgstr "נמצא כינוי בעבר."
+
+#: src/Components/Expression.php:364
+msgid "Unexpected dot."
+msgstr "נקודה בלתי צפויה."
+
+#: src/Components/ExpressionArray.php:102
+msgid "An expression was expected."
+msgstr "אמור היה להיות ביטוי."
+
+#: src/Components/Limit.php:86 src/Components/Limit.php:108
+msgid "An offset was expected."
+msgstr "אמור היה להיות היסט."
+
+#: src/Components/OptionsArray.php:143
+#, php-format
+msgid "This option conflicts with \"%1$s\"."
+msgstr "אפשרות זו סותרת את „%1$s”."
+
+#: src/Components/RenameOperation.php:109
+msgid "The old name of the table was expected."
+msgstr "אמור היה להיות השם הישן של הטבלה."
+
+#: src/Components/RenameOperation.php:119
+msgid "Keyword \"TO\" was expected."
+msgstr "אמורה הייתה להיות מילת המפתח „TO” (אל)."
+
+#: src/Components/RenameOperation.php:135
+msgid "The new name of the table was expected."
+msgstr "אמור היה להיות השם החדש של הטבלה."
+
+#: src/Components/RenameOperation.php:153
+msgid "A rename operation was expected."
+msgstr "אמורה הייתה להיות פעולת שינוי שם."
+
+#: src/Components/SetOperation.php:117
+msgid "Missing expression."
+msgstr "ביטוי חסר."
+
+#: src/Lexer.php:237
+msgid "Unexpected character."
+msgstr "תו בלתי צפוי."
+
+#: src/Lexer.php:278
+msgid "Expected whitespace(s) before delimiter."
+msgstr "אמורים היו להיות רווחים לפני המפריד."
+
+#: src/Lexer.php:296 src/Lexer.php:314
+msgid "Expected delimiter."
+msgstr "אמור היה להיות מפריד."
+
+#: src/Lexer.php:843
+#, php-format
+msgid "Ending quote %1$s was expected."
+msgstr "אמורות היו להיות מירכאות סוגרות %1$s."
+
+#: src/Lexer.php:884
+msgid "Variable name was expected."
+msgstr "אמור היה להיות שם משתנה."
+
+#: src/Parser.php:423
+msgid "Unexpected beginning of statement."
+msgstr "תחילת הביטוי אינו צפוי."
+
+#: src/Parser.php:442
+msgid "Unrecognized statement type."
+msgstr "סוג המשפט בלתי מזוהה."
+
+#: src/Parser.php:527
+msgid "No transaction was previously started."
+msgstr "לא החלה העברה בעבר."
+
+#: src/Statement.php:242 src/Statements/DeleteStatement.php:254
+#: src/Statements/DeleteStatement.php:306
+#: src/Statements/InsertStatement.php:226
+#: src/Statements/InsertStatement.php:246 src/Statements/LoadStatement.php:261
+#: src/Statements/LoadStatement.php:291 src/Statements/LoadStatement.php:310
+#: src/Statements/ReplaceStatement.php:190
+msgid "Unexpected token."
+msgstr "אסימון בלתי צפוי."
+
+#: src/Statement.php:306
+msgid "This type of clause was previously parsed."
+msgstr "סוג הסעיף הזה כבר נותח בעבר."
+
+#: src/Statement.php:366
+msgid "Unrecognized keyword."
+msgstr "מילת מפתח בלתי מזוהה."
+
+#: src/Statement.php:377
+msgid "Keyword at end of statement."
+msgstr "מילת מפתח בסוף משפט."
+
+#: src/Statement.php:503
+msgid "Unexpected ordering of clauses."
+msgstr "סידור הסעיפים בלתי צפוי."
+
+#: src/Statements/CreateStatement.php:375
+msgid "The name of the entity was expected."
+msgstr "אמור היה להיות שם היישות."
+
+#: src/Statements/CreateStatement.php:430
+msgid "A table name was expected."
+msgstr "אמור היה להיות שם טבלה."
+
+#: src/Statements/CreateStatement.php:438
+msgid "At least one column definition was expected."
+msgstr "אמורה הייתה להיות לפחות הגדרת עמודה אחת."
+
+#: src/Statements/CreateStatement.php:550
+msgid "A \"RETURNS\" keyword was expected."
+msgstr "אמורה הייתה להיות מילת מפתח „RETURNS” (מחזירה)."
+
+#: src/Statements/DeleteStatement.php:314
+msgid "This type of clause is not valid in Multi-table queries."
+msgstr "סוג סעיף זה אינו תקף בשאילתות מרובות טבלאות."
+
+#: tests/Lexer/LexerTest.php:19 tests/Parser/ParserTest.php:58
+msgid "error #1"
+msgstr "שגיאה #1"
+
+#: tests/Lexer/LexerTest.php:46 tests/Parser/ParserTest.php:80
+msgid "strict error"
+msgstr "שגיאת הקפדה"

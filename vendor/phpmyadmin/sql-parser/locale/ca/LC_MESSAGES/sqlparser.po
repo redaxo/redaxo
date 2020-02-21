@@ -1,0 +1,219 @@
+# Automatically generated <>, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: SQL parser 0\n"
+"Report-Msgid-Bugs-To: translators@phpmyadmin.net\n"
+"POT-Creation-Date: 2017-08-21 12:54+0200\n"
+"PO-Revision-Date: 2018-01-15 17:44+0000\n"
+"Last-Translator: Robert Antoni Buj Gelonch <robert.buj@gmail.com>\n"
+"Language-Team: Catalan <https://hosted.weblate.org/projects/phpmyadmin/sql-"
+"parser/ca/>\n"
+"Language: ca\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.19-dev\n"
+
+#: src/Component.php:43 src/Component.php:63
+msgid "Not implemented yet."
+msgstr "Encara no implementat."
+
+#: src/Components/AlterOperation.php:241 src/Statement.php:334
+msgid ""
+"A new statement was found, but no delimiter between it and the previous one."
+msgstr ""
+"S'ha trobat una sentència nova, però no hi ha cap delimitador entre aquesta "
+"i l'anterior."
+
+#: src/Components/AlterOperation.php:253
+msgid "Unrecognized alter operation."
+msgstr "Operació de modificació no reconeguda."
+
+#: src/Components/Array2d.php:88
+#, php-format
+msgid "%1$d values were expected, but found %2$d."
+msgstr "S'esperaven %1$d valors, però s'han trobat %2$d."
+
+#: src/Components/Array2d.php:111
+msgid "An opening bracket followed by a set of values was expected."
+msgstr "S'esperava un claudàtor d'obertura seguit per un conjunt de valors."
+
+#: src/Components/ArrayObj.php:114 src/Components/CreateDefinition.php:201
+msgid "An opening bracket was expected."
+msgstr "S'esperava un claudàtor d'obertura."
+
+#: src/Components/CaseExpression.php:135 src/Components/CaseExpression.php:164
+#: src/Components/CaseExpression.php:176 src/Components/CaseExpression.php:190
+#: src/Statements/DeleteStatement.php:227
+#: src/Statements/DeleteStatement.php:244
+#: src/Statements/DeleteStatement.php:292
+#: src/Statements/DeleteStatement.php:303
+#: src/Statements/DeleteStatement.php:333
+#: src/Statements/DeleteStatement.php:344
+#: src/Statements/InsertStatement.php:189
+#: src/Statements/InsertStatement.php:217 src/Statements/LoadStatement.php:258
+#: src/Statements/ReplaceStatement.php:155
+#: src/Statements/ReplaceStatement.php:182
+msgid "Unexpected keyword."
+msgstr "Paraula clau no esperada."
+
+#: src/Components/CaseExpression.php:199
+msgid "Unexpected end of CASE expression"
+msgstr "Final inesperat d'expressió CASE"
+
+#: src/Components/CreateDefinition.php:223
+msgid ""
+"A symbol name was expected! A reserved keyword can not be used as a column "
+"name without backquotes."
+msgstr ""
+"S'esperava un nom de símbol! No es pot utilitzar una paraula clau reservada "
+"com a nom de columna sense les cometes invertides."
+
+#: src/Components/CreateDefinition.php:237
+msgid "A symbol name was expected!"
+msgstr "S'esperava un nom de símbol!"
+
+#: src/Components/CreateDefinition.php:270
+msgid "A comma or a closing bracket was expected."
+msgstr "S'esperava una coma o un claudàtor de tancament."
+
+#: src/Components/CreateDefinition.php:286
+msgid "A closing bracket was expected."
+msgstr "S'esperava un claudàtor de tancament."
+
+#: src/Components/DataType.php:123
+msgid "Unrecognized data type."
+msgstr "Tipus de dades desconegut."
+
+#: src/Components/Expression.php:244 src/Components/Expression.php:394
+msgid "An alias was expected."
+msgstr "S'esperava un àlies."
+
+#: src/Components/Expression.php:332 src/Components/Expression.php:351
+#: src/Components/Expression.php:383
+msgid "An alias was previously found."
+msgstr "S'ha trobat un àlies anteriorment."
+
+#: src/Components/Expression.php:364
+msgid "Unexpected dot."
+msgstr "Punt inesperat."
+
+#: src/Components/ExpressionArray.php:102
+msgid "An expression was expected."
+msgstr "S'esperava una expressió."
+
+#: src/Components/Limit.php:86 src/Components/Limit.php:108
+msgid "An offset was expected."
+msgstr "S'esperava un desplaçament."
+
+#: src/Components/OptionsArray.php:143
+#, php-format
+msgid "This option conflicts with \"%1$s\"."
+msgstr "Aquesta opció està en conflicte amb \"%1$s\"."
+
+#: src/Components/RenameOperation.php:109
+msgid "The old name of the table was expected."
+msgstr "S'esperava el nom antic de la taula."
+
+#: src/Components/RenameOperation.php:119
+msgid "Keyword \"TO\" was expected."
+msgstr "S'esperava la paraula clau \"TO\"."
+
+#: src/Components/RenameOperation.php:135
+msgid "The new name of the table was expected."
+msgstr "S'esperava el nom nou de la taula."
+
+#: src/Components/RenameOperation.php:153
+msgid "A rename operation was expected."
+msgstr "S'esperava una operació de canvi de nom."
+
+#: src/Components/SetOperation.php:117
+msgid "Missing expression."
+msgstr "Expressió no trobada."
+
+#: src/Lexer.php:237
+msgid "Unexpected character."
+msgstr "Caràcter no esperat."
+
+#: src/Lexer.php:278
+msgid "Expected whitespace(s) before delimiter."
+msgstr "S'esperaven espais en blanc abans del delimitador."
+
+#: src/Lexer.php:296 src/Lexer.php:314
+msgid "Expected delimiter."
+msgstr "S'esperava un delimitador."
+
+#: src/Lexer.php:843
+#, php-format
+msgid "Ending quote %1$s was expected."
+msgstr "S'esperava una cometa de tancament %1$s."
+
+#: src/Lexer.php:884
+msgid "Variable name was expected."
+msgstr "S'esperava un nom de variable."
+
+#: src/Parser.php:423
+msgid "Unexpected beginning of statement."
+msgstr "Començament no esperat de sentència."
+
+#: src/Parser.php:442
+msgid "Unrecognized statement type."
+msgstr "Tipus de sentència no reconegut."
+
+#: src/Parser.php:527
+msgid "No transaction was previously started."
+msgstr "No s'ha iniciat cap transacció anteriorment."
+
+#: src/Statement.php:242 src/Statements/DeleteStatement.php:254
+#: src/Statements/DeleteStatement.php:306
+#: src/Statements/InsertStatement.php:226
+#: src/Statements/InsertStatement.php:246 src/Statements/LoadStatement.php:261
+#: src/Statements/LoadStatement.php:291 src/Statements/LoadStatement.php:310
+#: src/Statements/ReplaceStatement.php:190
+msgid "Unexpected token."
+msgstr "Testimoni no esperat."
+
+#: src/Statement.php:306
+msgid "This type of clause was previously parsed."
+msgstr "Aquest tipus de clàusula s'ha analitzat anteriorment."
+
+#: src/Statement.php:366
+msgid "Unrecognized keyword."
+msgstr "Paraula clau no reconeguda."
+
+#: src/Statement.php:377
+msgid "Keyword at end of statement."
+msgstr "Paraula clau al final de la sentència."
+
+#: src/Statement.php:503
+msgid "Unexpected ordering of clauses."
+msgstr "Ordre de condicions no esperat."
+
+#: src/Statements/CreateStatement.php:375
+msgid "The name of the entity was expected."
+msgstr "S'esperava el nom de l'entitat."
+
+#: src/Statements/CreateStatement.php:430
+msgid "A table name was expected."
+msgstr "S'esperava un nom de taula."
+
+#: src/Statements/CreateStatement.php:438
+msgid "At least one column definition was expected."
+msgstr "S'esperava al menys la definició d'una columna."
+
+#: src/Statements/CreateStatement.php:550
+msgid "A \"RETURNS\" keyword was expected."
+msgstr "S'esperava una paraula clau \"RETURNS\"."
+
+#: src/Statements/DeleteStatement.php:314
+msgid "This type of clause is not valid in Multi-table queries."
+msgstr "Aquest tipus de clàusula no és vàlid en consultes de diverses taules."
+
+#: tests/Lexer/LexerTest.php:19 tests/Parser/ParserTest.php:58
+msgid "error #1"
+msgstr "error #1"
+
+#: tests/Lexer/LexerTest.php:46 tests/Parser/ParserTest.php:80
+msgid "strict error"
+msgstr "Error estricte"

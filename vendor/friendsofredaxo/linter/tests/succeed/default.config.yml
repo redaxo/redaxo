@@ -1,0 +1,83 @@
+setup: true
+debug:
+    enabled: false
+    throw_always_exception: false # `true` for all error levels, `[E_WARNING, E_NOTICE]` for subset
+instname: null
+server: https://www.redaxo.org/
+servername: REDAXO
+error_email: null
+fileperm: '0664'
+dirperm: '0775'
+session_duration: 7200
+session_keep_alive: 21600
+# using separate cookie domains for frontend and backend is more secure,
+# but be warned that some features like detecting a backend user in the frontend
+# will no longer work.
+session:
+    backend:
+        cookie:
+            lifetime: null
+            path: null
+            domain: null
+            secure: null
+            httponly: true
+            samesite: 'Strict'
+    frontend:
+        cookie:
+            lifetime: null
+            path: null
+            domain: null
+            secure: null
+            httponly: true
+            samesite: 'Strict'
+password_policy:
+    length: {min: 8, max: 4096}
+    lowercase: {min: 0}
+    uppercase: {min: 0}
+    digit: {min: 0}
+lang: de_de
+lang_fallback: [en_gb, de_de]
+use_https: false
+use_hsts: false
+use_gzip: true
+use_etag: true
+use_last_modified: false
+start_page: structure
+timezone: Europe/Berlin
+socket_proxy: null
+setup_addons:
+    - backup
+    - be_style
+system_addons:
+    - backup
+    - mediapool
+    - structure
+    - metainfo
+    - be_style
+    - media_manager
+    - users
+    - install
+    - project
+table_prefix: rex_
+temp_prefix: tmp_
+db:
+    1:
+        host: localhost
+        login: root
+        password: ''
+        name: redaxo_5_0
+        persistent: false
+    2:
+        host: ''
+        login: ''
+        password: ''
+        name: ''
+        persistent: false
+use_accesskeys: true
+accesskeys:
+    save: s
+    apply: x
+    delete: d
+    add: a
+    add_2: y
+editor: null

@@ -1,0 +1,26 @@
+{
+    "main": "bin/yaml-lint",
+    "files": [
+        "LICENSE",
+        "src/yaml-lint.php",
+        "src/UsageException.php",
+        "vendor/autoload.php",
+        "vendor/composer/installed.json"
+    ],
+    "finder": [
+        {
+            "name": [
+                "*.php"
+            ],
+            "in": [
+                "vendor/composer",
+                "vendor/symfony"
+            ]
+        }
+    ],
+    "output": "build/yaml-lint.phar",
+    "chmod": "0755",
+    "compression": "GZ",
+    "extract": false,
+    "stub": true
+}

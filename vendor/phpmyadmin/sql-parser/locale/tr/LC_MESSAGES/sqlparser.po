@@ -1,0 +1,218 @@
+# Automatically generated <>, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: SQL parser 0\n"
+"Report-Msgid-Bugs-To: translators@phpmyadmin.net\n"
+"POT-Creation-Date: 2017-08-21 12:54+0200\n"
+"PO-Revision-Date: 2017-08-21 11:22+0000\n"
+"Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
+"Language-Team: Turkish <https://hosted.weblate.org/projects/phpmyadmin/sql-"
+"parser/tr/>\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 2.17-dev\n"
+
+#: src/Component.php:43 src/Component.php:63
+msgid "Not implemented yet."
+msgstr "Henüz uygulanmadı."
+
+#: src/Components/AlterOperation.php:241 src/Statement.php:334
+msgid ""
+"A new statement was found, but no delimiter between it and the previous one."
+msgstr ""
+"Yeni bir ifade bulundu, ancak bu ve önceki arasında hiç sınırlayıcı yok."
+
+#: src/Components/AlterOperation.php:253
+msgid "Unrecognized alter operation."
+msgstr "Kategorilenmemiş değiştirme işlemi."
+
+#: src/Components/Array2d.php:88
+#, php-format
+msgid "%1$d values were expected, but found %2$d."
+msgstr "%1$d değer beklenmekte, ancak %2$d bulundu."
+
+#: src/Components/Array2d.php:111
+msgid "An opening bracket followed by a set of values was expected."
+msgstr "Açık bir köşeli parantez ardından bir grup değer beklenmekte."
+
+#: src/Components/ArrayObj.php:114 src/Components/CreateDefinition.php:201
+msgid "An opening bracket was expected."
+msgstr "Açık bir köşeli parantez beklenmekte."
+
+#: src/Components/CaseExpression.php:135 src/Components/CaseExpression.php:164
+#: src/Components/CaseExpression.php:176 src/Components/CaseExpression.php:190
+#: src/Statements/DeleteStatement.php:227
+#: src/Statements/DeleteStatement.php:244
+#: src/Statements/DeleteStatement.php:292
+#: src/Statements/DeleteStatement.php:303
+#: src/Statements/DeleteStatement.php:333
+#: src/Statements/DeleteStatement.php:344
+#: src/Statements/InsertStatement.php:189
+#: src/Statements/InsertStatement.php:217 src/Statements/LoadStatement.php:258
+#: src/Statements/ReplaceStatement.php:155
+#: src/Statements/ReplaceStatement.php:182
+msgid "Unexpected keyword."
+msgstr "Beklenmedik anahtar kelime."
+
+#: src/Components/CaseExpression.php:199
+msgid "Unexpected end of CASE expression"
+msgstr "Beklenmedik Büyük/Küçük harf ifadesi sonu"
+
+#: src/Components/CreateDefinition.php:223
+msgid ""
+"A symbol name was expected! A reserved keyword can not be used as a column "
+"name without backquotes."
+msgstr ""
+"Bir sembol adı beklenmekte! Ayrılmış bir anahtar kelime ters eğik tırnakları "
+"olmadan bir sütun adı olarak kullanılamaz."
+
+#: src/Components/CreateDefinition.php:237
+msgid "A symbol name was expected!"
+msgstr "Bir sembol adı beklenmekte!"
+
+#: src/Components/CreateDefinition.php:270
+msgid "A comma or a closing bracket was expected."
+msgstr "Bir virgül ya da kapalı bir köşeli parantez beklenmekte."
+
+#: src/Components/CreateDefinition.php:286
+msgid "A closing bracket was expected."
+msgstr "Kapalı bir köşeli parantez beklenmekte."
+
+#: src/Components/DataType.php:123
+msgid "Unrecognized data type."
+msgstr "Tanınmayan veri türü."
+
+#: src/Components/Expression.php:244 src/Components/Expression.php:394
+msgid "An alias was expected."
+msgstr "Bir kodadı beklenmekte."
+
+#: src/Components/Expression.php:332 src/Components/Expression.php:351
+#: src/Components/Expression.php:383
+msgid "An alias was previously found."
+msgstr "Bir kodadı daha önce bulundu."
+
+#: src/Components/Expression.php:364
+msgid "Unexpected dot."
+msgstr "Beklenmedik nokta."
+
+#: src/Components/ExpressionArray.php:102
+msgid "An expression was expected."
+msgstr "Bir ifade beklenmekte."
+
+#: src/Components/Limit.php:86 src/Components/Limit.php:108
+msgid "An offset was expected."
+msgstr "Bir karşılık beklenmekte."
+
+#: src/Components/OptionsArray.php:143
+#, php-format
+msgid "This option conflicts with \"%1$s\"."
+msgstr "Bu seçenek \"%1$s\" ile çakışıyor."
+
+#: src/Components/RenameOperation.php:109
+msgid "The old name of the table was expected."
+msgstr "Tablonun eski adı beklenmekte."
+
+#: src/Components/RenameOperation.php:119
+msgid "Keyword \"TO\" was expected."
+msgstr "\"TO\" anahtar kelimesi beklenmekte."
+
+#: src/Components/RenameOperation.php:135
+msgid "The new name of the table was expected."
+msgstr "Tablonun yeni adı beklenmekte."
+
+#: src/Components/RenameOperation.php:153
+msgid "A rename operation was expected."
+msgstr "Yeniden adlandırma işlemi beklenmekte."
+
+#: src/Components/SetOperation.php:117
+msgid "Missing expression."
+msgstr "Eksik ifade."
+
+#: src/Lexer.php:237
+msgid "Unexpected character."
+msgstr "Beklenmedik karakter."
+
+#: src/Lexer.php:278
+msgid "Expected whitespace(s) before delimiter."
+msgstr "Sınırlayıcıdan önce beklenen boşluk(lar)."
+
+#: src/Lexer.php:296 src/Lexer.php:314
+msgid "Expected delimiter."
+msgstr "Beklenen sınırlayıcı."
+
+#: src/Lexer.php:843
+#, php-format
+msgid "Ending quote %1$s was expected."
+msgstr "Sonlandırma tırnak işareti %1$s beklenmekte."
+
+#: src/Lexer.php:884
+msgid "Variable name was expected."
+msgstr "Değişken adı beklenmekte."
+
+#: src/Parser.php:423
+msgid "Unexpected beginning of statement."
+msgstr "Beklenmedik ifade başlangıcı."
+
+#: src/Parser.php:442
+msgid "Unrecognized statement type."
+msgstr "Tanınmayan ifade türü."
+
+#: src/Parser.php:527
+msgid "No transaction was previously started."
+msgstr "Daha önce hiç işlem başlatılmadı."
+
+#: src/Statement.php:242 src/Statements/DeleteStatement.php:254
+#: src/Statements/DeleteStatement.php:306
+#: src/Statements/InsertStatement.php:226
+#: src/Statements/InsertStatement.php:246 src/Statements/LoadStatement.php:261
+#: src/Statements/LoadStatement.php:291 src/Statements/LoadStatement.php:310
+#: src/Statements/ReplaceStatement.php:190
+msgid "Unexpected token."
+msgstr "Beklenmedik belirteç."
+
+#: src/Statement.php:306
+msgid "This type of clause was previously parsed."
+msgstr "Bu tür yan tümce daha önce ayrıştırıldı."
+
+#: src/Statement.php:366
+msgid "Unrecognized keyword."
+msgstr "Tanınmayan anahtar kelime."
+
+#: src/Statement.php:377
+msgid "Keyword at end of statement."
+msgstr "İfade sonundaki anahtar kelime."
+
+#: src/Statement.php:503
+msgid "Unexpected ordering of clauses."
+msgstr "Beklenmedik yan tümce sıralaması."
+
+#: src/Statements/CreateStatement.php:375
+msgid "The name of the entity was expected."
+msgstr "Varlığın adı beklenmekte."
+
+#: src/Statements/CreateStatement.php:430
+msgid "A table name was expected."
+msgstr "Tablo adı beklenmekte."
+
+#: src/Statements/CreateStatement.php:438
+msgid "At least one column definition was expected."
+msgstr "En az bir sütun tanımı beklenmekte."
+
+#: src/Statements/CreateStatement.php:550
+msgid "A \"RETURNS\" keyword was expected."
+msgstr "\"RETURNS\" anahtar kelimesi beklenmekte."
+
+#: src/Statements/DeleteStatement.php:314
+msgid "This type of clause is not valid in Multi-table queries."
+msgstr "Bu tür yan tümce Çoklu tablo sorgularında geçerli değil."
+
+#: tests/Lexer/LexerTest.php:19 tests/Parser/ParserTest.php:58
+msgid "error #1"
+msgstr "hata #1"
+
+#: tests/Lexer/LexerTest.php:46 tests/Parser/ParserTest.php:80
+msgid "strict error"
+msgstr "kesin hata"

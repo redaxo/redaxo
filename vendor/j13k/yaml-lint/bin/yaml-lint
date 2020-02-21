@@ -1,0 +1,13 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * yaml-lint, a compact command line utility for checking YAML file syntax.
+ *
+ * Uses the parsing facility of the Symfony Yaml Component.
+ *
+ * For full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+require __DIR__ . '/../src/yaml-lint.php';

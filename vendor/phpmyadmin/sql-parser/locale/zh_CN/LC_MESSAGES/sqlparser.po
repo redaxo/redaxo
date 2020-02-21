@@ -1,0 +1,215 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: SQL parser 0\n"
+"Report-Msgid-Bugs-To: translators@phpmyadmin.net\n"
+"POT-Creation-Date: 2017-08-21 12:54+0200\n"
+"PO-Revision-Date: 2018-08-02 07:35+0000\n"
+"Last-Translator: popcorner <memoword@163.com>\n"
+"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
+"phpmyadmin/sql-parser/zh_Hans/>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 3.1.1\n"
+
+#: src/Component.php:43 src/Component.php:63
+msgid "Not implemented yet."
+msgstr "还未实现."
+
+#: src/Components/AlterOperation.php:241 src/Statement.php:334
+msgid ""
+"A new statement was found, but no delimiter between it and the previous one."
+msgstr "发现了一个新的声明，但它与前一声明之间没有分隔符。"
+
+#: src/Components/AlterOperation.php:253
+msgid "Unrecognized alter operation."
+msgstr "无法识别的变更（alter）操作。"
+
+#: src/Components/Array2d.php:88
+#, php-format
+msgid "%1$d values were expected, but found %2$d."
+msgstr "应有%1$d个值，但查找到了%2$d个。"
+
+#: src/Components/Array2d.php:111
+msgid "An opening bracket followed by a set of values was expected."
+msgstr "应该有一个开头括号后面跟着一组值。"
+
+#: src/Components/ArrayObj.php:114 src/Components/CreateDefinition.php:201
+msgid "An opening bracket was expected."
+msgstr "应该有一个左括号。"
+
+#: src/Components/CaseExpression.php:135 src/Components/CaseExpression.php:164
+#: src/Components/CaseExpression.php:176 src/Components/CaseExpression.php:190
+#: src/Statements/DeleteStatement.php:227
+#: src/Statements/DeleteStatement.php:244
+#: src/Statements/DeleteStatement.php:292
+#: src/Statements/DeleteStatement.php:303
+#: src/Statements/DeleteStatement.php:333
+#: src/Statements/DeleteStatement.php:344
+#: src/Statements/InsertStatement.php:189
+#: src/Statements/InsertStatement.php:217 src/Statements/LoadStatement.php:258
+#: src/Statements/ReplaceStatement.php:155
+#: src/Statements/ReplaceStatement.php:182
+msgid "Unexpected keyword."
+msgstr "不应出现的关键词。"
+
+#: src/Components/CaseExpression.php:199
+msgid "Unexpected end of CASE expression"
+msgstr "CASE表达式意外结束"
+
+#: src/Components/CreateDefinition.php:223
+msgid ""
+"A symbol name was expected! A reserved keyword can not be used as a column "
+"name without backquotes."
+msgstr "应该有一个符号名称！保留的关键字不能用作没有反引号的列名。"
+
+#: src/Components/CreateDefinition.php:237
+msgid "A symbol name was expected!"
+msgstr "应该有一个符号名称！"
+
+#: src/Components/CreateDefinition.php:270
+msgid "A comma or a closing bracket was expected."
+msgstr "应该是有逗号或结束括号。"
+
+#: src/Components/CreateDefinition.php:286
+msgid "A closing bracket was expected."
+msgstr "应有一个右括号。"
+
+#: src/Components/DataType.php:123
+msgid "Unrecognized data type."
+msgstr "无法识别的数据类型。"
+
+#: src/Components/Expression.php:244 src/Components/Expression.php:394
+msgid "An alias was expected."
+msgstr "应该有一个别名。"
+
+#: src/Components/Expression.php:332 src/Components/Expression.php:351
+#: src/Components/Expression.php:383
+msgid "An alias was previously found."
+msgstr "之前发现了一个别名。"
+
+#: src/Components/Expression.php:364
+msgid "Unexpected dot."
+msgstr "不应出现的点。"
+
+#: src/Components/ExpressionArray.php:102
+msgid "An expression was expected."
+msgstr "应该为一个表达式。"
+
+#: src/Components/Limit.php:86 src/Components/Limit.php:108
+msgid "An offset was expected."
+msgstr "应该为一个偏移。"
+
+#: src/Components/OptionsArray.php:143
+#, php-format
+msgid "This option conflicts with \"%1$s\"."
+msgstr "此选项与“%1$s”冲突。"
+
+#: src/Components/RenameOperation.php:109
+msgid "The old name of the table was expected."
+msgstr "需要有表的旧名称。"
+
+#: src/Components/RenameOperation.php:119
+msgid "Keyword \"TO\" was expected."
+msgstr "应为关键词“TO”。"
+
+#: src/Components/RenameOperation.php:135
+msgid "The new name of the table was expected."
+msgstr "应有表的新名称。"
+
+#: src/Components/RenameOperation.php:153
+msgid "A rename operation was expected."
+msgstr "应进行重命名操作。"
+
+#: src/Components/SetOperation.php:117
+msgid "Missing expression."
+msgstr "缺少正则表达式。"
+
+#: src/Lexer.php:237
+msgid "Unexpected character."
+msgstr "缺少字符。"
+
+#: src/Lexer.php:278
+msgid "Expected whitespace(s) before delimiter."
+msgstr "分隔符之前应有空格。"
+
+#: src/Lexer.php:296 src/Lexer.php:314
+msgid "Expected delimiter."
+msgstr "应有分隔符。"
+
+#: src/Lexer.php:843
+#, php-format
+msgid "Ending quote %1$s was expected."
+msgstr "应有结束引号 %1$s。"
+
+#: src/Lexer.php:884
+msgid "Variable name was expected."
+msgstr "应有变量名。"
+
+#: src/Parser.php:423
+msgid "Unexpected beginning of statement."
+msgstr "不应出现的开始声明。"
+
+#: src/Parser.php:442
+msgid "Unrecognized statement type."
+msgstr "无法识别的声明形式。"
+
+#: src/Parser.php:527
+msgid "No transaction was previously started."
+msgstr "之前没有开始任何事务。"
+
+#: src/Statement.php:242 src/Statements/DeleteStatement.php:254
+#: src/Statements/DeleteStatement.php:306
+#: src/Statements/InsertStatement.php:226
+#: src/Statements/InsertStatement.php:246 src/Statements/LoadStatement.php:261
+#: src/Statements/LoadStatement.php:291 src/Statements/LoadStatement.php:310
+#: src/Statements/ReplaceStatement.php:190
+msgid "Unexpected token."
+msgstr "意外的标记."
+
+#: src/Statement.php:306
+msgid "This type of clause was previously parsed."
+msgstr "之前已解析此类型的子句。"
+
+#: src/Statement.php:366
+msgid "Unrecognized keyword."
+msgstr "不能识别的关键词。"
+
+#: src/Statement.php:377
+msgid "Keyword at end of statement."
+msgstr "声明结尾处的关键字。"
+
+#: src/Statement.php:503
+msgid "Unexpected ordering of clauses."
+msgstr "错误的语句顺序。"
+
+#: src/Statements/CreateStatement.php:375
+msgid "The name of the entity was expected."
+msgstr "应有该实体的名称。"
+
+#: src/Statements/CreateStatement.php:430
+msgid "A table name was expected."
+msgstr "应有表名。"
+
+#: src/Statements/CreateStatement.php:438
+msgid "At least one column definition was expected."
+msgstr "至少应有一个字段定义。"
+
+#: src/Statements/CreateStatement.php:550
+msgid "A \"RETURNS\" keyword was expected."
+msgstr "应有“RETURNS”关键字。"
+
+#: src/Statements/DeleteStatement.php:314
+msgid "This type of clause is not valid in Multi-table queries."
+msgstr "此类型的子句在多表查询中无效。"
+
+#: tests/Lexer/LexerTest.php:19 tests/Parser/ParserTest.php:58
+msgid "error #1"
+msgstr "错误 #1"
+
+#: tests/Lexer/LexerTest.php:46 tests/Parser/ParserTest.php:80
+msgid "strict error"
+msgstr "严格错误"

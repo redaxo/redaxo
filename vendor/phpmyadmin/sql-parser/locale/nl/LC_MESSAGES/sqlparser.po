@@ -1,0 +1,219 @@
+# Automatically generated <>, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: SQL parser 0\n"
+"Report-Msgid-Bugs-To: translators@phpmyadmin.net\n"
+"POT-Creation-Date: 2017-08-21 12:54+0200\n"
+"PO-Revision-Date: 2017-09-05 10:46+0000\n"
+"Last-Translator: Steven WdV <stevenwdv@gmail.com>\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/phpmyadmin/sql-"
+"parser/nl/>\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.17-dev\n"
+
+#: src/Component.php:43 src/Component.php:63
+msgid "Not implemented yet."
+msgstr "Nog niet geïmplementeerd."
+
+#: src/Components/AlterOperation.php:241 src/Statement.php:334
+msgid ""
+"A new statement was found, but no delimiter between it and the previous one."
+msgstr ""
+"Een nieuwe opdracht werd gevonden, maar zonder scheidingsteken tussen deze "
+"en de vorige opdracht."
+
+#: src/Components/AlterOperation.php:253
+msgid "Unrecognized alter operation."
+msgstr "Onbekende bewerking."
+
+#: src/Components/Array2d.php:88
+#, php-format
+msgid "%1$d values were expected, but found %2$d."
+msgstr "%1$d waarden werden verwacht, maar %2$d gevonden."
+
+#: src/Components/Array2d.php:111
+msgid "An opening bracket followed by a set of values was expected."
+msgstr "Een openingshaakje gevolgd door een set met waardes werd verwacht."
+
+#: src/Components/ArrayObj.php:114 src/Components/CreateDefinition.php:201
+msgid "An opening bracket was expected."
+msgstr "Een openingshaakje werd verwacht."
+
+#: src/Components/CaseExpression.php:135 src/Components/CaseExpression.php:164
+#: src/Components/CaseExpression.php:176 src/Components/CaseExpression.php:190
+#: src/Statements/DeleteStatement.php:227
+#: src/Statements/DeleteStatement.php:244
+#: src/Statements/DeleteStatement.php:292
+#: src/Statements/DeleteStatement.php:303
+#: src/Statements/DeleteStatement.php:333
+#: src/Statements/DeleteStatement.php:344
+#: src/Statements/InsertStatement.php:189
+#: src/Statements/InsertStatement.php:217 src/Statements/LoadStatement.php:258
+#: src/Statements/ReplaceStatement.php:155
+#: src/Statements/ReplaceStatement.php:182
+msgid "Unexpected keyword."
+msgstr "Onverwacht sleutelwoord."
+
+#: src/Components/CaseExpression.php:199
+msgid "Unexpected end of CASE expression"
+msgstr "Onverwacht einde van CASE expressie"
+
+#: src/Components/CreateDefinition.php:223
+msgid ""
+"A symbol name was expected! A reserved keyword can not be used as a column "
+"name without backquotes."
+msgstr ""
+"Een symbool naam werd verwacht! Een gereserveerd sleutelwoord kan niet als "
+"kolomnaam gebruikt worden zonder achterwaartse aanhalingstekens."
+
+#: src/Components/CreateDefinition.php:237
+msgid "A symbol name was expected!"
+msgstr "Een symbool naam werd verwacht!"
+
+#: src/Components/CreateDefinition.php:270
+msgid "A comma or a closing bracket was expected."
+msgstr "Een komma of een sluitingshaakje werd verwacht."
+
+#: src/Components/CreateDefinition.php:286
+msgid "A closing bracket was expected."
+msgstr "Een sluitingshaakje werd verwacht."
+
+#: src/Components/DataType.php:123
+msgid "Unrecognized data type."
+msgstr "Onbekend gegevenstype."
+
+#: src/Components/Expression.php:244 src/Components/Expression.php:394
+msgid "An alias was expected."
+msgstr "Een alias werd verwacht."
+
+#: src/Components/Expression.php:332 src/Components/Expression.php:351
+#: src/Components/Expression.php:383
+msgid "An alias was previously found."
+msgstr "Een alias was eerder al gevonden."
+
+#: src/Components/Expression.php:364
+msgid "Unexpected dot."
+msgstr "Onverwachte punt."
+
+#: src/Components/ExpressionArray.php:102
+msgid "An expression was expected."
+msgstr "Een expressie werd verwacht."
+
+#: src/Components/Limit.php:86 src/Components/Limit.php:108
+msgid "An offset was expected."
+msgstr "Een offset werd verwacht."
+
+#: src/Components/OptionsArray.php:143
+#, php-format
+msgid "This option conflicts with \"%1$s\"."
+msgstr "Deze optie conflicteert met \"%1$s\"."
+
+#: src/Components/RenameOperation.php:109
+msgid "The old name of the table was expected."
+msgstr "De oude naam van de tabel werd verwacht."
+
+#: src/Components/RenameOperation.php:119
+msgid "Keyword \"TO\" was expected."
+msgstr "Sleutelwoord \"TO\" werd verwacht."
+
+#: src/Components/RenameOperation.php:135
+msgid "The new name of the table was expected."
+msgstr "De nieuwe naam van de tabel werd verwacht."
+
+#: src/Components/RenameOperation.php:153
+msgid "A rename operation was expected."
+msgstr "Een hernoem bewerking werd verwacht."
+
+#: src/Components/SetOperation.php:117
+msgid "Missing expression."
+msgstr "Expressie ontbreekt."
+
+#: src/Lexer.php:237
+msgid "Unexpected character."
+msgstr "Onverwachte letter."
+
+#: src/Lexer.php:278
+msgid "Expected whitespace(s) before delimiter."
+msgstr "Spatie(s) werd(en) verwacht voor het scheidingsteken."
+
+#: src/Lexer.php:296 src/Lexer.php:314
+msgid "Expected delimiter."
+msgstr "Scheidingsteken verwacht."
+
+#: src/Lexer.php:843
+#, php-format
+msgid "Ending quote %1$s was expected."
+msgstr "Eindquote %1$s werd verwacht."
+
+#: src/Lexer.php:884
+msgid "Variable name was expected."
+msgstr "Naam van variabele  werd verwacht."
+
+#: src/Parser.php:423
+msgid "Unexpected beginning of statement."
+msgstr "Onverwacht begin van opdracht."
+
+#: src/Parser.php:442
+msgid "Unrecognized statement type."
+msgstr "Opdrachttype niet herkend."
+
+#: src/Parser.php:527
+msgid "No transaction was previously started."
+msgstr "Er is geen transactie gestart."
+
+#: src/Statement.php:242 src/Statements/DeleteStatement.php:254
+#: src/Statements/DeleteStatement.php:306
+#: src/Statements/InsertStatement.php:226
+#: src/Statements/InsertStatement.php:246 src/Statements/LoadStatement.php:261
+#: src/Statements/LoadStatement.php:291 src/Statements/LoadStatement.php:310
+#: src/Statements/ReplaceStatement.php:190
+msgid "Unexpected token."
+msgstr "Onverwacht token."
+
+#: src/Statement.php:306
+msgid "This type of clause was previously parsed."
+msgstr "Dit type van voorwaarde is eerder uitgevoerd."
+
+#: src/Statement.php:366
+msgid "Unrecognized keyword."
+msgstr "Sleutelwoord niet herkend."
+
+#: src/Statement.php:377
+msgid "Keyword at end of statement."
+msgstr "Sleutelwoord aan eind van opdracht."
+
+#: src/Statement.php:503
+msgid "Unexpected ordering of clauses."
+msgstr "Onverwachte volgorde van voorwaarden."
+
+#: src/Statements/CreateStatement.php:375
+msgid "The name of the entity was expected."
+msgstr "De naam van de entiteit werd verwacht."
+
+#: src/Statements/CreateStatement.php:430
+msgid "A table name was expected."
+msgstr "Een tabel naam  werd verwacht."
+
+#: src/Statements/CreateStatement.php:438
+msgid "At least one column definition was expected."
+msgstr "Er werd minimaal één kolomdefinitie verwacht."
+
+#: src/Statements/CreateStatement.php:550
+msgid "A \"RETURNS\" keyword was expected."
+msgstr "Een \"RETURNS\" sleutelwoord werd verwacht."
+
+#: src/Statements/DeleteStatement.php:314
+msgid "This type of clause is not valid in Multi-table queries."
+msgstr "Dit type van voorwaarde is niet bruikbaar in multi-tabel queries."
+
+#: tests/Lexer/LexerTest.php:19 tests/Parser/ParserTest.php:58
+msgid "error #1"
+msgstr "fout #1"
+
+#: tests/Lexer/LexerTest.php:46 tests/Parser/ParserTest.php:80
+msgid "strict error"
+msgstr "strikte fout"
