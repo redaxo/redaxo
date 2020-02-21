@@ -163,7 +163,7 @@ class rex_effect_convert2img extends rex_effect_abstract
             $out = [];
             $cmd = 'command -v convert || which convert';
             exec($cmd, $out, $ret);
-            
+
             if (0 === $ret) {
                 $path = $out[0];
             }
