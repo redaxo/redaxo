@@ -331,7 +331,7 @@ class rex_response
      */
     public static function sendJson($data, ?int $lastModified = null, ?string $etag = null)
     {
-        return self::sendContent(json_encode($data), 'application/json', $lastModified, $etag);
+        self::sendContent(json_encode($data), 'application/json', $lastModified, $etag);
     }
 
     /**
