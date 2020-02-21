@@ -270,9 +270,9 @@ class rex_response
      * Sends content to the client.
      *
      * @param string $content      Content
-     * @param string $contentType  Content type
-     * @param int    $lastModified HTTP Last-Modified Timestamp
-     * @param string $etag         HTTP Cachekey to identify the cache
+     * @param string|null $contentType  Content type
+     * @param int|null    $lastModified HTTP Last-Modified Timestamp
+     * @param string|null $etag         HTTP Cachekey to identify the cache
      */
     public static function sendContent($content, $contentType = null, $lastModified = null, $etag = null)
     {
@@ -322,6 +322,16 @@ class rex_response
         if (function_exists('fastcgi_finish_request')) {
             fastcgi_finish_request();
         }
+    }
+
+    /**
+     * @param mixed  $data         data to be json encoded and sent
+     * @param int    $lastModified HTTP Last-Modified Timestamp
+     * @param string $etag         HTTP Cachekey to identify the cache
+     */
+    public static function sendJson($data, ?int $lastModified = null, ?string $etag = null)
+    {
+        self::sendContent(json_encode($data), 'application/json', $lastModified, $etag);
     }
 
     /**
