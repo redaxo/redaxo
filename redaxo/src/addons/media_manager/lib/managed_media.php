@@ -91,11 +91,9 @@ class rex_managed_media
         $format = $this->format;
 
         // if mimetype detected and in imagemap -> change format
-        if (class_exists('finfo') && $finfo = new finfo(FILEINFO_MIME_TYPE)) {
-            if ($ftype = @$finfo->file($this->getSourcePath())) {
-                if (array_key_exists($ftype, $this->mimetypeMap)) {
-                    $format = $this->mimetypeMap[$ftype];
-                }
+        if ($ftype = rex_file::mimeType($this->getSourcePath())) {
+            if (array_key_exists($ftype, $this->mimetypeMap)) {
+                $format = $this->mimetypeMap[$ftype];
             }
         }
 
@@ -368,28 +366,10 @@ class rex_managed_media
         }
 
         $header = $this->getHeader();
-        if (!isset($header['Content-Type'])) {
-            $content_type = '';
+        if (!isset($header['Content-Type']) && $this->sourcePath) {
+            $content_type = rex_file::mimeType($this->sourcePath);
 
-            if (!$content_type && function_exists('mime_content_type')) {
-                $content_type = mime_content_type($this->getSourcePath());
-            }
-
-            if (!$content_type && function_exists('finfo_open')) {
-                $finfo = finfo_open(FILEINFO_MIME_TYPE);
-                $content_type = finfo_file($finfo, $this->getSourcePath());
-            }
-
-            // In case mime_content_type() returns 'text/plain' for CSS / JS files:
-            if ('text/plain' == $content_type) {
-                if ('css' == pathinfo($this->getSourcePath(), PATHINFO_EXTENSION)) {
-                    $content_type = 'text/css';
-                } elseif ('js' == pathinfo($this->getSourcePath(), PATHINFO_EXTENSION)) {
-                    $content_type = 'application/javascript';
-                }
-            }
-
-            if ('' != $content_type) {
+            if ($content_type) {
                 $this->setHeader('Content-Type', $content_type);
             }
         }
