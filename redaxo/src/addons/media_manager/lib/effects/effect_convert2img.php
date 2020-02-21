@@ -45,6 +45,7 @@ class rex_effect_convert2img extends rex_effect_abstract
         }
 
         $density = (int) $this->params['density'];
+        $color = $this->params['color'];
 
         if (!in_array($density, self::$densities)) {
             $density = self::$density_default;
@@ -60,9 +61,13 @@ class rex_effect_convert2img extends rex_effect_abstract
         if (!in_array(strtolower($ext), self::$convert_types)) {
             return;
         }
-
         if (class_exists(Imagick::class)) {
             $imagick = new Imagick();
+            if ('' != $color) {
+                $imagick->setImageBackgroundColor($color);
+                $imagick = $imagick->flattenImages();
+            }
+
             $imagick->readImage($from_path.'[0]');
             $imagick->setResolution($density, $density);
             $imagick->setImageColorspace(Imagick::COLORSPACE_RGB);
@@ -89,8 +94,9 @@ class rex_effect_convert2img extends rex_effect_abstract
 
         $to_path = rex_path::addonCache('media_manager', 'media_manager__convert2img_' . md5($this->media->getMediaPath()) . '_' . $filename_wo_ext . $convert_to['ext']);
 
-        $cmd = $convert_path . ' -density '.$density.' "' . $from_path . '[0]" -colorspace RGB "' . $to_path . '"';
+        $add_color = ('' != $color) ? ' -background "' . $color  . '" -flatten' : '';
 
+        $cmd = $convert_path . ' -density '.$density.' "' . $from_path . '[0]"  ' . $add_color . ' -colorspace RGB "' . $to_path . '"';
         exec($cmd, $out, $ret);
 
         if (0 != $ret) {
@@ -140,6 +146,12 @@ class rex_effect_convert2img extends rex_effect_abstract
                 'default' => self::$density_default,
                 'notice' => rex_i18n::msg('media_manager_effect_convert2img_density_notice'),
             ],
+            [
+                'label' => rex_i18n::msg('media_manager_effect_convert2img_color'),
+                'name' => 'color',
+                'type' => 'int',
+                'notice' => rex_i18n::msg('media_manager_effect_convert2img_color_notice'),
+            ],
         ];
     }
 
@@ -151,7 +163,7 @@ class rex_effect_convert2img extends rex_effect_abstract
             $out = [];
             $cmd = 'command -v convert || which convert';
             exec($cmd, $out, $ret);
-
+            
             if (0 === $ret) {
                 $path = $out[0];
             }
