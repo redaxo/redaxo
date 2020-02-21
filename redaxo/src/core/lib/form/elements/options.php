@@ -49,7 +49,7 @@ abstract class rex_form_options_element extends rex_form_element
 
     /**
      * @param string[]|int[] $options
-     * @param bool           $use_keys
+     * @param bool           $useKeys
      */
     public function addArrayOptions(array $options, $useKeys = true)
     {
