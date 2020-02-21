@@ -382,6 +382,7 @@ credits_inventor = Erfinder
 credits_developer = Entwickler
 credits_designer = Grafiker
 credits_license = Lizenz
+credits_explain_license = Lizenz erklären
 
 # redaxo\include\pages\profile.php
 profile_myprofile = Mein Benutzerprofil bearbeiten
