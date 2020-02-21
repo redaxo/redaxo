@@ -502,6 +502,48 @@ if (5 === $step) {
         }
     }
 
+    // rex_sql will only work after rex_setup::checkDb() succeeded
+    $sql = rex_sql::factory();
+    $dbVersion = $sql->getDbVersion();
+    $dbType = $sql->getDbType();
+    $security = '';
+
+    if (rex_sql::MARIADB === $dbType) {
+        // https://en.wikipedia.org/wiki/MariaDB#Versioning
+        if (1 == version_compare($dbVersion, '5.2', '<') && time() > strtotime('1 Feb 2015')) {
+            $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion));
+        } elseif (1 == version_compare($dbVersion, '5.3', '<') && time() > strtotime('1 Nov 2015')) {
+            $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion));
+        } elseif (1 == version_compare($dbVersion, '5.5', '<') && time() > strtotime('1 Mar 2017')) {
+            $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion));
+        } elseif (1 == version_compare($dbVersion, '10.0', '<') && time() > strtotime('1 Apr 2020')) {
+            $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion));
+        } elseif (1 == version_compare($dbVersion, '10.1', '<') && time() > strtotime('1 Mar 2019')) {
+            $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion));
+        } elseif (1 == version_compare($dbVersion, '10.2', '<') && time() > strtotime('1 Oct 2020')) {
+            $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion));
+        } elseif (1 == version_compare($dbVersion, '10.3', '<') && time() > strtotime('1 May 2022')) {
+            $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion));
+        } elseif (1 == version_compare($dbVersion, '10.4', '<') && time() > strtotime('1 May 2023')) {
+            $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion));
+        } elseif (1 == version_compare($dbVersion, '10.5', '<') && time() > strtotime('1 Jun 2024')) {
+            $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion));
+        }
+        // 10.5 is not yet released
+    } elseif (rex_sql::MYSQL === $dbType) {
+        // https://en.wikipedia.org/wiki/MySQL#Release_history
+        if (1 == version_compare($dbVersion, '5.5', '<') && time() > strtotime('1 Dec 2013')) {
+            $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_mysql', $dbVersion));
+        } elseif (1 == version_compare($dbVersion, '5.6', '<') && time() > strtotime('1 Dec 2018')) {
+            $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_mysql', $dbVersion));
+        } elseif (1 == version_compare($dbVersion, '5.7', '<') && time() > strtotime('1 Feb 2021')) {
+            $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_mysql', $dbVersion));
+        } elseif (1 == version_compare($dbVersion, '8.0', '<') && time() > strtotime('1 Oct 2023')) {
+            $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_mysql', $dbVersion));
+        }
+        // EOL 8.0 is April 2026
+    }
+
     $headline = rex_view::title(rex_i18n::msg('setup_500'));
 
     $content = '
@@ -516,6 +558,10 @@ if (5 === $step) {
         $errors[] = rex_view::error(rex_i18n::msg('setup_503'));
         $headline .= implode('', $errors);
         $submit_message = rex_i18n::msg('setup_512');
+    }
+
+    if ($security) {
+        $headline .= $security;
     }
 
     $dbchecked = array_fill(0, 6, '');
