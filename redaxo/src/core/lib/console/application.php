@@ -95,7 +95,8 @@ class rex_console_application extends Application
         rex_extension::registerPoint(new rex_extension_point('PACKAGES_INCLUDED'));
     }
 
-    private function checkConsoleUser(InputInterface $input, OutputInterface $output): bool {
+    private function checkConsoleUser(InputInterface $input, OutputInterface $output): bool
+    {
         $io = new SymfonyStyle($input, $output);
 
         if (!function_exists('posix_getuid')) {
@@ -109,7 +110,7 @@ class rex_console_application extends Application
         if ($currentuser['name'] !== $webuser['name']) {
             $io->warning([
                 'Current user: ' . $currentuser['name']."\nOwner of redaxo: " . $webuser['name'],
-                "Running the console with a different user might cause unexpected side-effects.\nPlease consider to run the console with `".$webuser['name'].'`'
+                "Running the console with a different user might cause unexpected side-effects.\nPlease consider to run the console with `".$webuser['name'].'`',
             ]);
             return false;
         }
