@@ -99,20 +99,16 @@ class rex_console_application extends Application
     {
         $io = new SymfonyStyle($input, $output);
 
-        if (!function_exists('posix_getuid')) {
-            $io->title('REDAXO console');
-            $io->error('The posix extension is required - see http://php.net/manual/en/book.posix.php');
-            return false;
-        }
-
-        $currentuser = posix_getpwuid(posix_getuid());
-        $webuser = posix_getpwuid(fileowner(rex_path::backend()));
-        if ($currentuser['name'] !== $webuser['name']) {
-            $io->warning([
-                'Current user: ' . $currentuser['name']."\nOwner of redaxo: " . $webuser['name'],
-                'Running the console with a different user might cause unexpected side-effects.',
-            ]);
-            return false;
+        if (function_exists('posix_getuid')) {
+            $currentuser = posix_getpwuid(posix_getuid());
+            $webuser = posix_getpwuid(fileowner(rex_path::backend()));
+            if ($currentuser['name'] !== $webuser['name']) {
+                $io->warning([
+                    'Current user: ' . $currentuser['name']."\nOwner of redaxo: " . $webuser['name'],
+                    'Running the console with a different user might cause unexpected side-effects.',
+                ]);
+                return false;
+            }
         }
 
         return true;
