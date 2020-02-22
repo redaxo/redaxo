@@ -140,7 +140,7 @@ media_manager_effect_header_filename_notice = <code> filnamn </ code> är det no
 media_manager_effect_convert2img = Fil: konvertera till bild
 media_manager_effect_convert2img_density = Upplösnings densitet
 media_manager_effect_convert2img_convertto = Målformat
-media_manager_effect_convert2img_density_notice = Upplösningstäthet i ppi (pixel per tum) används för att rasterisera EPS- eller PDF-filer.
+media_manager_effect_convert2img_density_notice = Upplösningstäthet i ppi (pixel per tum).
 media_manager_effect_convert2img_convertto_notice = Målformat som filen ska konverteras till. Följande filtillägg accepteras: <code> .pdf, .ps, .psd, .tif, .tiff, .bmp, .eps, .ico </ code>.
 media_manager_effect_convert2img_noimagemagick =
 
