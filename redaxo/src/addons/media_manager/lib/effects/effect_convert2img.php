@@ -64,13 +64,14 @@ class rex_effect_convert2img extends rex_effect_abstract
         }
         if (class_exists(Imagick::class)) {
             $imagick = new Imagick();
+            $imagick->readImage($from_path.'[0]');
+
             if ('' != $color) {
                 $imagick->setImageBackgroundColor($color);
-                $imagick->setImageAlphaChannel(11);
+                $imagick->setImageAlphaChannel(Imagick::ALPHACHANNEL_REMOVE);
                 $imagick->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
             }
 
-            $imagick->readImage($from_path.'[0]');
             $imagick->setResolution($density, $density);
             $imagick->setImageColorspace(Imagick::COLORSPACE_RGB);
             $imagick->setImageFormat($convert_to['ext']);
