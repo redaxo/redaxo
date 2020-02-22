@@ -13,13 +13,10 @@ class rex_var_template extends rex_var
         $template_key = $this->getArg('key', null, true);
 
         if (0 === $template_id && $template_key) {
-            $sql = rex_sql::factory()->setQuery(
-                'SELECT `id` FROM '.rex::getTable('template').' WHERE `key` = :key',
-                ['key' => $template_key]
-            );
+            $template = rex_template::forKey($template_key);
 
-            if (1 == $sql->getRows()) {
-                $template_id = $sql->getValue('id');
+            if ($template) {
+                $template_id = $template->getId();
             }
         }
 

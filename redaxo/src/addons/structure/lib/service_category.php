@@ -588,10 +588,6 @@ class rex_category_service
             return rex::getUser()->getLogin();
         }
 
-        if (method_exists(rex::class, 'getEnvironment')) {
-            return rex::getEnvironment();
-        }
-
-        return 'frontend';
+        return rex::getEnvironment();
     }
 }
