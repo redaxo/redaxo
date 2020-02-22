@@ -141,7 +141,7 @@ media_manager_effect_convert2img = Archivo: Convertir a imagen
 media_manager_effect_convert2img_density = densidad
 media_manager_effect_convert2img_convertto = formato
 media_manager_effect_convert2img_density_notice = Densidad de resolución en ppi (píxel por pulgada).
-media_manager_effect_convert2img_convertto_notice = Formato de destino al que se convertirá el archivo. Se consideran las siguientes extensiones de archivo: <code>.pdf, .ps, .psd, .tif, .tiff, .bmp, .eps, .ico</code>.
+media_manager_effect_convert2img_convertto_notice = Formato de destino al que se convertirá el archivo. Se consideran las siguientes extensiones de archivo: <code>.pdf, .ps, .psd, .tif, .tiff, .bmp, .eps, .ico,.svg</code>.
 media_manager_effect_convert2img_noimagemagick =
 
 media_manager_effect_image_properties = Imagen: Configuración (Calidad, Entrelazado, ...)
