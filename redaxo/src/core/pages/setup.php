@@ -12,7 +12,7 @@ $lang = rex_request('lang', 'string');
 
 // ---------------------------------- Step 1 . Language
 if (1 >= $step) {
-    require 'setup.step1.php';
+    require rex_path::core('pages/setup.step1.php');
 
     return;
 }
@@ -20,7 +20,7 @@ if (1 >= $step) {
 // ---------------------------------- Step 2 . license
 
 if (2 === $step) {
-    require 'setup.step2.php';
+    require rex_path::core('pages/setup.step2.php');
 
     return;
 }
@@ -59,7 +59,7 @@ if (count($error_array) > 0) {
 }
 
 if (3 === $step) {
-    require 'setup.step3.php';
+    require rex_path::core('pages/setup.step3.php');
 
     return;
 }
@@ -156,7 +156,7 @@ if ($step > 4) {
 }
 
 if (4 === $step) {
-    require 'setup.step4.php';
+    require rex_path::core('pages/setup.step4.php');
 
     return;
 }
@@ -230,7 +230,7 @@ if ($step > 5 && '' == !rex_setup_importer::verifyDbSchema()) {
 }
 
 if (5 === $step) {
-    require 'setup.step5.php';
+    require rex_path::core('pages/setup.step5.php');
 
     return;
 }
@@ -296,7 +296,7 @@ if (7 === $step) {
 }
 
 if (6 === $step) {
-    require 'setup.step6.php';
+    require rex_path::core('pages/setup.step6.php');
 
     return;
 }
@@ -304,5 +304,5 @@ if (6 === $step) {
 // ---------------------------------- step 7 . thank you . setup false
 
 if (7 === $step) {
-    require 'setup.step7.php';
+    require rex_path::core('pages/setup.step7.php');
 }
