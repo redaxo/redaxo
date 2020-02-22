@@ -254,7 +254,13 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         $io->title('Step 5 of 6 / Database');
 
         $sql = rex_sql::factory();
-        $io->block('Database version: '.$sql->getDbType(). ' '.$sql->getDbVersion());
+        $dbEol = rex_setup::checkDbSecurity();
+        if (!empty($dbEol)) {
+            $io->warning($this->decodeMessage($dbEol));
+        } else {
+            $io->block('Database version: '.$sql->getDbType(). ' '.$sql->getDbVersion());
+        }
+
 
         // Search for exports
         $backups = [];
@@ -521,7 +527,12 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         /** Cloned from comannd setup:check*/
         $errors = rex_setup::checkEnvironment();
         if (0 == count($errors)) {
-            $this->io->success('PHP version ok');
+            $phpEol = rex_setup::checkPhpSecurity();
+            if (!empty($phpEol)) {
+                $this->io->warning($this->decodeMessage($phpEol));
+            } else {
+                $this->io->success('PHP version ok');
+            }
         } else {
             $errors = array_map([$this, 'decodeMessage'], $errors);
             $this->io->error("PHP version errors:\n" .implode("\n", $errors));
