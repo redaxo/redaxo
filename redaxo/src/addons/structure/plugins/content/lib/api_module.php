@@ -21,7 +21,7 @@ class rex_module
      *
      * @return self|null
      */
-    public static function forKey($module_key)
+    public static function forKey(string $module_key): ?self
     {
         $sql = rex_sql::factory();
         $sql->setQuery('select id from rex_module where `key`=?', [$module_key]);
