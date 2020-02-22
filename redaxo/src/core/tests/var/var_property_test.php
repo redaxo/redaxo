@@ -11,7 +11,7 @@ class rex_var_property_test extends rex_var_base_test
     public function tearDown()
     {
         rex::removeProperty('myCoreProperty');
-        rex_addon::get('tests')->removeProperty('tests', 'myPackageProperty');
+        rex_addon::get('tests')->removeProperty('tests');
     }
 
     public function propertyReplaceProvider()
