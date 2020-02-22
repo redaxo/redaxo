@@ -68,12 +68,18 @@ db:
         password: ''
         name: redaxo5
         persistent: false
+        ssl_key: null
+        ssl_cert: null
+        ssl_ca: null
     2:
         host: ''
         login: ''
         password: ''
         name: ''
         persistent: false
+        ssl_key: null
+        ssl_cert: null
+        ssl_ca: null
 use_accesskeys: true
 accesskeys:
     save: s
