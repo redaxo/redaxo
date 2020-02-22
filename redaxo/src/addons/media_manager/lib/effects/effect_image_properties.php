@@ -5,7 +5,7 @@
  */
 class rex_effect_image_properties extends rex_effect_abstract
 {
-    public const NO_INTERLACING = '- off -';
+    private const NO_INTERLACING = '- off -';
 
     public function execute()
     {
