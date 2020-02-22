@@ -144,10 +144,10 @@ class rex_sql implements Iterator
         }
         $dsn .= ';dbname=' . $database;
 
-        $options = array_merge([
+        $options = [
             PDO::ATTR_PERSISTENT => (bool) $persistent,
             PDO::ATTR_FETCH_TABLE_NAMES => true,
-        ], $options);
+        ] + $options;
 
         $dbh = @new PDO($dsn, $login, $password, $options);
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
