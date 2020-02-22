@@ -49,6 +49,7 @@ cronjob_environment_notice = Skript: Ausführung über <code>redaxo/bin/console 
 cronjob_environment_frontend = Frontend
 cronjob_environment_backend = Backend
 cronjob_environment_script = Skript
+cronjob_environment_backend_manual = Backend (manuell)
 
 cronjob_execution = Ausführung
 cronjob_execution_beginning = Skriptanfang

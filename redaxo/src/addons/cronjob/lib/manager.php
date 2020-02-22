@@ -120,14 +120,28 @@ class rex_cronjob_manager
                 $name = '[no name]';
             }
         }
+        $environment = "";
+        if (rex::isBackend()) {
+            if (rex_get("page") == "cronjob/cronjobs" && rex_get("func") == "execute") {
+                $environment = rex_i18n::msg('cronjob_environment_backend_manual');
+            } else {
+                $environment = rex_i18n::msg('cronjob_environment_backend');
+            }
+        } elseif (rex::isFrontend()) {
+            $environment = rex_i18n::msg('cronjob_environment_frontend');
+        } else {
+            $environment = rex_i18n::msg('cronjob_environment_script');
+        }
         $log = new rex_log_file(rex_path::log('cronjob.log'), 2000000);
         $data = [
             ($success ? 'SUCCESS' : 'ERROR'),
             ($this->id ?: '--'),
             $name,
             strip_tags($message),
+            $environment
         ];
         $log->add($data);
+
     }
 
     /**
