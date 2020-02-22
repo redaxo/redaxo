@@ -256,7 +256,9 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         $sql = rex_sql::factory();
         $dbEol = rex_setup::checkDbSecurity();
         if (!empty($dbEol)) {
-            $io->warning($this->decodeMessage($dbEol));
+            foreach ($dbEol as $warning) {
+                $io->warning($warning);
+            }
         } else {
             $io->block('Database version: '.$sql->getDbType(). ' '.$sql->getDbVersion());
         }
@@ -528,7 +530,9 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         if (0 == count($errors)) {
             $phpEol = rex_setup::checkPhpSecurity();
             if (!empty($phpEol)) {
-                $this->io->warning($this->decodeMessage($phpEol));
+                foreach ($phpEol as $warning) {
+                    $this->io->warning($warning);
+                }
             } else {
                 $this->io->success('PHP version ok');
             }
