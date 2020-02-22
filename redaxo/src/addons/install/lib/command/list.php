@@ -15,7 +15,7 @@ class rex_command_install_list extends rex_console_command
     {
         $this->setDescription('List available packages on redaxo.org')
             ->addOption('search', 's', InputOption::VALUE_REQUIRED, 'filter list')
-            ->addOption('update-only', 'u', InputOption::VALUE_NONE, 'only list packages with available updates')
+            ->addOption('updates-only', 'u', InputOption::VALUE_NONE, 'only list packages with available updates')
             ->addOption('json', null, InputOption::VALUE_NONE, 'output table as json')
             ;
     }
