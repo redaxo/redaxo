@@ -59,7 +59,6 @@ Your marker still missing? [Learn how to place it on the map](https://github.com
 
 ## Contributions
 
-
 To develop on core and core addons, setup the project with these steps:
 
 - Clone the repsoitory: `git clone https://github.com/redaxo/redaxo redaxo && cd redaxo`
