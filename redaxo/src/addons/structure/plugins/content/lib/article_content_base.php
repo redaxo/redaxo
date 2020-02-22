@@ -564,7 +564,7 @@ class rex_article_content_base
         ];
 
         // calculating the key takes an additional sql query... execute the query only when we are sure the var is used
-        if (strpos($content, 'REX_TEMPLATE_KEY') !== false) {
+        if (false !== strpos($content, 'REX_TEMPLATE_KEY')) {
             $template = new rex_template($template_id);
             $content = str_replace('REX_TEMPLATE_KEY', $template->getKey(), $content);
         }

@@ -32,7 +32,8 @@ class rex_template
      *
      * @return null|self
      */
-    public static function forKey($template_key) {
+    public static function forKey($template_key)
+    {
         $sql = rex_sql::factory()->setQuery(
             'SELECT `id` FROM '.rex::getTable('template').' WHERE `key` = :key',
             ['key' => $template_key]
@@ -57,8 +58,9 @@ class rex_template
     /**
      * @return string
      */
-    public function getKey() {
-        if ($this->key === null) {
+    public function getKey()
+    {
+        if (null === $this->key) {
             $this->key = '';
 
             $sql = rex_sql::factory()->setQuery(
