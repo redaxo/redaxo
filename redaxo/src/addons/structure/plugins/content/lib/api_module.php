@@ -19,11 +19,6 @@ class rex_module
         $this->module_id = $module_id;
     }
 
-    /**
-     * @param string $module_key
-     *
-     * @return self|null
-     */
     public static function forKey(string $module_key): ?self
     {
         $sql = rex_sql::factory();

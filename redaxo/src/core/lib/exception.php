@@ -42,8 +42,6 @@ class rex_sql_exception extends rex_exception
 
     /**
      * Returns the mysql native error code.
-     *
-     * @return null|int
      */
     public function getErrorCode(): ?int
     {
