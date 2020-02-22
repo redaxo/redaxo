@@ -168,6 +168,7 @@ if ($KAT->getRows() > 0) {
         $status_class = $catStatusTypes[$KAT->getValue('status')][1];
         $status_icon = $catStatusTypes[$KAT->getValue('status')][2];
 
+        $td_layout_class = '';
         if ($structureContext->hasCategoryPermission()) {
             if (rex::getUser()->hasPerm('publishCategory[]')) {
                 $td_layout_class = 'rex-table-action-no-dropdown';
