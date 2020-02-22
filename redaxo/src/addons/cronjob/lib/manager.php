@@ -120,9 +120,9 @@ class rex_cronjob_manager
                 $name = '[no name]';
             }
         }
-        $environment = "";
-        if (rex::getEnvironment() === "backend" && rex_get("page") == "cronjob/cronjobs" && rex_get("func") == "execute") {
-            $environment = "backend_manual";
+        $environment = '';
+        if ('backend' === rex::getEnvironment() && 'cronjob/cronjobs' == rex_get('page') && 'execute' == rex_get('func')) {
+            $environment = 'backend_manual';
         } else {
             $environment = rex::getEnvironment();
         }
@@ -133,7 +133,7 @@ class rex_cronjob_manager
             ($this->id ?: '--'),
             $name,
             strip_tags($message),
-            $environment
+            $environment,
         ];
         $log->add($data);
     }
