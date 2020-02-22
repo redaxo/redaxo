@@ -121,17 +121,12 @@ class rex_cronjob_manager
             }
         }
         $environment = "";
-        if (rex::isBackend()) {
-            if (rex_get("page") == "cronjob/cronjobs" && rex_get("func") == "execute") {
-                $environment = rex_i18n::msg('cronjob_environment_backend_manual');
-            } else {
-                $environment = rex_i18n::msg('cronjob_environment_backend');
-            }
-        } elseif (rex::isFrontend()) {
-            $environment = rex_i18n::msg('cronjob_environment_frontend');
+        if (rex::getEnvironment() === "backend" && rex_get("page") == "cronjob/cronjobs" && rex_get("func") == "execute") {
+            $environment = "backend_manual";
         } else {
-            $environment = rex_i18n::msg('cronjob_environment_script');
+            $environment = rex::getEnvironment();
         }
+
         $log = new rex_log_file(rex_path::log('cronjob.log'), 2000000);
         $data = [
             ($success ? 'SUCCESS' : 'ERROR'),
@@ -141,7 +136,6 @@ class rex_cronjob_manager
             $environment
         ];
         $log->add($data);
-
     }
 
     /**
