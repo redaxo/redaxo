@@ -5,6 +5,8 @@
  */
 class rex_effect_image_properties extends rex_effect_abstract
 {
+    const NO_INTERLACING = '- off -';
+
     public function execute()
     {
         $media = $this->media;
@@ -23,7 +25,7 @@ class rex_effect_image_properties extends rex_effect_abstract
 
         if ($this->params['interlace']) {
             $interlace = explode('|', trim($this->params['interlace'], '|'));
-            $interlace = in_array('- off -', $interlace) ? [] : $interlace;
+            $interlace = in_array(self::NO_INTERLACING, $interlace) ? [] : $interlace;
             $media->setImageProperty('interlace', $interlace);
         }
     }
@@ -59,15 +61,15 @@ class rex_effect_image_properties extends rex_effect_abstract
                 'notice' => rex_i18n::msg('media_manager_effect_image_properties_interlace_notice'),
                 'name' => 'interlace',
                 'type' => 'select',
-                'options' => ['- off -', 'jpg', 'png', 'gif'],
+                'options' => [self::NO_INTERLACING, 'jpg', 'png', 'gif'],
                 'attributes' => ['multiple' => true, 'class' => 'selectpicker form-control'],
                 'suffix' => '
 <script type="text/javascript">
     $(function() {
         var $field = $("#media-manager-rex-effect-image-properties-interlace-select");
-        
+
         $field.on("changed.bs.select", function (event, clickedIndex, newValue, oldValue) {
-            var off = "- off -";
+            var off = "'. self::NO_INTERLACING .'";
             if (0 == clickedIndex && newValue) {
                 $field.selectpicker("val", [off]);
             }
