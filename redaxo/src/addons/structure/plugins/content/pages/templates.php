@@ -138,25 +138,6 @@ if ('add' == $function || 'edit' == $function) {
         $attributes['ctype'] = $ctypes;
         $attributes['modules'] = $modules;
         $attributes['categories'] = $categories;
-
-        if (null !== $templatekey) {
-            $templateKeySql = rex_sql::factory();
-            $templateKeySql->setTable(rex::getTable('template'));
-            if ('edit' == $function) {
-                $templateKeySql->setWhere('`key` = :templateKey AND id != :templateId', ['templateKey' => $templatekey, 'templateId' => $template_id]);
-            } else {
-                $templateKeySql->setWhere('`key` = :templateKey', ['templateKey' => $templatekey]);
-            }
-            $templateKeySql->select('id');
-
-            if ($templateKeySql->getRows() >= 1) {
-                $error = rex_i18n::msg('template_key_exists');
-                $save = 'nein';
-            }
-        }
-    }
-
-    if ('ja' == $save) {
         $TPL = rex_sql::factory();
         $TPL->setTable(rex::getTablePrefix() . 'template');
         $TPL->setValue('key', $templatekey);
@@ -185,7 +166,12 @@ if ('add' == $function || 'edit' == $function) {
                     'categories' => $categories,
                 ]));
             } catch (rex_sql_exception $e) {
-                $error = $e->getMessage();
+                if (rex_sql::ERROR_VIOLATE_UNIQUE_KEY == $e->getErrorCode()) {
+                    $error = rex_i18n::msg('template_key_exists');
+                    $save = 'nein';
+                } else {
+                    $error = $e->getMessage();
+                }
             }
         } else {
             $TPL->setWhere(['id' => $template_id]);
@@ -205,7 +191,12 @@ if ('add' == $function || 'edit' == $function) {
                     'categories' => $categories,
                 ]));
             } catch (rex_sql_exception $e) {
-                $error = $e->getMessage();
+                if (rex_sql::ERROR_VIOLATE_UNIQUE_KEY == $e->getErrorCode()) {
+                    $error = rex_i18n::msg('template_key_exists');
+                    $save = 'nein';
+                } else {
+                    $error = $e->getMessage();
+                }
             }
         }
 
