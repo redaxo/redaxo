@@ -1294,6 +1294,7 @@ class rex_sql implements Iterator
 
             for ($i = 0; $i < $this->getFields(); ++$i) {
                 $metadata = $this->stmt->getColumnMeta($i);
+                var_dump($metadata);
 
                 // strip table-name from column
                 $this->fieldnames[] = substr($metadata['name'], strlen($metadata['table'] . '.'));

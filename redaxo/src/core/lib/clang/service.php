@@ -134,6 +134,7 @@ class rex_clang_service
         $clangs = [];
         foreach ($lg as $lang) {
             $id = $lang->getValue('id');
+            var_dump($lg->getFieldnames());
             foreach ($lg->getFieldnames() as $field) {
                 $clangs[$id][$field] = $lang->getValue($field);
             }
