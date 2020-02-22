@@ -531,7 +531,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             $phpEol = rex_setup::checkPhpSecurity();
             if (!empty($phpEol)) {
                 foreach ($phpEol as $warning) {
-                    $this->io->warning(rex_view::warning($warning));
+                    $this->io->warning($warning);
                 }
             } else {
                 $this->io->success('PHP version ok');
