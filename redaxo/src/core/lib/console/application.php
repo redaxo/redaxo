@@ -101,7 +101,7 @@ class rex_console_application extends Application
 
         if (!function_exists('posix_getuid')) {
             $io->title('REDAXO console');
-            $io->error('The posix extensions are required - see http://php.net/manual/en/book.posix.php');
+            $io->error('The posix extension is required - see http://php.net/manual/en/book.posix.php');
             return false;
         }
 
