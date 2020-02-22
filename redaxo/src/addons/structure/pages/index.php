@@ -473,9 +473,9 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
 
                     if(count($artStatusTypes) > 2) {
                         $td_layout_class  = "rex-table-action-dropdown";
-                        $article_status = '<div class="dropdown"><a class="dropdown-toggle '. $article_class .'" type="button" data-toggle="dropdown"><i class="rex-icon ' . $article_icon . '"></i>&nbsp;'.$article_status.'&nbsp;<span class="caret"></span></a><ul class="dropdown-menu dropdown-menu-right">';
+                        $article_status = '<div class="dropdown"><a href="#" class="dropdown-toggle '. $article_class .'" type="button" data-toggle="dropdown"><i class="rex-icon ' . $article_icon . '"></i>&nbsp;'.$article_status.'&nbsp;<span class="caret"></span></a><ul class="dropdown-menu dropdown-menu-right">';
                         foreach($artStatusTypes as $art_status_key => $artStatusType) {
-                            $article_status .= '<li><a  href="#" class="' . $artStatusType[1] . '" href="' . $structureContext->getContext()->getUrl(['article_id' => $sql->getValue('id'), 'artstart' => $structureContext->getArtStart(), 'art_status' => $art_status_key] + rex_api_article_status::getUrlParams()) . '">' . $artStatusType[0] . '</a></li>';
+                            $article_status .= '<li><a  class="' . $artStatusType[1] . '" href="' . $structureContext->getContext()->getUrl(['article_id' => $sql->getValue('id'), 'artstart' => $structureContext->getArtStart(), 'art_status' => $art_status_key] + rex_api_article_status::getUrlParams()) . '">' . $artStatusType[0] . '</a></li>';
                         }
                         $article_status .= '</ul></div>';
                     } else {
