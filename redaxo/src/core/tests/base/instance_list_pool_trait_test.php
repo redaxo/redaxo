@@ -35,22 +35,22 @@ class rex_instance_list_pool_trait_test extends TestCase
 
     public function testGetInstanceList()
     {
-        static::assertSame([], rex_test_instance_list_pool::getInstanceList(2, 'rex_test_instance_list_pool::get'), 'getInstanceList returns empty array for non-existing key');
+        static::assertSame([], rex_test_instance_list_pool::getInstanceList(2, ['rex_test_instance_list_pool', 'get']), 'getInstanceList returns empty array for non-existing key');
 
         $expected = [
             rex_test_instance_list_pool::get(1),
             rex_test_instance_list_pool::get(2),
         ];
-        static::assertEquals($expected, rex_test_instance_list_pool::getInstanceList(2, 'rex_test_instance_list_pool::get', function ($id) {
+        static::assertEquals($expected, rex_test_instance_list_pool::getInstanceList(2, ['rex_test_instance_list_pool', 'get'], function ($id) {
             $this->assertEquals(2, $id);
             return [1, 2];
         }), 'getInstance returns array of instances');
 
-        rex_test_instance_list_pool::getInstanceList(2, 'rex_test_instance_list_pool::get', function () {
+        rex_test_instance_list_pool::getInstanceList(2, ['rex_test_instance_list_pool', 'get'], function () {
             $this->fail('getInstanceList does not call $createListCallback if list alreays exists');
         });
 
-        rex_test_instance_list_pool::getInstanceList([3, 'test'], 'rex_test_instance_list_pool::get', function ($key1, $key2) {
+        rex_test_instance_list_pool::getInstanceList([3, 'test'], ['rex_test_instance_list_pool', 'get'], function ($key1, $key2) {
             $this->assertEquals(3, $key1, 'getInstanceList passes key array as arguments to callback');
             $this->assertEquals('test', $key2, 'getInstanceList passes key array as arguments to callback');
         });
