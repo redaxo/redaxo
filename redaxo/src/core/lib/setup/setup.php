@@ -11,7 +11,7 @@ class rex_setup
     public const MIN_MYSQL_VERSION = '5.5.3';
 
     /**
-     * no-password placeholder required to support empty passwords/clearing the password
+     * no-password placeholder required to support empty passwords/clearing the password.
      */
     public const DEFAULT_DUMMY_PASSWORD = '-REDAXO-DEFAULT-DUMMY-PASSWORD-';
 
