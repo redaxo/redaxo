@@ -95,6 +95,6 @@ LANG;
 
     public function testTranslateCallable()
     {
-        static::assertSame('translated', rex_i18n::translate('translate:my_cb', false, ['rex_i18n_trans_cb','mytranslate']));
+        static::assertSame('translated', rex_i18n::translate('translate:my_cb', false, ['rex_i18n_trans_cb', 'mytranslate']));
     }
 }

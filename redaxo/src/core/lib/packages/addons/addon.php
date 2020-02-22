@@ -137,7 +137,7 @@ class rex_addon extends rex_package implements rex_addon_interface
         if (rex_i18n::hasMsgOrFallback($key)) {
             $args[0] = $key;
         }
-        return call_user_func_array(['rex_i18n','msg'], $args);
+        return call_user_func_array(['rex_i18n', 'msg'], $args);
     }
 
     /**
