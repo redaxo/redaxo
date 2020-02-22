@@ -8,7 +8,14 @@
  */
 class rex_template
 {
+    /**
+     * @var int
+     */
     private $id;
+    /**
+     * @var string
+     */
+    private $key;
 
     public function __construct($template_id)
     {
@@ -20,11 +27,58 @@ class rex_template
         return rex_config::get('structure/content', 'default_template_id', 1);
     }
 
+    /**
+     * @param string $template_key
+     *
+     * @return null|self
+     */
+    public static function forKey($template_key)
+    {
+        $sql = rex_sql::factory()->setQuery(
+            'SELECT `id` FROM '.rex::getTable('template').' WHERE `key` = :key',
+            ['key' => $template_key]
+        );
+
+        if (1 == $sql->getRows()) {
+            $template_id = $sql->getValue('id');
+            return new self($template_id);
+        }
+
+        return null;
+    }
+
+    /**
+     * @return int
+     */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * @return string
+     */
+    public function getKey()
+    {
+        if (null === $this->key) {
+            $this->key = '';
+
+            $sql = rex_sql::factory()->setQuery(
+                'SELECT `key` FROM '.rex::getTable('template').' WHERE `id` = :id',
+                ['id' => $this->id]
+            );
+
+            if (1 == $sql->getRows()) {
+                $this->key = $sql->getValue('key');
+            }
+        }
+
+        return $this->key;
+    }
+
+    /**
+     * @return false|string
+     */
     public function getFile()
     {
         if ($this->getId() < 1) {
