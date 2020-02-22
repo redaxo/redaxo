@@ -107,10 +107,6 @@ abstract class rex_package implements rex_package_interface
      */
     public function getConfig($key = null, $default = null)
     {
-        if (1 === func_num_args()) {
-            $default = self::getProperty('default_config')[$key] ?? null;
-        }
-
         return rex_config::get($this->getPackageId(), $key, $default);
     }
 
