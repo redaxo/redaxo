@@ -20,11 +20,7 @@ parameters:
     excludes_analyse:
         - redaxo/src/addons/be_style/vendor/
         - redaxo/src/addons/debug/vendor/
-        - redaxo/src/addons/media_manager/tests/
-        - redaxo/src/addons/mediapool/tests/
         - redaxo/src/addons/phpmailer/vendor/
-        - redaxo/src/addons/structure/tests/
-        - redaxo/src/addons/structure/plugins/content/tests/
         - redaxo/src/addons/tests/vendor/
         - redaxo/src/core/vendor/
         - redaxo/src/core/tests/
