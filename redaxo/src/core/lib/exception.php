@@ -45,7 +45,7 @@ class rex_sql_exception extends rex_exception
      *
      * @return null|int
      */
-    public function getErrorCode()
+    public function getErrorCode(): ?int
     {
         $previous = $this->getPrevious();
         if ($previous instanceof \PDOException) {
