@@ -20,11 +20,7 @@ parameters:
     excludes_analyse:
         - redaxo/src/addons/be_style/vendor/
         - redaxo/src/addons/debug/vendor/
-        - redaxo/src/addons/media_manager/tests/
-        - redaxo/src/addons/mediapool/tests/
         - redaxo/src/addons/phpmailer/vendor/
-        - redaxo/src/addons/structure/tests/
-        - redaxo/src/addons/structure/plugins/content/tests/
         - redaxo/src/addons/tests/vendor/
         - redaxo/src/core/vendor/
     # make phpstan aware of never returning methods
@@ -33,9 +29,10 @@ parameters:
         rex_response:
             - sendRedirect
     ignoreErrors:
-        -
-            message: '#Access to an undefined property rex_clang::\$clang_foo\.#'
-            path: '*/redaxo/src/core/tests/clang/*'
+        - '#Access to an undefined property rex_media::\$med_foo\.#'
+        - '#Access to an undefined property rex_article::\$art_foo\.#'
+        - '#Access to an undefined property rex_category::\$cat_foo\.#'
+        - '#Access to an undefined property rex_clang::\$clang_foo\.#'
         -
             # allow undefined variable errors in pages, because we rely on variables beeing available from the includer scope
             message: '#Undefined variable: .+#'
