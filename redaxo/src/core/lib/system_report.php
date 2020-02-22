@@ -41,8 +41,8 @@ class rex_system_report
         ];
 
         $security = rex_setup::checkPhpSecurity();
-        foreach($security as $warning) {
-            $data['PHP']['Warning'] = $warning ."<br/>";
+        foreach ($security as $warning) {
+            $data['PHP']['Warning'] = $warning .'<br/>';
         }
 
         foreach (rex::getProperty('db') as $dbId => $db) {
