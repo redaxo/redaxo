@@ -120,12 +120,20 @@ class rex_cronjob_manager
                 $name = '[no name]';
             }
         }
+
+        if ('backend' === rex::getEnvironment() && 'cronjob/cronjobs' == rex_get('page') && 'execute' == rex_get('func')) {
+            $environment = 'backend_manual';
+        } else {
+            $environment = rex::getEnvironment();
+        }
+
         $log = new rex_log_file(rex_path::log('cronjob.log'), 2000000);
         $data = [
             ($success ? 'SUCCESS' : 'ERROR'),
             ($this->id ?: '--'),
             $name,
             strip_tags($message),
+            $environment,
         ];
         $log->add($data);
     }

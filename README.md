@@ -57,6 +57,16 @@ Your marker still missing? [Learn how to place it on the map](https://github.com
 
 &nbsp;
 
+## Contributions
+
+To develop on core and core addons, setup the project with these steps:
+
+- Clone the repsoitory: `git clone https://github.com/redaxo/redaxo redaxo && cd redaxo`
+- Install the tools used for the development with [Composer](https://getcomposer.org): `composer install`
+- When you use PhpStorm, adjust the composer settings (`Languages & Frameworks` > `PHP` > `Composer`) and disable these two options:
+    - [ ] Add packages as libraries
+    - [ ] Synchronize IDE settings with composer.json
+
 ## Copyright & License
 
 REDAXO was developed by [Yakamara](http://www.yakamara.de) (Frankfurt am Main/Germany 🇩🇪), is open-source since 2004 and is released under the [MIT license](LICENSE.md).

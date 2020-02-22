@@ -253,6 +253,8 @@ setup_no_js_security_msg = Prüfen Sie, ob Dateien aus dem Ordner redaxo/cache, 
 setup_security_no_https = Das Setup wird ohne HTTPS/Verschlüsselung durchgeführt. Es wird empfohlen jegliche Frontend und Backend aufrufe nur mittels HTTPS durchzuführen, um die Privatsphäre und den Datenschutz zu gewährleisten.
 setup_security_warn_mod_security = Das Apache Modul "mod_security" ist geladen. Dies kann bei falscher Konfiguration zu Problemen führen.
 setup_security_deprecated_php = Die verwendete PHP Version {0} wird nicht mehr vom Hersteller gepflegt und sollte aktualisiert werden.
+setup_security_deprecated_mysql = Die verwendete MySQL Version {0} wird nicht mehr vom Hersteller gepflegt und sollte aktualisiert werden.
+setup_security_deprecated_mariadb = Die verwendete MariaDB Version {0} wird nicht mehr vom Hersteller gepflegt und sollte aktualisiert werden.
 setup_session_autostart_warning = In den PHP-Einstellungen ist "session.auto_start" aktiviert. Es wird empfohlen, dies zu deaktiveren, um Probleme zu vermeiden.
 
 sql_database_name_missing = Es muss ein Datenbankname angegeben werden!
@@ -273,6 +275,7 @@ https_only_frontend = nur für Frontend aktivieren
 https_only_backend = nur für Backend aktivieren
 https_activate = für Frontend und Backend aktiveren
 
+setup_password_hint = Zur Vergabe eines neuen Passwortes dieses eintragen. Sonst unverändert lassen.
 hsts_more_information = HSTS sollte in den Hostingeinstellungen der Domain/s (empfohlen) aktiviert werden, kann aber auch in der config.yml von REDAXO nachträglich aktiviert werden. Weitere Informationen in der REDAXO-Doku.
 
 # redaxo\include\pages\addon.php

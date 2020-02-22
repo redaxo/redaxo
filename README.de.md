@@ -57,6 +57,16 @@ Bist du noch nicht drauf? [So kannst du deinen Eintrag hinzufügen](https://gith
 
 &nbsp;
 
+## Mitarbeit
+
+Um am Core und den Core-Addons zu entwickeln, setze das Projekt mit diesen Schritten lokal auf:
+
+- Klone das Repository: `git clone https://github.com/redaxo/redaxo redaxo && cd redaxo`
+- Installiere die für die Entwicklung verwendeten Tools über [Composer](https://getcomposer.org): `composer install`
+- Falls du PhpStorm verwendest, passe dort die Composer-Einstellungen (`Languages & Frameworks` > `PHP` > `Composer`) an und deaktiviere diese beiden Optionen:
+    - [ ] Add packages as libraries
+    - [ ] Synchronize IDE settings with composer.json
+
 ## Lizenz
 
 REDAXO wurde von [Yakamara](http://www.yakamara.de) (Frankfurt am Main 🇩🇪) entwickelt, ist Open-Source seit 2004 und wird unter der [MIT-Lizenz](LICENSE.md) veröffentlicht.
