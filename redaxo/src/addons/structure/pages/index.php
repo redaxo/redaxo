@@ -469,6 +469,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                     $add_extra .= '<td class="rex-table-action"><a href="' . $structureContext->getContext()->getUrl(['article_id' => $sql->getValue('id'), 'artstart' => $structureContext->getArtStart()] + rex_api_article_delete::getUrlParams()) . '" data-confirm="' . rex_i18n::msg('delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</a></td>';
                 }
 
+                $td_layout_class = '';
                 if ($structureContext->hasCategoryPermission() && rex::getUser()->hasPerm('publishArticle[]')) {
                     $td_layout_class = 'rex-table-action-no-dropdown';
 
