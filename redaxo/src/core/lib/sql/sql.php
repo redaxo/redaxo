@@ -92,7 +92,6 @@ class rex_sql implements Iterator
                 $options = [];
                 $dbconfig = rex::getProperty('db');
 
-                var_dump($options);
                 if (isset($dbconfig[$DBID]['ssl_key'], $dbconfig[$DBID]['ssl_cert'], $dbconfig[$DBID]['ssl_ca'])) {
                     $options = [
                         PDO::MYSQL_ATTR_SSL_KEY => $dbconfig[$DBID]['ssl_key'],
@@ -100,7 +99,6 @@ class rex_sql implements Iterator
                         PDO::MYSQL_ATTR_SSL_CA => $dbconfig[$DBID]['ssl_ca'],
                     ];
                 }
-                var_dump($options);
 
                 $conn = self::createConnection(
                     $dbconfig[$DBID]['host'],
@@ -146,12 +144,10 @@ class rex_sql implements Iterator
         }
         $dsn .= ';dbname=' . $database;
 
-        var_dump($options);
         $options = array_merge([
             PDO::ATTR_PERSISTENT => (bool) $persistent,
             PDO::ATTR_FETCH_TABLE_NAMES => true,
         ], $options);
-        var_dump($options);
 
         $dbh = @new PDO($dsn, $login, $password, $options);
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
