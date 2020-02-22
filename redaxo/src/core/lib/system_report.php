@@ -40,6 +40,11 @@ class rex_system_report
             'Xdebug' => extension_loaded('xdebug'),
         ];
 
+        $security = rex_setup::checkPhpSecurity();
+        if ($security) {
+            $data['PHP']['Warning'] = $security;
+        }
+
         foreach (rex::getProperty('db') as $dbId => $db) {
             if (empty($db['name'])) {
                 continue;
@@ -47,10 +52,19 @@ class rex_system_report
 
             $sql = rex_sql::factory($dbId);
 
-            $dbData = ['Version' => $sql->getDbType().' '.$sql->getDbVersion()];
+            $dbData = [];
+            $dbData['Version'] = $sql->getDbType().' '.$sql->getDbVersion();
 
             if (1 === $dbId) {
                 $dbData['Character set'] = rex::getConfig('utf8mb4') ? 'utf8mb4' : 'utf8';
+            }
+
+            $security = rex_setup::checkDbSecurity();
+            if ($security) {
+                $dbData['Warning'] = $security;
+            }
+            
+            if (1 === $dbId) {
                 $data['Database'] = $dbData;
             } else {
                 $data['Database '.$dbId] = $dbData;
