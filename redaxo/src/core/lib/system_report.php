@@ -41,8 +41,8 @@ class rex_system_report
         ];
 
         $security = rex_setup::checkPhpSecurity();
-        foreach ($security as $warning) {
-            $data['PHP']['Warning'] = $warning .'<br/>';
+        if ($security) {
+            $data['PHP']['Warning'] = implode('<br/>', $security);
         }
 
         foreach (rex::getProperty('db') as $dbId => $db) {
@@ -60,8 +60,8 @@ class rex_system_report
             }
 
             $security = rex_setup::checkDbSecurity();
-            foreach ($security as $warning) {
-                $dbData['Warning'] = $warning .'<br/>';
+            if ($security) {
+                $dbData['Warning'] = implode('<br/>', $security);
             }
 
             if (1 === $dbId) {
