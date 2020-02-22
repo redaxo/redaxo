@@ -11,7 +11,7 @@ class rex_module
      */
     private $key;
 
-    public function __construct($module_id)
+    public function __construct(int $module_id)
     {
         $this->module_id = $module_id;
     }
