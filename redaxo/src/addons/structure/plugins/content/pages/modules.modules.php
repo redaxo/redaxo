@@ -169,7 +169,7 @@ if ('add' == $function || 'edit' == $function) {
                 }
             }
         } catch (rex_sql_exception $e) {
-            if ($e->getErrorCode() === rex_sql::ERROR_VIOLATE_UNIQUE_KEY) {
+            if (rex_sql::ERROR_VIOLATE_UNIQUE_KEY === $e->getErrorCode()) {
                 $error = rex_i18n::msg('module_key_exists');
                 $save = '0';
             } else {

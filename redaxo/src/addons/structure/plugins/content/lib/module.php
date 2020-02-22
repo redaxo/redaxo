@@ -1,6 +1,7 @@
 <?php
 
-class rex_module {
+class rex_module
+{
     /**
      * @var int
      */
@@ -20,11 +21,12 @@ class rex_module {
      *
      * @return self|null
      */
-    static public function forKey($module_key) {
+    public static function forKey($module_key)
+    {
         $sql = rex_sql::factory();
         $sql->setQuery('select id from rex_module where `key`=?', [$module_key]);
 
-        if ($sql->getRows() == 1) {
+        if (1 == $sql->getRows()) {
             $module_id = $sql->getValue('id');
 
             $module = new self($module_id);
@@ -34,18 +36,20 @@ class rex_module {
         return null;
     }
 
-    public function getModuleId() {
+    public function getModuleId()
+    {
         return $this->module_id;
     }
 
-    public function getKey() {
-        if ($this->key === null) {
+    public function getKey()
+    {
+        if (null === $this->key) {
             $this->key = '';
 
             $sql = rex_sql::factory();
             $sql->setQuery('select `key` from rex_module where id=?', [$this->module_id]);
 
-            if ($sql->getRows() == 1) {
+            if (1 == $sql->getRows()) {
                 $this->key = $sql->getValue('key');
             }
         }
