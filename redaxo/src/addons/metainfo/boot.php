@@ -55,7 +55,15 @@ if (rex::isBackend()) {
     $curDir = __DIR__;
     require_once $curDir . '/functions/function_metainfo.php';
 
+    rex_view::addCSSFile(rex_url::addonAssets('metainfo', 'metainfo.css'));
+
     rex_extension::register('PAGE_CHECKED', 'rex_metainfo_extensions_handler');
+    rex_extension::register('STRUCTURE_CONTENT_SIDEBAR', function ($ep) {
+        $subject = $ep->getSubject();
+        $metaSidebar = include (rex_addon::get('metainfo')->getPath('pages/content.metainfo.php'));
+        return $metaSidebar.$subject;
+    });
+
 }
 
 rex_extension::register('EDITOR_URL', static function (rex_extension_point $ep) {
