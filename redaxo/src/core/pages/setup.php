@@ -87,7 +87,11 @@ if ($step > 4) {
         $config['timezone'] = rex_post('timezone', 'string');
         $config['db'][1]['host'] = trim(rex_post('mysql_host', 'string'));
         $config['db'][1]['login'] = trim(rex_post('redaxo_db_user_login', 'string'));
-        $config['db'][1]['password'] = rex_post('redaxo_db_user_pass', 'string');
+
+        $passwd = rex_post('redaxo_db_user_pass', 'string', rex_setup::DEFAULT_DUMMY_PASSWORD);
+        if (rex_setup::DEFAULT_DUMMY_PASSWORD != $passwd) {
+            $config['db'][1]['password'] = $passwd;
+        }
         $config['db'][1]['name'] = trim(rex_post('dbname', 'string'));
         $config['use_https'] = rex_post('use_https', 'string');
 
