@@ -27,7 +27,9 @@ class rex_module {
         if ($sql->getRows() == 1) {
             $module_id = $sql->getValue('id');
 
-            return new self($module_id);
+            $module = new self($module_id);
+            $module->key = $module_key;
+            return $module;
         }
         return null;
     }
