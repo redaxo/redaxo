@@ -110,7 +110,7 @@ class rex_console_application extends Application
         if ($currentuser['name'] !== $webuser['name']) {
             $io->warning([
                 'Current user: ' . $currentuser['name']."\nOwner of redaxo: " . $webuser['name'],
-                "Running the console with a different user might cause unexpected side-effects.\nPlease consider to run the console with `".$webuser['name'].'`',
+                'Running the console with a different user might cause unexpected side-effects.',
             ]);
             return false;
         }
