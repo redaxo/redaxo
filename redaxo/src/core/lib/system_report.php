@@ -60,8 +60,8 @@ class rex_system_report
             }
 
             $security = rex_setup::checkDbSecurity();
-            if ($security) {
-                $dbData['Warning'] = $security;
+            foreach($security as $warning) {
+                $dbData['Warning'] = $warning ."<br/>";
             }
 
             if (1 === $dbId) {
