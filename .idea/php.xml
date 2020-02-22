@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PhpCSFixer">
+    <phpcsfixer_settings>
+      <PhpCSFixerConfiguration tool_path="$PROJECT_DIR$/vendor/bin/php-cs-fixer" />
+    </phpcsfixer_settings>
+  </component>
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/redaxo/src/addons/be_style/vendor" />
+      <path value="$PROJECT_DIR$/redaxo/src/addons/phpmailer/vendor" />
+      <path value="$PROJECT_DIR$/redaxo/src/addons/tests/vendor" />
+      <path value="$PROJECT_DIR$/redaxo/src/core/vendor" />
+      <path value="$PROJECT_DIR$/vendor/friendsofphp" />
+      <path value="$PROJECT_DIR$/vendor/nikic" />
+      <path value="$PROJECT_DIR$/vendor/symfony/finder" />
+      <path value="$PROJECT_DIR$/vendor/vimeo" />
+    </include_path>
+  </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="7.1" />
+</project>

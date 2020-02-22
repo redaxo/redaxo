@@ -1,25 +1,38 @@
 parameters:
     level: 2
     paths:
-        - redaxo/src/
+        # restrict to core and core addons, ignore other locally installed addons
+        - redaxo/src/core
+        - redaxo/src/addons/backup
+        - redaxo/src/addons/be_style
+        - redaxo/src/addons/cronjob
+        - redaxo/src/addons/debug
+        - redaxo/src/addons/install
+        - redaxo/src/addons/media_manager
+        - redaxo/src/addons/mediapool
+        - redaxo/src/addons/metainfo
+        - redaxo/src/addons/phpmailer
+        - redaxo/src/addons/project
+        - redaxo/src/addons/structure
+        - redaxo/src/addons/tests
+        - redaxo/src/addons/users
     bootstrap: phpstan-bootstrap.php
     excludes_analyse:
         - redaxo/src/addons/be_style/vendor/
         - redaxo/src/addons/debug/vendor/
-        - redaxo/src/addons/media_manager/tests/
-        - redaxo/src/addons/mediapool/tests/
         - redaxo/src/addons/phpmailer/vendor/
-        - redaxo/src/addons/structure/tests/
-        - redaxo/src/addons/structure/plugins/content/tests/
         - redaxo/src/addons/tests/vendor/
         - redaxo/src/core/vendor/
-        - redaxo/src/core/tests/
     # make phpstan aware of never returning methods
     # https://github.com/phpstan/phpstan/issues/2900
     earlyTerminatingMethodCalls:
         rex_response:
             - sendRedirect
     ignoreErrors:
+        - '#Access to an undefined property rex_media::\$med_foo\.#'
+        - '#Access to an undefined property rex_article::\$art_foo\.#'
+        - '#Access to an undefined property rex_category::\$cat_foo\.#'
+        - '#Access to an undefined property rex_clang::\$clang_foo\.#'
         -
             # allow undefined variable errors in pages, because we rely on variables beeing available from the includer scope
             message: '#Undefined variable: .+#'
