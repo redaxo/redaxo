@@ -32,7 +32,7 @@ if (count($errors) > 0) {
     $submit_message = rex_i18n::msg('setup_512');
 }
 
-foreach(rex_setup::checkDbSecurity() as $message) {
+foreach (rex_setup::checkDbSecurity() as $message) {
     $headline .= rex_view::warning($message);
 }
 

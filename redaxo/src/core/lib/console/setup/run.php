@@ -256,7 +256,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         $sql = rex_sql::factory();
         $dbEol = rex_setup::checkDbSecurity();
         if (!empty($dbEol)) {
-            foreach($dbEol as $warning) {
+            foreach ($dbEol as $warning) {
                 $io->warning($warning);
             }
         } else {
@@ -530,7 +530,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         if (0 == count($errors)) {
             $phpEol = rex_setup::checkPhpSecurity();
             if (!empty($phpEol)) {
-                foreach($phpEol as $warning) {
+                foreach ($phpEol as $warning) {
                     $this->io->warning(rex_view::warning($warning));
                 }
             } else {
