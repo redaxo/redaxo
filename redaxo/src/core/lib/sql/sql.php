@@ -144,6 +144,7 @@ class rex_sql implements Iterator
         }
         $dsn .= ';dbname=' . $database;
 
+        // array_merge() doesnt work because it looses integer keys
         $options = [
             PDO::ATTR_PERSISTENT => (bool) $persistent,
             PDO::ATTR_FETCH_TABLE_NAMES => true,
