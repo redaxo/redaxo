@@ -14,6 +14,8 @@ class rex_sql implements Iterator
     public const MYSQL = 'MySQL';
     public const MARIADB = 'MariaDB';
 
+    public const ERROR_VIOLATE_UNIQUE_KEY = 1062;
+
     /**
      * Default SQL datetime format.
      */
