@@ -144,7 +144,6 @@ class rex_file
      * @return bool TRUE on success, FALSE on failure
      */
     public static function move(string $srcfile, string $dstfile): bool {
-    {
         return rename($srcfile, $dstfile);
     }
 
