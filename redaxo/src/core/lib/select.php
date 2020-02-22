@@ -42,6 +42,9 @@ class rex_select
         $this->attributes[$name] = $value;
     }
 
+    /**
+     * @return bool
+     */
     public function delAttribute($name)
     {
         if ($this->hasAttribute($name)) {
@@ -51,6 +54,9 @@ class rex_select
         return false;
     }
 
+    /**
+     * @return bool
+     */
     public function hasAttribute($name)
     {
         return isset($this->attributes[$name]);
@@ -209,6 +215,9 @@ class rex_select
         }
     }
 
+    /**
+     * @return int
+     */
     public function countOptions()
     {
         return $this->optCount;
@@ -232,6 +241,9 @@ class rex_select
         $this->addOptions($sql->getDBArray($qry, [], PDO::FETCH_NUM));
     }
 
+    /**
+     * @return string
+     */
     public function get()
     {
         $useRexSelectStyle = false;
@@ -286,6 +298,9 @@ class rex_select
         echo $this->get();
     }
 
+    /**
+     * @return string
+     */
     protected function outGroup($parent_id, $level = 0)
     {
         if ($level > 100) {
@@ -316,6 +331,9 @@ class rex_select
         return $ausgabe;
     }
 
+    /**
+     * @return string
+     */
     protected function outOption($name, $value, $level = 0, array $attributes = [])
     {
         $name = rex_escape($name);

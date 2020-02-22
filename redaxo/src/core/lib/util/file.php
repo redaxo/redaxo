@@ -165,6 +165,42 @@ class rex_file
     }
 
     /**
+     * Detects the mime type of the given file.
+     *
+     * @param string $file Path to the file
+     *
+     * @return null|string Mime type or `null` if the type could not be detected
+     */
+    public static function mimeType($file): ?string
+    {
+        $mimeType = mime_content_type($file);
+
+        if (false === $mimeType) {
+            return null;
+        }
+
+        // map less common types to their more common equivalent
+        static $mapping = [
+            'application/xml' => 'text/xml',
+            'image/svg' => 'image/svg+xml',
+        ];
+
+        if ('text/plain' !== $mimeType) {
+            $mimeType = $mapping[$mimeType] ?? $mimeType;
+
+            return $mimeType ?: null;
+        }
+
+        static $extensions = [
+            'css' => 'text/css',
+            'js' => 'application/javascript',
+            'svg' => 'image/svg+xml',
+        ];
+
+        return $extensions[strtolower(self::extension($file))] ?? $mimeType;
+    }
+
+    /**
      * Formates the filesize of the given file into a userfriendly form.
      *
      * @param string $file   Path to the file

@@ -579,6 +579,9 @@ class rex_category_service
         }
     }
 
+    /**
+     * @return string
+     */
     private static function getUser()
     {
         if (rex::getUser()) {

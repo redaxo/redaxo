@@ -1,7 +1,21 @@
 parameters:
-    level: 5
+    level: 2
     paths:
-        - redaxo/src/
+        # restrict to core and core addons, ignore other locally installed addons
+        - redaxo/src/core
+        - redaxo/src/addons/backup
+        - redaxo/src/addons/be_style
+        - redaxo/src/addons/cronjob
+        - redaxo/src/addons/debug
+        - redaxo/src/addons/install
+        - redaxo/src/addons/media_manager
+        - redaxo/src/addons/mediapool
+        - redaxo/src/addons/metainfo
+        - redaxo/src/addons/phpmailer
+        - redaxo/src/addons/project
+        - redaxo/src/addons/structure
+        - redaxo/src/addons/tests
+        - redaxo/src/addons/users
     bootstrap: phpstan-bootstrap.php
     excludes_analyse:
         - redaxo/src/addons/be_style/vendor/
@@ -16,10 +30,9 @@ parameters:
         - redaxo/src/core/tests/
     # make phpstan aware of never returning methods
     # https://github.com/phpstan/phpstan/issues/2900
-    parameters:
-        earlyTerminatingMethodCalls:
-            rex_response:
-                - sendRedirect
+    earlyTerminatingMethodCalls:
+        rex_response:
+            - sendRedirect
     ignoreErrors:
         -
             # allow undefined variable errors in pages, because we rely on variables beeing available from the includer scope
@@ -45,9 +58,7 @@ parameters:
         -
             message: '#Call to an undefined method object::subfragment\(\)\.#'
             path: '*/fragments/*'
-        -
-            message: '#Cannot unset offset mixed on array.#'
-            path: '*/core/lib/packages/manager.php'
+
         - '#Undefined variable: \$this#'
         - '#Unsafe usage of new static\(\)\.#'
         - '#Constructor of class rex_form_.*_element has an unused parameter \$tag.#'

@@ -236,6 +236,8 @@ class rex_request
      * Returns true if the request is a PJAX-Request.
      *
      * @see http://pjax.heroku.com/
+     *
+     * @return bool
      */
     public static function isPJAXRequest()
     {

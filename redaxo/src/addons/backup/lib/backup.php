@@ -39,15 +39,8 @@ class rex_backup
         }
         $folder = $filtered;
 
-        usort($folder, static function ($file_a, $file_b) use ($dir) {
-            $time_a = filemtime($dir . '/' . $file_a);
-            $time_b = filemtime($dir . '/' . $file_b);
-
-            if ($time_a == $time_b) {
-                return 0;
-            }
-
-            return ($time_a > $time_b) ? -1 : 1;
+        usort($folder, static function ($file_a, $file_b) {
+            return $file_a <=> $file_b;
         });
 
         return $folder;
@@ -153,7 +146,7 @@ class rex_backup
             return $return;
         }
 
-        $msg .= rex_i18n::msg('backup_database_imported') . '. ' . rex_i18n::msg('backup_entry_count', count($lines)) . '<br />';
+        $msg .= rex_i18n::msg('backup_database_imported') . '. ' . rex_i18n::msg('backup_entry_count', (string) count($lines)) . '<br />';
         unset($lines);
 
         // prüfen, ob eine user tabelle angelegt wurde
@@ -473,6 +466,11 @@ class rex_backup
         closedir($handle);
     }
 
+    /**
+     * @return string[]
+     *
+     * @psalm-return list<string>
+     */
     public static function getTables()
     {
         $tables = [];

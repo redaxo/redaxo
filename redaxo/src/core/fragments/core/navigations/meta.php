@@ -11,18 +11,18 @@ if (count($items) > 0) {
     foreach ($items as $item) {
         $list_item = '';
 
-        if (isset($item['title']) && $item['title'] != '') {
+        if (isset($item['title']) && '' != $item['title']) {
             $list_item .= $item['title'];
         }
 
         $attributes = '';
-        if (isset($item['attributes']) && trim($item['attributes']) != '') {
+        if (isset($item['attributes']) && '' != trim($item['attributes'])) {
             $attributes = ' ' . trim($item['attributes']);
         }
 
-        if (isset($item['href']) && $item['href'] != '') {
+        if (isset($item['href']) && '' != $item['href']) {
             $list_item = '<a href="' . $item['href'] . '"' . $attributes . '>' . $list_item . '</a>';
-        } elseif ($attributes != '') {
+        } elseif ('' != $attributes) {
             $list_item = '<span' . $attributes . '>' . $list_item . '</span>';
         }
 

@@ -92,7 +92,7 @@ class rex_media
      */
     public static function getRootMedia()
     {
-        return static::getInstanceList('root_media', 'static::get', static function () {
+        return static::getInstanceList('root_media', ['static', 'get'], static function () {
             $list_path = rex_path::addonCache('mediapool', '0.mlist');
 
             $list = rex_file::getCache($list_path, null);
@@ -296,6 +296,9 @@ class rex_media
         return rex_file::extension($this->name);
     }
 
+    /**
+     * @return bool
+     */
     public function fileExists()
     {
         return file_exists(rex_path::media($this->getFileName()));
@@ -307,6 +310,9 @@ class rex_media
         return rex_addon::get('mediapool')->getProperty('allowed_doctypes');
     }
 
+    /**
+     * @return bool
+     */
     public static function isDocType($type)
     {
         return in_array($type, self :: getDocTypes());
@@ -318,11 +324,17 @@ class rex_media
         return rex_addon::get('mediapool')->getProperty('image_extensions');
     }
 
+    /**
+     * @return bool
+     */
     public static function isImageType($extension)
     {
         return in_array($extension, self::getImageTypes());
     }
 
+    /**
+     * @return bool
+     */
     public function hasValue($value)
     {
         return isset($this->$value) || isset($this->{'med_' . $value});

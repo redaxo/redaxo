@@ -125,6 +125,9 @@ final class rex_parsedown_with_toc extends ParsedownExtra
         return $this->handleHeader($block);
     }
 
+    /**
+     * @return array|null
+     */
     private function handleHeader(array $block = null)
     {
         if (!$block) {

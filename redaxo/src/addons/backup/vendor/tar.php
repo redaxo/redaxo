@@ -334,8 +334,11 @@ class tar {
     return true;
   }
 
-
-  // Open a TAR file
+  /**
+   * Open a TAR file
+   *
+   * @return bool
+   */
   public function openTAR($filename) {
     // Clear any values from previous tar archives
     unset($this->filename);
@@ -358,8 +361,11 @@ class tar {
     return true;
   }
 
-
-  // Appends a tar file to the end of the currently opened tar file
+  /**
+   * Appends a tar file to the end of the currently opened tar file
+   *
+   * @return bool
+   */
   public function appendTar($filename) {
     // If the tar file doesn't exist...
     if(!file_exists($filename))
@@ -396,8 +402,11 @@ class tar {
     return false;
   }
 
-
-  // Check if this tar archive contains a specific file
+  /**
+   * Check if this tar archive contains a specific file
+   *
+   * @return bool
+   */
   public function containsFile($filename) {
     if($this->numFiles > 0) {
       foreach($this->files as $key => $information) {
@@ -410,7 +419,11 @@ class tar {
   }
 
 
-  // Check if this tar archive contains a specific directory
+  /**
+   * Check if this tar archive contains a specific directory
+   *
+   * @return bool
+   */
   public function containsDirectory($dirname) {
     if($this->numDirectories > 0) {
       foreach($this->directories as $key => $information) {
@@ -423,7 +436,11 @@ class tar {
   }
 
 
-  // Add a directory to this tar archive
+  /**
+   * Add a directory to this tar archive
+   *
+   * @return bool
+   */
   public function addDirectory($dirname) {
     if(!file_exists($dirname))
       return false;
@@ -436,7 +453,7 @@ class tar {
     $activeDir    = &$this->directories[];
     $activeDir["name"]  = $dirname;
     $activeDir["mode"]  = $file_information["mode"];
-    $activeDir["time"]  = $file_information["time"];
+    $activeDir["time"]  = $file_information["mtime"];
     $activeDir["user_id"] = $file_information["uid"];
     $activeDir["group_id"]  = $file_information["gid"];
     // STM: Warnung gefixed
@@ -446,7 +463,11 @@ class tar {
   }
 
 
-  // Add a file to the tar archive
+  /**
+   * Add a file to the tar archive
+   *
+   * @return bool
+   */
   public function addFile($filename) {
     // Make sure the file we are adding exists!
     if(!file_exists($filename))
@@ -482,8 +503,11 @@ class tar {
     return true;
   }
 
-
-  // Remove a file from the tar archive
+  /**
+   * Remove a file from the tar archive
+   *
+   * @return bool
+   */
   public function removeFile($filename) {
     if($this->numFiles > 0) {
       foreach($this->files as $key => $information) {
@@ -498,8 +522,11 @@ class tar {
     return false;
   }
 
-
-  // Remove a directory from the tar archive
+  /**
+   * Remove a directory from the tar archive
+   *
+   * @return bool
+   */
   public function removeDirectory($dirname) {
     if($this->numDirectories > 0) {
       foreach($this->directories as $key => $information) {
@@ -514,8 +541,11 @@ class tar {
     return false;
   }
 
-
-  // Write the currently loaded tar archive to disk
+  /**
+   * Write the currently loaded tar archive to disk
+   *
+   * @return bool
+   */
   public function saveTar() {
     if(!$this->filename)
       return false;
@@ -526,8 +556,11 @@ class tar {
     return true;
   }
 
-
-  // Saves tar archive to a different file than the current file
+  /**
+   * Saves tar archive to a different file than the current file
+   *
+   * @return bool
+   */
   public function toTar($filename,$useGzip) {
     if(!$filename)
       return false;

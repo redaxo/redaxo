@@ -273,6 +273,7 @@ if ('' == $func) {
                         }
                         break;
                     case 'select':
+                        /** @var rex_form_select_element $field */
                         $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
                         $field->setLabel($label);
                         $field->setAttribute('class', 'form-control selectpicker');
@@ -284,6 +285,7 @@ if ('' == $func) {
                         break;
                     case 'checkbox':
                     case 'radio':
+                        /** @var rex_form_radio_element $field */
                         $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
                         $field->addArrayOptions($param['options']);
                         if (isset($param['notice'])) {

@@ -104,6 +104,11 @@ class rex_media_manager
         }
     }
 
+    /**
+     * @return array[]
+     *
+     * @psalm-return list<array{effect: string, params: array<string, mixed>}>
+     */
     public function effectsFromType($type)
     {
         $qry = '
@@ -156,6 +161,9 @@ class rex_media_manager
         $this->use_cache = $t;
     }
 
+    /**
+     * @return bool
+     */
     public function isCached()
     {
         $cache_file = $this->getCacheFilename();
@@ -187,11 +195,17 @@ class rex_media_manager
         return $cachetime > $filetime;
     }
 
+    /**
+     * @return string
+     */
     public function getCacheFilename()
     {
         return $this->cache_path.$this->type.'/'.$this->originalFilename;
     }
 
+    /**
+     * @return string
+     */
     public function getHeaderCacheFilename()
     {
         return $this->getCacheFilename() . '.header';
@@ -222,6 +236,9 @@ class rex_media_manager
         return $counter;
     }
 
+    /**
+     * @return int
+     */
     public static function deleteCache($filename = null, $type = null)
     {
         $filename = ($filename ?: '').'*';
@@ -293,6 +310,11 @@ class rex_media_manager
         exit;
     }
 
+    /**
+     * @return array
+     *
+     * @psalm-return array<class-string, string>
+     */
     public static function getSupportedEffects()
     {
         $dirs = [
@@ -321,6 +343,9 @@ class rex_media_manager
         self::$effects[] = $class;
     }
 
+    /**
+     * @return string
+     */
     private static function getEffectName($effectFile)
     {
         return str_replace(
@@ -330,6 +355,9 @@ class rex_media_manager
         );
     }
 
+    /**
+     * @return string
+     */
     private static function getEffectClass($effectFile)
     {
         return 'rex_' . str_replace(
@@ -342,6 +370,7 @@ class rex_media_manager
     /*
      * For ExtensionPoints.
      */
+
     public static function mediaUpdated(rex_extension_point $ep)
     {
         self::deleteCache($ep->getParam('filename'));
@@ -367,6 +396,9 @@ class rex_media_manager
         }
     }
 
+    /**
+     * @return string
+     */
     public static function getMediaFile()
     {
         $rex_media_file = rex_get('rex_media_file', 'string');
@@ -379,6 +411,9 @@ class rex_media_manager
         return $rex_media_file;
     }
 
+    /**
+     * @return string
+     */
     public static function getMediaType()
     {
         $type = rex_get('rex_media_type', 'string');
@@ -423,11 +458,7 @@ class rex_media_manager
             }
         }
 
-        if (rex::isBackend()) {
-            $url = rex_url::backendController($params, $escape);
-        } else {
-            $url = rex_url::frontendController($params, $escape);
-        }
+        $url = rex_url::frontendController($params, $escape);
 
         return rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_URL', $url, [
             'type' => $type,

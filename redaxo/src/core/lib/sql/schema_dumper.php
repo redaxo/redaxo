@@ -63,6 +63,9 @@ class rex_sql_schema_dumper
         return $code;
     }
 
+    /**
+     * @return string
+     */
     private function getColumn(rex_sql_column $column)
     {
         $parameters = [];
@@ -88,6 +91,9 @@ class rex_sql_schema_dumper
         return 'new rex_sql_column('.implode(', ', array_reverse($parameters)).')';
     }
 
+    /**
+     * @return string
+     */
     private function getIndex(rex_sql_index $index)
     {
         $parameters = [
@@ -107,6 +113,9 @@ class rex_sql_schema_dumper
         return 'new rex_sql_index('.implode(', ', $parameters).')';
     }
 
+    /**
+     * @return string
+     */
     private function getForeignKey(rex_sql_foreign_key $foreignKey)
     {
         $parameters = [
@@ -154,6 +163,9 @@ class rex_sql_schema_dumper
         return 'rex::getTable('.$this->scalar($name).')';
     }
 
+    /**
+     * @return string
+     */
     private function scalar($scalar)
     {
         if (null === $scalar) {
@@ -163,6 +175,9 @@ class rex_sql_schema_dumper
         return var_export($scalar, true);
     }
 
+    /**
+     * @return string
+     */
     private function simpleArray(array $list)
     {
         $parts = [];
@@ -174,6 +189,9 @@ class rex_sql_schema_dumper
         return '['.implode(', ', $parts).']';
     }
 
+    /**
+     * @return string
+     */
     private function map(array $map)
     {
         $parts = [];

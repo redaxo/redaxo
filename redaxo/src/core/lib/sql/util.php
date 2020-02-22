@@ -68,6 +68,9 @@ class rex_sql_util
         return true;
     }
 
+    /**
+     * @return string
+     */
     private static function prepareQuery($qry)
     {
         // rex::getUser() gibts im Setup nicht
@@ -108,6 +111,8 @@ class rex_sql_util
         return false;
     }
 
+    // Taken from phpmyadmin (read_dump.lib.php: PMA_splitSqlFile)
+
     /**
      * Removes comment lines and splits up large sql files into individual queries.
      *
@@ -120,7 +125,6 @@ class rex_sql_util
      *
      * @return bool always true
      */
-    // Taken from phpmyadmin (read_dump.lib.php: PMA_splitSqlFile)
     public static function splitSqlFile(&$ret, $sql, $release)
     {
         // do not trim, see bug #1030644

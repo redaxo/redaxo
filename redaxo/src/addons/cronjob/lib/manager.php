@@ -27,6 +27,9 @@ class rex_cronjob_manager
     private $name;
     private $id;
 
+    /**
+     * @return self
+     */
     public static function factory()
     {
         return new self();
@@ -37,11 +40,17 @@ class rex_cronjob_manager
         $this->message = $message;
     }
 
+    /**
+     * @return string
+     */
     public function getMessage()
     {
         return $this->message;
     }
 
+    /**
+     * @return bool
+     */
     public function hasMessage()
     {
         return !empty($this->message);

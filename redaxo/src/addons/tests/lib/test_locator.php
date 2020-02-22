@@ -32,6 +32,9 @@ class rex_test_locator implements IteratorAggregate
         return $this->testFoldersIterator;
     }
 
+    /**
+     * @return self
+     */
     public static function defaultLocator()
     {
         $locator = new self();

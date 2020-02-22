@@ -86,6 +86,7 @@ if ('' == $func) {
     $registerImplicitePagePermissions(rex_be_controller::getPages());
 
     foreach ([rex_perm::GENERAL, rex_perm::OPTIONS, rex_perm::EXTRAS] as $permgroup) {
+        /** @var rex_form_select_element $field */
         $field = $fieldContainer->addGroupedField($group, 'select', $permgroup);
         $field->setLabel(rex_i18n::msg('user_' . $permgroup));
         $select = $field->getSelect();
@@ -104,6 +105,7 @@ if ('' == $func) {
     foreach (rex_complex_perm::getAll() as $key => $class) {
         $params = $class::getFieldParams();
         if (!empty($params)) {
+            /** @var rex_form_perm_select_element $field */
             $field = $fieldContainer->addGroupedField($group, 'perm_select', $key);
             $field->setLabel($params['label']);
             $field->setCheckboxLabel($params['all_label']);

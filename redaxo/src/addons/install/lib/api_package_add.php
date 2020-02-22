@@ -7,17 +7,26 @@
  */
 class rex_api_install_package_add extends rex_api_install_package_download
 {
+    /**
+     * @return string
+     */
     protected function getErrorMessage()
     {
         return rex_i18n::msg('install_warning_addon_not_downloaded', $this->addonkey);
     }
 
+    /**
+     * @return string
+     */
     protected function getSuccessMessage()
     {
         return rex_i18n::msg('install_info_addon_downloaded', $this->addonkey)
             . ' <a href="' . rex_url::backendPage('packages', ['mark' => $this->addonkey]) . '">' . rex_i18n::msg('install_to_addon_page') . '</a>';
     }
 
+    /**
+     * @return array
+     */
     protected function getPackages()
     {
         return rex_install_packages::getAddPackages();

@@ -37,6 +37,9 @@ class rex_form_control_element extends rex_form_element
         $this->abortElement = $abortElement;
     }
 
+    /**
+     * @return string
+     */
     protected function _get()
     {
         $s = '';
@@ -114,6 +117,9 @@ class rex_form_control_element extends rex_form_element
         return $s;
     }
 
+    /**
+     * @return bool
+     */
     public function submitted($element)
     {
         return is_object($element) && '' != rex_post($element->getAttribute('name'), 'string');

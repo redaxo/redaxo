@@ -7,7 +7,6 @@ $count = count($this->content);
 $this->classes = isset($this->classes) && (is_array($this->classes) && count($this->classes) == $count) ? $this->classes : [];
 
 switch ($count) {
-
     case '4':
 
         echo '<div class="row">';
@@ -51,5 +50,4 @@ switch ($count) {
         }
 
         break;
-
 }
