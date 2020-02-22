@@ -347,7 +347,7 @@ class rex_article_service
         if (1 == $GA->getRows()) {
             // Status wurde nicht von außen vorgegeben,
             // => zyklisch auf den nächsten Weiterschalten
-            if ($status === null) {
+            if (null === $status) {
                 $newstatus = self::nextStatus($GA->getValue('status'));
             } else {
                 $newstatus = $status;

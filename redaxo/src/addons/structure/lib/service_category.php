@@ -338,7 +338,7 @@ class rex_category_service
         if (1 == $KAT->getRows()) {
             // Status wurde nicht von außen vorgegeben,
             // => zyklisch auf den nächsten Weiterschalten
-            if ($status === null) {
+            if (null === $status) {
                 $newstatus = self::nextStatus($KAT->getValue('status'));
             } else {
                 $newstatus = $status;

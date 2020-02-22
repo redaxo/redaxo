@@ -170,11 +170,11 @@ if ($KAT->getRows() > 0) {
 
         if ($structureContext->hasCategoryPermission()) {
             if ($structureContext->hasCategoryPermission() && rex::getUser()->hasPerm('publishCategory[]')) {
-                $td_layout_class  = "rex-table-action-no-dropdown";
-                if(count($catStatusTypes) > 2) {
-                    $td_layout_class  = "rex-table-action-dropdown";
+                $td_layout_class = 'rex-table-action-no-dropdown';
+                if (count($catStatusTypes) > 2) {
+                    $td_layout_class = 'rex-table-action-dropdown';
                     $kat_status = '<div class="dropdown"><a href="#" class="dropdown-toggle '. $status_class .'" type="button" data-toggle="dropdown"><i class="rex-icon ' . $status_icon . '"></i>&nbsp;'.$kat_status.'&nbsp;<span class="caret"></span></a><ul class="dropdown-menu dropdown-menu-right">';
-                    foreach($catStatusTypes as $cat_status_key => $catStatusType) {
+                    foreach ($catStatusTypes as $cat_status_key => $catStatusType) {
                         $kat_status .= '<li><a class="' . $catStatusType[1] . '" href="' . $structureContext->getContext()->getUrl(['category-id' => $i_category_id, 'catstart' => $structureContext->getCatStart(), 'cat_status' => $cat_status_key] + rex_api_category_status::getUrlParams()) . '">' . $catStatusType[0] . '</a></li>';
                     }
                     $kat_status .= '</ul></div>';
@@ -469,19 +469,18 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                 }
 
                 if ($structureContext->hasCategoryPermission() && rex::getUser()->hasPerm('publishArticle[]')) {
-                    $td_layout_class  = "rex-table-action-no-dropdown";
+                    $td_layout_class = 'rex-table-action-no-dropdown';
 
-                    if(count($artStatusTypes) > 2) {
-                        $td_layout_class  = "rex-table-action-dropdown";
+                    if (count($artStatusTypes) > 2) {
+                        $td_layout_class = 'rex-table-action-dropdown';
                         $article_status = '<div class="dropdown"><a href="#" class="dropdown-toggle '. $article_class .'" type="button" data-toggle="dropdown"><i class="rex-icon ' . $article_icon . '"></i>&nbsp;'.$article_status.'&nbsp;<span class="caret"></span></a><ul class="dropdown-menu dropdown-menu-right">';
-                        foreach($artStatusTypes as $art_status_key => $artStatusType) {
+                        foreach ($artStatusTypes as $art_status_key => $artStatusType) {
                             $article_status .= '<li><a  class="' . $artStatusType[1] . '" href="' . $structureContext->getContext()->getUrl(['article_id' => $sql->getValue('id'), 'artstart' => $structureContext->getArtStart(), 'art_status' => $art_status_key] + rex_api_article_status::getUrlParams()) . '">' . $artStatusType[0] . '</a></li>';
                         }
                         $article_status .= '</ul></div>';
                     } else {
                         $article_status = '<a class="' . $article_class . '" href="' . $structureContext->getContext()->getUrl(['article_id' => $sql->getValue('id'), 'artstart' => $structureContext->getArtStart()] + rex_api_article_status::getUrlParams()) . '"><i class="rex-icon ' . $article_icon . '"></i>&nbsp;' . $article_status . '</a>';
                     }
-
                 } else {
                     $article_status = '<span class="' . $article_class . ' text-muted"><i class="rex-icon ' . $article_icon . '"></i> ' . $article_status . '</span>';
                 }
