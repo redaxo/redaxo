@@ -57,6 +57,14 @@ Your marker still missing? [Learn how to place it on the map](https://github.com
 
 &nbsp;
 
+## Contributions
+
+### PHPStorm configuration
+
+make sure to disable the following settings in your local PHPStorm composer config:
+
+![PHPStorm composer config](https://user-images.githubusercontent.com/120441/75092649-4037ef00-557a-11ea-9b40-539d48f18bb5.png)
+
 ## Copyright & License
 
 REDAXO was developed by [Yakamara](http://www.yakamara.de) (Frankfurt am Main/Germany 🇩🇪), is open-source since 2004 and is released under the [MIT license](LICENSE.md).
