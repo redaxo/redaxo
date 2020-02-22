@@ -39,15 +39,8 @@ class rex_backup
         }
         $folder = $filtered;
 
-        usort($folder, static function ($file_a, $file_b) use ($dir) {
-            $time_a = filemtime($dir . '/' . $file_a);
-            $time_b = filemtime($dir . '/' . $file_b);
-
-            if ($time_a == $time_b) {
-                return 0;
-            }
-
-            return ($time_a > $time_b) ? -1 : 1;
+        usort($folder, static function ($file_a, $file_b) {
+            return $file_a <=> $file_b;
         });
 
         return $folder;
