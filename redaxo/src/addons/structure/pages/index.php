@@ -168,9 +168,20 @@ if ($KAT->getRows() > 0) {
         $status_class = $catStatusTypes[$KAT->getValue('status')][1];
         $status_icon = $catStatusTypes[$KAT->getValue('status')][2];
 
+        $td_layout_class = '';
         if ($structureContext->hasCategoryPermission()) {
-            if ($structureContext->hasCategoryPermission() && rex::getUser()->hasPerm('publishCategory[]')) {
-                $kat_status = '<a class="' . $status_class . '" href="' . $structureContext->getContext()->getUrl(['category-id' => $i_category_id, 'catstart' => $structureContext->getCatStart()] + rex_api_category_status::getUrlParams()) . '"><i class="rex-icon ' . $status_icon . '"></i> ' . $kat_status . '</a>';
+            if (rex::getUser()->hasPerm('publishCategory[]')) {
+                $td_layout_class = 'rex-table-action-no-dropdown';
+                if (count($catStatusTypes) > 2) {
+                    $td_layout_class = 'rex-table-action-dropdown';
+                    $kat_status = '<div class="dropdown"><a href="#" class="dropdown-toggle '. $status_class .'" type="button" data-toggle="dropdown"><i class="rex-icon ' . $status_icon . '"></i>&nbsp;'.$kat_status.'&nbsp;<span class="caret"></span></a><ul class="dropdown-menu dropdown-menu-right">';
+                    foreach ($catStatusTypes as $cat_status_key => $catStatusType) {
+                        $kat_status .= '<li><a class="' . $catStatusType[1] . '" href="' . $structureContext->getContext()->getUrl(['category-id' => $i_category_id, 'catstart' => $structureContext->getCatStart(), 'cat_status' => $cat_status_key] + rex_api_category_status::getUrlParams()) . '">' . $catStatusType[0] . '</a></li>';
+                    }
+                    $kat_status .= '</ul></div>';
+                } else {
+                    $kat_status = '<a class="' . $status_class . '" href="' . $structureContext->getContext()->getUrl(['category-id' => $i_category_id, 'catstart' => $structureContext->getCatStart()] + rex_api_category_status::getUrlParams()) . '"><i class="rex-icon ' . $status_icon . '"></i>&nbsp;' . $kat_status . '</a>';
+                }
             } else {
                 $kat_status = '<span class="' . $status_class . ' text-muted"><i class="rex-icon ' . $status_icon . '"></i> ' . $kat_status . '</span>';
             }
@@ -229,7 +240,7 @@ if ($KAT->getRows() > 0) {
                         <td class="rex-table-action"><a href="' . $structureContext->getContext()->getUrl(['category-id' => $i_category_id, 'catstart' => $structureContext->getCatStart()] + rex_api_category_delete::getUrlParams()) . '" data-confirm="' . rex_i18n::msg('delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</a></td>';
                 }
                 $echo .= '
-                        <td class="rex-table-action">' . $kat_status . '</td>
+                        <td class="rex-table-action '.$td_layout_class.'">' . $kat_status . '</td>
                     </tr>';
             }
         } elseif (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($i_category_id)) {
@@ -458,13 +469,25 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                     $add_extra .= '<td class="rex-table-action"><a href="' . $structureContext->getContext()->getUrl(['article_id' => $sql->getValue('id'), 'artstart' => $structureContext->getArtStart()] + rex_api_article_delete::getUrlParams()) . '" data-confirm="' . rex_i18n::msg('delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</a></td>';
                 }
 
+                $td_layout_class = '';
                 if ($structureContext->hasCategoryPermission() && rex::getUser()->hasPerm('publishArticle[]')) {
-                    $article_status = '<a class="' . $article_class . '" href="' . $structureContext->getContext()->getUrl(['article_id' => $sql->getValue('id'), 'artstart' => $structureContext->getArtStart()] + rex_api_article_status::getUrlParams()) . '"><i class="rex-icon ' . $article_icon . '"></i> ' . $article_status . '</a>';
+                    $td_layout_class = 'rex-table-action-no-dropdown';
+
+                    if (count($artStatusTypes) > 2) {
+                        $td_layout_class = 'rex-table-action-dropdown';
+                        $article_status = '<div class="dropdown"><a href="#" class="dropdown-toggle '. $article_class .'" type="button" data-toggle="dropdown"><i class="rex-icon ' . $article_icon . '"></i>&nbsp;'.$article_status.'&nbsp;<span class="caret"></span></a><ul class="dropdown-menu dropdown-menu-right">';
+                        foreach ($artStatusTypes as $art_status_key => $artStatusType) {
+                            $article_status .= '<li><a  class="' . $artStatusType[1] . '" href="' . $structureContext->getContext()->getUrl(['article_id' => $sql->getValue('id'), 'artstart' => $structureContext->getArtStart(), 'art_status' => $art_status_key] + rex_api_article_status::getUrlParams()) . '">' . $artStatusType[0] . '</a></li>';
+                        }
+                        $article_status .= '</ul></div>';
+                    } else {
+                        $article_status = '<a class="' . $article_class . '" href="' . $structureContext->getContext()->getUrl(['article_id' => $sql->getValue('id'), 'artstart' => $structureContext->getArtStart()] + rex_api_article_status::getUrlParams()) . '"><i class="rex-icon ' . $article_icon . '"></i>&nbsp;' . $article_status . '</a>';
+                    }
                 } else {
                     $article_status = '<span class="' . $article_class . ' text-muted"><i class="rex-icon ' . $article_icon . '"></i> ' . $article_status . '</span>';
                 }
 
-                $add_extra .= '<td class="rex-table-action">' . $article_status . '</td>';
+                $add_extra .= '<td class="rex-table-action '.$td_layout_class.'">' . $article_status . '</td>';
             }
 
             $editModeUrl = $structureContext->getContext()->getUrl(['page' => 'content/edit', 'article_id' => $sql->getValue('id'), 'mode' => 'edit']);

@@ -23,3 +23,7 @@ requires:
     php:
         extensions: [zlib]
     redaxo: ^5.5.0
+
+
+console_commands:
+    install:list: rex_command_install_list
