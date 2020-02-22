@@ -4,6 +4,7 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * @package redaxo\core
@@ -18,6 +19,9 @@ class rex_console_application extends Application
     public function doRun(InputInterface $input, OutputInterface $output)
     {
         try {
+            if (!$this->checkConsoleUser($input, $output)) {
+                return 1;
+            }
             return parent::doRun($input, $output);
         } catch (\Exception $e) {
             // catch and rethrow \Exceptions first to only catch fatal errors below (\Exception implements \Throwable)
@@ -89,5 +93,27 @@ class rex_console_application extends Application
         }
 
         rex_extension::registerPoint(new rex_extension_point('PACKAGES_INCLUDED'));
+    }
+
+    private function checkConsoleUser(InputInterface $input, OutputInterface $output): bool {
+        $io = new SymfonyStyle($input, $output);
+
+        if (!function_exists('posix_getuid')) {
+            $io->title('REDAXO console');
+            $io->error('The posix extensions are required - see http://php.net/manual/en/book.posix.php');
+            return false;
+        }
+
+        $currentuser = posix_getpwuid(posix_getuid());
+        $webuser = posix_getpwuid(fileowner(rex_path::backend()));
+        if ($currentuser['name'] !== $webuser['name']) {
+            $io->warning([
+                'Current user: ' . $currentuser['name']."\nOwner of redaxo: " . $webuser['name'],
+                "Running the console with a different user might cause unexpected side-effects.\nPlease consider to run the console with `".$webuser['name'].'`'
+            ]);
+            return false;
+        }
+
+        return true;
     }
 }
