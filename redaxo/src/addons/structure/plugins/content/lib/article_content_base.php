@@ -495,6 +495,11 @@ class rex_article_content_base
             ],
             $content
         );
+
+        if (false !== strpos($content, 'REX_MODULE_KEY')) {
+            $module = new rex_module($sql->getValue('module_id'));
+            $content = str_replace('REX_MODULE_KEY', $module->getKey(), $content);
+        }
         return $content;
     }
 

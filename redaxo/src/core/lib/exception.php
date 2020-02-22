@@ -39,6 +39,18 @@ class rex_sql_exception extends rex_exception
     {
         return $this->sql;
     }
+
+    /**
+     * Returns the mysql native error code.
+     */
+    public function getErrorCode(): ?int
+    {
+        $previous = $this->getPrevious();
+        if ($previous instanceof \PDOException) {
+            return $previous->errorInfo[1] ?? null;
+        }
+        return null;
+    }
 }
 
 /**

@@ -41,7 +41,10 @@ class rex_template
 
         if (1 == $sql->getRows()) {
             $template_id = $sql->getValue('id');
-            return new self($template_id);
+
+            $template = new self($template_id);
+            $template->key == $template_key;
+            return $template;
         }
 
         return null;
