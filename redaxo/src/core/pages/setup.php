@@ -88,8 +88,8 @@ if ($step > 4) {
         $config['db'][1]['host'] = trim(rex_post('mysql_host', 'string'));
         $config['db'][1]['login'] = trim(rex_post('redaxo_db_user_login', 'string'));
 
-        $passwd = rex_post('redaxo_db_user_pass', 'string');
-        if ($passwd) {
+        $passwd = rex_post('redaxo_db_user_pass', 'string', rex_setup::DEFAULT_DUMMY_PASSWORD);
+        if ($passwd != rex_setup::DEFAULT_DUMMY_PASSWORD) {
             $config['db'][1]['password'] = $passwd;
         }
         $config['db'][1]['name'] = trim(rex_post('dbname', 'string'));
