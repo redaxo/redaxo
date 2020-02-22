@@ -62,6 +62,7 @@ class rex_effect_convert2img extends rex_effect_abstract
         if (!in_array(strtolower($ext), self::$convert_types)) {
             return;
         }
+
         if (class_exists(Imagick::class)) {
             $imagick = new Imagick();
             $imagick->readImage($from_path.'[0]');
