@@ -45,7 +45,9 @@ $security .= '<script>
 
 </script>';
 
-$security .= rex_setup::checkPhpSecurity();
+foreach(rex_setup::checkPhpSecurity() as $warning) {
+    $security .= rex_view::warning($warning);
+}
 
 echo rex_view::title(rex_i18n::msg('setup_300'));
 

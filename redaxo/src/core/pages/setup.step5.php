@@ -16,9 +16,6 @@ if ($supportsUtf8mb4) {
     }
 }
 
-// rex_sql will only work after rex_setup::checkDb() succeeded
-$security = rex_setup::checkDbSecurity();
-
 $headline = rex_view::title(rex_i18n::msg('setup_500'));
 
 $content = '
@@ -35,8 +32,8 @@ if (count($errors) > 0) {
     $submit_message = rex_i18n::msg('setup_512');
 }
 
-if ($security) {
-    $headline .= $security;
+foreach(rex_setup::checkDbSecurity() as $message) {
+    $headline .= rex_view::warning($message);
 }
 
 $dbchecked = array_fill(0, 6, '');
