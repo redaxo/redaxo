@@ -166,7 +166,7 @@ if ('add' == $function || 'edit' == $function) {
                     'categories' => $categories,
                 ]));
             } catch (rex_sql_exception $e) {
-                if ($e->getErrorCode() == rex_sql::ERROR_VIOLATE_UNIQUE_KEY) {
+                if (rex_sql::ERROR_VIOLATE_UNIQUE_KEY == $e->getErrorCode()) {
                     $error = rex_i18n::msg('template_key_exists');
                     $save = 'nein';
                 } else {
@@ -191,7 +191,7 @@ if ('add' == $function || 'edit' == $function) {
                     'categories' => $categories,
                 ]));
             } catch (rex_sql_exception $e) {
-                if ($e->getErrorCode() == rex_sql::ERROR_VIOLATE_UNIQUE_KEY) {
+                if (rex_sql::ERROR_VIOLATE_UNIQUE_KEY == $e->getErrorCode()) {
                     $error = rex_i18n::msg('template_key_exists');
                     $save = 'nein';
                 } else {
