@@ -45,7 +45,8 @@ class rex_effect_convert2img extends rex_effect_abstract
         }
 
         $density = (int) $this->params['density'];
-        $color = $this->params['color'];
+
+        $color = $this->params['color'] ?? '';
 
         if (!in_array($density, self::$densities)) {
             $density = self::$density_default;
