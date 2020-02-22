@@ -63,7 +63,7 @@ class rex_system_report
             if ($security) {
                 $dbData['Warning'] = $security;
             }
-            
+
             if (1 === $dbId) {
                 $data['Database'] = $dbData;
             } else {
