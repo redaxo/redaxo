@@ -136,6 +136,19 @@ class rex_file
     }
 
     /**
+     * Renames a file.
+     *
+     * @param string $srcfile Path of the source file
+     * @param string $dstfile Path of the destination file or directory
+     *
+     * @return bool TRUE on success, FALSE on failure
+     */
+    public static function move(string $srcfile, string $dstfile): bool
+    {
+        return rename($srcfile, $dstfile);
+    }
+
+    /**
      * Deletes a file.
      *
      * @param string $file Path of the file
