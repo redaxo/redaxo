@@ -12,7 +12,8 @@ $save = rex_request('save', 'string');
 $module_id = rex_request('module_id', 'int');
 $action_id = rex_request('action_id', 'int');
 $iaction_id = rex_request('iaction_id', 'int'); // id der module-action relation
-$mname = rex_request('mname', 'string');
+$mname = trim(rex_request('mname', 'string'));
+$mkey = trim(rex_request('mkey', 'string'));
 $eingabe = rex_request('eingabe', 'string');
 $ausgabe = rex_request('ausgabe', 'string');
 $goon = rex_request('goon', 'string');
@@ -114,6 +115,7 @@ if ('add' == $function || 'edit' == $function) {
                 $IMOD = rex_sql::factory();
                 $IMOD->setTable(rex::getTablePrefix() . 'module');
                 $IMOD->setValue('name', $mname);
+                $IMOD->setValue('key', $mkey);
                 $IMOD->setValue('input', $eingabe);
                 $IMOD->setValue('output', $ausgabe);
                 $IMOD->addGlobalCreateFields();
@@ -123,6 +125,7 @@ if ('add' == $function || 'edit' == $function) {
                 $success = rex_extension::registerPoint(new rex_extension_point('MODULE_ADDED', $success, [
                     'id' => $IMOD->getLastId(),
                     'name' => $mname,
+                    'key' => $mkey,
                     'input' => $eingabe,
                     'output' => $ausgabe,
                 ]));
@@ -135,6 +138,7 @@ if ('add' == $function || 'edit' == $function) {
                     $UMOD->setTable(rex::getTablePrefix() . 'module');
                     $UMOD->setWhere(['id' => $module_id]);
                     $UMOD->setValue('name', $mname);
+                    $UMOD->setValue('key', $mkey);
                     $UMOD->setValue('input', $eingabe);
                     $UMOD->setValue('output', $ausgabe);
                     $UMOD->addGlobalUpdateFields();
@@ -144,6 +148,7 @@ if ('add' == $function || 'edit' == $function) {
                     $success = rex_extension::registerPoint(new rex_extension_point('MODULE_UPDATED', $success, [
                         'id' => $module_id,
                         'name' => $mname,
+                        'key' => $mkey,
                         'input' => $eingabe,
                         'output' => $ausgabe,
                     ]));
@@ -181,6 +186,7 @@ if ('add' == $function || 'edit' == $function) {
             $hole = rex_sql::factory();
             $hole->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module WHERE id=?', [$module_id]);
             $mname = $hole->getValue('name');
+            $mkey = $hole->getValue('key');
             $ausgabe = $hole->getValue('output');
             $eingabe = $hole->getValue('input');
         } else {
@@ -216,6 +222,12 @@ if ('add' == $function || 'edit' == $function) {
         $n['label'] = '<label for="mname">' . rex_i18n::msg('module_name') . '</label>';
         $n['field'] = '<input class="form-control" id="mname" type="text" name="mname" value="' . rex_escape($mname) . '" />';
         $n['note'] = rex_i18n::msg('translatable');
+        $formElements[] = $n;
+
+        $n = [];
+        $n['label'] = '<label for="mkey">' . rex_i18n::msg('module_key') . '</label>';
+        $n['field'] = '<input class="form-control" id="mkey" type="text" name="mkey" value="' . rex_escape($mkey) . '" />';
+        $n['note'] = rex_i18n::msg('module_key_notice');
         $formElements[] = $n;
 
         $n = [];
@@ -381,7 +393,7 @@ if ($OUT) {
         $message .= rex_view::error($error);
     }
 
-    $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'module ORDER BY name', 100);
+    $list = rex_list::factory('SELECT id, `key`, name FROM ' . rex::getTablePrefix() . 'module ORDER BY name', 100);
     $list->addParam('start', rex_request('start', 'int'));
     $list->addTableAttribute('class', 'table-striped table-hover');
 
@@ -392,6 +404,8 @@ if ($OUT) {
 
     $list->setColumnLabel('id', rex_i18n::msg('id'));
     $list->setColumnLayout('id', ['<th class="rex-table-id">###VALUE###</th>', '<td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">###VALUE###</td>']);
+
+    $list->setColumnLabel('key', rex_i18n::msg('module_key'));
 
     $list->setColumnLabel('name', rex_i18n::msg('module_description'));
     $list->setColumnParams('name', ['function' => 'edit', 'module_id' => '###id###']);
