@@ -89,8 +89,8 @@ if ('license' == $subpage) {
         echo $fragment->parse('core/page/section.php');
     }
 
-    echo '<a class="btn" rel="noopener noreferrer" target="_blank" href="https://choosealicense.com/licenses/">' . rex_i18n::msg('credits_explain_license') . '</a>';
     echo '<a class="btn btn-back" href="javascript:history.back();">' . rex_i18n::msg('package_back') . '</a>';
+    echo '<a class="btn" rel="noopener noreferrer" target="_blank" href="https://choosealicense.com/licenses/">' . rex_i18n::msg('credits_explain_license') . '</a>';
 }
 
 // ----------------- OUT
