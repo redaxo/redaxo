@@ -7,8 +7,9 @@
       <excludeFolder url="file://$MODULE_DIR$/media" />
       <excludeFolder url="file://$MODULE_DIR$/redaxo/cache/addons" />
       <excludeFolder url="file://$MODULE_DIR$/redaxo/cache/core" />
-      <excludeFolder url="file://$MODULE_DIR$/redaxo/data/addons" />
-      <excludeFolder url="file://$MODULE_DIR$/redaxo/data/core" />
+      <excludeFolder url="file://$MODULE_DIR$/redaxo/data/addons/backup" />
+      <excludeFolder url="file://$MODULE_DIR$/redaxo/data/addons/phpmailer" />
+      <excludeFolder url="file://$MODULE_DIR$/redaxo/data/addons/yform" />
       <excludeFolder url="file://$MODULE_DIR$/redaxo/data/log" />
       <excludeFolder url="file://$MODULE_DIR$/redaxo/src/addons/be_style/vendor" />
       <excludeFolder url="file://$MODULE_DIR$/redaxo/src/addons/phpmailer/vendor" />
