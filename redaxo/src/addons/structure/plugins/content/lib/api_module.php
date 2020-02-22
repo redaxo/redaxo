@@ -36,7 +36,7 @@ class rex_module
         return null;
     }
 
-    public function getModuleId()
+    public function getId(): int
     {
         return $this->module_id;
     }
