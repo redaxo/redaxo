@@ -5,31 +5,27 @@
  *
  * @internal
  */
-abstract class rex_api_install_package_download extends rex_api_function
+abstract class rex_install_package_download
 {
     protected $addonkey;
     protected $fileId;
     protected $file;
     protected $archive;
 
-    public function execute()
+    public function run(string $addonkey, int $fileId)
     {
-        if (!rex::getUser()->isAdmin()) {
-            throw new rex_api_exception('You do not have the permission!');
-        }
-        $this->addonkey = rex_request('addonkey', 'string');
+        $this->addonkey = $addonkey;
+        $this->fileId = $fileId;
+
         $packages = $this->getPackages();
-        $this->fileId = rex_request('file', 'int');
         if (!isset($packages[$this->addonkey]['files'][$this->fileId])) {
-            throw new rex_api_exception('The requested addon version can not be loaded, maybe it is already installed.');
+            throw new rex_functional_exception('The requested addon version can not be loaded, maybe it is already installed.');
         }
         $this->file = $packages[$this->addonkey]['files'][$this->fileId];
         $this->checkPreConditions();
-        try {
-            $archivefile = rex_install_webservice::getArchive($this->file['path']);
-        } catch (rex_functional_exception $e) {
-            throw new rex_api_exception($e->getMessage());
-        }
+
+        $archivefile = rex_install_webservice::getArchive($this->file['path']);
+
         $message = '';
         $this->archive = $archivefile;
         if ($this->file['checksum'] != md5_file($archivefile)) {
@@ -40,21 +36,8 @@ abstract class rex_api_install_package_download extends rex_api_function
             $message = $msg;
         }
         rex_file::delete($archivefile);
-        if ($message) {
-            $message = $this->getErrorMessage() . '<br />' . $message;
-            $success = false;
-        } else {
-            $message = $this->getSuccessMessage();
 
-            $success = true;
-            unset($_REQUEST['addonkey']);
-        }
-        return new rex_api_result($success, $message);
-    }
-
-    protected function requiresCsrfProtection()
-    {
-        return true;
+        return $message;
     }
 
     /**
@@ -68,10 +51,6 @@ abstract class rex_api_install_package_download extends rex_api_function
         }
         return true;
     }
-
-    abstract protected function getSuccessMessage();
-
-    abstract protected function getErrorMessage();
 
     abstract protected function getPackages();
 
