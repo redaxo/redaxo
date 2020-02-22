@@ -12,21 +12,21 @@ class rex_effect_image_properties extends rex_effect_abstract
         $media = $this->media;
 
         if (!empty($this->params['jpg_quality'])) {
-            $media->setImageProperty('jpg_quality', $this->params['jpg_quality']);
+            $media->setImageProperty(rex_managed_media::PROP_JPG_QUALITY, $this->params['jpg_quality']);
         }
 
         if (!empty($this->params['png_compression'])) {
-            $media->setImageProperty('png_compression', $this->params['png_compression']);
+            $media->setImageProperty(rex_managed_media::PROP_PNG_COMPRESSION, $this->params['png_compression']);
         }
 
         if (!empty($this->params['webp_quality'])) {
-            $media->setImageProperty('webp_quality', $this->params['webp_quality']);
+            $media->setImageProperty(rex_managed_media::PROP_WEBP_QUALITY, $this->params['webp_quality']);
         }
 
         if ($this->params['interlace']) {
             $interlace = explode('|', trim($this->params['interlace'], '|'));
             $interlace = in_array(self::NO_INTERLACING, $interlace) ? [] : $interlace;
-            $media->setImageProperty('interlace', $interlace);
+            $media->setImageProperty(rex_managed_media::PROP_INTERLACE, $interlace);
         }
     }
 
