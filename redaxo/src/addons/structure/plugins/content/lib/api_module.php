@@ -44,7 +44,7 @@ class rex_module
         return $this->module_id;
     }
 
-    public function getKey()
+    public function getKey(): ?string
     {
         if (null === $this->key) {
             $this->key = '';
