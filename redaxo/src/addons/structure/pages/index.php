@@ -169,7 +169,7 @@ if ($KAT->getRows() > 0) {
         $status_icon = $catStatusTypes[$KAT->getValue('status')][2];
 
         if ($structureContext->hasCategoryPermission()) {
-            if ($structureContext->hasCategoryPermission() && rex::getUser()->hasPerm('publishCategory[]')) {
+            if (rex::getUser()->hasPerm('publishCategory[]')) {
                 $kat_status = '<a class="' . $status_class . '" href="' . $structureContext->getContext()->getUrl(['category-id' => $i_category_id, 'catstart' => $structureContext->getCatStart()] + rex_api_category_status::getUrlParams()) . '"><i class="rex-icon ' . $status_icon . '"></i> ' . $kat_status . '</a>';
             } else {
                 $kat_status = '<span class="' . $status_class . ' text-muted"><i class="rex-icon ' . $status_icon . '"></i> ' . $kat_status . '</span>';
