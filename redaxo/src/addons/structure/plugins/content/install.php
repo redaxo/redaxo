@@ -105,6 +105,7 @@ rex_sql_table::get(rex::getTable('action'))
 
 rex_sql_table::get(rex::getTable('module'))
     ->ensureColumn(new rex_sql_column('id', 'int(10) unsigned', false, null, 'AUTO_INCREMENT'))
+    ->ensureColumn(new rex_sql_column('key', 'varchar(191)', true))
     ->ensureColumn(new rex_sql_column('name', 'varchar(255)'))
     ->ensureColumn(new rex_sql_column('output', 'mediumtext'))
     ->ensureColumn(new rex_sql_column('input', 'mediumtext'))
@@ -112,6 +113,7 @@ rex_sql_table::get(rex::getTable('module'))
     ->ensureColumn(new rex_sql_column('attributes', 'text', true))
     ->ensureColumn(new rex_sql_column('revision', 'int(10) unsigned'))
     ->setPrimaryKey('id')
+    ->ensureIndex(new rex_sql_index('key', ['key'], rex_sql_index::UNIQUE))
     ->ensure();
 
 rex_sql_table::get(rex::getTable('module_action'))
