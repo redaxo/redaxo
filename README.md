@@ -59,11 +59,14 @@ Your marker still missing? [Learn how to place it on the map](https://github.com
 
 ## Contributions
 
-### PHPStorm configuration
 
-make sure to disable the following settings in your local PHPStorm composer config:
+To develop on core and core addons, setup the project with these steps:
 
-![PHPStorm composer config](https://user-images.githubusercontent.com/120441/75092649-4037ef00-557a-11ea-9b40-539d48f18bb5.png)
+- Clone the repsoitory: `git clone https://github.com/redaxo/redaxo redaxo && cd redaxo`
+- Install the tools used for the development with [Composer](https://getcomposer.org): `composer install`
+- When you use PhpStorm, adjust the composer settings (`Languages & Frameworks` > `PHP` > `Composer`) and disable these two options:
+    - [ ] Add packages as libraries
+    - [ ] Synchronize IDE settings with composer.json
 
 ## Copyright & License
 
