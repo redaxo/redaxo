@@ -27,7 +27,6 @@ parameters:
         - redaxo/src/addons/structure/plugins/content/tests/
         - redaxo/src/addons/tests/vendor/
         - redaxo/src/core/vendor/
-        - redaxo/src/core/tests/
     # make phpstan aware of never returning methods
     # https://github.com/phpstan/phpstan/issues/2900
     earlyTerminatingMethodCalls:
