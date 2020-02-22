@@ -37,7 +37,7 @@ class rex_media_category_service
         rex_extension::registerPoint(new rex_extension_point('MEDIA_CATEGORY_ADDED', [
             'id' => $db->getLastId(),
             'parent_id' => $parent_id,
-            'name' => $name
+            'name' => $name,
         ]));
 
         return rex_i18n::msg('pool_kat_saved', $name);
@@ -116,7 +116,7 @@ class rex_media_category_service
 
         rex_extension::registerPoint(new rex_extension_point('MEDIA_CATEGORY_UPDATED', [
             'id' => $categoryId,
-            'name' => $cat_name
+            'name' => $cat_name,
         ]));
 
         return rex_i18n::msg('pool_kat_updated', $cat_name);
