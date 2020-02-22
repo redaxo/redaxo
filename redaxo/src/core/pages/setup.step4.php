@@ -83,7 +83,11 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-form-db-user-pass">' . rex_i18n::msg('setup_409') . '</label>';
-$n['field'] = '<input class="form-control" type="password" id="rex-form-db-user-pass" name="redaxo_db_user_pass" value="' . rex_escape($config['db'][1]['password']) . '" />';
+$n['field'] = '<input class="form-control" type="password" id="rex-form-db-user-pass" name="redaxo_db_user_pass" value="" />';
+$formElements[] = $n;
+
+$n = [];
+$n['field'] = '<p>'.rex_i18n::msg('setup_password_hint').'</p>';
 $formElements[] = $n;
 
 $n = [];
