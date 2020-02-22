@@ -25,31 +25,25 @@ class rex_command_install_list extends rex_console_command
         $io = $this->getStyle($input, $output);
 
         $search = $input->getOption('search');
-        $updateOnly = false !== $input->getOption('update-only');
+        $updateOnly = false !== $input->getOption('updates-only');
 
-        $tableHeader = ['key', 'name', 'author', 'last updated'];
+        $tableHeader = ['key', 'name', 'author', 'last updated', 'latest version', 'installed version'];
         if ($updateOnly) {
-            $tableHeader[] = 'installed version';
             $packages = rex_install_packages::getUpdatePackages();
         } else {
             $packages = rex_install_packages::getAddPackages();
         }
-        $tableHeader[] = 'latest version';
 
         $rows = [];
         foreach ($packages as $key => $package) {
             $rowData = [
                 'key' => $key,
-                'name' => $package['name'],
+                'name' => strlen($package['name']) > 40 ? substr($package['name'], 0, 40).'...' : $package['name'],
                 'author' => $package['author'],
                 'last updated' => rex_formatter::strftime($package['updated']),
+                'latest version' => reset($package['files'])['version'],
+                'installed version' => rex_addon::get($key)->getVersion(),
             ];
-
-            if ($updateOnly) {
-                $rowData['installed version'] = rex_addon::get($key)->getVersion();
-            }
-
-            $rowData['latest version'] = reset($package['files'])['version'];
 
             if (null !== $search
                 && false === in_array($search, $rowData)
