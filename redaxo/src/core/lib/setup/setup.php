@@ -163,15 +163,15 @@ class rex_setup
         $security = [];
 
         if (PHP_SAPI !== 'cli' && !rex_request::isHttps()) {
-            $security[] = rex_view::warning(rex_i18n::msg('setup_security_no_https'));
+            $security[] = rex_i18n::msg('setup_security_no_https');
         }
 
         if (function_exists('apache_get_modules') && in_array('mod_security', apache_get_modules())) {
-            $security[] = rex_view::warning(rex_i18n::msg('setup_security_warn_mod_security'));
+            $security[] = rex_i18n::msg('setup_security_warn_mod_security');
         }
 
         if ('0' !== ini_get('session.auto_start')) {
-            $security[] = rex_view::warning(rex_i18n::msg('setup_session_autostart_warning'));
+            $security[] = rex_i18n::msg('setup_session_autostart_warning');
         }
 
         if (1 == version_compare(PHP_VERSION, '7.2', '<') && time() > strtotime('1 Dec 2019')) {
