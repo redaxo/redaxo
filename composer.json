@@ -5,6 +5,11 @@
         "phpstan/phpstan": "^0.12.11",
         "vimeo/psalm": "^3.9"
     },
+    "autoload-dev": {
+        "classmap": [
+            "redaxo/src/core/tests/"
+        ]
+    },
 
     "config": {
         "optimize-autoloader": true,
