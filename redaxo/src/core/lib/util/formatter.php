@@ -354,9 +354,12 @@ abstract class rex_formatter
         return call_user_func($format, $value);
     }
 
+    /**
+     * @return false|int
+     */
     private static function getTimestamp($value)
     {
-        if (is_numeric($value)) {
+        if (ctype_digit($value)) {
             return $value;
         }
 

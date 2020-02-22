@@ -56,6 +56,9 @@ abstract class rex_cronjob
         return $default;
     }
 
+    /**
+     * @return array
+     */
     public function getParams()
     {
         return $this->params;

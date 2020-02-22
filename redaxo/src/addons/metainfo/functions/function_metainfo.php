@@ -47,6 +47,8 @@ function rex_metainfo_add_field_type($label, $dbtype, $dblength)
  * Löscht einen Feldtyp.
  *
  * Gibt beim Erfolg true zurück, sonst eine Fehlermeldung
+ *
+ * @return bool|string
  */
 function rex_metainfo_delete_field_type($field_type_id)
 {
@@ -171,6 +173,8 @@ function rex_metainfo_delete_field($fieldIdOrName)
 
 /**
  * Extrahiert den Prefix aus dem Namen eine Spalte.
+ *
+ * @return false|string
  */
 function rex_metainfo_meta_prefix($name)
 {

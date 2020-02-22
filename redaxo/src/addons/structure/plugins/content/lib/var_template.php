@@ -30,6 +30,9 @@ class rex_var_template extends rex_var
         return false;
     }
 
+    /**
+     * @return string
+     */
     public static function getTemplateStream($id, rex_article_content_base $article = null)
     {
         ob_start();
@@ -41,6 +44,9 @@ class rex_var_template extends rex_var
         return rex_stream::factory('template/' . $id, $tmpl);
     }
 
+    /**
+     * @return false|string
+     */
     public static function getTemplateOutput()
     {
         return ob_get_clean();

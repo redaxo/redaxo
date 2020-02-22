@@ -20,6 +20,8 @@ class rex
 
     /**
      * @see rex_config::set()
+     *
+     * @return bool TRUE when an existing value was overridden, otherwise FALSE
      */
     public static function setConfig($key, $value = null)
     {
@@ -28,6 +30,8 @@ class rex
 
     /**
      * @see rex_config::get()
+     *
+     * @return mixed the value for $key or $default if $key cannot be found in the given $namespace
      */
     public static function getConfig($key = null, $default = null)
     {
@@ -36,6 +40,8 @@ class rex
 
     /**
      * @see rex_config::has()
+     *
+     * @return bool TRUE if the key is set, otherwise FALSE
      */
     public static function hasConfig($key)
     {
@@ -44,6 +50,8 @@ class rex
 
     /**
      * @see rex_config::remove()
+     *
+     * @return bool TRUE if the value was found and removed, otherwise FALSE
      */
     public static function removeConfig($key)
     {

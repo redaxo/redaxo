@@ -10,7 +10,7 @@ class rex_setup
     public const MIN_PHP_VERSION = REX_MIN_PHP_VERSION;
     public const MIN_MYSQL_VERSION = '5.5.3';
 
-    private static $MIN_PHP_EXTENSIONS = ['session', 'pdo', 'pdo_mysql', 'pcre', 'tokenizer'];
+    private static $MIN_PHP_EXTENSIONS = ['fileinfo', 'pcre', 'pdo', 'pdo_mysql', 'session', 'tokenizer'];
 
     /**
      * very basic setup steps, so everything is in place for our browser-based setup wizard.
@@ -118,8 +118,9 @@ class rex_setup
 
     /**
      * Checks the version of the connected database server.
+     * When validation of the database configs succeeds the settings will be used for rex_sql.
      *
-     * @param array $config   of databaes configs
+     * @param array $config   of database configs
      * @param bool  $createDb Should the database be created, if it not exists
      *
      * @return string Error
@@ -143,6 +144,7 @@ class rex_setup
         if (1 == rex_string::versionCompare($serverVersion, self::MIN_MYSQL_VERSION, '<')) {
             return rex_i18n::msg('sql_database_min_version', $serverVersion, self::MIN_MYSQL_VERSION);
         }
+
         return '';
     }
 }

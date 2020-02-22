@@ -190,6 +190,8 @@ class rex_login
      * anhand des LoginQueries/UserQueries und gibt den Status zurück.
      *
      * Gibt true zurück bei erfolg, sonst false
+     *
+     * @return bool
      */
     public function checkLogin()
     {
@@ -495,19 +497,31 @@ class rex_login
 
     /**
      * Verschlüsselt den übergebnen String.
+     *
+     * @return string Returns the hashed password, or FALSE on failure, or null if the algorithm is invalid
      */
     public static function passwordHash($password, $isPreHashed = false)
     {
         $password = $isPreHashed ? $password : sha1($password);
-        return password_hash($password, PASSWORD_DEFAULT);
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        if (null === $hash || false === $hash) {
+            throw new rex_exception('error while hashing password');
+        }
+        return $hash;
     }
 
+    /**
+     * @return bool returns TRUE if the password and hash match, or FALSE otherwise
+     */
     public static function passwordVerify($password, $hash, $isPreHashed = false)
     {
         $password = $isPreHashed ? $password : sha1($password);
         return password_verify($password, $hash);
     }
 
+    /**
+     * @return bool returns TRUE if the hash should be rehashed to match the given algo and options, or FALSE otherwise
+     */
     public static function passwordNeedsRehash($hash)
     {
         return password_needs_rehash($hash, PASSWORD_DEFAULT);

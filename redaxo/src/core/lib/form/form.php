@@ -169,6 +169,8 @@ class rex_form extends rex_form_base
 
     /**
      * Gibt die Where-Bedingung des Formulars zurueck.
+     *
+     * @return string
      */
     public function getWhereCondition()
     {
@@ -225,6 +227,9 @@ class rex_form extends rex_form_base
         return $this->sql;
     }
 
+    /**
+     * @return string
+     */
     protected function getId($name)
     {
         return $this->tableName . '_' . $this->fieldset . '_' . $name;

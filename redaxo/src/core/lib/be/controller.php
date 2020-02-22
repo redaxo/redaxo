@@ -109,6 +109,9 @@ class rex_be_controller
         self::$pages = $pages;
     }
 
+    /**
+     * @return string
+     */
     public static function getPageTitle()
     {
         $parts = [];
@@ -125,6 +128,9 @@ class rex_be_controller
         return implode(' · ', $parts);
     }
 
+    /**
+     * @return rex_be_page
+     */
     public static function getSetupPage()
     {
         $page = new rex_be_page('setup', rex_i18n::msg('setup'));
@@ -132,6 +138,9 @@ class rex_be_controller
         return $page;
     }
 
+    /**
+     * @return rex_be_page
+     */
     public static function getLoginPage()
     {
         $page = new rex_be_page('login', 'Login');

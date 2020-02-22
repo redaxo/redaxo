@@ -74,6 +74,9 @@ class rex_editor
         return $editorUrl;
     }
 
+    /**
+     * @return string[]
+     */
     public function getSupportedEditors()
     {
         return [
