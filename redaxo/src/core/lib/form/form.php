@@ -129,9 +129,9 @@ class rex_form extends rex_form_base
                     $attr['formnovalidate'] = 'formnovalidate';
                 }
                 if ('save' === $name) {
-                    $attr['title'] = rex_i18n::msg('save_tooltip');
-                } elseif ('apply' === $name) {
                     $attr['title'] = rex_i18n::msg('save_and_close_tooltip');
+                } elseif ('apply' === $name) {
+                    $attr['title'] = rex_i18n::msg('save_tooltip');
                 }
                 $controlElements[$name] = $this->addField(
                     'button',
