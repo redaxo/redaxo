@@ -138,7 +138,7 @@ class rex_api_install_core_update extends rex_api_function
             error_clear_last();
             $pathOld = rex_path::src('core.old');
             // move current core to temp path
-            if (@rename($pathCore, $pathOld)) {
+            if (!@rename($pathCore, $pathOld)) {
                 $message = $pathCore.' could not be moved to '.$pathOld;
                 $message .= ($error = error_get_last()) ? ': '.$error['message'] : '.';
                 throw new rex_functional_exception($message);
