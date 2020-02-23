@@ -24,7 +24,7 @@ class rex_command_install_download extends rex_console_command
 
         $addonKey = $input->getArgument('addonkey');
 
-        $packages = rex_install_packages::getAddPackages($addonKey);
+        $packages = rex_install_packages::getAddPackages();
         if (!isset($packages[$addonKey])) {
             $io->error(sprintf('AddOn "%s" does not exist!', $addonKey));
             return 1;
