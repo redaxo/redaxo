@@ -468,7 +468,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
 
     $add_submit = '';
     if ($close_form && '' != $opener_input_field) {
-        $add_submit = '<button class="btn btn-save" type="submit" name="saveandexit" value="' . rex_i18n::msg('pool_file_upload_get') . '"' . rex::getAccesskey(rex_i18n::msg('pool_file_upload_get'), 'save') . '>' . rex_i18n::msg('pool_file_upload_get') . '</button>';
+        $add_submit = '<button class="btn btn-save" type="submit" name="saveandexit" value="' . rex_i18n::msg('pool_file_upload_get') . '"' . rex::getAccesskey(rex_i18n::msg('save_and_close_tooltip'), 'save') . '>' . rex_i18n::msg('pool_file_upload_get') . '</button>';
     }
 
     $panel = '';
