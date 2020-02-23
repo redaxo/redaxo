@@ -9,8 +9,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @internal
  */
-class rex_command_install_download extends rex_console_command {
-
+class rex_command_install_download extends rex_console_command
+{
     protected function configure()
     {
         $this->setDescription('Download an AddOn from redaxo.org')
@@ -45,7 +45,7 @@ class rex_command_install_download extends rex_console_command {
 
         // search fileId by version
         $fileId = null;
-        foreach($files as $fId => $fileMeta) {
+        foreach ($files as $fId => $fileMeta) {
             if ($fileMeta['version'] !== $version) {
                 continue;
             }
