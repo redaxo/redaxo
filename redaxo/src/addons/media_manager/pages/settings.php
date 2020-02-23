@@ -90,7 +90,7 @@ $select->setId('rex-media-manager-interlace');
 $select->setAttribute('class', 'form-control selectpicker');
 $select->setMultiple(true);
 $select->addOptions(['jpg', 'png', 'gif'], true);
-$select->setSelected($addon->getConfig('interlace', ['jpg']));
+$select->setSelected($addon->getConfig('interlace'));
 
 $n = [];
 $n['label'] = '<label for="rex-media-manager-interlace">' . $addon->i18n('interlace') . '</label>';

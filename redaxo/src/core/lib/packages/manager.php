@@ -159,6 +159,12 @@ abstract class rex_package_manager
                 self::generatePackageOrder();
             }
 
+            foreach ($this->package->getProperty('default_config', []) as $key => $value) {
+                if (!$this->package->hasConfig($key)) {
+                    $this->package->setConfig($key, $value);
+                }
+            }
+
             // copy assets
             $assets = $this->package->getPath('assets');
             if (is_dir($assets)) {
