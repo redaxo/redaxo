@@ -5,26 +5,28 @@
  */
 class rex_effect_image_properties extends rex_effect_abstract
 {
+    private const NO_INTERLACING = '- off -';
+
     public function execute()
     {
         $media = $this->media;
 
         if (!empty($this->params['jpg_quality'])) {
-            $media->setImageProperty('jpg_quality', $this->params['jpg_quality']);
+            $media->setImageProperty(rex_managed_media::PROP_JPG_QUALITY, $this->params['jpg_quality']);
         }
 
         if (!empty($this->params['png_compression'])) {
-            $media->setImageProperty('png_compression', $this->params['png_compression']);
+            $media->setImageProperty(rex_managed_media::PROP_PNG_COMPRESSION, $this->params['png_compression']);
         }
 
         if (!empty($this->params['webp_quality'])) {
-            $media->setImageProperty('webp_quality', $this->params['webp_quality']);
+            $media->setImageProperty(rex_managed_media::PROP_WEBP_QUALITY, $this->params['webp_quality']);
         }
 
         if ($this->params['interlace']) {
             $interlace = explode('|', trim($this->params['interlace'], '|'));
-            $interlace = in_array('- off -', $interlace) ? [] : $interlace;
-            $media->setImageProperty('interlace', $interlace);
+            $interlace = in_array(self::NO_INTERLACING, $interlace) ? [] : $interlace;
+            $media->setImageProperty(rex_managed_media::PROP_INTERLACE, $interlace);
         }
     }
 
@@ -59,15 +61,15 @@ class rex_effect_image_properties extends rex_effect_abstract
                 'notice' => rex_i18n::msg('media_manager_effect_image_properties_interlace_notice'),
                 'name' => 'interlace',
                 'type' => 'select',
-                'options' => ['- off -', 'jpg', 'png', 'gif'],
+                'options' => [self::NO_INTERLACING, 'jpg', 'png', 'gif'],
                 'attributes' => ['multiple' => true, 'class' => 'selectpicker form-control'],
                 'suffix' => '
 <script type="text/javascript">
     $(function() {
         var $field = $("#media-manager-rex-effect-image-properties-interlace-select");
-        
+
         $field.on("changed.bs.select", function (event, clickedIndex, newValue, oldValue) {
-            var off = "- off -";
+            var off = "'. self::NO_INTERLACING .'";
             if (0 == clickedIndex && newValue) {
                 $field.selectpicker("val", [off]);
             }

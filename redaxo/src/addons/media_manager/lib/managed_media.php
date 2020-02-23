@@ -5,6 +5,11 @@
  */
 class rex_managed_media
 {
+    public const PROP_JPG_QUALITY = 'jpg_quality';
+    public const PROP_PNG_COMPRESSION = 'png_compression';
+    public const PROP_WEBP_QUALITY = 'webp_quality';
+    public const PROP_INTERLACE = 'interlace';
+
     private $media_path = '';
     private $media;
     private $asImage = false;
@@ -227,22 +232,22 @@ class rex_managed_media
         $format = $this->format;
         $format = 'jpeg' === $format ? 'jpg' : $format;
 
-        $interlace = $this->getImageProperty('interlace', $addon->getConfig('interlace', ['jpg']));
+        $interlace = $this->getImageProperty(self::PROP_INTERLACE, $addon->getConfig('interlace'));
         imageinterlace($this->image['src'], in_array($format, $interlace) ? 1 : 0);
 
         ob_start();
         if ('jpg' == $format) {
-            $quality = $this->getImageProperty('jpg_quality', $addon->getConfig('jpg_quality', 85));
+            $quality = $this->getImageProperty(self::PROP_JPG_QUALITY, $addon->getConfig('jpg_quality'));
             imagejpeg($this->image['src'], null, $quality);
         } elseif ('png' == $format) {
-            $compression = $this->getImageProperty('png_compression', $addon->getConfig('png_compression', 5));
+            $compression = $this->getImageProperty(self::PROP_PNG_COMPRESSION, $addon->getConfig('png_compression'));
             imagepng($this->image['src'], null, $compression);
         } elseif ('gif' == $format) {
             imagegif($this->image['src']);
         } elseif ('wbmp' == $format) {
             imagewbmp($this->image['src']);
         } elseif ('webp' == $format) {
-            $quality = $this->getImageProperty('webp_quality', $addon->getConfig('webp_quality', 85));
+            $quality = $this->getImageProperty(self::PROP_WEBP_QUALITY, $addon->getConfig('webp_quality'));
             imagewebp($this->image['src'], null, $quality);
         }
         return ob_get_clean();

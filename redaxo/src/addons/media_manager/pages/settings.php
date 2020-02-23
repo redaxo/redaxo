@@ -90,7 +90,7 @@ $select->setId('rex-media-manager-interlace');
 $select->setAttribute('class', 'form-control selectpicker');
 $select->setMultiple(true);
 $select->addOptions(['jpg', 'png', 'gif'], true);
-$select->setSelected($addon->getConfig('interlace', ['jpg']));
+$select->setSelected($addon->getConfig('interlace'));
 
 $n = [];
 $n['label'] = '<label for="rex-media-manager-interlace">' . $addon->i18n('interlace') . '</label>';
@@ -107,7 +107,7 @@ $n['field'] = '<a class="btn btn-abort" href="' . rex_url::currentBackendPage() 
 $formElements[] = $n;
 
 $n = [];
-$n['field'] = '<button class="btn btn-apply rex-form-aligned" type="submit" name="sendit" value="1"' . rex::getAccesskey(rex_i18n::msg('update'), 'apply') . '>' . rex_i18n::msg('update') . '</button>';
+$n['field'] = '<button class="btn btn-apply rex-form-aligned" type="submit" name="sendit" value="1"' . rex::getAccesskey(rex_i18n::msg('save_and_goon_tooltip'), 'apply') . '>' . rex_i18n::msg('update') . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
