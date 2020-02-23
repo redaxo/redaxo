@@ -112,10 +112,11 @@ class rex_api_install_core_update extends rex_api_function
 
             // create backup
             $installConfig = rex_file::getCache($installAddon->getDataPath('config.json'));
+            $pathCore = rex_path::core();
             if (isset($installConfig['backups']) && $installConfig['backups']) {
                 rex_dir::create($installAddon->getDataPath());
                 $archive = $installAddon->getDataPath(strtolower(preg_replace('/[^a-z0-9-_.]/i', '_', rex::getVersion())) . '.zip');
-                rex_install_archive::copyDirToArchive(rex_path::core(), $archive);
+                rex_install_archive::copyDirToArchive($pathCore, $archive);
                 foreach ($updateAddons as $addonkey => $addon) {
                     rex_install_archive::copyDirToArchive($addon->getPath(), $archive, 'addons/' . $addonkey);
                 }
@@ -134,8 +135,24 @@ class rex_api_install_core_update extends rex_api_function
             }
 
             // move temp dirs to permanent destination
-            rex_dir::delete(rex_path::core());
-            rename($temppath . 'core', rex_path::core());
+            error_clear_last();
+            $pathOld = rex_path::src('core.old');
+            if (@rename($pathCore, $pathOld)) {
+                $message = $pathCore.' could not be moved to '.$pathOld;
+                $message .= ($error = error_get_last()) ? ': '.$error['message'] : '.';
+                throw new rex_functional_exception($message);
+            }
+            if (@rename($temppath . 'core', $pathCore)) {
+                rex_dir::delete($pathOld);
+            } else {
+                // revert to old core
+                rename($pathOld, $pathCore);
+
+                $message = $temppath . 'core could not be moved to '.$pathCore;
+                $message .= ($error = error_get_last()) ? ': '.$error['message'] : '.';
+                throw new rex_functional_exception($message);
+            }
+
             if (is_dir(rex_path::core('assets'))) {
                 rex_dir::copy(rex_path::core('assets'), rex_path::coreAssets());
             }
