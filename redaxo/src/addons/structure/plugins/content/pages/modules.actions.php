@@ -199,7 +199,7 @@ if ('add' == $function || 'edit' == $function) {
 
         $btn_update = '';
         if ('add' != $function) {
-            $btn_update = '<button class="btn btn-apply" type="submit" name="goon" value="1"' . rex::getAccesskey(rex_i18n::msg('save_action_and_continue'), 'apply') . '>' . rex_i18n::msg('save_action_and_continue') . '</button>';
+            $btn_update = '<button class="btn btn-apply" type="submit" name="goon" value="1"' . rex::getAccesskey(rex_i18n::msg('save_and_goon_tooltip'), 'apply') . '>' . rex_i18n::msg('save_action_and_continue') . '</button>';
         }
 
         if ('' != $success) {
@@ -365,7 +365,7 @@ if ('add' == $function || 'edit' == $function) {
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit"' . rex::getAccesskey(rex_i18n::msg('save_action_and_quit'), 'save') . '>' . rex_i18n::msg('save_action_and_quit') . '</button>';
+        $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit"' . rex::getAccesskey(rex_i18n::msg('save_and_close_tooltip'), 'save') . '>' . rex_i18n::msg('save_action_and_quit') . '</button>';
         $formElements[] = $n;
 
         if ('' != $btn_update) {
