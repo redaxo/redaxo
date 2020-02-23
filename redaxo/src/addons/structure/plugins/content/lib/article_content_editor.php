@@ -447,11 +447,11 @@ class rex_article_content_editor extends rex_article_content
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="btn btn-save" type="submit" name="btn_save" value="1"' . rex::getAccesskey(rex_i18n::msg('save_block'), 'save') . '>' . rex_i18n::msg('save_block') . '</button>';
+        $n['field'] = '<button class="btn btn-save" type="submit" name="btn_save" value="1"' . rex::getAccesskey(rex_i18n::msg('save_tooltip'), 'save') . '>' . rex_i18n::msg('save_block') . '</button>';
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="btn btn-apply" type="submit" name="btn_update" value="1"' . rex::getAccesskey(rex_i18n::msg('update_block'), 'apply') . '>' . rex_i18n::msg('update_block') . '</button>';
+        $n['field'] = '<button class="btn btn-apply" type="submit" name="btn_update" value="1"' . rex::getAccesskey(rex_i18n::msg('save_and_close_tooltip'), 'apply') . '>' . rex_i18n::msg('update_block') . '</button>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
