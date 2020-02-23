@@ -19,4 +19,25 @@ pages:
         perm: admin
 
 requires:
-    redaxo: ^5.9.0
+    redaxo: ^5.10.0-dev
+
+default_config:
+    from: ''
+    test_address: ''
+    fromname: 'Mailer'
+    confirmto: ''
+    bcc: ''
+    mailer: 'mail'
+    host: 'localhost'
+    port: 25
+    charset: 'utf-8'
+    wordwrap: 120
+    encoding: '8bit'
+    priority: 0
+    smtpsecure: ''
+    smtpauth: false
+    username: ''
+    password: ''
+    smtp_debug: '0'
+    logging: 0
+    archive: false
