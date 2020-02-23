@@ -137,12 +137,15 @@ class rex_api_install_core_update extends rex_api_function
             // move temp dirs to permanent destination
             error_clear_last();
             $pathOld = rex_path::src('core.old');
+            // move current core to temp path
             if (@rename($pathCore, $pathOld)) {
                 $message = $pathCore.' could not be moved to '.$pathOld;
                 $message .= ($error = error_get_last()) ? ': '.$error['message'] : '.';
                 throw new rex_functional_exception($message);
             }
+            // move new core to main core path
             if (@rename($temppath . 'core', $pathCore)) {
+                // remove temp path of old core
                 rex_dir::delete($pathOld);
             } else {
                 // revert to old core
