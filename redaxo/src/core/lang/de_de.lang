@@ -11,7 +11,7 @@ datetimeformat = %d. %b. %Y, %H:%M
 timeformat = %H:%M
 ctrl = Mehrfachauswahl mit <kbd>STRG</kbd> bzw. <kbd>CMD</kbd>
 translatable = Übersetzbar via <code>translate:i18n_key</code>
-save_tooltip = Speichern und weiter bearbeiten
+save_and_goon_tooltip = Speichern und weiter bearbeiten
 save_and_close_tooltip = Speichern und schließen
 
 # Allgemein

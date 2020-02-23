@@ -200,7 +200,7 @@ if ('add' == $function || 'edit' == $function) {
 
         $btn_update = '';
         if ('add' != $function) {
-            $btn_update = '<button class="btn btn-apply" type="submit" name="goon" value="1"' . rex::getAccesskey(rex_i18n::msg('save_tooltip'), 'apply') . '>' . rex_i18n::msg('save_module_and_continue') . '</button>';
+            $btn_update = '<button class="btn btn-apply" type="submit" name="goon" value="1"' . rex::getAccesskey(rex_i18n::msg('save_and_goon_tooltip'), 'apply') . '>' . rex_i18n::msg('save_module_and_continue') . '</button>';
         }
 
         if ('' != $success) {

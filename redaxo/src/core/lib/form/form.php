@@ -131,7 +131,7 @@ class rex_form extends rex_form_base
                 if ('save' === $name) {
                     $attr['title'] = rex_i18n::msg('save_and_close_tooltip');
                 } elseif ('apply' === $name) {
-                    $attr['title'] = rex_i18n::msg('save_tooltip');
+                    $attr['title'] = rex_i18n::msg('save_and_goon_tooltip');
                 }
                 $controlElements[$name] = $this->addField(
                     'button',
