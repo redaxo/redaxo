@@ -5,28 +5,12 @@
  *
  * @internal
  */
-class rex_api_install_package_update extends rex_api_install_package_download
+class rex_install_package_update extends rex_install_package_download
 {
     /**
      * @var rex_addon
      */
     private $addon;
-
-    /**
-     * @return string
-     */
-    protected function getErrorMessage()
-    {
-        return rex_i18n::msg('install_warning_addon_not_updated', $this->addonkey);
-    }
-
-    /**
-     * @return string
-     */
-    protected function getSuccessMessage()
-    {
-        return rex_i18n::msg('install_info_addon_updated', $this->addonkey);
-    }
 
     /**
      * @return array
@@ -39,11 +23,11 @@ class rex_api_install_package_update extends rex_api_install_package_download
     protected function checkPreConditions()
     {
         if (!rex_addon::exists($this->addonkey)) {
-            throw new rex_api_exception(sprintf('AddOn "%s" does not exist!', $this->addonkey));
+            throw new rex_functional_exception(sprintf('AddOn "%s" does not exist!', $this->addonkey));
         }
         $this->addon = rex_addon::get($this->addonkey);
         if (!rex_string::versionCompare($this->file['version'], $this->addon->getVersion(), '>')) {
-            throw new rex_api_exception(sprintf('Existing version of AddOn "%s" (%s) is newer than %s', $this->addonkey, $this->addon->getVersion(), $this->file['version']));
+            throw new rex_functional_exception(sprintf('Existing version of AddOn "%s" (%s) is newer than %s', $this->addonkey, $this->addon->getVersion(), $this->file['version']));
         }
     }
 
@@ -85,6 +69,14 @@ class rex_api_install_package_update extends rex_api_install_package_download
             }
             if (!$this->addon->getProperty('update', true)) {
                 return rex_i18n::msg('package_no_reason');
+            }
+        }
+
+        if ($this->addon->isInstalled() && isset($config['default_config'])) {
+            foreach ($config['default_config'] as $key => $value) {
+                if (!$this->addon->hasConfig($key)) {
+                    $this->addon->setConfig($key, $value);
+                }
             }
         }
 

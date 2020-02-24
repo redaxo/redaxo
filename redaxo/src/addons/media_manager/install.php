@@ -11,22 +11,6 @@
 
 $addon = rex_addon::get('media_manager');
 
-if (!$addon->hasConfig('jpg_quality')) {
-    $addon->setConfig('jpg_quality', 85);
-}
-
-if (!$addon->hasConfig('png_compression')) {
-    $addon->setConfig('png_compression', 5);
-}
-
-if (!$addon->hasConfig('webp_quality')) {
-    $addon->setConfig('webp_quality', 85);
-}
-
-if (!$addon->hasConfig('interlace')) {
-    $addon->setConfig('interlace', ['jpg']);
-}
-
 rex_sql_table::get(rex::getTable('media_manager_type'))
     ->ensurePrimaryIdColumn()
     ->ensureColumn(new rex_sql_column('status', 'int(10) unsigned'))

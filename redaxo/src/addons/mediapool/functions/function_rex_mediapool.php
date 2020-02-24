@@ -157,6 +157,7 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
     $RETURN['ok'] = $success ? 1 : 0;
     $RETURN['filename'] = $NFILENAME;
     $RETURN['old_filename'] = $FILENAME;
+    $RETURN['category_id'] = $rex_file_category;
 
     if (isset($size) && $size) {
         $RETURN['width'] = $size[0];
@@ -248,6 +249,7 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
         $RETURN['filename'] = $FILEINFOS['filename'];
         $RETURN['filetype'] = $FILEINFOS['filetype'];
         $RETURN['id'] = $FILEINFOS['file_id'];
+        $RETURN['category_id'] = $FILEINFOS['rex_file_category'];
     }
 
     $FILESQL->addGlobalUpdateFields($userlogin);
@@ -466,7 +468,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
 
     $add_submit = '';
     if ($close_form && '' != $opener_input_field) {
-        $add_submit = '<button class="btn btn-save" type="submit" name="saveandexit" value="' . rex_i18n::msg('pool_file_upload_get') . '"' . rex::getAccesskey(rex_i18n::msg('pool_file_upload_get'), 'save') . '>' . rex_i18n::msg('pool_file_upload_get') . '</button>';
+        $add_submit = '<button class="btn btn-save" type="submit" name="saveandexit" value="' . rex_i18n::msg('pool_file_upload_get') . '"' . rex::getAccesskey(rex_i18n::msg('save_and_close_tooltip'), 'save') . '>' . rex_i18n::msg('pool_file_upload_get') . '</button>';
     }
 
     $panel = '';

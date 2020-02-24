@@ -100,6 +100,14 @@ class rex_api_install_core_update extends rex_api_function
                         throw new rex_functional_exception($addonkey . ': SQL error: ' . $e->getMessage(), $e);
                     }
                 }
+
+                if ($addon->isInstalled()) {
+                    foreach ($addon->getProperty('default_config', []) as $key => $value) {
+                        if (!$addon->hasConfig($key)) {
+                            $addon->setConfig($key, $value);
+                        }
+                    }
+                }
             }
 
             // create backup
