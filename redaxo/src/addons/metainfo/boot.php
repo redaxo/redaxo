@@ -57,7 +57,7 @@ if (rex::isBackend()) {
 
     rex_view::addCSSFile(rex_url::addonAssets('metainfo', 'metainfo.css'));
 
-    if (rex_be_controller::getCurrentPagePart(1) == 'content') {
+    if ('content' == rex_be_controller::getCurrentPagePart(1)) {
         rex_view::addJsFile(rex_url::addonAssets('metainfo', 'metainfo.js'));
     }
 
