@@ -57,6 +57,10 @@ if (rex::isBackend()) {
 
     rex_view::addCSSFile(rex_url::addonAssets('metainfo', 'metainfo.css'));
 
+    if (rex_be_controller::getCurrentPagePart(1) == 'content') {
+        rex_view::addJsFile(rex_url::addonAssets('metainfo', 'metainfo.js'));
+    }
+
     rex_extension::register('PAGE_CHECKED', 'rex_metainfo_extensions_handler');
     rex_extension::register('STRUCTURE_CONTENT_SIDEBAR', function ($ep) {
         $subject = $ep->getSubject();
