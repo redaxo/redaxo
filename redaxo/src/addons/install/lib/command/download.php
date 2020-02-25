@@ -76,7 +76,7 @@ class rex_command_install_download extends rex_console_command
             return 1;
         }
 
-        $io->success(sprintf('AddOn "%s" with version "%s" successfully downloaded', $addonKey, $version));
+        $io->success(sprintf('AddOn "%s" with version "%s" successfully downloaded.', $addonKey, $version));
         return 0;
     }
 }
