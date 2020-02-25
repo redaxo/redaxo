@@ -14,7 +14,7 @@ class rex_command_install_download extends rex_console_command
     protected function configure()
     {
         $this->setDescription('Download an AddOn from redaxo.org')
-            ->addArgument('addonkey', InputArgument::REQUIRED, 'AddOn key e.g. "yform"')
+            ->addArgument('addonkey', InputArgument::REQUIRED, 'AddOn key, e.g. "yform"')
             ->addArgument('version', InputArgument::OPTIONAL, 'version e.g. "3.2.1"');
     }
 
