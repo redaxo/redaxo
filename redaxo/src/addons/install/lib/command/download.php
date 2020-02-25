@@ -25,7 +25,7 @@ class rex_command_install_download extends rex_console_command
         $addonKey = $input->getArgument('addonkey');
 
         if (rex_addon::exists($addonKey)) {
-            $io->error(sprintf('AddOn "%s" already exist!', $addonKey));
+            $io->error(sprintf('AddOn "%s" already exists!', $addonKey));
             return 1;
         }
 
