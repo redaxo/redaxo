@@ -37,7 +37,7 @@ class rex_command_install_download extends rex_console_command
         if (null === $version) {
             $versions = [];
             foreach ($files as $fId => $fileMeta) {
-                $versions[$fId] = $fileMeta['version'];
+                $versions[] = $fileMeta['version'];
             }
 
             $version = $io->choice('Please choose a version', $versions);
