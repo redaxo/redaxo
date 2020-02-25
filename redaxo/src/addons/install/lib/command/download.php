@@ -41,7 +41,7 @@ class rex_command_install_download extends rex_console_command
 
         if (null === $version) {
             $versions = [];
-            foreach ($files as $fId => $fileMeta) {
+            foreach ($files as $fileMeta) {
                 $versions[] = $fileMeta['version'];
             }
 
