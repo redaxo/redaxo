@@ -96,7 +96,7 @@ class rex_user_role implements rex_user_role_interface
     /**
      * {@inheritdoc}
      *
-     * @return self
+     * @return self|null
      */
     public static function get($ids)
     {
