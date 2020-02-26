@@ -36,7 +36,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
      *
      * @throws InvalidArgumentException
      *
-     * @return rex_plugin_interface
+     * @return rex_plugin_interface If the plugin exists, a `rex_plugin` is returned, otherwise a `rex_null_plugin`
      */
     public static function get($addon, $plugin = null)
     {
@@ -54,9 +54,6 @@ class rex_plugin extends rex_package implements rex_plugin_interface
 
     /**
      * Returns the plugin by the given name.
-     *
-     * @param string $addon  Name of the addon
-     * @param string $plugin Name of the plugin
      *
      * @throws RuntimeException if the plugin does not exist
      *

@@ -55,7 +55,7 @@ abstract class rex_package implements rex_package_interface
      *
      * @throws InvalidArgumentException
      *
-     * @return rex_package_interface
+     * @return rex_package_interface If the package exists, a `rex_package` is returned, otherwise a `rex_null_package`
      */
     public static function get($packageId)
     {
@@ -72,8 +72,6 @@ abstract class rex_package implements rex_package_interface
 
     /**
      * Returns the package (addon or plugin) by the given package id.
-     *
-     * @param string $packageId Package ID
      *
      * @throws RuntimeException if the package does not exist
      */
