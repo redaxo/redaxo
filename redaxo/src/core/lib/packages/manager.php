@@ -704,7 +704,12 @@ abstract class rex_package_manager
             }
             $plugins = self::readPackageFolder(rex_path::addon($addonName, 'plugins'));
             foreach (array_diff($registeredPlugins, $plugins) as $pluginName) {
-                $manager = rex_plugin_manager::factory(rex_plugin::get($addonName, $pluginName));
+                $plugin = rex_plugin::get($addonName, $pluginName);
+                if (!$plugin instanceof rex_plugin) {
+                    throw new LogicException('Registered plugin "'.$addonName.'/'.$pluginName.'" should be an instance of '.rex_plugin::class.' instead of '.get_class($plugin).'.');
+                }
+
+                $manager = rex_plugin_manager::factory($plugin);
                 $manager->_delete(true);
                 unset($config[$addonName]['plugins'][$pluginName]);
             }
