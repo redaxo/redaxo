@@ -41,7 +41,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
     public static function get($addon, $plugin = null)
     {
         if (null === $plugin) {
-            throw new InvalidArgumentException('Missing Argument 2 for ' . self::class . '::' . __METHOD__ . '()');
+            throw new InvalidArgumentException('Missing Argument 2 for ' . __METHOD__ . '()');
         }
         if (!is_string($addon)) {
             throw new InvalidArgumentException('Expecting $addon to be string, but ' . gettype($addon) . ' given!');
@@ -50,6 +50,25 @@ class rex_plugin extends rex_package implements rex_plugin_interface
             throw new InvalidArgumentException('Expecting $plugin to be string, but ' . gettype($plugin) . ' given!');
         }
         return rex_addon::get($addon)->getPlugin($plugin);
+    }
+
+    /**
+     * Returns the plugin by the given name.
+     *
+     * @param string $addon  Name of the addon
+     * @param string $plugin Name of the plugin
+     *
+     * @throws RuntimeException if the plugin does not exist
+     *
+     * @return rex_plugin
+     */
+    public static function require(string $addon, string $plugin = null): rex_package
+    {
+        if (null === $plugin) {
+            throw new InvalidArgumentException('Missing Argument 2 for ' . __METHOD__ . '()');
+        }
+
+        return rex_addon::require($addon)->requirePlugin($plugin);
     }
 
     /**
