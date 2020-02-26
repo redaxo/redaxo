@@ -26,4 +26,5 @@ requires:
 
 
 console_commands:
+    install:download: rex_command_install_download
     install:list: rex_command_install_list

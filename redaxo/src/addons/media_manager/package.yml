@@ -16,5 +16,10 @@ page:
 requires:
     php:
         extensions: [gd]
-    redaxo: ^5.9.1-dev
+    redaxo: ^5.10.0-dev
 
+default_config:
+    jpg_quality: 80
+    png_compression: 5
+    webp_quality: 85
+    interlace: [jpg]

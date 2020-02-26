@@ -72,6 +72,14 @@ class rex_install_package_update extends rex_install_package_download
             }
         }
 
+        if ($this->addon->isInstalled() && isset($config['default_config'])) {
+            foreach ($config['default_config'] as $key => $value) {
+                if (!$this->addon->hasConfig($key)) {
+                    $this->addon->setConfig($key, $value);
+                }
+            }
+        }
+
         // ---- backup
         $assets = $this->addon->getAssetsPath();
         $installConfig = rex_file::getCache(rex_addon::get('install')->getDataPath('config.json'));
