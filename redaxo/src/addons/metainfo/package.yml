@@ -13,8 +13,6 @@ page:
         categories: { title: 'translate:categories' }
         media: { title: 'translate:media' }
         clangs: { title: 'translate:clangs' }
-pages:
-    content/metainfo: { title: 'translate:metadata', icon: rex-icon rex-icon-metainfo }
 
 requires:
     redaxo: '^5.6.0'
