@@ -33,7 +33,7 @@ class rex_user_role implements rex_user_role_interface
     /**
      * Constructor.
      *
-     * @param array[]
+     * @param array[] $roles
      */
     private function __construct(array $roles)
     {
