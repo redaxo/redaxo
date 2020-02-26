@@ -57,7 +57,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
      *
      * @throws RuntimeException if the plugin does not exist
      *
-     * @return rex_plugin
+     * @return self
      */
     public static function require(string $addon, string $plugin = null): rex_package
     {
