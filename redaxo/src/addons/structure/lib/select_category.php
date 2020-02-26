@@ -5,13 +5,25 @@
  */
 class rex_category_select extends rex_select
 {
+    /**
+     * @var bool
+     */
     private $ignore_offlines;
+    /**
+     * @var bool|int
+     */
     private $clang;
+    /**
+     * @var bool
+     */
     private $check_perms;
+    /**
+     * @var bool
+     */
     private $add_homepage;
 
     /**
-     * @var int
+     * @var int|int[]|null
      */
     private $rootId;
 
@@ -32,7 +44,7 @@ class rex_category_select extends rex_select
     /**
      * Kategorie-Id oder ein Array von Kategorie-Ids als Wurzelelemente der Select-Box.
      *
-     * @param mixed $rootId Kategorie-Id oder Array von Kategorie-Ids zur Identifikation der Wurzelelemente
+     * @param int|int[] $rootId Kategorie-Id oder Array von Kategorie-Ids zur Identifikation der Wurzelelemente
      */
     public function setRootId($rootId)
     {
