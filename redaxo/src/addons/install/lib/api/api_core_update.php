@@ -172,10 +172,11 @@ class rex_api_install_core_update extends rex_api_function
             $message = $e->getMessage();
         } catch (rex_sql_exception $e) {
             $message = 'SQL error: ' . $e->getMessage();
+        } finally {
+            rex_file::delete($archivefile);
+            rex_dir::delete($temppath);
         }
 
-        rex_file::delete($archivefile);
-        rex_dir::delete($temppath);
         if ($message) {
             $message = $installAddon->i18n('warning_core_not_updated') . '<br />' . $message;
             $success = false;
