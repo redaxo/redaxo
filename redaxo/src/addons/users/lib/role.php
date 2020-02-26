@@ -32,6 +32,8 @@ class rex_user_role implements rex_user_role_interface
 
     /**
      * Constructor.
+     *
+     * @param array[]
      */
     private function __construct(array $roles)
     {
@@ -93,6 +95,8 @@ class rex_user_role implements rex_user_role_interface
 
     /**
      * {@inheritdoc}
+     *
+     * @return self
      */
     public static function get($ids)
     {
