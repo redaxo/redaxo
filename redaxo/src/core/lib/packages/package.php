@@ -55,18 +55,35 @@ abstract class rex_package implements rex_package_interface
      *
      * @throws InvalidArgumentException
      *
-     * @return self
+     * @return rex_package_interface If the package exists, a `rex_package` is returned, otherwise a `rex_null_package`
      */
     public static function get($packageId)
     {
         if (!is_string($packageId)) {
             throw new InvalidArgumentException('Expecting $packageId to be string, but ' . gettype($packageId) . ' given!');
         }
-        $package = explode('/', $packageId);
+        $package = explode('/', $packageId, 2);
         $addon = rex_addon::get($package[0]);
         if (isset($package[1])) {
             return $addon->getPlugin($package[1]);
         }
+        return $addon;
+    }
+
+    /**
+     * Returns the package (addon or plugin) by the given package id.
+     *
+     * @throws RuntimeException if the package does not exist
+     */
+    public static function require(string $packageId): self
+    {
+        $package = explode('/', $packageId, 2);
+        $addon = rex_addon::require($package[0]);
+
+        if (isset($package[1])) {
+            return $addon->requirePlugin($package[1]);
+        }
+
         return $addon;
     }
 
