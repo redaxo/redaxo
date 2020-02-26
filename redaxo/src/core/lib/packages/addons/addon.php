@@ -55,7 +55,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     public static function require(string $addon): rex_package
     {
         if (!isset(self::$addons[$addon])) {
-            throw new RuntimeException(sprintf('Required plugin "%s" does not exist.', $addon));
+            throw new RuntimeException(sprintf('Required addon "%s" does not exist.', $addon));
         }
 
         return self::$addons[$addon];
