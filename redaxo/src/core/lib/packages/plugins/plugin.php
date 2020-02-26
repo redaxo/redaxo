@@ -36,7 +36,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
      *
      * @throws InvalidArgumentException
      *
-     * @return self
+     * @return rex_plugin_interface
      */
     public static function get($addon, $plugin = null)
     {

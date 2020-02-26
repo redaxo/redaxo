@@ -55,7 +55,7 @@ abstract class rex_package implements rex_package_interface
      *
      * @throws InvalidArgumentException
      *
-     * @return self
+     * @return rex_package_interface
      */
     public static function get($packageId)
     {
