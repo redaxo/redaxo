@@ -10,22 +10,32 @@ class rex_install_archive
     public static function extract($archive, $dir, $basename = '')
     {
         $dir = rtrim($dir, '/\\');
+        rex_dir::delete($dir);
+
         if (class_exists('ZipArchive')) {
             $tempdir = $dir . '.temp';
+            rex_dir::delete($tempdir);
             $zip = new ZipArchive();
-            if ($zip->open($archive)) {
-                $success = $zip->extractTo($tempdir);
-                $zip->close();
-                if (is_dir($tempdir . '/' . $basename)) {
-                    rename($tempdir . '/' . $basename, $dir);
-                } else {
-                    $success = false;
-                }
-                rex_dir::delete($tempdir);
-                return $success;
+            if (!$zip->open($archive)) {
+                return false;
             }
-            return false;
+
+            try {
+                if (!$zip->extractTo($tempdir)) {
+                    return false;
+                }
+
+                if (is_dir($tempdir . '/' . $basename)) {
+                    return rename($tempdir . '/' . $basename, $dir);
+                }
+
+                return false;
+            } finally {
+                $zip->close();
+                rex_dir::delete($tempdir);
+            }
         }
+
         $archive = 'phar://' . $archive . '/' . $basename;
         return rex_dir::copy($archive, $dir);
     }
