@@ -100,7 +100,6 @@ autoloader="phpstan-bootstrap.php"
 <!-- level 6 issues - really bad things -->
         <InvalidNullableReturnType errorLevel="info" />
         <NullableReturnStatement errorLevel="info" />
-        <InvalidReturnStatement errorLevel="info" />
         <UndefinedGlobalVariable errorLevel="info" />
     </issueHandlers>
 </psalm>

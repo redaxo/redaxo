@@ -608,7 +608,8 @@ abstract class rex_form_base
      *
      * @throws rex_exception
      *
-     * @return rex_form_element
+     * @return string
+     * @psalm-return class-string<rex_form_element>
      */
     public static function getInputClassName($inputType)
     {
