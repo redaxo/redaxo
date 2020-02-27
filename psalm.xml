@@ -52,7 +52,6 @@ autoloader="phpstan-bootstrap.php"
                 <file name="redaxo/src/addons/structure/plugins/history/fragments/history/layer.php"/>
             </errorLevel>
         </InvalidScope>
-        <LessSpecificReturnType errorLevel="info" />
 <!-- level 3 issues - slightly lazy code writing, but provably low false-negatives -->
         <DeprecatedMethod errorLevel="info" />
         <DeprecatedProperty errorLevel="info" />
@@ -123,18 +122,11 @@ autoloader="phpstan-bootstrap.php"
         <TypeDoesNotContainNull errorLevel="info" />
         <MissingDocblockType errorLevel="info" />
         <ImplementedReturnTypeMismatch errorLevel="info" />
-        <ImplementedParamTypeMismatch errorLevel="info" />
 <!-- level 6 issues - really bad things -->
         <InvalidNullableReturnType errorLevel="info" />
         <NullableReturnStatement errorLevel="info" />
-        <InvalidFalsableReturnType errorLevel="info" />
-        <FalsableReturnStatement errorLevel="info" />
-        <MoreSpecificImplementedParamType errorLevel="info" />
-        <LessSpecificImplementedReturnType errorLevel="info" />
         <InvalidReturnStatement errorLevel="info" />
         <InvalidReturnType errorLevel="info" />
-        <UndefinedThisPropertyAssignment errorLevel="info" />
-        <UndefinedInterfaceMethod errorLevel="info" />
         <UndefinedGlobalVariable errorLevel="info" />
     </issueHandlers>
 </psalm>

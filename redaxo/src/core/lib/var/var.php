@@ -120,15 +120,13 @@ abstract class rex_var
      * Returns a rex_var object for the given var name.
      *
      * @param string $var
-     *
-     * @return self
      */
-    private static function getVar($var)
+    private static function getVar($var): ?self
     {
         if (!isset(self::$vars[$var])) {
             $class = 'rex_var_' . strtolower(substr($var, 4));
             if (!class_exists($class) || !is_subclass_of($class, self::class)) {
-                return false;
+                return null;
             }
             self::$vars[$var] = $class;
         }
@@ -167,7 +165,7 @@ abstract class rex_var
             $var = self::getVar($match[1]);
             $replaced = false;
 
-            if (false !== $var) {
+            if (null !== $var) {
                 $args = str_replace(['\[', '\]'], ['@@@OPEN_BRACKET@@@', '@@@CLOSE_BRACKET@@@'], $match[2]);
                 if ($stripslashes) {
                     $args = str_replace(['\\' . $stripslashes, '\\' . $stripslashes], $stripslashes, $args);
