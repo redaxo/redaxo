@@ -31,7 +31,7 @@ interface rex_user_role_interface
      *
      * @param string $id IDs comma seperated
      *
-     * @return static Role instance
+     * @return null|static Role instance
      */
     public static function get($id);
 }
