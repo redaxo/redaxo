@@ -22,7 +22,7 @@ find redaxo/src/core/vendor -name "phpstan.neon" -type f -delete
 find redaxo/src/core/vendor -name "phpunit.xml.dist" -type f -delete
 find redaxo/src/core/vendor -name "psalm.xml" -type f -delete
 
-composer dumpautoload --no-dev --classmap-authoritative -d redaxo/src/core/
+composer dumpautoload --no-dev -d redaxo/src/core/
 
 printf "\nUpdate redaxo/src/addons/be_style/vendor\n"
 composer update --no-dev -d redaxo/src/addons/be_style/
