@@ -30,7 +30,7 @@ class rex_addon extends rex_package implements rex_addon_interface
      *
      * @throws InvalidArgumentException
      *
-     * @return rex_addon_interface
+     * @return rex_addon_interface If the addon exists, a `rex_addon` is returned, otherwise a `rex_null_addon`
      */
     public static function get($addon)
     {
@@ -40,6 +40,22 @@ class rex_addon extends rex_package implements rex_addon_interface
         if (!isset(self::$addons[$addon])) {
             return rex_null_addon::getInstance();
         }
+        return self::$addons[$addon];
+    }
+
+    /**
+     * Returns the addon by the given name.
+     *
+     * @throws RuntimeException if the addon does not exist
+     *
+     * @return self
+     */
+    public static function require(string $addon): rex_package
+    {
+        if (!isset(self::$addons[$addon])) {
+            throw new RuntimeException(sprintf('Required addon "%s" does not exist.', $addon));
+        }
+
         return self::$addons[$addon];
     }
 
@@ -151,6 +167,20 @@ class rex_addon extends rex_package implements rex_addon_interface
         if (!isset($this->plugins[$plugin])) {
             return rex_null_plugin::getInstance();
         }
+        return $this->plugins[$plugin];
+    }
+
+    /**
+     * Returns the child plugin by the given name.
+     *
+     * @throws RuntimeException if the plugin does not exist
+     */
+    public function requirePlugin(string $plugin): rex_plugin
+    {
+        if (!isset($this->plugins[$plugin])) {
+            throw new RuntimeException(sprintf('Required plugin "%s/%s" does not exist.', $this->getName(), $plugin));
+        }
+
         return $this->plugins[$plugin];
     }
 

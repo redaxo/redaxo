@@ -132,7 +132,7 @@ abstract class rex_input
      *
      * @param string $inputType
      *
-     * @return self
+     * @return self|null
      *
      * @deprecated instantiate the concrete classes directly instead
      */

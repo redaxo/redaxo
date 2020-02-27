@@ -8,15 +8,15 @@
 class rex_install_packages
 {
     /**
-     * @var array
+     * @var array|null
      */
     private static $updatePackages;
     /**
-     * @var array
+     * @var array|null
      */
     private static $addPackages;
     /**
-     * @var array
+     * @var array|null
      */
     private static $myPackages;
 

@@ -33,7 +33,7 @@ class rex_media_category
     /**
      * @param int $id
      *
-     * @return self
+     * @return self|null
      */
     public static function get($id)
     {
