@@ -113,14 +113,10 @@ autoloader="phpstan-bootstrap.php"
         <ForbiddenCode errorLevel="info" />
         <ImplicitToStringCast errorLevel="info" />
         <InvalidScalarArgument errorLevel="info" />
-        <InvalidToString errorLevel="info" />
         <InvalidOperand errorLevel="info" />
         <InvalidGlobal errorLevel="info" />
-        <NoInterfaceProperties errorLevel="info" />
         <TooManyArguments errorLevel="info" />
         <TypeDoesNotContainType errorLevel="info" />
-        <TypeDoesNotContainNull errorLevel="info" />
-        <MissingDocblockType errorLevel="info" />
         <ImplementedReturnTypeMismatch errorLevel="info" />
 <!-- level 6 issues - really bad things -->
         <InvalidNullableReturnType errorLevel="info" />
