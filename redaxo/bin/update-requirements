@@ -9,6 +9,7 @@ rm -rf redaxo/src/core/vendor/psr/log/Psr/Log/Test/
 rm -rf redaxo/src/core/vendor/ramsey/http-range/.git
 rm -rf redaxo/src/core/vendor/ramsey/http-range/tests/
 rm -rf redaxo/src/core/vendor/symfony/console/Tests/
+rm -rf redaxo/src/core/vendor/symfony/service-contracts/Test/
 rm -rf redaxo/src/core/vendor/symfony/var-dumper/Test/
 rm -rf redaxo/src/core/vendor/symfony/var-dumper/Tests/
 rm -rf redaxo/src/core/vendor/symfony/yaml/Tests/
@@ -21,7 +22,7 @@ find redaxo/src/core/vendor -name "phpstan.neon" -type f -delete
 find redaxo/src/core/vendor -name "phpunit.xml.dist" -type f -delete
 find redaxo/src/core/vendor -name "psalm.xml" -type f -delete
 
-composer dumpautoload --no-dev -d redaxo/src/core/
+composer dumpautoload --no-dev --classmap-authoritative -d redaxo/src/core/
 
 printf "\nUpdate redaxo/src/addons/be_style/vendor\n"
 composer update --no-dev -d redaxo/src/addons/be_style/
