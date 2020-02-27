@@ -90,12 +90,9 @@ autoloader="phpstan-bootstrap.php"
         <PossiblyUndefinedGlobalVariable errorLevel="info" />
         <PossiblyUndefinedMethod errorLevel="info" />
 <!-- level 5 issues - should be avoided at mosts costs... -->
-        <ImplicitToStringCast errorLevel="info" />
         <InvalidScalarArgument errorLevel="info" />
         <InvalidOperand errorLevel="info" />
         <InvalidGlobal errorLevel="info" />
-        <TooManyArguments errorLevel="info" />
-        <TypeDoesNotContainType errorLevel="info" />
 <!-- level 6 issues - really bad things -->
         <InvalidNullableReturnType errorLevel="info" />
         <NullableReturnStatement errorLevel="info" />

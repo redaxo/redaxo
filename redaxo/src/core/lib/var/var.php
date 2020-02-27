@@ -124,6 +124,7 @@ abstract class rex_var
     private static function getVar($var): ?self
     {
         if (!isset(self::$vars[$var])) {
+            /** @var class-string $class */
             $class = 'rex_var_' . strtolower(substr($var, 4));
             if (!class_exists($class) || !is_subclass_of($class, self::class)) {
                 return null;

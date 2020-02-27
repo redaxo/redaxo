@@ -185,8 +185,8 @@ $count_folders = count($folders);
 if ($count_folders > 4) {
     $sel_dirs->setSize($count_folders);
 }
-foreach ($folders as $file) {
-    $file = basename($file);
+foreach ($folders as $path => $file) {
+    $file = basename($path);
     $sel_dirs->addOption($file, $file);
 }
 

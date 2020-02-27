@@ -86,7 +86,7 @@ class rex_article_service
                 // ----- PRIOR
                 self::newArtPrio($data['category_id'], $key, 0, $data['priority']);
             } catch (rex_sql_exception $e) {
-                throw new rex_api_exception($e);
+                throw new rex_api_exception($e->getMessage(), $e);
             }
 
             rex_article_cache::delete($id, $key);
@@ -209,7 +209,7 @@ class rex_article_service
                 'data' => $data,
             ]));
         } catch (rex_sql_exception $e) {
-            throw new rex_api_exception($e);
+            throw new rex_api_exception($e->getMessage(), $e);
         }
 
         return $message;
@@ -371,7 +371,7 @@ class rex_article_service
                     'status' => $newstatus,
                 ]));
             } catch (rex_sql_exception $e) {
-                throw new rex_api_exception($e);
+                throw new rex_api_exception($e->getMessage(), $e);
             }
         } else {
             throw new rex_api_exception(rex_i18n::msg('no_such_category'));
