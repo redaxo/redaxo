@@ -62,7 +62,7 @@ class rex_clang
      *
      * @param int $id Clang id
      *
-     * @return self
+     * @return self|null
      */
     public static function get($id)
     {
