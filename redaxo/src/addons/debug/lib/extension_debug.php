@@ -1,33 +1,33 @@
 <?php
 
-rex_extension::register('OUTPUT_FILTER', ['rex_extension_debug', 'doLog']);
 
 /**
- * Class to monitor extension points via ChromePhp.
- *
- * @author staabm
- *
  * @package redaxo\debug
+ *
+ * @internal
  */
 class rex_extension_debug extends rex_extension
 {
-    private static $log = [];
+
+    private static $registered = [];
+    private static $executed = [];
 
     /**
      * Extends rex_extension::register() with ChromePhp logging.
      */
     public static function register($extensionPoint, callable $extension, $level = self::NORMAL, array $params = [])
     {
-        $timer = new rex_timer();
         parent::register($extensionPoint, $extension, $level, $params);
 
-        self::$log[] = [
-            'type' => 'EXT',
-            'ep' => $extensionPoint,
-            'callable' => $extension,
-            'level' => $level,
-            'params' => $params,
-            'timer' => $timer->getFormattedDelta(),
+
+        $trace = rex_debug::getTrace([rex_extension::class]);
+        rex_debug::getInstance()
+            ->addEvent('EXT: '.$extensionPoint, $params, time(), $trace);
+        self::$registered[] = [
+            '#' => count(self::$registered),
+            'name' => $extensionPoint,
+            'file' => str_replace(rex_path::base(), '', $trace['trace'][0]['file']),
+            'line' => $trace['trace'][0]['line'],
         ];
     }
 
@@ -39,82 +39,47 @@ class rex_extension_debug extends rex_extension
         $coreTimer = rex::getProperty('timer');
         $absDur = $coreTimer->getFormattedDelta();
 
-        // start timer for this extensionPoint
+
+
+        $rnd = mt_rand();
+        rex_debug::getInstance()->startEvent($rnd, 'EP: '. $extensionPoint->getName());
+
         $timer = new rex_timer();
         $res = parent::registerPoint($extensionPoint);
         $epDur = $timer->getFormattedDelta();
 
+        rex_debug::getInstance()
+            ->endEvent($rnd);
+
         $memory = rex_formatter::bytes(memory_get_usage(true), [3]);
 
-        self::$log[] = [
-            'type' => 'EP',
+        self::$executed[] = [
+            '#' => count(self::$executed),
             'ep' => $extensionPoint->getName(),
-            'started' => $absDur,
-            'duration' => $epDur,
-            'memory' => $memory,
             'subject' => $extensionPoint->getSubject(),
-            'params' => $extensionPoint->getParams(),
+            'params' => $extensionPoint->getParams() ?: '',
             'read_only' => $extensionPoint->isReadonly(),
+            'started at (ms)' => $absDur,
+            'duration (ms)' => $epDur,
+            'memory' => $memory,
             'result' => $res,
-            'timer' => $epDur,
         ];
+
+        rex_debug::getInstance()
+            ->addEvent('EP: '.$extensionPoint->getName(), [
+                'subject' => $extensionPoint->getSubject(),
+                'params' => $extensionPoint->getParams(),
+                'result' => $res,
+            ], time(), rex_debug::getTrace([rex_extension::class]));
 
         return $res;
     }
 
-    /**
-     * process log & send as ChromePhp table.
-     */
-    public static function doLog()
-    {
-        $registered_eps = $log_table = [];
-        $counter = [
-            'ep' => 0,
-            'ext' => 0,
-        ];
+    public static function getRegistered() {
+        return self::$registered;
+    }
 
-        foreach (self::$log as $count => $entry) {
-            switch ($entry['type']) {
-                case 'EP':
-                    $counter['ep']++;
-                    $registered_eps[] = $entry['ep'];
-                    $log_table[] = [
-                        'Type' => $entry['type'],      // Type
-                        'ExtensionPoint' => $entry['ep'] . ($entry['read_only'] ? ' (readonly)' : ''),        // ExtensionPoint / readonly
-                        'Callable' => '–',                 // Callable
-                        'Start / Dur.' => $entry['started'] . '/ ' . $entry['duration'] . 'ms',   // Start / Dur.
-                        'Memory' => $entry['memory'],    // Memory
-                        'subject' => $entry['subject'],   // subject
-                        'params' => $entry['params'],    // params
-                        'result' => $entry['result'],    // result
-                    ];
-                    break;
-
-                case 'EXT':
-                    $counter['ext']++;
-
-                    if (in_array($entry['ep'], $registered_eps)) {
-                        ChromePhp::error('EP Timing: Extension "' . $entry['callable'] . '" registered after ExtensionPoint "' . $entry['ep'] . '" !');
-                    }
-
-                    $log_table[] = [
-                        'Type' => $entry['type'],     // Type
-                        'ExtensionPoint' => $entry['ep'],       // ExtensionPoint / readonly
-                        'Callable' => $entry['callable'], // Callable
-                        'Start / Dur.' => '–',                // Start / Dur.
-                        'Memory' => '–',                // Memory
-                        'subject' => '–',                // subject
-                        'params' => $entry['params'],   // params
-                        'result' => '-',                // result
-                    ];
-                    break;
-
-                default:
-                    throw new rex_exception('unexpexted type ' . $entry['type']);
-            }
-        }
-
-        ChromePhp::log('EP Log ( EPs: ' . $counter['ep'] . ', Extensions: ' . $counter['ext'] . ' )');
-        ChromePhp::table($log_table);
+    public static function getExecuted() {
+        return self::$executed;
     }
 }

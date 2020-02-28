@@ -1,26 +1,23 @@
 <?php
 
-rex_extension::register('OUTPUT_FILTER', ['rex_sql_debug', 'doLog']);
 
 /**
- * Class to monitor sql queries.
- *
- * @author staabm
- *
  * @package redaxo\debug
+ *
+ * @internal
  */
 class rex_sql_debug extends rex_sql
 {
-    private static $queries = [];
-    private static $errors = 0;
-
     /**
      * {@inheritdoc}.
      */
     public function setQuery($qry, array $params = [], array $options = [])
     {
         try {
+            $timer = new rex_timer();
             parent::setQuery($qry, $params, $options);
+            rex_debug::getInstance()
+                ->addDatabaseQuery($qry, $params, $timer->getDelta(), ['connection' => $this->DBID] + rex_debug::getTrace());
         } catch (rex_exception $e) {
             $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
@@ -33,7 +30,8 @@ class rex_sql_debug extends rex_sql
                     break;
                 }
             }
-            ChromePhp::error($e->getMessage() . ' in ' . $file . ' on line ' . $line);
+            rex_debug::getInstance()
+                ->error($e->getMessage(), ['file' => $file, 'line' => $line]);
             throw $e; // re-throw exception after logging
         }
 
@@ -51,42 +49,24 @@ class rex_sql_debug extends rex_sql
         $timer = new rex_timer();
         parent::execute($params, $options);
 
+        rex_debug::getInstance()
+            ->addDatabaseQuery($qry, $params, $timer->getDelta(), ['connection' => $this->DBID] + rex_debug::getTrace());
+
         $err = $errno = '';
         if ($this->hasError()) {
-            ++self::$errors;
             $err = parent::getError();
             $errno = parent::getErrno();
         }
 
-        self::$queries[] = [
-            'rows' => $this->getRows(),
-            'time' => $timer->getFormattedDelta(),
-            'query' => $qry,
-            'error' => $err,
-            'errno' => $errno,
-        ];
+        rex_debug::getInstance()
+            ->addDatabaseQuery($qry, $params, $timer->getDelta(), [
+                'rows' => $this->getRows(),
+                'time' => $timer->getFormattedDelta(),
+                'query' => $qry,
+                'error' => $err,
+                'errno' => $errno,
+            ]);
 
         return $this;
-    }
-
-    public static function doLog()
-    {
-        if (!empty(self::$queries)) {
-            $tbl = [];
-            $i = 0;
-
-            foreach (self::$queries as $qry) {
-                // when a extension takes longer than 5ms, send a warning
-                if (strtr($qry['time'], ',', '.') > 5) {
-                    $tbl[] = ['#' => $i, 'rows' => $qry['rows'], 'ms' => '! SLOW: ' . $qry['time'], 'query' => $qry['query']];
-                } else {
-                    $tbl[] = ['#' => $i, 'rows' => $qry['rows'], 'ms' => $qry['time'], 'query' => $qry['query']];
-                }
-                ++$i;
-            }
-
-            ChromePhp::log(self::class . ' (' . count(self::$queries) . ' queries, ' . self::$errors . ' errors)');
-            ChromePhp::table($tbl);
-        }
     }
 }
