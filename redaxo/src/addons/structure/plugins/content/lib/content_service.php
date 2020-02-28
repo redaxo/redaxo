@@ -200,6 +200,27 @@ class rex_content_service
         return 1 == $curr->getRows();
     }
 
+    public static function sliceStatus(int $sliceId, int $status)
+    {
+        $sql = rex_sql::factory();
+        $sql->setQuery('SELECT article_id, clang_id FROM '.rex::getTable('article_slice').' WHERE id = ?', [$sliceId]);
+
+        if (!$sql->getRows()) {
+            throw new rex_exception(sprintf('Slice with id=%d not found.', $sliceId));
+        }
+
+        $article = rex_article::get($sql->getValue('article_id'), $sql->getValue('clang_id'));
+
+        $sql->setTable(rex::getTable('article_slice'));
+        $sql->setWhere(['id' => $sliceId]);
+        $sql->setValue('status', $status);
+        $sql->update();
+
+        rex_article_cache::deleteContent($article->getId(), $article->getClangId());
+
+        rex_extension::registerPoint(new rex_extension_point_art_content_updated($article, 'slice_status'));
+    }
+
     /**
      * Kopiert die Inhalte eines Artikels in einen anderen Artikel.
      *

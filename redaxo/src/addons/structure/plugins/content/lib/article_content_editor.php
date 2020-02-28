@@ -120,6 +120,7 @@ class rex_article_content_editor extends rex_article_content
     {
         $sliceId = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.id');
         $sliceCtype = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.ctype_id');
+        $sliceStatus = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.status');
 
         $moduleId = $artDataSql->getValue(rex::getTablePrefix() . 'module.id');
         $moduleName = rex_i18n::translate($artDataSql->getValue(rex::getTablePrefix() . 'module.name'));
@@ -157,6 +158,15 @@ class rex_article_content_editor extends rex_article_content
             $item['attributes']['class'][] = 'btn-delete';
             $item['attributes']['title'] = rex_i18n::msg('delete');
             $item['attributes']['data-confirm'] = rex_i18n::msg('confirm_delete_block');
+            $menu_items_action[] = $item;
+
+            // status
+            $item = [];
+            $statusName = $sliceStatus ? 'online' : 'offline';
+            $item['label'] = '<i class="rex-icon rex-icon-'.$statusName.'"></i> '.rex_i18n::msg('status_'.$statusName);
+            $item['url'] = $context->getUrl(['status' => $sliceStatus ? 0 : 1] + rex_api_content_slice_status::getUrlParams()) . $fragment;
+            $item['attributes']['class'][] = 'btn-default';
+            $item['attributes']['class'][] = 'rex-'.$statusName;
             $menu_items_action[] = $item;
 
             if ($templateHasModule && rex::getUser()->hasPerm('moveSlice[]')) {
