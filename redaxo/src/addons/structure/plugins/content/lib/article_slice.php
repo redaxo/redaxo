@@ -81,7 +81,7 @@ class rex_article_slice
      * @param bool|int $clang
      * @param int      $revision
      *
-     * @return self
+     * @return self|null
      */
     public static function getArticleSliceById($an_id, $clang = false, $revision = 0)
     {
@@ -105,7 +105,7 @@ class rex_article_slice
      * @param bool|int $clang
      * @param int      $revision
      *
-     * @return self
+     * @return self|null
      */
     public static function getFirstSliceForArticle($an_article_id, $clang = false, $revision = 0)
     {
@@ -131,7 +131,7 @@ class rex_article_slice
      * @param bool|int $clang
      * @param int      $revision
      *
-     * @return self
+     * @return self|null
      */
     public static function getFirstSliceForCtype($ctype, $an_article_id, $clang = false, $revision = 0)
     {
@@ -193,7 +193,7 @@ class rex_article_slice
     /**
      * Return the next slice for this article.
      *
-     * @return self
+     * @return self|null
      */
     public function getNextSlice()
     {
@@ -204,7 +204,7 @@ class rex_article_slice
     }
 
     /**
-     * @return self
+     * @return self|null
      */
     public function getPreviousSlice()
     {
@@ -226,7 +226,7 @@ class rex_article_slice
     {
         $art = new rex_article_content();
         $art->setArticleId($this->getArticleId());
-        $art->setClang($this->getClang());
+        $art->setClang($this->getClangId());
         $art->setSliceRevision($this->getRevision());
         return $art->getSlice($this->getId());
     }
@@ -234,7 +234,7 @@ class rex_article_slice
     /**
      * @param string $where
      *
-     * @return self
+     * @return self|null
      */
     protected static function getSliceWhere($where, array $params = [])
     {
@@ -355,7 +355,13 @@ class rex_article_slice
      */
     public function getArticle()
     {
-        return rex_article::get($this->getArticleId());
+        $article = rex_article::get($this->getArticleId());
+
+        if (!$article) {
+            throw new LogicException(sprintf('Article with id=%d not found.', $this->getArticleId()));
+        }
+
+        return $article;
     }
 
     public function getArticleId()

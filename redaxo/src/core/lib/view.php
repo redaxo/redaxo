@@ -427,7 +427,7 @@ class rex_view
         $fragment->setVar('header', rex_i18n::msg('clang_select'));
         $fragment->setVar('items', $items, false);
 
-        if (rex::getUser()->isAdmin()) {
+         if (rex::getUser()->isAdmin()) {
             $fragment->setVar('footer', '<a href="' . rex_url::backendPage('system/lang') . '"><i class="fa fa-flag"></i> ' . rex_i18n::msg('languages_edit') . '</a>', false);
         }
 

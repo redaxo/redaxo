@@ -59,7 +59,7 @@ class rex_be_controller
     }
 
     /**
-     * @return rex_be_page
+     * @return rex_be_page|null
      */
     public static function getCurrentPageObject()
     {

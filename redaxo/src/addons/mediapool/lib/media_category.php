@@ -187,7 +187,7 @@ class rex_media_category
     }
 
     /**
-     * @return self
+     * @return self|null
      */
     public function getParent()
     {

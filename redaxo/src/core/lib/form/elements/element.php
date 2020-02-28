@@ -5,7 +5,7 @@
  */
 class rex_form_element
 {
-    /** @var string */
+    /** @var string|null */
     protected $value;
     /** @var string|int */
     protected $defaultSaveValue = '';
@@ -13,7 +13,7 @@ class rex_form_element
     protected $label;
     /** @var string */
     protected $tag;
-    /** @var rex_form_base */
+    /** @var rex_form_base|null */
     protected $table;
     /** @var array */
     protected $attributes;
@@ -72,7 +72,7 @@ class rex_form_element
     }
 
     /**
-     * @return string|int
+     * @return string|int|null
      */
     public function getSaveValue()
     {
@@ -81,7 +81,7 @@ class rex_form_element
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getValue()
     {

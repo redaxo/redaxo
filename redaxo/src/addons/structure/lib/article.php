@@ -66,7 +66,7 @@ class rex_article extends rex_structure_element
      *
      * @param int $clang
      *
-     * @return self
+     * @return self|null
      */
     public static function getNotfoundArticle($clang = null)
     {
@@ -99,17 +99,17 @@ class rex_article extends rex_structure_element
     /**
      * Returns the parent category.
      *
-     * @return rex_category
+     * @return rex_category|null
      */
     public function getCategory()
     {
-        return rex_category::get($this->getCategoryId(), $this->getClang());
+        return rex_category::get($this->getCategoryId(), $this->getClangId());
     }
 
     /**
      * Returns the parent object of the article.
      *
-     * @return self
+     * @return self|null
      */
     public function getParent()
     {

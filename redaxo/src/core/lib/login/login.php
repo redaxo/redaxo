@@ -47,7 +47,7 @@ class rex_login
     /** @var rex_sql|rex_user */
     protected $user;
 
-    /** @var rex_sql|rex_user */
+    /** @var rex_sql|rex_user|null */
     protected $impersonator;
 
     /**

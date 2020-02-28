@@ -38,7 +38,7 @@ class rex_i18n
      */
     public static function setLocale($locale, $phpSetLocale = true)
     {
-        $saveLocale = self::$locale;
+        $saveLocale = self::getLocale();
         self::$locale = $locale;
 
         if (empty(self::$loaded[$locale])) {
@@ -68,6 +68,10 @@ class rex_i18n
      */
     public static function getLocale()
     {
+        if (!self::$locale) {
+            self::$locale = rex::getProperty('lang');
+        }
+
         return self::$locale;
     }
 
@@ -78,7 +82,7 @@ class rex_i18n
      */
     public static function getLanguage()
     {
-        [$lang, $country] = explode('_', self::$locale, 2);
+        [$lang, $country] = explode('_', self::getLocale(), 2);
         return $lang;
     }
 
@@ -212,7 +216,7 @@ class rex_i18n
      */
     public static function hasMsg($key)
     {
-        return isset(self::$msg[self::$locale][$key]);
+        return isset(self::$msg[self::getLocale()][$key]);
     }
 
     /**
@@ -226,12 +230,8 @@ class rex_i18n
      */
     private static function getMsg($key, $htmlspecialchars, array $args, $locale = null)
     {
-        if (!self::$locale) {
-            self::$locale = rex::getProperty('lang');
-        }
-
         if (!$locale) {
-            $locale = self::$locale;
+            $locale = self::getLocale();
         }
 
         if (empty(self::$loaded[$locale])) {
@@ -274,12 +274,14 @@ class rex_i18n
      */
     public static function hasMsgOrFallback($key)
     {
-        if (isset(self::$msg[self::$locale][$key])) {
+        $currentLocale = self::getLocale();
+
+        if (isset(self::$msg[$currentLocale][$key])) {
             return true;
         }
 
         foreach (rex::getProperty('lang_fallback', []) as $locale) {
-            if (self::$locale === $locale) {
+            if ($currentLocale === $locale) {
                 continue;
             }
 
