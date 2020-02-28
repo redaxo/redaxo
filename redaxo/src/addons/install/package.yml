@@ -25,6 +25,10 @@ requires:
     redaxo: ^5.5.0
 
 
+conflicts:
+    packages:
+        sked: '*'
+
 console_commands:
     install:download: rex_command_install_download
     install:list: rex_command_install_list

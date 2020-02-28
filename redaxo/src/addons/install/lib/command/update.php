@@ -69,12 +69,12 @@ class rex_command_install_update extends rex_console_command
         try {
             $message = $install->run($addonKey, $fileId);
         } catch (rex_exception $exception) {
-            $io->error($exception->getMessage());
+            $io->error($this->decodeMessage($exception->getMessage()));
             return 1;
         }
 
         if ('' !== $message) {
-            $io->error($message);
+            $io->error($this->decodeMessage($message));
             return 1;
         }
 
