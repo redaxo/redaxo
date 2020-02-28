@@ -12,6 +12,9 @@ if (!isset($error)) {
     $error = '';
 }
 if (!isset($arg_url)) {
+    /**
+     * @var array{args: array{types: string}, opener_input_field: string}
+     */
     $arg_url = [];
 }
 
