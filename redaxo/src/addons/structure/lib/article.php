@@ -132,8 +132,6 @@ class rex_article extends rex_structure_element
 
     /**
      * {@inheritdoc}
-     *
-     * @return int|string
      */
     public function getValue($value)
     {

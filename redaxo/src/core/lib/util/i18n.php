@@ -16,7 +16,7 @@ class rex_i18n
      */
     private static $directories = [];
     /**
-     * @var boolean[string] Holds which locales are loaded. keyed by locale
+     * @var array<string, bool> Holds which locales are loaded. keyed by locale
      */
     private static $loaded = [];
     /**

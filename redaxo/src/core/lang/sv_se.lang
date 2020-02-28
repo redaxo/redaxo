@@ -150,7 +150,6 @@ system_report_markdown = Som markdown
 setup = Installation
 setup_restart = Installation: starta på nytt
 setup_text = Här kan du starta om installationen. Detta bör du bara göra i en nödsituation. Under normala omständigheter är det inte nödvändigt.
-setup_error1 = Installatonen aktiverad. Vänliga klicka på {0} vidare {1} och genomför installationen.
 setup_error2 = Tyvärr kunde det inte skrivas på config.yml-filen. Vänligen ändra till \"setup: true\" i config.yml.
 
 

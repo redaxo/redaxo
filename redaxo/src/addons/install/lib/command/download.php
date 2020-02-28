@@ -22,6 +22,7 @@ class rex_command_install_download extends rex_console_command
     {
         $io = $this->getStyle($input, $output);
 
+        /** @var string $addonKey */
         $addonKey = $input->getArgument('addonkey');
 
         if (rex_addon::exists($addonKey)) {

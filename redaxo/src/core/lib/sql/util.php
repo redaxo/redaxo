@@ -89,7 +89,7 @@ class rex_sql_util
      *
      * @param string $file Path to the SQL-dump-file
      *
-     * @return array
+     * @return array|false
      */
     private static function readSqlDump($file)
     {

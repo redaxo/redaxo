@@ -16,7 +16,7 @@ class rex_api_user_impersonate extends rex_api_function
 
             rex_response::sendRedirect(rex_url::backendPage('users/users', [], false));
 
-            return;
+            exit;
         }
 
         if (!rex::getUser()->isAdmin()) {
@@ -26,6 +26,8 @@ class rex_api_user_impersonate extends rex_api_function
         rex::getProperty('login')->impersonate((int) $impersonate);
 
         rex_response::sendRedirect(rex_url::backendController([], false));
+
+        exit;
     }
 
     protected function requiresCsrfProtection()

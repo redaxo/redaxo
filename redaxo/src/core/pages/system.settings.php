@@ -2,7 +2,7 @@
 /**
  * @package redaxo5
  */
-$info = '';
+
 $error = [];
 $success = '';
 
@@ -20,8 +20,6 @@ if ($func && !$csrfToken->isValid()) {
     $config['setup'] = true;
 
     if (false !== rex_file::putConfig($configFile, $config)) {
-        $info = rex_i18n::rawMsg('setup_error1', '<a href="' . rex_url::backendController() . '">', '</a>');
-
         header('Location:' . rex_url::backendController());
         exit;
     }
@@ -118,10 +116,6 @@ if (!empty($error)) {
     echo rex_view::error(implode('<br />', $error));
 }
 
-if ('' != $info) {
-    echo rex_view::info($info);
-}
-
 if ('' != $success) {
     echo rex_view::success($success);
 }
@@ -178,11 +172,11 @@ $content = '
     <table class="table">
         <tr>
             <th class="rex-table-width-3">REDAXO</th>
-            <td>' . $rexVersion . '</td>                            
-        </tr>   
+            <td>' . $rexVersion . '</td>
+        </tr>
         <tr>
             <th>PHP</th>
-            <td>' . PHP_VERSION . ' <a href="' . rex_url::backendPage('system/phpinfo') . '" title="phpinfo" onclick="newWindow(\'phpinfo\', this.href, 1000,800,\',status=yes,resizable=yes\');return false;"><i class="rex-icon rex-icon-phpinfo"></i></a></td>                            
+            <td>' . PHP_VERSION . ' <a href="' . rex_url::backendPage('system/phpinfo') . '" title="phpinfo" onclick="newWindow(\'phpinfo\', this.href, 1000,800,\',status=yes,resizable=yes\');return false;"><i class="rex-icon rex-icon-phpinfo"></i></a></td>
         </tr>
     </table>';
 
@@ -201,11 +195,11 @@ $content = '
         </tr>
         <tr>
             <th>' . rex_i18n::msg('name') . '</th>
-            <td><span class="rex-word-break">' . $dbconfig[1]['name'] . '</span></td>                            
-        </tr>   
+            <td><span class="rex-word-break">' . $dbconfig[1]['name'] . '</span></td>
+        </tr>
         <tr>
             <th>' . rex_i18n::msg('host') . '</th>
-            <td>' . $dbconfig[1]['host'] . '</td>                            
+            <td>' . $dbconfig[1]['host'] . '</td>
         </tr>
     </table>';
 
