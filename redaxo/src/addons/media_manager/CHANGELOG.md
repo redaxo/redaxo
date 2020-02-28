@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.8.1 – XX.XX.2020
+--------------------------
+
+### Bugfixes
+
+* `rex_media_manager::getUrl` hat im Backend eine URL mit der Backend-`index.php` geliefert, was teils zu langsamen Backend-Seitenaufrufen führte (Session-Locks) (@gharlan)
+
+
 Version 2.8.0 – 02.02.2020
 --------------------------
 

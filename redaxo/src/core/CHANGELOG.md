@@ -1,6 +1,21 @@
 Changelog
 =========
 
+Version 5.10.0 – XX.XX.2020
+---------------------------
+
+### Neu
+
+* Update der externen Bibliotheken (@gharlan)
+
+### Bugfixes
+
+* Bei tiefer verschachtelten Abhängigkeiten der AddOns wurde die Ladereihenfolge nicht immer korrekt entsprechend der Abhängigkeiten generiert (@gharlan)
+* `rex_sql`: In der Debug-Ausgabe wurden in `fullquery` nicht immer die Parameter ersetzt (@gharlan)
+* Es kam zu Fehlern, wenn Addons eine eigene (ältere) Version von Parsedown mitlieferten (@gharlan)
+* Die Tabelle `rex_config` hat seit einigen Versionen keine `id`-Spalte mehr, bei manchen war diese aber trotzdem noch vorhanden und führte zu Problemen beim Update (@gharlan)
+
+
 Version 5.9.0 – 02.02.2020
 --------------------------
 

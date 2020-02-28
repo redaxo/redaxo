@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 2.6.1 – XX.XX.2020
+--------------------------
+
+### Bugfixes
+
+* Template-Filter: Templates mit Kategoriebeschränkung standen fälschlich nicht zur Auswahl (@gharlan)
+* Der Default-Wert für die Standard-Metafelder unterschied sich zwischen MySQL und MariaDB (@gharlan)
+
+
 Version 2.6.0 – 02.02.2020
 --------------------------
 
