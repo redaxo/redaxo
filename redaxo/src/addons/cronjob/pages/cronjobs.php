@@ -292,7 +292,8 @@ if ('' == $func) {
                             $field->setNotice($param['notice']);
                         }
                         break;
-                    default:var_dump($param);
+                    default:
+                        throw new LogicException(sprintf('Unexpected param type "%s".', $param['type']));
                 }
                 if (isset($param['visible_if']) && is_array($param['visible_if'])) {
                     foreach ($param['visible_if'] as $key => $value) {

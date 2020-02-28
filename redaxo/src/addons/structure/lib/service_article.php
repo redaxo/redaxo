@@ -86,7 +86,7 @@ class rex_article_service
                 // ----- PRIOR
                 self::newArtPrio($data['category_id'], $key, 0, $data['priority']);
             } catch (rex_sql_exception $e) {
-                throw new rex_api_exception($e);
+                throw new rex_api_exception($e->getMessage(), $e);
             }
 
             rex_article_cache::delete($id, $key);
@@ -209,7 +209,7 @@ class rex_article_service
                 'data' => $data,
             ]));
         } catch (rex_sql_exception $e) {
-            throw new rex_api_exception($e);
+            throw new rex_api_exception($e->getMessage(), $e);
         }
 
         return $message;
@@ -371,7 +371,7 @@ class rex_article_service
                     'status' => $newstatus,
                 ]));
             } catch (rex_sql_exception $e) {
-                throw new rex_api_exception($e);
+                throw new rex_api_exception($e->getMessage(), $e);
             }
         } else {
             throw new rex_api_exception(rex_i18n::msg('no_such_category'));
@@ -714,7 +714,7 @@ class rex_article_service
      * @param int $id        ArtikelId des zu kopierenden Artikels
      * @param int $to_cat_id KategorieId in die der Artikel kopiert werden soll
      *
-     * @return bool|string FALSE bei Fehler, sonst die Artikel Id des neue kopierten Artikels
+     * @return bool|int FALSE bei Fehler, sonst die Artikel Id des neue kopierten Artikels
      */
     public static function copyArticle($id, $to_cat_id)
     {
