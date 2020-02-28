@@ -24,6 +24,7 @@ requires:
         extensions: [zlib]
     redaxo: ^5.5.0
 
+
 console_commands:
     install:download: rex_command_install_download
     install:list: rex_command_install_list
