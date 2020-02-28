@@ -153,6 +153,7 @@ abstract class rex_form_base
         $attributes['internal::fieldClass'] = 'rex_form_container_element';
 
         $field = $this->addField('', $name, $value, $attributes, true);
+        assert($field instanceof rex_form_container_element);
         return $field;
     }
 
@@ -259,6 +260,7 @@ abstract class rex_form_base
     {
         $attributes['internal::fieldClass'] = 'rex_form_checkbox_element';
         $field = $this->addField('', $name, $value, $attributes);
+        assert($field instanceof rex_form_checkbox_element);
         return $field;
     }
 
@@ -275,6 +277,7 @@ abstract class rex_form_base
     {
         $attributes['internal::fieldClass'] = 'rex_form_radio_element';
         $field = $this->addField('radio', $name, $value, $attributes);
+        assert($field instanceof rex_form_radio_element);
         return $field;
     }
 
@@ -320,6 +323,7 @@ abstract class rex_form_base
             $attributes['class'] = 'form-control';
         }
         $field = $this->addField('', $name, $value, $attributes, true);
+        assert($field instanceof rex_form_select_element);
         return $field;
     }
 
@@ -341,6 +345,7 @@ abstract class rex_form_base
         }
         $attributes['internal::fieldClass'] = 'rex_form_widget_media_element';
         $field = $this->addField('', $name, $value, $attributes, true);
+        assert($field instanceof rex_form_widget_media_element);
         return $field;
     }
 
@@ -362,6 +367,7 @@ abstract class rex_form_base
         }
         $attributes['internal::fieldClass'] = 'rex_form_widget_medialist_element';
         $field = $this->addField('', $name, $value, $attributes, true);
+        assert($field instanceof rex_form_widget_medialist_element);
         return $field;
     }
 
@@ -383,6 +389,7 @@ abstract class rex_form_base
         }
         $attributes['internal::fieldClass'] = 'rex_form_widget_linkmap_element';
         $field = $this->addField('', $name, $value, $attributes, true);
+        assert($field instanceof rex_form_widget_linkmap_element);
         return $field;
     }
 
@@ -404,6 +411,7 @@ abstract class rex_form_base
         }
         $attributes['internal::fieldClass'] = 'rex_form_widget_linklist_element';
         $field = $this->addField('', $name, $value, $attributes, true);
+        assert($field instanceof rex_form_widget_linklist_element);
         return $field;
     }
 
