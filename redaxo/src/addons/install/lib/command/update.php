@@ -25,7 +25,6 @@ class rex_command_install_update extends rex_console_command
         /** @var string $addonKey */
         $addonKey = $input->getArgument('addonkey');
 
-
         if (!rex_addon::exists($addonKey)) {
             $io->error(sprintf('AddOn "%s" does not exist!', $addonKey));
             return 1;
