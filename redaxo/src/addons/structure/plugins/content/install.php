@@ -69,6 +69,7 @@ rex_sql_table::get(rex::getTable('article_slice'))
     ->ensureColumn(new rex_sql_column('module_id', 'int(10) unsigned'))
     ->ensureGlobalColumns()
     ->ensureColumn(new rex_sql_column('revision', 'int(11)'))
+    ->ensureColumn(new rex_sql_column('status', 'tinyint(1)', false, 1))
     ->setPrimaryKey('id')
     ->ensureIndex(new rex_sql_index('slice_priority', ['article_id', 'priority', 'module_id']))
     ->ensureIndex(new rex_sql_index('clang_id', ['clang_id']))
@@ -137,4 +138,18 @@ if (!$sql->getRows()) {
         ->setRawValue('createdate', 'NOW()')
         ->setRawValue('updatedate', 'NOW()')
         ->insert();
+}
+
+$bloecksStatus = rex_plugin::get('bloecks', 'status');
+if ($bloecksStatus->isInstalled()) {
+    // unistall bloecks/status without the normal uninstall routine
+    // to avoid removing the article_slice.status column
+
+    $config = rex::getConfig('package-config');
+    $config['bloecks']['plugins']['status']['install'] = false;
+    $config['bloecks']['plugins']['status']['status'] = false;
+    rex::setConfig('package-config', $config);
+
+    $bloecksStatus->setProperty('install', false);
+    $bloecksStatus->setProperty('status', false);
 }
