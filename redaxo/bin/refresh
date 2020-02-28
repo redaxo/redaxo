@@ -24,3 +24,5 @@ redaxo/bin/console package:install --re-install structure/content
 redaxo/bin/console package:install --re-install users
 
 redaxo/bin/console cache:clear
+
+composer update # update dev-tools
