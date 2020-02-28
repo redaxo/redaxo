@@ -5,9 +5,10 @@
  *
  * @internal
  */
-class rex_api_debug extends rex_api_function {
-
+class rex_api_debug extends rex_api_function
+{
     protected $published = true;
+
     public function execute()
     {
         $debug = rex_debug::getHelper();
@@ -25,7 +26,7 @@ class rex_api_debug extends rex_api_function {
     {
         return [
             self::REQ_CALL_PARAM => 'debug',
-            'request' => ''
+            'request' => '',
         ];
     }
 }

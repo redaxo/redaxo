@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * @package redaxo\debug
  *
@@ -8,7 +7,6 @@
  */
 class rex_extension_debug extends rex_extension
 {
-
     private static $registered = [];
     private static $executed = [];
 
@@ -18,7 +16,6 @@ class rex_extension_debug extends rex_extension
     public static function register($extensionPoint, callable $extension, $level = self::NORMAL, array $params = [])
     {
         parent::register($extensionPoint, $extension, $level, $params);
-
 
         $trace = rex_debug::getTrace([rex_extension::class]);
         rex_debug::getInstance()
@@ -38,8 +35,6 @@ class rex_extension_debug extends rex_extension
     {
         $coreTimer = rex::getProperty('timer');
         $absDur = $coreTimer->getFormattedDelta();
-
-
 
         $rnd = mt_rand();
         rex_debug::getInstance()->startEvent($rnd, 'EP: '. $extensionPoint->getName());
@@ -75,11 +70,13 @@ class rex_extension_debug extends rex_extension
         return $res;
     }
 
-    public static function getRegistered() {
+    public static function getRegistered()
+    {
         return self::$registered;
     }
 
-    public static function getExecuted() {
+    public static function getExecuted()
+    {
         return self::$executed;
     }
 }

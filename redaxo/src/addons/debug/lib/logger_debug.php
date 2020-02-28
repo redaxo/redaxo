@@ -1,8 +1,5 @@
 <?php
 
-use Psr\Log\LogLevel;
-
-
 /**
  * @package redaxo\debug
  *
@@ -11,7 +8,7 @@ use Psr\Log\LogLevel;
 class rex_logger_debug extends rex_logger
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function log($level, $message, array $context = [], $file = null, $line = null)
     {

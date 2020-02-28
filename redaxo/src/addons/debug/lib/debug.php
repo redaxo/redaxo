@@ -5,41 +5,44 @@
  *
  * @internal
  */
-class rex_debug {
-
+class rex_debug
+{
     /** @var \Clockwork\Support\Vanilla\Clockwork */
     private static $instance;
 
     private static $ignoreClasses = [
         rex_extension_debug::class,
         rex_api_function_debug::class,
-        rex_debug::class,
+        self::class,
         rex_api_debug::class,
         rex_logger_debug::class,
         rex_sql_debug::class,
     ];
 
-    public static function init() {
-
+    public static function init()
+    {
         $clockwork = \Clockwork\Support\Vanilla\Clockwork::init([
-            'storage_files_path' => rex_addon::get('debug')->getDataPath('clockwork.db')
+            'storage_files_path' => rex_addon::get('debug')->getDataPath('clockwork.db'),
         ]);
 
         self::$instance = $clockwork;
     }
 
-    public static function getInstance() {
+    public static function getInstance()
+    {
         return self::getHelper()->getClockwork();
     }
 
-    public static function getHelper() {
+    public static function getHelper()
+    {
         if (!self::$instance) {
-            rex_debug::init();;
+            self::init();
         }
         return self::$instance;
     }
 
-    public static function getTrace(array $ignoredClasses = []) {
+    public static function getTrace(array $ignoredClasses = [])
+    {
         $ignoredClasses = self::$ignoreClasses + $ignoredClasses;
         $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
@@ -59,7 +62,7 @@ class rex_debug {
         return [
             'file' => $trace[$start]['file'],
             'line' => $trace[$start]['line'],
-            'trace' => array_slice($trace, $start)
+            'trace' => array_slice($trace, $start),
         ];
     }
 }

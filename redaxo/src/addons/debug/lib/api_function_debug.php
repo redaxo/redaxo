@@ -1,7 +1,5 @@
 <?php
 
-use Psr\Log\LogLevel;
-
 /**
  * @package redaxo\debug
  *
