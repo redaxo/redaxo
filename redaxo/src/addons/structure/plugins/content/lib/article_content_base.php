@@ -295,7 +295,7 @@ class rex_article_content_base
             $sliceLimit = ' AND ' . rex::getTablePrefix() . "article_slice.id = '" . ((int) $this->getSlice) . "' ";
         }
         if ('edit' !== $this->mode) {
-            $sliceLimit .= ' AND ' . rex::getTablePrefix() . "article_slice.status = 1";
+            $sliceLimit .= ' AND ' . rex::getTablePrefix() . 'article_slice.status = 1';
         }
 
         // ----- start: article caching
