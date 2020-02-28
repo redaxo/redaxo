@@ -52,10 +52,12 @@ class rex_api_install_package_upload extends rex_api_function
             rex_install_webservice::post(rex_install_packages::getPath('?package=' . $addonkey . '&file_id=' . rex_request('file', 'int', 0)), ['file' => $file], $archive);
         } catch (rex_functional_exception $e) {
             throw new rex_api_exception($e->getMessage());
+        } finally {
+            if ($archive) {
+                rex_file::delete($archive);
+            }
         }
-        if ($archive) {
-            rex_file::delete($archive);
-        }
+
         unset($_REQUEST['file']);
         rex_install_packages::deleteCache();
         return new rex_api_result(true, rex_i18n::msg('install_info_addon_uploaded', $addonkey));

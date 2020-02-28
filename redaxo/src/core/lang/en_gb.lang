@@ -151,7 +151,6 @@ system_report_markdown = As markdown
 setup = Setup
 setup_restart = Restart setup
 setup_text = Here you can restart the setup process. This is for emergencies only and shouldn't be required under normal circumstances.
-setup_error1 = Setup activated. Please click {0}continue{1} to continue with the setup process.
 setup_error2 = Unfortunately the configuration file could not be written to. Please make change \"setup: true\" in config.yml
 
 

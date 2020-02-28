@@ -48,7 +48,7 @@ abstract class rex_structure_element
      *
      * @param string $value
      *
-     * @return string
+     * @return string|int|null
      */
     public function getValue($value)
     {

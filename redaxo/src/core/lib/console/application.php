@@ -88,7 +88,7 @@ class rex_console_application extends Application
             // boot all known packages in the defined order
             // which reflects dependencies before consumers
             foreach (rex::getConfig('package-order') as $packageId) {
-                rex_package::get($packageId)->boot();
+                rex_package::require($packageId)->boot();
             }
         }
 

@@ -11,7 +11,7 @@ rex_addon::initialize(!rex::isSetup());
 
 if (!rex::isSetup()) {
     foreach (rex::getConfig('package-order') as $packageId) {
-        rex_package::get($packageId)->enlist();
+        rex_package::require($packageId)->enlist();
     }
 }
 

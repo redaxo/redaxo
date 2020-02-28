@@ -449,7 +449,7 @@ class rex_article_content_base
     }
 
     /**
-     * @return false|string
+     * @return string
      */
     protected function getStreamOutput($path, $content)
     {

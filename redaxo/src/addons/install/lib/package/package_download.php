@@ -28,14 +28,18 @@ abstract class rex_install_package_download
 
         $message = '';
         $this->archive = $archivefile;
-        if ($this->file['checksum'] != md5_file($archivefile)) {
-            $message = rex_i18n::msg('install_warning_zip_wrong_checksum');
-        } elseif (!$this->isCorrectFormat($archivefile)) {
-            $message = rex_i18n::msg('install_warning_zip_wrong_format');
-        } elseif (is_string($msg = $this->doAction())) {
-            $message = $msg;
+
+        try {
+            if ($this->file['checksum'] != md5_file($archivefile)) {
+                $message = rex_i18n::msg('install_warning_zip_wrong_checksum');
+            } elseif (!$this->isCorrectFormat($archivefile)) {
+                $message = rex_i18n::msg('install_warning_zip_wrong_format');
+            } elseif (is_string($msg = $this->doAction())) {
+                $message = $msg;
+            }
+        } finally {
+            rex_file::delete($archivefile);
         }
-        rex_file::delete($archivefile);
 
         return $message;
     }

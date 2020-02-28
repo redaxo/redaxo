@@ -559,7 +559,7 @@ class tar {
   /**
    * Saves tar archive to a different file than the current file
    *
-   * @return bool
+   * @return bool|string
    */
   public function toTar($filename,$useGzip) {
     if(!$filename)

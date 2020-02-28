@@ -80,7 +80,7 @@ class rex_navigation
     public function get($category_id = 0, $depth = 3, $open = false, $ignore_offlines = false)
     {
         if (!$this->_setActivePath()) {
-            return false;
+            return '';
         }
 
         $this->depth = $depth;
@@ -112,7 +112,7 @@ class rex_navigation
     public function getBreadcrumb($startPageLabel, $includeCurrent = false, $category_id = 0)
     {
         if (!$this->_setActivePath()) {
-            return false;
+            return '';
         }
 
         $path = $this->path;
