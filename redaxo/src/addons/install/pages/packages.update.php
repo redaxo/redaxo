@@ -54,7 +54,7 @@ if ($core && !empty($coreVersions)) {
 
     $version = rex_escape(rex_addon::get($addonkey)->getVersion());
     if (rex_version::isUnstable($version)) {
-        $version = '<i class="rex-icon rex-icon-unstable-version"></i> '. $version;
+        $version = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $version;
     }
 
     $panel = '
@@ -106,7 +106,7 @@ if ($core && !empty($coreVersions)) {
     foreach ($addon['files'] as $fileId => $file) {
         $version = rex_escape($file['version']);
         if (rex_version::isUnstable($version)) {
-            $version = '<i class="rex-icon rex-icon-unstable-version"></i> '. $version;
+            $version = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $version;
         }
 
         $panel .= '
@@ -143,7 +143,7 @@ if ($core && !empty($coreVersions)) {
         foreach ($coreVersions as $file) {
             $availVers = rex_escape($file['version']);
             if (rex_version::isUnstable($availVers)) {
-                $availVers = '<i class="rex-icon rex-icon-unstable-version"></i> '. $availVers;
+                $availVers = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $availVers;
             }
             $availableVersions[] = $availVers;
         }
@@ -151,7 +151,7 @@ if ($core && !empty($coreVersions)) {
 
         $coreVersion = rex_escape(rex::getVersion());
         if (rex_version::isUnstable($coreVersion)) {
-            $coreVersion = '<i class="rex-icon rex-icon-unstable-version"></i> '. $coreVersion;
+            $coreVersion = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $coreVersion;
         }
 
         $panel .= '
@@ -169,7 +169,7 @@ if ($core && !empty($coreVersions)) {
         foreach ($addon['files'] as $file) {
             $availVers = rex_escape($file['version']);
             if (rex_version::isUnstable($availVers)) {
-                $availVers = '<i class="rex-icon rex-icon-unstable-version"></i> '. $availVers;
+                $availVers = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $availVers;
             }
             $availableVersions[] = $availVers;
         }
@@ -177,7 +177,7 @@ if ($core && !empty($coreVersions)) {
 
         $packageVersion = rex_escape(rex_addon::get($key)->getVersion());
         if (rex_version::isUnstable($packageVersion)) {
-            $packageVersion = '<i class="rex-icon rex-icon-unstable-version"></i> '. $packageVersion;
+            $packageVersion = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $packageVersion;
         }
 
         $panel .= '

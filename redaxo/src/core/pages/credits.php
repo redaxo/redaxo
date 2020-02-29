@@ -56,7 +56,7 @@ $content = $fragment->parse('core/page/grid.php');
 
 $coreVersion = rex_escape(rex::getVersion());
 if (rex_version::isUnstable($coreVersion)) {
-    $coreVersion = '<i class="rex-icon rex-icon-unstable-version"></i> '. $coreVersion;
+    $coreVersion = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $coreVersion;
 }
 
 $fragment = new rex_fragment();
@@ -99,7 +99,7 @@ $content .= '
 
             $packageVersion = rex_escape($package->getVersion());
             if (rex_version::isUnstable($packageVersion)) {
-                $packageVersion = '<i class="rex-icon rex-icon-unstable-version"></i> '. $packageVersion;
+                $packageVersion = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $packageVersion;
             }
 
             $content .= '

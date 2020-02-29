@@ -32,6 +32,7 @@ no_editing_rights = Keine Editiererlaubnis
 check_rights_in_directory = Bitte überprüfen Sie die Rechte im Ordner
 error_undefined = Ein undefinierter Fehler ist aufgetreten
 csrf_token_invalid = Bitte das Formular erneut absenden, bzw. die Aktion erneut ausführen (Fehler: CSRF-Token ungültig).
+unstable_version = Entwicklungsversion - Benutzen auf eigene Gefahr. Eltern haften für Ihre Kinder :).
 
 # redaxo/redaxo/index.php
 system = System

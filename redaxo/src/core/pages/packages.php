@@ -184,7 +184,7 @@ if ('' == $subpage) {
         $version = ('' != trim($package->getVersion())) ? ' <span class="rex-' . $type . '-version">' . trim($package->getVersion()) . '</span>' : '';
 
         if (rex_version::isUnstable($version)) {
-            $version = '<i class="rex-icon rex-icon-unstable-version"></i> '. $version;
+            $version = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $version;
         }
 
         $license = '';
