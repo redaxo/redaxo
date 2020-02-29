@@ -1,8 +1,6 @@
 <?php
 
 /**
- * Validator class.
- *
  * @author staabm
  *
  * @package redaxo\core
