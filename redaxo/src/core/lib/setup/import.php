@@ -227,7 +227,7 @@ class rex_setup_importer
         }
         foreach (rex::getProperty('system_addons') as $packageRepresentation) {
             $state = true;
-            $package = rex_package::get($packageRepresentation);
+            $package = rex_package::require($packageRepresentation);
             $manager = rex_package_manager::factory($package);
 
             if (true === $state && !$package->isInstalled()) {

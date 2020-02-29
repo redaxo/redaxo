@@ -114,7 +114,7 @@ class rex_media
     }
 
     /**
-     * @return rex_media_category
+     * @return rex_media_category|null
      */
     public function getCategory()
     {

@@ -26,7 +26,7 @@ interface rex_package_interface
     /**
      * Returns the package ID.
      *
-     * @return string
+     * @return string|null
      */
     public function getPackageId();
 

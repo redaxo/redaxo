@@ -89,7 +89,7 @@ class rex_sql_util
      *
      * @param string $file Path to the SQL-dump-file
      *
-     * @return array|false
+     * @return array
      */
     private static function readSqlDump($file)
     {
@@ -108,7 +108,7 @@ class rex_sql_util
             return $ret;
         }
 
-        return false;
+        throw new rex_exception('File "'.$file.'" could not be read.');
     }
 
     // Taken from phpmyadmin (read_dump.lib.php: PMA_splitSqlFile)
