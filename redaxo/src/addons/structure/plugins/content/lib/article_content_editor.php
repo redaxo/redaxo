@@ -164,7 +164,7 @@ class rex_article_content_editor extends rex_article_content
             // status
             $item = [];
             $statusName = $sliceStatus ? 'online' : 'offline';
-            $item['label'] = '<i class="rex-icon rex-icon-'.$statusName.'"></i> '.rex_i18n::msg('status_'.$statusName);
+            $item['label'] = rex_i18n::msg('status_'.$statusName);
             $item['url'] = $context->getUrl(['status' => $sliceStatus ? 0 : 1] + rex_api_content_slice_status::getUrlParams()) . $fragment;
             $item['attributes']['class'][] = 'btn-default';
             $item['attributes']['class'][] = 'rex-'.$statusName;
