@@ -10,7 +10,7 @@ page:
     icon: rex-icon rex-icon-envelope
     subpages:
         config: { title: 'translate:configuration' }
-        log: { title: 'translate:log' }
+        log: { title: 'translate:logging' }
         help: { title: 'translate:help', subPath: README.md }
         checkmail: { title: 'translate:checkmail', hidden: true}
 
