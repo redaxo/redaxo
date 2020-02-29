@@ -5,7 +5,9 @@
  */
 class rex_system_report
 {
+    const TITLE_REDAXO = 'REDAXO';
     const TITLE_PACKAGES = 'Packages';
+    const TITLE_PHP = 'PHP';
 
     private function __construct()
     {
@@ -32,11 +34,11 @@ class rex_system_report
             $rexVersion .= '#' . $hash;
         }
 
-        $data['REDAXO'] = [
+        $data[self::TITLE_REDAXO] = [
             'Version' => $rexVersion,
         ];
 
-        $data['PHP'] = [
+        $data[self::TITLE_PHP] = [
             'Version' => PHP_VERSION,
             'OPcache' => extension_loaded('Zend OPcache') && ini_get('opcache.enable'),
             'Xdebug' => extension_loaded('xdebug'),
@@ -97,7 +99,7 @@ class rex_system_report
             $packages[$package->getPackageId()] = $package->getVersion();
         }
 
-        $data[rex_system_report::TITLE_PACKAGES] = $packages;
+        $data[self::TITLE_PACKAGES] = $packages;
 
         return $data;
     }
