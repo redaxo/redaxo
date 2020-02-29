@@ -46,7 +46,9 @@ if ($emptymail = true) {
     $mail->Body .= "\nMailer: " . $addon->getConfig('mailer') . $devider.$security_mode;
     $mail->Body .= "\n". $addon->i18n('checkmail_domain_note'). "\n". $devider;
     $GLOBALS['mailer_debug'] = '';
-    $mail->Debugoutput = function($str, $level) {$GLOBALS['mailer_debug'] .= nl2br($str)."\n";};
+    $mail->Debugoutput = static function ($str, $level) {
+        $GLOBALS['mailer_debug'] .= nl2br($str)."\n";
+    };
 
     if (!$mail->send()) {
         $content .= '<div class="alert alert-danger">';
