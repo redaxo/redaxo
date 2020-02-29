@@ -14,7 +14,11 @@ class rex_version
         // noop
     }
 
-    public static function isUnstable(string $version): bool
+    /**
+     * @param string|null $version
+     * @return bool
+     */
+    public static function isUnstable($version): bool
     {
         // see https://www.php.net/manual/en/function.version-compare.php
         foreach (['dev', 'alpha', 'a', 'beta', 'b', 'rc', 'pl'] as $unstable) {
