@@ -1,5 +1,7 @@
 <?php
 
+assert(isset($context) && $context instanceof rex_context);
+
 $content = '';
 
 if (count($success_array) > 0) {
@@ -12,10 +14,10 @@ if (count($error_array) > 0) {
     $class = 'error';
     $content .= implode('', $error_array);
 
-    $buttons = '<a class="btn btn-setup" href="' . rex_url::backendPage('setup', ['step' => 4, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_312') . '</a>';
+    $buttons = '<a class="btn btn-setup" href="' . $context->getUrl(['step' => 4]) . '">' . rex_i18n::msg('setup_312') . '</a>';
 } else {
     $class = 'success';
-    $buttons = '<a class="btn btn-setup" href="' . rex_url::backendPage('setup', ['step' => 4, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_310') . '</a>';
+    $buttons = '<a class="btn btn-setup" href="' . $context->getUrl(['step' => 4]) . '">' . rex_i18n::msg('setup_310') . '</a>';
 }
 
 $security = '<div class="rex-js-setup-security-message" style="display:none">' . rex_view::error(rex_i18n::msg('setup_security_msg') . '<br />' . rex_i18n::msg('setup_no_js_security_msg')) . '</div>';
