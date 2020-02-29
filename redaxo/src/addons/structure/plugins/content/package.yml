@@ -36,3 +36,7 @@ pages:
 
 requires:
     redaxo: ^5.5.0
+
+conflicts:
+    packages:
+        bloecks/status: '*'

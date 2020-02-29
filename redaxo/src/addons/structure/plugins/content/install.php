@@ -139,17 +139,3 @@ if (!$sql->getRows()) {
         ->setRawValue('updatedate', 'NOW()')
         ->insert();
 }
-
-$bloecksStatus = rex_plugin::get('bloecks', 'status');
-if ($bloecksStatus->isInstalled()) {
-    // unistall bloecks/status without the normal uninstall routine
-    // to avoid removing the article_slice.status column
-
-    $config = rex::getConfig('package-config');
-    $config['bloecks']['plugins']['status']['install'] = false;
-    $config['bloecks']['plugins']['status']['status'] = false;
-    rex::setConfig('package-config', $config);
-
-    $bloecksStatus->setProperty('install', false);
-    $bloecksStatus->setProperty('status', false);
-}
