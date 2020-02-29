@@ -53,7 +53,7 @@ if ($core && !empty($coreVersions)) {
     $addon = $addons[$addonkey];
 
     $version = rex_escape(rex_addon::get($addonkey)->getVersion());
-    if (rex_version::isUnstable($version)) {
+    if (class_exists(rex_version::class) && rex_version::isUnstable($version)) {
         $version = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $version;
     }
 
