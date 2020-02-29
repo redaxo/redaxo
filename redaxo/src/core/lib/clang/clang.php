@@ -20,7 +20,7 @@ class rex_clang
     /**
      * @var int
      */
-    private static $currentId = 1;
+    private static $currentId;
 
     private $id;
     /**
@@ -92,7 +92,13 @@ class rex_clang
      */
     public static function getCurrent()
     {
-        return self::get(self::getCurrentId());
+        $clang = self::get(self::getCurrentId());
+
+        if (!$clang) {
+            throw new LogicException('Clang with id "' . self::getCurrentId() . '" not found.');
+        }
+
+        return $clang;
     }
 
     /**
@@ -102,7 +108,7 @@ class rex_clang
      */
     public static function getCurrentId()
     {
-        return self::$currentId;
+        return self::$currentId ?? self::$currentId = self::getStartId();
     }
 
     /**
