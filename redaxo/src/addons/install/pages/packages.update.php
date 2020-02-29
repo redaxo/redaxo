@@ -105,15 +105,17 @@ if ($core && !empty($coreVersions)) {
 
     foreach ($addon['files'] as $fileId => $file) {
         $version = rex_escape($file['version']);
+        $description = $fragment->setVar('content', $markdown->parse($file['description']), false)->parse('core/page/readme.php');
         if (rex_version::isUnstable($version)) {
             $version = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $version;
+            $description = rex_view::warning(rex_i18n::msg('unstable_version')) .''. $description;
         }
 
         $panel .= '
             <tr>
                 <td class="rex-table-icon"><i class="rex-icon rex-icon-package"></i></td>
                 <td data-title="' . $package->i18n('version') . '">' . $version . '</td>
-                <td data-title="' . $package->i18n('description') . '">' . $fragment->setVar('content', $markdown->parse($file['description']), false)->parse('core/page/readme.php') . '</td>
+                <td data-title="' . $package->i18n('description') . '">' . $description . '</td>
                 <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $fileId] + rex_api_install_package_update::getUrlParams()) . '" data-pjax="false">' . $package->i18n('update') . '</a></td>
             </tr>';
     }
