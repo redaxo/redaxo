@@ -5,14 +5,18 @@ $report = rex_system_report::factory()->get();
 echo '<div class="row"><div class="col-sm-6">';
 
 foreach ($report as $title => $group) {
-    if ('Packages' === $title) {
+    if (rex_system_report::TITLE_PACKAGES === $title) {
         echo '</div><div class="col-sm-6">';
     }
 
     $content = '';
 
     foreach ($group as $label => $value) {
-        if (is_bool($value)) {
+        if (rex_system_report::TITLE_PACKAGES === $title) {
+            if (rex_version::isUnstable($value)) {
+                $value = '<i class="rex-icon rex-icon-unstable-version"></i> '. rex_escape($value);
+            }
+        } elseif (is_bool($value)) {
             $value = $value ? 'yes' : 'no';
         } else {
             $value = rex_escape($value);

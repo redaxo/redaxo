@@ -5,6 +5,8 @@
  */
 class rex_system_report
 {
+    const TITLE_PACKAGES = 'Packages';
+
     private function __construct()
     {
     }
@@ -95,7 +97,7 @@ class rex_system_report
             $packages[$package->getPackageId()] = $package->getVersion();
         }
 
-        $data['Packages'] = $packages;
+        $data[rex_system_report::TITLE_PACKAGES] = $packages;
 
         return $data;
     }
