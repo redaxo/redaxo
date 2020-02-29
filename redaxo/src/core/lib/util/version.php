@@ -1,10 +1,14 @@
 <?php
 
+/**
+ * Validator class.
+ *
+ * @author staabm
+ *
+ * @package redaxo\core
+ */
 class rex_version
 {
-    /**
-     * Constructor.
-     */
     private function __construct()
     {
         // noop
