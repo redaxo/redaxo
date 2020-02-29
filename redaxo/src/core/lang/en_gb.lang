@@ -30,7 +30,7 @@ no_editing_rights = permission denied
 check_rights_in_directory = Please review permissions in directory
 error_undefined = An undefinied error occurred
 csrf_token_invalid = Please send the form again, redo the action respectively (error: invalid CSRF token).
-unstable_version = Development version - Use at your own risk.
+unstable_version = Development version - use at your own risk.
 
 # redaxo/redaxo/index.php
 system = System
