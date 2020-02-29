@@ -37,7 +37,7 @@ if ($core && !empty($coreVersions)) {
         $version = rex_escape($version);
         $description = $fragment->setVar('content', $markdown->parse($version['description']), false)->parse('core/page/readme.php');
 
-        if (rex_version::isUnstable($version)) {
+        if (class_exists(rex_version::class) && rex_version::isUnstable($version)) {
             $version = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $version;
             $description = rex_view::warning(rex_i18n::msg('unstable_version')) . $description;
         }
@@ -115,7 +115,7 @@ if ($core && !empty($coreVersions)) {
         $version = rex_escape($file['version']);
         $description = $fragment->setVar('content', $markdown->parse($file['description']), false)->parse('core/page/readme.php');
 
-        if (rex_version::isUnstable($version)) {
+        if (class_exists(rex_version::class) && rex_version::isUnstable($version)) {
             $version = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $version;
             $description = rex_view::warning(rex_i18n::msg('unstable_version')) . $description;
         }
@@ -153,7 +153,7 @@ if ($core && !empty($coreVersions)) {
         $availableVersions = [];
         foreach ($coreVersions as $file) {
             $availVers = rex_escape($file['version']);
-            if (rex_version::isUnstable($availVers)) {
+            if (class_exists(rex_version::class) && rex_version::isUnstable($availVers)) {
                 $availVers = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $availVers;
             }
             $availableVersions[] = $availVers;
@@ -161,7 +161,7 @@ if ($core && !empty($coreVersions)) {
         $url = rex_url::currentBackendPage(['core' => 1]);
 
         $coreVersion = rex_escape(rex::getVersion());
-        if (rex_version::isUnstable($coreVersion)) {
+        if (class_exists(rex_version::class) && rex_version::isUnstable($coreVersion)) {
             $coreVersion = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $coreVersion;
         }
 
@@ -179,7 +179,7 @@ if ($core && !empty($coreVersions)) {
         $availableVersions = [];
         foreach ($addon['files'] as $file) {
             $availVers = rex_escape($file['version']);
-            if (rex_version::isUnstable($availVers)) {
+            if (class_exists(rex_version::class) && rex_version::isUnstable($availVers)) {
                 $availVers = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $availVers;
             }
             $availableVersions[] = $availVers;
@@ -187,7 +187,7 @@ if ($core && !empty($coreVersions)) {
         $url = rex_url::currentBackendPage(['addonkey' => $key]);
 
         $packageVersion = rex_escape(rex_addon::get($key)->getVersion());
-        if (rex_version::isUnstable($packageVersion)) {
+        if (class_exists(rex_version::class) && rex_version::isUnstable($packageVersion)) {
             $packageVersion = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $packageVersion;
         }
 
