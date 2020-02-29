@@ -1,6 +1,7 @@
 <?php
 
-class rex_version {
+class rex_version
+{
     /**
      * Constructor.
      */
@@ -9,9 +10,10 @@ class rex_version {
         // noop
     }
 
-    static function isUnstable(string $version): bool {
-        foreach(['dev', 'beta', 'rc'] as $unstable) {
-            if(stripos($version, $unstable) !== false) {
+    public static function isUnstable(string $version): bool
+    {
+        foreach (['dev', 'beta', 'rc'] as $unstable) {
+            if (false !== stripos($version, $unstable)) {
                 return true;
             }
         }
