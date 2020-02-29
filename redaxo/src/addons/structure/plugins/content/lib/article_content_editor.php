@@ -29,6 +29,7 @@ class rex_article_content_editor extends rex_article_content
         } else {
             $sliceId = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.id');
             $sliceCtype = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.ctype_id');
+            $sliceStatus = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.status');
 
             $moduleInput = $artDataSql->getValue(rex::getTablePrefix() . 'module.input');
             $moduleOutput = $artDataSql->getValue(rex::getTablePrefix() . 'module.output');
@@ -85,7 +86,8 @@ class rex_article_content_editor extends rex_article_content
             $fragment->setVar('title', $this->getSliceHeading($artDataSql), false);
             $fragment->setVar('options', $this->getSliceMenu($artDataSql), false);
             $fragment->setVar('body', $panel, false);
-            $slice_content .= '<li class="rex-slice rex-slice-output" id="slice'.$sliceId.'">' . $fragment->parse('core/page/section.php') . '</li>';
+            $statusName = $sliceStatus ? 'online' : 'offline';
+            $slice_content .= '<li class="rex-slice rex-slice-output rex-slice-'.$statusName.'" id="slice'.$sliceId.'">' . $fragment->parse('core/page/section.php') . '</li>';
         }
 
         return $slice_content;
