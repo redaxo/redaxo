@@ -48,7 +48,7 @@ abstract class rex_structure_element
      *
      * @param string $value
      *
-     * @return string
+     * @return string|int|null
      */
     public function getValue($value)
     {
@@ -246,7 +246,7 @@ abstract class rex_structure_element
      */
     public function getUrl(array $params = [], $divider = '&amp;')
     {
-        return rex_getUrl($this->getId(), $this->getClang(), $params, $divider);
+        return rex_getUrl($this->getId(), $this->getClangId(), $params, $divider);
     }
 
     /**
@@ -290,7 +290,7 @@ abstract class rex_structure_element
     /**
      * Returns the parent category.
      *
-     * @return self
+     * @return static|null
      */
     abstract public function getParent();
 

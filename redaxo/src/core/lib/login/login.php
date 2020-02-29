@@ -47,7 +47,7 @@ class rex_login
     /** @var rex_sql|rex_user */
     protected $user;
 
-    /** @var rex_sql|rex_user */
+    /** @var rex_sql|rex_user|null */
     protected $impersonator;
 
     /**
@@ -498,13 +498,15 @@ class rex_login
     /**
      * Verschlüsselt den übergebnen String.
      *
-     * @return string Returns the hashed password, or FALSE on failure, or null if the algorithm is invalid
+     * @throws rex_exception
+     *
+     * @return string Returns the hashed password
      */
     public static function passwordHash($password, $isPreHashed = false)
     {
         $password = $isPreHashed ? $password : sha1($password);
         $hash = password_hash($password, PASSWORD_DEFAULT);
-        if (null === $hash || false === $hash) {
+        if (!is_string($hash)) {
             throw new rex_exception('error while hashing password');
         }
         return $hash;

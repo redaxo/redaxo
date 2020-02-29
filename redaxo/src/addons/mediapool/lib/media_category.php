@@ -33,7 +33,7 @@ class rex_media_category
     /**
      * @param int $id
      *
-     * @return self
+     * @return self|null
      */
     public static function get($id)
     {
@@ -141,16 +141,9 @@ class rex_media_category
      */
     public function getPathAsArray()
     {
-        $p = explode('|', $this->path);
-        foreach ($p as $k => $v) {
-            if ('' == $v) {
-                unset($p[$k]);
-            } else {
-                $p[$k] = (int) $v;
-            }
-        }
+        $p = array_filter(explode('|', $this->path));
 
-        return array_values($p);
+        return array_values(array_map('intval', $p));
     }
 
     /**
@@ -194,7 +187,7 @@ class rex_media_category
     }
 
     /**
-     * @return self
+     * @return self|null
      */
     public function getParent()
     {
@@ -212,12 +205,18 @@ class rex_media_category
         $tree = [];
         if ($this->path) {
             $explode = explode('|', $this->path);
-            if (is_array($explode)) {
-                foreach ($explode as $var) {
-                    if ('' != $var) {
-                        $tree[] = self::get($var);
-                    }
+            foreach ($explode as $var) {
+                if ('' == $var) {
+                    continue;
                 }
+
+                $category = self::get($var);
+
+                if (!$category) {
+                    throw new LogicException(sprintf('Missing media category with id=%d.', $var));
+                }
+
+                $tree[] = $category;
             }
         }
         return $tree;

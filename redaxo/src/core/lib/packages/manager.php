@@ -682,12 +682,7 @@ abstract class rex_package_manager
         $addons = self::readPackageFolder(rex_path::src('addons'));
         $registeredAddons = array_keys(rex_addon::getRegisteredAddons());
         foreach (array_diff($registeredAddons, $addons) as $addonName) {
-            $addon = rex_addon::get($addonName);
-            if (!$addon instanceof rex_addon) {
-                throw new LogicException('Registered addon "'.$addonName.'" should be an instance of '.rex_addon::class.' instead of '.get_class($addon).'.');
-            }
-
-            $manager = rex_addon_manager::factory($addon);
+            $manager = rex_addon_manager::factory(rex_addon::require($addonName));
             $manager->_delete(true);
             unset($config[$addonName]);
         }
@@ -704,7 +699,7 @@ abstract class rex_package_manager
             }
             $plugins = self::readPackageFolder(rex_path::addon($addonName, 'plugins'));
             foreach (array_diff($registeredPlugins, $plugins) as $pluginName) {
-                $manager = rex_plugin_manager::factory(rex_plugin::get($addonName, $pluginName));
+                $manager = rex_plugin_manager::factory(rex_plugin::require($addonName, $pluginName));
                 $manager->_delete(true);
                 unset($config[$addonName]['plugins'][$pluginName]);
             }
@@ -773,6 +768,7 @@ abstract class rex_package_manager
             }
         }
 
+        /** @psalm-var array{0: '='|'=='|'!='|'<>'|'<'|'<='|'>'|'>=', 1: string} $constraint */
         foreach ($constraints as $constraint) {
             if (!rex_string::versionCompare($version, $constraint[1], $constraint[0])) {
                 return false;

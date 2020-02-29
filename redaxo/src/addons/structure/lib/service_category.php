@@ -21,10 +21,6 @@ class rex_category_service
     {
         $message = '';
 
-        if (!is_array($data)) {
-            throw  new rex_api_exception('Expecting $data to be an array!');
-        }
-
         self::reqKey($data, 'catpriority');
         self::reqKey($data, 'catname');
 
@@ -139,7 +135,7 @@ class rex_category_service
                     'data' => $data,
                 ]));
             } catch (rex_sql_exception $e) {
-                throw new rex_api_exception($e);
+                throw new rex_api_exception($e->getMessage(), $e);
             }
         }
 
@@ -159,10 +155,6 @@ class rex_category_service
      */
     public static function editCategory($category_id, $clang, array $data)
     {
-        if (!is_array($data)) {
-            throw  new rex_api_exception('Expecting $data to be an array!');
-        }
-
         // --- Kategorie mit alten Daten selektieren
         $thisCat = rex_sql::factory();
         $thisCat->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE startarticle=1 and id=? and clang_id=?', [$category_id, $clang]);
@@ -251,7 +243,7 @@ class rex_category_service
                 'data' => $data,
             ]));
         } catch (rex_sql_exception $e) {
-            throw new rex_api_exception($e);
+            throw new rex_api_exception($e->getMessage(), $e);
         }
 
         return $message;
@@ -362,7 +354,7 @@ class rex_category_service
                     'status' => $newstatus,
                 ]));
             } catch (rex_sql_exception $e) {
-                throw new rex_api_exception($e);
+                throw new rex_api_exception($e->getMessage(), $e);
             }
         } else {
             throw new rex_api_exception(rex_i18n::msg('no_such_category'));

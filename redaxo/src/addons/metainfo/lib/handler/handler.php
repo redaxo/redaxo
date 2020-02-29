@@ -564,7 +564,7 @@ abstract class rex_metainfo_handler
      * @param int    $fieldType       One of the rex_metainfo_table_manager::FIELD_* constants
      * @param string $fieldAttributes The attributes of the field
      *
-     * @return string
+     * @return string|null
      */
     public static function getSaveValue($fieldName, $fieldType, $fieldAttributes)
     {

@@ -46,6 +46,7 @@ class rex_sql_debug extends rex_sql
     // TODO queries using setQuery() are not logged yet!
     public function execute(array $params = [], array $options = [])
     {
+        assert($this->stmt instanceof PDOStatement);
         $qry = $this->stmt->queryString;
 
         $timer = new rex_timer();
