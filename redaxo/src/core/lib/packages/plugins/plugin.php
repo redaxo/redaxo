@@ -91,6 +91,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
 
     /**
      * {@inheritdoc}
+     *
      * @return string
      */
     public function getPackageId()
