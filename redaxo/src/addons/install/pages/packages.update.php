@@ -34,11 +34,19 @@ if ($core && !empty($coreVersions)) {
     $markdown = rex_markdown::factory();
     $fragment = new rex_fragment();
     foreach ($coreVersions as $id => $version) {
+        $version = rex_escape($version);
+        $description = $fragment->setVar('content', $markdown->parse($version['description']), false)->parse('core/page/readme.php');
+
+        if (rex_version::isUnstable($version)) {
+            $version = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $version;
+            $description = rex_view::warning(rex_i18n::msg('unstable_version')) . $description;
+        }
+
         $panel .= '
                 <tr data-pjax-scroll-to="0">
                     <td class="rex-table-icon"><i class="rex-icon rex-icon-package"></i></td>
-                    <td data-title="' . $package->i18n('version') . '">' . rex_escape($version['version']) . '</td>
-                    <td data-title="' . $package->i18n('description') . '">' . $fragment->setVar('content', $markdown->parse($version['description']), false)->parse('core/page/readme.php') . '</td>
+                    <td data-title="' . $package->i18n('version') . '">' . $version . '</td>
+                    <td data-title="' . $package->i18n('description') . '">' . $description . '</td>
                     <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['core' => 1, 'version_id' => $id] + rex_api_install_core_update::getUrlParams()) . '" data-pjax="false">' . $package->i18n('update') . '</a></td>
                 </tr>';
     }
@@ -106,9 +114,10 @@ if ($core && !empty($coreVersions)) {
     foreach ($addon['files'] as $fileId => $file) {
         $version = rex_escape($file['version']);
         $description = $fragment->setVar('content', $markdown->parse($file['description']), false)->parse('core/page/readme.php');
+
         if (rex_version::isUnstable($version)) {
             $version = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $version;
-            $description = rex_view::warning(rex_i18n::msg('unstable_version')) .''. $description;
+            $description = rex_view::warning(rex_i18n::msg('unstable_version')) . $description;
         }
 
         $panel .= '
