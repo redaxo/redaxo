@@ -12,9 +12,6 @@ class rex_version
         // noop
     }
 
-    /**
-     * @param string|null $version
-     */
     public static function isUnstable(?string $version): bool
     {
         // see https://www.php.net/manual/en/function.version-compare.php
