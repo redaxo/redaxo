@@ -39,4 +39,4 @@ requires:
 
 conflicts:
     packages:
-        bloecks/status: '*'
+        bloecks/status: '<3'
