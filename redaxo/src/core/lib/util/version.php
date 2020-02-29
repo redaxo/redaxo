@@ -12,7 +12,7 @@ class rex_version
 
     public static function isUnstable(string $version): bool
     {
-        foreach (['dev', 'beta', 'rc'] as $unstable) {
+        foreach (['dev', 'beta', 'alpha', 'rc'] as $unstable) {
             if (false !== stripos($version, $unstable)) {
                 return true;
             }
