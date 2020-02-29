@@ -137,6 +137,7 @@ class rex_article_content_editor extends rex_article_content
         $header_right = '';
 
         $menu_items_action = [];
+        $menu_items_status = [];
         $menu_items_move = [];
 
         if (rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId)) {
@@ -167,7 +168,7 @@ class rex_article_content_editor extends rex_article_content
             $item['url'] = $context->getUrl(['status' => $sliceStatus ? 0 : 1] + rex_api_content_slice_status::getUrlParams()) . $fragment;
             $item['attributes']['class'][] = 'btn-default';
             $item['attributes']['class'][] = 'rex-'.$statusName;
-            $menu_items_action[] = $item;
+            $menu_items_status[] = $item;
 
             if ($templateHasModule && rex::getUser()->hasPerm('moveSlice[]')) {
                 // moveup
@@ -210,6 +211,12 @@ class rex_article_content_editor extends rex_article_content
         if (count($menu_items_action) > 0) {
             $fragment = new rex_fragment();
             $fragment->setVar('items', $menu_items_action, false);
+            $header_right .= $fragment->parse('slice_menu_action.php');
+        }
+
+        if (count($menu_items_status) > 0) {
+            $fragment = new rex_fragment();
+            $fragment->setVar('items', $menu_items_status, false);
             $header_right .= $fragment->parse('slice_menu_action.php');
         }
 
