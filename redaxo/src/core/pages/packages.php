@@ -183,6 +183,10 @@ if ('' == $subpage) {
 
         $version = ('' != trim($package->getVersion())) ? ' <span class="rex-' . $type . '-version">' . trim($package->getVersion()) . '</span>' : '';
 
+        if (rex_version::isUnstable($version)) {
+            $version = '<i class="rex-icon rex-icon-unstable-version"></i> '. $version;
+        }
+
         $license = '';
         if (is_readable($licenseFile = $package->getPath('LICENSE.md')) || is_readable($licenseFile = $package->getPath('LICENSE'))) {
             $f = fopen($licenseFile, 'r');

@@ -54,8 +54,13 @@ $fragment = new rex_fragment();
 $fragment->setVar('content', $content, false);
 $content = $fragment->parse('core/page/grid.php');
 
+$coreVersion = rex_escape(rex::getVersion());
+if (rex_version::isUnstable($coreVersion)) {
+    $coreVersion = '<i class="rex-icon rex-icon-unstable-version"></i> '. $coreVersion;
+}
+
 $fragment = new rex_fragment();
-$fragment->setVar('title', 'REDAXO <small>' . rex::getVersion() . ' &ndash; <a href="'. rex_url::backendPage('credits', ['license' => 'core']) .'">'. rex_i18n::msg('credits_license') .'</a></small>', false);
+$fragment->setVar('title', 'REDAXO <small>' . $coreVersion . ' &ndash; <a href="'. rex_url::backendPage('credits', ['license' => 'core']) .'">'. rex_i18n::msg('credits_license') .'</a></small>', false);
 $fragment->setVar('body', $content, false);
 echo $fragment->parse('core/page/section.php');
 
@@ -92,11 +97,16 @@ $content .= '
                 $license = '<a href="'. rex_url::backendPage('packages', ['subpage' => 'license', 'package' => $package->getPackageId()]) .'"><i class="rex-icon rex-icon-license"></i> '. rex_escape($firstLine) .'</a>';
             }
 
+            $packageVersion = rex_escape($package->getVersion());
+            if (rex_version::isUnstable($packageVersion)) {
+                $packageVersion = '<i class="rex-icon rex-icon-unstable-version"></i> '. $packageVersion;
+            }
+
             $content .= '
             <tr class="rex-package-is-' . $package->getType() . '">
                 <td class="rex-table-icon"><i class="rex-icon rex-icon-package-' . $package->getType() . '"></i></td>
                 <td data-title="' . rex_i18n::msg('credits_name') . '">' . $package->getName() . ' </td>
-                <td data-title="' . rex_i18n::msg('credits_version') . '">' . $package->getVersion() . '</td>
+                <td data-title="' . rex_i18n::msg('credits_version') . '">' . $packageVersion . '</td>
                 <td class="rex-table-slimmer" data-title="' . rex_i18n::msg('credits_help') . '">
                     <a href="' . $helpUrl . '" title="' . rex_i18n::msg('credits_open_help_file') . ' ' . rex_escape($package->getName()) . '"><i class="rex-icon rex-icon-help"></i> ' . rex_i18n::msg('credits_help') . ' <span class="sr-only">' . rex_escape($package->getName()) . '</span></a>
                 </td>
