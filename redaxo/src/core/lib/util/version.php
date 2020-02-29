@@ -16,7 +16,6 @@ class rex_version
 
     /**
      * @param string|null $version
-     * @return bool
      */
     public static function isUnstable($version): bool
     {
