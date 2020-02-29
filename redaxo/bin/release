@@ -154,8 +154,6 @@ class rex_release
             'README.md',
             'README.de.md',
             '.gitignore.example',
-            '.dockerignore',
-            'docker-compose.yml',
         ];
 
         foreach ($files as $file) {
