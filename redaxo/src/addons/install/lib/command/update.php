@@ -9,11 +9,11 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @internal
  */
-class rex_command_install_download extends rex_console_command
+class rex_command_install_update extends rex_console_command
 {
     protected function configure()
     {
-        $this->setDescription('Download an AddOn from redaxo.org')
+        $this->setDescription('Updates an AddOn from redaxo.org')
             ->addArgument('addonkey', InputArgument::REQUIRED, 'AddOn key, e.g. "yform"')
             ->addArgument('version', InputArgument::OPTIONAL, 'Version, e.g. "3.2.1"');
     }
@@ -25,14 +25,15 @@ class rex_command_install_download extends rex_console_command
         /** @var string $addonKey */
         $addonKey = $input->getArgument('addonkey');
 
-        if (rex_addon::exists($addonKey)) {
-            $io->error(sprintf('AddOn "%s" already exists!', $addonKey));
+        if (!rex_addon::exists($addonKey)) {
+            $io->error(sprintf('AddOn "%s" does not exist!', $addonKey));
             return 1;
         }
 
-        $packages = rex_install_packages::getAddPackages();
+        $packages = rex_install_packages::getUpdatePackages();
+
         if (!isset($packages[$addonKey])) {
-            $io->error(sprintf('AddOn "%s" does not exist!', $addonKey));
+            $io->error(sprintf('No Updates available for AddOn "%s"!', $addonKey));
             return 1;
         }
         $package = $packages[$addonKey];
@@ -60,11 +61,11 @@ class rex_command_install_download extends rex_console_command
         }
 
         if (!$fileId || !isset($files[$fileId])) {
-            $io->error(sprintf('Version "%s" not found!', $version));
+            $io->error(sprintf('Version "%s" does not exist or is below the current version!', $version));
             return 1;
         }
 
-        $install = new rex_install_package_add();
+        $install = new rex_install_package_update();
         try {
             $message = $install->run($addonKey, $fileId);
         } catch (rex_exception $exception) {
@@ -77,7 +78,7 @@ class rex_command_install_download extends rex_console_command
             return 1;
         }
 
-        $io->success(sprintf('AddOn "%s" with version "%s" successfully downloaded.', $addonKey, $version));
+        $io->success(sprintf('AddOn "%s" successfully updated to version "%s".', $addonKey, $version));
         return 0;
     }
 }

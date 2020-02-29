@@ -24,7 +24,7 @@ class rex_command_package_delete extends rex_console_command
 
         $packageId = $input->getArgument('package-id');
         $package = rex_package::get($packageId);
-        if ($package instanceof rex_null_package) {
+        if (!$package instanceof rex_package) {
             $io->error('Package "'.$packageId.'" doesn\'t exists!');
             return 1;
         }

@@ -48,7 +48,7 @@ class rex_content_service
                 'priority, updatedate DESC'
             );
         } catch (rex_sql_exception $e) {
-            throw new rex_api_exception($e);
+            throw new rex_api_exception($e->getMessage(), $e);
         }
 
         rex_article_cache::delete($articleId, $clangId);

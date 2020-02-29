@@ -121,7 +121,6 @@ debug_mode = Debug-Modus
 setup = Setup
 setup_restart = Fai ripartire l'installazione
 setup_text =
-setup_error1 =
 setup_error2 =
 
 

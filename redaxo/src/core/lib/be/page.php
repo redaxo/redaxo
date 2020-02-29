@@ -362,7 +362,7 @@ class rex_be_page
     /**
      * Returns the path which will be included directly by the core.
      *
-     * @return string
+     * @return string|null
      */
     public function getPath()
     {
@@ -451,7 +451,7 @@ class rex_be_page
      *
      * @param string $key
      *
-     * @return self
+     * @return self|null
      */
     public function getSubpage($key)
     {
