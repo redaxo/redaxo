@@ -130,6 +130,10 @@ if (false !== strpos($rexVersion, '-dev')) {
     }
 }
 
+if (rex_version::isUnstable($rexVersion)) {
+    $rexVersion = '<i class="rex-icon rex-icon-unstable-version"></i> '. rex_escape($rexVersion);
+}
+
 $mainContent = [];
 $sideContent = [];
 $debugConfirm = '';
