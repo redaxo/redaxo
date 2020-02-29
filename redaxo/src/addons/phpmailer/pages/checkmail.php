@@ -45,6 +45,8 @@ if ($emptymail = true) {
 
     $mail->Body .= "\nMailer: " . $addon->getConfig('mailer') . $devider.$security_mode;
     $mail->Body .= "\n". $addon->i18n('checkmail_domain_note'). "\n". $devider;
+    $GLOBALS['mailer_debug'] = '';
+    $mail->Debugoutput = function($str, $level) {$GLOBALS['mailer_debug'] .= nl2br($str)."\n";};
 
     if (!$mail->send()) {
         $content .= '<div class="alert alert-danger">';
@@ -64,6 +66,6 @@ if ($emptymail = true) {
 }
 $fragment = new rex_fragment();
 $fragment->setVar('title', $addon->i18n('checkmail_headline'));
-$fragment->setVar('body', $content, false);
+$fragment->setVar('body', $content.$GLOBALS['mailer_debug'], false);
 $out = $fragment->parse('core/page/section.php');
 echo $out;
