@@ -908,7 +908,7 @@ abstract class rex_form_base
      * @param string $fieldsetName
      * @param string $elementName
      *
-     * @return rex_form_element
+     * @return rex_form_element|null
      */
     protected function getElement($fieldsetName, $elementName)
     {

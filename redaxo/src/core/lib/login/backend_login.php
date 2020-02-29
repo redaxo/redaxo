@@ -164,7 +164,7 @@ class rex_backend_login extends rex_login
      * Helpful if you want to check permissions of the backend user in frontend.
      * If you only want to know if there is any backend session, use {@link rex_backend_login::hasSession()}.
      *
-     * @return rex_user
+     * @return rex_user|null
      */
     public static function createUser()
     {

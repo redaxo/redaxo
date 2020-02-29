@@ -143,6 +143,7 @@ class rex_string
      * @param string $version1   First version number
      * @param string $version2   Second version number
      * @param string $comparator Optional comparator
+     * @psalm-param null|'='|'=='|'!='|'<>'|'<'|'<='|'>'|'>=' $comparator
      *
      * @return int|bool
      */
@@ -153,7 +154,14 @@ class rex_string
         $max = max(count($version1), count($version2));
         $version1 = implode('.', array_pad($version1, $max, '0'));
         $version2 = implode('.', array_pad($version2, $max, '0'));
-        return version_compare($version1, $version2, $comparator);
+
+        $result = version_compare($version1, $version2, $comparator);
+
+        if (null === $result) {
+            throw new InvalidArgumentException(sprintf('Unknown comparator "%s".', $comparator));
+        }
+
+        return $result;
     }
 
     /**
