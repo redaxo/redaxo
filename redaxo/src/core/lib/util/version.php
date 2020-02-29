@@ -9,7 +9,7 @@
  */
 class rex_version
 {
-    final private function __construct()
+    private function __construct()
     {
         // noop
     }
