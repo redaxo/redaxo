@@ -5,9 +5,9 @@
  */
 class rex_system_report
 {
-    const TITLE_REDAXO = 'REDAXO';
-    const TITLE_PACKAGES = 'Packages';
-    const TITLE_PHP = 'PHP';
+    public const TITLE_REDAXO = 'REDAXO';
+    public const TITLE_PACKAGES = 'Packages';
+    public const TITLE_PHP = 'PHP';
 
     private function __construct()
     {
