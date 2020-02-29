@@ -46,8 +46,8 @@ if ($emptymail = true) {
     $mail->Body .= "\nMailer: " . $addon->getConfig('mailer') . $devider.$security_mode;
     $mail->Body .= "\n". $addon->i18n('checkmail_domain_note'). "\n". $devider;
     $GLOBALS['mailer_debug'] = '';
-    $mail->Debugoutput = static function ($str, $level) {
-        $GLOBALS['mailer_debug'] .= nl2br($str)."\n";
+    $mail->Debugoutput = function($str, $level) {
+        $GLOBALS['mailer_debug'] .= date('m.d.Y h:i:s a', time())." ".nl2br($str);
     };
 
     if (!$mail->send()) {
