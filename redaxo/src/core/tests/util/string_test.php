@@ -55,61 +55,6 @@ class rex_string_test extends TestCase
         static::assertEquals($expectedArray, rex_string::split($string));
     }
 
-    public function versionSplitProvider()
-    {
-        return [
-            ['1.1.2',      ['1', '1', '2']],
-            ['1.2alpha1',  ['1', '2', 'alpha', '1']],
-            ['1_2 beta 2', ['1', '2', 'beta', '2']],
-            ['2.2.3-dev',  ['2', '2', '3', 'dev']],
-        ];
-    }
-
-    /**
-     * @dataProvider versionSplitProvider
-     */
-    public function testVersionSplit($version, $expected)
-    {
-        static::assertEquals($expected, rex_string::versionSplit($version));
-    }
-
-    public function versionCompareProvider()
-    {
-        return [
-            ['1',      '1',      '='],
-            ['1.0',    '1.0',    '='],
-            ['1',      '1.0',    '='],
-            ['1.0 a1', '1.0.a1', '='],
-            ['1.0a1',  '1.0.a1', '='],
-            ['1.0 alpha 1', '1.0.a1', '='],
-
-            ['1',      '2',        '<'],
-            ['1',      '1.1',      '<'],
-            ['1.0',    '1.1',      '<'],
-            ['1.1',    '1.2',      '<'],
-            ['1.2',    '1.10',     '<'],
-            ['1.a1',   '1',        '<'],
-            ['1.a1',   '1.0',      '<'],
-            ['1.a1',   '1.a2',     '<'],
-            ['1.a1',   '1.b1',     '<'],
-            ['1.0.a1', '1',        '<'],
-            ['1.0.a1', '1.0.0.0.', '<'],
-            ['1.0a1',  '1.0',      '<'],
-            ['1.0a1',  '1.0.1',    '<'],
-            ['1.0a1',  '1.0a2',    '<'],
-            ['1.0',    '1.1a1',    '<'],
-            ['1.0.1',  '1.1a1',    '<'],
-        ];
-    }
-
-    /**
-     * @dataProvider versionCompareProvider
-     */
-    public function testVersionCompare($version1, $version2, $comparator)
-    {
-        static::assertTrue(rex_string::versionCompare($version1, $version2, $comparator));
-    }
-
     public function buildQueryProvider()
     {
         return [
