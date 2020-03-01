@@ -32,4 +32,4 @@ $markdown = static function (string $content): string {
     return $fragment->parse('core/page/readme.php');
 };
 
-rex_be_controller::includeCurrentPageSubPath();
+rex_be_controller::includeCurrentPageSubPath(['markdown' => $markdown]);
