@@ -10,6 +10,12 @@ $createdb = rex_request('createdb', 'string');
 $noadmin = rex_request('noadmin', 'string');
 $lang = rex_request('lang', 'string');
 
+$context = new rex_context([
+    'page' => 'setup',
+    'lang' => $lang,
+    'step' => $step,
+]);
+
 // ---------------------------------- Step 1 . Language
 if (1 >= $step) {
     require rex_path::core('pages/setup.step1.php');
@@ -56,6 +62,7 @@ if (count($res) > 0) {
 
 if (count($error_array) > 0) {
     $step = 3;
+    $context->setParam('step', $step);
 }
 
 if (3 === $step) {
@@ -156,6 +163,7 @@ if ($step > 4) {
 
     if (count($error_array) > 0) {
         $step = 4;
+        $context->setParam('step', $step);
     }
 }
 
@@ -226,11 +234,13 @@ if ($step > 5 && $createdb > -1) {
         }
     } else {
         $step = 5;
+        $context->setParam('step', $step);
     }
 }
 
 if ($step > 5 && '' == !rex_setup_importer::verifyDbSchema()) {
     $step = 5;
+    $context->setParam('step', $step);
 }
 
 if (5 === $step) {
@@ -297,6 +307,7 @@ if (7 === $step) {
     } else {
         $step = 6;
     }
+    $context->setParam('step', $step);
 }
 
 if (6 === $step) {
