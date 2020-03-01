@@ -5,8 +5,6 @@ composer update --no-dev -d redaxo/src/core/
 
 rm -rf redaxo/src/core/vendor/erusev/parsedown/test/
 rm -rf redaxo/src/core/vendor/erusev/parsedown-extra/test/
-rm -rf redaxo/src/core/vendor/masterminds/html5/bin/
-rm -rf redaxo/src/core/vendor/masterminds/html5/test/
 rm -rf redaxo/src/core/vendor/psr/log/Psr/Log/Test/
 rm -rf redaxo/src/core/vendor/ramsey/http-range/.git
 rm -rf redaxo/src/core/vendor/ramsey/http-range/tests/
@@ -15,15 +13,9 @@ rm -rf redaxo/src/core/vendor/symfony/service-contracts/Test/
 rm -rf redaxo/src/core/vendor/symfony/var-dumper/Test/
 rm -rf redaxo/src/core/vendor/symfony/var-dumper/Tests/
 rm -rf redaxo/src/core/vendor/symfony/yaml/Tests/
-rm -rf redaxo/src/core/vendor/tgalopin/html-sanitizer/benchmark/
-rm -rf redaxo/src/core/vendor/tgalopin/html-sanitizer/docs/
-rm -rf redaxo/src/core/vendor/tgalopin/html-sanitizer/tests/
 
 find redaxo/src/core/vendor -name ".gitattributes" -type f -delete
 find redaxo/src/core/vendor -name ".gitignore" -type f -delete
-find redaxo/src/core/vendor -name ".php_cs.dist" -type f -delete
-find redaxo/src/core/vendor -name ".scrutinizer.yml" -type f -delete
-find redaxo/src/core/vendor -name ".rmt.yml" -type f -delete
 find redaxo/src/core/vendor -name ".travis.yml" -type f -delete
 find redaxo/src/core/vendor -name "phpcs.xml" -type f -delete
 find redaxo/src/core/vendor -name "phpstan.neon" -type f -delete
