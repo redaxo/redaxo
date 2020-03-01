@@ -256,4 +256,19 @@ class rex_string
         $return = str_replace(["\r", "\n"], ['', ''], highlight_string($string, true));
         return '<pre class="rex-code">' . $return . '</pre>';
     }
+
+    /**
+     * Cleanup the given html string and removes possible malicious codes/markup.
+     */
+    public static function sanitizeHtml(string $html): string
+    {
+        static $antiXss;
+
+        if (!$antiXss) {
+            $antiXss = new voku\helper\AntiXSS();
+            $antiXss->removeEvilAttributes(['style']);
+        }
+
+        return $antiXss->xss_clean($html);
+    }
 }

@@ -142,4 +142,29 @@ class rex_string_test extends TestCase
             ])
         );
     }
+
+    public function testSanitizeHtml()
+    {
+        $input = <<<'INPUT'
+<p align=center><img src="foo.jpg" style="width: 200px"></p>
+<a name="test"></a>
+
+<script>alert(1)</script>
+<a href="javascript:alert(1)">Foo</a>
+<a href="index.php" onclick="alert(1)">Foo</a>
+<img src="foo.jpg" onmouseover="alert(1)"/>
+INPUT;
+
+        $expected = <<<'EXPECTED'
+<p align=center><img src="foo.jpg" style="width: 200px"></p>
+<a name="test"></a>
+
+
+<a href="(1)">Foo</a>
+<a href="index.php">Foo</a>
+<img src="foo.jpg" />
+EXPECTED;
+
+        static::assertSame($expected, rex_string::sanitizeHtml($input));
+    }
 }
