@@ -1,7 +1,5 @@
 <?php
 
-use voku\helper\AntiXSS;
-
 /**
  * String utility class.
  *
@@ -267,7 +265,7 @@ class rex_string
         static $antiXss;
 
         if (!$antiXss) {
-            $antiXss = new AntiXSS();
+            $antiXss = new voku\helper\AntiXSS();
             $antiXss->removeEvilAttributes(['style']);
         }
 
