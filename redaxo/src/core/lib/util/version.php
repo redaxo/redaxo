@@ -18,7 +18,6 @@ class rex_version
         return (bool) preg_match('/(?<![a-z])(?:dev|alpha|a|beta|b|rc|pl)(?![a-z])/i', $version);
     }
 
-
     /**
      * Splits a version string into its parts.
      */
