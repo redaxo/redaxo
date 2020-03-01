@@ -4,6 +4,13 @@
  * @package redaxo5
  */
 
+assert(isset($csrf) && $csrf instanceof rex_csrf_token);
+assert(isset($rex_file_category) && is_int($rex_file_category));
+assert(isset($opener_input_field) && is_string($opener_input_field));
+assert(isset($arg_fields) && is_string($arg_fields));
+assert(isset($toolbar) && is_string($toolbar));
+assert(isset($rex_file_category_name) && is_string($rex_file_category_name));
+
 // defaults for globals passed in from index.php
 if (!isset($success)) {
     $success = '';
@@ -17,6 +24,8 @@ if (!isset($arg_url)) {
      */
     $arg_url = [];
 }
+
+$media_method = rex_request('media_method', 'string');
 
 $hasCategoryPerm = rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category);
 
@@ -224,6 +233,7 @@ $panel = '
                 $files = rex_sql::factory();
                 $where = 'f.category_id=' . $rex_file_category;
                 $addTable = '';
+                $media_name = rex_request('media_name', 'string');
                 if ('' != $media_name) {
                     $media_name = str_replace(['_', '%'], ['\_', '\%'], $media_name);
                     $media_name = $files->escape('%'.$media_name.'%');

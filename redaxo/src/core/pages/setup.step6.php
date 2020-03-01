@@ -1,6 +1,7 @@
 <?php
 
 assert(isset($context) && $context instanceof rex_context);
+assert(isset($errors) && is_array($errors));
 
 $user_sql = rex_sql::factory();
 $user_sql->setQuery('select * from ' . rex::getTablePrefix() . 'user LIMIT 1');
