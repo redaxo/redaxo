@@ -59,17 +59,13 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
             </thead>
             <tbody>';
 
-    $markdown = rex_markdown::factory();
-    $fragment = new rex_fragment();
     foreach ($addon['files'] as $fileId => $file) {
-        $file['description'] = '' == trim($file['description']) ? '&nbsp;' : rex_escape($file['description']);
-
         $content .= '
             <tr>
                 <td class="rex-table-icon"><i class="rex-icon rex-icon-package"></i></td>
                 <td data-title="' . $package->i18n('version') . '">' . rex_escape($file['version']) . '</td>
                 <td data-title="' . $package->i18n('published_on') . '">' . rex_escape(rex_formatter::strftime($file['created'])) . '</td>
-                <td data-title="' . $package->i18n('description') . '">' . $fragment->setVar('content', $markdown->parse($file['description']), false)->parse('core/page/readme.php') . '</td>
+                <td data-title="' . $package->i18n('description') . '">' . rex_install_markdown($file['description']) . '</td>
                 <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $fileId] + rex_api_install_package_add::getUrlParams()) . '" data-pjax="false"><i class="rex-icon rex-icon-download"></i> ' . $package->i18n('download') . '</a></td>
             </tr>';
     }
