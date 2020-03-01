@@ -20,7 +20,7 @@
 	<a href="https://friendsofredaxo.github.io">Friends&nbsp;Of&nbsp;REDAXO</a> &nbsp;|&nbsp;
 	<a href="https://friendsofredaxo.github.io/community/">Community Map</a>
 </p>
-	
+
 <p align="center">
 	<a href="https://github.com/redaxo/redaxo/releases"><img src="https://img.shields.io/github/release/redaxo/redaxo.svg?style=for-the-badge" alt=""></a>&nbsp;
 	<a href="https://github.com/redaxo/redaxo/blob/master/LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-green.svg?longCache=true&style=for-the-badge" alt=""></a>&nbsp;
@@ -43,7 +43,7 @@ Current demo websites: [Base](https://github.com/FriendsOfREDAXO/demo_base), [Co
 
 ### 2. Join our Slack
 
-You’ll find a lot of community members in the Slack chat. And also the core developers. This is probably the best option to ask questions and get to know the community.  
+You’ll find a lot of community members in the Slack chat. And also the core developers. This is probably the best option to ask questions and get to know the community.
 —Happy to see you there, get your invite at [redaxo.org/slack](http://redaxo.org/slack/)!
 
 ### 3. Connect on Twitter
@@ -52,7 +52,7 @@ Follow [@REDAXO](https://twitter.com/REDAXO) on Twitter to read the latest topic
 
 ### 4. Find people on the Community World Map
 
-Where in the world are people using REDAXO? [The map will show you](https://friendsofredaxo.github.io/community/). 🌎  
+Where in the world are people using REDAXO? [The map will show you](https://friendsofredaxo.github.io/community/). 🌎
 Your marker still missing? [Learn how to place it on the map](https://github.com/FriendsOfREDAXO/community/tree/master/_directory).
 
 &nbsp;
@@ -66,6 +66,10 @@ To develop on core and core addons, setup the project with these steps:
 - When you use PhpStorm, adjust the composer settings (`Languages & Frameworks` > `PHP` > `Composer`) and disable these two options:
     - [ ] Add packages as libraries
     - [ ] Synchronize IDE settings with composer.json
+- You can use the provided Docker configuration to start a local development environment: `docker-compose up -d`.  
+  In case you need a port other than the default port 80, start it like this: `REDAXO_PORT=8080 docker-compose up -d`.
+
+&nbsp;
 
 ## Copyright & License
 
