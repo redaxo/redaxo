@@ -124,7 +124,7 @@ $dbconfig = rex::getProperty('db');
 
 $rexVersion = rex::getVersion();
 if (false !== strpos($rexVersion, '-dev')) {
-    $hash = rex::getVersionHash(rex_path::base(), 'redaxo/redaxo');
+    $hash = rex_version::gitHash(rex_path::base(), 'redaxo/redaxo');
     if ($hash) {
         $rexVersion .= '#'. $hash;
     }

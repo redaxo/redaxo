@@ -365,53 +365,11 @@ class rex
     }
 
     /**
-     * Returns the current git version hash for the given path.
-     *
-     * @param string      $path A local filesystem path
-     * @param null|string $repo If given, the version hash is returned only if the remote repository matches the
-     *                          given github repo (e.g. `redaxo/redaxo`)
-     *
-     * @return false|string
+     * @deprecated since 5.10, use `rex_version::gitHash` instead
      */
     public static function getVersionHash($path, ?string $repo = null)
     {
-        static $gitHash = [];
-
-        if (isset($gitHash[$path])) {
-            return $gitHash[$path];
-        }
-
-        $gitHash[$path] = false; // exec only once
-        $output = [];
-        $exitCode = -1;
-
-        if ('WIN' === strtoupper(substr(PHP_OS, 0, 3))) {
-            $command = 'where git';
-        } else {
-            $command = 'which git';
-        }
-
-        $git = @exec($command, $output, $exitCode);
-
-        if (0 !== $exitCode) {
-            return false;
-        }
-
-        $command = 'cd '. escapeshellarg($path).' && '.escapeshellarg($git).' ls-remote --get-url';
-        $remote = @exec($command, $output, $exitCode);
-
-        if (0 !== $exitCode || !preg_match('{github.com[:/]'.preg_quote($repo).'\.git$}i', $remote)) {
-            return false;
-        }
-
-        $command = 'cd '. escapeshellarg($path).' && '.escapeshellarg($git).' log -1 --pretty=format:%h';
-        $version = @exec($command, $output, $exitCode);
-
-        if (0 === $exitCode) {
-            $gitHash[$path] = $version;
-        }
-
-        return $gitHash[$path];
+        return rex_version::gitHash($path, $repo) ?? false;
     }
 
     /**
