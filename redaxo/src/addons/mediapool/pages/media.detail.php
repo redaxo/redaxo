@@ -4,6 +4,12 @@
  * @package redaxo5
  */
 
+assert(isset($csrf) && $csrf instanceof rex_csrf_token);
+assert(isset($rex_file_category) && is_int($rex_file_category));
+assert(isset($opener_input_field) && is_string($opener_input_field));
+assert(isset($arg_fields) && is_string($arg_fields));
+assert(isset($toolbar) && is_string($toolbar));
+
 // defaults for globals passed in from index.php
 if (!isset($success)) {
     $success = '';

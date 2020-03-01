@@ -79,8 +79,6 @@ if ('delete' == $function) {
         }
     }
 } elseif ('edit' == $function) {
-    $legend = rex_i18n::msg('edit_template') . ' <small class="rex-primary-id">' . rex_i18n::msg('id') . ' = ' . $template_id . '</small>';
-
     $hole = rex_sql::factory();
     $hole->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'template WHERE id = "' . $template_id . '"');
     if (1 == $hole->getRows()) {
@@ -94,7 +92,6 @@ if ('delete' == $function) {
     }
 } else {
     $template_id = '';
-    $legend = rex_i18n::msg('create_template');
 }
 
 if ('add' == $function || 'edit' == $function) {
@@ -485,6 +482,13 @@ if ('add' == $function || 'edit' == $function) {
             $options .= '<li><a href="#' . $optionTabId . '" data-toggle="tab">' . $optionTabTitle . '</a></li>';
         }
         $options .= '</ul>';
+
+        if ('edit' === $function) {
+            $legend = rex_i18n::msg('edit_template') . ' <small class="rex-primary-id">' . rex_i18n::msg('id') . ' = ' . $template_id . '</small>';
+        } else {
+            $legend = rex_i18n::msg('create_template');
+        }
+
         $fragment = new rex_fragment();
         $fragment->setVar('class', 'edit', false);
         $fragment->setVar('title', $legend, false);

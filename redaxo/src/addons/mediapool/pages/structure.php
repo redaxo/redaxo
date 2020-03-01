@@ -1,8 +1,12 @@
 <?php
 
- /**
-  * @package redaxo5
-  */
+/**
+ * @package redaxo5
+ */
+
+assert(isset($PERMALL) && is_bool($PERMALL));
+assert(isset($arg_fields) && is_string($arg_fields));
+assert(isset($arg_url) && is_array($arg_url));
 
 // defaults for globals passed in from index.php
  if (!isset($success)) {

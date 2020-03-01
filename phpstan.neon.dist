@@ -34,23 +34,11 @@ parameters:
         - '#Access to an undefined property rex_category::\$cat_foo\.#'
         - '#Access to an undefined property rex_clang::\$clang_foo\.#'
         -
-            # allow undefined variable errors in pages, because we rely on variables beeing available from the includer scope
-            message: '#Undefined variable: .+#'
-            path: '*/pages/*'
-        -
-            # allow undefined variable errors in pages, because we rely on variables beeing available from the includer scope
-            message: '#Undefined variable: .+#'
-            path: '*/addons/structure/functions/function_rex_category.php'
-        -
             message: '#Using \$this outside a class\.#'
             path: '*/fragments/*'
         -
             message: '#Variable \$this might not be defined\.#'
             path: '*/fragments/*'
-        -
-            # because of ugly control logic we need to ignore those warnings for now ($save=ja/nein)
-            message: '#Variable \$[a-z]+ might not be defined\.#'
-            path: '*/content/pages/templates.php'
         -
             message: '#Access to an undefined property object.+#'
             path: '*/fragments/*'
