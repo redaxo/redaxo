@@ -10,20 +10,37 @@ abstract class rex_structure_element
     use rex_instance_pool_trait;
     use rex_instance_list_pool_trait;
 
-    /*
-     * these vars get read out
-     */
-    protected $id = '';
-    protected $parent_id = '';
-    protected $clang_id = '';
+    /** @var int */
+    protected $id = 0;
+
+    /** @var int */
+    protected $parent_id = 0;
+
+    /** @var int */
+    protected $clang_id = 0;
+
+    /** @var string */
     protected $name = '';
+
+    /** @var string */
     protected $catname = '';
-    protected $template_id = '';
+
+    /** @var int */
+    protected $template_id = 0;
     protected $path = '';
-    protected $priority = '';
-    protected $catpriority = '';
-    protected $startarticle = '';
-    protected $status = '';
+
+    /** @var int */
+    protected $priority = 0;
+
+    /** @var int */
+    protected $catpriority = 0;
+
+    /** @var bool */
+    protected $startarticle = false;
+
+    /** @var int */
+    protected $status = 0;
+
     protected $updatedate = '';
     protected $createdate = '';
     protected $updateuser = '';
@@ -43,6 +60,8 @@ abstract class rex_structure_element
 
             if (in_array($var, ['id', 'parent_id', 'clang_id', 'template_id', 'priority', 'catpriority', 'status'], true)) {
                 $this->$var = (int) $params[$var];
+            } elseif ('startarticle' === $var) {
+                $this->$var = (bool) $params[$var];
             } else {
                 $this->$var = $params[$var];
             }
