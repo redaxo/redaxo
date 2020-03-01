@@ -34,10 +34,9 @@ class rex_markdown
     public function parse($code)
     {
         $parser = new ParsedownExtra();
-        $parser->setSafeMode(true);
         $parser->setBreaksEnabled(true);
 
-        return $parser->text($code);
+        return rex_string::sanitizeHtml($parser->text($code));
     }
 
     /**
@@ -56,7 +55,7 @@ class rex_markdown
         $parser->topLevel = $topLevel;
         $parser->bottomLevel = $bottomLevel;
 
-        $content = $parser->text($code);
+        $content = rex_string::sanitizeHtml($parser->text($code));
         $headers = $parser->headers;
 
         $previous = $topLevel - 1;
@@ -96,10 +95,6 @@ class rex_markdown
             $toc .= "</li>\n";
             $toc .= "</ul>\n";
         }
-        $sanitizer = HtmlSanitizer\Sanitizer::create([
-            'extensions' => ['basic', 'code', 'image', 'list', 'table', 'details', 'extra'],
-        ]);
-        $content = $sanitizer->sanitize($content);
 
         return [$toc, $content];
     }

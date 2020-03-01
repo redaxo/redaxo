@@ -256,4 +256,17 @@ class rex_string
         $return = str_replace(["\r", "\n"], ['', ''], highlight_string($string, true));
         return '<pre class="rex-code">' . $return . '</pre>';
     }
+
+    public static function sanitizeHtml(string $html): string
+    {
+        static $sanitizer;
+
+        if (!$sanitizer) {
+            $sanitizer = HtmlSanitizer\Sanitizer::create([
+                'extensions' => ['basic', 'code', 'image', 'list', 'table', 'details', 'extra'],
+            ]);
+        }
+
+        return $sanitizer->sanitize($html);
+    }
 }
