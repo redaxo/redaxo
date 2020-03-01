@@ -15,7 +15,7 @@ class rex_setup
      */
     public const DEFAULT_DUMMY_PASSWORD = '-REDAXO-DEFAULT-DUMMY-PASSWORD-';
 
-    private static $MIN_PHP_EXTENSIONS = ['fileinfo', 'pcre', 'pdo', 'pdo_mysql', 'session', 'tokenizer'];
+    private static $MIN_PHP_EXTENSIONS = ['fileinfo', 'iconv', 'pcre', 'pdo', 'pdo_mysql', 'session', 'tokenizer'];
 
     /**
      * very basic setup steps, so everything is in place for our browser-based setup wizard.

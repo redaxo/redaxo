@@ -1,5 +1,7 @@
 <?php
 
+use voku\helper\AntiXSS;
+
 /**
  * String utility class.
  *
@@ -262,14 +264,13 @@ class rex_string
      */
     public static function sanitizeHtml(string $html): string
     {
-        static $sanitizer;
+        static $antiXss;
 
-        if (!$sanitizer) {
-            $sanitizer = HtmlSanitizer\Sanitizer::create([
-                'extensions' => ['basic', 'code', 'image', 'list', 'table', 'details', 'extra'],
-            ]);
+        if (!$antiXss) {
+            $antiXss = new AntiXSS();
+            $antiXss->removeEvilAttributes(['style']);
         }
 
-        return $sanitizer->sanitize($html);
+        return $antiXss->xss_clean($html);
     }
 }
