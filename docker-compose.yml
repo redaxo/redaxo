@@ -4,7 +4,7 @@ services:
     redaxo:
         image: friendsofredaxo/redaxo:5
         ports:
-            - 80:80
+            - ${REDAXO_PORT:-80}:80
         volumes:
             - .:/var/www/html:cached
 
