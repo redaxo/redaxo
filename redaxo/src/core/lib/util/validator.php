@@ -14,9 +14,6 @@ class rex_validator
     private $types = [];
     private $message;
 
-    /**
-     * Constructor.
-     */
     protected function __construct()
     {
         // noop
