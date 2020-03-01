@@ -162,9 +162,9 @@ If Email archiving is switched on, all emails in the folder '/redaxo/data/addons
 
 ## Tips
 
-### Encryption: Automatic TLS connection
+### Encryption: AutoTLS
 
-PHPMailer checks if the specified server supports TLS and establishes an encrypted TLS connection. If the server does not allow encryption, an insecure connection is established. If there should be problems with the dispatch, it is often due to the fact that the deposited certificate does not agree with the indicated host or no valid certificate was found. By changing the encryption to "manual selection" the automatic recognition can be deactivated and the encryption can be selected manually. 
+PHPMailer checks on "AutoTLS" if the specified server supports TLS and establishes an encrypted TLS connection. If the server does not allow encryption, an insecure connection will be established. If there should be problems with the connection, it is often due to the fact that the deposited certificate does not agree with the indicated host or no valid certificate was found. By changing the encryption to "manual selection" the automatic recognition can be deactivated and the encryption can be selected manually. 
 
 > This setting can lead to insecure connections if TLS support is not found. A debug mode check **connection protocol** should be performed.
 

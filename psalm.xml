@@ -89,8 +89,12 @@ autoloader="phpstan-bootstrap.php"
 <!-- level 5 issues - should be avoided at mosts costs... -->
         <InvalidScalarArgument errorLevel="info" />
         <InvalidOperand errorLevel="info" />
-        <InvalidGlobal errorLevel="info" />
-<!-- level 6 issues - really bad things -->
-        <UndefinedGlobalVariable errorLevel="info" />
+        <InvalidGlobal>
+            <errorLevel type="info">
+                <file name="redaxo/src/addons/mediapool/pages/index.php"/>
+                <file name="redaxo/src/addons/mediapool/pages/upload.php"/>
+                <file name="redaxo/src/core/pages/login.php"/>
+            </errorLevel>
+        </InvalidGlobal>
     </issueHandlers>
 </psalm>

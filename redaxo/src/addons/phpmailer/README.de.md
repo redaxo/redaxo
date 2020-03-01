@@ -167,11 +167,11 @@ Bei eingeschalteter E-Mail-Archivierung werden alle E-Mails im Ordner `/redaxo/d
 
 ## Tipps
 
-### Verschlüsselung: Automatische TLS-Verbindung
+### Verschlüsselung: AutoTLS
 
-PHPMailer prüft ob der angegebene Server TLS unterstützt und baut eine verschlüsselte TLS-Verbindung auf. Erlaubt der Server keine Verschlüsselung, wird eine unsichere Verbindung aufgebaut. Sollte es zu Problemen beim Versand kommen, liegt es häufig daran, dass das hinterlegte Zertifikat nicht mit dem angegebenen Host übereinstimmt oder kein gültiges Zertifikat gefunden wurde. Durch Ändern der Verschlüsselung auf "manuelle Auswahl" kann die automatische Erkennung deaktiviert werden und die Verschlüsselung manuell gewählt werden. 
+PHPMailer prüft bei "AutoTLS", ob der angegebene Server TLS unterstützt und baut eine verschlüsselte TLS-Verbindung auf. Erlaubt der Server keine Verschlüsselung, wird eine unsichere Verbindung aufgebaut. Sollte es zu Problemen beim Versand kommen, liegt es häufig daran, dass das hinterlegte Zertifikat nicht mit dem angegebenen Host übereinstimmt oder kein gültiges Zertifikat gefunden wurde. Durch Ändern der Verschlüsselung auf "manuelle Auswahl" kann die automatische Erkennung deaktiviert werden und die Verschlüsselung manuell gewählt werden. 
 
-> Diese Einstellung kann zu unsicheren Verbindungen führen, sollte keine TLS-Unterstützung gefunden werden. Eine Überprüfung per Debug-Modus **Verbindungsprotokoll** sollte durchgeführt werden.
+> Diese Einstellung kann zu unsicheren Verbindungen führen, sollte keine TLS-Unterstützung ausgehandelt werden können. Eine Überprüfung per Debug-Modus **Verbindungsprotokoll** sollte durchgeführt werden.
 
 ### Spam-Blocker
 

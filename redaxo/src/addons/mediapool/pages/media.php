@@ -4,9 +4,12 @@
  * @package redaxo5
  */
 
+assert(isset($rex_file_category) && is_int($rex_file_category));
+assert(isset($arg_fields) && is_string($arg_fields));
+assert(isset($file_id) && is_int($file_id));
+
 $subpage = rex_be_controller::getCurrentPagePart(2);
 
-$media_method = rex_request('media_method', 'string');
 $media_name = rex_request('media_name', 'string');
 $csrf = rex_csrf_token::factory('mediapool');
 

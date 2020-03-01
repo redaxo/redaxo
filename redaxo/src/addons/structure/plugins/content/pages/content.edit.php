@@ -1,5 +1,13 @@
 <?php
 
+assert(isset($article_id) && is_int($article_id));
+assert(isset($clang) && is_int($clang));
+assert(isset($ctype) && is_int($ctype));
+assert(isset($slice_id) && is_int($slice_id));
+assert(isset($template_attributes) && is_array($template_attributes));
+assert(isset($slice_revision) && is_int($slice_revision));
+assert(isset($function) && is_string($function));
+
 $info = '';
 $warning = '';
 
@@ -24,6 +32,6 @@ $CONT->setCLang($clang);
 $CONT->setEval(true);
 $CONT->setSliceRevision($slice_revision);
 $CONT->setFunction($function);
-$content .= $CONT->getArticle($ctype);
+$content = $CONT->getArticle($ctype);
 
 return '' != $content ? '<ul class="rex-slices">' . $content . '</ul>' : '';

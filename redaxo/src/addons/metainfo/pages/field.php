@@ -83,7 +83,7 @@ if ('' == $func) {
     if (in_array($prefix, ['art_', 'med_'])) {
         $defaultFields = sprintf(
             '<div class="btn-group btn-group-xs"><a href="%s" class="btn btn-default">%s</a></div>',
-            rex_url::currentBackendPage(['type' => $subpage] + rex_api_metainfo_default_fields_create::getUrlParams()),
+            rex_url::currentBackendPage(['type' => rex_be_controller::getCurrentPagePart(2)] + rex_api_metainfo_default_fields_create::getUrlParams()),
             rex_i18n::msg('minfo_default_fields_create')
         );
         $fragment->setVar('options', $defaultFields, false);
