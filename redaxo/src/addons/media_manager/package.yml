@@ -16,7 +16,7 @@ page:
 requires:
     php:
         extensions: [gd]
-    redaxo: ^5.10.0-dev
+    redaxo: ^5.10.0-beta1
 
 default_config:
     jpg_quality: 80

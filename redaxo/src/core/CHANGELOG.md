@@ -7,6 +7,10 @@ Version 5.10.0 – XX.XX.2020
 ### Neu
 
 * Update der externen Bibliotheken (@gharlan)
+* Setup: Es wird gewarnt, wenn eine MySQL/MariaDB-Version verwendet wird, die vom Hersteller nicht mehr gepflegt wird (@staabm)
+* Datenbank: Es wird nun einheitlich die Collation `utf8_unicode_ci`, bzw. `utf8mb4_unicode_ci` (nicht mehr teils `*_general_ci`) (@gharlan)
+* `rex_file`: Neue Methode `mimeType()` um den Mime-Type einer Datei zu bestimmen (liefert bessere Resultate als `mime_content_type()`, zum Beispiel für SVGs) (@gharlan)
+* `rex_response`: Neue Methode `sendJson` (@staabm)
 
 ### Bugfixes
 

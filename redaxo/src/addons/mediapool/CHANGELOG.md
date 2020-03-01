@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.7.1 – XX.XX.2020
+--------------------------
+
+### Bugfixes
+
+* Bessere Mime-Type-Erkennung durch neue Core-Funktion `rex_file::mimeType()` (@gharlan)
+
+
 Version 2.7.0 – 02.02.2020
 --------------------------
 
