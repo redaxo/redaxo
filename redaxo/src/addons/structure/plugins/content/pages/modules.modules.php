@@ -61,22 +61,28 @@ if ('delete' == $function && !$csrfToken->isValid()) {
     $error = rex_i18n::msg('csrf_token_invalid');
 } elseif ('delete' == $function) {
     $del = rex_sql::factory();
-    $del->setQuery('SELECT ' . rex::getTablePrefix() . 'article_slice.article_id, ' . rex::getTablePrefix() . 'article_slice.clang_id, ' . rex::getTablePrefix() . 'article_slice.ctype_id, ' . rex::getTablePrefix() . 'module.name FROM ' . rex::getTablePrefix() . 'article_slice
-            LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id
-            WHERE ' . rex::getTablePrefix() . 'article_slice.module_id=? GROUP BY ' . rex::getTablePrefix() . 'article_slice.article_id', [$module_id]);
+    $del->setQuery('
+        SELECT slice.article_id, slice.clang_id, slice.ctype_id, module.name
+        FROM ' . rex::getTable('article_slice') . ' slice
+        LEFT JOIN ' . rex::getTable('module') . ' module ON slice.module_id=module.id
+        WHERE slice.module_id=?
+        GROUP BY slice.article_id, slice.clang_id
+        ORDER BY slice.article_id, slice.clang_id
+        LIMIT 20
+    ', [$module_id]);
 
     if ($del->getRows() > 0) {
         $module_in_use_message = '';
-        $modulname = $del->getValue(rex::getTablePrefix() . 'module.name');
+        $modulname = $del->getValue('module.name');
         for ($i = 0; $i < $del->getRows(); ++$i) {
-            $aid = $del->getValue(rex::getTablePrefix() . 'article_slice.article_id');
-            $clang_id = $del->getValue(rex::getTablePrefix() . 'article_slice.clang_id');
-            $ctype = $del->getValue(rex::getTablePrefix() . 'article_slice.ctype_id');
+            $aid = $del->getValue('article_id');
+            $clang_id = $del->getValue('clang_id');
+            $ctype = $del->getValue('ctype_id');
             $OOArt = rex_article::get($aid, $clang_id);
 
             $label = $OOArt->getName() . ' [' . $aid . ']';
             if (rex_clang::count() > 1) {
-                $label = '(' . rex_i18n::translate(rex_clang::get($clang_id)->getName()) . ') ' . $label;
+                $label .= ' [' . rex_clang::get($clang_id)->getCode() . ']';
             }
 
             $module_in_use_message .= '<li><a href="' . rex_url::backendPage('content', ['article_id' => $aid, 'clang' => $clang_id, 'ctype' => $ctype]) . '">' . rex_escape($label) . '</a></li>';
