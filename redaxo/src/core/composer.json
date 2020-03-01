@@ -9,7 +9,8 @@
         "symfony/console": "^4.4",
         "symfony/polyfill-mbstring": "^1.14",
         "symfony/var-dumper": "^4.4",
-        "symfony/yaml": "^4.4"
+        "symfony/yaml": "^4.4",
+        "tgalopin/html-sanitizer": "^1.4"
     },
 
     "config": {

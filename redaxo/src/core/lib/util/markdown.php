@@ -52,7 +52,6 @@ class rex_markdown
     public function parseWithToc($code, $topLevel = 2, $bottomLevel = 3)
     {
         $parser = new rex_parsedown_with_toc();
-        $parser->setSafeMode(true);
         $parser->setBreaksEnabled(true);
         $parser->topLevel = $topLevel;
         $parser->bottomLevel = $bottomLevel;
@@ -97,6 +96,10 @@ class rex_markdown
             $toc .= "</li>\n";
             $toc .= "</ul>\n";
         }
+        $sanitizer = HtmlSanitizer\Sanitizer::create([
+            'extensions' => ['basic', 'code', 'image', 'list', 'table', 'details', 'extra'],
+        ]);
+        $content = $sanitizer->sanitize($content);
 
         return [$toc, $content];
     }
