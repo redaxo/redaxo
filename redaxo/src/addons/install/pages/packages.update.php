@@ -1,5 +1,7 @@
 <?php
 
+assert(isset($markdown) && is_callable($markdown));
+
 $package = rex_addon::get('install');
 
 $core = rex_request('core', 'boolean');
@@ -31,11 +33,9 @@ if ($core && !empty($coreVersions)) {
             </thead>
             <tbody>';
 
-    $markdown = rex_markdown::factory();
-    $fragment = new rex_fragment();
     foreach ($coreVersions as $id => $file) {
         $version = rex_escape($file['version']);
-        $description = $fragment->setVar('content', $markdown->parse($file['description']), false)->parse('core/page/readme.php');
+        $description = $markdown($file['description']);
 
         if (class_exists(rex_version::class) && rex_version::isUnstable($version)) {
             $version = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $version;
@@ -108,12 +108,9 @@ if ($core && !empty($coreVersions)) {
             </thead>
             <tbody>';
 
-    $markdown = rex_markdown::factory();
-    $fragment = new rex_fragment();
-
     foreach ($addon['files'] as $fileId => $file) {
         $version = rex_escape($file['version']);
-        $description = $fragment->setVar('content', $markdown->parse($file['description']), false)->parse('core/page/readme.php');
+        $description = $markdown($file['description']);
 
         if (class_exists(rex_version::class) && rex_version::isUnstable($version)) {
             $version = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $version;
