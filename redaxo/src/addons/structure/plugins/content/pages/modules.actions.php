@@ -4,11 +4,8 @@
  * @package redaxo5
  */
 
-$PREPOST[0] = 'PRE';
-$PREPOST[1] = 'POST';
-$ASTATUS[0] = 'ADD';
-$ASTATUS[1] = 'EDIT';
-$ASTATUS[2] = 'DELETE';
+$PREPOST = ['PRE', 'POST'];
+$ASTATUS = ['ADD', 'EDIT', 'DELETE'];
 
 $OUT = true;
 

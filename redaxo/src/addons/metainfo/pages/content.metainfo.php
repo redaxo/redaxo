@@ -1,5 +1,7 @@
 <?php
 
+assert(isset($ep) && $ep instanceof rex_extension_point);
+
 $params = $ep->getParams();
 $subject = $ep->getSubject();
 
