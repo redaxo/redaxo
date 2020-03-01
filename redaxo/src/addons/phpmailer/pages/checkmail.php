@@ -9,7 +9,7 @@
 
 $addon = rex_addon::get('phpmailer');
 
-$content = $smtpinfo = '';
+$content = $smtpinfo = $mailerDebug = '';
 $emptymail = true;
 $date = new DateTime();
 if ('' == $addon->getConfig('from') || '' == $addon->getConfig('test_address')) {
@@ -45,6 +45,9 @@ if ($emptymail = true) {
 
     $mail->Body .= "\nMailer: " . $addon->getConfig('mailer') . $devider.$security_mode;
     $mail->Body .= "\n". $addon->i18n('checkmail_domain_note'). "\n". $devider;
+    $mail->Debugoutput = static function ($str, $level) use (&$mailerDebug) {
+        $mailerDebug .= date('Y-m-d H:i:s', time()).' '.nl2br($str);
+    };
 
     if (!$mail->send()) {
         $content .= '<div class="alert alert-danger">';
@@ -64,6 +67,6 @@ if ($emptymail = true) {
 }
 $fragment = new rex_fragment();
 $fragment->setVar('title', $addon->i18n('checkmail_headline'));
-$fragment->setVar('body', $content, false);
+$fragment->setVar('body', $content.$mailerDebug, false);
 $out = $fragment->parse('core/page/section.php');
 echo $out;
