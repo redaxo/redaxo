@@ -28,7 +28,7 @@ class rex_api_content_slice_status extends rex_api_function
 
         rex_content_service::sliceStatus($slice_id, $status);
 
-        return new rex_api_result(true, rex_i18n::msg('block_updated'));
+        return new rex_api_result(true);
     }
 
     protected function requiresCsrfProtection()
