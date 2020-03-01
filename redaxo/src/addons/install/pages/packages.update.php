@@ -33,9 +33,9 @@ if ($core && !empty($coreVersions)) {
 
     $markdown = rex_markdown::factory();
     $fragment = new rex_fragment();
-    foreach ($coreVersions as $id => $version) {
-        $version = rex_escape($version);
-        $description = $fragment->setVar('content', $markdown->parse($version['description']), false)->parse('core/page/readme.php');
+    foreach ($coreVersions as $id => $file) {
+        $version = rex_escape($file['version']);
+        $description = $fragment->setVar('content', $markdown->parse($file['description']), false)->parse('core/page/readme.php');
 
         if (class_exists(rex_version::class) && rex_version::isUnstable($version)) {
             $version = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $version;
