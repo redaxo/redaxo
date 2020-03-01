@@ -13,6 +13,8 @@ $markdown = static function (string $content): string {
 
     if (!$markdown) {
         $parser = rex_markdown::factory();
+
+        // prior to 5.10 rex_markdown did not prevent xss
         $stripTags = rex_string::versionCompare(rex::getVersion(), '5.10.0-dev', '<');
 
         $markdown = static function (string $content) use ($parser, $stripTags): string {
