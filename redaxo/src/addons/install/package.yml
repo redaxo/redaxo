@@ -22,7 +22,7 @@ page:
 requires:
     php:
         extensions: [zlib]
-    redaxo: ^5.5.0
+    redaxo: ^5.7.0
 
 
 console_commands:
