@@ -1,5 +1,7 @@
 <?php
 
+assert(isset($markdown) && is_callable($markdown));
+
 $package = rex_addon::get('install');
 
 $core = rex_request('core', 'boolean');
@@ -33,7 +35,7 @@ if ($core && !empty($coreVersions)) {
 
     foreach ($coreVersions as $id => $file) {
         $version = rex_escape($file['version']);
-        $description = rex_install_markdown($file['description']);
+        $description = $markdown($file['description']);
 
         if (class_exists(rex_version::class) && rex_version::isUnstable($version)) {
             $version = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $version;
@@ -108,7 +110,7 @@ if ($core && !empty($coreVersions)) {
 
     foreach ($addon['files'] as $fileId => $file) {
         $version = rex_escape($file['version']);
-        $description = rex_install_markdown($file['description']);
+        $description = $markdown($file['description']);
 
         if (class_exists(rex_version::class) && rex_version::isUnstable($version)) {
             $version = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $version;

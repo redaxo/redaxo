@@ -8,13 +8,7 @@ if ('reload' === rex_request('func', 'string')) {
     rex_install_webservice::deleteCache();
 }
 
-/**
- * @package redaxo\install
- *
- * @internal
- */
-function rex_install_markdown(string $content): string
-{
+$markdown = static function (string $content): string {
     static $markdown;
 
     if (!$markdown) {
@@ -34,6 +28,6 @@ function rex_install_markdown(string $content): string
     $fragment->setVar('content', $markdown($content), false);
 
     return $fragment->parse('core/page/readme.php');
-}
+};
 
 rex_be_controller::includeCurrentPageSubPath();
