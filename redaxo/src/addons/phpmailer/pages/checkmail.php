@@ -68,6 +68,6 @@ if ($emptymail = true) {
 }
 $fragment = new rex_fragment();
 $fragment->setVar('title', $addon->i18n('checkmail_headline'));
-$fragment->setVar('body', $content.$GLOBALS['mailer_debug'], false);
+$fragment->setVar('body', $content.$mailerDebug, false);
 $out = $fragment->parse('core/page/section.php');
 echo $out;
