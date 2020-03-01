@@ -17,6 +17,10 @@ class rex_extension_debug extends rex_extension
     {
         parent::register($extensionPoint, $extension, $level, $params);
 
+        if (is_array($extensionPoint)) {
+            $extensionPoint = implode(', ', $extensionPoint);
+        }
+
         $trace = rex_debug::getTrace([rex_extension::class]);
         rex_debug::getInstance()
             ->addEvent('EXT: '.$extensionPoint, $params, time(), $trace);
