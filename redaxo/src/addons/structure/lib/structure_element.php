@@ -41,9 +41,16 @@ abstract class rex_structure_element
     /** @var int */
     protected $status = 0;
 
-    protected $updatedate = '';
-    protected $createdate = '';
+    /** @var int */
+    protected $updatedate = 0;
+
+    /** @var int */
+    protected $createdate = 0;
+
+    /** @var string */
     protected $updateuser = '';
+
+    /** @var string */
     protected $createuser = '';
 
     protected static $classVars;
@@ -58,7 +65,7 @@ abstract class rex_structure_element
                 continue;
             }
 
-            if (in_array($var, ['id', 'parent_id', 'clang_id', 'template_id', 'priority', 'catpriority', 'status'], true)) {
+            if (in_array($var, ['id', 'parent_id', 'clang_id', 'template_id', 'priority', 'catpriority', 'status', 'createdate', 'updatedate'], true)) {
                 $this->$var = (int) $params[$var];
             } elseif ('startarticle' === $var) {
                 $this->$var = (bool) $params[$var];
