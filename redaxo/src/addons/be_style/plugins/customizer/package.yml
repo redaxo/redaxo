@@ -15,3 +15,13 @@ pages:
 requires:
     php:
         extensions: [zip]
+
+default_config:
+    labelcolor: '#3bb594'
+    codemirror_theme: 'eclipse'
+    codemirror-selectors: ''
+    codemirror: 1
+    codemirror-langs: 0
+    codemirror-tools: 0
+    showlink: 1
+    
