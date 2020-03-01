@@ -1,6 +1,8 @@
 <?php
 
 assert(isset($context) && $context instanceof rex_context);
+assert(isset($success_array) && is_array($success_array));
+assert(isset($error_array) && is_array($error_array));
 
 $content = '';
 

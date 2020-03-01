@@ -1,6 +1,7 @@
 <?php
 
-// *************************************** SYNC FUNCTIONS
+assert(isset($rex_file_category) && is_int($rex_file_category));
+assert(isset($PERMALL) && is_bool($PERMALL));
 
 $csrf = rex_csrf_token::factory('mediapool');
 
