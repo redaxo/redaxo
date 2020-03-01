@@ -47,7 +47,7 @@ if ($emptymail = true) {
     $mail->Body .= "\n". $addon->i18n('checkmail_domain_note'). "\n". $devider;
     $mailerDebug = '';
     $mail->Debugoutput = static function ($str, $level) use (&$mailerDebug) {
-        $mailerDebug .= date('m.d.Y h:i:s a', time()).' '.nl2br($str);
+        $mailerDebug .= date('Y-m-d H:i:s', time()).' '.nl2br($str);
     };
 
     if (!$mail->send()) {
