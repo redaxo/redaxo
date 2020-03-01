@@ -20,6 +20,8 @@ pages:
         hidden: true
         perm: structure/hasStructurePerm
         pjax: true
+        subpages:
+            - linkmap: { title: translate:linkmap }
 
 system_plugins: [content]
 

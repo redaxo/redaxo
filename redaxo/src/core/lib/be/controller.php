@@ -454,6 +454,10 @@ class rex_be_controller
      */
     private static function includePath($path, array $context = [])
     {
+        if (!$path) {
+            throw new InvalidArgumentException('path cannot be empty');
+        }
+
         $pattern = '@' . preg_quote(rex_path::src('addons/'), '@') . '([^/\\\]+)(?:[/\\\]plugins[/\\\]([^/\\\]+))?@';
 
         if (!preg_match($pattern, $path, $matches)) {
