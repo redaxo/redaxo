@@ -34,6 +34,7 @@ class rex_markdown
     public function parse($code)
     {
         $parser = new ParsedownExtra();
+        $parser->setSafeMode(true);
         $parser->setBreaksEnabled(true);
 
         return $parser->text($code);
@@ -51,6 +52,7 @@ class rex_markdown
     public function parseWithToc($code, $topLevel = 2, $bottomLevel = 3)
     {
         $parser = new rex_parsedown_with_toc();
+        $parser->setSafeMode(true);
         $parser->setBreaksEnabled(true);
         $parser->topLevel = $topLevel;
         $parser->bottomLevel = $bottomLevel;
