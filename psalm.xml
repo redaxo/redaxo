@@ -60,6 +60,7 @@ autoloader="phpstan-bootstrap.php"
                 <file name="redaxo/src/addons/install/lib/api/api_core_update.php"/>
                 <file name="redaxo/src/addons/install/lib/package/package_update.php"/>
                 <file name="redaxo/src/addons/install/lib/packages.php"/>
+                <file name="redaxo/src/addons/install/pages/index.php"/>
                 <file name="redaxo/src/addons/install/update.php"/>
                 <file name="redaxo/src/addons/media_manager/update.php"/>
                 <file name="redaxo/src/addons/metainfo/extensions/extension_content_sidebar.php"/>
