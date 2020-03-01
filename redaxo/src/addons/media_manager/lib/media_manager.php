@@ -313,7 +313,7 @@ class rex_media_manager
     /**
      * @return array
      *
-     * @psalm-return array<class-string, string>
+     * @psalm-return array<class-string<rex_effect_abstract>, string>
      */
     public static function getSupportedEffects()
     {

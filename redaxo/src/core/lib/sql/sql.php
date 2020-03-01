@@ -60,7 +60,7 @@ class rex_sql implements Iterator
     /** @var self[] */
     protected $records;
 
-    /** @var PDOStatement */
+    /** @var PDOStatement|null */
     protected $stmt;
 
     /** @var PDO[] */
@@ -1153,7 +1153,7 @@ class rex_sql implements Iterator
     /**
      * Gibt die zuletzt aufgetretene Fehlernummer zurueck.
      *
-     * @return string
+     * @return string|null
      */
     public function getErrno()
     {
@@ -1750,7 +1750,7 @@ class rex_sql implements Iterator
      * @param string $dbname
      * @param bool   $createDb
      *
-     * @return bool|string
+     * @return true|string
      */
     public static function checkDbConnection($host, $login, $pw, $dbname, $createDb = false)
     {

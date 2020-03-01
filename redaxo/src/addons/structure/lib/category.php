@@ -68,7 +68,7 @@ class rex_category extends rex_structure_element
     /**
      * Returns the parent category.
      *
-     * @return self
+     * @return self|null
      */
     public function getParent()
     {
@@ -84,7 +84,7 @@ class rex_category extends rex_structure_element
     public function isParent(self $otherCat)
     {
         return $this->getId() == $otherCat->getParentId() &&
-             $this->getClang() == $otherCat->getClang();
+             $this->getClangId() == $otherCat->getClangId();
     }
 
     /**
@@ -111,7 +111,9 @@ class rex_category extends rex_structure_element
      */
     public function getStartArticle()
     {
-        return rex_article::get($this->id, $this->clang_id);
+        $article = rex_article::get($this->id, $this->clang_id);
+        assert($article instanceof rex_article);
+        return $article;
     }
 
     /**

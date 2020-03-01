@@ -121,7 +121,6 @@ debug_mode = Modo debug
 setup = Setup
 setup_restart = Recomeçar Setup
 setup_text = Aqui você pode recomeçar o processo setup. Este deve ser utilizado somente em caso de necessidade e não deve ser acionado em circunstâncias normais.
-setup_error1 = Setup ativado.Por favor, clique em  {0}para continuar{1} com o processo.
 setup_error2 = Infelizmente, a configuração doa rtigo não pode ser efetuada. Por favor, modifique a configuração.yml em \"setup: true\"
 
 

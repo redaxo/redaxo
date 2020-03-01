@@ -27,6 +27,9 @@ class rex_test_locator implements IteratorAggregate
         }
     }
 
+    /**
+     * @return Iterator
+     */
     public function getIterator()
     {
         return $this->testFoldersIterator;

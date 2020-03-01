@@ -444,7 +444,10 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
      */
     private function getDbCharset()
     {
-        if ($charset = $this->input->getOption('db-charset')) {
+        /** @var null|string $charset */
+        $charset = $this->input->getOption('db-charset');
+
+        if ($charset) {
             if (!in_array($charset, ['utf8', 'utf8mb4'])) {
                 throw new InvalidArgumentException('unknown database charset "'.$charset.'" specified');
             }

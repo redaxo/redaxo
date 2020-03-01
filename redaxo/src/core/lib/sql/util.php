@@ -108,7 +108,7 @@ class rex_sql_util
             return $ret;
         }
 
-        return false;
+        throw new rex_exception('File "'.$file.'" could not be read.');
     }
 
     // Taken from phpmyadmin (read_dump.lib.php: PMA_splitSqlFile)

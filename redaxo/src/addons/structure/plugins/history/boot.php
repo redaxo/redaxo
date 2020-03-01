@@ -79,8 +79,8 @@ if ('' != $history_date) {
                 LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id
                 LEFT JOIN ' . rex::getTablePrefix() . 'article ON ' . rex::getTablePrefix() . 'article_slice.article_id=' . rex::getTablePrefix() . 'article.id
                 WHERE
-                    ' . rex::getTablePrefix() . "article_slice.clang_id='" . $article->getClang() . "' AND
-                    " . rex::getTablePrefix() . "article.clang_id='" . $article->getClang() . "' AND
+                    ' . rex::getTablePrefix() . "article_slice.clang_id='" . $article->getClangId() . "' AND
+                    " . rex::getTablePrefix() . "article.clang_id='" . $article->getClangId() . "' AND
                     " . rex::getTablePrefix() . 'article_slice.revision=0
                     ' . $articleLimit . '
                     ' . $sliceLimit . '

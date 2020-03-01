@@ -1,11 +1,13 @@
 <?php
 
+assert(isset($context) && $context instanceof rex_context);
+
 rex_setup::init();
 
 $langs = [];
 foreach (rex_i18n::getLocales() as $locale) {
     $label = rex_i18n::msgInLocale('lang', $locale);
-    $langs[$label] = '<a class="list-group-item" href="' . rex_url::backendPage('setup', ['step' => 2, 'lang' => $locale]) . '">' . $label . '</a>';
+    $langs[$label] = '<a class="list-group-item" href="' . $context->getUrl(['lang' => $locale, 'step' => 2]) . '">' . $label . '</a>';
 }
 ksort($langs);
 echo rex_view::title(rex_i18n::msg('setup_100'));

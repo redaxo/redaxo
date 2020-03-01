@@ -30,6 +30,7 @@ no_editing_rights = permission denied
 check_rights_in_directory = Please review permissions in directory
 error_undefined = An undefinied error occurred
 csrf_token_invalid = Please send the form again, redo the action respectively (error: invalid CSRF token).
+copy_to_clipboard = Copy to clipboard
 
 # redaxo/redaxo/index.php
 system = System
@@ -151,7 +152,6 @@ system_report_markdown = As markdown
 setup = Setup
 setup_restart = Restart setup
 setup_text = Here you can restart the setup process. This is for emergencies only and shouldn't be required under normal circumstances.
-setup_error1 = Setup activated. Please click {0}continue{1} to continue with the setup process.
 setup_error2 = Unfortunately the configuration file could not be written to. Please make change \"setup: true\" in config.yml
 
 

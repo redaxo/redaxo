@@ -22,7 +22,7 @@ class rex_form_prio_element extends rex_form_select_element
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
-    public function __construct($tag = '', rex_form $table = null, array $attributes = [])
+    public function __construct($tag, rex_form $table, array $attributes = [])
     {
         parent::__construct('', $table, $attributes);
         $this->table = $table;

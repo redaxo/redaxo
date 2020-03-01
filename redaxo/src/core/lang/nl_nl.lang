@@ -145,7 +145,6 @@ system_report_markdown = In markdown
 setup = Installatie
 setup_restart = Herstart installatie
 setup_text = Hier kan u het installatieproces herstarten. Dit is normaalgesproken niet nodig en alleen bedoeld voor noodgevallen.
-setup_error1 = Installatieproces gestart. Klik op {0}doorgaan{1} om door te gaan met de installatie.
 setup_error2 = Er kon helaas niet geschreven worden naar het configuratiebestand. Zet \"setup: true\" in config.yml
 
 
