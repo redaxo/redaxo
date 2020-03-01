@@ -169,6 +169,7 @@ class rex_form extends rex_form_base
             $attributes['class'] = 'form-control';
         }
         $field = $this->addField('', $name, $value, $attributes, true);
+        assert($field instanceof rex_form_prio_element);
         return $field;
     }
 

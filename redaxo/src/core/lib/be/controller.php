@@ -16,7 +16,7 @@ class rex_be_controller
     private static $pageParts = [];
 
     /**
-     * @var rex_be_page
+     * @var rex_be_page|null
      */
     private static $pageObject;
 
@@ -59,7 +59,7 @@ class rex_be_controller
     }
 
     /**
-     * @return rex_be_page
+     * @return rex_be_page|null
      */
     public static function getCurrentPageObject()
     {
@@ -72,7 +72,7 @@ class rex_be_controller
     /**
      * @param string|array $page
      *
-     * @return rex_be_page
+     * @return rex_be_page|null
      */
     public static function getPageObject($page)
     {

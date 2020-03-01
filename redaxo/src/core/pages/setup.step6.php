@@ -1,5 +1,7 @@
 <?php
 
+assert(isset($context) && $context instanceof rex_context);
+
 $user_sql = rex_sql::factory();
 $user_sql->setQuery('select * from ' . rex::getTablePrefix() . 'user LIMIT 1');
 
@@ -16,9 +18,6 @@ $content = '';
 $content .= '
         <fieldset>
             <input class="rex-js-javascript" type="hidden" name="javascript" value="0" />
-            <input type="hidden" name="page" value="setup" />
-            <input type="hidden" name="step" value="7" />
-            <input type="hidden" name="lang" value="' . rex_escape($lang) . '" />
             ';
 
 $redaxo_user_login = rex_post('redaxo_user_login', 'string');
@@ -112,4 +111,4 @@ $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
 
-echo '<form class="rex-js-createadminform" action="' . rex_url::backendController() . '" method="post" autocomplete="off">' . $content . '</form>';
+echo '<form class="rex-js-createadminform" action="' . $context->getUrl(['step' => 7]) . '" method="post" autocomplete="off">' . $content . '</form>';

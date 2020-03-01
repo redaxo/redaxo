@@ -150,7 +150,6 @@ system_report_markdown = Como markdown
 setup = Preparar
 setup_restart = Reiniciar la configuración
 setup_text = Puede iniciar el proceso de configuración aquí. Esto es sólo para emergencias y no se requiere en condiciones normales.
-setup_error1 = Configuración activada. Haga clic en {0}> continuar <{1} y ejecute la instalación.
 setup_error2 = Error. Boot.php no se puede escribir. Por favor, inserte \"$REX[SETUP] = true;\" en boot.php
 
 

@@ -69,7 +69,7 @@ abstract class rex_api_function
      *
      * @throws rex_exception
      *
-     * @return self
+     * @return self|null
      */
     public static function factory()
     {

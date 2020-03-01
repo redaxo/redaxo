@@ -37,16 +37,4 @@ foreach ($this->elements as $element) {
     $out .= $footer;
 }
 
-$classes = '';
-/*
-$classes .= isset($this->group)  && $this->group  ? ' rex-form-group' : '';
-$classes .= isset($this->flush)  && $this->flush  ? ' rex-form-flush' : '';
-$classes .= isset($this->inline) && $this->inline ? ' rex-form-inline' : '';
-*/
-if ('' != $classes) {
-    echo '<div class="' . trim($classes) . '">';
-    echo $out;
-    echo '</div>';
-} else {
-    echo $out;
-}
+echo $out;

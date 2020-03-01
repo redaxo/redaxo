@@ -2,7 +2,6 @@
 
 $error = [];
 $config = [];
-$info = '';
 $success = '';
 
 if ('' != rex_post('btn_save', 'string')) {
@@ -105,10 +104,6 @@ foreach ($themes as $theme) {
 
 if (!empty($error)) {
     echo rex_view::error(implode('<br />', $error));
-}
-
-if ('' != $info) {
-    echo rex_view::info($info);
 }
 
 if ('' != $success) {
