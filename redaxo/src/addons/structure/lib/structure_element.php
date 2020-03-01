@@ -37,7 +37,13 @@ abstract class rex_structure_element
     protected function __construct(array $params)
     {
         foreach (self::getClassVars() as $var) {
-            if (isset($params[$var])) {
+            if (!isset($params[$var])) {
+                continue;
+            }
+
+            if (in_array($var, ['id', 'parent_id', 'clang_id', 'template_id', 'priority', 'catpriority', 'status'], true)) {
+                $this->$var = (int) $params[$var];
+            } else {
                 $this->$var = $params[$var];
             }
         }
