@@ -251,12 +251,8 @@ $panel = '
 
                 if (!rex_addon::get('media_manager')->isAvailable()) {
                     $media_manager_url = null;
-                } elseif (method_exists(rex_media_manager::class, 'getUrl')) {
-                    $media_manager_url = [rex_media_manager::class, 'getUrl'];
                 } else {
-                    $media_manager_url = static function ($type, $file, $timestamp) {
-                        return rex_url::backendController(['rex_media_type' => $type, 'rex_media_file' => $file]);
-                    };
+                    $media_manager_url = [rex_media_manager::class, 'getUrl'];
                 }
 
                 $panel .= '<tbody>';
