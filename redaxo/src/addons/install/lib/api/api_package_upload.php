@@ -49,7 +49,7 @@ class rex_api_install_package_upload extends rex_api_function
                 }
                 $file['checksum'] = md5_file($archive);
             }
-            rex_install_webservice::post(rex_install_packages::getPath('?package=' . $addonkey . '&file_id=' . rex_request('file', 'int', 0)), ['file' => $file], $archive);
+            rex_install_webservice::post(rex_install_packages::getPath('?package=' . urlencode($addonkey) . '&file_id=' . rex_request('file', 'int', 0)), ['file' => $file], $archive);
         } catch (rex_functional_exception $e) {
             throw new rex_api_exception($e->getMessage());
         } finally {
