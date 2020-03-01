@@ -9,7 +9,7 @@
 
 $addon = rex_addon::get('phpmailer');
 
-$content = $smtpinfo = '';
+$content = $smtpinfo = $mailerDebug = '';
 $emptymail = true;
 $date = new DateTime();
 if ('' == $addon->getConfig('from') || '' == $addon->getConfig('test_address')) {
@@ -45,7 +45,6 @@ if ($emptymail = true) {
 
     $mail->Body .= "\nMailer: " . $addon->getConfig('mailer') . $devider.$security_mode;
     $mail->Body .= "\n". $addon->i18n('checkmail_domain_note'). "\n". $devider;
-    $mailerDebug = '';
     $mail->Debugoutput = static function ($str, $level) use (&$mailerDebug) {
         $mailerDebug .= date('Y-m-d H:i:s', time()).' '.nl2br($str);
     };
