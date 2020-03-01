@@ -257,6 +257,9 @@ class rex_string
         return '<pre class="rex-code">' . $return . '</pre>';
     }
 
+    /**
+     * Cleanup the given html string and removes possible malicious codes/markup.
+     */
     public static function sanitizeHtml(string $html): string
     {
         static $sanitizer;
