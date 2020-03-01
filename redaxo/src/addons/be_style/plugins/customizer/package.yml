@@ -13,6 +13,7 @@ pages:
     system/customizer: { title: 'translate:customizer', icon: rex-icon rex-icon-customizer }
 
 requires:
+    redaxo: '^5.10.0-dev'
     php:
         extensions: [zip]
 
