@@ -2,17 +2,6 @@
 
 $plugin = rex_plugin::get('be_style', 'customizer');
 
-/* Default-Einstellungen */
-if (!$plugin->hasConfig()) {
-    $plugin->setConfig('labelcolor', '#3bb594');
-    $plugin->setConfig('codemirror_theme', 'eclipse');
-    $plugin->setConfig('codemirror-selectors', '');
-    $plugin->setConfig('codemirror', 1);
-    $plugin->setConfig('codemirror-langs', 0);
-    $plugin->setConfig('codemirror-tools', 0);
-    $plugin->setConfig('showlink', 1);
-}
-
 /* Codemirror-Assets entpacken */
 $message = '';
 $zipArchive = new ZipArchive();

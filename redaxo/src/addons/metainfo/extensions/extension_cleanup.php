@@ -27,7 +27,7 @@ function rex_metainfo_cleanup($epOrParams)
     }
 
     // check wheter tables exists
-    $tables = rex_sql::showTables();
+    $tables = rex_sql::factory()->getTables();
     if (!isset($tables[rex::getTablePrefix() . 'metainfo_field'])) {
         return false;
     }

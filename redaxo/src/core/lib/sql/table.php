@@ -169,9 +169,12 @@ class rex_sql_table
      */
     public static function get($name, int $db = 1)
     {
-        return self::getInstance([$db, $name], static function ($db, $name) {
+        $table = self::getInstance([$db, $name], static function ($db, $name) {
             return new self($name, $db);
         });
+        assert($table instanceof self);
+
+        return $table;
     }
 
     public static function clearInstance($key)

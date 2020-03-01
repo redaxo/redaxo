@@ -60,7 +60,7 @@ class rex_sql implements Iterator
     /** @var self[] */
     protected $records;
 
-    /** @var PDOStatement */
+    /** @var PDOStatement|null */
     protected $stmt;
 
     /** @var PDO[] */
@@ -1153,7 +1153,7 @@ class rex_sql implements Iterator
     /**
      * Gibt die zuletzt aufgetretene Fehlernummer zurueck.
      *
-     * @return string
+     * @return string|null
      */
     public function getErrno()
     {

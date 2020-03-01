@@ -141,7 +141,7 @@ class rex_socket_response
      * @param string $key     Header key
      * @param string $default Default value (is returned if the header is not set)
      *
-     * @return string
+     * @return string|null
      */
     public function getHeader($key = null, $default = null)
     {

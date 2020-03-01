@@ -294,6 +294,9 @@ class rex_article_content_base
         if (0 != $this->getSlice) {
             $sliceLimit = ' AND ' . rex::getTablePrefix() . "article_slice.id = '" . ((int) $this->getSlice) . "' ";
         }
+        if ('edit' !== $this->mode) {
+            $sliceLimit .= ' AND ' . rex::getTablePrefix() . 'article_slice.status = 1';
+        }
 
         // ----- start: article caching
         ob_start();
@@ -578,16 +581,22 @@ class rex_article_content_base
     }
 
     /**
-     * @return null|string
+     * @return string
      */
     protected function replaceLinks($content)
     {
-        return preg_replace_callback(
+        $result = preg_replace_callback(
             '@redaxo://(\d+)(?:-(\d+))?/?@i',
             function ($matches) {
                 return rex_getUrl($matches[1], $matches[2] ?? (int) $this->clang);
             },
             $content
         );
+
+        if (null === $result) {
+            throw new LogicException('Error while replacing links.');
+        }
+
+        return $result;
     }
 }

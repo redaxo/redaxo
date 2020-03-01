@@ -21,13 +21,13 @@ class rex_log_file implements Iterator
     /** @var bool */
     private $second = false;
 
-    /** @var int */
+    /** @var int|null */
     private $pos;
 
-    /** @var int */
+    /** @var int|null */
     private $key;
 
-    /** @var string */
+    /** @var string|null */
     private $currentLine;
 
     /** @var string */
