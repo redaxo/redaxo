@@ -1,6 +1,18 @@
 Changelog
 =========
 
+Version 2.7.0 – XX.XX.2020
+--------------------------
+
+### Neu
+
+* Die Umgebung, über die ein Job ausgeführt wurde, wird mit im Log gespeichert/ausgegeben (@alexplusde)
+
+### Bugfixes
+
+* Im Log war der Button "im Editor öffnen" nie sichtbar (@staabm)
+
+
 Version 2.6.0 – 02.02.2020
 --------------------------
 

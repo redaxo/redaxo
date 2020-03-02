@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.6.0 – XX.XX.2020
+--------------------------
+
+### Neu
+
+* Backups werden nach Dateiname sortiert (@bloep)
+
+
 Version 2.5.1 – 02.02.2020
 --------------------------
 

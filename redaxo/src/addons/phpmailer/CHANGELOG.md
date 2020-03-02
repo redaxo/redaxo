@@ -1,6 +1,20 @@
 Changelog
 =========
 
+Version 2.8.0 – XX.XX.2020
+--------------------------
+
+### Neu
+
+* Default-Verschlüsselung auf "keine" gesetzt (da "Auto" bei manchen Providern Probleme verursachte) (@skerbis)
+* Log-Subpage auch im Addon verfügbar (nicht nur unter System/Log) (@skerbis)
+* Erläuterungstexte verbessert (@skerbis)
+
+### Bugfixes
+
+* Debug-Ausgabe erscheint nun im Panel (@skerbis)
+
+
 Version 2.7.0 – 02.02.2020
 --------------------------
 

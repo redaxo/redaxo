@@ -1,6 +1,19 @@
 Changelog
 =========
 
+Version 2.8.0 – XX.XX.2020
+--------------------------
+
+### Neu
+
+* Neue EPs: `MEDIA_CATEGORY_ADDED`, `MEDIA_CATEGORY_UPDATED` und `MEDIA_CATEGORY_DELETED` (@staabm)
+* EPs `MEDIA_ADDED`/`MEDIA_UPDATED`: Parameter `category_id` wird übergeben (@staabm)
+
+### Bugfixes
+
+* Bessere Mime-Type-Erkennung durch neue Core-Funktion `rex_file::mimeType()` (@gharlan)
+
+
 Version 2.7.0 – 02.02.2020
 --------------------------
 

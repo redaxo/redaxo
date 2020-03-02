@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Version 2.10.0 – XX.XX.2020
+---------------------------
+
+* Customizer: Abhängigkeit zur PHP-Extension "zip" explizit hinterlegt (@staabm)
+* Customizer: Beim Entpacken wurde ein relativer Pfad verwendet, wodurch bei manchen das Entpacken nicht funktionierte (@gharlan)
+
+
 Version 2.9.0 – 02.02.2020
 --------------------------
 
