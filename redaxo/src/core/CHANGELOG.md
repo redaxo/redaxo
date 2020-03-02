@@ -21,7 +21,10 @@ Version 5.10.0 – XX.XX.2020
 * Addons können in der `package.yml` unter `default_config` die Default-Werte für `rex_config` hinterlegen (@gharlan)
 * Neue Klasse `rex_version`:
     - Methode `isUnstable` zum Prüfen, ob eine Version eine Entwicklungsversion ("beta" etc.) ist (@staabm)
-    - Weitere Methoden wurden in die Klasse verschoben (und die bisherigen als deprecated markiert): `rex_string::versionSplit` -> `rex_version::split`, `rex_string::versionCompare` -> `rex_version::compare`, `rex::getVersionHash` -> `rex_version::gitHash` (@gharlan)
+    - Weitere Methoden wurden in die Klasse verschoben (und die bisherigen als deprecated markiert) (@gharlan):
+        - `rex_string::versionSplit` -> `rex_version::split`
+        - `rex_string::versionCompare` -> `rex_version::compare`
+        - `rex::getVersionHash` -> `rex_version::gitHash`
 * `rex_string`: Neue Methode `sanitizeHtml`, um HTML aus unsicherer Quelle gegen XSS zu schützen (@gharlan)
 * `rex_response`: Neue Methode `sendJson` (@staabm)
 * `rex_file`:
@@ -36,6 +39,7 @@ Version 5.10.0 – XX.XX.2020
 * Speichern/Übernehmen-Buttons haben ein `title`-Attribut mit Erläuterungstext (@staabm)
 * Auf der Lizenz-Page der Packages wird ein Link zu einer Seite mit Erklärungen zu den Lizenzen ausgegeben (@staabm)
 * Beim Cache löschen wird auch der Opcache geleert (@gharlan)
+* Code-Stabilität durch Tests und statische Code-Analyse verbessert (@staabm, @bloep, @gharlan)
 
 ### Bugfixes
 
