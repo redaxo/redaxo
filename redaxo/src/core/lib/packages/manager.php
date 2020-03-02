@@ -53,7 +53,7 @@ abstract class rex_package_manager
     public static function factory(rex_package $package)
     {
         if (self::class == static::class) {
-            $class = $package instanceof rex_plugin ? 'rex_plugin_manager' : 'rex_addon_manager';
+            $class = $package instanceof rex_plugin ? rex_plugin_manager::class : rex_addon_manager::class;
             return $class::factory($package);
         }
         $class = static::getFactoryClass();

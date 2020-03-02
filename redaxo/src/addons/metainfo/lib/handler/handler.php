@@ -307,7 +307,7 @@ abstract class rex_metainfo_handler
                     $rexInput->setAttribute('name', $name);
                     $rexInput->setValue($inputValue);
 
-                    if ('time' !== $typeLabel) {
+                    if (!$rexInput instanceof rex_input_time) {
                         $paramArray = rex_string::split($params);
 
                         if (isset($paramArray['start-year'])) {
