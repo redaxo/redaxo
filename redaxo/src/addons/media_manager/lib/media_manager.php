@@ -88,7 +88,8 @@ class rex_media_manager
                 /** @var class-string<rex_effect_abstract> $effect_class */
                 $effect_class = 'rex_effect_' . $effect_params['effect'];
                 /** @var rex_effect_abstract $effect */
-                $effect = new $effect_class($this->media);
+                $effect = new $effect_class();
+                $effect->setMedia($this->media);
                 $effect->setParams($effect_params['params']);
 
                 try {

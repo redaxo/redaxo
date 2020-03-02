@@ -17,14 +17,10 @@ abstract class rex_effect_abstract
      */
     public $params = [];
 
-    public function __construct(rex_managed_media $media)
+    public function __construct()
     {
-        $this->media = $media;
     }
 
-    /**
-     * @deprecated since 5.10, use constructor instead
-     */
     public function setMedia(rex_managed_media $media)
     {
         $this->media = $media;
