@@ -24,8 +24,6 @@ $REX['REDAXO'] = true;
 $REX['HTDOCS_PATH'] = '../';
 $REX['BACKEND_FOLDER'] = 'redaxo';
 
-file_put_contents('data/config.yml', "error_email: info@redaxo.org\n");
-
 // bootstrap core
 require 'src/core/boot.php';
 

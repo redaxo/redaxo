@@ -1,5 +1,8 @@
 <?php
 
+assert(isset($PERMALL) && is_bool($PERMALL));
+assert(isset($opener_input_field) && is_string($opener_input_field));
+
 if (!isset($rex_file_category)) {
     $rex_file_category = 0;
 }
@@ -26,6 +29,7 @@ if ('add_file' == $media_method) {
                 } elseif (!rex_mediapool_isAllowedMimeType($_FILES['file_new']['tmp_name'], $_FILES['file_new']['name'])) {
                     $warning = rex_i18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . rex_file::extension($_FILES['file_new']['name']) . '</code> (<code>' . rex_file::mimeType($_FILES['file_new']['tmp_name']) . '</code>)';
                 } else {
+                    $FILEINFOS = [];
                     $FILEINFOS['title'] = rex_request('ftitle', 'string');
 
                     if (!$PERMALL && !rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category)) {

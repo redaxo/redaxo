@@ -1,5 +1,7 @@
 <?php
 
+assert(isset($markdown) && is_callable($markdown));
+
 $package = rex_addon::get('install');
 
 $addonkey = rex_request('addonkey', 'string');
@@ -189,8 +191,6 @@ if ($addonkey && isset($addons[$addonkey])) {
             </thead>
             <tbody>';
 
-        $markdown = rex_markdown::factory();
-        $fragment = new rex_fragment();
         foreach ($addon['files'] as $fileId => $file) {
             $url = rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $fileId]);
             $status = $file['status'] ? 'online' : 'offline';
@@ -199,7 +199,7 @@ if ($addonkey && isset($addons[$addonkey])) {
                 <td class="rex-table-icon"><a href="' . $url . '"><i class="rex-icon rex-icon-package"></i></a></td>
                 <td data-title="' . $package->i18n('version') . '">' . rex_escape($file['version']) . '</td>
                 <td data-title="REDAXO">' . rex_escape(implode(', ', $file['redaxo_versions'])) . '</td>
-                <td data-title="' . $package->i18n('description') . '">' . $fragment->setVar('content', $markdown->parse($file['description']), false)->parse('core/page/readme.php') . '</td>
+                <td data-title="' . $package->i18n('description') . '">' . $markdown($file['description']) . '</td>
                 <td class="rex-table-action"><a href="' . $url . '"><i class="rex-icon rex-icon-edit"></i> ' . $package->i18n('file_edit') . '</a></td>
                 <td class="rex-table-action"><span class="rex-text-' . $status . '"><i class="rex-icon rex-icon-' . $status . '"></i> ' . $package->i18n($status) . '</span></td>
             </tr>';

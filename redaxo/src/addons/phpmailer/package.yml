@@ -10,6 +10,7 @@ page:
     icon: rex-icon rex-icon-envelope
     subpages:
         config: { title: 'translate:configuration' }
+        log: { title: 'translate:logging' }
         help: { title: 'translate:help', subPath: README.md }
         checkmail: { title: 'translate:checkmail', hidden: true}
 
@@ -35,6 +36,7 @@ default_config:
     encoding: '8bit'
     priority: 0
     smtpsecure: ''
+    security_mode: false
     smtpauth: false
     username: ''
     password: ''

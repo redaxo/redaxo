@@ -121,47 +121,19 @@ class rex_string
     }
 
     /**
-     * Splits a version string.
-     *
-     * @param string $version Version
-     *
-     * @return array Version parts
+     * @deprecated since 5.10, use `rex_version::split` instead
      */
     public static function versionSplit($version)
     {
-        return preg_split('/(?<=\d)(?=[a-z])|(?<=[a-z])(?=\d)|[ ._-]+/i', $version);
+        return rex_version::split($version);
     }
 
     /**
-     * Compares two version number strings.
-     *
-     * In contrast to version_compare() it treats "1.0" and "1.0.0" as equal and it supports a space as separator for
-     * the version parts, e.g. "1.0 beta1"
-     *
-     * @see http://www.php.net/manual/en/function.version-compare.php
-     *
-     * @param string $version1   First version number
-     * @param string $version2   Second version number
-     * @param string $comparator Optional comparator
-     * @psalm-param null|'='|'=='|'!='|'<>'|'<'|'<='|'>'|'>=' $comparator
-     *
-     * @return int|bool
+     * @deprecated since 5.10, use `rex_version::compare` instead
      */
     public static function versionCompare($version1, $version2, $comparator = null)
     {
-        $version1 = self::versionSplit($version1);
-        $version2 = self::versionSplit($version2);
-        $max = max(count($version1), count($version2));
-        $version1 = implode('.', array_pad($version1, $max, '0'));
-        $version2 = implode('.', array_pad($version2, $max, '0'));
-
-        $result = version_compare($version1, $version2, $comparator);
-
-        if (null === $result) {
-            throw new InvalidArgumentException(sprintf('Unknown comparator "%s".', $comparator));
-        }
-
-        return $result;
+        return rex_version::compare($version1, $version2, $comparator);
     }
 
     /**
@@ -255,5 +227,20 @@ class rex_string
     {
         $return = str_replace(["\r", "\n"], ['', ''], highlight_string($string, true));
         return '<pre class="rex-code">' . $return . '</pre>';
+    }
+
+    /**
+     * Cleanup the given html string and removes possible malicious codes/markup.
+     */
+    public static function sanitizeHtml(string $html): string
+    {
+        static $antiXss;
+
+        if (!$antiXss) {
+            $antiXss = new voku\helper\AntiXSS();
+            $antiXss->removeEvilAttributes(['style']);
+        }
+
+        return $antiXss->xss_clean($html);
     }
 }

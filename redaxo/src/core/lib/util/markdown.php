@@ -36,7 +36,7 @@ class rex_markdown
         $parser = new ParsedownExtra();
         $parser->setBreaksEnabled(true);
 
-        return $parser->text($code);
+        return rex_string::sanitizeHtml($parser->text($code));
     }
 
     /**
@@ -55,7 +55,7 @@ class rex_markdown
         $parser->topLevel = $topLevel;
         $parser->bottomLevel = $bottomLevel;
 
-        $content = $parser->text($code);
+        $content = rex_string::sanitizeHtml($parser->text($code));
         $headers = $parser->headers;
 
         $previous = $topLevel - 1;

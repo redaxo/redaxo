@@ -1,5 +1,8 @@
 <?php
 
+assert(isset($context) && $context instanceof rex_context);
+assert(isset($errors) && is_array($errors));
+
 $tables_complete = ('' == rex_setup_importer::verifyDbSchema()) ? true : false;
 
 $createdb = rex_post('createdb', 'int', '');
@@ -20,9 +23,6 @@ $headline = rex_view::title(rex_i18n::msg('setup_500'));
 
 $content = '
             <fieldset class="rex-js-setup-step-5">
-                <input type="hidden" name="page" value="setup" />
-                <input type="hidden" name="step" value="6" />
-                <input type="hidden" name="lang" value="' . rex_escape($lang) . '" />
             ';
 
 $submit_message = rex_i18n::msg('setup_511');
@@ -228,7 +228,6 @@ $content .= '
             </script>';
 
 echo $headline;
-echo implode('', $error_array);
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', rex_i18n::msg('setup_501'), false);
@@ -236,4 +235,4 @@ $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
 
-echo '<form action="' . rex_url::backendController() . '" method="post">' . $content . '</form>';
+echo '<form action="' . $context->getUrl(['step' => 6]) . '" method="post">' . $content . '</form>';

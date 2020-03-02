@@ -32,21 +32,25 @@ if ('delete' == $function) {
         $error = rex_i18n::msg('csrf_token_invalid');
     } else {
         $del = rex_sql::factory();
-        $del->setQuery('SELECT ' . rex::getTablePrefix() . 'article.id, ' . rex::getTablePrefix() . 'article.clang_id, ' . rex::getTablePrefix() . 'template.name FROM ' . rex::getTablePrefix() . 'article
-        LEFT JOIN ' . rex::getTablePrefix() . 'template ON ' . rex::getTablePrefix() . 'article.template_id=' . rex::getTablePrefix() . 'template.id
-        WHERE ' . rex::getTablePrefix() . 'article.template_id="' . $template_id . '" LIMIT 0,10');
+        $del->setQuery('
+            SELECT article.id, article.clang_id, template.name
+            FROM ' . rex::getTable('article') . ' article
+            LEFT JOIN ' . rex::getTable('template') . ' template ON article.template_id=template.id
+            WHERE article.template_id=?
+            LIMIT 20
+        ', [$template_id]);
 
         if ($del->getRows() > 0 || rex_template::getDefaultId() == $template_id) {
             $template_in_use_message = '';
-            $templatename = $del->getValue(rex::getTablePrefix(). 'template.name');
+            $templatename = $del->getValue('template.name');
             while ($del->hasNext()) {
-                $aid = $del->getValue(rex::getTablePrefix().'article.id');
-                $clang_id = $del->getValue(rex::getTablePrefix() . 'article.clang_id');
+                $aid = $del->getValue('article.id');
+                $clang_id = $del->getValue('article.clang_id');
                 $OOArt = rex_article::get($aid, $clang_id);
 
                 $label = $OOArt->getName() . ' [' . $aid . ']';
                 if (rex_clang::count() > 1) {
-                    $label = '(' . rex_i18n::translate(rex_clang::get($clang_id)->getName()) . ') ' . $label;
+                    $label .= ' [' . rex_clang::get($clang_id)->getCode() . ']';
                 }
 
                 $template_in_use_message .= '<li><a href="' . rex_url::backendPage('content', ['article_id' => $aid, 'clang' => $clang_id]) . '">' . rex_escape($label) . '</a></li>';
@@ -75,8 +79,6 @@ if ('delete' == $function) {
         }
     }
 } elseif ('edit' == $function) {
-    $legend = rex_i18n::msg('edit_template') . ' <small class="rex-primary-id">' . rex_i18n::msg('id') . ' = ' . $template_id . '</small>';
-
     $hole = rex_sql::factory();
     $hole->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'template WHERE id = "' . $template_id . '"');
     if (1 == $hole->getRows()) {
@@ -90,7 +92,6 @@ if ('delete' == $function) {
     }
 } else {
     $template_id = '';
-    $legend = rex_i18n::msg('create_template');
 }
 
 if ('add' == $function || 'edit' == $function) {
@@ -481,6 +482,13 @@ if ('add' == $function || 'edit' == $function) {
             $options .= '<li><a href="#' . $optionTabId . '" data-toggle="tab">' . $optionTabTitle . '</a></li>';
         }
         $options .= '</ul>';
+
+        if ('edit' === $function) {
+            $legend = rex_i18n::msg('edit_template') . ' <small class="rex-primary-id">' . rex_i18n::msg('id') . ' = ' . $template_id . '</small>';
+        } else {
+            $legend = rex_i18n::msg('create_template');
+        }
+
         $fragment = new rex_fragment();
         $fragment->setVar('class', 'edit', false);
         $fragment->setVar('title', $legend, false);

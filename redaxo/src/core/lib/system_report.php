@@ -5,6 +5,10 @@
  */
 class rex_system_report
 {
+    public const TITLE_REDAXO = 'REDAXO';
+    public const TITLE_PACKAGES = 'Packages';
+    public const TITLE_PHP = 'PHP';
+
     private function __construct()
     {
     }
@@ -25,16 +29,16 @@ class rex_system_report
         $data = [];
 
         $rexVersion = rex::getVersion();
-        $hash = rex::getVersionHash(rex_path::base(), 'redaxo/redaxo');
+        $hash = rex_version::gitHash(rex_path::base(), 'redaxo/redaxo');
         if ($hash) {
             $rexVersion .= '#' . $hash;
         }
 
-        $data['REDAXO'] = [
+        $data[self::TITLE_REDAXO] = [
             'Version' => $rexVersion,
         ];
 
-        $data['PHP'] = [
+        $data[self::TITLE_PHP] = [
             'Version' => PHP_VERSION,
             'OPcache' => extension_loaded('Zend OPcache') && ini_get('opcache.enable'),
             'Xdebug' => extension_loaded('xdebug'),
@@ -95,7 +99,7 @@ class rex_system_report
             $packages[$package->getPackageId()] = $package->getVersion();
         }
 
-        $data['Packages'] = $packages;
+        $data[self::TITLE_PACKAGES] = $packages;
 
         return $data;
     }

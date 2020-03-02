@@ -4,6 +4,12 @@
  * @package redaxo5
  */
 
+assert(isset($csrf) && $csrf instanceof rex_csrf_token);
+assert(isset($rex_file_category) && is_int($rex_file_category));
+assert(isset($opener_input_field) && is_string($opener_input_field));
+assert(isset($arg_fields) && is_string($arg_fields));
+assert(isset($toolbar) && is_string($toolbar));
+
 // defaults for globals passed in from index.php
 if (!isset($success)) {
     $success = '';
@@ -137,13 +143,8 @@ if ($isImage) {
     $img_max = rex_url::media($fname);
 
     if (rex_addon::get('media_manager')->isAvailable() && 'svg' != rex_file::extension($fname)) {
-        if (method_exists(rex_media_manager::class, 'getUrl')) {
-            $imgn = rex_media_manager::getUrl('rex_mediapool_detail', $encoded_fname, $gf->getDateTimeValue('updatedate'));
-            $img_max = rex_media_manager::getUrl('rex_mediapool_maximized', $encoded_fname, $gf->getDateTimeValue('updatedate'));
-        } else {
-            $imgn = rex_url::backendController(['rex_mediapool_detail' => $type, 'rex_media_file' => $encoded_fname]);
-            $img_max = rex_url::backendController(['rex_mediapool_maximized' => $type, 'rex_media_file' => $encoded_fname]);
-        }
+        $imgn = rex_media_manager::getUrl('rex_mediapool_detail', $encoded_fname, $gf->getDateTimeValue('updatedate'));
+        $img_max = rex_media_manager::getUrl('rex_mediapool_maximized', $encoded_fname, $gf->getDateTimeValue('updatedate'));
 
         $width = '';
     }
