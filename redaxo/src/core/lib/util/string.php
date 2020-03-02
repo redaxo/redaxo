@@ -31,25 +31,7 @@ class rex_string
      */
     public static function normalizeEncoding($string)
     {
-        static $normalizer;
-
-        if (null === $normalizer) {
-            if (function_exists('normalizer_normalize')) {
-                $normalizer = static function ($string) {
-                    return normalizer_normalize($string, Normalizer::FORM_C);
-                };
-            } else {
-                $normalizer = static function ($string) {
-                    return str_replace(
-                        ["A\xcc\x88", "a\xcc\x88", "O\xcc\x88", "o\xcc\x88", "U\xcc\x88", "u\xcc\x88"],
-                        ['Ä', 'ä', 'Ö', 'ö', 'Ü', 'ü'],
-                        $string
-                    );
-                };
-            }
-        }
-
-        return $normalizer($string);
+        return Normalizer::normalize($string, Normalizer::FORM_C);
     }
 
     /**

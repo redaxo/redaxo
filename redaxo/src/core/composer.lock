@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c567e700ff4b865f29968e69f559d285",
+    "content-hash": "f225af4b93069da62baa4d8013300512",
     "packages": [
         {
             "name": "erusev/parsedown",
@@ -441,12 +441,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "71174ad65ddde2852b10107ebf2f75d04eb47b43"
+                "reference": "5f81a65d531dc88975b8fe32331cfb8a79c34fe3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/71174ad65ddde2852b10107ebf2f75d04eb47b43",
-                "reference": "71174ad65ddde2852b10107ebf2f75d04eb47b43",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/5f81a65d531dc88975b8fe32331cfb8a79c34fe3",
+                "reference": "5f81a65d531dc88975b8fe32331cfb8a79c34fe3",
                 "shasum": ""
             },
             "conflict": {
@@ -565,7 +565,7 @@
                 "serluck/phpwhois": "<=4.2.6",
                 "shopware/shopware": "<5.3.7",
                 "silverstripe/admin": ">=1.0.3,<1.0.4|>=1.1,<1.1.1",
-                "silverstripe/assets": ">=1,<1.3.5",
+                "silverstripe/assets": ">=1,<1.3.5|>=1.4,<1.4.4",
                 "silverstripe/cms": "<4.3.6|>=4.4,<4.4.4",
                 "silverstripe/comments": ">=1.3,<1.9.99|>=2,<2.9.99|>=3,<3.1.1",
                 "silverstripe/forum": "<=0.6.1|>=0.7,<=0.7.3",
@@ -693,7 +693,7 @@
                 }
             ],
             "description": "Prevents installation of composer packages with known security vulnerabilities: no API, simply require it",
-            "time": "2020-02-29T00:01:08+00:00"
+            "time": "2020-03-02T07:11:48+00:00"
         },
         {
             "name": "symfony/console",
