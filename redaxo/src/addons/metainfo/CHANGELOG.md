@@ -1,8 +1,12 @@
 Changelog
 =========
 
-Version 2.6.1 – XX.XX.2020
+Version 2.7.0 – XX.XX.2020
 --------------------------
+
+### Neu
+
+* Artikel-Metainfos werden immer in der Seitenleite rechts angezeigt/geändert, nicht mehr in einer eigenen Page (@dergel)
 
 ### Bugfixes
 

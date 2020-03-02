@@ -14,9 +14,16 @@ Version 5.10.0 – XX.XX.2020
 * Datenbank:
     - SSL-Connections können verwendet werden (in `config.yml` konfigurierbar) (@staabm)
     - Es wird nun einheitlich die Collation `utf8_unicode_ci`, bzw. `utf8mb4_unicode_ci` (nicht mehr teils `*_general_ci`) (@gharlan)
+* Addons können in der `package.yml` unter `default_config` die Default-Werte für `rex_config` hinterlegen (@gharlan)
 * `rex_file`: Neue Methode `mimeType()` um den Mime-Type einer Datei zu bestimmen (liefert bessere Resultate als `mime_content_type()`, zum Beispiel für SVGs) (@gharlan)
 * `rex_response`: Neue Methode `sendJson` (@staabm)
-* Console: Es wird eine Warnung ausgegeben, wenn die Console mit einem anderen User ausgeführt wird als dem File-Owner von `/redaxo` (@skerbis, @bloep)
+* `rex_file`: Neue Methode `move` (@staabm)
+* `rex_package/addon/plugin`: Neue Methode `require`, die wie `get` das Package-Objekt liefert, aber eine Exception wirft, wenn das Package nicht vorhanden ist (@gharlan)
+* Console:
+    - Es wird eine Warnung ausgegeben, wenn die Console mit einem anderen User ausgeführt wird als dem File-Owner von `/redaxo` (@skerbis, @bloep)
+    - Neuer Command `package:delete` (@bloep)
+* Systembericht als Markdown: Neuer Button "In die Zwischenablage kopieren" (@staabm)
+* Speichern/Übernehmen-Buttons haben ein `title`-Attribut mit Erläuterungstext (@staabm)
 * Auf der Lizenz-Page der Packages wird ein Link zu einer Seite mit Erklärungen zu den Lizenzen ausgegeben (@staabm)
 
 ### Bugfixes

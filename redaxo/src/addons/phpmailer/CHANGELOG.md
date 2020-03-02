@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.8.0 – XX.XX.2020
+--------------------------
+
+### Bugfixes
+
+* Übersetzungskey korrigiert (@skerbis)
+
+
 Version 2.7.0 – 02.02.2020
 --------------------------
 

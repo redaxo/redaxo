@@ -8,6 +8,13 @@ Version 2.7.0 – XX.XX.2020
 
 * Console-Commands eingeführt:
     - `install:list`: Abruf der verfügbaren Addons (optional nur Updates) (@bloep)
+    - `install:download`: Addon herunterladen (@bloep)
+    - `install:update`: Addon aktualisieren (@bloep)
+
+### Bugfixes
+
+* Probleme beim Core-Update unter Windows behoben (@gharlan)
+* Bessere Fehlerbehandlung (@gharlan)
 
 
 Version 2.6.0 – 02.02.2020

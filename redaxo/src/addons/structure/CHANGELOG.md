@@ -8,7 +8,8 @@ Version 2.10.0 – XX.XX.2020
 
 * `REX_TEMPLATE_KEY`-Platzhalter für Templates/Module hinzugefügt (@staabm)
 * Modulen können (analog zu den Templates) eindeutige Keys vergeben werden (inkl. `REX_MODULE_KEY`-Platzhalter) (@alexplusde, @staabm)
-* Der Status-Schalter nutzt ein Dropdown, wenn weitere Status hhinzugefügt wurden (Bsp. accessdenied) (@alexplusde)
+* Der Status-Schalter nutzt ein Dropdown, wenn weitere Status hinzugefügt wurden (Bsp. accessdenied) (@alexplusde)
+* Template/Module löschen: Auflistung der Artikel verschönert, in denen es noch verwendet wird, und es werden die Artikel in allen betroffenen Sprachversionen aufgelistet (@gharlan)
 
 
 Version 2.9.0 – 02.02.2020
