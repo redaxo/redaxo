@@ -8,7 +8,7 @@
 class rex_install_package_update extends rex_install_package_download
 {
     /**
-     * @var rex_addon
+     * @var rex_addon|null
      */
     private $addon;
 
