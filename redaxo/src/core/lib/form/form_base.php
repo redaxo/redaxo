@@ -561,7 +561,7 @@ abstract class rex_form_base
         }
         unset($attributes['internal::useArraySyntax']);
 
-        $class = 'rex_form_element';
+        $class = rex_form_element::class;
         if (isset($attributes['internal::fieldClass'])) {
             $class = $attributes['internal::fieldClass'];
             unset($attributes['internal::fieldClass']);

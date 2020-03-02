@@ -23,7 +23,7 @@ class rex_cronjob_manager
     /** @var string */
     private $message = '';
     private $cronjob;
-    /** @var string */
+    /** @var string|null */
     private $name;
     private $id;
 

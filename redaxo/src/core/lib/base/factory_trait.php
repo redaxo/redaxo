@@ -56,6 +56,7 @@ trait rex_factory_trait
      * Returns the class for the factory.
      *
      * @return string
+     * @psalm-return class-string<static>
      */
     public static function getFactoryClass()
     {

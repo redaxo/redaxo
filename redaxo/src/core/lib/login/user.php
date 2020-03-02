@@ -24,14 +24,14 @@ class rex_user
     /**
      * User role instance.
      *
-     * @var rex_user_role_interface
+     * @var rex_user_role_interface|null
      */
     protected $role;
 
     /**
      * Class name for user roles.
      *
-     * @var string
+     * @var class-string<rex_user_role_interface>
      */
     protected static $roleClass;
 
@@ -189,7 +189,7 @@ class rex_user
     /**
      * Sets the role class.
      *
-     * @param string $class Class name
+     * @param class-string<rex_user_role_interface> $class Class name
      */
     public static function setRoleClass($class)
     {
