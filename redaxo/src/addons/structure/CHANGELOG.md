@@ -1,6 +1,16 @@
 Changelog
 =========
 
+Version 2.10.0 – XX.XX.2020
+---------------------------
+
+### Neu
+
+* `REX_TEMPLATE_KEY`-Platzhalter für Templates/Module hinzugefügt (@staabm)
+* Modulen können (analog zu den Templates) eindeutige Keys vergeben werden (inkl. `REX_MODULE_KEY`-Platzhalter) (@alexplusde, @staabm)
+* Der Status-Schalter nutzt ein Dropdown, wenn weitere Status hhinzugefügt wurden (Bsp. accessdenied) (@alexplusde)
+
+
 Version 2.9.0 – 02.02.2020
 --------------------------
 

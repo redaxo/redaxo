@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 2.7.0 – XX.XX.2020
+--------------------------
+
+### Neu
+
+* Console-Commands eingeführt:
+    - `install:list`: Abruf der verfügbaren Addons (optional nur Updates) (@bloep)
+
+
 Version 2.6.0 – 02.02.2020
 --------------------------
 

@@ -1,8 +1,14 @@
 Changelog
 =========
 
-Version 2.8.1 – XX.XX.2020
+Version 2.9.0 – XX.XX.2020
 --------------------------
+
+### Neu
+
+* Effekt `convert2img`:
+    - Wandelt auch SVGs in JPG/PNG um (@dergel)
+    - Unterstützt Transparenzen (Farbe kann angegeben werden) (@dergel)
 
 ### Bugfixes
 
