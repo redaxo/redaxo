@@ -4,6 +4,10 @@ Changelog
 Version 5.10.0 – XX.XX.2020
 ---------------------------
 
+### Security
+
+* Markdown-Ausgaben (Readmes, Installer etc.) waren nicht geschützt gegen XSS (@gharlan)
+
 ### Neu
 
 * Update der externen Bibliotheken (@gharlan)
@@ -15,16 +19,23 @@ Version 5.10.0 – XX.XX.2020
     - SSL-Connections können verwendet werden (in `config.yml` konfigurierbar) (@staabm)
     - Es wird nun einheitlich die Collation `utf8_unicode_ci`, bzw. `utf8mb4_unicode_ci` (nicht mehr teils `*_general_ci`) (@gharlan)
 * Addons können in der `package.yml` unter `default_config` die Default-Werte für `rex_config` hinterlegen (@gharlan)
-* `rex_file`: Neue Methode `mimeType()` um den Mime-Type einer Datei zu bestimmen (liefert bessere Resultate als `mime_content_type()`, zum Beispiel für SVGs) (@gharlan)
+* Neue Klasse `rex_version`:
+    - Methode `isUnstable` zum Prüfen, ob eine Version eine Entwicklungsversion ("beta" etc.) ist (@staabm)
+    - Weitere Methoden wurden in die Klasse verschoben (und die bisherigen als deprecated markiert): `rex_string::versionSplit` -> `rex_version::split`, `rex_string::versionCompare` -> `rex_version::compare`, `rex::getVersionHash` -> `rex_version::gitHash` (@gharlan)
+* `rex_string`: Neue Methode `sanitizeHtml`, um HTML aus unsicherer Quelle gegen XSS zu schützen (@gharlan)
 * `rex_response`: Neue Methode `sendJson` (@staabm)
-* `rex_file`: Neue Methode `move` (@staabm)
+* `rex_file`:
+    - Neue Methode `mimeType()` um den Mime-Type einer Datei zu bestimmen (liefert bessere Resultate als `mime_content_type()`, zum Beispiel für SVGs) (@gharlan)
+    - Neue Methode `move` (@staabm)
 * `rex_package/addon/plugin`: Neue Methode `require`, die wie `get` das Package-Objekt liefert, aber eine Exception wirft, wenn das Package nicht vorhanden ist (@gharlan)
 * Console:
     - Es wird eine Warnung ausgegeben, wenn die Console mit einem anderen User ausgeführt wird als dem File-Owner von `/redaxo` (@skerbis, @bloep)
     - Neuer Command `package:delete` (@bloep)
+* Versionsnummern werden überall im System (Addonverwaltung, Systembericht etc.) mit einem Icon markiert, wenn es Entwicklungsversionen sind ("beta" etc.) (@staabm)
 * Systembericht als Markdown: Neuer Button "In die Zwischenablage kopieren" (@staabm)
 * Speichern/Übernehmen-Buttons haben ein `title`-Attribut mit Erläuterungstext (@staabm)
 * Auf der Lizenz-Page der Packages wird ein Link zu einer Seite mit Erklärungen zu den Lizenzen ausgegeben (@staabm)
+* Beim Cache löschen wird auch der Opcache geleert (@gharlan)
 
 ### Bugfixes
 
@@ -32,6 +43,7 @@ Version 5.10.0 – XX.XX.2020
 * `rex_sql`: In der Debug-Ausgabe wurden in `fullquery` nicht immer die Parameter ersetzt (@gharlan)
 * Es kam zu Fehlern, wenn Addons eine eigene (ältere) Version von Parsedown mitlieferten (@gharlan)
 * Die Tabelle `rex_config` hat seit einigen Versionen keine `id`-Spalte mehr, bei manchen war diese aber trotzdem noch vorhanden und führte zu Problemen beim Update (@gharlan)
+* Bei Ausgabe von PHP-Warnings wurde das HTML escaped, wenn `html_errors` in der `php.ini` aktiv ist (@gharlan)
 
 
 Version 5.9.0 – 02.02.2020

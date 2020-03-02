@@ -4,12 +4,17 @@ Changelog
 Version 2.7.0 – XX.XX.2020
 --------------------------
 
+### Security
+
+* Markdown-Ausgaben in den Detailseiten von Addons waren nicht gegen XSS geschützt (@gharlan)
+
 ### Neu
 
 * Console-Commands eingeführt:
     - `install:list`: Abruf der verfügbaren Addons (optional nur Updates) (@bloep)
     - `install:download`: Addon herunterladen (@bloep)
     - `install:update`: Addon aktualisieren (@bloep)
+* Vor dem Laden/Updaten wird eine Warnung ausgegeben, wenn es sich um eine Entwicklungsversion ("beta" etc.) handelt (@staabm)
 
 ### Bugfixes
 

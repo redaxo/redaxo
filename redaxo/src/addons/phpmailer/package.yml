@@ -20,7 +20,7 @@ pages:
         perm: admin
 
 requires:
-    redaxo: ^5.10.0-dev
+    redaxo: ^5.10.0-beta1
 
 default_config:
     from: ''

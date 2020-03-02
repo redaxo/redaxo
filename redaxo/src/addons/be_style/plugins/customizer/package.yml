@@ -1,5 +1,5 @@
 package: be_style/customizer
-version: '2.9.1-beta1'
+version: '2.10.0-beta1'
 author: Peter Thiel
 supportpage: www.redaxo.org/de/forum/
 
@@ -13,7 +13,7 @@ pages:
     system/customizer: { title: 'translate:customizer', icon: rex-icon rex-icon-customizer }
 
 requires:
-    redaxo: '^5.10.0-dev'
+    redaxo: ^5.10.0-beta1
     php:
         extensions: [zip]
 
@@ -25,4 +25,4 @@ default_config:
     codemirror-langs: 0
     codemirror-tools: 0
     showlink: 1
-    
+
