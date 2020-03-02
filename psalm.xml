@@ -53,6 +53,20 @@ autoloader="phpstan-bootstrap.php"
             </errorLevel>
         </InvalidScope>
 <!-- level 3 issues - slightly lazy code writing, but provably low false-negatives -->
+        <DeprecatedMethod>
+            <errorLevel type="info">
+                <file name="redaxo/src/core/update.php"/>
+                <file name="redaxo/src/addons/cronjob/update.php"/>
+                <file name="redaxo/src/addons/install/lib/api/api_core_update.php"/>
+                <file name="redaxo/src/addons/install/lib/package/package_update.php"/>
+                <file name="redaxo/src/addons/install/lib/packages.php"/>
+                <file name="redaxo/src/addons/install/pages/index.php"/>
+                <file name="redaxo/src/addons/install/update.php"/>
+                <file name="redaxo/src/addons/media_manager/update.php"/>
+                <file name="redaxo/src/addons/metainfo/extensions/extension_content_sidebar.php"/>
+                <file name="redaxo/src/addons/structure/update.php"/>
+            </errorLevel>
+        </DeprecatedMethod>
         <InternalMethod errorLevel="info" />
         <InternalProperty errorLevel="info" />
         <InternalClass errorLevel="info" />

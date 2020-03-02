@@ -770,7 +770,7 @@ abstract class rex_package_manager
 
         /** @psalm-var array{0: '='|'=='|'!='|'<>'|'<'|'<='|'>'|'>=', 1: string} $constraint */
         foreach ($constraints as $constraint) {
-            if (!rex_string::versionCompare($version, $constraint[1], $constraint[0])) {
+            if (!rex_version::compare($version, $constraint[1], $constraint[0])) {
                 return false;
             }
         }
