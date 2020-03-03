@@ -2,7 +2,9 @@
 
 assert(isset($context) && $context instanceof rex_context);
 assert(isset($ctype) && is_int($ctype));
-assert(isset($article) && $article instanceof rex_article);
+assert(isset($article) && $article instanceof rex_sql);
+assert(isset($category_id) && is_int($category_id));
+assert(isset($article_id) && is_int($article_id));
 
 $content = '
         <form id="rex-form-content-metamode" action="' . $context->getUrl() . '" method="post" enctype="multipart/form-data" data-pjax-container="#rex-page-main">
@@ -110,7 +112,7 @@ if (!$isStartpage && rex::getUser()->hasPerm('article2category[]')) {
 // --------------------------------------------------- IN ARTIKEL UMWANDELN START
 if ($isStartpage && rex::getUser()->hasPerm('article2category[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getValue('parent_id'))) {
     $sql = rex_sql::factory();
-    $sql->setQuery('SELECT pid FROM ' . rex::getTablePrefix() . 'article WHERE parent_id=? LIMIT 1', [$article->getId()]);
+    $sql->setQuery('SELECT pid FROM ' . rex::getTablePrefix() . 'article WHERE parent_id=? LIMIT 1', [$article_id]);
     $emptyCategory = 0 == $sql->getRows();
 
     $panel = '<fieldset>';
@@ -240,7 +242,7 @@ if (!$isStartpage && rex::getUser()->hasPerm('moveArticle[]')) {
     $move_a->setName('category_id_new');
     $move_a->setSize('1');
     $move_a->setAttribute('class', 'form-control selectpicker');
-    $move_a->setSelected($article->getCategoryId());
+    $move_a->setSelected($category_id);
 
     $panel = '<fieldset>';
 
@@ -280,7 +282,7 @@ if (rex::getUser()->hasPerm('copyArticle[]')) {
     $move_a->setId('category_copy_id_new');
     $move_a->setSize('1');
     $move_a->setAttribute('class', 'form-control selectpicker');
-    $move_a->setSelected($article->getCategoryId());
+    $move_a->setSelected($category_id);
 
     $panel = '<fieldset>';
 
@@ -320,7 +322,7 @@ if ($isStartpage && rex::getUser()->hasPerm('moveCategory[]') && rex::getUser()-
     $move_a->setName('category_id_new');
     $move_a->setSize('1');
     $move_a->setAttribute('class', 'form-control selectpicker');
-    $move_a->setSelected($article->getId());
+    $move_a->setSelected($article_id);
 
     $panel = '<fieldset>';
 
