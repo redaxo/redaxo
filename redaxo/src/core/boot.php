@@ -33,7 +33,7 @@ if ('cli' !== PHP_SAPI) {
 
 // set arg_separator to get valid html output if session.use_trans_sid is activated
 ini_set('arg_separator.output', '&amp;');
-// disable html_erors to avoid html in exceptions and log files
+// disable html_errors to avoid html in exceptions and log files
 if (ini_get('html_errors')) {
     ini_set('html_errors', '0');
 }
