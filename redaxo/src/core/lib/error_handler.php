@@ -250,6 +250,10 @@ abstract class rex_error_handler
             isset($debug['throw_always_exception']) &&
             (true === $debug['throw_always_exception'] || $errno === ($errno & $debug['throw_always_exception']))
         ) {
+            if (ini_get('html_errors')) {
+                $errstr = htmlspecialchars_decode($errstr);
+            }
+
             throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
         }
 
