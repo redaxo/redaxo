@@ -33,9 +33,9 @@ if ('cli' !== PHP_SAPI) {
 
 // set arg_separator to get valid html output if session.use_trans_sid is activated
 ini_set('arg_separator.output', '&amp;');
-// make Whoops link to the php.net manual on exception pages, when not configured differently
-if (ini_get('html_errors') && !ini_get('docref_root')) {
-    ini_set('docref_root', "https://php.net/manual/");
+// disable html_errors to avoid html in exceptions and log files
+if (ini_get('html_errors')) {
+    ini_set('html_errors', '0');
 }
 
 require_once __DIR__ . '/lib/util/path.php';
