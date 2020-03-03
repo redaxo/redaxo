@@ -239,7 +239,7 @@ if (1 == $article->getRows()) {
                                     ]));
 
                                     $newsql->insert();
-                                    $slice_id = $newsql->getLastId();
+                                    $slice_id = (int) $newsql->getLastId();
 
                                     rex_sql_util::organizePriorities(
                                         rex::getTable('article_slice'),
