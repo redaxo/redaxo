@@ -9,6 +9,7 @@ if ('reload' === rex_request('func', 'string')) {
 }
 
 $markdown = static function (string $content): string {
+    /** @var callable */
     static $markdown;
 
     if (!$markdown) {
