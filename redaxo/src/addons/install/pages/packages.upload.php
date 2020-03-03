@@ -110,7 +110,7 @@ if ($addonkey && isset($addons[$addonkey])) {
 
         $fragment = new rex_fragment();
         $fragment->setVar('class', 'edit', false);
-        $fragment->setVar('title', $addonkey . ' <small>' . $package->i18n($new ? 'file_add' : 'file_edit') . '</small>', false);
+        $fragment->setVar('title', rex_escape($addonkey) . ' <small>' . $package->i18n($new ? 'file_add' : 'file_edit') . '</small>', false);
         $fragment->setVar('body', $panel, false);
         $fragment->setVar('buttons', $buttons, false);
         $content = $fragment->parse('core/page/section.php');
@@ -129,12 +129,12 @@ if ($addonkey && isset($addons[$addonkey])) {
             $("#rex-js-install-packages-upload-upload-file").change(function(){
                 if($(this).is(":checked"))
                 {
-                    ' . ($newVersion != $file['version'] ? '$("#rex-js-install-packages-upload-version").html(\'<del class="rex-package-old-version">' . $file['version'] . '</del> <ins class="rex-package-new-version">' . $newVersion . '</ins>\');' : '') . '
+                    ' . ($newVersion != $file['version'] ? '$("#rex-js-install-packages-upload-version").html(\'<del class="rex-package-old-version">' . $file['version'] . '</del> <ins class="rex-package-new-version">' . rex_escape($newVersion, 'js') . '</ins>\');' : '') . '
                     $("#rex-js-install-packages-upload-replace-assets, #rex-js-install-packages-upload-ignore-tests").removeAttr("disabled");
                 }
                 else
                 {
-                    $("#rex-js-install-packages-upload-version").html("' . $file['version'] . '");
+                    $("#rex-js-install-packages-upload-version").html("' . rex_escape($file['version'], 'js') . '");
                     $("#rex-js-install-packages-upload-replace-assets, #rex-js-install-packages-upload-ignore-tests").attr("disabled", "disabled");
                 }
             });
@@ -172,7 +172,7 @@ if ($addonkey && isset($addons[$addonkey])) {
         </table>';
 
         $fragment = new rex_fragment();
-        $fragment->setVar('title', $addonkey . ' <small>' . $package->i18n('information') . '</small>', false);
+        $fragment->setVar('title', rex_escape($addonkey) . ' <small>' . $package->i18n('information') . '</small>', false);
         $fragment->setVar('content', $panel, false);
         $content = $fragment->parse('core/page/section.php');
 
