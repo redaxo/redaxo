@@ -250,10 +250,6 @@ abstract class rex_error_handler
             isset($debug['throw_always_exception']) &&
             (true === $debug['throw_always_exception'] || $errno === ($errno & $debug['throw_always_exception']))
         ) {
-            if (ini_get('html_errors')) {
-                $errstr = htmlspecialchars_decode($errstr);
-            }
-
             throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
         }
 
@@ -266,15 +262,11 @@ abstract class rex_error_handler
             if ('cli' === PHP_SAPI) {
                 echo self::getErrorType($errno) . ": $errstr in $file on line $errline";
             } else {
-                if (!ini_get('html_errors')) {
-                    $errstr = rex_escape($errstr);
-                }
-
                 $file = rex_escape($file);
                 if ($url = rex_editor::factory()->getUrl($errfile, $errline)) {
                     $file = '<a href="'.rex_escape($url).'">'.$file.'</a>';
                 }
-                echo '<div><b>' . self::getErrorType($errno) . '</b>: '.$errstr." in <b>$file</b> on line <b>$errline</b></div>";
+                echo '<div><b>' . self::getErrorType($errno) . '</b>: '.rex_escape($errstr)." in <b>$file</b> on line <b>$errline</b></div>";
             }
         }
 
