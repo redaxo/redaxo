@@ -22,6 +22,7 @@ rex_sql_table::get(rex::getTable('media'))
     ->ensureGlobalColumns()
     ->ensureColumn(new rex_sql_column('revision', 'int(10) unsigned'))
     ->ensureIndex(new rex_sql_index('category_id', ['category_id']))
+    ->ensureIndex(new rex_sql_index('filename', ['filename'], rex_sql_index::UNIQUE))
     ->ensure();
 
 rex_sql_table::get(rex::getTable('media_category'))
