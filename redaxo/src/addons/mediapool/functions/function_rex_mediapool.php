@@ -43,12 +43,9 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
 
     if ($doSubindexing || $FILENAME != $NFILENAME) {
         // ----- datei schon vorhanden -> namen aendern -> _1 ..
-        if (file_exists(rex_path::media($NFILENAME))) {
-            $cnt = 1;
-            while (file_exists(rex_path::media($NFILE_NAME . '_' . $cnt . $NFILE_EXT))) {
-                ++$cnt;
-            }
-
+        $cnt = 0;
+        while (file_exists(rex_path::media($NFILENAME)) || rex_media::get($NFILENAME)) {
+            ++$cnt;
             $NFILENAME = $NFILE_NAME . '_' . $cnt . $NFILE_EXT;
         }
     }
