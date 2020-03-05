@@ -6,7 +6,7 @@ der Kontaktseite aufgenommen werden.
 
 If you use REDAXO you may add these informations in your imprint or contact page.
 
-> CMS: REDAXO - Open Source Content Management System
+> CMS: REDAXO - Open Source Content Management System  
 > LINK: https://www.redaxo.org
 
 
