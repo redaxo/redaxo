@@ -8,6 +8,10 @@ Version 2.6.0 – XX.XX.2020
 
 * Backups werden nach Dateiname sortiert (@bloep)
 
+### Bugfixes
+
+* Backup-Cronjob: Die Mail-Checkbox war nicht direkt über dem Mailadress-Feld (@gharlan)
+
 
 Version 2.5.1 – 02.02.2020
 --------------------------

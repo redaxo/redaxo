@@ -1,5 +1,5 @@
 package: be_style
-version: '2.10.0-beta1'
+version: '2.10.0-beta2'
 author: 'Jan Kristinus, Markus Staab, Thomas Blum'
 supportpage: www.redaxo.org/de/forum/
 
@@ -12,4 +12,4 @@ console_commands:
     styles:compile: rex_be_style_command_compile
 
 requires:
-    redaxo: ^5.10.0-beta1
+    redaxo: ^5.10.0-beta2

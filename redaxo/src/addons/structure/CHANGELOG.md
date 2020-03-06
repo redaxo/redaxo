@@ -15,6 +15,7 @@ Version 2.10.0 – XX.XX.2020
 
 ### Bugfixes:
 
+* Nach dem Speichern von Blöcken erschien die Erfolgsmeldung nicht mehr im Block (@gharlan)
 * `rex_category`/`rex_article`: Methoden wie `getId`, `getParentId` etc. lieferten die Zahl als String statt als Integer (@gharlan)
 
 

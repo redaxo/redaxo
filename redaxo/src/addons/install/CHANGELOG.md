@@ -6,7 +6,7 @@ Version 2.7.0 – XX.XX.2020
 
 ### Security
 
-* Markdown-Ausgaben in den Detailseiten von Addons waren nicht gegen XSS geschützt (@gharlan)
+* Markdown-Ausgaben und teils andere Felder waren nicht gegen XSS geschützt (@gharlan)
 
 ### Neu
 
