@@ -12,6 +12,7 @@ Version 2.8.0 – XX.XX.2020
 ### Bugfixes
 
 * Bessere Mime-Type-Erkennung durch neue Core-Funktion `rex_file::mimeType()` (@gharlan)
+* Es kam zu doppelten Medien in der DB, wenn zu einem Medium die physische Datei fehlte und dann eine gleichnamige erneut hochgeladen wurde (@gharlan)
 
 
 Version 2.7.0 – 02.02.2020

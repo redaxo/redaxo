@@ -39,6 +39,7 @@ Version 5.10.0 – XX.XX.2020
 * Speichern/Übernehmen-Buttons haben ein `title`-Attribut mit Erläuterungstext (@staabm)
 * Auf der Lizenz-Page der Packages wird ein Link zu einer Seite mit Erklärungen zu den Lizenzen ausgegeben (@staabm)
 * Beim Cache löschen wird auch der Opcache geleert (@gharlan)
+* `php.ini`-Einstellung `html_errors` wird immer deaktiviert, um HTML-Markup in Whoops und im Log zu vermeiden (@gharlan)
 * Code-Stabilität durch Tests und statische Code-Analyse verbessert (@staabm, @bloep, @gharlan)
 
 ### Bugfixes
@@ -47,7 +48,6 @@ Version 5.10.0 – XX.XX.2020
 * `rex_sql`: In der Debug-Ausgabe wurden in `fullquery` nicht immer die Parameter ersetzt (@gharlan)
 * Es kam zu Fehlern, wenn Addons eine eigene (ältere) Version von Parsedown mitlieferten (@gharlan)
 * Die Tabelle `rex_config` hat seit einigen Versionen keine `id`-Spalte mehr, bei manchen war diese aber trotzdem noch vorhanden und führte zu Problemen beim Update (@gharlan)
-* Bei Ausgabe von PHP-Warnings wurde das HTML escaped, wenn `html_errors` in der `php.ini` aktiv ist (@gharlan)
 
 
 Version 5.9.0 – 02.02.2020
