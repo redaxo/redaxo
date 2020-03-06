@@ -86,8 +86,8 @@ $sql->setQuery($query, array($id));
 foreach($sql as $row)
 {
     // HTML body
-    $body  = "Hello <font size=\"4\">" . $row->getValue("full_name") . "</font>, <p>";
-    $body .= "<i>Your</i> personal photograph to this message.<p>";
+    $body  = "Hello " . $row->getValue("full_name") . ",";
+    $body .= "<p><i>Your</i> personal photograph to this message.<p>";
     $body .= "Sincerely, <br />";
     $body .= "phpmailer List manager";
 
