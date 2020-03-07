@@ -10,13 +10,14 @@ class rex_module
      */
     private $module_id;
     /**
-     * @var string
+     * @var string|null
      */
     private $key;
 
     public function __construct(int $module_id)
     {
         $this->module_id = $module_id;
+        $this->key = '';
     }
 
     public static function forKey(string $module_key): ?self
@@ -41,8 +42,8 @@ class rex_module
 
     public function getKey(): ?string
     {
-        if (null === $this->key) {
-            $this->key = null;
+        if ('' === $this->key) {
+            $this-
 
             $sql = rex_sql::factory();
             $sql->setQuery('select `key` from '. rex::getTable('module') .' where id=?', [$this->module_id]);
