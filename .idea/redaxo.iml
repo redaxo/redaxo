@@ -2,6 +2,7 @@
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/.dependabot" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/assets/addons/be_style/plugins/customizer/vendor" />
       <excludeFolder url="file://$MODULE_DIR$/media" />
@@ -14,6 +15,7 @@
       <excludeFolder url="file://$MODULE_DIR$/redaxo/src/addons/be_style/vendor" />
       <excludeFolder url="file://$MODULE_DIR$/redaxo/src/addons/phpmailer/vendor" />
       <excludeFolder url="file://$MODULE_DIR$/redaxo/src/addons/tests/vendor" />
+      <excludeFolder url="file://$MODULE_DIR$/redaxo/src/core/vendor" />
       <excludeFolder url="file://$MODULE_DIR$/releases" />
       <excludeFolder url="file://$MODULE_DIR$/vendor" />
       <excludePattern pattern=".php_cs.cache" />

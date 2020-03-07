@@ -22,6 +22,6 @@
       <option name="processComments" value="true" />
     </inspection_tool>
     <inspection_tool class="SqlNoDataSourceInspection" enabled="false" level="WARNING" enabled_by_default="false" />
-    <inspection_tool class="SqlResolveInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
+    <inspection_tool class="SqlResolveInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
   </profile>
 </component>
