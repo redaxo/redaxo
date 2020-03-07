@@ -68,7 +68,7 @@ class rex_template
             } else {
                 $this->key = null;
             }
-            assert($this->key !== '');
+            assert('' !== $this->key);
         }
 
         return $this->key;
