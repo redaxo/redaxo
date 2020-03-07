@@ -56,6 +56,7 @@ class rex_template
 
     public function getKey(): ?string
     {
+        // key will never be empty string in the db
         if ('' === $this->key) {
             $sql = rex_sql::factory()->setQuery(
                 'SELECT `key` FROM '.rex::getTable('template').' WHERE `id` = :id',
