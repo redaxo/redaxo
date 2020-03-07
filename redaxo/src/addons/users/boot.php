@@ -1,6 +1,6 @@
 <?php
 
-rex_user::setRoleClass('rex_user_role');
+rex_user::setRoleClass(rex_user_role::class);
 
 rex_perm::register('users[]');
 

@@ -7,9 +7,8 @@ assert(isset($slice_id) && is_int($slice_id));
 assert(isset($template_attributes) && is_array($template_attributes));
 assert(isset($slice_revision) && is_int($slice_revision));
 assert(isset($function) && is_string($function));
-
-$info = '';
-$warning = '';
+assert(isset($info) && is_string($info));
+assert(isset($warning) && is_string($warning));
 
 $apiFunc = rex_api_function::factory();
 if ($apiFunc && $result = $apiFunc->getResult()) {

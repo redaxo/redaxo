@@ -1,6 +1,24 @@
 Changelog
 =========
 
+Version 2.10.0 – XX.XX.2020
+---------------------------
+
+### Neu
+
+* Slice-Status (online/offline) kann gesetzt werden (Übernahme von bloecks/status) (@gharlan, @schuer)
+* `REX_TEMPLATE_KEY`-Platzhalter für Templates/Module hinzugefügt (@staabm)
+* Modulen können (analog zu den Templates) eindeutige Keys vergeben werden (inkl. `REX_MODULE_KEY`-Platzhalter) (@alexplusde, @staabm)
+* Der Status-Schalter nutzt ein Dropdown, wenn weitere Status hinzugefügt wurden (Bsp. accessdenied) (@alexplusde)
+* Template/Module löschen: Auflistung der Artikel verschönert, in denen es noch verwendet wird, und es werden die Artikel in allen betroffenen Sprachversionen aufgelistet (@gharlan)
+* Spalten in `rex_article_slice`-Tabelle umsortiert (`article_id` und `module_id` weiter nach vorne) (@gharlan)
+
+### Bugfixes:
+
+* Nach dem Speichern von Blöcken erschien die Erfolgsmeldung nicht mehr im Block (@gharlan)
+* `rex_category`/`rex_article`: Methoden wie `getId`, `getParentId` etc. lieferten die Zahl als String statt als Integer (@gharlan)
+
+
 Version 2.9.0 – 02.02.2020
 --------------------------
 

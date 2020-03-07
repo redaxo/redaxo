@@ -51,8 +51,8 @@ if ('' != $file_name) {
     $sql = rex_sql::factory();
     $sql->setQuery('select * from ' . rex::getTablePrefix() . 'media where filename=?', [$file_name]);
     if (1 == $sql->getRows()) {
-        $file_id = $sql->getValue('id');
-        $rex_file_category = $sql->getValue('category_id');
+        $file_id = (int) $sql->getValue('id');
+        $rex_file_category = (int) $sql->getValue('category_id');
     }
 }
 

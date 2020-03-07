@@ -352,10 +352,19 @@ if ('' == $func) {
         jQuery(function($){
             var currentShown = null;
             $("#<?php echo $typeFieldId ?>").change(function(){
-                if(currentShown) currentShown.hide();
-                var typeId = "#rex-"+ $(this).val();
-                currentShown = $(typeId);
-                currentShown.slideDown();
+                var next = $("#rex-"+ $(this).val());
+
+                if (next.is(currentShown)) {
+                    return;
+                }
+
+                if (currentShown) {
+                    currentShown.slideUp();
+                    next.slideDown();
+                } else {
+                    next.show();
+                }
+                currentShown = next;
             }).change();
             $('#<?php echo $typeFieldId ?>').change(function(){
                 $('#<?php echo $envFieldId ?> option').prop('disabled','');<?php echo $env_js; ?>

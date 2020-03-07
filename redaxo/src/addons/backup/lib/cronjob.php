@@ -109,6 +109,8 @@ class rex_cronjob_export extends rex_cronjob
 
     public function getParamFields()
     {
+        $tables = rex_backup::getTables();
+
         $fields = [
             [
                 'label' => rex_i18n::msg('backup_filename'),
@@ -118,21 +120,18 @@ class rex_cronjob_export extends rex_cronjob
                 'notice' => rex_i18n::msg('backup_filename_notice'),
             ],
             [
+                'label' => rex_i18n::msg('backup_blacklist_tables'),
+                'name' => 'blacklist_tables',
+                'type' => 'select',
+                'attributes' => ['multiple' => 'multiple', 'data-live-search' => 'true'],
+                'options' => array_combine($tables, $tables),
+                'notice' => rex_i18n::msg('backup_blacklist_tables_notice'),
+            ],
+            [
                 'name' => 'sendmail',
                 'type' => 'checkbox',
                 'options' => [1 => rex_i18n::msg('backup_send_mail')],
             ],
-        ];
-
-        $tables = rex_backup::getTables();
-
-        $fields[] = [
-            'label' => rex_i18n::msg('backup_blacklist_tables'),
-            'name' => 'blacklist_tables',
-            'type' => 'select',
-            'attributes' => ['multiple' => 'multiple', 'data-live-search' => 'true'],
-            'options' => array_combine($tables, $tables),
-            'notice' => rex_i18n::msg('backup_blacklist_tables_notice'),
         ];
 
         if (rex_addon::get('phpmailer')->isAvailable()) {
@@ -143,8 +142,8 @@ class rex_cronjob_export extends rex_cronjob
                 'visible_if' => ['sendmail' => 1],
             ];
         } else {
-            $fields[1]['notice'] = rex_i18n::msg('backup_send_mail_notice');
-            $fields[1]['attributes'] = ['disabled' => 'disabled'];
+            $fields[2]['notice'] = rex_i18n::msg('backup_send_mail_notice');
+            $fields[2]['attributes'] = ['disabled' => 'disabled'];
         }
 
         $fields[] = [

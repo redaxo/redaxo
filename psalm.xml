@@ -55,16 +55,7 @@ autoloader="phpstan-bootstrap.php"
 <!-- level 3 issues - slightly lazy code writing, but provably low false-negatives -->
         <DeprecatedMethod>
             <errorLevel type="info">
-                <file name="redaxo/src/core/update.php"/>
-                <file name="redaxo/src/addons/cronjob/update.php"/>
-                <file name="redaxo/src/addons/install/lib/api/api_core_update.php"/>
-                <file name="redaxo/src/addons/install/lib/package/package_update.php"/>
-                <file name="redaxo/src/addons/install/lib/packages.php"/>
-                <file name="redaxo/src/addons/install/pages/index.php"/>
-                <file name="redaxo/src/addons/install/update.php"/>
-                <file name="redaxo/src/addons/media_manager/update.php"/>
-                <file name="redaxo/src/addons/metainfo/extensions/extension_content_sidebar.php"/>
-                <file name="redaxo/src/addons/structure/update.php"/>
+                <referencedMethod name="rex_string::versionCompare"/>
             </errorLevel>
         </DeprecatedMethod>
         <InternalMethod errorLevel="info" />
@@ -74,7 +65,6 @@ autoloader="phpstan-bootstrap.php"
         <MissingReturnType errorLevel="info" />
         <MissingPropertyType errorLevel="info" />
         <PropertyNotSetInConstructor errorLevel="info" />
-        <MissingConstructor errorLevel="info" />
         <MissingClosureParamType errorLevel="info" />
         <MissingParamType errorLevel="info" />
         <RedundantCondition errorLevel="info" />
@@ -82,7 +72,6 @@ autoloader="phpstan-bootstrap.php"
         <RedundantConditionGivenDocblockType errorLevel="info" />
         <UnresolvableInclude errorLevel="info" />
         <RawObjectIteration errorLevel="info" />
-        <InvalidStringClass errorLevel="info" />
 <!-- level 4 issues - points to possible deficiencies in logic, higher false-positives -->
         <MoreSpecificReturnType errorLevel="info" />
         <LessSpecificReturnStatement errorLevel="info" />
