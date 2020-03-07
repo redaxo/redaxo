@@ -88,7 +88,6 @@ autoloader="phpstan-bootstrap.php"
             </errorLevel>
         </PossiblyNullPropertyAssignmentValue>
         <PossiblyNullReference errorLevel="info" />
-        <PossiblyUndefinedMethod errorLevel="info" />
 <!-- level 5 issues - should be avoided at mosts costs... -->
         <InvalidScalarArgument errorLevel="info" />
         <InvalidOperand errorLevel="info" />
