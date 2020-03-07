@@ -39,16 +39,16 @@ class rex_module
         return $this->module_id;
     }
 
-    public function getKey(): string
+    public function getKey(): ?string
     {
         if (null === $this->key) {
-            $this->key = '';
+            $this->key = null;
 
             $sql = rex_sql::factory();
             $sql->setQuery('select `key` from '. rex::getTable('module') .' where id=?', [$this->module_id]);
 
             if (1 == $sql->getRows()) {
-                $this->key = $sql->getValue('key') ?? '';
+                $this->key = $sql->getValue('key');
             }
         }
 

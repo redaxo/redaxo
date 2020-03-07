@@ -58,13 +58,10 @@ class rex_template
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
-    public function getKey()
+    public function getKey(): ?string
     {
         if (null === $this->key) {
-            $this->key = '';
+            $this->key = null;
 
             $sql = rex_sql::factory()->setQuery(
                 'SELECT `key` FROM '.rex::getTable('template').' WHERE `id` = :id',
