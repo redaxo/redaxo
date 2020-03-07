@@ -348,7 +348,7 @@ class rex_addon extends rex_package implements rex_addon_interface
      *
      * @return rex_package[]
      *
-     * @template T
+     * @template T of array
      * @psalm-param T $packages
      * @psalm-return T
      */
