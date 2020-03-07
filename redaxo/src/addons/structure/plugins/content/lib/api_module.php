@@ -48,7 +48,7 @@ class rex_module
             $sql->setQuery('select `key` from '. rex::getTable('module') .' where id=?', [$this->module_id]);
 
             if (1 == $sql->getRows()) {
-                $this->key = $sql->getValue('key');
+                $this->key = $sql->getValue('key') ?? '';
             }
         }
 
