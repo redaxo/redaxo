@@ -343,8 +343,8 @@ class rex_addon extends rex_package implements rex_addon_interface
     /**
      * Filters packages by the given method.
      *
-     * @param rex_package[]  $packages Array of packages
-     * @param string $method   A rex_package method
+     * @param rex_package[] $packages Array of packages
+     * @param string        $method   A rex_package method
      *
      * @return rex_package[]
      *
