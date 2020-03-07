@@ -28,12 +28,7 @@ class rex_template
         return rex_config::get('structure/content', 'default_template_id', 1);
     }
 
-    /**
-     * @param string $template_key
-     *
-     * @return null|self
-     */
-    public static function forKey($template_key)
+    public static function forKey(string $template_key): ?self
     {
         $sql = rex_sql::factory()->setQuery(
             'SELECT `id` FROM '.rex::getTable('template').' WHERE `key` = :key',
