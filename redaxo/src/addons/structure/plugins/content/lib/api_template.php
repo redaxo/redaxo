@@ -57,7 +57,6 @@ class rex_template
     public function getKey(): ?string
     {
         if ('' === $this->key) {
-            $this->key = null;
 
             $sql = rex_sql::factory()->setQuery(
                 'SELECT `key` FROM '.rex::getTable('template').' WHERE `id` = :id',
