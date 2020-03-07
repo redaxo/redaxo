@@ -13,13 +13,14 @@ class rex_template
      */
     private $id;
     /**
-     * @var string
+     * @var string|null
      */
     private $key;
 
     public function __construct($template_id)
     {
         $this->id = (int) $template_id;
+        $this->key = '';
     }
 
     public static function getDefaultId()
@@ -60,7 +61,7 @@ class rex_template
 
     public function getKey(): ?string
     {
-        if (null === $this->key) {
+        if ('' === $this->key) {
             $this->key = null;
 
             $sql = rex_sql::factory()->setQuery(
@@ -70,6 +71,8 @@ class rex_template
 
             if (1 == $sql->getRows()) {
                 $this->key = $sql->getValue('key');
+            } else {
+                $this->key = null;
             }
         }
 
