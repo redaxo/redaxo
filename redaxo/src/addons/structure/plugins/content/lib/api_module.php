@@ -42,14 +42,17 @@ class rex_module
 
     public function getKey(): ?string
     {
+        // key will never be empty string in the db
         if ('' === $this->key) {
-            $this -
+            $this-
 
             $sql = rex_sql::factory();
             $sql->setQuery('select `key` from '. rex::getTable('module') .' where id=?', [$this->module_id]);
 
             if (1 == $sql->getRows()) {
                 $this->key = $sql->getValue('key');
+            } else {
+                $this->key = null;
             }
         }
 
