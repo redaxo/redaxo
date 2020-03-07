@@ -14,5 +14,5 @@ AddOns:
 
 **Did it whoops? / Whoops erhalten?**
 
-Don't forget to insert the stacktrace to provide more details and recieve answers faster.
+Don't forget to insert the stacktrace to provide more details and recieve answers faster. Use `COPY MARKDOWN` right under the message and paste it here.
 Vergiss nicht, den Stracktrace hier einzufügen, um genauere Details zur Verfügung zu stellen und schneller eine Antwort zu erhalten.
