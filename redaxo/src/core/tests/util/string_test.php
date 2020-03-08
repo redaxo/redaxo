@@ -98,6 +98,10 @@ class rex_string_test extends TestCase
 <a href="javascript:alert(1)">Foo</a>
 <a href="index.php" onclick="alert(1)">Foo</a>
 <img src="foo.jpg" onmouseover="alert(1)"/>
+
+<pre><code>
+    &lt;script&gt; foo() &lt;/script&gt;
+</code></pre>
 INPUT;
 
         $expected = <<<'EXPECTED'
@@ -108,6 +112,10 @@ INPUT;
 <a href="(1)">Foo</a>
 <a href="index.php">Foo</a>
 <img src="foo.jpg" />
+
+<pre><code>
+    &lt;script&gt; foo() &lt;/script&gt;
+</code></pre>
 EXPECTED;
 
         static::assertSame($expected, rex_string::sanitizeHtml($input));
