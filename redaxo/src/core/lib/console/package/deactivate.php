@@ -23,7 +23,11 @@ class rex_command_package_deactivate extends rex_console_command
         $io = $this->getStyle($input, $output);
 
         $packageId = $input->getArgument('package-id');
+
+        // the package manager don't know new packages in the addon folder
+        // so we need to make them available
         rex_package_manager::synchronizeWithFileSystem();
+
         $package = rex_package::get($packageId);
         if (!$package instanceof rex_package) {
             $io->error('Package "'.$packageId.'" doesn\'t exists!');
