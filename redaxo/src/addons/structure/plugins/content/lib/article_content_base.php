@@ -484,7 +484,6 @@ class rex_article_content_base
     protected function replaceVars(rex_sql $sql, $content)
     {
         $content = $this->replaceCommonVars($content);
-        $content = $this->replaceObjectVars($sql, $content);
         $content = str_replace(
             [
                 'REX_MODULE_ID',
@@ -500,6 +499,8 @@ class rex_article_content_base
             ],
             $content
         );
+
+        $content = $this->replaceObjectVars($sql, $content);
 
         return $content;
     }
