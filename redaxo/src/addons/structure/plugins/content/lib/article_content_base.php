@@ -304,7 +304,7 @@ class rex_article_content_base
         $module_id = rex_request('module_id', 'int');
 
         // ---------- alle teile/slices eines artikels auswaehlen
-        $query = 'SELECT ' . rex::getTablePrefix() . 'module.id, ' . rex::getTablePrefix() . 'module.name, ' . rex::getTablePrefix() . 'module.output, ' . rex::getTablePrefix() . 'module.input, ' . rex::getTablePrefix() . 'article_slice.*, ' . rex::getTablePrefix() . 'article.parent_id
+        $query = 'SELECT ' . rex::getTablePrefix() . 'module.id, ' . rex::getTablePrefix() . 'module.key, ' . rex::getTablePrefix() . 'module.name, ' . rex::getTablePrefix() . 'module.output, ' . rex::getTablePrefix() . 'module.input, ' . rex::getTablePrefix() . 'article_slice.*, ' . rex::getTablePrefix() . 'article.parent_id
                         FROM
                             ' . rex::getTablePrefix() . 'article_slice
                         LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id
@@ -488,21 +488,19 @@ class rex_article_content_base
         $content = str_replace(
             [
                 'REX_MODULE_ID',
+                'REX_MODULE_KEY',
                 'REX_SLICE_ID',
                 'REX_CTYPE_ID',
             ],
             [
                 (int) $sql->getValue('module_id'),
+                $sql->getValue(rex::getTable('module') . '.key'),
                 (int) $sql->getValue(rex::getTable('article_slice') . '.id'),
                 (int) $sql->getValue('ctype_id'),
             ],
             $content
         );
 
-        if (false !== strpos($content, 'REX_MODULE_KEY')) {
-            $module = new rex_module($sql->getValue('module_id'));
-            $content = str_replace('REX_MODULE_KEY', $module->getKey(), $content);
-        }
         return $content;
     }
 
