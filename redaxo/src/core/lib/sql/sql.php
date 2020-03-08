@@ -955,7 +955,7 @@ class rex_sql implements Iterator
     /**
      * @throws rex_sql_exception
      *
-     * @return $this|rex_sql
+     * @return $this
      */
     public function insertOrUpdate()
     {
@@ -1842,7 +1842,7 @@ class rex_sql implements Iterator
      *
      * @throws rex_sql_exception
      *
-     * @return $this|rex_sql
+     * @return $this
      */
     private function setMultiRecordQuery($verb, $onDuplicateKeyUpdate = false)
     {
