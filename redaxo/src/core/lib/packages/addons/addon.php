@@ -176,8 +176,6 @@ class rex_addon extends rex_package implements rex_addon_interface
      * Returns the child plugin by the given name.
      *
      * @throws RuntimeException if the plugin does not exist
-     *
-     * @return rex_plugin
      */
     public function requirePlugin(string $plugin): rex_plugin
     {
@@ -234,7 +232,7 @@ class rex_addon extends rex_package implements rex_addon_interface
             $systemPlugins = (array) $this->getProperty('system_plugins', []);
         }
         $plugins = [];
-        /** @var string[] */
+        /* @var string[] */
         foreach ($systemPlugins as $plugin) {
             if ($this->pluginExists($plugin)) {
                 $plugins[$plugin] = $this->getPlugin($plugin);
