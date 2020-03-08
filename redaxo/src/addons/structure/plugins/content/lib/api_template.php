@@ -13,13 +13,14 @@ class rex_template
      */
     private $id;
     /**
-     * @var string
+     * @var string|null
      */
     private $key;
 
     public function __construct($template_id)
     {
         $this->id = (int) $template_id;
+        $this->key = '';
     }
 
     public static function getDefaultId()
@@ -27,12 +28,7 @@ class rex_template
         return rex_config::get('structure/content', 'default_template_id', 1);
     }
 
-    /**
-     * @param string $template_key
-     *
-     * @return null|self
-     */
-    public static function forKey($template_key)
+    public static function forKey(string $template_key): ?self
     {
         $sql = rex_sql::factory()->setQuery(
             'SELECT `id` FROM '.rex::getTable('template').' WHERE `key` = :key',
@@ -58,14 +54,10 @@ class rex_template
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
-    public function getKey()
+    public function getKey(): ?string
     {
-        if (null === $this->key) {
-            $this->key = '';
-
+        // key will never be empty string in the db
+        if ('' === $this->key) {
             $sql = rex_sql::factory()->setQuery(
                 'SELECT `key` FROM '.rex::getTable('template').' WHERE `id` = :id',
                 ['id' => $this->id]
@@ -73,7 +65,10 @@ class rex_template
 
             if (1 == $sql->getRows()) {
                 $this->key = $sql->getValue('key');
+            } else {
+                $this->key = null;
             }
+            assert('' !== $this->key);
         }
 
         return $this->key;
