@@ -30,28 +30,32 @@ interface rex_addon_interface extends rex_package_interface
     /**
      * Returns the registered plugins.
      *
-     * @return rex_plugin[]
+     * @return array
+     * @psalm-return array<string, rex_plugin>
      */
     public function getRegisteredPlugins();
 
     /**
      * Returns the installed plugins.
      *
-     * @return rex_plugin[]
+     * @return array
+     * @psalm-return array<string, rex_plugin>
      */
     public function getInstalledPlugins();
 
     /**
      * Returns the available plugins.
      *
-     * @return rex_plugin[]
+     * @return array
+     * @psalm-return array<string, rex_plugin>
      */
     public function getAvailablePlugins();
 
     /**
      * Returns the system plugins.
      *
-     * @return rex_plugin[]
+     * @return array
+     * @psalm-return array<string, rex_plugin>
      */
     public function getSystemPlugins();
 }
