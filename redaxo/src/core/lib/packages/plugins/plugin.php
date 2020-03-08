@@ -183,6 +183,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
      * @param string $addon Addon name
      *
      * @return self[]
+     * @psalm-return array<string, rex_plugin>
      */
     public static function getRegisteredPlugins($addon)
     {
@@ -195,6 +196,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
      * @param string $addon Addon name
      *
      * @return self[]
+     * @psalm-return array<string, rex_plugin>
      */
     public static function getInstalledPlugins($addon)
     {
@@ -207,6 +209,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
      * @param string $addon Addon name
      *
      * @return self[]
+     * @psalm-return array<string, rex_plugin>
      */
     public static function getAvailablePlugins($addon)
     {
@@ -219,6 +222,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
      * @param string $addon Addon name
      *
      * @return self[]
+     * @psalm-return array<string, rex_plugin>
      */
     public static function getSystemPlugins($addon)
     {
