@@ -232,6 +232,7 @@ class rex_addon extends rex_package implements rex_addon_interface
             $systemPlugins = (array) $this->getProperty('system_plugins', []);
         }
         $plugins = [];
+        /** @var string $plugin */
         foreach ($systemPlugins as $plugin) {
             if ($this->pluginExists($plugin)) {
                 $plugins[$plugin] = $this->getPlugin($plugin);
