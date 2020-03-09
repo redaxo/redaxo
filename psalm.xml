@@ -73,8 +73,6 @@ autoloader="phpstan-bootstrap.php"
         <UnresolvableInclude errorLevel="info" />
         <RawObjectIteration errorLevel="info" />
 <!-- level 4 issues - points to possible deficiencies in logic, higher false-positives -->
-        <MoreSpecificReturnType errorLevel="info" />
-        <LessSpecificReturnStatement errorLevel="info" />
         <PossiblyFalseArgument errorLevel="info" />
         <PossiblyInvalidArgument errorLevel="info" />
         <PossiblyInvalidIterator errorLevel="info" />
