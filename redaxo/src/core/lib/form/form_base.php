@@ -563,6 +563,7 @@ abstract class rex_form_base
 
         $class = rex_form_element::class;
         if (isset($attributes['internal::fieldClass'])) {
+            /** @var class-string<rex_form_element> $class */
             $class = $attributes['internal::fieldClass'];
             unset($attributes['internal::fieldClass']);
         }
@@ -768,6 +769,7 @@ abstract class rex_form_base
 
     /**
      * @return bool
+     * @psalm-assert-if-true rex_form_control_element $element
      */
     protected function isFooterElement(rex_form_element $element)
     {
@@ -776,6 +778,7 @@ abstract class rex_form_base
 
     /**
      * @return bool
+     * @psalm-assert-if-true rex_form_control_element $element
      */
     protected function isControlElement(rex_form_element $element)
     {
@@ -784,6 +787,7 @@ abstract class rex_form_base
 
     /**
      * @return bool
+     * @psalm-assert-if-true rex_form_raw_element $element
      */
     protected function isRawElement(rex_form_element $element)
     {
