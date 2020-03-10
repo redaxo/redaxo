@@ -124,7 +124,7 @@ class rex_media_manager
         $effects = [];
         /** @var rex_sql $row */
         foreach ($sql as $row) {
-            $effname = $row->getValue('effect');
+            $effname = (string) $row->getValue('effect');
             $params = $row->getArrayValue('parameters');
             $effparams = [];
 

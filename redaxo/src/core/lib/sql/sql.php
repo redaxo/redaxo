@@ -47,9 +47,9 @@ class rex_sql implements Iterator
     /**
      * Params for where condition.
      *
-     * @var null|array
+     * @var array
      */
-    protected $whereParams;
+    protected $whereParams = [];
 
     protected $rows; // anzahl der treffer
     protected $counter; // pointer
@@ -1669,12 +1669,12 @@ class rex_sql implements Iterator
         $columns = [];
         foreach ($sql as $col) {
             $columns[] = [
-                'name' => $col->getValue('Field'),
-                'type' => $col->getValue('Type'),
-                'null' => $col->getValue('Null'),
-                'key' => $col->getValue('Key'),
-                'default' => $col->getValue('Default'),
-                'extra' => $col->getValue('Extra'),
+                'name' => (string) $col->getValue('Field'),
+                'type' => (string) $col->getValue('Type'),
+                'null' => (string) $col->getValue('Null'),
+                'key' => (string) $col->getValue('Key'),
+                'default' => null === $col->getValue('Default') ? null : (string) $col->getValue('Default'),
+                'extra' => (string) $col->getValue('Extra'),
             ];
         }
 
