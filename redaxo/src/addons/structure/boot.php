@@ -25,7 +25,7 @@ rex_perm::register('publishCategory[]', null, rex_perm::OPTIONS);
 rex_perm::register('article2startarticle[]', null, rex_perm::OPTIONS);
 rex_perm::register('article2category[]', null, rex_perm::OPTIONS);
 
-rex_complex_perm::register('structure', 'rex_structure_perm');
+rex_complex_perm::register('structure', rex_structure_perm::class);
 
 require_once __DIR__ . '/functions/function_rex_url.php';
 
