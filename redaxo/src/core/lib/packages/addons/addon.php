@@ -235,7 +235,7 @@ class rex_addon extends rex_package implements rex_addon_interface
         /** @var string $plugin */
         foreach ($systemPlugins as $plugin) {
             if ($this->pluginExists($plugin)) {
-                $plugins[$plugin] = $this->getPlugin($plugin);
+                $plugins[$plugin] = $this->requirePlugin($plugin);
             }
         }
         return $plugins;
@@ -281,7 +281,7 @@ class rex_addon extends rex_package implements rex_addon_interface
         $addons = [];
         foreach ((array) rex::getProperty('setup_addons', []) as $addon) {
             if (self::exists($addon)) {
-                $addons[$addon] = self::get($addon);
+                $addons[$addon] = self::require($addon);
             }
         }
         return $addons;
@@ -297,7 +297,7 @@ class rex_addon extends rex_package implements rex_addon_interface
         $addons = [];
         foreach ((array) rex::getProperty('system_addons', []) as $addon) {
             if (self::exists($addon)) {
-                $addons[$addon] = self::get($addon);
+                $addons[$addon] = self::require($addon);
             }
         }
         return $addons;
