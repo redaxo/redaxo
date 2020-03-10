@@ -23,6 +23,8 @@ interface rex_user_role_interface
      * @param string   $key  Complex perm key
      *
      * @return rex_complex_perm Complex perm
+     * @psalm-return rex_complex_perm|null
+     * @phpstan-return rex_media_perm|rex_structure_perm|rex_module_perm|rex_clang_perm|null
      */
     public function getComplexPerm(rex_user $user, $key);
 
