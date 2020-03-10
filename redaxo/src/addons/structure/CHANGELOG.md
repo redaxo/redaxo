@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 2.10.0 – XX.XX.2020
+Version 2.10.0 – 10.03.2020
 ---------------------------
 
 ### Neu
@@ -15,6 +15,7 @@ Version 2.10.0 – XX.XX.2020
 
 ### Bugfixes:
 
+* Einfache Rex-Vars wie `REX_MODULE_ID`/`REX_SLICE_ID` wurden erst nach den richtigen Rex-Vars wie `REX_VALUE[X]` ersetzt, dadurch konnten sie nicht nicht als Argumente innerhalb der Vars genutzt werden und wurden auch im eigentlichen Inhalt der Values ersetzt (@gharlan)
 * Nach dem Speichern von Blöcken erschien die Erfolgsmeldung nicht mehr im Block (@gharlan)
 * `rex_category`/`rex_article`: Methoden wie `getId`, `getParentId` etc. lieferten die Zahl als String statt als Integer (@gharlan)
 

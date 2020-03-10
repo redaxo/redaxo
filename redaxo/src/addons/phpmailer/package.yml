@@ -1,5 +1,5 @@
 package: phpmailer
-version: '2.8.0-beta2'
+version: '2.8.0'
 author: 'Markus Staab, Thomas Skerbis, Jan Kristinus, Brent R. Matzelle'
 supportpage: www.redaxo.org/de/forum/
 
@@ -20,7 +20,7 @@ pages:
         perm: admin
 
 requires:
-    redaxo: ^5.10.0-beta2
+    redaxo: ^5.10.0
 
 default_config:
     from: ''
