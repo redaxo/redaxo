@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 2.7.0 – XX.XX.2020
+Version 2.7.0 – 10.03.2020
 --------------------------
 
 ### Security

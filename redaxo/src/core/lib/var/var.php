@@ -12,6 +12,9 @@ abstract class rex_var
     public const ENV_INPUT = 4;
     public const ENV_OUTPUT = 8;
 
+    /**
+     * @psalm-var null|array<string, class-string<self>>
+     */
     private static $vars = [];
     private static $env = null;
     private static $context = null;
