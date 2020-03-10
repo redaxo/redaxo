@@ -102,6 +102,7 @@ abstract class rex_complex_perm
      * @param mixed    $perms Permissions
      *
      * @return self|null
+     * @phpstan-return rex_media_perm|rex_structure_perm|rex_module_perm|rex_clang_perm|null
      */
     public static function get(rex_user $user, $key, $perms = [])
     {
