@@ -3,24 +3,27 @@
 /**
  * @package redaxo\install
  */
-class rex_install {
-
+class rex_install
+{
     /**
-     * Download an AddOn from redaxo.org
+     * Download an AddOn from redaxo.org.
      *
      * @param string $addonKey e.g. "yform"
-     * @param string $version e.g. "3.2.1"
-     * @return bool|string
+     * @param string $version  e.g. "3.2.1"
+     *
      * @throws rex_functional_exception
+     *
+     * @return bool|string
      */
-    public function downloadAddon(string $addonKey, string $version) {
+    public function downloadAddon(string $addonKey, string $version)
+    {
         if (rex_addon::exists($addonKey)) {
             throw new rex_functional_exception(sprintf('AddOn "%s" already exists!', $addonKey));
         }
 
         $packages = rex_install_packages::getAddPackages();
         if (!isset($packages[$addonKey])) {
-           throw new rex_functional_exception(sprintf('AddOn "%s" does not exist!', $addonKey));
+            throw new rex_functional_exception(sprintf('AddOn "%s" does not exist!', $addonKey));
         }
         $package = $packages[$addonKey];
         $files = $package['files'];
@@ -50,14 +53,17 @@ class rex_install {
     }
 
     /**
-     * Updates an AddOn from redaxo.org
+     * Updates an AddOn from redaxo.org.
      *
      * @param string $addonKey e.g. "yform"
-     * @param string $version e.g. "3.2.1"
-     * @return bool|string
+     * @param string $version  e.g. "3.2.1"
+     *
      * @throws rex_functional_exception
+     *
+     * @return bool|string
      */
-    public function updateAddon(string $addonKey, string $version) {
+    public function updateAddon(string $addonKey, string $version)
+    {
         if (!rex_addon::exists($addonKey)) {
             throw new rex_functional_exception(sprintf('AddOn "%s" don\'t exists!', $addonKey));
         }
