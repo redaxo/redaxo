@@ -42,7 +42,7 @@ $sel_mode->setSize(1);
 $sel_mode->setAttribute('class', 'form-control selectpicker');
 
 // standard is disabled
-$selected = $addon->getConfig('detour-mode')?:'disabled';
+$selected = $addon->getConfig('detour-mode') ?: 'disabled';
 $sel_mode->setSelected($selected);
 foreach (['enabled', 'disabled'] as $type) {
     $sel_mode->addOption($addon->i18n('detour_'.$type), $type);

@@ -57,15 +57,15 @@ class rex_mailer extends PHPMailer
         parent::__construct($exceptions);
     }
 
-    /** 
+    /**
      * Override the AddAddress method of Parent
      * Same Parameters as Parent
-     * 
+     *
      * $address: string / Adress of the reciever / mail_to
      * $name: string / Name of the reciever / mail_to_name
-     * 
+     *
      * @author markus[dot]dick[at]novinet[dot]de Markus Dick
-     * 
+     *
     */
     public function AddAddress($address, $name = '') {
         $addon = rex_addon::get('phpmailer');
