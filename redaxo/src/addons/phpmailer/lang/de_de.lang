@@ -1,5 +1,13 @@
 phpmailer_title = PHPMailer
 phpmailer_configuration = Konfiguration
+phpmailer_detour = Umleitung
+phpmailer_detour_config = Umleitung Einstellungen
+phpmailer_detour_email_redirect = E-Mail Versand umleiten?
+phpmailer_detour_enabled = Aktiviert
+phpmailer_detour_disabled = Deaktiviert
+phpmailer_detour_options = Optionen
+phpmailer_detour_email = Empfänger Adresse
+phpmailer_detour_email_validation_error = Die eingetragene E-Mail Adresse ist falsch.
 phpmailer_help = Hilfe
 phpmailer_config_settings = Einstellungen
 phpmailer_email_options = E-Mail

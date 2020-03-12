@@ -18,6 +18,11 @@ class rex_mailer extends PHPMailer
     /** @var bool */
     private $archive;
 
+    /** @var string 
+     * used for storing the original mail_to if detour mode is used
+    */
+    private $original_mail_to;
+
     public function __construct($exceptions = false)
     {
         $addon = rex_addon::get('phpmailer');
@@ -52,6 +57,41 @@ class rex_mailer extends PHPMailer
         parent::__construct($exceptions);
     }
 
+    /** 
+     * Override the AddAddress method of Parent
+     * Same Parameters as Parent
+     * 
+     * $address: string / Adress of the reciever / mail_to
+     * $name: string / Name of the reciever / mail_to_name
+     * 
+     * @author markus[dot]dick[at]novinet[dot]de Markus Dick
+     * 
+    */
+    public function AddAddress($address, $name = '') {
+        $addon = rex_addon::get("phpmailer");
+        
+        // checks if detour mode is enabled
+        // $detour: boolean
+        $detour = ($addon->getConfig("detour-mode") === "enabled" && $addon->getConfig("detour-email"));
+
+        // sets the address to the detour address
+        if($detour) {
+            $detour_address = $addon->getConfig("detour-email");
+            // check if address is valid
+            if(rex_validator::factory()->email($detour_address)) {
+                // store the address so we can use it in the subject later
+                $this->original_mail_to = $address;
+
+                // Set $address to the detour address
+                $address = $detour_address;
+            }
+        } 
+        
+        // use the parents method to add the address
+        // wether its the original address or the detour address
+        parent::addAddress($address, $name);
+    }
+
     public function send()
     {
         return rex_timer::measure(__METHOD__, function () {
@@ -59,6 +99,16 @@ class rex_mailer extends PHPMailer
                 $this->archive();
             }
             $addon = rex_addon::get('phpmailer');
+
+            // checks if detour mode is enabled
+            // $detour: boolean
+            $detour = ($addon->getConfig("detour-mode") === "enabled" && $addon->getConfig("detour-email"));
+
+            // Sets Subject of E-Mail to [DETOUR] $subject [$original_mail_to]
+            if($detour && $this->original_mail_to) {
+                $this->Subject = "[DETOUR] " . $this->Subject . " [originally for: " . $this->original_mail_to . "]";
+            }
+
             if (!parent::send()) {
                 if ($addon->getConfig('logging')) {
                     $this->log('ERROR');
