@@ -48,6 +48,7 @@ foreach (['enabled', 'disabled'] as $type) {
     $sel_mode->addOption($addon->i18n('detour_'.$type), $type);
 }
 
+$formElements = [];
 $n = [];
 $n['label'] = '<label for="phpmailer-detour-mode">' . $addon->i18n('detour_email_redirect') . '</label>';
 $n['field'] = $sel_mode->get();
