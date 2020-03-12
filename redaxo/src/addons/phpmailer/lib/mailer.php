@@ -89,7 +89,7 @@ class rex_mailer extends PHPMailer
         
         // use the parents method to add the address
         // wether its the original address or the detour address
-        parent::addAddress($address, $name);
+        return parent::addAddress($address, $name);
     }
 
     public function send()
