@@ -50,7 +50,8 @@ class rex_install
     }
 
     /**
-     * Updates an AddOn from redaxo.org.
+     * Updates an already downloaded AddOn from redaxo.org with a newer version.
+     * The AddOn is not required to be installed beforehand.
      *
      * @param string $addonKey e.g. "yform"
      * @param string $version  e.g. "3.2.1"
