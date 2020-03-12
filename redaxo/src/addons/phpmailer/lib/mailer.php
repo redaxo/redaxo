@@ -68,15 +68,15 @@ class rex_mailer extends PHPMailer
      * 
     */
     public function AddAddress($address, $name = '') {
-        $addon = rex_addon::get("phpmailer");
+        $addon = rex_addon::get('phpmailer');
         
         // checks if detour mode is enabled
         // $detour: boolean
-        $detour = ($addon->getConfig("detour-mode") === "enabled" && $addon->getConfig("detour-email"));
+        $detour = ($addon->getConfig('detour-mode') === 'enabled' && $addon->getConfig('detour-email'));
 
         // sets the address to the detour address
         if($detour) {
-            $detour_address = $addon->getConfig("detour-email");
+            $detour_address = $addon->getConfig('detour-email');
             // check if address is valid
             if(rex_validator::factory()->email($detour_address)) {
                 // store the address so we can use it in the subject later
@@ -102,11 +102,11 @@ class rex_mailer extends PHPMailer
 
             // checks if detour mode is enabled
             // $detour: boolean
-            $detour = ($addon->getConfig("detour-mode") === "enabled" && $addon->getConfig("detour-email"));
+            $detour = ($addon->getConfig('detour-mode') === 'enabled' && $addon->getConfig('detour-email'));
 
             // Sets Subject of E-Mail to [DETOUR] $subject [$original_mail_to]
             if($detour && $this->original_mail_to) {
-                $this->Subject = "[DETOUR] " . $this->Subject . " [originally for: " . $this->original_mail_to . "]";
+                $this->Subject = '[DETOUR] ' . $this->Subject . ' [originally for: ' . $this->original_mail_to . ']';
             }
 
             if (!parent::send()) {
