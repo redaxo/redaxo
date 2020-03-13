@@ -10,11 +10,11 @@
 
 $addon = rex_addon::get('phpmailer');
 
-if (rex_post('btn_save', 'string') != '') {
+if ('' != rex_post('btn_save', 'string')) {
     $settings = rex_post('settings', 'array', []);
 
     // if valid email save and show success
-    if (rex_validator::factory()->email($settings['detour-email'])) {
+    if (true == rex_validator::factory()->email($settings['detour-email'])) {
         $addon->setConfig(rex_post('settings', [
             ['detour-mode', 'string'],
             ['detour-email', 'string']
