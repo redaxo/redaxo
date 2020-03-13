@@ -38,7 +38,7 @@ if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string'
     ]);
 
     if (true == $settings['detour_mode'] && false == rex_validator::factory()->email($settings['test_address'])) {
-        $settings["detour_mode"] = false;
+        $settings['detour_mode'] = false;
         $warning = $addon->i18n('detour_warning');
         echo rex_view::warning($warning);
     }
