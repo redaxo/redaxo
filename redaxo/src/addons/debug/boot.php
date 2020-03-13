@@ -1,7 +1,7 @@
 <?php
 
 // only on http requests
-if (rex_server('REQUEST_URI')) {
+if (rex_server('REQUEST_URI') && 'debug' !== rex_request('rex-api-call')) {
     rex_sql::setFactoryClass('rex_sql_debug');
     rex_extension::setFactoryClass('rex_extension_debug');
 
@@ -9,7 +9,7 @@ if (rex_server('REQUEST_URI')) {
     rex_api_function::setFactoryClass('rex_api_function_debug');
 
     rex_response::setHeader('X-Clockwork-Id', rex_debug::getInstance()->getRequest()->id);
-    rex_response::setHeader('X-Clockwork-Version', rex_debug::getInstance()::VERSION);
+    rex_response::setHeader('X-Clockwork-Version', \Clockwork\Clockwork::VERSION);
 
     rex_response::setHeader('X-Clockwork-Path', substr(rex::getServer(), strrpos(rex::getServer(), $_SERVER['HTTP_HOST']) + strlen($_SERVER['HTTP_HOST'])).rex_url::backendController(['page' => 'structure'] + rex_api_debug::getUrlParams(), false));
 
