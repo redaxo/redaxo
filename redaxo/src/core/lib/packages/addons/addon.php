@@ -232,9 +232,10 @@ class rex_addon extends rex_package implements rex_addon_interface
             $systemPlugins = (array) $this->getProperty('system_plugins', []);
         }
         $plugins = [];
+        /** @var string $plugin */
         foreach ($systemPlugins as $plugin) {
             if ($this->pluginExists($plugin)) {
-                $plugins[$plugin] = $this->getPlugin($plugin);
+                $plugins[$plugin] = $this->requirePlugin($plugin);
             }
         }
         return $plugins;
@@ -280,7 +281,7 @@ class rex_addon extends rex_package implements rex_addon_interface
         $addons = [];
         foreach ((array) rex::getProperty('setup_addons', []) as $addon) {
             if (self::exists($addon)) {
-                $addons[$addon] = self::get($addon);
+                $addons[$addon] = self::require($addon);
             }
         }
         return $addons;
@@ -296,7 +297,7 @@ class rex_addon extends rex_package implements rex_addon_interface
         $addons = [];
         foreach ((array) rex::getProperty('system_addons', []) as $addon) {
             if (self::exists($addon)) {
-                $addons[$addon] = self::get($addon);
+                $addons[$addon] = self::require($addon);
             }
         }
         return $addons;
@@ -343,10 +344,14 @@ class rex_addon extends rex_package implements rex_addon_interface
     /**
      * Filters packages by the given method.
      *
-     * @param array  $packages Array of packages
-     * @param string $method   A rex_package method
+     * @param rex_package[] $packages Array of packages
+     * @param string        $method   A rex_package method
      *
      * @return rex_package[]
+     *
+     * @template T of rex_package
+     * @psalm-param T[] $packages
+     * @psalm-return T[]
      */
     private static function filterPackages(array $packages, $method)
     {

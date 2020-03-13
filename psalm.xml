@@ -53,6 +53,11 @@ autoloader="phpstan-bootstrap.php"
             </errorLevel>
         </InvalidScope>
 <!-- level 3 issues - slightly lazy code writing, but provably low false-negatives -->
+        <DeprecatedMethod>
+            <errorLevel type="info">
+                <referencedMethod name="rex_string::versionCompare"/>
+            </errorLevel>
+        </DeprecatedMethod>
         <InternalMethod errorLevel="info" />
         <InternalProperty errorLevel="info" />
         <InternalClass errorLevel="info" />
@@ -60,7 +65,6 @@ autoloader="phpstan-bootstrap.php"
         <MissingReturnType errorLevel="info" />
         <MissingPropertyType errorLevel="info" />
         <PropertyNotSetInConstructor errorLevel="info" />
-        <MissingConstructor errorLevel="info" />
         <MissingClosureParamType errorLevel="info" />
         <MissingParamType errorLevel="info" />
         <RedundantCondition errorLevel="info" />
@@ -68,10 +72,7 @@ autoloader="phpstan-bootstrap.php"
         <RedundantConditionGivenDocblockType errorLevel="info" />
         <UnresolvableInclude errorLevel="info" />
         <RawObjectIteration errorLevel="info" />
-        <InvalidStringClass errorLevel="info" />
 <!-- level 4 issues - points to possible deficiencies in logic, higher false-positives -->
-        <MoreSpecificReturnType errorLevel="info" />
-        <LessSpecificReturnStatement errorLevel="info" />
         <PossiblyFalseArgument errorLevel="info" />
         <PossiblyInvalidArgument errorLevel="info" />
         <PossiblyInvalidIterator errorLevel="info" />
@@ -85,12 +86,15 @@ autoloader="phpstan-bootstrap.php"
             </errorLevel>
         </PossiblyNullPropertyAssignmentValue>
         <PossiblyNullReference errorLevel="info" />
-        <PossiblyUndefinedMethod errorLevel="info" />
 <!-- level 5 issues - should be avoided at mosts costs... -->
         <InvalidScalarArgument errorLevel="info" />
         <InvalidOperand errorLevel="info" />
-        <InvalidGlobal errorLevel="info" />
-<!-- level 6 issues - really bad things -->
-        <UndefinedGlobalVariable errorLevel="info" />
+        <InvalidGlobal>
+            <errorLevel type="info">
+                <file name="redaxo/src/addons/mediapool/pages/index.php"/>
+                <file name="redaxo/src/addons/mediapool/pages/upload.php"/>
+                <file name="redaxo/src/core/pages/login.php"/>
+            </errorLevel>
+        </InvalidGlobal>
     </issueHandlers>
 </psalm>

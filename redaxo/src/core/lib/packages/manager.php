@@ -53,7 +53,7 @@ abstract class rex_package_manager
     public static function factory(rex_package $package)
     {
         if (self::class == static::class) {
-            $class = $package instanceof rex_plugin ? 'rex_plugin_manager' : 'rex_addon_manager';
+            $class = $package instanceof rex_plugin ? rex_plugin_manager::class : rex_addon_manager::class;
             return $class::factory($package);
         }
         $class = static::getFactoryClass();
@@ -770,7 +770,7 @@ abstract class rex_package_manager
 
         /** @psalm-var array{0: '='|'=='|'!='|'<>'|'<'|'<='|'>'|'>=', 1: string} $constraint */
         foreach ($constraints as $constraint) {
-            if (!rex_string::versionCompare($version, $constraint[1], $constraint[0])) {
+            if (!rex_version::compare($version, $constraint[1], $constraint[0])) {
                 return false;
             }
         }

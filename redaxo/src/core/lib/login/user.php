@@ -24,14 +24,14 @@ class rex_user
     /**
      * User role instance.
      *
-     * @var rex_user_role_interface
+     * @var rex_user_role_interface|null
      */
     protected $role;
 
     /**
      * Class name for user roles.
      *
-     * @var string
+     * @var class-string<rex_user_role_interface>
      */
     protected static $roleClass;
 
@@ -176,7 +176,8 @@ class rex_user
      * @param string $key Complex perm key
      *
      * @return rex_complex_perm|null Complex perm
-     * @psalm-return rex_media_perm|rex_structure_perm|rex_module_perm|rex_clang_perm|null
+     * @psalm-return rex_complex_perm|null
+     * @phpstan-return rex_media_perm|rex_structure_perm|rex_module_perm|rex_clang_perm|null
      */
     public function getComplexPerm($key)
     {
@@ -189,7 +190,7 @@ class rex_user
     /**
      * Sets the role class.
      *
-     * @param string $class Class name
+     * @param class-string<rex_user_role_interface> $class Class name
      */
     public static function setRoleClass($class)
     {

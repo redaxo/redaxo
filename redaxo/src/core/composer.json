@@ -7,9 +7,15 @@
         "ramsey/http-range": "dev-legacy",
         "roave/security-advisories": "dev-master",
         "symfony/console": "^4.4",
+        "symfony/polyfill-intl-normalizer": "^1.14",
         "symfony/polyfill-mbstring": "^1.14",
         "symfony/var-dumper": "^4.4",
-        "symfony/yaml": "^4.4"
+        "symfony/yaml": "^4.4",
+        "voku/anti-xss": "^4.1.24"
+    },
+
+    "replace": {
+        "symfony/polyfill-iconv": "*"
     },
 
     "config": {

@@ -6,8 +6,6 @@
  * @package redaxo5
  */
 
-$content = '';
-
 $article_id = rex_request('article_id', 'int');
 $clang = rex_request('clang', 'int');
 $slice_id = rex_request('slice_id', 'int', '');
@@ -241,7 +239,7 @@ if (1 == $article->getRows()) {
                                     ]));
 
                                     $newsql->insert();
-                                    $slice_id = $newsql->getLastId();
+                                    $slice_id = (int) $newsql->getLastId();
 
                                     rex_sql_util::organizePriorities(
                                         rex::getTable('article_slice'),
@@ -426,7 +424,7 @@ if (1 == $article->getRows()) {
         ]));
 
         // ------------------------------------------ START: MODULE EDITIEREN/ADDEN ETC.
-        $contentMain .= rex_be_controller::includeCurrentPageSubPath(compact('info', 'warning', 'template_attributes', 'article', 'article_id', 'category_id', 'clang', 'slice_id', 'slice_revision', 'function', 'ctype', 'content', 'context'));
+        $contentMain .= rex_be_controller::includeCurrentPageSubPath(compact('info', 'warning', 'template_attributes', 'article', 'article_id', 'category_id', 'clang', 'slice_id', 'slice_revision', 'function', 'ctype', 'context'));
         // ------------------------------------------ END: AUSGABE
 
         // ----- EXTENSION POINT

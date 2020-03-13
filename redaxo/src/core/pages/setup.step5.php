@@ -1,6 +1,7 @@
 <?php
 
 assert(isset($context) && $context instanceof rex_context);
+assert(isset($errors) && is_array($errors));
 
 $tables_complete = ('' == rex_setup_importer::verifyDbSchema()) ? true : false;
 
@@ -227,7 +228,6 @@ $content .= '
             </script>';
 
 echo $headline;
-echo implode('', $error_array);
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', rex_i18n::msg('setup_501'), false);

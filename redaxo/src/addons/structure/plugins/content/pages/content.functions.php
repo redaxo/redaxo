@@ -1,6 +1,12 @@
 <?php
 
-$content .= '
+assert(isset($context) && $context instanceof rex_context);
+assert(isset($ctype) && is_int($ctype));
+assert(isset($article) && $article instanceof rex_sql);
+assert(isset($category_id) && is_int($category_id));
+assert(isset($article_id) && is_int($article_id));
+
+$content = '
         <form id="rex-form-content-metamode" action="' . $context->getUrl() . '" method="post" enctype="multipart/form-data" data-pjax-container="#rex-page-main">
             <input type="hidden" name="save" value="1" />
             <input type="hidden" name="ctype" value="' . $ctype . '" />

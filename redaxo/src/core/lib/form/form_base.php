@@ -561,8 +561,9 @@ abstract class rex_form_base
         }
         unset($attributes['internal::useArraySyntax']);
 
-        $class = 'rex_form_element';
+        $class = rex_form_element::class;
         if (isset($attributes['internal::fieldClass'])) {
+            /** @var class-string<rex_form_element> $class */
             $class = $attributes['internal::fieldClass'];
             unset($attributes['internal::fieldClass']);
         }
@@ -632,35 +633,35 @@ abstract class rex_form_base
 
         switch ($inputType) {
             case 'control':
-                $className = 'rex_form_control_element';
+                $className = rex_form_control_element::class;
                 break;
             case 'checkbox':
-                $className = 'rex_form_checkbox_element';
+                $className = rex_form_checkbox_element::class;
                 break;
             case 'radio':
-                $className = 'rex_form_radio_element';
+                $className = rex_form_radio_element::class;
                 break;
             case 'select':
-                $className = 'rex_form_select_element';
+                $className = rex_form_select_element::class;
                 break;
             case 'media':
-                $className = 'rex_form_widget_media_element';
+                $className = rex_form_widget_media_element::class;
                 break;
             case 'medialist':
-                $className = 'rex_form_widget_medialist_element';
+                $className = rex_form_widget_medialist_element::class;
                 break;
             case 'link':
-                $className = 'rex_form_widget_linkmap_element';
+                $className = rex_form_widget_linkmap_element::class;
                 break;
             case 'linklist':
-                $className = 'rex_form_widget_linklist_element';
+                $className = rex_form_widget_linklist_element::class;
                 break;
             case 'hidden':
             case 'readonly':
             case 'readonlytext':
             case 'text':
             case 'textarea':
-                $className = 'rex_form_element';
+                $className = rex_form_element::class;
                 break;
             default:
                 throw new rex_exception("Unexpected inputType '" . $inputType . "'!");
@@ -768,6 +769,7 @@ abstract class rex_form_base
 
     /**
      * @return bool
+     * @psalm-assert-if-true rex_form_control_element $element
      */
     protected function isFooterElement(rex_form_element $element)
     {
@@ -776,6 +778,7 @@ abstract class rex_form_base
 
     /**
      * @return bool
+     * @psalm-assert-if-true rex_form_control_element $element
      */
     protected function isControlElement(rex_form_element $element)
     {
@@ -784,6 +787,7 @@ abstract class rex_form_base
 
     /**
      * @return bool
+     * @psalm-assert-if-true rex_form_raw_element $element
      */
     protected function isRawElement(rex_form_element $element)
     {

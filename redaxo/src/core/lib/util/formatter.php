@@ -251,7 +251,7 @@ abstract class rex_formatter
      */
     public static function version($value, $format)
     {
-        return vsprintf($format, rex_string::versionSplit($value));
+        return vsprintf($format, rex_version::split($value));
     }
 
     /**

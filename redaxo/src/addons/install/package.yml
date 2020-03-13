@@ -1,5 +1,5 @@
 package: install
-version: '2.6.0'
+version: '2.7.0'
 author: Gregor Harlan
 supportpage: www.redaxo.org/de/forum
 
@@ -22,7 +22,7 @@ page:
 requires:
     php:
         extensions: [zlib]
-    redaxo: ^5.5.0
+    redaxo: ^5.7.0
 
 
 console_commands:

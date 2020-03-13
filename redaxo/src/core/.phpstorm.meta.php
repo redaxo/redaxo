@@ -7,10 +7,10 @@ namespace PHPSTORM_META;
 override(
     \rex::getProperty(0),
     map([
-        'console' => \rex_console_application::class,
-        'login' => \rex_backend_login::class,
+        'console' => '\rex_console_application|null',
+        'login' => '\rex_backend_login|null',
         'timer' => \rex_timer::class,
-        'user' => \rex_user::class,
+        'user' => '\rex_user|null',
     ])
 );
 
@@ -82,6 +82,7 @@ expectedArguments(\rex_sql_index::setType(), 0, argumentsSet('index_type'));
 expectedReturnValues(\rex_sql_index::getType(), argumentsSet('index_type'));
 
 expectedArguments(\rex_string::versionCompare(), 2, '<', '<=', '>', '>=', '==', '!=');
+expectedArguments(\rex_version::compare(), 2, '<', '<=', '>', '>=', '==', '!=');
 
 expectedArguments(\rex_timer::getDelta(), 0, \rex_timer::SEC, \rex_timer::MILLISEC, \rex_timer::MICROSEC);
 expectedArguments(\rex_timer::getFormattedDelta(), 0, \rex_timer::SEC, \rex_timer::MILLISEC, \rex_timer::MICROSEC);

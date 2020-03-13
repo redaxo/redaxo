@@ -1,6 +1,21 @@
 Changelog
 =========
 
+Version 2.9.0 – 10.03.2020
+--------------------------
+
+### Neu
+
+* Effekt `convert2img`:
+    - Wandelt auch SVGs in JPG/PNG um (@dergel)
+    - Unterstützt Transparenzen (Farbe kann angegeben werden) (@dergel)
+
+### Bugfixes
+
+* SVGs wurden teils mit falschem Content-Type ausgeliefert (@gharlan)
+* `rex_media_manager::getUrl` hat im Backend eine URL mit der Backend-`index.php` geliefert, was teils zu langsamen Backend-Seitenaufrufen führte (Session-Locks) (@gharlan)
+
+
 Version 2.8.0 – 02.02.2020
 --------------------------
 

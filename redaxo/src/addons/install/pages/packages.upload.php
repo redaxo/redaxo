@@ -1,5 +1,7 @@
 <?php
 
+assert(isset($markdown) && is_callable($markdown));
+
 $package = rex_addon::get('install');
 
 $addonkey = rex_request('addonkey', 'string');
@@ -108,7 +110,7 @@ if ($addonkey && isset($addons[$addonkey])) {
 
         $fragment = new rex_fragment();
         $fragment->setVar('class', 'edit', false);
-        $fragment->setVar('title', $addonkey . ' <small>' . $package->i18n($new ? 'file_add' : 'file_edit') . '</small>', false);
+        $fragment->setVar('title', rex_escape($addonkey) . ' <small>' . $package->i18n($new ? 'file_add' : 'file_edit') . '</small>', false);
         $fragment->setVar('body', $panel, false);
         $fragment->setVar('buttons', $buttons, false);
         $content = $fragment->parse('core/page/section.php');
@@ -127,12 +129,12 @@ if ($addonkey && isset($addons[$addonkey])) {
             $("#rex-js-install-packages-upload-upload-file").change(function(){
                 if($(this).is(":checked"))
                 {
-                    ' . ($newVersion != $file['version'] ? '$("#rex-js-install-packages-upload-version").html(\'<del class="rex-package-old-version">' . $file['version'] . '</del> <ins class="rex-package-new-version">' . $newVersion . '</ins>\');' : '') . '
+                    ' . ($newVersion != $file['version'] ? '$("#rex-js-install-packages-upload-version").html(\'<del class="rex-package-old-version">' . $file['version'] . '</del> <ins class="rex-package-new-version">' . rex_escape($newVersion, 'js') . '</ins>\');' : '') . '
                     $("#rex-js-install-packages-upload-replace-assets, #rex-js-install-packages-upload-ignore-tests").removeAttr("disabled");
                 }
                 else
                 {
-                    $("#rex-js-install-packages-upload-version").html("' . $file['version'] . '");
+                    $("#rex-js-install-packages-upload-version").html("' . rex_escape($file['version'], 'js') . '");
                     $("#rex-js-install-packages-upload-replace-assets, #rex-js-install-packages-upload-ignore-tests").attr("disabled", "disabled");
                 }
             });
@@ -170,7 +172,7 @@ if ($addonkey && isset($addons[$addonkey])) {
         </table>';
 
         $fragment = new rex_fragment();
-        $fragment->setVar('title', $addonkey . ' <small>' . $package->i18n('information') . '</small>', false);
+        $fragment->setVar('title', rex_escape($addonkey) . ' <small>' . $package->i18n('information') . '</small>', false);
         $fragment->setVar('content', $panel, false);
         $content = $fragment->parse('core/page/section.php');
 
@@ -189,8 +191,6 @@ if ($addonkey && isset($addons[$addonkey])) {
             </thead>
             <tbody>';
 
-        $markdown = rex_markdown::factory();
-        $fragment = new rex_fragment();
         foreach ($addon['files'] as $fileId => $file) {
             $url = rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $fileId]);
             $status = $file['status'] ? 'online' : 'offline';
@@ -199,7 +199,7 @@ if ($addonkey && isset($addons[$addonkey])) {
                 <td class="rex-table-icon"><a href="' . $url . '"><i class="rex-icon rex-icon-package"></i></a></td>
                 <td data-title="' . $package->i18n('version') . '">' . rex_escape($file['version']) . '</td>
                 <td data-title="REDAXO">' . rex_escape(implode(', ', $file['redaxo_versions'])) . '</td>
-                <td data-title="' . $package->i18n('description') . '">' . $fragment->setVar('content', $markdown->parse($file['description']), false)->parse('core/page/readme.php') . '</td>
+                <td data-title="' . $package->i18n('description') . '">' . $markdown($file['description']) . '</td>
                 <td class="rex-table-action"><a href="' . $url . '"><i class="rex-icon rex-icon-edit"></i> ' . $package->i18n('file_edit') . '</a></td>
                 <td class="rex-table-action"><span class="rex-text-' . $status . '"><i class="rex-icon rex-icon-' . $status . '"></i> ' . $package->i18n($status) . '</span></td>
             </tr>';

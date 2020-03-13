@@ -31,6 +31,7 @@ abstract class rex_complex_perm
      * Array of class names.
      *
      * @var array
+     * @psalm-var array<string, class-string<self>>
      */
     private static $classes = [];
 
@@ -71,6 +72,7 @@ abstract class rex_complex_perm
      *
      * @param string $key   Key for the complex perm
      * @param string $class Class name
+     * @psalm-param class-string<self> $class
      *
      * @throws InvalidArgumentException
      */

@@ -47,9 +47,9 @@ class rex_sql implements Iterator
     /**
      * Params for where condition.
      *
-     * @var null|array
+     * @var array
      */
-    protected $whereParams;
+    protected $whereParams = [];
 
     protected $rows; // anzahl der treffer
     protected $counter; // pointer
@@ -955,7 +955,7 @@ class rex_sql implements Iterator
     /**
      * @throws rex_sql_exception
      *
-     * @return $this|rex_sql
+     * @return $this
      */
     public function insertOrUpdate()
     {
@@ -1659,7 +1659,7 @@ class rex_sql implements Iterator
      * @throws rex_sql_exception
      *
      * @return array Ein mehrdimensionales Array das die Metadaten enthaelt
-     * @psalm-return list<array{name: string, type: string, null: string, key: string, default: string, extra: string}>
+     * @psalm-return list<array{name: string, type: string, null: 'YES'|'NO', key: string, default: null|string, extra: string}>
      */
     public static function showColumns($table, $DBID = 1)
     {
@@ -1669,12 +1669,12 @@ class rex_sql implements Iterator
         $columns = [];
         foreach ($sql as $col) {
             $columns[] = [
-                'name' => $col->getValue('Field'),
-                'type' => $col->getValue('Type'),
-                'null' => $col->getValue('Null'),
-                'key' => $col->getValue('Key'),
-                'default' => $col->getValue('Default'),
-                'extra' => $col->getValue('Extra'),
+                'name' => (string) $col->getValue('Field'),
+                'type' => (string) $col->getValue('Type'),
+                'null' => (string) $col->getValue('Null'),
+                'key' => (string) $col->getValue('Key'),
+                'default' => null === $col->getValue('Default') ? null : (string) $col->getValue('Default'),
+                'extra' => (string) $col->getValue('Extra'),
             ];
         }
 
@@ -1842,7 +1842,7 @@ class rex_sql implements Iterator
      *
      * @throws rex_sql_exception
      *
-     * @return $this|rex_sql
+     * @return $this
      */
     private function setMultiRecordQuery($verb, $onDuplicateKeyUpdate = false)
     {

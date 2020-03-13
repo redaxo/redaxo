@@ -19,9 +19,7 @@ class rex_console_application extends Application
     public function doRun(InputInterface $input, OutputInterface $output)
     {
         try {
-            if (!$this->checkConsoleUser($input, $output)) {
-                return 1;
-            }
+            $this->checkConsoleUser($input, $output);
             return parent::doRun($input, $output);
         } catch (\Exception $e) {
             // catch and rethrow \Exceptions first to only catch fatal errors below (\Exception implements \Throwable)

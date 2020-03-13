@@ -1,6 +1,19 @@
 Changelog
 =========
 
+Version 2.7.0 – 10.03.2020
+--------------------------
+
+### Neu
+
+* Artikel-Metainfos werden immer in der Seitenleite rechts angezeigt/geändert, nicht mehr in einer eigenen Page (@dergel)
+
+### Bugfixes
+
+* Template-Filter: Templates mit Kategoriebeschränkung standen fälschlich nicht zur Auswahl (@gharlan)
+* Der Default-Wert für die Standard-Metafelder unterschied sich zwischen MySQL und MariaDB (@gharlan)
+
+
 Version 2.6.0 – 02.02.2020
 --------------------------
 

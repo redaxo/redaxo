@@ -14,6 +14,7 @@ $action_id = rex_request('action_id', 'int');
 $iaction_id = rex_request('iaction_id', 'int'); // id der module-action relation
 $mname = trim(rex_request('mname', 'string'));
 $mkey = trim(rex_request('mkey', 'string'));
+$mkey = '' === $mkey ? null : $mkey;
 $eingabe = rex_request('eingabe', 'string');
 $ausgabe = rex_request('ausgabe', 'string');
 $goon = rex_request('goon', 'string');

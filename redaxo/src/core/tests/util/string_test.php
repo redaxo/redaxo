@@ -55,61 +55,6 @@ class rex_string_test extends TestCase
         static::assertEquals($expectedArray, rex_string::split($string));
     }
 
-    public function versionSplitProvider()
-    {
-        return [
-            ['1.1.2',      ['1', '1', '2']],
-            ['1.2alpha1',  ['1', '2', 'alpha', '1']],
-            ['1_2 beta 2', ['1', '2', 'beta', '2']],
-            ['2.2.3-dev',  ['2', '2', '3', 'dev']],
-        ];
-    }
-
-    /**
-     * @dataProvider versionSplitProvider
-     */
-    public function testVersionSplit($version, $expected)
-    {
-        static::assertEquals($expected, rex_string::versionSplit($version));
-    }
-
-    public function versionCompareProvider()
-    {
-        return [
-            ['1',      '1',      '='],
-            ['1.0',    '1.0',    '='],
-            ['1',      '1.0',    '='],
-            ['1.0 a1', '1.0.a1', '='],
-            ['1.0a1',  '1.0.a1', '='],
-            ['1.0 alpha 1', '1.0.a1', '='],
-
-            ['1',      '2',        '<'],
-            ['1',      '1.1',      '<'],
-            ['1.0',    '1.1',      '<'],
-            ['1.1',    '1.2',      '<'],
-            ['1.2',    '1.10',     '<'],
-            ['1.a1',   '1',        '<'],
-            ['1.a1',   '1.0',      '<'],
-            ['1.a1',   '1.a2',     '<'],
-            ['1.a1',   '1.b1',     '<'],
-            ['1.0.a1', '1',        '<'],
-            ['1.0.a1', '1.0.0.0.', '<'],
-            ['1.0a1',  '1.0',      '<'],
-            ['1.0a1',  '1.0.1',    '<'],
-            ['1.0a1',  '1.0a2',    '<'],
-            ['1.0',    '1.1a1',    '<'],
-            ['1.0.1',  '1.1a1',    '<'],
-        ];
-    }
-
-    /**
-     * @dataProvider versionCompareProvider
-     */
-    public function testVersionCompare($version1, $version2, $comparator)
-    {
-        static::assertTrue(rex_string::versionCompare($version1, $version2, $comparator));
-    }
-
     public function buildQueryProvider()
     {
         return [
@@ -141,5 +86,38 @@ class rex_string_test extends TestCase
                 'href' => 'index.php?foo=1&amp;bar=2',
             ])
         );
+    }
+
+    public function testSanitizeHtml()
+    {
+        $input = <<<'INPUT'
+<p align=center><img src="foo.jpg" style="width: 200px"></p>
+<a name="test"></a>
+
+<script>alert(1)</script>
+<a href="javascript:alert(1)">Foo</a>
+<a href="index.php" onclick="alert(1)">Foo</a>
+<img src="foo.jpg" onmouseover="alert(1)"/>
+
+<pre><code>
+    &lt;script&gt; foo() &lt;/script&gt;
+</code></pre>
+INPUT;
+
+        $expected = <<<'EXPECTED'
+<p align=center><img src="foo.jpg" style="width: 200px"></p>
+<a name="test"></a>
+
+
+<a href="(1)">Foo</a>
+<a href="index.php">Foo</a>
+<img src="foo.jpg" />
+
+<pre><code>
+    &lt;script&gt; foo() &lt;/script&gt;
+</code></pre>
+EXPECTED;
+
+        static::assertSame($expected, rex_string::sanitizeHtml($input));
     }
 }

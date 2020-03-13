@@ -8,7 +8,7 @@
 class rex_install_package_update extends rex_install_package_download
 {
     /**
-     * @var rex_addon
+     * @var rex_addon|null
      */
     private $addon;
 
@@ -25,7 +25,9 @@ class rex_install_package_update extends rex_install_package_download
         if (!rex_addon::exists($this->addonkey)) {
             throw new rex_functional_exception(sprintf('AddOn "%s" does not exist!', $this->addonkey));
         }
-        $this->addon = rex_addon::require($this->addonkey);
+        $addon = rex_addon::get($this->addonkey);
+        assert($addon instanceof rex_addon);
+        $this->addon = $addon;
         if (!rex_string::versionCompare($this->file['version'], $this->addon->getVersion(), '>')) {
             throw new rex_functional_exception(sprintf('Existing version of AddOn "%s" (%s) is newer than %s', $this->addonkey, $this->addon->getVersion(), $this->file['version']));
         }

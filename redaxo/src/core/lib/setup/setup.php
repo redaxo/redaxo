@@ -15,7 +15,7 @@ class rex_setup
      */
     public const DEFAULT_DUMMY_PASSWORD = '-REDAXO-DEFAULT-DUMMY-PASSWORD-';
 
-    private static $MIN_PHP_EXTENSIONS = ['fileinfo', 'pcre', 'pdo', 'pdo_mysql', 'session', 'tokenizer'];
+    private static $MIN_PHP_EXTENSIONS = ['fileinfo', 'iconv', 'pcre', 'pdo', 'pdo_mysql', 'session', 'tokenizer'];
 
     /**
      * very basic setup steps, so everything is in place for our browser-based setup wizard.
@@ -146,7 +146,7 @@ class rex_setup
             rex::setProperty('db', $orgDbConfig);
         }
 
-        if (1 == rex_string::versionCompare($serverVersion, self::MIN_MYSQL_VERSION, '<')) {
+        if (1 == rex_version::compare($serverVersion, self::MIN_MYSQL_VERSION, '<')) {
             return rex_i18n::msg('sql_database_min_version', $serverVersion, self::MIN_MYSQL_VERSION);
         }
 
