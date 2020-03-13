@@ -1,7 +1,7 @@
 <?php
 
 // only on http requests
-if (rex_server('REQUEST_URI') && 'debug' !== rex_request('rex-api-call')) {
+if (rex::isDebugMode() && rex_server('REQUEST_URI') && 'debug' !== rex_request('rex-api-call')) {
     rex_sql::setFactoryClass('rex_sql_debug');
     rex_extension::setFactoryClass('rex_extension_debug');
 
