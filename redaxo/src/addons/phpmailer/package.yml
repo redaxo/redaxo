@@ -10,7 +10,6 @@ page:
     icon: rex-icon rex-icon-envelope
     subpages:
         config: { title: 'translate:configuration' }
-        detour: { title: 'translate:detour' }
         log: { title: 'translate:logging' }
         help: { title: 'translate:help', subPath: README.md }
         checkmail: { title: 'translate:checkmail', hidden: true}
@@ -44,5 +43,4 @@ default_config:
     smtp_debug: '0'
     logging: 0
     archive: false
-    detour-mode: 'disabled'
-    detour-email: ''
+    detour_mode: false

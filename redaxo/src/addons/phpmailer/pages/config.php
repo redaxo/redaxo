@@ -13,9 +13,10 @@ $addon = rex_addon::get('phpmailer');
 $message = '';
 
 if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string')) {
-    $addon->setConfig(rex_post('settings', [
+    $settings = rex_post('settings', [
         ['fromname', 'string'],
         ['from', 'string'],
+        ['detour_mode', 'boolean'],
         ['confirmto', 'string'],
         ['bcc', 'string'],
         ['mailer', 'string'],
@@ -34,11 +35,17 @@ if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string'
         ['test_address', 'string'],
         ['logging', 'int'],
         ['archive', 'boolean'],
-    ]));
+    ]);
+
+    if (true == $settings['detour_mode'] && false == rex_validator::factory()->email($settings['test_address'])) {
+        $settings["detour_mode"] = false;
+        $warning = $addon->i18n('detour_warning');
+        echo rex_view::warning($warning);
+    }
+    
+    $addon->setConfig($settings);
 
     if ('' != rex_post('btn_check', 'string')) {
-        $settings = rex_post('settings', 'array', []);
-
         if (false == rex_validator::factory()->email($settings['from']) || false == rex_validator::factory()->email($settings['test_address'])) {
             $warning = $addon->i18n('check_settings_not_tested');
             echo rex_view::warning($warning);
@@ -167,6 +174,22 @@ $n = [];
 $n['label'] = '<label for="phpmailer-testaddress">' . $addon->i18n('checkmail_test_address') . '</label>';
 $n['field'] = '<input class="form-control" id="phpmailer-testaddress" type="email" name="settings[test_address]" placeholder="test@example.tld" value="' . rex_escape($addon->getConfig('test_address')) . '" />';
 $formElements[] = $n;
+
+$sel_detour_mode = new rex_select();
+$sel_detour_mode->setId('phpmailer-detour-mode');
+$sel_detour_mode->setName('settings[detour_mode]');
+$sel_detour_mode->setSize(1);
+$sel_detour_mode->setAttribute('class', 'form-control selectpicker');
+$sel_detour_mode->setSelected($addon->getConfig('detour_mode') ?: 0);
+foreach ([$addon->i18n('smtp_auth_off'), $addon->i18n('smtp_auth_on')] as $key => $value) {
+    $sel_detour_mode->addOption($value, $key);
+}
+
+$n = [];
+$n['label'] = '<label for="phpmailer-detour-mode">' . $addon->i18n('detour_email_redirect') . '</label>';
+$n['field'] = $sel_detour_mode->get();
+$formElements[] = $n;
+
 
 $n = [];
 $n['label'] = '<label for="phpmailer-confirmto">' . $addon->i18n('confirm') . '</label>';

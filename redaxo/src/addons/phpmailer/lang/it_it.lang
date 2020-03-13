@@ -1,13 +1,8 @@
 phpmailer_title = PHPMailer
 phpmailer_configuration = Configurazione
-phpmailer_detour = Deviazione
-phpmailer_detour_config = Impostazioni di reindirizzamento
-phpmailer_detour_email_redirect = Reindirizzare la consegna della posta?
-phpmailer_detour_enabled = Abilitato
-phpmailer_detour_disabled = Disattivato
-phpmailer_detour_options = Opzioni
-phpmailer_detour_email = Indirizzo del destinatario
-phpmailer_detour_email_validation_error = L'indirizzo email inserito non è corretto.
+phpmailer_detour_email_redirect = Redirect email delivery to testaddress?
+phpmailer_detour_meta_header = email detour active
+phpmailer_detour_warning = Field <b>address for testing purposes</b> is required to function <b>detour email delivery</b>. Please check your input.
 phpmailer_example = Esempio
 phpmailer_example_headline = Un esempio:
 phpmailer_config_settings = Impostazioni

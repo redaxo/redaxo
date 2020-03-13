@@ -94,3 +94,14 @@ if (!rex::isBackend() && 0 != $addon->getConfig('errormail')) {
 if ('system' == rex_be_controller::getCurrentPagePart(1)) {
     rex_system_setting::register(new rex_system_setting_phpmailer_errormail());
 }
+
+// show message in meta header if detour mode is active
+if(true == $addon->getConfig('detour_mode')) {
+    rex_extension::register('META_NAVI', function($ep) {
+        $list_items = $ep->getSubject();
+        $addon = rex_addon::get('phpmailer');
+        $item = '<li><a href="'.rex_url::backendPage('phpmailer/config').'"><i class="rex-icon rex-icon-envelope"></i> '.$addon->i18n('detour_meta_header').'</a></li>';
+        array_unshift($list_items, $item);
+        return $list_items;
+    }, rex_extension::LATE);
+}
