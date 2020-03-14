@@ -6,7 +6,6 @@ rex_dir::copy(
     $addon->getAssetsPath('clockwork')
 );
 
-
 // if we update clockwork we need to update the file path here, because the hash might changed.
 $jsFile = $addon->getAssetsPath('clockwork/js/app.fe8ebfde.js');
 $jsContent = rex_file::get($jsFile);
