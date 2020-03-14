@@ -82,11 +82,6 @@ autoloader="phpstan-bootstrap.php"
         <PossiblyNullArrayAccess errorLevel="info" />
         <PossiblyNullArrayOffset errorLevel="info" />
         <PossiblyNullIterator errorLevel="info" />
-        <PossiblyNullPropertyAssignmentValue>
-            <errorLevel type="info">
-                <file name="redaxo/src/addons/phpmailer/lib/mailer.php"/>
-            </errorLevel>
-        </PossiblyNullPropertyAssignmentValue>
         <PossiblyNullReference errorLevel="info" />
 <!-- level 5 issues - should be avoided at mosts costs... -->
         <InvalidScalarArgument errorLevel="info" />
