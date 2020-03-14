@@ -61,7 +61,7 @@ class rex_install
     public function updateAddon(string $addonKey, string $version): void
     {
         if (!rex_addon::exists($addonKey)) {
-            throw new rex_exception(sprintf('AddOn "%s" don\'t exists!', $addonKey));
+            throw new rex_exception(sprintf('AddOn "%s" does not exist!', $addonKey));
         }
 
         $packages = rex_install_packages::getUpdatePackages();
