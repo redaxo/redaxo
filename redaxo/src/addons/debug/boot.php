@@ -5,18 +5,18 @@ if (!rex::isDebugMode() || !rex_server('REQUEST_URI') || 'debug' === rex_get(rex
     return;
 }
 
-rex_sql::setFactoryClass('rex_sql_debug');
-rex_extension::setFactoryClass('rex_extension_debug');
+rex_sql::setFactoryClass(rex_sql_debug::class);
+rex_extension::setFactoryClass(rex_extension_debug::class);
 
-rex_logger::setFactoryClass('rex_logger_debug');
-rex_api_function::setFactoryClass('rex_api_function_debug');
+rex_logger::setFactoryClass(rex_logger_debug::class);
+rex_api_function::setFactoryClass(rex_api_function_debug::class);
 
 rex_response::setHeader('X-Clockwork-Id', rex_debug::getInstance()->getRequest()->id);
 rex_response::setHeader('X-Clockwork-Version', \Clockwork\Clockwork::VERSION);
 
 rex_response::setHeader('X-Clockwork-Path', rex_url::backendController(['page' => 'structure'] + rex_api_debug::getUrlParams(), false));
 
-rex_extension::register('RESPONSE_SHUTDOWN', static function (rex_extension_point $ep) {
+register_shutdown_function(static function () {
     $clockwork = rex_debug::getInstance();
 
     $clockwork->getTimeline()->endEvent('total');
@@ -56,7 +56,7 @@ rex_extension::register('RESPONSE_SHUTDOWN', static function (rex_extension_poin
     $ep->table('Executed', rex_extension_debug::getExecuted());
 
     $clockwork->resolveRequest()->storeRequest();
-}, rex_extension::LATE);
+});
 
 if (rex::isBackend() && 'debug' === rex_request::get('page')) {
     $index = file_get_contents(rex_addon::get('debug')->getPath('vendor/itsgoingd/clockwork/Clockwork/Web/public/index.html'));
