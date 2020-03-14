@@ -11,7 +11,8 @@
   "plugins": {
     "reg-keygen-git-hash-plugin": true,
     "reg-notify-github-plugin": {
-      "clientId": "Mzc1M7Ew1S9KTUmsyNc3NzYyNjc1gHIB"
+      "clientId": "Mzc1M7Ew1S9KTUmsyNc3NzYyNjc1gHIB",
+      "prComment": true
     }
   }
 }
