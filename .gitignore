@@ -37,3 +37,6 @@
 !/.idea/fileTemplates/
 !/.idea/inspectionProfiles/
 !/.idea/scopes/
+
+# visual regression testing
+.reg/

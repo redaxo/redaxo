@@ -1,0 +1,26 @@
+name: Visual Regression Testing
+
+on: [push]
+
+jobs:
+    build:
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js v10
+              uses: actions/setup-node@v1
+              with:
+                  node-version: "10.x"
+            - name: npm install, build, and test
+              run: |
+                  yarn install --pure-lockfile
+              env:
+                  CI: true
+            - name: create the current snapshot
+              run: |
+                  node redaxo/src/core/tests/screenshots/visual-record.js
+            - name: run reg
+              run: |
+                  yarn run reg-suit run --test
