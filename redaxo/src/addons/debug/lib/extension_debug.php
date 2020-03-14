@@ -20,8 +20,8 @@ class rex_extension_debug extends rex_extension
             $extensionPoint = [$extensionPoint];
         }
 
-        foreach($extensionPoint as $ep) {
-            self::$listeners[$ep][] =  $trace['file'].':'.$trace['line'];
+        foreach ($extensionPoint as $ep) {
+            self::$listeners[$ep][] = $trace['file'].':'.$trace['line'];
 
             self::$registered[] = [
                 '#' => count(self::$registered),

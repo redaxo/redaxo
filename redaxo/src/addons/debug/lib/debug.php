@@ -48,7 +48,7 @@ class rex_debug
 
         $start = 0;
         for ($i = 0; $i < count($trace); ++$i) {
-            if (isset($trace[$i+1]['class']) && in_array($trace[$i+1]['class'], $ignoredClasses)) {
+            if (isset($trace[$i + 1]['class']) && in_array($trace[$i + 1]['class'], $ignoredClasses)) {
                 continue;
             }
 
