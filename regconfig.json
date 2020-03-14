@@ -1,7 +1,7 @@
 {
   "core": {
     "workingDir": ".reg",
-    "actualDir": "redaxo/src/core/tests/screenshots/",
+    "actualDir": "redaxo/src/core/tests-visual/",
     "thresholdRate": 0,
     "addIgnore": true,
     "ximgdiff": {

@@ -9,7 +9,7 @@ async function main() {
     // await page.goto(`file://${__dirname}/index.html`);
     await page.goto(`http://localhost/redaxo/redaxo/index.php`);
     await new Promise(res => setTimeout(() => res(), 300));
-    await page.screenshot({ path: 'redaxo/src/core/tests/screenshots/index.png' });
+    await page.screenshot({ path: 'redaxo/src/core/tests-visual/index.png' });
 
     await page.close();
     await browser.close();

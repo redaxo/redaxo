@@ -20,7 +20,7 @@ jobs:
                   CI: true
             - name: create the current snapshot
               run: |
-                  node redaxo/src/core/tests/screenshots/visual-record.js
+                  node redaxo/src/core/tests-visual/visual-record.js
             - name: run reg
               run: |
                   yarn run reg-suit run --test
