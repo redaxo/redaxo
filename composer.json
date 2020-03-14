@@ -21,5 +21,9 @@
         "platform": {
             "php": "7.1.3"
         }
+    },
+
+    "scripts": {
+        "visual-record": "node redaxo/src/core/tests/screenshots/visual-record.js"
     }
 }
