@@ -9,6 +9,7 @@
 /resources/
 /vendor/
 /node_modules/
+/package-lock.json
 
 # Addons
 /redaxo/src/addons/*
