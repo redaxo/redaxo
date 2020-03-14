@@ -6,8 +6,19 @@ jobs:
     build:
 
         runs-on: ubuntu-latest
+        services:
+            mysql:
+                image: mysql:5.7
+                ports:
+                    - 3306
 
         steps:
+            - name: Install Dependencies
+              run: composer install --prefer-dist
+            - run: |
+                  mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
+                  git apply .github/workflows/default.config.yml.github-action.diff
+
             - uses: actions/checkout@v2
             - name: Use Node.js v10
               uses: actions/setup-node@v1
