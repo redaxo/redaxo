@@ -43,16 +43,12 @@ class rex_debug
 
     public static function getTrace(array $ignoredClasses = [])
     {
-        $ignoredClasses = self::$ignoreClasses + $ignoredClasses;
+        $ignoredClasses = array_merge(self::$ignoreClasses, $ignoredClasses);
         $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
         $start = 0;
-        for ($i = 1; $i < count($trace); ++$i) {
-            if (isset($trace[$i]['file']) && false !== strpos($trace[$i]['file'], 'debug.php')) {
-                continue;
-            }
-
-            if (isset($trace[$i]['class']) && in_array($trace[$i]['class'], $ignoredClasses)) {
+        for ($i = 0; $i < count($trace); ++$i) {
+            if (isset($trace[$i+1]['class']) && in_array($trace[$i+1]['class'], $ignoredClasses)) {
                 continue;
             }
 

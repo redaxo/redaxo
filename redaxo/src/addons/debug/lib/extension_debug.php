@@ -9,24 +9,27 @@ class rex_extension_debug extends rex_extension
 {
     private static $registered = [];
     private static $executed = [];
+    private static $listeners = [];
 
     public static function register($extensionPoint, callable $extension, $level = self::NORMAL, array $params = [])
     {
         parent::register($extensionPoint, $extension, $level, $params);
 
-        if (is_array($extensionPoint)) {
-            $extensionPoint = implode(', ', $extensionPoint);
+        $trace = rex_debug::getTrace([rex_extension::class]);
+        if (!is_array($extensionPoint)) {
+            $extensionPoint = [$extensionPoint];
         }
 
-        $trace = rex_debug::getTrace([rex_extension::class]);
-        rex_debug::getInstance()
-            ->addEvent('EXT: '.$extensionPoint, $params, time(), $trace);
-        self::$registered[] = [
-            '#' => count(self::$registered),
-            'name' => $extensionPoint,
-            'file' => str_replace(rex_path::base(), '', $trace['trace'][0]['file']),
-            'line' => $trace['trace'][0]['line'],
-        ];
+        foreach($extensionPoint as $ep) {
+            self::$listeners[$ep][] =  $trace['file'].':'.$trace['line'];
+
+            self::$registered[] = [
+                '#' => count(self::$registered),
+                'name' => $ep,
+                'file' => $trace['file'],
+                'line' => $trace['line'],
+            ];
+        }
     }
 
     public static function registerPoint(rex_extension_point $extensionPoint)
@@ -58,12 +61,15 @@ class rex_extension_debug extends rex_extension
             'result' => $res,
         ];
 
+        $data = rex_debug::getTrace([rex_extension::class]);
+        $data['listeners'] = self::$listeners[$extensionPoint->getName()];
+
         rex_debug::getInstance()
             ->addEvent('EP: '.$extensionPoint->getName(), [
                 'subject' => $extensionPoint->getSubject(),
                 'params' => $extensionPoint->getParams(),
                 'result' => $res,
-            ], time(), rex_debug::getTrace([rex_extension::class]));
+            ], time(), $data);
 
         return $res;
     }
