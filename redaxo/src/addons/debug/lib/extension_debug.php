@@ -10,9 +10,6 @@ class rex_extension_debug extends rex_extension
     private static $registered = [];
     private static $executed = [];
 
-    /**
-     * Extends rex_extension::register() with ChromePhp logging.
-     */
     public static function register($extensionPoint, callable $extension, $level = self::NORMAL, array $params = [])
     {
         parent::register($extensionPoint, $extension, $level, $params);
@@ -32,9 +29,6 @@ class rex_extension_debug extends rex_extension
         ];
     }
 
-    /**
-     * Extends rex_extension::registerPoint() with ChromePhp logging.
-     */
     public static function registerPoint(rex_extension_point $extensionPoint)
     {
         $coreTimer = rex::getProperty('timer');

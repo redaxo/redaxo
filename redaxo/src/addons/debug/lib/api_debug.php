@@ -7,10 +7,12 @@
  */
 class rex_api_debug extends rex_api_function
 {
-    protected $published = true;
-
     public function execute()
     {
+        if (!rex::isDebugMode()) {
+            return new rex_api_result(false);
+        }
+
         $debug = rex_debug::getHelper();
 
         rex_response::sendJson($debug->getMetadata());

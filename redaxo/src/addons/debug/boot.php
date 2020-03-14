@@ -1,65 +1,67 @@
 <?php
 
-// only on http requests
-if (rex::isDebugMode() && rex_server('REQUEST_URI') && 'debug' !== rex_request(rex_api_function::REQ_CALL_PARAM)) {
-    rex_sql::setFactoryClass('rex_sql_debug');
-    rex_extension::setFactoryClass('rex_extension_debug');
+// collect only data in debug mode with http requests outside of the debug addon
+if (!rex::isDebugMode() || !rex_server('REQUEST_URI') || 'debug' === rex_get(rex_api_function::REQ_CALL_PARAM)) {
+    return;
+}
 
-    rex_logger::setFactoryClass('rex_logger_debug');
-    rex_api_function::setFactoryClass('rex_api_function_debug');
+rex_sql::setFactoryClass('rex_sql_debug');
+rex_extension::setFactoryClass('rex_extension_debug');
 
-    rex_response::setHeader('X-Clockwork-Id', rex_debug::getInstance()->getRequest()->id);
-    rex_response::setHeader('X-Clockwork-Version', \Clockwork\Clockwork::VERSION);
+rex_logger::setFactoryClass('rex_logger_debug');
+rex_api_function::setFactoryClass('rex_api_function_debug');
 
-    rex_response::setHeader('X-Clockwork-Path', substr(rex::getServer(), strrpos(rex::getServer(), $_SERVER['HTTP_HOST']) + strlen($_SERVER['HTTP_HOST'])).rex_url::backendController(['page' => 'structure'] + rex_api_debug::getUrlParams(), false));
+rex_response::setHeader('X-Clockwork-Id', rex_debug::getInstance()->getRequest()->id);
+rex_response::setHeader('X-Clockwork-Version', \Clockwork\Clockwork::VERSION);
 
-    rex_extension::register('RESPONSE_SHUTDOWN', static function (rex_extension_point $ep) {
-        $clockwork = rex_debug::getInstance();
+rex_response::setHeader('X-Clockwork-Path', rex_url::backendController(['page' => 'structure'] + rex_api_debug::getUrlParams(), false));
 
-        $clockwork->getTimeline()->endEvent('total');
+rex_extension::register('RESPONSE_SHUTDOWN', static function (rex_extension_point $ep) {
+    $clockwork = rex_debug::getInstance();
 
-        $req = $clockwork->getRequest();
-        foreach ($req->databaseQueries as $query) {
-            switch (strtolower(strtok($query['query'], ' '))) {
-                case 'select':
-                    $req->databaseSelects++;
-                    break;
-                case 'insert':
-                    $req->databaseInserts++;
-                    break;
-                case 'update':
-                    $req->databaseUpdates++;
-                    break;
-                case 'delete':
-                    $req->databaseDeletes++;
-                    break;
-                default:
-                    $req->databaseOthers++;
-                    break;
-            }
-            if ($query['duration'] > 20) {
-                ++$req->databaseSlowQueries;
-            }
+    $clockwork->getTimeline()->endEvent('total');
+
+    $req = $clockwork->getRequest();
+    foreach ($req->databaseQueries as $query) {
+        switch (strtolower(strtok($query['query'], ' '))) {
+            case 'select':
+                $req->databaseSelects++;
+                break;
+            case 'insert':
+                $req->databaseInserts++;
+                break;
+            case 'update':
+                $req->databaseUpdates++;
+                break;
+            case 'delete':
+                $req->databaseDeletes++;
+                break;
+            default:
+                $req->databaseOthers++;
+                break;
         }
-
-        $ep = $clockwork->userData('ep');
-        $ep->title('Extension Point');
-        $ep->counters([
-            'Registered' => count(rex_extension_debug::getRegistered()),
-            'Executed' => count(rex_extension_debug::getExecuted()),
-        ]);
-
-        $ep->table('Registered', rex_extension_debug::getRegistered());
-        $ep->table('Executed', rex_extension_debug::getExecuted());
-
-        $clockwork->resolveRequest()->storeRequest();
-    }, rex_extension::LATE);
-
-    if (rex::isBackend() && 'debug' === rex_request::get('page')) {
-        $index = file_get_contents(rex_addon::get('debug')->getPath('vendor/itsgoingd/clockwork/Clockwork/Web/public/index.html'));
-        $index = preg_replace('/(href|src)=("?)([^>\s]+)/', '$1=$2'.rex_addon::get('debug')->getAssetsUrl('clockwork/$3'), $index);
-
-        rex_response::sendPage($index);
-        die;
+        if ($query['duration'] > 20) {
+            ++$req->databaseSlowQueries;
+        }
     }
+
+    $ep = $clockwork->userData('ep');
+    $ep->title('Extension Point');
+    $ep->counters([
+        'Registered' => count(rex_extension_debug::getRegistered()),
+        'Executed' => count(rex_extension_debug::getExecuted()),
+    ]);
+
+    $ep->table('Registered', rex_extension_debug::getRegistered());
+    $ep->table('Executed', rex_extension_debug::getExecuted());
+
+    $clockwork->resolveRequest()->storeRequest();
+}, rex_extension::LATE);
+
+if (rex::isBackend() && 'debug' === rex_request::get('page')) {
+    $index = file_get_contents(rex_addon::get('debug')->getPath('vendor/itsgoingd/clockwork/Clockwork/Web/public/index.html'));
+    $index = preg_replace('/(href|src)=("?)([^>\s]+)/', '$1=$2'.rex_addon::get('debug')->getAssetsUrl('clockwork/$3'), $index);
+
+    rex_response::sendPage($index);
+    exit;
 }
