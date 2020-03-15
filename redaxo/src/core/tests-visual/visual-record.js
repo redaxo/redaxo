@@ -30,14 +30,14 @@ async function createScreenshot(page, screenshotName) {
 
     // mask dynamic content, to make it not appear like change
     await page.evaluate(() => document.querySelector('.rex-js-script-time').innerHTML = 'XXX');
-    
+
     await page.screenshot({ path: '.tests-visual/' + screenshotName });
 
     // make sure we only create changes in redaxo/src/core/tests-visual/ on substential screenshot changes.
     // this makes sure to prevent endless loops within the github action
     let diffPixels = countDiffPixels('.tests-visual/' + screenshotName, 'redaxo/src/core/tests-visual/' + screenshotName);
+    console.log("DIFF-PIXELS: "+ screenshotName + ":" +diffPixels);
     if (diffPixels >= MIN_DIFF_PIXELS) {
-        console.log("DIFF-PIXELS: "+ screenshotName + ":" +diffPixels);
         fs.renameSync('.tests-visual/' + screenshotName, 'redaxo/src/core/tests-visual/' + screenshotName);
     }
 }
