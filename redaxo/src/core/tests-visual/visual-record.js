@@ -2,8 +2,10 @@
 const puppeteer = require('puppeteer');
 
 const pixelmatch = require('pixelmatch');
-const fs = require('fs');
 const PNG = require('pngjs').PNG;
+
+const fs = require('fs');
+const mkdirp = require('mkdirp');
 
 const screenshotWidth = 1280;
 const screenshotHeight = 1024
@@ -12,9 +14,9 @@ const MIN_DIFF_PIXELS = 5;
 
 function countDiffPixels(img1path, img2path ) {
     if (!fs.existsSync(img2path)) {
-        // no reference image -> 0 pixel difference
-        // we assume a new reference screenshot will be adaded
-        return 0;
+        // no reference image
+        // we assume a new reference screenshot will be added
+        return MIN_DIFF_PIXELS;
     }
 
     const img1 = PNG.sync.read(fs.readFileSync(img1path));
@@ -24,9 +26,13 @@ function countDiffPixels(img1path, img2path ) {
 }
 
 async function createScreenshot(page, screenshotName) {
+    mkdirp.sync('.tests-visual/');
+
     await page.screenshot({ path: '.tests-visual/' + screenshotName });
 
-    if (countDiffPixels('.tests-visual/' + screenshotName, 'redaxo/src/core/tests-visual/' + screenshotName) > MIN_DIFF_PIXELS) {
+    // make sure we only create changes in redaxo/src/core/tests-visual/ on substential screenshot changes.
+    // this makes sure to prevent endless loops within the github action
+    if (countDiffPixels('.tests-visual/' + screenshotName, 'redaxo/src/core/tests-visual/' + screenshotName) >= MIN_DIFF_PIXELS) {
         fs.renameSync('.tests-visual/' + screenshotName, 'redaxo/src/core/tests-visual/' + screenshotName);
     }
 }

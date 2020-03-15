@@ -54,7 +54,7 @@ jobs:
                   node-version: "10.x"
             - name: setup server
               run: |
-                  npm install puppeteer pixelmatch fs pngjs
+                  npm install puppeteer pixelmatch pngjs fs mkdirp
                   php -S localhost:8000 &
                   sleep 3
             - name: create snapshots
