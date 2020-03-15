@@ -1,6 +1,6 @@
 name: Visual Regression Testing
 
-on: [push]
+on: [pull_request]
 
 jobs:
     build:
@@ -59,6 +59,8 @@ jobs:
                   php -S localhost:8000 &
                   sleep 3
                   node redaxo/src/core/tests-visual/visual-record.js
-            - name: run reg
-              run: |
-                  yarn run reg-suit run --test
+                  
+            - uses: stefanzweifel/git-auto-commit-action@v4.1.1
+              with:
+                commit_message: Update screenshots
+                branch: ${{ github.head_ref }}
