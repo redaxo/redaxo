@@ -17,6 +17,9 @@ const MIN_DIFF_PIXELS = 5;
 const noHtaccessCheckCookie = {
     name: 'rex_htaccess_check',
     value: '1',
+    domain: 'localhost',
+    httpOnly: false,
+    secure: false
 };
 
 function countDiffPixels(img1path, img2path ) {
@@ -35,7 +38,7 @@ function countDiffPixels(img1path, img2path ) {
 async function createScreenshot(page, screenshotName) {
     mkdirp.sync('.tests-visual/');
 
-    // mask dynamic content, to make it not appear like change
+    // mask dynamic content, to make it not appear like change (visual noise)
     await page.evaluate(() => document.querySelector('.rex-js-script-time').innerHTML = 'XXX');
 
     await page.screenshot({ path: '.tests-visual/' + screenshotName });
@@ -62,16 +65,15 @@ async function main() {
 
     await page.setViewport({ width: screenshotWidth, height: screenshotHeight });
     await page.setCookie(noHtaccessCheckCookie);
+
     await page.goto(`http://localhost:8000/redaxo/index.php`);
     await new Promise(res => setTimeout(() => res(), 300));
     await createScreenshot(page, 'login.png');
-//    await page.screenshot({ path: 'redaxo/src/core/tests-visual/login.png' });
 
     await page.type('#rex-id-login-user', 'myusername');
     await page.type('#rex-id-login-password', '91dfd9ddb4198affc5c194cd8ce6d338fde470e2'); // sha1('mypassword')
     await page.$eval('#rex-form-login', form => form.submit());
     await new Promise(res => setTimeout(() => res(), 5000));
-
     await createScreenshot(page, 'index.png');
 
     await page.close();
