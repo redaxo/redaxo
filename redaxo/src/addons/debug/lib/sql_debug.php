@@ -56,21 +56,6 @@ class rex_sql_debug extends rex_sql
         rex_debug::getInstance()
             ->addDatabaseQuery($qry, $params, $timer->getDelta(), ['connection' => $this->DBID] + rex_debug::getTrace());
 
-        $err = $errno = '';
-        if ($this->hasError()) {
-            $err = parent::getError();
-            $errno = parent::getErrno();
-        }
-
-        rex_debug::getInstance()
-            ->addDatabaseQuery($qry, $params, $timer->getDelta(), [
-                'rows' => $this->getRows(),
-                'time' => $timer->getFormattedDelta(),
-                'query' => $qry,
-                'error' => $err,
-                'errno' => $errno,
-            ]);
-
         return $this;
     }
 }
