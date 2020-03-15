@@ -10,7 +10,7 @@ const mkdirp = require('mkdirp');
 const screenshotWidth = 1280;
 const screenshotHeight = 1024
 
-const MIN_DIFF_PIXELS = 5;
+const MIN_DIFF_PIXELS = 1;
 
 // htaccess are subject to race conditions and therefore generated 'random' markup.
 // disable the check to get less visual noise.
