@@ -64,6 +64,7 @@ jobs:
                   node redaxo/src/core/tests-visual/visual-record.js
 
             - uses: stefanzweifel/git-auto-commit-action@v2.5.0
+              if: git diff-index --quiet HEAD -- redaxo/src/core/tests-visual/
               with:
                 commit_message: Update screenshots
                 branch: ${{ github.head_ref }}
