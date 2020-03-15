@@ -51,7 +51,7 @@ jobs:
                   node-version: "10.x"
             - name: npm install, build, and test
               run: |
-                  yarn install --pure-lockfile
+                  npm install
               env:
                   CI: true
             - name: create the current snapshot
