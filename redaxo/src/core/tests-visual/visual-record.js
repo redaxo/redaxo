@@ -32,7 +32,9 @@ async function createScreenshot(page, screenshotName) {
 
     // make sure we only create changes in redaxo/src/core/tests-visual/ on substential screenshot changes.
     // this makes sure to prevent endless loops within the github action
-    if (countDiffPixels('.tests-visual/' + screenshotName, 'redaxo/src/core/tests-visual/' + screenshotName) >= MIN_DIFF_PIXELS) {
+    let diffPixels = countDiffPixels('.tests-visual/' + screenshotName, 'redaxo/src/core/tests-visual/' + screenshotName);
+    if (diffPixels >= MIN_DIFF_PIXELS) {
+        console.log("DIFF-PIXELS: "+ screenshotName + ":" +diffPixels);
         fs.renameSync('.tests-visual/' + screenshotName, 'redaxo/src/core/tests-visual/' + screenshotName);
     }
 }
