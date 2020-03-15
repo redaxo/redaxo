@@ -8,8 +8,6 @@
 /releases/
 /resources/
 /vendor/
-/node_modules/
-/package-lock.json
 
 # Addons
 /redaxo/src/addons/*
@@ -38,6 +36,3 @@
 !/.idea/fileTemplates/
 !/.idea/inspectionProfiles/
 !/.idea/scopes/
-
-# visual regression testing
-.reg/
