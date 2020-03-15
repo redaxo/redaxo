@@ -51,15 +51,13 @@ jobs:
               uses: actions/setup-node@v1
               with:
                   node-version: "10.x"
-            - name: npm install, build, and test
+            - name: setup server
               run: |
-                  npm install
-              env:
-                  CI: true
-            - name: create the current snapshot
-              run: |
+                  npm -i puppeteer
                   php -S localhost:8000 &
                   sleep 3
+            - name: create snapshots
+              run: |
                   node redaxo/src/core/tests-visual/visual-record.js
 
             - uses: stefanzweifel/git-auto-commit-action@v2.5.0
