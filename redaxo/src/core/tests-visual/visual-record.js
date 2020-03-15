@@ -11,6 +11,13 @@ async function main() {
     await new Promise(res => setTimeout(() => res(), 300));
     await page.screenshot({ path: 'redaxo/src/core/tests-visual/login.png' });
 
+    await page.type('#rex-id-login-user', 'username');
+    await page.type('#rex-id-login-password', 'password');
+    await page.click('#rex-form-login type[submit]');
+    await page.waitForNavigation();
+
+    await page.screenshot({ path: 'redaxo/src/core/tests-visual/index.png' });
+
     await page.close();
     await browser.close();
 }
