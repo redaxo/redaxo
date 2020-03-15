@@ -56,9 +56,8 @@ jobs:
                   node-version: "10.x"
             - name: setup server
               run: |
-                  npm install puppeteer pixelmatch pngjs fs mkdirp
                   php -S localhost:8000 &
-                  sleep 3
+                  npm install puppeteer pixelmatch pngjs fs mkdirp
             - name: create screenshots
               run: |
                   node redaxo/src/core/tests-visual/visual-record.js
