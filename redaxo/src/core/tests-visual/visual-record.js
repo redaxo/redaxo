@@ -12,7 +12,7 @@ async function main() {
     let page = await browser.newPage();
     page.on('console', msg => console.log('BROWSER-CONSOLE:', msg.text()));
 
-    await page.setViewport({ width: 640, height: 680 });
+    await page.setViewport({ width: 1280, height: 1024 });
     await page.goto(`http://localhost:8000/redaxo/index.php`);
     await new Promise(res => setTimeout(() => res(), 300));
     await page.screenshot({ path: 'redaxo/src/core/tests-visual/login.png' });
@@ -20,7 +20,7 @@ async function main() {
     await page.type('#rex-id-login-user', 'myusername');
     await page.type('#rex-id-login-password', '91dfd9ddb4198affc5c194cd8ce6d338fde470e2'); // sha1('mypassword')
     await page.$eval('#rex-form-login', form => form.submit());
-    await page.waitForNavigation();
+    await new Promise(res => setTimeout(() => res(), 5000));
 
     await page.screenshot({ path: 'redaxo/src/core/tests-visual/index.png' });
 
