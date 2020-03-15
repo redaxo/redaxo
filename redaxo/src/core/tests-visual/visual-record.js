@@ -12,6 +12,11 @@ const screenshotHeight = 1024
 
 const MIN_DIFF_PIXELS = 5;
 
+const noHtaccessCheckCookie = {
+    name: 'rex_htaccess_check',
+    value: '1',
+};
+
 function countDiffPixels(img1path, img2path ) {
     if (!fs.existsSync(img2path)) {
         // no reference image
@@ -54,6 +59,7 @@ async function main() {
     page.on('console', msg => console.log('BROWSER-CONSOLE:', msg.text()));
 
     await page.setViewport({ width: screenshotWidth, height: screenshotHeight });
+    await page.setCookie(noHtaccessCheckCookie);
     await page.goto(`http://localhost:8000/redaxo/index.php`);
     await new Promise(res => setTimeout(() => res(), 300));
     await createScreenshot(page, 'login.png');
