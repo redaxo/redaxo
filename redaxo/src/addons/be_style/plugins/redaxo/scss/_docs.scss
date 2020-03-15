@@ -169,7 +169,6 @@
 
 .rex-docs {
     display: flex;
-    justify-content: space-between;
 
     &-sidebar {
         flex-basis: 230px;
@@ -179,6 +178,7 @@
     }
     &-content {
         min-width: 0; // flexbox: reduce implied width
+        flex-grow: 1;
     }
 }
 
