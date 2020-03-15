@@ -28,6 +28,9 @@ function countDiffPixels(img1path, img2path ) {
 async function createScreenshot(page, screenshotName) {
     mkdirp.sync('.tests-visual/');
 
+    // mask dynamic content, to make it not appear like change
+    await page.evaluate(() => document.querySelector('.rex-js-script-time').innerHTML = 'XXX');
+    
     await page.screenshot({ path: '.tests-visual/' + screenshotName });
 
     // make sure we only create changes in redaxo/src/core/tests-visual/ on substential screenshot changes.
