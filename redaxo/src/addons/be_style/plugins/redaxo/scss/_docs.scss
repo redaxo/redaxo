@@ -169,6 +169,7 @@
 
 .rex-docs {
     display: flex;
+    justify-content: space-between;
 
     &-sidebar {
         flex-basis: 230px;
