@@ -53,7 +53,7 @@ jobs:
                   node-version: "10.x"
             - name: setup server
               run: |
-                  npm -i puppeteer
+                  npm install puppeteer
                   php -S localhost:8000 &
                   sleep 3
             - name: create snapshots
