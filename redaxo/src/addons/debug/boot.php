@@ -52,8 +52,8 @@ register_shutdown_function(static function () {
         'Executed' => count(rex_extension_debug::getExecuted()),
     ]);
 
-    $ep->table('Registered', rex_extension_debug::getRegistered());
     $ep->table('Executed', rex_extension_debug::getExecuted());
+    $ep->table('Registered', rex_extension_debug::getRegistered());
 
     $clockwork->resolveRequest()->storeRequest();
 });
