@@ -12,6 +12,8 @@ const screenshotHeight = 1024
 
 const MIN_DIFF_PIXELS = 5;
 
+// htaccess are subject to race conditions and therefore generated 'random' markup.
+// disable the check to get less visual noise.
 const noHtaccessCheckCookie = {
     name: 'rex_htaccess_check',
     value: '1',
