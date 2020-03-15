@@ -39,6 +39,7 @@ jobs:
                   git apply .github/workflows/default.config.yml.github-action.diff
             - run: |
                   php redaxo/src/addons/tests/bin/setup.php
+                  php redaxo/bin/console user:create myusername mypassword
                   php redaxo/bin/console package:install phpmailer
                   php redaxo/bin/console package:install cronjob
                   php redaxo/bin/console package:install cronjob/article_status
