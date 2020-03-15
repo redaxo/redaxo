@@ -67,7 +67,7 @@ jobs:
               run: echo ::set-output name=dirty::$(git diff-index --quiet HEAD -- redaxo/src/core/tests-visual/)
 
             - uses: stefanzweifel/git-auto-commit-action@v2.5.0
-              if: "!steps.visual_changes.outputs.dirty"
+              if: "steps.visual_changes.outputs.dirty == 1"
               with:
                 commit_message: Update screenshots
                 branch: ${{ github.head_ref }}
