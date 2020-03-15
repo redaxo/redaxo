@@ -63,9 +63,9 @@ table_prefix: rex_
 temp_prefix: tmp_
 db:
     1:
-        host: 127.0.0.1
+        host: localhost
         login: root
-        password: root
+        password: ''
         name: redaxo5
         persistent: false
         ssl_key: null
