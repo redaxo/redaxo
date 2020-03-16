@@ -161,7 +161,7 @@ class rex_string
         $query = [];
         $func = static function (array $params, $fullkey = null) use (&$query, &$func) {
             foreach ($params as $key => $value) {
-                $key = $fullkey ? $fullkey . '[' . urlencode($key) . ']' : urlencode($key);
+                $key = $fullkey ? $fullkey . '%5B' . urlencode($key) . '%5D' : urlencode($key);
                 if (is_array($value)) {
                     $func($value, $key);
                 } else {
