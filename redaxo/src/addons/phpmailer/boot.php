@@ -98,6 +98,6 @@ if ('system' == rex_be_controller::getCurrentPagePart(1)) {
 // make the phpmailer addon icon orange if detour_mode is active
 if(true == $addon->getConfig('detour_mode')) {
     $page = $addon->getProperty('page');
-    $page["icon"] .= '" style="color: #F90';
+    $page["icon"] .= ' text-danger';
     $addon->setProperty('page', $page);
 }

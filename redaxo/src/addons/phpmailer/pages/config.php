@@ -180,13 +180,16 @@ $sel_detour_mode->setId('phpmailer-detour-mode');
 $sel_detour_mode->setName('settings[detour_mode]');
 $sel_detour_mode->setSize(1);
 $sel_detour_mode->setAttribute('class', 'form-control selectpicker');
+
 $sel_detour_mode->setSelected($addon->getConfig('detour_mode') ?: 0);
 foreach ([$addon->i18n('smtp_auth_off'), $addon->i18n('smtp_auth_on')] as $key => $value) {
     $sel_detour_mode->addOption($value, $key);
 }
 
+$detour_mode_label_class = $addon->getConfig('detour_mode') ? 'text-danger' : '';
+
 $n = [];
-$n['label'] = '<label for="phpmailer-detour-mode">' . $addon->i18n('detour_email_redirect') . '</label>';
+$n['label'] = '<label for="phpmailer-detour-mode" class="' . $detour_mode_label_class . '">' . $addon->i18n('detour_email_redirect') . '</label>';
 $n['field'] = $sel_detour_mode->get();
 $formElements[] = $n;
 
