@@ -7,7 +7,7 @@ class rex_form_element
 {
     /** @var string|null */
     protected $value;
-    /** @var string|int */
+    /** @var string|int|null */
     protected $defaultSaveValue = '';
     /** @var string */
     protected $label;
@@ -64,7 +64,7 @@ class rex_form_element
     }
 
     /**
-     * @param string|int $value
+     * @param string|int|null $value
      */
     public function setDefaultSaveValue($value)
     {

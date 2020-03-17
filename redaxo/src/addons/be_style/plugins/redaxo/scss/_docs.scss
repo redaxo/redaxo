@@ -178,6 +178,7 @@
     }
     &-content {
         min-width: 0; // flexbox: reduce implied width
+        flex-grow: 1;
     }
 }
 

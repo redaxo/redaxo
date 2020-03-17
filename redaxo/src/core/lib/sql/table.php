@@ -658,10 +658,20 @@ class rex_sql_table
             $previous = $name;
         }
 
+        $implicitReversedPositions = array_flip($this->positions);
+
         foreach ($positions as $name => $after) {
             // unset is necessary to add new position as last array element
             unset($this->positions[$name]);
             $this->positions[$name] = $after;
+
+            if (isset($implicitReversedPositions[$after])) {
+                // move the implicitly after `$after` positioned column
+                // after the one that was explicitly positioned at that position
+                $this->positions[$implicitReversedPositions[$after]] = $name;
+                $implicitReversedPositions[$name] = $implicitReversedPositions[$after];
+                unset($implicitReversedPositions[$after]);
+            }
         }
 
         $this->alter();
