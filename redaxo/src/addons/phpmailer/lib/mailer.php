@@ -106,7 +106,7 @@ class rex_mailer extends PHPMailer
 
             // Sets Subject of E-Mail to [DETOUR] $subject [$original_mail_to]
             if(true == $detour &&  '' != $this->original_mail_to) {
-                $this->Subject = '[DETOUR] ' . $this->Subject . ' [originally for: ' . $this->original_mail_to . ']';
+                $this->Subject = '[' . $addon->i18n('detour_subject_start') . '] ' . $this->Subject . ' [' . $addon->i18n('detour_subject_end') . ': ' . $this->original_mail_to . ']';
             }
 
             if (!parent::send()) {
