@@ -65,10 +65,14 @@ class rex_timer
         } finally {
             $timer->stop();
 
-            $duration = isset(self::$serverTimings[$label]) ? self::$serverTimings[$label] : 0;
+            $duration = self::$serverTimings[$label]['sum'] ?? 0;
             $duration += $timer->getDelta(self::MILLISEC);
 
-            self::$serverTimings[$label] = $duration;
+            self::$serverTimings[$label]['sum'] = $duration;
+            self::$serverTimings[$label]['timings'][] = [
+                'start' => $timer->start,
+                'end' => microtime(true),
+            ];
         }
     }
 

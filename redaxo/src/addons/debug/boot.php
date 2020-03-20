@@ -21,6 +21,14 @@ register_shutdown_function(static function () {
 
     $clockwork->getTimeline()->endEvent('total');
 
+    foreach (rex_timer::$serverTimings as $label => $timings) {
+        foreach ($timings['timings'] as $i => $timing) {
+            if ($timing['end'] - $timing['start'] > 0.001) {
+                $clockwork->getTimeline()->addEvent($label.'_'.$i, $label, $timing['start'], $timing['end']);
+            }
+        }
+    }
+
     $req = $clockwork->getRequest();
     foreach ($req->databaseQueries as $query) {
         switch (strtolower(strtok($query['query'], ' '))) {
