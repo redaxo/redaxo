@@ -15,7 +15,7 @@ class rex_timer
 
     /**
      * @var array
-     * @psalm-var array<string, float>
+     * @psalm-var array<string, array{sum: mixed}|float>
      */
     public static $serverTimings = [];
 
