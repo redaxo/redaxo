@@ -32,12 +32,12 @@ self.__precacheManifest = [
     "url": "img/whats-new/4.1/commands-profiling.png"
   },
   {
-    "revision": "03d36de2be5c98c325c6d7b115f81ace",
-    "url": "img/whats-new/4.1/extended-timeline.png"
-  },
-  {
     "revision": "bdb3d5c5df863ae277204f869eb12ed7",
     "url": "img/whats-new/4.1/queue-jobs-profiling.png"
+  },
+  {
+    "revision": "03d36de2be5c98c325c6d7b115f81ace",
+    "url": "img/whats-new/4.1/extended-timeline.png"
   },
   {
     "revision": "40982c718da4cf42285e32d3e1a9649f",

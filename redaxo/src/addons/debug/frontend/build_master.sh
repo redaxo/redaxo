@@ -23,6 +23,12 @@ replace="<script>if(!localStorage.getItem('clockwork'))localStorage.setItem('clo
 sed -i "s*$search*$replace*" public/index.html
 
 npm run build-web
+
+# rewrite image path
+search="src:\"img/"
+replace="src:\"../assets/addons/debug/clockwork/img/"
+sed -i "s*$search*$replace*g" dist/web/js/app.*.js
+
 mv dist/web ../
 cd ..
 rm -rf clockwork-app-master
