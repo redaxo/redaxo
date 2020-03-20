@@ -108,8 +108,11 @@ class rex_mailer extends PHPMailer
             // $detour: boolean
             $detour = true == $addon->getConfig('detour_mode') && '' != $addon->getConfig('test_address');
 
+            // Clears the CCs and BCCs if detour mode is active
             // Sets Subject of E-Mail to [DETOUR] $subject [$originalMailTo]
             if(true == $detour &&  '' != $this->originalMailTo) {
+                $this->ClearCCs();
+                $this->clearBCCs();
                 $this->Subject = '[' . $addon->i18n('detour_subject_start') . '] ' . $this->Subject . ' [' . $addon->i18n('detour_subject_end') . ': ' . $this->originalMailTo . ']';
             }
 

@@ -87,7 +87,7 @@ $sel_smtpauth->setName('settings[smtpauth]');
 $sel_smtpauth->setSize(1);
 $sel_smtpauth->setAttribute('class', 'form-control selectpicker');
 $sel_smtpauth->setSelected($addon->getConfig('smtpauth'));
-foreach ([0 => $addon->i18n('smtp_auth_off'), 1 => $addon->i18n('smtp_auth_on')] as $i => $type) {
+foreach ([0 => $addon->i18n('disabled'), 1 => $addon->i18n('enabled')] as $i => $type) {
     $sel_smtpauth->addOption($type, $i);
 }
 
@@ -182,7 +182,7 @@ $sel_detour_mode->setSize(1);
 $sel_detour_mode->setAttribute('class', 'form-control selectpicker');
 
 $sel_detour_mode->setSelected($addon->getConfig('detour_mode') ?: 0);
-foreach ([$addon->i18n('smtp_auth_off'), $addon->i18n('smtp_auth_on')] as $key => $value) {
+foreach ([$addon->i18n('disabled'), $addon->i18n('enabled')] as $key => $value) {
     $sel_detour_mode->addOption($value, $key);
 }
 
