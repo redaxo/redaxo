@@ -21,7 +21,7 @@ class rex_mailer extends PHPMailer
     /** @var string 
      * used for storing the original mail_to if detour mode is used
     */
-    private $original_mail_to;
+    private $originalMailTo;
 
     public function __construct($exceptions = false)
     {
@@ -80,7 +80,7 @@ class rex_mailer extends PHPMailer
             // check if address is valid
             if(true == rex_validator::factory()->email($detour_address)) {
                 // store the address so we can use it in the subject later
-                $this->original_mail_to = $address;
+                $this->originalMailTo = $address;
 
                 // Set $address to the detour address
                 $address = $detour_address;
@@ -104,9 +104,9 @@ class rex_mailer extends PHPMailer
             // $detour: boolean
             $detour = true == $addon->getConfig('detour_mode') && '' != $addon->getConfig('test_address');
 
-            // Sets Subject of E-Mail to [DETOUR] $subject [$original_mail_to]
-            if(true == $detour &&  '' != $this->original_mail_to) {
-                $this->Subject = '[' . $addon->i18n('detour_subject_start') . '] ' . $this->Subject . ' [' . $addon->i18n('detour_subject_end') . ': ' . $this->original_mail_to . ']';
+            // Sets Subject of E-Mail to [DETOUR] $subject [$originalMailTo]
+            if(true == $detour &&  '' != $this->originalMailTo) {
+                $this->Subject = '[' . $addon->i18n('detour_subject_start') . '] ' . $this->Subject . ' [' . $addon->i18n('detour_subject_end') . ': ' . $this->originalMailTo . ']';
             }
 
             if (!parent::send()) {
