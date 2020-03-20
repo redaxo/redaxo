@@ -29,6 +29,12 @@ search="src:\"img/"
 replace="src:\"../assets/addons/debug/clockwork/img/"
 sed -i "s*$search*$replace*g" dist/web/js/app.*.js
 
+#cleanup
+rm dist/web/manifest.json
+rm -rf dist/web/img/whats-new
+rm dist/web/precache*.js
+rm dist/web/service-worker.js
+
 mv dist/web ../
 cd ..
 rm -rf clockwork-app-master
