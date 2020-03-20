@@ -12,7 +12,7 @@ self.__precacheManifest = [
     "url": "js/chunk-vendors.b6cbf595.js"
   },
   {
-    "revision": "5c9b41a8167f61048a60091775d9f1b4",
+    "revision": "f9ad9ac8817d46cbe397ed138f78a457",
     "url": "index.html"
   },
   {
@@ -36,12 +36,12 @@ self.__precacheManifest = [
     "url": "img/whats-new/4.1/extended-timeline.png"
   },
   {
-    "revision": "40982c718da4cf42285e32d3e1a9649f",
-    "url": "img/whats-new/4.1/tests-profiling.png"
-  },
-  {
     "revision": "bdb3d5c5df863ae277204f869eb12ed7",
     "url": "img/whats-new/4.1/queue-jobs-profiling.png"
+  },
+  {
+    "revision": "40982c718da4cf42285e32d3e1a9649f",
+    "url": "img/whats-new/4.1/tests-profiling.png"
   },
   {
     "revision": "2ad52c54fbe33fd038d800d1f634bbaf",
