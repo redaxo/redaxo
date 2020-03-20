@@ -600,6 +600,26 @@ class rex_sql_table_test extends TestCase
         static::assertTrue($table->hasIndex('i_description'));
     }
 
+    public function testEnsureWithEnsureGlobalColumns(): void
+    {
+        $expectedOrder = ['id', 'title', 'createdate', 'createuser', 'updatedate', 'updateuser', 'revision'];
+
+        for ($i = 1; $i <= 2; ++$i) {
+            $table = rex_sql_table::get(self::TABLE);
+            $table
+                ->ensurePrimaryIdColumn()
+                ->ensureColumn(new rex_sql_column('title', 'varchar(255)'))
+                ->ensureGlobalColumns()
+                ->ensureColumn(new rex_sql_column('revision', 'tinyint(1)'))
+                ->ensure();
+
+            rex_sql_table::clearInstance(self::TABLE);
+            $table = rex_sql_table::get(self::TABLE);
+
+            static::assertSame($expectedOrder, array_keys($table->getColumns()), "Column order does not match expected order (\$i = $i)");
+        }
+    }
+
     public function testRenameNonExistingTable()
     {
         $this->expectException(rex_exception::class);

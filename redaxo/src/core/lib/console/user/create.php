@@ -73,6 +73,7 @@ class rex_command_user_create extends rex_console_command
         $user->setValue('login', $login);
         $user->setValue('password', rex_backend_login::passwordHash($password));
         $user->setValue('admin', $input->getOption('admin') ? 1 : 0);
+        $user->setValue('login_tries', 0);
         $user->addGlobalCreateFields('console');
         $user->addGlobalUpdateFields('console');
         $user->setValue('status', '1');
