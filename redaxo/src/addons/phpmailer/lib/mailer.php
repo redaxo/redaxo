@@ -84,6 +84,16 @@ class rex_mailer extends PHPMailer
             // check if address is valid
             if(true == rex_validator::factory()->email($detour_address)) {
                 // store the address so we can use it in the subject later
+
+                // if there has already been a call to AddAddress and detour mode is on
+                // originalMailTo should have already been set
+                // therefore we add the address to originalMailTo for the subject later
+                // and parent::addAddress doesnt need to be called since it would be the test address again
+                if ($this->originalMailTo) {
+                    $this->originalMailTo .= ', ' . $address;
+                    return true;
+                }
+
                 $this->originalMailTo = $address;
 
                 // Set $address to the detour address
@@ -114,6 +124,9 @@ class rex_mailer extends PHPMailer
                 $this->ClearCCs();
                 $this->clearBCCs();
                 $this->Subject = '[' . $addon->i18n('detour_subject_start') . '] ' . $this->Subject . ' [' . $addon->i18n('detour_subject_end') . ': ' . $this->originalMailTo . ']';
+            
+                // unset originalMailTo so it can be used again
+                $this->originalMailTo = null;
             }
 
             if (!parent::send()) {
