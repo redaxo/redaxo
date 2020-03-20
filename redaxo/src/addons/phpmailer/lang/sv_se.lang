@@ -1,10 +1,5 @@
 phpmailer_title = PHPMailer
 phpmailer_configuration = Konfiguration
-phpmailer_detour_email_redirect = Redirect email delivery to testaddress?
-phpmailer_detour_meta_header = email detour active
-phpmailer_detour_warning = Field <b>address for testing purposes</b> is required to function <b>detour email delivery</b>. Please check your input.
-phpmailer_detour_subject_start = DETOUR
-phpmailer_detour_subject_end = originally for
 phpmailer_help = Hjälp
 phpmailer_config_settings = Inställningar
 phpmailer_email_options = E-post
