@@ -60,11 +60,15 @@ class rex_mailer extends PHPMailer
     /**
      * Override the AddAddress method of Parent
      * Same Parameters as Parent
-     *
-     * $address: string / Adress of the reciever / mail_to
-     * $name: string / Name of the reciever / mail_to_name
-     *
+     * 
      * @author markus[dot]dick[at]novinet[dot]de Markus Dick
+     *
+     * @param string $address / Adress of the reciever / mail_to
+     * @param string $name / Name of the reciever / mail_to_name
+     * 
+     * @throws Exception
+     *
+     * @return bool true on success, false if address already used or invalid in some way
      *
     */
     public function AddAddress($address, $name = '') {
