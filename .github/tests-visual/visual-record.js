@@ -101,10 +101,9 @@ async function main() {
         'mediapool_structure.png': START_URL + '?page=mediapool/structure',
         'mediapool_sync.png': START_URL + '?page=mediapool/sync',
         'templates.png': START_URL + '?page=templates',
-        // 'templates_edit.png': START_URL + '?page=templates&function=edit&template_id=1',
+        'templates_edit.png': START_URL + '?page=templates&function=edit&template_id=1',
         'modules_modules.png': START_URL + '?page=modules/modules',
         'modules_actions.png': START_URL + '?page=modules/actions',
-        /*
         'users_users.png': START_URL + '?page=users/users',
         'users_roles.png': START_URL + '?page=users/roles',
         'packages.png': START_URL + '?page=packages',
@@ -122,7 +121,6 @@ async function main() {
         'metainfo_media.png': START_URL + '?page=metainfo/media',
         'metainfo_clangs.png': START_URL + '?page=metainfo/clangs',
         'phpmailer_config.png': START_URL + '?page=phpmailer/config',
-        */
     };
 
     for (var fileName in config) {
