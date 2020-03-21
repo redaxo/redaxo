@@ -5,7 +5,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * @package redaxo/install
+ * @package redaxo\install
  *
  * @internal
  */
