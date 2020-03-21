@@ -14,6 +14,7 @@ const START_URL = 'http://localhost:8000/redaxo/index.php';
 const DEBUGGING = false;
 const MIN_DIFF_PIXELS = 1;
 const WORKING_DIR = '.tests-visual/';
+const GOLDEN_SAMPLES_DIR = '.github/tests-visual/';
 
 // htaccess ajax checks are subject to race conditions and therefore generated 'random' markup.
 // disable the check to get less visual noise.
@@ -48,10 +49,10 @@ async function createScreenshot(page, screenshotName) {
 
     // make sure we only create changes in .github/tests-visual/ on substential screenshot changes.
     // this makes sure to prevent endless loops within the github action
-    let diffPixels = countDiffPixels(WORKING_DIR + screenshotName, '.github/tests-visual/' + screenshotName);
+    let diffPixels = countDiffPixels(WORKING_DIR + screenshotName, GOLDEN_SAMPLES_DIR + screenshotName);
     console.log("DIFF-PIXELS: "+ screenshotName + ":" +diffPixels);
     if (diffPixels >= MIN_DIFF_PIXELS) {
-        fs.renameSync(WORKING_DIR + screenshotName, '.github/tests-visual/' + screenshotName);
+        fs.renameSync(WORKING_DIR + screenshotName, GOLDEN_SAMPLES_DIR + screenshotName);
     }
 }
 
