@@ -10,9 +10,12 @@ const mkdirp = require('mkdirp');
 const screenshotWidth = 1280;
 const screenshotHeight = 1024
 
+const START_URL = 'http://localhost:8000/redaxo/index.php';
+const DEBUGGING = false;
 const MIN_DIFF_PIXELS = 1;
+const WORKING_DIR = '.tests-visual/';
 
-// htaccess are subject to race conditions and therefore generated 'random' markup.
+// htaccess ajax checks are subject to race conditions and therefore generated 'random' markup.
 // disable the check to get less visual noise.
 const noHtaccessCheckCookie = {
     name: 'rex_htaccess_check',
@@ -36,37 +39,39 @@ function countDiffPixels(img1path, img2path ) {
 }
 
 async function createScreenshot(page, screenshotName) {
-    mkdirp.sync('.tests-visual/');
+    mkdirp.sync(WORKING_DIR);
 
     // mask dynamic content, to make it not appear like change (visual noise)
     await page.evaluate(() => document.querySelector('.rex-js-script-time').innerHTML = 'XXX');
 
-    await page.screenshot({ path: '.tests-visual/' + screenshotName });
+    await page.screenshot({ path: WORKING_DIR + screenshotName });
 
     // make sure we only create changes in .github/tests-visual/ on substential screenshot changes.
     // this makes sure to prevent endless loops within the github action
-    let diffPixels = countDiffPixels('.tests-visual/' + screenshotName, '.github/tests-visual/' + screenshotName);
+    let diffPixels = countDiffPixels(WORKING_DIR + screenshotName, '.github/tests-visual/' + screenshotName);
     console.log("DIFF-PIXELS: "+ screenshotName + ":" +diffPixels);
     if (diffPixels >= MIN_DIFF_PIXELS) {
-        fs.renameSync('.tests-visual/' + screenshotName, '.github/tests-visual/' + screenshotName);
+        fs.renameSync(WORKING_DIR + screenshotName, '.github/tests-visual/' + screenshotName);
     }
 }
 
 async function main() {
     const options = { args: ['--no-sandbox', '--disable-setuid-sandbox'] };
 
-    // uncomment for debugging
-    // see https://developers.google.com/web/tools/puppeteer/debugging
-    // options.headless = false;
+    if (DEBUGGING) {
+        // see https://developers.google.com/web/tools/puppeteer/debugging
+        options.headless = false;
+    }
 
     const browser = await puppeteer.launch(options);
     let page = await browser.newPage();
+    // log browser errors into the console
     page.on('console', msg => console.log('BROWSER-CONSOLE:', msg.text()));
 
     await page.setViewport({ width: screenshotWidth, height: screenshotHeight });
     await page.setCookie(noHtaccessCheckCookie);
 
-    await page.goto(`http://localhost:8000/redaxo/index.php`);
+    await page.goto(START_URL);
     await new Promise(res => setTimeout(() => res(), 300));
     await createScreenshot(page, 'login.png');
 
