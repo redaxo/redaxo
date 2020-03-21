@@ -48,7 +48,7 @@ class rex_effect_mirror extends rex_effect_abstract
         $h = $this->media->getHeight();
 
         if ('%' === substr(trim($this->params['height']), -1)) {
-            $this->params['height'] = round($h * (rtrim($this->params['height'], '%') / 100));
+            $this->params['height'] = round($h * ((int) rtrim($this->params['height'], '%') / 100));
         } else {
             $this->params['height'] = (int) $this->params['height'];
         }

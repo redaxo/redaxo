@@ -83,7 +83,6 @@ autoloader="phpstan-bootstrap.php"
         <PossiblyNullReference errorLevel="info" />
 <!-- level 5 issues - should be avoided at mosts costs... -->
         <InvalidScalarArgument errorLevel="info" />
-        <InvalidOperand errorLevel="info" />
         <InvalidGlobal>
             <errorLevel type="info">
                 <file name="redaxo/src/addons/mediapool/pages/index.php"/>

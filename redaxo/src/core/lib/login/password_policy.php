@@ -20,7 +20,7 @@ class rex_password_policy
      *
      * @throws rex_exception
      *
-     * @return bool|string `true` on success, otherwise an error message
+     * @return true|string `true` on success, otherwise an error message
      */
     public function check($password, $id = null)
     {

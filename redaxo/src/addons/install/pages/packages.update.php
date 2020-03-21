@@ -201,7 +201,7 @@ if ($core && !empty($coreVersions)) {
     $panel .= '</tbody></table>';
 
     $fragment = new rex_fragment();
-    $fragment->setVar('title', $package->i18n('available_updates', !empty($coreVersions) + count($addons)), false);
+    $fragment->setVar('title', $package->i18n('available_updates', ($coreVersions ? 1 : 0) + count($addons)), false);
     $fragment->setVar('content', $panel, false);
     $content = $fragment->parse('core/page/section.php');
 }
