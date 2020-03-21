@@ -51,7 +51,12 @@ async function createScreenshot(page, screenshotName) {
 
     // mask dynamic content, to make it not appear like change (visual noise)
     await page.evaluate(() => document.querySelector('.rex-js-script-time').innerHTML = 'XXX');
-    await page.evaluate(() => document.querySelector('td[data-title="Letzter Login"]').innerHTML = 'XXX');
+    await page.evaluate(function() {
+        var el = document.querySelector('td[data-title="Letzter Login"]');
+        if (el) {
+            el.innerHTML = 'XXX';
+        }
+    });
 
     await page.screenshot({ path: WORKING_DIR + screenshotName });
 
