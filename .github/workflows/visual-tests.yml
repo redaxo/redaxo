@@ -51,19 +51,20 @@ jobs:
             - run: |
                   php redaxo/bin/console user:create myusername mypassword --admin
 
-            - name: Use Node.js v10
+            - name: Setup Node.js
               uses: actions/setup-node@v1
               with:
-                  node-version: "10.x"
-            - name: setup server
+                  node-version: "12.x"
+            - name: Setup Webserver
               run: |
                   php -S localhost:8000 &
                   npm install puppeteer pixelmatch pngjs fs mkdirp
-            - name: create screenshots
+            - name: Take Screenshots
               run: |
                   node .github/tests-visual/visual-record.js
 
             - id: visual_changes
+              name: Detect Changes
               run: git diff-index --quiet HEAD -- .github/tests-visual/
 
             - uses: stefanzweifel/git-auto-commit-action@v2.5.0

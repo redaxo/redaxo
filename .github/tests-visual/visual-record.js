@@ -1,10 +1,11 @@
 /**
  * REDAXO Visual Regression testing
- * 
- * 1. Start a local php-server with `php -S localhost:8000` from within the project root.
- * 2. Make sure a database server is running 
- * 3. Make sure the REDAXO instance running at START_URL is accessible and login screen appears on the url
- * 3. Start the visual recording with `node .github/tests-visual/visual-record.js`
+ *
+ * 1. Start a local php-server with `php -S localhost:8000` from within the project root
+ * 2. Make sure a database server is running
+ * 3. Make sure a admin-user with login `myusername` and password `mypassword` exists
+ * 4. Make sure the REDAXO instance running at START_URL is accessible and login screen appears on the url
+ * 5. Start the visual recording with `node .github/tests-visual/visual-record.js`
  */
 
 const puppeteer = require('puppeteer');
@@ -49,7 +50,21 @@ async function createScreenshot(page, screenshotName) {
     mkdirp.sync(WORKING_DIR);
 
     // mask dynamic content, to make it not appear like change (visual noise)
-    await page.evaluate(() => document.querySelector('.rex-js-script-time').innerHTML = 'XXX');
+    await page.evaluate(function() {
+        var changingElements = [
+            '.rex-js-script-time',
+            'td[data-title="Letzter Login"]',
+            '#rex-form-exportfilename',
+        ];
+
+        changingElements.forEach(function (selector) {
+            var el = document.querySelector(selector);
+            if (el) {
+                el.innerHTML = 'XXX';
+                el.value = 'XXX'; // handle input elements
+            }
+        });
+    });
 
     await page.screenshot({ path: WORKING_DIR + screenshotName });
 
@@ -85,8 +100,42 @@ async function main() {
     await page.type('#rex-id-login-user', 'myusername');
     await page.type('#rex-id-login-password', '91dfd9ddb4198affc5c194cd8ce6d338fde470e2'); // sha1('mypassword')
     await page.$eval('#rex-form-login', form => form.submit());
-    await new Promise(res => setTimeout(() => res(), 5000));
+    await new Promise(res => setTimeout(() => res(), 1000));
     await createScreenshot(page, 'index.png');
+
+    var config = {
+        'mediapool_media.png': START_URL + '?page=mediapool/media',
+        'mediapool_upload.png': START_URL + '?page=mediapool/upload',
+        'mediapool_structure.png': START_URL + '?page=mediapool/structure',
+        'mediapool_sync.png': START_URL + '?page=mediapool/sync',
+        'templates.png': START_URL + '?page=templates',
+        'templates_edit.png': START_URL + '?page=templates&function=edit&template_id=1',
+        'modules_modules.png': START_URL + '?page=modules/modules',
+        'modules_actions.png': START_URL + '?page=modules/actions',
+        'users_users.png': START_URL + '?page=users/users',
+        'users_roles.png': START_URL + '?page=users/roles',
+        'packages.png': START_URL + '?page=packages',
+        'system_settings.png': START_URL + '?page=system/settings',
+        'system_log.png': START_URL + '?page=system/log/redaxo',
+        'system_report.png': START_URL + '?page=system/report/html',
+        'backup_export.png': START_URL + '?page=backup/export',
+        'backup_import.png': START_URL + '?page=backup/import',
+        'cronjob_cronjobs.png': START_URL + '?page=cronjob/cronjobs',
+        'media_manager_types.png': START_URL + '?page=media_manager/types',
+        'media_manager_types_edit.png': START_URL + '?page=media_manager/types&type_id=1&effects=1',
+        'media_manager_settings.png': START_URL + '?page=media_manager/settings',
+        'metainfo_articles.png': START_URL + '?page=metainfo/articles',
+        'metainfo_categories.png': START_URL + '?page=metainfo/categories',
+        'metainfo_media.png': START_URL + '?page=metainfo/media',
+        'metainfo_clangs.png': START_URL + '?page=metainfo/clangs',
+        'phpmailer_config.png': START_URL + '?page=phpmailer/config',
+    };
+
+    for (var fileName in config) {
+        await page.goto(config[fileName]);
+        await new Promise(res => setTimeout(() => res(), 1000));
+        await createScreenshot(page, fileName);
+    }
 
     await page.close();
     await browser.close();
