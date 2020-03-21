@@ -1,10 +1,11 @@
 /**
  * REDAXO Visual Regression testing
- * 
- * 1. Start a local php-server with `php -S localhost:8000` from within the project root.
- * 2. Make sure a database server is running 
- * 3. Make sure the REDAXO instance running at START_URL is accessible and login screen appears on the url
- * 3. Start the visual recording with `node .github/tests-visual/visual-record.js`
+ *
+ * 1. Start a local php-server with `php -S localhost:8000` from within the project root
+ * 2. Make sure a database server is running
+ * 3. Make sure a admin-user with login `myusername` and password `mypassword` exists
+ * 4. Make sure the REDAXO instance running at START_URL is accessible and login screen appears on the url
+ * 5. Start the visual recording with `node .github/tests-visual/visual-record.js`
  */
 
 const puppeteer = require('puppeteer');
@@ -87,6 +88,14 @@ async function main() {
     await page.$eval('#rex-form-login', form => form.submit());
     await new Promise(res => setTimeout(() => res(), 5000));
     await createScreenshot(page, 'index.png');
+
+    await page.goto(START_URL + '?page=templates');
+    await new Promise(res => setTimeout(() => res(), 5000));
+    await createScreenshot(page, 'templates.png');
+
+    await page.goto(START_URL + '?page=modules/modules');
+    await new Promise(res => setTimeout(() => res(), 5000));
+    await createScreenshot(page, 'modules_modules.png');
 
     await page.close();
     await browser.close();
