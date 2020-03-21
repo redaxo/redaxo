@@ -22,6 +22,7 @@ class rex_command_package_deactivate extends rex_console_command
     {
         $io = $this->getStyle($input, $output);
 
+        /** @var string $packageId */
         $packageId = $input->getArgument('package-id');
 
         // the package manager don't know new packages in the addon folder
