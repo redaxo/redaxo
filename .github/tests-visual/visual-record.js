@@ -96,7 +96,7 @@ async function main() {
         'mediapool_structure.png': START_URL + '?page=mediapool/structure',
         'mediapool_sync.png': START_URL + '?page=mediapool/sync',
         'templates.png': START_URL + '?page=templates',
-        'templates_edit.png': START_URL + '?page=templates&function=edit&template_id=1',
+        // 'templates_edit.png': START_URL + '?page=templates&function=edit&template_id=1',
         'modules_modules.png': START_URL + '?page=modules/modules',
         'modules_actions.png': START_URL + '?page=modules/actions',
         /*
