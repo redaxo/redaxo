@@ -40,7 +40,7 @@ class rex_command_package_list extends rex_console_command
         $packages = rex_package::getRegisteredPackages();
 
         $rows = [];
-        foreach($packages as $package) {
+        foreach ($packages as $package) {
             $rowdata = [
                 'package-id' => $package->getPackageId(),
                 'author' => $package->getAuthor(),
@@ -54,7 +54,7 @@ class rex_command_package_list extends rex_console_command
                 $rowdata['installed'] = $rowdata['installed'] ? 'x' : '';
             }
 
-            if(null !== $search && false === stripos($package->getPackageId(), $search)) {
+            if (null !== $search && false === stripos($package->getPackageId(), $search)) {
                 continue;
             }
 
@@ -71,10 +71,10 @@ class rex_command_package_list extends rex_console_command
 
         if ($jsonOutput) {
             $io->writeln(json_encode($rows));
-            return $usingExitCode ? (int) (count($rows) === 0) : 0;
+            return $usingExitCode ? (int) (0 === count($rows)) : 0;
         }
 
         $io->table(['package-id', 'author', 'version', 'activated', 'installed'], $rows);
-        return $usingExitCode ? (int) (count($rows) === 0) : 0;
+        return $usingExitCode ? (int) (0 === count($rows)) : 0;
     }
 }
