@@ -40,29 +40,11 @@ composer update --no-dev -d redaxo/src/addons/debug/
 rm -f redaxo/src/addons/debug/vendor/autoload.php
 rm -rf redaxo/src/addons/debug/vendor/composer/
 rm -rf redaxo/src/addons/debug/vendor/psr/
-rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/DataSource/DBALDataSource.php
-rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/DataSource/DoctrineDataSource.php
-rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/DataSource/EloquentDataSource.php
-rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/DataSource/LaravelCacheDataSource.php
-rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/DataSource/LaravelDataSource.php
-rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/DataSource/LaravelEventsDataSource.php
-rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/DataSource/LaravelQueueDataSource.php
-rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/DataSource/LaravelRedisDataSource.php
-rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/DataSource/LumenDataSource.php
-rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/DataSource/MonologDataSource.php
-rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/DataSource/PsrMessageDataSource.php
-rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/DataSource/SlimDataSource.php
-rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/DataSource/SwiftDataSource.php
-rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/DataSource/Concerns
+find redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/DataSource/ -not -name Php* -not -name Xdebug* -not -name Data* -delete
 rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Storage/SqlSearch.php
 rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Storage/SqlStorage.php
 rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Storage/SymfonyStorage.php
-rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Support/Laravel
-rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Support/Lumen
-rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Support/Monolog
-rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Support/Slim
-rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Support/Swift
-rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Support/Symfony
+find redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Support/ -mindepth 1 -not -path */Vanilla* -delete
 rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Web
 
 printf "\nUpdate redaxo/src/addons/phpmailer/vendor\n"
