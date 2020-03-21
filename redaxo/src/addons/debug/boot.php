@@ -64,12 +64,12 @@ register_shutdown_function(static function () {
     $ep = $clockwork->userData('ep');
     $ep->title('Extension Point');
     $ep->counters([
-        'Registered' => count(rex_extension_debug::getRegistered()),
-        'Executed' => count(rex_extension_debug::getExecuted()),
+        'Extension Points' => count(rex_extension_debug::getExtensionPoints()),
+        'Registered Extensions' => count(rex_extension_debug::getExtensions()),
     ]);
 
-    $ep->table('Executed', rex_extension_debug::getExecuted());
-    $ep->table('Registered', rex_extension_debug::getRegistered());
+    $ep->table('Executed Extension Points', rex_extension_debug::getExtensionPoints());
+    $ep->table('Registered Extensions', rex_extension_debug::getExtensions());
 
     $clockwork->resolveRequest()->storeRequest();
 });

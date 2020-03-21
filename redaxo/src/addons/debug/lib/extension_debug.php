@@ -7,30 +7,9 @@
  */
 class rex_extension_debug extends rex_extension
 {
-    private static $registered = [];
-    private static $executed = [];
+    private static $extensionPoints = [];
+    private static $extensions = [];
     private static $listeners = [];
-
-    public static function register($extensionPoint, callable $extension, $level = self::NORMAL, array $params = [])
-    {
-        parent::register($extensionPoint, $extension, $level, $params);
-
-        $trace = rex_debug::getTrace([rex_extension::class]);
-        if (!is_array($extensionPoint)) {
-            $extensionPoint = [$extensionPoint];
-        }
-
-        foreach ($extensionPoint as $ep) {
-            self::$listeners[$ep][] = $trace['file'].':'.$trace['line'];
-
-            self::$registered[] = [
-                '#' => count(self::$registered),
-                'name' => $ep,
-                'file' => $trace['file'],
-                'line' => $trace['line'],
-            ];
-        }
-    }
 
     public static function registerPoint(rex_extension_point $extensionPoint)
     {
@@ -49,8 +28,8 @@ class rex_extension_debug extends rex_extension
 
         $memory = rex_formatter::bytes(memory_get_usage(true), [3]);
 
-        self::$executed[] = [
-            '#' => count(self::$executed),
+        self::$extensionPoints[] = [
+            '#' => count(self::$extensionPoints),
             'ep' => $extensionPoint->getName(),
             'subject' => $extensionPoint->getSubject(),
             'params' => $extensionPoint->getParams() ?: '',
@@ -74,13 +53,34 @@ class rex_extension_debug extends rex_extension
         return $res;
     }
 
-    public static function getRegistered()
+    public static function register($extensionPoint, callable $extension, $level = self::NORMAL, array $params = [])
     {
-        return self::$registered;
+        parent::register($extensionPoint, $extension, $level, $params);
+
+        $trace = rex_debug::getTrace([rex_extension::class]);
+        if (!is_array($extensionPoint)) {
+            $extensionPoint = [$extensionPoint];
+        }
+
+        foreach ($extensionPoint as $ep) {
+            self::$listeners[$ep][] = $trace['file'].':'.$trace['line'];
+
+            self::$extensions[] = [
+                '#' => count(self::$extensions),
+                'name' => $ep,
+                'file' => $trace['file'],
+                'line' => $trace['line'],
+            ];
+        }
     }
 
-    public static function getExecuted()
+    public static function getExtensionPoints(): array
     {
-        return self::$executed;
+        return self::$extensionPoints;
+    }
+
+    public static function getExtensions(): array
+    {
+        return self::$extensions;
     }
 }
