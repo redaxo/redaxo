@@ -10,6 +10,7 @@ class rex_debug
     /** @var \Clockwork\Support\Vanilla\Clockwork */
     private static $instance;
 
+    /** @var class-string[] */
     private static $ignoreClasses = [
         rex_extension_debug::class,
         rex_api_function_debug::class,
