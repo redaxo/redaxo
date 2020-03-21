@@ -7,9 +7,6 @@
  */
 class rex_logger_debug extends rex_logger
 {
-    /**
-     * {@inheritdoc}
-     */
     public function log($level, $message, array $context = [], $file = null, $line = null)
     {
         $levelType = is_int($level) ? self::getLogLevel($level) : $level;

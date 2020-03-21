@@ -7,9 +7,6 @@
  */
 class rex_sql_debug extends rex_sql
 {
-    /**
-     * {@inheritdoc}.
-     */
     public function setQuery($qry, array $params = [], array $options = [])
     {
         try {
@@ -41,10 +38,6 @@ class rex_sql_debug extends rex_sql
         return $this;
     }
 
-    /**
-     * {@inheritdoc}.
-     */
-    // TODO queries using setQuery() are not logged yet!
     public function execute(array $params = [], array $options = [])
     {
         assert($this->stmt instanceof PDOStatement);
