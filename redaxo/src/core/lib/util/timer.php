@@ -14,12 +14,16 @@ class rex_timer
     public const MICROSEC = 1000000;
 
     /**
+     * @internal
      * @var array
-     * @psalm-var array<string, array{sum: mixed}|float>
+     * @psalm-var array<string, array{sum: mixed, timings: list<array{start: float, end: float}>}>
      */
     public static $serverTimings = [];
 
+    /** @var float */
     private $start;
+
+    /** @var null|float */
     private $duration;
 
     /**
