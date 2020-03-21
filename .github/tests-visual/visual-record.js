@@ -61,6 +61,7 @@ async function createScreenshot(page, screenshotName) {
             var el = document.querySelector(selector);
             if (el) {
                 el.innerHTML = 'XXX';
+                el.value = 'XXX'; // handle input elements
             }
         });
     });
