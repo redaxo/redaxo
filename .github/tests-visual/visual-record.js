@@ -89,13 +89,19 @@ async function main() {
     await new Promise(res => setTimeout(() => res(), 5000));
     await createScreenshot(page, 'index.png');
 
-    await page.goto(START_URL + '?page=templates');
-    await new Promise(res => setTimeout(() => res(), 5000));
-    await createScreenshot(page, 'templates.png');
+    var config = {
+        'templates.png': START_URL + '?page=templates',
+        'modules_modules.png': START_URL + '?page=modules/modules',
+        'users_users.png': START_URL + '?page=users/users',
+        'packages.png': START_URL + '?page=packages',
+        'system_settings.png': START_URL + '?page=system/settings',
+    };
 
-    await page.goto(START_URL + '?page=modules/modules');
-    await new Promise(res => setTimeout(() => res(), 5000));
-    await createScreenshot(page, 'modules_modules.png');
+    for (var fileName in config) {
+        await page.goto(config[fileName]);
+        await new Promise(res => setTimeout(() => res(), 5000));
+        await createScreenshot(page, fileName);
+    }
 
     await page.close();
     await browser.close();
