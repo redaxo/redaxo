@@ -19,7 +19,7 @@ class rex_debug
         rex_sql_debug::class,
     ];
 
-    public static function init()
+    public static function init(): void
     {
         $clockwork = \Clockwork\Support\Vanilla\Clockwork::init([
             'storage_files_path' => rex_addon::get('debug')->getDataPath('clockwork.db'),
@@ -28,12 +28,12 @@ class rex_debug
         self::$instance = $clockwork;
     }
 
-    public static function getInstance()
+    public static function getInstance(): \Clockwork\Clockwork
     {
         return self::getHelper()->getClockwork();
     }
 
-    public static function getHelper()
+    public static function getHelper(): \Clockwork\Support\Vanilla\Clockwork
     {
         if (!self::$instance) {
             self::init();
@@ -41,7 +41,7 @@ class rex_debug
         return self::$instance;
     }
 
-    public static function getTrace(array $ignoredClasses = [])
+    public static function getTrace(array $ignoredClasses = []): array
     {
         $ignoredClasses = array_merge(self::$ignoreClasses, $ignoredClasses);
         $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
