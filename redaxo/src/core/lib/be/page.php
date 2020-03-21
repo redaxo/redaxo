@@ -234,6 +234,7 @@ class rex_be_page
         if (!is_string($class)) {
             throw new InvalidArgumentException('Expecting $class to be a string, ' . gettype($class) . 'given!');
         }
+        /** @var string $classAttr */
         $classAttr = $this->getItemAttr('class');
         if (!preg_match('/\b' . preg_quote($class, '/') . '\b/', $classAttr)) {
             $this->setItemAttr('class', ltrim($classAttr . ' ' . $class));
@@ -317,6 +318,7 @@ class rex_be_page
         if (!is_string($class)) {
             throw new InvalidArgumentException('Expecting $class to be a string, ' . gettype($class) . 'given!');
         }
+        /** @var string $classAttr */
         $classAttr = $this->getLinkAttr('class');
         if (!preg_match('/\b' . preg_quote($class, '/') . '\b/', $classAttr)) {
             $this->setLinkAttr('class', ltrim($classAttr . ' ' . $class));
