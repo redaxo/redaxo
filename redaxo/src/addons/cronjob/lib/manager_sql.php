@@ -150,7 +150,7 @@ class rex_cronjob_manager_sql
         } else {
             $query .= ' LIMIT 1';
 
-            $minExecutionStartDiff = 2 * (ini_get('max_execution_time') ?: 60 * 60);
+            $minExecutionStartDiff = 2 * ((int) ini_get('max_execution_time') ?: 60 * 60);
         }
 
         $jobs = $sql->getArray($query, [rex_sql::datetime(time() - $minExecutionStartDiff), '%|' .$env. '|%', rex_sql::datetime()]);
