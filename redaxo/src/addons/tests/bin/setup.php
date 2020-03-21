@@ -32,6 +32,8 @@ include_once rex_path::core('packages.php');
 
 // run setup, if instance not already prepared
 if (rex::isSetup()) {
+    rex_setup::init();
+
     $err = '';
 
     // read initial config

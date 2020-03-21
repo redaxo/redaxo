@@ -190,6 +190,7 @@ class rex_release
 
         $finder = rex_finder::factory($dir)
             ->recursive()
+            ->ignoreDirs('tests')
             ->filesOnly()
         ;
 
