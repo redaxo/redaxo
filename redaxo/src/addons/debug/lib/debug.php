@@ -17,6 +17,7 @@ class rex_debug
         rex_api_debug::class,
         rex_logger_debug::class,
         rex_sql_debug::class,
+        rex_sql::class
     ];
 
     public static function init(): void
