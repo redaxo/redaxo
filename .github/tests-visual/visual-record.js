@@ -1,9 +1,15 @@
+/**
+ * REDAXO Visual Regression testing
+ * 
+ * 1. Start a local php-server with `php -S localhost:8000` from within the project root.
+ * 2. Make sure a database server is running 
+ * 3. Make sure the REDAXO instance running at START_URL is accessible and login screen appears on the url
+ * 3. Start the visual recording with `node .github/tests-visual/visual-record.js`
+ */
 
 const puppeteer = require('puppeteer');
-
 const pixelmatch = require('pixelmatch');
 const PNG = require('pngjs').PNG;
-
 const fs = require('fs');
 const mkdirp = require('mkdirp');
 
