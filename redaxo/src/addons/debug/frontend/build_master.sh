@@ -18,7 +18,7 @@ sed -i "s*$search*$replace*g" src/platform/standalone.js
 
 #prevent updates ui by setting a fake config option
 search="</body>"
-replace="<script>if(!localStorage.getItem('clockwork'))localStorage.setItem('clockwork', '{\"settings\":{\"global\":{\"seenReleaseNotesVersion\": \"4.1\"}}}');</script></body>"
+replace="<script>if(!localStorage.getItem('clockwork'))localStorage.setItem('clockwork', '{\"settings\":{\"global\":{\"timelineHiddenTags\":{\"performance\":[\"events\"]},\"seenReleaseNotesVersion\": \"4.1\"}}}');</script></body>"
 
 sed -i "s*$search*$replace*" public/index.html
 
