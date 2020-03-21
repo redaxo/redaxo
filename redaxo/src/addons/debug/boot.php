@@ -7,7 +7,6 @@ if (!rex::isDebugMode() || !rex_server('REQUEST_URI') || 'debug' === rex_get(rex
 
 if (rex::isBackend() && 'debug' === rex_request::get('page')) {
     $index = file_get_contents(rex_addon::get('debug')->getAssetsPath('clockwork/index.html'));
-    $index = preg_replace('/(href|src)=("?)([^>\s]+)/', '$1=$2'.rex_addon::get('debug')->getAssetsUrl('clockwork/$3'), $index);
 
     rex_response::sendPage($index);
     exit;
