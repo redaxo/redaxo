@@ -95,6 +95,10 @@ async function main() {
         'users_users.png': START_URL + '?page=users/users',
         'packages.png': START_URL + '?page=packages',
         'system_settings.png': START_URL + '?page=system/settings',
+        'mediapool_media.png': START_URL + '?page=mediapool/media',
+        'mediapool_upload.png': START_URL + '?page=mediapool/upload',
+        'mediapool_structure.png': START_URL + '?page=mediapool/structure',
+        'mediapool_sync.png': START_URL + '?page=mediapool/sync',
     };
 
     for (var fileName in config) {
