@@ -51,10 +51,10 @@ jobs:
             - run: |
                   php redaxo/bin/console user:create myusername mypassword --admin
 
-            - name: Use Node.js v10
+            - name: Use Node.js
               uses: actions/setup-node@v1
               with:
-                  node-version: "10.x"
+                  node-version: "12.x"
             - name: setup server
               run: |
                   php -S localhost:8000 &
