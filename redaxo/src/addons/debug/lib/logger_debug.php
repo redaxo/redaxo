@@ -11,7 +11,8 @@ class rex_logger_debug extends rex_logger
     {
         $levelType = is_int($level) ? self::getLogLevel($level) : $level;
 
-        rex_debug::getInstance()->getLog()->log($levelType, $message, ['file' => $file, 'line' => $line]);
+        $trace = \Clockwork\Helpers\StackTrace::from(rex_debug::getTrace()['trace']);
+        rex_debug::getInstance()->getLog()->log($levelType, $message, ['trace' => $trace]);
 
         parent::log($level, $message, $context, $file, $line);
     }
