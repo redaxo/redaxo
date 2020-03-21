@@ -87,7 +87,7 @@ async function main() {
     await page.type('#rex-id-login-user', 'myusername');
     await page.type('#rex-id-login-password', '91dfd9ddb4198affc5c194cd8ce6d338fde470e2'); // sha1('mypassword')
     await page.$eval('#rex-form-login', form => form.submit());
-    await new Promise(res => setTimeout(() => res(), 5000));
+    await new Promise(res => setTimeout(() => res(), 1000));
     await createScreenshot(page, 'index.png');
 
     var config = {
@@ -120,7 +120,7 @@ async function main() {
 
     for (var fileName in config) {
         await page.goto(config[fileName]);
-        await new Promise(res => setTimeout(() => res(), 5000));
+        await new Promise(res => setTimeout(() => res(), 1000));
         await createScreenshot(page, fileName);
     }
 
