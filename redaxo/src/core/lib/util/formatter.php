@@ -126,6 +126,8 @@ abstract class rex_formatter
      */
     public static function bytes($value, $format = [])
     {
+        $value = (float) $value;
+
         $units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
         $unit_index = 0;
         while (($value / 1024) >= 1) {
