@@ -111,6 +111,7 @@ if ('add_cat' == $structureContext->getFunction() || 'edit_cat' == $structureCon
 
 $canEdit = rex::getUser()->hasPerm('editCategory[]');
 $canDelete = rex::getUser()->hasPerm('deleteCategory[]');
+$colspan = (int) $canEdit + (int) $canDelete + 1;
 
 // --------------------- PRINT CATS/SUBCATS
 $echo .= '
@@ -121,7 +122,7 @@ $echo .= '
                         <th class="rex-table-id">' . rex_i18n::msg('header_id') . '</th>
                         <th class="rex-table-category">' . rex_i18n::msg('header_category') . '</th>
                         <th class="rex-table-priority">' . rex_i18n::msg('header_priority') . '</th>
-                        <th class="rex-table-action" colspan="'.($canEdit + $canDelete + 1).'">' . rex_i18n::msg('header_status') . '</th>
+                        <th class="rex-table-action" colspan="'.$colspan.'">' . rex_i18n::msg('header_status') . '</th>
                     </tr>
                 </thead>
                 <tbody>';
@@ -145,7 +146,7 @@ if ('add_cat' == $structureContext->getFunction() && rex::getUser()->hasPerm('ad
                     <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">-</td>
                     <td class="rex-table-category" data-title="' . rex_i18n::msg('header_category') . '"><input class="form-control" type="text" name="category-name" class="rex-js-autofocus" autofocus /></td>
                     <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '"><input class="form-control" type="text" name="category-position" value="' . ($catPager->getRowCount() + 1) . '" /></td>
-                    <td class="rex-table-action" colspan="'.($canEdit + $canDelete + 1).'">' . $meta_buttons . $add_buttons . '</td>
+                    <td class="rex-table-action" colspan="'.$colspan.'">' . $meta_buttons . $add_buttons . '</td>
                 </tr>';
 
     // ----- EXTENSION POINT
@@ -210,7 +211,7 @@ if ($KAT->getRows() > 0) {
                         <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">' . $i_category_id . '</td>
                         <td class="rex-table-category" data-title="' . rex_i18n::msg('header_category') . '"><input class="form-control" type="text" name="category-name" value="' . rex_escape($KAT->getValue('catname')) . '" class="rex-js-autofocus" autofocus /></td>
                         <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '"><input class="form-control" type="text" name="category-position" value="' . rex_escape($KAT->getValue('catpriority')) . '" /></td>
-                        <td class="rex-table-action" colspan="'.($canEdit + $canDelete + 1).'">' . $meta_buttons . $add_buttons . '</td>
+                        <td class="rex-table-action" colspan="'.$colspan.'">' . $meta_buttons . $add_buttons . '</td>
                     </tr>';
 
                 // ----- EXTENSION POINT
@@ -274,7 +275,7 @@ if ($KAT->getRows() > 0) {
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td colspan="'.($canEdit + $canDelete + 1).'"></td>
+                    <td colspan="'.$colspan.'"></td>
                 </tr>';
 }
 
@@ -391,6 +392,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
 
     $canEdit = rex::getUser()->hasPerm('editArticle[]');
     $canDelete = rex::getUser()->hasPerm('deleteArticle[]');
+    $colspan = (int) $canEdit + (int) $canDelete + 1;
 
     // --------------------- ARTIKEL ADD FORM
     if ('add_art' == $structureContext->getFunction() && rex::getUser()->hasPerm('addArticle[]') && $structureContext->hasCategoryPermission()) {
@@ -408,7 +410,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                     ' . $tmpl_td . '
                     <td class="rex-table-date" data-title="' . rex_i18n::msg('header_date') . '">' . rex_formatter::strftime(time(), 'date') . '</td>
                     <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '"><input class="form-control" type="text" name="article-position" value="' . ($artPager->getRowCount() + 1) . '" /></td>
-                    <td class="rex-table-action" colspan="'.($canEdit + $canDelete + 1).'">'.rex_api_article_add::getHiddenFields().'<button class="btn btn-save" type="submit" name="artadd_function"' . rex::getAccesskey(rex_i18n::msg('article_add'), 'save') . '>' . rex_i18n::msg('article_add') . '</button></td>
+                    <td class="rex-table-action" colspan="'.$colspan.'">'.rex_api_article_add::getHiddenFields().'<button class="btn btn-save" type="submit" name="artadd_function"' . rex::getAccesskey(rex_i18n::msg('article_add'), 'save') . '>' . rex_i18n::msg('article_add') . '</button></td>
                 </tr>
                             ';
     }
@@ -444,7 +446,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                             ' . $tmpl_td . '
                             <td class="rex-table-date" data-title="' . rex_i18n::msg('header_date') . '">' . rex_formatter::strftime($sql->getDateTimeValue('createdate'), 'date') . '</td>
                             <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '"><input class="form-control" type="text" name="article-position" value="' . rex_escape($sql->getValue('priority')) . '" /></td>
-                            <td class="rex-table-action" colspan="'.($canEdit + $canDelete + 1).'">'.rex_api_article_edit::getHiddenFields().'<button class="btn btn-save" type="submit" name="artedit_function"' . rex::getAccesskey(rex_i18n::msg('article_save'), 'save') . '>' . rex_i18n::msg('article_save') . '</button></td>
+                            <td class="rex-table-action" colspan="'.$colspan.'">'.rex_api_article_edit::getHiddenFields().'<button class="btn btn-save" type="submit" name="artedit_function"' . rex::getAccesskey(rex_i18n::msg('article_save'), 'save') . '>' . rex_i18n::msg('article_save') . '</button></td>
                         </tr>';
         } elseif ($structureContext->hasCategoryPermission()) {
             // --------------------- ARTIKEL NORMAL VIEW | EDIT AND ENTER

@@ -4,7 +4,7 @@
  *
  * @author Thomas Skerbis
  *
- * @package phpmailer
+ * @package redaxo\phpmailer
  *
  * @internal
  */
