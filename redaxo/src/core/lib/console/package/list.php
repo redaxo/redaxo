@@ -57,7 +57,7 @@ class rex_command_package_list extends rex_console_command
                 $rowdata['installed'] = $rowdata['installed'] ? 'x' : '';
             }
 
-            if(null !== $packageId && $packageId !== $package->getPackageId()) {
+            if (null !== $packageId && $packageId !== $package->getPackageId()) {
                 continue;
             }
 
