@@ -23,7 +23,7 @@ class rex_debug
         rex_error_handler::class,
     ];
 
-    public static function init(): void
+    private static function init(): void
     {
         $clockwork = \Clockwork\Support\Vanilla\Clockwork::init([
             'storage_files_path' => rex_addon::get('debug')->getDataPath('clockwork.db'),
