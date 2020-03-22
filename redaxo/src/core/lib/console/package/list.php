@@ -16,9 +16,10 @@ class rex_command_package_list extends rex_console_command
         $this
             ->setDescription('List available packages')
             ->addOption('search', 's', InputOption::VALUE_REQUIRED, 'filter list')
+            ->addOption('package-id', 'p', InputOption::VALUE_REQUIRED, 'search for exactly this package-id ')
             ->addOption('installed-only', 'i', InputOption::VALUE_NONE, 'only list installed packages')
             ->addOption('activated-only', 'a', InputOption::VALUE_NONE, 'only list active packages')
-            ->addOption('using-exit-code', null, InputOption::VALUE_NONE, 'if no package matches your filter the command exits with error-code 1, otherwise with 0')
+            ->addOption('error-when-empty', null, InputOption::VALUE_NONE, 'if no package matches your filter the command exits with error-code 1, otherwise with 0')
             ->addOption('json', null, InputOption::VALUE_NONE, 'output table as json')
             ;
     }
@@ -32,10 +33,12 @@ class rex_command_package_list extends rex_console_command
         rex_package_manager::synchronizeWithFileSystem();
 
         $search = $input->getOption('search');
+        $packageId = $input->getOption('package-id');
+
         $installedOnly = false !== $input->getOption('installed-only');
         $activatedOnly = false !== $input->getOption('activated-only');
         $jsonOutput = false !== $input->getOption('json');
-        $usingExitCode = false !== $input->getOption('using-exit-code');
+        $usingExitCode = false !== $input->getOption('error-when-empty');
 
         $packages = rex_package::getRegisteredPackages();
 
@@ -52,6 +55,10 @@ class rex_command_package_list extends rex_console_command
             if (!$jsonOutput) {
                 $rowdata['activated'] = $rowdata['activated'] ? 'x' : '';
                 $rowdata['installed'] = $rowdata['installed'] ? 'x' : '';
+            }
+
+            if(null !== $packageId && $packageId !== $package->getPackageId()) {
+                continue;
             }
 
             if (null !== $search && false === stripos($package->getPackageId(), $search)) {
