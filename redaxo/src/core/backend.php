@@ -169,6 +169,10 @@ rex_be_controller::setPages($pages);
 if (rex::getUser()) {
     rex_be_controller::appendLoggedInPages();
     rex_be_controller::setCurrentPage(trim(rex_request('page', 'string')));
+
+    if ('profile' !== rex_be_controller::getCurrentPage() && rex_session('password_change_required', 'bool')) {
+        rex_response::sendRedirect(rex_url::backendPage('profile'));
+    }
 }
 
 rex_view::addJsFile(rex_url::coreAssets('jquery.min.js'), [rex_view::JS_IMMUTABLE => true]);
@@ -195,8 +199,12 @@ rex_be_controller::setPages($pages);
 
 // Set Startpage
 if ($user = rex::getUser()) {
-    // --- page pruefen und benoetigte rechte checken
-    rex_be_controller::checkPagePermissions($user);
+    if (rex_session('password_change_required', 'bool')) {
+        rex_be_controller::setCurrentPage('profile');
+    } else {
+        // --- page pruefen und benoetigte rechte checken
+        rex_be_controller::checkPagePermissions($user);
+    }
 }
 $page = rex_be_controller::getCurrentPage();
 rex_view::setJsProperty('page', $page);

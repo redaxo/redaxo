@@ -30,15 +30,22 @@ class rex_backend_login extends rex_login
         $qry = 'SELECT * FROM ' . $tableName;
         $this->setUserQuery($qry . ' WHERE id = :id AND status = 1');
         $this->setImpersonateQuery($qry . ' WHERE id = :id');
+
         // XXX because with concat the time into the sql query, users of this class should use checkLogin() immediately after creating the object.
-        $this->setLoginQuery($qry . ' WHERE
+        $qry .= ' WHERE
             status = 1
             AND login = :login
             AND (login_tries < ' . self::LOGIN_TRIES_1 . '
                 OR login_tries < ' . self::LOGIN_TRIES_2 . ' AND lasttrydate < "' . rex_sql::datetime(time() - self::RELOGIN_DELAY_1) . '"
                 OR lasttrydate < "' . rex_sql::datetime(time() - self::RELOGIN_DELAY_2) . '"
-            )'
-        );
+            )';
+
+        if ($validity = rex::getProperty('password_policy', [])['validity']['block_months'] ?? null) {
+            $qry .= ' AND password_changed > "'.rex_sql::datetime(strtotime('-'.$validity.' months')).'"';
+        }
+
+        $this->setLoginQuery($qry);
+
         $this->tableName = $tableName;
     }
 
@@ -52,6 +59,7 @@ class rex_backend_login extends rex_login
         $sql = rex_sql::factory();
         $userId = $this->getSessionVar('UID');
         $cookiename = self::getStayLoggedInCookieName();
+        $loggedInViaCookie = false;
 
         if ($cookiekey = rex_cookie($cookiename, 'string')) {
             if (!$userId) {
@@ -59,6 +67,7 @@ class rex_backend_login extends rex_login
                 if (1 == $sql->getRows()) {
                     $this->setSessionVar('UID', $sql->getValue('id'));
                     rex_response::sendCookie($cookiename, $cookiekey, ['expires' => strtotime('+1 year'), 'samesite' => 'strict']);
+                    $loggedInViaCookie = true;
                 } else {
                     self::deleteStayLoggedInCookie();
                 }
@@ -92,6 +101,13 @@ class rex_backend_login extends rex_login
 
             if ($this->impersonator instanceof rex_sql) {
                 $this->impersonator = rex_user::fromSql($this->impersonator);
+            }
+
+            if ($loggedInViaCookie || $this->userLogin) {
+                $validity = rex::getProperty('password_policy', [])['validity']['renew_months'] ?? null;
+                if (strtotime($this->user->getValue('password_changed')) < strtotime('-'.$validity.' months')) {
+                    rex_set_session('password_change_required', true);
+                }
             }
         } else {
             // fehlversuch speichern | login_tries++

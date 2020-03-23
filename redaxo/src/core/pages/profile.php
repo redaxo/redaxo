@@ -9,6 +9,8 @@ $success = '';
 $user = rex::getUser();
 $user_id = $user->getId();
 
+$passwordChangeRequired = rex_session('password_change_required');
+
 // Allgemeine Infos
 $userpsw = rex_request('userpsw', 'string');
 $userpsw_new_1 = rex_request('userpsw_new_1', 'string');
@@ -87,12 +89,16 @@ if ($update && !$error) {
 }
 
 if (rex_post('upd_psw_button', 'bool')) {
+    $passwordPolicy = rex_backend_password_policy::factory(rex::getProperty('password_policy', []));
+
     if (!$csrfToken->isValid()) {
         $error = rex_i18n::msg('csrf_token_invalid');
     } elseif (!$userpsw || !$userpsw_new_1 || $userpsw_new_1 != $userpsw_new_2 || !rex_login::passwordVerify($userpsw, $user->getValue('password'))) {
         $error = rex_i18n::msg('user_psw_error');
-    } elseif (true !== $msg = rex_backend_password_policy::factory(rex::getProperty('password_policy', []))->check($userpsw_new_1, $user_id)) {
+    } elseif (true !== $msg = $passwordPolicy->check($userpsw_new_1, $user_id)) {
         $error = $msg;
+    } elseif ($passwordChangeRequired && $userpsw === $userpsw_new_1) {
+        $error = rex_i18n::msg('password_not_changed');
     } else {
         $userpsw_new_1 = rex_login::passwordHash($userpsw_new_1);
 
@@ -101,12 +107,17 @@ if (rex_post('upd_psw_button', 'bool')) {
         $updateuser->setWhere(['id' => $user_id]);
         $updateuser->setValue('password', $userpsw_new_1);
         $updateuser->addGlobalUpdateFields();
+        $updateuser->setValue('password_changed', time());
+        $updateuser->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords($user, $userpsw_new_1));
 
         try {
             $updateuser->update();
             rex_user::clearInstance($user_id);
 
             $success = rex_i18n::msg('user_psw_updated');
+
+            $passwordChangeRequired = false;
+            rex_unset_session('password_change_required');
 
             rex_extension::registerPoint(new rex_extension_point('PASSWORD_UPDATED', '', [
                 'user_id' => $user_id,
@@ -120,6 +131,10 @@ if (rex_post('upd_psw_button', 'bool')) {
 }
 
 // ---------------------------------- ERR MSG
+
+if ($passwordChangeRequired) {
+    echo rex_view::warning(rex_i18n::msg('password_change_required'));
+}
 
 if ('' != $success) {
     echo rex_view::success($success);

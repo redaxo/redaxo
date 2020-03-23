@@ -291,6 +291,9 @@ if (7 === $step) {
                 $user->setValue('password', $redaxo_user_pass);
                 $user->setValue('admin', 1);
                 $user->addGlobalCreateFields('setup');
+                $user->addGlobalUpdateFields('setup');
+                $user->setValue('password_changed', time());
+                $user->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords(null, $redaxo_user_pass));
                 $user->setValue('status', '1');
                 try {
                     $user->insert();
