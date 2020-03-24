@@ -48,13 +48,13 @@ class rex_command_package_list extends rex_console_command
                 'package-id' => $package->getPackageId(),
                 'author' => $package->getAuthor(),
                 'version' => $package->getVersion(),
-                'activated' => $package->isAvailable(),
                 'installed' => $package->isInstalled(),
+                'activated' => $package->isAvailable(),
             ];
 
             if (!$jsonOutput) {
-                $rowdata['activated'] = $rowdata['activated'] ? 'x' : '';
-                $rowdata['installed'] = $rowdata['installed'] ? 'x' : '';
+                $rowdata['installed'] = $rowdata['installed'] ? 'yes' : 'no';
+                $rowdata['activated'] = $rowdata['activated'] ? 'yes' : 'no';
             }
 
             if (null !== $packageId && $packageId !== $package->getPackageId()) {
@@ -81,7 +81,7 @@ class rex_command_package_list extends rex_console_command
             return $usingExitCode ? (int) (0 === count($rows)) : 0;
         }
 
-        $io->table(['package-id', 'author', 'version', 'activated', 'installed'], $rows);
+        $io->table(['package-id', 'author', 'version', 'installed', 'activated'], $rows);
         return $usingExitCode ? (int) (0 === count($rows)) : 0;
     }
 }
