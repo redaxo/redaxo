@@ -18,7 +18,6 @@ $content = '';
 
 $content .= '
         <fieldset>
-            <input class="rex-js-javascript" type="hidden" name="javascript" value="0" />
             ';
 
 $redaxo_user_login = rex_post('redaxo_user_login', 'string');
@@ -51,7 +50,7 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-form-redaxo-user-pass">' . rex_i18n::msg('setup_608') . '</label>';
-$n['field'] = '<input class="form-control rex-js-redaxo-user-pass" type="password" value="' . rex_escape($redaxo_user_pass) . '" id="rex-form-redaxo-user-pass" name="redaxo_user_pass" />';
+$n['field'] = '<input class="form-control" type="password" value="' . rex_escape($redaxo_user_pass) . '" id="rex-form-redaxo-user-pass" name="redaxo_user_pass" />';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -75,17 +74,6 @@ $content .= '
     <script type="text/javascript">
          <!--
         jQuery(function($) {
-            $(".rex-js-createadminform")
-                .submit(function(){
-                    var pwInp = $(".rex-js-redaxo-user-pass");
-                    if(pwInp.val() != "") {
-                        $(".rex-js-createadminform").append(\'<input type="hidden" name="\'+pwInp.attr("name")+\'" value="\'+Sha1.hash(pwInp.val())+\'" />\');
-                        pwInp.removeAttr("name");
-                    }
-            });
-
-            $(".rex-js-javascript").val("1");
-
             $(".rex-js-createadminform .rex-js-noadmin").on("change",function (){
 
                 if($(this).is(":checked")) {

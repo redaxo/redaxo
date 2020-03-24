@@ -267,6 +267,11 @@ if (7 === $step) {
             $errors[] = rex_view::error(rex_i18n::msg('setup_602'));
         }
 
+        $passwordPolicy = rex_backend_password_policy::factory(rex::getProperty('password_policy', []));
+        if (true !== $msg = $passwordPolicy->check($redaxo_user_pass)) {
+            $errors[] = rex_view::error($msg);
+        }
+
         if (0 == count($errors)) {
             $ga = rex_sql::factory();
             $ga->setQuery('select * from ' . rex::getTablePrefix() . 'user where login = ? ', [$redaxo_user_login]);
@@ -276,7 +281,7 @@ if (7 === $step) {
             } else {
                 // the server side encryption of pw is only required
                 // when not already encrypted by client using javascript
-                $redaxo_user_pass = rex_login::passwordHash($redaxo_user_pass, rex_post('javascript', 'boolean'));
+                $redaxo_user_pass = rex_login::passwordHash($redaxo_user_pass);
 
                 $user = rex_sql::factory();
                 // $user->setDebug();
