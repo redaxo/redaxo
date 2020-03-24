@@ -104,9 +104,9 @@ class rex_response
     private static function sendServerTimingHeaders()
     {
         // see https://w3c.github.io/server-timing/#the-server-timing-header-field
-        foreach (rex_timer::$serverTimings as $label => $durationMs) {
+        foreach (rex_timer::$serverTimings as $label => $timing) {
             $label = preg_replace('{[^!#$%&\'*+-\.\^_`|~\w]}i', '_', $label);
-            header('Server-Timing: '. $label .';dur='. number_format($durationMs, 3, '.', ''), false);
+            header('Server-Timing: '. $label .';dur='. number_format($timing['sum'], 3, '.', ''), false);
         }
     }
 

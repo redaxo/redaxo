@@ -34,6 +34,19 @@ rm -rf redaxo/src/addons/be_style/vendor/scssphp/scssphp/bin/
 rm -rf redaxo/src/addons/be_style/vendor/scssphp/scssphp/example/
 rm -r redaxo/src/addons/be_style/vendor/scssphp/scssphp/scss.inc.php
 
+printf "\nUpdate redaxo/src/addons/debug/vendor\n"
+composer update --no-dev -d redaxo/src/addons/debug/
+
+rm -f redaxo/src/addons/debug/vendor/autoload.php
+rm -rf redaxo/src/addons/debug/vendor/composer/
+rm -rf redaxo/src/addons/debug/vendor/psr/
+find redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/DataSource/ -not -name Php* -not -name Xdebug* -not -name Data* -delete
+rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Storage/SqlSearch.php
+rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Storage/SqlStorage.php
+rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Storage/SymfonyStorage.php
+find redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Support/ -mindepth 1 -not -path */Vanilla* -delete
+rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Web
+
 printf "\nUpdate redaxo/src/addons/phpmailer/vendor\n"
 composer update --no-dev -d redaxo/src/addons/phpmailer/
 
