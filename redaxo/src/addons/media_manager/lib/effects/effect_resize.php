@@ -52,10 +52,10 @@ $(function() {
 
         // relatives resizen
         if ('%' === substr(trim($this->params['width']), -1)) {
-            $this->params['width'] = round($w * (rtrim($this->params['width'], '%') / 100));
+            $this->params['width'] = round($w * ((int) rtrim($this->params['width'], '%') / 100));
         }
         if ('%' === substr(trim($this->params['height']), -1)) {
-            $this->params['height'] = round($h * (rtrim($this->params['height'], '%') / 100));
+            $this->params['height'] = round($h * ((int) rtrim($this->params['height'], '%') / 100));
         }
 
         if ('maximum' == $this->params['style']) {

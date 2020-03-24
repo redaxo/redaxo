@@ -72,10 +72,11 @@ if ($update && !$error) {
 
     try {
         $updateuser->update();
+        rex_user::clearInstance($user_id);
 
         rex_extension::registerPoint(new rex_extension_point('PROFILE_UPDATED', '', [
             'user_id' => $user_id,
-            'user' => new rex_user($updateuser->setQuery('SELECT * FROM '.rex::getTable('user').' WHERE id = ?', [$user_id])),
+            'user' => rex_user::require($user_id),
         ], true));
 
         // trigger a fullpage-reload which immediately reflects a possible changed language
@@ -103,11 +104,13 @@ if (rex_post('upd_psw_button', 'bool')) {
 
         try {
             $updateuser->update();
+            rex_user::clearInstance($user_id);
+
             $success = rex_i18n::msg('user_psw_updated');
 
             rex_extension::registerPoint(new rex_extension_point('PASSWORD_UPDATED', '', [
                 'user_id' => $user_id,
-                'user' => new rex_user($updateuser->setQuery('SELECT * FROM '.rex::getTable('user').' WHERE id = ?', [$user_id])),
+                'user' => rex_user::require($user_id),
                 'password' => $userpsw_new_2,
             ], true));
         } catch (rex_sql_exception $e) {
