@@ -15,11 +15,9 @@ $user = null;
 
 $sql = rex_sql::factory();
 if (0 != $user_id) {
-    $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'user WHERE id = ' . $user_id . ' LIMIT 2');
-    if (1 != $sql->getRows()) {
+    $user = rex_user::get($user_id);
+    if (!$user) {
         $user_id = 0;
-    } else {
-        $user = new rex_user($sql);
     }
 }
 
@@ -158,8 +156,8 @@ if ($warnings) {
 
     $info = rex_i18n::msg('user_data_updated');
 
-    $sql->setQuery('SELECT * FROM ' . rex::getTable('user') . ' WHERE id = ?', [$user_id]);
-    $user = new rex_user($sql);
+    rex_user::clearInstance($user_id);
+    $user = rex_user::require($user_id);
 
     rex_extension::registerPoint(new rex_extension_point('USER_UPDATED', '', [
         'id' => $user_id,
@@ -181,6 +179,8 @@ if ($warnings) {
         $deleteuser = rex_sql::factory();
         $deleteuser->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'user WHERE id = ? LIMIT 1', [$user_id]);
         $info = rex_i18n::msg('user_deleted');
+
+        rex_user::clearInstance($user_id);
 
         rex_extension::registerPoint(new rex_extension_point('USER_DELETED', '', [
             'id' => $user_id,
@@ -221,7 +221,7 @@ if ($warnings) {
 
         rex_extension::registerPoint(new rex_extension_point('USER_ADDED', '', [
             'id' => $adduser->getLastId(),
-            'user' => new rex_user($adduser->setQuery('SELECT * FROM '.rex::getTable('user').' WHERE id = ?', [$adduser->getLastId()])),
+            'user' => rex_user::require($adduser->getLastId()),
             'password' => $userpsw,
         ], true));
     } else {

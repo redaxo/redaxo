@@ -1,5 +1,5 @@
 package: users
-version: '2.6.2-dev'
+version: '2.7.0-dev'
 author: Jan Kristinus, Gregor Harlan
 supportpage: www.redaxo.org/de/forum/
 
@@ -17,4 +17,4 @@ page:
         roles: { title: 'translate:roles', perm: admin }
 
 requires:
-    redaxo: ^5.5.0
+    redaxo: ^5.11.0-dev
