@@ -161,6 +161,7 @@ if ($warnings) {
 
     $info = rex_i18n::msg('user_data_updated');
 
+    rex_user::clearInstance($user_id);
     $user = rex_user::require($user_id);
 
     rex_extension::registerPoint(new rex_extension_point('USER_UPDATED', '', [
@@ -178,6 +179,8 @@ if ($warnings) {
         $deleteuser = rex_sql::factory();
         $deleteuser->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'user WHERE id = ? LIMIT 1', [$user_id]);
         $info = rex_i18n::msg('user_deleted');
+
+        rex_user::clearInstance($user_id);
 
         rex_extension::registerPoint(new rex_extension_point('USER_DELETED', '', [
             'id' => $user_id,

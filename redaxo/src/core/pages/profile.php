@@ -72,6 +72,7 @@ if ($update && !$error) {
 
     try {
         $updateuser->update();
+        rex_user::clearInstance($user_id);
 
         rex_extension::registerPoint(new rex_extension_point('PROFILE_UPDATED', '', [
             'user_id' => $user_id,
@@ -103,6 +104,8 @@ if (rex_post('upd_psw_button', 'bool')) {
 
         try {
             $updateuser->update();
+            rex_user::clearInstance($user_id);
+
             $success = rex_i18n::msg('user_psw_updated');
 
             rex_extension::registerPoint(new rex_extension_point('PASSWORD_UPDATED', '', [
