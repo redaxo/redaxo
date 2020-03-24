@@ -861,6 +861,8 @@ class rex_sql_table
         }
 
         if (!$parts && !$dropForeignKeys) {
+            $this->resetModified();
+
             return;
         }
 
