@@ -154,11 +154,6 @@ if ($warnings) {
 
     $updateuser->update();
 
-    if (isset($FUNC_UPDATE) && '' != $FUNC_UPDATE) {
-        $user_id = 0;
-        $FUNC_UPDATE = '';
-    }
-
     $info = rex_i18n::msg('user_data_updated');
 
     rex_user::clearInstance($user_id);
@@ -169,6 +164,11 @@ if ($warnings) {
         'user' => $user,
         'password' => $userpsw,
     ], true));
+
+    if (isset($FUNC_UPDATE) && '' != $FUNC_UPDATE) {
+        $user_id = 0;
+        $FUNC_UPDATE = '';
+    }
 } elseif ('' != $FUNC_DELETE) {
     // man kann sich selbst nicht loeschen..
     if (rex::getUser()->getId() == $user_id) {
