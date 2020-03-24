@@ -602,6 +602,19 @@ class rex_sql_table_test extends TestCase
         static::assertTrue($table->hasIndex('i_description'));
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
+    public function testEnsureMultipleTimes(): void
+    {
+        for ($i = 0; $i < 3; ++$i) {
+            rex_sql_table::get(self::TABLE)
+                ->ensurePrimaryIdColumn()
+                ->ensureColumn(new rex_sql_column('title', 'varchar(255)'))
+                ->ensure();
+        }
+    }
+
     public function testEnsureWithEnsureGlobalColumns(): void
     {
         $expectedOrder = ['id', 'title', 'createdate', 'createuser', 'updatedate', 'updateuser', 'revision'];
