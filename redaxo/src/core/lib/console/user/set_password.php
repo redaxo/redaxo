@@ -37,7 +37,7 @@ class rex_command_user_set_password extends rex_console_command
             throw new InvalidArgumentException(sprintf('User "%s" does not exist.', $username));
         }
 
-        $user = new rex_user($user);
+        $user = rex_user::fromSql($user);
         $id = $user->getId();
 
         $passwordPolicy = rex_backend_password_policy::factory(rex::getProperty('password_policy', []));
