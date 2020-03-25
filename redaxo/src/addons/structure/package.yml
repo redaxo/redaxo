@@ -4,7 +4,7 @@ author: Markus Staab
 supportpage: www.redaxo.org/de/forum/
 
 page:
-    title: translate:structure
+    title: translate:structure1a1
     perm: structure/hasStructurePerm
     block: system
     prio: 10
