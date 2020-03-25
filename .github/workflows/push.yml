@@ -23,7 +23,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Setup PHP
-      uses: shivammathur/setup-php@v1
+      uses: shivammathur/setup-php@v2
       with:
         php-version: 7.1
         extensions: intl
@@ -61,7 +61,7 @@ jobs:
       steps:
           - uses: actions/checkout@v2
           - name: Setup PHP
-            uses: shivammathur/setup-php@v1
+            uses: shivammathur/setup-php@v2
             with:
                 php-version: 7.3
                 extensions: intl, imagick
@@ -104,7 +104,7 @@ jobs:
       steps:
           - uses: actions/checkout@v2
           - name: Setup PHP
-            uses: shivammathur/setup-php@v1
+            uses: shivammathur/setup-php@v2
             with:
                 php-version: 7.3
                 extensions: intl, imagick
@@ -142,7 +142,7 @@ jobs:
       steps:
           - uses: actions/checkout@v2
           - name: Setup PHP
-            uses: shivammathur/setup-php@v1
+            uses: shivammathur/setup-php@v2
             with:
                 php-version: 7.1
                 extensions: intl
@@ -172,7 +172,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Setup PHP
-      uses: shivammathur/setup-php@v1
+      uses: shivammathur/setup-php@v2
       with:
         php-version: 7.3
         extensions: intl
