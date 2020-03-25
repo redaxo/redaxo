@@ -18,10 +18,11 @@ class rex_mailer extends PHPMailer
     /** @var bool */
     private $archive;
 
-    /** @var string 
-     * used for storing the original mail_to if detour mode is used
+    /** 
+     * used to store information if detour mode is enabled
+     * @var array 
     */
-    private $originalMailTo;
+    private $xHeader = [];
 
     public function __construct($exceptions = false)
     {
@@ -58,52 +59,78 @@ class rex_mailer extends PHPMailer
     }
 
     /**
-     * Override the AddAddress method of Parent
-     * Same Parameters as Parent
-     * 
-     * @author markus[dot]dick[at]novinet[dot]de Markus Dick
+     * Add an address to one of the recipient arrays or to the ReplyTo array. Because PHPMailer
+     * can't validate addresses with an IDN without knowing the PHPMailer::$CharSet (that can still
+     * be modified after calling this function), addition of such addresses is delayed until send().
+     * Addresses that have been added already return false, but do not throw exceptions.
      *
-     * @param string $address / Adress of the reciever / mail_to
-     * @param string $name / Name of the reciever / mail_to_name
-     * 
+     * @param string $kind    One of 'to', 'cc', 'bcc', or 'ReplyTo'
+     * @param string $address The email address to send, resp. to reply to
+     * @param string $name
+     *
      * @throws Exception
      *
      * @return bool true on success, false if address already used or invalid in some way
-     *
-    */
-    public function AddAddress($address, $name = '') {
+     */
+    protected function addOrEnqueueAnAddress($kind, $address, $name)
+    {
         $addon = rex_addon::get('phpmailer');
         
-        // checks if detour mode is enabled
-        // $detour: boolean
+        /**
+         * checks if detour mode is enabled
+         * @var bool: $detour
+         */
+
         $detour = true == $addon->getConfig('detour_mode') && '' != $addon->getConfig('test_address');
 
-        // sets the address to the detour address
         if(true == $detour) {
-            $detour_address = $addon->getConfig('test_address');
-            // check if address is valid
-            if(true == rex_validator::factory()->email($detour_address)) {
-                // store the address so we can use it in the subject later
 
-                // if there has already been a call to AddAddress and detour mode is on
-                // originalMailTo should have already been set
-                // therefore we add the address to originalMailTo for the subject later
-                // and parent::addAddress doesnt need to be called since it would be the test address again
-                if ($this->originalMailTo) {
-                    $this->originalMailTo .= ', ' . $address;
-                    return true;
+            // handle to 
+            if ('to' == $kind) {
+            
+                $detour_address = $addon->getConfig('test_address');
+
+                // check if address is valid
+                if (true == rex_validator::factory()->email($detour_address)) {
+                    // store the address so we can use it in the subject later
+
+                    // if there has already been a call to addOrEnqueueAnAddress and detour mode is on
+                    // xHeader['to'] should have already been set
+                    // therefore we add the address to xHeader['to'] for the subject later
+                    // and parent::addOrEnqueueAnAddress doesnt need to be called since it would be the test address again
+
+                    if (isset($this->xHeader['to'])) {
+                        $this->xHeader['to'] .= ', ' . $address;
+                        return true;
+                    }
+
+                    $this->xHeader['to'] = $address;
+
+                    // Set $address to the detour address
+                    $address = $detour_address;
+                
                 }
 
-                $this->originalMailTo = $address;
+            // handle other $kind
+            } else {
 
-                // Set $address to the detour address
-                $address = $detour_address;
+                // if the xheader is already set add the address to the string
+                if (isset($this->xHeader[$kind])) {
+                    $this->xHeader[$kind] .= ', ' . $address;
+
+                // else create a new value
+                } else {
+                    $this->xHeader[$kind] = $address;
+                }
+
+                return true;
+
             }
-        } 
-        
-        // use the parents method to add the address
-        // wether its the original address or the detour address
-        return parent::addAddress($address, $name);
+         
+        }
+
+        // call to parent method
+        return parent::addOrEnqueueAnAddress($kind, $address, $name);
     }
 
     public function send()
@@ -114,19 +141,38 @@ class rex_mailer extends PHPMailer
             }
             $addon = rex_addon::get('phpmailer');
 
-            // checks if detour mode is enabled
-            // $detour: boolean
+            /**
+             * checks if detour mode is enabled
+             * @var bool: $detour
+             */
+            
             $detour = true == $addon->getConfig('detour_mode') && '' != $addon->getConfig('test_address');
 
             // Clears the CCs and BCCs if detour mode is active
-            // Sets Subject of E-Mail to [DETOUR] $subject [$originalMailTo]
-            if(true == $detour &&  '' != $this->originalMailTo) {
+            // Sets Subject of E-Mail to [DETOUR] $subject [$this->xHeader['to']]
+            if (true == $detour && isset($this->xHeader['to'])) {
                 $this->clearCCs();
                 $this->clearBCCs();
-                $this->Subject = '[' . $addon->i18n('detour_subject_start') . '] ' . $this->Subject . ' [' . $addon->i18n('detour_subject_end') . ': ' . $this->originalMailTo . ']';
+
+                // add x header
+                foreach (['to', 'cc', 'bcc', 'ReplyTo'] as $kind) {
+                    
+                    if (isset($this->xHeader[$kind])) {
+                        $this->addCustomHeader('x-' . $kind, $this->xHeader[$kind]);
+                    }
+
+                }
+
+                // set custom subject
+                $this->Subject = '[' . $addon->i18n('detour_subject_start') . '] ' . $this->Subject;
+                
+                // add the original to 
+                if (isset($this->xHeader['to'])) { 
+                    $this->Subject .= ' [' . $addon->i18n('detour_subject_end') . ': ' . $this->xHeader['to'] . ']';
+                }
             
-                // unset originalMailTo so it can be used again
-                $this->originalMailTo = null;
+                // unset xHeader so it can be used again
+                $this->xHeader = [];
             }
 
             if (!parent::send()) {
