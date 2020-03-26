@@ -42,7 +42,7 @@ if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string'
         $warning = $addon->i18n('detour_warning');
         echo rex_view::warning($warning);
     }
-    
+
     $addon->setConfig($settings);
 
     if ('' != rex_post('btn_check', 'string')) {
@@ -192,7 +192,6 @@ $n = [];
 $n['label'] = '<label for="phpmailer-detour-mode" class="' . $detour_mode_label_class . '">' . $addon->i18n('detour_email_redirect') . '</label>';
 $n['field'] = $sel_detour_mode->get();
 $formElements[] = $n;
-
 
 $n = [];
 $n['label'] = '<label for="phpmailer-confirmto">' . $addon->i18n('confirm') . '</label>';
