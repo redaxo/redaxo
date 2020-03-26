@@ -140,6 +140,20 @@ class rex_mailer extends PHPMailer
         });
     }
 
+    public function clearQueuedAddresses($kind)
+    {
+        parent::clearQueuedAddresses($kind);
+
+        unset($this->xHeader[$kind]);
+    }
+
+    public function clearAllRecipients()
+    {
+        parent::clearAllRecipients();
+
+        $this->xHeader = [];
+    }
+
     private function log(string $success): void
     {
         $log = new rex_log_file(self::logFile(), 2000000);
