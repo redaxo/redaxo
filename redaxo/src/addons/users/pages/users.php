@@ -151,7 +151,8 @@ if ($warnings) {
     }
 
     if ('' != $userpsw) {
-        $updateuser->setValue('password', $passwordHash = rex_login::passwordHash($userpsw));
+        $passwordHash = rex_login::passwordHash($userpsw);
+        $updateuser->setValue('password', $passwordHash);
         $updateuser->setValue('password_changed', time());
         $updateuser->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords($user, $passwordHash));
     }
