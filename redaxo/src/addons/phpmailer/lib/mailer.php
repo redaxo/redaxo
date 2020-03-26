@@ -122,13 +122,7 @@ class rex_mailer extends PHPMailer
                     }
                 }
 
-                // set custom subject
-                $this->Subject = '[' . $addon->i18n('detour_subject_start') . '] ' . $this->Subject;
-
-                // add the original to
-                if (isset($this->xHeader['to'])) {
-                    $this->Subject .= ' [' . $addon->i18n('detour_subject_end') . ': ' . $this->xHeader['to'] . ']';
-                }
+                $this->Subject = $addon->i18n('detour_subject', $this->Subject, $this->xHeader['to']);
 
                 // unset xHeader so it can be used again
                 $this->xHeader = [];
