@@ -67,24 +67,22 @@ class rex_mailer extends PHPMailer
             if ('to' == $kind) {
                 $detour_address = $addon->getConfig('test_address');
 
-                if (true == rex_validator::factory()->email($detour_address)) {
-                    // store the address so we can use it in the subject later
+                // store the address so we can use it in the subject later
 
-                    // if there has already been a call to addOrEnqueueAnAddress and detour mode is on
-                    // xHeader['to'] should have already been set
-                    // therefore we add the address to xHeader['to'] for the subject later
-                    // and parent::addOrEnqueueAnAddress doesnt need to be called since it would be the test address again
+                // if there has already been a call to addOrEnqueueAnAddress and detour mode is on
+                // xHeader['to'] should have already been set
+                // therefore we add the address to xHeader['to'] for the subject later
+                // and parent::addOrEnqueueAnAddress doesnt need to be called since it would be the test address again
 
-                    if (isset($this->xHeader['to'])) {
-                        $this->xHeader['to'] .= ', ' . $address;
-                        return true;
-                    }
-
-                    $this->xHeader['to'] = $address;
-
-                    // Set $address to the detour address
-                    $address = $detour_address;
+                if (isset($this->xHeader['to'])) {
+                    $this->xHeader['to'] .= ', ' . $address;
+                    return true;
                 }
+
+                $this->xHeader['to'] = $address;
+
+                // Set $address to the detour address
+                $address = $detour_address;
             } else {
                 if (isset($this->xHeader[$kind])) {
                     $this->xHeader[$kind] .= ', ' . $address;
