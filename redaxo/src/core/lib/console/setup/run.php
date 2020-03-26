@@ -411,13 +411,17 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 $pwValidator
             );
 
+            $passwordHash = rex_backend_login::passwordHash($password);
+
             $user = rex_sql::factory();
             $user->setTable(rex::getTablePrefix() . 'user');
             $user->setValue('login', $login);
-            $user->setValue('password', rex_backend_login::passwordHash($password));
+            $user->setValue('password', $passwordHash);
             $user->setValue('admin', 1);
             $user->addGlobalCreateFields('console');
             $user->addGlobalUpdateFields('console');
+            $user->setDateTimeValue('password_changed', time());
+            $user->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords(null, $passwordHash));
             $user->setValue('status', '1');
             $user->insert();
 
