@@ -18,7 +18,7 @@ jobs:
                token: ${{ secrets.STAABM_TOKEN }}
             - run: |  
                 git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
-                git branches -a
+                git branch -a
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
