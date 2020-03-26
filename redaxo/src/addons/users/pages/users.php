@@ -153,7 +153,7 @@ if ($warnings) {
     if ('' != $userpsw) {
         $passwordHash = rex_login::passwordHash($userpsw);
         $updateuser->setValue('password', $passwordHash);
-        $updateuser->setValue('password_changed', time());
+        $updateuser->setDateTimeValue('password_changed', time());
         $updateuser->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords($user, $passwordHash));
     }
 
@@ -205,7 +205,6 @@ if ($warnings) {
         $adduser->setTable(rex::getTablePrefix() . 'user');
         $adduser->setValue('name', $username);
         $adduser->setValue('password', $userpswHash);
-        $adduser->setValue('password_changed', time());
         $adduser->setValue('login', $userlogin);
         $adduser->setValue('description', $userdesc);
         $adduser->setValue('email', $useremail);
@@ -215,7 +214,7 @@ if ($warnings) {
         $adduser->setValue('role', implode(',', $userrole));
         $adduser->addGlobalCreateFields();
         $adduser->addGlobalUpdateFields();
-        $adduser->setValue('password_changed', time());
+        $adduser->setDateTimeValue('password_changed', time());
         $adduser->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords(null, $userpswHash));
         if (isset($userstatus) && 1 == $userstatus) {
             $adduser->setValue('status', 1);

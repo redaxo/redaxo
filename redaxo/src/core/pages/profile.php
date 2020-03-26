@@ -107,7 +107,7 @@ if (rex_post('upd_psw_button', 'bool')) {
         $updateuser->setWhere(['id' => $user_id]);
         $updateuser->setValue('password', $userpsw_new_1);
         $updateuser->addGlobalUpdateFields();
-        $updateuser->setValue('password_changed', time());
+        $updateuser->setDateTimeValue('password_changed', time());
         $updateuser->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords($user, $userpsw_new_1));
 
         try {

@@ -292,7 +292,7 @@ if (7 === $step) {
                 $user->setValue('admin', 1);
                 $user->addGlobalCreateFields('setup');
                 $user->addGlobalUpdateFields('setup');
-                $user->setValue('password_changed', time());
+                $user->setDateTimeValue('password_changed', time());
                 $user->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords(null, $redaxo_user_pass));
                 $user->setValue('status', '1');
                 try {

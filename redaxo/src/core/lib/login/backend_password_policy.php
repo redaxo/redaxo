@@ -15,9 +15,9 @@ class rex_backend_password_policy extends rex_password_policy
     {
         if (isset($options['reuse_previous'])) {
             $this->reusePrevious = $options['reuse_previous'];
-            unset($options['reuse_previous']);
         }
 
+        unset($options['reuse_previous']);
         unset($options['validity']);
 
         parent::__construct($options);

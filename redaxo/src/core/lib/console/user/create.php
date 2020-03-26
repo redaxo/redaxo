@@ -78,7 +78,7 @@ class rex_command_user_create extends rex_console_command
         $user->setValue('login_tries', 0);
         $user->addGlobalCreateFields('console');
         $user->addGlobalUpdateFields('console');
-        $user->setValue('password_changed', time());
+        $user->setDateTimeValue('password_changed', time());
         $user->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords(null, $passwordHash));
         $user->setValue('status', '1');
         $user->insert();
