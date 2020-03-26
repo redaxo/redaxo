@@ -88,10 +88,10 @@ class rex_backend_login extends rex_login
                 $sql->setQuery('UPDATE ' . $this->tableName . ' SET ' . $add . 'login_tries=0, lasttrydate=?, lastlogin=?, session_id=? WHERE login=? LIMIT 1', $params);
             }
 
-            $this->user = new rex_user($this->user);
+            $this->user = rex_user::fromSql($this->user);
 
             if ($this->impersonator instanceof rex_sql) {
-                $this->impersonator = new rex_user($this->impersonator);
+                $this->impersonator = rex_user::fromSql($this->impersonator);
             }
         } else {
             // fehlversuch speichern | login_tries++

@@ -146,7 +146,7 @@ if ($PERMALL) {
             <script type="text/javascript">
                 jQuery(document).ready(function($){
                     $("input[name=\'sync_files[]\']").change(function() {
-                        $(this).closest(\'form\').find("[type=\'submit\']").attr("disabled", $("input[name=\'sync_files[]\']:checked").size() == 0);
+                        $(this).closest(\'form\').find("[type=\'submit\']").attr("disabled", $("input[name=\'sync_files[]\']:checked").length == 0);
                     }).change();
                     $("#rex-js-checkie").change(function() {
                         $("input[name=\'sync_files[]\']").change();

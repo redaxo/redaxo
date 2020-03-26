@@ -411,7 +411,7 @@ jQuery(function($){
         var key = String.fromCharCode(event.which);
         var haystack = $("input[accesskey='"+ key +"'], button[accesskey='"+ key +"']");
 
-        if(haystack.size() > 0)
+        if(haystack.length > 0)
         {
             $(haystack.get(0)).click();
             return false;
@@ -420,7 +420,7 @@ jQuery(function($){
         {
             haystack = $("a[accesskey='"+ key +"']");
 
-            if(haystack.size() > 0)
+            if(haystack.length > 0)
             {
                 var hit = $(haystack.get(0));
                 if(hit.attr("onclick") != undefined)

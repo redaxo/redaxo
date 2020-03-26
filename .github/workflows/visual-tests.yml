@@ -1,0 +1,77 @@
+name: Visual Regression Testing
+
+on: [pull_request]
+
+jobs:
+    build:
+
+        runs-on: ubuntu-latest
+        services:
+            mysql:
+                image: mysql:5.7
+                ports:
+                    - 3306
+
+        steps:
+            - uses: actions/checkout@v1
+              with:
+               token: ${{ secrets.STAABM_TOKEN }}
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: 7.3
+                  extensions: intl, imagick
+                  coverage: none # disable xdebug, pcov
+                  tools: cs2pr
+            - name: Get Composer Cache Directory
+              id: composer-cache
+              run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+            - name: Cache dependencies
+              uses: actions/cache@v1
+              with:
+                  path: ${{ steps.composer-cache.outputs.dir }}
+                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+                  restore-keys: ${{ runner.os }}-composer-
+            - name: Install Dependencies
+              run: composer install --prefer-dist
+            - run: |
+                  sudo /etc/init.d/mysql start
+                  mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
+                  git apply .github/workflows/default.config.yml.github-action.diff
+            - run: |
+                  php redaxo/src/addons/tests/bin/setup.php
+                  php redaxo/bin/console package:install phpmailer
+                  php redaxo/bin/console package:install cronjob
+                  php redaxo/bin/console package:install cronjob/article_status
+                  php redaxo/bin/console package:install cronjob/optimize_tables
+                  php redaxo/bin/console package:install debug
+                  php redaxo/bin/console package:install structure/history
+                  php redaxo/bin/console package:install structure/version
+
+            - run: |
+                  php redaxo/bin/console user:create myusername mypassword --admin
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v1
+              with:
+                  node-version: "12.x"
+            - name: Setup Webserver
+              run: |
+                  php -S localhost:8000 &
+                  npm install puppeteer pixelmatch pngjs fs mkdirp
+            - name: Take Screenshots
+              run: |
+                  node .github/tests-visual/visual-record.js
+
+            - id: visual_changes
+              name: Detect Changes
+              run: git diff-index --quiet HEAD -- .github/tests-visual/
+
+            - uses: stefanzweifel/git-auto-commit-action@v2.5.0
+              if: failure()
+              with:
+                commit_message: Update screenshots
+                branch: ${{ github.head_ref }}
+                file_pattern: .github/tests-visual/*
+              env:
+                GITHUB_TOKEN: ${{ secrets.STAABM_TOKEN }}

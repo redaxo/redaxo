@@ -578,10 +578,10 @@ if ($OUT) {
     $list->setColumnLayout(rex_i18n::msg('header_template_functions'), ['<th class="rex-table-action" colspan="2">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams(rex_i18n::msg('header_template_functions'), ['function' => 'edit', 'template_id' => '###id###']);
 
-    $list->addColumn(rex_i18n::msg('template_delete'), '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete'));
-    $list->setColumnLayout(rex_i18n::msg('template_delete'), ['', '<td class="rex-table-action">###VALUE###</td>']);
-    $list->setColumnParams(rex_i18n::msg('template_delete'), ['function' => 'delete', 'template_id' => '###id###'] + $csrfToken->getUrlParams());
-    $list->addLinkAttribute(rex_i18n::msg('template_delete'), 'data-confirm', rex_i18n::msg('confirm_delete_template'));
+    $list->addColumn(rex_i18n::msg('delete_template'), '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete'));
+    $list->setColumnLayout(rex_i18n::msg('delete_template'), ['', '<td class="rex-table-action">###VALUE###</td>']);
+    $list->setColumnParams(rex_i18n::msg('delete_template'), ['function' => 'delete', 'template_id' => '###id###'] + $csrfToken->getUrlParams());
+    $list->addLinkAttribute(rex_i18n::msg('delete_template'), 'data-confirm', rex_i18n::msg('confirm_delete_template'));
 
     $list->setNoRowsMessage(rex_i18n::msg('templates_not_found'));
 
