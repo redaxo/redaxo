@@ -106,7 +106,7 @@ class rex_backend_login extends rex_login
             if ($loggedInViaCookie || $this->userLogin) {
                 $validity = rex::getProperty('password_policy', [])['validity']['renew_months'] ?? null;
                 if (strtotime($this->user->getValue('password_changed')) < strtotime('-'.$validity.' months')) {
-                    rex_set_session('password_change_required', true);
+                    $this->setSessionVar('password_change_required', true);
                 }
             }
         } else {

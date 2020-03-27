@@ -9,7 +9,7 @@ $success = '';
 $user = rex::getUser();
 $user_id = $user->getId();
 
-$passwordChangeRequired = rex_session('password_change_required');
+$passwordChangeRequired = rex::getProperty('login')->getSessionVar('password_change_required');
 
 // Allgemeine Infos
 $userpsw = rex_request('userpsw', 'string');
@@ -116,8 +116,10 @@ if (rex_post('upd_psw_button', 'bool')) {
 
             $success = rex_i18n::msg('user_psw_updated');
 
-            $passwordChangeRequired = false;
-            rex_unset_session('password_change_required');
+            if ($passwordChangeRequired) {
+                $passwordChangeRequired = false;
+                rex::getProperty('login')->setSessionVar('password_change_required', false);
+            }
 
             rex_extension::registerPoint(new rex_extension_point('PASSWORD_UPDATED', '', [
                 'user_id' => $user_id,

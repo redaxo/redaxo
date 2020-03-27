@@ -170,7 +170,7 @@ if (rex::getUser()) {
     rex_be_controller::appendLoggedInPages();
     rex_be_controller::setCurrentPage(trim(rex_request('page', 'string')));
 
-    if ('profile' !== rex_be_controller::getCurrentPage() && rex_session('password_change_required', 'bool')) {
+    if ('profile' !== rex_be_controller::getCurrentPage() && rex::getProperty('login')->getSessionVar('password_change_required')) {
         rex_response::sendRedirect(rex_url::backendPage('profile'));
     }
 }
@@ -199,7 +199,7 @@ rex_be_controller::setPages($pages);
 
 // Set Startpage
 if ($user = rex::getUser()) {
-    if (rex_session('password_change_required', 'bool')) {
+    if (rex::getProperty('login')->getSessionVar('password_change_required')) {
         rex_be_controller::setCurrentPage('profile');
     } else {
         // --- page pruefen und benoetigte rechte checken
