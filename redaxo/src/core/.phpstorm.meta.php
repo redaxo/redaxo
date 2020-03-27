@@ -7,10 +7,10 @@ namespace PHPSTORM_META;
 override(
     \rex::getProperty(0),
     map([
-        'console' => '\rex_console_application|null',
-        'login' => '\rex_backend_login|null',
+        'console' => \rex_console_application::class,
+        'login' => \rex_backend_login::class,
         'timer' => \rex_timer::class,
-        'user' => '\rex_user|null',
+        'user' => \rex_user::class,
     ])
 );
 
