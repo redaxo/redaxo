@@ -296,7 +296,7 @@ class rex
      */
     public static function getImpersonator()
     {
-        $login = self::getProperty('login');
+        $login = self::$properties['login'] ?? null;
 
         return $login ? $login->getImpersonator() : null;
     }
