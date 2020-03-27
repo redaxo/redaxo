@@ -53,6 +53,7 @@ async function createScreenshot(page, screenshotName) {
     await page.evaluate(function() {
         var changingElements = [
             '.rex-js-script-time',
+            'td[data-title="Version"]',
             'td[data-title="Letzter Login"]',
             '#rex-form-exportfilename',
         ];
