@@ -79,7 +79,7 @@ async function createScreenshot(page, screenshotName) {
 }
 
 async function main() {
-    const options = { args: ['--no-sandbox', '--disable-setuid-sandbox', '--font-render-hinting=none'] };
+    const options = { args: ['--no-sandbox', '--disable-setuid-sandbox', '--font-render-hinting=none', '--disable-font-subpixel-positioning'] };
 
     if (DEBUGGING) {
         // see https://developers.google.com/web/tools/puppeteer/debugging
