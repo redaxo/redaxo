@@ -79,6 +79,10 @@ interface rex_package_interface
 
     /**
      * @see rex_config::get()
+     *
+     * @template T as ?string
+     * @psalm-param T $key
+     * @psalm-return (T is string ? mixed : array<string, mixed>)
      */
     public function getConfig($key = null, $default = null);
 
