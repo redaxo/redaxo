@@ -77,7 +77,7 @@ class rex_sql_util
         $user = rex::getUser() ? rex::getUser()->getValue('login') : '';
 
         $qry = str_replace('%USER%', $user, $qry);
-        $qry = str_replace('%TIME%', time(), $qry);
+        $qry = str_replace('%TIME%', (string) time(), $qry);
         $qry = str_replace('%TABLE_PREFIX%', rex::getTablePrefix(), $qry);
         $qry = str_replace('%TEMP_PREFIX%', rex::getTempPrefix(), $qry);
 
@@ -97,7 +97,7 @@ class rex_sql_util
             $ret = [];
             $sqlsplit = [];
             $fileContent = file_get_contents($file);
-            self::splitSqlFile($sqlsplit, $fileContent, '');
+            self::splitSqlFile($sqlsplit, $fileContent, 0);
 
             if (is_array($sqlsplit)) {
                 foreach ($sqlsplit as $qry) {

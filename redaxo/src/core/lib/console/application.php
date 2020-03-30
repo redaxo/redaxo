@@ -38,7 +38,7 @@ class rex_console_application extends Application
                 $severity = E_ERROR;
             }
 
-            throw new ErrorException($message, $e->getCode(), $severity, $e->getFile(), $e->getLine(), $e->getPrevious());
+            throw new ErrorException($message, 0, $severity, $e->getFile(), $e->getLine(), $e->getPrevious());
         }
     }
 

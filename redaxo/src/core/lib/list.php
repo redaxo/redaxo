@@ -469,9 +469,9 @@ class rex_list implements rex_url_provider_interface
      * Setzt eine Option für eine Spalte
      * (z.b. Sortable,..).
      *
-     * @param string $columnName Name der Spalte
-     * @param string $option     Name/Id der Option
-     * @param mixed  $value      Wert der Option
+     * @param string     $columnName Name der Spalte
+     * @param string|int $option     Name/Id der Option
+     * @param mixed      $value      Wert der Option
      */
     public function setColumnOption($columnName, $option, $value)
     {
@@ -481,9 +481,9 @@ class rex_list implements rex_url_provider_interface
     /**
      * Gibt den Wert einer Option für eine Spalte zurück.
      *
-     * @param string $columnName Name der Spalte
-     * @param string $option     Name/Id der Option
-     * @param mixed  $default    Defaultrückgabewert, falls die Option nicht gesetzt ist
+     * @param string     $columnName Name der Spalte
+     * @param string|int $option     Name/Id der Option
+     * @param mixed      $default    Defaultrückgabewert, falls die Option nicht gesetzt ist
      *
      * @return mixed|null
      */
@@ -498,8 +498,8 @@ class rex_list implements rex_url_provider_interface
     /**
      * Gibt zurück, ob für eine Spalte eine Option gesetzt wurde.
      *
-     * @param string $columnName Name der Spalte
-     * @param string $option     Name/Id der Option
+     * @param string     $columnName Name der Spalte
+     * @param string|int $option     Name/Id der Option
      *
      * @return bool
      */

@@ -5,7 +5,7 @@
  */
 abstract class rex_form_options_element extends rex_form_element
 {
-    /** @var array */
+    /** @var array<string, string|int> */
     private $options;
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
@@ -26,8 +26,8 @@ abstract class rex_form_options_element extends rex_form_element
     }
 
     /**
-     * @param string[]|int[] $options
-     * @param bool           $useOnlyValues
+     * @param array<string|array{0: string, 1?: string|int}> $options
+     * @param bool                                           $useOnlyValues
      */
     public function addOptions(array $options, $useOnlyValues = false)
     {
@@ -48,8 +48,8 @@ abstract class rex_form_options_element extends rex_form_element
     }
 
     /**
-     * @param string[]|int[] $options
-     * @param bool           $useKeys
+     * @param string[] $options
+     * @param bool     $useKeys
      */
     public function addArrayOptions(array $options, $useKeys = true)
     {

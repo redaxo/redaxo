@@ -149,7 +149,7 @@ class rex_config
     /**
      * Returns if the given key is set.
      *
-     * @param string $namespace The namespace e.g. an addon name
+     * @param string      $namespace The namespace e.g. an addon name
      * @param string|null $key       The associated key
      *
      * @throws InvalidArgumentException

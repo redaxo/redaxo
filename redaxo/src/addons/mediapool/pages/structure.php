@@ -77,7 +77,7 @@ if ($PERMALL) {
         for ($i = 1; $i < count($paths); ++$i) {
             $iid = current($paths);
             if ('' != $iid) {
-                $icat = rex_media_category::get($iid);
+                $icat = rex_media_category::get((int) $iid);
 
                 $n = [];
                 $n['title'] = rex_escape($icat->getName());
