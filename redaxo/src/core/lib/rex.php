@@ -34,6 +34,7 @@ class rex
      * @return mixed the value for $key or $default if $key cannot be found in the given $namespace
      *
      * @template T as ?string
+     * @phpstan-template T
      * @psalm-param T $key
      * @psalm-return (T is string ? mixed : array<string, mixed>)
      */

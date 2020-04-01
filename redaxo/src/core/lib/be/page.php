@@ -203,6 +203,7 @@ class rex_be_page
      * @return string|array Attribute value for given `$name` or attribute array if `$name` is `null`
      *
      * @template T as ?string
+     * @phpstan-template T
      * @psalm-param T $name
      * @psalm-return (T is string ? string : array<string, string>)
      */
@@ -301,6 +302,7 @@ class rex_be_page
      * @return string|array Attribute value for given `$name` or attribute array if `$name` is `null`
      *
      * @template T as ?string
+     * @phpstan-template T
      * @psalm-param T $name
      * @psalm-return (T is string ? string : array<string, string>)
      */

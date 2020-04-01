@@ -251,6 +251,7 @@ abstract class rex_var
      * @return null|string|int
      *
      * @template T as null|string|int
+     * @phpstan-template T
      * @psalm-param T $default
      * @psalm-return string|T
      */
@@ -272,6 +273,7 @@ abstract class rex_var
      * @return int|null|string
      *
      * @template T as null|string|int
+     * @phpstan-template T
      * @psalm-param T $default
      * @psalm-return string|T
      */
