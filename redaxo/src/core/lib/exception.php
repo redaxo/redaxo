@@ -70,12 +70,12 @@ class rex_functional_exception extends rex_exception
 class rex_http_exception extends rex_exception
 {
     /**
-     * @var int
+     * @var string
      */
     private $httpCode;
 
     /**
-     * @param int $httpCode
+     * @param string $httpCode
      */
     public function __construct(Exception $cause, $httpCode)
     {
@@ -84,7 +84,7 @@ class rex_http_exception extends rex_exception
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function getHttpCode()
     {

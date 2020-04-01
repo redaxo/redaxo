@@ -221,7 +221,7 @@ if ($warnings) {
 
         rex_extension::registerPoint(new rex_extension_point('USER_ADDED', '', [
             'id' => $adduser->getLastId(),
-            'user' => rex_user::require($adduser->getLastId()),
+            'user' => rex_user::require((int) $adduser->getLastId()),
             'password' => $userpsw,
         ], true));
     } else {

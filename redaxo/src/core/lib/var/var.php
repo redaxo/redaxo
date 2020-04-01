@@ -244,11 +244,16 @@ abstract class rex_var
     /**
      * Returns the argument.
      *
-     * @param string      $key
-     * @param null|string $default
-     * @param bool        $defaultArg
+     * @param string          $key
+     * @param null|string|int $default
+     * @param bool            $defaultArg
      *
-     * @return null|string
+     * @return null|string|int
+     *
+     * @template T as null|string|int
+     * @phpstan-template T
+     * @psalm-param T $default
+     * @psalm-return string|T
      */
     protected function getArg($key, $default = null, $defaultArg = false)
     {
@@ -261,11 +266,16 @@ abstract class rex_var
     /**
      * Returns the (recursive) parsed argument.
      *
-     * @param string      $key
-     * @param null|string $default
-     * @param bool        $defaultArg
+     * @param string          $key
+     * @param null|string|int $default
+     * @param bool            $defaultArg
      *
      * @return int|null|string
+     *
+     * @template T as null|string|int
+     * @phpstan-template T
+     * @psalm-param T $default
+     * @psalm-return string|T
      */
     protected function getParsedArg($key, $default = null, $defaultArg = false)
     {
@@ -318,7 +328,7 @@ abstract class rex_var
     /**
      * Returns the output.
      *
-     * @return bool|string
+     * @return false|string
      */
     abstract protected function getOutput();
 
@@ -340,7 +350,7 @@ abstract class rex_var
     /**
      * Returns the output in consideration of the global args.
      *
-     * @return bool|string
+     * @return false|string
      */
     private function getGlobalArgsOutput()
     {

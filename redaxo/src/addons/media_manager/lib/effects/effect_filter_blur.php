@@ -38,7 +38,7 @@ class rex_effect_filter_blur extends rex_effect_abstract
 
         for ($i = 0; $i < $this->params['repeats']; ++$i) {
             if ('' != $this->params['smoothit']) {
-                imagefilter($gdimage, IMG_FILTER_SMOOTH, $this->params['smoothit']);
+                imagefilter($gdimage, IMG_FILTER_SMOOTH, (int) $this->params['smoothit']);
             }
 
             if ('' != $this->params['type']) {

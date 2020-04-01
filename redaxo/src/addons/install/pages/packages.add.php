@@ -95,13 +95,13 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
         $sortClass = '-up';
         $sortNext = 'down';
         uasort($addons, static function ($addon1, $addon2) {
-            return reset($addon1['files'])['created'] > reset($addon2['files'])['created'];
+            return reset($addon1['files'])['created'] <=> reset($addon2['files'])['created'];
         });
     } elseif ('down' === $sort) {
         $sortClass = '-down';
         $sortNext = '';
         uasort($addons, static function ($addon1, $addon2) {
-            return reset($addon1['files'])['created'] < reset($addon2['files'])['created'];
+            return reset($addon2['files'])['created'] <=> reset($addon1['files'])['created'];
         });
     } else {
         $sortClass = '';

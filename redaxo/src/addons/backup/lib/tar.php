@@ -294,7 +294,7 @@ class rex_backup_tar extends tar
                 $header[155] = chr(32);
 
                 // Pad file contents to byte count divisible by 512
-                $file_contents = str_pad($information['file'], (ceil($information['size'] / 512) * 512), chr(0));
+                $file_contents = str_pad($information['file'], (int) ceil($information['size'] / 512) * 512, chr(0));
 
                 // Add new tar formatted data to tar file contents
                 $this->tar_file .= $header . $file_contents;

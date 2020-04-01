@@ -72,7 +72,7 @@ if (1 == $article->getRows()) {
     $formElements = [];
     $formElements[] = [
         'label' => '<label for="rex-id-meta-article-name">'.rex_i18n::msg('header_article_name').'</label>',
-        'field' => '<input class="form-control" type="text" id="rex-id-meta-article-name" name="meta_article_name" value="'.htmlspecialchars(rex_article::get($article_id, $clang)->getValue('name')).'" />',
+        'field' => '<input class="form-control" type="text" id="rex-id-meta-article-name" name="meta_article_name" value="'.htmlspecialchars(rex_article::get($article_id, $clang)->getName()).'" />',
     ];
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
