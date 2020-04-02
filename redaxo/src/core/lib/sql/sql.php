@@ -163,14 +163,14 @@ class rex_sql implements Iterator
      *
      * @param string $qry
      *
-     * @return bool|string
+     * @return false|int
      */
     protected static function getQueryDBID($qry)
     {
         $qry = trim($qry);
 
         if (preg_match('/\(DB([1-9]){1}\)/i', $qry, $matches)) {
-            return $matches[1];
+            return (int) $matches[1];
         }
 
         return false;
@@ -182,7 +182,7 @@ class rex_sql implements Iterator
      *
      * @param string $qry Abfrage
      *
-     * @return bool|string
+     * @return false|int
      */
     protected static function stripQueryDBID(&$qry)
     {
@@ -1267,7 +1267,7 @@ class rex_sql implements Iterator
     /**
      * Gibt die Spaltennamen des ResultSets zurueck.
      *
-     * @return null|array
+     * @return string[]
      */
     public function getFieldnames()
     {
@@ -1276,7 +1276,7 @@ class rex_sql implements Iterator
     }
 
     /**
-     * @return null|array
+     * @return string[]
      */
     public function getTablenames()
     {

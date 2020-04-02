@@ -283,7 +283,7 @@ class rex_navigation
                         }
                         break;
                     case 'regex':
-                        if (!preg_match($va, $mf)) {
+                        if (!preg_match($va, (string) $mf)) {
                             return false;
                         }
                         break;

@@ -23,7 +23,7 @@ class rex_clang_service
         $sql->setValue('priority', $priority);
         $sql->setValue('status', $status);
         $sql->insert();
-        $id = $sql->getLastId();
+        $id = (int) $sql->getLastId();
 
         rex_sql_util::organizePriorities(rex::getTable('clang'), 'priority', '', 'priority, id != ' . $id);
 
