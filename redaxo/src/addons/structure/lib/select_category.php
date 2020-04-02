@@ -10,7 +10,7 @@ class rex_category_select extends rex_select
      */
     private $ignore_offlines;
     /**
-     * @var bool|int
+     * @var null|int
      */
     private $clang;
     /**
@@ -32,7 +32,7 @@ class rex_category_select extends rex_select
     public function __construct($ignore_offlines = false, $clang = false, $check_perms = true, $add_homepage = true)
     {
         $this->ignore_offlines = $ignore_offlines;
-        $this->clang = $clang;
+        $this->clang = false === $clang ? null : $clang;
         $this->check_perms = $check_perms;
         $this->add_homepage = $add_homepage;
         $this->rootId = null;

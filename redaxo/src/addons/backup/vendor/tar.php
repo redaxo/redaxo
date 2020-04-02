@@ -134,7 +134,7 @@ class tar {
       $file_gid   = octdec(rtrim(substr($this->tar_file,$main_offset + 116,8), "\x00"));
 
       // Parse the file size
-      $file_size    = octdec(rtrim(substr($this->tar_file,$main_offset + 124,12), "\x00"));
+      $file_size    = (int) octdec(rtrim(substr($this->tar_file,$main_offset + 124,12), "\x00"));
 
       // Parse the file update time - unix timestamp format
       $file_time    = octdec(rtrim(substr($this->tar_file,$main_offset + 136,12), "\x00"));
@@ -204,7 +204,7 @@ class tar {
       }
 
       // Move our offset the number of blocks we have processed
-      $main_offset += 512 + (ceil($file_size / 512) * 512);
+      $main_offset += 512 + ((int) ceil($file_size / 512) * 512);
     }
 
     return true;
@@ -321,7 +321,7 @@ class tar {
         $header[155] = chr(32);
 
         // Pad file contents to byte count divisible by 512
-        $file_contents = str_pad($information["file"],(ceil($information["size"] / 512) * 512),chr(0));
+        $file_contents = str_pad($information["file"], (int) ceil($information["size"] / 512) * 512, chr(0));
 
         // Add new tar formatted data to tar file contents
         $this->tar_file .= $header . $file_contents;

@@ -38,8 +38,8 @@ abstract class rex_formatter
      *
      * @see http://www.php.net/manual/en/function.date.php
      *
-     * @param string $value  Unix timestamp or datetime string for `strtotime`
-     * @param string $format Default format is `d.m.Y`
+     * @param string|int $value  Unix timestamp or datetime string for `strtotime`
+     * @param string     $format Default format is `d.m.Y`
      *
      * @return string
      */
@@ -61,8 +61,8 @@ abstract class rex_formatter
      *
      * @see http://www.php.net/manual/en/function.strftime.php
      *
-     * @param string $value  Unix timestamp or datetime string for `strtotime`
-     * @param string $format Possible values are format strings like in `strftime` or "date" or "datetime", default is "date"
+     * @param string|int $value  Unix timestamp or datetime string for `strtotime`
+     * @param string     $format Possible values are format strings like in `strftime` or "date" or "datetime", default is "date"
      *
      * @return string
      */
@@ -90,8 +90,8 @@ abstract class rex_formatter
      *
      * @see http://www.php.net/manual/en/function.number-format.php
      *
-     * @param string $value  Value
-     * @param array  $format Array with number of decimals, decimals point and thousands separator, default is `array(2, ',', ' ')`
+     * @param string|float $value  Value
+     * @param array        $format Array with number of decimals, decimals point and thousands separator, default is `array(2, ',', ' ')`
      *
      * @return string
      */
@@ -113,20 +113,20 @@ abstract class rex_formatter
         if (!isset($format[2])) {
             $format[2] = ' ';
         }
-        return number_format($value, $format[0], $format[1], $format[2]);
+        return number_format((float) $value, $format[0], $format[1], $format[2]);
     }
 
     /**
      * Formats a string as bytes.
      *
-     * @param string $value  Value
-     * @param array  $format Same as {@link rex_formatter::number()}
+     * @param string|int $value  Value
+     * @param array      $format Same as {@link rex_formatter::number()}
      *
      * @return string
      */
     public static function bytes($value, $format = [])
     {
-        $value = (float) $value;
+        $value = (int) $value;
 
         $units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
         $unit_index = 0;
@@ -357,12 +357,14 @@ abstract class rex_formatter
     }
 
     /**
+     * @param string|int $value
+     *
      * @return false|int
      */
     private static function getTimestamp($value)
     {
-        if (ctype_digit($value)) {
-            return $value;
+        if (is_int($value) || ctype_digit($value)) {
+            return (int) $value;
         }
 
         return strtotime($value);
