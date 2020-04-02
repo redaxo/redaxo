@@ -40,8 +40,9 @@ class rex_backend_login extends rex_login
                 OR lasttrydate < "' . rex_sql::datetime(time() - self::RELOGIN_DELAY_2) . '"
             )';
 
-        if ($validity = rex::getProperty('password_policy', [])['validity']['block_months'] ?? null) {
-            $qry .= ' AND password_changed > "'.rex_sql::datetime(strtotime('-'.$validity.' months')).'"';
+        if ($blockAccountAfter = rex::getProperty('password_policy', [])['block_account_after'] ?? null) {
+            $datetime = (new DateTimeImmutable())->sub(new DateInterval($blockAccountAfter));
+            $qry .= ' AND password_changed > "'.$datetime->format(rex_sql::FORMAT_DATETIME).'"';
         }
 
         $this->setLoginQuery($qry);
@@ -103,9 +104,12 @@ class rex_backend_login extends rex_login
                 $this->impersonator = rex_user::fromSql($this->impersonator);
             }
 
-            if ($loggedInViaCookie || $this->userLogin) {
-                $validity = rex::getProperty('password_policy', [])['validity']['renew_months'] ?? null;
-                if (strtotime($this->user->getValue('password_changed')) < strtotime('-'.$validity.' months')) {
+            if (
+                ($loggedInViaCookie || $this->userLogin) &&
+                $forceRenewAfter = (rex::getProperty('password_policy', [])['force_renew_after'] ?? null)
+            ) {
+                $datetime = (new DateTimeImmutable())->sub(new DateInterval($forceRenewAfter));
+                if (strtotime($this->user->getValue('password_changed')) < $datetime->getTimestamp()) {
                     $this->setSessionVar('password_change_required', true);
                 }
             }

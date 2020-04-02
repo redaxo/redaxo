@@ -9,16 +9,23 @@ class rex_backend_password_policy extends rex_password_policy
 {
     use rex_factory_trait;
 
-    private $reusePrevious;
+    /** @var int|null */
+    private $noReuseOfLast;
+    /** @var DateInterval|null */
+    private $noReuseWithin;
 
     public function __construct(array $options)
     {
-        if (isset($options['reuse_previous'])) {
-            $this->reusePrevious = $options['reuse_previous'];
+        if (isset($options['no_reuse_of_last'])) {
+            $this->noReuseOfLast = $options['no_reuse_of_last'];
+            unset($options['no_reuse_of_last']);
         }
-
-        unset($options['reuse_previous']);
-        unset($options['validity']);
+        if (isset($options['no_reuse_within'])) {
+            $this->noReuseWithin = new DateInterval($options['no_reuse_within']);
+            unset($options['no_reuse_within']);
+        }
+        unset($options['force_renew_after']);
+        unset($options['block_account_after']);
 
         parent::__construct($options);
     }
@@ -39,7 +46,7 @@ class rex_backend_password_policy extends rex_password_policy
             return $msg;
         }
 
-        if (null === $id || !isset($this->reusePrevious['not_last']) && !isset($this->reusePrevious['not_months'])) {
+        if (null === $id || !isset($this->noReuseOfLast) && !isset($this->noReuseWithin)) {
             return true;
         }
 
@@ -67,7 +74,7 @@ class rex_backend_password_policy extends rex_password_policy
      */
     public function updatePreviousPasswords(?rex_user $user, string $password): array
     {
-        if (!isset($this->reusePrevious['not_last']) && !isset($this->reusePrevious['not_months'])) {
+        if (!isset($this->noReuseOfLast) && !isset($this->noReuseWithin)) {
             return [];
         }
 
@@ -84,12 +91,17 @@ class rex_backend_password_policy extends rex_password_policy
 
     private function cleanUpPreviousPasswords(array $previousPasswords): array
     {
-        if (!isset($this->reusePrevious['not_last']) && !isset($this->reusePrevious['not_months'])) {
+        if (!isset($this->noReuseOfLast) && !isset($this->noReuseWithin)) {
             return [];
         }
 
-        $minI = count($previousPasswords) - ($this->reusePrevious['not_last'] ?? 0);
-        $minTimestamp = isset($this->reusePrevious['not_months']) ? strtotime('-'.$this->reusePrevious['not_months'].' months') : time() + 1;
+        $minI = count($previousPasswords) - ($this->noReuseOfLast ?? 0);
+
+        if (isset($this->noReuseWithin)) {
+            $minTimestamp = (new DateTimeImmutable())->sub($this->noReuseWithin)->getTimestamp();
+        } else {
+            $minTimestamp = time() + 1;
+        }
 
         $return = [];
 
