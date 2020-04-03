@@ -13,5 +13,6 @@
 /media/*
 !/media/.*
 
-# log files
+# log folder and log files
+/redaxo/data/log/*
 *.log
