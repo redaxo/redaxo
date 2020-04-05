@@ -29,6 +29,11 @@ register_shutdown_function(static function () {
     $clockwork->getTimeline()->endEvent('total');
 
     foreach (rex_timer::$serverTimings as $label => $timings) {
+        if (!isset($timings['timings'])) {
+            // compat for redaxo < 5.11
+            continue;
+        }
+
         foreach ($timings['timings'] as $i => $timing) {
             if ($timing['end'] - $timing['start'] > 0.001) {
                 $clockwork->getTimeline()->addEvent($label.'_'.$i, $label, $timing['start'], $timing['end']);
