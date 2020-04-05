@@ -74,7 +74,7 @@ class rex_effect_convert2img extends rex_effect_abstract
                 $imagick->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
             }
 
-            $imagick->setImageColorspace(Imagick::COLORSPACE_RGB);
+            $imagick->transformImageColorspace(Imagick::COLORSPACE_RGB);
             $imagick->setImageFormat($convert_to['ext']);
 
             $gd = imagecreatefromstring($imagick->getImageBlob());
