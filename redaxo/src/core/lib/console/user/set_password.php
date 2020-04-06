@@ -40,7 +40,7 @@ class rex_command_user_set_password extends rex_console_command
         $user = rex_user::fromSql($user);
         $id = $user->getId();
 
-        $passwordPolicy = rex_backend_password_policy::factory(rex::getProperty('password_policy', []));
+        $passwordPolicy = rex_backend_password_policy::factory();
 
         $password = $input->getArgument('password');
 

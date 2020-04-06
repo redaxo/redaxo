@@ -267,7 +267,7 @@ if (7 === $step) {
             $errors[] = rex_view::error(rex_i18n::msg('setup_602'));
         }
 
-        $passwordPolicy = rex_backend_password_policy::factory(rex::getProperty('password_policy', []));
+        $passwordPolicy = rex_backend_password_policy::factory();
         if (true !== $msg = $passwordPolicy->check($redaxo_user_pass)) {
             $errors[] = rex_view::error($msg);
         }

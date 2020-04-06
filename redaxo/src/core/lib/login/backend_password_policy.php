@@ -14,8 +14,12 @@ class rex_backend_password_policy extends rex_password_policy
     /** @var DateInterval|null */
     private $noReuseWithin;
 
-    public function __construct(array $options)
+    public function __construct(?array $options = null)
     {
+        if (null === $options) {
+            $options = rex::getProperty('password_policy', []);
+        }
+
         if (isset($options['no_reuse_of_last'])) {
             $this->noReuseOfLast = $options['no_reuse_of_last'];
             unset($options['no_reuse_of_last']);
@@ -33,7 +37,7 @@ class rex_backend_password_policy extends rex_password_policy
     /**
      * @return static
      */
-    public static function factory(array $options)
+    public static function factory(?array $options = null)
     {
         $class = static::getFactoryClass();
 

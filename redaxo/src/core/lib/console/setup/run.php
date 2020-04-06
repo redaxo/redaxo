@@ -391,7 +391,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 }
             );
 
-            $passwordPolicy = rex_backend_password_policy::factory(rex::getProperty('password_policy', []));
+            $passwordPolicy = rex_backend_password_policy::factory();
             $pwValidator = static function ($password) use ($passwordPolicy) {
                 if (true !== $msg = $passwordPolicy->check($password)) {
                     throw new InvalidArgumentException($msg);

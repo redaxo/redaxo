@@ -89,7 +89,7 @@ if ($update && !$error) {
 }
 
 if (rex_post('upd_psw_button', 'bool')) {
-    $passwordPolicy = rex_backend_password_policy::factory(rex::getProperty('password_policy', []));
+    $passwordPolicy = rex_backend_password_policy::factory();
 
     if (!$csrfToken->isValid()) {
         $error = rex_i18n::msg('csrf_token_invalid');

@@ -40,7 +40,7 @@ class rex_command_user_create extends rex_console_command
             throw new InvalidArgumentException(sprintf('User "%s" already exists.', $login));
         }
 
-        $passwordPolicy = rex_backend_password_policy::factory(rex::getProperty('password_policy', []));
+        $passwordPolicy = rex_backend_password_policy::factory();
 
         $password = $input->getArgument('password');
         if ($password && true !== $msg = $passwordPolicy->check($password)) {

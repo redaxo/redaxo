@@ -100,7 +100,7 @@ $FUNC_ADD = rex_request('FUNC_ADD', 'string');
 $save = rex_request('save', 'int');
 $adminchecked = '';
 
-$passwordPolicy = rex_backend_password_policy::factory(rex::getProperty('password_policy', []));
+$passwordPolicy = rex_backend_password_policy::factory();
 
 if ($save && ($FUNC_ADD || $FUNC_UPDATE || $FUNC_APPLY)) {
     if (!rex_csrf_token::factory('user_edit')->isValid()) {
