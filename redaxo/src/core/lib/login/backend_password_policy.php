@@ -13,6 +13,10 @@ class rex_backend_password_policy extends rex_password_policy
     private $noReuseOfLast;
     /** @var DateInterval|null */
     private $noReuseWithin;
+    /** @var DateInterval|null */
+    private $forceRenewAfter;
+    /** @var DateInterval|null */
+    private $blockAccountAfter;
 
     public function __construct(?array $options = null)
     {
@@ -28,8 +32,14 @@ class rex_backend_password_policy extends rex_password_policy
             $this->noReuseWithin = new DateInterval($options['no_reuse_within']);
             unset($options['no_reuse_within']);
         }
-        unset($options['force_renew_after']);
-        unset($options['block_account_after']);
+        if (isset($options['force_renew_after'])) {
+            $this->forceRenewAfter = new DateInterval($options['force_renew_after']);
+            unset($options['force_renew_after']);
+        }
+        if (isset($options['block_account_after'])) {
+            $this->blockAccountAfter = new DateInterval($options['block_account_after']);
+            unset($options['block_account_after']);
+        }
 
         parent::__construct($options);
     }
@@ -71,6 +81,16 @@ class rex_backend_password_policy extends rex_password_policy
         }
 
         return true;
+    }
+
+    public function getForceRenewAfter(): ?DateInterval
+    {
+        return $this->forceRenewAfter;
+    }
+
+    public function getBlockAccountAfter(): ?DateInterval
+    {
+        return $this->blockAccountAfter;
     }
 
     /**

@@ -13,11 +13,17 @@ class rex_backend_login extends rex_login
     public const RELOGIN_DELAY_1 = 5;    // relogin delay after LOGIN_TRIES_1 tries
     public const LOGIN_TRIES_2 = 50;
     public const RELOGIN_DELAY_2 = 3600; // relogin delay after LOGIN_TRIES_2 tries
+
+    private const SESSION_PASSWORD_CHANGE_REQUIRED = 'password_change_required';
+
     /**
      * @var string
      */
     private $tableName;
     private $stayLoggedIn;
+
+    /** @var rex_backend_password_policy */
+    private $passwordPolicy;
 
     public function __construct()
     {
@@ -30,6 +36,7 @@ class rex_backend_login extends rex_login
         $qry = 'SELECT * FROM ' . $tableName;
         $this->setUserQuery($qry . ' WHERE id = :id AND status = 1');
         $this->setImpersonateQuery($qry . ' WHERE id = :id');
+        $this->passwordPolicy = rex_backend_password_policy::factory();
 
         // XXX because with concat the time into the sql query, users of this class should use checkLogin() immediately after creating the object.
         $qry .= ' WHERE
@@ -40,8 +47,8 @@ class rex_backend_login extends rex_login
                 OR lasttrydate < "' . rex_sql::datetime(time() - self::RELOGIN_DELAY_2) . '"
             )';
 
-        if ($blockAccountAfter = rex::getProperty('password_policy', [])['block_account_after'] ?? null) {
-            $datetime = (new DateTimeImmutable())->sub(new DateInterval($blockAccountAfter));
+        if ($blockAccountAfter = $this->passwordPolicy->getBlockAccountAfter()) {
+            $datetime = (new DateTimeImmutable())->sub($blockAccountAfter);
             $qry .= ' AND password_changed > "'.$datetime->format(rex_sql::FORMAT_DATETIME).'"';
         }
 
@@ -106,11 +113,11 @@ class rex_backend_login extends rex_login
 
             if (
                 ($loggedInViaCookie || $this->userLogin) &&
-                $forceRenewAfter = (rex::getProperty('password_policy', [])['force_renew_after'] ?? null)
+                $forceRenewAfter = $this->passwordPolicy->getForceRenewAfter()
             ) {
-                $datetime = (new DateTimeImmutable())->sub(new DateInterval($forceRenewAfter));
+                $datetime = (new DateTimeImmutable())->sub($forceRenewAfter);
                 if (strtotime($this->user->getValue('password_changed')) < $datetime->getTimestamp()) {
-                    $this->setSessionVar('password_change_required', true);
+                    $this->setSessionVar(self::SESSION_PASSWORD_CHANGE_REQUIRED, true);
                 }
             }
         } else {
@@ -138,6 +145,16 @@ class rex_backend_login extends rex_login
         }
 
         return $check;
+    }
+
+    public function requiresPasswordChange(): bool
+    {
+        return (bool) $this->getSessionVar(self::SESSION_PASSWORD_CHANGE_REQUIRED, false);
+    }
+
+    public function changedPassword(): void
+    {
+        $this->setSessionVar(self::SESSION_PASSWORD_CHANGE_REQUIRED, false);
     }
 
     public static function deleteSession()
