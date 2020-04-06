@@ -107,9 +107,11 @@ class rex_fragment
         foreach (self::$fragmentDirs as $fragDir) {
             $fragment = $fragDir . $filename;
             if (is_readable($fragment)) {
-                ob_start();
-                require $fragment;
-                $content = ob_get_clean();
+                $content = rex_timer::measure('Fragment: '.$filename, function () use ($fragment) {
+                    ob_start();
+                    require $fragment;
+                    return ob_get_clean();
+                });
 
                 if ($this->decorator) {
                     $this->decorator->setVar('rexDecoratedContent', $content, false);
