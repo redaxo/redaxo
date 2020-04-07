@@ -42,6 +42,13 @@ register_shutdown_function(static function () {
     }
 
     $req = $clockwork->getRequest();
+
+    if (rex::isBackend()) {
+        $req->controller = 'page: '.rex_be_controller::getCurrentPage();
+    } elseif (rex_plugin::get('structure', 'content')->isAvailable()) {
+        $req->controller = 'article: '.rex_article::getCurrentId().'; clang: '.rex_clang::getCurrent()->getCode();
+    }
+
     foreach ($req->databaseQueries as $query) {
         switch (strtolower(strtok($query['query'], ' '))) {
             case 'select':
