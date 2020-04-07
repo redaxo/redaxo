@@ -200,6 +200,7 @@ rex_be_controller::setPages($pages);
 // Set Startpage
 if ($user = rex::getUser()) {
     if (rex::getProperty('login')->requiresPasswordChange()) {
+        // profile is available for everyone, no additional checks required
         rex_be_controller::setCurrentPage('profile');
     } else {
         // --- page pruefen und benoetigte rechte checken
