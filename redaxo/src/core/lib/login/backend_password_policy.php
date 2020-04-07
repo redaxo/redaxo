@@ -9,20 +9,40 @@ class rex_backend_password_policy extends rex_password_policy
 {
     use rex_factory_trait;
 
-    /** @var int|null */
+    /**
+     * Forbid to reuse the last X previous passwords.
+     *
+     * @var int|null
+     */
     private $noReuseOfLast;
-    /** @var DateInterval|null */
+
+    /**
+     * Forbid to reuse the previous passwords used in the given interval.
+     *
+     * @var DateInterval|null
+     */
     private $noReuseWithin;
-    /** @var DateInterval|null */
+
+    /**
+     * Force to renew the password after the given interval.
+     *
+     * @var DateInterval|null
+     */
     private $forceRenewAfter;
-    /** @var DateInterval|null */
+
+    /**
+     * Block account if the password wasn't changed in the given interval.
+     *
+     * @var DateInterval|null
+     */
     private $blockAccountAfter;
 
-    public function __construct(?array $options = null)
+    /**
+     * @deprecated use `factory()` instead
+     */
+    public function __construct()
     {
-        if (null === $options) {
-            $options = rex::getProperty('password_policy', []);
-        }
+        $options = rex::getProperty('password_policy', []);
 
         if (isset($options['no_reuse_of_last'])) {
             $this->noReuseOfLast = $options['no_reuse_of_last'];
@@ -47,11 +67,11 @@ class rex_backend_password_policy extends rex_password_policy
     /**
      * @return static
      */
-    public static function factory(?array $options = null)
+    public static function factory()
     {
         $class = static::getFactoryClass();
 
-        return new $class($options);
+        return new $class();
     }
 
     public function check($password, $id = null)
