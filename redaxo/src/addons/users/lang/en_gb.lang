@@ -25,7 +25,6 @@ user_functions = Functions
 user_options = Options
 user_extras = Extras
 last_login = Last login
-psw_encrypted = This password is encrypted - enter new password to change
 user_caption = List of users
 user_status = Status
 startpage = Startpage
