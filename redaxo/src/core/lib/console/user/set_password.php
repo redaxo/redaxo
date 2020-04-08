@@ -40,7 +40,7 @@ class rex_command_user_set_password extends rex_console_command
         $user = rex_user::fromSql($user);
         $id = $user->getId();
 
-        $passwordPolicy = rex_backend_password_policy::factory(rex::getProperty('password_policy', []));
+        $passwordPolicy = rex_backend_password_policy::factory();
 
         $password = $input->getArgument('password');
 
@@ -62,11 +62,15 @@ class rex_command_user_set_password extends rex_console_command
             throw new InvalidArgumentException('Missing password.');
         }
 
+        $passwordHash = rex_backend_login::passwordHash($password);
+
         rex_sql::factory()
             ->setTable(rex::getTable('user'))
             ->setWhere(['id' => $id])
-            ->setValue('password', rex_backend_login::passwordHash($password))
+            ->setValue('password', $passwordHash)
             ->addGlobalUpdateFields('console')
+            ->setDateTimeValue('password_changed', time())
+            ->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords($user, $passwordHash))
             ->update();
 
         rex_extension::registerPoint(new rex_extension_point('PASSWORD_UPDATED', '', [

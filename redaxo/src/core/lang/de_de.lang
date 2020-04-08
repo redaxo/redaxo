@@ -405,6 +405,9 @@ profile_save_psw = Passwort speichern
 backend_language = Backendsprache
 user_data_updated = Benutzerdaten wurden aktualisiert!
 
+password_change_required = Das Passwort muss ausgetauscht werden!
+password_not_changed = Das neue Passwort muss sich vom vorherigen unterscheiden!
+password_already_used = Das Passwort wurde schon benutzt und kann nicht erneut verwendet werden!
 password_invalid = Das Passwort entspricht nicht den geforderten Regeln ({0})!
 password_admin_notice = Die Passwort-Regeln können über die config.yml geändert werden.
 password_rule_min = min. {0}

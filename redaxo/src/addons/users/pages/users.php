@@ -100,6 +100,8 @@ $FUNC_ADD = rex_request('FUNC_ADD', 'string');
 $save = rex_request('save', 'int');
 $adminchecked = '';
 
+$passwordPolicy = rex_backend_password_policy::factory();
+
 if ($save && ($FUNC_ADD || $FUNC_UPDATE || $FUNC_APPLY)) {
     if (!rex_csrf_token::factory('user_edit')->isValid()) {
         $warnings[] = rex_i18n::msg('csrf_token_invalid');
@@ -110,7 +112,7 @@ if ($save && ($FUNC_ADD || $FUNC_UPDATE || $FUNC_APPLY)) {
         $warnings[] = rex_i18n::msg('invalid_email');
     }
 
-    if ($userpsw && (true !== $msg = rex_backend_password_policy::factory(rex::getProperty('password_policy', []))->check($userpsw, $user_id))) {
+    if ($userpsw && (true !== $msg = $passwordPolicy->check($userpsw, $user_id))) {
         if (rex::getUser()->isAdmin()) {
             $msg .= ' '.rex_i18n::msg('password_admin_notice');
         }
@@ -149,7 +151,10 @@ if ($warnings) {
     }
 
     if ('' != $userpsw) {
-        $updateuser->setValue('password', rex_login::passwordHash($userpsw));
+        $passwordHash = rex_login::passwordHash($userpsw);
+        $updateuser->setValue('password', $passwordHash);
+        $updateuser->setDateTimeValue('password_changed', time());
+        $updateuser->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords($user, $passwordHash));
     }
 
     $updateuser->update();
@@ -208,6 +213,9 @@ if ($warnings) {
         $adduser->setValue('startpage', $userperm_startpage);
         $adduser->setValue('role', implode(',', $userrole));
         $adduser->addGlobalCreateFields();
+        $adduser->addGlobalUpdateFields();
+        $adduser->setDateTimeValue('password_changed', time());
+        $adduser->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords(null, $userpswHash));
         if (isset($userstatus) && 1 == $userstatus) {
             $adduser->setValue('status', 1);
         } else {
@@ -284,7 +292,7 @@ if ('' != $FUNC_ADD || $user_id > 0) {
 
         $form_label = rex_i18n::msg('edit_user');
         $add_hidden = '<input type="hidden" name="user_id" value="' . $user_id . '" />';
-        $add_user_login = '<p class="form-control-static">' . rex_escape($sql->getValue(rex::getTablePrefix() . 'user.login')) . '</p>';
+        $add_user_login = '<p class="form-control-static">' . rex_escape($user->getLogin()) . '</p>';
 
         $formElements = [];
 
