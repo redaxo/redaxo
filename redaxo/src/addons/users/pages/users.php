@@ -267,6 +267,7 @@ if ($warnings) {
         }
     }
 } else {
+    // default value for new users (for existing users it is replaced after reading the user from db)
     $passwordChangeRequired = true;
 }
 
@@ -287,7 +288,8 @@ $SHOW = true;
 if ('' != $FUNC_ADD || $user_id > 0) {
     $SHOW = false;
 
-    $self = false;
+    // whether the user is editing his own account
+    $self = $user && $user->getId() == $user_id;
 
     $statuschecked = '';
     if ('' != $FUNC_ADD) {
@@ -359,8 +361,6 @@ if ('' != $FUNC_ADD || $user_id > 0) {
         $sel_role->setSelected($userrole);
         $sel_be_sprache->setSelected($userperm_be_sprache);
         $sel_startpage->setSelected($userperm_startpage);
-
-        $self = rex::getUser()->getValue('login') == $sql->getValue(rex::getTablePrefix() . 'user.login');
 
         if (rex::getUser()->isAdmin()) {
             $disabled = $self ? ' disabled="disabled"' : '';
