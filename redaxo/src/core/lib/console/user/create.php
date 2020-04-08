@@ -21,6 +21,7 @@ class rex_command_user_create extends rex_console_command
             ->addArgument('password', InputArgument::OPTIONAL, 'Password')
             ->addOption('name', null, InputOption::VALUE_REQUIRED, 'Name')
             ->addOption('admin', null, InputOption::VALUE_NONE, 'Grant admin permissions')
+            ->addOption('password-change-required', null, InputOption::VALUE_NONE, 'Require password change after login')
         ;
     }
 
@@ -80,6 +81,7 @@ class rex_command_user_create extends rex_console_command
         $user->addGlobalUpdateFields('console');
         $user->setDateTimeValue('password_changed', time());
         $user->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords(null, $passwordHash));
+        $user->setValue('password_change_required', (int) $input->getOption('password-change-required'));
         $user->setValue('status', '1');
         $user->insert();
 

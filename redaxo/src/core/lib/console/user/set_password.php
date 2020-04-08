@@ -3,6 +3,7 @@
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -18,6 +19,7 @@ class rex_command_user_set_password extends rex_console_command
             ->setDescription('Sets a new password for a user')
             ->addArgument('user', InputArgument::REQUIRED, 'Username')
             ->addArgument('password', InputArgument::OPTIONAL, 'Password')
+            ->addOption('password-change-required', null, InputOption::VALUE_NONE, 'Require password change after login')
         ;
     }
 
@@ -71,6 +73,7 @@ class rex_command_user_set_password extends rex_console_command
             ->addGlobalUpdateFields('console')
             ->setDateTimeValue('password_changed', time())
             ->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords($user, $passwordHash))
+            ->setValue('password_change_required', (int) $input->getOption('password-change-required'))
             ->update();
 
         rex_extension::registerPoint(new rex_extension_point('PASSWORD_UPDATED', '', [
