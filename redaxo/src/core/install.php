@@ -42,6 +42,7 @@ $table
     ->ensureGlobalColumns()
     ->ensureColumn(new rex_sql_column('password_changed', 'datetime'))
     ->ensureColumn(new rex_sql_column('previous_passwords', 'text'))
+    ->ensureColumn(new rex_sql_column('password_change_required', 'tinyint(1)'))
     ->ensureColumn(new rex_sql_column('lasttrydate', 'datetime'))
     ->ensureColumn(new rex_sql_column('lastlogin', 'datetime', true))
     ->ensureColumn(new rex_sql_column('session_id', 'varchar(255)', true))

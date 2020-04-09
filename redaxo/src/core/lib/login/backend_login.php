@@ -111,13 +111,14 @@ class rex_backend_login extends rex_login
                 $this->impersonator = rex_user::fromSql($this->impersonator);
             }
 
-            if (
-                ($loggedInViaCookie || $this->userLogin) &&
-                $forceRenewAfter = $this->passwordPolicy->getForceRenewAfter()
-            ) {
-                $datetime = (new DateTimeImmutable())->sub($forceRenewAfter);
-                if (strtotime($this->user->getValue('password_changed')) < $datetime->getTimestamp()) {
+            if ($loggedInViaCookie || $this->userLogin) {
+                if ($this->user->getValue('password_change_required')) {
                     $this->setSessionVar(self::SESSION_PASSWORD_CHANGE_REQUIRED, true);
+                } elseif ($forceRenewAfter = $this->passwordPolicy->getForceRenewAfter()) {
+                    $datetime = (new DateTimeImmutable())->sub($forceRenewAfter);
+                    if (strtotime($this->user->getValue('password_changed')) < $datetime->getTimestamp()) {
+                        $this->setSessionVar(self::SESSION_PASSWORD_CHANGE_REQUIRED, true);
+                    }
                 }
             }
         } else {

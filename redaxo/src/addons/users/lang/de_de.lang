@@ -26,6 +26,7 @@ user_options = Optionen
 user_extras = Extras
 last_login = Letzter Login
 user_caption = Liste der angelegten Benutzer
+user_password_change_required = Passwort muss nach Login ausgetauscht werden
 user_status = User ist aktiv
 startpage = Startseite
 
