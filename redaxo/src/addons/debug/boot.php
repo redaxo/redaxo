@@ -35,7 +35,7 @@ register_shutdown_function(static function () {
         }
 
         foreach ($timings['timings'] as $i => $timing) {
-            if ($timing['end'] - $timing['start'] > 0.001) {
+            if ($timing['end'] - $timing['start'] >= 0.001) {
                 $clockwork->getTimeline()->addEvent($label.'_'.$i, $label, $timing['start'], $timing['end']);
             }
         }
