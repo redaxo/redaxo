@@ -17,7 +17,7 @@ rendered views and more - for HTTP requests, commands, queue jobs and tests.
 Es kann sowohl direkt im Browser, als auch mit einer separaten Browser-Erweiterung verwendet werden.
 Eine ausführliche Beschreibung und die Informationen zu optionalen Browser-Erweiterung sind auf der [Clockwork-Website](https://underground.works/clockwork) verfügbar.
 
-Das Addon integriert die folgenden Daten mit Clockwork:
+Das AddOn integriert die Informationen zu folgenden Klassen in Clockwork:
 - `rex_sql`
 - `rex_logger`
 - `rex_timer`
