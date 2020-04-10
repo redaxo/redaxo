@@ -37,7 +37,7 @@ abstract class rex_extension
 
         $name = $extensionPoint->getName();
 
-        rex_timer::measure('EP: '.$name, function () use ($extensionPoint, $name) {
+        rex_timer::measure('EP: '.$name, static function () use ($extensionPoint, $name) {
             foreach ([self::EARLY, self::NORMAL, self::LATE] as $level) {
                 if (!isset(self::$extensions[$name][$level]) || !is_array(self::$extensions[$name][$level])) {
                     continue;
