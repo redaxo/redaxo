@@ -23,7 +23,7 @@ Das AddOn integriert die Informationen zu folgenden Klassen in Clockwork:
 - `rex_timer`
 - `rex_extension/rex_extension_point`
 
-Um beliebigen PHP Code zu messen und damit im Clockwork sichtbar zu machen, kann dieser mittels `rex_timer` instrumentiert werden:
+Um eigenen PHP-Code in Clockwork sichtbar zu machen und damit zu analysieren, kann dieser mittels `rex_timer` gemessen werden:
 
 ```php
 <?php
