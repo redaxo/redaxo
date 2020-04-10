@@ -1,8 +1,10 @@
 <?xml version="1.0"?>
 <psalm
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xmlns="https://getpsalm.org/schema/config"
-autoloader="phpstan-bootstrap.php"
+    autoloader="phpstan-bootstrap.php"
+    resolveFromConfigFile="true"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
 >
     <projectFiles>
         <!-- restrict to core and core addons, ignore other locally installed addons -->
@@ -42,6 +44,13 @@ autoloader="phpstan-bootstrap.php"
         <plugin filename="psalm-utils.php" />
     </plugins>
     <issueHandlers>
+        <InvalidGlobal>
+            <errorLevel type="info">
+                <file name="redaxo/src/addons/mediapool/pages/index.php"/>
+                <file name="redaxo/src/addons/mediapool/pages/upload.php"/>
+                <file name="redaxo/src/core/pages/login.php"/>
+            </errorLevel>
+        </InvalidGlobal>
         <InvalidScope>
             <errorLevel type="suppress">
                 <directory name="redaxo/src/**/fragments/*" />
@@ -52,7 +61,7 @@ autoloader="phpstan-bootstrap.php"
                 <file name="redaxo/src/addons/structure/plugins/history/fragments/history/layer.php"/>
             </errorLevel>
         </InvalidScope>
-<!-- level 3 issues - slightly lazy code writing, but provably low false-negatives -->
+<!-- level 2 issues - slightly lazy code writing, but provably low false-negatives -->
         <DeprecatedMethod>
             <errorLevel type="info">
                 <referencedMethod name="rex_string::versionCompare"/>
@@ -71,25 +80,17 @@ autoloader="phpstan-bootstrap.php"
         <DocblockTypeContradiction errorLevel="info" />
         <RedundantConditionGivenDocblockType errorLevel="info" />
         <UnresolvableInclude errorLevel="info" />
-        <RawObjectIteration errorLevel="info" />
-<!-- level 4 issues - points to possible deficiencies in logic, higher false-positives -->
+        <RawObjectIteration>
+            <errorLevel type="info">
+                <file name="redaxo/src/core/lib/api_function.php"/>
+            </errorLevel>
+        </RawObjectIteration>
+<!-- level 3 issues - points to possible deficiencies in logic, higher false-positives -->
         <PossiblyFalseArgument errorLevel="info" />
         <PossiblyInvalidArgument errorLevel="info" />
-        <PossiblyInvalidIterator errorLevel="info" />
         <PossiblyNullArgument errorLevel="info" />
         <PossiblyNullArrayAccess errorLevel="info" />
         <PossiblyNullArrayOffset errorLevel="info" />
-        <PossiblyNullIterator errorLevel="info" />
         <PossiblyNullReference errorLevel="info" />
-<!-- level 5 issues - should be avoided at mosts costs... -->
-        <InvalidScalarArgument errorLevel="info" />
-        <InvalidOperand errorLevel="info" />
-        <InvalidGlobal>
-            <errorLevel type="info">
-                <file name="redaxo/src/addons/mediapool/pages/index.php"/>
-                <file name="redaxo/src/addons/mediapool/pages/upload.php"/>
-                <file name="redaxo/src/core/pages/login.php"/>
-            </errorLevel>
-        </InvalidGlobal>
     </issueHandlers>
 </psalm>

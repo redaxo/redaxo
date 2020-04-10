@@ -9,6 +9,7 @@
  * @var array  $items        array contains all modules
  *             [0]        the index of array
  *             - [id]     the module id
+ *             - [key]    the module key
  *             - [title]  the module name
  *             - [href]   the module url
  */

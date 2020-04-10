@@ -23,7 +23,6 @@ user_functions = Funções
 user_options = Opções
 user_extras = Extras
 last_login = Último login
-psw_encrypted = A senha está codificada - insira uma nova para mudar isto
 user_caption = Lista de usuários
 user_status = Status
 startpage = Página inicial

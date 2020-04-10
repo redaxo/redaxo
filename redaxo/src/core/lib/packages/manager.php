@@ -745,9 +745,14 @@ abstract class rex_package_manager
 
             if (isset($match['wildcard']) && $match['wildcard']) {
                 $constraints[] = ['>=', $match['version']];
-                $pos = strrpos($match['version'], '.') + 1;
-                $sub = (int) substr($match['version'], $pos);
-                $constraints[] = ['<', substr_replace($match['version'], $sub + 1, $pos)];
+                $pos = strrpos($match['version'], '.');
+                if (false === $pos) {
+                    $constraints[] = ['<', (int) $match['version'] + 1];
+                } else {
+                    ++$pos;
+                    $sub = (int) substr($match['version'], $pos);
+                    $constraints[] = ['<', substr_replace($match['version'], $sub + 1, $pos)];
+                }
             } elseif (in_array($match['op'], ['~', '^'])) {
                 $constraints[] = ['>=', $match['version'] . ($match['prerelease'] ?? '')];
                 if ('^' === $match['op'] || false === $pos = strrpos($match['version'], '.')) {
@@ -758,10 +763,10 @@ abstract class rex_package_manager
                     $sub = substr($match['version'], 0, $pos);
                     if (false !== ($pos = strrpos($sub, '.'))) {
                         $main = substr($sub, 0, $pos + 1);
-                        $sub = (int) substr($sub, $pos + 1);
+                        $sub = substr($sub, $pos + 1);
                     }
                     // add "-foo" to get a version lower than a "-dev" version
-                    $constraints[] = ['<', $main . ($sub + 1) . '-foo'];
+                    $constraints[] = ['<', $main . ((int) $sub + 1) . '-foo'];
                 }
             } else {
                 $constraints[] = [$match['op'] ?: '=', $match['version'] . ($match['prerelease'] ?? '')];

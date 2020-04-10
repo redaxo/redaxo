@@ -117,8 +117,8 @@ abstract class rex_complex_perm
     /**
      * Should be called if an item is removed.
      *
-     * @param string $key  Key
-     * @param string $item Item
+     * @param string     $key  Key
+     * @param string|int $item Item
      */
     public static function removeItem($key, $item)
     {
@@ -128,9 +128,9 @@ abstract class rex_complex_perm
     /**
      * Should be called if an item is replaced.
      *
-     * @param string $key  Key
-     * @param string $item Old item
-     * @param string $new  New item
+     * @param string     $key  Key
+     * @param string|int $item Old item
+     * @param string|int $new  New item
      */
     public static function replaceItem($key, $item, $new)
     {

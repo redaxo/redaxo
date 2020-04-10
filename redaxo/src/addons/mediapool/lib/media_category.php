@@ -210,7 +210,7 @@ class rex_media_category
                     continue;
                 }
 
-                $category = self::get($var);
+                $category = self::get((int) $var);
 
                 if (!$category) {
                     throw new LogicException(sprintf('Missing media category with id=%d.', $var));

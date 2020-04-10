@@ -483,7 +483,7 @@ abstract class rex_structure_element
             if (is_array($explode)) {
                 foreach ($explode as $var) {
                     if ('' != $var) {
-                        $cat = rex_category::get($var, $this->clang_id);
+                        $cat = rex_category::get((int) $var, $this->clang_id);
                         if (!$cat) {
                             throw new LogicException('No category found with id='. $var .' and clang='. $this->clang_id .'.');
                         }

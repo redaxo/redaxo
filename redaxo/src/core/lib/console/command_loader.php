@@ -32,6 +32,7 @@ class rex_console_command_loader implements CommandLoaderInterface
                 'package:activate' => rex_command_package_activate::class,
                 'package:deactivate' => rex_command_package_deactivate::class,
                 'package:delete' => rex_command_package_delete::class,
+                'package:list' => rex_command_package_list::class,
                 'package:install' => rex_command_package_install::class,
                 'package:uninstall' => rex_command_package_uninstall::class,
                 'system:report' => rex_command_system_report::class,

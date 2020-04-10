@@ -9,6 +9,8 @@
  */
 class rex_user
 {
+    use rex_instance_pool_trait;
+
     /**
      * SQL instance.
      *
@@ -43,6 +45,34 @@ class rex_user
         $this->sql = $sql;
     }
 
+    public static function get(int $id): ?self
+    {
+        return self::getInstance($id, static function (int $id) {
+            $sql = rex_sql::factory()->setQuery('SELECT * FROM '.rex::getTable('user').' WHERE id = ?', [$id]);
+
+            return $sql->getRows() ? new self($sql) : null;
+        });
+    }
+
+    public static function require(int $id): self
+    {
+        $user = self::get($id);
+
+        if (!$user) {
+            throw new RuntimeException(sprintf('Required user with id %d does not exist.', $id));
+        }
+
+        return $user;
+    }
+
+    public static function fromSql(rex_sql $sql): self
+    {
+        $user = new self($sql);
+        self::addInstance($user->getId(), $user);
+
+        return $user;
+    }
+
     /**
      * Returns the value for the given key.
      *
@@ -62,7 +92,7 @@ class rex_user
      */
     public function getId()
     {
-        return $this->sql->getValue('id');
+        return (int) $this->sql->getValue('id');
     }
 
     /**

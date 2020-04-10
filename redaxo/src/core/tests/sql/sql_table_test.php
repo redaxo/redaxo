@@ -555,6 +555,7 @@ class rex_sql_table_test extends TestCase
         $table = rex_sql_table::get(self::TABLE);
         $table
             ->ensureColumn(new rex_sql_column('title', 'varchar(255)', false, 'Default title'))
+            ->ensureColumn(new rex_sql_column('teaser', 'varchar(255)', false))
             ->ensureColumn(new rex_sql_column('id', 'int(11)', false, null, 'auto_increment'), rex_sql_table::FIRST)
             ->ensureColumn(new rex_sql_column('status', 'tinyint(1)'))
             ->ensureColumn(new rex_sql_column('timestamp', 'datetime', true))
@@ -565,7 +566,7 @@ class rex_sql_table_test extends TestCase
             ->ensure();
 
         static::assertTrue($table->exists());
-        static::assertSame(['id', 'title', 'description', 'status', 'timestamp'], array_keys($table->getColumns()));
+        static::assertSame(['id', 'title', 'description', 'teaser', 'status', 'timestamp'], array_keys($table->getColumns()));
         static::assertTrue($table->hasIndex('i_status_timestamp'));
         static::assertTrue($table->hasIndex('i_description'));
 
@@ -577,11 +578,12 @@ class rex_sql_table_test extends TestCase
             ->ensureColumn(new rex_sql_column('id', 'int(11)', false, null, 'auto_increment'))
             ->ensureColumn(new rex_sql_column('status', 'tinyint(1)'))
             ->ensureColumn(new rex_sql_column('title', 'varchar(20)', false), 'timestamp')
+            ->ensureColumn(new rex_sql_column('teaser', 'varchar(255)', false), 'status')
             ->setPrimaryKey(['id', 'title'])
             ->ensureIndex(new rex_sql_index('i_status_timestamp', ['status', 'timestamp'], rex_sql_index::UNIQUE))
             ->ensure();
 
-        $expectedOrder = ['timestamp', 'title', 'id', 'status', 'description'];
+        $expectedOrder = ['timestamp', 'title', 'id', 'status', 'teaser', 'description'];
 
         static::assertSame($expectedOrder, array_keys($table->getColumns()));
         static::assertTrue($table->hasIndex('i_status_timestamp'));
@@ -598,6 +600,19 @@ class rex_sql_table_test extends TestCase
         static::assertTrue($table->hasIndex('i_status_timestamp'));
         static::assertSame(rex_sql_index::UNIQUE, $table->getIndex('i_status_timestamp')->getType());
         static::assertTrue($table->hasIndex('i_description'));
+    }
+
+    /**
+     * @doesNotPerformAssertions
+     */
+    public function testEnsureMultipleTimes(): void
+    {
+        for ($i = 0; $i < 3; ++$i) {
+            rex_sql_table::get(self::TABLE)
+                ->ensurePrimaryIdColumn()
+                ->ensureColumn(new rex_sql_column('title', 'varchar(255)'))
+                ->ensure();
+        }
     }
 
     public function testEnsureWithEnsureGlobalColumns(): void

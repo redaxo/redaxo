@@ -13,11 +13,17 @@ class rex_backend_login extends rex_login
     public const RELOGIN_DELAY_1 = 5;    // relogin delay after LOGIN_TRIES_1 tries
     public const LOGIN_TRIES_2 = 50;
     public const RELOGIN_DELAY_2 = 3600; // relogin delay after LOGIN_TRIES_2 tries
+
+    private const SESSION_PASSWORD_CHANGE_REQUIRED = 'password_change_required';
+
     /**
      * @var string
      */
     private $tableName;
     private $stayLoggedIn;
+
+    /** @var rex_backend_password_policy */
+    private $passwordPolicy;
 
     public function __construct()
     {
@@ -30,15 +36,24 @@ class rex_backend_login extends rex_login
         $qry = 'SELECT * FROM ' . $tableName;
         $this->setUserQuery($qry . ' WHERE id = :id AND status = 1');
         $this->setImpersonateQuery($qry . ' WHERE id = :id');
+        $this->passwordPolicy = rex_backend_password_policy::factory();
+
         // XXX because with concat the time into the sql query, users of this class should use checkLogin() immediately after creating the object.
-        $this->setLoginQuery($qry . ' WHERE
+        $qry .= ' WHERE
             status = 1
             AND login = :login
             AND (login_tries < ' . self::LOGIN_TRIES_1 . '
                 OR login_tries < ' . self::LOGIN_TRIES_2 . ' AND lasttrydate < "' . rex_sql::datetime(time() - self::RELOGIN_DELAY_1) . '"
                 OR lasttrydate < "' . rex_sql::datetime(time() - self::RELOGIN_DELAY_2) . '"
-            )'
-        );
+            )';
+
+        if ($blockAccountAfter = $this->passwordPolicy->getBlockAccountAfter()) {
+            $datetime = (new DateTimeImmutable())->sub($blockAccountAfter);
+            $qry .= ' AND password_changed > "'.$datetime->format(rex_sql::FORMAT_DATETIME).'"';
+        }
+
+        $this->setLoginQuery($qry);
+
         $this->tableName = $tableName;
     }
 
@@ -52,6 +67,7 @@ class rex_backend_login extends rex_login
         $sql = rex_sql::factory();
         $userId = $this->getSessionVar('UID');
         $cookiename = self::getStayLoggedInCookieName();
+        $loggedInViaCookie = false;
 
         if ($cookiekey = rex_cookie($cookiename, 'string')) {
             if (!$userId) {
@@ -59,6 +75,7 @@ class rex_backend_login extends rex_login
                 if (1 == $sql->getRows()) {
                     $this->setSessionVar('UID', $sql->getValue('id'));
                     rex_response::sendCookie($cookiename, $cookiekey, ['expires' => strtotime('+1 year'), 'samesite' => 'strict']);
+                    $loggedInViaCookie = true;
                 } else {
                     self::deleteStayLoggedInCookie();
                 }
@@ -88,10 +105,21 @@ class rex_backend_login extends rex_login
                 $sql->setQuery('UPDATE ' . $this->tableName . ' SET ' . $add . 'login_tries=0, lasttrydate=?, lastlogin=?, session_id=? WHERE login=? LIMIT 1', $params);
             }
 
-            $this->user = new rex_user($this->user);
+            $this->user = rex_user::fromSql($this->user);
 
             if ($this->impersonator instanceof rex_sql) {
-                $this->impersonator = new rex_user($this->impersonator);
+                $this->impersonator = rex_user::fromSql($this->impersonator);
+            }
+
+            if ($loggedInViaCookie || $this->userLogin) {
+                if ($this->user->getValue('password_change_required')) {
+                    $this->setSessionVar(self::SESSION_PASSWORD_CHANGE_REQUIRED, true);
+                } elseif ($forceRenewAfter = $this->passwordPolicy->getForceRenewAfter()) {
+                    $datetime = (new DateTimeImmutable())->sub($forceRenewAfter);
+                    if (strtotime($this->user->getValue('password_changed')) < $datetime->getTimestamp()) {
+                        $this->setSessionVar(self::SESSION_PASSWORD_CHANGE_REQUIRED, true);
+                    }
+                }
             }
         } else {
             // fehlversuch speichern | login_tries++
@@ -118,6 +146,16 @@ class rex_backend_login extends rex_login
         }
 
         return $check;
+    }
+
+    public function requiresPasswordChange(): bool
+    {
+        return (bool) $this->getSessionVar(self::SESSION_PASSWORD_CHANGE_REQUIRED, false);
+    }
+
+    public function changedPassword(): void
+    {
+        $this->setSessionVar(self::SESSION_PASSWORD_CHANGE_REQUIRED, false);
     }
 
     public static function deleteSession()

@@ -24,7 +24,9 @@ rex_sql_table::get(rex::getTable('config'))
     ->setPrimaryKey(['namespace', 'key'])
     ->ensure();
 
-rex_sql_table::get(rex::getTable('user'))
+$table = rex_sql_table::get(rex::getTable('user'));
+$hasPasswordChanged = $table->hasColumn('password_changed');
+$table
     ->ensurePrimaryIdColumn()
     ->ensureColumn(new rex_sql_column('name', 'varchar(255)', true))
     ->ensureColumn(new rex_sql_column('description', 'text', true))
@@ -38,6 +40,9 @@ rex_sql_table::get(rex::getTable('user'))
     ->ensureColumn(new rex_sql_column('role', 'text', true))
     ->ensureColumn(new rex_sql_column('login_tries', 'tinyint(4)', false, '0'))
     ->ensureGlobalColumns()
+    ->ensureColumn(new rex_sql_column('password_changed', 'datetime'))
+    ->ensureColumn(new rex_sql_column('previous_passwords', 'text'))
+    ->ensureColumn(new rex_sql_column('password_change_required', 'tinyint(1)'))
     ->ensureColumn(new rex_sql_column('lasttrydate', 'datetime'))
     ->ensureColumn(new rex_sql_column('lastlogin', 'datetime', true))
     ->ensureColumn(new rex_sql_column('session_id', 'varchar(255)', true))
@@ -45,3 +50,10 @@ rex_sql_table::get(rex::getTable('user'))
     ->ensureColumn(new rex_sql_column('revision', 'int(10) unsigned'))
     ->ensureIndex(new rex_sql_index('login', ['login'], rex_sql_index::UNIQUE))
     ->ensure();
+
+if (!$hasPasswordChanged) {
+    rex_sql::factory()
+        ->setTable(rex::getTable('user'))
+        ->setRawValue('password_changed', 'updatedate')
+        ->update();
+}

@@ -14,12 +14,17 @@ class rex_timer
     public const MICROSEC = 1000000;
 
     /**
+     * @internal
+     *
      * @var array
-     * @psalm-var array<string, float>
+     * @psalm-var array<string, array{sum: mixed, timings: list<array{start: float, end: float}>}>
      */
     public static $serverTimings = [];
 
+    /** @var float */
     private $start;
+
+    /** @var null|float */
     private $duration;
 
     /**
@@ -65,10 +70,14 @@ class rex_timer
         } finally {
             $timer->stop();
 
-            $duration = isset(self::$serverTimings[$label]) ? self::$serverTimings[$label] : 0;
+            $duration = self::$serverTimings[$label]['sum'] ?? 0;
             $duration += $timer->getDelta(self::MILLISEC);
 
-            self::$serverTimings[$label] = $duration;
+            self::$serverTimings[$label]['sum'] = $duration;
+            self::$serverTimings[$label]['timings'][] = [
+                'start' => $timer->start,
+                'end' => microtime(true),
+            ];
         }
     }
 

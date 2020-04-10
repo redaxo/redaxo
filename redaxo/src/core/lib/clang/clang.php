@@ -22,6 +22,9 @@ class rex_clang
      */
     private static $currentId;
 
+    /**
+     * @var int
+     */
     private $id;
     /**
      * @var string
@@ -133,7 +136,7 @@ class rex_clang
      */
     public function getId()
     {
-        return (int) $this->id;
+        return $this->id;
     }
 
     /**
@@ -269,8 +272,15 @@ class rex_clang
         }
         foreach (rex_file::getCache($file) as $id => $data) {
             $clang = new self();
+            $clang->id = (int) $id;
+            $clang->priority = (int) $data['priority'];
+            $clang->status = (bool) $data['status'];
 
             foreach ($data as $key => $value) {
+                if (in_array($key, ['id', 'priority', 'status'], true)) {
+                    continue;
+                }
+
                 $clang->$key = $value;
             }
 
