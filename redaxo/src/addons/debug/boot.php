@@ -44,7 +44,6 @@ if (rex::isBackend() && 'debug' === rex_request::get('page')) {
     </script>
 EOF;
 
-
     $index = str_replace('<body>', '<body>'.$injectedScript, $index);
     rex_response::sendPage($index);
     exit;
