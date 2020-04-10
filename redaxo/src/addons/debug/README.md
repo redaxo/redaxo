@@ -14,5 +14,5 @@ rendered views and more - for HTTP requests, commands, queue jobs and tests.
 <footer>Clockwork Project</footer>
 </blockquote>
 
-Es kann direkt im Browser als auch mit einer separaten Browser Extension verwendet werden.
+Es kann sowohl direkt im Browser, als auch mit einer separaten Browser-Erweiterung verwendet werden.
 Eine ausführliche Beschreibung und die Informationen zu optionalen Browser-Erweiterung sind auf der [Clockwork-Website](https://underground.works/clockwork) verfügbar.
