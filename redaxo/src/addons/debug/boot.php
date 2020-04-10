@@ -50,17 +50,17 @@ register_shutdown_function(static function () {
     }
 
     foreach ($req->databaseQueries as $query) {
-        switch (strtolower(strtok($query['query'], ' '))) {
-            case 'select':
+        switch (rex_sql::getQueryType($query['query'])) {
+            case 'SELECT':
                 $req->databaseSelects++;
                 break;
-            case 'insert':
+            case 'INSERT':
                 $req->databaseInserts++;
                 break;
-            case 'update':
+            case 'UPDATE':
                 $req->databaseUpdates++;
                 break;
-            case 'delete':
+            case 'DELETE':
                 $req->databaseDeletes++;
                 break;
             default:
