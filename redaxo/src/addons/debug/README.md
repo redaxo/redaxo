@@ -3,7 +3,7 @@ Debug-Addon
 
 Das Debug-Addon erweitert REDAXO um Werkzeuge zur besseren Performance- und Fehler-Analyse.
 
-Es basiert auf [Clockwork](https://underground.works/clockwork) und bietet damit eine browser basierte Oberfläche,
+Es basiert auf [Clockwork](https://underground.works/clockwork) und bietet damit eine browserbasierte Oberfläche,
 um die inneren Abläufe im REDAXO zu visualisieren.
 
 <blockquote>
