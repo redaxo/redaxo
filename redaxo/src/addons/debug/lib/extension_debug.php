@@ -16,15 +16,9 @@ class rex_extension_debug extends rex_extension
         $coreTimer = rex::getProperty('timer');
         $absDur = $coreTimer->getFormattedDelta();
 
-        $rnd = mt_rand();
-        rex_debug::getInstance()->startEvent($rnd, 'EP: '. $extensionPoint->getName());
-
         $timer = new rex_timer();
         $res = parent::registerPoint($extensionPoint);
         $epDur = $timer->getFormattedDelta();
-
-        rex_debug::getInstance()
-            ->endEvent($rnd);
 
         $memory = rex_formatter::bytes(memory_get_usage(true), [3]);
 
