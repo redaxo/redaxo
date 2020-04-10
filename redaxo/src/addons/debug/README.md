@@ -16,3 +16,18 @@ rendered views and more - for HTTP requests, commands, queue jobs and tests.
 
 Es kann sowohl direkt im Browser, als auch mit einer separaten Browser-Erweiterung verwendet werden.
 Eine ausführliche Beschreibung und die Informationen zu optionalen Browser-Erweiterung sind auf der [Clockwork-Website](https://underground.works/clockwork) verfügbar.
+
+Das Addon integriert die folgenden Daten mit Clockwork:
+- `rex_sql`
+- `rex_logger`
+- `rex_timer`
+- `rex_extension/rex_extension_point`
+
+Um beliebigen PHP Code zu messen und damit im Clockwork sichtbar zu machen, kann dieser mittels `rex_timer` instrumentiert werden:
+
+```php
+<?php
+    rex_timer::measure('ein-repraesentatives-label', function() {
+        // beliebiger php-code
+    });
+```
