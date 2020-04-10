@@ -8,6 +8,44 @@ if (!rex::isDebugMode() || !rex_server('REQUEST_URI') || 'debug' === rex_get(rex
 if (rex::isBackend() && 'debug' === rex_request::get('page')) {
     $index = file_get_contents(rex_addon::get('debug')->getAssetsPath('clockwork/index.html'));
 
+    $editor = rex::getProperty('editor');
+    $editorBasepath = rex::getProperty('editor_basepath');
+
+    $siteKey = rex::getServer().'redaxo/'.rex_url::backendController(['page' => 'structure'] + rex_api_debug::getUrlParams(), false);
+    $localPath = null;
+    $realPath = null;
+
+    if ($editorBasepath) {
+        $localPath = $editorBasepath;
+        $realPath = rex_path::base();
+    }
+
+    $injectedScript = <<<EOF
+    <script>
+        let store;
+        try {
+            store = JSON.parse(localStorage.getItem('clockwork'));
+        } catch (e) {
+            store = {};
+        }
+        
+        if (!store) store = {};
+        if (!store.settings) store.settings = {};
+        if (!store.settings.global) store.settings.global = {};
+        
+        store.settings.global.editor = '$editor';
+        store.settings.global.seenReleaseNotesVersion = "4.1";
+        
+        if (!store.settings.site) store.settings.site = {};
+        
+        store.settings.site['$siteKey'] = {localPathMap: {local: "$localPath", real: "$realPath"}};
+        
+        localStorage.setItem('clockwork', JSON.stringify(store))
+    </script>
+EOF;
+
+
+    $index = str_replace('<body>', '<body>'.$injectedScript, $index);
     rex_response::sendPage($index);
     exit;
 }
