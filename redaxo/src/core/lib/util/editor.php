@@ -93,7 +93,7 @@ class rex_editor
     }
 
     /**
-     * Returns the editor type, e.g. „atom“.
+     * Returns the editor name, e.g. „atom“.
      */
     public function getName(): ?string
     {
