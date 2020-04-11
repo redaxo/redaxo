@@ -308,9 +308,9 @@ $panel = '
                         $thumbnail = '<i class="rex-mime' . $icon_class . '" title="' . $alt . '" data-extension="' . $file_ext . '"></i><span class="sr-only">' . $file_name . '</span>';
 
                         if (rex_media::isImageType(rex_file::extension($file_name))) {
-                            $thumbnail = '<img class="thumbnail" src="' . rex_url::media($file_name) . '?buster=' . $files->getDateTimeValue('updatedate') . '" width="80" height="80" alt="' . $alt . '" title="' . $alt . '" />';
+                            $thumbnail = '<img class="thumbnail" src="' . rex_url::media($file_name) . '?buster=' . $files->getDateTimeValue('updatedate') . '" width="80" height="80" alt="' . $alt . '" title="' . $alt . '" loading="lazy"/>';
                             if ($media_manager_url && 'svg' != rex_file::extension($file_name)) {
-                                $thumbnail = '<img class="thumbnail" src="' . $media_manager_url('rex_mediapool_preview', $encoded_file_name, $files->getDateTimeValue('updatedate')) . '" alt="' . $alt . '" title="' . $alt . '" />';
+                                $thumbnail = '<img class="thumbnail" src="' . $media_manager_url('rex_mediapool_preview', $encoded_file_name, $files->getDateTimeValue('updatedate')) . '" alt="' . $alt . '" title="' . $alt . '" loading="lazy" />';
                             }
                         }
                     }
@@ -341,7 +341,7 @@ $panel = '
 
                     $panel .= '<tr>
                     ' . $add_td . '
-                    <td data-title="' . rex_i18n::msg('pool_file_thumbnail') . '"><a href="' . $ilink . '"><div class="lazyload" data-noscript=""><noscript>' . $thumbnail . '</noscript></div></a></td>
+                    <td data-title="' . rex_i18n::msg('pool_file_thumbnail') . '"><a href="' . $ilink . '">' . $thumbnail . '</a></td>
                     <td data-title="' . rex_i18n::msg('pool_file_info') . '">
                         <h3><a href="' . $ilink . '">' . rex_escape($file_title) . '</a></h3>
                         ' . $desc . '
