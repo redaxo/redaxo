@@ -93,7 +93,7 @@ if (rex::isSetup()) {
         $advertisedChrome = preg_match('/(Chrome|CriOS)\//i', $userAgent);
         $nonChrome = preg_match('/(Aviator|ChromePlus|coc_|Dragon|Edge|Flock|Iron|Kinza|Maxthon|MxNitro|Nichrome|OPR|Perk|Rockmelt|Seznam|Sleipnir|Spark|UBrowser|Vivaldi|WebExplorer|YaBrowser)/i', $userAgent);
         if($advertisedChrome && !$nonChrome) {
-            // Browser is likely Google Chrome which currently seems to be super slow when clearing site data
+            // Browser is likely Google Chrome which currently seems to be super slow when clearing 'cache' from site data
             // https://bugs.chromium.org/p/chromium/issues/detail?id=762417
             rex_response::setHeader('Clear-Site-Data', '"storage", "executionContexts"');
         } else {
