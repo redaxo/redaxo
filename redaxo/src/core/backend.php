@@ -88,7 +88,17 @@ if (rex::isSetup()) {
         $login->setLogout(true);
         $login->checkLogin();
         rex_csrf_token::removeAll();
-        rex_response::setHeader('Clear-Site-Data', '"cache", "storage", "executionContexts"');
+
+        $userAgent = rex_server('HTTP_USER_AGENT');
+        $advertisedChrome = preg_match('/(Chrome|CriOS)\//i', $userAgent);
+        $nonChrome = preg_match('/(Aviator|ChromePlus|coc_|Dragon|Edge|Flock|Iron|Kinza|Maxthon|MxNitro|Nichrome|OPR|Perk|Rockmelt|Seznam|Sleipnir|Spark|UBrowser|Vivaldi|WebExplorer|YaBrowser)/i', $userAgent);
+        if($advertisedChrome && !$nonChrome) {
+            // Browser is likely Google Chrome which currently seems to be super slow when clearing site data
+            // https://bugs.chromium.org/p/chromium/issues/detail?id=762417
+            rex_response::setHeader('Clear-Site-Data', '"storage", "executionContexts"');
+        } else {
+            rex_response::setHeader('Clear-Site-Data', '"cache", "storage", "executionContexts"');
+        }
 
         // Currently browsers like Safari do not support the header Clear-Site-Data.
         // we dont kill/regenerate the session so e.g. the frontend will not get logged out
