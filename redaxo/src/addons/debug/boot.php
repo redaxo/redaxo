@@ -9,8 +9,8 @@ if (rex::isBackend() && 'debug' === rex_request::get('page')) {
     $index = file_get_contents(rex_addon::get('debug')->getAssetsPath('clockwork/index.html'));
 
     $editor = rex_editor::factory();
-    $curEditor = $editor->getEditor();
-    $editorBasepath = $editor->getEditorBasepath();
+    $curEditor = $editor->getType();
+    $editorBasepath = $editor->getBasepath();
 
     $siteKey = rex::getServer().'redaxo/'.rex_url::backendController(['page' => 'structure'] + rex_api_debug::getUrlParams(), false);
     $localPath = null;

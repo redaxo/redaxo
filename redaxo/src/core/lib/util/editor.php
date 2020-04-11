@@ -92,12 +92,12 @@ class rex_editor
         ];
     }
 
-    public function getEditor(): ?string
+    public function getType(): ?string
     {
         return rex::getProperty('editor');
     }
 
-    public function getEditorBasepath(): ?string
+    public function getBasepath(): ?string
     {
         return rex::getProperty('editor_basepath');
     }
