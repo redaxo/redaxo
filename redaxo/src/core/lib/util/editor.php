@@ -91,4 +91,12 @@ class rex_editor
             'xdebug' => 'Xdebug via xdebug.file_link_format (php.ini)',
         ];
     }
+
+    public function getEditor(): ?string {
+        return rex::getProperty('editor');
+    }
+
+    public function getEditorBasepath(): ?string {
+        return rex::getProperty('editor_basepath');
+    }
 }
