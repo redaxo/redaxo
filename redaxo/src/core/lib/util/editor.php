@@ -92,7 +92,10 @@ class rex_editor
         ];
     }
 
-    public function getType(): ?string
+    /**
+     * Returns the editor type, e.g. „atom“
+     */
+    public function getName(): ?string
     {
         return rex::getProperty('editor');
     }
