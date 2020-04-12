@@ -482,7 +482,7 @@ abstract class rex_form_base
      * @param string $name
      * @param mixed  $default
      *
-     * @return string
+     * @return mixed
      */
     public function getParam($name, $default = null)
     {
@@ -1010,11 +1010,11 @@ abstract class rex_form_base
     }
 
     /**
-     * @param string $fieldsetName
-     * @param string $fieldName
-     * @param mixed  $default
+     * @param string      $fieldsetName
+     * @param string      $fieldName
+     * @param string|null $default
      *
-     * @return string
+     * @return string|null
      */
     public function elementPostValue($fieldsetName, $fieldName, $default = null)
     {
@@ -1096,7 +1096,7 @@ abstract class rex_form_base
     abstract protected function save();
 
     /**
-     * @return bool
+     * @return bool|int
      */
     protected function delete()
     {
