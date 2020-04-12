@@ -309,7 +309,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     public static function initialize($dbExists = true)
     {
         if ($dbExists) {
-            $config = rex::getConfig('package-config', []);
+            $config = rex::getPackageConfig();
         } else {
             $config = [];
             foreach (rex::getProperty('setup_addons') as $addon) {

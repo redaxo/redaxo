@@ -295,12 +295,13 @@ abstract class rex_metainfo_handler
                         $dbvalues[0] = time();
                     }
 
+                    $timestamp = (int) $dbvalues[0];
                     $inputValue = [];
-                    $inputValue['year'] = date('Y', $dbvalues[0]);
-                    $inputValue['month'] = date('m', $dbvalues[0]);
-                    $inputValue['day'] = date('d', $dbvalues[0]);
-                    $inputValue['hour'] = date('H', $dbvalues[0]);
-                    $inputValue['minute'] = date('i', $dbvalues[0]);
+                    $inputValue['year'] = date('Y', $timestamp);
+                    $inputValue['month'] = date('m', $timestamp);
+                    $inputValue['day'] = date('d', $timestamp);
+                    $inputValue['hour'] = date('H', $timestamp);
+                    $inputValue['minute'] = date('i', $timestamp);
 
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setAttribute('id', $id);

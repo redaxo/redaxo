@@ -123,7 +123,7 @@ class rex_config
      * @template T as ?string
      * @phpstan-template T
      * @psalm-param T $key
-     * @psalm-return (T is string ? mixed : array<string, mixed>)
+     * @psalm-return (T is string ? mixed|null : array<string, mixed>)
      */
     public static function get($namespace, $key = null, $default = null)
     {

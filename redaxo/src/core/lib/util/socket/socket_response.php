@@ -163,7 +163,7 @@ class rex_socket_response
      *
      * @param int $length Max number of bytes
      *
-     * @return bool|string
+     * @return false|string
      */
     public function getBufferedBody($length = 1024)
     {
