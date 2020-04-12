@@ -26,7 +26,7 @@ class rex_debug
     private static function init(): void
     {
         $clockwork = \Clockwork\Support\Vanilla\Clockwork::init([
-            'storage_files_path' => rex_addon::get('debug')->getDataPath('clockwork.db'),
+            'storage_files_path' => rex_addon::get('debug')->getCachePath('clockwork.db'),
         ]);
 
         self::$instance = $clockwork;

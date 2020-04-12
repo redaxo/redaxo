@@ -35,7 +35,7 @@ register_shutdown_function(static function () {
         }
 
         foreach ($timings['timings'] as $i => $timing) {
-            if ($timing['end'] - $timing['start'] > 0.001) {
+            if ($timing['end'] - $timing['start'] >= 0.001) {
                 $clockwork->getTimeline()->addEvent($label.'_'.$i, $label, $timing['start'], $timing['end']);
             }
         }
@@ -50,17 +50,17 @@ register_shutdown_function(static function () {
     }
 
     foreach ($req->databaseQueries as $query) {
-        switch (strtolower(strtok($query['query'], ' '))) {
-            case 'select':
+        switch (rex_sql::getQueryType($query['query'])) {
+            case 'SELECT':
                 $req->databaseSelects++;
                 break;
-            case 'insert':
+            case 'INSERT':
                 $req->databaseInserts++;
                 break;
-            case 'update':
+            case 'UPDATE':
                 $req->databaseUpdates++;
                 break;
-            case 'delete':
+            case 'DELETE':
                 $req->databaseDeletes++;
                 break;
             default:
