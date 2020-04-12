@@ -305,7 +305,7 @@ class rex_form extends rex_form_base
      * Gibt true zurück wenn alles ok war, false bei einem allgemeinen Fehler,
      * einen String mit einer Fehlermeldung oder den von der Datenbank gelieferten ErrorCode.
      *
-     * @return bool
+     * @return bool|int
      */
     protected function save()
     {
@@ -375,7 +375,7 @@ class rex_form extends rex_form_base
     }
 
     /**
-     * @return bool
+     * @return bool|int
      */
     protected function delete()
     {

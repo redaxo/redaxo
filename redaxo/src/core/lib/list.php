@@ -768,9 +768,9 @@ class rex_list implements rex_url_provider_interface
     /**
      * Gibt zurück, nach welcher Spalte sortiert werden soll.
      *
-     * @param mixed $default
+     * @param string|null $default
      *
-     * @return string
+     * @return string|null
      */
     public function getSortColumn($default = null)
     {
@@ -783,9 +783,9 @@ class rex_list implements rex_url_provider_interface
     /**
      * Gibt zurück, in welcher Art und Weise sortiert werden soll (ASC/DESC).
      *
-     * @param mixed $default
+     * @param string|null $default
      *
-     * @return string
+     * @return string|null
      */
     public function getSortType($default = null)
     {
