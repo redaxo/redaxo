@@ -52,6 +52,11 @@ autoloader="phpstan-bootstrap.php"
                 <file name="redaxo/src/addons/structure/plugins/history/fragments/history/layer.php"/>
             </errorLevel>
         </InvalidScope>
+        <InvalidDocblock>
+            <errorLevel type="suppress">
+                <file name="redaxo/src/addons/debug/vendor/chromephp/ChromePhp.php" />
+            </errorLevel>
+        </InvalidDocblock>
 <!-- level 3 issues - slightly lazy code writing, but provably low false-negatives -->
         <DeprecatedMethod>
             <errorLevel type="info">

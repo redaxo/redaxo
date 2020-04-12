@@ -144,7 +144,7 @@ class rex_log_file implements Iterator
     }
 
     /**
-     * {@inheritdoc}
+     * @return int|null
      */
     public function key()
     {

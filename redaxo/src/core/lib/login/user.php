@@ -30,6 +30,8 @@ class rex_user
 
     /**
      * Class name for user roles.
+     *
+     * @psalm-var class-string<rex_user_role_interface>
      */
     protected static $roleClass;
 
