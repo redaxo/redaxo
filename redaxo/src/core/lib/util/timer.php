@@ -70,15 +70,20 @@ class rex_timer
         } finally {
             $timer->stop();
 
-            $duration = self::$serverTimings[$label]['sum'] ?? 0;
-            $duration += $timer->getDelta(self::MILLISEC);
-
-            self::$serverTimings[$label]['sum'] = $duration;
-            self::$serverTimings[$label]['timings'][] = [
-                'start' => $timer->start,
-                'end' => microtime(true),
-            ];
+            self::measured($label, $timer);
         }
+    }
+
+    public static function measured(string $label, self $timer): void
+    {
+        $duration = self::$serverTimings[$label]['sum'] ?? 0;
+        $duration += $timer->getDelta(self::MILLISEC);
+
+        self::$serverTimings[$label]['sum'] = $duration;
+        self::$serverTimings[$label]['timings'][] = [
+            'start' => $timer->start,
+            'end' => microtime(true),
+        ];
     }
 
     /**
