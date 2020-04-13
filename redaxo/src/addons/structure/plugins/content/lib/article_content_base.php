@@ -438,9 +438,10 @@ class rex_article_content_base
             ob_implicit_flush(0);
 
             $TEMPLATE = new rex_template($this->template_id);
-            $tplContent = $this->replaceCommonVars($TEMPLATE->getTemplate());
 
-            rex_timer::measure('Template: '.($TEMPLATE->getKey() ?? $TEMPLATE->getId()), function () use ($tplContent) {
+            rex_timer::measure('Template: '.($TEMPLATE->getKey() ?? $TEMPLATE->getId()), function () use ($TEMPLATE) {
+                $tplContent = $this->replaceCommonVars($TEMPLATE->getTemplate());
+
                 require rex_stream::factory('template/' . $this->template_id, $tplContent);
             });
 
