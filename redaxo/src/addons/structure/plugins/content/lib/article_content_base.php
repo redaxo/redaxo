@@ -439,7 +439,7 @@ class rex_article_content_base
 
             $TEMPLATE = new rex_template($this->template_id);
             $tplContent = $this->replaceCommonVars($TEMPLATE->getTemplate());
-            require rex_stream::factory('template/' . $this->template_id, $tplContent);
+            require rex_stream::factory('template/' . ($TEMPLATE->getKey() ?? $TEMPLATE->getId()), $tplContent);
 
             $CONTENT = ob_get_clean();
 

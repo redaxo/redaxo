@@ -30,16 +30,12 @@ class rex_template
 
     public static function forKey(string $template_key): ?self
     {
-        $sql = rex_sql::factory()->setQuery(
-            'SELECT `id` FROM '.rex::getTable('template').' WHERE `key` = :key',
-            ['key' => $template_key]
-        );
+        $mapping = self::getIdKeyMapping();
 
-        if (1 == $sql->getRows()) {
-            $template_id = $sql->getValue('id');
-
-            $template = new self($template_id);
+        if (false !== $id = array_search($template_key, $mapping, true)) {
+            $template = new self($id);
             $template->key == $template_key;
+
             return $template;
         }
 
@@ -58,16 +54,7 @@ class rex_template
     {
         // key will never be empty string in the db
         if ('' === $this->key) {
-            $sql = rex_sql::factory()->setQuery(
-                'SELECT `key` FROM '.rex::getTable('template').' WHERE `id` = :id',
-                ['id' => $this->id]
-            );
-
-            if (1 == $sql->getRows()) {
-                $this->key = $sql->getValue('key');
-            } else {
-                $this->key = null;
-            }
+            $this->key = self::getIdKeyMapping()[$this->id] ?? null;
             assert('' !== $this->key);
         }
 
@@ -237,5 +224,29 @@ class rex_template
         }
 
         return false;
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    private static function getIdKeyMapping(): array
+    {
+        static $mapping;
+
+        if (null !== $mapping) {
+            return $mapping;
+        }
+
+        $file = self::getTemplatesDir().'/id_key_mapping.cache';
+        $mapping = rex_file::getCache($file, null);
+
+        if (null !== $mapping) {
+            return $mapping;
+        }
+
+        $data = rex_sql::factory()->getArray('SELECT id, `key` FROM '.rex::getTable('template').' WHERE `key` IS NOT NULL');
+        $mapping = array_column($data, 'key', 'id');
+
+        return $mapping;
     }
 }
