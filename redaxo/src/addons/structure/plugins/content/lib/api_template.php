@@ -30,7 +30,7 @@ class rex_template
 
     public static function forKey(string $template_key): ?self
     {
-        $mapping = self::getIdKeyMapping();
+        $mapping = self::getKeyMapping();
 
         if (false !== $id = array_search($template_key, $mapping, true)) {
             $template = new self($id);
@@ -54,7 +54,7 @@ class rex_template
     {
         // key will never be empty string in the db
         if ('' === $this->key) {
-            $this->key = self::getIdKeyMapping()[$this->id] ?? null;
+            $this->key = self::getKeyMapping()[$this->id] ?? null;
             assert('' !== $this->key);
         }
 
@@ -154,6 +154,7 @@ class rex_template
 
         $file = $this->getFilePath($this->getId());
         rex_file::delete($file);
+        self::deleteKeyMappingCache();
         return true;
     }
 
@@ -226,10 +227,15 @@ class rex_template
         return false;
     }
 
+    public static function deleteKeyMappingCache(): void
+    {
+        rex_file::delete(self::getKeyMappingPath());
+    }
+
     /**
      * @return array<int, string>
      */
-    private static function getIdKeyMapping(): array
+    private static function getKeyMapping(): array
     {
         static $mapping;
 
@@ -237,7 +243,7 @@ class rex_template
             return $mapping;
         }
 
-        $file = self::getTemplatesDir().'id_key_mapping.cache';
+        $file = self::getKeyMappingPath();
         $mapping = rex_file::getCache($file, null);
 
         if (null !== $mapping) {
@@ -249,5 +255,10 @@ class rex_template
         rex_file::putCache($file, $mapping);
 
         return $mapping;
+    }
+
+    private static function getKeyMappingPath(): string
+    {
+        return self::getTemplatesDir().'template_key_mapping.cache';
     }
 }

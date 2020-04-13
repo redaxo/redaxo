@@ -100,6 +100,7 @@ if ('delete' == $function && !$csrfToken->isValid()) {
 
         if ($del->getRows() > 0) {
             $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'module_action WHERE module_id=?', [$module_id]);
+            rex_module::deleteKeyMappingCache();
             $success = rex_i18n::msg('module_deleted');
             $success = rex_extension::registerPoint(new rex_extension_point('MODULE_DELETED', $success, [
                 'id' => $module_id,
@@ -175,6 +176,8 @@ if ('add' == $function || 'edit' == $function) {
                     }
                 }
             }
+
+            rex_module::deleteKeyMappingCache();
         } catch (rex_sql_exception $e) {
             if (rex_sql::ERROR_VIOLATE_UNIQUE_KEY === $e->getErrorCode()) {
                 $error = rex_i18n::msg('module_key_exists');
