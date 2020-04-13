@@ -53,6 +53,7 @@ class rex_var_template extends rex_var
 
     /**
      * @param int|string $id
+     *
      * @return false|string
      */
     public static function getTemplateOutput(string $path, $id, ?rex_timer $timer)
