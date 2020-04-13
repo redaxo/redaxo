@@ -33,12 +33,12 @@ class rex_var_template extends rex_var
     public static function getTemplateStream($id, rex_article_content_base $article = null)
     {
         ob_start();
-        $template = new rex_template($id);
-        $content = $template->getTemplate();
+        $tmpl = new rex_template($id);
+        $tmpl = $tmpl->getTemplate();
         if ($article) {
-            $content = $article->replaceCommonVars($content, $id);
+            $tmpl = $article->replaceCommonVars($tmpl, $id);
         }
-        return rex_stream::factory('template/' . ($template->getKey() ?? $template->getId()), $content);
+        return rex_stream::factory('template/' . $id, $tmpl);
     }
 
     /**
