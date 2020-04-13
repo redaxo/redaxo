@@ -50,16 +50,7 @@ class rex_timer
      */
     public static function measure($label, callable $callable)
     {
-        static $enabled = false;
-
-        // we might get called very early in the process, in which case we can't determine yet whether the user is logged in.
-        // this also means, in debug-mode we get more timings in comparison to admin-only timings.
-        if (!$enabled) {
-            // dont create the user (can cause session locks), to prevent influencing the things we try to measure.
-            $enabled = rex::isDebugMode() || ($user = rex::getUser()) && $user->isAdmin();
-        }
-
-        if (!$enabled) {
+        if (!rex::isDebugMode()) {
             return $callable();
         }
 
