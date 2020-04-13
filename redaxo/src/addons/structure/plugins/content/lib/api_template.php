@@ -237,7 +237,7 @@ class rex_template
             return $mapping;
         }
 
-        $file = self::getTemplatesDir().'/id_key_mapping.cache';
+        $file = self::getTemplatesDir().'id_key_mapping.cache';
         $mapping = rex_file::getCache($file, null);
 
         if (null !== $mapping) {
@@ -246,6 +246,7 @@ class rex_template
 
         $data = rex_sql::factory()->getArray('SELECT id, `key` FROM '.rex::getTable('template').' WHERE `key` IS NOT NULL');
         $mapping = array_column($data, 'key', 'id');
+        rex_file::putCache($file, $mapping);
 
         return $mapping;
     }
