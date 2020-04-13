@@ -678,7 +678,7 @@ abstract class rex_package_manager
      */
     public static function synchronizeWithFileSystem()
     {
-        $config = rex::getConfig('package-config');
+        $config = rex::getPackageConfig();
         $addons = self::readPackageFolder(rex_path::src('addons'));
         $registeredAddons = array_keys(rex_addon::getRegisteredAddons());
         foreach (array_diff($registeredAddons, $addons) as $addonName) {

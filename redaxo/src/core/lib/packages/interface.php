@@ -83,7 +83,7 @@ interface rex_package_interface
      * @template T as ?string
      * @phpstan-template T
      * @psalm-param T $key
-     * @psalm-return (T is string ? mixed : array<string, mixed>)
+     * @psalm-return (T is string ? mixed|null : array<string, mixed>)
      */
     public function getConfig($key = null, $default = null);
 
