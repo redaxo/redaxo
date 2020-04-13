@@ -36,7 +36,7 @@ class rex
      * @template T as ?string
      * @phpstan-template T
      * @psalm-param T $key
-     * @psalm-return (T is string ? mixed : array<string, mixed>)
+     * @psalm-return (T is string ? mixed|null : array<string, mixed>)
      */
     public static function getConfig($key = null, $default = null)
     {
@@ -375,6 +375,28 @@ class rex
     public static function getVersionHash($path, ?string $repo = null)
     {
         return rex_version::gitHash($path, $repo) ?? false;
+    }
+
+    /**
+     * @return array<string, array{install: bool, status: bool, plugins?: array<string, array{install: bool, status: bool}>}>
+     */
+    public static function getPackageConfig(): array
+    {
+        $config = self::getConfig('package-config', []);
+        assert(is_array($config));
+
+        return $config;
+    }
+
+    /**
+     * @return list<string>
+     */
+    public static function getPackageOrder(): array
+    {
+        $config = self::getConfig('package-order', []);
+        assert(is_array($config));
+
+        return $config;
     }
 
     /**
