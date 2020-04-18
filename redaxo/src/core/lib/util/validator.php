@@ -83,7 +83,7 @@ class rex_validator
     /**
      * Returns the message.
      *
-     * @return string[]
+     * @return string|null
      */
     public function getMessage()
     {
