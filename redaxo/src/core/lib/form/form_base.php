@@ -1065,7 +1065,7 @@ abstract class rex_form_base
 
                 $validator = $element->getValidator();
                 $saveValue = $element->getSaveValue();
-                if ($saveValue !== null && !$validator->isValid((string) $saveValue)) {
+                if (null !== $saveValue && !$validator->isValid((string) $saveValue)) {
                     $messages[] = $validator->getMessage();
                 }
             }
