@@ -13,6 +13,7 @@ class rex_validator
 
     /** @psalm-var list<string, string|null, mixed> */
     private $types = [];
+    /** @var string|null */
     private $message;
 
     protected function __construct()
