@@ -17,7 +17,10 @@ abstract class rex_form_base
     /** @var array */
     protected $elements;
 
-    /** @var array */
+    /**
+     * @var array
+     * @psalm-var array<string, string|int|bool>
+     */
     protected $params;
 
     /** @var bool */
@@ -459,6 +462,9 @@ abstract class rex_form_base
     /**
      * Fuegt dem Formular einen Parameter hinzu.
      * Diese an den Stellen eingefuegt, an denen das Fomular neue Requests erzeugt.
+     *
+     * @param string          $name
+     * @param string|int|bool $value
      */
     public function addParam($name, $value)
     {
@@ -469,6 +475,7 @@ abstract class rex_form_base
      * Gibt alle Parameter des Fomulars zurueck.
      *
      * @return array
+     * @psalm-return array<string, string|int|bool>
      */
     public function getParams()
     {
