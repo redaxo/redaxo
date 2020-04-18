@@ -463,7 +463,7 @@ abstract class rex_form_base
      * Fuegt dem Formular einen Parameter hinzu.
      * Diese an den Stellen eingefuegt, an denen das Fomular neue Requests erzeugt.
      *
-     * @param string $name
+     * @param string          $name
      * @param string|int|bool $value
      */
     public function addParam($name, $value)
