@@ -16,7 +16,7 @@ abstract class rex_form_base
 
     /**
      * @var array
-     * @psalm-var array<string, rex_form_element[]>
+     * @psalm-var array<string, list<rex_form_element>>
      */
     protected $elements;
 
@@ -851,7 +851,7 @@ abstract class rex_form_base
 
     /**
      * @return array
-     * @psalm-return array<string, rex_form_element[]>
+     * @psalm-return array<string, list<rex_form_element>>
      */
     protected function getFieldsetElements()
     {
@@ -875,7 +875,7 @@ abstract class rex_form_base
 
     /**
      * @return array
-     * @psalm-return array<string, rex_form_element[]>
+     * @psalm-return array<string, list<rex_form_element>>
      */
     protected function getSaveElements()
     {
