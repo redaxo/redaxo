@@ -11,7 +11,9 @@ class rex_validator
 {
     use rex_factory_trait;
 
+    /** @psalm-var list<array{string, string|null, mixed}> */
     private $types = [];
+    /** @var string|null */
     private $message;
 
     protected function __construct()
@@ -81,7 +83,7 @@ class rex_validator
     /**
      * Returns the message.
      *
-     * @return string[]
+     * @return string|null
      */
     public function getMessage()
     {
