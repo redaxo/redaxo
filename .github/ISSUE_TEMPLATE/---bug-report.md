@@ -7,10 +7,15 @@ about: Before you start, check whether a similar issue was already reported. Sea
 **Description / Beschreibung**
 
 **Affected versions / Verwendete Versionen**
-REDAXO:
-PHP:
-Browser:
-AddOns:
+
+
+|environment|details                                   |
+|-----------|------------------------------------------|
+|REDAXO:    | z.B./e.g. 5.10                           |
+|PHP:       | z.B./e.g. 7.3.0                          |
+|Database:  | z.B./e.g. MySQL 5.7.0 or MariaDB 10.1.40 |
+|Browser:   | z.B./e.g. Mozilla Firefox 70 for Windows |
+|AddOns:    | eine List von / a list of REDAXO-AddOns  |
 
 **Did it whoops? / Whoops erhalten?**
 
