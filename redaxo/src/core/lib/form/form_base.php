@@ -19,7 +19,7 @@ abstract class rex_form_base
 
     /**
      * @var array
-     * @psalm-var array< string, string|int|bool >
+     * @psalm-var array<string, string|int|bool>
      */
     protected $params;
 
