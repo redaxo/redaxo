@@ -11,7 +11,7 @@ class rex_validator
 {
     use rex_factory_trait;
 
-    /** @psalm-var list<string, string|null, mixed> */
+    /** @psalm-var list<array{string, string|null, mixed}> */
     private $types = [];
     /** @var string|null */
     private $message;
