@@ -42,7 +42,7 @@ abstract class rex_form_base
     private $csrfToken;
 
     /**
-     * Diese Konstruktor sollte nicht verwendet werden. Instanzen muessen ueber die facotry() Methode erstellt werden!
+     * Diese Konstruktor sollte nicht verwendet werden. Instanzen muessen ueber die factory() Methode erstellt werden!
      */
     protected function __construct($fieldset, $name, $method = 'post', $debug = false)
     {
