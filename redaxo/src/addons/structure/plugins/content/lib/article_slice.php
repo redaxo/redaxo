@@ -244,7 +244,6 @@ class rex_article_slice
 
     /**
      * @param string $where
-     * @param array $params
      *
      * @return self|null
      */
@@ -256,7 +255,6 @@ class rex_article_slice
 
     /**
      * @param string $where
-     * @param array $params
      *
      * @return self[]
      */
