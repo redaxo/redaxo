@@ -474,7 +474,8 @@ abstract class rex_form_base
     /**
      * Gibt alle Parameter des Fomulars zurueck.
      *
-     * @return array<string, string|int|bool>
+     * @return array
+     * @psalm-return array<string, string|int|bool>
      */
     public function getParams()
     {
