@@ -17,7 +17,10 @@ abstract class rex_form_base
     /** @var array */
     protected $elements;
 
-    /** @var array */
+    /**
+     * @var array
+     * @psalm-var array<string, string|int|bool>
+     */
     protected $params;
 
     /** @var bool */
