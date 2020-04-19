@@ -112,7 +112,7 @@ class rex_backup_tar extends tar
      */
     public function addDirectory($dirname)
     {
-        if (!is_file($dirname)) {
+        if (!is_dir($dirname)) {
             return false;
         }
 
