@@ -13,7 +13,7 @@ class rex_effect_insert_image extends rex_effect_abstract
 
         // -------------------------------------- CONFIG
         $brandimage = rex_path::media($this->params['brandimage']);
-        if (!is_file($brandimage) || !is_file($brandimage)) {
+        if (!is_file($brandimage)) {
             return;
         }
 
