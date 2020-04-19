@@ -28,6 +28,8 @@ parameters:
     earlyTerminatingMethodCalls:
         rex_response:
             - sendRedirect
+    symfony:
+		console_application_loader: ./phpstan-console.php
     ignoreErrors:
         - '#Access to an undefined property rex_media::\$med_foo\.#'
         - '#Access to an undefined property rex_article::\$art_foo\.#'
