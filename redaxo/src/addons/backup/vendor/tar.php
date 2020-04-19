@@ -442,7 +442,7 @@ class tar {
    * @return bool
    */
   public function addDirectory($dirname) {
-    if(!is_file($dirname))
+    if(!is_dir($dirname))
       return false;
 
     // Get directory information
