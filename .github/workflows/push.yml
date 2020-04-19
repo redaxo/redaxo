@@ -77,7 +77,7 @@ jobs:
                 path: ${{ steps.composer-cache.outputs.dir }}
                 key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
                 restore-keys: ${{ runner.os }}-composer-
-          - name: "Psalm Cache Result cache"
+          - name: "Psalm Resultcache"
             uses: actions/cache@v1
             with:
                 path: /tmp/psalm
@@ -126,7 +126,7 @@ jobs:
                 path: ${{ steps.composer-cache.outputs.dir }}
                 key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
                 restore-keys: ${{ runner.os }}-composer-
-          - name: "PHPStan Cache Result cache"
+          - name: "PHPStan Resultcache"
             uses: actions/cache@v1
             with:
                 path: /tmp/phpstan
