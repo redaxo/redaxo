@@ -34,13 +34,13 @@ class rex_sql implements Iterator
     protected $values; // Werte von setValue
     /** @var array */
     protected $rawValues; // Werte von setRawValue
-    /** @var string[] */
+    /** @var string[]|null */
     protected $fieldnames; // Spalten im ResultSet
-    /** @var string[] */
+    /** @var string[]|null */
     protected $rawFieldnames;
-    /** @var string[] */
+    /** @var string[]|null */
     protected $tablenames; // Tabelle im ResultSet
-    /** @var array */
+    /** @var array|false */
     protected $lastRow; // Wert der zuletzt gefetchten zeile
     /** @var string */
     protected $table; // Tabelle setzen
