@@ -52,27 +52,40 @@ class rex_list implements rex_url_provider_interface
 {
     use rex_factory_trait;
 
+    /** @var int */
     private $db;
+    /** @var string */
     private $query;
+    /** @var string */
     private $sql;
+    /** @var bool */
     private $debug;
+    /** @var string */
     private $noRowsMessage;
 
     // --------- List Attributes
+    /** @var string */
     private $name;
+    /** @psalm-var array<string, string|int|bool> */
     private $params;
+    /** @var int */
     private $rows;
 
     // --------- Form Attributes
+    /** @psalm-var array<string, string|int|bool> */
     private $formAttributes;
 
     // --------- Column Attributes
+    /** @psalm-var array<string, string>  */
     private $customColumns;
+    /** @psalm-var list<string> */
     private $columnNames;
+    /** @psalm-var array<string, string>  */
     private $columnLabels;
+    /** @psalm-var array<string, array{string, mixed, array}>  */
     private $columnFormates;
+    /** @psalm-var array<string, array<string|int, mixed>>  */
     private $columnOptions;
-    private $columnAttributes;
     private $columnLayouts;
     private $columnParams;
     private $columnDisabled;
@@ -98,6 +111,7 @@ class rex_list implements rex_url_provider_interface
      * @param int         $rowsPerPage Anzahl der Elemente pro Zeile
      * @param string|null $listName    Name der Liste
      * @param bool        $debug
+     * @param int         $db
      */
     protected function __construct($query, $rowsPerPage = 30, $listName = null, $debug = false, $db = 1)
     {
@@ -129,7 +143,6 @@ class rex_list implements rex_url_provider_interface
         $this->columnFormates = [];
         $this->columnParams = [];
         $this->columnOptions = [];
-        $this->columnAttributes = [];
         $this->columnLayouts = [];
         $this->columnDisabled = [];
 
@@ -253,11 +266,18 @@ class rex_list implements rex_url_provider_interface
         return $this->noRowsMessage;
     }
 
+    /**
+     * @param string          $name
+     * @param string|int|bool $value
+     */
     public function addParam($name, $value)
     {
         $this->params[$name] = $value;
     }
 
+    /**
+     * @return array<string, string|int|bool>
+     */
     public function getParams()
     {
         return $this->params;
@@ -278,11 +298,18 @@ class rex_list implements rex_url_provider_interface
         return $this->tableAttributes;
     }
 
+    /**
+     * @param string $attrName
+     * @param string|int|bool $attrValue
+     */
     public function addFormAttribute($attrName, $attrValue)
     {
         $this->formAttributes[$attrName] = $attrValue;
     }
 
+    /**
+     * @return array<string, string|int|bool>
+     */
     public function getFormAttributes()
     {
         return $this->formAttributes;
