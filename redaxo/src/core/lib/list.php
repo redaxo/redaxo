@@ -299,7 +299,7 @@ class rex_list implements rex_url_provider_interface
     }
 
     /**
-     * @param string $attrName
+     * @param string          $attrName
      * @param string|int|bool $attrValue
      */
     public function addFormAttribute($attrName, $attrValue)
