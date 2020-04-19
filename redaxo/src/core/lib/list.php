@@ -277,7 +277,7 @@ class rex_list implements rex_url_provider_interface
 
     /**
      * @param string          $name
-     * @param string|int|bool $value
+     * @param string|int $value
      */
     public function addParam($name, $value)
     {
@@ -285,7 +285,7 @@ class rex_list implements rex_url_provider_interface
     }
 
     /**
-     * @return array<string, string|int|bool>
+     * @return array<string, string|int>
      */
     public function getParams()
     {
@@ -309,7 +309,7 @@ class rex_list implements rex_url_provider_interface
 
     /**
      * @param string          $attrName
-     * @param string|int|bool $attrValue
+     * @param string|int $attrValue
      */
     public function addFormAttribute($attrName, $attrValue)
     {
@@ -317,7 +317,7 @@ class rex_list implements rex_url_provider_interface
     }
 
     /**
-     * @return array<string, string|int|bool>
+     * @return array<string, string|int>
      */
     public function getFormAttributes()
     {
