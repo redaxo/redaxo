@@ -102,7 +102,7 @@ class rex_list implements rex_url_provider_interface
     private $caption;
     /** @psalm-var array<string, string|int|bool> */
     private $tableAttributes;
-    /** @var list<array<string, string|int|bool|array>> */
+    /** @var list<array> */
     private $tableColumnGroups;
 
     // --------- Link Attributes
