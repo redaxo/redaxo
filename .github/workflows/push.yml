@@ -77,6 +77,11 @@ jobs:
                 path: ${{ steps.composer-cache.outputs.dir }}
                 key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
                 restore-keys: ${{ runner.os }}-composer-
+          - name: "Psalm Resultcache"
+            uses: actions/cache@v1
+            with:
+                path: /tmp/psalm
+                key: "psalm-result-cache"
           - name: Install Dependencies
             run: composer install --prefer-dist
           - run: |
@@ -121,11 +126,11 @@ jobs:
                 path: ${{ steps.composer-cache.outputs.dir }}
                 key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
                 restore-keys: ${{ runner.os }}-composer-
-          - name: "PHPStan Cache Result cache"
+          - name: "PHPStan Resultcache"
             uses: actions/cache@v1
             with:
                 path: /tmp/phpstan
-                key: "result-cache"
+                key: "phpstan-result-cache"
           - name: Install Dependencies
             run: composer install --prefer-dist
           - run: |
