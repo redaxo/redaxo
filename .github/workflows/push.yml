@@ -142,7 +142,6 @@ jobs:
                 php redaxo/bin/console package:install structure/history
                 php redaxo/bin/console package:install structure/version
           - run: |
-                php -r 'echo sys_get_temp_dir();'
                 vendor/bin/phpstan analyse --no-progress --error-format=checkstyle | cs2pr
 
   php-cs-fixer:
