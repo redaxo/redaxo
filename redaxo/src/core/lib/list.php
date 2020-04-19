@@ -66,13 +66,13 @@ class rex_list implements rex_url_provider_interface
     // --------- List Attributes
     /** @var string */
     private $name;
-    /** @psalm-var array<string, string|int|bool> */
+    /** @psalm-var array<string, string|int> */
     private $params;
     /** @var int */
     private $rows;
 
     // --------- Form Attributes
-    /** @psalm-var array<string, string|int|bool> */
+    /** @psalm-var array<string, string|int> */
     private $formAttributes;
 
     // --------- Column Attributes
@@ -100,13 +100,13 @@ class rex_list implements rex_url_provider_interface
     // --------- Table Attributes
     /** @var string */
     private $caption;
-    /** @psalm-var array<string, string|int|bool> */
+    /** @psalm-var array<string, string|int> */
     private $tableAttributes;
     /** @var array<int, array> */
     private $tableColumnGroups;
 
     // --------- Link Attributes
-    /** @psalm-var array<string, array<string, string|int|bool>>  */
+    /** @psalm-var array<string, array<string, string|int>>  */
     private $linkAttributes;
 
     // --------- Pagination Attributes
