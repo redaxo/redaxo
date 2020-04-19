@@ -50,11 +50,6 @@ class rex_module
         return $this->key;
     }
 
-    public static function deleteKeyMappingCache(): void
-    {
-        rex_file::delete(self::getKeyMappingPath());
-    }
-
     /**
      * @return array<int, string>
      */
@@ -66,22 +61,15 @@ class rex_module
             return $mapping;
         }
 
-        $file = self::getKeyMappingPath();
+        $file = rex_module_cache::getKeyMappingPath();
         $mapping = rex_file::getCache($file, null);
 
         if (null !== $mapping) {
             return $mapping;
         }
 
-        $data = rex_sql::factory()->getArray('SELECT id, `key` FROM '.rex::getTable('module').' WHERE `key` IS NOT NULL');
-        $mapping = array_column($data, 'key', 'id');
-        rex_file::putCache($file, $mapping);
+        rex_module_cache::generateKeyMapping();
 
-        return $mapping;
-    }
-
-    private static function getKeyMappingPath(): string
-    {
-        return rex_path::addonCache('structure', 'module_key_mapping.cache');
+        return $mapping = rex_file::getCache($file);
     }
 }
