@@ -28,13 +28,21 @@ class rex_sql implements Iterator
      */
     public const OPT_BUFFERED = 'buffered';
 
+    /** @var bool */
     protected $debug; // debug schalter
+    /** @var array */
     protected $values; // Werte von setValue
+    /** @var areay */
     protected $rawValues; // Werte von setRawValue
+    /** @var string[] */
     protected $fieldnames; // Spalten im ResultSet
+    /** @var string[] */
     protected $rawFieldnames;
+    /** @var string[] */
     protected $tablenames; // Tabelle im ResultSet
+    /** @var array */
     protected $lastRow; // Wert der zuletzt gefetchten zeile
+    /** @var string */
     protected $table; // Tabelle setzen
 
     /**
@@ -51,10 +59,15 @@ class rex_sql implements Iterator
      */
     protected $whereParams = [];
 
+    /** @var int */
     protected $rows; // anzahl der treffer
+    /** @var int */
     protected $counter; // pointer
+    /** @var string */
     protected $query; // Die Abfrage
+    /** @var array */
     protected $params; // Die Abfrage-Parameter
+    /** @var int */
     protected $DBID; // ID der Verbindung
 
     /** @var self[] */
