@@ -45,6 +45,7 @@ jobs:
         git apply .github/workflows/default.config.yml.github-action.diff
     - run: |
         php redaxo/src/addons/tests/bin/setup.php
+    - run: |
         vendor/bin/rexlint
         php redaxo/bin/console be_style:compile
         git checkout -- redaxo/src/core/default.config.yml # revert changes made initially
@@ -91,6 +92,7 @@ jobs:
                 php redaxo/bin/console package:install debug
                 php redaxo/bin/console package:install structure/history
                 php redaxo/bin/console package:install structure/version
+          - run: |
                 vendor/bin/psalm --show-info=false --shepherd --output-format=checkstyle | cs2pr
 
   phpstan-analysis:
@@ -119,6 +121,11 @@ jobs:
                 path: ${{ steps.composer-cache.outputs.dir }}
                 key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
                 restore-keys: ${{ runner.os }}-composer-
+          - name: "PHPStan Cache Result cache"
+            uses: actions/cache@v1
+            with:
+                path: ./tmp
+                key: "result-cache"
           - name: Install Dependencies
             run: composer install --prefer-dist
           - run: |
@@ -134,6 +141,7 @@ jobs:
                 php redaxo/bin/console package:install debug
                 php redaxo/bin/console package:install structure/history
                 php redaxo/bin/console package:install structure/version
+          - run: |
                 vendor/bin/phpstan analyse --no-progress --error-format=checkstyle | cs2pr
 
   php-cs-fixer:
@@ -187,4 +195,5 @@ jobs:
         git apply .github/workflows/default.config.yml.github-action.diff
     - run: |
         php redaxo/src/addons/tests/bin/setup.php
+    - run: |
         php redaxo/src/addons/tests/bin/run_tests.php
