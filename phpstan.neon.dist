@@ -1,3 +1,6 @@
+includes:
+    - vendor/phpstan/phpstan-symfony/extension.neon
+
 parameters:
     level: 2
     paths:
