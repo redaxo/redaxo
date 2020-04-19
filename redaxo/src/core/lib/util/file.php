@@ -62,7 +62,7 @@ class rex_file
     public static function put($file, $content)
     {
         return rex_timer::measure(__METHOD__, static function () use ($file, $content) {
-            if (!rex_dir::create(dirname($file)) || file_exists($file) && !is_writable($file)) {
+            if (!rex_dir::create(dirname($file)) || is_file($file) && !is_writable($file)) {
                 return false;
             }
 
@@ -125,7 +125,7 @@ class rex_file
                     rex_dir::create($dstdir);
                 }
 
-                if (rex_dir::isWritable($dstdir) && (!file_exists($dstfile) || is_writable($dstfile)) && copy($srcfile, $dstfile)) {
+                if (rex_dir::isWritable($dstdir) && (!is_file($dstfile) || is_writable($dstfile)) && copy($srcfile, $dstfile)) {
                     @chmod($dstfile, rex::getFilePerm());
                     touch($dstfile, filemtime($srcfile), fileatime($srcfile));
                     return true;
@@ -158,7 +158,7 @@ class rex_file
     public static function delete($file)
     {
         return rex_timer::measure(__METHOD__, static function () use ($file) {
-            if (file_exists($file)) {
+            if (is_file($file)) {
                 return unlink($file);
             }
             return true;

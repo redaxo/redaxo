@@ -200,7 +200,7 @@ class rex_mailer extends PHPMailer
 
         $count = 1;
         $archiveFile = $dir.'/'.date('Y-m-d_H_i_s').'.html';
-        while (file_exists($archiveFile)) {
+        while (is_file($archiveFile)) {
             $archiveFile = $dir.'/'.date('Y-m-d_H_i_s').'_'.(++$count).'.html';
         }
 

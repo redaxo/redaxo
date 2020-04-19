@@ -44,7 +44,7 @@ class rex_backup_tar extends tar
         unset($this->directories);
 
         // If the tar file doesn't exist...
-        if (!file_exists($filename)) {
+        if (!is_file($filename)) {
             return false;
         }
 
@@ -66,7 +66,7 @@ class rex_backup_tar extends tar
     public function addFile($filename)
     {
         // Make sure the file we are adding exists!
-        if (!file_exists($filename)) {
+        if (!is_file($filename)) {
             return false;
         }
 
@@ -112,7 +112,7 @@ class rex_backup_tar extends tar
      */
     public function addDirectory($dirname)
     {
-        if (!file_exists($dirname)) {
+        if (!is_file($dirname)) {
             return false;
         }
 
@@ -317,7 +317,7 @@ class rex_backup_tar extends tar
             foreach ($this->files as $item) {
                 // jan: wenn probleme mit der ordnergenerierung -> ordner manuell einstellen
 
-                if (!file_exists(dirname($item['name']))) {
+                if (!is_file(dirname($item['name']))) {
                     rex_dir::create(dirname($item['name']));
                 }
                 if ($h = @fopen($item['name'], 'w+')) {

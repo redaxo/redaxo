@@ -88,7 +88,7 @@ class rex_template
             return false;
         }
 
-        if (!file_exists($file)) {
+        if (!is_file($file)) {
             // Generated Datei erzeugen
             if (!$this->generate()) {
                 throw new rex_exception('Unable to generate rexTemplate with id "' . $this->getId() . '"');
