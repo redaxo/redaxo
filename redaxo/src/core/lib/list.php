@@ -86,22 +86,31 @@ class rex_list implements rex_url_provider_interface
     private $columnFormates;
     /** @psalm-var array<string, array<string|int, mixed>>  */
     private $columnOptions;
+    /** @psalm-var array<string, array{string, string}>  */
     private $columnLayouts;
+    /** @psalm-var array<string, array>  */
     private $columnParams;
+    /** @psalm-var list<string> */
     private $columnDisabled;
 
     // --------- Layout, Default
+    /** @psalm-var array{string, string}  */
     private $defaultColumnLayout;
 
     // --------- Table Attributes
+    /** @var string */
     private $caption;
+    /** @psalm-var array<string, string|int|bool> */
     private $tableAttributes;
+    /** @var list<array<string, string|int|bool>> */
     private $tableColumnGroups;
 
     // --------- Link Attributes
+    /** @psalm-var array<string, array<string, string|int|bool>>  */
     private $linkAttributes;
 
     // --------- Pagination Attributes
+    /** @var rex_pager */
     private $pager;
 
     /**
