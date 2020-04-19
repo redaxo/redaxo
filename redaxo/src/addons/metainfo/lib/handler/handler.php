@@ -295,12 +295,13 @@ abstract class rex_metainfo_handler
                         $dbvalues[0] = time();
                     }
 
+                    $timestamp = (int) $dbvalues[0];
                     $inputValue = [];
-                    $inputValue['year'] = date('Y', $dbvalues[0]);
-                    $inputValue['month'] = date('m', $dbvalues[0]);
-                    $inputValue['day'] = date('d', $dbvalues[0]);
-                    $inputValue['hour'] = date('H', $dbvalues[0]);
-                    $inputValue['minute'] = date('i', $dbvalues[0]);
+                    $inputValue['year'] = date('Y', $timestamp);
+                    $inputValue['month'] = date('m', $timestamp);
+                    $inputValue['day'] = date('d', $timestamp);
+                    $inputValue['hour'] = date('H', $timestamp);
+                    $inputValue['minute'] = date('i', $timestamp);
 
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setAttribute('id', $id);
@@ -564,7 +565,7 @@ abstract class rex_metainfo_handler
      * @param int    $fieldType       One of the rex_metainfo_table_manager::FIELD_* constants
      * @param string $fieldAttributes The attributes of the field
      *
-     * @return string|null
+     * @return string|int|null
      */
     public static function getSaveValue($fieldName, $fieldType, $fieldAttributes)
     {
