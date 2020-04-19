@@ -15,10 +15,10 @@ class rex_effect_mirror extends rex_effect_abstract
 
 (function($) {
     $(function() {
-        var $fx_mirror_select_trans = $("#media_manager_rex_effect_mirror_set_transparent_select");
-        var $fx_mirror_bg_r = $("#media_manager_rex_effect_mirror_bg_r_text").parent().parent();
-        var $fx_mirror_bg_g = $("#media_manager_rex_effect_mirror_bg_g_text").parent().parent();
-        var $fx_mirror_bg_b = $("#media_manager_rex_effect_mirror_bg_b_text").parent().parent();
+        var $fx_mirror_select_trans = $("#media-manager-rex-effect-mirror-set-transparent-select");
+        var $fx_mirror_bg_r = $("#media-manager-rex-effect-mirror-bg-r-text").closest(".rex-form-group");
+        var $fx_mirror_bg_g = $("#media-manager-rex-effect-mirror-bg-g-text").closest(".rex-form-group");
+        var $fx_mirror_bg_b = $("#media-manager-rex-effect-mirror-bg-b-text").closest(".rex-form-group");
 
         $fx_mirror_select_trans.change(function(){
             if(jQuery(this).val() != "colored")
