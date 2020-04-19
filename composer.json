@@ -3,6 +3,7 @@
         "friendsofphp/php-cs-fixer": "^2.16",
         "friendsofredaxo/linter": "^1.2",
         "phpstan/phpstan": "^0.12.11",
+        "phpstan/phpstan-symfony": "^0.12",
         "vimeo/psalm": "^3.10.1"
     },
     "autoload-dev": {
