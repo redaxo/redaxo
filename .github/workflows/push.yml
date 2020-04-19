@@ -119,7 +119,6 @@ jobs:
                 path: ${{ steps.composer-cache.outputs.dir }}
                 key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
                 restore-keys: ${{ runner.os }}-composer-
-
           - name: "PHPStan Cache Result cache"
             uses: actions/cache@v1
             with:
