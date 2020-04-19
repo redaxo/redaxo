@@ -32,7 +32,7 @@ class rex_sql implements Iterator
     protected $debug; // debug schalter
     /** @var array */
     protected $values; // Werte von setValue
-    /** @var areay */
+    /** @var array */
     protected $rawValues; // Werte von setRawValue
     /** @var string[] */
     protected $fieldnames; // Spalten im ResultSet
