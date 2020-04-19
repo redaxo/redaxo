@@ -124,7 +124,7 @@ jobs:
           - name: "PHPStan Cache Result cache"
             uses: actions/cache@v1
             with:
-                path: ./tmp
+                path: /tmp/phpstan
                 key: "result-cache"
           - name: Install Dependencies
             run: composer install --prefer-dist
