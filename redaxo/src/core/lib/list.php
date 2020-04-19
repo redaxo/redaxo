@@ -56,7 +56,7 @@ class rex_list implements rex_url_provider_interface
     private $db;
     /** @var string */
     private $query;
-    /** @var string */
+    /** @var rex_sql */
     private $sql;
     /** @var bool */
     private $debug;
@@ -102,7 +102,7 @@ class rex_list implements rex_url_provider_interface
     private $caption;
     /** @psalm-var array<string, string|int|bool> */
     private $tableAttributes;
-    /** @var list<array<string, string|int|bool>> */
+    /** @var list<array<string, string|int|bool|array>> */
     private $tableColumnGroups;
 
     // --------- Link Attributes
