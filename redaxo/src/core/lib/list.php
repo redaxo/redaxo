@@ -276,7 +276,7 @@ class rex_list implements rex_url_provider_interface
     }
 
     /**
-     * @param string          $name
+     * @param string     $name
      * @param string|int $value
      */
     public function addParam($name, $value)
@@ -308,7 +308,7 @@ class rex_list implements rex_url_provider_interface
     }
 
     /**
-     * @param string          $attrName
+     * @param string     $attrName
      * @param string|int $attrValue
      */
     public function addFormAttribute($attrName, $attrValue)
