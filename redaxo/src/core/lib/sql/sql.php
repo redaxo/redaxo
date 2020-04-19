@@ -40,7 +40,7 @@ class rex_sql implements Iterator
     protected $rawFieldnames;
     /** @var string[]|null */
     protected $tablenames; // Tabelle im ResultSet
-    /** @var array|false */
+    /** @var array|false|null */
     protected $lastRow; // Wert der zuletzt gefetchten zeile
     /** @var string */
     protected $table; // Tabelle setzen
