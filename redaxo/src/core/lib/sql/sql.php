@@ -1285,6 +1285,7 @@ class rex_sql implements Iterator
     public function getFieldnames()
     {
         $this->fetchMeta();
+        assert(is_array($this->fieldnames));
         return $this->fieldnames;
     }
 
@@ -1294,6 +1295,7 @@ class rex_sql implements Iterator
     public function getTablenames()
     {
         $this->fetchMeta();
+        assert(is_array($this->tablenames));
         return $this->tablenames;
     }
 
