@@ -91,7 +91,7 @@ if ('delete' == $function) {
         $function = '';
     }
 } else {
-    $template_id = '';
+    $template_id = 0;
 }
 
 if ('add' == $function || 'edit' == $function) {
