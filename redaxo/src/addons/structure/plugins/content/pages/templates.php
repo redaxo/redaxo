@@ -154,7 +154,8 @@ if ('add' == $function || 'edit' == $function) {
 
             try {
                 $TPL->insert();
-                $template_id = $TPL->getLastId();
+                $template_id = (int) $TPL->getLastId();
+                rex_template_cache::delete($template_id);
                 $success = rex_i18n::msg('template_added');
                 $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_ADDED', $success, [
                     'id' => $template_id,
@@ -180,6 +181,7 @@ if ('add' == $function || 'edit' == $function) {
 
             try {
                 $TPL->update();
+                rex_template_cache::delete($template_id);
                 $success = rex_i18n::msg('template_updated');
                 $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_UPDATED', $success, [
                     'id' => $template_id,
@@ -200,8 +202,6 @@ if ('add' == $function || 'edit' == $function) {
                 }
             }
         }
-
-        rex_template_cache::delete($template_id);
 
         if ('' != $goon) {
             $function = 'edit';

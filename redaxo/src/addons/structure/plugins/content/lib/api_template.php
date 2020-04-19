@@ -80,7 +80,7 @@ class rex_template
     }
 
     /**
-     * @deprecated since 2.11, use `rex_template_cache::getPath` instead
+     * @deprecated since structure 2.11, use `rex_template_cache::getPath` instead
      *
      * @return false|string
      */
@@ -94,7 +94,7 @@ class rex_template
     }
 
     /**
-     * @deprecated since 2.11, use `rex_template_cache` instead
+     * @deprecated since structure 2.11, use `rex_template_cache` instead
      *
      * @return string
      */
@@ -114,7 +114,7 @@ class rex_template
     }
 
     /**
-     * @deprecated since 2.11, use `rex_template_cache::generate` instead
+     * @deprecated since structure 2.11, use `rex_template_cache::generate` instead
      *
      * @return bool
      */
@@ -125,7 +125,7 @@ class rex_template
     }
 
     /**
-     * @deprecated since 2.11, use `rex_template_cache::delete` instead
+     * @deprecated since structure 2.11, use `rex_template_cache::delete` instead
      *
      * @return bool
      */
