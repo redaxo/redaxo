@@ -266,9 +266,9 @@ class rex_sql implements Iterator
         } finally {
             // restore connection-id
             $this->DBID = $oldDBID;
-
-            return $this;
         }
+
+        return $this;
     }
 
     /**
