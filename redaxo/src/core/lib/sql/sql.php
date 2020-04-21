@@ -256,15 +256,17 @@ class rex_sql implements Iterator
         // save origin connection-id
         $oldDBID = $this->DBID;
 
-        // change connection-id but only for this one query
-        if (false !== ($qryDBID = self::stripQueryDBID($query))) {
-            $this->selectDB($qryDBID);
+        try {
+            // change connection-id but only for this one query
+            if (false !== ($qryDBID = self::stripQueryDBID($query))) {
+                $this->selectDB($qryDBID);
+            }
+
+            $this->setQuery($query, $params, $options);
+        } finally {
+            // restore connection-id
+            $this->DBID = $oldDBID;
         }
-
-        $this->setQuery($query, $params, $options);
-
-        // restore connection-id
-        $this->DBID = $oldDBID;
 
         return $this;
     }
