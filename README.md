@@ -78,5 +78,7 @@ REDAXO was developed by [Yakamara](http://www.yakamara.de) (Frankfurt am Main/Ge
 &nbsp;
 
 <p align="center">
-    <img src="https://img.shields.io/endpoint?style=for-the-badge&url=https%3A%2F%2Fshepherd.dev%2Fgithub%2Fredaxo%2Fredaxo%2Fcoverage" alt="Psalm coverage">
+    <a href="https://shepherd.dev/github/redaxo/redaxo">
+        <img src="https://img.shields.io/endpoint?style=for-the-badge&url=https%3A%2F%2Fshepherd.dev%2Fgithub%2Fredaxo%2Fredaxo%2Fcoverage" alt="Psalm coverage">
+    </a>
 </p>

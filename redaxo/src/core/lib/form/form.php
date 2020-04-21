@@ -36,7 +36,7 @@ class rex_form extends rex_form_base
     protected $languageSupport;
 
     /**
-     * Diese Konstruktor sollte nicht verwendet werden. Instanzen muessen ueber die facotry() Methode erstellt werden!
+     * Diese Konstruktor sollte nicht verwendet werden. Instanzen muessen ueber die factory() Methode erstellt werden!
      *
      * @param string $tableName
      * @param string $fieldset
