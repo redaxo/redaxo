@@ -8,11 +8,14 @@ about: Before you start, check whether a similar issue was already reported. Sea
 
 **Affected versions / Verwendete Versionen**
 
-REDAXO: z.B./e.g. 5.10
-PHP: z.B./e.g. 7.3.0
-Database: z.B./e.g. MySQL 5.7.0 or MariaDB 10.1.40
-Browser: z.B./e.g. Mozilla Firefox 70 for Windows
-AddOns: eine List von / a list of REDAXO-AddOns
+Insert a system report via `REDAXO > System > System report > As Markdown` or tell us more about the system:
+Füge hier einen Systembericht ein via `REDAXO > System > Systembericht > Als Markdown`, oder teile uns mehr über das System mit:
+
+REDAXO: 
+PHP:
+Database:
+Browser: 
+AddOns:
 
 **Did it whoops? / Whoops erhalten?**
 
