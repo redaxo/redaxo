@@ -745,7 +745,7 @@ class rex_sql implements Iterator
             if (null == $this->stmt) {
                 return null;
             }
-            $this->lastRow = $this->stmt->fetch(PDO::FETCH_ASSOC);
+            $this->getRow(PDO::FETCH_ASSOC);
         }
 
         // isset() alone doesn't work here, because values may also be null
@@ -768,7 +768,11 @@ class rex_sql implements Iterator
     public function getRow($fetch_type = PDO::FETCH_ASSOC)
     {
         if (!$this->lastRow) {
-            $this->lastRow = $this->stmt->fetch($fetch_type);
+            $lastRow = $this->stmt->fetch($fetch_type);
+            if ($lastRow === false) {
+                throw new rex_sql_exception('unable to fetch');
+            }
+            $this->lastRow = $lastRow;
         }
         return $this->lastRow;
     }
