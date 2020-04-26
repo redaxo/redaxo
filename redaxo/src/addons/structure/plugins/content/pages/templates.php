@@ -71,7 +71,7 @@ if ('delete' == $function) {
             }
         } else {
             $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'template WHERE id = "' . $template_id . '" LIMIT 1'); // max. ein Datensatz darf loeschbar sein
-            rex_file::delete(rex_path::addonCache('templates', $template_id . '.template'));
+            rex_template_cache::delete($template_id);
             $success = rex_i18n::msg('template_deleted');
             $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_DELETED', $success, [
                 'id' => $template_id,
@@ -91,7 +91,7 @@ if ('delete' == $function) {
         $function = '';
     }
 } else {
-    $template_id = '';
+    $template_id = 0;
 }
 
 if ('add' == $function || 'edit' == $function) {
@@ -154,7 +154,8 @@ if ('add' == $function || 'edit' == $function) {
 
             try {
                 $TPL->insert();
-                $template_id = $TPL->getLastId();
+                $template_id = (int) $TPL->getLastId();
+                rex_template_cache::delete($template_id);
                 $success = rex_i18n::msg('template_added');
                 $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_ADDED', $success, [
                     'id' => $template_id,
@@ -180,6 +181,7 @@ if ('add' == $function || 'edit' == $function) {
 
             try {
                 $TPL->update();
+                rex_template_cache::delete($template_id);
                 $success = rex_i18n::msg('template_updated');
                 $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_UPDATED', $success, [
                     'id' => $template_id,
@@ -200,8 +202,6 @@ if ('add' == $function || 'edit' == $function) {
                 }
             }
         }
-
-        rex_dir::delete(rex_path::addonCache('templates'), false);
 
         if ('' != $goon) {
             $function = 'edit';

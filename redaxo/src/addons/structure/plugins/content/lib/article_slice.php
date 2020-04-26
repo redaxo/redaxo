@@ -15,6 +15,7 @@ class rex_article_slice
     private $_clang;
     private $_ctype;
     private $_priority;
+    private $_status;
     private $_module_id;
 
     private $_createdate;
@@ -38,6 +39,7 @@ class rex_article_slice
      * @param int    $ctype
      * @param int    $module_id
      * @param int    $priority
+     * @param int    $status
      * @param int    $createdate
      * @param int    $updatedate
      * @param string $createuser
@@ -50,7 +52,7 @@ class rex_article_slice
      * @param array  $linklists
      */
     protected function __construct(
-        $id, $article_id, $clang, $ctype, $module_id, $priority,
+        $id, $article_id, $clang, $ctype, $module_id, $priority, $status,
         $createdate, $updatedate, $createuser, $updateuser, $revision,
         $values, $media, $medialists, $links, $linklists)
     {
@@ -59,6 +61,7 @@ class rex_article_slice
         $this->_clang = $clang;
         $this->_ctype = $ctype;
         $this->_priority = $priority;
+        $this->_status = $status;
         $this->_module_id = $module_id;
 
         $this->_createdate = $createdate;
@@ -104,17 +107,18 @@ class rex_article_slice
      * @param int      $an_article_id
      * @param bool|int $clang
      * @param int      $revision
+     * @param bool     $ignoreOfflines
      *
      * @return self|null
      */
-    public static function getFirstSliceForArticle($an_article_id, $clang = false, $revision = 0)
+    public static function getFirstSliceForArticle($an_article_id, $clang = false, $revision = 0, $ignoreOfflines = false)
     {
         if (false === $clang) {
             $clang = rex_clang::getCurrentId();
         }
 
         foreach (range(1, 20) as $ctype) {
-            $slice = self::getFirstSliceForCtype($ctype, $an_article_id, $clang, $revision);
+            $slice = self::getFirstSliceForCtype($ctype, $an_article_id, $clang, $revision, $ignoreOfflines);
             if (null !== $slice) {
                 return $slice;
             }
@@ -130,17 +134,18 @@ class rex_article_slice
      * @param int      $an_article_id
      * @param bool|int $clang
      * @param int      $revision
+     * @param bool     $ignoreOfflines
      *
      * @return self|null
      */
-    public static function getFirstSliceForCtype($ctype, $an_article_id, $clang = false, $revision = 0)
+    public static function getFirstSliceForCtype($ctype, $an_article_id, $clang = false, $revision = 0, $ignoreOfflines = false)
     {
         if (false === $clang) {
             $clang = rex_clang::getCurrentId();
         }
 
         return self::getSliceWhere(
-            'article_id=? AND clang_id=? AND ctype_id=? AND priority=1 AND revision=?',
+            'article_id=? AND clang_id=? AND ctype_id=? AND priority=1 AND revision=?'.($ignoreOfflines ? ' AND status = 1' : ''),
             [$an_article_id, $clang, $ctype, $revision]
         );
     }
@@ -152,17 +157,18 @@ class rex_article_slice
      * @param int      $an_article_id
      * @param bool|int $clang
      * @param int      $revision
+     * @param bool     $ignoreOfflines
      *
      * @return self[]
      */
-    public static function getSlicesForArticle($an_article_id, $clang = false, $revision = 0)
+    public static function getSlicesForArticle($an_article_id, $clang = false, $revision = 0, $ignoreOfflines = false)
     {
         if (false === $clang) {
             $clang = rex_clang::getCurrentId();
         }
 
         return self::getSlicesWhere(
-            'article_id=? AND clang_id=? AND revision=?',
+            'article_id=? AND clang_id=? AND revision=?'.($ignoreOfflines ? ' AND status = 1' : ''),
             [$an_article_id, $clang, $revision]
         );
     }
@@ -175,17 +181,18 @@ class rex_article_slice
      * @param int      $a_moduletype_id
      * @param bool|int $clang
      * @param int      $revision
+     * @param bool     $ignoreOfflines
      *
      * @return self[]
      */
-    public static function getSlicesForArticleOfType($an_article_id, $a_moduletype_id, $clang = false, $revision = 0)
+    public static function getSlicesForArticleOfType($an_article_id, $a_moduletype_id, $clang = false, $revision = 0, $ignoreOfflines = false)
     {
         if (false === $clang) {
             $clang = rex_clang::getCurrentId();
         }
 
         return self::getSlicesWhere(
-            'article_id=? AND clang_id=? AND module_id=? AND revision=?',
+            'article_id=? AND clang_id=? AND module_id=? AND revision=?'.($ignoreOfflines ? ' AND status = 1' : ''),
             [$an_article_id, $clang, $a_moduletype_id, $revision]
         );
     }
@@ -193,23 +200,27 @@ class rex_article_slice
     /**
      * Return the next slice for this article.
      *
+     * @param bool $ignoreOfflines
+     *
      * @return self|null
      */
-    public function getNextSlice()
+    public function getNextSlice($ignoreOfflines = false)
     {
         return self::getSliceWhere(
-            'priority = ? AND article_id=? AND clang_id = ? AND ctype_id = ? AND revision=?',
+            'priority = ? AND article_id=? AND clang_id = ? AND ctype_id = ? AND revision=?'.($ignoreOfflines ? ' AND status = 1' : ''),
             [$this->_priority + 1, $this->_article_id, $this->_clang, $this->_ctype, $this->_revision]
         );
     }
 
     /**
+     * @param bool $ignoreOfflines
+     *
      * @return self|null
      */
-    public function getPreviousSlice()
+    public function getPreviousSlice($ignoreOfflines = false)
     {
         return self::getSliceWhere(
-            'priority = ? AND article_id=? AND clang_id = ? AND ctype_id = ? AND revision=?',
+            'priority = ? AND article_id=? AND clang_id = ? AND ctype_id = ? AND revision=?'.($ignoreOfflines ? ' AND status = 1' : ''),
             [$this->_priority - 1, $this->_article_id, $this->_clang, $this->_ctype, $this->_revision]
         );
     }
@@ -268,6 +279,7 @@ class rex_article_slice
                 $sql->getValue('ctype_id'),
                 $sql->getValue('module_id'),
                 $sql->getValue('priority'),
+                $sql->getValue('status'),
                 $sql->getDateTimeValue('createdate'),
                 $sql->getDateTimeValue('updatedate'),
                 $sql->getValue('createuser'),
@@ -437,6 +449,8 @@ class rex_article_slice
     }
 
     /**
+     * @param int $index
+     *
      * @return string
      */
     public function getMediaUrl($index)
@@ -452,5 +466,10 @@ class rex_article_slice
     public function getPriority()
     {
         return $this->_priority;
+    }
+
+    public function getStatus()
+    {
+        return $this->_status;
     }
 }
