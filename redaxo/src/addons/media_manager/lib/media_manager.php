@@ -169,7 +169,7 @@ class rex_media_manager
     {
         $cache_file = $this->getCacheFilename();
 
-        if (!file_exists($cache_file)) {
+        if (!is_file($cache_file)) {
             return false;
         }
 
@@ -185,7 +185,7 @@ class rex_media_manager
             return true;
         }
 
-        if (!file_exists($mediapath)) {
+        if (!is_file($mediapath)) {
             return false;
         }
 

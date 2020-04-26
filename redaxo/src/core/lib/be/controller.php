@@ -327,7 +327,7 @@ class rex_be_controller
 
                 case 'path':
                 case 'subpath':
-                    if (file_exists($path = $package->getPath($value))) {
+                    if (is_file($path = $package->getPath($value))) {
                         $value = $path;
                     }
                     // no break

@@ -267,7 +267,7 @@ class rex_clang
         }
 
         $file = rex_path::coreCache('clang.cache');
-        if (!file_exists($file)) {
+        if (!is_file($file)) {
             rex_clang_service::generateCache();
         }
         foreach (rex_file::getCache($file) as $id => $data) {

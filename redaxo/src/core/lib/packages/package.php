@@ -241,7 +241,7 @@ abstract class rex_package implements rex_package_interface
     {
         extract($__context, EXTR_SKIP);
 
-        if (file_exists($this->getPath($__file))) {
+        if (is_file($this->getPath($__file))) {
             return include $this->getPath($__file);
         }
 
@@ -254,7 +254,7 @@ abstract class rex_package implements rex_package_interface
     public function loadProperties()
     {
         $file = $this->getPath(self::FILE_PACKAGE);
-        if (!file_exists($file)) {
+        if (!is_file($file)) {
             $this->propertiesLoaded = true;
             return;
         }
