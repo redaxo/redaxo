@@ -29,6 +29,8 @@ class rex_var_template extends rex_var
     }
 
     /**
+     * @internal
+     *
      * @return string
      */
     public static function getTemplateStream($id, rex_article_content_base $article = null)
@@ -44,13 +46,15 @@ class rex_var_template extends rex_var
     }
 
     /**
+     * @internal
+     *
      * @param int|string $id
      *
      * @return false|string
      */
-    public static function getTemplateOutput($id, rex_timer $timer, $includeTemplate)
+    public static function getTemplateOutput($id, ?rex_timer $timer = null)
     {
-        if (rex::isDebugMode()) {
+        if ($timer && rex::isDebugMode()) {
             $timer->stop();
             $tmpl = new rex_template($id);
             rex_timer::measured('Template: '.($tmpl->getKey() ?? $tmpl->getId()), $timer);
