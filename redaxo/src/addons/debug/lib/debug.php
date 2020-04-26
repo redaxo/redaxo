@@ -60,8 +60,8 @@ class rex_debug
             break;
         }
         return [
-            'file' => $trace[$start]['file'],
-            'line' => $trace[$start]['line'],
+            'file' => $trace[$start]['file'] ?? null,
+            'line' => $trace[$start]['line'] ?? null,
             'trace' => array_slice($trace, $start),
         ];
     }

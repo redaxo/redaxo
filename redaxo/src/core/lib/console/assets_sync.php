@@ -105,7 +105,7 @@ class rex_command_assets_sync extends rex_console_command
                 $hasError = true;
                 $io->text("<error>Not readable:</error> <comment>$f1FileShort</comment>");
             }
-            if (file_exists($f2File) && !is_writable($f2File)) {
+            if (is_file($f2File) && !is_writable($f2File)) {
                 ++$errored;
                 $hasError = true;
                 $io->text("<error>Not writable:</error> <comment>$f2FileShort</comment>");
@@ -115,7 +115,7 @@ class rex_command_assets_sync extends rex_console_command
                 continue;
             }
 
-            if (!file_exists($f2File)) {
+            if (!is_file($f2File)) {
                 rex_file::copy($f1File, $f2File);
                 ++$created;
                 if ($io->isVerbose()) {

@@ -14,10 +14,16 @@ abstract class rex_form_base
     /** @var string */
     protected $fieldset;
 
-    /** @var array */
+    /**
+     * @var array
+     * @psalm-var array<string, list<rex_form_element>>
+     */
     protected $elements;
 
-    /** @var array */
+    /**
+     * @var array
+     * @psalm-var array<string, string|int|bool>
+     */
     protected $params;
 
     /** @var bool */
@@ -459,6 +465,9 @@ abstract class rex_form_base
     /**
      * Fuegt dem Formular einen Parameter hinzu.
      * Diese an den Stellen eingefuegt, an denen das Fomular neue Requests erzeugt.
+     *
+     * @param string          $name
+     * @param string|int|bool $value
      */
     public function addParam($name, $value)
     {
@@ -469,6 +478,7 @@ abstract class rex_form_base
      * Gibt alle Parameter des Fomulars zurueck.
      *
      * @return array
+     * @psalm-return array<string, string|int|bool>
      */
     public function getParams()
     {
@@ -835,7 +845,7 @@ abstract class rex_form_base
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     protected function getFieldsets()
     {
@@ -848,6 +858,7 @@ abstract class rex_form_base
 
     /**
      * @return array
+     * @psalm-return array<string, list<rex_form_element>>
      */
     protected function getFieldsetElements()
     {
@@ -871,6 +882,7 @@ abstract class rex_form_base
 
     /**
      * @return array
+     * @psalm-return array<string, list<rex_form_element>>
      */
     protected function getSaveElements()
     {
@@ -1059,7 +1071,8 @@ abstract class rex_form_base
                 }
 
                 $validator = $element->getValidator();
-                if (!$validator->isValid($element->getSaveValue())) {
+                $saveValue = $element->getSaveValue();
+                if (!$validator->isValid((string) $saveValue)) {
                     $messages[] = $validator->getMessage();
                 }
             }
