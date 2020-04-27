@@ -72,7 +72,7 @@ class rex_template
 
         $file = rex_template_cache::getPath($this->id);
 
-        if (!file_exists($file)) {
+        if (!is_file($file)) {
             rex_template_cache::generate($this->id);
         }
 

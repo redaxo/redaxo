@@ -57,7 +57,7 @@ class rex_api_install_core_update extends rex_api_function
                 foreach (rex_finder::factory($temppath . 'addons')->dirsOnly() as $dir) {
                     $addonkey = $dir->getBasename();
                     $addonPath = $dir->getRealPath() . '/';
-                    if (!file_exists($addonPath . rex_package::FILE_PACKAGE)) {
+                    if (!is_file($addonPath . rex_package::FILE_PACKAGE)) {
                         continue;
                     }
 
@@ -83,11 +83,11 @@ class rex_api_install_core_update extends rex_api_function
             //    }
             //}
             $this->checkRequirements($temppath, $version['version'], $updateAddonsConfig);
-            if (file_exists($temppath . 'core/update.php')) {
+            if (is_file($temppath . 'core/update.php')) {
                 include $temppath . 'core/update.php';
             }
             foreach ($updateAddons as $addonkey => $addon) {
-                if ($addon->isInstalled() && file_exists($file = $temppath . 'addons/' . $addonkey . '/' . rex_package::FILE_UPDATE)) {
+                if ($addon->isInstalled() && is_file($file = $temppath . 'addons/' . $addonkey . '/' . rex_package::FILE_UPDATE)) {
                     try {
                         $addon->includeFile($file);
                         if ($msg = $addon->getProperty('updatemsg', '')) {

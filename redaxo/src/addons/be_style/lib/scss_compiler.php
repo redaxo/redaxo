@@ -62,11 +62,11 @@ class rex_scss_compiler
             $path_parts = pathinfo($path);
             $underscore_file = $path_parts['dirname'] . '/_' . $path_parts['basename'];
 
-            if (file_exists($underscore_file)) {
+            if (is_file($underscore_file)) {
                 $path = $underscore_file;
             }
 
-            if (!file_exists($path)) {
+            if (!is_file($path)) {
                 return null;
             }
 

@@ -44,7 +44,7 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
     if ($doSubindexing || $FILENAME != $NFILENAME) {
         // ----- datei schon vorhanden -> namen aendern -> _1 ..
         $cnt = 0;
-        while (file_exists(rex_path::media($NFILENAME)) || rex_media::get($NFILENAME)) {
+        while (is_file(rex_path::media($NFILENAME)) || rex_media::get($NFILENAME)) {
             ++$cnt;
             $NFILENAME = $NFILE_NAME . '_' . $cnt . $NFILE_EXT;
         }
@@ -289,7 +289,7 @@ function rex_mediapool_syncFile($physical_filename, $category_id, $title, $files
 {
     $abs_file = rex_path::media($physical_filename);
 
-    if (!file_exists($abs_file)) {
+    if (!is_file($abs_file)) {
         return false;
     }
 
