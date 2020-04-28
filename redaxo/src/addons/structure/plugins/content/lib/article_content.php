@@ -92,18 +92,11 @@ class rex_article_content extends rex_article_content_base
 
             $article_content_file = rex_path::addonCache('structure', $this->article_id . '.' . $this->clang . '.content');
 
-            $generated = true;
             if (!is_file($article_content_file)) {
-                $generated = rex_content_service::generateArticleContent($this->article_id, $this->clang);
-                if (true !== $generated) {
-                    // fehlermeldung ausgeben
-                    echo $generated;
-                }
+                rex_content_service::generateArticleContent($this->article_id, $this->clang);
             }
 
-            if (true === $generated) {
-                require $article_content_file;
-            }
+            require $article_content_file;
 
             // ----- end: article caching
             $CONTENT = ob_get_clean();

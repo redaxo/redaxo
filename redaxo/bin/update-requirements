@@ -84,6 +84,7 @@ find redaxo/src/addons/tests/vendor -name ".travis.yml" -type f -delete
 find redaxo/src/addons/tests/vendor -name "appveyor.yml" -type f -delete
 find redaxo/src/addons/tests/vendor -name "build.xml" -type f -delete
 find redaxo/src/addons/tests/vendor -name "easy-coding-standard.neon" -type f -delete
+find redaxo/src/addons/tests/vendor -name "Makefile" -type f -delete
 find redaxo/src/addons/tests/vendor -name "phive.xml" -type f -delete
 find redaxo/src/addons/tests/vendor -name "phpbench.json" -type f -delete
 find redaxo/src/addons/tests/vendor -name "phpcs.xml.dist" -type f -delete
