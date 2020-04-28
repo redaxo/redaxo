@@ -321,7 +321,9 @@ class rex_content_service
      * @param int $article_id Id des zu generierenden Artikels
      * @param int $clang      ClangId des Artikels
      *
-     * @return bool|string TRUE bei Erfolg, FALSE wenn eine ungütlige article_id übergeben wird, sonst eine Fehlermeldung
+     * @throws rex_exception
+     *
+     * @return true
      */
     public static function generateArticleContent($article_id, $clang = null)
     {
@@ -334,7 +336,7 @@ class rex_content_service
             $CONT->setCLang($_clang);
             $CONT->setEval(false); // Content nicht ausführen, damit in Cachedatei gespeichert werden kann
             if (!$CONT->setArticleId($article_id)) {
-                return false;
+                throw new rex_exception(sprintf('Article %d does not exist.', $article_id));
             }
 
             // --------------------------------------------------- Artikelcontent speichern
@@ -349,7 +351,7 @@ class rex_content_service
             ]));
 
             if (false === rex_file::put($article_content_file, $article_content)) {
-                return rex_i18n::msg('article_could_not_be_generated') . ' ' . rex_i18n::msg('check_rights_in_directory') . rex_path::addonCache('structure');
+                throw new rex_exception(sprintf('Article %d could not be generated, check the directory permissions for "%s".', $article_id, rex_path::addonCache('structure')));
             }
         }
 
