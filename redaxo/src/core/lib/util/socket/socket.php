@@ -157,8 +157,8 @@ class rex_socket
      */
     public function followRedirects($redirects)
     {
-        if ($redirects < 0) {
-            throw new InvalidArgumentException(sprintf('$redirects must be `null` or an int >= 0, given "%s".', $redirects));
+        if (false !== $redirects && $redirects < 0) {
+            throw new InvalidArgumentException(sprintf('$redirects must be `false` or an int >= 0, given "%s".', $redirects));
         }
 
         $this->followRedirects = $redirects;

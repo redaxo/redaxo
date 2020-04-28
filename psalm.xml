@@ -87,11 +87,7 @@
             </errorLevel>
         </RawObjectIteration>
 <!-- level 3 issues - points to possible deficiencies in logic, higher false-positives -->
-        <PossiblyFalseArgument errorLevel="info" />
-        <PossiblyInvalidArgument errorLevel="info" />
         <PossiblyNullArgument errorLevel="info" />
-        <PossiblyNullArrayAccess errorLevel="info" />
-        <PossiblyNullArrayOffset errorLevel="info" />
         <PossiblyNullReference errorLevel="info" />
     </issueHandlers>
 </psalm>

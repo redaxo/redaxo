@@ -174,25 +174,26 @@ function rex_metainfo_delete_field($fieldIdOrName)
 /**
  * Extrahiert den Prefix aus dem Namen eine Spalte.
  *
- * @return false|string
+ * @return string
  */
-function rex_metainfo_meta_prefix($name)
+function rex_metainfo_meta_prefix(string $name)
 {
-    if (!is_string($name)) {
-        return false;
+    if (false === ($pos = strpos($name, '_'))) {
+        throw new InvalidArgumentException('$name must be like "prefix_name"');
     }
 
-    if (false !== ($pos = strpos($name, '_'))) {
-        return substr(strtolower($name), 0, $pos + 1);
+    $prefix = substr(strtolower($name), 0, $pos + 1);
+    if (false === $prefix) {
+        throw new InvalidArgumentException('$name must be like "prefix_name".');
     }
 
-    return false;
+    return $prefix;
 }
 
 /**
  * Gibt die mit dem Prefix verbundenen Tabellennamen zurück.
  */
-function rex_metainfo_meta_table($prefix)
+function rex_metainfo_meta_table(string $prefix)
 {
     $metaTables = rex_addon::get('metainfo')->getProperty('metaTables', []);
 
