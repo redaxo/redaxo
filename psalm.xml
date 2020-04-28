@@ -42,6 +42,7 @@
     </stubs>
     <plugins>
         <plugin filename="psalm-utils.php" />
+        <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin" />
     </plugins>
     <issueHandlers>
         <InvalidGlobal>
