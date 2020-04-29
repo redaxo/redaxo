@@ -105,6 +105,7 @@ class rex_backend_login extends rex_login
                 $sql->setQuery('UPDATE ' . $this->tableName . ' SET ' . $add . 'login_tries=0, lasttrydate=?, lastlogin=?, session_id=? WHERE login=? LIMIT 1', $params);
             }
 
+            assert($this->user instanceof rex_sql);
             $this->user = rex_user::fromSql($this->user);
 
             if ($this->impersonator instanceof rex_sql) {

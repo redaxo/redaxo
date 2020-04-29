@@ -106,6 +106,7 @@ class tar {
   // PRIVATE ACCESS FUNCTION
   protected function __parseNullPaddedString($string) {
     $position = strpos($string,chr(0));
+    assert(is_int($position));
     return substr($string,0,$position);
   }
 

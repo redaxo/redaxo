@@ -25,7 +25,7 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
 
     if ($pos = strrpos($NFILENAME, '.')) {
         $NFILE_NAME = substr($NFILENAME, 0, strlen($NFILENAME) - (strlen($NFILENAME) - $pos));
-        $NFILE_EXT = substr($NFILENAME, strrpos($NFILENAME, '.'), strlen($NFILENAME) - $pos);
+        $NFILE_EXT = substr($NFILENAME, $pos, strlen($NFILENAME) - $pos);
     } else {
         $NFILE_NAME = $NFILENAME;
         $NFILE_EXT = '';

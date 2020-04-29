@@ -104,6 +104,11 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
+     * @return string
+     */
+    abstract public function getPackageId();
+
+    /**
      * {@inheritdoc}
      */
     public function getName()

@@ -359,7 +359,7 @@ abstract class rex_formatter
     /**
      * @param string|int $value
      *
-     * @return false|int
+     * @return int
      */
     private static function getTimestamp($value)
     {
@@ -367,6 +367,12 @@ abstract class rex_formatter
             return (int) $value;
         }
 
-        return strtotime($value);
+        $time = strtotime($value);
+
+        if (false === $time) {
+            throw new InvalidArgumentException(sprintf('"%s" is not a valid datetime string.', $value));
+        }
+
+        return $time;
     }
 }

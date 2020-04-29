@@ -300,7 +300,7 @@ $panel = '
                     if (!is_file(rex_path::media($file_name))) {
                         $thumbnail = '<i class="rex-mime rex-mime-error" title="' . rex_i18n::msg('pool_file_does_not_exist') . '"></i><span class="sr-only">' . $file_name . '</span>';
                     } else {
-                        $file_ext = substr(strrchr($file_name, '.'), 1);
+                        $file_ext = rex_file::extension($file_name);
                         $icon_class = ' rex-mime-default';
                         if (rex_media::isDocType($file_ext)) {
                             $icon_class = ' rex-mime-' . $file_ext;
