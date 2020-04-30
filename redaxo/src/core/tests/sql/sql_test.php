@@ -130,6 +130,8 @@ class rex_sql_test extends TestCase
             public function __construct(string $version)
             {
                 $this->DBID = 999;
+
+                /* @phpstan-ignore-next-line dont error about our fake PDO class */
                 self::$pdo[$this->DBID] = new class($version) {
                     private $version;
 
