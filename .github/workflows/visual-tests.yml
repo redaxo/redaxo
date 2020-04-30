@@ -6,6 +6,8 @@ jobs:
     build:
 
         runs-on: ubuntu-latest
+        if: github.event.pull_request.draft == false
+        
         services:
             mysql:
                 image: mysql:5.7

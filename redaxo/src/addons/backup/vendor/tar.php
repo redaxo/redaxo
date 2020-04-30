@@ -106,6 +106,7 @@ class tar {
   // PRIVATE ACCESS FUNCTION
   protected function __parseNullPaddedString($string) {
     $position = strpos($string,chr(0));
+    assert(is_int($position));
     return substr($string,0,$position);
   }
 
@@ -350,7 +351,7 @@ class tar {
     unset($this->numDirectories);
 
     // If the tar file doesn't exist...
-    if(!file_exists($filename))
+    if(!is_file($filename))
       return false;
 
     $this->filename = $filename;
@@ -368,7 +369,7 @@ class tar {
    */
   public function appendTar($filename) {
     // If the tar file doesn't exist...
-    if(!file_exists($filename))
+    if(!is_file($filename))
       return false;
 
     $this->__readTar($filename);
@@ -442,7 +443,7 @@ class tar {
    * @return bool
    */
   public function addDirectory($dirname) {
-    if(!file_exists($dirname))
+    if(!is_dir($dirname))
       return false;
 
     // Get directory information
@@ -470,7 +471,7 @@ class tar {
    */
   public function addFile($filename) {
     // Make sure the file we are adding exists!
-    if(!file_exists($filename))
+    if(!is_file($filename))
       return false;
 
     // Make sure there are no other files in the archive that have this same filename

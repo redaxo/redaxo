@@ -61,15 +61,25 @@ class rex_timer
         } finally {
             $timer->stop();
 
-            $duration = self::$serverTimings[$label]['sum'] ?? 0;
-            $duration += $timer->getDelta(self::MILLISEC);
-
-            self::$serverTimings[$label]['sum'] = $duration;
-            self::$serverTimings[$label]['timings'][] = [
-                'start' => $timer->start,
-                'end' => microtime(true),
-            ];
+            self::measured($label, $timer);
         }
+    }
+
+    /**
+     * Saves the measurement of the given timer.
+     *
+     * This method should be used only if the measured code can not be wrapped inside a callable, otherwise use `measure()`.
+     */
+    public static function measured(string $label, self $timer): void
+    {
+        $duration = self::$serverTimings[$label]['sum'] ?? 0;
+        $duration += $timer->getDelta(self::MILLISEC);
+
+        self::$serverTimings[$label]['sum'] = $duration;
+        self::$serverTimings[$label]['timings'][] = [
+            'start' => $timer->start,
+            'end' => microtime(true),
+        ];
     }
 
     /**

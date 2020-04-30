@@ -22,7 +22,7 @@ if ('delLog' == $func) {
         $error = rex_i18n::msg('syslog_delete_error');
     }
 }
-if ('download' == $func && file_exists($logFile)) {
+if ('download' == $func && is_file($logFile)) {
     rex_response::sendFile($logFile, 'application/octet-stream', 'attachment');
     exit;
 }
@@ -85,7 +85,7 @@ if ($url = rex_editor::factory()->getUrl($logFile, 0)) {
     $formElements[] = $n;
 }
 
-if (file_exists($logFile)) {
+if (is_file($logFile)) {
     $url = rex_url::currentBackendPage(['func' => 'download']);
     $n = [];
     $n['field'] = '<a class="btn btn-save" href="'. $url .'">' . rex_i18n::msg('syslog_download', basename($logFile)) . '</a>';

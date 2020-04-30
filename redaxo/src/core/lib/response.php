@@ -149,7 +149,7 @@ class rex_response
     {
         self::cleanOutputBuffers();
 
-        if (!file_exists($file)) {
+        if (!is_file($file)) {
             header('HTTP/1.1 ' . self::HTTP_NOT_FOUND);
             exit;
         }

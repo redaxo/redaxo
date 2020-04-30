@@ -21,9 +21,9 @@ class rex_cronjob_export extends rex_cronjob
         $blacklist_tables = explode('|', $this->getParam('blacklist_tables'));
         $whitelist_tables = array_diff($tables, $blacklist_tables);
 
-        if (file_exists($dir . $file . $ext)) {
+        if (is_file($dir . $file . $ext)) {
             $i = 1;
-            while (file_exists($dir . $file . '_' . $i . $ext)) {
+            while (is_file($dir . $file . '_' . $i . $ext)) {
                 ++$i;
             }
             $file = $file . '_' . $i;

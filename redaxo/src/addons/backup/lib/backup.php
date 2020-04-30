@@ -484,7 +484,7 @@ class rex_backup
 
     private static function importScript($filename, $importType, $eventType)
     {
-        if (file_exists($filename)) {
+        if (is_file($filename)) {
             require $filename;
         }
     }
