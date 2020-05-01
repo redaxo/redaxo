@@ -24,4 +24,5 @@ pages:
 system_plugins: [content]
 
 requires:
+    php: '>=7.1'
     redaxo: ^5.5.0
