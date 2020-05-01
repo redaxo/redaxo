@@ -30,4 +30,5 @@ allowed_doctypes: [bmp, css, doc, docx, eps, gif, gz, jpg, jpeg, mov, mp3, mp4, 
 image_extensions: [bmp, gif, jpeg, jpg, png, svg, tif, tiff, webp]
 
 requires:
+    php: '>=7.1'
     redaxo: ^5.10.0

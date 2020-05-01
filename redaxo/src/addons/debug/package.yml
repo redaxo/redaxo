@@ -4,3 +4,6 @@ author: Markus Staab
 supportpage: www.redaxo.org/de/forum/
 
 load: early
+
+requires:
+    php: '>=7.1'
