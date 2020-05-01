@@ -48,7 +48,7 @@ abstract class rex_metainfo_handler
                 unset($attrArray['perm']);
             }
 
-            // `rex_string::split` transforms attributes without value to an int based array element
+            // `rex_string::split` transforms attributes without value (like `disabled`, `data-foo` etc.) to an int based array element
             // we transform them to array elements with the attribute name as key and empty value
             foreach ($attrArray as $key => $value) {
                 if (is_int($key)) {
