@@ -48,6 +48,15 @@ abstract class rex_metainfo_handler
                 unset($attrArray['perm']);
             }
 
+            // `rex_string::split` transforms attributes without value to an int based array element
+            // we transform them to array elements with the attribute name as key and empty value
+            foreach ($attrArray as $key => $value) {
+                if (is_int($key)) {
+                    unset($attrArray[$key]);
+                    $attrArray[$value] = '';
+                }
+            }
+
             $defaultValue = $sqlFields->getValue('default');
             if ($activeItem) {
                 $itemValue = $activeItem->getValue($name);
@@ -143,21 +152,10 @@ abstract class rex_metainfo_handler
 
                     $oneValue = (1 == count($values));
 
-                    $attrStr = '';
-                    $classAdd = '';
-                    $inline = false;
+                    $inline = isset($attrArray['inline']);
+                    unset($attrArray['inline']);
 
-                    if (false !== $key = array_search('inline', $attrArray)) {
-                        $inline = true;
-                        unset($attrArray[$key]);
-                    }
-                    foreach ($attrArray as $key => $value) {
-                        if ('class' == $key) {
-                            $classAdd = ' ' . $value;
-                        } else {
-                            $attrStr = ' ' . $key . '="' . $value . '"';
-                        }
-                    }
+                    $attrStr = rex_string::buildAttributes($attrArray);
 
                     if (!$activeItem) {
                         $dbvalues = (array) $defaultValue;
@@ -221,10 +219,6 @@ abstract class rex_metainfo_handler
 
                     $multiple = false;
                     foreach ($attrArray as $attr_name => $attr_value) {
-                        if (empty($attr_name)) {
-                            continue;
-                        }
-
                         $select->setAttribute($attr_name, $attr_value);
 
                         if ('multiple' == $attr_name) {
@@ -359,9 +353,11 @@ abstract class rex_metainfo_handler
                     $labelIt = false;
 
                     // tabindex entfernen, macht bei einer legend wenig sinn
-                    $attr = preg_replace('@tabindex="[^"]*"@', '', $attr);
+                    unset($attrArray['tabindex']);
 
-                    $field = '</fieldset><fieldset><legend id="' . $id . '"' . $attr . '>' . $label . '</legend>';
+                    $attrStr = rex_string::buildAttributes($attrArray);
+
+                    $field = '</fieldset><fieldset><legend id="' . $id . '"' . $attrStr . '>' . $label . '</legend>';
                     break;
                 case 'REX_MEDIA_WIDGET':
                     $tag = 'div';
