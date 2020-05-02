@@ -66,7 +66,7 @@ class rex_debug
         ];
     }
 
-    public static function getFullClockworkApiUrl()
+    public static function getFullClockworkApiUrl(): string
     {
         $https = isset($_SERVER['HTTPS']) && 'on' == $_SERVER['HTTPS'];
         $host = $_SERVER['HTTP_HOST'];
