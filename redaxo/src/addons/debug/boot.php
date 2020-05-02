@@ -17,8 +17,8 @@ if (rex::isBackend() && 'debug' === rex_request::get('page')) {
     $realPath = null;
 
     if ($editorBasepath) {
-        $localPath = $editorBasepath;
-        $realPath = rex_path::base();
+        $localPath = rex_escape($editorBasepath, 'js');
+        $realPath = rex_escape(rex_path::base(), 'js');
     }
 
     $injectedScript = <<<EOF
