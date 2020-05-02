@@ -21,6 +21,7 @@ page:
 
 requires:
     php:
+        version: '>=7.1'
         extensions: [zlib]
     redaxo: ^5.7.0
 
