@@ -79,7 +79,7 @@ class rex_debug
         return "{$scheme}://{$host}{$port}{$uri}/";
     }
 
-    public static function getClockworkApiUrl()
+    public static function getClockworkApiUrl(): string
     {
         return rex_url::backendPage('structure', rex_api_debug::getUrlParams(), false);
     }
