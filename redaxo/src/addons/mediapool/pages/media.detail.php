@@ -149,7 +149,7 @@ if ($isImage) {
         $width = '';
     }
 
-    if (!file_exists(rex_path::media($fname))) {
+    if (!is_file(rex_path::media($fname))) {
         $sidebar = '<i class="rex-mime rex-mime-error"></i><span class="sr-only">' . $fname . '</span>';
     } else {
         $sidebar = '

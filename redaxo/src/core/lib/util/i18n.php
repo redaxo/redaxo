@@ -308,7 +308,7 @@ class rex_i18n
      */
     public static function addMsg($key, $msg)
     {
-        self::$msg[self::$locale][$key] = $msg;
+        self::$msg[self::getLocale()][$key] = $msg;
     }
 
     /**

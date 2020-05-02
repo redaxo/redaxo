@@ -301,7 +301,7 @@ class rex_media
      */
     public function fileExists()
     {
-        return file_exists(rex_path::media($this->getFileName()));
+        return is_file(rex_path::media($this->getFileName()));
     }
 
     // allowed filetypes

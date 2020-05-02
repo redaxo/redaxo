@@ -28,13 +28,21 @@ class rex_sql implements Iterator
      */
     public const OPT_BUFFERED = 'buffered';
 
+    /** @var bool */
     protected $debug; // debug schalter
+    /** @var array */
     protected $values; // Werte von setValue
+    /** @var array */
     protected $rawValues; // Werte von setRawValue
+    /** @var string[]|null */
     protected $fieldnames; // Spalten im ResultSet
+    /** @var string[]|null */
     protected $rawFieldnames;
+    /** @var string[]|null */
     protected $tablenames; // Tabelle im ResultSet
+    /** @var array|null */
     protected $lastRow; // Wert der zuletzt gefetchten zeile
+    /** @var string */
     protected $table; // Tabelle setzen
 
     /**
@@ -51,10 +59,15 @@ class rex_sql implements Iterator
      */
     protected $whereParams = [];
 
+    /** @var int */
     protected $rows; // anzahl der treffer
+    /** @var int */
     protected $counter; // pointer
+    /** @var string */
     protected $query; // Die Abfrage
+    /** @var array */
     protected $params; // Die Abfrage-Parameter
+    /** @var int */
     protected $DBID; // ID der Verbindung
 
     /** @var self[] */
@@ -256,15 +269,17 @@ class rex_sql implements Iterator
         // save origin connection-id
         $oldDBID = $this->DBID;
 
-        // change connection-id but only for this one query
-        if (false !== ($qryDBID = self::stripQueryDBID($query))) {
-            $this->selectDB($qryDBID);
+        try {
+            // change connection-id but only for this one query
+            if (false !== ($qryDBID = self::stripQueryDBID($query))) {
+                $this->selectDB($qryDBID);
+            }
+
+            $this->setQuery($query, $params, $options);
+        } finally {
+            // restore connection-id
+            $this->DBID = $oldDBID;
         }
-
-        $this->setQuery($query, $params, $options);
-
-        // restore connection-id
-        $this->DBID = $oldDBID;
 
         return $this;
     }
@@ -732,7 +747,7 @@ class rex_sql implements Iterator
             if (null == $this->stmt) {
                 return null;
             }
-            $this->lastRow = $this->stmt->fetch(PDO::FETCH_ASSOC);
+            $this->getRow(PDO::FETCH_ASSOC);
         }
 
         // isset() alone doesn't work here, because values may also be null
@@ -755,7 +770,11 @@ class rex_sql implements Iterator
     public function getRow($fetch_type = PDO::FETCH_ASSOC)
     {
         if (!$this->lastRow) {
-            $this->lastRow = $this->stmt->fetch($fetch_type);
+            $lastRow = $this->stmt->fetch($fetch_type);
+            if (false === $lastRow) {
+                throw new rex_sql_exception('unable to fetch');
+            }
+            $this->lastRow = $lastRow;
         }
         return $this->lastRow;
     }
@@ -1272,6 +1291,7 @@ class rex_sql implements Iterator
     public function getFieldnames()
     {
         $this->fetchMeta();
+        assert(is_array($this->fieldnames));
         return $this->fieldnames;
     }
 
@@ -1281,6 +1301,7 @@ class rex_sql implements Iterator
     public function getTablenames()
     {
         $this->fetchMeta();
+        assert(is_array($this->tablenames));
         return $this->tablenames;
     }
 

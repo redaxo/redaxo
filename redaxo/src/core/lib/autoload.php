@@ -318,7 +318,7 @@ class rex_autoload
          */
         $contents = @php_strip_whitespace($path);
         if (!$contents) {
-            if (!file_exists($path)) {
+            if (!is_file($path)) {
                 $message = 'File at "%s" does not exist, check your classmap definitions';
             } elseif (!is_readable($path)) {
                 $message = 'File at "%s" is not readable, check its permissions';

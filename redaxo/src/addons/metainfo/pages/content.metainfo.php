@@ -13,6 +13,7 @@ $content = [];
 
 $article = rex_article::get($article_id, $clang);
 $articleStatusTypes = rex_article_service::statusTypes();
+$status = (int) $article->getValue('status');
 
 // ------------------
 
@@ -21,7 +22,7 @@ $panels[] = '<dt>'.rex_i18n::msg('created_by').'</dt><dd>'.rex_escape($article->
 $panels[] = '<dt>'.rex_i18n::msg('created_on').'</dt><dd>'.rex_formatter::strftime($article->getValue('createdate'), 'date').'</dd>';
 $panels[] = '<dt>'.rex_i18n::msg('updated_by').'</dt><dd>'.rex_escape($article->getValue('updateuser')).'</dd>';
 $panels[] = '<dt>'.rex_i18n::msg('updated_on').'</dt><dd>'.rex_formatter::strftime($article->getValue('updatedate'), 'date').'</dd>';
-$panels[] = '<dt>'.rex_i18n::msg('status').'</dt><dd class="'.$articleStatusTypes[$article->getValue('status')][1].'">'.$articleStatusTypes[$article->getValue('status')][0].'</dd>';
+$panels[] = '<dt>'.rex_i18n::msg('status').'</dt><dd class="'.$articleStatusTypes[$status][1].'">'.$articleStatusTypes[$status][0].'</dd>';
 $content[] = '<dl class="dl-horizontal text-left">' . implode('', $panels) . '</dl>';
 
 // ------------------

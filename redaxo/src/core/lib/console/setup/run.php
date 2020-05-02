@@ -149,8 +149,11 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             $requiredValue
         );
 
+        $timezones = DateTimeZone::listIdentifiers();
+        assert(is_array($timezones));
+
         $q = new Question('Choose timezone', $config['timezone']);
-        $q->setAutocompleterValues(DateTimeZone::listIdentifiers());
+        $q->setAutocompleterValues($timezones);
         $q->setValidator(static function ($value) {
             if (false === @date_default_timezone_set($value)) {
                 throw new InvalidArgumentException('Time zone invalid');
@@ -163,8 +166,8 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             'timezone',
             $config['timezone'],
             'Timezone "%s" selected',
-            static function ($value) {
-                if (!in_array($value, DateTimeZone::listIdentifiers(), true)) {
+            static function ($value) use ($timezones) {
+                if (!in_array($value, $timezones, true)) {
                     throw new InvalidArgumentException('Unknown timezone "'.$value.'" specified');
                 }
                 return $value;
@@ -492,15 +495,15 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
      * Helper function for getting values by option or ask()
      * Respects non-/interactive mode.
      *
-     * @param string|Question $question       provide question string or full question object for ask()
-     * @param string          $option         cli option name
-     * @param string|null     $default        default value for ask()
-     * @param string|null     $successMessage success message for using the option value
-     * @param callable|null   $validator      validator callback for option value and ask()
+     * @param string|Question  $question       provide question string or full question object for ask()
+     * @param string           $option         cli option name
+     * @param string|bool|null $default        default value for ask()
+     * @param string|null      $successMessage success message for using the option value
+     * @param callable|null    $validator      validator callback for option value and ask()
      *
      * @return mixed
      */
-    private function getOptionOrAsk($question, string $option, string $default = null, string $successMessage = null, callable $validator = null)
+    private function getOptionOrAsk($question, string $option, $default = null, string $successMessage = null, callable $validator = null)
     {
         $optionValue = $this->input->getOption($option);
         if (!$this->forceAsking && null !== $optionValue) {
@@ -508,6 +511,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 return $default;
             }
             if ($successMessage) {
+                assert(is_string($optionValue));
                 $this->io->success(sprintf($successMessage, $optionValue));
             }
             return $optionValue;
@@ -516,6 +520,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         if (!$this->input->isInteractive()) {
             if (null !== $default) {
                 if ($successMessage) {
+                    assert(is_string($default));
                     $this->io->success(sprintf($successMessage, $default));
                 }
                 return $default;
@@ -527,6 +532,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             return $this->io->askQuestion($question);
         }
 
+        assert(null === $default || is_string($default));
         return $this->io->ask($question, $default, $validator);
     }
 

@@ -54,18 +54,23 @@ class rex_system_report
                 continue;
             }
 
-            $sql = rex_sql::factory($dbId);
-
             $dbData = [];
-            $dbData['Version'] = $sql->getDbType().' '.$sql->getDbVersion();
 
-            if (1 === $dbId) {
-                $dbData['Character set'] = rex::getConfig('utf8mb4') ? 'utf8mb4' : 'utf8';
-            }
+            try {
+                $sql = rex_sql::factory($dbId);
 
-            $security = rex_setup::checkDbSecurity();
-            if ($security) {
-                $dbData['Warning'] = implode('<br/>', $security);
+                $dbData['Version'] = $sql->getDbType().' '.$sql->getDbVersion();
+
+                if (1 === $dbId) {
+                    $dbData['Character set'] = rex::getConfig('utf8mb4') ? 'utf8mb4' : 'utf8';
+
+                    $security = rex_setup::checkDbSecurity();
+                    if ($security) {
+                        $dbData['Warning'] = implode('<br/>', $security);
+                    }
+                }
+            } catch (rex_sql_exception $exception) {
+                $dbData['Warning'] = $exception->getMessage();
             }
 
             if (1 === $dbId) {

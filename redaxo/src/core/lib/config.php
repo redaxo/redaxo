@@ -315,7 +315,7 @@ class rex_config
     private static function loadFromFile()
     {
         // delete cache-file, will be regenerated on next request
-        if (file_exists(self::$cacheFile)) {
+        if (is_file(self::$cacheFile)) {
             self::$data = rex_file::getCache(self::$cacheFile);
             return true;
         }
