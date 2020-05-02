@@ -65,4 +65,22 @@ class rex_debug
             'trace' => array_slice($trace, $start),
         ];
     }
+
+    public static function getFullClockworkApiUrl(): string
+    {
+        $https = isset($_SERVER['HTTPS']) && 'on' == $_SERVER['HTTPS'];
+        $host = $_SERVER['HTTP_HOST'];
+        $port = $_SERVER['SERVER_PORT'] ?? null;
+        $uri = dirname($_SERVER['REQUEST_URI']).'/'.self::getClockworkApiUrl();
+
+        $scheme = $https ? 'https' : 'http';
+        $port = (!$https && 80 != $port || $https && 443 != $port) ? ":{$port}" : '';
+
+        return "{$scheme}://{$host}{$port}{$uri}";
+    }
+
+    public static function getClockworkApiUrl(): string
+    {
+        return rex_url::backendPage('structure', rex_api_debug::getUrlParams(), false);
+    }
 }
