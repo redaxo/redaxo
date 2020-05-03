@@ -10,9 +10,9 @@ class rex_be_navigation_test extends TestCase
     public function testSetPrio(): void
     {
         $navi = rex_be_navigation::factory();
-        $navi->addPage(new rex_be_page_main('addons', 'addon', 'addon'));
-        $navi->addPage(new rex_be_page_main('system', 'system', 'system'));
-        $navi->addPage(new rex_be_page_main('test', 'test', 'test'));
+        $navi->addPage((new rex_be_page_main('addons', 'addon', 'addon'))->setIsActive(false));
+        $navi->addPage((new rex_be_page_main('system', 'system', 'system'))->setIsActive(true));
+        $navi->addPage((new rex_be_page_main('test', 'test', 'test'))->setIsActive(false));
 
         $navi->setHeadline('test', 'Test');
         $navi->setHeadline('system', 'System');
