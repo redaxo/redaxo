@@ -129,6 +129,8 @@ if (rex::getUser() && $hasNavigation) {
         }
     }
 
+    $n = rex_extension::registerPoint(new rex_extension_point('PAGE_NAVIGATION', $n));
+
     $blocks = $n->getNavigation();
 
     $navigation = '';
