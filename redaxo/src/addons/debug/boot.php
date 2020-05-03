@@ -12,7 +12,7 @@ if (rex::isBackend() && 'debug' === rex_request::get('page')) {
     $curEditor = $editor->getName();
     $editorBasepath = $editor->getBasepath();
 
-    $siteKey = rex_debug::getFullClockworkApiUrl();
+    $siteKey = rex_debug_clockwork::getFullClockworkApiUrl();
     $localPath = null;
     $realPath = null;
 
@@ -59,7 +59,7 @@ rex_api_function::setFactoryClass(rex_api_function_debug::class);
 rex_response::setHeader('X-Clockwork-Id', rex_debug::getInstance()->getRequest()->id);
 rex_response::setHeader('X-Clockwork-Version', \Clockwork\Clockwork::VERSION);
 
-rex_response::setHeader('X-Clockwork-Path', rex_debug::getClockworkApiUrl());
+rex_response::setHeader('X-Clockwork-Path', rex_debug_clockwork::getClockworkApiUrl());
 
 register_shutdown_function(static function () {
     $clockwork = rex_debug::getInstance();

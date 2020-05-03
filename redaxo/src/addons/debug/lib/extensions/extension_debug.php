@@ -34,7 +34,7 @@ class rex_extension_debug extends rex_extension
             'result' => $res,
         ];
 
-        $data = rex_debug::getTrace([rex_extension::class]);
+        $data = rex_debug_clockwork::getTrace([rex_extension::class]);
         $data['listeners'] = self::$listeners[$extensionPoint->getName()] ?? [];
 
         rex_debug::getInstance()
@@ -51,7 +51,7 @@ class rex_extension_debug extends rex_extension
     {
         parent::register($extensionPoint, $extension, $level, $params);
 
-        $trace = rex_debug::getTrace([rex_extension::class]);
+        $trace = rex_debug_clockwork::getTrace([rex_extension::class]);
         if (!is_array($extensionPoint)) {
             $extensionPoint = [$extensionPoint];
         }

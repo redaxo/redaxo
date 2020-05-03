@@ -16,7 +16,7 @@ class rex_sql_debug extends rex_sql
             // to prevent double entries, log only if no params are passed
             if (empty($params)) {
                 rex_debug::getInstance()
-                    ->addDatabaseQuery($qry, $params, $timer->getDelta(), ['connection' => $this->DBID] + rex_debug::getTrace());
+                    ->addDatabaseQuery($qry, $params, $timer->getDelta(), ['connection' => $this->DBID] + rex_debug_clockwork::getTrace());
             }
         } catch (rex_exception $e) {
             $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
@@ -47,7 +47,7 @@ class rex_sql_debug extends rex_sql
         parent::execute($params, $options);
 
         rex_debug::getInstance()
-            ->addDatabaseQuery($qry, $params, $timer->getDelta(), ['connection' => $this->DBID] + rex_debug::getTrace());
+            ->addDatabaseQuery($qry, $params, $timer->getDelta(), ['connection' => $this->DBID] + rex_debug_clockwork::getTrace());
 
         return $this;
     }
