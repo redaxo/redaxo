@@ -97,6 +97,24 @@ abstract class rex_structure_element
     }
 
     /**
+     * Returns the value from this element or from the closest parent where the value is set.
+     *
+     * @return string|int|null
+     */
+    public function getClosestValue(string $value)
+    {
+        $value = $this->getValue($value);
+
+        if (null !== $value && '' !== $value) {
+            return $value;
+        }
+
+        $parent = $this->getParent();
+
+        return $parent ? $parent->getClosestValue($value) : null;
+    }
+
+    /**
      * @param string $value
      *
      * @return bool
@@ -394,6 +412,20 @@ abstract class rex_structure_element
     public function isOnline()
     {
         return 1 == $this->status;
+    }
+
+    /**
+     * Returns true if this element and all parents are online.
+     */
+    public function isOnlineIncludingParents(): bool
+    {
+        if (!$this->isOnline()) {
+            return false;
+        }
+
+        $parent = $this->getParent();
+
+        return !$parent || $parent->isOnlineIncludingParents();
     }
 
     /**
