@@ -20,7 +20,14 @@ class rex_be_navigation_test extends TestCase
 
         $navi->setPrio('test', 15);
 
-        $navi = $navi->getNavigation();
+        $user = rex::getUser();
+
+        try {
+            rex::setProperty('user', self::createMock(rex_user::class));
+            $navi = $navi->getNavigation();
+        } finally {
+            rex::setProperty('user', $user);
+        }
 
         static::assertSame('System', $navi[0]['headline']['title']);
         static::assertSame('Test', $navi[1]['headline']['title']);
