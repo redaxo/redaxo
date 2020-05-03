@@ -17,7 +17,7 @@ class rex_be_navigation
         'addons' => 20,
     ];
 
-    /** @psalm-var array<string, non-empty-list<rex_be_page>> */
+    /** @psalm-var array<string, list> */
     private $pages = [];
 
     /**
@@ -65,7 +65,7 @@ class rex_be_navigation
         //$this->setActiveElements();
         $return = [];
         foreach ($this->pages as $block => $blockPages) {
-            if ($blockPages[0] instanceof rex_be_page_main) {
+            if (count($blockPages) > 0 && $blockPages[0] instanceof rex_be_page_main) {
                 uasort($blockPages, static function (rex_be_page_main $a, rex_be_page_main $b) {
                     $a_prio = (int) $a->getPrio();
                     $b_prio = (int) $b->getPrio();
