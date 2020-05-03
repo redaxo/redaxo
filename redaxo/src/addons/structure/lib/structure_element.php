@@ -545,6 +545,22 @@ abstract class rex_structure_element
     }
 
     /**
+     * Returns the closest element from parent tree (including itself) where the callback returns true.
+     *
+     * @psalm-param callable(self):bool $callback
+     */
+    public function getClosest(callable $callback): ?self
+    {
+        if ($callback($this)) {
+            return $this;
+        }
+
+        $parent = $this->getParent();
+
+        return $parent ? $parent->getClosest($callback) : null;
+    }
+
+    /**
      * Returns true if this Article is the Startpage for the category.
      *
      * @return bool
