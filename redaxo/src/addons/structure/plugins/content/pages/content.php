@@ -6,8 +6,6 @@
  * @package redaxo5
  */
 
-$content = '';
-
 $article_id = rex_request('article_id', 'int');
 $clang = rex_request('clang', 'int');
 $slice_id = rex_request('slice_id', 'int', '');
@@ -225,6 +223,7 @@ if (1 == $article->getRows()) {
                                     // ----- EXTENSION POINT
                                     $info = rex_extension::registerPoint(new rex_extension_point('SLICE_UPDATED', $info, $epParams));
                                     /* deprecated */ $info = rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_SLICE_UPDATED', $info, $epParams));
+                                    $info = rex_extension::registerPoint(new rex_extension_point_art_content_updated($OOArt, 'slice_updated', $info));
                                 } catch (rex_sql_exception $e) {
                                     $warning = $action_message . $e->getMessage();
                                 }
@@ -240,7 +239,7 @@ if (1 == $article->getRows()) {
                                     ]));
 
                                     $newsql->insert();
-                                    $slice_id = $newsql->getLastId();
+                                    $slice_id = (int) $newsql->getLastId();
 
                                     rex_sql_util::organizePriorities(
                                         rex::getTable('article_slice'),
@@ -267,6 +266,7 @@ if (1 == $article->getRows()) {
                                     // ----- EXTENSION POINT
                                     $info = rex_extension::registerPoint(new rex_extension_point('SLICE_ADDED', $info, $epParams));
                                     /* deprecated */ $info = rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_SLICE_ADDED', $info, $epParams));
+                                    $info = rex_extension::registerPoint(new rex_extension_point_art_content_updated($OOArt, 'slice_added', $info));
                                 } catch (rex_sql_exception $e) {
                                     $warning = $action_message . $e->getMessage();
                                 }
@@ -292,6 +292,7 @@ if (1 == $article->getRows()) {
                                 // ----- EXTENSION POINT
                                 $global_info = rex_extension::registerPoint(new rex_extension_point('SLICE_DELETED', $global_info, $epParams));
                                 /* deprecated */ $global_info = rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_SLICE_DELETED', $global_info, $epParams));
+                                $global_info = rex_extension::registerPoint(new rex_extension_point_art_content_updated($OOArt, 'slice_deleted', $global_info));
                             } else {
                                 $global_warning = rex_i18n::msg('block_not_deleted');
                             }
@@ -338,7 +339,7 @@ if (1 == $article->getRows()) {
                 $hasSlice = null !== rex_article_slice::getFirstSliceForCtype($key, $article_id, $clang);
             }
             $editPage->addSubpage((new rex_be_page('ctype' . $key, rex_i18n::translate($val)))
-                ->setHref(['page' => 'content/edit', 'article_id' => $article_id, 'clang' => $clang, 'ctype' => $key], false)
+                ->setHref(['page' => 'content/edit', 'article_id' => $article_id, 'clang' => $clang, 'ctype' => $key])
                 ->setIsActive($ctype == $key)
                 ->setItemAttr('class', $hasSlice ? '' : 'rex-empty')
             );
@@ -423,7 +424,7 @@ if (1 == $article->getRows()) {
         ]));
 
         // ------------------------------------------ START: MODULE EDITIEREN/ADDEN ETC.
-        $contentMain .= rex_be_controller::includeCurrentPageSubPath(compact('info', 'warning', 'template_attributes', 'article', 'article_id', 'category_id', 'clang', 'slice_id', 'slice_revision', 'function', 'ctype', 'content', 'context'));
+        $contentMain .= rex_be_controller::includeCurrentPageSubPath(compact('info', 'warning', 'template_attributes', 'article', 'article_id', 'category_id', 'clang', 'slice_id', 'slice_revision', 'function', 'ctype', 'context'));
         // ------------------------------------------ END: AUSGABE
 
         // ----- EXTENSION POINT

@@ -20,7 +20,7 @@
 	<a href="https://friendsofredaxo.github.io">Friends&nbsp;Of&nbsp;REDAXO</a> &nbsp;|&nbsp;
 	<a href="https://friendsofredaxo.github.io/community/">Community Map</a>
 </p>
-	
+
 <p align="center">
 	<a href="https://github.com/redaxo/redaxo/releases"><img src="https://img.shields.io/github/release/redaxo/redaxo.svg?style=for-the-badge" alt=""></a>&nbsp;
 	<a href="https://github.com/redaxo/redaxo/blob/master/LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-green.svg?longCache=true&style=for-the-badge" alt=""></a>&nbsp;
@@ -43,41 +43,42 @@ Aktuelle Demo-Websites: [Basis](https://github.com/FriendsOfREDAXO/demo_base), [
 
 ### 2. Besuche den Slack-Chat
 
-Du wirst einen Haufen von Community-Mitgliedern im Slack vorfinden. Und auch die Entwickler. Hier ist die beste Möglichkeit, Fragen zu stellen und Leute kennenzulernen.  
+Du wirst einen Haufen von Community-Mitgliedern im Slack vorfinden. Und auch die Entwickler. Hier ist die beste Möglichkeit, Fragen zu stellen und Leute kennenzulernen.
 — Wir freuen uns, dich zu sehen. Eine Einladung bekommst du hier: [redaxo.org/slack](http://redaxo.org/slack/)!
 
 ### 3. Kontakte uns bei Twitter
 
 Folge [@REDAXO](https://twitter.com/REDAXO) bei Twitter, um aktuelle Themen zu lesen und Fragen zu stellen. Wir helfen gerne!
 
-### 4. Erhalte Hilfe im Forum
+### 4. Finde Leute auf der Community-Weltkarte
 
-Wenn du spezielle Fragen zu REDAXO hast, kann das [Forum](https://redaxo.org/forum/) hilfreich sein.
-
-### 5. Finde Leute auf der Community-Weltkarte
-
-Wo überall auf der Welt nutzen Menschen REDAXO? [Die Karte zeigt es](https://friendsofredaxo.github.io/community/). 🌎  
+Wo überall auf der Welt nutzen Menschen REDAXO? [Die Karte zeigt es](https://friendsofredaxo.github.io/community/). 🌎
 Bist du noch nicht drauf? [So kannst du deinen Eintrag hinzufügen](https://github.com/FriendsOfREDAXO/community/tree/master/_directory).
 
 &nbsp;
 
+## Mitarbeit
 
-## Informationen zur Entwicklung
+Um am Core und an den Core-Addons zu entwickeln, setze das Projekt mit diesen Schritten lokal auf:
 
-Falls du bei der Entwicklung von REDAXO helfen möchtest, ist dies der Weg, um das System lokal auf deinem Computer einzurichten:
-
-	$ git clone https://github.com/redaxo/redaxo.git
-	$ cd redaxo
-	$ git submodule init
-	$ git submodule update
-
-__Beachte:__ Wenn du den GitHub-Code als ZIP-Datei runterlädst, fehlen die Submodule, so dass das System nicht laufen wird. Lade besser das [aktuelle Release](https://github.com/redaxo/redaxo/releases) runter!
-
-Falls du Hilfe benötigst, schaue am besten im [Slack-Chat](https://www.redaxo.org/slack/) vorbei!
+- Klone das Repository: `git clone https://github.com/redaxo/redaxo redaxo && cd redaxo`
+- Installiere die für die Entwicklung verwendeten Tools über [Composer](https://getcomposer.org): `composer install`
+- Falls du PhpStorm verwendest, passe dort die Composer-Einstellungen (`Languages & Frameworks` > `PHP` > `Composer`) an und deaktiviere diese beiden Optionen:
+    - [ ] Add packages as libraries
+    - [ ] Synchronize IDE settings with composer.json
+- Du kannst die hinterlegte Docker-Konfiguration nutzen, um eine lokale Entwicklungsumgebung zu starten: `docker-compose up -d`.  
+  Falls du einen anderen Port als den Standardport 80 benötigst, ergänze die Angabe so: `REDAXO_PORT=8080 docker-compose up -d`.
 
 &nbsp;
-
 
 ## Lizenz
 
 REDAXO wurde von [Yakamara](http://www.yakamara.de) (Frankfurt am Main 🇩🇪) entwickelt, ist Open-Source seit 2004 und wird unter der [MIT-Lizenz](LICENSE.md) veröffentlicht.
+
+&nbsp;
+
+<p align="center">
+    <a href="https://shepherd.dev/github/redaxo/redaxo">
+         <img src="https://img.shields.io/endpoint?style=for-the-badge&url=https%3A%2F%2Fshepherd.dev%2Fgithub%2Fredaxo%2Fredaxo%2Fcoverage" alt="Psalm coverage">
+    </a>
+</p>

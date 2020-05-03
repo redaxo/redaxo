@@ -10,8 +10,9 @@
             <div class="history-layer-panel-2">
                 <div class="row">
                     <div class="col-lg-6 text-center hidden-xs hidden-sm hidden-md">
-                        <p class="form-control-static"><strong><?= rex_i18n::msg("structure_history_current_version"); ?></strong></p>
-                        <div class="hidden rex-select-style"><?= $this->getVar('content1select'); ?></div>
+                        <div class="btn-group history-select-group">
+                            <div class="rex-select-style"><?= $this->getVar('content1select'); ?></div>
+                        </div>
                     </div>
                     <div class="col-lg-6 text-center">
                         <div class="btn-group history-select-group">
@@ -41,8 +42,8 @@
             <div class="history-layer-panel-4">
                 <div class="row">
                     <div class="col-lg-6 col-lg-push-6 text-center">
-                        <button class="btn btn-apply" data-history-layer="snap"><?= rex_i18n::msg("structure_history_snapshot_reactivate"); ?></button>
-                        <button class="btn btn-abort" data-history-layer="cancel"><?= rex_i18n::msg("structure_history_close"); ?></button>
+                        <button class="btn btn-apply" data-history-layer="snap"><?= rex_i18n::msg('structure_history_snapshot_reactivate'); ?></button>
+                        <button class="btn btn-abort" data-history-layer="cancel"><?= rex_i18n::msg('structure_history_close'); ?></button>
                     </div>
                 </div>
             </div>

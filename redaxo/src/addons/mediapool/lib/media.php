@@ -92,11 +92,11 @@ class rex_media
      */
     public static function getRootMedia()
     {
-        return static::getInstanceList('root_media', 'static::get', static function () {
+        return static::getInstanceList('root_media', ['static', 'get'], static function () {
             $list_path = rex_path::addonCache('mediapool', '0.mlist');
 
-            $list = rex_file::getCache($list_path);
-            if (!$list) {
+            $list = rex_file::getCache($list_path, null);
+            if (null === $list) {
                 rex_media_cache::generateList(0);
                 $list = rex_file::getCache($list_path);
             }
@@ -114,7 +114,7 @@ class rex_media
     }
 
     /**
-     * @return rex_media_category
+     * @return rex_media_category|null
      */
     public function getCategory()
     {
@@ -235,8 +235,6 @@ class rex_media
     }
 
     /**
-     * @param array $params
-     *
      * @return string
      */
     public function toImage(array $params = [])
@@ -298,9 +296,12 @@ class rex_media
         return rex_file::extension($this->name);
     }
 
+    /**
+     * @return bool
+     */
     public function fileExists()
     {
-        return file_exists(rex_path::media($this->getFileName()));
+        return is_file(rex_path::media($this->getFileName()));
     }
 
     // allowed filetypes
@@ -309,6 +310,9 @@ class rex_media
         return rex_addon::get('mediapool')->getProperty('allowed_doctypes');
     }
 
+    /**
+     * @return bool
+     */
     public static function isDocType($type)
     {
         return in_array($type, self :: getDocTypes());
@@ -320,24 +324,30 @@ class rex_media
         return rex_addon::get('mediapool')->getProperty('image_extensions');
     }
 
+    /**
+     * @return bool
+     */
     public static function isImageType($extension)
     {
         return in_array($extension, self::getImageTypes());
     }
 
+    /**
+     * @return bool
+     */
     public function hasValue($value)
     {
-        return isset($this->$value);
+        return isset($this->$value) || isset($this->{'med_' . $value});
     }
 
     public function getValue($value)
     {
         // damit alte rex_article felder wie copyright, description
         // noch funktionieren
-        if ($this->hasValue($value)) {
+        if (isset($this->$value)) {
             return $this->$value;
         }
-        if ($this->hasValue('med_' . $value)) {
+        if (isset($this->{'med_' . $value})) {
             return $this->getValue('med_' . $value);
         }
     }

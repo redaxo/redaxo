@@ -1,10 +1,13 @@
 <?xml version="1.0"?>
 <psalm
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xmlns="https://getpsalm.org/schema/config"
-autoloader="phpstan-bootstrap.php"
+    autoloader="phpstan-bootstrap.php"
+    resolveFromConfigFile="true"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
 >
     <projectFiles>
+        <!-- restrict to core and core addons, ignore other locally installed addons -->
         <directory name="redaxo/src/core"/>
         <directory name="redaxo/src/addons/backup"/>
         <directory name="redaxo/src/addons/be_style"/>
@@ -29,7 +32,6 @@ autoloader="phpstan-bootstrap.php"
             <directory name="redaxo/src/addons/tests/vendor/" />
             <directory name="redaxo/src/core/vendor/" />
             <directory name="redaxo/src/core/tests/" />
-            <directory name="redaxo/src/**/fragments/*" />
             <file name="redaxo/src/core/.phpstorm.meta.php" />
             <file name="redaxo/src/addons/tests/bin/run_tests.php" />
             <file name="redaxo/src/addons/tests/bin/setup.php" />
@@ -40,104 +42,52 @@ autoloader="phpstan-bootstrap.php"
     </stubs>
     <plugins>
         <plugin filename="psalm-utils.php" />
+        <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin" />
     </plugins>
     <issueHandlers>
+        <InvalidGlobal>
+            <errorLevel type="info">
+                <file name="redaxo/src/addons/mediapool/pages/index.php"/>
+                <file name="redaxo/src/addons/mediapool/pages/upload.php"/>
+                <file name="redaxo/src/core/pages/login.php"/>
+            </errorLevel>
+        </InvalidGlobal>
         <InvalidScope>
             <errorLevel type="suppress">
+                <directory name="redaxo/src/**/fragments/*" />
+                <file name="redaxo/src/addons/structure/plugins/content/fragments/module_select.php"/>
                 <file name="redaxo/src/addons/structure/plugins/content/fragments/slice_menu_action.php"/>
                 <file name="redaxo/src/addons/structure/plugins/content/fragments/slice_menu_ep.php"/>
                 <file name="redaxo/src/addons/structure/plugins/content/fragments/slice_menu_move.php"/>
                 <file name="redaxo/src/addons/structure/plugins/history/fragments/history/layer.php"/>
             </errorLevel>
         </InvalidScope>
-        <LessSpecificReturnType errorLevel="info" />
-<!-- level 3 issues - slightly lazy code writing, but provably low false-negatives -->
-        <DeprecatedMethod errorLevel="info" />
-        <DeprecatedProperty errorLevel="info" />
-        <DeprecatedClass errorLevel="info" />
-        <DeprecatedConstant errorLevel="info" />
-        <DeprecatedFunction errorLevel="info" />
-        <DeprecatedInterface errorLevel="info" />
-        <DeprecatedTrait errorLevel="info" />
+<!-- level 2 issues - slightly lazy code writing, but provably low false-negatives -->
+        <DeprecatedMethod>
+            <errorLevel type="info">
+                <referencedMethod name="rex_string::versionCompare"/>
+            </errorLevel>
+        </DeprecatedMethod>
         <InternalMethod errorLevel="info" />
         <InternalProperty errorLevel="info" />
         <InternalClass errorLevel="info" />
         <MissingClosureReturnType errorLevel="info" />
         <MissingReturnType errorLevel="info" />
         <MissingPropertyType errorLevel="info" />
-        <InvalidDocblock errorLevel="info" />
-        <MisplacedRequiredParam errorLevel="info" />
         <PropertyNotSetInConstructor errorLevel="info" />
-        <MissingConstructor errorLevel="info" />
         <MissingClosureParamType errorLevel="info" />
         <MissingParamType errorLevel="info" />
         <RedundantCondition errorLevel="info" />
         <DocblockTypeContradiction errorLevel="info" />
         <RedundantConditionGivenDocblockType errorLevel="info" />
         <UnresolvableInclude errorLevel="info" />
-        <RawObjectIteration errorLevel="info" />
-        <InvalidStringClass errorLevel="info" />
-<!-- level 4 issues - points to possible deficiencies in logic, higher false-positives -->
-        <MoreSpecificReturnType errorLevel="info" />
-        <LessSpecificReturnStatement errorLevel="info" />
-        <TypeCoercion errorLevel="info" />
-        <PossiblyFalseArgument errorLevel="info" />
-        <PossiblyFalseIterator errorLevel="info" />
-        <PossiblyFalseOperand errorLevel="info" />
-        <PossiblyFalsePropertyAssignmentValue errorLevel="info" />
-        <PossiblyFalseReference errorLevel="info" />
-        <PossiblyInvalidArgument errorLevel="info" />
-        <PossiblyInvalidArrayAccess errorLevel="info" />
-        <PossiblyInvalidArrayAssignment errorLevel="info" />
-        <PossiblyInvalidArrayOffset errorLevel="info" />
-        <PossiblyInvalidCast errorLevel="info" />
-        <PossiblyInvalidFunctionCall errorLevel="info" />
-        <PossiblyInvalidIterator errorLevel="info" />
-        <PossiblyInvalidMethodCall errorLevel="info" />
-        <PossiblyInvalidOperand errorLevel="info" />
-        <PossiblyInvalidPropertyAssignment errorLevel="info" />
-        <PossiblyInvalidPropertyAssignmentValue errorLevel="info" />
-        <PossiblyInvalidPropertyFetch errorLevel="info" />
+        <RawObjectIteration>
+            <errorLevel type="info">
+                <file name="redaxo/src/core/lib/api_function.php"/>
+            </errorLevel>
+        </RawObjectIteration>
+<!-- level 3 issues - points to possible deficiencies in logic, higher false-positives -->
         <PossiblyNullArgument errorLevel="info" />
-        <PossiblyNullArrayAccess errorLevel="info" />
-        <PossiblyNullArrayAssignment errorLevel="info" />
-        <PossiblyNullArrayOffset errorLevel="info" />
-        <PossiblyNullFunctionCall errorLevel="info" />
-        <PossiblyNullIterator errorLevel="info" />
-        <PossiblyNullOperand errorLevel="info" />
-        <PossiblyNullPropertyAssignment errorLevel="info" />
-        <PossiblyNullPropertyAssignmentValue errorLevel="info" />
-        <PossiblyNullPropertyFetch errorLevel="info" />
         <PossiblyNullReference errorLevel="info" />
-        <PossiblyUndefinedGlobalVariable errorLevel="info" />
-        <PossiblyUndefinedVariable errorLevel="info" />
-        <PossiblyUndefinedArrayOffset errorLevel="info" />
-        <PossiblyUndefinedMethod errorLevel="info" />
-<!-- level 5 issues - should be avoided at mosts costs... -->
-        <ForbiddenCode errorLevel="info" />
-        <ImplicitToStringCast errorLevel="info" />
-        <InvalidScalarArgument errorLevel="info" />
-        <InvalidToString errorLevel="info" />
-        <InvalidOperand errorLevel="info" />
-        <InvalidGlobal errorLevel="info" />
-        <NoInterfaceProperties errorLevel="info" />
-        <TooManyArguments errorLevel="info" />
-        <TypeDoesNotContainType errorLevel="info" />
-        <TypeDoesNotContainNull errorLevel="info" />
-        <MissingDocblockType errorLevel="info" />
-        <ImplementedReturnTypeMismatch errorLevel="info" />
-        <ImplementedParamTypeMismatch errorLevel="info" />
-<!-- level 6 issues - really bad things -->
-        <InvalidNullableReturnType errorLevel="info" />
-        <NullableReturnStatement errorLevel="info" />
-        <InvalidFalsableReturnType errorLevel="info" />
-        <FalsableReturnStatement errorLevel="info" />
-        <MoreSpecificImplementedParamType errorLevel="info" />
-        <LessSpecificImplementedReturnType errorLevel="info" />
-        <InvalidReturnStatement errorLevel="info" />
-        <InvalidReturnType errorLevel="info" />
-        <UndefinedThisPropertyAssignment errorLevel="info" />
-        <UndefinedInterfaceMethod errorLevel="info" />
-        <UndefinedGlobalVariable errorLevel="info" />
     </issueHandlers>
 </psalm>

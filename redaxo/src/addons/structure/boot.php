@@ -10,6 +10,12 @@
 
 $addon = rex_addon::get('structure');
 
+rex_perm::register('addArticle[]', null, rex_perm::OPTIONS);
+rex_perm::register('addCategory[]', null, rex_perm::OPTIONS);
+rex_perm::register('editArticle[]', null, rex_perm::OPTIONS);
+rex_perm::register('editCategory[]', null, rex_perm::OPTIONS);
+rex_perm::register('deleteArticle[]', null, rex_perm::OPTIONS);
+rex_perm::register('deleteCategory[]', null, rex_perm::OPTIONS);
 rex_perm::register('moveArticle[]', null, rex_perm::OPTIONS);
 rex_perm::register('moveCategory[]', null, rex_perm::OPTIONS);
 rex_perm::register('copyArticle[]', null, rex_perm::OPTIONS);
@@ -19,7 +25,7 @@ rex_perm::register('publishCategory[]', null, rex_perm::OPTIONS);
 rex_perm::register('article2startarticle[]', null, rex_perm::OPTIONS);
 rex_perm::register('article2category[]', null, rex_perm::OPTIONS);
 
-rex_complex_perm::register('structure', 'rex_structure_perm');
+rex_complex_perm::register('structure', rex_structure_perm::class);
 
 require_once __DIR__ . '/functions/function_rex_url.php';
 

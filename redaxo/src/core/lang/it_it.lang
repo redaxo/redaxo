@@ -3,11 +3,11 @@ htmllang = it
 yes = si
 no = no
 general = generale
-dateformat = %d-%m-%Y
 setlocale = it_IT,it_IT@euro
 phpini_settings = Impostazioni PHP.ini
 
-datetimeformat = %d-%m-%Y - %H:%M
+dateformat = %d %b %Y
+datetimeformat = %d %b %Y, %H:%M
 timeformat = %H:%M
 ctrl = Per seleziona multipla usare <kbd>STRG</kbd> risp. <kbd>CMD</kbd>
 
@@ -121,7 +121,6 @@ debug_mode = Debug-Modus
 setup = Setup
 setup_restart = Fai ripartire l'installazione
 setup_text =
-setup_error1 =
 setup_error2 =
 
 
@@ -251,6 +250,7 @@ package_hhelp = Aiuto
 package_hinstall = Installato
 package_hactive = Attivato
 package_hdelete = Rimuovere
+package_hinformation =
 package_reinstall = reinstallare
 package_install = installare
 package_notinstalled =
@@ -314,15 +314,17 @@ plugin_dir_not_writable =
 credits =
 credits_name =
 credits_help = Aiuto
+credits_information =
 credits_version = Versione
 credits_author = Autore
-credits_supportpage = Aiuto
+credits_supportpage =
 credits_addon_inactive = AddOn non attivo
 credits_caption =
 credits_open_help_file =
 credits_inventor = Inventore
 credits_developer = Sviluppatore
 credits_designer = Grafico
+credits_license =
 
 # redaxo\include\pages\profile.php
 profile_myprofile = Modifica il mio profilo

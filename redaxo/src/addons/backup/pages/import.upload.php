@@ -110,10 +110,22 @@ if ('' != $error) {
     echo rex_view::error($error);
 }
 
+$body = '<p>' . rex_i18n::msg('backup_intro_import') . '</p>';
+$body .= '<p>' . rex_i18n::msg('backup_version_warning') . '</p>';
+
+$body .= ' <hr><p>
+                <strong>' . rex_i18n::msg('phpini_settings') . '</strong>
+                        <dl class="dl-horizontal text-left">
+                        ' . ((0 == rex_ini_get('file_uploads')) ? '<dt><span class="text-danger">' . rex_i18n::msg('backup_warning') . '</span></dt><dd><span class="text-danger">' . rex_i18n::msg('backup_upload_disabled') . '</span></dd>' : '') . '
+                            <dt>' . rex_i18n::msg('backup_max_uploadsize') . ':</dt><dd>' . rex_formatter::bytes(rex_ini_get('upload_max_filesize')) . '</dd>
+                            <dt>' . rex_i18n::msg('backup_max_uploadtime') . ':</dt><dd>' . rex_ini_get('max_input_time') . 's</dd>
+                        </dl>
+            </p>';
+
 $fragment = new rex_fragment();
 $fragment->setVar('class', 'info');
 $fragment->setVar('title', rex_i18n::msg('backup_note'), false);
-$fragment->setVar('body', '<p>' . rex_i18n::msg('backup_intro_import') . '</p>', false);
+$fragment->setVar('body', $body, false);
 echo $fragment->parse('core/page/section.php');
 
 $content = '
@@ -142,7 +154,7 @@ $buttons = $fragment->parse('core/form/submit.php');
 $content .= '</fieldset>';
 
 $fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('backup_database_export'), false);
+$fragment->setVar('title', rex_i18n::msg('backup_export_db_caption'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
@@ -184,7 +196,7 @@ $buttons = $fragment->parse('core/form/submit.php');
 $content .= '</fieldset>';
 
 $fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('backup_file_export'), false);
+$fragment->setVar('title', rex_i18n::msg('backup_export_file_caption'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');

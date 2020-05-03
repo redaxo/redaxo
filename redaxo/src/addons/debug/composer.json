@@ -1,0 +1,5 @@
+{
+    "require": {
+        "itsgoingd/clockwork": "^4.1"
+    }
+}

@@ -3,11 +3,11 @@ htmllang = nl
 yes = ja
 no = nee
 general = Algemeen
-dateformat = %d/%b/%Y
 setlocale = nl_NL,nl_NL.UTF8,dutch,nld_nld,nld,Nederlands
 phpini_settings = PHP.ini Instellingen
 
-datetimeformat = %d/%b/%Y %H:%M
+dateformat = %d %b. %Y
+datetimeformat = %d %b. %Y, %H:%M
 timeformat = %H:%M
 ctrl = Selecteer meerdere met <kbd>CTRL</kbd> of <kbd>CMD</kbd>
 
@@ -145,7 +145,6 @@ system_report_markdown = In markdown
 setup = Installatie
 setup_restart = Herstart installatie
 setup_text = Hier kan u het installatieproces herstarten. Dit is normaalgesproken niet nodig en alleen bedoeld voor noodgevallen.
-setup_error1 = Installatieproces gestart. Klik op {0}doorgaan{1} om door te gaan met de installatie.
 setup_error2 = Er kon helaas niet geschreven worden naar het configuratiebestand. Zet \"setup: true\" in config.yml
 
 
@@ -260,9 +259,6 @@ https_only_frontend = Alleen inschakelen voor frontend
 https_only_backend = Alleen inschakelen voor backend
 https_activate = Inschakelen voor front- en backend
 
-hsts_activate = Stel <b>HTTP Strict Transport Security</b> in
-hsts_more_information = Meer informatie op {0}
-
 # redaxo\include\pages\addon.php
 addon = AddOn
 addons = AddOns
@@ -357,9 +353,10 @@ plugin_cache_not_writable = De PlugIn cachemap is niet schrijfbaar!
 credits = Credits
 credits_name = Naam
 credits_help = Help
+credits_information = Informatie
 credits_version = Versie
 credits_author = Auteur
-credits_supportpage = Help
+credits_supportpage =
 credits_addon_inactive = AddOn niet actief
 credits_caption = Lijst van gebruikte pakketten
 credits_open_help_file = Open helpbestand:

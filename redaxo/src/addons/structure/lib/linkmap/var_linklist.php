@@ -39,6 +39,9 @@ class rex_var_linklist extends rex_var
         return self::quote($value);
     }
 
+    /**
+     * @return string
+     */
     public static function getWidget($id, $name, $value, array $args = [])
     {
         $category = rex_category::getCurrent() ? rex_category::getCurrent()->getId() : 0; // Aktuelle Kategorie vorauswählen
@@ -55,7 +58,7 @@ class rex_var_linklist extends rex_var
         if (is_array($linklistarray)) {
             foreach ($linklistarray as $link) {
                 if ('' != $link) {
-                    if ($article = rex_article::get($link)) {
+                    if ($article = rex_article::get((int) $link)) {
                         $options .= '<option value="' . $link . '">' . rex_escape(trim(sprintf('%s [%s]', $article->getName(), $article->getId()))) . '</option>';
                     }
                 }

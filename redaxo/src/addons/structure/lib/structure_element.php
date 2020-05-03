@@ -10,36 +10,66 @@ abstract class rex_structure_element
     use rex_instance_pool_trait;
     use rex_instance_list_pool_trait;
 
-    /*
-     * these vars get read out
-     */
-    protected $id = '';
-    protected $parent_id = '';
-    protected $clang_id = '';
+    /** @var int */
+    protected $id = 0;
+
+    /** @var int */
+    protected $parent_id = 0;
+
+    /** @var int */
+    protected $clang_id = 0;
+
+    /** @var string */
     protected $name = '';
+
+    /** @var string */
     protected $catname = '';
-    protected $template_id = '';
+
+    /** @var int */
+    protected $template_id = 0;
     protected $path = '';
-    protected $priority = '';
-    protected $catpriority = '';
-    protected $startarticle = '';
-    protected $status = '';
-    protected $updatedate = '';
-    protected $createdate = '';
+
+    /** @var int */
+    protected $priority = 0;
+
+    /** @var int */
+    protected $catpriority = 0;
+
+    /** @var bool */
+    protected $startarticle = false;
+
+    /** @var int */
+    protected $status = 0;
+
+    /** @var int */
+    protected $updatedate = 0;
+
+    /** @var int */
+    protected $createdate = 0;
+
+    /** @var string */
     protected $updateuser = '';
+
+    /** @var string */
     protected $createuser = '';
 
     protected static $classVars;
 
     /**
      * Constructor.
-     *
-     * @param array $params
      */
     protected function __construct(array $params)
     {
         foreach (self::getClassVars() as $var) {
-            if (isset($params[$var])) {
+            if (!isset($params[$var])) {
+                continue;
+            }
+
+            if (in_array($var, ['id', 'parent_id', 'clang_id', 'template_id', 'priority', 'catpriority', 'status', 'createdate', 'updatedate'], true)) {
+                $this->$var = (int) $params[$var];
+            } elseif ('startarticle' === $var) {
+                $this->$var = (bool) $params[$var];
+            } else {
                 $this->$var = $params[$var];
             }
         }
@@ -50,7 +80,7 @@ abstract class rex_structure_element
      *
      * @param string $value
      *
-     * @return string
+     * @return string|int|null
      */
     public function getValue($value)
     {
@@ -68,7 +98,6 @@ abstract class rex_structure_element
 
     /**
      * @param string $value
-     * @param array  $prefixes
      *
      * @return bool
      */
@@ -101,7 +130,7 @@ abstract class rex_structure_element
 
             $startId = rex_article::getSiteStartArticleId();
             $file = rex_path::addonCache('structure', $startId . '.1.article');
-            if (!rex::isBackend() && file_exists($file)) {
+            if (!rex::isBackend() && is_file($file)) {
                 // da getClassVars() eine statische Methode ist, können wir hier nicht mit $this->getId() arbeiten!
                 $genVars = rex_file::getCache($file);
                 unset($genVars['last_update_stamp']);
@@ -208,8 +237,8 @@ abstract class rex_structure_element
             static function ($parentId, $listType) {
                 $listFile = rex_path::addonCache('structure', $parentId . '.' . $listType);
 
-                $list = rex_file::getCache($listFile);
-                if (!$list) {
+                $list = rex_file::getCache($listFile, null);
+                if (null === $list) {
                     rex_article_cache::generateLists($parentId);
                     $list = rex_file::getCache($listFile);
                 }
@@ -243,14 +272,13 @@ abstract class rex_structure_element
     /**
      * Returns a url for linking to this article.
      *
-     * @param array  $params
      * @param string $divider
      *
      * @return string
      */
     public function getUrl(array $params = [], $divider = '&amp;')
     {
-        return rex_getUrl($this->getId(), $this->getClang(), $params, $divider);
+        return rex_getUrl($this->getId(), $this->getClangId(), $params, $divider);
     }
 
     /**
@@ -294,7 +322,7 @@ abstract class rex_structure_element
     /**
      * Returns the parent category.
      *
-     * @return self
+     * @return static|null
      */
     abstract public function getParent();
 
@@ -418,8 +446,6 @@ abstract class rex_structure_element
     }
 
     /**
-     * @param array $attributes
-     *
      * @return string
      */
     protected function _toAttributeString(array $attributes)
@@ -440,6 +466,8 @@ abstract class rex_structure_element
      * Returns an array of rex_structure_element objects.
      *
      * @return rex_category[]
+     *
+     * @psalm-return list<rex_category>
      */
     public function getParentTree()
     {
@@ -455,7 +483,11 @@ abstract class rex_structure_element
             if (is_array($explode)) {
                 foreach ($explode as $var) {
                     if ('' != $var) {
-                        $return[] = rex_category::get($var, $this->clang_id);
+                        $cat = rex_category::get((int) $var, $this->clang_id);
+                        if (!$cat) {
+                            throw new LogicException('No category found with id='. $var .' and clang='. $this->clang_id .'.');
+                        }
+                        $return[] = $cat;
                     }
                 }
             }
@@ -466,8 +498,6 @@ abstract class rex_structure_element
 
     /**
      * Checks if $anObj is in the parent tree of the object.
-     *
-     * @param self $anObj
      *
      * @return bool
      */

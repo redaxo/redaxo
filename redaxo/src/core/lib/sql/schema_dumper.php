@@ -14,8 +14,6 @@ class rex_sql_schema_dumper
     /**
      * Dumps the schema for the given table as php code (using `rex_sql_table`).
      *
-     * @param rex_sql_table $table
-     *
      * @return string
      */
     public function dumpTable(rex_sql_table $table)
@@ -37,6 +35,17 @@ class rex_sql_schema_dumper
             $code .= "\n    ->ensureColumn(".$this->getColumn($column).')';
         }
 
+        $code = str_replace(
+            "
+    ->ensureColumn(new rex_sql_column('createdate', 'datetime'))
+    ->ensureColumn(new rex_sql_column('createuser', 'varchar(255)'))
+    ->ensureColumn(new rex_sql_column('updatedate', 'datetime'))
+    ->ensureColumn(new rex_sql_column('updateuser', 'varchar(255)'))",
+            '
+    ->ensureGlobalColumns()',
+            $code
+        );
+
         if ($setPrimaryKey && $table->getPrimaryKey()) {
             $code .= "\n    ->setPrimaryKey(".$this->getPrimaryKey($table->getPrimaryKey()).')';
         }
@@ -54,6 +63,9 @@ class rex_sql_schema_dumper
         return $code;
     }
 
+    /**
+     * @return string
+     */
     private function getColumn(rex_sql_column $column)
     {
         $parameters = [];
@@ -79,6 +91,9 @@ class rex_sql_schema_dumper
         return 'new rex_sql_column('.implode(', ', array_reverse($parameters)).')';
     }
 
+    /**
+     * @return string
+     */
     private function getIndex(rex_sql_index $index)
     {
         $parameters = [
@@ -98,6 +113,9 @@ class rex_sql_schema_dumper
         return 'new rex_sql_index('.implode(', ', $parameters).')';
     }
 
+    /**
+     * @return string
+     */
     private function getForeignKey(rex_sql_foreign_key $foreignKey)
     {
         $parameters = [
@@ -145,6 +163,9 @@ class rex_sql_schema_dumper
         return 'rex::getTable('.$this->scalar($name).')';
     }
 
+    /**
+     * @return string
+     */
     private function scalar($scalar)
     {
         if (null === $scalar) {
@@ -154,6 +175,9 @@ class rex_sql_schema_dumper
         return var_export($scalar, true);
     }
 
+    /**
+     * @return string
+     */
     private function simpleArray(array $list)
     {
         $parts = [];
@@ -165,6 +189,9 @@ class rex_sql_schema_dumper
         return '['.implode(', ', $parts).']';
     }
 
+    /**
+     * @return string
+     */
     private function map(array $map)
     {
         $parts = [];

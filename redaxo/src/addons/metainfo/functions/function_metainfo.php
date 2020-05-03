@@ -47,6 +47,8 @@ function rex_metainfo_add_field_type($label, $dbtype, $dblength)
  * Löscht einen Feldtyp.
  *
  * Gibt beim Erfolg true zurück, sonst eine Fehlermeldung
+ *
+ * @return bool|string
  */
 function rex_metainfo_delete_field_type($field_type_id)
 {
@@ -171,24 +173,27 @@ function rex_metainfo_delete_field($fieldIdOrName)
 
 /**
  * Extrahiert den Prefix aus dem Namen eine Spalte.
+ *
+ * @return string
  */
-function rex_metainfo_meta_prefix($name)
+function rex_metainfo_meta_prefix(string $name)
 {
-    if (!is_string($name)) {
-        return false;
+    if (false === ($pos = strpos($name, '_'))) {
+        throw new InvalidArgumentException('$name must be like "prefix_name"');
     }
 
-    if (false !== ($pos = strpos($name, '_'))) {
-        return substr(strtolower($name), 0, $pos + 1);
+    $prefix = substr(strtolower($name), 0, $pos + 1);
+    if (false === $prefix) {
+        throw new InvalidArgumentException('$name must be like "prefix_name".');
     }
 
-    return false;
+    return $prefix;
 }
 
 /**
  * Gibt die mit dem Prefix verbundenen Tabellennamen zurück.
  */
-function rex_metainfo_meta_table($prefix)
+function rex_metainfo_meta_table(string $prefix)
 {
     $metaTables = rex_addon::get('metainfo')->getProperty('metaTables', []);
 
@@ -201,8 +206,6 @@ function rex_metainfo_meta_table($prefix)
 
 /**
  * Bindet ggf extensions ein.
- *
- * @param rex_extension_point $ep
  */
 function rex_metainfo_extensions_handler(rex_extension_point $ep)
 {
@@ -211,7 +214,7 @@ function rex_metainfo_extensions_handler(rex_extension_point $ep)
     $mypage = 'metainfo';
 
     // additional javascripts
-    if ('metainfo' == $mainpage || 'content/metainfo' == $page || 'structure' == $page || 'system/lang' == $page) {
+    if (in_array($mainpage, ['metainfo', 'mediapool'], true) || in_array($page, ['content/metainfo', 'structure', 'system/lang'], true)) {
         rex_view::addJsFile(rex_url::addonAssets($mypage, 'metainfo.js'), [rex_view::JS_IMMUTABLE => true]);
     }
 

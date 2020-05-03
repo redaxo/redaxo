@@ -5,6 +5,11 @@
  */
 class rex_managed_media
 {
+    public const PROP_JPG_QUALITY = 'jpg_quality';
+    public const PROP_PNG_COMPRESSION = 'png_compression';
+    public const PROP_WEBP_QUALITY = 'webp_quality';
+    public const PROP_INTERLACE = 'interlace';
+
     private $media_path = '';
     private $media;
     private $asImage = false;
@@ -52,11 +57,7 @@ class rex_managed_media
         $this->media = basename($media_path);
         $this->asImage = false;
 
-        if (file_exists($media_path)) {
-            $this->sourcePath = $media_path;
-        } else {
-            $this->sourcePath = rex_path::addon('media_manager', 'media/warning.jpg');
-        }
+        $this->sourcePath = $media_path;
     }
 
     public function getMediaFilename()
@@ -85,28 +86,30 @@ class rex_managed_media
             return;
         }
 
-        $this->asImage = true;
+        if (!$this->sourcePath || !is_file($this->sourcePath)) {
+            throw new rex_media_manager_not_found_exception(sprintf('Source path "%s" does not exist.', $this->sourcePath));
+        }
 
         $this->image = [];
         $this->image['src'] = false;
 
+        $format = $this->format;
+
         // if mimetype detected and in imagemap -> change format
-        if (class_exists('finfo') && $finfo = new finfo(FILEINFO_MIME_TYPE)) {
-            if ($ftype = @$finfo->file($this->getSourcePath())) {
-                if (array_key_exists($ftype, $this->mimetypeMap)) {
-                    $this->format = $this->mimetypeMap[$ftype];
-                }
+        if ($ftype = rex_file::mimeType($this->getSourcePath())) {
+            if (array_key_exists($ftype, $this->mimetypeMap)) {
+                $format = $this->mimetypeMap[$ftype];
             }
         }
 
-        if ('jpg' == $this->format || 'jpeg' == $this->format) {
-            $this->format = 'jpeg';
+        if ('jpg' == $format || 'jpeg' == $format) {
+            $format = 'jpeg';
             $this->image['src'] = @imagecreatefromjpeg($this->getSourcePath());
-        } elseif ('gif' == $this->format) {
+        } elseif ('gif' == $format) {
             $this->image['src'] = @imagecreatefromgif($this->getSourcePath());
-        } elseif ('wbmp' == $this->format) {
+        } elseif ('wbmp' == $format) {
             $this->image['src'] = @imagecreatefromwbmp($this->getSourcePath());
-        } elseif ('webp' == $this->format) {
+        } elseif ('webp' == $format) {
             if (function_exists('imagecreatefromwebp')) {
                 $this->image['src'] = @imagecreatefromwebp($this->getSourcePath());
                 imagealphablending($this->image['src'], false);
@@ -117,17 +120,19 @@ class rex_managed_media
             if ($this->image['src']) {
                 imagealphablending($this->image['src'], false);
                 imagesavealpha($this->image['src'], true);
-                $this->format = 'png';
+                $format = 'png';
             }
         }
 
         if (!$this->image['src']) {
-            $this->setSourcePath(rex_path::addon('media_manager', 'media/warning.jpg'));
-            $this->asImage();
-        } else {
-            $this->fixOrientation();
-            $this->refreshImageDimensions();
+            throw new rex_media_manager_not_found_exception(sprintf('Source path "%s" could not be converted to gd resource.', $this->sourcePath));
         }
+
+        $this->asImage = true;
+        $this->format = $format;
+
+        $this->fixOrientation();
+        $this->refreshImageDimensions();
     }
 
     public function refreshImageDimensions()
@@ -143,9 +148,9 @@ class rex_managed_media
             return;
         }
 
-        $size = getimagesize($this->sourcePath);
-        $this->image['width'] = $size[0];
-        $this->image['height'] = $size[1];
+        $size = @getimagesize($this->sourcePath);
+        $this->image['width'] = $size[0] ?? null;
+        $this->image['height'] = $size[1] ?? null;
     }
 
     public function getFormat()
@@ -212,6 +217,14 @@ class rex_managed_media
         $this->saveFiles($src, $sourceCacheFilename, $headerCacheFilename);
     }
 
+    public function exists(): bool
+    {
+        return $this->asImage || is_file($this->sourcePath);
+    }
+
+    /**
+     * @return string
+     */
     protected function getImageSource()
     {
         $addon = rex_addon::get('media_manager');
@@ -219,22 +232,22 @@ class rex_managed_media
         $format = $this->format;
         $format = 'jpeg' === $format ? 'jpg' : $format;
 
-        $interlace = $this->getImageProperty('interlace', $addon->getConfig('interlace', ['jpg']));
+        $interlace = $this->getImageProperty(self::PROP_INTERLACE, $addon->getConfig('interlace'));
         imageinterlace($this->image['src'], in_array($format, $interlace) ? 1 : 0);
 
         ob_start();
         if ('jpg' == $format) {
-            $quality = $this->getImageProperty('jpg_quality', $addon->getConfig('jpg_quality', 85));
+            $quality = $this->getImageProperty(self::PROP_JPG_QUALITY, $addon->getConfig('jpg_quality'));
             imagejpeg($this->image['src'], null, $quality);
         } elseif ('png' == $format) {
-            $compression = $this->getImageProperty('png_compression', $addon->getConfig('png_compression', 5));
+            $compression = $this->getImageProperty(self::PROP_PNG_COMPRESSION, $addon->getConfig('png_compression'));
             imagepng($this->image['src'], null, $compression);
         } elseif ('gif' == $format) {
             imagegif($this->image['src']);
         } elseif ('wbmp' == $format) {
             imagewbmp($this->image['src']);
         } elseif ('webp' == $format) {
-            $quality = $this->getImageProperty('webp_quality', $addon->getConfig('webp_quality', 85));
+            $quality = $this->getImageProperty(self::PROP_WEBP_QUALITY, $addon->getConfig('webp_quality'));
             imagewebp($this->image['src'], null, $quality);
         }
         return ob_get_clean();
@@ -361,28 +374,10 @@ class rex_managed_media
         }
 
         $header = $this->getHeader();
-        if (!isset($header['Content-Type'])) {
-            $content_type = '';
+        if (!isset($header['Content-Type']) && $this->sourcePath) {
+            $content_type = rex_file::mimeType($this->sourcePath);
 
-            if (!$content_type && function_exists('mime_content_type')) {
-                $content_type = mime_content_type($this->getSourcePath());
-            }
-
-            if (!$content_type && function_exists('finfo_open')) {
-                $finfo = finfo_open(FILEINFO_MIME_TYPE);
-                $content_type = finfo_file($finfo, $this->getSourcePath());
-            }
-
-            // In case mime_content_type() returns 'text/plain' for CSS / JS files:
-            if ('text/plain' == $content_type) {
-                if ('css' == pathinfo($this->getSourcePath(), PATHINFO_EXTENSION)) {
-                    $content_type = 'text/css';
-                } elseif ('js' == pathinfo($this->getSourcePath(), PATHINFO_EXTENSION)) {
-                    $content_type = 'application/javascript';
-                }
-            }
-
-            if ('' != $content_type) {
+            if ($content_type) {
                 $this->setHeader('Content-Type', $content_type);
             }
         }

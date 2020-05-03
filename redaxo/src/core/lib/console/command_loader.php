@@ -17,9 +17,11 @@ class rex_console_command_loader implements CommandLoaderInterface
         $commands = [
             'cache:clear' => rex_command_cache_clear::class,
             'config:get' => rex_command_config_get::class,
+            'config:set' => rex_command_config_set::class,
             'db:connection-options' => rex_command_db_connection_options::class,
             'db:set-connection' => rex_command_db_set_connection::class,
             'setup:check' => rex_command_setup_check::class,
+            'setup:run' => rex_command_setup_run::class,
             'user:create' => rex_command_user_create::class,
         ];
 
@@ -29,6 +31,8 @@ class rex_console_command_loader implements CommandLoaderInterface
                 'db:dump-schema' => rex_command_db_dump_schema::class,
                 'package:activate' => rex_command_package_activate::class,
                 'package:deactivate' => rex_command_package_deactivate::class,
+                'package:delete' => rex_command_package_delete::class,
+                'package:list' => rex_command_package_list::class,
                 'package:install' => rex_command_package_install::class,
                 'package:uninstall' => rex_command_package_uninstall::class,
                 'system:report' => rex_command_system_report::class,

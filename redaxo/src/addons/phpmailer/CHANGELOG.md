@@ -1,6 +1,30 @@
 Changelog
 =========
 
+Version 2.8.0 – 10.03.2020
+--------------------------
+
+### Neu
+
+* Default-Verschlüsselung auf "keine" gesetzt (da "Auto" bei manchen Providern Probleme verursachte) (@skerbis)
+* Log-Subpage auch im Addon verfügbar (nicht nur unter System/Log) (@skerbis)
+* Erläuterungstexte verbessert (@skerbis)
+
+### Bugfixes
+
+* Debug-Ausgabe erscheint nun im Panel (@skerbis)
+
+
+Version 2.7.0 – 02.02.2020
+--------------------------
+
+### Neu
+
+* Vorhandene Log-Funktion (Ablegen der ganzen Mails) umbenannt in Archivierung (@skerbis)
+* Neue Log-Funktion mit Zeit, Absender, Empfänger, Betreff und Meldung in Logdatei; optional für alle Mails, oder nur bei Fehlern, oder ganz deaktiviert (@skerbis)
+* Hinweis in Readme, dass über SMTP keine leeren Bodys möglich sind (@skerbis)
+
+
 Version 2.6.0 – 20.08.2019
 --------------------------
 

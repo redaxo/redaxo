@@ -8,15 +8,15 @@
 class rex_install_packages
 {
     /**
-     * @var array
+     * @var array|null
      */
     private static $updatePackages;
     /**
-     * @var array
+     * @var array|null
      */
     private static $addPackages;
     /**
-     * @var array
+     * @var array|null
      */
     private static $myPackages;
 
@@ -45,11 +45,18 @@ class rex_install_packages
 
     public static function updatedPackage($package, $fileId)
     {
-        self::unsetOlderVersions($package, self::$updatePackages[$package]['files'][$fileId]['version']);
+        $updatePackages = self::getUpdatePackages();
+
+        if (!isset($updatePackages[$package]['files'][$fileId]['version'])) {
+            throw new RuntimeException(sprintf('List of updatable packages does not contain package "%s", or the package does not contain file "%s"', $package, $fileId));
+        }
+
+        self::unsetOlderVersions($package, $updatePackages[$package]['files'][$fileId]['version']);
     }
 
     private static function unsetOlderVersions($package, $version)
     {
+        assert(isset(self::$updatePackages[$package]['files']));
         foreach (self::$updatePackages[$package]['files'] as $fileId => $file) {
             if (empty($version) || empty($file['version']) || rex_string::versionCompare($file['version'], $version, '<=')) {
                 unset(self::$updatePackages[$package]['files'][$fileId]);

@@ -50,15 +50,12 @@ structure_copy = Kopia
 all_categories = Alla kategorier
 categories = Kategorier
 
-be_search_article_name = Artikelnamn
-be_search_article_id = Artikel Id
-be_search_start = sök
-be_search_jump_to_category = Gå till kategorien
-be_search_quick_navi = Snabbnavigation
-be_search_no_results = Ingen artikel motsvarar sökkriterierna
-be_search_search = Sök
-be_search_result = Sökresultat
-
+perm_options_addArticle[] = Skapa artikel
+perm_options_addCategory[] = Skapa kategori
+perm_options_editArticle[] = Redigera artikel
+perm_options_editCategory[] = Redigera kategori
+perm_options_deleteArticle[] = Radera artikel
+perm_options_deleteCategory[] = Radera kategori
 perm_options_article2category[] = Omvandla artikel till en kategori
 perm_options_article2startarticle[] = Omvandla artikel till en startartikel
 perm_options_copyArticle[] = Kopiera artikeln

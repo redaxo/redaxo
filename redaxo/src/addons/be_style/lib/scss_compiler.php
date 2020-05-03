@@ -1,6 +1,7 @@
 <?php
 
-use Leafo\ScssPhp\Compiler;
+use ScssPhp\ScssPhp\Compiler;
+use ScssPhp\ScssPhp\Formatter\Compressed;
 
 /**
  * @package redaxo\be-style
@@ -17,7 +18,7 @@ class rex_scss_compiler
         $this->root_dir = rex_path::addon('be_style');
         $this->scss_file = rex_path::addon('be_style', 'assets') . 'styles.scss';
         $this->css_file = rex_path::addon('be_style', 'assets') . 'styles.css';
-        $this->formatter = 'Leafo\ScssPhp\Formatter\Compressed';
+        $this->formatter = Compressed::class;
     }
 
     public function setRootDir($value)
@@ -43,12 +44,6 @@ class rex_scss_compiler
         $this->formatter = $value;
     }
 
-    /**
-     * @param string $scss_folder      source folder where you have your .scss files
-     * @param string $scss_global_file
-     * @param string $format_style     CSS output format
-     * @param bool   $strip_comments
-     */
     public function compile()
     {
         // go on even if user "stops" the script by closing the browser, closing the terminal etc.
@@ -67,11 +62,11 @@ class rex_scss_compiler
             $path_parts = pathinfo($path);
             $underscore_file = $path_parts['dirname'] . '/_' . $path_parts['basename'];
 
-            if (file_exists($underscore_file)) {
+            if (is_file($underscore_file)) {
                 $path = $underscore_file;
             }
 
-            if (!file_exists($path)) {
+            if (!is_file($path)) {
                 return null;
             }
 

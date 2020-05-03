@@ -12,7 +12,7 @@ $addon = rex_addon::get('mediapool');
 
 $mypage = 'mediapool';
 
-rex_complex_perm::register('media', 'rex_media_perm');
+rex_complex_perm::register('media', rex_media_perm::class);
 
 require_once __DIR__ . '/functions/function_rex_mediapool.php';
 

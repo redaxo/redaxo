@@ -157,8 +157,8 @@ class rex_socket
      */
     public function followRedirects($redirects)
     {
-        if ($redirects < 0) {
-            throw new InvalidArgumentException(sprintf('$redirects must be `null` or an int >= 0, given "%s".', $redirects));
+        if (false !== $redirects && $redirects < 0) {
+            throw new InvalidArgumentException(sprintf('$redirects must be `false` or an int >= 0, given "%s".', $redirects));
         }
 
         $this->followRedirects = $redirects;
@@ -260,7 +260,7 @@ class rex_socket
      */
     public function doRequest($method, $data = '')
     {
-        return rex_timer::measure(__METHOD__, function () use ($method, $data) {
+        return rex_timer::measure('Socket request: '.$this->host.'/'.$this->path, function () use ($method, $data) {
             if (!is_string($data) && !is_callable($data)) {
                 throw new InvalidArgumentException(sprintf('Expecting $data to be a string or a callable, but %s given!', gettype($data)));
             }
@@ -314,6 +314,8 @@ class rex_socket
     {
         $host = ($this->ssl ? 'ssl://' : '') . $this->host;
 
+        $errno = 0;
+        $errstr = '';
         $prevError = null;
         set_error_handler(static function ($errno, $errstr) use (&$prevError) {
             if (null === $prevError) {

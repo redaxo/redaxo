@@ -10,24 +10,42 @@ class rex_install_archive
     public static function extract($archive, $dir, $basename = '')
     {
         $dir = rtrim($dir, '/\\');
-        if (class_exists('ZipArchive')) {
-            $tempdir = $dir . '.temp';
-            $zip = new ZipArchive();
-            if ($zip->open($archive)) {
-                $success = $zip->extractTo($tempdir);
-                $zip->close();
-                if (is_dir($tempdir . '/' . $basename)) {
-                    rename($tempdir . '/' . $basename, $dir);
-                } else {
-                    $success = false;
-                }
-                rex_dir::delete($tempdir);
-                return $success;
-            }
+        rex_dir::delete($dir);
+
+        if (!class_exists('ZipArchive')) {
+            $archive = 'phar://' . $archive . '/' . $basename;
+            return rex_dir::copy($archive, $dir);
+        }
+
+        $zip = new ZipArchive();
+        if (!$zip->open($archive)) {
             return false;
         }
-        $archive = 'phar://' . $archive . '/' . $basename;
-        return rex_dir::copy($archive, $dir);
+
+        try {
+            if ('' === $basename) {
+                return $zip->extractTo($dir);
+            }
+
+            $tempdir = $dir . '.temp';
+            rex_dir::delete($tempdir);
+
+            try {
+                if (!$zip->extractTo($tempdir)) {
+                    return false;
+                }
+
+                if (is_dir($tempdir . '/' . $basename)) {
+                    return rename($tempdir . '/' . $basename, $dir);
+                }
+            } finally {
+                rex_dir::delete($tempdir);
+            }
+        } finally {
+            $zip->close();
+        }
+
+        return false;
     }
 
     public static function copyDirToArchive($dir, $archive, $basename = null, $exclude = null)

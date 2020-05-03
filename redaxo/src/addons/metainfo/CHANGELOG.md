@@ -1,6 +1,40 @@
 Changelog
 =========
 
+Version 2.7.0 – 10.03.2020
+--------------------------
+
+### Neu
+
+* Artikel-Metainfos werden immer in der Seitenleite rechts angezeigt/geändert, nicht mehr in einer eigenen Page (@dergel)
+
+### Bugfixes
+
+* Template-Filter: Templates mit Kategoriebeschränkung standen fälschlich nicht zur Auswahl (@gharlan)
+* Der Default-Wert für die Standard-Metafelder unterschied sich zwischen MySQL und MariaDB (@gharlan)
+
+
+Version 2.6.0 – 02.02.2020
+--------------------------
+
+### Neu
+
+* Artikel-Metainfos können auf Templates beschränkt werden (@felixheidecke)
+* Bei (Re)Installation/Update wird `rex_sql_table` verwendet (@tbaddade)
+
+### Bugfixes
+
+* Manche Queries wurden unnötigt doppelt ausgeführt (@tbaddade)
+
+
+Version 2.5.1 – 01.11.2019
+--------------------------
+
+### Bugfixes
+
+* Date/Time-Felder wurden im Medienpool nicht disabled entsprechend der zugehörigen Checkbox (@gharlan)
+
+
 Version 2.5.0 – 20.08.2019
 --------------------------
 

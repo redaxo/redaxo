@@ -49,16 +49,19 @@ class rex_article_content extends rex_article_content_base
         return false;
     }
 
-    protected function _getValue($value)
+    public function getValue($value)
     {
         // bc
         if ($this->viasql) {
-            return parent::_getValue($value);
+            return parent::getValue($value);
         }
 
         $value = $this->correctValue($value);
 
-        return rex_article::get($this->article_id, $this->clang)->getValue($value);
+        if (rex_article::hasValue($value)) {
+            return rex_article::get($this->article_id, $this->clang)->getValue($value);
+        }
+        return '[' . $value . ' not found]';
     }
 
     public function hasValue($value)
@@ -70,7 +73,7 @@ class rex_article_content extends rex_article_content_base
 
         $value = $this->correctValue($value);
 
-        return rex_article::get($this->article_id, $this->clang)->hasValue($value);
+        return rex_article::hasValue($value);
     }
 
     public function getArticle($curctype = -1)
@@ -89,18 +92,11 @@ class rex_article_content extends rex_article_content_base
 
             $article_content_file = rex_path::addonCache('structure', $this->article_id . '.' . $this->clang . '.content');
 
-            $generated = true;
-            if (!file_exists($article_content_file)) {
-                $generated = rex_content_service::generateArticleContent($this->article_id, $this->clang);
-                if (true !== $generated) {
-                    // fehlermeldung ausgeben
-                    echo $generated;
-                }
+            if (!is_file($article_content_file)) {
+                rex_content_service::generateArticleContent($this->article_id, $this->clang);
             }
 
-            if (true === $generated) {
-                require $article_content_file;
-            }
+            require $article_content_file;
 
             // ----- end: article caching
             $CONTENT = ob_get_clean();

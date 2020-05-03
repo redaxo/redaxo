@@ -27,6 +27,13 @@ class rex_fragment
     private $decorator;
 
     /**
+     * array which contains all folders in which fragments will be searched for at runtime.
+     *
+     * @var array
+     */
+    private static $fragmentDirs = [];
+
+    /**
      * Creates a fragment with the given variables.
      *
      * @param array $vars A array of key-value pairs to pass as local parameters
@@ -100,9 +107,11 @@ class rex_fragment
         foreach (self::$fragmentDirs as $fragDir) {
             $fragment = $fragDir . $filename;
             if (is_readable($fragment)) {
-                ob_start();
-                require $fragment;
-                $content = ob_get_clean();
+                $content = rex_timer::measure('Fragment: '.$filename, function () use ($fragment) {
+                    ob_start();
+                    require $fragment;
+                    return ob_get_clean();
+                });
 
                 if ($this->decorator) {
                     $this->decorator->setVar('rexDecoratedContent', $content, false);
@@ -220,15 +229,6 @@ class rex_fragment
     {
         return isset($this->vars[$name]) || array_key_exists($name, $this->vars);
     }
-
-    // /-------------------------- in-fragment helpers
-
-    /**
-     * array which contains all folders in which fragments will be searched for at runtime.
-     *
-     * @var array
-     */
-    private static $fragmentDirs = [];
 
     /**
      * Add a path to the fragment search path.

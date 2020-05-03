@@ -1,5 +1,5 @@
 package: structure
-version: '2.8.0'
+version: '2.11.0-dev'
 author: Markus Staab
 supportpage: www.redaxo.org/de/forum/
 
@@ -24,4 +24,4 @@ pages:
 system_plugins: [content]
 
 requires:
-    redaxo: ^5.5.0
+    redaxo: ^5.11.0-dev

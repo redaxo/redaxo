@@ -39,15 +39,8 @@ class rex_backup
         }
         $folder = $filtered;
 
-        usort($folder, static function ($file_a, $file_b) use ($dir) {
-            $time_a = filemtime($dir . '/' . $file_a);
-            $time_b = filemtime($dir . '/' . $file_b);
-
-            if ($time_a == $time_b) {
-                return 0;
-            }
-
-            return ($time_a > $time_b) ? -1 : 1;
+        usort($folder, static function ($file_a, $file_b) {
+            return $file_a <=> $file_b;
         });
 
         return $folder;
@@ -108,9 +101,9 @@ class rex_backup
             $charset = $matches[1];
             $conts = trim(str_replace('## charset ' . $charset, '', $conts));
 
-            $rexCharset = 'utf-8';
-            if ($rexCharset != $charset) {
-                $return['message'] = rex_i18n::msg('backup_no_valid_charset') . '. ' . $rexCharset . ' != ' . $charset;
+            if ('utf8mb4' === $charset && !rex::getConfig('utf8mb4') && !rex_setup_importer::supportsUtf8mb4()) {
+                $sql = rex_sql::factory();
+                $return['message'] = rex_i18n::msg('backup_utf8mb4_not_supported', $sql->getDbType().' '.$sql->getDbVersion());
                 return $return;
             }
         }
@@ -153,7 +146,7 @@ class rex_backup
             return $return;
         }
 
-        $msg .= rex_i18n::msg('backup_database_imported') . '. ' . rex_i18n::msg('backup_entry_count', count($lines)) . '<br />';
+        $msg .= rex_i18n::msg('backup_database_imported') . '. ' . rex_i18n::msg('backup_entry_count', (string) count($lines)) . '<br />';
         unset($lines);
 
         // prüfen, ob eine user tabelle angelegt wurde
@@ -332,20 +325,13 @@ class rex_backup
         // Versionsstempel hinzufügen
         fwrite($fp, '## Redaxo Database Dump Version ' . rex::getVersion('%s') . $nl);
         fwrite($fp, '## Prefix ' . rex::getTablePrefix() . $nl);
-        fwrite($fp, '## charset utf-8' . $nl . $nl);
+        fwrite($fp, '## charset '.(rex::getConfig('utf8mb4') ? 'utf8mb4' : 'utf8') . $nl . $nl);
         //  fwrite($fp, '/*!40110 START TRANSACTION; */'.$nl);
 
         fwrite($fp, 'SET FOREIGN_KEY_CHECKS = 0;' . $nl . $nl);
 
         if (null === $tables) {
-            $tables = [];
-            foreach (rex_sql::factory()->getTables(rex::getTablePrefix()) as $table) {
-                if ($table != rex::getTable('user') // User Tabelle nicht exportieren
-                    && substr($table, 0, strlen(rex::getTablePrefix() . rex::getTempPrefix())) != rex::getTablePrefix() . rex::getTempPrefix()
-                ) { // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
-                    $tables[] = $table;
-                }
-            }
+            $tables = self::getTables();
         }
         foreach ($tables as $table) {
             //---- export metadata
@@ -480,9 +466,25 @@ class rex_backup
         closedir($handle);
     }
 
+    /**
+     * @return string[]
+     *
+     * @psalm-return list<string>
+     */
+    public static function getTables()
+    {
+        $tables = [];
+        foreach (rex_sql::factory()->getTables(rex::getTablePrefix()) as $table) {
+            if (substr($table, 0, strlen(rex::getTablePrefix() . rex::getTempPrefix())) != rex::getTablePrefix() . rex::getTempPrefix()) { // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
+                $tables[] = $table;
+            }
+        }
+        return $tables;
+    }
+
     private static function importScript($filename, $importType, $eventType)
     {
-        if (file_exists($filename)) {
+        if (is_file($filename)) {
             require $filename;
         }
     }
@@ -510,6 +512,12 @@ class rex_backup
 
                 foreach ($fields as $idx => $type) {
                     $column = $array[$idx];
+
+                    if (null === $column) {
+                        $record[] = 'NULL';
+
+                        continue;
+                    }
 
                     switch ($type) {
                         // prevent calling sql->escape() on values with a known format

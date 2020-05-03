@@ -28,14 +28,14 @@ ob_implicit_flush(0);
 
 if ('cli' !== PHP_SAPI) {
     // deactivate session cache limiter
-    session_cache_limiter(false);
+    @session_cache_limiter('');
 }
 
 // set arg_separator to get valid html output if session.use_trans_sid is activated
 ini_set('arg_separator.output', '&amp;');
-// make Whoops link to the php.net manual on exception pages, when not configured differently
-if (ini_get('html_errors') && !ini_get('docref_root')) {
-    ini_set('docref_root', "https://php.net/manual/");
+// disable html_errors to avoid html in exceptions and log files
+if (ini_get('html_errors')) {
+    ini_set('html_errors', '0');
 }
 
 require_once __DIR__ . '/lib/util/path.php';
@@ -82,7 +82,7 @@ require_once rex_path::core('functions/function_rex_globals.php');
 require_once rex_path::core('functions/function_rex_other.php');
 
 // ----------------- VERSION
-rex::setProperty('version', '5.8.0');
+rex::setProperty('version', '5.11.0-dev');
 
 $cacheFile = rex_path::coreCache('config.yml.cache');
 $configFile = rex_path::coreData('config.yml');
@@ -128,7 +128,7 @@ if ('cli' !== PHP_SAPI && !rex::isSetup()) {
     }
 
     if (true === rex::getProperty('use_hsts') && rex_request::isHttps()) {
-        rex_response::setHeader('Strict-Transport-Security', 'max-age=31536000');
+        rex_response::setHeader('Strict-Transport-Security', 'max-age='.rex::getProperty('hsts_max_age', 31536000)); // default 1 year
     }
 }
 

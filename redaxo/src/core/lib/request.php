@@ -236,6 +236,8 @@ class rex_request
      * Returns true if the request is a PJAX-Request.
      *
      * @see http://pjax.heroku.com/
+     *
+     * @return bool
      */
     public static function isPJAXRequest()
     {
@@ -261,7 +263,7 @@ class rex_request
     /**
      * Returns whether the current request is served via https/ssl.
      *
-     * @return bool true when https/ssl, otherwise false.
+     * @return bool true when https/ssl, otherwise false
      */
     public static function isHttps()
     {

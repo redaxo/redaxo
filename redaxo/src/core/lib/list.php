@@ -52,43 +52,65 @@ class rex_list implements rex_url_provider_interface
 {
     use rex_factory_trait;
 
+    /** @var int */
     private $db;
+    /** @var string */
     private $query;
+    /** @var rex_sql */
     private $sql;
+    /** @var bool */
     private $debug;
+    /** @var string */
     private $noRowsMessage;
 
     // --------- List Attributes
+    /** @var string */
     private $name;
+    /** @psalm-var array<string, string|int> */
     private $params;
+    /** @var int */
     private $rows;
 
     // --------- Form Attributes
+    /** @psalm-var array<string, string|int> */
     private $formAttributes;
 
     // --------- Column Attributes
+    /** @psalm-var array<string, string>  */
     private $customColumns;
+    /** @psalm-var list<string> */
     private $columnNames;
+    /** @psalm-var array<string, string>  */
     private $columnLabels;
+    /** @psalm-var array<string, array{string, mixed, array}>  */
     private $columnFormates;
+    /** @psalm-var array<string, array<string|int, mixed>>  */
     private $columnOptions;
-    private $columnAttributes;
+    /** @psalm-var array<string, array{string, string}>  */
     private $columnLayouts;
+    /** @psalm-var array<string, array>  */
     private $columnParams;
+    /** @psalm-var list<string> */
     private $columnDisabled;
 
     // --------- Layout, Default
+    /** @psalm-var array{string, string}  */
     private $defaultColumnLayout;
 
     // --------- Table Attributes
+    /** @var string */
     private $caption;
+    /** @psalm-var array<string, string|int> */
     private $tableAttributes;
+    /** @var array<int, array> */
     private $tableColumnGroups;
 
     // --------- Link Attributes
+    /** @psalm-var array<string, array<string, string|int>>  */
     private $linkAttributes;
 
     // --------- Pagination Attributes
+    /** @var rex_pager */
     private $pager;
 
     /**
@@ -98,6 +120,7 @@ class rex_list implements rex_url_provider_interface
      * @param int         $rowsPerPage Anzahl der Elemente pro Zeile
      * @param string|null $listName    Name der Liste
      * @param bool        $debug
+     * @param int         $db
      */
     protected function __construct($query, $rowsPerPage = 30, $listName = null, $debug = false, $db = 1)
     {
@@ -129,7 +152,6 @@ class rex_list implements rex_url_provider_interface
         $this->columnFormates = [];
         $this->columnParams = [];
         $this->columnOptions = [];
-        $this->columnAttributes = [];
         $this->columnLayouts = [];
         $this->columnDisabled = [];
 
@@ -253,11 +275,18 @@ class rex_list implements rex_url_provider_interface
         return $this->noRowsMessage;
     }
 
+    /**
+     * @param string     $name
+     * @param string|int $value
+     */
     public function addParam($name, $value)
     {
         $this->params[$name] = $value;
     }
 
+    /**
+     * @return array<string, string|int>
+     */
     public function getParams()
     {
         return $this->params;
@@ -278,11 +307,18 @@ class rex_list implements rex_url_provider_interface
         return $this->tableAttributes;
     }
 
+    /**
+     * @param string     $attrName
+     * @param string|int $attrValue
+     */
     public function addFormAttribute($attrName, $attrValue)
     {
         $this->formAttributes[$attrName] = $attrValue;
     }
 
+    /**
+     * @return array<string, string|int>
+     */
     public function getFormAttributes()
     {
         return $this->formAttributes;
@@ -469,9 +505,9 @@ class rex_list implements rex_url_provider_interface
      * Setzt eine Option für eine Spalte
      * (z.b. Sortable,..).
      *
-     * @param string $columnName Name der Spalte
-     * @param string $option     Name/Id der Option
-     * @param mixed  $value      Wert der Option
+     * @param string     $columnName Name der Spalte
+     * @param string|int $option     Name/Id der Option
+     * @param mixed      $value      Wert der Option
      */
     public function setColumnOption($columnName, $option, $value)
     {
@@ -481,9 +517,9 @@ class rex_list implements rex_url_provider_interface
     /**
      * Gibt den Wert einer Option für eine Spalte zurück.
      *
-     * @param string $columnName Name der Spalte
-     * @param string $option     Name/Id der Option
-     * @param mixed  $default    Defaultrückgabewert, falls die Option nicht gesetzt ist
+     * @param string     $columnName Name der Spalte
+     * @param string|int $option     Name/Id der Option
+     * @param mixed      $default    Defaultrückgabewert, falls die Option nicht gesetzt ist
      *
      * @return mixed|null
      */
@@ -498,8 +534,8 @@ class rex_list implements rex_url_provider_interface
     /**
      * Gibt zurück, ob für eine Spalte eine Option gesetzt wurde.
      *
-     * @param string $columnName Name der Spalte
-     * @param string $option     Name/Id der Option
+     * @param string     $columnName Name der Spalte
+     * @param string|int $option     Name/Id der Option
      *
      * @return bool
      */
@@ -768,9 +804,9 @@ class rex_list implements rex_url_provider_interface
     /**
      * Gibt zurück, nach welcher Spalte sortiert werden soll.
      *
-     * @param mixed $default
+     * @param string|null $default
      *
-     * @return string
+     * @return string|null
      */
     public function getSortColumn($default = null)
     {
@@ -783,9 +819,9 @@ class rex_list implements rex_url_provider_interface
     /**
      * Gibt zurück, in welcher Art und Weise sortiert werden soll (ASC/DESC).
      *
-     * @param mixed $default
+     * @param string|null $default
      *
-     * @return string
+     * @return string|null
      */
     public function getSortType($default = null)
     {
@@ -843,6 +879,9 @@ class rex_list implements rex_url_provider_interface
 
     // ---------------------- Generate Output
 
+    /**
+     * @return string
+     */
     public function replaceVariable($string, $varname)
     {
         return str_replace('###' . $varname . '###', rex_escape($this->getValue($varname)), $string);
@@ -876,6 +915,9 @@ class rex_list implements rex_url_provider_interface
         return $value;
     }
 
+    /**
+     * @return bool
+     */
     public function isCustomFormat($format)
     {
         return is_array($format) && isset($format[0]) && 'custom' == $format[0];
@@ -884,10 +926,10 @@ class rex_list implements rex_url_provider_interface
     /**
      * Formatiert einen übergebenen String anhand der rexFormatter Klasse.
      *
-     * @param string $value  Zu formatierender String
-     * @param array  $format mit den Formatierungsinformationen
-     * @param bool   $escape Flag, Ob escapen von $value erlaubt ist
-     * @param string $field
+     * @param string     $value  Zu formatierender String
+     * @param null|array $format mit den Formatierungsinformationen
+     * @param bool       $escape Flag, Ob escapen von $value erlaubt ist
+     * @param string     $field
      *
      * @return string
      */
@@ -904,17 +946,16 @@ class rex_list implements rex_url_provider_interface
         }
 
         // Nur escapen, wenn formatter aufgerufen wird, der kein html zurückgeben können soll
-        if ($escape &&
-            !$this->isCustomFormat($format) &&
-            'email' != $format[0] &&
-            'url' != $format[0]
-        ) {
+        if ($escape && (!isset($format[0]) || !in_array($format[0], ['custom', 'email', 'url'], true))) {
             $value = rex_escape($value);
         }
 
         return $value;
     }
 
+    /**
+     * @return string
+     */
     protected function _getAttributeString($array)
     {
         $s = '';
@@ -926,6 +967,9 @@ class rex_list implements rex_url_provider_interface
         return $s;
     }
 
+    /**
+     * @return string
+     */
     public function getColumnLink($columnName, $columnValue, $params = [])
     {
         return '<a href="' . $this->getParsedUrl(array_merge($this->getColumnParams($columnName), $params)) . '"' . $this->_getAttributeString($this->getLinkAttributes($columnName, [])) . '>' . $columnValue . '</a>';

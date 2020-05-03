@@ -2,7 +2,7 @@
 /**
  * @package redaxo5
  */
-$info = '';
+
 $error = [];
 $success = '';
 
@@ -20,8 +20,6 @@ if ($func && !$csrfToken->isValid()) {
     $config['setup'] = true;
 
     if (false !== rex_file::putConfig($configFile, $config)) {
-        $info = rex_i18n::rawMsg('setup_error1', '<a href="' . rex_url::backendController() . '">', '</a>');
-
         header('Location:' . rex_url::backendController());
         exit;
     }
@@ -118,10 +116,6 @@ if (!empty($error)) {
     echo rex_view::error(implode('<br />', $error));
 }
 
-if ('' != $info) {
-    echo rex_view::info($info);
-}
-
 if ('' != $success) {
     echo rex_view::success($success);
 }
@@ -130,10 +124,14 @@ $dbconfig = rex::getProperty('db');
 
 $rexVersion = rex::getVersion();
 if (false !== strpos($rexVersion, '-dev')) {
-    $hash = rex::getVersionHash(rex_path::base());
+    $hash = rex_version::gitHash(rex_path::base(), 'redaxo/redaxo');
     if ($hash) {
         $rexVersion .= '#'. $hash;
     }
+}
+
+if (rex_version::isUnstable($rexVersion)) {
+    $rexVersion = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. rex_escape($rexVersion);
 }
 
 $mainContent = [];
@@ -145,7 +143,7 @@ if (!rex::isDebugMode()) {
 }
 
 $content = '
-    <h3>' . rex_i18n::msg('delete_cache') . '</h3>    
+    <h3>' . rex_i18n::msg('delete_cache') . '</h3>
     <p>' . rex_i18n::msg('delete_cache_description') . '</p>
     <p><a class="btn btn-delete" href="' . rex_url::currentBackendPage(['func' => 'generate'] + $csrfToken->getUrlParams()) . '">' . rex_i18n::msg('delete_cache') . '</a></p>
 
@@ -178,11 +176,11 @@ $content = '
     <table class="table">
         <tr>
             <th class="rex-table-width-3">REDAXO</th>
-            <td>' . $rexVersion . '</td>                            
-        </tr>   
+            <td>' . $rexVersion . '</td>
+        </tr>
         <tr>
             <th>PHP</th>
-            <td>' . PHP_VERSION . ' <a href="' . rex_url::backendPage('system/phpinfo') . '" title="phpinfo" onclick="newWindow(\'phpinfo\', this.href, 1000,800,\',status=yes,resizable=yes\');return false;"><i class="rex-icon rex-icon-phpinfo"></i></a></td>                            
+            <td>' . PHP_VERSION . ' <a href="' . rex_url::backendPage('system/phpinfo') . '" title="phpinfo" onclick="newWindow(\'phpinfo\', this.href, 1000,800,\',status=yes,resizable=yes\');return false;"><i class="rex-icon rex-icon-phpinfo"></i></a></td>
         </tr>
     </table>';
 
@@ -191,19 +189,21 @@ $fragment->setVar('title', rex_i18n::msg('version'));
 $fragment->setVar('content', $content, false);
 $sideContent[] = $fragment->parse('core/page/section.php');
 
+$sql = rex_sql::factory();
+
 $content = '
     <table class="table">
         <tr>
-            <th class="rex-table-width-3">MySQL</th>
-            <td>' .  rex_sql::getServerVersion() . '</td>                            
+            <th class="rex-table-width-3">' . rex_i18n::msg('version') . '</th>
+            <td>' .  $sql->getDbType().' '.$sql->getDbVersion() . '</td>
         </tr>
         <tr>
             <th>' . rex_i18n::msg('name') . '</th>
-            <td><span class="rex-word-break">' . $dbconfig[1]['name'] . '</span></td>                            
-        </tr>   
+            <td><span class="rex-word-break">' . $dbconfig[1]['name'] . '</span></td>
+        </tr>
         <tr>
             <th>' . rex_i18n::msg('host') . '</th>
-            <td>' . $dbconfig[1]['host'] . '</td>                            
+            <td>' . $dbconfig[1]['host'] . '</td>
         </tr>
     </table>';
 

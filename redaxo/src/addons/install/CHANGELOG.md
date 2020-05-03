@@ -1,6 +1,41 @@
 Changelog
 =========
 
+Version 2.7.0 – 10.03.2020
+--------------------------
+
+### Security
+
+* Markdown-Ausgaben und teils andere Felder waren nicht gegen XSS geschützt (@gharlan)
+
+### Neu
+
+* Console-Commands eingeführt:
+    - `install:list`: Abruf der verfügbaren Addons (optional nur Updates) (@bloep)
+    - `install:download`: Addon herunterladen (@bloep)
+    - `install:update`: Addon aktualisieren (@bloep)
+* Vor dem Laden/Updaten wird eine Warnung ausgegeben, wenn es sich um eine Entwicklungsversion ("beta" etc.) handelt (@staabm)
+
+### Bugfixes
+
+* Probleme beim Core-Update unter Windows behoben (@gharlan)
+* Bessere Fehlerbehandlung (@gharlan)
+
+
+Version 2.6.0 – 02.02.2020
+--------------------------
+
+### Neu
+
+* Update-Fehlermeldungen durch neue Formatierung/Formulierung besser verständlich gemacht (@gharlan)
+* Nach Herunterladen eines Addons und Klick auf "Zur Addonverwaltung" ist das Addon dort markiert (@gharlan)
+* Nach Hochladen einer Addon-Version landet man in den Addon-Details, statt in der Übersicht (@gharlan)
+
+### Bugfixes
+
+* Beim Öffnen der Details eines Addons wird korrekt nach oben gesprungen (@gharlan)
+
+
 Version 2.5.0 – 12.03.2019
 --------------------------
 

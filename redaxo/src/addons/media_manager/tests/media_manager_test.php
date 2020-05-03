@@ -21,29 +21,38 @@ class rex_media_manager_test extends TestCase
         $property->setAccessible(true);
         $property->setValue($manager, 'test');
 
-        $this->assertSame($cachePath.'test/foo.jpg', $manager->getCacheFilename());
+        static::assertSame($cachePath.'test/foo.jpg', $manager->getCacheFilename());
     }
 
     public function testGetMediaFile()
     {
         $_GET['rex_media_file'] = '../foo/bar/baz.jpg';
-        $this->assertSame('baz.jpg', rex_media_manager::getMediaFile());
+        static::assertSame('baz.jpg', rex_media_manager::getMediaFile());
 
         $_GET['rex_media_file'] = '..\\foo\\bar\\baz.jpg';
-        $this->assertSame('baz.jpg', rex_media_manager::getMediaFile());
+        static::assertSame('baz.jpg', rex_media_manager::getMediaFile());
     }
 
     public function testCreate()
     {
-        $manager = rex_media_manager::create('rex_mediapool_preview', 'foo.jpg');
+        $filename = '_media_manager_test.png';
+        $path = rex_path::media($filename);
 
-        $this->assertFileExists($manager->getCacheFilename());
-        $this->assertFileExists($manager->getHeaderCacheFilename());
+        rex_file::put($path, base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII='));
 
-        $manager = rex_media_manager::create('non_existing_type', 'foo.jpg');
+        try {
+            $manager = rex_media_manager::create('rex_mediapool_preview', $filename);
 
-        $this->assertFileNotExists($manager->getCacheFilename());
-        $this->assertFileNotExists($manager->getHeaderCacheFilename());
+            static::assertFileExists($manager->getCacheFilename());
+            static::assertFileExists($manager->getHeaderCacheFilename());
+
+            $manager = rex_media_manager::create('non_existing_type', $filename);
+
+            static::assertFileNotExists($manager->getCacheFilename());
+            static::assertFileNotExists($manager->getHeaderCacheFilename());
+        } finally {
+            @unlink($path);
+        }
     }
 
     /**
@@ -54,9 +63,9 @@ class rex_media_manager_test extends TestCase
         $url = rex_media_manager::getUrl($type, $file, $timestamp);
 
         if (false === $expectedBuster) {
-            $this->assertNotContains('buster=', $url);
+            static::assertNotContains('buster=', $url);
         } else {
-            $this->assertContains('buster='.$expectedBuster, $url);
+            static::assertContains('buster='.$expectedBuster, $url);
         }
     }
 

@@ -20,84 +20,54 @@ before_install:
 
 jobs:
     include:
-        -   php: 7.1
-            env: TYPE=linting
-            services:
-                - mysql
-            install:
-                - mysql -e 'create database redaxo_5_0;'
-                - php redaxo/src/addons/tests/bin/setup.php
-            script:
-                - composer require --dev friendsofredaxo/linter
-                - vendor/bin/rexlint
-
-                - php redaxo/bin/console be_style:compile
-                - git diff HEAD --exit-code # check if compiling the scss lead to uncommitted changes
-        -   php: 7.3
-            env: TYPE=phpstan
-            services:
-                - mysql
-            script:
-                - mysql -e 'create database redaxo_5_0;'
-                - php redaxo/src/addons/tests/bin/setup.php
-                - php redaxo/bin/console package:install phpmailer
-                - php redaxo/bin/console package:install cronjob
-                - php redaxo/bin/console package:install cronjob/article_status
-                - php redaxo/bin/console package:install cronjob/optimize_tables
-                - php redaxo/bin/console package:install debug
-                - php redaxo/bin/console package:install structure/history
-                - php redaxo/bin/console package:install structure/version
-                - composer require --dev phpstan/phpstan-shim
-                - vendor/bin/phpstan analyse
-        -   php: 7.3
-            env: TYPE=psalm
-            services:
-                - mysql
-            script:
-                - mysql -e 'create database redaxo_5_0;'
-                - php redaxo/src/addons/tests/bin/setup.php
-                - php redaxo/bin/console package:install phpmailer
-                - php redaxo/bin/console package:install cronjob
-                - php redaxo/bin/console package:install cronjob/article_status
-                - php redaxo/bin/console package:install cronjob/optimize_tables
-                - php redaxo/bin/console package:install debug
-                - php redaxo/bin/console package:install structure/history
-                - php redaxo/bin/console package:install structure/version
-                - composer require --dev vimeo/psalm:^3.4.12
-                - vendor/bin/psalm --show-info=false
-
         -   &TEST
             install:
-                - mysql -e 'create database redaxo_5_0;'
+                - mysql -e 'create database redaxo5;'
                 - php redaxo/src/addons/tests/bin/setup.php
             script: php redaxo/src/addons/tests/bin/run_tests.php
             php: 7.1
+            dist: trusty
             env:
-                - TYPE=phpunit
                 - DB=mariadb
             addons:
                 mariadb: 10.1
         -   <<: *TEST
             php: 7.3
             addons:
-                mariadb: 10.2
+                mariadb: 10.4
+        -   <<: *TEST
+            dist: xenial
+            php: 7.4
+            env:
+                - DB=mysql8
+            addons: {}
+            before_install:
+                - phpenv config-rm xdebug.ini || echo "xdebug not available"
+                # inspired by https://github.com/BenMorel/dbal/blob/f7b417785452d241d18676f76f700fd27735c577/tests/travis/install-mysql-8.0.sh
+                - echo "Installing MySQL 8.0..."
+                - echo mysql-apt-config mysql-apt-config/select-server select mysql-8.0 | sudo debconf-set-selections
+                - wget https://dev.mysql.com/get/mysql-apt-config_0.8.10-1_all.deb
+                - sudo dpkg --install mysql-apt-config_0.8.10-1_all.deb
+                - sudo apt-get update -q
+                - sudo apt-get install -q -y --force-yes -o Dpkg::Options::=--force-confnew mysql-server
+                - echo -e "[mysqld]\ndefault_authentication_plugin=mysql_native_password" | sudo tee --append /etc/mysql/my.cnf
+                - sudo /etc/init.d/mysql start
+                - sudo mysql_upgrade
+                - mysql --version
         -   &TEST_MYSQL
             <<: *TEST
             php: 7.1
+            dist: bionic
             env:
-                - TYPE=phpunit
-                - DB=mysql
+                - DB=mysql5
             services:
                 - mysql
-            addons: ~
+            addons: {}
         -   <<: *TEST_MYSQL
             php: 7.2
         -   <<: *TEST_MYSQL
             php: 7.3
         -   <<: *TEST_MYSQL
-            php: 7.4snapshot
-            dist: xenial
-matrix:
-     allow_failures:
-       - php: 7.3
-         env: TYPE=phpstan
+            php: 7.4
+        -   <<: *TEST_MYSQL
+            php: nightly

@@ -15,7 +15,7 @@ class rex_logger extends AbstractLogger
     use rex_factory_trait;
 
     /**
-     * @var rex_log_file
+     * @var rex_log_file|null
      */
     private static $file;
 
@@ -26,7 +26,7 @@ class rex_logger extends AbstractLogger
      */
     public static function getPath()
     {
-        return rex_path::coreData('system.log');
+        return rex_path::log('system.log');
     }
 
     /**
@@ -78,7 +78,6 @@ class rex_logger extends AbstractLogger
      *
      * @param mixed  $level
      * @param string $message
-     * @param array  $context
      * @param string $file
      * @param int    $line
      *

@@ -90,7 +90,6 @@ class rex_install_webservice
      * POSTs the given data to the redaxo.org webservice.
      *
      * @param string      $path
-     * @param array       $data
      * @param string|null $archive Path to archive
      *
      * @throws rex_functional_exception

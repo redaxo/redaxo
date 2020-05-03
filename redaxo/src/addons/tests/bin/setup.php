@@ -3,7 +3,7 @@
 
 if (PHP_SAPI !== 'cli') {
     echo 'error: this script may only be run from CLI', PHP_EOL;
-    return 1;
+    exit(1);
 }
 
 // bring the file into context, no matter from which dir it was executed
@@ -14,7 +14,7 @@ do {
 
 if (!chdir(implode(DIRECTORY_SEPARATOR, $path) . '/redaxo')) {
     echo 'error: start this script within a redaxo projects folder', PHP_EOL;
-    return 2;
+    exit(2);
 }
 
 // ---- bootstrap REX
@@ -24,8 +24,6 @@ $REX['REDAXO'] = true;
 $REX['HTDOCS_PATH'] = '../';
 $REX['BACKEND_FOLDER'] = 'redaxo';
 
-file_put_contents('data/config.yml', "error_email: info@redaxo.org\n");
-
 // bootstrap core
 require 'src/core/boot.php';
 
@@ -34,6 +32,8 @@ include_once rex_path::core('packages.php');
 
 // run setup, if instance not already prepared
 if (rex::isSetup()) {
+    rex_setup::init();
+
     $err = '';
 
     // read initial config
@@ -44,7 +44,9 @@ if (rex::isSetup()) {
     );
 
     // init db
+    $utf8mb4 = rex_setup_importer::supportsUtf8mb4();
     $err .= rex_setup::checkDb($config, false);
+    rex_sql_table::setUtf8mb4($utf8mb4);
     $err .= rex_setup_importer::prepareEmptyDb();
     $err .= rex_setup_importer::verifyDbSchema();
 
@@ -52,6 +54,8 @@ if (rex::isSetup()) {
         echo $err;
         exit(10);
     }
+
+    rex::setConfig('utf8mb4', $utf8mb4);
 
     // install tests addon
     $manager = rex_addon_manager::factory(rex_addon::get('tests'));
@@ -65,6 +69,7 @@ if (rex::isSetup()) {
 
     $config['setup'] = false;
     if (rex_file::putConfig($configFile, $config)) {
+        rex_delete_cache();
         echo 'instance setup successfull', PHP_EOL;
         exit(0);
     }

@@ -50,15 +50,12 @@ structure_copy = Copia
 all_categories = Todas las categorías
 categories = Categorías
 
-be_search_article_name = Nombre del artículo
-be_search_article_id = ID del artículo
-be_search_start = Buscar
-be_search_jump_to_category = Ir a la categoría
-be_search_quick_navi = Navegación rápida
-be_search_no_results = No hay artículo que coincida con tus criterios de búsqueda
-be_search_search = Buscar
-be_search_result = Resultado de búsqueda
-
+perm_options_addArticle[] = Añadir articulo
+perm_options_addCategory[] = Añadir categoría
+perm_options_editArticle[] = Editar artículo
+perm_options_editCategory[] = Editar categoria
+perm_options_deleteArticle[] = Eliminar articulo
+perm_options_deleteCategory[] = Eliminar categoria
 perm_options_article2category[] = Convertir elementos en categorías
 perm_options_article2startarticle[] = Convertir elementos de inicio en el artículo
 perm_options_copyArticle[] = Copia del artículo

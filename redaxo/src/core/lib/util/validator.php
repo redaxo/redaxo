@@ -11,12 +11,11 @@ class rex_validator
 {
     use rex_factory_trait;
 
+    /** @psalm-var list<array{string, string|null, mixed}> */
     private $types = [];
+    /** @var string|null */
     private $message;
 
-    /**
-     * Constructor.
-     */
     protected function __construct()
     {
         // noop
@@ -84,7 +83,7 @@ class rex_validator
     /**
      * Returns the message.
      *
-     * @return string[]
+     * @return string|null
      */
     public function getMessage()
     {
@@ -235,7 +234,6 @@ class rex_validator
      * Checks whether the value is one of the given valid values.
      *
      * @param string $value
-     * @param array  $validValues
      *
      * @return bool
      */
@@ -247,8 +245,7 @@ class rex_validator
     /**
      * Checks the value by using the given callable.
      *
-     * @param string   $value
-     * @param callable $callback
+     * @param string $value
      *
      * @return bool
      */

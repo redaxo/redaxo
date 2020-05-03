@@ -1,0 +1,26 @@
+{
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "friendsofredaxo/linter": "^1.2",
+        "phpstan/phpstan": "^0.12.11",
+        "psalm/plugin-symfony": "^1.2.1",
+        "vimeo/psalm": "^3.10.1"
+    },
+    "autoload-dev": {
+        "classmap": [
+            "redaxo/src/addons/media_manager/tests/",
+            "redaxo/src/addons/mediapool/tests/",
+            "redaxo/src/addons/structure/tests/",
+            "redaxo/src/addons/structure/plugins/content/tests/",
+            "redaxo/src/core/tests/"
+        ]
+    },
+
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true,
+        "platform": {
+            "php": "7.1.3"
+        }
+    }
+}

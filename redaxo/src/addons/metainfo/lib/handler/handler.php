@@ -295,19 +295,20 @@ abstract class rex_metainfo_handler
                         $dbvalues[0] = time();
                     }
 
+                    $timestamp = (int) $dbvalues[0];
                     $inputValue = [];
-                    $inputValue['year'] = date('Y', $dbvalues[0]);
-                    $inputValue['month'] = date('m', $dbvalues[0]);
-                    $inputValue['day'] = date('d', $dbvalues[0]);
-                    $inputValue['hour'] = date('H', $dbvalues[0]);
-                    $inputValue['minute'] = date('i', $dbvalues[0]);
+                    $inputValue['year'] = date('Y', $timestamp);
+                    $inputValue['month'] = date('m', $timestamp);
+                    $inputValue['day'] = date('d', $timestamp);
+                    $inputValue['hour'] = date('H', $timestamp);
+                    $inputValue['minute'] = date('i', $timestamp);
 
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setAttribute('id', $id);
                     $rexInput->setAttribute('name', $name);
                     $rexInput->setValue($inputValue);
 
-                    if ('time' !== $typeLabel) {
+                    if (!$rexInput instanceof rex_input_time) {
                         $paramArray = rex_string::split($params);
 
                         if (isset($paramArray['start-year'])) {
@@ -564,7 +565,7 @@ abstract class rex_metainfo_handler
      * @param int    $fieldType       One of the rex_metainfo_table_manager::FIELD_* constants
      * @param string $fieldAttributes The attributes of the field
      *
-     * @return string
+     * @return string|int|null
      */
     public static function getSaveValue($fieldName, $fieldType, $fieldAttributes)
     {
@@ -724,17 +725,12 @@ abstract class rex_metainfo_handler
      * Retrieves the activeItem from the current context.
      * Afterwards the actual metaForm extension will be rendered.
      *
-     * @param rex_extension_point $ep
-     *
      * @return string
      */
     abstract public function extendForm(rex_extension_point $ep);
 
     /**
      * Retrieves the POST values from the metaform, fill it into a rex_sql object and save it to a database table.
-     *
-     * @param array   $params
-     * @param rex_sql $sqlFields
      */
     abstract protected function handleSave(array $params, rex_sql $sqlFields);
 }

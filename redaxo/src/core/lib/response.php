@@ -104,9 +104,9 @@ class rex_response
     private static function sendServerTimingHeaders()
     {
         // see https://w3c.github.io/server-timing/#the-server-timing-header-field
-        foreach (rex_timer::$serverTimings as $label => $durationMs) {
+        foreach (rex_timer::$serverTimings as $label => $timing) {
             $label = preg_replace('{[^!#$%&\'*+-\.\^_`|~\w]}i', '_', $label);
-            header('Server-Timing: '. $label .';dur='. number_format($durationMs, 3, '.', ''), false);
+            header('Server-Timing: '. $label .';dur='. number_format($timing['sum'], 3, '.', ''), false);
         }
     }
 
@@ -118,6 +118,8 @@ class rex_response
      * @param string $url URL
      *
      * @throws InvalidArgumentException
+     *
+     * @psalm-return never-return
      */
     public static function sendRedirect($url)
     {
@@ -147,7 +149,7 @@ class rex_response
     {
         self::cleanOutputBuffers();
 
-        if (!file_exists($file)) {
+        if (!is_file($file)) {
             header('HTTP/1.1 ' . self::HTTP_NOT_FOUND);
             exit;
         }
@@ -267,10 +269,10 @@ class rex_response
     /**
      * Sends content to the client.
      *
-     * @param string $content      Content
-     * @param string $contentType  Content type
-     * @param int    $lastModified HTTP Last-Modified Timestamp
-     * @param string $etag         HTTP Cachekey to identify the cache
+     * @param string      $content      Content
+     * @param string|null $contentType  Content type
+     * @param int|null    $lastModified HTTP Last-Modified Timestamp
+     * @param string|null $etag         HTTP Cachekey to identify the cache
      */
     public static function sendContent($content, $contentType = null, $lastModified = null, $etag = null)
     {
@@ -283,13 +285,7 @@ class rex_response
 
         $environment = rex::isBackend() ? 'backend' : 'frontend';
 
-        if (
-            self::HTTP_OK == self::$httpStatus &&
-            // Safari incorrectly caches 304s as empty pages, so don't serve it 304s
-            // http://tech.vg.no/2013/10/02/ios7-bug-shows-white-page-when-getting-304-not-modified-from-server/
-            // https://bugs.webkit.org/show_bug.cgi?id=32829
-            (!empty($_SERVER['HTTP_USER_AGENT']) && (false === strpos($_SERVER['HTTP_USER_AGENT'], 'Safari') || false !== strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome')))
-        ) {
+        if (self::HTTP_OK == self::$httpStatus) {
             // ----- Last-Modified
             if (!self::$sentLastModified
                 && (true === rex::getProperty('use_last_modified') || rex::getProperty('use_last_modified') === $environment)
@@ -326,6 +322,16 @@ class rex_response
         if (function_exists('fastcgi_finish_request')) {
             fastcgi_finish_request();
         }
+    }
+
+    /**
+     * @param mixed       $data         data to be json encoded and sent
+     * @param int|null    $lastModified HTTP Last-Modified Timestamp
+     * @param string|null $etag         HTTP Cachekey to identify the cache
+     */
+    public static function sendJson($data, ?int $lastModified = null, ?string $etag = null): void
+    {
+        self::sendContent(json_encode($data), 'application/json', $lastModified, $etag);
     }
 
     /**
@@ -371,7 +377,7 @@ class rex_response
             $lastModified = time();
         }
 
-        $lastModified = gmdate('D, d M Y H:i:s T', (float) $lastModified);
+        $lastModified = gmdate('D, d M Y H:i:s T', (int) $lastModified);
 
         // Sende Last-Modification time
         header('Last-Modified: ' . $lastModified);
@@ -453,15 +459,16 @@ class rex_response
 
     /**
      * @param string      $name    The name of the cookie
-     * @param string|null $value   The value of the cookie, a empty value to delete the cookie.
+     * @param string|null $value   the value of the cookie, a empty value to delete the cookie
      * @param array       $options Different cookie Options. Supported keys are:
-     *                             "expires" int|string|\DateTimeInterface The time the cookie expires
-     *                             "path" string                           The path on the server in which the cookie will be available on
-     *                             "domain" string|null                    The domain that the cookie is available to
-     *                             "secure" bool                           Whether the cookie should only be transmitted over a secure HTTPS connection from the client
-     *                             "httponly" bool                         Whether the cookie will be made accessible only through the HTTP protocol
-     *                             "samesite" string|null                  Whether the cookie will be available for cross-site requests
-     *                             "raw" bool                              Whether the cookie value should be sent with no url encoding
+     *                             "expires" int|string|DateTimeInterface The time the cookie expires
+     *                             "path" string                          The path on the server in which the cookie will be available on
+     *                             "domain" string|null                   The domain that the cookie is available to
+     *                             "secure" bool                          Whether the cookie should only be transmitted over a secure HTTPS connection from the client
+     *                             "httponly" bool                        Whether the cookie will be made accessible only through the HTTP protocol
+     *                             "samesite" string|null                 Whether the cookie will be available for cross-site requests
+     *                             "raw" bool                             Whether the cookie value should be sent with no url encoding
+     * @psalm-param array{expires?: int|string|DateTimeInterface, path?: string, domain?: ?string, secure?: bool, httponly?: bool, samesite?: ?string, raw?: bool} $options
      *
      * @throws \InvalidArgumentException
      */

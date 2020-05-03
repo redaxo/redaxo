@@ -49,6 +49,8 @@ cronjob_environment_notice = Skript: Ausführung über <code>redaxo/bin/console 
 cronjob_environment_frontend = Frontend
 cronjob_environment_backend = Backend
 cronjob_environment_script = Skript
+cronjob_environment_console = Skript
+cronjob_environment_backend_manual = Backend (manuell)
 
 cronjob_execution = Ausführung
 cronjob_execution_beginning = Skriptanfang
@@ -82,3 +84,5 @@ cronjob_log_no_data = Keine Daten vorhanden.
 cronjob_log_caption_1 = Liste der ausgeführten Cronjobs im {0} {1}
 cronjob_log_caption_2 = Liste der zuletzt ausgeführten Cronjobs
 cronjob_log_message = Meldung
+
+cronjob_delete_log_msg = Das Cronjob-Log löschen?

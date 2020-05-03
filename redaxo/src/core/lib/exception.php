@@ -20,6 +20,9 @@ class rex_exception extends Exception
  */
 class rex_sql_exception extends rex_exception
 {
+    /**
+     * @var null|\rex_sql
+     */
     private $sql;
 
     public function __construct($message, Exception $previous = null, rex_sql $sql = null)
@@ -35,6 +38,18 @@ class rex_sql_exception extends rex_exception
     public function getSql()
     {
         return $this->sql;
+    }
+
+    /**
+     * Returns the mysql native error code.
+     */
+    public function getErrorCode(): ?int
+    {
+        $previous = $this->getPrevious();
+        if ($previous instanceof \PDOException) {
+            return $previous->errorInfo[1] ?? null;
+        }
+        return null;
     }
 }
 
@@ -54,11 +69,13 @@ class rex_functional_exception extends rex_exception
  */
 class rex_http_exception extends rex_exception
 {
+    /**
+     * @var string
+     */
     private $httpCode;
 
     /**
-     * @param Exception $cause
-     * @param int       $httpCode
+     * @param string $httpCode
      */
     public function __construct(Exception $cause, $httpCode)
     {
@@ -67,7 +84,7 @@ class rex_http_exception extends rex_exception
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function getHttpCode()
     {

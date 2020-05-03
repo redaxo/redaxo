@@ -17,6 +17,8 @@ use Symfony\Component\VarDumper\Cloner\Stub;
  * Casts DateTimeInterface related classes to array representation.
  *
  * @author Dany Maillard <danymaillard93b@gmail.com>
+ *
+ * @final since Symfony 4.4
  */
 class DateCaster
 {
@@ -33,7 +35,11 @@ class DateCaster
             .($location ? ($d->format('I') ? "\nDST On" : "\nDST Off") : '')
         ;
 
-        $a = [];
+        unset(
+            $a[Caster::PREFIX_DYNAMIC.'date'],
+            $a[Caster::PREFIX_DYNAMIC.'timezone'],
+            $a[Caster::PREFIX_DYNAMIC.'timezone_type']
+        );
         $a[$prefix.'date'] = new ConstStub(self::formatDateTime($d, $location ? ' e (P)' : ' P'), $title);
 
         $stub->class .= $d->format(' @U');
@@ -52,7 +58,7 @@ class DateCaster
         return $filter & Caster::EXCLUDE_VERBOSE ? $i : $i + $a;
     }
 
-    private static function formatInterval(\DateInterval $i)
+    private static function formatInterval(\DateInterval $i): string
     {
         $format = '%R ';
 
@@ -83,7 +89,7 @@ class DateCaster
     public static function castPeriod(\DatePeriod $p, array $a, Stub $stub, $isNested, $filter)
     {
         $dates = [];
-        if (\PHP_VERSION_ID >= 70107) { // see https://bugs.php.net/bug.php?id=74639
+        if (\PHP_VERSION_ID >= 70107) { // see https://bugs.php.net/74639
             foreach (clone $p as $i => $d) {
                 if (self::PERIOD_LIMIT === $i) {
                     $now = new \DateTimeImmutable();
@@ -110,12 +116,12 @@ class DateCaster
         return $filter & Caster::EXCLUDE_VERBOSE ? $p : $p + $a;
     }
 
-    private static function formatDateTime(\DateTimeInterface $d, $extra = '')
+    private static function formatDateTime(\DateTimeInterface $d, string $extra = ''): string
     {
         return $d->format('Y-m-d H:i:'.self::formatSeconds($d->format('s'), $d->format('u')).$extra);
     }
 
-    private static function formatSeconds($s, $us)
+    private static function formatSeconds(string $s, string $us): string
     {
         return sprintf('%02d.%s', $s, 0 === ($len = \strlen($t = rtrim($us, '0'))) ? '0' : ($len <= 3 ? str_pad($t, 3, '0') : $us));
     }

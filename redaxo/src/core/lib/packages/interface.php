@@ -19,14 +19,14 @@ interface rex_package_interface
     /**
      * Returns the related Addon.
      *
-     * @return rex_addon
+     * @return rex_addon_interface
      */
     public function getAddon();
 
     /**
      * Returns the package ID.
      *
-     * @return string
+     * @return string|null
      */
     public function getPackageId();
 
@@ -79,6 +79,11 @@ interface rex_package_interface
 
     /**
      * @see rex_config::get()
+     *
+     * @template T as ?string
+     * @phpstan-template T
+     * @psalm-param T $key
+     * @psalm-return (T is string ? mixed|null : array<string, mixed>)
      */
     public function getConfig($key = null, $default = null);
 
@@ -177,15 +182,16 @@ interface rex_package_interface
     /**
      * Includes a file in the package context.
      *
-     * @param string $file Filename
+     * @param string $file    Filename
+     * @param array  $context Context values, available as variables in given file
      */
-    public function includeFile($file);
+    public function includeFile($file, array $context = []);
 
     /**
      * Adds the package prefix to the given key and returns the translation for it.
      *
-     * @param string     $key          Key
-     * @param string,... $replacements A arbritary number of strings used for interpolating within the resolved messag
+     * @param string     $key             Key
+     * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved messag
      *
      * @return string Translation for the key
      */

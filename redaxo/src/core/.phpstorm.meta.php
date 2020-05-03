@@ -56,6 +56,8 @@ expectedArguments(\rex_response::sendResource(), 4, 'inline', 'attachment');
 expectedArguments(\rex_socket::factory(), 1, 80, 443);
 expectedArguments(\rex_socket_proxy::setDestination(), 1, 80, 443);
 
+expectedReturnValues(\rex_sql::getDbType(), \rex_sql::MYSQL, \rex_sql::MARIADB);
+
 registerArgumentsSet('column_type', 'int(10) unsigned', 'int(11)', 'tinyint(1)', 'date', 'datetime', 'time', 'varchar(255)', 'varchar(191)', 'text', 'longtext');
 expectedArguments(\rex_sql_column::__construct(), 1, argumentsSet('column_type'));
 expectedArguments(\rex_sql_column::setType(), 0, argumentsSet('column_extra'));
@@ -80,6 +82,7 @@ expectedArguments(\rex_sql_index::setType(), 0, argumentsSet('index_type'));
 expectedReturnValues(\rex_sql_index::getType(), argumentsSet('index_type'));
 
 expectedArguments(\rex_string::versionCompare(), 2, '<', '<=', '>', '>=', '==', '!=');
+expectedArguments(\rex_version::compare(), 2, '<', '<=', '>', '>=', '==', '!=');
 
 expectedArguments(\rex_timer::getDelta(), 0, \rex_timer::SEC, \rex_timer::MILLISEC, \rex_timer::MICROSEC);
 expectedArguments(\rex_timer::getFormattedDelta(), 0, \rex_timer::SEC, \rex_timer::MILLISEC, \rex_timer::MICROSEC);
@@ -108,7 +111,7 @@ override(
     map([
         'clang' => \rex_clang_perm::class,
         'media' => \rex_media_perm::class,
-        'module' => \rex_module_perm::class,
+        'modules' => \rex_module_perm::class,
         'structure' => \rex_structure_perm::class,
     ])
 );

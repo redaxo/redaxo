@@ -41,6 +41,9 @@ class rex_metainfo_table_manager
         return $this->tableName;
     }
 
+    /**
+     * @return bool
+     */
     public function addColumn($name, $type, $length, $default = null, $nullable = true)
     {
         $qry = 'ALTER TABLE `' . $this->getTableName() . '` ADD ';
@@ -50,7 +53,8 @@ class rex_metainfo_table_manager
             $qry .= '(' . $length . ')';
         }
 
-        if (null !== $default) {
+        // `text` columns in mysql can not have default values
+        if ('text' !== $type && null !== $default) {
             $qry .= ' DEFAULT \'' . str_replace("'", "\'", $default) . '\'';
         }
 
@@ -66,6 +70,9 @@ class rex_metainfo_table_manager
         }
     }
 
+    /**
+     * @return bool
+     */
     public function editColumn($oldname, $name, $type, $length, $default = null, $nullable = true)
     {
         $qry = 'ALTER TABLE `' . $this->getTableName() . '` CHANGE ';
@@ -75,7 +82,8 @@ class rex_metainfo_table_manager
             $qry .= '(' . $length . ')';
         }
 
-        if (null !== $default) {
+        // `text` columns in mysql can not have default values
+        if ('text' !== $type && null !== $default) {
             $qry .= ' DEFAULT \'' . str_replace("'", "\'", $default) . '\'';
         }
 
@@ -91,6 +99,9 @@ class rex_metainfo_table_manager
         }
     }
 
+    /**
+     * @return bool
+     */
     public function deleteColumn($name)
     {
         $qry = 'ALTER TABLE `' . $this->getTableName() . '` DROP ';
@@ -104,6 +115,9 @@ class rex_metainfo_table_manager
         }
     }
 
+    /**
+     * @return bool
+     */
     public function hasColumn($name)
     {
         $columns = rex_sql::showColumns($this->getTableName(), $this->DBID);
@@ -116,6 +130,9 @@ class rex_metainfo_table_manager
         return false;
     }
 
+    /**
+     * @return bool
+     */
     protected function setQuery($qry)
     {
         try {

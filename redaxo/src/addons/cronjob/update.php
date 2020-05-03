@@ -16,7 +16,7 @@ if (rex_string::versionCompare($addon->getVersion(), '2.1-dev', '<')) {
     $jobs = $sql->getArray('SELECT id, `interval` FROM '.$table);
     foreach ($jobs as $job) {
         $old = explode('|', trim($job['interval'], '|'));
-        $count = $old[0];
+        $count = (int) $old[0];
 
         $interval = [
             'minutes' => [0],
@@ -80,4 +80,13 @@ if (rex_string::versionCompare($addon->getVersion(), '2.1-dev', '<')) {
             ->setArrayValue('interval', $interval)
             ->update();
     }
+}
+
+$addon->includeFile(__DIR__.'/install.php');
+
+if (rex_string::versionCompare(rex::getVersion(), '2.6.0-beta1', '<')) {
+    // do not use `rex_path::log()` because it does not exist while updating from rex < 5.9
+    @rename($addon->getDataPath('cronjob.log'), rex_path::data('log/cronjob.log'));
+    @rename($addon->getDataPath('cronjob.log.2'), rex_path::data('log/cronjob.log.2'));
+    @rmdir($addon->getDataPath());
 }

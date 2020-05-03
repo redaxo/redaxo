@@ -36,7 +36,7 @@ class rex_form extends rex_form_base
     protected $languageSupport;
 
     /**
-     * Diese Konstruktor sollte nicht verwendet werden. Instanzen muessen ueber die facotry() Methode erstellt werden!
+     * Diese Konstruktor sollte nicht verwendet werden. Instanzen muessen ueber die factory() Methode erstellt werden!
      *
      * @param string $tableName
      * @param string $fieldset
@@ -128,6 +128,11 @@ class rex_form extends rex_form_base
                 if ('abort' === $name || 'delete' === $name) {
                     $attr['formnovalidate'] = 'formnovalidate';
                 }
+                if ('save' === $name) {
+                    $attr['title'] = rex_i18n::msg('save_and_close_tooltip');
+                } elseif ('apply' === $name) {
+                    $attr['title'] = rex_i18n::msg('save_and_goon_tooltip');
+                }
                 $controlElements[$name] = $this->addField(
                     'button',
                     $name,
@@ -154,7 +159,6 @@ class rex_form extends rex_form_base
      *
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @return rex_form_prio_element
      */
@@ -165,11 +169,14 @@ class rex_form extends rex_form_base
             $attributes['class'] = 'form-control';
         }
         $field = $this->addField('', $name, $value, $attributes, true);
+        assert($field instanceof rex_form_prio_element);
         return $field;
     }
 
     /**
      * Gibt die Where-Bedingung des Formulars zurueck.
+     *
+     * @return string
      */
     public function getWhereCondition()
     {
@@ -226,6 +233,9 @@ class rex_form extends rex_form_base
         return $this->sql;
     }
 
+    /**
+     * @return string
+     */
     protected function getId($name)
     {
         return $this->tableName . '_' . $this->fieldset . '_' . $name;
@@ -295,7 +305,7 @@ class rex_form extends rex_form_base
      * Gibt true zurück wenn alles ok war, false bei einem allgemeinen Fehler,
      * einen String mit einer Fehlermeldung oder den von der Datenbank gelieferten ErrorCode.
      *
-     * @return bool
+     * @return bool|int
      */
     protected function save()
     {
@@ -365,7 +375,7 @@ class rex_form extends rex_form_base
     }
 
     /**
-     * @return bool
+     * @return bool|int
      */
     protected function delete()
     {

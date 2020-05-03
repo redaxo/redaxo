@@ -3,14 +3,16 @@ htmllang = de
 yes = ja
 no = nein
 general = Allgemein
-dateformat = %d. %b. %Y
 setlocale = de_DE,de_DE@euro,deu_deu,german_germany,de,ge
 phpini_settings = PHP.ini Einstellungen
 
-datetimeformat = %d. %b. %Y - %H:%Mh
-timeformat = %H:%Mh
+dateformat = %d. %b. %Y
+datetimeformat = %d. %b. %Y, %H:%M
+timeformat = %H:%M
 ctrl = Mehrfachauswahl mit <kbd>STRG</kbd> bzw. <kbd>CMD</kbd>
 translatable = Übersetzbar via <code>translate:i18n_key</code>
+save_and_goon_tooltip = Speichern und weiter bearbeiten
+save_and_close_tooltip = Speichern und schließen
 
 # Allgemein
 abort = abbrechen
@@ -30,6 +32,8 @@ no_editing_rights = Keine Editiererlaubnis
 check_rights_in_directory = Bitte überprüfen Sie die Rechte im Ordner
 error_undefined = Ein undefinierter Fehler ist aufgetreten
 csrf_token_invalid = Bitte das Formular erneut absenden, bzw. die Aktion erneut ausführen (Fehler: CSRF-Token ungültig).
+unstable_version = Entwicklungsversion - Benutzen auf eigene Gefahr.
+copy_to_clipboard = In die Zwischenablage kopieren
 
 # redaxo/redaxo/index.php
 system = System
@@ -103,6 +107,8 @@ clang_select = Sprache wählen
 clang_caption = Liste der verfügbaren Sprachen
 clang_function = Funktionen
 version = Version
+mode = Modus
+charset = Zeichensatz
 host = Host
 database = Datenbank
 logfiles = Logdateien
@@ -118,6 +124,7 @@ syslog_line = Zeile
 syslog_title = Logdatei "{0}"
 syslog_phperrors = PHP Errorlog
 syslog_empty = Leere Logdatei
+syslog_download = "{0}" herunterladen
 server = URL der Website
 servername = Name der Website
 error_email = E-Mail-Adresse bei Fehlern
@@ -139,7 +146,7 @@ debug_mode_off = Debug-Modus deaktivieren
 debug_mode_info_on = Der Debug-Modus wurde aktiviert
 debug_mode_info_off = Der Debug-Modus wurde deaktiviert
 debug_mode_marker = Der Debug-Modus ist aktiv
-debug_confirm = Der Debug-Modus sollte nicht im Live-Betrieb verwendet werden. Dennoch den Debug-Modus aktivieren?  
+debug_confirm = Der Debug-Modus sollte nicht im Live-Betrieb verwendet werden. Dennoch den Debug-Modus aktivieren?
 
 system_report = Systembericht
 system_report_markdown = Als markdown
@@ -148,7 +155,6 @@ system_report_markdown = Als markdown
 setup = Setup
 setup_restart = Setup neu starten
 setup_text = Hier können Sie das Setup erneut starten. Dies sollten Sie nur im Notfall machen. Unter normalen Umständen ist es nicht nötig.
-setup_error1 = Setup aktiviert. Bitte klicken Sie auf auf {0}weiter{1} und führen das Setup aus.
 setup_error2 = Leider konnte die config.yml nicht beschrieben werden. Bitte tragen Sie dort in der \"setup: true\" ein
 
 
@@ -216,6 +222,10 @@ setup_512 = Schritt 5 erneut durchführen
 setup_513 = System AddOn(s) konnte nicht installiert werden
 setup_514 = Aktualisierung der Datenbank
 setup_514_note = Update von vorheriger Version
+setup_charset_utf8mb4 = utf8mb4 [empfohlen]
+setup_charset_utf8mb4_note = Erfordert mindestens MySQL 5.7.7 oder MariaDB 10.2. Vollständiger Unicode-Support, einschließlich Emojis und weiterer Sonderzeichen.
+setup_charset_utf8 = utf8 [deprecated]
+setup_charset_utf8_note = Nicht-Standardkonformer UTF8-Modus. Wird in späteren Versionen von REDAXO nicht mehr unterstützt.
 setup_599 = 5 / Datenbank
 
 setup_600 = Setup: Schritt 6 von 7 / Administrator
@@ -246,6 +256,9 @@ setup_no_js_security_msg = Prüfen Sie, ob Dateien aus dem Ordner redaxo/cache, 
 setup_security_no_https = Das Setup wird ohne HTTPS/Verschlüsselung durchgeführt. Es wird empfohlen jegliche Frontend und Backend aufrufe nur mittels HTTPS durchzuführen, um die Privatsphäre und den Datenschutz zu gewährleisten.
 setup_security_warn_mod_security = Das Apache Modul "mod_security" ist geladen. Dies kann bei falscher Konfiguration zu Problemen führen.
 setup_security_deprecated_php = Die verwendete PHP Version {0} wird nicht mehr vom Hersteller gepflegt und sollte aktualisiert werden.
+setup_security_deprecated_mysql = Die verwendete MySQL Version {0} wird nicht mehr vom Hersteller gepflegt und sollte aktualisiert werden.
+setup_security_deprecated_mariadb = Die verwendete MariaDB Version {0} wird nicht mehr vom Hersteller gepflegt und sollte aktualisiert werden.
+setup_session_autostart_warning = In den PHP-Einstellungen ist "session.auto_start" aktiviert. Es wird empfohlen, dies zu deaktiveren, um Probleme zu vermeiden.
 
 sql_database_name_missing = Es muss ein Datenbankname angegeben werden!
 sql_database_already_exists = Datenbank existiert schon.
@@ -258,14 +271,15 @@ sql_unable_to_open_database = Die angegebene Datenbank konnte nicht geöffnet we
 
 setup_security = Sicherheit
 
+https_only_over_https = Diese Option ist nur bei einem Aufruf über HTTPS verfügbar
 https_activate_redirect_for = Automatische HTTPS-Umleitung
 https_disable = deaktivieren
 https_only_frontend = nur für Frontend aktivieren
 https_only_backend = nur für Backend aktivieren
 https_activate = für Frontend und Backend aktiveren
 
-hsts_activate = Setze <b>HTTP Strict Transport Security</b> Eintrag
-hsts_more_information = Mehr Information bei {0}
+setup_password_hint = Zur Vergabe eines neuen Passwortes dieses eintragen. Sonst unverändert lassen.
+hsts_more_information = HSTS sollte in den Hostingeinstellungen der Domain/s (empfohlen) aktiviert werden, kann aber auch in der config.yml von REDAXO nachträglich aktiviert werden. Weitere Informationen in der REDAXO-Doku.
 
 # redaxo\include\pages\addon.php
 addon = AddOn
@@ -306,6 +320,8 @@ package_activate = aktivieren
 package_yes = ja
 package_no = nein
 package_caption = Liste der verfügbaren Packages
+package_search = Suchen...
+package_clear = Eingabe zurücksetzen
 addon_systemaddon = System AddOn
 addon_systempackage_delete_not_allowed = System AddOns dürfen nicht gelöscht werden!
 addon_dir_not_writable = Der AddOn-Ordner hat keine Schreibrechte!
@@ -361,9 +377,10 @@ plugin_cache_not_writable = Der PlugIn-Cache-Ordner hat keine Schreibrechte!
 credits = Credits
 credits_name = Name
 credits_help = Hilfe
+credits_information = Informationen
 credits_version = Version
 credits_author = Autor
-credits_supportpage = Hilfe
+credits_supportpage = Support
 credits_addon_inactive = AddOn inaktiv
 credits_caption = Liste der verwendeten Packages
 credits_open_help_file = Hilfedatei öffnen:
@@ -371,6 +388,7 @@ credits_inventor = Erfinder
 credits_developer = Entwickler
 credits_designer = Grafiker
 credits_license = Lizenz
+credits_explain_license = Lizenz erklären
 
 # redaxo\include\pages\profile.php
 profile_myprofile = Mein Benutzerprofil bearbeiten
@@ -387,6 +405,9 @@ profile_save_psw = Passwort speichern
 backend_language = Backendsprache
 user_data_updated = Benutzerdaten wurden aktualisiert!
 
+password_change_required = Das Passwort muss ausgetauscht werden!
+password_not_changed = Das neue Passwort muss sich vom vorherigen unterscheiden!
+password_already_used = Das Passwort wurde schon benutzt und kann nicht erneut verwendet werden!
 password_invalid = Das Passwort entspricht nicht den geforderten Regeln ({0})!
 password_admin_notice = Die Passwort-Regeln können über die config.yml geändert werden.
 password_rule_min = min. {0}

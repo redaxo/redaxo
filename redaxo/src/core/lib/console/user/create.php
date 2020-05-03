@@ -21,6 +21,7 @@ class rex_command_user_create extends rex_console_command
             ->addArgument('password', InputArgument::OPTIONAL, 'Password')
             ->addOption('name', null, InputOption::VALUE_REQUIRED, 'Name')
             ->addOption('admin', null, InputOption::VALUE_NONE, 'Grant admin permissions')
+            ->addOption('password-change-required', null, InputOption::VALUE_NONE, 'Require password change after login')
         ;
     }
 
@@ -40,7 +41,7 @@ class rex_command_user_create extends rex_console_command
             throw new InvalidArgumentException(sprintf('User "%s" already exists.', $login));
         }
 
-        $passwordPolicy = rex_backend_password_policy::factory(rex::getProperty('password_policy', []));
+        $passwordPolicy = rex_backend_password_policy::factory();
 
         $password = $input->getArgument('password');
         if ($password && true !== $msg = $passwordPolicy->check($password)) {
@@ -61,23 +62,31 @@ class rex_command_user_create extends rex_console_command
             throw new InvalidArgumentException('Missing password.');
         }
 
-        $username = $input->getOption('username');
-        if (!$username) {
-            $username = $login;
+        $name = $input->getOption('name');
+        if (!$name) {
+            $name = $login;
         }
+
+        $passwordHash = rex_backend_login::passwordHash($password);
 
         $user = rex_sql::factory();
         // $user->setDebug();
         $user->setTable(rex::getTablePrefix() . 'user');
-        $user->setValue('name', $username);
+        $user->setValue('name', $name);
         $user->setValue('login', $login);
-        $user->setValue('password', rex_backend_login::passwordHash($password));
-        $user->setValue('admin', $input->hasOption('admin') ? 1 : 0);
+        $user->setValue('password', $passwordHash);
+        $user->setValue('admin', $input->getOption('admin') ? 1 : 0);
+        $user->setValue('login_tries', 0);
         $user->addGlobalCreateFields('console');
         $user->addGlobalUpdateFields('console');
+        $user->setDateTimeValue('password_changed', time());
+        $user->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords(null, $passwordHash));
+        $user->setValue('password_change_required', (int) $input->getOption('password-change-required'));
         $user->setValue('status', '1');
         $user->insert();
 
         $io->success(sprintf('User "%s" successfully created.', $login));
+
+        return 0;
     }
 }

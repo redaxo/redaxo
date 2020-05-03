@@ -9,6 +9,9 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
 {
     public const PREFIX = 'art_';
 
+    /**
+     * @return array
+     */
     protected function handleSave(array $params, rex_sql $sqlFields)
     {
         // Nur speichern wenn auch das MetaForm ausgefüllt wurde
@@ -38,6 +41,9 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
         return $params;
     }
 
+    /**
+     * @return string
+     */
     protected function buildFilterCondition(array $params)
     {
         $restrictionsCondition = '';
@@ -53,7 +59,9 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
                 }
             }
 
-            $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL ' . $s . ')';
+            $t = ' OR `p`.`templates` LIKE "%|' . $OOArt->getValue('template_id') . '|%"';
+
+            $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL ' . $s . ') AND (`p`.`templates` = "" OR `p`.`templates` IS NULL ' . $t . ')';
         }
 
         return $restrictionsCondition;
@@ -64,6 +72,9 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
         return $field;
     }
 
+    /**
+     * @return string
+     */
     public function getForm(array $params)
     {
         $OOArt = rex_article::get($params['id'], $params['clang']);
@@ -78,5 +89,6 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
     public function extendForm(rex_extension_point $ep)
     {
         // noop
+        return '';
     }
 }

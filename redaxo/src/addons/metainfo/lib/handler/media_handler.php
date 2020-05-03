@@ -12,8 +12,6 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
     /**
      * Extension to check whether the given media is still in use.
      *
-     * @param rex_extension_point $ep
-     *
      * @throws rex_exception
      *
      * @return string
@@ -114,6 +112,9 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         return $warning;
     }
 
+    /**
+     * @return string
+     */
     protected function buildFilterCondition(array $params)
     {
         $restrictionsCondition = '';
@@ -145,6 +146,9 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         return $restrictionsCondition;
     }
 
+    /**
+     * @return array
+     */
     protected function handleSave(array $params, rex_sql $sqlFields)
     {
         if ('post' != rex_request_method() || !isset($params['id'])) {

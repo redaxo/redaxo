@@ -4,6 +4,26 @@
  * @package redaxo5
  */
 
+assert(isset($csrf) && $csrf instanceof rex_csrf_token);
+assert(isset($rex_file_category) && is_int($rex_file_category));
+assert(isset($opener_input_field) && is_string($opener_input_field));
+assert(isset($arg_fields) && is_string($arg_fields));
+assert(isset($toolbar) && is_string($toolbar));
+
+// defaults for globals passed in from index.php
+if (!isset($success)) {
+    $success = '';
+}
+if (!isset($error)) {
+    $error = '';
+}
+if (!isset($opener_link)) {
+    $opener_link = '';
+}
+if (!isset($file_id)) {
+    $file_id = 0;
+}
+
 if (rex_post('btn_delete', 'string')) {
     if (!$csrf->isValid()) {
         $error = rex_i18n::msg('csrf_token_invalid');
@@ -48,7 +68,7 @@ if (rex_post('btn_update', 'string')) {
         } elseif (!rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('category_id')) || !rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category)) {
             $error = rex_i18n::msg('no_permission');
         } elseif (!empty($_FILES['file_new']['tmp_name']) && !rex_mediapool_isAllowedMimeType($_FILES['file_new']['tmp_name'], $_FILES['file_new']['name'])) {
-            $error = rex_i18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . rex_file::extension($_FILES['file_new']['name']) . '</code> (<code>' . mime_content_type($_FILES['file_new']['tmp_name']) . '</code>)';
+            $error = rex_i18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . rex_file::extension($_FILES['file_new']['name']) . '</code> (<code>' . rex_file::mimeType($_FILES['file_new']['tmp_name']) . '</code>)';
         } else {
             $FILEINFOS = [];
             $FILEINFOS['rex_file_category'] = $rex_file_category;
@@ -123,18 +143,13 @@ if ($isImage) {
     $img_max = rex_url::media($fname);
 
     if (rex_addon::get('media_manager')->isAvailable() && 'svg' != rex_file::extension($fname)) {
-        if (method_exists(rex_media_manager::class, 'getUrl')) {
-            $imgn = rex_media_manager::getUrl('rex_mediapool_detail', $encoded_fname, $gf->getDateTimeValue('updatedate'));
-            $img_max = rex_media_manager::getUrl('rex_mediapool_maximized', $encoded_fname, $gf->getDateTimeValue('updatedate'));
-        } else {
-            $imgn = rex_url::backendController(['rex_mediapool_detail' => $type, 'rex_media_file' => $encoded_fname]);
-            $img_max = rex_url::backendController(['rex_mediapool_maximized' => $type, 'rex_media_file' => $encoded_fname]);
-        }
+        $imgn = rex_media_manager::getUrl('rex_mediapool_detail', $encoded_fname, $gf->getDateTimeValue('updatedate'));
+        $img_max = rex_media_manager::getUrl('rex_mediapool_maximized', $encoded_fname, $gf->getDateTimeValue('updatedate'));
 
         $width = '';
     }
 
-    if (!file_exists(rex_path::media($fname))) {
+    if (!is_file(rex_path::media($fname))) {
         $sidebar = '<i class="rex-mime rex-mime-error"></i><span class="sr-only">' . $fname . '</span>';
     } else {
         $sidebar = '
@@ -217,12 +232,12 @@ if ($TPERM) {
 
     $e = [];
     $e['label'] = '<label>' . rex_i18n::msg('pool_last_update') . '</label>';
-    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime(strtotime($gf->getValue('updatedate')), 'datetime') . ' <span class="rex-author">' . $gf->getValue('updateuser') . '</span></p>';
+    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime(strtotime($gf->getValue('updatedate')), 'datetime') . ' <span class="rex-author">' . rex_escape($gf->getValue('updateuser')) . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
     $e['label'] = '<label>' . rex_i18n::msg('pool_created') . '</label>';
-    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime(strtotime($gf->getValue('createdate')), 'datetime') . ' <span class="rex-author">' . $gf->getValue('createuser') . '</span></p>';
+    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime(strtotime($gf->getValue('createdate')), 'datetime') . ' <span class="rex-author">' . rex_escape($gf->getValue('createuser')) . '</span></p>';
     $formElements[] = $e;
 
     $e = [];

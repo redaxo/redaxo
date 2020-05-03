@@ -86,8 +86,8 @@ $sql->setQuery($query, array($id));
 foreach($sql as $row)
 {
     // HTML body
-    $body  = "Hello <font size=\"4\">" . $row->getValue("full_name") . "</font>, <p>";
-    $body .= "<i>Your</i> personal photograph to this message.<p>";
+    $body  = "Hello " . $row->getValue("full_name") . ",";
+    $body .= "<p><i>Your</i> personal photograph to this message.<p>";
     $body .= "Sincerely, <br />";
     $body .= "phpmailer List manager";
 
@@ -144,15 +144,34 @@ Liefert zusätzlich untergeordnete Informationen, sehr ausführlich. Nicht zum D
 
 Meist benötigt man keinen Level über **Server-und Client-Protokoll**, es sei denn, es liegen Schwierigkeiten bei der Verbindung vor. Die Ausgabe wird meist nur umfangreicher und schwieriger zu lesen sein.
 
+## E-Mail-Log und E-Mail-Archivierung 
+
+Das Addon stellt ein E-Mail-Log sowie eine E-Mail-Archivierung bereit. 
+
+### E-Mail-Log
+
+Das E-Mail-Log findet man unter `System` > `Logdateien` > `PHPMailer`. Das Logging kann in den Einstellungen des PHPMailer-Addons in 3 Stufen eingestellt werden. 
+
+- Nein: Es wird kein Log erstellt
+- Nur Fehler Loggen: Es werden nur Fehler geloggt 
+- Alle Vorgänge loggen: Alle Sendungen werden geloggt 
+
+Das Log liefert Informationen zu Zeit, Absender, Empfänger, Betreff und Meldung. Es kann über den Button `Logdatei löschen` geleert werden. 
+
+Das Log wird in der Datei `/redaxo/data/log/mail.log` gespeichert.
+
+### E-Mail-Archivierung 
+
+Bei eingeschalteter E-Mail-Archivierung werden alle E-Mails im Ordner `/redaxo/data/addons/phpmailer/mail_log` chronologisch nach Jahr und Monat in Unterordnern archiviert. Anhänge werden nicht gespeichert. 
 
 
 ## Tipps
 
-### Verschlüsselung: Automatische TLS-Verbindung
+### Verschlüsselung: AutoTLS
 
-PHPMailer prüft ob der angegebene Server TLS unterstützt und baut eine verschlüsselte TLS-Verbindung auf. Erlaubt der Server keine Verschlüsselung, wird eine unsichere Verbindung aufgebaut. Sollte es zu Problemen beim Versand kommen, liegt es häufig daran, dass das hinterlegte Zertifikat nicht mit dem angegebenen Host übereinstimmt oder kein gültiges Zertifikat gefunden wurde. Durch Ändern der Verschlüsselung auf "manuelle Auswahl" kann die automatische Erkennung deaktiviert werden und die Verschlüsselung manuell gewählt werden. 
+PHPMailer prüft bei "AutoTLS", ob der angegebene Server TLS unterstützt und baut eine verschlüsselte TLS-Verbindung auf. Erlaubt der Server keine Verschlüsselung, wird eine unsichere Verbindung aufgebaut. Sollte es zu Problemen beim Versand kommen, liegt es häufig daran, dass das hinterlegte Zertifikat nicht mit dem angegebenen Host übereinstimmt oder kein gültiges Zertifikat gefunden wurde. Durch Ändern der Verschlüsselung auf "manuelle Auswahl" kann die automatische Erkennung deaktiviert werden und die Verschlüsselung manuell gewählt werden. 
 
-> Diese Einstellung kann zu unsicheren Verbindungen führen, sollte keine TLS-Unterstützung gefunden werden. Eine Überprüfung per Debug-Modus **Verbindungsprotokoll** sollte durchgeführt werden.
+> Diese Einstellung kann zu unsicheren Verbindungen führen, sollte keine TLS-Unterstützung ausgehandelt werden können. Eine Überprüfung per Debug-Modus **Verbindungsprotokoll** sollte durchgeführt werden.
 
 ### Spam-Blocker
 
@@ -161,6 +180,8 @@ PHPMailer prüft ob der angegebene Server TLS unterstützt und baut eine verschl
 - Prioritäts-Einstellungen können zu einem Spam-Blocking führen.
 
 - Große E-Mail-Verteiler sollten möglichst in kleiner Zahl und als BCC verschickt werden.
+
+> Bei Verwendung von SMTP ist das Versenden von E-Mails mit leerem Body nicht gestattet. 
 
 ### Verwendung bei selbstsignierten Zertifikaten
 

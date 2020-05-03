@@ -11,11 +11,11 @@ class rex_formatter_test extends TestCase
     {
         $format = 'd.m.Y H:i';
 
-        $this->assertEquals(
+        static::assertEquals(
             '12.05.2012 10:24',
             rex_formatter::date(1336811080, $format)
         );
-        $this->assertEquals(
+        static::assertEquals(
             '27.06.2016 21:40',
             rex_formatter::date('2016-06-27 21:40:00', $format)
         );
@@ -29,25 +29,25 @@ class rex_formatter_test extends TestCase
         $value = 1336811080;
 
         $format = '%d.%m.%Y %H:%M';
-        $this->assertEquals(
+        static::assertEquals(
             '12.05.2012 10:24',
             rex_formatter::strftime($value, $format)
         );
 
-        $this->assertEquals(
+        static::assertEquals(
             '27.06.2016 21:40',
             rex_formatter::strftime('2016-06-27 21:40:00', $format)
         );
 
         $format = 'date';
-        $this->assertEquals(
-            '2012-May-12',
+        static::assertEquals(
+            '12 May 2012',
             rex_formatter::strftime($value, $format)
         );
 
         $format = 'datetime';
-        $this->assertEquals(
-            '2012-May-12 10:24',
+        static::assertEquals(
+            '12 May 2012, 10:24',
             rex_formatter::strftime($value, $format)
         );
 
@@ -59,13 +59,13 @@ class rex_formatter_test extends TestCase
         $value = 1336811080.23;
 
         $format = [];
-        $this->assertEquals(
+        static::assertEquals(
             '1 336 811 080,23',
             rex_formatter::number($value, $format)
         );
 
         $format = [5, ':', '`'];
-        $this->assertEquals(
+        static::assertEquals(
             '1`336`811`080:23000',
             rex_formatter::number($value, $format)
         );
@@ -75,38 +75,38 @@ class rex_formatter_test extends TestCase
     {
         $value = 1000;
 
-        $this->assertEquals(
+        static::assertEquals(
             '1 000,00 B',
             rex_formatter::bytes($value)
         );
 
-        $this->assertEquals(
+        static::assertEquals(
             '976,56 KiB',
             rex_formatter::bytes($value * 1000)
         );
 
-        $this->assertEquals(
+        static::assertEquals(
             '953,67 MiB',
             rex_formatter::bytes($value * 1000 * 1000)
         );
 
-        $this->assertEquals(
+        static::assertEquals(
             '931,32 GiB',
             rex_formatter::bytes($value * 1000 * 1000 * 1000)
         );
 
-        $this->assertEquals(
+        static::assertEquals(
             '909,49 TiB',
             rex_formatter::bytes($value * 1000 * 1000 * 1000 * 1000)
         );
 
-        $this->assertEquals(
+        static::assertEquals(
             '888,18 PiB',
             rex_formatter::bytes($value * 1000 * 1000 * 1000 * 1000 * 1000)
         );
 
         $format = [5]; // number of signs behind comma
-        $this->assertEquals(
+        static::assertEquals(
             '953,67432 MiB',
             rex_formatter::bytes($value * 1000 * 1000, $format)
         );
@@ -117,7 +117,7 @@ class rex_formatter_test extends TestCase
         $value = 'hallo';
         $format = 'X%sX';
 
-        $this->assertEquals(
+        static::assertEquals(
             'XhalloX',
             rex_formatter::sprintf($value, $format)
         );
@@ -127,7 +127,7 @@ class rex_formatter_test extends TestCase
     {
         $value = "very\nloooooong\ntext lala";
 
-        $this->assertEquals(
+        static::assertEquals(
             "very<br />\nloooooong<br />\ntext lala",
             rex_formatter::nl2br($value)
         );
@@ -142,7 +142,7 @@ class rex_formatter_test extends TestCase
             'etc' => ' usw.',
             'break_words' => true,
         ];
-        $this->assertEquals(
+        static::assertEquals(
             'very  usw.',
             rex_formatter::truncate($value, $format)
         );
@@ -153,7 +153,7 @@ class rex_formatter_test extends TestCase
             'etc' => ' usw.',
             'break_words' => false,
         ];
-        $this->assertEquals(
+        static::assertEquals(
             'very usw.',
             rex_formatter::truncate($value, $format)
         );
@@ -163,12 +163,12 @@ class rex_formatter_test extends TestCase
     {
         $value = '5.1.2-alpha1';
 
-        $this->assertEquals(
+        static::assertEquals(
             '5_1',
             rex_formatter::version($value, '%s_%s')
         );
 
-        $this->assertEquals(
+        static::assertEquals(
             '2-1-5',
             rex_formatter::version($value, '%3$s-%2$s-%1$s')
         );
@@ -182,7 +182,7 @@ class rex_formatter_test extends TestCase
             'attr' => ' data-haha="foo"',
             'params' => 'ilike=+1',
         ];
-        $this->assertEquals(
+        static::assertEquals(
             '<a href="http://example.org?ilike=+1" data-haha="foo">http://example.org</a>',
             rex_formatter::url($value, $format)
         );
@@ -196,7 +196,7 @@ class rex_formatter_test extends TestCase
             'attr' => ' data-haha="foo"',
             'params' => 'ilike=+1',
         ];
-        $this->assertEquals(
+        static::assertEquals(
             '<a href="mailto:dude@example.org?ilike=+1" data-haha="foo">dude@example.org</a>',
             rex_formatter::email($value, $format)
         );
@@ -207,7 +207,7 @@ class rex_formatter_test extends TestCase
         $value = 77;
 
         $format = 'octdec';
-        $this->assertEquals(
+        static::assertEquals(
             63,
             rex_formatter::custom($value, $format)
         );
@@ -219,7 +219,7 @@ class rex_formatter_test extends TestCase
             ['some' => 'more params'],
         ];
 
-        $this->assertEquals(
+        static::assertEquals(
             '77 more params',
             rex_formatter::custom($value, $format)
         );

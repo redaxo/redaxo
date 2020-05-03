@@ -44,7 +44,7 @@ if (in_array($func, ['setstatus', 'delete', 'execute']) && !$csrfToken->isValid(
     $success = $manager->tryExecute($oid);
     $msg = '';
     if ($manager->hasMessage()) {
-        $msg = '<br /><br />' . $addon->i18n('log_message') . ': <br />' . nl2br($manager->getMessage());
+        $msg = '<br /><br />' . $addon->i18n('log_message') . ': <br />' . nl2br(rex_escape($manager->getMessage()));
     }
     if ($success) {
         echo rex_view::success($addon->i18n('execute_success', $name) . $msg);
@@ -273,6 +273,7 @@ if ('' == $func) {
                         }
                         break;
                     case 'select':
+                        /** @var rex_form_select_element $field */
                         $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
                         $field->setLabel($label);
                         $field->setAttribute('class', 'form-control selectpicker');
@@ -284,13 +285,15 @@ if ('' == $func) {
                         break;
                     case 'checkbox':
                     case 'radio':
+                        /** @var rex_form_radio_element $field */
                         $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
                         $field->addArrayOptions($param['options']);
                         if (isset($param['notice'])) {
                             $field->setNotice($param['notice']);
                         }
                         break;
-                    default:var_dump($param);
+                    default:
+                        throw new LogicException(sprintf('Unexpected param type "%s".', $param['type']));
                 }
                 if (isset($param['visible_if']) && is_array($param['visible_if'])) {
                     foreach ($param['visible_if'] as $key => $value) {
@@ -349,10 +352,19 @@ if ('' == $func) {
         jQuery(function($){
             var currentShown = null;
             $("#<?php echo $typeFieldId ?>").change(function(){
-                if(currentShown) currentShown.hide();
-                var typeId = "#rex-"+ $(this).val();
-                currentShown = $(typeId);
-                currentShown.slideDown();
+                var next = $("#rex-"+ $(this).val());
+
+                if (next.is(currentShown)) {
+                    return;
+                }
+
+                if (currentShown) {
+                    currentShown.slideUp();
+                    next.slideDown();
+                } else {
+                    next.show();
+                }
+                currentShown = next;
             }).change();
             $('#<?php echo $typeFieldId ?>').change(function(){
                 $('#<?php echo $envFieldId ?> option').prop('disabled','');<?php echo $env_js; ?>

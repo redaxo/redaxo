@@ -12,7 +12,7 @@ class rex_markdown_test extends TestCase
      */
     public function testParse($expected, $code)
     {
-        $this->assertSame($expected, rex_markdown::factory()->parse($code));
+        static::assertSame($expected, rex_markdown::factory()->parse($code));
     }
 
     public function parseProvider()
@@ -21,6 +21,20 @@ class rex_markdown_test extends TestCase
             ['', ''],
             ['<p>foo <em>bar</em> <strong>baz</strong></p>', 'foo _bar_ **baz**'],
             ["<p>foo<br />\nbar</p>\n<p>baz</p>", "foo\nbar\n\nbaz"],
+            [
+                <<<'HTML'
+
+<pre><code class="language-php">    &lt;script&gt;foo()&lt;/script&gt;</code></pre>
+HTML
+                ,
+                <<<'MD'
+<script> foo() </script>
+
+```php
+    <script>foo()</script>
+```
+MD
+            ],
         ];
     }
 
@@ -92,6 +106,6 @@ MARKDOWN;
 
 HTML;
 
-        $this->assertSame($expected, $toc);
+        static::assertSame($expected, $toc);
     }
 }

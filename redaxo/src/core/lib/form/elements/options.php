@@ -5,7 +5,7 @@
  */
 abstract class rex_form_options_element extends rex_form_element
 {
-    /** @var array */
+    /** @var array<string, string|int> */
     private $options;
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
@@ -16,11 +16,19 @@ abstract class rex_form_options_element extends rex_form_element
         $this->options = [];
     }
 
+    /**
+     * @param string     $name
+     * @param string|int $value
+     */
     public function addOption($name, $value)
     {
         $this->options[$name] = $value;
     }
 
+    /**
+     * @param array<string|array{0: string, 1?: string|int}> $options
+     * @param bool                                           $useOnlyValues
+     */
     public function addOptions(array $options, $useOnlyValues = false)
     {
         if (count($options) > 0) {
@@ -39,10 +47,14 @@ abstract class rex_form_options_element extends rex_form_element
         }
     }
 
-    public function addArrayOptions(array $options, $use_keys = true)
+    /**
+     * @param string[] $options
+     * @param bool     $useKeys
+     */
+    public function addArrayOptions(array $options, $useKeys = true)
     {
         foreach ($options as $key => $value) {
-            if (!$use_keys) {
+            if (!$useKeys) {
                 $key = $value;
             }
 
@@ -50,18 +62,27 @@ abstract class rex_form_options_element extends rex_form_element
         }
     }
 
+    /**
+     * @param string $qry
+     */
     public function addSqlOptions($qry)
     {
         $sql = rex_sql::factory();
         $this->addOptions($sql->getArray($qry, [], PDO::FETCH_NUM));
     }
 
+    /**
+     * @param string $qry
+     */
     public function addDBSqlOptions($qry)
     {
         $sql = rex_sql::factory();
         $this->addOptions($sql->getDBArray($qry, [], PDO::FETCH_NUM));
     }
 
+    /**
+     * @return array
+     */
     public function getOptions()
     {
         return $this->options;

@@ -30,7 +30,7 @@ class rex_addon extends rex_package implements rex_addon_interface
      *
      * @throws InvalidArgumentException
      *
-     * @return self
+     * @return rex_addon_interface If the addon exists, a `rex_addon` is returned, otherwise a `rex_null_addon`
      */
     public static function get($addon)
     {
@@ -40,6 +40,22 @@ class rex_addon extends rex_package implements rex_addon_interface
         if (!isset(self::$addons[$addon])) {
             return rex_null_addon::getInstance();
         }
+        return self::$addons[$addon];
+    }
+
+    /**
+     * Returns the addon by the given name.
+     *
+     * @throws RuntimeException if the addon does not exist
+     *
+     * @return self
+     */
+    public static function require(string $addon): rex_package
+    {
+        if (!isset(self::$addons[$addon])) {
+            throw new RuntimeException(sprintf('Required addon "%s" does not exist.', $addon));
+        }
+
         return self::$addons[$addon];
     }
 
@@ -65,6 +81,8 @@ class rex_addon extends rex_package implements rex_addon_interface
 
     /**
      * {@inheritdoc}
+     *
+     * @return string
      */
     public function getPackageId()
     {
@@ -137,7 +155,7 @@ class rex_addon extends rex_package implements rex_addon_interface
         if (rex_i18n::hasMsgOrFallback($key)) {
             $args[0] = $key;
         }
-        return call_user_func_array('rex_i18n::msg', $args);
+        return call_user_func_array(['rex_i18n', 'msg'], $args);
     }
 
     /**
@@ -151,6 +169,20 @@ class rex_addon extends rex_package implements rex_addon_interface
         if (!isset($this->plugins[$plugin])) {
             return rex_null_plugin::getInstance();
         }
+        return $this->plugins[$plugin];
+    }
+
+    /**
+     * Returns the child plugin by the given name.
+     *
+     * @throws RuntimeException if the plugin does not exist
+     */
+    public function requirePlugin(string $plugin): rex_plugin
+    {
+        if (!isset($this->plugins[$plugin])) {
+            throw new RuntimeException(sprintf('Required plugin "%s/%s" does not exist.', $this->getName(), $plugin));
+        }
+
         return $this->plugins[$plugin];
     }
 
@@ -200,9 +232,10 @@ class rex_addon extends rex_package implements rex_addon_interface
             $systemPlugins = (array) $this->getProperty('system_plugins', []);
         }
         $plugins = [];
+        /** @var string $plugin */
         foreach ($systemPlugins as $plugin) {
             if ($this->pluginExists($plugin)) {
-                $plugins[$plugin] = $this->getPlugin($plugin);
+                $plugins[$plugin] = $this->requirePlugin($plugin);
             }
         }
         return $plugins;
@@ -248,7 +281,7 @@ class rex_addon extends rex_package implements rex_addon_interface
         $addons = [];
         foreach ((array) rex::getProperty('setup_addons', []) as $addon) {
             if (self::exists($addon)) {
-                $addons[$addon] = self::get($addon);
+                $addons[$addon] = self::require($addon);
             }
         }
         return $addons;
@@ -264,7 +297,7 @@ class rex_addon extends rex_package implements rex_addon_interface
         $addons = [];
         foreach ((array) rex::getProperty('system_addons', []) as $addon) {
             if (self::exists($addon)) {
-                $addons[$addon] = self::get($addon);
+                $addons[$addon] = self::require($addon);
             }
         }
         return $addons;
@@ -276,7 +309,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     public static function initialize($dbExists = true)
     {
         if ($dbExists) {
-            $config = rex::getConfig('package-config', []);
+            $config = rex::getPackageConfig();
         } else {
             $config = [];
             foreach (rex::getProperty('setup_addons') as $addon) {
@@ -311,10 +344,14 @@ class rex_addon extends rex_package implements rex_addon_interface
     /**
      * Filters packages by the given method.
      *
-     * @param array  $packages Array of packages
-     * @param string $method   A rex_package method
+     * @param rex_package[] $packages Array of packages
+     * @param string        $method   A rex_package method
      *
      * @return rex_package[]
+     *
+     * @template T of rex_package
+     * @psalm-param T[] $packages
+     * @psalm-return T[]
      */
     private static function filterPackages(array $packages, $method)
     {

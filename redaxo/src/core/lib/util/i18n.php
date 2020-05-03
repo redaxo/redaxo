@@ -16,7 +16,7 @@ class rex_i18n
      */
     private static $directories = [];
     /**
-     * @var boolean[string] Holds which locales are loaded. keyed by locale
+     * @var array<string, bool> Holds which locales are loaded. keyed by locale
      */
     private static $loaded = [];
     /**
@@ -38,7 +38,7 @@ class rex_i18n
      */
     public static function setLocale($locale, $phpSetLocale = true)
     {
-        $saveLocale = self::$locale;
+        $saveLocale = self::getLocale();
         self::$locale = $locale;
 
         if (empty(self::$loaded[$locale])) {
@@ -68,6 +68,10 @@ class rex_i18n
      */
     public static function getLocale()
     {
+        if (!self::$locale) {
+            self::$locale = rex::getProperty('lang');
+        }
+
         return self::$locale;
     }
 
@@ -78,7 +82,7 @@ class rex_i18n
      */
     public static function getLanguage()
     {
-        [$lang, $country] = explode('_', self::$locale, 2);
+        [$lang, $country] = explode('_', self::getLocale(), 2);
         return $lang;
     }
 
@@ -105,12 +109,12 @@ class rex_i18n
     /**
      * Returns the translation htmlspecialchared for the given key.
      *
-     * @param string     $key          A Language-Key
-     * @param string,... $replacements A arbritary number of strings used for interpolating within the resolved message
+     * @param string     $key             A Language-Key
+     * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
      * @return string Translation for the key
      */
-    public static function msg($key)
+    public static function msg($key, ...$replacements)
     {
         return self::getMsg($key, true, func_get_args());
     }
@@ -118,12 +122,12 @@ class rex_i18n
     /**
      * Returns the translation for the given key.
      *
-     * @param string     $key          A Language-Key
-     * @param string,... $replacements A arbritary number of strings used for interpolating within the resolved message
+     * @param string     $key             A Language-Key
+     * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
      * @return string Translation for the key
      */
-    public static function rawMsg($key)
+    public static function rawMsg($key, ...$replacements)
     {
         return self::getMsg($key, false, func_get_args());
     }
@@ -131,13 +135,13 @@ class rex_i18n
     /**
      * Returns the translation htmlspecialchared for the given key and locale.
      *
-     * @param string     $key          A Language-Key
-     * @param string     $locale       A Locale
-     * @param string,... $replacements A arbritary number of strings used for interpolating within the resolved message
+     * @param string     $key             A Language-Key
+     * @param string     $locale          A Locale
+     * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
      * @return string Translation for the key
      */
-    public static function msgInLocale($key, $locale)
+    public static function msgInLocale($key, $locale, ...$replacements)
     {
         $args = func_get_args();
         $args[1] = $key;
@@ -149,13 +153,13 @@ class rex_i18n
     /**
      * Returns the translation for the given key and locale.
      *
-     * @param string     $key          A Language-Key
-     * @param string     $locale       A Locale
-     * @param string,... $replacements A arbritary number of strings used for interpolating within the resolved message
+     * @param string     $key             A Language-Key
+     * @param string     $locale          A Locale
+     * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
      * @return string Translation for the key
      */
-    public static function rawMsgInLocale($key, $locale)
+    public static function rawMsgInLocale($key, $locale, ...$replacements)
     {
         $args = func_get_args();
         $args[1] = $key;
@@ -167,9 +171,10 @@ class rex_i18n
     /**
      * Returns the message fallback for a missing key in main locale.
      *
-     * @param string   $key    A Language-Key
-     * @param string[] $args   A arbritary number of strings used for interpolating within the resolved message
-     * @param string   $locale A Locale
+     * @param string         $key    A Language-Key
+     * @param string[]|int[] $args   A arbritary number of strings/ints used for interpolating within the resolved message
+     * @param string         $locale A Locale
+     * @psalm-param list<string|int> $args
      *
      * @return string
      */
@@ -212,27 +217,24 @@ class rex_i18n
      */
     public static function hasMsg($key)
     {
-        return isset(self::$msg[self::$locale][$key]);
+        return isset(self::$msg[self::getLocale()][$key]);
     }
 
     /**
      * Returns the translation for the given key.
      *
-     * @param string $key
-     * @param bool   $htmlspecialchars
-     * @param array  $args
-     * @param string $locale           A Locale
+     * @param string         $key
+     * @param bool           $htmlspecialchars
+     * @param string[]|int[] $args             A arbritary number of strings/ints used for interpolating within the resolved message
+     * @param string         $locale           A Locale
+     * @psalm-param list<string|int> $args
      *
      * @return mixed
      */
     private static function getMsg($key, $htmlspecialchars, array $args, $locale = null)
     {
-        if (!self::$locale) {
-            self::$locale = rex::getProperty('lang');
-        }
-
         if (!$locale) {
-            $locale = self::$locale;
+            $locale = self::getLocale();
         }
 
         if (empty(self::$loaded[$locale])) {
@@ -252,7 +254,7 @@ class rex_i18n
             for ($i = 1; $i < $argNum; ++$i) {
                 // zero indexed
                 $patterns[] = '/\{' . ($i - 1) . '\}/';
-                $replacements[] = $args[$i];
+                $replacements[] = (string) $args[$i];
             }
         }
 
@@ -275,12 +277,14 @@ class rex_i18n
      */
     public static function hasMsgOrFallback($key)
     {
-        if (isset(self::$msg[self::$locale][$key])) {
+        $currentLocale = self::getLocale();
+
+        if (isset(self::$msg[$currentLocale][$key])) {
             return true;
         }
 
         foreach (rex::getProperty('lang_fallback', []) as $locale) {
-            if (self::$locale === $locale) {
+            if ($currentLocale === $locale) {
                 continue;
             }
 
@@ -304,7 +308,7 @@ class rex_i18n
      */
     public static function addMsg($key, $msg)
     {
-        self::$msg[self::$locale][$key] = $msg;
+        self::$msg[self::getLocale()][$key] = $msg;
     }
 
     /**

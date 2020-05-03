@@ -13,6 +13,7 @@ class rex_user_role implements rex_user_role_interface
      * Permissions.
      *
      * @var array
+     * @psalm-var list<string>
      */
     private $perms = [];
 
@@ -20,6 +21,7 @@ class rex_user_role implements rex_user_role_interface
      * Complex perm params.
      *
      * @var array
+     * @psalm-var array<string, rex_complex_perm::ALL|string[]>
      */
     private $complexPermParams = [];
 
@@ -27,13 +29,14 @@ class rex_user_role implements rex_user_role_interface
      * Cache for complex perm instances.
      *
      * @var array
+     * @psalm-var array<string, rex_complex_perm|null>
      */
     private $complexPerms = [];
 
     /**
      * Constructor.
      *
-     * @param array $roles
+     * @param array[] $roles
      */
     private function __construct(array $roles)
     {
@@ -82,9 +85,13 @@ class rex_user_role implements rex_user_role_interface
         if (isset($this->complexPerms[$key])) {
             return $this->complexPerms[$key];
         }
+
         if (!isset($this->complexPermParams[$key])) {
             $this->complexPermParams[$key] = [];
+        } elseif (rex_complex_perm::ALL !== $this->complexPermParams[$key]) {
+            $this->complexPermParams[$key] = array_unique($this->complexPermParams[$key]);
         }
+
         $this->complexPerms[$key] = rex_complex_perm::get($user, $key, $this->complexPermParams[$key]);
         return $this->complexPerms[$key];
     }
@@ -105,7 +112,7 @@ class rex_user_role implements rex_user_role_interface
             $roles[] = json_decode($user_role['perms'], true);
         }
 
-        return new self($roles);
+        return new static($roles);
     }
 
     public static function removeOrReplaceItem(rex_extension_point $ep)
@@ -119,7 +126,7 @@ class rex_user_role implements rex_user_role_interface
         $update = rex_sql::factory();
         $update->prepareQuery('UPDATE ' . rex::getTable('user_role') . ' SET perms = ? WHERE id = ?');
         foreach ($sql as $row) {
-            $perms = json_decode($row->getValue('perms'), true);
+            $perms = $row->getArrayValue('perms');
             if (isset($perms[$key]) && false !== strpos($perms[$key], $item)) {
                 $perms[$key] = str_replace($item, $new, $perms[$key]);
                 $update->execute([json_encode($perms), $row->getValue('id')]);

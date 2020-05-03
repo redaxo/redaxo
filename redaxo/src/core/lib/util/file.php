@@ -62,7 +62,7 @@ class rex_file
     public static function put($file, $content)
     {
         return rex_timer::measure(__METHOD__, static function () use ($file, $content) {
-            if (!rex_dir::create(dirname($file)) || file_exists($file) && !is_writable($file)) {
+            if (!rex_dir::create(dirname($file)) || is_file($file) && !is_writable($file)) {
                 return false;
             }
 
@@ -125,7 +125,7 @@ class rex_file
                     rex_dir::create($dstdir);
                 }
 
-                if (rex_dir::isWritable($dstdir) && (!file_exists($dstfile) || is_writable($dstfile)) && copy($srcfile, $dstfile)) {
+                if (rex_dir::isWritable($dstdir) && (!is_file($dstfile) || is_writable($dstfile)) && copy($srcfile, $dstfile)) {
                     @chmod($dstfile, rex::getFilePerm());
                     touch($dstfile, filemtime($srcfile), fileatime($srcfile));
                     return true;
@@ -133,6 +133,19 @@ class rex_file
             }
             return false;
         });
+    }
+
+    /**
+     * Renames a file.
+     *
+     * @param string $srcfile Path of the source file
+     * @param string $dstfile Path of the destination file or directory
+     *
+     * @return bool TRUE on success, FALSE on failure
+     */
+    public static function move(string $srcfile, string $dstfile): bool
+    {
+        return rename($srcfile, $dstfile);
     }
 
     /**
@@ -145,7 +158,7 @@ class rex_file
     public static function delete($file)
     {
         return rex_timer::measure(__METHOD__, static function () use ($file) {
-            if (file_exists($file)) {
+            if (is_file($file)) {
                 return unlink($file);
             }
             return true;
@@ -162,6 +175,42 @@ class rex_file
     public static function extension($filename)
     {
         return pathinfo($filename, PATHINFO_EXTENSION);
+    }
+
+    /**
+     * Detects the mime type of the given file.
+     *
+     * @param string $file Path to the file
+     *
+     * @return null|string Mime type or `null` if the type could not be detected
+     */
+    public static function mimeType($file): ?string
+    {
+        $mimeType = mime_content_type($file);
+
+        if (false === $mimeType) {
+            return null;
+        }
+
+        // map less common types to their more common equivalent
+        static $mapping = [
+            'application/xml' => 'text/xml',
+            'image/svg' => 'image/svg+xml',
+        ];
+
+        if ('text/plain' !== $mimeType) {
+            $mimeType = $mapping[$mimeType] ?? $mimeType;
+
+            return $mimeType ?: null;
+        }
+
+        static $extensions = [
+            'css' => 'text/css',
+            'js' => 'application/javascript',
+            'svg' => 'image/svg+xml',
+        ];
+
+        return $extensions[strtolower(self::extension($file))] ?? $mimeType;
     }
 
     /**

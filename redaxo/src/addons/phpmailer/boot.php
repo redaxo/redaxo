@@ -19,7 +19,7 @@ if (!$addon->hasConfig('security_mode')) {
 
 if (!rex::isBackend() && 0 != $addon->getConfig('errormail')) {
     rex_extension::register('RESPONSE_SHUTDOWN', static function (rex_extension_point $ep) use ($addon) {
-        $logFile = rex_path::coreData('system.log');
+        $logFile = rex_path::log('system.log');
         $sendTime = $addon->getConfig('last_log_file_send_time', 0);
         $timediff = '';
         $fatalerror = false;
@@ -93,4 +93,11 @@ if (!rex::isBackend() && 0 != $addon->getConfig('errormail')) {
 }
 if ('system' == rex_be_controller::getCurrentPagePart(1)) {
     rex_system_setting::register(new rex_system_setting_phpmailer_errormail());
+}
+
+// make the phpmailer addon icon orange if detour_mode is active
+if (true == $addon->getConfig('detour_mode')) {
+    $page = $addon->getProperty('page');
+    $page['icon'] .= ' text-danger';
+    $addon->setProperty('page', $page);
 }

@@ -1,5 +1,12 @@
 <?php
 
+assert(isset($PERMALL) && is_bool($PERMALL));
+assert(isset($opener_input_field) && is_string($opener_input_field));
+
+if (!isset($rex_file_category)) {
+    $rex_file_category = 0;
+}
+
 // *************************************** Subpage: ADD FILE
 
 $media_method = rex_request('media_method', 'string');
@@ -20,8 +27,9 @@ if ('add_file' == $media_method) {
                         ? '<br />' . rex_i18n::msg('pool_file_allowed_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', $whitelist), ', ') . '</code>'
                         : '<br />' . rex_i18n::msg('pool_file_banned_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', rex_mediapool_getMediaTypeBlacklist()), ', ') . '</code>';
                 } elseif (!rex_mediapool_isAllowedMimeType($_FILES['file_new']['tmp_name'], $_FILES['file_new']['name'])) {
-                    $warning = rex_i18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . rex_file::extension($_FILES['file_new']['name']) . '</code> (<code>' . mime_content_type($_FILES['file_new']['tmp_name']) . '</code>)';
+                    $warning = rex_i18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . rex_file::extension($_FILES['file_new']['name']) . '</code> (<code>' . rex_file::mimeType($_FILES['file_new']['tmp_name']) . '</code>)';
                 } else {
+                    $FILEINFOS = [];
                     $FILEINFOS['title'] = rex_request('ftitle', 'string');
 
                     if (!$PERMALL && !rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category)) {
@@ -48,7 +56,10 @@ if ('add_file' == $media_method) {
                         }
 
                         echo "<script language=javascript>\n";
-                        echo $js;
+
+                        if (isset($js)) {
+                            echo $js;
+                        }
                         // echo "\nself.close();\n";
                         echo '</script>';
                         exit;

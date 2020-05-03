@@ -3,11 +3,11 @@ htmllang = es
 yes = si
 no = no
 general = general
-dateformat = %d-%b-%Y
 setlocale = es_ES,es_BO,latin_america,ES,Español,castellano
 phpini_settings = Ajustes PHP.ini
 
-datetimeformat = %d-%b-%Y %H:%M
+dateformat = %d %b. %Y
+datetimeformat = %d %b. %Y, %H:%M
 timeformat = %H:%M
 ctrl = Selección múltiple mediante CTRL
 translatable = Traducible a través de <code>translate:i18n_key</code>
@@ -103,6 +103,8 @@ clang_select = Elige lengua
 clang_caption = Lista de idiomas disponibles
 clang_function = Funciones
 version = Versión
+mode = Modo
+charset = Conjunto de caracteres
 host = Anfitrión
 database = Base de datos
 logfiles = Registros
@@ -139,6 +141,7 @@ debug_mode_off = Deshabilitar el modo de depuración
 debug_mode_info_on = El modo de depuración ha sido activado
 debug_mode_info_off = El modo de depuración ha sido desactivado
 debug_mode_marker = El modo de depuración está activo
+debug_confirm = El modo de depuración no debe activarse en modo en vivo.  ¿Sigue activando el modo de depuración?
 
 system_report = Informe del sistema
 system_report_markdown = Como markdown
@@ -147,7 +150,6 @@ system_report_markdown = Como markdown
 setup = Preparar
 setup_restart = Reiniciar la configuración
 setup_text = Puede iniciar el proceso de configuración aquí. Esto es sólo para emergencias y no se requiere en condiciones normales.
-setup_error1 = Configuración activada. Haga clic en {0}> continuar <{1} y ejecute la instalación.
 setup_error2 = Error. Boot.php no se puede escribir. Por favor, inserte \"$REX[SETUP] = true;\" en boot.php
 
 
@@ -215,6 +217,10 @@ setup_512 = Repita el paso 5
 setup_513 = Sistema AddOn(s) no se pudo instalar
 setup_514 = Actualizar base de datos
 setup_514_note = Actualización de la versión anterior
+setup_charset_utf8mb4 = utf8mb4 [recomendado]
+setup_charset_utf8mb4_note = Requiere al menos MySQL 5.7.7 o MariaDB 10.2.  Soporte completo de Unicode, incluidos emojis y otros caracteres especiales.
+setup_charset_utf8 = utf8 [en desuso]
+setup_charset_utf8_note = Modo UTF8 no estándar.  El soporte se eliminará gradualmente en versiones posteriores de REDAXO.
 setup_599 = 5 / Base de datos
 
 setup_600 = Configuración: Paso 6 de 7 / Administrador
@@ -245,6 +251,7 @@ setup_no_js_security_msg = Por favor, compruebe si los archivos de la carpeta re
 setup_security_no_https = La configuración se realiza sin HTTPS / cifrado. Se recomienda realizar todas las llamadas frontend y backend solo a través de HTTPS para garantizar su privacidad.
 setup_security_warn_mod_security = El módulo de Apache "mod_security" está cargado. Esto puede provocar problemas si se configura incorrectamente.
 setup_security_deprecated_php = La versión PHP usada {0} ya no es mantenida por el fabricante y debe actualizarse.
+setup_session_autostart_warning = La configuración de php "session.auto_start" está activada.  Se recomienda desactivar esto para evitar problemas.
 
 sql_database_name_missing = ¡Falta el nombre de la base de datos!
 sql_database_already_exists = ¡La base de datos ya existe!
@@ -257,14 +264,14 @@ sql_unable_to_open_database = ¡No se puede abrir la base de datos definida!
 
 setup_security = Seguridad
 
+https_only_over_https = Estas opciones solo están disponibles cuando se llama a través de HTTPS
 https_activate_redirect_for = Redirección HTTPS automática
 https_disable = Desactivar
 https_only_frontend = Activar solo para frontend
 https_only_backend = Activar solo para backend
 https_activate = Activar para frontend y backend
 
-hsts_activate = Establezca <b>Seguridad de transporte HTTP estricta </​​b>
-hsts_more_information = Más información en {0}
+hsts_more_information = Se recomienda activar HSTS en la configuración de alojamiento de su dominio / s, pero también se puede activar en config.yml de REDAXO en una etapa posterior.  Hay más información disponible en la documentación de REDAXO
 
 # redaxo\include\pages\addon.php
 addon = AddOn
@@ -305,6 +312,8 @@ package_activate = activar
 package_yes = sí
 package_no = no
 package_caption = Lista de paquetes disponibles
+package_search = Buscar...
+package_clear = Restablecer entrada
 addon_systemaddon = Addon del sistema
 addon_systempackage_delete_not_allowed = Los complementos del sistema no se pueden eliminar!
 addon_dir_not_writable = ¡Los permisos de escritura están faltando para el directorio addon!
@@ -360,9 +369,10 @@ plugin_cache_not_writable = ¡La carpeta de caché de Plugin no tiene permisos d
 credits = Créditos
 credits_name = Añadir
 credits_help = Ayuda
+credits_information = Información
 credits_version = Versión
 credits_author = Autor
-credits_supportpage = Ayuda
+credits_supportpage =
 credits_addon_inactive = Addon inactivo
 credits_caption = Lista de los paquetes usados
 credits_open_help_file = Abrir archivo de ayuda

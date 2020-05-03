@@ -58,7 +58,7 @@ class TableStyle
     public function setPaddingChar($paddingChar)
     {
         if (!$paddingChar) {
-            throw new LogicException('The padding char must not be empty');
+            throw new LogicException('The padding char must not be empty.');
         }
 
         $this->paddingChar = $paddingChar;
@@ -192,7 +192,7 @@ class TableStyle
      *
      * @internal
      */
-    public function getBorderChars()
+    public function getBorderChars(): array
     {
         return [
             $this->horizontalOutsideBorderChar,

@@ -54,7 +54,7 @@ class rex_stream
             $hash = substr(sha1($content), 0, 7);
             $path = rex_path::coreCache('stream/'.$path.'/'.$hash);
 
-            if (!file_exists($path)) {
+            if (!is_file($path)) {
                 rex_file::put($path, $content);
             }
 

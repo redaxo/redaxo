@@ -68,13 +68,16 @@ class rex_sql_util
         return true;
     }
 
+    /**
+     * @return string
+     */
     private static function prepareQuery($qry)
     {
         // rex::getUser() gibts im Setup nicht
         $user = rex::getUser() ? rex::getUser()->getValue('login') : '';
 
         $qry = str_replace('%USER%', $user, $qry);
-        $qry = str_replace('%TIME%', time(), $qry);
+        $qry = str_replace('%TIME%', (string) time(), $qry);
         $qry = str_replace('%TABLE_PREFIX%', rex::getTablePrefix(), $qry);
         $qry = str_replace('%TEMP_PREFIX%', rex::getTempPrefix(), $qry);
 
@@ -94,7 +97,7 @@ class rex_sql_util
             $ret = [];
             $sqlsplit = [];
             $fileContent = file_get_contents($file);
-            self::splitSqlFile($sqlsplit, $fileContent, '');
+            self::splitSqlFile($sqlsplit, $fileContent, 0);
 
             if (is_array($sqlsplit)) {
                 foreach ($sqlsplit as $qry) {
@@ -105,8 +108,10 @@ class rex_sql_util
             return $ret;
         }
 
-        return false;
+        throw new rex_exception('File "'.$file.'" could not be read.');
     }
+
+    // Taken from phpmyadmin (read_dump.lib.php: PMA_splitSqlFile)
 
     /**
      * Removes comment lines and splits up large sql files into individual queries.
@@ -120,7 +125,6 @@ class rex_sql_util
      *
      * @return bool always true
      */
-    // Taken from phpmyadmin (read_dump.lib.php: PMA_splitSqlFile)
     public static function splitSqlFile(&$ret, $sql, $release)
     {
         // do not trim, see bug #1030644
@@ -138,7 +142,7 @@ class rex_sql_util
             // We are in a string, check for not escaped end of strings except for
             // backquotes that can't be escaped
             if ($in_string) {
-                for (; ;) {
+                for (;;) {
                     /** @psalm-suppress LoopInvalidation */
                     $i = strpos($sql, $string_start, $i);
                     // No end of string found -> add the current substring to the

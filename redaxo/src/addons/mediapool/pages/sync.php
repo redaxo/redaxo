@@ -1,6 +1,7 @@
 <?php
 
-// *************************************** SYNC FUNCTIONS
+assert(isset($rex_file_category) && is_int($rex_file_category));
+assert(isset($PERMALL) && is_bool($PERMALL));
 
 $csrf = rex_csrf_token::factory('mediapool');
 
@@ -31,7 +32,7 @@ if ($PERMALL) {
     // Extra - filesize/width/height DB-Filesystem Sync
     foreach ($db_files as $db_file) {
         $path = rex_path::media($db_file['filename']);
-        if (!file_exists($path)) {
+        if (!is_file($path)) {
             continue;
         }
 
@@ -145,7 +146,7 @@ if ($PERMALL) {
             <script type="text/javascript">
                 jQuery(document).ready(function($){
                     $("input[name=\'sync_files[]\']").change(function() {
-                        $(this).closest(\'form\').find("[type=\'submit\']").attr("disabled", $("input[name=\'sync_files[]\']:checked").size() == 0);
+                        $(this).closest(\'form\').find("[type=\'submit\']").attr("disabled", $("input[name=\'sync_files[]\']:checked").length == 0);
                     }).change();
                     $("#rex-js-checkie").change(function() {
                         $("input[name=\'sync_files[]\']").change();

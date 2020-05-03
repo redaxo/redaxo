@@ -4,6 +4,18 @@
  * @package redaxo5
  */
 
+assert(isset($PERMALL) && is_bool($PERMALL));
+assert(isset($arg_fields) && is_string($arg_fields));
+assert(isset($arg_url) && is_array($arg_url));
+
+// defaults for globals passed in from index.php
+ if (!isset($success)) {
+     $success = '';
+ }
+ if (!isset($error)) {
+     $error = '';
+ }
+
 // *************************************** SUBPAGE: KATEGORIEN
 
 $media_method = rex_request('media_method', 'string');
@@ -65,7 +77,7 @@ if ($PERMALL) {
         for ($i = 1; $i < count($paths); ++$i) {
             $iid = current($paths);
             if ('' != $iid) {
-                $icat = rex_media_category::get($iid);
+                $icat = rex_media_category::get((int) $iid);
 
                 $n = [];
                 $n['title'] = rex_escape($icat->getName());

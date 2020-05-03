@@ -17,6 +17,10 @@ abstract class rex_effect_abstract
      */
     public $params = [];
 
+    public function __construct()
+    {
+    }
+
     public function setMedia(rex_managed_media $media)
     {
         $this->media = $media;
@@ -57,6 +61,7 @@ abstract class rex_effect_abstract
     public function getParams()
     {
         // implement me in your subclass.
+        return [];
     }
 
     protected function keepTransparent($des)

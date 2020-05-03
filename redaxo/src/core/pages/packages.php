@@ -90,14 +90,26 @@ if ('license' == $subpage) {
     }
 
     echo '<a class="btn btn-back" href="javascript:history.back();">' . rex_i18n::msg('package_back') . '</a>';
+    echo '<a class="btn" rel="noopener noreferrer" target="_blank" href="https://choosealicense.com/licenses/">' . rex_i18n::msg('credits_explain_license') . '</a>';
 }
 
 // ----------------- OUT
 if ('' == $subpage) {
+    // the package manager don't know new packages in the addon folder
+    // so we need to make them available
     rex_package_manager::synchronizeWithFileSystem();
 
+    $toolbar = '
+        <div class="form-group form-group-xs">
+            <div class="input-group input-group-xs" id="rex-js-available-addon-search">
+                <input class="form-control" type="text" placeholder="' . rex_i18n::msg('package_search') . '" '.(rex_request('function') ? '' : 'autofocus ').'/>
+                <span class="input-group-btn"><button class="btn btn-default">' . rex_i18n::msg('package_clear') . '</button></span>
+            </div>
+        </div>
+    ';
+
     $content .= '
-            <table class="table table-hover">
+            <table class="table table-hover" id="rex-js-table-available-packages-addons">
             <thead>
                 <tr>
                     <th class="rex-table-icon">&nbsp;</th>
@@ -167,9 +179,18 @@ if ('' == $subpage) {
                         </td>
                     </tr>';
             $class = ' mark';
+        } elseif ($package->getPackageId() == rex_get('mark', 'string')) {
+            $class = ' mark';
         }
 
-        $version = ('' != trim($package->getVersion())) ? ' <span class="rex-' . $type . '-version">' . trim($package->getVersion()) . '</span>' : '';
+        $version = '';
+        if ('' !== trim($package->getVersion())) {
+            $version = ' <span class="rex-' . $type . '-version">' . trim($package->getVersion()) . '</span>';
+
+            if (rex_version::isUnstable($package->getVersion())) {
+                $version = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $version;
+            }
+        }
 
         $license = '';
         if (is_readable($licenseFile = $package->getPath('LICENSE.md')) || is_readable($licenseFile = $package->getPath('LICENSE'))) {
@@ -181,7 +202,7 @@ if ('' == $subpage) {
                 $firstLine = 'MIT License';
             }
 
-            $license = '<a href="'. rex_url::currentBackendPage(['subpage' => 'license', 'package' => $packageId]) .'"><i class="rex-icon rex-icon-license"></i> '. rex_escape($firstLine) .'</a>';
+            $license = '<a href="'. rex_url::currentBackendPage(['subpage' => 'license', 'package' => $packageId]) .'" data-pjax-scroll-to="0"><i class="rex-icon rex-icon-license"></i> '. rex_escape($firstLine) .'</a>';
         }
 
         return $message . '
@@ -190,7 +211,7 @@ if ('' == $subpage) {
                         <td data-title="' . rex_i18n::msg('package_hname') . '">' . $name . '</td>
                         <td data-title="' . rex_i18n::msg('package_hversion') . '">' . $version . '</td>
                         <td class="rex-table-slim" data-title="' . rex_i18n::msg('package_hhelp') . '">
-                            <a href="' . rex_url::currentBackendPage(['subpage' => 'help', 'package' => $packageId]) . '" title="' . rex_i18n::msg('package_help') . ' ' . rex_escape($package->getName()) . '"><i class="rex-icon rex-icon-help"></i> ' . rex_i18n::msg('package_hhelp') . ' <span class="sr-only">' . rex_escape($package->getName()) . '</span></a>
+                            <a href="' . rex_url::currentBackendPage(['subpage' => 'help', 'package' => $packageId]) . '" data-pjax-scroll-to="0" title="' . rex_i18n::msg('package_help') . ' ' . rex_escape($package->getName()) . '"><i class="rex-icon rex-icon-help"></i> ' . rex_i18n::msg('package_hhelp') . ' <span class="sr-only">' . rex_escape($package->getName()) . '</span></a>
                         </td>
                         <td class="rex-table-width-6" data-title="' . rex_i18n::msg('package_hlicense') . '">'. $license .'</td>
                         <td class="rex-table-action" data-pjax-container="#rex-js-page-container">' . $install . '</td>
@@ -213,8 +234,36 @@ if ('' == $subpage) {
     $content .= '</tbody>
             </table>';
 
+    $content .= '
+        <script type="text/javascript">
+        <!--
+        jQuery(function($) {
+            var table = $("#rex-js-table-available-packages-addons");
+            var tablebody = table.find("tbody");
+
+            $("#rex-js-available-addon-search .form-control").keyup(function () {
+                table.find("tr").show();
+                var search = $(this).val().toLowerCase();
+                if (search) {
+                    table.find("tbody tr").each(function () {
+                        var tr = $(this);
+                        if (tr.text().toLowerCase().indexOf(search) < 0) {
+							tr.hide();
+                        }
+                    });
+                }
+            });
+            $("#rex-js-available-addon-search .btn").click(function () {
+                $("#rex-js-available-addon-search .form-control").val("").trigger("keyup");
+            });
+        });
+        //-->
+        </script>
+    ';
+
     $fragment = new rex_fragment();
     $fragment->setVar('title', rex_i18n::msg('package_caption'), false);
+    $fragment->setVar('options', $toolbar, false);
     $fragment->setVar('content', $content, false);
     echo $fragment->parse('core/page/section.php');
 }

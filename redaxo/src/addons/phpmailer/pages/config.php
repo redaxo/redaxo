@@ -13,9 +13,10 @@ $addon = rex_addon::get('phpmailer');
 $message = '';
 
 if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string')) {
-    $addon->setConfig(rex_post('settings', [
+    $settings = rex_post('settings', [
         ['fromname', 'string'],
         ['from', 'string'],
+        ['detour_mode', 'boolean'],
         ['confirmto', 'string'],
         ['bcc', 'string'],
         ['mailer', 'string'],
@@ -32,12 +33,19 @@ if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string'
         ['priority', 'int'],
         ['smtp_debug', 'int'],
         ['test_address', 'string'],
-        ['log', 'int', 1],
-    ]));
+        ['logging', 'int'],
+        ['archive', 'boolean'],
+    ]);
+
+    if (true == $settings['detour_mode'] && false == rex_validator::factory()->email($settings['test_address'])) {
+        $settings['detour_mode'] = false;
+        $warning = $addon->i18n('detour_warning');
+        echo rex_view::warning($warning);
+    }
+
+    $addon->setConfig($settings);
 
     if ('' != rex_post('btn_check', 'string')) {
-        $settings = rex_post('settings', 'array', []);
-
         if (false == rex_validator::factory()->email($settings['from']) || false == rex_validator::factory()->email($settings['test_address'])) {
             $warning = $addon->i18n('check_settings_not_tested');
             echo rex_view::warning($warning);
@@ -79,7 +87,7 @@ $sel_smtpauth->setName('settings[smtpauth]');
 $sel_smtpauth->setSize(1);
 $sel_smtpauth->setAttribute('class', 'form-control selectpicker');
 $sel_smtpauth->setSelected($addon->getConfig('smtpauth'));
-foreach ([0 => $addon->i18n('smtp_auth_off'), 1 => $addon->i18n('smtp_auth_on')] as $i => $type) {
+foreach ([0 => $addon->i18n('disabled'), 1 => $addon->i18n('enabled')] as $i => $type) {
     $sel_smtpauth->addOption($type, $i);
 }
 
@@ -115,12 +123,22 @@ foreach ([0 => $addon->i18n('disabled'), 1 => $addon->i18n('high'), 3 => $addon-
 
 $sel_log = new rex_select();
 $sel_log->setid('phpmailer-log');
-$sel_log->setName('settings[log]');
+$sel_log->setName('settings[logging]');
 $sel_log->setSize(1);
 $sel_log->setAttribute('class', 'form-control selectpicker');
-$sel_log->setSelected($addon->getConfig('log'));
-$sel_log->addOption($addon->i18n('log_yes'), 1);
+$sel_log->setSelected($addon->getConfig('logging'));
 $sel_log->addOption($addon->i18n('log_no'), 0);
+$sel_log->addOption($addon->i18n('log_errors'), rex_mailer::LOG_ERRORS);
+$sel_log->addOption($addon->i18n('log_all'), rex_mailer::LOG_ALL);
+
+$sel_archive = new rex_select();
+$sel_archive->setid('phpmailer-archive');
+$sel_archive->setName('settings[archive]');
+$sel_archive->setSize(1);
+$sel_archive->setAttribute('class', 'form-control selectpicker');
+$sel_archive->setSelected((int) $addon->getConfig('archive'));
+$sel_archive->addOption($addon->i18n('log_no'), 0);
+$sel_archive->addOption($addon->i18n('log_yes'), 1);
 
 $sel_debug = new rex_select();
 $sel_debug->setid('phpmailer-smtp_debug');
@@ -155,6 +173,24 @@ $formElements[] = $n;
 $n = [];
 $n['label'] = '<label for="phpmailer-testaddress">' . $addon->i18n('checkmail_test_address') . '</label>';
 $n['field'] = '<input class="form-control" id="phpmailer-testaddress" type="email" name="settings[test_address]" placeholder="test@example.tld" value="' . rex_escape($addon->getConfig('test_address')) . '" />';
+$formElements[] = $n;
+
+$sel_detour_mode = new rex_select();
+$sel_detour_mode->setId('phpmailer-detour-mode');
+$sel_detour_mode->setName('settings[detour_mode]');
+$sel_detour_mode->setSize(1);
+$sel_detour_mode->setAttribute('class', 'form-control selectpicker');
+
+$sel_detour_mode->setSelected($addon->getConfig('detour_mode') ?: 0);
+foreach ([$addon->i18n('disabled'), $addon->i18n('enabled')] as $key => $value) {
+    $sel_detour_mode->addOption($value, $key);
+}
+
+$detour_mode_label_class = $addon->getConfig('detour_mode') ? 'text-danger' : '';
+
+$n = [];
+$n['label'] = '<label for="phpmailer-detour-mode" class="' . $detour_mode_label_class . '">' . $addon->i18n('detour_email_redirect') . '</label>';
+$n['field'] = $sel_detour_mode->get();
 $formElements[] = $n;
 
 $n = [];
@@ -275,9 +311,14 @@ $n['field'] = $sel_priority->get();
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="phpmailer-log">' . $addon->i18n('log') . '</label>';
+$n['label'] = '<label for="phpmailer-log">' . $addon->i18n('logging') . '</label>';
 $n['field'] = $sel_log->get();
-$n['note'] = rex_i18n::rawMsg('phpmailer_log_info', rex_mailer::logFolder(), '...'.substr(rex_mailer::logFolder(), -30));
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="phpmailer-log">' . $addon->i18n('archive') . '</label>';
+$n['field'] = $sel_archive->get();
+$n['note'] = rex_i18n::rawMsg('phpmailer_archive_info', rex_mailer::logFolder(), '...'.substr(rex_mailer::logFolder(), -30));
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -336,7 +377,7 @@ echo '
             $('#smtpsettings').slideUp();
         }
     });
-    
+
         $('#security_mode').change(function(){
         if ($(this).val() == '0') {
             $('#securetype').slideDown();
@@ -354,4 +395,3 @@ echo '
     });
 
 </script>
-

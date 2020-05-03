@@ -82,3 +82,5 @@ cronjob_log_no_data = No log data available.
 cronjob_log_caption_1 = List of executed cronjobs in {0} {1}
 cronjob_log_caption_2 = List of latest executed cronjobs
 cronjob_log_message = Log message
+
+cronjob_delete_log_msg =  Delete the cronjob log?

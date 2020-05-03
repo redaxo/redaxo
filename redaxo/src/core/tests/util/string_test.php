@@ -9,7 +9,7 @@ class rex_string_test extends TestCase
 {
     public function testSize()
     {
-        $this->assertEquals(3, rex_string::size('aä'));
+        static::assertEquals(3, rex_string::size('aä'));
     }
 
     public function normalizeProvider()
@@ -30,7 +30,7 @@ class rex_string_test extends TestCase
      */
     public function testNormalize($expected, $string, $replaceChar = '_', $allowedChars = '')
     {
-        $this->assertEquals($expected, rex_string::normalize($string, $replaceChar, $allowedChars));
+        static::assertEquals($expected, rex_string::normalize($string, $replaceChar, $allowedChars));
     }
 
     public function splitProvider()
@@ -52,62 +52,7 @@ class rex_string_test extends TestCase
      */
     public function testSplit($string, $expectedArray)
     {
-        $this->assertEquals($expectedArray, rex_string::split($string));
-    }
-
-    public function versionSplitProvider()
-    {
-        return [
-            ['1.1.2',      ['1', '1', '2']],
-            ['1.2alpha1',  ['1', '2', 'alpha', '1']],
-            ['1_2 beta 2', ['1', '2', 'beta', '2']],
-            ['2.2.3-dev',  ['2', '2', '3', 'dev']],
-        ];
-    }
-
-    /**
-     * @dataProvider versionSplitProvider
-     */
-    public function testVersionSplit($version, $expected)
-    {
-        $this->assertEquals($expected, rex_string::versionSplit($version));
-    }
-
-    public function versionCompareProvider()
-    {
-        return [
-            ['1',      '1',      '='],
-            ['1.0',    '1.0',    '='],
-            ['1',      '1.0',    '='],
-            ['1.0 a1', '1.0.a1', '='],
-            ['1.0a1',  '1.0.a1', '='],
-            ['1.0 alpha 1', '1.0.a1', '='],
-
-            ['1',      '2',        '<'],
-            ['1',      '1.1',      '<'],
-            ['1.0',    '1.1',      '<'],
-            ['1.1',    '1.2',      '<'],
-            ['1.2',    '1.10',     '<'],
-            ['1.a1',   '1',        '<'],
-            ['1.a1',   '1.0',      '<'],
-            ['1.a1',   '1.a2',     '<'],
-            ['1.a1',   '1.b1',     '<'],
-            ['1.0.a1', '1',        '<'],
-            ['1.0.a1', '1.0.0.0.', '<'],
-            ['1.0a1',  '1.0',      '<'],
-            ['1.0a1',  '1.0.1',    '<'],
-            ['1.0a1',  '1.0a2',    '<'],
-            ['1.0',    '1.1a1',    '<'],
-            ['1.0.1',  '1.1a1',    '<'],
-        ];
-    }
-
-    /**
-     * @dataProvider versionCompareProvider
-     */
-    public function testVersionCompare($version1, $version2, $comparator)
-    {
-        $this->assertTrue(rex_string::versionCompare($version1, $version2, $comparator));
+        static::assertEquals($expectedArray, rex_string::split($string));
     }
 
     public function buildQueryProvider()
@@ -125,12 +70,12 @@ class rex_string_test extends TestCase
      */
     public function testBuildQuery($expected, $params, $argSeparator = '&')
     {
-        $this->assertEquals($expected, rex_string::buildQuery($params, $argSeparator));
+        static::assertEquals($expected, rex_string::buildQuery($params, $argSeparator));
     }
 
     public function testBuildAttributes()
     {
-        $this->assertEquals(
+        static::assertEquals(
             ' id="rex-test" class="a b" alt="" checked data-foo="&lt;foo&gt; &amp; &quot;bar&quot;" href="index.php?foo=1&amp;bar=2"',
             rex_string::buildAttributes([
                 'id' => 'rex-test',
@@ -141,5 +86,38 @@ class rex_string_test extends TestCase
                 'href' => 'index.php?foo=1&amp;bar=2',
             ])
         );
+    }
+
+    public function testSanitizeHtml()
+    {
+        $input = <<<'INPUT'
+<p align=center><img src="foo.jpg" style="width: 200px"></p>
+<a name="test"></a>
+
+<script>alert(1)</script>
+<a href="javascript:alert(1)">Foo</a>
+<a href="index.php" onclick="alert(1)">Foo</a>
+<img src="foo.jpg" onmouseover="alert(1)"/>
+
+<pre><code>
+    &lt;script&gt; foo() &lt;/script&gt;
+</code></pre>
+INPUT;
+
+        $expected = <<<'EXPECTED'
+<p align=center><img src="foo.jpg" style="width: 200px"></p>
+<a name="test"></a>
+
+
+<a href="(1)">Foo</a>
+<a href="index.php">Foo</a>
+<img src="foo.jpg" />
+
+<pre><code>
+    &lt;script&gt; foo() &lt;/script&gt;
+</code></pre>
+EXPECTED;
+
+        static::assertSame($expected, rex_string::sanitizeHtml($input));
     }
 }

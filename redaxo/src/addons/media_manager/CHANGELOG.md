@@ -1,6 +1,35 @@
 Changelog
 =========
 
+Version 2.9.0 – 10.03.2020
+--------------------------
+
+### Neu
+
+* Effekt `convert2img`:
+    - Wandelt auch SVGs in JPG/PNG um (@dergel)
+    - Unterstützt Transparenzen (Farbe kann angegeben werden) (@dergel)
+
+### Bugfixes
+
+* SVGs wurden teils mit falschem Content-Type ausgeliefert (@gharlan)
+* `rex_media_manager::getUrl` hat im Backend eine URL mit der Backend-`index.php` geliefert, was teils zu langsamen Backend-Seitenaufrufen führte (Session-Locks) (@gharlan)
+
+
+Version 2.8.0 – 02.02.2020
+--------------------------
+
+### Neu
+
+* Statt des Error-Bildes wird nun der 404-Statuscode gesendet (@gharlan)
+* Effekt `convert2img`: Funktioniert nun auch ohne `exec()`-Rechte, wenn die PHP-Extension `imagick` installiert ist (@iceman-fx, @gharlan)
+* Umbenennung "Mediatyp" in "Medientyp" (@alexplusde)
+
+### Bugfixes
+
+* Effekt `rotate`: Transparenz wurde nicht erhalten (@gharlan)
+
+
 Version 2.7.0 – 20.08.2019
 --------------------------
 

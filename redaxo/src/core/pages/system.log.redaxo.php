@@ -1,8 +1,6 @@
 <?php
 
 /**
- * Verwaltung der Content Sprachen.
- *
  * @package redaxo5
  */
 
@@ -24,6 +22,11 @@ if ('delLog' == $func) {
         $error = rex_i18n::msg('syslog_delete_error');
     }
 }
+if ('download' == $func && is_file($logFile)) {
+    rex_response::sendFile($logFile, 'application/octet-stream', 'attachment');
+    exit;
+}
+
 $message = '';
 $content = '';
 
@@ -49,7 +52,7 @@ $content .= '
                 <tbody>';
 
 $file = new rex_log_file($logFile);
-foreach (new LimitIterator($file, 0, 30) as $entry) {
+foreach (new LimitIterator($file, 0, 100) as $entry) {
     /** @var rex_log_entry $entry */
     $data = $entry->getData();
 
@@ -79,6 +82,13 @@ $formElements[] = $n;
 if ($url = rex_editor::factory()->getUrl($logFile, 0)) {
     $n = [];
     $n['field'] = '<a class="btn btn-save" href="'. $url .'">' . rex_i18n::msg('system_editor_open_file', basename($logFile)) . '</a>';
+    $formElements[] = $n;
+}
+
+if (is_file($logFile)) {
+    $url = rex_url::currentBackendPage(['func' => 'download']);
+    $n = [];
+    $n['field'] = '<a class="btn btn-save" href="'. $url .'">' . rex_i18n::msg('syslog_download', basename($logFile)) . '</a>';
     $formElements[] = $n;
 }
 

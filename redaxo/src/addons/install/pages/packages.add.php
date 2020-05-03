@@ -1,5 +1,7 @@
 <?php
 
+assert(isset($markdown) && is_callable($markdown));
+
 $package = rex_addon::get('install');
 
 $addonkey = rex_request('addonkey', 'string');
@@ -59,17 +61,13 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
             </thead>
             <tbody>';
 
-    $markdown = rex_markdown::factory();
-    $fragment = new rex_fragment();
     foreach ($addon['files'] as $fileId => $file) {
-        $file['description'] = '' == trim($file['description']) ? '&nbsp;' : rex_escape($file['description']);
-
         $content .= '
             <tr>
                 <td class="rex-table-icon"><i class="rex-icon rex-icon-package"></i></td>
                 <td data-title="' . $package->i18n('version') . '">' . rex_escape($file['version']) . '</td>
                 <td data-title="' . $package->i18n('published_on') . '">' . rex_escape(rex_formatter::strftime($file['created'])) . '</td>
-                <td data-title="' . $package->i18n('description') . '">' . $fragment->setVar('content', $markdown->parse($file['description']), false)->parse('core/page/readme.php') . '</td>
+                <td data-title="' . $package->i18n('description') . '">' . $markdown($file['description']) . '</td>
                 <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $fileId] + rex_api_install_package_add::getUrlParams()) . '" data-pjax="false"><i class="rex-icon rex-icon-download"></i> ' . $package->i18n('download') . '</a></td>
             </tr>';
     }
@@ -97,13 +95,13 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
         $sortClass = '-up';
         $sortNext = 'down';
         uasort($addons, static function ($addon1, $addon2) {
-            return reset($addon1['files'])['created'] > reset($addon2['files'])['created'];
+            return reset($addon1['files'])['created'] <=> reset($addon2['files'])['created'];
         });
     } elseif ('down' === $sort) {
         $sortClass = '-down';
         $sortNext = '';
         uasort($addons, static function ($addon1, $addon2) {
-            return reset($addon1['files'])['created'] < reset($addon2['files'])['created'];
+            return reset($addon2['files'])['created'] <=> reset($addon1['files'])['created'];
         });
     } else {
         $sortClass = '';
@@ -129,19 +127,19 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
             $content .= '
                 <tr>
                     <td class="rex-table-icon"><i class="rex-icon rex-icon-package"></i></td>
-                    <td data-title="' . $package->i18n('key') . '">' . $key . '</td>
-                    <td data-title="' . $package->i18n('name') . '"><b>' . $addon['name'] . '</b><br /><span class="text-muted">' . rex_escape($addon['author']) . '</span></td>
+                    <td data-title="' . $package->i18n('key') . '">' . rex_escape($key) . '</td>
+                    <td data-title="' . $package->i18n('name') . '"><b>' . rex_escape($addon['name']) . '</b><br /><span class="text-muted">' . rex_escape($addon['author']) . '</span></td>
                     <td data-title="' . $package->i18n('published_on') . '">' . rex_escape(rex_formatter::strftime(reset($addon['files'])['created'])) . '</td>
-                    <td data-title="' . $package->i18n('shortdescription') . '">' . nl2br($addon['shortdescription']) . '</td>
+                    <td data-title="' . $package->i18n('shortdescription') . '">' . nl2br(rex_escape($addon['shortdescription'])) . '</td>
                     <td class="rex-table-action"><span class="text-nowrap"><i class="rex-icon rex-icon-package-exists"></i> ' . $package->i18n('addon_already_exists') . '</span></td>
                 </tr>';
         } else {
             $url = rex_url::currentBackendPage(['addonkey' => $key]);
             $content .= '
-                <tr>
+                <tr data-pjax-scroll-to="0">
                     <td class="rex-table-icon"><a href="' . $url . '"><i class="rex-icon rex-icon-package"></i></a></td>
                     <td data-title="' . $package->i18n('key') . '"><a href="' . $url . '">' . rex_escape($key) . '</a></td>
-                    <td data-title="' . $package->i18n('name') . '"><b>' . rex_escape($addon['name']) . '</b><br /><span class="text-muted">' . $addon['author'] . '</span></td>
+                    <td data-title="' . $package->i18n('name') . '"><b>' . rex_escape($addon['name']) . '</b><br /><span class="text-muted">' . rex_escape($addon['author']) . '</span></td>
                     <td data-title="' . $package->i18n('published_on') . '">' . rex_escape(rex_formatter::strftime(reset($addon['files'])['created'])) . '</td>
                     <td data-title="' . $package->i18n('shortdescription') . '">' . nl2br(rex_escape($addon['shortdescription'])) . '</td>
                     <td class="rex-table-action"><a href="' . $url . '"><i class="rex-icon rex-icon-view"></i> ' . rex_i18n::msg('view') . '</a></td>

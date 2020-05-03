@@ -64,6 +64,9 @@ class rex_article_content_base
         }
     }
 
+    /**
+     * @return object
+     */
     protected function getSqlInstance()
     {
         if (!is_object($this->ARTICLE)) {
@@ -81,6 +84,7 @@ class rex_article_content_base
     }
 
     // ----- Slice Id setzen für Editiermodus
+
     public function setSliceId($value)
     {
         $this->slice_id = $value;
@@ -112,6 +116,9 @@ class rex_article_content_base
         return $this->clang;
     }
 
+    /**
+     * @return bool
+     */
     public function setArticleId($article_id)
     {
         $article_id = (int) $article_id;
@@ -196,7 +203,7 @@ class rex_article_content_base
         // gleicher BC code nochmals in rex_structure_element::getValue
         foreach (['', 'art_', 'cat_'] as $prefix) {
             $val = $prefix . $value;
-            if ($this->hasValue($val)) {
+            if ($this->_hasValue($val)) {
                 return $this->_getValue($val);
             }
         }
@@ -204,6 +211,17 @@ class rex_article_content_base
     }
 
     public function hasValue($value)
+    {
+        foreach (['', 'art_', 'cat_'] as $prefix) {
+            $val = $prefix . $value;
+            if ($this->_hasValue($val)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private function _hasValue($value)
     {
         return $this->getSqlInstance()->hasValue($this->correctValue($value));
     }
@@ -276,6 +294,9 @@ class rex_article_content_base
         if (0 != $this->getSlice) {
             $sliceLimit = ' AND ' . rex::getTablePrefix() . "article_slice.id = '" . ((int) $this->getSlice) . "' ";
         }
+        if ('edit' !== $this->mode) {
+            $sliceLimit .= ' AND ' . rex::getTablePrefix() . 'article_slice.status = 1';
+        }
 
         // ----- start: article caching
         ob_start();
@@ -283,7 +304,7 @@ class rex_article_content_base
         $module_id = rex_request('module_id', 'int');
 
         // ---------- alle teile/slices eines artikels auswaehlen
-        $query = 'SELECT ' . rex::getTablePrefix() . 'module.id, ' . rex::getTablePrefix() . 'module.name, ' . rex::getTablePrefix() . 'module.output, ' . rex::getTablePrefix() . 'module.input, ' . rex::getTablePrefix() . 'article_slice.*, ' . rex::getTablePrefix() . 'article.parent_id
+        $query = 'SELECT ' . rex::getTablePrefix() . 'module.id, ' . rex::getTablePrefix() . 'module.key, ' . rex::getTablePrefix() . 'module.name, ' . rex::getTablePrefix() . 'module.output, ' . rex::getTablePrefix() . 'module.input, ' . rex::getTablePrefix() . 'article_slice.*, ' . rex::getTablePrefix() . 'article.parent_id
                         FROM
                             ' . rex::getTablePrefix() . 'article_slice
                         LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id
@@ -417,8 +438,12 @@ class rex_article_content_base
             ob_implicit_flush(0);
 
             $TEMPLATE = new rex_template($this->template_id);
-            $tplContent = $this->replaceCommonVars($TEMPLATE->getTemplate());
-            require rex_stream::factory('template/' . $this->template_id, $tplContent);
+
+            rex_timer::measure('Template: '.($TEMPLATE->getKey() ?? $TEMPLATE->getId()), function () use ($TEMPLATE) {
+                $tplContent = $this->replaceCommonVars($TEMPLATE->getTemplate());
+
+                require rex_stream::factory('template/' . $this->template_id, $tplContent);
+            });
 
             $CONTENT = ob_get_clean();
 
@@ -430,10 +455,13 @@ class rex_article_content_base
         return $CONTENT;
     }
 
+    /**
+     * @return string
+     */
     protected function getStreamOutput($path, $content)
     {
         if (!$this->eval) {
-            $key = 'EOD_' . strtoupper(sha1(time()));
+            $key = 'EOD_' . strtoupper(sha1((string) time()));
             return "require rex_stream::factory('$path', \n<<<'$key'\n$content\n$key\n);\n";
         }
 
@@ -453,27 +481,39 @@ class rex_article_content_base
     }
 
     // ----- Modulvariablen werden ersetzt
+
+    /**
+     * @return string
+     */
     protected function replaceVars(rex_sql $sql, $content)
     {
         $content = $this->replaceCommonVars($content);
-        $content = $this->replaceObjectVars($sql, $content);
         $content = str_replace(
             [
                 'REX_MODULE_ID',
+                'REX_MODULE_KEY',
                 'REX_SLICE_ID',
                 'REX_CTYPE_ID',
             ],
             [
                 (int) $sql->getValue('module_id'),
+                $sql->getValue(rex::getTable('module') . '.key'),
                 (int) $sql->getValue(rex::getTable('article_slice') . '.id'),
                 (int) $sql->getValue('ctype_id'),
             ],
             $content
         );
+
+        $content = $this->replaceObjectVars($sql, $content);
+
         return $content;
     }
 
     // ----- REX_VAR Ersetzungen
+
+    /**
+     * @return string
+     */
     protected function replaceObjectVars(rex_sql $sql, $content)
     {
         $sliceId = $sql->getValue(rex::getTablePrefix() . 'article_slice.id');
@@ -492,6 +532,10 @@ class rex_article_content_base
     }
 
     // ---- Artikelweite globale variablen werden ersetzt
+
+    /**
+     * @return string
+     */
     public function replaceCommonVars($content, $template_id = null)
     {
         static $user_id = null;
@@ -530,17 +574,32 @@ class rex_article_content_base
             $user_login,
         ];
 
+        // calculating the key takes an additional sql query... execute the query only when we are sure the var is used
+        if (false !== strpos($content, 'REX_TEMPLATE_KEY')) {
+            $template = new rex_template($template_id);
+            $content = str_replace('REX_TEMPLATE_KEY', $template->getKey(), $content);
+        }
+
         return str_replace($search, $replace, $content);
     }
 
+    /**
+     * @return string
+     */
     protected function replaceLinks($content)
     {
-        return preg_replace_callback(
+        $result = preg_replace_callback(
             '@redaxo://(\d+)(?:-(\d+))?/?@i',
             function ($matches) {
                 return rex_getUrl($matches[1], $matches[2] ?? (int) $this->clang);
             },
             $content
         );
+
+        if (null === $result) {
+            throw new LogicException('Error while replacing links.');
+        }
+
+        return $result;
     }
 }

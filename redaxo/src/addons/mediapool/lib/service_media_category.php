@@ -34,6 +34,12 @@ class rex_media_category_service
 
         rex_media_cache::deleteCategoryList($parent_id);
 
+        rex_extension::registerPoint(new rex_extension_point('MEDIA_CATEGORY_ADDED', [
+            'id' => (int) $db->getLastId(),
+            'parent_id' => $parent_id,
+            'name' => $name,
+        ]));
+
         return rex_i18n::msg('pool_kat_saved', $name);
     }
 
@@ -54,8 +60,7 @@ class rex_media_category_service
             if ($uses = self::categoryIsInUse($categoryId)) {
                 $gf->setQuery('SELECT name FROM ' . rex::getTable('media_category') . ' WHERE id=?', [$categoryId]);
                 $name = "{$gf->getValue('name')} [$categoryId]";
-                throw new rex_functional_exception('<strong>' . rex_i18n::msg('pool_kat_delete_error', $name) . ' '
-                    . rex_i18n::msg('pool_object_in_use_by') . '</strong><br />' . $uses);
+                throw new rex_functional_exception('<strong>' . rex_i18n::msg('pool_kat_delete_error', $name) . ' ' . rex_i18n::msg('pool_object_in_use_by') . '</strong><br />' . $uses);
             }
 
             $gf->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'media_category WHERE id=?', [$categoryId]);
@@ -64,6 +69,8 @@ class rex_media_category_service
         } else {
             throw new rex_functional_exception(rex_i18n::msg('pool_kat_not_deleted'));
         }
+
+        rex_extension::registerPoint(new rex_extension_point('MEDIA_CATEGORY_DELETED', ['id' => $categoryId]));
 
         return rex_i18n::msg('pool_kat_deleted');
     }
@@ -106,6 +113,12 @@ class rex_media_category_service
         $db->update();
 
         rex_media_cache::deleteCategory($categoryId);
+
+        rex_extension::registerPoint(new rex_extension_point('MEDIA_CATEGORY_UPDATED', [
+            'id' => $categoryId,
+            'name' => $cat_name,
+        ]));
+
         return rex_i18n::msg('pool_kat_updated', $cat_name);
     }
 }

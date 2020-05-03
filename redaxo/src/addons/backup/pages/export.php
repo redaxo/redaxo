@@ -21,8 +21,7 @@ $EXPTABLES = rex_post('EXPTABLES', 'array');
 $EXPDIR = rex_post('EXPDIR', 'array');
 
 if ('' == $exportfilename) {
-    $server = parse_url(rex::getServer(), PHP_URL_HOST);
-    $exportfilename = strtolower($server) . '_rex' . rex::getVersion() . '_' . date('Ymd_Hi');
+    $exportfilename = rex_string::normalize(rex::getServerName()) . '_' . date('Ymd_Hi') . '_rex' . rex::getVersion();
 }
 
 if ($EXPTABLES) {
@@ -55,9 +54,9 @@ if ($export && !$csrfToken->isValid()) {
         $ext = 'sql' == $exporttype ? '.sql' : '.tar.gz';
         $export_path = rex_backup::getDir() . '/';
 
-        if (file_exists($export_path . $filename . $ext)) {
+        if (is_file($export_path . $filename . $ext)) {
             $i = 1;
-            while (file_exists($export_path . $filename . '_' . $i . $ext)) {
+            while (is_file($export_path . $filename . '_' . $i . $ext)) {
                 ++$i;
             }
             $filename = $filename . '_' . $i;
@@ -186,8 +185,8 @@ $count_folders = count($folders);
 if ($count_folders > 4) {
     $sel_dirs->setSize($count_folders);
 }
-foreach ($folders as $file) {
-    $file = basename($file);
+foreach ($folders as $path => $_) {
+    $file = basename($path);
     $sel_dirs->addOption($file, $file);
 }
 

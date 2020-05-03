@@ -3,12 +3,12 @@ htmllang = se
 yes = ja
 no = nej
 general = Allmänt
-dateformat = %d. %b. %Y
 setlocale = se_SE,se_SE@euro,sve_sve,swedish_sweden,sv,se
 phpini_settings = PHP.ini inställningar
 
-datetimeformat = %d. %b. %Y - %H:%Mh
-timeformat = %H:%Mh
+dateformat = %d %b. %Y
+datetimeformat = %d %b. %Y, %H:%M
+timeformat = %H:%M
 ctrl = Flervalsurval med <kbd>STRG</kbd> resp. <kbd>CMD</kbd>
 translatable = Översättbar via <code> translate: i18n_key </ code>
 
@@ -103,6 +103,8 @@ clang_select = Välj språk
 clang_caption = List av tillgängliga språk
 clang_function = Funktioner
 version = Version
+mode = Modus
+charset = Teckenuppsättning
 host = Host
 database = Databas
 logfiles = Logfiler
@@ -148,7 +150,6 @@ system_report_markdown = Som markdown
 setup = Installation
 setup_restart = Installation: starta på nytt
 setup_text = Här kan du starta om installationen. Detta bör du bara göra i en nödsituation. Under normala omständigheter är det inte nödvändigt.
-setup_error1 = Installatonen aktiverad. Vänliga klicka på {0} vidare {1} och genomför installationen.
 setup_error2 = Tyvärr kunde det inte skrivas på config.yml-filen. Vänligen ändra till \"setup: true\" i config.yml.
 
 
@@ -216,6 +217,10 @@ setup_512 = Upprepa steg 5
 setup_513 = System addOn(s) kunde inte installeras
 setup_514 = Aktualisering av databasen
 setup_514_note = Update av tidigare versionen
+setup_charset_utf8mb4 = utf8mb4 [rekommenderas]
+setup_charset_utf8mb4_note = Kräver minst MySQL 5.7.7 eller MariaDB 10.2. Full Unicode-stöd, inklusive emojis och andra specialtecken.
+setup_charset_utf8 = utf8 [deprecated]
+setup_charset_utf8_note = Icke-kompatibelt UTF8-läge. Stöds inte längre i senare versioner av REDAXO.
 setup_599 = 5 / Databasen
 
 setup_600 = Installation: Steg 6 av 7 / Administratör
@@ -246,6 +251,7 @@ setup_no_js_security_msg = Kolla om filer från mappen redaxo/cache, redaxo/data
 setup_security_no_https = Setup görs utan HTTPS / kryptering. Det rekommenderas att alla frontend och backend-upprop görs med endast HTTPS för att säkerställa integritet och datasäkerhet.
 setup_security_warn_mod_security = Apache-modulen "mod_security" laddades. Detta kan leda till problem om det är felaktigt konfigurerat.
 setup_security_deprecated_php = Den använda PHP-versionen {0} underhålls inte längre av tillverkaren och bör uppdateras.
+setup_session_autostart_warning = "Session.auto_start" är aktiverat i PHP-inställningarna. Det rekommenderas att inaktivera detta för att undvika problem.
 
 sql_database_name_missing = Du måste ange ett databsnamn!
 sql_database_already_exists = Databasen existera redan.
@@ -258,14 +264,14 @@ sql_unable_to_open_database = Den angivna databasen kunde inte öppnas!
 
 setup_security = Säkerhet
 
+https_only_over_https = Dessa alternativ är endast tillgängliga när de anropas via HTTPS
 https_activate_redirect_for = Automatiskt HTTPS-omdirektion
 https_disable = deaktivera
 https_only_frontend = aktivera bara för frontend
 https_only_backend = aktivera bara för backend
 https_activate = aktivera för frontend och backend
 
-hsts_activate = Ange <b>HTTP Strict Transport Security</ b>
-hsts_more_information = Mer information vid {0}
+hsts_more_information = HSTS bör aktiveras i värdinställningarna för domänen / domänerna (rekommenderas), men kan också aktiveras efteråt i config.yml för REDAXO. Mer information i REDAXO-dokumentet.
 
 # redaxo\include\pages\addon.php
 addon = AddOn
@@ -306,6 +312,8 @@ package_activate = aktivera
 package_yes = ja
 package_no = nej
 package_caption = List av alla tillgängliga paket (Packages)
+package_search = Söker ...
+package_clear = Återställ inmatning
 addon_systemaddon = System AddOn
 addon_systempackage_delete_not_allowed = System AddOns får inte raderas!
 addon_dir_not_writable = AddOn-mappen saknar skrivrättigheter!
@@ -361,9 +369,10 @@ plugin_cache_not_writable = Plugin-Cache mappen har inga skrivrättigheter!
 credits = Credits
 credits_name = Namn
 credits_help = Hjälp
+credits_information = Information
 credits_version = Version
 credits_author = Autor
-credits_supportpage = Hjälp
+credits_supportpage =
 credits_addon_inactive = AddOn inaktiv
 credits_caption = List av använda paket
 credits_open_help_file = Öppna hjälpfil:

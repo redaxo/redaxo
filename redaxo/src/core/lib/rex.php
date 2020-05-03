@@ -20,6 +20,8 @@ class rex
 
     /**
      * @see rex_config::set()
+     *
+     * @return bool TRUE when an existing value was overridden, otherwise FALSE
      */
     public static function setConfig($key, $value = null)
     {
@@ -28,6 +30,13 @@ class rex
 
     /**
      * @see rex_config::get()
+     *
+     * @return mixed the value for $key or $default if $key cannot be found in the given $namespace
+     *
+     * @template T as ?string
+     * @phpstan-template T
+     * @psalm-param T $key
+     * @psalm-return (T is string ? mixed|null : array<string, mixed>)
      */
     public static function getConfig($key = null, $default = null)
     {
@@ -36,6 +45,8 @@ class rex
 
     /**
      * @see rex_config::has()
+     *
+     * @return bool TRUE if the key is set, otherwise FALSE
      */
     public static function hasConfig($key)
     {
@@ -44,6 +55,8 @@ class rex
 
     /**
      * @see rex_config::remove()
+     *
+     * @return bool TRUE if the value was found and removed, otherwise FALSE
      */
     public static function removeConfig($key)
     {
@@ -288,7 +301,7 @@ class rex
      */
     public static function getImpersonator()
     {
-        $login = self::getProperty('login');
+        $login = self::$properties['login'] ?? null;
 
         return $login ? $login->getImpersonator() : null;
     }
@@ -357,37 +370,33 @@ class rex
     }
 
     /**
-     * Returns the current git version hash for the given path.
-     *
-     * @param string $path A local filesystem path
-     *
-     * @return false|string
+     * @deprecated since 5.10, use `rex_version::gitHash` instead
      */
-    public static function getVersionHash($path)
+    public static function getVersionHash($path, ?string $repo = null)
     {
-        static $gitHash = [];
+        return rex_version::gitHash($path, $repo) ?? false;
+    }
 
-        if (!isset($gitHash[$path])) {
-            $gitHash[$path] = false; // exec only once
-            $output = [];
-            $exitCode = -1;
+    /**
+     * @return array<string, array{install: bool, status: bool, plugins?: array<string, array{install: bool, status: bool}>}>
+     */
+    public static function getPackageConfig(): array
+    {
+        $config = self::getConfig('package-config', []);
+        assert(is_array($config));
 
-            if (0 == strcasecmp(substr(PHP_OS, 0, 3), 'WIN')) {
-                $command = 'where git 2>&1 1>/dev/null && cd '. escapeshellarg($path) .' && git show --oneline -s';
-            } else {
-                $command = 'which git 2>&1 1>/dev/null && cd '. escapeshellarg($path) .' && git show --oneline -s';
-            }
+        return $config;
+    }
 
-            @exec($command, $output, $exitCode);
-            if (0 === $exitCode) {
-                $output = implode('', $output);
-                if (preg_match('{^[0-9a-f]+}', $output, $matches)) {
-                    $gitHash[$path] = $matches[0];
-                }
-            }
-        }
+    /**
+     * @return list<string>
+     */
+    public static function getPackageOrder(): array
+    {
+        $config = self::getConfig('package-order', []);
+        assert(is_array($config));
 
-        return $gitHash[$path];
+        return $config;
     }
 
     /**

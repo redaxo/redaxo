@@ -23,10 +23,13 @@ class rex_cronjob_manager
     /** @var string */
     private $message = '';
     private $cronjob;
-    /** @var string */
+    /** @var string|null */
     private $name;
     private $id;
 
+    /**
+     * @return self
+     */
     public static function factory()
     {
         return new self();
@@ -37,11 +40,17 @@ class rex_cronjob_manager
         $this->message = $message;
     }
 
+    /**
+     * @return string
+     */
     public function getMessage()
     {
         return $this->message;
     }
 
+    /**
+     * @return bool
+     */
     public function hasMessage()
     {
         return !empty($this->message);
@@ -111,12 +120,20 @@ class rex_cronjob_manager
                 $name = '[no name]';
             }
         }
-        $log = new rex_log_file(rex_path::addonData('cronjob', 'cronjob.log'), 2000000);
+
+        if ('backend' === rex::getEnvironment() && 'cronjob/cronjobs' == rex_get('page') && 'execute' == rex_get('func')) {
+            $environment = 'backend_manual';
+        } else {
+            $environment = rex::getEnvironment();
+        }
+
+        $log = new rex_log_file(rex_path::log('cronjob.log'), 2000000);
         $data = [
             ($success ? 'SUCCESS' : 'ERROR'),
             ($this->id ?: '--'),
             $name,
             strip_tags($message),
+            $environment,
         ];
         $log->add($data);
     }

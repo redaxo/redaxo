@@ -7,6 +7,9 @@
  */
 class rex_setup_importer
 {
+    /**
+     * @return string
+     */
     public static function updateFromPrevious()
     {
         // ----- vorhandenen seite updaten
@@ -34,6 +37,9 @@ class rex_setup_importer
         return $err_msg;
     }
 
+    /**
+     * @return string
+     */
     public static function loadExistingImport($import_name)
     {
         // ----- vorhandenen Export importieren
@@ -67,12 +73,13 @@ class rex_setup_importer
         return self::reinstallPackages();
     }
 
+    /**
+     * @return string
+     */
     public static function overrideExisting()
     {
         // ----- volle Datenbank, alte DB löschen / drop
         $err_msg = '';
-
-        $import_sql = rex_path::core('install.sql');
 
         $db = rex_sql::factory();
         foreach (self::getRequiredTables() as $table) {
@@ -80,7 +87,13 @@ class rex_setup_importer
         }
 
         if ('' == $err_msg) {
-            $err_msg .= self::import($import_sql);
+            try {
+                include rex_path::core('install.php');
+            } catch (rex_functional_exception $e) {
+                $err_msg .= $e->getMessage();
+            } catch (rex_sql_exception $e) {
+                $err_msg .= 'SQL error: ' . $e->getMessage();
+            }
         }
 
         if ('' == $err_msg) {
@@ -90,14 +103,22 @@ class rex_setup_importer
         return $err_msg;
     }
 
+    /**
+     * @return string
+     */
     public static function prepareEmptyDb()
     {
         // ----- leere Datenbank neu einrichten
         $err_msg = '';
-        $import_sql = rex_path::core('install.sql');
 
         if ('' == $err_msg) {
-            $err_msg .= self::import($import_sql);
+            try {
+                include rex_path::core('install.php');
+            } catch (rex_functional_exception $e) {
+                $err_msg .= $e->getMessage();
+            } catch (rex_sql_exception $e) {
+                $err_msg .= 'SQL error: ' . $e->getMessage();
+            }
         }
 
         $err_msg .= self::installAddons();
@@ -105,6 +126,9 @@ class rex_setup_importer
         return $err_msg;
     }
 
+    /**
+     * @return string
+     */
     public static function verifyDbSchema()
     {
         $err_msg = '';
@@ -118,6 +142,23 @@ class rex_setup_importer
         return $err_msg;
     }
 
+    public static function supportsUtf8mb4(): bool
+    {
+        static $utf8mb4MinVersions = [
+            rex_sql::MYSQL => '5.7.7',
+            rex_sql::MARIADB => '10.2.0',
+        ];
+
+        $sql = rex_sql::factory();
+
+        return version_compare($sql->getDbVersion(), $utf8mb4MinVersions[$sql->getDbType()], '>=');
+    }
+
+    /**
+     * @return string[]
+     *
+     * @psalm-return list<string>
+     */
     private static function getRequiredTables()
     {
         return [
@@ -127,6 +168,9 @@ class rex_setup_importer
         ];
     }
 
+    /**
+     * @return string
+     */
     private static function import($import_sql, $import_archiv = null)
     {
         $err_msg = '';
@@ -134,7 +178,7 @@ class rex_setup_importer
         if (!is_dir(rex_path::addon('backup'))) {
             $err_msg .= rex_i18n::msg('setup_510') . '<br />';
         } else {
-            if (file_exists($import_sql)) {
+            if (is_file($import_sql)) {
                 rex_i18n::addDirectory(rex_path::addon('backup', 'lang/'));
 
                 // DB Import
@@ -144,7 +188,7 @@ class rex_setup_importer
                 }
 
                 // Archiv optional importieren
-                if (true === $state_db['state'] && null !== $import_archiv && file_exists($import_archiv)) {
+                if (true === $state_db['state'] && null !== $import_archiv && is_file($import_archiv)) {
                     $state_archiv = rex_backup::importFiles($import_archiv);
                     if (false === $state_archiv['state']) {
                         $err_msg .= $state_archiv['message'] . '<br />';
@@ -162,6 +206,10 @@ class rex_setup_importer
     }
 
     // -------------------------- System AddOns prüfen
+
+    /**
+     * @return string
+     */
     private static function installAddons($uninstallBefore = false, $installDump = true)
     {
         $addonErr = '';
@@ -179,7 +227,7 @@ class rex_setup_importer
         }
         foreach (rex::getProperty('system_addons') as $packageRepresentation) {
             $state = true;
-            $package = rex_package::get($packageRepresentation);
+            $package = rex_package::require($packageRepresentation);
             $manager = rex_package_manager::factory($package);
 
             if (true === $state && !$package->isInstalled()) {
@@ -215,14 +263,21 @@ class rex_setup_importer
         return $addonErr;
     }
 
+    /**
+     * @return string
+     */
     private static function reinstallPackages()
     {
         $error = '';
         rex_addon::initialize();
         rex_package_manager::synchronizeWithFileSystem();
 
-        foreach (rex::getConfig('package-order') as $packageId) {
-            $package = rex_package::get($packageId);
+        // enlist activated packages to ensure that all their classess are known in autoloader and can be referenced in other package's install.php
+        foreach (rex::getPackageOrder() as $packageId) {
+            rex_package::require($packageId)->enlist();
+        }
+        foreach (rex::getPackageOrder() as $packageId) {
+            $package = rex_package::require($packageId);
             $manager = rex_package_manager::factory($package);
 
             if (!$manager->install()) {

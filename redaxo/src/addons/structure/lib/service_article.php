@@ -86,7 +86,7 @@ class rex_article_service
                 // ----- PRIOR
                 self::newArtPrio($data['category_id'], $key, 0, $data['priority']);
             } catch (rex_sql_exception $e) {
-                throw new rex_api_exception($e);
+                throw new rex_api_exception($e->getMessage(), $e);
             }
 
             rex_article_cache::delete($id, $key);
@@ -177,16 +177,21 @@ class rex_article_service
             $message = rex_i18n::msg('article_updated');
 
             // ----- PRIOR
-            rex_sql::factory()
-                ->setTable(rex::getTable('article'))
-                ->setWhere('id = :id AND clang_id != :clang', ['id' => $article_id, 'clang' => $clang])
-                ->setValue('priority', $data['priority'])
-                ->addGlobalUpdateFields(self::getUser())
-                ->update();
+            $oldPrio = $thisArt->getValue('priority');
 
-            foreach (rex_clang::getAllIds() as $clangId) {
-                self::newArtPrio($data['category_id'], $clangId, $data['priority'], $thisArt->getValue('priority'));
+            if ($oldPrio != $data['priority']) {
+                rex_sql::factory()
+                    ->setTable(rex::getTable('article'))
+                    ->setWhere('id = :id AND clang_id != :clang', ['id' => $article_id, 'clang' => $clang])
+                    ->setValue('priority', $data['priority'])
+                    ->addGlobalUpdateFields(self::getUser())
+                    ->update();
+
+                foreach (rex_clang::getAllIds() as $clangId) {
+                    self::newArtPrio($data['category_id'], $clangId, $data['priority'], $oldPrio);
+                }
             }
+
             rex_article_cache::delete($article_id);
 
             // ----- EXTENSION POINT
@@ -204,7 +209,7 @@ class rex_article_service
                 'data' => $data,
             ]));
         } catch (rex_sql_exception $e) {
-            throw new rex_api_exception($e);
+            throw new rex_api_exception($e->getMessage(), $e);
         }
 
         return $message;
@@ -342,7 +347,7 @@ class rex_article_service
         if (1 == $GA->getRows()) {
             // Status wurde nicht von außen vorgegeben,
             // => zyklisch auf den nächsten Weiterschalten
-            if (!$status) {
+            if (null === $status) {
                 $newstatus = self::nextStatus($GA->getValue('status'));
             } else {
                 $newstatus = $status;
@@ -366,7 +371,7 @@ class rex_article_service
                     'status' => $newstatus,
                 ]));
             } catch (rex_sql_exception $e) {
-                throw new rex_api_exception($e);
+                throw new rex_api_exception($e->getMessage(), $e);
             }
         } else {
             throw new rex_api_exception(rex_i18n::msg('no_such_category'));
@@ -709,13 +714,13 @@ class rex_article_service
      * @param int $id        ArtikelId des zu kopierenden Artikels
      * @param int $to_cat_id KategorieId in die der Artikel kopiert werden soll
      *
-     * @return bool FALSE bei Fehler, sonst die Artikel Id des neue kopierten Artikels
+     * @return bool|int FALSE bei Fehler, sonst die Artikel Id des neue kopierten Artikels
      */
     public static function copyArticle($id, $to_cat_id)
     {
         $id = (int) $id;
         $to_cat_id = (int) $to_cat_id;
-        $new_id = '';
+        $new_id = false;
 
         $user = self::getUser();
 
@@ -742,7 +747,7 @@ class rex_article_service
 
                     $art_sql = rex_sql::factory();
                     $art_sql->setTable(rex::getTablePrefix() . 'article');
-                    if ('' == $new_id) {
+                    if (false === $new_id) {
                         $new_id = $art_sql->setNewId('id');
                     }
                     $art_sql->setValue('id', $new_id); // neuen auto_incrment erzwingen
@@ -901,16 +906,15 @@ class rex_article_service
         }
     }
 
+    /**
+     * @return string
+     */
     private static function getUser()
     {
         if (rex::getUser()) {
             return rex::getUser()->getLogin();
         }
 
-        if (method_exists(rex::class, 'getEnvironment')) {
-            return rex::getEnvironment();
-        }
-
-        return 'frontend';
+        return rex::getEnvironment();
     }
 }

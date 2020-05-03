@@ -5,25 +5,49 @@
  */
 class rex_login
 {
+    /**
+     * @var int
+     */
     protected $DB = 1;
     protected $sessionDuration;
     protected $loginQuery;
     protected $userQuery;
     protected $impersonateQuery;
+    /**
+     * @var string
+     */
     protected $systemId = 'default';
     protected $userLogin;
     protected $userPassword;
+    /**
+     * @var bool
+     */
     protected $logout = false;
+    /**
+     * @var string
+     */
     protected $idColumn = 'id';
+    /**
+     * @var string
+     */
     protected $passwordColumn = 'password';
+    /**
+     * @var bool
+     */
     protected $cache = false;
+    /**
+     * @var int
+     */
     protected $loginStatus = 0; // 0 = noch checken, 1 = ok, -1 = not ok
+    /**
+     * @var string
+     */
     protected $message = '';
 
     /** @var rex_sql|rex_user */
     protected $user;
 
-    /** @var rex_sql|rex_user */
+    /** @var rex_sql|rex_user|null */
     protected $impersonator;
 
     /**
@@ -166,6 +190,8 @@ class rex_login
      * anhand des LoginQueries/UserQueries und gibt den Status zurück.
      *
      * Gibt true zurück bei erfolg, sonst false
+     *
+     * @return bool
      */
     public function checkLogin()
     {
@@ -201,8 +227,8 @@ class rex_login
                 // message schreiben und falls falsch auf error verweisen
 
                 $ok = true;
-
-                if (($this->getSessionVar('STAMP') + $this->sessionDuration) < time()) {
+                $sessionStartStamp = (int) $this->getSessionVar('STAMP');
+                if (($sessionStartStamp + $this->sessionDuration) < time()) {
                     $ok = false;
                     $this->message = rex_i18n::msg('login_session_expired');
 
@@ -287,7 +313,7 @@ class rex_login
     public function depersonate()
     {
         if (!$this->impersonator) {
-            throw new RuntimeException('There is no current impersonator.');
+            return;
         }
 
         $this->user = $this->impersonator;
@@ -298,7 +324,7 @@ class rex_login
     }
 
     /**
-     * @return null|rex_sql
+     * @return rex_sql|rex_user|null
      */
     public function getUser()
     {
@@ -306,7 +332,7 @@ class rex_login
     }
 
     /**
-     * @return null|rex_sql
+     * @return rex_sql|rex_user|null
      */
     public function getImpersonator()
     {
@@ -393,17 +419,16 @@ class rex_login
                 $cookieParams['httponly']
             );
 
-            $started = rex_timer::measure(__METHOD__, static function () {
-                return @session_start();
-            });
-            if (!$started) {
-                $error = error_get_last();
-                if ($error) {
-                    rex_error_handler::handleError($error['type'], $error['message'], $error['file'], $error['line']);
-                } else {
-                    throw new rex_exception('Unable to start session!');
+            rex_timer::measure(__METHOD__, static function () {
+                error_clear_last();
+
+                if (!@session_start()) {
+                    if ($error = error_get_last()) {
+                        throw new rex_exception('Unable to start session: '.$error['message']);
+                    }
+                    throw new rex_exception('Unable to start session.');
                 }
-            }
+            });
 
             if ($cookieParams['samesite']) {
                 self::rewriteSessionCookie($cookieParams['samesite']);
@@ -440,7 +465,7 @@ class rex_login
      *
      * see https://wiki.php.net/rfc/same-site-cookie
      *
-     * @param "Strict"|"Lax" $sameSite
+     * @param string $sameSite
      */
     private static function rewriteSessionCookie($sameSite)
     {
@@ -472,19 +497,33 @@ class rex_login
 
     /**
      * Verschlüsselt den übergebnen String.
+     *
+     * @throws rex_exception
+     *
+     * @return string Returns the hashed password
      */
     public static function passwordHash($password, $isPreHashed = false)
     {
         $password = $isPreHashed ? $password : sha1($password);
-        return password_hash($password, PASSWORD_DEFAULT);
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        if (!is_string($hash)) {
+            throw new rex_exception('error while hashing password');
+        }
+        return $hash;
     }
 
+    /**
+     * @return bool returns TRUE if the password and hash match, or FALSE otherwise
+     */
     public static function passwordVerify($password, $hash, $isPreHashed = false)
     {
         $password = $isPreHashed ? $password : sha1($password);
         return password_verify($password, $hash);
     }
 
+    /**
+     * @return bool returns TRUE if the hash should be rehashed to match the given algo and options, or FALSE otherwise
+     */
     public static function passwordNeedsRehash($hash)
     {
         return password_needs_rehash($hash, PASSWORD_DEFAULT);

@@ -10,8 +10,17 @@
  */
 class rex_pager
 {
+    /**
+     * @var int
+     */
     private $rowCount;
+    /**
+     * @var int
+     */
     private $rowsPerPage;
+    /**
+     * @var string
+     */
     private $cursorName;
 
     /**
@@ -178,7 +187,7 @@ class rex_pager
      */
     public function getLastPage()
     {
-        return ceil($this->rowCount / $this->rowsPerPage) - 1;
+        return (int) (ceil($this->rowCount / $this->rowsPerPage) - 1);
     }
 
     /**

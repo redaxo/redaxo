@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# refreshes the redaxo installation.
+# most of the time this is required when working on the REDAXO sources after checking out a Pull Request via GitHub.com
+
 cp -R redaxo/src/core/assets/ assets/core/
 
 if [ "true" = $(redaxo/bin/console config:get setup) ]; then
@@ -24,3 +27,5 @@ redaxo/bin/console package:install --re-install structure/content
 redaxo/bin/console package:install --re-install users
 
 redaxo/bin/console cache:clear
+
+composer update # update dev-tools

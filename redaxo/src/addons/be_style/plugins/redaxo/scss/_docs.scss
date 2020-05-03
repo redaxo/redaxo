@@ -30,7 +30,6 @@
     li > ul {
         font-size: $font-size-base;
         font-weight: 400;
-        list-style: none;
     }
     p {
         margin: 10px 0 20px;
@@ -174,9 +173,18 @@
     &-sidebar {
         flex-basis: 230px;
         flex-shrink: 0;
+        padding-left: $grid-gutter-width;
+        order: 1;
     }
     &-content {
-        padding-left: $grid-gutter-width;
+        min-width: 0; // flexbox: reduce implied width
+        flex-grow: 1;
+    }
+}
+
+@media (max-width: $screen-md-max) {
+    .rex-docs-sidebar {
+        display: none;
     }
 }
 

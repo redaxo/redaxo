@@ -135,9 +135,15 @@ class ChoiceQuestion extends Question
                     throw new InvalidArgumentException(sprintf($errorMessage, $selected));
                 }
 
-                $selectedChoices = array_map('trim', explode(',', $selected));
+                $selectedChoices = explode(',', $selected);
             } else {
-                $selectedChoices = [trim($selected)];
+                $selectedChoices = [$selected];
+            }
+
+            if ($this->isTrimmable()) {
+                foreach ($selectedChoices as $k => $v) {
+                    $selectedChoices[$k] = trim($v);
+                }
             }
 
             $multiselectChoices = [];
@@ -150,7 +156,7 @@ class ChoiceQuestion extends Question
                 }
 
                 if (\count($results) > 1) {
-                    throw new InvalidArgumentException(sprintf('The provided answer is ambiguous. Value should be one of %s.', implode(' or ', $results)));
+                    throw new InvalidArgumentException(sprintf('The provided answer is ambiguous. Value should be one of "%s".', implode('" or "', $results)));
                 }
 
                 $result = array_search($value, $choices);

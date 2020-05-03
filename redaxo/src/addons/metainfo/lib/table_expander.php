@@ -115,16 +115,38 @@ class rex_metainfo_table_expander extends rex_form
         $field = $this->addTextField('default');
         $field->setLabel(rex_i18n::msg('minfo_field_label_default'));
 
-        if ('clang_' !== $this->metaPrefix) {
-            $attributes = [];
-            $attributes['internal::fieldClass'] = 'rex_form_restrictons_element';
-            $field = $this->addField('', 'restrictions', null, $attributes);
+        if (rex_metainfo_clang_handler::PREFIX !== $this->metaPrefix) {
+            $field = $this->addRestrictionsField('restrictions');
             $field->setLabel(rex_i18n::msg('minfo_field_label_restrictions'));
-            $field->setAttribute('size', 10);
-            $field->setAttribute('class', 'form-control');
+            $field->setAllCheckboxLabel(rex_i18n::msg('minfo_field_label_no_restrictions'));
+
+            if (rex_metainfo_article_handler::PREFIX == $this->metaPrefix || rex_metainfo_category_handler::PREFIX == $this->metaPrefix) {
+                $field->setSelect(new rex_category_select(false, false, true, false));
+            } elseif (rex_metainfo_media_handler::PREFIX == $this->metaPrefix) {
+                $field->setSelect(new rex_media_category_select());
+            } else {
+                throw new rex_exception('Unexpected TablePrefix "' . $this->metaPrefix . '".');
+            }
+        }
+
+        if (rex_metainfo_article_handler::PREFIX === $this->metaPrefix && class_exists(rex_template_select::class)) {
+            $field = $this->addRestrictionsField('templates');
+            $field->setLabel(rex_i18n::msg('minfo_field_label_templates'));
+            $field->setAllCheckboxLabel(rex_i18n::msg('minfo_field_label_all_templates'));
+            $field->setSelect(new rex_template_select(null, rex_clang::getCurrentId()));
         }
 
         parent::init();
+    }
+
+    private function addRestrictionsField(string $name): rex_form_restrictons_element
+    {
+        /** @var rex_form_restrictons_element $field */
+        $field = $this->addField('', $name, null, ['internal::fieldClass' => rex_form_restrictons_element::class]);
+        $field->setAttribute('size', 10);
+        $field->setAttribute('class', 'form-control');
+
+        return $field;
     }
 
     protected function delete()
@@ -183,6 +205,9 @@ class rex_metainfo_table_expander extends rex_form
         return $string;
     }
 
+    /**
+     * @return bool|string
+     */
     protected function validate()
     {
         $fieldName = $this->elementPostValue($this->getFieldsetName(), 'name');
@@ -239,11 +264,6 @@ class rex_metainfo_table_expander extends rex_form
             $result = $sql->getArray('SELECT `dbtype`, `dblength` FROM `' . rex::getTablePrefix() . 'metainfo_type` WHERE id=' . $fieldType);
             $fieldDbType = $result[0]['dbtype'];
             $fieldDbLength = $result[0]['dblength'];
-
-            // TEXT Spalten duerfen in MySQL keine Defaultwerte haben
-            if ('text' == $fieldDbType) {
-                $fieldDefault = null;
-            }
 
             if (
                 strlen($fieldDefault) &&

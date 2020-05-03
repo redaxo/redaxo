@@ -2,7 +2,6 @@
 
 $error = [];
 $config = [];
-$info = '';
 $success = '';
 
 if ('' != rex_post('btn_save', 'string')) {
@@ -32,6 +31,11 @@ if ('' != rex_post('btn_save', 'string')) {
     $tempConfig['codemirror-tools'] = 0;
     if (isset($newConfig['codemirror-tools']) && 1 == $newConfig['codemirror-tools']) {
         $tempConfig['codemirror-tools'] = 1;
+    }
+
+    $tempConfig['codemirror-autoresize'] = 0;
+    if (isset($newConfig['codemirror-autoresize']) && 1 == $newConfig['codemirror-autoresize']) {
+        $tempConfig['codemirror-autoresize'] = 1;
     }
 
     $tempConfig['codemirror_theme'] = htmlspecialchars($newConfig['codemirror_theme']);
@@ -68,6 +72,9 @@ if (!isset($config['codemirror-langs'])) {
 if (!isset($config['codemirror-tools'])) {
     $config['codemirror-tools'] = 0;
 }
+if (!isset($config['codemirror-autoresize'])) {
+    $config['codemirror-autoresize'] = 0;
+}
 if (!isset($config['codemirror-selectors'])) {
     $config['codemirror-selectors'] = '';
 }
@@ -97,10 +104,6 @@ foreach ($themes as $theme) {
 
 if (!empty($error)) {
     echo rex_view::error(implode('<br />', $error));
-}
-
-if ('' != $info) {
-    echo rex_view::info($info);
 }
 
 if ('' != $success) {
@@ -151,6 +154,12 @@ $n = [];
 $n['label'] = '<label for="customizer-codemirror-tools">' . rex_i18n::msg('customizer_codemirror_tools') . '</label>';
 $n['field'] = '<input type="checkbox" id="customizer-codemirror-tools" name="settings[codemirror-tools]" value="1" ' . ($config['codemirror-tools'] ? 'checked="checked" ' : '') . '/>';
 $n['field'] .= ' '.rex_i18n::msg('customizer_codemirror_tools_text');
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="customizer-codemirror-autoresize">' . rex_i18n::msg('customizer_codemirror_autoresize') . '</label>';
+$n['field'] = '<input type="checkbox" id="customizer-codemirror-autoresize" name="settings[codemirror-autoresize]" value="1" ' . ($config['codemirror-autoresize'] ? 'checked="checked" ' : '') . '/>';
+$n['field'] .= ' '.rex_i18n::msg('customizer_codemirror_autoresize_text');
 $formElements[] = $n;
 
 $fragment = new rex_fragment();

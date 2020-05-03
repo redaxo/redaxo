@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Klasse zum Erstellen von Navigationen, v0.1.
+ * Klasse zum Erstellen von Navigationen.
  *
  * @package redaxo\structure
  */
@@ -46,9 +46,15 @@ class rex_navigation
     private $current_article_id = -1; // Aktueller Artikel
     private $current_category_id = -1; // Aktuelle Katgorie
 
-    private function __construct()
+    private static $factoryCall = false;
+
+    public function __construct()
     {
-        // nichts zu tun
+        if (!self::$factoryCall && self::class === static::class) {
+            throw new rex_exception(sprintf('Base class %s must be instantiated via %1$s::factory().', self::class));
+        }
+
+        self::$factoryCall = false;
     }
 
     /**
@@ -57,6 +63,7 @@ class rex_navigation
     public static function factory()
     {
         $class = self::getFactoryClass();
+        self::$factoryCall = true;
         return new $class();
     }
 
@@ -73,7 +80,7 @@ class rex_navigation
     public function get($category_id = 0, $depth = 3, $open = false, $ignore_offlines = false)
     {
         if (!$this->_setActivePath()) {
-            return false;
+            return '';
         }
 
         $this->depth = $depth;
@@ -105,16 +112,19 @@ class rex_navigation
     public function getBreadcrumb($startPageLabel, $includeCurrent = false, $category_id = 0)
     {
         if (!$this->_setActivePath()) {
-            return false;
+            return '';
         }
 
         $path = $this->path;
 
         $i = 1;
-        $lis = '';
+        $lis = [];
 
         if ($startPageLabel) {
-            $lis .= '<li class="rex-lvl' . $i . '"><a href="' . rex_getUrl(rex_article::getSiteStartArticleId()) . '">' . rex_escape($startPageLabel) . '</a></li>';
+            $link = '<a href="'.rex_getUrl(rex_article::getSiteStartArticleId()).'">'.rex_escape($startPageLabel).'</a>';
+            $lis[] = $this->getBreadcrumbListItemTag($link, [
+                'class' => 'rex-lvl'.$i,
+            ], $i);
             ++$i;
 
             // StartArticle nicht doppelt anzeigen
@@ -134,22 +144,35 @@ class rex_navigation
             }
 
             $cat = rex_category::get($pathItem);
-            $lis .= '<li class="rex-lvl' . $i . '"><a href="' . $cat->getUrl() . '">' . rex_escape($cat->getName()) . '</a></li>';
+            $link = $this->getBreadcrumbLinkTag($cat, rex_escape($cat->getName()), [
+                'href' => $cat->getUrl(),
+            ], $i);
+            $lis[] = $this->getBreadcrumbListItemTag($link, [
+                'class' => 'rex-lvl'.$i,
+            ], $i);
             ++$i;
         }
 
         if ($includeCurrent) {
             if ($art = rex_article::get($this->current_article_id)) {
                 if (!$art->isStartArticle()) {
-                    $lis .= '<li class="rex-lvl' . $i . '">' . rex_escape($art->getName()) . '</li>';
+                    $lis[] = $this->getBreadcrumbListItemTag(rex_escape($art->getName()), [
+                        'class' => 'rex-lvl'.$i,
+                    ], $i);
                 }
             } else {
                 $cat = rex_category::get($this->current_article_id);
-                $lis .= '<li class="rex-lvl' . $i . '">' . rex_escape($cat->getName()) . '</li>';
+                $lis[] = $this->getBreadcrumbListItemTag(rex_escape($cat->getName()), [
+                    'class' => 'rex-lvl'.$i,
+                ], $i);
             }
         }
 
-        return '<ul class="rex-breadcrumb">' . $lis . '</ul>';
+        return $this->getBreadcrumbListTag($lis, [
+            'class' => [
+                'rex-breadcrumb',
+            ],
+        ]);
     }
 
     /**
@@ -175,7 +198,7 @@ class rex_navigation
      *
      * @param string     $metafield Datenbankfeld der Kategorie
      * @param mixed      $value     Wert für den Vergleich
-     * @param string     $type      Art des Vergleichs =/</.
+     * @param string     $type      art des Vergleichs =/</
      * @param int|string $depth     "" wenn auf allen Ebenen, wenn definiert, dann wird der Filter nur auf dieser Ebene angewendet
      */
     public function addFilter($metafield = 'id', $value = '1', $type = '=', $depth = '')
@@ -199,6 +222,9 @@ class rex_navigation
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     private function _setActivePath()
     {
         $article_id = rex_article::getCurrentId();
@@ -218,6 +244,9 @@ class rex_navigation
         return false;
     }
 
+    /**
+     * @return bool
+     */
     private function checkFilter(rex_category $category, $depth)
     {
         foreach ($this->filter as $f) {
@@ -254,7 +283,7 @@ class rex_navigation
                         }
                         break;
                     case 'regex':
-                        if (!preg_match($va, $mf)) {
+                        if (!preg_match($va, (string) $mf)) {
                             return false;
                         }
                         break;
@@ -271,7 +300,10 @@ class rex_navigation
         return true;
     }
 
-    private function checkCallbacks(rex_category $category, $depth, &$li, &$a)
+    /**
+     * @return bool
+     */
+    private function checkCallbacks(rex_category $category, $depth, &$li, &$a, &$a_content)
     {
         foreach ($this->callbacks as $c) {
             if ('' == $c['depth'] || $c['depth'] == $depth) {
@@ -285,12 +317,12 @@ class rex_navigation
                 if (is_array($callback) && count($callback) > 1) {
                     [$class, $method] = $callback;
                     if (is_object($class)) {
-                        $result = $class->$method($category, $depth, $li, $a);
+                        $result = $class->$method($category, $depth, $li, $a, $a_content);
                     } else {
-                        $result = $class::$method($category, $depth, $li, $a);
+                        $result = $class::$method($category, $depth, $li, $a, $a_content);
                     }
                 } else {
-                    $result = $callback($category, $depth, $li, $a);
+                    $result = $callback($category, $depth, $li, $a, $a_content);
                 }
                 if (!$result) {
                     return false;
@@ -300,6 +332,12 @@ class rex_navigation
         return true;
     }
 
+    /**
+     * @param int $category_id
+     * @param int $depth
+     *
+     * @return string
+     */
     protected function _getNavigation($category_id, $depth = 1)
     {
         if ($category_id < 1) {
@@ -315,7 +353,8 @@ class rex_navigation
             $li['class'] = [];
             $a['class'] = [];
             $a['href'] = [$nav->getUrl()];
-            if ($this->checkFilter($nav, $depth) && $this->checkCallbacks($nav, $depth, $li, $a)) {
+            $a_content = rex_escape($nav->getName());
+            if ($this->checkFilter($nav, $depth) && $this->checkCallbacks($nav, $depth, $li, $a, $a_content)) {
                 $li['class'][] = 'rex-article-' . $nav->getId();
                 // classes abhaengig vom pfad
                 if ($nav->getId() == $this->current_category_id) {
@@ -333,32 +372,74 @@ class rex_navigation
                 if (isset($this->classes[($depth - 1)])) {
                     $li['class'][] = $this->classes[($depth - 1)];
                 }
-                $li_attr = [];
-                foreach ($li as $attr => $v) {
-                    $li_attr[] = $attr . '="' . implode(' ', $v) . '"';
-                }
-                $a_attr = [];
-                foreach ($a as $attr => $v) {
-                    $a_attr[] = $attr . '="' . implode(' ', $v) . '"';
-                }
-                $l = '<li ' . implode(' ', $li_attr) . '>';
-                $l .= '<a ' . implode(' ', $a_attr) . '>' . rex_escape($nav->getName()) . '</a>';
+
+                $link = $this->getLinkTag($nav, $a_content, $a, $depth);
+
                 ++$depth;
                 if (($this->open ||
                         $nav->getId() == $this->current_category_id ||
                         in_array($nav->getId(), $this->path))
                     && ($this->depth >= $depth || $this->depth < 0)
                 ) {
-                    $l .= $this->_getNavigation($nav->getId(), $depth);
+                    $link .= "\n".$this->_getNavigation($nav->getId(), $depth);
                 }
                 --$depth;
-                $l .= '</li>';
-                $lis[] = $l;
+                $lis[] = $this->getListItemTag($nav, $link, $li, $depth);
             }
         }
         if (count($lis) > 0) {
-            return '<ul class="rex-navi' . $depth . ' rex-navi-depth-' . $depth . ' rex-navi-has-' . count($lis) . '-elements">' . implode('', $lis) . '</ul>';
+            return $this->getListTag($lis, [
+                'class' => [
+                    'rex-navi'.$depth,
+                    'rex-navi-depth-'.$depth,
+                    'rex-navi-has-'.count($lis).'-elements',
+                ],
+            ], $depth);
         }
         return '';
+    }
+
+    /**
+     * @param string[] $items
+     */
+    protected function getBreadcrumbListTag(array $items, array $attributes): string
+    {
+        return '<ul'.rex_string::buildAttributes($attributes).">\n".implode('', $items)."</ul>\n";
+    }
+
+    protected function getBreadcrumbListItemTag(string $item, array $attributes, int $depth): string
+    {
+        return '<li'.rex_string::buildAttributes($attributes).'>'.$item."</li>\n";
+    }
+
+    protected function getBreadcrumbLinkTag(rex_category $category, string $content, array $attributes, int $depth): string
+    {
+        if (!isset($attributes['href'])) {
+            $attributes['href'] = $category->getUrl();
+        }
+
+        return '<a'.rex_string::buildAttributes($attributes).'>'.$content.'</a>';
+    }
+
+    /**
+     * @param string[] $items
+     */
+    protected function getListTag(array $items, array $attributes, int $depth): string
+    {
+        return '<ul'.rex_string::buildAttributes($attributes).">\n".implode('', $items)."</ul>\n";
+    }
+
+    protected function getListItemTag(rex_category $category, string $item, array $attributes, int $depth): string
+    {
+        return '<li'.rex_string::buildAttributes($attributes).'>'.$item."</li>\n";
+    }
+
+    protected function getLinkTag(rex_category $category, string $content, array $attributes, int $depth): string
+    {
+        if (!isset($attributes['href'])) {
+            $attributes['href'] = $category->getUrl();
+        }
+
+        return '<a'.rex_string::buildAttributes($attributes).'>'.$content.'</a>';
     }
 }

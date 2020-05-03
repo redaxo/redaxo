@@ -11,6 +11,7 @@ class rex_media_manager
     private $type;
     private $use_cache;
     private $cache;
+    private $notFound = false;
 
     private static $effects = [];
 
@@ -50,7 +51,7 @@ class rex_media_manager
             foreach ($cache['headers'] as $key => $value) {
                 $media->setHeader($key, $value);
             }
-        } elseif ($manager->use_cache) {
+        } elseif ($manager->use_cache && !$manager->notFound) {
             $media->save($manager->getCacheFilename(), $manager->getHeaderCacheFilename());
         }
 
@@ -77,21 +78,38 @@ class rex_media_manager
 
             if (0 == count($set)) {
                 $this->use_cache = false;
+                $this->notFound = !$this->media->exists();
+
                 return $this->media;
             }
 
             // execute effects on image
             foreach ($set as $effect_params) {
+                /** @var class-string<rex_effect_abstract> $effect_class */
                 $effect_class = 'rex_effect_' . $effect_params['effect'];
                 /** @var rex_effect_abstract $effect */
                 $effect = new $effect_class();
                 $effect->setMedia($this->media);
                 $effect->setParams($effect_params['params']);
-                $effect->execute();
+
+                try {
+                    $effect->execute();
+                } catch (rex_media_manager_not_found_exception $exception) {
+                    $this->notFound = true;
+
+                    return;
+                }
             }
+
+            $this->notFound = !$this->media->exists();
         }
     }
 
+    /**
+     * @return array[]
+     *
+     * @psalm-return list<array{effect: string, params: array<string, mixed>}>
+     */
     public function effectsFromType($type)
     {
         $qry = '
@@ -104,9 +122,10 @@ class rex_media_manager
         $sql->setQuery($qry, [$type]);
 
         $effects = [];
+        /** @var rex_sql $row */
         foreach ($sql as $row) {
-            $effname = $row->getValue('effect');
-            $params = json_decode($row->getValue('parameters'), true);
+            $effname = (string) $row->getValue('effect');
+            $params = $row->getArrayValue('parameters');
             $effparams = [];
 
             // extract parameter out of array
@@ -143,11 +162,14 @@ class rex_media_manager
         $this->use_cache = $t;
     }
 
+    /**
+     * @return bool
+     */
     public function isCached()
     {
         $cache_file = $this->getCacheFilename();
 
-        if (!file_exists($cache_file)) {
+        if (!is_file($cache_file)) {
             return false;
         }
 
@@ -163,7 +185,7 @@ class rex_media_manager
             return true;
         }
 
-        if (!file_exists($mediapath)) {
+        if (!is_file($mediapath)) {
             return false;
         }
 
@@ -174,11 +196,17 @@ class rex_media_manager
         return $cachetime > $filetime;
     }
 
+    /**
+     * @return string
+     */
     public function getCacheFilename()
     {
         return $this->cache_path.$this->type.'/'.$this->originalFilename;
     }
 
+    /**
+     * @return string
+     */
     public function getHeaderCacheFilename()
     {
         return $this->getCacheFilename() . '.header';
@@ -209,6 +237,9 @@ class rex_media_manager
         return $counter;
     }
 
+    /**
+     * @return int
+     */
     public static function deleteCache($filename = null, $type = null)
     {
         $filename = ($filename ?: '').'*';
@@ -236,10 +267,13 @@ class rex_media_manager
     {
         rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_BEFORE_SEND', $this, []));
 
-        $headerCacheFilename = $this->getHeaderCacheFilename();
-        $CacheFilename = $this->getCacheFilename();
-
         rex_response::cleanOutputBuffers();
+
+        if ($this->notFound) {
+            header('HTTP/1.1 ' . rex_response::HTTP_NOT_FOUND);
+
+            exit;
+        }
 
         // check for a cache-buster. this needs to be done, before the session gets closed/aborted.
         // the header is sent directly, to make sure it gets not cached with the other media related headers.
@@ -253,11 +287,10 @@ class rex_media_manager
         }
 
         // prevent session locking trough other addons
-        if (function_exists('session_abort')) {
-            session_abort();
-        } else {
-            session_write_close();
-        }
+        session_abort();
+
+        $headerCacheFilename = $this->getHeaderCacheFilename();
+        $CacheFilename = $this->getCacheFilename();
 
         if ($this->use_cache && $this->isCached()) {
             $header = $this->getHeaderCache()['headers'];
@@ -278,6 +311,11 @@ class rex_media_manager
         exit;
     }
 
+    /**
+     * @return array
+     *
+     * @psalm-return array<class-string<rex_effect_abstract>, string>
+     */
     public static function getSupportedEffects()
     {
         $dirs = [
@@ -306,6 +344,9 @@ class rex_media_manager
         self::$effects[] = $class;
     }
 
+    /**
+     * @return string
+     */
     private static function getEffectName($effectFile)
     {
         return str_replace(
@@ -315,6 +356,9 @@ class rex_media_manager
         );
     }
 
+    /**
+     * @return string
+     */
     private static function getEffectClass($effectFile)
     {
         return 'rex_' . str_replace(
@@ -327,6 +371,7 @@ class rex_media_manager
     /*
      * For ExtensionPoints.
      */
+
     public static function mediaUpdated(rex_extension_point $ep)
     {
         self::deleteCache($ep->getParam('filename'));
@@ -352,6 +397,9 @@ class rex_media_manager
         }
     }
 
+    /**
+     * @return string
+     */
     public static function getMediaFile()
     {
         $rex_media_file = rex_get('rex_media_file', 'string');
@@ -364,6 +412,9 @@ class rex_media_manager
         return $rex_media_file;
     }
 
+    /**
+     * @return string
+     */
     public static function getMediaType()
     {
         $type = rex_get('rex_media_type', 'string');
@@ -408,11 +459,7 @@ class rex_media_manager
             }
         }
 
-        if (rex::isBackend()) {
-            $url = rex_url::backendController($params, $escape);
-        } else {
-            $url = rex_url::frontendController($params, $escape);
-        }
+        $url = rex_url::frontendController($params, $escape);
 
         return rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_URL', $url, [
             'type' => $type,

@@ -96,9 +96,6 @@ pool_upload = Subir archivo
 all_mediafolder = Todas las categorías de medios
 mediafolder = Categorías de medios
 
-be_search_mpool_media = Nombre del medio
-be_search_mpool_search = Buscar
-
 var_media_open = Elija medios
 var_media_new = Añadir medios
 var_media_remove = Eliminar los medios seleccionados

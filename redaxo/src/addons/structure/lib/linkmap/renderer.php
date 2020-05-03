@@ -7,19 +7,16 @@
  */
 abstract class rex_linkmap_tree_renderer
 {
+    /**
+     * @return string
+     */
     public function getTree($category_id)
     {
         $category = rex_category::get($category_id);
 
-        $mountpoints = rex::getUser()->getComplexPerm('structure')->getMountpoints();
+        $mountpoints = rex::getUser()->getComplexPerm('structure')->getMountpointCategories();
         if (count($mountpoints) > 0) {
-            $roots = [];
-            foreach ($mountpoints as $mp) {
-                $cat = rex_category::get($mp);
-                if ($cat) {
-                    $roots[] = $cat;
-                }
-            }
+            $roots = $mountpoints;
             if (!$category && 1 === count($roots)) {
                 $category = $roots[0];
             }
@@ -84,6 +81,9 @@ abstract class rex_linkmap_tree_renderer
 
     abstract protected function treeItem(rex_category $cat, $liClasses, $linkClasses, $subHtml, $liIcon);
 
+    /**
+     * @return string
+     */
     public static function formatLabel(rex_structure_element $OOobject)
     {
         $label = $OOobject->getName();
@@ -99,6 +99,9 @@ abstract class rex_linkmap_tree_renderer
         return $label;
     }
 
+    /**
+     * @return string
+     */
     public static function formatLi(rex_structure_element $OOobject, $current_category_id, rex_context $context, $liAttr = '', $linkAttr = '')
     {
         $linkAttr .= ' class="' . ($OOobject->isOnline() ? 'rex-online' : 'rex-offline') . '"';
@@ -142,9 +145,12 @@ abstract class rex_linkmap_article_list_renderer
         return self::renderList($articles, $category_id);
     }
 
+    /**
+     * @return string
+     */
     public function renderList(array $articles, $category_id)
     {
-        $list = null;
+        $list = '';
         if ($articles) {
             foreach ($articles as $article) {
                 $list .= $this->listItem($article, $category_id);

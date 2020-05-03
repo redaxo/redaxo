@@ -90,6 +90,11 @@ abstract class rex_error_handler
         exit(1);
     }
 
+    /**
+     * @return string[]
+     *
+     * @psalm-return array{0: string, 1: string}
+     */
     private static function renderWhoops($exception)
     {
         $whoops = new \Whoops\Run();
@@ -174,7 +179,7 @@ abstract class rex_error_handler
                         vertical-align: top;
                         cursor: pointer;
                         transition: 0.2s ease-out;
-                    } 
+                    }
                     button.clipboard:hover {
                         box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 1);
                         color: #fff;
@@ -236,7 +241,7 @@ abstract class rex_error_handler
 
         // silenced errors ("@" operator)
         if (0 === error_reporting()) {
-            return;
+            return false;
         }
 
         $debug = rex::getDebugFlags();
@@ -324,6 +329,8 @@ abstract class rex_error_handler
 
     /**
      * @param Throwable|Exception $exception
+     *
+     * @return string
      */
     private static function getMarkdownReport($exception)
     {

@@ -54,8 +54,13 @@ $fragment = new rex_fragment();
 $fragment->setVar('content', $content, false);
 $content = $fragment->parse('core/page/grid.php');
 
+$coreVersion = rex_escape(rex::getVersion());
+if (rex_version::isUnstable($coreVersion)) {
+    $coreVersion = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $coreVersion;
+}
+
 $fragment = new rex_fragment();
-$fragment->setVar('title', 'REDAXO <small>' . rex::getVersion() . ' &ndash; <a href="'. rex_url::backendPage('credits', ['license' => 'core']) .'">'. rex_i18n::msg('credits_license') .'</a></small>', false);
+$fragment->setVar('title', 'REDAXO <small>' . $coreVersion . ' &ndash; <a href="'. rex_url::backendPage('credits', ['license' => 'core']) .'">'. rex_i18n::msg('credits_license') .'</a></small>', false);
 $fragment->setVar('body', $content, false);
 echo $fragment->parse('core/page/section.php');
 
@@ -68,10 +73,9 @@ $content .= '
         <tr>
             <th class="rex-table-icon">&nbsp;</th>
             <th>' . rex_i18n::msg('credits_name') . '</th>
-            <th>' . rex_i18n::msg('credits_version') . '</th>
-            <th class="rex-table-slim">' . rex_i18n::msg('credits_help') . '</th>
+            <th class="rex-table-slim">' . rex_i18n::msg('credits_version') . '</th>
+            <th colspan="3">' . rex_i18n::msg('credits_information') . '</th>
             <th>' . rex_i18n::msg('credits_author') . '</th>
-            <th>' . rex_i18n::msg('credits_supportpage') . '</th>
         </tr>
         </thead>
 
@@ -86,27 +90,34 @@ $content .= '
                 $firstLine = fgets($f);
                 fclose($f);
 
-                $license = '<a href="'. $helpUrl .'#license">'. rex_escape($firstLine) .'</a> / ';
+                if (preg_match('/^The MIT License(?: \(MIT\))$/i', $firstLine)) {
+                    $firstLine = 'MIT License';
+                }
+
+                $license = '<a href="'. rex_url::backendPage('packages', ['subpage' => 'license', 'package' => $package->getPackageId()]) .'"><i class="rex-icon rex-icon-license"></i> '. rex_escape($firstLine) .'</a>';
+            }
+
+            $packageVersion = rex_escape($package->getVersion());
+            if (rex_version::isUnstable($packageVersion)) {
+                $packageVersion = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $packageVersion;
             }
 
             $content .= '
             <tr class="rex-package-is-' . $package->getType() . '">
                 <td class="rex-table-icon"><i class="rex-icon rex-icon-package-' . $package->getType() . '"></i></td>
                 <td data-title="' . rex_i18n::msg('credits_name') . '">' . $package->getName() . ' </td>
-                <td data-title="' . rex_i18n::msg('credits_version') . '">' . $package->getVersion() . '</td>
-                <td class="rex-table-slim" data-title="' . rex_i18n::msg('credits_help') . '">
-                    '. $license .'
-                    <a href="' . $helpUrl . '" title="' . rex_i18n::msg('credits_open_help_file') . ' ' . $package->getName() . '"><i class="rex-icon rex-icon-help"></i> <span class="sr-only">' . rex_i18n::msg('package_help') . ' ' . rex_escape($package->getName()) . '</span></a>
+                <td data-title="' . rex_i18n::msg('credits_version') . '">' . $packageVersion . '</td>
+                <td class="rex-table-slimmer" data-title="' . rex_i18n::msg('credits_help') . '">
+                    <a href="' . $helpUrl . '" title="' . rex_i18n::msg('credits_open_help_file') . ' ' . rex_escape($package->getName()) . '"><i class="rex-icon rex-icon-help"></i> ' . rex_i18n::msg('credits_help') . ' <span class="sr-only">' . rex_escape($package->getName()) . '</span></a>
                 </td>
-                <td data-title="' . rex_i18n::msg('credits_author') . '">' . $package->getAuthor() . '</td>
-                <td data-title="' . rex_i18n::msg('credits_supportpage') . '">';
-
+                <td class="rex-table-slim" data-title="' . rex_i18n::msg('credits_supportpage') . '">';
             if ($supportpage = $package->getSupportPage()) {
-                $content .= '<a href="' . $supportpage . '" onclick="window.open(this.href); return false;"><i class="rex-icon rex-icon-external-link"></i> ' . $supportpage . '</a>';
+                $content .= '<a href="' . $supportpage . '" onclick="window.open(this.href); return false;"><i class="rex-icon rex-icon-external-link"></i> ' . rex_i18n::msg('credits_supportpage') . '</a>';
             }
-
             $content .= '
                 </td>
+                <td class="rex-table-width-6" data-title="' . rex_i18n::msg('credits_license') . '">'. $license .'</td>
+                <td data-title="' . rex_i18n::msg('credits_author') . '">' . $package->getAuthor() . '</td>
             </tr>';
         }
 
