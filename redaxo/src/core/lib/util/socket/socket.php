@@ -260,7 +260,7 @@ class rex_socket
      */
     public function doRequest($method, $data = '')
     {
-        return rex_timer::measure(__METHOD__, function () use ($method, $data) {
+        return rex_timer::measure(__METHOD__.' | '.$this->host.'/'.$this->path, function () use ($method, $data) {
             if (!is_string($data) && !is_callable($data)) {
                 throw new InvalidArgumentException(sprintf('Expecting $data to be a string or a callable, but %s given!', gettype($data)));
             }
