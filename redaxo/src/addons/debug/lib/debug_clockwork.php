@@ -4,8 +4,8 @@
  *
  * @internal
  */
-class rex_debug_clockwork {
-
+class rex_debug_clockwork
+{
     /** @var class-string[] */
     private static $ignoreClasses = [
         rex_extension_debug::class,
