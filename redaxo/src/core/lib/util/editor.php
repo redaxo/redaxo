@@ -91,4 +91,17 @@ class rex_editor
             'xdebug' => 'Xdebug via xdebug.file_link_format (php.ini)',
         ];
     }
+
+    /**
+     * Returns the editor name, e.g. „atom“.
+     */
+    public function getName(): ?string
+    {
+        return rex::getProperty('editor');
+    }
+
+    public function getBasepath(): ?string
+    {
+        return rex::getProperty('editor_basepath');
+    }
 }
