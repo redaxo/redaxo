@@ -12,7 +12,7 @@ abstract class rex_api_function_debug extends rex_api_function
         $apiFunc = self::factory();
 
         if (null != $apiFunc) {
-            rex_debug::getInstance()->debug('called api function "' . get_class(self::factory()) . '"');
+            rex_debug_clockwork::getInstance()->debug('called api function "' . get_class(self::factory()) . '"');
         }
         return parent::handleCall();
     }

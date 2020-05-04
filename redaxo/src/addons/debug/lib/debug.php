@@ -7,9 +7,6 @@
  */
 class rex_debug
 {
-    /** @var \Clockwork\Support\Vanilla\Clockwork */
-    private static $instance;
-
     /** @var class-string[] */
     private static $ignoreClasses = [
         rex_extension_debug::class,
@@ -22,28 +19,6 @@ class rex_debug
         rex_logger::class,
         rex_error_handler::class,
     ];
-
-    private static function init(): void
-    {
-        $clockwork = \Clockwork\Support\Vanilla\Clockwork::init([
-            'storage_files_path' => rex_addon::get('debug')->getCachePath('clockwork.db'),
-        ]);
-
-        self::$instance = $clockwork;
-    }
-
-    public static function getInstance(): \Clockwork\Clockwork
-    {
-        return self::getHelper()->getClockwork();
-    }
-
-    public static function getHelper(): \Clockwork\Support\Vanilla\Clockwork
-    {
-        if (!self::$instance) {
-            self::init();
-        }
-        return self::$instance;
-    }
 
     public static function getTrace(array $ignoredClasses = []): array
     {
@@ -64,23 +39,5 @@ class rex_debug
             'line' => $trace[$start]['line'] ?? null,
             'trace' => array_slice($trace, $start),
         ];
-    }
-
-    public static function getFullClockworkApiUrl(): string
-    {
-        $https = isset($_SERVER['HTTPS']) && 'on' == $_SERVER['HTTPS'];
-        $host = $_SERVER['HTTP_HOST'];
-        $port = $_SERVER['SERVER_PORT'] ?? null;
-        $uri = dirname($_SERVER['REQUEST_URI']).'/'.self::getClockworkApiUrl();
-
-        $scheme = $https ? 'https' : 'http';
-        $port = (!$https && 80 != $port || $https && 443 != $port) ? ":{$port}" : '';
-
-        return "{$scheme}://{$host}{$port}{$uri}";
-    }
-
-    public static function getClockworkApiUrl(): string
-    {
-        return rex_url::backendPage('structure', rex_api_debug::getUrlParams(), false);
     }
 }
