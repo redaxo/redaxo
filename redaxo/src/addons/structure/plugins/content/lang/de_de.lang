@@ -1,6 +1,7 @@
 content = Artikel
 
 add_block = Block hinzufügen
+article_doesnt_exist = Dieser Artikel existiert nicht!
 module_doesnt_exist = Dieses Modul existiert nicht!
 update_block = Block übernehmen
 save_block = Block speichern
