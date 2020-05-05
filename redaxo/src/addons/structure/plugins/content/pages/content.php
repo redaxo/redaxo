@@ -14,7 +14,6 @@ $function = rex_request('function', 'string');
 $article_id = rex_article::get($article_id) ? $article_id : 0;
 $clang = rex_clang::exists($clang) ? $clang : rex_clang::getStartId();
 
-
 $article_revision = 0;
 $slice_revision = 0;
 $template_attributes = [];
@@ -39,9 +38,9 @@ $article->setQuery('
 if (1 !== $article->getRows()) {
     echo rex_view::title(rex_i18n::msg('content'), '');
     echo rex_view::error(rex_i18n::msg('article_doesnt_exist'));
-    return false;
-
+    return;
 }
+
 // ----- ctype holen
 $template_attributes = $article->getArrayValue('template_attributes');
 
