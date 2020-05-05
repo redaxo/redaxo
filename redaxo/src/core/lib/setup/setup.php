@@ -88,7 +88,9 @@ class rex_setup
         ];
 
         $getMod = static function ($path) {
-            return substr(sprintf('%o', fileperms($path)), -3);
+            $mod = substr(sprintf('%o', fileperms($path)), -3);
+            assert(is_string($mod));
+            return $mod;
         };
 
         $func = static function ($dir) use (&$func, $getMod) {

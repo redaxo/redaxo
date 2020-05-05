@@ -40,6 +40,7 @@ composer update --no-dev -d redaxo/src/addons/debug/
 rm -f redaxo/src/addons/debug/vendor/autoload.php
 rm -rf redaxo/src/addons/debug/vendor/composer/
 rm -rf redaxo/src/addons/debug/vendor/psr/
+rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/.github/
 find redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/DataSource/ -not -name Php* -not -name Xdebug* -not -name Data* -delete
 rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Storage/SqlSearch.php
 rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Storage/SqlStorage.php
@@ -84,6 +85,7 @@ find redaxo/src/addons/tests/vendor -name ".travis.yml" -type f -delete
 find redaxo/src/addons/tests/vendor -name "appveyor.yml" -type f -delete
 find redaxo/src/addons/tests/vendor -name "build.xml" -type f -delete
 find redaxo/src/addons/tests/vendor -name "easy-coding-standard.neon" -type f -delete
+find redaxo/src/addons/tests/vendor -name "Makefile" -type f -delete
 find redaxo/src/addons/tests/vendor -name "phive.xml" -type f -delete
 find redaxo/src/addons/tests/vendor -name "phpbench.json" -type f -delete
 find redaxo/src/addons/tests/vendor -name "phpcs.xml.dist" -type f -delete

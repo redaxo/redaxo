@@ -9,6 +9,7 @@ if (rex_string::versionCompare(rex_plugin::get('structure', 'content')->getVersi
 
         $article = rex_article::get($params['article_id'], $params['clang']);
         $articleStatusTypes = rex_article_service::statusTypes();
+        $status = (int) $article->getValue('status');
 
         $panel = '';
         $panel .= '<dl class="dl-horizontal text-left">';
@@ -26,7 +27,7 @@ if (rex_string::versionCompare(rex_plugin::get('structure', 'content')->getVersi
         $panel .= '<dd>' . rex_formatter::strftime($article->getValue('updatedate'), 'date') . '</dd>';
 
         $panel .= '<dt>' . rex_i18n::msg('status') . '</dt>';
-        $panel .= '<dd class="' . $articleStatusTypes[$article->getValue('status')][1] . '">' . $articleStatusTypes[$article->getValue('status')][0] . '</dd>';
+        $panel .= '<dd class="' . $articleStatusTypes[$status][1] . '">' . $articleStatusTypes[$status][0] . '</dd>';
 
         $panel .= '</dl>';
         $fragment = new rex_fragment();

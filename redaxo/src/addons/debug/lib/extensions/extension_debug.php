@@ -37,7 +37,7 @@ class rex_extension_debug extends rex_extension
         $data = rex_debug::getTrace([rex_extension::class]);
         $data['listeners'] = self::$listeners[$extensionPoint->getName()] ?? [];
 
-        rex_debug::getInstance()
+        rex_debug_clockwork::getInstance()
             ->addEvent('EP: '.$extensionPoint->getName(), [
                 'subject' => $extensionPoint->getSubject(),
                 'params' => $extensionPoint->getParams(),

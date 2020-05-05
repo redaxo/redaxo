@@ -30,16 +30,12 @@ class rex_template
 
     public static function forKey(string $template_key): ?self
     {
-        $sql = rex_sql::factory()->setQuery(
-            'SELECT `id` FROM '.rex::getTable('template').' WHERE `key` = :key',
-            ['key' => $template_key]
-        );
+        $mapping = self::getKeyMapping();
 
-        if (1 == $sql->getRows()) {
-            $template_id = $sql->getValue('id');
-
-            $template = new self($template_id);
+        if (false !== $id = array_search($template_key, $mapping, true)) {
+            $template = new self($id);
             $template->key == $template_key;
+
             return $template;
         }
 
@@ -58,16 +54,7 @@ class rex_template
     {
         // key will never be empty string in the db
         if ('' === $this->key) {
-            $sql = rex_sql::factory()->setQuery(
-                'SELECT `key` FROM '.rex::getTable('template').' WHERE `id` = :id',
-                ['id' => $this->id]
-            );
-
-            if (1 == $sql->getRows()) {
-                $this->key = $sql->getValue('key');
-            } else {
-                $this->key = null;
-            }
+            $this->key = self::getKeyMapping()[$this->id] ?? null;
             assert('' !== $this->key);
         }
 
@@ -83,22 +70,18 @@ class rex_template
             return false;
         }
 
-        $file = $this->getFilePath($this->getId());
-        if (!$file) {
-            return false;
-        }
+        $file = rex_template_cache::getPath($this->id);
 
-        if (!file_exists($file)) {
-            // Generated Datei erzeugen
-            if (!$this->generate()) {
-                throw new rex_exception('Unable to generate rexTemplate with id "' . $this->getId() . '"');
-            }
+        if (!is_file($file)) {
+            rex_template_cache::generate($this->id);
         }
 
         return $file;
     }
 
     /**
+     * @deprecated since structure 2.11, use `rex_template_cache::getPath` instead
+     *
      * @return false|string
      */
     public static function getFilePath($template_id)
@@ -107,10 +90,12 @@ class rex_template
             return false;
         }
 
-        return self::getTemplatesDir() . '/' . $template_id . '.template';
+        return rex_template_cache::getPath($template_id);
     }
 
     /**
+     * @deprecated since structure 2.11, use `rex_template_cache` instead
+     *
      * @return string
      */
     public static function getTemplatesDir()
@@ -129,34 +114,19 @@ class rex_template
     }
 
     /**
+     * @deprecated since structure 2.11, use `rex_template_cache::generate` instead
+     *
      * @return bool
      */
     public function generate()
     {
-        $template_id = $this->getId();
-
-        if ($template_id < 1) {
-            return false;
-        }
-
-        $sql = rex_sql::factory();
-        $qry = 'SELECT * FROM ' . rex::getTablePrefix()  . 'template WHERE id = ' . $template_id;
-        $sql->setQuery($qry);
-
-        if (1 == $sql->getRows()) {
-            $templateFile = self::getFilePath($template_id);
-
-            $content = $sql->getValue('content');
-            $content = rex_var::parse($content, rex_var::ENV_FRONTEND, 'template');
-            if (false !== rex_file::put($templateFile, $content)) {
-                return true;
-            }
-            throw new rex_exception('Unable to generate template ' . $template_id . '!');
-        }
-        throw new rex_exception('Template with id "' . $template_id . '" does not exist!');
+        rex_template_cache::generate($this->id);
+        return true;
     }
 
     /**
+     * @deprecated since structure 2.11, use `rex_template_cache::delete` instead
+     *
      * @return bool
      */
     public function deleteCache()
@@ -165,8 +135,7 @@ class rex_template
             return false;
         }
 
-        $file = $this->getFilePath($this->getId());
-        rex_file::delete($file);
+        rex_template_cache::delete($this->id);
         return true;
     }
 
@@ -237,5 +206,28 @@ class rex_template
         }
 
         return false;
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    private static function getKeyMapping(): array
+    {
+        static $mapping;
+
+        if (null !== $mapping) {
+            return $mapping;
+        }
+
+        $file = rex_template_cache::getKeyMappingPath();
+        $mapping = rex_file::getCache($file, null);
+
+        if (null !== $mapping) {
+            return $mapping;
+        }
+
+        rex_template_cache::generateKeyMapping();
+
+        return $mapping = rex_file::getCache($file);
     }
 }

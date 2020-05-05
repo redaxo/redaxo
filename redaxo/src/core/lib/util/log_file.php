@@ -45,7 +45,7 @@ class rex_log_file implements Iterator
     public function __construct($path, $maxFileSize = null)
     {
         $this->path = $path;
-        if (!file_exists($path)) {
+        if (!is_file($path)) {
             rex_file::put($path, '');
         }
         if ($maxFileSize && filesize($path) > $maxFileSize) {
@@ -83,7 +83,7 @@ class rex_log_file implements Iterator
         if ($this->pos < 0) {
             // position is before file start -> look for next file
             $path2 = $this->path . '.2';
-            if ($this->second || !$this->file2 && !file_exists($path2)) {
+            if ($this->second || !$this->file2 && !is_file($path2)) {
                 // already in file2 or file2 does not exist -> mark currentLine as invalid
                 $this->currentLine = null;
                 $this->key = null;
