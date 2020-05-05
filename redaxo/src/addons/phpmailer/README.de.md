@@ -113,6 +113,11 @@ foreach($sql as $row)
 
 ```
 
+## E-Mail-Versand auf Testadresse umleiten
+
+Wird diese Option aktiviert werden **alle** über PHPMailer verschickten Adressen an die `Adresse für Testzwecke` verschickt.
+
+
 ## E-Mail-Benachrichtigung bei Fehlern
 
 PHPMAiler versendet einen Auszug des system.log, wenn es Exceptions, Errors und eigene Logevents findet. 
