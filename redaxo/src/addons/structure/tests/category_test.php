@@ -133,7 +133,7 @@ class rex_category_test extends TestCase
 
     public function dataGetClosest(): iterable
     {
-        $callback = function (rex_category $category) {
+        $callback = static function (rex_category $category) {
             return 1 === $category->getValue('status');
         };
 
@@ -151,7 +151,7 @@ class rex_category_test extends TestCase
         [$lev1, $lev2, $lev3] = $this->createCategories(['status' => 1], ['status' => 0], ['status' => 0]);
         yield [$lev1, $lev3, $callback];
 
-        $callback = function (rex_category $category) {
+        $callback = static function (rex_category $category) {
             return $category->getValue('cat_foo') > 3;
         };
 
