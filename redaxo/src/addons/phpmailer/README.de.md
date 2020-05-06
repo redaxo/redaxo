@@ -115,7 +115,7 @@ foreach($sql as $row)
 
 ## E-Mail-Versand auf Testadresse umleiten
 
-Wird diese Option aktiviert werden **alle** über PHPMailer verschickten Adressen an die `Adresse für Testzwecke` verschickt.
+Wird diese Option aktiviert, werden **alle** über PHPMailer verschickten E-Mails an die `Adresse für Testzwecke` verschickt.
 
 
 ## E-Mail-Benachrichtigung bei Fehlern
@@ -224,4 +224,3 @@ z.B. `a:meine-domain.tld ip4:XXX.XXX.XXX.XXX`
 Somit wird sichergestellt, dass PHPMailer E-Mails unter der angegebenen Domain versenden kann und die Mail nicht als SPAM deklariert wird.  
 
 Hierzu ggf. den Registrar oder DNS-Administrator kontaktieren. 
-
