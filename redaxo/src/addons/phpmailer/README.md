@@ -114,7 +114,7 @@ foreach($sql as $row)
 
 ## Redirect e-mail delivery to test address
 
-If this option is activated **all** addresses sent via PHPMailer will be sent to the 'address for test purposes'.
+If this option is activated, **all** e-mails sent via PHPMailer will be sent to the `address for test purposes`.
 
 ## E-mail notification in case of errors
 
@@ -217,4 +217,3 @@ e.g. `a:my-domain.tld ip4:XXX.XXX.XXX.XXX`
 This ensures that PHPMailer can send emails under the specified domain and that the mail is not declared as SPAM.  
 
 If necessary, contact the registrar or DNS administrator. 
-
