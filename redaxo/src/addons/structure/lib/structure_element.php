@@ -101,9 +101,9 @@ abstract class rex_structure_element
      *
      * @return string|int|null
      */
-    public function getClosestValue(string $value)
+    public function getClosestValue(string $key)
     {
-        $value = $this->getValue($value);
+        $value = $this->getValue($key);
 
         if (null !== $value && '' !== $value) {
             return $value;
@@ -111,7 +111,7 @@ abstract class rex_structure_element
 
         $parent = $this->getParent();
 
-        return $parent ? $parent->getClosestValue($value) : null;
+        return $parent ? $parent->getClosestValue($key) : null;
     }
 
     /**
