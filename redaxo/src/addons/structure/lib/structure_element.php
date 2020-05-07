@@ -513,6 +513,54 @@ abstract class rex_structure_element
     }
 
     /**
+     * Returns the closest element from parent tree (including itself) where the callback returns true.
+     *
+     * @psalm-param callable(self):bool $callback
+     */
+    public function getClosest(callable $callback): ?self
+    {
+        if ($callback($this)) {
+            return $this;
+        }
+
+        $parent = $this->getParent();
+
+        return $parent ? $parent->getClosest($callback) : null;
+    }
+
+    /**
+     * Returns the value from this element or from the closest parent where the value is set.
+     *
+     * @return string|int|null
+     */
+    public function getClosestValue(string $key)
+    {
+        $value = $this->getValue($key);
+
+        if (null !== $value && '' !== $value) {
+            return $value;
+        }
+
+        $parent = $this->getParent();
+
+        return $parent ? $parent->getClosestValue($key) : null;
+    }
+
+    /**
+     * Returns true if this element and all parents are online.
+     */
+    public function isOnlineIncludingParents(): bool
+    {
+        if (!$this->isOnline()) {
+            return false;
+        }
+
+        $parent = $this->getParent();
+
+        return !$parent || $parent->isOnlineIncludingParents();
+    }
+
+    /**
      * Returns true if this Article is the Startpage for the category.
      *
      * @return bool
