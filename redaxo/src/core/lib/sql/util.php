@@ -8,6 +8,40 @@
 class rex_sql_util
 {
     /**
+     * Copy the table structure (without its data) to another table.
+     *
+     * @throws rex_exception
+     */
+    public static function copyTable(string $sourceTable, string $destinationTable): void
+    {
+        if (!rex_sql_table::get($sourceTable)->exists()) {
+            throw new rex_exception(sprintf('Source table "%s" does not exist.', $sourceTable));
+        }
+
+        if (rex_sql_table::get($destinationTable)->exists()) {
+            throw new rex_exception(sprintf('Destination table "%s" already exists.', $destinationTable));
+        }
+
+        $sql = rex_sql::factory();
+        $sql->setQuery('CREATE TABLE '.$sql->escapeIdentifier($destinationTable).' LIKE '.$sql->escapeIdentifier($sourceTable));
+
+        rex_sql_table::clearInstance($destinationTable);
+    }
+
+    /**
+     * Copy the table structure and its data to another table.
+     *
+     * @throws rex_exception
+     */
+    public static function copyTableWithData(string $sourceTable, string $destinationTable): void
+    {
+        self::copyTable($sourceTable, $destinationTable);
+
+        $sql = rex_sql::factory();
+        $sql->setQuery('INSERT '.$sql->escapeIdentifier($destinationTable).' SELECT * FROM '.$sql->escapeIdentifier($sourceTable));
+    }
+
+    /**
      * Allgemeine funktion die eine Datenbankspalte fortlaufend durchnummeriert.
      * Dies ist z.B. nützlich beim Umgang mit einer Prioritäts-Spalte.
      *

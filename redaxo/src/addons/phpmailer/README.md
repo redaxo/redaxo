@@ -112,6 +112,10 @@ foreach($sql as $row)
 
 ```
 
+## Redirect e-mail delivery to test address
+
+If this option is activated, **all** e-mails sent via PHPMailer will be sent to the `address for test purposes`.
+
 ## E-mail notification in case of errors
 
 PHPMAiler sends an excerpt of system.log when it finds exceptions, errors, and custom log events. 
@@ -213,4 +217,3 @@ e.g. `a:my-domain.tld ip4:XXX.XXX.XXX.XXX`
 This ensures that PHPMailer can send emails under the specified domain and that the mail is not declared as SPAM.  
 
 If necessary, contact the registrar or DNS administrator. 
-
