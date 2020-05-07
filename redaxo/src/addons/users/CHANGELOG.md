@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.6.2 – XX.XX.2020
+--------------------------
+
+### Bugfixes
+
+* EP `USER_UPDATED`: Parameter `id` war immer `0` (@gharlan)
+
+
 Version 2.6.0 – 02.02.2020
 --------------------------
 

@@ -1,6 +1,16 @@
 Changelog
 =========
 
+Version 2.10.1 – XX.XX.2020
+---------------------------
+
+### Bugfixes
+
+* Bei Fehlern während der Artikelcache-Generierung wurde im Frontend eine Fehlermeldung ausgegeben, die den vollen Cachepfad enthielt (@gharlan)
+* Beim Backendaufruf von nicht existenten Artikeln erschien keine Fehlermeldung (@tbaddade)
+* Es wurden teilweise falsche Übersetzungsschlüssel verwendet (@bloep)
+
+
 Version 2.10.0 – 10.03.2020
 ---------------------------
 
