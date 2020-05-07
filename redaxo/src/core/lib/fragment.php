@@ -160,6 +160,20 @@ class rex_fragment
     }
 
     /**
+     * Returns the content of a Subfragment from within a fragment.
+     *
+     * The Subfragment gets all variables of the current fragment, plus optional overrides from $params
+     *
+     * @param string $filename The filename of the fragment to use
+     * @param array  $params   A array of key-value pairs to pass as local parameters
+     */
+    protected function getSubfragment(string $filename, array $params = []): string
+    {
+        $fragment = new self(array_merge($this->vars, $params));
+        return $fragment->parse($filename);
+    }
+
+    /**
      * Include a Subfragment from within a fragment.
      *
      * The Subfragment gets all variables of the current fragment, plus optional overrides from $params
@@ -169,8 +183,7 @@ class rex_fragment
      */
     protected function subfragment($filename, array $params = [])
     {
-        $fragment = new self(array_merge($this->vars, $params));
-        echo $fragment->parse($filename);
+        echo $this->getSubfragment($filename, $params);
     }
 
     /**
