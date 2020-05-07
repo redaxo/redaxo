@@ -18,16 +18,17 @@ class RexTypeReturnProvider implements \Psalm\Plugin\Hook\MethodReturnTypeProvid
      * @return ?Type\Union
      */
     public static function getMethodReturnType(
-        StatementsSource $source,
+         StatementsSource $source,
         string $fq_classlike_name,
         string $method_name_lowercase,
         array $call_args,
-        Context $context,
+        Context $context,  
         CodeLocation $code_location,
         array $template_type_parameters = null,
-        string $called_fq_classlike_name = null,
+        string $called_fq_classlike_name = null, 
         string $called_method_name_lowercase = null
-    ) {
+    )
+    {
         if ('cast' === $method_name_lowercase
             && isset($call_args[1]->value->inferredType)
             && $call_args[1]->value->inferredType->isSingleStringLiteral()
