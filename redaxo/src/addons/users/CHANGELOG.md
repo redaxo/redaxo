@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 2.6.2 – XX.XX.2020
+Version 2.6.2 – 08.05.2020
 --------------------------
 
 ### Bugfixes

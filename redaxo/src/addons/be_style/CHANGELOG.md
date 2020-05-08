@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 2.10.1 – XX.XX.2020
+Version 2.10.1 – 08.05.2020
 ---------------------------
 
 * Markdown-Pages: Bei schmalem Inhalt war die Sprungnavi nicht am rechten Rand (@bloep)
