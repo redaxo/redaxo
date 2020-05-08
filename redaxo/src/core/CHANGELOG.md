@@ -1,6 +1,27 @@
 Changelog
 =========
 
+Version 5.10.1 – 08.05.2020
+---------------------------
+
+### Neu
+
+* Update der externen Bibliotheken (u.a. jQuery 3.5.1)
+
+### Bugfixes
+
+* Es kam zu einem Fehler, wenn ein Addon keine `package.yml` oder darin keine `version` enthielt (@gharlan)
+* Logout im Chrome war teils sehr langsam (@staabm)
+* Accesskeys funktionierten nicht mehr (@bloep)
+* Systembericht: Bei fehlerhafter zweiter Datenbankverbindung kam es zu der Ooops-Fehlerseite (@gharlan)
+* `rex_sql_table`:
+    - Spaltenreihenfolge wurde teils nicht korrekt gesetzt (@gharlan)
+    - Bei mehrfachem Aufruf von `ensure` für eine Tabelle ohne Änderungen kam es zu einem Fehler (@gharlan)
+* `rex_sql`: Bei einer Exception in `setDBQuery` wurde die DB-ID nicht auf die Ursprungs-ID zurückgesetzt (@staabm)
+* `rex_file`: bei `copy` kam es zu einer Warnung, wenn man nicht der Fileowner der Datei ist (@gharlan)
+* Command `user:create`: Die angelegten User konnten sich nicht einloggen (@staabm, @bloep)
+
+
 Version 5.10.0 – 10.03.2020
 ---------------------------
 
