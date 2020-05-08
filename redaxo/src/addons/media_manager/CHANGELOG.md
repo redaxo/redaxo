@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 2.9.1 – 08.05.2020
+--------------------------
+
+### Bugfixes
+
+* Effekt `convert2img`: Wenn die PHP-Extension `imagick` installiert ist, dann wurde die Density nicht berücksichtigt und CMYK-PDFs wurden nicht korrekt in RGB umgewandelt (@lexplatt, @gharlan)
+* Bedingte Felder wurden teils nicht ausgeblendet (@gharlan)
+
+
 Version 2.9.0 – 10.03.2020
 --------------------------
 
