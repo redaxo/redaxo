@@ -71,7 +71,7 @@ if ($PERMALL) {
                         continue;
                     }
 
-                    $syncResult = rex_mediapool_syncFile($file, $rex_file_category, $ftitle, '', '');
+                    $syncResult = rex_mediapool_syncFile($file, $rex_file_category, $ftitle, null, '');
                     if ($syncResult['ok']) {
                         unset($diff_files[$key]);
                         if ($first) {

@@ -283,14 +283,14 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
  * @param null|string $filetype
  * @param null|string $userlogin
  *
- * @return bool|array
+ * @return array
  */
 function rex_mediapool_syncFile($physical_filename, $category_id, $title, $filesize = null, $filetype = null, $userlogin = null)
 {
     $abs_file = rex_path::media($physical_filename);
 
     if (!is_file($abs_file)) {
-        return false;
+        throw new rex_exception(sprintf('File "%s" does not exist.', $abs_file));
     }
 
     if (empty($filesize)) {
