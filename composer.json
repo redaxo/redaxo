@@ -68,7 +68,8 @@
             "redaxo/src/core/functions/function_rex_escape.php",
             "redaxo/src/core/functions/function_rex_globals.php",
             "redaxo/src/core/functions/function_rex_other.php",
-            "redaxo/src/core/vendor/autoload.php"
+            "redaxo/src/core/vendor/autoload.php",
+            ".tools/constants.php"
         ]
     },
     "autoload-dev": {
