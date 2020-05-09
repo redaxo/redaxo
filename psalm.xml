@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <psalm
-    autoloader="phpstan-bootstrap.php"
+    autoloader=".tools/bootstrap.php"
     resolveFromConfigFile="true"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
@@ -41,7 +41,7 @@
         <file name="redaxo/src/core/.phpstorm.meta.php" />
     </stubs>
     <plugins>
-        <plugin filename="psalm-utils.php" />
+        <plugin filename=".tools/psalm/RexTypeReturnProvider.php" />
         <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin" />
     </plugins>
     <issueHandlers>
