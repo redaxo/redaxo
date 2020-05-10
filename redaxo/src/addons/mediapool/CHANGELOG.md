@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.8.1 – 08.05.2020
+--------------------------
+
+### Bugfixes
+
+* Dateien synchronisieren: Button-Disabled-Status wurde nicht richtig gesetzt (@bloep)
+
+
 Version 2.8.0 – 10.03.2020
 --------------------------
 

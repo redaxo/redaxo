@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.7.1 – 08.05.2020
+--------------------------
+
+### Bugfixes
+
+* Attribute ohne Wert (`data-foo`) wurden teils ignoriert (@gharlan)
+
+
 Version 2.7.0 – 10.03.2020
 --------------------------
 

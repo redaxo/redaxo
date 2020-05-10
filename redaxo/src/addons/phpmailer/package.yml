@@ -20,6 +20,7 @@ pages:
         perm: admin
 
 requires:
+    php: '>=7.1'
     redaxo: ^5.10.0
 
 default_config:

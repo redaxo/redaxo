@@ -19,7 +19,6 @@ parameters:
         - redaxo/src/addons/structure
         - redaxo/src/addons/tests
         - redaxo/src/addons/users
-    bootstrap: phpstan-bootstrap.php
     excludes_analyse:
         - redaxo/src/addons/be_style/vendor/
         - redaxo/src/addons/debug/vendor/
