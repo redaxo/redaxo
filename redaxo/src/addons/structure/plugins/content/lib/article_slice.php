@@ -468,8 +468,8 @@ class rex_article_slice
         return $this->_priority;
     }
 
-    public function getStatus()
+    public function isOnline(): bool
     {
-        return $this->_status;
+        return 1 == $this->_status;
     }
 }
