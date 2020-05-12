@@ -27,8 +27,8 @@ class rex_install_archive
                 if (!$zip->extractTo($dir)) {
                     return false;
                 }
-                
-                rex_set_rights::setRights($dir);
+
+                self::setPermissions($dir);
 
                 return true;
             }
@@ -41,11 +41,11 @@ class rex_install_archive
                     return false;
                 }
 
-                if (!is_dir($tempdir . '/' . $basename) || !rename($tempdir . '/' . $basename, $dir)) {
+                if (!is_dir($tempdir . '/' . $basename) || !rename($tempdir . '/' . $basename, $dir)) {
                     return false;
                 }
 
-                rex_set_rights::setRights($dir);
+                self::setPermissions($dir);
 
                 return true;
             } finally {
@@ -90,6 +90,17 @@ class rex_install_archive
                     $phar[$path]->decompress();
                 }
             }
+        }
+    }
+
+    private static function setPermissions(string $dir): void
+    {
+        @chmod($dir, rex::getDirPerm());
+
+        $finder = rex_finder::factory($dir)->recursive();
+
+        foreach ($finder as $path => $file) {
+            @chmod($path, $file->isDir() ? rex::getDirPerm() : rex::getFilePerm());
         }
     }
 }
