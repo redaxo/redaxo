@@ -19,10 +19,6 @@ before_install:
     - phpenv config-rm xdebug.ini || echo "xdebug not available"
 
 jobs:
-    allow_failures:
-      - php: nightly
-        env:
-            - DB=mysql5
     include:
         -   &TEST
             install:
