@@ -1,6 +1,8 @@
 name: Visual Regression Testing
 
-on: [pull_request]
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
 
 jobs:
     build:
