@@ -22,7 +22,7 @@ matrix:
     allow_failures:
       - php: nightly
         env:
-            - DB=mysql
+            - DB=mysql5
 
 jobs:
     include:
