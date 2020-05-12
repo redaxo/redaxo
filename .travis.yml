@@ -17,6 +17,9 @@ cache:
 
 before_install:
     - phpenv config-rm xdebug.ini || echo "xdebug not available"
+    
+allow_failures:
+    - php: nightly
 
 jobs:
     include:
