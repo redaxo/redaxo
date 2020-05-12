@@ -20,16 +20,16 @@ class rex_api_content_slice_status extends rex_api_function
         $user = rex::getUser();
         $category_id = $article->getCategoryId();
 
-        if ($user->hasPerm('publishSlice[]') && $user->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
-            $slice_id = rex_request('slice_id', 'int');
-            $status = rex_request('status', 'int');
-
-            rex_content_service::sliceStatus($slice_id, $status);
-
-            return new rex_api_result(true);
+        if (!$user->hasPerm('publishSlice[]') || !$user->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
+            throw new rex_api_exception(rex_i18n::msg('no_rights_to_this_function'));
         }
 
-        throw new rex_api_exception(rex_i18n::msg('no_rights_to_this_function'));
+        $slice_id = rex_request('slice_id', 'int');
+        $status = rex_request('status', 'int');
+
+        rex_content_service::sliceStatus($slice_id, $status);
+
+        return new rex_api_result(true);
     }
 
     protected function requiresCsrfProtection()
