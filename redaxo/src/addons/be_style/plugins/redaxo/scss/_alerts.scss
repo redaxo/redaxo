@@ -7,6 +7,15 @@
     }
 
     word-break: break-word;
+
+    .rex-panel-options & {
+        padding: $padding-small-vertical $padding-small-horizontal;
+        font-size: $font-size-small;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
 }
 .alert-danger a {
     color: $alert-danger-text;
