@@ -23,8 +23,8 @@ abstract class rex_api_function
 {
     use rex_factory_trait;
 
-    const REQ_CALL_PARAM = 'rex-api-call';
-    const REQ_RESULT_PARAM = 'rex-api-result';
+    public const REQ_CALL_PARAM = 'rex-api-call';
+    public const REQ_RESULT_PARAM = 'rex-api-result';
 
     /**
      * Flag, indicating if this api function may be called from the frontend. False by default.
@@ -38,7 +38,19 @@ abstract class rex_api_function
      *
      * @var rex_api_result
      */
-    protected $result = null;
+    protected $result;
+
+    /**
+     * The api function which is bound to the current request.
+     *
+     * @var rex_api_function
+     */
+    private static $instance;
+
+    protected function __construct()
+    {
+        // NOOP
+    }
 
     /**
      * This method have to be overriden by a subclass and does all logic which the api function represents.
@@ -53,18 +65,11 @@ abstract class rex_api_function
     abstract public function execute();
 
     /**
-     * The api function which is bound to the current request.
-     *
-     * @var rex_api_function
-     */
-    private static $instance;
-
-    /**
      * Returns the api function instance which is bound to the current request, or null if no api function was bound.
      *
      * @throws rex_exception
      *
-     * @return self
+     * @return self|null
      */
     public static function factory()
     {
@@ -129,7 +134,7 @@ abstract class rex_api_function
         // remove the `rex_api_` prefix
         $name = substr($class, 8);
 
-        return sprintf('<input type="hidden" name="%s" value="%s"/>', self::REQ_CALL_PARAM, rex_escape($name, 'html_attr'))
+        return sprintf('<input type="hidden" name="%s" value="%s"/>', self::REQ_CALL_PARAM, rex_escape($name))
             .rex_csrf_token::factory($class)->getHiddenField();
     }
 
@@ -144,20 +149,14 @@ abstract class rex_api_function
 
         $apiFunc = self::factory();
 
-        if ($apiFunc != null) {
-            if ($apiFunc->published !== true) {
-                if (rex::isBackend() !== true) {
-                    throw new rex_http_exception(
-                        new rex_api_exception('the api function ' . get_class($apiFunc) . ' is not published, therefore can only be called from the backend!'),
-                        rex_response::HTTP_FORBIDDEN
-                    );
+        if (null != $apiFunc) {
+            if (true !== $apiFunc->published) {
+                if (true !== rex::isBackend()) {
+                    throw new rex_http_exception(new rex_api_exception('the api function ' . get_class($apiFunc) . ' is not published, therefore can only be called from the backend!'), rex_response::HTTP_FORBIDDEN);
                 }
 
                 if (!rex::getUser()) {
-                    throw new rex_http_exception(
-                        new rex_api_exception('missing backend session to call api function ' . get_class($apiFunc) . '!'),
-                        rex_response::HTTP_UNAUTHORIZED
-                    );
+                    throw new rex_http_exception(new rex_api_exception('missing backend session to call api function ' . get_class($apiFunc) . '!'), rex_response::HTTP_UNAUTHORIZED);
                 }
             }
 
@@ -198,13 +197,24 @@ abstract class rex_api_function
         }
     }
 
+    /**
+     * @return bool
+     */
     public static function hasMessage()
     {
         $apiFunc = self::factory();
+
+        if (!$apiFunc) {
+            return false;
+        }
+
         $result = $apiFunc->getResult();
         return $result && null !== $result->getMessage();
     }
 
+    /**
+     * @return string
+     */
     public static function getMessage($formatted = true)
     {
         $apiFunc = self::factory();
@@ -221,11 +231,6 @@ abstract class rex_api_function
         }
         // return a placeholder which can later be used by ajax requests to display messages
         return '<div id="rex-message-container">' . $message . '</div>';
-    }
-
-    protected function __construct()
-    {
-        // NOOP
     }
 
     /**
@@ -292,11 +297,17 @@ class rex_api_result
         $this->requiresReboot = $requiresReboot;
     }
 
+    /**
+     * @return bool
+     */
     public function requiresReboot()
     {
         return $this->requiresReboot;
     }
 
+    /**
+     * @return null|string
+     */
     public function getFormattedMessage()
     {
         if (null === $this->message) {
@@ -329,6 +340,9 @@ class rex_api_result
         return $this->succeeded;
     }
 
+    /**
+     * @return false|string
+     */
     public function toJSON()
     {
         $json = new stdClass();
@@ -338,6 +352,9 @@ class rex_api_result
         return json_encode($json);
     }
 
+    /**
+     * @return self
+     */
     public static function fromJSON($json)
     {
         $result = new self(true);

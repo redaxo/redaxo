@@ -63,7 +63,7 @@ class rex_socket
      */
     public static function factory($host, $port = 80, $ssl = false)
     {
-        if (static::class === self::class && ($proxy = rex::getProperty('socket_proxy'))) {
+        if (self::class === static::class && ($proxy = rex::getProperty('socket_proxy'))) {
             return rex_socket_proxy::factoryUrl($proxy)->setDestination($host, $port, $ssl);
         }
 
@@ -157,8 +157,8 @@ class rex_socket
      */
     public function followRedirects($redirects)
     {
-        if ($redirects < 0) {
-            throw new InvalidArgumentException(sprintf('$redirects must be `null` or an int >= 0, given "%s".', $redirects));
+        if (false !== $redirects && $redirects < 0) {
+            throw new InvalidArgumentException(sprintf('$redirects must be `false` or an int >= 0, given "%s".', $redirects));
         }
 
         $this->followRedirects = $redirects;
@@ -169,9 +169,9 @@ class rex_socket
     /**
      * Makes a GET request.
      *
-     * @return rex_socket_response Response
-     *
      * @throws rex_socket_exception
+     *
+     * @return rex_socket_response Response
      */
     public function doGet()
     {
@@ -184,14 +184,14 @@ class rex_socket
      * @param string|array|callable $data  Body data as string or array (POST parameters) or a callback for writing the body
      * @param array                 $files Files array, e.g. `array('myfile' => array('path' => $path, 'type' => 'image/png'))`
      *
-     * @return rex_socket_response Response
-     *
      * @throws rex_socket_exception
+     *
+     * @return rex_socket_response Response
      */
     public function doPost($data = '', array $files = [])
     {
         if (is_array($data) && !empty($files)) {
-            $data = function ($stream) use ($data, $files) {
+            $data = static function ($stream) use ($data, $files) {
                 $boundary = '----------6n2Yd9bk2liD6piRHb5xF6';
                 $eol = "\r\n";
                 fwrite($stream, 'Content-Type: multipart/form-data; boundary=' . $boundary . $eol);
@@ -203,7 +203,7 @@ class rex_socket
                 $data = [];
                 $partLength = rex_string::size(sprintf($dataFormat, '') . $eol);
                 foreach ($temp as $t) {
-                    list($key, $value) = array_map('urldecode', explode('=', $t, 2));
+                    [$key, $value] = array_map('urldecode', explode('=', $t, 2));
                     $data[$key] = $value;
                     $length += $partLength + rex_string::size($key) + rex_string::size($value);
                 }
@@ -218,7 +218,7 @@ class rex_socket
                 }
                 foreach ($files as $key => $file) {
                     fwrite($stream, sprintf($fileFormat, $key, basename($file['path']), $file['type']));
-                    $file = fopen($file['path'], 'rb');
+                    $file = fopen($file['path'], 'r');
                     while (!feof($file)) {
                         fwrite($stream, fread($file, 1024));
                     }
@@ -239,9 +239,9 @@ class rex_socket
     /**
      * Makes a DELETE request.
      *
-     * @return rex_socket_response Response
-     *
      * @throws rex_socket_exception
+     *
+     * @return rex_socket_response Response
      */
     public function doDelete()
     {
@@ -254,13 +254,13 @@ class rex_socket
      * @param string          $method HTTP method, e.g. "GET"
      * @param string|callable $data   Body data as string or a callback for writing the body
      *
-     * @return rex_socket_response Response
-     *
      * @throws InvalidArgumentException
+     *
+     * @return rex_socket_response Response
      */
     public function doRequest($method, $data = '')
     {
-        return rex_timer::measure(__METHOD__, function () use ($method, $data) {
+        return rex_timer::measure('Socket request: '.$this->host.'/'.$this->path, function () use ($method, $data) {
             if (!is_string($data) && !is_callable($data)) {
                 throw new InvalidArgumentException(sprintf('Expecting $data to be a string or a callable, but %s given!', gettype($data)));
             }
@@ -314,8 +314,10 @@ class rex_socket
     {
         $host = ($this->ssl ? 'ssl://' : '') . $this->host;
 
+        $errno = 0;
+        $errstr = '';
         $prevError = null;
-        set_error_handler(function ($errno, $errstr) use (&$prevError) {
+        set_error_handler(static function ($errno, $errstr) use (&$prevError) {
             if (null === $prevError) {
                 $prevError = $errstr;
             }
@@ -387,17 +389,17 @@ class rex_socket
      *
      * @param string $url Full URL
      *
-     * @return array URL parts
-     *
      * @throws rex_socket_exception
+     *
+     * @return array URL parts
      */
     protected static function parseUrl($url)
     {
         $parts = parse_url($url);
-        if ($parts !== false && !isset($parts['host']) && strpos($url, 'http') !== 0) {
+        if (false !== $parts && !isset($parts['host']) && 0 !== strpos($url, 'http')) {
             $parts = parse_url('http://' . $url);
         }
-        if ($parts === false || !isset($parts['host'])) {
+        if (false === $parts || !isset($parts['host'])) {
             throw new rex_socket_exception('It isn\'t possible to parse the URL "' . $url . '"!');
         }
 
@@ -408,14 +410,14 @@ class rex_socket
             if (!in_array($parts['scheme'], $supportedProtocols)) {
                 throw new rex_socket_exception('Unsupported protocol "' . $parts['scheme'] . '". Supported protocols are ' . implode(', ', $supportedProtocols) . '.');
             }
-            if ($parts['scheme'] == 'https') {
+            if ('https' == $parts['scheme']) {
                 $ssl = true;
                 $port = 443;
             }
         }
         $port = isset($parts['port']) ? (int) $parts['port'] : $port;
 
-        $path = (isset($parts['path']) ? $parts['path'] : '/')
+        $path = ($parts['path'] ?? '/')
             . (isset($parts['query']) ? '?' . $parts['query'] : '')
             . (isset($parts['fragment']) ? '#' . $parts['fragment'] : '');
 

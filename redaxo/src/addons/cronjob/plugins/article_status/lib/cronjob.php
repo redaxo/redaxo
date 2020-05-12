@@ -27,7 +27,7 @@ class rex_cronjob_article_status extends rex_cronjob
         ');
         $rows = $sql->getRows();
         if ($rows < 2) {
-            if ($rows == 0) {
+            if (0 == $rows) {
                 $msg = 'Metainfo fields "' . $from['field'] . '" and "' . $to['field'] . '" not found';
             } else {
                 $field = $sql->getValue('name') == $from['field'] ? $to['field'] : $from['field'];

@@ -3,7 +3,7 @@
 /**
  * @author gharlan
  *
- * @package redaxo\core
+ * @package redaxo\core\login
  */
 class rex_password_policy
 {
@@ -18,9 +18,9 @@ class rex_password_policy
      * @param string   $password
      * @param null|int $id
      *
-     * @return bool|string `true` on success, otherwise an error message
-     *
      * @throws rex_exception
+     *
+     * @return true|string `true` on success, otherwise an error message
      */
     public function check($password, $id = null)
     {
@@ -31,6 +31,9 @@ class rex_password_policy
         return rex_i18n::msg('password_invalid', $this->getRule());
     }
 
+    /**
+     * @return string
+     */
     protected function getRule()
     {
         $parts = [];
@@ -50,6 +53,9 @@ class rex_password_policy
         return implode('; ', $parts);
     }
 
+    /**
+     * @return bool
+     */
     protected function isValid($password)
     {
         foreach ($this->options as $key => $options) {
@@ -85,6 +91,9 @@ class rex_password_policy
         return true;
     }
 
+    /**
+     * @return bool
+     */
     protected function matchesCount($count, array $options)
     {
         if (isset($options['min']) && $count < $options['min']) {

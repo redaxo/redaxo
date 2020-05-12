@@ -1,8 +1,13 @@
 <?php
 
-class rex_finder_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_finder_test extends TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
 
@@ -18,7 +23,7 @@ class rex_finder_test extends PHPUnit_Framework_TestCase
         rex_file::put($this->getPath('dir1/Thumbs.db'), '');
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         parent::tearDown();
 
@@ -33,9 +38,9 @@ class rex_finder_test extends PHPUnit_Framework_TestCase
     private function assertIteratorContains($iterator, $contains)
     {
         $array = iterator_to_array($iterator, true);
-        $this->assertCount(count($contains), $array);
+        static::assertCount(count($contains), $array);
         foreach ($contains as $file) {
-            $this->assertArrayHasKey($this->getPath($file), $array, $file . ' is in array');
+            static::assertArrayHasKey($this->getPath($file), $array, $file . ' is in array');
         }
     }
 

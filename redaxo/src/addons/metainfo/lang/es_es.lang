@@ -24,6 +24,8 @@ minfo_field_label_params = Parámetro
 minfo_field_label_priority = Posición de campo
 minfo_field_label_restrictions = Disponible sólo en las siguientes categorías
 minfo_field_label_no_restrictions = Disponible en todas las categorías
+minfo_field_label_all_templates = Disponible para todas las plantillas
+minfo_field_label_templates = Disponible solo para las siguientes plantillas
 
 minfo_field_notice_title = Prefijo "translate:" traduce el valor a través de I18N
 
@@ -37,6 +39,8 @@ minfo_field_params_notice_6 = Ejemplo:<br/> <code>category="1" types="gif,jpg" p
 minfo_field_params_notice_7 = Ejemplo:<br/> <code>category="1" types="gif,jpg" preview="1"</code>
 minfo_field_params_notice_8 = Ejemplo:<br/> <code>category="1"</code>
 minfo_field_params_notice_9 = Ejemplo:<br/> <code>category="1"</code>
+minfo_field_params_notice_10 = Por ejemplo<br/><code>start-year="1990" end-year="2030"</code>
+minfo_field_params_notice_11 = Por ejemplo<br/><code>start-year="1990" end-year="2030"</code>
 
 minfo_field_attributes_notice = Ejemplo:<br/> style=color:red multiple=multiple class=my_css_class perm=admin[]
 minfo_field_label_notice = Código ejecutado cuando el valor del campo ha cambiado.<br/> Variables de lectura: <code>string $fieldName, string $fieldValue, rex_sql $field</code>

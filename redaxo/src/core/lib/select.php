@@ -5,11 +5,17 @@
  */
 class rex_select
 {
+    /** @var array */
     private $attributes = [];
+    /** @var int */
     private $currentOptgroup = 0;
+    /** @var array */
     private $optgroups = [];
+    /** @var array */
     private $options = [];
+    /** @var array */
     private $option_selected;
+    /** @var int */
     private $optCount = 0;
 
     public function __construct()
@@ -36,6 +42,9 @@ class rex_select
         $this->attributes[$name] = $value;
     }
 
+    /**
+     * @return bool
+     */
     public function delAttribute($name)
     {
         if ($this->hasAttribute($name)) {
@@ -45,6 +54,9 @@ class rex_select
         return false;
     }
 
+    /**
+     * @return bool
+     */
     public function hasAttribute($name)
     {
         return isset($this->attributes[$name]);
@@ -62,7 +74,7 @@ class rex_select
     {
         if ($multiple) {
             $this->setAttribute('multiple', 'multiple');
-            if ($this->getAttribute('size') == '1') {
+            if ('1' == $this->getAttribute('size')) {
                 $this->setSize('5');
             }
         } else {
@@ -100,7 +112,7 @@ class rex_select
      */
     public function setStyle($style)
     {
-        if (strpos($style, 'class=') !== false) {
+        if (false !== strpos($style, 'class=')) {
             if (preg_match('/class=["\']?([^"\']*)["\']?/i', $style, $matches)) {
                 $this->setAttribute('class', $matches[1]);
             }
@@ -121,7 +133,7 @@ class rex_select
                 $this->setSelected($sectvalue);
             }
         } else {
-            $this->option_selected[] = (string) rex_escape($selected, 'html_attr');
+            $this->option_selected[] = (string) rex_escape($selected);
         }
     }
 
@@ -203,6 +215,9 @@ class rex_select
         }
     }
 
+    /**
+     * @return int
+     */
     public function countOptions()
     {
         return $this->optCount;
@@ -226,20 +241,41 @@ class rex_select
         $this->addOptions($sql->getDBArray($qry, [], PDO::FETCH_NUM));
     }
 
+    /**
+     * @return string
+     */
     public function get()
     {
+        $useRexSelectStyle = false;
+
+        // RexSelectStyle im Backend nutzen
+        if (rex::isBackend()) {
+            $useRexSelectStyle = true;
+        }
+        // RexSelectStyle nicht nutzen, wenn die Klasse `.selectpicker` gesetzt ist
+        if (isset($this->attributes['class']) && false !== strpos($this->attributes['class'], 'selectpicker')) {
+            $useRexSelectStyle = false;
+        }
+        // RexSelectStyle nicht nutzen, wenn das Selectfeld mehrzeilig ist
+        if (isset($this->attributes['size']) && (int) $this->attributes['size'] > 1) {
+            $useRexSelectStyle = false;
+        }
+
         $attr = '';
         foreach ($this->attributes as $name => $value) {
-            $attr .= ' ' . $name . '="' . $value . '"';
+            $attr .= ' ' . rex_escape($name, 'html_attr') . '="' . rex_escape($value) . '"';
         }
 
         $ausgabe = "\n";
+        if ($useRexSelectStyle) {
+            $ausgabe .= '<div class="rex-select-style">' . "\n";
+        }
         $ausgabe .= '<select' . $attr . '>' . "\n";
 
         foreach ($this->options as $optgroup => $options) {
             $this->currentOptgroup = $optgroup;
             if ($optgroupLabel = isset($this->optgroups[$optgroup]) ? $this->optgroups[$optgroup] : null) {
-                $ausgabe .= '  <optgroup label="' . rex_escape($optgroupLabel, 'html_attr') . '">' . "\n";
+                $ausgabe .= '  <optgroup label="' . rex_escape($optgroupLabel) . '">' . "\n";
             }
             if (is_array($options)) {
                 $ausgabe .= $this->outGroup(0);
@@ -250,6 +286,10 @@ class rex_select
         }
 
         $ausgabe .= '</select>' . "\n";
+        if ($useRexSelectStyle) {
+            $ausgabe .= '</div>' . "\n";
+        }
+
         return $ausgabe;
     }
 
@@ -258,6 +298,9 @@ class rex_select
         echo $this->get();
     }
 
+    /**
+     * @return string
+     */
     protected function outGroup($parent_id, $level = 0)
     {
         if ($level > 100) {
@@ -281,32 +324,35 @@ class rex_select
             $ausgabe .= $this->outOption($name, $value, $level, $attributes);
 
             $subgroup = $this->getGroup($id, true);
-            if ($subgroup !== false) {
+            if (false !== $subgroup) {
                 $ausgabe .= $this->outGroup($id, $level + 1);
             }
         }
         return $ausgabe;
     }
 
+    /**
+     * @return string
+     */
     protected function outOption($name, $value, $level = 0, array $attributes = [])
     {
         $name = rex_escape($name);
         // for BC reasons, we always expect value to be a string.
         // this also makes sure that the strict in_array() check below works.
-        $value = (string) rex_escape($value, 'html_attr');
+        $value = (string) rex_escape($value);
 
         $bsps = '';
         if ($level > 0) {
             $bsps = str_repeat('&nbsp;&nbsp;&nbsp;', $level);
         }
 
-        if ($this->option_selected !== null && in_array($value, $this->option_selected, true)) {
+        if (null !== $this->option_selected && in_array($value, $this->option_selected, true)) {
             $attributes['selected'] = 'selected';
         }
 
         $attr = '';
         foreach ($attributes as $n => $v) {
-            $attr .= ' ' . $n . '="' . $v . '"';
+            $attr .= ' ' . rex_escape($n, 'html_attr') . '="' . rex_escape($v) . '"';
         }
 
         return '        <option value="' . $value . '"' . $attr . '>' . $bsps . $name . '</option>' . "\n";
@@ -314,7 +360,7 @@ class rex_select
 
     protected function getGroup($parent_id, $ignore_main_group = false)
     {
-        if ($ignore_main_group && $parent_id == 0) {
+        if ($ignore_main_group && 0 == $parent_id) {
             return false;
         }
 

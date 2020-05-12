@@ -1,0 +1,232 @@
+#!/usr/bin/env php
+<?php
+
+unset($REX);
+$REX['REDAXO'] = true;
+$REX['HTDOCS_PATH'] = './';
+$REX['BACKEND_FOLDER'] = 'redaxo';
+$REX['LOAD_PAGE'] = false;
+
+require $REX['BACKEND_FOLDER'] . '/src/core/boot.php';
+require $REX['BACKEND_FOLDER'] . '/src/core/packages.php';
+
+// avoid PREG_JIT_STACKLIMIT_ERROR, changelog parts can be long
+ini_set('pcre.jit', 0);
+
+/**
+ * @package redaxo\core
+ *
+ * @internal
+ */
+class rex_release
+{
+    private static $addons = ['backup', 'be_style', 'cronjob', 'install', 'media_manager', 'mediapool', 'metainfo', 'phpmailer', 'structure', 'users'];
+
+    private $version;
+    private $path;
+
+    public function __construct($version)
+    {
+        $this->version = $version;
+    }
+
+    public function create()
+    {
+        $this->path = rex_path::base('releases/'.$this->version);
+        if (file_exists($this->path)) {
+            rex_dir::deleteFiles($this->path);
+        }
+        rex_dir::create($this->path);
+
+        $this->updateVersions();
+
+        if (false === strpos($this->version, '-')) {
+            $this->setReleaseDate();
+        }
+
+        $this->createChangelog();
+
+        $this->createArchives();
+    }
+
+    private function updateVersions()
+    {
+        $file = rex_path::core('boot.php');
+        $content = rex_file::get($file);
+        $content = preg_replace('/(?<=^rex::setProperty\(\'version\', \').*?(?=\')/m', $this->version, $content);
+        rex_file::put($file, $content);
+
+        $suffix = '';
+        if (false !== $pos = strpos($this->version, '-')) {
+            $suffix = substr($this->version, $pos);
+        }
+
+        $updateVersion = function (rex_package $package) use ($suffix) {
+            $content = rex_file::get($package->getPath(rex_package::FILE_PACKAGE));
+            $content = preg_replace('/^version: \'(.+?)-.*$/m', "version: '\\1$suffix'", $content);
+            rex_file::put($package->getPath(rex_package::FILE_PACKAGE), $content);
+        };
+
+        foreach (self::$addons as $addon) {
+            $addon = rex_addon::get($addon);
+            $updateVersion($addon);
+
+            foreach ($addon->getRegisteredPlugins() as $plugin) {
+                $updateVersion($plugin);
+            }
+        }
+    }
+
+    private function setReleaseDate()
+    {
+        $date = date('d.m.Y');
+
+        $updateDate = function ($file) use ($date) {
+            $content = rex_file::get($file);
+            $content = preg_replace('/XX\.[x\d]{2}\.[x\d]{4}/i', $date, $content);
+            rex_file::put($file, $content);
+        };
+
+        $updateDate(rex_path::core('CHANGELOG.md'));
+        foreach (self::$addons as $addon) {
+            $updateDate(rex_path::addon($addon,'CHANGELOG.md'));
+        }
+    }
+
+    private function createChangelog()
+    {
+        $cutNextPart = function (&$changelog) {
+            if (!preg_match('/^Version .*?([x\d]{2}\.[x\d]{2}\.[x\d]{4})(?:.|\v)*?(?=^Version \d|\z)/mi', $changelog , $match, PREG_OFFSET_CAPTURE)) {
+                return null;
+            }
+
+            $changelog = substr($changelog, $match[0][1] + strlen($match[0][0]));
+
+            return [
+                'content' => rtrim($match[0][0]),
+                'date' => false === stripos($match[1][0], 'x') ? strtotime($match[1][0]) : null,
+            ];
+        };
+
+        $coreChangelog = rex_file::get(rex_path::core('CHANGELOG.md'));
+        $part = $cutNextPart($coreChangelog);
+        $changelog = substr_replace($part['content'], 'REDAXO-Core', 0, 7);
+
+        $previousDate = $cutNextPart($coreChangelog)['date'];
+
+        foreach (self::$addons as $addon) {
+            $addonChangelog = rex_file::get(rex_path::addon($addon, 'CHANGELOG.md'));
+
+            while (
+                ($part = $cutNextPart($addonChangelog)) &&
+                (!$part['date'] || $part['date'] > $previousDate)
+            ) {
+                $changelog .= "\n\n\n".substr_replace($part['content'], $addon, 0, 7);
+            }
+        }
+
+        $changelog .= "\n";
+
+        rex_file::put($this->path.'/CHANGELOG.md', $changelog);
+    }
+
+    private function createArchives()
+    {
+        $complete = new ZipArchive();
+        $update = new ZipArchive();
+
+        $complete->open($this->path.'/redaxo_'.$this->version.'.zip', ZipArchive::CREATE);
+        $update->open($this->path.'/redaxo_update_'.$this->version.'.zip', ZipArchive::CREATE);
+
+        $files = [
+            'assets/.redaxo',
+            'media/.redaxo',
+            'redaxo/bin/.htaccess',
+            'redaxo/bin/console',
+            'redaxo/cache/.htaccess',
+            'redaxo/cache/.redaxo',
+            'redaxo/data/.htaccess',
+            'redaxo/data/.redaxo',
+            'redaxo/src/.htaccess',
+            'redaxo/index.php',
+            'index.php',
+            'LICENSE.md',
+            'README.md',
+            'README.de.md',
+            '.gitignore.example',
+        ];
+
+        foreach ($files as $file) {
+            $complete->addFile(rex_path::base($file), $file);
+        }
+
+        $this->addDir($complete, rex_path::core(), 'redaxo/src/core');
+        $this->addDir($update, rex_path::core(), 'core');
+
+        foreach (self::$addons as $addon) {
+            $this->addDir($complete, rex_path::addon($addon), 'redaxo/src/addons/'.$addon);
+            $this->addDir($update, rex_path::addon($addon), 'addons/'.$addon);
+        }
+        $this->addDir($complete, rex_path::addon('project'), 'redaxo/src/addons/project');
+
+        $this->addDir($complete, rex_path::core('assets'), 'assets/core');
+
+        $addon = rex_addon::get('be_style');
+        $this->addDir($complete, $addon->getPath('assets'), 'assets/addons/be_style');
+        $this->addDir($complete, $addon->getPlugin('redaxo')->getPath('assets'), 'assets/addons/be_style/plugins/redaxo');
+
+        $files = require $addon->getPath('vendor_files.php');
+        foreach ($files as $source => $destination) {
+            $complete->addFile($addon->getPath($source), 'assets/addons/be_style/'.$destination);
+        }
+
+        $complete->close();
+        $update->close();
+    }
+
+    private function addDir(ZipArchive $zip, $dir, $base)
+    {
+        $dir = rtrim($dir, '\\/');
+
+        $finder = rex_finder::factory($dir)
+            ->recursive()
+            ->ignoreDirs('tests')
+            ->filesOnly()
+        ;
+
+        /** @var SplFileInfo $file */
+        foreach ($finder as $path => $file) {
+            if (!$this->shouldIgnore($path)) {
+                $zip->addFile($path, $base.substr($path, strlen($dir)));
+            }
+        }
+    }
+
+    private function shouldIgnore($path)
+    {
+        static $ignore;
+
+        if (null === $ignore) {
+            $ignore = file(rex_path::base('.gitignore'), FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            $ignore = array_filter($ignore, function ($path) {
+                return '#' !== $path[0];
+            });
+        }
+
+        $subpath = substr($path, strlen(rex_path::base()) - 1);
+        foreach ($ignore as $pattern) {
+            if (0 === strpos($subpath, $pattern)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
+
+if (!isset($argv[1])) {
+    exit('Missing version'.PHP_EOL);
+}
+
+$release = new rex_release($argv[1]);
+$release->create();

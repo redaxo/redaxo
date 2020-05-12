@@ -1,6 +1,7 @@
 <?php
 
-// *************************************** SYNC FUNCTIONS
+assert(isset($rex_file_category) && is_int($rex_file_category));
+assert(isset($PERMALL) && is_bool($PERMALL));
 
 $csrf = rex_csrf_token::factory('mediapool');
 
@@ -31,14 +32,13 @@ if ($PERMALL) {
     // Extra - filesize/width/height DB-Filesystem Sync
     foreach ($db_files as $db_file) {
         $path = rex_path::media($db_file['filename']);
-        if (!file_exists($path)) {
+        if (!is_file($path)) {
             continue;
         }
 
         $file_filesize = filesize($path);
         if ($db_file['filesize'] != $file_filesize) {
             $file_sql = rex_sql::factory();
-            $file_sql->debugsql = 1;
             $file_sql->setTable(rex::getTable('media'));
             $file_sql->setWhere(['filename' => $db_file['filename']]);
             $file_sql->setValue('filesize', $file_filesize);
@@ -71,7 +71,7 @@ if ($PERMALL) {
                         continue;
                     }
 
-                    $syncResult = rex_mediapool_syncFile($file, $rex_file_category, $ftitle, '', '');
+                    $syncResult = rex_mediapool_syncFile($file, $rex_file_category, $ftitle, null, '');
                     if ($syncResult['ok']) {
                         unset($diff_files[$key]);
                         if ($first) {
@@ -146,7 +146,7 @@ if ($PERMALL) {
             <script type="text/javascript">
                 jQuery(document).ready(function($){
                     $("input[name=\'sync_files[]\']").change(function() {
-                        $(this).closest(\'form\').find("[type=\'submit\']").attr("disabled", $("input[name=\'sync_files[]\']:checked").size() == 0);
+                        $(this).closest(\'form\').find("[type=\'submit\']").attr("disabled", $("input[name=\'sync_files[]\']:checked").length == 0);
                     }).change();
                     $("#rex-js-checkie").change(function() {
                         $("input[name=\'sync_files[]\']").change();

@@ -15,10 +15,10 @@ class rex_effect_mirror extends rex_effect_abstract
 
 (function($) {
     $(function() {
-        var $fx_mirror_select_trans = $("#media_manager_rex_effect_mirror_set_transparent_select");
-        var $fx_mirror_bg_r = $("#media_manager_rex_effect_mirror_bg_r_text").parent().parent();
-        var $fx_mirror_bg_g = $("#media_manager_rex_effect_mirror_bg_g_text").parent().parent();
-        var $fx_mirror_bg_b = $("#media_manager_rex_effect_mirror_bg_b_text").parent().parent();
+        var $fx_mirror_select_trans = $("#media-manager-rex-effect-mirror-set-transparent-select");
+        var $fx_mirror_bg_r = $("#media-manager-rex-effect-mirror-bg-r-text").closest(".rex-form-group");
+        var $fx_mirror_bg_g = $("#media-manager-rex-effect-mirror-bg-g-text").closest(".rex-form-group");
+        var $fx_mirror_bg_b = $("#media-manager-rex-effect-mirror-bg-b-text").closest(".rex-form-group");
 
         $fx_mirror_select_trans.change(function(){
             if(jQuery(this).val() != "colored")
@@ -47,8 +47,8 @@ class rex_effect_mirror extends rex_effect_abstract
         $w = $this->media->getWidth();
         $h = $this->media->getHeight();
 
-        if (substr(trim($this->params['height']), -1) === '%') {
-            $this->params['height'] = round($h * (rtrim($this->params['height'], '%') / 100));
+        if ('%' === substr(trim($this->params['height']), -1)) {
+            $this->params['height'] = round($h * ((int) rtrim($this->params['height'], '%') / 100));
         } else {
             $this->params['height'] = (int) $this->params['height'];
         }
@@ -71,8 +71,8 @@ class rex_effect_mirror extends rex_effect_abstract
             $this->params['bg_b'] = 255;
         }
 
-        if ($this->params['set_transparent'] != 'colored') {
-            if ($this->media->getFormat() == 'webp') {
+        if ('colored' != $this->params['set_transparent']) {
+            if ('webp' == $this->media->getFormat()) {
                 $this->media->setFormat('webp');
             } else {
                 $this->media->setFormat('png');
@@ -80,7 +80,7 @@ class rex_effect_mirror extends rex_effect_abstract
         }
 
         $trans = false;
-        if ($this->media->getFormat() == 'png' || $this->media->getFormat() == 'webp') {
+        if ('png' == $this->media->getFormat() || 'webp' == $this->media->getFormat()) {
             $trans = true;
         }
 
@@ -129,6 +129,9 @@ class rex_effect_mirror extends rex_effect_abstract
         ];
     }
 
+    /**
+     * @return resource
+     */
     private function imagereflection(&$src_img, $reflection_height, $trans, $bgcolor)
     {
         $src_height = imagesy($src_img);
@@ -137,6 +140,9 @@ class rex_effect_mirror extends rex_effect_abstract
         $dest_width = $src_width;
 
         $reflected = imagecreatetruecolor($dest_width, $dest_height);
+        if (!$reflected) {
+            throw new LogicException('unable to create image');
+        }
         if ($trans) {
             imagealphablending($reflected, false);
             imagesavealpha($reflected, true);

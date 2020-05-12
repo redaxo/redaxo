@@ -1,13 +1,13 @@
 <?php
 /**
- * @package redaxo\structure
+ * @package redaxo\structure\content
  */
 class rex_api_content_copy extends rex_api_function
 {
     /**
-     * @return rex_api_result
-     *
      * @throws rex_api_exception
+     *
+     * @return rex_api_result
      */
     public function execute()
     {

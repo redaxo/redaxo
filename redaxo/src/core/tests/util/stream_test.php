@@ -1,6 +1,11 @@
 <?php
 
-class rex_stream_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_stream_test extends TestCase
 {
     public function testStreamInclude()
     {
@@ -10,7 +15,7 @@ class rex_stream_test extends PHPUnit_Framework_TestCase
         require $streamUrl;
         $result = ob_get_clean();
 
-        $this->assertEquals('foo bar', $result);
+        static::assertEquals('foo bar', $result);
     }
 
     public function testStreamIncludeWithRealFile()
@@ -25,7 +30,7 @@ class rex_stream_test extends PHPUnit_Framework_TestCase
         require $streamUrl;
         $result = ob_get_clean();
 
-        $this->assertEquals('foo bar', $result);
+        static::assertEquals('foo bar', $result);
 
         $property->setValue(null);
     }

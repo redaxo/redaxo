@@ -1,14 +1,19 @@
 <?php
 
-class rex_path_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_path_test extends TestCase
 {
     public function testAbsoluteConversion()
     {
         $path = rex_path::absolute('c:/abc/../def/./xy');
-        $this->assertEquals($this->path('c:/def/xy'), $path, 'resolves .. and .');
+        static::assertEquals($this->path('c:/def/xy'), $path, 'resolves .. and .');
 
         $path = rex_path::absolute('c:\abc\..\def\.\xy');
-        $this->assertEquals($this->path('c:\def\xy'), $path, 'resolves .. and .');
+        static::assertEquals($this->path('c:\def\xy'), $path, 'resolves .. and .');
     }
 
     /**
@@ -16,7 +21,7 @@ class rex_path_test extends PHPUnit_Framework_TestCase
      */
     public function testRelative($expected, $path, $basePath = null)
     {
-        $this->assertSame($this->path($expected), rex_path::relative($path, $basePath));
+        static::assertSame($this->path($expected), rex_path::relative($path, $basePath));
     }
 
     public function dataRelative()
@@ -35,9 +40,9 @@ class rex_path_test extends PHPUnit_Framework_TestCase
 
     public function testBasename()
     {
-        $this->assertSame('config.yml', rex_path::basename('../redaxo/data/core/config.yml'));
+        static::assertSame('config.yml', rex_path::basename('../redaxo/data/core/config.yml'));
 
-        $this->assertSame('config.yml', rex_path::basename('..\redaxo\data\core\config.yml'));
+        static::assertSame('config.yml', rex_path::basename('..\redaxo\data\core\config.yml'));
     }
 
     private function path($path)

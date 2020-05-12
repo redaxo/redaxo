@@ -21,6 +21,8 @@ abstract class rex_null_package implements rex_package_interface
 
     /**
      * {@inheritdoc}
+     *
+     * @return rex_null_addon
      */
     public function getAddon()
     {
@@ -195,9 +197,9 @@ abstract class rex_null_package implements rex_package_interface
     /**
      * {@inheritdoc}
      */
-    public function i18n($key)
+    public function i18n($key, ...$replacements)
     {
         $args = func_get_args();
-        return call_user_func_array('rex_i18n::msg', $args);
+        return call_user_func_array(['rex_i18n', 'msg'], $args);
     }
 }

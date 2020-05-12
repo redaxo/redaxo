@@ -31,25 +31,7 @@ class rex_string
      */
     public static function normalizeEncoding($string)
     {
-        static $normalizer;
-
-        if (null === $normalizer) {
-            if (function_exists('normalizer_normalize')) {
-                $normalizer = function ($string) {
-                    return normalizer_normalize($string, Normalizer::FORM_C);
-                };
-            } else {
-                $normalizer = function ($string) {
-                    return str_replace(
-                        ["A\xcc\x88", "a\xcc\x88", "O\xcc\x88", "o\xcc\x88", "U\xcc\x88", "u\xcc\x88"],
-                        ['Ä', 'ä', 'Ö', 'ö', 'Ü', 'ü'],
-                        $string
-                    );
-                };
-            }
-        }
-
-        return $normalizer($string);
+        return Normalizer::normalize($string, Normalizer::FORM_C);
     }
 
     /**
@@ -96,7 +78,7 @@ class rex_string
         $quoted = [];
 
         $pattern = '@(?<=\s|=|^)(["\'])((?:.*[^\\\\])?(?:\\\\\\\\)*)\\1(?=\s|$)@Us';
-        $callback = function ($match) use ($spacer, &$quoted) {
+        $callback = static function ($match) use ($spacer, &$quoted) {
             $quoted[] = str_replace(['\\' . $match[1], '\\\\'], [$match[1], '\\'], $match[2]);
             return $spacer;
         };
@@ -107,9 +89,11 @@ class rex_string
         foreach ($parts as $part) {
             $part = explode('=', $part, 2);
             if (isset($part[1])) {
+                /** @psalm-suppress EmptyArrayAccess */
                 $value = $part[1] == $spacer ? $quoted[$i++] : $part[1];
                 $result[$part[0]] = $value;
             } else {
+                /** @psalm-suppress EmptyArrayAccess */
                 $value = $part[0] == $spacer ? $quoted[$i++] : $part[0];
                 $result[] = $value;
             }
@@ -119,39 +103,19 @@ class rex_string
     }
 
     /**
-     * Splits a version string.
-     *
-     * @param string $version Version
-     *
-     * @return array Version parts
+     * @deprecated since 5.10, use `rex_version::split` instead
      */
     public static function versionSplit($version)
     {
-        return preg_split('/(?<=\d)(?=[a-z])|(?<=[a-z])(?=\d)|[ ._-]+/i', $version);
+        return rex_version::split($version);
     }
 
     /**
-     * Compares two version number strings.
-     *
-     * In contrast to version_compare() it treats "1.0" and "1.0.0" as equal and it supports a space as separator for
-     * the version parts, e.g. "1.0 beta1"
-     *
-     * @see http://www.php.net/manual/en/function.version-compare.php
-     *
-     * @param string $version1   First version number
-     * @param string $version2   Second version number
-     * @param string $comparator Optional comparator
-     *
-     * @return int|bool
+     * @deprecated since 5.10, use `rex_version::compare` instead
      */
     public static function versionCompare($version1, $version2, $comparator = null)
     {
-        $version1 = self::versionSplit($version1);
-        $version2 = self::versionSplit($version2);
-        $max = max(count($version1), count($version2));
-        $version1 = implode('.', array_pad($version1, $max, '0'));
-        $version2 = implode('.', array_pad($version2, $max, '0'));
-        return version_compare($version1, $version2, $comparator);
+        return rex_version::compare($version1, $version2, $comparator);
     }
 
     /**
@@ -172,9 +136,9 @@ class rex_string
      *
      * @param string $value YAML string
      *
-     * @return array
-     *
      * @throws rex_yaml_parse_exception
+     *
+     * @return array
      */
     public static function yamlDecode($value)
     {
@@ -188,7 +152,6 @@ class rex_string
     /**
      * Generates URL-encoded query string.
      *
-     * @param array  $params
      * @param string $argSeparator
      *
      * @return string
@@ -196,7 +159,7 @@ class rex_string
     public static function buildQuery(array $params, $argSeparator = '&')
     {
         $query = [];
-        $func = function (array $params, $fullkey = null) use (&$query, &$func) {
+        $func = static function (array $params, $fullkey = null) use (&$query, &$func) {
             foreach ($params as $key => $value) {
                 $key = $fullkey ? $fullkey . '[' . urlencode($key) . ']' : urlencode($key);
                 if (is_array($value)) {
@@ -212,8 +175,6 @@ class rex_string
 
     /**
      * Returns a string by key="value" pair.
-     *
-     * @param array $attributes
      *
      * @return string
      */
@@ -248,5 +209,21 @@ class rex_string
     {
         $return = str_replace(["\r", "\n"], ['', ''], highlight_string($string, true));
         return '<pre class="rex-code">' . $return . '</pre>';
+    }
+
+    /**
+     * Cleanup the given html string and removes possible malicious codes/markup.
+     */
+    public static function sanitizeHtml(string $html): string
+    {
+        static $antiXss;
+
+        if (!$antiXss) {
+            $antiXss = new voku\helper\AntiXSS();
+            $antiXss->removeEvilAttributes(['style']);
+            $antiXss->removeNeverAllowedStrAfterwards(['&lt;script&gt;', '&lt;/script&gt;']);
+        }
+
+        return $antiXss->xss_clean($html);
     }
 }

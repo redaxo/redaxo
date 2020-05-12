@@ -8,6 +8,7 @@
 abstract class rex_input
 {
     protected $value;
+    /** @var string[] */
     protected $attributes;
 
     public function __construct()
@@ -37,7 +38,7 @@ abstract class rex_input
      */
     public function setAttribute($name, $value)
     {
-        if ($name == 'value') {
+        if ('value' == $name) {
             $this->value = $value;
         } else {
             $this->attributes[$name] = $value;
@@ -46,10 +47,12 @@ abstract class rex_input
 
     /**
      * Gibt den Wert des Attributes $name zurueck falls vorhanden, sonst $default.
+     *
+     * @return string|null
      */
     public function getAttribute($name, $default = null)
     {
-        if ($name == 'value') {
+        if ('value' == $name) {
             return $this->getValue();
         }
         if (isset($this->attributes[$name])) {
@@ -61,6 +64,8 @@ abstract class rex_input
 
     /**
      * Prueft ob das Input-Feld ein Attribute $name besitzt.
+     *
+     * @return bool
      */
     public function hasAttribute($name)
     {
@@ -92,6 +97,8 @@ abstract class rex_input
 
     /**
      * Gibt alle Attribute in Form eines Array zurueck.
+     *
+     * @return string[]
      */
     public function getAttributes()
     {
@@ -100,12 +107,14 @@ abstract class rex_input
 
     /**
      * Gibt alle Attribute in String-Form zurueck.
+     *
+     * @return string
      */
     public function getAttributeString()
     {
         $attr = '';
         foreach ($this->attributes as $attributeName => $attributeValue) {
-            $attr .= ' ' . $attributeName . '="' . $attributeValue . '"';
+            $attr .= ' ' . rex_escape($attributeName) . '="' . rex_escape($attributeValue) . '"';
         }
         return $attr;
     }
@@ -113,6 +122,8 @@ abstract class rex_input
     /**
      * Gibt die HTML-Representation des Input-Feldes zurueck.
      * Diese beeinhaltet alle Attribute und den Wert des Feldes.
+     *
+     * @return string
      */
     abstract public function getHtml();
 
@@ -121,7 +132,9 @@ abstract class rex_input
      *
      * @param string $inputType
      *
-     * @return self
+     * @return self|null
+     *
+     * @deprecated instantiate the concrete classes directly instead
      */
     public static function factory($inputType)
     {
@@ -140,6 +153,7 @@ abstract class rex_input
             case 'medialistbutton':
             case 'linkbutton':
             case 'linklistbutton':
+                /** @var class-string<rex_input> $class */
                 $class = 'rex_input_' . $inputType;
                 return new $class();
         }

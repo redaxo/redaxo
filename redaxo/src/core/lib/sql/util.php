@@ -8,6 +8,40 @@
 class rex_sql_util
 {
     /**
+     * Copy the table structure (without its data) to another table.
+     *
+     * @throws rex_exception
+     */
+    public static function copyTable(string $sourceTable, string $destinationTable): void
+    {
+        if (!rex_sql_table::get($sourceTable)->exists()) {
+            throw new rex_exception(sprintf('Source table "%s" does not exist.', $sourceTable));
+        }
+
+        if (rex_sql_table::get($destinationTable)->exists()) {
+            throw new rex_exception(sprintf('Destination table "%s" already exists.', $destinationTable));
+        }
+
+        $sql = rex_sql::factory();
+        $sql->setQuery('CREATE TABLE '.$sql->escapeIdentifier($destinationTable).' LIKE '.$sql->escapeIdentifier($sourceTable));
+
+        rex_sql_table::clearInstance($destinationTable);
+    }
+
+    /**
+     * Copy the table structure and its data to another table.
+     *
+     * @throws rex_exception
+     */
+    public static function copyTableWithData(string $sourceTable, string $destinationTable): void
+    {
+        self::copyTable($sourceTable, $destinationTable);
+
+        $sql = rex_sql::factory();
+        $sql->setQuery('INSERT '.$sql->escapeIdentifier($destinationTable).' SELECT * FROM '.$sql->escapeIdentifier($sourceTable));
+    }
+
+    /**
      * Allgemeine funktion die eine Datenbankspalte fortlaufend durchnummeriert.
      * Dies ist z.B. nützlich beim Umgang mit einer Prioritäts-Spalte.
      *
@@ -27,11 +61,11 @@ class rex_sql_util
         // Spalte updaten
         $qry = 'UPDATE ' . $tableName . ' SET ' . $priorColumnName . ' = ( SELECT @count := @count +1 )';
 
-        if ($whereCondition != '') {
+        if ('' != $whereCondition) {
             $qry .= ' WHERE ' . $whereCondition;
         }
 
-        if ($orderBy != '') {
+        if ('' != $orderBy) {
             $qry .= ' ORDER BY ' . $orderBy;
         }
 
@@ -68,13 +102,16 @@ class rex_sql_util
         return true;
     }
 
+    /**
+     * @return string
+     */
     private static function prepareQuery($qry)
     {
         // rex::getUser() gibts im Setup nicht
         $user = rex::getUser() ? rex::getUser()->getValue('login') : '';
 
         $qry = str_replace('%USER%', $user, $qry);
-        $qry = str_replace('%TIME%', time(), $qry);
+        $qry = str_replace('%TIME%', (string) time(), $qry);
         $qry = str_replace('%TABLE_PREFIX%', rex::getTablePrefix(), $qry);
         $qry = str_replace('%TEMP_PREFIX%', rex::getTempPrefix(), $qry);
 
@@ -94,7 +131,7 @@ class rex_sql_util
             $ret = [];
             $sqlsplit = [];
             $fileContent = file_get_contents($file);
-            self::splitSqlFile($sqlsplit, $fileContent, '');
+            self::splitSqlFile($sqlsplit, $fileContent, 0);
 
             if (is_array($sqlsplit)) {
                 foreach ($sqlsplit as $qry) {
@@ -105,8 +142,10 @@ class rex_sql_util
             return $ret;
         }
 
-        return false;
+        throw new rex_exception('File "'.$file.'" could not be read.');
     }
+
+    // Taken from phpmyadmin (read_dump.lib.php: PMA_splitSqlFile)
 
     /**
      * Removes comment lines and splits up large sql files into individual queries.
@@ -120,7 +159,6 @@ class rex_sql_util
      *
      * @return bool always true
      */
-    // Taken from phpmyadmin (read_dump.lib.php: PMA_splitSqlFile)
     public static function splitSqlFile(&$ret, $sql, $release)
     {
         // do not trim, see bug #1030644
@@ -138,7 +176,8 @@ class rex_sql_util
             // We are in a string, check for not escaped end of strings except for
             // backquotes that can't be escaped
             if ($in_string) {
-                for (; ;) {
+                for (;;) {
+                    /** @psalm-suppress LoopInvalidation */
                     $i = strpos($sql, $string_start, $i);
                     // No end of string found -> add the current substring to the
                     // returned array
@@ -148,7 +187,7 @@ class rex_sql_util
                     }
                     // Backquotes or no backslashes before quotes: it's indeed the
                     // end of the string -> exit the loop
-                    if ($string_start == '`' || $sql[$i - 1] != '\\') {
+                    if ('`' == $string_start || '\\' != $sql[$i - 1]) {
                         $string_start = '';
                         $in_string = false;
                         break;
@@ -158,7 +197,7 @@ class rex_sql_util
                     // ... first checks for escaped backslashes
                     $j = 2;
                     $escaped_backslash = false;
-                    while ($i - $j > 0 && $sql[$i - $j] == '\\') {
+                    while ($i - $j > 0 && '\\' == $sql[$i - $j]) {
                         $escaped_backslash = !$escaped_backslash;
                         ++$j;
                     }
@@ -178,25 +217,27 @@ class rex_sql_util
             } // end if (in string)
 
             // lets skip comments (/*, -- and #)
-            elseif (($char == '-' && $sql_len > $i + 2 && $sql[$i + 1] == '-' && $sql[$i + 2] <= ' ') || $char == '#' || ($char == '/' && $sql_len > $i + 1 && $sql[$i + 1] == '*')) {
-                $i = strpos($sql, $char == '/' ? '*/' : "\n", $i);
+            elseif (('-' == $char && $sql_len > $i + 2 && '-' == $sql[$i + 1] && $sql[$i + 2] <= ' ') || '#' == $char || ('/' == $char && $sql_len > $i + 1 && '*' == $sql[$i + 1])) {
+                /** @psalm-suppress LoopInvalidation */
+                $i = strpos($sql, '/' == $char ? '*/' : "\n", $i);
                 // didn't we hit end of string?
-                if ($i === false) {
+                if (false === $i) {
                     break;
                 }
-                if ($char == '/') {
+                if ('/' == $char) {
                     ++$i;
                 }
             }
 
             // We are not in a string, first check for delimiter...
-            elseif ($char == ';') {
+            elseif (';' == $char) {
                 // if delimiter found, add the parsed part to the returned array
                 $ret[] = ['query' => substr($sql, 0, $i), 'empty' => $nothing];
                 $nothing = true;
                 $sql = ltrim(substr($sql, min($i + 1, $sql_len)));
                 $sql_len = strlen($sql);
                 if ($sql_len) {
+                    /** @psalm-suppress LoopInvalidation */
                     $i = -1;
                 } else {
                     // The submited statement(s) end(s) here
@@ -205,7 +246,7 @@ class rex_sql_util
             } // end else if (is delimiter)
 
             // ... then check for start of a string,...
-            elseif (($char == '"') || ($char == '\'') || ($char == '`')) {
+            elseif (('"' == $char) || ('\'' == $char) || ('`' == $char)) {
                 $in_string = true;
                 $nothing = false;
                 $string_start = $char;

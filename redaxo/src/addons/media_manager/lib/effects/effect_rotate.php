@@ -21,6 +21,7 @@ class rex_effect_rotate extends rex_effect_abstract
         $this->media->asImage();
         $gdimage = $this->media->getImage();
         $gdimage = imagerotate($gdimage, $this->params['rotate'], 0);
+        $this->keepTransparent($gdimage);
         $this->media->setImage($gdimage);
     }
 

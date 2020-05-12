@@ -23,7 +23,7 @@ class rex_effect_filter_sharpen extends rex_effect_abstract
         $this->media->asImage();
 
         // do not sharpen gifs, results in black image
-        if (strtolower($this->media->getFormat()) === 'gif') {
+        if ('gif' === strtolower($this->media->getFormat())) {
             return;
         }
 
@@ -42,7 +42,7 @@ class rex_effect_filter_sharpen extends rex_effect_abstract
         }
         $this->params['radius'] = abs(round($this->params['radius']));     // Only integers make sense.
 
-        if ($this->params['radius'] == 0) {
+        if (0 == $this->params['radius']) {
             return;
         }
 
@@ -78,7 +78,7 @@ class rex_effect_filter_sharpen extends rex_effect_abstract
                 imagecopymerge($imgBlur, $gdimage, 1, 0, 0, 0, $w, $h, 50); // right
                 imagecopymerge($imgBlur, $gdimage, 0, 0, 0, 0, $w, $h, 50); // center
                 imagecopy($imgCanvas, $imgBlur, 0, 0, 0, 0, $w, $h);
-                imagecopymerge($imgBlur, $imgCanvas, 0, 0, 0, 1, $w, $h - 1, 33.33333); // up
+                imagecopymerge($imgBlur, $imgCanvas, 0, 0, 0, 1, $w, $h - 1, 33); // up
                 imagecopymerge($imgBlur, $imgCanvas, 0, 1, 0, 0, $w, $h, 25); // down
             }
         }
@@ -115,7 +115,7 @@ class rex_effect_filter_sharpen extends rex_effect_abstract
                     : $bOrig;
 
                     if (($rOrig != $rNew) || ($gOrig != $gNew) || ($bOrig != $bNew)) {
-                        $pixCol = imagecolorallocate($gdimage, $rNew, $gNew, $bNew);
+                        $pixCol = imagecolorallocate($gdimage, (int) $rNew, (int) $gNew, (int) $bNew);
                         imagesetpixel($gdimage, $x, $y, $pixCol);
                     }
                 }
@@ -155,7 +155,7 @@ class rex_effect_filter_sharpen extends rex_effect_abstract
                         $bNew = 0;
                     }
                     $rgbNew = ($rNew << 16) + ($gNew << 8) + $bNew;
-                    imagesetpixel($gdimage, $x, $y, $rgbNew);
+                    imagesetpixel($gdimage, $x, $y, (int) $rgbNew);
                 }
             }
         }

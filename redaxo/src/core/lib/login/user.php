@@ -5,10 +5,12 @@
  *
  * @author gharlan
  *
- * @package redaxo\core
+ * @package redaxo\core\login
  */
 class rex_user
 {
+    use rex_instance_pool_trait;
+
     /**
      * SQL instance.
      *
@@ -17,27 +19,58 @@ class rex_user
     protected $sql;
 
     /**
+     * @var null|bool
+     */
+    private $admin;
+
+    /**
      * User role instance.
      *
-     * @var rex_user_role_interface
+     * @var rex_user_role_interface|null
      */
     protected $role;
 
     /**
      * Class name for user roles.
      *
-     * @var string
+     * @psalm-var class-string<rex_user_role_interface>
      */
     protected static $roleClass;
 
     /**
      * Constructor.
-     *
-     * @param rex_sql $sql
      */
     public function __construct(rex_sql $sql)
     {
         $this->sql = $sql;
+    }
+
+    public static function get(int $id): ?self
+    {
+        return self::getInstance($id, static function (int $id) {
+            $sql = rex_sql::factory()->setQuery('SELECT * FROM '.rex::getTable('user').' WHERE id = ?', [$id]);
+
+            return $sql->getRows() ? new self($sql) : null;
+        });
+    }
+
+    public static function require(int $id): self
+    {
+        $user = self::get($id);
+
+        if (!$user) {
+            throw new RuntimeException(sprintf('Required user with id %d does not exist.', $id));
+        }
+
+        return $user;
+    }
+
+    public static function fromSql(rex_sql $sql): self
+    {
+        $user = new self($sql);
+        self::addInstance($user->getId(), $user);
+
+        return $user;
     }
 
     /**
@@ -59,7 +92,7 @@ class rex_user
      */
     public function getId()
     {
-        return $this->sql->getValue('id');
+        return (int) $this->sql->getValue('id');
     }
 
     /**
@@ -99,7 +132,11 @@ class rex_user
      */
     public function isAdmin()
     {
-        return (bool) $this->sql->getValue('admin');
+        if (null === $this->admin) {
+            $this->admin = (bool) $this->sql->getValue('admin');
+        }
+
+        return $this->admin;
     }
 
     /**
@@ -149,8 +186,8 @@ class rex_user
             return true;
         }
         $result = false;
-        if (strpos($perm, '/') !== false) {
-            list($complexPerm, $method) = explode('/', $perm, 2);
+        if (false !== strpos($perm, '/')) {
+            [$complexPerm, $method] = explode('/', $perm, 2);
             $complexPerm = $this->getComplexPerm($complexPerm);
             return $complexPerm ? $complexPerm->$method() : false;
         }
@@ -168,7 +205,9 @@ class rex_user
      *
      * @param string $key Complex perm key
      *
-     * @return rex_complex_perm Complex perm
+     * @return rex_complex_perm|null Complex perm
+     * @psalm-return rex_complex_perm|null
+     * @phpstan-return rex_media_perm|rex_structure_perm|rex_module_perm|rex_clang_perm|null
      */
     public function getComplexPerm($key)
     {
@@ -181,7 +220,7 @@ class rex_user
     /**
      * Sets the role class.
      *
-     * @param string $class Class name
+     * @param class-string<rex_user_role_interface> $class Class name
      */
     public static function setRoleClass($class)
     {

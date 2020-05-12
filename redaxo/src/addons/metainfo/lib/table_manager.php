@@ -12,6 +12,21 @@
 
 class rex_metainfo_table_manager
 {
+    public const FIELD_TEXT = 1;
+    public const FIELD_TEXTAREA = 2;
+    public const FIELD_SELECT = 3;
+    public const FIELD_RADIO = 4;
+    public const FIELD_CHECKBOX = 5;
+    public const FIELD_REX_MEDIA_WIDGET = 6;
+    public const FIELD_REX_MEDIALIST_WIDGET = 7;
+    public const FIELD_REX_LINK_WIDGET = 8;
+    public const FIELD_REX_LINKLIST_WIDGET = 9;
+    public const FIELD_DATE = 10;
+    public const FIELD_DATETIME = 11;
+    public const FIELD_LEGEND = 12;
+    public const FIELD_TIME = 13;
+    public const FIELD_COUNT = 13;
+
     private $tableName;
     private $DBID;
 
@@ -26,20 +41,24 @@ class rex_metainfo_table_manager
         return $this->tableName;
     }
 
+    /**
+     * @return bool
+     */
     public function addColumn($name, $type, $length, $default = null, $nullable = true)
     {
         $qry = 'ALTER TABLE `' . $this->getTableName() . '` ADD ';
         $qry .= '`' . $name . '` ' . $type;
 
-        if ($length != 0) {
+        if (0 != $length) {
             $qry .= '(' . $length . ')';
         }
 
-        if ($default !== null) {
+        // `text` columns in mysql can not have default values
+        if ('text' !== $type && null !== $default) {
             $qry .= ' DEFAULT \'' . str_replace("'", "\'", $default) . '\'';
         }
 
-        if ($nullable !== true) {
+        if (true !== $nullable) {
             $qry .= ' NOT NULL';
         }
 
@@ -51,20 +70,24 @@ class rex_metainfo_table_manager
         }
     }
 
+    /**
+     * @return bool
+     */
     public function editColumn($oldname, $name, $type, $length, $default = null, $nullable = true)
     {
         $qry = 'ALTER TABLE `' . $this->getTableName() . '` CHANGE ';
         $qry .= '`' . $oldname . '` `' . $name . '` ' . $type;
 
-        if ($length != 0) {
+        if (0 != $length) {
             $qry .= '(' . $length . ')';
         }
 
-        if ($default !== null) {
+        // `text` columns in mysql can not have default values
+        if ('text' !== $type && null !== $default) {
             $qry .= ' DEFAULT \'' . str_replace("'", "\'", $default) . '\'';
         }
 
-        if ($nullable !== true) {
+        if (true !== $nullable) {
             $qry .= ' NOT NULL';
         }
 
@@ -76,6 +99,9 @@ class rex_metainfo_table_manager
         }
     }
 
+    /**
+     * @return bool
+     */
     public function deleteColumn($name)
     {
         $qry = 'ALTER TABLE `' . $this->getTableName() . '` DROP ';
@@ -89,6 +115,9 @@ class rex_metainfo_table_manager
         }
     }
 
+    /**
+     * @return bool
+     */
     public function hasColumn($name)
     {
         $columns = rex_sql::showColumns($this->getTableName(), $this->DBID);
@@ -101,6 +130,9 @@ class rex_metainfo_table_manager
         return false;
     }
 
+    /**
+     * @return bool
+     */
     protected function setQuery($qry)
     {
         try {

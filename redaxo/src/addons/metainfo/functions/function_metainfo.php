@@ -30,7 +30,7 @@ function rex_metainfo_add_field_type($label, $dbtype, $dblength)
     $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'metainfo_type WHERE label=:label LIMIT 1';
     $sql = rex_sql::factory();
     $sql->setQuery($qry, [':label' => $label]);
-    if ($sql->getRows() != 0) {
+    if (0 != $sql->getRows()) {
         return rex_i18n::msg('minfo_field_error_unique_type');
     }
 
@@ -47,6 +47,8 @@ function rex_metainfo_add_field_type($label, $dbtype, $dblength)
  * Löscht einen Feldtyp.
  *
  * Gibt beim Erfolg true zurück, sonst eine Fehlermeldung
+ *
+ * @return bool|string
  */
 function rex_metainfo_delete_field_type($field_type_id)
 {
@@ -59,7 +61,7 @@ function rex_metainfo_delete_field_type($field_type_id)
     $sql->setWhere(['id' => $field_type_id]);
 
     $sql->delete();
-    return $sql->getRows() == 1;
+    return 1 == $sql->getRows();
 }
 
 /**
@@ -80,7 +82,7 @@ function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $d
     $sql = rex_sql::factory();
     $typeInfos = $sql->getArray($qry);
 
-    if ($sql->getRows() != 1) {
+    if (1 != $sql->getRows()) {
         return rex_i18n::msg('minfo_field_error_invalid_type');
     }
 
@@ -97,7 +99,7 @@ function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $d
     $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'metainfo_field WHERE name=:name LIMIT 1';
     $sql = rex_sql::factory();
     $sql->setQuery($qry, [':name' => $name]);
-    if ($sql->getRows() != 0) {
+    if (0 != $sql->getRows()) {
         return rex_i18n::msg('minfo_field_error_unique_name');
     }
 
@@ -144,7 +146,7 @@ function rex_metainfo_delete_field($fieldIdOrName)
     $sql = rex_sql::factory();
     $sql->setQuery($fieldQry, [':idOrName' => $fieldIdOrName]);
 
-    if ($sql->getRows() != 1) {
+    if (1 != $sql->getRows()) {
         return $invalidField;
     }
 
@@ -171,24 +173,27 @@ function rex_metainfo_delete_field($fieldIdOrName)
 
 /**
  * Extrahiert den Prefix aus dem Namen eine Spalte.
+ *
+ * @return string
  */
-function rex_metainfo_meta_prefix($name)
+function rex_metainfo_meta_prefix(string $name)
 {
-    if (!is_string($name)) {
-        return false;
+    if (false === ($pos = strpos($name, '_'))) {
+        throw new InvalidArgumentException('$name must be like "prefix_name"');
     }
 
-    if (($pos = strpos($name, '_')) !== false) {
-        return substr(strtolower($name), 0, $pos + 1);
+    $prefix = substr(strtolower($name), 0, $pos + 1);
+    if (false === $prefix) {
+        throw new InvalidArgumentException('$name must be like "prefix_name".');
     }
 
-    return false;
+    return $prefix;
 }
 
 /**
  * Gibt die mit dem Prefix verbundenen Tabellennamen zurück.
  */
-function rex_metainfo_meta_table($prefix)
+function rex_metainfo_meta_table(string $prefix)
 {
     $metaTables = rex_addon::get('metainfo')->getProperty('metaTables', []);
 
@@ -201,8 +206,6 @@ function rex_metainfo_meta_table($prefix)
 
 /**
  * Bindet ggf extensions ein.
- *
- * @param rex_extension_point $ep
  */
 function rex_metainfo_extensions_handler(rex_extension_point $ep)
 {
@@ -211,21 +214,20 @@ function rex_metainfo_extensions_handler(rex_extension_point $ep)
     $mypage = 'metainfo';
 
     // additional javascripts
-    if ($mainpage == 'metainfo' || $page == 'content/metainfo' || $page == 'structure' || $page == 'system/lang') {
-        rex_view::addJsFile(rex_url::addonAssets($mypage, 'metainfo.js'));
+    if (in_array($mainpage, ['metainfo', 'mediapool'], true) || in_array($page, ['content/metainfo', 'structure', 'system/lang'], true)) {
+        rex_view::addJsFile(rex_url::addonAssets($mypage, 'metainfo.js'), [rex_view::JS_IMMUTABLE => true]);
     }
 
     // include extensions
-    $curDir = __DIR__ . '/..';
-    if ($page == 'structure') {
-        require_once $curDir . '/lib/handler/category_handler.php';
-    } elseif ($mainpage == 'mediapool') {
-        require_once $curDir . '/lib/handler/media_handler.php';
-    } elseif ($page == 'system/lang') {
-        require_once $curDir . '/lib/handler/clang_handler.php';
-    } elseif ($mainpage == 'content') {
-        require_once $curDir . '/extensions/extension_content_sidebar.php';
-    } elseif ($page == 'backup') {
-        require_once $curDir . '/extensions/extension_cleanup.php';
+    if ('structure' == $page) {
+        require_once __DIR__ . '/../lib/handler/category_handler.php';
+    } elseif ('mediapool' == $mainpage) {
+        require_once __DIR__ . '/../lib/handler/media_handler.php';
+    } elseif ('system/lang' == $page) {
+        require_once __DIR__ . '/../lib/handler/clang_handler.php';
+    } elseif ('content' == $mainpage) {
+        require_once __DIR__ . '/../extensions/extension_content_sidebar.php';
+    } elseif ('backup' == $page) {
+        require_once __DIR__ . '/../extensions/extension_cleanup.php';
     }
 }

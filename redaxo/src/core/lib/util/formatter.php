@@ -21,9 +21,9 @@ abstract class rex_formatter
      * @param string $formatType Format type (any method name of this class)
      * @param mixed  $format     For possible values look at the other methods of this class
      *
-     * @return string
-     *
      * @throws InvalidArgumentException
+     *
+     * @return string
      */
     public static function format($value, $formatType, $format)
     {
@@ -38,8 +38,8 @@ abstract class rex_formatter
      *
      * @see http://www.php.net/manual/en/function.date.php
      *
-     * @param string $value  Unix timestamp or datetime string for `strtotime`
-     * @param string $format Default format is `d.m.Y`
+     * @param string|int $value  Unix timestamp or datetime string for `strtotime`
+     * @param string     $format Default format is `d.m.Y`
      *
      * @return string
      */
@@ -49,7 +49,7 @@ abstract class rex_formatter
             return '';
         }
 
-        if ($format == '') {
+        if ('' == $format) {
             $format = 'd.m.Y';
         }
 
@@ -61,8 +61,8 @@ abstract class rex_formatter
      *
      * @see http://www.php.net/manual/en/function.strftime.php
      *
-     * @param string $value  Unix timestamp or datetime string for `strtotime`
-     * @param string $format Possible values are format strings like in `strftime` or "date" or "datetime", default is "date"
+     * @param string|int $value  Unix timestamp or datetime string for `strtotime`
+     * @param string     $format Possible values are format strings like in `strftime` or "date" or "datetime", default is "date"
      *
      * @return string
      */
@@ -72,13 +72,13 @@ abstract class rex_formatter
             return '';
         }
 
-        if ($format == '' || $format == 'date') {
+        if ('' == $format || 'date' == $format) {
             // Default REX-Dateformat
             $format = rex_i18n::msg('dateformat');
-        } elseif ($format == 'datetime') {
+        } elseif ('datetime' == $format) {
             // Default REX-Datetimeformat
             $format = rex_i18n::msg('datetimeformat');
-        } elseif ($format == 'time') {
+        } elseif ('time' == $format) {
             // Default REX-Timeformat
             $format = rex_i18n::msg('timeformat');
         }
@@ -90,8 +90,8 @@ abstract class rex_formatter
      *
      * @see http://www.php.net/manual/en/function.number-format.php
      *
-     * @param string $value  Value
-     * @param array  $format Array with number of decimals, decimals point and thousands separator, default is `array(2, ',', ' ')`
+     * @param string|float $value  Value
+     * @param array        $format Array with number of decimals, decimals point and thousands separator, default is `array(2, ',', ' ')`
      *
      * @return string
      */
@@ -113,19 +113,21 @@ abstract class rex_formatter
         if (!isset($format[2])) {
             $format[2] = ' ';
         }
-        return number_format($value, $format[0], $format[1], $format[2]);
+        return number_format((float) $value, $format[0], $format[1], $format[2]);
     }
 
     /**
      * Formats a string as bytes.
      *
-     * @param string $value  Value
-     * @param array  $format Same as {@link rex_formatter::number()}
+     * @param string|int $value  Value
+     * @param array      $format Same as {@link rex_formatter::number()}
      *
      * @return string
      */
     public static function bytes($value, $format = [])
     {
+        $value = (int) $value;
+
         $units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
         $unit_index = 0;
         while (($value / 1024) >= 1) {
@@ -134,9 +136,9 @@ abstract class rex_formatter
         }
 
         if (isset($format[0])) {
-            $z = (int) ($value * pow(10, $precision = (int) ($format[0])));
+            $z = (int) ($value * 10 ** ($precision = (int) ($format[0])));
             for ($i = 0; $i < (int) $precision; ++$i) {
-                if (($z % 10) == 0) {
+                if (0 == ($z % 10)) {
                     $format[0] = (int) ($format[0]) - 1;
                     $z = (int) ($z / 10);
                 } else {
@@ -160,7 +162,7 @@ abstract class rex_formatter
      */
     public static function sprintf($value, $format = '')
     {
-        if ($format == '') {
+        if ('' == $format) {
             $format = '%s';
         }
         return sprintf($format, $value);
@@ -233,7 +235,7 @@ abstract class rex_formatter
         // Sollte ein Wort allein auf einer Zeile vorkommen, wird dies unterbunden
         $value = rtrim($value);
         $space = strrpos($value, ' ');
-        if ($space !== false) {
+        if (false !== $space) {
             $value = substr($value, 0, $space) . '&#160;' . substr($value, $space + 1);
         }
         return $value;
@@ -251,7 +253,7 @@ abstract class rex_formatter
      */
     public static function version($value, $format)
     {
-        return vsprintf($format, rex_string::versionSplit($value));
+        return vsprintf($format, rex_version::split($value));
     }
 
     /**
@@ -289,7 +291,7 @@ abstract class rex_formatter
             $value = 'http://' . $value;
         }
 
-        return '<a href="' . rex_escape($value . $format['params'], 'html_attr') . '"' . $format['attr'] . '>' . rex_escape($value) . '</a>';
+        return '<a href="' . rex_escape($value . $format['params']) . '"' . $format['attr'] . '>' . rex_escape($value) . '</a>';
     }
 
     /**
@@ -319,7 +321,7 @@ abstract class rex_formatter
             }
         }
         // Url formatierung
-        return '<a href="mailto:' . rex_escape($value . $format['params'], 'html_attr') . '"' . $format['attr'] . '>' . rex_escape($value) . '</a>';
+        return '<a href="mailto:' . rex_escape($value . $format['params']) . '"' . $format['attr'] . '>' . rex_escape($value) . '</a>';
     }
 
     /**
@@ -328,9 +330,9 @@ abstract class rex_formatter
      * @param string         $value  Value
      * @param callable|array $format A callable or an array of a callable and additional params
      *
-     * @return string
-     *
      * @throws rex_exception
+     *
+     * @return string
      */
     public static function custom($value, $format)
     {
@@ -354,12 +356,23 @@ abstract class rex_formatter
         return call_user_func($format, $value);
     }
 
+    /**
+     * @param string|int $value
+     *
+     * @return int
+     */
     private static function getTimestamp($value)
     {
-        if (is_numeric($value)) {
-            return $value;
+        if (is_int($value) || ctype_digit($value)) {
+            return (int) $value;
         }
 
-        return strtotime($value);
+        $time = strtotime($value);
+
+        if (false === $time) {
+            throw new InvalidArgumentException(sprintf('"%s" is not a valid datetime string.', $value));
+        }
+
+        return $time;
     }
 }

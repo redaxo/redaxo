@@ -1,10 +1,15 @@
 <?php
 
-class rex_socket_response_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_socket_response_test extends TestCase
 {
     private function getResponse($content)
     {
-        $stream = fopen('php://temp', 'r+b');
+        $stream = fopen('php://temp', 'r+');
         fwrite($stream, $content);
         fseek($stream, 0);
 
@@ -34,13 +39,13 @@ class rex_socket_response_test extends PHPUnit_Framework_TestCase
     {
         $response = $this->getResponse($header . "\r\n");
 
-        $this->assertSame($statusCode, $response->getStatusCode(), 'getStatusCode()');
-        $this->assertSame($statusMessage, $response->getStatusMessage(), 'getStatusMessage()');
-        $this->assertSame($statusCode == 200, $response->isOk(), 'isOk()');
+        static::assertSame($statusCode, $response->getStatusCode(), 'getStatusCode()');
+        static::assertSame($statusMessage, $response->getStatusMessage(), 'getStatusMessage()');
+        static::assertSame(200 == $statusCode, $response->isOk(), 'isOk()');
 
         $methods = ['isInformational', 'isSuccessful', 'isRedirection', 'isClientError', 'isServerError', 'isInvalid'];
         foreach ($methods as $method) {
-            $this->assertSame($positiveMethod == $method, $response->$method(), $method . '()');
+            static::assertSame($positiveMethod == $method, $response->$method(), $method . '()');
         }
     }
 
@@ -49,11 +54,11 @@ class rex_socket_response_test extends PHPUnit_Framework_TestCase
         $header = "HTTP/1.1 200 OK\r\nKey1: Value1\r\nkey2: Value2";
         $response = $this->getResponse($header . "\r\n\r\nbody\r\nbody");
 
-        $this->assertSame($header, $response->getHeader(), 'getHeader() without params returns full header');
-        $this->assertSame('Value1', $response->getHeader('Key1'), 'getHeader($key) returns the value of the key');
-        $this->assertSame('Value2', $response->getHeader('Key2', 'default'), 'getHeader($key, $default) returns the value of the key');
-        $this->assertNull($response->getHeader('Key3'), 'getHeader($key) returns null for non-existing keys');
-        $this->assertSame('default', $response->getHeader('Key3', 'default'), 'getHeader($key, $default) returns $default for non-existing keys');
+        static::assertSame($header, $response->getHeader(), 'getHeader() without params returns full header');
+        static::assertSame('Value1', $response->getHeader('Key1'), 'getHeader($key) returns the value of the key');
+        static::assertSame('Value2', $response->getHeader('Key2', 'default'), 'getHeader($key, $default) returns the value of the key');
+        static::assertNull($response->getHeader('Key3'), 'getHeader($key) returns null for non-existing keys');
+        static::assertSame('default', $response->getHeader('Key3', 'default'), 'getHeader($key, $default) returns $default for non-existing keys');
     }
 
     public function testGetBody()
@@ -61,7 +66,7 @@ class rex_socket_response_test extends PHPUnit_Framework_TestCase
         $body = "body1\r\nbody2";
         $response = $this->getResponse("HTTP/1.1 200 OK\r\nKey: Value\r\n\r\n" . $body);
 
-        $this->assertSame($body, $response->getBody());
+        static::assertSame($body, $response->getBody());
     }
 
     public function testWriteBodyTo()
@@ -69,10 +74,10 @@ class rex_socket_response_test extends PHPUnit_Framework_TestCase
         $body = "body1\r\nbody2";
         $response = $this->getResponse("HTTP/1.1 200 OK\r\nKey: Value\r\n\r\n" . $body);
 
-        $temp = fopen('php://temp', 'r+b');
+        $temp = fopen('php://temp', 'r+');
         $response->writeBodyTo($temp);
         fseek($temp, 0);
-        $this->assertSame($body, fread($temp, 1024));
+        static::assertSame($body, fread($temp, 1024));
         fclose($temp);
     }
 }

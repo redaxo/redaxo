@@ -1,5 +1,5 @@
 package: structure
-version: '2.7.0-beta1'
+version: '2.11.0-dev'
 author: Markus Staab
 supportpage: www.redaxo.org/de/forum/
 
@@ -24,4 +24,5 @@ pages:
 system_plugins: [content]
 
 requires:
-    redaxo: ^5.5.0
+    php: '>=7.1'
+    redaxo: ^5.11.0-dev

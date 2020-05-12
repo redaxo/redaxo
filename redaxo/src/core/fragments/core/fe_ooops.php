@@ -29,6 +29,13 @@
             text-align: center;
         }
 
+        .ooops-error a {
+            color: #666;
+        }
+        .ooops-error a:hover {
+            color: #111;
+        }
+
         .ooops-error-title {
             margin: 0;
             font-size: 50px;
@@ -46,6 +53,7 @@
         <div class="ooops-error">
             <p class="ooops-error-title">Ooops</p>
             <p class="ooops-error-message">Looks like something went wrong.</p>
+            <?= $this->getVar('content', '') ?>
         </div>
     </div>
 </body>

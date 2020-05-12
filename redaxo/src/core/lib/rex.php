@@ -9,7 +9,7 @@
  */
 class rex
 {
-    const CONFIG_NAMESPACE = 'core';
+    public const CONFIG_NAMESPACE = 'core';
 
     /**
      * Array of properties.
@@ -20,6 +20,8 @@ class rex
 
     /**
      * @see rex_config::set()
+     *
+     * @return bool TRUE when an existing value was overridden, otherwise FALSE
      */
     public static function setConfig($key, $value = null)
     {
@@ -28,6 +30,13 @@ class rex
 
     /**
      * @see rex_config::get()
+     *
+     * @return mixed the value for $key or $default if $key cannot be found in the given $namespace
+     *
+     * @template T as ?string
+     * @phpstan-template T
+     * @psalm-param T $key
+     * @psalm-return (T is string ? mixed|null : array<string, mixed>)
      */
     public static function getConfig($key = null, $default = null)
     {
@@ -36,6 +45,8 @@ class rex
 
     /**
      * @see rex_config::has()
+     *
+     * @return bool TRUE if the key is set, otherwise FALSE
      */
     public static function hasConfig($key)
     {
@@ -44,6 +55,8 @@ class rex
 
     /**
      * @see rex_config::remove()
+     *
+     * @return bool TRUE if the value was found and removed, otherwise FALSE
      */
     public static function removeConfig($key)
     {
@@ -56,9 +69,9 @@ class rex
      * @param string $key   Key of the property
      * @param mixed  $value Value for the property
      *
-     * @return bool TRUE when an existing value was overridden, otherwise FALSE
-     *
      * @throws InvalidArgumentException on invalid parameters
+     *
+     * @return bool TRUE when an existing value was overridden, otherwise FALSE
      */
     public static function setProperty($key, $value)
     {
@@ -77,7 +90,7 @@ class rex
                 if (!isset($value['throw_always_exception']) || !$value['throw_always_exception']) {
                     $value['throw_always_exception'] = false;
                 } elseif (is_array($value['throw_always_exception'])) {
-                    $value['throw_always_exception'] = array_reduce($value['throw_always_exception'], function ($result, $item) {
+                    $value['throw_always_exception'] = array_reduce($value['throw_always_exception'], static function ($result, $item) {
                         if (is_string($item)) {
                             // $item is string, e.g. "E_WARNING"
                             $item = constant($item);
@@ -114,9 +127,9 @@ class rex
      * @param string $key     Key of the property
      * @param mixed  $default Default value, will be returned if the property isn't set
      *
-     * @return mixed The value for $key or $default if $key cannot be found
-     *
      * @throws InvalidArgumentException on invalid parameters
+     *
+     * @return mixed The value for $key or $default if $key cannot be found
      */
     public static function getProperty($key, $default = null)
     {
@@ -146,9 +159,9 @@ class rex
      *
      * @param string $key Key of the property
      *
-     * @return bool TRUE if the value was found and removed, otherwise FALSE
-     *
      * @throws InvalidArgumentException on invalid parameters
+     *
+     * @return bool TRUE if the value was found and removed, otherwise FALSE
      */
     public static function removeProperty($key)
     {
@@ -178,6 +191,19 @@ class rex
     public static function isBackend()
     {
         return (bool) self::getProperty('redaxo', false);
+    }
+
+    /**
+     * Returns if the environment is the frontend.
+     *
+     * @return bool
+     */
+    public static function isFrontend()
+    {
+        if (self::getConsole()) {
+            return false;
+        }
+        return !self::getProperty('redaxo', false);
     }
 
     /**
@@ -275,7 +301,7 @@ class rex
      */
     public static function getImpersonator()
     {
-        $login = self::getProperty('login');
+        $login = self::$properties['login'] ?? null;
 
         return $login ? $login->getImpersonator() : null;
     }
@@ -302,7 +328,7 @@ class rex
         if (null === $protocol) {
             return self::getProperty('server');
         }
-        list(, $server) = explode('://', self::getProperty('server'), 2);
+        [, $server] = explode('://', self::getProperty('server'), 2);
         return $protocol ? $protocol . '://' . $server : $server;
     }
 
@@ -344,37 +370,33 @@ class rex
     }
 
     /**
-     * Returns the current git version hash for the given path.
-     *
-     * @param string $path A local filesystem path
-     *
-     * @return false|string
+     * @deprecated since 5.10, use `rex_version::gitHash` instead
      */
-    public static function getVersionHash($path)
+    public static function getVersionHash($path, ?string $repo = null)
     {
-        static $gitHash = [];
+        return rex_version::gitHash($path, $repo) ?? false;
+    }
 
-        if (!isset($gitHash[$path])) {
-            $gitHash[$path] = false; // exec only once
-            $output = '';
-            $exitCode = null;
+    /**
+     * @return array<string, array{install: bool, status: bool, plugins?: array<string, array{install: bool, status: bool}>}>
+     */
+    public static function getPackageConfig(): array
+    {
+        $config = self::getConfig('package-config', []);
+        assert(is_array($config));
 
-            if (strcasecmp(substr(PHP_OS, 0, 3), 'WIN') == 0) {
-                $command = 'where git 2>&1 1>/dev/null && cd '. escapeshellarg($path) .' && git show --oneline -s';
-            } else {
-                $command = 'which git 2>&1 1>/dev/null && cd '. escapeshellarg($path) .' && git show --oneline -s';
-            }
+        return $config;
+    }
 
-            @exec($command, $output, $exitCode);
-            if ($exitCode === 0) {
-                $output = implode('', $output);
-                if (preg_match('{^[0-9a-f]+}', $output, $matches)) {
-                    $gitHash[$path] = $matches[0];
-                }
-            }
-        }
+    /**
+     * @return list<string>
+     */
+    public static function getPackageOrder(): array
+    {
+        $config = self::getConfig('package-order', []);
+        assert(is_array($config));
 
-        return $gitHash[$path];
+        return $config;
     }
 
     /**

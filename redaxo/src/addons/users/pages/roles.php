@@ -6,7 +6,7 @@ $id = rex_request('id', 'int');
 $message = '';
 $content = '';
 
-if ($func == 'delete') {
+if ('delete' == $func) {
     if (!rex_csrf_token::factory('user_role_delete')->isValid()) {
         $message = rex_view::error(rex_i18n::msg('csrf_token_invalid'));
     } else {
@@ -18,7 +18,7 @@ if ($func == 'delete') {
     $func = '';
 }
 
-if ($func == '') {
+if ('' == $func) {
     $title = rex_i18n::msg('user_role_caption');
 
     $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'user_role ORDER BY name', 100);
@@ -53,12 +53,12 @@ if ($func == '') {
     $fragment->setVar('content', $content, false);
     $content = $fragment->parse('core/page/section.php');
 } else {
-    $title = $func == 'edit' ? rex_i18n::msg('edit_user_role') : rex_i18n::msg('add_user_role');
+    $title = 'edit' == $func ? rex_i18n::msg('edit_user_role') : rex_i18n::msg('add_user_role');
 
     $form = rex_form::factory(rex::getTablePrefix() . 'user_role', '', 'id = ' . $id);
     $form->addParam('id', $id);
     $form->setApplyUrl(rex_url::currentBackendPage());
-    $form->setEditMode($func == 'edit');
+    $form->setEditMode('edit' == $func);
 
     $field = $form->addTextField('name');
     $field->setLabel(rex_i18n::msg('name'));
@@ -72,11 +72,11 @@ if ($func == '') {
     $fieldContainer->setActive($group);
 
     // Check all page permissions and add them to rex_perm if not already registered
-    $registerImplicitePagePermissions = function ($pages) use (&$registerImplicitePagePermissions) {
+    $registerImplicitePagePermissions = static function ($pages) use (&$registerImplicitePagePermissions) {
         foreach ($pages as $page) {
             foreach ($page->getRequiredPermissions() as $perm) {
                 // ignore admin perm and complex perms (with "/")
-                if ($perm && !in_array($perm, ['isAdmin', 'admin', 'admin[]']) && strpos($perm, '/') === false && !rex_perm::has($perm)) {
+                if ($perm && !in_array($perm, ['isAdmin', 'admin', 'admin[]']) && false === strpos($perm, '/') && !rex_perm::has($perm)) {
                     rex_perm::register($perm);
                 }
             }
@@ -86,23 +86,26 @@ if ($func == '') {
     $registerImplicitePagePermissions(rex_be_controller::getPages());
 
     foreach ([rex_perm::GENERAL, rex_perm::OPTIONS, rex_perm::EXTRAS] as $permgroup) {
+        /** @var rex_form_select_element $field */
         $field = $fieldContainer->addGroupedField($group, 'select', $permgroup);
         $field->setLabel(rex_i18n::msg('user_' . $permgroup));
         $select = $field->getSelect();
         $select->setMultiple(true);
         $perms = rex_perm::getAll($permgroup);
-        $select->setSize(min(10, max(3, count($perms))));
+        asort($perms);
+        $select->setSize(min(20, max(3, count($perms))));
         $select->addArrayOptions($perms);
     }
 
-    rex_extension::register('REX_FORM_INPUT_CLASS', function (rex_extension_point $ep) {
-        return $ep->getParam('inputType') == 'perm_select' ? 'rex_form_perm_select_element' : null;
+    rex_extension::register('REX_FORM_INPUT_CLASS', static function (rex_extension_point $ep) {
+        return 'perm_select' == $ep->getParam('inputType') ? 'rex_form_perm_select_element' : null;
     });
 
     $fieldIds = [];
     foreach (rex_complex_perm::getAll() as $key => $class) {
         $params = $class::getFieldParams();
         if (!empty($params)) {
+            /** @var rex_form_perm_select_element $field */
             $field = $fieldContainer->addGroupedField($group, 'perm_select', $key);
             $field->setLabel($params['label']);
             $field->setCheckboxLabel($params['all_label']);
@@ -122,7 +125,7 @@ if ($func == '') {
                 $select->addSqlOptions($params['sql_options']);
             }
             $select->get();
-            $select->setSize(min(10, max(3, $select->countOptions())));
+            $select->setSize(min(20, max(3, $select->countOptions())));
         }
     }
 

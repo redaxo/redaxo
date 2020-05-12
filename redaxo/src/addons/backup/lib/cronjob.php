@@ -5,29 +5,34 @@
  */
 class rex_cronjob_export extends rex_cronjob
 {
-    const DEFAULT_FILENAME = '%REX_SERVER_rex%REX_VERSION_%Y%m%d_%H%M';
+    public const DEFAULT_FILENAME = '%REX_SERVER_%Y%m%d_%H%M_rex%REX_VERSION';
 
     public function execute()
     {
         $filename = $this->getParam('filename', self::DEFAULT_FILENAME);
-        $filename = str_replace('%REX_SERVER', parse_url(rex::getServer(), PHP_URL_HOST), $filename);
+        $filename = str_replace('%REX_SERVER', rex_string::normalize(rex::getServerName(), '-'), $filename);
         $filename = str_replace('%REX_VERSION', rex::getVersion(), $filename);
         $filename = strftime($filename);
         $file = $filename;
         $dir = rex_backup::getDir() . '/';
         $ext = '.cronjob.sql';
-        if (file_exists($dir . $file . $ext)) {
+
+        $tables = rex_backup::getTables();
+        $blacklist_tables = explode('|', $this->getParam('blacklist_tables'));
+        $whitelist_tables = array_diff($tables, $blacklist_tables);
+
+        if (is_file($dir . $file . $ext)) {
             $i = 1;
-            while (file_exists($dir . $file . '_' . $i . $ext)) {
+            while (is_file($dir . $file . '_' . $i . $ext)) {
                 ++$i;
             }
             $file = $file . '_' . $i;
         }
 
-        if (rex_backup::exportDb($dir . $file . $ext)) {
+        if (rex_backup::exportDb($dir . $file . $ext, $whitelist_tables)) {
             $message = $file . $ext . ' created';
 
-            if ($this->delete_interval) {
+            if ($this->getParam('delete_interval')) {
                 $allSqlfiles = glob(rex_path::addonData('backup', '*'.$ext));
                 $backups = [];
                 $limit = strtotime('-1 month'); // Generelle Vorhaltezeit: 1 Monat
@@ -50,7 +55,7 @@ class rex_cronjob_export extends rex_cronjob
 
                 foreach ($backups as $backup => $timestamp) {
                     $stepLast = $step;
-                    $step = date($this->delete_interval, (int) $timestamp);
+                    $step = date($this->getParam('delete_interval'), (int) $timestamp);
 
                     if ($stepLast !== $step) {
                         // wenn es zu diesem Interval schon ein Backup gibt
@@ -67,14 +72,14 @@ class rex_cronjob_export extends rex_cronjob
                 }
             }
 
-            if ($this->sendmail) {
+            if ($this->getParam('sendmail')) {
                 if (!rex_addon::get('phpmailer')->isAvailable()) {
                     $this->setMessage($message . ', mail not sent (addon "phpmailer" isn\'t activated)');
 
                     return false;
                 }
                 $mail = new rex_mailer();
-                $mail->AddAddress($this->mailaddress);
+                $mail->AddAddress($this->getParam('mailaddress'));
                 $mail->Subject = rex_i18n::rawMsg('backup_mail_subject');
                 $mail->Body = rex_i18n::rawMsg('backup_mail_body', rex::getServerName());
                 $mail->AddAttachment($dir . $file . $ext, $filename . $ext);
@@ -104,6 +109,8 @@ class rex_cronjob_export extends rex_cronjob
 
     public function getParamFields()
     {
+        $tables = rex_backup::getTables();
+
         $fields = [
             [
                 'label' => rex_i18n::msg('backup_filename'),
@@ -113,11 +120,20 @@ class rex_cronjob_export extends rex_cronjob
                 'notice' => rex_i18n::msg('backup_filename_notice'),
             ],
             [
+                'label' => rex_i18n::msg('backup_blacklist_tables'),
+                'name' => 'blacklist_tables',
+                'type' => 'select',
+                'attributes' => ['multiple' => 'multiple', 'data-live-search' => 'true'],
+                'options' => array_combine($tables, $tables),
+                'notice' => rex_i18n::msg('backup_blacklist_tables_notice'),
+            ],
+            [
                 'name' => 'sendmail',
                 'type' => 'checkbox',
                 'options' => [1 => rex_i18n::msg('backup_send_mail')],
             ],
         ];
+
         if (rex_addon::get('phpmailer')->isAvailable()) {
             $fields[] = [
                 'label' => rex_i18n::msg('backup_mailaddress'),
@@ -126,8 +142,8 @@ class rex_cronjob_export extends rex_cronjob
                 'visible_if' => ['sendmail' => 1],
             ];
         } else {
-            $fields[1]['notice'] = rex_i18n::msg('backup_send_mail_notice');
-            $fields[1]['attributes'] = ['disabled' => 'disabled'];
+            $fields[2]['notice'] = rex_i18n::msg('backup_send_mail_notice');
+            $fields[2]['attributes'] = ['disabled' => 'disabled'];
         }
 
         $fields[] = [

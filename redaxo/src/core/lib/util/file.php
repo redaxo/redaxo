@@ -17,9 +17,9 @@ class rex_file
      */
     public static function get($file, $default = null)
     {
-        return rex_timer::measure(__METHOD__, function () use ($file, $default) {
+        return rex_timer::measure(__METHOD__, static function () use ($file, $default) {
             $content = @file_get_contents($file);
-            return $content !== false ? $content : $default;
+            return false !== $content ? $content : $default;
         });
     }
 
@@ -34,7 +34,7 @@ class rex_file
     public static function getConfig($file, $default = [])
     {
         $content = self::get($file);
-        return $content === null ? $default : rex_string::yamlDecode($content);
+        return null === $content ? $default : rex_string::yamlDecode($content);
     }
 
     /**
@@ -48,7 +48,7 @@ class rex_file
     public static function getCache($file, $default = [])
     {
         $content = self::get($file);
-        return $content === null ? $default : json_decode($content, true);
+        return null === $content ? $default : json_decode($content, true);
     }
 
     /**
@@ -61,15 +61,18 @@ class rex_file
      */
     public static function put($file, $content)
     {
-        return rex_timer::measure(__METHOD__, function () use ($file, $content) {
-            if (!rex_dir::create(dirname($file)) || file_exists($file) && !is_writable($file)) {
+        return rex_timer::measure(__METHOD__, static function () use ($file, $content) {
+            if (!rex_dir::create(dirname($file)) || is_file($file) && !is_writable($file)) {
                 return false;
             }
 
-            if (file_put_contents($file, $content) !== false) {
+            // mimic a atomic write
+            $tmpFile = @tempnam(dirname($file), basename($file));
+            if (false !== file_put_contents($tmpFile, $content) && rename($tmpFile, $file)) {
                 @chmod($file, rex::getFilePerm());
                 return true;
             }
+            @unlink($tmpFile);
 
             return false;
         });
@@ -112,7 +115,7 @@ class rex_file
      */
     public static function copy($srcfile, $dstfile)
     {
-        return rex_timer::measure(__METHOD__, function () use ($srcfile, $dstfile) {
+        return rex_timer::measure(__METHOD__, static function () use ($srcfile, $dstfile) {
             if (is_file($srcfile)) {
                 if (is_dir($dstfile)) {
                     $dstdir = rtrim($dstfile, DIRECTORY_SEPARATOR);
@@ -122,14 +125,27 @@ class rex_file
                     rex_dir::create($dstdir);
                 }
 
-                if (rex_dir::isWritable($dstdir) && (!file_exists($dstfile) || is_writable($dstfile)) && copy($srcfile, $dstfile)) {
+                if (rex_dir::isWritable($dstdir) && (!is_file($dstfile) || is_writable($dstfile)) && copy($srcfile, $dstfile)) {
                     @chmod($dstfile, rex::getFilePerm());
-                    touch($dstfile, filemtime($srcfile), fileatime($srcfile));
+                    @touch($dstfile, filemtime($srcfile), fileatime($srcfile));
                     return true;
                 }
             }
             return false;
         });
+    }
+
+    /**
+     * Renames a file.
+     *
+     * @param string $srcfile Path of the source file
+     * @param string $dstfile Path of the destination file or directory
+     *
+     * @return bool TRUE on success, FALSE on failure
+     */
+    public static function move(string $srcfile, string $dstfile): bool
+    {
+        return rename($srcfile, $dstfile);
     }
 
     /**
@@ -141,8 +157,8 @@ class rex_file
      */
     public static function delete($file)
     {
-        return rex_timer::measure(__METHOD__, function () use ($file) {
-            if (file_exists($file)) {
+        return rex_timer::measure(__METHOD__, static function () use ($file) {
+            if (is_file($file)) {
                 return unlink($file);
             }
             return true;
@@ -159,6 +175,42 @@ class rex_file
     public static function extension($filename)
     {
         return pathinfo($filename, PATHINFO_EXTENSION);
+    }
+
+    /**
+     * Detects the mime type of the given file.
+     *
+     * @param string $file Path to the file
+     *
+     * @return null|string Mime type or `null` if the type could not be detected
+     */
+    public static function mimeType($file): ?string
+    {
+        $mimeType = mime_content_type($file);
+
+        if (false === $mimeType) {
+            return null;
+        }
+
+        // map less common types to their more common equivalent
+        static $mapping = [
+            'application/xml' => 'text/xml',
+            'image/svg' => 'image/svg+xml',
+        ];
+
+        if ('text/plain' !== $mimeType) {
+            $mimeType = $mapping[$mimeType] ?? $mimeType;
+
+            return $mimeType ?: null;
+        }
+
+        static $extensions = [
+            'css' => 'text/css',
+            'js' => 'application/javascript',
+            'svg' => 'image/svg+xml',
+        ];
+
+        return $extensions[strtolower(self::extension($file))] ?? $mimeType;
     }
 
     /**

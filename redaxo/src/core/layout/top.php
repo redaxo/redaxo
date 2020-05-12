@@ -43,6 +43,7 @@ if ($curPage->isPopup()) {
 if (rex::getImpersonator()) {
     $body_attr['class'][] = 'rex-is-impersonated';
 }
+
 // ----- EXTENSION POINT
 $body_attr = rex_extension::registerPoint(new rex_extension_point('PAGE_BODY_ATTR', $body_attr));
 
@@ -94,7 +95,7 @@ if (rex::getUser() && $hasNavigation) {
     }
     $meta_items[] = $item;
     unset($item);
-} elseif ($hasNavigation) {
+} elseif ($hasNavigation && !rex::isSetup()) {
     $item = [];
     $item['title'] = rex_i18n::msg('logged_out');
     $meta_items[] = $item;
@@ -128,6 +129,8 @@ if (rex::getUser() && $hasNavigation) {
         }
     }
 
+    $n = rex_extension::registerPoint(new rex_extension_point('PAGE_NAVIGATION', $n));
+
     $blocks = $n->getNavigation();
 
     $navigation = '';
@@ -140,7 +143,7 @@ if (rex::getUser() && $hasNavigation) {
 }
 
 /* Setup Navigation ***********************************************************/
-if (rex_be_controller::getCurrentPagePart(1) == 'setup') {
+if ('setup' == rex_be_controller::getCurrentPagePart(1)) {
     $step = rex_request('step', 'float');
     $lang = rex_request('lang', 'string', '');
     $navi = [];
@@ -155,16 +158,16 @@ if (rex_be_controller::getCurrentPagePart(1) == 'setup') {
         if ($i < $step) {
             $n['itemAttr']['class'][] = 'bg-success';
             $n['href'] = rex_url::backendPage('setup', ['step' => $i, 'lang' => $lang]);
-            if ($step == 7) {
+            if (7 == $step) {
                 $n['href'] = 'javascript:void(0)';
             }
         }
         $name = '';
-        if (isset($n['href']) && $lang != '') {
+        if (isset($n['href']) && '' != $lang) {
             $name = rex_i18n::msg('setup_' . $i . '99');
-        } elseif ($lang != '') {
+        } elseif ('' != $lang) {
             $name = '<span>' . rex_i18n::msg('setup_' . $i . '99') . '</span>';
-        } elseif ($i == 1) {
+        } elseif (1 == $i) {
             $name = '<span>Step 1 / Language</span>';
         }
 
@@ -207,7 +210,7 @@ if (!rex_request::isPJAXContainer('#rex-js-page-container')) {
     $fragment = new rex_fragment();
     $fragment->setVar('pageTitle', rex_be_controller::getPageTitle());
     $fragment->setVar('cssFiles', rex_view::getCssFiles());
-    $fragment->setVar('jsFiles', rex_view::getJsFiles());
+    $fragment->setVar('jsFiles', rex_view::getJsFilesWithOptions());
     $fragment->setVar('jsProperties', json_encode(rex_view::getJsProperties()), false);
     $fragment->setVar('favicon', rex_view::getFavicon());
     $fragment->setVar('pageHeader', rex_extension::registerPoint(new rex_extension_point('PAGE_HEADER', '')), false);

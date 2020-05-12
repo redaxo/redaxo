@@ -7,8 +7,8 @@
  */
 class rex_metainfo_clang_handler extends rex_metainfo_handler
 {
-    const PREFIX = 'clang_';
-    const CONTAINER = 'rex-clang-metainfo';
+    public const PREFIX = 'clang_';
+    public const CONTAINER = 'rex-clang-metainfo';
 
     public function renderToggleButton(rex_extension_point $ep)
     {
@@ -22,9 +22,12 @@ class rex_metainfo_clang_handler extends rex_metainfo_handler
         return $ep->getSubject();
     }
 
+    /**
+     * @return array
+     */
     public function handleSave(array $params, rex_sql $sqlFields)
     {
-        if (rex_request_method() != 'post' || !isset($params['id'])) {
+        if ('post' != rex_request_method() || !isset($params['id'])) {
             return $params;
         }
 
@@ -53,7 +56,7 @@ class rex_metainfo_clang_handler extends rex_metainfo_handler
     {
         $element = $field;
 
-        if ($typeLabel == 'legend') {
+        if ('legend' == $typeLabel) {
             $element = '<h3 class="form-legend">' . $label . '</h3>';
         }
 

@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<psalm
+    resolveFromConfigFile="true"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+>
+    <projectFiles>
+        <!-- restrict to core and core addons, ignore other locally installed addons -->
+        <directory name="redaxo/src/core"/>
+        <directory name="redaxo/src/addons/backup"/>
+        <directory name="redaxo/src/addons/be_style"/>
+        <directory name="redaxo/src/addons/cronjob"/>
+        <directory name="redaxo/src/addons/debug"/>
+        <directory name="redaxo/src/addons/install"/>
+        <directory name="redaxo/src/addons/media_manager"/>
+        <directory name="redaxo/src/addons/mediapool"/>
+        <directory name="redaxo/src/addons/metainfo"/>
+        <directory name="redaxo/src/addons/phpmailer"/>
+        <directory name="redaxo/src/addons/project"/>
+        <directory name="redaxo/src/addons/structure"/>
+        <directory name="redaxo/src/addons/tests"/>
+        <directory name="redaxo/src/addons/users"/>
+        <ignoreFiles>
+            <directory name="redaxo/src/addons/be_style/vendor/" />
+            <directory name="redaxo/src/addons/debug/vendor/" />
+            <directory name="redaxo/src/addons/media_manager/tests/" />
+            <directory name="redaxo/src/addons/mediapool/tests/" />
+            <directory name="redaxo/src/addons/phpmailer/vendor/" />
+            <directory name="redaxo/src/addons/structure/tests/" />
+            <directory name="redaxo/src/addons/tests/vendor/" />
+            <directory name="redaxo/src/core/vendor/" />
+            <directory name="redaxo/src/core/tests/" />
+            <file name="redaxo/src/core/.phpstorm.meta.php" />
+            <file name="redaxo/src/addons/tests/bin/run_tests.php" />
+            <file name="redaxo/src/addons/tests/bin/setup.php" />
+        </ignoreFiles>
+    </projectFiles>
+    <stubs>
+        <file name="redaxo/src/core/.phpstorm.meta.php" />
+    </stubs>
+    <plugins>
+        <plugin filename=".tools/psalm/RexTypeReturnProvider.php" />
+        <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin" />
+    </plugins>
+    <issueHandlers>
+        <InvalidGlobal>
+            <errorLevel type="info">
+                <file name="redaxo/src/addons/mediapool/pages/index.php"/>
+                <file name="redaxo/src/addons/mediapool/pages/upload.php"/>
+                <file name="redaxo/src/core/pages/login.php"/>
+            </errorLevel>
+        </InvalidGlobal>
+        <InvalidScope>
+            <errorLevel type="suppress">
+                <directory name="redaxo/src/**/fragments/*" />
+                <file name="redaxo/src/addons/structure/plugins/content/fragments/module_select.php"/>
+                <file name="redaxo/src/addons/structure/plugins/content/fragments/slice_menu_action.php"/>
+                <file name="redaxo/src/addons/structure/plugins/content/fragments/slice_menu_ep.php"/>
+                <file name="redaxo/src/addons/structure/plugins/content/fragments/slice_menu_move.php"/>
+                <file name="redaxo/src/addons/structure/plugins/history/fragments/history/layer.php"/>
+            </errorLevel>
+        </InvalidScope>
+<!-- level 2 issues - slightly lazy code writing, but provably low false-negatives -->
+        <DeprecatedMethod>
+            <errorLevel type="info">
+                <referencedMethod name="rex_string::versionCompare"/>
+            </errorLevel>
+        </DeprecatedMethod>
+        <InternalMethod errorLevel="info" />
+        <InternalProperty errorLevel="info" />
+        <InternalClass errorLevel="info" />
+        <MissingClosureReturnType errorLevel="info" />
+        <MissingReturnType errorLevel="info" />
+        <MissingPropertyType errorLevel="info" />
+        <PropertyNotSetInConstructor errorLevel="info" />
+        <MissingClosureParamType errorLevel="info" />
+        <MissingParamType errorLevel="info" />
+        <RedundantCondition errorLevel="info" />
+        <DocblockTypeContradiction errorLevel="info" />
+        <RedundantConditionGivenDocblockType errorLevel="info" />
+        <UnresolvableInclude errorLevel="info" />
+        <RawObjectIteration>
+            <errorLevel type="info">
+                <file name="redaxo/src/core/lib/api_function.php"/>
+            </errorLevel>
+        </RawObjectIteration>
+<!-- level 3 issues - points to possible deficiencies in logic, higher false-positives -->
+        <PossiblyNullArgument errorLevel="info" />
+        <PossiblyNullReference errorLevel="info" />
+    </issueHandlers>
+</psalm>

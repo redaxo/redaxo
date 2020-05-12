@@ -127,14 +127,22 @@ media_manager_effect_folder = Alternativ mapp default: "media"
 
 media_manager_effect_mediapath = Medieamapp
 media_manager_effect_mediapath_path = Mediamapp
+media_manager_effect_mediapath_path_notice = Vägen till bildkällan i förhållande till REDAXO-installationen istället för <code> media </ code>, t.ex. katalogen <code> images </ code>. Ledande / avslutande snedstreck (<code> / </ code>) krävs inte.
 
 media_manager_effect_header = Fil: anpassa headern
 media_manager_effect_header_download = Download
 media_manager_effect_header_cache = Cache-Control
+media_manager_effect_header_filename = Källa för filnamn
+media_manager_effect_header_filename_notice = <code> filnamn </ code> är det normaliserade filnamnet på servern, t.ex. <code> my-download.pdf </ code>, <code> originalnamn </ code> är det ursprungliga filnamnet vid uppladdningstidpunkten (med mellanslag, stor / små bokstäver, etc.), t.ex. <code> Min Download.pdf </ code>
+
+
 
 media_manager_effect_convert2img = Fil: konvertera till bild
 media_manager_effect_convert2img_density = Upplösnings densitet
 media_manager_effect_convert2img_convertto = Målformat
+media_manager_effect_convert2img_density_notice = Upplösningstäthet i ppi (pixel per tum).
+media_manager_effect_convert2img_convertto_notice = Målformat som filen ska konverteras till. Följande filtillägg accepteras: <code> .pdf, .ps, .psd, .tif, .tiff, .bmp, .eps, .ico, .svg </ code>.
+media_manager_effect_convert2img_noimagemagick =
 
 media_manager_effect_image_properties = Bild: inställningar (kvalité, interlace, ...)
 media_manager_effect_image_properties_jpg_quality_notice = [0-100]. Lämna tom för standardvärdet.

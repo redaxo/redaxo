@@ -9,6 +9,8 @@ $success = '';
 $user = rex::getUser();
 $user_id = $user->getId();
 
+$passwordChangeRequired = rex::getProperty('login')->requiresPasswordChange();
+
 // Allgemeine Infos
 $userpsw = rex_request('userpsw', 'string');
 $userpsw_new_1 = rex_request('userpsw_new_1', 'string');
@@ -18,7 +20,6 @@ $username = rex_request('username', 'string', $user->getName());
 $userdesc = rex_request('userdesc', 'string', $user->getValue('description'));
 $useremail = rex_request('useremail', 'string', $user->getValue('email'));
 $userlogin = $user->getLogin();
-$userminibar = $user->getValue('minibar');
 $csrfToken = rex_csrf_token::factory('profile');
 
 // --------------------------------- Title
@@ -61,25 +62,23 @@ if (rex_request('rex_user_updated', 'bool', false)) {
 }
 
 if ($update && !$error) {
-    $userminibar = rex_request('minibar', 'bool');
-
     $updateuser = rex_sql::factory();
     $updateuser->setTable(rex::getTablePrefix() . 'user');
     $updateuser->setWhere(['id' => $user_id]);
     $updateuser->setValue('name', $username);
     $updateuser->setValue('description', $userdesc);
     $updateuser->setValue('email', $useremail);
-    $updateuser->setValue('minibar', $userminibar);
     $updateuser->setValue('language', $userperm_be_sprache);
 
     $updateuser->addGlobalUpdateFields();
 
     try {
         $updateuser->update();
+        rex_user::clearInstance($user_id);
 
         rex_extension::registerPoint(new rex_extension_point('PROFILE_UPDATED', '', [
             'user_id' => $user_id,
-            'user' => new rex_user($updateuser->setQuery('SELECT * FROM '.rex::getTable('user').' WHERE id = ?', [$user_id])),
+            'user' => rex_user::require($user_id),
         ], true));
 
         // trigger a fullpage-reload which immediately reflects a possible changed language
@@ -90,12 +89,16 @@ if ($update && !$error) {
 }
 
 if (rex_post('upd_psw_button', 'bool')) {
+    $passwordPolicy = rex_backend_password_policy::factory();
+
     if (!$csrfToken->isValid()) {
         $error = rex_i18n::msg('csrf_token_invalid');
     } elseif (!$userpsw || !$userpsw_new_1 || $userpsw_new_1 != $userpsw_new_2 || !rex_login::passwordVerify($userpsw, $user->getValue('password'))) {
         $error = rex_i18n::msg('user_psw_error');
-    } elseif (true !== $msg = rex_backend_password_policy::factory(rex::getProperty('password_policy', []))->check($userpsw_new_1, $user_id)) {
+    } elseif (true !== $msg = $passwordPolicy->check($userpsw_new_1, $user_id)) {
         $error = $msg;
+    } elseif ($passwordChangeRequired && $userpsw === $userpsw_new_1) {
+        $error = rex_i18n::msg('password_not_changed');
     } else {
         $userpsw_new_1 = rex_login::passwordHash($userpsw_new_1);
 
@@ -104,14 +107,24 @@ if (rex_post('upd_psw_button', 'bool')) {
         $updateuser->setWhere(['id' => $user_id]);
         $updateuser->setValue('password', $userpsw_new_1);
         $updateuser->addGlobalUpdateFields();
+        $updateuser->setValue('password_change_required', 0);
+        $updateuser->setDateTimeValue('password_changed', time());
+        $updateuser->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords($user, $userpsw_new_1));
 
         try {
             $updateuser->update();
+            rex_user::clearInstance($user_id);
+
             $success = rex_i18n::msg('user_psw_updated');
 
+            if ($passwordChangeRequired) {
+                $passwordChangeRequired = false;
+                rex::getProperty('login')->changedPassword();
+            }
+
             rex_extension::registerPoint(new rex_extension_point('PASSWORD_UPDATED', '', [
-                'user_id' => $id,
-                'user' => new rex_user($updateuser->setQuery('SELECT * FROM '.rex::getTable('user').' WHERE id = ?', [$user_id])),
+                'user_id' => $user_id,
+                'user' => rex_user::require($user_id),
                 'password' => $userpsw_new_2,
             ], true));
         } catch (rex_sql_exception $e) {
@@ -122,11 +135,15 @@ if (rex_post('upd_psw_button', 'bool')) {
 
 // ---------------------------------- ERR MSG
 
-if ($success != '') {
+if ($passwordChangeRequired) {
+    echo rex_view::warning(rex_i18n::msg('password_change_required'));
+}
+
+if ('' != $success) {
     echo rex_view::success($success);
 }
 
-if ($error != '') {
+if ('' != $error) {
     echo rex_view::error($error);
 }
 
@@ -151,17 +168,17 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-username">' . rex_i18n::msg('name') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-username" name="username" value="' . rex_escape($username, 'html_attr') . '" autofocus />';
+$n['field'] = '<input class="form-control" type="text" id="rex-id-username" name="username" value="' . rex_escape($username) . '" autofocus />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-userdesc">' . rex_i18n::msg('description') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-userdesc" name="userdesc" value="' . rex_escape($userdesc, 'html_attr') . '" />';
+$n['field'] = '<input class="form-control" type="text" id="rex-id-userdesc" name="userdesc" value="' . rex_escape($userdesc) . '" />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-useremail">' . rex_i18n::msg('email') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-useremail" name="useremail" value="' . rex_escape($useremail, 'html_attr') . '" />';
+$n['field'] = '<input class="form-control" type="text" id="rex-id-useremail" name="useremail" value="' . rex_escape($useremail) . '" />';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -169,17 +186,6 @@ $fragment->setVar('flush', true);
 $fragment->setVar('group', true);
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
-
-$formElements = [];
-$n = [];
-$n['label'] = '<label for="rex-id-minibar">' . rex_i18n::msg('user_minibar') . '</label>';
-$n['field'] = '<input type="checkbox" id="rex-id-minibar" name="minibar" value="1"' . ($userminibar == 1 ? ' checked="checked"' : ''). ' />';
-$n['note'] = rex_i18n::msg('user_minibar_note');
-$formElements[] = $n;
-
-$fragment = new rex_fragment();
-$fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/checkbox.php');
 
 $content .= '</fieldset>';
 

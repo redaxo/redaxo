@@ -41,7 +41,7 @@ class rex_command_assets_sync extends rex_console_command
             // sync 1st way, copies ...
             // - existing in FE but not "src"
             // - newer in FE then "src"
-            list($ctd, $upd, $err) = $this->sync($io, $assetsPublicPath, $assetsSrcPath);
+            [$ctd, $upd, $err] = $this->sync($io, $assetsPublicPath, $assetsSrcPath);
             $created += $ctd;
             $updated += $upd;
             $errored += $err;
@@ -49,18 +49,18 @@ class rex_command_assets_sync extends rex_console_command
             // sync 2nd way, copies ...
             // - existing in "src" but not FE
             // - newer in "src" then FE
-            list($ctd, $upd, $err) = $this->sync($io, $assetsSrcPath, $assetsPublicPath);
+            [$ctd, $upd, $err] = $this->sync($io, $assetsSrcPath, $assetsPublicPath);
             $created += $ctd;
             $updated += $upd;
             $errored += $err;
         }
 
-        list($ctd, $upd, $err) = $this->sync($io, rex_path::coreAssets(), rex_path::core('assets/'));
+        [$ctd, $upd, $err] = $this->sync($io, rex_path::coreAssets(), rex_path::core('assets/'));
         $created += $ctd;
         $updated += $upd;
         $errored += $err;
 
-        if ($errored === 0) {
+        if (0 === $errored) {
             $io->success(sprintf('Created %s and updated %s file(s).', $created, $updated));
             return 0;
         }
@@ -69,6 +69,11 @@ class rex_command_assets_sync extends rex_console_command
         return 1;
     }
 
+    /**
+     * @return int[]
+     *
+     * @psalm-return array{0: int, 1: int, 2: int}
+     */
     private function sync(SymfonyStyle $io, $folder1, $folder2)
     {
         $created = $updated = $errored = 0;
@@ -100,7 +105,7 @@ class rex_command_assets_sync extends rex_console_command
                 $hasError = true;
                 $io->text("<error>Not readable:</error> <comment>$f1FileShort</comment>");
             }
-            if (file_exists($f2File) && !is_writable($f2File)) {
+            if (is_file($f2File) && !is_writable($f2File)) {
                 ++$errored;
                 $hasError = true;
                 $io->text("<error>Not writable:</error> <comment>$f2FileShort</comment>");
@@ -110,7 +115,7 @@ class rex_command_assets_sync extends rex_console_command
                 continue;
             }
 
-            if (!file_exists($f2File)) {
+            if (!is_file($f2File)) {
                 rex_file::copy($f1File, $f2File);
                 ++$created;
                 if ($io->isVerbose()) {

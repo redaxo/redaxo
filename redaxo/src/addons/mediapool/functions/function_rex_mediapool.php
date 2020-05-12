@@ -17,15 +17,15 @@
 function rex_mediapool_filename($FILENAME, $doSubindexing = true)
 {
     // ----- neuer filename und extension holen
-    $NFILENAME = rex_string::normalize($FILENAME, '_', '.-');
+    $NFILENAME = rex_string::normalize($FILENAME, '_', '.-@');
 
     if ('.' === $NFILENAME[0]) {
         $NFILENAME[0] = '_';
     }
 
-    if (strrpos($NFILENAME, '.') != '') {
-        $NFILE_NAME = substr($NFILENAME, 0, strlen($NFILENAME) - (strlen($NFILENAME) - strrpos($NFILENAME, '.')));
-        $NFILE_EXT = substr($NFILENAME, strrpos($NFILENAME, '.'), strlen($NFILENAME) - strrpos($NFILENAME, '.'));
+    if ($pos = strrpos($NFILENAME, '.')) {
+        $NFILE_NAME = substr($NFILENAME, 0, strlen($NFILENAME) - (strlen($NFILENAME) - $pos));
+        $NFILE_EXT = substr($NFILENAME, $pos, strlen($NFILENAME) - $pos);
     } else {
         $NFILE_NAME = $NFILENAME;
         $NFILE_EXT = '';
@@ -43,12 +43,9 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
 
     if ($doSubindexing || $FILENAME != $NFILENAME) {
         // ----- datei schon vorhanden -> namen aendern -> _1 ..
-        if (file_exists(rex_path::media($NFILENAME))) {
-            $cnt = 1;
-            while (file_exists(rex_path::media($NFILE_NAME . '_' . $cnt . $NFILE_EXT))) {
-                ++$cnt;
-            }
-
+        $cnt = 0;
+        while (is_file(rex_path::media($NFILENAME)) || rex_media::get($NFILENAME)) {
+            ++$cnt;
             $NFILENAME = $NFILE_NAME . '_' . $cnt . $NFILE_EXT;
         }
     }
@@ -75,7 +72,7 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
 
     $gc = rex_sql::factory();
     $gc->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media_category WHERE id=' . $rex_file_category);
-    if ($gc->getRows() != 1) {
+    if (1 != $gc->getRows()) {
         $rex_file_category = 0;
     }
 
@@ -86,7 +83,6 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
 
     $FILENAME = $FILE['name'];
     $FILESIZE = $FILE['size'];
-    $FILETYPE = $FILE['type'];
     $NFILENAME = rex_mediapool_filename($FILENAME, $doSubindexing);
     $message = [];
 
@@ -96,11 +92,15 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
 
     $success = true;
     if ($isFileUpload) { // Fileupload?
+        $FILETYPE = rex_file::mimeType($FILE['tmp_name']);
+
         if (!@move_uploaded_file($FILE['tmp_name'], $dstFile)) {
             $message[] = rex_i18n::msg('pool_file_movefailed');
             $success = false;
         }
     } else { // Filesync?
+        $FILETYPE = rex_file::mimeType($srcFile);
+
         if (!@rename($srcFile, $dstFile)) {
             $message[] = rex_i18n::msg('pool_file_movefailed');
             $success = false;
@@ -113,7 +113,7 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
         // get widht height
         $size = @getimagesize($dstFile);
 
-        if ($FILETYPE == '' && isset($size['mime'])) {
+        if ('' == $FILETYPE && isset($size['mime'])) {
             $FILETYPE = $size['mime'];
         }
 
@@ -146,6 +146,7 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
         rex_media_cache::deleteList($rex_file_category);
     }
 
+    $RETURN = [];
     $RETURN['title'] = $FILEINFOS['title'];
     $RETURN['type'] = $FILETYPE;
     $RETURN['msg'] = implode('<br />', $message);
@@ -153,8 +154,9 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
     $RETURN['ok'] = $success ? 1 : 0;
     $RETURN['filename'] = $NFILENAME;
     $RETURN['old_filename'] = $FILENAME;
+    $RETURN['category_id'] = $rex_file_category;
 
-    if (isset($size)) {
+    if (isset($size) && $size) {
         $RETURN['width'] = $size[0];
         $RETURN['height'] = $size[1];
     }
@@ -190,9 +192,9 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
     $FILESQL->setValue('category_id', $FILEINFOS['rex_file_category']);
 
     $updated = false;
-    if ($FILE['name'] != '' && $FILE['name'] != 'none') {
+    if ('' != $FILE['name'] && 'none' != $FILE['name']) {
         $ffilename = $FILE['tmp_name'];
-        $ffiletype = $FILE['type'];
+        $ffiletype = rex_file::mimeType($FILE['tmp_name']);
         $ffilesize = $FILE['size'];
 
         $extensionNew = mb_strtolower(pathinfo($FILE['name'], PATHINFO_EXTENSION));
@@ -240,10 +242,11 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
         $RETURN['msg'] = rex_i18n::msg('pool_file_infos_updated');
         $RETURN['ok'] = 1;
     }
-    if ($RETURN['ok'] == 1) {
+    if (1 == $RETURN['ok']) {
         $RETURN['filename'] = $FILEINFOS['filename'];
         $RETURN['filetype'] = $FILEINFOS['filetype'];
         $RETURN['id'] = $FILEINFOS['file_id'];
+        $RETURN['category_id'] = $FILEINFOS['rex_file_category'];
     }
 
     $FILESQL->addGlobalUpdateFields($userlogin);
@@ -280,27 +283,22 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
  * @param null|string $filetype
  * @param null|string $userlogin
  *
- * @return bool|array
+ * @return array
  */
 function rex_mediapool_syncFile($physical_filename, $category_id, $title, $filesize = null, $filetype = null, $userlogin = null)
 {
     $abs_file = rex_path::media($physical_filename);
 
-    if (!file_exists($abs_file)) {
-        return false;
+    if (!is_file($abs_file)) {
+        throw new rex_exception(sprintf('File "%s" does not exist.', $abs_file));
     }
 
     if (empty($filesize)) {
         $filesize = filesize($abs_file);
     }
 
-    if (empty($filetype) && function_exists('mime_content_type')) {
-        $filetype = mime_content_type($abs_file);
-    }
-
-    if (empty($filetype) && function_exists('finfo_open')) {
-        $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
-        $filetype = finfo_file($finfo, $abs_file);
+    if (empty($filetype)) {
+        $filetype = rex_file::mimeType($abs_file);
     }
 
     $FILE = [];
@@ -323,7 +321,9 @@ function rex_mediapool_syncFile($physical_filename, $category_id, $title, $files
 /**
  * @param string $filename
  *
- * @return bool
+ * @return array
+ *
+ * @psalm-return array{ok: bool, msg: string}
  */
 function rex_mediapool_deleteMedia($filename)
 {
@@ -348,7 +348,7 @@ function rex_mediapool_deleteMedia($filename)
 }
 
 /**
- * @param $filename
+ * @param string $filename
  *
  * @return bool|string
  */
@@ -404,6 +404,8 @@ function rex_mediapool_mediaIsInUse($filename)
 
 /**
  * Ausgabe des Medienpool Formulars.
+ *
+ * @return string
  */
 function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category, $file_chooser, $close_form)
 {
@@ -430,7 +432,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
             if (count($warning) > 0) {
                 $s .= rex_view::error(implode('<br />', $warning));
             }
-        } elseif ($warning != '') {
+        } elseif ('' != $warning) {
             $s .= rex_view::error($warning);
         }
         $warning = '';
@@ -441,7 +443,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
             if (count($info) > 0) {
                 $s .= rex_view::success(implode('<br />', $info));
             }
-        } elseif ($info != '') {
+        } elseif ('' != $info) {
             $s .= rex_view::success($info);
         }
         $info = '';
@@ -453,17 +455,17 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
 
     $arg_fields = '';
     foreach (rex_request('args', 'array') as $arg_name => $arg_value) {
-        $arg_fields .= '<input type="hidden" name="args[' . rex_escape($arg_name, 'html_attr') . ']" value="' . rex_escape($arg_value, 'html_attr') . '" />' . "\n";
+        $arg_fields .= '<input type="hidden" name="args[' . rex_escape($arg_name) . ']" value="' . rex_escape($arg_value) . '" />' . "\n";
     }
 
     $opener_input_field = rex_request('opener_input_field', 'string');
-    if ($opener_input_field != '') {
-        $arg_fields .= '<input type="hidden" name="opener_input_field" value="' . rex_escape($opener_input_field, 'html_attr') . '" />' . "\n";
+    if ('' != $opener_input_field) {
+        $arg_fields .= '<input type="hidden" name="opener_input_field" value="' . rex_escape($opener_input_field) . '" />' . "\n";
     }
 
     $add_submit = '';
-    if ($close_form && $opener_input_field != '') {
-        $add_submit = '<button class="btn btn-save" type="submit" name="saveandexit" value="' . rex_i18n::msg('pool_file_upload_get') . '"' . rex::getAccesskey(rex_i18n::msg('pool_file_upload_get'), 'save') . '>' . rex_i18n::msg('pool_file_upload_get') . '</button>';
+    if ($close_form && '' != $opener_input_field) {
+        $add_submit = '<button class="btn btn-save" type="submit" name="saveandexit" value="' . rex_i18n::msg('pool_file_upload_get') . '"' . rex::getAccesskey(rex_i18n::msg('save_and_close_tooltip'), 'save') . '>' . rex_i18n::msg('pool_file_upload_get') . '</button>';
     }
 
     $panel = '';
@@ -477,7 +479,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
 
     $e = [];
     $e['label'] = '<label for="rex-mediapool-title">' . rex_i18n::msg('pool_file_title') . '</label>';
-    $e['field'] = '<input class="form-control" type="text" id="rex-mediapool-title" name="ftitle" value="' . rex_escape($ftitle, 'html_attr') . '" />';
+    $e['field'] = '<input class="form-control" type="text" id="rex-mediapool-title" name="ftitle" value="' . rex_escape($ftitle) . '" />';
     $formElements[] = $e;
 
     $fragment = new rex_fragment();
@@ -492,7 +494,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
         $e['field'] = '<input id="rex-mediapool-choose-file" type="file" name="file_new" />';
         $e['after'] = '<h3>' . rex_i18n::msg('phpini_settings') . '</h3>
                         <dl class="dl-horizontal text-left">
-                        ' . ((rex_ini_get('file_uploads') == 0) ? '<dt><span class="text-warning">' . rex_i18n::msg('pool_upload') . '</span></dt><dd><span class="text-warning">' . rex_i18n::msg('pool_upload_disabled') . '</span></dd>' : '') . '
+                        ' . ((0 == rex_ini_get('file_uploads')) ? '<dt><span class="text-warning">' . rex_i18n::msg('pool_upload') . '</span></dt><dd><span class="text-warning">' . rex_i18n::msg('pool_upload_disabled') . '</span></dd>' : '') . '
                             <dt>' . rex_i18n::msg('pool_max_uploadsize') . ':</dt><dd>' . rex_formatter::bytes(rex_ini_get('upload_max_filesize')) . '</dd>
                             <dt>' . rex_i18n::msg('pool_max_uploadtime') . ':</dt><dd>' . rex_ini_get('max_input_time') . 's</dd>
                         </dl>';
@@ -560,7 +562,6 @@ function rex_mediapool_Syncform($rex_file_category)
  * check if mediatpye(extension) is allowed for upload.
  *
  * @param string $filename
- * @param array  $args
  *
  * @return bool
  */
@@ -568,7 +569,7 @@ function rex_mediapool_isAllowedMediaType($filename, array $args = [])
 {
     $file_ext = mb_strtolower(rex_file::extension($filename));
 
-    if ($filename === '' || strpos($file_ext, ' ') !== false || $file_ext === '') {
+    if ('' === $filename || false !== strpos($file_ext, ' ') || '' === $file_ext) {
         return false;
     }
 
@@ -580,7 +581,7 @@ function rex_mediapool_isAllowedMediaType($filename, array $args = [])
     foreach ($blacklist as $blackExtension) {
         // blacklisted extensions are not allowed within filenames, to prevent double extension vulnerabilities:
         // -> some webspaces execute files named file.php.txt as php
-        if (strpos($filename, '.'. $blackExtension) !== false) {
+        if (false !== strpos($filename, '.'. $blackExtension)) {
             return false;
         }
     }
@@ -615,7 +616,7 @@ function rex_mediapool_isAllowedMimeType($path, $filename = null)
         return false;
     }
 
-    $mime_type = mime_content_type($path);
+    $mime_type = rex_file::mimeType($path);
 
     return in_array($mime_type, $whitelist[$extension]);
 }

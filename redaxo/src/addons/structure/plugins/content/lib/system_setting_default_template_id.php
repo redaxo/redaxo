@@ -34,13 +34,16 @@ class rex_system_setting_default_template_id extends rex_system_setting
         return $field;
     }
 
+    /**
+     * @return string|true
+     */
     public function setValue($value)
     {
         $value = (int) $value;
 
         $sql = rex_sql::factory();
         $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'template WHERE id=? AND active=1', [$value]);
-        if ($sql->getRows() != 1 && $value != 0) {
+        if (1 != $sql->getRows() && 0 != $value) {
             return rex_i18n::msg('system_setting_default_template_id_invalid');
         }
 

@@ -4,27 +4,8 @@
  * @package redaxo5
  */
 
-$PREPOST[0] = 'PRE';
-$PREPOST[1] = 'POST';
-$ASTATUS[0] = 'ADD';
-$ASTATUS[1] = 'EDIT';
-$ASTATUS[2] = 'DELETE';
-
-class rex_event_select extends rex_select
-{
-    public function __construct($options)
-    {
-        parent::__construct();
-
-        $this->setMultiple(1);
-
-        foreach ($options as $key => $value) {
-            $this->addOption($value, $key);
-        }
-
-        $this->setSize(count($options));
-    }
-}
+$PREPOST = ['PRE', 'POST'];
+$ASTATUS = ['ADD', 'EDIT', 'DELETE'];
 
 $OUT = true;
 
@@ -41,9 +22,9 @@ $message = '';
 
 $csrfToken = rex_csrf_token::factory('structure_content_module_action');
 
-if ($function == 'delete' && !$csrfToken->isValid()) {
+if ('delete' == $function && !$csrfToken->isValid()) {
     $error = rex_i18n::msg('csrf_token_invalid');
-} elseif ($function == 'delete') {
+} elseif ('delete' == $function) {
     $del = rex_sql::factory();
     //  $del->setDebug();
     $qry = 'SELECT
@@ -67,7 +48,7 @@ if ($function == 'delete' && !$csrfToken->isValid()) {
             $del->next();
         }
 
-        if ($action_in_use_msg != '') {
+        if ('' != $action_in_use_msg) {
             $action_in_use_msg = '<ul>' . $action_in_use_msg . '</ul>';
         }
 
@@ -78,7 +59,7 @@ if ($function == 'delete' && !$csrfToken->isValid()) {
     }
 }
 
-if ($function == 'add' || $function == 'edit') {
+if ('add' == $function || 'edit' == $function) {
     $name = rex_post('name', 'string');
     $previewaction = rex_post('previewaction', 'string');
     $presaveaction = rex_post('presaveaction', 'string');
@@ -88,10 +69,10 @@ if ($function == 'add' || $function == 'edit') {
     $presavestatus = 255;
     $postsavestatus = 255;
 
-    if ($save == '1' && !$csrfToken->isValid()) {
+    if ('1' == $save && !$csrfToken->isValid()) {
         $error = rex_i18n::msg('csrf_token_invalid');
         $save = '0';
-    } elseif ($save == '1') {
+    } elseif ('1' == $save) {
         $faction = rex_sql::factory();
 
         $previewstatus = rex_post('previewstatus', 'array');
@@ -123,7 +104,7 @@ if ($function == 'add' || $function == 'edit') {
         $faction->setValue('postsavemode', $postsavemode);
 
         try {
-            if ($function == 'add') {
+            if ('add' == $function) {
                 $faction->addGlobalCreateFields();
 
                 $faction->insert();
@@ -139,15 +120,15 @@ if ($function == 'add' || $function == 'edit') {
             $error = $e->getMessage();
         }
 
-        if (isset($goon) && $goon != '') {
+        if (isset($goon) && '' != $goon) {
             $save = '0';
         } else {
             $function = '';
         }
     }
 
-    if ($save != '1') {
-        if ($function == 'edit') {
+    if ('1' != $save) {
+        if ('edit' == $function) {
             $legend = rex_i18n::msg('action_edit') . ' <small class="rex-primary-id">' . rex_i18n::msg('id') . '=' . $action_id . '</small>';
 
             $action = rex_sql::factory();
@@ -171,7 +152,7 @@ if ($function == 'add' || $function == 'edit') {
             2 => $ASTATUS[1] . ' - ' . rex_i18n::msg('action_event_edit'),
         ];
 
-        $sel_preview_status = new rex_event_select($options, false);
+        $sel_preview_status = new rex_event_select($options);
         $sel_preview_status->setName('previewstatus[]');
         $sel_preview_status->setId('previewstatus');
         $sel_preview_status->setStyle('class="form-control"');
@@ -192,21 +173,21 @@ if ($function == 'add' || $function == 'edit') {
         $sel_postsave_status->setId('postsavestatus');
         $sel_postsave_status->setStyle('class="form-control"');
 
-        $allPreviewChecked = $previewstatus == 3 ? ' checked="checked"' : '';
+        $allPreviewChecked = 3 == $previewstatus ? ' checked="checked"' : '';
         foreach ([1, 2, 4] as $var) {
             if (($previewstatus & $var) == $var) {
                 $sel_preview_status->setSelected($var);
             }
         }
 
-        $allPresaveChecked = $presavestatus == 7 ? ' checked="checked"' : '';
+        $allPresaveChecked = 7 == $presavestatus ? ' checked="checked"' : '';
         foreach ([1, 2, 4] as $var) {
             if (($presavestatus & $var) == $var) {
                 $sel_presave_status->setSelected($var);
             }
         }
 
-        $allPostsaveChecked = $postsavestatus == 7 ? ' checked="checked"' : '';
+        $allPostsaveChecked = 7 == $postsavestatus ? ' checked="checked"' : '';
         foreach ([1, 2, 4] as $var) {
             if (($postsavestatus & $var) == $var) {
                 $sel_postsave_status->setSelected($var);
@@ -214,15 +195,15 @@ if ($function == 'add' || $function == 'edit') {
         }
 
         $btn_update = '';
-        if ($function != 'add') {
-            $btn_update = '<button class="btn btn-apply" type="submit" name="goon" value="1"' . rex::getAccesskey(rex_i18n::msg('save_action_and_continue'), 'apply') . '>' . rex_i18n::msg('save_action_and_continue') . '</button>';
+        if ('add' != $function) {
+            $btn_update = '<button class="btn btn-apply" type="submit" name="goon" value="1"' . rex::getAccesskey(rex_i18n::msg('save_and_goon_tooltip'), 'apply') . '>' . rex_i18n::msg('save_action_and_continue') . '</button>';
         }
 
-        if ($success != '') {
+        if ('' != $success) {
             $message .= rex_view::success($success);
         }
 
-        if ($error != '') {
+        if ('' != $error) {
             $message .= rex_view::error($error);
         }
 
@@ -236,7 +217,8 @@ if ($function == 'add' || $function == 'edit') {
 
         $n = [];
         $n['label'] = '<label for="name">' . rex_i18n::msg('action_name') . '</label>';
-        $n['field'] = '<input class="form-control" type="text" id="name" name="name" value="' . rex_escape($name, 'html_attr') . '" />';
+        $n['field'] = '<input class="form-control" type="text" id="name" name="name" value="' . rex_escape($name) . '" />';
+        $n['note'] = rex_i18n::msg('translatable');
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -380,10 +362,10 @@ if ($function == 'add' || $function == 'edit') {
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit"' . rex::getAccesskey(rex_i18n::msg('save_action_and_quit'), 'save') . '>' . rex_i18n::msg('save_action_and_quit') . '</button>';
+        $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit"' . rex::getAccesskey(rex_i18n::msg('save_and_close_tooltip'), 'save') . '>' . rex_i18n::msg('save_action_and_quit') . '</button>';
         $formElements[] = $n;
 
-        if ($btn_update != '') {
+        if ('' != $btn_update) {
             $n = [];
             $n['field'] = $btn_update;
             $formElements[] = $n;
@@ -433,11 +415,11 @@ if ($function == 'add' || $function == 'edit') {
 }
 
 if ($OUT) {
-    if ($success != '') {
+    if ('' != $success) {
         $message .= rex_view::success($success);
     }
 
-    if ($error != '') {
+    if ('' != $error) {
         $message .= rex_view::error($error);
     }
 
@@ -489,7 +471,7 @@ if ($OUT) {
 
             $content .= '
                         <tr>
-                            <td class="rex-table-icon"><a href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'edit']) . '" title="' . rex_escape($sql->getValue('name'), 'html_attr') . '"><i class="rex-icon rex-icon-action"></i></a></td>
+                            <td class="rex-table-icon"><a href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'edit']) . '" title="' . rex_escape($sql->getValue('name')) . '"><i class="rex-icon rex-icon-action"></i></a></td>
                             <td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">' . $sql->getValue('id') . '</td>
                             <td data-title="' . rex_i18n::msg('action_name') . '"><a href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'edit']) . '">' . rex_escape($sql->getValue('name')) . '</a></td>
                             <td data-title="' . rex_i18n::msg('action_header_preview') . '">' . implode('/', $previewmode) . '</td>

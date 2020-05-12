@@ -14,9 +14,9 @@
  *
  * @internal
  */
-
 class rex_backup_tar extends tar
 {
+    /** @var string[] */
     private $messages = [];
 
     // constructor to omit warnings
@@ -25,7 +25,13 @@ class rex_backup_tar extends tar
         parent::__construct();
     }
 
-    // Open a TAR file
+    /**
+     * Open a TAR file.
+     *
+     * @param string $filename
+     *
+     * @return bool
+     */
     public function openTAR($filename)
     {
         // call constructor to omit warnings instead of unset vars..
@@ -38,7 +44,7 @@ class rex_backup_tar extends tar
         unset($this->directories);
 
         // If the tar file doesn't exist...
-        if (!file_exists($filename)) {
+        if (!is_file($filename)) {
             return false;
         }
 
@@ -50,11 +56,17 @@ class rex_backup_tar extends tar
         return true;
     }
 
-    // Add a file to the tar archive
+    /**
+     * Add a file to the tar archive.
+     *
+     * @param string $filename
+     *
+     * @return bool
+     */
     public function addFile($filename)
     {
         // Make sure the file we are adding exists!
-        if (!file_exists($filename)) {
+        if (!is_file($filename)) {
             return false;
         }
 
@@ -91,10 +103,16 @@ class rex_backup_tar extends tar
         return true;
     }
 
-    // Add a directory to this tar archive
+    /**
+     * Add a directory to this tar archive.
+     *
+     * @param string $dirname
+     *
+     * @return bool
+     */
     public function addDirectory($dirname)
     {
-        if (!file_exists($dirname)) {
+        if (!is_dir($dirname)) {
             return false;
         }
 
@@ -106,7 +124,7 @@ class rex_backup_tar extends tar
         $activeDir = &$this->directories[];
         $activeDir['name'] = $dirname;
         $activeDir['mode'] = $file_information['mode'];
-        $activeDir['time'] = $file_information['time'];
+        $activeDir['time'] = $file_information['mtime'];
         $activeDir['user_id'] = $file_information['uid'];
         $activeDir['group_id'] = $file_information['gid'];
         // STM: Warnung gefixed
@@ -115,8 +133,13 @@ class rex_backup_tar extends tar
         return true;
     }
 
-    // Read a non gzipped tar file in for processing
-    // PRIVATE ACCESS FUNCTION
+    /**
+     * Read a non gzipped tar file in for processing.
+     *
+     * @param string $filename
+     *
+     * @return bool
+     */
     protected function __readTar($filename = '')
     {
         // Set the filename to load
@@ -147,7 +170,14 @@ class rex_backup_tar extends tar
         return true;
     }
 
-    // Saves tar archive to a different file than the current file
+    /**
+     * Saves tar archive to a different file than the current file.
+     *
+     * @param string $filename
+     * @param bool   $useGzip
+     *
+     * @return bool|string
+     */
     public function toTar($filename, $useGzip)
     {
         // Encode processed files into TAR file format
@@ -176,7 +206,7 @@ class rex_backup_tar extends tar
         }
 
         // STM: hier mit put_file_contents ist viel schneller
-        return rex_file::put($filename, $file) !== false;
+        return false !== rex_file::put($filename, $file);
     }
 
     // Generates a TAR file from the processed data
@@ -264,7 +294,7 @@ class rex_backup_tar extends tar
                 $header[155] = chr(32);
 
                 // Pad file contents to byte count divisible by 512
-                $file_contents = str_pad($information['file'], (ceil($information['size'] / 512) * 512), chr(0));
+                $file_contents = str_pad($information['file'], (int) ceil($information['size'] / 512) * 512, chr(0));
 
                 // Add new tar formatted data to tar file contents
                 $this->tar_file .= $header . $file_contents;
@@ -277,6 +307,9 @@ class rex_backup_tar extends tar
         return true;
     }
 
+    /**
+     * @return bool
+     */
     public function extractTar()
     {
         // kills: Warnung verhindern
@@ -284,10 +317,10 @@ class rex_backup_tar extends tar
             foreach ($this->files as $item) {
                 // jan: wenn probleme mit der ordnergenerierung -> ordner manuell einstellen
 
-                if (!file_exists(dirname($item['name']))) {
+                if (!is_file(dirname($item['name']))) {
                     rex_dir::create(dirname($item['name']));
                 }
-                if ($h = @fopen($item['name'], 'w+b')) {
+                if ($h = @fopen($item['name'], 'w+')) {
                     fwrite($h, $item['file'], $item['size']);
                     fclose($h);
                 } else {
@@ -302,6 +335,9 @@ class rex_backup_tar extends tar
         return true;
     }
 
+    /**
+     * @return string[]
+     */
     public function getMessages()
     {
         return $this->messages;

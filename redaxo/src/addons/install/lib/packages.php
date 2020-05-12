@@ -7,10 +7,24 @@
  */
 class rex_install_packages
 {
+    /**
+     * @var array|null
+     */
     private static $updatePackages;
+    /**
+     * @var array|null
+     */
     private static $addPackages;
+    /**
+     * @var array|null
+     */
     private static $myPackages;
 
+    /**
+     * @throws rex_functional_exception
+     *
+     * @return array
+     */
     public static function getUpdatePackages()
     {
         if (is_array(self::$updatePackages)) {
@@ -31,11 +45,18 @@ class rex_install_packages
 
     public static function updatedPackage($package, $fileId)
     {
-        self::unsetOlderVersions($package, self::$updatePackages[$package]['files'][$fileId]['version']);
+        $updatePackages = self::getUpdatePackages();
+
+        if (!isset($updatePackages[$package]['files'][$fileId]['version'])) {
+            throw new RuntimeException(sprintf('List of updatable packages does not contain package "%s", or the package does not contain file "%s"', $package, $fileId));
+        }
+
+        self::unsetOlderVersions($package, $updatePackages[$package]['files'][$fileId]['version']);
     }
 
     private static function unsetOlderVersions($package, $version)
     {
+        assert(isset(self::$updatePackages[$package]['files']));
         foreach (self::$updatePackages[$package]['files'] as $fileId => $file) {
             if (empty($version) || empty($file['version']) || rex_string::versionCompare($file['version'], $version, '<=')) {
                 unset(self::$updatePackages[$package]['files'][$fileId]);
@@ -46,6 +67,13 @@ class rex_install_packages
         }
     }
 
+    /**
+     * Returns _all_ packages available on redaxo.org, including those already installed etc.
+     *
+     * @throws rex_functional_exception
+     *
+     * @return array
+     */
     public static function getAddPackages()
     {
         if (is_array(self::$addPackages)) {
@@ -61,6 +89,13 @@ class rex_install_packages
         self::$myPackages = null;
     }
 
+    /**
+     * Returns all packages owned by the current user.
+     *
+     * @throws rex_functional_exception
+     *
+     * @return array
+     */
     public static function getMyPackages()
     {
         if (is_array(self::$myPackages)) {
@@ -76,16 +111,31 @@ class rex_install_packages
         return self::$myPackages;
     }
 
+    /**
+     * @param string $path
+     *
+     * @return string
+     */
     public static function getPath($path = '')
     {
         return 'packages/' . $path;
     }
 
+    /**
+     * @param string $path
+     *
+     * @throws rex_functional_exception
+     *
+     * @return array
+     */
     private static function getPackages($path = '')
     {
         return rex_install_webservice::getJson(self::getPath($path));
     }
 
+    /**
+     * Deletes all locally cached packages.
+     */
     public static function deleteCache()
     {
         self::$updatePackages = null;

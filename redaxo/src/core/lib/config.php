@@ -18,6 +18,13 @@ class rex_config
     private static $initialized = false;
 
     /**
+     * path to the cache file.
+     *
+     * @var string
+     */
+    private static $cacheFile;
+
+    /**
      * Flag which indicates if database needs an update, because settings have changed.
      *
      * @var bool
@@ -27,21 +34,21 @@ class rex_config
     /**
      * data read from database.
      *
-     * @var array
+     * @var array<string, array<string, mixed>>
      */
     private static $data = [];
 
     /**
      * data which is modified during this request.
      *
-     * @var array
+     * @var array<string, array<string, mixed>>
      */
     private static $changedData = [];
 
     /**
      * data which was deleted during this request.
      *
-     * @var array
+     * @var array<string, array<string, true>>
      */
     private static $deletedData = [];
 
@@ -105,13 +112,18 @@ class rex_config
      *
      * If no value can be found for the given key/namespace combination $default is returned.
      *
-     * @param string $namespace The namespace e.g. an addon name
-     * @param string $key       The associated key
-     * @param mixed  $default   Default return value if no associated-value can be found
+     * @param string      $namespace The namespace e.g. an addon name
+     * @param string|null $key       The associated key
+     * @param mixed       $default   Default return value if no associated-value can be found
      *
      * @throws InvalidArgumentException
      *
      * @return mixed the value for $key or $default if $key cannot be found in the given $namespace
+     *
+     * @template T as ?string
+     * @phpstan-template T
+     * @psalm-param T $key
+     * @psalm-return (T is string ? mixed|null : array<string, mixed>)
      */
     public static function get($namespace, $key = null, $default = null)
     {
@@ -121,7 +133,7 @@ class rex_config
             throw new InvalidArgumentException('rex_config: expecting $namespace to be a string, ' . gettype($namespace) . ' given!');
         }
 
-        if ($key === null) {
+        if (null === $key) {
             return isset(self::$data[$namespace]) ? self::$data[$namespace] : [];
         }
 
@@ -138,8 +150,8 @@ class rex_config
     /**
      * Returns if the given key is set.
      *
-     * @param string $namespace The namespace e.g. an addon name
-     * @param string $key       The associated key
+     * @param string      $namespace The namespace e.g. an addon name
+     * @param string|null $key       The associated key
      *
      * @throws InvalidArgumentException
      *
@@ -153,7 +165,7 @@ class rex_config
             throw new InvalidArgumentException('rex_config: expecting $namespace to be a string, ' . gettype($namespace) . ' given!');
         }
 
-        if ($key === null) {
+        if (null === $key) {
             return isset(self::$data[$namespace]);
         }
 
@@ -191,6 +203,9 @@ class rex_config
 
             // since it will be deleted, do not longer mark as changed
             unset(self::$changedData[$namespace][$key]);
+            if (empty(self::$changedData[$namespace])) {
+                unset(self::$changedData[$namespace]);
+            }
 
             // delete the data from the container
             unset(self::$data[$namespace][$key]);
@@ -261,14 +276,14 @@ class rex_config
             return;
         }
 
-        define('REX_CONFIG_FILE_CACHE', rex_path::coreCache('config.cache'));
+        self::$cacheFile = rex_path::coreCache('config.cache');
 
         // take care, so we are able to write a cache file on shutdown
         // (check here, since exceptions in shutdown functions are not visible to the user)
-        $dir = dirname(REX_CONFIG_FILE_CACHE);
+        $dir = dirname(self::$cacheFile);
         rex_dir::create($dir);
         if (!is_writable($dir)) {
-            throw new rex_exception('rex-config: cache dir "' . dirname(REX_CONFIG_FILE_CACHE) . '" is not writable!');
+            throw new rex_exception('rex-config: cache dir "' . dirname(self::$cacheFile) . '" is not writable!');
         }
 
         // save cache on shutdown
@@ -300,8 +315,8 @@ class rex_config
     private static function loadFromFile()
     {
         // delete cache-file, will be regenerated on next request
-        if (file_exists(REX_CONFIG_FILE_CACHE)) {
-            self::$data = rex_file::getCache(REX_CONFIG_FILE_CACHE);
+        if (is_file(self::$cacheFile)) {
+            self::$data = rex_file::getCache(self::$cacheFile);
             return true;
         }
         return false;
@@ -326,8 +341,8 @@ class rex_config
      */
     private static function generateCache()
     {
-        if (rex_file::putCache(REX_CONFIG_FILE_CACHE, self::$data) <= 0) {
-            throw new rex_exception('rex-config: unable to write cache file ' . REX_CONFIG_FILE_CACHE);
+        if (rex_file::putCache(self::$cacheFile, self::$data) <= 0) {
+            throw new rex_exception('rex-config: unable to write cache file ' . self::$cacheFile);
         }
     }
 
@@ -347,7 +362,7 @@ class rex_config
         }
 
         // delete cache-file; will be regenerated on next request
-        rex_file::delete(REX_CONFIG_FILE_CACHE);
+        rex_file::delete(self::$cacheFile);
 
         // save all data to the db
         self::saveToDb();
@@ -371,12 +386,16 @@ class rex_config
             $where = [];
             $params = [];
             foreach (self::$deletedData as $namespace => $nsData) {
+                if (0 === count($nsData)) {
+                    continue;
+                }
                 $params = array_merge($params, [$namespace], array_keys($nsData));
                 $where[] = 'namespace = ? AND `key` IN ('.implode(', ', array_fill(0, count($nsData), '?')).')';
             }
-
-            $sql->setWhere(implode("\n    OR ", $where), $params);
-            $sql->delete();
+            if (count($where) > 0) {
+                $sql->setWhere(implode("\n    OR ", $where), $params);
+                $sql->delete();
+            }
         }
 
         // update all changed data
@@ -385,7 +404,7 @@ class rex_config
 
             foreach (self::$changedData as $namespace => $nsData) {
                 foreach ($nsData as $key => $value) {
-                    $sql->addRecord(function (rex_sql $record) use ($namespace, $key, $value) {
+                    $sql->addRecord(static function (rex_sql $record) use ($namespace, $key, $value) {
                         $record->setValue('namespace', $namespace);
                         $record->setValue('key', $key);
                         $record->setValue('value', json_encode($value));

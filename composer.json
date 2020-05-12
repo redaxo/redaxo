@@ -1,0 +1,93 @@
+{
+    "name": "redaxo/source",
+    "type": "library",
+    "description": "REDAXO CMS source repository (for static analysis)",
+    "license": "MIT",
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "friendsofredaxo/linter": "^1.2",
+        "phpstan/phpstan": "^0.12.11",
+        "psalm/plugin-symfony": "^1.2.1",
+        "vimeo/psalm": "^3.10.1"
+    },
+    "replace": {
+        "erusev/parsedown": "1.7.4",
+        "erusev/parsedown-extra": "0.8.1",
+        "filp/whoops": "2.7.1",
+        "itsgoingd/clockwork": "v4.1.2",
+        "phpmailer/phpmailer": "v6.1.5",
+        "psr/container": "1.0.0",
+        "psr/http-message": "1.0.1",
+        "psr/log": "1.1.3",
+        "ramsey/collection": "0.3.0",
+        "ramsey/http-range": "dev-legacy",
+        "scssphp/scssphp": "1.1.0",
+        "symfony/console": "v4.4.8",
+        "symfony/polyfill-ctype": "v1.15.0",
+        "symfony/polyfill-intl-grapheme": "v1.15.0",
+        "symfony/polyfill-intl-normalizer": "v1.15.0",
+        "symfony/polyfill-mbstring": "v1.15.0",
+        "symfony/polyfill-php72": "v1.15.0",
+        "symfony/polyfill-php73": "v1.15.0",
+        "symfony/service-contracts": "v1.1.8",
+        "symfony/var-dumper": "v4.4.8",
+        "symfony/yaml": "v4.4.8",
+        "voku/anti-xss": "4.1.24",
+        "voku/portable-ascii": "1.4.10",
+        "voku/portable-utf8": "5.4.41"
+    },
+    "autoload": {
+        "classmap": [
+            "redaxo/src/addons/backup/lib/",
+            "redaxo/src/addons/backup/vendor/",
+            "redaxo/src/addons/be_style/lib/",
+            "redaxo/src/addons/be_style/vendor/scssphp/",
+            "redaxo/src/addons/cronjob/lib/",
+            "redaxo/src/addons/cronjob/plugins/article_status/lib/",
+            "redaxo/src/addons/cronjob/plugins/optimize_tables/lib/",
+            "redaxo/src/addons/debug/lib/",
+            "redaxo/src/addons/debug/vendor/",
+            "redaxo/src/addons/install/lib/",
+            "redaxo/src/addons/media_manager/lib/",
+            "redaxo/src/addons/mediapool/lib/",
+            "redaxo/src/addons/metainfo/lib/",
+            "redaxo/src/addons/phpmailer/lib/",
+            "redaxo/src/addons/phpmailer/vendor/",
+            "redaxo/src/addons/structure/lib/",
+            "redaxo/src/addons/structure/plugins/content/lib/",
+            "redaxo/src/addons/structure/plugins/history/lib/",
+            "redaxo/src/addons/structure/plugins/version/lib/",
+            "redaxo/src/addons/users/lib/",
+            "redaxo/src/core/lib/"
+        ],
+        "files": [
+            "redaxo/src/addons/mediapool/functions/function_rex_mediapool.php",
+            "redaxo/src/addons/metainfo/extensions/extension_cleanup.php",
+            "redaxo/src/addons/metainfo/functions/function_metainfo.php",
+            "redaxo/src/addons/structure/functions/function_rex_url.php",
+            "redaxo/src/core/functions/function_rex_escape.php",
+            "redaxo/src/core/functions/function_rex_globals.php",
+            "redaxo/src/core/functions/function_rex_other.php",
+            "redaxo/src/core/vendor/autoload.php",
+            ".tools/constants.php"
+        ]
+    },
+    "autoload-dev": {
+        "classmap": [
+            "redaxo/src/addons/media_manager/tests/",
+            "redaxo/src/addons/mediapool/tests/",
+            "redaxo/src/addons/structure/tests/",
+            "redaxo/src/addons/structure/plugins/content/tests/",
+            "redaxo/src/addons/tests/lib/",
+            "redaxo/src/addons/tests/vendor/",
+            "redaxo/src/core/tests/"
+        ]
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true,
+        "platform": {
+            "php": "7.1.3"
+        }
+    }
+}

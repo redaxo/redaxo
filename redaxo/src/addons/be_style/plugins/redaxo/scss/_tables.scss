@@ -13,19 +13,47 @@
     .table th.rex-table-icon,
     .table td.rex-table-icon  {
         width: $helper-factor-spacing;
+        min-width: $helper-factor-spacing;
         text-align: center;
     }
     .table th.rex-table-id,
     .table td.rex-table-id,
+    .table th.rex-table-number,
+    .table td.rex-table-number,
     .table th.rex-table-priority,
     .table td.rex-table-priority {
-        width: 60px;
-        text-align: center;
+        // common number based cells
+        // shrink, align right and use tabular-nums
+        width: 1%;
+        min-width: 50px;
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
     }
-    .table th.rex-table-number,
-    .table td.rex-table-number {
-        width: 100px;
-        text-align: center;
+    .table th.rex-table-category,
+    .table td.rex-table-category,
+    .table th.rex-table-article-name,
+    .table td.rex-table-article-name {
+        width: 100%; // stretch these main columns
+    }
+    .table th.rex-table-template,
+    .table td.rex-table-template {
+        min-width: 150px;
+    }
+    .table th.rex-table-date,
+    .table td.rex-table-date {
+        white-space: nowrap;
+    }
+    .table th.rex-table-priority,
+    .table td.rex-table-priority {
+        min-width: 80px; // allow for 4 digit input field in edit mode
+    }
+    // additional helper class for tabular-nums style
+    // can be used in addons or custom tables
+    .table th.rex-table-tabular-nums,
+    .table td.rex-table-tabular-nums {
+        text-align: right;
+        font-variant-numeric: tabular-nums;
     }
     .table th.rex-table-slimmer,
     .table td.rex-table-slimmer {
@@ -42,7 +70,8 @@
         width: 1px;
     }
     .table th.rex-table-action > *,
-    .table td.rex-table-action > * {
+    .table td.rex-table-action > *,
+    #rex-page-structure .rex-table-action {
         white-space: nowrap;
     }
 }

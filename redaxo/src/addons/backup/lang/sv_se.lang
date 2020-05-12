@@ -4,7 +4,7 @@ backup_file_deleted = Filen raderades
 backup_file_error_while_delete = Filen kunde inte raderas
 backup_no_import_file_chosen_or_wrong_version = Ingen importfil valdes ut eller fel version
 backup_no_valid_import_file = Ingen korrekt importfil
-backup_no_valid_charset = Ingen matchande teckenuppsättningen.
+backup_utf8mb4_not_supported = Säkerhetskopian använder <code> utf8mb4 </code> som en charset, som inte stöds av databasen (<b> {0} </b>) (åtminstone MySQL 5.7.7 eller MariaDB 10.2 krävs).
 backup_database_imported = Datenbasimport lyckades
 backup_entry_count = ({0} Inlägg)
 backup_file_could_not_be_uploaded = Filen kunde inte laddas upp.
@@ -30,8 +30,8 @@ backup_filesize = Filstorlek
 backup_delete = radera
 backup_files = Filimport
 backup_intro_export = Här kan du spara dina befintliga inlägg och filer från Redaxo. För att få en fullständig säkerhetskopia måste du exportera <b>databasen OCH filerna</b>. Om du vill återanvända säkerhetskopian kan det vara bra att spara denna direkt på servern för att kunna importera den vid behov.
-backup_database_export = Datenbasexport
-backup_file_export = Filexport
+backup_database_export = Skapa databas-backup
+backup_file_export = Skapa fil-backup
 backup_save_on_server = spara på servern
 backup_download_as_file = ladda ner som fil
 backup_createdate = Skapat den
@@ -46,8 +46,8 @@ backup_file_generated_in = Data sparades i
 backup_proceed_db_import = Befintliga filer (artiklar, mallar, moduler, ...) går förlorade. Fortsätta ändå?
 backup_proceed_file_import = Befintliga filer kommer att raderas. Vill du fortsätta?
 
-backup_export_db_caption = Datenbaskexporter
-backup_export_file_caption = Filexporter
+backup_export_db_caption = Återskapa databasbackup
+backup_export_file_caption = Återskapa filbackup
 
 backup_function = Funktion
 
@@ -63,6 +63,9 @@ backup_delete_interval_weekly = Spara en säkerhetskopia per vecka
 backup_delete_interval_monthly = Spara en säkerhetskopia per månad
 backup_delete_interval_notice = Endast säkerhetskopior som är äldre än en månad och deras filnamn slutar på <code> .cronjob.sql </ code>raderas.
 
+backup_blacklist_tables = Uteslut från säkerhetskopiering
+backup_blacklist_tables_notice = Om utvald kommer de här tabellerna inte att sparas.  Tabeller med prefixet <code> rex_tmp_ * </code> utesluts automatiskt.
+
 perm_general_backup[export] = Exportera webbsajten
 
 backup_export_select = Exportvariant
@@ -75,3 +78,8 @@ backup_file = Fil
 backup_note = Notis
 backup_upload = Upload
 backup_load_from_server = Ladda ner från servern
+
+backup_warning = Varning
+backup_upload_disabled = Uppladdningar inte tillåtna
+backup_max_uploadsize = Max. uppladdningsstorlek
+backup_max_uploadtime = Max uppladdningstid

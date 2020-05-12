@@ -209,6 +209,19 @@ class rex_path
 
     /**
      * Returns the path to the cache folder.
+     */
+    public static function log(string $file = ''): string
+    {
+        // BC
+        if (!method_exists(self::$pathprovider, 'log')) {
+            return self::data('log/'.$file);
+        }
+
+        return self::$pathprovider->log($file);
+    }
+
+    /**
+     * Returns the path to the cache folder.
      *
      * @param string $file File
      *
@@ -324,12 +337,12 @@ class rex_path
         $relPath = str_replace('\\', '/', $relPath);
         foreach (explode('/', $relPath) as $dir) {
             // Aktuelles Verzeichnis, oder Ordner ohne Namen
-            if ($dir == '.' || $dir == '') {
+            if ('.' == $dir || '' == $dir) {
                 continue;
             }
 
             // Zum Parent
-            if ($dir == '..') {
+            if ('..' == $dir) {
                 array_pop($stack);
             }
             // Normaler Ordner

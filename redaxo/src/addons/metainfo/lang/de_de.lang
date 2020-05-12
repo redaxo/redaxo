@@ -24,6 +24,8 @@ minfo_field_label_params = Parameter
 minfo_field_label_priority = Feldposition
 minfo_field_label_restrictions = Nur in folgenden Kategorien verfügbar
 minfo_field_label_no_restrictions = In allen Kategorien verfügbar
+minfo_field_label_all_templates = Für alle Templates verfügbar
+minfo_field_label_templates = Nur für folgende Templates verfügbar
 
 minfo_field_notice_title = Prefix "translate:" übersetzt den Wert via I18N
 
@@ -37,6 +39,8 @@ minfo_field_params_notice_6 = Beispiel:<br /> <code>category="1" types="gif,jpg"
 minfo_field_params_notice_7 = Beispiel:<br /> <code>category="1" types="gif,jpg" preview="1"</code>
 minfo_field_params_notice_8 = Beispiel:<br /> <code>category="1"</code>
 minfo_field_params_notice_9 = Beispiel:<br /> <code>category="1"</code>
+minfo_field_params_notice_10 = Beispiel:<br /> <code>start-year="1990" end-year="2030"</code>
+minfo_field_params_notice_11 = Beispiel:<br /> <code>start-year="1990" end-year="2030"</code>
 
 minfo_field_attributes_notice = Beispiel:<br /><code>style="color:red;" multiple="multiple" class="my_css_class" perm="admin[]"</code>
 minfo_field_label_notice = Code der ausgeführt wird, wenn der Wert des Feldes geändert wird.<br /> Lesbare Variablen: <code>string $fieldName, string $fieldValue, rex_sql $field</code>
@@ -79,5 +83,3 @@ teaser = Teaser
 pool_file_copyright = Copyright
 
 metadata = Metadaten
-metainfo_minibar_article_title = Metadaten des aktuellen Artikels
-metainfo_minibar_clang_title = Metadaten der aktuellen Sprache

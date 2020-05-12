@@ -1,4 +1,5 @@
-.rex-docs {
+.rex-docs,
+.rex-readme .rex-readme-content {
     h1 {
         font-size: $font-size-h1;
     }
@@ -29,7 +30,6 @@
     li > ul {
         font-size: $font-size-base;
         font-weight: 400;
-        list-style: none;
     }
     p {
         margin: 10px 0 20px;
@@ -107,7 +107,7 @@
         line-height: 2.0;
         text-align: left;
         vertical-align: middle;
-        white-space: pre;
+        white-space: pre-wrap;
         word-spacing: normal;
         word-break: normal;
 
@@ -166,14 +166,58 @@
         border-radius: 3px;
     }
 }
-.rex-docs-sidebar {
-    float: left;
-    width: 230px;
-}
-.rex-docs-content {
-    max-width: 900px;
 
-    .rex-docs-sidebar + & {
-        margin-left: 280px;
+.rex-docs {
+    display: flex;
+
+    &-sidebar {
+        flex-basis: 230px;
+        flex-shrink: 0;
+        padding-left: $grid-gutter-width;
+        order: 1;
+    }
+    &-content {
+        min-width: 0; // flexbox: reduce implied width
+        flex-grow: 1;
+    }
+}
+
+@media (max-width: $screen-md-max) {
+    .rex-docs-sidebar {
+        display: none;
+    }
+}
+
+.rex-readme .rex-readme-content {
+    *:first-child {
+        margin-top: 0;
+    }
+    h1 {
+        font-size: $font-size-h3;
+    }
+
+    h2:first-of-type {
+        margin-top: 0;
+    }
+    h2 {
+        margin-top: 2em;
+        margin-bottom: .5em;
+        padding-bottom: .2em;
+        border-bottom: 1px solid $color-a-light;
+        font-size: $font-size-h4;
+        font-weight: 400;
+    }
+    h3 {
+        margin-top: 1em;
+        font-size: $font-size-h5;
+        font-weight: 700;
+    }
+    h4 {
+        margin-top: 1em;
+        font-size: $font-size-h6;
+    }
+    h5, h6 {
+        margin-top: .5em;
+        font-size: $font-size-h6;
     }
 }

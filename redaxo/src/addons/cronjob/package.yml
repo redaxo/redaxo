@@ -1,5 +1,5 @@
 package: cronjob
-version: '2.4.0-beta1'
+version: '2.7.0'
 author: 'Gregor Harlan'
 supportpage: www.redaxo.org/de/forum/
 
@@ -12,8 +12,14 @@ page:
         cronjobs: { title: 'translate:title' }
         log: { title: 'translate:log' }
 
+pages:
+    system/log/cronjob:
+        title: Cronjob
+        perm: admin[]
+
 requires:
-    redaxo: ^5.6.2
+    php: '>=7.1'
+    redaxo: ^5.9.0
 
 console_commands:
     cronjob:run: rex_command_cronjob_run

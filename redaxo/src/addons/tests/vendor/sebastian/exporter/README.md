@@ -22,7 +22,6 @@ Exception Object &0000000078de0f0d000000002003a261 (
     'code' => 0
     'file' => '/home/sebastianbergmann/test.php'
     'line' => 34
-    'trace' => Array &0 ()
     'previous' => null
 )
 */
@@ -162,10 +161,11 @@ LONG_STRING
 
 ## Installation
 
-To add Exporter as a local, per-project dependency to your project, simply add a dependency on `sebastian/exporter` to your project's `composer.json` file. Here is a minimal example of a `composer.json` file that just defines a dependency on Exporter 1.0:
+You can add this library as a local, per-project dependency to your project using [Composer](https://getcomposer.org/):
 
-    {
-        "require": {
-            "sebastian/exporter": "1.0.*"
-        }
-    }
+    composer require sebastian/exporter
+
+If you only need this library during development, for instance to run your project's test suite, then you should add it as a development-time dependency:
+
+    composer require --dev sebastian/exporter
+

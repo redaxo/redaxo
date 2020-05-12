@@ -43,13 +43,15 @@ install_info_core_updated = Core se ha actualizado!
 install_warning_core_not_updated = El núcleo no se pudo actualizar por el siguiente motivo:
 install_warning_core_zip_not_extracted = El archivo zip no se pudo desempaquetar en el directorio "src"!
 
-install_info_addon_downloaded = AddOn "{0}" descargado!
-install_warning_addon_not_downloaded = No se pudo descargar AddOn "{0}" debido a lo siguiente:
-install_info_addon_updated = ¡Se ha actualizado AddOn "{0}"!
-install_warning_addon_not_updated = No se pudo descargar AddOn "{0}" debido a lo siguiente:
-install_info_addon_uploaded = ¡Se ha cargado AddOn "{0}"!
-install_info_addon_deleted = ¡La versión AddOn de "{0}" ha sido eliminada!
+install_info_addon_downloaded = AddOn <b>{0}</b> descargado!
+install_warning_addon_not_downloaded = No se pudo descargar AddOn <b>{0}</b> debido a lo siguiente:
+install_info_addon_updated = ¡Se ha actualizado AddOn <b>{0}</b>!
+install_warning_addon_not_updated = No se pudo descargar AddOn <b>{0}</b> debido a lo siguiente:
+install_info_addon_uploaded = ¡Se ha cargado AddOn <b>{0}</b>!
+install_info_addon_deleted = ¡La versión AddOn de <b>{0}</b> ha sido eliminada!
 install_warning_addon_zip_not_extracted = El archivo Zip no se pudo extraer en el directorio AddOn. Es posible que tenga permisos de escritura que faltan o que el nombre de carpeta dentro del archivo zip no coincide con la clave de agregado.
+install_warning_message_from_addon = Complemento <b>{0}</b> informes:
+install_warning_message_from_plugin = PlugIn <b> {0} </b> informes:
 
 install_warning_zip_wrong_checksum = La suma de comprobación del archivo zip descargado no coincide!
 install_warning_zip_wrong_format = El archivo zip no está en el formato requerido.
@@ -58,6 +60,7 @@ install_to_addon_page = Ir a la administración de AddOn
 
 install_settings_general = General
 install_settings_backups = Crear copia de seguridad
+install_settings_backups_note = Antes de que el paquete sea actualizado por el instalador, se almacena una copia de la versión actual en <code>redaxo/data/addons/install/</code>. Se pueden restaurar en caso de errores. <br> ¡Tenga en cuenta que no se realizará una copia de seguridad de la base de datos!
 install_settings_myredaxo_account = MyREDAXO cuenta
 install_settings_api_login = Nombre de usuario
 install_settings_api_key = Clave API

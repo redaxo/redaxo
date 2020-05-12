@@ -9,13 +9,13 @@
  */
 abstract class rex_package implements rex_package_interface
 {
-    const FILE_PACKAGE = 'package.yml';
-    const FILE_BOOT = 'boot.php';
-    const FILE_INSTALL = 'install.php';
-    const FILE_INSTALL_SQL = 'install.sql';
-    const FILE_UNINSTALL = 'uninstall.php';
-    const FILE_UNINSTALL_SQL = 'uninstall.sql';
-    const FILE_UPDATE = 'update.php';
+    public const FILE_PACKAGE = 'package.yml';
+    public const FILE_BOOT = 'boot.php';
+    public const FILE_INSTALL = 'install.php';
+    public const FILE_INSTALL_SQL = 'install.sql';
+    public const FILE_UNINSTALL = 'uninstall.php';
+    public const FILE_UNINSTALL_SQL = 'uninstall.sql';
+    public const FILE_UPDATE = 'update.php';
 
     /**
      * Name of the package.
@@ -55,18 +55,35 @@ abstract class rex_package implements rex_package_interface
      *
      * @throws InvalidArgumentException
      *
-     * @return self
+     * @return rex_package_interface If the package exists, a `rex_package` is returned, otherwise a `rex_null_package`
      */
     public static function get($packageId)
     {
         if (!is_string($packageId)) {
             throw new InvalidArgumentException('Expecting $packageId to be string, but ' . gettype($packageId) . ' given!');
         }
-        $package = explode('/', $packageId);
+        $package = explode('/', $packageId, 2);
         $addon = rex_addon::get($package[0]);
         if (isset($package[1])) {
             return $addon->getPlugin($package[1]);
         }
+        return $addon;
+    }
+
+    /**
+     * Returns the package (addon or plugin) by the given package id.
+     *
+     * @throws RuntimeException if the package does not exist
+     */
+    public static function require(string $packageId): self
+    {
+        $package = explode('/', $packageId, 2);
+        $addon = rex_addon::require($package[0]);
+
+        if (isset($package[1])) {
+            return $addon->requirePlugin($package[1]);
+        }
+
         return $addon;
     }
 
@@ -85,6 +102,11 @@ abstract class rex_package implements rex_package_interface
         }
         return rex_addon::exists($package[0]);
     }
+
+    /**
+     * @return string
+     */
+    abstract public function getPackageId();
 
     /**
      * {@inheritdoc}
@@ -224,7 +246,7 @@ abstract class rex_package implements rex_package_interface
     {
         extract($__context, EXTR_SKIP);
 
-        if (file_exists($this->getPath($__file))) {
+        if (is_file($this->getPath($__file))) {
             return include $this->getPath($__file);
         }
 
@@ -237,7 +259,7 @@ abstract class rex_package implements rex_package_interface
     public function loadProperties()
     {
         $file = $this->getPath(self::FILE_PACKAGE);
-        if (!file_exists($file)) {
+        if (!is_file($file)) {
             $this->propertiesLoaded = true;
             return;
         }
@@ -260,7 +282,7 @@ abstract class rex_package implements rex_package_interface
                 static $registeredShutdown = false;
                 if (!$registeredShutdown) {
                     $registeredShutdown = true;
-                    register_shutdown_function(function () use (&$cache) {
+                    register_shutdown_function(static function () use (&$cache) {
                         foreach ($cache as $package => $_) {
                             if (!self::exists($package)) {
                                 unset($cache[$package]);

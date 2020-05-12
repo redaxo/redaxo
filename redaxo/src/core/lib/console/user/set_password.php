@@ -3,6 +3,7 @@
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -18,6 +19,7 @@ class rex_command_user_set_password extends rex_console_command
             ->setDescription('Sets a new password for a user')
             ->addArgument('user', InputArgument::REQUIRED, 'Username')
             ->addArgument('password', InputArgument::OPTIONAL, 'Password')
+            ->addOption('password-change-required', null, InputOption::VALUE_NONE, 'Require password change after login')
         ;
     }
 
@@ -37,10 +39,10 @@ class rex_command_user_set_password extends rex_console_command
             throw new InvalidArgumentException(sprintf('User "%s" does not exist.', $username));
         }
 
-        $user = new rex_user($user);
+        $user = rex_user::fromSql($user);
         $id = $user->getId();
 
-        $passwordPolicy = rex_backend_password_policy::factory(rex::getProperty('password_policy', []));
+        $passwordPolicy = rex_backend_password_policy::factory();
 
         $password = $input->getArgument('password');
 
@@ -49,7 +51,7 @@ class rex_command_user_set_password extends rex_console_command
         }
 
         if (!$password) {
-            $password = $io->askHidden('Password', function ($password) use ($id, $passwordPolicy) {
+            $password = $io->askHidden('Password', static function ($password) use ($id, $passwordPolicy) {
                 if (true !== $msg = $passwordPolicy->check($password, $id)) {
                     throw new InvalidArgumentException($msg);
                 }
@@ -62,11 +64,16 @@ class rex_command_user_set_password extends rex_console_command
             throw new InvalidArgumentException('Missing password.');
         }
 
+        $passwordHash = rex_backend_login::passwordHash($password);
+
         rex_sql::factory()
             ->setTable(rex::getTable('user'))
             ->setWhere(['id' => $id])
-            ->setValue('password', rex_backend_login::passwordHash($password))
+            ->setValue('password', $passwordHash)
             ->addGlobalUpdateFields('console')
+            ->setDateTimeValue('password_changed', time())
+            ->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords($user, $passwordHash))
+            ->setValue('password_change_required', (int) $input->getOption('password-change-required'))
             ->update();
 
         rex_extension::registerPoint(new rex_extension_point('PASSWORD_UPDATED', '', [
@@ -76,5 +83,7 @@ class rex_command_user_set_password extends rex_console_command
         ], true));
 
         $io->success(sprintf('Saved new password for user "%s".', $username));
+
+        return 0;
     }
 }

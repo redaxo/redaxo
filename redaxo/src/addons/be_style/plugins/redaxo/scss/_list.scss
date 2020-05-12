@@ -1,0 +1,17 @@
+.list-item-suffix {
+    display: inline-block;
+    margin-left: .5em;
+    color: $color-a;
+    font-size: $font-size-small;
+
+    a:hover & {
+        text-decoration: none;
+    }
+
+    &::before {
+        content: '[';
+    }
+    &::after {
+        content: ']';
+    }
+}

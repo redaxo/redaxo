@@ -1,12 +1,45 @@
 Changelog
 =========
 
-Version 2.5.2 – XX.XX.XXXX
+Version 2.6.2 – 08.05.2020
+--------------------------
+
+### Bugfixes
+
+* EP `USER_UPDATED`: Parameter `id` war immer `0` (@gharlan)
+
+
+Version 2.6.0 – 02.02.2020
+--------------------------
+
+### Neu
+
+* Perm-Selects in Rollenverwaltung:
+    - Perms mit vorangestellten Perm-Key (`perm[]`) und alphabetisch sortiert (@tbaddade)
+    - Bei Bedarf bis zu 20 Zeilen lang statt 10 (@gharlan)
+* Bei (Re)Installation/Update wird `rex_sql_table` verwendet (@tbaddade)
+
+### Bugfixes
+
+* Bei Benutzern mit mehreren Rollen konnte es bei den complex_perms (z.B. Mountpoints) zu Dopplungen kommen (@gharlan)
+
+
+Version 2.5.3 – 01.11.2019
+--------------------------
+
+### Security
+
+* XSS Sicherheitslücken behoben (Michel Pass und Mathias Niedung von Althammer & Kill, @gharlan)
+
+
+Version 2.5.2 – 12.03.2019
 --------------------------
 
 ### Bugfixes
 
 * Bei Uhrzeit/Zeitzonen-Differenzen zwischen PHP und DB wurde der letzte Login falsch angezeigt (@gharlan)
+* Mit MySQL 8.0 bis 8.0.12 kam es in der Benutzerliste zu einem Fehler (@schuer)
+* "Rolle(n)" statt "Rolle" als Label, da mehrere ausgewählt werden können (@skerbis)
 
 
 Version 2.5.1 – 01.10.2018

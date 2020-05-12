@@ -12,8 +12,10 @@
     foreach ($this->cssFiles as $media => $files) {
         foreach ($files as $file) {
             $path = rex_path::frontend(rex_path::absolute($file));
-            if (strpos($path, $assetDir) === 0 && $mtime = @filemtime($path)) {
+            if (!rex::isDebugMode() && 0 === strpos($path, $assetDir) && $mtime = @filemtime($path)) {
                 $file = rex_url::backendController(['asset' => $file, 'buster' => $mtime]);
+            } elseif ($mtime = @filemtime($path)) {
+                $file .= '?buster='. $mtime;
             }
             echo "\n" . '    <link rel="stylesheet" type="text/css" media="' . $media . '" href="' . $file .'" />';
         }
@@ -25,11 +27,31 @@
     echo "\n" . '    //-->';
     echo "\n" . '    </script>';
     foreach ($this->jsFiles as $file) {
-        $path = rex_path::frontend(rex_path::absolute($file));
-        if (strpos($path, $assetDir) === 0 && $mtime = @filemtime($path)) {
-            $file = rex_url::backendController(['asset' => $file, 'buster' => $mtime]);
+        if (is_string($file)) {
+            // BC Case
+            $options = [];
+        } else {
+            [$file, $options] = $file;
         }
-        echo "\n" . '    <script type="text/javascript" src="' . $file .'"></script>';
+
+        $path = rex_path::frontend(rex_path::absolute($file));
+        if (array_key_exists(rex_view::JS_IMMUTABLE, $options) && $options[rex_view::JS_IMMUTABLE]) {
+            if (!rex::isDebugMode() && 0 === strpos($path, $assetDir) && $mtime = @filemtime($path)) {
+                $file = rex_url::backendController(['asset' => $file, 'buster' => $mtime]);
+            }
+        } elseif ($mtime = @filemtime($path)) {
+            $file .= '?buster='. $mtime;
+        }
+
+        $attributes = [];
+        if (array_key_exists(rex_view::JS_ASYNC, $options) && $options[rex_view::JS_ASYNC]) {
+            $attributes[] = 'async="async"';
+        }
+        if (array_key_exists(rex_view::JS_DEFERED, $options) && $options[rex_view::JS_DEFERED]) {
+            $attributes[] = 'defer="defer"';
+        }
+
+        echo "\n" . '    <script type="text/javascript" src="' . $file .'" '. implode(' ', $attributes) .'></script>';
     }
 ?>
 

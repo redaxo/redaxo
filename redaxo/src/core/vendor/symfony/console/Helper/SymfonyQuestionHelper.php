@@ -11,9 +11,7 @@
 
 namespace Symfony\Component\Console\Helper;
 
-use Symfony\Component\Console\Exception\LogicException;
 use Symfony\Component\Console\Formatter\OutputFormatter;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
@@ -27,32 +25,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class SymfonyQuestionHelper extends QuestionHelper
 {
-    /**
-     * {@inheritdoc}
-     *
-     * To be removed in 4.0
-     */
-    public function ask(InputInterface $input, OutputInterface $output, Question $question)
-    {
-        $validator = $question->getValidator();
-        $question->setValidator(function ($value) use ($validator) {
-            if (null !== $validator) {
-                $value = $validator($value);
-            } else {
-                // make required
-                if (!\is_array($value) && !\is_bool($value) && 0 === \strlen($value)) {
-                    @trigger_error('The default question validator is deprecated since Symfony 3.3 and will not be used anymore in version 4.0. Set a custom question validator if needed.', E_USER_DEPRECATED);
-
-                    throw new LogicException('A value is required.');
-                }
-            }
-
-            return $value;
-        });
-
-        return parent::ask($input, $output, $question);
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -96,15 +68,15 @@ class SymfonyQuestionHelper extends QuestionHelper
 
         $output->writeln($text);
 
-        if ($question instanceof ChoiceQuestion) {
-            $width = max(array_map('strlen', array_keys($question->getChoices())));
+        $prompt = ' > ';
 
-            foreach ($question->getChoices() as $key => $value) {
-                $output->writeln(sprintf("  [<comment>%-${width}s</comment>] %s", $key, $value));
-            }
+        if ($question instanceof ChoiceQuestion) {
+            $output->writeln($this->formatChoiceQuestionChoices($question, 'comment'));
+
+            $prompt = $question->getPrompt();
         }
 
-        $output->write(' > ');
+        $output->write($prompt);
     }
 
     /**

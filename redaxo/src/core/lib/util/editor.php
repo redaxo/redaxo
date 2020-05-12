@@ -9,6 +9,9 @@ class rex_editor
 
     // see https://github.com/filp/whoops/blob/master/docs/Open%20Files%20In%20An%20Editor.md
     // keep this list in sync with the array in getSupportedEditors()
+    /**
+     * @var string[]
+     */
     private $editors = [
         'atom' => 'atom://core/open/file?filename=%f&line=%l',
         'emacs' => 'emacs://open?url=file://%f&line=%l',
@@ -42,6 +45,12 @@ class rex_editor
 
         $editorUrl = null;
 
+        $editorBasepath = rex::getProperty('editor_basepath');
+        if ($editorBasepath) {
+            // replace remote base path with local base path
+            $filePath = str_replace(rex_path::base(), $editorBasepath, $filePath);
+        }
+
         if (false !== strpos($filePath, '://')) {
             // don't provide editor urls for paths containing "://", like "rex://..."
             // but they can be converted into an url by the extension point below
@@ -65,6 +74,9 @@ class rex_editor
         return $editorUrl;
     }
 
+    /**
+     * @return string[]
+     */
     public function getSupportedEditors()
     {
         return [
@@ -78,5 +90,18 @@ class rex_editor
             'vscode' => 'Visual Studio Code',
             'xdebug' => 'Xdebug via xdebug.file_link_format (php.ini)',
         ];
+    }
+
+    /**
+     * Returns the editor name, e.g. „atom“.
+     */
+    public function getName(): ?string
+    {
+        return rex::getProperty('editor');
+    }
+
+    public function getBasepath(): ?string
+    {
+        return rex::getProperty('editor_basepath');
     }
 }

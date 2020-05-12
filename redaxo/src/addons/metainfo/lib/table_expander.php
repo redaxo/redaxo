@@ -27,7 +27,7 @@ class rex_metainfo_table_expander extends rex_form
     {
         // ----- EXTENSION POINT
         // IDs aller Feldtypen bei denen das Parameter-Feld eingeblendet werden soll
-        $typeFields = rex_extension::registerPoint(new rex_extension_point('METAINFO_TYPE_FIELDS', [REX_METAINFO_FIELD_SELECT, REX_METAINFO_FIELD_RADIO, REX_METAINFO_FIELD_CHECKBOX, REX_METAINFO_FIELD_REX_MEDIA_WIDGET, REX_METAINFO_FIELD_REX_MEDIALIST_WIDGET, REX_METAINFO_FIELD_REX_LINK_WIDGET, REX_METAINFO_FIELD_REX_LINKLIST_WIDGET]));
+        $typeFields = rex_extension::registerPoint(new rex_extension_point('METAINFO_TYPE_FIELDS', [rex_metainfo_table_manager::FIELD_SELECT, rex_metainfo_table_manager::FIELD_RADIO, rex_metainfo_table_manager::FIELD_CHECKBOX, rex_metainfo_table_manager::FIELD_REX_MEDIA_WIDGET, rex_metainfo_table_manager::FIELD_REX_MEDIALIST_WIDGET, rex_metainfo_table_manager::FIELD_REX_LINK_WIDGET, rex_metainfo_table_manager::FIELD_REX_LINKLIST_WIDGET, rex_metainfo_table_manager::FIELD_DATE, rex_metainfo_table_manager::FIELD_DATETIME]));
 
         $field = $this->addReadOnlyField('prefix', $this->metaPrefix);
         $field->setLabel(rex_i18n::msg('minfo_field_label_prefix'));
@@ -70,7 +70,7 @@ class rex_metainfo_table_expander extends rex_form
         $gq->setQuery('SELECT dbtype,id FROM ' . rex::getTablePrefix() . 'metainfo_type');
         $textFields = [];
         foreach ($gq->getArray() as $f) {
-            if ($f['dbtype'] == 'text') {
+            if ('text' == $f['dbtype']) {
                 $textFields[$f['id']] = $f['id'];
             }
         }
@@ -86,7 +86,7 @@ class rex_metainfo_table_expander extends rex_form
         $select->addSqlOptions($qry);
 
         $notices = '';
-        for ($i = 1; $i < REX_METAINFO_FIELD_COUNT; ++$i) {
+        for ($i = 1; $i < rex_metainfo_table_manager::FIELD_COUNT; ++$i) {
             if (rex_i18n::hasMsg('minfo_field_params_notice_' . $i)) {
                 $notices .= '<span id="metainfo-field-params-notice-' . $i . '" style="display:none">' . rex_i18n::msg('minfo_field_params_notice_' . $i) . '</span>' . "\n";
             }
@@ -115,16 +115,38 @@ class rex_metainfo_table_expander extends rex_form
         $field = $this->addTextField('default');
         $field->setLabel(rex_i18n::msg('minfo_field_label_default'));
 
-        if ('clang_' !== $this->metaPrefix) {
-            $attributes = [];
-            $attributes['internal::fieldClass'] = 'rex_form_restrictons_element';
-            $field = $this->addField('', 'restrictions', null, $attributes);
+        if (rex_metainfo_clang_handler::PREFIX !== $this->metaPrefix) {
+            $field = $this->addRestrictionsField('restrictions');
             $field->setLabel(rex_i18n::msg('minfo_field_label_restrictions'));
-            $field->setAttribute('size', 10);
-            $field->setAttribute('class', 'form-control');
+            $field->setAllCheckboxLabel(rex_i18n::msg('minfo_field_label_no_restrictions'));
+
+            if (rex_metainfo_article_handler::PREFIX == $this->metaPrefix || rex_metainfo_category_handler::PREFIX == $this->metaPrefix) {
+                $field->setSelect(new rex_category_select(false, false, true, false));
+            } elseif (rex_metainfo_media_handler::PREFIX == $this->metaPrefix) {
+                $field->setSelect(new rex_media_category_select());
+            } else {
+                throw new rex_exception('Unexpected TablePrefix "' . $this->metaPrefix . '".');
+            }
+        }
+
+        if (rex_metainfo_article_handler::PREFIX === $this->metaPrefix && class_exists(rex_template_select::class)) {
+            $field = $this->addRestrictionsField('templates');
+            $field->setLabel(rex_i18n::msg('minfo_field_label_templates'));
+            $field->setAllCheckboxLabel(rex_i18n::msg('minfo_field_label_all_templates'));
+            $field->setSelect(new rex_template_select(null, rex_clang::getCurrentId()));
         }
 
         parent::init();
+    }
+
+    private function addRestrictionsField(string $name): rex_form_restrictons_element
+    {
+        /** @var rex_form_restrictons_element $field */
+        $field = $this->addField('', $name, null, ['internal::fieldClass' => rex_form_restrictons_element::class]);
+        $field->setAttribute('size', 10);
+        $field->setAttribute('class', 'form-control');
+
+        return $field;
     }
 
     protected function delete()
@@ -137,7 +159,7 @@ class rex_metainfo_table_expander extends rex_form
         $sql->select('name');
         $columnName = $sql->getValue('name');
 
-        if (($result = parent::delete()) === true) {
+        if (true === ($result = parent::delete())) {
             // Prios neu setzen, damit keine lücken entstehen
             $this->organizePriorities(1, 2);
             return $this->tableManager->deleteColumn($columnName);
@@ -148,7 +170,7 @@ class rex_metainfo_table_expander extends rex_form
 
     protected function preSave($fieldsetName, $fieldName, $fieldValue, rex_sql $saveSql)
     {
-        if ($fieldsetName == $this->getFieldsetName() && $fieldName == 'name') {
+        if ($fieldsetName == $this->getFieldsetName() && 'name' == $fieldName) {
             // Den Namen mit Prefix speichern
             return $this->addPrefix($fieldValue);
         }
@@ -158,7 +180,7 @@ class rex_metainfo_table_expander extends rex_form
 
     protected function preView($fieldsetName, $fieldName, $fieldValue)
     {
-        if ($fieldsetName == $this->getFieldsetName() && $fieldName == 'name') {
+        if ($fieldsetName == $this->getFieldsetName() && 'name' == $fieldName) {
             // Den Namen ohne Prefix anzeigen
             return $this->stripPrefix($fieldValue);
         }
@@ -183,10 +205,13 @@ class rex_metainfo_table_expander extends rex_form
         return $string;
     }
 
+    /**
+     * @return bool|string
+     */
     protected function validate()
     {
         $fieldName = $this->elementPostValue($this->getFieldsetName(), 'name');
-        if ($fieldName == '') {
+        if ('' == $fieldName) {
             return rex_i18n::msg('minfo_field_error_name');
         }
 
@@ -204,7 +229,7 @@ class rex_metainfo_table_expander extends rex_form
             // das meta-schema checken
             $sql = rex_sql::factory();
             $sql->setQuery('SELECT * FROM ' . $this->tableName . ' WHERE name="' . $this->addPrefix($fieldName) . '" LIMIT 1');
-            if ($sql->getRows() == 1) {
+            if (1 == $sql->getRows()) {
                 return rex_i18n::msg('minfo_field_error_unique_name');
             }
         }
@@ -221,19 +246,18 @@ class rex_metainfo_table_expander extends rex_form
         // POST werten ueberschrieben werden!
         $fieldOldName = '';
         $fieldOldPriority = 9999999999999; // dirty, damit die prio richtig l�uft...
-        $fieldOldDefault = '';
-        if ($this->sql->getRows() == 1) {
+        if (1 == $this->sql->getRows()) {
             $fieldOldName = $this->sql->getValue('name');
             $fieldOldPriority = $this->sql->getValue('priority');
-            $fieldOldDefault = $this->sql->getValue('default');
         }
 
         if (parent::save()) {
             $this->organizePriorities($this->elementPostValue($this->getFieldsetName(), 'priority'), $fieldOldPriority);
 
             $fieldName = $this->addPrefix($fieldName);
-            $fieldType = $this->elementPostValue($this->getFieldsetName(), 'type_id');
+            $fieldType = (int) $this->elementPostValue($this->getFieldsetName(), 'type_id');
             $fieldDefault = $this->elementPostValue($this->getFieldsetName(), 'default');
+            $fieldAttributes = $this->elementPostValue($this->getFieldsetName(), 'attributes');
 
             $sql = rex_sql::factory();
             $sql->setDebug($this->debug);
@@ -241,9 +265,11 @@ class rex_metainfo_table_expander extends rex_form
             $fieldDbType = $result[0]['dbtype'];
             $fieldDbLength = $result[0]['dblength'];
 
-            // TEXT Spalten duerfen in MySQL keine Defaultwerte haben
-            if ($fieldDbType == 'text') {
-                $fieldDefault = null;
+            if (
+                strlen($fieldDefault) &&
+                (rex_metainfo_table_manager::FIELD_CHECKBOX === $fieldType || rex_metainfo_table_manager::FIELD_SELECT === $fieldType && isset(rex_string::split($fieldAttributes)['multiple']))
+            ) {
+                $fieldDefault = '|'.trim($fieldDefault, '|').'|';
             }
 
             if ($this->isEditMode()) {
@@ -255,25 +281,7 @@ class rex_metainfo_table_expander extends rex_form
             }
             rex_delete_cache();
 
-            if ($tmRes) {
-                // DefaultWerte setzen
-                if ($fieldDefault != $fieldOldDefault) {
-                    try {
-                        $upd = rex_sql::factory();
-                        $upd->setDebug($this->debug);
-                        $upd->setTable($this->tableManager->getTableName());
-                        $upd->setWhere([$fieldName => $fieldOldDefault]);
-                        $upd->setValue($fieldName, $fieldDefault);
-                        $upd->update();
-                        return true;
-                    } catch (rex_sql_exception $e) {
-                        return false;
-                    }
-                }
-
-                // Default werte haben schon zuvor gepasst, daher true zur�ckgeben
-                return true;
-            }
+            return $tmRes;
         }
 
         return false;

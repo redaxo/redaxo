@@ -23,7 +23,7 @@ class rex_clang_service
         $sql->setValue('priority', $priority);
         $sql->setValue('status', $status);
         $sql->insert();
-        $id = $sql->getLastId();
+        $id = (int) $sql->getLastId();
 
         rex_sql_util::organizePriorities(rex::getTable('clang'), 'priority', '', 'priority, id != ' . $id);
 
@@ -47,9 +47,9 @@ class rex_clang_service
      * @param int       $priority Priority
      * @param bool|null $status   Status
      *
-     * @return bool
-     *
      * @throws rex_exception
+     *
+     * @return bool
      */
     public static function editCLang($id, $code, $name, $priority, $status = null)
     {
@@ -140,7 +140,7 @@ class rex_clang_service
         }
 
         $file = rex_path::coreCache('clang.cache');
-        if (rex_file::putCache($file, $clangs) === false) {
+        if (false === rex_file::putCache($file, $clangs)) {
             throw new rex_exception('Clang cache file could not be generated');
         }
     }

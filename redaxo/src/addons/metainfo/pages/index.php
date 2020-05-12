@@ -8,11 +8,8 @@
  * @package redaxo5
  */
 
-// Parameter
 $Basedir = __DIR__;
-
 $subpage = rex_be_controller::getCurrentPagePart(2);
-$func = rex_request('func', 'string');
 
 echo rex_view::title(rex_i18n::msg('minfo_title'));
 

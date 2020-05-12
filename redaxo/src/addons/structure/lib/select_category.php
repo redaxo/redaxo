@@ -5,12 +5,25 @@
  */
 class rex_category_select extends rex_select
 {
+    /**
+     * @var bool
+     */
     private $ignore_offlines;
+    /**
+     * @var null|int
+     */
     private $clang;
+    /**
+     * @var bool
+     */
     private $check_perms;
+    /**
+     * @var bool
+     */
+    private $add_homepage;
 
     /**
-     * @var int
+     * @var int|int[]|null
      */
     private $rootId;
 
@@ -19,7 +32,7 @@ class rex_category_select extends rex_select
     public function __construct($ignore_offlines = false, $clang = false, $check_perms = true, $add_homepage = true)
     {
         $this->ignore_offlines = $ignore_offlines;
-        $this->clang = $clang;
+        $this->clang = false === $clang ? null : $clang;
         $this->check_perms = $check_perms;
         $this->add_homepage = $add_homepage;
         $this->rootId = null;
@@ -31,7 +44,7 @@ class rex_category_select extends rex_select
     /**
      * Kategorie-Id oder ein Array von Kategorie-Ids als Wurzelelemente der Select-Box.
      *
-     * @param mixed $rootId Kategorie-Id oder Array von Kategorie-Ids zur Identifikation der Wurzelelemente
+     * @param int|int[]|null $rootId Kategorie-Id oder Array von Kategorie-Ids zur Identifikation der Wurzelelemente
      */
     public function setRootId($rootId)
     {
@@ -44,7 +57,7 @@ class rex_category_select extends rex_select
             $this->addOption('Homepage', 0);
         }
 
-        if ($this->rootId !== null) {
+        if (null !== $this->rootId) {
             if (is_array($this->rootId)) {
                 foreach ($this->rootId as $rootId) {
                     if ($rootCat = rex_category::get($rootId, $this->clang)) {
@@ -64,10 +77,9 @@ class rex_category_select extends rex_select
                     }
                 }
             } elseif (rex::getUser()->getComplexPerm('structure')->hasMountpoints()) {
-                $mountpoints = rex::getUser()->getComplexPerm('structure')->getMountpoints();
-                foreach ($mountpoints as $id) {
-                    $cat = rex_category::get($id, $this->clang);
-                    if ($cat && !rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($cat->getParentId())) {
+                $mountpoints = rex::getUser()->getComplexPerm('structure')->getMountpointCategories();
+                foreach ($mountpoints as $cat) {
+                    if (!$this->ignore_offlines || $cat->isOnline()) {
                         $this->addCatOption($cat, 0);
                     }
                 }
@@ -78,17 +90,17 @@ class rex_category_select extends rex_select
     protected function addCatOption(rex_category $cat, $group = null)
     {
         if (!$this->check_perms ||
-                $this->check_perms && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($cat->getId(), false)
+                $this->check_perms && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($cat->getId())
         ) {
             $cid = $cat->getId();
             $cname = $cat->getName() . ' [' . $cid . ']';
 
-            if ($group === null) {
+            if (null === $group) {
                 $group = $cat->getParentId();
             }
 
             $this->addOption($cname, $cid, $cid, $group);
-            $childs = $cat->getChildren($this->ignore_offlines, $this->clang);
+            $childs = $cat->getChildren($this->ignore_offlines);
             if (is_array($childs)) {
                 foreach ($childs as $child) {
                     $this->addCatOption($child);
@@ -123,14 +135,14 @@ class rex_category_select extends rex_select
             $name = $option[0];
             $value = $option[1];
             $id = $option[2];
-            if ($id == 0 || !$this->check_perms || ($this->check_perms && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($option[2]))) {
+            if (0 == $id || !$this->check_perms || ($this->check_perms && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($option[2]))) {
                 $ausgabe .= $this->outOption($name, $value, $level);
             } elseif (($this->check_perms && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($option[2]))) {
                 --$level;
             }
 
             $subgroup = $this->getGroup($id, true);
-            if ($subgroup !== false) {
+            if (false !== $subgroup) {
                 $ausgabe .= $this->outGroup($id, $level + 1);
             }
         }

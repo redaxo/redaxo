@@ -1,13 +1,18 @@
 <?php
 
-class rex_mediapool_functions_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_mediapool_functions_test extends TestCase
 {
     /**
      * @dataProvider provideIsAllowedMediaType
      */
     public function testIsAllowedMediaType($expected, $filename, array $args = [])
     {
-        $this->assertSame($expected, rex_mediapool_isAllowedMediaType($filename, $args));
+        static::assertSame($expected, rex_mediapool_isAllowedMediaType($filename, $args));
     }
 
     public function provideIsAllowedMediaType()
@@ -40,7 +45,7 @@ class rex_mediapool_functions_test extends PHPUnit_Framework_TestCase
             'md' => ['text/plain'],
         ]);
 
-        $this->assertSame($expected, rex_mediapool_isAllowedMimeType($path, $filename));
+        static::assertSame($expected, rex_mediapool_isAllowedMimeType($path, $filename));
 
         $addon->setProperty('allowed_mime_types', $whitelist);
     }

@@ -7,10 +7,13 @@
  */
 class rex_media_category_select extends rex_select
 {
+    /**
+     * @var bool
+     */
     private $check_perms;
 
     /**
-     * @var int|int[]
+     * @var int|int[]|null
      */
     private $rootId;
 
@@ -27,7 +30,7 @@ class rex_media_category_select extends rex_select
     /**
      * Kategorie-Id oder ein Array von Kategorie-Ids als Wurzelelemente der Select-Box.
      *
-     * @param mixed $rootId Kategorie-Id oder Array von Kategorie-Ids zur Identifikation der Wurzelelemente
+     * @param int|int[]|null $rootId Kategorie-Id oder Array von Kategorie-Ids zur Identifikation der Wurzelelemente
      */
     public function setRootId($rootId)
     {
@@ -36,7 +39,7 @@ class rex_media_category_select extends rex_select
 
     protected function addCatOptions()
     {
-        if ($this->rootId !== null) {
+        if (null !== $this->rootId) {
             if (is_array($this->rootId)) {
                 foreach ($this->rootId as $rootId) {
                     if ($rootCat = rex_media_category::get($rootId)) {
@@ -63,7 +66,7 @@ class rex_media_category_select extends rex_select
                 $this->check_perms && rex::getUser()->getComplexPerm('media')->hasCategoryPerm($mediacat->getId())
         ) {
             $mid = $mediacat->getId();
-            $mname = $mediacat->getName() . ' [' . $mid . ']';
+            $mname = $mediacat->getName();
 
             $this->addOption($mname, $mid, $mid, $mediacat->getParentId());
             $childs = $mediacat->getChildren();

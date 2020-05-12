@@ -7,7 +7,7 @@
  */
 class rex_test_locator implements IteratorAggregate
 {
-    const TESTS_FOLDER = 'tests';
+    public const TESTS_FOLDER = 'tests';
 
     private $testFoldersIterator;
 
@@ -27,11 +27,17 @@ class rex_test_locator implements IteratorAggregate
         }
     }
 
+    /**
+     * @return Iterator
+     */
     public function getIterator()
     {
         return $this->testFoldersIterator;
     }
 
+    /**
+     * @return self
+     */
     public static function defaultLocator()
     {
         $locator = new self();

@@ -5,9 +5,12 @@
  */
 class rex_article_revision
 {
-    const LIVE = 0; // live revision
-    const WORK = 1; // working copy
+    public const LIVE = 0; // live revision
+    public const WORK = 1; // working copy
 
+    /**
+     * @return bool
+     */
     public static function copyContent($article_id, $clang, $from_revision_id, $to_revision_id)
     {
         if ($from_revision_id == $to_revision_id) {
@@ -45,6 +48,9 @@ class rex_article_revision
         return true;
     }
 
+    /**
+     * @return true
+     */
     public static function clearContent($article_id, $clang, $from_revision_id)
     {
         if (self::WORK != $from_revision_id) {

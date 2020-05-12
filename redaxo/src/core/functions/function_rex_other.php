@@ -25,6 +25,10 @@ function rex_delete_cache()
 
     rex_clang::reset();
 
+    if (function_exists('opcache_reset')) {
+        opcache_reset();
+    }
+
     // ----- EXTENSION POINT
     return rex_extension::registerPoint(new rex_extension_point('CACHE_DELETED', rex_i18n::msg('delete_cache_message')));
 }
@@ -39,7 +43,7 @@ function rex_delete_cache()
 function rex_ini_get($val)
 {
     $val = trim(ini_get($val));
-    if ($val != '') {
+    if ('' != $val) {
         $last = strtolower($val[strlen($val) - 1]);
     } else {
         $last = '';

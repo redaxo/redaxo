@@ -19,15 +19,15 @@ function rex_metainfo_cleanup($epOrParams)
 {
     $params = $epOrParams instanceof rex_extension_point ? $epOrParams->getParams() : $epOrParams;
     // Cleanup nur durchführen, wenn auch die rex_article Tabelle neu angelegt wird
-    if (isset($params['force']) && $params['force'] != true &&
-         strpos($params['content'], 'CREATE TABLE `' . rex::getTablePrefix() . 'article`') === false &&
-         strpos($params['content'], 'CREATE TABLE ' . rex::getTablePrefix() . 'article') === false
+    if (isset($params['force']) && true != $params['force'] &&
+         false === strpos($params['content'], 'CREATE TABLE `' . rex::getTablePrefix() . 'article`') &&
+         false === strpos($params['content'], 'CREATE TABLE ' . rex::getTablePrefix() . 'article')
     ) {
         return;
     }
 
     // check wheter tables exists
-    $tables = rex_sql::showTables();
+    $tables = rex_sql::factory()->getTables();
     if (!isset($tables[rex::getTablePrefix() . 'metainfo_field'])) {
         return false;
     }

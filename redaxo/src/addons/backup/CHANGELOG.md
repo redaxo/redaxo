@@ -1,7 +1,51 @@
 Changelog
 =========
 
-Version 2.3.0 – XX.XX.XXXX
+Version 2.6.0 – 10.03.2020
+--------------------------
+
+### Neu
+
+* Backups werden nach Dateiname sortiert (@bloep)
+
+### Bugfixes
+
+* Backup-Cronjob: Die Mail-Checkbox war nicht direkt über dem Mailadress-Feld (@gharlan)
+
+
+Version 2.5.1 – 02.02.2020
+--------------------------
+
+### Bugfixes
+
+* `NULL`-Werte wurden nicht als solche exportiert, was zu Problemen bei den neuen Template-Keys führte (@gharlan)
+
+
+Version 2.5.0 – 02.02.2020
+--------------------------
+
+### Neu
+
+* Default-Dateiname: Datum vor REDAXO-Version für bessere Sortierung (@bloep)
+* Cronjob: Tabellen können ausgeschlossen werden, User-Tabelle default nun mit im Backup (@alexplusde)
+* Es wird davor gewarnt, dass Import von Backups älterer REDAXO- und Addon-Versionen zu Problemen führen können (@gharlan)
+* Upload-Limits werden angezeigt (@skerbis)
+* Wording optimiert (@marcohanke)
+
+### Bugfixes
+
+* Beim Datei-Import kam es mit PHP 7.4 zu Notices (@gharlan)
+
+
+Version 2.4.0 – 20.08.2019
+--------------------------
+
+### Neu
+
+* Speicheroptimierung beim Export (@staabm)
+
+
+Version 2.3.0 – 12.03.2019
 --------------------------
 
 ### Neu

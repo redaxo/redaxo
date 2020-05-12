@@ -28,9 +28,9 @@ class rex_effect_workspace extends rex_effect_abstract
 
 $(function() {
     var $fx_workspace_select_trans = $("#media-manager-rex-effect-workspace-set-transparent-select");
-    var $fx_workspace_bg_r = $("#media-manager-rex-effect-workspace-bg-r-text").parent().parent();
-    var $fx_workspace_bg_g = $("#media-manager-rex-effect-workspace-bg-g-text").parent().parent();
-    var $fx_workspace_bg_b = $("#media-manager-rex-effect-workspace-bg-b-text").parent().parent();
+    var $fx_workspace_bg_r = $("#media-manager-rex-effect-workspace-bg-r-text").closest(".rex-form-group");
+    var $fx_workspace_bg_g = $("#media-manager-rex-effect-workspace-bg-g-text").closest(".rex-form-group");
+    var $fx_workspace_bg_b = $("#media-manager-rex-effect-workspace-bg-b-text").closest(".rex-form-group");
 
     $fx_workspace_select_trans.change(function(){
         if(jQuery(this).val() != "colored")
@@ -84,8 +84,8 @@ $(function() {
         }
 
         $trans = false;
-        if ($this->params['set_transparent'] != 'colored') {
-            if ($this->media->getFormat() != 'gif' && $this->media->getFormat() != 'png' && $this->media->getFormat() != 'webp') {
+        if ('colored' != $this->params['set_transparent']) {
+            if ('gif' != $this->media->getFormat() && 'png' != $this->media->getFormat() && 'webp' != $this->media->getFormat()) {
                 $this->media->setFormat('png');
             }
             $trans = true;
@@ -93,11 +93,9 @@ $(function() {
 
         $workspace = imagecreatetruecolor($this->params['width'], $this->params['height']);
         if ($trans) {
-            imagealphablending($workspace, false);
             $transparent = imagecolorallocatealpha($workspace, 0, 0, 0, 127);
             imagefill($workspace, 0, 0, $transparent);
-            imagesavealpha($workspace, true);
-            imagealphablending($workspace, true);
+            $this->keepTransparent($workspace);
         } else {
             imagefill($workspace, 0, 0, imagecolorallocate($workspace, $this->params['bg_r'], $this->params['bg_g'], $this->params['bg_b']));
         }

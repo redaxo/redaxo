@@ -1,5 +1,5 @@
 .rex-is-logged-in {
-    .navbar-toggle {
+    > .navbar-toggle {
         background: none !important;
         border: 0;
 
@@ -136,7 +136,9 @@
             padding-top: 0;
         }
     }
-
+}
+.navbar-header {
+    position: relative;
 }
 .rex-nav-main-title {
     margin-top: floor($line-height-computed * 2);
@@ -174,6 +176,14 @@
                 }
             }
         }
+    }
+}
+
+.rex-nav-pagination {
+    margin-bottom: $line-height-computed / 2;
+
+    .rex-page {
+        height: auto;
     }
 }
 
@@ -279,6 +289,9 @@
         padding-bottom: 12px;
         color: $color-b;
     }
+    .navbar-default .navbar-nav > .rex-empty > a {
+        color: $color-a;
+    }
     .navbar-default .navbar-nav > li > a:hover,
     .navbar-default .navbar-nav > .active > a,
     .navbar-default .navbar-nav > .active > a:hover,
@@ -339,5 +352,80 @@
                 }
             }
         }
+    }
+}
+
+.rex-nav-toc {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0px;
+    bottom: 20px;
+    max-height: 100vh;
+    overflow-y: auto;
+    margin-left: $grid-gutter-width / -2;
+    margin-right: $grid-gutter-width / -2;
+    padding-top: 26px;
+    font-size: $font-size-base;
+
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    a {
+        display: block;
+        padding: 1rem $grid-gutter-width / 2;
+        text-decoration: none;
+    }
+
+    > ul > li + li {
+        margin-top: $line-height-computed;
+    }
+    > ul > li > a {
+        background-color: $color-a-lighter;
+    }
+    > ul > li > ul {
+        padding-top: .5rem;
+    }
+
+    > ul > li ul > li > a {
+        padding-top: .5rem;
+        padding-bottom: .5rem;
+        padding-left: $grid-gutter-width;
+
+        &::before {
+            content: '\f061';
+            float: left;
+            margin-top: .25em;
+            margin-left: $grid-gutter-width / -2;
+            color: $color-a-light;
+            font-family: FontAwesome;
+            font-size: 10px;
+            vertical-align: .15;
+        }
+    }
+    // level 3
+    > ul > li > ul > li > ul > li > a {
+        padding-left: $grid-gutter-width * 1.5;
+    }
+    // level 4
+    > ul > li > ul > li > ul > li > ul > li > a {
+        padding-left: $grid-gutter-width * 3;
+    }
+    // level 5
+    > ul > li > ul > li > ul > li > ul > li > ul > li > a {
+        padding-left: $grid-gutter-width * 4.5;
+    }
+    // level 6
+    > ul > li > ul > li > ul > li > ul > li > ul > li > ul > li > a {
+        padding-left: $grid-gutter-width * 6;
+    }
+}
+
+.rex-navbar-without-brand {
+    .container-fluid,
+    .navbar-collapse {
+        padding-left: 0;
     }
 }

@@ -9,9 +9,9 @@
  */
 class rex_sql_foreign_key
 {
-    const RESTRICT = 'RESTRICT';
-    const CASCADE = 'CASCADE';
-    const SET_NULL = 'SET NULL';
+    public const RESTRICT = 'RESTRICT';
+    public const CASCADE = 'CASCADE';
+    public const SET_NULL = 'SET NULL';
 
     /** @var string */
     private $name;

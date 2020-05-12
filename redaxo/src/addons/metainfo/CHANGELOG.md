@@ -1,8 +1,69 @@
 Changelog
 =========
 
-Version 2.3.2 – XX.XX.XXXX
+Version 2.7.1 – 08.05.2020
 --------------------------
+
+### Bugfixes
+
+* Attribute ohne Wert (`data-foo`) wurden teils ignoriert (@gharlan)
+
+
+Version 2.7.0 – 10.03.2020
+--------------------------
+
+### Neu
+
+* Artikel-Metainfos werden immer in der Seitenleite rechts angezeigt/geändert, nicht mehr in einer eigenen Page (@dergel)
+
+### Bugfixes
+
+* Template-Filter: Templates mit Kategoriebeschränkung standen fälschlich nicht zur Auswahl (@gharlan)
+* Der Default-Wert für die Standard-Metafelder unterschied sich zwischen MySQL und MariaDB (@gharlan)
+
+
+Version 2.6.0 – 02.02.2020
+--------------------------
+
+### Neu
+
+* Artikel-Metainfos können auf Templates beschränkt werden (@felixheidecke)
+* Bei (Re)Installation/Update wird `rex_sql_table` verwendet (@tbaddade)
+
+### Bugfixes
+
+* Manche Queries wurden unnötigt doppelt ausgeführt (@tbaddade)
+
+
+Version 2.5.1 – 01.11.2019
+--------------------------
+
+### Bugfixes
+
+* Date/Time-Felder wurden im Medienpool nicht disabled entsprechend der zugehörigen Checkbox (@gharlan)
+
+
+Version 2.5.0 – 20.08.2019
+--------------------------
+
+### Neu
+
+* Assets nutzen immutable cache (@staabm)
+* Konstanten `REX_METAINFO_FIELD_...` sind deprecated, stattdessen die Konstanten `rex_metainfo_table_manager::FIELD_...` verwenden (@staabm)
+
+### Bugfixes
+
+* Die Default-Werte wurden nicht so mit umschließenden Pipes versehen, wie die Werte auch nach dem Speichern abgelegt werden (@gharlan)
+* Date/Time-Felder wurden nicht mehr disabled entsprechend der zugehörigen Checkbox (@gharlan)
+* Die Attribute wurden nicht escaped (@staabm)
+
+
+Version 2.4.0 – 12.03.2019
+--------------------------
+
+### Neu
+
+* Bei Date(time)-Feldern kann Start- und Endjahr für Jahr-Selecbox festgelegt werden (@gharlan)
 
 ### Bugfixes
 

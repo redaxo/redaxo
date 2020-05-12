@@ -38,7 +38,7 @@ class rex_var_media extends rex_var
             }
             $value = self::getWidget($id, 'REX_INPUT_MEDIA[' . $id . ']', $value, $args);
         } else {
-            if ($this->hasArg('output') && $this->getArg('output') == 'mimetype') {
+            if ($this->hasArg('output') && 'mimetype' == $this->getArg('output')) {
                 $media = rex_media::get($value);
                 if ($media) {
                     $value = $media->getType();
@@ -51,6 +51,9 @@ class rex_var_media extends rex_var
         return self::quote($value);
     }
 
+    /**
+     * @return string
+     */
     public static function getWidget($id, $name, $value, array $args = [])
     {
         $open_params = '';

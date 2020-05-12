@@ -1,31 +1,27 @@
 <?php
 
-/* Default-Einstellungen */
-if (!$this->hasConfig()) {
-    $this->setConfig('labelcolor', '#3bb594');
-    $this->setConfig('codemirror_theme', 'eclipse');
-    $this->setConfig('codemirror-selectors', '');
-    $this->setConfig('codemirror', 1);
-    $this->setConfig('codemirror-langs', 0);
-    $this->setConfig('codemirror-tools', 0);
-    $this->setConfig('showlink', 1);
-}
+$plugin = rex_plugin::get('be_style', 'customizer');
 
 /* Codemirror-Assets entpacken */
 $message = '';
 $zipArchive = new ZipArchive();
 
+// use path relative to __DIR__ to get correct path in update temp dir
+$path = __DIR__.'/assets/vendor/codemirror.zip';
+
 try {
-    if ($zipArchive->open($this->getPath('assets/vendor/codemirror.zip')) === true &&
-        $zipArchive->extractTo($this->getAssetsUrl('vendor/')) === true) {
+    if (true === $zipArchive->open($path) &&
+        true === $zipArchive->extractTo($plugin->getAssetsPath('vendor/'))
+    ) {
         $zipArchive->close();
     } else {
-        $message = rex_i18n::msg('customizer_error_unzip') . '<br>' . $this->getPath('assets/vendor/codemirror.zip');
+        $message = rex_i18n::msg('customizer_error_unzip') . '<br>' . $path;
     }
 } catch (Exception $e) {
-    $message = rex_i18n::msg('customizer_error_unzip') . '<br>' . $this->getPath('assets/vendor/codemirror.zip');
+    $message = rex_i18n::msg('customizer_error_unzip') . '<br>' . $path;
     $message .= '<br>' . $e->getMessage();
 }
- if ($message != '') {
-     $this->setProperty('installmsg', $message);
+
+ if ('' != $message) {
+     throw new rex_functional_exception($message);
  }

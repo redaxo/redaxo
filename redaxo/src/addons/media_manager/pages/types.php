@@ -15,19 +15,16 @@ if (rex_request('effects', 'boolean')) {
 $success = '';
 $error = '';
 
-//-------------- delete cache on type_name change or type deletion
-if ((rex_request('func') == 'edit' || $func == 'delete') && $type_id > 0) {
-    $counter = rex_media_manager::deleteCacheByType($type_id);
-    //  $info = rex_i18n::msg('media_manager_cache_files_removed', $counter);
-}
-
 //-------------- delete type
-if ($func == 'delete' && $type_id > 0) {
+if ('delete' == $func && $type_id > 0) {
+    // must be called before deletion, otherwise the method can not resolve the id to type name
+    rex_media_manager::deleteCacheByType($type_id);
+
     $sql = rex_sql::factory();
     //  $sql->setDebug();
 
     try {
-        $sql->transactional(function () use ($sql, $type_id) {
+        $sql->transactional(static function () use ($sql, $type_id) {
             $sql->setTable(rex::getTablePrefix() . 'media_manager_type');
             $sql->setWhere(['id' => $type_id]);
             $sql->delete();
@@ -45,14 +42,14 @@ if ($func == 'delete' && $type_id > 0) {
 }
 
 //-------------- delete cache by type-id
-if ($func == 'delete_cache' && $type_id > 0) {
+if ('delete_cache' == $func && $type_id > 0) {
     $counter = rex_media_manager::deleteCacheByType($type_id);
     $success = rex_i18n::msg('media_manager_cache_files_removed', $counter);
     $func = '';
 }
 
 //-------------- copy type
-if ($func == 'copy' && $type_id > 0) {
+if ('copy' == $func && $type_id > 0) {
     $sql = rex_sql::factory();
 
     try {
@@ -69,18 +66,18 @@ if ($func == 'copy' && $type_id > 0) {
 }
 
 //-------------- output messages
-if ($success != '') {
+if ('' != $success) {
     echo rex_view::success($success);
 }
 
-if ($error != '') {
+if ('' != $error) {
     echo rex_view::error($error);
 }
 
-if ($func == '') {
+if ('' == $func) {
     // Nach Status sortieren, damit Systemtypen immer zuletzt stehen
     // (werden am seltesten bearbeitet)
-    $query = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type ORDER BY status, name';
+    $query = 'SELECT id, status, name, description FROM ' . rex::getTablePrefix() . 'media_manager_type ORDER BY status, name';
 
     $list = rex_list::factory($query);
     $list->addTableAttribute('class', 'table-striped');
@@ -91,10 +88,10 @@ if ($func == '') {
     $list->removeColumn('description');
 
     $list->setColumnLabel('name', rex_i18n::msg('media_manager_type_name'));
-    $list->setColumnFormat('name', 'custom', function ($params) {
+    $list->setColumnFormat('name', 'custom', static function ($params) {
         $list = $params['list'];
         $name = '<b>' . rex_escape($list->getValue('name')) . '</b>';
-        $name .= ($list->getValue('description') != '') ? '<br /><span class="rex-note">' . rex_escape($list->getValue('description')) . '</span>' : '';
+        $name .= ('' != $list->getValue('description')) ? '<br /><span class="rex-note">' . rex_escape($list->getValue('description')) . '</span>' : '';
         return $name;
     });
 
@@ -124,9 +121,9 @@ if ($func == '') {
     $list->addColumn('deleteType', '', -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('deleteType', ['type_id' => '###id###', 'func' => 'delete']);
     $list->addLinkAttribute('deleteType', 'data-confirm', rex_i18n::msg('delete') . ' ?');
-    $list->setColumnFormat('deleteType', 'custom', function ($params) {
+    $list->setColumnFormat('deleteType', 'custom', static function ($params) {
         $list = $params['list'];
-        if ($list->getValue('status') == 1) {
+        if (1 == $list->getValue('status')) {
             return '<small class="text-muted">' . rex_i18n::msg('media_manager_type_system') . '</small>';
         }
         return $list->getColumnLink('deleteType', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('media_manager_type_delete'));
@@ -140,20 +137,20 @@ if ($func == '') {
     $content = $fragment->parse('core/page/section.php');
 
     echo $content;
-} elseif ($func == 'add' || $func == 'edit' && $type_id > 0) {
-    if ($func == 'edit') {
+} elseif ('add' == $func || 'edit' == $func && $type_id > 0) {
+    if ('edit' == $func) {
         $formLabel = rex_i18n::msg('media_manager_type_edit');
-    } elseif ($func == 'add') {
+    } else {
         $formLabel = rex_i18n::msg('media_manager_type_create');
     }
 
-    rex_extension::register('REX_FORM_CONTROL_FIELDS', function (rex_extension_point $ep) {
+    rex_extension::register('REX_FORM_CONTROL_FIELDS', static function (rex_extension_point $ep) {
         $controlFields = $ep->getSubject();
         $form = $ep->getParam('form');
         $sql = $form->getSql();
 
         // remove delete button on internal types (status == 1)
-        if ($sql->getRows() > 0 && $sql->hasValue('status') && $sql->getValue('status') == 1) {
+        if ($sql->getRows() > 0 && $sql->hasValue('status') && 1 == $sql->getValue('status')) {
             $controlFields['delete'] = '';
         }
         return $controlFields;
@@ -161,11 +158,19 @@ if ($func == '') {
 
     $form = rex_form::factory(rex::getTablePrefix() . 'media_manager_type', '', 'id = ' . $type_id);
     $form->addParam('type_id', $type_id);
-    if ($func == 'edit') {
-        $form->setEditMode($func == 'edit');
+    if ('edit' == $func) {
+        $form->setEditMode('edit' == $func);
+
+        rex_extension::register('REX_FORM_SAVED', static function (rex_extension_point $ep) use ($form, $type_id) {
+            if ($form !== $ep->getParam('form')) {
+                return;
+            }
+
+            rex_media_manager::deleteCacheByType($type_id);
+        });
     }
 
-    $form->addErrorMessage(REX_FORM_ERROR_VIOLATE_UNIQUE_KEY, rex_i18n::msg('media_manager_error_type_name_not_unique'));
+    $form->addErrorMessage(rex_form::ERROR_VIOLATE_UNIQUE_KEY, rex_i18n::msg('media_manager_error_type_name_not_unique'));
 
     $field = $form->addTextField('name');
     $field->setLabel(rex_i18n::msg('media_manager_type_name'));

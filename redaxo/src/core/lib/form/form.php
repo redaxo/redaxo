@@ -1,5 +1,8 @@
 <?php
 
+/*
+ * @deprecated use rex_form::ERROR_VIOLATE_UNIQUE_KEY instead
+ */
 define('REX_FORM_ERROR_VIOLATE_UNIQUE_KEY', 1062);
 
 /**
@@ -17,16 +20,32 @@ class rex_form extends rex_form_base
 {
     use rex_factory_trait;
 
+    public const ERROR_VIOLATE_UNIQUE_KEY = 1062;
+
+    /** @var string */
     protected $tableName;
+    /** @var string */
     protected $whereCondition;
+    /** @var string */
     protected $mode;
+    /** @var int */
+    protected $db;
+    /** @var rex_sql */
     protected $sql;
+    /** @var array */
     protected $languageSupport;
 
     /**
-     * Diese Konstruktor sollte nicht verwendet werden. Instanzen muessen ueber die facotry() Methode erstellt werden!
+     * Diese Konstruktor sollte nicht verwendet werden. Instanzen muessen ueber die factory() Methode erstellt werden!
+     *
+     * @param string $tableName
+     * @param string $fieldset
+     * @param string $whereCondition
+     * @param string $method
+     * @param bool   $debug
+     * @param int    $db             DB connection ID
      */
-    protected function __construct($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
+    protected function __construct($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false, $db = 1)
     {
         $name = md5($tableName . $whereCondition . $method);
 
@@ -36,7 +55,8 @@ class rex_form extends rex_form_base
         $this->whereCondition = $whereCondition;
         $this->languageSupport = [];
 
-        $this->sql = rex_sql::factory();
+        $this->db = $db;
+        $this->sql = rex_sql::factory($db);
         $this->sql->setDebug($this->debug);
         $this->sql->setQuery('SELECT * FROM ' . $tableName . ' WHERE ' . $this->whereCondition . ' LIMIT 2');
 
@@ -44,10 +64,10 @@ class rex_form extends rex_form_base
 
         // --------- validate where-condition and determine editMode
         $numRows = $this->sql->getRows();
-        if ($numRows == 0) {
+        if (0 == $numRows) {
             // Kein Datensatz gefunden => Mode: Add
             $this->setEditMode(false);
-        } elseif ($numRows == 1) {
+        } elseif (1 == $numRows) {
             // Ein Datensatz gefunden => Mode: Edit
             $this->setEditMode(true);
         } else {
@@ -68,13 +88,14 @@ class rex_form extends rex_form_base
      * @param string $whereCondition
      * @param string $method
      * @param bool   $debug
+     * @param int    $db             DB connection ID
      *
      * @return static a rex_form instance
      */
-    public static function factory($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
+    public static function factory($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false, $db = 1)
     {
         $class = static::getFactoryClass();
-        return new $class($tableName, $fieldset, $whereCondition, $method, $debug);
+        return new $class($tableName, $fieldset, $whereCondition, $method, $debug, $db);
     }
 
     /**
@@ -91,8 +112,8 @@ class rex_form extends rex_form_base
 
         $controlFields = [];
         $controlFields['save'] = rex_i18n::msg('form_save');
-        $controlFields['apply'] = $func == 'edit' ? rex_i18n::msg('form_apply') : '';
-        $controlFields['delete'] = $func == 'edit' ? rex_i18n::msg('form_delete') : '';
+        $controlFields['apply'] = 'edit' == $func ? rex_i18n::msg('form_apply') : '';
+        $controlFields['delete'] = 'edit' == $func ? rex_i18n::msg('form_delete') : '';
         $controlFields['reset'] = ''; //rex_i18n::msg('form_reset');
         $controlFields['abort'] = rex_i18n::msg('form_abort');
 
@@ -104,8 +125,13 @@ class rex_form extends rex_form_base
             if ($label) {
                 $attr = ['type' => 'submit', 'internal::useArraySyntax' => false, 'internal::fieldSeparateEnding' => true];
 
-                if ($name === 'abort' || $name === 'delete') {
+                if ('abort' === $name || 'delete' === $name) {
                     $attr['formnovalidate'] = 'formnovalidate';
+                }
+                if ('save' === $name) {
+                    $attr['title'] = rex_i18n::msg('save_and_close_tooltip');
+                } elseif ('apply' === $name) {
+                    $attr['title'] = rex_i18n::msg('save_and_goon_tooltip');
                 }
                 $controlElements[$name] = $this->addField(
                     'button',
@@ -133,7 +159,6 @@ class rex_form extends rex_form_base
      *
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @return rex_form_prio_element
      */
@@ -144,11 +169,14 @@ class rex_form extends rex_form_base
             $attributes['class'] = 'form-control';
         }
         $field = $this->addField('', $name, $value, $attributes, true);
+        assert($field instanceof rex_form_prio_element);
         return $field;
     }
 
     /**
      * Gibt die Where-Bedingung des Formulars zurueck.
+     *
+     * @return string
      */
     public function getWhereCondition()
     {
@@ -186,7 +214,7 @@ class rex_form extends rex_form_base
      */
     public function isEditMode()
     {
-        return $this->mode == 'edit';
+        return 'edit' == $this->mode;
     }
 
     /**
@@ -205,6 +233,9 @@ class rex_form extends rex_form_base
         return $this->sql;
     }
 
+    /**
+     * @return string
+     */
     protected function getId($name)
     {
         return $this->tableName . '_' . $this->fieldset . '_' . $name;
@@ -212,7 +243,7 @@ class rex_form extends rex_form_base
 
     protected function getValue($name)
     {
-        if ($this->sql->getRows() == 1 && $this->sql->hasValue($name)) {
+        if (1 == $this->sql->getRows() && $this->sql->hasValue($name)) {
             return $this->sql->getValue($name);
         }
 
@@ -274,11 +305,11 @@ class rex_form extends rex_form_base
      * Gibt true zurück wenn alles ok war, false bei einem allgemeinen Fehler,
      * einen String mit einer Fehlermeldung oder den von der Datenbank gelieferten ErrorCode.
      *
-     * @return bool
+     * @return bool|int
      */
     protected function save()
     {
-        $sql = rex_sql::factory();
+        $sql = rex_sql::factory($this->db);
         $sql->setDebug($this->debug);
         $sql->setTable($this->tableName);
 
@@ -286,7 +317,7 @@ class rex_form extends rex_form_base
         foreach ($this->getSaveElements() as $fieldsetName => $fieldsetElements) {
             foreach ($fieldsetElements as $element) {
                 // read-only-fields nicht speichern
-                if (strpos($element->getAttribute('class'), 'form-control-static') !== false) {
+                if (false !== strpos($element->getAttribute('class'), 'form-control-static')) {
                     continue;
                 }
 
@@ -344,11 +375,11 @@ class rex_form extends rex_form_base
     }
 
     /**
-     * @return bool
+     * @return bool|int
      */
     protected function delete()
     {
-        $deleteSql = rex_sql::factory();
+        $deleteSql = rex_sql::factory($this->db);
         $deleteSql->setDebug($this->debug);
         $deleteSql->setTable($this->tableName);
         $deleteSql->setWhere($this->whereCondition);

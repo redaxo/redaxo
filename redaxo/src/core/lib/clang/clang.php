@@ -9,14 +9,38 @@
  */
 class rex_clang
 {
+    /**
+     * @var bool
+     */
     private static $cacheLoaded = false;
+    /**
+     * @var self[]
+     */
     private static $clangs = [];
-    private static $currentId = 1;
+    /**
+     * @var int
+     */
+    private static $currentId;
 
+    /**
+     * @var int
+     */
     private $id;
+    /**
+     * @var string
+     */
     private $code;
+    /**
+     * @var string
+     */
     private $name;
+    /**
+     * @var int
+     */
     private $priority;
+    /**
+     * @var bool
+     */
     private $status;
 
     private function __construct()
@@ -41,7 +65,7 @@ class rex_clang
      *
      * @param int $id Clang id
      *
-     * @return self
+     * @return self|null
      */
     public static function get($id)
     {
@@ -61,6 +85,7 @@ class rex_clang
         foreach (self::getAll() as $id => $clang) {
             return $id;
         }
+        throw new LogicException('No clang found.');
     }
 
     /**
@@ -70,7 +95,13 @@ class rex_clang
      */
     public static function getCurrent()
     {
-        return self::get(self::getCurrentId());
+        $clang = self::get(self::getCurrentId());
+
+        if (!$clang) {
+            throw new LogicException('Clang with id "' . self::getCurrentId() . '" not found.');
+        }
+
+        return $clang;
     }
 
     /**
@@ -80,7 +111,7 @@ class rex_clang
      */
     public static function getCurrentId()
     {
-        return self::$currentId;
+        return self::$currentId ?? self::$currentId = self::getStartId();
     }
 
     /**
@@ -105,7 +136,7 @@ class rex_clang
      */
     public function getId()
     {
-        return (int) $this->id;
+        return $this->id;
     }
 
     /**
@@ -183,12 +214,14 @@ class rex_clang
     /**
      * Counts the clangs.
      *
+     * @param bool $ignoreOfflines
+     *
      * @return int
      */
-    public static function count()
+    public static function count($ignoreOfflines = false)
     {
         self::checkCache();
-        return count(self::$clangs);
+        return count(self::getAll($ignoreOfflines));
     }
 
     /**
@@ -219,7 +252,7 @@ class rex_clang
             return self::$clangs;
         }
 
-        return array_filter(self::$clangs, function (self $clang) {
+        return array_filter(self::$clangs, static function (self $clang) {
             return $clang->isOnline();
         });
     }
@@ -234,13 +267,20 @@ class rex_clang
         }
 
         $file = rex_path::coreCache('clang.cache');
-        if (!file_exists($file)) {
+        if (!is_file($file)) {
             rex_clang_service::generateCache();
         }
         foreach (rex_file::getCache($file) as $id => $data) {
             $clang = new self();
+            $clang->id = (int) $id;
+            $clang->priority = (int) $data['priority'];
+            $clang->status = (bool) $data['status'];
 
             foreach ($data as $key => $value) {
+                if (in_array($key, ['id', 'priority', 'status'], true)) {
+                    continue;
+                }
+
                 $clang->$key = $value;
             }
 

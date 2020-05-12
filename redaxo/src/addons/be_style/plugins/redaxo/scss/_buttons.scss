@@ -83,11 +83,6 @@
     @include button-variant(#fff, $color-d, $color-d);
 }
 
-@media (min-width: $screen-md-min) {
-    .rex-table-action .btn-save {
-        float: right;
-    }
-}
 .btn-debug-mode,
 .btn-safemode-activate {
     $normal: (color: darken(#a86500, 20%), background: #f90, border: darken(#f90, 3%));
@@ -113,4 +108,16 @@
     .input-group > .input-group-btn {
         width: auto;
     }
+}
+
+// highlight buttons: show animation when :active
+.btn.btn-highlight {
+    transition: all 1000ms ease-out 1000ms, outline 800ms ease-out 100ms;
+    outline: 25px solid rgba($color-b-light, 0);
+}
+.btn.btn-highlight:active {
+    transition: all 0ms linear 0ms;
+    background-color: $color-b;
+    border-color: $color-b;
+    outline: 0px solid rgba($color-b-light, 1);
 }

@@ -20,7 +20,7 @@ class rex_article_content extends rex_article_content_base
     // bc
     public function getContentAsQuery($viasql = true)
     {
-        if ($viasql !== true) {
+        if (true !== $viasql) {
             $viasql = false;
         }
         $this->viasql = $viasql;
@@ -49,16 +49,19 @@ class rex_article_content extends rex_article_content_base
         return false;
     }
 
-    protected function _getValue($value)
+    public function getValue($value)
     {
         // bc
         if ($this->viasql) {
-            return parent::_getValue($value);
+            return parent::getValue($value);
         }
 
         $value = $this->correctValue($value);
 
-        return rex_article::get($this->article_id, $this->clang)->getValue($value);
+        if (rex_article::hasValue($value)) {
+            return rex_article::get($this->article_id, $this->clang)->getValue($value);
+        }
+        return '[' . $value . ' not found]';
     }
 
     public function hasValue($value)
@@ -70,7 +73,7 @@ class rex_article_content extends rex_article_content_base
 
         $value = $this->correctValue($value);
 
-        return rex_article::get($this->article_id, $this->clang)->hasValue($value);
+        return rex_article::hasValue($value);
     }
 
     public function getArticle($curctype = -1)
@@ -82,25 +85,18 @@ class rex_article_content extends rex_article_content_base
 
         $this->ctype = $curctype;
 
-        if (!$this->getSlice && $this->article_id != 0) {
+        if (!$this->getSlice && 0 != $this->article_id) {
             // ----- start: article caching
             ob_start();
             ob_implicit_flush(0);
 
             $article_content_file = rex_path::addonCache('structure', $this->article_id . '.' . $this->clang . '.content');
 
-            $generated = true;
-            if (!file_exists($article_content_file)) {
-                $generated = rex_content_service::generateArticleContent($this->article_id, $this->clang);
-                if ($generated !== true) {
-                    // fehlermeldung ausgeben
-                    echo $generated;
-                }
+            if (!is_file($article_content_file)) {
+                rex_content_service::generateArticleContent($this->article_id, $this->clang);
             }
 
-            if ($generated === true) {
-                require $article_content_file;
-            }
+            require $article_content_file;
 
             // ----- end: article caching
             $CONTENT = ob_get_clean();

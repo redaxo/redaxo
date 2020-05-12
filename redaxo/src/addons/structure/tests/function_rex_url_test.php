@@ -1,13 +1,19 @@
 <?php
 
-class rex_structure_function_url_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_structure_function_url_test extends TestCase
 {
     /**
      * @dataProvider provideRedirectException
-     * @expectedException \InvalidArgumentException
      */
     public function testRedirectException($article_id)
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         rex_redirect($article_id);
     }
 

@@ -170,12 +170,6 @@
 .rex-icon-metainfo {
     @extend .fa-lemon-o;
 }
-.rex-icon-minibar-close {
-    @extend .fa-times;
-}
-.rex-icon-minibar-open {
-    @extend .fa-window-minimize;
-}
 .rex-icon-module {
     @extend .fa-database;
 }
@@ -301,6 +295,9 @@
 .rex-icon-user-secret {
     @extend .fa-user-secret;
 }
+.rex-icon-unstable-version {
+    @extend .fa-flask;
+}
 .rex-icon-view {
     @extend .fa-eye;
 }
@@ -315,4 +312,7 @@
 }
 .rex-icon-view-media {
     @extend .fa-eye;
+}
+.rex-icon-heartbeat {
+    @extend .fa-heartbeat;
 }

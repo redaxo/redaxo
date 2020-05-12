@@ -1,6 +1,11 @@
 <?php
 
-class rex_backend_login_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_backend_login_test extends TestCase
 {
     private $skipped = false;
 
@@ -8,11 +13,11 @@ class rex_backend_login_test extends PHPUnit_Framework_TestCase
     private $password = 'test1234';
     private $cookiekey = 'mycookie';
 
-    public function setUp()
+    protected function setUp()
     {
         if (rex::getUser()) {
             $this->skipped = true;
-            $this->markTestSkipped('The rex_backend_login class can not be tested when test suite is running in redaxo backend.');
+            static::markTestSkipped('The rex_backend_login class can not be tested when test suite is running in redaxo backend.');
         }
 
         $adduser = rex_sql::factory();
@@ -26,7 +31,7 @@ class rex_backend_login_test extends PHPUnit_Framework_TestCase
         $adduser->insert();
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         if ($this->skipped) {
             return;
@@ -43,14 +48,14 @@ class rex_backend_login_test extends PHPUnit_Framework_TestCase
     {
         $login = new rex_backend_login();
         $login->setLogin($this->login, $this->password, false);
-        $this->assertTrue($login->checkLogin());
+        static::assertTrue($login->checkLogin());
     }
 
     public function testFailedLogin()
     {
         $login = new rex_backend_login();
         $login->setLogin($this->login, 'somethingwhichisnotcorrect', false);
-        $this->assertFalse($login->checkLogin());
+        static::assertFalse($login->checkLogin());
     }
 
     /**
@@ -61,10 +66,10 @@ class rex_backend_login_test extends PHPUnit_Framework_TestCase
         $login = new rex_backend_login();
 
         $login->setLogin($this->login, 'somethingwhichisnotcorrect', false);
-        $this->assertFalse($login->checkLogin());
+        static::assertFalse($login->checkLogin());
 
         $login->setLogin($this->login, $this->password, false);
-        $this->assertTrue($login->checkLogin());
+        static::assertTrue($login->checkLogin());
     }
 
     /**
@@ -76,19 +81,19 @@ class rex_backend_login_test extends PHPUnit_Framework_TestCase
 
         for ($i = 0; $i < rex_backend_login::LOGIN_TRIES_1; ++$i) {
             $login->setLogin($this->login, 'somethingwhichisnotcorrect', false);
-            $this->assertFalse($login->checkLogin());
+            static::assertFalse($login->checkLogin());
         }
 
         // we need to re-create login-objects because the time component is static in their sql queries
         $login = new rex_backend_login();
         $login->setLogin($this->login, $this->password, false);
-        $this->assertFalse($login->checkLogin(), 'account locked after fast login attempts');
+        static::assertFalse($login->checkLogin(), 'account locked after fast login attempts');
 
         sleep(1);
 
         $login = new rex_backend_login();
         $login->setLogin($this->login, $this->password, false);
-        $this->assertFalse($login->checkLogin(), 'even seconds later account is locked');
+        static::assertFalse($login->checkLogin(), 'even seconds later account is locked');
 
         // FIXME Does not work at travis
         //sleep(rex_backend_login::RELOGIN_DELAY_1 + 2);
@@ -102,8 +107,8 @@ class rex_backend_login_test extends PHPUnit_Framework_TestCase
     {
         $login = new rex_backend_login();
         $login->setLogin($this->login, $this->password, false);
-        $this->assertTrue($login->checkLogin());
+        static::assertTrue($login->checkLogin());
         $login->setLogout(true);
-        $this->assertFalse($login->checkLogin());
+        static::assertFalse($login->checkLogin());
     }
 }

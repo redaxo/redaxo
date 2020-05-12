@@ -13,17 +13,26 @@ header("Content-Security-Policy: frame-ancestors 'self'");
 if (rex_get('asset') && rex_get('buster')) {
     $assetFile = rex_get('asset');
 
+    // relative to the assets-root
+    if (0 === strpos($assetFile, '/assets/')) {
+        $assetFile = '..'. $assetFile;
+    }
+
     $fullPath = realpath($assetFile);
     $assetDir = rex_path::assets();
 
-    if (strpos($fullPath, $assetDir) !== 0) {
+    if (0 !== strpos($fullPath, $assetDir)) {
         throw new Exception('Assets can only be streamed from within the assets folder. "'. $fullPath .'" is not within "'. $assetDir .'"');
     }
 
     $ext = rex_file::extension($assetFile);
     if ('js' === $ext) {
+        $js = rex_file::get($assetFile);
+
+        $js = preg_replace('@^//# sourceMappingURL=.*$@m', '', $js);
+
         rex_response::sendCacheControl('max-age=31536000, immutable');
-        rex_response::sendFile($assetFile, 'application/javascript');
+        rex_response::sendContent($js, 'application/javascript');
     } elseif ('css' === $ext) {
         $styles = rex_file::get($assetFile);
 
@@ -79,7 +88,21 @@ if (rex::isSetup()) {
         $login->setLogout(true);
         $login->checkLogin();
         rex_csrf_token::removeAll();
-        rex_response::setHeader('Clear-Site-Data', '"cache", "cookies", "storage", "executionContexts"');
+
+        $userAgent = rex_server('HTTP_USER_AGENT');
+        $advertisedChrome = preg_match('/(Chrome|CriOS)\//i', $userAgent);
+        $nonChrome = preg_match('/(Aviator|ChromePlus|coc_|Dragon|Edge|Flock|Iron|Kinza|Maxthon|MxNitro|Nichrome|OPR|Perk|Rockmelt|Seznam|Sleipnir|Spark|UBrowser|Vivaldi|WebExplorer|YaBrowser)/i', $userAgent);
+        if ($advertisedChrome && !$nonChrome) {
+            // Browser is likely Google Chrome which currently seems to be super slow when clearing 'cache' from site data
+            // https://bugs.chromium.org/p/chromium/issues/detail?id=762417
+            rex_response::setHeader('Clear-Site-Data', '"storage", "executionContexts"');
+        } else {
+            rex_response::setHeader('Clear-Site-Data', '"cache", "storage", "executionContexts"');
+        }
+
+        // Currently browsers like Safari do not support the header Clear-Site-Data.
+        // we dont kill/regenerate the session so e.g. the frontend will not get logged out
+        rex_request::clearSession();
 
         // is necessary for login after logout
         // and without the redirect, the csrf token would be invalid
@@ -98,7 +121,7 @@ if (rex::isSetup()) {
         $loginCheck = $login->checkLogin();
     }
 
-    if ($loginCheck !== true) {
+    if (true !== $loginCheck) {
         if (rex_request::isXmlHttpRequest()) {
             rex_response::setStatus(rex_response::HTTP_UNAUTHORIZED);
         }
@@ -115,27 +138,33 @@ if (rex::isSetup()) {
         $page = 'login';
         rex_be_controller::setCurrentPage('login');
 
-        // clear in-browser data of a previous session with the same browser for security reasons.
-        // a possible attacker should not be able to access cached data of a previous valid session on the same computer.
-        // clearing "executionContext" or "cookies" would result in a endless loop.
-        rex_response::setHeader('Clear-Site-Data', '"cache", "storage"');
+        if ('login' !== rex_request('page', 'string', 'login')) {
+            // clear in-browser data of a previous session with the same browser for security reasons.
+            // a possible attacker should not be able to access cached data of a previous valid session on the same computer.
+            // clearing "executionContext" or "cookies" would result in a endless loop.
+            rex_response::setHeader('Clear-Site-Data', '"cache", "storage"');
+
+            // Currently browsers like Safari do not support the header Clear-Site-Data.
+            // we dont kill/regenerate the session so e.g. the frontend will not get logged out
+            rex_request::clearSession();
+        }
     } else {
         // Userspezifische Sprache einstellen
         $user = $login->getUser();
         $lang = $user->getLanguage();
-        if ($lang && $lang != 'default' && $lang != rex::getProperty('lang')) {
+        if ($lang && 'default' != $lang && $lang != rex::getProperty('lang')) {
             rex_i18n::setLocale($lang);
         }
 
         rex::setProperty('user', $user);
     }
 
-    if ($rex_user_loginmessage === '' && rex_get('rex_logged_out', 'boolean')) {
+    if ('' === $rex_user_loginmessage && rex_get('rex_logged_out', 'boolean')) {
         $rex_user_loginmessage = rex_i18n::msg('login_logged_out');
     }
 
     // Safe Mode
-    if (($safeMode = rex_get('safemode', 'boolean', null)) !== null) {
+    if (null !== ($safeMode = rex_get('safemode', 'boolean', null))) {
         if ($safeMode) {
             rex_set_session('safemode', true);
         } else {
@@ -150,13 +179,18 @@ rex_be_controller::setPages($pages);
 if (rex::getUser()) {
     rex_be_controller::appendLoggedInPages();
     rex_be_controller::setCurrentPage(trim(rex_request('page', 'string')));
+
+    if ('profile' !== rex_be_controller::getCurrentPage() && rex::getProperty('login')->requiresPasswordChange()) {
+        rex_response::sendRedirect(rex_url::backendPage('profile'));
+    }
 }
 
-rex_view::addJsFile(rex_url::coreAssets('jquery.min.js'));
-rex_view::addJsFile(rex_url::coreAssets('jquery-ui.custom.min.js'));
-rex_view::addJsFile(rex_url::coreAssets('jquery-pjax.min.js'));
-rex_view::addJsFile(rex_url::coreAssets('standard.js'));
-rex_view::addJsFile(rex_url::coreAssets('sha1.js'));
+rex_view::addJsFile(rex_url::coreAssets('jquery.min.js'), [rex_view::JS_IMMUTABLE => true]);
+rex_view::addJsFile(rex_url::coreAssets('jquery-ui.custom.min.js'), [rex_view::JS_IMMUTABLE => true]);
+rex_view::addJsFile(rex_url::coreAssets('jquery-pjax.min.js'), [rex_view::JS_IMMUTABLE => true]);
+rex_view::addJsFile(rex_url::coreAssets('standard.js'), [rex_view::JS_IMMUTABLE => true]);
+rex_view::addJsFile(rex_url::coreAssets('sha1.js'), [rex_view::JS_IMMUTABLE => true]);
+rex_view::addJsFile(rex_url::coreAssets('clipboard-copy-element.js'), [rex_view::JS_IMMUTABLE => true]);
 
 rex_view::setJsProperty('backend', true);
 rex_view::setJsProperty('accesskeys', rex::getProperty('use_accesskeys'));
@@ -175,6 +209,11 @@ rex_be_controller::setPages($pages);
 
 // Set Startpage
 if ($user = rex::getUser()) {
+    if (rex::getProperty('login')->requiresPasswordChange()) {
+        // profile is available for everyone, no additional checks required
+        rex_be_controller::setCurrentPage('profile');
+    }
+
     // --- page pruefen und benoetigte rechte checken
     rex_be_controller::checkPagePermissions($user);
 }
@@ -188,7 +227,7 @@ rex_extension::registerPoint(new rex_extension_point('PAGE_CHECKED', $page, ['pa
 // trigger api functions
 // If the backend session is timed out, rex_api_function would throw an exception
 // so only trigger api functions if page != login
-if ($page != 'login') {
+if ('login' != $page) {
     rex_api_function::handleCall();
 }
 

@@ -1,6 +1,11 @@
 <?php
 
-class rex_password_policy_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_password_policy_test extends TestCase
 {
     /**
      * @dataProvider provideCheck
@@ -12,9 +17,9 @@ class rex_password_policy_test extends PHPUnit_Framework_TestCase
         $result = $policy->check($password);
 
         if ($expected) {
-            $this->assertTrue($result);
+            static::assertTrue($result);
         } else {
-            $this->assertInternalType('string', $result);
+            static::assertIsString($result);
         }
     }
 

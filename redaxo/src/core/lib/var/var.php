@@ -7,11 +7,14 @@
  */
 abstract class rex_var
 {
-    const ENV_FRONTEND = 1;
-    const ENV_BACKEND = 2;
-    const ENV_INPUT = 4;
-    const ENV_OUTPUT = 8;
+    public const ENV_FRONTEND = 1;
+    public const ENV_BACKEND = 2;
+    public const ENV_INPUT = 4;
+    public const ENV_OUTPUT = 8;
 
+    /**
+     * @psalm-var null|array<string, class-string<self>>
+     */
     private static $vars = [];
     private static $env = null;
     private static $context = null;
@@ -35,7 +38,7 @@ abstract class rex_var
     {
         $env = (int) $env;
 
-        if (($env & self::ENV_INPUT) != self::ENV_INPUT) {
+        if (self::ENV_INPUT != ($env & self::ENV_INPUT)) {
             $env = $env | self::ENV_OUTPUT;
         }
 
@@ -65,7 +68,7 @@ abstract class rex_var
                 case T_INLINE_HTML:
                     $format = '<?= %s@@@INLINE_HTML_REPLACEMENT_END@@@';
                     $add = self::replaceVars($add, $format);
-                    $add = preg_replace_callback('/@@@INLINE_HTML_REPLACEMENT_END@@@(\r?\n?)/', function (array $match) {
+                    $add = preg_replace_callback('/@@@INLINE_HTML_REPLACEMENT_END@@@(\r?\n?)/', static function (array $match) {
                         return $match[1]
                             ? ', "'.addcslashes($match[1], "\r\n").'" ?>'.$match[1]
                             : ' ?>';
@@ -73,15 +76,15 @@ abstract class rex_var
                     break;
 
                 case T_CONSTANT_ENCAPSED_STRING:
-                    $format = $token[1][0] == '"' ? '" . %s . "' : "' . %s . '";
+                    $format = '"' == $token[1][0] ? '" . %s . "' : "' . %s . '";
                     $add = self::replaceVars($add, $format, false, $token[1][0]);
 
                     $start = substr($add, 0, 5);
                     $end = substr($add, -5);
-                    if ($start == '"" . ' || $start == "'' . ") {
+                    if ('"" . ' == $start || "'' . " == $start) {
                         $add = substr($add, 5);
                     }
-                    if ($end == ' . ""' || $end == " . ''") {
+                    if (' . ""' == $end || " . ''" == $end) {
                         $add = substr($add, 0, -5);
                     }
                     break;
@@ -98,7 +101,7 @@ abstract class rex_var
                     break;
 
                 case T_START_HEREDOC:
-                    while (isset($tokens[++$i]) && (is_string($tokens[$i]) || $tokens[$i][0] != T_END_HEREDOC)) {
+                    while (isset($tokens[++$i]) && (is_string($tokens[$i]) || T_END_HEREDOC != $tokens[$i][0])) {
                         $add .= is_string($tokens[$i]) ? $tokens[$i] : $tokens[$i][1];
                     }
                     --$i;
@@ -120,15 +123,14 @@ abstract class rex_var
      * Returns a rex_var object for the given var name.
      *
      * @param string $var
-     *
-     * @return self
      */
-    private static function getVar($var)
+    private static function getVar($var): ?self
     {
         if (!isset(self::$vars[$var])) {
+            /** @var class-string $class */
             $class = 'rex_var_' . strtolower(substr($var, 4));
             if (!class_exists($class) || !is_subclass_of($class, self::class)) {
-                return false;
+                return null;
             }
             self::$vars[$var] = $class;
         }
@@ -167,13 +169,13 @@ abstract class rex_var
             $var = self::getVar($match[1]);
             $replaced = false;
 
-            if ($var !== false) {
+            if (null !== $var) {
                 $args = str_replace(['\[', '\]'], ['@@@OPEN_BRACKET@@@', '@@@CLOSE_BRACKET@@@'], $match[2]);
                 if ($stripslashes) {
                     $args = str_replace(['\\' . $stripslashes, '\\' . $stripslashes], $stripslashes, $args);
                 }
                 $var->setArgs($args);
-                if (($output = $var->getGlobalArgsOutput()) !== false) {
+                if (false !== ($output = $var->getGlobalArgsOutput())) {
                     $output .= str_repeat("\n", max(0, substr_count($match[0], "\n") - substr_count($output, "\n") - substr_count($format, "\n")));
                     if ($useVariables) {
                         $replace = '$__rex_var_content_' . ++self::$variableIndex;
@@ -242,11 +244,16 @@ abstract class rex_var
     /**
      * Returns the argument.
      *
-     * @param string      $key
-     * @param null|string $default
-     * @param bool        $defaultArg
+     * @param string          $key
+     * @param null|string|int $default
+     * @param bool            $defaultArg
      *
-     * @return null|string
+     * @return null|string|int
+     *
+     * @template T as null|string|int
+     * @phpstan-template T
+     * @psalm-param T $default
+     * @psalm-return string|T
      */
     protected function getArg($key, $default = null, $defaultArg = false)
     {
@@ -259,11 +266,16 @@ abstract class rex_var
     /**
      * Returns the (recursive) parsed argument.
      *
-     * @param string      $key
-     * @param null|string $default
-     * @param bool        $defaultArg
+     * @param string          $key
+     * @param null|string|int $default
+     * @param bool            $defaultArg
      *
      * @return int|null|string
+     *
+     * @template T as null|string|int
+     * @phpstan-template T
+     * @psalm-param T $default
+     * @psalm-return string|T
      */
     protected function getParsedArg($key, $default = null, $defaultArg = false)
     {
@@ -274,7 +286,7 @@ abstract class rex_var
         $begin = '<<<addslashes>>>';
         $end = '<<</addslashes>>>';
         $arg = $begin . self::replaceVars($arg, $end . "' . %s . '" . $begin) . $end;
-        $arg = preg_replace_callback("@$begin(.*)$end@Us", function ($match) {
+        $arg = preg_replace_callback("@$begin(.*)$end@Us", static function ($match) {
             return addcslashes($match[1], "\'");
         }, $arg);
         $arg = str_replace(['@@@OPEN_BRACKET@@@', '@@@CLOSE_BRACKET@@@'], ['[', ']'], $arg);
@@ -316,7 +328,7 @@ abstract class rex_var
     /**
      * Returns the output.
      *
-     * @return bool|string
+     * @return false|string
      */
     abstract protected function getOutput();
 
@@ -338,16 +350,20 @@ abstract class rex_var
     /**
      * Returns the output in consideration of the global args.
      *
-     * @return bool|string
+     * @return false|string
      */
     private function getGlobalArgsOutput()
     {
-        if (($content = $this->getOutput()) === false) {
+        if (false === ($content = $this->getOutput())) {
             return false;
         }
 
         if ($this->hasArg('callback')) {
-            $args = ["'subject' => " . $content];
+            $args = [
+                "'var' => 'REX" . strtoupper(substr(static::class, 7)) . "'",
+                "'class' => '" . static::class . "'",
+                "'subject' => " . $content,
+            ];
             foreach ($this->args as $key => $value) {
                 $args[] = "'$key' => " . $this->getParsedArg($key);
             }

@@ -1,5 +1,5 @@
 package: install
-version: '2.4.1-beta1'
+version: '2.8.0-dev'
 author: Gregor Harlan
 supportpage: www.redaxo.org/de/forum
 
@@ -21,5 +21,12 @@ page:
 
 requires:
     php:
+        version: '>=7.1'
         extensions: [zlib]
-    redaxo: ^5.5.0
+    redaxo: ^5.7.0
+
+
+console_commands:
+    install:download: rex_command_install_download
+    install:list: rex_command_install_list
+    install:update: rex_command_install_update

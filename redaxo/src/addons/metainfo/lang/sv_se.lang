@@ -24,6 +24,8 @@ minfo_field_label_params = Parametrar
 minfo_field_label_priority = Fältposition
 minfo_field_label_restrictions = Bara tillgänglig i följande kategorier
 minfo_field_label_no_restrictions = Tillgänglig i alla kategorier
+minfo_field_label_all_templates = Finns till alla mallar
+minfo_field_label_templates = Endast tillgängligt till följande mallar
 
 minfo_field_notice_title = Prefix "translate:" översätta värdet via I18N
 
@@ -37,6 +39,8 @@ minfo_field_params_notice_6 = Exempel:<br /> <code>category="1" types="gif,jpg" 
 minfo_field_params_notice_7 = Exempel:<br /> <code>category="1" types="gif,jpg" preview="1"</code>
 minfo_field_params_notice_8 = Exempel:<br /> <code>category="1"</code>
 minfo_field_params_notice_9 = Exempel:<br /> <code>category="1"</code>
+minfo_field_params_notice_10 = Exempel:<br /> <code>start-year="1990" end-year="2030"</code>
+minfo_field_params_notice_11 = Exempel:<br /> <code>start-year="1990" end-year="2030"</code>
 
 minfo_field_attributes_notice = Exempel:<br /><code>style="color:red;" multiple="multiple" class="my_css_class" perm="admin[]"</code>
 minfo_field_label_notice = Kod som utförs om värdet av fältet ändras.<br /> Läsbara variablar: <code>string $fieldName, string $fieldValue, rex_sql $field</code>

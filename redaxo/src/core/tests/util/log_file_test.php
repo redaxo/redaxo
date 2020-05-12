@@ -1,8 +1,13 @@
 <?php
 
-class rex_log_file_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_log_file_test extends TestCase
 {
-    public function tearDown()
+    protected function tearDown()
     {
         rex_dir::delete($this->getPath());
     }
@@ -16,7 +21,7 @@ class rex_log_file_test extends PHPUnit_Framework_TestCase
     {
         $path = $this->getPath('test1.log');
         new rex_log_file($path);
-        $this->assertStringEqualsFile($path, '');
+        static::assertStringEqualsFile($path, '');
     }
 
     public function testConstructWithMaxFileSize()
@@ -25,19 +30,19 @@ class rex_log_file_test extends PHPUnit_Framework_TestCase
         $path2 = $path . '.2';
 
         new rex_log_file($path, 20);
-        $this->assertStringEqualsFile($path, '');
-        $this->assertFileNotExists($path2);
+        static::assertStringEqualsFile($path, '');
+        static::assertFileNotExists($path2);
 
         $content = str_repeat('abc', 5);
         rex_file::put($path, $content);
 
         new rex_log_file($path, 20);
-        $this->assertFileNotExists($path2);
-        $this->assertStringEqualsFile($path, $content);
+        static::assertFileNotExists($path2);
+        static::assertStringEqualsFile($path, $content);
 
         new rex_log_file($path, 10);
-        $this->assertStringEqualsFile($path2, $content);
-        $this->assertStringEqualsFile($path, '');
+        static::assertStringEqualsFile($path2, $content);
+        static::assertStringEqualsFile($path, '');
     }
 
     /**
@@ -54,7 +59,7 @@ class rex_log_file_test extends PHPUnit_Framework_TestCase
 %i-%i-%i %i:%i:%i | test1a | test1b
 %i-%i-%i %i:%i:%i | test2a | test2b | test2c
 EOF;
-        $this->assertStringMatchesFormat($format, rex_file::get($path));
+        static::assertStringMatchesFormat($format, rex_file::get($path));
     }
 
     /**
@@ -64,8 +69,9 @@ EOF;
     {
         $path = $this->getPath('test4.log');
         $log = new rex_log_file($path);
-        $this->assertSame([], iterator_to_array($log));
+        static::assertSame([], iterator_to_array($log));
 
+        unset($log); // free handles to the underlying file
         rex_file::put($path, <<<'EOF'
 2013-08-27 23:07:02 | test1a | test1b
 2013-08-27 23:09:43 | test2a | test2b
@@ -75,8 +81,10 @@ EOF
             new rex_log_entry(mktime(23, 9, 43, 8, 27, 2013), ['test2a', 'test2b']),
             new rex_log_entry(mktime(23, 7, 2, 8, 27, 2013), ['test1a', 'test1b']),
         ];
-        $this->assertEquals($expected, iterator_to_array($log));
+        $log = new rex_log_file($path);
+        static::assertEquals($expected, iterator_to_array($log));
 
+        unset($log); // free handles to the underlying file
         rex_file::put($path . '.2', <<<'EOF'
 
 2013-08-27 22:19:02 | test3
@@ -87,7 +95,8 @@ EOF
         );
         $expected[] = new rex_log_entry(mktime(22, 22, 43, 8, 27, 2013), ['test4']);
         $expected[] = new rex_log_entry(mktime(22, 19, 2, 8, 27, 2013), ['test3']);
-        $this->assertEquals($expected, iterator_to_array($log));
+        $log = new rex_log_file($path);
+        static::assertEquals($expected, iterator_to_array($log));
     }
 
     public function testDelete()
@@ -99,7 +108,7 @@ EOF
 
         rex_log_file::delete($path);
 
-        $this->assertFileNotExists($path);
-        $this->assertFileNotExists($path2);
+        static::assertFileNotExists($path);
+        static::assertFileNotExists($path2);
     }
 }

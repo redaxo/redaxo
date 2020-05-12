@@ -13,7 +13,7 @@ article_status_updated = Lo stato del articolo è stato aggiornato.
 article_updated = Articolo aggiornato.
 article_added = Articolo aggiunto.
 header_category = Nome di categoria
-header_priority = Prio
+header_priority = Priorità
 header_status = Stato/Funzione
 header_id = Id
 add_category = Aggiungere categoria
@@ -48,15 +48,6 @@ structure_copy = Copia
 
 all_categories = Tutte le categorie
 categories = Categorie
-
-be_search_article_name = Nome d'articolo
-be_search_article_id = Id d'articolo
-be_search_start = cercare
-be_search_jump_to_category = Saltare alla categoria
-be_search_quick_navi = Navigazione veloce
-be_search_no_results = Nessun articolo corrisponde i criteri di ricerca
-be_search_search = Ricerca
-be_search_result = Risultato di ricerca
 
 perm_options_article2category[] = Convertire articolo in categoria
 perm_options_article2startarticle[] = Convertire articolo in articolo di partenza

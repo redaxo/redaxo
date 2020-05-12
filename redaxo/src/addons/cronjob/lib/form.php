@@ -12,20 +12,33 @@
 
 class rex_cronjob_form extends rex_form
 {
+    /** @var string */
     private $mainFieldset;
-    /** @var rex_cronjob_form_interval_element */
+    /** @var rex_cronjob_form_interval_element|null */
     private $intervalField;
 
-    public function __construct($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
+    /**
+     * @param string $tableName
+     * @param string $fieldset
+     * @param string $whereCondition
+     * @param string $method
+     * @param bool   $debug
+     * @param int    $db             DB connection ID
+     */
+    public function __construct($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false, $db = 1)
     {
-        parent::__construct($tableName, $fieldset, $whereCondition, $method, $debug);
+        parent::__construct($tableName, $fieldset, $whereCondition, $method, $debug, $db);
         $this->mainFieldset = $fieldset;
     }
 
+    /**
+     * @return rex_cronjob_form_interval_element
+     */
     public function addIntervalField($name, $value = null, $attributes = [])
     {
         $attributes['internal::fieldClass'] = 'rex_cronjob_form_interval_element';
         $attributes['class'] = 'form-control';
+        /** @var rex_cronjob_form_interval_element $field */
         $field = $this->addField('', $name, $value, $attributes, true);
         $this->intervalField = $field;
         return $field;
@@ -34,7 +47,7 @@ class rex_cronjob_form extends rex_form
     protected function save()
     {
         $nexttime = $this->getElement($this->mainFieldset, 'nexttime');
-        $timestamp = rex_cronjob_manager_sql::calculateNextTime($this->intervalField->getValue());
+        $timestamp = rex_cronjob_manager_sql::calculateNextTime($this->intervalField->getIntervalElements());
         $nexttime->setValue($timestamp ? rex_sql::datetime($timestamp) : null);
 
         $return = parent::save();
@@ -50,18 +63,31 @@ class rex_cronjob_form extends rex_form
  */
 class rex_cronjob_form_interval_element extends rex_form_element
 {
+    /** @var array */
+    private $intervalElements;
+
     public function setValue($value)
     {
         if (is_string($value)) {
-            $value = json_decode($value, true);
+            $this->value = $value;
+            $this->intervalElements = json_decode($value, true);
+        } else {
+            $this->value = json_encode($value);
+            $this->intervalElements = $value;
         }
+    }
 
-        $this->value = $value;
+    /**
+     * @return array
+     */
+    public function getIntervalElements()
+    {
+        return $this->intervalElements;
     }
 
     public function getSaveValue()
     {
-        $value = $this->getValue();
+        $value = $this->intervalElements;
 
         $save = [];
         foreach (['minutes', 'hours', 'days', 'weekdays', 'months'] as $key) {
@@ -77,11 +103,14 @@ class rex_cronjob_form_interval_element extends rex_form_element
         return json_encode($save);
     }
 
+    /**
+     * @return string
+     */
     public function formatElement()
     {
-        $range = function ($low, $high, $step = 1) {
+        $range = static function ($low, $high, $step = 1) {
             foreach (range($low, $high, $step) as $i) {
-                yield $i => str_pad($i, 2, '0', STR_PAD_LEFT);
+                yield $i => str_pad((string) $i, 2, '0', STR_PAD_LEFT);
             }
         };
 
@@ -104,7 +133,7 @@ class rex_cronjob_form_interval_element extends rex_form_element
 
         $n = [];
         $n['label'] = '<label class="control-label">'.rex_i18n::msg('cronjob_interval_weekdays').'</label>';
-        $weekdays = function () {
+        $weekdays = static function () {
             for ($i = 1; $i < 7; ++$i) {
                 yield $i => strftime('%a', strtotime('last sunday +'.$i.' days'));
             }
@@ -115,7 +144,7 @@ class rex_cronjob_form_interval_element extends rex_form_element
 
         $n = [];
         $n['label'] = '<label class="control-label">'.rex_i18n::msg('cronjob_interval_months').'</label>';
-        $months = function () {
+        $months = static function () {
             for ($i = 1; $i < 13; ++$i) {
                 yield $i => strftime('%b', mktime(0, 0, 0, $i, 1));
             }
@@ -150,10 +179,13 @@ class rex_cronjob_form_interval_element extends rex_form_element
         return $element;
     }
 
+    /**
+     * @return string
+     */
     protected function formatField($group, $optionAll, $options, $default = 'all')
     {
-        $value = $this->getValue();
-        $value = isset($value[$group]) ? $value[$group] : $default;
+        $value = $this->intervalElements;
+        $value = $value[$group] ?? $default;
 
         $field = '<div class="rex-js-cronjob-interval-all rex-cronjob-interval-all">';
 
@@ -164,8 +196,8 @@ class rex_cronjob_form_interval_element extends rex_form_element
         $checked = 'all' === $value ? ' checked="checked"' : '';
 
         $elements[] = [
-            'label' => '<label class="control-label" for="' . rex_escape($id, 'html_attr') . '">' . $optionAll . '</label>',
-            'field' => '<input type="checkbox" id="' . rex_escape($id, 'html_attr') . '" name="' . rex_escape($name, 'html_attr') . '" value="all"' . $checked . ' />',
+            'label' => '<label class="control-label" for="' . rex_escape($id) . '">' . $optionAll . '</label>',
+            'field' => '<input type="checkbox" id="' . rex_escape($id) . '" name="' . rex_escape($name) . '" value="all"' . $checked . ' />',
         ];
 
         $fragment = new rex_fragment();
@@ -182,8 +214,8 @@ class rex_cronjob_form_interval_element extends rex_form_element
             $checked = is_array($value) && in_array($key, $value) ? ' checked="checked"' : '';
 
             $elements[] = [
-                'label' => '<label class="control-label" for="' . rex_escape($id, 'html_attr') . '">' . $label . '</label>',
-                'field' => '<input type="checkbox" id="' . rex_escape($id, 'html_attr') . '" name="' . rex_escape($name, 'html_attr') . '" value="' . $key . '"' . $checked . ' />',
+                'label' => '<label class="control-label" for="' . rex_escape($id) . '">' . $label . '</label>',
+                'field' => '<input type="checkbox" id="' . rex_escape($id) . '" name="' . rex_escape($name) . '" value="' . $key . '"' . $checked . ' />',
             ];
         }
 
@@ -198,6 +230,9 @@ class rex_cronjob_form_interval_element extends rex_form_element
         return $field;
     }
 
+    /**
+     * @return string
+     */
     protected function getFragment()
     {
         return 'core/form/container.php';

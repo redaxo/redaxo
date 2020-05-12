@@ -7,18 +7,16 @@
  */
 abstract class rex_linkmap_tree_renderer
 {
+    /**
+     * @return string
+     */
     public function getTree($category_id)
     {
         $category = rex_category::get($category_id);
 
-        $mountpoints = rex::getUser()->getComplexPerm('structure')->getMountpoints();
+        $mountpoints = rex::getUser()->getComplexPerm('structure')->getMountpointCategories();
         if (count($mountpoints) > 0) {
-            $roots = [];
-            foreach ($mountpoints as $mp) {
-                if (rex_category::get($mp)) {
-                    $roots[] = rex_category::get($mp);
-                }
-            }
+            $roots = $mountpoints;
             if (!$category && 1 === count($roots)) {
                 $category = $roots[0];
             }
@@ -70,11 +68,11 @@ abstract class rex_linkmap_tree_renderer
                 $li .= $this->treeItem($cat, $liclasses, $linkclasses, $sub_li, $liIcon);
             }
 
-            if ($ulclasses != '') {
+            if ('' != $ulclasses) {
                 $ulclasses = ' class="' . rtrim($ulclasses) . '"';
             }
 
-            if ($li != '') {
+            if ('' != $li) {
                 $ul = '<ul' . $ulclasses . ' data-cat-id="' . $children[0]->getParentId() . '">' . "\n" . $li . '</ul>' . "\n";
             }
         }
@@ -83,15 +81,16 @@ abstract class rex_linkmap_tree_renderer
 
     abstract protected function treeItem(rex_category $cat, $liClasses, $linkClasses, $subHtml, $liIcon);
 
+    /**
+     * @return string
+     */
     public static function formatLabel(rex_structure_element $OOobject)
     {
         $label = $OOobject->getName();
 
-        if (trim($label) == '') {
+        if ('' == trim($label)) {
             $label = '&nbsp;';
         }
-
-        $label .= ' [' . $OOobject->getId() . ']';
 
         if ($OOobject instanceof rex_article && !$OOobject->hasTemplate()) {
             $label .= ' [' . rex_i18n::msg('linkmap_has_no_template') . ']';
@@ -100,11 +99,14 @@ abstract class rex_linkmap_tree_renderer
         return $label;
     }
 
+    /**
+     * @return string
+     */
     public static function formatLi(rex_structure_element $OOobject, $current_category_id, rex_context $context, $liAttr = '', $linkAttr = '')
     {
         $linkAttr .= ' class="' . ($OOobject->isOnline() ? 'rex-online' : 'rex-offline') . '"';
 
-        if (strpos($linkAttr, ' href=') === false) {
+        if (false === strpos($linkAttr, ' href=')) {
             $linkAttr .= ' href="' . $context->getUrl(['category_id' => $OOobject->getId()]) . '"';
         }
 
@@ -112,7 +114,7 @@ abstract class rex_linkmap_tree_renderer
 
         $icon = '<i class="rex-icon rex-icon-' . ($OOobject->isSiteStartArticle() ? 'sitestartarticle' : ($OOobject->isStartArticle() ? 'startarticle' : 'article')) . '"></i>';
 
-        return '<li' . $liAttr . '><a' . $linkAttr . '>' . $icon . ' ' . rex_escape($label) . '</a>';
+        return '<li' . $liAttr . '><a' . $linkAttr . '>' . $icon . ' ' . rex_escape($label) . '<span class="list-item-suffix">'.$OOobject->getId().'</span></a>';
     }
 }
 
@@ -125,7 +127,7 @@ abstract class rex_linkmap_article_list_renderer
 {
     public function getList($category_id)
     {
-        $isRoot = $category_id === 0;
+        $isRoot = 0 === $category_id;
         $mountpoints = rex::getUser()->getComplexPerm('structure')->getMountpoints();
 
         if ($isRoot && 1 === count($mountpoints)) {
@@ -133,7 +135,7 @@ abstract class rex_linkmap_article_list_renderer
             $isRoot = false;
         }
 
-        if ($isRoot && count($mountpoints) == 0) {
+        if ($isRoot && 0 == count($mountpoints)) {
             $articles = rex_article::getRootArticles();
         } elseif ($isRoot) {
             $articles = [];
@@ -143,15 +145,18 @@ abstract class rex_linkmap_article_list_renderer
         return self::renderList($articles, $category_id);
     }
 
+    /**
+     * @return string
+     */
     public function renderList(array $articles, $category_id)
     {
-        $list = null;
+        $list = '';
         if ($articles) {
             foreach ($articles as $article) {
                 $list .= $this->listItem($article, $category_id);
             }
 
-            if ($list != '') {
+            if ('' != $list) {
                 $list = '<ul class="list-group rex-linkmap-list-group">' . $list . '</ul>';
             }
         }

@@ -1,7 +1,60 @@
 Changelog
 =========
 
-Version 2.5.0 – XX.XX.XXXX
+Version 2.8.1 – 08.05.2020
+--------------------------
+
+### Bugfixes
+
+* Dateien synchronisieren: Button-Disabled-Status wurde nicht richtig gesetzt (@bloep)
+
+
+Version 2.8.0 – 10.03.2020
+--------------------------
+
+### Neu
+
+* Neue EPs: `MEDIA_CATEGORY_ADDED`, `MEDIA_CATEGORY_UPDATED` und `MEDIA_CATEGORY_DELETED` (@staabm)
+* EPs `MEDIA_ADDED`/`MEDIA_UPDATED`: Parameter `category_id` wird übergeben (@staabm)
+
+### Bugfixes
+
+* Bessere Mime-Type-Erkennung durch neue Core-Funktion `rex_file::mimeType()` (@gharlan)
+* Es kam zu doppelten Medien in der DB, wenn zu einem Medium die physische Datei fehlte und dann eine gleichnamige erneut hochgeladen wurde (@gharlan)
+
+
+Version 2.7.0 – 02.02.2020
+--------------------------
+
+### Neu
+
+* Bei (Re)Installation/Update wird `rex_sql_table` verwendet (@tbaddade)
+* Beim Upload wird nicht mehr der gesendete Mimetype, sondern der durch `mime_content_type()` bestimmte Typ genommen (@bloep)
+
+### Bugfixes
+
+* `rex_media`: Bei `hasValue` konnte im Gegensatz zu `getValue` nicht der `med_`-Präfix für die Metainfos weggelassen werden (@bloep)
+* `rex_media_category`: Wenn bei `getChildren`/`getMedia` ein leere Liste herauskam, wurde unnötig der Cache erneuert (@gharlan)
+* Beim Upload kam es in PHP 7.4 teils zu Notices (@gharlan)
+
+
+Version 2.6.1 – 01.11.2019
+--------------------------
+
+### Security
+
+* XSS Sicherheitslücken behoben (Michel Pass und Mathias Niedung von Althammer & Kill, @gharlan)
+
+
+Version 2.6.0 – 20.08.2019
+--------------------------
+
+### Neu
+
+* Assets nutzen immutable cache (@staabm)
+
+
+Version 2.5.0 – 12.03.2019
 --------------------------
 
 ### Security
@@ -14,6 +67,16 @@ Version 2.5.0 – XX.XX.XXXX
 * Bessere Code-Struktur (@staabm)
 * Lazy-Load der Bilder in der Liste (@staabm)
 * Neuer EP: `MEDIA_MOVED` (@bloep)
+* @-Zeichen wird in Dateinamen nicht mehr ersetzt (@tbaddade)
+* Popup 75% Höhe statt fixen 800px (@schuer)
+* Visuelles Feedback für "Datei übernehmen" (@schuer)
+* Buttonleiste unterhalb der Liste am Viewport fixiert (sticky) (@schuer)
+* Anzeige der ID (in eckigen Klammern) entfernt (@schuer)
+* Medienkategorie erstellen/bearbeiten: Autofocus auf Namensfeld (@schuer)
+
+### Bugfixes
+
+* Nach Löschen aus der Detailansicht heraus kam fälschlich die Fehlermeldung "Datei wurde nicht gefunden" (@gharlan)
 
 
 Version 2.4.3 – 01.10.2018
@@ -93,7 +156,7 @@ Version 2.3.1 – 04.10.2017
 
 ### Bugfixes
 
-* Benutzer mit eingeschränkten MP-Kategorie-Rechten 
+* Benutzer mit eingeschränkten MP-Kategorie-Rechten
     - konnte nicht die Multi-Aktionen (schieben, löschen) ausführen (@gharlan)
     - konnten in "Keine Kategorie" hochladen (@gharlan)
 * In der Doctypes-Property fehlte "jpeg" (@IngoWinter)

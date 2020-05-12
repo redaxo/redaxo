@@ -43,21 +43,24 @@ install_info_core_updated = Der Core wurde aktualisiert!
 install_warning_core_not_updated = Der Core konnte aus folgendem Grund nicht aktualisiert werden:
 install_warning_core_zip_not_extracted = Die Zip-Datei konnte nicht in das "src"-Verzeichnis entpackt werden!
 
-install_info_addon_downloaded = AddOn "{0}" wurde heruntergeladen!
-install_warning_addon_not_downloaded = AddOn "{0}" konnte aus folgendem Grund nicht heruntergeladen werden:
-install_info_addon_updated = AddOn "{0}" wurde aktualisiert!
-install_warning_addon_not_updated = AddOn "{0}" konnte aus folgendem Grund nicht aktualisiert werden:
-install_info_addon_uploaded = AddOn "{0}" wurde hochgeladen!
-install_info_addon_deleted = AddOn-Version von "{0}" wurde gelöscht!
+install_info_addon_downloaded = AddOn <b>{0}</b> wurde heruntergeladen!
+install_warning_addon_not_downloaded = AddOn <b>{0}</b> konnte aus folgendem Grund nicht heruntergeladen werden:
+install_info_addon_updated = AddOn <b>{0}</b> wurde aktualisiert!
+install_warning_addon_not_updated = AddOn <b>{0}</b> konnte aus folgendem Grund nicht aktualisiert werden:
+install_info_addon_uploaded = AddOn <b>{0}</b> wurde hochgeladen!
+install_info_addon_deleted = AddOn-Version von <b>{0}</b> wurde gelöscht!
 install_warning_addon_zip_not_extracted = Beim Entpacken der Zip-Datei in das AddOn-Verzeichnis ist ein Fehler aufgetreten. Möglicherweise fehlen Schreibrechte oder der Ordnername innerhalb der Zip-Datei entspricht nicht dem AddOn-Key.
+install_warning_message_from_addon = AddOn <b>{0}</b> meldet:
+install_warning_message_from_plugin = PlugIn <b>{0}</b> meldet:
 
-install_warning_zip_wrong_checksum = Die Prüfsumme der heruntergeladenen Zip-Datei stimmt nicht mit der erwarteten überein!
+install_warning_zip_wrong_checksum = Die Prüfsumme der heruntergeladenen Zip-Datei stimmt nicht mit der erwarteten überein. Bitte in wenigen Minuten noch einmal probieren!
 install_warning_zip_wrong_format = Die Zip-Datei ist nicht im erforderlichen Format.
 
 install_to_addon_page = Zur AddOn-Verwaltung
 
 install_settings_general = Allgemein
 install_settings_backups = Backups erstellen
+install_settings_backups_note = Vor dem Update von Paketen durch den Installer wird jeweils eine Kopie der aktuellen Version in <code>redaxo/data/addons/install/</code> abgelegt. Diese können bei Fehlern wieder eingespielt werden.<br>Bitte beachten, dass die Datenbank dabei nicht gesichert wird!
 install_settings_myredaxo_account = myREDAXO-Account
 install_settings_api_login = Nutzername
 install_settings_api_key = API-Key

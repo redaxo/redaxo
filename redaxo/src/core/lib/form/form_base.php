@@ -14,10 +14,16 @@ abstract class rex_form_base
     /** @var string */
     protected $fieldset;
 
-    /** @var array */
+    /**
+     * @var array
+     * @psalm-var array<string, list<rex_form_element>>
+     */
     protected $elements;
 
-    /** @var array */
+    /**
+     * @var array
+     * @psalm-var array<string, string|int|bool>
+     */
     protected $params;
 
     /** @var bool */
@@ -30,7 +36,7 @@ abstract class rex_form_base
     protected $message;
 
     /** @var array */
-    protected $errorMessages;
+    protected $errorMessages = [];
 
     /** @var string */
     protected $warning;
@@ -42,7 +48,7 @@ abstract class rex_form_base
     private $csrfToken;
 
     /**
-     * Diese Konstruktor sollte nicht verwendet werden. Instanzen muessen ueber die facotry() Methode erstellt werden!
+     * Diese Konstruktor sollte nicht verwendet werden. Instanzen muessen ueber die factory() Methode erstellt werden!
      */
     protected function __construct($fieldset, $name, $method = 'post', $debug = false)
     {
@@ -86,8 +92,7 @@ abstract class rex_form_base
     /**
      * Gibt eine Formular-Url zurück.
      *
-     * @param array $params
-     * @param bool  $escape
+     * @param bool $escape
      *
      * @return string
      */
@@ -120,7 +125,6 @@ abstract class rex_form_base
      * @param string $tag
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      * @param bool   $addElement
      *
      * @return rex_form_element
@@ -144,7 +148,6 @@ abstract class rex_form_base
      *
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @return rex_form_container_element
      */
@@ -156,6 +159,7 @@ abstract class rex_form_base
         $attributes['internal::fieldClass'] = 'rex_form_container_element';
 
         $field = $this->addField('', $name, $value, $attributes, true);
+        assert($field instanceof rex_form_container_element);
         return $field;
     }
 
@@ -165,7 +169,6 @@ abstract class rex_form_base
      * @param string $type
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      * @param bool   $addElement
      *
      * @return rex_form_element
@@ -182,7 +185,6 @@ abstract class rex_form_base
      *
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @return rex_form_element
      */
@@ -201,7 +203,6 @@ abstract class rex_form_base
      *
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @return rex_form_element
      */
@@ -221,7 +222,6 @@ abstract class rex_form_base
      *
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @return rex_form_element
      */
@@ -244,7 +244,6 @@ abstract class rex_form_base
      *
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @return rex_form_element
      */
@@ -260,7 +259,6 @@ abstract class rex_form_base
      *
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @return rex_form_checkbox_element
      */
@@ -268,6 +266,7 @@ abstract class rex_form_base
     {
         $attributes['internal::fieldClass'] = 'rex_form_checkbox_element';
         $field = $this->addField('', $name, $value, $attributes);
+        assert($field instanceof rex_form_checkbox_element);
         return $field;
     }
 
@@ -277,7 +276,6 @@ abstract class rex_form_base
      *
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @return rex_form_radio_element
      */
@@ -285,6 +283,7 @@ abstract class rex_form_base
     {
         $attributes['internal::fieldClass'] = 'rex_form_radio_element';
         $field = $this->addField('radio', $name, $value, $attributes);
+        assert($field instanceof rex_form_radio_element);
         return $field;
     }
 
@@ -293,7 +292,6 @@ abstract class rex_form_base
      *
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @return rex_form_element
      */
@@ -321,7 +319,6 @@ abstract class rex_form_base
      *
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @return rex_form_select_element
      */
@@ -332,6 +329,7 @@ abstract class rex_form_base
             $attributes['class'] = 'form-control';
         }
         $field = $this->addField('', $name, $value, $attributes, true);
+        assert($field instanceof rex_form_select_element);
         return $field;
     }
 
@@ -341,7 +339,6 @@ abstract class rex_form_base
      *
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @throws rex_exception
      *
@@ -354,6 +351,7 @@ abstract class rex_form_base
         }
         $attributes['internal::fieldClass'] = 'rex_form_widget_media_element';
         $field = $this->addField('', $name, $value, $attributes, true);
+        assert($field instanceof rex_form_widget_media_element);
         return $field;
     }
 
@@ -363,7 +361,6 @@ abstract class rex_form_base
      *
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @throws rex_exception
      *
@@ -376,6 +373,7 @@ abstract class rex_form_base
         }
         $attributes['internal::fieldClass'] = 'rex_form_widget_medialist_element';
         $field = $this->addField('', $name, $value, $attributes, true);
+        assert($field instanceof rex_form_widget_medialist_element);
         return $field;
     }
 
@@ -385,7 +383,6 @@ abstract class rex_form_base
      *
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @throws rex_exception
      *
@@ -398,6 +395,7 @@ abstract class rex_form_base
         }
         $attributes['internal::fieldClass'] = 'rex_form_widget_linkmap_element';
         $field = $this->addField('', $name, $value, $attributes, true);
+        assert($field instanceof rex_form_widget_linkmap_element);
         return $field;
     }
 
@@ -407,7 +405,6 @@ abstract class rex_form_base
      *
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @throws rex_exception
      *
@@ -420,6 +417,7 @@ abstract class rex_form_base
         }
         $attributes['internal::fieldClass'] = 'rex_form_widget_linklist_element';
         $field = $this->addField('', $name, $value, $attributes, true);
+        assert($field instanceof rex_form_widget_linklist_element);
         return $field;
     }
 
@@ -438,6 +436,7 @@ abstract class rex_form_base
     public function addControlField($saveElement = null, $applyElement = null, $deleteElement = null, $resetElement = null, $abortElement = null)
     {
         $field = $this->addElement(new rex_form_control_element($this, $saveElement, $applyElement, $deleteElement, $resetElement, $abortElement));
+        assert($field instanceof rex_form_control_element);
         return $field;
     }
 
@@ -450,7 +449,8 @@ abstract class rex_form_base
      */
     public function addRawField($html)
     {
-        $field = $this->addElement(new rex_form_raw_element($html));
+        $field = $this->addElement(new rex_form_raw_element($html, $this));
+        assert($field instanceof rex_form_raw_element);
         return $field;
     }
 
@@ -465,6 +465,9 @@ abstract class rex_form_base
     /**
      * Fuegt dem Formular einen Parameter hinzu.
      * Diese an den Stellen eingefuegt, an denen das Fomular neue Requests erzeugt.
+     *
+     * @param string          $name
+     * @param string|int|bool $value
      */
     public function addParam($name, $value)
     {
@@ -475,6 +478,7 @@ abstract class rex_form_base
      * Gibt alle Parameter des Fomulars zurueck.
      *
      * @return array
+     * @psalm-return array<string, string|int|bool>
      */
     public function getParams()
     {
@@ -488,7 +492,7 @@ abstract class rex_form_base
      * @param string $name
      * @param mixed  $default
      *
-     * @return string
+     * @return mixed
      */
     public function getParam($name, $default = null)
     {
@@ -500,8 +504,6 @@ abstract class rex_form_base
 
     /**
      * Allgemeine Bootleneck-Methode um Elemente in das Formular einzufuegen.
-     *
-     * @param rex_form_element $element
      *
      * @return rex_form_element
      */
@@ -517,7 +519,6 @@ abstract class rex_form_base
      * @param string $inputType
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @return rex_form_element
      */
@@ -539,7 +540,6 @@ abstract class rex_form_base
      * @param string $tag
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @return rex_form_element
      */
@@ -549,12 +549,12 @@ abstract class rex_form_base
 
         // Evtl postwerte wieder übernehmen (auch externe Werte überschreiben)
         $postValue = $this->elementPostValue($this->getFieldsetName(), $name);
-        if ($postValue !== null) {
+        if (null !== $postValue) {
             $value = $postValue;
         }
 
         // Wert aus Quelle nehmen, falls keiner extern und keiner im POST angegeben
-        if ($value === null) {
+        if (null === $value) {
             $value = $this->getValue($name);
         }
 
@@ -564,15 +564,16 @@ abstract class rex_form_base
 
         // Eigentlichen Feldnamen nochmals speichern
         $fieldName = $name;
-        if ($attributes['internal::useArraySyntax'] === true) {
+        if (true === $attributes['internal::useArraySyntax']) {
             $name = $this->fieldset . '[' . $name . ']';
-        } elseif ($attributes['internal::useArraySyntax'] === false) {
+        } elseif (false === $attributes['internal::useArraySyntax']) {
             $name = $this->fieldset . '_' . $name;
         }
         unset($attributes['internal::useArraySyntax']);
 
-        $class = 'rex_form_element';
+        $class = rex_form_element::class;
         if (isset($attributes['internal::fieldClass'])) {
+            /** @var class-string<rex_form_element> $class */
             $class = $attributes['internal::fieldClass'];
             unset($attributes['internal::fieldClass']);
         }
@@ -599,6 +600,9 @@ abstract class rex_form_base
         return $element;
     }
 
+    /**
+     * @return string
+     */
     protected function getId($name)
     {
         return $this->fieldset . '_' . $name;
@@ -625,7 +629,8 @@ abstract class rex_form_base
      *
      * @throws rex_exception
      *
-     * @return rex_form_element
+     * @return string
+     * @psalm-return class-string<rex_form_element>
      */
     public static function getInputClassName($inputType)
     {
@@ -638,35 +643,35 @@ abstract class rex_form_base
 
         switch ($inputType) {
             case 'control':
-                $className = 'rex_form_control_element';
+                $className = rex_form_control_element::class;
                 break;
             case 'checkbox':
-                $className = 'rex_form_checkbox_element';
+                $className = rex_form_checkbox_element::class;
                 break;
             case 'radio':
-                $className = 'rex_form_radio_element';
+                $className = rex_form_radio_element::class;
                 break;
             case 'select':
-                $className = 'rex_form_select_element';
+                $className = rex_form_select_element::class;
                 break;
             case 'media':
-                $className = 'rex_form_widget_media_element';
+                $className = rex_form_widget_media_element::class;
                 break;
             case 'medialist':
-                $className = 'rex_form_widget_medialist_element';
+                $className = rex_form_widget_medialist_element::class;
                 break;
             case 'link':
-                $className = 'rex_form_widget_linkmap_element';
+                $className = rex_form_widget_linkmap_element::class;
                 break;
             case 'linklist':
-                $className = 'rex_form_widget_linklist_element';
+                $className = rex_form_widget_linklist_element::class;
                 break;
             case 'hidden':
             case 'readonly':
             case 'readonlytext':
             case 'text':
             case 'textarea':
-                $className = 'rex_form_element';
+                $className = rex_form_element::class;
                 break;
             default:
                 throw new rex_exception("Unexpected inputType '" . $inputType . "'!");
@@ -765,19 +770,16 @@ abstract class rex_form_base
     // --------- Form Methods
 
     /**
-     * @param rex_form_element $element
-     *
      * @return bool
      */
     protected function isHeaderElement(rex_form_element $element)
     {
-        return $element->getTag() == 'input' && $element->getAttribute('type') == 'hidden';
+        return 'input' == $element->getTag() && 'hidden' == $element->getAttribute('type');
     }
 
     /**
-     * @param rex_form_element $element
-     *
      * @return bool
+     * @psalm-assert-if-true rex_form_control_element $element
      */
     protected function isFooterElement(rex_form_element $element)
     {
@@ -785,9 +787,8 @@ abstract class rex_form_base
     }
 
     /**
-     * @param rex_form_element $element
-     *
      * @return bool
+     * @psalm-assert-if-true rex_form_control_element $element
      */
     protected function isControlElement(rex_form_element $element)
     {
@@ -795,9 +796,8 @@ abstract class rex_form_base
     }
 
     /**
-     * @param rex_form_element $element
-     *
      * @return bool
+     * @psalm-assert-if-true rex_form_raw_element $element
      */
     protected function isRawElement(rex_form_element $element)
     {
@@ -845,7 +845,7 @@ abstract class rex_form_base
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     protected function getFieldsets()
     {
@@ -858,6 +858,7 @@ abstract class rex_form_base
 
     /**
      * @return array
+     * @psalm-return array<string, list<rex_form_element>>
      */
     protected function getFieldsetElements()
     {
@@ -881,6 +882,7 @@ abstract class rex_form_base
 
     /**
      * @return array
+     * @psalm-return array<string, list<rex_form_element>>
      */
     protected function getSaveElements()
     {
@@ -903,7 +905,7 @@ abstract class rex_form_base
     }
 
     /**
-     * @return rex_form_control_element
+     * @return rex_form_control_element|null
      */
     protected function getControlElement()
     {
@@ -922,7 +924,7 @@ abstract class rex_form_base
      * @param string $fieldsetName
      * @param string $elementName
      *
-     * @return rex_form_element
+     * @return rex_form_element|null
      */
     protected function getElement($fieldsetName, $elementName)
     {
@@ -935,7 +937,7 @@ abstract class rex_form_base
      * @param string $fieldsetName
      * @param string $elementName
      *
-     * @return rex_form_element
+     * @return rex_form_element|null
      */
     private function _getElement($fieldsetName, $elementName)
     {
@@ -969,7 +971,7 @@ abstract class rex_form_base
     public function getWarning()
     {
         $warning = rex_request($this->getName() . '_warning', 'string');
-        if ($this->warning != '') {
+        if ('' != $this->warning) {
             $warning .= "\n" . $this->warning;
         }
         return $warning;
@@ -986,7 +988,7 @@ abstract class rex_form_base
     public function getMessage()
     {
         $message = rex_request($this->getName() . '_msg', 'string');
-        if ($this->message != '') {
+        if ('' != $this->message) {
             $message .= "\n" . $this->message;
         }
         return $message;
@@ -1008,18 +1010,23 @@ abstract class rex_form_base
      */
     public function fieldsetPostValues($fieldsetName)
     {
-        // Name normalisieren, da der gepostete Name auch zuvor normalisiert wurde
-        $normalizedFieldsetName = rex_string::normalize($fieldsetName, '_', '[]');
+        // Name normalisieren, da der gepostete Name auch zuvor normalisiert wurde.
+        // Da der Feldname als Ganzes normalisiert wurde, hier Array mit angehängtem '[' simulieren
+        // um das Trimmen von möglichen "_" am Ende durch die normalize-Methode zu vermeiden.
+        // Anschließend "[" wieder entfernen.
+        // https://github.com/redaxo/redaxo/issues/2710
+        $normalizedFieldsetName = rex_string::normalize($fieldsetName.'[', '_', '[]');
+        $normalizedFieldsetName = substr($normalizedFieldsetName, 0, -1);
 
         return rex_post($normalizedFieldsetName, 'array');
     }
 
     /**
-     * @param string $fieldsetName
-     * @param string $fieldName
-     * @param mixed  $default
+     * @param string      $fieldsetName
+     * @param string      $fieldName
+     * @param string|null $default
      *
-     * @return string
+     * @return string|null
      */
     public function elementPostValue($fieldsetName, $fieldName, $default = null)
     {
@@ -1045,7 +1052,7 @@ abstract class rex_form_base
      *   $val   = $el->getValue();
      * erreichbar.
      *
-     * @return bool
+     * @return bool|string
      */
     protected function validate()
     {
@@ -1059,12 +1066,13 @@ abstract class rex_form_base
             foreach ($fieldsetElements as $element) {
                 /** @var rex_form_element $element */
                 // read-only-fields
-                if (strpos($element->getAttribute('class'), 'form-control-static') !== false) {
+                if (false !== strpos($element->getAttribute('class'), 'form-control-static')) {
                     continue;
                 }
 
                 $validator = $element->getValidator();
-                if (!$validator->isValid($element->getSaveValue())) {
+                $saveValue = $element->getSaveValue();
+                if (!$validator->isValid((string) $saveValue)) {
                     $messages[] = $validator->getMessage();
                 }
             }
@@ -1081,7 +1089,7 @@ abstract class rex_form_base
         foreach ($saveElements as $fieldsetName => $fieldsetElements) {
             foreach ($fieldsetElements as $key => $element) {
                 // read-only-fields nicht speichern
-                if (strpos($element->getAttribute('class'), 'form-control-static') !== false) {
+                if (false !== strpos($element->getAttribute('class'), 'form-control-static')) {
                     continue;
                 }
 
@@ -1101,7 +1109,7 @@ abstract class rex_form_base
     abstract protected function save();
 
     /**
-     * @return bool
+     * @return bool|int
      */
     protected function delete()
     {
@@ -1110,12 +1118,12 @@ abstract class rex_form_base
 
     protected function redirect($listMessage = '', $listWarning = '', array $params = [])
     {
-        if ($listMessage != '') {
+        if ('' != $listMessage) {
             $listName = rex_request('list', 'string');
             $params[$listName . '_msg'] = $listMessage;
         }
 
-        if ($listWarning != '') {
+        if ('' != $listWarning) {
             $listName = rex_request('list', 'string');
             $params[$listName . '_warning'] = $listWarning;
         }
@@ -1147,17 +1155,17 @@ abstract class rex_form_base
             $this->setApplyUrl($this->getUrl(['func' => ''], false));
         }
 
-        if (($controlElement = $this->getControlElement()) !== null) {
+        if (null !== ($controlElement = $this->getControlElement())) {
             if ($controlElement->saved()) {
                 $this->processPostValues();
 
                 // speichern und umleiten
                 // Nachricht in der Liste anzeigen
-                if (($result = $this->validate()) === true && ($result = $this->save()) === true) {
+                if (true === ($result = $this->validate()) && true === ($result = $this->save())) {
                     $this->redirect(rex_i18n::msg('form_saved'));
                 } elseif (is_int($result) && isset($this->errorMessages[$result])) {
                     $this->setWarning($this->errorMessages[$result]);
-                } elseif (is_string($result) && $result != '') {
+                } elseif (is_string($result) && '' != $result) {
                     $this->setWarning($result);
                 } else {
                     $this->setWarning(rex_i18n::msg('form_save_error'));
@@ -1167,11 +1175,11 @@ abstract class rex_form_base
 
                 // speichern und wiederanzeigen
                 // Nachricht im Formular anzeigen
-                if (($result = $this->validate()) === true && ($result = $this->save()) === true) {
+                if (true === ($result = $this->validate()) && true === ($result = $this->save())) {
                     $this->setMessage(rex_i18n::msg('form_applied'));
                 } elseif (is_int($result) && isset($this->errorMessages[$result])) {
                     $this->setWarning($this->errorMessages[$result]);
-                } elseif (is_string($result) && $result != '') {
+                } elseif (is_string($result) && '' != $result) {
                     $this->setWarning($result);
                 } else {
                     $this->setWarning(rex_i18n::msg('form_save_error'));
@@ -1179,9 +1187,9 @@ abstract class rex_form_base
             } elseif ($controlElement->deleted()) {
                 // speichern und wiederanzeigen
                 // Nachricht in der Liste anzeigen
-                if (($result = $this->delete()) === true) {
+                if (true === ($result = $this->delete())) {
                     $this->redirect(rex_i18n::msg('form_deleted'));
-                } elseif (is_string($result) && $result != '') {
+                } elseif (is_string($result) && '' != $result) {
                     $this->setWarning($result);
                 } else {
                     $this->setWarning(rex_i18n::msg('form_delete_error'));
@@ -1211,9 +1219,9 @@ abstract class rex_form_base
 
         $warning = $this->getWarning();
         $message = $this->getMessage();
-        if ($warning != '') {
+        if ('' != $warning) {
             $s .= '  ' . rex_view::error($warning) . "\n";
-        } elseif ($message != '') {
+        } elseif ('' != $message) {
             $s .= '  ' . rex_view::success($message) . "\n";
         }
 
@@ -1231,12 +1239,12 @@ abstract class rex_form_base
         foreach ($fieldsets as $fieldsetName => $fieldsetElements) {
             $s .= '<fieldset>' . "\n";
 
-            if ($fieldsetName != '' && $fieldsetName != $this->name) {
+            if ('' != $fieldsetName && $fieldsetName != $this->name) {
                 $s .= '<legend>' . rex_escape($fieldsetName) . '</legend>' . "\n";
             }
 
             // Die HeaderElemente nur im 1. Fieldset ganz am Anfang einfügen
-            if ($i == 0 && $addHeaders) {
+            if (0 == $i && $addHeaders) {
                 foreach ($this->getHeaderElements() as $element) {
                     // Callback
                     $element->setValue($this->preView($fieldsetName, $element->getFieldName(), $element->getValue()));

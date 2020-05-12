@@ -7,15 +7,28 @@
  */
 class rex_input_datetime extends rex_input
 {
+    /** @var rex_input_date */
     private $dateInput;
+
+    /** @var rex_input_time */
     private $timeInput;
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->dateInput = rex_input::factory('date');
-        $this->timeInput = rex_input::factory('time');
+        $this->dateInput = new rex_input_date();
+        $this->timeInput = new rex_input_time();
+    }
+
+    public function setStartYear($startYear)
+    {
+        $this->dateInput->setStartYear($startYear);
+    }
+
+    public function setEndYear($endYear)
+    {
+        $this->dateInput->setEndYear($endYear);
     }
 
     public function setValue($value)
@@ -30,6 +43,9 @@ class rex_input_datetime extends rex_input
         parent::setValue($value);
     }
 
+    /**
+     * @return array
+     */
     public function getValue()
     {
         return array_merge($this->dateInput->getValue(), $this->timeInput->getValue());
@@ -45,31 +61,31 @@ class rex_input_datetime extends rex_input
 
     public function getDaySelect()
     {
-        return $this->dateInput->daySelect;
+        return $this->dateInput->getDaySelect();
     }
 
     public function getMonthSelect()
     {
-        return $this->dateInput->monthSelect;
+        return $this->dateInput->getMonthSelect();
     }
 
     public function getYearSelect()
     {
-        return $this->dateInput->yearSelect;
+        return $this->dateInput->getYearSelect();
     }
 
     public function getHourSelect()
     {
-        return $this->hourSelect;
+        return $this->timeInput->getHourSelect();
     }
 
     public function getMinuteSelect()
     {
-        return $this->minuteSelect;
+        return $this->timeInput->getMinuteSelect();
     }
 
     public function getHtml()
     {
-        return $this->dateInput->getHtml() . '<span class="rex-form-select-separator">-</span>' . $this->timeInput->getHTML();
+        return '<span class="rex-form-group-nowrap">' . $this->dateInput->getHtml() . '</span> <span class="rex-form-select-separator">-</span> <span class="rex-form-group-nowrap">' . $this->timeInput->getHTML() . '</span>';
     }
 }

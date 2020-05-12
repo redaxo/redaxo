@@ -11,7 +11,7 @@ class rex_var_config_test extends rex_var_base_test
     public function tearDown()
     {
         rex::removeConfig('myCoreConfig');
-        rex_addon::get('tests')->removeConfig('tests', 'myPackageConfig');
+        rex_addon::get('tests')->removeConfig('tests');
     }
 
     public function configReplaceProvider()

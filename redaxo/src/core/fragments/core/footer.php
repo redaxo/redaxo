@@ -8,7 +8,6 @@
                     <li><a href="https://www.redaxo.org/doku/master" target="_blank" rel="noreferrer noopener' ?>"><?php echo rex_i18n::msg('footer_doku'); ?></a></li>
                 <?php endif; ?>
                 <li><a href="<?php echo rex::getUser() ? rex_url::backendPage('credits') : 'https://www.redaxo.org/" target="_blank" rel="noreferrer noopener' ?>"><?php echo rex_i18n::msg('footer_credits'); ?></a></li>
-                <li><?php echo rex_i18n::msg('footer_datetime', rex_formatter::strftime(time(), 'date')); ?></li>
                 <li class="rex-js-script-time"><!--DYN--><?php echo rex_i18n::msg('footer_scripttime', $this->time); ?><!--/DYN--></li>
             </ul>
         </nav>

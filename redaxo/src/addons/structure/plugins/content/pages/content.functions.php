@@ -1,23 +1,29 @@
 <?php
 
-$content .= '
+assert(isset($context) && $context instanceof rex_context);
+assert(isset($ctype) && is_int($ctype));
+assert(isset($article) && $article instanceof rex_sql);
+assert(isset($category_id) && is_int($category_id));
+assert(isset($article_id) && is_int($article_id));
+
+$content = '
         <form id="rex-form-content-metamode" action="' . $context->getUrl() . '" method="post" enctype="multipart/form-data" data-pjax-container="#rex-page-main">
             <input type="hidden" name="save" value="1" />
             <input type="hidden" name="ctype" value="' . $ctype . '" />
             ';
 
-$onclickApiFields = function ($hiddenFields) {
+$onclickApiFields = static function ($hiddenFields) {
     return 'onclick="$(this.form).append(\''.rex_escape($hiddenFields).'\')"';
 };
 
-$isStartpage = $article->getValue('startarticle') == 1;
+$isStartpage = 1 == $article->getValue('startarticle');
 // --------------------------------------------------- ZUM STARTARTICLE MACHEN START
 if (rex::getUser()->hasPerm('article2startarticle[]')) {
     $panel = '<fieldset>';
 
     $panelClass = 'default';
     $buttons = '';
-    if (!$isStartpage && $article->getValue('parent_id') == 0) {
+    if (!$isStartpage && 0 == $article->getValue('parent_id')) {
         $panelClass = 'info';
 
         $formElements = [];
@@ -107,7 +113,7 @@ if (!$isStartpage && rex::getUser()->hasPerm('article2category[]')) {
 if ($isStartpage && rex::getUser()->hasPerm('article2category[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getValue('parent_id'))) {
     $sql = rex_sql::factory();
     $sql->setQuery('SELECT pid FROM ' . rex::getTablePrefix() . 'article WHERE parent_id=? LIMIT 1', [$article_id]);
-    $emptyCategory = $sql->getRows() == 0;
+    $emptyCategory = 0 == $sql->getRows();
 
     $panel = '<fieldset>';
 
@@ -164,7 +170,7 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() >
     $lang_a->setId('clang_a');
     $lang_a->setName('clang_a');
     $lang_a->setSize('1');
-    $lang_a->setAttribute('class', 'form-control');
+    $lang_a->setAttribute('class', 'form-control selectpicker');
     foreach ($clang_perm as $key) {
         $val = rex_i18n::translate(rex_clang::get($key)->getName());
         $lang_a->addOption($val, $key);
@@ -174,7 +180,7 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() >
     $lang_b->setId('clang_b');
     $lang_b->setName('clang_b');
     $lang_b->setSize('1');
-    $lang_b->setAttribute('class', 'form-control');
+    $lang_b->setAttribute('class', 'form-control selectpicker');
     foreach ($clang_perm as $key) {
         $val = rex_i18n::translate(rex_clang::get($key)->getName());
         $lang_b->addOption($val, $key);
@@ -235,7 +241,7 @@ if (!$isStartpage && rex::getUser()->hasPerm('moveArticle[]')) {
     $move_a->setId('category_id_new');
     $move_a->setName('category_id_new');
     $move_a->setSize('1');
-    $move_a->setAttribute('class', 'form-control');
+    $move_a->setAttribute('class', 'form-control selectpicker');
     $move_a->setSelected($category_id);
 
     $panel = '<fieldset>';
@@ -275,7 +281,7 @@ if (rex::getUser()->hasPerm('copyArticle[]')) {
     $move_a->setName('category_copy_id_new');
     $move_a->setId('category_copy_id_new');
     $move_a->setSize('1');
-    $move_a->setAttribute('class', 'form-control');
+    $move_a->setAttribute('class', 'form-control selectpicker');
     $move_a->setSelected($category_id);
 
     $panel = '<fieldset>';
@@ -315,7 +321,7 @@ if ($isStartpage && rex::getUser()->hasPerm('moveCategory[]') && rex::getUser()-
     $move_a->setId('category_id_new');
     $move_a->setName('category_id_new');
     $move_a->setSize('1');
-    $move_a->setAttribute('class', 'form-control');
+    $move_a->setAttribute('class', 'form-control selectpicker');
     $move_a->setSelected($article_id);
 
     $panel = '<fieldset>';

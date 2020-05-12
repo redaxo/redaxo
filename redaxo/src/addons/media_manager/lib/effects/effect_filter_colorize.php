@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\media-manager
+ */
 class rex_effect_filter_colorize extends rex_effect_abstract
 {
     public function execute()
@@ -31,8 +34,8 @@ class rex_effect_filter_colorize extends rex_effect_abstract
         $w = $this->media->getWidth();
         $h = $this->media->getHeight();
 
-        $src_x = ceil($w);
-        $src_y = ceil($h);
+        $src_x = (int) ceil($w);
+        $src_y = (int) ceil($h);
         $dst_x = $src_x;
         $dst_y = $src_y;
         $dst_im = imagecreatetruecolor($dst_x, $dst_y);
@@ -42,9 +45,9 @@ class rex_effect_filter_colorize extends rex_effect_abstract
             for ($x = 0; $x < $src_x; ++$x) {
                 $rgb = imagecolorat($dst_im, $x, $y);
                 $TabColors = imagecolorsforindex($dst_im, $rgb);
-                $color_r = floor($TabColors['red'] * $this->params['filter_r'] / 255);
-                $color_g = floor($TabColors['green'] * $this->params['filter_g'] / 255);
-                $color_b = floor($TabColors['blue'] * $this->params['filter_b'] / 255);
+                $color_r = (int) floor($TabColors['red'] * $this->params['filter_r'] / 255);
+                $color_g = (int) floor($TabColors['green'] * $this->params['filter_g'] / 255);
+                $color_b = (int) floor($TabColors['blue'] * $this->params['filter_b'] / 255);
                 $newcol = imagecolorallocate($dst_im, $color_r, $color_g, $color_b);
                 imagesetpixel($dst_im, $x, $y, $newcol);
             }

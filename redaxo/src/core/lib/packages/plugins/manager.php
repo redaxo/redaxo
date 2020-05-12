@@ -1,6 +1,8 @@
 <?php
 
 /**
+ * @extends rex_package_manager<rex_plugin>
+ *
  * @package redaxo\core\packages
  */
 class rex_plugin_manager extends rex_package_manager
@@ -20,7 +22,7 @@ class rex_plugin_manager extends rex_package_manager
      */
     protected function wrongPackageId($addonName, $pluginName = null)
     {
-        if ($pluginName === null) {
+        if (null === $pluginName) {
             return $this->i18n('is_addon', $addonName);
         }
         if ($addonName != $this->package->getAddon()->getName()) {

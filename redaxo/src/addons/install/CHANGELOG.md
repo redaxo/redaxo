@@ -1,11 +1,61 @@
 Changelog
 =========
 
-Version 2.4.1 – XX.XX.XXXX
+Version 2.7.1 – 08.05.2020
 --------------------------
 
 ### Bugfixes
 
+* Die PHP-Mindestversion 7.1 wurde nicht geprüft (@gharlan)
+
+
+Version 2.7.0 – 10.03.2020
+--------------------------
+
+### Security
+
+* Markdown-Ausgaben und teils andere Felder waren nicht gegen XSS geschützt (@gharlan)
+
+### Neu
+
+* Console-Commands eingeführt:
+    - `install:list`: Abruf der verfügbaren Addons (optional nur Updates) (@bloep)
+    - `install:download`: Addon herunterladen (@bloep)
+    - `install:update`: Addon aktualisieren (@bloep)
+* Vor dem Laden/Updaten wird eine Warnung ausgegeben, wenn es sich um eine Entwicklungsversion ("beta" etc.) handelt (@staabm)
+
+### Bugfixes
+
+* Probleme beim Core-Update unter Windows behoben (@gharlan)
+* Bessere Fehlerbehandlung (@gharlan)
+
+
+Version 2.6.0 – 02.02.2020
+--------------------------
+
+### Neu
+
+* Update-Fehlermeldungen durch neue Formatierung/Formulierung besser verständlich gemacht (@gharlan)
+* Nach Herunterladen eines Addons und Klick auf "Zur Addonverwaltung" ist das Addon dort markiert (@gharlan)
+* Nach Hochladen einer Addon-Version landet man in den Addon-Details, statt in der Übersicht (@gharlan)
+
+### Bugfixes
+
+* Beim Öffnen der Details eines Addons wird korrekt nach oben gesprungen (@gharlan)
+
+
+Version 2.5.0 – 12.03.2019
+--------------------------
+
+### Neu
+
+* Über `installer_ignore` in der `package.yml` können Addons Ordner/Dateien angeben, die beim Upload ausgeschlossen werden sollen (@schuer)
+* AddOn-Beschreibung und Versions-Beschreibungen werden als Markdown geparst (@tbaddade, @bloep)
+* Erläuterung zu Backup-Option in den Einstellungen (@schuer)
+
+### Bugfixes
+
+* Beim Update wurde mit den alten Requirements/Conflicts geprüft, wenn die neue Version keine Requirements/Conflicts mehr enthielt (@gharlan)
 * Besseres Escaping mittels `rex_escape` (@bloep)
 
 
