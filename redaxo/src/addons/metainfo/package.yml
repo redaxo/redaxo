@@ -1,5 +1,5 @@
 package: metainfo
-version: '2.7.0'
+version: '2.7.1'
 author: 'Markus Staab, Jan Kristinus'
 supportpage: www.redaxo.org/de/forum/
 
@@ -15,6 +15,7 @@ page:
         clangs: { title: 'translate:clangs' }
 
 requires:
+    php: '>=7.1'
     redaxo: '^5.6.0'
     packages:
         structure: '^2.0.0'

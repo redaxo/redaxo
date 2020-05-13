@@ -95,6 +95,10 @@ find redaxo/src/addons/tests/vendor -name "phpstan.neon.dist" -type f -delete
 find redaxo/src/addons/tests/vendor -name "phpunit.xml" -type f -delete
 find redaxo/src/addons/tests/vendor -name "psalm.xml" -type f -delete
 
+printf "\nUpdate root composer.json and vendor/\n"
+.tools/bin/update-root-composer
+composer update
+
 printf "\nUpdate redaxo/src/core/assets/jquery.min.js\n"
 curl -# https://cdn.jsdelivr.net/gh/jquery/jquery@3/dist/jquery.js > redaxo/src/core/assets/jquery.js
 curl -# https://cdn.jsdelivr.net/gh/jquery/jquery@3/dist/jquery.min.js > redaxo/src/core/assets/jquery.min.js
