@@ -21,7 +21,8 @@ class rex_console_application extends Application
     /**
      * @return rex_console_application
      */
-    public static function factory() {
+    public static function factory()
+    {
         $class = static::getFactoryClass();
         return new $class();
     }

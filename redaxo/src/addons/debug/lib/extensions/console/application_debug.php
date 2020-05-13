@@ -5,11 +5,12 @@
  *
  * @internal
  */
-class rex_console_application_debug extends rex_console_application {
+class rex_console_application_debug extends rex_console_application
+{
+    private $consoleData;
 
-    private $consoleData = null;
-
-    public function getConsoleData() {
+    public function getConsoleData()
+    {
         return $this->consoleData;
     }
 
@@ -26,7 +27,7 @@ class rex_console_application_debug extends rex_console_application {
             'options' => $input->getOptions(),
             'defaultArguments' => $command->getDefinition()->getArgumentDefaults(),
             'defaultOptions' => $command->getDefinition()->getOptionDefaults(),
-            'output' => $output->getOutput()
+            'output' => $output->getOutput(),
         ];
 
         return $exitCode;

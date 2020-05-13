@@ -2,7 +2,8 @@
 
 use Symfony\Component\Console\Output\ConsoleOutput;
 
-class rex_console_output_debug extends ConsoleOutput {
+class rex_console_output_debug extends ConsoleOutput
+{
     private $output = '';
 
     protected function doWrite($message, $newline)
@@ -14,7 +15,8 @@ class rex_console_output_debug extends ConsoleOutput {
         parent::doWrite($message, $newline);
     }
 
-    public function getOutput() {
+    public function getOutput()
+    {
         return $this->output;
     }
 }
