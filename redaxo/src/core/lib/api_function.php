@@ -101,7 +101,7 @@ abstract class rex_api_function
      * The method must be called on sub classes.
      *
      * @return array
-     * @psalm-return {rex-api-call: string, _csrf_token: string}
+     * @psalm-return array{rex-api-call: string, _csrf_token: string}
      */
     public static function getUrlParams()
     {
