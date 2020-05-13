@@ -29,7 +29,7 @@ if (rex_addon::get('users')->isInstalled() && $addon->getPlugin('content')->isIn
         foreach ($roles as $role) {
             $perms = $role->getArrayValue('perms');
             $perms['options'] = $perms['options'] ?? '|';
-            $perms['options'] .= 'plublishSlice|';
+            $perms['options'] .= 'publishSlice[]|';
 
             $sql
                 ->setTable(rex::getTable('user_role'))
