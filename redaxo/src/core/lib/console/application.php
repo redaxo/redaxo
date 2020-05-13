@@ -48,7 +48,21 @@ class rex_console_application extends Application
             $this->loadPackages($command);
         }
 
-        return parent::doRunCommand($command, $input, $output);
+        $exitCode = parent::doRunCommand($command, $input, $output);
+
+        $clockwork = rex_debug_clockwork::getInstance();
+        $clockwork->resolveAsCommand(
+            $command->getName(),
+            $exitCode,
+            // XXX convert to the correct types, see https://github.com/itsgoingd/clockwork/issues/394
+            $command->getDefinition()->getArguments(),
+            $command->getDefinition()->getOptions(),
+            $command->getDefinition()->getArgumentDefaults(),
+            $command->getDefinition()->getOptionDefaults()
+        )
+        ->storeRequest();
+
+        return $exitCode;
     }
 
     private function loadPackages(rex_console_command $command)
