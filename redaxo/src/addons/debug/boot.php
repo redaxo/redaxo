@@ -1,7 +1,7 @@
 <?php
 
 // collect only data in debug mode with http requests outside of the debug addon
-if (!rex::isDebugMode() || !rex_server('REQUEST_URI') || 'debug' === rex_get(rex_api_function::REQ_CALL_PARAM)) {
+if (!rex::isDebugMode() || !(rex_server('REQUEST_URI') || rex::getConsole()) || 'debug' === rex_get(rex_api_function::REQ_CALL_PARAM)) {
     return;
 }
 
@@ -55,6 +55,8 @@ rex_extension::setFactoryClass(rex_extension_debug::class);
 
 rex_logger::setFactoryClass(rex_logger_debug::class);
 rex_api_function::setFactoryClass(rex_api_function_debug::class);
+
+rex_console_application::setFactoryClass(rex_console_application_debug::class);
 
 rex_response::setHeader('X-Clockwork-Id', rex_debug_clockwork::getInstance()->getRequest()->id);
 rex_response::setHeader('X-Clockwork-Version', \Clockwork\Clockwork::VERSION);
@@ -115,5 +117,29 @@ register_shutdown_function(static function () {
     $ep->table('Executed Extension Points', rex_extension_debug::getExtensionPoints());
     $ep->table('Registered Extensions', rex_extension_debug::getExtensions());
 
+    if (rex::getConsole()) {
+        assert(rex::getConsole() instanceof rex_console_application_debug);
+
+        /** @var rex_console_application_debug $console */
+        $console = rex::getConsole();
+        $commandData = $console->getConsoleData();
+
+        // command not executed
+        if (empty($commandData['name'])) {
+            return;
+        }
+        $clockwork
+            ->resolveAsCommand(
+                $commandData['name'],
+                $commandData['exitCode'],
+                $commandData['arguments'],
+                $commandData['options'],
+                $commandData['defaultArguments'],
+                $commandData['defaultOptions'],
+                $commandData['output']
+            )
+            ->storeRequest();
+        return;
+    }
     $clockwork->resolveRequest()->storeRequest();
 });

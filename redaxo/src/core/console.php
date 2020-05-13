@@ -15,7 +15,9 @@ if (!rex::isSetup()) {
     }
 }
 
-$application = new rex_console_application();
+rex_console_application::setFactoryClass(rex_console_application_debug::class);
+
+$application = rex_console_application::factory();
 
 rex::setProperty('console', $application);
 
