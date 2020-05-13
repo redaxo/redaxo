@@ -17,9 +17,10 @@ class rex_api_content_slice_status extends rex_api_function
             throw new rex_api_exception('Unable to find article with id "' . $article_id . '" and clang "' . $clang . '"!');
         }
 
+        $user = rex::getUser();
         $category_id = $article->getCategoryId();
 
-        if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
+        if (!$user->hasPerm('publishSlice[]') || !$user->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
             throw new rex_api_exception(rex_i18n::msg('no_rights_to_this_function'));
         }
 
