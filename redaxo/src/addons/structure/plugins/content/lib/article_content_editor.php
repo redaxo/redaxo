@@ -163,14 +163,16 @@ class rex_article_content_editor extends rex_article_content
             $item['attributes']['data-confirm'] = rex_i18n::msg('confirm_delete_block');
             $menu_items_action[] = $item;
 
-            // status
-            $item = [];
-            $statusName = $sliceStatus ? 'online' : 'offline';
-            $item['label'] = rex_i18n::msg('status_'.$statusName);
-            $item['url'] = $context->getUrl(['status' => $sliceStatus ? 0 : 1] + rex_api_content_slice_status::getUrlParams());
-            $item['attributes']['class'][] = 'btn-default';
-            $item['attributes']['class'][] = 'rex-'.$statusName;
-            $menu_items_status[] = $item;
+            if ($templateHasModule && rex::getUser()->hasPerm('publishSlice[]')) {
+                // status
+                $item = [];
+                $statusName = $sliceStatus ? 'online' : 'offline';
+                $item['label'] = rex_i18n::msg('status_'.$statusName);
+                $item['url'] = $context->getUrl(['status' => $sliceStatus ? 0 : 1] + rex_api_content_slice_status::getUrlParams());
+                $item['attributes']['class'][] = 'btn-default';
+                $item['attributes']['class'][] = 'rex-'.$statusName;
+                $menu_items_status[] = $item;
+            }
 
             if ($templateHasModule && rex::getUser()->hasPerm('moveSlice[]')) {
                 // moveup
