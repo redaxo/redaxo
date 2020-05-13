@@ -128,8 +128,6 @@ if ($console) {
         $output = $event->getOutput();
         $exitCode = $event->getExitCode();
 
-        assert($output instanceof \Symfony\Component\Console\Output\BufferedOutput);
-
         $clockwork = rex_debug_clockwork::getInstance();
         $clockwork
             ->resolveAsCommand(
@@ -139,7 +137,7 @@ if ($console) {
                 $input->getOptions(),
                 $command->getDefinition()->getArgumentDefaults(),
                 $command->getDefinition()->getOptionDefaults(),
-                $output->fetch()
+                // $output->fetch()
             )
         ->storeRequest();
     });
