@@ -9,7 +9,7 @@
         "phpstan/phpstan": "^0.12.11",
         "phpstan/phpstan-symfony": "^0.12",
         "psalm/plugin-symfony": "^1.2.1",
-        "vimeo/psalm": "^3.10.1"
+        "vimeo/psalm": "dev-master"
     },
     "replace": {
         "erusev/parsedown": "1.7.4",
