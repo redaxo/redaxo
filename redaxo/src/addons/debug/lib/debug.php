@@ -21,10 +21,8 @@ class rex_debug
     ];
 
     /**
-     * @param array $ignoredClasses
      * @psalm-param class-string[] $ignoredClasses
      *
-     * @return array
      * @psalm-return {file: string, line: int, trace: array}
      */
     public static function getTrace(array $ignoredClasses = []): array
