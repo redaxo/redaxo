@@ -192,7 +192,7 @@ class rex_article_content_editor extends rex_article_content
                 $menu_items_move[] = $item;
             }
         } else {
-            $header_right .= rex_view::info(rex_i18n::msg('no_editing_rights') . ' ' . $moduleName);
+            $header_right .= sprintf('<div class="alert">%s %s</div>', rex_i18n::msg('no_editing_rights'), $moduleName);
         }
 
         // ----- EXTENSION POINT
