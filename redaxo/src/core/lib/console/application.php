@@ -16,9 +16,9 @@ class rex_console_application extends Application
         parent::__construct('REDAXO', rex::getVersion());
     }
 
-    public function setShutdownFunction(callable $c) {
-        $dispatcher = new Symfony\Component\EventDispatcher();
-        $dispatcher->addListener(ConsoleEvents::TERMINATE, $c);
+    public function setShutdownFunction($c) {
+        $dispatcher = new Symfony\Component\EventDispatcher\EventDispatcher();
+        $dispatcher->addListener(\Symfony\Component\Console\ConsoleEvents::TERMINATE, $c);
 
         $this->setDispatcher($dispatcher);
     }
