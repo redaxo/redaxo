@@ -1,4 +1,5 @@
 <?php
+
 // XXX
 if (rex::getConsole()) {
     rex_sql::setFactoryClass(rex_sql_debug::class);
