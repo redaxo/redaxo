@@ -61,8 +61,6 @@ rex_response::setHeader('X-Clockwork-Version', \Clockwork\Clockwork::VERSION);
 
 rex_response::setHeader('X-Clockwork-Path', rex_debug_clockwork::getClockworkApiUrl());
 
-$console = rex::getConsole();
-
 $shutdownFn = static function () {
     $clockwork = rex_debug_clockwork::getInstance();
 
@@ -136,7 +134,7 @@ if ($console) {
                 $input->getArguments(),
                 $input->getOptions(),
                 $command->getDefinition()->getArgumentDefaults(),
-                $command->getDefinition()->getOptionDefaults(),
+                $command->getDefinition()->getOptionDefaults()
                 // $output->fetch()
             )
         ->storeRequest();
