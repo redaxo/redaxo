@@ -63,6 +63,7 @@ content_types = Bereiche (ctypes)
 content_type = Bereich (ctype)
 
 perm_options_moveSlice[] = Blöcke verschieben
+perm_options_publishSlice[] = Blöcke veröffentlichen
 
 templates = Templates
 

@@ -23,7 +23,7 @@ class rex_be_navigation_test extends TestCase
         $user = rex::getUser();
 
         try {
-            rex::setProperty('user', self::createMock(rex_user::class));
+            rex::setProperty('user', new rex_user(rex_sql::factory()));
             $navi = $navi->getNavigation();
         } finally {
             rex::setProperty('user', $user);

@@ -38,8 +38,8 @@ class rex_effect_crop extends rex_effect_abstract
             $this->params['offset_height'] = 0;
         }
 
-        $cropW = min($this->params['width'], $w);
-        $cropH = min($this->params['height'], $h);
+        $cropW = (int) min($this->params['width'], $w);
+        $cropH = (int) min($this->params['height'], $h);
 
         switch ($this->params['vpos']) {
             case 'top':
