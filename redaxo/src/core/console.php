@@ -15,9 +15,7 @@ if (!rex::isSetup()) {
     }
 }
 
-rex_console_application::setFactoryClass(rex_console_application_debug::class);
-
-$application = rex_console_application::factory();
+$application = new rex_console_application();
 
 rex::setProperty('console', $application);
 
@@ -31,4 +29,4 @@ $command = new rex_command_list();
 $application->add($command);
 $application->setDefaultCommand($command->getName());
 
-$application->run();
+$application->run(null, new \Symfony\Component\Console\Output\BufferedOutput());

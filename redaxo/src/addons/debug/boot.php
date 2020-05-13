@@ -56,14 +56,14 @@ rex_extension::setFactoryClass(rex_extension_debug::class);
 rex_logger::setFactoryClass(rex_logger_debug::class);
 rex_api_function::setFactoryClass(rex_api_function_debug::class);
 
-rex_console_application::setFactoryClass(rex_console_application_debug::class);
-
 rex_response::setHeader('X-Clockwork-Id', rex_debug_clockwork::getInstance()->getRequest()->id);
 rex_response::setHeader('X-Clockwork-Version', \Clockwork\Clockwork::VERSION);
 
 rex_response::setHeader('X-Clockwork-Path', rex_debug_clockwork::getClockworkApiUrl());
 
-register_shutdown_function(static function () {
+$console = rex::getConsole();
+
+$shutdownFn = static function () {
     $clockwork = rex_debug_clockwork::getInstance();
 
     $clockwork->getTimeline()->endEvent('total');
@@ -116,30 +116,38 @@ register_shutdown_function(static function () {
 
     $ep->table('Executed Extension Points', rex_extension_debug::getExtensionPoints());
     $ep->table('Registered Extensions', rex_extension_debug::getExtensions());
+};
 
-    if (rex::getConsole()) {
-        assert(rex::getConsole() instanceof rex_console_application_debug);
+$console = rex::getConsole();
+if ($console) {
+    $console->setShutdownFunction(function (\Symfony\Component\Console\Event\ConsoleTerminateEvent $event) use ($shutdownFn, $console){
+        $shutdownFn();
 
-        /** @var rex_console_application_debug $console */
-        $console = rex::getConsole();
-        $commandData = $console->getConsoleData();
+        $command = $event->getCommand();
+        $input = $event->getInput();
+        $output = $event->getOutput();
+        $exitCode = $event->getExitCode();
 
-        // command not executed
-        if (empty($commandData['name'])) {
-            return;
-        }
+        assert($output instanceof \Symfony\Component\Console\Output\BufferedOutput);
+
+        $clockwork = rex_debug_clockwork::getInstance();
         $clockwork
             ->resolveAsCommand(
-                $commandData['name'],
-                $commandData['exitCode'],
-                $commandData['arguments'],
-                $commandData['options'],
-                $commandData['defaultArguments'],
-                $commandData['defaultOptions'],
-                $commandData['output']
+                $command->getName(),
+                $exitCode,
+                $input->getArguments(),
+                $input->getOptions(),
+                $command->getDefinition()->getArgumentDefaults(),
+                $command->getDefinition()->getOptionDefaults(),
+                $output->fetch()
             )
-            ->storeRequest();
-        return;
-    }
-    $clockwork->resolveRequest()->storeRequest();
-});
+        ->storeRequest();
+    });
+} else {
+    register_shutdown_function(function() use ($shutdownFn){
+        $shutdownFn();
+
+        $clockwork = rex_debug_clockwork::getInstance();
+        $clockwork->resolveRequest()->storeRequest();
+    });
+}

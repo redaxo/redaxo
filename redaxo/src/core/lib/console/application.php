@@ -11,20 +11,16 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class rex_console_application extends Application
 {
-    use rex_factory_trait;
-
     public function __construct()
     {
         parent::__construct('REDAXO', rex::getVersion());
     }
 
-    /**
-     * @return rex_console_application
-     */
-    public static function factory()
-    {
-        $class = static::getFactoryClass();
-        return new $class();
+    public function setShutdownFunction(callable $c) {
+        $dispatcher = new Symfony\Component\EventDispatcher();
+        $dispatcher->addListener(ConsoleEvents::TERMINATE, $c);
+
+        $this->setDispatcher($dispatcher);
     }
 
     public function doRun(InputInterface $input, OutputInterface $output)
