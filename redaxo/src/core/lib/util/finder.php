@@ -185,8 +185,8 @@ class rex_finder implements IteratorAggregate, Countable
     }
 
     /**
-     * @return Iterator|SplFileInfo[]
-     * @psalm-return Iterator<string, SplFileInfo>
+     * @return Traversable|SplFileInfo[]
+     * @psalm-return Traversable<string, SplFileInfo>
      */
     public function getIterator()
     {
@@ -238,6 +238,7 @@ class rex_finder implements IteratorAggregate, Countable
         });
 
         if ($this->recursive) {
+            /** @var Traversable<string, SplFileInfo> */
             $iterator = new RecursiveIteratorIterator($iterator, $this->recursiveMode);
         }
 
