@@ -118,7 +118,7 @@ $shutdownFn = static function () {
 
 $console = rex::getConsole();
 if ($console) {
-    $console->setShutdownFunction(function (\Symfony\Component\Console\Event\ConsoleTerminateEvent $event) use ($shutdownFn, $console){
+    $console->setShutdownFunction(static function (\Symfony\Component\Console\Event\ConsoleTerminateEvent $event) use ($shutdownFn, $console) {
         $shutdownFn();
 
         $command = $event->getCommand();
@@ -140,7 +140,7 @@ if ($console) {
         ->storeRequest();
     });
 } else {
-    register_shutdown_function(function() use ($shutdownFn){
+    register_shutdown_function(static function () use ($shutdownFn) {
         $shutdownFn();
 
         $clockwork = rex_debug_clockwork::getInstance();
