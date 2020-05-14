@@ -115,6 +115,8 @@ media_manager_effect_rotate_degree = Volver (grado)
 
 media_manager_effect_mirror = Imagen: Añade reflejo de agua
 media_manager_effect_mirror_height = Refl. Altura (50/10%)
+media_manager_effect_mirror_opacity =
+media_manager_effect_mirror_opacity_notice =
 media_manager_effect_mirror_background_color = Color de fondo
 media_manager_effect_mirror_background_r = Fondo R (0-255)
 media_manager_effect_mirror_background_g = Fondo G (0 - 255)
