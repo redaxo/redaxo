@@ -63,6 +63,7 @@ abstract class rex_extension
      *
      * @param string|string[] $extensionPoint Name(s) of extension point(s)
      * @param callable        $extension      Callback extension
+     * @psalm-param callable(rex_extension_point):mixed $extension
      * @param int             $level          Runlevel (`rex_extension::EARLY`, `rex_extension::NORMAL` or `rex_extension::LATE`)
      * @param array           $params         Additional params
      */
