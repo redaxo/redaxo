@@ -58,7 +58,7 @@ trait rex_instance_list_pool_trait
         $key = self::getInstanceListPoolKey($args);
         if (!isset(self::$instanceLists[$key]) && $createListCallback) {
             $list = call_user_func_array($createListCallback, $args);
-            self::$instanceLists[$key] = is_array($list) ? $list : []
+            self::$instanceLists[$key] = is_array($list) ? $list : [];
         }
         if (!isset(self::$instanceLists[$key])) {
             return [];
