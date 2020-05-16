@@ -553,6 +553,7 @@ class rex_sql implements Iterator
      *
      * @param callable $callback The callback receives a new `rex_sql` instance for the new record
      *                           and must set the values of the new record on that instance (see example above)
+     * @psalm-param callable(rex_sql):void $callback
      *
      * @return $this
      */
