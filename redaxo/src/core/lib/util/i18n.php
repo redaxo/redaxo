@@ -314,7 +314,7 @@ class rex_i18n
     /**
      * Returns the locales.
      *
-     * @return array Array of Locales
+     * @return string[] Array of Locales
      */
     public static function getLocales()
     {
@@ -337,6 +337,7 @@ class rex_i18n
      * @param string   $text                 The text for translation
      * @param bool     $use_htmlspecialchars Flag whether the translated text should be passed to htmlspecialchars()
      * @param callable $i18nFunction         Function that returns the translation for the i18n key
+     * @psalm-param callable(string):string $i18nFunction
      *
      * @throws InvalidArgumentException
      *
