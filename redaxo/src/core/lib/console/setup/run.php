@@ -500,6 +500,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
      * @param string|bool|null $default        default value for ask()
      * @param string|null      $successMessage success message for using the option value
      * @param callable|null    $validator      validator callback for option value and ask()
+     * @psalm-param callable(mixed):mixed|null $validator
      *
      * @return mixed
      */
