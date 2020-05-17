@@ -58,7 +58,7 @@ trait rex_instance_pool_trait
      *
      * @param mixed    $key            Key
      * @param callable $createCallback Callback, will be called to create a new instance
-     * @psalm-param callable(string...):object $createCallback
+     * @psalm-param callable(mixed...):?static $createCallback
      *
      * @return null|static
      */
