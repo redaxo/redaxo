@@ -329,7 +329,7 @@ abstract class rex_formatter
      *
      * @param string         $value  Value
      * @param callable|array $format A callable or an array of a callable and additional params
-     * @psalm-param callable(string):string|array{0: callable(non-empty-array):string, 1: ?array|string} $format
+     * @psalm-param callable(string):string|array{0: callable(non-empty-array):string, 1: array|string} $format
      *
      * @throws rex_exception
      *
