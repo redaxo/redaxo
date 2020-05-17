@@ -262,7 +262,7 @@
             "type": "array",
             "items": {
                 "type": "string",
-                "pattern": "^[^/]*$"
+                "pattern": "^[^/]+$"
             }
         },
         "table_prefix": {
