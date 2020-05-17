@@ -43,7 +43,8 @@
             "description": "Array of plugin names",
             "type": "array",
             "items": {
-                "type": "string"
+                "type": "string",
+                "pattern": "^[^/]+$"
             }
         },
         "requires": {
@@ -233,7 +234,7 @@
                 "subpages": {
                     "description": "Subpages",
                     "patternProperties": {
-                        "^[^/]*$": {
+                        "^[^/]+$": {
                             "$ref": "#/definitions/page"
                         }
                     },

@@ -254,7 +254,7 @@
             "type": "array",
             "items": {
                 "type": "string",
-                "pattern": "^[^/]*$"
+                "pattern": "^[^/]+$"
             }
         },
         "system_addons": {
