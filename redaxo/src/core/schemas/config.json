@@ -49,7 +49,7 @@
         },
         "instname": {
             "description": "Unique instance name",
-            "type": "string"
+            "type": ["null", "string"]
         },
         "server": {
             "description": "Server URL",
@@ -62,7 +62,7 @@
         },
         "error_email": {
             "description": "Error email",
-            "type": "string",
+            "type": ["null", "string"],
             "format": "email"
         },
         "fileperm": {
@@ -307,15 +307,15 @@
                         },
                         "ssl_key": {
                             "description": "File path to the ssl key",
-                            "type": "string"
+                            "type": ["null", "string"]
                         },
                         "ssl_cert": {
                             "description": "File path to the ssl certificate",
-                            "type": "string"
+                            "type": ["null", "string"]
                         },
                         "ssl_ca": {
                             "description": "File path to the ssl certificate authority",
-                            "type": "string"
+                            "type": ["null", "string"]
                         }
                     },
                     "additionalProperties": false,
@@ -342,7 +342,7 @@
         },
         "editor": {
             "description": "Editor integration (for opening files from backend links into your editor)",
-            "enum": ["atom", "emacs", "idea", "macvim", "phpstorm", "sublime", "textmate", "vscode", "xdebug"]
+            "enum": [null, "atom", "emacs", "idea", "macvim", "phpstorm", "sublime", "textmate", "vscode", "xdebug"]
         },
         "editor_basepath": {
             "description": "Base path for editor integration",

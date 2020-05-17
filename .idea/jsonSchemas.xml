@@ -14,6 +14,9 @@
                   <Item>
                     <option name="path" value="redaxo/data/core/config.yml" />
                   </Item>
+                  <Item>
+                    <option name="path" value="redaxo/src/core/default.config.yml" />
+                  </Item>
                 </list>
               </option>
             </SchemaInfo>
