@@ -9,6 +9,7 @@ on:
 jobs:
   php-cs-fixer:
     runs-on: ubuntu-latest
+    # dont run jobs on forks, because we are not allowed to commit
     if: github.event.pull_request.draft == false && github.repository == 'redaxo/redaxo'
 
     steps:
