@@ -856,6 +856,7 @@ class rex_list implements rex_url_provider_interface
     public function getFooter()
     {
         $s = '';
+        $s .= $this->getPagination();
         /*
         $s .= '            <tr>'. "\n";
         $s .= '                <td colspan="'. count($this->getColumnNames()) .'"><input type="text" name="items" value="'. $this->getRowsPerPage() .'" maxlength="2" /><input type="submit" value="Anzeigen" /></td>'. "\n";
