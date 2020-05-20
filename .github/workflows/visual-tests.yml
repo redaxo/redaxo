@@ -8,7 +8,7 @@ jobs:
     build:
 
         runs-on: ubuntu-latest
-        if: github.event.pull_request.draft == false && github.repository == 'redaxo/redaxo'
+        if: github.event.pull_request.draft == false
         
         services:
             mysql:
