@@ -9,7 +9,7 @@ jobs:
 
         runs-on: ubuntu-latest
         if: github.event.pull_request.draft == false
-        
+
         services:
             mysql:
                 image: mysql:5.7
@@ -71,11 +71,24 @@ jobs:
               name: Detect Changes
               run: git diff-index --quiet HEAD -- .github/tests-visual/
 
+            - name: Set target branch
+              id: target_branch
+              if: failure()
+              run:
+                  if [ $REPO == 'redaxo/redaxo' ] then
+                    echo "::set-output name=branch::$BRANCH"
+                  else
+                    echo "::set-output name=branch::visual-tests/pr-$(echo "$GITHUB_REF" | awk -F / '{print $3}')"
+                  fi
+              env:
+                  REPO: ${{ github.repository }}
+                  BRANCH: ${{ github.head_ref }}
+
             - uses: stefanzweifel/git-auto-commit-action@v2.5.0
               if: failure()
               with:
                 commit_message: Update screenshots
-                branch: ${{ github.head_ref }}
+                branch: ${{ steps.target_branch.outputs.branch }}
                 file_pattern: .github/tests-visual/*
               env:
                 GITHUB_TOKEN: ${{ secrets.STAABM_TOKEN }}
