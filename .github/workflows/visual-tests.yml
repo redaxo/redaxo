@@ -75,7 +75,8 @@ jobs:
               id: target_branch
               if: failure()
               run:
-                  if [ $REPO == 'redaxo/redaxo' ] then
+                  if [ $REPO == 'redaxo/redaxo' ]
+                  then
                     echo "::set-output name=branch::$BRANCH"
                   else
                     echo "::set-output name=branch::visual-tests/pr-$(echo $GITHUB_REF | awk -F / '{print $3}')"
