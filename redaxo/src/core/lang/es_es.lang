@@ -129,7 +129,6 @@ server_required = Se requiere url del sitio web
 server_invalid = Por favor, ingrese una url válida con el protocolo!
 servername_required = Se requiere el nombre del servidor
 system_editor = Integración del editor
-system_editor_note = Vincular a REDAXO con un editor para poder abrir directamente los archivos de código fuente. Requisito previo: el código fuente de la instalación de REDAXO está disponible localmente.
 system_editor_no_editor = Desactivado
 system_editor_open_file = Abra "{0}" en el editor
 system_edit_config_note = La configuración principal de REDAXO ofrece la posibilidad de cambiar los parámetros internos del sistema. El archivo solo debe ser editado por usuarios experimentados.
