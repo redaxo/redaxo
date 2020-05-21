@@ -339,7 +339,6 @@ $n['label'] = '<label for="rex-id-editor">' . rex_i18n::msg('system_editor_name'
 $n['field'] = $sel_editor->get();
 $formElements[] = $n;
 
-
 $n = [];
 $n['label'] = '<label for="rex-id-editor-basepath">' . rex_i18n::msg('system_editor_basepath') . '</label>';
 $n['field'] = '<input class="form-control" type="text" id="rex-id-editor-basepath" name="editor[basepath]" value="' . rex_escape($editor->getBasepath()) . '" />';
