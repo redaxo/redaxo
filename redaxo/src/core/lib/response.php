@@ -540,6 +540,8 @@ class rex_response
     }
 
     /**
+     * Clear the given cookie by name. You might pass additional options in case the name is not unique or the cookie is not stored on the current domain.
+     *
      * @param string $name    The name of the cookie
      * @param array  $options Different cookie Options. Supported keys are:
      *                        "path" string          The path on the server in which the cookie will be available on
