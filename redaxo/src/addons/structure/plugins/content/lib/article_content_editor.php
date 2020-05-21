@@ -48,7 +48,7 @@ class rex_article_content_editor extends rex_article_content
             if ('add' != $this->function && $this->slice_id == $sliceId) {
                 $msg = '';
                 if ('' != $this->warning) {
-                    $msg .= rex_view::warning($this->warning);
+                    $msg .= rex_view::error($this->warning);
                 }
                 if ('' != $this->info) {
                     $msg .= rex_view::success($this->info);
@@ -194,7 +194,7 @@ class rex_article_content_editor extends rex_article_content
                 $menu_items_move[] = $item;
             }
         } else {
-            $header_right .= rex_i18n::msg('no_editing_rights') . ' ' . $moduleName;
+            $header_right .= sprintf('<div class="alert">%s %s</div>', rex_i18n::msg('no_editing_rights'), $moduleName);
         }
 
         // ----- EXTENSION POINT
@@ -366,7 +366,7 @@ class rex_article_content_editor extends rex_article_content
         $MOD->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module WHERE id="' . $moduleIdToAdd . '"');
 
         if (1 != $MOD->getRows()) {
-            $slice_content = rex_view::warning(rex_i18n::msg('module_doesnt_exist'));
+            $slice_content = rex_view::error(rex_i18n::msg('module_doesnt_exist'));
         } else {
             $initDataSql = rex_sql::factory();
             $initDataSql
