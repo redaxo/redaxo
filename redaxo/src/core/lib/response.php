@@ -542,14 +542,12 @@ class rex_response
     /**
      * @param string $name    The name of the cookie
      * @param array  $options Different cookie Options. Supported keys are:
-     *                        "expires" int|string|DateTimeInterface The time the cookie expires
-     *                        "path" string                          The path on the server in which the cookie will be available on
-     *                        "domain" string|null                   The domain that the cookie is available to
-     *                        "secure" bool                          Whether the cookie should only be transmitted over a secure HTTPS connection from the client
-     *                        "httponly" bool                        Whether the cookie will be made accessible only through the HTTP protocol
-     *                        "samesite" string|null                 Whether the cookie will be available for cross-site requests
-     *                        "raw" bool                             Whether the cookie value should be sent with no url encoding
-     * @psalm-param array{expires?: int|string|DateTimeInterface, path?: string, domain?: ?string, secure?: bool, httponly?: bool, samesite?: ?string, raw?: bool} $options
+     *                        "path" string          The path on the server in which the cookie will be available on
+     *                        "domain" string|null   The domain that the cookie is available to
+     *                        "secure" bool          Whether the cookie should only be transmitted over a secure HTTPS connection from the client
+     *                        "httponly" bool        Whether the cookie will be made accessible only through the HTTP protocol
+     *                        "samesite" string|null Whether the cookie will be available for cross-site requests
+     * @psalm-param array{path?: string, domain?: ?string, secure?: bool, httponly?: bool, samesite?: ?string} $options
      *
      * @throws \InvalidArgumentException
      */
