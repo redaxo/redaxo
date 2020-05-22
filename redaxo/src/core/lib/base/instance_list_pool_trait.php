@@ -11,6 +11,7 @@ trait rex_instance_list_pool_trait
 {
     /**
      * @var mixed[]
+     * @psalm-var array<string, array>
      */
     private static $instanceLists = [];
 
@@ -48,7 +49,7 @@ trait rex_instance_list_pool_trait
      * @param callable $getInstanceCallback Callback, will be called for every list item to get the instance
      * @psalm-param callable(mixed...):?static $getInstanceCallback
      * @param callable $createListCallback  Callback, will be called to create the list of instance keys
-     * @psalm-param callable(string...):mixed[] $createListCallback
+     * @psalm-param callable(mixed...):mixed[] $createListCallback
      *
      * @return array
      */
