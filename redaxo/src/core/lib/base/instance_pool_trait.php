@@ -10,7 +10,7 @@
 trait rex_instance_pool_trait
 {
     /**
-     * @psalm-var array<array-key, array<array-key, null|static>>
+     * @psalm-var array<class-string, array<string, null|static>>
      *
      * @var static[][]
      */
