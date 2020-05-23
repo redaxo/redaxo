@@ -131,8 +131,8 @@ if ($console) {
             ->resolveAsCommand(
                 $command->getName(),
                 $exitCode,
-                $input->getArguments(),
-                $input->getOptions(),
+                array_diff($input->getArguments(), $command->getDefinition()->getArgumentDefaults()),
+                array_diff($input->getOptions(), $command->getDefinition()->getOptionDefaults()),
                 $command->getDefinition()->getArgumentDefaults(),
                 $command->getDefinition()->getOptionDefaults()
                 // $output->fetch()
