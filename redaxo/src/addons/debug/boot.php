@@ -1,6 +1,5 @@
 <?php
 
-// collect only data in debug mode with http requests outside of the debug addon
 if (!rex::isDebugMode() || 'debug' === rex_get(rex_api_function::REQ_CALL_PARAM)) {
     return;
 }
@@ -116,8 +115,7 @@ $shutdownFn = static function () {
     $ep->table('Registered Extensions', rex_extension_debug::getExtensions());
 };
 
-$console = rex::getConsole();
-if ($console) {
+if (rex::getConsole()) {
     rex_extension::register(rex_extension_point_console_shutdown::NAME, static function (rex_extension_point_console_shutdown $extensionPoint) use ($shutdownFn) {
         $shutdownFn();
 
