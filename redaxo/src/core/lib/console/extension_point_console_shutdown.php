@@ -13,10 +13,7 @@ class rex_extension_point_console_shutdown extends rex_extension_point
     private $output;
     private $exitCode;
 
-    /**
-     * @param int $exitCode
-     */
-    public function __construct(Command $command, InputInterface $input, OutputInterface $output, $exitCode)
+    public function __construct(Command $command, InputInterface $input, OutputInterface $output, int $exitCode)
     {
         $subject = null;
         $params = [];
