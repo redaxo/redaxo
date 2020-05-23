@@ -68,6 +68,9 @@ class rex_form_container_element extends rex_form_element
     protected function prepareInnerFields()
     {
         $values = $this->getValue();
+        if (null === $values) {
+            return;
+        }
         if (is_string($values)) {
             $values = json_decode($values, true);
             if (!$this->multiple) {

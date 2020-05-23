@@ -18,6 +18,7 @@ pages:
         perm: admin[]
 
 requires:
+    php: '>=7.1'
     redaxo: ^5.9.0
 
 console_commands:

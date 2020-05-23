@@ -17,4 +17,5 @@ page:
         roles: { title: 'translate:roles', perm: admin }
 
 requires:
+    php: '>=7.1'
     redaxo: ^5.11.0-dev

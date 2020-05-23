@@ -2,13 +2,15 @@ name: php-cs-fixer
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
     paths:
     - '**.php'
 
 jobs:
   php-cs-fixer:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.draft == false
+    # dont run jobs on forks, because we are not allowed to commit
+    if: github.event.pull_request.draft == false && github.repository == 'redaxo/redaxo'
 
     steps:
     - uses: actions/checkout@v1
