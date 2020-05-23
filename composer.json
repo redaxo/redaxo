@@ -38,26 +38,12 @@
     },
     "autoload": {
         "classmap": [
-            "redaxo/src/addons/backup/lib/",
+            "redaxo/src/addons/*/lib/",
+            "redaxo/src/addons/*/plugins/*/lib/",
             "redaxo/src/addons/backup/vendor/",
-            "redaxo/src/addons/be_style/lib/",
             "redaxo/src/addons/be_style/vendor/scssphp/",
-            "redaxo/src/addons/cronjob/lib/",
-            "redaxo/src/addons/cronjob/plugins/article_status/lib/",
-            "redaxo/src/addons/cronjob/plugins/optimize_tables/lib/",
-            "redaxo/src/addons/debug/lib/",
             "redaxo/src/addons/debug/vendor/",
-            "redaxo/src/addons/install/lib/",
-            "redaxo/src/addons/media_manager/lib/",
-            "redaxo/src/addons/mediapool/lib/",
-            "redaxo/src/addons/metainfo/lib/",
-            "redaxo/src/addons/phpmailer/lib/",
             "redaxo/src/addons/phpmailer/vendor/",
-            "redaxo/src/addons/structure/lib/",
-            "redaxo/src/addons/structure/plugins/content/lib/",
-            "redaxo/src/addons/structure/plugins/history/lib/",
-            "redaxo/src/addons/structure/plugins/version/lib/",
-            "redaxo/src/addons/users/lib/",
             "redaxo/src/core/lib/"
         ],
         "files": [
@@ -74,10 +60,8 @@
     },
     "autoload-dev": {
         "classmap": [
-            "redaxo/src/addons/media_manager/tests/",
-            "redaxo/src/addons/mediapool/tests/",
-            "redaxo/src/addons/structure/tests/",
-            "redaxo/src/addons/structure/plugins/content/tests/",
+            "redaxo/src/addons/*/tests/",
+            "redaxo/src/addons/*/plugins/*/tests/",
             "redaxo/src/addons/tests/lib/",
             "redaxo/src/addons/tests/vendor/",
             "redaxo/src/core/tests/"
