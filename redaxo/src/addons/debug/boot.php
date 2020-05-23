@@ -1,7 +1,7 @@
 <?php
 
 // collect only data in debug mode with http requests outside of the debug addon
-if (!rex::isDebugMode() || !rex_server('REQUEST_URI') || 'debug' === rex_get(rex_api_function::REQ_CALL_PARAM)) {
+if (!rex::isDebugMode() || !(rex_server('REQUEST_URI') || rex::getConsole()) || 'debug' === rex_get(rex_api_function::REQ_CALL_PARAM)) {
     return;
 }
 
@@ -61,7 +61,7 @@ rex_response::setHeader('X-Clockwork-Version', \Clockwork\Clockwork::VERSION);
 
 rex_response::setHeader('X-Clockwork-Path', rex_debug_clockwork::getClockworkApiUrl());
 
-register_shutdown_function(static function () {
+$shutdownFn = static function () {
     $clockwork = rex_debug_clockwork::getInstance();
 
     $clockwork->getTimeline()->endEvent('total');
@@ -114,6 +114,36 @@ register_shutdown_function(static function () {
 
     $ep->table('Executed Extension Points', rex_extension_debug::getExtensionPoints());
     $ep->table('Registered Extensions', rex_extension_debug::getExtensions());
+};
 
-    $clockwork->resolveRequest()->storeRequest();
-});
+$console = rex::getConsole();
+if ($console) {
+    rex_extension::register(rex_extension_point_console_shutdown::NAME, static function (rex_extension_point_console_shutdown $extensionPoint) use ($shutdownFn) {
+        $shutdownFn();
+
+        $command = $extensionPoint->getCommand();
+        $input = $extensionPoint->getInput();
+        $output = $extensionPoint->getOutput();
+        $exitCode = $extensionPoint->getExitCode();
+
+        $clockwork = rex_debug_clockwork::getInstance();
+        $clockwork
+            ->resolveAsCommand(
+                $command->getName(),
+                $exitCode,
+                array_diff($input->getArguments(), $command->getDefinition()->getArgumentDefaults()),
+                array_diff($input->getOptions(), $command->getDefinition()->getOptionDefaults()),
+                $command->getDefinition()->getArgumentDefaults(),
+                $command->getDefinition()->getOptionDefaults()
+                // $output->fetch()
+            )
+        ->storeRequest();
+    });
+} else {
+    register_shutdown_function(static function () use ($shutdownFn) {
+        $shutdownFn();
+
+        $clockwork = rex_debug_clockwork::getInstance();
+        $clockwork->resolveRequest()->storeRequest();
+    });
+}
