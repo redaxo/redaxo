@@ -1,6 +1,5 @@
 <?php
 
-// collect only data in debug mode with http requests outside of the debug addon
 if (!rex::isDebugMode() || 'debug' === rex_get(rex_api_function::REQ_CALL_PARAM)) {
     return;
 }
