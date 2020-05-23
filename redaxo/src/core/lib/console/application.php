@@ -51,7 +51,7 @@ class rex_console_application extends Application
         $exitCode = parent::doRunCommand($command, $input, $output);
 
         rex_extension::register(new rex_extension_point_console_shutdown($command, $input, $output, $exitCode));
-        
+
         return $exitCode;
     }
 
