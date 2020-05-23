@@ -118,13 +118,13 @@ $shutdownFn = static function () {
 
 $console = rex::getConsole();
 if ($console) {
-    $console->setShutdownFunction(function (\Symfony\Component\Console\Event\ConsoleTerminateEvent $event) use ($shutdownFn, $console){
+    rex_extension::register(rex_extension_point_console_shutdown::NAME, function (rex_extension_point_console_shutdown $extensionPoint) use ($shutdownFn, $console){
         $shutdownFn();
 
-        $command = $event->getCommand();
-        $input = $event->getInput();
-        $output = $event->getOutput();
-        $exitCode = $event->getExitCode();
+        $command = $extensionPoint->getCommand();
+        $input = $extensionPoint->getInput();
+        $output = $extensionPoint->getOutput();
+        $exitCode = $extensionPoint->getExitCode();
 
         $clockwork = rex_debug_clockwork::getInstance();
         $clockwork

@@ -16,13 +16,6 @@ class rex_console_application extends Application
         parent::__construct('REDAXO', rex::getVersion());
     }
 
-    public function setShutdownFunction($c) {
-        $dispatcher = new Symfony\Component\EventDispatcher\EventDispatcher();
-        $dispatcher->addListener(\Symfony\Component\Console\ConsoleEvents::TERMINATE, $c);
-
-        $this->setDispatcher($dispatcher);
-    }
-
     public function doRun(InputInterface $input, OutputInterface $output)
     {
         try {
@@ -55,7 +48,10 @@ class rex_console_application extends Application
             $this->loadPackages($command);
         }
 
-        return parent::doRunCommand($command, $input, $output);
+        $exitCode = parent::doRunCommand($command, $input, $output);
+
+        rex_extension::register(new rex_extension_point_console_shutdown($command, $input, $output, $exitCode));
+        return $exitCode;
     }
 
     private function loadPackages(rex_console_command $command)
