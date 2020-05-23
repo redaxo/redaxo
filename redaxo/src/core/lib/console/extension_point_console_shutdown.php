@@ -25,17 +25,17 @@ class rex_extension_point_console_shutdown extends rex_extension_point
         parent::__construct(self::NAME, $subject, $params, $readonly);
     }
 
-    public function getCommand():Command
+    public function getCommand(): Command
     {
         return $this->command;
     }
 
-    public function getInput():InputInterface
+    public function getInput(): InputInterface
     {
         return $this->input;
     }
 
-    public function getOutput():OutputInterface
+    public function getOutput(): OutputInterface
     {
         return $this->output;
     }
