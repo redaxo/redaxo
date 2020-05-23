@@ -58,7 +58,6 @@ class ComposerStaticInitRedaxoCore
         'voku\\tests\\' => 
         array (
             0 => __DIR__ . '/..' . '/voku/portable-ascii/tests',
-            1 => __DIR__ . '/..' . '/voku/portable-utf8/tests',
         ),
         'voku\\helper\\' => 
         array (
