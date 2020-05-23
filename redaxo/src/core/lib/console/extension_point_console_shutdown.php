@@ -23,6 +23,11 @@ class rex_extension_point_console_shutdown extends rex_extension_point
         $readonly = true;
 
         parent::__construct(self::NAME, $subject, $params, $readonly);
+
+        $this->command = $command;
+        $this->input = $input;
+        $this->output = $output;
+        $this->exitCode = $exitCode;
     }
 
     public function getCommand():Command
