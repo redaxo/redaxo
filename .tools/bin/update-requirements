@@ -21,6 +21,7 @@ find redaxo/src/core/vendor -name "phpcs.xml" -type f -delete
 find redaxo/src/core/vendor -name "phpstan.neon" -type f -delete
 find redaxo/src/core/vendor -name "phpunit.xml.dist" -type f -delete
 find redaxo/src/core/vendor -name "psalm.xml" -type f -delete
+find redaxo/src/core/vendor -name "*.md" -type f -delete
 
 composer dumpautoload --no-dev --classmap-authoritative -d redaxo/src/core/
 
