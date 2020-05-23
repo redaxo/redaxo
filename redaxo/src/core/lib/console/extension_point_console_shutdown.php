@@ -1,5 +1,9 @@
 <?php
 
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
 class rex_extension_point_console_shutdown extends rex_extension_point
 {
     public const NAME = 'CONSOLE_SHUTDOWN';
@@ -9,7 +13,10 @@ class rex_extension_point_console_shutdown extends rex_extension_point
     private $output;
     private $exitCode;
 
-    public function __construct(Symfony\Component\Console\Command\Command $command, \Symfony\Component\Console\Input\InputInterface $input, \Symfony\Component\Console\Output\OutputInterface $output, $exitCode)
+    /**
+     * @param int $exitCode
+     */
+    public function __construct(Command $command, InputInterface $input, OutputInterface $output, $exitCode)
     {
         $subject = null;
         $params = [];
@@ -18,17 +25,17 @@ class rex_extension_point_console_shutdown extends rex_extension_point
         parent::__construct(self::NAME, $subject, $params, $readonly);
     }
 
-    public function getCommand()
+    public function getCommand():Command
     {
         return $this->command;
     }
 
-    public function getInput()
+    public function getInput():InputInterface
     {
         return $this->input;
     }
 
-    public function getOutput()
+    public function getOutput():OutputInterface
     {
         return $this->output;
     }
