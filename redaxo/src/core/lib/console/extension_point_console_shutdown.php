@@ -1,6 +1,7 @@
 <?php
 
-class rex_extension_point_console_shutdown extends rex_extension_point {
+class rex_extension_point_console_shutdown extends rex_extension_point
+{
     public const NAME = 'CONSOLE_SHUTDOWN';
 
     private $command;
@@ -17,19 +18,23 @@ class rex_extension_point_console_shutdown extends rex_extension_point {
         parent::__construct(self::NAME, $subject, $params, $readonly);
     }
 
-    public function getCommand() {
+    public function getCommand()
+    {
         return $this->command;
     }
 
-    public function getInput() {
+    public function getInput()
+    {
         return $this->input;
     }
 
-    public function getOutput() {
+    public function getOutput()
+    {
         return $this->output;
     }
 
-    public function getExitCode():int {
+    public function getExitCode(): int
+    {
         return $this->exitCode;
     }
 }

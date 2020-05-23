@@ -118,7 +118,7 @@ $shutdownFn = static function () {
 
 $console = rex::getConsole();
 if ($console) {
-    rex_extension::register(rex_extension_point_console_shutdown::NAME, function (rex_extension_point_console_shutdown $extensionPoint) use ($shutdownFn, $console){
+    rex_extension::register(rex_extension_point_console_shutdown::NAME, static function (rex_extension_point_console_shutdown $extensionPoint) use ($shutdownFn, $console) {
         $shutdownFn();
 
         $command = $extensionPoint->getCommand();
