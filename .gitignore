@@ -29,6 +29,7 @@
 # PhpStorm setting
 /.idea/*
 !/.idea/encodings.xml
+!/.idea/jsonSchemas.xml
 !/.idea/modules.xml
 !/.idea/php.xml
 !/.idea/redaxo.iml

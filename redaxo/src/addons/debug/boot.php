@@ -5,7 +5,7 @@ if (!rex::isDebugMode() || !(rex_server('REQUEST_URI') || rex::getConsole()) || 
     return;
 }
 
-if (rex::isBackend() && 'debug' === rex_request::get('page')) {
+if (rex::isBackend() && 'debug' === rex_request::get('page') && rex::getUser() && rex::getUser()->isAdmin()) {
     $index = file_get_contents(rex_addon::get('debug')->getAssetsPath('clockwork/index.html'));
 
     $editor = rex_editor::factory();
