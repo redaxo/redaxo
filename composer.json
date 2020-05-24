@@ -83,6 +83,9 @@
             "redaxo/src/core/tests/"
         ]
     },
+    "bin": [
+        "redaxo/bin/console"
+    ],
     "config": {
         "optimize-autoloader": true,
         "sort-packages": true,
