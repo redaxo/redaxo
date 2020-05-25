@@ -32,7 +32,9 @@ class rex_setup
         rex_backend_login::deleteSession();
 
         // copy alle media files of the current rex-version into redaxo_media
-        rex_dir::copy(rex_path::core('assets'), rex_path::coreAssets());
+        if (!rex_dir::copy(rex_path::core('assets'), rex_path::coreAssets())) {
+            throw new rex_exception('Unable to copy assets to "'. rex_path::coreAssets() .'". is the folder writable for the webserver?');
+        }
 
         // copy skins files/assets
         $skinAddon = rex_addon::get($skinAddon);
