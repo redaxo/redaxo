@@ -46,7 +46,7 @@ if ($export && !$csrfToken->isValid()) {
     $filename = preg_replace('@[^\.a-z0-9_\-]@', '', $exportfilename);
 
     if ($filename != $exportfilename) {
-        $success = rex_i18n::msg('backup_filename_updated');
+        $error = rex_i18n::msg('backup_filename_updated');
         $exportfilename = $filename;
     } else {
         $hasContent = false;
