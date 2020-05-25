@@ -34,7 +34,7 @@ class rex_setup
         // copy alle media files of the current rex-version into redaxo_media
         rex_dir::copy(rex_path::core('assets'), rex_path::coreAssets());
         // in a regular release the folder will never be empty, because we ship it prefilled.
-        // provide a error message for 'git cloned' sources, to give newcomers a hint why the setup might look broken
+        // provide a error message for 'git cloned' sources, to give newcomers a hint why the very first setup might look broken
         if (!is_dir(rex_path::coreAssets())) {
             throw new rex_exception('Unable to copy assets to "'. rex_path::coreAssets() .'". is the folder writable for the webserver?');
         }
