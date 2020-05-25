@@ -37,7 +37,7 @@ class rex_setup
         // provide a error message for 'git cloned' sources, to give newcomers a hint why the very first setup might look broken.
         // we intentionally dont check permissions here, as those will be checked in a later setup step.
         if (!is_dir(rex_path::coreAssets())) {
-            throw new rex_exception('Unable to copy assets to "'. rex_path::coreAssets() .'". is the folder writable for the webserver?');
+            throw new rex_exception('Unable to copy assets to "'. rex_path::coreAssets() .'". Is the folder writable for the webserver?');
         }
 
         // copy skins files/assets
