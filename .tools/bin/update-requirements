@@ -21,7 +21,7 @@ find redaxo/src/core/vendor -name "phpcs.xml" -type f -delete
 find redaxo/src/core/vendor -name "phpstan.neon" -type f -delete
 find redaxo/src/core/vendor -name "phpunit.xml.dist" -type f -delete
 find redaxo/src/core/vendor -name "psalm.xml" -type f -delete
-find redaxo/src/core/vendor -name "*.md" -type f -delete
+find redaxo/src/core/vendor -name "*.md" ! -name "LICENSE.md" -type f -delete
 
 composer dumpautoload --no-dev --classmap-authoritative -d redaxo/src/core/
 
@@ -34,6 +34,7 @@ rm -rf redaxo/src/addons/be_style/vendor/bin/
 rm -rf redaxo/src/addons/be_style/vendor/scssphp/scssphp/bin/
 rm -rf redaxo/src/addons/be_style/vendor/scssphp/scssphp/example/
 rm -r redaxo/src/addons/be_style/vendor/scssphp/scssphp/scss.inc.php
+find redaxo/src/addons/be_style/vendor/scssphp -name "*.md" ! -name "LICENSE.md" -type f -delete
 
 printf "\nUpdate redaxo/src/addons/debug/vendor\n"
 composer update --no-dev -d redaxo/src/addons/debug/
@@ -48,6 +49,7 @@ rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Storage/SqlS
 rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Storage/SymfonyStorage.php
 find redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Support/ -mindepth 1 -not -path */Vanilla* -delete
 rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Web
+find redaxo/src/addons/debug/vendor -name "*.md" ! -name "LICENSE.md" -type f -delete
 
 printf "\nUpdate redaxo/src/addons/phpmailer/vendor\n"
 composer update --no-dev -d redaxo/src/addons/phpmailer/
@@ -60,6 +62,7 @@ rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/.github/
 rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/.phan/
 rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/examples/
 rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/extras/
+find redaxo/src/addons/phpmailer/vendor -name "*.md" ! -name "LICENSE.md" -type f -delete
 
 printf "\nUpdate redaxo/src/addons/tests/vendor\n"
 composer update --no-dev -d redaxo/src/addons/tests/
@@ -95,6 +98,7 @@ find redaxo/src/addons/tests/vendor -name "phpstan.neon" -type f -delete
 find redaxo/src/addons/tests/vendor -name "phpstan.neon.dist" -type f -delete
 find redaxo/src/addons/tests/vendor -name "phpunit.xml" -type f -delete
 find redaxo/src/addons/tests/vendor -name "psalm.xml" -type f -delete
+find redaxo/src/addons/tests/vendor -name "*.md" ! -name "LICENSE.md" -type f -delete
 
 printf "\nUpdate root composer.json and vendor/\n"
 .tools/bin/update-root-composer
