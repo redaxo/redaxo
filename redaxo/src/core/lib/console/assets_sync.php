@@ -40,7 +40,7 @@ class rex_command_assets_sync extends rex_console_command
 
             // sync 1st way, copies ...
             // - existing in FE but not "src"
-            // - newer in FE then "src"
+            // - newer in FE than "src"
             [$ctd, $upd, $err] = $this->sync($io, $assetsPublicPath, $assetsSrcPath);
             $created += $ctd;
             $updated += $upd;
@@ -48,7 +48,7 @@ class rex_command_assets_sync extends rex_console_command
 
             // sync 2nd way, copies ...
             // - existing in "src" but not FE
-            // - newer in "src" then FE
+            // - newer in "src" than FE
             [$ctd, $upd, $err] = $this->sync($io, $assetsSrcPath, $assetsPublicPath);
             $created += $ctd;
             $updated += $upd;
