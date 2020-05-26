@@ -37,7 +37,17 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
             <tr>
                 <th>' . $package->i18n('description') . '</th>
                 <td data-title="' . $package->i18n('description') . '">' . nl2br(rex_escape($addon['description'])) . '</td>
-            </tr>
+            </tr>';
+
+    if ($addon['website']) {
+        $content .= '
+            <tr>
+                <th>' . $package->i18n('website') . '</th>
+                <td data-title="' . $package->i18n('website') . '"><a href="' . rex_escape($addon['website']) . '">' . rex_escape($addon['website']) . '</a></td>
+            </tr>';
+    }
+
+    $content .= '
             </tbody>
         </table>';
 
