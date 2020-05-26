@@ -162,7 +162,7 @@ class rex_effect_mirror extends rex_effect_abstract
 
         if ($reflection_opacity < 100) {
             $transparency = 1 - $reflection_opacity / 100;
-            imagefilter($src_img, IMG_FILTER_COLORIZE, 0,0,0,127 * $transparency);
+            imagefilter($src_img, IMG_FILTER_COLORIZE, 0, 0, 0, 127 * $transparency);
         }
         $alpha_step = 80 / $reflection_height;
         for ($y = 1; $y <= $reflection_height; ++$y) {
