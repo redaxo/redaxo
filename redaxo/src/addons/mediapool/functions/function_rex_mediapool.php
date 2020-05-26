@@ -94,9 +94,37 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
     if ($isFileUpload) { // Fileupload?
         $FILETYPE = rex_file::mimeType($FILE['tmp_name']);
 
-        if (!@move_uploaded_file($FILE['tmp_name'], $dstFile)) {
-            $message[] = rex_i18n::msg('pool_file_movefailed');
+        // Bevor die Datei engueltig in den Medienpool uebernommen wird, koennen
+        // Addons ueber einen Extension-Point ein Veto einlegen.
+        // Sobald ein Addon eine negative Entscheidung getroffen hat, sollten
+        // Addons, fuer die der Extension-Point spaeter ausgefuehrt wird, diese
+        // Entscheidung respektieren
+
+        $upload_ep_params = [
+            'file' => $FILE,            // die Datei, die hochgeladen werden soll
+            'file_infos' => $FILEINFOS, // Medienpool-spezifische Infos zur Datei (Name, ...)
+            'user' => $userlogin        // User, der den Upload ausgeloest hat
+        ];
+        $upload_result = [
+            'status' => 'ok',   // 'ok' oder 'declined'
+            'extension' => '',  // Addon, das die Upload-Entscheidung getroffen hat
+            'msg' => ''         // Beschreibende Meldung des Addons
+        ];
+
+        $upload_ep = new rex_extension_point('MEDIA_UPLOAD', $upload_result, $upload_ep_params);
+        $upload_result = rex_extension::registerPoint($upload_ep);
+
+        if ($upload_result['status'] == 'ok') {
+
+            // kein Addon hat dem Upload widersprochen, die Datei kann kopiert werden
+            if (!@move_uploaded_file($FILE['tmp_name'], $dstFile)) {
+                $message[] = rex_i18n::msg('pool_file_movefailed');
+                $success = false;
+            }
+        } else {
             $success = false;
+            $upload_msg_key = 'pool_file_upload' . $upload_result['status'];
+            $message[] = rex_i18n::msg($upload_msg_key, $upload_result['extension'], $upload_result['msg']);
         }
     } else { // Filesync?
         $FILETYPE = rex_file::mimeType($srcFile);
