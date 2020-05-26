@@ -176,5 +176,3 @@ $csrf = rex_csrf_token::factory('mediapool');
     }
 
     echo $content;
-
-
