@@ -4,7 +4,7 @@ $addon = rex_addon::get('mediapool');
 
 $addon->includeFile(__DIR__ . '/install.php');
 
-if (rex_addon::get('users')->isInstalled() && rex_addon::get('mediapool')->isInstalled() && rex_string::versionCompare($addon->getVersion(), '2.4.3-beta1', '<')) {
+if (rex_addon::get('users')->isInstalled() && rex_addon::get('mediapool')->isInstalled() && rex_string::versionCompare($addon->getVersion(), '2.8.2-beta1', '<')) {
     $sql = rex_sql::factory();
     $sql->transactional(static function () use ($sql) {
         $roles = rex_sql::factory()->setQuery('SELECT * FROM ' . rex::getTable('user_role'));
