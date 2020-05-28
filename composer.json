@@ -33,8 +33,8 @@
         "symfony/var-dumper": "v4.4.8",
         "symfony/yaml": "v4.4.8",
         "voku/anti-xss": "4.1.24",
-        "voku/portable-ascii": "1.5.1",
-        "voku/portable-utf8": "5.4.45"
+        "voku/portable-ascii": "1.4.11",
+        "voku/portable-utf8": "5.4.43"
     },
     "autoload": {
         "classmap": [

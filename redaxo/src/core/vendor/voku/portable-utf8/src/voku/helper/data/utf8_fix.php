@@ -140,7 +140,7 @@ return [
     'Â¿' => '¿',
     'Ã¿' => 'ÿ',
     'Ã€' => 'À',
-    // 1 char errors last (don't use them, because of false-positives)
+    // 1 char errors last (don't use them)
     //'Ã'        => 'Á',
     //'Å'        => 'Š',
     //'Ã'        => 'Í',

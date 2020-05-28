@@ -262,7 +262,8 @@ final class ASCII
      *
      * @psalm-pure
      *
-     * @return array         <p>An array of replacements.</p>
+     * @return array <p>An array of replacements.</p>
+     *
      * @return array<string, array<int, string>>
      */
     public static function charsArrayWithMultiLanguageValues(bool $replace_extra_symbols = false): array
@@ -328,6 +329,7 @@ final class ASCII
      * @return array <p>An array of replacements.</p>
      *
      * @psalm-return array{orig: string[], replace: string[]}|array<string, string>
+     *
      */
     public static function charsArrayWithOneLanguage(
         string $language = self::ENGLISH_LANGUAGE_CODE,
@@ -802,7 +804,7 @@ final class ASCII
                         &&
                         isset($REPLACE_HELPER_CACHE[$cacheKey][$threeChars])
                         &&
-                        \strpos($str, $threeChars) !== false
+                        strpos($str, $threeChars) !== false
                     ) {
                         // DEBUG
                         //\var_dump($str, $threeChars, $REPLACE_HELPER_CACHE[$cacheKey][$threeChars]);
@@ -828,7 +830,7 @@ final class ASCII
                         &&
                         isset($REPLACE_HELPER_CACHE[$cacheKey][$twoChars])
                         &&
-                        \strpos($str, $twoChars) !== false
+                        strpos($str, $twoChars) !== false
                     ) {
                         // DEBUG
                         //\var_dump($str, $twoChars, $REPLACE_HELPER_CACHE[$cacheKey][$twoChars]);
@@ -848,7 +850,7 @@ final class ASCII
                     &&
                     isset($REPLACE_HELPER_CACHE[$cacheKey][$char])
                     &&
-                    \strpos($str, $char) !== false
+                    strpos($str, $char) !== false
                 ) {
                     // DEBUG
                     //\var_dump($str, $char, $REPLACE_HELPER_CACHE[$cacheKey][$char]);
@@ -1182,7 +1184,7 @@ final class ASCII
 
             $bank = $ord >> 8;
             if (!isset($UTF8_TO_TRANSLIT[$bank])) {
-                $UTF8_TO_TRANSLIT[$bank] = self::getDataIfExists(\sprintf('x%03x', $bank));
+                $UTF8_TO_TRANSLIT[$bank] = self::getDataIfExists(\sprintf('x%02x', $bank));
             }
 
             $new_char = $ord & 255;

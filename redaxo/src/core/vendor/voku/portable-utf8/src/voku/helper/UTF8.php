@@ -4604,7 +4604,7 @@ final class UTF8
         }
 
         if (self::$SUPPORT['mbstring'] === true) {
-            if ($chars !== null) {
+            if ($chars) {
                 /** @noinspection PregQuoteUsageInspection */
                 $chars = \preg_quote($chars);
                 $pattern = "^[${chars}]+";
@@ -4616,7 +4616,7 @@ final class UTF8
             return (string) \mb_ereg_replace($pattern, '', $str);
         }
 
-        if ($chars !== null) {
+        if ($chars) {
             $chars = \preg_quote($chars, '/');
             $pattern = "^[${chars}]+";
         } else {
@@ -5685,7 +5685,7 @@ final class UTF8
         }
 
         if (self::$SUPPORT['mbstring'] === true) {
-            if ($chars !== null) {
+            if ($chars) {
                 /** @noinspection PregQuoteUsageInspection */
                 $chars = \preg_quote($chars);
                 $pattern = "[${chars}]+$";
@@ -5697,7 +5697,7 @@ final class UTF8
             return (string) \mb_ereg_replace($pattern, '', $str);
         }
 
-        if ($chars !== null) {
+        if ($chars) {
             $chars = \preg_quote($chars, '/');
             $pattern = "[${chars}]+$";
         } else {
@@ -13168,7 +13168,7 @@ final class UTF8
         }
 
         if (self::$SUPPORT['mbstring'] === true) {
-            if ($chars !== null) {
+            if ($chars) {
                 /** @noinspection PregQuoteUsageInspection */
                 $chars = \preg_quote($chars);
                 $pattern = "^[${chars}]+|[${chars}]+\$";
@@ -13180,7 +13180,7 @@ final class UTF8
             return (string) \mb_ereg_replace($pattern, '', $str);
         }
 
-        if ($chars !== null) {
+        if ($chars) {
             $chars = \preg_quote($chars, '/');
             $pattern = "^[${chars}]+|[${chars}]+\$";
         } else {

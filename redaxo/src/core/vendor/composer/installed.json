@@ -451,12 +451,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/Roave/SecurityAdvisories.git",
-            "reference": "e38de1df609b39d97144514d28b0804ad4daaddb"
+            "reference": "55922f51129488c246a776ff944463605d447da0"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/e38de1df609b39d97144514d28b0804ad4daaddb",
-            "reference": "e38de1df609b39d97144514d28b0804ad4daaddb",
+            "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/55922f51129488c246a776ff944463605d447da0",
+            "reference": "55922f51129488c246a776ff944463605d447da0",
             "shasum": ""
         },
         "conflict": {
@@ -560,7 +560,7 @@
             "paypal/merchant-sdk-php": "<3.12",
             "pear/archive_tar": "<1.4.4",
             "phpfastcache/phpfastcache": ">=5,<5.0.13",
-            "phpmailer/phpmailer": ">=5,<5.2.27|>=6,<6.0.6",
+            "phpmailer/phpmailer": "<6.1.6",
             "phpmyadmin/phpmyadmin": "<4.9.2",
             "phpoffice/phpexcel": "<1.8.2",
             "phpoffice/phpspreadsheet": "<1.8",
@@ -695,7 +695,7 @@
             "zfcampus/zf-apigility-doctrine": ">=1,<1.0.3",
             "zfr/zfr-oauth2-server-module": "<0.1.2"
         },
-        "time": "2020-05-22T06:49:22+00:00",
+        "time": "2020-05-28T00:01:39+00:00",
         "type": "metapackage",
         "notification-url": "https://packagist.org/downloads/",
         "license": [
@@ -1554,17 +1554,17 @@
     },
     {
         "name": "voku/portable-ascii",
-        "version": "1.5.1",
-        "version_normalized": "1.5.1.0",
+        "version": "1.4.11",
+        "version_normalized": "1.4.11.0",
         "source": {
             "type": "git",
             "url": "https://github.com/voku/portable-ascii.git",
-            "reference": "e7f9bd5deff09a57318f9b900ab33a05acfcf4d3"
+            "reference": "026ccc08087d4cc72a528f29809d0cc7a4ee7f08"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/voku/portable-ascii/zipball/e7f9bd5deff09a57318f9b900ab33a05acfcf4d3",
-            "reference": "e7f9bd5deff09a57318f9b900ab33a05acfcf4d3",
+            "url": "https://api.github.com/repos/voku/portable-ascii/zipball/026ccc08087d4cc72a528f29809d0cc7a4ee7f08",
+            "reference": "026ccc08087d4cc72a528f29809d0cc7a4ee7f08",
             "shasum": ""
         },
         "require": {
@@ -1576,7 +1576,7 @@
         "suggest": {
             "ext-intl": "Use Intl for transliterator_transliterate() support"
         },
-        "time": "2020-05-26T06:40:44+00:00",
+        "time": "2020-05-23T21:00:33+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1622,17 +1622,17 @@
     },
     {
         "name": "voku/portable-utf8",
-        "version": "5.4.45",
-        "version_normalized": "5.4.45.0",
+        "version": "5.4.43",
+        "version_normalized": "5.4.43.0",
         "source": {
             "type": "git",
             "url": "https://github.com/voku/portable-utf8.git",
-            "reference": "5445d44086ea7b53dcd6dd1b182ae5bdcb1fbb07"
+            "reference": "ca43fcf0d953909217565d6cbfa923053de0acdc"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/voku/portable-utf8/zipball/5445d44086ea7b53dcd6dd1b182ae5bdcb1fbb07",
-            "reference": "5445d44086ea7b53dcd6dd1b182ae5bdcb1fbb07",
+            "url": "https://api.github.com/repos/voku/portable-utf8/zipball/ca43fcf0d953909217565d6cbfa923053de0acdc",
+            "reference": "ca43fcf0d953909217565d6cbfa923053de0acdc",
             "shasum": ""
         },
         "require": {
@@ -1642,7 +1642,7 @@
             "symfony/polyfill-intl-normalizer": "~1.0",
             "symfony/polyfill-mbstring": "~1.0",
             "symfony/polyfill-php72": "~1.0",
-            "voku/portable-ascii": "~1.5"
+            "voku/portable-ascii": "~1.4"
         },
         "require-dev": {
             "phpunit/phpunit": "~6.0 || ~7.0"
@@ -1655,7 +1655,7 @@
             "ext-json": "Use JSON for string detection",
             "ext-mbstring": "Use Mbstring for best performance"
         },
-        "time": "2020-05-26T07:35:55+00:00",
+        "time": "2020-05-14T00:59:19+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
