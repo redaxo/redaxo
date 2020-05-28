@@ -7,6 +7,7 @@ class media_category_perm_helper
 {
     /**
      * @param rex_media_category $mediacat
+     * @param boolean $check_read_perms
      * @return bool|mixed|rex_media_category
      */
     public static function checkChildren(rex_media_category $mediacat, $check_read_perms)
@@ -14,7 +15,7 @@ class media_category_perm_helper
         $children = $mediacat->getChildren();
         if (is_array($children)) {
             foreach ($children as $child) {
-
+                $matchedChild = null;
                 // check child of child
                 $childs = $child->getChildren();
                 if (is_array($childs)) {
@@ -42,7 +43,7 @@ class media_category_perm_helper
 
     /**
      * @param null|rex_media_category $mediacat
-     * @param $check_read_perms
+     * @param boolean $check_read_perms
      * @return bool|rex_media_category
      */
     public static function checkParents($mediacat, $check_read_perms)
@@ -61,7 +62,7 @@ class media_category_perm_helper
 
     /**
      * @param rex_media_category $mediacat
-     * @param $id
+     * @param integer $id
      * @return bool
      */
     public static function isIdParentInPath(rex_media_category $mediacat, $id)
