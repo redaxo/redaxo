@@ -20,7 +20,6 @@ class ComposerStaticInitRedaxoCore
     public static $prefixLengthsPsr4 = array (
         'v' => 
         array (
-            'voku\\tests\\' => 11,
             'voku\\helper\\' => 12,
             'voku\\' => 5,
         ),
@@ -55,10 +54,6 @@ class ComposerStaticInitRedaxoCore
     );
 
     public static $prefixDirsPsr4 = array (
-        'voku\\tests\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/voku/portable-ascii/tests',
-        ),
         'voku\\helper\\' => 
         array (
             0 => __DIR__ . '/..' . '/voku/anti-xss/src/voku/helper',
