@@ -267,6 +267,8 @@ class rex_media_category
     }
 
     /**
+     * @param self $mediaCat
+     *
      * @return bool
      */
     public function isParent(self $mediaCat)
