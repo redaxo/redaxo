@@ -106,25 +106,22 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
             'user' => $userlogin        // User, der den Upload ausgeloest hat
         ];
         $upload_result = [
-            'status' => 'ok',   // 'ok' oder 'declined'
-            'extension' => '',  // Addon, das die Upload-Entscheidung getroffen hat
-            'msg' => ''         // Beschreibende Meldung des Addons
+            'error-msg' => ''             // wird vom Addon fuer ein Veto gesetzt
         ];
 
         $upload_ep = new rex_extension_point('MEDIA_UPLOAD', $upload_result, $upload_ep_params);
         $upload_result = rex_extension::registerPoint($upload_ep);
 
-        if ($upload_result['status'] == 'ok') {
-
+        if ($upload_result['error-msg']) {
+            // ein Addon hat die Fehlermeldung gesetzt, dem Upload also faktisch widersprochen
+            $success = false;
+            $message[] = $upload_result['error-msg'];
+        } else {
             // kein Addon hat dem Upload widersprochen, die Datei kann kopiert werden
             if (!@move_uploaded_file($FILE['tmp_name'], $dstFile)) {
                 $message[] = rex_i18n::msg('pool_file_movefailed');
                 $success = false;
             }
-        } else {
-            $success = false;
-            $upload_msg_key = 'pool_file_upload' . $upload_result['status'];
-            $message[] = rex_i18n::msg($upload_msg_key, $upload_result['extension'], $upload_result['msg']);
         }
     } else { // Filesync?
         $FILETYPE = rex_file::mimeType($srcFile);
