@@ -44,7 +44,7 @@ class media_category_perm_helper
     /**
      * @param null|rex_media_category $mediacat
      * @param boolean $check_read_perms
-     * @return bool|rex_media_category
+     * @return null|bool|rex_media_category
      */
     public static function checkParents($mediacat, $check_read_perms)
     {
