@@ -289,7 +289,7 @@ if ('' != $FUNC_ADD || $user_id > 0) {
     $SHOW = false;
 
     // whether the user is editing his own account
-    $self = $user && $user->getId() == $user_id;
+    $self = $user && $user->getId() == rex::getUser()->getId();
 
     $statuschecked = '';
     if ('' != $FUNC_ADD) {
