@@ -88,13 +88,16 @@ if ($func && !$csrfToken->isValid()) {
             $success = rex_i18n::msg('info_updated');
         }
     }
-} elseif ('updateeditor' === $func) {
+} elseif ('update_editor' === $func) {
     $editor = rex_post('editor', [
         ['name', 'string', null],
         ['basepath', 'string', null],
         ['update_cookie', 'bool', false],
         ['delete_cookie', 'bool', false],
     ]);
+
+    $editor['name'] = $editor['name'] ?: null;
+    $editor['basepath'] = $editor['basepath'] ?: null;
 
     $cookieOptions = ['samesite' => 'strict'];
 
@@ -106,18 +109,18 @@ if ($func && !$csrfToken->isValid()) {
 
         $success = rex_i18n::msg('system_editor_success_cookie_deleted');
     } elseif ($editor['update_cookie']) {
-        rex_response::sendCookie('editor', $editor['name'] ?: null, $cookieOptions);
-        rex_response::sendCookie('editor_basepath', $editor['basepath'] ?: null, $cookieOptions);
-        $_COOKIE['editor'] = $editor['name'] ?: null;
-        $_COOKIE['editor_basepath'] = $editor['basepath'] ?: null;
+        rex_response::sendCookie('editor', $editor['name'], $cookieOptions);
+        rex_response::sendCookie('editor_basepath', $editor['basepath'], $cookieOptions);
+        $_COOKIE['editor'] = $editor['name'];
+        $_COOKIE['editor_basepath'] = $editor['basepath'];
 
         $success = rex_i18n::msg('system_editor_success_cookie');
     } else {
         $configFile = rex_path::coreData('config.yml');
         $config = rex_file::getConfig($configFile);
 
-        $config['editor'] = $editor['name'] ?: null;
-        $config['editor_basepath'] = $editor['basepath'] ?: null;
+        $config['editor'] = $editor['name'];
+        $config['editor_basepath'] = $editor['basepath'];
         rex::setProperty('editor', $config['editor']);
         rex::setProperty('editor_basepath', $config['editor_basepath']);
 
@@ -382,7 +385,7 @@ $content = $fragment->parse('core/page/section.php');
 
 $mainContent[] = '
 <form id="rex-form-system-setup" action="' . rex_url::currentBackendPage() . '" method="post">
-    <input type="hidden" name="func" value="updateeditor" />
+    <input type="hidden" name="func" value="update_editor" />
     ' . $csrfToken->getHiddenField() . '
     ' . $content . '
 </form>';
