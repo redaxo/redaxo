@@ -36,7 +36,9 @@ if (rex_post('btn_delete', 'string')) {
 
         if ($media) {
             $filename = $media->getFileName();
-            if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($media->getCategoryId())) {
+            if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($media->getCategoryId())
+                || media_category_perm_helper::checkParents($media->getCategory(), false) instanceof rex_media_category
+            ) {
                 $return = rex_mediapool_deleteMedia($filename);
                 if ($return['ok']) {
                     $success = $return['msg'];
@@ -65,7 +67,12 @@ if (rex_post('btn_update', 'string')) {
         if (1 != $gf->getRows()) {
             $error = rex_i18n::msg('pool_file_not_found');
             $file_id = 0;
-        } elseif (!rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('category_id')) || !rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category)) {
+        } elseif (
+            (!rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('category_id'))
+                && !media_category_perm_helper::checkParents(rex_media_category::get($gf->getValue('category_id')), false) instanceof rex_media_category)
+            || (!rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category)
+                && !media_category_perm_helper::checkParents(rex_media_category::get($rex_file_category), false) instanceof rex_media_category)
+        ) {
             $error = rex_i18n::msg('no_permission');
         } elseif (!empty($_FILES['file_new']['tmp_name']) && !rex_mediapool_isAllowedMimeType($_FILES['file_new']['tmp_name'], $_FILES['file_new']['name'])) {
             $error = rex_i18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . rex_file::extension($_FILES['file_new']['name']) . '</code> (<code>' . rex_file::mimeType($_FILES['file_new']['tmp_name']) . '</code>)';
@@ -104,7 +111,9 @@ if (1 != $gf->getRows()) {
 }
 
 $TPERM = false;
-if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('category_id'))) {
+if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('category_id'))
+    || media_category_perm_helper::checkParents(rex_media_category::get($gf->getValue('category_id')), false) instanceof rex_media_category)
+{
     $TPERM = true;
 }
 
@@ -190,7 +199,7 @@ $sidebar = rex_extension::registerPoint(new rex_extension_point('MEDIA_DETAIL_SI
 if ($TPERM) {
     $panel = '';
 
-    $cats_sel = new rex_media_category_select();
+    $cats_sel = new rex_media_category_select(true, false);
     $cats_sel->setStyle('class="form-control"');
     $cats_sel->setSize(1);
     $cats_sel->setName('rex_file_category');

@@ -27,7 +27,12 @@ if (!isset($arg_url)) {
 
 $media_method = rex_request('media_method', 'string');
 
-$hasCategoryPerm = rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category);
+if ($rex_file_category > 0) {
+    $hasCategoryPerm = (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category)
+        || media_category_perm_helper::checkParents(rex_media_category::get($rex_file_category), false) instanceof rex_media_category);
+} else {
+    $hasCategoryPerm = rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category);
+}
 
 if ($hasCategoryPerm && 'updatecat_selectedmedia' == $media_method) {
     if (!$csrf->isValid()) {
@@ -74,7 +79,10 @@ if ($hasCategoryPerm && 'delete_selectedmedia' == $media_method) {
             foreach ($selectedmedia as $file_name) {
                 $media = rex_media::get($file_name);
                 if ($media) {
-                    if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($media->getCategoryId())) {
+
+                    if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($media->getCategoryId())
+                        || media_category_perm_helper::checkParents($media->getCategory(), false) instanceof rex_media_category // yes than go go
+                    ) {
                         $return = rex_mediapool_deleteMedia($file_name);
                         if ($return['ok']) {
                             ++$countDeleted;
@@ -97,7 +105,7 @@ if ($hasCategoryPerm && 'delete_selectedmedia' == $media_method) {
     }
 }
 
-$cats_sel = new rex_media_category_select();
+$cats_sel = new rex_media_category_select(true, false);
 $cats_sel->setSize(1);
 $cats_sel->setStyle('class="form-control selectpicker"');
 $cats_sel->setName('rex_file_category');
