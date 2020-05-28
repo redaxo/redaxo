@@ -496,10 +496,10 @@ class rex_article_content_base
                 'REX_CTYPE_ID',
             ],
             [
-                (int) $sql->getValue('module_id'),
-                $sql->getValue(rex::getTable('module') . '.key'),
-                (int) $sql->getValue(rex::getTable('article_slice') . '.id'),
-                (int) $sql->getValue('ctype_id'),
+                (string) $sql->getValue('module_id'),
+                (string) $sql->getValue(rex::getTable('module') . '.key'),
+                (string) $sql->getValue(rex::getTable('article_slice') . '.id'),
+                (string) $sql->getValue('ctype_id'),
             ],
             $content
         );
