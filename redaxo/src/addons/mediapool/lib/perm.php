@@ -21,6 +21,20 @@ class rex_media_perm extends rex_complex_perm
         return $this->hasAll() || count($this->perms) > 0;
     }
 
+    /**
+     * @return mixed|null
+     */
+    public function getFirstId()
+    {
+        if (is_array($this->perms) && count($this->perms) > 0) {
+            return $this->perms[0];
+        }
+        return null;
+    }
+
+    /**
+     * @return array
+     */
     public static function getFieldParams()
     {
         return [
