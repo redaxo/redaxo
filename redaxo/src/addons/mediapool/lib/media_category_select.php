@@ -25,14 +25,20 @@ class rex_media_category_select extends rex_select
     /**
      * @var bool
      */
+    private $select2;
+
+    /**
+     * @var bool
+     */
     private $loaded = false;
 
     /**
      * rex_media_category_select constructor.
      * @param bool $check_perms
      * @param bool $check_read_perms
+     * @param bool $select2
      */
-    public function __construct($check_perms = true, $check_read_perms = false)
+    public function __construct($check_perms = true, $check_read_perms = false, $select2 = false)
     {
         $this->check_perms = $check_perms;
         $this->check_read_perms = $check_read_perms;
@@ -40,6 +46,7 @@ class rex_media_category_select extends rex_select
             $this->check_perms = true;
         }
         $this->rootId = null;
+        $this->select2 = $select2;
 
         parent::__construct();
     }
@@ -135,6 +142,11 @@ class rex_media_category_select extends rex_select
         if (!$this->loaded) {
             $this->addCatOptions();
             $this->loaded = true;
+        }
+
+        if (true === $this->select2) {
+            $this->setAttribute('class', 'selectpicker');
+            $this->setAttribute('data-live-search', 'true');
         }
 
         return parent::get();
