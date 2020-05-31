@@ -280,12 +280,12 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         $createdbOptions = [
             'normal' => 'Setup database',
             'override' => 'Setup database and overwrite it if it exitsts already (Caution - All existing data will be deleted!)',
-            'existing' => 'Database already exists (Continue without database import)',
+            'skip' => 'Database already exists (Continue without database import)',
             'update' => 'Update database (Update from previous version)',
             'import' => 'Import existing database export',
         ];
         if (!$tables_complete) {
-            unset($createdbOptions['existing']);
+            unset($createdbOptions['skip']);
         }
         if (0 === count($backups)) {
             unset($createdbOptions['import']);
@@ -318,7 +318,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             }
             $error = rex_setup_importer::loadExistingImport($import_name);
             $io->success('Database successfully imported using file "'.$import_name.'"');
-        } elseif ('existing' == $createdb && $tables_complete) {
+        } elseif ('skip' == $createdb && $tables_complete) {
             $error = rex_setup_importer::databaseAlreadyExists();
             $io->success('Skipping database setup');
         } elseif ('override' == $createdb) {
