@@ -254,6 +254,7 @@ if ('add' == $function || 'edit' == $function) {
         $n = [];
         $n['label'] = '<label for="moutput">' . rex_i18n::msg('output') . '</label>';
         $n['field'] = '<textarea class="form-control rex-code rex-js-code" id="moutput" name="ausgabe" spellcheck="false">' . rex_escape($ausgabe) . '</textarea>';
+        $n['note'] = rex_i18n::msg('module_actions_notice');
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
