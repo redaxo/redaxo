@@ -11,6 +11,7 @@ rm -rf redaxo/src/core/vendor/ramsey/http-range/.git
 rm -rf redaxo/src/core/vendor/ramsey/http-range/tests/
 rm -rf redaxo/src/core/vendor/symfony/console/Tests/
 rm -rf redaxo/src/core/vendor/symfony/service-contracts/Test/
+rm -rf redaxo/src/core/vendor/symfony/var-dumper/Resources/bin/
 rm -rf redaxo/src/core/vendor/symfony/var-dumper/Test/
 rm -rf redaxo/src/core/vendor/symfony/var-dumper/Tests/
 rm -rf redaxo/src/core/vendor/symfony/yaml/Tests/
