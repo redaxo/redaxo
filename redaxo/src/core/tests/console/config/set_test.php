@@ -36,4 +36,11 @@ class rex_command_config_set_test extends TestCase
             [false, 'off'],
         ];
     }
+    
+    public function tearDown() {
+        $configPath = rex_path::coreData('config.yml');
+        $config = rex_file::getConfig($configPath);
+        unset($config['test']);
+        rex_file::putConfig($configPath, $config);
+    }
 }
