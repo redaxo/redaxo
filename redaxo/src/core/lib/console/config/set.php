@@ -34,9 +34,9 @@ class rex_command_config_set extends rex_console_command
             throw new InvalidArgumentException('No new value specified');
         }
 
-        if ($type === 'bool' || $type === 'boolean') {
-            $value = $value === 'true' ? true : $value;
-            $value = $value === 'false' ? false : $value;
+        if ('bool' === $type || 'boolean' === $type) {
+            $value = 'true' === $value ? true : $value;
+            $value = 'false' === $value ? false : $value;
         }
 
         $path = explode('.', $key);
