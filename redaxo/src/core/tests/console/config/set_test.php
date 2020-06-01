@@ -15,7 +15,7 @@ class rex_command_config_set_test extends TestCase
     {
         $commandTester = new CommandTester(new rex_command_config_set());
         $commandTester->execute([
-            'type' => 'bool',
+            '--type' => 'bool',
             'config-key' => 'test',
             'value' => $value,
         ]);
