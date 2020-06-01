@@ -18,7 +18,22 @@ class rex_command_config_set extends rex_console_command
             ->addArgument('config-key', InputArgument::REQUIRED, 'config path separated by periods, e.g. "setup" or "db.1.host"')
             ->addArgument('value', InputArgument::OPTIONAL, 'new value for config key, e.g. "somestring" or "1"')
             ->addOption('type', 't', InputOption::VALUE_REQUIRED, 'php type of new value, e.g. "bool" or "int"', 'string')
-            ->addOption('unset', null, InputOption::VALUE_NONE, 'sets the config key to null');
+            ->addOption('unset', null, InputOption::VALUE_NONE, 'sets the config key to null')
+            ->setHelp(<<<'EOF'
+Set config variables in config.yml.
+
+Example: enable setup
+  <info>%command.full_name% --type boolean setup true</info>
+
+Example: set password min length to 8
+  <info>%command.full_name% --type integer password_policy.length.min 8</info>
+
+Example: set error email
+  <info>%command.full_name% error_email mail@example.org</info>
+
+EOF
+            )
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
