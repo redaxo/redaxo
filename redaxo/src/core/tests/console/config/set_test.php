@@ -32,6 +32,8 @@ class rex_command_config_set_test extends TestCase
             [false, '0'],
             [true, 'true'],
             [false, 'false'],
+            [true, 'on'],
+            [false, 'off'],
         ];
     }
 }
