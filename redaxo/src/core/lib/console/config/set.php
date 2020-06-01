@@ -28,9 +28,15 @@ class rex_command_config_set extends rex_console_command
         $key = $input->getArgument('config-key');
         $value = $input->getArgument('value');
         $unset = $input->getOption('unset');
+        $type = $input->getOption('type');
 
         if (null === $value && false === $unset) {
             throw new InvalidArgumentException('No new value specified');
+        }
+
+        if ($type === 'bool' || $type === 'boolean') {
+            $value = $value === 'true' ? true : $value;
+            $value = $value === 'false' ? false : $value;
         }
 
         $path = explode('.', $key);
@@ -44,7 +50,7 @@ class rex_command_config_set extends rex_console_command
                 $config[$pathPart] = [];
             }
             if ($i === count($path) - 1) {
-                $config[$pathPart] = $unset ? null : rex_type::cast($value, $input->getOption('type'));
+                $config[$pathPart] = $unset ? null : rex_type::cast($value, $type);
                 break;
             }
             $config = &$config[$pathPart];
