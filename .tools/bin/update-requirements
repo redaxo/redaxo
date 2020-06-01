@@ -3,6 +3,7 @@
 printf "Update redaxo/src/core/vendor\n"
 composer update --no-dev -d redaxo/src/core/
 
+rm -rf redaxo/src/core/vendor/bin/
 rm -rf redaxo/src/core/vendor/erusev/parsedown/test/
 rm -rf redaxo/src/core/vendor/erusev/parsedown-extra/test/
 rm -rf redaxo/src/core/vendor/psr/log/Psr/Log/Test/
