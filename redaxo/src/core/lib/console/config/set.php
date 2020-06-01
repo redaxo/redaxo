@@ -35,8 +35,8 @@ class rex_command_config_set extends rex_console_command
         }
 
         if ('bool' === $type || 'boolean' === $type) {
-            $value = 'true' === $value ? true : $value;
-            $value = 'false' === $value ? false : $value;
+            $value = 'true' === $value || 'on' === $value ? true : $value;
+            $value = 'false' === $value || 'off' === $value ? false : $value;
         }
 
         $path = explode('.', $key);
