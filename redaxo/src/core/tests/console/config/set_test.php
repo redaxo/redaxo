@@ -8,6 +8,14 @@ use Symfony\Component\Console\Tester\CommandTester;
  */
 class rex_command_config_set_test extends TestCase
 {
+    protected function tearDown()
+    {
+        $configPath = rex_path::coreData('config.yml');
+        $config = rex_file::getConfig($configPath);
+        unset($config['test']);
+        rex_file::putConfig($configPath, $config);
+    }
+
     /**
      * @dataProvider dataSetBoolean
      */
@@ -35,12 +43,5 @@ class rex_command_config_set_test extends TestCase
             [true, 'on'],
             [false, 'off'],
         ];
-    }
-    
-    public function tearDown() {
-        $configPath = rex_path::coreData('config.yml');
-        $config = rex_file::getConfig($configPath);
-        unset($config['test']);
-        rex_file::putConfig($configPath, $config);
     }
 }
