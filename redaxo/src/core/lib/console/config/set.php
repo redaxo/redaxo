@@ -49,9 +49,13 @@ EOF
             throw new InvalidArgumentException('No new value specified');
         }
 
-        if (!$unset && ('bool' === $type || 'boolean' === $type)) {
+        if ($unset) {
+            $value = null;
+        } elseif ('bool' === $type || 'boolean' === $type) {
             $value = 'true' === $value || 'on' === $value ? true : $value;
             $value = 'false' === $value || 'off' === $value ? false : $value;
+        } else {
+            $value = rex_type::cast($value, $type);
         }
 
         $path = explode('.', $key);
@@ -65,7 +69,7 @@ EOF
                 $config[$pathPart] = [];
             }
             if ($i === count($path) - 1) {
-                $config[$pathPart] = $unset ? null : rex_type::cast($value, $type);
+                $config[$pathPart] = $value;
                 break;
             }
             $config = &$config[$pathPart];
