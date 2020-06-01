@@ -53,7 +53,7 @@ EOF
             $value = null;
         } elseif ('bool' === $type || 'boolean' === $type) {
             $value = in_array(['true', 'on', '1'], $value, true) ? true : $value;
-            $value = in_array(['false', 'off', '0'], $value, true) ? ? false : $value;
+            $value = in_array(['false', 'off', '0'], $value, true) ? false : $value;
         } else {
             $value = rex_type::cast($value, $type);
         }
