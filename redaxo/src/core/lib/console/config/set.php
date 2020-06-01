@@ -49,7 +49,7 @@ EOF
             throw new InvalidArgumentException('No new value specified');
         }
 
-        if ('bool' === $type || 'boolean' === $type) {
+        if (!$unset && ('bool' === $type || 'boolean' === $type)) {
             $value = 'true' === $value || 'on' === $value ? true : $value;
             $value = 'false' === $value || 'off' === $value ? false : $value;
         }
