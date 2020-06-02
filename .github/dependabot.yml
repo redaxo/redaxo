@@ -1,0 +1,10 @@
+# Dependabot config reference
+# https://help.github.com/en/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+update:
+    -   package-ecosystem: composer
+        directory: /
+        versioning-strategy: increase
+        schedule:
+            interval: daily
