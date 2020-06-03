@@ -1,6 +1,18 @@
 Changelog
 =========
 
+Version 5.11.0 – XX.XX.2020
+---------------------------
+
+### Neu
+
+* Update der externen Bibliotheken
+* Setup: Bei Anlage des Administrators werden nun die Passwortregeln geprüft (@gharlan)
+* `rex_user`: Neue statische Methoden `get`, `require` und `fromSql` für die Abfrage der Benutzer (@gharlan)
+* Console:
+    - Neuer Command `package:list`: Auflistung der Addons (alle, nur installierte/aktivierte etc.) (@bloep)
+
+
 Version 5.10.1 – 08.05.2020
 ---------------------------
 
