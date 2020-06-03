@@ -1,5 +1,5 @@
 package: debug
-version: '1.0.0-dev'
+version: '1.0.0-beta1'
 author: Markus Staab, Marcel Kuhmann
 supportpage: redaxo.org
 
@@ -15,4 +15,4 @@ page:
 
 requires:
     php: '>=7.1'
-    redaxo: ^5.11-dev
+    redaxo: ^5.11.0-beta1
