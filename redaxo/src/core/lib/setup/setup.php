@@ -33,6 +33,12 @@ class rex_setup
 
         // copy alle media files of the current rex-version into redaxo_media
         rex_dir::copy(rex_path::core('assets'), rex_path::coreAssets());
+        // in a regular release the folder will never be empty, because we ship it prefilled.
+        // provide a error message for 'git cloned' sources, to give newcomers a hint why the very first setup might look broken.
+        // we intentionally dont check permissions here, as those will be checked in a later setup step.
+        if (!is_dir(rex_path::coreAssets())) {
+            throw new rex_exception('Unable to copy assets to "'. rex_path::coreAssets() .'". Is the folder writable for the webserver?');
+        }
 
         // copy skins files/assets
         $skinAddon = rex_addon::get($skinAddon);
