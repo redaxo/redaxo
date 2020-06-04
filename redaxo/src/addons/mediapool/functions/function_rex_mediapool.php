@@ -101,7 +101,7 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
         'user' => $userlogin        // User, der den Upload ausgeloest hat
     ];
     $upload_error_msg = '';         // wird vom Addon bei einem Veto gesetzt
-    $upload_ep = new rex_extension_point('MEDIA_SAVE', $upload_error_msg, $upload_ep_params);
+    $upload_ep = new rex_extension_point('MEDIA_ADD', $upload_error_msg, $upload_ep_params);
     $upload_error_msg = rex_extension::registerPoint($upload_ep);
 
     $success = true;
