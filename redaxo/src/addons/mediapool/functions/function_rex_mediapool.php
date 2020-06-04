@@ -102,41 +102,31 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
     ];
     $upload_error_msg = '';         // wird vom Addon bei einem Veto gesetzt
     $upload_ep = new rex_extension_point('MEDIA_SAVE', $upload_error_msg, $upload_ep_params);
+    $upload_error_msg = rex_extension::registerPoint($upload_ep);
 
     $success = true;
-    if ($isFileUpload) { // Fileupload?
-        $FILETYPE = rex_file::mimeType($FILE['tmp_name']);
+    $isFileSync = !$isFileUpload;
 
-        $upload_error_msg = rex_extension::registerPoint($upload_ep);
-
-        if ($upload_error_msg) {
-            // ein Addon hat die Fehlermeldung gesetzt, dem Upload also faktisch widersprochen
-            $success = false;
-            $message[] = $upload_error_msg;
-        } else {
-            // kein Addon hat dem Upload widersprochen, die Datei kann kopiert werden
-            if (!@move_uploaded_file($FILE['tmp_name'], $dstFile)) {
-                $message[] = rex_i18n::msg('pool_file_movefailed');
-                $success = false;
-            }
-        }
-    } else { // Filesync?
-        $FILETYPE = rex_file::mimeType($srcFile);
-
-        $upload_error_msg = rex_extension::registerPoint($upload_ep);
-
-        if ($upload_error_msg) {
-          // ein Addon hat die Fehlermeldung gesetzt, dem Upload also faktisch widersprochen
-          $success = false;
-          $message[] = $upload_error_msg;
-        } else {
-            // kein Addon hat dem Upload widersprochen, die Datei kann kopiert werden
-            if (!@rename($srcFile, $dstFile)) {
-                $message[] = rex_i18n::msg('pool_file_movefailed');
-                $success = false;
-            }
-        }
+    if ($upload_error_msg) {
+        // ein Addon hat die Fehlermeldung gesetzt, dem Upload also faktisch widersprochen
+        $success = false;
+        $message[] = $upload_error_msg;
     }
+
+    // kein Addon hat dem Upload widersprochen, die Datei kann kopiert werden
+    if ($isFileUpload && !$upload_error_msg) { // Fileupload?
+        $FILETYPE = rex_file::mimeType($FILE['tmp_name']);
+        if (!@move_uploaded_file($FILE['tmp_name'], $dstFile)) {
+            $message[] = rex_i18n::msg('pool_file_movefailed');
+            $success = false;
+        }
+    } elseif ($isFileSync && !$upload_error_msg) { // Filesync?
+        $FILETYPE = rex_file::mimeType($srcFile);
+        if (!@rename($srcFile, $dstFile)) {
+            $message[] = rex_i18n::msg('pool_file_movefailed');
+            $success = false;
+        }
+    } // else-Fall entfaellt da Upload im EP widersprochen wurde
 
     if ($success) {
         @chmod($dstFile, rex::getFilePerm());
@@ -233,13 +223,12 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
 
         static $jpgExtensions = ['jpg', 'jpeg'];
 
-        if (
-            $extensionNew == $extensionOld ||
-            in_array($extensionNew, $jpgExtensions) && in_array($extensionOld, $jpgExtensions)
-        ) {
+        if ($extensionNew == $extensionOld ||
+            in_array($extensionNew, $jpgExtensions) && in_array($extensionOld, $jpgExtensions)) {
+
             if (move_uploaded_file($ffilename, rex_path::media($FILEINFOS['filename'])) ||
-                    copy($ffilename, rex_path::media($FILEINFOS['filename']))
-            ) {
+                copy($ffilename, rex_path::media($FILEINFOS['filename']))) {
+
                 $RETURN['msg'] = rex_i18n::msg('pool_file_changed');
                 $FILEINFOS['filetype'] = $ffiletype;
                 $FILEINFOS['filesize'] = $ffilesize;
@@ -372,7 +361,7 @@ function rex_mediapool_deleteMedia($filename)
     rex_media_cache::delete($filename);
 
     rex_extension::registerPoint(new rex_extension_point('MEDIA_DELETED', '', [
-        'filename' => $filename,
+        'filename' => $filename
     ]));
 
     return ['ok' => true, 'msg' => rex_i18n::msg('pool_file_deleted')];
