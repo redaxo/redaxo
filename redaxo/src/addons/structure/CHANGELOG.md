@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.11.0 – XX.XX.2020
+---------------------------
+
+### Neu
+
+* Fragment `module_select.php`: Module-Key wird mit übergeben (@skerbis)
+
+
 Version 2.10.1 – 08.05.2020
 ---------------------------
 

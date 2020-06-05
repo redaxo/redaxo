@@ -8,9 +8,15 @@ Version 5.11.0 – XX.XX.2020
 
 * Update der externen Bibliotheken
 * Setup: Bei Anlage des Administrators werden nun die Passwortregeln geprüft (@gharlan)
+* Passwortregeln:
+    - Passwortwechsel kann nach definiertem Zeitraum erfordert werden (@gharlan)
+    - Wiederverwenden der letzten X Passwörter, oder der Passwörter aus definiertem Zeitraum, kann unterbunden werden (@gharlan)
+* Admins können explizit einen Passwortwechsel nach Login für Benutzer verlangen (@gharlan)
 * `rex_user`: Neue statische Methoden `get`, `require` und `fromSql` für die Abfrage der Benutzer (@gharlan)
 * Console:
     - Neuer Command `package:list`: Auflistung der Addons (alle, nur installierte/aktivierte etc.) (@bloep)
+* Systembericht als Markdown: DB-Version wird auch in der Zusammenfassungszeile ausgegeben (@gharlan)
+* Beispiel-`.gitignore` erweitert/optimiert (@alexplusde, @schuer)
 
 
 Version 5.10.1 – 08.05.2020
