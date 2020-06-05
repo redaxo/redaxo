@@ -98,7 +98,7 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
     // Sobald ein Addon eine negative Entscheidung getroffen hat, sollten
     // Addons, fuer die der Extension-Point spaeter ausgefuehrt wird, diese
     // Entscheidung respektieren
-    $upload_ep_params = [
+    $errorMessage = rex_extension::registerPoint(new rex_extension_point('MEDIA_ADD', '', [
         'file' => $FILE,
         'title' => $FILEINFOS['title'],
         'filename' => $NFILENAME,
@@ -106,15 +106,12 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
         'is_upload' => $isFileUpload,
         'category_id' => $rex_file_category,
         'type' => $FILETYPE,
-    ];
-    $upload_error_msg = '';         // wird vom Addon bei einem Veto gesetzt
-    $upload_ep = new rex_extension_point('MEDIA_ADD', $upload_error_msg, $upload_ep_params);
-    $upload_error_msg = rex_extension::registerPoint($upload_ep);
+    ]));
 
-    if ($upload_error_msg) {
+    if ($errorMessage) {
         // ein Addon hat die Fehlermeldung gesetzt, dem Upload also faktisch widersprochen
         $success = false;
-        $message[] = $upload_error_msg;
+        $message[] = $errorMessage;
     } elseif ($isFileUpload) { // Fileupload?
         if (!@move_uploaded_file($FILE['tmp_name'], $dstFile)) {
             $message[] = rex_i18n::msg('pool_file_movefailed');
