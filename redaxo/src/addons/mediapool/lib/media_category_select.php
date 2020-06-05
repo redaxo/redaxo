@@ -25,11 +25,6 @@ class rex_media_category_select extends rex_select
     /**
      * @var bool
      */
-    private $select2;
-
-    /**
-     * @var bool
-     */
     private $loaded = false;
 
     /**
