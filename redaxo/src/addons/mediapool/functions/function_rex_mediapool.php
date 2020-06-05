@@ -100,13 +100,13 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
     // Addons, fuer die der Extension-Point spaeter ausgefuehrt wird, diese
     // Entscheidung respektieren
     $upload_ep_params = [
-        'file'          => $FILE,
-        'title'         => $FILEINFOS['title'],
-        'filename'      => $NFILENAME,
-        'old_filename'  => $FILENAME,
-        'is_upload'     => $isFileUpload,
-        'category_id'   => $rex_file_category,
-        'type'          => $FILETYPE
+        'file' => $FILE,
+        'title' => $FILEINFOS['title'],
+        'filename' => $NFILENAME,
+        'old_filename' => $FILENAME,
+        'is_upload' => $isFileUpload,
+        'category_id' => $rex_file_category,
+        'type' => $FILETYPE,
     ];
     $upload_error_msg = '';         // wird vom Addon bei einem Veto gesetzt
     $upload_ep = new rex_extension_point('MEDIA_ADD', $upload_error_msg, $upload_ep_params);
@@ -228,10 +228,8 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
 
         if ($extensionNew == $extensionOld ||
             in_array($extensionNew, $jpgExtensions) && in_array($extensionOld, $jpgExtensions)) {
-
             if (move_uploaded_file($ffilename, rex_path::media($FILEINFOS['filename'])) ||
                 copy($ffilename, rex_path::media($FILEINFOS['filename']))) {
-
                 $RETURN['msg'] = rex_i18n::msg('pool_file_changed');
                 $FILEINFOS['filetype'] = $ffiletype;
                 $FILEINFOS['filesize'] = $ffilesize;
@@ -364,7 +362,7 @@ function rex_mediapool_deleteMedia($filename)
     rex_media_cache::delete($filename);
 
     rex_extension::registerPoint(new rex_extension_point('MEDIA_DELETED', '', [
-        'filename' => $filename
+        'filename' => $filename,
     ]));
 
     return ['ok' => true, 'msg' => rex_i18n::msg('pool_file_deleted')];
