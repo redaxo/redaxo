@@ -29,6 +29,7 @@ class rex_media_category_select extends rex_select
 
     /**
      * rex_media_category_select constructor.
+     *
      * @param bool $check_perms
      * @param bool $check_read_perms
      */
@@ -36,7 +37,7 @@ class rex_media_category_select extends rex_select
     {
         $this->check_perms = $check_perms;
         $this->check_read_perms = $check_read_perms;
-        if ($check_perms === false && $check_read_perms === true) {
+        if (false === $check_perms && true === $check_read_perms) {
             $this->check_perms = true;
         }
         $this->rootId = null;
@@ -102,14 +103,14 @@ class rex_media_category_select extends rex_select
             $categoryId = $mediacat->getId();
             $parentCategoryId = $mediacat->getParentId();
             $value = $categoryId;
-            $attributes = array();
+            $attributes = [];
 
             // no permission for parent set as id for parent the id from the first child with permission
             if ($this->check_perms && $childWithPermission instanceof rex_media_category && (
                     $value != $childWithPermission->getId() // my id is not the id of the child with the permission
                     && (
-                        media_category_perm_helper::isIdParentInPath($childWithPermission, $value) === true // and my id is in the path
-                        && media_category_perm_helper::isIdParentInPath($mediacat, $childWithPermission->getId()) !== true // and the child id is not in my path!
+                        true === media_category_perm_helper::isIdParentInPath($childWithPermission, $value) // and my id is in the path
+                        && true !== media_category_perm_helper::isIdParentInPath($mediacat, $childWithPermission->getId()) // and the child id is not in my path!
                     )
                 )
             ) {

@@ -6,8 +6,8 @@
 class media_category_perm_helper
 {
     /**
-     * @param rex_media_category $mediacat
-     * @param boolean $check_read_perms
+     * @param bool $check_read_perms
+     *
      * @return bool|mixed|rex_media_category
      */
     public static function checkChildren(rex_media_category $mediacat, $check_read_perms)
@@ -32,10 +32,8 @@ class media_category_perm_helper
                     ($check_read_perms && rex::getUser()->getComplexPerm('media_read')->hasCategoryPerm($child->getId()))
                 ) {
                     return $child;
-                } else {
-                    continue;
                 }
-
+                continue;
             }
         }
         return false;
@@ -43,12 +41,13 @@ class media_category_perm_helper
 
     /**
      * @param null|rex_media_category $mediacat
-     * @param boolean $check_read_perms
+     * @param bool                    $check_read_perms
+     *
      * @return null|bool|rex_media_category
      */
     public static function checkParents($mediacat, $check_read_perms)
     {
-        if ($mediacat instanceof rex_media_category && sizeof($mediacat->getPathAsArray()) > 0) {
+        if ($mediacat instanceof rex_media_category && count($mediacat->getPathAsArray()) > 0) {
             foreach ($mediacat->getPathAsArray() as $parent) {
                 if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($parent) ||
                     ($check_read_perms && rex::getUser()->getComplexPerm('media_read')->hasCategoryPerm($parent))
@@ -61,12 +60,12 @@ class media_category_perm_helper
     }
 
     /**
-     * @param rex_media_category $mediacat
-     * @param integer $id
+     * @param int $id
+     *
      * @return bool
      */
     public static function isIdParentInPath(rex_media_category $mediacat, $id)
     {
-        return is_numeric(strpos($mediacat->getPath(),"|$id|"));
+        return is_numeric(strpos($mediacat->getPath(), "|$id|"));
     }
 }

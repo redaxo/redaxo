@@ -71,7 +71,7 @@ if (-1 == $rex_file_category) {
             if ($firstId > $firstReadId) {
                 $firstId = $firstReadId;
             }
-            if (!is_null($firstId)) {
+            if (null !== $firstId) {
                 $rex_file_category = $firstId;
             }
         }

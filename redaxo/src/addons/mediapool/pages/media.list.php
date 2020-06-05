@@ -79,7 +79,6 @@ if ($hasCategoryPerm && 'delete_selectedmedia' == $media_method) {
             foreach ($selectedmedia as $file_name) {
                 $media = rex_media::get($file_name);
                 if ($media) {
-
                     if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($media->getCategoryId())
                         || media_category_perm_helper::checkParents($media->getCategory(), false) instanceof rex_media_category // yes than go go
                     ) {

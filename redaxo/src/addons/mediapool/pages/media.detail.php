@@ -112,8 +112,7 @@ if (1 != $gf->getRows()) {
 
 $TPERM = false;
 if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('category_id'))
-    || media_category_perm_helper::checkParents(rex_media_category::get($gf->getValue('category_id')), false) instanceof rex_media_category)
-{
+    || media_category_perm_helper::checkParents(rex_media_category::get($gf->getValue('category_id')), false) instanceof rex_media_category) {
     $TPERM = true;
 }
 

@@ -150,7 +150,6 @@ if ('add_cat' == $media_method) {
 }
 
 foreach ($OOCats as $OOCat) {
-
     $childWithPermission = media_category_perm_helper::checkChildren($OOCat, false);
     $parentWithPermission = media_category_perm_helper::checkParents($OOCat, false);
 
@@ -159,7 +158,6 @@ foreach ($OOCats as $OOCat) {
         || $parentWithPermission instanceof rex_media_category // check all parents
         || $childWithPermission instanceof rex_media_category // check children
     ) {
-
         $iid = $OOCat->getId();
         $iname = $OOCat->getName();
 
@@ -178,7 +176,6 @@ foreach ($OOCats as $OOCat) {
                 </tr>
             ';
         } else {
-
             $edit = ($editable) ? '<a href="' . $link . $cat_id . '&amp;media_method=update_file_cat&amp;edit_id=' . $iid . '"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('pool_kat_edit') . '</a>' : '';
             $delete = ($editable) ? '<a href="' . $link . $cat_id . '&amp;media_method=delete_file_cat&amp;edit_id=' . $iid . '&amp;' . http_build_query($csrf->getUrlParams()) . '" data-confirm="' . rex_i18n::msg('delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('pool_kat_delete') . '</a>' : '';
 
