@@ -31,7 +31,6 @@ class rex_media_category_select extends rex_select
      * rex_media_category_select constructor.
      * @param bool $check_perms
      * @param bool $check_read_perms
-     * @param bool $select2
      */
     public function __construct($check_perms = true, $check_read_perms = false)
     {
