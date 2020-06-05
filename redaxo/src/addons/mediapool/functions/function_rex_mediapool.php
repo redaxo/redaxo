@@ -579,7 +579,6 @@ function rex_mediapool_Syncform($rex_file_category)
  * check if mediatpye(extension) is allowed for upload.
  *
  * @param string $filename
- * @param array  $args
  *
  * @return bool
  */
