@@ -451,12 +451,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/Roave/SecurityAdvisories.git",
-            "reference": "e38de1df609b39d97144514d28b0804ad4daaddb"
+            "reference": "de6fda3af9b36c77fdeb62b968157032f7111b09"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/e38de1df609b39d97144514d28b0804ad4daaddb",
-            "reference": "e38de1df609b39d97144514d28b0804ad4daaddb",
+            "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/de6fda3af9b36c77fdeb62b968157032f7111b09",
+            "reference": "de6fda3af9b36c77fdeb62b968157032f7111b09",
             "shasum": ""
         },
         "conflict": {
@@ -510,8 +510,9 @@
             "ezsystems/ezplatform": ">=1.7,<1.7.9.1|>=1.13,<1.13.5.1|>=2.5,<2.5.4",
             "ezsystems/ezplatform-admin-ui": ">=1.3,<1.3.5|>=1.4,<1.4.6",
             "ezsystems/ezplatform-admin-ui-assets": ">=4,<4.2",
+            "ezsystems/ezplatform-kernel": ">=1,<1.0.2.1",
             "ezsystems/ezplatform-user": ">=1,<1.0.1",
-            "ezsystems/ezpublish-kernel": ">=5.3,<5.3.12.1|>=5.4,<5.4.14.1|>=6,<6.7.9.1|>=6.8,<6.13.6.2|>=7,<7.2.4.1|>=7.3,<7.3.2.1|>=7.5,<7.5.6.2",
+            "ezsystems/ezpublish-kernel": ">=5.3,<5.3.12.1|>=5.4,<5.4.14.2|>=6,<6.7.9.1|>=6.8,<6.13.6.3|>=7,<7.2.4.1|>=7.3,<7.3.2.1|>=7.5,<7.5.7.1",
             "ezsystems/ezpublish-legacy": ">=5.3,<5.3.12.6|>=5.4,<5.4.14.1|>=2011,<2017.12.7.2|>=2018.6,<2018.6.1.4|>=2018.9,<2018.9.1.3|>=2019.3,<2019.3.4.2",
             "ezsystems/repository-forms": ">=2.3,<2.3.2.1",
             "ezyang/htmlpurifier": "<4.1.1",
@@ -549,6 +550,7 @@
             "monolog/monolog": ">=1.8,<1.12",
             "namshi/jose": "<2.2",
             "nzo/url-encryptor-bundle": ">=4,<4.3.2|>=5,<5.0.1",
+            "october/october": ">=1.0.319,<1.0.466",
             "onelogin/php-saml": "<2.10.4",
             "oneup/uploader-bundle": "<1.9.3|>=2,<2.1.5",
             "openid/php-openid": "<2.3",
@@ -560,7 +562,7 @@
             "paypal/merchant-sdk-php": "<3.12",
             "pear/archive_tar": "<1.4.4",
             "phpfastcache/phpfastcache": ">=5,<5.0.13",
-            "phpmailer/phpmailer": ">=5,<5.2.27|>=6,<6.0.6",
+            "phpmailer/phpmailer": "<6.1.6",
             "phpmyadmin/phpmyadmin": "<4.9.2",
             "phpoffice/phpexcel": "<1.8.2",
             "phpoffice/phpspreadsheet": "<1.8",
@@ -575,6 +577,7 @@
             "propel/propel": ">=2-alpha.1,<=2-alpha.7",
             "propel/propel1": ">=1,<=1.7.1",
             "pusher/pusher-php-server": "<2.2.1",
+            "rainlab/debugbar-plugin": "<3.1",
             "robrichards/xmlseclibs": "<3.0.4",
             "sabre/dav": ">=1.6,<1.6.99|>=1.7,<1.7.11|>=1.8,<1.8.9",
             "scheb/two-factor-bundle": ">=0,<3.26|>=4,<4.11",
@@ -695,7 +698,7 @@
             "zfcampus/zf-apigility-doctrine": ">=1,<1.0.3",
             "zfr/zfr-oauth2-server-module": "<0.1.2"
         },
-        "time": "2020-05-22T06:49:22+00:00",
+        "time": "2020-06-04T00:00:55+00:00",
         "type": "metapackage",
         "notification-url": "https://packagist.org/downloads/",
         "license": [
@@ -727,23 +730,24 @@
     },
     {
         "name": "symfony/console",
-        "version": "v4.4.8",
-        "version_normalized": "4.4.8.0",
+        "version": "v4.4.9",
+        "version_normalized": "4.4.9.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/console.git",
-            "reference": "10bb3ee3c97308869d53b3e3d03f6ac23ff985f7"
+            "reference": "326b064d804043005526f5a0494cfb49edb59bb0"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/console/zipball/10bb3ee3c97308869d53b3e3d03f6ac23ff985f7",
-            "reference": "10bb3ee3c97308869d53b3e3d03f6ac23ff985f7",
+            "url": "https://api.github.com/repos/symfony/console/zipball/326b064d804043005526f5a0494cfb49edb59bb0",
+            "reference": "326b064d804043005526f5a0494cfb49edb59bb0",
             "shasum": ""
         },
         "require": {
-            "php": "^7.1.3",
+            "php": ">=7.1.3",
             "symfony/polyfill-mbstring": "~1.0",
             "symfony/polyfill-php73": "^1.8",
+            "symfony/polyfill-php80": "^1.15",
             "symfony/service-contracts": "^1.1|^2"
         },
         "conflict": {
@@ -770,7 +774,7 @@
             "symfony/lock": "",
             "symfony/process": ""
         },
-        "time": "2020-03-30T11:41:10+00:00",
+        "time": "2020-05-30T20:06:45+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1267,6 +1271,84 @@
         ]
     },
     {
+        "name": "symfony/polyfill-php80",
+        "version": "v1.17.0",
+        "version_normalized": "1.17.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/polyfill-php80.git",
+            "reference": "5e30b2799bc1ad68f7feb62b60a73743589438dd"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/polyfill-php80/zipball/5e30b2799bc1ad68f7feb62b60a73743589438dd",
+            "reference": "5e30b2799bc1ad68f7feb62b60a73743589438dd",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=7.0.8"
+        },
+        "time": "2020-05-12T16:47:27+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.17-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Polyfill\\Php80\\": ""
+            },
+            "files": [
+                "bootstrap.php"
+            ],
+            "classmap": [
+                "Resources/stubs"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Ion Bazan",
+                "email": "ion.bazan@gmail.com"
+            },
+            {
+                "name": "Nicolas Grekas",
+                "email": "p@tchwork.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony polyfill backporting some PHP 8.0+ features to lower PHP versions",
+        "homepage": "https://symfony.com",
+        "keywords": [
+            "compatibility",
+            "polyfill",
+            "portable",
+            "shim"
+        ],
+        "funding": [
+            {
+                "url": "https://symfony.com/sponsor",
+                "type": "custom"
+            },
+            {
+                "url": "https://github.com/fabpot",
+                "type": "github"
+            },
+            {
+                "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                "type": "tidelift"
+            }
+        ]
+    },
+    {
         "name": "symfony/service-contracts",
         "version": "v1.1.8",
         "version_normalized": "1.1.8.0",
@@ -1328,23 +1410,24 @@
     },
     {
         "name": "symfony/var-dumper",
-        "version": "v4.4.8",
-        "version_normalized": "4.4.8.0",
+        "version": "v4.4.9",
+        "version_normalized": "4.4.9.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/var-dumper.git",
-            "reference": "c587e04ce5d1aa62d534a038f574d9a709e814cf"
+            "reference": "56b3aa5eab0ac6720dcd559fd1d590ce301594ac"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/var-dumper/zipball/c587e04ce5d1aa62d534a038f574d9a709e814cf",
-            "reference": "c587e04ce5d1aa62d534a038f574d9a709e814cf",
+            "url": "https://api.github.com/repos/symfony/var-dumper/zipball/56b3aa5eab0ac6720dcd559fd1d590ce301594ac",
+            "reference": "56b3aa5eab0ac6720dcd559fd1d590ce301594ac",
             "shasum": ""
         },
         "require": {
-            "php": "^7.1.3",
+            "php": ">=7.1.3",
             "symfony/polyfill-mbstring": "~1.0",
-            "symfony/polyfill-php72": "~1.5"
+            "symfony/polyfill-php72": "~1.5",
+            "symfony/polyfill-php80": "^1.15"
         },
         "conflict": {
             "phpunit/phpunit": "<4.8.35|<5.4.3,>=5.0",
@@ -1361,7 +1444,7 @@
             "ext-intl": "To show region name in time zone dump",
             "symfony/console": "To use the ServerDumpCommand and/or the bin/var-dump-server script"
         },
-        "time": "2020-04-12T16:14:02+00:00",
+        "time": "2020-05-30T20:06:45+00:00",
         "bin": [
             "Resources/bin/var-dump-server"
         ],
@@ -1420,21 +1503,21 @@
     },
     {
         "name": "symfony/yaml",
-        "version": "v4.4.8",
-        "version_normalized": "4.4.8.0",
+        "version": "v4.4.9",
+        "version_normalized": "4.4.9.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/yaml.git",
-            "reference": "b385dce1c0e9f839b384af90188638819433e252"
+            "reference": "c2d2cc66e892322cfcc03f8f12f8340dbd7a3f8a"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/yaml/zipball/b385dce1c0e9f839b384af90188638819433e252",
-            "reference": "b385dce1c0e9f839b384af90188638819433e252",
+            "url": "https://api.github.com/repos/symfony/yaml/zipball/c2d2cc66e892322cfcc03f8f12f8340dbd7a3f8a",
+            "reference": "c2d2cc66e892322cfcc03f8f12f8340dbd7a3f8a",
             "shasum": ""
         },
         "require": {
-            "php": "^7.1.3",
+            "php": ">=7.1.3",
             "symfony/polyfill-ctype": "~1.8"
         },
         "conflict": {
@@ -1446,7 +1529,7 @@
         "suggest": {
             "symfony/console": "For validating YAML files using the lint command"
         },
-        "time": "2020-04-28T17:55:16+00:00",
+        "time": "2020-05-20T08:37:50+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1554,17 +1637,17 @@
     },
     {
         "name": "voku/portable-ascii",
-        "version": "1.4.10",
-        "version_normalized": "1.4.10.0",
+        "version": "1.4.11",
+        "version_normalized": "1.4.11.0",
         "source": {
             "type": "git",
             "url": "https://github.com/voku/portable-ascii.git",
-            "reference": "240e93829a5f985fab0984a6e55ae5e26b78a334"
+            "reference": "026ccc08087d4cc72a528f29809d0cc7a4ee7f08"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/voku/portable-ascii/zipball/240e93829a5f985fab0984a6e55ae5e26b78a334",
-            "reference": "240e93829a5f985fab0984a6e55ae5e26b78a334",
+            "url": "https://api.github.com/repos/voku/portable-ascii/zipball/026ccc08087d4cc72a528f29809d0cc7a4ee7f08",
+            "reference": "026ccc08087d4cc72a528f29809d0cc7a4ee7f08",
             "shasum": ""
         },
         "require": {
@@ -1576,13 +1659,12 @@
         "suggest": {
             "ext-intl": "Use Intl for transliterator_transliterate() support"
         },
-        "time": "2020-03-13T01:23:26+00:00",
+        "time": "2020-05-23T21:00:33+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
             "psr-4": {
-                "voku\\": "src/voku/",
-                "voku\\tests\\": "tests/"
+                "voku\\": "src/voku/"
             }
         },
         "notification-url": "https://packagist.org/downloads/",
@@ -1601,6 +1683,24 @@
             "ascii",
             "clean",
             "php"
+        ],
+        "funding": [
+            {
+                "url": "https://www.paypal.me/moelleken",
+                "type": "custom"
+            },
+            {
+                "url": "https://github.com/voku",
+                "type": "github"
+            },
+            {
+                "url": "https://www.patreon.com/voku",
+                "type": "patreon"
+            },
+            {
+                "url": "https://tidelift.com/funding/github/packagist/voku/portable-ascii",
+                "type": "tidelift"
+            }
         ]
     },
     {

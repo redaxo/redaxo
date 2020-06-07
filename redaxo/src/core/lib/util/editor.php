@@ -41,11 +41,11 @@ class rex_editor
 
     public function getUrl($filePath, $line)
     {
-        $editor = rex::getProperty('editor');
+        $editor = $this->getName();
 
         $editorUrl = null;
 
-        $editorBasepath = rex::getProperty('editor_basepath');
+        $editorBasepath = $this->getBasepath();
         if ($editorBasepath) {
             // replace remote base path with local base path
             $filePath = str_replace(rex_path::base(), $editorBasepath, $filePath);
@@ -97,11 +97,11 @@ class rex_editor
      */
     public function getName(): ?string
     {
-        return rex::getProperty('editor');
+        return array_key_exists('editor', $_COOKIE) ? $_COOKIE['editor'] : rex::getProperty('editor');
     }
 
     public function getBasepath(): ?string
     {
-        return rex::getProperty('editor_basepath');
+        return array_key_exists('editor_basepath', $_COOKIE) ? $_COOKIE['editor_basepath'] : rex::getProperty('editor_basepath');
     }
 }

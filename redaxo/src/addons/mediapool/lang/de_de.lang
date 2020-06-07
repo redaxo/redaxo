@@ -104,3 +104,5 @@ var_medialist_move_top = Ausgewähltes Medium an den Anfang verschieben
 var_medialist_move_up = Ausgewähltes Medium nach oben verschieben
 var_medialist_move_down = Ausgewähltes Medium nach unten verschieben
 var_medialist_move_bottom = Ausgewähltes Medium an das Ende verschieben
+
+perm_general_media[sync] = Medienpool: Dateien synchronisieren
