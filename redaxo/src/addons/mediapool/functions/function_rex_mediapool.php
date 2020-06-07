@@ -219,10 +219,13 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
 
         static $jpgExtensions = ['jpg', 'jpeg'];
 
-        if ($extensionNew == $extensionOld ||
-            in_array($extensionNew, $jpgExtensions) && in_array($extensionOld, $jpgExtensions)) {
+        if (
+            $extensionNew == $extensionOld ||
+            in_array($extensionNew, $jpgExtensions) && in_array($extensionOld, $jpgExtensions)
+        ) {
             if (move_uploaded_file($ffilename, rex_path::media($FILEINFOS['filename'])) ||
-                copy($ffilename, rex_path::media($FILEINFOS['filename']))) {
+                    copy($ffilename, rex_path::media($FILEINFOS['filename']))
+            ) {
                 $RETURN['msg'] = rex_i18n::msg('pool_file_changed');
                 $FILEINFOS['filetype'] = $ffiletype;
                 $FILEINFOS['filesize'] = $ffilesize;
