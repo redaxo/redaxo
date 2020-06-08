@@ -12,10 +12,14 @@ if (rex::isFrontend()) {
         $json = file_get_contents('php://input');
         $data = json_decode($json);
 
+        $article = rex_article::getCurrent();
+
         $sql = rex_sql::factory();
         $sql->setTable(rex::getTable('webvitals'));
-        $sql->addRecord(function (rex_sql $record) use ($data) {
+        $sql->addRecord(function (rex_sql $record) use ($data, $article) {
             $record->setValue('uri', $_SERVER['HTTP_REFERER']);
+            $record->setValue('article_id', $article->getId());
+            $record->setValue('clang', $article->getClangId());
 
             switch($data->name) {
                 case 'CLS': {
@@ -43,7 +47,13 @@ if (rex::isFrontend()) {
 
     rex_extension::register('OUTPUT_FILTER', function (\rex_extension_point $ep) use ($plugin) {
         $response = $ep->getSubject();
-        $analyticsUrl = $url = rex_url::frontendController() . '?rex_analytics=1';
+
+        $analyticsUrl = $_SERVER['REQUEST_URI'];
+        if (strpos($analyticsUrl, '?') === false) {
+            $analyticsUrl .= '?rex_analytics=1';
+        } else {
+            $analyticsUrl .= '&rex_analytics=1';
+        }
 
         $js = '<script defer src="' . $plugin->getAssetsUrl('web-vitals.min.js') .'"></script>';
         $js .= '
