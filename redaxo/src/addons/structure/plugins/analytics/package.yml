@@ -1,0 +1,8 @@
+package: structure/analytics
+version: '1.0'
+author: Markus Staab
+
+requires:
+    redaxo: ^5.11.0-dev
+    packages:
+        structure: '^2.0.0'
