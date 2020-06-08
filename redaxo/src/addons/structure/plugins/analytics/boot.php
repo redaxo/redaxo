@@ -2,6 +2,8 @@
 
 $plugin = rex_plugin::get('structure', 'analytics');
 
+rex_cronjob_manager::registerType(rex_analytics_cronjob::class);
+
 if (rex::isFrontend()) {
     if (rex_get('rex_analytics')) {
         // prevent session locking trough other addons

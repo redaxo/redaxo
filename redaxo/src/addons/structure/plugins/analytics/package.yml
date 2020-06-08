@@ -6,3 +6,4 @@ requires:
     redaxo: ^5.11.0-dev
     packages:
         structure: '^2.0.0'
+        cronjob: '^2.0.0'
