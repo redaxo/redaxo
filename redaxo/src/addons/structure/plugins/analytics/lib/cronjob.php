@@ -6,6 +6,8 @@ class rex_analytics_cronjob extends rex_cronjob
     {
         $analytics = new rex_analytics();
         $analytics->condense();
+
+        return true;
     }
 
     public function getTypeName()
