@@ -88,6 +88,45 @@ if ($func && !$csrfToken->isValid()) {
             $success = rex_i18n::msg('info_updated');
         }
     }
+} elseif ('update_editor' === $func) {
+    $editor = rex_post('editor', [
+        ['name', 'string', null],
+        ['basepath', 'string', null],
+        ['update_cookie', 'bool', false],
+        ['delete_cookie', 'bool', false],
+    ]);
+
+    $editor['name'] = $editor['name'] ?: null;
+    $editor['basepath'] = $editor['basepath'] ?: null;
+
+    $cookieOptions = ['samesite' => 'strict'];
+
+    if ($editor['delete_cookie']) {
+        rex_response::clearCookie('editor', $cookieOptions);
+        rex_response::clearCookie('editor_basepath', $cookieOptions);
+        unset($_COOKIE['editor']);
+        unset($_COOKIE['editor_basepath']);
+
+        $success = rex_i18n::msg('system_editor_success_cookie_deleted');
+    } elseif ($editor['update_cookie']) {
+        rex_response::sendCookie('editor', $editor['name'], $cookieOptions);
+        rex_response::sendCookie('editor_basepath', $editor['basepath'], $cookieOptions);
+        $_COOKIE['editor'] = $editor['name'];
+        $_COOKIE['editor_basepath'] = $editor['basepath'];
+
+        $success = rex_i18n::msg('system_editor_success_cookie');
+    } else {
+        $configFile = rex_path::coreData('config.yml');
+        $config = rex_file::getConfig($configFile);
+
+        $config['editor'] = $editor['name'];
+        $config['editor_basepath'] = $editor['basepath'];
+        rex::setProperty('editor', $config['editor']);
+        rex::setProperty('editor_basepath', $config['editor_basepath']);
+
+        rex_file::putConfig($configFile, $config);
+        $success = rex_i18n::msg('system_editor_success_configyml');
+    }
 }
 
 $sel_lang = new rex_select();
@@ -102,15 +141,6 @@ asort($locales);
 foreach ($locales as $locale) {
     $sel_lang->addOption(rex_i18n::msgInLocale('lang', $locale).' ('.$locale.')', $locale);
 }
-
-$sel_editor = new rex_select();
-$sel_editor->setStyle('class="form-control"');
-$sel_editor->setName('settings[editor]');
-$sel_editor->setId('rex-id-editor');
-$sel_editor->setAttribute('class', 'form-control selectpicker');
-$sel_editor->setSize(1);
-$sel_editor->setSelected(rex::getProperty('editor'));
-$sel_editor->addArrayOptions(['' => rex_i18n::msg('system_editor_no_editor')] + rex_editor::factory()->getSupportedEditors());
 
 if (!empty($error)) {
     echo rex_view::error(implode('<br />', $error));
@@ -251,14 +281,9 @@ foreach (rex_system_setting::getAll() as $setting) {
 
 $formElements = [];
 
-$n = [];
-$n['label'] = '<label for="rex-id-editor">' . rex_i18n::msg('system_editor') . '</label>';
-$n['field'] = $sel_editor->get();
-$n['note'] = rex_i18n::msg('system_editor_note');
-$formElements[] = $n;
-
+$editor = rex_editor::factory();
 $configYml = rex_path::coreData('config.yml');
-if ($url = rex_editor::factory()->getUrl($configYml, 0)) {
+if ($url = $editor->getUrl($configYml, 0)) {
     $n = [];
     $n['label'] = '';
     $n['field'] = $n['field'] = '<a class="btn btn-sm btn-primary" href="'. $url .'">' . rex_i18n::msg('system_editor_open_file', basename($configYml)) . '</a>';
@@ -290,6 +315,77 @@ $content = $fragment->parse('core/page/section.php');
 $mainContent[] = '
 <form id="rex-form-system-setup" action="' . rex_url::currentBackendPage() . '" method="post">
     <input type="hidden" name="func" value="updateinfos" />
+    ' . $csrfToken->getHiddenField() . '
+    ' . $content . '
+</form>';
+
+$content = '<p>' . rex_i18n::msg('system_editor_note') . '</p>';
+
+$viaCookie = array_key_exists('editor', $_COOKIE);
+if ($viaCookie) {
+    $content .= rex_view::info(rex_i18n::msg('system_editor_note_cookie'));
+}
+
+$formElements = [];
+
+$sel_editor = new rex_select();
+$sel_editor->setStyle('class="form-control"');
+$sel_editor->setName('editor[name]');
+$sel_editor->setId('rex-id-editor');
+$sel_editor->setAttribute('class', 'form-control selectpicker');
+$sel_editor->setSize(1);
+$sel_editor->setSelected($editor->getName());
+$sel_editor->addArrayOptions(['' => rex_i18n::msg('system_editor_no_editor')] + $editor->getSupportedEditors());
+
+$n = [];
+$n['label'] = '<label for="rex-id-editor">' . rex_i18n::msg('system_editor_name') . '</label>';
+$n['field'] = $sel_editor->get();
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="rex-id-editor-basepath">' . rex_i18n::msg('system_editor_basepath') . '</label>';
+$n['field'] = '<input class="form-control" type="text" id="rex-id-editor-basepath" name="editor[basepath]" value="' . rex_escape($editor->getBasepath()) . '" />';
+$n['note'] = rex_i18n::msg('system_editor_basepath_note');
+$formElements[] = $n;
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$content .= $fragment->parse('core/form/form.php');
+
+$formElements = [];
+$class = 'rex-form-aligned';
+
+if (!$viaCookie) {
+    $n = [];
+    $n['field'] = '<button class="btn btn-save '.$class.'" type="submit" name="editor[update_cookie]" value="0">' . rex_i18n::msg('system_editor_update_configyml') . '</button>';
+    $formElements[] = $n;
+    $class = '';
+}
+
+$n = [];
+$n['field'] = '<button class="btn btn-save '.$class.'" type="submit" name="editor[update_cookie]" value="1">' . rex_i18n::msg('system_editor_update_cookie') . '</button>';
+$formElements[] = $n;
+
+if ($viaCookie) {
+    $n = [];
+    $n['field'] = '<button class="btn btn-delete" type="submit" name="editor[delete_cookie]" value="1">' . rex_i18n::msg('system_editor_delete_cookie') . '</button>';
+    $formElements[] = $n;
+}
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$buttons = $fragment->parse('core/form/submit.php');
+
+$fragment = new rex_fragment();
+$fragment->setVar('class', 'edit', false);
+$fragment->setVar('title', rex_i18n::msg('system_editor'));
+$fragment->setVar('body', $content, false);
+$fragment->setVar('buttons', $buttons, false);
+$content = $fragment->parse('core/page/section.php');
+
+$mainContent[] = '
+<form id="rex-form-system-setup" action="' . rex_url::currentBackendPage() . '" method="post">
+    <input type="hidden" name="func" value="update_editor" />
     ' . $csrfToken->getHiddenField() . '
     ' . $content . '
 </form>';

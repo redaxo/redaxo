@@ -363,7 +363,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
         // Admin creation not needed, but ask the cli user
         if ($input->isInteractive() && $skipUserCreation) {
-            $skipUserCreation = $io->confirm('Users already exists. Skip user creation?');
+            $skipUserCreation = $io->confirm('User(s) already exist. Skip user creation?');
         }
 
         // Admin account exists already, but the cli user wants to create another one
