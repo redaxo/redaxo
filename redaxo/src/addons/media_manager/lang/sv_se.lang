@@ -115,6 +115,8 @@ media_manager_effect_rotate_degree = Vrida med (vinkel)
 
 media_manager_effect_mirror = Bild: tillfoga vattenspegling
 media_manager_effect_mirror_height = Refl. höjd (50 / 10%)
+media_manager_effect_mirror_opacity =
+media_manager_effect_mirror_opacity_notice =
 media_manager_effect_mirror_background_color = Bakgrundsfärg
 media_manager_effect_mirror_background_r = Bakgrund R (0-255)
 media_manager_effect_mirror_background_g = Bakgrund G (0-255)

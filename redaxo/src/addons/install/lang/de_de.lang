@@ -16,6 +16,7 @@ install_name = Name
 install_author = Autor
 install_shortdescription = Kurzbeschreibung
 install_description = Beschreibung
+install_website = Website
 install_files = Dateien
 install_version = Version
 install_existing_version = Vorhandene Version

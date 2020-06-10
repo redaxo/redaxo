@@ -129,7 +129,6 @@ server_required = Det krävs en URL för webbplatsen!
 server_invalid = Webbadressen är ogiltig, den måste anges komplett inkl. protokoll!
 servername_required = Ange ett servernamn!
 system_editor = Editor-Integration
-system_editor_note = Länkar REDAXO med en redaktör för att kunna öppna källkodsfiler direkt. Förutsättning: Källkoden för REDAXO-installationen är tillgänglig lokalt.
 system_editor_no_editor = Deaktiverat
 system_editor_open_file = Öppna "{0}" i editorn
 system_edit_config_note = REDAXOs huvudkonfiguration erbjuder möjlighet att ändra interna systemparametrar. Filen bör endast redigeras av erfarna användare.

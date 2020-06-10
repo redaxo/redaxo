@@ -115,6 +115,8 @@ media_manager_effect_rotate_degree = Rotate (degrees)
 
 media_manager_effect_mirror = Image: add water reflection
 media_manager_effect_mirror_height = Refl. height (50 / 10%)
+media_manager_effect_mirror_opacity = Reflection opacity (0 - 100)
+media_manager_effect_mirror_opacity_notice = 0% completely invisible reflection, 100% completely visible reflection
 media_manager_effect_mirror_background_color = Background color
 media_manager_effect_mirror_background_r = Background R (0-255)
 media_manager_effect_mirror_background_g = Background G (0-255)
