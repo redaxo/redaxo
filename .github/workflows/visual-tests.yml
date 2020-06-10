@@ -19,7 +19,7 @@ jobs:
         steps:
             - uses: actions/checkout@v2
               with:
-               token: ${{ secrets.STAABM_TOKEN }}
+                  ref: ${{ github.head_ref }}
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
@@ -75,7 +75,6 @@ jobs:
               if: failure()
               with:
                 commit_message: Update screenshots
-                branch: ${{ github.head_ref }}
                 file_pattern: .github/tests-visual/*
               env:
                 GITHUB_TOKEN: ${{ secrets.STAABM_TOKEN }}
