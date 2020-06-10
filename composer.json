@@ -7,7 +7,7 @@
         "friendsofphp/php-cs-fixer": "2.16.3",
         "friendsofredaxo/linter": "1.2.6",
         "phpstan/phpstan": "0.12.25",
-        "psalm/plugin-symfony": "1.2.2",
+        "psalm/plugin-symfony": "1.2.3",
         "vimeo/psalm": "3.11.5"
     },
     "replace": {
