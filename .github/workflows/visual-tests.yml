@@ -21,7 +21,7 @@ jobs:
               with:
                token: ${{ secrets.STAABM_TOKEN }}
             - name: Setup PHP
-              uses: shivammathur/setup-php@v2
+              uses: shivammathur/setup-php@2.3.0
               with:
                   php-version: 7.3
                   extensions: intl, imagick
