@@ -20,6 +20,7 @@ jobs:
             - uses: actions/checkout@v2
               with:
                   ref: ${{ github.head_ref }}
+                  token: ${{ secrets.STAABM_TOKEN }}
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
@@ -76,5 +77,3 @@ jobs:
               with:
                   commit_message: Update screenshots
                   file_pattern: .github/tests-visual/*
-              env:
-                  GITHUB_TOKEN: ${{ secrets.STAABM_TOKEN }}
