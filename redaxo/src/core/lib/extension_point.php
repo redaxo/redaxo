@@ -7,7 +7,8 @@
  *
  * @package redaxo\core
  */
-class rex_extension_point{
+class rex_extension_point
+{
     /** @var string */
     private $name;
     /** @var mixed */
