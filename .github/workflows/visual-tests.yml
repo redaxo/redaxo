@@ -74,7 +74,7 @@ jobs:
             - uses: stefanzweifel/git-auto-commit-action@v4.3.0
               if: failure()
               with:
-                commit_message: Update screenshots
-                file_pattern: .github/tests-visual/*
+                  commit_message: Update screenshots
+                  file_pattern: .github/tests-visual/*
               env:
-                GITHUB_TOKEN: ${{ secrets.STAABM_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.STAABM_TOKEN }}
