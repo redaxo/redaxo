@@ -1,12 +1,11 @@
 <?php
 
 assert(isset($rex_file_category) && is_int($rex_file_category));
-assert(isset($PERMALL) && is_bool($PERMALL));
 
 $csrf = rex_csrf_token::factory('mediapool');
 
 // ----- SYNC DB WITH FILES DIR
-if ($PERMALL) {
+
     // ---- Dateien aus dem Ordner lesen
     $folder_files = [];
     $path = rex_path::media();
@@ -71,7 +70,7 @@ if ($PERMALL) {
                         continue;
                     }
 
-                    $syncResult = rex_mediapool_syncFile($file, $rex_file_category, $ftitle, '', '');
+                    $syncResult = rex_mediapool_syncFile($file, $rex_file_category, $ftitle, null, '');
                     if ($syncResult['ok']) {
                         unset($diff_files[$key]);
                         if ($first) {
@@ -176,4 +175,3 @@ if ($PERMALL) {
     }
 
     echo $content;
-}

@@ -111,6 +111,7 @@ create_module = Create module
 input = Input
 output = Output
 module_name = Name
+module_actions_notice = Tip: Using Actions you might validate user input or trigger custom php scripts
 save_module_and_quit = Save module
 save_module_and_continue = Update module
 module_description = Module description

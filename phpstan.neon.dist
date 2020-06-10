@@ -16,7 +16,6 @@ parameters:
         - redaxo/src/addons/structure
         - redaxo/src/addons/tests
         - redaxo/src/addons/users
-    bootstrap: phpstan-bootstrap.php
     excludes_analyse:
         - redaxo/src/addons/be_style/vendor/
         - redaxo/src/addons/debug/vendor/
@@ -45,7 +44,5 @@ parameters:
         -
             message: '#Call to an undefined method object::subfragment\(\)\.#'
             path: '*/fragments/*'
-
-        - '#Undefined variable: \$this#'
         - '#Unsafe usage of new static\(\)\.#'
         - '#Constructor of class rex_form_.*_element has an unused parameter \$tag.#'

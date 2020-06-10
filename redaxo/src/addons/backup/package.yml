@@ -19,5 +19,6 @@ page:
 
 requires:
     php:
+        version: '>=7.1'
         extensions: [ctype]
     redaxo: ^5.9.0

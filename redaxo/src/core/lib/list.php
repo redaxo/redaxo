@@ -449,6 +449,11 @@ class rex_list implements rex_url_provider_interface
      * @param mixed  $default    Defaultrückgabewert, falls kein Label gesetzt ist
      *
      * @return string|null
+     *
+     * @template T as null|string
+     * @phpstan-template T
+     * @psalm-param T $default
+     * @psalm-return (T is null ? string : ?string)
      */
     public function getColumnLabel($columnName, $default = null)
     {
@@ -737,7 +742,7 @@ class rex_list implements rex_url_provider_interface
                     $_params[$name] = $this->replaceVariables($v);
                 }
             } else {
-                $_params[$name] = $this->replaceVariables($value);
+                $_params[$name] = $this->replaceVariables((string) $value);
             }
         }
         return rex::isBackend() ? rex_url::backendController($_params, $escape) : rex_url::frontendController($_params, $escape);
