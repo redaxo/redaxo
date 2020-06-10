@@ -23,7 +23,7 @@ class rex_debug
     /**
      * @psalm-param class-string[] $ignoredClasses
      *
-     * @psalm-return array{file: string, line: int, trace: array}
+     * @psalm-return array{file: ?string, line: ?int, trace: array}
      */
     public static function getTrace(array $ignoredClasses = []): array
     {
