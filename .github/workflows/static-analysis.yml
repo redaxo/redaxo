@@ -34,13 +34,13 @@ jobs:
               id: composer-cache
               run: echo "::set-output name=dir::$(composer config cache-files-dir)"
             - name: Cache dependencies
-              uses: actions/cache@v1
+              uses: actions/cache@v2
               with:
                   path: ${{ steps.composer-cache.outputs.dir }}
                   key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
                   restore-keys: ${{ runner.os }}-composer-
             - name: "Psalm Resultcache"
-              uses: actions/cache@v1
+              uses: actions/cache@v2
               with:
                   path: /tmp/psalm
                   key: "psalm-result-cache"
@@ -83,13 +83,13 @@ jobs:
               id: composer-cache
               run: echo "::set-output name=dir::$(composer config cache-files-dir)"
             - name: Cache dependencies
-              uses: actions/cache@v1
+              uses: actions/cache@v2
               with:
                   path: ${{ steps.composer-cache.outputs.dir }}
                   key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
                   restore-keys: ${{ runner.os }}-composer-
             - name: "PHPStan Resultcache"
-              uses: actions/cache@v1
+              uses: actions/cache@v2
               with:
                   path: /tmp/phpstan
                   key: "phpstan-result-cache"
