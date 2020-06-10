@@ -91,16 +91,33 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
     $dstFile = rex_path::media($NFILENAME);
 
     $success = true;
-    if ($isFileUpload) { // Fileupload?
-        $FILETYPE = rex_file::mimeType($FILE['tmp_name']);
+    $FILETYPE = $isFileUpload ? rex_file::mimeType($FILE['tmp_name']) : rex_file::mimeType($srcFile);
 
+    // Bevor die Datei engueltig in den Medienpool uebernommen wird, koennen
+    // Addons ueber einen Extension-Point ein Veto einlegen.
+    // Sobald ein Addon eine negative Entscheidung getroffen hat, sollten
+    // Addons, fuer die der Extension-Point spaeter ausgefuehrt wird, diese
+    // Entscheidung respektieren
+    $errorMessage = rex_extension::registerPoint(new rex_extension_point('MEDIA_ADD', '', [
+        'file' => $FILE,
+        'title' => $FILEINFOS['title'],
+        'filename' => $NFILENAME,
+        'old_filename' => $FILENAME,
+        'is_upload' => $isFileUpload,
+        'category_id' => $rex_file_category,
+        'type' => $FILETYPE,
+    ]));
+
+    if ($errorMessage) {
+        // ein Addon hat die Fehlermeldung gesetzt, dem Upload also faktisch widersprochen
+        $success = false;
+        $message[] = $errorMessage;
+    } elseif ($isFileUpload) { // Fileupload?
         if (!@move_uploaded_file($FILE['tmp_name'], $dstFile)) {
             $message[] = rex_i18n::msg('pool_file_movefailed');
             $success = false;
         }
     } else { // Filesync?
-        $FILETYPE = rex_file::mimeType($srcFile);
-
         if (!@rename($srcFile, $dstFile)) {
             $message[] = rex_i18n::msg('pool_file_movefailed');
             $success = false;
