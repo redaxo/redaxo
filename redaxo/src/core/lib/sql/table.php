@@ -920,7 +920,7 @@ class rex_sql_table
         }
 
         $comment = $column->getComment();
-        if ($comment) {
+        if (null !== $comment && '' !== $comment) {
             $comment = 'COMMENT '. $this->sql->escape($comment);
         }
 
