@@ -200,6 +200,24 @@ class rex_sql_table_test extends TestCase
         static::assertSame('changed id comment', $table->getColumn('id')->getComment());
     }
 
+    public function testRemoveColumnComment()
+    {
+        $table = $this->createTable();
+
+        $id = new rex_sql_column('id', 'int(11)', false, null, 'auto_increment', null);
+        $table
+            ->ensureColumn($id)
+            ->alter();
+
+        static::assertSame($id, $table->getColumn('id'));
+
+        rex_sql_table::clearInstance(self::TABLE);
+        $table = rex_sql_table::get(self::TABLE);
+
+        static::assertEquals($id, $table->getColumn('id'));
+        static::assertSame(null, $table->getColumn('id')->getComment());
+    }
+
     public function testEnsureColumn()
     {
         $table = $this->createTable();
