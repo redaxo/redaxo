@@ -215,7 +215,7 @@ class rex_sql_table_test extends TestCase
         $table = rex_sql_table::get(self::TABLE);
 
         static::assertEquals($id, $table->getColumn('id'));
-        static::assertSame(null, $table->getColumn('id')->getComment());
+        static::assertNull($table->getColumn('id')->getComment());
     }
 
     public function testEnsureColumn()
