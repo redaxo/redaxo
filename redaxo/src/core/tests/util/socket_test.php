@@ -63,7 +63,7 @@ class rex_socket_test extends TestCase
         $property->setValue($socket, $stream);
         $response = $method->invoke($socket, 'GET', '/a/path', ['Host' => 'www.example.com', 'Connection' => 'Close'], "body1\r\nbody2");
 
-        static::assertInstanceOf('rex_socket_response', $response);
+        static::assertInstanceOf(rex_socket_response::class, $response);
 
         $eol = "\r\n";
         $expected = 'GET /a/path HTTP/1.1' . $eol
