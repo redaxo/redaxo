@@ -1696,7 +1696,7 @@ class rex_sql implements Iterator
                 'key' => (string) $col->getValue('Key'),
                 'default' => null === $col->getValue('Default') ? null : (string) $col->getValue('Default'),
                 'extra' => (string) $col->getValue('Extra'),
-                'comment' => (string) $col->getValue('Comment'),
+                'comment' => null === $col->getValue('Comment') ? null : (string) $col->getValue('Comment'),
             ];
         }
 
