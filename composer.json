@@ -8,7 +8,8 @@
         "friendsofredaxo/linter": "1.2.6",
         "phpstan/phpstan": "0.12.28",
         "psalm/plugin-symfony": "1.2.3",
-        "vimeo/psalm": "3.11.5"
+        "vimeo/psalm": "3.11.5",
+        "psalm/plugin-phpunit": "0.10.1"
     },
     "replace": {
         "erusev/parsedown": "1.7.4",
