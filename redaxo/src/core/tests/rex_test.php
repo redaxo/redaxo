@@ -140,7 +140,7 @@ class rex_rex_test extends TestCase
         }
 
         static::assertNotNull(rex::getUser(), 'user is not null');
-        static::assertInstanceOf('rex_user', rex::getUser(), 'returns a user of correct class');
+        static::assertInstanceOf(rex_user::class, rex::getUser(), 'returns a user of correct class');
     }
 
     public function testGetServer()
