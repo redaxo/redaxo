@@ -22,7 +22,7 @@ class rex_log_entry_test extends TestCase
         $time = time();
         $entry = rex_log_entry::createFromString(date('Y-m-d H:i:s', $time) . ' | test1 |  |  test2\nt \| test3 |');
 
-        static::assertInstanceOf('rex_log_entry', $entry);
+        static::assertInstanceOf(rex_log_entry::class, $entry);
         static::assertSame($time, $entry->getTimestamp());
         static::assertSame(['test1', '', "test2\nt | test3", ''], $entry->getData());
     }
