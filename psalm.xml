@@ -30,7 +30,6 @@
             <directory name="redaxo/src/addons/structure/tests/" />
             <directory name="redaxo/src/addons/tests/vendor/" />
             <directory name="redaxo/src/core/vendor/" />
-            <directory name="redaxo/src/core/tests/" />
             <file name="redaxo/src/core/.phpstorm.meta.php" />
             <file name="redaxo/src/addons/tests/bin/run_tests.php" />
             <file name="redaxo/src/addons/tests/bin/setup.php" />
