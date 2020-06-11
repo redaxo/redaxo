@@ -24,7 +24,7 @@ class rex_sql_table_test extends TestCase
         $table = rex_sql_table::get(self::TABLE);
 
         $table
-            ->addColumn(new rex_sql_column('id', 'int(11)', false, null, 'auto_increment'))
+            ->addColumn(new rex_sql_column('id', 'int(11)', false, null, 'auto_increment', 'comment for id col'))
             ->addColumn(new rex_sql_column('title', 'varchar(255)', true, 'Default title'))
             ->setPrimaryKey('id')
             ->addIndex(new rex_sql_index('i_title', ['title']))
@@ -72,6 +72,7 @@ class rex_sql_table_test extends TestCase
         static::assertFalse($id->isNullable());
         static::assertNull($id->getDefault());
         static::assertSame('auto_increment', $id->getExtra());
+        static::assertSame('comment for id col', $id->getComment());
 
         $title = $table->getColumn('title');
 
