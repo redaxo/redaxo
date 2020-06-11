@@ -147,7 +147,7 @@ class rex_sql_table_test extends TestCase
     {
         $table = $this->createTable();
 
-        $description = new rex_sql_column('description', 'text', true);
+        $description = new rex_sql_column('description', 'text', true, null, null, 'description comment');
         $table
             ->addColumn($description)
             ->addColumn(new rex_sql_column('name', 'varchar(255)'), 'id')
