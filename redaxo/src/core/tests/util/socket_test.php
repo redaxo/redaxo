@@ -53,7 +53,7 @@ class rex_socket_test extends TestCase
      */
     public function testWriteRequest($socket)
     {
-        $class = new ReflectionClass('rex_socket');
+        $class = new ReflectionClass(rex_socket::class);
         $property = $class->getProperty('stream');
         $property->setAccessible(true);
         $method = $class->getMethod('writeRequest');
@@ -99,7 +99,7 @@ class rex_socket_test extends TestCase
      */
     public function testParseUrl($url, $expectedHost, $expectedPort, $expectedSsl, $expectedPath)
     {
-        $method = new ReflectionMethod('rex_socket', 'parseUrl');
+        $method = new ReflectionMethod(rex_socket::class, 'parseUrl');
         $method->setAccessible(true);
         $result = $method->invoke(null, $url);
         $expected = [
