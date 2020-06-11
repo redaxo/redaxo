@@ -101,7 +101,8 @@ class rex_sql_table
                 $type,
                 'YES' === $column['null'],
                 $column['default'],
-                $column['extra'] ?: null
+                $column['extra'] ?: null,
+                $column['comment'] ?: null
             );
 
             $this->columnsExisting[$column['name']] = $column['name'];
@@ -918,13 +919,19 @@ class rex_sql_table
             $default = 'DEFAULT '.$this->sql->escape($column->getDefault());
         }
 
+        $comment = $column->getComment();
+        if ($comment) {
+            $comment = 'COMMENT '. $this->sql->escape($comment);
+        }
+
         return sprintf(
             '%s %s %s %s %s',
             $this->sql->escapeIdentifier($column->getName()),
             $column->getType(),
             $default,
             $column->isNullable() ? '' : 'NOT NULL',
-            $column->getExtra()
+            $column->getExtra(),
+            $comment
         );
     }
 
