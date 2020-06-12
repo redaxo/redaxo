@@ -253,35 +253,51 @@ class rex_form extends rex_form_base
     /**
      * Callbackfunktion, damit in subklassen der Value noch beeinflusst werden kann
      * kurz vorm speichern.
+     *
+     * @param string  $fieldsetName
+     * @param string  $fieldName
+     * @param         $fieldValue
+     * @param rex_sql $saveSql the value which the global sql fields will be stored
+     * @return
      */
     protected function preSave($fieldsetName, $fieldName, $fieldValue, rex_sql $saveSql)
     {
         static $setOnce = false;
 
         if (!$setOnce) {
-            $fieldnames = $this->sql->getFieldnames();
-
-            if (in_array('updateuser', $fieldnames)) {
-                $saveSql->setValue('updateuser', rex::getUser()->getValue('login'));
-            }
-
-            if (in_array('updatedate', $fieldnames)) {
-                $saveSql->setDateTimeValue('updatedate', time());
-            }
-
-            if (!$this->isEditMode()) {
-                if (in_array('createuser', $fieldnames)) {
-                    $saveSql->setValue('createuser', rex::getUser()->getValue('login'));
-                }
-
-                if (in_array('createdate', $fieldnames)) {
-                    $saveSql->setDateTimeValue('createdate', time());
-                }
-            }
+            $this->setGlobalSqlFields($saveSql);
             $setOnce = true;
         }
 
         return $fieldValue;
+    }
+
+    /**
+     * setzt die sql felder `updateuser`, `updatedate`, `createuser` und `createdate` wenn vorhanden
+     *
+     * @param rex_sql $saveSql
+     */
+    public function setGlobalSqlFields(rex_sql $saveSql)
+    {
+        $fieldnames = $this->sql->getFieldnames();
+
+        if (in_array('updateuser', $fieldnames)) {
+            $saveSql->setValue('updateuser', rex::getUser()->getValue('login'));
+        }
+
+        if (in_array('updatedate', $fieldnames)) {
+            $saveSql->setDateTimeValue('updatedate', time());
+        }
+
+        if (!$this->isEditMode()) {
+            if (in_array('createuser', $fieldnames)) {
+                $saveSql->setValue('createuser', rex::getUser()->getValue('login'));
+            }
+
+            if (in_array('createdate', $fieldnames)) {
+                $saveSql->setDateTimeValue('createdate', time());
+            }
+        }
     }
 
     /**
@@ -343,8 +359,7 @@ class rex_form extends rex_form_base
                 if (count($this->languageSupport)) {
                     foreach (rex_clang::getAllIds() as $clang_id) {
                         $sql->setTable($this->tableName);
-                        $sql->addGlobalCreateFields();
-                        $sql->addGlobalUpdateFields();
+                        $this->setGlobalSqlFields($sql);
                         if (!isset($id)) {
                             $id = $sql->setNewId($this->languageSupport['id']);
                         } else {
