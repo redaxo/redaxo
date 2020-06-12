@@ -257,7 +257,8 @@ class rex_form extends rex_form_base
      * @param string  $fieldsetName
      * @param string  $fieldName
      * @param         $fieldValue
-     * @param rex_sql $saveSql the value which the global sql fields will be stored
+     * @param rex_sql $saveSql      the value which the global sql fields will be stored
+     *
      * @return
      */
     protected function preSave($fieldsetName, $fieldName, $fieldValue, rex_sql $saveSql)
@@ -273,9 +274,7 @@ class rex_form extends rex_form_base
     }
 
     /**
-     * setzt die sql felder `updateuser`, `updatedate`, `createuser` und `createdate` wenn vorhanden
-     *
-     * @param rex_sql $saveSql
+     * setzt die sql felder `updateuser`, `updatedate`, `createuser` und `createdate` wenn vorhanden.
      */
     public function setGlobalSqlFields(rex_sql $saveSql)
     {
