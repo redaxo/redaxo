@@ -49,7 +49,7 @@ class rex_view
      * Adds a JS file.
      *
      * @param string $file
-     * @psalm-param array<self::JS_*, bool> $options
+     * @psalm-param array<self::JS_*, bool>|array<self::JS_*> $options
      *
      * @throws rex_exception
      */
