@@ -83,6 +83,7 @@ class rex_view
      * Returns all JS files besides their options.
      *
      * @psalm-return list<array{string, array}>
+     *
      * @return array
      */
     public static function getJsFilesWithOptions()
