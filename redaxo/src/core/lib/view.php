@@ -9,11 +9,11 @@ class rex_view
     public const JS_ASYNC = 'async';
     public const JS_IMMUTABLE = 'immutable';
 
-    /** @var array */
+    /** @var string[][] */
     private static $cssFiles = [];
-    /** @var array */
+    /** @var list<array{string, array}> */
     private static $jsFiles = [];
-    /** @var array */
+    /** @var array<string, mixed> */
     private static $jsProperties = [];
     /** @var string */
     private static $favicon;
@@ -38,7 +38,7 @@ class rex_view
     /**
      * Returns the CSS files.
      *
-     * @return string[]
+     * @return string[][]
      */
     public static function getCssFiles()
     {
@@ -49,6 +49,7 @@ class rex_view
      * Adds a JS file.
      *
      * @param string $file
+     * @psalm-param self::JS_* $options
      *
      * @throws rex_exception
      */
@@ -102,7 +103,7 @@ class rex_view
     /**
      * Returns the JS properties.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public static function getJsProperties()
     {
