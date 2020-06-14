@@ -49,7 +49,7 @@ class rex_view
      * Adds a JS file.
      *
      * @param string $file
-     * @psalm-param self::JS_* $options
+     * @psalm-param array<self::JS_*, bool> $options
      *
      * @throws rex_exception
      */
@@ -82,6 +82,7 @@ class rex_view
     /**
      * Returns all JS files besides their options.
      *
+     * @psalm-return list<array{string, array}>
      * @return array
      */
     public static function getJsFilesWithOptions()
