@@ -7,5 +7,5 @@ supportpage: www.redaxo.org/de/forum/
 #   - all other addons are booted before
 #   - the fragments from project addon are always "winning" over other fragment dirs
 #
-# Don't use it in public addons, rely on redaxo's default order resolution (by dependencies) instead
+# Don't use `load: late` in public addons, rely on redaxo's default order resolution (by dependencies) instead
 load: late
