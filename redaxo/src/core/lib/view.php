@@ -83,7 +83,6 @@ class rex_view
      * Returns all JS files besides their options.
      *
      * @psalm-return list<array{string, array}>
-     *
      * @return array
      */
     public static function getJsFilesWithOptions()
@@ -105,7 +104,8 @@ class rex_view
     /**
      * Returns the JS properties.
      *
-     * @return array<string, mixed>
+     * @psalm-return array<string, mixed>
+     * @return array
      */
     public static function getJsProperties()
     {
@@ -326,17 +326,17 @@ class rex_view
     /**
      * Returns a clang switch.
      *
-     * @param bool $drop
+     * @param bool $asDropDown
      *
      * @return string
      */
-    public static function clangSwitch(rex_context $context, $drop = true)
+    public static function clangSwitch(rex_context $context, $asDropDown = true)
     {
         if (1 == rex_clang::count()) {
             return '';
         }
 
-        if ($drop && rex_clang::count() >= 4) {
+        if ($asDropDown && rex_clang::count() >= 4) {
             return self::clangSwitchAsDropdown($context);
         }
 
@@ -362,17 +362,17 @@ class rex_view
     /**
      * Returns a clang switch.
      *
-     * @param bool $drop
+     * @param bool $asDropDown
      *
      * @return string
      */
-    public static function clangSwitchAsButtons(rex_context $context, $drop = true)
+    public static function clangSwitchAsButtons(rex_context $context, $asDropDown = true)
     {
         if (1 == rex_clang::count()) {
             return '';
         }
 
-        if ($drop && rex_clang::count() >= 4) {
+        if ($asDropDown && rex_clang::count() >= 4) {
             return self::clangSwitchAsDropdown($context);
         }
 
