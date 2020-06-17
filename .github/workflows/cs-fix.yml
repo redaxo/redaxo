@@ -13,7 +13,7 @@ jobs:
     if: github.event.pull_request.draft == false && github.repository == 'redaxo/redaxo'
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v2.3.0
       with:
         ref: ${{ github.head_ref }}
         token: ${{ secrets.STAABM_TOKEN }}
