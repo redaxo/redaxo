@@ -10,7 +10,7 @@
         "phpstan/extension-installer": "1.0.4",
         "phpstan/phpstan-phpunit": "0.12.11",
         "psalm/plugin-symfony": "1.2.3",
-        "vimeo/psalm": "3.11.5"
+        "vimeo/psalm": "3.11.6"
     },
     "replace": {
         "erusev/parsedown": "1.7.4",
