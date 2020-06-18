@@ -131,13 +131,13 @@ class rex_validator_test extends TestCase
     {
         $validator = rex_validator::factory();
 
-        $isCalled = false;
         $callback = function ($v) use (&$value, &$isCalled) {
             $isCalled = true;
             $this->assertEquals($value, $v);
             return 'abc' === $value;
         };
         
+        $isCalled = false;
         $value = 'abc';
         static::assertTrue($validator->custom($value, $callback));
         static::assertTrue($isCalled, 'Custom callback is called');
