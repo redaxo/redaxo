@@ -198,9 +198,9 @@ if ($KAT->getRows() > 0) {
                     $yellow = $metric->isYellow() ? ' rex-analytics-progress-bar-active' : '';
                     $green = $metric->isGreen() ? ' rex-analytics-progress-bar-active' : '';
 
-                    $redValue = $metric->isRed() ? $value .'ms' : '';
-                    $yellowValue = $metric->isYellow() ? $value .'ms' : '';
-                    $greenValue = $metric->isGreen() ? $value .'ms' : '';
+                    $redValue = $metric->isRed() ? $value .$metric->getUnit() : '';
+                    $yellowValue = $metric->isYellow() ? $value .$metric->getUnit() : '';
+                    $greenValue = $metric->isGreen() ? $value .$metric->getUnit() : '';
 
                     return <<<EOF
                                 <dl class="rex-analytics-progress-list">
