@@ -42,7 +42,7 @@ if ('delete' == $function) {
 
         if ($del->getRows() > 0 || rex_template::getDefaultId() == $template_id) {
             $template_in_use_message = '';
-            $templatename = $del->getValue('template.name');
+            $templatename = $del->getRows() ? $del->getValue('template.name') : null;
             while ($del->hasNext()) {
                 $aid = $del->getValue('article.id');
                 $clang_id = $del->getValue('article.clang_id');
