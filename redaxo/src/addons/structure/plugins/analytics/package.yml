@@ -1,6 +1,6 @@
 package: structure/analytics
 version: '1.0'
-author: Markus Staab
+author: Markus Staab (Idee, Php), Thomas Blum (Html/Css), Sven Haustein (UX/UI)
 
 requires:
     redaxo: ^5.11.0-dev
