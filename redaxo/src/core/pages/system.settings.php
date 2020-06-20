@@ -68,12 +68,6 @@ if ($func && !$csrfToken->isValid()) {
         }
     }
 
-    if (empty($settings['editor'])) {
-        $settings['editor'] = null;
-    }
-    $config['editor'] = $settings['editor'];
-    rex::setProperty('editor', $config['editor']);
-
     foreach (rex_system_setting::getAll() as $setting) {
         $key = $setting->getKey();
         if (isset($settings[$key])) {
