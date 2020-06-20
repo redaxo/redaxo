@@ -13,7 +13,7 @@ if (rex::isFrontend()) {
         $data = json_decode($json);
         $article = rex_article::getCurrent();
 
-        $vitals = rex_analytics_webvitals();
+        $vitals = new rex_analytics_webvitals();
         $vitals->storeData($_SERVER['HTTP_REFERER'], $data, $article);
 
         exit();
