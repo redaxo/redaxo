@@ -1,6 +1,6 @@
 <?php
 
-class rex_analytics_cronjob extends rex_cronjob
+final class rex_analytics_cronjob extends rex_cronjob
 {
     public function execute()
     {

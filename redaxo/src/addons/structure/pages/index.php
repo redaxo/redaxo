@@ -185,6 +185,37 @@ if ($KAT->getRows() > 0) {
             $sql95 = rex_sql::factory();
             $sql95->setQuery('SELECT cls, fid, lcp, ttfb FROM '.rex::getTable('webvitals_95p').' WHERE article_id = :articleId AND clang_id = :clangId', ['articleId' => (int)$i_category_id, 'clangId' => $KAT->getValue('clang_id')]);
             if (1 === $sql95->getRows()) {
+                $lcp = rex_analytics_metric::fromValue($sql95->getValue('lcp'), rex_analytics_metric::TYPE_LCP);
+                $fid = rex_analytics_metric::fromValue($sql95->getValue('fid'), rex_analytics_metric::TYPE_FID);
+                $cls = rex_analytics_metric::fromValue($sql95->getValue('cls'), rex_analytics_metric::TYPE_CLS);
+
+                $progress = function($title, $abbr, rex_analytics_metric $metric) {
+                    $value = $metric->getValue();
+                    $title = rex_escape($title);
+                    $abbr = rex_escape($abbr);
+
+                    $red = $metric->isRed() ? ' rex-analytics-progress-bar-active' : '';
+                    $yellow = $metric->isYellow() ? ' rex-analytics-progress-bar-active' : '';
+                    $green = $metric->isGreen() ? ' rex-analytics-progress-bar-active' : '';
+
+                    $redValue = $metric->isRed() ? $value .'ms' : '';
+                    $yellowValue = $metric->isYellow() ? $value .'ms' : '';
+                    $greenValue = $metric->isGreen() ? $value .'ms' : '';
+
+                    return <<<EOF
+                                <dl class="rex-analytics-progress-list">
+                                    <dt><abbr title="${title}">${abbr}</abbr></dt>
+                                    <dd>
+                                        <div class="rex-analytics-progress">
+                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-success${green}">${greenValue}</div>
+                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-warning${yellow}">${yellowValue}</div>
+                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-danger${red}">${redValue}</div>
+                                        </div>
+                                    </dd>
+                                </dl>
+EOF;
+                };
+
                 $webvitals_td = sprintf(
                     '<td class="rex-table-analytics">
                         <div class="rex-analytics">
@@ -194,56 +225,9 @@ if ($KAT->getRows() > 0) {
                                 <div class="rex-analytics-progress-bar rex-analytics-progress-bar-danger"></div>
                             </div>
                             <div class="rex-analytics-panel">
-                                <dl class="rex-analytics-progress-list">
-                                    <dt><abbr title="'.rex_escape(rex_i18n::msg('structure_analytics_fcp_long')).'">'.rex_i18n::msg('structure_analytics_fcp_abbr').'</abbr></dt>
-                                    <dd>
-                                        <div class="rex-analytics-progress">
-                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-success"></div>
-                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-warning rex-analytics-progress-bar-active">'. $sql95->getValue('fid') .'ms</div>
-                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-danger"></div>
-                                        </div>
-                                    </dd>
-                                </dl>
-                                <dl class="rex-analytics-progress-list">
-                                    <dt><abbr title="'.rex_escape(rex_i18n::msg('structure_analytics_fid_long')).'">'.rex_i18n::msg('structure_analytics_fid_abbr').'</abbr></dt>
-                                    <dd>
-                                        <div class="rex-analytics-progress">
-                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-success"></div>
-                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-warning"></div>
-                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-danger rex-analytics-progress-bar-active">'. $sql95->getValue('fid') .'ms</div>
-                                        </div>
-                                    </dd>
-                                </dl>
-                                <dl class="rex-analytics-progress-list">
-                                    <dt><abbr title="'.rex_escape(rex_i18n::msg('structure_analytics_lcp_long')).'">'.rex_i18n::msg('structure_analytics_lcp_abbr').'</abbr></dt>
-                                    <dd>
-                                        <div class="rex-analytics-progress">
-                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-success rex-analytics-progress-bar-active">'. $sql95->getValue('lcp') .'ms</div>
-                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-warning"></div>
-                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-danger"></div>
-                                        </div>
-                                    </dd>
-                                </dl>
-                                <dl class="rex-analytics-progress-list">
-                                    <dt><abbr title="'.rex_escape(rex_i18n::msg('structure_analytics_cls_long')).'">'.rex_i18n::msg('structure_analytics_cls_abbr').'</abbr></dt>
-                                    <dd>
-                                        <div class="rex-analytics-progress">
-                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-success"></div>
-                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-warning rex-analytics-progress-bar-active">'. $sql95->getValue('cls') .'ms</div>
-                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-danger"></div>
-                                        </div>
-                                    </dd>
-                                </dl>
-                                <dl class="rex-analytics-progress-list">
-                                    <dt><abbr title="'.rex_escape(rex_i18n::msg('structure_analytics_ttfb_long')).'">'.rex_i18n::msg('structure_analytics_ttfb_abbr').'</abbr></dt>
-                                    <dd>
-                                        <div class="rex-analytics-progress">
-                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-success"></div>
-                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-warning rex-analytics-progress-bar-active">'. $sql95->getValue('ttfb') .'ms</div>
-                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-danger"></div>
-                                        </div>
-                                    </dd>
-                                </dl>
+                                '. $progress(rex_i18n::msg('structure_analytics_lcp_long'), rex_i18n::msg('structure_analytics_lcp_abbr'), $lcp) .'
+                                '. $progress(rex_i18n::msg('structure_analytics_fid_long'), rex_i18n::msg('structure_analytics_fid_abbr'), $fid) .'
+                                '. $progress(rex_i18n::msg('structure_analytics_cls_long'), rex_i18n::msg('structure_analytics_cls_abbr'), $cls) .'
                             </div>
                         </div>
                     </td>');

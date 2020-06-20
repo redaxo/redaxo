@@ -34,10 +34,6 @@ if (rex::isFrontend()) {
                     $record->setValue('lcp', $data->value);
                     break;
                 }
-                case 'TTFB': {
-                    $record->setValue('ttfb', $data->value);
-                    break;
-                }
             }
         });
         $sql->insert();
@@ -69,7 +65,6 @@ if (rex::isFrontend()) {
                 webVitals.getCLS(sendToAnalytics);
                 webVitals.getFID(sendToAnalytics);
                 webVitals.getLCP(sendToAnalytics);
-                webVitals.getTTFB(sendToAnalytics);
             });
         </script>';
         $response = str_ireplace('</body>', $js. '</body>', $response);

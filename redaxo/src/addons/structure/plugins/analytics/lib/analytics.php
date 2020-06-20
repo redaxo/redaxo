@@ -1,6 +1,6 @@
 <?php
 
-class rex_analytics_webvitals {
+final class rex_analytics_webvitals {
 
     /**
      * Calculates the 95th percentile of all metrics per uri.
@@ -14,7 +14,7 @@ class rex_analytics_webvitals {
         $sql = rex_sql::factory();
 
         $metrics95 = [];
-        foreach (['cls', 'fid', 'lcp', 'ttfb'] as $metric) {
+        foreach (['cls', 'fid', 'lcp'] as $metric) {
             $sql->setQuery(
                 "SELECT
                 CAST(SUBSTRING_INDEX(SUBSTRING_INDEX( GROUP_CONCAT(".$metric." ORDER BY
