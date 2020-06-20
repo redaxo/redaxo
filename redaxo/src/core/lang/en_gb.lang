@@ -183,12 +183,12 @@ setup_311 = The following files/folder are editable by all users on this server 
 setup_312 = Repeat step 3
 setup_399 = 3 / System check
 
-setup_400 = Setup: step 4 of 7 / Creating file 'data/config.yml'
-setup_401 = data/config.yml could not be written to.
+setup_400 = Setup: step 4 of 7 / Creating file '{0}'
+setup_401 = '{0}' could not be written to.
 setup_402 = General
 setup_403 = Database information
 setup_404 = The specified database already exists
-setup_405 = Creating the file 'data/config.yml'
+setup_405 = Creating the file '{0}'
 setup_408 = Database name
 setup_409 = Password
 setup_410 = Continue with step 5

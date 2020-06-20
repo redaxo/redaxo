@@ -197,7 +197,7 @@ setup_312 = Schritt 3 erneut durchführen
 setup_399 = 3 / Systemcheck
 
 setup_400 = Setup: Schritt 4 von 7 / Schreiben der '{0}'
-setup_401 = {0} konnte nicht geschrieben werden.
+setup_401 = '{0}' konnte nicht geschrieben werden.
 setup_402 = Allgemeines
 setup_403 = Datenbankinformationen
 setup_404 = Die angegebene Datenbank existiert bereits!
