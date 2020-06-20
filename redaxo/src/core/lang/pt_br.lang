@@ -151,12 +151,11 @@ setup_310 = Seguir para o passo 4
 setup_312 = Repita o passo 3
 setup_399 = 3 / Checagem de sistema
 
-setup_400 = Setup: passo 4 de 7 / Criando arquivo 'data/config.yml'
-setup_401 = data/config.yml não pôde ser gravada.
+setup_400 = Setup: passo 4 de 7 / Criando arquivo '{0}'
+setup_401 = '{0}' não pôde ser gravada.
 setup_402 = Geral
 setup_403 = Informação do banco de dados
 setup_404 = O banco de dados especificado já existe
-setup_405 = Criando o arquivo 'data/config.yml'
 setup_408 = Nome do banco de dados
 setup_409 = Senha
 setup_410 = Seguir para o passo 5
