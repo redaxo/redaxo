@@ -19,7 +19,7 @@ if (rex::isFrontend()) {
         $sql->addRecord(function (rex_sql $record) use ($data, $article) {
             $record->setValue('uri', $_SERVER['HTTP_REFERER']);
             $record->setValue('article_id', $article->getId());
-            $record->setValue('clang', $article->getClangId());
+            $record->setValue('clang_id', $article->getClangId());
 
             switch($data->name) {
                 case 'CLS': {
