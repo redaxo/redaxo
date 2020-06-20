@@ -49,14 +49,16 @@ class rex_debug_clockwork
         return rex_url::backendPage('debug', rex_api_debug::getUrlParams(), false);
     }
 
-    public static function ensureStoragePath() {
+    public static function ensureStoragePath()
+    {
         $storagePath = self::getStoragePath();
         if (!is_dir($storagePath)) {
             rex_dir::create($storagePath);
         }
     }
 
-    public static function getStoragePath() {
+    public static function getStoragePath()
+    {
         return rex_addon::get('debug')->getCachePath('clockwork.db');
     }
 }
