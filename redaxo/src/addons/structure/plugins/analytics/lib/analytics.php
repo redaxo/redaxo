@@ -1,6 +1,6 @@
 <?php
 
-class rex_analytics {
+class rex_analytics_webvitals {
 
     /**
      * Calculates the 95th percentile of all metrics per uri.
