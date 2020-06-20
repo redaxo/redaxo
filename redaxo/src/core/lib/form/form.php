@@ -254,12 +254,11 @@ class rex_form extends rex_form_base
      * Callbackfunktion, damit in subklassen der Value noch beeinflusst werden kann
      * kurz vorm speichern.
      *
-     * @param string  $fieldsetName
-     * @param string  $fieldName
-     * @param         $fieldValue
-     * @param rex_sql $saveSql      the value which the global sql fields will be stored
+     * @param string          $fieldsetName
+     * @param string          $fieldName
+     * @param string|int|null $fieldValue
      *
-     * @return
+     * @return string|int|null
      */
     protected function preSave($fieldsetName, $fieldName, $fieldValue, rex_sql $saveSql)
     {
@@ -274,9 +273,9 @@ class rex_form extends rex_form_base
     }
 
     /**
-     * setzt die sql felder `updateuser`, `updatedate`, `createuser` und `createdate` wenn vorhanden.
+     * Sets the sql fields `updateuser`, `updatedate`, `createuser` and `createdate` (if available).
      */
-    public function setGlobalSqlFields(rex_sql $saveSql)
+    private function setGlobalSqlFields(rex_sql $saveSql): void
     {
         $fieldnames = $this->sql->getFieldnames();
 
