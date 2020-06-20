@@ -19,7 +19,7 @@ class rex_analytics {
                 "SELECT
                 CAST(SUBSTRING_INDEX(SUBSTRING_INDEX( GROUP_CONCAT(".$metric." ORDER BY
                 ".$metric." SEPARATOR ','), ',', 95/100 * COUNT(*) + 1), ',', -1) AS DECIMAL)
-                AS 95thPer, uri, article_id, clang
+                AS 95thPer, uri, article_id, clang_id
                 FROM ".rex::getTable('webvitals')."
                 GROUP BY uri"
             );
@@ -29,7 +29,7 @@ class rex_analytics {
                 }
                 $metrics95[$row->getValue('uri')][$metric] = $row->getValue('95thPer');
                 $metrics95[$row->getValue('uri')]['article_id'] = $row->getValue('article_id');
-                $metrics95[$row->getValue('uri')]['clang'] = $row->getValue('clang');
+                $metrics95[$row->getValue('uri')]['clang_id'] = $row->getValue('clang_id');
             }
         }
 
