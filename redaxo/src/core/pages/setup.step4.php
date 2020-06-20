@@ -5,7 +5,7 @@ assert(isset($error_array) && is_array($error_array));
 assert(isset($config) && is_array($config));
 
 $configFile = rex_path::coreData('config.yml');
-$headline = rex_view::title(rex_i18n::msg('setup_400', rex_path::relative($configFile, rex_path::core())));
+$headline = rex_view::title(rex_i18n::msg('setup_400', rex_path::relative($configFile)));
 
 $content = '';
 
