@@ -13,9 +13,11 @@ Version 5.11.0 – XX.XX.2020
     - Wiederverwenden der letzten X Passwörter, oder der Passwörter aus definiertem Zeitraum, kann unterbunden werden (@gharlan)
 * Admins können explizit einen Passwortwechsel nach Login für Benutzer verlangen (@gharlan)
 * `rex_user`: Neue statische Methoden `get`, `require` und `fromSql` für die Abfrage der Benutzer (@gharlan)
+* Reihenfolge der Backend-Navi-Blöcke kann über neuen EP `PAGE_NAVIGATION` geändert werden (@gharlan)
 * Console:
     - Neuer Command `package:list`: Auflistung der Addons (alle, nur installierte/aktivierte etc.) (@bloep)
 * Systembericht als Markdown: DB-Version wird auch in der Zusammenfassungszeile ausgegeben (@gharlan)
+* Performance-Optimierung bei Datei-Existenz-Checks (@staabm)
 * Beispiel-`.gitignore` erweitert/optimiert (@alexplusde, @schuer)
 
 

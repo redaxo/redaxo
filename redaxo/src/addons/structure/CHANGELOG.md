@@ -6,6 +6,8 @@ Version 2.11.0 – XX.XX.2020
 
 ### Neu
 
+* `rex_article_slice`: neue `isOnline`-Methode, und `$ignoreOfflines`-Parameter bei einigen Methoden (@DanielWeitenauer)
+* `rex_template`/`rex_module`: Abfrage der Keys wird gecacht (@gharlan)
 * Fragment `module_select.php`: Module-Key wird mit übergeben (@skerbis)
 
 
