@@ -15,6 +15,8 @@
  *
  * The api functions return meaningfull error messages which the caller may display to the end-user.
  *
+ * Calling a api function with the backend-frontcontroller (index.php) requires a valid page parameter and the current user needs permissions to access the given page.
+ *
  * @author staabm
  *
  * @package redaxo\core

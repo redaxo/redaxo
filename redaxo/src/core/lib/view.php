@@ -9,11 +9,11 @@ class rex_view
     public const JS_ASYNC = 'async';
     public const JS_IMMUTABLE = 'immutable';
 
-    /** @var array */
+    /** @var string[][] */
     private static $cssFiles = [];
-    /** @var array */
+    /** @var list<array{string, array}> */
     private static $jsFiles = [];
-    /** @var array */
+    /** @var array<string, mixed> */
     private static $jsProperties = [];
     /** @var string */
     private static $favicon;
@@ -38,7 +38,7 @@ class rex_view
     /**
      * Returns the CSS files.
      *
-     * @return string[]
+     * @return string[][]
      */
     public static function getCssFiles()
     {
@@ -49,6 +49,7 @@ class rex_view
      * Adds a JS file.
      *
      * @param string $file
+     * @psalm-param array<self::JS_*, bool>|array<self::JS_*> $options
      *
      * @throws rex_exception
      */
@@ -81,6 +82,8 @@ class rex_view
     /**
      * Returns all JS files besides their options.
      *
+     * @psalm-return list<array{string, array}>
+     *
      * @return array
      */
     public static function getJsFilesWithOptions()
@@ -101,6 +104,8 @@ class rex_view
 
     /**
      * Returns the JS properties.
+     *
+     * @psalm-return array<string, mixed>
      *
      * @return array
      */
@@ -323,17 +328,17 @@ class rex_view
     /**
      * Returns a clang switch.
      *
-     * @param bool $drop
+     * @param bool $asDropDown
      *
      * @return string
      */
-    public static function clangSwitch(rex_context $context, $drop = true)
+    public static function clangSwitch(rex_context $context, $asDropDown = true)
     {
         if (1 == rex_clang::count()) {
             return '';
         }
 
-        if ($drop && rex_clang::count() >= 4) {
+        if ($asDropDown && rex_clang::count() >= 4) {
             return self::clangSwitchAsDropdown($context);
         }
 
@@ -359,17 +364,17 @@ class rex_view
     /**
      * Returns a clang switch.
      *
-     * @param bool $drop
+     * @param bool $asDropDown
      *
      * @return string
      */
-    public static function clangSwitchAsButtons(rex_context $context, $drop = true)
+    public static function clangSwitchAsButtons(rex_context $context, $asDropDown = true)
     {
         if (1 == rex_clang::count()) {
             return '';
         }
 
-        if ($drop && rex_clang::count() >= 4) {
+        if ($asDropDown && rex_clang::count() >= 4) {
             return self::clangSwitchAsDropdown($context);
         }
 
