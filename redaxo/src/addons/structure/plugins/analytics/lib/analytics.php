@@ -48,4 +48,30 @@ final class rex_analytics_webvitals {
         }
         $sql95->insertOrUpdate();
     }
+
+    public function storeData(string $uri, stdClass $data, rex_article $article) {
+        $sql = rex_sql::factory();
+        $sql->setTable(rex::getTable('webvitals'));
+        $sql->addRecord(function (rex_sql $record) use ($uri, $data, $article) {
+            $record->setValue('uri', $uri);
+            $record->setValue('article_id', $article->getId());
+            $record->setValue('clang_id', $article->getClangId());
+
+            switch($data->name) {
+                case 'CLS': {
+                    $record->setValue('cls', $data->value * 1000);
+                    break;
+                }
+                case 'FID': {
+                    $record->setValue('fid', $data->value);
+                    break;
+                }
+                case 'LCP': {
+                    $record->setValue('lcp', $data->value);
+                    break;
+                }
+            }
+        });
+        $sql->insert();
+    }
 }
