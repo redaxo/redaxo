@@ -201,7 +201,6 @@ setup_401 = '{0}' konnte nicht geschrieben werden.
 setup_402 = Allgemeines
 setup_403 = Datenbankinformationen
 setup_404 = Die angegebene Datenbank existiert bereits!
-setup_405 = Schreiben der '{0}'
 setup_408 = Name der Datenbank
 setup_409 = Passwort
 setup_410 = Weiter zu Schritt 5

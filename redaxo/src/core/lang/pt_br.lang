@@ -156,7 +156,6 @@ setup_401 = '{0}' não pôde ser gravada.
 setup_402 = Geral
 setup_403 = Informação do banco de dados
 setup_404 = O banco de dados especificado já existe
-setup_405 = Criando o arquivo '{0}'
 setup_408 = Nome do banco de dados
 setup_409 = Senha
 setup_410 = Seguir para o passo 5

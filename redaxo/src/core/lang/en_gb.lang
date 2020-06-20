@@ -188,7 +188,6 @@ setup_401 = '{0}' could not be written to.
 setup_402 = General
 setup_403 = Database information
 setup_404 = The specified database already exists
-setup_405 = Creating the file '{0}'
 setup_408 = Database name
 setup_409 = Password
 setup_410 = Continue with step 5

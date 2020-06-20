@@ -185,7 +185,6 @@ setup_401 = '{0}' no se pudo escribir.
 setup_402 = General
 setup_403 = Información de base de datos
 setup_404 = El archivo especificado ya existe
-setup_405 = Escribiendo el archivo '{0}'
 setup_408 = Nombre de la base de datos
 setup_409 = Contraseña
 setup_410 = Continúe con el paso 5

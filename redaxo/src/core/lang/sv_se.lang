@@ -185,7 +185,6 @@ setup_401 = '{0}' kunde inte skrivas.
 setup_402 = Allmänt
 setup_403 = Databasinformationen
 setup_404 = Den angivna databasen existerar redan!
-setup_405 = Skriva '{0}'
 setup_408 = Databasens namn
 setup_409 = Lösenord
 setup_410 = Vidare till steg 5

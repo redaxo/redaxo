@@ -179,7 +179,6 @@ setup_401 = '{0}' kon niet worden beschreven.
 setup_402 = Algemeen
 setup_403 = Database-informatie
 setup_404 = De opgegeven database bestaat al
-setup_405 = '{0}' aanmaken
 setup_408 = Databasenaam
 setup_409 = Wachtwoord
 setup_410 = Doorgaan met stap 5
