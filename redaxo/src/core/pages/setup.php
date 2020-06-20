@@ -145,7 +145,7 @@ if ($step > 4) {
 
     if (0 == count($error_array)) {
         if (!rex_file::putConfig($configFile, $config)) {
-            $error_array[] = rex_view::error(rex_i18n::msg('setup_401', rex_path::relative($configFile, rex_path::core())));
+            $error_array[] = rex_view::error(rex_i18n::msg('setup_401', rex_path::relative($configFile)));
         }
     }
 
