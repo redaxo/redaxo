@@ -174,12 +174,11 @@ setup_310 = Doorgaan met stap 4
 setup_312 = Stap 3 herhalen
 setup_399 = 3 / Systeemcontrole
 
-setup_400 = Installatie: stap 4 van 7 / 'data/config.yml' aanmaken
-setup_401 = data/config.yml kon niet worden beschreven.
+setup_400 = Installatie: stap 4 van 7 / '{0}' aanmaken
+setup_401 = '{0}' kon niet worden beschreven.
 setup_402 = Algemeen
 setup_403 = Database-informatie
 setup_404 = De opgegeven database bestaat al
-setup_405 = 'data/config.yml' aanmaken
 setup_408 = Databasenaam
 setup_409 = Wachtwoord
 setup_410 = Doorgaan met stap 5
