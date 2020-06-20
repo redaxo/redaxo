@@ -114,6 +114,10 @@ $canDelete = rex::getUser()->hasPerm('deleteCategory[]');
 $colspan = (int) $canEdit + (int) $canDelete + 1;
 
 // --------------------- PRINT CATS/SUBCATS
+$webvitals_th = '';
+if ($addon->getPlugin('analytics')->isAvailable()) {
+    $webvitals_th = '<th class="rex-table-category">' . rex_i18n::msg('header_webvitals') . '</th>';
+}
 $echo .= '
             <table class="table table-striped table-hover">
                 <thead>
@@ -121,6 +125,7 @@ $echo .= '
                         <th class="rex-table-icon">' . $add_category . '</th>
                         <th class="rex-table-id">' . rex_i18n::msg('header_id') . '</th>
                         <th class="rex-table-category">' . rex_i18n::msg('header_category') . '</th>
+                        '.$webvitals_th.'
                         <th class="rex-table-priority">' . rex_i18n::msg('header_priority') . '</th>
                         <th class="rex-table-action" colspan="'.$colspan.'">' . rex_i18n::msg('header_status') . '</th>
                     </tr>
@@ -140,11 +145,17 @@ if ('add_cat' == $structureContext->getFunction() && rex::getUser()->hasPerm('ad
 
     $class = 'mark';
 
+    $webvitals_td = '';
+    if ($addon->getPlugin('analytics')->isAvailable()) {
+        $webvitals_td = '<td></td>';
+    }
+
     $echo .= '
                 <tr class="' . $class . '">
                     <td class="rex-table-icon"><i class="rex-icon rex-icon-category"></i></td>
                     <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">-</td>
                     <td class="rex-table-category" data-title="' . rex_i18n::msg('header_category') . '"><input class="form-control" type="text" name="category-name" class="rex-js-autofocus" autofocus /></td>
+                    '.$webvitals_td.'
                     <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '"><input class="form-control" type="text" name="category-position" value="' . ($catPager->getRowCount() + 1) . '" /></td>
                     <td class="rex-table-action" colspan="'.$colspan.'">' . $meta_buttons . $add_buttons . '</td>
                 </tr>';
@@ -169,6 +180,65 @@ if ($KAT->getRows() > 0) {
         $status_class = $catStatusTypes[$KAT->getValue('status')][1];
         $status_icon = $catStatusTypes[$KAT->getValue('status')][2];
 
+        $webvitals_td = '';
+        if ($addon->getPlugin('analytics')->isAvailable()) {
+            $sql95 = rex_sql::factory();
+            $sql95->setQuery('SELECT cls, fid, lcp, ttfb FROM '.rex::getTable('webvitals_95p').' WHERE article_id = :articleId AND clang_id = :clangId', ['articleId' => (int)$i_category_id, 'clangId' => $KAT->getValue('clang_id')]);
+            if (1 === $sql95->getRows()) {
+                $webvitals_td = sprintf(
+                    '<td class="rex-table-analytics">
+                        <div class="rex-analytics">
+                            <div class="rex-analytics-progress">
+                                <div class="rex-analytics-progress-bar rex-analytics-progress-bar-success"></div>
+                                <div class="rex-analytics-progress-bar rex-analytics-progress-bar-warning rex-analytics-progress-bar-active"></div>
+                                <div class="rex-analytics-progress-bar rex-analytics-progress-bar-danger"></div>
+                            </div>
+                            <div class="rex-analytics-panel">
+                                <dl class="rex-analytics-progress-list">
+                                    <dt><abbr title="'.rex_escape(rex_i18n::msg('structure_analytics_fcp_long')).'">'.rex_i18n::msg('structure_analytics_fcp_abbr').'</abbr></dt>
+                                    <dd>
+                                        <div class="rex-analytics-progress">
+                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-success"></div>
+                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-warning rex-analytics-progress-bar-active">1,2s</div>
+                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-danger"></div>
+                                        </div>
+                                    </dd>
+                                </dl>
+                                <dl class="rex-analytics-progress-list">
+                                    <dt><abbr title="'.rex_escape(rex_i18n::msg('structure_analytics_fid_long')).'">'.rex_i18n::msg('structure_analytics_fid_abbr').'</abbr></dt>
+                                    <dd>
+                                        <div class="rex-analytics-progress">
+                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-success"></div>
+                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-warning"></div>
+                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-danger rex-analytics-progress-bar-active">330ms</div>
+                                        </div>
+                                    </dd>
+                                </dl>
+                                <dl class="rex-analytics-progress-list">
+                                    <dt><abbr title="'.rex_escape(rex_i18n::msg('structure_analytics_lcp_long')).'">'.rex_i18n::msg('structure_analytics_lcp_abbr').'</abbr></dt>
+                                    <dd>
+                                        <div class="rex-analytics-progress">
+                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-success rex-analytics-progress-bar-active">0,08s</div>
+                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-warning"></div>
+                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-danger"></div>
+                                        </div>
+                                    </dd>
+                                </dl>
+                                <dl class="rex-analytics-progress-list">
+                                    <dt><abbr title="'.rex_escape(rex_i18n::msg('structure_analytics_cls_long')).'">'.rex_i18n::msg('structure_analytics_cls_abbr').'</abbr></dt>
+                                    <dd>
+                                        <div class="rex-analytics-progress">
+                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-success"></div>
+                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-warning rex-analytics-progress-bar-active">1,2s</div>
+                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-danger"></div>
+                                        </div>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </td>');
+            }
+        }
         $td_layout_class = '';
         if ($structureContext->hasCategoryPermission()) {
             if (rex::getUser()->hasPerm('publishCategory[]')) {
@@ -210,6 +280,7 @@ if ($KAT->getRows() > 0) {
                         ' . $kat_icon_td . '
                         <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">' . $i_category_id . '</td>
                         <td class="rex-table-category" data-title="' . rex_i18n::msg('header_category') . '"><input class="form-control" type="text" name="category-name" value="' . rex_escape($KAT->getValue('catname')) . '" class="rex-js-autofocus" autofocus /></td>
+                        '.$webvitals_td.'
                         <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '"><input class="form-control" type="text" name="category-position" value="' . rex_escape($KAT->getValue('catpriority')) . '" /></td>
                         <td class="rex-table-action" colspan="'.$colspan.'">' . $meta_buttons . $add_buttons . '</td>
                     </tr>';
@@ -231,6 +302,7 @@ if ($KAT->getRows() > 0) {
                         ' . $kat_icon_td . '
                         <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">' . $i_category_id . '</td>
                         <td class="rex-table-category" data-title="' . rex_i18n::msg('header_category') . '"><a href="' . $kat_link . '">' . rex_escape($KAT->getValue('catname')) . '</a></td>
+                        '.$webvitals_td.'
                         <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '">' . rex_escape($KAT->getValue('catpriority')) . '</td>';
                 if ($canEdit) {
                     $echo .= '
@@ -252,6 +324,7 @@ if ($KAT->getRows() > 0) {
                         ' . $kat_icon_td . '
                         <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">' . $i_category_id . '</td>
                         <td class="rex-table-category" data-title="' . rex_i18n::msg('header_category') . '"><a href="' . $kat_link . '">' . $KAT->getValue('catname') . '</a></td>
+                        '.$webvitals_td.'
                         <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '">' . rex_escape($KAT->getValue('catpriority')) . '</td>';
             if ($canEdit) {
                 $echo .= '

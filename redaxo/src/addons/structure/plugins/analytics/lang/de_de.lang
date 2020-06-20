@@ -1,0 +1,18 @@
+header_webvitals = Webvitals
+
+structure_analytics_fcp = First Contentful Paint (FCP)
+structure_analytics_fcp_abbr = FCP
+structure_analytics_fcp_long = First Contentful Paint (FCP):
+
+structure_analytics_lcp = Largest Contentful Paint (LCP)
+structure_analytics_lcp_abbr = LCP
+structure_analytics_lcp_long = Largest Contentful Paint (LCP): measures loading performance. To provide a good user experience, LCP should occur within 2.5 seconds of when the page first starts loading.
+
+structure_analytics_fid = First Input Delay (FID)
+structure_analytics_fid_abbr = FID
+structure_analytics_fid_long = First Input Delay (FID): measures interactivity. To provide a good user experience, pages should have a FID of less than 100 milliseconds.
+
+structure_analytics_cls = Cumulative Layout Shift (CLS)
+structure_analytics_cls_abbr = CLS
+structure_analytics_cls_long = Cumulative Layout Shift (CLS): measures visual stability. To provide a good user experience, pages should maintain a CLS of less than 0.1.
+
