@@ -4,7 +4,7 @@ final class rex_analytics_metric {
     const TYPE_FID = 'FID', TYPE_LCP = 'LCP', TYPE_CLS = 'CLS';
 
     private static $thresholds = [
-        self::TYPE_LCP => [0, 2.5, 4.0],
+        self::TYPE_LCP => [0, 2.5 * 1000, 4.0 * 1000],
         self::TYPE_FID => [0, 100, 300,],
         self::TYPE_CLS => [0, 0.1 * 1000, 0.25 * 1000]
     ];
@@ -36,8 +36,8 @@ final class rex_analytics_metric {
 
     public function getUnit() {
         switch($this->type) {
-            case self::TYPE_LCP: return 's'; // seconds
-            case self::TYPE_FID: return 'ms'; // milliseconds
+            case self::TYPE_LCP: return 'ms';
+            case self::TYPE_FID: return 'ms';
             case self::TYPE_CLS: return ''; // no unit
         }
     }
