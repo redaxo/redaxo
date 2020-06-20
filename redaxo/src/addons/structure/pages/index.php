@@ -199,7 +199,7 @@ if ($KAT->getRows() > 0) {
                                     <dd>
                                         <div class="rex-analytics-progress">
                                             <div class="rex-analytics-progress-bar rex-analytics-progress-bar-success"></div>
-                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-warning rex-analytics-progress-bar-active">1,2s</div>
+                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-warning rex-analytics-progress-bar-active">'. $sql95->getValue('fid') .'ms</div>
                                             <div class="rex-analytics-progress-bar rex-analytics-progress-bar-danger"></div>
                                         </div>
                                     </dd>
@@ -210,7 +210,7 @@ if ($KAT->getRows() > 0) {
                                         <div class="rex-analytics-progress">
                                             <div class="rex-analytics-progress-bar rex-analytics-progress-bar-success"></div>
                                             <div class="rex-analytics-progress-bar rex-analytics-progress-bar-warning"></div>
-                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-danger rex-analytics-progress-bar-active">330ms</div>
+                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-danger rex-analytics-progress-bar-active">'. $sql95->getValue('fid') .'ms</div>
                                         </div>
                                     </dd>
                                 </dl>
@@ -218,7 +218,7 @@ if ($KAT->getRows() > 0) {
                                     <dt><abbr title="'.rex_escape(rex_i18n::msg('structure_analytics_lcp_long')).'">'.rex_i18n::msg('structure_analytics_lcp_abbr').'</abbr></dt>
                                     <dd>
                                         <div class="rex-analytics-progress">
-                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-success rex-analytics-progress-bar-active">0,08s</div>
+                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-success rex-analytics-progress-bar-active">'. $sql95->getValue('lcp') .'ms</div>
                                             <div class="rex-analytics-progress-bar rex-analytics-progress-bar-warning"></div>
                                             <div class="rex-analytics-progress-bar rex-analytics-progress-bar-danger"></div>
                                         </div>
@@ -229,7 +229,17 @@ if ($KAT->getRows() > 0) {
                                     <dd>
                                         <div class="rex-analytics-progress">
                                             <div class="rex-analytics-progress-bar rex-analytics-progress-bar-success"></div>
-                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-warning rex-analytics-progress-bar-active">1,2s</div>
+                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-warning rex-analytics-progress-bar-active">'. $sql95->getValue('cls') .'ms</div>
+                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-danger"></div>
+                                        </div>
+                                    </dd>
+                                </dl>
+                                <dl class="rex-analytics-progress-list">
+                                    <dt><abbr title="'.rex_escape(rex_i18n::msg('structure_analytics_ttfb_long')).'">'.rex_i18n::msg('structure_analytics_ttfb_abbr').'</abbr></dt>
+                                    <dd>
+                                        <div class="rex-analytics-progress">
+                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-success"></div>
+                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-warning rex-analytics-progress-bar-active">'. $sql95->getValue('ttfb') .'ms</div>
                                             <div class="rex-analytics-progress-bar rex-analytics-progress-bar-danger"></div>
                                         </div>
                                     </dd>

@@ -16,3 +16,6 @@ structure_analytics_cls = Cumulative Layout Shift (CLS)
 structure_analytics_cls_abbr = CLS
 structure_analytics_cls_long = Cumulative Layout Shift (CLS): measures visual stability. To provide a good user experience, pages should maintain a CLS of less than 0.1.
 
+structure_analytics_ttfb = Time To First Byte (TTFB)
+structure_analytics_ttfb_abbr = TTFB
+structure_analytics_ttfb_long =Time To First Byte (TTFB): XXX
