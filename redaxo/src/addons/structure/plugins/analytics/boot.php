@@ -76,3 +76,7 @@ if (rex::isFrontend()) {
         $ep->setSubject($response);
     });
 }
+
+if (rex::isBackend() && rex::getUser()) {
+    rex_view::addCssFile($plugin->getAssetsUrl('web-vitals.css'));
+}
