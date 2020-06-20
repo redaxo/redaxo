@@ -266,16 +266,19 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             $io->block('Database version: '.$sql->getDbType(). ' '.$sql->getDbVersion());
         }
 
-        // force loading rex_backup class, even if backup addon is not installed
-        require_once rex_path::addon('backup', 'lib/backup.php');
-
         // Search for exports
         $backups = [];
-        foreach (rex_backup::getBackupFiles('') as $file) {
-            if ('.sql' != substr($file, strlen($file) - 4)) {
-                continue;
+
+        if (rex_addon::exists('backup')) {
+            // force loading rex_backup class, even if backup addon is not installed
+            require_once rex_path::addon('backup', 'lib/backup.php');
+
+            foreach (rex_backup::getBackupFiles('') as $file) {
+                if ('.sql' != substr($file, strlen($file) - 4)) {
+                    continue;
+                }
+                $backups[] = substr($file, 0, -4);
             }
-            $backups[] = substr($file, 0, -4);
         }
 
         $tables_complete = ('' == rex_setup_importer::verifyDbSchema()) ? true : false;
