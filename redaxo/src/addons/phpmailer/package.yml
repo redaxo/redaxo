@@ -1,7 +1,7 @@
 package: phpmailer
 version: '2.9.0-dev'
 author: 'Markus Staab, Thomas Skerbis, Jan Kristinus, Brent R. Matzelle'
-supportpage: www.redaxo.org/de/forum/
+supportpage: https://github.com/redaxo/redaxo
 
 page:
     title: PHPMailer
