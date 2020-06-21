@@ -182,6 +182,7 @@ if ($KAT->getRows() > 0) {
 
         $webvitals_td = '';
         if ($addon->getPlugin('analytics')->isAvailable()) {
+            $webvitals_td = '<td class="rex-table-analytics"></td>';
             $sql95 = rex_sql::factory();
             $sql95->setQuery('SELECT cls, fid, lcp FROM '.rex::getTable('webvitals_95p').' WHERE article_id = :articleId AND clang_id = :clangId', ['articleId' => (int)$i_category_id, 'clangId' => $KAT->getValue('clang_id')]);
             if (1 === $sql95->getRows()) {
@@ -216,13 +217,17 @@ if ($KAT->getRows() > 0) {
 EOF;
                 };
 
+                $lcpClass = $lcp->isRed() ? ' rex-analytics-progress-bar-danger' : ($lcp->isYellow() ? ' rex-analytics-progress-bar-warning' : ($lcp->isGreen() ? ' rex-analytics-progress-bar-success' : ''));
+                $fidClass = $fid->isRed() ? ' rex-analytics-progress-bar-danger' : ($fid->isYellow() ? ' rex-analytics-progress-bar-warning' : ($fid->isGreen() ? ' rex-analytics-progress-bar-success' : ''));
+                $clsClass = $cls->isRed() ? ' rex-analytics-progress-bar-danger' : ($cls->isYellow() ? ' rex-analytics-progress-bar-warning' : ($cls->isGreen() ? ' rex-analytics-progress-bar-success' : ''));
                 $webvitals_td = sprintf(
                     '<td class="rex-table-analytics">
                         <div class="rex-analytics">
                             <div class="rex-analytics-progress">
-                                <div class="rex-analytics-progress-bar rex-analytics-progress-bar-success"></div>
-                                <div class="rex-analytics-progress-bar rex-analytics-progress-bar-warning rex-analytics-progress-bar-active"></div>
-                                <div class="rex-analytics-progress-bar rex-analytics-progress-bar-danger"></div>
+                                <div class="rex-analytics-progress-bar'.$lcpClass.'"></div>
+                                <div class="rex-analytics-progress-bar'.$fidClass.'"></div>
+                                <div class="rex-analytics-progress-bar'.$clsClass.'"></div>
+                                <div class="rex-analytics-total">94</div>
                             </div>
                             <div class="rex-analytics-panel">
                                 '. $progress(rex_i18n::msg('structure_analytics_lcp_long'), rex_i18n::msg('structure_analytics_lcp_abbr'), $lcp) .'
