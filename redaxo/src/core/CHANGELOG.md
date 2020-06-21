@@ -10,9 +10,11 @@ Version 5.11.0 – XX.XX.2020
 * Setup: Bei Anlage des Administrators werden nun die Passwortregeln geprüft (@gharlan)
 * Passwortregeln:
     - Passwortwechsel kann nach definiertem Zeitraum erfordert werden (@gharlan)
-    - Wiederverwenden der letzten X Passwörter, oder der Passwörter aus definiertem Zeitraum, kann unterbunden werden (@gharlan)
+    - Wiederverwenden der letzten X Passwörter oder der Passwörter aus definiertem Zeitraum kann unterbunden werden (@gharlan)
 * Admins können explizit einen Passwortwechsel nach Login für Benutzer verlangen (@gharlan)
+* `rex_sql_user`: Neue Methoden `copyTable` und `copyTableWithData` (@tbaddade, @gharlan)
 * `rex_user`: Neue statische Methoden `get`, `require` und `fromSql` für die Abfrage der Benutzer (@gharlan)
+* `rex_fragment`: Neue Methode `getSubfragment` für Abfrage Subfragment, ohne dieses direkt auszugeben (@gharlan)
 * Reihenfolge der Backend-Navi-Blöcke kann über neuen EP `PAGE_NAVIGATION` geändert werden (@gharlan)
 * Console:
     - Neuer Command `package:list`: Auflistung der Addons (alle, nur installierte/aktivierte etc.) (@bloep)
