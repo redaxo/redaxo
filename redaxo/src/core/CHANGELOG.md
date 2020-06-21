@@ -12,15 +12,33 @@ Version 5.11.0 – XX.XX.2020
     - Passwortwechsel kann nach definiertem Zeitraum erfordert werden (@gharlan)
     - Wiederverwenden der letzten X Passwörter oder der Passwörter aus definiertem Zeitraum kann unterbunden werden (@gharlan)
 * Admins können explizit einen Passwortwechsel nach Login für Benutzer verlangen (@gharlan)
-* `rex_sql_user`: Neue Methoden `copyTable` und `copyTableWithData` (@tbaddade, @gharlan)
+* JSON-Schema-Dateien für die `config.yml` und `package.yml` (für Validierung/Autovervollständigung) (@gharlan)
+* Editor-Einstellung kann optional clientbasiert als Cookie gespeichert werden, um auf Produktivsystemen den jeweils eigenen Editor und lokalen Projektpfad hinterlegen zu können (@gharlan)
+* `rex_sql_table`: Spaltenkommentare können ausgelesen/gesetzt werden (werden auch beim Schema-Dump berücksichtigt) (@staabm)
+* `rex_sql_util`: Neue Methoden `copyTable` und `copyTableWithData` (@tbaddade, @gharlan)
 * `rex_user`: Neue statische Methoden `get`, `require` und `fromSql` für die Abfrage der Benutzer (@gharlan)
 * `rex_fragment`: Neue Methode `getSubfragment` für Abfrage Subfragment, ohne dieses direkt auszugeben (@gharlan)
 * Reihenfolge der Backend-Navi-Blöcke kann über neuen EP `PAGE_NAVIGATION` geändert werden (@gharlan)
 * Console:
     - Neuer Command `package:list`: Auflistung der Addons (alle, nur installierte/aktivierte etc.) (@bloep)
+    - `config:set`: Boolsche Werte können über `--type boolean true/false` gesetzt werden (@bloep, @staabm)
+* Systemlog:
+    - Dateipfade werden mit Editor-URL verlinkt (@gharlan)
+    - Logeinträge vom Typ `success` (grün) werden unterstützt (@danspringer)
 * Systembericht als Markdown: DB-Version wird auch in der Zusammenfassungszeile ausgegeben (@gharlan)
 * Performance-Optimierung bei Datei-Existenz-Checks (@staabm)
+* Code-Stabilität durchstatische Code-Analyse verbessert (@staabm, @gharlan)
+* Kommentar-Texte erweitert (@staabm)
 * Beispiel-`.gitignore` erweitert/optimiert (@alexplusde, @schuer)
+
+### Bugfixes
+
+* `rex_form`: Der Language-Support konnte nur genutzt werden, wenn die Tabelle die globalen Felder (updatedate etc.) enthielt (@Sysix)
+* Darstellung der `dump()`-Ausgabe bei Nutzung von UIKit korrigiert (@skerbis)
+* Console:
+    - Änderungen an den YAML-Dateien wirkten sich erst nach Cache-Löschen oder Backendaufruf aus (@gharlan)
+    - `setup:run`: Es kam zu einem Fehler, wenn das Backup-Addon deinstalliert wurde (@gharlan)
+* Setup: Pfad zur `config.yml` war teils falsch (und nicht dynamisch bei eigenen Path-Providern) in den Meldungen (@staabm)
 
 
 Version 5.10.1 – 08.05.2020
