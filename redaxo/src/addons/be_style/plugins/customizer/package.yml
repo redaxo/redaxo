@@ -1,7 +1,7 @@
 package: be_style/customizer
 version: '2.10.0'
 author: Peter Thiel
-supportpage: www.redaxo.org/de/forum/
+supportpage: https://github.com/redaxo/redaxo
 
 page:
     title: translate:customizer
