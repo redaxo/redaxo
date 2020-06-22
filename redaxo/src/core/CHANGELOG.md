@@ -27,7 +27,7 @@ Version 5.11.0 – XX.XX.2020
     - Logeinträge vom Typ `success` (grün) werden unterstützt (@danspringer)
 * Systembericht als Markdown: DB-Version wird auch in der Zusammenfassungszeile ausgegeben (@gharlan)
 * Performance-Optimierung bei Datei-Existenz-Checks (@staabm)
-* Code-Stabilität durchstatische Code-Analyse verbessert (@staabm, @gharlan)
+* Code-Stabilität durch statische Code-Analyse verbessert (@staabm, @gharlan)
 * Kommentar-Texte erweitert (@staabm)
 * Beispiel-`.gitignore` erweitert/optimiert (@alexplusde, @schuer)
 
