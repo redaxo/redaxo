@@ -33,9 +33,6 @@ parameters:
         - '#Access to an undefined property rex_category::\$cat_foo\.#'
         - '#Access to an undefined property rex_clang::\$clang_foo\.#'
         -
-            message: '#Using \$this outside a class\.#'
-            path: '*/fragments/*'
-        -
             message: '#Variable \$this might not be defined\.#'
             path: '*/fragments/*'
         -

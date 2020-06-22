@@ -61,7 +61,7 @@ class rex_release
             $suffix = substr($this->version, $pos);
         }
 
-        $updateVersion = function (rex_package $package) use ($suffix) {
+        $updateVersion = static function (rex_package $package) use ($suffix) {
             $content = rex_file::get($package->getPath(rex_package::FILE_PACKAGE));
             $content = preg_replace('/^version: \'(.+?)-.*$/m', "version: '\\1$suffix'", $content);
             rex_file::put($package->getPath(rex_package::FILE_PACKAGE), $content);
@@ -81,7 +81,7 @@ class rex_release
     {
         $date = date('d.m.Y');
 
-        $updateDate = function ($file) use ($date) {
+        $updateDate = static function ($file) use ($date) {
             $content = rex_file::get($file);
             $content = preg_replace('/XX\.[x\d]{2}\.[x\d]{4}/i', $date, $content);
             rex_file::put($file, $content);
@@ -89,14 +89,14 @@ class rex_release
 
         $updateDate(rex_path::core('CHANGELOG.md'));
         foreach (self::$addons as $addon) {
-            $updateDate(rex_path::addon($addon,'CHANGELOG.md'));
+            $updateDate(rex_path::addon($addon, 'CHANGELOG.md'));
         }
     }
 
     private function createChangelog()
     {
-        $cutNextPart = function (&$changelog) {
-            if (!preg_match('/^Version .*?([x\d]{2}\.[x\d]{2}\.[x\d]{4})(?:.|\v)*?(?=^Version \d|\z)/mi', $changelog , $match, PREG_OFFSET_CAPTURE)) {
+        $cutNextPart = static function (&$changelog) {
+            if (!preg_match('/^Version .*?([x\d]{2}\.[x\d]{2}\.[x\d]{4})(?:.|\v)*?(?=^Version \d|\z)/mi', $changelog, $match, PREG_OFFSET_CAPTURE)) {
                 return null;
             }
 
@@ -208,7 +208,7 @@ class rex_release
 
         if (null === $ignore) {
             $ignore = file(rex_path::base('.gitignore'), FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-            $ignore = array_filter($ignore, function ($path) {
+            $ignore = array_filter($ignore, static function ($path) {
                 return '#' !== $path[0];
             });
         }
