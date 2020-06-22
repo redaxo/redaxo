@@ -2,6 +2,7 @@
 
 $src = __DIR__.'/redaxo/src';
 $bootPath = realpath($src.'/core/boot.php');
+$tools = __DIR__.'/.tools';
 
 $finder = PhpCsFixer\Finder::create()
     ->in([
@@ -19,11 +20,13 @@ $finder = PhpCsFixer\Finder::create()
         $src.'/addons/structure',
         $src.'/addons/tests',
         $src.'/addons/users',
+        $tools,
     ])
     ->append([
         __FILE__,
-        __DIR__.'/phpstan-bootstrap.php',
-        __DIR__.'/psalm-utils.php',
+        $tools.'/bin/clone-addon',
+        $tools.'/bin/release',
+        $tools.'/bin/update-root-composer',
     ])
     ->filter(static function (\SplFileInfo $file) use ($bootPath) {
         return $bootPath !== $file->getRealPath();
