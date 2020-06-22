@@ -20,7 +20,7 @@ ini_set('pcre.jit', 0);
  */
 class rex_release
 {
-    private static $addons = ['backup', 'be_style', 'cronjob', 'install', 'media_manager', 'mediapool', 'metainfo', 'phpmailer', 'structure', 'users'];
+    private static $addons = ['backup', 'be_style', 'cronjob', 'debug', 'install', 'media_manager', 'mediapool', 'metainfo', 'phpmailer', 'structure', 'users'];
 
     private $version;
     private $path;

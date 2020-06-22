@@ -1,5 +1,5 @@
 package: cronjob/optimize_tables
-version: '2.6.0'
+version: '2.7.1-beta1'
 author: Gregor Harlan
 supportpage: https://github.com/redaxo/redaxo
 
