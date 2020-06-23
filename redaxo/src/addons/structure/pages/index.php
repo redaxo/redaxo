@@ -552,10 +552,9 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
         $sql->next();
     }
 
-    if ($sql->getRows() === 0) {
+    if (0 === $sql->getRows()) {
         $echo .= $emptyTr;
     }
-
 
     $echo .= '
             </table>';
