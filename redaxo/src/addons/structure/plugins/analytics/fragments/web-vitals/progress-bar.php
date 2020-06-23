@@ -1,5 +1,7 @@
 <?php
 
+/** @var rex_fragment $this */
+
 /** @var rex_analytics_metric $lcp */
 $lcp = $this->getVar('lcp');
 if (!$lcp) {
