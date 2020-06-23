@@ -1,0 +1,112 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * @author Thomas Blum
+ *
+ * This command checks for removable keys in i18n lamg files.
+ *
+ * Examples:
+ *
+ * bin/check-i18n
+ * bin/check-i18n core
+ * bin/check-i18n -addonName-
+ */
+
+unset($REX);
+$REX['REDAXO'] = true;
+$REX['HTDOCS_PATH'] = './';
+$REX['BACKEND_FOLDER'] = 'redaxo';
+$REX['LOAD_PAGE'] = false;
+
+require $REX['BACKEND_FOLDER'] . '/src/core/boot.php';
+require $REX['BACKEND_FOLDER'] . '/src/core/packages.php';
+
+// avoid PREG_JIT_STACKLIMIT_ERROR, changelog parts can be long
+ini_set('pcre.jit', 0);
+
+/**
+ * @package redaxo\core
+ *
+ * @internal
+ */
+class rex_check_i18n
+{
+    private const PATTERN = '
+        @
+        (?<complete>
+            \s*
+            (?>rex_i18n::|->)(?>msg|msgInLocale|rawMsg|rawMsgInLocale|hasMsg|hasMsgOrFallback|addMsg|translate|translateArray)\(
+                \s*
+                (?>\'|")
+                (?<key>.*?)
+                (?>\'|")
+                .*?
+            \)
+        )
+        @isx';
+
+    private $dir;
+    private $iterator;
+    private $i18nInUse;
+    private $i18nMsg;
+
+    public function __construct($dir)
+    {
+        $this->dir = $dir;
+        $this->iterator = rex_finder::factory($this->dir)->recursive()->filesOnly()->ignoreFiles(['.*']);
+    }
+
+    private function parse()
+    {
+        /** @var \SplFileInfo $file */
+        foreach ($this->iterator as $file) {
+            $filepath = $file->getPathname();
+            $content = \rex_file::get($filepath);
+
+            if ('lang' === $file->getExtension() && preg_match_all('/^([^=\s]+)\h*=\h*(\S.*)(?<=\S)/m', $content, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE)) {
+                $path = str_replace(rex_path::src(), '', $filepath);
+                foreach ($matches as $match) {
+                    $this->i18nMsg[$match[1][0]] = $path.'#L'.$match[1][1];
+                }
+            }
+
+            if (preg_match_all(self::PATTERN, $content, $matches, PREG_SET_ORDER)) {
+                foreach ($matches as $match) {
+                    $this->i18nInUse[$match['key']] = '';
+                }
+            }
+        }
+    }
+
+    public function check()
+    {
+        $this->parse();
+
+        $unused = [];
+        foreach ($this->i18nMsg as $i18nKey => $i18nFile) {
+            if (!isset($this->i18nInUse[$i18nKey])) {
+                $unused[$i18nKey] = $i18nFile;
+            }
+        }
+
+        echo 'These keys can be deleted.'."\n";
+        print_r($unused);
+    }
+}
+
+$dir = rex_path::src();
+if (isset($argv[1])) {
+    $dir = rtrim($argv[1], DIRECTORY_SEPARATOR);
+    if ('core' === $dir) {
+        $dir = rex_path::core();
+    } else {
+        $dir = rex_path::addon($dir);
+    }
+}
+if (!is_dir($dir)) {
+    exit('Folder "' . $dir . '" not found!'.PHP_EOL);
+}
+
+$check = new rex_check_i18n($dir);
+$check->check();
