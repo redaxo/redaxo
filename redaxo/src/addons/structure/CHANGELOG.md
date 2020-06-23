@@ -1,6 +1,25 @@
 Changelog
 =========
 
+Version 2.11.0 – XX.XX.2020
+---------------------------
+
+### Neu
+
+* Neues Recht `publishSlice[]` für den Slice-Status (@tbaddade)
+* `rex_category`/`rex_article`: Neue Methoden `getClosest` und `getClosestValue` für Abfragen vom Element ausgehend den ParentTree aufwärts, sowie `isOnlineIncludingParents` (@gharlan)
+* `rex_article_slice`: neue `isOnline`-Methode, und `$ignoreOfflines`-Parameter bei einigen Methoden (@DanielWeitenauer)
+* `rex_template`/`rex_module`: Abfrage der Keys wird gecacht (@gharlan)
+* Fragment `module_select.php`: Module-Key wird mit übergeben (@skerbis)
+* Darstellung in Artikelbearbeitung bei fehlenden Slice-Rechten verbessert (@tbaddade)
+* Modulbearbeitung: Hinweis auf Nutzungsmöglichkeit der Aktionen (@staabm)
+
+### Bugfixes
+
+* Beim Versuch das Default-Template zu löschen, kam es teilweise zu einer Exception statt zu der angedachten Fehlermeldung (@gharlan)
+* history-Plugin: Beim Aufruf der alten Artikelversionen kam es zu einer Warning bzgl. Module-Keys (@gharlan)
+
+
 Version 2.10.1 – 08.05.2020
 ---------------------------
 

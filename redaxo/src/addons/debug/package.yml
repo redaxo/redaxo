@@ -1,6 +1,6 @@
 package: debug
-version: '0.1.0-dev'
-author: Markus Staab, Marcel Kuhmann
+version: '1.0.0-beta1'
+author: Markus Staab, Marcel Kuhmann, Gregor Harlan
 supportpage: https://github.com/redaxo/redaxo
 
 load: early
@@ -15,4 +15,4 @@ page:
 
 requires:
     php: '>=7.1'
-    redaxo: ^5.11-dev
+    redaxo: ^5.11.0-beta1
