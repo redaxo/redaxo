@@ -1,7 +1,7 @@
 <?php
 
 final class rex_analytics_extensions {
-    static public function injectIntoFrontend(\rex_extension_point $ep, rex_plugin $plugin) {
+    static public function injectIntoFrontend(\rex_extension_point $ep, rex_plugin_interface $plugin) {
         $response = $ep->getSubject();
 
         $analyticsUrl = $_SERVER['REQUEST_URI'];
