@@ -190,52 +190,14 @@ if ($KAT->getRows() > 0) {
                 $fid = rex_analytics_metric::fromValue($sql95->getValue('fid'), rex_analytics_metric::TYPE_FID);
                 $cls = rex_analytics_metric::fromValue($sql95->getValue('cls'), rex_analytics_metric::TYPE_CLS);
 
-                $progress = function($title, $abbr, rex_analytics_metric $metric) {
-                    $value = $metric->getValue();
-                    $title = rex_escape($title);
-                    $abbr = rex_escape($abbr);
-
-                    $red = $metric->isRed() ? ' rex-analytics-progress-bar-active' : '';
-                    $yellow = $metric->isYellow() ? ' rex-analytics-progress-bar-active' : '';
-                    $green = $metric->isGreen() ? ' rex-analytics-progress-bar-active' : '';
-
-                    $redValue = $metric->isRed() ? $value .$metric->getUnit() : '';
-                    $yellowValue = $metric->isYellow() ? $value .$metric->getUnit() : '';
-                    $greenValue = $metric->isGreen() ? $value .$metric->getUnit() : '';
-
-                    return <<<EOF
-                                <dl class="rex-analytics-progress-list">
-                                    <dt><abbr title="${title}">${abbr}</abbr></dt>
-                                    <dd>
-                                        <div class="rex-analytics-progress">
-                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-success${green}">${greenValue}</div>
-                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-warning${yellow}">${yellowValue}</div>
-                                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-danger${red}">${redValue}</div>
-                                        </div>
-                                    </dd>
-                                </dl>
-EOF;
-                };
-
-                $lcpClass = $lcp->isRed() ? ' rex-analytics-progress-bar-danger' : ($lcp->isYellow() ? ' rex-analytics-progress-bar-warning' : ($lcp->isGreen() ? ' rex-analytics-progress-bar-success' : ''));
-                $fidClass = $fid->isRed() ? ' rex-analytics-progress-bar-danger' : ($fid->isYellow() ? ' rex-analytics-progress-bar-warning' : ($fid->isGreen() ? ' rex-analytics-progress-bar-success' : ''));
-                $clsClass = $cls->isRed() ? ' rex-analytics-progress-bar-danger' : ($cls->isYellow() ? ' rex-analytics-progress-bar-warning' : ($cls->isGreen() ? ' rex-analytics-progress-bar-success' : ''));
-                $webvitals_td = sprintf(
-                    '<td class="rex-table-analytics">
-                        <div class="rex-analytics">
-                            <div class="rex-analytics-progress">
-                                <div class="rex-analytics-progress-bar'.$lcpClass.'"></div>
-                                <div class="rex-analytics-progress-bar'.$fidClass.'"></div>
-                                <div class="rex-analytics-progress-bar'.$clsClass.'"></div>
-                                <div class="rex-analytics-total">94</div>
-                            </div>
-                            <div class="rex-analytics-panel">
-                                '. $progress(rex_i18n::msg('structure_analytics_lcp_long'), rex_i18n::msg('structure_analytics_lcp_abbr'), $lcp) .'
-                                '. $progress(rex_i18n::msg('structure_analytics_fid_long'), rex_i18n::msg('structure_analytics_fid_abbr'), $fid) .'
-                                '. $progress(rex_i18n::msg('structure_analytics_cls_long'), rex_i18n::msg('structure_analytics_cls_abbr'), $cls) .'
-                            </div>
-                        </div>
-                    </td>');
+                $fragment = new rex_fragment(
+                    [
+                        'lcp' => $lcp,
+                        'fid' => $fid,
+                        'cls' => $cls,
+                    ]
+                );
+                $webvitals_td = $fragment->parse('web-vitals/progress-bar.php');
             }
         }
         $td_layout_class = '';
@@ -441,6 +403,10 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
 
     // ----------- PRINT OUT THE ARTICLES
 
+    $webvitals_th = '';
+    if ($addon->getPlugin('analytics')->isAvailable()) {
+        $webvitals_th = '<th class="rex-table-category">' . rex_i18n::msg('header_webvitals') . '</th>';
+    }
     $echo .= '
             <table class="table table-striped table-hover">
                 <thead>
@@ -450,6 +416,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                         <th class="rex-table-article-name">' . rex_i18n::msg('header_article_name') . '</th>
                         ' . $tmpl_head . '
                         <th class="rex-table-date">' . rex_i18n::msg('header_date') . '</th>
+                        '.$webvitals_th.'
                         <th class="rex-table-priority">' . rex_i18n::msg('header_priority') . '</th>
                         <th class="rex-table-action" colspan="3">' . rex_i18n::msg('header_status') . '</th>
                     </tr>
@@ -511,12 +478,18 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                 $template_select->setSelected($sql->getValue('template_id'));
                 $tmpl_td = '<td class="rex-table-template" data-title="' . rex_i18n::msg('header_template') . '">' . $template_select->get() . '</td>';
             }
+
+            $webvitals_td = '';
+            if ($addon->getPlugin('analytics')->isAvailable()) {
+                $webvitals_td = '<td></td>';
+            }
             $echo .= '<tr class="mark' . $class_startarticle . '">
                             <td class="rex-table-icon"><a href="' . $structureContext->getContext()->getUrl(['page' => 'content/edit', 'article_id' => $sql->getValue('id')]) . '" title="' . rex_escape($sql->getValue('name')) . '"><i class="rex-icon' . $class . '"></i></a></td>
                             <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">' . $sql->getValue('id') . '</td>
                             <td class="rex-table-article-name" data-title="' . rex_i18n::msg('header_article_name') . '"><input class="form-control" type="text" name="article-name" value="' . rex_escape($sql->getValue('name')) . '" autofocus /></td>
                             ' . $tmpl_td . '
                             <td class="rex-table-date" data-title="' . rex_i18n::msg('header_date') . '">' . rex_formatter::strftime($sql->getDateTimeValue('createdate'), 'date') . '</td>
+                            '.$webvitals_td.'
                             <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '"><input class="form-control" type="text" name="article-position" value="' . rex_escape($sql->getValue('priority')) . '" /></td>
                             <td class="rex-table-action" colspan="'.$colspan.'">'.rex_api_article_edit::getHiddenFields().'<button class="btn btn-save" type="submit" name="artedit_function"' . rex::getAccesskey(rex_i18n::msg('article_save'), 'save') . '>' . rex_i18n::msg('article_save') . '</button></td>
                         </tr>';
@@ -572,12 +545,34 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                 $tmpl_td = '<td class="rex-table-template" data-title="' . rex_i18n::msg('header_template') . '">' . $tmpl . '</td>';
             }
 
+            $webvitals_td = '';
+            if ($addon->getPlugin('analytics')->isAvailable()) {
+                $webvitals_td = '<td class="rex-table-analytics"></td>';
+                $sql95 = rex_sql::factory();
+                $sql95->setQuery('SELECT cls, fid, lcp FROM '.rex::getTable('webvitals_95p').' WHERE article_id = :articleId AND clang_id = :clangId', ['articleId' => $sql->getValue('id'), 'clangId' => $sql->getValue('clang_id')]);
+                if (1 === $sql95->getRows()) {
+                    $lcp = rex_analytics_metric::fromValue($sql95->getValue('lcp'), rex_analytics_metric::TYPE_LCP);
+                    $fid = rex_analytics_metric::fromValue($sql95->getValue('fid'), rex_analytics_metric::TYPE_FID);
+                    $cls = rex_analytics_metric::fromValue($sql95->getValue('cls'), rex_analytics_metric::TYPE_CLS);
+
+                    $fragment = new rex_fragment(
+                        [
+                            'lcp' => $lcp,
+                            'fid' => $fid,
+                            'cls' => $cls,
+                        ]
+                    );
+                    $webvitals_td = $fragment->parse('web-vitals/progress-bar.php');
+                }
+            }
+
             $echo .= '<tr '.$data_artid.(('' != $class_startarticle) ? ' class="' . trim($class_startarticle) . '"' : '') . '>
                             <td class="rex-table-icon"><a href="' . $editModeUrl . '" title="' . rex_escape($sql->getValue('name')) . '"><i class="rex-icon' . $class . '"></i></a></td>
                             <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">' . $sql->getValue('id') . '</td>
                             <td class="rex-table-article-name" data-title="' . rex_i18n::msg('header_article_name') . '"><a href="' . $editModeUrl . '">' . rex_escape($sql->getValue('name')) . '</a></td>
                             ' . $tmpl_td . '
                             <td class="rex-table-date" data-title="' . rex_i18n::msg('header_date') . '">' . rex_formatter::strftime($sql->getDateTimeValue('createdate'), 'date') . '</td>
+                            '.$webvitals_td.'
                             <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '">' . rex_escape($sql->getValue('priority')) . '</td>
                             ' . $add_extra . '
                         </tr>

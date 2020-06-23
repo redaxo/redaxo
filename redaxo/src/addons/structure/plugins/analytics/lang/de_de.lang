@@ -11,3 +11,5 @@ structure_analytics_fid_long = First Input Delay (FID): measures interactivity. 
 structure_analytics_cls = Cumulative Layout Shift (CLS)
 structure_analytics_cls_abbr = CLS
 structure_analytics_cls_long = Cumulative Layout Shift (CLS): measures visual stability. To provide a good user experience, pages should maintain a CLS of less than 0.1.
+
+structure_analytics_fragment_exception = Die Variable {0} wurde nicht gefunden
