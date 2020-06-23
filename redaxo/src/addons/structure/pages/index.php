@@ -382,13 +382,18 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                         <th class="rex-table-action" colspan="3">' . rex_i18n::msg('header_status') . '</th>
                     </tr>
                 </thead>
+                <tbody>
                 ';
 
-    // tbody nur anzeigen, wenn später auch inhalt drinnen stehen wird
-    if ($sql->getRows() > 0 || 'add_art' == $structureContext->getFunction()) {
-        $echo .= '<tbody>
-                    ';
-    }
+    $emptyTr = '<tr>
+                    <td>&nbsp;</td>
+                    <td></td>
+                    <td></td>
+                    '.('' !== $tmpl_head ? '<td></td>' : '').'
+                    <td></td>
+                    <td></td>
+                    <td colspan="'.$colspan.'"></td>
+                </tr>';
 
     $canEdit = rex::getUser()->hasPerm('editArticle[]');
     $canDelete = rex::getUser()->hasPerm('deleteArticle[]');
@@ -403,6 +408,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
             $tmpl_td = '<td class="rex-table-template" data-title="' . rex_i18n::msg('header_template') . '">' . $template_select->get() . '</td>';
         }
 
+        $emptyTr = '';
         $echo .= '<tr class="mark">
                     <td class="rex-table-icon"><i class="rex-icon rex-icon-article"></i></td>
                     <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">-</td>
@@ -546,11 +552,10 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
         $sql->next();
     }
 
-    // tbody nur anzeigen, wenn später auch inhalt drinnen stehen wird
-    if ($sql->getRows() > 0 || 'add_art' == $structureContext->getFunction()) {
-        $echo .= '
-                </tbody>';
+    if ($sql->getRows() === 0) {
+        $echo .= $emptyTr;
     }
+
 
     $echo .= '
             </table>';
