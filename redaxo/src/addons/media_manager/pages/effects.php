@@ -69,7 +69,7 @@ if ('' == $func) {
     $query = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type_effect WHERE type_id=' . $type_id . ' ORDER BY priority';
 
     $list = rex_list::factory($query);
-    $list->addTableAttribute('class', 'table-striped');
+    $list->addTableAttribute('class', 'table-striped table-hover');
     $list->addParam('effects', 1);
 
     $list->setNoRowsMessage(rex_i18n::msg('media_manager_effect_no_effects'));
