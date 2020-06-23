@@ -556,8 +556,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
         $echo .= $emptyTr;
     }
 
-    $echo .= '
-            </table>';
+    $echo .= '</tbody></table>';
 
     if ('add_art' == $structureContext->getFunction() || 'edit_art' == $structureContext->getFunction()) {
         $echo .= '
