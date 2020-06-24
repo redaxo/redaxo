@@ -130,7 +130,7 @@ if (isset($argv[1])) {
     }
 }
 if (!is_dir($dir)) {
-    echo('Folder "' . $dir . '" not found!'.PHP_EOL);
+    echo 'Folder "' . $dir . '" not found!'.PHP_EOL;
     exit(1);
 }
 
