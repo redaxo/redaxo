@@ -36,7 +36,7 @@ class rex_check_i18n
         @
         (?<complete>
             \s*
-            (?>rex_i18n::|->)(?>i18n|msg|msgInLocale|rawMsg|rawMsgInLocale|hasMsg|hasMsgOrFallback|addMsg|translate|translateArray)\(
+            (?>rex_i18n::|->)(?>i18n|msgInLocale|rawMsgInLocale|hasMsgOrFallback|translateArray|addMsg|rawMsg|hasMsg|msg|translate)\(
                 \s*
                 (?>\'|")
                 (?<key>.*?)
