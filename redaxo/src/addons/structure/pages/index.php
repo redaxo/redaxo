@@ -385,15 +385,6 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                 <tbody>
                 ';
 
-    $emptyTr = '<tr>
-                    <td>&nbsp;</td>
-                    <td></td>
-                    <td></td>
-                    '.('' !== $tmpl_head ? '<td></td>' : '').'
-                    <td></td>
-                    <td></td>
-                    <td colspan="'.$colspan.'"></td>
-                </tr>';
 
     $canEdit = rex::getUser()->hasPerm('editArticle[]');
     $canDelete = rex::getUser()->hasPerm('deleteArticle[]');
@@ -419,6 +410,16 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                     <td class="rex-table-action" colspan="'.$colspan.'">'.rex_api_article_add::getHiddenFields().'<button class="btn btn-save" type="submit" name="artadd_function"' . rex::getAccesskey(rex_i18n::msg('article_add'), 'save') . '>' . rex_i18n::msg('article_add') . '</button></td>
                 </tr>
                             ';
+    } elseif (0 === $sql->getRows()) {
+        $echo .= '<tr>
+            <td>&nbsp;</td>
+            <td></td>
+            <td></td>
+            '.('' !== $tmpl_head ? '<td></td>' : '').'
+            <td></td>
+            <td></td>
+            <td colspan="'.$colspan.'"></td>
+        </tr>';
     }
 
     // --------------------- ARTIKEL LIST
@@ -550,10 +551,6 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
         }
 
         $sql->next();
-    }
-
-    if (0 === $sql->getRows()) {
-        $echo .= $emptyTr;
     }
 
     $echo .= '</tbody></table>';
