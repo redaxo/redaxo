@@ -385,7 +385,6 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                 <tbody>
                 ';
 
-
     $canEdit = rex::getUser()->hasPerm('editArticle[]');
     $canDelete = rex::getUser()->hasPerm('deleteArticle[]');
     $colspan = (int) $canEdit + (int) $canDelete + 1;
@@ -398,7 +397,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
 
             $tmpl_td = '<td class="rex-table-template" data-title="' . rex_i18n::msg('header_template') . '">' . $template_select->get() . '</td>';
         }
-        
+
         $echo .= '<tr class="mark">
                     <td class="rex-table-icon"><i class="rex-icon rex-icon-article"></i></td>
                     <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">-</td>
