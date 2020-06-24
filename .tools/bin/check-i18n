@@ -36,7 +36,7 @@ class rex_check_i18n
         @
         (?<complete>
             \s*
-            (?>rex_i18n::|->)(?>msg|msgInLocale|rawMsg|rawMsgInLocale|hasMsg|hasMsgOrFallback|addMsg|translate|translateArray)\(
+            (?>rex_i18n::|->)(?>i18n|msg|msgInLocale|rawMsg|rawMsgInLocale|hasMsg|hasMsgOrFallback|addMsg|translate|translateArray)\(
                 \s*
                 (?>\'|")
                 (?<key>.*?)
@@ -62,12 +62,11 @@ class rex_check_i18n
         /** @var \SplFileInfo $file */
         foreach ($this->iterator as $file) {
             $filepath = $file->getPathname();
-            $content = \rex_file::get($filepath);
+            $content = rex_file::get($filepath);
 
-            if ('lang' === $file->getExtension() && preg_match_all('/^([^=\s]+)\h*=\h*(\S.*)(?<=\S)/m', $content, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE)) {
-                $path = str_replace(rex_path::src(), '', $filepath);
+            if ('lang' === $file->getExtension() && preg_match_all('/^([^=\s]+)\h*=\h*(\S.*)(?<=\S)/m', $content, $matches, PREG_SET_ORDER)) {
                 foreach ($matches as $match) {
-                    $this->i18nMsg[$match[1][0]] = $path.'#L'.$match[1][1];
+                    $this->i18nMsg[$match[1]] = $file->getPath();
                 }
             }
 
@@ -79,19 +78,45 @@ class rex_check_i18n
         }
     }
 
-    public function check()
+    private function modify()
     {
-        $this->parse();
-
         $unused = [];
-        foreach ($this->i18nMsg as $i18nKey => $i18nFile) {
+        foreach ($this->i18nMsg as $i18nKey => $langDir) {
             if (!isset($this->i18nInUse[$i18nKey])) {
-                $unused[$i18nKey] = $i18nFile;
+                $unused[$langDir][] = $i18nKey;
             }
         }
 
-        echo 'These keys can be deleted.'."\n";
-        print_r($unused);
+        foreach ($unused as $langDir => $i18nKeys) {
+            $langFiles = rex_finder::factory($langDir)->recursive()->filesOnly()->ignoreFiles(['.*']);
+            foreach ($langFiles as $langFile) {
+                $content = rex_file::get($langFile);
+
+                // Leere Zeilen würden verloren gehen
+                // if (preg_match_all('/^([^=\s]+)\h*=\h*(\S.*)(?<=\S)/m', $content, $matches, PREG_SET_ORDER)) {
+                //     print_r($matches);
+                // }
+
+                $newContent = [];
+                $lines = explode("\n", $content);
+                foreach ($lines as $line) {
+                    $parts = explode('=', $line);
+
+                    if (in_array(trim($parts[0]), $i18nKeys)) {
+                        continue;
+                    }
+
+                    $newContent[] = $line;
+                }
+                rex_file::put($langFile, implode("\n", $newContent));
+            }
+        }
+    }
+
+    public function check()
+    {
+        $this->parse();
+        $this->modify();
     }
 }
 
