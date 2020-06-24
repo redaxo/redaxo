@@ -36,43 +36,78 @@ class rex_check_i18n
         @
         (?<complete>
             \s*
-            (?>rex_i18n::|->)(?>i18n|msgInLocale|rawMsgInLocale|hasMsgOrFallback|translateArray|addMsg|rawMsg|hasMsg|msg|translate)\(
-                \s*
-                (?>\'|")
-                (?<key>.*?)
-                (?>\'|")
-                .*?
+            (?>::|->)(?>i18n|msgInLocale|rawMsgInLocale|hasMsgOrFallback|translateArray|addMsg|rawMsg|hasMsg|msg|translate)\(
+                (?<params>
+                    \s*
+                    (?>\'|")
+                    (?<key>.*?(?>\'\s*\$)?)
+                    (?>\'|")
+                    .*?
+                )
             \)
         )
         @isx';
 
     private $dir;
-    private $iterator;
-    private $i18nInUse;
-    private $i18nMsg;
+    private $i18nInUse = [];
+    private $i18nMsg = [];
 
     public function __construct($dir)
     {
         $this->dir = $dir;
-        $this->iterator = rex_finder::factory($this->dir)->recursive()->filesOnly()->ignoreFiles(['.*']);
     }
 
     private function parse()
     {
+        $files = rex_finder::factory(rex_path::src())->recursive()->filesOnly()->ignoreFiles(['.*']);
         /** @var \SplFileInfo $file */
-        foreach ($this->iterator as $file) {
+        foreach ($files as $file) {
             $filepath = $file->getPathname();
             $content = rex_file::get($filepath);
 
-            if ('lang' === $file->getExtension() && preg_match_all('/^([^=\s]+)\h*=\h*(\S.*)(?<=\S)/m', $content, $matches, PREG_SET_ORDER)) {
-                foreach ($matches as $match) {
-                    $this->i18nMsg[$match[1]] = $file->getPath();
-                }
+            if ('lang' === $file->getExtension()) {
+                continue;
             }
 
             if (preg_match_all(self::PATTERN, $content, $matches, PREG_SET_ORDER)) {
                 foreach ($matches as $match) {
-                    $this->i18nInUse[$match['key']] = '';
+                    $params = explode(',', $match['params']);
+                    $key = str_replace(['"', "'"], '', $params[0]);
+                    if (false !== strpos($key, '.')) {
+                        $varParts = explode('.', $key);
+                        foreach ($varParts as $index => $varPart) {
+                            $varPart = trim($varPart);
+                            if ('$' === substr($varPart, 0, 1)) {
+                                $varPart = '<regexVar>';
+                            }
+                            $varParts[$index] = $varPart;
+                        }
+                        $key = implode('', $varParts);
+                    }
+                    $this->i18nInUse[$key] = '';
+                }
+            }
+        }
+
+        $keys = [];
+        foreach ($this->i18nInUse as $key => $value) {
+            if (false !== strpos($key, '<regexVar>')) {
+                $keys[] = $key;
+            }
+        }
+        print_r($keys);
+    }
+
+    private function loadI18n()
+    {
+        $files = rex_finder::factory($this->dir)->recursive()->filesOnly()->ignoreFiles(['.*']);
+        /** @var \SplFileInfo $file */
+        foreach ($files as $file) {
+            $filepath = $file->getPathname();
+            $content = rex_file::get($filepath);
+            if ('lang' === $file->getExtension() && preg_match_all('/^([^=\s]+)\h*=\h*(\S.*)(?<=\S)/m', $content, $matches, PREG_SET_ORDER)) {
+                foreach ($matches as $match) {
+                    $this->i18nMsg[$match[1]] = $file->getPath();
                 }
             }
         }
@@ -83,9 +118,24 @@ class rex_check_i18n
         $unused = [];
         foreach ($this->i18nMsg as $i18nKey => $langDir) {
             if (!isset($this->i18nInUse[$i18nKey])) {
+                foreach ($this->i18nInUse as $inUseKey => $inUseValue) {
+                    if ('addon_'.$inUseKey === $i18nKey ||
+                        'plugin_'.$inUseKey === $i18nKey ||
+                        'package_'.$inUseKey === $i18nKey) {
+                        continue 2;
+                    }
+
+                    if (false !== strpos($inUseKey, '<regexVar>')) {
+                        $pattern = '@^'.str_replace('<regexVar>', '[$a-zA-Z0-9]*', $inUseKey).'$@';
+                        if (preg_match($pattern, $i18nKey)) {
+                            continue 2;
+                        }
+                    }
+                }
                 $unused[$langDir][] = $i18nKey;
             }
         }
+        print_r($unused);
 
         foreach ($unused as $langDir => $i18nKeys) {
             $langFiles = rex_finder::factory($langDir)->recursive()->filesOnly()->ignoreFiles(['.*']);
@@ -116,6 +166,7 @@ class rex_check_i18n
     public function check()
     {
         $this->parse();
+        $this->loadI18n();
         $this->modify();
     }
 }
