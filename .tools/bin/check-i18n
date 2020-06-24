@@ -4,7 +4,7 @@
 /**
  * @author Thomas Blum
  *
- * This command checks for removable keys in i18n lamg files.
+ * This command checks for removable keys in i18n .lang files.
  *
  * Examples:
  *
