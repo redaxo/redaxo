@@ -127,7 +127,7 @@ class rex_socket_test extends TestCase
     {
         $this->expectException(\rex_socket_exception::class);
 
-        $method = new ReflectionMethod('rex_socket', 'parseUrl');
+        $method = new ReflectionMethod(rex_socket::class, 'parseUrl');
         $method->setAccessible(true);
         $method->invoke(null, $url);
     }
