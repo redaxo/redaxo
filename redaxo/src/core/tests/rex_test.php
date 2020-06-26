@@ -85,13 +85,13 @@ class rex_rex_test extends TestCase
             rex::setProperty('debug', true);
 
             static::assertTrue(rex::isDebugMode());
-            static::assertArrayHasKey(rex::getDebugFlags(), 'throw_always_exception');
+            static::assertArrayHasKey('throw_always_exception', rex::getDebugFlags());
             static::assertFalse(rex::getDebugFlags()['throw_always_exception']);
 
             rex::setProperty('debug', ['enabled' => false]);
 
             static::assertFalse(rex::isDebugMode());
-            static::assertArrayHasKey(rex::getDebugFlags(), 'throw_always_exception');
+            static::assertArrayHasKey( 'throw_always_exception', rex::getDebugFlags());
             static::assertFalse(rex::getDebugFlags()['throw_always_exception']);
 
             $debug = [
