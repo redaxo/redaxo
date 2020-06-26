@@ -136,7 +136,7 @@ class rex_validator_test extends TestCase
             $this->assertEquals($value, $v);
             return 'abc' === $value;
         };
-        
+
         $isCalled = false;
         $value = 'abc';
         static::assertTrue($validator->custom($value, $callback));
