@@ -772,7 +772,7 @@ class rex_sql implements Iterator
         if (!$this->lastRow) {
             $lastRow = $this->stmt->fetch($fetch_type);
             if (false === $lastRow) {
-                throw new rex_sql_exception('unable to fetch');
+                throw new rex_sql_exception('Unable to fetch row.');
             }
             $this->lastRow = $lastRow;
         }
@@ -1680,12 +1680,12 @@ class rex_sql implements Iterator
      * @throws rex_sql_exception
      *
      * @return array Ein mehrdimensionales Array das die Metadaten enthaelt
-     * @psalm-return list<array{name: string, type: string, null: 'YES'|'NO', key: string, default: null|string, extra: string}>
+     * @psalm-return list<array{name: string, type: string, null: 'YES'|'NO', key: string, default: null|string, extra: string, comment: null|string}>
      */
     public static function showColumns($table, $DBID = 1)
     {
         $sql = self::factory($DBID);
-        $sql->setQuery('SHOW COLUMNS FROM ' . $sql->escapeIdentifier($table));
+        $sql->setQuery('SHOW FULL COLUMNS FROM ' . $sql->escapeIdentifier($table));
 
         $columns = [];
         foreach ($sql as $col) {
@@ -1696,6 +1696,7 @@ class rex_sql implements Iterator
                 'key' => (string) $col->getValue('Key'),
                 'default' => null === $col->getValue('Default') ? null : (string) $col->getValue('Default'),
                 'extra' => (string) $col->getValue('Extra'),
+                'comment' => null === $col->getValue('Comment') ? null : (string) $col->getValue('Comment'),
             ];
         }
 

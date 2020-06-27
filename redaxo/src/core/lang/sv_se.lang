@@ -180,12 +180,11 @@ setup_311 = Följande filer / kataloger kan ändras av alla användare på serve
 setup_312 = Upprepa steg 3
 setup_399 = 3 / Systemkontroll
 
-setup_400 = Installation: Steg 4 av 7 / Skrivar 'data/config.yml'
-setup_401 = data/config.yml kunde inte skrivas.
+setup_400 = Installation: Steg 4 av 7 / Skrivar '{0}'
+setup_401 = '{0}' kunde inte skrivas.
 setup_402 = Allmänt
 setup_403 = Databasinformationen
 setup_404 = Den angivna databasen existerar redan!
-setup_405 = Skriva 'data/config.yml'
 setup_408 = Databasens namn
 setup_409 = Lösenord
 setup_410 = Vidare till steg 5

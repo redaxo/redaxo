@@ -24,7 +24,7 @@ class rex_sql_table_test extends TestCase
         $table = rex_sql_table::get(self::TABLE);
 
         $table
-            ->addColumn(new rex_sql_column('id', 'int(11)', false, null, 'auto_increment'))
+            ->addColumn(new rex_sql_column('id', 'int(11)', false, null, 'auto_increment', 'initial comment for id col'))
             ->addColumn(new rex_sql_column('title', 'varchar(255)', true, 'Default title'))
             ->setPrimaryKey('id')
             ->addIndex(new rex_sql_index('i_title', ['title']))
@@ -72,6 +72,7 @@ class rex_sql_table_test extends TestCase
         static::assertFalse($id->isNullable());
         static::assertNull($id->getDefault());
         static::assertSame('auto_increment', $id->getExtra());
+        static::assertSame('initial comment for id col', $id->getComment());
 
         $title = $table->getColumn('title');
 
@@ -146,7 +147,7 @@ class rex_sql_table_test extends TestCase
     {
         $table = $this->createTable();
 
-        $description = new rex_sql_column('description', 'text', true);
+        $description = new rex_sql_column('description', 'text', true, null, null, 'description comment');
         $table
             ->addColumn($description)
             ->addColumn(new rex_sql_column('name', 'varchar(255)'), 'id')
@@ -161,6 +162,60 @@ class rex_sql_table_test extends TestCase
         static::assertEquals($description, $table->getColumn('description'));
 
         static::assertSame(['pid', 'id', 'name', 'title', 'description'], array_keys($table->getColumns()));
+    }
+
+    public function testAddColumnComment()
+    {
+        $table = $this->createTable();
+
+        $title = new rex_sql_column('title', 'varchar(20)', false, null, null, 'new title comment');
+        $table
+            ->ensureColumn($title)
+            ->alter();
+
+        static::assertSame($title, $table->getColumn('title'));
+
+        rex_sql_table::clearInstance(self::TABLE);
+        $table = rex_sql_table::get(self::TABLE);
+
+        static::assertEquals($title, $table->getColumn('title'));
+        static::assertSame('new title comment', $table->getColumn('title')->getComment());
+    }
+
+    public function testChangeColumnComment()
+    {
+        $table = $this->createTable();
+
+        $id = new rex_sql_column('id', 'int(11)', false, null, 'auto_increment', 'changed id comment');
+        $table
+            ->ensureColumn($id)
+            ->alter();
+
+        static::assertSame($id, $table->getColumn('id'));
+
+        rex_sql_table::clearInstance(self::TABLE);
+        $table = rex_sql_table::get(self::TABLE);
+
+        static::assertEquals($id, $table->getColumn('id'));
+        static::assertSame('changed id comment', $table->getColumn('id')->getComment());
+    }
+
+    public function testRemoveColumnComment()
+    {
+        $table = $this->createTable();
+
+        $id = new rex_sql_column('id', 'int(11)', false, null, 'auto_increment', null);
+        $table
+            ->ensureColumn($id)
+            ->alter();
+
+        static::assertSame($id, $table->getColumn('id'));
+
+        rex_sql_table::clearInstance(self::TABLE);
+        $table = rex_sql_table::get(self::TABLE);
+
+        static::assertEquals($id, $table->getColumn('id'));
+        static::assertNull($table->getColumn('id')->getComment());
     }
 
     public function testEnsureColumn()

@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 2.9.0 – XX.XX.2020
+--------------------------
+
+### Neu
+
+* Neuer EP `MEDIA_ADD`, über den neue Medien vor dem Speichern weiter validiert werden können (@portux)
+* Neues Recht `media[sync]` um den Zugriff auf die Sync-Page explizit steuern zu können (@skerbis)
+
+
 Version 2.8.1 – 08.05.2020
 --------------------------
 
