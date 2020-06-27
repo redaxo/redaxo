@@ -1690,8 +1690,8 @@ class rex_sql implements Iterator
         $columns = [];
         foreach ($sql as $col) {
             $null = (string) $col->getValue('Null');
-            assert($null === 'YES' || $null === 'NO');
-            
+            assert('YES' === $null || 'NO' === $null);
+
             $columns[] = [
                 'name' => (string) $col->getValue('Field'),
                 'type' => (string) $col->getValue('Type'),
