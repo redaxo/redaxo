@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.7-0 – XX.X.2020
+--------------------------
+
+### Neu
+
+* Neuerungen bzgl. Passwortregeln/-wechsel siehe Core-Changelog für 5.11
+
+
 Version 2.6.2 – 08.05.2020
 --------------------------
 

@@ -1,7 +1,7 @@
 package: media_manager
-version: '2.9.1'
+version: '2.10.0-beta1'
 author: 'Markus Staab, Jan Kristinus'
-supportpage: www.redaxo.org/de/forum/
+supportpage: https://github.com/redaxo/redaxo
 
 page:
     title: 'Media Manager'
