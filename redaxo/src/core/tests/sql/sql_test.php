@@ -131,7 +131,8 @@ class rex_sql_test extends TestCase
             {
                 $this->DBID = 999;
 
-                self::$pdo[$this->DBID] = new class($version) extends PDO {
+                /** @psalm-suppress InvalidPropertyAssignmentValue */
+                self::$pdo[$this->DBID] = new class($version) {
                     private $version;
 
                     public function __construct(string $version)
