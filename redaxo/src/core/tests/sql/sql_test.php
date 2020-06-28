@@ -130,7 +130,8 @@ class rex_sql_test extends TestCase
             public function __construct(string $version)
             {
                 $this->DBID = 999;
-                self::$pdo[$this->DBID] = new class($version) {
+
+                self::$pdo[$this->DBID] = new class($version) extends PDO {
                     private $version;
 
                     public function __construct(string $version)

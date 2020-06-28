@@ -76,6 +76,7 @@ return PhpCsFixer\Config::create()
         'php_unit_test_case_static_method_calls' => true,
         'phpdoc_no_package' => false,
         'phpdoc_order' => true,
+        'phpdoc_to_comment' => false,
         'phpdoc_types_order' => false,
         'phpdoc_var_annotation_correct_order' => true,
         'phpdoc_var_without_name' => false,
