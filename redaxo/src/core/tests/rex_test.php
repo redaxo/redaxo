@@ -85,12 +85,14 @@ class rex_rex_test extends TestCase
             rex::setProperty('debug', true);
 
             static::assertTrue(rex::isDebugMode());
-            static::assertArraySubset(['throw_always_exception' => false], rex::getDebugFlags());
+            static::assertArrayHasKey('throw_always_exception', rex::getDebugFlags());
+            static::assertFalse(rex::getDebugFlags()['throw_always_exception']);
 
             rex::setProperty('debug', ['enabled' => false]);
 
             static::assertFalse(rex::isDebugMode());
-            static::assertArraySubset(['throw_always_exception' => false], rex::getDebugFlags());
+            static::assertArrayHasKey('throw_always_exception', rex::getDebugFlags());
+            static::assertFalse(rex::getDebugFlags()['throw_always_exception']);
 
             $debug = [
                 'enabled' => true,
@@ -140,7 +142,7 @@ class rex_rex_test extends TestCase
         }
 
         static::assertNotNull(rex::getUser(), 'user is not null');
-        static::assertInstanceOf('rex_user', rex::getUser(), 'returns a user of correct class');
+        static::assertInstanceOf(rex_user::class, rex::getUser(), 'returns a user of correct class');
     }
 
     public function testGetServer()
