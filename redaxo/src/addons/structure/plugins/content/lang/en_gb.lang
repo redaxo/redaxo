@@ -1,7 +1,8 @@
 content = Article
 
-add_block  =  Add slice
-module_doesnt_exist =  Module doesn't exist
+add_block = Add slice
+article_doesnt_exist = Article doesn't exist
+module_doesnt_exist = Module doesn't exist
 update_block = Update slice
 save_block = Save slice
 edit_block = Edit slice
@@ -61,7 +62,8 @@ category_moved = Category moved
 content_types = Columns
 content_type = Column
 
-perm_options_moveSlice[] = Blöcke verschieben
+perm_options_moveSlice[] = Move block
+perm_options_publishSlice[] = Publish block
 
 templates = Templates
 
@@ -111,6 +113,9 @@ create_module = Create module
 input = Input
 output = Output
 module_name = Name
+module_key = Key
+module_key_notice = Keys should be unique or left empty
+module_key_exists = Key already exists.
 module_actions_notice = Tip: Using Actions you might validate user input or trigger custom php scripts
 save_module_and_quit = Save module
 save_module_and_continue = Update module
