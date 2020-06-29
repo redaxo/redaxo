@@ -9,7 +9,7 @@ jobs:
 
         runs-on: ubuntu-latest
         if: github.event.pull_request.draft == false
-        
+
         services:
             mysql:
                 image: mysql:5.7
@@ -72,7 +72,7 @@ jobs:
               name: Detect Changes
               run: git diff-index --quiet HEAD -- .github/tests-visual/
 
-            - uses: stefanzweifel/git-auto-commit-action@v4.3.0
+            - uses: stefanzweifel/git-auto-commit-action@v4
               if: failure()
               with:
                   commit_message: Update screenshots

@@ -49,6 +49,8 @@ cronjob_environment_notice = Skript: Verkställning via <code>redaxo/src/addons/
 cronjob_environment_frontend = Frontend
 cronjob_environment_backend = Backend
 cronjob_environment_script = Skript
+cronjob_environment_console = Skript
+cronjob_environment_backend_manual = Backend (manuellt)
 
 cronjob_execution = Verkställning
 cronjob_execution_beginning = Skriptbörjan
@@ -82,3 +84,5 @@ cronjob_log_no_data = Inga data tillgängliga.
 cronjob_log_caption_1 = Lista över utförda cronjobb i {0} {1}
 cronjob_log_caption_2 = Lista över senast utförda cronjobb
 cronjob_log_message = Meddelande
+
+cronjob_delete_log_msg = Radera Cronjob-Log?
