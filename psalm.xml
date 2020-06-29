@@ -24,10 +24,7 @@
         <ignoreFiles>
             <directory name="redaxo/src/addons/be_style/vendor/" />
             <directory name="redaxo/src/addons/debug/vendor/" />
-            <directory name="redaxo/src/addons/media_manager/tests/" />
-            <directory name="redaxo/src/addons/mediapool/tests/" />
             <directory name="redaxo/src/addons/phpmailer/vendor/" />
-            <directory name="redaxo/src/addons/structure/tests/" />
             <directory name="redaxo/src/addons/tests/vendor/" />
             <directory name="redaxo/src/core/vendor/" />
             <file name="redaxo/src/core/.phpstorm.meta.php" />
