@@ -1,6 +1,7 @@
 content = Artikel
 
 add_block = Tillfoga ett avsnitt
+article_doesnt_exist = Den här artikeln finns inte!
 module_doesnt_exist = Den här modulen finns inte
 update_block = spara och fortsätt
 save_block = spara
@@ -62,6 +63,7 @@ content_types = Spalter
 content_type = Spalt
 
 perm_options_moveSlice[] = Flytta avsnitt
+perm_options_publishSlice[] = Publicera block
 
 templates = Mallar
 
@@ -111,6 +113,10 @@ create_module = Skapa ny modul
 input = Inmatning
 output = output
 module_name = Namn
+module_key = Nyckel
+module_key_notice = Nyckeln ska tydligt tilldelas eller inte fyllas i.
+module_key_exists = Nyckeln finns redan.
+module_actions_notice = Tips: PHP-kod kan köras med actions. Till exempel för att validera modulposter.
 save_module_and_quit = Spara modulen
 save_module_and_continue = Spara och fortsätt
 module_description = Nodulbeteckning
