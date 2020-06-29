@@ -115,8 +115,8 @@ media_manager_effect_rotate_degree = Volver (grado)
 
 media_manager_effect_mirror = Imagen: Añade reflejo de agua
 media_manager_effect_mirror_height = Refl. Altura (50/10%)
-media_manager_effect_mirror_opacity =
-media_manager_effect_mirror_opacity_notice =
+media_manager_effect_mirror_opacity = Opacidad del espejo (0-100)
+media_manager_effect_mirror_opacity_notice = 0% de reflexión completamente invisible, 100% de reflexión completamente visible
 media_manager_effect_mirror_background_color = Color de fondo
 media_manager_effect_mirror_background_r = Fondo R (0-255)
 media_manager_effect_mirror_background_g = Fondo G (0 - 255)
@@ -144,7 +144,10 @@ media_manager_effect_convert2img_density = densidad
 media_manager_effect_convert2img_convertto = formato
 media_manager_effect_convert2img_density_notice = Densidad de resolución en ppi (píxel por pulgada).
 media_manager_effect_convert2img_convertto_notice = Formato de destino al que se convertirá el archivo. Se consideran las siguientes extensiones de archivo: <code>.pdf, .ps, .psd, .tif, .tiff, .bmp, .eps, .ico,.svg</code>.
-media_manager_effect_convert2img_noimagemagick =
+media_manager_effect_convert2img_noimagemagick = Advertencia: ImageMagick no se pudo encontrar. Este efecto requiere la extensión PHP "imagick" o ImageMagick como "línea de comandos binaria", ejecutable a través de exec ().
+media_manager_effect_convert2img_color = Color para transparencia
+media_manager_effect_convert2img_color_notice = Formatee "#ffffff", si no se establece nada, se utiliza la transparencia. Por favor, especifique un color para JPG.
+
 
 media_manager_effect_image_properties = Imagen: Configuración (Calidad, Entrelazado, ...)
 media_manager_effect_image_properties_jpg_quality_notice = [0-100]. Dejar en blanco para el valor por defecto.

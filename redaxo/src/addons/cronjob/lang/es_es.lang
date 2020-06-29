@@ -48,7 +48,9 @@ cronjob_environment = Ambiente
 cronjob_environment_notice = Script: Ejecución a través de <code>redaxo/src/addons/cronjob/bin/run</code>. El script debe ser invocado por un cronjob real.
 cronjob_environment_frontend = Interfaz
 cronjob_environment_backend = Backend
-cronjob_environment_script = Guión
+cronjob_environment_script = Script
+cronjob_environment_console = Script
+cronjob_environment_backend_manual = Backend (manual)
 
 cronjob_execution = Ejecución
 cronjob_execution_beginning = Inicio de ejecución
@@ -82,3 +84,5 @@ cronjob_log_no_data = No hay datos de registro disponibles.
 cronjob_log_caption_1 = Lista de cronjobs ejecutados en {0} {1}
 cronjob_log_caption_2 = Lista de los últimos cronjobs ejecutados
 cronjob_log_message = Mensaje de registro
+
+cronjob_delete_log_msg = ¿Eliminar el registro cronjob?
