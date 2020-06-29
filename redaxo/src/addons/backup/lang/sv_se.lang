@@ -23,6 +23,7 @@ backup_db_export = Export
 backup_filename_updated = Filnamnet ändrades eftersom det innhöll icke tillåtna tecken. Om namnet är okej vänligen klicka en gång till på "Export"
 backup_please_choose_folder = Vänligen välj ut de förteckningar som ska exporteras!
 backup_intro_import = Observera att vid import av en databas kommer <b>den bestående databasen att raderas</b>. Om du är osäker: spara eller exportera den gamla databasen innan du skriver över med en ny.
+backup_version_warning = Säkerhetskopior från äldre REDAXO-versioner eller tillägg är inte alltid fullt kompatibla och kan leda till problem efter importen.
 backup_database = Datenbasimport
 backup_filename = Filnamn
 backup_filename_notice = Variabler: %REX_SERVER, %REX_VERSION och datumsvariabler som hos strftime()
