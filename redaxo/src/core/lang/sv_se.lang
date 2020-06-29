@@ -11,6 +11,8 @@ datetimeformat = %d %b. %Y, %H:%M
 timeformat = %H:%M
 ctrl = Flervalsurval med <kbd>STRG</kbd> resp. <kbd>CMD</kbd>
 translatable = Översättbar via <code> translate: i18n_key </ code>
+save_and_goon_tooltip = Spara och fortsätt bearbeta
+save_and_close_tooltip = Spara och stäng
 
 # Allgemein
 abort = avbryt
@@ -30,6 +32,8 @@ no_editing_rights = Du har inte rätt att ändra
 check_rights_in_directory = Vänligen kolla rättigheterna i mappen
 error_undefined = Okänt fel
 csrf_token_invalid = Vänligen skicka formuläret igen, eller kör åtgärden igen (fel: CSRF-token är ogiltig).
+unstable_version = Utvecklingsversion - användning på egen risk
+copy_to_clipboard = Copy to clipboard
 
 # redaxo/redaxo/index.php
 system = System
@@ -120,6 +124,7 @@ syslog_line = Rad
 syslog_title = Logfil "{0}"
 syslog_phperrors = PHP Errorlog
 syslog_empty = Tom logfil
+syslog_download = ladda ner "{0}"
 server = Webbsidans URL
 servername = Webbsidans namn
 error_email = E-postadress vid fel
@@ -129,8 +134,19 @@ server_required = Det krävs en URL för webbplatsen!
 server_invalid = Webbadressen är ogiltig, den måste anges komplett inkl. protokoll!
 servername_required = Ange ett servernamn!
 system_editor = Editor-Integration
+system_editor_note = Länkar REDAXO till en editor så att källkodfiler kan öppnas direkt. <br> Inställningarna kan sparas globalt i config.yml eller individuellt per användare i webbläsaren som en cookie.
+system_editor_note_cookie = Följande inställningar från cookien används för närvarande.
+system_editor_name = Editor
 system_editor_no_editor = Deaktiverat
+system_editor_basepath = Basväg
+system_editor_basepath_note = Ersätter den faktiska basvägen för denna installation med den lokala sökvägen som anges här (användbar för produktiva miljöer, Docker etc.).
 system_editor_open_file = Öppna "{0}" i editorn
+system_editor_update_configyml = Spara i config.yml
+system_editor_update_cookie = Spara som cookie
+system_editor_delete_cookie = Radera cookien
+system_editor_success_configyml = Editor-inställningarna sparades i config.yml
+system_editor_success_cookie = Redigeringsinställningarna sparades som en browsercookie.
+system_editor_success_cookie_deleted = Cookies för redigeringsinställningarna har tagits bort, de globala inställningarna används nu igen.
 system_edit_config_note = REDAXOs huvudkonfiguration erbjuder möjlighet att ändra interna systemparametrar. Filen bör endast redigeras av erfarna användare.
 lang_required = Ange ett språk!
 debug_mode = Debug-modus
@@ -249,6 +265,8 @@ setup_no_js_security_msg = Kolla om filer från mappen redaxo/cache, redaxo/data
 setup_security_no_https = Setup görs utan HTTPS / kryptering. Det rekommenderas att alla frontend och backend-upprop görs med endast HTTPS för att säkerställa integritet och datasäkerhet.
 setup_security_warn_mod_security = Apache-modulen "mod_security" laddades. Detta kan leda till problem om det är felaktigt konfigurerat.
 setup_security_deprecated_php = Den använda PHP-versionen {0} underhålls inte längre av tillverkaren och bör uppdateras.
+setup_security_deprecated_mysql = Den använda MySQL-versionen {0} upprätthålls inte längre av tillverkaren och bör uppdateras.
+setup_security_deprecated_mariadb = Den använda MariaDB-versionen {0} hålls inte längre av tillverkaren och bör uppdateras.
 setup_session_autostart_warning = "Session.auto_start" är aktiverat i PHP-inställningarna. Det rekommenderas att inaktivera detta för att undvika problem.
 
 sql_database_name_missing = Du måste ange ett databsnamn!
@@ -269,6 +287,7 @@ https_only_frontend = aktivera bara för frontend
 https_only_backend = aktivera bara för backend
 https_activate = aktivera för frontend och backend
 
+setup_password_hint = HSTS bör aktiveras i värdinställningarna för domänen / domänerna (rekommenderas), men kan också aktiveras efteråt i config.yml från REDAXO. Mer information i REDAXO-dokumentet.
 hsts_more_information = HSTS bör aktiveras i värdinställningarna för domänen / domänerna (rekommenderas), men kan också aktiveras efteråt i config.yml för REDAXO. Mer information i REDAXO-dokumentet.
 
 # redaxo\include\pages\addon.php
@@ -370,7 +389,7 @@ credits_help = Hjälp
 credits_information = Information
 credits_version = Version
 credits_author = Autor
-credits_supportpage =
+credits_supportpage = Support
 credits_addon_inactive = AddOn inaktiv
 credits_caption = List av använda paket
 credits_open_help_file = Öppna hjälpfil:
@@ -378,6 +397,7 @@ credits_inventor = Uppfinnare
 credits_developer = Utvecklare
 credits_designer = Grafiker
 credits_license = Licens
+credits_explain_license = Förklara licens
 
 # redaxo\include\pages\profile.php
 profile_myprofile = Ändra min profil
@@ -394,6 +414,9 @@ profile_save_psw = Spara lösenord
 backend_language = Backendspråk
 user_data_updated = Användaruppgifter aktualiserades!
 
+password_change_required = Lösenordet måste bytas ut!
+password_not_changed = Det nya lösenordet måste skilja sig från det föregående!
+password_already_used = Lösenordet har redan använts och kan inte användas igen!
 password_invalid = Lösenordet motsvarar inte de föreskrivna reglerna ({0})!
 password_admin_notice = Lösenordsreglerna kan ändras via config.yml.
 password_rule_min = min. {0}
