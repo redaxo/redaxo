@@ -22,6 +22,7 @@ jobs:
     include:
         -   &TEST
             install:
+                - composer install --prefer-dist
                 - mysql -e 'create database redaxo5;'
                 - php .tools/bin/setup
             script: vendor/bin/phpunit
