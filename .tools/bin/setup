@@ -1,0 +1,63 @@
+#!/usr/bin/php
+<?php
+
+if (PHP_SAPI !== 'cli') {
+    echo 'error: this script may only be run from CLI', PHP_EOL;
+    exit(1);
+}
+
+// bring the file into context, no matter from which dir it was executed
+chdir(dirname(__DIR__).'/redaxo');
+
+// ---- bootstrap REX
+
+$REX = [];
+$REX['REDAXO'] = true;
+$REX['HTDOCS_PATH'] = '../';
+$REX['BACKEND_FOLDER'] = 'redaxo';
+
+// bootstrap core
+require 'src/core/boot.php';
+
+// bootstrap addons
+include_once rex_path::core('packages.php');
+
+// run setup, if instance not already prepared
+if (rex::isSetup()) {
+    rex_setup::init();
+
+    $err = '';
+
+    // read initial config
+    $configFile = rex_path::coreData('config.yml');
+    $config = array_merge(
+        rex_file::getConfig(rex_path::core('default.config.yml')),
+        rex_file::getConfig($configFile)
+    );
+
+    // init db
+    $utf8mb4 = rex_setup_importer::supportsUtf8mb4();
+    $err .= rex_setup::checkDb($config, false);
+    rex_sql_table::setUtf8mb4($utf8mb4);
+    $err .= rex_setup_importer::prepareEmptyDb();
+    $err .= rex_setup_importer::verifyDbSchema();
+
+    if ('' != $err) {
+        echo $err;
+        exit(10);
+    }
+
+    rex::setConfig('utf8mb4', $utf8mb4);
+
+    $config['setup'] = false;
+    if (rex_file::putConfig($configFile, $config)) {
+        rex_delete_cache();
+        echo 'instance setup successfull', PHP_EOL;
+        exit(0);
+    }
+    echo 'instance setup failure', PHP_EOL;
+    exit(1);
+}
+
+echo 'instance setup not necessary', PHP_EOL;
+exit(0);

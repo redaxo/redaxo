@@ -133,18 +133,6 @@ class rex_rex_test extends TestCase
         static::assertEquals(rex::getTempPrefix(), 'tmp_', 'temp prefix defaults to tmp_');
     }
 
-    public function testGetUser()
-    {
-        // there is no user, when tests are run from CLI
-        if (PHP_SAPI === 'cli') {
-            static::markTestSkipped('there is no user, when tests are run from CLI');
-            return;
-        }
-
-        static::assertNotNull(rex::getUser(), 'user is not null');
-        static::assertInstanceOf(rex_user::class, rex::getUser(), 'returns a user of correct class');
-    }
-
     public function testGetServer()
     {
         $origServer = rex::getProperty('server');
