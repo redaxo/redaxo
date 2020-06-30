@@ -2,6 +2,11 @@
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/redaxo/src/core/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/redaxo/src/addons/media_manager/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/redaxo/src/addons/mediapool/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/redaxo/src/addons/structure/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/redaxo/src/addons/structure/plugins/content/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/assets/addons/be_style/plugins/customizer/vendor" />
       <excludeFolder url="file://$MODULE_DIR$/media" />
