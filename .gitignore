@@ -36,4 +36,7 @@
 !/.idea/codeStyles/
 !/.idea/fileTemplates/
 !/.idea/inspectionProfiles/
+!/.idea/runConfigurations/
+/.idea/runConfigurations/*
+!/.idea/runConfigurations/phpunit.xml
 !/.idea/scopes/
