@@ -131,8 +131,10 @@ class rex_sql_test extends TestCase
             {
                 $this->DBID = 999;
 
-                /** @phpstan-ignore-next-line dont error about our fake PDO class */
-                /** @psalm-suppress InvalidPropertyAssignmentValue */
+                /**
+                 * @phpstan-ignore-next-line dont error about our fake PDO class
+                 * @psalm-suppress InvalidPropertyAssignmentValue
+                 */
                 self::$pdo[$this->DBID] = new class($version) {
                     private $version;
 
