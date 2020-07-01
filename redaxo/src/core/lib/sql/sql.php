@@ -373,7 +373,7 @@ class rex_sql implements Iterator
      *
      * NOTE: named-parameters/?-placeholders are not supported in LIMIT clause!
      *
-     * @param string $query   The sql-query
+     * @param int $query   The sql-query
      * @param array  $params  An optional array of statement parameter
      * @param array  $options For possible option keys view `rex_sql::OPT_*` constants
      *
