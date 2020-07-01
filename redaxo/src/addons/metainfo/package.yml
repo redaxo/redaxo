@@ -1,5 +1,5 @@
 package: metainfo
-version: '2.7.2-beta1'
+version: '2.7.2'
 author: 'Markus Staab, Jan Kristinus'
 supportpage: https://github.com/redaxo/redaxo
 
