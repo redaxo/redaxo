@@ -18,9 +18,6 @@ jobs:
 
         steps:
             - uses: actions/checkout@v2
-              with:
-                  ref: ${{ github.head_ref }}
-                  token: ${{ secrets.STAABM_TOKEN }}
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
