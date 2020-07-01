@@ -29,7 +29,6 @@ jobs:
                   php-version: 7.4
                   extensions: intl, imagick
                   coverage: none # disable xdebug, pcov
-                  tools: cs2pr
             - name: Get Composer Cache Directory
               id: composer-cache
               run: echo "::set-output name=dir::$(composer config cache-files-dir)"
@@ -60,7 +59,7 @@ jobs:
                   php redaxo/bin/console package:install structure/history
                   php redaxo/bin/console package:install structure/version
             - run: |
-                  vendor/bin/psalm --show-info=false --shepherd --diff --output-format=checkstyle | cs2pr
+                  vendor/bin/psalm --show-info=false --shepherd --diff --output-format=github
 
     phpstan-analysis:
         name: phpstan static code analysis
@@ -78,7 +77,6 @@ jobs:
                   php-version: 7.4
                   extensions: intl, imagick
                   coverage: none # disable xdebug, pcov
-                  tools: cs2pr
             - name: Get Composer Cache Directory
               id: composer-cache
               run: echo "::set-output name=dir::$(composer config cache-files-dir)"
@@ -109,4 +107,4 @@ jobs:
                   php redaxo/bin/console package:install structure/history
                   php redaxo/bin/console package:install structure/version
             - run: |
-                  vendor/bin/phpstan analyse --no-progress --error-format=checkstyle | cs2pr
+                  vendor/bin/phpstan analyse --no-progress
