@@ -18,6 +18,7 @@ Version 2.11.0 – XX.XX.2020
 
 * Beim Versuch das Default-Template zu löschen, kam es teilweise zu einer Exception statt zu der angedachten Fehlermeldung (@gharlan)
 * history-Plugin: Beim Aufruf der alten Artikelversionen kam es zu einer Warning bzgl. Module-Keys (@gharlan)
+* Mobilansicht der Struktur: Bei leerer Artikelliste erschien der Hinzufügen-Button ohne Untergrund (@tbaddade)
 
 
 Version 2.10.1 – 08.05.2020

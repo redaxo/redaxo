@@ -11,6 +11,7 @@ Version 2.10.0 – XX.XX.2020
 ### Bugfixes
 
 * Auslesen von Medien über `rex_media_manager::create()` funktionierte nicht korrekt, wenn der Mediatype den Effekt `mediapath` beinhaltete (@gharlan)
+* Table-Hover-Effekt fehlte (@tbaddade)
 
 
 Version 2.9.1 – 08.05.2020
