@@ -22,9 +22,10 @@ jobs:
     include:
         -   &TEST
             install:
+                - composer install --prefer-dist
                 - mysql -e 'create database redaxo5;'
-                - php redaxo/src/addons/tests/bin/setup.php
-            script: php redaxo/src/addons/tests/bin/run_tests.php
+                - php .tools/bin/setup
+            script: vendor/bin/phpunit
             php: 7.1
             dist: trusty
             env:

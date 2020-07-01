@@ -29,6 +29,17 @@ jobs:
                   php-version: 7.4
                   extensions: intl
                   coverage: none # disable xdebug, pcov
+            - name: Get Composer Cache Directory
+              id: composer-cache
+              run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+            - name: Cache dependencies
+              uses: actions/cache@v2
+              with:
+                  path: ${{ steps.composer-cache.outputs.dir }}
+                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+                  restore-keys: ${{ runner.os }}-composer-
+            - name: Install Dependencies
+              run: composer install --prefer-dist
 
             - name: Setup Problem Matchers for PHPUnit
               run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
@@ -38,6 +49,6 @@ jobs:
                   mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
                   git apply .github/workflows/default.config.yml.github-action.diff
             - run: |
-                  php redaxo/src/addons/tests/bin/setup.php
+                  php .tools/bin/setup
             - run: |
-                  php redaxo/src/addons/tests/bin/run_tests.php
+                  vendor/bin/phpunit
