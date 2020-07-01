@@ -1,5 +1,5 @@
 parameters:
-    level: 2
+    level: 3
     paths:
         # restrict to core and core addons, ignore other locally installed addons
         - redaxo/src/core
