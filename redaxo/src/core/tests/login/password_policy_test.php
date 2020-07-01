@@ -50,4 +50,27 @@ class rex_password_policy_test extends TestCase
         yield [$options, false, 'AB7=E8#fg9?'];
         yield [$options, false, 'abcdef123!%ABuegrouwouewhifggreigeioger'];
     }
+
+    public function testGetRule(): void
+    {
+        $getRule = new ReflectionMethod(rex_password_policy::class, 'getRule');
+        $getRule->setAccessible(true);
+
+        $policy = new rex_password_policy(['length' => ['min' => 5, 'max' => 25]]);
+        $rule = $getRule->invoke($policy);
+
+        static::assertStringContainsString('5', $rule);
+        static::assertStringContainsString('25', $rule);
+
+        $policy = new rex_password_policy(['length' => ['min' => 0, 'max' => 25]]);
+        $rule = $getRule->invoke($policy);
+
+        static::assertStringNotContainsString('0', $rule);
+        static::assertStringContainsString('25', $rule);
+
+        $policy = new rex_password_policy(['length' => ['min' => 0]]);
+        $rule = $getRule->invoke($policy);
+
+        static::assertSame('', $rule);
+    }
 }

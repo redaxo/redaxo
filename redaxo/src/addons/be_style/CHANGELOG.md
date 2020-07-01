@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 2.11.0 – XX.XX.2020
+Version 2.11.0 – 01.07.2020
 ---------------------------
 
 * Anpassungen für Änderungen in den Core-Addons
