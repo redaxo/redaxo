@@ -30,28 +30,64 @@ ini_set('pcre.jit', 0);
  *
  * @internal
  */
+class rex_path_reflector {
+    private $path;
+
+    public function __construct($path)
+    {
+        $path = str_replace(['\\', '/'], '/', $path);
+        $this->path = $path;
+    }
+
+    public function isCorePath() {
+        return strpos($this->path, 'core/') !== false;
+    }
+
+    public function isAddonPath() {
+        return strpos($this->path, 'addons/') !== false && !$this->isPluginPath();
+    }
+
+    public function isPluginPath() {
+        return strpos($this->path, 'plugins/') !== false;
+    }
+
+    public function getPackageName() {
+        if ($this->isAddonPath()) {
+            preg_match('{.+/addons/([^/]+)/.+}', $this->path, $matches);
+            return $matches[1];
+        } elseif ($this->isPluginPath()) {
+            preg_match('{.+/addons/.+/plugins/([^/]+)/}', $this->path, $matches);
+            return $matches[1];
+        } else {
+            var_dump($this->path);
+            throw new Exception('not a package');
+        }
+    }
+}
+
 class rex_check_i18n
 {
-    /**
-     * @var string
-     */
-    private $dir;
     /**
      * @var array<string, int> key=lang-key, value=1
      */
     private $i18nInUse = [];
     /**
-     * @var array<string, string> key=lang-key, value=lang-file-path
+     * @var array<string, string>
      */
-    private $i18nMsg = [];
+    private $i18nMsgCore = [];
+    /**
+     * @var array<string, array<string, string>>
+     */
+    private $i18nMsgPackages = [];
 
-    public function __construct($dir)
+    public function __construct()
     {
-        $this->dir = $dir;
     }
 
     private function parse()
     {
+        static $seen = array();
+
         $files = rex_finder::factory(rex_path::src())->recursive()->filesOnly()->ignoreFiles(['.*']);
         /** @var \SplFileInfo $file */
         foreach ($files as $file) {
@@ -61,29 +97,78 @@ class rex_check_i18n
                 continue;
             }
 
-            $content = rex_file::get($filepath);
-            foreach($this->i18nMsg as $msgKey => $file) {
-                if (strpos($content, $msgKey) !== false) {
-                    $this->i18nInUse[$msgKey] = 1;
-                    unset($this->i18nMsg[$msgKey]);
+            $searchCore = function($content){
+                foreach($this->i18nMsgCore as $msgKey => $file) {
+                    if (strpos($content, $msgKey) !== false) {
+                        $this->i18nInUse[$msgKey] = 1;
+                        unset($this->i18nMsgCore[$msgKey]);
+                    }
                 }
+            };
+            $searchPackage = function($packageName, $content) use (&$seen){
+                if (!isset($this->i18nMsgPackages[$packageName])) {
+                    if (!isset($seen[$packageName])) {
+                        echo $packageName.': package ohne lang/'."\n";
+                        $seen[$packageName] = true;
+                    }
+                    return;
+                }
+
+                foreach($this->i18nMsgPackages[$packageName] as $msgKey => $file) {
+                    if (strpos($content, $msgKey) !== false) {
+                        $this->i18nInUse[$msgKey] = 1;
+                        unset($this->i18nMsgPackages[$packageName][$msgKey]);
+                    }
+                }
+            };
+
+            $pathReflector = new rex_path_reflector($filepath);
+            if ($pathReflector->isCorePath()) {
+                $content = rex_file::get($filepath);
+                $searchCore($content);
+            } elseif ($pathReflector->isAddonPath()) {
+                $addonName = $pathReflector->getPackageName();
+
+                $content = rex_file::get($filepath);
+                $searchCore($content);
+                $searchPackage($addonName, $content);
+            } elseif ($pathReflector->isPluginPath()) {
+                $pluginName = $pathReflector->getPackageName();
+
+                $content = rex_file::get($filepath);
+                $searchCore($content);
+                $searchPackage($pluginName, $content);
             }
         }
     }
 
     private function loadI18n()
     {
-        $files = rex_finder::factory($this->dir)->recursive()->filesOnly()->ignoreFiles(['.*']);
+        $files = rex_finder::factory(rex_path::src())->recursive()->filesOnly()->ignoreFiles(['.*']);
         /** @var \SplFileInfo $file */
         foreach ($files as $file) {
             $filepath = $file->getPathname();
             if ('lang' === $file->getExtension()) {
+                $relfector = new rex_path_reflector($filepath);
 
-                $content = rex_file::get($filepath);
-                if (preg_match_all('/^([^=\s]+)\h*=\h*(\S.*)(?<=\S)/m', $content, $matches, PREG_SET_ORDER)) {
-                    foreach ($matches as $match) {
-                        $this->i18nMsg[$match[1]] = $file->getPath();
+                if ($relfector->isCorePath()) {
+                    $content = rex_file::get($filepath);
+                    if (preg_match_all('/^([^=\s]+)\h*=\h*(\S.*)(?<=\S)/m', $content, $matches, PREG_SET_ORDER)) {
+                        foreach ($matches as $match) {
+                            $this->i18nMsgCore[$match[1]] = $file->getPath();
+
+                        }
                     }
+                } else {
+                    $packageName = $relfector->getPackageName();
+
+                    $content = rex_file::get($filepath);
+                    if (preg_match_all('/^([^=\s]+)\h*=\h*(\S.*)(?<=\S)/m', $content, $matches, PREG_SET_ORDER)) {
+                        foreach ($matches as $match) {
+                            $this->i18nMsgPackages[$packageName][$match[1]] = $file->getPath();
+                        }
+                    }
+
                 }
             }
         }
@@ -142,16 +227,13 @@ class rex_check_i18n
     {
         $this->loadI18n();
         $this->parse();
+        dump("-- un-used count --");
+        dump("core: " .count($this->i18nMsgCore));
+        dump("packages: ". count($this->i18nMsgPackages));
+        exit();
         $this->modify();
     }
 }
 
-$dir = rex_path::src();
-
-if (!is_dir($dir)) {
-    echo 'Folder "' . $dir . '" not found!'.PHP_EOL;
-    exit(1);
-}
-
-$check = new rex_check_i18n($dir);
+$check = new rex_check_i18n();
 $check->check();
