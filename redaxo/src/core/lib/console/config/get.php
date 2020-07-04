@@ -15,13 +15,16 @@ class rex_command_config_get extends rex_console_command
     protected function configure()
     {
         $this->setDescription('Get config variables')
-            ->addArgument('config-key', InputOption::VALUE_REQUIRED, 'config path separated by periods, e.g. "setup" or "db.1.host"');
+            ->addArgument('config-key', InputOption::VALUE_REQUIRED, 'config path separated by periods, e.g. "setup" or "db.1.host"')
+            ->addOption('type', 't', InputOption::VALUE_REQUIRED, 'php type of the returned value, e.g. "octal"', 'string')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = $this->getStyle($input, $output);
         $key = $input->getArgument('config-key');
+        $type = $input->getOption('type');
 
         if (!$key) {
             throw new InvalidArgumentException('config-key is required');
@@ -43,7 +46,11 @@ class rex_command_config_get extends rex_console_command
             $config = $config[$pathPart];
         }
 
-        $output->writeln(json_encode($config));
+        if ($type === 'octal') {
+            $output->writeln(decoct($config));
+        } else {
+            $output->writeln(json_encode($config));
+        }
 
         return 0;
     }
