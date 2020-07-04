@@ -1,0 +1,161 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * @author Thomas Blum
+ *
+ * This command checks for removable keys in i18n .lang files.
+ *
+ * Examples:
+ *
+ * bin/check-i18n
+ * bin/check-i18n core
+ * bin/check-i18n -addonName-
+ */
+
+unset($REX);
+$REX['REDAXO'] = true;
+$REX['HTDOCS_PATH'] = './';
+$REX['BACKEND_FOLDER'] = 'redaxo';
+$REX['LOAD_PAGE'] = false;
+
+require $REX['BACKEND_FOLDER'] . '/src/core/boot.php';
+require $REX['BACKEND_FOLDER'] . '/src/core/packages.php';
+
+// avoid PREG_JIT_STACKLIMIT_ERROR, changelog parts can be long
+ini_set('pcre.jit', 0);
+
+/**
+ * @package redaxo\core
+ *
+ * @internal
+ */
+class rex_check_i18n
+{
+    /**
+     * @var string
+     */
+    private $dir;
+    /**
+     * @var array<string, int> key=lang-key, value=1
+     */
+    private $i18nInUse = [];
+    /**
+     * @var array<string, string> key=lang-key, value=lang-file-path
+     */
+    private $i18nMsg = [];
+
+    public function __construct($dir)
+    {
+        $this->dir = $dir;
+    }
+
+    private function parse()
+    {
+        $files = rex_finder::factory(rex_path::src())->recursive()->filesOnly()->ignoreFiles(['.*']);
+        /** @var \SplFileInfo $file */
+        foreach ($files as $file) {
+            $filepath = $file->getPathname();
+            $content = rex_file::get($filepath);
+
+            if ('lang' === $file->getExtension()) {
+                continue;
+            }
+
+            foreach($this->i18nMsg as $msgKey => $file) {
+                if (strpos($content, $msgKey) !== false) {
+                    $this->i18nInUse[$msgKey] = 1;
+                    unset($this->i18nMsg[$msgKey]);
+                }
+            }
+        }
+    }
+
+    private function loadI18n()
+    {
+        $files = rex_finder::factory($this->dir)->recursive()->filesOnly()->ignoreFiles(['.*']);
+        /** @var \SplFileInfo $file */
+        foreach ($files as $file) {
+            $filepath = $file->getPathname();
+            $content = rex_file::get($filepath);
+            if ('lang' === $file->getExtension() && preg_match_all('/^([^=\s]+)\h*=\h*(\S.*)(?<=\S)/m', $content, $matches, PREG_SET_ORDER)) {
+                foreach ($matches as $match) {
+                    $this->i18nMsg[$match[1]] = $file->getPath();
+                }
+            }
+        }
+    }
+
+    private function modify()
+    {
+        $unused = [];
+        foreach ($this->i18nMsg as $i18nKey => $langDir) {
+            if (!isset($this->i18nInUse[$i18nKey])) {
+                foreach ($this->i18nInUse as $inUseKey => $inUseValue) {
+                    if ('addon_'.$inUseKey === $i18nKey ||
+                        'plugin_'.$inUseKey === $i18nKey ||
+                        'package_'.$inUseKey === $i18nKey) {
+                        continue 2;
+                    }
+
+                    if (false !== strpos($inUseKey, '<regexVar>')) {
+                        $pattern = '@^'.str_replace('<regexVar>', '[$a-zA-Z0-9]*', $inUseKey).'$@';
+                        if (preg_match($pattern, $i18nKey)) {
+                            continue 2;
+                        }
+                    }
+                }
+                $unused[$langDir][] = $i18nKey;
+            }
+        }
+
+        foreach ($unused as $langDir => $i18nKeys) {
+            $langFiles = rex_finder::factory($langDir)->recursive()->filesOnly()->ignoreFiles(['.*']);
+            foreach ($langFiles as $langFile) {
+                $content = rex_file::get($langFile);
+
+                // Leere Zeilen würden verloren gehen
+                // if (preg_match_all('/^([^=\s]+)\h*=\h*(\S.*)(?<=\S)/m', $content, $matches, PREG_SET_ORDER)) {
+                //     print_r($matches);
+                // }
+
+                $newContent = [];
+                $lines = explode("\n", $content);
+                foreach ($lines as $line) {
+                    $parts = explode('=', $line);
+
+                    if (in_array(trim($parts[0]), $i18nKeys)) {
+                        continue;
+                    }
+
+                    $newContent[] = $line;
+                }
+                rex_file::put($langFile, implode("\n", $newContent));
+            }
+        }
+    }
+
+    public function check()
+    {
+        $this->loadI18n();
+        $this->parse();
+        $this->modify();
+    }
+}
+
+$dir = rex_path::src();
+if (isset($argv[1])) {
+    $dir = rtrim($argv[1], DIRECTORY_SEPARATOR);
+    if ('core' === $dir) {
+        $dir = rex_path::core();
+    } else {
+        $dir = rex_path::addon($dir);
+    }
+}
+if (!is_dir($dir)) {
+    echo 'Folder "' . $dir . '" not found!'.PHP_EOL;
+    exit(1);
+}
+
+$check = new rex_check_i18n($dir);
+$check->check();
