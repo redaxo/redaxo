@@ -77,10 +77,13 @@ class rex_check_i18n
         /** @var \SplFileInfo $file */
         foreach ($files as $file) {
             $filepath = $file->getPathname();
-            $content = rex_file::get($filepath);
-            if ('lang' === $file->getExtension() && preg_match_all('/^([^=\s]+)\h*=\h*(\S.*)(?<=\S)/m', $content, $matches, PREG_SET_ORDER)) {
-                foreach ($matches as $match) {
-                    $this->i18nMsg[$match[1]] = $file->getPath();
+            if ('lang' === $file->getExtension()) {
+
+                $content = rex_file::get($filepath);
+                if (preg_match_all('/^([^=\s]+)\h*=\h*(\S.*)(?<=\S)/m', $content, $matches, PREG_SET_ORDER)) {
+                    foreach ($matches as $match) {
+                        $this->i18nMsg[$match[1]] = $file->getPath();
+                    }
                 }
             }
         }
