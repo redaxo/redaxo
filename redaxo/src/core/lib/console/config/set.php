@@ -17,7 +17,7 @@ class rex_command_config_set extends rex_console_command
         $this->setDescription('Set config variables')
             ->addArgument('config-key', InputArgument::REQUIRED, 'config path separated by periods, e.g. "setup" or "db.1.host"')
             ->addArgument('value', InputArgument::OPTIONAL, 'new value for config key, e.g. "somestring" or "1"')
-            ->addOption('type', 't', InputOption::VALUE_REQUIRED, 'php type of new value, e.g. "bool" or "int"', 'string')
+            ->addOption('type', 't', InputOption::VALUE_REQUIRED, 'php type of new value, e.g. "bool", "octal" or "int"', 'string')
             ->addOption('unset', null, InputOption::VALUE_NONE, 'sets the config key to null')
             ->setHelp(<<<'EOF'
 Set config variables in config.yml.
@@ -54,6 +54,8 @@ EOF
         } elseif ('bool' === $type || 'boolean' === $type) {
             $value = in_array($value, ['true', 'on', '1'], true) ? true : $value;
             $value = in_array($value, ['false', 'off', '0'], true) ? false : $value;
+        } elseif ('octal' === $type) {
+            $value = octdec($value);
         } else {
             $value = rex_type::cast($value, $type);
         }
