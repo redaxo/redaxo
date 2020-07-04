@@ -144,14 +144,7 @@ class rex_check_i18n
 }
 
 $dir = rex_path::src();
-if (isset($argv[1])) {
-    $dir = rtrim($argv[1], DIRECTORY_SEPARATOR);
-    if ('core' === $dir) {
-        $dir = rex_path::core();
-    } else {
-        $dir = rex_path::addon($dir);
-    }
-}
+
 if (!is_dir($dir)) {
     echo 'Folder "' . $dir . '" not found!'.PHP_EOL;
     exit(1);
