@@ -56,12 +56,12 @@ class rex_check_i18n
         /** @var \SplFileInfo $file */
         foreach ($files as $file) {
             $filepath = $file->getPathname();
-            $content = rex_file::get($filepath);
 
-            if ('lang' === $file->getExtension()) {
+            if (in_array($file->getExtension(), ['lang', 'css', 'js', 'gif', 'jpg', 'jpeg', 'png', 'svg', 'xml'])) {
                 continue;
             }
 
+            $content = rex_file::get($filepath);
             foreach($this->i18nMsg as $msgKey => $file) {
                 if (strpos($content, $msgKey) !== false) {
                     $this->i18nInUse[$msgKey] = 1;
