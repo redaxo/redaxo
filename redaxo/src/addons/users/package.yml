@@ -1,7 +1,7 @@
 package: users
-version: '2.7.0-dev'
+version: '2.7.0'
 author: Jan Kristinus, Gregor Harlan
-supportpage: www.redaxo.org/de/forum/
+supportpage: https://github.com/redaxo/redaxo
 
 load: early
 
@@ -18,4 +18,4 @@ page:
 
 requires:
     php: '>=7.1'
-    redaxo: ^5.11.0-dev
+    redaxo: ^5.11.0

@@ -16,6 +16,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
         ref: ${{ github.head_ref }}
+        token: ${{ secrets.STAABM_TOKEN }}
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
@@ -39,10 +40,8 @@ jobs:
     - run: vendor/bin/php-cs-fixer fix --diff
 
     - name: Commit changed files
-      uses: stefanzweifel/git-auto-commit-action@v4.3.0
+      uses: stefanzweifel/git-auto-commit-action@v4
       with:
         commit_message: Apply php-cs-fixer changes
-      env:
-        GITHUB_TOKEN: ${{ secrets.STAABM_TOKEN }}
-        
+
     - run: vendor/bin/php-cs-fixer fix --diff --dry-run --format=checkstyle | cs2pr # check whether there are still errors left

@@ -102,6 +102,8 @@ class rex_editor
 
     public function getBasepath(): ?string
     {
-        return array_key_exists('editor_basepath', $_COOKIE) ? $_COOKIE['editor_basepath'] : rex::getProperty('editor_basepath');
+        $path = array_key_exists('editor_basepath', $_COOKIE) ? $_COOKIE['editor_basepath'] : rex::getProperty('editor_basepath');
+
+        return $path ? rtrim($path, '\\/').DIRECTORY_SEPARATOR : null;
     }
 }

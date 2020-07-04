@@ -204,7 +204,7 @@ class rex_formatter_test extends TestCase
 
     public function testCustom()
     {
-        $value = 77;
+        $value = '77';
 
         $format = 'octdec';
         static::assertEquals(

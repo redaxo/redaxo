@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <psalm
+    autoloader=".tools/constants.php"
     resolveFromConfigFile="true"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
@@ -19,21 +20,13 @@
         <directory name="redaxo/src/addons/phpmailer"/>
         <directory name="redaxo/src/addons/project"/>
         <directory name="redaxo/src/addons/structure"/>
-        <directory name="redaxo/src/addons/tests"/>
         <directory name="redaxo/src/addons/users"/>
         <ignoreFiles>
             <directory name="redaxo/src/addons/be_style/vendor/" />
             <directory name="redaxo/src/addons/debug/vendor/" />
-            <directory name="redaxo/src/addons/media_manager/tests/" />
-            <directory name="redaxo/src/addons/mediapool/tests/" />
             <directory name="redaxo/src/addons/phpmailer/vendor/" />
-            <directory name="redaxo/src/addons/structure/tests/" />
-            <directory name="redaxo/src/addons/tests/vendor/" />
             <directory name="redaxo/src/core/vendor/" />
-            <directory name="redaxo/src/core/tests/" />
             <file name="redaxo/src/core/.phpstorm.meta.php" />
-            <file name="redaxo/src/addons/tests/bin/run_tests.php" />
-            <file name="redaxo/src/addons/tests/bin/setup.php" />
         </ignoreFiles>
     </projectFiles>
     <stubs>
@@ -41,6 +34,7 @@
     </stubs>
     <plugins>
         <plugin filename=".tools/psalm/RexTypeReturnProvider.php" />
+        <pluginClass class="Psalm\PhpUnitPlugin\Plugin" />
         <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin" />
     </plugins>
     <issueHandlers>
@@ -85,6 +79,11 @@
                 <file name="redaxo/src/core/lib/api_function.php"/>
             </errorLevel>
         </RawObjectIteration>
+        <MissingConstructor>
+            <errorLevel type="suppress">
+                <file name="vendor/phpunit/phpunit/src/Framework/TestCase.php" />
+            </errorLevel>
+        </MissingConstructor>
 <!-- level 3 issues - points to possible deficiencies in logic, higher false-positives -->
         <PossiblyNullArgument errorLevel="info" />
         <PossiblyNullReference errorLevel="info" />

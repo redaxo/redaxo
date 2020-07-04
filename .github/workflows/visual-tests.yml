@@ -9,7 +9,7 @@ jobs:
 
         runs-on: ubuntu-latest
         if: github.event.pull_request.draft == false
-        
+
         services:
             mysql:
                 image: mysql:5.7
@@ -20,6 +20,7 @@ jobs:
             - uses: actions/checkout@v2
               with:
                   ref: ${{ github.head_ref }}
+                  token: ${{ secrets.STAABM_TOKEN }}
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
@@ -43,7 +44,7 @@ jobs:
                   mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
                   git apply .github/workflows/default.config.yml.github-action.diff
             - run: |
-                  php redaxo/src/addons/tests/bin/setup.php
+                  php .tools/bin/setup
                   php redaxo/bin/console package:install phpmailer
                   php redaxo/bin/console package:install cronjob
                   php redaxo/bin/console package:install cronjob/article_status
@@ -56,7 +57,7 @@ jobs:
                   php redaxo/bin/console user:create myusername mypassword --admin
 
             - name: Setup Node.js
-              uses: actions/setup-node@v2.0.0
+              uses: actions/setup-node@v2.1.0
               with:
                   node-version: "12.x"
             - name: Setup Webserver
@@ -71,10 +72,8 @@ jobs:
               name: Detect Changes
               run: git diff-index --quiet HEAD -- .github/tests-visual/
 
-            - uses: stefanzweifel/git-auto-commit-action@v4.3.0
+            - uses: stefanzweifel/git-auto-commit-action@v4
               if: failure()
               with:
                   commit_message: Update screenshots
                   file_pattern: .github/tests-visual/*
-              env:
-                  GITHUB_TOKEN: ${{ secrets.STAABM_TOKEN }}

@@ -126,6 +126,9 @@ if (rex::getConsole()) {
         $output = $extensionPoint->getOutput();
         $exitCode = $extensionPoint->getExitCode();
 
+        // we need to make sure that the storage path exists after actions like cache:clear
+        rex_debug_clockwork::ensureStoragePath();
+
         $clockwork = rex_debug_clockwork::getInstance();
         $clockwork
             ->resolveAsCommand(
@@ -142,6 +145,9 @@ if (rex::getConsole()) {
 } else {
     register_shutdown_function(static function () use ($shutdownFn) {
         $shutdownFn();
+
+        // we need to make sure that the storage path exists after actions like cache:clear
+        rex_debug_clockwork::ensureStoragePath();
 
         $clockwork = rex_debug_clockwork::getInstance();
         $clockwork->resolveRequest()->storeRequest();

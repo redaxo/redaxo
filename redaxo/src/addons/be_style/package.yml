@@ -1,7 +1,7 @@
 package: be_style
-version: '2.10.1'
+version: '2.11.0'
 author: 'Jan Kristinus, Markus Staab, Thomas Blum'
-supportpage: www.redaxo.org/de/forum/
+supportpage: https://github.com/redaxo/redaxo
 
 load: early
 system_plugins: [redaxo]

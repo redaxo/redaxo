@@ -38,6 +38,8 @@ class rex_category_test extends TestCase
         $class = new ReflectionClass(rex_category::class);
         /** @var rex_category $instance */
         $instance = $class->newInstanceWithoutConstructor();
+
+        /** @psalm-suppress UndefinedPropertyAssignment */
         $instance->cat_foo = 'teststring';
 
         static::assertTrue($instance->hasValue('foo'));
@@ -52,6 +54,8 @@ class rex_category_test extends TestCase
         $class = new ReflectionClass(rex_category::class);
         /** @var rex_category $instance */
         $instance = $class->newInstanceWithoutConstructor();
+
+        /** @psalm-suppress UndefinedPropertyAssignment */
         $instance->cat_foo = 'teststring';
 
         static::assertEquals('teststring', $instance->getValue('foo'));

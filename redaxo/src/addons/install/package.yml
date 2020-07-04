@@ -1,7 +1,7 @@
 package: install
-version: '2.8.0-dev'
+version: '2.8.0'
 author: Gregor Harlan
-supportpage: www.redaxo.org/de/forum
+supportpage: https://github.com/redaxo/redaxo
 
 page:
     title: 'translate:title'
