@@ -52,9 +52,8 @@ trait rex_instance_list_pool_trait
      * @return array
      *
      * @template T as object
-     * @template TKey
-     * @psalm-param callable(TKey...):?T $getInstanceCallback
-     * @psalm-param callable(mixed...):TKey[] $createListCallback
+     * @psalm-param callable(mixed...):?T $getInstanceCallback
+     * @psalm-param callable(mixed...):mixed[] $createListCallback
      * @psalm-return T[]
      */
     protected static function getInstanceList($key, callable $getInstanceCallback, callable $createListCallback = null)
