@@ -15,6 +15,7 @@ class rex_api_install_package_update extends rex_api_function
         $addonkey = rex_request('addonkey', 'string');
         $fileId = rex_request('file', 'int');
         $newVersion = rex_request('version', 'string');
+        $currentAddon = rex_addon::get($addonkey);
 
         $installer = new rex_install_package_update();
 
@@ -33,7 +34,7 @@ class rex_api_install_package_update extends rex_api_function
             $success = true;
             unset($_REQUEST['addonkey']);
 
-            rex_logger::factory()->info('AddOn '. $addonkey .' updated to version '. $newVersion);
+            rex_logger::factory()->info('AddOn '. $addonkey .' updated from '. $currentAddon->getVersion() .' to version '. $newVersion);
         }
         return new rex_api_result($success, $message);
     }
