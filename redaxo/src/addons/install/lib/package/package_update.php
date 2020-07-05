@@ -37,7 +37,7 @@ class rex_install_package_update extends rex_install_package_download
     {
         $path = rex_path::addon($this->addonkey);
         $temppath = rex_path::addon('.new.' . $this->addonkey);
-        $oldVersion = $this->addon->getProperty('version');
+        $oldVersion = $this->addon->getVersion();
 
         if (true !== ($msg = $this->extractArchiveTo($temppath))) {
             return $msg;
