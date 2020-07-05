@@ -108,7 +108,7 @@ foreach ($navigationArrays as $nav_key => $navigation) {
         $li[] = $li_a;
     }
 
-    return implode('', $li);
+    $navigations[$nav_key] = implode('', $li);
 }
 
 $out = '';
