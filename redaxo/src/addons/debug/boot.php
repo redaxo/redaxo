@@ -116,11 +116,9 @@ $shutdownFn = static function () {
 };
 
 if (rex::getConsole()) {
-    rex_extension::register(rex_extension_point_console_shutdown::NAME, static function (rex_extension_point $extensionPoint) use ($shutdownFn) {
+    rex_extension::register(rex_extension_point_console_shutdown::NAME, static function (rex_extension_point_console_shutdown $extensionPoint) use ($shutdownFn) {
         $shutdownFn();
 
-        assert($extensionPoint instanceof rex_extension_point_console_shutdown);
-        
         $command = $extensionPoint->getCommand();
         $input = $extensionPoint->getInput();
         $output = $extensionPoint->getOutput();
