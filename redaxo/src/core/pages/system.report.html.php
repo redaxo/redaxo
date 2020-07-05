@@ -13,6 +13,9 @@ foreach ($report as $title => $group) {
 
     foreach ($group as $label => $value) {
         if (rex_system_report::TITLE_PACKAGES === $title || rex_system_report::TITLE_REDAXO === $title) {
+            if ($value === null) {
+                throw new rex_exception('Package '. $label .' does not define a proper version in its package.yml');
+            }
             if (rex_version::isUnstable($value)) {
                 $value = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. rex_escape($value);
             }
