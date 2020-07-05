@@ -55,7 +55,9 @@ EOF
             $value = in_array($value, ['true', 'on', '1'], true) ? true : $value;
             $value = in_array($value, ['false', 'off', '0'], true) ? false : $value;
         } elseif ('octal' === $type) {
-            $value = octdec($value);
+            // turns e.g. 755 into 0755
+            // a leading zero marks a octal-string
+            $value = '0'. $value;
         } else {
             $value = rex_type::cast($value, $type);
         }
