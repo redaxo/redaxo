@@ -184,7 +184,7 @@ class rex_api_install_core_update extends rex_api_function
             $message = $installAddon->i18n('warning_core_not_updated') . '<br />' . $message;
             $success = false;
         } else {
-            rex_logger::factory()->info('REDAXO Core updated from '. rex::getVersion() .' to version '. $version);
+            rex_logger::factory()->info('REDAXO Core updated from '. rex::getVersion() .' to version '. $version['version']);
 
             $message = $installAddon->i18n('info_core_updated');
             $success = true;
