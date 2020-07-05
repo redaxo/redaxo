@@ -15,8 +15,6 @@ parameters:
         - redaxo/src/addons/project
         - redaxo/src/addons/structure
         - redaxo/src/addons/users
-    bootstrapFiles:
-        - .tools/constants.php
     excludes_analyse:
         - redaxo/src/addons/be_style/vendor/
         - redaxo/src/addons/debug/vendor/
