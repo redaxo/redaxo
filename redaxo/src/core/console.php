@@ -28,4 +28,4 @@ $command = new rex_command_list();
 $application->add($command);
 $application->setDefaultCommand($command->getName());
 
-return $application;
+$application->run();

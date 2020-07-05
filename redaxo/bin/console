@@ -8,5 +8,4 @@ $REX['BACKEND_FOLDER'] = 'redaxo';
 
 chdir(dirname(__DIR__));
 
-$application = require __DIR__.'/../src/core/console.php';
-$application->run();
+require __DIR__.'/../src/core/console.php';
