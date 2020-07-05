@@ -11,25 +11,27 @@
 
 */
 
-$navigations = [];
+$navigationArrays = [];
 
 if (isset($this->left)) {
-    $navigations['left'] = $this->left;
+    $navigationArrays['left'] = $this->left;
 }
 
 if (isset($this->right)) {
-    $navigations['right'] = array_reverse($this->right);
+    $navigationArrays['right'] = array_reverse($this->right);
 }
 
-foreach ($navigations as $nav_key => $navigation) {
+foreach ($navigationArrays as $nav_key => $navigation) {
     foreach ($navigation as $navi) {
         if (isset($navi['active']) && $navi['active'] && isset($navi['children']) && count($navi['children']) > 0) {
-            $navigations['children'] = $navi['children'];
+            $navigationArrays['children'] = $navi['children'];
         }
     }
 }
 
-foreach ($navigations as $nav_key => $navigation) {
+$navigations = [];
+
+foreach ($navigationArrays as $nav_key => $navigation) {
     $li = [];
     foreach ($navigation as $navi) {
         $li_a = '';
@@ -106,7 +108,7 @@ foreach ($navigations as $nav_key => $navigation) {
         $li[] = $li_a;
     }
 
-    $navigations[$nav_key] = implode('', $li);
+    return implode('', $li);
 }
 
 $out = '';
