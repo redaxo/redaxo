@@ -17,6 +17,7 @@ cache:
 
 before_install:
     - phpenv config-rm xdebug.ini || echo "xdebug not available"
+    - composer global show hirak/prestissimo -q || composer global require hirak/prestissimo --optimize-autoloader --no-interaction
 
 jobs:
     include:
