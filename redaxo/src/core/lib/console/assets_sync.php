@@ -127,7 +127,7 @@ class rex_command_assets_sync extends rex_console_command
                 continue;
             }
 
-            if ($f1Fileinfo->getMtime() > filemtime($f2File)) {
+            if ($f1Fileinfo->getMtime() > filemtime($f2File) && md5_file($f1File) != md5_file($f2File)) {
                 rex_file::copy($f1File, $f2File);
                 ++$updated;
                 if ($io->isVerbose()) {
