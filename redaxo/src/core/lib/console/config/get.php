@@ -46,7 +46,7 @@ class rex_command_config_get extends rex_console_command
             $config = $config[$pathPart];
         }
 
-        if ($type === 'octal') {
+        if ('octal' === $type) {
             $output->writeln(decoct($config));
         } else {
             $output->writeln(json_encode($config));
