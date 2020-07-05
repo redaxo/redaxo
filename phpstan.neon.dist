@@ -14,13 +14,13 @@ parameters:
         - redaxo/src/addons/phpmailer
         - redaxo/src/addons/project
         - redaxo/src/addons/structure
-        - redaxo/src/addons/tests
         - redaxo/src/addons/users
+    bootstrapFiles:
+        - .tools/constants.php
     excludes_analyse:
         - redaxo/src/addons/be_style/vendor/
         - redaxo/src/addons/debug/vendor/
         - redaxo/src/addons/phpmailer/vendor/
-        - redaxo/src/addons/tests/vendor/
         - redaxo/src/core/vendor/
     # make phpstan aware of never returning methods
     # https://github.com/phpstan/phpstan/issues/2900

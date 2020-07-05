@@ -12,7 +12,7 @@ class rex_package_manager_test extends TestCase
      */
     public function testMatchVersionConstraints($expected, $version, $constraints)
     {
-        $method = new ReflectionMethod('rex_package_manager', 'matchVersionConstraints');
+        $method = new ReflectionMethod(rex_package_manager::class, 'matchVersionConstraints');
         $method->setAccessible(true);
 
         static::assertSame($expected, $method->invoke(null, $version, $constraints));

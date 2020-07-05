@@ -58,8 +58,8 @@ pool_file_description = Descripción
 pool_file_deleted = Archivo eliminado
 pool_files_deleted = {0} Se han eliminado los archivos.
 pool_file_delete_error = No se puede eliminar el archivo "{0}"
-pool_object_in_use_by = Se utiliza en los siguientes elementos
 pool_kat_delete_error = No se puede eliminar la categoría "{0}"
+pool_object_in_use_by = Se utiliza en los siguientes elementos
 pool_file_in_use_articles = Artículo (Contenido)
 pool_file_changed = Archivo intercambiado!
 pool_file_added = Archivo añadido!
@@ -104,3 +104,5 @@ var_medialist_move_top = Mover el material seleccionado a la parte superior
 var_medialist_move_up = Mover los medios seleccionados
 var_medialist_move_down = Mover los medios seleccionados
 var_medialist_move_bottom = Mover el medio seleccionado a la parte inferior
+
+perm_general_media[sync] = Grupo de medios: sincronizar archivos

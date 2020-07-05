@@ -25,6 +25,7 @@ class rex_api_install_core_update extends rex_api_function
         $installAddon = rex_addon::get('install');
         $versions = self::getVersions();
         $versionId = rex_request('version_id', 'int');
+
         if (!isset($versions[$versionId])) {
             throw new rex_api_exception('The requested core version can not be loaded, maybe it is already installed.');
         }
@@ -183,6 +184,8 @@ class rex_api_install_core_update extends rex_api_function
             $message = $installAddon->i18n('warning_core_not_updated') . '<br />' . $message;
             $success = false;
         } else {
+            rex_logger::factory()->info('REDAXO Core updated from '. rex::getVersion() .' to version '. $version['version']);
+
             $message = $installAddon->i18n('info_core_updated');
             $success = true;
             rex_delete_cache();

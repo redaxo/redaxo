@@ -39,6 +39,7 @@ class rex_article_test extends TestCase
         /** @var rex_article $instance */
         $instance = $class->newInstanceWithoutConstructor();
 
+        /** @psalm-suppress UndefinedPropertyAssignment */
         $instance->art_foo = 'teststring';
 
         static::assertTrue($instance->hasValue('foo'));
@@ -54,6 +55,7 @@ class rex_article_test extends TestCase
         /** @var rex_article $instance */
         $instance = $class->newInstanceWithoutConstructor();
 
+        /** @psalm-suppress UndefinedPropertyAssignment */
         $instance->art_foo = 'teststring';
 
         static::assertEquals('teststring', $instance->getValue('foo'));

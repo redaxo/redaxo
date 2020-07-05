@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 5.11.0 – XX.XX.2020
+Version 5.11.0 – 01.07.2020
 ---------------------------
 
 ### Neu
@@ -26,6 +26,7 @@ Version 5.11.0 – XX.XX.2020
     - Dateipfade werden mit Editor-URL verlinkt (@gharlan)
     - Logeinträge vom Typ `success` (grün) werden unterstützt (@danspringer)
 * Systembericht als Markdown: DB-Version wird auch in der Zusammenfassungszeile ausgegeben (@gharlan)
+* Aktualisierung Backend-Übersetzungdateien: Schwedisch (@interweave-media), Spanisch (@nandes2062), Englisch (@ynamite)
 * Performance-Optimierung bei Datei-Existenz-Checks (@staabm)
 * Code-Stabilität durch statische Code-Analyse verbessert (@staabm, @gharlan)
 * Kommentar-Texte erweitert (@staabm)
@@ -38,6 +39,8 @@ Version 5.11.0 – XX.XX.2020
 * Console:
     - Änderungen an den YAML-Dateien wirkten sich erst nach Cache-Löschen oder Backendaufruf aus (@gharlan)
     - `setup:run`: Es kam zu einem Fehler, wenn das Backup-Addon deinstalliert wurde (@gharlan)
+* Passwortregeln: Unnötige Regeln mit "min: 0" werden in der Regelbeschreibung in Fehlermeldungen nicht mehr mit ausgegeben (@gharlan)
+* Editor-Basepath musste mit abschließendem Slash eingetragen werden (@gharlan)
 * Setup: Pfad zur `config.yml` war teils falsch (und nicht dynamisch bei eigenen Path-Providern) in den Meldungen (@staabm)
 
 

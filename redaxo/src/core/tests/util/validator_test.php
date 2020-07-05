@@ -140,11 +140,13 @@ class rex_validator_test extends TestCase
         $isCalled = false;
         $value = 'abc';
         static::assertTrue($validator->custom($value, $callback));
+        /** @psalm-suppress TypeDoesNotContainType */
         static::assertTrue($isCalled, 'Custom callback is called');
 
         $isCalled = false;
         $value = 'def';
         static::assertFalse($validator->custom($value, $callback));
+        /** @psalm-suppress TypeDoesNotContainType */
         static::assertTrue($isCalled, 'Custom callback is called');
     }
 
