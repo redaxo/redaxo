@@ -47,6 +47,7 @@ class rex_command_config_get extends rex_console_command
         }
 
         if ('octal' === $type) {
+            // turn fileperm/dirperm into the expected values like e.g. 755
             $output->writeln(decoct($config));
         } else {
             $output->writeln(json_encode($config));
