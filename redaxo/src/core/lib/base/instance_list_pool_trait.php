@@ -46,12 +46,16 @@ trait rex_instance_list_pool_trait
      * If the instance list does not exist it will be created by calling the $createListCallback
      *
      * @param mixed    $key                 Key
-     * @param callable $getInstanceCallback Callback, will be called for every list item to get the instance
-     * @psalm-param callable(mixed...):?static $getInstanceCallback
+     * @param callable $getInstanceCallback Callback, will be called for every list item to get the instanc
      * @param callable $createListCallback  Callback, will be called to create the list of instance keys
-     * @psalm-param callable(mixed...):mixed[] $createListCallback
      *
      * @return array
+     *
+     * @template T as object
+     * @template TKey
+     * @psalm-param callable(TKey...):?T $getInstanceCallback
+     * @psalm-param callable(mixed...):TKey[] $createListCallback
+     * @psalm-return T[]
      */
     protected static function getInstanceList($key, callable $getInstanceCallback, callable $createListCallback = null)
     {
