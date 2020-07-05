@@ -16,7 +16,9 @@ class rex_command_assets_sync extends rex_console_command
     protected function configure()
     {
         $this
-            ->setDescription('Sync folders and files of /assets with /redaxo/src/addons/my-addon/assets (or plugin) respectively /redaxo/src/core/assets folders');
+            ->setDescription('Sync assets within the assets-dir with the sources-dir')
+            ->setHelp('Sync folders and files of /assets with /redaxo/src/addons/my-addon/assets (or plugin) respectively /redaxo/src/core/assets folders')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
