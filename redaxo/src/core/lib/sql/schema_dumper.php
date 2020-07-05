@@ -71,7 +71,12 @@ class rex_sql_schema_dumper
         $parameters = [];
         $nonDefault = false;
 
-        if (null !== $column->getExtra()) {
+        if (null !== $column->getComment()) {
+            $parameters[] = $this->scalar($column->getComment());
+            $nonDefault = true;
+        }
+
+        if ($nonDefault || null !== $column->getExtra()) {
             $parameters[] = $this->scalar($column->getExtra());
             $nonDefault = true;
         }

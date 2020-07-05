@@ -268,11 +268,17 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
         // Search for exports
         $backups = [];
-        foreach (rex_backup::getBackupFiles('') as $file) {
-            if ('.sql' != substr($file, strlen($file) - 4)) {
-                continue;
+
+        if (rex_addon::exists('backup')) {
+            // force loading rex_backup class, even if backup addon is not installed
+            require_once rex_path::addon('backup', 'lib/backup.php');
+
+            foreach (rex_backup::getBackupFiles('') as $file) {
+                if ('.sql' != substr($file, strlen($file) - 4)) {
+                    continue;
+                }
+                $backups[] = substr($file, 0, -4);
             }
-            $backups[] = substr($file, 0, -4);
         }
 
         $tables_complete = ('' == rex_setup_importer::verifyDbSchema()) ? true : false;
@@ -363,7 +369,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
         // Admin creation not needed, but ask the cli user
         if ($input->isInteractive() && $skipUserCreation) {
-            $skipUserCreation = $io->confirm('Users already exists. Skip user creation?');
+            $skipUserCreation = $io->confirm('User(s) already exist. Skip user creation?');
         }
 
         // Admin account exists already, but the cli user wants to create another one

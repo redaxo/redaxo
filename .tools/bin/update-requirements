@@ -3,6 +3,7 @@
 printf "Update redaxo/src/core/vendor\n"
 composer update --no-dev -d redaxo/src/core/
 
+rm -rf redaxo/src/core/vendor/bin/
 rm -rf redaxo/src/core/vendor/erusev/parsedown/test/
 rm -rf redaxo/src/core/vendor/erusev/parsedown-extra/test/
 rm -rf redaxo/src/core/vendor/psr/log/Psr/Log/Test/
@@ -10,6 +11,7 @@ rm -rf redaxo/src/core/vendor/ramsey/http-range/.git
 rm -rf redaxo/src/core/vendor/ramsey/http-range/tests/
 rm -rf redaxo/src/core/vendor/symfony/console/Tests/
 rm -rf redaxo/src/core/vendor/symfony/service-contracts/Test/
+rm -rf redaxo/src/core/vendor/symfony/var-dumper/Resources/bin/
 rm -rf redaxo/src/core/vendor/symfony/var-dumper/Test/
 rm -rf redaxo/src/core/vendor/symfony/var-dumper/Tests/
 rm -rf redaxo/src/core/vendor/symfony/yaml/Tests/
@@ -21,6 +23,7 @@ find redaxo/src/core/vendor -name "phpcs.xml" -type f -delete
 find redaxo/src/core/vendor -name "phpstan.neon" -type f -delete
 find redaxo/src/core/vendor -name "phpunit.xml.dist" -type f -delete
 find redaxo/src/core/vendor -name "psalm.xml" -type f -delete
+find redaxo/src/core/vendor -name "*.md" ! -name "LICENSE.md" -type f -delete
 
 composer dumpautoload --no-dev --classmap-authoritative -d redaxo/src/core/
 
@@ -33,6 +36,7 @@ rm -rf redaxo/src/addons/be_style/vendor/bin/
 rm -rf redaxo/src/addons/be_style/vendor/scssphp/scssphp/bin/
 rm -rf redaxo/src/addons/be_style/vendor/scssphp/scssphp/example/
 rm -r redaxo/src/addons/be_style/vendor/scssphp/scssphp/scss.inc.php
+find redaxo/src/addons/be_style/vendor/scssphp -name "*.md" ! -name "LICENSE.md" -type f -delete
 
 printf "\nUpdate redaxo/src/addons/debug/vendor\n"
 composer update --no-dev -d redaxo/src/addons/debug/
@@ -47,6 +51,7 @@ rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Storage/SqlS
 rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Storage/SymfonyStorage.php
 find redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Support/ -mindepth 1 -not -path */Vanilla* -delete
 rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Web
+find redaxo/src/addons/debug/vendor -name "*.md" ! -name "LICENSE.md" -type f -delete
 
 printf "\nUpdate redaxo/src/addons/phpmailer/vendor\n"
 composer update --no-dev -d redaxo/src/addons/phpmailer/
@@ -59,41 +64,7 @@ rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/.github/
 rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/.phan/
 rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/examples/
 rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/extras/
-
-printf "\nUpdate redaxo/src/addons/tests/vendor\n"
-composer update --no-dev -d redaxo/src/addons/tests/
-
-rm -f redaxo/src/addons/tests/vendor/autoload.php
-rm -rf redaxo/src/addons/tests/vendor/bin/
-rm -rf redaxo/src/addons/tests/vendor/composer/
-rm -rf redaxo/src/addons/tests/vendor/symfony/
-
-find redaxo/src/addons/tests/vendor -name ".github" -type d -prune -exec rm -rf "{}" \;
-find redaxo/src/addons/tests/vendor -name ".phan" -type d -prune -exec rm -rf "{}" \;
-find redaxo/src/addons/tests/vendor -name "docs" -type d -prune -exec rm -rf "{}" \;
-find redaxo/src/addons/tests/vendor -name "tests" -type d -prune -exec rm -rf "{}" \;
-
-find redaxo/src/addons/tests/vendor -name ".coveralls.yml" -type f -delete
-find redaxo/src/addons/tests/vendor -name ".doctrine-project.json" -type f -delete
-find redaxo/src/addons/tests/vendor -name ".editorconfig" -type f -delete
-find redaxo/src/addons/tests/vendor -name ".gitattributes" -type f -delete
-find redaxo/src/addons/tests/vendor -name ".gitignore" -type f -delete
-find redaxo/src/addons/tests/vendor -name ".php_cs" -type f -delete
-find redaxo/src/addons/tests/vendor -name ".php_cs.dist" -type f -delete
-find redaxo/src/addons/tests/vendor -name ".scrutinizer.yml" -type f -delete
-find redaxo/src/addons/tests/vendor -name ".travis.yml" -type f -delete
-find redaxo/src/addons/tests/vendor -name "appveyor.yml" -type f -delete
-find redaxo/src/addons/tests/vendor -name "build.xml" -type f -delete
-find redaxo/src/addons/tests/vendor -name "easy-coding-standard.neon" -type f -delete
-find redaxo/src/addons/tests/vendor -name "Makefile" -type f -delete
-find redaxo/src/addons/tests/vendor -name "phive.xml" -type f -delete
-find redaxo/src/addons/tests/vendor -name "phpbench.json" -type f -delete
-find redaxo/src/addons/tests/vendor -name "phpcs.xml.dist" -type f -delete
-find redaxo/src/addons/tests/vendor -name "phpmd.xml.dist" -type f -delete
-find redaxo/src/addons/tests/vendor -name "phpstan.neon" -type f -delete
-find redaxo/src/addons/tests/vendor -name "phpstan.neon.dist" -type f -delete
-find redaxo/src/addons/tests/vendor -name "phpunit.xml" -type f -delete
-find redaxo/src/addons/tests/vendor -name "psalm.xml" -type f -delete
+find redaxo/src/addons/phpmailer/vendor -name "*.md" ! -name "LICENSE.md" -type f -delete
 
 printf "\nUpdate root composer.json and vendor/\n"
 .tools/bin/update-root-composer

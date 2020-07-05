@@ -167,9 +167,19 @@ if ($addonkey && isset($addons[$addonkey])) {
             <tr>
                 <th>' . $package->i18n('description') . '</th>
                 <td data-title="' . $package->i18n('description') . '">' . nl2br(rex_escape($addon['description'])) . '</td>
-            </tr>
-            </tbody>
-        </table>';
+            </tr>';
+
+        if ($addon['website']) {
+            $panel .= '
+                <tr>
+                    <th>' . $package->i18n('website') . '</th>
+                    <td data-title="' . $package->i18n('website') . '"><a href="' . rex_escape($addon['website']) . '">' . rex_escape($addon['website']) . '</a></td>
+                </tr>';
+        }
+
+        $panel .= '
+                </tbody>
+            </table>';
 
         $fragment = new rex_fragment();
         $fragment->setVar('title', rex_escape($addonkey) . ' <small>' . $package->i18n('information') . '</small>', false);

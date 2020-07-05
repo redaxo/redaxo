@@ -16,7 +16,7 @@ class rex_api_debug extends rex_api_function
         $debug = rex_debug_clockwork::getHelper();
 
         rex_response::sendJson($debug->getMetadata());
-        return new rex_api_result(true);
+        exit;
     }
 
     protected function requiresCsrfProtection()

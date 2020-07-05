@@ -1,7 +1,7 @@
 package: structure
-version: '2.11.0-dev'
+version: '2.11.0'
 author: Markus Staab
-supportpage: www.redaxo.org/de/forum/
+supportpage: https://github.com/redaxo/redaxo
 
 page:
     title: translate:structure
@@ -25,4 +25,4 @@ system_plugins: [content]
 
 requires:
     php: '>=7.1'
-    redaxo: ^5.11.0-dev
+    redaxo: ^5.11.0

@@ -84,7 +84,7 @@ class rex_effect_mirror extends rex_effect_abstract
             $trans = true;
         }
 
-        $gdimage = $this->imagereflection($gdimage, $this->params['height'], $trans, [$this->params['bg_r'], $this->params['bg_g'], $this->params['bg_b']]);
+        $gdimage = $this->imagereflection($gdimage, $this->params['height'], $this->params['opacity'] ?? 100, $trans, [$this->params['bg_r'], $this->params['bg_g'], $this->params['bg_b']]);
         $this->media->setImage($gdimage);
         $this->media->refreshImageDimensions();
     }
@@ -100,6 +100,13 @@ class rex_effect_mirror extends rex_effect_abstract
             [
                 'label' => rex_i18n::msg('media_manager_effect_mirror_height'),    // Length in Pixel or Prozent
                 'name' => 'height',
+                'type' => 'int',
+            ],
+            [
+                'label' => rex_i18n::msg('media_manager_effect_mirror_opacity'),
+                'notice' => rex_i18n::msg('media_manager_effect_mirror_opacity_notice'),
+                'name' => 'opacity',
+                'default' => 100,
                 'type' => 'int',
             ],
             [
@@ -132,7 +139,7 @@ class rex_effect_mirror extends rex_effect_abstract
     /**
      * @return resource
      */
-    private function imagereflection(&$src_img, $reflection_height, $trans, $bgcolor)
+    private function imagereflection(&$src_img, $reflection_height, $reflection_opacity, $trans, $bgcolor)
     {
         $src_height = imagesy($src_img);
         $src_width = imagesx($src_img);
@@ -152,6 +159,11 @@ class rex_effect_mirror extends rex_effect_abstract
         }
 
         imagecopy($reflected, $src_img, 0, 0, 0, 0, $src_width, $src_height);
+
+        if ($reflection_opacity < 100) {
+            $transparency = 1 - $reflection_opacity / 100;
+            imagefilter($src_img, IMG_FILTER_COLORIZE, 0, 0, 0, 127 * $transparency);
+        }
         $alpha_step = 80 / $reflection_height;
         for ($y = 1; $y <= $reflection_height; ++$y) {
             for ($x = 0; $x < $dest_width; ++$x) {

@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.11.0 – 01.07.2020
+---------------------------
+
+* Anpassungen für Änderungen in den Core-Addons
+* Farben für Systemlogzeilen korrigiert (@gharlan)
+* Font-Awesome wird nicht mehr per Preloading geladen (@staabm)
+
+
 Version 2.10.1 – 08.05.2020
 ---------------------------
 

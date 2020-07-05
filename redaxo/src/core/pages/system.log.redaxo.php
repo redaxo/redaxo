@@ -51,20 +51,31 @@ $content .= '
                 </thead>
                 <tbody>';
 
+$editor = rex_editor::factory();
+
 $file = new rex_log_file($logFile);
 foreach (new LimitIterator($file, 0, 100) as $entry) {
     /** @var rex_log_entry $entry */
     $data = $entry->getData();
 
     $class = strtolower($data[0]);
-    $class = ('notice' == $class || 'warning' == $class) ? $class : 'error';
+    $class = ('notice' == $class || 'warning' == $class || 'success' == $class) ? $class : 'error';
+
+    $path = '';
+    if (isset($data[2])) {
+        $path = rex_escape($data[2]);
+
+        if ($url = $editor->getUrl(rex_path::base($data[2]), $data[3] ?? 1)) {
+            $path = '<a href="'.$url.'">'.$path.'</a>';
+        }
+    }
 
     $content .= '
                 <tr class="rex-state-' . $class . '">
                     <td data-title="' . rex_i18n::msg('syslog_timestamp') . '">' . $entry->getTimestamp('%d.%m.%Y %H:%M:%S') . '</td>
                     <td data-title="' . rex_i18n::msg('syslog_type') . '">' . rex_escape($data[0]) . '</td>
                     <td data-title="' . rex_i18n::msg('syslog_message') . '">' . nl2br(rex_escape($data[1])) . '</td>
-                    <td data-title="' . rex_i18n::msg('syslog_file') . '"><div class="rex-word-break">' . (isset($data[2]) ? rex_escape($data[2]) : '') . '</div></td>
+                    <td data-title="' . rex_i18n::msg('syslog_file') . '"><div class="rex-word-break">' . $path . '</div></td>
                     <td class="rex-table-number" data-title="' . rex_i18n::msg('syslog_line') . '">' . (isset($data[3]) ? rex_escape($data[3]) : '') . '</td>
                 </tr>';
 }
@@ -79,7 +90,7 @@ $n = [];
 $n['field'] = '<button class="btn btn-delete" type="submit" name="del_btn" data-confirm="' . rex_i18n::msg('delete') . '?">' . rex_i18n::msg('syslog_delete') . '</button>';
 $formElements[] = $n;
 
-if ($url = rex_editor::factory()->getUrl($logFile, 0)) {
+if ($url = $editor->getUrl($logFile, 0)) {
     $n = [];
     $n['field'] = '<a class="btn btn-save" href="'. $url .'">' . rex_i18n::msg('system_editor_open_file', basename($logFile)) . '</a>';
     $formElements[] = $n;

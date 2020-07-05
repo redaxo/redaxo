@@ -80,7 +80,7 @@ if ('' == $func) {
     $query = 'SELECT id, status, name, description FROM ' . rex::getTablePrefix() . 'media_manager_type ORDER BY status, name';
 
     $list = rex_list::factory($query);
-    $list->addTableAttribute('class', 'table-striped');
+    $list->addTableAttribute('class', 'table-striped table-hover');
     $list->setNoRowsMessage(rex_i18n::msg('media_manager_type_no_types'));
 
     $list->removeColumn('id');

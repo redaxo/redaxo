@@ -17,13 +17,13 @@ parameters:
         - redaxo/src/addons/phpmailer
         - redaxo/src/addons/project
         - redaxo/src/addons/structure
-        - redaxo/src/addons/tests
         - redaxo/src/addons/users
+    bootstrapFiles:
+        - .tools/constants.php
     excludes_analyse:
         - redaxo/src/addons/be_style/vendor/
         - redaxo/src/addons/debug/vendor/
         - redaxo/src/addons/phpmailer/vendor/
-        - redaxo/src/addons/tests/vendor/
         - redaxo/src/core/vendor/
     # make phpstan aware of never returning methods
     # https://github.com/phpstan/phpstan/issues/2900
@@ -38,9 +38,6 @@ parameters:
         - '#Access to an undefined property rex_category::\$cat_foo\.#'
         - '#Access to an undefined property rex_clang::\$clang_foo\.#'
         -
-            message: '#Using \$this outside a class\.#'
-            path: '*/fragments/*'
-        -
             message: '#Variable \$this might not be defined\.#'
             path: '*/fragments/*'
         -
@@ -49,7 +46,5 @@ parameters:
         -
             message: '#Call to an undefined method object::subfragment\(\)\.#'
             path: '*/fragments/*'
-
-        - '#Undefined variable: \$this#'
         - '#Unsafe usage of new static\(\)\.#'
         - '#Constructor of class rex_form_.*_element has an unused parameter \$tag.#'

@@ -1,6 +1,23 @@
 Changelog
 =========
 
+Version 2.9.0 – 01.07.2020
+--------------------------
+
+### Neu
+
+* Es kann eine E-Mailadresse angegeben werden, an die der gesamte E-Mailversand umgeleitet wird (@novinet-markusd, @gharlan)
+* Readme erweitert (@skerbis)
+
+
+Version 2.8.2 – 28.05.2020
+--------------------------
+
+### Security
+
+* Update PHPMailer 6.1.6, inklusive Security-Fix für [CVE-2020-13625](https://github.com/advisories/GHSA-f7hx-fqxw-rvvj) (@gharlan)
+
+
 Version 2.8.0 – 10.03.2020
 --------------------------
 
