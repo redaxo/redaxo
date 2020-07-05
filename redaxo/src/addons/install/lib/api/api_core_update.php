@@ -25,6 +25,8 @@ class rex_api_install_core_update extends rex_api_function
         $installAddon = rex_addon::get('install');
         $versions = self::getVersions();
         $versionId = rex_request('version_id', 'int');
+        $newCoreVersion = rex_request('version', 'string');
+
         if (!isset($versions[$versionId])) {
             throw new rex_api_exception('The requested core version can not be loaded, maybe it is already installed.');
         }
@@ -201,6 +203,8 @@ class rex_api_install_core_update extends rex_api_function
                 }
             }
             rex_package_manager::generatePackageOrder();
+
+            rex_logger::factory()->info('REDAXO Core updated to version '. $newCoreVersion);
 
             // re-generate opcache to make sure new/updated classes immediately are available
             if (function_exists('opcache_reset')) {
