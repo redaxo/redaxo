@@ -124,8 +124,11 @@ class rex_install_package_update extends rex_install_package_download
             rex_package_manager::generatePackageOrder();
         }
 
+        $oldVersion = $this->addon->getProperty('version');
         $this->addon->setProperty('version', $this->file['version']);
         rex_install_packages::updatedPackage($this->addonkey, $this->fileId);
+
+        rex_logger::factory()->info('AddOn '. $this->addonkey .' updated from '. $oldVersion .' to version '. $this->file['version']);
 
         // re-generate opcache to make sure new/updated classes immediately are available
         if (function_exists('opcache_reset')) {
