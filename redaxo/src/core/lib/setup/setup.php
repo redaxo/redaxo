@@ -8,7 +8,8 @@
 class rex_setup
 {
     public const MIN_PHP_VERSION = REX_MIN_PHP_VERSION;
-    public const MIN_MYSQL_VERSION = '5.5.3';
+    public const MIN_MYSQL_VERSION = '5.6';
+    public const MIN_MARIADB_VERSION = '10.1';
 
     /**
      * no-password placeholder required to support empty passwords/clearing the password.
@@ -149,13 +150,16 @@ class rex_setup
         $orgDbConfig = rex::getProperty('db');
         try {
             rex::setProperty('db', $config['db']);
-            $serverVersion = rex_sql::getServerVersion();
+            $sql = rex_sql::factory();
+            $type = $sql->getDbType();
+            $version = $sql->getDbVersion();
         } finally {
             rex::setProperty('db', $orgDbConfig);
         }
 
-        if (1 == rex_version::compare($serverVersion, self::MIN_MYSQL_VERSION, '<')) {
-            return rex_i18n::msg('sql_database_min_version', $serverVersion, self::MIN_MYSQL_VERSION);
+        $minVersion = rex_sql::MARIADB === $type ? self::MIN_MARIADB_VERSION : self::MIN_MYSQL_VERSION;
+        if (rex_version::compare($version, $minVersion, '<')) {
+            return rex_i18n::msg('sql_database_required_version', $type, $version, self::MIN_MYSQL_VERSION, self::MIN_MARIADB_VERSION);
         }
 
         return '';

@@ -271,7 +271,6 @@ setup_session_autostart_warning = "Session.auto_start" är aktiverat i PHP-inst�
 
 sql_database_name_missing = Du måste ange ett databsnamn!
 sql_database_already_exists = Databasen existera redan.
-sql_database_min_version = MySQL-versionen är för gammal, det krävs minst version {1}!
 sql_unable_to_connect_database = Det kunde inte upprättas en förbindelse till databasen!
 sql_unable_to_connect_server = Det kunde inte upprättas en förbindelse till databasservern!
 sql_unable_to_create_database = Den angivna databasen kunde inte skapas!
