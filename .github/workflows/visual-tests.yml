@@ -18,6 +18,8 @@ jobs:
 
         steps:
             - uses: actions/checkout@v2
+              with:
+                  ref: ${{ github.head_ref }}
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
@@ -68,9 +70,3 @@ jobs:
             - id: visual_changes
               name: Detect Changes
               run: git diff-index --quiet HEAD -- .github/tests-visual/
-
-            - uses: stefanzweifel/git-auto-commit-action@v4
-              if: failure()
-              with:
-                  commit_message: Update screenshots
-                  file_pattern: .github/tests-visual/*
