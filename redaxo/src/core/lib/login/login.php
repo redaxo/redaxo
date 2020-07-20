@@ -79,9 +79,9 @@ class rex_login
      * Setzt eine eindeutige System Id, damit mehrere
      * Sessions auf der gleichen Domain unterschieden werden können.
      */
-    public function setSystemId($system_id)
+    public function setSystemId($systemId)
     {
-        $this->systemId = $system_id;
+        $this->systemId = $systemId;
     }
 
     /**
@@ -123,9 +123,9 @@ class rex_login
      * Dieser wird benutzt, um einen bereits eingeloggten User
      * im Verlauf seines Aufenthaltes auf der Webseite zu verifizieren
      */
-    public function setUserQuery($user_query)
+    public function setUserQuery($userQuery)
     {
-        $this->userQuery = $user_query;
+        $this->userQuery = $userQuery;
     }
 
     /**
@@ -144,9 +144,9 @@ class rex_login
      * Dieser wird benutzt, um den eigentlichne Loginvorgang durchzuführen.
      * Hier wird das eingegebene Password und der Login eingesetzt.
      */
-    public function setLoginQuery($login_query)
+    public function setLoginQuery($loginQuery)
     {
-        $this->loginQuery = $login_query;
+        $this->loginQuery = $loginQuery;
     }
 
     /**
@@ -342,10 +342,10 @@ class rex_login
     /**
      * Gibt einen Benutzer-Spezifischen Wert zurück.
      */
-    public function getValue($value, $default = null)
+    public function getValue($key, $default = null)
     {
         if ($this->user) {
-            return $this->user->getValue($value);
+            return $this->user->getValue($key);
         }
 
         return $default;
