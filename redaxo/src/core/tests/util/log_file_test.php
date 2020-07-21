@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_log_file_test extends TestCase
 {
-    protected function tearDown()
+    protected function tearDown(): void
     {
         rex_dir::delete($this->getPath());
     }

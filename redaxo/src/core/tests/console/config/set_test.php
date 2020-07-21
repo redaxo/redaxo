@@ -10,13 +10,13 @@ class rex_command_config_set_test extends TestCase
 {
     private $initialConfig;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $configPath = rex_path::coreData('config.yml');
         $this->initialConfig = file_get_contents($configPath);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $configPath = rex_path::coreData('config.yml');
         file_put_contents($configPath, $this->initialConfig);
