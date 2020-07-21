@@ -141,12 +141,11 @@ class rex_sql_table
         }
 
         $foreignKeyParts = $this->sql->getArray('
-            SELECT c.CONSTRAINT_NAME, c.REFERENCED_TABLE_NAME, c.UPDATE_RULE, c.DELETE_RULE, k.COLUMN_NAME, k.REFERENCED_COLUMN_NAME
+            SELECT c.CONSTRAINT_NAME, c.REFERENCED_TABLE_NAME, c.UPDATE_RULE, c.DELETE_RULE, k.*
             FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS c
-            LEFT JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE k ON c.CONSTRAINT_NAME = k.CONSTRAINT_NAME
+            INNER JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE k ON c.CONSTRAINT_NAME = k.CONSTRAINT_NAME
             WHERE c.CONSTRAINT_SCHEMA = DATABASE() AND c.TABLE_NAME = ?', [$name]);
-        var_dump($this->sql->getArray('SELECT * FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = ?', [$name]));
-        var_dump($this->sql->getArray('SELECT * FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = ?', [$name]));
+        var_dump($foreignKeyParts);
         $foreignKeys = [];
         foreach ($foreignKeyParts as $part) {
             $foreignKeys[$part['CONSTRAINT_NAME']][] = $part;
