@@ -9,6 +9,7 @@ if (PHP_VERSION_ID < 70103) {
 
 $minMysqlVersion = '5.6';
 $minMariaDbVersion = '10.1';
+
 $minVersion = $minMysqlVersion;
 $dbType = 'MySQL';
 $dbVersion = rex_sql::getServerVersion();
