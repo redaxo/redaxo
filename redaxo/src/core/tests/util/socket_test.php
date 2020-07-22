@@ -9,13 +9,13 @@ class rex_socket_test extends TestCase
 {
     private $proxy;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->proxy = rex::getProperty('socket_proxy');
         rex::setProperty('socket_proxy', null);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         rex::setProperty('socket_proxy', $this->proxy);
     }
