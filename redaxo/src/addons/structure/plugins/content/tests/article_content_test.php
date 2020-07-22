@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_article_content_test extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         // fake article
         $article_file = rex_path::addonCache('structure', '1.1.article');
@@ -46,7 +46,7 @@ class rex_article_content_test extends TestCase
         );
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         // delete all fake structure cache files
         $finder = rex_finder::factory(rex_path::addonCache('structure'))

@@ -17,7 +17,7 @@ class rex_i18n_test extends TestCase
 {
     private $previousLocale;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->previousLocale = rex_i18n::setLocale('de_de', false);
 
@@ -37,7 +37,7 @@ LANG;
         rex_file::put($this->getPath().'/en_gb.lang', $content."\nmy=EN");
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         rex_dir::delete($this->getPath());
         rex_i18n::setLocale($this->previousLocale, false);
