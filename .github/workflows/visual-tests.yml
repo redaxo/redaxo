@@ -60,7 +60,7 @@ jobs:
                   php redaxo/bin/console user:create myusername mypassword --admin
 
             - name: Setup Node.js
-              uses: actions/setup-node@v2.1.0
+              uses: actions/setup-node@v2.1.1
               with:
                   node-version: "12.x"
             - name: Setup Webserver
