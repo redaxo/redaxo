@@ -63,9 +63,9 @@ class rex_media_manager_test extends TestCase
         $url = rex_media_manager::getUrl($type, $file, $timestamp);
 
         if (false === $expectedBuster) {
-            static::assertNotContains('buster=', $url);
+            static::assertStringNotContainsString('buster=', $url);
         } else {
-            static::assertContains('buster='.$expectedBuster, $url);
+            static::assertStringContainsString('buster='.$expectedBuster, $url);
         }
     }
 
