@@ -55,14 +55,18 @@ async function createScreenshot(page, screenshotName) {
             '.rex-js-script-time',
             'td[data-title="Letzter Login"]',
             '#rex-form-exportfilename',
+            '#rex-page-system-report-html .row td'
         ];
 
         changingElements.forEach(function (selector) {
-            var el = document.querySelector(selector);
-            if (el) {
-                el.innerHTML = 'XXX';
-                el.value = 'XXX'; // handle input elements
-            }
+            var els = document.querySelectorAll(selector);
+
+            els.forEach(function (el) {
+                if (el) {
+                    el.innerHTML = 'XXX';
+                    el.value = 'XXX'; // handle input elements
+                }
+            });
         });
     });
 

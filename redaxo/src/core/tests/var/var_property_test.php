@@ -2,13 +2,13 @@
 
 class rex_var_property_test extends rex_var_base_test
 {
-    public function setUp()
+    public function setUp(): void
     {
         rex::setProperty('myCoreProperty', 'myCorePropertyValue');
         rex_addon::get('project')->setProperty('myPackageProperty', 'myPackagePropertyValue');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         rex::removeProperty('myCoreProperty');
         rex_addon::get('project')->removeProperty('tests');

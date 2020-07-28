@@ -10,7 +10,7 @@ class rex_sql_test extends TestCase
     public const TABLE = 'rex_tests_table';
     public const VIEW = 'rex_tests_view';
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -31,7 +31,7 @@ class rex_sql_test extends TestCase
         $sql->setQuery('CREATE VIEW `' . self::VIEW . '` AS SELECT * FROM `'.self::TABLE.'`');
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
 
