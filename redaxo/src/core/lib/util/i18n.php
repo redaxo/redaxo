@@ -174,7 +174,7 @@ class rex_i18n
      * @param string         $key          A Language-Key
      * @param string[]|int[] $replacements A arbritary number of strings/ints used for interpolating within the resolved message
      * @param string         $locale       A Locale
-     * @psalm-param list<string|int> $args
+     * @psalm-param list<string|int> $replacements
      *
      * @return string
      */
@@ -225,13 +225,13 @@ class rex_i18n
      *
      * @param string         $key
      * @param bool           $escape
-     * @param string[]|int[] $args   A arbritary number of strings/ints used for interpolating within the resolved message
-     * @param string         $locale A Locale
-     * @psalm-param list<string|int> $args
+     * @param string[]|int[] $replacements A arbritary number of strings/ints used for interpolating within the resolved message
+     * @param string         $locale       A Locale
+     * @psalm-param list<string|int> $replacements
      *
      * @return mixed
      */
-    private static function getMsg($key, $escape, array $args, $locale = null)
+    private static function getMsg($key, $escape, array $replacements, $locale = null)
     {
         if (!$locale) {
             $locale = self::getLocale();
@@ -244,21 +244,21 @@ class rex_i18n
         if (isset(self::$msg[$locale][$key])) {
             $msg = self::$msg[$locale][$key];
         } else {
-            $msg = self::getMsgFallback($key, $args, $locale);
+            $msg = self::getMsgFallback($key, $replacements, $locale);
         }
 
         $patterns = [];
-        $replacements = [];
-        $argNum = count($args);
+        $replaceWith = [];
+        $argNum = count($replacements);
         if ($argNum > 1) {
             for ($i = 1; $i < $argNum; ++$i) {
                 // zero indexed
                 $patterns[] = '/\{' . ($i - 1) . '\}/';
-                $replacements[] = (string) $args[$i];
+                $replaceWith[] = (string) $replacements[$i];
             }
         }
 
-        $msg = preg_replace($patterns, $replacements, $msg);
+        $msg = preg_replace($patterns, $replaceWith, $msg);
 
         if ($escape) {
             $msg = rex_escape($msg);
