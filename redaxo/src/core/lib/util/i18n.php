@@ -225,8 +225,8 @@ class rex_i18n
      *
      * @param string         $key
      * @param bool           $escape
-     * @param string[]|int[] $args             A arbritary number of strings/ints used for interpolating within the resolved message
-     * @param string         $locale           A Locale
+     * @param string[]|int[] $args   A arbritary number of strings/ints used for interpolating within the resolved message
+     * @param string         $locale A Locale
      * @psalm-param list<string|int> $args
      *
      * @return mixed
