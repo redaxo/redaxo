@@ -265,6 +265,9 @@ class rex_list implements rex_url_provider_interface
         return $this->caption;
     }
 
+    /**
+     * @param string $message
+     */
     public function setNoRowsMessage($message)
     {
         $this->noRowsMessage = $message;
@@ -297,6 +300,10 @@ class rex_list implements rex_url_provider_interface
         $this->addParam('page', rex_be_controller::getCurrentPage());
     }
 
+    /**
+     * @param string $name
+     * @param string|int $value
+     */
     public function addTableAttribute($name, $value)
     {
         $this->tableAttributes[$name] = $value;

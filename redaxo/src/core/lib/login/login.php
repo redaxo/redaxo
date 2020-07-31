@@ -122,6 +122,7 @@ class rex_login
      *
      * Dieser wird benutzt, um einen bereits eingeloggten User
      * im Verlauf seines Aufenthaltes auf der Webseite zu verifizieren
+     * @param string $userQuery
      */
     public function setUserQuery($userQuery)
     {
@@ -143,6 +144,7 @@ class rex_login
      *
      * Dieser wird benutzt, um den eigentlichne Loginvorgang durchzuführen.
      * Hier wird das eingegebene Password und der Login eingesetzt.
+     * @param string $loginQuery
      */
     public function setLoginQuery($loginQuery)
     {

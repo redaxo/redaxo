@@ -38,6 +38,8 @@ class rex_setup_importer
     }
 
     /**
+     * @param string $importName
+     *
      * @return string
      */
     public static function loadExistingImport($importName)
@@ -169,6 +171,7 @@ class rex_setup_importer
     }
 
     /**
+     * @param string $importSql
      * @return string
      */
     private static function import($importSql, $importArchive = null)
