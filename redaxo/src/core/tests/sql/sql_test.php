@@ -489,7 +489,6 @@ class rex_sql_test extends TestCase
 
         static::assertSame('0', $secondSql->getLastId(), 'LastId after SELECT query');
         static::assertSame('2', $sql->getLastId(), 'LastId still the same in other sql object');
-
     }
 
     public function testGetTables()
