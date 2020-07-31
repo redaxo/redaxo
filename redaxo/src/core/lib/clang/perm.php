@@ -6,6 +6,8 @@
 class rex_clang_perm extends rex_complex_perm
 {
     /**
+     * @param int $clangId
+     *
      * @return bool
      */
     public function hasPerm($clangId)
