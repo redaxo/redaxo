@@ -459,6 +459,39 @@ class rex_sql_test extends TestCase
         static::assertEquals(1, $sql->getRows());
     }
 
+    public function testGetLastId(): void
+    {
+        $sql = rex_sql::factory();
+
+        static::assertSame('0', $sql->getLastId(), 'Initial value for LastId');
+
+        $sql->setTable(self::TABLE);
+        $sql->setValue('col_int', 5);
+        $sql->setValue('col_str', 'abc');
+        $sql->setValue('col_text', 'mytext');
+        $sql->insert();
+
+        static::assertSame('1', $sql->getLastId(), 'LastId after ->insert()');
+
+        $sql->setTable(self::TABLE);
+        $sql->setWhere(['id' => 1]);
+        $sql->setValue('col_int', 6);
+        $sql->update();
+
+        static::assertSame('0', $sql->getLastId(), 'LastId after ->update()');
+
+        $sql->setQuery('INSERT INTO '.self::TABLE.' SET col_int = 3');
+
+        static::assertSame('2', $sql->getLastId(), 'LastId after second INSERT query');
+
+        $secondSql = rex_sql::factory();
+        $secondSql->setQuery('SELECT * FROM '.self::TABLE);
+
+        static::assertSame('0', $secondSql->getLastId(), 'LastId after SELECT query');
+        static::assertSame('2', $sql->getLastId(), 'LastId still the same in other sql object');
+
+    }
+
     public function testGetTables()
     {
         $tables = rex_sql::factory()->getTables();
