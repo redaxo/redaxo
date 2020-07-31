@@ -11,7 +11,7 @@
         "phpstan/phpstan-phpunit": "0.12.13",
         "phpunit/phpunit": "^7.5 || ^8.5 || ^9.2",
         "psalm/plugin-phpunit": "0.10.1",
-        "psalm/plugin-symfony": "1.4.0",
+        "psalm/plugin-symfony": "1.4.1",
         "vimeo/psalm": "3.12.2"
     },
     "replace": {
