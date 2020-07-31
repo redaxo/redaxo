@@ -172,6 +172,7 @@ class rex_setup_importer
 
     /**
      * @param string $importSql
+     *
      * @return string
      */
     private static function import($importSql, $importArchive = null)

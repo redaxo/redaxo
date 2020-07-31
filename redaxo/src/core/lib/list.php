@@ -301,7 +301,7 @@ class rex_list implements rex_url_provider_interface
     }
 
     /**
-     * @param string $name
+     * @param string     $name
      * @param string|int $value
      */
     public function addTableAttribute($name, $value)
