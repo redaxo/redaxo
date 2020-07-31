@@ -70,6 +70,13 @@ class rex_sql implements Iterator
     /** @var int */
     protected $DBID; // ID der Verbindung
 
+    /**
+     * Store the lastInsertId per rex_sql object, so rex_sql objects don't override each other because of the shared static PDO instance.
+     *
+     * @var string
+     */
+    private $lastInsertId = '0'; // compatibility to PDO, which uses string '0' as default
+
     /** @var self[] */
     protected $records;
 
@@ -348,6 +355,7 @@ class rex_sql implements Iterator
 
             $this->stmt->execute($params);
             $this->rows = $this->stmt->rowCount();
+            $this->lastInsertId = self::$pdo[$this->DBID]->lastInsertId();
         } catch (PDOException $e) {
             throw new rex_sql_exception('Error while executing statement "' . $this->query . '" using params ' . json_encode($params) . '! ' . $e->getMessage(), $e, $this);
         } finally {
@@ -409,6 +417,7 @@ class rex_sql implements Iterator
             });
 
             $this->rows = $this->stmt->rowCount();
+            $this->lastInsertId = self::$pdo[$this->DBID]->lastInsertId();
         } catch (PDOException $e) {
             throw new rex_sql_exception('Error while executing statement "' . $query . '"! ' . $e->getMessage(), $e, $this);
         } finally {
@@ -1057,6 +1066,7 @@ class rex_sql implements Iterator
         $this->wherevar = '';
         $this->counter = 0;
         $this->rows = 0;
+        $this->lastInsertId = '0';
 
         return $this;
     }
@@ -1111,7 +1121,7 @@ class rex_sql implements Iterator
      */
     public function getLastId()
     {
-        return self::$pdo[$this->DBID]->lastInsertId();
+        return $this->lastInsertId;
     }
 
     /**
