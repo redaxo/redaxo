@@ -141,7 +141,7 @@ final class rex_parsedown_with_toc extends ParsedownExtra
         }
 
         if (!isset($block['element']['attributes']['id'])) {
-            $baseId = $id = 'header-'.rex_string::normalize($block['element']['text'], '-');
+            $baseId = $id = rex_string::normalize($block['element']['text'], '-');
 
             for ($i = 2; isset($this->ids[$id]); ++$i) {
                 $id = $baseId.'-'.$i;
