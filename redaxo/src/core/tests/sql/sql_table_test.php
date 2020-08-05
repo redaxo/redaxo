@@ -10,7 +10,7 @@ class rex_sql_table_test extends TestCase
     public const TABLE = 'rex_sql_table_test';
     public const TABLE2 = 'rex_sql_table_test2';
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $sql = rex_sql::factory();
         $sql->setQuery('DROP TABLE IF EXISTS `' . self::TABLE2 . '`');

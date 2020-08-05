@@ -7,14 +7,14 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_dir_test extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         rex_dir::create($this->getPath());
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
 

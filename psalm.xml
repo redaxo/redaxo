@@ -59,6 +59,8 @@
         <DeprecatedMethod>
             <errorLevel type="info">
                 <referencedMethod name="rex_string::versionCompare"/>
+                <referencedMethod name="PHPUnit\Framework\Assert::assertDirectoryNotExists"/>
+                <referencedMethod name="PHPUnit\Framework\Assert::assertFileNotExists"/>
             </errorLevel>
         </DeprecatedMethod>
         <InternalMethod errorLevel="info" />
