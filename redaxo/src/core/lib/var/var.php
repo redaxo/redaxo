@@ -221,11 +221,11 @@ abstract class rex_var
     /**
      * Sets the arguments.
      *
-     * @param string $arg_string
+     * @param string $argString
      */
-    private function setArgs($arg_string)
+    private function setArgs($argString)
     {
-        $this->args = rex_string::split($arg_string);
+        $this->args = rex_string::split($argString);
     }
 
     /**
