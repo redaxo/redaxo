@@ -987,14 +987,14 @@ class rex_list implements rex_url_provider_interface
         return '<a href="' . $this->getParsedUrl(array_merge($this->getColumnParams($columnName), $params)) . '"' . $this->_getAttributeString($this->getLinkAttributes($columnName, [])) . '>' . $columnValue . '</a>';
     }
 
-    public function getValue($colname)
+    public function getValue($column)
     {
-        return isset($this->customColumns[$colname]) ? $this->customColumns[$colname] : $this->sql->getValue($colname);
+        return isset($this->customColumns[$column]) ? $this->customColumns[$column] : $this->sql->getValue($column);
     }
 
-    public function getArrayValue($colname)
+    public function getArrayValue($column)
     {
-        return json_decode($this->getValue($colname), true);
+        return json_decode($this->getValue($column), true);
     }
 
     /**

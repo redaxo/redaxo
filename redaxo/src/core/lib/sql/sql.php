@@ -450,15 +450,15 @@ class rex_sql implements Iterator
     /**
      * Sets the raw value of a column.
      *
-     * @param string $colName Name of the column
-     * @param string $value   The raw value
+     * @param string $column Name of the column
+     * @param string $value  The raw value
      *
      * @return $this the current rex_sql object
      */
-    public function setRawValue($colName, $value)
+    public function setRawValue($column, $value)
     {
-        $this->rawValues[$colName] = $value;
-        unset($this->values[$colName]);
+        $this->rawValues[$column] = $value;
+        unset($this->values[$column]);
 
         return $this;
     }
@@ -466,15 +466,15 @@ class rex_sql implements Iterator
     /**
      * Set the value of a column.
      *
-     * @param string $colName Name of the column
-     * @param mixed  $value   The value
+     * @param string $column Name of the column
+     * @param mixed  $value  The value
      *
      * @return $this the current rex_sql object
      */
-    public function setValue($colName, $value)
+    public function setValue($column, $value)
     {
-        $this->values[$colName] = $value;
-        unset($this->rawValues[$colName]);
+        $this->values[$column] = $value;
+        unset($this->rawValues[$column]);
 
         return $this;
     }
@@ -482,27 +482,27 @@ class rex_sql implements Iterator
     /**
      * Set the array value of a column (json encoded).
      *
-     * @param string $colName Name of the column
-     * @param array  $value   The value
+     * @param string $column Name of the column
+     * @param array  $value  The value
      *
      * @return $this the current rex_sql object
      */
-    public function setArrayValue($colName, array $value)
+    public function setArrayValue($column, array $value)
     {
-        return $this->setValue($colName, json_encode($value));
+        return $this->setValue($column, json_encode($value));
     }
 
     /**
      * Sets the datetime value of a column.
      *
-     * @param string   $colName   Name of the column
+     * @param string   $column    Name of the column
      * @param int|null $timestamp Unix timestamp (if `null` is given, the current time is used)
      *
      * @return $this the current rex_sql object
      */
-    public function setDateTimeValue($colName, $timestamp)
+    public function setDateTimeValue($column, $timestamp)
     {
-        return $this->setValue($colName, self::datetime($timestamp));
+        return $this->setValue($column, self::datetime($timestamp));
     }
 
     /**
@@ -534,19 +534,19 @@ class rex_sql implements Iterator
     /**
      * Prueft den Wert einer Spalte der aktuellen Zeile ob ein Wert enthalten ist.
      *
-     * @param string $colName Spaltenname des zu pruefenden Feldes
-     * @param string $value   Wert, der enthalten sein soll
+     * @param string $column Spaltenname des zu pruefenden Feldes
+     * @param string $value  Wert, der enthalten sein soll
      *
      * @throws rex_sql_exception
      *
      * @return bool
      */
-    protected function isValueOf($colName, $value)
+    protected function isValueOf($column, $value)
     {
         if ('' == $value) {
             return true;
         }
-        return false !== strpos($this->getValue($colName), $value);
+        return false !== strpos($this->getValue($column), $value);
     }
 
     /**
@@ -680,75 +680,75 @@ class rex_sql implements Iterator
     /**
      * Returns the value of a column.
      *
-     * @param string $colName Name of the column
+     * @param string $column Name of the column
      *
      * @throws rex_sql_exception
      *
      * @return mixed
      */
-    public function getValue($colName)
+    public function getValue($column)
     {
-        if (empty($colName)) {
-            throw new rex_sql_exception('parameter $colName must not be empty!', null, $this);
+        if (empty($column)) {
+            throw new rex_sql_exception('parameter $column must not be empty!', null, $this);
         }
 
         // fast fail,... value already set manually?
-        if (isset($this->values[$colName])) {
-            return $this->values[$colName];
+        if (isset($this->values[$column])) {
+            return $this->values[$column];
         }
 
         // check if there is an table alias defined
         // if not, try to guess the tablename
-        if (false === strpos($colName, '.')) {
+        if (false === strpos($column, '.')) {
             $tables = $this->getTablenames();
             foreach ($tables as $table) {
-                if (in_array($table . '.' . $colName, $this->rawFieldnames)) {
-                    return $this->fetchValue($table . '.' . $colName);
+                if (in_array($table . '.' . $column, $this->rawFieldnames)) {
+                    return $this->fetchValue($table . '.' . $column);
                 }
             }
         }
 
-        return $this->fetchValue($colName);
+        return $this->fetchValue($column);
     }
 
     /**
      * Returns the array value of a (json encoded) column.
      *
-     * @param string $colName Name of the column
+     * @param string $column Name of the column
      *
      * @throws rex_sql_exception
      *
      * @return array
      */
-    public function getArrayValue($colName)
+    public function getArrayValue($column)
     {
-        return json_decode($this->getValue($colName), true);
+        return json_decode($this->getValue($column), true);
     }
 
     /**
      * Returns the unix timestamp of a datetime column.
      *
-     * @param string $colName Name of the column
+     * @param string $column Name of the column
      *
      * @throws rex_sql_exception
      *
      * @return int|null Unix timestamp or `null` if the column is `null` or not in sql datetime format
      */
-    public function getDateTimeValue($colName)
+    public function getDateTimeValue($column)
     {
-        $value = $this->getValue($colName);
+        $value = $this->getValue($column);
         return $value ? strtotime($value) : null;
     }
 
     /**
-     * @param string $colName
+     * @param string $column
      *
      * @return mixed
      */
-    protected function fetchValue($colName)
+    protected function fetchValue($column)
     {
-        if (isset($this->values[$colName])) {
-            return $this->values[$colName];
+        if (isset($this->values[$column])) {
+            return $this->values[$column];
         }
 
         if (empty($this->lastRow)) {
@@ -760,10 +760,10 @@ class rex_sql implements Iterator
         }
 
         // isset() alone doesn't work here, because values may also be null
-        if (is_array($this->lastRow) && (isset($this->lastRow[$colName]) || array_key_exists($colName, $this->lastRow))) {
-            return $this->lastRow[$colName];
+        if (is_array($this->lastRow) && (isset($this->lastRow[$column]) || array_key_exists($column, $this->lastRow))) {
+            return $this->lastRow[$column];
         }
-        trigger_error('Field "' . $colName . '" does not exist in result!', E_USER_WARNING);
+        trigger_error('Field "' . $column . '" does not exist in result!', E_USER_WARNING);
         return null;
     }
 
@@ -791,22 +791,22 @@ class rex_sql implements Iterator
     /**
      * Prueft, ob eine Spalte im Resultset vorhanden ist.
      *
-     * @param string $colName Name der Spalte
+     * @param string $column Name der Spalte
      *
      * @return bool
      */
-    public function hasValue($colName)
+    public function hasValue($column)
     {
         // fast fail,... value already set manually?
-        if (isset($this->values[$colName])) {
+        if (isset($this->values[$column])) {
             return true;
         }
 
-        if (false !== strpos($colName, '.')) {
-            $parts = explode('.', $colName);
+        if (false !== strpos($column, '.')) {
+            $parts = explode('.', $column);
             return in_array($parts[0], $this->getTablenames()) && in_array($parts[1], $this->getFieldnames());
         }
-        return in_array($colName, $this->getFieldnames());
+        return in_array($column, $this->getFieldnames());
     }
 
     /**
@@ -815,16 +815,16 @@ class rex_sql implements Iterator
      * Falls das Feld nicht vorhanden ist,
      * wird Null zurueckgegeben, sonst True/False
      *
-     * @param string $colName
+     * @param string $column
      *
      * @throws rex_sql_exception
      *
      * @return bool|null
      */
-    public function isNull($colName)
+    public function isNull($column)
     {
-        if ($this->hasValue($colName)) {
-            return null === $this->getValue($colName);
+        if ($this->hasValue($column)) {
+            return null === $this->getValue($column);
         }
 
         return null;
@@ -1270,25 +1270,25 @@ class rex_sql implements Iterator
     /**
      * Setzt eine Spalte auf den naechst moeglich auto_increment Wert.
      *
-     * @param string $colName Name der Spalte
+     * @param string $column  Name der Spalte
      * @param int    $startId
      *
      * @throws rex_sql_exception
      *
      * @return int
      */
-    public function setNewId($colName, $startId = 0)
+    public function setNewId($column, $startId = 0)
     {
         // setNewId muss neues sql Objekt verwenden, da sonst bestehende informationen im Objekt ueberschrieben werden
         $sql = self::factory();
-        $sql->setQuery('SELECT ' . $this->escapeIdentifier($colName) . ' FROM ' . $this->escapeIdentifier($this->table) . ' ORDER BY ' . $this->escapeIdentifier($colName) . ' DESC LIMIT 1');
+        $sql->setQuery('SELECT ' . $this->escapeIdentifier($column) . ' FROM ' . $this->escapeIdentifier($this->table) . ' ORDER BY ' . $this->escapeIdentifier($column) . ' DESC LIMIT 1');
         if (0 == $sql->getRows()) {
             $id = $startId;
         } else {
-            $id = $sql->getValue($colName);
+            $id = $sql->getValue($column);
         }
         ++$id;
-        $this->setValue($colName, $id);
+        $this->setValue($column, $id);
 
         return $id;
     }
