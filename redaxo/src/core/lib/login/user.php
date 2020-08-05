@@ -47,10 +47,10 @@ class rex_user
 
     public static function get(int $id): ?self
     {
-        return self::getInstance($id, static function (int $id) {
+        return static::getInstance($id, static function (int $id) {
             $sql = rex_sql::factory()->setQuery('SELECT * FROM '.rex::getTable('user').' WHERE id = ?', [$id]);
 
-            return $sql->getRows() ? new self($sql) : null;
+            return $sql->getRows() ? new static($sql) : null;
         });
     }
 

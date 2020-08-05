@@ -7,7 +7,10 @@ class rex_form_prio_element extends rex_form_select_element
 {
     /** @var string */
     private $labelField;
-    /** @var callable */
+    /**
+     * @var callable
+     * @psalm-var callable(string):string
+     */
     private $labelCallback;
     /** @var string */
     private $whereCondition;
