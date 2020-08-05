@@ -136,8 +136,6 @@ final class rex_parsedown_with_toc extends ParsedownExtra
 
         [$level] = sscanf($block['element']['name'], 'h%d');
 
-        $displayHeader = $level >= $this->topLevel && $level <= $this->bottomLevel;
-
         if (!isset($block['element']['attributes']['id'])) {
             $baseId = $id = rex_string::normalize($block['element']['text'], '-');
 
@@ -151,7 +149,7 @@ final class rex_parsedown_with_toc extends ParsedownExtra
         $id = $block['element']['attributes']['id'];
         $this->ids[$id] = true;
         
-        if ($displayHeader) {
+        if ($level >= $this->topLevel && $level <= $this->bottomLevel) {
             $this->headers[] = [
                 'level' => $level,
                 'id' => $id,
