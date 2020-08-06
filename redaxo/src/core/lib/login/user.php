@@ -52,7 +52,7 @@ class rex_user
 
             if ($sql->getRows()) {
                 $user = new static($sql);
-                static::addInstance('login' . $user->getLogin(), $user);
+                static::addInstance('login_' . $user->getLogin(), $user);
                 return $user;
             }
 
@@ -62,7 +62,7 @@ class rex_user
 
     public static function getByLogin(string $login): ?self
     {
-        return static::getInstance('login' . $login, static function (string $login) {
+        return static::getInstance('login_' . $login, static function (string $login) {
             $sql = rex_sql::factory()->setQuery('SELECT * FROM '.rex::getTable('user').' WHERE login = ?', [$login]);
 
             if ($sql->getRows()) {
@@ -90,7 +90,7 @@ class rex_user
     {
         $user = new self($sql);
         self::addInstance($user->getId(), $user);
-        self::addInstance('login' . $user->getLogin(), $user);
+        self::addInstance('login_' . $user->getLogin(), $user);
 
         return $user;
     }
