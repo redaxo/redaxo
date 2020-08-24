@@ -5,18 +5,20 @@ on:
     types: [opened, synchronize, reopened, ready_for_review]
     paths:
     - '**.php'
+  pull_request_target:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+    - '**.php'
 
 jobs:
   php-cs-fixer:
     runs-on: ubuntu-latest
-    # dont run jobs on forks, because we are not allowed to commit
-    if: github.event.pull_request.draft == false && github.repository == 'redaxo/redaxo'
+    if: github.event.pull_request.draft == false
 
     steps:
     - uses: actions/checkout@v2
       with:
         ref: ${{ github.head_ref }}
-        token: ${{ secrets.STAABM_TOKEN }}
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
