@@ -21,7 +21,7 @@ jobs:
         steps:
             - uses: actions/checkout@v2
               with:
-                  ref: ${{ env.GITHUB_SHA }}
+                  ref: ${{ github.base_ref }}
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
