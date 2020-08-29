@@ -2,7 +2,6 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/7.5/phpunit.xsd"
      bootstrap=".tools/bootstrap.php"
-     forceCoversAnnotation="true"
      beStrictAboutCoversAnnotation="true"
      beStrictAboutOutputDuringTests="true"
      beStrictAboutTodoAnnotatedTests="true"

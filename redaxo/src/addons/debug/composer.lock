@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "itsgoingd/clockwork",
-            "version": "v4.1.5",
+            "version": "v4.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/itsgoingd/clockwork.git",
-                "reference": "cd9fcb65e70954f65d50c98a5e8d5782240cbe4e"
+                "reference": "363bc484653b1611a2e6a56fe3562eef05a01614"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/itsgoingd/clockwork/zipball/cd9fcb65e70954f65d50c98a5e8d5782240cbe4e",
-                "reference": "cd9fcb65e70954f65d50c98a5e8d5782240cbe4e",
+                "url": "https://api.github.com/repos/itsgoingd/clockwork/zipball/363bc484653b1611a2e6a56fe3562eef05a01614",
+                "reference": "363bc484653b1611a2e6a56fe3562eef05a01614",
                 "shasum": ""
             },
             "require": {
@@ -69,7 +69,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-05-29T20:15:59+00:00"
+            "time": "2020-07-24T22:22:57+00:00"
         },
         {
             "name": "psr/log",

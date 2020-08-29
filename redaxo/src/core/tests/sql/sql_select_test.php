@@ -9,7 +9,7 @@ class rex_sql_select_test extends TestCase
 {
     public const TABLE = 'rex_tests';
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -30,7 +30,7 @@ class rex_sql_select_test extends TestCase
         $this->insertRow();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
 

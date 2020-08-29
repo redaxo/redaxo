@@ -271,7 +271,7 @@ setup_session_autostart_warning = The php settings "session.auto_start" is activ
 
 sql_database_name_missing = Enter a database name!
 sql_database_already_exists = Database already exists!
-sql_database_min_version = The MySQL version {0} is too old, you need at least version {1}!
+sql_database_required_version = The {0} version {1} is too old, you need at least MySQL {2} or MariaDB {3}!
 sql_unable_to_connect_database = Unable to establish a connection to the database!
 sql_unable_to_connect_server = Unable to establish a connection to the database server!
 sql_unable_to_create_database = Unable to create the database!

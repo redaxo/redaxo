@@ -271,7 +271,7 @@ setup_session_autostart_warning = In den PHP-Einstellungen ist "session.auto_sta
 
 sql_database_name_missing = Es muss ein Datenbankname angegeben werden!
 sql_database_already_exists = Datenbank existiert schon.
-sql_database_min_version = Die MySQL-Version {0} ist veraltet, es wird mindestens Version {1} benötigt!
+sql_database_required_version = Die {0}-Version {1} ist veraltet, es wird mindestens MySQL {2} oder MariaDB {3} benötigt!
 sql_unable_to_connect_database = Es konnte keine Verbindung zur Datenbank hergestellt werden!
 sql_unable_to_connect_server = Es konnte keine Verbindung zum Datenbankserver hergestellt werden!
 sql_unable_to_create_database = Die angegebene Datenbank konnte nicht angelegt werden!

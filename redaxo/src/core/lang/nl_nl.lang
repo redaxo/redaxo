@@ -242,7 +242,6 @@ setup_security_deprecated_php = De gebruikte PHP-versie {0} krijg niet langer up
 
 sql_database_name_missing = Voer een databasenaam in!
 sql_database_already_exists = Database bestaat al!
-sql_database_min_version = De MySQL-versie {0} is te oud, versie {1} is minimaal benodigd!
 sql_unable_to_connect_database = Kan geen verbinding krijgen met de database!
 sql_unable_to_connect_server = Kan geen verbinding krijgen met de database-server!
 sql_unable_to_create_database = Kan de database niet aanmaken!
