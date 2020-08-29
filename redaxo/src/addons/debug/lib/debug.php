@@ -20,6 +20,9 @@ class rex_debug
         rex_error_handler::class,
     ];
 
+    /**
+     * @psalm-param class-string[] $ignoredClasses
+     */
     public static function getTrace(array $ignoredClasses = []): array
     {
         $ignoredClasses = array_merge(self::$ignoreClasses, $ignoredClasses);
