@@ -3,6 +3,10 @@
     "type": "library",
     "description": "REDAXO CMS source repository (for static analysis)",
     "license": "MIT",
+    "scripts": {
+        "phpstan": "phpstan analyse",
+        "phpstan-baseline": "phpstan analyse --generate-baseline"
+    },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "2.16.4",
         "friendsofredaxo/linter": "1.2.6",
