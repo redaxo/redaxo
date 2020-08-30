@@ -1,5 +1,7 @@
 <?php
 
+use Psr\Log\LogLevel;
+
 /**
  * Log file class.
  *
@@ -57,6 +59,7 @@ class rex_log_file implements Iterator
     /**
      * Adds a log entry.
      *
+     * @psalm-param array{0: LogLevel::*, 1: string, 2?: string, 3?: int} $data
      * @param array $data Log data
      */
     public function add(array $data)
