@@ -71,15 +71,15 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
             </thead>
             <tbody>';
 
-    foreach ($addon['files'] as $fileId => $file) {
-        $content .= '        
-            $version = rex_escape($file['version']);
-            $description = $markdown($file['description']);
+    foreach ($addon['files'] as $fileId => $file) {  
+        $version = rex_escape($file['version']);
+        $description = $markdown($file['description']);
 
-            if (class_exists(rex_version::class) && rex_version::isUnstable($version)) {
-                $version = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $version;
-                $description = rex_view::warning(rex_i18n::msg('unstable_version')) . $description;
-            }
+        if (class_exists(rex_version::class) && rex_version::isUnstable($version)) {
+            $version = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $version;
+            $description = rex_view::warning(rex_i18n::msg('unstable_version')) . $description;
+        }
+        $content .= '      
             <tr>
                 <td class="rex-table-icon"><i class="rex-icon rex-icon-package"></i></td>
                 <td data-title="' . $package->i18n('version') . '">' . $version . '</td>
