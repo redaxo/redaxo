@@ -71,7 +71,7 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
             </thead>
             <tbody>';
 
-    foreach ($addon['files'] as $fileId => $file) {  
+    foreach ($addon['files'] as $fileId => $file) {
         $version = rex_escape($file['version']);
         $description = $markdown($file['description']);
 
