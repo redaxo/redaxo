@@ -15,6 +15,7 @@ rm -rf redaxo/src/core/vendor/symfony/var-dumper/Resources/bin/
 rm -rf redaxo/src/core/vendor/symfony/var-dumper/Test/
 rm -rf redaxo/src/core/vendor/symfony/var-dumper/Tests/
 rm -rf redaxo/src/core/vendor/symfony/yaml/Tests/
+rm -rf redaxo/src/core/vendor/voku/anti-xss/build/
 rm -rf redaxo/src/core/vendor/voku/portable-ascii/build/
 
 find redaxo/src/core/vendor -name ".gitattributes" -type f -delete
@@ -34,6 +35,7 @@ composer update --no-dev -d redaxo/src/addons/be_style/
 rm -f redaxo/src/addons/be_style/vendor/autoload.php
 rm -rf redaxo/src/addons/be_style/vendor/composer/
 rm -rf redaxo/src/addons/be_style/vendor/bin/
+rm -f redaxo/src/addons/be_style/vendor/scssphp/scssphp/phpcs.xml.dist
 rm -rf redaxo/src/addons/be_style/vendor/scssphp/scssphp/bin/
 rm -rf redaxo/src/addons/be_style/vendor/scssphp/scssphp/example/
 rm -r redaxo/src/addons/be_style/vendor/scssphp/scssphp/scss.inc.php
