@@ -111,7 +111,7 @@ class rex_file_test extends TestCase
         rex_file::put($file, '');
         static::assertFileExists($file, 'file exists after put()');
         static::assertTrue(rex_file::delete($file), 'delete() returns true on success');
-        static::assertFileNotExists($file, 'file does not exist after delete()');
+        static::assertFileDoesNotExist($file, 'file does not exist after delete()');
         static::assertTrue(rex_file::delete($file), 'delete() returns true when the file is already deleted');
     }
 
