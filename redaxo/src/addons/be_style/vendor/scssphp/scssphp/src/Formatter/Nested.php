@@ -1,5 +1,4 @@
 <?php
-
 /**
  * SCSSPHP
  *
@@ -63,7 +62,7 @@ class Nested extends Formatter
 
         foreach ($block->lines as $index => $line) {
             if (substr($line, 0, 2) === '/*') {
-                $block->lines[$index] = preg_replace('/\r\n?|\n|\f/', $this->break, $line);
+                $block->lines[$index] = preg_replace('/[\r\n]+/', $glue, $line);
             }
         }
 
@@ -98,8 +97,7 @@ class Nested extends Formatter
             array_pop($depths);
             $this->depth--;
 
-            if (
-                ! $this->depth && ($block->depth <= 1 || (! $this->indentLevel && $block->type === Type::T_COMMENT)) &&
+            if (! $this->depth && ($block->depth <= 1 || (! $this->indentLevel && $block->type === Type::T_COMMENT)) &&
                 (($block->selectors && ! $isMediaOrDirective) || $previousHasSelector)
             ) {
                 $downLevel = $this->break;

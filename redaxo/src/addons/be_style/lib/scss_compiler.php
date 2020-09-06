@@ -54,6 +54,7 @@ class rex_scss_compiler
         $root_dir = $this->root_dir;
 
         $scss_compiler = new Compiler();
+        $scss_compiler->setNumberPrecision(10);
 
         $scss_compiler->addImportPath(static function ($path) use ($root_dir) {
             $path = $root_dir . $path . '.scss';

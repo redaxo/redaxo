@@ -1,5 +1,4 @@
 <?php
-
 /**
  * SCSSPHP
  *
@@ -17,6 +16,6 @@ namespace ScssPhp\ScssPhp\Exception;
  *
  * @author Anthon Pang <anthon.pang@gmail.com>
  */
-class ServerException extends \Exception implements SassException
+class ServerException extends \Exception
 {
 }

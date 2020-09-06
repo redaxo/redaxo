@@ -1,5 +1,4 @@
 <?php
-
 /**
  * SCSSPHP
  *
@@ -97,14 +96,12 @@ class Cache
     {
         $fileCache = self::$cacheDir . self::cacheName($operation, $what, $options);
 
-        if (
-            ((self::$forceRefresh === false) || (self::$forceRefresh === 'once' &&
+        if (((self::$forceRefresh === false) || (self::$forceRefresh === 'once' &&
             isset(self::$refreshed[$fileCache]))) && file_exists($fileCache)
         ) {
             $cacheTime = filemtime($fileCache);
 
-            if (
-                (\is_null($lastModified) || $cacheTime > $lastModified) &&
+            if ((\is_null($lastModified) || $cacheTime > $lastModified) &&
                 $cacheTime + self::$gcLifetime > time()
             ) {
                 $c = file_get_contents($fileCache);
@@ -180,7 +177,9 @@ class Cache
         self::$cacheDir = rtrim(self::$cacheDir, '/') . '/';
 
         if (! is_dir(self::$cacheDir)) {
-            throw new Exception('Cache directory doesn\'t exist: ' . self::$cacheDir);
+            if (! mkdir(self::$cacheDir)) {
+                throw new Exception('Cache directory couldn\'t be created: ' . self::$cacheDir);
+            }
         }
 
         if (! is_writable(self::$cacheDir)) {

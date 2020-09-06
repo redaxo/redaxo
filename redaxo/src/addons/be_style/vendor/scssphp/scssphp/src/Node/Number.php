@@ -1,5 +1,4 @@
 <?php
-
 /**
  * SCSSPHP
  *
@@ -29,13 +28,10 @@ use ScssPhp\ScssPhp\Type;
  */
 class Number extends Node implements \ArrayAccess
 {
-    const PRECISION = 10;
-
     /**
      * @var integer
-     * @deprecated use {Number::PRECISION} instead to read the precision. Configuring it is not supported anymore.
      */
-    public static $precision = self::PRECISION;
+    public static $precision = 10;
 
     /**
      * @see http://www.w3.org/TR/2012/WD-css3-values-20120308/
@@ -68,8 +64,8 @@ class Number extends Node implements \ArrayAccess
         ],
         'dpi' => [
             'dpi'  => 1,
-            'dpcm' => 1 / 2.54,
-            'dppx' => 1 / 96,
+            'dpcm' => 1/2.54,
+            'dppx' => 1/96,
         ],
     ];
 
@@ -159,8 +155,7 @@ class Number extends Node implements \ArrayAccess
             return ! \is_null($this->sourceLine);
         }
 
-        if (
-            $offset === -1 ||
+        if ($offset === -1 ||
             $offset === 0 ||
             $offset === 1 ||
             $offset === 2
@@ -306,7 +301,7 @@ class Number extends Node implements \ArrayAccess
      */
     public function output(Compiler $compiler = null)
     {
-        $dimension = round($this->dimension, self::PRECISION);
+        $dimension = round($this->dimension, static::$precision);
 
         $units = array_filter($this->units, function ($unitSize) {
             return $unitSize;
@@ -318,7 +313,7 @@ class Number extends Node implements \ArrayAccess
 
             $this->normalizeUnits($dimension, $units);
 
-            $dimension = round($dimension, self::PRECISION);
+            $dimension = round($dimension, static::$precision);
             $units     = array_filter($units, function ($unitSize) {
                 return $unitSize;
             });
@@ -334,9 +329,9 @@ class Number extends Node implements \ArrayAccess
             $unit = key($units);
         }
 
-        $dimension = number_format($dimension, self::PRECISION, '.', '');
+        $dimension = number_format($dimension, static::$precision, '.', '');
 
-        return (self::PRECISION ? rtrim(rtrim($dimension, '0'), '.') : $dimension) . $unit;
+        return (static::$precision ? rtrim(rtrim($dimension, '0'), '.') : $dimension) . $unit;
     }
 
     /**

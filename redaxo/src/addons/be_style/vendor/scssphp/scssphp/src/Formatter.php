@@ -1,5 +1,4 @@
 <?php
-
 /**
  * SCSSPHP
  *
@@ -298,8 +297,7 @@ abstract class Formatter
          * Maybe Strip semi-colon appended by property(); it's a separator, not a terminator
          * will be striped for real before a closing, otherwise displayed unchanged starting the next write
          */
-        if (
-            ! $this->keepSemicolons &&
+        if (! $this->keepSemicolons &&
             $str &&
             (strpos($str, ';') !== false) &&
             (substr($str, -1) === ';')
@@ -321,7 +319,7 @@ abstract class Formatter
 
             $lines = explode("\n", $str);
             $lineCount = \count($lines);
-            $this->currentLine += $lineCount - 1;
+            $this->currentLine += $lineCount-1;
 
             $lastLine = array_pop($lines);
 
