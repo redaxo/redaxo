@@ -265,9 +265,12 @@ class rex_list implements rex_url_provider_interface
         return $this->caption;
     }
 
-    public function setNoRowsMessage($msg)
+    /**
+     * @param string $message
+     */
+    public function setNoRowsMessage($message)
     {
-        $this->noRowsMessage = $msg;
+        $this->noRowsMessage = $message;
     }
 
     public function getNoRowsMessage()
@@ -297,9 +300,13 @@ class rex_list implements rex_url_provider_interface
         $this->addParam('page', rex_be_controller::getCurrentPage());
     }
 
-    public function addTableAttribute($attrName, $attrValue)
+    /**
+     * @param string     $name
+     * @param string|int $value
+     */
+    public function addTableAttribute($name, $value)
     {
-        $this->tableAttributes[$attrName] = $attrValue;
+        $this->tableAttributes[$name] = $value;
     }
 
     public function getTableAttributes()
@@ -308,12 +315,12 @@ class rex_list implements rex_url_provider_interface
     }
 
     /**
-     * @param string     $attrName
-     * @param string|int $attrValue
+     * @param string     $name
+     * @param string|int $value
      */
-    public function addFormAttribute($attrName, $attrValue)
+    public function addFormAttribute($name, $value)
     {
-        $this->formAttributes[$attrName] = $attrValue;
+        $this->formAttributes[$name] = $value;
     }
 
     /**
@@ -467,14 +474,14 @@ class rex_list implements rex_url_provider_interface
     /**
      * Setzt ein Format für die Spalte.
      *
-     * @param string $columnName  Name der Spalte
-     * @param string $format_type Formatierungstyp
-     * @param mixed  $format      Zu verwendentes Format
-     * @param array  $params      Custom params für callback func bei format_type 'custom'
+     * @param string $columnName Name der Spalte
+     * @param string $formatType Formatierungstyp
+     * @param mixed  $format     Zu verwendentes Format
+     * @param array  $params     Custom params für callback func bei format_type 'custom'
      */
-    public function setColumnFormat($columnName, $format_type, $format = '', array $params = [])
+    public function setColumnFormat($columnName, $formatType, $format = '', array $params = [])
     {
-        $this->columnFormates[$columnName] = [$format_type, $format, $params];
+        $this->columnFormates[$columnName] = [$formatType, $format, $params];
     }
 
     /**
@@ -980,14 +987,14 @@ class rex_list implements rex_url_provider_interface
         return '<a href="' . $this->getParsedUrl(array_merge($this->getColumnParams($columnName), $params)) . '"' . $this->_getAttributeString($this->getLinkAttributes($columnName, [])) . '>' . $columnValue . '</a>';
     }
 
-    public function getValue($colname)
+    public function getValue($column)
     {
-        return isset($this->customColumns[$colname]) ? $this->customColumns[$colname] : $this->sql->getValue($colname);
+        return isset($this->customColumns[$column]) ? $this->customColumns[$column] : $this->sql->getValue($column);
     }
 
-    public function getArrayValue($colname)
+    public function getArrayValue($column)
     {
-        return json_decode($this->getValue($colname), true);
+        return json_decode($this->getValue($column), true);
     }
 
     /**
