@@ -15,6 +15,7 @@ rm -rf redaxo/src/core/vendor/symfony/var-dumper/Resources/bin/
 rm -rf redaxo/src/core/vendor/symfony/var-dumper/Test/
 rm -rf redaxo/src/core/vendor/symfony/var-dumper/Tests/
 rm -rf redaxo/src/core/vendor/symfony/yaml/Tests/
+rm -rf redaxo/src/core/vendor/voku/anti-xss/build/
 rm -rf redaxo/src/core/vendor/voku/portable-ascii/build/
 
 find redaxo/src/core/vendor -name ".gitattributes" -type f -delete
