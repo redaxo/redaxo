@@ -66,6 +66,14 @@ Foo bar
 ## Sub 3
 
 ### Sub 3.1
+
+## Duplicate Test
+
+## Duplicate Test
+
+## [Title with Markdown](#sub-1)
+
+## <i>Title with HTML</i>
 MARKDOWN;
 
         [$toc, $content] = rex_markdown::factory()->parseWithToc($input, 2, 4);
@@ -101,6 +109,17 @@ MARKDOWN;
 <a href="#header-sub-3-1">Sub 3.1</a>
 </li>
 </ul>
+<li>
+<a href="#header-duplicate-test">Duplicate Test</a>
+</li>
+<li>
+<a href="#header-duplicate-test-2">Duplicate Test</a>
+</li>
+<li>
+<a href="#header-title-with-markdown">Title with Markdown</a>
+</li>
+<li>
+<a href="#header-title-with-html">Title with HTML</a>
 </li>
 </ul>
 
