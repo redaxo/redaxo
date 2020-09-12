@@ -41,9 +41,9 @@ class rex_command_config_get_test extends TestCase
     public function testPackageKeyFound()
     {
         $commandTester = new CommandTester(new rex_command_config_get());
-        $commandTester->execute(
-            ['config-key' => 'author'],
-            ['package' => 'backup']
+        $commandTester->execute([
+            'config-key' => 'author',
+                '--package' => 'backup']
         );
         static::assertEquals('Jan Kristinus, Markus Staab', $commandTester->getDisplay());
         static::assertEquals(0, $commandTester->getStatusCode());
