@@ -36,7 +36,7 @@ class rex_command_config_get extends rex_console_command
         $propertyKey = array_shift($path);
 
         $package = $input->getOption('package');
-        if ($package === 'core') {
+        if ('core' === $package) {
             $config = rex::getProperty($propertyKey);
         } else {
             $config = rex_package::get($package)->getProperty($propertyKey);
