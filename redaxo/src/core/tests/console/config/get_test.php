@@ -43,7 +43,7 @@ class rex_command_config_get_test extends TestCase
         $commandTester = new CommandTester(new rex_command_config_get());
         $commandTester->execute([
             'config-key' => 'author',
-                '--package' => 'backup']
+            '--package' => 'backup', ]
         );
         static::assertEquals('Jan Kristinus, Markus Staab', $commandTester->getDisplay());
         static::assertEquals(0, $commandTester->getStatusCode());
