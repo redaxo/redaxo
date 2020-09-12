@@ -17,7 +17,7 @@ class rex_command_config_get extends rex_console_command
         $this->setDescription('Get config variables')
             ->addArgument('config-key', InputOption::VALUE_REQUIRED, 'config path separated by periods, e.g. "setup" or "db.1.host"')
             ->addOption('type', 't', InputOption::VALUE_REQUIRED, 'php type of the returned value, e.g. "octal"', 'string')
-            ->addOption('package', 'p', InputOption::VALUE_OPTIONAL, 'package to inspect, defaults to redaxo-core', 'core')
+            ->addOption('package', 'p', InputOption::VALUE_REQUIRED, 'package to inspect, defaults to redaxo-core', 'core')
         ;
     }
 
