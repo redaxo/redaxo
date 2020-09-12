@@ -45,7 +45,7 @@ class rex_command_config_get_test extends TestCase
             'config-key' => 'author',
             '--package' => 'backup', ]
         );
-        static::assertEquals('Jan Kristinus, Markus Staab', $commandTester->getDisplay());
+        static::assertEquals("\"Jan Kristinus, Markus Staab\"\n", $commandTester->getDisplay());
         static::assertEquals(0, $commandTester->getStatusCode());
     }
 }
