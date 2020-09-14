@@ -1,8 +1,8 @@
 <?php
 
 use Symfony\Component\Console\Exception\InvalidArgumentException;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -15,7 +15,7 @@ class rex_command_config_get extends rex_console_command
     protected function configure()
     {
         $this->setDescription('Get config variables')
-            ->addArgument('config-key', InputOption::VALUE_REQUIRED, 'config path separated by periods, e.g. "setup" or "db.1.host"');
+            ->addArgument('config-key', InputArgument::REQUIRED, 'config path separated by periods, e.g. "setup" or "db.1.host"');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
