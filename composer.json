@@ -9,7 +9,7 @@
         "phpstan/phpstan": "0.12.33",
         "phpstan/extension-installer": "1.0.4",
         "phpstan/phpstan-phpunit": "0.12.16",
-        "phpunit/phpunit": "^7.5 || ^8.5 || ^9.2",
+        "phpunit/phpunit": "^9.3",
         "psalm/plugin-phpunit": "0.10.1",
         "psalm/plugin-symfony": "1.4.1",
         "vimeo/psalm": "3.12.1"
