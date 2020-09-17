@@ -4,6 +4,7 @@
 $replace = [
     'symfony/polyfill-php70' => '*',
     'symfony/polyfill-php72' => '*',
+    'symfony/polyfill-php73' => '*',
 ];
 
 $baseDir = dirname(__DIR__, 2);

@@ -17,7 +17,8 @@
 
     "replace": {
         "symfony/polyfill-iconv": "*",
-        "symfony/polyfill-php72": "*"
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php73": "*"
     },
 
     "config": {
