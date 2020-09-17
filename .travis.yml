@@ -27,7 +27,7 @@ jobs:
                 - php .tools/bin/setup
             script: vendor/bin/phpunit
             php: 7.3
-            dist: bionic
+            dist: xenial
             env:
                 - DB=mariadb
             addons:
