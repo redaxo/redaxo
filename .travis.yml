@@ -27,13 +27,13 @@ jobs:
                 - php .tools/bin/setup
             script: vendor/bin/phpunit
             php: 7.3
-            dist: xenial
+            dist: trusty
             env:
                 - DB=mariadb
             addons:
                 mariadb: 10.1
         -   <<: *TEST
-            php: 7.4
+            php: 7.3
             addons:
                 mariadb: 10.4
         -   <<: *TEST
