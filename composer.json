@@ -5,7 +5,8 @@
     "license": "MIT",
     "require-dev": {
         "friendsofphp/php-cs-fixer": "2.16.4",
-        "friendsofredaxo/linter": "1.2.6",
+        "friendsofredaxo/linter": "1.2.7",
+        "j13k/yaml-lint": "^1.1@dev",
         "phpstan/phpstan": "0.12.42",
         "phpstan/extension-installer": "1.0.5",
         "phpstan/phpstan-phpunit": "0.12.16",
