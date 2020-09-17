@@ -16,6 +16,8 @@ jobs:
     psalm-analysis:
         name: psalm static code analysis
         runs-on: ubuntu-latest
+        if: "!contains(github.event.head_commit.message, '[ci skip]')"
+        
         services:
             mysql:
                 image: mysql:5.7
@@ -64,6 +66,8 @@ jobs:
     phpstan-analysis:
         name: phpstan static code analysis
         runs-on: ubuntu-latest
+        if: "!contains(github.event.head_commit.message, '[ci skip]')"
+        
         services:
             mysql:
                 image: mysql:5.7
