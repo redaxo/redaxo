@@ -7,8 +7,9 @@
         "ramsey/http-range": "^1.0",
         "roave/security-advisories": "dev-master",
         "symfony/console": "^5.1",
-        "symfony/polyfill-intl-normalizer": "^1.14",
-        "symfony/polyfill-mbstring": "^1.14",
+        "symfony/polyfill-intl-normalizer": "^1.18",
+        "symfony/polyfill-mbstring": "^1.18",
+        "symfony/polyfill-php80": "^1.18",
         "symfony/var-dumper": "^5.1",
         "symfony/yaml": "^5.1",
         "voku/anti-xss": "^4.1.24"

@@ -3,6 +3,9 @@
     "type": "library",
     "description": "REDAXO CMS source repository (for static analysis)",
     "license": "MIT",
+    "require": {
+        "php": ">=7.3"
+    },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "2.16.4",
         "friendsofredaxo/linter": "1.2.7",
@@ -33,6 +36,8 @@
         "symfony/polyfill-intl-grapheme": "v1.18.1",
         "symfony/polyfill-intl-normalizer": "v1.18.1",
         "symfony/polyfill-mbstring": "v1.18.1",
+        "symfony/polyfill-php70": "*",
+        "symfony/polyfill-php72": "*",
         "symfony/polyfill-php73": "v1.18.1",
         "symfony/polyfill-php80": "v1.18.1",
         "symfony/service-contracts": "v2.2.0",
