@@ -16,7 +16,7 @@ page:
 
 requires:
     php:
-        version: '>=7.1'
+        version: '>=7.3'
         extensions: [gd]
     redaxo: ^5.10.0
 
