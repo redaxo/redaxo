@@ -16,7 +16,7 @@ jobs:
     rex-lint:
         name: REX Linting
         runs-on: ubuntu-latest
-        if: github.event.pull_request.draft == false
+        if: "github.event.pull_request.draft == false && !contains(github.event.head_commit.message, '[ci skip]')"
 
         services:
             mysql:
