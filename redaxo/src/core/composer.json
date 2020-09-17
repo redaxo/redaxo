@@ -4,13 +4,13 @@
         "erusev/parsedown-extra": "^0.8",
         "filp/whoops": "^2.7",
         "psr/log": "^1.0",
-        "ramsey/http-range": "dev-legacy",
+        "ramsey/http-range": "^1.0",
         "roave/security-advisories": "dev-master",
-        "symfony/console": "^4.4",
+        "symfony/console": "^5.1",
         "symfony/polyfill-intl-normalizer": "^1.14",
         "symfony/polyfill-mbstring": "^1.14",
-        "symfony/var-dumper": "^4.4",
-        "symfony/yaml": "^4.4",
+        "symfony/var-dumper": "^5.1",
+        "symfony/yaml": "^5.1",
         "voku/anti-xss": "^4.1.24"
     },
 
@@ -26,12 +26,5 @@
         "platform": {
             "php": "7.3.0"
         }
-    },
-
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/redaxo/http-range"
-        }
-    ]
+    }
 }

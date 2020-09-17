@@ -9,10 +9,12 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
+declare(strict_types=1);
+
 namespace Ramsey\Http\Range\Unit;
 
 /**
- * An abstract unit to handle common unit functionality
+ * `AbstractUnit` provides a basic implementation for HTTP range units.
  */
 abstract class AbstractUnit implements UnitInterface
 {
@@ -27,65 +29,72 @@ abstract class AbstractUnit implements UnitInterface
     private $totalSize;
 
     /**
-     * Returns a new collection for this range unit
+     * Returns a new collection for this range unit.
      *
      * @return UnitRangesCollection
      */
-    abstract public function newCollection();
+    abstract public function newCollection(): UnitRangesCollection;
 
     /**
-     * Returns a new unit range for this range unit
+     * Returns a new unit range for this range unit.
      *
-     * @param string $range A single range (i.e. 500-999, 500-, -500)
-     * @param mixed $totalSize The total size of the entity the range describes
+     * @param string $range A single range (i.e. `500-999`, `500-`, `-500`).
+     * @param mixed $totalSize The total size of the entity the range describes.
+     *
      * @return UnitRangeInterface
      */
-    abstract public function newRange($range, $totalSize);
+    abstract public function newRange(string $range, $totalSize): UnitRangeInterface;
 
     /**
-     * Constructs a new unit
+     * Constructs a new unit.
      *
-     * @param string $rangeSet A set of ranges for this unit (i.e. 500-999,500-,-500)
-     * @param mixed $totalSize The total size of the entity the unit describes
+     * @param string $rangeSet A set of ranges for this unit (i.e. `500-999,500-,-500`).
+     * @param mixed $totalSize The total size of the entity the unit describes.
      */
-    public function __construct($rangeSet, $totalSize)
+    public function __construct(string $rangeSet, $totalSize)
     {
         $this->rangeSet = $rangeSet;
         $this->totalSize = $totalSize;
     }
 
     /**
-     * Returns the raw range set defined for this unit
+     * Returns the raw range set defined for this unit.
      *
-     *     other-range-set = 1*VCHAR
+     * ```
+     * other-range-set = 1*VCHAR
+     * ```
      *
      * @link https://tools.ietf.org/html/rfc7233#section-3.1 RFC 7233 § 3.1
+     *
      * @return string
      */
-    public function getRangeSet()
+    public function getRangeSet(): string
     {
         return $this->rangeSet;
     }
 
     /**
-     * Returns the raw ranges specifier defined for this unit
+     * Returns the raw ranges specifier defined for this unit.
      *
-     *     other-ranges-specifier = other-range-unit "=" other-range-set
+     * ```
+     * other-ranges-specifier = other-range-unit "=" other-range-set
+     * ```
      *
      * @link https://tools.ietf.org/html/rfc7233#section-3.1 RFC 7233 § 3.1
+     *
      * @return string
      */
-    public function getRangesSpecifier()
+    public function getRangesSpecifier(): string
     {
         return $this->getRangeUnit() . '=' . $this->getRangeSet();
     }
 
     /**
-     * Returns an iterable collection of unit ranges
+     * Returns an iterable collection of unit ranges.
      *
      * @return UnitRangesCollection
      */
-    public function getRanges()
+    public function getRanges(): UnitRangesCollection
     {
         $ranges = explode(',', $this->getRangeSet());
         $totalSize = $this->getTotalSize();
@@ -99,7 +108,7 @@ abstract class AbstractUnit implements UnitInterface
     }
 
     /**
-     * Returns the total size of the entity this unit describes
+     * Returns the total size of the entity this unit describes.
      *
      * For example, if this unit describes the bytes in a file, then this
      * returns the total bytes of the file.

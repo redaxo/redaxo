@@ -9,10 +9,12 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
+declare(strict_types=1);
+
 namespace Ramsey\Http\Range\Exception;
 
 /**
- * Indicates a problem that occurred when attempting to parse a range
+ * Thrown to indicate a problem occurred when attempting to parse a range.
  */
 class ParseException extends HttpRangeException
 {
