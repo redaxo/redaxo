@@ -28,6 +28,7 @@ class Parser
 
     private $filename;
     private $offset = 0;
+    private $numberOfParsedLines = 0;
     private $totalNumberOfLines;
     private $lines = [];
     private $currentLineNb = -1;
@@ -99,6 +100,7 @@ class Parser
             }
             $this->lines = [];
             $this->currentLine = '';
+            $this->numberOfParsedLines = 0;
             $this->refs = [];
             $this->skippedLineNumbers = [];
             $this->locallySkippedLineNumbers = [];
@@ -113,10 +115,11 @@ class Parser
         $this->currentLine = '';
         $value = $this->cleanup($value);
         $this->lines = explode("\n", $value);
+        $this->numberOfParsedLines = \count($this->lines);
         $this->locallySkippedLineNumbers = [];
 
         if (null === $this->totalNumberOfLines) {
-            $this->totalNumberOfLines = \count($this->lines);
+            $this->totalNumberOfLines = $this->numberOfParsedLines;
         }
 
         if (!$this->moveToNextLine()) {
@@ -295,7 +298,7 @@ class Parser
                 $subTag = null;
                 if ($mergeNode) {
                     // Merge keys
-                } elseif (!isset($values['value']) || '' === $values['value'] || 0 === strpos($values['value'], '#') || (null !== $subTag = $this->getLineTag($values['value'], $flags)) || '<<' === $key) {
+                } elseif (!isset($values['value']) || '' === $values['value'] || '#' === ($values['value'][0] ?? '') || (null !== $subTag = $this->getLineTag($values['value'], $flags)) || '<<' === $key) {
                     // hash
                     // if next line is less indented or equal, then it means that the current value is null
                     if (!$this->isNextLineIndented() && !$this->isNextLineUnIndentedCollection()) {
@@ -434,7 +437,8 @@ class Parser
                     $value = '';
 
                     foreach ($this->lines as $line) {
-                        if ('' !== ltrim($line) && '#' === ltrim($line)[0]) {
+                        $trimmedLine = trim($line);
+                        if ('#' === ($trimmedLine[0] ?? '')) {
                             continue;
                         }
                         // If the indentation is not consistent at offset 0, it is to be considered as a ParseError
@@ -443,25 +447,25 @@ class Parser
                         }
 
                         if (false !== strpos($line, ': ')) {
-                            @trigger_error('Support for mapping keys in multi-line blocks is deprecated since Symfony 4.3 and will throw a ParseException in 5.0.', E_USER_DEPRECATED);
+                            throw new ParseException('Mapping values are not allowed in multi-line blocks.', $this->getRealCurrentLineNb() + 1, $this->currentLine, $this->filename);
                         }
 
-                        if ('' === trim($line)) {
+                        if ('' === $trimmedLine) {
                             $value .= "\n";
                         } elseif (!$previousLineWasNewline && !$previousLineWasTerminatedWithBackslash) {
                             $value .= ' ';
                         }
 
-                        if ('' !== trim($line) && '\\' === substr($line, -1)) {
+                        if ('' !== $trimmedLine && '\\' === $line[-1]) {
                             $value .= ltrim(substr($line, 0, -1));
-                        } elseif ('' !== trim($line)) {
-                            $value .= trim($line);
+                        } elseif ('' !== $trimmedLine) {
+                            $value .= $trimmedLine;
                         }
 
-                        if ('' === trim($line)) {
+                        if ('' === $trimmedLine) {
                             $previousLineWasNewline = true;
                             $previousLineWasTerminatedWithBackslash = false;
-                        } elseif ('\\' === substr($line, -1)) {
+                        } elseif ('\\' === $line[-1]) {
                             $previousLineWasNewline = false;
                             $previousLineWasTerminatedWithBackslash = true;
                         } else {
@@ -485,7 +489,7 @@ class Parser
             $data = new TaggedValue($tag, $data);
         }
 
-        if (Yaml::PARSE_OBJECT_FOR_MAP & $flags && !\is_object($data) && 'mapping' === $context) {
+        if (Yaml::PARSE_OBJECT_FOR_MAP & $flags && 'mapping' === $context && !\is_object($data)) {
             $object = new \stdClass();
 
             foreach ($data as $key => $value) {
@@ -549,6 +553,10 @@ class Parser
      */
     private function getCurrentLineIndentation(): int
     {
+        if (' ' !== ($this->currentLine[0] ?? '')) {
+            return 0;
+        }
+
         return \strlen($this->currentLine) - \strlen(ltrim($this->currentLine, ' '));
     }
 
@@ -663,7 +671,7 @@ class Parser
      */
     private function moveToNextLine(): bool
     {
-        if ($this->currentLineNb >= \count($this->lines) - 1) {
+        if ($this->currentLineNb >= $this->numberOfParsedLines - 1) {
             return false;
         }
 
@@ -699,7 +707,7 @@ class Parser
      */
     private function parseValue(string $value, int $flags, string $context)
     {
-        if (0 === strpos($value, '*')) {
+        if ('*' === ($value[0] ?? '')) {
             if (false !== $pos = strpos($value, '#')) {
                 $value = substr($value, 1, $pos - 2);
             } else {
@@ -761,7 +769,7 @@ class Parser
 
                 // quoted string values end with a line that is terminated with the quotation character
                 $escapedLine = str_replace(['\\\\', '\\"'], '', $this->currentLine);
-                if ('' !== $escapedLine && substr($escapedLine, -1) === $quotation) {
+                if ('' !== $escapedLine && $escapedLine[-1] === $quotation) {
                     break;
                 }
             }
@@ -955,7 +963,7 @@ class Parser
      */
     private function isCurrentLineBlank(): bool
     {
-        return '' == trim($this->currentLine, ' ');
+        return '' === $this->currentLine || '' === trim($this->currentLine, ' ');
     }
 
     /**
@@ -966,7 +974,7 @@ class Parser
     private function isCurrentLineComment(): bool
     {
         //checking explicitly the first char of the trim is faster than loops or strpos
-        $ltrimmedLine = ltrim($this->currentLine, ' ');
+        $ltrimmedLine = '' !== $this->currentLine && ' ' === $this->currentLine[0] ? ltrim($this->currentLine, ' ') : $this->currentLine;
 
         return '' !== $ltrimmedLine && '#' === $ltrimmedLine[0];
     }
@@ -1052,7 +1060,7 @@ class Parser
      */
     private function isStringUnIndentedCollectionItem(): bool
     {
-        return '-' === rtrim($this->currentLine) || 0 === strpos($this->currentLine, '- ');
+        return 0 === strncmp($this->currentLine, '- ', 2) || '-' === rtrim($this->currentLine);
     }
 
     /**
@@ -1155,22 +1163,23 @@ class Parser
         $value = '';
 
         for ($i = 0, $linesCount = \count($lines), $previousLineWasNewline = false, $previousLineWasTerminatedWithBackslash = false; $i < $linesCount; ++$i) {
-            if ('' === trim($lines[$i])) {
+            $trimmedLine = trim($lines[$i]);
+            if ('' === $trimmedLine) {
                 $value .= "\n";
             } elseif (!$previousLineWasNewline && !$previousLineWasTerminatedWithBackslash) {
                 $value .= ' ';
             }
 
-            if ('' !== trim($lines[$i]) && '\\' === substr($lines[$i], -1)) {
+            if ('' !== $trimmedLine && '\\' === $lines[$i][-1]) {
                 $value .= ltrim(substr($lines[$i], 0, -1));
-            } elseif ('' !== trim($lines[$i])) {
-                $value .= trim($lines[$i]);
+            } elseif ('' !== $trimmedLine) {
+                $value .= $trimmedLine;
             }
 
-            if ('' === trim($lines[$i])) {
+            if ('' === $trimmedLine) {
                 $previousLineWasNewline = true;
                 $previousLineWasTerminatedWithBackslash = false;
-            } elseif ('\\' === substr($lines[$i], -1)) {
+            } elseif ('\\' === $lines[$i][-1]) {
                 $previousLineWasNewline = false;
                 $previousLineWasTerminatedWithBackslash = true;
             } else {

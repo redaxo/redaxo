@@ -31,6 +31,23 @@ abstract class rex_console_command extends Command
         return $this->package;
     }
 
+    public function run(InputInterface $input, OutputInterface $output)
+    {
+        try {
+            return parent::run($input, $output);
+        } catch (\TypeError $error) {
+            $msg = $error->getMessage();
+
+            // compat to symfony 4.x, where it wasn't required to return a status code from command::execute()
+            // (redaxo < 5.12 uses symfony 4.x)
+            if (str_starts_with($msg, 'Return value of "') && strpos($msg, '::execute()" must be of the type int,')) {
+                return 0;
+            }
+
+            throw $error;
+        }
+    }
+
     /**
      * @return SymfonyStyle
      */
