@@ -43,9 +43,6 @@ class ArgvInput extends Input
     private $tokens;
     private $parsed;
 
-    /**
-     * @param array|null $argv An array of parameters from the CLI (in the argv format)
-     */
     public function __construct(array $argv = null, InputDefinition $definition = null)
     {
         $argv = $argv ?? $_SERVER['argv'] ?? [];
@@ -273,7 +270,7 @@ class ArgvInput extends Input
     /**
      * {@inheritdoc}
      */
-    public function hasParameterOption($values, $onlyParams = false)
+    public function hasParameterOption($values, bool $onlyParams = false)
     {
         $values = (array) $values;
 
@@ -298,7 +295,7 @@ class ArgvInput extends Input
     /**
      * {@inheritdoc}
      */
-    public function getParameterOption($values, $default = false, $onlyParams = false)
+    public function getParameterOption($values, $default = false, bool $onlyParams = false)
     {
         $values = (array) $values;
         $tokens = $this->tokens;
