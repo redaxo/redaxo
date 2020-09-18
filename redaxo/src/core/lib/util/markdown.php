@@ -111,16 +111,16 @@ final class rex_parsedown_with_toc extends ParsedownExtra
     public $bottomLevel = 3;
     public $headers = [];
 
-    protected function blockHeader($line)
+    protected function blockHeader($Line)
     {
-        $block = parent::blockHeader($line);
+        $block = parent::blockHeader($Line);
 
         return $this->handleHeader($block);
     }
 
-    protected function blockSetextHeader($line, array $block = null)
+    protected function blockSetextHeader($Line, array $Block = null)
     {
-        $block = parent::blockSetextHeader($line, $block);
+        $block = parent::blockSetextHeader($Line, $Block);
 
         return $this->handleHeader($block);
     }

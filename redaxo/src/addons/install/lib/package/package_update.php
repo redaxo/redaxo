@@ -144,8 +144,11 @@ class rex_install_package_update extends rex_install_package_download
         $temppath = rex_path::addon('.new.' . $this->addonkey);
 
         // ---- update "version", "requires" and "conflicts" properties
+        /** @psalm-var SplObjectStorage<rex_package, string> $versions */
         $versions = new SplObjectStorage();
+        /** @psalm-var SplObjectStorage<rex_package, array> $requirements */
         $requirements = new SplObjectStorage();
+        /** @psalm-var SplObjectStorage<rex_package, array> $conflicts */
         $conflicts = new SplObjectStorage();
 
         $requirements[$this->addon] = $this->addon->getProperty('requires', []);
