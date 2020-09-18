@@ -48,8 +48,8 @@ class rex_media_manager_test extends TestCase
 
             $manager = rex_media_manager::create('non_existing_type', $filename);
 
-            static::assertFileNotExists($manager->getCacheFilename());
-            static::assertFileNotExists($manager->getHeaderCacheFilename());
+            static::assertFileDoesNotExist($manager->getCacheFilename());
+            static::assertFileDoesNotExist($manager->getHeaderCacheFilename());
         } finally {
             @unlink($path);
         }

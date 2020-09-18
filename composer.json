@@ -12,6 +12,7 @@
         "j13k/yaml-lint": "^1.1@dev",
         "phpstan/phpstan": "0.12.42",
         "phpstan/extension-installer": "1.0.5",
+        "phpstan/phpstan-deprecation-rules": "0.12.5",
         "phpstan/phpstan-phpunit": "0.12.16",
         "phpunit/phpunit": "^9.3",
         "psalm/plugin-phpunit": "0.10.1",
