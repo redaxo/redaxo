@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
-class JsonException extends Exception
+namespace Symfony\Component\String\Exception;
+
+interface ExceptionInterface extends \Throwable
 {
 }

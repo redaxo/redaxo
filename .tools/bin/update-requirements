@@ -7,7 +7,6 @@ rm -rf redaxo/src/core/vendor/bin/
 rm -rf redaxo/src/core/vendor/erusev/parsedown/test/
 rm -rf redaxo/src/core/vendor/erusev/parsedown-extra/test/
 rm -rf redaxo/src/core/vendor/psr/log/Psr/Log/Test/
-rm -rf redaxo/src/core/vendor/ramsey/http-range/.git
 rm -rf redaxo/src/core/vendor/ramsey/http-range/tests/
 rm -rf redaxo/src/core/vendor/symfony/console/Tests/
 rm -rf redaxo/src/core/vendor/symfony/service-contracts/Test/
@@ -15,6 +14,7 @@ rm -rf redaxo/src/core/vendor/symfony/var-dumper/Resources/bin/
 rm -rf redaxo/src/core/vendor/symfony/var-dumper/Test/
 rm -rf redaxo/src/core/vendor/symfony/var-dumper/Tests/
 rm -rf redaxo/src/core/vendor/symfony/yaml/Tests/
+rm -rf redaxo/src/core/vendor/voku/anti-xss/build/
 rm -rf redaxo/src/core/vendor/voku/portable-ascii/build/
 
 find redaxo/src/core/vendor -name ".gitattributes" -type f -delete

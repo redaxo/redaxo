@@ -26,7 +26,7 @@ jobs:
                 - mysql -e 'create database redaxo5;'
                 - php .tools/bin/setup
             script: vendor/bin/phpunit
-            php: 7.1
+            php: 7.3
             dist: trusty
             env:
                 - DB=mariadb
@@ -57,17 +57,13 @@ jobs:
                 - mysql --version
         -   &TEST_MYSQL
             <<: *TEST
-            php: 7.1
+            php: 7.3
             dist: bionic
             env:
                 - DB=mysql5
             services:
                 - mysql
             addons: {}
-        -   <<: *TEST_MYSQL
-            php: 7.2
-        -   <<: *TEST_MYSQL
-            php: 7.3
         -   <<: *TEST_MYSQL
             php: 7.4
         -   <<: *TEST_MYSQL
