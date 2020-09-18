@@ -59,33 +59,32 @@
         <DeprecatedMethod>
             <errorLevel type="info">
                 <referencedMethod name="rex_string::versionCompare"/>
-                <referencedMethod name="PHPUnit\Framework\Assert::assertDirectoryNotExists"/>
-                <referencedMethod name="PHPUnit\Framework\Assert::assertFileNotExists"/>
             </errorLevel>
         </DeprecatedMethod>
+        <DocblockTypeContradiction errorLevel="info" />
+        <InternalClass errorLevel="info" />
         <InternalMethod errorLevel="info" />
         <InternalProperty errorLevel="info" />
-        <InternalClass errorLevel="info" />
-        <MissingClosureReturnType errorLevel="info" />
-        <MissingReturnType errorLevel="info" />
-        <MissingPropertyType errorLevel="info" />
-        <PropertyNotSetInConstructor errorLevel="info" />
         <MissingClosureParamType errorLevel="info" />
-        <MissingParamType errorLevel="info" />
-        <RedundantCondition errorLevel="info" />
-        <DocblockTypeContradiction errorLevel="info" />
-        <RedundantConditionGivenDocblockType errorLevel="info" />
-        <UnresolvableInclude errorLevel="info" />
-        <RawObjectIteration>
-            <errorLevel type="info">
-                <file name="redaxo/src/core/lib/api_function.php"/>
-            </errorLevel>
-        </RawObjectIteration>
+        <MissingClosureReturnType errorLevel="info" />
         <MissingConstructor>
             <errorLevel type="suppress">
                 <file name="vendor/phpunit/phpunit/src/Framework/TestCase.php" />
             </errorLevel>
         </MissingConstructor>
+        <MissingParamType errorLevel="info" />
+        <MissingPropertyType errorLevel="info" />
+        <MissingReturnType errorLevel="info" />
+        <PropertyNotSetInConstructor errorLevel="info" />
+        <RawObjectIteration>
+            <errorLevel type="info">
+                <file name="redaxo/src/core/lib/api_function.php"/>
+            </errorLevel>
+        </RawObjectIteration>
+        <RedundantCondition errorLevel="info" />
+        <RedundantConditionGivenDocblockType errorLevel="info" />
+        <UnresolvableInclude errorLevel="suppress" />
+        <UnsafeInstantiation errorLevel="info" />
 <!-- level 3 issues - points to possible deficiencies in logic, higher false-positives -->
         <PossiblyNullArgument errorLevel="info" />
         <PossiblyNullReference errorLevel="info" />
