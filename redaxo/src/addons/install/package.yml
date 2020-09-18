@@ -23,7 +23,7 @@ requires:
     php:
         version: '>=7.3'
         extensions: [zlib]
-    redaxo: ^5.7.0
+    redaxo: ^5.10
 
 
 console_commands:
