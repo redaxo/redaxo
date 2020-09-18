@@ -91,7 +91,7 @@ class rex_dir_test extends TestCase
 
         static::assertTrue(is_file($file), 'file exists after put()');
         static::assertTrue(rex_dir::delete($dir), 'delete() returns true on success');
-        static::assertDirectoryNotExists($dir, 'dir does not exist after complete delete()');
+        static::assertDirectoryDoesNotExist($dir, 'dir does not exist after complete delete()');
     }
 
     public function testDeleteWithoutSelf()
@@ -103,7 +103,7 @@ class rex_dir_test extends TestCase
         static::assertTrue(is_file($file), 'file exists after put()');
         static::assertTrue(rex_dir::delete($dir, false), 'delete() returns true on success');
         static::assertFalse(is_file($file), 'file does not exist after delete()');
-        static::assertDirectoryNotExists($dir . '/subdir', 'subdir does not exist after delete()');
+        static::assertDirectoryDoesNotExist($dir . '/subdir', 'subdir does not exist after delete()');
         static::assertDirectoryExists($dir, 'main dir still exists after delete() without self');
     }
 
