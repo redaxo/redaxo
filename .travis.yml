@@ -33,7 +33,7 @@ jobs:
             addons:
                 mariadb: 10.1
         -   <<: *TEST
-            php: 7.4
+            php: 7.3
             addons:
                 mariadb: 10.5
         -   <<: *TEST
