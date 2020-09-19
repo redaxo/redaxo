@@ -111,7 +111,7 @@ rex_var_dumper::register();
 
 // ----------------- REX PERMS
 
-rex_complex_perm::register('clang', 'rex_clang_perm');
+rex_complex_perm::register('clang', rex_clang_perm::class);
 
 // ----- SET CLANG
 if (!rex::isSetup()) {
