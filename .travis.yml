@@ -35,7 +35,7 @@ jobs:
         -   <<: *TEST
             php: 7.3
             addons:
-                mariadb: 10.4
+                mariadb: 10.5
         -   <<: *TEST
             dist: xenial
             php: 7.4
