@@ -89,11 +89,9 @@ class rex_string
         foreach ($parts as $part) {
             $part = explode('=', $part, 2);
             if (isset($part[1])) {
-                /** @psalm-suppress EmptyArrayAccess */
                 $value = $part[1] == $spacer ? $quoted[$i++] : $part[1];
                 $result[$part[0]] = $value;
             } else {
-                /** @psalm-suppress EmptyArrayAccess */
                 $value = $part[0] == $spacer ? $quoted[$i++] : $part[0];
                 $result[] = $value;
             }
