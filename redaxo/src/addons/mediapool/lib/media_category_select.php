@@ -7,15 +7,18 @@
  */
 class rex_media_category_select extends rex_select
 {
-    /**
-     * @var bool
-     */
-    private $check_perms;
+    public const WRITE = 1;
+    public const READ = 2;
 
     /**
      * @var bool
      */
-    private $check_read_perms;
+    private $check_perms = false;
+
+    /**
+     * @var bool
+     */
+    private $check_read_perms = false;
 
     /**
      * @var int|int[]|null
@@ -28,16 +31,20 @@ class rex_media_category_select extends rex_select
     private $loaded = false;
 
     /**
-     * @param bool $check_perms
-     * @param bool $check_read_perms
+     * @param int|bool $check_perms
      */
-    public function __construct($check_perms = true, $check_read_perms = false)
+    public function __construct($check_perms = self::WRITE)
     {
-        $this->check_perms = $check_perms;
-        $this->check_read_perms = $check_read_perms;
-        if (false === $check_perms && true === $check_read_perms) {
+        $check_perms = (is_bool($check_perms) && true === $check_perms) ? self::WRITE : $check_perms;
+
+        if (self::WRITE == $check_perms) {
             $this->check_perms = true;
         }
+        if (self::READ == $check_perms) {
+            $this->check_perms = true;
+            $this->check_read_perms = true;
+        }
+
         $this->rootId = null;
 
         parent::__construct();

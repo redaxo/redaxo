@@ -15,7 +15,7 @@ $csrf = rex_csrf_token::factory('mediapool');
 
 // *************************************** KATEGORIEN CHECK UND AUSWAHL
 
-$sel_media = new rex_media_category_select($check_perm = true, true);
+$sel_media = new rex_media_category_select(rex_media_category_select::READ);
 $sel_media->setId('rex_file_category');
 $sel_media->setName('rex_file_category');
 $sel_media->setSize(1);

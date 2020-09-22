@@ -198,7 +198,7 @@ $sidebar = rex_extension::registerPoint(new rex_extension_point('MEDIA_DETAIL_SI
 if ($TPERM) {
     $panel = '';
 
-    $cats_sel = new rex_media_category_select(true, false);
+    $cats_sel = new rex_media_category_select();
     $cats_sel->setStyle('class="form-control"');
     $cats_sel->setSize(1);
     $cats_sel->setName('rex_file_category');

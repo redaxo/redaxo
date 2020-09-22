@@ -123,7 +123,7 @@ class rex_metainfo_table_expander extends rex_form
             if (rex_metainfo_article_handler::PREFIX == $this->metaPrefix || rex_metainfo_category_handler::PREFIX == $this->metaPrefix) {
                 $field->setSelect(new rex_category_select(false, false, true, false));
             } elseif (rex_metainfo_media_handler::PREFIX == $this->metaPrefix) {
-                $field->setSelect(new rex_media_category_select());
+                $field->setSelect(new rex_media_category_select(rex_media_category_select::READ));
             } else {
                 throw new rex_exception('Unexpected TablePrefix "' . $this->metaPrefix . '".');
             }

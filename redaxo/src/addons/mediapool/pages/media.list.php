@@ -104,7 +104,7 @@ if ($hasCategoryPerm && 'delete_selectedmedia' == $media_method) {
     }
 }
 
-$cats_sel = new rex_media_category_select(true, false);
+$cats_sel = new rex_media_category_select();
 $cats_sel->setSize(1);
 $cats_sel->setStyle('class="form-control selectpicker"');
 $cats_sel->setName('rex_file_category');
