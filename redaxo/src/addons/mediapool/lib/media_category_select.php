@@ -28,8 +28,6 @@ class rex_media_category_select extends rex_select
     private $loaded = false;
 
     /**
-     * rex_media_category_select constructor.
-     *
      * @param bool $check_perms
      * @param bool $check_read_perms
      */
