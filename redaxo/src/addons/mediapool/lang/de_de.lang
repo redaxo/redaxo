@@ -93,10 +93,10 @@ pool_max_uploadtime = Maximale Uploadzeit
 pool_upload_disabled = Deaktiviert!
 pool_upload = Dateiupload
 
-all_mediafolder = Alle Medienordner
-mediafolder = Medienordner
-mediafolder_read = Medienordner [lesen]
-all_mediafolder_read = Alle Medienordner [lesen]
+all_mediafolder = Alle Medienordner [lesen, schreiben]
+mediafolder = Medienordner [lesen, schreiben]
+mediafolder_read = Medienordner [nur lesen]
+all_mediafolder_read = Alle Medienordner [nur lesen]
 
 var_media_open = Medium auswählen
 var_media_new = Neues Medium hinzufügen
