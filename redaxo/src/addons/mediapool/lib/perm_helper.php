@@ -18,8 +18,7 @@ class media_category_perm_helper
             foreach ($children as $child) {
                 $matchedChild = null;
                 // check child of child
-                $childs = $child->getChildren();
-                if (is_array($childs)) {
+                if (is_array($child->getChildren())) {
                     $matchedChild = self::checkChildren($child, $check_read_perms);
                 }
 
