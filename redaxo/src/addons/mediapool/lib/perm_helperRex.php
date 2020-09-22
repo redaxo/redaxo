@@ -3,7 +3,7 @@
 /**
  * @package redaxo\mediapool
  */
-class media_category_perm_helper
+class rex_media_category_perm_helper
 {
     /**
      * @param rex_media_category $mediacat

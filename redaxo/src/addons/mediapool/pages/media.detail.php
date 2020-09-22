@@ -37,7 +37,7 @@ if (rex_post('btn_delete', 'string')) {
         if ($media) {
             $filename = $media->getFileName();
             if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($media->getCategoryId())
-                || media_category_perm_helper::checkParents($media->getCategory(), false) instanceof rex_media_category
+                || rex_media_category_perm_helper::checkParents($media->getCategory(), false) instanceof rex_media_category
             ) {
                 $return = rex_mediapool_deleteMedia($filename);
                 if ($return['ok']) {
@@ -69,9 +69,9 @@ if (rex_post('btn_update', 'string')) {
             $file_id = 0;
         } elseif (
             (!rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('category_id'))
-                && !media_category_perm_helper::checkParents(rex_media_category::get($gf->getValue('category_id')), false) instanceof rex_media_category)
+                && !rex_media_category_perm_helper::checkParents(rex_media_category::get($gf->getValue('category_id')), false) instanceof rex_media_category)
             || (!rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category)
-                && !media_category_perm_helper::checkParents(rex_media_category::get($rex_file_category), false) instanceof rex_media_category)
+                && !rex_media_category_perm_helper::checkParents(rex_media_category::get($rex_file_category), false) instanceof rex_media_category)
         ) {
             $error = rex_i18n::msg('no_permission');
         } elseif (!empty($_FILES['file_new']['tmp_name']) && !rex_mediapool_isAllowedMimeType($_FILES['file_new']['tmp_name'], $_FILES['file_new']['name'])) {
@@ -112,7 +112,7 @@ if (1 != $gf->getRows()) {
 
 $TPERM = false;
 if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('category_id'))
-    || media_category_perm_helper::checkParents(rex_media_category::get($gf->getValue('category_id')), false) instanceof rex_media_category) {
+    || rex_media_category_perm_helper::checkParents(rex_media_category::get($gf->getValue('category_id')), false) instanceof rex_media_category) {
     $TPERM = true;
 }
 
