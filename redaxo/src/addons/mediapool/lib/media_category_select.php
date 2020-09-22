@@ -93,8 +93,8 @@ class rex_media_category_select extends rex_select
         }
 
         if ($this->check_perms) {
-            $childWithPermission = rex_media_category_perm_helper::checkChildren($mediacat, $this->check_read_perms);
-            $parentWithPermission = rex_media_category_perm_helper::checkParents($mediacat, $this->check_read_perms);
+            $childWithPermission = rex_media_category_perm_helper::getMediaCategoryChildren($mediacat, $this->check_read_perms);
+            $parentWithPermission = rex_media_category_perm_helper::getMediaCategoryParent($mediacat, $this->check_read_perms);
         }
 
         if (!$this->check_perms ||

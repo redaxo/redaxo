@@ -9,9 +9,9 @@ class rex_media_category_perm_helper
      * @param rex_media_category $mediacat
      * @param bool $check_read_perms
      *
-     * @return bool|mixed|rex_media_category
+     * @return false|mixed|rex_media_category
      */
-    public static function checkChildren(rex_media_category $mediacat, bool $check_read_perms)
+    public static function getMediaCategoryChildren(rex_media_category $mediacat, bool $check_read_perms)
     {
         $children = $mediacat->getChildren();
         if (is_array($children)) {
@@ -19,7 +19,7 @@ class rex_media_category_perm_helper
                 $matchedChild = null;
                 // check child of child
                 if (is_array($child->getChildren())) {
-                    $matchedChild = self::checkChildren($child, $check_read_perms);
+                    $matchedChild = self::getMediaCategoryChildren($child, $check_read_perms);
                 }
 
                 // return matched child
@@ -43,9 +43,9 @@ class rex_media_category_perm_helper
      * @param null|rex_media_category $mediacat
      * @param bool $check_read_perms
      *
-     * @return null|bool|rex_media_category
+     * @return false|rex_media_category|null
      */
-    public static function checkParents($mediacat, bool $check_read_perms)
+    public static function getMediaCategoryParent($mediacat, bool $check_read_perms)
     {
         if ($mediacat instanceof rex_media_category && count($mediacat->getPathAsArray()) > 0) {
             foreach ($mediacat->getPathAsArray() as $parent) {

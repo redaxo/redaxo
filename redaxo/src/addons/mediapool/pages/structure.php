@@ -110,7 +110,7 @@ if (!$PERMALL) {
     $addable = false;
 
     if ($cat_id > 0) {
-        $pwp = rex_media_category_perm_helper::checkParents(rex_media_category::get($cat_id), false);
+        $pwp = rex_media_category_perm_helper::getMediaCategoryParent(rex_media_category::get($cat_id), false);
         if (
             rex::getUser()->getComplexPerm('media')->hasCategoryPerm($cat_id) // check media cat
             || $pwp instanceof rex_media_category
@@ -150,8 +150,8 @@ if ('add_cat' == $media_method) {
 }
 
 foreach ($OOCats as $OOCat) {
-    $childWithPermission = rex_media_category_perm_helper::checkChildren($OOCat, false);
-    $parentWithPermission = rex_media_category_perm_helper::checkParents($OOCat, false);
+    $childWithPermission = rex_media_category_perm_helper::getMediaCategoryChildren($OOCat, false);
+    $parentWithPermission = rex_media_category_perm_helper::getMediaCategoryParent($OOCat, false);
 
     if (
         rex::getUser()->getComplexPerm('media')->hasCategoryPerm($OOCat->getId()) // check media cat
