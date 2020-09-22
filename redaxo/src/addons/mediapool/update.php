@@ -8,17 +8,24 @@ if (rex_addon::get('users')->isInstalled() && rex_string::versionCompare($addon-
         $roles = rex_sql::factory()->setQuery('SELECT * FROM ' . rex::getTable('user_role'));
         foreach ($roles as $role) {
             $perms = $role->getArrayValue('perms');
-            if (rex_complex_perm::ALL !== $perms['media']) {
-                continue;
+
+            if (!in_array('media_read', $perms)) {
+                $perms['media_read'] = rex_complex_perm::ALL;
             }
 
-            $perms['general'] = $perms['general'] ?? '|';
-            $perms['general'] .= 'media[sync]|';
-            $sql
-                ->setTable(rex::getTable('user_role'))
-                ->setWhere(['id' => $role->getValue('id')])
-                ->setArrayValue('perms', $perms)
-                ->update();
+            if (rex_complex_perm::ALL === $perms['media']) {
+                $perms['general'] = $perms['general'] ?? '|';
+                $perms['general'] .= 'media[categories]|';
+                $perms['general'] .= 'media[sync]|';
+            }
+
+            if ($perms !== $role->getArrayValue('perms')) {
+                $sql
+                    ->setTable(rex::getTable('user_role'))
+                    ->setWhere(['id' => $role->getValue('id')])
+                    ->setArrayValue('perms', $perms)
+                    ->update();
+            }
         }
     });
 }
