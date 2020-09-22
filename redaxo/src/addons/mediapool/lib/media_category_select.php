@@ -123,7 +123,7 @@ class rex_media_category_select extends rex_select
                 $attributes['disabled'] = '1';
             }
 
-            $categoryName = $mediacat->getName() . ' [' . $categoryId . ']';
+            $categoryName = $mediacat->getName();
             $this->addOption($categoryName, $value, $categoryId, $parentCategoryId, $attributes);
 
             $childs = $mediacat->getChildren();
