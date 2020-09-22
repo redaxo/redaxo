@@ -108,3 +108,4 @@ var_medialist_move_down = Ausgewähltes Medium nach unten verschieben
 var_medialist_move_bottom = Ausgewähltes Medium an das Ende verschieben
 
 perm_general_media[sync] = Medienpool: Dateien synchronisieren
+perm_general_media[categories] = Medienpool: Kategorien verwalten
