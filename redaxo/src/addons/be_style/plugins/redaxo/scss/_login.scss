@@ -4,57 +4,39 @@
     background: $color-a-darker;
 
     .rex-nav-top {
-        padding-top: $grid-gutter-width;
-        padding-bottom: $grid-gutter-width;
-        background: $color-a-dark;
-        border-color: $color-a-dark;
-        text-align: center;
-
-        @media(min-width: $grid-float-breakpoint) {
-            padding-top: ($grid-gutter-width * 5);
-        }
-
-        .navbar-header,
-        .navbar-brand {
-            float: none;
-        }
-    }
-    .rex-redaxo-logo {
-        display: inline;
+        display: none;
     }
 
     .rex-page-header {
         display: none;
     }
 
+    .rex-page {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+    }
+
+    .rex-page-container {
+        flex: auto;
+        display: flex;
+        justify-content: center;
+        min-height: 0;
+        flex-direction: column;
+        align-items: center;
+    }
+
     .rex-page-main {
         position: relative;
         max-width: 400px;
-        margin-left: auto;
-        margin-right: auto;
-        padding-top: $grid-gutter-width;
-
-        &:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            margin-left: (-$grid-gutter-width / 2);
-            width: 0;
-            height: 0;
-            border-width: ($grid-gutter-width / 2);
-            border-style: solid;
-            border-color: $color-a-dark transparent transparent transparent;
-        }
     }
 
     .rex-global-footer {
         text-align: center;
     }
     .rex-nav-footer {
-        max-width: 400px;
-        margin-left: auto;
-        margin-right: auto;
+        margin-left: 5vw;
+        margin-right: 5vw;
         color: $color-a;
 
         li:first-child,
@@ -68,26 +50,28 @@
     }
 
     .panel-default {
-        background-color: $color-a-dark;
+        background-color: rgba($color-a-dark, 0.97);
         border: 0;
         color: $color-a-light;
 
         .panel-heading,
         .panel-footer {
-            background-color: $color-a-dark;
+            background-color: transparent;
             border: 0;
         }
         .panel-heading {
             color: $color-a-light;
         }
+        .panel-body {
+            padding: 25px 25px 5px 25px;
+        }
         .panel-footer {
-            .btn {
-                float: right;
-            }
+            padding: 5px 25px 25px 25px;
         }
     }
     .btn-primary {
         background-color: $color-a-darker;
+        transition: background-color 100ms ease-out;
         &:hover {
             background-color: darken($color-a-darker, 5%);
         }
@@ -110,17 +94,65 @@
     .form-control {
         background-color: $color-a;
         color: $color-a-darker;
+        border-color: $color-a-dark;
 
         &:focus {
-            border-color: $color-a-light;
             @include box-shadow(none);
+        }
+        &:last-child {
+            border-radius: 0 4px 4px 0;
         }
     }
     .input-group-addon {
         background-color: $color-a;
         color: $color-a-dark;
+        border-color: $color-a-dark;
     }
     .input-group-btn .btn-view {
-        border-color: $input-border;
+        background-color: $color-a;
+        color: $color-a-darker;
+        border: none;
+        transition: background-color 100ms ease-out;
+        &:hover {
+            background-color: $color-a-light;
+        }
+    }
+    .input-group {
+        .form-control,
+        .input-group-addon {
+            transition: background-color 100ms ease-out;
+        }
+        &:focus-within {
+            .form-control,
+            .input-group-addon {
+                background-color: $color-a-light;
+            }
+        }
+    }
+
+    .rex-branding {
+        margin: 10px 0 25px 0;
+    }
+
+    .rex-redaxo-logo {
+        height: 20px;
+    }
+
+    .rex-background {
+        position: fixed;
+        z-index: -1;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+
+        background-position: center;
+        background-size: cover;
+
+        source,
+        img {
+            object-fit: cover;
+        }
     }
 }
