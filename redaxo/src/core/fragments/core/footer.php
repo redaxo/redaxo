@@ -8,6 +8,10 @@
                     <li><a href="https://www.redaxo.org/doku/master" target="_blank" rel="noreferrer noopener' ?>"><?php echo rex_i18n::msg('footer_doku'); ?></a></li>
                 <?php endif; ?>
                 <li><a href="<?php echo rex::getUser() ? rex_url::backendPage('credits') : 'https://www.redaxo.org/" target="_blank" rel="noreferrer noopener' ?>"><?php echo rex_i18n::msg('footer_credits'); ?></a></li>
+                <?php if ('login' === rex_be_controller::getCurrentPage()):
+                    $fragment = new rex_fragment();
+                    echo $fragment->parse('core/login_background_credits.php');
+                endif; ?>
                 <li class="rex-js-script-time"><!--DYN--><?php echo rex_i18n::msg('footer_scripttime', $this->time); ?><!--/DYN--></li>
             </ul>
         </nav>
