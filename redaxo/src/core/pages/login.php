@@ -38,6 +38,10 @@ if ('' != $rex_user_loginmessage) {
 }
 
 $content = '';
+
+$fragment = new rex_fragment();
+$content .= $fragment->parse('core/login_branding.php');
+
 $content .= '
     <fieldset>
         <input type="hidden" name="javascript" value="0" id="javascript" />';
@@ -128,5 +132,8 @@ $content = '
     });
      //-->
 </script>';
+
+$fragment = new rex_fragment();
+$content .= $fragment->parse('core/login_background.php');
 
 echo $content;
