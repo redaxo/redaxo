@@ -433,7 +433,7 @@ class rex_be_controller
             $path = $languagePath;
         }
 
-        [$toc, $content] = rex_markdown::factory()->parseWithToc(rex_file::get($path));
+        [$toc, $content] = rex_markdown::factory()->parseWithToc(rex_file::get($path),2,3,rex_markdown::SET_BREAKS_DISABLED);
         $fragment = new rex_fragment();
         $fragment->setVar('content', $content, false);
         $fragment->setVar('toc', $toc, false);
