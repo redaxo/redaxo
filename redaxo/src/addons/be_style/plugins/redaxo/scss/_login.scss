@@ -1,3 +1,11 @@
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
 
 @keyframes fadeIn {
     0% {
@@ -155,7 +163,8 @@
         right: 0;
         bottom: 0;
         display: flex;
-        animation: fadeIn 800ms ease-out;
+        -webkit-animation: fadeIn 800ms ease-out;
+                animation: fadeIn 800ms ease-out;
 
         // in case someone uses bgr image on this element instead of <picture>
         background-position: center;
@@ -163,7 +172,8 @@
 
         source,
         img {
-            object-fit: cover;
+            -o-object-fit: cover;
+               object-fit: cover;
             overflow: hidden; // fix chrome rendering issues
         }
     }
