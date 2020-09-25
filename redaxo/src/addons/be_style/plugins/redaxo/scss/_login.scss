@@ -1,4 +1,12 @@
 
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
 
 #rex-page-login {
     background: $color-a-darker;
@@ -14,7 +22,8 @@
     .rex-page {
         display: flex;
         flex-direction: column;
-        min-height: 0;
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
     }
 
     .rex-page-container {
@@ -131,7 +140,7 @@
     }
 
     .rex-branding {
-        margin: 10px 0 25px 0;
+        margin: 10px 0 30px 0;
     }
 
     .rex-redaxo-logo {
@@ -146,13 +155,23 @@
         right: 0;
         bottom: 0;
         display: flex;
+        animation: fadeIn 800ms ease-out;
 
+        // in case someone uses bgr image on this element instead of <picture>
         background-position: center;
         background-size: cover;
 
         source,
         img {
             object-fit: cover;
+            overflow: hidden; // fix chrome rendering issues
+        }
+    }
+
+    .rex-background,
+    .rex-background-credits {
+        @media (max-width: $screen-sm-max) {
+            display: none;
         }
     }
 }
