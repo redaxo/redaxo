@@ -55,6 +55,7 @@ final class rex_analytics_metric {
 
     /**
      * @param float $value
+     * @param string $type
      * @psalm-param self::TYPE_* $type
      */
     private function __construct($value, $type) {
@@ -64,6 +65,7 @@ final class rex_analytics_metric {
 
     /**
      * @param float $value
+     * @param string $type
      * @psalm-param self::TYPE_* $type
      * @return self
      */
