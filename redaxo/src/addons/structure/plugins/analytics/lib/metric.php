@@ -10,7 +10,8 @@ final class rex_analytics_metric {
     ];
 
     /**
-     * @var self::TYPE_*
+     * @psalm-var self::TYPE_*
+     * @var string
      */
     private $type;
     /**
@@ -44,13 +45,19 @@ final class rex_analytics_metric {
 
     /**
      * @param float $value
-     * @param self::TYPE_* $type
+     * @psalm-param self::TYPE_* $type
+     */
+    private function __construct($value, $type) {
+        $this->value = $value;
+        $this->type = $type;
+    }
+
+    /**
+     * @param float $value
+     * @psalm-param self::TYPE_* $type
      * @return self
      */
-    static public function fromValue($value, $type):self {
-        $metric = new self();
-        $metric->value = $value;
-        $metric->type = $type;
-        return $metric;
+    static public function forValue($value, $type):self {
+        return new self($value, $type);
     }
 }
