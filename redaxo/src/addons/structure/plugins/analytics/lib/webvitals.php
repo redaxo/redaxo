@@ -13,6 +13,12 @@ final class rex_analytics_webvitals {
      * @var rex_analytics_metric
      */
     public $cls;
+    
+    private function __construct(rex_analytics_metric $lcp, rex_analytics_metric $fid, rex_analytics_metric $cls) {
+        $this->lcp = $lcp;
+        $this->fid = $fid;
+        $this->cls = $cls;
+    }
 
     /**
      * @return self|null
@@ -26,11 +32,7 @@ final class rex_analytics_webvitals {
             $fid = rex_analytics_metric::forValue($sql95->getValue('fid'), rex_analytics_metric::TYPE_FID);
             $cls = rex_analytics_metric::forValue($sql95->getValue('cls'), rex_analytics_metric::TYPE_CLS);
 
-            $vitals = new self();
-            $vitals->lcp = $lcp;
-            $vitals->fid = $fid;
-            $vitals->cls = $cls;
-            return $vitals;
+            return new self($lcp, $fid, $cls);
         }
 
         return null;
