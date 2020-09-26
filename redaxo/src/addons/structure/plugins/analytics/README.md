@@ -20,6 +20,8 @@ Im Frontend gesammelte Daten fließen erst in die Anzeige im Backend ein, nachde
 
 Die gesammelten Daten werden nach den Empfehlungen von https://web.dev/vitals/ klassifiziert und in die Kategorien "Good" (Grün), "Needs Improvement" (Gelb) und "Poor" (Rot) einsortiert.
 
+Nicht alle Browser liefern alle Rohdaten. Zum testen arbeitet man am besten mit Google Chrome da dieser bisher die meisten auswertbaren Daten liefert.
+
 ## Relevantes
 
 https://web.dev/vitals/ - Webvitals Grundlagen
