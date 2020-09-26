@@ -15,3 +15,7 @@ Sobald das plugin aktiviert ist, wird im Frontend Daten gesammelt.
 Damit die Daten ausgewertet werden, muss der cronjob vom typ `rex_analytics_cronjob` eingerichtet werden.
 Der Cronjob analysiert die gesammelten Rohdaten und sorgt dafür dass diese zusammengefasst im Backend für den Redakteur dargestellt werden.
 Im Frontend gesammelte Daten fließen erst in die Anzeige im Backend ein, nachdem der Cronjob gelaufen ist.
+
+## Klassifizierung der Messwerte
+
+Die gesammelten Daten werden nach den Empfehlungen von https://web.dev/vitals/ klassifiziert und in die Kategorien "Good" (Grün), "Needs Improvement" (Gelb) und "Poor" (Rot) einsortiert.

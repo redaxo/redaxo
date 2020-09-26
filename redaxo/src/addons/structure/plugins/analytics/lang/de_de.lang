@@ -13,3 +13,7 @@ structure_analytics_cls_abbr = CLS
 structure_analytics_cls_long = Cumulative Layout Shift (CLS): measures visual stability. To provide a good user experience, pages should maintain a CLS of less than 0.1.
 
 structure_analytics_fragment_exception = Die Variable {0} wurde nicht gefunden
+
+structure_analytics_good = Gut
+structure_analytics_needs_improvement = Verbesserungswürdig
+structure_analytics_poor = Schlecht

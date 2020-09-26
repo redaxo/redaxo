@@ -33,14 +33,18 @@ $progress = function($title, $abbr, rex_analytics_metric $metric) {
     $yellowValue = $metric->isYellow() ? $value .$metric->getUnit() : '';
     $greenValue = $metric->isGreen() ? $value .$metric->getUnit() : '';
 
+    $good = rex_i18n::msg('structure_analytics_good');
+    $needsImprovement = rex_i18n::msg('structure_analytics_needs_improvement');
+    $poor = rex_i18n::msg('structure_analytics_poor');
+
     return <<<EOF
                 <dl class="rex-analytics-progress-list">
                     <dt><abbr title="${title}">${abbr}</abbr></dt>
                     <dd>
                         <div class="rex-analytics-progress">
-                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-success${green}">${greenValue}</div>
-                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-warning${yellow}">${yellowValue}</div>
-                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-danger${red}">${redValue}</div>
+                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-success${green}" title="${good}">${greenValue}</div>
+                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-warning${yellow}" title="${needsImprovement}">${yellowValue}</div>
+                            <div class="rex-analytics-progress-bar rex-analytics-progress-bar-danger${red}" title="${poor}">${redValue}</div>
                         </div>
                     </dd>
                 </dl>
@@ -63,6 +67,7 @@ echo sprintf(
                 '. $progress(rex_i18n::msg('structure_analytics_lcp_long'), rex_i18n::msg('structure_analytics_lcp_abbr'), $lcp) .'
                 '. $progress(rex_i18n::msg('structure_analytics_fid_long'), rex_i18n::msg('structure_analytics_fid_abbr'), $fid) .'
                 '. $progress(rex_i18n::msg('structure_analytics_cls_long'), rex_i18n::msg('structure_analytics_cls_abbr'), $cls) .'
+                per <a href="https://web.dev/vitals/" rel="noopener noreferrer" target="_blank">https://web.dev/vitals/</a>
             </div>
         </div>
     </td>');
