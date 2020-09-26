@@ -19,14 +19,23 @@ final class rex_analytics_metric {
      */
     private $value;
 
+    /**
+     * Returns whether the metric value is "poor"
+     */
     public function isRed():bool {
         return $this->value >= self::$thresholds[$this->type][2];
     }
 
+    /**
+     * Returns whether the metric value is "needs improvements"
+     */
     public function isYellow():bool {
         return $this->value >= self::$thresholds[$this->type][1] && $this->value < self::$thresholds[$this->type][2];
     }
 
+    /**
+     * Returns whether the metric value is "good"
+     */
     public function isGreen():bool {
         return $this->value <= self::$thresholds[$this->type][1];
     }
