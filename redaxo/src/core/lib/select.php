@@ -151,9 +151,9 @@ class rex_select
     /**
      * Fügt eine Option hinzu.
      */
-    public function addOption($name, $value, $id = 0, $parent_id = 0, array $attributes = [])
+    public function addOption($name, $value, $id = 0, $parentId = 0, array $attributes = [])
     {
-        $this->options[$this->currentOptgroup][$parent_id][] = [$name, $value, $id, $attributes];
+        $this->options[$this->currentOptgroup][$parentId][] = [$name, $value, $id, $attributes];
         ++$this->optCount;
     }
 
@@ -202,12 +202,12 @@ class rex_select
 
     /**
      * Fügt ein Array von Optionen hinzu, dass eine Key/Value Struktur hat.
-     * Wenn $use_keys mit false, werden die Array-Keys mit den Array-Values überschrieben.
+     * Wenn $useKeys mit false, werden die Array-Keys mit den Array-Values überschrieben.
      */
-    public function addArrayOptions(array $options, $use_keys = true)
+    public function addArrayOptions(array $options, $useKeys = true)
     {
         foreach ($options as $key => $value) {
-            if (!$use_keys) {
+            if (!$useKeys) {
                 $key = $value;
             }
 
@@ -226,19 +226,19 @@ class rex_select
     /**
      * Fügt Optionen anhand der Übergeben SQL-Select-Abfrage hinzu.
      */
-    public function addSqlOptions($qry)
+    public function addSqlOptions($query)
     {
         $sql = rex_sql::factory();
-        $this->addOptions($sql->getArray($qry, [], PDO::FETCH_NUM));
+        $this->addOptions($sql->getArray($query, [], PDO::FETCH_NUM));
     }
 
     /**
      * Fügt Optionen anhand der Übergeben DBSQL-Select-Abfrage hinzu.
      */
-    public function addDBSqlOptions($qry)
+    public function addDBSqlOptions($query)
     {
         $sql = rex_sql::factory();
-        $this->addOptions($sql->getDBArray($qry, [], PDO::FETCH_NUM));
+        $this->addOptions($sql->getDBArray($query, [], PDO::FETCH_NUM));
     }
 
     /**
@@ -301,7 +301,7 @@ class rex_select
     /**
      * @return string
      */
-    protected function outGroup($parent_id, $level = 0)
+    protected function outGroup($parentId, $level = 0)
     {
         if ($level > 100) {
             // nur mal so zu sicherheit .. man weiss nie ;)
@@ -309,7 +309,7 @@ class rex_select
         }
 
         $ausgabe = '';
-        $group = $this->getGroup($parent_id);
+        $group = $this->getGroup($parentId);
         if (!is_array($group)) {
             return '';
         }
@@ -358,14 +358,14 @@ class rex_select
         return '        <option value="' . $value . '"' . $attr . '>' . $bsps . $name . '</option>' . "\n";
     }
 
-    protected function getGroup($parent_id, $ignore_main_group = false)
+    protected function getGroup($parentId, $ignoreMainGroup = false)
     {
-        if ($ignore_main_group && 0 == $parent_id) {
+        if ($ignoreMainGroup && 0 == $parentId) {
             return false;
         }
 
-        if (isset($this->options[$this->currentOptgroup][$parent_id])) {
-            return $this->options[$this->currentOptgroup][$parent_id];
+        if (isset($this->options[$this->currentOptgroup][$parentId])) {
+            return $this->options[$this->currentOptgroup][$parentId];
         }
 
         return false;

@@ -3,17 +3,26 @@
 // don't use REX_MIN_PHP_VERSION or rex_setup::MIN_MYSQL_VERSION here!
 // while updating the core, the constants contain the old min versions from previous core version
 
-if (PHP_VERSION_ID < 70103) {
-    throw new rex_functional_exception(rex_i18n::msg('setup_301', PHP_VERSION, '7.1.3'));
+if (PHP_VERSION_ID < 70300) {
+    throw new rex_functional_exception(rex_i18n::msg('setup_301', PHP_VERSION, '7.3'));
 }
 
-$mysqlVersion = rex_sql::getServerVersion();
-$minMysqlVersion = '5.5.3';
-if (rex_string::versionCompare($mysqlVersion, $minMysqlVersion, '<')) {
-    // The message was added in REDAXO 5.6.0, so it does not exist while updating from previous versions
-    $message = rex_i18n::hasMsg('sql_database_min_version')
-        ? rex_i18n::msg('sql_database_min_version', $mysqlVersion, $minMysqlVersion)
-        : "The MySQL version $mysqlVersion is too old, you need at least version $minMysqlVersion!";
+$minMysqlVersion = '5.6';
+$minMariaDbVersion = '10.1';
+
+$minVersion = $minMysqlVersion;
+$dbType = 'MySQL';
+$dbVersion = rex_sql::getServerVersion();
+if (preg_match('/^(?:\d+\.\d+\.\d+-)?(\d+\.\d+\.\d+)-mariadb/i', $dbVersion, $match)) {
+    $minVersion = $minMariaDbVersion;
+    $dbType = 'MariaDB';
+    $dbVersion = $match[1];
+}
+if (rex_string::versionCompare($dbVersion, $minVersion, '<')) {
+    // The message was added in REDAXO 5.11.1, so it does not exist while updating from previous versions
+    $message = rex_i18n::hasMsg('sql_database_required_version')
+        ? rex_i18n::msg('sql_database_required_version', $dbType, $dbVersion, $minMysqlVersion, $minMariaDbVersion)
+        : "The $dbType version $dbVersion is too old, you need at least MySQL $minMysqlVersion or MariaDB $minMariaDbVersion!";
 
     throw new rex_functional_exception($message);
 }

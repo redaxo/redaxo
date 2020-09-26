@@ -48,8 +48,8 @@ class rex_media_manager_test extends TestCase
 
             $manager = rex_media_manager::create('non_existing_type', $filename);
 
-            static::assertFileNotExists($manager->getCacheFilename());
-            static::assertFileNotExists($manager->getHeaderCacheFilename());
+            static::assertFileDoesNotExist($manager->getCacheFilename());
+            static::assertFileDoesNotExist($manager->getHeaderCacheFilename());
         } finally {
             @unlink($path);
         }
@@ -63,9 +63,9 @@ class rex_media_manager_test extends TestCase
         $url = rex_media_manager::getUrl($type, $file, $timestamp);
 
         if (false === $expectedBuster) {
-            static::assertNotContains('buster=', $url);
+            static::assertStringNotContainsString('buster=', $url);
         } else {
-            static::assertContains('buster='.$expectedBuster, $url);
+            static::assertStringContainsString('buster='.$expectedBuster, $url);
         }
     }
 

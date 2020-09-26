@@ -9,54 +9,66 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
+declare(strict_types=1);
+
 namespace Ramsey\Http\Range\Unit;
 
 /**
- * An HTTP Range unit as defined in RFC 7233
+ * `UnitInterface` defines an interface for HTTP Range units as defined in RFC 7233.
  *
- * @link https://tools.ietf.org/html/rfc7233#section-2 RFC 7233 § 2
+ * See [RFC 7233 § 2](https://tools.ietf.org/html/rfc7233#section-2) for the
+ * range-unit specification.
  */
 interface UnitInterface
 {
     /**
-     * Returns the raw range set defined for this unit
+     * Returns the raw range set defined for this unit.
      *
-     *     other-range-set = 1*VCHAR
+     * ```
+     * other-range-set = 1*VCHAR
+     * ```
+     *
+     * @return string
      *
      * @link https://tools.ietf.org/html/rfc7233#section-3.1 RFC 7233 § 3.1
-     * @return string
      */
-    public function getRangeSet();
+    public function getRangeSet(): string;
 
     /**
-     * Returns the unit token defined for this unit
+     * Returns the unit token defined for this unit.
      *
-     *     other-range-unit = token
+     * ```
+     * other-range-unit = token
+     * ```
+     *
+     * @return string
      *
      * @link https://tools.ietf.org/html/rfc7233#section-2.2 RFC 7233 § 2.2
-     * @return string
      */
-    public function getRangeUnit();
+    public function getRangeUnit(): string;
 
     /**
-     * Returns the raw ranges specifier defined for this unit
+     * Returns the raw ranges specifier defined for this unit.
      *
-     *     other-ranges-specifier = other-range-unit "=" other-range-set
+     * ```
+     * other-ranges-specifier = other-range-unit "=" other-range-set
+     * ```
+     *
+     * @return string
      *
      * @link https://tools.ietf.org/html/rfc7233#section-3.1 RFC 7233 § 3.1
-     * @return string
      */
-    public function getRangesSpecifier();
+    public function getRangesSpecifier(): string;
 
     /**
-     * Returns an iterable collection of unit ranges
+     * Returns an iterable collection of unit ranges.
      *
      * @return UnitRangesCollection
      */
-    public function getRanges();
+    public function getRanges(): UnitRangesCollection;
 
     /**
-     * Returns the total size of the entity this unit describes
+     * Returns the total size of the entity this unit describes.
      *
      * For example, if this unit describes the bytes in a file, then this
      * returns the total bytes of the file.

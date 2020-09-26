@@ -421,13 +421,8 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                         <th class="rex-table-action" colspan="3">' . rex_i18n::msg('header_status') . '</th>
                     </tr>
                 </thead>
+                <tbody>
                 ';
-
-    // tbody nur anzeigen, wenn später auch inhalt drinnen stehen wird
-    if ($sql->getRows() > 0 || 'add_art' == $structureContext->getFunction()) {
-        $echo .= '<tbody>
-                    ';
-    }
 
     $canEdit = rex::getUser()->hasPerm('editArticle[]');
     $canDelete = rex::getUser()->hasPerm('deleteArticle[]');
@@ -452,6 +447,16 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                     <td class="rex-table-action" colspan="'.$colspan.'">'.rex_api_article_add::getHiddenFields().'<button class="btn btn-save" type="submit" name="artadd_function"' . rex::getAccesskey(rex_i18n::msg('article_add'), 'save') . '>' . rex_i18n::msg('article_add') . '</button></td>
                 </tr>
                             ';
+    } elseif (0 === $sql->getRows()) {
+        $echo .= '<tr>
+            <td>&nbsp;</td>
+            <td></td>
+            <td></td>
+            '.('' !== $tmpl_head ? '<td></td>' : '').'
+            <td></td>
+            <td></td>
+            <td colspan="'.$colspan.'"></td>
+        </tr>';
     }
 
     // --------------------- ARTIKEL LIST
@@ -609,14 +614,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
         $sql->next();
     }
 
-    // tbody nur anzeigen, wenn später auch inhalt drinnen stehen wird
-    if ($sql->getRows() > 0 || 'add_art' == $structureContext->getFunction()) {
-        $echo .= '
-                </tbody>';
-    }
-
-    $echo .= '
-            </table>';
+    $echo .= '</tbody></table>';
 
     if ('add_art' == $structureContext->getFunction() || 'edit_art' == $structureContext->getFunction()) {
         $echo .= '

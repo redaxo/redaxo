@@ -22,10 +22,11 @@ jobs:
     include:
         -   &TEST
             install:
+                - composer install --prefer-dist
                 - mysql -e 'create database redaxo5;'
-                - php redaxo/src/addons/tests/bin/setup.php
-            script: php redaxo/src/addons/tests/bin/run_tests.php
-            php: 7.1
+                - php .tools/bin/setup
+            script: vendor/bin/phpunit
+            php: 7.3
             dist: trusty
             env:
                 - DB=mariadb
@@ -34,7 +35,7 @@ jobs:
         -   <<: *TEST
             php: 7.3
             addons:
-                mariadb: 10.4
+                mariadb: 10.5
         -   <<: *TEST
             dist: xenial
             php: 7.4
@@ -56,7 +57,7 @@ jobs:
                 - mysql --version
         -   &TEST_MYSQL
             <<: *TEST
-            php: 7.1
+            php: 7.3
             dist: bionic
             env:
                 - DB=mysql5
@@ -64,10 +65,10 @@ jobs:
                 - mysql
             addons: {}
         -   <<: *TEST_MYSQL
-            php: 7.2
-        -   <<: *TEST_MYSQL
-            php: 7.3
-        -   <<: *TEST_MYSQL
             php: 7.4
         -   <<: *TEST_MYSQL
             php: nightly
+            install:
+                - composer install --prefer-dist --ignore-platform-reqs
+                - mysql -e 'create database redaxo5;'
+                - php .tools/bin/setup

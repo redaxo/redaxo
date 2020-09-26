@@ -1,5 +1,5 @@
 package: users
-version: '2.7.0-beta1'
+version: '2.7.0'
 author: Jan Kristinus, Gregor Harlan
 supportpage: https://github.com/redaxo/redaxo
 
@@ -17,5 +17,5 @@ page:
         roles: { title: 'translate:roles', perm: admin }
 
 requires:
-    php: '>=7.1'
-    redaxo: ^5.11.0-beta1
+    php: '>=7.3'
+    redaxo: ^5.11.0

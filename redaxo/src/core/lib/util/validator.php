@@ -246,6 +246,7 @@ class rex_validator
      * Checks the value by using the given callable.
      *
      * @param string $value
+     * @psalm-param callable(string):bool $callback
      *
      * @return bool
      */

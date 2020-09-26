@@ -37,12 +37,12 @@ class rex_form_element
     /**
      * @param string $tag
      */
-    public function __construct($tag, rex_form_base $table = null, array $attributes = [], $separateEnding = false)
+    public function __construct($tag, rex_form_base $form = null, array $attributes = [], $separateEnding = false)
     {
         $this->value = null;
         $this->label = '';
         $this->tag = $tag;
-        $this->table = $table;
+        $this->table = $form;
         $this->setAttributes($attributes);
         $this->separateEnding = $separateEnding;
         $this->setHeader('');

@@ -145,6 +145,9 @@ media_manager_effect_convert2img_convertto = Target format
 media_manager_effect_convert2img_density_notice = Pixel density in ppi (pixel per inch)
 media_manager_effect_convert2img_convertto_notice = Target file type the file will be converted into. Following file types are possible: <code>.pdf,.ps,.psd,.tif,.tiff,.bmp,.eps,.ico,.svg</code>.
 media_manager_effect_convert2img_noimagemagick = Warning: ImageMagick could not be found. This effect needs either the php extension "imagick" or ImageMagick as a "commandline binary" which can be executed by exec().
+media_manager_effect_convert2img_color = Color for transparency
+media_manager_effect_convert2img_color_notice = Syntax "#ffffff". If no color is set transparency will be used instead. If it's a JPG a color value needs to be entered.
+
 
 media_manager_effect_image_properties = Image: settings (quality, interlace, ...)
 media_manager_effect_image_properties_jpg_quality_notice = [0-100]. Leave empty for default value.

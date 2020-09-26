@@ -1,5 +1,5 @@
 package: backup
-version: '2.6.1-beta1'
+version: '2.6.1'
 author: 'Jan Kristinus, Markus Staab'
 supportpage: https://github.com/redaxo/redaxo
 
@@ -19,6 +19,6 @@ page:
 
 requires:
     php:
-        version: '>=7.1'
+        version: '>=7.3'
         extensions: [ctype]
     redaxo: ^5.9.0

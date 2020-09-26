@@ -26,6 +26,7 @@ user_options = Options
 user_extras = Extras
 last_login = Last login
 user_caption = List of users
+user_password_change_required = Password needs to be replaced after signing in
 user_status = Status
 startpage = Startpage
 

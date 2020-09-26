@@ -704,15 +704,15 @@ class rex_be_page
      *
      * @return bool
      */
-    public function checkPermission(rex_user $rexUser)
+    public function checkPermission(rex_user $user)
     {
         foreach ($this->requiredPermissions as $perm) {
-            if (!$rexUser->hasPerm($perm)) {
+            if (!$user->hasPerm($perm)) {
                 return false;
             }
         }
         if ($parent = $this->getParent()) {
-            return $parent->checkPermission($rexUser);
+            return $parent->checkPermission($user);
         }
         return true;
     }

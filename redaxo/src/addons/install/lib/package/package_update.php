@@ -28,7 +28,7 @@ class rex_install_package_update extends rex_install_package_download
         $addon = rex_addon::get($this->addonkey);
         assert($addon instanceof rex_addon);
         $this->addon = $addon;
-        if (!rex_string::versionCompare($this->file['version'], $this->addon->getVersion(), '>')) {
+        if (!rex_version::compare($this->file['version'], $this->addon->getVersion(), '>')) {
             throw new rex_functional_exception(sprintf('Existing version of AddOn "%s" (%s) is newer than %s', $this->addonkey, $this->addon->getVersion(), $this->file['version']));
         }
     }
@@ -37,6 +37,7 @@ class rex_install_package_update extends rex_install_package_download
     {
         $path = rex_path::addon($this->addonkey);
         $temppath = rex_path::addon('.new.' . $this->addonkey);
+        $oldVersion = $this->addon->getVersion();
 
         if (true !== ($msg = $this->extractArchiveTo($temppath))) {
             return $msg;
@@ -127,6 +128,8 @@ class rex_install_package_update extends rex_install_package_download
         $this->addon->setProperty('version', $this->file['version']);
         rex_install_packages::updatedPackage($this->addonkey, $this->fileId);
 
+        rex_logger::factory()->info('AddOn '. $this->addonkey .' updated from '. $oldVersion .' to version '. $this->file['version']);
+
         // re-generate opcache to make sure new/updated classes immediately are available
         if (function_exists('opcache_reset')) {
             opcache_reset();
@@ -141,8 +144,11 @@ class rex_install_package_update extends rex_install_package_download
         $temppath = rex_path::addon('.new.' . $this->addonkey);
 
         // ---- update "version", "requires" and "conflicts" properties
+        /** @psalm-var SplObjectStorage<rex_package, string> $versions */
         $versions = new SplObjectStorage();
+        /** @psalm-var SplObjectStorage<rex_package, array> $requirements */
         $requirements = new SplObjectStorage();
+        /** @psalm-var SplObjectStorage<rex_package, array> $conflicts */
         $conflicts = new SplObjectStorage();
 
         $requirements[$this->addon] = $this->addon->getProperty('requires', []);
