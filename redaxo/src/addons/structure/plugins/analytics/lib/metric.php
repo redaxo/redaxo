@@ -44,12 +44,13 @@ final class rex_analytics_metric {
         return $this->value ?? 0;
     }
 
-    public function getUnit() {
+    public function getUnit():string {
         switch($this->type) {
             case self::TYPE_LCP: return 'ms';
             case self::TYPE_FID: return 'ms';
-            case self::TYPE_CLS: return ''; // no unit
+            case self::TYPE_CLS: // no unit
         }
+        return '';
     }
 
     /**
