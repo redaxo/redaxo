@@ -112,6 +112,7 @@
         background-color: $color-a;
         color: $color-a-darker;
         border-color: $color-a-dark;
+        box-shadow: none;
 
         &:focus {
             @include box-shadow(none);
