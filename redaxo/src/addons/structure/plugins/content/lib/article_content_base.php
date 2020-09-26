@@ -406,11 +406,11 @@ class rex_article_content_base
      * Method which gets called, before the slices of the article are processed.
      *
      * @param string $articleContent The content of the article
-     * @param int    $module_id      A module id
+     * @param int    $moduleId       A module id
      *
      * @return string
      */
-    protected function preArticle($articleContent, $module_id)
+    protected function preArticle($articleContent, $moduleId)
     {
         // nichts tun
         return $articleContent;
@@ -420,11 +420,11 @@ class rex_article_content_base
      * Method which gets called, after all slices have been processed.
      *
      * @param string $articleContent The content of the article
-     * @param int    $module_id      A module id
+     * @param int    $moduleId       A module id
      *
      * @return string
      */
-    protected function postArticle($articleContent, $module_id)
+    protected function postArticle($articleContent, $moduleId)
     {
         // nichts tun
         return $articleContent;

@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <psalm
+    autoloader=".tools/constants.php"
     resolveFromConfigFile="true"
+    findUnusedPsalmSuppress="true"
+    skipChecksOnUnresolvableIncludes="false"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
@@ -19,21 +22,13 @@
         <directory name="redaxo/src/addons/phpmailer"/>
         <directory name="redaxo/src/addons/project"/>
         <directory name="redaxo/src/addons/structure"/>
-        <directory name="redaxo/src/addons/tests"/>
         <directory name="redaxo/src/addons/users"/>
         <ignoreFiles>
             <directory name="redaxo/src/addons/be_style/vendor/" />
             <directory name="redaxo/src/addons/debug/vendor/" />
-            <directory name="redaxo/src/addons/media_manager/tests/" />
-            <directory name="redaxo/src/addons/mediapool/tests/" />
             <directory name="redaxo/src/addons/phpmailer/vendor/" />
-            <directory name="redaxo/src/addons/structure/tests/" />
-            <directory name="redaxo/src/addons/tests/vendor/" />
             <directory name="redaxo/src/core/vendor/" />
-            <directory name="redaxo/src/core/tests/" />
             <file name="redaxo/src/core/.phpstorm.meta.php" />
-            <file name="redaxo/src/addons/tests/bin/run_tests.php" />
-            <file name="redaxo/src/addons/tests/bin/setup.php" />
         </ignoreFiles>
     </projectFiles>
     <stubs>
@@ -41,6 +36,7 @@
     </stubs>
     <plugins>
         <plugin filename=".tools/psalm/RexTypeReturnProvider.php" />
+        <pluginClass class="Psalm\PhpUnitPlugin\Plugin" />
         <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin" />
     </plugins>
     <issueHandlers>
@@ -67,26 +63,40 @@
                 <referencedMethod name="rex_string::versionCompare"/>
             </errorLevel>
         </DeprecatedMethod>
+        <DocblockTypeContradiction errorLevel="info" />
+        <InternalClass errorLevel="info" />
         <InternalMethod errorLevel="info" />
         <InternalProperty errorLevel="info" />
-        <InternalClass errorLevel="info" />
-        <MissingClosureReturnType errorLevel="info" />
-        <MissingReturnType errorLevel="info" />
-        <MissingPropertyType errorLevel="info" />
-        <PropertyNotSetInConstructor errorLevel="info" />
         <MissingClosureParamType errorLevel="info" />
+        <MissingClosureReturnType errorLevel="info" />
+        <MissingConstructor>
+            <errorLevel type="suppress">
+                <file name="vendor/phpunit/phpunit/src/Framework/TestCase.php" />
+            </errorLevel>
+        </MissingConstructor>
         <MissingParamType errorLevel="info" />
-        <RedundantCondition errorLevel="info" />
-        <DocblockTypeContradiction errorLevel="info" />
-        <RedundantConditionGivenDocblockType errorLevel="info" />
-        <UnresolvableInclude errorLevel="info" />
+        <MissingPropertyType errorLevel="info" />
+        <MissingReturnType errorLevel="info" />
+        <PropertyNotSetInConstructor errorLevel="info" />
         <RawObjectIteration>
             <errorLevel type="info">
                 <file name="redaxo/src/core/lib/api_function.php"/>
             </errorLevel>
         </RawObjectIteration>
+        <RedundantCondition errorLevel="info" />
+        <RedundantConditionGivenDocblockType errorLevel="info" />
+        <UnresolvableInclude errorLevel="suppress" />
+        <UnsafeInstantiation errorLevel="info" />
 <!-- level 3 issues - points to possible deficiencies in logic, higher false-positives -->
         <PossiblyNullArgument errorLevel="info" />
         <PossiblyNullReference errorLevel="info" />
+<!-- level 4 issues -->
+        <InvalidScalarArgument>
+            <errorLevel type="suppress">
+                <!-- https://github.com/vimeo/psalm/issues/3454 -->
+                <referencedFunction name="password_hash"/>
+                <referencedFunction name="password_needs_rehash"/>
+            </errorLevel>
+        </InvalidScalarArgument>
     </issueHandlers>
 </psalm>

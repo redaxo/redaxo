@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Console\Helper;
 
+use Symfony\Component\Console\Cursor;
 use Symfony\Component\Console\Exception\MissingInputException;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Formatter\OutputFormatter;
@@ -23,6 +24,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Terminal;
+use function Symfony\Component\String\s;
 
 /**
  * The QuestionHelper class provides helpers to interact with the user.
@@ -34,6 +36,7 @@ class QuestionHelper extends Helper
     private $inputStream;
     private static $shell;
     private static $stty = true;
+    private static $stdinIsInteractive;
 
     /**
      * Asks a question to the user.
@@ -106,6 +109,11 @@ class QuestionHelper extends Helper
 
         $inputStream = $this->inputStream ?: STDIN;
         $autocomplete = $question->getAutocompleterCallback();
+
+        if (\function_exists('sapi_windows_cp_set')) {
+            // Codepage used by cmd.exe on Windows to allow special characters (éàüñ).
+            sapi_windows_cp_set(1252);
+        }
 
         if (null === $autocomplete || !self::$stty || !Terminal::hasSttyAvailable()) {
             $ret = false;
@@ -196,11 +204,9 @@ class QuestionHelper extends Helper
     }
 
     /**
-     * @param string $tag
-     *
      * @return string[]
      */
-    protected function formatChoiceQuestionChoices(ChoiceQuestion $question, $tag)
+    protected function formatChoiceQuestionChoices(ChoiceQuestion $question, string $tag)
     {
         $messages = [];
 
@@ -236,6 +242,8 @@ class QuestionHelper extends Helper
      */
     private function autocomplete(OutputInterface $output, Question $question, $inputStream, callable $autocomplete): string
     {
+        $cursor = new Cursor($output, $inputStream);
+
         $fullChoice = '';
         $ret = '';
 
@@ -263,9 +271,9 @@ class QuestionHelper extends Helper
             } elseif ("\177" === $c) { // Backspace Character
                 if (0 === $numMatches && 0 !== $i) {
                     --$i;
+                    $cursor->moveLeft(s($fullChoice)->slice(-1)->width(false));
+
                     $fullChoice = self::substr($fullChoice, 0, $i);
-                    // Move cursor backwards
-                    $output->write("\033[1D");
                 }
 
                 if (0 === $i) {
@@ -351,17 +359,14 @@ class QuestionHelper extends Helper
                 }
             }
 
-            // Erase characters from cursor to end of line
-            $output->write("\033[K");
+            $cursor->clearLineAfter();
 
             if ($numMatches > 0 && -1 !== $ofs) {
-                // Save cursor position
-                $output->write("\0337");
+                $cursor->savePosition();
                 // Write highlighted text, complete the partially entered response
                 $charactersEntered = \strlen(trim($this->mostRecentlyEnteredValue($fullChoice)));
                 $output->write('<hl>'.OutputFormatter::escapeTrailingBackslash(substr($matches[$ofs], $charactersEntered)).'</hl>');
-                // Restore cursor position
-                $output->write("\0338");
+                $cursor->restorePosition();
             }
         }
 
@@ -419,33 +424,26 @@ class QuestionHelper extends Helper
 
         if (self::$stty && Terminal::hasSttyAvailable()) {
             $sttyMode = shell_exec('stty -g');
-
             shell_exec('stty -echo');
-            $value = fgets($inputStream, 4096);
+        } elseif ($this->isInteractiveInput($inputStream)) {
+            throw new RuntimeException('Unable to hide the response.');
+        }
+
+        $value = fgets($inputStream, 4096);
+
+        if (self::$stty && Terminal::hasSttyAvailable()) {
             shell_exec(sprintf('stty %s', $sttyMode));
-
-            if (false === $value) {
-                throw new MissingInputException('Aborted.');
-            }
-            if ($trimmable) {
-                $value = trim($value);
-            }
-            $output->writeln('');
-
-            return $value;
         }
 
-        if (false !== $shell = $this->getShell()) {
-            $readCmd = 'csh' === $shell ? 'set mypassword = $<' : 'read -r mypassword';
-            $command = sprintf("/usr/bin/env %s -c 'stty -echo; %s; stty echo; echo \$mypassword' 2> /dev/null", $shell, $readCmd);
-            $sCommand = shell_exec($command);
-            $value = $trimmable ? rtrim($sCommand) : $sCommand;
-            $output->writeln('');
-
-            return $value;
+        if (false === $value) {
+            throw new MissingInputException('Aborted.');
         }
+        if ($trimmable) {
+            $value = trim($value);
+        }
+        $output->writeln('');
 
-        throw new RuntimeException('Unable to hide the response.');
+        return $value;
     }
 
     /**
@@ -473,52 +471,35 @@ class QuestionHelper extends Helper
                 throw $e;
             } catch (\Exception $error) {
             }
-
-            $attempts = $attempts ?? -(int) $this->isTty();
         }
 
         throw $error;
     }
 
-    /**
-     * Returns a valid unix shell.
-     *
-     * @return string|bool The valid shell name, false in case no valid shell is found
-     */
-    private function getShell()
+    private function isInteractiveInput($inputStream): bool
     {
-        if (null !== self::$shell) {
-            return self::$shell;
+        if ('php://stdin' !== (stream_get_meta_data($inputStream)['uri'] ?? null)) {
+            return false;
         }
 
-        self::$shell = false;
-
-        if (file_exists('/usr/bin/env')) {
-            // handle other OSs with bash/zsh/ksh/csh if available to hide the answer
-            $test = "/usr/bin/env %s -c 'echo OK' 2> /dev/null";
-            foreach (['bash', 'zsh', 'ksh', 'csh'] as $sh) {
-                if ('OK' === rtrim(shell_exec(sprintf($test, $sh)))) {
-                    self::$shell = $sh;
-                    break;
-                }
-            }
+        if (null !== self::$stdinIsInteractive) {
+            return self::$stdinIsInteractive;
         }
-
-        return self::$shell;
-    }
-
-    private function isTty(): bool
-    {
-        $inputStream = !$this->inputStream && \defined('STDIN') ? STDIN : $this->inputStream;
 
         if (\function_exists('stream_isatty')) {
-            return stream_isatty($inputStream);
+            return self::$stdinIsInteractive = stream_isatty(fopen('php://stdin', 'r'));
         }
 
         if (\function_exists('posix_isatty')) {
-            return posix_isatty($inputStream);
+            return self::$stdinIsInteractive = posix_isatty(fopen('php://stdin', 'r'));
         }
 
-        return true;
+        if (!\function_exists('exec')) {
+            return self::$stdinIsInteractive = true;
+        }
+
+        exec('stty 2> /dev/null', $output, $status);
+
+        return self::$stdinIsInteractive = 1 !== $status;
     }
 }

@@ -1,12 +1,13 @@
 Changelog
 =========
 
-Version 2.7.2 – XX.XX.2020
+Version 2.7.2 – 01.07.2020
 --------------------------
 
 ### Bugfixes
 
 * Hinweistexte verbessert (@alexplusde)
+* Table-Hover-Effekt fehlte (@tbaddade)
 
 
 Version 2.7.1 – 08.05.2020

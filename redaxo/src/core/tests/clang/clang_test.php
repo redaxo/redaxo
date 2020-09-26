@@ -33,6 +33,7 @@ class rex_clang_test extends TestCase
         /** @var rex_clang $clang */
         $clang = $clangClass->newInstanceWithoutConstructor();
 
+        /** @psalm-suppress UndefinedPropertyAssignment */
         $clang->clang_foo = 'teststring';
 
         static::assertTrue($clang->hasValue('foo'));
@@ -50,6 +51,7 @@ class rex_clang_test extends TestCase
         /** @var rex_clang $clang */
         $clang = $clangClass->newInstanceWithoutConstructor();
 
+        /** @psalm-suppress UndefinedPropertyAssignment */
         $clang->clang_foo = 'teststring';
 
         static::assertEquals('teststring', $clang->getValue('foo'));

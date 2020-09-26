@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the ramsey/collection library
  *
@@ -7,28 +8,35 @@
  *
  * @copyright Copyright (c) Ben Ramsey <ben@benramsey.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @link https://benramsey.com/projects/ramsey-collection/ Documentation
- * @link https://packagist.org/packages/ramsey/collection Packagist
- * @link https://github.com/ramsey/collection GitHub
  */
+
+declare(strict_types=1);
 
 namespace Ramsey\Collection;
 
+use ArrayIterator;
+use Traversable;
+
+use function serialize;
+use function unserialize;
+
 /**
- * This class provides an implementation of the ArrayInterface, to
- * minimize the effort required to implement this interface
+ * This class provides a basic implementation of `ArrayInterface`, to minimize
+ * the effort required to implement this interface.
  */
 abstract class AbstractArray implements ArrayInterface
 {
     /**
-     * @var array
+     * The items of this array.
+     *
+     * @var mixed[]
      */
     protected $data = [];
 
     /**
-     * Constructs a new array object
+     * Constructs a new array object.
      *
-     * @param array $data
+     * @param mixed[] $data The initial items to add to this array.
      */
     public function __construct(array $data = [])
     {
@@ -40,49 +48,54 @@ abstract class AbstractArray implements ArrayInterface
     }
 
     /**
-     * Returns a new iterator from this array
+     * Returns an iterator for this array.
      *
-     * @return \ArrayIterator
-     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
+     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php IteratorAggregate::getIterator()
+     *
+     * @return ArrayIterator<mixed, mixed>
      */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
-        return new \ArrayIterator($this->data);
+        return new ArrayIterator($this->data);
     }
 
     /**
-     * Checks whether the specified offset exists in the array
+     * Returns `true` if the given offset exists in this array.
      *
-     * @param mixed $offset
-     * @return bool
-     * @link http://php.net/manual/en/arrayaccess.offsetexists.php
+     * @link http://php.net/manual/en/arrayaccess.offsetexists.php ArrayAccess::offsetExists()
+     *
+     * @param mixed $offset The offset to check.
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->data[$offset]);
     }
 
     /**
-     * Returns the value stored at the specified offset in the array
+     * Returns the value at the specified offset.
      *
-     * @param mixed $offset
-     * @return mixed
-     * @link http://php.net/manual/en/arrayaccess.offsetget.php
+     * @link http://php.net/manual/en/arrayaccess.offsetget.php ArrayAccess::offsetGet()
+     *
+     * @param mixed $offset The offset for which a value should be returned.
+     *
+     * @return mixed|null the value stored at the offset, or null if the offset
+     *     does not exist.
      */
     public function offsetGet($offset)
     {
-        return isset($this->data[$offset]) ? $this->data[$offset] : null;
+        return $this->data[$offset] ?? null;
     }
 
     /**
-     * Sets the specified offset in the map with the given value
+     * Sets the given value to the given offset in the array.
      *
-     * @param mixed $offset
-     * @param mixed $value
-     * @throws \InvalidArgumentException
-     * @link http://php.net/manual/en/arrayaccess.offsetset.php
+     * @link http://php.net/manual/en/arrayaccess.offsetset.php ArrayAccess::offsetSet()
+     *
+     * @param mixed|null $offset The offset to set. If `null`, the value may be
+     *     set at a numerically-indexed offset.
+     * @param mixed $value The value to set at the given offset.
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         if ($offset === null) {
             $this->data[] = $value;
@@ -92,62 +105,76 @@ abstract class AbstractArray implements ArrayInterface
     }
 
     /**
-     * Removes the specified offset and its value from the map
+     * Removes the given offset and its value from the array.
      *
-     * @param mixed $offset
-     * @link http://php.net/manual/en/arrayaccess.offsetunset.php
+     * @link http://php.net/manual/en/arrayaccess.offsetunset.php ArrayAccess::offsetUnset()
+     *
+     * @param mixed $offset The offset to remove from the array.
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->data[$offset]);
     }
 
     /**
-     * Converts this map object to a string when the object is serialized
-     * with `serialize()`
+     * Returns a serialized string representation of this array object.
      *
-     * @return string
-     * @link http://php.net/manual/en/class.serializable.php
+     * @link http://php.net/manual/en/serializable.serialize.php Serializable::serialize()
+     *
+     * @return string a PHP serialized string.
      */
-    public function serialize()
+    public function serialize(): string
     {
         return serialize($this->data);
     }
 
     /**
-     * Re-constructs the object from its serialized form
+     * Converts a serialized string representation into an instance object.
      *
-     * @param string $serialized
-     * @link http://php.net/manual/en/serializable.unserialize.php
+     * @link http://php.net/manual/en/serializable.unserialize.php Serializable::unserialize()
+     *
+     * @param string $serialized A PHP serialized string to unserialize.
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function unserialize($serialized)
+    public function unserialize($serialized): void
     {
-        $this->data = unserialize($serialized);
+        $this->data = unserialize($serialized, ['allowed_classes' => false]);
     }
 
     /**
-     * Returns the number of elements contained in this array
+     * Returns the number of items in this array.
      *
-     * @return int
-     * @link http://php.net/manual/en/countable.count.php
+     * @link http://php.net/manual/en/countable.count.php Countable::count()
      */
-    public function count()
+    public function count(): int
     {
         return count($this->data);
     }
 
-    public function clear()
+    /**
+     * Removes all items from this array.
+     */
+    public function clear(): void
     {
         $this->data = [];
     }
 
-    public function toArray()
+    /**
+     * Returns a native PHP array representation of this array object.
+     *
+     * @return mixed[]
+     */
+    public function toArray(): array
     {
-        return (array) $this->data;
+        return $this->data;
     }
 
-    public function isEmpty()
+    /**
+     * Returns `true` if this array is empty.
+     */
+    public function isEmpty(): bool
     {
-        return empty($this->data);
+        return count($this->data) === 0;
     }
 }

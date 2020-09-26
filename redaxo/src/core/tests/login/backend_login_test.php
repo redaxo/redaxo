@@ -13,7 +13,7 @@ class rex_backend_login_test extends TestCase
     private $password = 'test1234';
     private $cookiekey = 'mycookie';
 
-    protected function setUp()
+    protected function setUp(): void
     {
         if (rex::getUser()) {
             $this->skipped = true;
@@ -31,7 +31,7 @@ class rex_backend_login_test extends TestCase
         $adduser->insert();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         if ($this->skipped) {
             return;

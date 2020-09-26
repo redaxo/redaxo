@@ -18,7 +18,7 @@ class rex_command_cronjob_run extends rex_console_command
     {
         $this
             ->setDescription('Executes cronjobs of the "script" environment')
-            ->addOption('job', null, InputOption::VALUE_OPTIONAL, 'Execute single job (selected interactively or given by id)', false)
+            ->addOption('job', null, InputOption::VALUE_REQUIRED, 'Execute single job (selected interactively or given by id)', false)
         ;
     }
 

@@ -1,14 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-unset($REX);
-$REX['REDAXO'] = true;
-$REX['HTDOCS_PATH'] = './';
-$REX['BACKEND_FOLDER'] = 'redaxo';
-$REX['LOAD_PAGE'] = false;
-
-require $REX['BACKEND_FOLDER'] . '/src/core/boot.php';
-require $REX['BACKEND_FOLDER'] . '/src/core/packages.php';
+require dirname(__DIR__).'/bootstrap.php';
 
 // avoid PREG_JIT_STACKLIMIT_ERROR, changelog parts can be long
 ini_set('pcre.jit', 0);

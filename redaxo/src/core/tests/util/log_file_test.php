@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_log_file_test extends TestCase
 {
-    protected function tearDown()
+    protected function tearDown(): void
     {
         rex_dir::delete($this->getPath());
     }
@@ -31,13 +31,13 @@ class rex_log_file_test extends TestCase
 
         new rex_log_file($path, 20);
         static::assertStringEqualsFile($path, '');
-        static::assertFileNotExists($path2);
+        static::assertFileDoesNotExist($path2);
 
         $content = str_repeat('abc', 5);
         rex_file::put($path, $content);
 
         new rex_log_file($path, 20);
-        static::assertFileNotExists($path2);
+        static::assertFileDoesNotExist($path2);
         static::assertStringEqualsFile($path, $content);
 
         new rex_log_file($path, 10);
@@ -108,7 +108,7 @@ EOF
 
         rex_log_file::delete($path);
 
-        static::assertFileNotExists($path);
-        static::assertFileNotExists($path2);
+        static::assertFileDoesNotExist($path);
+        static::assertFileDoesNotExist($path2);
     }
 }

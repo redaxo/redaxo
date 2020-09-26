@@ -13,6 +13,7 @@ class rex_media_test extends TestCase
         /** @var rex_media $media */
         $media = $mediaClass->newInstanceWithoutConstructor();
 
+        /** @psalm-suppress UndefinedPropertyAssignment */
         $media->med_foo = 'teststring';
 
         static::assertTrue($media->hasValue('med_foo'));
@@ -28,6 +29,7 @@ class rex_media_test extends TestCase
         /** @var rex_media $media */
         $media = $mediaClass->newInstanceWithoutConstructor();
 
+        /** @psalm-suppress UndefinedPropertyAssignment */
         $media->med_foo = 'teststring';
 
         static::assertEquals('teststring', $media->getValue('med_foo'));

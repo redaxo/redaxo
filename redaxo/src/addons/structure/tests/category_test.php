@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_category_test extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         // generate classVars and add test column
         rex_category::getClassVars();
@@ -22,7 +22,7 @@ class rex_category_test extends TestCase
         );
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         // reset static properties
         $class = new ReflectionClass(rex_article::class);
@@ -38,6 +38,8 @@ class rex_category_test extends TestCase
         $class = new ReflectionClass(rex_category::class);
         /** @var rex_category $instance */
         $instance = $class->newInstanceWithoutConstructor();
+
+        /** @psalm-suppress UndefinedPropertyAssignment */
         $instance->cat_foo = 'teststring';
 
         static::assertTrue($instance->hasValue('foo'));
@@ -52,6 +54,8 @@ class rex_category_test extends TestCase
         $class = new ReflectionClass(rex_category::class);
         /** @var rex_category $instance */
         $instance = $class->newInstanceWithoutConstructor();
+
+        /** @psalm-suppress UndefinedPropertyAssignment */
         $instance->cat_foo = 'teststring';
 
         static::assertEquals('teststring', $instance->getValue('foo'));

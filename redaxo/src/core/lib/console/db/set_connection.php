@@ -17,10 +17,10 @@ class rex_command_db_set_connection extends rex_console_command implements rex_c
         $this
             ->setDescription('Sets database connection credentials.')
             ->setHelp('Checks by default if a database connection can be established with the new settings.')
-            ->addOption('host', null, InputOption::VALUE_OPTIONAL, 'database host')
-            ->addOption('login', null, InputOption::VALUE_OPTIONAL, 'database user')
-            ->addOption('password', null, InputOption::VALUE_OPTIONAL, 'database password')
-            ->addOption('database', null, InputOption::VALUE_OPTIONAL, 'database name')
+            ->addOption('host', null, InputOption::VALUE_REQUIRED, 'database host')
+            ->addOption('login', null, InputOption::VALUE_REQUIRED, 'database user')
+            ->addOption('password', null, InputOption::VALUE_REQUIRED, 'database password')
+            ->addOption('database', null, InputOption::VALUE_REQUIRED, 'database name')
             ->addOption('force', 'f', InputOption::VALUE_NONE, 'Save credentials even if validation fails.');
     }
 
