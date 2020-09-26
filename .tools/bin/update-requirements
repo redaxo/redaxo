@@ -86,4 +86,4 @@ cp redaxo/src/core/assets/jquery.min.js assets/core
 cp redaxo/src/core/assets/jquery.min.map assets/core
 
 # structure
-curl -# https://cdn.jsdelivr.net/npm/web-vitals@0.2.2/dist/web-vitals.es5.umd.min.js > redaxo/src/addons/structure/plugins/analytics/assets/web-vitals.min.js
+curl -# https://cdn.jsdelivr.net/npm/web-vitals@0.2.4/dist/web-vitals.es5.umd.min.js > redaxo/src/addons/structure/plugins/analytics/assets/web-vitals.min.js
