@@ -4,21 +4,10 @@
 
 /** @var rex_analytics_metric $lcp */
 $lcp = $this->getVar('lcp');
-if (!$lcp) {
-    throw new rex_functional_exception(rex_i18n::msg('structure_analytics_fragment_exception', 'lcp'));
-}
-
 /** @var rex_analytics_metric $fid */
 $fid = $this->getVar('fid');
-if (!$fid) {
-    throw new rex_functional_exception(rex_i18n::msg('structure_analytics_fragment_exception', 'fid'));
-}
-
 /** @var rex_analytics_metric $cls */
 $cls = $this->getVar('cls');
-if (!$cls) {
-    throw new rex_functional_exception(rex_i18n::msg('structure_analytics_fragment_exception', 'cls'));
-}
 
 $progress = function($title, $abbr, rex_analytics_metric $metric) {
     $value = $metric->getValue();
