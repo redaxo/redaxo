@@ -33,20 +33,22 @@ final class rex_analytics_webvitals_storage {
             }
         }
 
-        $sql95 = rex_sql::factory();
-        $sql95->setTable(rex::getTable('webvitals_95p'));
-        foreach ($metrics95 as $uri => $metrics) {
-            $sql95->addRecord(
-                function (rex_sql $record) use ($uri, $metrics) {
-                    $record->setValue('uri', $uri);
-                    $record->setValue('urihash', sha1($uri));
-                    foreach ($metrics as $metric => $value) {
-                        $record->setValue($metric, $value);
+        if ($metrics95) {
+            $sql95 = rex_sql::factory();
+            $sql95->setTable(rex::getTable('webvitals_95p'));
+            foreach ($metrics95 as $uri => $metrics) {
+                $sql95->addRecord(
+                    function (rex_sql $record) use ($uri, $metrics) {
+                        $record->setValue('uri', $uri);
+                        $record->setValue('urihash', sha1($uri));
+                        foreach ($metrics as $metric => $value) {
+                            $record->setValue($metric, $value);
+                        }
                     }
-                }
-            );
+                );
+            }
+            $sql95->insertOrUpdate();
         }
-        $sql95->insertOrUpdate();
     }
 
     public function storeData(string $uri, stdClass $data, rex_article $article) {
