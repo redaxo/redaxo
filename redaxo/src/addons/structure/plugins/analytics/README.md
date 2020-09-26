@@ -19,3 +19,8 @@ Im Frontend gesammelte Daten fließen erst in die Anzeige im Backend ein, nachde
 ## Klassifizierung der Messwerte
 
 Die gesammelten Daten werden nach den Empfehlungen von https://web.dev/vitals/ klassifiziert und in die Kategorien "Good" (Grün), "Needs Improvement" (Gelb) und "Poor" (Rot) einsortiert.
+
+## Relevantes
+
+https://web.dev/vitals/ - Webvitals Grundlagen
+https://github.com/GoogleChrome/web-vitals - Javascript library zur ermittlung der Rohdaten
