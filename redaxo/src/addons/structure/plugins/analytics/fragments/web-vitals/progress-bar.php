@@ -47,10 +47,10 @@ echo sprintf(
     '<td class="rex-table-analytics">
         <div class="rex-analytics">
             <div class="rex-analytics-progress">
-                <div class="rex-analytics-progress-bar'.$lcpClass.'"></div>
-                <div class="rex-analytics-progress-bar'.$fidClass.'"></div>
-                <div class="rex-analytics-progress-bar'.$clsClass.'"></div>
-                <div class="rex-analytics-total">94</div>
+                <div class="rex-analytics-progress-bar'.$lcpClass.'" title="'. $lcp->getRating() .'"></div>
+                <div class="rex-analytics-progress-bar'.$fidClass.'" title="'. $fid->getRating() .'"></div>
+                <div class="rex-analytics-progress-bar'.$clsClass.'" title="'. $cls->getRating() .'"></div>
+                <!-- <div class="rex-analytics-total">94</div> -->
             </div>
             <div class="rex-analytics-panel">
                 '. $progress(rex_i18n::msg('structure_analytics_lcp_long'), rex_i18n::msg('structure_analytics_lcp_abbr'), $lcp) .'

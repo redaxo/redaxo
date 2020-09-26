@@ -53,6 +53,16 @@ final class rex_analytics_metric {
         return '';
     }
 
+    public function getRating():string {
+        if ($this->isGreen()) {
+            return rex_i18n::msg('structure_analytics_good');
+        }
+        if ($this->isYellow()) {
+            return rex_i18n::msg('structure_analytics_needs_improvement');
+        }
+        return rex_i18n::msg('structure_analytics_poor');
+    }
+
     /**
      * @param float $value
      * @param string $type
