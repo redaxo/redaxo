@@ -547,19 +547,15 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
 
             $webvitals_td = '';
             if ($addon->getPlugin('analytics')->isAvailable()) {
-                $webvitals_td = '<td class="rex-table-analytics"></td>';
-                $sql95 = rex_sql::factory();
-                $sql95->setQuery('SELECT cls, fid, lcp FROM '.rex::getTable('webvitals_95p').' WHERE article_id = :articleId AND clang_id = :clangId', ['articleId' => $sql->getValue('id'), 'clangId' => $sql->getValue('clang_id')]);
-                if (1 === $sql95->getRows()) {
-                    $lcp = rex_analytics_metric::fromValue($sql95->getValue('lcp'), rex_analytics_metric::TYPE_LCP);
-                    $fid = rex_analytics_metric::fromValue($sql95->getValue('fid'), rex_analytics_metric::TYPE_FID);
-                    $cls = rex_analytics_metric::fromValue($sql95->getValue('cls'), rex_analytics_metric::TYPE_CLS);
+                $webvitals = rex_analytics_webvitals::forArticle($sql->getValue('id'), $sql->getValue('clang_id'));
 
+                $webvitals_td = '<td class="rex-table-analytics"></td>';
+                if ($webvitals) {
                     $fragment = new rex_fragment(
                         [
-                            'lcp' => $lcp,
-                            'fid' => $fid,
-                            'cls' => $cls,
+                            'lcp' => $webvitals->lcp,
+                            'fid' => $webvitals->fid,
+                            'cls' => $webvitals->cls,
                         ]
                     );
                     $webvitals_td = $fragment->parse('web-vitals/progress-bar.php');
