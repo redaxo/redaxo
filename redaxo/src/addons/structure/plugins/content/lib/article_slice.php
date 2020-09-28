@@ -249,7 +249,7 @@ class rex_article_slice
      */
     protected static function getSliceWhere($where, array $params = [])
     {
-        $slices = self::getSlicesWhere($where, $params);
+        $slices = self::getSlicesWhere($where, $params, 1);
         return $slices[0] ?? null;
     }
 
@@ -258,7 +258,7 @@ class rex_article_slice
      *
      * @return self[]
      */
-    protected static function getSlicesWhere($where, array $params = [])
+    protected static function getSlicesWhere($where, array $params = [], ?int $limit = null)
     {
         $sql = rex_sql::factory();
         // $sql->setDebug();
@@ -267,6 +267,10 @@ class rex_article_slice
             FROM ' . rex::getTable('article_slice') . '
             WHERE ' . $where . '
             ORDER BY ctype_id, priority';
+
+        if (null !== $limit) {
+            $query .= ' LIMIT '.$limit;
+        }
 
         $sql->setQuery($query, $params);
         $rows = $sql->getRows();
