@@ -15,7 +15,7 @@
         "phpstan/phpstan-deprecation-rules": "0.12.5",
         "phpstan/phpstan-phpunit": "0.12.16",
         "phpunit/phpunit": "^9.3",
-        "psalm/plugin-phpunit": "0.12.1",
+        "psalm/plugin-phpunit": "0.12.2",
         "psalm/plugin-symfony": "1.4.4",
         "vimeo/psalm": "3.16"
     },
