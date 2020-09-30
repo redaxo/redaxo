@@ -11,9 +11,6 @@ class rex_markdown
 {
     use rex_factory_trait;
 
-    public const SET_BREAKS_ENABLED = true;
-    public const SET_BREAKS_DISABLED = false;
-
     private function __construct()
     {
     }
@@ -34,10 +31,10 @@ class rex_markdown
      *
      * @return string HTML code
      */
-    public function parse($code, bool $setBreaks = self::SET_BREAKS_ENABLED)
+    public function parse($code, bool $softLineBreaks = true)
     {
         $parser = new ParsedownExtra();
-        $parser->setBreaksEnabled(self::SET_BREAKS_ENABLED===$setBreaks);
+        $parser->setBreaksEnabled(true===$softLineBreaks);
 
         return rex_string::sanitizeHtml($parser->text($code));
     }
@@ -51,10 +48,10 @@ class rex_markdown
      *
      * @return array tupel of table-of-content and content
      */
-    public function parseWithToc($code, $topLevel = 2, $bottomLevel = 3, bool $setBreaks = self::SET_BREAKS_ENABLED)
+    public function parseWithToc($code, $topLevel = 2, $bottomLevel = 3, bool $softLineBreaks = true)
     {
         $parser = new rex_parsedown_with_toc();
-        $parser->setBreaksEnabled(self::SET_BREAKS_ENABLED===$setBreaks);
+        $parser->setBreaksEnabled(true===$softLineBreaks);
         $parser->topLevel = $topLevel;
         $parser->bottomLevel = $bottomLevel;
 
