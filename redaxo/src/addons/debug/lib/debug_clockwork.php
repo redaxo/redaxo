@@ -14,6 +14,7 @@ class rex_debug_clockwork
         $clockwork = \Clockwork\Support\Vanilla\Clockwork::init([
             'storage_files_path' => self::getStoragePath(),
             'storage_files_compress' => true,
+            'storage_expiration' => 60 * 24 * 2,
         ]);
 
         self::$instance = $clockwork;
