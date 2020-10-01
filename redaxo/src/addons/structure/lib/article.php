@@ -109,7 +109,7 @@ class rex_article extends rex_structure_element
     /**
      * Returns the parent object of the article.
      *
-     * @return self|null
+     * @return static|null
      */
     public function getParent()
     {

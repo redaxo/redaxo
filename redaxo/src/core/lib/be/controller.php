@@ -244,7 +244,7 @@ class rex_be_controller
      * @param rex_be_page|array $page
      * @param bool              $createMainPage
      * @param string            $pageKey
-     * @param bool              $prefix
+     * @param bool|string       $prefix
      *
      * @return null|rex_be_page
      */
@@ -327,7 +327,7 @@ class rex_be_controller
 
                 case 'path':
                 case 'subpath':
-                    if (file_exists($path = $package->getPath($value))) {
+                    if (is_file($path = $package->getPath($value))) {
                         $value = $path;
                     }
                     // no break
@@ -408,11 +408,15 @@ class rex_be_controller
             $currentPage->setHasLayout(false);
         }
 
-        require rex_path::core('layout/top.php');
+        rex_timer::measure('Layout: top.php', function () {
+            require rex_path::core('layout/top.php');
+        });
 
         self::includePath($currentPage->getPath());
 
-        require rex_path::core('layout/bottom.php');
+        rex_timer::measure('Layout: bottom.php', function () {
+            require rex_path::core('layout/bottom.php');
+        });
     }
 
     /**
@@ -454,20 +458,22 @@ class rex_be_controller
      */
     private static function includePath($path, array $context = [])
     {
-        $pattern = '@' . preg_quote(rex_path::src('addons/'), '@') . '([^/\\\]+)(?:[/\\\]plugins[/\\\]([^/\\\]+))?@';
+        return rex_timer::measure('Page: '.rex_path::relative($path, rex_path::src()), function () use ($path, $context) {
+            $pattern = '@' . preg_quote(rex_path::src('addons/'), '@') . '([^/\\\]+)(?:[/\\\]plugins[/\\\]([^/\\\]+))?@';
 
-        if (!preg_match($pattern, $path, $matches)) {
-            $__context = $context;
-            $__path = $path;
-            unset($context, $path, $pattern, $matches);
-            extract($__context, EXTR_SKIP);
-            return include $__path;
-        }
+            if (!preg_match($pattern, $path, $matches)) {
+                $__context = $context;
+                $__path = $path;
+                unset($context, $path, $pattern, $matches);
+                extract($__context, EXTR_SKIP);
+                return include $__path;
+            }
 
-        $package = rex_addon::get($matches[1]);
-        if (isset($matches[2])) {
-            $package = $package->getPlugin($matches[2]);
-        }
-        return $package->includeFile(str_replace($package->getPath(), '', $path), $context);
+            $package = rex_addon::get($matches[1]);
+            if (isset($matches[2])) {
+                $package = $package->getPlugin($matches[2]);
+            }
+            return $package->includeFile(str_replace($package->getPath(), '', $path), $context);
+        });
     }
 }

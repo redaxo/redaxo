@@ -1,7 +1,7 @@
 package: users
-version: '2.6.1'
+version: '2.7.0'
 author: Jan Kristinus, Gregor Harlan
-supportpage: www.redaxo.org/de/forum/
+supportpage: https://github.com/redaxo/redaxo
 
 load: early
 
@@ -17,4 +17,5 @@ page:
         roles: { title: 'translate:roles', perm: admin }
 
 requires:
-    redaxo: ^5.5.0
+    php: '>=7.3'
+    redaxo: ^5.11.0

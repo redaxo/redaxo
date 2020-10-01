@@ -406,11 +406,11 @@ class rex_article_content_base
      * Method which gets called, before the slices of the article are processed.
      *
      * @param string $articleContent The content of the article
-     * @param int    $module_id      A module id
+     * @param int    $moduleId       A module id
      *
      * @return string
      */
-    protected function preArticle($articleContent, $module_id)
+    protected function preArticle($articleContent, $moduleId)
     {
         // nichts tun
         return $articleContent;
@@ -420,11 +420,11 @@ class rex_article_content_base
      * Method which gets called, after all slices have been processed.
      *
      * @param string $articleContent The content of the article
-     * @param int    $module_id      A module id
+     * @param int    $moduleId       A module id
      *
      * @return string
      */
-    protected function postArticle($articleContent, $module_id)
+    protected function postArticle($articleContent, $moduleId)
     {
         // nichts tun
         return $articleContent;
@@ -438,8 +438,12 @@ class rex_article_content_base
             ob_implicit_flush(0);
 
             $TEMPLATE = new rex_template($this->template_id);
-            $tplContent = $this->replaceCommonVars($TEMPLATE->getTemplate());
-            require rex_stream::factory('template/' . $this->template_id, $tplContent);
+
+            rex_timer::measure('Template: '.($TEMPLATE->getKey() ?? $TEMPLATE->getId()), function () use ($TEMPLATE) {
+                $tplContent = $this->replaceCommonVars($TEMPLATE->getTemplate());
+
+                require rex_stream::factory('template/' . $this->template_id, $tplContent);
+            });
 
             $CONTENT = ob_get_clean();
 
@@ -457,7 +461,7 @@ class rex_article_content_base
     protected function getStreamOutput($path, $content)
     {
         if (!$this->eval) {
-            $key = 'EOD_' . strtoupper(sha1(time()));
+            $key = 'EOD_' . strtoupper(sha1((string) time()));
             return "require rex_stream::factory('$path', \n<<<'$key'\n$content\n$key\n);\n";
         }
 
@@ -492,10 +496,10 @@ class rex_article_content_base
                 'REX_CTYPE_ID',
             ],
             [
-                (int) $sql->getValue('module_id'),
-                $sql->getValue(rex::getTable('module') . '.key'),
-                (int) $sql->getValue(rex::getTable('article_slice') . '.id'),
-                (int) $sql->getValue('ctype_id'),
+                (string) $sql->getValue('module_id'),
+                (string) $sql->getValue(rex::getTable('module') . '.key'),
+                (string) $sql->getValue(rex::getTable('article_slice') . '.id'),
+                (string) $sql->getValue('ctype_id'),
             ],
             $content
         );

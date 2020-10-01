@@ -103,4 +103,6 @@ var_media_view = Visa vald fil
 var_medialist_move_top = Flytta utvald fil till början
 var_medialist_move_up = Flytta utvald fil uppåt
 var_medialist_move_down = Flytta utvald fil neråt
-var_medialist_move_bottom  = Flytta utvald fil till ändan
+var_medialist_move_bottom = Flytta utvald fil till ändan
+
+perm_general_media[sync] = Mediapool: synkronisera filer

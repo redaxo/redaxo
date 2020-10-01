@@ -1,6 +1,22 @@
 Changelog
 =========
 
+Version 2.7.0 – 01.07.2020
+--------------------------
+
+### Neu
+
+* Neuerungen bzgl. Passwortregeln/-wechsel siehe Core-Changelog für 5.11
+
+
+Version 2.6.2 – 08.05.2020
+--------------------------
+
+### Bugfixes
+
+* EP `USER_UPDATED`: Parameter `id` war immer `0` (@gharlan)
+
+
 Version 2.6.0 – 02.02.2020
 --------------------------
 

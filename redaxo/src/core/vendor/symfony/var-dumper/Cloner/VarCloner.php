@@ -28,7 +28,6 @@ class VarCloner extends AbstractCloner
         $pos = 0;                       // Number of cloned items past the minimum depth
         $refsCounter = 0;               // Hard references counter
         $queue = [[$var]];    // This breadth-first queue is the return value
-        $indexedArrays = [];       // Map of queue indexes that hold numerically indexed arrays
         $hardRefs = [];            // Map of original zval ids to stub objects
         $objRefs = [];             // Map of original object handles to their stub object counterpart
         $objects = [];             // Keep a ref to objects to ensure their handle cannot be reused while cloning
@@ -46,7 +45,7 @@ class VarCloner extends AbstractCloner
                                         // or null if the original value is used directly
 
         if (!$gid = self::$gid) {
-            $gid = self::$gid = uniqid(mt_rand(), true); // Unique string used to detect the special $GLOBALS variable
+            $gid = self::$gid = md5(random_bytes(6)); // Unique string used to detect the special $GLOBALS variable
         }
         $arrayStub = new Stub();
         $arrayStub->type = Stub::TYPE_ARRAY;
@@ -63,21 +62,6 @@ class VarCloner extends AbstractCloner
             }
 
             $refs = $vals = $queue[$i];
-            if (\PHP_VERSION_ID < 70200 && empty($indexedArrays[$i])) {
-                // see https://wiki.php.net/rfc/convert_numeric_keys_in_object_array_casts
-                foreach ($vals as $k => $v) {
-                    if (\is_int($k)) {
-                        continue;
-                    }
-                    foreach ([$k => true] as $gk => $gv) {
-                    }
-                    if ($gk !== $k) {
-                        $fromObjCast = true;
-                        $refs = $vals = array_values($queue[$i]);
-                        break;
-                    }
-                }
-            }
             foreach ($vals as $k => $v) {
                 // $v is the original value or a stub object in case of hard references
 
@@ -114,7 +98,6 @@ class VarCloner extends AbstractCloner
                     case \is_int($v):
                     case \is_float($v):
                         continue 2;
-
                     case \is_string($v):
                         if ('' === $v) {
                             continue 2;
@@ -173,8 +156,6 @@ class VarCloner extends AbstractCloner
                             } else {
                                 $a = $v;
                             }
-                        } elseif (\PHP_VERSION_ID < 70200) {
-                            $indexedArrays[$len] = true;
                         }
                         break;
 

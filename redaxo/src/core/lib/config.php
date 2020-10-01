@@ -34,21 +34,21 @@ class rex_config
     /**
      * data read from database.
      *
-     * @var array
+     * @var array<string, array<string, mixed>>
      */
     private static $data = [];
 
     /**
      * data which is modified during this request.
      *
-     * @var array
+     * @var array<string, array<string, mixed>>
      */
     private static $changedData = [];
 
     /**
      * data which was deleted during this request.
      *
-     * @var array
+     * @var array<string, array<string, true>>
      */
     private static $deletedData = [];
 
@@ -112,13 +112,18 @@ class rex_config
      *
      * If no value can be found for the given key/namespace combination $default is returned.
      *
-     * @param string $namespace The namespace e.g. an addon name
-     * @param string $key       The associated key
-     * @param mixed  $default   Default return value if no associated-value can be found
+     * @param string      $namespace The namespace e.g. an addon name
+     * @param string|null $key       The associated key
+     * @param mixed       $default   Default return value if no associated-value can be found
      *
      * @throws InvalidArgumentException
      *
      * @return mixed the value for $key or $default if $key cannot be found in the given $namespace
+     *
+     * @template T as ?string
+     * @phpstan-template T
+     * @psalm-param T $key
+     * @psalm-return (T is string ? mixed|null : array<string, mixed>)
      */
     public static function get($namespace, $key = null, $default = null)
     {
@@ -145,8 +150,8 @@ class rex_config
     /**
      * Returns if the given key is set.
      *
-     * @param string $namespace The namespace e.g. an addon name
-     * @param string $key       The associated key
+     * @param string      $namespace The namespace e.g. an addon name
+     * @param string|null $key       The associated key
      *
      * @throws InvalidArgumentException
      *
@@ -310,7 +315,7 @@ class rex_config
     private static function loadFromFile()
     {
         // delete cache-file, will be regenerated on next request
-        if (file_exists(self::$cacheFile)) {
+        if (is_file(self::$cacheFile)) {
             self::$data = rex_file::getCache(self::$cacheFile);
             return true;
         }

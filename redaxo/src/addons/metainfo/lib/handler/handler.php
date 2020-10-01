@@ -48,6 +48,15 @@ abstract class rex_metainfo_handler
                 unset($attrArray['perm']);
             }
 
+            // `rex_string::split` transforms attributes without value (like `disabled`, `data-foo` etc.) to an int based array element
+            // we transform them to array elements with the attribute name as key and empty value
+            foreach ($attrArray as $key => $value) {
+                if (is_int($key)) {
+                    unset($attrArray[$key]);
+                    $attrArray[$value] = '';
+                }
+            }
+
             $defaultValue = $sqlFields->getValue('default');
             if ($activeItem) {
                 $itemValue = $activeItem->getValue($name);
@@ -143,21 +152,10 @@ abstract class rex_metainfo_handler
 
                     $oneValue = (1 == count($values));
 
-                    $attrStr = '';
-                    $classAdd = '';
-                    $inline = false;
+                    $inline = isset($attrArray['inline']);
+                    unset($attrArray['inline']);
 
-                    if (false !== $key = array_search('inline', $attrArray)) {
-                        $inline = true;
-                        unset($attrArray[$key]);
-                    }
-                    foreach ($attrArray as $key => $value) {
-                        if ('class' == $key) {
-                            $classAdd = ' ' . $value;
-                        } else {
-                            $attrStr = ' ' . $key . '="' . $value . '"';
-                        }
-                    }
+                    $attrStr = rex_string::buildAttributes($attrArray);
 
                     if (!$activeItem) {
                         $dbvalues = (array) $defaultValue;
@@ -221,10 +219,6 @@ abstract class rex_metainfo_handler
 
                     $multiple = false;
                     foreach ($attrArray as $attr_name => $attr_value) {
-                        if (empty($attr_name)) {
-                            continue;
-                        }
-
                         $select->setAttribute($attr_name, $attr_value);
 
                         if ('multiple' == $attr_name) {
@@ -295,12 +289,13 @@ abstract class rex_metainfo_handler
                         $dbvalues[0] = time();
                     }
 
+                    $timestamp = (int) $dbvalues[0];
                     $inputValue = [];
-                    $inputValue['year'] = date('Y', $dbvalues[0]);
-                    $inputValue['month'] = date('m', $dbvalues[0]);
-                    $inputValue['day'] = date('d', $dbvalues[0]);
-                    $inputValue['hour'] = date('H', $dbvalues[0]);
-                    $inputValue['minute'] = date('i', $dbvalues[0]);
+                    $inputValue['year'] = date('Y', $timestamp);
+                    $inputValue['month'] = date('m', $timestamp);
+                    $inputValue['day'] = date('d', $timestamp);
+                    $inputValue['hour'] = date('H', $timestamp);
+                    $inputValue['minute'] = date('i', $timestamp);
 
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setAttribute('id', $id);
@@ -359,9 +354,11 @@ abstract class rex_metainfo_handler
                     $labelIt = false;
 
                     // tabindex entfernen, macht bei einer legend wenig sinn
-                    $attr = preg_replace('@tabindex="[^"]*"@', '', $attr);
+                    unset($attrArray['tabindex']);
 
-                    $field = '</fieldset><fieldset><legend id="' . $id . '"' . $attr . '>' . $label . '</legend>';
+                    $attrStr = rex_string::buildAttributes($attrArray);
+
+                    $field = '</fieldset><fieldset><legend id="' . $id . '"' . $attrStr . '>' . $label . '</legend>';
                     break;
                 case 'REX_MEDIA_WIDGET':
                     $tag = 'div';
@@ -564,7 +561,7 @@ abstract class rex_metainfo_handler
      * @param int    $fieldType       One of the rex_metainfo_table_manager::FIELD_* constants
      * @param string $fieldAttributes The attributes of the field
      *
-     * @return string|null
+     * @return string|int|null
      */
     public static function getSaveValue($fieldName, $fieldType, $fieldAttributes)
     {

@@ -87,7 +87,17 @@ if ($core && !empty($coreVersions)) {
             <tr>
                 <th>' . $package->i18n('description') . '</th>
                 <td data-title="' . $package->i18n('description') . '">' . nl2br(rex_escape($addon['description'])) . '</td>
-            </tr>
+            </tr>';
+
+    if ($addon['website']) {
+        $panel .= '
+            <tr>
+                <th>' . $package->i18n('website') . '</th>
+                <td data-title="' . $package->i18n('website') . '"><a href="' . rex_escape($addon['website']) . '">' . rex_escape($addon['website']) . '</a></td>
+            </tr>';
+    }
+
+    $panel .= '
             </tbody>
         </table>';
 
@@ -201,7 +211,7 @@ if ($core && !empty($coreVersions)) {
     $panel .= '</tbody></table>';
 
     $fragment = new rex_fragment();
-    $fragment->setVar('title', $package->i18n('available_updates', !empty($coreVersions) + count($addons)), false);
+    $fragment->setVar('title', $package->i18n('available_updates', ($coreVersions ? 1 : 0) + count($addons)), false);
     $fragment->setVar('content', $panel, false);
     $content = $fragment->parse('core/page/section.php');
 }

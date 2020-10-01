@@ -10,7 +10,7 @@ class rex_sql_table_test extends TestCase
     public const TABLE = 'rex_sql_table_test';
     public const TABLE2 = 'rex_sql_table_test2';
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $sql = rex_sql::factory();
         $sql->setQuery('DROP TABLE IF EXISTS `' . self::TABLE2 . '`');
@@ -24,7 +24,7 @@ class rex_sql_table_test extends TestCase
         $table = rex_sql_table::get(self::TABLE);
 
         $table
-            ->addColumn(new rex_sql_column('id', 'int(11)', false, null, 'auto_increment'))
+            ->addColumn(new rex_sql_column('id', 'int(11)', false, null, 'auto_increment', 'initial comment for id col'))
             ->addColumn(new rex_sql_column('title', 'varchar(255)', true, 'Default title'))
             ->setPrimaryKey('id')
             ->addIndex(new rex_sql_index('i_title', ['title']))
@@ -72,6 +72,7 @@ class rex_sql_table_test extends TestCase
         static::assertFalse($id->isNullable());
         static::assertNull($id->getDefault());
         static::assertSame('auto_increment', $id->getExtra());
+        static::assertSame('initial comment for id col', $id->getComment());
 
         $title = $table->getColumn('title');
 
@@ -146,7 +147,7 @@ class rex_sql_table_test extends TestCase
     {
         $table = $this->createTable();
 
-        $description = new rex_sql_column('description', 'text', true);
+        $description = new rex_sql_column('description', 'text', true, null, null, 'description comment');
         $table
             ->addColumn($description)
             ->addColumn(new rex_sql_column('name', 'varchar(255)'), 'id')
@@ -161,6 +162,60 @@ class rex_sql_table_test extends TestCase
         static::assertEquals($description, $table->getColumn('description'));
 
         static::assertSame(['pid', 'id', 'name', 'title', 'description'], array_keys($table->getColumns()));
+    }
+
+    public function testAddColumnComment()
+    {
+        $table = $this->createTable();
+
+        $title = new rex_sql_column('title', 'varchar(20)', false, null, null, 'new title comment');
+        $table
+            ->ensureColumn($title)
+            ->alter();
+
+        static::assertSame($title, $table->getColumn('title'));
+
+        rex_sql_table::clearInstance(self::TABLE);
+        $table = rex_sql_table::get(self::TABLE);
+
+        static::assertEquals($title, $table->getColumn('title'));
+        static::assertSame('new title comment', $table->getColumn('title')->getComment());
+    }
+
+    public function testChangeColumnComment()
+    {
+        $table = $this->createTable();
+
+        $id = new rex_sql_column('id', 'int(11)', false, null, 'auto_increment', 'changed id comment');
+        $table
+            ->ensureColumn($id)
+            ->alter();
+
+        static::assertSame($id, $table->getColumn('id'));
+
+        rex_sql_table::clearInstance(self::TABLE);
+        $table = rex_sql_table::get(self::TABLE);
+
+        static::assertEquals($id, $table->getColumn('id'));
+        static::assertSame('changed id comment', $table->getColumn('id')->getComment());
+    }
+
+    public function testRemoveColumnComment()
+    {
+        $table = $this->createTable();
+
+        $id = new rex_sql_column('id', 'int(11)', false, null, 'auto_increment', null);
+        $table
+            ->ensureColumn($id)
+            ->alter();
+
+        static::assertSame($id, $table->getColumn('id'));
+
+        rex_sql_table::clearInstance(self::TABLE);
+        $table = rex_sql_table::get(self::TABLE);
+
+        static::assertEquals($id, $table->getColumn('id'));
+        static::assertNull($table->getColumn('id')->getComment());
     }
 
     public function testEnsureColumn()
@@ -555,6 +610,7 @@ class rex_sql_table_test extends TestCase
         $table = rex_sql_table::get(self::TABLE);
         $table
             ->ensureColumn(new rex_sql_column('title', 'varchar(255)', false, 'Default title'))
+            ->ensureColumn(new rex_sql_column('teaser', 'varchar(255)', false))
             ->ensureColumn(new rex_sql_column('id', 'int(11)', false, null, 'auto_increment'), rex_sql_table::FIRST)
             ->ensureColumn(new rex_sql_column('status', 'tinyint(1)'))
             ->ensureColumn(new rex_sql_column('timestamp', 'datetime', true))
@@ -565,7 +621,7 @@ class rex_sql_table_test extends TestCase
             ->ensure();
 
         static::assertTrue($table->exists());
-        static::assertSame(['id', 'title', 'description', 'status', 'timestamp'], array_keys($table->getColumns()));
+        static::assertSame(['id', 'title', 'description', 'teaser', 'status', 'timestamp'], array_keys($table->getColumns()));
         static::assertTrue($table->hasIndex('i_status_timestamp'));
         static::assertTrue($table->hasIndex('i_description'));
 
@@ -577,11 +633,12 @@ class rex_sql_table_test extends TestCase
             ->ensureColumn(new rex_sql_column('id', 'int(11)', false, null, 'auto_increment'))
             ->ensureColumn(new rex_sql_column('status', 'tinyint(1)'))
             ->ensureColumn(new rex_sql_column('title', 'varchar(20)', false), 'timestamp')
+            ->ensureColumn(new rex_sql_column('teaser', 'varchar(255)', false), 'status')
             ->setPrimaryKey(['id', 'title'])
             ->ensureIndex(new rex_sql_index('i_status_timestamp', ['status', 'timestamp'], rex_sql_index::UNIQUE))
             ->ensure();
 
-        $expectedOrder = ['timestamp', 'title', 'id', 'status', 'description'];
+        $expectedOrder = ['timestamp', 'title', 'id', 'status', 'teaser', 'description'];
 
         static::assertSame($expectedOrder, array_keys($table->getColumns()));
         static::assertTrue($table->hasIndex('i_status_timestamp'));
@@ -598,6 +655,39 @@ class rex_sql_table_test extends TestCase
         static::assertTrue($table->hasIndex('i_status_timestamp'));
         static::assertSame(rex_sql_index::UNIQUE, $table->getIndex('i_status_timestamp')->getType());
         static::assertTrue($table->hasIndex('i_description'));
+    }
+
+    /**
+     * @doesNotPerformAssertions
+     */
+    public function testEnsureMultipleTimes(): void
+    {
+        for ($i = 0; $i < 3; ++$i) {
+            rex_sql_table::get(self::TABLE)
+                ->ensurePrimaryIdColumn()
+                ->ensureColumn(new rex_sql_column('title', 'varchar(255)'))
+                ->ensure();
+        }
+    }
+
+    public function testEnsureWithEnsureGlobalColumns(): void
+    {
+        $expectedOrder = ['id', 'title', 'createdate', 'createuser', 'updatedate', 'updateuser', 'revision'];
+
+        for ($i = 1; $i <= 2; ++$i) {
+            $table = rex_sql_table::get(self::TABLE);
+            $table
+                ->ensurePrimaryIdColumn()
+                ->ensureColumn(new rex_sql_column('title', 'varchar(255)'))
+                ->ensureGlobalColumns()
+                ->ensureColumn(new rex_sql_column('revision', 'tinyint(1)'))
+                ->ensure();
+
+            rex_sql_table::clearInstance(self::TABLE);
+            $table = rex_sql_table::get(self::TABLE);
+
+            static::assertSame($expectedOrder, array_keys($table->getColumns()), "Column order does not match expected order (\$i = $i)");
+        }
     }
 
     public function testRenameNonExistingTable()

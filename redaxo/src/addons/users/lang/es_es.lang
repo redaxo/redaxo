@@ -25,8 +25,8 @@ user_functions = Funciones
 user_options = Opciones
 user_extras = Extras
 last_login = Último acceso
-psw_encrypted = Esta contraseña está encriptada - ingrese una nueva contraseña para cambiar
 user_caption = Lista de usuarios
+user_password_change_required = La contraseña debe cambiarse después de iniciar sesión
 user_status = Estado
 startpage = Página de inicio
 

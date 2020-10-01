@@ -46,7 +46,7 @@ if ($export && !$csrfToken->isValid()) {
     $filename = preg_replace('@[^\.a-z0-9_\-]@', '', $exportfilename);
 
     if ($filename != $exportfilename) {
-        $success = rex_i18n::msg('backup_filename_updated');
+        $error = rex_i18n::msg('backup_filename_updated');
         $exportfilename = $filename;
     } else {
         $hasContent = false;
@@ -54,9 +54,9 @@ if ($export && !$csrfToken->isValid()) {
         $ext = 'sql' == $exporttype ? '.sql' : '.tar.gz';
         $export_path = rex_backup::getDir() . '/';
 
-        if (file_exists($export_path . $filename . $ext)) {
+        if (is_file($export_path . $filename . $ext)) {
             $i = 1;
-            while (file_exists($export_path . $filename . '_' . $i . $ext)) {
+            while (is_file($export_path . $filename . '_' . $i . $ext)) {
                 ++$i;
             }
             $filename = $filename . '_' . $i;

@@ -75,6 +75,7 @@ class rex_addon_manager extends rex_package_manager
             return false;
         }
 
+        /** @psalm-var SplObjectStorage<rex_plugin, rex_plugin_manager> $plugins */
         $plugins = new SplObjectStorage();
         // create the managers for all available plugins
         foreach ($this->package->getAvailablePlugins() as $plugin) {

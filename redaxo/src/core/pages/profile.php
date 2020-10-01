@@ -9,6 +9,8 @@ $success = '';
 $user = rex::getUser();
 $user_id = $user->getId();
 
+$passwordChangeRequired = rex::getProperty('login')->requiresPasswordChange();
+
 // Allgemeine Infos
 $userpsw = rex_request('userpsw', 'string');
 $userpsw_new_1 = rex_request('userpsw_new_1', 'string');
@@ -72,10 +74,11 @@ if ($update && !$error) {
 
     try {
         $updateuser->update();
+        rex_user::clearInstance($user_id);
 
         rex_extension::registerPoint(new rex_extension_point('PROFILE_UPDATED', '', [
             'user_id' => $user_id,
-            'user' => new rex_user($updateuser->setQuery('SELECT * FROM '.rex::getTable('user').' WHERE id = ?', [$user_id])),
+            'user' => rex_user::require($user_id),
         ], true));
 
         // trigger a fullpage-reload which immediately reflects a possible changed language
@@ -86,12 +89,16 @@ if ($update && !$error) {
 }
 
 if (rex_post('upd_psw_button', 'bool')) {
+    $passwordPolicy = rex_backend_password_policy::factory();
+
     if (!$csrfToken->isValid()) {
         $error = rex_i18n::msg('csrf_token_invalid');
     } elseif (!$userpsw || !$userpsw_new_1 || $userpsw_new_1 != $userpsw_new_2 || !rex_login::passwordVerify($userpsw, $user->getValue('password'))) {
         $error = rex_i18n::msg('user_psw_error');
-    } elseif (true !== $msg = rex_backend_password_policy::factory(rex::getProperty('password_policy', []))->check($userpsw_new_1, $user_id)) {
+    } elseif (true !== $msg = $passwordPolicy->check($userpsw_new_1, $user_id)) {
         $error = $msg;
+    } elseif ($passwordChangeRequired && $userpsw === $userpsw_new_1) {
+        $error = rex_i18n::msg('password_not_changed');
     } else {
         $userpsw_new_1 = rex_login::passwordHash($userpsw_new_1);
 
@@ -100,14 +107,24 @@ if (rex_post('upd_psw_button', 'bool')) {
         $updateuser->setWhere(['id' => $user_id]);
         $updateuser->setValue('password', $userpsw_new_1);
         $updateuser->addGlobalUpdateFields();
+        $updateuser->setValue('password_change_required', 0);
+        $updateuser->setDateTimeValue('password_changed', time());
+        $updateuser->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords($user, $userpsw_new_1));
 
         try {
             $updateuser->update();
+            rex_user::clearInstance($user_id);
+
             $success = rex_i18n::msg('user_psw_updated');
+
+            if ($passwordChangeRequired) {
+                $passwordChangeRequired = false;
+                rex::getProperty('login')->changedPassword();
+            }
 
             rex_extension::registerPoint(new rex_extension_point('PASSWORD_UPDATED', '', [
                 'user_id' => $user_id,
-                'user' => new rex_user($updateuser->setQuery('SELECT * FROM '.rex::getTable('user').' WHERE id = ?', [$user_id])),
+                'user' => rex_user::require($user_id),
                 'password' => $userpsw_new_2,
             ], true));
         } catch (rex_sql_exception $e) {
@@ -117,6 +134,10 @@ if (rex_post('upd_psw_button', 'bool')) {
 }
 
 // ---------------------------------- ERR MSG
+
+if ($passwordChangeRequired) {
+    echo rex_view::warning(rex_i18n::msg('password_change_required'));
+}
 
 if ('' != $success) {
     echo rex_view::success($success);

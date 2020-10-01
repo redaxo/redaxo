@@ -15,16 +15,15 @@ $user = null;
 
 $sql = rex_sql::factory();
 if (0 != $user_id) {
-    $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'user WHERE id = ' . $user_id . ' LIMIT 2');
-    if (1 != $sql->getRows()) {
+    $user = rex_user::get($user_id);
+    if (!$user) {
         $user_id = 0;
-    } else {
-        $user = new rex_user($sql);
     }
 }
 
 // Allgemeine Infos
 $userpsw = rex_post('userpsw', 'string');
+$passwordChangeRequired = rex_post('password_change_required', 'bool');
 $userlogin = rex_post('userlogin', 'string');
 $username = rex_request('username', 'string');
 $userdesc = rex_request('userdesc', 'string');
@@ -102,6 +101,8 @@ $FUNC_ADD = rex_request('FUNC_ADD', 'string');
 $save = rex_request('save', 'int');
 $adminchecked = '';
 
+$passwordPolicy = rex_backend_password_policy::factory();
+
 if ($save && ($FUNC_ADD || $FUNC_UPDATE || $FUNC_APPLY)) {
     if (!rex_csrf_token::factory('user_edit')->isValid()) {
         $warnings[] = rex_i18n::msg('csrf_token_invalid');
@@ -112,7 +113,7 @@ if ($save && ($FUNC_ADD || $FUNC_UPDATE || $FUNC_APPLY)) {
         $warnings[] = rex_i18n::msg('invalid_email');
     }
 
-    if ($userpsw && (true !== $msg = rex_backend_password_policy::factory(rex::getProperty('password_policy', []))->check($userpsw, $user_id))) {
+    if ($userpsw && (true !== $msg = $passwordPolicy->check($userpsw, $user_id ?: null))) {
         if (rex::getUser()->isAdmin()) {
             $msg .= ' '.rex_i18n::msg('password_admin_notice');
         }
@@ -151,26 +152,31 @@ if ($warnings) {
     }
 
     if ('' != $userpsw) {
-        $updateuser->setValue('password', rex_login::passwordHash($userpsw));
+        $passwordHash = rex_login::passwordHash($userpsw);
+        $updateuser->setValue('password', $passwordHash);
+        $updateuser->setDateTimeValue('password_changed', time());
+        $updateuser->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords($user, $passwordHash));
     }
+
+    $updateuser->setValue('password_change_required', (int) $passwordChangeRequired);
 
     $updateuser->update();
 
-    if (isset($FUNC_UPDATE) && '' != $FUNC_UPDATE) {
-        $user_id = 0;
-        $FUNC_UPDATE = '';
-    }
-
     $info = rex_i18n::msg('user_data_updated');
 
-    $sql->setQuery('SELECT * FROM ' . rex::getTable('user') . ' WHERE id = ?', [$user_id]);
-    $user = new rex_user($sql);
+    rex_user::clearInstance($user_id);
+    $user = rex_user::require($user_id);
 
     rex_extension::registerPoint(new rex_extension_point('USER_UPDATED', '', [
         'id' => $user_id,
         'user' => $user,
         'password' => $userpsw,
     ], true));
+
+    if (isset($FUNC_UPDATE) && '' != $FUNC_UPDATE) {
+        $user_id = 0;
+        $FUNC_UPDATE = '';
+    }
 } elseif ('' != $FUNC_DELETE) {
     // man kann sich selbst nicht loeschen..
     if (rex::getUser()->getId() == $user_id) {
@@ -181,6 +187,8 @@ if ($warnings) {
         $deleteuser = rex_sql::factory();
         $deleteuser->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'user WHERE id = ? LIMIT 1', [$user_id]);
         $info = rex_i18n::msg('user_deleted');
+
+        rex_user::clearInstance($user_id);
 
         rex_extension::registerPoint(new rex_extension_point('USER_DELETED', '', [
             'id' => $user_id,
@@ -208,6 +216,10 @@ if ($warnings) {
         $adduser->setValue('startpage', $userperm_startpage);
         $adduser->setValue('role', implode(',', $userrole));
         $adduser->addGlobalCreateFields();
+        $adduser->addGlobalUpdateFields();
+        $adduser->setDateTimeValue('password_changed', time());
+        $adduser->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords(null, $userpswHash));
+        $adduser->setValue('password_change_required', (int) $passwordChangeRequired);
         if (isset($userstatus) && 1 == $userstatus) {
             $adduser->setValue('status', 1);
         } else {
@@ -221,7 +233,7 @@ if ($warnings) {
 
         rex_extension::registerPoint(new rex_extension_point('USER_ADDED', '', [
             'id' => $adduser->getLastId(),
-            'user' => new rex_user($adduser->setQuery('SELECT * FROM '.rex::getTable('user').' WHERE id = ?', [$adduser->getLastId()])),
+            'user' => rex_user::require((int) $adduser->getLastId()),
             'password' => $userpsw,
         ], true));
     } else {
@@ -254,6 +266,9 @@ if ($warnings) {
             $warnings[] = rex_i18n::msg('user_missing_password');
         }
     }
+} else {
+    // default value for new users (for existing users it is replaced after reading the user from db)
+    $passwordChangeRequired = true;
 }
 
 // ---------------------------------- ERR MSG
@@ -273,6 +288,9 @@ $SHOW = true;
 if ('' != $FUNC_ADD || $user_id > 0) {
     $SHOW = false;
 
+    // whether the user is editing his own account
+    $self = $user_id == rex::getUser()->getId();
+
     $statuschecked = '';
     if ('' != $FUNC_ADD) {
         $statuschecked = 'checked="checked"';
@@ -284,7 +302,7 @@ if ('' != $FUNC_ADD || $user_id > 0) {
 
         $form_label = rex_i18n::msg('edit_user');
         $add_hidden = '<input type="hidden" name="user_id" value="' . $user_id . '" />';
-        $add_user_login = '<p class="form-control-static">' . rex_escape($sql->getValue(rex::getTablePrefix() . 'user.login')) . '</p>';
+        $add_user_login = '<p class="form-control-static">' . rex_escape($user->getLogin()) . '</p>';
 
         $formElements = [];
 
@@ -310,6 +328,7 @@ if ('' != $FUNC_ADD || $user_id > 0) {
             $sql->setQuery('select * from ' . rex::getTablePrefix() . 'user where id=' . $user_id);
 
             if (1 == $sql->getRows()) {
+                $passwordChangeRequired = (bool) $sql->getValue('password_change_required');
                 $useradmin = $sql->getValue('admin');
                 $userstatus = $sql->getValue(rex::getTablePrefix() . 'user.status');
                 $userrole = $sql->getValue(rex::getTablePrefix() . 'user.role');
@@ -342,8 +361,6 @@ if ('' != $FUNC_ADD || $user_id > 0) {
         $sel_role->setSelected($userrole);
         $sel_be_sprache->setSelected($userperm_be_sprache);
         $sel_startpage->setSelected($userperm_startpage);
-
-        $self = rex::getUser()->getValue('login') == $sql->getValue(rex::getTablePrefix() . 'user.login');
 
         if (rex::getUser()->isAdmin()) {
             $disabled = $self ? ' disabled="disabled"' : '';
@@ -399,11 +416,28 @@ if ('' != $FUNC_ADD || $user_id > 0) {
     $n['label'] = '<label for="rex-js-user-password">' . rex_i18n::msg('password') . '</label>';
     $n['field'] = '<input class="form-control" type="password" id="rex-js-user-password" name="userpsw" autocomplete="new-password"/>';
 
-    if ('' != rex::getProperty('pswfunc')) {
-        $n['note'] = rex_i18n::msg('psw_encrypted');
-    }
-
     $formElements[] = $n;
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('flush', true);
+    $fragment->setVar('group', true);
+    $fragment->setVar('elements', $formElements, false);
+    $content .= $fragment->parse('core/form/form.php');
+
+    $formElements = [];
+
+    $n = [];
+    $n['label'] = '<label for="rex-user-password-change-required">' . rex_i18n::msg('user_password_change_required') . '</label>';
+    $checked = $passwordChangeRequired && !$self ? ' checked="checked"' : '';
+    $disabled = $self ? ' disabled="disabled"' : '';
+    $n['field'] = '<input type="checkbox" id="rex-user-password-change-required" name="password_change_required" value="1" ' . $checked . $disabled . ' />';
+    $formElements[] = $n;
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('elements', $formElements, false);
+    $content .= $fragment->parse('core/form/checkbox.php');
+
+    $formElements = [];
 
     $n = [];
     $n['label'] = '<label for="rex-user-name">' . rex_i18n::msg('name') . '</label>';

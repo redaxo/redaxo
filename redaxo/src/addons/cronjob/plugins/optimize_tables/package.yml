@@ -1,6 +1,6 @@
 package: cronjob/optimize_tables
-version: '2.6.0'
+version: '2.7.1'
 author: Gregor Harlan
-supportpage: www.redaxo.org/de/forum/
+supportpage: https://github.com/redaxo/redaxo
 
 cronjob_type: rex_cronjob_optimize_tables

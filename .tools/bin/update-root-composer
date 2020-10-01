@@ -1,0 +1,35 @@
+#!/usr/bin/env php
+<?php
+
+$replace = [
+    'symfony/polyfill-php70' => '*',
+    'symfony/polyfill-php72' => '*',
+    'symfony/polyfill-php73' => '*',
+];
+
+$baseDir = dirname(__DIR__, 2);
+// list of core addons with a composer.lock.
+// intentionally not using a wildcard because other non-system-addons might be contained
+$dirs = [
+    $baseDir.'/redaxo/src/addons/be_style',
+    $baseDir.'/redaxo/src/addons/debug',
+    $baseDir.'/redaxo/src/addons/phpmailer',
+    $baseDir.'/redaxo/src/core',
+];
+
+foreach ($dirs as $dir) {
+    $packages = json_decode(file_get_contents($dir.'/composer.lock'), true)['packages'];
+
+    foreach ($packages as $package) {
+        if (is_dir($dir.'/vendor/'.$package['name'])) {
+            $replace[$package['name']] = $package['version'];
+        }
+    }
+}
+
+ksort($replace);
+
+$file = $baseDir.'/composer.json';
+$content = json_decode(file_get_contents($file), true);
+$content['replace'] = $replace;
+file_put_contents($file, json_encode($content, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)."\n");

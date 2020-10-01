@@ -65,6 +65,7 @@ class rex_effect_convert2img extends rex_effect_abstract
 
         if (class_exists(Imagick::class)) {
             $imagick = new Imagick();
+            $imagick->setResolution($density, $density);
             $imagick->readImage($from_path.'[0]');
 
             if ('' != $color) {
@@ -73,8 +74,7 @@ class rex_effect_convert2img extends rex_effect_abstract
                 $imagick->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
             }
 
-            $imagick->setResolution($density, $density);
-            $imagick->setImageColorspace(Imagick::COLORSPACE_RGB);
+            $imagick->transformImageColorspace(Imagick::COLORSPACE_RGB);
             $imagick->setImageFormat($convert_to['ext']);
 
             $gd = imagecreatefromstring($imagick->getImageBlob());

@@ -130,7 +130,7 @@ abstract class rex_structure_element
 
             $startId = rex_article::getSiteStartArticleId();
             $file = rex_path::addonCache('structure', $startId . '.1.article');
-            if (!rex::isBackend() && file_exists($file)) {
+            if (!rex::isBackend() && is_file($file)) {
                 // da getClassVars() eine statische Methode ist, können wir hier nicht mit $this->getId() arbeiten!
                 $genVars = rex_file::getCache($file);
                 unset($genVars['last_update_stamp']);
@@ -483,7 +483,7 @@ abstract class rex_structure_element
             if (is_array($explode)) {
                 foreach ($explode as $var) {
                     if ('' != $var) {
-                        $cat = rex_category::get($var, $this->clang_id);
+                        $cat = rex_category::get((int) $var, $this->clang_id);
                         if (!$cat) {
                             throw new LogicException('No category found with id='. $var .' and clang='. $this->clang_id .'.');
                         }
@@ -510,6 +510,54 @@ abstract class rex_structure_element
             }
         }
         return false;
+    }
+
+    /**
+     * Returns the closest element from parent tree (including itself) where the callback returns true.
+     *
+     * @psalm-param callable(self):bool $callback
+     */
+    public function getClosest(callable $callback): ?self
+    {
+        if ($callback($this)) {
+            return $this;
+        }
+
+        $parent = $this->getParent();
+
+        return $parent ? $parent->getClosest($callback) : null;
+    }
+
+    /**
+     * Returns the value from this element or from the closest parent where the value is set.
+     *
+     * @return string|int|null
+     */
+    public function getClosestValue(string $key)
+    {
+        $value = $this->getValue($key);
+
+        if (null !== $value && '' !== $value) {
+            return $value;
+        }
+
+        $parent = $this->getParent();
+
+        return $parent ? $parent->getClosestValue($key) : null;
+    }
+
+    /**
+     * Returns true if this element and all parents are online.
+     */
+    public function isOnlineIncludingParents(): bool
+    {
+        if (!$this->isOnline()) {
+            return false;
+        }
+
+        $parent = $this->getParent();
+
+        return !$parent || $parent->isOnlineIncludingParents();
     }
 
     /**

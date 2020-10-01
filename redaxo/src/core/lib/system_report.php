@@ -54,18 +54,23 @@ class rex_system_report
                 continue;
             }
 
-            $sql = rex_sql::factory($dbId);
-
             $dbData = [];
-            $dbData['Version'] = $sql->getDbType().' '.$sql->getDbVersion();
 
-            if (1 === $dbId) {
-                $dbData['Character set'] = rex::getConfig('utf8mb4') ? 'utf8mb4' : 'utf8';
-            }
+            try {
+                $sql = rex_sql::factory($dbId);
 
-            $security = rex_setup::checkDbSecurity();
-            if ($security) {
-                $dbData['Warning'] = implode('<br/>', $security);
+                $dbData['Version'] = $sql->getDbType().' '.$sql->getDbVersion();
+
+                if (1 === $dbId) {
+                    $dbData['Character set'] = rex::getConfig('utf8mb4') ? 'utf8mb4' : 'utf8';
+
+                    $security = rex_setup::checkDbSecurity();
+                    if ($security) {
+                        $dbData['Warning'] = implode('<br/>', $security);
+                    }
+                }
+            } catch (rex_sql_exception $exception) {
+                $dbData['Warning'] = $exception->getMessage();
             }
 
             if (1 === $dbId) {
@@ -115,7 +120,7 @@ class rex_system_report
 
         foreach ($report as $groupLabel => $group) {
             $rows = [];
-            $labelWidth = max(13, mb_strlen($groupLabel));
+            $labelWidth = (int) max(13, mb_strlen($groupLabel));
             $valueWidth = 10;
 
             foreach ($group as $label => $value) {
@@ -124,8 +129,8 @@ class rex_system_report
                 }
 
                 $rows[$label] = $value;
-                $labelWidth = max($labelWidth, mb_strlen($label));
-                $valueWidth = min(30, max($valueWidth, mb_strlen($value)));
+                $labelWidth = (int) max($labelWidth, mb_strlen($label));
+                $valueWidth = (int) min(30, max($valueWidth, mb_strlen($value)));
             }
 
             $content .= '| '.str_pad($groupLabel, $labelWidth).' | '.str_repeat(' ', $valueWidth)." |\n";
@@ -139,10 +144,11 @@ class rex_system_report
         }
 
         $content = rtrim($content);
+        $database = $report['Database']['Version'] ?? $report['Database 1']['Version'];
 
         return <<<OUTPUT
 <details>
-<summary>System report (REDAXO {$report['REDAXO']['Version']}, PHP {$report['PHP']['Version']})</summary>
+<summary>System report (REDAXO {$report['REDAXO']['Version']}, PHP {$report['PHP']['Version']}, {$database})</summary>
 
 $content
 

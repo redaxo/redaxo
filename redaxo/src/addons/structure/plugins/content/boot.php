@@ -9,6 +9,7 @@
  */
 
 rex_perm::register('moveSlice[]', null, rex_perm::OPTIONS);
+rex_perm::register('publishSlice[]', null, rex_perm::OPTIONS);
 rex_complex_perm::register('modules', rex_module_perm::class);
 
 if (rex::isBackend()) {
@@ -42,15 +43,23 @@ if (rex::isBackend()) {
         $article = new rex_article_content();
         $article->setCLang(rex_clang::getCurrentId());
 
-        if ($article->setArticleId(rex_article::getCurrentId())) {
-            $content .= $article->getArticleTemplate();
-        } else {
+        if (!$article->setArticleId(rex_article::getCurrentId())) {
             $fragment = new rex_fragment([
                 'content' => '<p><b>Kein Startartikel selektiert - No starting Article selected.</b><br />Please click here to enter <a href="' . rex_url::backendController() . '">redaxo</a>.</p>',
             ]);
             $content .= $fragment->parse('core/fe_ooops.php');
             rex_response::sendPage($content);
             exit;
+        }
+
+        try {
+            $content .= $article->getArticleTemplate();
+        } catch (rex_article_not_found_exception $exception) {
+            $article = new rex_article_content();
+            $article->setCLang(rex_clang::getCurrentId());
+            $article->setArticleId(rex_article::getNotfoundArticleId());
+
+            $content .= $article->getArticleTemplate();
         }
 
         $art_id = $article->getArticleId();

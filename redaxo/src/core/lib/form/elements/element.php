@@ -7,7 +7,7 @@ class rex_form_element
 {
     /** @var string|null */
     protected $value;
-    /** @var string|int */
+    /** @var string|int|null */
     protected $defaultSaveValue = '';
     /** @var string */
     protected $label;
@@ -37,12 +37,12 @@ class rex_form_element
     /**
      * @param string $tag
      */
-    public function __construct($tag, rex_form_base $table = null, array $attributes = [], $separateEnding = false)
+    public function __construct($tag, rex_form_base $form = null, array $attributes = [], $separateEnding = false)
     {
         $this->value = null;
         $this->label = '';
         $this->tag = $tag;
-        $this->table = $table;
+        $this->table = $form;
         $this->setAttributes($attributes);
         $this->separateEnding = $separateEnding;
         $this->setHeader('');
@@ -64,7 +64,7 @@ class rex_form_element
     }
 
     /**
-     * @param string|int $value
+     * @param string|int|null $value
      */
     public function setDefaultSaveValue($value)
     {

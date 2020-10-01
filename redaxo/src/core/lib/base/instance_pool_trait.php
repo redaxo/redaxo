@@ -10,7 +10,7 @@
 trait rex_instance_pool_trait
 {
     /**
-     * @psalm-var array<array-key, array<array-key, null|static>>
+     * @psalm-var array<class-string, array<string, null|static>>
      *
      * @var static[][]
      */
@@ -58,6 +58,7 @@ trait rex_instance_pool_trait
      *
      * @param mixed    $key            Key
      * @param callable $createCallback Callback, will be called to create a new instance
+     * @psalm-param callable(mixed...):?static $createCallback
      *
      * @return null|static
      */

@@ -1,9 +1,88 @@
 {
+    "name": "redaxo/source",
+    "type": "library",
+    "description": "REDAXO CMS source repository (for static analysis)",
+    "license": "MIT",
+    "require": {
+        "php": ">=7.3"
+    },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.16",
-        "friendsofredaxo/linter": "^1.2",
-        "phpstan/phpstan": "^0.12.11",
-        "vimeo/psalm": "^3.9.5"
+        "friendsofphp/php-cs-fixer": "2.16.4",
+        "friendsofredaxo/linter": "1.2.7",
+        "j13k/yaml-lint": "^1.1@dev",
+        "phpstan/phpstan": "0.12.47",
+        "phpstan/extension-installer": "1.0.5",
+        "phpstan/phpstan-deprecation-rules": "0.12.5",
+        "phpstan/phpstan-phpunit": "0.12.16",
+        "phpunit/phpunit": "^9.3",
+        "psalm/plugin-phpunit": "0.12.2",
+        "psalm/plugin-symfony": "1.4.4",
+        "vimeo/psalm": "3.16"
+    },
+    "replace": {
+        "erusev/parsedown": "1.7.4",
+        "erusev/parsedown-extra": "0.8.1",
+        "filp/whoops": "2.7.3",
+        "itsgoingd/clockwork": "v4.1.8",
+        "phpmailer/phpmailer": "v6.1.7",
+        "psr/container": "1.0.0",
+        "psr/http-message": "1.0.1",
+        "psr/log": "1.1.3",
+        "ramsey/collection": "1.1.1",
+        "ramsey/http-range": "1.0.0",
+        "scssphp/scssphp": "1.2.1",
+        "symfony/console": "v5.1.5",
+        "symfony/deprecation-contracts": "v2.2.0",
+        "symfony/polyfill-ctype": "v1.18.1",
+        "symfony/polyfill-intl-grapheme": "v1.18.1",
+        "symfony/polyfill-intl-normalizer": "v1.18.1",
+        "symfony/polyfill-mbstring": "v1.18.1",
+        "symfony/polyfill-php70": "*",
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php80": "v1.18.1",
+        "symfony/service-contracts": "v2.2.0",
+        "symfony/string": "v5.1.5",
+        "symfony/var-dumper": "v5.1.5",
+        "symfony/yaml": "v5.1.5",
+        "voku/anti-xss": "4.1.28",
+        "voku/portable-ascii": "1.5.3",
+        "voku/portable-utf8": "5.4.47"
+    },
+    "autoload": {
+        "classmap": [
+            "redaxo/src/addons/backup/lib/",
+            "redaxo/src/addons/backup/vendor/",
+            "redaxo/src/addons/be_style/lib/",
+            "redaxo/src/addons/be_style/vendor/scssphp/",
+            "redaxo/src/addons/cronjob/lib/",
+            "redaxo/src/addons/cronjob/plugins/article_status/lib/",
+            "redaxo/src/addons/cronjob/plugins/optimize_tables/lib/",
+            "redaxo/src/addons/debug/lib/",
+            "redaxo/src/addons/debug/vendor/",
+            "redaxo/src/addons/install/lib/",
+            "redaxo/src/addons/media_manager/lib/",
+            "redaxo/src/addons/mediapool/lib/",
+            "redaxo/src/addons/metainfo/lib/",
+            "redaxo/src/addons/phpmailer/lib/",
+            "redaxo/src/addons/phpmailer/vendor/",
+            "redaxo/src/addons/structure/lib/",
+            "redaxo/src/addons/structure/plugins/content/lib/",
+            "redaxo/src/addons/structure/plugins/history/lib/",
+            "redaxo/src/addons/structure/plugins/version/lib/",
+            "redaxo/src/addons/users/lib/",
+            "redaxo/src/core/lib/"
+        ],
+        "files": [
+            "redaxo/src/addons/mediapool/functions/function_rex_mediapool.php",
+            "redaxo/src/addons/metainfo/extensions/extension_cleanup.php",
+            "redaxo/src/addons/metainfo/functions/function_metainfo.php",
+            "redaxo/src/addons/structure/functions/function_rex_url.php",
+            "redaxo/src/core/functions/function_rex_escape.php",
+            "redaxo/src/core/functions/function_rex_globals.php",
+            "redaxo/src/core/functions/function_rex_other.php",
+            "redaxo/src/core/vendor/autoload.php"
+        ]
     },
     "autoload-dev": {
         "classmap": [
@@ -14,12 +93,11 @@
             "redaxo/src/core/tests/"
         ]
     },
-
+    "bin": [
+        "redaxo/bin/console"
+    ],
     "config": {
         "optimize-autoloader": true,
-        "sort-packages": true,
-        "platform": {
-            "php": "7.1.3"
-        }
+        "sort-packages": true
     }
 }

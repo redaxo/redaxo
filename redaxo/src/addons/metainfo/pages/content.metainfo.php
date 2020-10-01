@@ -13,6 +13,7 @@ $content = [];
 
 $article = rex_article::get($article_id, $clang);
 $articleStatusTypes = rex_article_service::statusTypes();
+$status = (int) $article->getValue('status');
 
 // ------------------
 
@@ -21,7 +22,7 @@ $panels[] = '<dt>'.rex_i18n::msg('created_by').'</dt><dd>'.rex_escape($article->
 $panels[] = '<dt>'.rex_i18n::msg('created_on').'</dt><dd>'.rex_formatter::strftime($article->getValue('createdate'), 'date').'</dd>';
 $panels[] = '<dt>'.rex_i18n::msg('updated_by').'</dt><dd>'.rex_escape($article->getValue('updateuser')).'</dd>';
 $panels[] = '<dt>'.rex_i18n::msg('updated_on').'</dt><dd>'.rex_formatter::strftime($article->getValue('updatedate'), 'date').'</dd>';
-$panels[] = '<dt>'.rex_i18n::msg('status').'</dt><dd class="'.$articleStatusTypes[$article->getValue('status')][1].'">'.$articleStatusTypes[$article->getValue('status')][0].'</dd>';
+$panels[] = '<dt>'.rex_i18n::msg('status').'</dt><dd class="'.$articleStatusTypes[$status][1].'">'.$articleStatusTypes[$status][0].'</dd>';
 $content[] = '<dl class="dl-horizontal text-left">' . implode('', $panels) . '</dl>';
 
 // ------------------
@@ -72,7 +73,7 @@ if (1 == $article->getRows()) {
     $formElements = [];
     $formElements[] = [
         'label' => '<label for="rex-id-meta-article-name">'.rex_i18n::msg('header_article_name').'</label>',
-        'field' => '<input class="form-control" type="text" id="rex-id-meta-article-name" name="meta_article_name" value="'.htmlspecialchars(rex_article::get($article_id, $clang)->getValue('name')).'" />',
+        'field' => '<input class="form-control" type="text" id="rex-id-meta-article-name" name="meta_article_name" value="'.htmlspecialchars(rex_article::get($article_id, $clang)->getName()).'" />',
     ];
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);

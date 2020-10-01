@@ -106,6 +106,7 @@ class tar {
   // PRIVATE ACCESS FUNCTION
   protected function __parseNullPaddedString($string) {
     $position = strpos($string,chr(0));
+    assert(is_int($position));
     return substr($string,0,$position);
   }
 
@@ -134,7 +135,7 @@ class tar {
       $file_gid   = octdec(rtrim(substr($this->tar_file,$main_offset + 116,8), "\x00"));
 
       // Parse the file size
-      $file_size    = octdec(rtrim(substr($this->tar_file,$main_offset + 124,12), "\x00"));
+      $file_size    = (int) octdec(rtrim(substr($this->tar_file,$main_offset + 124,12), "\x00"));
 
       // Parse the file update time - unix timestamp format
       $file_time    = octdec(rtrim(substr($this->tar_file,$main_offset + 136,12), "\x00"));
@@ -204,7 +205,7 @@ class tar {
       }
 
       // Move our offset the number of blocks we have processed
-      $main_offset += 512 + (ceil($file_size / 512) * 512);
+      $main_offset += 512 + ((int) ceil($file_size / 512) * 512);
     }
 
     return true;
@@ -321,7 +322,7 @@ class tar {
         $header[155] = chr(32);
 
         // Pad file contents to byte count divisible by 512
-        $file_contents = str_pad($information["file"],(ceil($information["size"] / 512) * 512),chr(0));
+        $file_contents = str_pad($information["file"], (int) ceil($information["size"] / 512) * 512, chr(0));
 
         // Add new tar formatted data to tar file contents
         $this->tar_file .= $header . $file_contents;
@@ -350,7 +351,7 @@ class tar {
     unset($this->numDirectories);
 
     // If the tar file doesn't exist...
-    if(!file_exists($filename))
+    if(!is_file($filename))
       return false;
 
     $this->filename = $filename;
@@ -368,7 +369,7 @@ class tar {
    */
   public function appendTar($filename) {
     // If the tar file doesn't exist...
-    if(!file_exists($filename))
+    if(!is_file($filename))
       return false;
 
     $this->__readTar($filename);
@@ -442,7 +443,7 @@ class tar {
    * @return bool
    */
   public function addDirectory($dirname) {
-    if(!file_exists($dirname))
+    if(!is_dir($dirname))
       return false;
 
     // Get directory information
@@ -470,7 +471,7 @@ class tar {
    */
   public function addFile($filename) {
     // Make sure the file we are adding exists!
-    if(!file_exists($filename))
+    if(!is_file($filename))
       return false;
 
     // Make sure there are no other files in the archive that have this same filename

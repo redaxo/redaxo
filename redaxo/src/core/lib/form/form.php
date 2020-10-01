@@ -36,7 +36,7 @@ class rex_form extends rex_form_base
     protected $languageSupport;
 
     /**
-     * Diese Konstruktor sollte nicht verwendet werden. Instanzen muessen ueber die facotry() Methode erstellt werden!
+     * Diese Konstruktor sollte nicht verwendet werden. Instanzen muessen ueber die factory() Methode erstellt werden!
      *
      * @param string $tableName
      * @param string $fieldset
@@ -253,35 +253,49 @@ class rex_form extends rex_form_base
     /**
      * Callbackfunktion, damit in subklassen der Value noch beeinflusst werden kann
      * kurz vorm speichern.
+     *
+     * @param string          $fieldsetName
+     * @param string          $fieldName
+     * @param string|int|null $fieldValue
+     *
+     * @return string|int|null
      */
     protected function preSave($fieldsetName, $fieldName, $fieldValue, rex_sql $saveSql)
     {
         static $setOnce = false;
 
         if (!$setOnce) {
-            $fieldnames = $this->sql->getFieldnames();
-
-            if (in_array('updateuser', $fieldnames)) {
-                $saveSql->setValue('updateuser', rex::getUser()->getValue('login'));
-            }
-
-            if (in_array('updatedate', $fieldnames)) {
-                $saveSql->setDateTimeValue('updatedate', time());
-            }
-
-            if (!$this->isEditMode()) {
-                if (in_array('createuser', $fieldnames)) {
-                    $saveSql->setValue('createuser', rex::getUser()->getValue('login'));
-                }
-
-                if (in_array('createdate', $fieldnames)) {
-                    $saveSql->setDateTimeValue('createdate', time());
-                }
-            }
+            $this->setGlobalSqlFields($saveSql);
             $setOnce = true;
         }
 
         return $fieldValue;
+    }
+
+    /**
+     * Sets the sql fields `updateuser`, `updatedate`, `createuser` and `createdate` (if available).
+     */
+    private function setGlobalSqlFields(rex_sql $saveSql): void
+    {
+        $fieldnames = $this->sql->getFieldnames();
+
+        if (in_array('updateuser', $fieldnames)) {
+            $saveSql->setValue('updateuser', rex::getUser()->getValue('login'));
+        }
+
+        if (in_array('updatedate', $fieldnames)) {
+            $saveSql->setDateTimeValue('updatedate', time());
+        }
+
+        if (!$this->isEditMode()) {
+            if (in_array('createuser', $fieldnames)) {
+                $saveSql->setValue('createuser', rex::getUser()->getValue('login'));
+            }
+
+            if (in_array('createdate', $fieldnames)) {
+                $saveSql->setDateTimeValue('createdate', time());
+            }
+        }
     }
 
     /**
@@ -305,7 +319,7 @@ class rex_form extends rex_form_base
      * Gibt true zurück wenn alles ok war, false bei einem allgemeinen Fehler,
      * einen String mit einer Fehlermeldung oder den von der Datenbank gelieferten ErrorCode.
      *
-     * @return bool
+     * @return bool|int
      */
     protected function save()
     {
@@ -343,8 +357,7 @@ class rex_form extends rex_form_base
                 if (count($this->languageSupport)) {
                     foreach (rex_clang::getAllIds() as $clang_id) {
                         $sql->setTable($this->tableName);
-                        $sql->addGlobalCreateFields();
-                        $sql->addGlobalUpdateFields();
+                        $this->setGlobalSqlFields($sql);
                         if (!isset($id)) {
                             $id = $sql->setNewId($this->languageSupport['id']);
                         } else {
@@ -375,7 +388,7 @@ class rex_form extends rex_form_base
     }
 
     /**
-     * @return bool
+     * @return bool|int
      */
     protected function delete()
     {

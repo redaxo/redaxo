@@ -13,7 +13,7 @@ class rex_cronjob_phpcode extends rex_cronjob
     public function execute()
     {
         $code = preg_replace('/^\<\?(?:php)?/', '', $this->getParam('code'));
-        $is = ini_set('display_errors', true);
+        $is = ini_set('display_errors', '1');
         ob_start();
         $return = false;
 

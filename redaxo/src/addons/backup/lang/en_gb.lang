@@ -23,6 +23,7 @@ backup_db_export = Export
 backup_filename_updated = Filname updated due to invalid characters. Please click on export again
 backup_please_choose_folder = Please choose the folders you'd like to export
 backup_intro_import = Please take not that the current database <b>will be deleted</b> when importing a new one. To be safe create a backup of the existing database by exporting it first.
+backup_version_warning = Backups from older REDAXO versions and/or AddOns may not be fully compatible and may lead to problems after importing.
 backup_database = Database import
 backup_filename = Filename
 backup_filename_notice = Variables: <code>%REX_SERVER</code>, <code>%REX_VERSION</code> and date variables, just like with strftime(); file extension: <code>.cronjob.sql</code> (added automatically)

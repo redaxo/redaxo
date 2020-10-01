@@ -14,7 +14,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
      *
      * @throws rex_exception
      *
-     * @return string
+     * @return string[]
      */
     public static function isMediaInUse(rex_extension_point $ep)
     {
@@ -170,7 +170,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         return $params;
     }
 
-    protected function renderFormItem($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel)
+    protected function renderFormItem($field, $tag, $tag_attr, $id, $label, $labelIt, $inputType)
     {
         return $field;
     }

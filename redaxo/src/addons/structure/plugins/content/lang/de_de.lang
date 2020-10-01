@@ -1,6 +1,7 @@
 content = Artikel
 
 add_block = Block hinzufügen
+article_doesnt_exist = Dieser Artikel existiert nicht!
 module_doesnt_exist = Dieses Modul existiert nicht!
 update_block = Block übernehmen
 save_block = Block speichern
@@ -62,6 +63,7 @@ content_types = Bereiche (ctypes)
 content_type = Bereich (ctype)
 
 perm_options_moveSlice[] = Blöcke verschieben
+perm_options_publishSlice[] = Blöcke veröffentlichen
 
 templates = Templates
 
@@ -114,6 +116,7 @@ module_name = Name
 module_key = Schlüssel
 module_key_notice = Der Schlüssel sollte eindeutig vergeben oder nicht ausgefüllt werden.
 module_key_exists = Der Schlüssel existiert bereits.
+module_actions_notice = Tipp: Mit Aktionen kann zusätzlich PHP-Code ausgeführt werden. Zum Beispiel, um Moduleingaben zu validieren.
 save_module_and_quit = Modul speichern
 save_module_and_continue = Modul übernehmen
 module_description = Modulbezeichnung

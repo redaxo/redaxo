@@ -7,8 +7,10 @@
  */
 class rex_setup
 {
+    // These values must be synchronized with the values in redaxo/src/core/update.php
     public const MIN_PHP_VERSION = REX_MIN_PHP_VERSION;
-    public const MIN_MYSQL_VERSION = '5.5.3';
+    public const MIN_MYSQL_VERSION = '5.6';
+    public const MIN_MARIADB_VERSION = '10.1';
 
     /**
      * no-password placeholder required to support empty passwords/clearing the password.
@@ -33,6 +35,12 @@ class rex_setup
 
         // copy alle media files of the current rex-version into redaxo_media
         rex_dir::copy(rex_path::core('assets'), rex_path::coreAssets());
+        // in a regular release the folder will never be empty, because we ship it prefilled.
+        // provide a error message for 'git cloned' sources, to give newcomers a hint why the very first setup might look broken.
+        // we intentionally dont check permissions here, as those will be checked in a later setup step.
+        if (!is_dir(rex_path::coreAssets())) {
+            throw new rex_exception('Unable to copy assets to "'. rex_path::coreAssets() .'". Is the folder writable for the webserver?');
+        }
 
         // copy skins files/assets
         $skinAddon = rex_addon::get($skinAddon);
@@ -88,7 +96,9 @@ class rex_setup
         ];
 
         $getMod = static function ($path) {
-            return substr(sprintf('%o', fileperms($path)), -3);
+            $mod = substr(sprintf('%o', fileperms($path)), -3);
+            assert(is_string($mod));
+            return $mod;
         };
 
         $func = static function ($dir) use (&$func, $getMod) {
@@ -141,13 +151,16 @@ class rex_setup
         $orgDbConfig = rex::getProperty('db');
         try {
             rex::setProperty('db', $config['db']);
-            $serverVersion = rex_sql::getServerVersion();
+            $sql = rex_sql::factory();
+            $type = $sql->getDbType();
+            $version = $sql->getDbVersion();
         } finally {
             rex::setProperty('db', $orgDbConfig);
         }
 
-        if (1 == rex_version::compare($serverVersion, self::MIN_MYSQL_VERSION, '<')) {
-            return rex_i18n::msg('sql_database_min_version', $serverVersion, self::MIN_MYSQL_VERSION);
+        $minVersion = rex_sql::MARIADB === $type ? self::MIN_MARIADB_VERSION : self::MIN_MYSQL_VERSION;
+        if (rex_version::compare($version, $minVersion, '<')) {
+            return rex_i18n::msg('sql_database_required_version', $type, $version, self::MIN_MYSQL_VERSION, self::MIN_MARIADB_VERSION);
         }
 
         return '';
@@ -174,11 +187,7 @@ class rex_setup
             $security[] = rex_i18n::msg('setup_session_autostart_warning');
         }
 
-        if (1 == version_compare(PHP_VERSION, '7.2', '<') && time() > strtotime('1 Dec 2019')) {
-            $security[] = rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION);
-        } elseif (1 == version_compare(PHP_VERSION, '7.3', '<') && time() > strtotime('30 Nov 2020')) {
-            $security[] = rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION);
-        } elseif (1 == version_compare(PHP_VERSION, '7.4', '<') && time() > strtotime('6 Dec 2021')) {
+        if (1 == version_compare(PHP_VERSION, '7.4', '<') && time() > strtotime('6 Dec 2021')) {
             $security[] = rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION);
         } elseif (1 == version_compare(PHP_VERSION, '8.0', '<') && time() > strtotime('28 Nov 2022')) {
             $security[] = rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION);
@@ -201,17 +210,7 @@ class rex_setup
 
         if (rex_sql::MARIADB === $dbType) {
             // https://en.wikipedia.org/wiki/MariaDB#Versioning
-            if (1 == version_compare($dbVersion, '5.2', '<') && time() > strtotime('1 Feb 2015')) {
-                $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
-            } elseif (1 == version_compare($dbVersion, '5.3', '<') && time() > strtotime('1 Nov 2015')) {
-                $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
-            } elseif (1 == version_compare($dbVersion, '5.5', '<') && time() > strtotime('1 Mar 2017')) {
-                $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
-            } elseif (1 == version_compare($dbVersion, '10.0', '<') && time() > strtotime('1 Apr 2020')) {
-                $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
-            } elseif (1 == version_compare($dbVersion, '10.1', '<') && time() > strtotime('1 Mar 2019')) {
-                $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
-            } elseif (1 == version_compare($dbVersion, '10.2', '<') && time() > strtotime('1 Oct 2020')) {
+            if (1 == version_compare($dbVersion, '10.2', '<') && time() > strtotime('1 Oct 2020')) {
                 $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
             } elseif (1 == version_compare($dbVersion, '10.3', '<') && time() > strtotime('1 May 2022')) {
                 $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
@@ -223,11 +222,7 @@ class rex_setup
             // 10.5 is not yet released
         } elseif (rex_sql::MYSQL === $dbType) {
             // https://en.wikipedia.org/wiki/MySQL#Release_history
-            if (1 == version_compare($dbVersion, '5.5', '<') && time() > strtotime('1 Dec 2013')) {
-                $security[] = rex_i18n::msg('setup_security_deprecated_mysql', $dbVersion);
-            } elseif (1 == version_compare($dbVersion, '5.6', '<') && time() > strtotime('1 Dec 2018')) {
-                $security[] = rex_i18n::msg('setup_security_deprecated_mysql', $dbVersion);
-            } elseif (1 == version_compare($dbVersion, '5.7', '<') && time() > strtotime('1 Feb 2021')) {
+            if (1 == version_compare($dbVersion, '5.7', '<') && time() > strtotime('1 Feb 2021')) {
                 $security[] = rex_i18n::msg('setup_security_deprecated_mysql', $dbVersion);
             } elseif (1 == version_compare($dbVersion, '8.0', '<') && time() > strtotime('1 Oct 2023')) {
                 $security[] = rex_i18n::msg('setup_security_deprecated_mysql', $dbVersion);

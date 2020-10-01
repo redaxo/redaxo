@@ -40,12 +40,11 @@ class Caster
     /**
      * Casts objects to arrays and adds the dynamic property prefix.
      *
-     * @param object $obj          The object to cast
-     * @param bool   $hasDebugInfo Whether the __debugInfo method exists on $obj or not
+     * @param bool $hasDebugInfo Whether the __debugInfo method exists on $obj or not
      *
      * @return array The array-cast of the object, with prefixed dynamic properties
      */
-    public static function castObject($obj, string $class, bool $hasDebugInfo = false): array
+    public static function castObject(object $obj, string $class, bool $hasDebugInfo = false, string $debugClass = null): array
     {
         if ($hasDebugInfo) {
             try {
@@ -64,11 +63,12 @@ class Caster
 
         if ($a) {
             static $publicProperties = [];
+            $debugClass = $debugClass ?? get_debug_type($obj);
 
             $i = 0;
             $prefixedKeys = [];
             foreach ($a as $k => $v) {
-                if (isset($k[0]) ? "\0" !== $k[0] : \PHP_VERSION_ID >= 70200) {
+                if ("\0" !== ($k[0] ?? '')) {
                     if (!isset($publicProperties[$class])) {
                         foreach ((new \ReflectionClass($class))->getProperties(\ReflectionProperty::IS_PUBLIC) as $prop) {
                             $publicProperties[$class][$prop->name] = true;
@@ -77,8 +77,8 @@ class Caster
                     if (!isset($publicProperties[$class][$k])) {
                         $prefixedKeys[$i] = self::PREFIX_DYNAMIC.$k;
                     }
-                } elseif (isset($k[16]) && "\0" === $k[16] && 0 === strpos($k, "\0class@anonymous\0")) {
-                    $prefixedKeys[$i] = "\0".get_parent_class($class).'@anonymous'.strrchr($k, "\0");
+                } elseif ($debugClass !== $class && 1 === strpos($k, $class)) {
+                    $prefixedKeys[$i] = "\0".$debugClass.strrchr($k, "\0");
                 }
                 ++$i;
             }
@@ -94,6 +94,9 @@ class Caster
         if ($hasDebugInfo && \is_array($debugInfo)) {
             foreach ($debugInfo as $k => $v) {
                 if (!isset($k[0]) || "\0" !== $k[0]) {
+                    if (\array_key_exists(self::PREFIX_DYNAMIC.$k, $a)) {
+                        continue;
+                    }
                     $k = self::PREFIX_VIRTUAL.$k;
                 }
 

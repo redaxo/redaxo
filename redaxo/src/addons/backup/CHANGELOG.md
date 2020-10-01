@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.6.1 – 01.07.2020
+--------------------------
+
+### Bugfixes
+
+* Backup erstellen: Fehlermeldung bei ungültigen Zeichen im Dateinamen wurde fälschlich als Erfolgsmeldung ausgegeben (@frood)
+
+
 Version 2.6.0 – 10.03.2020
 --------------------------
 

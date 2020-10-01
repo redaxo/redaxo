@@ -100,6 +100,7 @@ if ('delete' == $function && !$csrfToken->isValid()) {
 
         if ($del->getRows() > 0) {
             $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'module_action WHERE module_id=?', [$module_id]);
+            rex_module_cache::delete($module_id);
             $success = rex_i18n::msg('module_deleted');
             $success = rex_extension::registerPoint(new rex_extension_point('MODULE_DELETED', $success, [
                 'id' => $module_id,
@@ -128,9 +129,11 @@ if ('add' == $function || 'edit' == $function) {
                 $IMOD->addGlobalCreateFields();
 
                 $IMOD->insert();
+                $module_id = (int) $IMOD->getLastId();
+                rex_module_cache::delete($module_id);
                 $success = rex_i18n::msg('module_added');
                 $success = rex_extension::registerPoint(new rex_extension_point('MODULE_ADDED', $success, [
-                    'id' => $IMOD->getLastId(),
+                    'id' => $module_id,
                     'name' => $mname,
                     'key' => $mkey,
                     'input' => $eingabe,
@@ -151,6 +154,7 @@ if ('add' == $function || 'edit' == $function) {
                     $UMOD->addGlobalUpdateFields();
 
                     $UMOD->update();
+                    rex_module_cache::delete($module_id);
                     $success = rex_i18n::msg('module_updated') . ' | ' . rex_i18n::msg('articel_updated');
                     $success = rex_extension::registerPoint(new rex_extension_point('MODULE_UPDATED', $success, [
                         'id' => $module_id,
@@ -250,6 +254,7 @@ if ('add' == $function || 'edit' == $function) {
         $n = [];
         $n['label'] = '<label for="moutput">' . rex_i18n::msg('output') . '</label>';
         $n['field'] = '<textarea class="form-control rex-code rex-js-code" id="moutput" name="ausgabe" spellcheck="false">' . rex_escape($ausgabe) . '</textarea>';
+        $n['note'] = rex_i18n::msg('module_actions_notice');
         $formElements[] = $n;
 
         $fragment = new rex_fragment();

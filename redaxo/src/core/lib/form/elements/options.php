@@ -5,14 +5,14 @@
  */
 abstract class rex_form_options_element extends rex_form_element
 {
-    /** @var array */
+    /** @var array<string, string|int> */
     private $options;
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
-    public function __construct($tag = '', rex_form_base $table = null, array $attributes = [])
+    public function __construct($tag = '', rex_form_base $form = null, array $attributes = [])
     {
-        parent::__construct($tag, $table, $attributes);
+        parent::__construct($tag, $form, $attributes);
         $this->options = [];
     }
 
@@ -26,8 +26,8 @@ abstract class rex_form_options_element extends rex_form_element
     }
 
     /**
-     * @param string[]|int[] $options
-     * @param bool           $useOnlyValues
+     * @param array<string|array{0: string, 1?: string|int}> $options
+     * @param bool                                           $useOnlyValues
      */
     public function addOptions(array $options, $useOnlyValues = false)
     {
@@ -48,8 +48,8 @@ abstract class rex_form_options_element extends rex_form_element
     }
 
     /**
-     * @param string[]|int[] $options
-     * @param bool           $useKeys
+     * @param string[] $options
+     * @param bool     $useKeys
      */
     public function addArrayOptions(array $options, $useKeys = true)
     {
@@ -63,21 +63,21 @@ abstract class rex_form_options_element extends rex_form_element
     }
 
     /**
-     * @param string $qry
+     * @param string $query
      */
-    public function addSqlOptions($qry)
+    public function addSqlOptions($query)
     {
         $sql = rex_sql::factory();
-        $this->addOptions($sql->getArray($qry, [], PDO::FETCH_NUM));
+        $this->addOptions($sql->getArray($query, [], PDO::FETCH_NUM));
     }
 
     /**
-     * @param string $qry
+     * @param string $query
      */
-    public function addDBSqlOptions($qry)
+    public function addDBSqlOptions($query)
     {
         $sql = rex_sql::factory();
-        $this->addOptions($sql->getDBArray($qry, [], PDO::FETCH_NUM));
+        $this->addOptions($sql->getDBArray($query, [], PDO::FETCH_NUM));
     }
 
     /**

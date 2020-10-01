@@ -1,6 +1,27 @@
 Changelog
 =========
 
+Version 2.8.0 – 01.07.2020
+--------------------------
+
+### Neu
+
+* Neue Klasse `rex_install` mit PHP-Api zum Herunterladen/Aktualisieren von Addons (@bloep)
+* In Addon-Details wird die Addon-Website ausgegeben (@gharlan)
+
+### Bugfixes
+
+* Nach Entpacken werden die Dateirechte entsprechend der `config.yml` angepasst (@Koala, @gharlan)
+
+
+Version 2.7.1 – 08.05.2020
+--------------------------
+
+### Bugfixes
+
+* Die PHP-Mindestversion 7.1 wurde nicht geprüft (@gharlan)
+
+
 Version 2.7.0 – 10.03.2020
 --------------------------
 

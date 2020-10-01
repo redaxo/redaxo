@@ -20,7 +20,7 @@ class rex_password_policy
      *
      * @throws rex_exception
      *
-     * @return bool|string `true` on success, otherwise an error message
+     * @return true|string `true` on success, otherwise an error message
      */
     public function check($password, $id = null)
     {
@@ -39,12 +39,14 @@ class rex_password_policy
         $parts = [];
 
         foreach ($this->options as $key => $options) {
-            if (isset($options['min'], $options['max'])) {
+            if (isset($options['min'], $options['max']) && $options['min']) {
                 $constraint = rex_i18n::msg('password_rule_between', $options['min'], $options['max']);
             } elseif (isset($options['max'])) {
                 $constraint = rex_i18n::msg('password_rule_max', $options['max']);
-            } else {
+            } elseif (isset($options['min']) && $options['min']) {
                 $constraint = rex_i18n::msg('password_rule_min', $options['min']);
+            } else {
+                continue;
             }
 
             $parts[] = rex_i18n::msg('password_rule_'.$key, $constraint);

@@ -149,8 +149,11 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             $requiredValue
         );
 
+        $timezones = DateTimeZone::listIdentifiers();
+        assert(is_array($timezones));
+
         $q = new Question('Choose timezone', $config['timezone']);
-        $q->setAutocompleterValues(DateTimeZone::listIdentifiers());
+        $q->setAutocompleterValues($timezones);
         $q->setValidator(static function ($value) {
             if (false === @date_default_timezone_set($value)) {
                 throw new InvalidArgumentException('Time zone invalid');
@@ -163,8 +166,8 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             'timezone',
             $config['timezone'],
             'Timezone "%s" selected',
-            static function ($value) {
-                if (!in_array($value, DateTimeZone::listIdentifiers(), true)) {
+            static function ($value) use ($timezones) {
+                if (!in_array($value, $timezones, true)) {
                     throw new InvalidArgumentException('Unknown timezone "'.$value.'" specified');
                 }
                 return $value;
@@ -265,11 +268,17 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
         // Search for exports
         $backups = [];
-        foreach (rex_backup::getBackupFiles('') as $file) {
-            if ('.sql' != substr($file, strlen($file) - 4)) {
-                continue;
+
+        if (rex_addon::exists('backup')) {
+            // force loading rex_backup class, even if backup addon is not installed
+            require_once rex_path::addon('backup', 'lib/backup.php');
+
+            foreach (rex_backup::getBackupFiles('') as $file) {
+                if ('.sql' != substr($file, strlen($file) - 4)) {
+                    continue;
+                }
+                $backups[] = substr($file, 0, -4);
             }
-            $backups[] = substr($file, 0, -4);
         }
 
         $tables_complete = ('' == rex_setup_importer::verifyDbSchema()) ? true : false;
@@ -310,6 +319,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             $io->success('Database successfully updated');
         } elseif ('import' == $createdb) {
             $import_name = $input->getOption('db-import') ?? $io->askQuestion(new ChoiceQuestion('Please choose a database export', $backups));
+            assert(is_string($import_name));
             if (!in_array($import_name, $backups, true)) {
                 throw new InvalidArgumentException('Unknown import file "'.$import_name.'" specified');
             }
@@ -360,7 +370,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
         // Admin creation not needed, but ask the cli user
         if ($input->isInteractive() && $skipUserCreation) {
-            $skipUserCreation = $io->confirm('Users already exists. Skip user creation?');
+            $skipUserCreation = $io->confirm('User(s) already exist. Skip user creation?');
         }
 
         // Admin account exists already, but the cli user wants to create another one
@@ -391,7 +401,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 }
             );
 
-            $passwordPolicy = rex_backend_password_policy::factory(rex::getProperty('password_policy', []));
+            $passwordPolicy = rex_backend_password_policy::factory();
             $pwValidator = static function ($password) use ($passwordPolicy) {
                 if (true !== $msg = $passwordPolicy->check($password)) {
                     throw new InvalidArgumentException($msg);
@@ -411,13 +421,17 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 $pwValidator
             );
 
+            $passwordHash = rex_backend_login::passwordHash($password);
+
             $user = rex_sql::factory();
             $user->setTable(rex::getTablePrefix() . 'user');
             $user->setValue('login', $login);
-            $user->setValue('password', rex_backend_login::passwordHash($password));
+            $user->setValue('password', $passwordHash);
             $user->setValue('admin', 1);
             $user->addGlobalCreateFields('console');
             $user->addGlobalUpdateFields('console');
+            $user->setDateTimeValue('password_changed', time());
+            $user->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords(null, $passwordHash));
             $user->setValue('status', '1');
             $user->insert();
 
@@ -488,15 +502,16 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
      * Helper function for getting values by option or ask()
      * Respects non-/interactive mode.
      *
-     * @param string|Question $question       provide question string or full question object for ask()
-     * @param string          $option         cli option name
-     * @param string|null     $default        default value for ask()
-     * @param string|null     $successMessage success message for using the option value
-     * @param callable|null   $validator      validator callback for option value and ask()
+     * @param string|Question  $question       provide question string or full question object for ask()
+     * @param string           $option         cli option name
+     * @param string|bool|null $default        default value for ask()
+     * @param string|null      $successMessage success message for using the option value
+     * @param callable|null    $validator      validator callback for option value and ask()
+     * @psalm-param callable(mixed):mixed|null $validator
      *
      * @return mixed
      */
-    private function getOptionOrAsk($question, string $option, string $default = null, string $successMessage = null, callable $validator = null)
+    private function getOptionOrAsk($question, string $option, $default = null, string $successMessage = null, callable $validator = null)
     {
         $optionValue = $this->input->getOption($option);
         if (!$this->forceAsking && null !== $optionValue) {
@@ -504,6 +519,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 return $default;
             }
             if ($successMessage) {
+                assert(is_string($optionValue));
                 $this->io->success(sprintf($successMessage, $optionValue));
             }
             return $optionValue;
@@ -512,6 +528,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         if (!$this->input->isInteractive()) {
             if (null !== $default) {
                 if ($successMessage) {
+                    assert(is_string($default));
                     $this->io->success(sprintf($successMessage, $default));
                 }
                 return $default;
@@ -523,6 +540,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             return $this->io->askQuestion($question);
         }
 
+        assert(null === $default || is_string($default));
         return $this->io->ask($question, $default, $validator);
     }
 

@@ -37,8 +37,12 @@ abstract class rex_extension
 
         $name = $extensionPoint->getName();
 
-        foreach ([self::EARLY, self::NORMAL, self::LATE] as $level) {
-            if (isset(self::$extensions[$name][$level]) && is_array(self::$extensions[$name][$level])) {
+        rex_timer::measure('EP: '.$name, static function () use ($extensionPoint, $name) {
+            foreach ([self::EARLY, self::NORMAL, self::LATE] as $level) {
+                if (!isset(self::$extensions[$name][$level]) || !is_array(self::$extensions[$name][$level])) {
+                    continue;
+                }
+
                 foreach (self::$extensions[$name][$level] as $extensionAndParams) {
                     [$extension, $params] = $extensionAndParams;
                     $extensionPoint->setExtensionParams($params);
@@ -49,7 +53,7 @@ abstract class rex_extension
                     }
                 }
             }
-        }
+        });
 
         return $extensionPoint->getSubject();
     }
@@ -61,6 +65,9 @@ abstract class rex_extension
      * @param callable        $extension      Callback extension
      * @param int             $level          Runlevel (`rex_extension::EARLY`, `rex_extension::NORMAL` or `rex_extension::LATE`)
      * @param array           $params         Additional params
+     *
+     * @template T as rex_extension_point
+     * @psalm-param callable(T):mixed $extension
      */
     public static function register($extensionPoint, callable $extension, $level = self::NORMAL, array $params = [])
     {

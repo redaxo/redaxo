@@ -23,9 +23,9 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
         $NFILENAME[0] = '_';
     }
 
-    if ('' != strrpos($NFILENAME, '.')) {
-        $NFILE_NAME = substr($NFILENAME, 0, strlen($NFILENAME) - (strlen($NFILENAME) - strrpos($NFILENAME, '.')));
-        $NFILE_EXT = substr($NFILENAME, strrpos($NFILENAME, '.'), strlen($NFILENAME) - strrpos($NFILENAME, '.'));
+    if ($pos = strrpos($NFILENAME, '.')) {
+        $NFILE_NAME = substr($NFILENAME, 0, strlen($NFILENAME) - (strlen($NFILENAME) - $pos));
+        $NFILE_EXT = substr($NFILENAME, $pos, strlen($NFILENAME) - $pos);
     } else {
         $NFILE_NAME = $NFILENAME;
         $NFILE_EXT = '';
@@ -44,7 +44,7 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
     if ($doSubindexing || $FILENAME != $NFILENAME) {
         // ----- datei schon vorhanden -> namen aendern -> _1 ..
         $cnt = 0;
-        while (file_exists(rex_path::media($NFILENAME)) || rex_media::get($NFILENAME)) {
+        while (is_file(rex_path::media($NFILENAME)) || rex_media::get($NFILENAME)) {
             ++$cnt;
             $NFILENAME = $NFILE_NAME . '_' . $cnt . $NFILE_EXT;
         }
@@ -91,16 +91,33 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
     $dstFile = rex_path::media($NFILENAME);
 
     $success = true;
-    if ($isFileUpload) { // Fileupload?
-        $FILETYPE = rex_file::mimeType($FILE['tmp_name']);
+    $FILETYPE = $isFileUpload ? rex_file::mimeType($FILE['tmp_name']) : rex_file::mimeType($srcFile);
 
+    // Bevor die Datei engueltig in den Medienpool uebernommen wird, koennen
+    // Addons ueber einen Extension-Point ein Veto einlegen.
+    // Sobald ein Addon eine negative Entscheidung getroffen hat, sollten
+    // Addons, fuer die der Extension-Point spaeter ausgefuehrt wird, diese
+    // Entscheidung respektieren
+    $errorMessage = rex_extension::registerPoint(new rex_extension_point('MEDIA_ADD', '', [
+        'file' => $FILE,
+        'title' => $FILEINFOS['title'],
+        'filename' => $NFILENAME,
+        'old_filename' => $FILENAME,
+        'is_upload' => $isFileUpload,
+        'category_id' => $rex_file_category,
+        'type' => $FILETYPE,
+    ]));
+
+    if ($errorMessage) {
+        // ein Addon hat die Fehlermeldung gesetzt, dem Upload also faktisch widersprochen
+        $success = false;
+        $message[] = $errorMessage;
+    } elseif ($isFileUpload) { // Fileupload?
         if (!@move_uploaded_file($FILE['tmp_name'], $dstFile)) {
             $message[] = rex_i18n::msg('pool_file_movefailed');
             $success = false;
         }
     } else { // Filesync?
-        $FILETYPE = rex_file::mimeType($srcFile);
-
         if (!@rename($srcFile, $dstFile)) {
             $message[] = rex_i18n::msg('pool_file_movefailed');
             $success = false;
@@ -283,14 +300,14 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
  * @param null|string $filetype
  * @param null|string $userlogin
  *
- * @return bool|array
+ * @return array
  */
 function rex_mediapool_syncFile($physical_filename, $category_id, $title, $filesize = null, $filetype = null, $userlogin = null)
 {
     $abs_file = rex_path::media($physical_filename);
 
-    if (!file_exists($abs_file)) {
-        return false;
+    if (!is_file($abs_file)) {
+        throw new rex_exception(sprintf('File "%s" does not exist.', $abs_file));
     }
 
     if (empty($filesize)) {

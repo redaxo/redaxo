@@ -1,8 +1,12 @@
 <?xml version="1.0"?>
 <psalm
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xmlns="https://getpsalm.org/schema/config"
-autoloader="phpstan-bootstrap.php"
+    autoloader=".tools/constants.php"
+    resolveFromConfigFile="true"
+    findUnusedPsalmSuppress="true"
+    skipChecksOnUnresolvableIncludes="false"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
 >
     <projectFiles>
         <!-- restrict to core and core addons, ignore other locally installed addons -->
@@ -18,30 +22,31 @@ autoloader="phpstan-bootstrap.php"
         <directory name="redaxo/src/addons/phpmailer"/>
         <directory name="redaxo/src/addons/project"/>
         <directory name="redaxo/src/addons/structure"/>
-        <directory name="redaxo/src/addons/tests"/>
         <directory name="redaxo/src/addons/users"/>
         <ignoreFiles>
             <directory name="redaxo/src/addons/be_style/vendor/" />
             <directory name="redaxo/src/addons/debug/vendor/" />
-            <directory name="redaxo/src/addons/media_manager/tests/" />
-            <directory name="redaxo/src/addons/mediapool/tests/" />
             <directory name="redaxo/src/addons/phpmailer/vendor/" />
-            <directory name="redaxo/src/addons/structure/tests/" />
-            <directory name="redaxo/src/addons/tests/vendor/" />
             <directory name="redaxo/src/core/vendor/" />
-            <directory name="redaxo/src/core/tests/" />
             <file name="redaxo/src/core/.phpstorm.meta.php" />
-            <file name="redaxo/src/addons/tests/bin/run_tests.php" />
-            <file name="redaxo/src/addons/tests/bin/setup.php" />
         </ignoreFiles>
     </projectFiles>
     <stubs>
         <file name="redaxo/src/core/.phpstorm.meta.php" />
     </stubs>
     <plugins>
-        <plugin filename="psalm-utils.php" />
+        <plugin filename=".tools/psalm/RexTypeReturnProvider.php" />
+        <pluginClass class="Psalm\PhpUnitPlugin\Plugin" />
+        <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin" />
     </plugins>
     <issueHandlers>
+        <InvalidGlobal>
+            <errorLevel type="info">
+                <file name="redaxo/src/addons/mediapool/pages/index.php"/>
+                <file name="redaxo/src/addons/mediapool/pages/upload.php"/>
+                <file name="redaxo/src/core/pages/login.php"/>
+            </errorLevel>
+        </InvalidGlobal>
         <InvalidScope>
             <errorLevel type="suppress">
                 <directory name="redaxo/src/**/fragments/*" />
@@ -52,49 +57,46 @@ autoloader="phpstan-bootstrap.php"
                 <file name="redaxo/src/addons/structure/plugins/history/fragments/history/layer.php"/>
             </errorLevel>
         </InvalidScope>
-<!-- level 3 issues - slightly lazy code writing, but provably low false-negatives -->
+<!-- level 2 issues - slightly lazy code writing, but provably low false-negatives -->
         <DeprecatedMethod>
             <errorLevel type="info">
                 <referencedMethod name="rex_string::versionCompare"/>
             </errorLevel>
         </DeprecatedMethod>
+        <DocblockTypeContradiction errorLevel="info" />
+        <InternalClass errorLevel="info" />
         <InternalMethod errorLevel="info" />
         <InternalProperty errorLevel="info" />
-        <InternalClass errorLevel="info" />
-        <MissingClosureReturnType errorLevel="info" />
-        <MissingReturnType errorLevel="info" />
-        <MissingPropertyType errorLevel="info" />
-        <PropertyNotSetInConstructor errorLevel="info" />
         <MissingClosureParamType errorLevel="info" />
+        <MissingClosureReturnType errorLevel="info" />
+        <MissingConstructor>
+            <errorLevel type="suppress">
+                <file name="vendor/phpunit/phpunit/src/Framework/TestCase.php" />
+            </errorLevel>
+        </MissingConstructor>
         <MissingParamType errorLevel="info" />
+        <MissingPropertyType errorLevel="info" />
+        <MissingReturnType errorLevel="info" />
+        <PropertyNotSetInConstructor errorLevel="info" />
+        <RawObjectIteration>
+            <errorLevel type="info">
+                <file name="redaxo/src/core/lib/api_function.php"/>
+            </errorLevel>
+        </RawObjectIteration>
         <RedundantCondition errorLevel="info" />
-        <DocblockTypeContradiction errorLevel="info" />
         <RedundantConditionGivenDocblockType errorLevel="info" />
-        <UnresolvableInclude errorLevel="info" />
-        <RawObjectIteration errorLevel="info" />
-<!-- level 4 issues - points to possible deficiencies in logic, higher false-positives -->
-        <PossiblyFalseArgument errorLevel="info" />
-        <PossiblyInvalidArgument errorLevel="info" />
-        <PossiblyInvalidIterator errorLevel="info" />
+        <UnresolvableInclude errorLevel="suppress" />
+        <UnsafeInstantiation errorLevel="info" />
+<!-- level 3 issues - points to possible deficiencies in logic, higher false-positives -->
         <PossiblyNullArgument errorLevel="info" />
-        <PossiblyNullArrayAccess errorLevel="info" />
-        <PossiblyNullArrayOffset errorLevel="info" />
-        <PossiblyNullIterator errorLevel="info" />
-        <PossiblyNullPropertyAssignmentValue>
-            <errorLevel type="info">
-                <file name="redaxo/src/addons/phpmailer/lib/mailer.php"/>
-            </errorLevel>
-        </PossiblyNullPropertyAssignmentValue>
         <PossiblyNullReference errorLevel="info" />
-<!-- level 5 issues - should be avoided at mosts costs... -->
-        <InvalidScalarArgument errorLevel="info" />
-        <InvalidOperand errorLevel="info" />
-        <InvalidGlobal>
-            <errorLevel type="info">
-                <file name="redaxo/src/addons/mediapool/pages/index.php"/>
-                <file name="redaxo/src/addons/mediapool/pages/upload.php"/>
-                <file name="redaxo/src/core/pages/login.php"/>
+<!-- level 4 issues -->
+        <InvalidScalarArgument>
+            <errorLevel type="suppress">
+                <!-- https://github.com/vimeo/psalm/issues/3454 -->
+                <referencedFunction name="password_hash"/>
+                <referencedFunction name="password_needs_rehash"/>
             </errorLevel>
-        </InvalidGlobal>
+        </InvalidScalarArgument>
     </issueHandlers>
 </psalm>

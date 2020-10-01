@@ -1,6 +1,20 @@
 Changelog
 =========
 
+Version 2.11.0 – 01.07.2020
+---------------------------
+
+* Anpassungen für Änderungen in den Core-Addons
+* Farben für Systemlogzeilen korrigiert (@gharlan)
+* Font-Awesome wird nicht mehr per Preloading geladen (@staabm)
+
+
+Version 2.10.1 – 08.05.2020
+---------------------------
+
+* Markdown-Pages: Bei schmalem Inhalt war die Sprungnavi nicht am rechten Rand (@bloep)
+
+
 Version 2.10.0 – 10.03.2020
 ---------------------------
 

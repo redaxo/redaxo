@@ -101,7 +101,8 @@ class rex_sql_table
                 $type,
                 'YES' === $column['null'],
                 $column['default'],
-                $column['extra'] ?: null
+                $column['extra'] ?: null,
+                $column['comment'] ?: null
             );
 
             $this->columnsExisting[$column['name']] = $column['name'];
@@ -142,7 +143,7 @@ class rex_sql_table
         $foreignKeyParts = $this->sql->getArray('
             SELECT c.CONSTRAINT_NAME, c.REFERENCED_TABLE_NAME, c.UPDATE_RULE, c.DELETE_RULE, k.COLUMN_NAME, k.REFERENCED_COLUMN_NAME
             FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS c
-            LEFT JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE k ON c.CONSTRAINT_NAME = k.CONSTRAINT_NAME
+            INNER JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE k ON c.CONSTRAINT_NAME = k.CONSTRAINT_NAME
             WHERE c.CONSTRAINT_SCHEMA = DATABASE() AND c.TABLE_NAME = ?', [$name]);
         $foreignKeys = [];
         foreach ($foreignKeyParts as $part) {
@@ -169,8 +170,8 @@ class rex_sql_table
      */
     public static function get($name, int $db = 1)
     {
-        $table = self::getInstance([$db, $name], static function ($db, $name) {
-            return new self($name, $db);
+        $table = static::getInstance([$db, $name], static function ($db, $name) {
+            return new static($name, $db);
         });
         assert($table instanceof self);
 
@@ -658,10 +659,20 @@ class rex_sql_table
             $previous = $name;
         }
 
+        $implicitReversedPositions = array_flip($this->positions);
+
         foreach ($positions as $name => $after) {
             // unset is necessary to add new position as last array element
             unset($this->positions[$name]);
             $this->positions[$name] = $after;
+
+            if (isset($implicitReversedPositions[$after])) {
+                // move the implicitly after `$after` positioned column
+                // after the one that was explicitly positioned at that position
+                $this->positions[$implicitReversedPositions[$after]] = $name;
+                $implicitReversedPositions[$name] = $implicitReversedPositions[$after];
+                unset($implicitReversedPositions[$after]);
+            }
         }
 
         $this->alter();
@@ -851,6 +862,8 @@ class rex_sql_table
         }
 
         if (!$parts && !$dropForeignKeys) {
+            $this->resetModified();
+
             return;
         }
 
@@ -906,13 +919,19 @@ class rex_sql_table
             $default = 'DEFAULT '.$this->sql->escape($column->getDefault());
         }
 
+        $comment = $column->getComment();
+        if (null !== $comment && '' !== $comment) {
+            $comment = 'COMMENT '. $this->sql->escape($comment);
+        }
+
         return sprintf(
-            '%s %s %s %s %s',
+            '%s %s %s %s %s %s',
             $this->sql->escapeIdentifier($column->getName()),
             $column->getType(),
             $default,
             $column->isNullable() ? '' : 'NOT NULL',
-            $column->getExtra()
+            $column->getExtra(),
+            $comment
         );
     }
 
@@ -965,17 +984,31 @@ class rex_sql_table
             }
         }
 
-        foreach ($this->positions as $name => $after) {
-            $insert = [$name => $this->columns[$name]];
+        while ($count = count($this->positions)) {
+            foreach ($this->positions as $name => $after) {
+                $insert = [$name => $this->columns[$name]];
 
-            if (self::FIRST === $after) {
-                $columns = $insert + $columns;
+                if (self::FIRST === $after) {
+                    $columns = $insert + $columns;
+                    unset($this->positions[$name]);
 
-                continue;
+                    continue;
+                }
+
+                if (!isset($columns[$after])) {
+                    continue;
+                }
+
+                $offset = array_search($after, array_keys($columns));
+                assert(is_int($offset));
+                ++$offset;
+                $columns = array_slice($columns, 0, $offset) + $insert + array_slice($columns, $offset);
+                unset($this->positions[$name]);
             }
 
-            $offset = array_search($after, array_keys($columns)) + 1;
-            $columns = array_slice($columns, 0, $offset) + $insert + array_slice($columns, $offset);
+            if ($count === count($this->positions)) {
+                throw new LogicException('Columns can not be sorted because some explicit positions do not exist.');
+            }
         }
 
         $this->columns = $columns;

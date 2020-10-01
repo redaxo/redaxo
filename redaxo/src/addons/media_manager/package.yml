@@ -1,7 +1,7 @@
 package: media_manager
-version: '2.9.0'
+version: '2.10.0'
 author: 'Markus Staab, Jan Kristinus'
-supportpage: www.redaxo.org/de/forum/
+supportpage: https://github.com/redaxo/redaxo
 
 page:
     title: 'Media Manager'
@@ -12,9 +12,11 @@ page:
         types: { title: 'translate:media_manager_subpage_types' }
         settings: { title: 'translate:media_manager_subpage_config' }
         overview: { title: 'translate:media_manager_subpage_desc', subPath: README.md }
-        clear_cache: { title: 'translate:media_manager_subpage_clear_cache', itemclass: 'pull-right', linkclass: 'btn btn-delete', href: { page: media_manager/types, func: clear_cache } }
+        clear_cache: { title: 'translate:media_manager_subpage_clear_cache', itemClass: 'pull-right', linkClass: 'btn btn-delete', href: { page: media_manager/types, func: clear_cache } }
+
 requires:
     php:
+        version: '>=7.3'
         extensions: [gd]
     redaxo: ^5.10.0
 

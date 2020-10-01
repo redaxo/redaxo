@@ -1,6 +1,23 @@
 Changelog
 =========
 
+Version 2.7.2 – 01.07.2020
+--------------------------
+
+### Bugfixes
+
+* Hinweistexte verbessert (@alexplusde)
+* Table-Hover-Effekt fehlte (@tbaddade)
+
+
+Version 2.7.1 – 08.05.2020
+--------------------------
+
+### Bugfixes
+
+* Attribute ohne Wert (`data-foo`) wurden teils ignoriert (@gharlan)
+
+
 Version 2.7.0 – 10.03.2020
 --------------------------
 

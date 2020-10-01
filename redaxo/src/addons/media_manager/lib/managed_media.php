@@ -86,7 +86,7 @@ class rex_managed_media
             return;
         }
 
-        if (!$this->sourcePath || !file_exists($this->sourcePath)) {
+        if (!$this->sourcePath || !is_file($this->sourcePath)) {
             throw new rex_media_manager_not_found_exception(sprintf('Source path "%s" does not exist.', $this->sourcePath));
         }
 
@@ -219,7 +219,7 @@ class rex_managed_media
 
     public function exists(): bool
     {
-        return $this->asImage || file_exists($this->sourcePath);
+        return $this->asImage || is_file($this->sourcePath);
     }
 
     /**

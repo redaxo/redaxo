@@ -18,6 +18,13 @@ class rex_mailer extends PHPMailer
     /** @var bool */
     private $archive;
 
+    /**
+     * used to store information if detour mode is enabled.
+     *
+     * @var array
+     */
+    private $xHeader = [];
+
     public function __construct($exceptions = false)
     {
         $addon = rex_addon::get('phpmailer');
@@ -52,6 +59,44 @@ class rex_mailer extends PHPMailer
         parent::__construct($exceptions);
     }
 
+    protected function addOrEnqueueAnAddress($kind, $address, $name)
+    {
+        $addon = rex_addon::get('phpmailer');
+
+        if ($addon->getConfig('detour_mode') && '' != $addon->getConfig('test_address')) {
+            if ('to' == $kind) {
+                $detour_address = $addon->getConfig('test_address');
+
+                // store the address so we can use it in the subject later
+
+                // if there has already been a call to addOrEnqueueAnAddress and detour mode is on
+                // xHeader['to'] should have already been set
+                // therefore we add the address to xHeader['to'] for the subject later
+                // and parent::addOrEnqueueAnAddress doesnt need to be called since it would be the test address again
+
+                if (isset($this->xHeader['to'])) {
+                    $this->xHeader['to'] .= ', ' . $address;
+                    return true;
+                }
+
+                $this->xHeader['to'] = $address;
+
+                // Set $address to the detour address
+                $address = $detour_address;
+            } else {
+                if (isset($this->xHeader[$kind])) {
+                    $this->xHeader[$kind] .= ', ' . $address;
+                } else {
+                    $this->xHeader[$kind] = $address;
+                }
+
+                return true;
+            }
+        }
+
+        return parent::addOrEnqueueAnAddress($kind, $address, $name);
+    }
+
     public function send()
     {
         return rex_timer::measure(__METHOD__, function () {
@@ -59,6 +104,28 @@ class rex_mailer extends PHPMailer
                 $this->archive();
             }
             $addon = rex_addon::get('phpmailer');
+
+            $detour = $addon->getConfig('detour_mode') && '' != $addon->getConfig('test_address');
+
+            // Clears the CCs and BCCs if detour mode is active
+            // Sets Subject of E-Mail to [DETOUR] $subject [$this->xHeader['to']]
+            if (true == $detour && isset($this->xHeader['to'])) {
+                $this->clearCCs();
+                $this->clearBCCs();
+
+                // add x header
+                foreach (['to', 'cc', 'bcc', 'ReplyTo'] as $kind) {
+                    if (isset($this->xHeader[$kind])) {
+                        $this->addCustomHeader('x-' . $kind, $this->xHeader[$kind]);
+                    }
+                }
+
+                $this->Subject = $addon->i18n('detour_subject', $this->Subject, $this->xHeader['to']);
+
+                // unset xHeader so it can be used again
+                $this->xHeader = [];
+            }
+
             if (!parent::send()) {
                 if ($addon->getConfig('logging')) {
                     $this->log('ERROR');
@@ -71,6 +138,20 @@ class rex_mailer extends PHPMailer
             }
             return true;
         });
+    }
+
+    public function clearQueuedAddresses($kind)
+    {
+        parent::clearQueuedAddresses($kind);
+
+        unset($this->xHeader[$kind]);
+    }
+
+    public function clearAllRecipients()
+    {
+        parent::clearAllRecipients();
+
+        $this->xHeader = [];
     }
 
     private function log(string $success): void
@@ -119,7 +200,7 @@ class rex_mailer extends PHPMailer
 
         $count = 1;
         $archiveFile = $dir.'/'.date('Y-m-d_H_i_s').'.html';
-        while (file_exists($archiveFile)) {
+        while (is_file($archiveFile)) {
             $archiveFile = $dir.'/'.date('Y-m-d_H_i_s').'_'.(++$count).'.html';
         }
 

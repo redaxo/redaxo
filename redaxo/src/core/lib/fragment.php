@@ -107,9 +107,11 @@ class rex_fragment
         foreach (self::$fragmentDirs as $fragDir) {
             $fragment = $fragDir . $filename;
             if (is_readable($fragment)) {
-                ob_start();
-                require $fragment;
-                $content = ob_get_clean();
+                $content = rex_timer::measure('Fragment: '.$filename, function () use ($fragment) {
+                    ob_start();
+                    require $fragment;
+                    return ob_get_clean();
+                });
 
                 if ($this->decorator) {
                     $this->decorator->setVar('rexDecoratedContent', $content, false);
@@ -158,6 +160,20 @@ class rex_fragment
     }
 
     /**
+     * Returns the content of a Subfragment from within a fragment.
+     *
+     * The Subfragment gets all variables of the current fragment, plus optional overrides from $params
+     *
+     * @param string $filename The filename of the fragment to use
+     * @param array  $params   A array of key-value pairs to pass as local parameters
+     */
+    protected function getSubfragment(string $filename, array $params = []): string
+    {
+        $fragment = new self(array_merge($this->vars, $params));
+        return $fragment->parse($filename);
+    }
+
+    /**
      * Include a Subfragment from within a fragment.
      *
      * The Subfragment gets all variables of the current fragment, plus optional overrides from $params
@@ -167,8 +183,7 @@ class rex_fragment
      */
     protected function subfragment($filename, array $params = [])
     {
-        $fragment = new self(array_merge($this->vars, $params));
-        echo $fragment->parse($filename);
+        echo $this->getSubfragment($filename, $params);
     }
 
     /**

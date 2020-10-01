@@ -54,7 +54,6 @@ class rex_scss_compiler
         $root_dir = $this->root_dir;
 
         $scss_compiler = new Compiler();
-        $scss_compiler->setNumberPrecision(10);
 
         $scss_compiler->addImportPath(static function ($path) use ($root_dir) {
             $path = $root_dir . $path . '.scss';
@@ -62,11 +61,11 @@ class rex_scss_compiler
             $path_parts = pathinfo($path);
             $underscore_file = $path_parts['dirname'] . '/_' . $path_parts['basename'];
 
-            if (file_exists($underscore_file)) {
+            if (is_file($underscore_file)) {
                 $path = $underscore_file;
             }
 
-            if (!file_exists($path)) {
+            if (!is_file($path)) {
                 return null;
             }
 

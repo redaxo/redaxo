@@ -49,6 +49,10 @@ abstract class rex_package_manager
      * @param rex_package $package Package
      *
      * @return static
+     *
+     * @template TS as rex_package
+     * @psalm-param TS $package
+     * @psalm-return (TS is rex_plugin ? rex_plugin_manager : (TS is rex_addon ? rex_addon_manager : self))
      */
     public static function factory(rex_package $package)
     {
@@ -678,7 +682,7 @@ abstract class rex_package_manager
      */
     public static function synchronizeWithFileSystem()
     {
-        $config = rex::getConfig('package-config');
+        $config = rex::getPackageConfig();
         $addons = self::readPackageFolder(rex_path::src('addons'));
         $registeredAddons = array_keys(rex_addon::getRegisteredAddons());
         foreach (array_diff($registeredAddons, $addons) as $addonName) {
@@ -745,9 +749,14 @@ abstract class rex_package_manager
 
             if (isset($match['wildcard']) && $match['wildcard']) {
                 $constraints[] = ['>=', $match['version']];
-                $pos = strrpos($match['version'], '.') + 1;
-                $sub = (int) substr($match['version'], $pos);
-                $constraints[] = ['<', substr_replace($match['version'], $sub + 1, $pos)];
+                $pos = strrpos($match['version'], '.');
+                if (false === $pos) {
+                    $constraints[] = ['<', (int) $match['version'] + 1];
+                } else {
+                    ++$pos;
+                    $sub = (int) substr($match['version'], $pos);
+                    $constraints[] = ['<', substr_replace($match['version'], $sub + 1, $pos)];
+                }
             } elseif (in_array($match['op'], ['~', '^'])) {
                 $constraints[] = ['>=', $match['version'] . ($match['prerelease'] ?? '')];
                 if ('^' === $match['op'] || false === $pos = strrpos($match['version'], '.')) {
@@ -758,10 +767,10 @@ abstract class rex_package_manager
                     $sub = substr($match['version'], 0, $pos);
                     if (false !== ($pos = strrpos($sub, '.'))) {
                         $main = substr($sub, 0, $pos + 1);
-                        $sub = (int) substr($sub, $pos + 1);
+                        $sub = substr($sub, $pos + 1);
                     }
                     // add "-foo" to get a version lower than a "-dev" version
-                    $constraints[] = ['<', $main . ($sub + 1) . '-foo'];
+                    $constraints[] = ['<', $main . ((int) $sub + 1) . '-foo'];
                 }
             } else {
                 $constraints[] = [$match['op'] ?: '=', $match['version'] . ($match['prerelease'] ?? '')];

@@ -9,14 +9,14 @@ class rex_timer_test extends TestCase
 {
     private $orgDebug;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         // rex_timer internals depend on debug mode..
         $this->orgDebug = rex::getProperty('debug');
         rex::setProperty('debug', true);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         rex::setProperty('debug', $this->orgDebug);
     }
@@ -34,13 +34,17 @@ class rex_timer_test extends TestCase
 
         static::assertArrayHasKey('test', rex_timer::$serverTimings);
         $timing = rex_timer::$serverTimings['test'];
-        static::assertIsFloat($timing);
-        static::assertGreaterThan(0, $timing);
+        static::assertIsFloat($timing['sum']);
+        static::assertGreaterThan(0, $timing['sum']);
+        static::assertArrayHasKey(0, $timing['timings']);
+        static::assertIsFloat($timing['timings'][0]['start']);
+        static::assertIsFloat($timing['timings'][0]['end']);
+        static::assertGreaterThan($timing['timings'][0]['start'], $timing['timings'][0]['end']);
 
         $result = rex_timer::measure('test', $callable);
 
         static::assertSame('result2', $result);
-        static::assertGreaterThan($timing, rex_timer::$serverTimings['test']);
+        static::assertGreaterThan($timing['sum'], rex_timer::$serverTimings['test']['sum']);
 
         $exception = null;
         try {
@@ -54,7 +58,11 @@ class rex_timer_test extends TestCase
 
         static::assertArrayHasKey('test2', rex_timer::$serverTimings);
         $timing = rex_timer::$serverTimings['test2'];
-        static::assertIsFloat($timing);
-        static::assertGreaterThan(0, $timing);
+        static::assertIsFloat($timing['sum']);
+        static::assertGreaterThan(0, $timing['sum']);
+        static::assertArrayHasKey(0, $timing['timings']);
+        static::assertIsFloat($timing['timings'][0]['start']);
+        static::assertIsFloat($timing['timings'][0]['end']);
+        static::assertGreaterThan($timing['timings'][0]['start'], $timing['timings'][0]['end']);
     }
 }

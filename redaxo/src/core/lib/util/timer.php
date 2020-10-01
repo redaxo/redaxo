@@ -14,12 +14,17 @@ class rex_timer
     public const MICROSEC = 1000000;
 
     /**
+     * @internal
+     *
      * @var array
-     * @psalm-var array<string, float>
+     * @psalm-var array<string, array{sum: mixed, timings: list<array{start: float, end: float}>}>
      */
     public static $serverTimings = [];
 
+    /** @var float */
     private $start;
+
+    /** @var null|float */
     private $duration;
 
     /**
@@ -40,21 +45,13 @@ class rex_timer
      * On sufficient user permissions - or in debug mode - this timings will be sent over the wire to the browser via server timing api http headers.
      *
      * @param string $label
+     * @psalm-param callable():mixed $callable
      *
      * @return mixed result of callable
      */
     public static function measure($label, callable $callable)
     {
-        static $enabled = false;
-
-        // we might get called very early in the process, in which case we can't determine yet whether the user is logged in.
-        // this also means, in debug-mode we get more timings in comparison to admin-only timings.
-        if (!$enabled) {
-            // dont create the user (can cause session locks), to prevent influencing the things we try to measure.
-            $enabled = rex::isDebugMode() || ($user = rex::getUser()) && $user->isAdmin();
-        }
-
-        if (!$enabled) {
+        if (!rex::isDebugMode()) {
             return $callable();
         }
 
@@ -65,11 +62,25 @@ class rex_timer
         } finally {
             $timer->stop();
 
-            $duration = isset(self::$serverTimings[$label]) ? self::$serverTimings[$label] : 0;
-            $duration += $timer->getDelta(self::MILLISEC);
-
-            self::$serverTimings[$label] = $duration;
+            self::measured($label, $timer);
         }
+    }
+
+    /**
+     * Saves the measurement of the given timer.
+     *
+     * This method should be used only if the measured code can not be wrapped inside a callable, otherwise use `measure()`.
+     */
+    public static function measured(string $label, self $timer): void
+    {
+        $duration = self::$serverTimings[$label]['sum'] ?? 0;
+        $duration += $timer->getDelta(self::MILLISEC);
+
+        self::$serverTimings[$label]['sum'] = $duration;
+        self::$serverTimings[$label]['timings'][] = [
+            'start' => $timer->start,
+            'end' => microtime(true),
+        ];
     }
 
     /**

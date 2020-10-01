@@ -8,16 +8,50 @@
 class rex_sql_util
 {
     /**
+     * Copy the table structure (without its data) to another table.
+     *
+     * @throws rex_exception
+     */
+    public static function copyTable(string $sourceTable, string $destinationTable): void
+    {
+        if (!rex_sql_table::get($sourceTable)->exists()) {
+            throw new rex_exception(sprintf('Source table "%s" does not exist.', $sourceTable));
+        }
+
+        if (rex_sql_table::get($destinationTable)->exists()) {
+            throw new rex_exception(sprintf('Destination table "%s" already exists.', $destinationTable));
+        }
+
+        $sql = rex_sql::factory();
+        $sql->setQuery('CREATE TABLE '.$sql->escapeIdentifier($destinationTable).' LIKE '.$sql->escapeIdentifier($sourceTable));
+
+        rex_sql_table::clearInstance($destinationTable);
+    }
+
+    /**
+     * Copy the table structure and its data to another table.
+     *
+     * @throws rex_exception
+     */
+    public static function copyTableWithData(string $sourceTable, string $destinationTable): void
+    {
+        self::copyTable($sourceTable, $destinationTable);
+
+        $sql = rex_sql::factory();
+        $sql->setQuery('INSERT '.$sql->escapeIdentifier($destinationTable).' SELECT * FROM '.$sql->escapeIdentifier($sourceTable));
+    }
+
+    /**
      * Allgemeine funktion die eine Datenbankspalte fortlaufend durchnummeriert.
      * Dies ist z.B. nützlich beim Umgang mit einer Prioritäts-Spalte.
      *
-     * @param string $tableName       Name der Datenbanktabelle
-     * @param string $priorColumnName Name der Spalte in der Tabelle, in der die Priorität (Integer) gespeichert wird
-     * @param string $whereCondition  Where-Bedingung zur Einschränkung des ResultSets
-     * @param string $orderBy         Sortierung des ResultSets
-     * @param int    $startBy         Startpriorität
+     * @param string $tableName      Name der Datenbanktabelle
+     * @param string $prioColumnName Name der Spalte in der Tabelle, in der die Priorität (Integer) gespeichert wird
+     * @param string $whereCondition Where-Bedingung zur Einschränkung des ResultSets
+     * @param string $orderBy        Sortierung des ResultSets
+     * @param int    $startBy        Startpriorität
      */
-    public static function organizePriorities($tableName, $priorColumnName, $whereCondition = '', $orderBy = '', $startBy = 1)
+    public static function organizePriorities($tableName, $prioColumnName, $whereCondition = '', $orderBy = '', $startBy = 1)
     {
         // Datenbankvariable initialisieren
         $qry = 'SET @count=' . ($startBy - 1);
@@ -25,7 +59,7 @@ class rex_sql_util
         $sql->setQuery($qry);
 
         // Spalte updaten
-        $qry = 'UPDATE ' . $tableName . ' SET ' . $priorColumnName . ' = ( SELECT @count := @count +1 )';
+        $qry = 'UPDATE ' . $tableName . ' SET ' . $prioColumnName . ' = ( SELECT @count := @count +1 )';
 
         if ('' != $whereCondition) {
             $qry .= ' WHERE ' . $whereCondition;
@@ -71,17 +105,17 @@ class rex_sql_util
     /**
      * @return string
      */
-    private static function prepareQuery($qry)
+    private static function prepareQuery($query)
     {
         // rex::getUser() gibts im Setup nicht
         $user = rex::getUser() ? rex::getUser()->getValue('login') : '';
 
-        $qry = str_replace('%USER%', $user, $qry);
-        $qry = str_replace('%TIME%', time(), $qry);
-        $qry = str_replace('%TABLE_PREFIX%', rex::getTablePrefix(), $qry);
-        $qry = str_replace('%TEMP_PREFIX%', rex::getTempPrefix(), $qry);
+        $query = str_replace('%USER%', $user, $query);
+        $query = str_replace('%TIME%', (string) time(), $query);
+        $query = str_replace('%TABLE_PREFIX%', rex::getTablePrefix(), $query);
+        $query = str_replace('%TEMP_PREFIX%', rex::getTempPrefix(), $query);
 
-        return $qry;
+        return $query;
     }
 
     /**
@@ -97,7 +131,7 @@ class rex_sql_util
             $ret = [];
             $sqlsplit = [];
             $fileContent = file_get_contents($file);
-            self::splitSqlFile($sqlsplit, $fileContent, '');
+            self::splitSqlFile($sqlsplit, $fileContent, 0);
 
             if (is_array($sqlsplit)) {
                 foreach ($sqlsplit as $qry) {
@@ -118,14 +152,14 @@ class rex_sql_util
      *
      * Last revision: September 23, 2001 - gandon
      *
-     * @param array  $ret     the splitted sql commands
+     * @param array  $queries the splitted sql commands
      * @param string $sql     the sql commands
      * @param int    $release the MySQL release number (because certains php3 versions
      *                        can't get the value of a constant from within a function)
      *
      * @return bool always true
      */
-    public static function splitSqlFile(&$ret, $sql, $release)
+    public static function splitSqlFile(&$queries, $sql, $release)
     {
         // do not trim, see bug #1030644
         //$sql          = trim($sql);
@@ -148,7 +182,7 @@ class rex_sql_util
                     // No end of string found -> add the current substring to the
                     // returned array
                     if (!$i) {
-                        $ret[] = $sql;
+                        $queries[] = $sql;
                         return true;
                     }
                     // Backquotes or no backslashes before quotes: it's indeed the
@@ -198,7 +232,7 @@ class rex_sql_util
             // We are not in a string, first check for delimiter...
             elseif (';' == $char) {
                 // if delimiter found, add the parsed part to the returned array
-                $ret[] = ['query' => substr($sql, 0, $i), 'empty' => $nothing];
+                $queries[] = ['query' => substr($sql, 0, $i), 'empty' => $nothing];
                 $nothing = true;
                 $sql = ltrim(substr($sql, min($i + 1, $sql_len)));
                 $sql_len = strlen($sql);
@@ -232,7 +266,7 @@ class rex_sql_util
 
         // add any rest to the returned array
         if (!empty($sql) && preg_match('@[^[:space:]]+@', $sql)) {
-            $ret[] = ['query' => $sql, 'empty' => $nothing];
+            $queries[] = ['query' => $sql, 'empty' => $nothing];
         }
 
         return true;

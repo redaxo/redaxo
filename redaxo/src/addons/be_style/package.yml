@@ -1,7 +1,7 @@
 package: be_style
-version: '2.10.0'
+version: '2.11.0'
 author: 'Jan Kristinus, Markus Staab, Thomas Blum'
-supportpage: www.redaxo.org/de/forum/
+supportpage: https://github.com/redaxo/redaxo
 
 load: early
 system_plugins: [redaxo]
@@ -12,4 +12,5 @@ console_commands:
     styles:compile: rex_be_style_command_compile
 
 requires:
+    php: '>=7.3'
     redaxo: ^5.10.0

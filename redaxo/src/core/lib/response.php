@@ -104,9 +104,9 @@ class rex_response
     private static function sendServerTimingHeaders()
     {
         // see https://w3c.github.io/server-timing/#the-server-timing-header-field
-        foreach (rex_timer::$serverTimings as $label => $durationMs) {
+        foreach (rex_timer::$serverTimings as $label => $timing) {
             $label = preg_replace('{[^!#$%&\'*+-\.\^_`|~\w]}i', '_', $label);
-            header('Server-Timing: '. $label .';dur='. number_format($durationMs, 3, '.', ''), false);
+            header('Server-Timing: '. $label .';dur='. number_format($timing['sum'], 3, '.', ''), false);
         }
     }
 
@@ -149,7 +149,7 @@ class rex_response
     {
         self::cleanOutputBuffers();
 
-        if (!file_exists($file)) {
+        if (!is_file($file)) {
             header('HTTP/1.1 ' . self::HTTP_NOT_FOUND);
             exit;
         }
@@ -377,7 +377,7 @@ class rex_response
             $lastModified = time();
         }
 
-        $lastModified = gmdate('D, d M Y H:i:s T', (float) $lastModified);
+        $lastModified = gmdate('D, d M Y H:i:s T', (int) $lastModified);
 
         // Sende Last-Modification time
         header('Last-Modified: ' . $lastModified);
@@ -461,13 +461,14 @@ class rex_response
      * @param string      $name    The name of the cookie
      * @param string|null $value   the value of the cookie, a empty value to delete the cookie
      * @param array       $options Different cookie Options. Supported keys are:
-     *                             "expires" int|string|\DateTimeInterface The time the cookie expires
-     *                             "path" string                           The path on the server in which the cookie will be available on
-     *                             "domain" string|null                    The domain that the cookie is available to
-     *                             "secure" bool                           Whether the cookie should only be transmitted over a secure HTTPS connection from the client
-     *                             "httponly" bool                         Whether the cookie will be made accessible only through the HTTP protocol
-     *                             "samesite" string|null                  Whether the cookie will be available for cross-site requests
-     *                             "raw" bool                              Whether the cookie value should be sent with no url encoding
+     *                             "expires" int|string|DateTimeInterface The time the cookie expires
+     *                             "path" string                          The path on the server in which the cookie will be available on
+     *                             "domain" string|null                   The domain that the cookie is available to
+     *                             "secure" bool                          Whether the cookie should only be transmitted over a secure HTTPS connection from the client
+     *                             "httponly" bool                        Whether the cookie will be made accessible only through the HTTP protocol
+     *                             "samesite" string|null                 Whether the cookie will be available for cross-site requests
+     *                             "raw" bool                             Whether the cookie value should be sent with no url encoding
+     * @psalm-param array{expires?: int|string|DateTimeInterface, path?: string, domain?: ?string, secure?: bool, httponly?: bool, samesite?: ?string, raw?: bool} $options
      *
      * @throws \InvalidArgumentException
      */
@@ -536,6 +537,29 @@ class rex_response
         }
 
         header($str, false);
+    }
+
+    /**
+     * Clear the given cookie by name.
+     *
+     * You might pass additional options in case the name is not unique or the cookie is not stored on the current domain.
+     *
+     * @param string $name    The name of the cookie
+     * @param array  $options Different cookie Options. Supported keys are:
+     *                        "path" string          The path on the server in which the cookie will be available on
+     *                        "domain" string|null   The domain that the cookie is available to
+     *                        "secure" bool          Whether the cookie should only be transmitted over a secure HTTPS connection from the client
+     *                        "httponly" bool        Whether the cookie will be made accessible only through the HTTP protocol
+     *                        "samesite" string|null Whether the cookie will be available for cross-site requests
+     * @psalm-param array{path?: string, domain?: ?string, secure?: bool, httponly?: bool, samesite?: ?string} $options
+     *
+     * @throws \InvalidArgumentException
+     */
+    public static function clearCookie(string $name, array $options = []): void
+    {
+        $options['expires'] = 1;
+        // clear the cookie by sending it again with an expiration in the past
+        self::sendCookie($name, null, $options);
     }
 
     /**

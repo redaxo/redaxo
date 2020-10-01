@@ -42,7 +42,7 @@ if ('delete' == $function) {
 
         if ($del->getRows() > 0 || rex_template::getDefaultId() == $template_id) {
             $template_in_use_message = '';
-            $templatename = $del->getValue('template.name');
+            $templatename = $del->getRows() ? $del->getValue('template.name') : null;
             while ($del->hasNext()) {
                 $aid = $del->getValue('article.id');
                 $clang_id = $del->getValue('article.clang_id');
@@ -71,7 +71,7 @@ if ('delete' == $function) {
             }
         } else {
             $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'template WHERE id = "' . $template_id . '" LIMIT 1'); // max. ein Datensatz darf loeschbar sein
-            rex_file::delete(rex_path::addonCache('templates', $template_id . '.template'));
+            rex_template_cache::delete($template_id);
             $success = rex_i18n::msg('template_deleted');
             $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_DELETED', $success, [
                 'id' => $template_id,
@@ -91,7 +91,7 @@ if ('delete' == $function) {
         $function = '';
     }
 } else {
-    $template_id = '';
+    $template_id = 0;
 }
 
 if ('add' == $function || 'edit' == $function) {
@@ -154,7 +154,8 @@ if ('add' == $function || 'edit' == $function) {
 
             try {
                 $TPL->insert();
-                $template_id = $TPL->getLastId();
+                $template_id = (int) $TPL->getLastId();
+                rex_template_cache::delete($template_id);
                 $success = rex_i18n::msg('template_added');
                 $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_ADDED', $success, [
                     'id' => $template_id,
@@ -180,6 +181,7 @@ if ('add' == $function || 'edit' == $function) {
 
             try {
                 $TPL->update();
+                rex_template_cache::delete($template_id);
                 $success = rex_i18n::msg('template_updated');
                 $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_UPDATED', $success, [
                     'id' => $template_id,
@@ -200,8 +202,6 @@ if ('add' == $function || 'edit' == $function) {
                 }
             }
         }
-
-        rex_dir::delete(rex_path::addonCache('templates'), false);
 
         if ('' != $goon) {
             $function = 'edit';
@@ -578,10 +578,10 @@ if ($OUT) {
     $list->setColumnLayout(rex_i18n::msg('header_template_functions'), ['<th class="rex-table-action" colspan="2">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams(rex_i18n::msg('header_template_functions'), ['function' => 'edit', 'template_id' => '###id###']);
 
-    $list->addColumn(rex_i18n::msg('template_delete'), '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete'));
-    $list->setColumnLayout(rex_i18n::msg('template_delete'), ['', '<td class="rex-table-action">###VALUE###</td>']);
-    $list->setColumnParams(rex_i18n::msg('template_delete'), ['function' => 'delete', 'template_id' => '###id###'] + $csrfToken->getUrlParams());
-    $list->addLinkAttribute(rex_i18n::msg('template_delete'), 'data-confirm', rex_i18n::msg('confirm_delete_template'));
+    $list->addColumn(rex_i18n::msg('delete_template'), '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete'));
+    $list->setColumnLayout(rex_i18n::msg('delete_template'), ['', '<td class="rex-table-action">###VALUE###</td>']);
+    $list->setColumnParams(rex_i18n::msg('delete_template'), ['function' => 'delete', 'template_id' => '###id###'] + $csrfToken->getUrlParams());
+    $list->addLinkAttribute(rex_i18n::msg('delete_template'), 'data-confirm', rex_i18n::msg('confirm_delete_template'));
 
     $list->setNoRowsMessage(rex_i18n::msg('templates_not_found'));
 

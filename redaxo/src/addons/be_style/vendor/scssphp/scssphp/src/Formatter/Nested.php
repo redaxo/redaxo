@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SCSSPHP
  *
@@ -58,12 +59,11 @@ class Nested extends Formatter
     protected function blockLines(OutputBlock $block)
     {
         $inner = $this->indentStr();
-
-        $glue = $this->break . $inner;
+        $glue  = $this->break . $inner;
 
         foreach ($block->lines as $index => $line) {
             if (substr($line, 0, 2) === '/*') {
-                $block->lines[$index] = preg_replace('/[\r\n]+/', $glue, $line);
+                $block->lines[$index] = preg_replace('/\r\n?|\n|\f/', $this->break, $line);
             }
         }
 
@@ -90,7 +90,7 @@ class Nested extends Formatter
             $previousHasSelector = false;
         }
 
-        $isMediaOrDirective = in_array($block->type, [Type::T_DIRECTIVE, Type::T_MEDIA]);
+        $isMediaOrDirective = \in_array($block->type, [Type::T_DIRECTIVE, Type::T_MEDIA]);
         $isSupport = ($block->type === Type::T_DIRECTIVE
             && $block->selectors && strpos(implode('', $block->selectors), '@supports') !== false);
 
@@ -98,7 +98,8 @@ class Nested extends Formatter
             array_pop($depths);
             $this->depth--;
 
-            if (! $this->depth && ($block->depth <= 1 || (! $this->indentLevel && $block->type === Type::T_COMMENT)) &&
+            if (
+                ! $this->depth && ($block->depth <= 1 || (! $this->indentLevel && $block->type === Type::T_COMMENT)) &&
                 (($block->selectors && ! $isMediaOrDirective) || $previousHasSelector)
             ) {
                 $downLevel = $this->break;
@@ -119,10 +120,12 @@ class Nested extends Formatter
             if ($block->depth > end($depths)) {
                 if (! $previousEmpty || $this->depth < 1) {
                     $this->depth++;
+
                     $depths[] = $block->depth;
                 } else {
                     // keep the current depth unchanged but take the block depth as a new reference for following blocks
                     array_pop($depths);
+
                     $depths[] = $block->depth;
                 }
             }

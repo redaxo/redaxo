@@ -48,7 +48,7 @@ class rex_article_content_editor extends rex_article_content
             if ('add' != $this->function && $this->slice_id == $sliceId) {
                 $msg = '';
                 if ('' != $this->warning) {
-                    $msg .= rex_view::warning($this->warning);
+                    $msg .= rex_view::error($this->warning);
                 }
                 if ('' != $this->info) {
                     $msg .= rex_view::success($this->info);
@@ -163,14 +163,16 @@ class rex_article_content_editor extends rex_article_content
             $item['attributes']['data-confirm'] = rex_i18n::msg('confirm_delete_block');
             $menu_items_action[] = $item;
 
-            // status
-            $item = [];
-            $statusName = $sliceStatus ? 'online' : 'offline';
-            $item['label'] = rex_i18n::msg('status_'.$statusName);
-            $item['url'] = $context->getUrl(['status' => $sliceStatus ? 0 : 1] + rex_api_content_slice_status::getUrlParams());
-            $item['attributes']['class'][] = 'btn-default';
-            $item['attributes']['class'][] = 'rex-'.$statusName;
-            $menu_items_status[] = $item;
+            if ($templateHasModule && rex::getUser()->hasPerm('publishSlice[]')) {
+                // status
+                $item = [];
+                $statusName = $sliceStatus ? 'online' : 'offline';
+                $item['label'] = rex_i18n::msg('status_'.$statusName);
+                $item['url'] = $context->getUrl(['status' => $sliceStatus ? 0 : 1] + rex_api_content_slice_status::getUrlParams());
+                $item['attributes']['class'][] = 'btn-default';
+                $item['attributes']['class'][] = 'rex-'.$statusName;
+                $menu_items_status[] = $item;
+            }
 
             if ($templateHasModule && rex::getUser()->hasPerm('moveSlice[]')) {
                 // moveup
@@ -192,7 +194,7 @@ class rex_article_content_editor extends rex_article_content
                 $menu_items_move[] = $item;
             }
         } else {
-            $header_right .= rex_i18n::msg('no_editing_rights') . ' ' . $moduleName;
+            $header_right .= sprintf('<div class="alert">%s %s</div>', rex_i18n::msg('no_editing_rights'), $moduleName);
         }
 
         // ----- EXTENSION POINT
@@ -274,6 +276,7 @@ class rex_article_content_editor extends rex_article_content
             foreach ($this->MODULESELECT[$this->ctype] as $module) {
                 $item = [];
                 $item['id'] = $module['id'];
+                $item['key'] = $module['key'];
                 $item['title'] = rex_escape($module['name']);
                 $item['href'] = $context->getUrl(['module_id' => $module['id']]) . '#slice-add-pos-' . $position;
                 $items[] = $item;
@@ -302,7 +305,7 @@ class rex_article_content_editor extends rex_article_content
     /**
      * {@inheritdoc}
      */
-    protected function preArticle($articleContent, $module_id)
+    protected function preArticle($articleContent, $moduleId)
     {
         // ---------- moduleselect: nur module nehmen auf die der user rechte hat
         if ('edit' == $this->mode) {
@@ -320,20 +323,20 @@ class rex_article_content_editor extends rex_article_content
                 foreach ($modules as $m) {
                     if (rex::getUser()->getComplexPerm('modules')->hasPerm($m['id'])) {
                         if (rex_template::hasModule($this->template_attributes, $ct_id, $m['id'])) {
-                            $this->MODULESELECT[$ct_id][] = ['name' => rex_i18n::translate($m['name'], false), 'id' => $m['id']];
+                            $this->MODULESELECT[$ct_id][] = ['name' => rex_i18n::translate($m['name'], false), 'id' => $m['id'], 'key' => $m['key']];
                         }
                     }
                 }
             }
         }
 
-        return parent::preArticle($articleContent, $module_id);
+        return parent::preArticle($articleContent, $moduleId);
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function postArticle($articleContent, $moduleIdToAdd)
+    protected function postArticle($articleContent, $moduleId)
     {
         // special identifier for the slot behind the last slice
         $LCTSL_ID = -1;
@@ -341,7 +344,7 @@ class rex_article_content_editor extends rex_article_content
         // ----- add module im edit mode
         if ('edit' == $this->mode) {
             if ('add' == $this->function && $this->slice_id == $LCTSL_ID) {
-                $slice_content = $this->addSlice($LCTSL_ID, $moduleIdToAdd);
+                $slice_content = $this->addSlice($LCTSL_ID, $moduleId);
             } else {
                 // ----- BLOCKAUSWAHL - SELECT
                 $slice_content = $this->getModuleSelect($LCTSL_ID);
@@ -357,28 +360,28 @@ class rex_article_content_editor extends rex_article_content
     /**
      * @return string
      */
-    protected function addSlice($sliceId, $moduleIdToAdd)
+    protected function addSlice($sliceId, $moduleId)
     {
         $MOD = rex_sql::factory();
-        $MOD->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module WHERE id="' . $moduleIdToAdd . '"');
+        $MOD->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module WHERE id="' . $moduleId . '"');
 
         if (1 != $MOD->getRows()) {
-            $slice_content = rex_view::warning(rex_i18n::msg('module_doesnt_exist'));
+            $slice_content = rex_view::error(rex_i18n::msg('module_doesnt_exist'));
         } else {
             $initDataSql = rex_sql::factory();
             $initDataSql
-                ->setValue('module_id', $moduleIdToAdd)
+                ->setValue('module_id', $moduleId)
                 ->setValue('ctype_id', $this->ctype);
 
             // ----- PRE VIEW ACTION [ADD]
-            $action = new rex_article_action($moduleIdToAdd, 'add', $initDataSql);
+            $action = new rex_article_action($moduleId, 'add', $initDataSql);
             $action->setRequestValues();
             $action->exec(rex_article_action::PREVIEW);
             // ----- / PRE VIEW ACTION
 
             $moduleInput = $this->replaceVars($initDataSql, $MOD->getValue('input'));
 
-            $moduleInput = $this->getStreamOutput('module/' . $moduleIdToAdd . '/input', $moduleInput);
+            $moduleInput = $this->getStreamOutput('module/' . $moduleId . '/input', $moduleInput);
 
             $msg = '';
             if ('' != $this->warning) {
@@ -406,7 +409,7 @@ class rex_article_content_editor extends rex_article_content
                 <fieldset>
                     <legend>' . rex_i18n::msg('add_block') . '</legend>
                     <input type="hidden" name="function" value="add" />
-                    <input type="hidden" name="module_id" value="' . $moduleIdToAdd . '" />
+                    <input type="hidden" name="module_id" value="' . $moduleId . '" />
                     <input type="hidden" name="save" value="1" />
 
                     <div class="rex-slice-input">

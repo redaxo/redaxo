@@ -149,89 +149,26 @@ class rex_backup
         $msg .= rex_i18n::msg('backup_database_imported') . '. ' . rex_i18n::msg('backup_entry_count', (string) count($lines)) . '<br />';
         unset($lines);
 
-        // prüfen, ob eine user tabelle angelegt wurde
-        $tables = rex_sql::factory()->getTables(rex::getTablePrefix());
-        $user_table_found = in_array(rex::getTablePrefix() . 'user', $tables);
+        // delete cache before EP to avoid obsolete caches while running extensions
+        rex_delete_cache();
 
-        if (!$user_table_found) {
-            $create_user_table = '
-             CREATE TABLE ' . rex::getTablePrefix() . 'user
-             (
-                 id int(11) NOT NULL auto_increment,
-                 name varchar(255) NOT NULL,
-                 description text NOT NULL,
-                 login varchar(50) NOT NULL,
-                 psw varchar(50) NOT NULL,
-                 status varchar(5) NOT NULL,
-                 role int(11) NOT NULL,
-                 rights text NOT NULL,
-                 login_tries tinyint(4) NOT NULL DEFAULT 0,
-                 createuser varchar(255) NOT NULL,
-                 updateuser varchar(255) NOT NULL,
-                 createdate datetime NOT NULL,
-                 updatedate datetime NOT NULL,
-                 lasttrydate datetime NOT NULL,
-                 session_id varchar(255) NOT NULL,
-                 PRIMARY KEY(id)
-             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;';
-            $db = rex_sql::factory();
-            try {
-                $db->setQuery($create_user_table);
-            } catch (rex_sql_exception $e) {
-                // evtl vorhergehende meldungen löschen, damit nur der fehler angezeigt wird
-                $msg = '';
-                $msg .= $e->getMessage();
-            }
-        }
+        // refresh rex_config with new values from database
+        rex_config::refresh();
 
-        $user_role_table_found = in_array(rex::getTablePrefix() . 'user_role', $tables);
-        if (!$user_role_table_found) {
-            $create_user_role_table = '
-             CREATE TABLE ' . rex::getTablePrefix() . 'user_role
-             (
-                 id int(11) NOT NULL auto_increment,
-                 name varchar(255) NOT NULL,
-                 description text NOT NULL,
-                 rights text NOT NULL,
-                 createuser varchar(255) NOT NULL,
-                 updateuser varchar(255) NOT NULL,
-                 createdate datetime NOT NULL DEFAULT 0,
-                 updatedate datetime NOT NULL DEFAULT 0
-                 PRIMARY KEY(id)
-             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;';
-            $db = rex_sql::factory();
-            try {
-                $db->setQuery($create_user_role_table);
-            } catch (rex_sql_exception $e) {
-                // evtl vorhergehende meldungen löschen, damit nur der fehler angezeigt wird
-                $msg = '';
-                $msg .= $e->getMessage();
-            }
-        }
+        // ----- EXTENSION POINT
+        $msg = rex_extension::registerPoint(new rex_extension_point('BACKUP_AFTER_DB_IMPORT', $msg, [
+            'content' => $conts,
+            'filename' => $filename,
+            'filesize' => $filesize,
+        ]));
 
-        // generated neu erstellen, wenn kein Fehler aufgetreten ist
-        if ('' == $error) {
-            // delete cache before EP to avoid obsolete caches while running extensions
-            rex_delete_cache();
+        // require import skript to do some userside-magic
+        self::importScript(str_replace('.sql', '.php', $filename), self::IMPORT_DB, self::IMPORT_EVENT_POST);
 
-            // refresh rex_config with new values from database
-            rex_config::refresh();
+        // delete cache again because the extensions and the php script could have changed data again
+        $msg .= rex_delete_cache();
 
-            // ----- EXTENSION POINT
-            $msg = rex_extension::registerPoint(new rex_extension_point('BACKUP_AFTER_DB_IMPORT', $msg, [
-                'content' => $conts,
-                'filename' => $filename,
-                'filesize' => $filesize,
-            ]));
-
-            // require import skript to do some userside-magic
-            self::importScript(str_replace('.sql', '.php', $filename), self::IMPORT_DB, self::IMPORT_EVENT_POST);
-
-            // delete cache again because the extensions and the php script could have changed data again
-            $msg .= rex_delete_cache();
-            $return['state'] = true;
-        }
-
+        $return['state'] = true;
         $return['message'] = $msg;
 
         return $return;
@@ -484,7 +421,7 @@ class rex_backup
 
     private static function importScript($filename, $importType, $eventType)
     {
-        if (file_exists($filename)) {
+        if (is_file($filename)) {
             require $filename;
         }
     }

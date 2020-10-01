@@ -16,7 +16,9 @@ class rex_command_assets_sync extends rex_console_command
     protected function configure()
     {
         $this
-            ->setDescription('Sync folders and files of /assets with /redaxo/src/addons/my-addon/assets (or plugin) respectively /redaxo/src/core/assets folders');
+            ->setDescription('Sync assets within the assets-dir with the sources-dir')
+            ->setHelp('Sync folders and files of /assets with /redaxo/src/addons/my-addon/assets (or plugin) respectively /redaxo/src/core/assets folders')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -40,7 +42,7 @@ class rex_command_assets_sync extends rex_console_command
 
             // sync 1st way, copies ...
             // - existing in FE but not "src"
-            // - newer in FE then "src"
+            // - newer in FE than "src"
             [$ctd, $upd, $err] = $this->sync($io, $assetsPublicPath, $assetsSrcPath);
             $created += $ctd;
             $updated += $upd;
@@ -48,7 +50,7 @@ class rex_command_assets_sync extends rex_console_command
 
             // sync 2nd way, copies ...
             // - existing in "src" but not FE
-            // - newer in "src" then FE
+            // - newer in "src" than FE
             [$ctd, $upd, $err] = $this->sync($io, $assetsSrcPath, $assetsPublicPath);
             $created += $ctd;
             $updated += $upd;
@@ -105,7 +107,7 @@ class rex_command_assets_sync extends rex_console_command
                 $hasError = true;
                 $io->text("<error>Not readable:</error> <comment>$f1FileShort</comment>");
             }
-            if (file_exists($f2File) && !is_writable($f2File)) {
+            if (is_file($f2File) && !is_writable($f2File)) {
                 ++$errored;
                 $hasError = true;
                 $io->text("<error>Not writable:</error> <comment>$f2FileShort</comment>");
@@ -115,7 +117,7 @@ class rex_command_assets_sync extends rex_console_command
                 continue;
             }
 
-            if (!file_exists($f2File)) {
+            if (!is_file($f2File)) {
                 rex_file::copy($f1File, $f2File);
                 ++$created;
                 if ($io->isVerbose()) {
@@ -125,7 +127,7 @@ class rex_command_assets_sync extends rex_console_command
                 continue;
             }
 
-            if ($f1Fileinfo->getMtime() > filemtime($f2File)) {
+            if ($f1Fileinfo->getMtime() > filemtime($f2File) && md5_file($f1File) != md5_file($f2File)) {
                 rex_file::copy($f1File, $f2File);
                 ++$updated;
                 if ($io->isVerbose()) {

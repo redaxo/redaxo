@@ -13,7 +13,9 @@ class rex_be_page
 
     private $popup;
     private $href;
+    /** @var array<string, string> */
     private $itemAttr = [];
+    /** @var array<string, string> */
     private $linkAttr = [];
     private $path;
     private $subPath;
@@ -199,6 +201,11 @@ class rex_be_page
      * @param string      $default
      *
      * @return string|array Attribute value for given `$name` or attribute array if `$name` is `null`
+     *
+     * @template T as ?string
+     * @phpstan-template T
+     * @psalm-param T $name
+     * @psalm-return (T is string ? string : array<string, string>)
      */
     public function getItemAttr($name, $default = '')
     {
@@ -234,6 +241,7 @@ class rex_be_page
         if (!is_string($class)) {
             throw new InvalidArgumentException('Expecting $class to be a string, ' . gettype($class) . 'given!');
         }
+
         $classAttr = $this->getItemAttr('class');
         if (!preg_match('/\b' . preg_quote($class, '/') . '\b/', $classAttr)) {
             $this->setItemAttr('class', ltrim($classAttr . ' ' . $class));
@@ -292,6 +300,11 @@ class rex_be_page
      * @param string      $default
      *
      * @return string|array Attribute value for given `$name` or attribute array if `$name` is `null`
+     *
+     * @template T as ?string
+     * @phpstan-template T
+     * @psalm-param T $name
+     * @psalm-return (T is string ? string : array<string, string>)
      */
     public function getLinkAttr($name, $default = '')
     {
@@ -317,6 +330,7 @@ class rex_be_page
         if (!is_string($class)) {
             throw new InvalidArgumentException('Expecting $class to be a string, ' . gettype($class) . 'given!');
         }
+
         $classAttr = $this->getLinkAttr('class');
         if (!preg_match('/\b' . preg_quote($class, '/') . '\b/', $classAttr)) {
             $this->setLinkAttr('class', ltrim($classAttr . ' ' . $class));
@@ -690,15 +704,15 @@ class rex_be_page
      *
      * @return bool
      */
-    public function checkPermission(rex_user $rexUser)
+    public function checkPermission(rex_user $user)
     {
         foreach ($this->requiredPermissions as $perm) {
-            if (!$rexUser->hasPerm($perm)) {
+            if (!$user->hasPerm($perm)) {
                 return false;
             }
         }
         if ($parent = $this->getParent()) {
-            return $parent->checkPermission($rexUser);
+            return $parent->checkPermission($user);
         }
         return true;
     }

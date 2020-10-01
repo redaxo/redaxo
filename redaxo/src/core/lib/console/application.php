@@ -38,7 +38,7 @@ class rex_console_application extends Application
                 $severity = E_ERROR;
             }
 
-            throw new ErrorException($message, $e->getCode(), $severity, $e->getFile(), $e->getLine(), $e->getPrevious());
+            throw new ErrorException($message, 0, $severity, $e->getFile(), $e->getLine(), $e->getPrevious());
         }
     }
 
@@ -48,7 +48,11 @@ class rex_console_application extends Application
             $this->loadPackages($command);
         }
 
-        return parent::doRunCommand($command, $input, $output);
+        $exitCode = parent::doRunCommand($command, $input, $output);
+
+        rex_extension::registerPoint(new rex_extension_point_console_shutdown($command, $input, $output, $exitCode));
+
+        return $exitCode;
     }
 
     private function loadPackages(rex_console_command $command)
@@ -85,7 +89,7 @@ class rex_console_application extends Application
         if (!rex::isSetup()) {
             // boot all known packages in the defined order
             // which reflects dependencies before consumers
-            foreach (rex::getConfig('package-order') as $packageId) {
+            foreach (rex::getPackageOrder() as $packageId) {
                 rex_package::require($packageId)->boot();
             }
         }
