@@ -55,7 +55,9 @@ async function createScreenshot(page, screenshotName) {
             '.rex-js-script-time',
             'td[data-title="Letzter Login"]',
             '#rex-form-exportfilename',
-            '#rex-page-system-report-html .row td'
+            '#rex-page-system-report-html .row td',
+            '.rex-addon-version',
+            '.rex-plugin-version'
         ];
 
         changingElements.forEach(function (selector) {
