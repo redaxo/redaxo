@@ -224,7 +224,8 @@ class rex_article_slice
     {
         return self::getSliceWhere(
             'priority '.($ignoreOfflines ? '<=' : '=').' ? AND article_id=? AND clang_id = ? AND ctype_id = ? AND revision=?'.($ignoreOfflines ? ' AND status = 1' : ''),
-            [$this->_priority - 1, $this->_article_id, $this->_clang, $this->_ctype, $this->_revision]
+            [$this->_priority - 1, $this->_article_id, $this->_clang, $this->_ctype, $this->_revision],
+            self::ORDER_DEST
         );
     }
 
