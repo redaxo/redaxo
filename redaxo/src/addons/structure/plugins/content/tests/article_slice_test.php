@@ -61,6 +61,6 @@ class rex_article_slice_test extends TestCase
             ])
             ->insert();
 
-        return $sql->getLastId();
+        return (int) $sql->getLastId();
     }
 }
