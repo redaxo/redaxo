@@ -10,6 +10,9 @@
  */
 class rex_article_slice
 {
+    protected const ORDER_ASC = 'ASC';
+    protected const ORDER_DEST = 'DEST';
+
     private $_id;
     private $_article_id;
     private $_clang;
@@ -244,21 +247,23 @@ class rex_article_slice
 
     /**
      * @param string $where
+     * @psalm-param self::ORDER_* $orderDirection
      *
      * @return self|null
      */
-    protected static function getSliceWhere($where, array $params = [])
+    protected static function getSliceWhere($where, array $params = [], string $orderDirection = self::ORDER_ASC)
     {
-        $slices = self::getSlicesWhere($where, $params, 1);
+        $slices = self::getSlicesWhere($where, $params, $orderDirection, 1);
         return $slices[0] ?? null;
     }
 
     /**
      * @param string $where
+     * @psalm-param self::ORDER_* $orderDirection
      *
      * @return self[]
      */
-    protected static function getSlicesWhere($where, array $params = [], ?int $limit = null)
+    protected static function getSlicesWhere($where, array $params = [], string $orderDirection = 'ASC', ?int $limit = null)
     {
         $sql = rex_sql::factory();
         // $sql->setDebug();
@@ -266,7 +271,7 @@ class rex_article_slice
             SELECT *
             FROM ' . rex::getTable('article_slice') . '
             WHERE ' . $where . '
-            ORDER BY ctype_id, priority';
+            ORDER BY ctype_id '.$orderDirection.', priority '.$orderDirection;
 
         if (null !== $limit) {
             $query .= ' LIMIT '.$limit;
