@@ -451,12 +451,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/Roave/SecurityAdvisories.git",
-            "reference": "81cb95735a719403eddb77fc78e21362b56d9ea9"
+            "reference": "0749ceaf15c136d085b722a5bb88141398a54142"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/81cb95735a719403eddb77fc78e21362b56d9ea9",
-            "reference": "81cb95735a719403eddb77fc78e21362b56d9ea9",
+            "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/0749ceaf15c136d085b722a5bb88141398a54142",
+            "reference": "0749ceaf15c136d085b722a5bb88141398a54142",
             "shasum": ""
         },
         "conflict": {
@@ -486,7 +486,7 @@
             "composer/composer": "<=1-alpha.11",
             "contao-components/mediaelement": ">=2.14.2,<2.21.1",
             "contao/core": ">=2,<3.5.39",
-            "contao/core-bundle": ">=4,<4.4.46|>=4.5,<4.8.6",
+            "contao/core-bundle": ">=4,<4.4.52|>=4.5,<4.9.6|= 4.10.0",
             "contao/listing-bundle": ">=4,<4.4.8",
             "datadog/dd-trace": ">=0.30,<0.30.2",
             "david-garcia/phpwhois": "<=4.3.1",
@@ -550,6 +550,7 @@
             "laravel/socialite": ">=1,<1.0.99|>=2,<2.0.10",
             "league/commonmark": "<0.18.3",
             "librenms/librenms": "<1.53",
+            "livewire/livewire": ">2.2.4,<2.2.6",
             "magento/community-edition": ">=2,<2.2.10|>=2.3,<2.3.3",
             "magento/magento1ce": "<1.9.4.3",
             "magento/magento1ee": ">=1,<1.14.4.3",
@@ -601,6 +602,8 @@
             "scheb/two-factor-bundle": ">=0,<3.26|>=4,<4.11",
             "sensiolabs/connect": "<4.2.3",
             "serluck/phpwhois": "<=4.2.6",
+            "shopware/core": "<=6.3.1",
+            "shopware/platform": "<=6.3.1",
             "shopware/shopware": "<5.3.7",
             "silverstripe/admin": ">=1.0.3,<1.0.4|>=1.1,<1.1.1",
             "silverstripe/assets": ">=1,<1.4.7|>=1.5,<1.5.2",
@@ -717,7 +720,7 @@
             "zfcampus/zf-apigility-doctrine": ">=1,<1.0.3",
             "zfr/zfr-oauth2-server-module": "<0.1.2"
         },
-        "time": "2020-09-18T13:01:53+00:00",
+        "time": "2020-09-24T17:02:11+00:00",
         "type": "metapackage",
         "notification-url": "https://packagist.org/downloads/",
         "license": [
@@ -749,17 +752,17 @@
     },
     {
         "name": "symfony/console",
-        "version": "v4.4.13",
-        "version_normalized": "4.4.13.0",
+        "version": "v4.4.14",
+        "version_normalized": "4.4.14.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/console.git",
-            "reference": "b39fd99b9297b67fb7633b7d8083957a97e1e727"
+            "reference": "90933b39c7b312fc3ceaa1ddeac7eb48cb953124"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/console/zipball/b39fd99b9297b67fb7633b7d8083957a97e1e727",
-            "reference": "b39fd99b9297b67fb7633b7d8083957a97e1e727",
+            "url": "https://api.github.com/repos/symfony/console/zipball/90933b39c7b312fc3ceaa1ddeac7eb48cb953124",
+            "reference": "90933b39c7b312fc3ceaa1ddeac7eb48cb953124",
             "shasum": ""
         },
         "require": {
@@ -793,7 +796,7 @@
             "symfony/lock": "",
             "symfony/process": ""
         },
-        "time": "2020-09-02T07:07:21+00:00",
+        "time": "2020-09-15T07:58:55+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1475,17 +1478,17 @@
     },
     {
         "name": "symfony/var-dumper",
-        "version": "v4.4.13",
-        "version_normalized": "4.4.13.0",
+        "version": "v4.4.14",
+        "version_normalized": "4.4.14.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/var-dumper.git",
-            "reference": "1bef32329f3166486ab7cb88599cae4875632b99"
+            "reference": "0dc22bdf9d1197467bb04d505355180b6f20bcca"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/var-dumper/zipball/1bef32329f3166486ab7cb88599cae4875632b99",
-            "reference": "1bef32329f3166486ab7cb88599cae4875632b99",
+            "url": "https://api.github.com/repos/symfony/var-dumper/zipball/0dc22bdf9d1197467bb04d505355180b6f20bcca",
+            "reference": "0dc22bdf9d1197467bb04d505355180b6f20bcca",
             "shasum": ""
         },
         "require": {
@@ -1509,7 +1512,7 @@
             "ext-intl": "To show region name in time zone dump",
             "symfony/console": "To use the ServerDumpCommand and/or the bin/var-dump-server script"
         },
-        "time": "2020-08-17T07:31:35+00:00",
+        "time": "2020-09-18T08:35:10+00:00",
         "bin": [
             "Resources/bin/var-dump-server"
         ],
@@ -1568,17 +1571,17 @@
     },
     {
         "name": "symfony/yaml",
-        "version": "v4.4.13",
-        "version_normalized": "4.4.13.0",
+        "version": "v4.4.14",
+        "version_normalized": "4.4.14.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/yaml.git",
-            "reference": "e2a69525b11a33be51cb00b8d6d13a9258a296b1"
+            "reference": "c7885964b1eceb70b0981556d0a9b01d2d97c8d1"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/yaml/zipball/e2a69525b11a33be51cb00b8d6d13a9258a296b1",
-            "reference": "e2a69525b11a33be51cb00b8d6d13a9258a296b1",
+            "url": "https://api.github.com/repos/symfony/yaml/zipball/c7885964b1eceb70b0981556d0a9b01d2d97c8d1",
+            "reference": "c7885964b1eceb70b0981556d0a9b01d2d97c8d1",
             "shasum": ""
         },
         "require": {
@@ -1594,7 +1597,7 @@
         "suggest": {
             "symfony/console": "For validating YAML files using the lint command"
         },
-        "time": "2020-08-26T08:30:46+00:00",
+        "time": "2020-09-27T03:36:23+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
