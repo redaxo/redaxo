@@ -10,7 +10,7 @@
         "friendsofphp/php-cs-fixer": "2.16.4",
         "friendsofredaxo/linter": "1.2.7",
         "j13k/yaml-lint": "^1.1@dev",
-        "phpstan/phpstan": "0.12.47",
+        "phpstan/phpstan": "0.12.48",
         "phpstan/extension-installer": "1.0.5",
         "phpstan/phpstan-deprecation-rules": "0.12.5",
         "phpstan/phpstan-phpunit": "0.12.16",
