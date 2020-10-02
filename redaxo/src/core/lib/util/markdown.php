@@ -34,7 +34,7 @@ class rex_markdown
     public function parse($code, bool $softLineBreaks = true)
     {
         $parser = new ParsedownExtra();
-        $parser->setBreaksEnabled(true===$softLineBreaks);
+        $parser->setBreaksEnabled($softLineBreaks);
 
         return rex_string::sanitizeHtml($parser->text($code));
     }
@@ -51,7 +51,7 @@ class rex_markdown
     public function parseWithToc($code, $topLevel = 2, $bottomLevel = 3, bool $softLineBreaks = true)
     {
         $parser = new rex_parsedown_with_toc();
-        $parser->setBreaksEnabled(true===$softLineBreaks);
+        $parser->setBreaksEnabled($softLineBreaks);
         $parser->topLevel = $topLevel;
         $parser->bottomLevel = $bottomLevel;
 
