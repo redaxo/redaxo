@@ -7,7 +7,7 @@ page:
     title: 'translate:title'
     perm: admin[]
     block: system
-    prio: 80
+    prio: 70
     pjax: true
     icon: rex-icon rex-icon-install
     subpages:
