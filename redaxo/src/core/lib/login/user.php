@@ -248,4 +248,22 @@ class rex_user
     {
         self::$roleClass = $class;
     }
+
+    /**
+     * Removes the instance of the given key.
+     *
+     * @param mixed $key Key
+     */
+    public static function clearInstance($key)
+    {
+        $key = self::getInstancePoolKey($key);
+        $class = static::class;
+
+        # clear login cache for instance
+        $instance = self::$instances[$class][$key];
+        $login = $instance->getLogin();
+        unset(self::$instances[$class]['login_' . $login]);
+
+        unset(self::$instances[$class][$key]);
+    }
 }
