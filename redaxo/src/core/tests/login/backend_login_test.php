@@ -41,7 +41,9 @@ class rex_backend_login_test extends TestCase
         $deleteuser->setQuery('DELETE FROM ' . rex::getTablePrefix() . "user WHERE login = '". $this->login ."' LIMIT 1");
 
         // make sure we don't mess up the global scope
-        session_destroy();
+        if (PHP_SESSION_ACTIVE == session_status()) {
+            session_destroy();
+        }
     }
 
     public function testSuccessfullLogin()
