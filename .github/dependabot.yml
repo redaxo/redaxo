@@ -7,9 +7,9 @@ updates:
         directory: /
         versioning-strategy: increase
         schedule:
-            interval: daily
+            interval: weekly
 
     -   package-ecosystem: github-actions
         directory: /
         schedule:
-            interval: daily
+            interval: weekly
