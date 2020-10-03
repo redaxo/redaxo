@@ -62,7 +62,9 @@ class rex_sql_select_test extends TestCase
             static::assertEquals(5, $row->getValue(self::TABLE . '.col_int'), 'get an int with table.col notation');
         }
     }
-    public function testQueryType(){
+
+    public function testQueryType()
+    {
         $allowedQueryTypes = [
             'select',
             'show',
@@ -72,16 +74,18 @@ class rex_sql_select_test extends TestCase
             'replace',
             'create',
             'call',
-            'optimize'
+            'optimize',
         ];
 
-        foreach($allowedQueryTypes as $queryType){
+        foreach ($allowedQueryTypes as $queryType) {
             $expectedQueryType = strtoupper($queryType);
             $actualQueryType = rex_sql::getQueryType($queryType);
-            static::assertSame($expectedQueryType ,   $actualQueryType );
+            static::assertSame($expectedQueryType, $actualQueryType);
         }
     }
-    public function testQueryTypeWithBrackets(){
+
+    public function testQueryTypeWithBrackets()
+    {
         $allowedQueryTypes = [
             'select',
             'show',
@@ -91,15 +95,16 @@ class rex_sql_select_test extends TestCase
             'replace',
             'create',
             'call',
-            'optimize'
+            'optimize',
         ];
 
-        foreach($allowedQueryTypes as $queryType){
+        foreach ($allowedQueryTypes as $queryType) {
             $expectedQueryType = strtoupper($queryType);
             $actualQueryType = rex_sql::getQueryType('('.$queryType);
-            static::assertSame($expectedQueryType ,   $actualQueryType );
+            static::assertSame($expectedQueryType, $actualQueryType);
         }
     }
+
     public function testGetRowAsObject()
     {
         $this->insertRow();
