@@ -281,7 +281,7 @@ class rex_request
             '::1'
         );
 
-        return in_array($_SERVER['REMOTE_ADDR'], $whitelist);
+        return isset($_SERVER['REMOTE_ADDR']) && in_array($_SERVER['REMOTE_ADDR'], $whitelist);
     }
 
     /**
