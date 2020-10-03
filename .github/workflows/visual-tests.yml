@@ -8,7 +8,8 @@ jobs:
     build:
 
         runs-on: ubuntu-latest
-        if: github.event.pull_request.draft == false
+        # dont run jobs on forks, because we are not allowed to commit
+        if: github.event.pull_request.draft == false && github.event.pull_request.head.repo.full_name == github.repository
 
         services:
             mysql:
