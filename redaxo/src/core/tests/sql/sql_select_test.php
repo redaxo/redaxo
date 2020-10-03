@@ -62,7 +62,44 @@ class rex_sql_select_test extends TestCase
             static::assertEquals(5, $row->getValue(self::TABLE . '.col_int'), 'get an int with table.col notation');
         }
     }
+    public function testQueryType(){
+        $allowedQueryTypes = [
+            'select',
+            'show',
+            'update',
+            'insert',
+            'delete',
+            'replace',
+            'create',
+            'call',
+            'optimize'
+        ];
 
+        foreach($allowedQueryTypes as $queryType){
+            $expectedQueryType = strtoupper($queryType);
+            $actualQueryType = rex_sql::getQueryType($queryType);
+            static::assertSame($expectedQueryType ,   $actualQueryType );
+        }
+    }
+    public function testQueryTypeWithBrackets(){
+        $allowedQueryTypes = [
+            'select',
+            'show',
+            'update',
+            'insert',
+            'delete',
+            'replace',
+            'create',
+            'call',
+            'optimize'
+        ];
+
+        foreach($allowedQueryTypes as $queryType){
+            $expectedQueryType = strtoupper($queryType);
+            $actualQueryType = rex_sql::getQueryType('('.$queryType);
+            static::assertSame($expectedQueryType ,   $actualQueryType );
+        }
+    }
     public function testGetRowAsObject()
     {
         $this->insertRow();
