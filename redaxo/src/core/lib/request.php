@@ -271,15 +271,14 @@ class rex_request
     }
 
     /**
-     * Returns whether the current request is served for localhost
-     *
-     * @return bool
+     * Returns whether the current request is served for localhost.
      */
-    public static function isLocalhost():bool {
-        $whitelist = array(
+    public static function isLocalhost(): bool
+    {
+        $whitelist = [
             '127.0.0.1',
-            '::1'
-        );
+            '::1',
+        ];
 
         return in_array($_SERVER['REMOTE_ADDR'], $whitelist);
     }
