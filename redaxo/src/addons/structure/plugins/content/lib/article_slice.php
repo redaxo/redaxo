@@ -273,18 +273,18 @@ class rex_article_slice
         $slices = [];
         for ($i = 0; $i < $rows; ++$i) {
             $slices[] = new self(
-                $sql->getValue('id'),
-                $sql->getValue('article_id'),
-                $sql->getValue('clang_id'),
-                $sql->getValue('ctype_id'),
-                $sql->getValue('module_id'),
-                $sql->getValue('priority'),
-                $sql->getValue('status'),
+                (int) $sql->getValue('id'),
+                (int) $sql->getValue('article_id'),
+                (int) $sql->getValue('clang_id'),
+                (int) $sql->getValue('ctype_id'),
+                (int) $sql->getValue('module_id'),
+                (int) $sql->getValue('priority'),
+                (int) $sql->getValue('status'),
                 $sql->getDateTimeValue('createdate'),
                 $sql->getDateTimeValue('updatedate'),
                 $sql->getValue('createuser'),
                 $sql->getValue('updateuser'),
-                $sql->getValue('revision'),
+                (int) $sql->getValue('revision'),
                 [
                     $sql->getValue('value1'),
                     $sql->getValue('value2'),
