@@ -271,6 +271,20 @@ class rex_request
     }
 
     /**
+     * Returns whether the current request is served for localhost
+     *
+     * @return bool
+     */
+    public static function isLocalhost():bool {
+        $whitelist = array(
+            '127.0.0.1',
+            '::1'
+        );
+
+        return in_array($_SERVER['REMOTE_ADDR'], $whitelist);
+    }
+
+    /**
      * Returns the session namespace for the current http request.
      *
      * @return string

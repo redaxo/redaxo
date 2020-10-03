@@ -65,7 +65,7 @@ abstract class rex_error_handler
             }
             rex_response::setStatus($status);
 
-            if (rex::isSetup() || rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin()) {
+            if (rex::isSetup() || rex::isDebugMode() || rex_request::isLocalhost() || ($user = rex_backend_login::createUser()) && $user->isAdmin()) {
                 [$errPage, $contentType] = self::renderWhoops($exception);
                 rex_response::sendContent($errPage, $contentType);
                 exit(1);
