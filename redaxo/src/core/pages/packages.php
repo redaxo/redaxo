@@ -100,6 +100,7 @@ if ('' == $subpage) {
     rex_package_manager::synchronizeWithFileSystem();
 
     $toolbar = '
+test
         <div class="form-group form-group-xs">
             <div class="input-group input-group-xs" id="rex-js-available-addon-search">
                 <input class="form-control" type="text" placeholder="' . rex_i18n::msg('package_search') . '" '.(rex_request('function') ? '' : 'autofocus ').'/>
