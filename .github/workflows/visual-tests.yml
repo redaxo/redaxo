@@ -18,6 +18,8 @@ jobs:
 
         steps:
             - uses: actions/checkout@v2
+              with:
+                  ref: ${{ github.head_ref }}
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
