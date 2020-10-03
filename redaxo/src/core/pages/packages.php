@@ -94,7 +94,7 @@ if ('license' == $subpage) {
 }
 
 // ----------------- OUT
-if ('' == $subpage){
+if ('' == $subpage) {
     // the package manager don't know new packages in the addon folder
     // so we need to make them available
     rex_package_manager::synchronizeWithFileSystem();
