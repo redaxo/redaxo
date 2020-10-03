@@ -138,9 +138,8 @@ class rex_sql implements Iterator
         } catch (PDOException $e) {
             if ('cli' === PHP_SAPI) {
                 throw new rex_sql_exception("Could not connect to database.\n\nConsider starting either the web-based or console-based REDAXO setup to configure the database connection settings.", $e, $this);
-            } else {
-                throw new rex_sql_exception('Could not connect to database', $e, $this);
             }
+            throw new rex_sql_exception('Could not connect to database', $e, $this);
         }
     }
 
