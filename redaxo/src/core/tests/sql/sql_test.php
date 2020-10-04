@@ -515,18 +515,19 @@ class rex_sql_test extends TestCase
         static::assertContains(self::VIEW, $tables);
     }
 
-    public function provideQueryTypes():array{
+    public function provideQueryTypes(): array
+    {
         return [
-            ['select * from testTable','SELECT'],
-            ['show tables','SHOW'],
-            ['update tableName set field=value','UPDATE'],
-            ['insert into set field=value','INSERT'],
-            ['delete from table','DELETE'],
-            ['replace into tableName set field=value','REPLACE'],
-            ['create tableName','CREATE'],
-            ['call someprocedure','CALL'],
-            ['optimize tablename','OPTIMIZE'],
-            ['dance to the beat :D',false]
+            ['select * from testTable', 'SELECT'],
+            ['show tables', 'SHOW'],
+            ['update tableName set field=value', 'UPDATE'],
+            ['insert into set field=value', 'INSERT'],
+            ['delete from table', 'DELETE'],
+            ['replace into tableName set field=value', 'REPLACE'],
+            ['create tableName', 'CREATE'],
+            ['call someprocedure', 'CALL'],
+            ['optimize tablename', 'OPTIMIZE'],
+            ['dance to the beat :D', false],
         ];
     }
 
@@ -538,6 +539,7 @@ class rex_sql_test extends TestCase
         $actualQueryType = rex_sql::getQueryType($query);
         static::assertSame($expectedQueryType, $actualQueryType);
     }
+
     /**
      * @dataProvider provideQueryTypes
      */
@@ -546,5 +548,4 @@ class rex_sql_test extends TestCase
         $actualQueryType = rex_sql::getQueryType('('.$query.')');
         static::assertSame($expectedQueryType, $actualQueryType);
     }
-
 }
