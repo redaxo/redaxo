@@ -1,6 +1,18 @@
 <?php
 
 class rex_validation_rule {
+    const TYPE_NOT_EMPTY = 'notEmpty';
+    const TYPE_MIN_LENGTH = 'minLength';
+    const TYPE_MAX_LENGTH = 'maxLength';
+    const TYPE_MIN = 'min';
+    const TYPE_MAX = 'max';
+    const TYPE_URL = 'url';
+    const TYPE_EMAIL = 'email';
+    const TYPE_MATCH = 'match';
+    const TYPE_NOT_MATCH = 'notMatch';
+    const TYPE_VALUES = 'values';
+    const TYPE_CUSTOM = 'custom';
+
     /**
      * @var string
      */
@@ -17,7 +29,7 @@ class rex_validation_rule {
     /**
      * rex_validation_rule constructor.
      *
-     * @param string      $type    Validator type
+     * @param string      $type    Validator type, e.g. one of rex_validation_rule::* but could also be extended via rex-factory
      * @param null|string $message Message which is used if this validator type does not match
      * @param mixed       $option  Type specific option
      */
@@ -28,7 +40,7 @@ class rex_validation_rule {
     }
 
     /**
-     * Validator type
+     * Validator type, e.g. one of rex_validation_rule::* but could also be extended via rex-factory
      *
      * @return string
      */
