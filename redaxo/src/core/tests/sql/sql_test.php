@@ -519,6 +519,8 @@ class rex_sql_test extends TestCase
     {
         return [
             ['select * from testTable', 'SELECT'],
+            ['(select * from testTable) union (select * from testTable)','SELECT'],
+            [' ( select * from testTable)','SELECT'],
             ['show tables', 'SHOW'],
             ['update tableName set field=value', 'UPDATE'],
             ['insert into set field=value', 'INSERT'],
