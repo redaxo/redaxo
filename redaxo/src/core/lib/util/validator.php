@@ -13,6 +13,7 @@ class rex_validator
 
     /**
      * @psalm-var list<rex_validation_rule>
+     *
      * @var rex_validation_rule[]
      */
     private $rules = [];
@@ -75,6 +76,7 @@ class rex_validator
 
     /**
      * @psalm-return list<rex_validation_rule>
+     *
      * @return rex_validation_rule[]
      */
     public function getRules(): array
