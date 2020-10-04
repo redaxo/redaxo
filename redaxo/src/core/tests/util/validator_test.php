@@ -170,16 +170,15 @@ class rex_validator_test extends TestCase
         static::assertNull($validator->getMessage());
     }
 
-    public function testContains()
+    public function testGetRules()
     {
         $validator = rex_validator::factory();
-        $validator->add('notEmpty', 'not-empty');
-        $validator->add('minLength', 'min-length', 3);
+        $validator->addRule(new rex_validation_rule('notEmpty', 'not-empty'));
+        $validator->addRule(new rex_validation_rule('minLength', 'min-length', 3));
 
-        static::assertFalse($validator->contains('min'));
-        static::assertFalse($validator->contains('max'));
-
-        static::assertTrue($validator->contains('notEmpty'));
-        static::assertTrue($validator->contains('minLength'));
+        static::assertCount(2, $validator->getRules());
+        static::assertIsArray($validator->getRules());
+        static::assertArrayHasKey(0, $validator->getRules());
+        static::assertArrayHasKey(1, $validator->getRules());
     }
 }

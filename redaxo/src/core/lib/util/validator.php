@@ -11,8 +11,11 @@ class rex_validator
 {
     use rex_factory_trait;
 
-    /** @psalm-var list<array{string, string|null, mixed}> */
-    private $types = [];
+    /**
+     * @psalm-var list<rex_validation_rule>
+     * @var rex_validation_rule[]
+     */
+    private $rules = [];
     /** @var string|null */
     private $message;
 
@@ -42,33 +45,41 @@ class rex_validator
      * @throws InvalidArgumentException
      *
      * @return $this
+     *
+     * @deprecated since 5.12, use `addRule` instead
      */
     public function add($type, $message = null, $option = null)
     {
+        return $this->addRule(new rex_validation_rule($type, $message, $option));
+    }
+
+    /**
+     * Adds a validation rule.
+     *
+     * @throws InvalidArgumentException
+     *
+     * @return $this
+     */
+    public function addRule(rex_validation_rule $rule)
+    {
+        $type = $rule->getType();
+
         if (!method_exists($this, $type)) {
             throw new InvalidArgumentException('Unknown validator type: ' . $type);
         }
-        $this->types[] = [$type, $message, $option];
+
+        $this->rules[] = $rule;
 
         return $this;
     }
 
     /**
-     * Returns whether the validator contains a validation rule for the given type.
-     *
-     * @param string $type
+     * @psalm-return list<rex_validation_rule>
+     * @return rex_validation_rule[]
      */
-    public function contains($type): bool
+    public function getRules(): array
     {
-        foreach ($this->types as $_type) {
-            [$ruleType, $message, $option] = $_type;
-
-            if ($ruleType === $type) {
-                return true;
-            }
-        }
-
-        return false;
+        return $this->rules;
     }
 
     /**
@@ -81,8 +92,8 @@ class rex_validator
     public function isValid($value)
     {
         $this->message = null;
-        foreach ($this->types as $type) {
-            [$type, $message, $option] = $type;
+        foreach ($this->rules as $rule) {
+            $type = $rule->getType();
 
             if ('' === $value) {
                 if ('notempty' !== strtolower($type)) {
@@ -90,8 +101,8 @@ class rex_validator
                 }
             }
 
-            if (!$this->$type($value, $option)) {
-                $this->message = $message;
+            if (!$this->$type($value, $rule->getOption())) {
+                $this->message = $rule->getMessage();
                 return false;
             }
         }
