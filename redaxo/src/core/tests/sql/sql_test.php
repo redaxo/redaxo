@@ -519,8 +519,8 @@ class rex_sql_test extends TestCase
     {
         return [
             ['Select * from testTable', 'SELECT'],
-            ['(select * from testTable) union (select * from testTable)','SELECT'],
-            [' ( SELECT * from testTable)','SELECT'],
+            ['(select * from testTable) union (select * from testTable)', 'SELECT'],
+            [' ( SELECT * from testTable)', 'SELECT'],
             ['shOW tables', 'SHOW'],
             ['update tableName set field=value', 'UPDATE'],
             ['insert into set field=value', 'INSERT'],
@@ -541,5 +541,4 @@ class rex_sql_test extends TestCase
         $actualQueryType = rex_sql::getQueryType($query);
         static::assertSame($expectedQueryType, $actualQueryType);
     }
-
 }
