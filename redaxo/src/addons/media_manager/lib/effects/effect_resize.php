@@ -99,47 +99,47 @@ $(function() {
         $this->media->refreshImageDimensions();
     }
 
-    private function resizeMax($w, $h)
+    private function resizeMax($width, $height)
     {
         if (!empty($this->params['height']) && !empty($this->params['width'])) {
-            $img_ratio = $w / $h;
+            $img_ratio = $width / $height;
             $resize_ratio = $this->params['width'] / $this->params['height'];
 
             if ($img_ratio >= $resize_ratio) {
                 // --- width
-                $this->params['height'] = ceil($this->params['width'] / $w * $h);
+                $this->params['height'] = ceil($this->params['width'] / $width * $height);
             } else {
                 // --- height
-                $this->params['width'] = ceil($this->params['height'] / $h * $w);
+                $this->params['width'] = ceil($this->params['height'] / $height * $width);
             }
         } elseif (!empty($this->params['height'])) {
-            $img_factor = $h / $this->params['height'];
-            $this->params['width'] = ceil($w / $img_factor);
+            $img_factor = $height / $this->params['height'];
+            $this->params['width'] = ceil($width / $img_factor);
         } elseif (!empty($this->params['width'])) {
-            $img_factor = $w / $this->params['width'];
-            $this->params['height'] = ceil($h / $img_factor);
+            $img_factor = $width / $this->params['width'];
+            $this->params['height'] = ceil($height / $img_factor);
         }
     }
 
-    private function resizeMin($w, $h)
+    private function resizeMin($width, $height)
     {
         if (!empty($this->params['height']) && !empty($this->params['width'])) {
-            $img_ratio = $w / $h;
+            $img_ratio = $width / $height;
             $resize_ratio = $this->params['width'] / $this->params['height'];
 
             if ($img_ratio < $resize_ratio) {
                 // --- width
-                $this->params['height'] = ceil($this->params['width'] / $w * $h);
+                $this->params['height'] = ceil($this->params['width'] / $width * $height);
             } else {
                 // --- height
-                $this->params['width'] = ceil($this->params['height'] / $h * $w);
+                $this->params['width'] = ceil($this->params['height'] / $height * $width);
             }
         } elseif (!empty($this->params['height'])) {
-            $img_factor = $h / $this->params['height'];
-            $this->params['width'] = ceil($w / $img_factor);
+            $img_factor = $height / $this->params['height'];
+            $this->params['width'] = ceil($width / $img_factor);
         } elseif (!empty($this->params['width'])) {
-            $img_factor = $w / $this->params['width'];
-            $this->params['height'] = ceil($h / $img_factor);
+            $img_factor = $width / $this->params['width'];
+            $this->params['height'] = ceil($height / $img_factor);
         }
     }
 
