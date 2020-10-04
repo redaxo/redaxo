@@ -88,6 +88,39 @@
     "bin": [
         "redaxo/bin/console"
     ],
+    "scripts": {
+        "clone-addon": ".tools/bin/clone-addon",
+        "refresh": ".tools/bin/refresh",
+        "release": ".tools/bin/release",
+        "update-all": ".tools/bin/update-all",
+
+        "cs": "php-cs-fixer fix -v --ansi",
+        "phpunit": "phpunit --colors=always",
+        "phpstan": "phpstan analyse --ansi",
+        "psalm": "psalm --diff",
+        "sa": [
+            "@phpstan",
+            "@psalm"
+        ],
+        "check": [
+            "@cs",
+            "@sa",
+            "@phpunit"
+        ]
+    },
+    "scripts-descriptions": {
+        "clone-addon": "Clone given addon (by user/repo or github url) into addon directory",
+        "refresh": "Refresh local instance (refresh core assets, re-install system addons, clear cache, update dev tools)",
+        "release": "Create release zip for given version number",
+        "update-all": "Update all vendor libs (php and js) in core, system addons and dev tools",
+
+        "cs": "Fix code style via php-cs-fixer",
+        "phpunit": "Run phpunit",
+        "phpstan": "Run static analysis via phpstan",
+        "psalm": "Run static analysis via psalm",
+        "sa": "Run all static analyses (psalm and phpstan)",
+        "check": "Check all (code style, static analysis, unit tests)"
+    },
     "config": {
         "optimize-autoloader": true,
         "sort-packages": true
