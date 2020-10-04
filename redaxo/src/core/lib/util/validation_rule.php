@@ -1,17 +1,18 @@
 <?php
 
-class rex_validation_rule {
-    const TYPE_NOT_EMPTY = 'notEmpty';
-    const TYPE_MIN_LENGTH = 'minLength';
-    const TYPE_MAX_LENGTH = 'maxLength';
-    const TYPE_MIN = 'min';
-    const TYPE_MAX = 'max';
-    const TYPE_URL = 'url';
-    const TYPE_EMAIL = 'email';
-    const TYPE_MATCH = 'match';
-    const TYPE_NOT_MATCH = 'notMatch';
-    const TYPE_VALUES = 'values';
-    const TYPE_CUSTOM = 'custom';
+class rex_validation_rule
+{
+    public const TYPE_NOT_EMPTY = 'notEmpty';
+    public const TYPE_MIN_LENGTH = 'minLength';
+    public const TYPE_MAX_LENGTH = 'maxLength';
+    public const TYPE_MIN = 'min';
+    public const TYPE_MAX = 'max';
+    public const TYPE_URL = 'url';
+    public const TYPE_EMAIL = 'email';
+    public const TYPE_MATCH = 'match';
+    public const TYPE_NOT_MATCH = 'notMatch';
+    public const TYPE_VALUES = 'values';
+    public const TYPE_CUSTOM = 'custom';
 
     /**
      * @var string
@@ -33,16 +34,15 @@ class rex_validation_rule {
      * @param null|string $message Message which is used if this validator type does not match
      * @param mixed       $option  Type specific option
      */
-    public function __construct($type, $message = null, $option = null) {
+    public function __construct($type, $message = null, $option = null)
+    {
         $this->type = $type;
         $this->message = $message;
         $this->option = $option;
     }
 
     /**
-     * Validator type, e.g. one of rex_validation_rule::* but could also be extended via rex-factory
-     *
-     * @return string
+     * Validator type, e.g. one of rex_validation_rule::* but could also be extended via rex-factory.
      */
     public function getType(): string
     {
@@ -50,20 +50,22 @@ class rex_validation_rule {
     }
 
     /**
-     * Type specific option
+     * Type specific option.
      *
      * @return mixed
      */
-    public function getOption() {
+    public function getOption()
+    {
         return $this->option;
     }
 
     /**
-     * Message which is used if this validator type does not match
+     * Message which is used if this validator type does not match.
      *
      * @return null|string
      */
-    public function getMessage() {
+    public function getMessage()
+    {
         return $this->message;
     }
 }
