@@ -17,7 +17,7 @@ class rex_validation_rule {
     /**
      * rex_validation_rule constructor.
      *
-     * @param string      $type    Validator type (any static method name of this class)
+     * @param string      $type    Validator type
      * @param null|string $message Message which is used if this validator type does not match
      * @param mixed       $option  Type specific option
      */
