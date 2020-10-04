@@ -23,3 +23,15 @@
         picture.classList.add('rex-background--ready');
     }
 </script>
+
+<footer class="rex-global-footer">
+    <nav class="rex-nav-footer">
+        <ul class="list-inline">
+            <li><a href="#rex-start-of-page"><i class="fa fa-arrow-up"></i></a></li>
+            <li><a href="https://www.yakamara.de" target="_blank" rel="noreferrer noopener">yakamara.de</a></li>
+            <li><a href="https://www.redaxo.org" target="_blank" rel="noreferrer noopener">redaxo.org</a></li>
+            <li class="rex-background-credits"><a href="https://unsplash.com/@deeezyfree" target="_blank" rel="noreferrer noopener">Photo by Peter Olexa on Unsplash</a></li>
+            <li class="rex-js-script-time"><!--DYN--><?php echo rex_i18n::msg('footer_scripttime', $this->time); ?><!--/DYN--></li>
+        </ul>
+    </nav>
+</footer>
