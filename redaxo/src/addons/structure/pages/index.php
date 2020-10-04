@@ -114,6 +114,10 @@ $canDelete = rex::getUser()->hasPerm('deleteCategory[]');
 $colspan = (int) $canEdit + (int) $canDelete + 1;
 
 // --------------------- PRINT CATS/SUBCATS
+$webvitals_th = '';
+if ($addon->getPlugin('analytics')->isAvailable()) {
+    $webvitals_th = '<th class="rex-table-category">' . rex_i18n::msg('header_webvitals') . '</th>';
+}
 $echo .= '
             <table class="table table-striped table-hover">
                 <thead>
@@ -121,6 +125,7 @@ $echo .= '
                         <th class="rex-table-icon">' . $add_category . '</th>
                         <th class="rex-table-id">' . rex_i18n::msg('header_id') . '</th>
                         <th class="rex-table-category">' . rex_i18n::msg('header_category') . '</th>
+                        '.$webvitals_th.'
                         <th class="rex-table-priority">' . rex_i18n::msg('header_priority') . '</th>
                         <th class="rex-table-action" colspan="'.$colspan.'">' . rex_i18n::msg('header_status') . '</th>
                     </tr>
@@ -140,11 +145,17 @@ if ('add_cat' == $structureContext->getFunction() && rex::getUser()->hasPerm('ad
 
     $class = 'mark';
 
+    $webvitals_td = '';
+    if ($addon->getPlugin('analytics')->isAvailable()) {
+        $webvitals_td = '<td></td>';
+    }
+
     $echo .= '
                 <tr class="' . $class . '">
                     <td class="rex-table-icon"><i class="rex-icon rex-icon-category"></i></td>
                     <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">-</td>
                     <td class="rex-table-category" data-title="' . rex_i18n::msg('header_category') . '"><input class="form-control" type="text" name="category-name" class="rex-js-autofocus" autofocus /></td>
+                    '.$webvitals_td.'
                     <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '"><input class="form-control" type="text" name="category-position" value="' . ($catPager->getRowCount() + 1) . '" /></td>
                     <td class="rex-table-action" colspan="'.$colspan.'">' . $meta_buttons . $add_buttons . '</td>
                 </tr>';
@@ -169,6 +180,22 @@ if ($KAT->getRows() > 0) {
         $status_class = $catStatusTypes[$KAT->getValue('status')][1];
         $status_icon = $catStatusTypes[$KAT->getValue('status')][2];
 
+        $webvitals_td = '';
+        if ($addon->getPlugin('analytics')->isAvailable()) {
+            $webvitals = rex_analytics_webvitals::forArticle((int)$i_category_id, $KAT->getValue('clang_id'));
+
+            $webvitals_td = '<td class="rex-table-analytics"></td>';
+            if ($webvitals) {
+                $fragment = new rex_fragment(
+                    [
+                        'lcp' => $webvitals->lcp,
+                        'fid' => $webvitals->fid,
+                        'cls' => $webvitals->cls,
+                    ]
+                );
+                $webvitals_td = $fragment->parse('web-vitals/progress-bar.php');
+            }
+        }
         $td_layout_class = '';
         if ($structureContext->hasCategoryPermission()) {
             if (rex::getUser()->hasPerm('publishCategory[]')) {
@@ -210,6 +237,7 @@ if ($KAT->getRows() > 0) {
                         ' . $kat_icon_td . '
                         <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">' . $i_category_id . '</td>
                         <td class="rex-table-category" data-title="' . rex_i18n::msg('header_category') . '"><input class="form-control" type="text" name="category-name" value="' . rex_escape($KAT->getValue('catname')) . '" class="rex-js-autofocus" autofocus /></td>
+                        '.$webvitals_td.'
                         <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '"><input class="form-control" type="text" name="category-position" value="' . rex_escape($KAT->getValue('catpriority')) . '" /></td>
                         <td class="rex-table-action" colspan="'.$colspan.'">' . $meta_buttons . $add_buttons . '</td>
                     </tr>';
@@ -231,6 +259,7 @@ if ($KAT->getRows() > 0) {
                         ' . $kat_icon_td . '
                         <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">' . $i_category_id . '</td>
                         <td class="rex-table-category" data-title="' . rex_i18n::msg('header_category') . '"><a href="' . $kat_link . '">' . rex_escape($KAT->getValue('catname')) . '</a></td>
+                        '.$webvitals_td.'
                         <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '">' . rex_escape($KAT->getValue('catpriority')) . '</td>';
                 if ($canEdit) {
                     $echo .= '
@@ -252,6 +281,7 @@ if ($KAT->getRows() > 0) {
                         ' . $kat_icon_td . '
                         <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">' . $i_category_id . '</td>
                         <td class="rex-table-category" data-title="' . rex_i18n::msg('header_category') . '"><a href="' . $kat_link . '">' . $KAT->getValue('catname') . '</a></td>
+                        '.$webvitals_td.'
                         <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '">' . rex_escape($KAT->getValue('catpriority')) . '</td>';
             if ($canEdit) {
                 $echo .= '
@@ -369,6 +399,10 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
 
     // ----------- PRINT OUT THE ARTICLES
 
+    $webvitals_th = '';
+    if ($addon->getPlugin('analytics')->isAvailable()) {
+        $webvitals_th = '<th class="rex-table-category">' . rex_i18n::msg('header_webvitals') . '</th>';
+    }
     $echo .= '
             <table class="table table-striped table-hover">
                 <thead>
@@ -378,6 +412,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                         <th class="rex-table-article-name">' . rex_i18n::msg('header_article_name') . '</th>
                         ' . $tmpl_head . '
                         <th class="rex-table-date">' . rex_i18n::msg('header_date') . '</th>
+                        '.$webvitals_th.'
                         <th class="rex-table-priority">' . rex_i18n::msg('header_priority') . '</th>
                         <th class="rex-table-action" colspan="3">' . rex_i18n::msg('header_status') . '</th>
                     </tr>
@@ -444,12 +479,18 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                 $template_select->setSelected($sql->getValue('template_id'));
                 $tmpl_td = '<td class="rex-table-template" data-title="' . rex_i18n::msg('header_template') . '">' . $template_select->get() . '</td>';
             }
+
+            $webvitals_td = '';
+            if ($addon->getPlugin('analytics')->isAvailable()) {
+                $webvitals_td = '<td></td>';
+            }
             $echo .= '<tr class="mark' . $class_startarticle . '">
                             <td class="rex-table-icon"><a href="' . $structureContext->getContext()->getUrl(['page' => 'content/edit', 'article_id' => $sql->getValue('id')]) . '" title="' . rex_escape($sql->getValue('name')) . '"><i class="rex-icon' . $class . '"></i></a></td>
                             <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">' . $sql->getValue('id') . '</td>
                             <td class="rex-table-article-name" data-title="' . rex_i18n::msg('header_article_name') . '"><input class="form-control" type="text" name="article-name" value="' . rex_escape($sql->getValue('name')) . '" autofocus /></td>
                             ' . $tmpl_td . '
                             <td class="rex-table-date" data-title="' . rex_i18n::msg('header_date') . '">' . rex_formatter::strftime($sql->getDateTimeValue('createdate'), 'date') . '</td>
+                            '.$webvitals_td.'
                             <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '"><input class="form-control" type="text" name="article-position" value="' . rex_escape($sql->getValue('priority')) . '" /></td>
                             <td class="rex-table-action" colspan="'.$colspan.'">'.rex_api_article_edit::getHiddenFields().'<button class="btn btn-save" type="submit" name="artedit_function"' . rex::getAccesskey(rex_i18n::msg('article_save'), 'save') . '>' . rex_i18n::msg('article_save') . '</button></td>
                         </tr>';
@@ -505,12 +546,30 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                 $tmpl_td = '<td class="rex-table-template" data-title="' . rex_i18n::msg('header_template') . '">' . $tmpl . '</td>';
             }
 
+            $webvitals_td = '';
+            if ($addon->getPlugin('analytics')->isAvailable()) {
+                $webvitals = rex_analytics_webvitals::forArticle($sql->getValue('id'), $sql->getValue('clang_id'));
+
+                $webvitals_td = '<td class="rex-table-analytics"></td>';
+                if ($webvitals) {
+                    $fragment = new rex_fragment(
+                        [
+                            'lcp' => $webvitals->lcp,
+                            'fid' => $webvitals->fid,
+                            'cls' => $webvitals->cls,
+                        ]
+                    );
+                    $webvitals_td = $fragment->parse('web-vitals/progress-bar.php');
+                }
+            }
+
             $echo .= '<tr '.$data_artid.(('' != $class_startarticle) ? ' class="' . trim($class_startarticle) . '"' : '') . '>
                             <td class="rex-table-icon"><a href="' . $editModeUrl . '" title="' . rex_escape($sql->getValue('name')) . '"><i class="rex-icon' . $class . '"></i></a></td>
                             <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">' . $sql->getValue('id') . '</td>
                             <td class="rex-table-article-name" data-title="' . rex_i18n::msg('header_article_name') . '"><a href="' . $editModeUrl . '">' . rex_escape($sql->getValue('name')) . '</a></td>
                             ' . $tmpl_td . '
                             <td class="rex-table-date" data-title="' . rex_i18n::msg('header_date') . '">' . rex_formatter::strftime($sql->getDateTimeValue('createdate'), 'date') . '</td>
+                            '.$webvitals_td.'
                             <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '">' . rex_escape($sql->getValue('priority')) . '</td>
                             ' . $add_extra . '
                         </tr>
