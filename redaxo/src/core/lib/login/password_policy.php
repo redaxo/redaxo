@@ -34,7 +34,7 @@ class rex_password_policy
     /**
      * @return string
      */
-    protected function getRule()
+    public function getRule()
     {
         $parts = [];
 

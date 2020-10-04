@@ -18,4 +18,4 @@ page:
 
 requires:
     php: '>=7.3'
-    redaxo: ^5.11.0
+    redaxo: ^5.12.0-dev

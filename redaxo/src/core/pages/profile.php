@@ -21,6 +21,7 @@ $userdesc = rex_request('userdesc', 'string', $user->getValue('description'));
 $useremail = rex_request('useremail', 'string', $user->getValue('email'));
 $userlogin = $user->getLogin();
 $csrfToken = rex_csrf_token::factory('profile');
+$passwordPolicy = rex_backend_password_policy::factory();
 
 // --------------------------------- Title
 echo rex_view::title(rex_i18n::msg('profile_title'), '');
@@ -89,8 +90,6 @@ if ($update && !$error) {
 }
 
 if (rex_post('upd_psw_button', 'bool')) {
-    $passwordPolicy = rex_backend_password_policy::factory();
-
     if (!$csrfToken->isValid()) {
         $error = rex_i18n::msg('csrf_token_invalid');
     } elseif (!$userpsw || !$userpsw_new_1 || $userpsw_new_1 != $userpsw_new_2 || !rex_login::passwordVerify($userpsw, $user->getValue('password'))) {
@@ -236,6 +235,7 @@ $formElements = [];
 $n = [];
 $n['label'] = '<label for="rex-id-userpsw-new-1">' . rex_i18n::msg('new_password') . '</label>';
 $n['field'] = '<input class="form-control rex-js-userpsw-new-1" type="password" id="rex-id-userpsw-new-1" name="userpsw_new_1" autocomplete="off" />';
+$n['note'] = $passwordPolicy->getRule();
 $formElements[] = $n;
 
 $n = [];
