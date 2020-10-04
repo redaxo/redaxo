@@ -262,7 +262,9 @@ class rex_user
         # clear login cache for instance
         $instance = self::$instances[$class][$key];
         $login = $instance->getLogin();
-        unset(self::$instances[$class]['login_' . $login]);
+        if (isset(self::$instances[$class]['login_' . $login])) {
+            unset(self::$instances[$class]['login_' . $login]);
+        }
 
         unset(self::$instances[$class][$key]);
     }
