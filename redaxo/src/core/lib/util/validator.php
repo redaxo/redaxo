@@ -58,9 +58,10 @@ class rex_validator
      *
      * @param string $type
      */
-    public function contains($type):bool {
-        foreach($this->types as $_type) {
-            list($ruleType, $message, $option) = $_type;
+    public function contains($type): bool
+    {
+        foreach ($this->types as $_type) {
+            [$ruleType, $message, $option] = $_type;
 
             if ($ruleType === $type) {
                 return true;
