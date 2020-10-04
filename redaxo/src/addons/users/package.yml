@@ -1,5 +1,5 @@
 package: users
-version: '2.7.0'
+version: '2.8.0-dev'
 author: Jan Kristinus, Gregor Harlan
 supportpage: https://github.com/redaxo/redaxo
 
@@ -18,4 +18,4 @@ page:
 
 requires:
     php: '>=7.3'
-    redaxo: ^5.11.0
+    redaxo: ^5.12.0-dev

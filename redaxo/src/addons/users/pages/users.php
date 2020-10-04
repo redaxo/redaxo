@@ -415,6 +415,7 @@ if ('' != $FUNC_ADD || $user_id > 0) {
     $n = [];
     $n['label'] = '<label for="rex-js-user-password">' . rex_i18n::msg('password') . '</label>';
     $n['field'] = '<input class="form-control" type="password" id="rex-js-user-password" name="userpsw" autocomplete="new-password"/>';
+    $n['note'] = $passwordPolicy->getDescription();
 
     $formElements[] = $n;
 

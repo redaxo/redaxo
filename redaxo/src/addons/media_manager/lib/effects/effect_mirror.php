@@ -139,38 +139,38 @@ class rex_effect_mirror extends rex_effect_abstract
     /**
      * @return resource
      */
-    private function imagereflection(&$src_img, $reflection_height, $reflection_opacity, $trans, $bgcolor)
+    private function imagereflection(&$image, $reflectionHeight, $reflectionOpacity, $transparent, $bgColor)
     {
-        $src_height = imagesy($src_img);
-        $src_width = imagesx($src_img);
-        $dest_height = $src_height + $reflection_height;
+        $src_height = imagesy($image);
+        $src_width = imagesx($image);
+        $dest_height = $src_height + $reflectionHeight;
         $dest_width = $src_width;
 
         $reflected = imagecreatetruecolor($dest_width, $dest_height);
         if (!$reflected) {
             throw new LogicException('unable to create image');
         }
-        if ($trans) {
+        if ($transparent) {
             imagealphablending($reflected, false);
             imagesavealpha($reflected, true);
         } else {
             // und mit Hintergrundfarbe füllen
-            imagefill($reflected, 0, 0, imagecolorallocate($reflected, $bgcolor[0], $bgcolor[1], $bgcolor[2]));
+            imagefill($reflected, 0, 0, imagecolorallocate($reflected, $bgColor[0], $bgColor[1], $bgColor[2]));
         }
 
-        imagecopy($reflected, $src_img, 0, 0, 0, 0, $src_width, $src_height);
+        imagecopy($reflected, $image, 0, 0, 0, 0, $src_width, $src_height);
 
-        if ($reflection_opacity < 100) {
-            $transparency = 1 - $reflection_opacity / 100;
-            imagefilter($src_img, IMG_FILTER_COLORIZE, 0, 0, 0, 127 * $transparency);
+        if ($reflectionOpacity < 100) {
+            $transparency = 1 - $reflectionOpacity / 100;
+            imagefilter($image, IMG_FILTER_COLORIZE, 0, 0, 0, 127 * $transparency);
         }
-        $alpha_step = 80 / $reflection_height;
-        for ($y = 1; $y <= $reflection_height; ++$y) {
+        $alpha_step = 80 / $reflectionHeight;
+        for ($y = 1; $y <= $reflectionHeight; ++$y) {
             for ($x = 0; $x < $dest_width; ++$x) {
-                $rgba = imagecolorat($src_img, $x, $src_height - $y);
+                $rgba = imagecolorat($image, $x, $src_height - $y);
                 $alpha = ($rgba & 0x7F000000) >> 24;
                 $alpha = max($alpha, 47 + ($y * $alpha_step));
-                $rgba = imagecolorsforindex($src_img, $rgba);
+                $rgba = imagecolorsforindex($image, $rgba);
                 $rgba = imagecolorallocatealpha($reflected, $rgba['red'], $rgba['green'], $rgba['blue'], $alpha);
                 imagesetpixel($reflected, $x, $src_height + $y - 1, $rgba);
             }
