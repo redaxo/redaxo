@@ -10,6 +10,9 @@
  */
 class rex_article_slice
 {
+    protected const ORDER_ASC = 'ASC';
+    protected const ORDER_DESC = 'DESC';
+
     private $_id;
     private $_article_id;
     private $_clang;
@@ -207,7 +210,7 @@ class rex_article_slice
     public function getNextSlice($ignoreOfflines = false)
     {
         return self::getSliceWhere(
-            'priority = ? AND article_id=? AND clang_id = ? AND ctype_id = ? AND revision=?'.($ignoreOfflines ? ' AND status = 1' : ''),
+            'priority '.($ignoreOfflines ? '>=' : '=').' ? AND article_id=? AND clang_id = ? AND ctype_id = ? AND revision=?'.($ignoreOfflines ? ' AND status = 1' : ''),
             [$this->_priority + 1, $this->_article_id, $this->_clang, $this->_ctype, $this->_revision]
         );
     }
@@ -220,8 +223,9 @@ class rex_article_slice
     public function getPreviousSlice($ignoreOfflines = false)
     {
         return self::getSliceWhere(
-            'priority = ? AND article_id=? AND clang_id = ? AND ctype_id = ? AND revision=?'.($ignoreOfflines ? ' AND status = 1' : ''),
-            [$this->_priority - 1, $this->_article_id, $this->_clang, $this->_ctype, $this->_revision]
+            'priority '.($ignoreOfflines ? '<=' : '=').' ? AND article_id=? AND clang_id = ? AND ctype_id = ? AND revision=?'.($ignoreOfflines ? ' AND status = 1' : ''),
+            [$this->_priority - 1, $this->_article_id, $this->_clang, $this->_ctype, $this->_revision],
+            self::ORDER_DESC
         );
     }
 
@@ -244,21 +248,23 @@ class rex_article_slice
 
     /**
      * @param string $where
+     * @psalm-param self::ORDER_* $orderDirection
      *
      * @return self|null
      */
-    protected static function getSliceWhere($where, array $params = [])
+    protected static function getSliceWhere($where, array $params = [], string $orderDirection = self::ORDER_ASC)
     {
-        $slices = self::getSlicesWhere($where, $params);
+        $slices = self::getSlicesWhere($where, $params, $orderDirection, 1);
         return $slices[0] ?? null;
     }
 
     /**
      * @param string $where
+     * @psalm-param self::ORDER_* $orderDirection
      *
      * @return self[]
      */
-    protected static function getSlicesWhere($where, array $params = [])
+    protected static function getSlicesWhere($where, array $params = [], string $orderDirection = 'ASC', ?int $limit = null)
     {
         $sql = rex_sql::factory();
         // $sql->setDebug();
@@ -266,25 +272,29 @@ class rex_article_slice
             SELECT *
             FROM ' . rex::getTable('article_slice') . '
             WHERE ' . $where . '
-            ORDER BY ctype_id, priority';
+            ORDER BY ctype_id '.$orderDirection.', priority '.$orderDirection;
+
+        if (null !== $limit) {
+            $query .= ' LIMIT '.$limit;
+        }
 
         $sql->setQuery($query, $params);
         $rows = $sql->getRows();
         $slices = [];
         for ($i = 0; $i < $rows; ++$i) {
             $slices[] = new self(
-                $sql->getValue('id'),
-                $sql->getValue('article_id'),
-                $sql->getValue('clang_id'),
-                $sql->getValue('ctype_id'),
-                $sql->getValue('module_id'),
-                $sql->getValue('priority'),
-                $sql->getValue('status'),
+                (int) $sql->getValue('id'),
+                (int) $sql->getValue('article_id'),
+                (int) $sql->getValue('clang_id'),
+                (int) $sql->getValue('ctype_id'),
+                (int) $sql->getValue('module_id'),
+                (int) $sql->getValue('priority'),
+                (int) $sql->getValue('status'),
                 $sql->getDateTimeValue('createdate'),
                 $sql->getDateTimeValue('updatedate'),
                 $sql->getValue('createuser'),
                 $sql->getValue('updateuser'),
-                $sql->getValue('revision'),
+                (int) $sql->getValue('revision'),
                 [
                     $sql->getValue('value1'),
                     $sql->getValue('value2'),

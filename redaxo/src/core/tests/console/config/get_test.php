@@ -17,7 +17,7 @@ class rex_command_config_get_test extends TestCase
         $commandTester->execute([
             'config-key' => $key,
         ]);
-        static::assertEquals($expectedValue, $commandTester->getDisplay());
+        static::assertEquals($expectedValue, $commandTester->getDisplay(true));
         static::assertEquals(0, $commandTester->getStatusCode());
     }
 
