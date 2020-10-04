@@ -518,14 +518,14 @@ class rex_sql_test extends TestCase
     public function provideQueryTypes(): array
     {
         return [
-            ['select * from testTable', 'SELECT'],
+            ['Select * from testTable', 'SELECT'],
             ['(select * from testTable) union (select * from testTable)','SELECT'],
-            [' ( select * from testTable)','SELECT'],
-            ['show tables', 'SHOW'],
+            [' ( SELECT * from testTable)','SELECT'],
+            ['shOW tables', 'SHOW'],
             ['update tableName set field=value', 'UPDATE'],
             ['insert into set field=value', 'INSERT'],
             ['delete from table', 'DELETE'],
-            ['replace into tableName set field=value', 'REPLACE'],
+            ['rePlace into tableName set field=value', 'REPLACE'],
             ['create tableName', 'CREATE'],
             ['call someprocedure', 'CALL'],
             ['optimize tablename', 'OPTIMIZE'],
