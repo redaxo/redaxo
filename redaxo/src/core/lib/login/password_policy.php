@@ -54,6 +54,7 @@ class rex_password_policy
 
     /**
      * @return string
+     *
      * @deprecated since 5.12, use `getDescription` instead
      */
     protected function getRule()
