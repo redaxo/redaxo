@@ -33,7 +33,7 @@ class rex_validator
     }
 
     /**
-     * Adds a validator.
+     * Adds a validation rule.
      *
      * @param string      $type    Validator type (any static method name of this class)
      * @param null|string $message Message which is used if this validator type does not match
@@ -51,6 +51,23 @@ class rex_validator
         $this->types[] = [$type, $message, $option];
 
         return $this;
+    }
+
+    /**
+     * Returns whether the validator contains a validation rule for the given type.
+     *
+     * @param string $type
+     */
+    public function contains($type):bool {
+        foreach($this->types as $_type) {
+            list($ruleType, $message, $option) = $_type;
+
+            if ($ruleType === $type) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
