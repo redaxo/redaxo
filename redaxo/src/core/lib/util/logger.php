@@ -76,7 +76,7 @@ class rex_logger extends AbstractLogger
     /**
      * Logs with an arbitrary level.
      *
-     * @param mixed $level either one of LogLevel::* or also any other string
+     * @param mixed  $level   either one of LogLevel::* or also any other string
      * @param string $message
      * @param string $file
      * @param int    $line
