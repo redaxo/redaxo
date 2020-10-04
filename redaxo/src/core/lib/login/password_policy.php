@@ -28,13 +28,10 @@ class rex_password_policy
             return true;
         }
 
-        return rex_i18n::msg('password_invalid', $this->getRule());
+        return rex_i18n::msg('password_invalid', $this->getDescription());
     }
 
-    /**
-     * @return string
-     */
-    public function getRule()
+    public function getDescription(): ?string
     {
         $parts = [];
 
@@ -52,7 +49,16 @@ class rex_password_policy
             $parts[] = rex_i18n::msg('password_rule_'.$key, $constraint);
         }
 
-        return implode('; ', $parts);
+        return $parts ? implode('; ', $parts) : null;
+    }
+
+    /**
+     * @return string
+     * @deprecated since 5.12, use `getDescription` instead
+     */
+    protected function getRule()
+    {
+        return $this->getDescription() ?? '';
     }
 
     /**

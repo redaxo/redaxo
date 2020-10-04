@@ -235,7 +235,7 @@ $formElements = [];
 $n = [];
 $n['label'] = '<label for="rex-id-userpsw-new-1">' . rex_i18n::msg('new_password') . '</label>';
 $n['field'] = '<input class="form-control rex-js-userpsw-new-1" type="password" id="rex-id-userpsw-new-1" name="userpsw_new_1" autocomplete="off" />';
-$n['note'] = $passwordPolicy->getRule();
+$n['note'] = $passwordPolicy->getDescription();
 $formElements[] = $n;
 
 $n = [];
