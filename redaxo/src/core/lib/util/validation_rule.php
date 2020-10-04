@@ -1,6 +1,7 @@
 <?php
 
-class rex_validation_rule {
+class rex_validation_rule
+{
     /**
      * @var string
      */
@@ -21,16 +22,15 @@ class rex_validation_rule {
      * @param null|string $message Message which is used if this validator type does not match
      * @param mixed       $option  Type specific option
      */
-    public function __construct($type, $message = null, $option = null) {
+    public function __construct($type, $message = null, $option = null)
+    {
         $this->type = $type;
         $this->message = $message;
         $this->option = $option;
     }
 
     /**
-     * Validator type
-     *
-     * @return string
+     * Validator type.
      */
     public function getType(): string
     {
@@ -38,20 +38,22 @@ class rex_validation_rule {
     }
 
     /**
-     * Type specific option
+     * Type specific option.
      *
      * @return mixed
      */
-    public function getOption() {
+    public function getOption()
+    {
         return $this->option;
     }
 
     /**
-     * Message which is used if this validator type does not match
+     * Message which is used if this validator type does not match.
      *
      * @return null|string
      */
-    public function getMessage() {
+    public function getMessage()
+    {
         return $this->message;
     }
 }
