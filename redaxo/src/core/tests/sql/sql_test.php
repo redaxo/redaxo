@@ -515,7 +515,16 @@ class rex_sql_test extends TestCase
         static::assertContains(self::VIEW, $tables);
     }
 
-    public function provideQueryTypes(): array
+    /**
+     * @dataProvider provideGetQueryTypes
+     */
+    public function testGetQueryType(string $query, $expectedQueryType)
+    {
+        $actualQueryType = rex_sql::getQueryType($query);
+        static::assertSame($expectedQueryType, $actualQueryType);
+    }
+
+    public function provideGetQueryTypes(): array
     {
         return [
             ['Select * from testTable', 'SELECT'],
@@ -531,14 +540,5 @@ class rex_sql_test extends TestCase
             ['optimize tablename', 'OPTIMIZE'],
             ['dance to the beat :D', false],
         ];
-    }
-
-    /**
-     * @dataProvider provideQueryTypes
-     */
-    public function testQueryType(string $query, $expectedQueryType)
-    {
-        $actualQueryType = rex_sql::getQueryType($query);
-        static::assertSame($expectedQueryType, $actualQueryType);
     }
 }
