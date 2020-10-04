@@ -542,12 +542,4 @@ class rex_sql_test extends TestCase
         static::assertSame($expectedQueryType, $actualQueryType);
     }
 
-    /**
-     * @dataProvider provideQueryTypes
-     */
-    public function testQueryTypeWithBrackets(string $query, $expectedQueryType)
-    {
-        $actualQueryType = rex_sql::getQueryType('('.$query.')');
-        static::assertSame($expectedQueryType, $actualQueryType);
-    }
 }
