@@ -88,11 +88,9 @@
       <path value="$PROJECT_DIR$/vendor/php-parallel-lint/php-parallel-lint" />
       <path value="$PROJECT_DIR$/vendor/phpstan/phpstan-deprecation-rules" />
       <path value="$PROJECT_DIR$/vendor/dnoegel/php-xdg-base-dir" />
-      <path value="$PROJECT_DIR$/redaxo/src/addons/tests/vendor" />
       <path value="$PROJECT_DIR$/vendor/friendsofphp" />
       <path value="$PROJECT_DIR$/vendor/nikic" />
       <path value="$PROJECT_DIR$/vendor/vimeo" />
-      <path value="$PROJECT_DIR$/vendor/phpunit/php-token-stream" />
       <path value="$PROJECT_DIR$/vendor/symfony/http-client-contracts" />
       <path value="$PROJECT_DIR$/vendor/facade/ignition-contracts" />
       <path value="$PROJECT_DIR$/vendor/nunomaduro/collision" />
