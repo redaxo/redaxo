@@ -15,3 +15,11 @@
         sizes="100vw"
     />
 </picture>
+
+<script>
+    var picture = document.querySelector('.rex-background');
+    picture.classList.add('rex-background--process');
+    picture.querySelector('img').onload = function() {
+        picture.classList.add('rex-background--ready');
+    }
+</script>

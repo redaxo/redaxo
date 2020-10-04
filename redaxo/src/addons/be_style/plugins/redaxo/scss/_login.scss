@@ -164,9 +164,6 @@
         left: 0;
         right: 0;
         bottom: 0;
-        display: flex;
-        -webkit-animation: fadeIn 800ms ease-out;
-                animation: fadeIn 800ms ease-out;
 
         // in case someone uses bgr image on this element instead of <picture>
         background-position: center;
@@ -178,6 +175,16 @@
                object-fit: cover;
             overflow: hidden; // fix chrome rendering issues
         }
+    }
+
+    .rex-background--process {
+        display: none;
+    }
+
+    .rex-background--ready {
+        display: flex;
+        -webkit-animation: fadeIn 800ms ease-out;
+                animation: fadeIn 800ms ease-out;
     }
 
     .rex-background,
