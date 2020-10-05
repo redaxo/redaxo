@@ -37,7 +37,7 @@ class rex_validation_rule
      * @param null|string $message Message which is used if this validator type does not match
      * @param mixed       $option  Type specific option
      */
-    public function __construct($type, $message = null, $option = null)
+    public function __construct(string $type, ?string $message = null, $option = null)
     {
         $this->type = $type;
         $this->message = $message;
