@@ -9,7 +9,9 @@
  */
 class rex_user
 {
-    use rex_instance_pool_trait;
+    use rex_instance_pool_trait {
+        clearInstance as baseClearInstance;
+    }
 
     /**
      * SQL instance.
@@ -50,7 +52,28 @@ class rex_user
         return static::getInstance($id, static function (int $id) {
             $sql = rex_sql::factory()->setQuery('SELECT * FROM '.rex::getTable('user').' WHERE id = ?', [$id]);
 
-            return $sql->getRows() ? new static($sql) : null;
+            if ($sql->getRows()) {
+                $user = new static($sql);
+                static::addInstance('login_' . $user->getLogin(), $user);
+                return $user;
+            }
+
+            return null;
+        });
+    }
+
+    public static function forLogin(string $login): ?self
+    {
+        return static::getInstance('login_' . $login, static function () use ($login) {
+            $sql = rex_sql::factory()->setQuery('SELECT * FROM '.rex::getTable('user').' WHERE login = ?', [$login]);
+
+            if ($sql->getRows()) {
+                $user = new static($sql);
+                static::addInstance($user->getId(), $user);
+                return $user;
+            }
+
+            return null;
         });
     }
 
@@ -69,6 +92,7 @@ class rex_user
     {
         $user = new self($sql);
         self::addInstance($user->getId(), $user);
+        self::addInstance('login_' . $user->getLogin(), $user);
 
         return $user;
     }
@@ -225,5 +249,22 @@ class rex_user
     public static function setRoleClass($class)
     {
         self::$roleClass = $class;
+    }
+
+    /**
+     * Removes the instance of the given key.
+     *
+     * @param mixed $key Key
+     */
+    public static function clearInstance($key)
+    {
+        $user = static::getInstance($key);
+
+        if (!$user) {
+            return;
+        }
+
+        static::baseClearInstance($user->getId());
+        static::baseClearInstance('login_'.$user->getLogin());
     }
 }
