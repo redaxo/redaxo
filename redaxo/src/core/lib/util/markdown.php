@@ -31,10 +31,10 @@ class rex_markdown
      *
      * @return string HTML code
      */
-    public function parse($code)
+    public function parse($code, bool $softLineBreaks = true)
     {
         $parser = new ParsedownExtra();
-        $parser->setBreaksEnabled(true);
+        $parser->setBreaksEnabled($softLineBreaks);
 
         return rex_string::sanitizeHtml($parser->text($code));
     }
@@ -48,10 +48,10 @@ class rex_markdown
      *
      * @return array tupel of table-of-content and content
      */
-    public function parseWithToc($code, $topLevel = 2, $bottomLevel = 3)
+    public function parseWithToc($code, $topLevel = 2, $bottomLevel = 3, bool $softLineBreaks = true)
     {
         $parser = new rex_parsedown_with_toc();
-        $parser->setBreaksEnabled(true);
+        $parser->setBreaksEnabled($softLineBreaks);
         $parser->topLevel = $topLevel;
         $parser->bottomLevel = $bottomLevel;
 
@@ -111,16 +111,16 @@ final class rex_parsedown_with_toc extends ParsedownExtra
     public $bottomLevel = 3;
     public $headers = [];
 
-    protected function blockHeader($line)
+    protected function blockHeader($Line)
     {
-        $block = parent::blockHeader($line);
+        $block = parent::blockHeader($Line);
 
         return $this->handleHeader($block);
     }
 
-    protected function blockSetextHeader($line, array $block = null)
+    protected function blockSetextHeader($Line, array $Block = null)
     {
-        $block = parent::blockSetextHeader($line, $block);
+        $block = parent::blockSetextHeader($Line, $Block);
 
         return $this->handleHeader($block);
     }
@@ -136,14 +136,11 @@ final class rex_parsedown_with_toc extends ParsedownExtra
 
         [$level] = sscanf($block['element']['name'], 'h%d');
 
-        if ($level < $this->topLevel || $level > $this->bottomLevel) {
-            return $block;
-        }
+        $plainText = strip_tags($this->{$block['element']['handler']}($block['element']['text']));
 
         if (!isset($block['element']['attributes']['id'])) {
-            $baseId = $id = 'header-'.rex_string::normalize($block['element']['text'], '-');
-
-            for ($i = 2; isset($this->ids[$id]); ++$i) {
+            $baseId = $id = rex_string::normalize($plainText, '-');
+            for ($i = 1; isset($this->ids[$id]); ++$i) {
                 $id = $baseId.'-'.$i;
             }
 
@@ -153,11 +150,13 @@ final class rex_parsedown_with_toc extends ParsedownExtra
         $id = $block['element']['attributes']['id'];
         $this->ids[$id] = true;
 
-        $this->headers[] = [
-            'level' => $level,
-            'id' => $id,
-            'text' => $block['element']['text'],
-        ];
+        if ($level >= $this->topLevel && $level <= $this->bottomLevel) {
+            $this->headers[] = [
+                'level' => $level,
+                'id' => $id,
+                'text' => $plainText,
+            ];
+        }
 
         return $block;
     }

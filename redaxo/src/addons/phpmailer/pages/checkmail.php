@@ -10,12 +10,12 @@
 $addon = rex_addon::get('phpmailer');
 
 $content = $smtpinfo = $mailerDebug = '';
-$emptymail = true;
 $date = new DateTime();
 if ('' == $addon->getConfig('from') || '' == $addon->getConfig('test_address')) {
-    $emptymail = false;
-}
-if ($emptymail = true) {
+    $content .= '<div class="alert alert-warning">';
+    $content .= $addon->i18n('checkmail_noadress');
+    $content .= '</div>';
+} else {
     $mail = new rex_mailer();
     $mail->addAddress($addon->getConfig('test_address'));
     $mail->Subject = 'PHPMailer-Test | ' . rex_escape(rex::getServerName()) . ' | ' . date_format($date, 'Y-m-d H:i:s');
@@ -60,11 +60,8 @@ if ($emptymail = true) {
         $content .= '<br><br><strong>' . $addon->i18n('checkmail_info_subject') . '</strong>';
         $content .= '</div>';
     }
-} else {
-    $content .= '<div class="alert alert-warning">';
-    $content .= $addon->i18n('checkmail_noadress');
-    $content .= '</div>';
 }
+
 $fragment = new rex_fragment();
 $fragment->setVar('title', $addon->i18n('checkmail_headline'));
 $fragment->setVar('body', $content.$mailerDebug, false);

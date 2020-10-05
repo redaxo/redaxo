@@ -67,10 +67,10 @@ class StreamOutput extends Output
     /**
      * {@inheritdoc}
      */
-    protected function doWrite($message, $newline)
+    protected function doWrite(string $message, bool $newline)
     {
         if ($newline) {
-            $message .= PHP_EOL;
+            $message .= \PHP_EOL;
         }
 
         @fwrite($this->stream, $message);
@@ -110,16 +110,6 @@ class StreamOutput extends Output
                 || 'xterm' === getenv('TERM');
         }
 
-        if (\function_exists('stream_isatty')) {
-            return @stream_isatty($this->stream);
-        }
-
-        if (\function_exists('posix_isatty')) {
-            return @posix_isatty($this->stream);
-        }
-
-        $stat = @fstat($this->stream);
-        // Check if formatted mode is S_IFCHR
-        return $stat ? 0020000 === ($stat['mode'] & 0170000) : false;
+        return stream_isatty($this->stream);
     }
 }

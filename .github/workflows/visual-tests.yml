@@ -8,7 +8,7 @@ jobs:
     build:
 
         runs-on: ubuntu-latest
-        if: github.event.pull_request.draft == false
+        if: "github.event.pull_request.draft == false && !contains(github.event.head_commit.message, '[ci skip]')"
 
         services:
             mysql:
@@ -18,9 +18,12 @@ jobs:
 
         steps:
             - uses: actions/checkout@v2
+              if: github.event.pull_request.head.repo.full_name == github.repository
               with:
                   ref: ${{ github.head_ref }}
                   token: ${{ secrets.STAABM_TOKEN }}
+            - uses: actions/checkout@v2
+              if: github.event.pull_request.head.repo.full_name != github.repository
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
@@ -57,7 +60,7 @@ jobs:
                   php redaxo/bin/console user:create myusername mypassword --admin
 
             - name: Setup Node.js
-              uses: actions/setup-node@v2.1.1
+              uses: actions/setup-node@v2.1.2
               with:
                   node-version: "12.x"
             - name: Setup Webserver
@@ -73,7 +76,7 @@ jobs:
               run: git diff-index --quiet HEAD -- .github/tests-visual/
 
             - uses: stefanzweifel/git-auto-commit-action@v4
-              if: failure()
+              if: failure() && github.event.pull_request.head.repo.full_name == github.repository
               with:
                   commit_message: Update screenshots
                   file_pattern: .github/tests-visual/*

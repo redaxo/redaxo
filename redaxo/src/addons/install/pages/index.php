@@ -13,7 +13,7 @@ $markdown = static function (string $content): string {
     static $markdown;
 
     if (!$markdown) {
-        if (rex_string::versionCompare(rex::getVersion(), '5.10.0-dev', '<')) {
+        if (rex_version::compare(rex::getVersion(), '5.10.0-dev', '<')) {
             // prior to 5.10 rex_markdown did not prevent xss
             // so we use Parsedown directly with enabled safe mode
             $parser = new ParsedownExtra();

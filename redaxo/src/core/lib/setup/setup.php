@@ -187,11 +187,7 @@ class rex_setup
             $security[] = rex_i18n::msg('setup_session_autostart_warning');
         }
 
-        if (1 == version_compare(PHP_VERSION, '7.2', '<') && time() > strtotime('1 Dec 2019')) {
-            $security[] = rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION);
-        } elseif (1 == version_compare(PHP_VERSION, '7.3', '<') && time() > strtotime('30 Nov 2020')) {
-            $security[] = rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION);
-        } elseif (1 == version_compare(PHP_VERSION, '7.4', '<') && time() > strtotime('6 Dec 2021')) {
+        if (1 == version_compare(PHP_VERSION, '7.4', '<') && time() > strtotime('6 Dec 2021')) {
             $security[] = rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION);
         } elseif (1 == version_compare(PHP_VERSION, '8.0', '<') && time() > strtotime('28 Nov 2022')) {
             $security[] = rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION);
@@ -214,17 +210,7 @@ class rex_setup
 
         if (rex_sql::MARIADB === $dbType) {
             // https://en.wikipedia.org/wiki/MariaDB#Versioning
-            if (1 == version_compare($dbVersion, '5.2', '<') && time() > strtotime('1 Feb 2015')) {
-                $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
-            } elseif (1 == version_compare($dbVersion, '5.3', '<') && time() > strtotime('1 Nov 2015')) {
-                $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
-            } elseif (1 == version_compare($dbVersion, '5.5', '<') && time() > strtotime('1 Mar 2017')) {
-                $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
-            } elseif (1 == version_compare($dbVersion, '10.0', '<') && time() > strtotime('1 Apr 2020')) {
-                $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
-            } elseif (1 == version_compare($dbVersion, '10.1', '<') && time() > strtotime('1 Mar 2019')) {
-                $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
-            } elseif (1 == version_compare($dbVersion, '10.2', '<') && time() > strtotime('1 Oct 2020')) {
+            if (1 == version_compare($dbVersion, '10.2', '<') && time() > strtotime('1 Oct 2020')) {
                 $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
             } elseif (1 == version_compare($dbVersion, '10.3', '<') && time() > strtotime('1 May 2022')) {
                 $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
@@ -236,11 +222,7 @@ class rex_setup
             // 10.5 is not yet released
         } elseif (rex_sql::MYSQL === $dbType) {
             // https://en.wikipedia.org/wiki/MySQL#Release_history
-            if (1 == version_compare($dbVersion, '5.5', '<') && time() > strtotime('1 Dec 2013')) {
-                $security[] = rex_i18n::msg('setup_security_deprecated_mysql', $dbVersion);
-            } elseif (1 == version_compare($dbVersion, '5.6', '<') && time() > strtotime('1 Dec 2018')) {
-                $security[] = rex_i18n::msg('setup_security_deprecated_mysql', $dbVersion);
-            } elseif (1 == version_compare($dbVersion, '5.7', '<') && time() > strtotime('1 Feb 2021')) {
+            if (1 == version_compare($dbVersion, '5.7', '<') && time() > strtotime('1 Feb 2021')) {
                 $security[] = rex_i18n::msg('setup_security_deprecated_mysql', $dbVersion);
             } elseif (1 == version_compare($dbVersion, '8.0', '<') && time() > strtotime('1 Oct 2023')) {
                 $security[] = rex_i18n::msg('setup_security_deprecated_mysql', $dbVersion);

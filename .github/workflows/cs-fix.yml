@@ -10,7 +10,7 @@ jobs:
   php-cs-fixer:
     runs-on: ubuntu-latest
     # dont run jobs on forks, because we are not allowed to commit
-    if: github.event.pull_request.draft == false && github.repository == 'redaxo/redaxo'
+    if: github.event.pull_request.draft == false && github.event.pull_request.head.repo.full_name == github.repository
 
     steps:
     - uses: actions/checkout@v2
@@ -21,7 +21,7 @@ jobs:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: 7.1
+        php-version: 7.3
         coverage: none # disable xdebug, pcov
         tools: cs2pr
 

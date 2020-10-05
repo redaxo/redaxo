@@ -170,7 +170,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         return $params;
     }
 
-    protected function renderFormItem($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel)
+    protected function renderFormItem($field, $tag, $tag_attr, $id, $label, $labelIt, $inputType)
     {
         return $field;
     }

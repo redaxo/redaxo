@@ -136,6 +136,9 @@ class rex_sql implements Iterator
                 $this->setQuery('SET SESSION SQL_MODE="", NAMES utf8mb4');
             }
         } catch (PDOException $e) {
+            if ('cli' === PHP_SAPI) {
+                throw new rex_sql_exception("Could not connect to database.\n\nConsider starting either the web-based or console-based REDAXO setup to configure the database connection settings.", $e, $this);
+            }
             throw new rex_sql_exception('Could not connect to database', $e, $this);
         }
     }
@@ -240,7 +243,7 @@ class rex_sql implements Iterator
         // DBID aus dem Query herausschneiden, falls vorhanden
         self::stripQueryDBID($query);
 
-        if (preg_match('/^(SELECT|SHOW|UPDATE|INSERT|DELETE|REPLACE|CREATE|CALL|OPTIMIZE)/i', $query, $matches)) {
+        if (preg_match('/^\s*\(?\s*(SELECT|SHOW|UPDATE|INSERT|DELETE|REPLACE|CREATE|CALL|OPTIMIZE)/i', $query, $matches)) {
             return strtoupper($matches[1]);
         }
 

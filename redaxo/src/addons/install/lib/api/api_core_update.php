@@ -30,7 +30,7 @@ class rex_api_install_core_update extends rex_api_function
             throw new rex_api_exception('The requested core version can not be loaded, maybe it is already installed.');
         }
         $version = $versions[$versionId];
-        if (!rex_string::versionCompare($version['version'], rex::getVersion(), '>')) {
+        if (!rex_version::compare($version['version'], rex::getVersion(), '>')) {
             throw new rex_api_exception(sprintf('Existing version of Core (%s) is newer than %s', rex::getVersion(), $version['version']));
         }
         try {
@@ -65,7 +65,7 @@ class rex_api_install_core_update extends rex_api_function
                     $config = rex_file::getConfig($addonPath . rex_package::FILE_PACKAGE);
                     if (
                         !isset($config['version']) ||
-                        rex_addon::exists($addonkey) && rex_string::versionCompare($config['version'], rex_addon::get($addonkey)->getVersion(), '<')
+                        rex_addon::exists($addonkey) && rex_version::compare($config['version'], rex_addon::get($addonkey)->getVersion(), '<')
                     ) {
                         continue;
                     }
@@ -235,9 +235,14 @@ class rex_api_install_core_update extends rex_api_function
         // ---- update "version", "requires" and "conflicts" properties
         $coreVersion = rex::getVersion();
         rex::setProperty('version', $version);
+
+        /** @psalm-var SplObjectStorage<rex_package_interface, string> $versions */
         $versions = new SplObjectStorage();
+        /** @psalm-var SplObjectStorage<rex_package_interface, array> $requirements */
         $requirements = new SplObjectStorage();
+        /** @psalm-var SplObjectStorage<rex_package_interface, array> $conflicts */
         $conflicts = new SplObjectStorage();
+
         foreach ($addons as $addonkey => $config) {
             $addon = rex_addon::get($addonkey);
             $addonPath = $temppath . 'addons/' . $addonkey . '/';
