@@ -32,8 +32,9 @@ class rex_validation_rule
     protected $option;
 
     /**
-     * @param string      $type    Validator type, e.g. one of rex_validation_rule::* but could also be extended via rex-factory
+     * @param string $type Validator type, e.g. one of rex_validation_rule::* but could also be extended via rex-factory
      * @psalm-param rex_validation_rule::*|string $type
+     *
      * @param null|string $message Message which is used if this validator type does not match
      * @param mixed       $option  Type specific option
      */
@@ -66,8 +67,6 @@ class rex_validation_rule
 
     /**
      * Message which is used if this validator type does not match.
-     *
-     * @return null|string
      */
     public function getMessage(): ?string
     {
