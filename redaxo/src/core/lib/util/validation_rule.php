@@ -64,8 +64,6 @@ class rex_validation_rule
 
     /**
      * Message which is used if this validator type does not match.
-     *
-     * @return null|string
      */
     public function getMessage(): ?string
     {
