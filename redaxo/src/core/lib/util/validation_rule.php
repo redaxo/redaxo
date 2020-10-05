@@ -19,6 +19,7 @@ class rex_validation_rule
 
     /**
      * @var string
+     * @psalm-var rex_validation_rule::*|string $type
      */
     protected $type;
     /**
