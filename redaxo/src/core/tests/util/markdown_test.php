@@ -74,6 +74,8 @@ Foo bar
 ## [Title with Markdown](#sub-1)
 
 ## <i>Title with HTML</i>
+
+## Title with "quotes" & 'other' special &lt;chars&gt;
 MARKDOWN;
 
         [$toc, $content] = rex_markdown::factory()->parseWithToc($input, 2, 4);
@@ -120,6 +122,9 @@ MARKDOWN;
 </li>
 <li>
 <a href="#header-title-with-html">Title with HTML</a>
+</li>
+<li>
+<a href="#header-title-with-quotes-other-special-chars">Title with &quot;quotes&quot; &amp; &#039;other&#039; special &lt;chars&gt;</a>
 </li>
 </ul>
 

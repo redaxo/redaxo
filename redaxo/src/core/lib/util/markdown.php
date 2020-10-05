@@ -137,6 +137,7 @@ final class rex_parsedown_with_toc extends ParsedownExtra
         [$level] = sscanf($block['element']['name'], 'h%d');
 
         $plainText = strip_tags($this->{$block['element']['handler']}($block['element']['text']));
+        $plainText = htmlspecialchars_decode($plainText);
 
         if (!isset($block['element']['attributes']['id'])) {
             $baseId = $id = 'header-'.rex_string::normalize($plainText, '-');
