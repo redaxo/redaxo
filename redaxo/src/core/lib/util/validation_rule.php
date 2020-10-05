@@ -67,7 +67,7 @@ class rex_validation_rule
      *
      * @return null|string
      */
-    public function getMessage()
+    public function getMessage(): ?string
     {
         return $this->message;
     }
