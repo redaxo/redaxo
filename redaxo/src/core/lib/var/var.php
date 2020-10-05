@@ -395,13 +395,12 @@ abstract class rex_var
      * Converts a REX_VAR content to a PHP array.
      *
      * @param string $value
-     * @param int $decode_strategy How to handle quotes during decoding. Possible values are `ENT_QUOTES` (default), `ENT_NOQUOTES` and `ENT_COMPAT`.
      *
      * @return array|null
      */
-    public static function toArray($value, $decode_strategy = ENT_QUOTES)
+    public static function toArray($value)
     {
-        $value = json_decode(htmlspecialchars_decode($value, $decode_strategy), true);
+        $value = json_decode(htmlspecialchars_decode($value, ENT_QUOTES), true);
         return is_array($value) ? $value : null;
     }
 
