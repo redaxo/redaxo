@@ -46,8 +46,6 @@ class rex_validator
      * @throws InvalidArgumentException
      *
      * @return $this
-     *
-     * @deprecated since 5.12, use `addRule` instead
      */
     public function add($type, $message = null, $option = null)
     {
