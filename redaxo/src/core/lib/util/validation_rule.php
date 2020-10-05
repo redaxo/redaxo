@@ -3,7 +3,7 @@
 /**
  * @package redaxo\core
  */
-class rex_validation_rule
+final class rex_validation_rule
 {
     public const NOT_EMPTY = 'notEmpty';
     public const MIN_LENGTH = 'minLength';
@@ -21,15 +21,15 @@ class rex_validation_rule
      * @var string
      * @psalm-var rex_validation_rule::*|string $type
      */
-    protected $type;
+    private $type;
     /**
      * @var null|string
      */
-    protected $message;
+    private $message;
     /**
      * @var mixed
      */
-    protected $option;
+    private $option;
 
     /**
      * @param string $type Validator type, e.g. one of rex_validation_rule::* but could also be extended via rex-factory
