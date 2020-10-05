@@ -173,7 +173,8 @@ class rex_validator_test extends TestCase
     public function testGetRules()
     {
         $validator = rex_validator::factory();
-        $validator->addRule(new rex_validation_rule('notEmpty', 'not-empty'));
+        // mix of add/addRule should be returned in getRules()
+        $validator->add(rex_validation_rule::NOT_EMPTY, 'not-empty');
         $validator->addRule(new rex_validation_rule('minLength', 'min-length', 3));
 
         static::assertCount(2, $validator->getRules());
