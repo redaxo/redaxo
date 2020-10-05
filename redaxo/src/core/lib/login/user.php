@@ -9,7 +9,9 @@
  */
 class rex_user
 {
-    use rex_instance_pool_trait;
+    use rex_instance_pool_trait {
+        clearInstance as baseClearInstance;
+    }
 
     /**
      * SQL instance.
@@ -256,16 +258,13 @@ class rex_user
      */
     public static function clearInstance($key)
     {
-        $key = self::getInstancePoolKey($key);
-        $class = static::class;
+        $user = static::getInstance($key);
 
-        # clear login cache for instance
-        $instance = self::$instances[$class][$key];
-        $login = $instance->getLogin();
-        if (isset(self::$instances[$class]['login_' . $login])) {
-            unset(self::$instances[$class]['login_' . $login]);
+        if (!$user) {
+            return;
         }
 
-        unset(self::$instances[$class][$key]);
+        static::baseClearInstance($user->getId());
+        static::baseClearInstance('login_'.$user->getLogin());
     }
 }
