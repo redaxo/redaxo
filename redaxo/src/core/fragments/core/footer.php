@@ -1,4 +1,3 @@
-<?php if ('login' !== rex_be_controller::getCurrentPage()): ?>
     <footer class="rex-global-footer">
         <nav class="rex-nav-footer">
             <ul class="list-inline">
@@ -13,4 +12,3 @@
             </ul>
         </nav>
     </footer>
-<?php endif; ?>
