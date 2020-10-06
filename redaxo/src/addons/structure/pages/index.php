@@ -14,7 +14,7 @@ $structureContext = new rex_structure_context([
     'catstart' => rex_request('catstart', 'int'),
     'edit_id' => rex_request('edit_id', 'int'),
     'function' => rex_request('function', 'string'),
-    'rows_per_page' => 30,
+    'rows_per_page' => rex::getProperty('rows_per_page', ['structure'=>30])['structure'],
 ]);
 
 if (0 == $structureContext->getClangId()) {
