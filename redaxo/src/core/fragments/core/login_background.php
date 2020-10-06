@@ -2,7 +2,7 @@
     <source
         srcset="
             <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/peter-olexa-RYtiT3b7XW4-unsplash_2100.webp') ?> 2100w,
-            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/peter-olexa-RYtiT3b7XW4-unsplash_3000.webp') ?> 3000w"
+            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/peter-olexa-RYtiT3b7XW4-unsplash_3300.webp') ?> 3300w"
         sizes="100vw"
         type="image/webp"
     />
@@ -11,7 +11,7 @@
         src="<?= rex_url::pluginAssets('be_style', 'redaxo', 'images/peter-olexa-RYtiT3b7XW4-unsplash_2100.jpg') ?>"
         srcset="
             <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/peter-olexa-RYtiT3b7XW4-unsplash_2100.jpg') ?> 2100w,
-            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/peter-olexa-RYtiT3b7XW4-unsplash_3000.jpg') ?> 3000w"
+            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/peter-olexa-RYtiT3b7XW4-unsplash_3300.jpg') ?> 3300w"
         sizes="100vw"
     />
 </picture>
