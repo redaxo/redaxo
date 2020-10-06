@@ -13,6 +13,10 @@ class rex_debug_clockwork
     {
         $clockwork = \Clockwork\Support\Vanilla\Clockwork::init([
             'storage_files_path' => self::getStoragePath(),
+            'storage_files_compress' => true,
+
+            // there is a probability from 1 to 100 that the cleanup mechanism will be triggered and files older than 2 days will be removed
+            'storage_expiration' => 60 * 24 * 2,
         ]);
 
         self::$instance = $clockwork;

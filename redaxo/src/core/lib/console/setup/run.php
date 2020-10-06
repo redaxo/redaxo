@@ -410,7 +410,10 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 return $password;
             };
 
-            $pwQuestion = new Question('Password');
+            $description = $passwordPolicy->getDescription();
+            $description = $description ? ' ('.$description.')' : '';
+
+            $pwQuestion = new Question('Password'.$description);
             $pwQuestion->setHidden(true);
             $pwQuestion->setValidator($pwValidator);
             $password = $this->getOptionOrAsk(

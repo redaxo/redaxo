@@ -174,7 +174,7 @@ class rex_be_controller
         self::$pages['system'] = (new rex_be_page_main('system', 'system', rex_i18n::msg('system')))
             ->setPath(rex_path::core('pages/system.php'))
             ->setRequiredPermissions('isAdmin')
-            ->setPrio(70)
+            ->setPrio(80)
             ->setPjax()
             ->setIcon('rex-icon rex-icon-system')
             ->addSubpage((new rex_be_page('settings', rex_i18n::msg('main_preferences')))->setSubPath(rex_path::core('pages/system.settings.php')))
@@ -437,7 +437,7 @@ class rex_be_controller
             $path = $languagePath;
         }
 
-        [$toc, $content] = rex_markdown::factory()->parseWithToc(rex_file::get($path));
+        [$toc, $content] = rex_markdown::factory()->parseWithToc(rex_file::get($path), 2, 3, false);
         $fragment = new rex_fragment();
         $fragment->setVar('content', $content, false);
         $fragment->setVar('toc', $toc, false);

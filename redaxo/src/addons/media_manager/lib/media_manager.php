@@ -147,9 +147,9 @@ class rex_media_manager
         return $effects;
     }
 
-    public function setCachePath($cache_path = '')
+    public function setCachePath($path = '')
     {
-        $this->cache_path = $cache_path;
+        $this->cache_path = $path;
     }
 
     public function getCachePath()
@@ -157,9 +157,9 @@ class rex_media_manager
         return $this->cache_path;
     }
 
-    protected function useCache($t = true)
+    protected function useCache($useCache = true)
     {
-        $this->use_cache = $t;
+        $this->use_cache = $useCache;
     }
 
     /**
@@ -221,12 +221,12 @@ class rex_media_manager
         return $this->cache = rex_file::getCache($this->getHeaderCacheFilename(), null);
     }
 
-    public static function deleteCacheByType($type_id)
+    public static function deleteCacheByType($typeId)
     {
         $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type' . ' WHERE id=?';
         $sql = rex_sql::factory();
         //  $sql->setDebug();
-        $sql->setQuery($qry, [$type_id]);
+        $sql->setQuery($qry, [$typeId]);
         $counter = 0;
         foreach ($sql as $row) {
             $counter += self::deleteCache(null, $row->getValue('name'));
