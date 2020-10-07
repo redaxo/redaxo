@@ -7,6 +7,7 @@
         "ramsey/http-range": "^1.0",
         "roave/security-advisories": "dev-master",
         "symfony/console": "^5.1",
+        "symfony/http-foundation": "^5.1",
         "symfony/polyfill-intl-normalizer": "^1.18",
         "symfony/polyfill-mbstring": "^1.18",
         "symfony/polyfill-php80": "^1.18",

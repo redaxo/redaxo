@@ -214,7 +214,7 @@ class rex_request
      */
     public static function requestMethod()
     {
-        return isset($_SERVER['REQUEST_METHOD']) ? strtolower($_SERVER['REQUEST_METHOD']) : 'get';
+        return strtolower(rex::getRequest()->getMethod());
     }
 
     /**
@@ -229,7 +229,7 @@ class rex_request
      */
     public static function isXmlHttpRequest()
     {
-        return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 'XMLHttpRequest' == $_SERVER['HTTP_X_REQUESTED_WITH'];
+        return rex::getRequest()->isXmlHttpRequest();
     }
 
     /**
@@ -241,7 +241,7 @@ class rex_request
      */
     public static function isPJAXRequest()
     {
-        return isset($_SERVER['HTTP_X_PJAX']) && 'true' == $_SERVER['HTTP_X_PJAX'];
+        return 'true' == rex::getRequest()->headers->get('X-PJAX');
     }
 
     /**
@@ -257,7 +257,7 @@ class rex_request
             return false;
         }
 
-        return isset($_SERVER['HTTP_X_PJAX_CONTAINER']) && $_SERVER['HTTP_X_PJAX_CONTAINER'] == $containerId;
+        return $containerId === rex::getRequest()->headers->get('X-Pjax-Container');
     }
 
     /**
@@ -267,7 +267,7 @@ class rex_request
      */
     public static function isHttps()
     {
-        return !empty($_SERVER['HTTPS']) && 'off' !== strtolower($_SERVER['HTTPS']);
+        return rex::getRequest()->isSecure();
     }
 
     /**

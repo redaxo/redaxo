@@ -106,6 +106,10 @@ foreach ($config as $key => $value) {
 
 date_default_timezone_set(rex::getProperty('timezone', 'Europe/Berlin'));
 
+if ('cli' !== PHP_SAPI) {
+    rex::setProperty('request', Symfony\Component\HttpFoundation\Request::createFromGlobals());
+}
+
 rex_error_handler::register();
 rex_var_dumper::register();
 

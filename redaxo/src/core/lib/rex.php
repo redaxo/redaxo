@@ -323,6 +323,17 @@ class rex
         return self::getProperty('console', null);
     }
 
+    public static function getRequest(): Symfony\Component\HttpFoundation\Request
+    {
+        $request = self::getProperty('request');
+
+        if (null === $request) {
+            throw new rex_exception('The request object is not available in cli');
+        }
+
+        return $request;
+    }
+
     /**
      * @param int $db
      * @psalm-param positive-int $db
