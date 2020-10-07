@@ -31,17 +31,6 @@ jobs:
                   extensions: intl, imagick
                   coverage: none # disable xdebug, pcov
                   tools: cs2pr
-            - name: Get Composer Cache Directory
-              id: composer-cache
-              run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-            - name: Cache dependencies
-              uses: actions/cache@v2
-              with:
-                  path: ${{ steps.composer-cache.outputs.dir }}
-                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-                  restore-keys: ${{ runner.os }}-composer-
-            - name: Install Dependencies
-              run: composer install --ansi --prefer-dist
             - run: |
                   sudo /etc/init.d/mysql start
                   mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
