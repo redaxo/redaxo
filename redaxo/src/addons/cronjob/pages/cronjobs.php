@@ -159,7 +159,7 @@ if ('' == $func) {
     $field = $form->addSelectField('environment');
     $field->setAttribute('class', 'form-control selectpicker');
     $field->setLabel($addon->i18n('environment'));
-    $field->setNotice($addon->i18n('environment_notice'));
+    $field->setNotice($addon->i18n('environment_notice', rex_path::bin('console').' cronjob:run'));
     $field->getValidator()->add('notEmpty', $addon->i18n('cronjob_error_no_environment'));
     $field->setAttribute('multiple', 'multiple');
     $envFieldId = $field->getAttribute('id');
