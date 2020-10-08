@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_article_slice_test extends TestCase
 {
-    private const FAKE_ID = 4294967295;
+    private const FAKE_ID = 2147483647; // max int on 32bit
 
     protected function tearDown(): void
     {
