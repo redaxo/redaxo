@@ -37,5 +37,5 @@ jobs:
                 key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
                 restore-keys: ${{ runner.os }}-composer-
           - name: Install Dependencies
-            run: composer install --prefer-dist
-          - run: vendor/bin/php-cs-fixer fix --diff --dry-run --format=checkstyle | cs2pr
+            run: composer install --ansi --prefer-dist
+          - run: vendor/bin/php-cs-fixer fix --ansi --diff --dry-run --format=checkstyle | cs2pr
