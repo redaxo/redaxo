@@ -41,7 +41,7 @@ jobs:
                   key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
                   restore-keys: ${{ runner.os }}-composer-
             - name: Install Dependencies
-              run: composer install --prefer-dist
+              run: composer install --ansi --prefer-dist
             - run: |
                   sudo /etc/init.d/mysql start
                   mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
@@ -50,6 +50,6 @@ jobs:
                   php .tools/bin/setup
             - run: |
                   vendor/bin/rexlint
-                  php redaxo/bin/console be_style:compile
+                  php redaxo/bin/console be_style:compile --ansi
                   git checkout -- redaxo/src/core/default.config.yml # revert changes made initially
                   git diff HEAD --exit-code # check if compiling the scss lead to uncommitted changes
