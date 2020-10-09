@@ -17,7 +17,7 @@ if ('' == $addon->getConfig('from') || '' == $addon->getConfig('test_address')) 
     $content .= '</div>';
 } else {
     $mail = new rex_mailer();
-    $mail->FromName("REDAXO PHPMailer");
+    $mail->FromName('REDAXO PHPMailer');
     $mail->addAddress($addon->getConfig('test_address'));
     $mail->Subject = 'PHPMailer-Test | ' . rex_escape(rex::getServerName()) . ' | ' . date_format($date, 'Y-m-d H:i:s');
 
