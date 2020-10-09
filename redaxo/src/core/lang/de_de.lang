@@ -194,6 +194,7 @@ setup_309 = Ordnerrechte ok
 setup_310 = Weiter mit Schritt 4
 setup_311 = Die folgenden Dateien/Verzeichnisse sind für alle Anwender auf dem Server veränderbar ("Others"-Mode-Bit 7). Die Berechtigungen sollten restriktiver sein:
 setup_312 = Schritt 3 erneut durchführen
+setup_313 = Das Setup wird von einer invaliden Url ausgeführt
 setup_399 = 3 / Systemcheck
 
 setup_400 = Setup: Schritt 4 von 7 / Schreiben der '{0}'

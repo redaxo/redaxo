@@ -76,6 +76,11 @@ class rex_setup
             }
         }
 
+        $setupUri = ltrim(rex_server('REQUEST_URI', 'string'), '/');
+        if (strpos($setupUri, 'index.php') === 0) {
+            $errors[] = rex_i18n::msg('setup_313');
+        }
+
         return $errors;
     }
 
