@@ -67,7 +67,7 @@ class rex_cronjob_article_status extends rex_cronjob
         }
         $this->setMessage('Updated articles: ' . $rows);
 
-        if ( $this->getParam('reset_date') ) {
+        if ($this->getParam('reset_date')) {
             $sql->setQuery('
                 UPDATE ' . rex::getTablePrefix() . 'article
                 SET '.$from['field'].' = ""
@@ -78,7 +78,7 @@ class rex_cronjob_article_status extends rex_cronjob
                 UPDATE ' . rex::getTablePrefix() . 'article
                 SET '.$to['field'].' = ""
                 WHERE ' . $to['field'] . ' > 0
-                AND   ' . $to['field'] . ' < ' . $time . ''
+                AND   ' . $to['field'] . ' < ' . $time
             );
         }
         return true;
