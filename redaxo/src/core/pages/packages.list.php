@@ -43,9 +43,9 @@ $getLink = static function (rex_package $package, $function, $icon = '', $confir
     }
     $text = rex_i18n::msg('package_' . ($key ?: $function));
     $url = rex_url::currentBackendPage([
-            'package' => $package->getPackageId(),
-            'function' => $function,
-        ] + rex_api_package::getUrlParams());
+        'package' => $package->getPackageId(),
+        'function' => $function,
+    ] + rex_api_package::getUrlParams());
 
     $icon = ('' != $icon) ? '<i class="rex-icon ' . $icon . '"></i>' : '';
     $class = ($key ?: $function);

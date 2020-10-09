@@ -1,8 +1,8 @@
 <?php
 
 /**
-* @package redaxo5
-*/
+ * @package redaxo5
+ */
 
 $subpage = rex_request('subpage', 'string');
 
