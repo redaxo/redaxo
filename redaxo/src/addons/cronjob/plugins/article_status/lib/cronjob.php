@@ -88,6 +88,7 @@ class rex_cronjob_article_status extends rex_cronjob
     {
         return rex_i18n::msg('cronjob_article_status');
     }
+
     public function getParamFields()
     {
         $fields = [
