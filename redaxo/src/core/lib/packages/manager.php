@@ -474,9 +474,20 @@ abstract class rex_package_manager
         }
         $package = rex_package::get($packageId);
         if (!$package->isAvailable()) {
+            $installer = rex_addon::get('install');
+
+            if (!rex_package::exists($packageId) && $installer->isAvailable()) {
+                // package need to be installed
+                $installUrl = rex_url::backendPage('install/packages/add', ['addonkey' => $packageId]);
+
+                $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId) . ' <a href="'. $installUrl .'">'. $this->i18n('install_via_installer', $packageId) .'</a>';
+                return false;
+            }
+            // package exists, but not installed/activated
             $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId);
             return false;
         }
+
         if (!self::matchVersionConstraints($package->getVersion(), $requirements['packages'][$packageId])) {
             $this->message = $this->i18n(
                 'requirement_error_' . $package->getType() . '_version',
