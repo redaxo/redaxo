@@ -13,7 +13,7 @@ $addon = rex_addon::get('phpmailer');
 $message = '';
 
 if ('' != rex_post('btn_delete_archive', 'string')) {
-    if (rex_dir::delete(rex_path::addonData('phpmailer', 'mail_log'), false)) {
+    if (rex_dir::delete(rex_mailer::logFolder(), false)) {
         $delete_message = '<div class="alert alert-success">';
         $delete_message .= '<strong>' . $addon->i18n('archive_deleted') . '</strong>';
         $delete_message .= '</div>';
