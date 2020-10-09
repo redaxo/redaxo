@@ -326,7 +326,7 @@ $formElements[] = $n;
 $n = [];
 $n['label'] = '<label for="phpmailer-log">' . $addon->i18n('archive') . '</label>';
 $n['field'] = $sel_archive->get();
-$n['note'] = rex_i18n::rawMsg('phpmailer_archive_info', rex_mailer::logFolder(), '…'.substr(rex_mailer::logFolder(), -30));
+$n['note'] = rex_i18n::rawMsg('phpmailer_archive_info', rex_mailer::logFolder(), '...'.substr(rex_mailer::logFolder(), -30));
 $formElements[] = $n;
 
 $n = [];
@@ -407,4 +407,3 @@ echo '
     });
 
 </script>
-
