@@ -14,10 +14,7 @@ $message = '';
 
 if ('' != rex_post('btn_delete_archive', 'string')) {
     if (rex_dir::delete(rex_mailer::logFolder(), false)) {
-        $delete_message = '<div class="alert alert-success">';
-        $delete_message .= '<strong>' . $addon->i18n('archive_deleted') . '</strong>';
-        $delete_message .= '</div>';
-        echo $delete_message;
+        rex_view::success($addon->i18n('archive_deleted'));
     }
 }
 if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string')) {
