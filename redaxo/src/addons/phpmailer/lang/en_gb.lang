@@ -66,7 +66,7 @@ phpmailer_archive = Email archiving
 phpmailer_archive_info = Archive folder: <span title="{0}">{1}</span>
 phpmailer_archive_delete = Delete email archive
 phpmailer_archive_deleted = The email archive has been deleted
-phpmailer_archive_delete_confirm = Do you want the e-mail archive to be completely deleted? This process cannot be reversed.  
+phpmailer_archive_delete_confirm = Do you want the e-mail archive to be permanently deleted? This cannot be reversed.  
 phpmailer_log_yes = Yes
 phpmailer_log_no = No
 phpmailer_log_title = PHPMailer Log "{0}"
