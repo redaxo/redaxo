@@ -1796,6 +1796,10 @@ class rex_sql implements Iterator
             return rex_i18n::msg('sql_database_name_missing');
         }
 
+        if (!filter_var($host, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME)) {
+            return rex_i18n::msg('sql_database_host_invalid', $host);
+        }
+
         $err_msg = true;
 
         try {

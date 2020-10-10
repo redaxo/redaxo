@@ -241,6 +241,7 @@ setup_security_warn_mod_security = De Apache-module "mod_security" is geladen. D
 setup_security_deprecated_php = De gebruikte PHP-versie {0} krijg niet langer updates. Overweeg om te upgraden naar een nieuwere versie.
 
 sql_database_name_missing = Voer een databasenaam in!
+sql_database_host_invalid = De MySQL-host "{0}" heeft het verkeerde formaat!
 sql_database_already_exists = Database bestaat al!
 sql_unable_to_connect_database = Kan geen verbinding krijgen met de database!
 sql_unable_to_connect_server = Kan geen verbinding krijgen met de database-server!

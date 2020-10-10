@@ -270,6 +270,7 @@ setup_security_deprecated_mariadb = El fabricante ya no mantiene la versión Mar
 setup_session_autostart_warning = La configuración de php "session.auto_start" está activada.  Se recomienda desactivar esto para evitar problemas.
 
 sql_database_name_missing = ¡Falta el nombre de la base de datos!
+sql_database_host_invalid = ¡El host MySQL "{0}" tiene el formato incorrecto!
 sql_database_already_exists = ¡La base de datos ya existe!
 sql_unable_to_connect_database = ¡No se puede conectar a la base de datos!
 sql_unable_to_connect_server = ¡No se puede conectar al servidor de bases de datos!
