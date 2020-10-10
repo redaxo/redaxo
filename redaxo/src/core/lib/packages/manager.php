@@ -475,10 +475,9 @@ abstract class rex_package_manager
         $package = rex_package::get($packageId);
         $required_version = '';
         if (!$package->isAvailable()) {
-            if ($requirements['packages'][$packageId]!='')
-            {
+            if ('' != $requirements['packages'][$packageId]) {
                 $required_version = ' '.$requirements['packages'][$packageId];
-            }    
+            }
             $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId.$package->getVersion().$required_version);
             return false;
         }
