@@ -270,7 +270,6 @@ setup_security_deprecated_mariadb = The used MariaDB Version {0} version will no
 setup_session_autostart_warning = The php settings "session.auto_start" is activated. It is recommended to disable this for avoiding problems.
 
 sql_database_name_missing = Enter a database name!
-sql_database_host_invalid = The MySQL host "{0}" has the wrong format!
 sql_database_already_exists = Database already exists!
 sql_database_required_version = The {0} version {1} is too old, you need at least MySQL {2} or MariaDB {3}!
 sql_unable_to_connect_database = Unable to establish a connection to the database!

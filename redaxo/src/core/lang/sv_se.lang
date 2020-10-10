@@ -270,7 +270,6 @@ setup_security_deprecated_mariadb = Den använda MariaDB-versionen {0} hålls in
 setup_session_autostart_warning = "Session.auto_start" är aktiverat i PHP-inställningarna. Det rekommenderas att inaktivera detta för att undvika problem.
 
 sql_database_name_missing = Du måste ange ett databsnamn!
-sql_database_host_invalid = MySQL-värden "{0}" har fel format!
 sql_database_already_exists = Databasen existera redan.
 sql_unable_to_connect_database = Det kunde inte upprättas en förbindelse till databasen!
 sql_unable_to_connect_server = Det kunde inte upprättas en förbindelse till databasservern!

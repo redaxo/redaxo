@@ -215,7 +215,6 @@ setup_security_msg = A pasta no redaxo não é segura. Por favor, proteja-a e re
 setup_no_js_security_msg = Por favor, certifique-se de que os artigos contidos na pasta redaxo não sejam diretamente acessíveis. Devido a questões de segurança, isso não é permitido.
 
 sql_database_name_missing = Insira um nome para o banco de dados!
-sql_database_host_invalid = O host MySQL "{0}" tem o formato errado!
 sql_database_already_exists = O banco de dados já existe!
 sql_unable_to_connect_database = A conexão com o banco de dados não pôde ser criada.
 sql_unable_to_connect_server = Não pôde ser criada uma concexão com o servidor do banco de dados.

@@ -215,7 +215,6 @@ setup_security_msg =
 setup_no_js_security_msg =
 
 sql_database_name_missing =
-sql_database_host_invalid = L'host MySQL "{0}" ha il formato sbagliato!
 sql_database_already_exists = Database già esistente!
 sql_unable_to_connect_database =
 sql_unable_to_connect_server =
