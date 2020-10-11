@@ -271,7 +271,7 @@ class rex_form_element
         $label = $this->getLabel();
 
         if ('' != $label) {
-            $s .= '<label class="control-label '.($this->isRequiredField() ? 'required':'').'" for="' . $this->getAttribute('id').'">' . $label . '</label>';
+            $s .= '<label class="control-label '.($this->isRequiredField() ? 'required' : '').'" for="' . $this->getAttribute('id').'">' . $label . '</label>';
         }
 
         return $s;
@@ -365,8 +365,8 @@ class rex_form_element
 
     private function isRequiredField(): bool
     {
-        foreach($this->getValidator()->getRules() as $rule) {
-            if ($rule->getType() == rex_validation_rule::NOT_EMPTY) {
+        foreach ($this->getValidator()->getRules() as $rule) {
+            if (rex_validation_rule::NOT_EMPTY == $rule->getType()) {
                 return true;
             }
         }
