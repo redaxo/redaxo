@@ -144,7 +144,7 @@ class rex_sql implements Iterator
     }
 
     /**
-     * @param string $host
+     * @param string $host the host. might optionally include a port.
      * @param string $database
      * @param string $login
      * @param string $password
@@ -1782,7 +1782,7 @@ class rex_sql implements Iterator
      * Prueft die uebergebenen Zugangsdaten auf gueltigkeit und legt ggf. die
      * Datenbank an.
      *
-     * @param string $host
+     * @param string $host the host. might optionally include a port.
      * @param string $login
      * @param string $password
      * @param string $database
