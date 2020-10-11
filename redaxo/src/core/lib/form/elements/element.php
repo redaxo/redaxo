@@ -286,6 +286,13 @@ class rex_form_element
         $value = $this->getValue();
         $tag = rex_escape($this->getTag(), 'html_attr');
 
+        foreach($this->getValidator()->getRules() as $rule) {
+            if ($rule->getType() == rex_validation_rule::NOT_EMPTY) {
+                $this->setAttribute('required', 'required');
+                break;
+            }
+        }
+
         foreach ($this->getAttributes() as $attributeName => $attributeValue) {
             $attr .= ' ' . rex_escape($attributeName, 'html_attr') . '="' . rex_escape($attributeValue) . '"';
         }
