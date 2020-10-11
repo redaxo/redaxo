@@ -144,7 +144,7 @@ class rex_sql implements Iterator
     }
 
     /**
-     * @param string $host
+     * @param string $host       the host. might optionally include a port.
      * @param string $database
      * @param string $login
      * @param string $password
@@ -1782,7 +1782,7 @@ class rex_sql implements Iterator
      * Prueft die uebergebenen Zugangsdaten auf gueltigkeit und legt ggf. die
      * Datenbank an.
      *
-     * @param string $host
+     * @param string $host     the host. might optionally include a port.
      * @param string $login
      * @param string $password
      * @param string $database
@@ -1794,6 +1794,17 @@ class rex_sql implements Iterator
     {
         if (!$database) {
             return rex_i18n::msg('sql_database_name_missing');
+        }
+
+        if (false !== strpos($host, ':')) {
+            [$hostName, $port] = explode(':', $host, 2);
+            if (!filter_var($hostName, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME)) {
+                return rex_i18n::msg('sql_database_host_invalid', $hostName);
+            }
+        } else {
+            if (!filter_var($host, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME)) {
+                return rex_i18n::msg('sql_database_host_invalid', $host);
+            }
         }
 
         $err_msg = true;
@@ -1812,7 +1823,7 @@ class rex_sql implements Iterator
                 $err_msg = rex_i18n::msg('sql_database_already_exists');
             }
         } catch (PDOException $e) {
-            // see mysql error codes at http://dev.mysql.com/doc/refman/5.1/de/error-messages-server.html
+            // see client mysql error codes at https://dev.mysql.com/doc/mysql-errors/8.0/en/client-error-reference.html
 
             // ER_BAD_HOST
             if (false !== strpos($e->getMessage(), 'SQLSTATE[HY000] [2002]')) {
