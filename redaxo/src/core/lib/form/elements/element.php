@@ -271,15 +271,7 @@ class rex_form_element
         $label = $this->getLabel();
 
         if ('' != $label) {
-
-            $requiredMarker = '';
-            foreach($this->getValidator()->getRules() as $rule) {
-                if ($rule->getType() == rex_validation_rule::NOT_EMPTY) {
-                    $requiredMarker = ' required="required"';
-                    break;
-                }
-            }
-
+            $requiredMarker = $this->isRequiredField() ? ' required="required"' : '';
             $s .= '<label class="control-label" for="' . $this->getAttribute('id').'" '.$requiredMarker.'>' . $label . '</label>';
         }
 
@@ -295,11 +287,8 @@ class rex_form_element
         $value = $this->getValue();
         $tag = rex_escape($this->getTag(), 'html_attr');
 
-        foreach($this->getValidator()->getRules() as $rule) {
-            if ($rule->getType() == rex_validation_rule::NOT_EMPTY) {
-                $this->setAttribute('required', 'required');
-                break;
-            }
+        if ($this->isRequiredField()) {
+            $this->setAttribute('required', 'required');
         }
 
         foreach ($this->getAttributes() as $attributeName => $attributeValue) {
@@ -373,5 +362,16 @@ class rex_form_element
     public function show()
     {
         echo $this->get();
+    }
+
+    private function isRequiredField(): bool
+    {
+        foreach($this->getValidator()->getRules() as $rule) {
+            if ($rule->getType() == rex_validation_rule::NOT_EMPTY) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
