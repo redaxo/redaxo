@@ -1807,7 +1807,6 @@ class rex_sql implements Iterator
             }
         }
 
-
         $err_msg = true;
 
         try {
