@@ -271,7 +271,16 @@ class rex_form_element
         $label = $this->getLabel();
 
         if ('' != $label) {
-            $s .= '<label class="control-label" for="' . $this->getAttribute('id') . '">' . $label . '</label>';
+
+            $requiredMarker = '';
+            foreach($this->getValidator()->getRules() as $rule) {
+                if ($rule->getType() == rex_validation_rule::NOT_EMPTY) {
+                    $requiredMarker = ' required="required"';
+                    break;
+                }
+            }
+
+            $s .= '<label class="control-label" for="' . $this->getAttribute('id').'" '.$requiredMarker.'>' . $label . '</label>';
         }
 
         return $s;
