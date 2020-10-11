@@ -271,8 +271,7 @@ class rex_form_element
         $label = $this->getLabel();
 
         if ('' != $label) {
-            $requiredMarker = $this->isRequiredField() ? ' required="required"' : '';
-            $s .= '<label class="control-label" for="' . $this->getAttribute('id').'" '.$requiredMarker.'>' . $label . '</label>';
+            $s .= '<label class="control-label '.($this->isRequiredField() ? 'required':'').'" for="' . $this->getAttribute('id').'" '.$requiredMarker.'>' . $label . '</label>';
         }
 
         return $s;
