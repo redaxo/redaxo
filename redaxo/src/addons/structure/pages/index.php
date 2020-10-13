@@ -27,11 +27,19 @@ echo rex_extension::registerPoint(new rex_extension_point('PAGE_STRUCTURE_HEADER
     'context' => $structureContext->getContext(),
 ]));
 
-// --------------------------------------------- TITLE
-echo rex_view::title(rex_i18n::msg('title_structure'));
 
-// --------------------------------------------- Languages
-echo rex_view::clangSwitchAsButtons($structureContext->getContext());
+if (rex_addon::get('roadie')->isAvailable()) {
+    $fragment = new rex_fragment();
+    $fragment->setVar('context', $structureContext->getContext());
+    echo $fragment->parse('structure/index.php');
+} else {
+    // --------------------------------------------- TITLE
+    echo rex_view::title(rex_i18n::msg('title_structure'));
+
+    // --------------------------------------------- Languages
+    echo rex_view::clangSwitchAsButtons($structureContext->getContext());
+
+}
 
 // --------------------------------------------- Path
 $article_id = $structureContext->getArticleId();

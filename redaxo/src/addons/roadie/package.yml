@@ -1,0 +1,5 @@
+package: roadie
+version: '0.0.0'
+
+requires:
+    php: '>=7.4'
