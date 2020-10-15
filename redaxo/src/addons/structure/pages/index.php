@@ -563,8 +563,6 @@ $fragment->setVar('heading', $heading, false);
 $fragment->setVar('content', $echo, false);
 echo $fragment->parse('core/page/section.php');
 
-
-
 $fragment = new rex_fragment([
     'context' => $structureContext->getContext(),
 ]);
