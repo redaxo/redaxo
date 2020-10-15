@@ -1,9 +1,12 @@
 <?php
-
+/** @var rex_fragment $this */
 $context = $this->getVar('context');
 
-// --------------------------------------------- TITLE
-echo rex_view::title(rex_i18n::msg('title_structure'));
 
-// --------------------------------------------- Languages
-$this->subfragment('/macro/clang-switch.php');
+$clang = $this->getSubfragment('/macros/clang-switch.php');
+$breadcrumb = '<ol><li>'.$this->i18n('root_level').'</li></ol>';
+
+$this->decorate('/base.layout.php', [
+    'title' => $this->i18n('title_structure'),
+    'content' => $clang.$breadcrumb,
+]);
