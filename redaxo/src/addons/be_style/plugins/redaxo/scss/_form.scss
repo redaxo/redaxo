@@ -245,5 +245,5 @@ input[type=range] {
 
 label.required::after {
     content: '*';
-    color: red;
+    color: $brand-danger;
 }
