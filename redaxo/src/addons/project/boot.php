@@ -6,7 +6,7 @@
 // rex_yrewrite::setScheme(new rex_project_rewrite_scheme());
 
 // register yform template path
-// rex_yform::addTemplatePath($addon->getPath('yform-templates'));
+// rex_yform::addTemplatePath(rex_path::addon('project', 'ytemplates'));
 
 // Example of mediapool Whitelist
 /*
