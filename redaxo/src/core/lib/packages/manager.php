@@ -475,21 +475,26 @@ abstract class rex_package_manager
         $package = rex_package::get($packageId);
         $required_version = '';
         if (!$package->isAvailable()) {
-            $installer = rex_addon::get('install');
-
-            if (!rex_package::exists($packageId) && $installer->isAvailable()) {
-                // package need to be installed
-                $installUrl = rex_url::backendPage('install/packages/add', ['addonkey' => $packageId]);
-
-                $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId) . ' <a href="'. $installUrl .'">'. $this->i18n('install_via_installer', $packageId) .'</a>';
-                return false;
-            }
-
             if ('' != $requirements['packages'][$packageId]) {
                 $required_version = ' '.$requirements['packages'][$packageId];
             }
-            $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId.$required_version);
 
+            $installer = rex_addon::get('install');
+
+            if (!rex_package::exists($packageId)) {
+                if ($installer->isAvailable()) {
+                    // package need to be installed
+                    $installUrl = rex_url::backendPage('install/packages/add', ['addonkey' => $packageId]);
+
+                    $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId.$required_version) . ' <a href="'. $installUrl .'">'. $this->i18n('install_via_installer', $packageId) .'</a>';
+                    return false;
+                }
+
+                $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId.$required_version);
+                return false;
+            }
+
+            $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId.$required_version) . ' <a href="#package-'. $packageId .'">'. $this->i18n('install_jump_to_package', $packageId) .'</a>';
             return false;
         }
 

@@ -78,7 +78,7 @@ $getTableRow = static function (rex_package $package) use ($getLink) {
     } else {
         $class .= ' rex-package-not-installed';
     }
-    $name = '<span class="rex-' . $type . '-name">' . rex_escape($package->getName()) . '</span>';
+    $name = '<span class="rex-' . $type . '-name" id="package-' . rex_escape($packageId) . '">' . rex_escape($package->getName()) . '</span>';
 
     $class .= $package->isSystemPackage() ? ' rex-system-' . $type : '';
 
