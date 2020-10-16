@@ -473,6 +473,7 @@ abstract class rex_package_manager
             return true;
         }
         $package = rex_package::get($packageId);
+        $required_version = '';
         if (!$package->isAvailable()) {
             $installer = rex_addon::get('install');
 
@@ -483,8 +484,12 @@ abstract class rex_package_manager
                 $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId) . ' <a href="'. $installUrl .'">'. $this->i18n('install_via_installer', $packageId) .'</a>';
                 return false;
             }
-            // package exists, but not installed/activated
-            $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId);
+
+            if ('' != $requirements['packages'][$packageId]) {
+                $required_version = ' '.$requirements['packages'][$packageId];
+            }
+            $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId.$required_version);
+
             return false;
         }
 
