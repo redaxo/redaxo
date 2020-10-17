@@ -18,7 +18,7 @@ class rex_fragment
      * a scope the fragment is bound to.
      * scoped fragments will not do a global lookup thru all registered fragment folders.
      *
-     * @var rex_package|null
+     * @var rex_package_interface|null
      */
     private $scope;
 
