@@ -114,18 +114,11 @@ $canDelete = rex::getUser()->hasPerm('deleteCategory[]');
 $colspan = (int) $canEdit + (int) $canDelete + 1;
 
 // --------------------- PRINT CATS/SUBCATS
-$echo .= '
-            <table class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th class="rex-table-icon">' . $add_category . '</th>
-                        <th class="rex-table-id">' . rex_i18n::msg('header_id') . '</th>
-                        <th class="rex-table-category">' . rex_i18n::msg('header_category') . '</th>
-                        <th class="rex-table-priority">' . rex_i18n::msg('header_priority') . '</th>
-                        <th class="rex-table-action" colspan="'.$colspan.'">' . rex_i18n::msg('header_status') . '</th>
-                    </tr>
-                </thead>
-                <tbody>';
+
+$fragment = rex_fragment::scoped(rex_addon::get('structure'));
+$fragment->setVar('add_category', $add_category, false);
+$fragment->setVar('colspan', $colspan);
+$echo .= $fragment->parse('structure/scoped/category_row_header.php');
 
 // --------------------- KATEGORIE ADD FORM
 
