@@ -130,8 +130,8 @@ class rex_fragment
     }
 
     /**
+     * @param string $fragmentName
      * @param string $filename
-     * @param string $fragment
      * @throws rex_exception
      * @return string
      */
