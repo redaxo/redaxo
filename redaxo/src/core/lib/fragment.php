@@ -169,7 +169,7 @@ class rex_fragment
         return $this;
     }
 
-    public static function scoped(rex_package $package):self {
+    public static function scoped(rex_package_interface $package):self {
         $fragment = new self();
         $fragment->scope = $package;
         return $fragment;
