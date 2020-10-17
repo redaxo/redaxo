@@ -126,7 +126,7 @@ class rex_fragment
             }
         }
 
-        throw new rex_exception(sprintf('Fragmentfile "%s" not found!', $filename));
+        throw new rex_exception(sprintf('Fragmentfile "%s" not found!', $fragmentName));
     }
 
     /**
