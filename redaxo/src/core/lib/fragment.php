@@ -6,11 +6,21 @@
 class rex_fragment
 {
     /**
-     * filename of the actual fragmentfile.
+     * name of the fragment.
+     *
+     * filename relative to the fragment dirs.
      *
      * @var string
      */
-    private $filename;
+    private $fragmentName;
+
+    /**
+     * a scope the fragment is bound to.
+     * scoped fragments will not do a global lookup thru all registered fragment folders.
+     *
+     * @var rex_package|null
+     */
+    private $scope;
 
     /**
      * key-value pair which represents all variables defined inside the fragment.
@@ -89,36 +99,30 @@ class rex_fragment
     /**
      * Parses the variables of the fragment into the file $filename.
      *
-     * @param string $filename the filename of the fragment to parse
+     * @param string $fragmentName the filename of the fragment to parse
      *
      * @throws InvalidArgumentException
      * @throws rex_exception
      *
      * @return string
      */
-    public function parse($filename)
+    public function parse($fragmentName)
     {
-        if (!is_string($filename)) {
-            throw new InvalidArgumentException(sprintf('Expecting $filename to be a string, %s given!', gettype($filename)));
+        if (!is_string($fragmentName)) {
+            throw new InvalidArgumentException(sprintf('Expecting $filename to be a string, %s given!', gettype($fragmentName)));
         }
 
-        $this->filename = $filename;
+        $this->fragmentName = $fragmentName;
 
-        foreach (self::$fragmentDirs as $fragDir) {
-            $fragment = $fragDir . $filename;
-            if (is_readable($fragment)) {
-                $content = rex_timer::measure('Fragment: '.$filename, function () use ($fragment) {
-                    ob_start();
-                    require $fragment;
-                    return ob_get_clean();
-                });
+        if ($this->scope) {
+            return $this->render($fragmentName, $this->scope->getPath('fragments/'. $fragmentName));
+        } else {
+            foreach (self::$fragmentDirs as $fragDir) {
+                $filename = $fragDir . $fragmentName;
 
-                if ($this->decorator) {
-                    $this->decorator->setVar('rexDecoratedContent', $content, false);
-                    $content = $this->decorator->parse($this->decorator->filename);
+                if (is_readable($filename)) {
+                    return $this->render($fragmentName, $filename);
                 }
-
-                return $content;
             }
         }
 
@@ -126,20 +130,49 @@ class rex_fragment
     }
 
     /**
+     * @param string $filename
+     * @param string $fragment
+     * @throws rex_exception
+     * @return string
+     */
+    private function render(string $fragmentName, string $filename)
+    {
+        $content = rex_timer::measure(
+            'Fragment: '.$fragmentName,
+            function () use ($filename) {
+                ob_start();
+                require $filename;
+                return ob_get_clean();
+            }
+        );
+
+        if ($this->decorator) {
+            $this->decorator->setVar('rexDecoratedContent', $content, false);
+            $content = $this->decorator->parse($this->decorator->fragmentName);
+        }
+        return $content;
+    }
+    /**
      * Decorate the current fragment, with another fragment.
      * The decorated fragment receives the parameters which are passed to this method.
      *
-     * @param string $filename The filename of the fragment used for decoration
+     * @param string $fragmentName The filename of the fragment used for decoration
      * @param array  $params   A array of key-value pairs to pass as parameters
      *
      * @return $this
      */
-    public function decorate($filename, array $params)
+    public function decorate($fragmentName, array $params)
     {
         $this->decorator = new self($params);
-        $this->decorator->filename = $filename;
+        $this->decorator->fragmentName = $fragmentName;
 
         return $this;
+    }
+
+    public static function scoped(rex_package $package):self {
+        $fragment = new self();
+        $fragment->scope = $package;
+        return $fragment;
     }
 
     // -------------------------- in-fragment helpers
@@ -164,13 +197,13 @@ class rex_fragment
      *
      * The Subfragment gets all variables of the current fragment, plus optional overrides from $params
      *
-     * @param string $filename The filename of the fragment to use
+     * @param string $fragmentName The filename of the fragment to use
      * @param array  $params   A array of key-value pairs to pass as local parameters
      */
-    protected function getSubfragment(string $filename, array $params = []): string
+    protected function getSubfragment(string $fragmentName, array $params = []): string
     {
         $fragment = new self(array_merge($this->vars, $params));
-        return $fragment->parse($filename);
+        return $fragment->parse($fragmentName);
     }
 
     /**
@@ -178,12 +211,12 @@ class rex_fragment
      *
      * The Subfragment gets all variables of the current fragment, plus optional overrides from $params
      *
-     * @param string $filename The filename of the fragment to use
+     * @param string $fragmentName The filename of the fragment to use
      * @param array  $params   A array of key-value pairs to pass as local parameters
      */
-    protected function subfragment($filename, array $params = [])
+    protected function subfragment($fragmentName, array $params = [])
     {
-        echo $this->getSubfragment($filename, $params);
+        echo $this->getSubfragment($fragmentName, $params);
     }
 
     /**
@@ -226,7 +259,7 @@ class rex_fragment
             return $this->vars[$name];
         }
 
-        trigger_error(sprintf('Undefined variable "%s" in rex_fragment "%s"', $name, $this->filename), E_USER_WARNING);
+        trigger_error(sprintf('Undefined variable "%s" in rex_fragment "%s"', $name, $this->fragmentName), E_USER_WARNING);
 
         return null;
     }
