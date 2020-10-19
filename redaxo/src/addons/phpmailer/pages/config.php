@@ -12,6 +12,11 @@ $addon = rex_addon::get('phpmailer');
 
 $message = '';
 
+if ('' != rex_post('btn_delete_archive', 'string')) {
+    if (rex_dir::delete(rex_mailer::logFolder(), true)) {
+        echo rex_view::success($addon->i18n('archive_deleted'));
+    }
+}
 if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string')) {
     $settings = rex_post('settings', [
         ['fromname', 'string'],
@@ -321,6 +326,12 @@ $n['field'] = $sel_archive->get();
 $n['note'] = rex_i18n::rawMsg('phpmailer_archive_info', rex_mailer::logFolder(), '...'.substr(rex_mailer::logFolder(), -30));
 $formElements[] = $n;
 
+if (is_dir(rex_mailer::logFolder())) {
+    $n = [];
+    $n['field'] = '<button data-confirm="' . $addon->i18n('archive_delete_confirm') . '" class="btn btn-danger pull-right" type="submit" name="btn_delete_archive" value="' . $addon->i18n('archive_delete') . '">' . $addon->i18n('archive_delete') . '</button>';
+    $formElements[] = $n;
+}
+
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
@@ -395,3 +406,4 @@ echo '
     });
 
 </script>
+
