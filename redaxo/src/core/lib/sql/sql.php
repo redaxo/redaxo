@@ -136,12 +136,15 @@ class rex_sql implements Iterator
                 $this->setQuery('SET SESSION SQL_MODE="", NAMES utf8mb4');
             }
         } catch (PDOException $e) {
+            if ('cli' === PHP_SAPI) {
+                throw new rex_sql_exception("Could not connect to database.\n\nConsider starting either the web-based or console-based REDAXO setup to configure the database connection settings.", $e, $this);
+            }
             throw new rex_sql_exception('Could not connect to database', $e, $this);
         }
     }
 
     /**
-     * @param string $host
+     * @param string $host       the host. might optionally include a port.
      * @param string $database
      * @param string $login
      * @param string $password
@@ -240,7 +243,7 @@ class rex_sql implements Iterator
         // DBID aus dem Query herausschneiden, falls vorhanden
         self::stripQueryDBID($query);
 
-        if (preg_match('/^(SELECT|SHOW|UPDATE|INSERT|DELETE|REPLACE|CREATE|CALL|OPTIMIZE)/i', $query, $matches)) {
+        if (preg_match('/^\s*\(?\s*(SELECT|SHOW|UPDATE|INSERT|DELETE|REPLACE|CREATE|CALL|OPTIMIZE)/i', $query, $matches)) {
             return strtoupper($matches[1]);
         }
 
@@ -1779,7 +1782,7 @@ class rex_sql implements Iterator
      * Prueft die uebergebenen Zugangsdaten auf gueltigkeit und legt ggf. die
      * Datenbank an.
      *
-     * @param string $host
+     * @param string $host     the host. might optionally include a port.
      * @param string $login
      * @param string $password
      * @param string $database
@@ -1791,6 +1794,17 @@ class rex_sql implements Iterator
     {
         if (!$database) {
             return rex_i18n::msg('sql_database_name_missing');
+        }
+
+        if (false !== strpos($host, ':')) {
+            [$hostName, $port] = explode(':', $host, 2);
+            if (!filter_var($hostName, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME)) {
+                return rex_i18n::msg('sql_database_host_invalid', $hostName);
+            }
+        } else {
+            if (!filter_var($host, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME)) {
+                return rex_i18n::msg('sql_database_host_invalid', $host);
+            }
         }
 
         $err_msg = true;
@@ -1809,7 +1823,7 @@ class rex_sql implements Iterator
                 $err_msg = rex_i18n::msg('sql_database_already_exists');
             }
         } catch (PDOException $e) {
-            // see mysql error codes at http://dev.mysql.com/doc/refman/5.1/de/error-messages-server.html
+            // see client mysql error codes at https://dev.mysql.com/doc/mysql-errors/8.0/en/client-error-reference.html
 
             // ER_BAD_HOST
             if (false !== strpos($e->getMessage(), 'SQLSTATE[HY000] [2002]')) {

@@ -41,7 +41,7 @@ jobs:
                   key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
                   restore-keys: ${{ runner.os }}-composer-
             - name: Install Dependencies
-              run: composer install --prefer-dist
+              run: composer install --ansi --prefer-dist
 
             - name: Setup Problem Matchers for PHPUnit
               run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
@@ -53,4 +53,4 @@ jobs:
             - run: |
                   php .tools/bin/setup
             - run: |
-                  vendor/bin/phpunit
+                  vendor/bin/phpunit --colors=always

@@ -10,7 +10,7 @@ jobs:
   php-cs-fixer:
     runs-on: ubuntu-latest
     # dont run jobs on forks, because we are not allowed to commit
-    if: github.event.pull_request.draft == false && github.repository == 'redaxo/redaxo'
+    if: github.event.pull_request.draft == false && github.event.pull_request.head.repo.full_name == github.repository
 
     steps:
     - uses: actions/checkout@v2
@@ -35,7 +35,7 @@ jobs:
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
         restore-keys: ${{ runner.os }}-composer-
     - name: Install Dependencies
-      run: composer install --prefer-dist
+      run: composer install --ansi --prefer-dist
 
     - run: vendor/bin/php-cs-fixer fix --diff
 
@@ -44,4 +44,4 @@ jobs:
       with:
         commit_message: Apply php-cs-fixer changes
 
-    - run: vendor/bin/php-cs-fixer fix --diff --dry-run --format=checkstyle | cs2pr # check whether there are still errors left
+    - run: vendor/bin/php-cs-fixer fix --ansi --diff --dry-run --format=checkstyle | cs2pr # check whether there are still errors left

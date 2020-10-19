@@ -64,21 +64,21 @@ abstract class rex_effect_abstract
         return [];
     }
 
-    protected function keepTransparent($des)
+    protected function keepTransparent($gdImage)
     {
         $image = $this->media;
         if ('png' == $image->getFormat() || 'webp' == $image->getFormat()) {
-            imagealphablending($des, false);
-            imagesavealpha($des, true);
+            imagealphablending($gdImage, false);
+            imagesavealpha($gdImage, true);
         } elseif ('gif' == $image->getFormat()) {
             $gdimage = $image->getImage();
             $colorTransparent = imagecolortransparent($gdimage);
-            imagepalettecopy($gdimage, $des);
+            imagepalettecopy($gdimage, $gdImage);
             if ($colorTransparent > 0) {
-                imagefill($des, 0, 0, $colorTransparent);
-                imagecolortransparent($des, $colorTransparent);
+                imagefill($gdImage, 0, 0, $colorTransparent);
+                imagecolortransparent($gdImage, $colorTransparent);
             }
-            imagetruecolortopalette($des, true, 256);
+            imagetruecolortopalette($gdImage, true, 256);
         }
     }
 }

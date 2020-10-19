@@ -289,7 +289,7 @@ $panel = '
                     $desc = '';
                     foreach (['med_description'] as $col) {
                         if ($files->hasValue($col) && '' != $files->getValue($col)) {
-                            $desc = '<p>' . rex_escape($files->getValue($col)) . '</p>';
+                            $desc = '<p>' . rex_escape(strip_tags($files->getValue($col))) . '</p>';
                             break;
                         }
                     }

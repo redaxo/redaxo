@@ -90,26 +90,29 @@ class rex_formatter_test extends TestCase
             rex_formatter::bytes($value * 1000 * 1000)
         );
 
-        static::assertEquals(
-            '931,32 GiB',
-            rex_formatter::bytes($value * 1000 * 1000 * 1000)
-        );
+        // in 32 bit php the following tests use too big numbers
+        if (PHP_INT_SIZE > 4) {
+            static::assertEquals(
+                '931,32 GiB',
+                rex_formatter::bytes($value * 1000 * 1000 * 1000)
+            );
 
-        static::assertEquals(
-            '909,49 TiB',
-            rex_formatter::bytes($value * 1000 * 1000 * 1000 * 1000)
-        );
+            static::assertEquals(
+                '909,49 TiB',
+                rex_formatter::bytes($value * 1000 * 1000 * 1000 * 1000)
+            );
 
-        static::assertEquals(
-            '888,18 PiB',
-            rex_formatter::bytes($value * 1000 * 1000 * 1000 * 1000 * 1000)
-        );
+            static::assertEquals(
+                '888,18 PiB',
+                rex_formatter::bytes($value * 1000 * 1000 * 1000 * 1000 * 1000)
+            );
 
-        $format = [5]; // number of signs behind comma
-        static::assertEquals(
-            '953,67432 MiB',
-            rex_formatter::bytes($value * 1000 * 1000, $format)
-        );
+            $format = [5]; // number of signs behind comma
+            static::assertEquals(
+                '953,67432 MiB',
+                rex_formatter::bytes($value * 1000 * 1000, $format)
+            );
+        }
     }
 
     public function testSprintf()

@@ -31,10 +31,10 @@ class rex_markdown
      *
      * @return string HTML code
      */
-    public function parse($code)
+    public function parse($code, bool $softLineBreaks = true)
     {
         $parser = new ParsedownExtra();
-        $parser->setBreaksEnabled(true);
+        $parser->setBreaksEnabled($softLineBreaks);
 
         return rex_string::sanitizeHtml($parser->text($code));
     }
@@ -48,10 +48,10 @@ class rex_markdown
      *
      * @return array tupel of table-of-content and content
      */
-    public function parseWithToc($code, $topLevel = 2, $bottomLevel = 3)
+    public function parseWithToc($code, $topLevel = 2, $bottomLevel = 3, bool $softLineBreaks = true)
     {
         $parser = new rex_parsedown_with_toc();
-        $parser->setBreaksEnabled(true);
+        $parser->setBreaksEnabled($softLineBreaks);
         $parser->topLevel = $topLevel;
         $parser->bottomLevel = $bottomLevel;
 
@@ -137,9 +137,11 @@ final class rex_parsedown_with_toc extends ParsedownExtra
         [$level] = sscanf($block['element']['name'], 'h%d');
 
         $plainText = strip_tags($this->{$block['element']['handler']}($block['element']['text']));
+        $plainText = htmlspecialchars_decode($plainText);
 
         if (!isset($block['element']['attributes']['id'])) {
             $baseId = $id = rex_string::normalize($plainText, '-');
+
             for ($i = 1; isset($this->ids[$id]); ++$i) {
                 $id = $baseId.'-'.$i;
             }

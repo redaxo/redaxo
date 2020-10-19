@@ -153,6 +153,16 @@ EOT
 
         $content = '<?php print_r(rex_var::toArray("REX_TEST_VAR[content=\'' . addcslashes(htmlspecialchars(json_encode($array)), '[]"')  . '\']"));';
         $this->assertParseOutputEquals(print_r($array, true), $content, 'toArray() works with htmlspecialchar\'ed data');
+
+        $array = ['&#039;', '\&quot;']; // [code for ', code for "]
+        $unescaped_array = ["'", '"'];
+        $content = '<?php print_r(rex_var::toArray("REX_TEST_VAR[content=\'' . addcslashes(json_encode($array), '[]"') . '\']"));';
+        $this->assertParseOutputEquals(print_r($unescaped_array, true), $content, 'toArray() rebuilds quotes');
+
+        $array = ['&lt;strong&gt;inject me&lt;/strong&gt;', 'foo&amp;bar'];
+        $unescaped_array = ['<strong>inject me</strong>', 'foo&bar'];
+        $content = '<?php print_r(rex_var::toArray("REX_TEST_VAR[content=\'' . addcslashes(json_encode($array), '[]"') . '\']"));';
+        $this->assertParseOutputEquals(print_r($unescaped_array, true), $content, 'toArray() rebuilds HTML');
     }
 
     public function testQuote()
