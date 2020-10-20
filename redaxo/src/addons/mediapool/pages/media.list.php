@@ -197,13 +197,11 @@ $panel = '
                 }
 
                 $actionButtons = '';
-                if (count($buttons) > 0) {
-                    foreach ($buttons as $button) {
-                        $fragment = new rex_fragment();
-                        $fragment->setVar('buttons', [$button], false);
-                        $actionButtons .= $fragment->parse('core/buttons/button.php');
-                        $actionButtons .= ' ';
-                    }
+                foreach ($buttons as $button) {
+                    $fragment = new rex_fragment();
+                    $fragment->setVar('buttons', [$button], false);
+                    $actionButtons .= $fragment->parse('core/buttons/button.php');
+                    $actionButtons .= ' ';
                 }
 
                 $field = '<div class="row"><div class="col-sm-7">' . $field . '</div><div class="col-sm-5 text-right">' . $actionButtons . '</div>';
