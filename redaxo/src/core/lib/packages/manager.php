@@ -494,16 +494,21 @@ abstract class rex_package_manager
                 return false;
             }
 
-            $currentPage = rex_be_controller::getCurrentPage();
-
-            if ($currentPage == 'packages') {
-                $packageUrl = '#package-'. $packageId;
-            } else {
-                // error while update/install within install-addon. x-link to packages core page
-                $packageUrl = rex_url::backendPage('packages'). '#package-'. $packageId;
+            // this package requires a plugin from another addon.
+            // first make sure the addon itself is available.
+            $jumpPackageId = $jumpPackageId;
+            if ($package instanceof rex_plugin_interface && !$package->getAddon()->isAvailable()) {
+                $jumpPackageId = $package->getAddon()->getPackageId();
             }
 
-            $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId.$required_version) . ' <a href="'. $packageUrl .'">'. $this->i18n('install_jump_to_package', $packageId) .'</a>';
+            if (rex_be_controller::getCurrentPage() == 'packages') {
+                $jumpPackageUrl = '#package-'. $jumpPackageId;
+            } else {
+                // error while update/install within install-addon. x-link to packages core page
+                $jumpPackageUrl = rex_url::backendPage('packages'). '#package-'. $jumpPackageId;
+            }
+
+            $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId.$required_version) . ' <a href="'. $jumpPackageUrl .'">'. $this->i18n('install_jump_to_package', $jumpPackageId) .'</a>';
             return false;
         }
 
