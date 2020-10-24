@@ -494,7 +494,16 @@ abstract class rex_package_manager
                 return false;
             }
 
-            $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId.$required_version) . ' <a href="#package-'. $packageId .'">'. $this->i18n('install_jump_to_package', $packageId) .'</a>';
+            $currentPage = rex_be_controller::getCurrentPage();
+
+            if ($currentPage == 'packages') {
+                $packageUrl = '#package-'. $packageId;
+            } else {
+                // error while update/install within install-addon. x-link to packages core page
+                $packageUrl = rex_url::backendPage('packages'). '#package-'. $packageId;
+            }
+
+            $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId.$required_version) . ' <a href="'. $packageUrl .'">'. $this->i18n('install_jump_to_package', $packageId) .'</a>';
             return false;
         }
 
