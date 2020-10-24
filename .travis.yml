@@ -20,20 +20,7 @@ before_install:
 
 jobs:
     include:
-        -   &TEST
-            install:
-                - composer install --prefer-dist
-                - mysql -e 'create database redaxo5;'
-                - php .tools/bin/setup
-            script: vendor/bin/phpunit
-            php: 7.3
-            dist: trusty
-            env:
-                - DB=mariadb
-            addons:
-                mariadb: 10.1
-
-        -   <<: *TEST
+        -   
             dist: xenial
             php: 7.4
             env:
@@ -52,3 +39,8 @@ jobs:
                 - sudo /etc/init.d/mysql start
                 - sudo mysql_upgrade
                 - mysql --version
+            install:
+                - composer install --prefer-dist
+                - mysql -e 'create database redaxo5;'
+                - php .tools/bin/setup
+            script: vendor/bin/phpunit
