@@ -14,7 +14,7 @@ on:
 jobs:
 
     phpunit:
-        name: mysql unit tests
+        name: unit tests
         runs-on: ubuntu-latest
         strategy:
             matrix:
