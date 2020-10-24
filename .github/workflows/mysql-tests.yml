@@ -13,10 +13,13 @@ on:
 
 jobs:
 
-    rex-lint:
-        name: REX Linting
+    phpunit:
+        name: mysql unit tests
         runs-on: ubuntu-latest
-        if: "github.event.pull_request.draft == false && !contains(github.event.head_commit.message, '[ci skip]')"
+        strategy:
+            matrix:
+              php-versions: ['7.3', '7.4', '8.0']    
+        if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
         services:
             mysql:
@@ -28,12 +31,24 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: 7.3
+                  php-version: ${{ matrix.php-versions }}
                   extensions: intl
                   coverage: none # disable xdebug, pcov
-            - uses: "ramsey/composer-install@v1"
+
+            - name: "composer install --prefer-dist"
+              uses: "ramsey/composer-install@v1"
+              if: matrix.php-versions != '8.0'
               with:
                   composer-options: "--ansi --prefer-dist"
+            - name: "composer install --prefer-dist --ignore-platform-reqs"
+              uses: "ramsey/composer-install@v1"
+              if: matrix.php-versions == '8.0'
+              with:
+                  composer-options: "--ansi --prefer-dist --ignore-platform-reqs"
+
+            - name: Setup Problem Matchers for PHPUnit
+              run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
             - run: |
                   sudo /etc/init.d/mysql start
                   mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
@@ -41,7 +56,4 @@ jobs:
             - run: |
                   php .tools/bin/setup
             - run: |
-                  vendor/bin/rexlint
-                  php redaxo/bin/console be_style:compile --ansi
-                  git checkout -- redaxo/src/core/default.config.yml # revert changes made initially
-                  git diff HEAD --exit-code # check if compiling the scss lead to uncommitted changes
+                  vendor/bin/phpunit --colors=always

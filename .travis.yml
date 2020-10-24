@@ -32,10 +32,7 @@ jobs:
                 - DB=mariadb
             addons:
                 mariadb: 10.1
-        -   <<: *TEST
-            php: 7.3
-            addons:
-                mariadb: 10.5
+
         -   <<: *TEST
             dist: xenial
             php: 7.4
@@ -55,20 +52,3 @@ jobs:
                 - sudo /etc/init.d/mysql start
                 - sudo mysql_upgrade
                 - mysql --version
-        -   &TEST_MYSQL
-            <<: *TEST
-            php: 7.3
-            dist: bionic
-            env:
-                - DB=mysql5
-            services:
-                - mysql
-            addons: {}
-        -   <<: *TEST_MYSQL
-            php: 7.4
-        -   <<: *TEST_MYSQL
-            php: nightly
-            install:
-                - composer install --prefer-dist --ignore-platform-reqs
-                - mysql -e 'create database redaxo5;'
-                - php .tools/bin/setup

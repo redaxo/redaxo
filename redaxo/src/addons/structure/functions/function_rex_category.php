@@ -7,8 +7,11 @@
  * @package redaxo5
  */
 
+/** @psalm-suppress RedundantCondition */
 assert(isset($article_id) && is_int($article_id));
+/** @psalm-suppress RedundantCondition */
 assert(isset($category_id) && is_int($category_id));
+/** @psalm-suppress RedundantCondition */
 assert(isset($clang) && is_int($clang));
 
 $KATout = ''; // Variable definiert und vorbelegt wenn nicht existent
