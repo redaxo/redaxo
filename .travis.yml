@@ -67,7 +67,7 @@ jobs:
         -   <<: *TEST_MYSQL
             php: 7.4
         -   <<: *TEST_MYSQL
-            php: 8.0
+            php: "8.0snapshot"
             install:
                 - composer install --prefer-dist --ignore-platform-reqs
                 - mysql -e 'create database redaxo5;'
