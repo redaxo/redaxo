@@ -496,7 +496,7 @@ abstract class rex_package_manager
 
             // this package requires a plugin from another addon.
             // first make sure the addon itself is available.
-            $jumpPackageId = $jumpPackageId;
+            $jumpPackageId = $packageId;
             if ($package instanceof rex_plugin_interface && !$package->getAddon()->isAvailable()) {
                 $jumpPackageId = $package->getAddon()->getPackageId();
             }
