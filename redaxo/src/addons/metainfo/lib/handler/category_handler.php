@@ -77,11 +77,11 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
         return $restrictionsCondition;
     }
 
-    public function renderFormItem($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel)
+    public function renderFormItem($field, $tag, $tag_attr, $id, $label, $labelIt, $inputType)
     {
         $element = $field;
 
-        if ('legend' == $typeLabel) {
+        if ('legend' == $inputType) {
             $element = '<h3 class="form-legend">' . $label . '</h3>';
         }
 

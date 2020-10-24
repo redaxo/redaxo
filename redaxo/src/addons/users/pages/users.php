@@ -113,7 +113,7 @@ if ($save && ($FUNC_ADD || $FUNC_UPDATE || $FUNC_APPLY)) {
         $warnings[] = rex_i18n::msg('invalid_email');
     }
 
-    if ($userpsw && (true !== $msg = $passwordPolicy->check($userpsw, $user_id))) {
+    if ($userpsw && (true !== $msg = $passwordPolicy->check($userpsw, $user_id ?: null))) {
         if (rex::getUser()->isAdmin()) {
             $msg .= ' '.rex_i18n::msg('password_admin_notice');
         }
@@ -415,6 +415,7 @@ if ('' != $FUNC_ADD || $user_id > 0) {
     $n = [];
     $n['label'] = '<label for="rex-js-user-password">' . rex_i18n::msg('password') . '</label>';
     $n['field'] = '<input class="form-control" type="password" id="rex-js-user-password" name="userpsw" autocomplete="new-password"/>';
+    $n['note'] = $passwordPolicy->getDescription();
 
     $formElements[] = $n;
 

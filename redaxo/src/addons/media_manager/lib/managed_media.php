@@ -28,9 +28,9 @@ class rex_managed_media
         'image/webp' => 'webp',
     ];
 
-    public function __construct($media_path)
+    public function __construct($mediaPath)
     {
-        $this->setMediaPath($media_path);
+        $this->setMediaPath($mediaPath);
         $this->format = strtolower(rex_file::extension($this->getMediaPath()));
     }
 
@@ -46,18 +46,18 @@ class rex_managed_media
         return $this->media_path;
     }
 
-    public function setMediaPath($media_path)
+    public function setMediaPath($mediaPath)
     {
-        $this->media_path = $media_path;
+        $this->media_path = $mediaPath;
 
-        if (null === $media_path) {
+        if (null === $mediaPath) {
             return;
         }
 
-        $this->media = basename($media_path);
+        $this->media = basename($mediaPath);
         $this->asImage = false;
 
-        $this->sourcePath = $media_path;
+        $this->sourcePath = $mediaPath;
     }
 
     public function getMediaFilename()
@@ -70,9 +70,9 @@ class rex_managed_media
         $this->media = $filename;
     }
 
-    public function setHeader($type, $content)
+    public function setHeader($name, $value)
     {
-        $this->header[$type] = $content;
+        $this->header[$name] = $value;
     }
 
     public function getHeader()
@@ -163,7 +163,7 @@ class rex_managed_media
         $this->format = $format;
     }
 
-    public function sendMedia($sourceCacheFilename, $headerCacheFilename, $save = false)
+    public function sendMedia($sourceCachePath, $headerCachePath, $save = false)
     {
         $this->prepareHeaders();
 
@@ -179,13 +179,13 @@ class rex_managed_media
             echo $src;
 
             if ($save) {
-                rex_file::putCache($headerCacheFilename, [
+                rex_file::putCache($headerCachePath, [
                     'media_path' => $this->getMediaPath(),
                     'format' => $this->format,
                     'headers' => $this->header,
                 ]);
 
-                rex_file::put($sourceCacheFilename, $src);
+                rex_file::put($sourceCachePath, $src);
             }
         } else {
             $this->setHeader('Content-Length', filesize($this->getSourcePath()));
@@ -198,23 +198,23 @@ class rex_managed_media
             rex_response::sendFile($this->getSourcePath(), $this->header['Content-Type']);
 
             if ($save) {
-                rex_file::putCache($headerCacheFilename, [
+                rex_file::putCache($headerCachePath, [
                     'media_path' => $this->getMediaPath(),
                     'format' => $this->format,
                     'headers' => $this->header,
                 ]);
 
-                rex_file::copy($this->getSourcePath(), $sourceCacheFilename);
+                rex_file::copy($this->getSourcePath(), $sourceCachePath);
             }
         }
     }
 
-    public function save($sourceCacheFilename, $headerCacheFilename)
+    public function save($sourceCachePath, $headerCachePath)
     {
         $src = $this->getSource();
 
         $this->prepareHeaders($src);
-        $this->saveFiles($src, $sourceCacheFilename, $headerCacheFilename);
+        $this->saveFiles($src, $sourceCachePath, $headerCachePath);
     }
 
     public function exists(): bool
@@ -390,18 +390,18 @@ class rex_managed_media
     }
 
     /**
-     * @param string $src                 Source content
-     * @param string $sourceCacheFilename
-     * @param string $headerCacheFilename
+     * @param string $src             Source content
+     * @param string $sourceCachePath
+     * @param string $headerCachePath
      */
-    private function saveFiles($src, $sourceCacheFilename, $headerCacheFilename)
+    private function saveFiles($src, $sourceCachePath, $headerCachePath)
     {
-        rex_file::putCache($headerCacheFilename, [
+        rex_file::putCache($headerCachePath, [
             'media_path' => $this->getMediaPath(),
             'format' => $this->format,
             'headers' => $this->header,
         ]);
 
-        rex_file::put($sourceCacheFilename, $src);
+        rex_file::put($sourceCachePath, $src);
     }
 }

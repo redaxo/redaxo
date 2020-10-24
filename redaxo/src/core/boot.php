@@ -9,7 +9,7 @@
  * @global boolean $REX['LOAD_PAGE']      [Optional] Wether the front controller should be loaded or not. Default value is false.
  */
 
-define('REX_MIN_PHP_VERSION', '7.1.3');
+define('REX_MIN_PHP_VERSION', '7.3');
 
 if (version_compare(PHP_VERSION, REX_MIN_PHP_VERSION) < 0) {
     throw new Exception('PHP version >=' . REX_MIN_PHP_VERSION . ' needed!');
@@ -82,7 +82,7 @@ require_once rex_path::core('functions/function_rex_globals.php');
 require_once rex_path::core('functions/function_rex_other.php');
 
 // ----------------- VERSION
-rex::setProperty('version', '5.11.0');
+rex::setProperty('version', '5.12.0-dev');
 
 $cacheFile = rex_path::coreCache('config.yml.cache');
 $configFile = rex_path::coreData('config.yml');
@@ -111,7 +111,7 @@ rex_var_dumper::register();
 
 // ----------------- REX PERMS
 
-rex_complex_perm::register('clang', 'rex_clang_perm');
+rex_complex_perm::register('clang', rex_clang_perm::class);
 
 // ----- SET CLANG
 if (!rex::isSetup()) {

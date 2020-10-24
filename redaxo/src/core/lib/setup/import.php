@@ -15,20 +15,18 @@ class rex_setup_importer
         // ----- vorhandenen seite updaten
         $err_msg = '';
 
-        if ('' == $err_msg) {
-            $version = rex::getVersion();
-            rex::setProperty('version', rex::getConfig('version'));
+        $version = rex::getVersion();
+        rex::setProperty('version', rex::getConfig('version'));
 
-            try {
-                include rex_path::core('update.php');
-            } catch (rex_functional_exception $e) {
-                $err_msg .= $e->getMessage();
-            } catch (rex_sql_exception $e) {
-                $err_msg .= 'SQL error: ' . $e->getMessage();
-            }
-
-            rex::setProperty('version', $version);
+        try {
+            include rex_path::core('update.php');
+        } catch (rex_functional_exception $e) {
+            $err_msg .= $e->getMessage();
+        } catch (rex_sql_exception $e) {
+            $err_msg .= 'SQL error: ' . $e->getMessage();
         }
+
+        rex::setProperty('version', $version);
 
         if ('' == $err_msg) {
             $err_msg .= self::reinstallPackages();
@@ -38,27 +36,28 @@ class rex_setup_importer
     }
 
     /**
+     * @param string $importName
+     *
      * @return string
      */
-    public static function loadExistingImport($import_name)
+    public static function loadExistingImport($importName)
     {
         // ----- vorhandenen Export importieren
         $err_msg = '';
 
-        if ('' == $import_name) {
+        if ('' == $importName) {
             $err_msg .= '<p>' . rex_i18n::msg('setup_508') . '</p>';
         } else {
-            $import_sql = rex_backup::getDir() . '/' . $import_name . '.sql';
-            $import_archiv = rex_backup::getDir() . '/' . $import_name . '.tar.gz';
+            $import_sql = rex_backup::getDir() . '/' . $importName . '.sql';
+            $import_archiv = rex_backup::getDir() . '/' . $importName . '.tar.gz';
 
             // Nur hier zuerst die Addons installieren
             // Da sonst Daten aus dem eingespielten Export
             // Überschrieben würden
             // Da für das Installieren der Addons die rex_config benötigt wird,
             // mit overrideExisting() eine saubere, komplette Basis schaffen
-            if ('' == $err_msg) {
-                $err_msg .= self::overrideExisting();
-            }
+            $err_msg .= self::overrideExisting();
+
             if ('' == $err_msg) {
                 $err_msg .= self::import($import_sql, $import_archiv);
             }
@@ -86,14 +85,12 @@ class rex_setup_importer
             $db->setQuery('DROP TABLE IF EXISTS `' . $table . '`');
         }
 
-        if ('' == $err_msg) {
-            try {
-                include rex_path::core('install.php');
-            } catch (rex_functional_exception $e) {
-                $err_msg .= $e->getMessage();
-            } catch (rex_sql_exception $e) {
-                $err_msg .= 'SQL error: ' . $e->getMessage();
-            }
+        try {
+            include rex_path::core('install.php');
+        } catch (rex_functional_exception $e) {
+            $err_msg .= $e->getMessage();
+        } catch (rex_sql_exception $e) {
+            $err_msg .= 'SQL error: ' . $e->getMessage();
         }
 
         if ('' == $err_msg) {
@@ -111,14 +108,12 @@ class rex_setup_importer
         // ----- leere Datenbank neu einrichten
         $err_msg = '';
 
-        if ('' == $err_msg) {
-            try {
-                include rex_path::core('install.php');
-            } catch (rex_functional_exception $e) {
-                $err_msg .= $e->getMessage();
-            } catch (rex_sql_exception $e) {
-                $err_msg .= 'SQL error: ' . $e->getMessage();
-            }
+        try {
+            include rex_path::core('install.php');
+        } catch (rex_functional_exception $e) {
+            $err_msg .= $e->getMessage();
+        } catch (rex_sql_exception $e) {
+            $err_msg .= 'SQL error: ' . $e->getMessage();
         }
 
         $err_msg .= self::installAddons();
@@ -169,27 +164,29 @@ class rex_setup_importer
     }
 
     /**
+     * @param string $importSql
+     *
      * @return string
      */
-    private static function import($import_sql, $import_archiv = null)
+    private static function import($importSql, $importArchive = null)
     {
         $err_msg = '';
 
         if (!is_dir(rex_path::addon('backup'))) {
             $err_msg .= rex_i18n::msg('setup_510') . '<br />';
         } else {
-            if (is_file($import_sql)) {
+            if (is_file($importSql)) {
                 rex_i18n::addDirectory(rex_path::addon('backup', 'lang/'));
 
                 // DB Import
-                $state_db = rex_backup::importDb($import_sql);
+                $state_db = rex_backup::importDb($importSql);
                 if (false === $state_db['state']) {
                     $err_msg .= nl2br($state_db['message']) . '<br />';
                 }
 
                 // Archiv optional importieren
-                if (true === $state_db['state'] && null !== $import_archiv && is_file($import_archiv)) {
-                    $state_archiv = rex_backup::importFiles($import_archiv);
+                if (true === $state_db['state'] && null !== $importArchive && is_file($importArchive)) {
+                    $state_archiv = rex_backup::importFiles($importArchive);
                     if (false === $state_archiv['state']) {
                         $err_msg .= $state_archiv['message'] . '<br />';
                     }
@@ -230,7 +227,7 @@ class rex_setup_importer
             $package = rex_package::require($packageRepresentation);
             $manager = rex_package_manager::factory($package);
 
-            if (true === $state && !$package->isInstalled()) {
+            if (!$package->isInstalled()) {
                 $state = $manager->install($installDump);
             }
 

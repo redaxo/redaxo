@@ -2,6 +2,8 @@
 <psalm
     autoloader=".tools/constants.php"
     resolveFromConfigFile="true"
+    findUnusedPsalmSuppress="true"
+    skipChecksOnUnresolvableIncludes="false"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
@@ -61,31 +63,39 @@
                 <referencedMethod name="rex_string::versionCompare"/>
             </errorLevel>
         </DeprecatedMethod>
+        <DocblockTypeContradiction errorLevel="info" />
+        <InternalClass errorLevel="info" />
         <InternalMethod errorLevel="info" />
         <InternalProperty errorLevel="info" />
-        <InternalClass errorLevel="info" />
-        <MissingClosureReturnType errorLevel="info" />
-        <MissingReturnType errorLevel="info" />
-        <MissingPropertyType errorLevel="info" />
-        <PropertyNotSetInConstructor errorLevel="info" />
         <MissingClosureParamType errorLevel="info" />
-        <MissingParamType errorLevel="info" />
-        <RedundantCondition errorLevel="info" />
-        <DocblockTypeContradiction errorLevel="info" />
-        <RedundantConditionGivenDocblockType errorLevel="info" />
-        <UnresolvableInclude errorLevel="info" />
-        <RawObjectIteration>
-            <errorLevel type="info">
-                <file name="redaxo/src/core/lib/api_function.php"/>
-            </errorLevel>
-        </RawObjectIteration>
+        <MissingClosureReturnType errorLevel="info" />
         <MissingConstructor>
             <errorLevel type="suppress">
                 <file name="vendor/phpunit/phpunit/src/Framework/TestCase.php" />
             </errorLevel>
         </MissingConstructor>
+        <MissingParamType errorLevel="info" />
+        <MissingPropertyType errorLevel="info" />
+        <MissingReturnType errorLevel="info" />
+        <PropertyNotSetInConstructor errorLevel="info" />
+        <RawObjectIteration>
+            <errorLevel type="info">
+                <file name="redaxo/src/core/lib/api_function.php"/>
+            </errorLevel>
+        </RawObjectIteration>
+        <RedundantConditionGivenDocblockType errorLevel="info" />
+        <UnresolvableInclude errorLevel="suppress" />
+        <UnsafeInstantiation errorLevel="info" />
 <!-- level 3 issues - points to possible deficiencies in logic, higher false-positives -->
         <PossiblyNullArgument errorLevel="info" />
         <PossiblyNullReference errorLevel="info" />
+<!-- level 4 issues -->
+        <InvalidScalarArgument>
+            <errorLevel type="suppress">
+                <!-- https://github.com/vimeo/psalm/issues/3454 -->
+                <referencedFunction name="password_hash"/>
+                <referencedFunction name="password_needs_rehash"/>
+            </errorLevel>
+        </InvalidScalarArgument>
     </issueHandlers>
 </psalm>

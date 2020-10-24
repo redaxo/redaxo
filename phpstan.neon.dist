@@ -38,8 +38,8 @@ parameters:
         -
             message: '#Access to an undefined property object.+#'
             path: '*/fragments/*'
-        -
-            message: '#Call to an undefined method object::subfragment\(\)\.#'
-            path: '*/fragments/*'
         - '#Unsafe usage of new static\(\)\.#'
         - '#Constructor of class rex_form_.*_element has an unused parameter \$tag.#'
+        -
+            message: '#.*deprecated.*#'
+            path: '*/update.php'

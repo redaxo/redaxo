@@ -59,7 +59,7 @@ foreach (new LimitIterator($file, 0, 100) as $entry) {
     $data = $entry->getData();
 
     $class = strtolower($data[0]);
-    $class = ('notice' == $class || 'warning' == $class || 'success' == $class) ? $class : 'error';
+    $class = ('notice' == $class || 'warning' == $class || 'success' == $class || 'info' == $class) ? $class : 'error';
 
     $path = '';
     if (isset($data[2])) {

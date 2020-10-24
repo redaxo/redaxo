@@ -66,6 +66,16 @@ Foo bar
 ## Sub 3
 
 ### Sub 3.1
+
+## Duplicate Test
+
+## Duplicate Test
+
+## [Title with Markdown](#sub-1)
+
+## <i>Title with HTML</i>
+
+## Title with "quotes" & 'other' special &lt;chars&gt;
 MARKDOWN;
 
         [$toc, $content] = rex_markdown::factory()->parseWithToc($input, 2, 4);
@@ -73,34 +83,48 @@ MARKDOWN;
         $expected = <<<'HTML'
 <ul>
 <li>
-<a href="#header-sub-1">Sub 1</a>
+<a href="#sub-1">Sub 1</a>
 <ul>
 <li>
-<a href="#header-sub-1-1">Sub 1.1</a>
+<a href="#sub-1-1">Sub 1.1</a>
 </li>
 <li>
-<a href="#header-sub-1-2">Sub 1.2</a>
+<a href="#sub-1-2">Sub 1.2</a>
 <ul>
 <li>
-<a href="#header-sub-sub-1-2-1">Sub Sub 1.2.1</a>
+<a href="#sub-sub-1-2-1">Sub Sub 1.2.1</a>
 </li>
 </ul>
 </li>
 </ul>
 <li>
-<a href="#header-sub-2">Sub 2</a>
+<a href="#sub-2">Sub 2</a>
 <ul>
 <li>
-<a href="#header-sub-2-1">Sub 2.1</a>
+<a href="#sub-2-1">Sub 2.1</a>
 </li>
 </ul>
 <li>
-<a href="#header-sub-3">Sub 3</a>
+<a href="#sub-3">Sub 3</a>
 <ul>
 <li>
-<a href="#header-sub-3-1">Sub 3.1</a>
+<a href="#sub-3-1">Sub 3.1</a>
 </li>
 </ul>
+<li>
+<a href="#duplicate-test">Duplicate Test</a>
+</li>
+<li>
+<a href="#duplicate-test-1">Duplicate Test</a>
+</li>
+<li>
+<a href="#title-with-markdown">Title with Markdown</a>
+</li>
+<li>
+<a href="#title-with-html">Title with HTML</a>
+</li>
+<li>
+<a href="#title-with-quotes-other-special-chars">Title with &quot;quotes&quot; &amp; &#039;other&#039; special &lt;chars&gt;</a>
 </li>
 </ul>
 

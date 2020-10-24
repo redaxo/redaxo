@@ -1,5 +1,5 @@
 package: install
-version: '2.8.0'
+version: '2.9.0-dev'
 author: Gregor Harlan
 supportpage: https://github.com/redaxo/redaxo
 
@@ -7,7 +7,7 @@ page:
     title: 'translate:title'
     perm: admin[]
     block: system
-    prio: 80
+    prio: 70
     pjax: true
     icon: rex-icon rex-icon-install
     subpages:
@@ -21,9 +21,9 @@ page:
 
 requires:
     php:
-        version: '>=7.1'
+        version: '>=7.3'
         extensions: [zlib]
-    redaxo: ^5.7.0
+    redaxo: ^5.10
 
 
 console_commands:

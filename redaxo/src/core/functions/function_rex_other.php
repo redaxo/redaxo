@@ -34,15 +34,15 @@ function rex_delete_cache()
 }
 
 /**
- * @param string $val
+ * @param string $varname
  *
  * @return mixed
  *
  * @package redaxo\core
  */
-function rex_ini_get($val)
+function rex_ini_get($varname)
 {
-    $val = trim(ini_get($val));
+    $val = trim(ini_get($varname));
     if ('' != $val) {
         $last = strtolower($val[strlen($val) - 1]);
     } else {

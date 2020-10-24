@@ -198,6 +198,8 @@ class rex_socket_response
     public function getBody()
     {
         if (null === $this->body) {
+            $this->body = '';
+
             while (false !== ($buf = $this->getBufferedBody())) {
                 $this->body .= $buf;
             }

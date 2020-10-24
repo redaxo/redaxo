@@ -3,43 +3,52 @@
     "type": "library",
     "description": "REDAXO CMS source repository (for static analysis)",
     "license": "MIT",
+    "require": {
+        "php": ">=7.3"
+    },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "2.16.4",
-        "friendsofredaxo/linter": "1.2.6",
-        "phpstan/phpstan": "0.12.32",
-        "phpstan/extension-installer": "1.0.4",
-        "phpstan/phpstan-phpunit": "0.12.11",
-        "phpunit/phpunit": "7.5.20",
-        "psalm/plugin-phpunit": "0.10.1",
-        "psalm/plugin-symfony": "1.3.0",
-        "vimeo/psalm": "3.12.1"
+        "friendsofredaxo/linter": "1.2.7",
+        "j13k/yaml-lint": "^1.1@dev",
+        "nunomaduro/collision": "^5.0",
+        "phpstan/extension-installer": "1.0.5",
+        "phpstan/phpstan": "0.12.50",
+        "phpstan/phpstan-deprecation-rules": "0.12.5",
+        "phpstan/phpstan-phpunit": "0.12.16",
+        "phpunit/phpunit": "^9.3",
+        "psalm/plugin-phpunit": "0.12.2",
+        "psalm/plugin-symfony": "1.5.0",
+        "vimeo/psalm": "3.17.2"
     },
     "replace": {
         "erusev/parsedown": "1.7.4",
         "erusev/parsedown-extra": "0.8.1",
         "filp/whoops": "2.7.3",
-        "itsgoingd/clockwork": "v4.1.5",
-        "phpmailer/phpmailer": "v6.1.6",
+        "itsgoingd/clockwork": "v4.1.8",
+        "phpmailer/phpmailer": "v6.1.7",
         "psr/container": "1.0.0",
         "psr/http-message": "1.0.1",
         "psr/log": "1.1.3",
-        "ramsey/collection": "0.3.0",
-        "ramsey/http-range": "dev-legacy",
-        "scssphp/scssphp": "1.1.1",
-        "symfony/console": "v4.4.10",
-        "symfony/polyfill-ctype": "v1.17.1",
-        "symfony/polyfill-intl-grapheme": "v1.17.1",
-        "symfony/polyfill-intl-normalizer": "v1.17.1",
-        "symfony/polyfill-mbstring": "v1.17.1",
-        "symfony/polyfill-php72": "v1.17.0",
-        "symfony/polyfill-php73": "v1.17.1",
-        "symfony/polyfill-php80": "v1.17.1",
-        "symfony/service-contracts": "v1.1.8",
-        "symfony/var-dumper": "v4.4.10",
-        "symfony/yaml": "v4.4.10",
-        "voku/anti-xss": "4.1.25",
-        "voku/portable-ascii": "1.5.2",
-        "voku/portable-utf8": "5.4.45"
+        "ramsey/collection": "1.1.1",
+        "ramsey/http-range": "1.0.0",
+        "scssphp/scssphp": "1.2.1",
+        "symfony/console": "v5.1.6",
+        "symfony/deprecation-contracts": "v2.2.0",
+        "symfony/polyfill-ctype": "v1.18.1",
+        "symfony/polyfill-intl-grapheme": "v1.18.1",
+        "symfony/polyfill-intl-normalizer": "v1.18.1",
+        "symfony/polyfill-mbstring": "v1.18.1",
+        "symfony/polyfill-php70": "*",
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php80": "v1.18.1",
+        "symfony/service-contracts": "v2.2.0",
+        "symfony/string": "v5.1.6",
+        "symfony/var-dumper": "v5.1.6",
+        "symfony/yaml": "v5.1.6",
+        "voku/anti-xss": "4.1.28",
+        "voku/portable-ascii": "1.5.3",
+        "voku/portable-utf8": "5.4.47"
     },
     "autoload": {
         "classmap": [
@@ -88,11 +97,41 @@
     "bin": [
         "redaxo/bin/console"
     ],
+    "scripts": {
+        "clone-addon": ".tools/bin/clone-addon",
+        "refresh": ".tools/bin/refresh",
+        "release": ".tools/bin/release",
+        "update-all": ".tools/bin/update-all",
+
+        "cs": "php-cs-fixer fix -v --ansi",
+        "phpunit": "phpunit --colors=always",
+        "phpstan": "phpstan analyse --ansi",
+        "psalm": "psalm --diff",
+        "sa": [
+            "@phpstan",
+            "@psalm"
+        ],
+        "check": [
+            "@cs",
+            "@sa",
+            "@phpunit"
+        ]
+    },
+    "scripts-descriptions": {
+        "clone-addon": "Clone given addon (by user/repo or github url) into addon directory",
+        "refresh": "Refresh local instance (refresh core assets, re-install system addons, clear cache, update dev tools)",
+        "release": "Create release zip for given version number",
+        "update-all": "Update all vendor libs (php and js) in core, system addons and dev tools",
+
+        "cs": "Fix code style via php-cs-fixer",
+        "phpunit": "Run phpunit",
+        "phpstan": "Run static analysis via phpstan",
+        "psalm": "Run static analysis via psalm",
+        "sa": "Run all static analyses (psalm and phpstan)",
+        "check": "Check all (code style, static analysis, unit tests)"
+    },
     "config": {
         "optimize-autoloader": true,
-        "sort-packages": true,
-        "platform": {
-            "php": "7.1.3"
-        }
+        "sort-packages": true
     }
 }

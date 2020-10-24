@@ -47,35 +47,29 @@ abstract class rex_linkmap_tree_renderer
     public function renderTree(array $children, array $activeTreeIds)
     {
         $ul = '';
-        if (is_array($children)) {
-            $li = '';
-            $ulclasses = 'list-group';
-            foreach ($children as $cat) {
-                $cat_children = $cat->getChildren();
-                $cat_id = $cat->getId();
-                $liclasses = 'list-group-item';
-                $linkclasses = '';
-                $sub_li = '';
-                $liIcon = '<i class="rex-icon rex-icon-category"></i> ';
+        $li = '';
+        foreach ($children as $cat) {
+            $cat_children = $cat->getChildren();
+            $cat_id = $cat->getId();
+            $liclasses = 'list-group-item';
+            $linkclasses = '';
+            $sub_li = '';
+            $liIcon = '<i class="rex-icon rex-icon-category"></i> ';
 
-                $linkclasses .= $cat->isOnline() ? 'rex-online ' : 'rex-offline ';
-                if (is_array($activeTreeIds) && in_array($cat_id, $activeTreeIds)) {
-                    $sub_li = $this->renderTree($cat_children, $activeTreeIds);
-                    $liIcon = '<i class="rex-icon rex-icon-open-category"></i> ';
-                    $linkclasses .= 'rex-active ';
-                }
-
-                $li .= $this->treeItem($cat, $liclasses, $linkclasses, $sub_li, $liIcon);
+            $linkclasses .= $cat->isOnline() ? 'rex-online ' : 'rex-offline ';
+            if (in_array($cat_id, $activeTreeIds)) {
+                $sub_li = $this->renderTree($cat_children, $activeTreeIds);
+                $liIcon = '<i class="rex-icon rex-icon-open-category"></i> ';
+                $linkclasses .= 'rex-active ';
             }
 
-            if ('' != $ulclasses) {
-                $ulclasses = ' class="' . rtrim($ulclasses) . '"';
-            }
-
-            if ('' != $li) {
-                $ul = '<ul' . $ulclasses . ' data-cat-id="' . $children[0]->getParentId() . '">' . "\n" . $li . '</ul>' . "\n";
-            }
+            $li .= $this->treeItem($cat, $liclasses, $linkclasses, $sub_li, $liIcon);
         }
+
+        if ('' != $li) {
+            $ul = '<ul class="list-group" data-cat-id="' . $children[0]->getParentId() . '">' . "\n" . $li . '</ul>' . "\n";
+        }
+
         return $ul;
     }
 
