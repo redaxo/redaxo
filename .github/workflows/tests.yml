@@ -14,20 +14,25 @@ on:
 jobs:
 
     phpunit:
-        name: mysql unit tests
+        name: unit tests
         runs-on: ubuntu-latest
         strategy:
             matrix:
-              php-versions: ['7.3', '7.4', '8.0']
-              mysql-versions: ['5.7']
+              php-version: ['7.3', '7.4', '8.0']
+              db-image: ['mysql:5.7'] # a docker-hub key
               include:
-                  - php-versions: '7.4'
-                    mysql-versions: '8.0'
+                  - php-version: '7.4'
+                    db-image: 'mysql:8.0'
+                  - php-version: '7.4'
+                    db-image: 'mariadb:10.1'
+                  - php-version: '7.4'
+                    db-image: 'mariadb:latest'
         if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
+# https://docs.github.com/en/free-pro-team@latest/actions/guides/about-service-containers
         services:
             mysql:
-                image: mysql:${{ matrix.mysql-versions }}
+                image: ${{ matrix.db-image }}
                 ports:
                     - 3306
         steps:
@@ -35,18 +40,18 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: ${{ matrix.php-versions }}
+                  php-version: ${{ matrix.php-version }}
                   extensions: intl
                   coverage: none # disable xdebug, pcov
 
             - name: "composer install --prefer-dist"
               uses: "ramsey/composer-install@v1"
-              if: matrix.php-versions != '8.0'
+              if: matrix.php-version != '8.0'
               with:
                   composer-options: "--ansi --prefer-dist"
             - name: "composer install --prefer-dist --ignore-platform-reqs"
               uses: "ramsey/composer-install@v1"
-              if: matrix.php-versions == '8.0'
+              if: matrix.php-version == '8.0'
               with:
                   composer-options: "--ansi --prefer-dist --ignore-platform-reqs"
 
