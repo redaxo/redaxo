@@ -19,10 +19,10 @@ jobs:
         strategy:
             matrix:
               php-versions: ['7.3', '7.4', '8.0']
-              mysql-versions: [5.7]
+              mysql-versions: ['5.7']
               include:
-                  - php-versions: 7.4
-                    mysql-versions: 8.0
+                  - php-versions: '7.4'
+                    mysql-versions: '8.0'
         if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
         services:
