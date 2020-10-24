@@ -25,17 +25,9 @@ jobs:
         coverage: none # disable xdebug, pcov
         tools: cs2pr
 
-    - name: Get Composer Cache Directory
-      id: composer-cache
-      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-    - name: Cache dependencies
-      uses: actions/cache@v2
+    - uses: "ramsey/composer-install@v1"
       with:
-        path: ${{ steps.composer-cache.outputs.dir }}
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-        restore-keys: ${{ runner.os }}-composer-
-    - name: Install Dependencies
-      run: composer install --ansi --prefer-dist
+        composer-options: "--ansi --prefer-dist"
 
     - run: vendor/bin/php-cs-fixer fix --diff
 

@@ -83,7 +83,6 @@
                 <file name="redaxo/src/core/lib/api_function.php"/>
             </errorLevel>
         </RawObjectIteration>
-        <RedundantCondition errorLevel="info" />
         <RedundantConditionGivenDocblockType errorLevel="info" />
         <UnresolvableInclude errorLevel="suppress" />
         <UnsafeInstantiation errorLevel="info" />

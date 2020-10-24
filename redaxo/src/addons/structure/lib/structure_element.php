@@ -452,10 +452,8 @@ abstract class rex_structure_element
     {
         $attr = '';
 
-        if (null !== $attributes && is_array($attributes)) {
-            foreach ($attributes as $name => $value) {
-                $attr .= ' ' . $name . '="' . $value . '"';
-            }
+        foreach ($attributes as $name => $value) {
+            $attr .= ' ' . $name . '="' . $value . '"';
         }
 
         return $attr;
@@ -480,15 +478,13 @@ abstract class rex_structure_element
                 $explode = explode('|', $this->path);
             }
 
-            if (is_array($explode)) {
-                foreach ($explode as $var) {
-                    if ('' != $var) {
-                        $cat = rex_category::get((int) $var, $this->clang_id);
-                        if (!$cat) {
-                            throw new LogicException('No category found with id='. $var .' and clang='. $this->clang_id .'.');
-                        }
-                        $return[] = $cat;
+            foreach ($explode as $var) {
+                if ('' != $var) {
+                    $cat = rex_category::get((int) $var, $this->clang_id);
+                    if (!$cat) {
+                        throw new LogicException('No category found with id='. $var .' and clang='. $this->clang_id .'.');
                     }
+                    $return[] = $cat;
                 }
             }
         }
