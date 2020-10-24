@@ -496,7 +496,7 @@ abstract class rex_package_manager
 
             $currentPage = rex_be_controller::getCurrentPage();
 
-            if ($currentPage == 'packages') {
+            if ('packages' == $currentPage) {
                 $packageUrl = '#package-'. $packageId;
             } else {
                 // error while update/install within install-addon. x-link to packages core page
