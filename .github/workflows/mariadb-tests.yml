@@ -14,37 +14,31 @@ on:
 jobs:
 
     phpunit:
-        name: unit tests
+        name: mariadb unit tests
         runs-on: ubuntu-latest
-        strategy:
-            matrix:
-              php-versions: ['7.3', '7.4', '8.0']    
         if: "!contains(github.event.head_commit.message, '[ci skip]')"
-        
+
         services:
             mysql:
-                image: mysql:5.7
+                image: mariadb:latest
                 ports:
                     - 3306
+                env:
+                    MYSQL_USER: root
+                    MYSQL_PASSWORD: root
+                    MYSQL_DATABASE: redaxo5
+                    MYSQL_ROOT_PASSWORD: root
         steps:
             - uses: actions/checkout@v2
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: ${{ matrix.php-versions }}
+                  php-version: 7.4
                   extensions: intl
                   coverage: none # disable xdebug, pcov
-
-            - name: "composer install --prefer-dist"
-              uses: "ramsey/composer-install@v1"
-              if: matrix.php-versions != '8.0'
+            - uses: "ramsey/composer-install@v1"
               with:
                   composer-options: "--ansi --prefer-dist"
-            - name: "composer install --prefer-dist --ignore-platform-reqs"
-              uses: "ramsey/composer-install@v1"
-              if: matrix.php-versions == '8.0'
-              with:
-                  composer-options: "--ansi --prefer-dist --ignore-platform-reqs"
 
             - name: Setup Problem Matchers for PHPUnit
               run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
