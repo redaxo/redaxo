@@ -501,7 +501,7 @@ abstract class rex_package_manager
                 $jumpPackageId = $package->getAddon()->getPackageId();
             }
 
-            if (rex_be_controller::getCurrentPage() == 'packages') {
+            if ('packages' == rex_be_controller::getCurrentPage()) {
                 $jumpPackageUrl = '#package-'. $jumpPackageId;
             } else {
                 // error while update/install within install-addon. x-link to packages core page
