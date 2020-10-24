@@ -483,7 +483,7 @@ abstract class rex_package_manager
 
             if (!rex_package::exists($packageId)) {
                 if ($installer->isAvailable()) {
-                    // package need to be installed
+                    // package need to be downloaded via installer
                     $installUrl = rex_url::backendPage('install/packages/add', ['addonkey' => $packageId]);
 
                     $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId.$required_version) . ' <a href="'. $installUrl .'">'. $this->i18n('install_via_installer', $packageId) .'</a>';
