@@ -242,3 +242,8 @@ input[type=range] {
 .rex-form-group-nowrap {
     white-space: nowrap;
 }
+
+label.required::after {
+    content: '*';
+    color: $brand-danger;
+}
