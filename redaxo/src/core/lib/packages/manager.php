@@ -486,7 +486,7 @@ abstract class rex_package_manager
                     // package need to be downloaded via installer
                     $installUrl = rex_url::backendPage('install/packages/add', ['addonkey' => $packageId]);
 
-                    $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId.$required_version) . ' <a href="'. $installUrl .'">'. $this->i18n('install_via_installer', $packageId) .'</a>';
+                    $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId.$required_version) . ' <a href="'. $installUrl .'"><i class="rex-icon fa-arrow-circle-right"></i></a>';
                     return false;
                 }
 
@@ -508,7 +508,7 @@ abstract class rex_package_manager
                 $jumpPackageUrl = rex_url::backendPage('packages'). '#package-'. $jumpPackageId;
             }
 
-            $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId.$required_version) . ' <a href="'. $jumpPackageUrl .'">'. $this->i18n('install_jump_to_package', $jumpPackageId) .'</a>';
+            $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId.$required_version) . ' <a href="'. $jumpPackageUrl .'"><i class="rex-icon fa-arrow-circle-right"></i></a>';
             return false;
         }
 
