@@ -650,8 +650,8 @@ class rex_list implements rex_url_provider_interface
     /**
      * Fügt der zuletzte eingefügten TableColumnGroup eine weitere Spalte hinzu.
      *
-     * @param int $width Breite der Spalte
-     * @param int $span  Span der Spalte
+     * @param int|'*' $width Breite der Spalte
+     * @param int     $span  Span der Spalte
      */
     public function addTableColumn($width, $span = null, $class = null)
     {

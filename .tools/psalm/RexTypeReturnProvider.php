@@ -27,28 +27,32 @@ class RexTypeReturnProvider implements \Psalm\Plugin\Hook\MethodReturnTypeProvid
         array $template_type_parameters = null,
         string $called_fq_classlike_name = null,
         string $called_method_name_lowercase = null
-    ) {
-        if ('cast' === $method_name_lowercase
-            && isset($call_args[1]->value->inferredType)
-            && $call_args[1]->value->inferredType->isSingleStringLiteral()
+    ): ?Type\Union {
+        if (
+            'cast' !== $method_name_lowercase
+            || !isset($call_args[1]->value->inferredType)
+            || !$call_args[1]->value->inferredType->isSingleStringLiteral()
         ) {
-            $vartype = (string) $call_args[1]->value->inferredType->getSingleStringLiteral()->value;
-
-            switch ($vartype) {
-                case 'bool':
-                case 'boolean':
-                case 'int':
-                case 'integer':
-                case 'double':
-                case 'float':
-                case 'real':
-                case 'string':
-                case 'object':
-                case 'array':
-                    return Type::parseString($vartype);
-            }
-            // dont know..
-            return Type::getMixed();
+            return null;
         }
+
+        $vartype = (string) $call_args[1]->value->inferredType->getSingleStringLiteral()->value;
+
+        switch ($vartype) {
+            case 'bool':
+            case 'boolean':
+            case 'int':
+            case 'integer':
+            case 'double':
+            case 'float':
+            case 'real':
+            case 'string':
+            case 'object':
+            case 'array':
+                return Type::parseString($vartype);
+        }
+
+        // dont know..
+        return Type::getMixed();
     }
 }
