@@ -7,6 +7,7 @@
       <sourceFolder url="file://$MODULE_DIR$/redaxo/src/core/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/redaxo/src/addons/media_manager/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/redaxo/src/addons/structure/plugins/content/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/assets/addons/be_style/plugins/customizer/vendor" />
       <excludeFolder url="file://$MODULE_DIR$/media" />
