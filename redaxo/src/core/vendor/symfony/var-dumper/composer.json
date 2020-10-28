@@ -46,10 +46,5 @@
     "bin": [
         "Resources/bin/var-dump-server"
     ],
-    "minimum-stability": "dev",
-    "extra": {
-        "branch-alias": {
-            "dev-master": "4.4-dev"
-        }
-    }
+    "minimum-stability": "dev"
 }
