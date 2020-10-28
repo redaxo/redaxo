@@ -4,6 +4,7 @@
     "description": "REDAXO CMS source repository (for static analysis)",
     "license": "MIT",
     "require-dev": {
+        "composer/package-versions-deprecated": "^1.11",
         "friendsofphp/php-cs-fixer": "2.16.4",
         "friendsofredaxo/linter": "1.2.6",
         "phpstan/phpstan": "0.12.33",
