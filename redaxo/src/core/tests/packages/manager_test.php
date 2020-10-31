@@ -68,7 +68,7 @@ class rex_package_manager_test extends TestCase
         $packageName = 'fake';
         $propertyFakeArray = [
             'package' => $packageName,
-            'installmsg' => 'Fake installed',
+            'statusmsg' => rex_view::info('Fake installed'),
         ];
         $addonMock = $this->getMockBuilder(rex_addon::class)
             ->setConstructorArgs([$packageName])
@@ -93,7 +93,7 @@ class rex_package_manager_test extends TestCase
         $packageManager = rex_addon_manager::factory($addonMock);
 
         $result = $packageManager->install(false);
-        $expectedMessage = rex_i18n::msg('addon_installed', '').'<p>Fake installed</p>';
+        $expectedMessage = rex_i18n::msg('addon_installed', '').'<div class="alert alert-info">Fake installed</div>';
         static::assertTrue($result);
         static::assertSame($expectedMessage, $packageManager->getMessage());
     }
