@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Escapes a variable.
+ * Escapes a variable to be used while rendering html.
  *
  * This function is adapted from code coming from Twig.
  * (c) Fabien Potencier
