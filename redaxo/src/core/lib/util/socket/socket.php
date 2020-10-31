@@ -193,7 +193,7 @@ class rex_socket
      * @psalm-param string|array<string, string>|callable(resource): void $data
      *
      * @param array $files Files array, e.g. `array('myfile' => array('path' => $path, 'type' => 'image/png'))`
-     * @psalm-param array<string, {path: string, type: string}> $files
+     * @psalm-param array<string, array{path: string, type: string}> $files
      *
      * @throws rex_socket_exception
      *
