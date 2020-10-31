@@ -36,7 +36,7 @@ function rex_delete_cache()
 /**
  * @param string $varname
  *
- * @return mixed
+ * @return int
  *
  * @package redaxo\core
  */
