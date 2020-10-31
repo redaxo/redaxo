@@ -33,7 +33,7 @@ class rex_socket
     protected $path = '/';
     /** @var int */
     protected $timeout = 15;
-    /** @var bool */
+    /** @var false|int */
     protected $followRedirects = false;
     /** @var array<string, string> */
     protected $headers = [];
