@@ -106,6 +106,7 @@
         "cs": "php-cs-fixer fix -v --ansi",
         "phpunit": "phpunit --colors=always",
         "phpstan": "phpstan analyse --ansi",
+        "phpstan-baseline": "phpstan analyse --generate-baseline .tools/phpstan/baseline.neon",
         "psalm": "psalm --diff",
         "sa": [
             "@phpstan",
@@ -125,6 +126,7 @@
         "cs": "Fix code style via php-cs-fixer",
         "phpunit": "Run phpunit",
         "phpstan": "Run static analysis via phpstan",
+        "phpstan-baseline": "Regenerate the phpstan baseline",
         "psalm": "Run static analysis via psalm",
         "sa": "Run all static analyses (psalm and phpstan)",
         "check": "Check all (code style, static analysis, unit tests)"
