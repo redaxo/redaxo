@@ -190,9 +190,10 @@ class rex_socket
      * Makes a POST request.
      *
      * @param string|array|callable $data Body data as string or array (POST parameters) or a callback for writing the body
-     * @psalm-param string|array|callable(resource): void $data
+     * @psalm-param string|array<string, string>|callable(resource): void $data
      *
      * @param array $files Files array, e.g. `array('myfile' => array('path' => $path, 'type' => 'image/png'))`
+     * @psalm-param array<string, {path: string, type: string}> $files
      *
      * @throws rex_socket_exception
      *
