@@ -11,7 +11,7 @@ class rex_request
      * Returns the variable $varname of $_GET and casts the value.
      *
      * @param string $varname Variable name
-     * @param string $vartype Variable type
+     * @param mixed $vartype Variable type
      * @param mixed  $default Default value
      *
      * @return mixed
@@ -25,7 +25,7 @@ class rex_request
      * Returns the variable $varname of $_POST and casts the value.
      *
      * @param string $varname Variable name
-     * @param string $vartype Variable type
+     * @param mixed $vartype Variable type
      * @param mixed  $default Default value
      *
      * @return mixed
@@ -39,7 +39,7 @@ class rex_request
      * Returns the variable $varname of $_REQUEST and casts the value.
      *
      * @param string $varname Variable name
-     * @param string $vartype Variable type
+     * @param mixed $vartype Variable type
      * @param mixed  $default Default value
      *
      * @return mixed
@@ -53,7 +53,7 @@ class rex_request
      * Returns the variable $varname of $_SERVER and casts the value.
      *
      * @param string $varname Variable name
-     * @param string $vartype Variable type
+     * @param mixed $vartype Variable type
      * @param mixed  $default Default value
      *
      * @return mixed
@@ -67,7 +67,7 @@ class rex_request
      * Returns the variable $varname of $_SESSION and casts the value.
      *
      * @param string $varname Variable name
-     * @param string $vartype Variable type
+     * @param mixed $vartype Variable type
      * @param mixed  $default Default value
      *
      * @throws rex_exception
@@ -141,7 +141,7 @@ class rex_request
      * Returns the variable $varname of $_COOKIE and casts the value.
      *
      * @param string $varname Variable name
-     * @param string $vartype Variable type
+     * @param mixed $vartype Variable type
      * @param mixed  $default Default value
      *
      * @return mixed
@@ -155,7 +155,7 @@ class rex_request
      * Returns the variable $varname of $_FILES and casts the value.
      *
      * @param string $varname Variable name
-     * @param string $vartype Variable type
+     * @param mixed $vartype Variable type
      * @param mixed  $default Default value
      *
      * @return mixed
@@ -169,7 +169,7 @@ class rex_request
      * Returns the variable $varname of $_ENV and casts the value.
      *
      * @param string $varname Variable name
-     * @param string $vartype Variable type
+     * @param mixed $vartype Variable type
      * @param mixed  $default Default value
      *
      * @return mixed
@@ -184,7 +184,7 @@ class rex_request
      *
      * @param array      $haystack Array
      * @param string|int $needle   Value to search
-     * @param string     $vartype  Variable type
+     * @param mixed      $vartype  Variable type
      * @param mixed      $default  Default value
      *
      * @throws InvalidArgumentException
