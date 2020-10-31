@@ -9,7 +9,7 @@ if ('reload' === rex_request('func', 'string')) {
 }
 
 $markdown = static function (string $content): string {
-    /** @var callable */
+    /** @psalm-var callable(string): string */
     static $markdown;
 
     if (!$markdown) {
