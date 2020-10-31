@@ -19,6 +19,7 @@ abstract class rex_extension
      * Array of registered extensions.
      *
      * @var array
+     * @psalm-var array<string, array<int, list<callable, array>>>
      */
     private static $extensions = [];
 
