@@ -7,9 +7,13 @@
  */
 
 /**
- * @see rex_request::get()
+ * Returns the variable $varname of $_GET and casts the value.
  *
- * @package redaxo\core
+ * @param string $varname Variable name
+ * @param string $vartype Variable type
+ * @param mixed  $default Default value
+ *
+ * @return mixed
  */
 function rex_get($varname, $vartype = '', $default = '')
 {
@@ -17,9 +21,13 @@ function rex_get($varname, $vartype = '', $default = '')
 }
 
 /**
- * @see rex_request::post()
+ * Returns the variable $varname of $_POST and casts the value.
  *
- * @package redaxo\core
+ * @param string $varname Variable name
+ * @param string $vartype Variable type
+ * @param mixed  $default Default value
+ *
+ * @return mixed
  */
 function rex_post($varname, $vartype = '', $default = '')
 {
@@ -27,9 +35,13 @@ function rex_post($varname, $vartype = '', $default = '')
 }
 
 /**
- * @see rex_request::request()
+ * Returns the variable $varname of $_REQUEST and casts the value.
  *
- * @package redaxo\core
+ * @param string $varname Variable name
+ * @param string $vartype Variable type
+ * @param mixed  $default Default value
+ *
+ * @return mixed
  */
 function rex_request($varname, $vartype = '', $default = '')
 {
@@ -37,9 +49,13 @@ function rex_request($varname, $vartype = '', $default = '')
 }
 
 /**
- * @see rex_request::server()
+ * Returns the variable $varname of $_SERVER and casts the value.
  *
- * @package redaxo\core
+ * @param string $varname Variable name
+ * @param string $vartype Variable type
+ * @param mixed  $default Default value
+ *
+ * @return mixed
  */
 function rex_server($varname, $vartype = '', $default = '')
 {
@@ -47,9 +63,15 @@ function rex_server($varname, $vartype = '', $default = '')
 }
 
 /**
- * @see rex_request::session()
+ * Returns the variable $varname of $_SESSION and casts the value.
  *
- * @package redaxo\core
+ * @param string $varname Variable name
+ * @param string $vartype Variable type
+ * @param mixed  $default Default value
+ *
+ * @throws rex_exception
+ *
+ * @return mixed
  */
 function rex_session($varname, $vartype = '', $default = '')
 {
@@ -57,9 +79,12 @@ function rex_session($varname, $vartype = '', $default = '')
 }
 
 /**
- * @see rex_request::setSession()
+ * Sets a session variable.
  *
- * @package redaxo\core
+ * @param string $varname Variable name
+ * @param mixed  $value   Value
+ *
+ * @throws rex_exception
  */
 function rex_set_session($varname, $value)
 {
@@ -67,9 +92,11 @@ function rex_set_session($varname, $value)
 }
 
 /**
- * @see rex_request::unsetSession()
+ * Deletes a session variable.
  *
- * @package redaxo\core
+ * @param string $varname Variable name
+ *
+ * @throws rex_exception
  */
 function rex_unset_session($varname)
 {
@@ -77,9 +104,13 @@ function rex_unset_session($varname)
 }
 
 /**
- * @see rex_request::cookie()
+ * Returns the variable $varname of $_COOKIE and casts the value.
  *
- * @package redaxo\core
+ * @param string $varname Variable name
+ * @param string $vartype Variable type
+ * @param mixed  $default Default value
+ *
+ * @return mixed
  */
 function rex_cookie($varname, $vartype = '', $default = '')
 {
@@ -87,9 +118,13 @@ function rex_cookie($varname, $vartype = '', $default = '')
 }
 
 /**
- * @see rex_request::files()
+ * Returns the variable $varname of $_FILES and casts the value.
  *
- * @package redaxo\core
+ * @param string $varname Variable name
+ * @param string $vartype Variable type
+ * @param mixed  $default Default value
+ *
+ * @return mixed
  */
 function rex_files($varname, $vartype = '', $default = '')
 {
@@ -97,9 +132,13 @@ function rex_files($varname, $vartype = '', $default = '')
 }
 
 /**
- * @see rex_request::env()
+ * Returns the variable $varname of $_ENV and casts the value.
  *
- * @package redaxo\core
+ * @param string $varname Variable name
+ * @param string $vartype Variable type
+ * @param mixed  $default Default value
+ *
+ * @return mixed
  */
 function rex_env($varname, $vartype = '', $default = '')
 {
@@ -107,11 +146,9 @@ function rex_env($varname, $vartype = '', $default = '')
 }
 
 /**
- * @see rex_request::requestMethod()
+ * Returns the HTTP method of the current request.
  *
- * @package redaxo\core
- *
- * @return string
+ * @return string HTTP method in lowercase (head,get,post,put,delete)
  */
 function rex_request_method()
 {
