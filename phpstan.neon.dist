@@ -1,5 +1,8 @@
+includes:
+	- .tools/phpstan/baseline.neon
+
 parameters:
-    level: 2
+    level: 5
     paths:
         # restrict to core and core addons, ignore other locally installed addons
         - redaxo/src/core
