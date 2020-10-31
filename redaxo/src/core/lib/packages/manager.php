@@ -136,7 +136,7 @@ abstract class rex_package_manager
             rex_autoload::addDirectory($this->package->getPath('lib'));
             rex_autoload::addDirectory($this->package->getPath('vendor'));
             rex_i18n::addDirectory($this->package->getPath('lang'));
-            $instmsg = '';
+            $statusMessage = $this->package->getProperty('statusmsg', '');
             // include install.php
             if (is_readable($this->package->getPath(rex_package::FILE_INSTALL))) {
                 $this->package->includeFile(rex_package::FILE_INSTALL);
@@ -177,7 +177,7 @@ abstract class rex_package_manager
                 }
             }
 
-            $this->message = $this->i18n($reinstall ? 'reinstalled' : 'installed', $this->package->getName()).$instmsg;
+            $this->message = $this->i18n($reinstall ? 'reinstalled' : 'installed', $this->package->getName()).$statusMessage;
 
             return true;
         } catch (rex_functional_exception $e) {
