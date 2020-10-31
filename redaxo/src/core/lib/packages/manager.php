@@ -140,9 +140,8 @@ abstract class rex_package_manager
             // include install.php
             if (is_readable($this->package->getPath(rex_package::FILE_INSTALL))) {
                 $this->package->includeFile(rex_package::FILE_INSTALL);
-                $instmsg = $this->package->getProperty('installmsg', '');
-                if ('' !== $instmsg) {
-                    $instmsg = '<p>'.$instmsg.'</p>';
+                if ('' != ($instmsg = $this->package->getProperty('installmsg', ''))) {
+                    throw new rex_functional_exception($instmsg);
                 }
 
                 if (!$this->package->isInstalled()) {
