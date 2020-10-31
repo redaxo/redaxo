@@ -10,7 +10,7 @@
  * Returns the variable $varname of $_GET and casts the value.
  *
  * @param string $varname Variable name
- * @param mixed $vartype Variable type
+ * @param mixed  $vartype Variable type
  * @param mixed  $default Default value
  *
  * @return mixed
@@ -28,7 +28,7 @@ function rex_get($varname, $vartype = '', $default = '')
  * Returns the variable $varname of $_POST and casts the value.
  *
  * @param string $varname Variable name
- * @param mixed $vartype Variable type
+ * @param mixed  $vartype Variable type
  * @param mixed  $default Default value
  *
  * @return mixed
@@ -46,7 +46,7 @@ function rex_post($varname, $vartype = '', $default = '')
  * Returns the variable $varname of $_REQUEST and casts the value.
  *
  * @param string $varname Variable name
- * @param mixed $vartype Variable type
+ * @param mixed  $vartype Variable type
  * @param mixed  $default Default value
  *
  * @return mixed
@@ -64,7 +64,7 @@ function rex_request($varname, $vartype = '', $default = '')
  * Returns the variable $varname of $_SERVER and casts the value.
  *
  * @param string $varname Variable name
- * @param mixed $vartype Variable type
+ * @param mixed  $vartype Variable type
  * @param mixed  $default Default value
  *
  * @return mixed
@@ -82,7 +82,7 @@ function rex_server($varname, $vartype = '', $default = '')
  * Returns the variable $varname of $_SESSION and casts the value.
  *
  * @param string $varname Variable name
- * @param mixed $vartype Variable type
+ * @param mixed  $vartype Variable type
  * @param mixed  $default Default value
  *
  * @throws rex_exception
@@ -135,7 +135,7 @@ function rex_unset_session($varname)
  * Returns the variable $varname of $_COOKIE and casts the value.
  *
  * @param string $varname Variable name
- * @param mixed $vartype Variable type
+ * @param mixed  $vartype Variable type
  * @param mixed  $default Default value
  *
  * @return mixed
@@ -153,7 +153,7 @@ function rex_cookie($varname, $vartype = '', $default = '')
  * Returns the variable $varname of $_FILES and casts the value.
  *
  * @param string $varname Variable name
- * @param mixed $vartype Variable type
+ * @param mixed  $vartype Variable type
  * @param mixed  $default Default value
  *
  * @return mixed
@@ -171,7 +171,7 @@ function rex_files($varname, $vartype = '', $default = '')
  * Returns the variable $varname of $_ENV and casts the value.
  *
  * @param string $varname Variable name
- * @param mixed $vartype Variable type
+ * @param mixed  $vartype Variable type
  * @param mixed  $default Default value
  *
  * @return mixed
