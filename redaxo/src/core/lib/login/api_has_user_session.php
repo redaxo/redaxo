@@ -7,6 +7,9 @@
  */
 class rex_api_has_user_session extends rex_api_function
 {
+    /**
+     * @psalm-return never
+     */
     public function execute()
     {
         if (!rex_request::isHttps()) {
