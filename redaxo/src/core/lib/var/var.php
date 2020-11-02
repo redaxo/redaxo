@@ -260,7 +260,7 @@ abstract class rex_var
         if (!$this->hasArg($key, $defaultArg)) {
             return $default;
         }
-        return isset($this->args[$key]) ? $this->args[$key] : $this->args[0];
+        return $this->args[$key] ?? $this->args[0];
     }
 
     /**
@@ -282,7 +282,7 @@ abstract class rex_var
         if (!$this->hasArg($key, $defaultArg)) {
             return $default;
         }
-        $arg = isset($this->args[$key]) ? $this->args[$key] : $this->args[0];
+        $arg = $this->args[$key] ?? $this->args[0];
         $begin = '<<<addslashes>>>';
         $end = '<<</addslashes>>>';
         $arg = $begin . self::replaceVars($arg, $end . "' . %s . '" . $begin) . $end;

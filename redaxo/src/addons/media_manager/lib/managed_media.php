@@ -306,7 +306,7 @@ class rex_managed_media
 
     public function getImageProperty($name, $default = null)
     {
-        return isset($this->image[$name]) ? $this->image[$name] : $default;
+        return $this->image[$name] ?? $default;
     }
 
     public function getWidth()
