@@ -1116,6 +1116,9 @@ abstract class rex_form_base
         throw new BadMethodCallException('delete() is not implemented.');
     }
 
+    /**
+     * @psalm-return never-return
+     */
     protected function redirect($listMessage = '', $listWarning = '', array $params = [])
     {
         if ('' != $listMessage) {
