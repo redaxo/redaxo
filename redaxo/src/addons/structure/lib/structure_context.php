@@ -118,6 +118,6 @@ class rex_structure_context
      */
     protected function getValue($key, $default)
     {
-        return isset($this->params[$key]) ? $this->params[$key] : $default;
+        return $this->params[$key] ?? $default;
     }
 }
