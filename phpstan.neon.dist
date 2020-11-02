@@ -38,9 +38,6 @@ parameters:
         -
             message: '#Variable \$this might not be defined\.#'
             path: '*/fragments/*'
-        -
-            message: '#Access to an undefined property object.+#'
-            path: '*/fragments/*'
         - '#Unsafe usage of new static\(\)\.#'
         - '#Constructor of class rex_form_.*_element has an unused parameter \$tag.#'
         -
