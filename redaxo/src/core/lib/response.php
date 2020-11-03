@@ -226,14 +226,15 @@ class rex_response
      * @param null|string $etag               HTTP Cachekey to identify the cache
      * @param null|string $contentDisposition Content disposition ("inline" or "attachment")
      * @param null|string $filename           Filename
+     * @param null|string $cacheControl       Cache Control
      */
-    public static function sendResource($content, $contentType = null, $lastModified = null, $etag = null, $contentDisposition = null, $filename = null)
+    public static function sendResource($content, $contentType = null, $lastModified = null, $etag = null, $contentDisposition = null, $filename = null, $cacheControl = 'max-age=3600, must-revalidate, proxy-revalidate, private')
     {
         if ($contentDisposition) {
             header('Content-Disposition: ' . $contentDisposition . '; filename="' . $filename . '"');
         }
 
-        self::sendCacheControl('max-age=3600, must-revalidate, proxy-revalidate, private');
+        self::sendCacheControl($cacheControl);
         self::sendContent($content, $contentType, $lastModified, $etag);
     }
 
