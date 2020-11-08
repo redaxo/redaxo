@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.7.1 – XX.XX.2020
+--------------------------
+
+### Bugfixes
+
+* Bei Verwendung von Passwortregeln bzgl. der vergangenen Passwörter, konnten keine neuen Benutzer erstellt werden (@gharlan)
+
+
 Version 2.7.0 – 01.07.2020
 --------------------------
 
