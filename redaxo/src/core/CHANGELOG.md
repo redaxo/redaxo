@@ -13,9 +13,15 @@ Version 5.11.1 – XX.XX.2020
 ### Bugfixes
 
 * Systembericht als Markdown: Bei Nutzung des Kopieren-Buttons kam teils ungültiges Markdown heraus wegen Leerzeichen am Anfang (@gharlan)
-* `rex_sql`: `getLastId` lieferte im Frontend `0`, wenn der Debugmodus des SQL-Objekts aktiviert war (@gharlan)
+* Log: Darstellung "Info"-Meldungen korrigiert (@BlackScorp)
+* Systembericht: Addons ohne Versionsangabe führten zu Fehler (@gharlan)
+* `rex_sql`:
+    - `getLastId` lieferte im Frontend `0`, wenn der Debugmodus des SQL-Objekts aktiviert war (@gharlan)
+    - `getQueryType` unterstützt Klammern um die Query (@BlackScorp, @staabm)
 * `rex_sql_table`: Abfrage der Fremdschlüssel funktionierte nicht mit MySQL >= 8.0.21 (@gharlan)
+* `rex_markdown`: Generierung der Sprungnavi geht korrekt um mit HTML/Markdown/SpecialChars innerhalb der Überschriften (@jelleschutter, @gharlan)
 * `rex_dir`: `delete` führte zu Warnings, wenn während des rekursiven Löschens bereits von anderen Prozessen wieder neue Dateien in dem Ordner angelegt wurden (@gharlan)
+* `rex_var`: `toArray` ging teils nicht korrekt mit Anführungszeichen im Inhalt um (@portux)
 
 
 Version 5.11.0 – 01.07.2020

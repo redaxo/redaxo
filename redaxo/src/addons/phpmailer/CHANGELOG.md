@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.9.1 – XX.XX.2020
+--------------------------
+
+### Bugfixes
+
+* Testmailversand: Prüfung auf leere E-Mailadresse korrigiert (@gharlan)
+
+
 Version 2.9.0 – 01.07.2020
 --------------------------
 

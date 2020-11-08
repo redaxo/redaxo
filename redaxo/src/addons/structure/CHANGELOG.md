@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.11.1 – XX.XX.2020
+---------------------------
+
+### Bugfixes
+
+* `rex_article_slice`: `getPreviousSlice`/`getNextSlice` lieferten mit `$ignoreOfflines` teilweise fälschlich `null` (@gharlan)
+
+
 Version 2.11.0 – 01.07.2020
 ---------------------------
 
