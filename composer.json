@@ -18,7 +18,7 @@
     "replace": {
         "erusev/parsedown": "1.7.4",
         "erusev/parsedown-extra": "0.8.1",
-        "filp/whoops": "2.9.0",
+        "filp/whoops": "2.9.1",
         "itsgoingd/clockwork": "v4.1.8",
         "phpmailer/phpmailer": "v6.1.8",
         "psr/container": "1.0.0",
@@ -26,7 +26,7 @@
         "psr/log": "1.1.3",
         "ramsey/collection": "0.3.0",
         "ramsey/http-range": "dev-legacy",
-        "scssphp/scssphp": "1.2.1",
+        "scssphp/scssphp": "v1.4.0",
         "symfony/console": "v4.4.16",
         "symfony/polyfill-ctype": "v1.20.0",
         "symfony/polyfill-intl-grapheme": "v1.20.0",
@@ -39,8 +39,8 @@
         "symfony/var-dumper": "v4.4.16",
         "symfony/yaml": "v4.4.16",
         "voku/anti-xss": "4.1.28",
-        "voku/portable-ascii": "1.5.3",
-        "voku/portable-utf8": "5.4.47"
+        "voku/portable-ascii": "1.5.4",
+        "voku/portable-utf8": "5.4.48"
     },
     "autoload": {
         "classmap": [

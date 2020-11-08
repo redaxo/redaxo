@@ -98,17 +98,17 @@
     },
     {
         "name": "filp/whoops",
-        "version": "2.9.0",
-        "version_normalized": "2.9.0.0",
+        "version": "2.9.1",
+        "version_normalized": "2.9.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/filp/whoops.git",
-            "reference": "2ec31f3adc54c71a59c5e3c2143d7a0e2f8899f8"
+            "reference": "307fb34a5ab697461ec4c9db865b20ff2fd40771"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/filp/whoops/zipball/2ec31f3adc54c71a59c5e3c2143d7a0e2f8899f8",
-            "reference": "2ec31f3adc54c71a59c5e3c2143d7a0e2f8899f8",
+            "url": "https://api.github.com/repos/filp/whoops/zipball/307fb34a5ab697461ec4c9db865b20ff2fd40771",
+            "reference": "307fb34a5ab697461ec4c9db865b20ff2fd40771",
             "shasum": ""
         },
         "require": {
@@ -124,7 +124,7 @@
             "symfony/var-dumper": "Pretty print complex values better with var-dumper available",
             "whoops/soap": "Formats errors as SOAP responses"
         },
-        "time": "2020-10-20T12:00:00+00:00",
+        "time": "2020-11-01T12:00:00+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -451,12 +451,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/Roave/SecurityAdvisories.git",
-            "reference": "327370943772f9917bc2dc2aa4263db2d572a112"
+            "reference": "e440567339d5fe93d9525e377c5e686b0b08bcca"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/327370943772f9917bc2dc2aa4263db2d572a112",
-            "reference": "327370943772f9917bc2dc2aa4263db2d572a112",
+            "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/e440567339d5fe93d9525e377c5e686b0b08bcca",
+            "reference": "e440567339d5fe93d9525e377c5e686b0b08bcca",
             "shasum": ""
         },
         "conflict": {
@@ -472,7 +472,7 @@
             "bagisto/bagisto": "<0.1.5",
             "barrelstrength/sprout-base-email": "<1.2.7",
             "barrelstrength/sprout-forms": "<3.9",
-            "baserproject/basercms": ">=4,<=4.3.6",
+            "baserproject/basercms": ">=4,<=4.3.6|>=4.4,<4.4.1",
             "bolt/bolt": "<3.7.1",
             "brightlocal/phpwhois": "<=4.2.5",
             "buddypress/buddypress": "<5.1.2",
@@ -556,7 +556,7 @@
             "magento/magento1ee": ">=1,<1.14.4.3",
             "magento/product-community-edition": ">=2,<2.2.10|>=2.3,<2.3.2-p.2",
             "marcwillmann/turn": "<0.3.3",
-            "mediawiki/core": ">=1.31,<1.31.4|>=1.32,<1.32.4|>=1.33,<1.33.1",
+            "mediawiki/core": ">=1.31,<1.31.9|>=1.32,<1.32.4|>=1.33,<1.33.3|>=1.34,<1.34.3|>=1.34.99,<1.35",
             "mittwald/typo3_forum": "<1.2.1",
             "monolog/monolog": ">=1.8,<1.12",
             "namshi/jose": "<2.2",
@@ -571,7 +571,8 @@
             "onelogin/php-saml": "<2.10.4",
             "oneup/uploader-bundle": "<1.9.3|>=2,<2.1.5",
             "openid/php-openid": "<2.3",
-            "openmage/magento-lts": "<19.4.6|>=20,<20.0.2",
+            "openmage/magento-lts": "<19.4.8|>=20,<20.0.4",
+            "orchid/platform": ">=9,<9.4.4",
             "oro/crm": ">=1.7,<1.7.4",
             "oro/platform": ">=1.7,<1.7.4",
             "padraic/humbug_get_contents": "<1.1.2",
@@ -606,8 +607,8 @@
             "scheb/two-factor-bundle": ">=0,<3.26|>=4,<4.11",
             "sensiolabs/connect": "<4.2.3",
             "serluck/phpwhois": "<=4.2.6",
-            "shopware/core": "<=6.3.1",
-            "shopware/platform": "<=6.3.1",
+            "shopware/core": "<=6.3.2",
+            "shopware/platform": "<=6.3.2",
             "shopware/shopware": "<5.3.7",
             "silverstripe/admin": ">=1.0.3,<1.0.4|>=1.1,<1.1.1",
             "silverstripe/assets": ">=1,<1.4.7|>=1.5,<1.5.2",
@@ -640,7 +641,7 @@
             "sylius/grid": ">=1,<1.1.19|>=1.2,<1.2.18|>=1.3,<1.3.13|>=1.4,<1.4.5|>=1.5,<1.5.1",
             "sylius/grid-bundle": ">=1,<1.1.19|>=1.2,<1.2.18|>=1.3,<1.3.13|>=1.4,<1.4.5|>=1.5,<1.5.1",
             "sylius/resource-bundle": "<1.3.14|>=1.4,<1.4.7|>=1.5,<1.5.2|>=1.6,<1.6.4",
-            "sylius/sylius": "<1.3.16|>=1.4,<1.4.12|>=1.5,<1.5.9|>=1.6,<1.6.5",
+            "sylius/sylius": "<1.6.9|>=1.7,<1.7.9|>=1.8,<1.8.3",
             "symbiote/silverstripe-multivaluefield": ">=3,<3.0.99",
             "symbiote/silverstripe-versionedfiles": "<=2.0.3",
             "symfony/cache": ">=3.1,<3.4.35|>=4,<4.2.12|>=4.3,<4.3.8",
@@ -725,7 +726,7 @@
             "zfcampus/zf-apigility-doctrine": ">=1,<1.0.3",
             "zfr/zfr-oauth2-server-module": "<0.1.2"
         },
-        "time": "2020-10-19T07:02:45+00:00",
+        "time": "2020-11-07T16:07:08+00:00",
         "type": "metapackage",
         "notification-url": "https://packagist.org/downloads/",
         "license": [
@@ -1717,29 +1718,29 @@
     },
     {
         "name": "voku/portable-ascii",
-        "version": "1.5.3",
-        "version_normalized": "1.5.3.0",
+        "version": "1.5.4",
+        "version_normalized": "1.5.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/voku/portable-ascii.git",
-            "reference": "25bcbf01678930251fd572891447d9e318a6e2b8"
+            "reference": "87dc337d4200b32717dd3849fea846319e897658"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/voku/portable-ascii/zipball/25bcbf01678930251fd572891447d9e318a6e2b8",
-            "reference": "25bcbf01678930251fd572891447d9e318a6e2b8",
+            "url": "https://api.github.com/repos/voku/portable-ascii/zipball/87dc337d4200b32717dd3849fea846319e897658",
+            "reference": "87dc337d4200b32717dd3849fea846319e897658",
             "shasum": ""
         },
         "require": {
             "php": ">=7.0.0"
         },
         "require-dev": {
-            "phpunit/phpunit": "~6.0 || ~7.0"
+            "phpunit/phpunit": "~6.0 || ~7.0 || ~9.0"
         },
         "suggest": {
             "ext-intl": "Use Intl for transliterator_transliterate() support"
         },
-        "time": "2020-07-22T23:32:04+00:00",
+        "time": "2020-11-08T21:15:15+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1789,17 +1790,17 @@
     },
     {
         "name": "voku/portable-utf8",
-        "version": "5.4.47",
-        "version_normalized": "5.4.47.0",
+        "version": "5.4.48",
+        "version_normalized": "5.4.48.0",
         "source": {
             "type": "git",
             "url": "https://github.com/voku/portable-utf8.git",
-            "reference": "c92522515a2d5ec9b03fd3c9e231b8b277c65121"
+            "reference": "0f9f156eb0baa0bf72ceef250cd74fe70e2e6379"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/voku/portable-utf8/zipball/c92522515a2d5ec9b03fd3c9e231b8b277c65121",
-            "reference": "c92522515a2d5ec9b03fd3c9e231b8b277c65121",
+            "url": "https://api.github.com/repos/voku/portable-utf8/zipball/0f9f156eb0baa0bf72ceef250cd74fe70e2e6379",
+            "reference": "0f9f156eb0baa0bf72ceef250cd74fe70e2e6379",
             "shasum": ""
         },
         "require": {
@@ -1812,7 +1813,7 @@
             "voku/portable-ascii": "~1.5"
         },
         "require-dev": {
-            "phpunit/phpunit": "~6.0 || ~7.0"
+            "phpunit/phpunit": "~6.0 || ~7.0 || ~9.0"
         },
         "suggest": {
             "ext-ctype": "Use Ctype for e.g. hexadecimal digit detection",
@@ -1822,7 +1823,7 @@
             "ext-json": "Use JSON for string detection",
             "ext-mbstring": "Use Mbstring for best performance"
         },
-        "time": "2020-07-26T11:17:51+00:00",
+        "time": "2020-11-07T23:30:22+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
