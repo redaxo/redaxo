@@ -1,6 +1,21 @@
 Changelog
 =========
 
+Version 5.11.1 – XX.XX.2020
+---------------------------
+
+### Neu
+
+* REDAXO ist bereits seit 5.10.1 teilweise inkompatibel zu MySQL <= 5.5, daher wurden die DB-Mindestversionen nun explizit hochgesetzt auf MySQL 5.6 / MariaDB 10.1
+* REDAXO 5.11.x ist die letzte Version, die noch zu PHP < 7.3 kompatibel ist, ab REDAXO 5.12 wird die Mindestversion entsprechend hochgesetzt
+* Update der externen Bibliotheken
+
+### Bugfixes
+
+* Systembericht als Markdown: Bei Nutzung des Kopieren-Buttons kam teils ungültiges Markdown heraus wegen Leerzeichen am Anfang (@gharlan)
+* `rex_sql_table`: Abfrage der Fremdschlüssel funktionierte nicht mit MySQL >= 8.0.21 (@gharlan)
+
+
 Version 5.11.0 – 01.07.2020
 ---------------------------
 
