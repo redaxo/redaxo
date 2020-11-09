@@ -55,7 +55,7 @@ class rex_be_controller
             return self::$pageParts;
         }
         --$part;
-        return isset(self::$pageParts[$part]) ? self::$pageParts[$part] : $default;
+        return self::$pageParts[$part] ?? $default;
     }
 
     /**

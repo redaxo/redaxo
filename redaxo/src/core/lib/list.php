@@ -338,7 +338,7 @@ class rex_list implements rex_url_provider_interface
 
     public function getLinkAttributes($column, $default = null)
     {
-        return isset($this->linkAttributes[$column]) ? $this->linkAttributes[$column] : $default;
+        return $this->linkAttributes[$column] ?? $default;
     }
 
     // ---------------------- Column setters/getters/etc
@@ -989,7 +989,7 @@ class rex_list implements rex_url_provider_interface
 
     public function getValue($column)
     {
-        return isset($this->customColumns[$column]) ? $this->customColumns[$column] : $this->sql->getValue($column);
+        return $this->customColumns[$column] ?? $this->sql->getValue($column);
     }
 
     public function getArrayValue($column)

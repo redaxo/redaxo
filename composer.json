@@ -8,18 +8,18 @@
     },
     "require-dev": {
         "composer/package-versions-deprecated": "^1.11",
-        "friendsofphp/php-cs-fixer": "2.16.4",
+        "friendsofphp/php-cs-fixer": "2.16.7",
         "friendsofredaxo/linter": "1.2.7",
         "j13k/yaml-lint": "^1.1@dev",
-        "nunomaduro/collision": "^5.0",
+        "nunomaduro/collision": "^5.1",
         "phpstan/extension-installer": "1.0.5",
-        "phpstan/phpstan": "0.12.52",
+        "phpstan/phpstan": "0.12.54",
         "phpstan/phpstan-deprecation-rules": "0.12.5",
         "phpstan/phpstan-phpunit": "0.12.16",
         "phpunit/phpunit": "^9.3",
         "psalm/plugin-phpunit": "0.13.0",
         "psalm/plugin-symfony": "2.0.0",
-        "vimeo/psalm": "4.0.1"
+        "vimeo/psalm": "4.1.1"
     },
     "replace": {
         "erusev/parsedown": "1.7.4",
@@ -106,6 +106,7 @@
         "cs": "php-cs-fixer fix -v --ansi",
         "phpunit": "phpunit --colors=always",
         "phpstan": "phpstan analyse --ansi",
+        "phpstan-baseline": "phpstan analyse --generate-baseline .tools/phpstan/baseline.neon",
         "psalm": "psalm --diff",
         "sa": [
             "@phpstan",
@@ -125,6 +126,7 @@
         "cs": "Fix code style via php-cs-fixer",
         "phpunit": "Run phpunit",
         "phpstan": "Run static analysis via phpstan",
+        "phpstan-baseline": "Regenerate the phpstan baseline",
         "psalm": "Run static analysis via psalm",
         "sa": "Run all static analyses (psalm and phpstan)",
         "check": "Check all (code style, static analysis, unit tests)"

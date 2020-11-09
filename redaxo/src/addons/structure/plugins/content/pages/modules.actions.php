@@ -11,7 +11,7 @@ $OUT = true;
 
 $action_id = rex_request('action_id', 'int');
 $function = rex_request('function', 'string');
-$save = rex_request('save', 'int');
+$save = rex_request('save', 'bool');
 $goon = rex_request('goon', 'string');
 
 $success = '';
@@ -69,10 +69,10 @@ if ('add' == $function || 'edit' == $function) {
     $presavestatus = 255;
     $postsavestatus = 255;
 
-    if ('1' == $save && !$csrfToken->isValid()) {
+    if ($save && !$csrfToken->isValid()) {
         $error = rex_i18n::msg('csrf_token_invalid');
-        $save = '0';
-    } elseif ('1' == $save) {
+        $save = false;
+    } elseif ($save) {
         $faction = rex_sql::factory();
 
         $previewstatus = rex_post('previewstatus', 'array');
@@ -121,13 +121,13 @@ if ('add' == $function || 'edit' == $function) {
         }
 
         if (isset($goon) && '' != $goon) {
-            $save = '0';
+            $save = false;
         } else {
             $function = '';
         }
     }
 
-    if ('1' != $save) {
+    if (!$save) {
         if ('edit' == $function) {
             $legend = rex_i18n::msg('action_edit') . ' <small class="rex-primary-id">' . rex_i18n::msg('id') . '=' . $action_id . '</small>';
 

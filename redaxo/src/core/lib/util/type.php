@@ -33,6 +33,8 @@ class rex_type
      * @param mixed $var     Variable to cast
      * @param mixed $vartype Variable type
      *
+     * @phpstan-param string|callable(mixed, mixed): mixed|list<list<string, string, mixed>> $vartype
+     *
      * @throws InvalidArgumentException
      *
      * @return mixed Castet value

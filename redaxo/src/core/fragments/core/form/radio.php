@@ -3,8 +3,8 @@
 $out = '';
 // Gruppierte Radios werden nochmals via form/form.php geparsed
 // Bsp. Radios in der rex_form
-$grouped = isset($this->grouped) ? $this->grouped : false;
-$inline = isset($this->inline) ? $this->inline : false;
+$grouped = $this->grouped ?? false;
+$inline = $this->inline ?? false;
 
 foreach ($this->elements as $element) {
     $id = isset($element['id']) && '' != $element['id'] ? ' id="' . $element['id'] . '"' : '';

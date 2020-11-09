@@ -12,7 +12,7 @@ $clang_id = rex_request('clang_id', 'int');
 $clang_code = rex_request('clang_code', 'string');
 $clang_name = rex_request('clang_name', 'string');
 $clang_prio = rex_request('clang_prio', 'int');
-$clang_status = rex_request('clang_status', 'int');
+$clang_status = rex_request('clang_status', 'bool');
 $func = rex_request('func', 'string');
 
 // -------------- Form Submits

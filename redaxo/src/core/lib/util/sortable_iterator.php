@@ -20,6 +20,7 @@ class rex_sortable_iterator implements IteratorAggregate
      *
      * @param Traversable  $iterator Inner iterator
      * @param int|callable $sort     Sort mode, possible values are rex_sortable_iterator::VALUES (default), rex_sortable_iterator::KEYS or a callable
+     * @psalm-param int|callable(mixed, mixed): int $sort
      */
     public function __construct(Traversable $iterator, $sort = self::VALUES)
     {

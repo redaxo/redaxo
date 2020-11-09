@@ -9,7 +9,6 @@
 $article_id = rex_request('article_id', 'int');
 $clang = rex_request('clang', 'int');
 $slice_id = rex_request('slice_id', 'int', '');
-$function = rex_request('function', 'string');
 
 $article_id = rex_article::get($article_id) ? $article_id : 0;
 $clang = rex_clang::exists($clang) ? $clang : rex_clang::getStartId();
@@ -180,7 +179,7 @@ if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id))
 
                         if ('edit' == $function) {
                             $newsql->setWhere(['id' => $slice_id]);
-                        } elseif ('add' == $function) {
+                        } else {
                             // determine priority value to get the new slice into the right order
                             $prevSlice = rex_sql::factory();
                             // $prevSlice->setDebug();
@@ -232,7 +231,7 @@ if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id))
                             } catch (rex_sql_exception $e) {
                                 $warning = $action_message . $e->getMessage();
                             }
-                        } elseif ('add' == $function) {
+                        } else {
                             $newsql->addGlobalUpdateFields();
                             $newsql->addGlobalCreateFields();
 

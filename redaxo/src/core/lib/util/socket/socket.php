@@ -23,13 +23,21 @@
  */
 class rex_socket
 {
+    /** @var string */
     protected $host;
+    /** @var int */
     protected $port;
+    /** @var bool */
     protected $ssl;
+    /** @var string */
     protected $path = '/';
+    /** @var int */
     protected $timeout = 15;
+    /** @var false|int */
     protected $followRedirects = false;
+    /** @var array<string, string> */
     protected $headers = [];
+    /** @vat resource */
     protected $stream;
 
     /**
@@ -181,8 +189,11 @@ class rex_socket
     /**
      * Makes a POST request.
      *
-     * @param string|array|callable $data  Body data as string or array (POST parameters) or a callback for writing the body
-     * @param array                 $files Files array, e.g. `array('myfile' => array('path' => $path, 'type' => 'image/png'))`
+     * @param string|array|callable $data Body data as string or array (POST parameters) or a callback for writing the body
+     * @psalm-param string|array<string, string>|callable(resource): void $data
+     *
+     * @param array $files Files array, e.g. `array('myfile' => array('path' => $path, 'type' => 'image/png'))`
+     * @psalm-param array<string, array{path: string, type: string}> $files
      *
      * @throws rex_socket_exception
      *
@@ -253,6 +264,7 @@ class rex_socket
      *
      * @param string          $method HTTP method, e.g. "GET"
      * @param string|callable $data   Body data as string or a callback for writing the body
+     * @psalm-param string|callable(resource): void $data
      *
      * @throws InvalidArgumentException
      *
@@ -353,6 +365,7 @@ class rex_socket
      * @param string          $path    Path
      * @param array           $headers Headers
      * @param string|callable $data    Body data as string or a callback for writing the body
+     * @psalm-param string|callable(resource): void $data
      *
      * @throws rex_socket_exception
      *

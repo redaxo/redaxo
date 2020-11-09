@@ -94,7 +94,7 @@ class rex_context implements rex_context_provider_interface
      */
     public function getParam($name, $default = null)
     {
-        return isset($this->globalParams[$name]) ? $this->globalParams[$name] : $default;
+        return $this->globalParams[$name] ?? $default;
     }
 
     /**

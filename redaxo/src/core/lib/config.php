@@ -134,7 +134,7 @@ class rex_config
         }
 
         if (null === $key) {
-            return isset(self::$data[$namespace]) ? self::$data[$namespace] : [];
+            return self::$data[$namespace] ?? [];
         }
 
         if (!is_string($key)) {
