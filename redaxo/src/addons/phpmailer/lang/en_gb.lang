@@ -83,4 +83,4 @@ phpmailer_errormail_30min = 30 minute interval
 phpmailer_errormail_60min = 60 minute interval
 
 system_setting_errormail = Send e-mail on errors
-
+perm_general_phpmailer[] = PHPMailer settings
