@@ -50,7 +50,7 @@ class Block
     public $sourceColumn;
 
     /**
-     * @var array|null
+     * @var array
      */
     public $selectors;
 

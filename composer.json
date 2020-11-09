@@ -26,7 +26,7 @@
         "psr/log": "1.1.3",
         "ramsey/collection": "0.3.0",
         "ramsey/http-range": "dev-legacy",
-        "scssphp/scssphp": "v1.4.0",
+        "scssphp/scssphp": "1.2.1",
         "symfony/console": "v4.4.16",
         "symfony/polyfill-ctype": "v1.20.0",
         "symfony/polyfill-intl-grapheme": "v1.20.0",
@@ -38,7 +38,7 @@
         "symfony/service-contracts": "v1.1.9",
         "symfony/var-dumper": "v4.4.16",
         "symfony/yaml": "v4.4.16",
-        "voku/anti-xss": "4.1.28",
+        "voku/anti-xss": "4.1.29",
         "voku/portable-ascii": "1.5.4",
         "voku/portable-utf8": "5.4.48"
     },
