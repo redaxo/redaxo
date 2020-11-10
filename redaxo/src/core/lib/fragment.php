@@ -110,7 +110,7 @@ class rex_fragment
                 $content = rex_timer::measure('Fragment: '.$filename, function () use ($fragment) {
                     ob_start();
                     require $fragment;
-                    return ob_get_clean();
+                    return ob_get_clean() ?? '';
                 });
 
                 if ($this->decorator) {
