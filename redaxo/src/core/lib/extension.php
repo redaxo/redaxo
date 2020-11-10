@@ -18,7 +18,8 @@ abstract class rex_extension
     /**
      * Array of registered extensions.
      *
-     * @psalm-var array<string, array<self::*, list<array{callable, array}>>>
+     * @template T as rex_extension_point
+     * @psalm-var array<string, array<self::*, list<array{callable|callable(T):mixed, array}>>>
      * @var array
      */
     private static $extensions = [];
