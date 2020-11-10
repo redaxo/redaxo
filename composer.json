@@ -107,7 +107,8 @@
         "phpunit": "phpunit --colors=always",
         "phpstan": "phpstan analyse --ansi",
         "phpstan-baseline": "phpstan analyse --generate-baseline .tools/phpstan/baseline.neon",
-        "psalm": "psalm --diff",
+        "psalm": "psalm",
+        "psalm-baseline": "psalm --set-baseline=.tools/psalm/baseline.xml",
         "sa": [
             "@phpstan",
             "@psalm"
