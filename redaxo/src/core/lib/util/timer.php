@@ -50,6 +50,7 @@ class rex_timer
      * @psalm-param callable():T $callable
      *
      * @psalm-return T
+     *
      * @return mixed result of callable
      */
     public static function measure($label, callable $callable)
