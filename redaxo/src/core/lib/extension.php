@@ -26,7 +26,7 @@ abstract class rex_extension
      * Registers an extension point.
      *
      * @psalm-template T
-     * @psalm-param rex_extension_point<T>
+     * @psalm-param rex_extension_point<T> $extensionPoint
      * @psalm-return T
      *
      * @param rex_extension_point $extensionPoint Extension point
