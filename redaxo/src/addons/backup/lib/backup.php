@@ -137,7 +137,7 @@ class rex_backup
             try {
                 $sql->setQuery($line['query']);
             } catch (rex_sql_exception $e) {
-                $error .= "\n" . rex_escape($e->getMessage());
+                $error .= "\n" . nl2br(rex_escape($e->getMessage()));
             }
         }
 
