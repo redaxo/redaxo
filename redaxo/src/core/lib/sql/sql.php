@@ -416,7 +416,7 @@ class rex_sql implements Iterator
 
         try {
             $this->stmt = rex_timer::measure(__METHOD__, static function () use ($pdo, $query) {
-                return $pdo->query($query);
+                return $pdo->query($query) || null;
             });
 
             $this->rows = $this->stmt->rowCount();
