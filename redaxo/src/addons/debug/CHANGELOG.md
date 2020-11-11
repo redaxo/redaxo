@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 1.0.1 – XX.XX.2020
+Version 1.0.1 – 11.11.2020
 --------------------------
 
 ### Bugfixes

@@ -1,5 +1,5 @@
 package: users
-version: '2.7.1-dev'
+version: '2.7.1'
 author: Jan Kristinus, Gregor Harlan
 supportpage: https://github.com/redaxo/redaxo
 
