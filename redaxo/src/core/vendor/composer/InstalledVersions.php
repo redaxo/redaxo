@@ -19,7 +19,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '21c620b1ffbe85379259ef55f9ab620434af51fc',
+    'reference' => '81701435786fc88b17d0c1770bdd456cdb6175b0',
     'name' => '__root__',
   ),
   'versions' => 
@@ -31,7 +31,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '21c620b1ffbe85379259ef55f9ab620434af51fc',
+      'reference' => '81701435786fc88b17d0c1770bdd456cdb6175b0',
     ),
     'erusev/parsedown' => 
     array (

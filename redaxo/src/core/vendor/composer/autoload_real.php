@@ -22,7 +22,7 @@ class ComposerAutoloaderInitRedaxoCore
             return self::$loader;
         }
 
-        spl_autoload_register(array('ComposerAutoloaderInitRedaxoCore', 'loadClassLoader'), true, true);
+        spl_autoload_register(array('ComposerAutoloaderInitRedaxoCore', 'loadClassLoader'), true, false);
         self::$loader = $loader = new \Composer\Autoload\ClassLoader();
         spl_autoload_unregister(array('ComposerAutoloaderInitRedaxoCore', 'loadClassLoader'));
 
@@ -39,7 +39,7 @@ class ComposerAutoloaderInitRedaxoCore
         }
 
         $loader->setClassMapAuthoritative(true);
-        $loader->register(true);
+        $loader->register(false);
 
         if ($useStaticLoader) {
             $includeFiles = Composer\Autoload\ComposerStaticInitRedaxoCore::$files;

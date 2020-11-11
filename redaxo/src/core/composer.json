@@ -28,6 +28,7 @@
         "platform": {
             "php": "7.3.0"
         },
-        "platform-check": false
+        "platform-check": false,
+        "prepend-autoloader": false
     }
 }
