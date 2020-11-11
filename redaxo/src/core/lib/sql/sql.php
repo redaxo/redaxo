@@ -1473,6 +1473,10 @@ class rex_sql implements Iterator
      * In case the callable throws, the transaction will automatically rolled back.
      * In case no error happens, the transaction will be committed after the callable was called.
      *
+     * @psalm-template T
+     * @psalm-param callable():T $callable
+     * @psalm-return T
+     *
      * @throws Throwable
      *
      * @return mixed
