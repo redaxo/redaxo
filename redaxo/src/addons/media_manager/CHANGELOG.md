@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.10.1 – 11.11.2020
+---------------------------
+
+### Bugfixes
+
+* Effekt `insert_image`: Bei right und bottom hatte der Abstand zum Rand das falsche Vorzeichen (@gharlan)
+
+
 Version 2.10.0 – 01.07.2020
 ---------------------------
 

@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Version 2.11.1 – 11.11.2020
+---------------------------
+
+* Selectboxen: Text der aktuellen Auswahl überlappte teilweise mit dem Pfeil am rechten Rand (@tbaddade)
+
+
 Version 2.11.0 – 01.07.2020
 ---------------------------
 
