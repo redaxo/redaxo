@@ -82,8 +82,8 @@ class Util
      */
     public static function mbChr($code)
     {
-        // Use the native implementation if available.
-        if (\function_exists('mb_chr')) {
+        // Use the native implementation if available, but not on PHP 7.2 as mb_chr(0) is buggy there
+        if (\PHP_VERSION_ID > 70300 && \function_exists('mb_chr')) {
             return mb_chr($code, 'UTF-8');
         }
 
@@ -105,7 +105,7 @@ class Util
      * mb_strlen() wrapper
      *
      * @param string $string
-     * @return false|int
+     * @return int
      */
     public static function mbStrlen($string)
     {
@@ -156,5 +156,26 @@ class Util
         }
 
         return substr($string, $start, $length);
+    }
+
+    /**
+     * mb_strpos wrapper
+     * @param string $haystack
+     * @param string $needle
+     * @param int $offset
+     *
+     * @return int|false
+     */
+    public static function mbStrpos($haystack, $needle, $offset = 0)
+    {
+        if (\function_exists('mb_strpos')) {
+            return mb_strpos($haystack, $needle, $offset, 'UTF-8');
+        }
+
+        if (\function_exists('iconv_strpos')) {
+            return iconv_strpos($haystack, $needle, $offset, 'UTF-8');
+        }
+
+        return strpos($haystack, $needle, $offset);
     }
 }
