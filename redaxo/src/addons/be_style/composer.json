@@ -1,6 +1,6 @@
 {
     "require": {
-        "scssphp/scssphp": "^1.2.1"
+        "scssphp/scssphp": "1.2.1"
     },
 
     "config": {

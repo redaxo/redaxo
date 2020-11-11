@@ -24,7 +24,7 @@
     "replace": {
         "erusev/parsedown": "1.7.4",
         "erusev/parsedown-extra": "0.8.1",
-        "filp/whoops": "2.9.0",
+        "filp/whoops": "2.9.1",
         "itsgoingd/clockwork": "v4.1.8",
         "phpmailer/phpmailer": "v6.1.8",
         "psr/container": "1.0.0",
@@ -47,9 +47,9 @@
         "symfony/string": "v5.1.8",
         "symfony/var-dumper": "v5.1.8",
         "symfony/yaml": "v5.1.8",
-        "voku/anti-xss": "4.1.28",
-        "voku/portable-ascii": "1.5.3",
-        "voku/portable-utf8": "5.4.47"
+        "voku/anti-xss": "4.1.29",
+        "voku/portable-ascii": "1.5.4",
+        "voku/portable-utf8": "5.4.48"
     },
     "autoload": {
         "classmap": [

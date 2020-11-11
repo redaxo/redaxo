@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 1.0.1 – 11.11.2020
+--------------------------
+
+### Bugfixes
+
+* Daten werden komprimiert und kürzer vorgehalten (@bloep)
+
+
 Version 1.0.0 – 01.07.2020
 --------------------------
 
