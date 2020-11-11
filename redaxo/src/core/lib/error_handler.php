@@ -368,13 +368,13 @@ abstract class rex_error_handler
         }
 
         $markdown .= <<<OUTPUT
-<details>
-<summary>Stacktrace</summary>
+            <details>
+            <summary>Stacktrace</summary>
 
-$table
-</details>
+            $table
+            </details>
 
-OUTPUT;
+            OUTPUT;
         $markdown .= rex_system_report::factory()->asMarkdown();
 
         return $markdown;

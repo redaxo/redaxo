@@ -47,15 +47,15 @@ if ('REX_LINKLIST_' == substr($opener_input_field, 0, 13)) {
                  opener.writeREXLinklist(' . $id . ');';
 } else {
     $func_body .= <<<JS
-var event = opener.jQuery.Event("rex:selectLink");
-opener.jQuery(window).trigger(event, [link, name]);
-if (!event.isDefaultPrevented()) {
-    var linkid = link.replace("redaxo://","");
-    window.opener.document.getElementById("$opener_input_field").value = linkid;
-    window.opener.document.getElementById("$opener_input_field_name").value = name;
-    self.close();
-}
-JS;
+        var event = opener.jQuery.Event("rex:selectLink");
+        opener.jQuery(window).trigger(event, [link, name]);
+        if (!event.isDefaultPrevented()) {
+            var linkid = link.replace("redaxo://","");
+            window.opener.document.getElementById("$opener_input_field").value = linkid;
+            window.opener.document.getElementById("$opener_input_field_name").value = name;
+            self.close();
+        }
+        JS;
 }
 
 // ------------------------ Print JS Functions
