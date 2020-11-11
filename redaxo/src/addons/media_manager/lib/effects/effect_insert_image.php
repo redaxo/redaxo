@@ -53,30 +53,30 @@ class rex_effect_insert_image extends rex_effect_abstract
 
         switch ($hpos) {
             case 'left':
-                $dstX = 0;
+                $dstX = $padding_x;
                 break;
             case 'center':
-                $dstX = (int) (($image_width - $brand_width) / 2);
+                $dstX = (int) (($image_width - $brand_width) / 2) + $padding_x;
                 break;
             case 'right':
             default:
-                $dstX = $image_width - $brand_width;
+                $dstX = $image_width - $brand_width - $padding_x;
         }
 
         switch ($vpos) {
             case 'top':
-                $dstY = 0;
+                $dstY = $padding_y;
                 break;
             case 'middle':
-                $dstY = (int) (($image_height - $brand_height) / 2);
+                $dstY = (int) (($image_height - $brand_height) / 2) + $padding_y;
                 break;
             case 'bottom':
             default:
-                $dstY = $image_height - $brand_height;
+                $dstY = $image_height - $brand_height - $padding_y;
         }
 
         imagealphablending($gdimage, true);
-        imagecopy($gdimage, $gdbrand, $dstX + $padding_x, $dstY + $padding_y, 0, 0, $brand_width, $brand_height);
+        imagecopy($gdimage, $gdbrand, $dstX, $dstY, 0, 0, $brand_width, $brand_height);
 
         $this->media->setImage($gdimage);
     }
