@@ -656,7 +656,6 @@ final class ASCII
             static $BIDI_UNICODE_CONTROLS_CACHE = null;
 
             if ($BIDI_UNICODE_CONTROLS_CACHE === null) {
-                /** @noinspection PsalmLocalImmutableInspection */
                 $BIDI_UNICODE_CONTROLS_CACHE = self::$BIDI_UNI_CODE_CONTROLS_TABLE;
             }
 
@@ -789,7 +788,6 @@ final class ASCII
         if (\preg_match_all('/' . self::$REGEX_ASCII . ($replace_extra_symbols ? '|[' . $EXTRA_SYMBOLS_CACHE . ']' : '') . '/u', $str, $matches)) {
             if (!$replace_single_chars_only) {
                 if (self::$LANGUAGE_MAX_KEY === null) {
-                    /** @noinspection PsalmLocalImmutableInspection */
                     self::$LANGUAGE_MAX_KEY = self::getData('ascii_language_max_key');
                 }
 
@@ -1156,13 +1154,11 @@ final class ASCII
                     return $str_tmp;
                 }
 
-                /** @noinspection CallableParameterUseCaseInTypeContextInspection */
                 $str = $str_tmp;
             }
         }
 
         if (self::$ORD === null) {
-            /** @noinspection PsalmLocalImmutableInspection */
             self::$ORD = self::getData('ascii_ord');
         }
 
@@ -1319,15 +1315,11 @@ final class ASCII
             return \strtolower($language);
         }
 
-        $regex = '/(?<first>[a-z]+)[\-_]\g{first}/i';
+        $language = \str_replace('-', '_', \strtolower($language));
 
-        return \str_replace(
-            '-',
-            '_',
-            \strtolower(
-                (string) \preg_replace($regex, '$1', $language)
-            )
-        );
+        $regex = '/(?<first>[a-z]+)_\g{first}/';
+
+        return (string) \preg_replace($regex, '$1', $language);
     }
 
     /**
@@ -1361,13 +1353,11 @@ final class ASCII
     private static function getDataIfExists(string $file): array
     {
         $file = __DIR__ . '/data/' . $file . '.php';
-        /**
-         * @noinspection LowPerformingFilesystemOperationsInspection
-         * -> we use this only once, so no extra caching is needed
-         */
-        if (\file_exists($file)) {
+        /** @psalm-suppress ImpureFunctionCall */
+        if (\is_file($file)) {
             /** @noinspection PhpIncludeInspection */
             /** @noinspection UsingInclusionReturnValueInspection */
+            /** @psalm-suppress UnresolvableInclude */
             return include $file;
         }
 
@@ -1386,7 +1376,6 @@ final class ASCII
             self::prepareAsciiExtras();
 
             /** @psalm-suppress PossiblyNullArgument - we use the prepare* methods here, so we don't get NULL here */
-            /** @noinspection PsalmLocalImmutableInspection */
             self::$ASCII_MAPS_AND_EXTRAS = \array_merge_recursive(
                 self::$ASCII_MAPS ?? [],
                 self::$ASCII_EXTRAS ?? []
@@ -1402,7 +1391,6 @@ final class ASCII
     private static function prepareAsciiMaps()
     {
         if (self::$ASCII_MAPS === null) {
-            /** @noinspection PsalmLocalImmutableInspection */
             self::$ASCII_MAPS = self::getData('ascii_by_languages');
         }
     }
@@ -1415,7 +1403,6 @@ final class ASCII
     private static function prepareAsciiExtras()
     {
         if (self::$ASCII_EXTRAS === null) {
-            /** @noinspection PsalmLocalImmutableInspection */
             self::$ASCII_EXTRAS = self::getData('ascii_extras_by_languages');
         }
     }
