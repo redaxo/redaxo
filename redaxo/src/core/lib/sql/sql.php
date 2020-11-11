@@ -415,14 +415,23 @@ class rex_sql implements Iterator
         }
 
         try {
-            $this->stmt = rex_timer::measure(__METHOD__, static function () use ($pdo, $query) {
-                return $pdo->query($query) ?: null;
+            $this->stmt = rex_timer::measure(__METHOD__, function () use ($pdo, $query) {
+                error_clear_last();
+
+                if (false !== $stmt = @$pdo->query($query)) {
+                    return $stmt;
+                }
+
+                if ($error = error_get_last()) {
+                    throw new rex_sql_exception('Error while executing statement "' . $query . '": ' . $error['message'], null, $this);
+                }
+                throw new rex_sql_exception('Error while executing statement "' . $query . '".', null, $this);
             });
 
             $this->rows = $this->stmt->rowCount();
             $this->lastInsertId = self::$pdo[$this->DBID]->lastInsertId();
         } catch (PDOException $e) {
-            throw new rex_sql_exception('Error while executing statement "' . $query . '"! ' . $e->getMessage(), $e, $this);
+            throw new rex_sql_exception('Error while executing statement "' . $query . '": ' . $e->getMessage(), $e, $this);
         } finally {
             if (null !== $buffered) {
                 $pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $buffered);
