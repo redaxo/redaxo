@@ -62,7 +62,6 @@ class rex_backup
         $return['message'] = '';
 
         $msg = '';
-        $error = '';
 
         if ('' == $filename || '.sql' != substr($filename, -4, 4)) {
             $return['message'] = rex_i18n::msg('backup_no_import_file_chosen_or_wrong_version') . '<br>';
@@ -132,17 +131,19 @@ class rex_backup
         $lines = [];
         rex_sql_util::splitSqlFile($lines, $conts, 0);
 
+        $error = [];
+
         $sql = rex_sql::factory();
         foreach ($lines as $line) {
             try {
                 $sql->setQuery($line['query']);
             } catch (rex_sql_exception $e) {
-                $error .= "\n" . $e->getMessage();
+                $error[] = nl2br(trim(rex_escape($e->getMessage())));
             }
         }
 
-        if ('' != $error) {
-            $return['message'] = trim($error);
+        if ($error) {
+            $return['message'] = implode('<br/>', $error);
             return $return;
         }
 
