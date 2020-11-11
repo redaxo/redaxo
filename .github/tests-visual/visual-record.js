@@ -15,7 +15,7 @@ const fs = require('fs');
 const mkdirp = require('mkdirp');
 
 const screenshotWidth = 1280;
-const screenshotHeight = 1024
+const screenshotHeight = 1024;
 
 const START_URL = 'http://localhost:8000/redaxo/index.php';
 const DEBUGGING = false;
