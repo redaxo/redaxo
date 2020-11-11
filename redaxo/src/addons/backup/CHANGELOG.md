@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.6.2 – XX.XX.2020
+--------------------------
+
+### Bugfixes
+
+* Bei Fehlern während des Imports wurde die SQL-Query nicht escaped in der Fehlermeldung (@gharlan)
+
+
 Version 2.6.1 – 01.07.2020
 --------------------------
 

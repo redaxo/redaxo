@@ -1,5 +1,5 @@
 package: media_manager
-version: '2.10.0'
+version: '2.10.1-dev'
 author: 'Markus Staab, Jan Kristinus'
 supportpage: https://github.com/redaxo/redaxo
 

@@ -15,6 +15,7 @@ Version 5.11.1 – XX.XX.2020
 * Systembericht als Markdown: Bei Nutzung des Kopieren-Buttons kam teils ungültiges Markdown heraus wegen Leerzeichen am Anfang (@gharlan)
 * Log: Darstellung "Info"-Meldungen korrigiert (@BlackScorp)
 * Systembericht: Addons ohne Versionsangabe führten zu Fehler (@gharlan)
+* Setup: Es kam teils fälschlich die Warnung, `session.auto_start` wäre aktiv (@gharlan)
 * `rex_sql`:
     - `getLastId` lieferte im Frontend `0`, wenn der Debugmodus des SQL-Objekts aktiviert war (@gharlan)
     - `getQueryType` unterstützt Klammern um die Query (@BlackScorp, @staabm)
