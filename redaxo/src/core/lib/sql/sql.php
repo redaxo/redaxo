@@ -418,6 +418,8 @@ class rex_sql implements Iterator
             $this->stmt = rex_timer::measure(__METHOD__, function () use ($pdo, $query) {
                 error_clear_last();
 
+                // since we are in Exception-Mode, PDO should throw in case of errors.
+                // it seems there are rare cases where it still returns false, which we try to handle here
                 if (false !== $stmt = @$pdo->query($query)) {
                     return $stmt;
                 }
