@@ -1,5 +1,12 @@
 {
     "require": {
         "itsgoingd/clockwork": "^4.1"
+    },
+
+    "config": {
+        "platform": {
+            "php": "7.3.0"
+        },
+        "platform-check": false
     }
 }
