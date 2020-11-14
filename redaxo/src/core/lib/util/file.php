@@ -10,17 +10,18 @@ class rex_file
     /**
      * Returns the content of a file.
      *
-     * @param string $file    Path to the file
+     * @param string $file Path to the file
+     *
+     * @throws rex_exception throws when the file cannot be read
      *
      * @return string Content of the file
-     *
-     * @throws rex_exception Throws when the file cannot be read.
      */
-    public static function require($file) {
+    public static function require($file)
+    {
         return rex_timer::measure(__METHOD__, static function () use ($file) {
             $content = @file_get_contents($file);
 
-            if ($content === false) {
+            if (false === $content) {
                 throw new rex_exception('Unable to read file "'. $file .'"');
             }
 
