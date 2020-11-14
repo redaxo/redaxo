@@ -46,7 +46,7 @@ class rex_file
      * @psalm-param T $default
      *
      * @return mixed Content of the file or default value if the file isn't readable
-     * @psalm-return array|null|T
+     * @psalm-return array|T
      */
     public static function getCache($file, $default = [])
     {
