@@ -11,6 +11,27 @@ class rex_file
      * Returns the content of a file.
      *
      * @param string $file    Path to the file
+     *
+     * @return string Content of the file
+     *
+     * @throws rex_exception Throws when the file cannot be read.
+     */
+    public static function require($file) {
+        return rex_timer::measure(__METHOD__, static function () use ($file) {
+            $content = @file_get_contents($file);
+
+            if ($content === false) {
+                throw new rex_exception('Unable to read file "'. $file .'"');
+            }
+
+            return $content;
+        });
+    }
+
+    /**
+     * Returns the content of a file.
+     *
+     * @param string $file    Path to the file
      * @param mixed  $default Default value
      * @psalm-template T
      * @psalm-param T $default

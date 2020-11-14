@@ -27,14 +27,14 @@ if (rex_get('asset') && rex_get('buster')) {
 
     $ext = rex_file::extension($assetFile);
     if ('js' === $ext) {
-        $js = rex_file::get($assetFile, '');
+        $js = rex_file::require($assetFile)
 
         $js = preg_replace('@^//# sourceMappingURL=.*$@m', '', $js);
 
         rex_response::sendCacheControl('max-age=31536000, immutable');
         rex_response::sendContent($js, 'application/javascript');
     } elseif ('css' === $ext) {
-        $styles = rex_file::get($assetFile, '');
+        $styles = rex_file::require($assetFile)
 
         // If we are in a directory off the root, add a relative path here back to the root, like "../"
         // get the public path to this file, plus the baseurl
