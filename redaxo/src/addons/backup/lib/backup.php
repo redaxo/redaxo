@@ -68,7 +68,7 @@ class rex_backup
             return $return;
         }
 
-        $conts = rex_file::require($filename)
+        $conts = rex_file::require($filename);
 
         // Versionsstempel prüfen
         // ## Redaxo Database Dump Version x.x
@@ -312,7 +312,7 @@ class rex_backup
 
         // Den Dateiinhalt geben wir nur dann weiter, wenn es unbedingt notwendig ist.
         if (rex_extension::isRegistered('BACKUP_AFTER_DB_EXPORT')) {
-            $content = rex_file::require($filename)
+            $content = rex_file::require($filename);
             $hashBefore = md5($content);
             // ----- EXTENSION POINT
             $content = rex_extension::registerPoint(new rex_extension_point('BACKUP_AFTER_DB_EXPORT', $content));
