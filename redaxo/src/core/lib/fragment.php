@@ -16,6 +16,7 @@ class rex_fragment
      * key-value pair which represents all variables defined inside the fragment.
      *
      * @var array
+     * @psalm-var array<string, mixed>
      */
     private $vars;
 
@@ -29,7 +30,7 @@ class rex_fragment
     /**
      * array which contains all folders in which fragments will be searched for at runtime.
      *
-     * @var array
+     * @var string[]
      */
     private static $fragmentDirs = [];
 
@@ -37,6 +38,7 @@ class rex_fragment
      * Creates a fragment with the given variables.
      *
      * @param array $vars A array of key-value pairs to pass as local parameters
+     * @psalm-param array<string, mixed> $vars
      */
     public function __construct(array $vars = [])
     {
@@ -47,7 +49,7 @@ class rex_fragment
      * Returns the value of the given variable $name.
      *
      * @param string $name    Variable name
-     * @param string $default Default value
+     * @param mixed  $default Default value
      *
      * @return mixed
      */
@@ -134,6 +136,7 @@ class rex_fragment
      *
      * @param string $filename The filename of the fragment used for decoration
      * @param array  $params   A array of key-value pairs to pass as parameters
+     * @psalm-var array<string, mixed> $params
      *
      * @return $this
      */
@@ -169,6 +172,7 @@ class rex_fragment
      *
      * @param string $filename The filename of the fragment to use
      * @param array  $params   A array of key-value pairs to pass as local parameters
+     * @psalm-var array<string, mixed> $params
      */
     protected function getSubfragment(string $filename, array $params = []): string
     {
@@ -183,6 +187,7 @@ class rex_fragment
      *
      * @param string $filename The filename of the fragment to use
      * @param array  $params   A array of key-value pairs to pass as local parameters
+     * @psalm-var array<string, mixed> $params
      */
     protected function subfragment($filename, array $params = [])
     {
