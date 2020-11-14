@@ -296,7 +296,7 @@ class rex_managed_media
             return $this->getImageSource();
         }
 
-        return rex_file::get($this->sourcePath, '');
+        return rex_file::require($this->sourcePath)
     }
 
     public function setImageProperty($name, $value)
