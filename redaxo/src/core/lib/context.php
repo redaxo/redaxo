@@ -92,7 +92,7 @@ class rex_context implements rex_context_provider_interface
      * When no value is set, $default will be returned.
      *
      * @param string $name
-     * @param mixed $default
+     * @param mixed  $default
      *
      * @return mixed
      */
