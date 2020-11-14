@@ -27,7 +27,7 @@ parameters:
         - redaxo/src/core/vendor/
     # https://phpstan.org/config-reference#universal-object-crates
     universalObjectCratesClasses:
-		- rex_fragment
+        - rex_fragment
     # make phpstan aware of never returning methods
     # https://github.com/phpstan/phpstan/issues/2900
     earlyTerminatingMethodCalls:
