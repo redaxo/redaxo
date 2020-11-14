@@ -52,6 +52,7 @@ class rex_command_db_set_connection extends rex_console_command implements rex_c
         if (!$changed) {
             throw new InvalidArgumentException('No database settings given.');
         }
+        assert(isset($config['db']));
 
         $settingsValid = rex_sql::checkDbConnection(
             $config['db'][1]['host'],
