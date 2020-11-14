@@ -11,7 +11,7 @@ class rex_be_controller
     private static $page;
 
     /**
-     * @var array
+     * @var string[]
      */
     private static $pageParts = [];
 
@@ -49,7 +49,7 @@ class rex_be_controller
      *
      * @psalm-param null|positive-int $part
      *
-     * @return array|string|null
+     * @return string[]|string|null
      */
     public static function getCurrentPagePart($part = null, $default = null)
     {
