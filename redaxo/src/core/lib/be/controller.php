@@ -38,7 +38,7 @@ class rex_be_controller
     /**
      * @return string
      */
-    public static function 4getCurrentPage()
+    public static function getCurrentPage()
     {
         return self::$page;
     }
