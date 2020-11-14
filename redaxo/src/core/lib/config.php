@@ -121,7 +121,6 @@ class rex_config
      * @return mixed the value for $key or $default if $key cannot be found in the given $namespace
      *
      * @template T as ?string
-     * @phpstan-template T
      * @psalm-param T $key
      * @psalm-return (T is string ? mixed|null : array<string, mixed>)
      */
