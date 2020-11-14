@@ -12,7 +12,7 @@ $package = rex_package::get(rex_request('package', 'string'));
 
 $license = null;
 if (is_readable($package->getPath('LICENSE.md'))) {
-    $license = rex_markdown::factory()->parse(rex_file::get($package->getPath('LICENSE.md')));
+    $license = rex_markdown::factory()->parse(rex_file::require($package->getPath('LICENSE.md')));
 } elseif (is_readable($package->getPath('LICENSE'))) {
     $license = nl2br(file_get_contents($package->getPath('LICENSE')));
 }
