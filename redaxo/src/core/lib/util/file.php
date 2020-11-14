@@ -12,8 +12,11 @@ class rex_file
      *
      * @param string $file    Path to the file
      * @param mixed  $default Default value
+     * @psalm-template T
+     * @psalm-param T $default
      *
      * @return mixed Content of the file or default value if the file isn't readable
+     * @psalm-return string|T
      */
     public static function get($file, $default = null)
     {
