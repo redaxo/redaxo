@@ -49,12 +49,16 @@ interface rex_context_provider_interface extends rex_url_provider_interface
  */
 class rex_context implements rex_context_provider_interface
 {
+    /**
+     * @psalm-var array<string, mixed>
+     */
     private $globalParams;
 
     /**
      * Constructs a rex_context with the given global parameters.
      *
      * @param array $globalParams A array containing only scalar values for key/value
+     * @psalm-param array<string, mixed> $globalParams
      */
     public function __construct(array $globalParams = [])
     {
@@ -88,7 +92,7 @@ class rex_context implements rex_context_provider_interface
      * When no value is set, $default will be returned.
      *
      * @param string $name
-     * @param string $default
+     * @param mixed  $default
      *
      * @return mixed
      */
