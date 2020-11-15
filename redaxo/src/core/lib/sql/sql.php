@@ -199,8 +199,9 @@ class rex_sql implements Iterator
         $query = trim($query);
 
         if (preg_match('/\(DB([1-9]){1}\)/i', $query, $matches)) {
-            assert($matches[1] > 0);
-            return (int) $matches[1];
+            $dbid = (int) $matches[1];
+            assert($dbid > 0);
+            return $dbid;
         }
 
         return false;
