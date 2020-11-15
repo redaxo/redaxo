@@ -135,14 +135,21 @@ class rex_setup
      * Checks the version of the connected database server.
      * When validation of the database configs succeeds the settings will be used for rex_sql.
      *
-     * @param array $config   array of database config
+     * @param array|rex_system_config $config   array of database config
      * @param bool  $createDb Should the database be created, if it not exists
      *
      * @return string Error message
      */
     public static function checkDb($config, $createDb)
     {
-        $err = rex_sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], $config['db'][1]['password'], $config['db'][1]['name'], $createDb);
+        if ($config instanceof rex_system_config) {
+            $dbConfig = $config->db;
+        } else {
+            // BC case
+            $dbConfig = $config['db'];
+        }
+        $err = rex_sql::checkDbConnection($dbConfig[1]['host'], $dbConfig[1]['login'], $dbConfig[1]['password'], $dbConfig[1]['name'], $createDb);
+
         if (true !== $err) {
             return $err;
         }
@@ -150,7 +157,7 @@ class rex_setup
         // use given db config instead of saved config
         $orgDbConfig = rex::getProperty('db');
         try {
-            rex::setProperty('db', $config['db']);
+            rex::setProperty('db', $dbConfig);
             $sql = rex_sql::factory();
             $type = $sql->getDbType();
             $version = $sql->getDbVersion();

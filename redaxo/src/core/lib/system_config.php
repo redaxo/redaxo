@@ -4,7 +4,6 @@
  * A readonly representation of the config.yml system config which allows type-safe working with often used system-config properties.
  *
  * @psalm-immutable
- * @psalm-pure
  */
 final class rex_system_config {
     public function __construct(array $config) {
