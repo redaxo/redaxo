@@ -64,7 +64,7 @@ class rex_sql_table
     private static $explicitCharset;
 
     /**
-     * @psalm-var positive-int $db
+     * @psalm-param positive-int $db
      */
     private function __construct($name, int $db = 1)
     {
