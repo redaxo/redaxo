@@ -317,11 +317,14 @@ class rex
     }
 
     /**
-     * @return rex_system_config
+     * @param int $db
+     * @psalm-param positive-int $db
+     *
+     * @return rex_config_db
      *
      * @throws rex_exception
      */
-    public static function getSystemConfig() {
+    public static function getDbConfig($db = 1) {
         $configFile = rex_path::coreData('config.yml');
 
         if (!$configFile) {
@@ -334,7 +337,7 @@ class rex
             throw new rex_exception('Unable to parse "'. $configFile .'"');
         }
 
-        return new rex_system_config($config);
+        return new rex_config_db($config['db'][$db]);
     }
 
     /**

@@ -67,7 +67,10 @@ class rex_sql implements Iterator
     protected $query; // Die Abfrage
     /** @var array */
     protected $params; // Die Abfrage-Parameter
-    /** @var int */
+    /**
+     * @var int
+     * @psalm-var positive-int
+     */
     protected $DBID; // ID der Verbindung
 
     /**
@@ -88,6 +91,7 @@ class rex_sql implements Iterator
 
     /**
      * @param int $db
+     * @psalm-param positive-int $db
      *
      * @throws rex_sql_exception
      */
@@ -102,6 +106,7 @@ class rex_sql implements Iterator
      * Stellt die Verbindung zur Datenbank her.
      *
      * @param int $db
+     * @psalm-param positive-int $db
      *
      * @throws rex_sql_exception
      */
@@ -1784,6 +1789,7 @@ class rex_sql implements Iterator
      * Creates a rex_sql instance.
      *
      * @param int $db
+     * @psalm-param positive-int $db
      *
      * @return static Returns a rex_sql instance
      */
