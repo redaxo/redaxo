@@ -318,13 +318,20 @@ class rex
 
     /**
      * @return rex_system_config
+     *
+     * @throws rex_exception
      */
     public static function getSystemConfig() {
         $configFile = rex_path::coreData('config.yml');
+
+        if (!$configFile) {
+            throw new rex_exception('Unable to read "'. $configFile .'"');
+        }
+
         $config = rex_file::getConfig($configFile);
 
         if (!$config) {
-            throw new InvalidArgumentException('Unable to read and parse "'. $configFile .'"');
+            throw new rex_exception('Unable to parse "'. $configFile .'"');
         }
 
         return new rex_system_config($config);
