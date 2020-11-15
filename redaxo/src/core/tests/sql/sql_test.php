@@ -48,32 +48,32 @@ class rex_sql_test extends TestCase
 
     public function testCheckConnection()
     {
-        $sysConfig = rex::getSystemConfig();
-        static::assertTrue(rex_sql::checkDbConnection($sysConfig->db[1]['host'], $sysConfig->db[1]['login'], $sysConfig->db[1]['password'], $sysConfig->db[1]['name']));
+        $dbConfig = rex::getDbConfig(1);
+        static::assertTrue(rex_sql::checkDbConnection($dbConfig->host, $dbConfig->login, $dbConfig->password, $dbConfig->name));
     }
 
     public function testCheckConnectionInvalidPassword()
     {
-        $sysConfig = rex::getSystemConfig();
-        static::assertTrue(true !== rex_sql::checkDbConnection($sysConfig->db[1]['host'], $sysConfig->db[1]['login'], 'fu-password', $sysConfig->db[1]['name']));
+        $dbConfig = rex::getDbConfig();
+        static::assertTrue(true !== rex_sql::checkDbConnection($dbConfig->host, $dbConfig->login, 'fu-password', $dbConfig->name));
     }
 
     public function testCheckConnectionInvalidHost()
     {
-        $sysConfig = rex::getSystemConfig();
-        static::assertTrue(true !== rex_sql::checkDbConnection('fu-host', $sysConfig->db[1]['login'], $sysConfig->db[1]['password'], $sysConfig->db[1]['name']));
+        $dbConfig = rex::getDbConfig();
+        static::assertTrue(true !== rex_sql::checkDbConnection('fu-host', $dbConfig->login, $dbConfig->password, $dbConfig->name));
     }
 
     public function testCheckConnectionInvalidLogin()
     {
-        $sysConfig = rex::getSystemConfig();
-        static::assertTrue(true !== rex_sql::checkDbConnection($sysConfig->db[1]['host'], 'fu-login', $sysConfig->db[1]['password'], $sysConfig->db[1]['name']));
+        $dbConfig = rex::getDbConfig();
+        static::assertTrue(true !== rex_sql::checkDbConnection($dbConfig->host, 'fu-login', $dbConfig->password, $dbConfig->name));
     }
 
     public function testCheckConnectionInvalidDatabase()
     {
-        $sysConfig = rex::getSystemConfig();
-        static::assertTrue(true !== rex_sql::checkDbConnection($sysConfig->db[1]['host'], $sysConfig->db[1]['login'], $sysConfig->db[1]['password'], 'fu-database'));
+        $dbConfig = rex::getDbConfig();
+        static::assertTrue(true !== rex_sql::checkDbConnection($dbConfig->host, $dbConfig->login, $dbConfig->password, 'fu-database'));
     }
 
     /**
