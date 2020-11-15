@@ -28,7 +28,10 @@ class rex_form extends rex_form_base
     protected $whereCondition;
     /** @var string */
     protected $mode;
-    /** @var int */
+    /**
+     * @var int
+     * @psalm-var positive-int
+     */
     protected $db;
     /** @var rex_sql */
     protected $sql;
