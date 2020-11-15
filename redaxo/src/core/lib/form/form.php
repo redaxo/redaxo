@@ -96,7 +96,6 @@ class rex_form extends rex_form_base
      * @param int    $db             DB connection ID
      *
      * @psalm-param positive-int $db
-
      *
      * @return static a rex_form instance
      */
