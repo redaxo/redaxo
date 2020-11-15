@@ -317,6 +317,16 @@ class rex
     }
 
     /**
+     * @return rex_system_config
+     */
+    public static function getSystemConfig() {
+        $configFile = rex_path::coreData('config.yml');
+        $config = rex_file::getConfig($configFile);
+
+        return new rex_system_config($config);
+    }
+
+    /**
      * Returns the server URL.
      *
      * @param null|string $protocol
