@@ -6,6 +6,7 @@
 class rex_login
 {
     /**
+     * @psalm-var positive-int
      * @var int
      */
     protected $DB = 1;

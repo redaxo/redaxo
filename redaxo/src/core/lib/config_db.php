@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @psalm-readonly 
+ * @psalm-readonly
  */
 class rex_config_db
 {
