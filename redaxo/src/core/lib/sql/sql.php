@@ -192,6 +192,7 @@ class rex_sql implements Iterator
      * @param string $query
      *
      * @return false|int
+     * @psalm-return false|positive-int
      */
     protected static function getQueryDBID($query)
     {
@@ -211,6 +212,7 @@ class rex_sql implements Iterator
      * @param string $query Abfrage
      *
      * @return false|int
+     * @psalm-return false|positive-int
      */
     protected static function stripQueryDBID(&$query)
     {
