@@ -320,11 +320,12 @@ class rex
      * @param int $db
      * @psalm-param positive-int $db
      *
-     * @return rex_config_db
-     *
      * @throws rex_exception
+     *
+     * @return rex_config_db
      */
-    public static function getDbConfig($db = 1) {
+    public static function getDbConfig($db = 1)
+    {
         $configFile = rex_path::coreData('config.yml');
 
         if (!$configFile) {

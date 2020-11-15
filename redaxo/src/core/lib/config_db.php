@@ -39,7 +39,8 @@ class rex_config_db
      */
     public $ssl_ca;
 
-    public function __construct(array $dbConfig) {
+    public function __construct(array $dbConfig)
+    {
         $this->host = $dbConfig['host'];
         $this->login = $dbConfig['login'];
         $this->password = $dbConfig['password'];

@@ -30,6 +30,7 @@ class rex_metainfo_table_manager
     private $tableName;
     /**
      * @psalm-var positive-int
+     *
      * @var int
      */
     private $DBID;
