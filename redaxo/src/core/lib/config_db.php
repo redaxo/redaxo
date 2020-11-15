@@ -4,7 +4,7 @@
  * @psalm-readonly
  * @package redaxo\core
  */
-class rex_config_db
+final class rex_config_db
 {
     /**
      * @var string
