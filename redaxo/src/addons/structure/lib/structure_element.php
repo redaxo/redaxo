@@ -463,9 +463,7 @@ abstract class rex_structure_element
      * Get an array of all parentCategories.
      * Returns an array of rex_structure_element objects.
      *
-     * @return rex_category[]
-     *
-     * @psalm-return list<rex_category>
+     * @return list<rex_category>
      */
     public function getParentTree()
     {
@@ -511,7 +509,7 @@ abstract class rex_structure_element
     /**
      * Returns the closest element from parent tree (including itself) where the callback returns true.
      *
-     * @psalm-param callable(self):bool $callback
+     * @param callable(self):bool $callback
      */
     public function getClosest(callable $callback): ?self
     {
