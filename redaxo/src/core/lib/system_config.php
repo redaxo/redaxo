@@ -41,7 +41,7 @@ final class rex_system_config {
 
     /**
      * @psalm-var array{
-     *   1: array<host: string, login: string, password: string, name: string, persistent: bool>
+     *   1: array<host: string, login: string, password: string, name: string, persistent: bool>,
      *   2: array<host: string, login: string, password: string, name: string, persistent: bool>
      * }
      * @var array
