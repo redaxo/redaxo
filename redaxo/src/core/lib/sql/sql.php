@@ -86,7 +86,10 @@ class rex_sql implements Iterator
     /** @var PDOStatement|null */
     protected $stmt;
 
-    /** @var PDO[] */
+    /**
+     * @var PDO[]
+     * @psalm-var array<positive-int, PDO>
+     */
     protected static $pdo = [];
 
     /**
