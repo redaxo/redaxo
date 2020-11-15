@@ -2,6 +2,7 @@
 
 /**
  * @psalm-readonly
+ * @package redaxo\core
  */
 class rex_config_db
 {
