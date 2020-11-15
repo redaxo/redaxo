@@ -28,6 +28,10 @@ class rex_metainfo_table_manager
     public const FIELD_COUNT = 13;
 
     private $tableName;
+    /**
+     * @psalm-var positive-int
+     * @var int
+     */
     private $DBID;
 
     public function __construct($tableName, $DBID = 1)
