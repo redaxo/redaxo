@@ -1574,6 +1574,7 @@ class rex_sql implements Iterator
      *
      * @param string $table Name der Tabelle
      * @param int    $db    Id der Datenbankverbindung
+     * @psalm-param positive-int $db
      *
      * @throws rex_sql_exception
      *
@@ -1600,6 +1601,7 @@ class rex_sql implements Iterator
      *
      * @param int         $db          Id der Datenbankverbindung
      * @param null|string $tablePrefix Zu suchender Tabellennamen-Prefix
+     * @psalm-param positive-int $db
      *
      * @throws rex_sql_exception
      *
@@ -1712,6 +1714,7 @@ class rex_sql implements Iterator
      *
      * @param string $table Name der Tabelle
      * @param int    $db    Id der Datenbankverbindung
+     * @psalm-param positive-int $db
      *
      * @throws rex_sql_exception
      *
@@ -1746,6 +1749,7 @@ class rex_sql implements Iterator
      * Returns the full database version string.
      *
      * @param int $db
+     * @psalm-param positive-int $db
      *
      * @return string E.g. "5.7.7" or "5.5.5-10.4.9-MariaDB"
      */
@@ -1905,7 +1909,7 @@ class rex_sql implements Iterator
         // close the connection
         $conn = null;
 
-        return  $err_msg;
+        return $err_msg;
     }
 
     /**
