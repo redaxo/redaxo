@@ -323,6 +323,10 @@ class rex
         $configFile = rex_path::coreData('config.yml');
         $config = rex_file::getConfig($configFile);
 
+        if (!$config) {
+            throw new InvalidArgumentException('Unable to read and parse "'. $configFile .'"');
+        }
+
         return new rex_system_config($config);
     }
 
