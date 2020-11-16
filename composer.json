@@ -12,12 +12,12 @@
         "j13k/yaml-lint": "^1.1@dev",
         "nunomaduro/collision": "^5.1",
         "phpstan/extension-installer": "1.0.5",
-        "phpstan/phpstan": "0.12.54",
+        "phpstan/phpstan": "0.12.55",
         "phpstan/phpstan-deprecation-rules": "0.12.5",
         "phpstan/phpstan-phpunit": "0.12.16",
         "phpunit/phpunit": "^9.3",
         "psalm/plugin-phpunit": "0.13.0",
-        "psalm/plugin-symfony": "2.0.0",
+        "psalm/plugin-symfony": "2.0.1",
         "vimeo/psalm": "4.1.1"
     },
     "replace": {
