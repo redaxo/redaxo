@@ -31,7 +31,7 @@ class rex_command_db_set_connection extends rex_console_command implements rex_c
         $configFile = rex_path::coreData('config.yml');
         $config = rex_file::getConfig($configFile);
 
-        $config = $config + ['db' => [1 => ['host' => '', 'login' => '', 'password' => '', 'database' => '']]];
+        $config['db'][1] = array_merge(['host' => '', 'login' => '', 'password' => '', 'database' => ''], $config['db'][1] ?? []);
 
         $changed = false;
         if (null !== $input->getOption('host')) {
