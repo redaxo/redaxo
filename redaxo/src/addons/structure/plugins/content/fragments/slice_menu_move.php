@@ -1,4 +1,7 @@
 <?php
+/** @var rex_fragment $this */
+?>
+<?php
 
 $fragment = new rex_fragment();
 $fragment->setVar('buttons', $this->items, false);

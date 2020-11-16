@@ -1,3 +1,6 @@
+<?php
+/** @var rex_fragment $this */
+?>
 <div id="content-history-layer" class="history-layer">
 
     <div class="history-layer-content">

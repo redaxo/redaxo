@@ -1,4 +1,7 @@
 <?php
+/** @var rex_fragment $this */
+?>
+<?php
 /**
  * Discussion Issue #1174
  * Manipulate this fragment to influence the selection of modules on the slice.
