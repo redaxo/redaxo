@@ -230,7 +230,7 @@ class rex
     {
         $debug = self::getDebugFlags();
 
-        return isset($debug['enabled']) && $debug['enabled'];
+        return $debug['enabled'];
     }
 
     /**
@@ -243,8 +243,9 @@ class rex
     {
         $flags = self::getProperty('debug');
 
-        $debug['enabled'] ?? $debug['enabled'] ?? false;
-        $debug['throw_always_exception'] ?? $debug['throw_always_exception'] ?? false;
+        $debug['enabled'] ?: false;
+        $debug['throw_always_exception'] ?: false;
+
         return $flags;
     }
 
