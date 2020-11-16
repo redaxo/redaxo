@@ -1,5 +1,6 @@
 <?php
-/** @var rex_fragment $this */
+/** @var rex_fragment $this
+* @psalm-scope-this rex_fragment */
 ?>
     <?php if (isset($this->headline)): ?>
     <h4 class="rex-nav-main-title"><?= $this->headline['title'] ?></h4>
