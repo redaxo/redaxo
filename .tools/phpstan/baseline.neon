@@ -106,6 +106,11 @@ parameters:
 			path: ../../redaxo/src/addons/structure/lib/structure_element.php
 
 		-
+			message: "#^Call to protected method subfragment\\(\\) of class rex_fragment\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/structure/plugins/content/fragments/module_select.php
+
+		-
 			message: "#^Right side of && is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/plugins/content/pages/content.edit.php
@@ -124,6 +129,16 @@ parameters:
 			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/plugins/version/boot.php
+
+		-
+			message: "#^Call to protected method subfragment\\(\\) of class rex_fragment\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/fragments/core/buttons/button_group.php
+
+		-
+			message: "#^Call to protected method i18n\\(\\) of class rex_fragment\\.$#"
+			count: 5
+			path: ../../redaxo/src/core/fragments/core/navigations/pagination.php
 
 		-
 			message: "#^If condition is always true\\.$#"
@@ -349,6 +364,11 @@ parameters:
 			message: "#^Parameter \\#1 \\$callback of method rex_sql\\:\\:addRecord\\(\\) expects callable\\(rex_sql\\)\\: void, Closure\\(rex_sql\\)\\: mixed given\\.$#"
 			count: 10
 			path: ../../redaxo/src/core/tests/sql/sql_test.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of static method rex_formatter\\:\\:bytes\\(\\) expects int\\|string, float given\\.$#"
+			count: 3
+			path: ../../redaxo/src/core/tests/util/formatter_test.php
 
 		-
 			message: "#^Strict comparison using \\=\\=\\= between 'abc' and null will always evaluate to false\\.$#"
