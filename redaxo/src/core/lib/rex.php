@@ -326,19 +326,15 @@ class rex
      */
     public static function getDbConfig($db = 1)
     {
-        $configFile = rex_path::coreData('config.yml');
-
-        if (!$configFile) {
-            throw new rex_exception('Unable to read "'. $configFile .'"');
-        }
-
-        $config = rex_file::getConfig($configFile);
+        $config = self::getProperty('db', null);
 
         if (!$config) {
-            throw new rex_exception('Unable to parse "'. $configFile .'"');
+            $configFile = rex_path::coreData('config.yml');
+
+            throw new rex_exception('Unable to read db config from config.yml "'. $configFile .'"');
         }
 
-        return new rex_config_db($config['db'][$db]);
+        return new rex_config_db($config[$db]);
     }
 
     /**
