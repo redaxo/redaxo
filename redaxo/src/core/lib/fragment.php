@@ -155,7 +155,7 @@ class rex_fragment
      *
      * @param mixed  $value    The value to escape
      * @param string $strategy One of "html", "html_attr", "css", "js", "url"
-     * 
+     *
      * @psalm-template T
      * @psalm-param T $value
      * @psalm-return (T is Stringable ? string : T)
