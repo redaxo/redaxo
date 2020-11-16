@@ -29,11 +29,7 @@ class rex_command_db_set_connection extends rex_console_command implements rex_c
         $io = $this->getStyle($input, $output);
 
         $configFile = rex_path::coreData('config.yml');
-        $config = rex_file::getConfig($configFile);
-
-        if (!$config) {
-            throw new InvalidArgumentException('missing database settings in config.yml.');
-        }
+        $config = rex_file::getConfig($configFile, ['db' => [1 => []]]);
 
         $changed = false;
         if (null !== $input->getOption('host')) {
