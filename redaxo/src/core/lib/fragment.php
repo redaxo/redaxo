@@ -5,7 +5,7 @@
  *
  * @method void subfragment(string $filename, array $params = [])
  * @method string getSubfragment(string $filename, array $params = [])
- * @method string i18n(string $key)
+ * @method string i18n(string $key, ...$replacements)
  * @method mixed escape($value, $strategy = 'html')
  *
  * @package redaxo\core
@@ -205,27 +205,17 @@ class rex_fragment
      * Translate the given key $key.
      *
      * @param string $key The key to translate
+     * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
-     * @throws InvalidArgumentException
-     *
-     * @return string
+     * @return string Translation for the key
      */
-    protected function i18n($key)
+    protected function i18n($key, ...$replacements)
     {
         if (!is_string($key)) {
             throw new InvalidArgumentException(sprintf('Expecting $key to be a string, %s given!', gettype($key)));
         }
 
-        // use the magic call only when more than one parameter is passed along,
-        // to get best performance
-        $argNum = func_num_args();
-        if ($argNum > 1) {
-            // pass along all given parameters
-            $args = func_get_args();
-            return call_user_func_array(['rex_i18n', 'msg'], $args);
-        }
-
-        return rex_i18n::msg($key);
+        return rex_i18n::msg($key, ...$replacements);
     }
 
     /**

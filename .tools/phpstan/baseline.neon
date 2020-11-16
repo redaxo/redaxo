@@ -126,11 +126,6 @@ parameters:
 			path: ../../redaxo/src/addons/structure/plugins/version/boot.php
 
 		-
-			message: "#^Method rex_fragment\\:\\:i18n\\(\\) invoked with 2 parameters, 1 required\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/fragments/core/navigations/pagination.php
-
-		-
 			message: "#^If condition is always true\\.$#"
 			count: 2
 			path: ../../redaxo/src/core/lib/api_function.php
