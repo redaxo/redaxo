@@ -237,11 +237,15 @@ class rex
      * Returns the debug flags.
      *
      * @return array
-     * @psalm-return array{enabled?: bool, throw_always_exception?: bool|int}
+     * @psalm-return array{enabled: bool, throw_always_exception: bool|int}
      */
     public static function getDebugFlags()
     {
-        return self::getProperty('debug');
+        $flags = self::getProperty('debug');
+
+        $debug['enabled'] ?? $debug['enabled'] ?? false;
+        $debug['throw_always_exception'] ?? $debug['throw_always_exception'] ?? false;
+        return $flags;
     }
 
     /**
