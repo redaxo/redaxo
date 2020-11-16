@@ -19,7 +19,7 @@
  *
  * @psalm-template T
  * @psalm-param T $value
- * @psalm-return T is Stringable ? string : T
+ * @psalm-return (T is Stringable ? string : T)
  *
  * @throws InvalidArgumentException
  *
