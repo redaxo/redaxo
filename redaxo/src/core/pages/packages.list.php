@@ -108,7 +108,7 @@ $getTableRow = static function (rex_package $package) use ($getLink) {
     $license = '';
     if (is_readable($licenseFile = $package->getPath('LICENSE.md')) || is_readable($licenseFile = $package->getPath('LICENSE'))) {
         $f = fopen($licenseFile, 'r');
-        $firstLine = fgets($f);
+        $firstLine = fgets($f) ?: '';
         fclose($f);
 
         if (preg_match('/^The MIT License(?: \(MIT\))$/i', $firstLine)) {
