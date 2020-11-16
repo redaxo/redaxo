@@ -33,6 +33,9 @@
     <stubs>
         <file name="redaxo/src/core/.phpstorm.meta.php" />
     </stubs>
+    <universalObjectCrates>
+        <class name="rex_fragment" />
+    </universalObjectCrates>
     <plugins>
         <plugin filename=".tools/psalm/RexTypeReturnProvider.php" />
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin" />
