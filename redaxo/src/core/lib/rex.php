@@ -237,7 +237,7 @@ class rex
      * Returns the debug flags.
      *
      * @return array
-     * @psalm-return array{enabled: bool, throw_always_exception: bool}
+     * @psalm-return array{enabled?: bool, throw_always_exception?: bool}
      */
     public static function getDebugFlags()
     {
