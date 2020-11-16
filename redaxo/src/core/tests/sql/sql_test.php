@@ -48,7 +48,7 @@ class rex_sql_test extends TestCase
 
     public function testCheckConnection()
     {
-        $dbConfig = rex::getDbConfig(1);
+        $dbConfig = rex::getDbConfig();
         static::assertTrue(rex_sql::checkDbConnection($dbConfig->host, $dbConfig->login, $dbConfig->password, $dbConfig->name));
     }
 

@@ -2,8 +2,10 @@
 
 /**
  * @psalm-readonly
+ *
+ * @package redaxo\core
  */
-class rex_config_db
+final class rex_config_db
 {
     /**
      * @var string
@@ -39,7 +41,8 @@ class rex_config_db
      */
     public $sslCa;
 
-    public function __construct(array $dbConfig) {
+    public function __construct(array $dbConfig)
+    {
         $this->host = $dbConfig['host'];
         $this->login = $dbConfig['login'];
         $this->password = $dbConfig['password'];

@@ -86,7 +86,10 @@ class rex_sql implements Iterator
     /** @var PDOStatement|null */
     protected $stmt;
 
-    /** @var PDO[] */
+    /**
+     * @var PDO[]
+     * @psalm-var array<positive-int, PDO>
+     */
     protected static $pdo = [];
 
     /**
@@ -192,13 +195,16 @@ class rex_sql implements Iterator
      * @param string $query
      *
      * @return false|int
+     * @psalm-return false|positive-int
      */
     protected static function getQueryDBID($query)
     {
         $query = trim($query);
 
         if (preg_match('/\(DB([1-9]){1}\)/i', $query, $matches)) {
-            return (int) $matches[1];
+            $dbid = (int) $matches[1];
+            assert($dbid > 0);
+            return $dbid;
         }
 
         return false;
@@ -211,6 +217,7 @@ class rex_sql implements Iterator
      * @param string $query Abfrage
      *
      * @return false|int
+     * @psalm-return false|positive-int
      */
     protected static function stripQueryDBID(&$query)
     {
@@ -1572,6 +1579,7 @@ class rex_sql implements Iterator
      *
      * @param string $table Name der Tabelle
      * @param int    $db    Id der Datenbankverbindung
+     * @psalm-param positive-int $db
      *
      * @throws rex_sql_exception
      *
@@ -1598,6 +1606,7 @@ class rex_sql implements Iterator
      *
      * @param int         $db          Id der Datenbankverbindung
      * @param null|string $tablePrefix Zu suchender Tabellennamen-Prefix
+     * @psalm-param positive-int $db
      *
      * @throws rex_sql_exception
      *
@@ -1710,6 +1719,7 @@ class rex_sql implements Iterator
      *
      * @param string $table Name der Tabelle
      * @param int    $db    Id der Datenbankverbindung
+     * @psalm-param positive-int $db
      *
      * @throws rex_sql_exception
      *
@@ -1744,6 +1754,7 @@ class rex_sql implements Iterator
      * Returns the full database version string.
      *
      * @param int $db
+     * @psalm-param positive-int $db
      *
      * @return string E.g. "5.7.7" or "5.5.5-10.4.9-MariaDB"
      */
@@ -1903,7 +1914,7 @@ class rex_sql implements Iterator
         // close the connection
         $conn = null;
 
-        return  $err_msg;
+        return $err_msg;
     }
 
     /**
