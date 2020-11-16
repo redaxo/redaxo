@@ -29,15 +29,15 @@ class rex_config_db
     /**
      * @var string|null
      */
-    public $ssl_key;
+    public $sslKey;
     /**
      * @var string|null
      */
-    public $ssl_cert;
+    public $sslCert;
     /**
      * @var string|null
      */
-    public $ssl_ca;
+    public $sslCa;
 
     public function __construct(array $dbConfig) {
         $this->host = $dbConfig['host'];
@@ -46,8 +46,8 @@ class rex_config_db
         $this->name = $dbConfig['name'];
         $this->persistent = $dbConfig['persistent'];
 
-        $this->ssl_key = $dbConfig['ssl_key'];
-        $this->ssl_cert = $dbConfig['ssl_cert'];
-        $this->ssl_ca = $dbConfig['ssl_ca'];
+        $this->sslKey = $dbConfig['ssl_key'];
+        $this->sslCert = $dbConfig['ssl_cert'];
+        $this->sslCa = $dbConfig['ssl_ca'];
     }
 }
