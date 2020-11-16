@@ -1,6 +1,11 @@
 <?php
-    $toolbar = isset($this->toolbar) && $this->toolbar ? true : false;
-    $group = isset($this->group) && $this->group ? true : false;
+/**
+ * @var rex_fragment $this
+ * @psalm-scope-this rex_fragment
+ */
+
+$toolbar = isset($this->toolbar) && $this->toolbar ? true : false;
+$group = isset($this->group) && $this->group ? true : false;
 ?>
 
 <?php if (!$toolbar && !$group): ?>

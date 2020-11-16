@@ -1,4 +1,10 @@
 <?php
+/**
+ * @var rex_fragment $this
+ * @psalm-scope-this rex_fragment
+ */
+?>
+<?php
 
 $this->content = is_string($this->content) ? [$this->content] : $this->content;
 

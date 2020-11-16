@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var rex_fragment $this
+ * @psalm-scope-this rex_fragment
+ */
+?>
 <header class="rex-page-header">
     <div class="page-header">
         <h1><?= $this->heading ?>

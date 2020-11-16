@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var rex_fragment $this
+ * @psalm-scope-this rex_fragment
+ */
+?>
 <div class="rex-docs">
     <?php if ($this->getVar('sidebar') || $this->getVar('toc')): ?>
         <div class="rex-docs-sidebar">
