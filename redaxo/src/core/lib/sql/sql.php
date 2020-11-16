@@ -1674,12 +1674,14 @@ class rex_sql implements Iterator
      */
     private function fetchTablesAndViews($tablePrefix = null, $where = null)
     {
+        $dbConfig = rex::getDbConfig($this->DBID);
+
         $qry = 'SHOW FULL TABLES';
 
         $where = $where ? [$where] : [];
 
         if (null != $tablePrefix) {
-            $column = $this->escapeIdentifier('Tables_in_'.rex::getProperty('db')[$this->DBID]['name']);
+            $column = $this->escapeIdentifier('Tables_in_'.$dbConfig->name);
             $where[] = $column.' LIKE "' . $this->escapeLikeWildcards($tablePrefix) . '%"';
         }
 
