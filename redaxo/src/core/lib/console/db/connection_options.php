@@ -34,12 +34,12 @@ class rex_command_db_connection_options extends rex_console_command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $db = rex::getProperty('db')[1];
+        $db = rex::getDbConfig(1);
 
-        if (false === strpos($db['host'], ':')) {
-            $output->writeln('--host='.escapeshellarg($db['host']));
+        if (false === strpos($db->host, ':')) {
+            $output->writeln('--host='.escapeshellarg($db->host));
         } else {
-            [$host, $port] = explode(':', $db['host'], 2);
+            [$host, $port] = explode(':', $db->host, 2);
 
             $output->writeln([
                 '--host='.escapeshellarg($host),
@@ -48,9 +48,9 @@ class rex_command_db_connection_options extends rex_console_command
         }
 
         $output->writeln([
-            '--user='.escapeshellarg($db['login']),
-            '--password='.escapeshellarg($db['password']),
-            escapeshellarg($db['name']),
+            '--user='.escapeshellarg($db->login),
+            '--password='.escapeshellarg($db->password),
+            escapeshellarg($db->name),
         ]);
 
         return 0;

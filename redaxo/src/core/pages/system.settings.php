@@ -144,7 +144,7 @@ if ('' != $success) {
     echo rex_view::success($success);
 }
 
-$dbconfig = rex::getProperty('db');
+$dbconfig = rex::getDbConfig(1);
 
 $rexVersion = rex::getVersion();
 if (false !== strpos($rexVersion, '-dev')) {
@@ -223,11 +223,11 @@ $content = '
         </tr>
         <tr>
             <th>' . rex_i18n::msg('name') . '</th>
-            <td><span class="rex-word-break">' . $dbconfig[1]['name'] . '</span></td>
+            <td><span class="rex-word-break">' . $dbconfig->name . '</span></td>
         </tr>
         <tr>
             <th>' . rex_i18n::msg('host') . '</th>
-            <td>' . $dbconfig[1]['host'] . '</td>
+            <td>' . $dbconfig->host . '</td>
         </tr>
     </table>';
 
