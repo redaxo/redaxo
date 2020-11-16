@@ -1,4 +1,7 @@
 <?php
+/** @var rex_fragment $this */
+?>
+<?php
 $sectionAttributes = [];
 if (isset($this->sectionAttributes)) {
     $sectionAttributes = $this->sectionAttributes;

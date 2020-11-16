@@ -1,4 +1,7 @@
 <?php
+/** @var rex_fragment $this */
+?>
+<?php
 
 /*
     Tabnavi  -> rex-navi-tab

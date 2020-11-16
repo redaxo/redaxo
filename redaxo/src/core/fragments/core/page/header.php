@@ -1,3 +1,6 @@
+<?php
+/** @var rex_fragment $this */
+?>
 <header class="rex-page-header">
     <div class="page-header">
         <h1><?= $this->heading ?>

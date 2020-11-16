@@ -1,3 +1,6 @@
+<?php
+/** @var rex_fragment $this */
+?>
 </div><!-- END .rex-page -->
 <?php if ('login' != rex_be_controller::getCurrentPage() && !rex_be_controller::getCurrentPageObject()->isPopup()): ?>
     <button type="button" class="navbar-toggle rex-js-nav-main-toggle" data-toggle="collapse" data-target=".rex-nav-main > .navbar-collapse">

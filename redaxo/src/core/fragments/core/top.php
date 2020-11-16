@@ -1,3 +1,6 @@
+<?php
+/** @var rex_fragment $this */
+?>
 <!doctype html>
 <html lang="<?php echo  rex_i18n::msg('htmllang'); ?>">
 <head>

@@ -1,3 +1,6 @@
+<?php
+/** @var rex_fragment $this */
+?>
 
         <nav class="rex-nav-top navbar navbar-default">
             <div class="container-fluid">

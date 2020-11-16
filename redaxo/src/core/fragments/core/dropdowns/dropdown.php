@@ -1,4 +1,7 @@
 <?php
+/** @var rex_fragment $this */
+?>
+<?php
     $toolbar = isset($this->toolbar) && $this->toolbar ? true : false;
     $group = isset($this->group) && $this->group ? true : false;
 ?>

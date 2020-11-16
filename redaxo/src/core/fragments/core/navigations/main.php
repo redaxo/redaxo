@@ -1,3 +1,6 @@
+<?php
+/** @var rex_fragment $this */
+?>
     <?php if (isset($this->headline)): ?>
     <h4 class="rex-nav-main-title"><?= $this->headline['title'] ?></h4>
     <?php endif; ?>

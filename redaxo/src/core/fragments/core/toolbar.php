@@ -1,4 +1,7 @@
 <?php
+/** @var rex_fragment $this */
+?>
+<?php
 
 $target = 'rex-js-collapse-' . random_int(100, 999) . random_int(100, 999);
 

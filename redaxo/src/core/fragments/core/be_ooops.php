@@ -1,3 +1,6 @@
+<?php
+/** @var rex_fragment $this */
+?>
 <!doctype html>
 <html lang="en">
 <head>

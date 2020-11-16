@@ -1,3 +1,6 @@
+<?php
+/** @var rex_fragment $this */
+?>
     <footer class="rex-global-footer">
         <nav class="rex-nav-footer">
             <ul class="list-inline">

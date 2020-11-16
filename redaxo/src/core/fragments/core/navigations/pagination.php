@@ -1,4 +1,7 @@
 <?php
+/** @var rex_fragment $this */
+?>
+<?php
     /** @var rex_pager $pager */
     $pager = $this->pager;
     /** @var rex_url_provider_interface $urlProvider */

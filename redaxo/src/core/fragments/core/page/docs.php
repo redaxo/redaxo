@@ -1,3 +1,6 @@
+<?php
+/** @var rex_fragment $this */
+?>
 <div class="rex-docs">
     <?php if ($this->getVar('sidebar') || $this->getVar('toc')): ?>
         <div class="rex-docs-sidebar">

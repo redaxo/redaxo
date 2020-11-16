@@ -1,3 +1,6 @@
+<?php
+/** @var rex_fragment $this */
+?>
 <section class="rex-main-frame">
     <?php if (isset($this->content) && '' != $this->content && isset($this->sidebar) && '' != $this->sidebar): ?>
     <div class="row">

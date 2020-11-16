@@ -1,4 +1,7 @@
 <?php
+/** @var rex_fragment $this */
+?>
+<?php
 
 if (!isset($this->buttons)) {
     $this->buttons['button'] = $this->button;

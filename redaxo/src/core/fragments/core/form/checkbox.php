@@ -1,4 +1,7 @@
 <?php
+/** @var rex_fragment $this */
+?>
+<?php
 
 $out = '';
 // Gruppierte Checkboxen werden nochmals via form/form.php geparsed

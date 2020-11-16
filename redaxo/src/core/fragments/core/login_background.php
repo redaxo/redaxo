@@ -1,3 +1,6 @@
+<?php
+/** @var rex_fragment $this */
+?>
 <picture class="rex-background">
     <source
         srcset="

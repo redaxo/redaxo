@@ -1,4 +1,7 @@
 <?php
+/** @var rex_fragment $this */
+?>
+<?php
 
 $out = '';
 // Gruppierte Radios werden nochmals via form/form.php geparsed

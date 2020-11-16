@@ -1,4 +1,7 @@
 <?php
+/** @var rex_fragment $this */
+?>
+<?php
 
 $this->content = is_string($this->content) ? [$this->content] : $this->content;
 
