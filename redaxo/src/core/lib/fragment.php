@@ -1,6 +1,13 @@
 <?php
 
 /**
+ * Methods declared here are available to be called from within a fragment-file, even if not public:
+ *
+ * @method void subfragment(string $filename, array $params = [])
+ * @method string getSubfragment(string $filename, array $params = [])
+ * @method string i18n(string $key)
+ * @method mixed escape($value, $strategy = 'html')
+ *
  * @package redaxo\core
  */
 class rex_fragment

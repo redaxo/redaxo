@@ -106,11 +106,6 @@ parameters:
 			path: ../../redaxo/src/addons/structure/lib/structure_element.php
 
 		-
-			message: "#^Call to protected method subfragment\\(\\) of class rex_fragment\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/plugins/content/fragments/module_select.php
-
-		-
 			message: "#^Right side of && is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/plugins/content/pages/content.edit.php
@@ -131,13 +126,8 @@ parameters:
 			path: ../../redaxo/src/addons/structure/plugins/version/boot.php
 
 		-
-			message: "#^Call to protected method subfragment\\(\\) of class rex_fragment\\.$#"
+			message: "#^Method rex_fragment\\:\\:i18n\\(\\) invoked with 2 parameters, 1 required\\.$#"
 			count: 1
-			path: ../../redaxo/src/core/fragments/core/buttons/button_group.php
-
-		-
-			message: "#^Call to protected method i18n\\(\\) of class rex_fragment\\.$#"
-			count: 5
 			path: ../../redaxo/src/core/fragments/core/navigations/pagination.php
 
 		-
