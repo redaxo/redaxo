@@ -245,10 +245,11 @@ abstract class rex_error_handler
         }
 
         $debug = rex::getDebugFlags();
+        $alwaysThrow = $debug['throw_always_exception'] ?? false;
 
         if (
-            isset($debug['throw_always_exception']) &&
-            (true === $debug['throw_always_exception'] || $errno === ($errno & $debug['throw_always_exception']))
+            true === $alwaysThrow ||
+            is_int($alwaysThrow) && $errno === ($errno & $alwaysThrow))
         ) {
             throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
         }
