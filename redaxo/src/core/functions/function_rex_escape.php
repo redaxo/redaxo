@@ -17,6 +17,10 @@
  *                         "css": escapes a string for the CSS context. CSS escaping can be applied to any string being inserted into CSS and escapes everything except alphanumerics.
  *                         "url": escapes a string for the URI or parameter contexts. This should not be used to escape an entire URI; only a subcomponent being inserted.
  *
+ * @psalm-template T
+ * @psalm-param T $value
+ * @psalm-return T is stringable ? string : T
+ *
  * @throws InvalidArgumentException
  *
  * @return mixed
