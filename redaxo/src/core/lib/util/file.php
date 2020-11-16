@@ -16,7 +16,7 @@ class rex_file
      *
      * @return string Content of the file
      */
-    public static function require($file)
+    public static function require(string $file): string
     {
         return rex_timer::measure(__METHOD__, static function () use ($file) {
             $content = @file_get_contents($file);
