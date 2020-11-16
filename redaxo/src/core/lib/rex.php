@@ -243,8 +243,8 @@ class rex
     {
         $flags = self::getProperty('debug');
 
-        $debug['enabled'] ?: false;
-        $debug['throw_always_exception'] ?: false;
+        $flags['enabled'] ?: false;
+        $flags['throw_always_exception'] ?: false;
 
         return $flags;
     }
