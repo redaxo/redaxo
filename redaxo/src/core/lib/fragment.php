@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Methods declared here are available to be called from within a fragment-file, even if not public:
+ * Methods declared here are available to be called from within a fragment-file, even if not public:.
  *
- * @method void subfragment(string $filename, array $params = [])
+ * @method void   subfragment(string $filename, array $params = [])
  * @method string getSubfragment(string $filename, array $params = [])
  * @method string i18n(string $key, ...$replacements)
- * @method mixed escape($value, $strategy = 'html')
+ * @method mixed  escape($value, $strategy = 'html')
  *
  * @package redaxo\core
  */
@@ -204,7 +204,7 @@ class rex_fragment
     /**
      * Translate the given key $key.
      *
-     * @param string $key The key to translate
+     * @param string     $key             The key to translate
      * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
      * @return string Translation for the key
