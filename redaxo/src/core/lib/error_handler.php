@@ -245,7 +245,7 @@ abstract class rex_error_handler
         }
 
         $debug = rex::getDebugFlags();
-        $alwaysThrow = $debug['throw_always_exception'] ?? false;
+        $alwaysThrow = $debug['throw_always_exception'];
 
         if (
             true === $alwaysThrow ||
