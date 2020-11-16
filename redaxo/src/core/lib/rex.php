@@ -241,10 +241,10 @@ class rex
      */
     public static function getDebugFlags()
     {
-        $flags = self::getProperty('debug');
+        $flags = self::getProperty('debug', []);
 
-        $flags['enabled'] ?: false;
-        $flags['throw_always_exception'] ?: false;
+        $flags['enabled'] = $flags['enabled'] ?? false;
+        $flags['throw_always_exception'] = $flags['throw_always_exception'] ?? false;
 
         return $flags;
     }
