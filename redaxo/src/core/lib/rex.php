@@ -319,6 +319,27 @@ class rex
     }
 
     /**
+     * @param int $db
+     * @psalm-param positive-int $db
+     *
+     * @throws rex_exception
+     *
+     * @return rex_config_db
+     */
+    public static function getDbConfig($db = 1)
+    {
+        $config = self::getProperty('db', null);
+
+        if (!$config) {
+            $configFile = rex_path::coreData('config.yml');
+
+            throw new rex_exception('Unable to read db config from config.yml "'. $configFile .'"');
+        }
+
+        return new rex_config_db($config[$db]);
+    }
+
+    /**
      * Returns the server URL.
      *
      * @param null|string $protocol
