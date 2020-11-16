@@ -1,6 +1,8 @@
 <?php
-/** @var rex_fragment $this
-* @psalm-scope-this rex_fragment */
+/**
+ * @var rex_fragment $this
+ * @psalm-scope-this rex_fragment
+ */
 ?>
 <div id="content-history-layer" class="history-layer">
 

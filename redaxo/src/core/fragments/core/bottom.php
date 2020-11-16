@@ -1,6 +1,8 @@
 <?php
-/** @var rex_fragment $this
-* @psalm-scope-this rex_fragment */
+/**
+ * @var rex_fragment $this
+ * @psalm-scope-this rex_fragment
+ */
 ?>
 </div><!-- END .rex-page -->
 <?php if ('login' != rex_be_controller::getCurrentPage() && !rex_be_controller::getCurrentPageObject()->isPopup()): ?>
