@@ -258,7 +258,7 @@ class rex_i18n
             }
         }
 
-        $msg = preg_replace($patterns, $replaceWith, $msg);
+        $msg = preg_replace($patterns, $replaceWith, $msg) ?: '';
 
         if ($escape) {
             $msg = rex_escape($msg);
