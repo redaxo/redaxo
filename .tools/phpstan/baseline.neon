@@ -326,11 +326,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/util/socket/socket.php
 
 		-
-			message: "#^Parameter \\#2 \\$form of static method Normalizer\\:\\:normalize\\(\\) expects int, string given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/string.php
-
-		-
 			message: "#^Strict comparison using \\=\\=\\= between null and bool will always evaluate to false\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/version.php
