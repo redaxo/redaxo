@@ -120,22 +120,22 @@ class rex_sql implements Iterator
         try {
             if (!isset(self::$pdo[$db])) {
                 $options = [];
-                $dbconfig = rex::getProperty('db');
+                $dbconfig = rex::getDbConfig($db);
 
-                if (isset($dbconfig[$db]['ssl_key'], $dbconfig[$db]['ssl_cert'], $dbconfig[$db]['ssl_ca'])) {
+                if ($dbconfig->sslKey && $dbconfig->sslCert && $dbconfig->sslCa) {
                     $options = [
-                        PDO::MYSQL_ATTR_SSL_KEY => $dbconfig[$db]['ssl_key'],
-                        PDO::MYSQL_ATTR_SSL_CERT => $dbconfig[$db]['ssl_cert'],
-                        PDO::MYSQL_ATTR_SSL_CA => $dbconfig[$db]['ssl_ca'],
+                        PDO::MYSQL_ATTR_SSL_KEY => $dbconfig->sslKey,
+                        PDO::MYSQL_ATTR_SSL_CERT => $dbconfig->sslCert,
+                        PDO::MYSQL_ATTR_SSL_CA => $dbconfig->sslCa,
                     ];
                 }
 
                 $conn = self::createConnection(
-                    $dbconfig[$db]['host'],
-                    $dbconfig[$db]['name'],
-                    $dbconfig[$db]['login'],
-                    $dbconfig[$db]['password'],
-                    $dbconfig[$db]['persistent'],
+                    $dbconfig->host,
+                    $dbconfig->name,
+                    $dbconfig->login,
+                    $dbconfig->password,
+                    $dbconfig->persistent,
                     $options
                 );
                 self::$pdo[$db] = $conn;
@@ -1674,12 +1674,14 @@ class rex_sql implements Iterator
      */
     private function fetchTablesAndViews($tablePrefix = null, $where = null)
     {
+        $dbConfig = rex::getDbConfig($this->DBID);
+
         $qry = 'SHOW FULL TABLES';
 
         $where = $where ? [$where] : [];
 
         if (null != $tablePrefix) {
-            $column = $this->escapeIdentifier('Tables_in_'.rex::getProperty('db')[$this->DBID]['name']);
+            $column = $this->escapeIdentifier('Tables_in_'.$dbConfig->name);
             $where[] = $column.' LIKE "' . $this->escapeLikeWildcards($tablePrefix) . '%"';
         }
 
