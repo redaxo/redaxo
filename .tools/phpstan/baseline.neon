@@ -341,7 +341,7 @@ parameters:
 			path: ../../redaxo/src/core/tests/sql/sql_table_test.php
 
 		-
-			message: "#^Array \\(array\\<PDO\\>\\) does not accept class@anonymous/core/tests/sql/sql_test\\.php\\:135\\.$#"
+			message: "#^Array \\(array\\<int\\<1, max\\>, PDO\\>\\) does not accept class@anonymous/core/tests/sql/sql_test\\.php\\:130\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/sql/sql_test.php
 
