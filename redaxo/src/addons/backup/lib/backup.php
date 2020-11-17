@@ -405,9 +405,7 @@ class rex_backup
     }
 
     /**
-     * @return string[]
-     *
-     * @psalm-return list<string>
+     * @return list<string>
      */
     public static function getTables()
     {
