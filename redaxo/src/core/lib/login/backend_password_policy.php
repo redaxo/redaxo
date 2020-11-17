@@ -42,7 +42,7 @@ class rex_backend_password_policy extends rex_password_policy
      */
     public function __construct()
     {
-        /** @var array<string, array<string, scalar>|string|int> $options */
+        /** @var array<string, array<string, int>|string|int> $options */
         $options = rex::getProperty('password_policy', []);
 
         if (isset($options['no_reuse_of_last'])) {
