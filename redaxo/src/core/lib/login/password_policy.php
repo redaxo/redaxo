@@ -8,7 +8,7 @@
 class rex_password_policy
 {
     /**
-     * @var array<string, array<string, scalar>>
+     * @var array<string, array{min?: int, max?: int}>
      */
     private $options;
 
