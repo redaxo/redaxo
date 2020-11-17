@@ -42,26 +42,22 @@ class rex_backend_password_policy extends rex_password_policy
      */
     public function __construct()
     {
-        /** @var array<string, array<string, int>|string|int> $options */
+        /** @var array{no_reuse_of_last?: int, no_reuse_within?: string, force_renew_after?: string, block_account_after?: string} $options */
         $options = rex::getProperty('password_policy', []);
 
         if (isset($options['no_reuse_of_last'])) {
-            assert(is_int($options['no_reuse_of_last']));
             $this->noReuseOfLast = $options['no_reuse_of_last'];
             unset($options['no_reuse_of_last']);
         }
         if (isset($options['no_reuse_within'])) {
-            assert(is_string($options['no_reuse_within']));
             $this->noReuseWithin = new DateInterval($options['no_reuse_within']);
             unset($options['no_reuse_within']);
         }
         if (isset($options['force_renew_after'])) {
-            assert(is_string($options['force_renew_after']));
             $this->forceRenewAfter = new DateInterval($options['force_renew_after']);
             unset($options['force_renew_after']);
         }
         if (isset($options['block_account_after'])) {
-            assert(is_string($options['block_account_after']));
             $this->blockAccountAfter = new DateInterval($options['block_account_after']);
             unset($options['block_account_after']);
         }
