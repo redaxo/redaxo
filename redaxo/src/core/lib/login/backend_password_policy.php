@@ -43,7 +43,7 @@ class rex_backend_password_policy extends rex_password_policy
     public function __construct()
     {
         /**
-         * @var array<string, array<string, mixed>> $options
+         * @var array<string, array<string, mixed>|string|int> $options
          */
         $options = rex::getProperty('password_policy', []);
 
@@ -95,7 +95,9 @@ class rex_backend_password_policy extends rex_password_policy
         }
 
         $password = sha1($password);
-        $previousPasswords = $this->cleanUpPreviousPasswords(json_decode($previousPasswords, true));
+        $previousPasswords = json_decode($previousPasswords, true);
+        assert(is_array($previousPasswords) && !empty($previousPasswords));
+        $previousPasswords = $this->cleanUpPreviousPasswords($previousPasswords);
 
         foreach ($previousPasswords as $previousPassword) {
             if (rex_backend_login::passwordVerify($password, $previousPassword[0], true)) {
@@ -137,7 +139,7 @@ class rex_backend_password_policy extends rex_password_policy
     }
 
     /**
-     * @param list<string, int> $previousPasswords
+     * @param list<array{string, int}> $previousPasswords
      * @return list<string>
      */
     private function cleanUpPreviousPasswords(array $previousPasswords): array
