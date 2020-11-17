@@ -44,10 +44,8 @@ class rex_be_controller
     }
 
     /**
-     * @param null|int    $part    Part index, beginning with 1. If $part is null, an array of all current parts will be returned
+     * @param null|positive-int $part Part index, beginning with 1. If $part is null, an array of all current parts will be returned
      * @param null|string $default Default value
-     *
-     * @psalm-param null|positive-int $part
      *
      * @return string[]|string|null
      */

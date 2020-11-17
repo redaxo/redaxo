@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var rex_fragment $this
+ * @psalm-scope-this rex_fragment
+ */
+?>
     <footer class="rex-global-footer">
         <nav class="rex-nav-footer">
             <ul class="list-inline">

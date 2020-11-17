@@ -1,4 +1,8 @@
 <?php
+/**
+ * @var rex_fragment $this
+ * @psalm-scope-this rex_fragment
+ */
 
 $out = '';
 // Gruppierte Checkboxen werden nochmals via form/form.php geparsed

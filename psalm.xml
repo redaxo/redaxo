@@ -33,6 +33,9 @@
     <stubs>
         <file name="redaxo/src/core/.phpstorm.meta.php" />
     </stubs>
+    <universalObjectCrates>
+        <class name="rex_fragment" />
+    </universalObjectCrates>
     <plugins>
         <plugin filename=".tools/psalm/RexTypeReturnProvider.php" />
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin" />
@@ -46,16 +49,6 @@
                 <file name="redaxo/src/core/pages/login.php"/>
             </errorLevel>
         </InvalidGlobal>
-        <InvalidScope>
-            <errorLevel type="suppress">
-                <directory name="redaxo/src/**/fragments/*" />
-                <file name="redaxo/src/addons/structure/plugins/content/fragments/module_select.php"/>
-                <file name="redaxo/src/addons/structure/plugins/content/fragments/slice_menu_action.php"/>
-                <file name="redaxo/src/addons/structure/plugins/content/fragments/slice_menu_ep.php"/>
-                <file name="redaxo/src/addons/structure/plugins/content/fragments/slice_menu_move.php"/>
-                <file name="redaxo/src/addons/structure/plugins/history/fragments/history/layer.php"/>
-            </errorLevel>
-        </InvalidScope>
 <!-- level 2 issues - slightly lazy code writing, but provably low false-negatives -->
         <DeprecatedMethod>
             <errorLevel type="info">
