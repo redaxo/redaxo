@@ -98,7 +98,6 @@ class rex_password_policy
                     throw new rex_exception(sprintf('Unknown password_policy key "%s".', $key));
             }
 
-            assert(isset($options['min']) || isset($options['max']));
             if (!$this->matchesCount($count, $options)) {
                 return false;
             }
