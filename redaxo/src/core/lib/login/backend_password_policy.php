@@ -43,7 +43,7 @@ class rex_backend_password_policy extends rex_password_policy
     public function __construct()
     {
         /**
-         * @var array<string, array<string, mixed>|string|int> $options
+         * @var array<string, array<string, scalar>|string|int> $options
          */
         $options = rex::getProperty('password_policy', []);
 
@@ -68,6 +68,7 @@ class rex_backend_password_policy extends rex_password_policy
             unset($options['block_account_after']);
         }
 
+        /** @psalm-suppress InvalidArgument */
         parent::__construct($options);
     }
 

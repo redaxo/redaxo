@@ -8,12 +8,12 @@
 class rex_password_policy
 {
     /**
-     * @var array<string, array<string, mixed>>
+     * @var array<string, array<string, scalar>>
      */
     private $options;
 
     /**
-     * @param array<string, array<string, mixed>> $options
+     * @param array<string, array<string, scalar>> $options
      */
     public function __construct(array $options)
     {
