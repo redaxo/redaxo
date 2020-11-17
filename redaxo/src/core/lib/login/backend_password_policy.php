@@ -42,6 +42,9 @@ class rex_backend_password_policy extends rex_password_policy
      */
     public function __construct()
     {
+        /**
+         * @var array<string, array<string, mixed>> $options
+         */
         $options = rex::getProperty('password_policy', []);
 
         if (isset($options['no_reuse_of_last'])) {
@@ -133,6 +136,10 @@ class rex_backend_password_policy extends rex_password_policy
         return $this->cleanUpPreviousPasswords($previousPasswords);
     }
 
+    /**
+     * @param list<string, int> $previousPasswords
+     * @return list<string>
+     */
     private function cleanUpPreviousPasswords(array $previousPasswords): array
     {
         if (!isset($this->noReuseOfLast) && !isset($this->noReuseWithin)) {

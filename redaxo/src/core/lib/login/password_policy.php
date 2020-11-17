@@ -7,8 +7,14 @@
  */
 class rex_password_policy
 {
+    /**
+     * @var array<string, array<string, mixed>>
+     */
     private $options;
 
+    /**
+     * @param array<string, array<string, mixed>> $options
+     */
     public function __construct(array $options)
     {
         $this->options = $options;
@@ -101,6 +107,8 @@ class rex_password_policy
     }
 
     /**
+     * @param array{min?: int, max?: int} $options
+     *
      * @return bool
      */
     protected function matchesCount($count, array $options)
