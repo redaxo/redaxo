@@ -44,14 +44,12 @@ class rex_timer
      *
      * On sufficient user permissions - or in debug mode - this timings will be sent over the wire to the browser via server timing api http headers.
      *
-     * @psalm-template T
+     * @template T
      *
      * @param string $label
-     * @psalm-param callable():T $callable
+     * @param callable():T $callable
      *
-     * @psalm-return T
-     *
-     * @return mixed result of callable
+     * @return T result of callable
      */
     public static function measure($label, callable $callable)
     {
