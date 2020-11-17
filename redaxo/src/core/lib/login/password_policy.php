@@ -13,7 +13,7 @@ class rex_password_policy
     private $options;
 
     /**
-     * @param array<string, array<string, scalar>> $options
+     * @param array<string, array{min?: int, max?: int}> $options
      */
     public function __construct(array $options)
     {
