@@ -208,7 +208,7 @@ class rex_fragment
     /**
      * Translate the given key $key.
      *
-     * @param string     $key             The key to translate
+     * @param string           $key             The key to translate
      * @param string|int|float ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
      * @return string Translation for the key
