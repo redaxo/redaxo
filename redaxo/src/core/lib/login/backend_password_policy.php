@@ -95,7 +95,7 @@ class rex_backend_password_policy extends rex_password_policy
 
         $password = sha1($password);
         $previousPasswords = json_decode($previousPasswords, true);
-        assert(is_array($previousPasswords) && !empty($previousPasswords));
+        assert(is_array($previousPasswords));
         $previousPasswords = $this->cleanUpPreviousPasswords($previousPasswords);
 
         foreach ($previousPasswords as $previousPassword) {
