@@ -47,10 +47,10 @@ final class rex_config_db
         $this->login = $dbConfig['login'];
         $this->password = $dbConfig['password'];
         $this->name = $dbConfig['name'];
-        $this->persistent = $dbConfig['persistent'];
+        $this->persistent = $dbConfig['persistent'] ?? false;
 
-        $this->sslKey = $dbConfig['ssl_key'];
-        $this->sslCert = $dbConfig['ssl_cert'];
-        $this->sslCa = $dbConfig['ssl_ca'];
+        $this->sslKey = $dbConfig['ssl_key'] ?? null;
+        $this->sslCert = $dbConfig['ssl_cert'] ?? null;
+        $this->sslCa = $dbConfig['ssl_ca'] ?? null;
     }
 }
