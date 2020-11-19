@@ -18,9 +18,7 @@ $EXPDIR = rex_post('EXPDIR', 'array');
 
 $csrfToken = rex_csrf_token::factory('backup_import');
 
-/** @psalm-taint-escape text */
 $impname = rex_path::basename($impname);
-
 if ('dbimport' == $function && '.sql' != substr($impname, -4, 4)) {
     $impname = '';
 } elseif ('fileimport' == $function && '.tar.gz' != substr($impname, -7, 7)) {
