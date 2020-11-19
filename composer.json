@@ -110,7 +110,7 @@
         "psalm": "psalm",
         "psalm-baseline": "psalm --set-baseline=.tools/psalm/baseline.xml",
         "taint": [
-            "psalm --taint-analysis"
+            "psalm --taint-analysis --no-cache"
         ],
         "sa": [
             "@phpstan",
