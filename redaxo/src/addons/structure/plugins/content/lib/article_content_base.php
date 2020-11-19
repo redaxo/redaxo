@@ -309,7 +309,6 @@ class rex_article_content_base
             $CONTENT = ob_get_clean();
         }
 
-
         return $CONTENT;
     }
 
