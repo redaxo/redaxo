@@ -18,16 +18,17 @@ $EXPDIR = rex_post('EXPDIR', 'array');
 
 $csrfToken = rex_csrf_token::factory('backup_import');
 
-if ('' != $impname) {
-    $impname = basename($impname);
+/**
+ * @psalm-taint-escape text
+ */
+$impname = basename($impname);
 
-    if ('dbimport' == $function && '.sql' != substr($impname, -4, 4)) {
-        $impname = '';
-    } elseif ('fileimport' == $function && '.tar.gz' != substr($impname, -7, 7)) {
-        $impname = '';
-    } elseif (('delete' == $function || 'download' == $function) && '.sql' != substr($impname, -4, 4) && '.tar.gz' != substr($impname, -7, 7)) {
-        $impname = '';
-    }
+if ('dbimport' == $function && '.sql' != substr($impname, -4, 4)) {
+    $impname = '';
+} elseif ('fileimport' == $function && '.tar.gz' != substr($impname, -7, 7)) {
+    $impname = '';
+} elseif (('delete' == $function || 'download' == $function) && '.sql' != substr($impname, -4, 4) && '.tar.gz' != substr($impname, -7, 7)) {
+    $impname = '';
 }
 
 if ('download' == $function && $impname && is_readable(rex_backup::getDir() . '/' . $impname)) {
