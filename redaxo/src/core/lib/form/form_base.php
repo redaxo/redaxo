@@ -988,6 +988,8 @@ abstract class rex_form_base
     public function getMessage()
     {
         $message = rex_request($this->getName() . '_msg', 'string');
+        $message = strip_tags($message, '<span><p><div>');
+        
         if ('' != $this->message) {
             $message .= "\n" . $this->message;
         }
