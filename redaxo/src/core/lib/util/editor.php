@@ -7,20 +7,30 @@ class rex_editor
 {
     use rex_factory_trait;
 
+    public const EDITOR_ATOM = 'atom';
+    public const EDITOR_EMACS = 'emacs';
+    public const EDITOR_IDEA = 'idea';
+    public const EDITOR_MACVIM = 'macvim';
+    public const EDITOR_PHPSTORM = 'phpstorm';
+    public const EDITOR_SUBLIME = 'sublime';
+    public const EDITOR_TEXTMATE = 'textmate';
+    public const EDITOR_VSCODE = 'vscode';
+    public const EDITOR_XDEBUG = 'xdebug';
+
     // see https://github.com/filp/whoops/blob/master/docs/Open%20Files%20In%20An%20Editor.md
-    // keep this list in sync with the array in getSupportedEditors()
+    // keep this list in sync with the array in getSupportedEditors() excluding xdebug
     /**
-     * @var string[]
+     * @var array<self::EDITOR_*, string>
      */
     private $editors = [
-        'atom' => 'atom://core/open/file?filename=%f&line=%l',
-        'emacs' => 'emacs://open?url=file://%f&line=%l',
-        'idea' => 'idea://open?file=%f&line=%l',
-        'macvim' => 'mvim://open/?url=file://%f&line=%l',
-        'phpstorm' => 'phpstorm://open?file=%f&line=%l',
-        'sublime' => 'subl://open?url=file://%f&line=%l',
-        'textmate' => 'txmt://open?url=file://%f&line=%l',
-        'vscode' => 'vscode://file/%f:%l',
+        self::EDITOR_ATOM => 'atom://core/open/file?filename=%f&line=%l',
+        self::EDITOR_EMACS => 'emacs://open?url=file://%f&line=%l',
+        self::EDITOR_IDEA => 'idea://open?file=%f&line=%l',
+        self::EDITOR_MACVIM => 'mvim://open/?url=file://%f&line=%l',
+        self::EDITOR_PHPSTORM => 'phpstorm://open?file=%f&line=%l',
+        self::EDITOR_SUBLIME => 'subl://open?url=file://%f&line=%l',
+        self::EDITOR_TEXTMATE => 'txmt://open?url=file://%f&line=%l',
+        self::EDITOR_VSCODE => 'vscode://file/%f:%l',
     ];
 
     // we expect instantiation via factory()
@@ -75,29 +85,39 @@ class rex_editor
     }
 
     /**
-     * @return string[]
+     * @return array<self::EDITOR_*, string>
      */
     public function getSupportedEditors()
     {
         return [
-            'atom' => 'Atom',
-            'emacs' => 'Emacs',
-            'idea' => 'IDEA',
-            'macvim' => 'MacVim',
-            'phpstorm' => 'PhpStorm',
-            'sublime' => 'Sublime Text',
-            'textmate' => 'Textmate',
-            'vscode' => 'Visual Studio Code',
-            'xdebug' => 'Xdebug via xdebug.file_link_format (php.ini)',
+            self::EDITOR_ATOM => 'Atom',
+            self::EDITOR_EMACS => 'Emacs',
+            self::EDITOR_IDEA => 'IDEA',
+            self::EDITOR_MACVIM => 'MacVim',
+            self::EDITOR_PHPSTORM => 'PhpStorm',
+            self::EDITOR_SUBLIME => 'Sublime Text',
+            self::EDITOR_TEXTMATE => 'Textmate',
+            self::EDITOR_VSCODE => 'Visual Studio Code',
+            self::EDITOR_XDEBUG => 'Xdebug via xdebug.file_link_format (php.ini)',
         ];
     }
 
     /**
      * Returns the editor name, e.g. „atom“.
+     *
+     * @return self::EDITOR_*
      */
     public function getName(): ?string
     {
-        return array_key_exists('editor', $_COOKIE) ? $_COOKIE['editor'] : rex::getProperty('editor');
+        $supportedEditors = $this->getSupportedEditors();
+
+        $editor = array_key_exists('editor', $_COOKIE) ? $_COOKIE['editor'] : rex::getProperty('editor');
+
+        if (array_key_exists($editor, $supportedEditors)) {
+            return $editor;
+        }
+
+        return null;
     }
 
     public function getBasepath(): ?string
