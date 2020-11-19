@@ -19,7 +19,7 @@
  *
  * @throws InvalidArgumentException
  *
- * @psalm-param 'html'|'html_xss_simplified'|'html_attr'|'js'|'css'|'url' $strategy
+ * @psalm-param 'html'|'html_simplified'|'html_attr'|'js'|'css'|'url' $strategy
  *
  * @return mixed
  */
