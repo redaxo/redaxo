@@ -366,7 +366,7 @@ class rex_api_result
         if (!is_array($json)) {
             throw new rex_exception('Unable to decode json');
         }
-        
+
         foreach ($json as $key => $value) {
             $result->$key = $value;
         }
