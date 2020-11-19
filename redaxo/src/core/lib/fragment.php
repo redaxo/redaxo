@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Methods declared here are available to be called from within a fragment-file, even if not public:
+ * Methods declared here are available to be called from within a fragment-file, even if not public:.
  *
  * @phpstan-method void   subfragment(string $filename, array $params = [])
  * @phpstan-method string getSubfragment(string $filename, array $params = [])
