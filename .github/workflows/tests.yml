@@ -16,9 +16,25 @@ jobs:
     phpunit:
         name: unit tests
         runs-on: ubuntu-latest
+        strategy:
+            matrix:
+              php-version: ['7.2', '7.3', '7.4', '8.0']
+              db-image: ['mysql:5.7'] # a docker-hub key
+              include:
+                  - php-version: '7.1'
+                    db-image: 'mysql:5.6'
+                  - php-version: '7.4'
+                    db-image: 'mysql:8.0'
+                  - php-version: '7.1'
+                    db-image: 'mariadb:10.1'
+                  - php-version: '7.4'
+                    db-image: 'mariadb:latest'
+        if: "!contains(github.event.head_commit.message, '[ci skip]')"
+
+# https://docs.github.com/en/free-pro-team@latest/actions/guides/about-service-containers
         services:
             mysql:
-                image: mysql:5.7
+                image: ${{ matrix.db-image }}
                 ports:
                     - 3306
         steps:
@@ -26,20 +42,20 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: 7.4
+                  php-version: ${{ matrix.php-version }}
                   extensions: intl
                   coverage: none # disable xdebug, pcov
-            - name: Get Composer Cache Directory
-              id: composer-cache
-              run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-            - name: Cache dependencies
-              uses: actions/cache@v2
+
+            - name: "composer install --prefer-dist"
+              uses: "ramsey/composer-install@v1"
+              if: matrix.php-version != '8.0'
               with:
-                  path: ${{ steps.composer-cache.outputs.dir }}
-                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-                  restore-keys: ${{ runner.os }}-composer-
-            - name: Install Dependencies
-              run: composer install --ansi --prefer-dist
+                  composer-options: "--ansi --prefer-dist"
+            - name: "composer install --prefer-dist --ignore-platform-reqs"
+              uses: "ramsey/composer-install@v1"
+              if: matrix.php-version == '8.0'
+              with:
+                  composer-options: "--ansi --prefer-dist --ignore-platform-reqs"
 
             - name: Setup Problem Matchers for PHPUnit
               run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
