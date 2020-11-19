@@ -261,7 +261,7 @@ class rex_i18n
         $msg = preg_replace($patterns, $replacements, $msg);
 
         if ($htmlspecialchars) {
-            $msg = rex_string::escapeHtml($msg);
+            $msg = rex_escape($msg, 'html_simplified');
         }
 
         return $msg;
