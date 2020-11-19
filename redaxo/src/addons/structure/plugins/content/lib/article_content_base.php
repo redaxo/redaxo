@@ -484,17 +484,19 @@ class rex_article_content_base
     {
         if (0 != $this->template_id && 0 != $this->article_id) {
             ob_start();
-            ob_implicit_flush(0);
+            try {
+                ob_implicit_flush(0);
 
-            $TEMPLATE = new rex_template($this->template_id);
+                $TEMPLATE = new rex_template($this->template_id);
 
-            rex_timer::measure('Template: '.($TEMPLATE->getKey() ?? $TEMPLATE->getId()), function () use ($TEMPLATE) {
-                $tplContent = $this->replaceCommonVars($TEMPLATE->getTemplate());
+                rex_timer::measure('Template: '.($TEMPLATE->getKey() ?? $TEMPLATE->getId()), function () use ($TEMPLATE) {
+                    $tplContent = $this->replaceCommonVars($TEMPLATE->getTemplate());
 
-                require rex_stream::factory('template/' . $this->template_id, $tplContent);
-            });
-
-            $CONTENT = ob_get_clean();
+                    require rex_stream::factory('template/' . $this->template_id, $tplContent);
+                });
+            } finally {
+                $CONTENT = ob_get_clean();
+            }
 
             $CONTENT = $this->replaceLinks($CONTENT);
         } else {
@@ -515,16 +517,18 @@ class rex_article_content_base
         }
 
         ob_start();
-        ob_implicit_flush(0);
+        try {
+            ob_implicit_flush(0);
 
-        $__stream = rex_stream::factory($path, $content);
+            $__stream = rex_stream::factory($path, $content);
 
-        $sandbox = function () use ($__stream) {
-            require $__stream;
-        };
-        $sandbox();
-
-        $CONTENT = ob_get_clean();
+            $sandbox = function () use ($__stream) {
+                require $__stream;
+            };
+            $sandbox();
+        } finally {
+            $CONTENT = ob_get_clean();
+        }
 
         return $CONTENT;
     }
