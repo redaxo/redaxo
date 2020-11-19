@@ -224,6 +224,17 @@ class rex_string
             $antiXss->removeNeverAllowedStrAfterwards(['&lt;script&gt;', '&lt;/script&gt;']);
         }
 
+        /** @psalm-taint-escape html */
         return $antiXss->xss_clean($html);
+    }
+
+    /**
+     * Escapes a given string, while leaving some basic html markup which should be safe regarding xss.
+     */
+    public static function escapeHtml(string $htmlString):string {
+        /** @psalm-taint-escape html */
+        $msg = rex_escape($htmlString);
+        $msg = preg_replace('@&lt;(/?(?:b|i|code|kbd|var)|br ?/?)&gt;@i', '<$1>', $msg);
+        return $msg;
     }
 }
