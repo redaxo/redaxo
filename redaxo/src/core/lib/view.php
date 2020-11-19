@@ -320,10 +320,7 @@ class rex_view
         $fragment->setVar('subtitle', $subtitle, false);
         $return = $fragment->parse('core/page/header.php');
 
-        /** @psalm-taint-escape html */ // we expect safe content from the extensions
-        $afterTitle = rex_extension::registerPoint(new rex_extension_point('PAGE_TITLE_SHOWN', ''));
-
-        $return .= $afterTitle;
+        $return .= rex_extension::registerPoint(new rex_extension_point('PAGE_TITLE_SHOWN', ''));
 
         return $return;
     }
