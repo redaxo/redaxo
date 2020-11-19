@@ -48,7 +48,7 @@ class rex_var_template extends rex_var
     /**
      * @internal
      *
-     * @param int|string $id
+     * @param int|numeric-string $id
      *
      * @return false|string
      */
