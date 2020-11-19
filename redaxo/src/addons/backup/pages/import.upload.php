@@ -16,9 +16,7 @@ $EXPDIR = rex_post('EXPDIR', 'array');
 
 @set_time_limit(0);
 
-/**
- * @psalm-taint-escape text
- */
+/** @psalm-taint-escape text */
 $impname = basename($impname);
 
 if ('dbimport' == $function && '.sql' != substr($impname, -4, 4)) {
