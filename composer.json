@@ -108,12 +108,12 @@
         "phpstan-baseline": "phpstan analyse --generate-baseline .tools/phpstan/baseline.neon",
         "psalm": "psalm",
         "psalm-baseline": "psalm --set-baseline=.tools/psalm/baseline.xml",
+        "taint": [
+            "psalm --taint-analysis"
+        ],
         "sa": [
             "@phpstan",
             "@psalm"
-        ],
-        "taint": [
-            "psalm --taint-analysis"
         ],
         "check": [
             "@cs",
@@ -132,6 +132,7 @@
         "phpstan": "Run static analysis via phpstan",
         "phpstan-baseline": "Regenerate the phpstan baseline",
         "psalm": "Run static analysis via psalm",
+        "taint": "Run taint analysis via psalm",
         "sa": "Run all static analyses (psalm and phpstan)",
         "check": "Check all (code style, static analysis, unit tests)"
     },
