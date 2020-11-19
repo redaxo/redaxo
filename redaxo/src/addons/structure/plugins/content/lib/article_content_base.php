@@ -515,8 +515,6 @@ class rex_article_content_base
     }
 
     /**
-     * @param string $articleLimit
-     * @param string $sliceLimit
      * @throws rex_sql_exception
      */
     private function renderSlices(string $articleLimit, string $sliceLimit): void
