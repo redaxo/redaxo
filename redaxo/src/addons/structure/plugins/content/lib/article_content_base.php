@@ -294,8 +294,9 @@ class rex_article_content_base
             ]
         ));
         $output = $this->replaceVars($artDataSql, $output);
+        $moduleId = (int) $artDataSql->getValue(rex::getTablePrefix() . 'module.id');
 
-        return $this->getStreamOutput('module/' . $artDataSql->getValue(rex::getTablePrefix() . 'module.id') . '/output', $output);
+        return $this->getStreamOutput('module/' . $moduleId . '/output', $output);
     }
 
     /**
