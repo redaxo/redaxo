@@ -221,6 +221,7 @@ class rex_view
             $cssClassMessage .= ' ' . $cssClass;
         }
 
+        $message = rex_string::sanitizeHtml($message);
         $return = '<div class="' . $cssClassMessage . '">' . $message . '</div>';
 
         /*
