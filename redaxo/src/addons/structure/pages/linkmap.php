@@ -46,13 +46,15 @@ if ('REX_LINKLIST_' == substr($opener_input_field, 0, 13)) {
                  source.options.add(option, sourcelength);
                  opener.writeREXLinklist(' . $id . ');';
 } else {
+    $escaped_opener_input_field = rex_escape($opener_input_field, 'js');
+    $escaped_opener_input_field_name = rex_escape($opener_input_field_name, 'js');
     $func_body .= <<<JS
 var event = opener.jQuery.Event("rex:selectLink");
 opener.jQuery(window).trigger(event, [link, name]);
 if (!event.isDefaultPrevented()) {
     var linkid = link.replace("redaxo://","");
-    window.opener.document.getElementById("$opener_input_field").value = linkid;
-    window.opener.document.getElementById("$opener_input_field_name").value = name;
+    window.opener.document.getElementById("$escaped_opener_input_field").value = linkid;
+    window.opener.document.getElementById("$escaped_opener_input_field_name").value = name;
     self.close();
 }
 JS;
