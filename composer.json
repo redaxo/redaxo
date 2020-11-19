@@ -112,10 +112,14 @@
             "@phpstan",
             "@psalm"
         ],
+        "taint": [
+            "psalm --taint-analysis"
+        ],
         "check": [
             "@cs",
             "@sa",
-            "@phpunit"
+            "@phpunit",
+            "@taint"
         ]
     },
     "scripts-descriptions": {
