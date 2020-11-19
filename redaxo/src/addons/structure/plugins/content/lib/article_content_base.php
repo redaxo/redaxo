@@ -17,7 +17,7 @@ class rex_article_content_base
      */
     public $info;
     /**
-     * @var string
+     * @var bool
      */
     public $debug;
 
