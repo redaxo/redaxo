@@ -73,11 +73,6 @@ jobs:
                   php-version: 7.4
                   extensions: intl, imagick
                   coverage: none # disable xdebug, pcov
-            - name: "Psalm Resultcache"
-              uses: actions/cache@v2
-              with:
-                  path: /tmp/psalm
-                  key: "psalm-result-cache"
             - uses: "ramsey/composer-install@v1"
               with:
                   composer-options: "--ansi --prefer-dist"
