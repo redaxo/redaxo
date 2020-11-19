@@ -971,6 +971,8 @@ abstract class rex_form_base
     public function getWarning()
     {
         $warning = rex_request($this->getName() . '_warning', 'string');
+        $warning = rex_escape($warning, 'html_simplified');
+
         if ('' != $this->warning) {
             $warning .= "\n" . $this->warning;
         }
