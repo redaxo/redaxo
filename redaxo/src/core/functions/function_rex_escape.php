@@ -184,4 +184,3 @@ function rex_escape($value, $strategy = 'html')
             throw new InvalidArgumentException(sprintf('Invalid escaping strategy "%s" (valid ones: "html", "html_attr", "css", "js", "url").', $strategy));
     }
 }
-
