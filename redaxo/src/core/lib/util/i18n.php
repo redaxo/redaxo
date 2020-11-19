@@ -261,8 +261,7 @@ class rex_i18n
         $msg = preg_replace($patterns, $replacements, $msg);
 
         if ($htmlspecialchars) {
-            $msg = rex_escape($msg);
-            $msg = preg_replace('@&lt;(/?(?:b|i|code|kbd|var)|br ?/?)&gt;@i', '<$1>', $msg);
+            $msg = rex_escape($msg, 'html_simplified');
         }
 
         return $msg;
