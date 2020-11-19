@@ -224,6 +224,7 @@ class rex_string
             $antiXss->removeNeverAllowedStrAfterwards(['&lt;script&gt;', '&lt;/script&gt;']);
         }
 
+        /** @psalm-taint-escape html */
         return $antiXss->xss_clean($html);
     }
 }

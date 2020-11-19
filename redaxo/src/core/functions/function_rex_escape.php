@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Escapes a variable.
  *
@@ -12,12 +11,15 @@
  * @param mixed  $value    The value to escape
  * @param string $strategy Supported strategies:
  *                         "html": escapes a string for the HTML context.
+ *                         "html_simplified": escapes a string for the HTML context. Allows some basic tags which are safe regarding XSS.
  *                         "html_attr": escapes a string for the HTML attrubute context. It is only necessary for dynamic attribute names and attribute values without quotes (`data-foo=bar`). For attribute values within quotes you can use default strategy "html".
  *                         "js": escapes a string for the JavaScript/JSON context.
  *                         "css": escapes a string for the CSS context. CSS escaping can be applied to any string being inserted into CSS and escapes everything except alphanumerics.
  *                         "url": escapes a string for the URI or parameter contexts. This should not be used to escape an entire URI; only a subcomponent being inserted.
  *
  * @throws InvalidArgumentException
+ *
+ * @psalm-param 'html'|'html_simplified'|'html_attr'|'js'|'css'|'url' $strategy
  *
  * @return mixed
  */
@@ -57,6 +59,10 @@ function rex_escape($value, $strategy = 'html')
         case 'html':
             // see https://secure.php.net/htmlspecialchars
             return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+
+        case 'html_simplified':
+            $string = rex_escape($string, 'html');
+            return preg_replace('@&lt;(/?(?:b|i|code|kbd|var)|br ?/?)&gt;@i', '<$1>', $string);
 
         case 'js':
             // escape all non-alphanumeric characters

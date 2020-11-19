@@ -149,6 +149,7 @@ class rex_fragment
      *
      * @param mixed  $value    The value to escape
      * @param string $strategy One of "html", "html_attr", "css", "js", "url"
+     * @psalm-param 'html'|'html_simplified'|'html_attr'|'js'|'css'|'url' $strategy
      *
      * @throws InvalidArgumentException
      *
