@@ -74,7 +74,7 @@ class rex_article_action
             $action = $row->getValue('code');
             $action = str_replace($this->vars['search'], $this->vars['replace'], $action);
             $action = rex_var::parse($action, rex_var::ENV_BACKEND | rex_var::ENV_INPUT, 'action', $this->sql);
-            
+
             $articleId = (int) $row->getValue('id');
             require rex_stream::factory('action/' . $articleId . '/' . $type, $action);
         }
