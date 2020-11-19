@@ -196,7 +196,7 @@ if ($step > 5 && $createdb > -1) {
     } elseif (3 == $createdb) {
         $import_name = rex_post('import_name', 'string');
         /**  @psalm-taint-escape text */
-        $import_name = basename($import_name);
+        $import_name = rex_path::basename($import_name);
 
         $error = rex_setup_importer::loadExistingImport($import_name);
         if ('' != $error) {
