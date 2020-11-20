@@ -90,7 +90,7 @@ jobs:
                   php redaxo/bin/console package:install structure/history --ansi
                   php redaxo/bin/console package:install structure/version --ansi
             - run: |
-                  vendor/bin/psalm --use-baseline=.tools/psalm/baseline-taint.xml --taint-analysis
+                  vendor/bin/psalm --use-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache
               # todo: upload SARIF report after psalm release contains https://github.com/vimeo/psalm/pull/4582
 
     phpstan-analysis:
