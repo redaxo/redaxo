@@ -16,13 +16,18 @@ $EXPDIR = rex_post('EXPDIR', 'array');
 
 @set_time_limit(0);
 
-$impname = rex_path::basename($impname);
-if ('dbimport' == $function && '.sql' != substr($impname, -4, 4)) {
-    $impname = '';
-} elseif ('fileimport' == $function && '.tar.gz' != substr($impname, -7, 7)) {
-    $impname = '';
-} elseif (('delete' == $function || 'download' == $function) && '.sql' != substr($impname, -4, 4) && '.tar.gz' != substr($impname, -7, 7)) {
-    $impname = '';
+if ('' != $impname) {
+    $impname = rex_path::basename($impname);
+    $validDump = rex_backup::isFilenameValid(rex_backup::IMPORT_DB, $impname);
+    $validArchive = rex_backup::isFilenameValid(rex_backup::IMPORT_ARCHIVE, $impname);
+
+    if ('dbimport' == $function && !$validDump) {
+        $impname = '';
+    } elseif ('fileimport' == $function && !$validArchive) {
+        $impname = '';
+    } elseif (('delete' == $function || 'download' == $function) && !$validDump && !$validArchive) {
+        $impname = '';
+    }
 }
 
 if ('download' == $function && $impname && is_readable(rex_backup::getDir() . '/' . $impname)) {
