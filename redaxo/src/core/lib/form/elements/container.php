@@ -26,11 +26,17 @@ class rex_form_container_element extends rex_form_element
         $this->value = $value;
     }
 
+    /**
+     * @param bool $multiple
+     */
     public function setMultiple($multiple = true)
     {
         $this->multiple = $multiple;
     }
 
+    /**
+     * @param string $group
+     */
     public function setActive($group)
     {
         $this->active = $group;
@@ -40,7 +46,7 @@ class rex_form_container_element extends rex_form_element
      * @param string $type
      * @param string $name
      * @param array $attributes
-     *                         
+     *
      * @return rex_form_element
      */
     public function addField($type, $name, $value = null, array $attributes = [])
