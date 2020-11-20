@@ -24,10 +24,12 @@ class rex_backup
     /**
      * @param self::IMPORT_* $importType
      */
-    public static function validateFilename($importType, string $filename):bool {
-        if ($importType === self::IMPORT_ARCHIVE) {
+    public static function validateFilename($importType, string $filename): bool
+    {
+        if (self::IMPORT_ARCHIVE === $importType) {
             return '.tar.gz' == substr($filename, -7, 7);
-        } elseif ($importType === self::IMPORT_DB) {
+        }
+        if (self::IMPORT_DB === $importType) {
             return '.sql' == substr($filename, -4, 4);
         }
 
