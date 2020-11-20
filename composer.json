@@ -106,11 +106,10 @@
         "phpunit": "phpunit --colors=always",
         "phpstan": "phpstan analyse --ansi",
         "phpstan-baseline": "phpstan analyse --generate-baseline .tools/phpstan/baseline.neon",
-        "psalm": "psalm",
+        "psalm": "psalm --use-baseline=.tools/psalm/baseline.xml",
         "psalm-baseline": "psalm --set-baseline=.tools/psalm/baseline.xml",
-        "taint": [
-            "psalm --taint-analysis --no-cache"
-        ],
+        "taint": "psalm --use-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache",
+        "taint-baseline": "psalm --set-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache || git checkout -- psalm.xml",
         "sa": [
             "@phpstan",
             "@psalm"
@@ -132,7 +131,9 @@
         "phpstan": "Run static analysis via phpstan",
         "phpstan-baseline": "Regenerate the phpstan baseline",
         "psalm": "Run static analysis via psalm",
+        "psalm-baseline": "Regenerate the psalm static analysis baseline",
         "taint": "Run taint analysis via psalm",
+        "taint-baseline": "Regenerate the psalm taint  analysis baseline",
         "sa": "Run all static analyses (psalm and phpstan)",
         "check": "Check all (code style, static analysis, unit tests)"
     },
