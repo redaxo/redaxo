@@ -45,7 +45,6 @@ class rex_form_container_element extends rex_form_element
     /**
      * @param string $type
      * @param string $name
-     * @param array $attributes
      *
      * @return rex_form_element
      */
