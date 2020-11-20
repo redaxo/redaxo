@@ -24,7 +24,7 @@ class rex_backup
     /**
      * @param self::IMPORT_* $importType
      */
-    public static function validateFilename($importType, string $filename): bool
+    public static function validateFilename(int $importType, string $filename): bool
     {
         if (self::IMPORT_ARCHIVE === $importType) {
             return '.tar.gz' == substr($filename, -7, 7);
