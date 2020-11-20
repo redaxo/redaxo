@@ -90,8 +90,11 @@ jobs:
                   php redaxo/bin/console package:install structure/history --ansi
                   php redaxo/bin/console package:install structure/version --ansi
             - run: |
-                  vendor/bin/psalm --use-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache
-              # todo: upload SARIF report after psalm release contains https://github.com/vimeo/psalm/pull/4582
+                  vendor/bin/psalm --report "results.sarif" --use-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache
+            - name: Upload Security Analysis results to GitHub
+              uses: github/codeql-action/upload-sarif@v1
+              with:
+                sarif_file: results.sarif
 
     phpstan-analysis:
         name: phpstan static code analysis
