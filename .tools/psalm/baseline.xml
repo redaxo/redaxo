@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.1.1@16bfbd9224698bd738c665f33039fade2a1a3977">
+<files psalm-version="4.2.1@ea9cb72143b77e7520c52fa37290bd8d8bc88fd9">
   <file src="redaxo/src/addons/cronjob/lib/form.php">
-    <MissingConstructor occurrences="1">
-      <code>$intervalElements</code>
-    </MissingConstructor>
     <PossiblyNullReference occurrences="2">
       <code>getIntervalElements</code>
       <code>setValue</code>
@@ -642,49 +639,12 @@
       <code>createInput</code>
     </PossiblyNullReference>
   </file>
-  <file src="redaxo/src/core/lib/form/elements/element.php">
-    <MissingConstructor occurrences="22">
-      <code>$attributes</code>
-      <code>$attributes</code>
-      <code>$fieldName</code>
-      <code>$fieldName</code>
-      <code>$footer</code>
-      <code>$footer</code>
-      <code>$header</code>
-      <code>$header</code>
-      <code>$label</code>
-      <code>$label</code>
-      <code>$notice</code>
-      <code>$notice</code>
-      <code>$prefix</code>
-      <code>$prefix</code>
-      <code>$separateEnding</code>
-      <code>$separateEnding</code>
-      <code>$suffix</code>
-      <code>$suffix</code>
-      <code>$tag</code>
-      <code>$tag</code>
-      <code>$validator</code>
-      <code>$validator</code>
-    </MissingConstructor>
-  </file>
-  <file src="redaxo/src/core/lib/form/elements/prio.php">
-    <PossiblyNullReference occurrences="1">
-      <code>setSize</code>
-    </PossiblyNullReference>
-  </file>
   <file src="redaxo/src/core/lib/form/elements/select.php">
-    <MissingConstructor occurrences="1">
-      <code>$select</code>
-    </MissingConstructor>
     <PossiblyNullArgument occurrences="1">
       <code>$this-&gt;getValue()</code>
     </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/lib/form/form.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$this-&gt;debug</code>
-    </PossiblyNullArgument>
     <PossiblyNullReference occurrences="2">
       <code>getValue</code>
       <code>getValue</code>
@@ -778,20 +738,6 @@
     <PossiblyNullReference occurrences="1">
       <code>add</code>
     </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/core/lib/util/socket/socket.php">
-    <MissingConstructor occurrences="3">
-      <code>$host</code>
-      <code>$port</code>
-      <code>$ssl</code>
-    </MissingConstructor>
-  </file>
-  <file src="redaxo/src/core/lib/util/socket/socket_proxy.php">
-    <MissingConstructor occurrences="3">
-      <code>$destinationHost</code>
-      <code>$destinationPort</code>
-      <code>$destinationSsl</code>
-    </MissingConstructor>
   </file>
   <file src="redaxo/src/core/lib/util/version.php">
     <PossiblyNullArgument occurrences="3">
