@@ -36,6 +36,13 @@ class rex_form_container_element extends rex_form_element
         $this->active = $group;
     }
 
+    /**
+     * @param string $type
+     * @param string $name
+     * @param array $attributes
+     *                         
+     * @return rex_form_element
+     */
     public function addField($type, $name, $value = null, array $attributes = [])
     {
         return $this->addGroupedField('elementContainer', $type, $name, $value, $attributes);
