@@ -84,7 +84,7 @@ class rex_sql_util
      */
     public static function importDump($file, $debug = false)
     {
-        if ('.sql' != substr($file, -4, 4)) {
+        if (!str_ends_with($file, '.sql')) {
             throw new rex_sql_exception('Expecting a .sql file, "'. $file .'" given.');
         }
 
