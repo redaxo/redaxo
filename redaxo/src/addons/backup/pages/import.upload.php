@@ -17,13 +17,15 @@ $EXPDIR = rex_post('EXPDIR', 'array');
 @set_time_limit(0);
 
 if ('' != $impname) {
-    $impname = basename($impname);
+    $impname = rex_path::basename($impname);
+    $validDump = rex_backup::isFilenameValid(rex_backup::IMPORT_DB, $impname);
+    $validArchive = rex_backup::isFilenameValid(rex_backup::IMPORT_ARCHIVE, $impname);
 
-    if ('dbimport' == $function && '.sql' != substr($impname, -4, 4)) {
+    if ('dbimport' == $function && !$validDump) {
         $impname = '';
-    } elseif ('fileimport' == $function && '.tar.gz' != substr($impname, -7, 7)) {
+    } elseif ('fileimport' == $function && !$validArchive) {
         $impname = '';
-    } elseif (('delete' == $function || 'download' == $function) && '.sql' != substr($impname, -4, 4) && '.tar.gz' != substr($impname, -7, 7)) {
+    } elseif (('delete' == $function || 'download' == $function) && !$validDump && !$validArchive) {
         $impname = '';
     }
 }

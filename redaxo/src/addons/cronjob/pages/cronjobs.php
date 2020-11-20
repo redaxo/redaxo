@@ -228,7 +228,9 @@ if ('' == $func) {
     $fieldContainer = $form->addContainerField('parameters');
     $fieldContainer->setAttribute('style', 'display: none');
     $fieldContainer->setMultiple(false);
-    $fieldContainer->setActive($activeType);
+    if ($activeType) {
+        $fieldContainer->setActive($activeType);
+    }
 
     $form->addFieldset($addon->i18n('interval'));
     $field = $form->addIntervalField('interval');

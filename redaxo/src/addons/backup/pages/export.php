@@ -43,6 +43,7 @@ if ($export && !$csrfToken->isValid()) {
     // ------------------------------ FUNC EXPORT
 
     $exportfilename = strtolower($exportfilename);
+    /** @psalm-taint-escape shell */
     $filename = preg_replace('@[^\.a-z0-9_\-]@', '', $exportfilename);
 
     if ($filename != $exportfilename) {
@@ -240,7 +241,7 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="rex-form-exportfilename">' . rex_i18n::msg('backup_filename') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-form-exportfilename" name="exportfilename" value="' . $exportfilename . '" />';
+$n['field'] = '<input class="form-control" type="text" id="rex-form-exportfilename" name="exportfilename" value="' . rex_escape($exportfilename) . '" />';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();

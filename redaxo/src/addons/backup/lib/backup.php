@@ -22,6 +22,21 @@ class rex_backup
     }
 
     /**
+     * @param self::IMPORT_* $importType
+     */
+    public static function isFilenameValid(int $importType, string $filename): bool
+    {
+        if (self::IMPORT_ARCHIVE === $importType) {
+            return '.tar.gz' == substr($filename, -7, 7);
+        }
+        if (self::IMPORT_DB === $importType) {
+            return '.sql' == substr($filename, -4, 4);
+        }
+
+        throw new rex_exception('unexpected importType '. $importType);
+    }
+
+    /**
      * @return string[]
      */
     public static function getBackupFiles($filePrefix)
@@ -63,7 +78,7 @@ class rex_backup
 
         $msg = '';
 
-        if ('' == $filename || '.sql' != substr($filename, -4, 4)) {
+        if ('' == $filename || !self::isFilenameValid(self::IMPORT_DB, $filename)) {
             $return['message'] = rex_i18n::msg('backup_no_import_file_chosen_or_wrong_version') . '<br>';
             return $return;
         }
@@ -189,7 +204,7 @@ class rex_backup
         $return = [];
         $return['state'] = false;
 
-        if ('' == $filename || '.tar.gz' != substr($filename, -7, 7)) {
+        if ('' == $filename || !self::isFilenameValid(self::IMPORT_ARCHIVE, $filename)) {
             $return['message'] = rex_i18n::msg('backup_no_import_file_chosen') . '<br />';
             return $return;
         }
@@ -418,6 +433,11 @@ class rex_backup
         return $tables;
     }
 
+    /**
+     * @param string $filename
+     * @param self::IMPORT_ARCHIVE|self::IMPORT_DB $importType
+     * @param self::IMPORT_EVENT_* $eventType
+     */
     private static function importScript($filename, $importType, $eventType)
     {
         if (is_file($filename)) {
