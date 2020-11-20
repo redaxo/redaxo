@@ -31,6 +31,8 @@ class rex_var_template extends rex_var
     /**
      * @internal
      *
+     * @param int|numeric-string $id
+     *
      * @return string
      */
     public static function getTemplateStream($id, rex_article_content_base $article = null)
@@ -48,7 +50,7 @@ class rex_var_template extends rex_var
     /**
      * @internal
      *
-     * @param int|string $id
+     * @param int|numeric-string $id
      *
      * @return false|string
      */

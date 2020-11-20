@@ -448,6 +448,11 @@ class rex_article_content_editor extends rex_article_content
     // ----- EDIT Slice
 
     /**
+     * @param int $RE_CONTS
+     * @param string $RE_MODUL_IN
+     * @param int $RE_CTYPE
+     * @param int $RE_MODUL_ID
+     * @param rex_sql $artDataSql
      * @return string
      */
     protected function editSlice($RE_CONTS, $RE_MODUL_IN, $RE_CTYPE, $RE_MODUL_ID, $artDataSql)
