@@ -107,9 +107,9 @@
         "phpstan": "phpstan analyse --ansi",
         "phpstan-baseline": "phpstan analyse --generate-baseline .tools/phpstan/baseline.neon",
         "psalm": "psalm",
-        "psalm-baseline": "psalm --set-baseline=.tools/psalm/baseline.xml",
+        "psalm-baseline": "psalm --use-baseline=.tools/psalm/baseline.xml --update-baseline",
         "taint": "psalm --taint-analysis --no-cache",
-        "taint-baseline": "psalm --set-baseline=.tools/psalm/baseline-tain.xml --taint-analysis --no-cache",
+        "taint-baseline": "psalm --use-baseline=.tools/psalm/baseline-taint.xml --update-baseline --taint-analysis --no-cache",
         "sa": [
             "@phpstan",
             "@psalm"
