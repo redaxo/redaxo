@@ -19,7 +19,7 @@ $EXPDIR = rex_post('EXPDIR', 'array');
 $csrfToken = rex_csrf_token::factory('backup_import');
 
 if ('' != $impname) {
-    $impname = basename($impname);
+    $impname = rex_path::basename($impname);
 
     if ('dbimport' == $function && '.sql' != substr($impname, -4, 4)) {
         $impname = '';

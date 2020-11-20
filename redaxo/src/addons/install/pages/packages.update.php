@@ -102,7 +102,7 @@ if ($core && !empty($coreVersions)) {
         </table>';
 
     $fragment = new rex_fragment();
-    $fragment->setVar('title', '<b>' . $addonkey . '</b> ' . $package->i18n('information'), false);
+    $fragment->setVar('title', '<b>' . rex_escape($addonkey) . '</b> ' . $package->i18n('information'), false);
     $fragment->setVar('content', $panel, false);
     $content = $fragment->parse('core/page/section.php');
 

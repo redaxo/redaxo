@@ -3,10 +3,10 @@
 /**
  * Methods declared here are available to be called from within a fragment-file, even if not public:.
  *
- * @method void   subfragment(string $filename, array $params = [])
- * @method string getSubfragment(string $filename, array $params = [])
- * @method string i18n(string $key, ...$replacements)
- * @method mixed  escape($value, $strategy = 'html')
+ * @phpstan-method void   subfragment(string $filename, array $params = [])
+ * @phpstan-method string getSubfragment(string $filename, array $params = [])
+ * @phpstan-method string i18n(string $key, ...$replacements)
+ * @phpstan-method mixed  escape($value, $strategy = 'html')
  *
  * @package redaxo\core
  */
@@ -162,6 +162,7 @@ class rex_fragment
      *
      * @param mixed  $value    The value to escape
      * @param string $strategy One of "html", "html_attr", "css", "js", "url"
+     * @psalm-param 'html'|'html_simplified'|'html_attr'|'js'|'css'|'url' $strategy
      *
      * @psalm-template T
      * @psalm-param T $value
