@@ -106,10 +106,10 @@
         "phpunit": "phpunit --colors=always",
         "phpstan": "phpstan analyse --ansi",
         "phpstan-baseline": "phpstan analyse --generate-baseline .tools/phpstan/baseline.neon",
-        "psalm": "psalm",
-        "psalm-baseline": "psalm --use-baseline=.tools/psalm/baseline.xml --update-baseline",
-        "taint": "psalm --taint-analysis --no-cache",
-        "taint-baseline": "psalm --use-baseline=.tools/psalm/baseline-taint.xml --update-baseline --taint-analysis --no-cache",
+        "psalm": "psalm --use-baseline=.tools/psalm/baseline.xml",
+        "psalm-baseline": "psalm --set-baseline=.tools/psalm/baseline.xml",
+        "taint": "psalm --use-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache",
+        "taint-baseline": "psalm --set-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache && git checkout -- psalm.xml",
         "sa": [
             "@phpstan",
             "@psalm"
