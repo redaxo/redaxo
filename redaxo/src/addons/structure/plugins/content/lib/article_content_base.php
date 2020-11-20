@@ -8,27 +8,75 @@
  */
 class rex_article_content_base
 {
+    /**
+     * @var string
+     */
     public $warning;
+    /**
+     * @var string
+     */
     public $info;
+    /**
+     * @var bool
+     */
     public $debug;
 
+    /**
+     * @var int
+     */
     public $template_id;
+    /**
+     * @var array
+     */
     public $template_attributes;
 
+    /**
+     * @var int
+     */
     protected $category_id;
+    /**
+     * @var int
+     */
     protected $article_id;
+    /**
+     * @var int
+     */
     protected $slice_id;
+    /**
+     * @var int
+     */
     protected $getSlice;
+    /**
+     * @var string
+     */
     protected $mode;
+    /**
+     * @var string
+     */
     protected $function;
 
+    /**
+     * @var int
+     */
     protected $ctype;
+    /**
+     * @var int
+     */
     protected $clang;
 
+    /**
+     * @var bool
+     */
     protected $eval;
 
+    /**
+     * @var int
+     */
     protected $slice_revision;
 
+    /**
+     * @var rex_sql|null
+     */
     protected $ARTICLE;
 
     public function __construct($article_id = null, $clang = null)
@@ -246,8 +294,9 @@ class rex_article_content_base
             ]
         ));
         $output = $this->replaceVars($artDataSql, $output);
+        $moduleId = (int) $artDataSql->getValue(rex::getTablePrefix() . 'module.id');
 
-        return $this->getStreamOutput('module/' . $artDataSql->getValue(rex::getTablePrefix() . 'module.id') . '/output', $output);
+        return $this->getStreamOutput('module/' . $moduleId . '/output', $output);
     }
 
     /**
