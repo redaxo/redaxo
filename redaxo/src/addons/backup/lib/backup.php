@@ -24,7 +24,7 @@ class rex_backup
     /**
      * @param self::IMPORT_* $importType
      */
-    public static function validateFilename(int $importType, string $filename): bool
+    public static function isFilenameValid(int $importType, string $filename): bool
     {
         if (self::IMPORT_ARCHIVE === $importType) {
             return '.tar.gz' == substr($filename, -7, 7);
@@ -78,7 +78,7 @@ class rex_backup
 
         $msg = '';
 
-        if ('' == $filename || !self::validateFilename(self::IMPORT_DB, $filename)) {
+        if ('' == $filename || !self::isFilenameValid(self::IMPORT_DB, $filename)) {
             $return['message'] = rex_i18n::msg('backup_no_import_file_chosen_or_wrong_version') . '<br>';
             return $return;
         }
@@ -204,7 +204,7 @@ class rex_backup
         $return = [];
         $return['state'] = false;
 
-        if ('' == $filename || !self::validateFilename(self::IMPORT_ARCHIVE, $filename)) {
+        if ('' == $filename || !self::isFilenameValid(self::IMPORT_ARCHIVE, $filename)) {
             $return['message'] = rex_i18n::msg('backup_no_import_file_chosen') . '<br />';
             return $return;
         }

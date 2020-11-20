@@ -20,8 +20,8 @@ $csrfToken = rex_csrf_token::factory('backup_import');
 
 if ('' != $impname) {
     $impname = rex_path::basename($impname);
-    $validDump = rex_backup::validateFilename(rex_backup::IMPORT_DB, $impname);
-    $validArchive = rex_backup::validateFilename(rex_backup::IMPORT_ARCHIVE, $impname);
+    $validDump = rex_backup::isFilenameValid(rex_backup::IMPORT_DB, $impname);
+    $validArchive = rex_backup::isFilenameValid(rex_backup::IMPORT_ARCHIVE, $impname);
 
     if ('dbimport' == $function && !$validDump) {
         $impname = '';
