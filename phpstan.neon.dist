@@ -43,3 +43,5 @@ parameters:
         -
             message: '#.*deprecated.*#'
             path: '*/update.php'
+    stubFiles:
+        - .tools/phpstan/deprecated.stub
