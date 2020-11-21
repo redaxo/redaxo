@@ -1,7 +1,7 @@
 <?php
 
-use splitbrain\PHPArchive\Tar;
 use splitbrain\PHPArchive\Archive;
+use splitbrain\PHPArchive\Tar;
 
 /**
  * REDAXO Tar Klasse.
@@ -49,7 +49,8 @@ class rex_backup_tar
         return true;
     }
 
-    public function create($archivePath) {
+    public function create($archivePath)
+    {
         $this->tar->create($archivePath);
         $this->tar->setCompression(9, Archive::COMPRESS_GZIP);
     }
