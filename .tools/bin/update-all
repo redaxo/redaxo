@@ -35,6 +35,7 @@ composer update --ansi --no-dev -d redaxo/src/addons/backup/
 
 rm -rf redaxo/src/addons/backup/vendor/splitbrain/php-archive/tests/
 find redaxo/src/addons/backup/vendor/splitbrain/php-archive -name "*.md" ! -name "LICENSE.md" -type f -delete
+rm -rf redaxo/src/addons/backup/vendor/composer/
 
 printf "\nUpdate redaxo/src/addons/be_style/vendor\n"
 composer update --ansi --no-dev -d redaxo/src/addons/be_style/
