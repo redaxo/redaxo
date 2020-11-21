@@ -221,7 +221,7 @@ class rex_backup
         self::importScript(str_replace('.tar.gz', '.php', $filename), self::IMPORT_ARCHIVE, self::IMPORT_EVENT_PRE);
 
         $tar->openTAR($filename);
-        if (!$tar->extractTar()) {
+        if (!$tar->extractTar(rex_path::base())) {
             $msg = rex_i18n::msg('backup_problem_when_extracting') . '<br />';
             if (count($tar->getMessages()) > 0) {
                 $msg .= rex_i18n::msg('backup_create_dirs_manually') . '<br />';
@@ -362,12 +362,11 @@ class rex_backup
      * Exportiert alle Ordner $folders aus dem Verzeichnis /files.
      *
      * @param array $folders Array von Ordnernamen, die exportiert werden sollen
-     *
-     * @return string Inhalt des Tar-Archives als String
      */
-    public static function exportFiles($folders)
+    public static function exportFiles($folders, $archivePath)
     {
         $tar = new rex_backup_tar();
+        $tar->create($archivePath);
 
         // ----- EXTENSION POINT
         $tar = rex_extension::registerPoint(new rex_extension_point('BACKUP_BEFORE_FILE_EXPORT', $tar));
@@ -379,7 +378,7 @@ class rex_backup
         // ----- EXTENSION POINT
         $tar = rex_extension::registerPoint(new rex_extension_point('BACKUP_AFTER_FILE_EXPORT', $tar));
 
-        return $tar->toTar(null, true);
+        $tar->close();
     }
 
     /**
