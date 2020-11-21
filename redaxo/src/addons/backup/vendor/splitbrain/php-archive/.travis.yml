@@ -1,0 +1,16 @@
+language: php
+php:
+  - 5.6
+  - 7.0
+  - 7.1
+  - 7.2
+  - 7.3
+  - 7.4
+before_script:
+  - composer install
+script: ./vendor/bin/phpunit
+after_success:
+  - sh generate-api.sh
+env:
+  global:
+    secure: ctCQVPQgQziwIZf5QGHcnhHlXsyauG0W3AWF/6R8cTP+in2S/RygunPp7CkXiqA1YMluGr2Lo9h4DTVg7oqeXl79FXFXedijQmQEu3g3f4iDWtxbQhGf4bJQk57jXFldge4rQedlOJDzwGzJ1abrimJQlu090BZNeonzWL5cRK4=
