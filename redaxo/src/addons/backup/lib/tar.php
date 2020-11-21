@@ -74,27 +74,6 @@ class rex_backup_tar
     }
 
     /**
-     * Add a directory to this tar archive.
-     *
-     * @param string $dirname
-     *
-     * @return bool
-     */
-    public function addDirectory($dirname)
-    {
-        if (!is_dir($dirname)) {
-            return false;
-        }
-
-        $it = new DirectoryIterator($dirname);
-        foreach($it as $fileInfo) {
-            $this->tar->addData($fileInfo);
-        }
-
-        return true;
-    }
-
-    /**
      * Saves tar archive to a different file than the current file.
      *
      * @return bool|string
