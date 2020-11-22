@@ -5,4 +5,4 @@
  *
  * @deprecated see https://github.com/redaxo/redaxo/issues/4069
  */
-function basename($path):string {}
+function basename(string $path):string {}
