@@ -187,7 +187,7 @@ if ($count_folders > 4) {
     $sel_dirs->setSize($count_folders);
 }
 foreach ($folders as $path => $_) {
-    $file = basename($path);
+    $file = rex_file::basename($path);
     $sel_dirs->addOption($file, $file);
 }
 

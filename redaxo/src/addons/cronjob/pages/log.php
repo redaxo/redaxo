@@ -67,7 +67,7 @@ if ($file = new rex_log_file($logFile)) {
     // XXX calc last line and use it instead
     if ($url = rex_editor::factory()->getUrl($logFile, 1)) {
         $n = [];
-        $n['field'] = '<a class="btn btn-save" href="'. $url .'">' . rex_i18n::msg('system_editor_open_file', basename($logFile)) . '</a>';
+        $n['field'] = '<a class="btn btn-save" href="'. $url .'">' . rex_i18n::msg('system_editor_open_file', rex_file::basename($logFile)) . '</a>';
         $formElements[] = $n;
     }
 }
