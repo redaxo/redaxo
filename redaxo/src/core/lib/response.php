@@ -158,7 +158,7 @@ class rex_response
         session_write_close();
 
         if (!$filename) {
-            $filename = basename($file);
+            $filename = rex_file::basename($file);
         }
 
         self::sendContentType($contentType);

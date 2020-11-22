@@ -280,7 +280,7 @@ $configYml = rex_path::coreData('config.yml');
 if ($url = $editor->getUrl($configYml, 0)) {
     $n = [];
     $n['label'] = '';
-    $n['field'] = $n['field'] = '<a class="btn btn-sm btn-primary" href="'. $url .'">' . rex_i18n::msg('system_editor_open_file', basename($configYml)) . '</a>';
+    $n['field'] = $n['field'] = '<a class="btn btn-sm btn-primary" href="'. $url .'">' . rex_i18n::msg('system_editor_open_file', rex_file::basename($configYml)) . '</a>';
     $n['note'] = rex_i18n::msg('system_edit_config_note');
     $formElements[] = $n;
 }

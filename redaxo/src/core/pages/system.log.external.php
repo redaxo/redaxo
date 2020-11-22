@@ -46,7 +46,7 @@ if (!is_file($logFile) || !is_readable($logFile) || filesize($logFile) <= 0) {
         $formElements = [];
 
         $n = [];
-        $n['field'] = '<a class="btn btn-save" href="'. $url .'">' . rex_i18n::msg('system_editor_open_file', basename($logFile)) . '</a>';
+        $n['field'] = '<a class="btn btn-save" href="'. $url .'">' . rex_i18n::msg('system_editor_open_file', rex_file::basename($logFile)) . '</a>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
