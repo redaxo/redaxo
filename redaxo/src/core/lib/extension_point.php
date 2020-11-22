@@ -6,6 +6,8 @@
  * @author gharlan
  *
  * @package redaxo\core
+ *
+ * @psalm-taint-specialize
  */
 class rex_extension_point
 {

@@ -28,6 +28,8 @@ abstract class rex_extension
      * @param rex_extension_point $extensionPoint Extension point
      *
      * @return mixed Subject, maybe adjusted by the extensions
+     *
+     * @psalm-taint-specialize
      */
     public static function registerPoint(rex_extension_point $extensionPoint)
     {
