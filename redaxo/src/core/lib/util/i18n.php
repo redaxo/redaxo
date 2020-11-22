@@ -113,6 +113,8 @@ class rex_i18n
      * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
      * @return string Translation for the key
+     *
+     * @psalm-taint-escape html
      */
     public static function msg($key, ...$replacements)
     {
@@ -140,6 +142,8 @@ class rex_i18n
      * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
      * @return string Translation for the key
+     *
+     * @psalm-taint-escape html
      */
     public static function msgInLocale($key, $locale, ...$replacements)
     {
