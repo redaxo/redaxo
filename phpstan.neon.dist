@@ -21,7 +21,6 @@ parameters:
     bootstrapFiles:
         - .tools/constants.php
     excludes_analyse:
-        - redaxo/src/addons/backup/vendor/
         - redaxo/src/addons/be_style/vendor/
         - redaxo/src/addons/debug/vendor/
         - redaxo/src/addons/phpmailer/vendor/
