@@ -17,7 +17,7 @@
 class rex_backup_tar
 {
     /**
-     * @var PharData
+     * @var PharData|null
      */
     private $tar;
 
