@@ -32,6 +32,7 @@
         "ramsey/collection": "1.1.1",
         "ramsey/http-range": "1.0.0",
         "scssphp/scssphp": "v1.4.0",
+        "splitbrain/php-archive": "1.2.0",
         "symfony/console": "v5.1.8",
         "symfony/deprecation-contracts": "v2.2.0",
         "symfony/polyfill-ctype": "v1.20.0",
