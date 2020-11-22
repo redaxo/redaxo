@@ -233,6 +233,8 @@ class rex_i18n
      * @param string         $locale       A Locale
      * @psalm-param list<string|int> $replacements
      *
+     * @psalm-taint-escape ($escape is true ? "html" : null)
+     *
      * @return mixed
      */
     private static function getMsg($key, $escape, array $replacements, $locale = null)
@@ -347,6 +349,8 @@ class rex_i18n
      *
      * @throws InvalidArgumentException
      *
+     * @psalm-taint-escape ($escape is true ? "html" : null)
+     *
      * @return string Translated text
      */
     public static function translate($text, $escape = true, callable $i18nFunction = null)
@@ -381,6 +385,8 @@ class rex_i18n
      * @param callable $i18nFunction Function that returns the translation for the i18n key
      *
      * @throws InvalidArgumentException
+     *
+     * @psalm-taint-escape ($escape is true ? "html" : null)
      *
      * @return mixed
      */
