@@ -54,7 +54,7 @@ class rex_managed_media
             return;
         }
 
-        $this->media = rex_file::basename($mediaPath);
+        $this->media =  rex_path::basename($mediaPath);
         $this->asImage = false;
 
         $this->sourcePath = $mediaPath;
