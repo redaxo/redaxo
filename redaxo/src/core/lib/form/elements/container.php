@@ -5,7 +5,7 @@
  */
 class rex_form_container_element extends rex_form_element
 {
-    /** @array */
+    /** @var array<string, rex_form_element[]> */
     private $fields;
     /** @var bool */
     private $multiple;
@@ -26,22 +26,38 @@ class rex_form_container_element extends rex_form_element
         $this->value = $value;
     }
 
+    /**
+     * @param bool $multiple
+     */
     public function setMultiple($multiple = true)
     {
         $this->multiple = $multiple;
     }
 
+    /**
+     * @param string $group
+     */
     public function setActive($group)
     {
         $this->active = $group;
     }
 
+    /**
+     * @param string $type
+     * @param string $name
+     *
+     * @return rex_form_element
+     */
     public function addField($type, $name, $value = null, array $attributes = [])
     {
         return $this->addGroupedField('elementContainer', $type, $name, $value, $attributes);
     }
 
     /**
+     * @param string $group
+     * @param string $type
+     * @param string $name
+     *
      * @return rex_form_element
      */
     public function addGroupedField($group, $type, $name, $value = null, array $attributes = [])
@@ -60,6 +76,7 @@ class rex_form_container_element extends rex_form_element
         return $field;
     }
 
+    /** @return array<string, rex_form_element[]> */
     public function getFields()
     {
         return $this->fields;

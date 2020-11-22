@@ -67,7 +67,7 @@ class rex_file
             }
 
             // mimic a atomic write
-            $tmpFile = @tempnam(dirname($file), basename($file));
+            $tmpFile = @tempnam(dirname($file), rex_path::basename($file));
             if (false !== file_put_contents($tmpFile, $content) && rename($tmpFile, $file)) {
                 @chmod($file, rex::getFilePerm());
                 return true;
@@ -119,7 +119,7 @@ class rex_file
             if (is_file($srcfile)) {
                 if (is_dir($dstfile)) {
                     $dstdir = rtrim($dstfile, DIRECTORY_SEPARATOR);
-                    $dstfile = $dstdir . DIRECTORY_SEPARATOR . basename($srcfile);
+                    $dstfile = $dstdir . DIRECTORY_SEPARATOR . rex_path::basename($srcfile);
                 } else {
                     $dstdir = dirname($dstfile);
                     rex_dir::create($dstdir);

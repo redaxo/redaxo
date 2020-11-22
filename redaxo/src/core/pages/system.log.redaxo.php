@@ -92,14 +92,14 @@ $formElements[] = $n;
 
 if ($url = $editor->getUrl($logFile, 0)) {
     $n = [];
-    $n['field'] = '<a class="btn btn-save" href="'. $url .'">' . rex_i18n::msg('system_editor_open_file', basename($logFile)) . '</a>';
+    $n['field'] = '<a class="btn btn-save" href="'. $url .'">' . rex_i18n::msg('system_editor_open_file', rex_path::basename($logFile)) . '</a>';
     $formElements[] = $n;
 }
 
 if (is_file($logFile)) {
     $url = rex_url::currentBackendPage(['func' => 'download']);
     $n = [];
-    $n['field'] = '<a class="btn btn-save" href="'. $url .'">' . rex_i18n::msg('syslog_download', basename($logFile)) . '</a>';
+    $n['field'] = '<a class="btn btn-save" href="'. $url .'">' . rex_i18n::msg('syslog_download', rex_path::basename($logFile)) . '</a>';
     $formElements[] = $n;
 }
 

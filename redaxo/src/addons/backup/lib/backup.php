@@ -260,7 +260,7 @@ class rex_backup
 
         // in case of permission issues/misconfigured tmp-folders
         if (!$fp) {
-            $tempCacheFile = rex_path::cache(basename($filename));
+            $tempCacheFile = rex_path::cache(rex_path::basename($filename));
             $fp = fopen($tempCacheFile, 'w');
             if (!$fp) {
                 return false;
@@ -433,6 +433,11 @@ class rex_backup
         return $tables;
     }
 
+    /**
+     * @param string $filename
+     * @param self::IMPORT_ARCHIVE|self::IMPORT_DB $importType
+     * @param self::IMPORT_EVENT_* $eventType
+     */
     private static function importScript($filename, $importType, $eventType)
     {
         if (is_file($filename)) {

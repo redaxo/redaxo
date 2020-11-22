@@ -43,6 +43,7 @@ if ($export && !$csrfToken->isValid()) {
     // ------------------------------ FUNC EXPORT
 
     $exportfilename = strtolower($exportfilename);
+    /** @psalm-taint-escape shell */
     $filename = preg_replace('@[^\.a-z0-9_\-]@', '', $exportfilename);
 
     if ($filename != $exportfilename) {
@@ -186,7 +187,7 @@ if ($count_folders > 4) {
     $sel_dirs->setSize($count_folders);
 }
 foreach ($folders as $path => $_) {
-    $file = basename($path);
+    $file = rex_path::basename($path);
     $sel_dirs->addOption($file, $file);
 }
 

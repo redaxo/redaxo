@@ -19,7 +19,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '81701435786fc88b17d0c1770bdd456cdb6175b0',
+    'reference' => '578552af2f234909e344792d2187d1d850bbc404',
     'name' => '__root__',
   ),
   'versions' => 
@@ -31,7 +31,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '81701435786fc88b17d0c1770bdd456cdb6175b0',
+      'reference' => '578552af2f234909e344792d2187d1d850bbc404',
     ),
     'erusev/parsedown' => 
     array (
@@ -119,7 +119,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'e440567339d5fe93d9525e377c5e686b0b08bcca',
+      'reference' => '44d202bbcf2339adf2941bf629cecfde4f58c35d',
     ),
     'symfony/console' => 
     array (
@@ -243,30 +243,30 @@ private static $installed = array (
     ),
     'voku/anti-xss' => 
     array (
-      'pretty_version' => '4.1.29',
-      'version' => '4.1.29.0',
+      'pretty_version' => '4.1.30',
+      'version' => '4.1.30.0',
       'aliases' => 
       array (
       ),
-      'reference' => '628f4590a83719c0546dbf997f9d035cc4889351',
+      'reference' => 'ff6e54f4a98ad1cd28f8b4a0f3c3f92f3c421f0a',
     ),
     'voku/portable-ascii' => 
     array (
-      'pretty_version' => '1.5.4',
-      'version' => '1.5.4.0',
+      'pretty_version' => '1.5.6',
+      'version' => '1.5.6.0',
       'aliases' => 
       array (
       ),
-      'reference' => '87dc337d4200b32717dd3849fea846319e897658',
+      'reference' => '80953678b19901e5165c56752d087fc11526017c',
     ),
     'voku/portable-utf8' => 
     array (
-      'pretty_version' => '5.4.48',
-      'version' => '5.4.48.0',
+      'pretty_version' => '5.4.50',
+      'version' => '5.4.50.0',
       'aliases' => 
       array (
       ),
-      'reference' => '0f9f156eb0baa0bf72ceef250cd74fe70e2e6379',
+      'reference' => 'f14ed68ea9ced6639e71ca989c6d907892115ba0',
     ),
   ),
 );
