@@ -220,7 +220,7 @@ class rex_socket
                 }
                 $partLength = rex_string::size(sprintf($fileFormat, '', '', '') . $eol);
                 foreach ($files as $key => $file) {
-                    $length += $partLength + rex_string::size($key) + rex_string::size(basename($file['path'])) + rex_string::size($file['type']) + filesize($file['path']);
+                    $length += $partLength + rex_string::size($key) + rex_string::size(rex_path::basename($file['path'])) + rex_string::size($file['type']) + filesize($file['path']);
                 }
                 $length += rex_string::size($end);
                 fwrite($stream, 'Content-Length: ' . $length . $eol . $eol);
