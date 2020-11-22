@@ -14,11 +14,6 @@ jobs:
         name: psalm taint sarif report
         runs-on: ubuntu-latest
 
-        services:
-            mysql:
-                image: mysql:5.7
-                ports:
-                    - 3306
         steps:
             - uses: actions/checkout@v2
             - name: Setup PHP
@@ -30,19 +25,6 @@ jobs:
             - uses: "ramsey/composer-install@v1"
               with:
                   composer-options: "--ansi --prefer-dist"
-            - run: |
-                  sudo /etc/init.d/mysql start
-                  mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
-                  git apply .github/workflows/default.config.yml.github-action.diff
-            - run: |
-                  php .tools/bin/setup
-                  php redaxo/bin/console package:install phpmailer --ansi
-                  php redaxo/bin/console package:install cronjob --ansi
-                  php redaxo/bin/console package:install cronjob/article_status --ansi
-                  php redaxo/bin/console package:install cronjob/optimize_tables --ansi
-                  php redaxo/bin/console package:install debug --ansi
-                  php redaxo/bin/console package:install structure/history --ansi
-                  php redaxo/bin/console package:install structure/version --ansi
             - run: |
                   vendor/bin/psalm --report=results.sarif --use-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache
             - name: Upload Security Analysis results to GitHub
