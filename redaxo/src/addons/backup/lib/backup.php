@@ -260,7 +260,7 @@ class rex_backup
 
         // in case of permission issues/misconfigured tmp-folders
         if (!$fp) {
-            $tempCacheFile = rex_path::cache(basename($filename));
+            $tempCacheFile = rex_path::cache(rex_path::basename($filename));
             $fp = fopen($tempCacheFile, 'w');
             if (!$fp) {
                 return false;

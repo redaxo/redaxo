@@ -74,7 +74,7 @@ class rex_install_webservice
             $socket = rex_socket::factoryUrl($url);
             $response = $socket->doGet();
             if ($response->isOk()) {
-                $filename = basename($url);
+                $filename = rex_path::basename($url);
                 $file = rex_path::addonCache('install', md5($filename) . '.' . rex_file::extension($filename));
                 $response->writeBodyTo($file);
                 return $file;
