@@ -1,8 +1,5 @@
 <?php
 
-use splitbrain\PHPArchive\Archive;
-use splitbrain\PHPArchive\Tar;
-
 /**
  * REDAXO Tar Klasse.
  *
@@ -20,15 +17,9 @@ use splitbrain\PHPArchive\Tar;
 class rex_backup_tar
 {
     /**
-     * @var Tar
+     * @var PharData
      */
     private $tar;
-
-    // constructor to omit warnings
-    public function __construct()
-    {
-        $this->tar = new Tar();
-    }
 
     /**
      * Open a TAR file.
@@ -44,15 +35,15 @@ class rex_backup_tar
             return false;
         }
 
-        $this->tar->open($filename);
+        $this->tar = new PharData($filename);
 
         return true;
     }
 
     public function create($archivePath)
     {
-        $this->tar->create($archivePath);
-        $this->tar->setCompression(9, Archive::COMPRESS_GZIP);
+        $this->tar = new PharData($archivePath);
+        $this->tar->compress(Phar::GZ);
     }
 
     /**
@@ -81,7 +72,7 @@ class rex_backup_tar
      */
     public function close()
     {
-        $this->tar->close();
+        $this->tar = null;
 
         return true;
     }
@@ -93,7 +84,7 @@ class rex_backup_tar
      */
     public function extractTar($outdir)
     {
-        $this->tar->extract($outdir);
+        $this->tar->extractTo ($outdir, null, true);
 
         return true;
     }
