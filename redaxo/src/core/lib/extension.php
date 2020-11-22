@@ -29,7 +29,7 @@ abstract class rex_extension
      *
      * @return mixed Subject, maybe adjusted by the extensions
      *
-     * @psalm-taint-escape html
+     * @psalm-taint-specialize
      */
     public static function registerPoint(rex_extension_point $extensionPoint)
     {
