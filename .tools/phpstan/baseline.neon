@@ -31,11 +31,6 @@ parameters:
 			path: ../../redaxo/src/addons/media_manager/install.php
 
 		-
-			message: "#^Property rex_effect_workspace\\:\\:\\$options is never read, only written\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/media_manager/lib/effects/effect_workspace.php
-
-		-
 			message: "#^Call to function is_bool\\(\\) with string\\|null will always evaluate to false\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/functions/function_rex_mediapool.php
@@ -111,11 +106,6 @@ parameters:
 			path: ../../redaxo/src/addons/structure/lib/structure_element.php
 
 		-
-			message: "#^Property rex_template_select\\:\\:\\$templates \\(array\\<string\\>\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/plugins/content/lib/select_template.php
-
-		-
 			message: "#^Right side of && is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/plugins/content/pages/content.edit.php
@@ -141,27 +131,17 @@ parameters:
 			path: ../../redaxo/src/core/layout/top.php
 
 		-
-			message: "#^Static property rex_api_function\\:\\:\\$instance is never written, only read\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/api_function.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/lib/api_function.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/api_function.php
-
-		-
 			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/api_function.php
 
 		-
 			message: "#^Left side of && is always true\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/api_function.php
+
+		-
+			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/api_function.php
 
@@ -221,11 +201,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/sql/table.php
 
 		-
-			message: "#^Static property rex_sql_table\\:\\:\\$explicitCharset \\(string\\) on left side of \\?\\? is not nullable\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/table.php
-
-		-
 			message: "#^Call to function assert\\(\\) with false will always evaluate to false\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/sql/table.php
@@ -271,11 +246,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/login/user.php
 
 		-
-			message: "#^Static property rex_clang\\:\\:\\$currentId \\(int\\) on left side of \\?\\? is not nullable\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/clang/clang.php
-
-		-
 			message: "#^Parameter \\#1 \\$callback of method rex_sql\\:\\:addRecord\\(\\) expects callable\\(rex_sql\\)\\: void, Closure\\(rex_sql\\)\\: mixed given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/config.php
@@ -289,11 +259,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$exception_handler of function set_exception_handler expects \\(callable\\(Throwable\\)\\: void\\)\\|null, array\\('rex_error_handler', 'handleException'\\) given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/error_handler.php
-
-		-
-			message: "#^Property rex_form_container_element\\:\\:\\$active \\(string\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/elements/container.php
 
 		-
 			message: "#^If condition is always true\\.$#"
@@ -324,11 +289,6 @@ parameters:
 			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/fragment.php
-
-		-
-			message: "#^Property rex_list\\:\\:\\$query is never read, only written\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/list.php
 
 		-
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
