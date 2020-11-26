@@ -331,11 +331,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/fragment.php
 
 		-
-			message: "#^Property rex_list\\:\\:\\$query is never read, only written\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/list.php
-
-		-
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 2
 			path: ../../redaxo/src/core/lib/login/api_user_impersonate.php
