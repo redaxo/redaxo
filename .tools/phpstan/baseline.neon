@@ -31,11 +31,6 @@ parameters:
 			path: ../../redaxo/src/addons/media_manager/install.php
 
 		-
-			message: "#^Property rex_effect_workspace\\:\\:\\$options is never read, only written\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/media_manager/lib/effects/effect_workspace.php
-
-		-
 			message: "#^Call to function is_bool\\(\\) with string\\|null will always evaluate to false\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/functions/function_rex_mediapool.php
