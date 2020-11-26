@@ -63,7 +63,7 @@ jobs:
             - name: Check psalm baseline
               if: ${{ success() }}
               run: |
-                  composer psalm-baseline
+                  composer taint-baseline
                   git diff --exit-code .tools/psalm/baseline-taint.xml
 
     phpstan-analysis:
