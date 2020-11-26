@@ -36,6 +36,11 @@ jobs:
                   composer-options: "--ansi --prefer-dist"
             - run: |
                   vendor/bin/psalm --show-info=false --shepherd --diff --output-format=github
+            - name: Check psalm baseline
+              if: ${{ success() }}
+              run: |
+                  composer psalm-baseline
+                  git diff --exit-code .tools/psalm/baseline.xml
 
     psalm-taint-analysis:
         name: psalm taint analysis
