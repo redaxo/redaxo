@@ -1,5 +1,7 @@
 includes:
 	- .tools/phpstan/baseline.neon
+	# activate dead code detection. this line should be removed after we updated to phpstan 1.0+
+	- vendor/phpstan/phpstan/conf/bleedingEdge.neon
 
 parameters:
     level: 5
