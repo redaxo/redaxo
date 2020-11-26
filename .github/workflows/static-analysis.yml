@@ -64,7 +64,7 @@ jobs:
               if: ${{ success() }}
               run: |
                   composer taint-baseline
-                  git diff --exit-code .tools/psalm/baseline-taint.xml
+                  git diff --exit-code .tools/psalm/baseline-taint.xml || echo "::error file=.tools/psalm/baseline-taint.xml,line=1,col=1::Psalm taint baseline file is outdated and must be regenerated via \`composer taint-baseline\`." && exit 1
 
     phpstan-analysis:
         name: phpstan static code analysis
