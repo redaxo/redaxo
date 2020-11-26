@@ -426,11 +426,6 @@ parameters:
 			path: ../../redaxo/src/core/tests/sql/sql_test.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of static method rex_formatter\\:\\:bytes\\(\\) expects int\\|string, float given\\.$#"
-			count: 3
-			path: ../../redaxo/src/core/tests/util/formatter_test.php
-
-		-
 			message: "#^Strict comparison using \\=\\=\\= between 'abc' and null will always evaluate to false\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/util/validator_test.php
