@@ -271,11 +271,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/login/user.php
 
 		-
-			message: "#^Static property rex_clang\\:\\:\\$currentId \\(int\\) on left side of \\?\\? is not nullable\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/clang/clang.php
-
-		-
 			message: "#^Parameter \\#1 \\$callback of method rex_sql\\:\\:addRecord\\(\\) expects callable\\(rex_sql\\)\\: void, Closure\\(rex_sql\\)\\: mixed given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/config.php
