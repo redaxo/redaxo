@@ -296,11 +296,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/form/elements/container.php
 
 		-
-			message: "#^Property rex_form_prio_element\\:\\:\\$primaryKey is never read, only written\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/elements/prio.php
-
-		-
 			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/form/elements/prio.php
