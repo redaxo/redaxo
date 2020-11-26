@@ -291,11 +291,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/error_handler.php
 
 		-
-			message: "#^Property rex_form_container_element\\:\\:\\$active \\(string\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/elements/container.php
-
-		-
 			message: "#^Property rex_form_prio_element\\:\\:\\$primaryKey is never read, only written\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/form/elements/prio.php
