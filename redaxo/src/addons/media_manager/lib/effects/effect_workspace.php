@@ -5,23 +5,10 @@
  */
 class rex_effect_workspace extends rex_effect_abstract
 {
-    private $options;
     private $script;
 
     public function __construct()
     {
-        $this->options = [
-            'top',
-            'topleft',
-            'left',
-            'bottomleft',
-            'bottom',
-            'bottomright',
-            'right',
-            'topright',
-            'center',
-        ];
-
         $this->script = '
 <script type="text/javascript">
 <!--
