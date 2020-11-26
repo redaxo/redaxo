@@ -41,6 +41,7 @@ jobs:
               run: |
                   composer psalm-baseline
                   git diff --exit-code .tools/psalm/baseline.xml
+                  [ $? -eq 0 ] || echo "::error file=.tools/psalm/baseline.xml,line=1,col=1::Psalm baseline file is outdated and must be regenerated via `composer psalm-baseline`."
 
     psalm-taint-analysis:
         name: psalm taint analysis
