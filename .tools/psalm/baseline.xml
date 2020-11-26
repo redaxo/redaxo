@@ -12,6 +12,11 @@
       <code>$field-&gt;getValue()</code>
     </PossiblyNullArgument>
   </file>
+  <file src="redaxo/src/addons/debug/boot.php">
+    <PossiblyNullReference occurrences="1">
+      <code>isAdmin</code>
+    </PossiblyNullReference>
+  </file>
   <file src="redaxo/src/addons/debug/lib/api_debug.php">
     <PossiblyNullReference occurrences="1">
       <code>isAdmin</code>

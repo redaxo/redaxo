@@ -60,6 +60,11 @@ jobs:
                   composer-options: "--ansi --prefer-dist"
             - run: |
                   vendor/bin/psalm --use-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache
+            - name: Check psalm baseline
+              if: ${{ success() }}
+              run: |
+                  composer psalm-baseline
+                  git diff --exit-code .tools/psalm/baseline-taint.xml
 
     phpstan-analysis:
         name: phpstan static code analysis
