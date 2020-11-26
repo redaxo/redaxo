@@ -201,11 +201,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/sql/table.php
 
 		-
-			message: "#^Static property rex_sql_table\\:\\:\\$explicitCharset \\(string\\) on left side of \\?\\? is not nullable\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/table.php
-
-		-
 			message: "#^Call to function assert\\(\\) with false will always evaluate to false\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/sql/table.php
