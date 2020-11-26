@@ -17,11 +17,6 @@
       <code>isAdmin</code>
     </PossiblyNullReference>
   </file>
-  <file src="redaxo/src/addons/debug/boot2.php">
-    <PossiblyNullReference occurrences="1">
-      <code>isAdmin</code>
-    </PossiblyNullReference>
-  </file>
   <file src="redaxo/src/addons/debug/lib/api_debug.php">
     <PossiblyNullReference occurrences="1">
       <code>isAdmin</code>
