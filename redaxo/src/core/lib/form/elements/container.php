@@ -165,7 +165,7 @@ class rex_form_container_element extends rex_form_element
                     }
                 }
             }
-        } elseif (isset($this->active) && isset($this->fields[$this->active])) {
+        } elseif ($this->active && isset($this->fields[$this->active])) {
             foreach ($this->fields[$this->active] as $field) {
                 // read-only-fields nicht speichern
                 if (false === strpos($field->getAttribute('class'), 'form-control-static')) {
