@@ -45,7 +45,7 @@ abstract class rex_api_function
     /**
      * The api function which is bound to the current request.
      *
-     * @var rex_api_function
+     * @var rex_api_function|null
      */
     private static $instance;
 
