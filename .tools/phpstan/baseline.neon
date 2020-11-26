@@ -31,6 +31,11 @@ parameters:
 			path: ../../redaxo/src/addons/media_manager/install.php
 
 		-
+			message: "#^Property rex_effect_workspace\\:\\:\\$options is never read, only written\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/media_manager/lib/effects/effect_workspace.php
+
+		-
 			message: "#^Call to function is_bool\\(\\) with string\\|null will always evaluate to false\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/functions/function_rex_mediapool.php
@@ -106,6 +111,11 @@ parameters:
 			path: ../../redaxo/src/addons/structure/lib/structure_element.php
 
 		-
+			message: "#^Property rex_template_select\\:\\:\\$templates \\(array\\<string\\>\\) in isset\\(\\) is not nullable\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/structure/plugins/content/lib/select_template.php
+
+		-
 			message: "#^Right side of && is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/plugins/content/pages/content.edit.php
@@ -124,6 +134,16 @@ parameters:
 			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/plugins/version/boot.php
+
+		-
+			message: "#^Offset 'href' on array\\(\\?'active' \\=\\> true, 'href' \\=\\> string, \\?'itemAttr' \\=\\> array\\('class' \\=\\> array\\('bg\\-success'\\)\\)\\) in isset\\(\\) always exists and is not nullable\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/layout/top.php
+
+		-
+			message: "#^Static property rex_api_function\\:\\:\\$instance is never written, only read\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/api_function.php
 
 		-
 			message: "#^If condition is always true\\.$#"
@@ -176,6 +196,11 @@ parameters:
 			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
 
 		-
+			message: "#^Property rex_test_instance_list_pool\\:\\:\\$id is never read, only written\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
+
+		-
 			message: "#^Parameter \\#3 \\$createListCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: array\\)\\|null, Closure\\(mixed, mixed\\)\\: mixed given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
@@ -192,6 +217,11 @@ parameters:
 
 		-
 			message: "#^Parameter \\#2 \\$createCallback of static method rex_sql_table\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: rex_sql_table\\|null\\)\\|null, Closure\\(mixed, mixed\\)\\: mixed given\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/sql/table.php
+
+		-
+			message: "#^Static property rex_sql_table\\:\\:\\$explicitCharset \\(string\\) on left side of \\?\\? is not nullable\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/sql/table.php
 
@@ -241,14 +271,34 @@ parameters:
 			path: ../../redaxo/src/core/lib/login/user.php
 
 		-
+			message: "#^Static property rex_clang\\:\\:\\$currentId \\(int\\) on left side of \\?\\? is not nullable\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/clang/clang.php
+
+		-
 			message: "#^Parameter \\#1 \\$callback of method rex_sql\\:\\:addRecord\\(\\) expects callable\\(rex_sql\\)\\: void, Closure\\(rex_sql\\)\\: mixed given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/config.php
 
 		-
+			message: "#^Property rex_command_setup_run\\:\\:\\$output is never read, only written\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/console/setup/run.php
+
+		-
 			message: "#^Parameter \\#1 \\$exception_handler of function set_exception_handler expects \\(callable\\(Throwable\\)\\: void\\)\\|null, array\\('rex_error_handler', 'handleException'\\) given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/error_handler.php
+
+		-
+			message: "#^Property rex_form_container_element\\:\\:\\$active \\(string\\) in isset\\(\\) is not nullable\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/form/elements/container.php
+
+		-
+			message: "#^Property rex_form_prio_element\\:\\:\\$primaryKey is never read, only written\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/form/elements/prio.php
 
 		-
 			message: "#^If condition is always true\\.$#"
@@ -281,6 +331,11 @@ parameters:
 			path: ../../redaxo/src/core/lib/fragment.php
 
 		-
+			message: "#^Property rex_list\\:\\:\\$query is never read, only written\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/list.php
+
+		-
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 2
 			path: ../../redaxo/src/core/lib/login/api_user_impersonate.php
@@ -299,6 +354,21 @@ parameters:
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/login/login.php
+
+		-
+			message: "#^Offset 'install' on array\\('install' \\=\\> bool, \\?'status' \\=\\> bool, \\?'plugins' \\=\\> array\\<int\\|string, array\\('install' \\=\\> bool, 'status' \\=\\> bool\\)\\>\\) on left side of \\?\\? always exists and is not nullable\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/packages/addons/addon.php
+
+		-
+			message: "#^Offset 'install' on array\\('install' \\=\\> bool, 'status' \\=\\> bool\\) on left side of \\?\\? always exists and is not nullable\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/packages/addons/addon.php
+
+		-
+			message: "#^Offset 'status' on array\\('install' \\=\\> bool, 'status' \\=\\> bool\\) on left side of \\?\\? always exists and is not nullable\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/packages/addons/addon.php
 
 		-
 			message: "#^Strict comparison using \\!\\=\\= between false and false will always evaluate to false\\.$#"
@@ -322,6 +392,11 @@ parameters:
 
 		-
 			message: "#^Result of && is always false\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/util/socket/socket.php
+
+		-
+			message: "#^Offset 'timed_out' on array\\('timed_out' \\=\\> bool, 'blocked' \\=\\> bool, 'eof' \\=\\> bool, 'unread_bytes' \\=\\> int, 'stream_type' \\=\\> string, 'wrapper_type' \\=\\> string, 'wrapper_data' \\=\\> mixed, 'mode' \\=\\> string, \\.\\.\\.\\) in isset\\(\\) always exists and is not nullable\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/socket/socket.php
 
