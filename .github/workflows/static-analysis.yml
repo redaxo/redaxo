@@ -36,6 +36,11 @@ jobs:
                   composer-options: "--ansi --prefer-dist"
             - run: |
                   vendor/bin/psalm --show-info=false --shepherd --diff --output-format=github
+            - name: Check psalm baseline
+              if: ${{ success() }}
+              run: |
+                  composer psalm-baseline
+                  git diff --exit-code .tools/psalm/baseline.xml || (echo "::error file=.tools/psalm/baseline.xml,line=1,col=1::Psalm baseline file is outdated and must be regenerated via \`composer psalm-baseline\`." && exit 1)
 
     psalm-taint-analysis:
         name: psalm taint analysis
@@ -55,6 +60,11 @@ jobs:
                   composer-options: "--ansi --prefer-dist"
             - run: |
                   vendor/bin/psalm --use-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache
+            - name: Check psalm baseline
+              if: ${{ success() }}
+              run: |
+                  composer taint-baseline
+                  git diff --exit-code .tools/psalm/baseline-taint.xml || (echo "::error file=.tools/psalm/baseline-taint.xml,line=1,col=1::Psalm taint baseline file is outdated and must be regenerated via \`composer taint-baseline\`." && exit 1)
 
     phpstan-analysis:
         name: phpstan static code analysis
