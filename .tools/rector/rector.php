@@ -13,7 +13,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     // Define what rule sets will be applied
     $parameters->set(Option::SETS, [
-        // SetList::DEAD_CODE,
+        SetList::EARLY_RETURN,
     ]);
 
     $parameters->set(OPTION::OPTION_AUTOLOAD_FILE, [
@@ -43,8 +43,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     // we will grow this rector list step by step.
     // after some basic rectors have been enabled we can finally enable whole-sets (when diffs get stable and reviewable)
-    $services->set(Rector\SOLID\Rector\If_\ChangeAndIfToEarlyReturnRector::class);
-    $services->set(Rector\SOLID\Rector\If_\ChangeIfElseValueAssignToEarlyReturnRector::class);
-    $services->set(Rector\SOLID\Rector\If_\ChangeNestedIfsToEarlyReturnRector::class);
-    $services->set(Rector\SOLID\Rector\If_\RemoveAlwaysElseRector::class);
+    // $services->set(Rector\SOLID\Rector\If_\ChangeAndIfToEarlyReturnRector::class);
 };
