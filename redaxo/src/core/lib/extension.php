@@ -18,7 +18,7 @@ abstract class rex_extension
     /**
      * Array of registered extensions.
      *
-     * @var array<string, array<self::*, array{callable(rex_extension_point):mixed, array}>>
+     * @var array<string, array<self::*, list<array{callable(rex_extension_point):mixed, array}>>>
      */
     private static $extensions = [];
 
