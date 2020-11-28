@@ -24,7 +24,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // to make sure we can review every transformation and not introduce unseen bugs
     $parameters->set(Option::PATHS, [
         // restrict to core and core addons, ignore other locally installed addons
-        'redaxo/src/core/lib/'
+        'redaxo/src/core/lib/',
         'redaxo/src/addons/backup/lib/',
         'redaxo/src/addons/be_style/lib/',
         'redaxo/src/addons/cronjob/lib/',
