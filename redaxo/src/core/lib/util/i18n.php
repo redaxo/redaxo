@@ -113,6 +113,8 @@ class rex_i18n
      * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
      * @return string Translation for the key
+     *
+     * @psalm-taint-escape html
      */
     public static function msg($key, ...$replacements)
     {
@@ -140,6 +142,8 @@ class rex_i18n
      * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
      * @return string Translation for the key
+     *
+     * @psalm-taint-escape html
      */
     public static function msgInLocale($key, $locale, ...$replacements)
     {
@@ -259,10 +263,12 @@ class rex_i18n
         }
 
         $msg = preg_replace($patterns, $replaceWith, $msg);
+        if (!$msg) {
+            throw new rex_exception(preg_last_error_msg());
+        }
 
         if ($escape) {
-            $msg = rex_escape($msg);
-            $msg = preg_replace('@&lt;(/?(?:b|i|code|kbd|var)|br ?/?)&gt;@i', '<$1>', $msg);
+            $msg = rex_escape($msg, 'html_simplified');
         }
 
         return $msg;

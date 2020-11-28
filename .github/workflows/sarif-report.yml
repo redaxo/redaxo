@@ -1,0 +1,33 @@
+name: Security Checks
+
+on:
+    push:
+        branches:
+            - master
+            # - bugfix (should be activated when the psalm baseline gets part of the bugfix branch)
+    schedule: # runs every week at 00:00 on Sunday UTC time.
+        - cron: '0 0 * * 0'
+
+jobs:
+
+    psalm-taint-sarif-report:
+        name: psalm taint sarif report
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: 7.4
+                  extensions: intl, imagick
+                  coverage: none # disable xdebug, pcov
+            - uses: "ramsey/composer-install@v1"
+              with:
+                  composer-options: "--ansi --prefer-dist"
+            - run: |
+                  vendor/bin/psalm --report=results.sarif --use-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache
+            - name: Upload Security Analysis results to GitHub
+              uses: github/codeql-action/upload-sarif@v1
+              with:
+                sarif_file: results.sarif

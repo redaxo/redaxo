@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var rex_fragment $this
+ * @psalm-scope-this rex_fragment
+ */
+?>
 <picture class="rex-background">
     <source
         srcset="

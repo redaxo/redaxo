@@ -24,6 +24,8 @@ class rex_cronjob_form extends rex_form
      * @param string $method
      * @param bool   $debug
      * @param int    $db             DB connection ID
+     *
+     * @psalm-param positive-int $db
      */
     public function __construct($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false, $db = 1)
     {

@@ -312,7 +312,7 @@ class rex_article_content_editor extends rex_article_content
             $MODULE = rex_sql::factory();
             $modules = $MODULE->getArray('select * from ' . rex::getTablePrefix() . 'module order by name');
 
-            $template_ctypes = isset($this->template_attributes['ctype']) ? $this->template_attributes['ctype'] : [];
+            $template_ctypes = $this->template_attributes['ctype'] ?? [];
             // wenn keine ctyes definiert sind, gibt es immer den CTYPE=1
             if (0 == count($template_ctypes)) {
                 $template_ctypes = [1 => 'default'];
@@ -448,6 +448,11 @@ class rex_article_content_editor extends rex_article_content
     // ----- EDIT Slice
 
     /**
+     * @param int $RE_CONTS
+     * @param string $RE_MODUL_IN
+     * @param int $RE_CTYPE
+     * @param int $RE_MODUL_ID
+     * @param rex_sql $artDataSql
      * @return string
      */
     protected function editSlice($RE_CONTS, $RE_MODUL_IN, $RE_CTYPE, $RE_MODUL_ID, $artDataSql)

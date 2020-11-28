@@ -7,6 +7,9 @@
  */
 class rex_api_user_impersonate extends rex_api_function
 {
+    /**
+     * @psalm-return never-return
+     */
     public function execute()
     {
         $impersonate = rex_get('_impersonate');

@@ -5,9 +5,6 @@
  */
 
 $step = rex_request('step', 'int', 1);
-$send = rex_request('send', 'string');
-$createdb = rex_request('createdb', 'string');
-$noadmin = rex_request('noadmin', 'string');
 $lang = rex_request('lang', 'string');
 
 $context = new rex_context([
@@ -195,6 +192,7 @@ if ($step > 5 && $createdb > -1) {
         }
     } elseif (3 == $createdb) {
         $import_name = rex_post('import_name', 'string');
+
         $error = rex_setup_importer::loadExistingImport($import_name);
         if ('' != $error) {
             $errors[] = rex_view::error($error);
@@ -218,7 +216,7 @@ if ($step > 5 && $createdb > -1) {
         $errors[] = rex_view::error(rex_i18n::msg('error_undefined'));
     }
 
-    if (0 == count($errors) && '' !== $createdb) {
+    if (0 == count($errors)) {
         $error = rex_setup_importer::verifyDbSchema();
         if ('' != $error) {
             $errors[] = $error;

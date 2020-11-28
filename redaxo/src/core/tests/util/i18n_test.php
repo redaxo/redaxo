@@ -22,12 +22,12 @@ class rex_i18n_test extends TestCase
         $this->previousLocale = rex_i18n::setLocale('de_de', false);
 
         $content = <<<'LANG'
-rex_i18n_test_foo = abc def
-rex_i18n_test_bar =
-rex_i18n_test_baz = ghi
-rex_i18n_test_4=abc=def
+            rex_i18n_test_foo = abc def
+            rex_i18n_test_bar =
+            rex_i18n_test_baz = ghi
+            rex_i18n_test_4=abc=def
 
-LANG;
+            LANG;
         $content .= "rex_i18n_test_5   =   abc def   \n";
 
         rex_file::put($this->getPath().'/de_de.lang', $content ."\nmy=DE");

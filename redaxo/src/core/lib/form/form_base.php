@@ -971,6 +971,8 @@ abstract class rex_form_base
     public function getWarning()
     {
         $warning = rex_request($this->getName() . '_warning', 'string');
+        $warning = rex_escape($warning, 'html_simplified');
+
         if ('' != $this->warning) {
             $warning .= "\n" . $this->warning;
         }
@@ -988,6 +990,8 @@ abstract class rex_form_base
     public function getMessage()
     {
         $message = rex_request($this->getName() . '_msg', 'string');
+        $message = rex_escape($message, 'html_simplified');
+
         if ('' != $this->message) {
             $message .= "\n" . $this->message;
         }
@@ -1116,6 +1120,9 @@ abstract class rex_form_base
         throw new BadMethodCallException('delete() is not implemented.');
     }
 
+    /**
+     * @psalm-return never-return
+     */
     protected function redirect($listMessage = '', $listWarning = '', array $params = [])
     {
         if ('' != $listMessage) {

@@ -67,7 +67,10 @@ class rex_sql implements Iterator
     protected $query; // Die Abfrage
     /** @var array */
     protected $params; // Die Abfrage-Parameter
-    /** @var int */
+    /**
+     * @var int
+     * @psalm-var positive-int
+     */
     protected $DBID; // ID der Verbindung
 
     /**
@@ -83,11 +86,15 @@ class rex_sql implements Iterator
     /** @var PDOStatement|null */
     protected $stmt;
 
-    /** @var PDO[] */
+    /**
+     * @var PDO[]
+     * @psalm-var array<positive-int, PDO>
+     */
     protected static $pdo = [];
 
     /**
      * @param int $db
+     * @psalm-param positive-int $db
      *
      * @throws rex_sql_exception
      */
@@ -102,6 +109,7 @@ class rex_sql implements Iterator
      * Stellt die Verbindung zur Datenbank her.
      *
      * @param int $db
+     * @psalm-param positive-int $db
      *
      * @throws rex_sql_exception
      */
@@ -112,22 +120,22 @@ class rex_sql implements Iterator
         try {
             if (!isset(self::$pdo[$db])) {
                 $options = [];
-                $dbconfig = rex::getProperty('db');
+                $dbconfig = rex::getDbConfig($db);
 
-                if (isset($dbconfig[$db]['ssl_key'], $dbconfig[$db]['ssl_cert'], $dbconfig[$db]['ssl_ca'])) {
+                if ($dbconfig->sslKey && $dbconfig->sslCert && $dbconfig->sslCa) {
                     $options = [
-                        PDO::MYSQL_ATTR_SSL_KEY => $dbconfig[$db]['ssl_key'],
-                        PDO::MYSQL_ATTR_SSL_CERT => $dbconfig[$db]['ssl_cert'],
-                        PDO::MYSQL_ATTR_SSL_CA => $dbconfig[$db]['ssl_ca'],
+                        PDO::MYSQL_ATTR_SSL_KEY => $dbconfig->sslKey,
+                        PDO::MYSQL_ATTR_SSL_CERT => $dbconfig->sslCert,
+                        PDO::MYSQL_ATTR_SSL_CA => $dbconfig->sslCa,
                     ];
                 }
 
                 $conn = self::createConnection(
-                    $dbconfig[$db]['host'],
-                    $dbconfig[$db]['name'],
-                    $dbconfig[$db]['login'],
-                    $dbconfig[$db]['password'],
-                    $dbconfig[$db]['persistent'],
+                    $dbconfig->host,
+                    $dbconfig->name,
+                    $dbconfig->login,
+                    $dbconfig->password,
+                    $dbconfig->persistent,
                     $options
                 );
                 self::$pdo[$db] = $conn;
@@ -187,13 +195,16 @@ class rex_sql implements Iterator
      * @param string $query
      *
      * @return false|int
+     * @psalm-return false|positive-int
      */
     protected static function getQueryDBID($query)
     {
         $query = trim($query);
 
         if (preg_match('/\(DB([1-9]){1}\)/i', $query, $matches)) {
-            return (int) $matches[1];
+            $dbid = (int) $matches[1];
+            assert($dbid > 0);
+            return $dbid;
         }
 
         return false;
@@ -206,6 +217,7 @@ class rex_sql implements Iterator
      * @param string $query Abfrage
      *
      * @return false|int
+     * @psalm-return false|positive-int
      */
     protected static function stripQueryDBID(&$query)
     {
@@ -415,14 +427,25 @@ class rex_sql implements Iterator
         }
 
         try {
-            $this->stmt = rex_timer::measure(__METHOD__, static function () use ($pdo, $query) {
-                return $pdo->query($query);
+            $this->stmt = rex_timer::measure(__METHOD__, function () use ($pdo, $query) {
+                error_clear_last();
+
+                // since we are in Exception-Mode, PDO should throw in case of errors.
+                // it seems there are rare cases where it still returns false, which we try to handle here
+                if (false !== $stmt = @$pdo->query($query)) {
+                    return $stmt;
+                }
+
+                if ($error = error_get_last()) {
+                    throw new rex_sql_exception('Error while executing statement "' . $query . '": ' . $error['message'], null, $this);
+                }
+                throw new rex_sql_exception('Error while executing statement "' . $query . '".', null, $this);
             });
 
             $this->rows = $this->stmt->rowCount();
             $this->lastInsertId = self::$pdo[$this->DBID]->lastInsertId();
         } catch (PDOException $e) {
-            throw new rex_sql_exception('Error while executing statement "' . $query . '"! ' . $e->getMessage(), $e, $this);
+            throw new rex_sql_exception('Error while executing statement "' . $query . '": ' . $e->getMessage(), $e, $this);
         } finally {
             if (null !== $buffered) {
                 $pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $buffered);
@@ -1473,9 +1496,10 @@ class rex_sql implements Iterator
      * In case the callable throws, the transaction will automatically rolled back.
      * In case no error happens, the transaction will be committed after the callable was called.
      *
+     * @template T
+     * @param callable():T $callable
      * @throws Throwable
-     *
-     * @return mixed
+     * @return T
      */
     public function transactional(callable $callable)
     {
@@ -1552,6 +1576,7 @@ class rex_sql implements Iterator
      *
      * @param string $table Name der Tabelle
      * @param int    $db    Id der Datenbankverbindung
+     * @psalm-param positive-int $db
      *
      * @throws rex_sql_exception
      *
@@ -1578,6 +1603,7 @@ class rex_sql implements Iterator
      *
      * @param int         $db          Id der Datenbankverbindung
      * @param null|string $tablePrefix Zu suchender Tabellennamen-Prefix
+     * @psalm-param positive-int $db
      *
      * @throws rex_sql_exception
      *
@@ -1645,12 +1671,14 @@ class rex_sql implements Iterator
      */
     private function fetchTablesAndViews($tablePrefix = null, $where = null)
     {
+        $dbConfig = rex::getDbConfig($this->DBID);
+
         $qry = 'SHOW FULL TABLES';
 
         $where = $where ? [$where] : [];
 
         if (null != $tablePrefix) {
-            $column = $this->escapeIdentifier('Tables_in_'.rex::getProperty('db')[$this->DBID]['name']);
+            $column = $this->escapeIdentifier('Tables_in_'.$dbConfig->name);
             $where[] = $column.' LIKE "' . $this->escapeLikeWildcards($tablePrefix) . '%"';
         }
 
@@ -1690,6 +1718,7 @@ class rex_sql implements Iterator
      *
      * @param string $table Name der Tabelle
      * @param int    $db    Id der Datenbankverbindung
+     * @psalm-param positive-int $db
      *
      * @throws rex_sql_exception
      *
@@ -1724,6 +1753,7 @@ class rex_sql implements Iterator
      * Returns the full database version string.
      *
      * @param int $db
+     * @psalm-param positive-int $db
      *
      * @return string E.g. "5.7.7" or "5.5.5-10.4.9-MariaDB"
      */
@@ -1769,6 +1799,7 @@ class rex_sql implements Iterator
      * Creates a rex_sql instance.
      *
      * @param int $db
+     * @psalm-param positive-int $db
      *
      * @return static Returns a rex_sql instance
      */
@@ -1882,7 +1913,7 @@ class rex_sql implements Iterator
         // close the connection
         $conn = null;
 
-        return  $err_msg;
+        return $err_msg;
     }
 
     /**

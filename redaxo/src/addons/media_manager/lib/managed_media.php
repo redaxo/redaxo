@@ -54,7 +54,7 @@ class rex_managed_media
             return;
         }
 
-        $this->media = basename($mediaPath);
+        $this->media = rex_path::basename($mediaPath);
         $this->asImage = false;
 
         $this->sourcePath = $mediaPath;
@@ -306,7 +306,7 @@ class rex_managed_media
 
     public function getImageProperty($name, $default = null)
     {
-        return isset($this->image[$name]) ? $this->image[$name] : $default;
+        return $this->image[$name] ?? $default;
     }
 
     public function getWidth()

@@ -54,43 +54,51 @@ c', "a\nb\nc"],
             ['REX_TEST_VAR["ab c"]', 'ab c'],
             ['REX_TEST_VAR[REX_TEST_VAR[ab]]', 'ab'],
             ['REX_TEST_VAR[content=ab]', 'ab'],
-
-            [<<<'EOT'
-REX_TEST_VAR[content="a 'b' \"c\" \ \\ \\\[d\]"]
-EOT
-                , 'a \'b\' "c" \ \ \[d]'],
-
-            [<<<'EOT'
-REX_TEST_VAR[content="a REX_TEST_VAR[content=\"b 'c' \\\"d\\\" \ \\ \\\[e\]\"] f"]
-EOT
-                , 'a b \'c\' "d" \ \ \[e] f'],
-
-            [<<<'EOT'
-REX_TEST_VAR[content="REX_TEST_VAR[content='\'a\' \"b\"']"]
-EOT
-                , '\'a\' "b"'],
-
-            [<<<'EOT'
-<?php echo "REX_TEST_VAR[content=\"a 'b' \\\"c\\\" \ \\ \\\[d\]\"]";
-EOT
-                , 'a \'b\' "c" \ \ \[d]'],
-            [<<<'EOT'
-<?php echo 'REX_TEST_VAR[content="a \'b\' \"c\" \ \\ \\\[d\]"]';
-EOT
-                , 'a \'b\' "c" \ \ \[d]'],
-
-            [<<<'EOT'
-<?php echo 'REX_TEST_VAR[content=\'REX_TEST_VAR[content="a \\\'b\\\' \"c\" \ \\ \\\[d\]"]\']';
-EOT
-                , 'a \'b\' "c" \ \ \[d]'],
-
-            [<<<'EOT'
-REX_TEST_VAR[
-    content="ab
-cd ef"
-]
-EOT
-                , "ab\ncd ef"],
+            [
+                <<<'EOT'
+                    REX_TEST_VAR[content="a 'b' \"c\" \ \\ \\\[d\]"]
+                    EOT,
+                'a \'b\' "c" \ \ \[d]',
+            ],
+            [
+                <<<'EOT'
+                    REX_TEST_VAR[content="a REX_TEST_VAR[content=\"b 'c' \\\"d\\\" \ \\ \\\[e\]\"] f"]
+                    EOT,
+                'a b \'c\' "d" \ \ \[e] f',
+            ],
+            [
+                <<<'EOT'
+                    REX_TEST_VAR[content="REX_TEST_VAR[content='\'a\' \"b\"']"]
+                    EOT,
+                '\'a\' "b"',
+            ],
+            [
+                <<<'EOT'
+                    <?php echo "REX_TEST_VAR[content=\"a 'b' \\\"c\\\" \ \\ \\\[d\]\"]";
+                    EOT,
+                'a \'b\' "c" \ \ \[d]',
+            ],
+            [
+                <<<'EOT'
+                    <?php echo 'REX_TEST_VAR[content="a \'b\' \"c\" \ \\ \\\[d\]"]';
+                    EOT,
+                'a \'b\' "c" \ \ \[d]',
+            ],
+            [
+                <<<'EOT'
+                    <?php echo 'REX_TEST_VAR[content=\'REX_TEST_VAR[content="a \\\'b\\\' \"c\" \ \\ \\\[d\]"]\']';
+                    EOT,
+                'a \'b\' "c" \ \ \[d]',
+            ],
+            [
+                <<<'EOT'
+                    REX_TEST_VAR[
+                        content="ab
+                    cd ef"
+                    ]
+                    EOT,
+                "ab\ncd ef",
+            ],
             ['REX_TEST_VAR[REX_NON_EXISTING[]]', 'REX_NON_EXISTING[]'],
             ['REX_NON_EXISTING[REX_TEST_VAR[ab]]', 'REX_NON_EXISTING[ab]'],
         ];
@@ -169,8 +177,8 @@ EOT
     {
         $string = "abc 'de' \"fg\" \ \nh\r\ni";
         $expected = <<<'EOD'
-'abc \'de\' "fg" \\ ' . "\n" . 'h' . "\r\n" . 'i'
-EOD;
+            'abc \'de\' "fg" \\ ' . "\n" . 'h' . "\r\n" . 'i'
+            EOD;
 
         $this->assertEquals($expected, rex_var_test_var::quote($string));
     }

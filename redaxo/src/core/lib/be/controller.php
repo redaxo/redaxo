@@ -11,7 +11,7 @@ class rex_be_controller
     private static $page;
 
     /**
-     * @var array
+     * @var string[]
      */
     private static $pageParts = [];
 
@@ -44,10 +44,10 @@ class rex_be_controller
     }
 
     /**
-     * @param null|int    $part    Part index, beginning with 1. If $part is null, an array of all current parts will be returned
+     * @param null|positive-int $part Part index, beginning with 1. If $part is null, an array of all current parts will be returned
      * @param null|string $default Default value
      *
-     * @return array|string|null
+     * @return string[]|string|null
      */
     public static function getCurrentPagePart($part = null, $default = null)
     {
@@ -55,7 +55,7 @@ class rex_be_controller
             return self::$pageParts;
         }
         --$part;
-        return isset(self::$pageParts[$part]) ? self::$pageParts[$part] : $default;
+        return self::$pageParts[$part] ?? $default;
     }
 
     /**
