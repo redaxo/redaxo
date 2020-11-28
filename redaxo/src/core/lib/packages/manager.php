@@ -107,8 +107,8 @@ abstract class rex_package_manager
                 throw new rex_functional_exception($this->i18n('missing_id', $this->package->getPackageId()));
             }
             if ($packageId != $this->package->getPackageId()) {
-                $parts = explode('/', $packageId, 2);
-                throw new rex_functional_exception($this->wrongPackageId($parts[0], $parts[1] ?? null));
+                [$addonId, $pluginId] = rex_package::splitPackageId($packageId);
+                throw new rex_functional_exception($this->wrongPackageId($addonId, $pluginId));
             }
             if (null === $this->package->getVersion()) {
                 throw new rex_functional_exception($this->i18n('missing_version'));
