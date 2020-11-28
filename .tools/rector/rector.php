@@ -16,6 +16,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         // SetList::DEAD_CODE,
     ]);
 
+    $parameters->set(OPTION::OPTION_AUTOLOAD_FILE, [
+        __DIR__.'/../constants.php',
+    ]);
+
     // this list will grow over time.
     // to make sure we can review every transformation and not introduce unseen bugs
     $parameters->set(Option::PATHS, [
