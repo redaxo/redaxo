@@ -16,6 +16,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         // SetList::DEAD_CODE,
     ]);
 
+    $parameters->set(OPTION::OPTION_AUTOLOAD_FILE, [
+        __DIR__.'/../constants.php',
+    ]);
+
     // this list will grow over time.
     // to make sure we can review every transformation and not introduce unseen bugs
     $parameters->set(Option::PATHS, [
@@ -32,8 +36,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         'redaxo/src/core/lib/util/version.php',
     ]);
 
-    // todo
-    // $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersion::PHP_7_3);
+    $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersion::PHP_7_3);
 
     // get services (needed for register a single rule)
     $services = $containerConfigurator->services();
@@ -41,4 +44,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // we will grow this rector list step by step.
     // after some basic rectors have been enabled we can finally enable whole-sets (when diffs get stable and reviewable)
     $services->set(Rector\SOLID\Rector\If_\ChangeAndIfToEarlyReturnRector::class);
+    $services->set(Rector\SOLID\Rector\If_\ChangeIfElseValueAssignToEarlyReturnRector::class);
 };
