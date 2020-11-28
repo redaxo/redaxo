@@ -15,6 +15,7 @@
         "phpstan/phpstan": "0.12.57",
         "phpstan/phpstan-deprecation-rules": "0.12.5",
         "phpstan/phpstan-phpunit": "0.12.16",
+        "phpstan/phpstan-symfony": "0.12.11",
         "phpunit/phpunit": "^9.3",
         "psalm/plugin-phpunit": "0.13.0",
         "psalm/plugin-symfony": "2.0.2",
@@ -119,6 +120,9 @@
             "@sa",
             "@phpunit",
             "@taint"
+        ],
+        "rector": [
+            "rector process --config=.tools/rector/rector.php"
         ]
     },
     "scripts-descriptions": {
