@@ -228,7 +228,7 @@ class rex_response
      * @param null|string $filename           Filename
      * @param null|string $cacheControl       Cache Control
      */
-    public static function sendResource($content, $contentType = null, $lastModified = null, $etag = null, $contentDisposition = null, $filename = null, $cacheControl = 'max-age=3600, must-revalidate, proxy-revalidate, private')
+    public static function sendResource($content, $contentType = null, $lastModified = null, $etag = null, $contentDisposition = null, $filename = null, $cacheControl = 'must-revalidate, proxy-revalidate, private, no-cache, max-age=0')
     {
         if ($contentDisposition) {
             header('Content-Disposition: ' . $contentDisposition . '; filename="' . $filename . '"');
