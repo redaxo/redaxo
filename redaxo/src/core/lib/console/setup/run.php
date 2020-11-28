@@ -108,10 +108,6 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 return 1;
             }
         } else {
-            if (null === $input->getOption('agree-license')) {
-                $io->error('You need to accept license terms and conditions');
-                return 1;
-            }
             $io->success('You accepted license terms and conditions');
         }
 
