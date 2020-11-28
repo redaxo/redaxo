@@ -8,14 +8,14 @@ use PHPUnit\Framework\TestCase;
 class rex_package_test extends TestCase
 {
     /**
-     * @dataProvider dataSplitPackageId
+     * @dataProvider dataSplitId
      */
-    public function testSplitPackageId(array $expected, string $packageId)
+    public function testSplitId(array $expected, string $packageId)
     {
-        static::assertSame($expected, rex_package::splitPackageId($packageId));
+        static::assertSame($expected, rex_package::splitId($packageId));
     }
 
-    public function dataSplitPackageId(): iterable
+    public function dataSplitId(): iterable
     {
         return [
             [['foo', null], 'foo'],

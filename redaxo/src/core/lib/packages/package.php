@@ -63,7 +63,7 @@ abstract class rex_package implements rex_package_interface
             throw new InvalidArgumentException('Expecting $packageId to be string, but ' . gettype($packageId) . ' given!');
         }
 
-        [$addonId, $pluginId] = self::splitPackageId($packageId);
+        [$addonId, $pluginId] = self::splitId($packageId);
         $addon = rex_addon::get($addonId);
 
         if ($pluginId) {
@@ -80,7 +80,7 @@ abstract class rex_package implements rex_package_interface
      */
     public static function require(string $packageId): self
     {
-        [$addonId, $pluginId] = self::splitPackageId($packageId);
+        [$addonId, $pluginId] = self::splitId($packageId);
         $addon = rex_addon::require($addonId);
 
         if ($pluginId) {
@@ -99,7 +99,7 @@ abstract class rex_package implements rex_package_interface
      */
     public static function exists($packageId)
     {
-        [$addonId, $pluginId] = self::splitPackageId($packageId);
+        [$addonId, $pluginId] = self::splitId($packageId);
 
         if ($pluginId) {
             return rex_plugin::exists($addonId, $pluginId);
@@ -113,9 +113,12 @@ abstract class rex_package implements rex_package_interface
      *
      * @return array{string, ?string}
      */
-    public static function splitPackageId(string $packageId): array
+    public static function splitId(string $packageId): array
     {
-        return explode('/', $packageId, 2) + [null, null];
+        $parts = explode('/', $packageId, 2);
+        $parts[1] = $parts[1] ?? null;
+
+        return $parts;
     }
 
     /**
