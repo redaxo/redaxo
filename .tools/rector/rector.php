@@ -16,6 +16,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         // SetList::DEAD_CODE,
     ]);
 
+    // this list will grow over time.
+    // to make sure we can review every transformation and not introduce unseen bugs
     $parameters->set(Option::PATHS, [
         'redaxo/src/core/lib/'
     ]);
@@ -35,6 +37,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // get services (needed for register a single rule)
     $services = $containerConfigurator->services();
 
-    // register a single rule
+    // we will grow this rector list step by step.
+    // after some basic rectors have been enabled we can finally enable whole-sets (when diffs get stable and reviewable)
     $services->set(Rector\SOLID\Rector\If_\ChangeAndIfToEarlyReturnRector::class);
 };
