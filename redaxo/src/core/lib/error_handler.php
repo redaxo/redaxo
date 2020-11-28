@@ -282,9 +282,13 @@ abstract class rex_error_handler
         // catch fatal/parse errors
         if (self::$registered) {
             $error = error_get_last();
-            if (is_array($error) && in_array($error['type'], [E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR, E_PARSE])) {
-                self::handleException(new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']));
+            if (!is_array($error)) {
+                return;
             }
+            if (!in_array($error['type'], [E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR, E_PARSE])) {
+                return;
+            }
+            self::handleException(new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']));
         }
     }
 

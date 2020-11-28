@@ -119,6 +119,9 @@
             "@sa",
             "@phpunit",
             "@taint"
+        ],
+        "rector": [
+            "rector process --config=.tools/rector/rector.php"
         ]
     },
     "scripts-descriptions": {
