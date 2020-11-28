@@ -183,7 +183,7 @@ class rex_setup
             $security[] = rex_i18n::msg('setup_security_warn_mod_security');
         }
 
-        if ('0' !== ini_get('session.auto_start')) {
+        if (ini_get('session.auto_start')) {
             $security[] = rex_i18n::msg('setup_session_autostart_warning');
         }
 

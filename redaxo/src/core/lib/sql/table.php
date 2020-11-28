@@ -60,9 +60,12 @@ class rex_sql_table
     /** @var string[] mapping from current (new) name to existing (old) name in database */
     private $foreignKeysExisting = [];
 
-    /** @var string */
+    /** @var string|null */
     private static $explicitCharset;
 
+    /**
+     * @psalm-param positive-int $db
+     */
     private function __construct($name, int $db = 1)
     {
         $this->db = $db;
@@ -165,6 +168,7 @@ class rex_sql_table
 
     /**
      * @param string $name
+     * @psalm-param positive-int $db
      *
      * @return self
      */

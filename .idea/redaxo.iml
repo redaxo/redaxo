@@ -3,11 +3,10 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/redaxo/src/addons/mediapool/tests" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/redaxo/src/addons/structure/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/redaxo/src/addons/structure/plugins/content/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/redaxo/src/core/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/redaxo/src/addons/media_manager/tests" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/redaxo/src/addons/structure/plugins/content/tests" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/redaxo/src/addons/structure/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/assets/addons/be_style/plugins/customizer/vendor" />
       <excludeFolder url="file://$MODULE_DIR$/media" />
@@ -101,7 +100,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/theseer/tokenizer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/vimeo/psalm" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/webmozart/assert" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/webmozart/glob" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/webmozart/path-util" />
       <excludePattern pattern=".php_cs.cache" />
       <excludePattern pattern="composer.lock" />

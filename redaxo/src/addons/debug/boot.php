@@ -21,28 +21,28 @@ if (rex::isBackend() && 'debug' === rex_request::get('page') && rex::getUser() &
     }
 
     $injectedScript = <<<EOF
-    <script>
-        let store;
-        try {
-            store = JSON.parse(localStorage.getItem('clockwork'));
-        } catch (e) {
-            store = {};
-        }
+        <script>
+            let store;
+            try {
+                store = JSON.parse(localStorage.getItem('clockwork'));
+            } catch (e) {
+                store = {};
+            }
 
-        if (!store) store = {};
-        if (!store.settings) store.settings = {};
-        if (!store.settings.global) store.settings.global = {};
+            if (!store) store = {};
+            if (!store.settings) store.settings = {};
+            if (!store.settings.global) store.settings.global = {};
 
-        store.settings.global.editor = '$curEditor';
-        store.settings.global.seenReleaseNotesVersion = "4.1";
+            store.settings.global.editor = '$curEditor';
+            store.settings.global.seenReleaseNotesVersion = "4.1";
 
-        if (!store.settings.site) store.settings.site = {};
+            if (!store.settings.site) store.settings.site = {};
 
-        store.settings.site['$siteKey'] = {localPathMap: {local: "$localPath", real: "$realPath"}};
+            store.settings.site['$siteKey'] = {localPathMap: {local: "$localPath", real: "$realPath"}};
 
-        localStorage.setItem('clockwork', JSON.stringify(store))
-    </script>
-EOF;
+            localStorage.setItem('clockwork', JSON.stringify(store))
+        </script>
+        EOF;
 
     $index = str_replace('<body>', '<body>'.$injectedScript, $index);
     rex_response::sendPage($index);

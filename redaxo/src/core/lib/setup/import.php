@@ -44,6 +44,7 @@ class rex_setup_importer
     {
         // ----- vorhandenen Export importieren
         $err_msg = '';
+        $importName = rex_path::basename($importName);
 
         if ('' == $importName) {
             $err_msg .= '<p>' . rex_i18n::msg('setup_508') . '</p>';

@@ -144,7 +144,7 @@ if ('' != $success) {
     echo rex_view::success($success);
 }
 
-$dbconfig = rex::getProperty('db');
+$dbconfig = rex::getDbConfig(1);
 
 $rexVersion = rex::getVersion();
 if (false !== strpos($rexVersion, '-dev')) {
@@ -223,11 +223,11 @@ $content = '
         </tr>
         <tr>
             <th>' . rex_i18n::msg('name') . '</th>
-            <td><span class="rex-word-break">' . $dbconfig[1]['name'] . '</span></td>
+            <td><span class="rex-word-break">' . $dbconfig->name . '</span></td>
         </tr>
         <tr>
             <th>' . rex_i18n::msg('host') . '</th>
-            <td>' . $dbconfig[1]['host'] . '</td>
+            <td>' . $dbconfig->host . '</td>
         </tr>
     </table>';
 
@@ -280,7 +280,7 @@ $configYml = rex_path::coreData('config.yml');
 if ($url = $editor->getUrl($configYml, 0)) {
     $n = [];
     $n['label'] = '';
-    $n['field'] = $n['field'] = '<a class="btn btn-sm btn-primary" href="'. $url .'">' . rex_i18n::msg('system_editor_open_file', basename($configYml)) . '</a>';
+    $n['field'] = $n['field'] = '<a class="btn btn-sm btn-primary" href="'. $url .'">' . rex_i18n::msg('system_editor_open_file', rex_path::basename($configYml)) . '</a>';
     $n['note'] = rex_i18n::msg('system_edit_config_note');
     $formElements[] = $n;
 }

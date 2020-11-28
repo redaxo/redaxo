@@ -220,7 +220,7 @@ class rex_socket
                 }
                 $partLength = rex_string::size(sprintf($fileFormat, '', '', '') . $eol);
                 foreach ($files as $key => $file) {
-                    $length += $partLength + rex_string::size($key) + rex_string::size(basename($file['path'])) + rex_string::size($file['type']) + filesize($file['path']);
+                    $length += $partLength + rex_string::size($key) + rex_string::size(rex_path::basename($file['path'])) + rex_string::size($file['type']) + filesize($file['path']);
                 }
                 $length += rex_string::size($end);
                 fwrite($stream, 'Content-Length: ' . $length . $eol . $eol);
@@ -228,7 +228,7 @@ class rex_socket
                     fwrite($stream, sprintf($dataFormat, $key) . $value . $eol);
                 }
                 foreach ($files as $key => $file) {
-                    fwrite($stream, sprintf($fileFormat, $key, basename($file['path']), $file['type']));
+                    fwrite($stream, sprintf($fileFormat, $key, rex_path::basename($file['path']), $file['type']));
                     $file = fopen($file['path'], 'r');
                     while (!feof($file)) {
                         fwrite($stream, fread($file, 1024));

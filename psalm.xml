@@ -2,6 +2,7 @@
 <psalm
     autoloader=".tools/constants.php"
     findUnusedPsalmSuppress="true"
+    errorBaseline=".tools/psalm/baseline.xml"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
@@ -31,13 +32,18 @@
     </projectFiles>
     <stubs>
         <file name="redaxo/src/core/.phpstorm.meta.php" />
+        <file name=".tools/psalm/deprecated.stub" />
     </stubs>
+    <universalObjectCrates>
+        <class name="rex_fragment" />
+    </universalObjectCrates>
     <plugins>
         <plugin filename=".tools/psalm/RexTypeReturnProvider.php" />
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin" />
         <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin" />
     </plugins>
     <issueHandlers>
+        <Trace errorLevel="error"/> <!-- https://psalm.dev/docs/running_psalm/issues/Trace/ -->
         <InvalidGlobal>
             <errorLevel type="info">
                 <file name="redaxo/src/addons/mediapool/pages/index.php"/>
@@ -45,16 +51,6 @@
                 <file name="redaxo/src/core/pages/login.php"/>
             </errorLevel>
         </InvalidGlobal>
-        <InvalidScope>
-            <errorLevel type="suppress">
-                <directory name="redaxo/src/**/fragments/*" />
-                <file name="redaxo/src/addons/structure/plugins/content/fragments/module_select.php"/>
-                <file name="redaxo/src/addons/structure/plugins/content/fragments/slice_menu_action.php"/>
-                <file name="redaxo/src/addons/structure/plugins/content/fragments/slice_menu_ep.php"/>
-                <file name="redaxo/src/addons/structure/plugins/content/fragments/slice_menu_move.php"/>
-                <file name="redaxo/src/addons/structure/plugins/history/fragments/history/layer.php"/>
-            </errorLevel>
-        </InvalidScope>
 <!-- level 2 issues - slightly lazy code writing, but provably low false-negatives -->
         <DeprecatedMethod>
             <errorLevel type="info">
@@ -84,9 +80,6 @@
         <RedundantConditionGivenDocblockType errorLevel="info" />
         <UnresolvableInclude errorLevel="suppress" />
         <UnsafeInstantiation errorLevel="info" />
-<!-- level 3 issues - points to possible deficiencies in logic, higher false-positives -->
-        <PossiblyNullArgument errorLevel="info" />
-        <PossiblyNullReference errorLevel="info" />
 <!-- level 4 issues -->
         <InvalidScalarArgument>
             <errorLevel type="suppress">

@@ -158,7 +158,7 @@ class rex_response
         session_write_close();
 
         if (!$filename) {
-            $filename = basename($file);
+            $filename = rex_path::basename($file);
         }
 
         self::sendContentType($contentType);
@@ -293,13 +293,14 @@ class rex_response
             ) {
                 self::sendLastModified($lastModified);
             }
-
             // ----- ETAG
-            if (!self::$sentEtag
-                && (true === rex::getProperty('use_etag') || rex::getProperty('use_etag') === $environment)
-            ) {
-                self::sendEtag($etag ?: self::md5($content));
+            if (self::$sentEtag) {
+                return;
             }
+            if (true !== rex::getProperty('use_etag') && rex::getProperty('use_etag') !== $environment) {
+                return;
+            }
+            self::sendEtag($etag ?: self::md5($content));
         }
 
         // ----- GZIP
