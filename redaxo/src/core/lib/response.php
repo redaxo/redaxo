@@ -296,7 +296,7 @@ class rex_response
             if (self::$sentEtag) {
                 return;
             }
-            if (!(true === rex::getProperty('use_etag') || rex::getProperty('use_etag') === $environment)) {
+            if (true !== rex::getProperty('use_etag') && rex::getProperty('use_etag') !== $environment) {
                 return;
             }
             self::sendEtag($etag ?: self::md5($content));

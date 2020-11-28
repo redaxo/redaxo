@@ -62,11 +62,14 @@ abstract class rex_package implements rex_package_interface
         if (!is_string($packageId)) {
             throw new InvalidArgumentException('Expecting $packageId to be string, but ' . gettype($packageId) . ' given!');
         }
-        $package = explode('/', $packageId, 2);
-        $addon = rex_addon::get($package[0]);
-        if (isset($package[1])) {
-            return $addon->getPlugin($package[1]);
+
+        [$addonId, $pluginId] = self::splitId($packageId);
+        $addon = rex_addon::get($addonId);
+
+        if ($pluginId) {
+            return $addon->getPlugin($pluginId);
         }
+
         return $addon;
     }
 
@@ -77,11 +80,11 @@ abstract class rex_package implements rex_package_interface
      */
     public static function require(string $packageId): self
     {
-        $package = explode('/', $packageId, 2);
-        $addon = rex_addon::require($package[0]);
+        [$addonId, $pluginId] = self::splitId($packageId);
+        $addon = rex_addon::require($addonId);
 
-        if (isset($package[1])) {
-            return $addon->requirePlugin($package[1]);
+        if ($pluginId) {
+            return $addon->requirePlugin($pluginId);
         }
 
         return $addon;
@@ -96,11 +99,26 @@ abstract class rex_package implements rex_package_interface
      */
     public static function exists($packageId)
     {
-        $package = explode('/', $packageId);
-        if (isset($package[1])) {
-            return rex_plugin::exists($package[0], $package[1]);
+        [$addonId, $pluginId] = self::splitId($packageId);
+
+        if ($pluginId) {
+            return rex_plugin::exists($addonId, $pluginId);
         }
-        return rex_addon::exists($package[0]);
+
+        return rex_addon::exists($addonId);
+    }
+
+    /**
+     * Splits the package id into a tuple of addon id and plugin id (if existing).
+     *
+     * @return array{string, ?string}
+     */
+    public static function splitId(string $packageId): array
+    {
+        $parts = explode('/', $packageId, 2);
+        $parts[1] = $parts[1] ?? null;
+
+        return $parts;
     }
 
     /**
