@@ -91,7 +91,7 @@ class rex_config
         }
 
         $existed = isset(self::$data[$namespace][$key]);
-        if (!$existed || $existed && self::$data[$namespace][$key] !== $value) {
+        if (!$existed || self::$data[$namespace][$key] !== $value) {
             // keep track of changed data
             self::$changedData[$namespace][$key] = $value;
 
@@ -134,7 +134,7 @@ class rex_config
         }
 
         if (null === $key) {
-            return isset(self::$data[$namespace]) ? self::$data[$namespace] : [];
+            return self::$data[$namespace] ?? [];
         }
 
         if (!is_string($key)) {

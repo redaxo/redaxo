@@ -37,6 +37,8 @@ class rex_plugin extends rex_package implements rex_plugin_interface
      * @throws InvalidArgumentException
      *
      * @return rex_plugin_interface If the plugin exists, a `rex_plugin` is returned, otherwise a `rex_null_plugin`
+     *
+     * @psalm-suppress ParamNameMismatch
      */
     public static function get($addon, $plugin = null)
     {
@@ -58,6 +60,8 @@ class rex_plugin extends rex_package implements rex_plugin_interface
      * @throws RuntimeException if the plugin does not exist
      *
      * @return self
+     *
+     * @psalm-suppress ParamNameMismatch
      */
     public static function require(string $addon, string $plugin = null): rex_package
     {
@@ -75,6 +79,8 @@ class rex_plugin extends rex_package implements rex_plugin_interface
      * @param string $plugin Name of the plugin
      *
      * @return bool
+     *
+     * @psalm-suppress ParamNameMismatch
      */
     public static function exists($addon, $plugin = null)
     {

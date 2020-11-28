@@ -305,14 +305,14 @@ class rex_article_content_editor extends rex_article_content
     /**
      * {@inheritdoc}
      */
-    protected function preArticle($articleContent, $module_id)
+    protected function preArticle($articleContent, $moduleId)
     {
         // ---------- moduleselect: nur module nehmen auf die der user rechte hat
         if ('edit' == $this->mode) {
             $MODULE = rex_sql::factory();
             $modules = $MODULE->getArray('select * from ' . rex::getTablePrefix() . 'module order by name');
 
-            $template_ctypes = isset($this->template_attributes['ctype']) ? $this->template_attributes['ctype'] : [];
+            $template_ctypes = $this->template_attributes['ctype'] ?? [];
             // wenn keine ctyes definiert sind, gibt es immer den CTYPE=1
             if (0 == count($template_ctypes)) {
                 $template_ctypes = [1 => 'default'];
@@ -330,13 +330,13 @@ class rex_article_content_editor extends rex_article_content
             }
         }
 
-        return parent::preArticle($articleContent, $module_id);
+        return parent::preArticle($articleContent, $moduleId);
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function postArticle($articleContent, $moduleIdToAdd)
+    protected function postArticle($articleContent, $moduleId)
     {
         // special identifier for the slot behind the last slice
         $LCTSL_ID = -1;
@@ -344,7 +344,7 @@ class rex_article_content_editor extends rex_article_content
         // ----- add module im edit mode
         if ('edit' == $this->mode) {
             if ('add' == $this->function && $this->slice_id == $LCTSL_ID) {
-                $slice_content = $this->addSlice($LCTSL_ID, $moduleIdToAdd);
+                $slice_content = $this->addSlice($LCTSL_ID, $moduleId);
             } else {
                 // ----- BLOCKAUSWAHL - SELECT
                 $slice_content = $this->getModuleSelect($LCTSL_ID);
@@ -360,28 +360,28 @@ class rex_article_content_editor extends rex_article_content
     /**
      * @return string
      */
-    protected function addSlice($sliceId, $moduleIdToAdd)
+    protected function addSlice($sliceId, $moduleId)
     {
         $MOD = rex_sql::factory();
-        $MOD->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module WHERE id="' . $moduleIdToAdd . '"');
+        $MOD->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module WHERE id="' . $moduleId . '"');
 
         if (1 != $MOD->getRows()) {
             $slice_content = rex_view::error(rex_i18n::msg('module_doesnt_exist'));
         } else {
             $initDataSql = rex_sql::factory();
             $initDataSql
-                ->setValue('module_id', $moduleIdToAdd)
+                ->setValue('module_id', $moduleId)
                 ->setValue('ctype_id', $this->ctype);
 
             // ----- PRE VIEW ACTION [ADD]
-            $action = new rex_article_action($moduleIdToAdd, 'add', $initDataSql);
+            $action = new rex_article_action($moduleId, 'add', $initDataSql);
             $action->setRequestValues();
             $action->exec(rex_article_action::PREVIEW);
             // ----- / PRE VIEW ACTION
 
             $moduleInput = $this->replaceVars($initDataSql, $MOD->getValue('input'));
 
-            $moduleInput = $this->getStreamOutput('module/' . $moduleIdToAdd . '/input', $moduleInput);
+            $moduleInput = $this->getStreamOutput('module/' . $moduleId . '/input', $moduleInput);
 
             $msg = '';
             if ('' != $this->warning) {
@@ -409,7 +409,7 @@ class rex_article_content_editor extends rex_article_content
                 <fieldset>
                     <legend>' . rex_i18n::msg('add_block') . '</legend>
                     <input type="hidden" name="function" value="add" />
-                    <input type="hidden" name="module_id" value="' . $moduleIdToAdd . '" />
+                    <input type="hidden" name="module_id" value="' . $moduleId . '" />
                     <input type="hidden" name="save" value="1" />
 
                     <div class="rex-slice-input">
@@ -448,6 +448,11 @@ class rex_article_content_editor extends rex_article_content
     // ----- EDIT Slice
 
     /**
+     * @param int $RE_CONTS
+     * @param string $RE_MODUL_IN
+     * @param int $RE_CTYPE
+     * @param int $RE_MODUL_ID
+     * @param rex_sql $artDataSql
      * @return string
      */
     protected function editSlice($RE_CONTS, $RE_MODUL_IN, $RE_CTYPE, $RE_MODUL_ID, $artDataSql)

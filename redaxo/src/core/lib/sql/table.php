@@ -60,9 +60,12 @@ class rex_sql_table
     /** @var string[] mapping from current (new) name to existing (old) name in database */
     private $foreignKeysExisting = [];
 
-    /** @var string */
+    /** @var string|null */
     private static $explicitCharset;
 
+    /**
+     * @psalm-param positive-int $db
+     */
     private function __construct($name, int $db = 1)
     {
         $this->db = $db;
@@ -143,7 +146,7 @@ class rex_sql_table
         $foreignKeyParts = $this->sql->getArray('
             SELECT c.CONSTRAINT_NAME, c.REFERENCED_TABLE_NAME, c.UPDATE_RULE, c.DELETE_RULE, k.COLUMN_NAME, k.REFERENCED_COLUMN_NAME
             FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS c
-            LEFT JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE k ON c.CONSTRAINT_NAME = k.CONSTRAINT_NAME
+            INNER JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE k ON c.CONSTRAINT_NAME = k.CONSTRAINT_NAME
             WHERE c.CONSTRAINT_SCHEMA = DATABASE() AND c.TABLE_NAME = ?', [$name]);
         $foreignKeys = [];
         foreach ($foreignKeyParts as $part) {
@@ -165,13 +168,14 @@ class rex_sql_table
 
     /**
      * @param string $name
+     * @psalm-param positive-int $db
      *
      * @return self
      */
     public static function get($name, int $db = 1)
     {
-        $table = self::getInstance([$db, $name], static function ($db, $name) {
-            return new self($name, $db);
+        $table = static::getInstance([$db, $name], static function ($db, $name) {
+            return new static($name, $db);
         });
         assert($table instanceof self);
 

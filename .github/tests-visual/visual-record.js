@@ -15,7 +15,7 @@ const fs = require('fs');
 const mkdirp = require('mkdirp');
 
 const screenshotWidth = 1280;
-const screenshotHeight = 1024
+const screenshotHeight = 1024;
 
 const START_URL = 'http://localhost:8000/redaxo/index.php';
 const DEBUGGING = false;
@@ -55,7 +55,8 @@ async function createScreenshot(page, screenshotName) {
             '.rex-js-script-time',
             'td[data-title="Letzter Login"]',
             '#rex-form-exportfilename',
-            '#rex-page-system-report-html .row td'
+            '#rex-page-system-report-html .row td',
+            'td[data-title="Version"]'
         ];
 
         changingElements.forEach(function (selector) {

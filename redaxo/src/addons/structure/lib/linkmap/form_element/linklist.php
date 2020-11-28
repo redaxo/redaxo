@@ -9,9 +9,9 @@ class rex_form_widget_linklist_element extends rex_form_element
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
-    public function __construct($tag = '', rex_form_base $table = null, array $attributes = [])
+    public function __construct($tag = '', rex_form_base $form = null, array $attributes = [])
     {
-        parent::__construct('', $table, $attributes);
+        parent::__construct('', $form, $attributes);
     }
 
     public function setCategoryId($category_id)

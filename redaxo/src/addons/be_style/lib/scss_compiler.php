@@ -54,7 +54,6 @@ class rex_scss_compiler
         $root_dir = $this->root_dir;
 
         $scss_compiler = new Compiler();
-        $scss_compiler->setNumberPrecision(10);
 
         $scss_compiler->addImportPath(static function ($path) use ($root_dir) {
             $path = $root_dir . $path . '.scss';
@@ -76,7 +75,8 @@ class rex_scss_compiler
         //$scss_compiler->setImportPaths($scss_folder);
 
         // set css formatting (normal, nested or minimized), @see http://leafo.net/scssphp/docs/#output_formatting
-        $scss_compiler->setFormatter($this->formatter);
+        /** @psalm-suppress DeprecatedMethod */
+        $scss_compiler->setFormatter($this->formatter); /** @phpstan-ignore-line */
 
         // get .scss's content, put it into $string_sass
         $string_sass = '';

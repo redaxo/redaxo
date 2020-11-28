@@ -15,8 +15,8 @@ page:
         clangs: { title: 'translate:clangs' }
 
 requires:
-    php: '>=7.1'
-    redaxo: '^5.6.0'
+    php: '>=7.3'
+    redaxo: '^5.10'
     packages:
         structure: '^2.0.0'
         mediapool: '^2.0.0'

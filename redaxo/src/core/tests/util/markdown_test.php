@@ -24,16 +24,15 @@ class rex_markdown_test extends TestCase
             [
                 <<<'HTML'
 
-<pre><code class="language-php">    &lt;script&gt;foo()&lt;/script&gt;</code></pre>
-HTML
-                ,
+                    <pre><code class="language-php">    &lt;script&gt;foo()&lt;/script&gt;</code></pre>
+                    HTML,
                 <<<'MD'
-<script> foo() </script>
+                    <script> foo() </script>
 
-```php
-    <script>foo()</script>
-```
-MD
+                    ```php
+                        <script>foo()</script>
+                    ```
+                    MD,
             ],
         ];
     }
@@ -41,70 +40,94 @@ MD
     public function testParseWithToc()
     {
         $input = <<<'MARKDOWN'
-Test
-====
+            Test
+            ====
 
-Foo bar
+            Foo bar
 
-Sub 1
------
+            Sub 1
+            -----
 
-Foo bar
+            Foo bar
 
-### Sub 1.1
+            ### Sub 1.1
 
-### Sub 1.2
+            ### Sub 1.2
 
-#### Sub Sub 1.2.1
+            #### Sub Sub 1.2.1
 
-##### Sub Sub 1.2.1.1
+            ##### Sub Sub 1.2.1.1
 
-## Sub 2
+            ## Sub 2
 
-### Sub 2.1
+            ### Sub 2.1
 
-## Sub 3
+            ## Sub 3
 
-### Sub 3.1
-MARKDOWN;
+            ### Sub 3.1
+
+            ## Duplicate Test
+
+            ## Duplicate Test
+
+            ## [Title with Markdown](#sub-1)
+
+            ## <i>Title with HTML</i>
+
+            ## Title with "quotes" & 'other' special &lt;chars&gt;
+            MARKDOWN;
 
         [$toc, $content] = rex_markdown::factory()->parseWithToc($input, 2, 4);
 
         $expected = <<<'HTML'
-<ul>
-<li>
-<a href="#header-sub-1">Sub 1</a>
-<ul>
-<li>
-<a href="#header-sub-1-1">Sub 1.1</a>
-</li>
-<li>
-<a href="#header-sub-1-2">Sub 1.2</a>
-<ul>
-<li>
-<a href="#header-sub-sub-1-2-1">Sub Sub 1.2.1</a>
-</li>
-</ul>
-</li>
-</ul>
-<li>
-<a href="#header-sub-2">Sub 2</a>
-<ul>
-<li>
-<a href="#header-sub-2-1">Sub 2.1</a>
-</li>
-</ul>
-<li>
-<a href="#header-sub-3">Sub 3</a>
-<ul>
-<li>
-<a href="#header-sub-3-1">Sub 3.1</a>
-</li>
-</ul>
-</li>
-</ul>
+            <ul>
+            <li>
+            <a href="#sub-1">Sub 1</a>
+            <ul>
+            <li>
+            <a href="#sub-1-1">Sub 1.1</a>
+            </li>
+            <li>
+            <a href="#sub-1-2">Sub 1.2</a>
+            <ul>
+            <li>
+            <a href="#sub-sub-1-2-1">Sub Sub 1.2.1</a>
+            </li>
+            </ul>
+            </li>
+            </ul>
+            <li>
+            <a href="#sub-2">Sub 2</a>
+            <ul>
+            <li>
+            <a href="#sub-2-1">Sub 2.1</a>
+            </li>
+            </ul>
+            <li>
+            <a href="#sub-3">Sub 3</a>
+            <ul>
+            <li>
+            <a href="#sub-3-1">Sub 3.1</a>
+            </li>
+            </ul>
+            <li>
+            <a href="#duplicate-test">Duplicate Test</a>
+            </li>
+            <li>
+            <a href="#duplicate-test-1">Duplicate Test</a>
+            </li>
+            <li>
+            <a href="#title-with-markdown">Title with Markdown</a>
+            </li>
+            <li>
+            <a href="#title-with-html">Title with HTML</a>
+            </li>
+            <li>
+            <a href="#title-with-quotes-other-special-chars">Title with &quot;quotes&quot; &amp; &#039;other&#039; special &lt;chars&gt;</a>
+            </li>
+            </ul>
 
-HTML;
+            HTML;
 
         static::assertSame($expected, $toc);
     }

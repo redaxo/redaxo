@@ -76,7 +76,7 @@ class rex_logger extends AbstractLogger
     /**
      * Logs with an arbitrary level.
      *
-     * @param mixed  $level
+     * @param mixed  $level   either one of LogLevel::* or also any other string
      * @param string $message
      * @param string $file
      * @param int    $line
@@ -104,7 +104,7 @@ class rex_logger extends AbstractLogger
         // interpolate replacement values into the message and return
         $message = strtr($message, $replace);
 
-        $logData = [$level, $message];
+        $logData = [ucfirst($level), $message];
         if ($file && $line) {
             $logData[] = rex_path::relative($file);
             $logData[] = $line;

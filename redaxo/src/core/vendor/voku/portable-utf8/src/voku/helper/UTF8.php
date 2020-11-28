@@ -127,7 +127,9 @@ final class UTF8
     ];
 
     /**
-     * @var array{upper: string[], lower: string[]}
+     * @var array
+     *
+     * @phpstan-var array{upper: string[], lower: string[]}
      */
     private static $COMMON_CASE_FOLD = [
         'upper' => [
@@ -165,59 +167,79 @@ final class UTF8
     ];
 
     /**
-     * @var array<string, mixed>
+     * @var array
+     *
+     * @phpstan-var array<string, mixed>
      */
     private static $SUPPORT = [];
 
     /**
-     * @var array<string, string>|null
+     * @var string[]|null
+     *
+     * @phpstan-var array<string, string>|null
      */
     private static $BROKEN_UTF8_FIX;
 
     /**
-     * @var array<int, string>|null
+     * @var string[]|null
+     *
+     * @phpstan-var array<int, string>|null
      */
     private static $WIN1252_TO_UTF8;
 
     /**
-     * @var array<int ,string>|null
+     * @var string[]|null
+     *
+     * @phpstan-var array<int ,string>|null
      */
     private static $INTL_TRANSLITERATOR_LIST;
 
     /**
-     * @var array<string>|null
+     * @var string[]|null
+     *
+     * @phpstan-var array<string>|null
      */
     private static $ENCODINGS;
 
     /**
-     * @var array<string ,int>|null
+     * @var int[]|null
+     *
+     * @phpstan-var array<string ,int>|null
      */
     private static $ORD;
 
     /**
-     * @var array<string, string>|null
+     * @var string[]|null
+     *
+     * @phpstan-var array<string, string>|null
      */
     private static $EMOJI;
 
     /**
-     * @var array<string>|null
+     * @var string[]|null
+     *
+     * @phpstan-var array<string>|null
      */
     private static $EMOJI_VALUES_CACHE;
 
     /**
-     * @var array<string>|null
+     * @var string[]|null
+     *
+     * @phpstan-var array<string>|null
      */
     private static $EMOJI_KEYS_CACHE;
 
     /**
-     * @var array<string>|null
+     * @var string[]|null
+     *
+     * @phpstan-var array<string>|null
      */
     private static $EMOJI_KEYS_REVERSIBLE_CACHE;
 
     /**
      * @var string[]|null
      *
-     * @psalm-var array<int, string>|null
+     * @phpstan-var array<int, string>|null
      */
     private static $CHR;
 
@@ -494,6 +516,7 @@ final class UTF8
 
             // http://php.net/manual/en/book.mbstring.php
             self::$SUPPORT['mbstring'] = self::mbstring_loaded();
+
             self::$SUPPORT['mbstring_func_overload'] = self::mbstring_overloaded();
             if (self::$SUPPORT['mbstring'] === true) {
                 \mb_internal_encoding('UTF-8');
@@ -565,6 +588,7 @@ final class UTF8
             $encoding = self::normalize_encoding($encoding, 'UTF-8');
         }
 
+        /** @noinspection InArrayCanBeUsedInspection */
         if (
             $encoding !== 'UTF-8'
             &&
@@ -580,7 +604,7 @@ final class UTF8
             \trigger_error('UTF8::chr() without mbstring cannot handle "' . $encoding . '" encoding', \E_USER_WARNING);
         }
 
-        if ($code_point <= 0) {
+        if (!\is_int($code_point) || $code_point <= 0) {
             return null;
         }
 
@@ -1075,16 +1099,16 @@ final class UTF8
      *
      * copy&past from https://github.com/drupal/core/blob/8.8.x/lib/Drupal/Component/Utility/Html.php#L95
      *
-     * @param string   $str         <p>INFO: if no identifier is given e.g. " " or "", we will create a unique string automatically</p>
+     * @param string   $str        <p>INFO: if no identifier is given e.g. " " or "", we will create a unique string automatically</p>
      * @param string[] $filter
-     * @param bool     $stripe_tags
+     * @param bool     $strip_tags
      * @param bool     $strtolower
      *
      * @psalm-pure
      *
      * @return string
      *
-     * @psalm-param array<string,string> $filter
+     * @phpstan-param array<string,string> $filter
      */
     public static function css_identifier(
         string $str = '',
@@ -1094,7 +1118,7 @@ final class UTF8
             '[' => '',
             ']' => '',
         ],
-        bool $stripe_tags = false,
+        bool $strip_tags = false,
         bool $strtolower = true
     ): string {
         // We could also use strtr() here but its much slower than str_replace(). In
@@ -1109,7 +1133,7 @@ final class UTF8
             $str = self::clean($str);
         }
 
-        if ($stripe_tags) {
+        if ($strip_tags) {
             $str = \strip_tags($str);
         }
 
@@ -1168,7 +1192,9 @@ final class UTF8
      * @psalm-pure
      *
      * @return bool
-     *              <strong>true</strong> if available, <strong>false</strong> otherwise
+     *              <p><strong>true</strong> if available, <strong>false</strong> otherwise</p>
+     *
+     * @internal <p>Please do not use it anymore, we will make is private in next major version.</p>
      */
     public static function ctype_loaded(): bool
     {
@@ -1184,7 +1210,7 @@ final class UTF8
      *
      * @param int|string $int
      *
-     * @psalm-param int|numeric-string $int
+     * @phpstan-param int|numeric-string $int
      *
      * @psalm-pure
      *
@@ -1467,6 +1493,7 @@ final class UTF8
             return self::to_iso8859($str);
         }
 
+        /** @noinspection InArrayCanBeUsedInspection */
         if (
             $to_encoding !== 'UTF-8'
             &&
@@ -1491,6 +1518,8 @@ final class UTF8
             );
 
             if ($str_encoded) {
+                \assert(\is_string($str_encoded));
+
                 return $str_encoded;
             }
         }
@@ -1879,8 +1908,8 @@ final class UTF8
      * @return mixed
      *
      * @template TFilter
-     * @psalm-param TFilter $var
-     * @psalm-return TFilter
+     * @phpstan-param TFilter $var
+     * @phpstan-return TFilter
      */
     public static function filter(
         $var,
@@ -1935,7 +1964,7 @@ final class UTF8
         }
 
         /** @noinspection PhpSillyAssignmentInspection */
-        /** @psalm-var TFilter $var */
+        /** @phpstan-var TFilter $var */
         $var = $var;
 
         return $var;
@@ -1953,22 +1982,22 @@ final class UTF8
      *
      * @see http://php.net/manual/en/function.filter-input.php
      *
-     * @param int       $type          <p>
-     *                                 One of <b>INPUT_GET</b>, <b>INPUT_POST</b>,
-     *                                 <b>INPUT_COOKIE</b>, <b>INPUT_SERVER</b>, or
-     *                                 <b>INPUT_ENV</b>.
-     *                                 </p>
-     * @param string    $variable_name <p>
-     *                                 Name of a variable to get.
-     *                                 </p>
-     * @param int       $filter        [optional] <p>
-     *                                 The ID of the filter to apply. The
-     *                                 manual page lists the available filters.
-     *                                 </p>
-     * @param array|int $options       [optional] <p>
-     *                                 Associative array of options or bitwise disjunction of flags. If filter
-     *                                 accepts options, flags can be provided in "flags" field of array.
-     *                                 </p>
+     * @param int            $type          <p>
+     *                                      One of <b>INPUT_GET</b>, <b>INPUT_POST</b>,
+     *                                      <b>INPUT_COOKIE</b>, <b>INPUT_SERVER</b>, or
+     *                                      <b>INPUT_ENV</b>.
+     *                                      </p>
+     * @param string         $variable_name <p>
+     *                                      Name of a variable to get.
+     *                                      </p>
+     * @param int            $filter        [optional] <p>
+     *                                      The ID of the filter to apply. The
+     *                                      manual page lists the available filters.
+     *                                      </p>
+     * @param int|int[]|null $options       [optional] <p>
+     *                                      Associative array of options or bitwise disjunction of flags. If filter
+     *                                      accepts options, flags can be provided in "flags" field of array.
+     *                                      </p>
      *
      * @psalm-pure
      *
@@ -2075,7 +2104,7 @@ final class UTF8
      *                                        The ID of the filter to apply. The
      *                                        manual page lists the available filters.
      *                                        </p>
-     * @param array|int             $options  [optional] <p>
+     * @param int|int[]|null        $options  [optional] <p>
      *                                        Associative array of options or bitwise disjunction of flags. If filter
      *                                        accepts options, flags can be provided in "flags" field of array. For
      *                                        the "callback" filter, callable type should be passed. The
@@ -2162,27 +2191,27 @@ final class UTF8
      *
      * @see http://php.net/manual/en/function.filter-var-array.php
      *
-     * @param array<mixed> $data       <p>
-     *                                 An array with string keys containing the data to filter.
-     *                                 </p>
-     * @param array|int    $definition [optional] <p>
-     *                                 An array defining the arguments. A valid key is a string
-     *                                 containing a variable name and a valid value is either a
-     *                                 filter type, or an
-     *                                 array optionally specifying the filter, flags and options.
-     *                                 If the value is an array, valid keys are filter
-     *                                 which specifies the filter type,
-     *                                 flags which specifies any flags that apply to the
-     *                                 filter, and options which specifies any options that
-     *                                 apply to the filter. See the example below for a better understanding.
-     *                                 </p>
-     *                                 <p>
-     *                                 This parameter can be also an integer holding a filter constant. Then all values
-     *                                 in the input array are filtered by this filter.
-     *                                 </p>
-     * @param bool         $add_empty  [optional] <p>
-     *                                 Add missing keys as <b>NULL</b> to the return value.
-     *                                 </p>
+     * @param array<mixed>   $data       <p>
+     *                                   An array with string keys containing the data to filter.
+     *                                   </p>
+     * @param array|int|null $definition [optional] <p>
+     *                                   An array defining the arguments. A valid key is a string
+     *                                   containing a variable name and a valid value is either a
+     *                                   filter type, or an
+     *                                   array optionally specifying the filter, flags and options.
+     *                                   If the value is an array, valid keys are filter
+     *                                   which specifies the filter type,
+     *                                   flags which specifies any flags that apply to the
+     *                                   filter, and options which specifies any options that
+     *                                   apply to the filter. See the example below for a better understanding.
+     *                                   </p>
+     *                                   <p>
+     *                                   This parameter can be also an integer holding a filter constant. Then all values
+     *                                   in the input array are filtered by this filter.
+     *                                   </p>
+     * @param bool           $add_empty  [optional] <p>
+     *                                   Add missing keys as <b>NULL</b> to the return value.
+     *                                   </p>
      *
      * @psalm-pure
      *
@@ -2216,7 +2245,9 @@ final class UTF8
      * @psalm-pure
      *
      * @return bool
-     *              <strong>true</strong> if available, <strong>false</strong> otherwise
+     *              <p><strong>true</strong> if available, <strong>false</strong> otherwise</p>
+     *
+     * @internal <p>Please do not use it anymore, we will make is private in next major version.</p>
      */
     public static function finfo_loaded(): bool
     {
@@ -2753,7 +2784,8 @@ final class UTF8
      *
      * @psalm-pure
      *
-     * @return bool whether or not the string contains an upper case character
+     * @return bool
+     *              <p>Whether or not the string contains an upper case character.</p>
      */
     public static function has_uppercase(string $str): bool
     {
@@ -2817,9 +2849,9 @@ final class UTF8
     /**
      * alias for "UTF8::html_entity_decode()"
      *
-     * @param string $str
-     * @param int    $flags
-     * @param string $encoding
+     * @param string   $str
+     * @param int|null $flags
+     * @param string   $encoding
      *
      * @psalm-pure
      *
@@ -2866,16 +2898,17 @@ final class UTF8
 
         // INFO: http://stackoverflow.com/questions/35854535/better-explanation-of-convmap-in-mb-encode-numericentity
         if (self::$SUPPORT['mbstring'] === true) {
-            $start_code = 0x00;
             if ($keep_ascii_chars) {
                 $start_code = 0x80;
+            } else {
+                $start_code = 0x00;
             }
 
             if ($encoding === 'UTF-8') {
                 /** @var false|string|null $return - needed for PhpStan (stubs error) */
                 $return = \mb_encode_numericentity(
                     $str,
-                    [$start_code, 0xfffff, 0, 0xfffff, 0]
+                    [$start_code, 0xfffff, 0, 0xfffff]
                 );
                 if ($return !== null && $return !== false) {
                     return $return;
@@ -2885,7 +2918,7 @@ final class UTF8
             /** @var false|string|null $return - needed for PhpStan (stubs error) */
             $return = \mb_encode_numericentity(
                 $str,
-                [$start_code, 0xfffff, 0, 0xfffff, 0],
+                [$start_code, 0xfffff, 0, 0xfffff],
                 $encoding
             );
             if ($return !== null && $return !== false) {
@@ -2925,57 +2958,57 @@ final class UTF8
      *
      * @see http://php.net/manual/en/function.html-entity-decode.php
      *
-     * @param string $str      <p>
-     *                         The input string.
-     *                         </p>
-     * @param int    $flags    [optional] <p>
-     *                         A bitmask of one or more of the following flags, which specify how to handle quotes
-     *                         and which document type to use. The default is ENT_COMPAT | ENT_HTML401.
-     *                         <table>
-     *                         Available <i>flags</i> constants
-     *                         <tr valign="top">
-     *                         <td>Constant Name</td>
-     *                         <td>Description</td>
-     *                         </tr>
-     *                         <tr valign="top">
-     *                         <td><b>ENT_COMPAT</b></td>
-     *                         <td>Will convert double-quotes and leave single-quotes alone.</td>
-     *                         </tr>
-     *                         <tr valign="top">
-     *                         <td><b>ENT_QUOTES</b></td>
-     *                         <td>Will convert both double and single quotes.</td>
-     *                         </tr>
-     *                         <tr valign="top">
-     *                         <td><b>ENT_NOQUOTES</b></td>
-     *                         <td>Will leave both double and single quotes unconverted.</td>
-     *                         </tr>
-     *                         <tr valign="top">
-     *                         <td><b>ENT_HTML401</b></td>
-     *                         <td>
-     *                         Handle code as HTML 4.01.
-     *                         </td>
-     *                         </tr>
-     *                         <tr valign="top">
-     *                         <td><b>ENT_XML1</b></td>
-     *                         <td>
-     *                         Handle code as XML 1.
-     *                         </td>
-     *                         </tr>
-     *                         <tr valign="top">
-     *                         <td><b>ENT_XHTML</b></td>
-     *                         <td>
-     *                         Handle code as XHTML.
-     *                         </td>
-     *                         </tr>
-     *                         <tr valign="top">
-     *                         <td><b>ENT_HTML5</b></td>
-     *                         <td>
-     *                         Handle code as HTML 5.
-     *                         </td>
-     *                         </tr>
-     *                         </table>
-     *                         </p>
-     * @param string $encoding [optional] <p>Set the charset for e.g. "mb_" function</p>
+     * @param string   $str      <p>
+     *                           The input string.
+     *                           </p>
+     * @param int|null $flags    [optional] <p>
+     *                           A bitmask of one or more of the following flags, which specify how to handle quotes
+     *                           and which document type to use. The default is ENT_COMPAT | ENT_HTML401.
+     *                           <table>
+     *                           Available <i>flags</i> constants
+     *                           <tr valign="top">
+     *                           <td>Constant Name</td>
+     *                           <td>Description</td>
+     *                           </tr>
+     *                           <tr valign="top">
+     *                           <td><b>ENT_COMPAT</b></td>
+     *                           <td>Will convert double-quotes and leave single-quotes alone.</td>
+     *                           </tr>
+     *                           <tr valign="top">
+     *                           <td><b>ENT_QUOTES</b></td>
+     *                           <td>Will convert both double and single quotes.</td>
+     *                           </tr>
+     *                           <tr valign="top">
+     *                           <td><b>ENT_NOQUOTES</b></td>
+     *                           <td>Will leave both double and single quotes unconverted.</td>
+     *                           </tr>
+     *                           <tr valign="top">
+     *                           <td><b>ENT_HTML401</b></td>
+     *                           <td>
+     *                           Handle code as HTML 4.01.
+     *                           </td>
+     *                           </tr>
+     *                           <tr valign="top">
+     *                           <td><b>ENT_XML1</b></td>
+     *                           <td>
+     *                           Handle code as XML 1.
+     *                           </td>
+     *                           </tr>
+     *                           <tr valign="top">
+     *                           <td><b>ENT_XHTML</b></td>
+     *                           <td>
+     *                           Handle code as XHTML.
+     *                           </td>
+     *                           </tr>
+     *                           <tr valign="top">
+     *                           <td><b>ENT_HTML5</b></td>
+     *                           <td>
+     *                           Handle code as HTML 5.
+     *                           </td>
+     *                           </tr>
+     *                           </table>
+     *                           </p>
+     * @param string   $encoding [optional] <p>Set the charset for e.g. "mb_" function</p>
      *
      * @psalm-pure
      *
@@ -3002,6 +3035,7 @@ final class UTF8
             $flags = \ENT_QUOTES | \ENT_HTML5;
         }
 
+        /** @noinspection InArrayCanBeUsedInspection */
         if (
             $encoding !== 'UTF-8'
             &&
@@ -3357,7 +3391,9 @@ final class UTF8
      * @psalm-pure
      *
      * @return bool
-     *              <strong>true</strong> if available, <strong>false</strong> otherwise
+     *              <p><strong>true</strong> if available, <strong>false</strong> otherwise</p>
+     *
+     * @internal <p>Please do not use it anymore, we will make is private in next major version.</p>
      */
     public static function iconv_loaded(): bool
     {
@@ -3369,7 +3405,7 @@ final class UTF8
      *
      * @param int|string $int
      *
-     * @psalm-param int|numeric-string $int
+     * @phpstan-param int|numeric-string $int
      *
      * @psalm-pure
      *
@@ -3412,7 +3448,9 @@ final class UTF8
      * @psalm-pure
      *
      * @return bool
-     *              <strong>true</strong> if available, <strong>false</strong> otherwise
+     *              <p><strong>true</strong> if available, <strong>false</strong> otherwise</p>
+     *
+     * @internal <p>Please do not use it anymore, we will make is private in next major version.</p>
      */
     public static function intlChar_loaded(): bool
     {
@@ -3425,7 +3463,9 @@ final class UTF8
      * @psalm-pure
      *
      * @return bool
-     *              <strong>true</strong> if available, <strong>false</strong> otherwise
+     *              <p><strong>true</strong> if available, <strong>false</strong> otherwise</p>
+     *
+     * @internal <p>Please do not use it anymore, we will make is private in next major version.</p>
      */
     public static function intl_loaded(): bool
     {
@@ -3649,16 +3689,17 @@ final class UTF8
     /**
      * Returns true if the string contains only printable (non-invisible) chars, false otherwise.
      *
-     * @param string $str <p>The input string.</p>
+     * @param string $str                       <p>The input string.</p>
+     * @param bool   $ignore_control_characters [optional] <p>Ignore control characters like [LRM] or [LSEP].</p>
      *
      * @psalm-pure
      *
      * @return bool
      *              <p>Whether or not $str contains only printable (non-invisible) chars.</p>
      */
-    public static function is_printable(string $str): bool
+    public static function is_printable(string $str, bool $ignore_control_characters = false): bool
     {
-        return self::remove_invisible_characters($str) === $str;
+        return self::remove_invisible_characters($str, false, '', $ignore_control_characters) === $str;
     }
 
     /**
@@ -4397,7 +4438,9 @@ final class UTF8
      * @psalm-pure
      *
      * @return bool
-     *              <strong>true</strong> if available, <strong>false</strong> otherwise
+     *              <p><strong>true</strong> if available, <strong>false</strong> otherwise</p>
+     *
+     * @internal <p>Please do not use it anymore, we will make is private in next major version.</p>
      */
     public static function json_loaded(): bool
     {
@@ -4683,6 +4726,8 @@ final class UTF8
      *
      * @return bool
      *              <p><strong>true</strong> if available, <strong>false</strong> otherwise</p>
+     *
+     * @internal <p>Please do not use it anymore, we will make is private in next major version.</p>
      */
     public static function mbstring_loaded(): bool
     {
@@ -4749,8 +4794,8 @@ final class UTF8
      *                      <p>e.g.: ISO-8859-1, UTF-8, WINDOWS-1251 etc.<br>Will return a empty string as fallback (by default)</p>
      *
      * @template TNormalizeEncodingFallback
-     * @psalm-param string|TNormalizeEncodingFallback $fallback
-     * @psalm-return string|TNormalizeEncodingFallback
+     * @phpstan-param string|TNormalizeEncodingFallback $fallback
+     * @phpstan-return string|TNormalizeEncodingFallback
      */
     public static function normalize_encoding($encoding, $fallback = '')
     {
@@ -4940,10 +4985,11 @@ final class UTF8
      *
      * EXAMPLE: <code>UTF8::normalize_whitespace("abc-\xc2\xa0-öäü-\xe2\x80\xaf-\xE2\x80\xAC", true); // "abc-\xc2\xa0-öäü- -"</code>
      *
-     * @param string $str                        <p>The string to be normalized.</p>
-     * @param bool   $keep_non_breaking_space    [optional] <p>Set to true, to keep non-breaking-spaces.</p>
-     * @param bool   $keep_bidi_unicode_controls [optional] <p>Set to true, to keep non-printable (for the web)
-     *                                           bidirectional text chars.</p>
+     * @param string $str                          <p>The string to be normalized.</p>
+     * @param bool   $keep_non_breaking_space      [optional] <p>Set to true, to keep non-breaking-spaces.</p>
+     * @param bool   $keep_bidi_unicode_controls   [optional] <p>Set to true, to keep non-printable (for the web)
+     *                                             bidirectional text chars.</p>
+     * @param bool   $normalize_control_characters [optional] <p>Set to true, to convert e.g. LINE-, PARAGRAPH-SEPARATOR with "\n" and LINE TABULATION with "\t".</p>
      *
      * @psalm-pure
      *
@@ -4953,12 +4999,14 @@ final class UTF8
     public static function normalize_whitespace(
         string $str,
         bool $keep_non_breaking_space = false,
-        bool $keep_bidi_unicode_controls = false
+        bool $keep_bidi_unicode_controls = false,
+        bool $normalize_control_characters = false
     ): string {
         return ASCII::normalize_whitespace(
             $str,
             $keep_non_breaking_space,
-            $keep_bidi_unicode_controls
+            $keep_bidi_unicode_controls,
+            $normalize_control_characters
         );
     }
 
@@ -5361,7 +5409,7 @@ final class UTF8
 
         $str_length = \strlen($str);
         foreach (self::$BOM as $bom_string => $bom_byte_length) {
-            if (\strpos($str, $bom_string) === 0) {
+            if (\strncmp($str, $bom_string, $bom_byte_length) === 0) {
                 /** @var false|string $str_tmp - needed for PhpStan (stubs error) */
                 $str_tmp = \substr($str, $bom_byte_length, $str_length);
                 if ($str_tmp === false) {
@@ -5451,14 +5499,15 @@ final class UTF8
      *
      * copy&past from https://github.com/bcit-ci/CodeIgniter/blob/develop/system/core/Common.php
      *
-     * @param string $str         <p>The input string.</p>
-     * @param bool   $url_encoded [optional] <p>
-     *                            Try to remove url encoded control character.
-     *                            WARNING: maybe contains false-positives e.g. aa%0Baa -> aaaa.
-     *                            <br>
-     *                            Default: false
-     *                            </p>
-     * @param string $replacement [optional] <p>The replacement character.</p>
+     * @param string $str                           <p>The input string.</p>
+     * @param bool   $url_encoded                   [optional] <p>
+     *                                              Try to remove url encoded control character.
+     *                                              WARNING: maybe contains false-positives e.g. aa%0Baa -> aaaa.
+     *                                              <br>
+     *                                              Default: false
+     *                                              </p>
+     * @param string $replacement                   [optional] <p>The replacement character.</p>
+     * @param bool   $keep_basic_control_characters [optional] <p>Keep control characters like [LRM] or [LSEP].</p>
      *
      * @psalm-pure
      *
@@ -5468,12 +5517,14 @@ final class UTF8
     public static function remove_invisible_characters(
         string $str,
         bool $url_encoded = false,
-        string $replacement = ''
+        string $replacement = '',
+        bool $keep_basic_control_characters = true
     ): string {
         return ASCII::remove_invisible_characters(
             $str,
             $url_encoded,
-            $replacement
+            $replacement,
+            $keep_basic_control_characters
         );
     }
 
@@ -5494,7 +5545,11 @@ final class UTF8
         string $substring,
         string $encoding = 'UTF-8'
     ): string {
-        if ($substring && \strpos($str, $substring) === 0) {
+        if (
+            $substring
+            &&
+            \strpos($str, $substring) === 0
+        ) {
             if ($encoding === 'UTF-8') {
                 return (string) \mb_substr(
                     $str,
@@ -5630,9 +5685,10 @@ final class UTF8
         }
 
         if ($process_invalid_utf8_chars) {
-            $replacement_char_helper = $replacement_char;
             if ($replacement_char === '') {
                 $replacement_char_helper = 'none';
+            } else {
+                $replacement_char_helper = \ord($replacement_char);
             }
 
             if (self::$SUPPORT['mbstring'] === false) {
@@ -5958,7 +6014,8 @@ final class UTF8
      *
      * @psalm-pure
      *
-     * @return bool whether or not $haystack contains $needle
+     * @return bool
+     *              <p>Whether or not $haystack contains $needle.</p>
      */
     public static function str_contains(
         string $haystack,
@@ -5966,6 +6023,11 @@ final class UTF8
         bool $case_sensitive = true
     ): bool {
         if ($case_sensitive) {
+            if (\PHP_VERSION_ID >= 80000) {
+                /** @phpstan-ignore-next-line - only for PHP8 */
+                return \str_contains($haystack, $needle);
+            }
+
             return \strpos($haystack, $needle) !== false;
         }
 
@@ -5983,7 +6045,8 @@ final class UTF8
      *
      * @psalm-pure
      *
-     * @return bool whether or not $haystack contains $needle
+     * @return bool
+     *              <p>Whether or not $haystack contains $needle.</p>
      */
     public static function str_contains_all(
         string $haystack,
@@ -6023,7 +6086,7 @@ final class UTF8
      * @psalm-pure
      *
      * @return bool
-     *              Whether or not $str contains $needle
+     *              <p>Whether or not $str contains $needle.</p>
      */
     public static function str_contains_any(
         string $haystack,
@@ -6140,8 +6203,10 @@ final class UTF8
      * @psalm-pure
      *
      * @return false|string
+     *                      <p>
      *                      The detected string-encoding e.g. UTF-8 or UTF-16BE,<br>
      *                      otherwise it will return false e.g. for BINARY or not detected encoding.
+     *                      </p>
      */
     public static function str_detect_encoding($str)
     {
@@ -6299,6 +6364,11 @@ final class UTF8
             return false;
         }
 
+        if (\PHP_VERSION_ID >= 80000) {
+            /** @phpstan-ignore-next-line - only for PHP8 */
+            return \str_ends_with($haystack, $needle);
+        }
+
         return \substr($haystack, -\strlen($needle)) === $needle;
     }
 
@@ -6312,7 +6382,8 @@ final class UTF8
      *
      * @psalm-pure
      *
-     * @return bool whether or not $str ends with $substring
+     * @return bool
+     *              <p>Whether or not $str ends with $substring.</p>
      */
     public static function str_ends_with_any(string $str, array $substrings): bool
     {
@@ -6697,11 +6768,12 @@ final class UTF8
      *
      * @psalm-pure
      *
-     * @return string|string[] a string or an array of replacements
+     * @return string|string[]
+     *                         <p>A string or an array of replacements.</p>
      *
      * @template TStrIReplaceSubject
-     * @psalm-param TStrIReplaceSubject $subject
-     * @psalm-return TStrIReplaceSubject
+     * @phpstan-param TStrIReplaceSubject $subject
+     * @phpstan-return TStrIReplaceSubject
      */
     public static function str_ireplace($search, $replacement, $subject, &$count = null)
     {
@@ -6717,9 +6789,19 @@ final class UTF8
             }
         }
 
+        // fallback
+        /** @phpstan-ignore-next-line - only a fallback for PHP8 */
+        if ($replacement === null) {
+            $replacement = '';
+        }
+        /** @phpstan-ignore-next-line - only a fallback for PHP8 */
+        if ($subject === null) {
+            $subject = '';
+        }
+
         /**
          * @psalm-suppress PossiblyNullArgument
-         * @psalm-var TStrIReplaceSubject $subject
+         * @phpstan-var TStrIReplaceSubject $subject
          */
         $subject = \preg_replace($search, $replacement, $subject, -1, $count);
 
@@ -6735,7 +6817,8 @@ final class UTF8
      *
      * @psalm-pure
      *
-     * @return string string after the replacements
+     * @return string
+     *                <p>The string after the replacement.</p>
      */
     public static function str_ireplace_beginning(string $str, string $search, string $replacement): string
     {
@@ -6753,8 +6836,9 @@ final class UTF8
             return $str . $replacement;
         }
 
-        if (\stripos($str, $search) === 0) {
-            return $replacement . \substr($str, \strlen($search));
+        $searchLength = \strlen($search);
+        if (\strncasecmp($str, $search, $searchLength) === 0) {
+            return $replacement . \substr($str, $searchLength);
         }
 
         return $str;
@@ -6770,7 +6854,7 @@ final class UTF8
      * @psalm-pure
      *
      * @return string
-     *                <p>string after the replacements.</p>
+     *                <p>The string after the replacement.</p>
      */
     public static function str_ireplace_ending(string $str, string $search, string $replacement): string
     {
@@ -6833,7 +6917,8 @@ final class UTF8
      *
      * @psalm-pure
      *
-     * @return bool whether or not $str starts with $substring
+     * @return bool
+     *              <p>Whether or not $str starts with $substring.</p>
      */
     public static function str_istarts_with_any(string $str, array $substrings): bool
     {
@@ -7449,7 +7534,8 @@ final class UTF8
      *
      * @psalm-pure
      *
-     * @return bool whether or not $str matches the pattern
+     * @return bool
+     *              <p>Whether or not $str matches the pattern.</p>
      */
     public static function str_matches_pattern(string $str, string $pattern): bool
     {
@@ -7467,7 +7553,8 @@ final class UTF8
      *
      * @psalm-pure
      *
-     * @return bool whether or not the index exists
+     * @return bool
+     *              <p>Whether or not the index exists.</p>
      */
     public static function str_offset_exists(string $str, int $offset, string $encoding = 'UTF-8'): bool
     {
@@ -7824,15 +7911,18 @@ final class UTF8
      *                                 subject, and the return value is an array as
      *                                 well.
      *                                 </p>
-     * @param int             $count   [optional] If passed, this will hold the number of matched and replaced needles
+     * @param int|null        $count   [optional] <p>
+     *                                 If passed, this will hold the number of matched and replaced needles.
+     *                                 </p>
      *
      * @psalm-pure
      *
-     * @return string|string[] this function returns a string or an array with the replaced values
+     * @return string|string[]
+     *                         <p>This function returns a string or an array with the replaced values.</p>
      *
      * @template TStrReplaceSubject
-     * @psalm-param TStrReplaceSubject $subject
-     * @psalm-return TStrReplaceSubject
+     * @phpstan-param TStrReplaceSubject $subject
+     * @phpstan-return TStrReplaceSubject
      *
      * @deprecated please use \str_replace() instead
      */
@@ -7844,7 +7934,7 @@ final class UTF8
     ) {
         /**
          * @psalm-suppress PossiblyNullArgument
-         * @psalm-var TStrReplaceSubject $return;
+         * @phpstan-var TStrReplaceSubject $return;
          */
         $return = \str_replace(
             $search,
@@ -7887,8 +7977,9 @@ final class UTF8
             return $str . $replacement;
         }
 
-        if (\strpos($str, $search) === 0) {
-            return $replacement . \substr($str, \strlen($search));
+        $searchLength = \strlen($search);
+        if (\strncmp($str, $search, $searchLength) === 0) {
+            return $replacement . \substr($str, $searchLength);
         }
 
         return $str;
@@ -8057,10 +8148,10 @@ final class UTF8
      * the remaining string. If $end is negative, it is computed from the end
      * of the string.
      *
-     * @param string $str
-     * @param int    $start    <p>Initial index from which to begin extraction.</p>
-     * @param int    $end      [optional] <p>Index at which to end extraction. Default: null</p>
-     * @param string $encoding [optional] <p>Set the charset for e.g. "mb_" function</p>
+     * @param string   $str
+     * @param int      $start    <p>Initial index from which to begin extraction.</p>
+     * @param int|null $end      [optional] <p>Index at which to end extraction. Default: null</p>
+     * @param string   $encoding [optional] <p>Set the charset for e.g. "mb_" function</p>
      *
      * @psalm-pure
      *
@@ -8306,7 +8397,7 @@ final class UTF8
             &&
             self::$SUPPORT['mbstring'] === true
         ) {
-            if (Bootup::is_php('7.4')) {
+            if (\function_exists('mb_str_split')) {
                 /**
                  * @psalm-suppress ImpureFunctionCall - why?
                  */
@@ -8390,7 +8481,7 @@ final class UTF8
             $ret = \array_chunk($ret, $length);
 
             return \array_map(
-                static function (array &$item): string {
+                static function (array $item): string {
                     return \implode('', $item);
                 },
                 $ret
@@ -8494,7 +8585,12 @@ final class UTF8
             return false;
         }
 
-        return \strpos($haystack, $needle) === 0;
+        if (\PHP_VERSION_ID >= 80000) {
+            /** @phpstan-ignore-next-line - only for PHP8 */
+            return \str_starts_with($haystack, $needle);
+        }
+
+        return \strncmp($haystack, $needle, \strlen($needle)) === 0;
     }
 
     /**
@@ -8507,7 +8603,8 @@ final class UTF8
      *
      * @psalm-pure
      *
-     * @return bool whether or not $str starts with $substring
+     * @return bool
+     *              <p>Whether or not $str starts with $substring.</p>
      */
     public static function str_starts_with_any(string $str, array $substrings): bool
     {
@@ -8581,8 +8678,11 @@ final class UTF8
      *
      * @return string
      */
-    public static function str_substr_after_last_separator(string $str, string $separator, string $encoding = 'UTF-8'): string
-    {
+    public static function str_substr_after_last_separator(
+        string $str,
+        string $separator,
+        string $encoding = 'UTF-8'
+    ): string {
         if ($separator === '' || $str === '') {
             return '';
         }
@@ -8909,6 +9009,73 @@ final class UTF8
         );
 
         return $str;
+    }
+
+    /**
+     * Convert a string into a obfuscate string.
+     *
+     * EXAMPLE: <code>
+     *
+     * UTF8::str_obfuscate('lars@moelleken.org', 0.5, '*', ['@', '.']); // e.g. "l***@m**lleke*.*r*"
+     * </code>
+     *
+     * @param string   $str
+     * @param float    $percent
+     * @param string   $obfuscateChar
+     * @param string[] $keepChars
+     *
+     * @psalm-pure
+     *
+     * @return string
+     *                <p>The obfuscate string.</p>
+     */
+    public static function str_obfuscate(
+        string $str,
+        float $percent = 0.5,
+        string $obfuscateChar = '*',
+        array $keepChars = []
+    ): string {
+        $obfuscateCharHelper = "\u{2603}";
+        $str = \str_replace($obfuscateChar, $obfuscateCharHelper, $str);
+
+        $chars = self::chars($str);
+        $charsMax = \count($chars);
+        $charsMaxChange = \round($charsMax * $percent);
+        $charsCounter = 0;
+        $charKeyDone = [];
+
+        while ($charsCounter < $charsMaxChange) {
+            foreach ($chars as $charKey => $char) {
+                if (isset($charKeyDone[$charKey])) {
+                    continue;
+                }
+
+                if (\random_int(0, 100) > 50) {
+                    continue;
+                }
+
+                if ($char === $obfuscateChar) {
+                    continue;
+                }
+
+                ++$charsCounter;
+                $charKeyDone[$charKey] = true;
+
+                if ($charsCounter > $charsMaxChange) {
+                    break;
+                }
+
+                if (\in_array($char, $keepChars, true)) {
+                    continue;
+                }
+
+                $chars[$charKey] = $obfuscateChar;
+            }
+        }
+
+        $str = \implode('', $chars);
+
+        return \str_replace($obfuscateCharHelper, $obfuscateChar, $str);
     }
 
     /**
@@ -9651,11 +9818,11 @@ final class UTF8
     /**
      * Find length of initial segment not matching mask.
      *
-     * @param string $str
-     * @param string $char_list
-     * @param int    $offset
-     * @param int    $length
-     * @param string $encoding  [optional] <p>Set the charset for e.g. "mb_" function</p>
+     * @param string   $str
+     * @param string   $char_list
+     * @param int      $offset
+     * @param int|null $length
+     * @param string   $encoding  [optional] <p>Set the charset for e.g. "mb_" function</p>
      *
      * @psalm-pure
      *
@@ -9664,7 +9831,7 @@ final class UTF8
     public static function strcspn(
         string $str,
         string $char_list,
-        int $offset = null,
+        int $offset = 0,
         int $length = null,
         string $encoding = 'UTF-8'
     ): int {
@@ -9676,18 +9843,15 @@ final class UTF8
             return (int) self::strlen($str, $encoding);
         }
 
-        if ($offset !== null || $length !== null) {
+        if ($offset || $length !== null) {
             if ($encoding === 'UTF-8') {
                 if ($length === null) {
-                    /** @noinspection UnnecessaryCastingInspection */
-                    $str_tmp = \mb_substr($str, (int) $offset);
+                    $str_tmp = \mb_substr($str, $offset);
                 } else {
-                    /** @noinspection UnnecessaryCastingInspection */
-                    $str_tmp = \mb_substr($str, (int) $offset, $length);
+                    $str_tmp = \mb_substr($str, $offset, $length);
                 }
             } else {
-                /** @noinspection UnnecessaryCastingInspection */
-                $str_tmp = self::substr($str, (int) $offset, $length, $encoding);
+                $str_tmp = self::substr($str, $offset, $length, $encoding);
             }
 
             if ($str_tmp === false) {
@@ -9756,7 +9920,7 @@ final class UTF8
      *
      * @param int|int[]|string|string[] $intOrHex <p>Integer or Hexadecimal codepoints.</p>
      *
-     * @psalm-param int[]|numeric-string[]|int|numeric-string $intOrHex
+     * @phpstan-param int[]|numeric-string[]|int|numeric-string $intOrHex
      *
      * @psalm-pure
      *
@@ -9791,14 +9955,16 @@ final class UTF8
      * @psalm-pure
      *
      * @return bool
+     *              <p>
      *              <strong>true</strong> if the string has BOM at the start,<br>
      *              <strong>false</strong> otherwise
+     *              </p>
      */
     public static function string_has_bom(string $str): bool
     {
         /** @noinspection PhpUnusedLocalVariableInspection */
         foreach (self::$BOM as $bom_string => &$bom_byte_length) {
-            if (\strpos($str, $bom_string) === 0) {
+            if (\strncmp($str, $bom_string, $bom_byte_length) === 0) {
                 return true;
             }
         }
@@ -9813,18 +9979,18 @@ final class UTF8
      *
      * @see http://php.net/manual/en/function.strip-tags.php
      *
-     * @param string $str            <p>
-     *                               The input string.
-     *                               </p>
-     * @param string $allowable_tags [optional] <p>
-     *                               You can use the optional second parameter to specify tags which should
-     *                               not be stripped.
-     *                               </p>
-     *                               <p>
-     *                               HTML comments and PHP tags are also stripped. This is hardcoded and
-     *                               can not be changed with allowable_tags.
-     *                               </p>
-     * @param bool   $clean_utf8     [optional] <p>Remove non UTF-8 chars from the string.</p>
+     * @param string      $str            <p>
+     *                                    The input string.
+     *                                    </p>
+     * @param string|null $allowable_tags [optional] <p>
+     *                                    You can use the optional second parameter to specify tags which should
+     *                                    not be stripped.
+     *                                    </p>
+     *                                    <p>
+     *                                    HTML comments and PHP tags are also stripped. This is hardcoded and
+     *                                    can not be changed with allowable_tags.
+     *                                    </p>
+     * @param bool        $clean_utf8     [optional] <p>Remove non UTF-8 chars from the string.</p>
      *
      * @psalm-pure
      *
@@ -9901,7 +10067,15 @@ final class UTF8
         string $encoding = 'UTF-8',
         bool $clean_utf8 = false
     ) {
-        if ($haystack === '' || $needle === '') {
+        if ($haystack === '') {
+            if (\PHP_VERSION_ID >= 80000 && $needle === '') {
+                return 0;
+            }
+
+            return false;
+        }
+
+        if ($needle === '' && \PHP_VERSION_ID < 80000) {
             return false;
         }
 
@@ -9987,7 +10161,11 @@ final class UTF8
         string $encoding = 'UTF-8',
         bool $clean_utf8 = false
     ) {
-        if ($haystack === '' || $needle === '') {
+        if ($haystack === '') {
+            if (\PHP_VERSION_ID >= 80000 && $needle === '') {
+                return '';
+            }
+
             return false;
         }
 
@@ -9998,8 +10176,12 @@ final class UTF8
             $haystack = self::clean($haystack);
         }
 
-        if (!$needle) {
-            return $haystack;
+        if ($needle === '') {
+            if (\PHP_VERSION_ID >= 80000) {
+                return $haystack;
+            }
+
+            return false;
         }
 
         if (self::$SUPPORT['mbstring'] === true) {
@@ -10409,7 +10591,13 @@ final class UTF8
         bool $clean_utf8 = false
     ) {
         if ($haystack === '') {
-            return false;
+            if (\PHP_VERSION_ID >= 80000) {
+                if ($needle === '') {
+                    return 0;
+                }
+            } else {
+                return false;
+            }
         }
 
         // iconv and mbstring do not support integer $needle
@@ -10418,7 +10606,15 @@ final class UTF8
         }
         $needle = (string) $needle;
 
-        if ($needle === '') {
+        if ($haystack === '') {
+            if (\PHP_VERSION_ID >= 80000 && $needle === '') {
+                return 0;
+            }
+
+            return false;
+        }
+
+        if ($needle === '' && \PHP_VERSION_ID < 80000) {
             return false;
         }
 
@@ -10901,7 +11097,13 @@ final class UTF8
         bool $clean_utf8 = false
     ) {
         if ($haystack === '') {
-            return false;
+            if (\PHP_VERSION_ID >= 80000) {
+                if ($needle === '') {
+                    return 0;
+                }
+            } else {
+                return false;
+            }
         }
 
         // iconv and mbstring do not support integer $needle
@@ -10910,7 +11112,15 @@ final class UTF8
         }
         $needle = (string) $needle;
 
-        if ($needle === '') {
+        if ($haystack === '') {
+            if (\PHP_VERSION_ID >= 80000 && $needle === '') {
+                return 0;
+            }
+
+            return false;
+        }
+
+        if ($needle === '' && \PHP_VERSION_ID < 80000) {
             return false;
         }
 
@@ -11059,7 +11269,13 @@ final class UTF8
         bool $clean_utf8 = false
     ) {
         if ($haystack === '') {
-            return false;
+            if (\PHP_VERSION_ID >= 80000) {
+                if ($needle === '') {
+                    return 0;
+                }
+            } else {
+                return false;
+            }
         }
 
         // iconv and mbstring do not support integer $needle
@@ -11068,7 +11284,15 @@ final class UTF8
         }
         $needle = (string) $needle;
 
-        if ($needle === '') {
+        if ($haystack === '') {
+            if (\PHP_VERSION_ID >= 80000 && $needle === '') {
+                return 0;
+            }
+
+            return false;
+        }
+
+        if ($needle === '' && \PHP_VERSION_ID < 80000) {
             return false;
         }
 
@@ -11216,11 +11440,11 @@ final class UTF8
      *
      * EXAMPLE: <code>UTF8::strspn('iñtërnâtiônàlizætiøn', 'itñ'); // '3'</code>
      *
-     * @param string $str      <p>The input string.</p>
-     * @param string $mask     <p>The mask of chars</p>
-     * @param int    $offset   [optional]
-     * @param int    $length   [optional]
-     * @param string $encoding [optional] <p>Set the charset.</p>
+     * @param string   $str      <p>The input string.</p>
+     * @param string   $mask     <p>The mask of chars</p>
+     * @param int      $offset   [optional]
+     * @param int|null $length   [optional]
+     * @param string   $encoding [optional] <p>Set the charset.</p>
      *
      * @psalm-pure
      *
@@ -11281,7 +11505,7 @@ final class UTF8
      * @psalm-pure
      *
      * @return false|string
-     *                      A sub-string,<br>or <strong>false</strong> if needle is not found
+     *                      <p>A sub-string,<br>or <strong>false</strong> if needle is not found.</p>
      */
     public static function strstr(
         string $haystack,
@@ -11290,7 +11514,11 @@ final class UTF8
         string $encoding = 'UTF-8',
         bool $clean_utf8 = false
     ) {
-        if ($haystack === '' || $needle === '') {
+        if ($haystack === '') {
+            if (\PHP_VERSION_ID >= 80000 && $needle === '') {
+                return '';
+            }
+
             return false;
         }
 
@@ -11299,6 +11527,14 @@ final class UTF8
             // if invalid characters are found in $haystack before $needle
             $needle = self::clean($needle);
             $haystack = self::clean($haystack);
+        }
+
+        if ($needle === '') {
+            if (\PHP_VERSION_ID >= 80000) {
+                return $haystack;
+            }
+
+            return false;
         }
 
         if ($encoding !== 'UTF-8' && $encoding !== 'CP850') {
@@ -11778,11 +12014,11 @@ final class UTF8
      *
      * @see http://php.net/manual/en/function.mb-substr.php
      *
-     * @param string $str        <p>The string being checked.</p>
-     * @param int    $offset     <p>The first position used in str.</p>
-     * @param int    $length     [optional] <p>The maximum length of the returned string.</p>
-     * @param string $encoding   [optional] <p>Set the charset for e.g. "mb_" function</p>
-     * @param bool   $clean_utf8 [optional] <p>Remove non UTF-8 chars from the string.</p>
+     * @param string   $str        <p>The string being checked.</p>
+     * @param int      $offset     <p>The first position used in str.</p>
+     * @param int|null $length     [optional] <p>The maximum length of the returned string.</p>
+     * @param string   $encoding   [optional] <p>Set the charset for e.g. "mb_" function</p>
+     * @param bool     $clean_utf8 [optional] <p>Remove non UTF-8 chars from the string.</p>
      *
      * @psalm-pure
      *
@@ -11867,11 +12103,7 @@ final class UTF8
             return '';
         }
 
-        if ($length === null) {
-            $length = (int) $str_length;
-        } else {
-            $length = (int) $length;
-        }
+        $length = $length ?? (int) $str_length;
 
         if (
             $encoding !== 'UTF-8'
@@ -12004,16 +12236,16 @@ final class UTF8
      *
      * @see http://php.net/manual/en/function.substr-count.php
      *
-     * @param string $haystack   <p>The string to search in.</p>
-     * @param string $needle     <p>The substring to search for.</p>
-     * @param int    $offset     [optional] <p>The offset where to start counting.</p>
-     * @param int    $length     [optional] <p>
-     *                           The maximum length after the specified offset to search for the
-     *                           substring. It outputs a warning if the offset plus the length is
-     *                           greater than the haystack length.
-     *                           </p>
-     * @param string $encoding   [optional] <p>Set the charset for e.g. "mb_" function</p>
-     * @param bool   $clean_utf8 [optional] <p>Remove non UTF-8 chars from the string.</p>
+     * @param string   $haystack   <p>The string to search in.</p>
+     * @param string   $needle     <p>The substring to search for.</p>
+     * @param int      $offset     [optional] <p>The offset where to start counting.</p>
+     * @param int|null $length     [optional] <p>
+     *                             The maximum length after the specified offset to search for the
+     *                             substring. It outputs a warning if the offset plus the length is
+     *                             greater than the haystack length.
+     *                             </p>
+     * @param string   $encoding   [optional] <p>Set the charset for e.g. "mb_" function</p>
+     * @param bool     $clean_utf8 [optional] <p>Remove non UTF-8 chars from the string.</p>
      *
      * @psalm-pure
      *
@@ -12028,8 +12260,16 @@ final class UTF8
         string $encoding = 'UTF-8',
         bool $clean_utf8 = false
     ) {
-        if ($haystack === '' || $needle === '') {
+        if ($needle === '') {
             return false;
+        }
+
+        if ($haystack === '') {
+            if (\PHP_VERSION_ID >= 80000) {
+                return 0;
+            }
+
+            return 0;
         }
 
         if ($length === 0) {
@@ -12090,20 +12330,20 @@ final class UTF8
     /**
      * Count the number of substring occurrences.
      *
-     * @param string $haystack <p>
-     *                         The string being checked.
-     *                         </p>
-     * @param string $needle   <p>
-     *                         The string being found.
-     *                         </p>
-     * @param int    $offset   [optional] <p>
-     *                         The offset where to start counting
-     *                         </p>
-     * @param int    $length   [optional] <p>
-     *                         The maximum length after the specified offset to search for the
-     *                         substring. It outputs a warning if the offset plus the length is
-     *                         greater than the haystack length.
-     *                         </p>
+     * @param string   $haystack <p>
+     *                           The string being checked.
+     *                           </p>
+     * @param string   $needle   <p>
+     *                           The string being found.
+     *                           </p>
+     * @param int      $offset   [optional] <p>
+     *                           The offset where to start counting
+     *                           </p>
+     * @param int|null $length   [optional] <p>
+     *                           The maximum length after the specified offset to search for the
+     *                           substring. It outputs a warning if the offset plus the length is
+     *                           greater than the haystack length.
+     *                           </p>
      *
      * @psalm-pure
      *
@@ -12144,7 +12384,7 @@ final class UTF8
                 &&
                 ($length + $offset) <= 0
                 &&
-                !Bootup::is_php('7.1') // output from "substr_count()" have changed in PHP 7.1
+                \PHP_VERSION_ID < 71000 // output from "substr_count()" have changed in PHP 7.1
             ) {
                 return false;
             }
@@ -12253,9 +12493,9 @@ final class UTF8
     /**
      * Get part of a string process in bytes.
      *
-     * @param string $str    <p>The string being checked.</p>
-     * @param int    $offset <p>The first position used in str.</p>
-     * @param int    $length [optional] <p>The maximum length of the returned string.</p>
+     * @param string   $str    <p>The string being checked.</p>
+     * @param int      $offset <p>The first position used in str.</p>
+     * @param int|null $length [optional] <p>The maximum length of the returned string.</p>
      *
      * @psalm-pure
      *
@@ -12595,7 +12835,9 @@ final class UTF8
      * @psalm-pure
      *
      * @return bool
-     *              <strong>true</strong> if in use, <strong>false</strong> otherwise
+     *              <p><strong>true</strong> if in use, <strong>false</strong> otherwise</p>
+     *
+     * @internal <p>Please do not use it anymore, we will make is private in next major version.</p>
      */
     public static function symfony_polyfill_used(): bool
     {
@@ -12789,7 +13031,7 @@ final class UTF8
     /**
      * @param bool|int|string $str
      *
-     * @psalm-param bool|int|numeric-string $str
+     * @phpstan-param bool|int|numeric-string $str
      *
      * @psalm-pure
      *
@@ -12923,8 +13165,8 @@ final class UTF8
      *                         <p>The UTF-8 encoded string</p>
      *
      * @template TToUtf8
-     * @psalm-param TToUtf8 $str
-     * @psalm-return TToUtf8
+     * @phpstan-param TToUtf8 $str
+     * @phpstan-return TToUtf8
      *
      * @noinspection SuspiciousBinaryOperationInspection
      */
@@ -12938,7 +13180,7 @@ final class UTF8
             return $str;
         }
 
-        /** @psalm-var TToUtf8 $str */
+        /** @phpstan-var TToUtf8 $str */
         $str = self::to_utf8_string($str, $decode_html_entity_to_utf8);
 
         return $str;
@@ -14470,7 +14712,7 @@ final class UTF8
             if ($delimiter === '-') {
                 /** @noinspection AlterInForeachInspection */
                 foreach ((array) $special_cases['names'] as &$beginning) {
-                    if (self::strpos($name, $beginning, 0, $encoding) === 0) {
+                    if (\strncmp($name, $beginning, \strlen($beginning)) === 0) {
                         $continue = true;
 
                         break;
@@ -14480,7 +14722,7 @@ final class UTF8
 
             /** @noinspection AlterInForeachInspection */
             foreach ((array) $special_cases['prefixes'] as &$beginning) {
-                if (self::strpos($name, $beginning, 0, $encoding) === 0) {
+                if (\strncmp($name, $beginning, \strlen($beginning)) === 0) {
                     $continue = true;
 
                     break;
@@ -14508,11 +14750,17 @@ final class UTF8
      */
     private static function strtonatfold(string $str)
     {
+        $str = \Normalizer::normalize($str, \Normalizer::NFD);
+        /** @phpstan-ignore-next-line - https://github.com/JetBrains/phpstorm-stubs/pull/949 */
+        if ($str === false) {
+            return '';
+        }
+
         /** @noinspection PhpUndefinedClassInspection */
         return \preg_replace(
             '/\p{Mn}+/u',
             '',
-            \Normalizer::normalize($str, \Normalizer::NFD)
+            $str
         );
     }
 

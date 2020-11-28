@@ -47,59 +47,61 @@ c', "a\nb\nc"],
 
     public function parseArgsSyntaxProvider()
     {
-        $data = [
+        return [
             ['REX_TEST_VAR[]', 'default'],
             ['REX_TEST_VAR[""]', ''],
             ['REX_TEST_VAR[ab]', 'ab'],
             ['REX_TEST_VAR["ab c"]', 'ab c'],
             ['REX_TEST_VAR[REX_TEST_VAR[ab]]', 'ab'],
             ['REX_TEST_VAR[content=ab]', 'ab'],
-
-            [<<<'EOT'
-REX_TEST_VAR[content="a 'b' \"c\" \ \\ \\\[d\]"]
-EOT
-                , 'a \'b\' "c" \ \ \[d]'],
-
-            [<<<'EOT'
-REX_TEST_VAR[content="a REX_TEST_VAR[content=\"b 'c' \\\"d\\\" \ \\ \\\[e\]\"] f"]
-EOT
-                , 'a b \'c\' "d" \ \ \[e] f'],
-
-            [<<<'EOT'
-REX_TEST_VAR[content="REX_TEST_VAR[content='\'a\' \"b\"']"]
-EOT
-                , '\'a\' "b"'],
-
-            [<<<'EOT'
-<?php echo "REX_TEST_VAR[content=\"a 'b' \\\"c\\\" \ \\ \\\[d\]\"]";
-EOT
-                , 'a \'b\' "c" \ \ \[d]'],
-            [<<<'EOT'
-<?php echo 'REX_TEST_VAR[content="a \'b\' \"c\" \ \\ \\\[d\]"]';
-EOT
-                , 'a \'b\' "c" \ \ \[d]'],
-
-            [<<<'EOT'
-<?php echo 'REX_TEST_VAR[content=\'REX_TEST_VAR[content="a \\\'b\\\' \"c\" \ \\ \\\[d\]"]\']';
-EOT
-                , 'a \'b\' "c" \ \ \[d]'],
-
-            [<<<'EOT'
-REX_TEST_VAR[
-    content="ab
-cd ef"
-]
-EOT
-                , "ab\ncd ef"],
+            [
+                <<<'EOT'
+                    REX_TEST_VAR[content="a 'b' \"c\" \ \\ \\\[d\]"]
+                    EOT,
+                'a \'b\' "c" \ \ \[d]',
+            ],
+            [
+                <<<'EOT'
+                    REX_TEST_VAR[content="a REX_TEST_VAR[content=\"b 'c' \\\"d\\\" \ \\ \\\[e\]\"] f"]
+                    EOT,
+                'a b \'c\' "d" \ \ \[e] f',
+            ],
+            [
+                <<<'EOT'
+                    REX_TEST_VAR[content="REX_TEST_VAR[content='\'a\' \"b\"']"]
+                    EOT,
+                '\'a\' "b"',
+            ],
+            [
+                <<<'EOT'
+                    <?php echo "REX_TEST_VAR[content=\"a 'b' \\\"c\\\" \ \\ \\\[d\]\"]";
+                    EOT,
+                'a \'b\' "c" \ \ \[d]',
+            ],
+            [
+                <<<'EOT'
+                    <?php echo 'REX_TEST_VAR[content="a \'b\' \"c\" \ \\ \\\[d\]"]';
+                    EOT,
+                'a \'b\' "c" \ \ \[d]',
+            ],
+            [
+                <<<'EOT'
+                    <?php echo 'REX_TEST_VAR[content=\'REX_TEST_VAR[content="a \\\'b\\\' \"c\" \ \\ \\\[d\]"]\']';
+                    EOT,
+                'a \'b\' "c" \ \ \[d]',
+            ],
+            [
+                <<<'EOT'
+                    REX_TEST_VAR[
+                        content="ab
+                    cd ef"
+                    ]
+                    EOT,
+                "ab\ncd ef",
+            ],
             ['REX_TEST_VAR[REX_NON_EXISTING[]]', 'REX_NON_EXISTING[]'],
+            ['REX_NON_EXISTING[REX_TEST_VAR[ab]]', 'REX_NON_EXISTING[ab]'],
         ];
-
-        // https://bugs.php.net/bug.php?id=75173
-        if (!in_array(PHP_VERSION_ID, [70108, 70109], true)) {
-            $data[] = ['REX_NON_EXISTING[REX_TEST_VAR[ab]]', 'REX_NON_EXISTING[ab]'];
-        }
-
-        return $data;
     }
 
     /**
@@ -159,14 +161,24 @@ EOT
 
         $content = '<?php print_r(rex_var::toArray("REX_TEST_VAR[content=\'' . addcslashes(htmlspecialchars(json_encode($array)), '[]"')  . '\']"));';
         $this->assertParseOutputEquals(print_r($array, true), $content, 'toArray() works with htmlspecialchar\'ed data');
+
+        $array = ['&#039;', '\&quot;']; // [code for ', code for "]
+        $unescaped_array = ["'", '"'];
+        $content = '<?php print_r(rex_var::toArray("REX_TEST_VAR[content=\'' . addcslashes(json_encode($array), '[]"') . '\']"));';
+        $this->assertParseOutputEquals(print_r($unescaped_array, true), $content, 'toArray() rebuilds quotes');
+
+        $array = ['&lt;strong&gt;inject me&lt;/strong&gt;', 'foo&amp;bar'];
+        $unescaped_array = ['<strong>inject me</strong>', 'foo&bar'];
+        $content = '<?php print_r(rex_var::toArray("REX_TEST_VAR[content=\'' . addcslashes(json_encode($array), '[]"') . '\']"));';
+        $this->assertParseOutputEquals(print_r($unescaped_array, true), $content, 'toArray() rebuilds HTML');
     }
 
     public function testQuote()
     {
         $string = "abc 'de' \"fg\" \ \nh\r\ni";
         $expected = <<<'EOD'
-'abc \'de\' "fg" \\ ' . "\n" . 'h' . "\r\n" . 'i'
-EOD;
+            'abc \'de\' "fg" \\ ' . "\n" . 'h' . "\r\n" . 'i'
+            EOD;
 
         $this->assertEquals($expected, rex_var_test_var::quote($string));
     }

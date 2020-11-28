@@ -34,14 +34,14 @@ class FileStorage extends Storage
 
 			// create default .gitignore, to ignore stored json files
 			file_put_contents("{$path}/.gitignore", "*.json\n*.json.gz\nindex\n");
-		}
-
-		if (! is_writable($path)) {
+		} elseif (! is_writable($path)) {
 			throw new \Exception("Path \"{$path}\" is not writable.");
 		}
 
 		if (! file_exists($indexFile = "{$path}/index")) {
 			file_put_contents($indexFile, '');
+		} elseif (! is_writable($indexFile)) {
+			throw new \Exception("Path \"{$indexFile}\" is not writable.");
 		}
 
 		$this->path = $path;
@@ -290,7 +290,10 @@ class FileStorage extends Storage
 	protected function updateIndex(Request $request)
 	{
 		$handle = fopen("{$this->path}/index", 'a');
-		flock($handle, LOCK_EX);
+
+		if (! $handle) return;
+
+		if (! flock($handle, LOCK_EX)) return fclose($handle);
 
 		if ($request->type == 'command') {
 			$nameField = 'commandName';

@@ -7,8 +7,14 @@
  */
 class rex_password_policy
 {
+    /**
+     * @var array<string, array{min?: int, max?: int}>
+     */
     private $options;
 
+    /**
+     * @param array<string, array{min?: int, max?: int}> $options
+     */
     public function __construct(array $options)
     {
         $this->options = $options;
@@ -28,13 +34,10 @@ class rex_password_policy
             return true;
         }
 
-        return rex_i18n::msg('password_invalid', $this->getRule());
+        return rex_i18n::msg('password_invalid', $this->getDescription());
     }
 
-    /**
-     * @return string
-     */
-    protected function getRule()
+    public function getDescription(): ?string
     {
         $parts = [];
 
@@ -52,7 +55,17 @@ class rex_password_policy
             $parts[] = rex_i18n::msg('password_rule_'.$key, $constraint);
         }
 
-        return implode('; ', $parts);
+        return $parts ? implode('; ', $parts) : null;
+    }
+
+    /**
+     * @return string
+     *
+     * @deprecated since 5.12, use `getDescription` instead
+     */
+    protected function getRule()
+    {
+        return $this->getDescription() ?? '';
     }
 
     /**
@@ -94,6 +107,9 @@ class rex_password_policy
     }
 
     /**
+     * @param int $count
+     * @param array{min?: int, max?: int} $options
+     *
      * @return bool
      */
     protected function matchesCount($count, array $options)

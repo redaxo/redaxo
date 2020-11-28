@@ -64,6 +64,9 @@ phpmailer_log_errors = Log only errors
 phpmailer_log_all = Log all transactions
 phpmailer_archive = Email archiving
 phpmailer_archive_info = Archive folder: <span title="{0}">{1}</span>
+phpmailer_archive_delete = Delete email archive
+phpmailer_archive_deleted = The email archive has been deleted
+phpmailer_archive_delete_confirm = Do you want the e-mail archive to be permanently deleted? This cannot be reversed.  
 phpmailer_log_yes = Yes
 phpmailer_log_no = No
 phpmailer_log_title = PHPMailer Log "{0}"
@@ -80,4 +83,4 @@ phpmailer_errormail_30min = 30 minute interval
 phpmailer_errormail_60min = 60 minute interval
 
 system_setting_errormail = Send e-mail on errors
-
+perm_general_phpmailer[] = PHPMailer settings

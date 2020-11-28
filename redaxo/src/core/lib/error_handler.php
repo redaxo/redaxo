@@ -245,10 +245,11 @@ abstract class rex_error_handler
         }
 
         $debug = rex::getDebugFlags();
+        $alwaysThrow = $debug['throw_always_exception'];
 
         if (
-            isset($debug['throw_always_exception']) &&
-            (true === $debug['throw_always_exception'] || $errno === ($errno & $debug['throw_always_exception']))
+            true === $alwaysThrow ||
+            is_int($alwaysThrow) && $errno === ($errno & $alwaysThrow)
         ) {
             throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
         }
@@ -281,9 +282,13 @@ abstract class rex_error_handler
         // catch fatal/parse errors
         if (self::$registered) {
             $error = error_get_last();
-            if (is_array($error) && in_array($error['type'], [E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR, E_PARSE])) {
-                self::handleException(new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']));
+            if (!is_array($error)) {
+                return;
             }
+            if (!in_array($error['type'], [E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR, E_PARSE])) {
+                return;
+            }
+            self::handleException(new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']));
         }
     }
 
@@ -368,13 +373,13 @@ abstract class rex_error_handler
         }
 
         $markdown .= <<<OUTPUT
-<details>
-<summary>Stacktrace</summary>
+            <details>
+            <summary>Stacktrace</summary>
 
-$table
-</details>
+            $table
+            </details>
 
-OUTPUT;
+            OUTPUT;
         $markdown .= rex_system_report::factory()->asMarkdown();
 
         return $markdown;

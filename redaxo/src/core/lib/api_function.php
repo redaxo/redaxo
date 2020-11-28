@@ -45,7 +45,7 @@ abstract class rex_api_function
     /**
      * The api function which is bound to the current request.
      *
-     * @var rex_api_function
+     * @var rex_api_function|null
      */
     private static $instance;
 
@@ -135,6 +135,7 @@ abstract class rex_api_function
 
         // remove the `rex_api_` prefix
         $name = substr($class, 8);
+        assert(false !== $name);
 
         return sprintf('<input type="hidden" name="%s" value="%s"/>', self::REQ_CALL_PARAM, rex_escape($name))
             .rex_csrf_token::factory($class)->getHiddenField();
@@ -361,6 +362,11 @@ class rex_api_result
     {
         $result = new self(true);
         $json = json_decode($json, true);
+
+        if (!is_array($json)) {
+            throw new rex_exception('Unable to decode json into an array.');
+        }
+
         foreach ($json as $key => $value) {
             $result->$key = $value;
         }

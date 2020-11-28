@@ -1,5 +1,5 @@
 package: debug
-version: '1.0.0'
+version: '1.0.1'
 author: Markus Staab, Marcel Kuhmann, Gregor Harlan
 supportpage: https://github.com/redaxo/redaxo
 
@@ -14,5 +14,5 @@ page:
     linkAttr: { target: _blank }
 
 requires:
-    php: '>=7.1'
+    php: '>=7.3'
     redaxo: ^5.11.0

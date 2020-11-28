@@ -28,6 +28,8 @@ abstract class rex_extension
      * @param rex_extension_point $extensionPoint Extension point
      *
      * @return mixed Subject, maybe adjusted by the extensions
+     *
+     * @psalm-taint-specialize
      */
     public static function registerPoint(rex_extension_point $extensionPoint)
     {
@@ -48,9 +50,13 @@ abstract class rex_extension
                     $extensionPoint->setExtensionParams($params);
                     $subject = call_user_func($extension, $extensionPoint);
                     // Update subject only if the EP is not readonly and the extension has returned something
-                    if (!$extensionPoint->isReadonly() && null !== $subject) {
-                        $extensionPoint->setSubject($subject);
+                    if ($extensionPoint->isReadonly()) {
+                        continue;
                     }
+                    if (null === $subject) {
+                        continue;
+                    }
+                    $extensionPoint->setSubject($subject);
                 }
             }
         });
@@ -65,6 +71,9 @@ abstract class rex_extension
      * @param callable        $extension      Callback extension
      * @param int             $level          Runlevel (`rex_extension::EARLY`, `rex_extension::NORMAL` or `rex_extension::LATE`)
      * @param array           $params         Additional params
+     *
+     * @template T as rex_extension_point
+     * @psalm-param callable(T):mixed $extension
      */
     public static function register($extensionPoint, callable $extension, $level = self::NORMAL, array $params = [])
     {

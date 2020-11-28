@@ -221,11 +221,11 @@ abstract class rex_var
     /**
      * Sets the arguments.
      *
-     * @param string $arg_string
+     * @param string $argString
      */
-    private function setArgs($arg_string)
+    private function setArgs($argString)
     {
-        $this->args = rex_string::split($arg_string);
+        $this->args = rex_string::split($argString);
     }
 
     /**
@@ -260,7 +260,7 @@ abstract class rex_var
         if (!$this->hasArg($key, $defaultArg)) {
             return $default;
         }
-        return isset($this->args[$key]) ? $this->args[$key] : $this->args[0];
+        return $this->args[$key] ?? $this->args[0];
     }
 
     /**
@@ -282,7 +282,7 @@ abstract class rex_var
         if (!$this->hasArg($key, $defaultArg)) {
             return $default;
         }
-        $arg = isset($this->args[$key]) ? $this->args[$key] : $this->args[0];
+        $arg = $this->args[$key] ?? $this->args[0];
         $begin = '<<<addslashes>>>';
         $end = '<<</addslashes>>>';
         $arg = $begin . self::replaceVars($arg, $end . "' . %s . '" . $begin) . $end;
@@ -400,7 +400,7 @@ abstract class rex_var
      */
     public static function toArray($value)
     {
-        $value = json_decode(htmlspecialchars_decode($value), true);
+        $value = json_decode(htmlspecialchars_decode($value, ENT_QUOTES), true);
         return is_array($value) ? $value : null;
     }
 

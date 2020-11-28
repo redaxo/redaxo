@@ -10,9 +10,14 @@ $rex_user_login = rex_post('rex_user_login', 'string');
 
 echo rex_view::title(rex_i18n::msg('login'));
 
+$content = '';
+
+$fragment = new rex_fragment();
+$content .= $fragment->parse('core/login_branding.php');
+
 $js = '';
 if ('' != $rex_user_loginmessage) {
-    echo '<div class="rex-js-login-message">'.rex_view::error($rex_user_loginmessage) . "</div>\n";
+    $content .= '<div class="rex-js-login-message">'.rex_view::error($rex_user_loginmessage) . '</div>';
     $js = '
         var time_el = $(".rex-js-login-message strong[data-time]");
         if(time_el.length == 1) {
@@ -37,7 +42,6 @@ if ('' != $rex_user_loginmessage) {
         }';
 }
 
-$content = '';
 $content .= '
     <fieldset>
         <input type="hidden" name="javascript" value="0" id="javascript" />';
@@ -94,7 +98,7 @@ $content .= '</fieldset>';
 
 $formElements = [];
 $n = [];
-$n['field'] = '<button class="btn btn-primary" type="submit"><i class="rex-icon rex-icon-sign-in"></i> ' . rex_i18n::msg('login') . ' </button>';
+$n['field'] = '<button class="btn btn-primary btn-block" type="submit"><i class="rex-icon rex-icon-sign-in"></i> ' . rex_i18n::msg('login') . ' </button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -102,7 +106,6 @@ $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
 
 $fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('login_welcome'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
@@ -128,5 +131,8 @@ $content = '
     });
      //-->
 </script>';
+
+$fragment = new rex_fragment();
+$content .= $fragment->parse('core/login_background.php');
 
 echo $content;

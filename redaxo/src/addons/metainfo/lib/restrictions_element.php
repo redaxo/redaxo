@@ -12,9 +12,9 @@ class rex_form_restrictons_element extends rex_form_select_element
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
-    public function __construct($tag = '', rex_metainfo_table_expander $table = null, array $attributes = [])
+    public function __construct($tag = '', rex_metainfo_table_expander $form = null, array $attributes = [])
     {
-        parent::__construct('', $table, $attributes);
+        parent::__construct('', $form, $attributes);
 
         $this->setNotice(rex_i18n::msg('ctrl'));
     }

@@ -329,6 +329,7 @@ abstract class rex_formatter
      *
      * @param string         $value  Value
      * @param callable|array $format A callable or an array of a callable and additional params
+     * @psalm-param callable(string):string|array{0: callable(non-empty-array):string, 1: mixed} $format
      *
      * @throws rex_exception
      *
@@ -357,6 +358,14 @@ abstract class rex_formatter
     }
 
     /**
+     * Returns a Unix-Timestamp representing the given $value.
+     *
+     * Note: on a 32-bit php-version Unix-Timestamps cannot express
+     * dates before 13 December 1901 or after 19 January 2038
+     *
+     * @see https://en.m.wikipedia.org/wiki/Unix_time
+     * @see https://en.m.wikipedia.org/wiki/Year_2038_problem
+     *
      * @param string|int $value
      *
      * @return int

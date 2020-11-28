@@ -15,6 +15,7 @@ class rex
      * Array of properties.
      *
      * @var array
+     * @psalm-var array<string, mixed>
      */
     protected static $properties = [];
 
@@ -229,17 +230,23 @@ class rex
     {
         $debug = self::getDebugFlags();
 
-        return isset($debug['enabled']) && $debug['enabled'];
+        return $debug['enabled'];
     }
 
     /**
      * Returns the debug flags.
      *
      * @return array
+     * @psalm-return array{enabled: bool, throw_always_exception: bool|int}
      */
     public static function getDebugFlags()
     {
-        return self::getProperty('debug');
+        $flags = self::getProperty('debug', []);
+
+        $flags['enabled'] = $flags['enabled'] ?? false;
+        $flags['throw_always_exception'] = $flags['throw_always_exception'] ?? false;
+
+        return $flags;
     }
 
     /**
@@ -314,6 +321,24 @@ class rex
     public static function getConsole()
     {
         return self::getProperty('console', null);
+    }
+
+    /**
+     * @param positive-int $db
+     *
+     * @throws rex_exception
+     */
+    public static function getDbConfig(int $db = 1): rex_config_db
+    {
+        $config = self::getProperty('db', null);
+
+        if (!$config) {
+            $configFile = rex_path::coreData('config.yml');
+
+            throw new rex_exception('Unable to read db config from config.yml "'. $configFile .'"');
+        }
+
+        return new rex_config_db($config[$db]);
     }
 
     /**

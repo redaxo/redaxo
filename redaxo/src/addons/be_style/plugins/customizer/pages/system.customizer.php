@@ -1,8 +1,8 @@
 <?php
 
-$error = [];
 $config = [];
 $success = '';
+$error = '';
 
 if ('' != rex_post('btn_save', 'string')) {
     // set config
@@ -54,10 +54,10 @@ if ('' != rex_post('btn_save', 'string')) {
 
     // save config
 
-    if (empty($error) && rex_plugin::get('be_style', 'customizer')->setConfig($tempConfig)) {
+    if (rex_plugin::get('be_style', 'customizer')->setConfig($tempConfig)) {
         $success = rex_i18n::msg('customizer_config_updated');
     } else {
-        $error[] = rex_i18n::msg('customizer_config_update_failed');
+        $error = rex_i18n::msg('customizer_config_update_failed');
     }
 
     $_SESSION['codemirror_reload'] = time();
@@ -86,7 +86,7 @@ $curDir = $plugin->getAssetsUrl('vendor/');
 
 $themes = [];
 foreach (glob($curDir . '/codemirror/theme/*.css') as $filename) {
-    $themes[] = substr(basename($filename), 0, -4);
+    $themes[] = substr(rex_path::basename($filename), 0, -4);
 }
 
 $tselect = new rex_select();
@@ -102,8 +102,8 @@ foreach ($themes as $theme) {
 
 // messages
 
-if (!empty($error)) {
-    echo rex_view::error(implode('<br />', $error));
+if ($error) {
+    echo rex_view::error($error);
 }
 
 if ('' != $success) {

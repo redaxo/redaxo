@@ -1,6 +1,6 @@
 <?php
 
-// $addon = rex_addon::get('project');
+$addon = rex_addon::get('project');
 
 // register a custom yrewrite scheme
 // rex_yrewrite::setScheme(new rex_project_rewrite_scheme());

@@ -1,6 +1,30 @@
 Changelog
 =========
 
+Version 5.11.1 – 11.11.2020
+---------------------------
+
+### Neu
+
+* REDAXO ist bereits seit 5.10.1 teilweise inkompatibel zu MySQL <= 5.5, daher wurden die DB-Mindestversionen nun explizit hochgesetzt auf MySQL 5.6 / MariaDB 10.1
+* REDAXO 5.11.x ist die letzte Version, die noch zu PHP < 7.3 kompatibel ist, ab REDAXO 5.12 wird die Mindestversion entsprechend hochgesetzt
+* Update der externen Bibliotheken
+
+### Bugfixes
+
+* Systembericht als Markdown: Bei Nutzung des Kopieren-Buttons kam teils ungültiges Markdown heraus wegen Leerzeichen am Anfang (@gharlan)
+* Log: Darstellung "Info"-Meldungen korrigiert (@BlackScorp)
+* Systembericht: Addons ohne Versionsangabe führten zu Fehler (@gharlan)
+* Setup: Es kam teils fälschlich die Warnung, `session.auto_start` wäre aktiv (@gharlan)
+* `rex_sql`:
+    - `getLastId` lieferte im Frontend `0`, wenn der Debugmodus des SQL-Objekts aktiviert war (@gharlan)
+    - `getQueryType` unterstützt Klammern um die Query (@BlackScorp, @staabm)
+* `rex_sql_table`: Abfrage der Fremdschlüssel funktionierte nicht mit MySQL >= 8.0.21 (@gharlan)
+* `rex_markdown`: Generierung der Sprungnavi geht korrekt um mit HTML/Markdown/SpecialChars innerhalb der Überschriften (@jelleschutter, @gharlan)
+* `rex_dir`: `delete` führte zu Warnings, wenn während des rekursiven Löschens bereits von anderen Prozessen wieder neue Dateien in dem Ordner angelegt wurden (@gharlan)
+* `rex_var`: `toArray` ging teils nicht korrekt mit Anführungszeichen im Inhalt um (@portux)
+
+
 Version 5.11.0 – 01.07.2020
 ---------------------------
 

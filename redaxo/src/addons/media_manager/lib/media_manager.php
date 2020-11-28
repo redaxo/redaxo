@@ -147,9 +147,9 @@ class rex_media_manager
         return $effects;
     }
 
-    public function setCachePath($cache_path = '')
+    public function setCachePath($path = '')
     {
-        $this->cache_path = $cache_path;
+        $this->cache_path = $path;
     }
 
     public function getCachePath()
@@ -157,9 +157,9 @@ class rex_media_manager
         return $this->cache_path;
     }
 
-    protected function useCache($t = true)
+    protected function useCache($useCache = true)
     {
-        $this->use_cache = $t;
+        $this->use_cache = $useCache;
     }
 
     /**
@@ -221,12 +221,12 @@ class rex_media_manager
         return $this->cache = rex_file::getCache($this->getHeaderCacheFilename(), null);
     }
 
-    public static function deleteCacheByType($type_id)
+    public static function deleteCacheByType($typeId)
     {
         $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type' . ' WHERE id=?';
         $sql = rex_sql::factory();
         //  $sql->setDebug();
-        $sql->setQuery($qry, [$type_id]);
+        $sql->setQuery($qry, [$typeId]);
         $counter = 0;
         foreach ($sql as $row) {
             $counter += self::deleteCache(null, $row->getValue('name'));
@@ -312,9 +312,7 @@ class rex_media_manager
     }
 
     /**
-     * @return array
-     *
-     * @psalm-return array<class-string<rex_effect_abstract>, string>
+     * @return array<class-string<rex_effect_abstract>, string>
      */
     public static function getSupportedEffects()
     {
@@ -352,7 +350,7 @@ class rex_media_manager
         return str_replace(
             ['effect_', '.php'],
             '',
-            basename($effectFile)
+            rex_path::basename($effectFile)
         );
     }
 
@@ -364,7 +362,7 @@ class rex_media_manager
         return 'rex_' . str_replace(
             '.php',
             '',
-            basename($effectFile)
+            rex_path::basename($effectFile)
         );
     }
 
@@ -407,7 +405,7 @@ class rex_media_manager
         // can be used with REDAXO >= 5.5.1
         // $rex_media_file = rex_path::basename($rex_media_file);
         $rex_media_file = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $rex_media_file);
-        $rex_media_file = basename($rex_media_file);
+        $rex_media_file = rex_path::basename($rex_media_file);
 
         return $rex_media_file;
     }
@@ -422,7 +420,7 @@ class rex_media_manager
         // can be used with REDAXO >= 5.5.1
         // $type = rex_path::basename($type);
         $type = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $type);
-        $type = basename($type);
+        $type = rex_path::basename($type);
 
         return $type;
     }

@@ -90,26 +90,29 @@ class rex_formatter_test extends TestCase
             rex_formatter::bytes($value * 1000 * 1000)
         );
 
-        static::assertEquals(
-            '931,32 GiB',
-            rex_formatter::bytes($value * 1000 * 1000 * 1000)
-        );
+        // in 32 bit php the following tests use too big numbers
+        if (PHP_INT_SIZE > 4) {
+            static::assertEquals(
+                '931,32 GiB',
+                rex_formatter::bytes($value * 1000 * 1000 * 1000)
+            );
 
-        static::assertEquals(
-            '909,49 TiB',
-            rex_formatter::bytes($value * 1000 * 1000 * 1000 * 1000)
-        );
+            static::assertEquals(
+                '909,49 TiB',
+                rex_formatter::bytes($value * 1000 * 1000 * 1000 * 1000)
+            );
 
-        static::assertEquals(
-            '888,18 PiB',
-            rex_formatter::bytes($value * 1000 * 1000 * 1000 * 1000 * 1000)
-        );
+            static::assertEquals(
+                '888,18 PiB',
+                rex_formatter::bytes($value * 1000 * 1000 * 1000 * 1000 * 1000)
+            );
 
-        $format = [5]; // number of signs behind comma
-        static::assertEquals(
-            '953,67432 MiB',
-            rex_formatter::bytes($value * 1000 * 1000, $format)
-        );
+            $format = [5]; // number of signs behind comma
+            static::assertEquals(
+                '953,67432 MiB',
+                rex_formatter::bytes($value * 1000 * 1000, $format)
+            );
+        }
     }
 
     public function testSprintf()
@@ -204,12 +207,10 @@ class rex_formatter_test extends TestCase
 
     public function testCustom()
     {
-        $value = '77';
-
-        $format = 'octdec';
+        $format = 'strtoupper';
         static::assertEquals(
-            63,
-            rex_formatter::custom($value, $format)
+            'TEST',
+            rex_formatter::custom('test', $format)
         );
 
         $format = [
@@ -221,7 +222,7 @@ class rex_formatter_test extends TestCase
 
         static::assertEquals(
             '77 more params',
-            rex_formatter::custom($value, $format)
+            rex_formatter::custom('77', $format)
         );
     }
 }

@@ -33,7 +33,7 @@ class rex_media_category
     /**
      * @param int $id
      *
-     * @return self|null
+     * @return static|null
      */
     public static function get($id)
     {
@@ -43,7 +43,7 @@ class rex_media_category
             return null;
         }
 
-        return self::getInstance($id, static function ($id) {
+        return static::getInstance($id, static function ($id) {
             $cat_path = rex_path::addonCache('mediapool', $id . '.mcat');
             $cache = rex_file::getCache($cat_path);
 
@@ -53,7 +53,7 @@ class rex_media_category
             }
 
             if ($cache) {
-                $cat = new self();
+                $cat = new static();
 
                 $cat->id = $cache['id'];
                 $cat->parent_id = $cache['parent_id'];
@@ -95,7 +95,7 @@ class rex_media_category
             return [];
         }
 
-        return self::getInstanceList([$parentId, 'children'], ['self', 'get'], static function ($parentId) {
+        return self::getInstanceList([$parentId, 'children'], [self::class, 'get'], static function ($parentId) {
             $catlist_path = rex_path::addonCache('mediapool', $parentId . '.mclist');
 
             $list = rex_file::getCache($catlist_path, null);
@@ -135,9 +135,7 @@ class rex_media_category
     /**
      * Returns the path ids of the category as an array.
      *
-     * @return int[]
-     *
-     * @psalm-return list<int>
+     * @return list<int>
      */
     public function getPathAsArray()
     {

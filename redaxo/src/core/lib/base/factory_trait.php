@@ -61,7 +61,7 @@ trait rex_factory_trait
     public static function getFactoryClass()
     {
         $calledClass = static::class;
-        return isset(self::$factoryClasses[$calledClass]) ? self::$factoryClasses[$calledClass] : $calledClass;
+        return self::$factoryClasses[$calledClass] ?? $calledClass;
     }
 
     /**

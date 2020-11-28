@@ -7,12 +7,10 @@ class rex_form_prio_element extends rex_form_select_element
 {
     /** @var string */
     private $labelField;
-    /** @var callable */
+    /** @var callable(string):string */
     private $labelCallback;
     /** @var string */
     private $whereCondition;
-    /** @var string */
-    private $primaryKey;
     /** @var string */
     private $firstOptionMsg;
     /** @var string */
@@ -22,14 +20,13 @@ class rex_form_prio_element extends rex_form_select_element
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
-    public function __construct($tag, rex_form $table, array $attributes = [])
+    public function __construct($tag, rex_form $form, array $attributes = [])
     {
-        parent::__construct('', $table, $attributes);
-        $this->table = $table;
+        parent::__construct('', $form, $attributes);
+        $this->table = $form;
 
         $this->labelField = '';
         $this->whereCondition = '';
-        $this->primaryKey = 'id';
         $this->firstOptionMsg = 'form_field_first_priority';
         $this->optionMsg = 'form_field_after_priority';
         $this->select->setSize(1);
@@ -58,9 +55,12 @@ class rex_form_prio_element extends rex_form_select_element
         $this->whereCondition = $whereCondition;
     }
 
-    public function setPrimaryKey($primaryKey)
+    /**
+     * @deprecated this method has no effect
+     */
+    public function setPrimaryKey()
     {
-        $this->primaryKey = $primaryKey;
+        // nothing todo.. left here for BC reasons
     }
 
     public function formatElement()

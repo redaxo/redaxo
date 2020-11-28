@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "febaf9cb196362dd6e468f31d9877cfb",
+    "content-hash": "5d5e93fe42384283b62c88bd754d7f68",
     "packages": [
         {
             "name": "itsgoingd/clockwork",
-            "version": "v4.1.5",
+            "version": "v4.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/itsgoingd/clockwork.git",
-                "reference": "cd9fcb65e70954f65d50c98a5e8d5782240cbe4e"
+                "reference": "0dc2e5be39de88b18719bb4f3cdacfa605ad2146"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/itsgoingd/clockwork/zipball/cd9fcb65e70954f65d50c98a5e8d5782240cbe4e",
-                "reference": "cd9fcb65e70954f65d50c98a5e8d5782240cbe4e",
+                "url": "https://api.github.com/repos/itsgoingd/clockwork/zipball/0dc2e5be39de88b18719bb4f3cdacfa605ad2146",
+                "reference": "0dc2e5be39de88b18719bb4f3cdacfa605ad2146",
                 "shasum": ""
             },
             "require": {
@@ -63,13 +63,17 @@
                 "profiling",
                 "slim"
             ],
+            "support": {
+                "issues": "https://github.com/itsgoingd/clockwork/issues",
+                "source": "https://github.com/itsgoingd/clockwork/tree/v4.1.8"
+            },
             "funding": [
                 {
                     "url": "https://github.com/itsgoingd",
                     "type": "github"
                 }
             ],
-            "time": "2020-05-29T20:15:59+00:00"
+            "time": "2020-09-17T19:21:25+00:00"
         },
         {
             "name": "psr/log",
@@ -116,6 +120,9 @@
                 "psr",
                 "psr-3"
             ],
+            "support": {
+                "source": "https://github.com/php-fig/log/tree/1.1.3"
+            },
             "time": "2020-03-23T09:12:05+00:00"
         }
     ],
@@ -127,5 +134,8 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "platform-overrides": {
+        "php": "7.3.0"
+    },
+    "plugin-api-version": "2.0.0"
 }

@@ -10,7 +10,7 @@ class rex_sql_test extends TestCase
     public const TABLE = 'rex_tests_table';
     public const VIEW = 'rex_tests_view';
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -31,7 +31,7 @@ class rex_sql_test extends TestCase
         $sql->setQuery('CREATE VIEW `' . self::VIEW . '` AS SELECT * FROM `'.self::TABLE.'`');
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
 
@@ -48,37 +48,32 @@ class rex_sql_test extends TestCase
 
     public function testCheckConnection()
     {
-        $configFile = rex_path::coreData('config.yml');
-        $config = rex_file::getConfig($configFile);
-        static::assertTrue(rex_sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], $config['db'][1]['password'], $config['db'][1]['name']));
+        $dbConfig = rex::getDbConfig();
+        static::assertTrue(rex_sql::checkDbConnection($dbConfig->host, $dbConfig->login, $dbConfig->password, $dbConfig->name));
     }
 
     public function testCheckConnectionInvalidPassword()
     {
-        $configFile = rex_path::coreData('config.yml');
-        $config = rex_file::getConfig($configFile);
-        static::assertTrue(true !== rex_sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], 'fu-password', $config['db'][1]['name']));
+        $dbConfig = rex::getDbConfig();
+        static::assertTrue(true !== rex_sql::checkDbConnection($dbConfig->host, $dbConfig->login, 'fu-password', $dbConfig->name));
     }
 
     public function testCheckConnectionInvalidHost()
     {
-        $configFile = rex_path::coreData('config.yml');
-        $config = rex_file::getConfig($configFile);
-        static::assertTrue(true !== rex_sql::checkDbConnection('fu-host', $config['db'][1]['login'], $config['db'][1]['password'], $config['db'][1]['name']));
+        $dbConfig = rex::getDbConfig();
+        static::assertTrue(true !== rex_sql::checkDbConnection('fu-host', $dbConfig->login, $dbConfig->password, $dbConfig->name));
     }
 
     public function testCheckConnectionInvalidLogin()
     {
-        $configFile = rex_path::coreData('config.yml');
-        $config = rex_file::getConfig($configFile);
-        static::assertTrue(true !== rex_sql::checkDbConnection($config['db'][1]['host'], 'fu-login', $config['db'][1]['password'], $config['db'][1]['name']));
+        $dbConfig = rex::getDbConfig();
+        static::assertTrue(true !== rex_sql::checkDbConnection($dbConfig->host, 'fu-login', $dbConfig->password, $dbConfig->name));
     }
 
     public function testCheckConnectionInvalidDatabase()
     {
-        $configFile = rex_path::coreData('config.yml');
-        $config = rex_file::getConfig($configFile);
-        static::assertTrue(true !== rex_sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], $config['db'][1]['password'], 'fu-database'));
+        $dbConfig = rex::getDbConfig();
+        static::assertTrue(true !== rex_sql::checkDbConnection($dbConfig->host, $dbConfig->login, $dbConfig->password, 'fu-database'));
     }
 
     /**
@@ -459,6 +454,38 @@ class rex_sql_test extends TestCase
         static::assertEquals(1, $sql->getRows());
     }
 
+    public function testGetLastId(): void
+    {
+        $sql = rex_sql::factory();
+
+        static::assertSame('0', $sql->getLastId(), 'Initial value for LastId');
+
+        $sql->setTable(self::TABLE);
+        $sql->setValue('col_int', 5);
+        $sql->setValue('col_str', 'abc');
+        $sql->setValue('col_text', 'mytext');
+        $sql->insert();
+
+        static::assertSame('1', $sql->getLastId(), 'LastId after ->insert()');
+
+        $sql->setTable(self::TABLE);
+        $sql->setWhere(['id' => 1]);
+        $sql->setValue('col_int', 6);
+        $sql->update();
+
+        static::assertSame('0', $sql->getLastId(), 'LastId after ->update()');
+
+        $sql->setQuery('INSERT INTO '.self::TABLE.' SET col_int = 3');
+
+        static::assertSame('2', $sql->getLastId(), 'LastId after second INSERT query');
+
+        $secondSql = rex_sql::factory();
+        $secondSql->setQuery('SELECT * FROM '.self::TABLE);
+
+        static::assertSame('0', $secondSql->getLastId(), 'LastId after SELECT query');
+        static::assertSame('2', $sql->getLastId(), 'LastId still the same in other sql object');
+    }
+
     public function testGetTables()
     {
         $tables = rex_sql::factory()->getTables();
@@ -481,5 +508,33 @@ class rex_sql_test extends TestCase
 
         static::assertContains(self::TABLE, $tables);
         static::assertContains(self::VIEW, $tables);
+    }
+
+    /**
+     * @dataProvider provideGetQueryTypes
+     */
+    public function testGetQueryType(string $query, $expectedQueryType)
+    {
+        $actualQueryType = rex_sql::getQueryType($query);
+        static::assertSame($expectedQueryType, $actualQueryType);
+    }
+
+    public function provideGetQueryTypes(): array
+    {
+        return [
+            ['Select * from testTable', 'SELECT'],
+            ['(select * from testTable) union (select * from testTable)', 'SELECT'],
+            [' ( SELECT * from testTable)', 'SELECT'],
+            ['(DB2) (SELECT * from testTable)', 'SELECT'],
+            ['shOW tables', 'SHOW'],
+            ['update tableName set field=value', 'UPDATE'],
+            ['insert into set field=value', 'INSERT'],
+            ['delete from table', 'DELETE'],
+            ['rePlace into tableName set field=value', 'REPLACE'],
+            ['create tableName', 'CREATE'],
+            ['call someprocedure', 'CALL'],
+            ['optimize tablename', 'OPTIMIZE'],
+            ['dance to the beat :D', false],
+        ];
     }
 }

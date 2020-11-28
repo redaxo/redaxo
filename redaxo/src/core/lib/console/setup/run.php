@@ -319,6 +319,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             $io->success('Database successfully updated');
         } elseif ('import' == $createdb) {
             $import_name = $input->getOption('db-import') ?? $io->askQuestion(new ChoiceQuestion('Please choose a database export', $backups));
+            assert(is_string($import_name));
             if (!in_array($import_name, $backups, true)) {
                 throw new InvalidArgumentException('Unknown import file "'.$import_name.'" specified');
             }
@@ -409,7 +410,10 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 return $password;
             };
 
-            $pwQuestion = new Question('Password');
+            $description = $passwordPolicy->getDescription();
+            $description = $description ? ' ('.$description.')' : '';
+
+            $pwQuestion = new Question('Password'.$description);
             $pwQuestion->setHidden(true);
             $pwQuestion->setValidator($pwValidator);
             $password = $this->getOptionOrAsk(
@@ -505,7 +509,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
      * @param string           $option         cli option name
      * @param string|bool|null $default        default value for ask()
      * @param string|null      $successMessage success message for using the option value
-     * @param callable|null    $validator      validator callback for option value and ask()
+     * @param callable(mixed):mixed|null $validator validator callback for option value and ask()
      *
      * @return mixed
      */
