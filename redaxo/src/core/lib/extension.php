@@ -50,9 +50,13 @@ abstract class rex_extension
                     $extensionPoint->setExtensionParams($params);
                     $subject = call_user_func($extension, $extensionPoint);
                     // Update subject only if the EP is not readonly and the extension has returned something
-                    if (!$extensionPoint->isReadonly() && null !== $subject) {
-                        $extensionPoint->setSubject($subject);
+                    if ($extensionPoint->isReadonly()) {
+                        continue;
                     }
+                    if (null === $subject) {
+                        continue;
+                    }
+                    $extensionPoint->setSubject($subject);
                 }
             }
         });

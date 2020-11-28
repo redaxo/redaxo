@@ -414,14 +414,14 @@ class rex_i18n
     private static function loadFile($dir, $locale)
     {
         $file = $dir.DIRECTORY_SEPARATOR.$locale.'.lang';
-
-        if (
-            ($content = rex_file::get($file)) &&
-            preg_match_all('/^([^=\s]+)\h*=\h*(\S.*)(?<=\S)/m', $content, $matches, PREG_SET_ORDER)
-        ) {
-            foreach ($matches as $match) {
-                self::$msg[$locale][$match[1]] = $match[2];
-            }
+        if (!($content = rex_file::get($file))) {
+            return;
+        }
+        if (!preg_match_all('/^([^=\s]+)\h*=\h*(\S.*)(?<=\S)/m', $content, $matches, PREG_SET_ORDER)) {
+            return;
+        }
+        foreach ($matches as $match) {
+            self::$msg[$locale][$match[1]] = $match[2];
         }
     }
 
