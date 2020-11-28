@@ -26,6 +26,8 @@
  * @psalm-param 'html'|'html_simplified'|'html_attr'|'js'|'css'|'url' $strategy
  *
  * @return mixed
+ *
+ * @psalm-taint-escape html
  */
 function rex_escape($value, $strategy = 'html')
 {

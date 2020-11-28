@@ -57,8 +57,6 @@ class rex_list implements rex_url_provider_interface
      * @psalm-var positive-int
      */
     private $db;
-    /** @var string */
-    private $query;
     /** @var rex_sql */
     private $sql;
     /** @var bool */
@@ -137,7 +135,6 @@ class rex_list implements rex_url_provider_interface
 
         // --------- List Attributes
         $this->db = $db;
-        $this->query = $query;
         $this->sql = rex_sql::factory($db);
         $this->debug = $debug;
         $this->sql->setDebug($this->debug);
