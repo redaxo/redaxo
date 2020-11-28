@@ -46,4 +46,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(Rector\SOLID\Rector\If_\ChangeAndIfToEarlyReturnRector::class);
     $services->set(Rector\SOLID\Rector\If_\ChangeIfElseValueAssignToEarlyReturnRector::class);
     $services->set(Rector\SOLID\Rector\If_\ChangeNestedIfsToEarlyReturnRector::class);
+    $services->set(Rector\SOLID\Rector\If_\RemoveAlwaysElseRector::class);
 };
