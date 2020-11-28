@@ -23,6 +23,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // this list will grow over time.
     // to make sure we can review every transformation and not introduce unseen bugs
     $parameters->set(Option::PATHS, [
+        'redaxo/src/addons/*/lib/',
         'redaxo/src/core/lib/',
     ]);
 
