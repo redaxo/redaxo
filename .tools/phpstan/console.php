@@ -7,7 +7,7 @@ if (!defined('REX_MIN_PHP_VERSION')) {
     $REX['BACKEND_FOLDER'] = 'redaxo';
     $REX['LOAD_PAGE'] = false;
 
-    require __DIR__.'/redaxo/src/core/boot.php';
+    require dirname(__DIR__, 2).'/redaxo/src/core/boot.php';
 }
 
 $application = new rex_console_application();
