@@ -269,10 +269,13 @@ class rex_managed_media
         $this->sourcePath = $path;
 
         $this->asImage = false;
-
-        if (isset($this->image['src']) && is_resource($this->image['src'])) {
-            imagedestroy($this->image['src']);
+        if (!isset($this->image['src'])) {
+            return;
         }
+        if (!is_resource($this->image['src'])) {
+            return;
+        }
+        imagedestroy($this->image['src']);
     }
 
     /**
