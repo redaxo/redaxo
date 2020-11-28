@@ -89,12 +89,10 @@ class rex_pager
     public function getCursor($pageNo = null)
     {
         if (null === $pageNo) {
-            $cursor = rex_request($this->cursorName, 'int', 0);
-        } else {
-            $cursor = $pageNo * $this->rowsPerPage;
+            return rex_request($this->cursorName, 'int', 0);
         }
 
-        return $cursor;
+        return $pageNo * $this->rowsPerPage;
     }
 
     /**
