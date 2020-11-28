@@ -480,7 +480,7 @@ abstract class rex_package_manager
             }
 
             if (!rex_package::exists($packageId)) {
-                $addonId = explode('/', $packageId, 2)[0];
+                [$addonId] = rex_package::splitId($packageId);
                 $jumpToInstaller = '';
                 if (rex_addon::get('install')->isAvailable() && !rex_addon::exists($addonId)) {
                     // package need to be downloaded via installer
