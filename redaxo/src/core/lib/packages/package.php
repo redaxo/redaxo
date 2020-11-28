@@ -349,9 +349,13 @@ abstract class rex_package implements rex_package_interface
     public function clearCache()
     {
         $cache_dir = $this->getCachePath();
-        if (is_dir($cache_dir) && !rex_dir::delete($cache_dir)) {
-            throw new rex_functional_exception($this->i18n('cache_not_writable', $cache_dir));
+        if (!is_dir($cache_dir)) {
+            return;
         }
+        if (rex_dir::delete($cache_dir)) {
+            return;
+        }
+        throw new rex_functional_exception($this->i18n('cache_not_writable', $cache_dir));
     }
 
     public function enlist()
@@ -374,12 +378,19 @@ abstract class rex_package implements rex_package_interface
             rex_autoload::addDirectory($folder . 'vendor');
         }
         $autoload = $this->getProperty('autoload');
-        if (is_array($autoload) && isset($autoload['classes']) && is_array($autoload['classes'])) {
-            foreach ($autoload['classes'] as $dir) {
-                $dir = $this->getPath($dir);
-                if (is_readable($dir)) {
-                    rex_autoload::addDirectory($dir);
-                }
+        if (!is_array($autoload)) {
+            return;
+        }
+        if (!isset($autoload['classes'])) {
+            return;
+        }
+        if (!is_array($autoload['classes'])) {
+            return;
+        }
+        foreach ($autoload['classes'] as $dir) {
+            $dir = $this->getPath($dir);
+            if (is_readable($dir)) {
+                rex_autoload::addDirectory($dir);
             }
         }
     }
