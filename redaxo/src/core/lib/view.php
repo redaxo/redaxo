@@ -221,15 +221,13 @@ class rex_view
             $cssClassMessage .= ' ' . $cssClass;
         }
 
-        $return = '<div class="' . $cssClassMessage . '">' . $message . '</div>';
-
         /*
         $fragment = new rex_fragment();
         $fragment->setVar('class', $cssClass);
         $fragment->setVar('message', $content, false);
         $return = $fragment->parse('message.php');
         */
-        return $return;
+        return '<div class="' . $cssClassMessage . '">' . $message . '</div>';
     }
 
     /**
@@ -248,9 +246,8 @@ class rex_view
         $fragment->setVar('cssClass', $cssClass);
         $fragment->setVar('brand', $brand);
         $fragment->setVar('content', $content, false);
-        $return = $fragment->parse('core/toolbar.php');
 
-        return $return;
+        return $fragment->parse('core/toolbar.php');
     }
 
     /**
@@ -320,9 +317,7 @@ class rex_view
         $fragment->setVar('subtitle', $subtitle, false);
         $return = $fragment->parse('core/page/header.php');
 
-        $return .= rex_extension::registerPoint(new rex_extension_point('PAGE_TITLE_SHOWN', ''));
-
-        return $return;
+        return $return . rex_extension::registerPoint(new rex_extension_point('PAGE_TITLE_SHOWN', ''));
     }
 
     /**

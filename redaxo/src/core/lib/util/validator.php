@@ -95,10 +95,8 @@ class rex_validator
         foreach ($this->rules as $rule) {
             $type = $rule->getType();
 
-            if ('' === $value) {
-                if ('notempty' !== strtolower($type)) {
-                    continue;
-                }
+            if ('' === $value && 'notempty' !== strtolower($type)) {
+                continue;
             }
 
             if (!$this->$type($value, $rule->getOption())) {

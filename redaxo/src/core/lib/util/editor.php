@@ -76,12 +76,10 @@ class rex_editor
             $editorUrl = str_replace('%f', $filePath, $editorUrl);
         }
 
-        $editorUrl = rex_extension::registerPoint(new rex_extension_point('EDITOR_URL', $editorUrl, [
+        return rex_extension::registerPoint(new rex_extension_point('EDITOR_URL', $editorUrl, [
             'file' => $filePath,
             'line' => $line,
         ]));
-
-        return $editorUrl;
     }
 
     /**
