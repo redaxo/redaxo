@@ -32,8 +32,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         'redaxo/src/core/lib/util/version.php',
     ]);
 
-    // todo
-    // $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersion::PHP_7_3);
+    $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersion::PHP_7_3);
 
     // get services (needed for register a single rule)
     $services = $containerConfigurator->services();
