@@ -228,12 +228,13 @@ class rex_response
      * @param null|string $filename           Filename
      * @param null|string $cacheControl       Cache Control
      */
-    public static function sendResource($content, $contentType = null, $lastModified = null, $etag = null, $contentDisposition = null, $filename = null, $cacheControl = 'must-revalidate, proxy-revalidate, private, no-cache, max-age=0')
+    public static function sendResource($content, $contentType = null, $lastModified = null, $etag = null, $contentDisposition = null, $filename = null)
     {
         if ($contentDisposition) {
             header('Content-Disposition: ' . $contentDisposition . '; filename="' . $filename . '"');
         }
 
+        self::sendCacheControl('must-revalidate, proxy-revalidate, private, no-cache, max-age=0'); 
         self::sendCacheControl($cacheControl);
         self::sendContent($content, $contentType, $lastModified, $etag);
     }
