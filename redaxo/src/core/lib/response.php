@@ -234,7 +234,9 @@ class rex_response
             header('Content-Disposition: ' . $contentDisposition . '; filename="' . $filename . '"');
         }
 
-        self::sendCacheControl();
+        if (!self::$sentCacheControl) {
+            self::sendCacheControl();
+        }
         self::sendContent($content, $contentType, $lastModified, $etag);
     }
 
