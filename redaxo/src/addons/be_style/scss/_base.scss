@@ -234,6 +234,10 @@ body:after {
 }
 .rex-nav-top {
 
+    .navbar-toggle {
+        display: none;
+    }
+
     .rex-is-popup & {
         min-height: $top-popup-navbar-height;
     }
