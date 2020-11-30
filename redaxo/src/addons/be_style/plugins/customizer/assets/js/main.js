@@ -120,7 +120,10 @@ Customizer.init = function (container) {
     });
 
     if (typeof rex.customizer_labelcolor !== "undefined" && rex.customizer_labelcolor != '') {
-        $('.rex-nav-top').css('border-bottom-color', rex.customizer_labelcolor);
+        $('.rex-nav-top .navbar').css({
+            'border-bottom': '5px solid transparent',
+            'border-bottom-color': rex.customizer_labelcolor
+        });
     }
 
     if (typeof rex.customizer_showlink !== "undefined" && rex.customizer_showlink != '' && !$('.be-style-customizer-title').length) {

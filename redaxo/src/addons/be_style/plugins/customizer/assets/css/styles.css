@@ -1,10 +1,15 @@
 .be-style-customizer-title {
     position: absolute;
     top: 0;
-    left: 235px;
+    left: 250px;
     margin: 0;
     line-height: 0;
     white-space: nowrap;
+}
+@media (max-width: 1199px) {
+    .be-style-customizer-title {
+        left: 235px;
+    }
 }
 .be-style-customizer-title a {
     display: block;
