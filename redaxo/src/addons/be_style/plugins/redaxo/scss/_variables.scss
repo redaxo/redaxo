@@ -1,4 +1,4 @@
-$top-navbar-height: 70px;
+$top-navbar-height: 50px;
 $top-popup-navbar-height: 50px;
 $helper-factor-spacing: 40px;
 
@@ -18,12 +18,12 @@ $color-b:           #4b9ad9;
 $color-c-light:     #fbffd6;
 
 // Green
-$color-d-lighter:   #e0f5ee;
-$color-d-light:     #95e0cc;
-$color-d:           #3bb594;
+$color-d-lighter:   #e9f5ef;
+$color-d-light:     #96e0b9;
+$color-d:           #5bb585;
 
 
-$color-online:      #3bb594;
+$color-online:      #12b55e;
 $color-offline:     #d9534f; // is $brand-danger
 
 
@@ -118,13 +118,13 @@ $link-hover-decoration: underline !default;
 //
 //## Font, line-height, and color for body text, headings, and more.
 
-$font-family-sans-serif:  "Lucida Grande", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$font-family-sans-serif:  -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif !default;
 $font-family-serif:       Georgia, "Times New Roman", Times, serif !default;
 //** Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
 $font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace !default;
 $font-family-base:        $font-family-sans-serif !default;
 
-$font-size-base:          14px !default;
+$font-size-base:          15px !default;
 $font-size-large:         ceil(($font-size-base * 1.25)) !default; // ~18px
 $font-size-small:         ceil(($font-size-base * 0.85)) !default; // ~12px
 $font-size-xs:            ceil(($font-size-base * 0.85)) !default; // ~12px
