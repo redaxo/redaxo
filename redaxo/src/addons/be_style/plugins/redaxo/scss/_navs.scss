@@ -102,6 +102,16 @@
                 background-color: $color-a-darker;
             }
         }
+
+        &.rex-has-icon {
+            > a {
+                > .rex-icon {
+                    // slighly adjust position to improve visual appeal
+                    margin-left: -28px;
+                    margin-right: 3px;
+                }
+            }
+        }
     }
 
 
