@@ -402,12 +402,6 @@ class rex_be_controller
     {
         $currentPage = self::getCurrentPageObject();
 
-        if (rex_request::isPJAXRequest() && !rex_request::isPJAXContainer('#rex-js-page-container')) {
-            // non-core pjax containers should not have a layout.
-            // they render their whole response on their own
-            $currentPage->setHasLayout(false);
-        }
-
         rex_timer::measure('Layout: top.php', function () {
             require rex_path::core('layout/top.php');
         });
