@@ -5,5 +5,5 @@
  */
 ?>
 <div class="rex-branding">
-    <img class="rex-js-svg rex-redaxo-logo" src="<?= rex_url::coreAssets('redaxo-logo.svg') ?>" alt="REDAXO" />
+    <?= rex_file::get(rex_url::coreAssets('redaxo-logo.svg')) ?>
 </div>
