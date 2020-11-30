@@ -1,12 +1,16 @@
-
+// import addon mixins
 @import "../../../vendor/bootstrap/assets/stylesheets/bootstrap/_mixins";
 @import "../../../scss/mixins/buttons";
 @import "../../../scss/mixins/form";
 @import "../../../scss/mixins/helper";
 
+// import plugin mixins
+@import "mixins/helper";
 
+// reset
 @import "reset";
 
+// components
 @import "variables";
 @import "scaffolding";
 @import "alerts";
