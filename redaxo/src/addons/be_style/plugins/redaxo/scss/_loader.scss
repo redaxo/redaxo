@@ -1,155 +1,73 @@
+$loader-color-bgr: $color-b;
+$loader-color-bar-1: saturate($color-b, 20%);
+$loader-color-bar-2: $color-d;
+
 .rex-ajax-loader {
-    position: fixed;
-    top: 0;
+    background: none;
+    display: none;
+    position: absolute;
+
+    .rex-visible & {
+        display: block;
+    }
+}
+
+.rex-ajax-loader-element {
+    position: absolute;
+    z-index: 1990;
+    bottom: -5px;
     left: 0;
     right: 0;
-    bottom: 0;
-    z-index: 1990;
-    background: none;
+    height: 3px;
+    background: rgba($loader-color-bgr, 0.5);
+    overflow: hidden;
 
-    &.rex-visible::after {
+    &::before,
+    &::after {
         content: '';
         position: absolute;
         top: 0;
         left: 0;
         bottom: 0;
-        right: 0;
-        display: block;
-        background-color: rgba(40, 53, 66, 0.4);
-    }
-}
-.rex-ajax-loader-elements {
-    display: block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    right: auto;
-    bottom: auto;
-    z-index: 2000;
-    width: 40px;
-    height: 40px;
-    margin-top: -20px;
-    margin-left: -20px;
-    background: none;
-    -webkit-transform: rotateZ(45deg);
-        -ms-transform: rotateZ(45deg); // IE9 only
-         -o-transform: rotateZ(45deg);
-            transform: rotateZ(45deg);
-
-    .rex-ajax-loader-element1,
-    .rex-ajax-loader-element2,
-    .rex-ajax-loader-element3,
-    .rex-ajax-loader-element4 {
-        display: block;
-    }
-    .rex-ajax-loader-element5 {
-        display: none;
     }
 
-    .rex-ajax-loader-element {
-        float: left;
-        width: 50%;
-        height: 50%;
-        position: relative;
-        @include scale(1.1);
+    &::before {
+        background-color: $loader-color-bar-1;
+        animation: rex-ajax-loader-bar-1 3000ms cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+    }
 
-        &:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: $color-a-darker;
-            @include animation(rex-ajax-loader-foldCubeAngle 2.4s infinite linear both);
-            @include transform-origin(100% 100%);
-        }
-    }
-    .rex-ajax-loader-element2 {
-        -webkit-transform: scale(1.1) rotateZ(90deg);
-            -ms-transform: scale(1.1) rotateZ(90deg); // IE9 only
-             -o-transform: scale(1.1) rotateZ(90deg);
-                transform: scale(1.1) rotateZ(90deg);
-    }
-    .rex-ajax-loader-element3 {
-        -webkit-transform: scale(1.1) rotateZ(270deg);
-            -ms-transform: scale(1.1) rotateZ(270deg); // IE9 only
-             -o-transform: scale(1.1) rotateZ(270deg);
-                transform: scale(1.1) rotateZ(270deg);
-    }
-    .rex-ajax-loader-element4 {
-        -webkit-transform: scale(1.1) rotateZ(180deg);
-            -ms-transform: scale(1.1) rotateZ(180deg); // IE9 only
-             -o-transform: scale(1.1) rotateZ(180deg);
-                transform: scale(1.1) rotateZ(180deg);
-    }
-    .rex-ajax-loader-element2:before {
-        @include animation-delay(0.3s);
-    }
-    .rex-ajax-loader-element3:before {
-        @include animation-delay(0.9s);
-    }
-    .rex-ajax-loader-element4:before {
-        @include animation-delay(0.6s);
-    }
-}
-@-webkit-keyframes rex-ajax-loader-foldCubeAngle {
-    0%, 10% {
-        -webkit-transform: perspective(140px) rotateX(-180deg);
-            -ms-transform: perspective(140px) rotateX(-180deg); // IE9 only
-             -o-transform: perspective(140px) rotateX(-180deg);
-                transform: perspective(140px) rotateX(-180deg);
-        opacity: 0;
-    } 25%, 75% {
-        -webkit-transform: perspective(140px) rotateX(0deg);
-            -ms-transform: perspective(140px) rotateX(0deg); // IE9 only
-             -o-transform: perspective(140px) rotateX(0deg);
-                transform: perspective(140px) rotateX(0deg);
-        opacity: 1;
-    } 90%, 100% {
-        -webkit-transform: perspective(140px) rotateY(180deg);
-            -ms-transform: perspective(140px) rotateY(180deg); // IE9 only
-             -o-transform: perspective(140px) rotateY(180deg);
-                transform: perspective(140px) rotateY(180deg);
-        opacity: 0;
+    &::after {
+        background-color: $loader-color-bar-2;
+        animation: rex-ajax-loader-bar-2 3000ms cubic-bezier(0.165, 0.84, 0.44, 1) 1500ms infinite;
     }
 }
 
-@keyframes rex-ajax-loader-foldCubeAngle {
-    0%, 10% {
-        -webkit-transform: perspective(140px) rotateX(-180deg);
-            -ms-transform: perspective(140px) rotateX(-180deg); // IE9 only
-             -o-transform: perspective(140px) rotateX(-180deg);
-                transform: perspective(140px) rotateX(-180deg);
-        opacity: 0;
-    } 25%, 75% {
-        -webkit-transform: perspective(140px) rotateX(0deg);
-            -ms-transform: perspective(140px) rotateX(0deg); // IE9 only
-             -o-transform: perspective(140px) rotateX(0deg);
-                transform: perspective(140px) rotateX(0deg);
-        opacity: 1;
-    } 90%, 100% {
-        -webkit-transform: perspective(140px) rotateY(180deg);
-            -ms-transform: perspective(140px) rotateY(180deg); // IE9 only
-             -o-transform: perspective(140px) rotateY(180deg);
-                transform: perspective(140px) rotateY(180deg);
-        opacity: 0;
-    }
-}
-
-.rex-ajax-loader.rex-visible::after,
-.rex-ajax-loader.rex-visible .rex-ajax-loader-elements {
-    animation: rex-ajax-loader-fade-in 500ms linear;
-}
-
-@keyframes rex-ajax-loader-fade-in {
+@keyframes rex-ajax-loader-bar-1 {
     0% {
-        opacity: 0;
+        left: -35%;
+        right: 100%;
     }
-    70% {
-        opacity: 0;
+    60% {
+        left: 100%;
+        right: -90%;
     }
     100% {
-        opacity: 1;
+        left: 100%;
+        right: -90%;
+    }
+}
+
+@keyframes rex-ajax-loader-bar-2 {
+    0% {
+        left: -200%;
+        right: 100%;
+    }
+    60% {
+        left: 107%;
+        right: -8%;
+    }
+    100% {
+        left: 107%;
+        right: -8%;
     }
 }
