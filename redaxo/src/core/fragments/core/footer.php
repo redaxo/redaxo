@@ -4,7 +4,7 @@
  * @psalm-scope-this rex_fragment
  */
 ?>
-    <footer class="rex-global-footer">
+    <footer id="rex-js-global-footer" class="rex-global-footer">
         <nav class="rex-nav-footer">
             <ul class="list-inline">
                 <li><a href="#rex-start-of-page"><i class="fa fa-arrow-up"></i></a></li>
