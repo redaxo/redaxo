@@ -210,29 +210,26 @@ class rex_backup
             }
         }
 
-        // generated neu erstellen, wenn kein Fehler aufgetreten ist
-        if ('' == $error) {
-            // delete cache before EP to avoid obsolete caches while running extensions
-            rex_delete_cache();
+        // delete cache before EP to avoid obsolete caches while running extensions
+        rex_delete_cache();
 
-            // refresh rex_config with new values from database
-            rex_config::refresh();
+        // refresh rex_config with new values from database
+        rex_config::refresh();
 
-            // ----- EXTENSION POINT
-            $msg = rex_extension::registerPoint(new rex_extension_point('BACKUP_AFTER_DB_IMPORT', $msg, [
-                'content' => $conts,
-                'filename' => $filename,
-                'filesize' => $filesize,
-            ]));
+        // ----- EXTENSION POINT
+        $msg = rex_extension::registerPoint(new rex_extension_point('BACKUP_AFTER_DB_IMPORT', $msg, [
+            'content' => $conts,
+            'filename' => $filename,
+            'filesize' => $filesize,
+        ]));
 
-            // require import skript to do some userside-magic
-            self::importScript(str_replace('.sql', '.php', $filename), self::IMPORT_DB, self::IMPORT_EVENT_POST);
+        // require import skript to do some userside-magic
+        self::importScript(str_replace('.sql', '.php', $filename), self::IMPORT_DB, self::IMPORT_EVENT_POST);
 
-            // delete cache again because the extensions and the php script could have changed data again
-            $msg .= rex_delete_cache();
-            $return['state'] = true;
-        }
+        // delete cache again because the extensions and the php script could have changed data again
+        $msg .= rex_delete_cache();
 
+        $return['state'] = true;
         $return['message'] = $msg;
 
         return $return;
