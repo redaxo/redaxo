@@ -109,6 +109,16 @@ $transitionDuration: 200ms;
 .navbar-header {
     position: relative;
 
+    @media (max-width: $grid-float-breakpoint-max) {
+        opacity: 1;
+        transition: opacity $transitionDuration * 2 $easeInOutCubic $transitionDuration * 2;
+
+        .rex-nav-main-is-visible & {
+            opacity: 0;
+            transition: opacity $transitionDuration * 2 $easeInOutCubic;
+        }
+    }
+
     .rex-is-popup & {
         margin-left: 0;
         margin-right: 0;
@@ -264,16 +274,6 @@ $transitionDuration: 200ms;
             padding: 6px 5px 5px 5px; // 6px top to improve visual alignment
             margin-left: -5px;
             border-radius: $top-navbar-height;
-
-            @media (max-width: $grid-float-breakpoint-max) {
-                opacity: 1;
-                transition: opacity $transitionDuration * 2 $easeInOutCubic $transitionDuration * 2;
-
-                .rex-nav-main-is-visible& {
-                    opacity: 0;
-                    transition: opacity $transitionDuration * 2 $easeInOutCubic;
-                }
-            }
         }
 
         .rex-nav-meta {
