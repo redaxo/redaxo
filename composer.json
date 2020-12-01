@@ -26,7 +26,7 @@
         "erusev/parsedown-extra": "0.8.1",
         "filp/whoops": "2.9.1",
         "itsgoingd/clockwork": "v4.1.8",
-        "phpmailer/phpmailer": "v6.1.8",
+        "phpmailer/phpmailer": "v6.2.0",
         "psr/container": "1.0.0",
         "psr/http-message": "1.0.1",
         "psr/log": "1.1.3",

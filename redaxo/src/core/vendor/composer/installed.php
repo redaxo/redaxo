@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'a9c0f9c3d0e8e14c99ab3c8ef7ff706dcaa36fae',
+    'reference' => '7da6e657ebec340f1c739f0f9a74560f7026315e',
     'name' => '__root__',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'a9c0f9c3d0e8e14c99ab3c8ef7ff706dcaa36fae',
+      'reference' => '7da6e657ebec340f1c739f0f9a74560f7026315e',
     ),
     'erusev/parsedown' => 
     array (
