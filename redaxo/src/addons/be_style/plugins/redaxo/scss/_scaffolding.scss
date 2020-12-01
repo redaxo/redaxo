@@ -96,7 +96,8 @@ html {
 
 .rex-marker-debugmode {
     position: absolute;
-    transform: translate(0, -5px);
+    top: 10px;
+    right: -22px;
     line-height: 0;
     border-radius: 100px;
     padding: 5px;
@@ -105,12 +106,6 @@ html {
     &:hover,
     &:focus {
         color: darken(#f90, 3%);
-    }
-
-    @media (min-width: $grid-float-breakpoint) {
-        transform: translate(0);
-        top: 23px;
-        right: -28px;
     }
 }
 
