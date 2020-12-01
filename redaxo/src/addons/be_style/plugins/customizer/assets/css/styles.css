@@ -1,6 +1,7 @@
 .be-style-customizer-title {
     position: absolute;
-    top: 0;
+    top: 50%;
+    transform: translateY(-50%);
     left: 250px;
     margin: 0;
     line-height: 0;
@@ -41,9 +42,10 @@
 }
 @media (max-width: 991px) {
     .be-style-customizer-title {
-        left: auto;
-        top: -4px;
-        right: 40px;
+        top: 50%;
+        left: 50%;
+        /* center inside brand element, move to the right half the viewport size (50vw), move back by itself (100%) and 10 px */
+        transform: translate(calc(50vw - 100% - 10px), -50%);
         font-size: 20px;
     }
     .be-style-customizer-title-name {
