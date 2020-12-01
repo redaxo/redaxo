@@ -632,8 +632,8 @@ jQuery(document).ready(function ($) {
     // https://github.com/MoOx/pjax
     pjax = new Pjax({
         elements: [
-            '[data-pjax-container] a:not([data-pjax-disabled])', 'a[data-pjax]',
-            '[data-pjax-container] form:not([data-pjax-disabled])', 'form[data-pjax]',
+            '[data-pjax-container] a:not([data-pjax=\'false\'])', 'a[data-pjax]:not([data-pjax=\'false\'])',
+            '[data-pjax-container] form:not([data-pjax=\'false\'])', 'form[data-pjax]:not([data-pjax=\'false\'])',
         ],
         selectors: [
             'title',
