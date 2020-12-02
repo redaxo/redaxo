@@ -458,6 +458,15 @@ $transitionDuration: 200ms;
     }
 }
 
+#rex-page-setup {
+    .rex-nav-top .container-fluid {
+        @media (min-width: $grid-float-breakpoint) {
+            // navbar is left aligned on setup page
+            justify-content: flex-start;
+        }
+    }
+}
+
 .rex-slice-input .nav-tabs {
     margin-bottom: $line-height-computed;
 }
