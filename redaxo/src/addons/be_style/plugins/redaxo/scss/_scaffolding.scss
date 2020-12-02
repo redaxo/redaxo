@@ -65,8 +65,7 @@ html {
 }
 
 .rex-redaxo-logo {
-    height: 23px;
-    transform: translateY(-1px); // slightly improve visual alignment
+    height: 22px;
 
     path.rex-redaxo-logo-r,
     path.rex-redaxo-logo-e,
@@ -90,7 +89,7 @@ html {
     }
 
     .rex-is-popup & {
-        height: 23px;
+        height: 22px;
     }
 }
 
