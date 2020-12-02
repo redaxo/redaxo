@@ -4,7 +4,7 @@
     // scroll to current sidebar navigation item
     function scrollToCurrentNavigationItem() {
         var currentItem = document.querySelector('#rex-js-nav-main li.active');
-        var scrollItem = document.querySelector('#rex-js-nav-main');
+        var scrollItem = document.querySelector('#rex-js-nav-main nav');
         var isInViewport = currentItem.getBoundingClientRect().bottom < window.innerHeight;
         scrollItem.scrollTop = currentItem && !isInViewport ? currentItem.getBoundingClientRect().top - (window.innerHeight - currentItem.offsetHeight) / 2 : 0;
     }

@@ -637,14 +637,14 @@ jQuery(document).ready(function ($) {
         ],
         selectors: [
             'title',
-            '#rex-js-nav-top .navbar', // top navigation
-            '#rex-js-nav-main', // main navigation
+            '#rex-js-nav-top nav', // top navigation
+            '#rex-js-nav-main nav', // main navigation
             '#rex-js-page-main', // page content
             '#rex-js-global-footer', // footer
         ],
         switches: {
             // navigation: switch inner HTML only to keep scroll position
-            '#rex-js-nav-main': Pjax.switches.innerHTML,
+            '#rex-js-nav-main nav': Pjax.switches.innerHTML,
         },
         cacheBust: pjaxDefaultConfig.cacheBust,
         history: pjaxDefaultConfig.history,

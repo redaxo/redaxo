@@ -23,6 +23,16 @@ $transitionDuration: 200ms;
         margin-left: $grid-gutter-width;
     }
 }
+
+// requires more specificity
+.rex-is-logged-in,
+#rex-page-setup {
+
+    .rex-nav-main {
+        padding: 0;
+    }
+}
+
 .rex-nav-main {
     position: fixed;
     z-index: $zindex-navbar-fixed - 1;
@@ -31,10 +41,7 @@ $transitionDuration: 200ms;
     right: auto;
     bottom: 0;
     width: 250px;
-    overflow: hidden;
-    overflow-y: auto;
     background-color: $color-a-dark;
-    padding: 0;
 
     @media (max-width: $grid-float-breakpoint-max) {
         transform: translateX(-251px);
@@ -46,8 +53,28 @@ $transitionDuration: 200ms;
         }
     }
 
+    // scroll shadow
+    &::before {
+        content: '';
+        position: absolute;
+        z-index: 1;
+        left: 0;
+        right: 0;
+        top: -50px;
+        height: 50px;
+        box-shadow: 0 -5px 20px 5px rgba($color-a-dark, 0.5);
+        clip-path: polygon(0 0, 100% 0, 100% 200%, 0 200%); // clip right
+    }
+
     .rex-nav-main-navigation {
-        padding-bottom: $grid-gutter-width;
+        display: block;
+        height: 100%;
+        overflow: hidden;
+        overflow-y: auto;
+
+        div {
+            padding-bottom: $grid-gutter-width;
+        }
     }
 
     h4 {
