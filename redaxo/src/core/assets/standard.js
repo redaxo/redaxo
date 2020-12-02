@@ -728,6 +728,12 @@ const handleClickAndSubmitEvents = function (event) {
     if (event.target.matches('[data-pjax-state]')) {
         let wrapper;
 
+        // handle links with pjax disabled
+        wrapper = event.target.closest('[data-pjax-container]');
+        if (wrapper && wrapper.dataset.pjaxContainer === 'false') {
+            event.stopPropagation();
+        }
+
         // handle (no) history via data attribute
         wrapper = event.target.closest('[data-pjax-no-history]');
         if (wrapper && wrapper.dataset.pjaxNoHistory === '1') {
