@@ -5,11 +5,7 @@
       <code>$filename</code>
       <code>$filename</code>
     </TaintedFile>
-    <TaintedInclude occurrences="9">
-      <code>$filename</code>
-      <code>$filename</code>
-      <code>$filename</code>
-      <code>$filename</code>
+    <TaintedInclude occurrences="5">
       <code>$filename</code>
       <code>$filename</code>
       <code>$filename</code>
@@ -116,10 +112,7 @@
     </TaintedHtml>
   </file>
   <file src="redaxo/src/core/lib/form/form_base.php">
-    <TaintedHeader occurrences="4">
-      <code>'Location: ' . $this-&gt;applyUrl . $paramString</code>
-      <code>'Location: ' . $this-&gt;applyUrl . $paramString</code>
-      <code>'Location: ' . $this-&gt;applyUrl . $paramString</code>
+    <TaintedHeader occurrences="1">
       <code>'Location: ' . $this-&gt;applyUrl . $paramString</code>
     </TaintedHeader>
     <TaintedHtml occurrences="2">
@@ -138,19 +131,13 @@
     </TaintedHeader>
   </file>
   <file src="redaxo/src/core/lib/sql/sql.php">
-    <TaintedSql occurrences="6">
-      <code>$query</code>
-      <code>$query</code>
-      <code>$query</code>
-      <code>$query</code>
+    <TaintedSql occurrences="2">
       <code>$query</code>
       <code>$query</code>
     </TaintedSql>
   </file>
   <file src="redaxo/src/core/lib/util/file.php">
-    <TaintedFile occurrences="7">
-      <code>$file</code>
-      <code>$file</code>
+    <TaintedFile occurrences="5">
       <code>$file</code>
       <code>$file</code>
       <code>$file</code>
