@@ -61,7 +61,7 @@ class rex_install_archive
     public static function copyDirToArchive($dir, $archive, $basename = null, $exclude = null)
     {
         $dir = rtrim($dir, '/\\');
-        $basename = $basename ?: basename($dir);
+        $basename = $basename ?: rex_path::basename($dir);
         rex_dir::create(dirname($archive));
         $files = [];
         $iterator = rex_finder::factory($dir)->recursive()->filesOnly();

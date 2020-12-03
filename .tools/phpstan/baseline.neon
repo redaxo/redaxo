@@ -126,14 +126,9 @@ parameters:
 			path: ../../redaxo/src/addons/structure/plugins/version/boot.php
 
 		-
-			message: "#^If condition is always true\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/lib/api_function.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			message: "#^Offset 'href' on array\\(\\?'active' \\=\\> true, 'href' \\=\\> string, \\?'itemAttr' \\=\\> array\\('class' \\=\\> array\\('bg\\-success'\\)\\)\\) in isset\\(\\) always exists and is not nullable\\.$#"
 			count: 1
-			path: ../../redaxo/src/core/lib/api_function.php
+			path: ../../redaxo/src/core/layout/top.php
 
 		-
 			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
@@ -142,6 +137,11 @@ parameters:
 
 		-
 			message: "#^Left side of && is always true\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/api_function.php
+
+		-
+			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/api_function.php
 
@@ -172,6 +172,11 @@ parameters:
 
 		-
 			message: "#^Method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) should return array\\<T of object\\> but returns array\\<int, mixed\\>\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
+
+		-
+			message: "#^Property rex_test_instance_list_pool\\:\\:\\$id is never read, only written\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
 
@@ -246,6 +251,11 @@ parameters:
 			path: ../../redaxo/src/core/lib/config.php
 
 		-
+			message: "#^Property rex_command_setup_run\\:\\:\\$output is never read, only written\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/console/setup/run.php
+
+		-
 			message: "#^Parameter \\#1 \\$exception_handler of function set_exception_handler expects \\(callable\\(Throwable\\)\\: void\\)\\|null, array\\('rex_error_handler', 'handleException'\\) given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/error_handler.php
@@ -301,6 +311,21 @@ parameters:
 			path: ../../redaxo/src/core/lib/login/login.php
 
 		-
+			message: "#^Offset 'install' on array\\('install' \\=\\> bool, \\?'status' \\=\\> bool, \\?'plugins' \\=\\> array\\<int\\|string, array\\('install' \\=\\> bool, 'status' \\=\\> bool\\)\\>\\) on left side of \\?\\? always exists and is not nullable\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/packages/addons/addon.php
+
+		-
+			message: "#^Offset 'install' on array\\('install' \\=\\> bool, 'status' \\=\\> bool\\) on left side of \\?\\? always exists and is not nullable\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/packages/addons/addon.php
+
+		-
+			message: "#^Offset 'status' on array\\('install' \\=\\> bool, 'status' \\=\\> bool\\) on left side of \\?\\? always exists and is not nullable\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/packages/addons/addon.php
+
+		-
 			message: "#^Strict comparison using \\!\\=\\= between false and false will always evaluate to false\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/sql/sql.php
@@ -322,6 +347,11 @@ parameters:
 
 		-
 			message: "#^Result of && is always false\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/util/socket/socket.php
+
+		-
+			message: "#^Offset 'timed_out' on array\\('timed_out' \\=\\> bool, 'blocked' \\=\\> bool, 'eof' \\=\\> bool, 'unread_bytes' \\=\\> int, 'stream_type' \\=\\> string, 'wrapper_type' \\=\\> string, 'wrapper_data' \\=\\> mixed, 'mode' \\=\\> string, \\.\\.\\.\\) in isset\\(\\) always exists and is not nullable\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/socket/socket.php
 

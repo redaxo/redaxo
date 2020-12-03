@@ -24,12 +24,10 @@ class rex_api_article_move extends rex_api_function
             $user->getComplexPerm('structure')->hasCategoryPerm($category_id_new)
         ) {
             if (rex_article_service::moveArticle($article_id, $category_id, $category_id_new)) {
-                $result = new rex_api_result(true, rex_i18n::msg('content_articlemoved'));
-            } else {
-                $result = new rex_api_result(false, rex_i18n::msg('content_errormovearticle'));
+                return new rex_api_result(true, rex_i18n::msg('content_articlemoved'));
             }
 
-            return $result;
+            return new rex_api_result(false, rex_i18n::msg('content_errormovearticle'));
         }
 
         throw new rex_api_exception(rex_i18n::msg('no_rights_to_this_function'));

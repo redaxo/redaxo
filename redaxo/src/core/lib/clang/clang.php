@@ -18,7 +18,7 @@ class rex_clang
      */
     private static $clangs = [];
     /**
-     * @var int
+     * @var int|null
      */
     private static $currentId;
 

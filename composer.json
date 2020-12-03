@@ -12,27 +12,28 @@
         "j13k/yaml-lint": "^1.1@dev",
         "nunomaduro/collision": "^5.1",
         "phpstan/extension-installer": "1.0.5",
-        "phpstan/phpstan": "0.12.56",
+        "phpstan/phpstan": "0.12.58",
         "phpstan/phpstan-deprecation-rules": "0.12.5",
         "phpstan/phpstan-phpunit": "0.12.16",
+        "phpstan/phpstan-symfony": "0.12.11",
         "phpunit/phpunit": "^9.3",
         "psalm/plugin-phpunit": "0.13.0",
         "psalm/plugin-symfony": "2.0.2",
-        "vimeo/psalm": "4.2.1"
+        "vimeo/psalm": "4.3.0"
     },
     "replace": {
         "erusev/parsedown": "1.7.4",
         "erusev/parsedown-extra": "0.8.1",
         "filp/whoops": "2.9.1",
         "itsgoingd/clockwork": "v4.1.8",
-        "phpmailer/phpmailer": "v6.1.8",
+        "phpmailer/phpmailer": "v6.2.0",
         "psr/container": "1.0.0",
         "psr/http-message": "1.0.1",
         "psr/log": "1.1.3",
         "ramsey/collection": "1.1.1",
         "ramsey/http-range": "1.0.0",
         "scssphp/scssphp": "v1.4.0",
-        "symfony/console": "v5.1.8",
+        "symfony/console": "v5.2.0",
         "symfony/deprecation-contracts": "v2.2.0",
         "symfony/polyfill-ctype": "v1.20.0",
         "symfony/polyfill-intl-grapheme": "v1.20.0",
@@ -43,12 +44,12 @@
         "symfony/polyfill-php73": "*",
         "symfony/polyfill-php80": "v1.20.0",
         "symfony/service-contracts": "v2.2.0",
-        "symfony/string": "v5.1.8",
-        "symfony/var-dumper": "v5.1.8",
-        "symfony/yaml": "v5.1.8",
-        "voku/anti-xss": "4.1.29",
-        "voku/portable-ascii": "1.5.4",
-        "voku/portable-utf8": "5.4.48"
+        "symfony/string": "v5.2.0",
+        "symfony/var-dumper": "v5.2.0",
+        "symfony/yaml": "v5.2.0",
+        "voku/anti-xss": "4.1.30",
+        "voku/portable-ascii": "1.5.6",
+        "voku/portable-utf8": "5.4.50"
     },
     "autoload": {
         "classmap": [
@@ -108,8 +109,8 @@
         "phpstan-baseline": "phpstan analyse --generate-baseline .tools/phpstan/baseline.neon",
         "psalm": "psalm --use-baseline=.tools/psalm/baseline.xml",
         "psalm-baseline": "psalm --set-baseline=.tools/psalm/baseline.xml",
-        "taint": "psalm --use-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache",
-        "taint-baseline": "psalm --set-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache || git checkout -- psalm.xml",
+        "taint": "psalm --use-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache --threads=1",
+        "taint-baseline": "psalm --set-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache --threads=1 || git checkout -- psalm.xml",
         "sa": [
             "@phpstan",
             "@psalm"
@@ -119,6 +120,9 @@
             "@sa",
             "@phpunit",
             "@taint"
+        ],
+        "rector": [
+            "rector process --config=.tools/rector/rector.php"
         ]
     },
     "scripts-descriptions": {
