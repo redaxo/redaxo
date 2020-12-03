@@ -1,5 +1,7 @@
 includes:
 	- .tools/phpstan/baseline.neon
+	# activate dead code detection. this line should be removed after we updated to phpstan 1.0+
+	- vendor/phpstan/phpstan/conf/bleedingEdge.neon
 
 parameters:
     level: 5
@@ -18,8 +20,6 @@ parameters:
         - redaxo/src/addons/project
         - redaxo/src/addons/structure
         - redaxo/src/addons/users
-    bootstrapFiles:
-        - .tools/constants.php
     excludes_analyse:
         - redaxo/src/addons/be_style/vendor/
         - redaxo/src/addons/debug/vendor/
@@ -33,6 +33,8 @@ parameters:
     earlyTerminatingMethodCalls:
         rex_response:
             - sendRedirect
+    symfony:
+        console_application_loader: .tools/phpstan/console.php
     ignoreErrors:
         - '#Access to an undefined property rex_media::\$med_foo\.#'
         - '#Access to an undefined property rex_article::\$art_foo\.#'
