@@ -136,8 +136,9 @@ abstract class rex_formatter
         }
 
         if (isset($format[0])) {
-            $z = (int) ($value * 10 ** ($precision = (int) ($format[0])));
-            for ($i = 0; $i < (int) $precision; ++$i) {
+            $precision = (int) $format[0];
+            $z = (int) ($value * 10 ** $precision);
+            for ($i = 0; $i < $precision; ++$i) {
                 if (0 == ($z % 10)) {
                     $format[0] = (int) ($format[0]) - 1;
                     $z = (int) ($z / 10);
@@ -358,6 +359,14 @@ abstract class rex_formatter
     }
 
     /**
+     * Returns a Unix-Timestamp representing the given $value.
+     *
+     * Note: on a 32-bit php-version Unix-Timestamps cannot express
+     * dates before 13 December 1901 or after 19 January 2038
+     *
+     * @see https://en.m.wikipedia.org/wiki/Unix_time
+     * @see https://en.m.wikipedia.org/wiki/Year_2038_problem
+     *
      * @param string|int $value
      *
      * @return int

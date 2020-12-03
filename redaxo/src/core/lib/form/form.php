@@ -28,7 +28,10 @@ class rex_form extends rex_form_base
     protected $whereCondition;
     /** @var string */
     protected $mode;
-    /** @var int */
+    /**
+     * @var int
+     * @psalm-var positive-int
+     */
     protected $db;
     /** @var rex_sql */
     protected $sql;
@@ -44,6 +47,8 @@ class rex_form extends rex_form_base
      * @param string $method
      * @param bool   $debug
      * @param int    $db             DB connection ID
+     *
+     * @psalm-param positive-int $db
      */
     protected function __construct($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false, $db = 1)
     {
@@ -89,6 +94,8 @@ class rex_form extends rex_form_base
      * @param string $method
      * @param bool   $debug
      * @param int    $db             DB connection ID
+     *
+     * @psalm-param positive-int $db
      *
      * @return static a rex_form instance
      */
@@ -379,12 +386,10 @@ class rex_form extends rex_form_base
 
         // ----- EXTENSION POINT
         if ($saved) {
-            $saved = rex_extension::registerPoint(new rex_extension_point('REX_FORM_SAVED', $saved, ['form' => $this, 'sql' => $sql]));
-        } else {
-            $saved = $sql->getMysqlErrno();
+            return rex_extension::registerPoint(new rex_extension_point('REX_FORM_SAVED', $saved, ['form' => $this, 'sql' => $sql]));
         }
 
-        return $saved;
+        return $sql->getMysqlErrno();
     }
 
     /**
@@ -406,11 +411,9 @@ class rex_form extends rex_form_base
 
         // ----- EXTENSION POINT
         if ($deleted) {
-            $deleted = rex_extension::registerPoint(new rex_extension_point('REX_FORM_DELETED', $deleted, ['form' => $this, 'sql' => $deleteSql]));
-        } else {
-            $deleted = $deleteSql->getMysqlErrno();
+            return rex_extension::registerPoint(new rex_extension_point('REX_FORM_DELETED', $deleted, ['form' => $this, 'sql' => $deleteSql]));
         }
 
-        return $deleted;
+        return $deleteSql->getMysqlErrno();
     }
 }

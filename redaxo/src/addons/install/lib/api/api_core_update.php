@@ -8,9 +8,7 @@
 class rex_api_install_core_update extends rex_api_function
 {
     /**
-     * @psalm-return array<int, array{version: string, description: string, path: string, checksum: string}>
-     *
-     * @return array
+     * @return array<int, array{version: string, description: string, path: string, checksum: string}>
      */
     public static function getVersions()
     {

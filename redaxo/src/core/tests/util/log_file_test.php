@@ -56,10 +56,10 @@ class rex_log_file_test extends TestCase
         $log->add(['test2a', 'test2b', 'test2c']);
 
         $format = <<<'EOF'
-%i-%i-%i %i:%i:%i | test1a | test1b
-%i-%i-%i %i:%i:%i | test2a | test2b | test2c
-EOF;
-        static::assertStringMatchesFormat($format, rex_file::get($path));
+            %i-%i-%i %i:%i:%i | test1a | test1b
+            %i-%i-%i %i:%i:%i | test2a | test2b | test2c
+            EOF;
+        static::assertStringMatchesFormat($format, rex_file::require($path));
     }
 
     /**
@@ -73,9 +73,9 @@ EOF;
 
         unset($log); // free handles to the underlying file
         rex_file::put($path, <<<'EOF'
-2013-08-27 23:07:02 | test1a | test1b
-2013-08-27 23:09:43 | test2a | test2b
-EOF
+            2013-08-27 23:07:02 | test1a | test1b
+            2013-08-27 23:09:43 | test2a | test2b
+            EOF
         );
         $expected = [
             new rex_log_entry(mktime(23, 9, 43, 8, 27, 2013), ['test2a', 'test2b']),
@@ -87,11 +87,11 @@ EOF
         unset($log); // free handles to the underlying file
         rex_file::put($path . '.2', <<<'EOF'
 
-2013-08-27 22:19:02 | test3
+            2013-08-27 22:19:02 | test3
 
-2013-08-27 22:22:43 | test4
+            2013-08-27 22:22:43 | test4
 
-EOF
+            EOF
         );
         $expected[] = new rex_log_entry(mktime(22, 22, 43, 8, 27, 2013), ['test4']);
         $expected[] = new rex_log_entry(mktime(22, 19, 2, 8, 27, 2013), ['test3']);

@@ -132,7 +132,7 @@ abstract class rex_structure_element
             $file = rex_path::addonCache('structure', $startId . '.1.article');
             if (!rex::isBackend() && is_file($file)) {
                 // da getClassVars() eine statische Methode ist, können wir hier nicht mit $this->getId() arbeiten!
-                $genVars = rex_file::getCache($file);
+                $genVars = rex_file::getCache($file, []);
                 unset($genVars['last_update_stamp']);
                 foreach ($genVars as $name => $value) {
                     self::$classVars[] = $name;
@@ -463,9 +463,7 @@ abstract class rex_structure_element
      * Get an array of all parentCategories.
      * Returns an array of rex_structure_element objects.
      *
-     * @return rex_category[]
-     *
-     * @psalm-return list<rex_category>
+     * @return list<rex_category>
      */
     public function getParentTree()
     {
@@ -511,7 +509,7 @@ abstract class rex_structure_element
     /**
      * Returns the closest element from parent tree (including itself) where the callback returns true.
      *
-     * @psalm-param callable(self):bool $callback
+     * @param callable(self):bool $callback
      */
     public function getClosest(callable $callback): ?self
     {

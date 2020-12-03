@@ -29,22 +29,22 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
     {
         $this
             ->setDescription('Perform redaxo setup')
-            ->addOption('--lang', null, InputOption::VALUE_REQUIRED, 'System language e.g. "de_de" or "en_gb"')
-            ->addOption('--agree-license', null, InputOption::VALUE_NONE, 'Accept license terms and conditions')
-            ->addOption('--server', null, InputOption::VALUE_REQUIRED, 'Website URL e.g. "https://example.org/"')
-            ->addOption('--servername', null, InputOption::VALUE_REQUIRED, 'Website name')
-            ->addOption('--error-email', null, InputOption::VALUE_REQUIRED, 'Error mail address e.g. "info@example.org"')
-            ->addOption('--timezone', null, InputOption::VALUE_REQUIRED, 'Timezone e.g. "Europe/Berlin"')
-            ->addOption('--db-host', null, InputOption::VALUE_REQUIRED, 'Database hostname e.g. "localhost" or "127.0.0.1"')
-            ->addOption('--db-login', null, InputOption::VALUE_REQUIRED, 'Database username e.g. "root"')
-            ->addOption('--db-password', null, InputOption::VALUE_REQUIRED, 'Database user password')
-            ->addOption('--db-name', null, InputOption::VALUE_REQUIRED, 'Database name e.g. "redaxo"')
-            ->addOption('--db-createdb', null, InputOption::VALUE_REQUIRED, 'Creates the database "yes" or "no"')
-            ->addOption('--db-setup', null, InputOption::VALUE_REQUIRED, 'Database setup mode e.g. "normal", "override" or "import"')
-            ->addOption('--db-charset', null, InputOption::VALUE_REQUIRED, 'Database charset "utf8" or "utf8mb4"')
-            ->addOption('--db-import', null, InputOption::VALUE_REQUIRED, 'Database import filename if "import" is used as --db-setup')
-            ->addOption('--admin-username', null, InputOption::VALUE_REQUIRED, 'Creates a redaxo admin user with the given username')
-            ->addOption('--admin-password', null, InputOption::VALUE_REQUIRED, 'Sets the password for the admin user account')
+            ->addOption('lang', null, InputOption::VALUE_REQUIRED, 'System language e.g. "de_de" or "en_gb"')
+            ->addOption('agree-license', null, InputOption::VALUE_NONE, 'Accept license terms and conditions')
+            ->addOption('server', null, InputOption::VALUE_REQUIRED, 'Website URL e.g. "https://example.org/"')
+            ->addOption('servername', null, InputOption::VALUE_REQUIRED, 'Website name')
+            ->addOption('error-email', null, InputOption::VALUE_REQUIRED, 'Error mail address e.g. "info@example.org"')
+            ->addOption('timezone', null, InputOption::VALUE_REQUIRED, 'Timezone e.g. "Europe/Berlin"')
+            ->addOption('db-host', null, InputOption::VALUE_REQUIRED, 'Database hostname e.g. "localhost" or "127.0.0.1"')
+            ->addOption('db-login', null, InputOption::VALUE_REQUIRED, 'Database username e.g. "root"')
+            ->addOption('db-password', null, InputOption::VALUE_REQUIRED, 'Database user password')
+            ->addOption('db-name', null, InputOption::VALUE_REQUIRED, 'Database name e.g. "redaxo"')
+            ->addOption('db-createdb', null, InputOption::VALUE_REQUIRED, 'Creates the database "yes" or "no"')
+            ->addOption('db-setup', null, InputOption::VALUE_REQUIRED, 'Database setup mode e.g. "normal", "override" or "import"')
+            ->addOption('db-charset', null, InputOption::VALUE_REQUIRED, 'Database charset "utf8" or "utf8mb4"')
+            ->addOption('db-import', null, InputOption::VALUE_REQUIRED, 'Database import filename if "import" is used as --db-setup')
+            ->addOption('admin-username', null, InputOption::VALUE_REQUIRED, 'Creates a redaxo admin user with the given username')
+            ->addOption('admin-password', null, InputOption::VALUE_REQUIRED, 'Sets the password for the admin user account')
         ;
     }
 
@@ -101,17 +101,13 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             }
 
             $license_file = rex_path::base('LICENSE.md');
-            $license = rex_file::get($license_file);
+            $license = rex_file::require($license_file);
             $io->writeln($license);
             if (!$io->confirm('Accept license terms and conditions?', false)) {
                 $io->error('You need to accept license terms and conditions');
                 return 1;
             }
         } else {
-            if (null === $input->getOption('agree-license')) {
-                $io->error('You need to accept license terms and conditions');
-                return 1;
-            }
             $io->success('You accepted license terms and conditions');
         }
 
@@ -226,7 +222,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
             if (is_string($dbCreate)) {
                 $dbCreate = 'yes' === $dbCreate || 'true' === $dbCreate;
-                $io->success('Database will '.(!$dbCreate ? 'not ' : '').'be created');
+                $io->success('Database will '.($dbCreate ? '' : 'not ').'be created');
             }
 
             $config['db'][1]['host'] = $dbHost;
@@ -509,8 +505,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
      * @param string           $option         cli option name
      * @param string|bool|null $default        default value for ask()
      * @param string|null      $successMessage success message for using the option value
-     * @param callable|null    $validator      validator callback for option value and ask()
-     * @psalm-param callable(mixed):mixed|null $validator
+     * @param callable(mixed):mixed|null $validator validator callback for option value and ask()
      *
      * @return mixed
      */

@@ -147,13 +147,13 @@ class rex_system_report
         $database = $report['Database']['Version'] ?? $report['Database 1']['Version'];
 
         return <<<OUTPUT
-<details>
-<summary>System report (REDAXO {$report['REDAXO']['Version']}, PHP {$report['PHP']['Version']}, {$database})</summary>
+            <details>
+            <summary>System report (REDAXO {$report['REDAXO']['Version']}, PHP {$report['PHP']['Version']}, {$database})</summary>
 
-$content
+            $content
 
-</details>
-OUTPUT;
+            </details>
+            OUTPUT;
     }
 
     private function getBrowser()

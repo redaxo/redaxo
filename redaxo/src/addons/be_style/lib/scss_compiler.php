@@ -75,16 +75,17 @@ class rex_scss_compiler
         //$scss_compiler->setImportPaths($scss_folder);
 
         // set css formatting (normal, nested or minimized), @see http://leafo.net/scssphp/docs/#output_formatting
-        $scss_compiler->setFormatter($this->formatter);
+        /** @psalm-suppress DeprecatedMethod */
+        $scss_compiler->setFormatter($this->formatter); /** @phpstan-ignore-line */
 
         // get .scss's content, put it into $string_sass
         $string_sass = '';
         if (is_array($this->scss_file)) {
             foreach ($this->scss_file as $scss_file) {
-                $string_sass .= rex_file::get($scss_file);
+                $string_sass .= rex_file::require($scss_file);
             }
         } else {
-            $string_sass = rex_file::get($this->scss_file);
+            $string_sass = rex_file::require($this->scss_file);
         }
 
         // try/catch block to prevent script stopping when scss compiler throws an error

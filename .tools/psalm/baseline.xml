@@ -1,0 +1,809 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="4.3.0@6f916553a8de3c5c2483162b6cc01b21b24e4d1d">
+  <file src="redaxo/src/addons/cronjob/lib/form.php">
+    <PossiblyNullReference occurrences="2">
+      <code>getIntervalElements</code>
+      <code>setValue</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/cronjob/pages/cronjobs.php">
+    <PossiblyNullArgument occurrences="2">
+      <code>$activeType</code>
+      <code>$field-&gt;getValue()</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="redaxo/src/addons/debug/boot.php">
+    <PossiblyNullReference occurrences="1">
+      <code>isAdmin</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/debug/lib/api_debug.php">
+    <PossiblyNullReference occurrences="1">
+      <code>isAdmin</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/debug/lib/extensions/api_function_debug.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>self::factory()</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="redaxo/src/addons/install/lib/api/api_core_update.php">
+    <PossiblyNullReference occurrences="1">
+      <code>isAdmin</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/install/lib/api/api_package_add.php">
+    <PossiblyNullReference occurrences="1">
+      <code>isAdmin</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/install/lib/api/api_package_delete.php">
+    <PossiblyNullReference occurrences="1">
+      <code>isAdmin</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/install/lib/api/api_package_update.php">
+    <PossiblyNullReference occurrences="1">
+      <code>isAdmin</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/install/lib/api/api_package_upload.php">
+    <PossiblyNullReference occurrences="1">
+      <code>isAdmin</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/install/lib/package/package_update.php">
+    <PossiblyNullReference occurrences="2">
+      <code>getProperty</code>
+      <code>getVersion</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/media_manager/lib/effects/effect_convert2img.php">
+    <PossiblyNullArgument occurrences="2">
+      <code>$this-&gt;media-&gt;getMediaPath()</code>
+      <code>$this-&gt;media-&gt;getMediaPath()</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="redaxo/src/addons/media_manager/lib/effects/effect_header.php">
+    <PossiblyNullReference occurrences="1">
+      <code>getOriginalFileName</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/media_manager/lib/managed_media.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$this-&gt;getMediaPath()</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="redaxo/src/addons/media_manager/pages/types.php">
+    <PossiblyNullReference occurrences="2">
+      <code>getLogin</code>
+      <code>getLogin</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/mediapool/functions/function_rex_mediapool.php">
+    <PossiblyNullReference occurrences="2">
+      <code>getComplexPerm</code>
+      <code>getName</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/mediapool/lib/media.php">
+    <InvalidIterator occurrences="1">
+      <code>$cache</code>
+    </InvalidIterator>
+  </file>
+  <file src="redaxo/src/addons/mediapool/lib/media_category_select.php">
+    <PossiblyNullReference occurrences="1">
+      <code>getComplexPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/mediapool/lib/var_media.php">
+    <PossiblyNullReference occurrences="1">
+      <code>getComplexPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/mediapool/lib/var_medialist.php">
+    <PossiblyNullReference occurrences="1">
+      <code>getComplexPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/mediapool/pages/index.php">
+    <PossiblyNullReference occurrences="2">
+      <code>getComplexPerm</code>
+      <code>getSubpages</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/mediapool/pages/media.detail.php">
+    <PossiblyNullReference occurrences="6">
+      <code>getComplexPerm</code>
+      <code>getComplexPerm</code>
+      <code>getComplexPerm</code>
+      <code>getComplexPerm</code>
+      <code>getComplexPerm</code>
+      <code>getValue</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/mediapool/pages/media.list.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$files-&gt;getDateTimeValue('updatedate')</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="3">
+      <code>getComplexPerm</code>
+      <code>getComplexPerm</code>
+      <code>getComplexPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/mediapool/pages/media.php">
+    <PossiblyNullReference occurrences="1">
+      <code>getComplexPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/mediapool/pages/structure.php">
+    <PossiblyNullReference occurrences="1">
+      <code>getName</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/mediapool/pages/upload.php">
+    <PossiblyNullReference occurrences="2">
+      <code>getComplexPerm</code>
+      <code>getValue</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/metainfo/extensions/extension_content_sidebar.php">
+    <PossiblyNullArgument occurrences="2">
+      <code>$article-&gt;getValue('createdate')</code>
+      <code>$article-&gt;getValue('updatedate')</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="1">
+      <code>getValue</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/metainfo/lib/handler/api_default_fields.php">
+    <PossiblyNullReference occurrences="1">
+      <code>isAdmin</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/metainfo/lib/handler/article_handler.php">
+    <PossiblyNullReference occurrences="2">
+      <code>getCategoryId</code>
+      <code>getPathAsArray</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/metainfo/lib/handler/category_handler.php">
+    <PossiblyNullReference occurrences="1">
+      <code>getPathAsArray</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/metainfo/lib/handler/handler.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$id</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="2">
+      <code>hasPerm</code>
+      <code>hasPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/metainfo/lib/handler/media_handler.php">
+    <PossiblyNullReference occurrences="2">
+      <code>getPathAsArray</code>
+      <code>isAdmin</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/metainfo/lib/table_expander.php">
+    <PossiblyNullArgument occurrences="4">
+      <code>$fieldAttributes</code>
+      <code>$fieldDefault</code>
+      <code>$fieldDefault</code>
+      <code>$fieldName</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="redaxo/src/addons/metainfo/pages/content.metainfo.php">
+    <PossiblyNullArgument occurrences="2">
+      <code>$article-&gt;getValue('createdate')</code>
+      <code>$article-&gt;getValue('updatedate')</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="2">
+      <code>getName</code>
+      <code>getValue</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/phpmailer/lib/mailer.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$address</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="redaxo/src/addons/phpmailer/pages/checkmail.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$addon-&gt;getConfig('test_address')</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="redaxo/src/addons/structure/functions/function_rex_category.php">
+    <PossiblyNullReference occurrences="1">
+      <code>getComplexPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/api_functions/api_article2category.php">
+    <PossiblyNullReference occurrences="2">
+      <code>getCategoryId</code>
+      <code>hasPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/api_functions/api_article2startarticle.php">
+    <PossiblyNullReference occurrences="2">
+      <code>getCategoryId</code>
+      <code>hasPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/api_functions/api_article_add.php">
+    <PossiblyNullReference occurrences="2">
+      <code>getComplexPerm</code>
+      <code>hasPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/api_functions/api_article_copy.php">
+    <PossiblyNullReference occurrences="1">
+      <code>hasPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/api_functions/api_article_delete.php">
+    <PossiblyNullReference occurrences="2">
+      <code>getComplexPerm</code>
+      <code>hasPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/api_functions/api_article_edit.php">
+    <PossiblyNullReference occurrences="2">
+      <code>getComplexPerm</code>
+      <code>hasPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/api_functions/api_article_move.php">
+    <PossiblyNullReference occurrences="2">
+      <code>getCategoryId</code>
+      <code>hasPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/api_functions/api_article_status.php">
+    <PossiblyNullReference occurrences="1">
+      <code>getComplexPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/api_functions/api_category2article.php">
+    <PossiblyNullReference occurrences="2">
+      <code>getCategoryId</code>
+      <code>hasPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/api_functions/api_category_add.php">
+    <PossiblyNullReference occurrences="2">
+      <code>getComplexPerm</code>
+      <code>hasPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/api_functions/api_category_delete.php">
+    <PossiblyNullReference occurrences="2">
+      <code>getComplexPerm</code>
+      <code>hasPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/api_functions/api_category_edit.php">
+    <PossiblyNullReference occurrences="1">
+      <code>hasPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/api_functions/api_category_move.php">
+    <PossiblyNullReference occurrences="2">
+      <code>getCategoryId</code>
+      <code>hasPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/api_functions/api_category_status.php">
+    <PossiblyNullReference occurrences="1">
+      <code>getComplexPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/linkmap/renderer.php">
+    <PossiblyNullReference occurrences="3">
+      <code>getArticles</code>
+      <code>getComplexPerm</code>
+      <code>getComplexPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/linkmap/var_link.php">
+    <PossiblyNullReference occurrences="2">
+      <code>getComplexPerm</code>
+      <code>getId</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/linkmap/var_linklist.php">
+    <PossiblyNullReference occurrences="2">
+      <code>getComplexPerm</code>
+      <code>getId</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/navigation.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$cat</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="3">
+      <code>getChildren</code>
+      <code>getName</code>
+      <code>getName</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/select_category.php">
+    <PossiblyNullReference occurrences="6">
+      <code>getComplexPerm</code>
+      <code>getComplexPerm</code>
+      <code>getComplexPerm</code>
+      <code>getComplexPerm</code>
+      <code>getComplexPerm</code>
+      <code>getComplexPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/service_article.php">
+    <PossiblyNullReference occurrences="2">
+      <code>getCategoryId</code>
+      <code>getLogin</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/service_category.php">
+    <PossiblyNullReference occurrences="1">
+      <code>getLogin</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/structure_context.php">
+    <PossiblyNullReference occurrences="4">
+      <code>getComplexPerm</code>
+      <code>getComplexPerm</code>
+      <code>getComplexPerm</code>
+      <code>getComplexPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/structure_element.php">
+    <EmptyArrayAccess occurrences="1">
+      <code>$genVars['last_update_stamp']</code>
+    </EmptyArrayAccess>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/var_article.php">
+    <PossiblyNullReference occurrences="1">
+      <code>getValue</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/pages/index.php">
+    <PossiblyNullArgument occurrences="3">
+      <code>$sql-&gt;getDateTimeValue('createdate')</code>
+      <code>$sql-&gt;getDateTimeValue('createdate')</code>
+      <code>$sql-&gt;getDateTimeValue('createdate')</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="12">
+      <code>getComplexPerm</code>
+      <code>getComplexPerm</code>
+      <code>hasPerm</code>
+      <code>hasPerm</code>
+      <code>hasPerm</code>
+      <code>hasPerm</code>
+      <code>hasPerm</code>
+      <code>hasPerm</code>
+      <code>hasPerm</code>
+      <code>hasPerm</code>
+      <code>hasPerm</code>
+      <code>hasPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/plugins/content/boot.php">
+    <PossiblyNullReference occurrences="1">
+      <code>setIsActive</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/plugins/content/lib/api_functions/api_content_copy.php">
+    <PossiblyNullReference occurrences="1">
+      <code>hasPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/plugins/content/lib/api_functions/api_content_slice_status.php">
+    <PossiblyNullReference occurrences="1">
+      <code>hasPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/plugins/content/lib/article_content.php">
+    <PossiblyNullReference occurrences="1">
+      <code>getValue</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/plugins/content/lib/article_content_base.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$template-&gt;getKey()</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="2">
+      <code>getId</code>
+      <code>getLogin</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/plugins/content/lib/article_content_editor.php">
+    <PossiblyNullReference occurrences="6">
+      <code>getComplexPerm</code>
+      <code>getComplexPerm</code>
+      <code>getComplexPerm</code>
+      <code>getComplexPerm</code>
+      <code>hasPerm</code>
+      <code>hasPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/plugins/content/lib/article_slice.php">
+    <PossiblyNullArgument occurrences="2">
+      <code>$sql-&gt;getDateTimeValue('createdate')</code>
+      <code>$sql-&gt;getDateTimeValue('updatedate')</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="redaxo/src/addons/structure/plugins/content/lib/content_service.php">
+    <PossiblyNullArgument occurrences="2">
+      <code>$article</code>
+      <code>$article</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="3">
+      <code>getCategoryId</code>
+      <code>getId</code>
+      <code>getLogin</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/plugins/content/pages/content.functions.php">
+    <PossiblyNullReference occurrences="14">
+      <code>getComplexPerm</code>
+      <code>getComplexPerm</code>
+      <code>getComplexPerm</code>
+      <code>getComplexPerm</code>
+      <code>getComplexPerm</code>
+      <code>getName</code>
+      <code>getName</code>
+      <code>hasPerm</code>
+      <code>hasPerm</code>
+      <code>hasPerm</code>
+      <code>hasPerm</code>
+      <code>hasPerm</code>
+      <code>hasPerm</code>
+      <code>hasPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/plugins/content/pages/content.php">
+    <PossiblyNullReference occurrences="11">
+      <code>addSubpage</code>
+      <code>getCategoryId</code>
+      <code>getComplexPerm</code>
+      <code>getComplexPerm</code>
+      <code>getSubpages</code>
+      <code>hasPerm</code>
+      <code>hasPerm</code>
+      <code>hasPerm</code>
+      <code>hasPerm</code>
+      <code>hasPerm</code>
+      <code>hasPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/plugins/content/pages/modules.modules.php">
+    <PossiblyNullReference occurrences="2">
+      <code>getCode</code>
+      <code>getName</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/plugins/content/pages/templates.php">
+    <PossiblyNullArgument occurrences="2">
+      <code>$templatename</code>
+      <code>$templatename</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="2">
+      <code>getCode</code>
+      <code>getName</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/plugins/content/tests/article_slice_test.php">
+    <PossiblyNullReference occurrences="6">
+      <code>getId</code>
+      <code>getId</code>
+      <code>getId</code>
+      <code>getId</code>
+      <code>getNextSlice</code>
+      <code>getPreviousSlice</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/plugins/history/boot.php">
+    <PossiblyNullReference occurrences="2">
+      <code>getLogin</code>
+      <code>hasPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/plugins/history/lib/article_slice_history.php">
+    <PossiblyNullReference occurrences="1">
+      <code>getValue</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/plugins/version/boot.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$article</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="5">
+      <code>hasPerm</code>
+      <code>hasPerm</code>
+      <code>hasPerm</code>
+      <code>hasPerm</code>
+      <code>hasPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/users/lib/select_element.php">
+    <PossiblyNullArgument occurrences="2">
+      <code>$this-&gt;getValue()</code>
+      <code>$this-&gt;getValue()</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="redaxo/src/addons/users/pages/users.php">
+    <PossiblyNullReference occurrences="20">
+      <code>getId</code>
+      <code>getId</code>
+      <code>getId</code>
+      <code>getId</code>
+      <code>getId</code>
+      <code>getLogin</code>
+      <code>getValue</code>
+      <code>isAdmin</code>
+      <code>isAdmin</code>
+      <code>isAdmin</code>
+      <code>isAdmin</code>
+      <code>isAdmin</code>
+      <code>isAdmin</code>
+      <code>isAdmin</code>
+      <code>isAdmin</code>
+      <code>isAdmin</code>
+      <code>isAdmin</code>
+      <code>isAdmin</code>
+      <code>isAdmin</code>
+      <code>isAdmin</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/backend.php">
+    <PossiblyNullReference occurrences="1">
+      <code>getLanguage</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/console.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$command-&gt;getName()</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="redaxo/src/core/fragments/core/bottom.php">
+    <PossiblyNullReference occurrences="1">
+      <code>isPopup</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/fragments/core/footer.php">
+    <PossiblyNullReference occurrences="1">
+      <code>isAdmin</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/fragments/core/header.php">
+    <PossiblyNullReference occurrences="3">
+      <code>isAdmin</code>
+      <code>isPopup</code>
+      <code>isPopup</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/layout/bottom.php">
+    <PossiblyNullReference occurrences="1">
+      <code>hasLayout</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/layout/top.php">
+    <PossiblyNullReference occurrences="3">
+      <code>getLogin</code>
+      <code>getName</code>
+      <code>hasLayout</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/lib/autoload.php">
+    <PossiblyNullArgument occurrences="2">
+      <code>self::$cacheFile</code>
+      <code>self::$cacheFile</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="redaxo/src/core/lib/be/controller.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$currentPage-&gt;getPath()</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="6">
+      <code>getHref</code>
+      <code>getPath</code>
+      <code>getSubPath</code>
+      <code>getTitle</code>
+      <code>getTitle</code>
+      <code>setHasLayout</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/lib/be/navigation.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>rex::getUser()</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="redaxo/src/core/lib/be/page.php">
+    <PossiblyNullReference occurrences="1">
+      <code>getParent</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/lib/clang/service.php">
+    <PossiblyNullReference occurrences="4">
+      <code>getId</code>
+      <code>getId</code>
+      <code>getId</code>
+      <code>getPriority</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/lib/console/application.php">
+    <PossiblyNullReference occurrences="1">
+      <code>boot</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/lib/form/elements/checkbox.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$this-&gt;getValue()</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="redaxo/src/core/lib/form/elements/container.php">
+    <PossiblyNullReference occurrences="1">
+      <code>createInput</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/lib/form/elements/select.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$this-&gt;getValue()</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="redaxo/src/core/lib/form/form.php">
+    <PossiblyNullReference occurrences="2">
+      <code>getValue</code>
+      <code>getValue</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/lib/list.php">
+    <PossiblyNullArgument occurrences="3">
+      <code>$columnLayout</code>
+      <code>$column['width'] ?? null</code>
+      <code>$sortColumn</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="redaxo/src/core/lib/login/api_user_impersonate.php">
+    <PossiblyNullReference occurrences="2">
+      <code>getLogin</code>
+      <code>isAdmin</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/lib/login/password_policy.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$this-&gt;getDescription()</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="redaxo/src/core/lib/login/user.php">
+    <PossiblyNullReference occurrences="2">
+      <code>getComplexPerm</code>
+      <code>hasPerm</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/lib/packages/package.php">
+    <PossiblyNullReference occurrences="1">
+      <code>isAdmin</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/lib/packages/plugins/plugin.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$plugin</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="redaxo/src/core/lib/response.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$value</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="redaxo/src/core/lib/sql/schema_dumper.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$table-&gt;getPrimaryKey()</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="redaxo/src/core/lib/sql/sql.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$this-&gt;rawFieldnames</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="6">
+      <code>fetch</code>
+      <code>fetchAll</code>
+      <code>fetchAll</code>
+      <code>getColumnMeta</code>
+      <code>getValue</code>
+      <code>getValue</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/lib/sql/table.php">
+    <PossiblyNullArgument occurrences="4">
+      <code>$column-&gt;getDefault()</code>
+      <code>$column-&gt;getExtra()</code>
+      <code>$comment</code>
+      <code>$oldName</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="7">
+      <code>equals</code>
+      <code>equals</code>
+      <code>equals</code>
+      <code>getErrno</code>
+      <code>setName</code>
+      <code>setName</code>
+      <code>setName</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/lib/sql/util.php">
+    <PossiblyNullReference occurrences="1">
+      <code>getValue</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/lib/util/log_file.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$this-&gt;currentLine</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="redaxo/src/core/lib/util/logger.php">
+    <PossiblyNullReference occurrences="1">
+      <code>add</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/lib/util/version.php">
+    <PossiblyNullArgument occurrences="3">
+      <code>$comparator</code>
+      <code>$comparator</code>
+      <code>$repo</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="redaxo/src/core/lib/view.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>rex_be_controller::getCurrentPagePart(1)</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="5">
+      <code>getComplexPerm</code>
+      <code>getComplexPerm</code>
+      <code>getComplexPerm</code>
+      <code>getSubpages</code>
+      <code>isAdmin</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/pages/profile.php">
+    <PossiblyNullReference occurrences="1">
+      <code>getId</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/pages/system.clangs.php">
+    <PossiblyNullReference occurrences="1">
+      <code>getCode</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/tests/console/config/set_test.php">
+    <EmptyArrayAccess occurrences="1">
+      <code>$config['test']</code>
+    </EmptyArrayAccess>
+  </file>
+  <file src="redaxo/src/core/tests/sql/sql_table_test.php">
+    <PossiblyNullReference occurrences="19">
+      <code>getColumns</code>
+      <code>getColumns</code>
+      <code>getColumns</code>
+      <code>getComment</code>
+      <code>getComment</code>
+      <code>getComment</code>
+      <code>getDefault</code>
+      <code>getName</code>
+      <code>getName</code>
+      <code>getName</code>
+      <code>getName</code>
+      <code>getType</code>
+      <code>getType</code>
+      <code>getType</code>
+      <code>getType</code>
+      <code>getType</code>
+      <code>getType</code>
+      <code>getType</code>
+      <code>setExtra</code>
+    </PossiblyNullReference>
+  </file>
+</files>

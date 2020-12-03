@@ -52,10 +52,11 @@ class rex_list implements rex_url_provider_interface
 {
     use rex_factory_trait;
 
-    /** @var int */
+    /**
+     * @var int
+     * @psalm-var positive-int
+     */
     private $db;
-    /** @var string */
-    private $query;
     /** @var rex_sql */
     private $sql;
     /** @var bool */
@@ -121,6 +122,8 @@ class rex_list implements rex_url_provider_interface
      * @param string|null $listName    Name der Liste
      * @param bool        $debug
      * @param int         $db
+     *
+     * @psalm-param positive-int $db
      */
     protected function __construct($query, $rowsPerPage = 30, $listName = null, $debug = false, $db = 1)
     {
@@ -132,7 +135,6 @@ class rex_list implements rex_url_provider_interface
 
         // --------- List Attributes
         $this->db = $db;
-        $this->query = $query;
         $this->sql = rex_sql::factory($db);
         $this->debug = $debug;
         $this->sql->setDebug($this->debug);
@@ -198,6 +200,8 @@ class rex_list implements rex_url_provider_interface
      * @param string|null $listName
      * @param bool        $debug
      * @param int         $db          DB connection ID
+     *
+     * @psalm-var positive-int $db
      *
      * @return static
      */

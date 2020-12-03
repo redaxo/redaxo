@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var rex_fragment $this
+ * @psalm-scope-this rex_fragment
+ */
+?>
 
         <nav class="rex-nav-top navbar navbar-default">
             <div class="container-fluid">

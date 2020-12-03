@@ -17,12 +17,7 @@ jobs:
         name: psalm static code analysis
         runs-on: ubuntu-latest
         if: "!contains(github.event.head_commit.message, '[ci skip]')"
-        
-        services:
-            mysql:
-                image: mysql:5.7
-                ports:
-                    - 3306
+
         steps:
             - uses: actions/checkout@v2
             - name: Setup PHP
@@ -40,31 +35,42 @@ jobs:
               with:
                   composer-options: "--ansi --prefer-dist"
             - run: |
-                  sudo /etc/init.d/mysql start
-                  mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
-                  git apply .github/workflows/default.config.yml.github-action.diff
-            - run: |
-                  php .tools/bin/setup
-                  php redaxo/bin/console package:install phpmailer --ansi
-                  php redaxo/bin/console package:install cronjob --ansi
-                  php redaxo/bin/console package:install cronjob/article_status --ansi
-                  php redaxo/bin/console package:install cronjob/optimize_tables --ansi
-                  php redaxo/bin/console package:install debug --ansi
-                  php redaxo/bin/console package:install structure/history --ansi
-                  php redaxo/bin/console package:install structure/version --ansi
-            - run: |
                   vendor/bin/psalm --show-info=false --shepherd --diff --output-format=github
+            - name: Check psalm baseline
+              if: ${{ success() }}
+              run: |
+                  composer psalm-baseline
+                  git diff --exit-code .tools/psalm/baseline.xml || (echo "::error file=.tools/psalm/baseline.xml,line=1,col=1::Psalm baseline file is outdated and must be regenerated via \`composer psalm-baseline\`." && exit 1)
+
+    psalm-taint-analysis:
+        name: psalm taint analysis
+        runs-on: ubuntu-latest
+        if: "github.event.pull_request.draft == false && !contains(github.event.head_commit.message, '[ci skip]')"
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: 7.4
+                  extensions: intl, imagick
+                  coverage: none # disable xdebug, pcov
+            - uses: "ramsey/composer-install@v1"
+              with:
+                  composer-options: "--ansi --prefer-dist"
+            - run: |
+                  vendor/bin/psalm --use-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache
+            - name: Check psalm baseline
+              if: ${{ success() }}
+              run: |
+                  composer taint-baseline
+                  git diff --exit-code .tools/psalm/baseline-taint.xml || (echo "::error file=.tools/psalm/baseline-taint.xml,line=1,col=1::Psalm taint baseline file is outdated and must be regenerated via \`composer taint-baseline\`." && exit 1)
 
     phpstan-analysis:
         name: phpstan static code analysis
         runs-on: ubuntu-latest
         if: "!contains(github.event.head_commit.message, '[ci skip]')"
-        
-        services:
-            mysql:
-                image: mysql:5.7
-                ports:
-                    - 3306
+
         steps:
             - uses: actions/checkout@v2
             - name: Setup PHP
@@ -89,18 +95,5 @@ jobs:
                   key: "phpstan-result-cache"
             - name: Install Dependencies
               run: composer install --ansi --prefer-dist
-            - run: |
-                  sudo /etc/init.d/mysql start
-                  mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
-                  git apply .github/workflows/default.config.yml.github-action.diff
-            - run: |
-                  php .tools/bin/setup
-                  php redaxo/bin/console package:install phpmailer --ansi
-                  php redaxo/bin/console package:install cronjob --ansi
-                  php redaxo/bin/console package:install cronjob/article_status --ansi
-                  php redaxo/bin/console package:install cronjob/optimize_tables --ansi
-                  php redaxo/bin/console package:install debug --ansi
-                  php redaxo/bin/console package:install structure/history --ansi
-                  php redaxo/bin/console package:install structure/version --ansi
             - run: |
                   vendor/bin/phpstan analyse --ansi --no-progress

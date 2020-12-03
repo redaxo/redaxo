@@ -86,7 +86,7 @@ $curDir = $plugin->getAssetsUrl('vendor/');
 
 $themes = [];
 foreach (glob($curDir . '/codemirror/theme/*.css') as $filename) {
-    $themes[] = substr(basename($filename), 0, -4);
+    $themes[] = substr(rex_path::basename($filename), 0, -4);
 }
 
 $tselect = new rex_select();

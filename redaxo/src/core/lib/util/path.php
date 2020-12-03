@@ -395,8 +395,10 @@ class rex_path
      */
     public static function basename($path)
     {
+        /** @psalm-taint-escape text */
         $path = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $path);
 
+        /** @psalm-suppress DeprecatedFunction */
         return basename($path);
     }
 }
