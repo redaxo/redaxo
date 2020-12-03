@@ -86,6 +86,11 @@
       <code>getName</code>
     </PossiblyNullReference>
   </file>
+  <file src="redaxo/src/addons/mediapool/lib/media.php">
+    <InvalidIterator occurrences="1">
+      <code>$cache</code>
+    </InvalidIterator>
+  </file>
   <file src="redaxo/src/addons/mediapool/lib/media_category_select.php">
     <PossiblyNullReference occurrences="1">
       <code>getComplexPerm</code>
@@ -353,6 +358,11 @@
       <code>getComplexPerm</code>
       <code>getComplexPerm</code>
     </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/structure_element.php">
+    <EmptyArrayAccess occurrences="1">
+      <code>$genVars['last_update_stamp']</code>
+    </EmptyArrayAccess>
   </file>
   <file src="redaxo/src/addons/structure/lib/var_article.php">
     <PossiblyNullReference occurrences="1">
@@ -767,6 +777,11 @@
     <PossiblyNullReference occurrences="1">
       <code>getCode</code>
     </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/tests/console/config/set_test.php">
+    <EmptyArrayAccess occurrences="1">
+      <code>$config['test']</code>
+    </EmptyArrayAccess>
   </file>
   <file src="redaxo/src/core/tests/sql/sql_table_test.php">
     <PossiblyNullReference occurrences="19">
