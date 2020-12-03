@@ -120,7 +120,7 @@ if ('add' == $function || 'edit' == $function) {
             $error = $e->getMessage();
         }
 
-        if (isset($goon) && '' != $goon) {
+        if ('' != $goon) {
             $save = false;
         } else {
             $function = '';

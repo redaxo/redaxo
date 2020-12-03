@@ -428,7 +428,7 @@ class rex_socket
                 $port = 443;
             }
         }
-        $port = isset($parts['port']) ? (int) $parts['port'] : $port;
+        $port = $parts['port'] ?? $port;
 
         $path = ($parts['path'] ?? '/')
             . (isset($parts['query']) ? '?' . $parts['query'] : '')
