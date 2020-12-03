@@ -59,7 +59,7 @@ class rex_log_file_test extends TestCase
             %i-%i-%i %i:%i:%i | test1a | test1b
             %i-%i-%i %i:%i:%i | test2a | test2b | test2c
             EOF;
-        static::assertStringMatchesFormat($format, rex_file::get($path));
+        static::assertStringMatchesFormat($format, rex_file::require($path));
     }
 
     /**

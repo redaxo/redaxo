@@ -21,13 +21,13 @@ if (is_readable($package->getPath('help.php'))) {
     $package->includeFile('help.php');
     $content .= ob_get_clean();
 } elseif (is_readable($package->getPath('README.'. rex_i18n::getLanguage() .'.md'))) {
-    [$readmeToc, $readmeContent] = rex_markdown::factory()->parseWithToc(rex_file::get($package->getPath('README.'. rex_i18n::getLanguage() .'.md')), 2, 3, false);
+    [$readmeToc, $readmeContent] = rex_markdown::factory()->parseWithToc(rex_file::require($package->getPath('README.'. rex_i18n::getLanguage() .'.md')), 2, 3, false);
     $fragment = new rex_fragment();
     $fragment->setVar('content', $readmeContent, false);
     $fragment->setVar('toc', $readmeToc, false);
     $content .= $fragment->parse('core/page/docs.php');
 } elseif (is_readable($package->getPath('README.md'))) {
-    [$readmeToc, $readmeContent] = rex_markdown::factory()->parseWithToc(rex_file::get($package->getPath('README.md')), 2, 3, false);
+    [$readmeToc, $readmeContent] = rex_markdown::factory()->parseWithToc(rex_file::require($package->getPath('README.md')), 2, 3, false);
     $fragment = new rex_fragment();
     $fragment->setVar('content', $readmeContent, false);
     $fragment->setVar('toc', $readmeToc, false);
