@@ -269,10 +269,13 @@ class rex_managed_media
         $this->sourcePath = $path;
 
         $this->asImage = false;
-
-        if (isset($this->image['src']) && is_resource($this->image['src'])) {
-            imagedestroy($this->image['src']);
+        if (!isset($this->image['src'])) {
+            return;
         }
+        if (!is_resource($this->image['src'])) {
+            return;
+        }
+        imagedestroy($this->image['src']);
     }
 
     /**
@@ -296,7 +299,7 @@ class rex_managed_media
             return $this->getImageSource();
         }
 
-        return rex_file::get($this->sourcePath);
+        return rex_file::require($this->sourcePath);
     }
 
     public function setImageProperty($name, $value)

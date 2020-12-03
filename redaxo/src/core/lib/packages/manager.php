@@ -478,9 +478,39 @@ abstract class rex_package_manager
             if ('' != $requirements['packages'][$packageId]) {
                 $required_version = ' '.$requirements['packages'][$packageId];
             }
-            $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId.$required_version);
+
+            if (!rex_package::exists($packageId)) {
+                [$addonId] = rex_package::splitId($packageId);
+                $jumpToInstaller = '';
+                if (rex_addon::get('install')->isAvailable() && !rex_addon::exists($addonId)) {
+                    // package need to be downloaded via installer
+                    $installUrl = rex_url::backendPage('install/packages/add', ['addonkey' => $addonId]);
+
+                    $jumpToInstaller = ' <a href="'. $installUrl .'"><i class="rex-icon fa-arrow-circle-right" title="'. $this->i18n('search_in_installer', $addonId) .'"></i></a>';
+                }
+
+                $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId.$required_version).$jumpToInstaller;
+                return false;
+            }
+
+            // this package requires a plugin from another addon.
+            // first make sure the addon itself is available.
+            $jumpPackageId = $packageId;
+            if ($package instanceof rex_plugin_interface && !$package->getAddon()->isAvailable()) {
+                $jumpPackageId = $package->getAddon()->getPackageId();
+            }
+
+            if ('packages' == rex_be_controller::getCurrentPage()) {
+                $jumpPackageUrl = '#package-'. $jumpPackageId;
+            } else {
+                // error while update/install within install-addon. x-link to packages core page
+                $jumpPackageUrl = rex_url::backendPage('packages'). '#package-'. $jumpPackageId;
+            }
+
+            $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId.$required_version) . ' <a href="'. $jumpPackageUrl .'"><i class="rex-icon fa-arrow-circle-right" title="'. $this->i18n('jump_to', $jumpPackageId) .'"></i></a>';
             return false;
         }
+
         if (!self::matchVersionConstraints($package->getVersion(), $requirements['packages'][$packageId])) {
             $this->message = $this->i18n(
                 'requirement_error_' . $package->getType() . '_version',
@@ -759,7 +789,7 @@ abstract class rex_package_manager
                 } else {
                     ++$pos;
                     $sub = (int) substr($match['version'], $pos);
-                    $constraints[] = ['<', substr_replace($match['version'], $sub + 1, $pos)];
+                    $constraints[] = ['<', substr_replace($match['version'], (string) ($sub + 1), $pos)];
                 }
             } elseif (in_array($match['op'], ['~', '^'])) {
                 $constraints[] = ['>=', $match['version'] . ($match['prerelease'] ?? '')];

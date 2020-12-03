@@ -3,7 +3,7 @@
 assert(isset($context) && $context instanceof rex_context);
 
 $license_file = rex_path::base('LICENSE.md');
-$license = '<p>' . nl2br(rex_file::get($license_file)) . '</p>';
+$license = '<p>' . nl2br(rex_file::require($license_file)) . '</p>';
 
 $content = rex_i18n::rawMsg('setup_202');
 $content .= $license;

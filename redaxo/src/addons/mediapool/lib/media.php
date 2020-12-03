@@ -56,10 +56,10 @@ class rex_media
         return static::getInstance($name, static function ($name) {
             $media_path = rex_path::addonCache('mediapool', $name . '.media');
 
-            $cache = rex_file::getCache($media_path);
+            $cache = rex_file::getCache($media_path, []);
             if (!$cache) {
                 rex_media_cache::generate($name);
-                $cache = rex_file::getCache($media_path);
+                $cache = rex_file::getCache($media_path, []);
             }
 
             if ($cache) {

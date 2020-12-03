@@ -82,10 +82,10 @@ class rex_scss_compiler
         $string_sass = '';
         if (is_array($this->scss_file)) {
             foreach ($this->scss_file as $scss_file) {
-                $string_sass .= rex_file::get($scss_file);
+                $string_sass .= rex_file::require($scss_file);
             }
         } else {
-            $string_sass = rex_file::get($this->scss_file);
+            $string_sass = rex_file::require($this->scss_file);
         }
 
         // try/catch block to prevent script stopping when scss compiler throws an error

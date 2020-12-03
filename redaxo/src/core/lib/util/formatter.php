@@ -136,8 +136,9 @@ abstract class rex_formatter
         }
 
         if (isset($format[0])) {
-            $z = (int) ($value * 10 ** ($precision = (int) ($format[0])));
-            for ($i = 0; $i < (int) $precision; ++$i) {
+            $precision = (int) $format[0];
+            $z = (int) ($value * 10 ** $precision);
+            for ($i = 0; $i < $precision; ++$i) {
                 if (0 == ($z % 10)) {
                     $format[0] = (int) ($format[0]) - 1;
                     $z = (int) ($z / 10);
