@@ -18,7 +18,7 @@ abstract class rex_extension
     /**
      * Array of registered extensions.
      *
-     * @var array
+     * @var array<string, array<self::*, list<array{callable, array}>>>
      */
     private static $extensions = [];
 
@@ -69,7 +69,7 @@ abstract class rex_extension
      *
      * @param string|string[] $extensionPoint Name(s) of extension point(s)
      * @param callable        $extension      Callback extension
-     * @param int             $level          Runlevel (`rex_extension::EARLY`, `rex_extension::NORMAL` or `rex_extension::LATE`)
+     * @param self::*         $level          Runlevel (`rex_extension::EARLY`, `rex_extension::NORMAL` or `rex_extension::LATE`)
      * @param array           $params         Additional params
      *
      * @template T as rex_extension_point
@@ -82,7 +82,7 @@ abstract class rex_extension
             return;
         }
         foreach ((array) $extensionPoint as $ep) {
-            self::$extensions[$ep][(int) $level][] = [$extension, $params];
+            self::$extensions[$ep][$level][] = [$extension, $params];
         }
     }
 

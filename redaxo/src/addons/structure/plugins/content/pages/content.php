@@ -248,7 +248,7 @@ if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id))
                                 rex_sql_util::organizePriorities(
                                     rex::getTable('article_slice'),
                                     'priority',
-                                    'article_id=' . (int) $article_id . ' AND clang_id=' . (int) $clang . ' AND ctype_id=' . (int) $ctype . ' AND revision=' . (int) $slice_revision,
+                                    'article_id=' . $article_id . ' AND clang_id=' . $clang . ' AND ctype_id=' . $ctype . ' AND revision=' . (int) $slice_revision,
                                     'priority, updatedate DESC'
                                 );
 

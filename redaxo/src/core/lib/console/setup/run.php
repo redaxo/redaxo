@@ -222,7 +222,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
             if (is_string($dbCreate)) {
                 $dbCreate = 'yes' === $dbCreate || 'true' === $dbCreate;
-                $io->success('Database will '.(!$dbCreate ? 'not ' : '').'be created');
+                $io->success('Database will '.($dbCreate ? '' : 'not ').'be created');
             }
 
             $config['db'][1]['host'] = $dbHost;

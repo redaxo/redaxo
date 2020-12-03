@@ -15,12 +15,10 @@ class rex_api_article2category extends rex_api_function
         // Check permissions
         if ($user->hasPerm('article2category[]') && $user->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
             if (rex_article_service::article2category($article_id)) {
-                $result = new rex_api_result(true, rex_i18n::msg('content_tocategory_ok'));
-            } else {
-                $result = new rex_api_result(false, rex_i18n::msg('content_tocategory_failed'));
+                return new rex_api_result(true, rex_i18n::msg('content_tocategory_ok'));
             }
 
-            return $result;
+            return new rex_api_result(false, rex_i18n::msg('content_tocategory_failed'));
         }
         throw new rex_api_exception('User has no permission for this article!');
     }

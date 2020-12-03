@@ -211,7 +211,7 @@ if ('add' == $function || 'edit' == $function) {
         }
     }
 
-    if (!isset($save) || 'ja' != $save) {
+    if ('ja' != $save) {
         // Ctype Handling
         $ctypes = $attributes['ctype'] ?? [];
         $modules = $attributes['modules'] ?? [];
