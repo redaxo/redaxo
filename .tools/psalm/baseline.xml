@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.2.1@ea9cb72143b77e7520c52fa37290bd8d8bc88fd9">
+<files psalm-version="4.3.0@6f916553a8de3c5c2483162b6cc01b21b24e4d1d">
   <file src="redaxo/src/addons/cronjob/lib/form.php">
     <PossiblyNullReference occurrences="2">
       <code>getIntervalElements</code>
@@ -85,6 +85,11 @@
       <code>getComplexPerm</code>
       <code>getName</code>
     </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/mediapool/lib/media.php">
+    <InvalidIterator occurrences="1">
+      <code>$cache</code>
+    </InvalidIterator>
   </file>
   <file src="redaxo/src/addons/mediapool/lib/media_category_select.php">
     <PossiblyNullReference occurrences="1">
@@ -353,6 +358,11 @@
       <code>getComplexPerm</code>
       <code>getComplexPerm</code>
     </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/structure_element.php">
+    <EmptyArrayAccess occurrences="1">
+      <code>$genVars['last_update_stamp']</code>
+    </EmptyArrayAccess>
   </file>
   <file src="redaxo/src/addons/structure/lib/var_article.php">
     <PossiblyNullReference occurrences="1">
@@ -767,6 +777,11 @@
     <PossiblyNullReference occurrences="1">
       <code>getCode</code>
     </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/tests/console/config/set_test.php">
+    <EmptyArrayAccess occurrences="1">
+      <code>$config['test']</code>
+    </EmptyArrayAccess>
   </file>
   <file src="redaxo/src/core/tests/sql/sql_table_test.php">
     <PossiblyNullReference occurrences="19">

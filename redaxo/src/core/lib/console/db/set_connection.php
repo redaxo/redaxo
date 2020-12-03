@@ -31,21 +31,23 @@ class rex_command_db_set_connection extends rex_console_command implements rex_c
         $configFile = rex_path::coreData('config.yml');
         $config = rex_file::getConfig($configFile);
 
+        $db = ($config['db'][1] ?? []) + ['host' => '', 'login' => '', 'password' => '', 'name' => ''];
+
         $changed = false;
-        if (null !== $input->getOption('host')) {
-            $config['db'][1]['host'] = $input->getOption('host');
+        if (null !== $host = $input->getOption('host')) {
+            $db['host'] = $host;
             $changed = true;
         }
-        if (null !== $input->getOption('login')) {
-            $config['db'][1]['login'] = $input->getOption('login');
+        if (null !== $login = $input->getOption('login')) {
+            $db['login'] = $login;
             $changed = true;
         }
-        if (null !== $input->getOption('password')) {
-            $config['db'][1]['password'] = $input->getOption('password');
+        if (null !== $password = $input->getOption('password')) {
+            $db['password'] = $password;
             $changed = true;
         }
-        if (null !== $input->getOption('database')) {
-            $config['db'][1]['name'] = $input->getOption('database');
+        if (null !== $database = $input->getOption('database')) {
+            $db['name'] = $database;
             $changed = true;
         }
 
@@ -54,10 +56,10 @@ class rex_command_db_set_connection extends rex_console_command implements rex_c
         }
 
         $settingsValid = rex_sql::checkDbConnection(
-            $config['db'][1]['host'],
-            $config['db'][1]['login'],
-            $config['db'][1]['password'],
-            $config['db'][1]['name'],
+            $db['host'],
+            $db['login'],
+            $db['password'],
+            $db['name'],
             false
         );
 
@@ -70,6 +72,8 @@ class rex_command_db_set_connection extends rex_console_command implements rex_c
         } else {
             $io->success('Credentials successfully validated.');
         }
+
+        $config['db'][1] = $db;
 
         if (rex_file::putConfig($configFile, $config)) {
             $io->success('Database settings successfully saved');
