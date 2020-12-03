@@ -93,7 +93,16 @@ class rex_backup_tar
      */
     public function extractTar($outdir)
     {
-        $this->tar->extract($outdir);
+        // when extracting tars generated with our previous tar class
+        // some E_DEPRECATED messages are triggered by `octdec()`:
+        // "Invalid characters passed for attempted conversion, these have been ignored"
+        $errorReporting = error_reporting(error_reporting() ^ E_DEPRECATED);
+
+        try {
+            $this->tar->extract($outdir);
+        } finally {
+            error_reporting($errorReporting);
+        }
 
         return true;
     }
