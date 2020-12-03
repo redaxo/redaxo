@@ -148,7 +148,8 @@
     </TaintedSql>
   </file>
   <file src="redaxo/src/core/lib/util/file.php">
-    <TaintedFile occurrences="6">
+    <TaintedFile occurrences="7">
+      <code>$file</code>
       <code>$file</code>
       <code>$file</code>
       <code>$file</code>

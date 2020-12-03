@@ -101,7 +101,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             }
 
             $license_file = rex_path::base('LICENSE.md');
-            $license = rex_file::get($license_file);
+            $license = rex_file::require($license_file);
             $io->writeln($license);
             if (!$io->confirm('Accept license terms and conditions?', false)) {
                 $io->error('You need to accept license terms and conditions');
