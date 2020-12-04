@@ -707,15 +707,14 @@ jQuery(document).ready(function ($) {
     });
 
     document.addEventListener('pjax:error', function (event) {
-        // user not authorized -> redirect to login page
+        // 401 user not authorized -> redirect to login page
         if (event.request.status === 401) {
             window.location = 'index.php?page=login';
             return false;
         }
+        // 500 -> load url with whoops
         if (event.request.status === 500) {
-            let newDoc = document.open('text/html', 'replace');
-            newDoc.write(event.request.responseText);
-            newDoc.close();
+            window.location = event.request.responseURL;
             return false;
         }
     });
