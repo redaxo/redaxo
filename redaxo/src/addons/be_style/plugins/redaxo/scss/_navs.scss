@@ -1,7 +1,7 @@
 $easeInCubic: cubic-bezier(0.55, 0.055, 0.675, 0.19);
 $easeOutCubic: cubic-bezier(0.215, 0.61, 0.355, 1);
 $easeInOutCubic: cubic-bezier(0.215, 0.61, 0.355, 1);
-$transitionDuration: 200ms;
+$transitionDuration: 300ms;
 
 .rex-is-logged-in {
     .rex-nav-footer {
@@ -338,7 +338,7 @@ $transitionDuration: 200ms;
 
     .rex-nav-top-is-elevated {
         .navbar {
-            box-shadow: 0 3px 2px 0 rgba($color-a-darker, 0.2);
+            box-shadow: 0 2px 2px 0 rgba($color-a-darker, 0.2);
         }
     }
 
