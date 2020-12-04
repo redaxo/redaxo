@@ -749,7 +749,7 @@ const handleClickAndSubmitEvents = function (event) {
         // save value of pjax container (in order to handle content switch)
         wrapper = event.target.closest('[data-pjax-container]');
         if (wrapper) {
-            pjax.options.pjaxContainerSelector = wrapper.dataset.pjaxContainerSelector;
+            pjax.options.pjaxContainerSelector = wrapper.dataset.pjaxContainer;
         }
 
         // handle links with pjax disabled
