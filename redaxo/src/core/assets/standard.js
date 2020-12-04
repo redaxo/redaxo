@@ -649,6 +649,22 @@ jQuery(document).ready(function ($) {
         switches: {
             // navigation: switch inner HTML only to keep scroll position
             '#rex-js-nav-main nav': Pjax.switches.innerHTML,
+            // page content: switch either given section or whole content
+            '#rex-js-page-main': function(oldEl, newEl, options) {
+                var source = oldEl;
+                var target = newEl;
+                // prepare switching a section only
+                if (options.pjaxContainerSelector) {
+                    var targetSection = newEl.querySelector(options.pjaxContainerSelector);
+                    if (targetSection) {
+                        source = oldEl.querySelector(options.pjaxContainerSelector);
+                        target = targetSection;
+                    }
+                }
+                // switch
+                source.replaceWith(target);
+                this.onSwitch();
+            },
         },
         cacheBust: pjaxDefaultConfig.cacheBust,
         history: pjaxDefaultConfig.history,
@@ -729,6 +745,12 @@ const handleClickAndSubmitEvents = function (event) {
 
     if (event.target.matches('[data-pjax-state]')) {
         let wrapper;
+
+        // save value of pjax container (in order to handle content switch)
+        wrapper = event.target.closest('[data-pjax-container]');
+        if (wrapper) {
+            pjax.options.pjaxContainerSelector = wrapper.dataset.pjaxContainerSelector;
+        }
 
         // handle links with pjax disabled
         wrapper = event.target.closest('[data-pjax-container]');
