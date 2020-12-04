@@ -612,15 +612,15 @@ const onDocumentReady = function () {
 
 // -------------------------------------------------------------------------------
 
-let pjax;
-const pjaxDefaultConfig = {
+var pjax;
+var pjaxDefaultConfig = {
     cacheBust: false,
     history: true,
     scrollTo: false,
     timeout: 10000,
     debug: false
 }
-let rexAjaxLoaderId;
+var rexAjaxLoaderId;
 
 // DOMContentLoaded
 jQuery(document).ready(function ($) {
@@ -632,13 +632,15 @@ jQuery(document).ready(function ($) {
     // https://github.com/MoOx/pjax
     pjax = new Pjax({
         elements: [
+            // elements within pjax containers, where elements are not disabled for pjax
             '[data-pjax-container] a:not([data-pjax=\'false\'])',
             '[data-pjax-container] form:not([data-pjax=\'false\'])',
+            // elements with data-pax attribute, where value is not false
             'a[data-pjax]:not([data-pjax=\'false\'])',
             'form[data-pjax]:not([data-pjax=\'false\'])',
         ],
         selectors: [
-            'title',
+            'title', // title
             '#rex-js-nav-top nav', // top navigation
             '#rex-js-nav-main nav', // main navigation
             '#rex-js-page-main', // page content
