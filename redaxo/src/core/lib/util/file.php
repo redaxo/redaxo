@@ -10,10 +10,35 @@ class rex_file
     /**
      * Returns the content of a file.
      *
+     * @param string $file Path to the file
+     *
+     * @throws rex_exception throws when the file cannot be read
+     *
+     * @return string Content of the file
+     */
+    public static function require(string $file): string
+    {
+        return rex_timer::measure(__METHOD__, static function () use ($file) {
+            $content = @file_get_contents($file);
+
+            if (false === $content) {
+                throw new rex_exception('Unable to read file "'. $file .'"');
+            }
+
+            return $content;
+        });
+    }
+
+    /**
+     * Returns the content of a file.
+     *
      * @param string $file    Path to the file
      * @param mixed  $default Default value
+     * @psalm-template T
+     * @psalm-param T $default
      *
      * @return mixed Content of the file or default value if the file isn't readable
+     * @psalm-return string|T
      */
     public static function get($file, $default = null)
     {
@@ -28,8 +53,11 @@ class rex_file
      *
      * @param string $file    Path to the file
      * @param mixed  $default Default value
+     * @psalm-template T
+     * @psalm-param T $default
      *
      * @return mixed Content of the file or default value if the file isn't readable
+     * @psalm-return array|T
      */
     public static function getConfig($file, $default = [])
     {
@@ -42,8 +70,11 @@ class rex_file
      *
      * @param string $file    Path to the file
      * @param mixed  $default Default value
+     * @psalm-template T
+     * @psalm-param T $default
      *
      * @return mixed Content of the file or default value if the file isn't readable
+     * @psalm-return array|T
      */
     public static function getCache($file, $default = [])
     {

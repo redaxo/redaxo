@@ -19,6 +19,7 @@ $KAToutARR = []; // Variable definiert und vorbelegt wenn nicht existent
 
 $navigation = [];
 
+/** @psalm-suppress RedundantCondition */
 $object_id = $article_id > 0 ? $article_id : $category_id;
 $object = rex_article::get($object_id, $clang);
 if ($object) {

@@ -19,7 +19,7 @@
         "phpunit/phpunit": "^9.3",
         "psalm/plugin-phpunit": "0.13.0",
         "psalm/plugin-symfony": "2.0.2",
-        "vimeo/psalm": "4.2.1"
+        "vimeo/psalm": "4.3.0"
     },
     "replace": {
         "erusev/parsedown": "1.7.4",
@@ -109,8 +109,8 @@
         "phpstan-baseline": "phpstan analyse --generate-baseline .tools/phpstan/baseline.neon",
         "psalm": "psalm --use-baseline=.tools/psalm/baseline.xml",
         "psalm-baseline": "psalm --set-baseline=.tools/psalm/baseline.xml",
-        "taint": "psalm --use-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache",
-        "taint-baseline": "psalm --set-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache || git checkout -- psalm.xml",
+        "taint": "psalm --use-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache --threads=1",
+        "taint-baseline": "psalm --set-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache --threads=1 || git checkout -- psalm.xml",
         "sa": [
             "@phpstan",
             "@psalm"
