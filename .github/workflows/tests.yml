@@ -18,7 +18,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-              redaxo-version: ${{github.ref}}
+              redaxo-version: ${{ github.event.pull_request.head.sha }}
               php-version: ['7.3', '7.4', '8.0']
               db-image: ['mysql:5.7'] # a docker-hub key
               include:
