@@ -193,7 +193,7 @@ class rex_log_file implements Iterator
  */
 class rex_log_entry
 {
-    const DATE_FORMAT = 'Y-m-d H:i:s';
+    public const DATE_FORMAT = 'Y-m-d H:i:s';
 
     /** @var int */
     private $timestamp;
