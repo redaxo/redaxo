@@ -42,7 +42,7 @@ jobs:
               if: matrix.redaxo-version == 'latest'
 
             - uses: actions/checkout@v2
-              ref: matrix.redaxo-version
+              ref: ${{ matrix.redaxo-version }}
               if: matrix.redaxo-version != 'latest'
 
             - name: Setup PHP
