@@ -29,6 +29,13 @@ jobs:
                   - php-version: '7.4'
                     db-image: 'mariadb:latest'
 
+                  - php-version: '7.4'
+                    db-image: 'mysql:5.7'
+                    redaxo-version: '5.11.1'
+                  - php-version: '7.4'
+                    db-image: 'mysql:5.7'
+                    redaxo-version: '5.10.1'
+
         if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
 # https://docs.github.com/en/free-pro-team@latest/actions/guides/about-service-containers
