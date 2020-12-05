@@ -18,7 +18,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-              redaxo-version: ${{ github.event.pull_request.head.sha }}
+              redaxo-version: ['latest']
               php-version: ['7.3', '7.4', '8.0']
               db-image: ['mysql:5.7'] # a docker-hub key
               include:
@@ -39,7 +39,11 @@ jobs:
                     - 3306
         steps:
             - uses: actions/checkout@v2
-              ref: ${{ matrix.redaxo-version }}
+              if: matrix.redaxo-version == 'latest'
+
+            - uses: actions/checkout@v2
+              ref: matrix.redaxo-version
+              if: matrix.redaxo-version != 'latest'
 
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
