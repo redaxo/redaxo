@@ -24,10 +24,13 @@ jobs:
               include:
                   - php-version: '7.4'
                     db-image: 'mysql:8.0'
+                    redaxo-version: 'latest'
                   - php-version: '7.3'
                     db-image: 'mariadb:10.1'
+                    redaxo-version: 'latest'
                   - php-version: '7.4'
                     db-image: 'mariadb:latest'
+                    redaxo-version: 'latest'
 
                   - php-version: '7.4'
                     db-image: 'mysql:5.7'
