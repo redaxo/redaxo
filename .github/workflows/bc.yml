@@ -1,0 +1,61 @@
+name: PHP Checks
+
+on:
+    push:
+        branches:
+            - master
+            - bugfix
+            - temp
+    pull_request:
+        types: [opened, synchronize, reopened, ready_for_review]
+        branches:
+            - '*'
+
+jobs:
+
+    phpunit:
+        name: unit tests
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+              redaxo-version: ['5.10.1', '5.11.1']
+              php-version: ['7.4']
+              db-image: ['mysql:5.7'] # a docker-hub key
+
+# https://docs.github.com/en/free-pro-team@latest/actions/guides/about-service-containers
+        services:
+            mysql:
+                image: ${{ matrix.db-image }}
+                ports:
+                    - 3306
+        steps:
+            - uses: actions/checkout@v2
+              ref: ${{ matrix.redaxo-version }}
+
+            - uses: actions/checkout@v2
+              path: '.rex-latest/'
+
+            - run: |
+              rm -rf $GITHUB_WORKSPACE/redaxo/src/addons/*
+              cp -rp $GITHUB_WORKSPACE/.rex-latest/redaxo/src/addons/ $GITHUB_WORKSPACE/redaxo/src/addons/
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php-version }}
+                  extensions: intl
+                  coverage: none # disable xdebug, pcov
+
+            - name: "composer install --prefer-dist"
+              uses: "ramsey/composer-install@v1"
+              if: matrix.php-version != '8.0'
+              with:
+                  composer-options: "--ansi --prefer-dist"
+            - name: "composer install --prefer-dist --ignore-platform-reqs=php"
+              uses: "ramsey/composer-install@v1"
+              if: matrix.php-version == '8.0'
+              with:
+                  composer-options: "--ansi --prefer-dist --ignore-platform-reqs=php"
+
+            - run: |
+                  vendor/bin/psalm --show-info=false --diff --output-format=github
