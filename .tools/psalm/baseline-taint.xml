@@ -53,11 +53,6 @@
       <code>rex_mediapool_Uploadform($rex_file_category)</code>
     </TaintedHtml>
   </file>
-  <file src="redaxo/src/addons/structure/plugins/content/lib/article_content_base.php">
-    <TaintedHtml occurrences="1">
-      <code>$articleContent</code>
-    </TaintedHtml>
-  </file>
   <file src="redaxo/src/addons/structure/plugins/content/pages/modules.actions.php">
     <TaintedHtml occurrences="1">
       <code>$content</code>

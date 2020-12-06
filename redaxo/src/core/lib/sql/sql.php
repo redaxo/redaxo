@@ -708,12 +708,13 @@ class rex_sql implements Iterator
      * Returns the value of a column.
      *
      * @param string $column Name of the column
+     * @param string|null $type Column type, see `rex_type::cast()` (only scalar types)
      *
      * @throws rex_sql_exception
      *
      * @return mixed
      */
-    public function getValue($column)
+    public function getValue($column, $type = null)
     {
         if (empty($column)) {
             throw new rex_sql_exception('parameter $column must not be empty!', null, $this);
@@ -721,7 +722,7 @@ class rex_sql implements Iterator
 
         // fast fail,... value already set manually?
         if (isset($this->values[$column])) {
-            return $this->values[$column];
+            return $this->castValue($this->values[$column], $type);
         }
 
         // check if there is an table alias defined
@@ -730,12 +731,12 @@ class rex_sql implements Iterator
             $tables = $this->getTablenames();
             foreach ($tables as $table) {
                 if (in_array($table . '.' . $column, $this->rawFieldnames)) {
-                    return $this->fetchValue($table . '.' . $column);
+                    return $this->castValue($this->fetchValue($table . '.' . $column), $type);
                 }
             }
         }
 
-        return $this->fetchValue($column);
+        return $this->castValue($this->fetchValue($column), $type);
     }
 
     /**
@@ -1910,6 +1911,19 @@ class rex_sql implements Iterator
         $conn = null;
 
         return $err_msg;
+    }
+
+    /**
+     * @param mixed $value
+     * @param string|null $type Column type, see `rex_type::cast()` (only scalar types)
+     */
+    private function castValue($value, $type)
+    {
+        if (null === $type) {
+            return $value;
+        }
+
+        return rex_type::cast($value, $type);
     }
 
     /**
