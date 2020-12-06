@@ -221,7 +221,6 @@ class rex_setup
             } elseif (1 == version_compare($dbVersion, '10.6', '<') && time() > strtotime('1 Jun 2025')) {
                 $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
             }
-            
         } elseif (rex_sql::MYSQL === $dbType) {
             // https://en.wikipedia.org/wiki/MySQL#Release_history
             if (1 == version_compare($dbVersion, '5.7', '<') && time() > strtotime('1 Feb 2021')) {
@@ -231,7 +230,6 @@ class rex_setup
             } elseif (1 == version_compare($dbVersion, '8.1', '<') && time() > strtotime('1 Apr 2026')) {
                 $security[] = rex_i18n::msg('setup_security_deprecated_mysql', $dbVersion);
             }
-            
         }
 
         return $security;
