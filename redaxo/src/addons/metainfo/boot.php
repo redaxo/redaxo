@@ -89,7 +89,7 @@ rex_extension::register('EDITOR_URL', static function (rex_extension_point $ep) 
         'clang_' => 'clangs',
     ];
 
-    $prefix = rex_metainfo_meta_prefix($sql->getValue('name'));
+    $prefix = rex_metainfo_meta_prefix($sql->getValue('name', 'string'));
 
     return rex_url::backendPage('metainfo/'.$pages[$prefix], ['func' => 'edit', 'field_id' => $id]);
 });
