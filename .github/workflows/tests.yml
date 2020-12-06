@@ -18,27 +18,15 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-              redaxo-version: ['latest']
               php-version: ['7.3', '7.4', '8.0']
               db-image: ['mysql:5.7'] # a docker-hub key
               include:
                   - php-version: '7.4'
                     db-image: 'mysql:8.0'
-                    redaxo-version: 'latest'
                   - php-version: '7.3'
                     db-image: 'mariadb:10.1'
-                    redaxo-version: 'latest'
                   - php-version: '7.4'
                     db-image: 'mariadb:latest'
-                    redaxo-version: 'latest'
-
-                  - php-version: '7.4'
-                    db-image: 'mysql:5.7'
-                    redaxo-version: '5.11.1'
-                  - php-version: '7.4'
-                    db-image: 'mysql:5.7'
-                    redaxo-version: '5.10.1'
-
         if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
 # https://docs.github.com/en/free-pro-team@latest/actions/guides/about-service-containers
@@ -49,12 +37,6 @@ jobs:
                     - 3306
         steps:
             - uses: actions/checkout@v2
-              if: matrix.redaxo-version == 'latest'
-
-            - uses: actions/checkout@v2
-              ref: ${{ matrix.redaxo-version }}
-              if: matrix.redaxo-version != 'latest'
-
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
