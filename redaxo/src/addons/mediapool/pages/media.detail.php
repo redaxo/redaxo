@@ -108,8 +108,8 @@ if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('cate
     $TPERM = true;
 }
 
-$ftitle = $gf->getValue('title');
-$fname = $gf->getValue('filename');
+$ftitle = $gf->getValue('title', 'string');
+$fname = $gf->getValue('filename', 'string');
 $ffiletype = $gf->getValue('filetype');
 $ffile_size = $gf->getValue('filesize', 'int');
 $ffile_size = rex_formatter::bytes($ffile_size);
