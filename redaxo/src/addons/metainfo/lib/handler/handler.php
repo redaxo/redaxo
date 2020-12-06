@@ -36,7 +36,7 @@ abstract class rex_metainfo_handler
             $name = $sqlFields->getValue('name', 'string');
             $title = $sqlFields->getValue('title', 'string');
             $params = $sqlFields->getValue('params', 'string');
-            $typeLabel = $sqlFields->getValue('label');
+            $typeLabel = $sqlFields->getValue('label', 'string');
             $attr = $sqlFields->getValue('attributes', 'string');
             $dblength = $sqlFields->getValue('dblength', 'int');
 
@@ -530,9 +530,9 @@ abstract class rex_metainfo_handler
         }
 
         for ($i = 0; $i < $sqlFields->getRows(); $i++, $sqlFields->next()) {
-            $fieldName = $sqlFields->getValue('name');
+            $fieldName = $sqlFields->getValue('name', 'string');
             $fieldType = $sqlFields->getValue('type_id');
-            $fieldAttributes = $sqlFields->getValue('attributes');
+            $fieldAttributes = $sqlFields->getValue('attributes', 'string');
 
             // dont save restricted fields
             $attrArray = rex_string::split($fieldAttributes);
