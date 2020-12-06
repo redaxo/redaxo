@@ -708,12 +708,13 @@ class rex_sql implements Iterator
      * Returns the value of a column.
      *
      * @param string $column Name of the column
+     * @param string|array|callable|null $type Column type
      *
      * @throws rex_sql_exception
      *
      * @return mixed
      */
-    public function getValue($column)
+    public function getValue($column, $type = null)
     {
         if (empty($column)) {
             throw new rex_sql_exception('parameter $column must not be empty!', null, $this);
@@ -721,7 +722,7 @@ class rex_sql implements Iterator
 
         // fast fail,... value already set manually?
         if (isset($this->values[$column])) {
-            return $this->values[$column];
+            return $this->castValue($this->values[$column], $type);
         }
 
         // check if there is an table alias defined
@@ -730,28 +731,12 @@ class rex_sql implements Iterator
             $tables = $this->getTablenames();
             foreach ($tables as $table) {
                 if (in_array($table . '.' . $column, $this->rawFieldnames)) {
-                    return $this->fetchValue($table . '.' . $column);
+                    return $this->castValue($this->fetchValue($table . '.' . $column), $type);
                 }
             }
         }
 
-        return $this->fetchValue($column);
-    }
-
-    /**
-     * Return the integer value of a column.
-     *
-     * @throws rex_sql_exception
-     */
-    public function getIntValue(string $column): int
-    {
-        $value = $this->getValue($column);
-
-        if (!is_int($value) && !filter_var($value, FILTER_VALIDATE_INT)) {
-            throw new rex_exception('Column "'.$column.'" expected to contain an int, but "'.gettype($value).'" given');
-        }
-
-        return (int) $value;
+        return $this->castValue($this->fetchValue($column), $type);
     }
 
     /**
@@ -1926,6 +1911,23 @@ class rex_sql implements Iterator
         $conn = null;
 
         return $err_msg;
+    }
+
+    /**
+     * @param mixed $value
+     * @param string|array|callable|null $type
+     */
+    private function castValue($value, $type)
+    {
+        if (null === $type) {
+            return $value;
+        }
+
+        if (is_array($type) || 'array' === $type || is_string($type) && str_starts_with($type, 'array[')) {
+            $value = json_decode($value, true);
+        }
+
+        return rex_type::cast($value, $type);
     }
 
     /**

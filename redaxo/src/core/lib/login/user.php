@@ -116,7 +116,7 @@ class rex_user
      */
     public function getId()
     {
-        return $this->sql->getIntValue('id');
+        return $this->sql->getValue('id', 'int');
     }
 
     /**
