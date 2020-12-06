@@ -1018,10 +1018,6 @@ class rex_sql implements Iterator
             return $this->setMultiRecordQuery('INSERT', true);
         }
 
-        // hold a copies of the query fields for later debug out (the class property will be reverted in setQuery())
-        $tableName = $this->table;
-        $values = $this->values;
-
         $onDuplicateKeyUpdate = $this->buildOnDuplicateKeyUpdate(array_keys(array_merge($this->values, $this->rawValues)));
         $this->setQuery(
             'INSERT INTO ' . $this->escapeIdentifier($this->table) . ' SET ' . $this->buildPreparedValues() . ' ' . $onDuplicateKeyUpdate,
