@@ -711,7 +711,7 @@ class rex_sql implements Iterator
      *
      * @throws rex_sql_exception
      *
-     * @return scalar
+     * @return scalar|null
      */
     public function getValue($column)
     {
@@ -770,7 +770,7 @@ class rex_sql implements Iterator
     /**
      * @param string $column
      *
-     * @return scalar
+     * @return scalar|null
      */
     protected function fetchValue($column)
     {
