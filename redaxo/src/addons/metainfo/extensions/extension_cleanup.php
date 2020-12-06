@@ -40,7 +40,7 @@ function rex_metainfo_cleanup($epOrParams)
     $sql->setQuery('SELECT name FROM ' . rex::getTablePrefix() . 'metainfo_field');
 
     for ($i = 0; $i < $sql->getRows(); ++$i) {
-        $prefix = rex_metainfo_meta_prefix($sql->getValue('name'));
+        $prefix = rex_metainfo_meta_prefix($sql->getValue('name', 'string'));
         $table = rex_metainfo_meta_table($prefix);
         $tableManager = new rex_metainfo_table_manager($table);
 
