@@ -270,7 +270,7 @@ $panel = '
                     $file_oname = $files->getValue('originalname');
                     $file_title = $files->getValue('title');
                     $file_type = $files->getValue('filetype');
-                    $file_size = $files->getValue('filesize');
+                    $file_size = $files->getValue('filesize', 'int');
                     $file_stamp = rex_formatter::strftime($files->getDateTimeValue('updatedate'), 'datetime');
                     $file_updateuser = $files->getValue('updateuser');
 
