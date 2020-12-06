@@ -138,10 +138,10 @@ abstract class rex_package_manager
             rex_i18n::addDirectory($this->package->getPath('lang'));
 
             // include install.php
-            $statusMessage = '';
+            $successMessage = '';
             if (is_readable($this->package->getPath(rex_package::FILE_INSTALL))) {
                 $this->package->includeFile(rex_package::FILE_INSTALL);
-                $statusMessage = $this->package->getProperty('statusmsg', '');
+                $successMessage = $this->package->getProperty('successmsg', '');
 
                 if ('' != ($instmsg = $this->package->getProperty('installmsg', ''))) {
                     throw new rex_functional_exception($instmsg);
@@ -180,8 +180,8 @@ abstract class rex_package_manager
             }
 
             $this->message = $this->i18n($reinstall ? 'reinstalled' : 'installed', $this->package->getName());
-            if ($statusMessage) {
-                $this->message .= ' '. $statusMessage;
+            if ($successMessage) {
+                $this->message .= ' '. $successMessage;
             }
 
             return true;
