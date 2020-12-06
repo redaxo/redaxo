@@ -19,7 +19,7 @@ $structureContext = new rex_structure_context([
 
 if (0 == $structureContext->getClangId()) {
     if (rex_clang::exists(0)) {
-        echo rex_view::error('A invalid clang with id=0 exists. Looks like a broken update from a previous REDAXO version. Please make sure the clang-ids start with 1.');
+        echo rex_view::error('A invalid clang with id=0 exists. Looks like a broken update from a previous REDAXO 4.x version. Please make sure the clang-ids start with 1.');
         exit;
     } else {
         echo rex_view::error('You have no permission to access this area');
