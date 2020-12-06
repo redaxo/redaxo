@@ -708,7 +708,7 @@ class rex_sql implements Iterator
      * Returns the value of a column.
      *
      * @param string $column Name of the column
-     * @param string|array|callable|null $type Column type
+     * @param string|array|callable|null $type Column type, see `rex_type::cast()`
      *
      * @throws rex_sql_exception
      *
@@ -1915,7 +1915,7 @@ class rex_sql implements Iterator
 
     /**
      * @param mixed $value
-     * @param string|array|callable|null $type
+     * @param string|array|callable|null $type Column type, see `rex_type::cast()`
      */
     private function castValue($value, $type)
     {
