@@ -531,7 +531,7 @@ abstract class rex_metainfo_handler
 
         for ($i = 0; $i < $sqlFields->getRows(); $i++, $sqlFields->next()) {
             $fieldName = $sqlFields->getValue('name', 'string');
-            $fieldType = $sqlFields->getValue('type_id');
+            $fieldType = $sqlFields->getValue('type_id', 'int');
             $fieldAttributes = $sqlFields->getValue('attributes', 'string');
 
             // dont save restricted fields
