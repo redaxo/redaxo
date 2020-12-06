@@ -81,7 +81,7 @@ $managers = [
     'clang' => new rex_metainfo_table_manager(rex::getTable('clang')),
 ];
 for ($i = 0; $i < $sql->getRows(); ++$i) {
-    $column = $sql->getValue('name');
+    $column = $sql->getValue('name', 'string');
     if ('med_' == substr($column, 0, 4)) {
         $table = 'media';
     } elseif ('clang_' == substr($column, 0, 6)) {
