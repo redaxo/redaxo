@@ -237,7 +237,7 @@ if ($TPERM) {
 
     $e = [];
     $e['label'] = '<label>' . rex_i18n::msg('pool_created') . '</label>';
-    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime($gf->getDateTimeValue('createdate')), 'datetime') . ' <span class="rex-author">' . rex_escape($gf->getValue('createuser') . '</span></p>';
+    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime($gf->getDateTimeValue('createdate'), 'datetime') . ' <span class="rex-author">' . rex_escape($gf->getValue('createuser') . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
@@ -317,7 +317,7 @@ if ($TPERM) {
 
     $e = [];
     $e['label'] = '<label>' . rex_i18n::msg('pool_last_update') . '</label>';
-    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime($gf->getDateTimeValue('updatedate')), 'datetime') . ' <span class="rex-author">' . $gf->getValue('updateuser') . '</span></p>';
+    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime($gf->getDateTimeValue('updatedate'), 'datetime') . ' <span class="rex-author">' . $gf->getValue('updateuser') . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
