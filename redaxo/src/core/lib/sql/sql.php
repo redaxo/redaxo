@@ -30,9 +30,9 @@ class rex_sql implements Iterator
 
     /** @var bool */
     protected $debug; // debug schalter
-    /** @var array<string, scalar> */
+    /** @var array<string, scalar|null> */
     protected $values; // Werte von setValue
-    /** @var array<string, scalar> */
+    /** @var array<string, scalar|null> */
     protected $rawValues; // Werte von setRawValue
     /** @var string[]|null */
     protected $fieldnames; // Spalten im ResultSet
@@ -493,7 +493,7 @@ class rex_sql implements Iterator
      * Set the value of a column.
      *
      * @param string $column Name of the column
-     * @param scalar  $value  The value
+     * @param scalar|null  $value  The value
      *
      * @return $this the current rex_sql object
      */
@@ -534,7 +534,7 @@ class rex_sql implements Iterator
     /**
      * Setzt ein Array von Werten zugleich.
      *
-     * @param array<string, scalar> $valueArray Ein Array von Werten
+     * @param array<string, scalar|null> $valueArray Ein Array von Werten
      *
      * @return $this the current rex_sql object
      */
