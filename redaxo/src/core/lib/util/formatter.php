@@ -188,6 +188,7 @@ abstract class rex_formatter
      *
      * @param string $value  Value
      * @param array  $format Default format is `array('length' => 80, 'etc' => '...', 'break_words' => false)`
+     * @param array{length?: int, etc?: string, break_words?: bool} $format
      *
      * @return string
      */
