@@ -482,7 +482,7 @@ class rex_media_manager
 
         /** @var rex_sql $row */
         foreach ($sql as $row) {
-            $cache[$row->getValue('name')] = $row->getDateTimeValue('updatedate');
+            $cache[$row->getValue('name', 'string')] = $row->getDateTimeValue('updatedate');
         }
 
         rex_file::putCache($file, $cache);
