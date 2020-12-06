@@ -113,7 +113,7 @@ $fname = $gf->getValue('filename', 'string');
 $ffiletype = $gf->getValue('filetype');
 $ffile_size = $gf->getValue('filesize', 'int');
 $ffile_size = rex_formatter::bytes($ffile_size);
-$rex_file_category = $gf->getValue('category_id');
+$rex_file_category = $gf->getValue('category_id', 'int');
 
 $sidebar = '';
 $add_ext_info = '';
