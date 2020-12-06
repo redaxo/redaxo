@@ -33,8 +33,8 @@ abstract class rex_metainfo_handler
             $tag = 'p';
             $tag_attr = '';
 
-            $name = $sqlFields->getValue('name');
-            $title = $sqlFields->getValue('title');
+            $name = $sqlFields->getValue('name', 'string');
+            $title = $sqlFields->getValue('title', 'string');
             $params = $sqlFields->getValue('params');
             $typeLabel = $sqlFields->getValue('label');
             $attr = $sqlFields->getValue('attributes', 'string');
