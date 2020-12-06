@@ -708,7 +708,7 @@ class rex_sql implements Iterator
      * Returns the value of a column.
      *
      * @param string $column Name of the column
-     * @param string|array|callable|null $type Column type, see `rex_type::cast()`
+     * @param string|null $type Column type, see `rex_type::cast()` (only scalar types)
      *
      * @throws rex_sql_exception
      *
@@ -1915,16 +1915,12 @@ class rex_sql implements Iterator
 
     /**
      * @param mixed $value
-     * @param string|array|callable|null $type Column type, see `rex_type::cast()`
+     * @param string|null $type Column type, see `rex_type::cast()` (only scalar types)
      */
     private function castValue($value, $type)
     {
         if (null === $type) {
             return $value;
-        }
-
-        if (is_array($type) || 'array' === $type || is_string($type) && str_starts_with($type, 'array[')) {
-            $value = json_decode($value, true);
         }
 
         return rex_type::cast($value, $type);
