@@ -191,6 +191,8 @@ class rex_setup
             $security[] = rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION);
         } elseif (1 == version_compare(PHP_VERSION, '8.0', '<') && time() > strtotime('28 Nov 2022')) {
             $security[] = rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION);
+        } elseif (1 == version_compare(PHP_VERSION, '8.1', '<') && time() > strtotime('26 Nov 2023')) {
+            $security[] = rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION);
         }
 
         return $security;
