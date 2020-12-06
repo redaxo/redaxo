@@ -35,7 +35,7 @@ abstract class rex_metainfo_handler
 
             $name = $sqlFields->getValue('name', 'string');
             $title = $sqlFields->getValue('title', 'string');
-            $params = $sqlFields->getValue('params');
+            $params = $sqlFields->getValue('params', 'string');
             $typeLabel = $sqlFields->getValue('label');
             $attr = $sqlFields->getValue('attributes', 'string');
             $dblength = $sqlFields->getValue('dblength', 'int');
@@ -57,7 +57,7 @@ abstract class rex_metainfo_handler
                 }
             }
 
-            $defaultValue = $sqlFields->getValue('default');
+            $defaultValue = $sqlFields->getValue('default', 'string');
             if ($activeItem) {
                 $itemValue = $activeItem->getValue($name);
 
