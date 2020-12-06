@@ -226,7 +226,6 @@ class rex_response
      * @param null|string $etag               HTTP Cachekey to identify the cache
      * @param null|string $contentDisposition Content disposition ("inline" or "attachment")
      * @param null|string $filename           Filename
-     * @param null|string $cacheControl       Cache Control
      */
     public static function sendResource($content, $contentType = null, $lastModified = null, $etag = null, $contentDisposition = null, $filename = null)
     {
