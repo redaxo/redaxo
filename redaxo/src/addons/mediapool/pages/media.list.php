@@ -266,7 +266,7 @@ $panel = '
                 $panel .= '<tbody>';
                 for ($i = 0; $i < $files->getRows(); ++$i) {
                     $file_id = $files->getValue('id');
-                    $file_name = $files->getValue('filename');
+                    $file_name = $files->getValue('filename', 'string');
                     $file_oname = $files->getValue('originalname');
                     $file_title = $files->getValue('title');
                     $file_type = $files->getValue('filetype');
@@ -289,7 +289,7 @@ $panel = '
                     $desc = '';
                     foreach (['med_description'] as $col) {
                         if ($files->hasValue($col) && '' != $files->getValue($col)) {
-                            $desc = '<p>' . rex_escape(strip_tags($files->getValue($col))) . '</p>';
+                            $desc = '<p>' . rex_escape(strip_tags($files->getValue($col, 'string'))) . '</p>';
                             break;
                         }
                     }
