@@ -187,8 +187,7 @@ abstract class rex_formatter
      * Truncates a string.
      *
      * @param string $value  Value
-     * @param array  $format Default format is `array('length' => 80, 'etc' => '...', 'break_words' => false)`
-     * @param array{length?: int, etc?: string, break_words?: bool} $format
+     * @param array{length?: int, etc?: string, break_words?: bool} $format Default format is `['length' => 80, 'etc' => '...', 'break_words' => false]`
      *
      * @return string
      */
