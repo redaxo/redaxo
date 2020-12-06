@@ -173,7 +173,7 @@ if ($warnings) {
         'password' => $userpsw,
     ], true));
 
-    if (isset($FUNC_UPDATE) && '' != $FUNC_UPDATE) {
+    if ('' != $FUNC_UPDATE) {
         $user_id = 0;
         $FUNC_UPDATE = '';
     }
@@ -220,7 +220,7 @@ if ($warnings) {
         $adduser->setDateTimeValue('password_changed', time());
         $adduser->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords(null, $userpswHash));
         $adduser->setValue('password_change_required', (int) $passwordChangeRequired);
-        if (isset($userstatus) && 1 == $userstatus) {
+        if (1 == $userstatus) {
             $adduser->setValue('status', 1);
         } else {
             $adduser->setValue('status', 0);

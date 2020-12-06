@@ -138,8 +138,10 @@ abstract class rex_package_manager
             rex_i18n::addDirectory($this->package->getPath('lang'));
 
             // include install.php
+            $successMessage = '';
             if (is_readable($this->package->getPath(rex_package::FILE_INSTALL))) {
                 $this->package->includeFile(rex_package::FILE_INSTALL);
+                $successMessage = $this->package->getProperty('successmsg', '');
 
                 if ('' != ($instmsg = $this->package->getProperty('installmsg', ''))) {
                     throw new rex_functional_exception($instmsg);
@@ -178,6 +180,9 @@ abstract class rex_package_manager
             }
 
             $this->message = $this->i18n($reinstall ? 'reinstalled' : 'installed', $this->package->getName());
+            if ($successMessage) {
+                $this->message .= ' '. $successMessage;
+            }
 
             return true;
         } catch (rex_functional_exception $e) {
@@ -789,7 +794,7 @@ abstract class rex_package_manager
                 } else {
                     ++$pos;
                     $sub = (int) substr($match['version'], $pos);
-                    $constraints[] = ['<', substr_replace($match['version'], $sub + 1, $pos)];
+                    $constraints[] = ['<', substr_replace($match['version'], (string) ($sub + 1), $pos)];
                 }
             } elseif (in_array($match['op'], ['~', '^'])) {
                 $constraints[] = ['>=', $match['version'] . ($match['prerelease'] ?? '')];
