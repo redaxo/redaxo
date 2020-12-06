@@ -1,4 +1,4 @@
-name: PHP Backwards Compatibility Check
+name: Backwards Compatibility Check
 
 on:
     push:
