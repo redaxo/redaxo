@@ -183,6 +183,25 @@ class rex_sql_test extends TestCase
         static::assertEquals([1, 2, 3], $sql->getArrayValue('col_array'), 'get a previous set array');
     }
 
+    public function testGetValueWithType()
+    {
+        $sql = rex_sql::factory();
+        $sql->setTable(self::TABLE);
+        $sql->setValue('col_str', 'abc');
+        $sql->setValue('col_int', '5');
+        $sql->setArrayValue('col_array_1', [3, '2', null]);
+        $sql->setArrayValue('col_array_2', ['foo' => 3, 'bar' => 2]);
+
+        static::assertSame('abc', $sql->getValue('col_str', 'string'));
+        static::assertSame(5, $sql->getValue('col_int', 'int'));
+        static::assertSame([3, '2', null], $sql->getValue('col_array_1', 'array'));
+        static::assertSame([3, 2, 0], $sql->getValue('col_array_1', 'array[int]'));
+        static::assertSame(['foo' => 3, 'baz' => 1], $sql->getValue('col_array_2', [
+            ['foo', 'int', 0],
+            ['baz', 'int', 1],
+        ]));
+    }
+
     public function testInsertRow()
     {
         $sql = rex_sql::factory();
