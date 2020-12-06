@@ -38,7 +38,7 @@ abstract class rex_formatter
      *
      * @see http://www.php.net/manual/en/function.date.php
      *
-     * @param string|int $value  Unix timestamp or datetime string for `strtotime`
+     * @param string|int|null $value  Unix timestamp or datetime string for `strtotime`
      * @param string     $format Default format is `d.m.Y`
      *
      * @return string
