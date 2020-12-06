@@ -434,12 +434,12 @@ function getCookie(cookieName) {
 // scroll to anchor element + adjust scroll-padding-top
 function scrollToAnchor() {
     if (window.location.hash) {
-        let scrollPadding = window.getComputedStyle(document.documentElement).getPropertyValue('scroll-padding-top');
+        var scrollPadding = window.getComputedStyle(document.documentElement).getPropertyValue('scroll-padding-top');
         scrollPadding = parseInt(scrollPadding, 10); // so 65px will be 65
         if (scrollPadding > 0) {
-            let anchorItem = document.querySelector(window.location.hash);
+            var anchorItem = document.querySelector(window.location.hash);
             if (anchorItem) {
-                let anchorItemPosition = anchorItem.getBoundingClientRect().top;
+                var anchorItemPosition = anchorItem.getBoundingClientRect().top;
                 if (!isNaN(scrollPadding) && scrollPadding > 0 && anchorItemPosition < scrollPadding) {
                     window.scrollBy(0, -scrollPadding);
                 }
@@ -482,7 +482,7 @@ $(document).on('rex:ready', function (event, viewRoot) {
 
 // -------------------------------------------------------------------------------
 
-const onDocumentReady = function () {
+var onDocumentReady = function () {
 
     // ------------------ Accesskey Navigation
     $(document).keypress(function(event) {
@@ -727,7 +727,7 @@ jQuery(document).ready(function ($) {
 // -------------------------------------------------------------------------------
 
 // handle click and submit events
-const handleClickAndSubmitEvents = function (event) {
+var handleClickAndSubmitEvents = function (event) {
 
     // handle confirm dialogs
     if (event.target.dataset.confirm) {
@@ -742,8 +742,9 @@ const handleClickAndSubmitEvents = function (event) {
         event.target.setAttribute('data-clicked', 1);
     }
 
+    // handle pjax links
     if (event.target.matches('[data-pjax-state]')) {
-        let wrapper;
+        var wrapper;
 
         // save value of pjax container (in order to handle content switch)
         wrapper = event.target.closest('[data-pjax-container]');
@@ -776,9 +777,9 @@ const handleClickAndSubmitEvents = function (event) {
 
         // handle form submit
         if (event.type === 'submit' && event.target.tagName === 'FORM') {
-            let submitButton = event.target.querySelector('[data-clicked]');
+            var submitButton = event.target.querySelector('[data-clicked]');
             if (submitButton) {
-                let hiddenField = document.createElement("input");
+                var hiddenField = document.createElement("input");
                 hiddenField.setAttribute("type", "hidden");
                 hiddenField.setAttribute("name", submitButton.getAttribute('name'));
                 hiddenField.setAttribute("value", submitButton.dataset.clicked);
@@ -789,19 +790,19 @@ const handleClickAndSubmitEvents = function (event) {
 }
 
 // handle key events
-const handleKeyEvents = function (event) {
+var handleKeyEvents = function (event) {
 
     // submit forms via strg/cmd + enter
     if (event.metaKey && event.keyCode === 13) {
-        let form = event.target.closest('form');
+        var form = event.target.closest('form');
         if (form) {
             // click apply button if available (e.g. when editing content)
-            let applyButton = form.querySelector('.btn-apply');
+            var applyButton = form.querySelector('.btn-apply');
             if (applyButton) {
                 applyButton.click();
             } else {
                 // click (first) submit button
-                let submitButton = form.querySelector('[type=\'submit\']');
+                var submitButton = form.querySelector('[type=\'submit\']');
                 if (submitButton) {
                     submitButton.click();
                 }
