@@ -31,7 +31,7 @@ if (rex_post('btn_delete', 'string')) {
         $sql = rex_sql::factory()->setQuery('SELECT filename FROM ' . rex::getTable('media') . ' WHERE id = ?', [$file_id]);
         $media = null;
         if (1 == $sql->getRows()) {
-            $media = rex_media::get($sql->getValue('filename'));
+            $media = rex_media::get($sql->getValue('filename', 'string'));
         }
 
         if ($media) {
@@ -111,7 +111,7 @@ if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('cate
 $ftitle = $gf->getValue('title');
 $fname = $gf->getValue('filename');
 $ffiletype = $gf->getValue('filetype');
-$ffile_size = $gf->getValue('filesize');
+$ffile_size = $gf->getValue('filesize', 'int');
 $ffile_size = rex_formatter::bytes($ffile_size);
 $rex_file_category = $gf->getValue('category_id');
 
