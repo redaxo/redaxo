@@ -12,7 +12,7 @@ $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type WH
 if (1 != $sql->getRows()) {
     throw new Exception('Invalid type_id "'. $type_id .'"');
 }
-$typeName = $sql->getValue('name');
+$typeName = $sql->getValue('name', 'string');
 
 $info = '';
 $warning = '';
