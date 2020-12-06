@@ -739,6 +739,22 @@ class rex_sql implements Iterator
     }
 
     /**
+     * Return the integer value of a column.
+     *
+     * @throws rex_sql_exception
+     */
+    public function getIntValue(string $column): int
+    {
+        $value = $this->getValue($column);
+
+        if (!is_int($value) && !filter_var($value, FILTER_VALIDATE_INT)) {
+            throw new rex_exception('Column "'.$column.'" expected to contain an int, but "'.gettype($value).'" given');
+        }
+
+        return (int) $value;
+    }
+
+    /**
      * Returns the array value of a (json encoded) column.
      *
      * @param string $column Name of the column
