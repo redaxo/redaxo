@@ -7,7 +7,7 @@
         "php": ">=7.3"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "2.16.7",
+        "friendsofphp/php-cs-fixer": "2.16.8",
         "friendsofredaxo/linter": "1.2.7",
         "j13k/yaml-lint": "^1.1@dev",
         "nunomaduro/collision": "^5.1",
