@@ -28,7 +28,7 @@ $finder = PhpCsFixer\Finder::create()
         $tools.'/bin/setup',
         $tools.'/bin/update-root-composer',
     ])
-    ->filter(static function (\SplFileInfo $file) use ($bootPath) {
+    ->filter(static function (SplFileInfo $file) use ($bootPath) {
         return $bootPath !== $file->getRealPath();
     })
 ;
@@ -48,11 +48,13 @@ return PhpCsFixer\Config::create()
         'comment_to_phpdoc' => true,
         'concat_space' => false,
         'declare_strict_types' => false,
+        'echo_tag_syntax' => false,
         'function_to_constant' => ['functions' => ['get_class', 'get_called_class', 'php_sapi_name', 'phpversion', 'pi']],
         'heredoc_to_nowdoc' => true,
         'list_syntax' => ['syntax' => 'short'],
         'logical_operators' => true,
         'native_constant_invocation' => false,
+        'no_alternative_syntax' => false,
         'no_blank_lines_after_phpdoc' => false,
         'no_null_property_initialization' => true,
         'no_php4_constructor' => true,
@@ -82,7 +84,7 @@ return PhpCsFixer\Config::create()
         'phpdoc_types_order' => false,
         'phpdoc_var_annotation_correct_order' => true,
         'phpdoc_var_without_name' => false,
-        'psr4' => false,
+        'psr_autoloading' => false,
         'semicolon_after_instruction' => false,
         'static_lambda' => true,
         'string_line_ending' => true,

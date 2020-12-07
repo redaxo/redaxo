@@ -83,7 +83,7 @@ class rex_fragment
     public function setVar($name, $value, $escape = true)
     {
         if (null === $name) {
-            throw new InvalidArgumentException(sprintf('Expecting $name to be not null!'));
+            throw new InvalidArgumentException('Expecting $name to be not null!');
         }
 
         if ($escape) {
