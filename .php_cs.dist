@@ -88,7 +88,6 @@ return PhpCsFixer\Config::create()
         'semicolon_after_instruction' => false,
         'static_lambda' => true,
         'string_line_ending' => true,
-        'ternary_operator_spaces' => false, // https://github.com/FriendsOfPHP/PHP-CS-Fixer/issues/5224
         'void_return' => false,
         'yoda_style' => true,
     ])
