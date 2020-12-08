@@ -7,8 +7,8 @@
  */
 abstract class rex_structure_element
 {
-    use rex_instance_pool_trait;
     use rex_instance_list_pool_trait;
+    use rex_instance_pool_trait;
 
     /** @var int */
     protected $id = 0;
