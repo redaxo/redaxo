@@ -122,7 +122,7 @@ class rex_article_service
     public static function editArticle($article_id, $clang, $data)
     {
         if (!is_array($data)) {
-            throw  new rex_api_exception('Expecting $data to be an array!');
+            throw new rex_api_exception('Expecting $data to be an array!');
         }
 
         self::reqKey($data, 'name');

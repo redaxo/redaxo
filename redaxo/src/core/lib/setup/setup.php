@@ -187,9 +187,12 @@ class rex_setup
             $security[] = rex_i18n::msg('setup_session_autostart_warning');
         }
 
+        // https://www.php.net/supported-versions.php
         if (1 == version_compare(PHP_VERSION, '7.4', '<') && time() > strtotime('6 Dec 2021')) {
             $security[] = rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION);
         } elseif (1 == version_compare(PHP_VERSION, '8.0', '<') && time() > strtotime('28 Nov 2022')) {
+            $security[] = rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION);
+        } elseif (1 == version_compare(PHP_VERSION, '8.1', '<') && time() > strtotime('26 Nov 2023')) {
             $security[] = rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION);
         }
 
@@ -218,16 +221,18 @@ class rex_setup
                 $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
             } elseif (1 == version_compare($dbVersion, '10.5', '<') && time() > strtotime('1 Jun 2024')) {
                 $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
+            } elseif (1 == version_compare($dbVersion, '10.6', '<') && time() > strtotime('1 Jun 2025')) {
+                $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
             }
-            // 10.5 is not yet released
         } elseif (rex_sql::MYSQL === $dbType) {
             // https://en.wikipedia.org/wiki/MySQL#Release_history
             if (1 == version_compare($dbVersion, '5.7', '<') && time() > strtotime('1 Feb 2021')) {
                 $security[] = rex_i18n::msg('setup_security_deprecated_mysql', $dbVersion);
             } elseif (1 == version_compare($dbVersion, '8.0', '<') && time() > strtotime('1 Oct 2023')) {
                 $security[] = rex_i18n::msg('setup_security_deprecated_mysql', $dbVersion);
+            } elseif (1 == version_compare($dbVersion, '8.1', '<') && time() > strtotime('1 Apr 2026')) {
+                $security[] = rex_i18n::msg('setup_security_deprecated_mysql', $dbVersion);
             }
-            // EOL 8.0 is April 2026
         }
 
         return $security;

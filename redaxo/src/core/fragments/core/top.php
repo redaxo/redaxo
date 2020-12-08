@@ -5,7 +5,7 @@
  */
 ?>
 <!doctype html>
-<html lang="<?php echo  rex_i18n::msg('htmllang'); ?>">
+<html lang="<?php echo rex_i18n::msg('htmllang'); ?>">
 <head>
     <meta charset="utf-8" />
 

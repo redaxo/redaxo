@@ -49,11 +49,11 @@ jobs:
               if: matrix.php-version != '8.0'
               with:
                   composer-options: "--ansi --prefer-dist"
-            - name: "composer install --prefer-dist --ignore-platform-reqs"
+            - name: "composer install --prefer-dist --ignore-platform-req=php"
               uses: "ramsey/composer-install@v1"
               if: matrix.php-version == '8.0'
               with:
-                  composer-options: "--ansi --prefer-dist --ignore-platform-reqs"
+                  composer-options: "--ansi --prefer-dist --ignore-platform-req=php"
 
             - name: Setup Problem Matchers for PHPUnit
               run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"

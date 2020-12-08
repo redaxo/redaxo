@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.3.0@6f916553a8de3c5c2483162b6cc01b21b24e4d1d">
+<files psalm-version="4.3.1@2feba22a005a18bf31d4c7b9bdb9252c73897476">
   <file src="redaxo/src/addons/backup/lib/backup.php">
     <TaintedFile occurrences="2">
       <code>$filename</code>
@@ -51,11 +51,6 @@
   <file src="redaxo/src/addons/mediapool/pages/upload.php">
     <TaintedHtml occurrences="1">
       <code>rex_mediapool_Uploadform($rex_file_category)</code>
-    </TaintedHtml>
-  </file>
-  <file src="redaxo/src/addons/structure/plugins/content/lib/article_content_base.php">
-    <TaintedHtml occurrences="1">
-      <code>$articleContent</code>
     </TaintedHtml>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/pages/modules.actions.php">

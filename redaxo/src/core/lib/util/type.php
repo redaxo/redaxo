@@ -74,7 +74,6 @@ class rex_type
 
                     // kein Cast, nichts tun
                 case '': break;
-
                 default:
                     // check for array with generic type
                     if (0 === strpos($vartype, 'array[')) {
