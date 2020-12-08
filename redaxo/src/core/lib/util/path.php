@@ -347,7 +347,7 @@ class rex_path
             }
             // Normaler Ordner
             else {
-                array_push($stack, $dir);
+                $stack[] = $dir;
             }
         }
 
