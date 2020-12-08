@@ -37,6 +37,6 @@ trait rex_singleton_trait
      */
     final public function __clone()
     {
-        throw new BadMethodCallException('Cloning "' . get_class($this) . '" is not allowed!');
+        throw new BadMethodCallException('Cloning "' . static::class . '" is not allowed!');
     }
 }
