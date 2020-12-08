@@ -329,10 +329,7 @@ class rex_backup_tar extends tar
                 }
             }
         }
-        if (count($this->messages) > 0) {
-            return false;
-        }
-        return true;
+        return !$this->messages;
     }
 
     /**
