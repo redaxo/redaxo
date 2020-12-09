@@ -36,10 +36,11 @@ jobs:
             - uses: actions/checkout@v2
               with:
                  path: '.rex-latest/'
-                 
+
+            - name: copy addons
               run: |
-              rm -rf "$GITHUB_WORKSPACE/redaxo/src/addons/*"
-              cp -rp "$GITHUB_WORKSPACE/.rex-latest/redaxo/src/addons/" "$GITHUB_WORKSPACE/redaxo/src/addons/"
+                rm -rf "redaxo/src/addons/*"
+                cp -rp "$GITHUB_WORKSPACE/.rex-latest/redaxo/src/addons/" "$GITHUB_WORKSPACE/redaxo/src/addons/"
               
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
