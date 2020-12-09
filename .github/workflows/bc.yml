@@ -46,7 +46,6 @@ jobs:
                 cp -rp "$GITHUB_WORKSPACE/.rex-latest/redaxo/src/addons/." "$GITHUB_WORKSPACE/.current/redaxo/src/addons/"
                 rm -rf "$GITHUB_WORKSPACE/.rex-latest/"
                 mv "$GITHUB_WORKSPACE/.current/*" "$GITHUB_WORKSPACE"
-                rm "$GITHUB_WORKSPACE/.current"
               
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
