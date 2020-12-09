@@ -7,8 +7,8 @@
  */
 class rex_media
 {
-    use rex_instance_pool_trait;
     use rex_instance_list_pool_trait;
+    use rex_instance_pool_trait;
 
     // id
     protected $id = '';

@@ -38,7 +38,7 @@ abstract class rex_effect_abstract
      */
     public function getName()
     {
-        return get_class($this);
+        return static::class;
     }
 
     /**

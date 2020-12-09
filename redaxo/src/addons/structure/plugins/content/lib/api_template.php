@@ -201,11 +201,7 @@ class rex_template
             return true;
         }
 
-        if (is_array($template_modules[$ctype]) && in_array($module_id, $template_modules[$ctype])) {
-            return true;
-        }
-
-        return false;
+        return is_array($template_modules[$ctype]) && in_array($module_id, $template_modules[$ctype]);
     }
 
     /**
