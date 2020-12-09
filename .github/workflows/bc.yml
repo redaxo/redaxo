@@ -30,16 +30,17 @@ jobs:
                     - 3306
         steps:
             - uses: actions/checkout@v2
-              ref: ${{ matrix.redaxo-version }}
+              with:
+                 ref: ${{ matrix.redaxo-version }}
 
             - uses: actions/checkout@v2
-              path: '.rex-latest/'
-
-            - name: copy addons
+              with:
+                 path: '.rex-latest/'
+                 
               run: |
               rm -rf "$GITHUB_WORKSPACE/redaxo/src/addons/*"
               cp -rp "$GITHUB_WORKSPACE/.rex-latest/redaxo/src/addons/" "$GITHUB_WORKSPACE/redaxo/src/addons/"
-
+              
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
