@@ -29,12 +29,14 @@ jobs:
                 ports:
                     - 3306
         steps:
-            - uses: actions/checkout@v2
+            - name: checkout stable / old core
+              uses: actions/checkout@v2
               with:
                  ref: ${{ matrix.redaxo-version }}
                  path: '.current/'
 
-            - uses: actions/checkout@v2
+            - name: checkout latest addons
+              uses: actions/checkout@v2
               with:
                  path: '.rex-latest/'
 
