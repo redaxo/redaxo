@@ -41,7 +41,7 @@ jobs:
             - name: copy addons
               run: |
                 rm -rf "$GITHUB_WORKSPACE/.current/redaxo/src/addons/*"
-                cp -rp "$GITHUB_WORKSPACE/.rex-latest/redaxo/src/addons/" "$GITHUB_WORKSPACE/.current/redaxo/src/addons/"
+                cp -rp "$GITHUB_WORKSPACE/.rex-latest/redaxo/src/addons/." "$GITHUB_WORKSPACE/.current/redaxo/src/addons/"
               
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
