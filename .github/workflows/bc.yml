@@ -55,16 +55,16 @@ jobs:
                   extensions: intl
                   coverage: none # disable xdebug, pcov
 
-            - name: "composer install --prefer-dist --no-dev"
+            - name: "composer install --prefer-source"
               uses: "ramsey/composer-install@v1"
               if: matrix.php-version != '8.0'
               with:
-                  composer-options: "--ansi --prefer-dist --no-dev"
-            - name: "composer install --prefer-dist --no-dev --ignore-platform-req=php"
+                  composer-options: "--ansi --prefer-source"
+            - name: "composer install --prefer-source --ignore-platform-req=php"
               uses: "ramsey/composer-install@v1"
               if: matrix.php-version == '8.0'
               with:
-                  composer-options: "--ansi --prefer-dist --no-dev --ignore-platform-req=php"
+                  composer-options: "--ansi --prefer-source --ignore-platform-req=php"
 
             - run: |
                   vendor/bin/psalm --show-info=false --diff --output-format=github
