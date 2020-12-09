@@ -55,11 +55,11 @@ jobs:
                   extensions: intl
                   coverage: none # disable xdebug, pcov
 
-            - name: "composer install --prefer-dist"
+            - name: "composer install --prefer-dist --no-dev"
               uses: "ramsey/composer-install@v1"
               if: matrix.php-version != '8.0'
               with:
-                  composer-options: "--ansi --prefer-dist"
+                  composer-options: "--ansi --prefer-dist --no-dev"
             - name: "composer install --prefer-dist --no-dev --ignore-platform-req=php"
               uses: "ramsey/composer-install@v1"
               if: matrix.php-version == '8.0'
