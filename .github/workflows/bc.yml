@@ -62,4 +62,5 @@ jobs:
                   composer-options: "--ansi --prefer-dist --ignore-platform-req=php"
 
             - run: |
+                  cd .current/
                   vendor/bin/psalm --show-info=false --diff --output-format=github
