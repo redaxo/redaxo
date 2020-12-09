@@ -38,10 +38,13 @@ jobs:
               with:
                  path: '.rex-latest/'
 
-            - name: copy addons
+            - name: replicate latest addons with old rex-core
               run: |
                 rm -rf "$GITHUB_WORKSPACE/.current/redaxo/src/addons/*"
                 cp -rp "$GITHUB_WORKSPACE/.rex-latest/redaxo/src/addons/." "$GITHUB_WORKSPACE/.current/redaxo/src/addons/"
+                rm -rf "$GITHUB_WORKSPACE/.rex-latest/"
+                mv "$GITHUB_WORKSPACE/.current/*" "$GITHUB_WORKSPACE"
+                rm "$GITHUB_WORKSPACE/.current"
               
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
@@ -62,5 +65,4 @@ jobs:
                   composer-options: "--ansi --prefer-dist --ignore-platform-req=php"
 
             - run: |
-                  cd .current/
                   vendor/bin/psalm --show-info=false --diff --output-format=github
