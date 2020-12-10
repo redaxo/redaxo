@@ -451,12 +451,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/Roave/SecurityAdvisories.git",
-            "reference": "6aaf24c946b1f2689b85f0b3a62d30534d9aa1e4"
+            "reference": "d5961914bf7f90e81af509b81e51450bff419815"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/6aaf24c946b1f2689b85f0b3a62d30534d9aa1e4",
-            "reference": "6aaf24c946b1f2689b85f0b3a62d30534d9aa1e4",
+            "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/d5961914bf7f90e81af509b81e51450bff419815",
+            "reference": "d5961914bf7f90e81af509b81e51450bff419815",
             "shasum": ""
         },
         "conflict": {
@@ -486,7 +486,7 @@
             "composer/composer": "<=1-alpha.11",
             "contao-components/mediaelement": ">=2.14.2,<2.21.1",
             "contao/core": ">=2,<3.5.39",
-            "contao/core-bundle": "= 4.10.0|>=4,<4.4.52|>=4.5,<4.9.6",
+            "contao/core-bundle": ">=4,<4.4.52|>=4.5,<4.9.6|= 4.10.0",
             "contao/listing-bundle": ">=4,<4.4.8",
             "datadog/dd-trace": ">=0.30,<0.30.2",
             "david-garcia/phpwhois": "<=4.3.1",
@@ -530,6 +530,8 @@
             "friendsoftypo3/mediace": ">=7.6.2,<7.6.5",
             "fuel/core": "<1.8.1",
             "getgrav/grav": "<1.7-beta.8",
+            "getkirby/cms": ">=3,<3.4.5",
+            "getkirby/panel": "<2.5.14",
             "gos/web-socket-bundle": "<1.10.4|>=2,<2.6.1|>=3,<3.3",
             "gree/jose": "<=2.2",
             "gregwar/rst": "<1.0.3",
@@ -730,7 +732,7 @@
             "zfcampus/zf-apigility-doctrine": ">=1,<1.0.3",
             "zfr/zfr-oauth2-server-module": "<0.1.2"
         },
-        "time": "2020-12-01T13:02:08+00:00",
+        "time": "2020-12-08T15:02:56+00:00",
         "type": "metapackage",
         "notification-url": "https://packagist.org/downloads/",
         "license": [
@@ -1641,27 +1643,27 @@
     },
     {
         "name": "voku/anti-xss",
-        "version": "4.1.30",
-        "version_normalized": "4.1.30.0",
+        "version": "4.1.31",
+        "version_normalized": "4.1.31.0",
         "source": {
             "type": "git",
             "url": "https://github.com/voku/anti-xss.git",
-            "reference": "ff6e54f4a98ad1cd28f8b4a0f3c3f92f3c421f0a"
+            "reference": "22dea9be8dbffa466995ea87a12da5f3bce874bb"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/voku/anti-xss/zipball/ff6e54f4a98ad1cd28f8b4a0f3c3f92f3c421f0a",
-            "reference": "ff6e54f4a98ad1cd28f8b4a0f3c3f92f3c421f0a",
+            "url": "https://api.github.com/repos/voku/anti-xss/zipball/22dea9be8dbffa466995ea87a12da5f3bce874bb",
+            "reference": "22dea9be8dbffa466995ea87a12da5f3bce874bb",
             "shasum": ""
         },
         "require": {
             "php": ">=7.0.0",
-            "voku/portable-utf8": "~5.4.50"
+            "voku/portable-utf8": "~5.4.51"
         },
         "require-dev": {
             "phpunit/phpunit": "~6.0 || ~7.0 || ~9.0"
         },
-        "time": "2020-11-12T00:30:57+00:00",
+        "time": "2020-12-02T02:10:30+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1794,17 +1796,17 @@
     },
     {
         "name": "voku/portable-utf8",
-        "version": "5.4.50",
-        "version_normalized": "5.4.50.0",
+        "version": "5.4.51",
+        "version_normalized": "5.4.51.0",
         "source": {
             "type": "git",
             "url": "https://github.com/voku/portable-utf8.git",
-            "reference": "f14ed68ea9ced6639e71ca989c6d907892115ba0"
+            "reference": "578f5266725dc9880483d24ad0cfb39f8ce170f7"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/voku/portable-utf8/zipball/f14ed68ea9ced6639e71ca989c6d907892115ba0",
-            "reference": "f14ed68ea9ced6639e71ca989c6d907892115ba0",
+            "url": "https://api.github.com/repos/voku/portable-utf8/zipball/578f5266725dc9880483d24ad0cfb39f8ce170f7",
+            "reference": "578f5266725dc9880483d24ad0cfb39f8ce170f7",
             "shasum": ""
         },
         "require": {
@@ -1827,7 +1829,7 @@
             "ext-json": "Use JSON for string detection",
             "ext-mbstring": "Use Mbstring for best performance"
         },
-        "time": "2020-11-12T00:17:47+00:00",
+        "time": "2020-12-02T01:58:49+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
