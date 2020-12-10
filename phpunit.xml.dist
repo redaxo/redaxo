@@ -5,9 +5,9 @@
      beStrictAboutCoversAnnotation="true"
      beStrictAboutOutputDuringTests="true"
      beStrictAboutTodoAnnotatedTests="true"
-     convertErrorsToExceptions   = "true"
-     convertNoticesToExceptions  = "true"
-     convertWarningsToExceptions = "true"
+     convertErrorsToExceptions="true"
+     convertNoticesToExceptions="true"
+     convertWarningsToExceptions="true"
      verbose="true"
      colors="true"
 >
