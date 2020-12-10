@@ -38,9 +38,9 @@
         "symfony/service-contracts": "v1.1.9",
         "symfony/var-dumper": "v4.4.17",
         "symfony/yaml": "v4.4.17",
-        "voku/anti-xss": "4.1.30",
+        "voku/anti-xss": "4.1.31",
         "voku/portable-ascii": "1.5.6",
-        "voku/portable-utf8": "5.4.50"
+        "voku/portable-utf8": "5.4.51"
     },
     "autoload": {
         "classmap": [
