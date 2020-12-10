@@ -6,6 +6,7 @@
      beStrictAboutOutputDuringTests="true"
      beStrictAboutTodoAnnotatedTests="true"
      failOnWarning="true"
+     failOnRisky="true"
      verbose="true"
      colors="true"
 >
