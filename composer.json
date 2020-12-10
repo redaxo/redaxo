@@ -46,9 +46,9 @@
         "symfony/string": "v5.2.0",
         "symfony/var-dumper": "v5.2.0",
         "symfony/yaml": "v5.2.0",
-        "voku/anti-xss": "4.1.30",
+        "voku/anti-xss": "4.1.31",
         "voku/portable-ascii": "1.5.6",
-        "voku/portable-utf8": "5.4.50"
+        "voku/portable-utf8": "5.4.51"
     },
     "autoload": {
         "classmap": [
