@@ -1,5 +1,5 @@
 // save & restore sidebar panel toggle status via localstorage
-jQuery(function($){
+$(document).on('rex:ready', function (event, viewRoot) {
     var $sidebar = $('#rex-page-content-edit #rex-js-main-sidebar'),
         sidebar_status,
         $sections;
