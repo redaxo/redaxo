@@ -3,9 +3,7 @@
 use Clockwork\Request\Request;
 use Clockwork\Storage\Storage;
 
-/**
- * Simple file based storage for requests
- */
+// File based storage for requests
 class FileStorage extends Storage
 {
 	// Path where files are stored
@@ -80,7 +78,7 @@ class FileStorage extends Storage
 	}
 
 	// Store request, requests are stored in JSON representation in files named <request id>.json in storage path
-	public function store(Request $request)
+	public function store(Request $request, $skipIndex = false)
 	{
 		$path = "{$this->path}/{$request->id}.json";
 		$data = @json_encode($request->toArray(), \JSON_PARTIAL_OUTPUT_ON_ERROR);
@@ -89,8 +87,15 @@ class FileStorage extends Storage
 			? file_put_contents("{$path}.gz", gzcompress($data))
 			: file_put_contents($path, $data);
 
-		$this->updateIndex($request);
+		if (! $skipIndex) $this->updateIndex($request);
+
 		$this->cleanup();
+	}
+
+	// Update existing request
+	public function update(Request $request)
+	{
+		return $this->store($request, true);
 	}
 
 	// Cleanup old requests
@@ -118,6 +123,7 @@ class FileStorage extends Storage
 		}
 	}
 
+	// Load a single request by id from filesystem
 	protected function loadRequest($id)
 	{
 		$path = "{$this->path}/{$id}.json";
@@ -129,6 +135,7 @@ class FileStorage extends Storage
 		return new Request(json_decode($this->compress ? gzuncompress($data) : $data, true));
 	}
 
+	// Load multiple requests by ids from filesystem
 	protected function loadRequests($ids)
 	{
 		return array_filter(array_map(function ($id) { return $this->loadRequest($id); }, $ids));
@@ -266,6 +273,7 @@ class FileStorage extends Storage
 		file_put_contents("{$this->path}/index", $trimmed);
 	}
 
+	// Create an incomplete request from index data
 	protected function makeRequestFromIndex($record)
 	{
 		$type = isset($record[7]) ? $record[7] : 'response';
@@ -282,7 +290,7 @@ class FileStorage extends Storage
 
 		return new Request(array_combine(
 			[ 'id', 'time', 'method', $nameField, 'controller', 'responseStatus', 'responseDuration', 'type' ],
-			$record + [ null, null, null, null, null, null, null, 'response' ]
+			array_slice($record, 0, 8) + [ null, null, null, null, null, null, null, 'response' ]
 		));
 	}
 

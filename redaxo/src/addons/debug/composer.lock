@@ -4,25 +4,25 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5d5e93fe42384283b62c88bd754d7f68",
+    "content-hash": "086a8fff666b28fd83a983386bc55540",
     "packages": [
         {
             "name": "itsgoingd/clockwork",
-            "version": "v4.1.8",
+            "version": "v5.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/itsgoingd/clockwork.git",
-                "reference": "0dc2e5be39de88b18719bb4f3cdacfa605ad2146"
+                "reference": "543de6b1c17021183be5fd2dd6c7ffa153d9ab2d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/itsgoingd/clockwork/zipball/0dc2e5be39de88b18719bb4f3cdacfa605ad2146",
-                "reference": "0dc2e5be39de88b18719bb4f3cdacfa605ad2146",
+                "url": "https://api.github.com/repos/itsgoingd/clockwork/zipball/543de6b1c17021183be5fd2dd6c7ffa153d9ab2d",
+                "reference": "543de6b1c17021183be5fd2dd6c7ffa153d9ab2d",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "php": ">=5.5",
+                "php": ">=5.6",
                 "psr/log": "1.*"
             },
             "type": "library",
@@ -52,7 +52,7 @@
                     "homepage": "https://twitter.com/itsgoingd"
                 }
             ],
-            "description": "php dev tools integrated to your browser",
+            "description": "php dev tools in your browser",
             "homepage": "https://underground.works/clockwork",
             "keywords": [
                 "Devtools",
@@ -65,7 +65,7 @@
             ],
             "support": {
                 "issues": "https://github.com/itsgoingd/clockwork/issues",
-                "source": "https://github.com/itsgoingd/clockwork/tree/v4.1.8"
+                "source": "https://github.com/itsgoingd/clockwork/tree/v5.0.4"
             },
             "funding": [
                 {
@@ -73,7 +73,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-09-17T19:21:25+00:00"
+            "time": "2020-12-01T22:36:41+00:00"
         },
         {
             "name": "psr/log",

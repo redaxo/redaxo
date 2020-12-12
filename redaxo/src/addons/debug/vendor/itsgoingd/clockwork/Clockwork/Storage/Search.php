@@ -3,8 +3,10 @@
 use Clockwork\Request\Request;
 use Clockwork\Request\RequestType;
 
+// Rules for searching requests
 class Search
 {
+	// Search parameters
 	public $uri = [];
 	public $controller = [];
 	public $method = [];
@@ -14,8 +16,10 @@ class Search
 	public $name = [];
 	public $type = [];
 
+	// Whether to stop search on the first not mathcing request
 	public $stopOnFirstMismatch = false;
 
+	// Create a new instance, takes search parameters and additional options
 	public function __construct($search = [], $options = [])
 	{
 		foreach ([ 'uri', 'controller', 'method', 'status', 'time', 'received', 'name', 'type' ] as $condition) {
@@ -29,11 +33,13 @@ class Search
 		$this->method = array_map('strtolower', $this->method);
 	}
 
+	// Create a new instance from request input
 	public static function fromRequest($data = [])
 	{
 		return new static($data);
 	}
 
+	// Check whether the request matches current search parameters
 	public function matches(Request $request)
 	{
 		if ($request->type == RequestType::COMMAND) {
@@ -47,6 +53,7 @@ class Search
 		}
 	}
 
+	// Check whether a request type request matches
 	protected function matchesRequest(Request $request)
 	{
 		return $this->matchesString($this->type, RequestType::REQUEST)
@@ -58,6 +65,7 @@ class Search
 			&& $this->matchesDate($this->received, $request->time);
 	}
 
+	// Check whether a command type request matches
 	protected function matchesCommand(Request $request)
 	{
 		return $this->matchesString($this->type, RequestType::COMMAND)
@@ -67,6 +75,7 @@ class Search
 			&& $this->matchesDate($this->received, $request->time);
 	}
 
+	// Check whether a queue-job type request matches
 	protected function matchesQueueJob(Request $request)
 	{
 		return $this->matchesString($this->type, RequestType::QUEUE_JOB)
@@ -76,6 +85,7 @@ class Search
 			&& $this->matchesDate($this->received, $request->time);
 	}
 
+	// Check whether a test type request matches
 	protected function matchesTest(Request $request)
 	{
 		return $this->matchesString($this->type, RequestType::TEST)
@@ -85,17 +95,20 @@ class Search
 			&& $this->matchesDate($this->received, $request->time);
 	}
 
+	// Check if there are no search parameters specified
 	public function isEmpty()
 	{
 		return ! count($this->uri) && ! count($this->controller) && ! count($this->method) && ! count($this->status)
 			&& ! count($this->time) && ! count($this->received) && ! count($this->name) && ! count($this->type);
 	}
 
+	// Check if there are some search parameters specified
 	public function isNotEmpty()
 	{
 		return ! $this->isEmpty();
 	}
 
+	// Check if the value matches date type search parameter
 	protected function matchesDate($inputs, $value)
 	{
 		if (! count($inputs)) return true;
@@ -111,6 +124,7 @@ class Search
 		return false;
 	}
 
+	// Check if the value matches exact type search parameter
 	protected function matchesExact($inputs, $value)
 	{
 		if (! count($inputs)) return true;
@@ -118,6 +132,7 @@ class Search
 		return in_array($value, $inputs);
 	}
 
+	// Check if the value matches number type search parameter
 	protected function matchesNumber($inputs, $value)
 	{
 		if (! count($inputs)) return true;
@@ -137,6 +152,7 @@ class Search
 		return false;
 	}
 
+	// Check if the value matches string type search parameter
 	protected function matchesString($inputs, $value)
 	{
 		if (! count($inputs)) return true;

@@ -6,7 +6,7 @@ use Clockwork\DataSource\PsrMessageDataSource;
 use Clockwork\Helpers\Serializer;
 use Clockwork\Helpers\ServerTiming;
 use Clockwork\Helpers\StackFilter;
-use Clockwork\Helpers\StackTrace;
+use Clockwork\Request\IncomingRequest;
 use Clockwork\Storage\FileStorage;
 use Clockwork\Storage\Search;
 use Clockwork\Storage\SqlStorage;
@@ -14,18 +14,25 @@ use Clockwork\Storage\SqlStorage;
 use Psr\Http\Message\ServerRequestInterface as PsrRequest;
 use Psr\Http\Message\ResponseInterface as PsrResponse;
 
+// Clockwork integration for vanilla php and unsupported frameworks
 class Clockwork
 {
+	// Clockwork config
 	protected $config;
+	// Clockwork instance
 	protected $clockwork;
 
+	// PSR-7 request and response
 	protected $psrRequest;
 	protected $psrResponse;
 
+	// Whether the headers were already sent (header can be sent manually)
 	protected $headersSent = false;
 
+	// Static instance when used as singleton
 	protected static $defaultInstance;
 
+	// Create new instance, takes an additional config
 	public function __construct($config = [])
 	{
 		$this->config = array_merge(include __DIR__ . '/config.php', $config);
@@ -33,76 +40,82 @@ class Clockwork
 		$this->clockwork = new BaseClockwork;
 
 		$this->clockwork->addDataSource(new PhpDataSource);
-		$this->clockwork->setStorage($this->resolveStorage());
+		$this->clockwork->storage($this->makeStorage());
 
 		$this->configureSerializer();
+		$this->configureShouldCollect();
+		$this->configureShouldRecord();
 
 		if ($this->config['register_helpers']) include __DIR__ . '/helpers.php';
-
-		$this->clockwork->getTimeline()->startEvent('total', 'Total execution time.', 'start');
 	}
 
+	// Initialize a singleton instance, takes an additional config
 	public static function init($config = [])
 	{
 		return static::$defaultInstance = new static($config);
 	}
 
+	// Return the singleton instance
 	public static function instance()
 	{
 		return static::$defaultInstance;
 	}
 
+	// Resolves and records the current request and sends Clockwork headers, should be called at the end of app
+	// execution, return PSR-7 response if one was set
 	public function requestProcessed()
 	{
-		if (! $this->config['enable'] && ! $this->config['collect_data_always']) return;
+		if (! $this->config['enable'] && ! $this->config['collect_data_always']) return $this->psrResponse;
 
-		if (isset($_SERVER['REQUEST_METHOD']) && $this->isMethodFiltered($_SERVER['REQUEST_METHOD'])) return;
-		if (isset($_SERVER['REQUEST_URI']) && $this->isUriFiltered($_SERVER['REQUEST_URI'])) return;
-
-		$this->clockwork->getTimeline()->endEvent('total');
+		if (! $this->clockwork->shouldCollect()->filter($this->incomingRequest())) return $this->psrResponse;
+		if (! $this->clockwork->shouldRecord()->filter($this->clockwork->request())) return $this->psrResponse;
 
 		$this->clockwork->resolveRequest()->storeRequest();
 
-		if (! $this->config['enable']) return;
+		if (! $this->config['enable']) return $this->psrResponse;
 
 		$this->sendHeaders();
 
 		if (($eventsCount = $this->config['server_timing']) !== false) {
-			$this->setHeader('Server-Timing', ServerTiming::fromRequest($this->clockwork->getRequest(), $eventsCount)->value());
+			$this->setHeader('Server-Timing', ServerTiming::fromRequest($this->clockwork->request(), $eventsCount)->value());
 		}
 
 		return $this->psrResponse;
 	}
 
+	// Resolves and records the current request as a command, should be called at the end of app execution
 	public function commandExecuted($name, $exitCode = null, $arguments = [], $options = [], $argumentsDefaults = [], $optionsDefaults = [], $output = null)
 	{
 		if (! $this->config['enable'] && ! $this->config['collect_data_always']) return;
 
-		$this->clockwork->getTimeline()->endEvent('total');
+		if (! $this->clockwork->shouldRecord()->filter($this->clockwork->request())) return;
 
 		$this->clockwork
 			->resolveAsCommand($name, $exitCode, $arguments, $options, $argumentsDefaults, $optionsDefaults, $output)
 			->storeRequest();
 	}
 
+	// Resolves and records the current request as a queue job, should be called at the end of app execution
 	public function queueJobExecuted($name, $description = null, $status = 'processed', $payload = [], $queue = null, $connection = null, $options = [])
 	{
 		if (! $this->config['enable'] && ! $this->config['collect_data_always']) return;
 
-		$this->clockwork->getTimeline()->endEvent('total');
+		if (! $this->clockwork->shouldRecord()->filter($this->clockwork->request())) return;
 
 		$this->clockwork
 			->resolveAsQueueJob($name, $description, $status, $payload, $queue, $connection, $options)
 			->storeRequest();
 	}
 
+	// Manually send the Clockwork headers, this should be manually called only when the headers need to be sent early
+	// in the request processing
 	public function sendHeaders()
 	{
 		if (! $this->config['enable'] || $this->headersSent) return;
 
 		$this->headersSent = true;
 
-		$this->setHeader('X-Clockwork-Id', $this->getRequest()->id);
+		$this->setHeader('X-Clockwork-Id', $this->request()->id);
 		$this->setHeader('X-Clockwork-Version', BaseClockwork::VERSION);
 
 		if ($this->config['api'] != '/__clockwork/') {
@@ -114,6 +127,7 @@ class Clockwork
 		}
 	}
 
+	// Sends http response with metadata based on the passed Clockwork REST api request
 	public function returnMetadata($request = null)
 	{
 		if (! $this->config['enable']) return;
@@ -123,6 +137,7 @@ class Clockwork
 		echo json_encode($this->getMetadata($request), \JSON_PARTIAL_OUTPUT_ON_ERROR);
 	}
 
+	// Returns metadata based on the passed Clockwork REST api request
 	public function getMetadata($request = null)
 	{
 		if (! $this->config['enable']) return;
@@ -136,13 +151,13 @@ class Clockwork
 		$count = isset($matches['count']) ? $matches['count'] : null;
 
 		if ($direction == 'previous') {
-			$data = $this->clockwork->getStorage()->previous($id, $count, Search::fromRequest($_GET));
+			$data = $this->clockwork->storage()->previous($id, $count, Search::fromRequest($_GET));
 		} elseif ($direction == 'next') {
-			$data = $this->clockwork->getStorage()->next($id, $count, Search::fromRequest($_GET));
+			$data = $this->clockwork->storage()->next($id, $count, Search::fromRequest($_GET));
 		} elseif ($id == 'latest') {
-			$data = $this->clockwork->getStorage()->latest(Search::fromRequest($_GET));
+			$data = $this->clockwork->storage()->latest(Search::fromRequest($_GET));
 		} else {
-			$data = $this->clockwork->getStorage()->find($id);
+			$data = $this->clockwork->storage()->find($id);
 		}
 
 		if (preg_match('#(?<id>[0-9-]+|latest)/extended#', $request)) {
@@ -156,6 +171,7 @@ class Clockwork
 		return $data;
 	}
 
+	// Use a PSR-7 request and response instances instead of vanilla php HTTP apis
 	public function usePsrMessage(PsrRequest $request, PsrResponse $response = null)
 	{
 		$this->psrRequest = $request;
@@ -166,7 +182,8 @@ class Clockwork
 		return $this;
 	}
 
-	protected function resolveStorage()
+	// Make a storage implementation based on user configuration
+	protected function makeStorage()
 	{
 		if ($this->config['storage'] == 'sql') {
 			$database = $this->config['storage_sql_database'];
@@ -191,6 +208,7 @@ class Clockwork
 		return $storage;
 	}
 
+	// Configure serializer defaults based on user configuration
 	protected function configureSerializer()
 	{
 		Serializer::defaults([
@@ -209,28 +227,31 @@ class Clockwork
 		]);
 	}
 
-	protected function isUriFiltered($uri)
+	// Configure should collect rules based on user configuration
+	public function configureShouldCollect()
 	{
-		$filterUris = $this->config['filter_uris'];
-		$filterUris[] = rtrim($this->config['api'], '/'); // don't collect data for Clockwork requests
+		$this->clockwork->shouldCollect([
+			'onDemand'        => $this->config['requests']['on_demand'],
+			'sample'          => $this->config['requests']['sample'],
+			'except'          => $this->config['requests']['except'],
+			'only'            => $this->config['requests']['only'],
+			'exceptPreflight' => $this->config['requests']['except_preflight']
+		]);
 
-		foreach ($filterUris as $filterUri) {
-			$regexp = '#' . str_replace('#', '\#', $filterUri) . '#';
-
-			if (preg_match($regexp, $uri)) return true;
-		}
-
-		return false;
+		// don't collect data for Clockwork requests
+		$this->clockwork->shouldCollect()->except(rtrim($this->config['api'], '/'));
 	}
 
-	protected function isMethodFiltered($method)
+	// Configure should record rules based on user configuration
+	public function configureShouldRecord()
 	{
-		return in_array($method, array_map(
-			function ($method) { return strtoupper($method); },
-			$this->config['filter_methods']
-		));
+		$this->clockwork->shouldRecord([
+			'errorsOnly' => $this->config['requests']['errors_only'],
+			'slowOnly'   => $this->config['requests']['slow_only'] ? $this->config['requests']['slow_threshold'] : false
+		]);
 	}
 
+	// Set a header on PSR-7 response or using vanilla php
 	protected function setHeader($header, $value)
 	{
 		if ($this->psrResponse) {
@@ -240,18 +261,32 @@ class Clockwork
 		}
 	}
 
+	// Make a Clockwork incoming request instance
+	protected function incomingRequest()
+	{
+		return new IncomingRequest([
+			'method'  => $_SERVER['REQUEST_METHOD'],
+			'uri'     => $_SERVER['REQUEST_URI'],
+			'input'   => $_REQUEST,
+			'cookies' => $_COOKIE
+		]);
+	}
+
+	// Return the underlaying Clockwork instance
 	public function getClockwork()
 	{
 		return $this->clockwork;
 	}
 
+	// Pass any method calls to the underlaying Clockwork instance
 	public function __call($method, $args = [])
 	{
-		return call_user_func_array([ $this->getClockwork(), $method ], $args);
+		return $this->clockwork->$method(...$args);
 	}
 
+	// Pass any static method calls to the underlaying Clockwork instance
 	public static function __callStatic($method, $args = [])
 	{
-		return call_user_func_array([ static::instance(), $method ], $args);
+		return static::instance()->$method(...$args);
 	}
 }
