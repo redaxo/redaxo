@@ -9,7 +9,7 @@
             <div class="container-fluid">
                 <div class="navbar-header">
                     <?php if (rex_be_controller::getCurrentPageObject()->isPopup()): ?>
-                        <span class="navbar-brand"><?= rex_file::get(rex_url::coreAssets('redaxo-logo.svg')) ?></span>
+                        <span class="navbar-brand"><?= rex_file::get(rex_path::coreAssets('redaxo-logo.svg')) ?></span>
                     <?php else: ?>
                         <a class="navbar-brand" href="<?= rex_url::backendController() ?>"><?= rex_file::get(rex_url::coreAssets('redaxo-logo.svg')) ?></a>
                     <?php endif; ?>
