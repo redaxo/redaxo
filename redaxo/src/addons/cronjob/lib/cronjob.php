@@ -117,7 +117,7 @@ abstract class rex_cronjob
      */
     final public function getType()
     {
-        return get_class($this);
+        return static::class;
     }
 
     /**

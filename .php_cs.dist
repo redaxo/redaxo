@@ -28,7 +28,7 @@ $finder = PhpCsFixer\Finder::create()
         $tools.'/bin/setup',
         $tools.'/bin/update-root-composer',
     ])
-    ->filter(static function (\SplFileInfo $file) use ($bootPath) {
+    ->filter(static function (SplFileInfo $file) use ($bootPath) {
         return $bootPath !== $file->getRealPath();
     })
 ;
@@ -41,21 +41,20 @@ return PhpCsFixer\Config::create()
         '@Symfony:risky' => true,
         '@PHP73Migration' => true,
         '@PHP71Migration:risky' => true,
-        '@PHPUnit75Migration:risky' => true,
+        '@PHPUnit84Migration:risky' => true,
         'array_indentation' => true,
         'blank_line_before_statement' => false,
         'braces' => ['allow_single_line_closure' => false],
         'comment_to_phpdoc' => true,
         'concat_space' => false,
         'declare_strict_types' => false,
-        'function_to_constant' => ['functions' => ['get_class', 'get_called_class', 'php_sapi_name', 'phpversion', 'pi']],
+        'echo_tag_syntax' => false,
         'heredoc_to_nowdoc' => true,
         'list_syntax' => ['syntax' => 'short'],
-        'logical_operators' => true,
         'native_constant_invocation' => false,
+        'no_alternative_syntax' => false,
         'no_blank_lines_after_phpdoc' => false,
         'no_null_property_initialization' => true,
-        'no_php4_constructor' => true,
         'no_superfluous_elseif' => true,
         'no_unreachable_default_argument_value' => true,
         'no_useless_else' => true,
@@ -71,8 +70,6 @@ return PhpCsFixer\Config::create()
             'method',
         ]],
         'php_unit_internal_class' => true,
-        'php_unit_method_casing' => true,
-        'php_unit_set_up_tear_down_visibility' => true,
         'php_unit_test_case_static_method_calls' => true,
         'phpdoc_align' => false,
         'phpdoc_no_package' => false,
@@ -81,14 +78,10 @@ return PhpCsFixer\Config::create()
         'phpdoc_to_comment' => false,
         'phpdoc_types_order' => false,
         'phpdoc_var_annotation_correct_order' => true,
-        'phpdoc_var_without_name' => false,
-        'psr4' => false,
+        'psr_autoloading' => false,
         'semicolon_after_instruction' => false,
         'static_lambda' => true,
-        'string_line_ending' => true,
-        'ternary_operator_spaces' => false, // https://github.com/FriendsOfPHP/PHP-CS-Fixer/issues/5224
         'void_return' => false,
-        'yoda_style' => true,
     ])
     ->setFinder($finder)
 ;

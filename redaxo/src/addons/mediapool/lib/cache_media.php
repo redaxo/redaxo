@@ -114,11 +114,7 @@ class rex_media_cache
         }
 
         $media_file = rex_path::addonCache('mediapool', $filename . '.media');
-        if (rex_file::putCache($media_file, $cacheArray)) {
-            return true;
-        }
-
-        return false;
+        return rex_file::putCache($media_file, $cacheArray);
     }
 
     /**
@@ -157,11 +153,7 @@ class rex_media_cache
         }
 
         $cat_file = rex_path::addonCache('mediapool', $category_id . '.mcat');
-        if (rex_file::putCache($cat_file, $cacheArray)) {
-            return true;
-        }
-
-        return false;
+        return rex_file::putCache($cat_file, $cacheArray);
     }
 
     /**
@@ -189,11 +181,7 @@ class rex_media_cache
         }
 
         $list_file = rex_path::addonCache('mediapool', $category_id . '.mlist');
-        if (rex_file::putCache($list_file, $cacheArray)) {
-            return true;
-        }
-
-        return false;
+        return rex_file::putCache($list_file, $cacheArray);
     }
 
     /**
@@ -222,10 +210,6 @@ class rex_media_cache
         }
 
         $list_file = rex_path::addonCache('mediapool', $category_id . '.mclist');
-        if (rex_file::putCache($list_file, $cacheArray)) {
-            return true;
-        }
-
-        return false;
+        return rex_file::putCache($list_file, $cacheArray);
     }
 }
