@@ -90,14 +90,6 @@ jobs:
               run: |
                   node .github/tests-visual/visual-record.js regenerate-all
 
-            - id: visual_changes
-              name: Detect changes
-              run: |
-                git diff-index --quiet HEAD -- .github/tests-visual/
-                if [ $? -ne 0 ]; then
-                  echo "::set-output name=dirty::1"
-                fi
-
             - uses: stefanzweifel/git-auto-commit-action@v4
               if: "steps.visual_changes.dirty == 1 && (github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'repository_dispatch')"
               with:
