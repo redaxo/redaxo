@@ -103,7 +103,7 @@
         "release": ".tools/bin/release",
         "update-all": ".tools/bin/update-all",
         "cs": "php-cs-fixer fix -v --ansi",
-        "phpunit": "phpunit --colors=always",
+        "phpunit": "phpunit --colors=always --fail-on-warning",
         "phpstan": "phpstan analyse --ansi",
         "phpstan-baseline": "phpstan analyse --generate-baseline .tools/phpstan/baseline.neon",
         "psalm": "psalm --use-baseline=.tools/psalm/baseline.xml",
