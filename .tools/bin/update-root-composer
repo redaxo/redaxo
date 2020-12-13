@@ -11,6 +11,7 @@ $baseDir = dirname(__DIR__, 2);
 // list of core addons with a composer.lock.
 // intentionally not using a wildcard because other non-system-addons might be contained
 $dirs = [
+    $baseDir.'/redaxo/src/addons/backup',
     $baseDir.'/redaxo/src/addons/be_style',
     $baseDir.'/redaxo/src/addons/debug',
     $baseDir.'/redaxo/src/addons/phpmailer',
