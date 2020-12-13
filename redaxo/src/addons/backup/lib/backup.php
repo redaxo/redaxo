@@ -369,7 +369,7 @@ class rex_backup
      */
     public static function exportFiles($folders, $archivePath = null)
     {
-        $backwardsCompatible = $archivePath == null;
+        $backwardsCompatible = null == $archivePath;
 
         try {
             if ($backwardsCompatible) {
