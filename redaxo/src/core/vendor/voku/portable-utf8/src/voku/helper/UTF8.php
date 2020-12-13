@@ -3689,16 +3689,17 @@ final class UTF8
     /**
      * Returns true if the string contains only printable (non-invisible) chars, false otherwise.
      *
-     * @param string $str <p>The input string.</p>
+     * @param string $str                       <p>The input string.</p>
+     * @param bool   $ignore_control_characters [optional] <p>Ignore control characters like [LRM] or [LSEP].</p>
      *
      * @psalm-pure
      *
      * @return bool
      *              <p>Whether or not $str contains only printable (non-invisible) chars.</p>
      */
-    public static function is_printable(string $str): bool
+    public static function is_printable(string $str, bool $ignore_control_characters = false): bool
     {
-        return self::remove_invisible_characters($str) === $str;
+        return self::remove_invisible_characters($str, false, '', $ignore_control_characters) === $str;
     }
 
     /**
@@ -4984,10 +4985,11 @@ final class UTF8
      *
      * EXAMPLE: <code>UTF8::normalize_whitespace("abc-\xc2\xa0-öäü-\xe2\x80\xaf-\xE2\x80\xAC", true); // "abc-\xc2\xa0-öäü- -"</code>
      *
-     * @param string $str                        <p>The string to be normalized.</p>
-     * @param bool   $keep_non_breaking_space    [optional] <p>Set to true, to keep non-breaking-spaces.</p>
-     * @param bool   $keep_bidi_unicode_controls [optional] <p>Set to true, to keep non-printable (for the web)
-     *                                           bidirectional text chars.</p>
+     * @param string $str                          <p>The string to be normalized.</p>
+     * @param bool   $keep_non_breaking_space      [optional] <p>Set to true, to keep non-breaking-spaces.</p>
+     * @param bool   $keep_bidi_unicode_controls   [optional] <p>Set to true, to keep non-printable (for the web)
+     *                                             bidirectional text chars.</p>
+     * @param bool   $normalize_control_characters [optional] <p>Set to true, to convert e.g. LINE-, PARAGRAPH-SEPARATOR with "\n" and LINE TABULATION with "\t".</p>
      *
      * @psalm-pure
      *
@@ -4997,12 +4999,14 @@ final class UTF8
     public static function normalize_whitespace(
         string $str,
         bool $keep_non_breaking_space = false,
-        bool $keep_bidi_unicode_controls = false
+        bool $keep_bidi_unicode_controls = false,
+        bool $normalize_control_characters = false
     ): string {
         return ASCII::normalize_whitespace(
             $str,
             $keep_non_breaking_space,
-            $keep_bidi_unicode_controls
+            $keep_bidi_unicode_controls,
+            $normalize_control_characters
         );
     }
 
@@ -5285,18 +5289,6 @@ final class UTF8
             return '';
         }
 
-        if (
-            \strpos($str, '&') === false
-            &&
-            \strpos($str, '%') === false
-            &&
-            \strpos($str, '+') === false
-            &&
-            \strpos($str, '\u') === false
-        ) {
-            return self::fix_simple_utf8($str);
-        }
-
         $str = self::urldecode_unicode_helper($str);
 
         if ($multi_decode) {
@@ -5306,12 +5298,10 @@ final class UTF8
                 /**
                  * @psalm-suppress PossiblyInvalidArgument
                  */
-                $str = self::fix_simple_utf8(
-                    \rawurldecode(
-                        self::html_entity_decode(
-                            self::to_utf8($str),
-                            \ENT_QUOTES | \ENT_HTML5
-                        )
+                $str = \rawurldecode(
+                    self::html_entity_decode(
+                        self::to_utf8($str),
+                        \ENT_QUOTES | \ENT_HTML5
                     )
                 );
             } while ($str_compare !== $str);
@@ -5319,17 +5309,15 @@ final class UTF8
             /**
              * @psalm-suppress PossiblyInvalidArgument
              */
-            $str = self::fix_simple_utf8(
-                \rawurldecode(
-                    self::html_entity_decode(
-                        self::to_utf8($str),
-                        \ENT_QUOTES | \ENT_HTML5
-                    )
+            $str = \rawurldecode(
+                self::html_entity_decode(
+                    self::to_utf8($str),
+                    \ENT_QUOTES | \ENT_HTML5
                 )
             );
         }
 
-        return $str;
+        return self::fix_simple_utf8($str);
     }
 
     /**
@@ -5495,14 +5483,15 @@ final class UTF8
      *
      * copy&past from https://github.com/bcit-ci/CodeIgniter/blob/develop/system/core/Common.php
      *
-     * @param string $str         <p>The input string.</p>
-     * @param bool   $url_encoded [optional] <p>
-     *                            Try to remove url encoded control character.
-     *                            WARNING: maybe contains false-positives e.g. aa%0Baa -> aaaa.
-     *                            <br>
-     *                            Default: false
-     *                            </p>
-     * @param string $replacement [optional] <p>The replacement character.</p>
+     * @param string $str                           <p>The input string.</p>
+     * @param bool   $url_encoded                   [optional] <p>
+     *                                              Try to remove url encoded control character.
+     *                                              WARNING: maybe contains false-positives e.g. aa%0Baa -> aaaa.
+     *                                              <br>
+     *                                              Default: false
+     *                                              </p>
+     * @param string $replacement                   [optional] <p>The replacement character.</p>
+     * @param bool   $keep_basic_control_characters [optional] <p>Keep control characters like [LRM] or [LSEP].</p>
      *
      * @psalm-pure
      *
@@ -5512,12 +5501,14 @@ final class UTF8
     public static function remove_invisible_characters(
         string $str,
         bool $url_encoded = false,
-        string $replacement = ''
+        string $replacement = '',
+        bool $keep_basic_control_characters = true
     ): string {
         return ASCII::remove_invisible_characters(
             $str,
             $url_encoded,
-            $replacement
+            $replacement,
+            $keep_basic_control_characters
         );
     }
 
@@ -9522,7 +9513,7 @@ final class UTF8
                     (
                         $space_position !== false
                         &&
-                         !$ignore_do_not_split_words_for_one_word
+                        !$ignore_do_not_split_words_for_one_word
                     )
                 ) {
                     $truncated = (string) \mb_substr($truncated, 0, (int) $last_position);
@@ -13022,9 +13013,7 @@ final class UTF8
     }
 
     /**
-     * @param bool|int|string $str
-     *
-     * @phpstan-param bool|int|numeric-string $str
+     * @param bool|int|float|string $str
      *
      * @psalm-pure
      *
@@ -13622,18 +13611,6 @@ final class UTF8
             return '';
         }
 
-        if (
-            \strpos($str, '&') === false
-            &&
-            \strpos($str, '%') === false
-            &&
-            \strpos($str, '+') === false
-            &&
-            \strpos($str, '\u') === false
-        ) {
-            return self::fix_simple_utf8($str);
-        }
-
         $str = self::urldecode_unicode_helper($str);
 
         if ($multi_decode) {
@@ -13643,12 +13620,10 @@ final class UTF8
                 /**
                  * @psalm-suppress PossiblyInvalidArgument
                  */
-                $str = self::fix_simple_utf8(
-                    \urldecode(
-                        self::html_entity_decode(
-                            self::to_utf8($str),
-                            \ENT_QUOTES | \ENT_HTML5
-                        )
+                $str = \urldecode(
+                    self::html_entity_decode(
+                        self::to_utf8($str),
+                        \ENT_QUOTES | \ENT_HTML5
                     )
                 );
             } while ($str_compare !== $str);
@@ -13656,17 +13631,15 @@ final class UTF8
             /**
              * @psalm-suppress PossiblyInvalidArgument
              */
-            $str = self::fix_simple_utf8(
-                \urldecode(
-                    self::html_entity_decode(
-                        self::to_utf8($str),
-                        \ENT_QUOTES | \ENT_HTML5
-                    )
+            $str = \urldecode(
+                self::html_entity_decode(
+                    self::to_utf8($str),
+                    \ENT_QUOTES | \ENT_HTML5
                 )
             );
         }
 
-        return $str;
+        return self::fix_simple_utf8($str);
     }
 
     /**
@@ -14808,6 +14781,10 @@ final class UTF8
      */
     private static function urldecode_unicode_helper(string $str)
     {
+        if (\strpos($str, '%u') === false) {
+            return $str;
+        }
+
         $pattern = '/%u([0-9a-fA-F]{3,4})/';
         if (\preg_match($pattern, $str)) {
             $str = (string) \preg_replace($pattern, '&#x\\1;', $str);

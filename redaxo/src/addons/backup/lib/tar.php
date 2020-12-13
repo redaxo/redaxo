@@ -152,7 +152,7 @@ class rex_backup_tar extends tar
         //    $this->tar_file = fread($fp,filesize($filename));
         //    fclose($fp);
         // STM: hier mit get_file_contents ist viel schneller
-        $this->tar_file = rex_file::get($filename);
+        $this->tar_file = rex_file::require($filename);
 
         if ($this->tar_file[0] == chr(31) && $this->tar_file[1] == chr(139) && $this->tar_file[2] == chr(8)) {
             if (!function_exists('gzinflate')) {
@@ -329,10 +329,7 @@ class rex_backup_tar extends tar
                 }
             }
         }
-        if (count($this->messages) > 0) {
-            return false;
-        }
-        return true;
+        return !$this->messages;
     }
 
     /**

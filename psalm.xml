@@ -32,6 +32,7 @@
     </projectFiles>
     <stubs>
         <file name="redaxo/src/core/.phpstorm.meta.php" />
+        <file name=".tools/psalm/deprecated.stub" />
     </stubs>
     <universalObjectCrates>
         <class name="rex_fragment" />
@@ -76,6 +77,7 @@
                 <file name="redaxo/src/core/lib/api_function.php"/>
             </errorLevel>
         </RawObjectIteration>
+        <RedundantCastGivenDocblockType errorLevel="info" />
         <RedundantConditionGivenDocblockType errorLevel="info" />
         <UnresolvableInclude errorLevel="suppress" />
         <UnsafeInstantiation errorLevel="info" />

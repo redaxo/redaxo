@@ -158,7 +158,7 @@ class rex_response
         session_write_close();
 
         if (!$filename) {
-            $filename = basename($file);
+            $filename = rex_path::basename($file);
         }
 
         self::sendContentType($contentType);
@@ -233,7 +233,9 @@ class rex_response
             header('Content-Disposition: ' . $contentDisposition . '; filename="' . $filename . '"');
         }
 
-        self::sendCacheControl('max-age=3600, must-revalidate, proxy-revalidate, private');
+        if (!self::$sentCacheControl) {
+            self::sendCacheControl();
+        }
         self::sendContent($content, $contentType, $lastModified, $etag);
     }
 

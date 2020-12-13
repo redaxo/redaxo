@@ -7,8 +7,8 @@
  */
 abstract class rex_structure_element
 {
-    use rex_instance_pool_trait;
     use rex_instance_list_pool_trait;
+    use rex_instance_pool_trait;
 
     /** @var int */
     protected $id = 0;
@@ -132,7 +132,7 @@ abstract class rex_structure_element
             $file = rex_path::addonCache('structure', $startId . '.1.article');
             if (!rex::isBackend() && is_file($file)) {
                 // da getClassVars() eine statische Methode ist, können wir hier nicht mit $this->getId() arbeiten!
-                $genVars = rex_file::getCache($file);
+                $genVars = rex_file::getCache($file, []);
                 unset($genVars['last_update_stamp']);
                 foreach ($genVars as $name => $value) {
                     self::$classVars[] = $name;

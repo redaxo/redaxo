@@ -347,7 +347,7 @@ class rex_path
             }
             // Normaler Ordner
             else {
-                array_push($stack, $dir);
+                $stack[] = $dir;
             }
         }
 
@@ -398,6 +398,7 @@ class rex_path
         /** @psalm-taint-escape text */
         $path = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $path);
 
+        /** @psalm-suppress DeprecatedFunction */
         return basename($path);
     }
 }

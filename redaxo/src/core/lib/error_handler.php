@@ -239,8 +239,8 @@ abstract class rex_error_handler
             throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
         }
 
-        // silenced errors ("@" operator)
-        if (0 === error_reporting()) {
+        // silenced errors (via php.ini or "@" operator)
+        if (!(error_reporting() & $errno)) {
             return false;
         }
 
@@ -252,10 +252,6 @@ abstract class rex_error_handler
             is_int($alwaysThrow) && $errno === ($errno & $alwaysThrow)
         ) {
             throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
-        }
-
-        if ((error_reporting() & $errno) !== $errno) {
-            return;
         }
 
         if (ini_get('display_errors') && (rex::isSetup() || rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin())) {
@@ -282,9 +278,13 @@ abstract class rex_error_handler
         // catch fatal/parse errors
         if (self::$registered) {
             $error = error_get_last();
-            if (is_array($error) && in_array($error['type'], [E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR, E_PARSE])) {
-                self::handleException(new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']));
+            if (!is_array($error)) {
+                return;
             }
+            if (!in_array($error['type'], [E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR, E_PARSE])) {
+                return;
+            }
+            self::handleException(new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']));
         }
     }
 
