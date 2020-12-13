@@ -3,6 +3,8 @@ name: Visual Regression Testing
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
+  repository_dispatch:
+      types: [visual-test-command] # triggered by /visual-test PR comment
 
 jobs:
     build:
@@ -17,6 +19,17 @@ jobs:
                     - 3306
 
         steps:
+            - name: Add action run link to trigger comment
+              if: "github.event_name == 'repository_dispatch'"
+              uses: peter-evans/create-or-update-comment@v1
+              with:
+                  token: ${{ secrets.STAABM_TOKEN }}
+                  repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
+                  comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
+                  body: |
+                      ```
+                      https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+                      ```
             - uses: actions/checkout@v2
               if: github.event.pull_request.head.repo.full_name == github.repository
               with:
@@ -48,7 +61,7 @@ jobs:
             - run: |
                   php redaxo/bin/console user:create myusername mypassword --admin --ansi
 
-            - name: Setup Node.js
+            - name: Setup nodejs
               uses: actions/setup-node@v1
               with:
                   node-version: "12.x"
@@ -56,16 +69,22 @@ jobs:
               run: |
                   php -S localhost:8000 &
                   npm install puppeteer pixelmatch pngjs fs mkdirp
-            - name: Take Screenshots
+
+            - name: Take screenshots (differential)
+              if: "github.event_name != 'repository_dispatch'"
               run: |
                   node .github/tests-visual/visual-record.js
+            - name: Force regenerate all screenshots
+              if: "github.event_name == 'repository_dispatch'"
+              run: |
+                  node .github/tests-visual/visual-record.js regenerate-all
 
             - id: visual_changes
-              name: Detect Changes
+              name: Detect changes
               run: git diff-index --quiet HEAD -- .github/tests-visual/
 
             - uses: stefanzweifel/git-auto-commit-action@v4
-              if: failure() && github.event.pull_request.head.repo.full_name == github.repository
+              if: "failure() && (github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'repository_dispatch')"
               with:
                   commit_message: Update screenshots
                   file_pattern: .github/tests-visual/*
