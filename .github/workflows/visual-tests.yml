@@ -90,6 +90,8 @@ jobs:
               run: |
                   node .github/tests-visual/visual-record.js regenerate-all
 
+            - name: fetch master
+              run: git fetch --no-tags --prune --depth=1 origin +refs/heads/master:refs/remotes/origin/master
             - id: visual_changes
               name: Detect changes
               run: git fetch origin/master; git diff --quiet HEAD master -- .github/tests-visual/
