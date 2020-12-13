@@ -92,7 +92,7 @@ jobs:
 
             - id: visual_changes
               name: Detect changes
-              run:|
+              run: |
                 if [ -n "$(git status --porcelain -- .github/tests-visual/)" ]; then
                   echo "::set-output name=dirty::1"
                 fi
