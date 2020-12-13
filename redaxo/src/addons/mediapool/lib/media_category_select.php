@@ -60,7 +60,7 @@ class rex_media_category_select extends rex_select
         }
     }
 
-    protected function addCatOption(rex_media_category $mediacat)
+    protected function addCatOption(rex_media_category $mediacat, int $parentId = 0)
     {
         if (!$this->check_perms ||
                 $this->check_perms && rex::getUser()->getComplexPerm('media')->hasCategoryPerm($mediacat->getId())
@@ -68,13 +68,13 @@ class rex_media_category_select extends rex_select
             $mid = $mediacat->getId();
             $mname = $mediacat->getName();
 
-            $this->addOption($mname, $mid, $mid, $mediacat->getParentId());
-            $childs = $mediacat->getChildren();
-            if (is_array($childs)) {
-                foreach ($childs as $child) {
-                    $this->addCatOption($child);
-                }
-            }
+            $this->addOption($mname, $mid, $mid, $parentId);
+
+            $parentId = $mediacat->getId();
+        }
+
+        foreach ($mediacat->getChildren() as $child) {
+            $this->addCatOption($child, $parentId);
         }
     }
 
