@@ -88,3 +88,5 @@ jobs:
               with:
                   commit_message: Update screenshots
                   file_pattern: .github/tests-visual/*
+                  # repo dispatch needs the target branch
+                  branch: ${{ github.head_ref }}
