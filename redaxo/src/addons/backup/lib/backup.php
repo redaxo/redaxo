@@ -362,9 +362,32 @@ class rex_backup
      * Exportiert alle Ordner $folders aus dem Verzeichnis /files.
      *
      * @param array $folders Array von Ordnernamen, die exportiert werden sollen
+     *
+     * @return string|null Inhalt des Tar-Archives als string, wenn $archivePath nicht uebergeben wurde - sonst null
      */
     public static function exportFiles($folders, $archivePath)
     {
+        $backwardsCompatible = func_num_args() == 1;
+
+        try {
+            if ($backwardsCompatible) {
+                $archivePath = tempnam(sys_get_temp_dir(), 'rex-file-export');
+            }
+
+            self::streamExport($folders, $archivePath);
+
+            if ($backwardsCompatible) {
+                return rex_file::get($archivePath);
+            }
+            return null;
+        } finally {
+            if ($backwardsCompatible) {
+                rex_file::delete($archivePath);
+            }
+        }
+    }
+
+    private static function streamExport($folders, $archivePath) {
         $tar = new rex_backup_tar();
         $tar->create($archivePath);
 
