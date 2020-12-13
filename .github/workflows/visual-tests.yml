@@ -91,9 +91,7 @@ jobs:
                   node .github/tests-visual/visual-record.js regenerate-all
 
             - run: ls -la .github/tests-visual/
-            - run:|
-                git diff-index --quiet HEAD -- .github/tests-visual/
-                echo $?
+            - run: git diff-index --quiet HEAD -- .github/tests-visual/; echo $?
 
             - id: visual_changes
               name: Detect changes
