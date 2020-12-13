@@ -369,22 +369,21 @@ class rex_backup
      */
     public static function exportFiles($folders, $archivePath = null)
     {
-        $backwardsCompatible = null == $archivePath;
-
+        if (null == $archivePath) {
+            $tmpArchivePath = tempnam(sys_get_temp_dir(), 'rex-file-export');
+        }
+        
         try {
-            if ($backwardsCompatible) {
-                $archivePath = tempnam(sys_get_temp_dir(), 'rex-file-export');
+            if (null == $archivePath) {
+                self::streamExport($folders, $tmpArchivePath);
+                return rex_file::get($tmpArchivePath);
             }
 
             self::streamExport($folders, $archivePath);
-
-            if ($backwardsCompatible) {
-                return rex_file::get($archivePath);
-            }
             return null;
         } finally {
-            if ($backwardsCompatible) {
-                rex_file::delete($archivePath);
+            if (null == $archivePath) {
+                rex_file::delete($tmpArchivePath);
             }
         }
     }
