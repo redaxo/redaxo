@@ -90,6 +90,7 @@ jobs:
               run: |
                   node .github/tests-visual/visual-record.js regenerate-all
 
+            - run: git update-index --refresh
             - run: ls -la .github/tests-visual/
             - run: git diff-index HEAD -- .github/tests-visual/; echo $?
 
