@@ -19,9 +19,18 @@ const screenshotHeight = 1024;
 
 const START_URL = 'http://localhost:8000/redaxo/index.php';
 const DEBUGGING = false;
-const MIN_DIFF_PIXELS = 1;
 const WORKING_DIR = '.tests-visual/';
 const GOLDEN_SAMPLES_DIR = '.github/tests-visual/';
+
+var myArgs = process.argv.slice(2);
+var minDiffPixels = 1;
+switch (myArgs[0]) {
+    case 'regenerate-all':
+        // force sample-regeneration, even if pixelmatch() thinks nothing changed
+        minDiffPixels = 0;
+        break;
+}
+const MIN_DIFF_PIXELS = minDiffPixels;
 
 // htaccess ajax checks are subject to race conditions and therefore generated 'random' markup.
 // disable the check to get less visual noise.
@@ -118,7 +127,9 @@ async function main() {
         'modules_modules.png': START_URL + '?page=modules/modules',
         'modules_actions.png': START_URL + '?page=modules/actions',
         'users_users.png': START_URL + '?page=users/users',
+        'users_edit.png': START_URL + '?page=users/users&user_id=1',
         'users_roles.png': START_URL + '?page=users/roles',
+        'users_role_add.png': START_URL + '?page=users/roles&func=add&default_value=1',
         'packages.png': START_URL + '?page=packages',
         'system_settings.png': START_URL + '?page=system/settings',
         'system_log.png': START_URL + '?page=system/log/redaxo',
