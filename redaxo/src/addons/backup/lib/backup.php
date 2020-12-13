@@ -370,22 +370,23 @@ class rex_backup
     public static function exportFiles($folders, $archivePath = null)
     {
         if (null == $archivePath) {
+            try {
             $tmpArchivePath = tempnam(sys_get_temp_dir(), 'rex-file-export');
-        }
-
-        try {
-            if (null == $archivePath) {
-                self::streamExport($folders, $tmpArchivePath);
+            
+            self::streamExport($folders, $tmpArchivePath);
                 return rex_file::get($tmpArchivePath);
-            }
-
-            self::streamExport($folders, $archivePath);
-            return null;
-        } finally {
-            if (null == $archivePath) {
+        }finally {
+            if($tmpArchivePath) {
                 rex_file::delete($tmpArchivePath);
             }
+            
         }
+
+        
+           
+            self::streamExport($folders, $archivePath);
+            return null;
+        
     }
 
     private static function streamExport($folders, $archivePath)
