@@ -367,7 +367,7 @@ class rex_backup
      */
     public static function exportFiles($folders, $archivePath)
     {
-        $backwardsCompatible = func_num_args() == 1;
+        $backwardsCompatible = 1 == func_num_args();
 
         try {
             if ($backwardsCompatible) {
@@ -387,7 +387,8 @@ class rex_backup
         }
     }
 
-    private static function streamExport($folders, $archivePath) {
+    private static function streamExport($folders, $archivePath)
+    {
         $tar = new rex_backup_tar();
         $tar->create($archivePath);
 
