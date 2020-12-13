@@ -14,7 +14,6 @@ $this->classes = isset($this->classes) && (is_array($this->classes) && count($th
 
 switch ($count) {
     case '4':
-
         echo '<div class="row">';
 
         foreach ($this->content as $key => $content) {
@@ -26,7 +25,6 @@ switch ($count) {
         break;
 
     case '3':
-
         echo '<div class="row">';
 
         foreach ($this->content as $key => $content) {
@@ -38,7 +36,6 @@ switch ($count) {
         break;
 
     case '2':
-
         echo '<div class="row">';
 
         foreach ($this->content as $key => $content) {
@@ -50,7 +47,6 @@ switch ($count) {
         break;
 
     default:
-
         foreach ($this->content as $content) {
             echo $content;
         }
