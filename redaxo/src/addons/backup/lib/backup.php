@@ -362,6 +362,7 @@ class rex_backup
      * Exportiert alle Ordner $folders aus dem Verzeichnis /files.
      *
      * @param array $folders Array von Ordnernamen, die exportiert werden sollen
+     * @param string $archivePath Pfad, wo das archiv angelegt werden soll
      *
      * @return string|null Inhalt des Tar-Archives als string, wenn $archivePath nicht uebergeben wurde - sonst null
      */
