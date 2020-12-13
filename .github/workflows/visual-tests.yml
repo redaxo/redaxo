@@ -3,12 +3,14 @@ name: Visual Regression Testing
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
+  repository_dispatch:
+      types: [visual-test-command] # triggered by /visual-test PR comment
 
 jobs:
     build:
 
         runs-on: ubuntu-latest
-        if: "github.event.pull_request.draft == false && !contains(github.event.head_commit.message, '[ci skip]')"
+        if: "github.event.pull_request.draft == false"
 
         services:
             mysql:
@@ -17,13 +19,35 @@ jobs:
                     - 3306
 
         steps:
-            - uses: actions/checkout@v2
-              if: github.event.pull_request.head.repo.full_name == github.repository
+            - name: Add action run link to trigger comment
+              if: "github.event_name == 'repository_dispatch'"
+              uses: peter-evans/create-or-update-comment@v1
+              with:
+                  token: ${{ secrets.STAABM_TOKEN }}
+                  repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
+                  comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
+                  body: |
+                      ```
+                      https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+                      ```
+
+            - name: Checkout redaxo/redaxo
+              uses: actions/checkout@v2
+              if: "github.event_name != 'repository_dispatch' && github.event.pull_request.head.repo.full_name == github.repository"
               with:
                   ref: ${{ github.head_ref }}
                   token: ${{ secrets.STAABM_TOKEN }}
-            - uses: actions/checkout@v2
-              if: github.event.pull_request.head.repo.full_name != github.repository
+            - name: Checkout fork
+              uses: actions/checkout@v2
+              if: "github.event_name != 'repository_dispatch' && github.event.pull_request.head.repo.full_name != github.repository"
+            - name: Checkout on chat commnad
+              uses: actions/checkout@v2
+              if: "github.event_name == 'repository_dispatch'"
+              with:
+                  token: ${{ secrets.STAABM_TOKEN }}
+                  repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
+                  ref: ${{ github.event.client_payload.pull_request.head.ref }}
+
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
@@ -48,7 +72,7 @@ jobs:
             - run: |
                   php redaxo/bin/console user:create myusername mypassword --admin --ansi
 
-            - name: Setup Node.js
+            - name: Setup nodejs
               uses: actions/setup-node@v1
               with:
                   node-version: "12.x"
@@ -56,16 +80,20 @@ jobs:
               run: |
                   php -S localhost:8000 &
                   npm install puppeteer pixelmatch pngjs fs mkdirp
-            - name: Take Screenshots
+
+            - name: Take screenshots (differential)
+              if: "github.event_name != 'repository_dispatch'"
               run: |
                   node .github/tests-visual/visual-record.js
-
-            - id: visual_changes
-              name: Detect Changes
-              run: git diff-index --quiet HEAD -- .github/tests-visual/
+            - name: Force regenerate all screenshots
+              if: "github.event_name == 'repository_dispatch'"
+              run: |
+                  node .github/tests-visual/visual-record.js regenerate-all
 
             - uses: stefanzweifel/git-auto-commit-action@v4
-              if: failure() && github.event.pull_request.head.repo.full_name == github.repository
+              if: "(github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'repository_dispatch')"
               with:
                   commit_message: Update screenshots
                   file_pattern: .github/tests-visual/*
+                  # repo dispatch needs the target branch
+                  branch: ${{ github.head_ref }}
