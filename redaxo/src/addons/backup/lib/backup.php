@@ -360,13 +360,14 @@ class rex_backup
 
     /**
      * Exportiert alle Ordner $folders aus dem Verzeichnis /files.
+     * Wenn $archivePath übergeben wird, wird das Achive mittels Streaming gebaut, sodass sehr große Exporte möglich sind.
      *
      * @param array $folders Array von Ordnernamen, die exportiert werden sollen
      * @param string $archivePath Pfad, wo das archiv angelegt werden soll
      *
      * @return string|null Inhalt des Tar-Archives als string, wenn $archivePath nicht uebergeben wurde - sonst null
      */
-    public static function exportFiles($folders, $archivePath)
+    public static function exportFiles($folders, $archivePath = null)
     {
         $backwardsCompatible = 1 == func_num_args();
 
