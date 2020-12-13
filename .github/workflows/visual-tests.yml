@@ -92,12 +92,15 @@ jobs:
 
             - id: visual_changes
               name: Detect changes
-              run: !(git status --porcelain=v1 -- .github/tests-visual/ 2>/dev/null | grep -q ^)
+              run: git status --porcelain=v1 -- .github/tests-visual/ 2>/dev/null | grep -q
 
             - uses: stefanzweifel/git-auto-commit-action@v4
-              if: "failure() && (github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'repository_dispatch')"
+              if: "success() && (github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'repository_dispatch')"
               with:
                   commit_message: Update screenshots
                   file_pattern: .github/tests-visual/*
                   # repo dispatch needs the target branch
                   branch: ${{ github.head_ref }}
+
+            - run: exit 0
+              if: "failure()"
