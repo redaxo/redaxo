@@ -90,16 +90,12 @@ jobs:
               run: |
                   node .github/tests-visual/visual-record.js regenerate-all
 
-            - run: git update-index --refresh
-            - run: ls -la .github/tests-visual/
-            - run: git diff-index HEAD -- .github/tests-visual/; echo $?
-
             - id: visual_changes
               name: Detect changes
-              run: git diff-index --quiet HEAD -- .github/tests-visual/
+              run: git status --porcelain=v1 -- .github123/tests-visual/ 2>/dev/null | grep -q ^
 
             - uses: stefanzweifel/git-auto-commit-action@v4
-              if: "failure() && (github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'repository_dispatch')"
+              if: "github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'repository_dispatch'"
               with:
                   commit_message: Update screenshots
                   file_pattern: .github/tests-visual/*
