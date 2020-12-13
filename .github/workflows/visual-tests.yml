@@ -93,7 +93,8 @@ jobs:
             - id: visual_changes
               name: Detect changes
               run: |
-                if [ -n "$(git status .github/tests-visual/ --porcelain )" ]; then
+                git diff-index --quiet HEAD -- .github/tests-visual/
+                if [ $? -ne 0 ]; then
                   echo "::set-output name=dirty::1"
                 fi
 
