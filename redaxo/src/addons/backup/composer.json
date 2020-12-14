@@ -1,0 +1,12 @@
+{
+    "require": {
+        "splitbrain/php-archive": "^1.2"
+    },
+
+    "config": {
+        "platform": {
+            "php": "7.3.0"
+        },
+        "platform-check": false
+    }
+}
