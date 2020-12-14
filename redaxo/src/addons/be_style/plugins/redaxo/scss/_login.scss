@@ -45,7 +45,7 @@
 
     .rex-page-main {
         position: relative;
-        max-width: 400px;
+        max-width: 420px;
         width: 100%;
     }
 
@@ -172,6 +172,8 @@
         left: 0;
         right: 0;
         bottom: 0;
+        justify-content: center;
+        align-items: center;
 
         // in case someone uses bgr image on this element instead of <picture>
         background-position: center;
@@ -182,6 +184,7 @@
             -o-object-fit: cover;
                object-fit: cover;
             overflow: hidden; // fix chrome rendering issues
+            min-height: 100%;
         }
     }
 
