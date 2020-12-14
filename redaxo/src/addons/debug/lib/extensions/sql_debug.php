@@ -15,7 +15,7 @@ class rex_sql_debug extends rex_sql
 
             // to prevent double entries, log only if no params are passed
             if (empty($params)) {
-                rex_debug_clockwork::getInstance()
+                rex_debug_clockwork::getInstance()->getRequest()
                     ->addDatabaseQuery($query, $params, $timer->getDelta(), ['connection' => $this->DBID] + rex_debug::getTrace());
             }
         } catch (rex_exception $e) {
@@ -31,7 +31,7 @@ class rex_sql_debug extends rex_sql
                 }
             }
             rex_debug_clockwork::getInstance()
-                ->error($e->getMessage(), ['file' => $file, 'line' => $line]);
+                ->log('error', $e->getMessage(), ['file' => $file, 'line' => $line]);
             throw $e; // re-throw exception after logging
         }
 
