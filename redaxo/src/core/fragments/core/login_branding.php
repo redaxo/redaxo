@@ -5,5 +5,5 @@
  */
 ?>
 <div class="rex-branding">
-    <?= rex_file::get(rex_url::coreAssets('redaxo-logo.svg')) ?>
+    <?= rex_file::get(rex_path::coreAssets('redaxo-logo.svg')) ?>
 </div>
