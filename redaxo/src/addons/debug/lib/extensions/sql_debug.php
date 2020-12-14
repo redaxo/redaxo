@@ -46,7 +46,7 @@ class rex_sql_debug extends rex_sql
         $timer = new rex_timer();
         parent::execute($params, $options);
 
-        rex_debug_clockwork::getInstance()
+        rex_debug_clockwork::getInstance()->getRequest()
             ->addDatabaseQuery($qry, $params, $timer->getDelta(), ['connection' => $this->DBID] + rex_debug::getTrace());
 
         return $this;
