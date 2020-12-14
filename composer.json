@@ -100,9 +100,9 @@
     ],
     "scripts": {
         "clone-addon": ".tools/bin/clone-addon",
-        "refresh": ".tools/bin/refresh",
+        "refresh": "bash .tools/bin/refresh",
         "release": ".tools/bin/release",
-        "update-all": ".tools/bin/update-all",
+        "update-all": "bash .tools/bin/update-all",
         "cs": "php-cs-fixer fix -v --ansi",
         "phpunit": "phpunit --colors=always",
         "phpstan": "phpstan analyse --ansi",
