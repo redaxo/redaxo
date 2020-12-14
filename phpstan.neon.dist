@@ -21,6 +21,7 @@ parameters:
         - redaxo/src/addons/structure
         - redaxo/src/addons/users
     excludes_analyse:
+        - redaxo/src/addons/backup/vendor/
         - redaxo/src/addons/be_style/vendor/
         - redaxo/src/addons/debug/vendor/
         - redaxo/src/addons/phpmailer/vendor/

@@ -30,6 +30,19 @@ find redaxo/src/core/vendor -name "*.md" ! -name "LICENSE.md" -type f -delete
 
 composer dumpautoload --ansi --no-dev --classmap-authoritative -d redaxo/src/core/
 
+printf "\nUpdate redaxo/src/addons/backup/vendor\n"
+composer update --ansi --no-dev -d redaxo/src/addons/backup/
+
+rm -f redaxo/src/addons/backup/vendor/autoload.php
+rm -rf redaxo/src/addons/backup/vendor/composer/
+rm -rf redaxo/src/addons/backup/vendor/splitbrain/php-archive/.gitignore
+rm -rf redaxo/src/addons/backup/vendor/splitbrain/php-archive/.travis.yml
+rm -rf redaxo/src/addons/backup/vendor/splitbrain/php-archive/apigen.neon
+rm -rf redaxo/src/addons/backup/vendor/splitbrain/php-archive/generate-api.sh
+rm -rf redaxo/src/addons/backup/vendor/splitbrain/php-archive/phpunit.xml
+rm -rf redaxo/src/addons/backup/vendor/splitbrain/php-archive/tests/
+find redaxo/src/addons/backup/vendor/splitbrain/php-archive -name "*.md" ! -name "LICENSE.md" -type f -delete
+
 printf "\nUpdate redaxo/src/addons/be_style/vendor\n"
 composer update --ansi --no-dev -d redaxo/src/addons/be_style/
 

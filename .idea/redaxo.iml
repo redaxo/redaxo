@@ -17,6 +17,7 @@
       <excludeFolder url="file://$MODULE_DIR$/redaxo/data/addons/phpmailer" />
       <excludeFolder url="file://$MODULE_DIR$/redaxo/data/addons/yform" />
       <excludeFolder url="file://$MODULE_DIR$/redaxo/data/log" />
+      <excludeFolder url="file://$MODULE_DIR$/redaxo/src/addons/backup/vendor" />
       <excludeFolder url="file://$MODULE_DIR$/redaxo/src/addons/be_style/vendor" />
       <excludeFolder url="file://$MODULE_DIR$/redaxo/src/addons/debug/vendor" />
       <excludeFolder url="file://$MODULE_DIR$/redaxo/src/addons/phpmailer/vendor" />
