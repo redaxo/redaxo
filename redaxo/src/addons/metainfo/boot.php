@@ -13,33 +13,33 @@ $addon = rex_addon::get('metainfo');
 
 if (!defined('REX_METAINFO_FIELD_TEXT')) {
     // Feldtypen
-    /* @deprecated use rex_metainfo_table_manager::FIELD_TEXT instead */
+    /** @deprecated use rex_metainfo_table_manager::FIELD_TEXT instead */
     define('REX_METAINFO_FIELD_TEXT', 1);
-    /* @deprecated use rex_metainfo_table_manager::FIELD_TEXTAREA instead */
+    /** @deprecated use rex_metainfo_table_manager::FIELD_TEXTAREA instead */
     define('REX_METAINFO_FIELD_TEXTAREA', 2);
-    /* @deprecated use rex_metainfo_table_manager::FIELD_SELECT instead */
+    /** @deprecated use rex_metainfo_table_manager::FIELD_SELECT instead */
     define('REX_METAINFO_FIELD_SELECT', 3);
-    /* @deprecated use rex_metainfo_table_manager::FIELD_RADIO instead */
+    /** @deprecated use rex_metainfo_table_manager::FIELD_RADIO instead */
     define('REX_METAINFO_FIELD_RADIO', 4);
-    /* @deprecated use rex_metainfo_table_manager::FIELD_CHECKBOX instead */
+    /** @deprecated use rex_metainfo_table_manager::FIELD_CHECKBOX instead */
     define('REX_METAINFO_FIELD_CHECKBOX', 5);
-    /* @deprecated use rex_metainfo_table_manager::FIELD_REX_MEDIA_WIDGET instead */
+    /** @deprecated use rex_metainfo_table_manager::FIELD_REX_MEDIA_WIDGET instead */
     define('REX_METAINFO_FIELD_REX_MEDIA_WIDGET', 6);
-    /* @deprecated use rex_metainfo_table_manager::FIELD_REX_MEDIALIST_WIDGET instead */
+    /** @deprecated use rex_metainfo_table_manager::FIELD_REX_MEDIALIST_WIDGET instead */
     define('REX_METAINFO_FIELD_REX_MEDIALIST_WIDGET', 7);
-    /* @deprecated use rex_metainfo_table_manager::FIELD_REX_LINK_WIDGET instead */
+    /** @deprecated use rex_metainfo_table_manager::FIELD_REX_LINK_WIDGET instead */
     define('REX_METAINFO_FIELD_REX_LINK_WIDGET', 8);
-    /* @deprecated use rex_metainfo_table_manager::FIELD_REX_LINKLIST_WIDGET instead */
+    /** @deprecated use rex_metainfo_table_manager::FIELD_REX_LINKLIST_WIDGET instead */
     define('REX_METAINFO_FIELD_REX_LINKLIST_WIDGET', 9);
-    /* @deprecated use rex_metainfo_table_manager::FIELD_DATE instead */
+    /** @deprecated use rex_metainfo_table_manager::FIELD_DATE instead */
     define('REX_METAINFO_FIELD_DATE', 10);
-    /* @deprecated use rex_metainfo_table_manager::FIELD_DATETIME instead */
+    /** @deprecated use rex_metainfo_table_manager::FIELD_DATETIME instead */
     define('REX_METAINFO_FIELD_DATETIME', 11);
-    /* @deprecated use rex_metainfo_table_manager::FIELD_LEGEND instead */
+    /** @deprecated use rex_metainfo_table_manager::FIELD_LEGEND instead */
     define('REX_METAINFO_FIELD_LEGEND', 12);
-    /* @deprecated use rex_metainfo_table_manager::FIELD_TIME instead */
+    /** @deprecated use rex_metainfo_table_manager::FIELD_TIME instead */
     define('REX_METAINFO_FIELD_TIME', 13);
-    /* @deprecated use rex_metainfo_table_manager::FIELD_COUNT instead */
+    /** @deprecated use rex_metainfo_table_manager::FIELD_COUNT instead */
     define('REX_METAINFO_FIELD_COUNT', 13);
 }
 
