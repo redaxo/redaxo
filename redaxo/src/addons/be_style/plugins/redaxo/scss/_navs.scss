@@ -525,7 +525,7 @@ $transitionDuration: 300ms;
 .rex-nav-toc {
     position: -webkit-sticky;
     position: sticky;
-    top: 0px;
+    top: $top-navbar-height;
     bottom: 20px;
     max-height: 100vh;
     overflow-y: auto;
