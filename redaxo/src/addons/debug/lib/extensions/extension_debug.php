@@ -44,7 +44,7 @@ class rex_extension_debug extends rex_extension
                 'result' => $res,
                 'start' => $absDur,
                 'end' => microtime(true),
-                'data' => $data
+                'data' => $data,
             ]);
 
         return $res;
