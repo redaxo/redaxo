@@ -221,7 +221,7 @@ class rex_backup
         self::importScript(str_replace('.tar.gz', '.php', $filename), self::IMPORT_ARCHIVE, self::IMPORT_EVENT_PRE);
 
         $tar->openTAR($filename);
-        if (!$tar->extractTar()) {
+        if (!$tar->extractTar(rex_path::base())) {
             $msg = rex_i18n::msg('backup_problem_when_extracting') . '<br />';
             if (count($tar->getMessages()) > 0) {
                 $msg .= rex_i18n::msg('backup_create_dirs_manually') . '<br />';
@@ -360,14 +360,37 @@ class rex_backup
 
     /**
      * Exportiert alle Ordner $folders aus dem Verzeichnis /files.
+     * Wenn $archivePath übergeben wird, wird das Achive mittels Streaming gebaut, sodass sehr große Exporte möglich sind.
      *
      * @param array $folders Array von Ordnernamen, die exportiert werden sollen
+     * @param string $archivePath Pfad, wo das archiv angelegt werden soll
      *
-     * @return string Inhalt des Tar-Archives als String
+     * @return string|null Inhalt des Tar-Archives als string, wenn $archivePath nicht uebergeben wurde - sonst null
      */
-    public static function exportFiles($folders)
+    public static function exportFiles($folders, $archivePath = null)
+    {
+        if (null == $archivePath) {
+            $tmpArchivePath = false;
+            try {
+                $tmpArchivePath = tempnam(sys_get_temp_dir(), 'rex-file-export');
+
+                self::streamExport($folders, $tmpArchivePath);
+                return rex_file::get($tmpArchivePath);
+            } finally {
+                if ($tmpArchivePath) {
+                    rex_file::delete($tmpArchivePath);
+                }
+            }
+        }
+
+        self::streamExport($folders, $archivePath);
+        return null;
+    }
+
+    private static function streamExport($folders, $archivePath)
     {
         $tar = new rex_backup_tar();
+        $tar->create($archivePath);
 
         // ----- EXTENSION POINT
         $tar = rex_extension::registerPoint(new rex_extension_point('BACKUP_BEFORE_FILE_EXPORT', $tar));
@@ -379,7 +402,7 @@ class rex_backup
         // ----- EXTENSION POINT
         $tar = rex_extension::registerPoint(new rex_extension_point('BACKUP_AFTER_FILE_EXPORT', $tar));
 
-        return $tar->toTar(null, true);
+        $tar->close();
     }
 
     /**
