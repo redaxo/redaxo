@@ -129,7 +129,6 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
 
             // no break
         case 'layer':
-
             $article_id = rex_request('history_article_id', 'int');
             $clang_id = rex_request('history_clang_id', 'int');
             $versions = rex_article_slice_history::getSnapshots($article_id, $clang_id);

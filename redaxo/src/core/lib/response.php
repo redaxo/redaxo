@@ -233,7 +233,9 @@ class rex_response
             header('Content-Disposition: ' . $contentDisposition . '; filename="' . $filename . '"');
         }
 
-        self::sendCacheControl('max-age=3600, must-revalidate, proxy-revalidate, private');
+        if (!self::$sentCacheControl) {
+            self::sendCacheControl();
+        }
         self::sendContent($content, $contentType, $lastModified, $etag);
     }
 

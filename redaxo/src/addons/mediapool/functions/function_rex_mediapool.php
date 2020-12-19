@@ -604,10 +604,7 @@ function rex_mediapool_isAllowedMediaType($filename, array $args = [])
     }
 
     $whitelist = rex_mediapool_getMediaTypeWhitelist($args);
-    if (count($whitelist) > 0 && !in_array($file_ext, $whitelist)) {
-        return false;
-    }
-    return true;
+    return !count($whitelist) || in_array($file_ext, $whitelist);
 }
 
 /**

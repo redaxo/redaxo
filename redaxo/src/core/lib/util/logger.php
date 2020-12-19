@@ -147,10 +147,8 @@ class rex_logger extends AbstractLogger
     {
         switch ($errno) {
             case E_STRICT:
-
             case E_USER_DEPRECATED:
             case E_DEPRECATED:
-
             case E_USER_WARNING:
             case E_WARNING:
             case E_COMPILE_WARNING:

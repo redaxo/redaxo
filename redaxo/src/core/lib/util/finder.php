@@ -139,7 +139,7 @@ class rex_finder implements IteratorAggregate, Countable
         if (is_array($glob)) {
             $this->$var += $glob;
         } else {
-            array_push($this->$var, $glob);
+            $this->$var[] = $glob;
         }
 
         return $this;
@@ -159,7 +159,7 @@ class rex_finder implements IteratorAggregate, Countable
         if (is_array($glob)) {
             $this->$var += $glob;
         } else {
-            array_push($this->$var, $glob);
+            $this->$var[] = $glob;
         }
 
         return $this;
