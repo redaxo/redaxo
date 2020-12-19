@@ -43,8 +43,11 @@ if ($export && !$csrfToken->isValid()) {
     // ------------------------------ FUNC EXPORT
 
     $exportfilename = strtolower($exportfilename);
-    /** @psalm-taint-escape shell */
-    /** @psalm-taint-escape html */
+    /**
+     * @psalm-taint-escape file
+     * @psalm-taint-escape html
+     * @psalm-taint-escape shell
+     */
     $filename = preg_replace('@[^\.a-z0-9_\-]@', '', $exportfilename);
 
     if ($filename != $exportfilename) {

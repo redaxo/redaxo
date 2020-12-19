@@ -174,7 +174,7 @@ class rex_sql_foreign_key
         return
             $this->name === $index->name &&
             $this->table === $index->table &&
-            $this->columns == $index->columns &&
+            $this->columns === $index->columns &&
             $this->onUpdate === $index->onUpdate &&
             $this->onDelete === $index->onDelete;
     }
