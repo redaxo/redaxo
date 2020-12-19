@@ -72,14 +72,17 @@ class rex_form_prio_element extends rex_form_select_element
             $qry .= ' AND (' . $this->whereCondition . ')';
         }
 
+        $params = [];
+
         // Im Edit Mode das Feld selbst nicht als Position einfügen
         if ($this->table->isEditMode()) {
-            $qry .= ' AND (' . $name . '!=' . $this->getValue() . ')';
+            $qry .= ' AND (' . $name . ' != ?)';
+            $params[] = $this->getValue();
         }
 
         $qry .= ' ORDER BY ' . $name;
         $sql = rex_sql::factory();
-        $sql->setQuery($qry);
+        $sql->setQuery($qry, $params);
 
         $this->select->addOption(rex_i18n::msg($this->firstOptionMsg), 1);
         $value = 1;
