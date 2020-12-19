@@ -63,6 +63,10 @@ class rex_password_policy
      *
      * @deprecated since 5.12, use `getDescription` instead
      */
+    #[\JetBrains\PhpStorm\Deprecated(
+        reason: 'since 5.12, use `getDescription` instead',
+        replacement: '%class%->getDescription()'
+    )]
     protected function getRule()
     {
         return $this->getDescription() ?? '';
