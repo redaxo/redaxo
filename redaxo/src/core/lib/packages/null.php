@@ -16,7 +16,7 @@ abstract class rex_null_package implements rex_package_interface
      */
     public function getName()
     {
-        return get_class($this);
+        return static::class;
     }
 
     /**

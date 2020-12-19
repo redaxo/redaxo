@@ -22,12 +22,12 @@ class rex_debug_clockwork
         self::$instance = $clockwork;
     }
 
-    public static function getInstance(): \Clockwork\Clockwork
+    public static function getInstance(): Clockwork\Clockwork
     {
         return self::getHelper()->getClockwork();
     }
 
-    public static function getHelper(): \Clockwork\Support\Vanilla\Clockwork
+    public static function getHelper(): Clockwork\Support\Vanilla\Clockwork
     {
         if (!self::$instance) {
             self::init();

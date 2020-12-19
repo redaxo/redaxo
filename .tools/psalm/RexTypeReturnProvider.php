@@ -22,7 +22,7 @@ class RexTypeReturnProvider implements MethodReturnTypeProviderInterface, Functi
 {
     public static function getClassLikeNames(): array
     {
-        return [rex_type::class, rex_request::class];
+        return [rex_type::class, rex_request::class, rex_sql::class];
     }
 
     public static function getFunctionIds(): array
@@ -50,6 +50,17 @@ class RexTypeReturnProvider implements MethodReturnTypeProviderInterface, Functi
             }
 
             return null;
+        }
+
+        if (rex_sql::class === $fq_classlike_name) {
+            if (!in_array($method_name_lowercase, ['getvalue', 'castvalue'], true)) {
+                return null;
+            }
+            if (!isset($call_args[1])) {
+                return null;
+            }
+
+            return self::resolveType($call_args[1]->value);
         }
 
         switch ($method_name_lowercase) {

@@ -13,7 +13,7 @@ class rex_api_has_user_session extends rex_api_function
     public function execute()
     {
         if (!rex_request::isHttps()) {
-            throw new rex_api_exception(sprintf('https is required'));
+            throw new rex_api_exception('https is required');
         }
 
         $user = rex::getUser();

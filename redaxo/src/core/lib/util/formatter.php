@@ -38,7 +38,7 @@ abstract class rex_formatter
      *
      * @see http://www.php.net/manual/en/function.date.php
      *
-     * @param string|int $value  Unix timestamp or datetime string for `strtotime`
+     * @param string|int|null $value  Unix timestamp or datetime string for `strtotime`
      * @param string     $format Default format is `d.m.Y`
      *
      * @return string
@@ -61,7 +61,7 @@ abstract class rex_formatter
      *
      * @see http://www.php.net/manual/en/function.strftime.php
      *
-     * @param string|int $value  Unix timestamp or datetime string for `strtotime`
+     * @param string|int|null $value  Unix timestamp or datetime string for `strtotime`
      * @param string     $format Possible values are format strings like in `strftime` or "date" or "datetime", default is "date"
      *
      * @return string
@@ -187,7 +187,7 @@ abstract class rex_formatter
      * Truncates a string.
      *
      * @param string $value  Value
-     * @param array  $format Default format is `array('length' => 80, 'etc' => '...', 'break_words' => false)`
+     * @param array{length?: int, etc?: string, break_words?: bool} $format Default format is `['length' => 80, 'etc' => '...', 'break_words' => false]`
      *
      * @return string
      */

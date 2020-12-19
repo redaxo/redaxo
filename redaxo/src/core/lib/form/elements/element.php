@@ -349,7 +349,7 @@ class rex_form_element
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
-        return  $fragment->parse($this->getFragment());
+        return $fragment->parse($this->getFragment());
     }
 
     public function get()
