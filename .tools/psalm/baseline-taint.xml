@@ -181,12 +181,6 @@
       <code>$query</code>
     </TaintedSql>
   </file>
-  <file src="redaxo/src/core/lib/util/file.php">
-    <TaintedFile occurrences="2">
-      <code>$file</code>
-      <code>$file</code>
-    </TaintedFile>
-  </file>
   <file src="redaxo/src/core/lib/util/socket/socket.php">
     <TaintedCallable occurrences="3">
       <code>$data</code>
