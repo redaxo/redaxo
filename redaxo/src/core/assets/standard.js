@@ -671,11 +671,8 @@ jQuery(document).ready(function ($) {
         pjax.options.timeout = pjaxDefaultConfig.timeout;
         pjax.options.debug = pjaxDefaultConfig.debug;
         // hide loader
-        // make sure loader was visible for at least 500 ms to avoid flickering
         window.clearTimeout(rexAjaxLoaderId);
-        rexAjaxLoaderId = setTimeout(function () {
-            document.querySelector('#rex-js-ajax-loader').classList.remove('rex-visible');
-        }, 500);
+        document.querySelector('#rex-js-ajax-loader').classList.remove('rex-visible');
     });
 
     document.addEventListener('pjax:success', function () {
