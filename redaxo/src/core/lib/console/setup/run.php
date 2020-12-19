@@ -151,7 +151,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         $q = new Question('Choose timezone', $config['timezone']);
         $q->setAutocompleterValues($timezones);
         $q->setValidator(static function ($value) {
-            if (false === @date_default_timezone_set($value)) {
+            if (!@date_default_timezone_set($value)) {
                 throw new InvalidArgumentException('Time zone invalid');
             }
             return $value;
@@ -277,7 +277,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             }
         }
 
-        $tables_complete = ('' == rex_setup_importer::verifyDbSchema()) ? true : false;
+        $tables_complete = '' == rex_setup_importer::verifyDbSchema();
 
         $createdbOptions = [
             'normal' => 'Setup database',

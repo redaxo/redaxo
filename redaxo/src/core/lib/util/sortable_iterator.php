@@ -38,8 +38,7 @@ class rex_sortable_iterator implements IteratorAggregate
         $normalize = static function ($string) {
             $string = preg_replace("/(?<=[aou])\xcc\x88/i", '', $string);
             $string = mb_strtolower($string);
-            $string = str_replace(['ä', 'ö', 'ü', 'ß'], ['a', 'o', 'u', 's'], $string);
-            return $string;
+            return str_replace(['ä', 'ö', 'ü', 'ß'], ['a', 'o', 'u', 's'], $string);
         };
         $sortCallback = static function ($a, $b) use ($normalize) {
             $a = $normalize($a);
