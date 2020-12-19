@@ -20,15 +20,6 @@
       <code>$content</code>
     </TaintedHtml>
   </file>
-  <file src="redaxo/src/addons/cronjob/pages/cronjobs.php">
-    <TaintedHtml occurrences="5">
-      <code>$envFieldId</code>
-      <code>$env_js</code>
-      <code>$typeFieldId</code>
-      <code>$typeFieldId</code>
-      <code>$visible_js . "\n"</code>
-    </TaintedHtml>
-  </file>
   <file src="redaxo/src/addons/install/lib/archive.php">
     <TaintedFile occurrences="1">
       <code>$tempdir . '/' . $basename</code>

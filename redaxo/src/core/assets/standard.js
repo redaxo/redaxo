@@ -679,6 +679,8 @@ jQuery(document).ready(function($) {
             ((windowHeight - rect.bottom) < menuHeight) &&
             (rect.top > menuHeight));
     });
+
+    document.addEventListener('keydown', handleKeyEvents, true);
 });
 
 // keep session alive
@@ -691,4 +693,26 @@ if ('login' !== rex.page && rex.session_keep_alive) {
     setTimeout(function () {
         clearInterval(keepAliveInterval);
     }, rex.session_keep_alive * 1000 /* stop request after x seconds - see config.yml */);
+}
+
+// handle key events
+var handleKeyEvents = function (event) {
+
+    // submit forms via strg/cmd + enter
+    if (event.metaKey && event.keyCode === 13) {
+        var form = event.target.closest('form');
+        if (form) {
+            // click apply button if available (e.g. when editing content)
+            var applyButton = form.querySelector('.btn-apply');
+            if (applyButton) {
+                applyButton.click();
+            } else {
+                // click (first) submit button
+                var submitButton = form.querySelector('[type=\'submit\']');
+                if (submitButton) {
+                    submitButton.click();
+                }
+            }
+        }
+    }
 }
