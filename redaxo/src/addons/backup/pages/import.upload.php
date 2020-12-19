@@ -111,6 +111,7 @@ if ('' != $error) {
 }
 
 $body = '<p>' . rex_i18n::msg('backup_intro_import') . '</p>';
+$body .= '<p>' . rex_i18n::msg('backup_intro_import_files') . '</p>';
 $body .= '<p>' . rex_i18n::msg('backup_version_warning') . '</p>';
 
 $body .= ' <hr><p>
