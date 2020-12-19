@@ -622,14 +622,14 @@ jQuery(document).ready(function ($) {
         ],
         selectors: [
             'title', // title
-            '#rex-js-nav-top nav', // top navigation
-            '#rex-js-nav-main nav', // main navigation
+            '#rex-js-nav-top', // top navigation
+            '#rex-js-nav-main', // main navigation
             '#rex-js-page-main', // page content
             '#rex-js-global-footer', // footer
         ],
         switches: {
             // navigation: switch inner HTML only to keep scroll position
-            '#rex-js-nav-main nav': Pjax.switches.innerHTML,
+            '#rex-js-nav-main': Pjax.switches.innerHTML,
             // page content: switch either given section or whole content
             '#rex-js-page-main': function(oldEl, newEl, options) {
                 var source = oldEl;
