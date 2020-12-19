@@ -810,3 +810,25 @@ var handleKeyEvents = function (event) {
         }
     }
 }
+
+// handle key events
+var handleKeyEvents = function (event) {
+
+    // submit forms via strg/cmd + enter
+    if (event.metaKey && event.keyCode === 13) {
+        var form = event.target.closest('form');
+        if (form) {
+            // click apply button if available (e.g. when editing content)
+            var applyButton = form.querySelector('.btn-apply');
+            if (applyButton) {
+                applyButton.click();
+            } else {
+                // click (first) submit button
+                var submitButton = form.querySelector('[type=\'submit\']');
+                if (submitButton) {
+                    submitButton.click();
+                }
+            }
+        }
+    }
+}
