@@ -842,6 +842,11 @@ class rex_list implements rex_url_provider_interface
     public function getSortType($default = null)
     {
         if (rex_request('list', 'string') == $this->getName()) {
+            /**
+             * It is not escaped here, but validated below via in_array.
+             * @psalm-taint-escape html
+             * @psalm-taint-escape sql
+             */
             $sortType = strtolower(rex_request('sorttype', 'string'));
 
             if (in_array($sortType, ['asc', 'desc'])) {
@@ -909,6 +914,8 @@ class rex_list implements rex_url_provider_interface
      * @param string $value Zu durchsuchender String
      *
      * @return string
+     *
+     * @psalm-taint-specialize
      */
     public function replaceVariables($value)
     {
