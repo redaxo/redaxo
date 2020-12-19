@@ -162,7 +162,7 @@ if ('' == $func) {
     $field->setNotice($addon->i18n('environment_notice', rex_path::bin('console').' cronjob:run'));
     $field->getValidator()->add('notEmpty', $addon->i18n('cronjob_error_no_environment'));
     $field->setAttribute('multiple', 'multiple');
-    $envFieldId = $field->getAttribute('id');
+    $envFieldId = rex_escape($field->getAttribute('id'), 'js');
     $select = $field->getSelect();
     $select->setSize(3);
     $select->addOption($addon->i18n('environment_frontend'), 'frontend');
@@ -199,7 +199,7 @@ if ('' == $func) {
     $field->setLabel($addon->i18n('type'));
     $select = $field->getSelect();
     $select->setSize(1);
-    $typeFieldId = $field->getAttribute('id');
+    $typeFieldId = rex_escape($field->getAttribute('id'), 'js');
     $types = rex_cronjob_manager::getTypes();
     $cronjobs = [];
     foreach ($types as $class) {
@@ -321,9 +321,9 @@ if ('' == $func) {
                     foreach ($visible[$name] as $value => $fieldIds) {
                         $visible_js .= '
                         var first = 1;
-                        $("#' . $field->getAttribute('id') . '-' . $value . '").change(function(){
+                        $("#' . rex_escape($field->getAttribute('id'), 'js') . '-' . $value . '").change(function(){
                             var checkbox = $(this);
-                            $("#' . implode(',#', $fieldIds) . '").each(function(){
+                            $("#' . rex_escape(implode(',#', $fieldIds), 'js') . '").each(function(){
                                 if ($(checkbox).is(":checked"))
                                     $(this).parent().parent().slideDown();
                                 else if(first == 1)
