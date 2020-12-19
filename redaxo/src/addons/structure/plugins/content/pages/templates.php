@@ -511,7 +511,7 @@ if ('add' == $function || 'edit' == $function) {
                     var id = $(e.target).attr("href").substr(1);
                     $("#rex-js-form-template-tab").val(id);
                 });
-                $("#rex-js-form-template-tabs a[href=\"#' . $activeTab . '\"]").tab("show");
+                $("#rex-js-form-template-tabs a[href=\"#' . rex_escape($activeTab, 'js') . '\"]").tab("show");
 
                 $("#rex-js-active").click(function() {
                     $("#rex-js-form-template-tabs a[href=\"#rex-form-template-ctype\"]").toggle("slow");
