@@ -764,17 +764,17 @@
     },
     {
         "name": "symfony/console",
-        "version": "v4.4.17",
-        "version_normalized": "4.4.17.0",
+        "version": "v4.4.18",
+        "version_normalized": "4.4.18.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/console.git",
-            "reference": "c8e37f6928c19816437a4dd7bf16e3bd79941470"
+            "reference": "12e071278e396cc3e1c149857337e9e192deca0b"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/console/zipball/c8e37f6928c19816437a4dd7bf16e3bd79941470",
-            "reference": "c8e37f6928c19816437a4dd7bf16e3bd79941470",
+            "url": "https://api.github.com/repos/symfony/console/zipball/12e071278e396cc3e1c149857337e9e192deca0b",
+            "reference": "12e071278e396cc3e1c149857337e9e192deca0b",
             "shasum": ""
         },
         "require": {
@@ -808,7 +808,7 @@
             "symfony/lock": "",
             "symfony/process": ""
         },
-        "time": "2020-11-28T10:15:42+00:00",
+        "time": "2020-12-18T07:41:31+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1485,17 +1485,17 @@
     },
     {
         "name": "symfony/var-dumper",
-        "version": "v4.4.17",
-        "version_normalized": "4.4.17.0",
+        "version": "v4.4.18",
+        "version_normalized": "4.4.18.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/var-dumper.git",
-            "reference": "65c6f1e848cda840ef7278686c8e30a7cc353c93"
+            "reference": "4f31364bbc8177f2a6dbc125ac3851634ebe2a03"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/var-dumper/zipball/65c6f1e848cda840ef7278686c8e30a7cc353c93",
-            "reference": "65c6f1e848cda840ef7278686c8e30a7cc353c93",
+            "url": "https://api.github.com/repos/symfony/var-dumper/zipball/4f31364bbc8177f2a6dbc125ac3851634ebe2a03",
+            "reference": "4f31364bbc8177f2a6dbc125ac3851634ebe2a03",
             "shasum": ""
         },
         "require": {
@@ -1519,7 +1519,7 @@
             "ext-intl": "To show region name in time zone dump",
             "symfony/console": "To use the ServerDumpCommand and/or the bin/var-dump-server script"
         },
-        "time": "2020-11-24T09:55:37+00:00",
+        "time": "2020-12-08T16:59:59+00:00",
         "bin": [
             "Resources/bin/var-dump-server"
         ],
@@ -1573,17 +1573,17 @@
     },
     {
         "name": "symfony/yaml",
-        "version": "v4.4.17",
-        "version_normalized": "4.4.17.0",
+        "version": "v4.4.18",
+        "version_normalized": "4.4.18.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/yaml.git",
-            "reference": "7531361cf38e4816821b4a12a42542b3c6143ad1"
+            "reference": "bbce94f14d73732340740366fcbe63363663a403"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/yaml/zipball/7531361cf38e4816821b4a12a42542b3c6143ad1",
-            "reference": "7531361cf38e4816821b4a12a42542b3c6143ad1",
+            "url": "https://api.github.com/repos/symfony/yaml/zipball/bbce94f14d73732340740366fcbe63363663a403",
+            "reference": "bbce94f14d73732340740366fcbe63363663a403",
             "shasum": ""
         },
         "require": {
@@ -1599,7 +1599,7 @@
         "suggest": {
             "symfony/console": "For validating YAML files using the lint command"
         },
-        "time": "2020-11-24T12:28:30+00:00",
+        "time": "2020-12-08T16:59:59+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
