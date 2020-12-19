@@ -6,29 +6,6 @@
       <code>$filename</code>
     </TaintedFile>
   </file>
-  <file src="redaxo/src/addons/backup/pages/export.php">
-    <TaintedHtml occurrences="5">
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-    </TaintedHtml>
-  </file>
-  <file src="redaxo/src/addons/backup/pages/import.upload.php">
-    <TaintedHtml occurrences="10">
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-    </TaintedHtml>
-  </file>
   <file src="redaxo/src/addons/cronjob/pages/cronjobs.php">
     <TaintedHtml occurrences="10">
       <code>$envFieldId</code>
@@ -49,51 +26,6 @@
       <code>$tempdir . '/' . $basename</code>
     </TaintedFile>
   </file>
-  <file src="redaxo/src/addons/mediapool/pages/structure.php">
-    <TaintedHtml occurrences="5">
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-    </TaintedHtml>
-  </file>
-  <file src="redaxo/src/addons/mediapool/pages/sync.php">
-    <TaintedHtml occurrences="5">
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-    </TaintedHtml>
-  </file>
-  <file src="redaxo/src/addons/mediapool/pages/upload.php">
-    <TaintedHtml occurrences="5">
-      <code>rex_mediapool_Uploadform($rex_file_category)</code>
-      <code>rex_mediapool_Uploadform($rex_file_category)</code>
-      <code>rex_mediapool_Uploadform($rex_file_category)</code>
-      <code>rex_mediapool_Uploadform($rex_file_category)</code>
-      <code>rex_mediapool_Uploadform($rex_file_category)</code>
-    </TaintedHtml>
-  </file>
-  <file src="redaxo/src/addons/structure/plugins/content/pages/modules.actions.php">
-    <TaintedHtml occurrences="5">
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-    </TaintedHtml>
-  </file>
-  <file src="redaxo/src/addons/structure/plugins/content/pages/modules.modules.php">
-    <TaintedHtml occurrences="5">
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-    </TaintedHtml>
-  </file>
   <file src="redaxo/src/addons/structure/plugins/content/pages/templates.php">
     <TaintedHtml occurrences="1">
       <code>$content</code>
@@ -105,15 +37,6 @@
       <code>$this-&gt;getVar('content1select')</code>
       <code>$this-&gt;getVar('content2iframe')</code>
       <code>$this-&gt;getVar('content2select')</code>
-    </TaintedHtml>
-  </file>
-  <file src="redaxo/src/addons/users/pages/users.php">
-    <TaintedHtml occurrences="5">
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
     </TaintedHtml>
   </file>
   <file src="redaxo/src/core/fragments/core/fe_ooops.php">
@@ -144,12 +67,7 @@
       <code>'Location: ' . $this-&gt;applyUrl . $paramString</code>
       <code>'Location: ' . $this-&gt;applyUrl . $paramString</code>
     </TaintedHeader>
-    <TaintedHtml occurrences="7">
-      <code>$this-&gt;get()</code>
-      <code>$this-&gt;get()</code>
-      <code>$this-&gt;get()</code>
-      <code>$this-&gt;get()</code>
-      <code>$this-&gt;get()</code>
+    <TaintedHtml occurrences="2">
       <code>'redirect to: ' . $this-&gt;applyUrl . $paramString</code>
       <code>'redirect to: ' . $this-&gt;applyUrl . $paramString</code>
     </TaintedHtml>
@@ -190,37 +108,5 @@
       <code>$data</code>
       <code>$data</code>
     </TaintedCallable>
-  </file>
-  <file src="redaxo/src/core/pages/login.php">
-    <TaintedHtml occurrences="5">
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-    </TaintedHtml>
-  </file>
-  <file src="redaxo/src/core/pages/profile.php">
-    <TaintedHtml occurrences="10">
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-    </TaintedHtml>
-  </file>
-  <file src="redaxo/src/core/pages/system.clangs.php">
-    <TaintedHtml occurrences="5">
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-    </TaintedHtml>
   </file>
 </files>
