@@ -1407,7 +1407,7 @@ class rex_sql implements Iterator
                 $existingParams = array_merge($existingParams, array_values($params));
             }
 
-            return rtrim(', ', str_repeat('?, ', count($params)));
+            return rtrim(str_repeat('?, ', count($params)), ', ');
         }
 
         $existingParams = $existingParams ?? [];
