@@ -17,7 +17,9 @@ class rex_extension_debug extends rex_extension
         $absDur = $coreTimer->getDelta();
 
         $timer = new rex_timer();
+        $epStart = microtime(true);
         $res = parent::registerPoint($extensionPoint);
+        $epEnd = microtime(true);
         $epDur = $timer->getDelta();
 
         $memory = rex_formatter::bytes(memory_get_usage(true), [3]);
@@ -42,8 +44,8 @@ class rex_extension_debug extends rex_extension
                 'subject' => $extensionPoint->getSubject(),
                 'params' => $extensionPoint->getParams(),
                 'result' => $res,
-                'start' => $absDur,
-                'end' => microtime(true),
+                'start' => $epStart,
+                'end' => $epEnd,
                 'data' => $data,
             ]);
 
