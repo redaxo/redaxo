@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="4.3.1@2feba22a005a18bf31d4c7b9bdb9252c73897476">
   <file src="redaxo/src/addons/backup/lib/backup.php">
-    <TaintedFile occurrences="2">
-      <code>$filename</code>
-      <code>$filename</code>
-    </TaintedFile>
     <TaintedInclude occurrences="5">
       <code>$filename</code>
       <code>$filename</code>
@@ -22,15 +18,6 @@
     <TaintedHtml occurrences="2">
       <code>$content</code>
       <code>$content</code>
-    </TaintedHtml>
-  </file>
-  <file src="redaxo/src/addons/cronjob/pages/cronjobs.php">
-    <TaintedHtml occurrences="5">
-      <code>$envFieldId</code>
-      <code>$env_js</code>
-      <code>$typeFieldId</code>
-      <code>$typeFieldId</code>
-      <code>$visible_js . "\n"</code>
     </TaintedHtml>
   </file>
   <file src="redaxo/src/addons/install/lib/archive.php">
@@ -116,10 +103,6 @@
     </TaintedHtml>
   </file>
   <file src="redaxo/src/core/lib/response.php">
-    <TaintedFile occurrences="2">
-      <code>$file</code>
-      <code>$file</code>
-    </TaintedFile>
     <TaintedHeader occurrences="2">
       <code>$str</code>
       <code>'Location: ' . $url</code>
@@ -132,9 +115,7 @@
     </TaintedSql>
   </file>
   <file src="redaxo/src/core/lib/util/file.php">
-    <TaintedFile occurrences="4">
-      <code>$file</code>
-      <code>$file</code>
+    <TaintedFile occurrences="2">
       <code>$file</code>
       <code>$file</code>
     </TaintedFile>

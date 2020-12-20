@@ -284,11 +284,7 @@ class rex_login
             $this->setSessionVar('impersonator', null);
         }
 
-        if ($ok) {
-            $this->loginStatus = 1;
-        } else {
-            $this->loginStatus = -1;
-        }
+        $this->loginStatus = $ok ? 1 : -1;
 
         return $ok;
     }

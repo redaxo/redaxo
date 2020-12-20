@@ -31,8 +31,12 @@ class rex_form_prio_element extends rex_form_select_element
         $this->optionMsg = 'form_field_after_priority';
         $this->select->setSize(1);
 
-        rex_extension::register('REX_FORM_SAVED', [$this, 'organizePriorities']);
-        rex_extension::register('REX_FORM_DELETED', [$this, 'organizePriorities']);
+        rex_extension::register('REX_FORM_SAVED', function (rex_extension_point $ep) {
+            $this->organizePriorities($ep);
+        });
+        rex_extension::register('REX_FORM_DELETED', function (rex_extension_point $ep) {
+            $this->organizePriorities($ep);
+        });
     }
 
     /**
