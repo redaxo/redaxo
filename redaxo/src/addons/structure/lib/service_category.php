@@ -55,7 +55,7 @@ class rex_category_service
                 // $sql->setDebug();
                 $sql->setQuery('select clang_id,template_id from ' . rex::getTablePrefix() . 'article where id=? and startarticle=1', [$category_id]);
                 for ($i = 0; $i < $sql->getRows(); $i++, $sql->next()) {
-                    $startpageTemplates[$sql->getValue('clang_id')] = $sql->getValue('template_id');
+                    $startpageTemplates[$sql->getValue('clang_id', 'int')] = $sql->getValue('template_id');
                 }
             }
 
@@ -191,7 +191,7 @@ class rex_category_service
                     $EART->addGlobalUpdateFields($user);
 
                     $EART->update();
-                    rex_article_cache::delete($ArtSql->getValue('id'), $clang);
+                    rex_article_cache::delete($ArtSql->getValue('id', 'int'), $clang);
 
                     $ArtSql->next();
                 }
