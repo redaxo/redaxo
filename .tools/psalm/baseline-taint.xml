@@ -1,58 +1,150 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="dev-master@2a4e5a2b1ff7dd3839d630c84c7c241398b0970e">
-  <file src="redaxo/src/addons/backup/lib/backup.php">
-    <TaintedFile occurrences="2">
-      <code>$filename</code>
-      <code>$filename</code>
-    </TaintedFile>
-  </file>
-  <file src="redaxo/src/addons/cronjob/pages/cronjobs.php">
-    <TaintedHtml occurrences="10">
-      <code>$envFieldId</code>
-      <code>$envFieldId</code>
-      <code>$env_js</code>
-      <code>$env_js</code>
-      <code>$typeFieldId</code>
-      <code>$typeFieldId</code>
-      <code>$typeFieldId</code>
-      <code>$typeFieldId</code>
-      <code>$visible_js . "\n"</code>
-      <code>$visible_js . "\n"</code>
-    </TaintedHtml>
-  </file>
+<files psalm-version="dev-master@cc2933de351aa5c980928a088b252da12d2e5f17">
   <file src="redaxo/src/addons/install/lib/archive.php">
     <TaintedFile occurrences="2">
       <code>$tempdir . '/' . $basename</code>
       <code>$tempdir . '/' . $basename</code>
     </TaintedFile>
   </file>
-  <file src="redaxo/src/addons/structure/plugins/content/pages/templates.php">
-    <TaintedHtml occurrences="1">
-      <code>$content</code>
-    </TaintedHtml>
-  </file>
   <file src="redaxo/src/addons/structure/plugins/history/fragments/history/layer.php">
-    <TaintedHtml occurrences="4">
+    <TaintedHtml occurrences="56">
+      <code>$this-&gt;getVar('content1iframe')</code>
+      <code>$this-&gt;getVar('content1iframe')</code>
+      <code>$this-&gt;getVar('content1iframe')</code>
+      <code>$this-&gt;getVar('content1iframe')</code>
+      <code>$this-&gt;getVar('content1iframe')</code>
+      <code>$this-&gt;getVar('content1iframe')</code>
+      <code>$this-&gt;getVar('content1iframe')</code>
+      <code>$this-&gt;getVar('content1iframe')</code>
+      <code>$this-&gt;getVar('content1iframe')</code>
+      <code>$this-&gt;getVar('content1iframe')</code>
+      <code>$this-&gt;getVar('content1iframe')</code>
+      <code>$this-&gt;getVar('content1iframe')</code>
+      <code>$this-&gt;getVar('content1iframe')</code>
       <code>$this-&gt;getVar('content1iframe')</code>
       <code>$this-&gt;getVar('content1select')</code>
+      <code>$this-&gt;getVar('content1select')</code>
+      <code>$this-&gt;getVar('content1select')</code>
+      <code>$this-&gt;getVar('content1select')</code>
+      <code>$this-&gt;getVar('content1select')</code>
+      <code>$this-&gt;getVar('content1select')</code>
+      <code>$this-&gt;getVar('content1select')</code>
+      <code>$this-&gt;getVar('content1select')</code>
+      <code>$this-&gt;getVar('content1select')</code>
+      <code>$this-&gt;getVar('content1select')</code>
+      <code>$this-&gt;getVar('content1select')</code>
+      <code>$this-&gt;getVar('content1select')</code>
+      <code>$this-&gt;getVar('content1select')</code>
+      <code>$this-&gt;getVar('content1select')</code>
       <code>$this-&gt;getVar('content2iframe')</code>
+      <code>$this-&gt;getVar('content2iframe')</code>
+      <code>$this-&gt;getVar('content2iframe')</code>
+      <code>$this-&gt;getVar('content2iframe')</code>
+      <code>$this-&gt;getVar('content2iframe')</code>
+      <code>$this-&gt;getVar('content2iframe')</code>
+      <code>$this-&gt;getVar('content2iframe')</code>
+      <code>$this-&gt;getVar('content2iframe')</code>
+      <code>$this-&gt;getVar('content2iframe')</code>
+      <code>$this-&gt;getVar('content2iframe')</code>
+      <code>$this-&gt;getVar('content2iframe')</code>
+      <code>$this-&gt;getVar('content2iframe')</code>
+      <code>$this-&gt;getVar('content2iframe')</code>
+      <code>$this-&gt;getVar('content2iframe')</code>
+      <code>$this-&gt;getVar('content2select')</code>
+      <code>$this-&gt;getVar('content2select')</code>
+      <code>$this-&gt;getVar('content2select')</code>
+      <code>$this-&gt;getVar('content2select')</code>
+      <code>$this-&gt;getVar('content2select')</code>
+      <code>$this-&gt;getVar('content2select')</code>
+      <code>$this-&gt;getVar('content2select')</code>
+      <code>$this-&gt;getVar('content2select')</code>
+      <code>$this-&gt;getVar('content2select')</code>
+      <code>$this-&gt;getVar('content2select')</code>
+      <code>$this-&gt;getVar('content2select')</code>
+      <code>$this-&gt;getVar('content2select')</code>
+      <code>$this-&gt;getVar('content2select')</code>
       <code>$this-&gt;getVar('content2select')</code>
     </TaintedHtml>
   </file>
   <file src="redaxo/src/core/fragments/core/fe_ooops.php">
-    <TaintedHtml occurrences="1">
+    <TaintedHtml occurrences="14">
+      <code>$this-&gt;getVar('content', '')</code>
+      <code>$this-&gt;getVar('content', '')</code>
+      <code>$this-&gt;getVar('content', '')</code>
+      <code>$this-&gt;getVar('content', '')</code>
+      <code>$this-&gt;getVar('content', '')</code>
+      <code>$this-&gt;getVar('content', '')</code>
+      <code>$this-&gt;getVar('content', '')</code>
+      <code>$this-&gt;getVar('content', '')</code>
+      <code>$this-&gt;getVar('content', '')</code>
+      <code>$this-&gt;getVar('content', '')</code>
+      <code>$this-&gt;getVar('content', '')</code>
+      <code>$this-&gt;getVar('content', '')</code>
+      <code>$this-&gt;getVar('content', '')</code>
       <code>$this-&gt;getVar('content', '')</code>
     </TaintedHtml>
   </file>
   <file src="redaxo/src/core/fragments/core/page/docs.php">
-    <TaintedHtml occurrences="3">
+    <TaintedHtml occurrences="42">
+      <code>$this-&gt;getVar('content')</code>
+      <code>$this-&gt;getVar('content')</code>
+      <code>$this-&gt;getVar('content')</code>
+      <code>$this-&gt;getVar('content')</code>
+      <code>$this-&gt;getVar('content')</code>
+      <code>$this-&gt;getVar('content')</code>
+      <code>$this-&gt;getVar('content')</code>
+      <code>$this-&gt;getVar('content')</code>
+      <code>$this-&gt;getVar('content')</code>
+      <code>$this-&gt;getVar('content')</code>
+      <code>$this-&gt;getVar('content')</code>
+      <code>$this-&gt;getVar('content')</code>
+      <code>$this-&gt;getVar('content')</code>
       <code>$this-&gt;getVar('content')</code>
       <code>$this-&gt;getVar('sidebar')</code>
+      <code>$this-&gt;getVar('sidebar')</code>
+      <code>$this-&gt;getVar('sidebar')</code>
+      <code>$this-&gt;getVar('sidebar')</code>
+      <code>$this-&gt;getVar('sidebar')</code>
+      <code>$this-&gt;getVar('sidebar')</code>
+      <code>$this-&gt;getVar('sidebar')</code>
+      <code>$this-&gt;getVar('sidebar')</code>
+      <code>$this-&gt;getVar('sidebar')</code>
+      <code>$this-&gt;getVar('sidebar')</code>
+      <code>$this-&gt;getVar('sidebar')</code>
+      <code>$this-&gt;getVar('sidebar')</code>
+      <code>$this-&gt;getVar('sidebar')</code>
+      <code>$this-&gt;getVar('sidebar')</code>
+      <code>$this-&gt;getVar('toc')</code>
+      <code>$this-&gt;getVar('toc')</code>
+      <code>$this-&gt;getVar('toc')</code>
+      <code>$this-&gt;getVar('toc')</code>
+      <code>$this-&gt;getVar('toc')</code>
+      <code>$this-&gt;getVar('toc')</code>
+      <code>$this-&gt;getVar('toc')</code>
+      <code>$this-&gt;getVar('toc')</code>
+      <code>$this-&gt;getVar('toc')</code>
+      <code>$this-&gt;getVar('toc')</code>
+      <code>$this-&gt;getVar('toc')</code>
+      <code>$this-&gt;getVar('toc')</code>
+      <code>$this-&gt;getVar('toc')</code>
       <code>$this-&gt;getVar('toc')</code>
     </TaintedHtml>
   </file>
   <file src="redaxo/src/core/fragments/core/page/readme.php">
-    <TaintedHtml occurrences="1">
+    <TaintedHtml occurrences="14">
+      <code>$this-&gt;getVar('content')</code>
+      <code>$this-&gt;getVar('content')</code>
+      <code>$this-&gt;getVar('content')</code>
+      <code>$this-&gt;getVar('content')</code>
+      <code>$this-&gt;getVar('content')</code>
+      <code>$this-&gt;getVar('content')</code>
+      <code>$this-&gt;getVar('content')</code>
+      <code>$this-&gt;getVar('content')</code>
+      <code>$this-&gt;getVar('content')</code>
+      <code>$this-&gt;getVar('content')</code>
+      <code>$this-&gt;getVar('content')</code>
+      <code>$this-&gt;getVar('content')</code>
+      <code>$this-&gt;getVar('content')</code>
       <code>$this-&gt;getVar('content')</code>
     </TaintedHtml>
   </file>
@@ -78,10 +170,6 @@
     </TaintedHtml>
   </file>
   <file src="redaxo/src/core/lib/response.php">
-    <TaintedFile occurrences="2">
-      <code>$file</code>
-      <code>$file</code>
-    </TaintedFile>
     <TaintedHeader occurrences="2">
       <code>$str</code>
       <code>$str</code>
@@ -94,10 +182,7 @@
     </TaintedSql>
   </file>
   <file src="redaxo/src/core/lib/util/file.php">
-    <TaintedFile occurrences="5">
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
+    <TaintedFile occurrences="2">
       <code>$file</code>
       <code>$file</code>
     </TaintedFile>
