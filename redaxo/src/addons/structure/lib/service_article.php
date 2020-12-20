@@ -777,7 +777,7 @@ class rex_article_service
                     foreach ($revisions as $rev) {
                         // FIXME this dependency is very ugly!
                         // ArticleSlices kopieren
-                        rex_content_service::copyContent($id, $new_id, $clang, $clang, $rev->getValue('revision'));
+                        rex_content_service::copyContent($id, $new_id, $clang, $clang, $rev->getValue('revision', 'int'));
                     }
 
                     // Prios neu berechnen
