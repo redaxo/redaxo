@@ -177,7 +177,7 @@ class rex_article_service
             $message = rex_i18n::msg('article_updated');
 
             // ----- PRIOR
-            $oldPrio = $thisArt->getValue('priority');
+            $oldPrio = $thisArt->getValue('priority', 'int');
 
             if ($oldPrio != $data['priority']) {
                 rex_sql::factory()
@@ -231,11 +231,11 @@ class rex_article_service
 
         if ($Art->getRows() > 0) {
             $message = self::_deleteArticle($article_id);
-            $parent_id = $Art->getValue('parent_id');
+            $parent_id = $Art->getValue('parent_id', 'int');
 
             foreach (rex_clang::getAllIds() as $clang) {
                 // ----- PRIOR
-                self::newArtPrio($Art->getValue('parent_id'), $clang, 0, 1);
+                self::newArtPrio($parent_id, $clang, 0, 1);
 
                 // ----- EXTENSION POINT
                 $message = rex_extension::registerPoint(new rex_extension_point('ART_DELETED', $message, [
@@ -294,7 +294,7 @@ class rex_article_service
 
         $message = '';
         if ($ART->getRows() > 0) {
-            $parent_id = $ART->getValue('parent_id');
+            $parent_id = $ART->getValue('parent_id', 'int');
             $message = rex_extension::registerPoint(new rex_extension_point('ART_PRE_DELETED', $message, [
                 'id' => $id,
                 'parent_id' => $parent_id,
@@ -471,7 +471,7 @@ class rex_article_service
             $sql->setQuery('select parent_id, name from ' . rex::getTablePrefix() . 'article where id=? and startarticle=0 and clang_id=?', [$art_id, $clang]);
 
             if (!$parent_id) {
-                $parent_id = $sql->getValue('parent_id');
+                $parent_id = $sql->getValue('parent_id', 'int');
             }
 
             // artikel updaten
@@ -522,7 +522,7 @@ class rex_article_service
             $sql->setQuery('select parent_id, name from ' . rex::getTablePrefix() . 'article where id=? and startarticle=1 and clang_id=?', [$art_id, $clang]);
 
             if (!$parent_id) {
-                $parent_id = $sql->getValue('parent_id');
+                $parent_id = $sql->getValue('parent_id', 'int');
             }
 
             // artikel updaten
@@ -565,7 +565,7 @@ class rex_article_service
         if (1 != $neu->getRows()) {
             return false;
         }
-        $neu_cat_id = $neu->getValue('parent_id');
+        $neu_cat_id = $neu->getValue('parent_id', 'int');
 
         // in oberster kategorie dann return
         if (0 == $neu_cat_id) {
@@ -578,8 +578,8 @@ class rex_article_service
         if (1 != $alt->getRows()) {
             return false;
         }
-        $alt_id = $alt->getValue('id');
-        $parent_id = $alt->getValue('parent_id');
+        $alt_id = $alt->getValue('id', 'int');
+        $parent_id = $alt->getValue('parent_id', 'int');
 
         // cat felder sammeln. +
         $params = ['path', 'priority', 'catname', 'startarticle', 'catpriority', 'status'];
@@ -608,7 +608,7 @@ class rex_article_service
             $neu2 = rex_sql::factory();
             $neu2->setTable(rex::getTablePrefix() . 'article');
             $neu2->setWhere(['id' => $neu_id, 'clang_id' => $clang]);
-            $neu2->setValue('parent_id', $alt->getValue('parent_id'));
+            $neu2->setValue('parent_id', $alt->getValue('parent_id', 'int'));
 
             // austauschen der definierten paramater
             foreach ($params as $param) {
@@ -626,13 +626,13 @@ class rex_article_service
         $ia = rex_sql::factory();
         $articles->setQuery('select * from ' . rex::getTablePrefix() . "article where path like '%|$alt_id|%'");
         for ($i = 0; $i < $articles->getRows(); ++$i) {
-            $iid = $articles->getValue('id');
+            $iid = $articles->getValue('id', 'int');
             $ipath = str_replace("|$alt_id|", "|$neu_id|", $articles->getValue('path'));
 
             $ia->setTable(rex::getTablePrefix() . 'article');
             $ia->setWhere(['id' => $iid]);
             $ia->setValue('path', $ipath);
-            if ($articles->getValue('parent_id') == $alt_id) {
+            if ($articles->getValue('parent_id', 'int') == $alt_id) {
                 $ia->setValue('parent_id', $neu_id);
             }
             $ia->update();
