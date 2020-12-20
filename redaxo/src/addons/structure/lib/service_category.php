@@ -199,7 +199,7 @@ class rex_category_service
 
             // ----- PRIOR
             if (isset($data['catpriority'])) {
-                $parent_id = $thisCat->getValue('parent_id');
+                $parent_id = $thisCat->getValue('parent_id', 'int');
                 $old_prio = $thisCat->getValue('catpriority');
 
                 if ($data['catpriority'] <= 0) {
