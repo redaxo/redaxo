@@ -55,8 +55,7 @@ class rex_form_radio_element extends rex_form_options_element
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
-        $s = $fragment->parse('core/form/radio.php');
 
-        return $s;
+        return $fragment->parse('core/form/radio.php');
     }
 }

@@ -119,6 +119,6 @@ class rex_sql_index
         return
             $this->name === $index->name &&
             $this->type === $index->type &&
-            $this->columns == $index->columns;
+            $this->columns === $index->columns;
     }
 }

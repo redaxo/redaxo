@@ -42,13 +42,15 @@ class rex_metainfo_table_expander extends rex_form
         $select->setSize(1);
         $select->addOption(rex_i18n::msg('minfo_field_first_priority'), 1);
         // Im Edit Mode das Feld selbst nicht als Position einf�gen
-        $qry = 'SELECT name,priority FROM ' . $this->tableName . ' WHERE `name` LIKE "' . $this->metaPrefix . '%"';
+        $qry = 'SELECT name,priority FROM ' . $this->tableName . ' WHERE `name` LIKE :name';
+        $params = ['name' => $this->metaPrefix . '%'];
         if ($this->isEditMode()) {
-            $qry .= ' AND id != ' . $this->getParam('field_id');
+            $qry .= ' AND id != :id';
+            $params['id'] = $this->getParam('field_id');
         }
         $qry .= ' ORDER BY priority';
         $sql = rex_sql::factory();
-        $sql->setQuery($qry);
+        $sql->setQuery($qry, $params);
         $value = 1;
         for ($i = 0; $i < $sql->getRows(); ++$i) {
             $value = $sql->getValue('priority', 'int') + 1;
@@ -228,7 +230,7 @@ class rex_metainfo_table_expander extends rex_form
 
             // das meta-schema checken
             $sql = rex_sql::factory();
-            $sql->setQuery('SELECT * FROM ' . $this->tableName . ' WHERE name="' . $this->addPrefix($fieldName) . '" LIMIT 1');
+            $sql->setQuery('SELECT * FROM ' . $this->tableName . ' WHERE name = ? LIMIT 1', [$this->addPrefix($fieldName)]);
             if (1 == $sql->getRows()) {
                 return rex_i18n::msg('minfo_field_error_unique_name');
             }

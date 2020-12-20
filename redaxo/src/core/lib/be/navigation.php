@@ -69,7 +69,7 @@ class rex_be_navigation
                 uasort($blockPages, static function (rex_be_page_main $a, rex_be_page_main $b) {
                     $a_prio = (int) $a->getPrio();
                     $b_prio = (int) $b->getPrio();
-                    if ($a_prio == $b_prio || ($a_prio <= 0 && $b_prio <= 0)) {
+                    if ($a_prio === $b_prio || ($a_prio <= 0 && $b_prio <= 0)) {
                         return strnatcasecmp($a->getTitle(), $b->getTitle());
                     }
 
