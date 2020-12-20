@@ -1393,6 +1393,37 @@ class rex_sql implements Iterator
     }
 
     /**
+     * Prepares params for `IN (...)` clause in prepared statements.
+     *
+     * @param list<scalar> $params Params for `IN ()` clause
+     * @param scalar[]|null $existingParams Optional reference to existing params where the prepared list params will be added
+     * @param null|string $prefix If the prefix is set, named params `:prefix_X` will be used, otherwise `?` is used
+     * @return string Placeholder list for the query, e.g. `?, ?, ?` or `:prefix_0, :prefix_1, :prefix_2`
+     */
+    public function prepareListParams(array $params, ?array &$existingParams = null, ?string $prefix = null): string
+    {
+        if (null === $prefix) {
+            if (null !== $existingParams) {
+                $existingParams = array_merge($existingParams, array_values($params));
+            }
+
+            return rtrim(', ', str_repeat('?, ', count($params)));
+        }
+
+        $existingParams = $existingParams ?? [];
+
+        $i = 0;
+        $list = [];
+        foreach ($params as $param) {
+            $name = $prefix.'_'.$i;
+            $list[] = ':'.$name;
+            $existingParams[$name] = $param;
+        }
+
+        return implode(', ', $list);
+    }
+
+    /**
      * @param string $user the name of the user who created the dataset. Defaults to the current user
      *
      * @return $this the current rex_sql object
