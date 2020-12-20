@@ -627,7 +627,7 @@ class rex_article_service
         $articles->setQuery('select * from ' . rex::getTablePrefix() . "article where path like '%|$alt_id|%'");
         for ($i = 0; $i < $articles->getRows(); ++$i) {
             $iid = $articles->getValue('id', 'int');
-            $ipath = str_replace("|$alt_id|", "|$neu_id|", $articles->getValue('path'));
+            $ipath = str_replace("|$alt_id|", "|$neu_id|", $articles->getValue('path', 'string'));
 
             $ia->setTable(rex::getTablePrefix() . 'article');
             $ia->setWhere(['id' => $iid]);
