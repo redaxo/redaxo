@@ -238,7 +238,6 @@ class rex_request
      * @see http://pjax.heroku.com/
      *
      * @return bool
-     * @deprecated not required for current pjax lib any more
      */
     public static function isPJAXRequest()
     {
@@ -251,7 +250,7 @@ class rex_request
      * @param string $containerId
      *
      * @return bool
-     * @deprecated not required for current pjax lib any more
+     * @deprecated feature is not supported by current pjax lib
      */
     public static function isPJAXContainer($containerId)
     {
