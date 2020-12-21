@@ -17,6 +17,38 @@ return [
 
 	/*
 	|------------------------------------------------------------------------------------------------------------------
+	| Features
+	|------------------------------------------------------------------------------------------------------------------
+	|
+	| You can enable or disable various Clockwork features here. Some features have additional settings (eg. slow query
+	| threshold for database queries).
+	|
+	*/
+
+	'features' => [
+
+		// Performance metrics
+		'performance' => [
+			// Allow collecting of client metrics. Requires separate clockwork-browser npm package.
+			'client_metrics' => isset($_ENV['CLOCKWORK_PERFORMANCE_CLIENT_METRICS']) ? $_ENV['CLOCKWORK_PERFORMANCE_CLIENT_METRICS'] : true
+		]
+
+	],
+
+	/*
+	|------------------------------------------------------------------------------------------------------------------
+	| Enable toolbar
+	|------------------------------------------------------------------------------------------------------------------
+	|
+	| Clockwork can show a toolbar with basic metrics on all responses. Here you can enable or disable this feature.
+	| Requires a separate clockwork-browser npm library.
+	|
+	*/
+
+	'toolbar' => isset($_ENV['CLOCKWORK_TOOLBAR']) ? $_ENV['CLOCKWORK_TOOLBAR'] : false,
+
+	/*
+	|------------------------------------------------------------------------------------------------------------------
 	| HTTP requests collection
 	|------------------------------------------------------------------------------------------------------------------
 	|

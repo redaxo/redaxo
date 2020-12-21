@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "itsgoingd/clockwork",
-            "version": "v5.0.4",
+            "version": "v5.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/itsgoingd/clockwork.git",
-                "reference": "543de6b1c17021183be5fd2dd6c7ffa153d9ab2d"
+                "reference": "ea3d4903c06f037af5446780be59e9c94dcbfe23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/itsgoingd/clockwork/zipball/543de6b1c17021183be5fd2dd6c7ffa153d9ab2d",
-                "reference": "543de6b1c17021183be5fd2dd6c7ffa153d9ab2d",
+                "url": "https://api.github.com/repos/itsgoingd/clockwork/zipball/ea3d4903c06f037af5446780be59e9c94dcbfe23",
+                "reference": "ea3d4903c06f037af5446780be59e9c94dcbfe23",
                 "shasum": ""
             },
             "require": {
@@ -65,7 +65,7 @@
             ],
             "support": {
                 "issues": "https://github.com/itsgoingd/clockwork/issues",
-                "source": "https://github.com/itsgoingd/clockwork/tree/v5.0.4"
+                "source": "https://github.com/itsgoingd/clockwork/tree/v5.0.5"
             },
             "funding": [
                 {
@@ -73,7 +73,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-12-01T22:36:41+00:00"
+            "time": "2020-12-21T00:01:06+00:00"
         },
         {
             "name": "psr/log",
