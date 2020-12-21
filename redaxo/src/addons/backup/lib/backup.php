@@ -209,9 +209,6 @@ class rex_backup
             return $return;
         }
 
-        // Ordner /files komplett leeren
-        rex_dir::deleteFiles(rex_path::media());
-
         $tar = new rex_backup_tar();
 
         // ----- EXTENSION POINT
