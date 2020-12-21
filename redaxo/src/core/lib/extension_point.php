@@ -15,7 +15,7 @@ class rex_extension_point
 {
     /** @var string */
     private $name;
-    /** 
+    /**
      * @psalm-var T
      * @var mixed
      */
