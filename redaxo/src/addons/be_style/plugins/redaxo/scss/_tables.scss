@@ -191,6 +191,23 @@ tr.rex-package-is-plugin > td.rex-table-icon {
     text-align: right;
 }
 
+.rex-table-icon > a {
+    position: relative;
+
+    // touch/click area helper
+    // increases the clickable area of the element without affecting the layout
+    &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: $helper-factor-spacing - 5px;
+        height: $helper-factor-spacing - 5px;
+        border-radius: $helper-factor-spacing;
+    }
+}
 
 @media (min-width: $screen-md-min) {
     #rex-page-mediapool-media td.rex-table-action:last-child {
