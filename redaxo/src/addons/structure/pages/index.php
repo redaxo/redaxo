@@ -524,9 +524,10 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
         } else {
             // --------------------- ARTIKEL NORMAL VIEW | NO EDIT NO ENTER
 
-            $art_status = $artStatusTypes[$sql->getValue('status')][0];
-            $art_status_class = $artStatusTypes[$sql->getValue('status')][1];
-            $art_status_icon = $artStatusTypes[$sql->getValue('status')][2];
+            $status = $sql->getValue('status', 'int');
+            $art_status = $artStatusTypes[$status][0];
+            $art_status_class = $artStatusTypes[$status][1];
+            $art_status_icon = $artStatusTypes[$status][2];
 
             $tmpl_td = '';
             if ($template_select) {
