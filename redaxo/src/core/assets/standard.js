@@ -125,15 +125,15 @@ function newWindow(name,link,width,height,type)
 var winObj = new Array();
 if (opener != null)
 {
-	try{
-	    if (typeof(opener.winObjCounter) == "number")
-	    {
-	        var winObjCounter = opener.winObjCounter;
-	    }
-	} catch(e) {
-	    // in x-origin cases opener.winObjCounter would not be readable
-	    var winObjCounter = -1;
-	}
+    try{
+        if (typeof(opener.winObjCounter) == "number")
+        {
+            var winObjCounter = opener.winObjCounter;
+        }
+    } catch(e) {
+        // in x-origin cases opener.winObjCounter would not be readable
+        var winObjCounter = -1;
+    }
 }else
 {
     var winObjCounter = -1;
@@ -685,7 +685,7 @@ jQuery(document).ready(function ($) {
     document.addEventListener('pjax:complete', function () {
         // adjust scroll position for anchors depending on scroll-margin-top value
         setTimeout(function() {
-            scrollToAnchor();
+             scrollToAnchor();
         }, 0);
         // reset pjax config to defaults
         pjax.options.cacheBust = pjaxDefaultConfig.cacheBust;
@@ -697,7 +697,7 @@ jQuery(document).ready(function ($) {
         // make sure loader was visible for at least 500 ms to avoid flickering
         window.clearTimeout(rexAjaxLoaderId);
         rexAjaxLoaderId = setTimeout(function () {
-            document.querySelector('#rex-js-ajax-loader').classList.remove('rex-visible');
+             document.querySelector('#rex-js-ajax-loader').classList.remove('rex-visible');
         }, 500);
     });
 
@@ -721,7 +721,6 @@ jQuery(document).ready(function ($) {
 
     document.addEventListener('click', handleClickAndSubmitEvents, true);
     document.addEventListener('submit', handleClickAndSubmitEvents, true);
-    document.addEventListener('keydown', handleKeyEvents, true);
 });
 
 // -------------------------------------------------------------------------------
@@ -784,28 +783,6 @@ var handleClickAndSubmitEvents = function (event) {
                 hiddenField.setAttribute("name", submitButton.getAttribute('name'));
                 hiddenField.setAttribute("value", submitButton.dataset.clicked);
                 event.target.appendChild(hiddenField);
-            }
-        }
-    }
-}
-
-// handle key events
-var handleKeyEvents = function (event) {
-
-    // submit forms via strg/cmd + enter
-    if (event.metaKey && event.keyCode === 13) {
-        var form = event.target.closest('form');
-        if (form) {
-            // click apply button if available (e.g. when editing content)
-            var applyButton = form.querySelector('.btn-apply');
-            if (applyButton) {
-                applyButton.click();
-            } else {
-                // click (first) submit button
-                var submitButton = form.querySelector('[type=\'submit\']');
-                if (submitButton) {
-                    submitButton.click();
-                }
             }
         }
     }

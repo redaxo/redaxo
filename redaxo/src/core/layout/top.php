@@ -109,6 +109,11 @@ if (rex::getUser() && $hasNavigation) {
             if (!$pageObj->getHref()) {
                 $pageObj->setHref(rex_url::backendPage($p, [], false));
             }
+
+            if (!$pageObj->allowsPjax()) {
+                $pageObj->setLinkAttr('data-pjax', 'false');
+            }
+
             /*
              if(isset ($REX['ACKEY']['ADDON'][$page]))
                 $item['extra'] = rex_accesskey($name, $REX['ACKEY']['ADDON'][$page]);
