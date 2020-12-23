@@ -18,7 +18,9 @@ class rex_debug_clockwork
             // there is a probability from 1 to 100 that the cleanup mechanism will be triggered and files older than 2 days will be removed
             'storage_expiration' => 60 * 24 * 2,
         ]);
-        $clockwork->getClockwork()->addDataSource(new \Clockwork\DataSource\XdebugDataSource());
+        if (extension_loaded('xdebug')) {
+            $clockwork->getClockwork()->addDataSource(new \Clockwork\DataSource\XdebugDataSource());
+        }
 
         self::$instance = $clockwork;
     }
