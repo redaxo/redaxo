@@ -250,7 +250,7 @@ class rex_request
      * @param string $containerId
      *
      * @return bool
-     * @deprecated feature is not supported by current pjax lib
+     * @deprecated since 5.12, feature is not supported by current pjax lib
      */
     public static function isPJAXContainer($containerId)
     {
