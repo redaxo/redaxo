@@ -1409,7 +1409,7 @@ class rex_sql implements Iterator
                 return $value ? '1' : '0';
             }
 
-            return $this->escape($value);
+            return $this->escape((string) $value);
         }, $values);
 
         return implode(', ', $values);
