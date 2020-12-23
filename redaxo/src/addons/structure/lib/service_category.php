@@ -366,6 +366,8 @@ class rex_category_service
     /**
      * Gibt alle Stati zurück, die für eine Kategorie gültig sind.
      *
+     * @psalm-return list<string[]>
+     *     
      * @return array Array von Stati
      */
     public static function statusTypes()

@@ -84,7 +84,7 @@ if (count($structureContext->getMountpoints()) > 0 && 0 == $structureContext->ge
 // --------------------- ADD PAGINATION
 
 $catPager = new rex_pager($structureContext->getRowsPerPage(), 'catstart');
-$catPager->setRowCount($KAT->getValue('rowCount'));
+$catPager->setRowCount($KAT->getValue('rowCount', 'int'));
 $catFragment = new rex_fragment();
 $catFragment->setVar('urlprovider', $structureContext->getContext());
 $catFragment->setVar('pager', $catPager);
@@ -169,9 +169,10 @@ if ($KAT->getRows() > 0) {
         $kat_link = $structureContext->getContext()->getUrl(['category_id' => $i_category_id]);
         $kat_icon_td = '<td class="rex-table-icon"><a href="' . $kat_link . '" title="' . rex_escape($KAT->getValue('catname')) . '"><i class="rex-icon rex-icon-category"></i></a></td>';
 
-        $kat_status = $catStatusTypes[$KAT->getValue('status')][0];
-        $status_class = $catStatusTypes[$KAT->getValue('status')][1];
-        $status_icon = $catStatusTypes[$KAT->getValue('status')][2];
+        $status = $KAT->getValue('status', 'int');
+        $kat_status = $catStatusTypes[$status][0];
+        $status_class = $catStatusTypes[$status][1];
+        $status_icon = $catStatusTypes[$status][2];
 
         $td_layout_class = '';
         if ($structureContext->hasCategoryPermission()) {
