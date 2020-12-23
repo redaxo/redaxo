@@ -164,7 +164,7 @@ if ('add_cat' == $structureContext->getFunction() && rex::getUser()->hasPerm('ad
 // --------------------- KATEGORIE LIST
 if ($KAT->getRows() > 0) {
     for ($i = 0; $i < $KAT->getRows(); ++$i) {
-        $i_category_id = $KAT->getValue('id');
+        $i_category_id = $KAT->getValue('id', 'int');
 
         $kat_link = $structureContext->getContext()->getUrl(['category_id' => $i_category_id]);
         $kat_icon_td = '<td class="rex-table-icon"><a href="' . $kat_link . '" title="' . rex_escape($KAT->getValue('catname')) . '"><i class="rex-icon rex-icon-category"></i></a></td>';
@@ -348,7 +348,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
     // --------------------- ADD PAGINATION
 
     $artPager = new rex_pager($structureContext->getRowsPerPage(), 'artstart');
-    $artPager->setRowCount($sql->getValue('artCount'));
+    $artPager->setRowCount($sql->getValue('artCount', 'int'));
     $artFragment = new rex_fragment();
     $artFragment->setVar('urlprovider', $structureContext->getContext());
     $artFragment->setVar('pager', $artPager);
@@ -461,9 +461,10 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
         } elseif ($structureContext->hasCategoryPermission()) {
             // --------------------- ARTIKEL NORMAL VIEW | EDIT AND ENTER
 
-            $article_status = $artStatusTypes[$sql->getValue('status')][0];
-            $article_class = $artStatusTypes[$sql->getValue('status')][1];
-            $article_icon = $artStatusTypes[$sql->getValue('status')][2];
+            $status = $sql->getValue('status', 'int');
+            $article_status = $artStatusTypes[$status][0];
+            $article_class = $artStatusTypes[$status][1];
+            $article_icon = $artStatusTypes[$status][2];
 
             $add_extra = '';
             if ($canEdit) {

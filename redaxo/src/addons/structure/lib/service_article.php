@@ -383,6 +383,8 @@ class rex_article_service
     /**
      * Gibt alle Stati zurück, die für einen Artikel gültig sind.
      *
+     * @psalm-return list<string[]>
+     *
      * @return array Array von Stati
      */
     public static function statusTypes()
