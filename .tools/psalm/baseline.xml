@@ -591,13 +591,12 @@
     <PossiblyNullArgument occurrences="1">
       <code>$currentPage-&gt;getPath()</code>
     </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="6">
+    <PossiblyNullReference occurrences="5">
       <code>getHref</code>
       <code>getPath</code>
       <code>getSubPath</code>
       <code>getTitle</code>
       <code>getTitle</code>
-      <code>setHasLayout</code>
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/lib/be/navigation.php">
