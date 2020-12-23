@@ -7,17 +7,17 @@
         "php": ">=7.3"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "2.17.1",
+        "friendsofphp/php-cs-fixer": "2.17.2",
         "friendsofredaxo/linter": "1.2.7",
         "j13k/yaml-lint": "^1.1@dev",
         "phpstan/extension-installer": "1.1.0",
-        "phpstan/phpstan": "0.12.62",
-        "phpstan/phpstan-deprecation-rules": "0.12.5",
-        "phpstan/phpstan-phpunit": "0.12.16",
+        "phpstan/phpstan": "0.12.63",
+        "phpstan/phpstan-deprecation-rules": "0.12.6",
+        "phpstan/phpstan-phpunit": "0.12.17",
         "phpstan/phpstan-symfony": "0.12.12",
         "phpunit/phpunit": "^9.3",
         "psalm/plugin-phpunit": "0.15.0",
-        "psalm/plugin-symfony": "2.0.4",
+        "psalm/plugin-symfony": "2.1.0",
         "vimeo/psalm": "4.3.1"
     },
     "replace": {
