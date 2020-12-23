@@ -27,13 +27,13 @@ class rex_article_content_editor extends rex_article_content
                 $moduleIdToAdd
             );
         } else {
-            $sliceId = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.id');
-            $sliceCtype = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.ctype_id');
-            $sliceStatus = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.status');
+            $sliceId = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.id', 'int');
+            $sliceCtype = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.ctype_id', 'int');
+            $sliceStatus = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.status', 'int');
 
             $moduleInput = $artDataSql->getValue(rex::getTablePrefix() . 'module.input');
             $moduleOutput = $artDataSql->getValue(rex::getTablePrefix() . 'module.output');
-            $moduleId = $artDataSql->getValue(rex::getTablePrefix() . 'module.id');
+            $moduleId = $artDataSql->getValue(rex::getTablePrefix() . 'module.id', 'int');
 
             // ----- add select box einbauen
             $slice_content = $this->getModuleSelect($sliceId);
@@ -106,7 +106,7 @@ class rex_article_content_editor extends rex_article_content
         $sliceCtype = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.ctype_id');
 
         $moduleId = $artDataSql->getValue(rex::getTablePrefix() . 'module.id');
-        $moduleName = rex_i18n::translate($artDataSql->getValue(rex::getTablePrefix() . 'module.name'));
+        $moduleName = rex_i18n::translate($artDataSql->getValue(rex::getTablePrefix() . 'module.name', 'string'));
 
         return $moduleName;
     }
