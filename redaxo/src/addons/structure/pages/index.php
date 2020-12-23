@@ -507,7 +507,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
 
             $tmpl_td = '';
             if ($template_select) {
-                $tmpl = isset($TEMPLATE_NAME[$sql->getValue('template_id')]) ? $TEMPLATE_NAME[$sql->getValue('template_id')] : '';
+                $tmpl = isset($TEMPLATE_NAME[$sql->getValue('template_id')]) ? $TEMPLATE_NAME[$sql->getValue('template_id', 'int')] : '';
                 $tmpl_td = '<td class="rex-table-template" data-title="' . rex_i18n::msg('header_template') . '">' . $tmpl . '</td>';
             }
 
