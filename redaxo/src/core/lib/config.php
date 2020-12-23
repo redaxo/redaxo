@@ -390,8 +390,7 @@ class rex_config
                     continue;
                 }
                 $params[] = $namespace;
-                $list = $sql->prepareListParams(array_keys($nsData), $params);
-                $where[] = 'namespace = ? AND `key` IN ('.$list.')';
+                $where[] = 'namespace = ? AND `key` IN ('.$sql->in(array_keys($nsData)).')';
             }
             if (count($where) > 0) {
                 $sql->setWhere(implode("\n    OR ", $where), $params);

@@ -1393,34 +1393,26 @@ class rex_sql implements Iterator
     }
 
     /**
-     * Prepares params for `IN (...)` clause in prepared statements.
+     * Escapes and transforms values for `IN (...)` clause.
      *
-     * @param list<scalar> $params Params for `IN ()` clause
-     * @param scalar[]|null $existingParams Optional reference to existing params where the prepared list params will be added
-     * @param null|string $prefix If the prefix is set, named params `:prefix_X` will be used, otherwise `?` is used
-     * @return string Placeholder list for the query, e.g. `?, ?, ?` or `:prefix_0, :prefix_1, :prefix_2`
+     * Example: `$sql->setQuery('SELECT * FROM my_table WHERE foo IN ('.$sql->in($values).')');`
+     *
+     * @param scalar[] $values
      */
-    public function prepareListParams(array $params, ?array &$existingParams = null, ?string $prefix = null): string
+    public function in(array $values): string
     {
-        if (null === $prefix) {
-            if (null !== $existingParams) {
-                $existingParams = array_merge($existingParams, array_values($params));
+        $values = array_map(function ($value): string {
+            if (is_int($value)) {
+                return (string) $value;
+            }
+            if (is_bool($value)) {
+                return $value ? '1' : '0';
             }
 
-            return rtrim(str_repeat('?, ', count($params)), ', ');
-        }
+            return $this->escape($value);
+        }, $values);
 
-        $existingParams = $existingParams ?? [];
-
-        $i = 0;
-        $list = [];
-        foreach ($params as $param) {
-            $name = $prefix.'_'.$i;
-            $list[] = ':'.$name;
-            $existingParams[$name] = $param;
-        }
-
-        return implode(', ', $list);
+        return implode(', ', $values);
     }
 
     /**
