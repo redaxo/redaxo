@@ -569,7 +569,7 @@ if ($SHOW) {
     $list->setColumnParams($thIcon, ['user_id' => '###id###']);
     $list->setColumnFormat($thIcon, 'custom', static function ($params) use ($thIcon, $tdIcon) {
         $list = $params['list'];
-        $tdIcon = !$list->getValue('status') ? str_replace('rex-icon-user', 'rex-icon-user text-muted', $tdIcon) : $tdIcon;
+        $tdIcon = !$list->getValue('status') ? str_replace('rex-icon-user', 'rex-icon-user-inactive text-muted', $tdIcon) : $tdIcon;
         return !$list->getValue('admin') || rex::getUser()->isAdmin() ? $list->getColumnLink($thIcon, $tdIcon) : $tdIcon;
     });
 
