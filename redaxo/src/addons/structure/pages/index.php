@@ -167,7 +167,11 @@ if ($KAT->getRows() > 0) {
         $i_category_id = $KAT->getValue('id');
 
         $kat_link = $structureContext->getContext()->getUrl(['category_id' => $i_category_id]);
-        $kat_icon_td = '<td class="rex-table-icon"><a href="' . $kat_link . '" title="' . rex_escape($KAT->getValue('catname')) . '"><i class="rex-icon rex-icon-category"></i></a></td>';
+
+        $kat_object = rex_category::get($KAT->getValue('id'));
+        $kat_has_child_elements = (count($kat_object->getChildren()) > 0 || count($kat_object->getArticles()) > 1); // contains child categories or articles other than the start article
+        $kat_icon_class = $kat_has_child_elements ? 'rex-icon-category' : 'rex-icon-category-without-elements';
+        $kat_icon_td = '<td class="rex-table-icon"><a href="' . $kat_link . '" title="' . rex_escape($KAT->getValue('catname')) . '"><i class="rex-icon ' . $kat_icon_class . '"></i></a></td>';
 
         $kat_status = $catStatusTypes[$KAT->getValue('status')][0];
         $status_class = $catStatusTypes[$KAT->getValue('status')][1];
