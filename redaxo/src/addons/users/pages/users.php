@@ -472,7 +472,7 @@ if ('' != $FUNC_ADD || $user_id > 0) {
     }
 
     $n = [];
-    $n['label'] = '<label for="rex-user-status">' . rex_i18n::msg('user_status') . '</label>';
+    $n['label'] = '<label for="rex-user-status">' . rex_i18n::msg('user_status_active') . '</label>';
     $n['field'] = $add_status_chkbox;
     $formElements[] = $n;
 
