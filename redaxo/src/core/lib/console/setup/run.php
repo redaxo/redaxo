@@ -568,7 +568,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 if (count($messages) > 0) {
                     $affectedFiles = [];
                     foreach ($messages as $message) {
-                        $affectedFiles[] = rex_path::relative($message);
+                        $affectedFiles[] = '- '. rex_path::relative($message);
                     }
                     $errors[] = rex_i18n::msg($key) . "\n". implode("\n", $affectedFiles);
                 }
