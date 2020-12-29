@@ -22,10 +22,9 @@ if ('' == $addon->getConfig('from') || '' == $addon->getConfig('test_address')) 
 
     if ('smtp' == $addon->getConfig('mailer')) {
         $security_mode = $addon->getConfig('security_mode');
-
-        $smtpinfo = '';
-        $smtpinfo .= "\nHost: " . rex_escape($addon->getConfig('host'));
-        $smtpinfo .= "\nPort: " . rex_escape($addon->getConfig('port'));
+        
+        $host = "\nHost: " . rex_escape($addon->getConfig('host'));
+        $smtpinfo = $host. "\nPort: " . rex_escape($addon->getConfig('port'));
         $smtpinfo .= $devider;
 
         if (false == $security_mode) {
@@ -33,14 +32,14 @@ if ('' == $addon->getConfig('from') || '' == $addon->getConfig('test_address')) 
             $security_mode = "\n".$addon->i18n('security_mode')."\n" . $security_mode . $devider . $smtpinfo;
         } else {
             $security_mode = 'Auto';
-            $security_mode = "\n".$addon->i18n('security_mode').": \n" . $security_mode . $devider . $smtpinfo;
+            $security_mode = "\n".$addon->i18n('security_mode').": \n" . $security_mode . $devider . $host . $devider;
         }
     }
 
     $mail->Body = $addon->i18n('checkmail_greeting') ."\n\n" .  $addon->i18n('checkmail_text') .' '. rex::getServerName();
     $mail->Body .= "\n\nDomain: ".  $_SERVER['HTTP_HOST'];
 
-    $mail->Body .= "\nMailer: " . $addon->getConfig('mailer') . $devider.$security_mode;
+    $mail->Body .= "\nMailer: " . $addon->getConfig('mailer') . $devider . $security_mode;
     $mail->Body .= "\n". $addon->i18n('checkmail_domain_note'). "\n". $devider;
     $mail->Debugoutput = static function ($str, $level) use (&$mailerDebug) {
         $mailerDebug .= date('Y-m-d H:i:s', time()).' '.nl2br($str);
