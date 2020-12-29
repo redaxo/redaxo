@@ -2,6 +2,13 @@
 
 set_time_limit(0);
 
+// setup a minimal exception handler to print early errors,
+// happening before redaxo itself was able to register its rex_error_handler
+set_exception_handler(function($exception) {
+    fwrite(STDERR, $exception->getMessage()."\n");
+    exit(254);
+});
+
 require __DIR__.'/boot.php';
 
 // force debug mode to enable output of notices/warnings and dump() function
