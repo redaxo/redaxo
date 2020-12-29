@@ -47,7 +47,7 @@ if ('' == $addon->getConfig('from') || '' == $addon->getConfig('test_address')) 
     };
 
     if (!$mail->send()) {
-        $alert  = '<h2>' . $addon->i18n('checkmail_error_headline') . '</h2><hr>';
+        $alert = '<h2>' . $addon->i18n('checkmail_error_headline') . '</h2><hr>';
         $alert .= $addon->i18n('checkmail_error') . ': ' . $mail->ErrorInfo;
         $content .= rex_view::error($alert);
     } else {
