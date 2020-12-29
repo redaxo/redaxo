@@ -27,7 +27,6 @@ user_extras = Extras
 last_login = Letzter Login
 user_caption = Liste der angelegten Benutzer
 user_password_change_required = Passwort muss nach Login ausgetauscht werden
-user_status = Status
 user_status_active = Benutzer ist aktiv
 user_status_inactive = Benutzer ist inaktiv
 startpage = Startseite
