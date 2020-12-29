@@ -832,9 +832,6 @@
       <code>rex_escape($editor-&gt;getBasepath())</code>
     </NullOperand>
   </file>
-  <file src="redaxo/src/core/tests/base/instance_list_pool_trait_test.php">
-    <InvalidArgument occurrences="2"/>
-  </file>
   <file src="redaxo/src/core/tests/console/config/set_test.php">
     <EmptyArrayAccess occurrences="1">
       <code>$config['test']</code>
