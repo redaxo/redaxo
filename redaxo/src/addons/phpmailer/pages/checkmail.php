@@ -8,7 +8,7 @@
  */
 
 $addon = rex_addon::get('phpmailer');
-$content =  $mailerDebug = '';
+$content = $mailerDebug = '';
 $date = new DateTime();
 if ('' == $addon->getConfig('from') || '' == $addon->getConfig('test_address')) {
     $content .= rex_view::error($addon->i18n('checkmail_noadress'));
