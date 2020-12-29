@@ -6,6 +6,7 @@ set_time_limit(0);
 // happening before redaxo itself was able to register its rex_error_handler
 set_exception_handler(static function (Throwable $exception): void {
     fwrite(STDERR, $exception->getMessage()."\n");
+    fwrite(STDERR, $exception->getTraceAsString()."\n");
     exit(254);
 });
 
