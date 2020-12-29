@@ -164,22 +164,11 @@
       <code>'redirect to: ' . $this-&gt;applyUrl . $paramString</code>
     </TaintedHtml>
   </file>
-  <file src="redaxo/src/core/lib/list.php">
-    <TaintedHtml occurrences="1">
-      <code>$this-&gt;get()</code>
-    </TaintedHtml>
-  </file>
   <file src="redaxo/src/core/lib/response.php">
     <TaintedHeader occurrences="2">
       <code>$str</code>
       <code>$str</code>
     </TaintedHeader>
-  </file>
-  <file src="redaxo/src/core/lib/sql/sql.php">
-    <TaintedSql occurrences="2">
-      <code>$query</code>
-      <code>$query</code>
-    </TaintedSql>
   </file>
   <file src="redaxo/src/core/lib/util/file.php">
     <TaintedFile occurrences="2">
