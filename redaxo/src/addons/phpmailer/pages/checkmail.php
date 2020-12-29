@@ -22,7 +22,7 @@ if ('' == $addon->getConfig('from') || '' == $addon->getConfig('test_address')) 
 
     if ('smtp' == $addon->getConfig('mailer')) {
         $security_mode = $addon->getConfig('security_mode');
-        
+
         $host = "\nHost: " . rex_escape($addon->getConfig('host'));
         $smtpinfo = $host. "\nPort: " . rex_escape($addon->getConfig('port'));
         $smtpinfo .= $devider;
