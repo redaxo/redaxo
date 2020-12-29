@@ -8,13 +8,10 @@
  */
 
 $addon = rex_addon::get('phpmailer');
-
-$content = $smtpinfo = $mailerDebug = '';
+$content = $smtpinfo = $mailerDebug = $alert = $success = '';
 $date = new DateTime();
 if ('' == $addon->getConfig('from') || '' == $addon->getConfig('test_address')) {
-    $content .= '<div class="alert alert-warning">';
-    $content .= $addon->i18n('checkmail_noadress');
-    $content .= '</div>';
+    $content .= rex_view::error($addon->i18n('checkmail_noadress'));
 } else {
     $mail = new rex_mailer();
     $mail->addAddress($addon->getConfig('test_address'));
@@ -32,7 +29,7 @@ if ('' == $addon->getConfig('from') || '' == $addon->getConfig('test_address')) 
         $smtpinfo .= $devider;
 
         if (false == $security_mode) {
-            $security_mode = 'manual configured,  ' . $addon->getConfig('smtpsecure');
+            $security_mode = 'manual configured  ' . $addon->getConfig('smtpsecure');
             $security_mode = "\n".$addon->i18n('security_mode')."\n" . $security_mode . $devider;
         } else {
             $security_mode = 'Auto';
@@ -50,15 +47,13 @@ if ('' == $addon->getConfig('from') || '' == $addon->getConfig('test_address')) 
     };
 
     if (!$mail->send()) {
-        $content .= '<div class="alert alert-danger">';
-        $content .= '<h2>' . $addon->i18n('checkmail_error_headline') . '</h2><hr>';
-        $content .= $addon->i18n('checkmail_error') . ': ' . $mail->ErrorInfo;
-        $content .= '</div>';
+        $alert  = '<h2>' . $addon->i18n('checkmail_error_headline') . '</h2><hr>';
+        $alert .= $addon->i18n('checkmail_error') . ': ' . $mail->ErrorInfo;
+        $content .= rex_view::error($alert);
     } else {
-        $content .= '<div class="alert alert-success">';
-        $content .= '<strong>' . $addon->i18n('checkmail_send') . '</strong> ' . rex_escape($addon->getConfig('test_address')) . '<br>' . $addon->i18n('checkmail_info');
-        $content .= '<br><br><strong>' . $addon->i18n('checkmail_info_subject') . '</strong>';
-        $content .= '</div>';
+        $success = '<h2>' . $addon->i18n('checkmail_send') . '</h2> ' . rex_escape($addon->getConfig('test_address')) . '<br>' . $addon->i18n('checkmail_info');
+        $success .= '<br><br><strong>' . $addon->i18n('checkmail_info_subject') . '</strong>';
+        $content .= rex_view::success($success);
     }
 }
 
