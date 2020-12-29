@@ -74,3 +74,13 @@ tr.mark {
      font-weight: 700;
      text-decoration: none;
  }
+
+// link
+// helper to expand clickable area of text links
+.rex-link {
+    display: inline-block;
+    padding: 5px 8px;
+    margin: -5px -8px;
+    border-radius: 20px;
+    background: yellow; // TODO: remove!
+}
