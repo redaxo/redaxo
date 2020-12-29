@@ -29,7 +29,7 @@ if ('' == $addon->getConfig('from') || '' == $addon->getConfig('test_address')) 
         $smtpinfo .= $devider;
 
         if (false == $security_mode) {
-            $security_mode = 'manual configured  ' . $addon->getConfig('smtpsecure');
+            $security_mode = 'manual configured ' . $addon->getConfig('smtpsecure');
             $security_mode = "\n".$addon->i18n('security_mode')."\n" . $security_mode . $devider;
         } else {
             $security_mode = 'Auto';
