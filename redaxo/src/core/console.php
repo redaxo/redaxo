@@ -4,7 +4,7 @@ set_time_limit(0);
 
 // setup a minimal exception handler to print early errors,
 // happening before redaxo itself was able to register its rex_error_handler
-set_exception_handler(static function (Throwable $exception):void {
+set_exception_handler(static function (Throwable $exception): void {
     fwrite(STDERR, $exception->getMessage()."\n");
     exit(254);
 });
