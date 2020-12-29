@@ -1393,6 +1393,39 @@ class rex_sql implements Iterator
     }
 
     /**
+     * Escapes and transforms values for `IN (...)` clause.
+     *
+     * Example: `$sql->setQuery('SELECT * FROM my_table WHERE foo IN ('.$sql->in($values).')');`
+     *
+     * @param int[]|string[] $values
+     */
+    public function in(array $values): string
+    {
+        $strings = false;
+
+        foreach ($values as $value) {
+            if (is_int($value)) {
+                continue;
+            }
+            if (is_string($value)) {
+                $strings = true;
+                continue;
+            }
+
+            /** @phpstan-ignore-next-line */
+            throw new InvalidArgumentException('Argument $values must be an array of ints and/or strings, but it contains "'.get_debug_type($value).'"');
+        }
+
+        if ($strings) {
+            $values = array_map(function ($value): string {
+                return $this->escape((string) $value);
+            }, $values);
+        }
+
+        return implode(', ', $values);
+    }
+
+    /**
      * @param string $user the name of the user who created the dataset. Defaults to the current user
      *
      * @return $this the current rex_sql object
