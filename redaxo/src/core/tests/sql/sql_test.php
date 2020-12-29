@@ -156,12 +156,24 @@ class rex_sql_test extends TestCase
         static::assertSame('\\%foo\\_bar', $sql->escapeLikeWildcards('%foo_bar'));
     }
 
-    public function testIn(): void
+    /** @dataProvider dataIn */
+    public function testIn(string $expected, array $values): void
     {
         $sql = rex_sql::factory();
-        $in = $sql->in(['foo', 5, false, true, 'bar']);
+        $in = $sql->in($values);
 
-        static::assertSame("'foo', 5, 0, 1, 'bar'", $in);
+        static::assertSame($expected, $in);
+    }
+
+    public function dataIn(): iterable
+    {
+        return [
+            ['', []],
+            ['3', [3]],
+            ["'foo'", ['foo']],
+            ['3, 13, 6', [3, 13, 6]],
+            ["'3', 'foo', '14', 'bar', ''", [3, 'foo', 14, 'bar', '']],
+        ];
     }
 
     public function testSetGetValue()

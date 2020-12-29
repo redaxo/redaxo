@@ -1397,20 +1397,30 @@ class rex_sql implements Iterator
      *
      * Example: `$sql->setQuery('SELECT * FROM my_table WHERE foo IN ('.$sql->in($values).')');`
      *
-     * @param scalar[] $values
+     * @param int[]|string[] $values
      */
     public function in(array $values): string
     {
-        $values = array_map(function ($value): string {
+        $strings = false;
+
+        foreach ($values as $value) {
             if (is_int($value)) {
-                return (string) $value;
+                continue;
             }
-            if (is_bool($value)) {
-                return $value ? '1' : '0';
+            if (is_string($value)) {
+                $strings = true;
+                continue;
             }
 
-            return $this->escape((string) $value);
-        }, $values);
+            /** @phpstan-ignore-next-line */
+            throw new InvalidArgumentException('Argument $values must be an array of ints or strings, but it contains "'.get_debug_type($value).'"');
+        }
+
+        if ($strings) {
+            $values = array_map(function ($value): string {
+                return $this->escape((string) $value);
+            }, $values);
+        }
 
         return implode(', ', $values);
     }
