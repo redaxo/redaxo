@@ -11,6 +11,7 @@ header("Content-Security-Policy: frame-ancestors 'self'");
 // assets which are passed with a cachebuster will be cached very long,
 // as we assume their url will change when the underlying content changes
 if (rex_get('asset') && rex_get('buster')) {
+    /** @psalm-taint-escape file */ // it is not escaped here, but it is validated below via the realpath
     $assetFile = rex_get('asset');
 
     // relative to the assets-root
