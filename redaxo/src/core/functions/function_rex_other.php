@@ -67,7 +67,8 @@ function rex_ini_get($varname)
 /**
  * @internal
  */
-function packages_title() {
+function packages_title()
+{
     $package = rex_package::get(rex_request('package', 'string'));
     $subPage = rex_request('subpage', 'string');
     $packageId = $package->getPackageId();
@@ -78,7 +79,7 @@ function packages_title() {
         ['href' => rex_url::currentBackendPage(['subpage' => 'changelog', 'package' => $packageId]), 'title' => rex_i18n::msg('credits_changelog')],
     ];
 
-    switch($subPage) {
+    switch ($subPage) {
         case 'help':
             $navigation[0]['active'] = true;
             break;
