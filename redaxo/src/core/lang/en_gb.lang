@@ -397,6 +397,7 @@ credits_inventor = Inventor
 credits_developer = Developer
 credits_designer = Designer
 credits_license = Licence
+credits_changelog = Changelog
 credits_explain_license = explain licence
 
 # redaxo\include\pages\profile.php
