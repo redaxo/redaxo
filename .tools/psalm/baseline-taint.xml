@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="4.3.2@57b53ff26237074fdf5cbcb034f7da5172be4524">
-  <file src="redaxo/src/addons/install/lib/archive.php">
-    <TaintedFile occurrences="2">
-      <code>$tempdir . '/' . $basename</code>
-      <code>$tempdir . '/' . $basename</code>
-    </TaintedFile>
-  </file>
   <file src="redaxo/src/addons/structure/plugins/history/fragments/history/layer.php">
     <TaintedHtml occurrences="56">
       <code>$this-&gt;getVar('content1iframe')</code>
