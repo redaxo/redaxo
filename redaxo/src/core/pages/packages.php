@@ -8,6 +8,7 @@ $subpage = rex_request('subpage', 'string');
 
 function packages_title() {
     $package = rex_package::get(rex_request('package', 'string'));
+    $subPage = rex_request('subpage', 'string');
     $packageId = $package->getPackageId();
 
     $navigation = [
@@ -15,6 +16,18 @@ function packages_title() {
         ['href' => rex_url::currentBackendPage(['subpage' => 'license', 'package' => $packageId]), 'title' => rex_i18n::msg('credits_license')],
         ['href' => rex_url::currentBackendPage(['subpage' => 'changelog', 'package' => $packageId]), 'title' => rex_i18n::msg('credits_changelog')],
     ];
+
+    switch($subPage) {
+        case 'help':
+            $navigation[0]['active'] = true;
+            break;
+        case 'license':
+            $navigation[1]['active'] = true;
+            break;
+        case 'changelog':
+            $navigation[2]['active'] = true;
+            break;
+    }
 
     $fragment = new rex_fragment();
     $fragment->setVar('left', $navigation, false);

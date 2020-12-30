@@ -24,7 +24,7 @@ if (is_readable($package->getPath('CHANGELOG.md'))) {
 }
 
 $fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('credits_changelog'), false);
+$fragment->setVar('title', rex_i18n::msg('credits_changelog'). ': ' . $name, false);
 $fragment->setVar('body', $content, false);
 echo $fragment->parse('core/page/section.php');
 
