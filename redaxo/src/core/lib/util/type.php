@@ -38,6 +38,8 @@ class rex_type
      * @throws InvalidArgumentException
      *
      * @return mixed Castet value
+     *
+     * @psalm-taint-specialize
      */
     public static function cast($var, $vartype)
     {
