@@ -10,4 +10,5 @@
 # disable owasp/Atomicorp.com rules which block html content in textareas
     SecRuleRemoveById 33350147
     SecRuleRemoveById 949110
+    SecRuleRemoveById 980130
 </IfModule>
