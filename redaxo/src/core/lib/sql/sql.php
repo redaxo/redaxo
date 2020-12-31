@@ -1378,6 +1378,8 @@ class rex_sql implements Iterator
      * @param string $name
      *
      * @return string
+     *
+     * @psalm-taint-escape sql
      */
     public function escapeIdentifier($name)
     {
