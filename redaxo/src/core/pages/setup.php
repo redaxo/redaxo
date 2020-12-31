@@ -17,7 +17,7 @@ $context = new rex_context([
 // ---------------------------------- Global Step features
 
 if (!rex_setup::isInitialSetup()) {
-    if ($func === 'abort') {
+    if ('abort' === $func) {
         rex_setup::markSetupCompleted();
 
         rex_response::sendRedirect(rex_url::backendController());

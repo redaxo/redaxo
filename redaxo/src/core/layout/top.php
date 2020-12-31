@@ -177,7 +177,7 @@ if ('setup' == rex_be_controller::getCurrentPagePart(1)) {
         $n['title'] = 'Cancel Setup';
         $n['linkAttr'] = [
             'data-confirm' => 'Cancel Setup?',
-            'class' => 'btn btn-delete'
+            'class' => 'btn btn-delete',
         ];
 
         $navi[] = $n;
