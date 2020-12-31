@@ -6,12 +6,23 @@
 
 $step = rex_request('step', 'int', 1);
 $lang = rex_request('lang', 'string');
+$func = rex_request('func', 'string');
 
 $context = new rex_context([
     'page' => 'setup',
     'lang' => $lang,
     'step' => $step,
 ]);
+
+// ---------------------------------- Global Step features
+
+if (!rex_setup::isInitialSetup()) {
+    if ($func === 'abort') {
+        rex_setup::markSetupCompleted();
+
+        rex_response::sendRedirect(rex_url::backendController());
+    }
+}
 
 // ---------------------------------- Step 1 . Language
 if (1 >= $step) {
