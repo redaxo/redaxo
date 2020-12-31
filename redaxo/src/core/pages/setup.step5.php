@@ -163,12 +163,12 @@ $n['field'] = '<p class="form-control-static">'.$sql->getDbType().' '.$sql->getD
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label>'.rex_i18n::msg('mode').'</label>';
+$n['label'] = '<label class="required">'.rex_i18n::msg('mode').'</label>';
 $n['field'] = $mode;
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label>'.rex_i18n::msg('charset').'</label>';
+$n['label'] = '<label class="required">'.rex_i18n::msg('charset').'</label>';
 $n['field'] = $charset;
 $formElements[] = $n;
 
