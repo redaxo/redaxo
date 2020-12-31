@@ -38,14 +38,18 @@ foreach (rex_setup::checkDbSecurity() as $message) {
 
 $dbchecked = array_fill(0, 6, '');
 switch ($createdb) {
-    case 1:
-    case 2:
-    case 3:
-    case 4:
+    case rex_setup::DB_MODE_SETUP_AND_OVERRIDE:
+    case rex_setup::DB_MODE_SETUP_SKIP:
+    case rex_setup::DB_MODE_SETUP_IMPORT_BACKUP:
+    case rex_setup::DB_MODE_SETUP_UPDATE_FROM_PREVIOUS:
         $dbchecked[$createdb] = ' checked="checked"';
         break;
     default:
-        $dbchecked[0] = ' checked="checked"';
+        if ($tables_complete) {
+            $dbchecked[rex_setup::DB_MODE_SETUP_SKIP] = ' checked="checked"';
+        } else {
+            $dbchecked[rex_setup::DB_MODE_SETUP_NO_OVERRIDE] = ' checked="checked"';
+        }
 }
 
 // Vorhandene Exporte auslesen
@@ -86,26 +90,26 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="rex-form-createdb-0">' . rex_i18n::msg('setup_504') . '</label>';
-$n['field'] = '<input type="radio" id="rex-form-createdb-0" name="createdb" value="0"' . $dbchecked[0] . ' />';
+$n['field'] = '<input type="radio" id="rex-form-createdb-0" name="createdb" value="'. rex_setup::DB_MODE_SETUP_NO_OVERRIDE .'"' . $dbchecked[0] . ' />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-form-createdb-1">' . rex_i18n::msg('setup_505') . '</label>';
-$n['field'] = '<input type="radio" id="rex-form-createdb-1" name="createdb" value="1"' . $dbchecked[1] . ' />';
+$n['field'] = '<input type="radio" id="rex-form-createdb-1" name="createdb" value="'. rex_setup::DB_MODE_SETUP_AND_OVERRIDE .'"' . $dbchecked[1] . ' />';
 $n['note'] = rex_i18n::msg('setup_505_note');
 $formElements[] = $n;
 
 if ($tables_complete) {
     $n = [];
     $n['label'] = '<label for="rex-form-createdb-2">' . rex_i18n::msg('setup_506') . '</label>';
-    $n['field'] = '<input type="radio" id="rex-form-createdb-2" name="createdb" value="2"' . $dbchecked[2] . ' />';
+    $n['field'] = '<input type="radio" id="rex-form-createdb-2" name="createdb" value="'. rex_setup::DB_MODE_SETUP_SKIP .'"' . $dbchecked[2] . ' />';
     $n['note'] = rex_i18n::msg('setup_506_note');
     $formElements[] = $n;
 }
 
 $n = [];
 $n['label'] = '<label for="rex-form-createdb-4">' . rex_i18n::msg('setup_514') . '</label>';
-$n['field'] = '<input type="radio" id="rex-form-createdb-4" name="createdb" value="4"' . $dbchecked[4] . ' />';
+$n['field'] = '<input type="radio" id="rex-form-createdb-4" name="createdb" value="'. rex_setup::DB_MODE_SETUP_UPDATE_FROM_PREVIOUS .'"' . $dbchecked[4] . ' />';
 $n['note'] = rex_i18n::msg('setup_514_note');
 $formElements[] = $n;
 
@@ -117,7 +121,7 @@ if ($exports_found) {
     $formElements = [];
     $n = [];
     $n['label'] = '<label for="rex-form-createdb-3">' . rex_i18n::msg('setup_507') . '</label>';
-    $n['field'] = '<input type="radio" id="rex-form-createdb-3" name="createdb" value="3"' . $dbchecked[3] . ' />';
+    $n['field'] = '<input type="radio" id="rex-form-createdb-3" name="createdb" value="'. rex_setup::DB_MODE_SETUP_IMPORT_BACKUP .'"' . $dbchecked[3] . ' />';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
