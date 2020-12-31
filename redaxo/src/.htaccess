@@ -5,3 +5,9 @@
     Order deny,allow
     Deny from all
 </IfModule>
+
+<IfModule security2_module>
+# disable owasp/Atomicorp.com rules which block html content in textareas
+    SecRuleRemoveById 33350147
+    SecRuleRemoveById 949110
+</IfModule>
