@@ -11,14 +11,14 @@
         "friendsofredaxo/linter": "1.2.7",
         "j13k/yaml-lint": "^1.1@dev",
         "phpstan/extension-installer": "1.1.0",
-        "phpstan/phpstan": "0.12.63",
+        "phpstan/phpstan": "0.12.64",
         "phpstan/phpstan-deprecation-rules": "0.12.6",
         "phpstan/phpstan-phpunit": "0.12.17",
         "phpstan/phpstan-symfony": "0.12.12",
         "phpunit/phpunit": "^9.3",
         "psalm/plugin-phpunit": "0.15.0",
         "psalm/plugin-symfony": "2.1.1",
-        "vimeo/psalm": "4.3.1"
+        "vimeo/psalm": "4.3.2"
     },
     "replace": {
         "erusev/parsedown": "1.7.4",
