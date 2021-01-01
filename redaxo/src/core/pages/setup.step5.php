@@ -2,6 +2,7 @@
 
 assert(isset($context) && $context instanceof rex_context);
 assert(isset($errors) && is_array($errors));
+assert(isset($cancelSetupBtn));
 
 $tables_complete = ('' == rex_setup_importer::verifyDbSchema()) ? true : false;
 
@@ -19,7 +20,7 @@ if ($supportsUtf8mb4) {
     }
 }
 
-$headline = rex_view::title(rex_i18n::msg('setup_500'));
+$headline = rex_view::title(rex_i18n::msg('setup_500').$cancelSetupBtn);
 
 $content = '
             <fieldset class="rex-js-setup-step-5">

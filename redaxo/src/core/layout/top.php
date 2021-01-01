@@ -172,17 +172,6 @@ if ('setup' == rex_be_controller::getCurrentPagePart(1)) {
         $navi[] = $n;
     }
 
-    if ('setup' == rex_be_controller::getCurrentPagePart(1) && !rex_setup::isInitialSetup()) {
-        $n['href'] = '?page=setup&func=abort';
-        $n['title'] = 'Cancel Setup';
-        $n['linkAttr'] = [
-            'data-confirm' => 'Cancel Setup?',
-            'class' => 'btn btn-delete',
-        ];
-
-        $navi[] = $n;
-    }
-
     $fragment = new rex_fragment();
     $fragment->setVar('headline', ['title' => 'Setup'], false);
     $fragment->setVar('items', $navi, false);
