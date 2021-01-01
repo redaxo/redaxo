@@ -7,10 +7,7 @@
 $content = '';
 
 $package = rex_package::get(rex_request('package', 'string'));
-$name = $package->getPackageId();
-$version = $package->getVersion();
-$author = $package->getAuthor();
-$supportPage = $package->getSupportPage();
+
 if (is_readable($package->getPath('CHANGELOG.md'))) {
     [$readmeToc, $readmeContent] = rex_markdown::factory()->parseWithToc(rex_file::require($package->getPath('CHANGELOG.md')), 1, 2, false);
     $fragment = new rex_fragment();
