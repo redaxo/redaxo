@@ -18,7 +18,7 @@ $context = new rex_context([
 
 $cancelSetupBtn = '';
 if (!rex_setup::isInitialSetup()) {
-    $cancelSetupBtn = '<a href="?page=setup&amp;func=abort" data-confirm="Cancel Setup?" class="btn btn-delete" style="float: right">Cancel Setup</a>';
+    $cancelSetupBtn = '<a href="?page=setup&amp;func=abort" data-confirm="Cancel Setup?" class="btn btn-delete" style="float: right">'.rex_i18n::msg('setup_cancel').'</a>';
 
     if ('abort' === $func) {
         rex_setup::markSetupCompleted();
