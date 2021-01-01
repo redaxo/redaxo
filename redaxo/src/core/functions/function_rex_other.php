@@ -75,8 +75,8 @@ function packages_title()
 
     $navigation = [
         ['href' => rex_url::currentBackendPage(['subpage' => 'help', 'package' => $packageId]), 'title' => rex_i18n::msg('package_hhelp') . ' / ' . rex_i18n::msg('credits')],
-        ['href' => rex_url::currentBackendPage(['subpage' => 'license', 'package' => $packageId]), 'title' => rex_i18n::msg('credits_license')],
         ['href' => rex_url::currentBackendPage(['subpage' => 'changelog', 'package' => $packageId]), 'title' => rex_i18n::msg('credits_changelog')],
+        ['href' => rex_url::currentBackendPage(['subpage' => 'license', 'package' => $packageId]), 'title' => rex_i18n::msg('credits_license')],
     ];
 
     switch ($subPage) {
