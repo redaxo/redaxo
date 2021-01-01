@@ -73,6 +73,8 @@ function packages_title()
     $subPage = rex_request('subpage', 'string');
     $packageId = $package->getPackageId();
 
+    $hasChangelog = is_readable($package->getPath('CHANGELOG.md'));
+
     $navigation = [
         ['href' => rex_url::currentBackendPage(['subpage' => 'help', 'package' => $packageId]), 'title' => rex_i18n::msg('package_hhelp') . ' / ' . rex_i18n::msg('credits')],
         ['href' => rex_url::currentBackendPage(['subpage' => 'changelog', 'package' => $packageId]), 'title' => rex_i18n::msg('credits_changelog')],
@@ -89,6 +91,10 @@ function packages_title()
         case 'license':
             $navigation[2]['active'] = true;
             break;
+    }
+
+    if (!$hasChangelog) {
+        unset($navigation[1]);
     }
 
     $fragment = new rex_fragment();
