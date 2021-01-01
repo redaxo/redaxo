@@ -83,10 +83,10 @@ function packages_title()
         case 'help':
             $navigation[0]['active'] = true;
             break;
-        case 'license':
+        case 'changelog':
             $navigation[1]['active'] = true;
             break;
-        case 'changelog':
+        case 'license':
             $navigation[2]['active'] = true;
             break;
     }
