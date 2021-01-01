@@ -4,8 +4,6 @@
  * @package redaxo5
  */
 
-echo rex_view::title(rex_i18n::msg('addons'), '');
-
 $content = '';
 
 $package = rex_package::get(rex_request('package', 'string'));
@@ -19,7 +17,7 @@ if (is_readable($package->getPath('LICENSE.md'))) {
 
 if ($license) {
     $fragment = new rex_fragment();
-    $fragment->setVar('title', rex_i18n::msg('credits_license').': '.$package->getPackageId());
+    $fragment->setVar('title', rex_i18n::msg('credits_license'));
     $fragment->setVar('body', $license, false);
     echo '<div id="license"></div>'; // scroll anchor
     echo $fragment->parse('core/page/section.php');
