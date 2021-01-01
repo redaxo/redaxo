@@ -16,7 +16,7 @@ if (is_readable($package->getPath('LICENSE.md'))) {
 } elseif (is_readable($package->getPath('LICENSE'))) {
     $license = nl2br(file_get_contents($package->getPath('LICENSE')));
 }
-throw new Exception('buuhh');
+
 if ($license) {
     $fragment = new rex_fragment();
     $fragment->setVar('title', rex_i18n::msg('credits_license').': '.$package->getPackageId());
