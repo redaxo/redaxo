@@ -101,5 +101,10 @@ function packages_title()
     $fragment->setVar('left', $navigation, false);
     $subtitle = $fragment->parse('core/navigations/content.php');
 
-    echo rex_view::title(rex_i18n::msg('addons'), $subtitle);
+    $headLine = 'AddOn: '. $packageId;
+    if ($package instanceof rex_plugin_interface) {
+        $headLine = 'PlugIn: '. $packageId;
+    }
+
+    echo rex_view::title($headLine, $subtitle);
 }

@@ -19,12 +19,10 @@ if (is_readable($package->getPath('CHANGELOG.md'))) {
     $fragment->setVar('content', $readmeContent, false);
     $fragment->setVar('toc', $readmeToc, false);
     $content .= $fragment->parse('core/page/docs.php');
-} else {
-    $content .= rex_view::info(rex_i18n::msg('package_no_changelog_file'));
 }
 
 $fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('credits_changelog'). ': ' . $name, false);
+$fragment->setVar('title', rex_i18n::msg('credits_changelog'), false);
 $fragment->setVar('body', $content, false);
 echo $fragment->parse('core/page/section.php');
 
