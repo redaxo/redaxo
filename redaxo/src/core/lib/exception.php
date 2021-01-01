@@ -40,6 +40,10 @@ class rex_sql_exception extends rex_exception
         return $this->sql;
     }
 
+    public function isCouldNotConnectError():bool {
+        return strpos($this->getMessage(), rex_sql::ERROR_MESSAGE_COULD_NOT_CONNECT) !== false;
+    }
+
     /**
      * Returns the mysql native error code.
      */

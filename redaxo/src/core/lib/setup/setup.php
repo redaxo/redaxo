@@ -244,10 +244,18 @@ class rex_setup
      */
     public static function isInitialSetup(): bool
     {
-        $user_sql = rex_sql::factory();
-        $user_sql->setQuery('select * from ' . rex::getTable('user') . ' LIMIT 1');
+        try {
+            $user_sql = rex_sql::factory();
+            $user_sql->setQuery('select * from ' . rex::getTable('user') . ' LIMIT 1');
 
-        return 0 == $user_sql->getRows();
+            return 0 == $user_sql->getRows();
+        } catch (rex_sql_exception $e) {
+            if ($e->isCouldNotConnectError()) {
+                return true;
+            }
+            // re-throw unexpected exceptions
+            throw $e;
+        }
     }
 
     /**
