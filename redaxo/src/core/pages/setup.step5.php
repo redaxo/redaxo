@@ -202,28 +202,28 @@ $content .= '
 
                     // when opening backup dropdown -> mark corresponding radio button as checked
                     $container.find(".rex-js-import-name").click(function () {
-                        $container.find("[name=createdb][value=3]").prop("checked", true);
+                        $container.find("[name=createdb][value='. rex_setup::DB_MODE_SETUP_IMPORT_BACKUP .']").prop("checked", true);
                     });
 
-                    if (!$container.find("[name=utf8mb4][value=1]").prop("disabled")) {
+                    if (!$container.find("[name=utf8mb4][value='. rex_setup::DB_MODE_SETUP_AND_OVERRIDE .']").prop("disabled")) {
                         // when changing mode -> reset disabled state
                         $container.find("[name=createdb]").click(function () {
                             $container.find("[name=utf8mb4]").prop("disabled", false);
                         });
 
                         // when selecting "existing db" -> select current charset and disable radios
-                        $container.find("[name=createdb][value=2]").click(function () {
+                        $container.find("[name=createdb][value='. rex_setup::DB_MODE_SETUP_SKIP .']").click(function () {
                             $container.find("[name=utf8mb4][value='.((int) $existingUtf8mb4).']").prop("checked", true);
                             $container.find("[name=utf8mb4]").prop("disabled", true);
                         });
 
                         // when selecting "update db" -> select utf8mb4 charset
-                        $container.find("[name=createdb][value=4]").click(function () {
+                        $container.find("[name=createdb][value='. rex_setup::DB_MODE_SETUP_UPDATE_FROM_PREVIOUS .']").click(function () {
                             $container.find("[name=utf8mb4][value=1]").prop("checked", true);
                         });
 
                         // when selecting "import backup" -> disable radios
-                        $container.find("[name=createdb][value=3]").click(function () {
+                        $container.find("[name=createdb][value='. rex_setup::DB_MODE_SETUP_IMPORT_BACKUP .']").click(function () {
                             $container.find("[name=utf8mb4]").prop("disabled", true);
                         });
                     }
