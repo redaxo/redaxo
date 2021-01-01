@@ -4,8 +4,6 @@
  * @package redaxo5
  */
 
-echo packages_title();
-
 $content = '';
 
 $package = rex_package::get(rex_request('package', 'string'));
