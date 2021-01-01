@@ -172,6 +172,9 @@ abstract class rex_error_handler
                         color: #f90;
                     }
                     .rex-report-bug {
+                        position: absolute;
+                        top: 17px;
+                        right: 200px;
                         display: inline-block;
                         padding: 10px;
                         border-radius: 4px;
