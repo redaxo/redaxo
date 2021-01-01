@@ -50,7 +50,7 @@ if ($author) {
     $credits .= '<dt>' . rex_i18n::msg('credits_author') . '</dt><dd>' . rex_escape($author) . '</dd>';
 }
 if ($supportPage) {
-    $credits .= '<dt>' . rex_i18n::msg('credits_supportpage') . '</dt><dd><a href="' . $supportPage . '" onclick="window.open(this.href); return false;">' . $supportPage . '</a></dd>';
+    $credits .= '<dt>' . rex_i18n::msg('credits_supportpage') . '</dt><dd><a href="' . $supportPage . '" onclick="window.open(this.href); return false;">' . $supportPage . ' <i class="fa fa-external-link"></i></a></a></dd>';
 }
 
 $credits .= '</dl>';
