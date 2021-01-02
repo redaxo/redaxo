@@ -2,11 +2,12 @@
 
 assert(isset($context) && $context instanceof rex_context);
 assert(isset($errors) && is_array($errors));
+assert(isset($cancelSetupBtn));
 
 $user_sql = rex_sql::factory();
 $user_sql->setQuery('select * from ' . rex::getTablePrefix() . 'user LIMIT 1');
 
-$headline = rex_view::title(rex_i18n::msg('setup_600'));
+$headline = rex_view::title(rex_i18n::msg('setup_600').$cancelSetupBtn);
 
 $submit_message = rex_i18n::msg('setup_610');
 if (count($errors) > 0) {

@@ -163,6 +163,7 @@ system_report_markdown = Als markdown
 
 # src\core\pages\setup.php
 setup = Setup
+setup_cancel = Setup abbrechen
 setup_restart = Setup neu starten
 setup_text = Hier können Sie das Setup erneut starten. Dies sollten Sie nur im Notfall machen. Unter normalen Umständen ist es nicht nötig.
 setup_error2 = Leider konnte die config.yml nicht beschrieben werden. Bitte tragen Sie dort in der \"setup: true\" ein
