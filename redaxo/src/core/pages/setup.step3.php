@@ -25,30 +25,42 @@ if (count($error_array) > 0) {
 
 $security = '<div class="rex-js-setup-security-message" style="display:none">' . rex_view::error(rex_i18n::msg('setup_security_msg') . '<br />' . rex_i18n::msg('setup_no_js_security_msg')) . '</div>';
 $security .= '<noscript>' . rex_view::error(rex_i18n::msg('setup_no_js_security_msg')) . '</noscript>';
+
 $security .= '<script>
 
     jQuery(function($){
         var urls = [
             "' . rex_url::backend('bin/console') . '",
+            "' . rex_url::backend('index.php') . '",
             "' . rex_url::backend('data/.redaxo') . '",
+	        "' . rex_url::frontend('index.php') . '",
+            "' . rex_url::frontend(' LICENSE.md') . '",
             "' . rex_url::backend('src/core/boot.php') . '",
             "' . rex_url::backend('cache/.redaxo') . '"
         ];
-
+  
         $.each(urls, function (i, url) {
-            $.ajax({
+        $.ajax({
                 url: url,
                 cache: false,
                 success: function(data) {
+		// these files should always be readable		
+		if (url ==  "' . rex_url::frontend('index.php') . '" || "' . rex_url::frontend('LICENSE.md) . '" || url == "' . rex_url::backend('index.php'). '")
+		{
+    	}
+                 else                 
+                   {
                     $(".rex-js-setup-security-message").show();
                     $(".rex-js-setup-section").hide();
+                   }
                 }
             });
         });
-
+    
     })
 
 </script>';
+```
 
 foreach (rex_setup::checkPhpSecurity() as $warning) {
     $security .= rex_view::warning($warning);
