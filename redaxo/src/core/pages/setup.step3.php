@@ -29,31 +29,30 @@ $security .= '<noscript>' . rex_view::error(rex_i18n::msg('setup_no_js_security_
 $security .= '<script>
 
     jQuery(function($){
-        var urls = [
+        var whiteUrl = "' . rex_url::backend('index.php') . '";
+
+        var blacklistedUrls = [
             "' . rex_url::backend('bin/console') . '",
-            "' . rex_url::backend('index.php') . '",
             "' . rex_url::backend('data/.redaxo') . '",
-	        "' . rex_url::frontend('index.php') . '",
-            "' . rex_url::frontend(' LICENSE.md') . '",
             "' . rex_url::backend('src/core/boot.php') . '",
             "' . rex_url::backend('cache/.redaxo') . '"
         ];
 
-        $.each(urls, function (i, url) {
-        $.ajax({
-                url: url,
+        $.each(blacklistedUrls, function (i, blackUrl) {
+            // test url, which is not expected to be accessible
+            $.ajax({
+                url: blackUrl,
                 cache: false,
                 success: function(data) {
-		// these files should always be readable
-		if (url ==  "' . rex_url::frontend('index.php') . '" ||  url ==  "' . rex_url::frontend('LICENSE.md') . '" || url == "' . rex_url::backend('index.php'). '")
-		{
-    	}
-                 else
-                   {
                     $(".rex-js-setup-security-message").show();
                     $(".rex-js-setup-section").hide();
-                   }
                 }
+            });
+            // after each expected error, run a request which is expected to succeed.
+            // that way we try to make sure tools like fail2ban dont block the client
+            $.ajax({
+                url: whiteUrl,
+                cache: false,
             });
         });
 
