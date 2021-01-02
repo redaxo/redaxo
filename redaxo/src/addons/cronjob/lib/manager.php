@@ -15,9 +15,10 @@ class rex_cronjob_manager
      * @return class-string<T>[]
      */
     private static $types = [
-        'rex_cronjob_phpcode',
-        'rex_cronjob_phpcallback',
-        'rex_cronjob_urlrequest',
+        rex_cronjob_phpcode::class,
+        rex_cronjob_phpcallback::class,
+        rex_cronjob_urlrequest::class,
+        rex_cronjob_compress::class,
     ];
 
     /** @var string */

@@ -29,6 +29,11 @@ cronjob_type_urlrequest_post = POST-Parameter
 cronjob_type_urlrequest_httpauth = HTTP-Authentifizierung
 cronjob_type_urlrequest_user = Benutzer
 cronjob_type_urlrequest_password = Passwort
+cronjob_type_compress = Dateien komprimieren
+cronjob_type_compress_glob = glob-pattern zum finden der Dateien
+cronjob_type_compress_glob_notice = Absoluter Pfad oder relativer Pfad zum <code>rex_path::base()</code> Verzeichnis, zum Beispiel redaxo/data/addons/backup/*.sql
+cronjob_type_compress_cleanup = Original-Datei nach komprimierung löschen
+
 cronjob_type_parameters = Typspezifische Parameter
 cronjob_type_no_parameters = Für diesen Typ sind keine weiteren Parameter notwendig!
 

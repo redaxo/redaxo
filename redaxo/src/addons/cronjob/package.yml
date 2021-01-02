@@ -18,7 +18,9 @@ pages:
         perm: admin[]
 
 requires:
-    php: '>=7.3'
+    php:
+        version: '>=7.3'
+        extensions: [zip]
     redaxo: ^5.9.0
 
 console_commands:
