@@ -206,26 +206,30 @@ $content .= '
                     });
 
                     if (!$container.find("[name=utf8mb4][value='. rex_setup::DB_MODE_SETUP_AND_OVERRIDE .']").prop("disabled")) {
-                        // when changing mode -> reset disabled state
-                        $container.find("[name=createdb]").click(function () {
+                        var update = function () {
+                            // when changing mode -> reset disabled state
                             $container.find("[name=utf8mb4]").prop("disabled", false);
-                        });
 
-                        // when selecting "existing db" -> select current charset and disable radios
-                        $container.find("[name=createdb][value='. rex_setup::DB_MODE_SETUP_SKIP .']").click(function () {
-                            $container.find("[name=utf8mb4][value='.((int) $existingUtf8mb4).']").prop("checked", true);
-                            $container.find("[name=utf8mb4]").prop("disabled", true);
-                        });
+                            switch (parseInt($container.find("[name=createdb]:checked").val())) {
+                                case '. rex_setup::DB_MODE_SETUP_SKIP .':
+                                    // when selecting "existing db" -> select current charset and disable radios
+                                    $container.find("[name=utf8mb4][value='.((int) $existingUtf8mb4).']").prop("checked", true);
+                                    $container.find("[name=utf8mb4]").prop("disabled", true);
+                                    break;
+                                case '. rex_setup::DB_MODE_SETUP_UPDATE_FROM_PREVIOUS .':
+                                    // when selecting "update db" -> select utf8mb4 charset
+                                    $container.find("[name=utf8mb4][value=1]").prop("checked", true);
+                                    break;
+                                case '. rex_setup::DB_MODE_SETUP_IMPORT_BACKUP .':
+                                    // when selecting "import backup" -> disable radios
+                                    $container.find("[name=utf8mb4]").prop("disabled", true);
+                                    break;
 
-                        // when selecting "update db" -> select utf8mb4 charset
-                        $container.find("[name=createdb][value='. rex_setup::DB_MODE_SETUP_UPDATE_FROM_PREVIOUS .']").click(function () {
-                            $container.find("[name=utf8mb4][value=1]").prop("checked", true);
-                        });
+                            }
+                        }
 
-                        // when selecting "import backup" -> disable radios
-                        $container.find("[name=createdb][value='. rex_setup::DB_MODE_SETUP_IMPORT_BACKUP .']").click(function () {
-                            $container.find("[name=utf8mb4]").prop("disabled", true);
-                        });
+                        $container.find("[name=createdb]").click(update);
+                        update();
                     }
                 });
                  //-->
