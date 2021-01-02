@@ -179,6 +179,17 @@ if ('' == $func) {
         ->add('notEmpty', rex_i18n::msg('media_manager_error_name'))
         ->add('notMatch', rex_i18n::msg('media_manager_error_type_name_invalid'), '{[/\\\\]}');
 
+    // system mediatypes are not editable
+    if ('edit' == $func) {
+        $type = rex_sql::factory()->setQuery(
+            'SELECT * FROM '.rex::getTablePrefix().'media_manager_type'.' WHERE id=?',
+            [$type_id]
+        );
+        if ($type->getValue('status') == rex_media_manager::STATUS_SYSTEM_TYPE) {
+            $field->setAttribute('readonly', 'readonly');
+        }
+    }
+
     $field = $form->addTextareaField('description');
     $field->setLabel(rex_i18n::msg('media_manager_type_description'));
     $field->setAttribute('maxlength', 255);
