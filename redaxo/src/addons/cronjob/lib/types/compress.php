@@ -21,7 +21,7 @@ class rex_cronjob_compress extends rex_cronjob
         }
 
         if ($files) {
-            foreach($files as $file) {
+            foreach ($files as $file) {
                 if (is_file($file) && !str_ends_with($file, '.zip')) {
                     if (!is_readable($file)) {
                         $this->setMessage('file is not readable "'. $file .'"');
