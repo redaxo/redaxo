@@ -185,7 +185,7 @@ if ('' == $func) {
             'SELECT * FROM '.rex::getTablePrefix().'media_manager_type'.' WHERE id=?',
             [$type_id]
         );
-        if ($type->getValue('status') == rex_media_manager::STATUS_SYSTEM_TYPE) {
+        if (rex_media_manager::STATUS_SYSTEM_TYPE == $type->getValue('status')) {
             $field->setAttribute('readonly', 'readonly');
         }
     }
