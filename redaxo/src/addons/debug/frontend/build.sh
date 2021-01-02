@@ -23,3 +23,9 @@ rm dist/web/service-worker.js
 mv dist/web ../
 cd ..
 rm -rf clockwork-app-redaxo-v5.0
+
+# zip frontend
+cd web
+zip -r ../frontend.zip *
+cd ..
+rm -rf web
