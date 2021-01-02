@@ -45,12 +45,12 @@ if ($user_sql->getRows() > 0) {
 $formElements = [];
 
 $n = [];
-$n['label'] = '<label for="rex-form-redaxo-user-login">' . rex_i18n::msg('setup_607') . '</label>';
+$n['label'] = '<label for="rex-form-redaxo-user-login" class="required">' . rex_i18n::msg('setup_607') . '</label>';
 $n['field'] = '<input class="form-control" type="text" value="' . rex_escape($redaxo_user_login) . '" id="rex-form-redaxo-user-login" name="redaxo_user_login" autofocus />';
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="rex-form-redaxo-user-pass">' . rex_i18n::msg('setup_608') . '</label>';
+$n['label'] = '<label for="rex-form-redaxo-user-pass" class="required">' . rex_i18n::msg('setup_608') . '</label>';
 $n['field'] = '<input class="form-control" type="password" value="' . rex_escape($redaxo_user_pass) . '" id="rex-form-redaxo-user-pass" name="redaxo_user_pass" />';
 $n['note'] = rex_backend_password_policy::factory()->getDescription();
 $formElements[] = $n;
