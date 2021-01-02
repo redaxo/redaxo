@@ -45,7 +45,7 @@ $security .= '<script>
                 cache: false,
                 success: function(data) {
 		// these files should always be readable		
-		if (url ==  "' . rex_url::frontend('index.php') . '" ||  url ==  "' . rex_url::frontend('LICENSE.md) . '" || url == "' . rex_url::backend('index.php'). '")
+		if (url ==  "' . rex_url::frontend('index.php') . '" ||  url ==  "' . rex_url::frontend('LICENSE.md') . '" || url == "' . rex_url::backend('index.php'). '")
 		{
     	}
                  else                 
