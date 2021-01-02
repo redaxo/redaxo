@@ -11,6 +11,7 @@ class rex_media_manager
      * @var int
      */
     public const STATUS_SYSTEM_TYPE = 1;
+
     private $media;
     private $originalFilename;
     private $cache_path;
