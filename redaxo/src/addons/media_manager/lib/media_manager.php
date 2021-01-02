@@ -16,7 +16,7 @@ class rex_media_manager
     private static $effects = [];
 
     /**
-     * status of a redaxo 'System Medientyp'
+     * status of a system mediatyp
      *
      * @var int
      */
