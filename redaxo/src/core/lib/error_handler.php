@@ -209,7 +209,18 @@ abstract class rex_error_handler
         if (!rex::isSetup() && rex::isBackend() && !rex::isSafeMode()) {
             $saveModeLink = '<a class="rex-safemode" href="' . rex_url::backendPage('packages', ['safemode' => 1]) . '">activate safe mode</a>';
         }
-        $reportBugLink = '<a class="rex-report-bug" href="https://github.com/redaxo/redaxo/issues/new?labels=Bug&title='. rex_escape('Exception: '. $exception->getMessage(), 'url') .'&body='.rex_escape(self::getMarkdownReport($exception), 'url').'">Report a REDAXO bug</a>';
+
+        $bugTitle = 'Exception: '. $exception->getMessage();
+        $bugLabel = 'Bug';
+        $bugBody = self::getMarkdownReport($exception);
+        if (rex_server('REQUEST_URI')) {
+            $bugBody =
+                '**Request-Uri:** ' . rex_server('REQUEST_URI')."\n".
+                '**Request-Method:** ' . strtoupper(rex_request::requestMethod()) ."\n".
+                "\n". $bugBody;
+        }
+
+        $reportBugLink = '<a class="rex-report-bug" href="https://github.com/redaxo/redaxo/issues/new?labels='. rex_escape($bugLabel, 'url') .'&title='. rex_escape($bugTitle, 'url') .'&body='.rex_escape($bugBody, 'url').'">Report a REDAXO bug</a>';
 
         $url = rex::isFrontend() ? rex_url::frontendController() : rex_url::backendController();
 
