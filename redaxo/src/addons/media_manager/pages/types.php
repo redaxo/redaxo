@@ -117,13 +117,13 @@ if ('' == $func) {
     $list->addColumn('copyType', '<i class="rex-icon rex-icon-duplicate"></i> ' . rex_i18n::msg('media_manager_type_copy'), -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('copyType', ['func' => 'copy', 'type_id' => '###id###']);
 
-    // remove delete link on internal types (status == 1)
+    // override delete link on internal types
     $list->addColumn('deleteType', '', -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('deleteType', ['type_id' => '###id###', 'func' => 'delete']);
     $list->addLinkAttribute('deleteType', 'data-confirm', rex_i18n::msg('delete') . ' ?');
     $list->setColumnFormat('deleteType', 'custom', static function ($params) {
         $list = $params['list'];
-        if (1 == $list->getValue('status')) {
+        if (rex_media_manager::STATUS_SYSTEM_TYPE == $list->getValue('status')) {
             return '<small class="text-muted">' . rex_i18n::msg('media_manager_type_system') . '</small>';
         }
         return $list->getColumnLink('deleteType', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('media_manager_type_delete'));
@@ -149,8 +149,8 @@ if ('' == $func) {
         $form = $ep->getParam('form');
         $sql = $form->getSql();
 
-        // remove delete button on internal types (status == 1)
-        if ($sql->getRows() > 0 && $sql->hasValue('status') && 1 == $sql->getValue('status')) {
+        // remove delete button on internal types
+        if ($sql->getRows() > 0 && rex_media_manager::STATUS_SYSTEM_TYPE == $sql->getValue('status')) {
             $controlFields['delete'] = '';
         }
         return $controlFields;
@@ -178,6 +178,13 @@ if ('' == $func) {
     $field->getValidator()
         ->add('notEmpty', rex_i18n::msg('media_manager_error_name'))
         ->add('notMatch', rex_i18n::msg('media_manager_error_type_name_invalid'), '{[/\\\\]}');
+
+    // system mediatypes are not editable
+    if ('edit' == $func) {
+        if (rex_media_manager::STATUS_SYSTEM_TYPE == $form->getSql()->getValue('status')) {
+            $field->setAttribute('readonly', 'readonly');
+        }
+    }
 
     $field = $form->addTextareaField('description');
     $field->setLabel(rex_i18n::msg('media_manager_type_description'));
