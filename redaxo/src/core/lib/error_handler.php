@@ -135,6 +135,9 @@ abstract class rex_error_handler
                     .search-for-help {
                         width: auto;
                     }
+                    .search-for-help li:nth-child(n+2) {
+                        display: none;
+                    }
                     .rex-whoops-header {
                         position: fixed;
                         top: 0;
@@ -168,6 +171,22 @@ abstract class rex_error_handler
                         background-color: #754600;
                         color: #f90;
                     }
+                    .rex-report-bug {
+                        position: absolute;
+                        top: 17px;
+                        right: 200px;
+                        display: inline-block;
+                        padding: 10px;
+                        border-radius: 4px;
+                        color: white;
+                        font-size: .875rem;
+                        font-weight: 700;
+                        transition: 0.2s ease-out;
+                    }
+                    .rex-report-bug:hover {
+                        background-color: white;
+                        color: #b00;
+                    }
                     button.clipboard {
                         margin: 10px 5px;
                         padding: 0 10px;
@@ -191,6 +210,18 @@ abstract class rex_error_handler
             $saveModeLink = '<a class="rex-safemode" href="' . rex_url::backendPage('packages', ['safemode' => 1]) . '">activate safe mode</a>';
         }
 
+        $bugTitle = 'Exception: '. $exception->getMessage();
+        $bugLabel = 'Bug';
+        $bugBody = self::getMarkdownReport($exception);
+        if (rex_server('REQUEST_URI')) {
+            $bugBody =
+                '**Request-Uri:** ' . rex_server('REQUEST_URI')."\n".
+                '**Request-Method:** ' . strtoupper(rex_request::requestMethod()) ."\n".
+                "\n". $bugBody;
+        }
+
+        $reportBugLink = '<a class="rex-report-bug" href="https://github.com/redaxo/redaxo/issues/new?labels='. rex_escape($bugLabel, 'url') .'&title='. rex_escape($bugTitle, 'url') .'&body='.rex_escape($bugBody, 'url').'">Report a REDAXO bug</a>';
+
         $url = rex::isFrontend() ? rex_url::frontendController() : rex_url::backendController();
 
         $errPage = str_replace(
@@ -199,7 +230,7 @@ abstract class rex_error_handler
                 '</body>',
             ], [
                 $styles . '</head>',
-                '<div class="rex-whoops-header"><a href="' . $url . '" class="rex-logo">' . $logo . '</a>' . $saveModeLink . '</div></body>',
+                '<div class="rex-whoops-header"><a href="' . $url . '" class="rex-logo">' . $logo . '</a>' . $reportBugLink . $saveModeLink . '</div></body>',
             ],
             $errPage
         );
