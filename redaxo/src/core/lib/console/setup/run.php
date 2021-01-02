@@ -279,6 +279,8 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
         $tables_complete = '' == rex_setup_importer::verifyDbSchema();
 
+        // spaces before/after to make sf-console render the array-key instead of
+        // our overlong description text
         $defaultDbMode = ' normal ';
         $createdbOptions = [
             'normal' => 'Setup database',
@@ -289,7 +291,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         ];
 
         if ($tables_complete) {
-            $defaultDbMode = 'existing';
+            $defaultDbMode = ' existing ';
         } else {
             unset($createdbOptions['existing']);
         }
