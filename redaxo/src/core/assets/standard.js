@@ -524,7 +524,8 @@ var onDocumentReady = function () {
     function checkHtaccess(dir, file)
     {
         var blackUrl = dir + '/' + file + '?redaxo-security-self-test';
-
+        
+        // test url, which is not expected to be accessible
         $.ajax({
             url: blackUrl,
             cache: false,
@@ -532,6 +533,13 @@ var onDocumentReady = function () {
                 $('#rex-js-page-main').prepend('<div class="alert alert-danger" style="margin-top: 20px;">The folder <code>redaxo/' + dir + '</code> is insecure. Please protect this folder.</div>');
                 setCookie('rex_htaccess_check', '');
             }
+        });
+
+        // after each expected error, run a request which is expected to succeed.
+        // that way we try to make sure tools like fail2ban dont block the client
+        $.ajax({
+            url: 'index.php',
+            cache: false,
         });
     }
 
