@@ -239,7 +239,7 @@ abstract class rex_error_handler
       COPY MARKDOWN
     </button>', $errPage);
         $errPage = str_replace('<button id="copy-button"', '<button ', $errPage);
-        
+
         return [$errPage, $handler->contentType()];
     }
 
