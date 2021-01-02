@@ -43,8 +43,11 @@ if ($export && !$csrfToken->isValid()) {
     // ------------------------------ FUNC EXPORT
 
     $exportfilename = strtolower($exportfilename);
-    /** @psalm-taint-escape shell */
-    /** @psalm-taint-escape html */
+    /**
+     * @psalm-taint-escape file
+     * @psalm-taint-escape html
+     * @psalm-taint-escape shell
+     */
     $filename = preg_replace('@[^\.a-z0-9_\-]@', '', $exportfilename);
 
     if ($filename != $exportfilename) {
@@ -76,8 +79,8 @@ if ($export && !$csrfToken->isValid()) {
             if (empty($EXPDIR)) {
                 $error = rex_i18n::msg('backup_please_choose_folder');
             } else {
-                $content = rex_backup::exportFiles($EXPDIR);
-                $hasContent = rex_file::put($export_path . $filename . $ext, $content);
+                rex_backup::exportFiles($EXPDIR, $export_path . $filename . $ext);
+                $hasContent = true;
             }
         }
 

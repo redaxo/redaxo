@@ -408,6 +408,7 @@ class rex
     /**
      * @deprecated since 5.10, use `rex_version::gitHash` instead
      */
+    #[\JetBrains\PhpStorm\Deprecated(reason: 'since 5.10, use `rex_version::gitHash` instead', replacement: 'rex_version::gitHash(!%parametersList%)')]
     public static function getVersionHash($path, ?string $repo = null)
     {
         return rex_version::gitHash($path, $repo) ?? false;

@@ -15,6 +15,8 @@ class rex_request
      * @param mixed  $default Default value
      *
      * @return mixed
+     *
+     * @psalm-taint-escape ($vartype is 'bool'|'boolean'|'int'|'integer'|'double'|'float'|'real' ? 'html' : null)
      */
     public static function get($varname, $vartype = '', $default = '')
     {
@@ -29,6 +31,8 @@ class rex_request
      * @param mixed  $default Default value
      *
      * @return mixed
+     *
+     * @psalm-taint-escape ($vartype is 'bool'|'boolean'|'int'|'integer'|'double'|'float'|'real' ? 'html' : null)
      */
     public static function post($varname, $vartype = '', $default = '')
     {
@@ -43,6 +47,8 @@ class rex_request
      * @param mixed  $default Default value
      *
      * @return mixed
+     *
+     * @psalm-taint-escape ($vartype is 'bool'|'boolean'|'int'|'integer'|'double'|'float'|'real' ? 'html' : null)
      */
     public static function request($varname, $vartype = '', $default = '')
     {
@@ -145,6 +151,8 @@ class rex_request
      * @param mixed  $default Default value
      *
      * @return mixed
+     *
+     * @psalm-taint-escape ($vartype is 'bool'|'boolean'|'int'|'integer'|'double'|'float'|'real' ? 'html' : null)
      */
     public static function cookie($varname, $vartype = '', $default = '')
     {
@@ -190,6 +198,8 @@ class rex_request
      * @throws InvalidArgumentException
      *
      * @return mixed
+     *
+     * @psalm-taint-specialize
      */
     private static function arrayKeyCast(array $haystack, $needle, $vartype, $default = '')
     {
@@ -250,6 +260,7 @@ class rex_request
      * @param string $containerId
      *
      * @return bool
+     * @deprecated since 5.12, feature is not supported by current pjax lib
      */
     public static function isPJAXContainer($containerId)
     {

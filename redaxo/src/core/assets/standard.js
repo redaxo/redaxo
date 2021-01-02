@@ -125,15 +125,15 @@ function newWindow(name,link,width,height,type)
 var winObj = new Array();
 if (opener != null)
 {
-	try{
-	    if (typeof(opener.winObjCounter) == "number")
-	    {
-	        var winObjCounter = opener.winObjCounter;
-	    }
-	} catch(e) {
-	    // in x-origin cases opener.winObjCounter would not be readable
-	    var winObjCounter = -1;
-	}
+    try{
+        if (typeof(opener.winObjCounter) == "number")
+        {
+            var winObjCounter = opener.winObjCounter;
+        }
+    } catch(e) {
+        // in x-origin cases opener.winObjCounter would not be readable
+        var winObjCounter = -1;
+    }
 }else
 {
     var winObjCounter = -1;
@@ -398,8 +398,73 @@ function toggleElement(id,display)
     return display;
 }
 
+// cookie functions
 
-jQuery(function($){
+function setCookie(name, value, expires, path, domain, secure, samesite) {
+    if (typeof expires != undefined && expires == "never") {
+        // never expire means expires in 3000 days
+        expires = new Date();
+        expires.setTime(expires.getTime() + (1000 * 60 * 60 * 24 * 3000));
+        expires = expires.toGMTString();
+    }
+
+    document.cookie = name + "=" + escape(value)
+        + ((expires) ? "; expires=" + expires : "")
+        + ((path) ? "; path=" + path : "")
+        + ((domain) ? "; domain=" + domain : "")
+        + ((secure) ? "; secure" : "")
+        + ((samesite) ? "; samesite=" + samesite : "");
+}
+
+function getCookie(cookieName) {
+    var theCookie = "" + document.cookie;
+    var ind = theCookie.indexOf(cookieName);
+    if (ind == -1 || cookieName == "")
+        return "";
+
+    var ind1 = theCookie.indexOf(';', ind);
+    if (ind1 == -1)
+        ind1 = theCookie.length;
+
+    return unescape(theCookie.substring(ind + cookieName.length + 1, ind1));
+}
+
+// -------------------------------------------------------------------------------
+
+// add eye-toggle to each password input
+$(document).on('rex:ready', function (event, viewRoot) {
+    $(viewRoot).find('input[type="password"]').each(function() {
+        var $el = $(this);
+        var $eye = jQuery('<i class="rex-icon rex-icon-view" aria-hidden="true"></i>');
+
+        if ($el.parent("div.input-group").length == 0) {
+            $el.wrap('<div class="input-group"></div>');
+        }
+
+        // insert into DOM first, as wrap() only works on DOM attached nodes.
+        $el.after($eye);
+        $eye
+            .wrap('<span class="input-group-btn"></span>')
+            .wrap('<button type="button" class="btn btn-view" tabindex="-1"></button>');
+
+        $el.next('span.input-group-btn').find('button.btn').click(function(event) {
+            $eye.toggleClass("rex-icon-view rex-icon-hide");
+
+            if ($el.attr("type") === "password") {
+                $el.attr("type", "text");
+            } else {
+                $el.attr("type", "password");
+            }
+            event.stopPropagation();
+            event.preventDefault();
+        });
+    });
+});
+
+// -------------------------------------------------------------------------------
+
+var onDocumentReady = function () {
+
     // ------------------ Accesskey Navigation
     $(document).keypress(function(event) {
         // return true if !rex.accesskeys or key is not 0-9 or a-z
@@ -464,179 +529,10 @@ jQuery(function($){
             }
         );
     }
-});
-
-
-// cookie functions
-
-function setCookie(name, value, expires, path, domain, secure, samesite) {
-    if (typeof expires != undefined && expires == "never") {
-        // never expire means expires in 3000 days
-        expires = new Date();
-        expires.setTime(expires.getTime() + (1000 * 60 * 60 * 24 * 3000));
-        expires = expires.toGMTString();
-    }
-
-    document.cookie = name + "=" + escape(value)
-        + ((expires) ? "; expires=" + expires : "")
-        + ((path) ? "; path=" + path : "")
-        + ((domain) ? "; domain=" + domain : "")
-        + ((secure) ? "; secure" : "")
-        + ((samesite) ? "; samesite=" + samesite : "");
-}
-
-function getCookie(cookieName) {
-    var theCookie = "" + document.cookie;
-    var ind = theCookie.indexOf(cookieName);
-    if (ind == -1 || cookieName == "")
-        return "";
-
-    var ind1 = theCookie.indexOf(';', ind);
-    if (ind1 == -1)
-        ind1 = theCookie.length;
-
-    return unescape(theCookie.substring(ind + cookieName.length + 1, ind1));
-}
-
-jQuery(document).ready(function($) {
 
     if (!("autofocus" in document.createElement("input"))) {
         $(".rex-js-autofocus").focus();
     }
-
-    confDialog = function(event) {
-        if(!confirm($(this).attr('data-confirm'))) {
-            event.stopImmediatePropagation();
-            return false;
-        }
-    };
-
-    // confirm dialog behavior for links and buttons
-    $(document).on('click', 'a[data-confirm], button[data-confirm], input[data-confirm]', confDialog);
-    // confirm dialog behavior for forms
-    $(document).on('submit', 'form[data-confirm]', confDialog);
-
-    // add eye-toggle to each password input
-    $(document).on('rex:ready', function (event, viewRoot) {
-        $(viewRoot).find('input[type="password"]').each(function() {
-            var $el = $(this);
-            var $eye = jQuery('<i class="rex-icon rex-icon-view" aria-hidden="true"></i>');
-
-            if ($el.parent("div.input-group").length == 0) {
-                $el.wrap('<div class="input-group"></div>');
-            }
-
-            // insert into DOM first, as wrap() only works on DOM attached nodes.
-            $el.after($eye);
-            $eye
-                .wrap('<span class="input-group-btn"></span>')
-                .wrap('<button type="button" class="btn btn-view" tabindex="-1"></button>');
-
-            $el.next('span.input-group-btn').find('button.btn').click(function(event) {
-                $eye.toggleClass("rex-icon-view rex-icon-hide");
-
-                if ($el.attr("type") === "password") {
-                    $el.attr("type", "text");
-                } else {
-                    $el.attr("type", "password");
-                }
-                event.stopPropagation();
-                event.preventDefault();
-            });
-        });
-    });
-
-    if ($.support.pjax) {
-        $.pjax.defaults.timeout = 10000;
-        $.pjax.defaults.maxCacheLength = 0;
-
-        var pjaxHandler = function(event) {
-            var self = $(this), container;
-
-            if(event.isDefaultPrevented()) {
-                return;
-            }
-            var isForm = self.is('form');
-            var regex = new RegExp('\\bpage=' + rex.page + '(\\b[^\/]|$)');
-            if (isForm) {
-                if (self.attr('method') == 'get') {
-                    if (self.find('input[name="page"][value="' + rex.page + '"]').length == 0) {
-                        return;
-                    }
-                } else if (!regex.test(self.attr('action'))) {
-                    return;
-                }
-            } else if (!regex.test(self.attr('href'))) {
-                return;
-            }
-
-            if(self.is('[data-pjax]')) {
-                container = self.attr('data-pjax');
-            }
-            if ('false' === container) {
-                return;
-            }
-            if (!container || 'true' === container) {
-                container = self.closest('[data-pjax-container]').attr('data-pjax-container');
-            }
-            if (!container) {
-                container = '#rex-page-main';
-            }
-
-            var options = {container: container, fragment: container};
-
-            options.push = !self.closest('[data-pjax-no-history]').data('pjax-no-history');
-
-            options.scrollTo = self.closest('[data-pjax-scroll-to]').data('pjax-scroll-to');
-            if (typeof options.scrollTo == 'undefined') {
-                options.scrollTo = isForm ? 0 : false;
-            }
-
-            if (isForm) {
-                var clicked = self.find(':submit[data-clicked]');
-                if (clicked.length) {
-                    // https://github.com/defunkt/jquery-pjax/issues/304
-                    self.append('<input type="hidden" name="' + clicked.attr('name') + '" value="' + clicked.val() + '"/>');
-                }
-                return $.pjax.submit(event, options);
-            }
-            return $.pjax.click(event, options);
-        };
-
-        $(document)
-            // install pjax handlers, see defunkt/jquery-pjax#142
-            .on('click', '[data-pjax-container] a, a[data-pjax]', pjaxHandler)
-            .on('submit', '[data-pjax-container] form, form[data-pjax]', pjaxHandler)
-            .on('click', '[data-pjax-container] form :submit, form[data-pjax] :submit', function() {
-                $(this).attr('data-clicked', 1);
-            })
-            // add pjax error handling
-            .on('pjax:error', function(e, xhr, err) {
-                // user not authorized -> redirect to login page
-                if (xhr.status === 401) {
-                    window.location = 'index.php?page=login';
-                    return false;
-                }
-                if (xhr.status === 500) {
-                    var newDoc = document.open("text/html", "replace");
-                    newDoc.write(xhr.responseText);
-                    newDoc.close();
-                    return false;
-                }
-            })
-            /*.on('pjax:success', function(e, data, status, xhr, options) {
-             })*/
-            .on('pjax:start', function () {
-                $('#rex-js-ajax-loader').addClass('rex-visible');
-            })
-            .on('pjax:end',   function (event, xhr, options) {
-                $('#rex-js-ajax-loader').removeClass('rex-visible');
-
-                options.context.trigger('rex:ready', [options.context]);
-            });
-    }
-
-    $('body').trigger('rex:ready', [$('body')]);
 
     /*
      * Replace all SVG images with inline SVG
@@ -679,16 +575,211 @@ jQuery(document).ready(function($) {
             ((windowHeight - rect.bottom) < menuHeight) &&
             (rect.top > menuHeight));
     });
+
+    // keep session alive
+    if ('login' !== rex.page && rex.session_keep_alive) {
+        var keepAliveInterval = setInterval(function () {
+            jQuery.ajax('index.php?page=credits', {
+                cache: false
+            });
+        }, 5 * 60 * 1000 /* make ajax request every 5 minutes */);
+        setTimeout(function () {
+            clearInterval(keepAliveInterval);
+        }, rex.session_keep_alive * 1000 /* stop request after x seconds - see config.yml */);
+    }
+
+    $('body').trigger('rex:ready', [$('body')]);
+}
+
+// -------------------------------------------------------------------------------
+
+var pjax;
+var pjaxDefaultConfig = {
+    cacheBust: false,
+    history: true,
+    scrollTo: false,
+    timeout: 10000,
+    debug: false
+}
+var rexAjaxLoaderId;
+
+// DOMContentLoaded
+jQuery(document).ready(function ($) {
+
+    // init
+    onDocumentReady();
+
+    // pjax
+    // https://github.com/MoOx/pjax
+    pjax = new Pjax({
+        elements: [
+            // elements within pjax containers, where elements are not disabled for pjax
+            '[data-pjax-container] a:not([data-pjax=\'false\'])',
+            '[data-pjax-container] form:not([data-pjax=\'false\'])',
+            // elements with data-pax attribute, where value is not false
+            'a[data-pjax]:not([data-pjax=\'false\'])',
+            'form[data-pjax]:not([data-pjax=\'false\'])',
+        ],
+        selectors: [
+            'title', // title
+            '#rex-js-nav-top', // top navigation
+            '#rex-js-nav-main', // main navigation
+            '#rex-js-page-main', // page content
+            '#rex-js-global-footer', // footer
+        ],
+        switches: {
+            // navigation: switch inner HTML only to keep scroll position
+            '#rex-js-nav-main': Pjax.switches.innerHTML,
+            // page content: switch either given section or whole content
+            '#rex-js-page-main': function(oldEl, newEl, options) {
+                var source = oldEl;
+                var target = newEl;
+                // prepare switching a section only
+                if (options.pjaxContainerSelector) {
+                    var targetSection = newEl.querySelector(options.pjaxContainerSelector);
+                    if (targetSection) {
+                        source = oldEl.querySelector(options.pjaxContainerSelector);
+                        target = targetSection;
+                    }
+                }
+                // switch
+                source.replaceWith(target);
+                this.onSwitch();
+            },
+        },
+        cacheBust: pjaxDefaultConfig.cacheBust,
+        history: pjaxDefaultConfig.history,
+        scrollTo: pjaxDefaultConfig.scrollTo,
+        timeout: pjaxDefaultConfig.timeout,
+        debug: pjaxDefaultConfig.debug,
+    });
+
+    document.addEventListener('pjax:send', function (e) {
+        // show loader
+        // show only if page takes longer than 200 ms to load
+        window.clearTimeout(rexAjaxLoaderId);
+        rexAjaxLoaderId = setTimeout(function () {
+            document.querySelector('#rex-js-ajax-loader').classList.add('rex-visible');
+        }, 200);
+    });
+
+    document.addEventListener('pjax:complete', function () {
+        // reset pjax config to defaults
+        pjax.options.cacheBust = pjaxDefaultConfig.cacheBust;
+        pjax.options.history = pjaxDefaultConfig.history;
+        pjax.options.scrollTo = pjaxDefaultConfig.scrollTo;
+        pjax.options.timeout = pjaxDefaultConfig.timeout;
+        pjax.options.debug = pjaxDefaultConfig.debug;
+        // hide loader
+        window.clearTimeout(rexAjaxLoaderId);
+        document.querySelector('#rex-js-ajax-loader').classList.remove('rex-visible');
+    });
+
+    document.addEventListener('pjax:success', function () {
+        // init page content
+        onDocumentReady();
+    });
+
+    document.addEventListener('pjax:error', function (event) {
+        switch (event.request.status) {
+            case 401:
+                // user not authorized -> redirect to login page
+                window.location = 'index.php?page=login';
+                break;
+            default:
+                // load URL and show error/whoops
+                window.location = event.request.responseURL;
+                break;
+        }
+    });
+
+    document.addEventListener('click', handleClickAndSubmitEvents, true);
+    document.addEventListener('submit', handleClickAndSubmitEvents, true);
 });
 
-// keep session alive
-if ('login' !== rex.page && rex.session_keep_alive) {
-    var keepAliveInterval = setInterval(function () {
-        jQuery.ajax('index.php?page=credits', {
-            cache: false
-        });
-    }, 5 * 60 * 1000 /* make ajax request every 5 minutes */);
-    setTimeout(function () {
-        clearInterval(keepAliveInterval);
-    }, rex.session_keep_alive * 1000 /* stop request after x seconds - see config.yml */);
+// -------------------------------------------------------------------------------
+
+// handle click and submit events
+var handleClickAndSubmitEvents = function (event) {
+
+    // handle confirm dialogs
+    if (event.target.dataset.confirm) {
+        if (!confirm(event.target.dataset.confirm)) {
+            event.stopImmediatePropagation();
+            event.preventDefault();
+        }
+    }
+
+    // handle submit buttons
+    if (event.type === 'click' && event.target.matches('[type=\'submit\']')) {
+        event.target.setAttribute('data-clicked', 1);
+    }
+
+    // handle pjax links
+    if (event.target.matches('[data-pjax-state]')) {
+        var wrapper;
+
+        // save value of pjax container (in order to handle content switch)
+        wrapper = event.target.closest('[data-pjax-container]');
+        if (wrapper) {
+            pjax.options.pjaxContainerSelector = wrapper.dataset.pjaxContainer;
+        }
+
+        // handle links with pjax disabled
+        wrapper = event.target.closest('[data-pjax-container]');
+        if (wrapper && wrapper.dataset.pjaxContainer === 'false') {
+            event.stopPropagation();
+        }
+
+        // handle (no) history via data attribute
+        wrapper = event.target.closest('[data-pjax-no-history]');
+        if (wrapper && wrapper.dataset.pjaxNoHistory === '1') {
+            pjax.options.history = false;
+        }
+
+        // handle scrollTo via data attribute
+        wrapper = event.target.closest('[data-pjax-scroll-to]');
+        if (wrapper) {
+            pjax.options.scrollTo = wrapper.dataset.pjaxScrollTo;
+        }
+
+        // handle scrollTo inside of forms
+        if (event.target.tagName === 'FORM') {
+            pjax.options.scrollTo = 0;
+        }
+
+        // handle form submit
+        if (event.type === 'submit' && event.target.tagName === 'FORM') {
+            var submitButton = event.target.querySelector('[data-clicked]');
+            if (submitButton) {
+                var hiddenField = document.createElement("input");
+                hiddenField.setAttribute("type", "hidden");
+                hiddenField.setAttribute("name", submitButton.getAttribute('name'));
+                hiddenField.setAttribute("value", submitButton.dataset.clicked);
+                event.target.appendChild(hiddenField);
+            }
+        }
+    }
+}
+
+// handle key events
+var handleKeyEvents = function (event) {
+
+    // submit forms via strg/cmd + enter
+    if (event.metaKey && event.keyCode === 13) {
+        var form = event.target.closest('form');
+        if (form) {
+            // click apply button if available (e.g. when editing content)
+            var applyButton = form.querySelector('.btn-apply');
+            if (applyButton) {
+                applyButton.click();
+            } else {
+                // click (first) submit button
+                var submitButton = form.querySelector('[type=\'submit\']');
+                if (submitButton) {
+                    submitButton.click();
+                }
+            }
+        }
+    }
 }

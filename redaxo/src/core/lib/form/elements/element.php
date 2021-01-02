@@ -354,8 +354,7 @@ class rex_form_element
 
     public function get()
     {
-        $s = $this->wrapContent($this->_get());
-        return $s;
+        return $this->wrapContent($this->_get());
     }
 
     public function show()

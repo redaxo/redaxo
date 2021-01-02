@@ -31,6 +31,19 @@ find redaxo/src/core/vendor -name "*.md" ! -name "LICENSE.md" -type f -delete
 
 composer dumpautoload --ansi --no-dev --classmap-authoritative -d redaxo/src/core/
 
+printf "\nUpdate redaxo/src/addons/backup/vendor\n"
+composer update --ansi --no-dev -d redaxo/src/addons/backup/
+
+rm -f redaxo/src/addons/backup/vendor/autoload.php
+rm -rf redaxo/src/addons/backup/vendor/composer/
+rm -rf redaxo/src/addons/backup/vendor/splitbrain/php-archive/.gitignore
+rm -rf redaxo/src/addons/backup/vendor/splitbrain/php-archive/.travis.yml
+rm -rf redaxo/src/addons/backup/vendor/splitbrain/php-archive/apigen.neon
+rm -rf redaxo/src/addons/backup/vendor/splitbrain/php-archive/generate-api.sh
+rm -rf redaxo/src/addons/backup/vendor/splitbrain/php-archive/phpunit.xml
+rm -rf redaxo/src/addons/backup/vendor/splitbrain/php-archive/tests/
+find redaxo/src/addons/backup/vendor/splitbrain/php-archive -name "*.md" ! -name "LICENSE.md" -type f -delete
+
 printf "\nUpdate redaxo/src/addons/be_style/vendor\n"
 composer update --ansi --no-dev -d redaxo/src/addons/be_style/
 
@@ -79,11 +92,10 @@ curl -# https://cdn.jsdelivr.net/gh/jquery/jquery@3/dist/jquery.js > redaxo/src/
 curl -# https://cdn.jsdelivr.net/gh/jquery/jquery@3/dist/jquery.min.js > redaxo/src/core/assets/jquery.min.js
 curl -# https://cdn.jsdelivr.net/gh/jquery/jquery@3/dist/jquery.min.map > redaxo/src/core/assets/jquery.min.map
 
-# Currently we are using last 1.x version of pjax, so we do not want to update to 2.x
-#printf "\nUpdate redaxo/src/core/assets/jquery-pjax.min.js\n"
-#curl -#d output_info=compiled_code -d compilation_level=SIMPLE_OPTIMIZATIONS -d code_url=https://github.com/defunkt/jquery-pjax/raw/master/jquery.pjax.js https://closure-compiler.appspot.com/compile > redaxo/src/core/assets/jquery-pjax.min.js
+printf "\nUpdate redaxo/src/core/assets/pjax.min.js\n"
+curl -# https://cdn.jsdelivr.net/npm/pjax@0/pjax.min.js > redaxo/src/core/assets/pjax.min.js
 
-cp redaxo/src/core/assets/jquery-pjax.min.js assets/core
+cp redaxo/src/core/assets/pjax.min.js assets/core
 cp redaxo/src/core/assets/jquery.js assets/core
 cp redaxo/src/core/assets/jquery.min.js assets/core
 cp redaxo/src/core/assets/jquery.min.map assets/core
