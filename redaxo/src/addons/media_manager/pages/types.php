@@ -181,11 +181,7 @@ if ('' == $func) {
 
     // system mediatypes are not editable
     if ('edit' == $func) {
-        $type = rex_sql::factory()->setQuery(
-            'SELECT * FROM '.rex::getTablePrefix().'media_manager_type'.' WHERE id=?',
-            [$type_id]
-        );
-        if (rex_media_manager::STATUS_SYSTEM_TYPE == $type->getValue('status')) {
+        if (rex_media_manager::STATUS_SYSTEM_TYPE == $form->getSql()->getValue('status')) {
             $field->setAttribute('readonly', 'readonly');
         }
     }
