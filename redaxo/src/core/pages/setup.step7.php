@@ -5,6 +5,7 @@ $successfullyCompleted = rex_setup::markSetupCompleted();
 if ($successfullyCompleted) {
     $errmsg = '';
 } else {
+    // XXX diese meldung wird nirgends ausgegeben?
     $errmsg = rex_i18n::msg('setup_701');
 }
 
