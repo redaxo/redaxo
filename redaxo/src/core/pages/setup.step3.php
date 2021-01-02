@@ -38,17 +38,17 @@ $security .= '<script>
             "' . rex_url::backend('src/core/boot.php') . '",
             "' . rex_url::backend('cache/.redaxo') . '"
         ];
-  
+
         $.each(urls, function (i, url) {
         $.ajax({
                 url: url,
                 cache: false,
                 success: function(data) {
-		// these files should always be readable		
+		// these files should always be readable
 		if (url ==  "' . rex_url::frontend('index.php') . '" ||  url ==  "' . rex_url::frontend('LICENSE.md') . '" || url == "' . rex_url::backend('index.php'). '")
 		{
     	}
-                 else                 
+                 else
                    {
                     $(".rex-js-setup-security-message").show();
                     $(".rex-js-setup-section").hide();
@@ -56,7 +56,7 @@ $security .= '<script>
                 }
             });
         });
-    
+
     })
 
 </script>';
