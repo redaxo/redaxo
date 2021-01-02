@@ -123,7 +123,7 @@ if ('' == $func) {
     $list->addLinkAttribute('deleteType', 'data-confirm', rex_i18n::msg('delete') . ' ?');
     $list->setColumnFormat('deleteType', 'custom', static function ($params) {
         $list = $params['list'];
-        if (1 == $list->getValue('status')) {
+        if (rex_media_manager::STATUS_SYSTEM_TYPE == $list->getValue('status')) {
             return '<small class="text-muted">' . rex_i18n::msg('media_manager_type_system') . '</small>';
         }
         return $list->getColumnLink('deleteType', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('media_manager_type_delete'));

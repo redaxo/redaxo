@@ -15,6 +15,13 @@ class rex_media_manager
 
     private static $effects = [];
 
+    /**
+     * status of a redaxo 'System Medientyp'
+     *
+     * @var int
+     */
+    public const STATUS_SYSTEM_TYPE = 1;
+
     public function __construct(rex_managed_media $media)
     {
         $this->media = $media;
