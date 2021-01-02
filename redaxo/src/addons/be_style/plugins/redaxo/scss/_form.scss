@@ -32,8 +32,8 @@
 .panel > form {
     margin-bottom: 0;
 }
-.form-control:focus {
-    background-color: #fff;
+.form-control:focus:not(.form-control[readonly]) {
+    background-color:#fff
 }
 // rex_select liefert immer size=1 und bs3 setzt height auf auto
 // hier werden auch alle selects ohne size Attribute auf einheitliche Höhe gesetzt
