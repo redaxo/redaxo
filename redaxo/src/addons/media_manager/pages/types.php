@@ -150,7 +150,7 @@ if ('' == $func) {
         $sql = $form->getSql();
 
         // remove delete button on internal types (status == 1)
-        if ($sql->getRows() > 0 && $sql->hasValue('status') && 1 == $sql->getValue('status')) {
+        if ($sql->getRows() > 0 && $sql->hasValue('status') && rex_media_manager::STATUS_SYSTEM_TYPE == $sql->getValue('status')) {
             $controlFields['delete'] = '';
         }
         return $controlFields;
