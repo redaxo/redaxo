@@ -235,6 +235,11 @@ abstract class rex_error_handler
             $errPage
         );
 
+        $errPage = preg_replace('@<button id="copy-button" .*?</button>@s', '$0<button class="clipboard" data-clipboard-text="'.rex_escape(self::getMarkdownReport($exception)).'" title="Copy exception details and system report as markdown to clipboard">
+      COPY MARKDOWN
+    </button>', $errPage);
+        $errPage = str_replace('<button id="copy-button"', '<button ', $errPage);
+        
         return [$errPage, $handler->contentType()];
     }
 
