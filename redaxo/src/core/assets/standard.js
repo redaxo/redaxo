@@ -515,19 +515,23 @@ var onDocumentReady = function () {
         time.setTime(time.getTime() + 1000 * 60 * 60 * 24);
         setCookie('rex_htaccess_check', '1', time.toGMTString(), '', '', false, 'lax');
         checkHtaccess('bin', 'console');
-        checkHtaccess('cache', '.redaxo');
         checkHtaccess('data', '.redaxo');
         checkHtaccess('src', 'core/boot.php');
+        checkHtaccess('cache', '.redaxo');
     }
 
     function checkHtaccess(dir, file)
     {
-        $.get(dir +'/'+ file +'?redaxo-security-self-test',
-            function(data) {
-                $('#rex-js-page-main').prepend('<div class="alert alert-danger" style="margin-top: 20px;">The folder <code>redaxo/'+ dir +'</code> is insecure. Please protect this folder.</div>');
+        var blackUrl = dir + '/' + file + '?redaxo-security-self-test';
+
+        $.ajax({
+            url: blackUrl,
+            cache: false,
+            success: function (data) {
+                $('#rex-js-page-main').prepend('<div class="alert alert-danger" style="margin-top: 20px;">The folder <code>redaxo/' + dir + '</code> is insecure. Please protect this folder.</div>');
                 setCookie('rex_htaccess_check', '');
             }
-        );
+        });
     }
 
     if (!("autofocus" in document.createElement("input"))) {
