@@ -29,7 +29,7 @@ $security .= '<noscript>' . rex_view::error(rex_i18n::msg('setup_no_js_security_
 $security .= '<script>
 
     jQuery(function($){
-        // NOTE: we have essentially the same code in checkHtaccess() outside the setup process.
+        // NOTE: we have essentially a copy of this code in checkHtaccess() - see standard.js
 
         var whiteUrl = "' . rex_url::backend('index.php') . '";
 

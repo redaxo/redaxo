@@ -520,6 +520,7 @@ var onDocumentReady = function () {
         checkHtaccess('cache', '.redaxo');
     }
 
+    // NOTE: we have essentially a copy of this code in the setup process.
     function checkHtaccess(dir, file)
     {
         var blackUrl = dir + '/' + file + '?redaxo-security-self-test';
