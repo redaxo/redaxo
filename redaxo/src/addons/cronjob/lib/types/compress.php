@@ -36,7 +36,7 @@ class rex_cronjob_compress extends rex_cronjob
                 }
             }
         } else {
-            $this->setMessage('Unable glob() with path '. $glob);
+            $this->setMessage('Unable to glob() with path '. $glob);
             return false;
         }
 
