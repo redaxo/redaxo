@@ -3,9 +3,10 @@
 assert(isset($context) && $context instanceof rex_context);
 assert(isset($error_array) && is_array($error_array));
 assert(isset($config) && is_array($config));
+assert(isset($cancelSetupBtn));
 
 $configFile = rex_path::coreData('config.yml');
-$headline = rex_view::title(rex_i18n::msg('setup_400', rex_path::relative($configFile)));
+$headline = rex_view::title(rex_i18n::msg('setup_400', rex_path::relative($configFile)).$cancelSetupBtn);
 
 $content = '';
 
@@ -46,22 +47,22 @@ $content .= '<legend>' . rex_i18n::msg('setup_402') . '</legend>';
 $formElements = [];
 
 $n = [];
-$n['label'] = '<label for="rex-form-serveraddress">' . rex_i18n::msg('server') . '</label>';
+$n['label'] = '<label for="rex-form-serveraddress" class="required">' . rex_i18n::msg('server') . '</label>';
 $n['field'] = '<input class="form-control" type="text" id="rex-form-serveraddress" name="serveraddress" value="' . rex_escape($config['server']) . '" autofocus />';
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="rex-form-servername">' . rex_i18n::msg('servername') . '</label>';
+$n['label'] = '<label for="rex-form-servername" class="required">' . rex_i18n::msg('servername') . '</label>';
 $n['field'] = '<input class="form-control" type="text" id="rex-form-servername" name="servername" value="' . rex_escape($config['servername']) . '" />';
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="rex-form-error-email">' . rex_i18n::msg('error_email') . '</label>';
+$n['label'] = '<label for="rex-form-error-email" class="required">' . rex_i18n::msg('error_email') . '</label>';
 $n['field'] = '<input class="form-control" type="text" id="rex-form-error-email" name="error_email" value="' . rex_escape($config['error_email']) . '" />';
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="rex-form-timezone">' . rex_i18n::msg('setup_412') . '</label>';
+$n['label'] = '<label for="rex-form-timezone" class="required">' . rex_i18n::msg('setup_412') . '</label>';
 $n['field'] = $timezone_sel->get();
 $formElements[] = $n;
 
@@ -74,17 +75,17 @@ $content .= '</fieldset><fieldset><legend>' . rex_i18n::msg('setup_403') . '</le
 $formElements = [];
 
 $n = [];
-$n['label'] = '<label for=rex-form-mysql-host">MySQL Host</label>';
+$n['label'] = '<label for=rex-form-mysql-host" class="required">MySQL Host</label>';
 $n['field'] = '<input class="form-control" type="text" id="rex-form-mysql-host" name="mysql_host" value="' . rex_escape($config['db'][1]['host']) . '" />';
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="rex-form-db-user-login">Login</label>';
+$n['label'] = '<label for="rex-form-db-user-login" class="required">Login</label>';
 $n['field'] = '<input class="form-control" type="text" id="rex-form-db-user-login" name="redaxo_db_user_login" value="' . rex_escape($config['db'][1]['login']) . '" />';
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="rex-form-db-user-pass">' . rex_i18n::msg('setup_409') . '</label>';
+$n['label'] = '<label for="rex-form-db-user-pass" class="required">' . rex_i18n::msg('setup_409') . '</label>';
 $n['field'] = '<input class="form-control" type="password" id="rex-form-db-user-pass" name="redaxo_db_user_pass" value="'. rex_setup::DEFAULT_DUMMY_PASSWORD .'" />';
 $formElements[] = $n;
 
@@ -93,7 +94,7 @@ $n['field'] = '<p>'.rex_i18n::msg('setup_password_hint').'</p>';
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="rex-form-dbname">' . rex_i18n::msg('setup_408') . '</label>';
+$n['label'] = '<label for="rex-form-dbname" class="required">' . rex_i18n::msg('setup_408') . '</label>';
 $n['field'] = '<input class="form-control" type="text" value="' . rex_escape($config['db'][1]['name']) . '" id="rex-form-dbname" name="dbname" />';
 $formElements[] = $n;
 
