@@ -15,7 +15,6 @@ class rex_sql implements Iterator
     public const MARIADB = 'MariaDB';
 
     public const ERROR_VIOLATE_UNIQUE_KEY = 1062;
-    public const ERROR_MESSAGE_COULD_NOT_CONNECT = 'Could not connect to database';
 
     /**
      * Default SQL datetime format.
@@ -146,9 +145,9 @@ class rex_sql implements Iterator
             }
         } catch (PDOException $e) {
             if ('cli' === PHP_SAPI) {
-                throw new rex_sql_exception(self::ERROR_MESSAGE_COULD_NOT_CONNECT .".\n\nConsider starting either the web-based or console-based REDAXO setup to configure the database connection settings.", $e, $this);
+                throw new rex_sql_could_not_connect_exception("Could not connect to database.\n\nConsider starting either the web-based or console-based REDAXO setup to configure the database connection settings.", $e, $this);
             }
-            throw new rex_sql_exception(self::ERROR_MESSAGE_COULD_NOT_CONNECT, $e, $this);
+            throw new rex_sql_could_not_connect_exception('Could not connect to database', $e, $this);
         }
     }
 

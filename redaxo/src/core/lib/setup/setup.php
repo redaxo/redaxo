@@ -249,12 +249,8 @@ class rex_setup
             $user_sql->setQuery('select * from ' . rex::getTable('user') . ' LIMIT 1');
 
             return 0 == $user_sql->getRows();
-        } catch (rex_sql_exception $e) {
-            if ($e->isCouldNotConnectError()) {
-                return true;
-            }
-            // re-throw unexpected exceptions
-            throw $e;
+        } catch (rex_sql_could_not_connect_exception $e) {
+            return true;
         }
     }
 
