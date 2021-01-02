@@ -54,12 +54,13 @@ class rex_sql_exception extends rex_exception
 }
 
 /**
- * Exception class when redaxo is unable to connect to the database
+ * Exception class when redaxo is unable to connect to the database.
  *
  * @package redaxo\core
  */
 class rex_sql_could_not_connect_exception extends rex_sql_exception
-{}
+{
+}
 
 /**
  * Exception class for user-friendly error messages.

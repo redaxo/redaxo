@@ -73,7 +73,7 @@ safemode_deactivate = Deactivate safe mode
 form_field_first_priority = At the beginning
 form_field_after_priority = After field "{0}"
 
-# redaxo\include\pages\system.php
+# src\core\pages\system.php
 info_updated = Information updated!
 delete_cache = Delete cache
 delete_cache_description = Template and language files will be recreated, article cache will be reset. The cache of the respective article/category will be recreated on request
@@ -161,7 +161,7 @@ debug_confirm = Debug mode should not be activated in live mode. Still activate 
 system_report = System report
 system_report_markdown = As markdown
 
-# redaxo\include\pages\medienpool.php\setup.php
+# src\core\pages\setup.php
 setup = Setup
 setup_cancel = Cancel setup
 setup_restart = Restart setup
@@ -291,7 +291,7 @@ https_activate = Activate for frontend and backend
 setup_password_hint = Enter a new password or leave the input unchanged otherwise.
 hsts_more_information = It is recommended to activate HSTS in your domain/s hosting settings, but can also be activated in REDAXOs config.yml at a later stage. More information is available in the REDAXO documentation
 
-# redaxo\include\pages\addon.php
+# src\core\pages\addon.php
 addon = AddOn
 addons = AddOns
 package_help = Help for
@@ -383,7 +383,7 @@ plugin_systempackage_delete_not_allowed = System PlugIns may be deleted!
 plugin_dir_not_writable = The PlugIn directory is not writable!
 plugin_cache_not_writable = The PlugIn cache directory is not writable!
 
-# redaxo\include\pages\credits.php
+# src\core\pages\credits.php
 credits = Credits
 credits_name = Name
 credits_help = Help
@@ -398,9 +398,10 @@ credits_inventor = Inventor
 credits_developer = Developer
 credits_designer = Designer
 credits_license = Licence
+credits_changelog = Changelog
 credits_explain_license = explain licence
 
-# redaxo\include\pages\profile.php
+# src\core\pages\profile.php
 profile_myprofile = Edit my user profile
 profile_title = My profile
 profile_save = Save profile
