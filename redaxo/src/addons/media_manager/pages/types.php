@@ -117,7 +117,7 @@ if ('' == $func) {
     $list->addColumn('copyType', '<i class="rex-icon rex-icon-duplicate"></i> ' . rex_i18n::msg('media_manager_type_copy'), -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('copyType', ['func' => 'copy', 'type_id' => '###id###']);
 
-    // remove delete link on internal types
+    // override delete link on internal types
     $list->addColumn('deleteType', '', -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('deleteType', ['type_id' => '###id###', 'func' => 'delete']);
     $list->addLinkAttribute('deleteType', 'data-confirm', rex_i18n::msg('delete') . ' ?');
