@@ -243,4 +243,41 @@ class rex_setup
 
         return $security;
     }
+
+    /**
+     * Returns true when we are running the very first setup for this instance.
+     * Otherwise false is returned, e.g. when setup was re-started from the core/systems page.
+     */
+    public static function isInitialSetup(): bool
+    {
+        try {
+            $user_sql = rex_sql::factory();
+            $user_sql->setQuery('select * from ' . rex::getTable('user') . ' LIMIT 1');
+
+            return 0 == $user_sql->getRows();
+        } catch (rex_sql_could_not_connect_exception $e) {
+            return true;
+        }
+    }
+
+    /**
+     * Mark the setup as completed.
+     */
+    public static function markSetupCompleted(): bool
+    {
+        $configFile = rex_path::coreData('config.yml');
+        $config = array_merge(
+            rex_file::getConfig(rex_path::core('default.config.yml')),
+            rex_file::getConfig($configFile)
+        );
+        $config['setup'] = false;
+
+        $configWritten = rex_file::putConfig($configFile, $config);
+
+        if ($configWritten) {
+            rex_file::delete(rex_path::coreCache('config.yml.cache'));
+        }
+
+        return $configWritten;
+    }
 }

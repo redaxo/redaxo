@@ -4,8 +4,6 @@
  * @package redaxo5
  */
 
-echo rex_view::title(rex_i18n::msg('addons'), '');
-
 $content = '';
 
 $package = rex_package::get(rex_request('package', 'string'));
@@ -37,7 +35,7 @@ if (is_readable($package->getPath('help.php'))) {
 }
 
 $fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('package_help') . ' ' . $name, false);
+$fragment->setVar('title', rex_i18n::msg('package_hhelp'), false);
 $fragment->setVar('body', $content, false);
 echo $fragment->parse('core/page/section.php');
 
@@ -52,7 +50,7 @@ if ($author) {
     $credits .= '<dt>' . rex_i18n::msg('credits_author') . '</dt><dd>' . rex_escape($author) . '</dd>';
 }
 if ($supportPage) {
-    $credits .= '<dt>' . rex_i18n::msg('credits_supportpage') . '</dt><dd><a href="' . $supportPage . '" onclick="window.open(this.href); return false;">' . $supportPage . '</a></dd>';
+    $credits .= '<dt>' . rex_i18n::msg('credits_supportpage') . '</dt><dd><a href="' . $supportPage . '" onclick="window.open(this.href); return false;">' . $supportPage . ' <i class="fa fa-external-link"></i></a></a></dd>';
 }
 
 $credits .= '</dl>';
