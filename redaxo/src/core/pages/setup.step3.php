@@ -45,9 +45,9 @@ $security .= '<script>
         ];
 
         // NOTE: we have essentially a copy of this code in checkHtaccess() - see standard.js
-        $.each(blacklistedUrls, function (i, blackUrl) {
+        $.each(blacklistedUrls, function (i, url) {
             $.ajax({
-                url: blackUrl,
+                url: url,
                 cache: false,
                 success: function(data) {
                     if (i % 2 == 0) {
