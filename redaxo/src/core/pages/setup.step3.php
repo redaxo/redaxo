@@ -29,32 +29,32 @@ $security .= '<noscript>' . rex_view::error(rex_i18n::msg('setup_no_js_security_
 $security .= '<script>
 
     jQuery(function($){
-        // NOTE: we have essentially a copy of this code in checkHtaccess() - see standard.js
-
         var whiteUrl = "' . rex_url::backend('index.php') . '";
 
+        // test url, which is not expected to be accessible
+        // after each expected error, run a request which is expected to succeed.
+        // that way we try to make sure tools like fail2ban dont block the client
         var blacklistedUrls = [
             "' . rex_url::backend('bin/console') . '",
+            whiteUrl,
             "' . rex_url::backend('data/.redaxo') . '",
+            whiteUrl,
             "' . rex_url::backend('src/core/boot.php') . '",
+            whiteUrl,
             "' . rex_url::backend('cache/.redaxo') . '"
         ];
 
+        // NOTE: we have essentially a copy of this code in checkHtaccess() - see standard.js
         $.each(blacklistedUrls, function (i, blackUrl) {
-            // test url, which is not expected to be accessible
             $.ajax({
                 url: blackUrl,
                 cache: false,
                 success: function(data) {
-                    $(".rex-js-setup-security-message").show();
-                    $(".rex-js-setup-section").hide();
+                    if (i % 2 == 0) {
+                        $(".rex-js-setup-security-message").show();
+                        $(".rex-js-setup-section").hide();
+                    }
                 }
-            });
-            // after each expected error, run a request which is expected to succeed.
-            // that way we try to make sure tools like fail2ban dont block the client
-            $.ajax({
-                url: whiteUrl,
-                cache: false,
             });
         });
 
