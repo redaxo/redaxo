@@ -15,6 +15,8 @@
  *
  * @return mixed
  *
+ * @psalm-taint-escape ($vartype is 'bool'|'boolean'|'int'|'integer'|'double'|'float'|'real' ? 'html' : null)
+ *
  * @see rex_request::get()
  *
  * @package redaxo\core
@@ -33,6 +35,8 @@ function rex_get($varname, $vartype = '', $default = '')
  *
  * @return mixed
  *
+ * @psalm-taint-escape ($vartype is 'bool'|'boolean'|'int'|'integer'|'double'|'float'|'real' ? 'html' : null)
+ *
  * @see rex_request::post()
  *
  * @package redaxo\core
@@ -50,6 +54,8 @@ function rex_post($varname, $vartype = '', $default = '')
  * @param mixed  $default Default value
  *
  * @return mixed
+ *
+ * @psalm-taint-escape ($vartype is 'bool'|'boolean'|'int'|'integer'|'double'|'float'|'real' ? 'html' : null)
  *
  * @see rex_request::request()
  *
@@ -139,6 +145,8 @@ function rex_unset_session($varname)
  * @param mixed  $default Default value
  *
  * @return mixed
+ *
+ * @psalm-taint-escape ($vartype is 'bool'|'boolean'|'int'|'integer'|'double'|'float'|'real' ? 'html' : null)
  *
  * @see rex_request::cookie()
  *

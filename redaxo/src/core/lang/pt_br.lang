@@ -61,7 +61,7 @@ safemode_deactivate = Desativar modo de segurança
 form_field_first_priority = No começo
 form_field_after_priority = Depois do campo
 
-# redaxo\include\pages\system.php
+# src\core\pages\system.php
 info_updated = Infomação atualizada!
 delete_cache = Deletar cachê
 delete_cache_description = Os templates e os arquivos de linguagem serão criados novamente, o cachê do artigo/categoria será recriado a pedido.
@@ -117,7 +117,7 @@ servername_required = Necessário nome do servidor
 lang_required = Necessário um idioma
 debug_mode = Modo debug
 
-# redaxo\include\pages\medienpool.php\setup.php
+# src\core\pages\setup.php
 setup = Setup
 setup_restart = Recomeçar Setup
 setup_text = Aqui você pode recomeçar o processo setup. Este deve ser utilizado somente em caso de necessidade e não deve ser acionado em circunstâncias normais.
@@ -222,7 +222,7 @@ sql_unable_to_create_database = O banco de dados não pôde ser criado.
 sql_unable_to_find_database = O banco de dados especificado não pôde ser encontrado.
 sql_unable_to_open_database = O banco de dados não pôde ser aberto.
 
-# redaxo\include\pages\addon.php
+# src\core\pages\addon.php
 addon = AddOn
 addons = AddOns
 package_help = Ajuda para
@@ -309,7 +309,7 @@ plugin_systemplugin = Sistema do PlugIn
 plugin_systempackage_delete_not_allowed = Os sistemas dos PlugIns talvez sejam deletados!
 plugin_dir_not_writable = O diretório do PlugIn não é passível de gravações!
 
-# redaxo\include\pages\credits.php
+# src\core\pages\credits.php
 credits = Créditos
 credits_name = Nome
 credits_help = Ajuda
@@ -325,7 +325,7 @@ credits_developer = Programador
 credits_designer = Designer
 credits_license =
 
-# redaxo\include\pages\profile.php
+# src\core\pages\profile.php
 profile_myprofile = Editar meu perfil de usuário
 profile_title = Meu perfil
 profile_save = Salvar perfil

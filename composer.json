@@ -7,24 +7,24 @@
         "php": ">=7.3"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "2.17.2",
+        "friendsofphp/php-cs-fixer": "2.17.3",
         "friendsofredaxo/linter": "1.2.7",
         "j13k/yaml-lint": "^1.1@dev",
         "phpstan/extension-installer": "1.1.0",
-        "phpstan/phpstan": "0.12.63",
+        "phpstan/phpstan": "0.12.64",
         "phpstan/phpstan-deprecation-rules": "0.12.6",
         "phpstan/phpstan-phpunit": "0.12.17",
         "phpstan/phpstan-symfony": "0.12.12",
         "phpunit/phpunit": "^9.3",
         "psalm/plugin-phpunit": "0.15.0",
-        "psalm/plugin-symfony": "2.1.0",
-        "vimeo/psalm": "4.3.1"
+        "psalm/plugin-symfony": "2.1.1",
+        "vimeo/psalm": "4.3.2"
     },
     "replace": {
         "erusev/parsedown": "1.7.4",
         "erusev/parsedown-extra": "0.8.1",
         "filp/whoops": "2.9.1",
-        "itsgoingd/clockwork": "v4.1.8",
+        "itsgoingd/clockwork": "v5.0.6",
         "phpmailer/phpmailer": "v6.2.0",
         "psr/container": "1.0.0",
         "psr/http-message": "1.0.1",
