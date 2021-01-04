@@ -3,6 +3,7 @@
 assert(isset($context) && $context instanceof rex_context);
 assert(isset($success_array) && is_array($success_array));
 assert(isset($error_array) && is_array($error_array));
+assert(isset($cancelSetupBtn));
 
 $content = '';
 
@@ -53,7 +54,7 @@ foreach (rex_setup::checkPhpSecurity() as $warning) {
     $security .= rex_view::warning($warning);
 }
 
-echo rex_view::title(rex_i18n::msg('setup_300'));
+echo rex_view::title(rex_i18n::msg('setup_300').$cancelSetupBtn);
 
 $fragment = new rex_fragment();
 $fragment->setVar('class', $class, false);
