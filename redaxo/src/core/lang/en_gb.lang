@@ -331,7 +331,6 @@ package_yes = yes
 package_no = no
 package_caption = List of available packages
 package_search = Search...
-package_clear = Reset input
 addon_systemaddon = System AddOn
 addon_systempackage_delete_not_allowed = System AddOns may not be deleted!
 addon_dir_not_writable = Write permissions are missing for the AddOn directory!
