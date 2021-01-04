@@ -102,6 +102,7 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
         <div class="form-group form-group-xs">
             <div class="input-group input-group-xs" id="rex-js-install-addon-search">
                 <input class="form-control" type="search" autofocus placeholder="' . $package->i18n('search') . '" />
+                <span class="input-group-btn"><button class="btn btn-default">' . $package->i18n('clear') . '</button></span>
             </div>
         </div>
     ';
