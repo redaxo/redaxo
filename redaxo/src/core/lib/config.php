@@ -389,8 +389,8 @@ class rex_config
                 if (0 === count($nsData)) {
                     continue;
                 }
-                $params = array_merge($params, [$namespace], array_keys($nsData));
-                $where[] = 'namespace = ? AND `key` IN ('.implode(', ', array_fill(0, count($nsData), '?')).')';
+                $params[] = $namespace;
+                $where[] = 'namespace = ? AND `key` IN ('.$sql->in(array_keys($nsData)).')';
             }
             if (count($where) > 0) {
                 $sql->setWhere(implode("\n    OR ", $where), $params);

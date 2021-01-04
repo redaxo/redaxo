@@ -43,5 +43,6 @@ default_config:
     password: ''
     smtp_debug: '0'
     logging: 0
+    errormail: 0
     archive: false
     detour_mode: false

@@ -408,12 +408,12 @@ if ('' != $FUNC_ADD || $user_id > 0) {
     $formElements = [];
 
     $n = [];
-    $n['label'] = '<label for="rex-user-login">' . rex_i18n::msg('login_name') . '</label>';
+    $n['label'] = '<label for="rex-user-login" class="required">' . rex_i18n::msg('login_name') . '</label>';
     $n['field'] = $add_user_login;
     $formElements[] = $n;
 
     $n = [];
-    $n['label'] = '<label for="rex-js-user-password">' . rex_i18n::msg('password') . '</label>';
+    $n['label'] = '<label for="rex-js-user-password" class="required">' . rex_i18n::msg('password') . '</label>';
     $n['field'] = '<input class="form-control" type="password" id="rex-js-user-password" name="userpsw" autocomplete="new-password"/>';
     $n['note'] = $passwordPolicy->getDescription();
 
