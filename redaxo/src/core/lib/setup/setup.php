@@ -17,6 +17,12 @@ class rex_setup
      */
     public const DEFAULT_DUMMY_PASSWORD = '-REDAXO-DEFAULT-DUMMY-PASSWORD-';
 
+    public const DB_MODE_SETUP_NO_OVERRIDE = 0;
+    public const DB_MODE_SETUP_AND_OVERRIDE = 1;
+    public const DB_MODE_SETUP_SKIP = 2;
+    public const DB_MODE_SETUP_IMPORT_BACKUP = 3;
+    public const DB_MODE_SETUP_UPDATE_FROM_PREVIOUS = 4;
+
     private static $MIN_PHP_EXTENSIONS = ['fileinfo', 'iconv', 'pcre', 'pdo', 'pdo_mysql', 'session', 'tokenizer'];
 
     /**
@@ -236,5 +242,42 @@ class rex_setup
         }
 
         return $security;
+    }
+
+    /**
+     * Returns true when we are running the very first setup for this instance.
+     * Otherwise false is returned, e.g. when setup was re-started from the core/systems page.
+     */
+    public static function isInitialSetup(): bool
+    {
+        try {
+            $user_sql = rex_sql::factory();
+            $user_sql->setQuery('select * from ' . rex::getTable('user') . ' LIMIT 1');
+
+            return 0 == $user_sql->getRows();
+        } catch (rex_sql_could_not_connect_exception $e) {
+            return true;
+        }
+    }
+
+    /**
+     * Mark the setup as completed.
+     */
+    public static function markSetupCompleted(): bool
+    {
+        $configFile = rex_path::coreData('config.yml');
+        $config = array_merge(
+            rex_file::getConfig(rex_path::core('default.config.yml')),
+            rex_file::getConfig($configFile)
+        );
+        $config['setup'] = false;
+
+        $configWritten = rex_file::putConfig($configFile, $config);
+
+        if ($configWritten) {
+            rex_file::delete(rex_path::coreCache('config.yml.cache'));
+        }
+
+        return $configWritten;
     }
 }

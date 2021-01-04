@@ -835,19 +835,32 @@ class rex_list implements rex_url_provider_interface
     /**
      * Gibt zurück, in welcher Art und Weise sortiert werden soll (ASC/DESC).
      *
-     * @param string|null $default
+     * @param 'asc'|'desc'|null $default
      *
      * @return string|null
+     *
+     * @psalm-taint-escape html
+     * @psalm-taint-escape sql
      */
     public function getSortType($default = null)
     {
         if (rex_request('list', 'string') == $this->getName()) {
             $sortType = strtolower(rex_request('sorttype', 'string'));
 
-            if (in_array($sortType, ['asc', 'desc'])) {
+            if (in_array($sortType, ['asc', 'desc'], true)) {
                 return $sortType;
             }
         }
+
+        if (null === $default) {
+            return null;
+        }
+
+        $default = strtolower($default);
+        if (!in_array($default, ['asc', 'desc'], true)) {
+            throw new InvalidArgumentException('Default sort type must be "asc", "desc" or null, but "'.$default.'" given');
+        }
+
         return $default;
     }
 
@@ -909,6 +922,8 @@ class rex_list implements rex_url_provider_interface
      * @param string $value Zu durchsuchender String
      *
      * @return string
+     *
+     * @psalm-taint-specialize
      */
     public function replaceVariables($value)
     {

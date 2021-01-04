@@ -145,9 +145,9 @@ class rex_sql implements Iterator
             }
         } catch (PDOException $e) {
             if ('cli' === PHP_SAPI) {
-                throw new rex_sql_exception("Could not connect to database.\n\nConsider starting either the web-based or console-based REDAXO setup to configure the database connection settings.", $e, $this);
+                throw new rex_sql_could_not_connect_exception("Could not connect to database.\n\nConsider starting either the web-based or console-based REDAXO setup to configure the database connection settings.", $e, $this);
             }
-            throw new rex_sql_exception('Could not connect to database', $e, $this);
+            throw new rex_sql_could_not_connect_exception('Could not connect to database', $e, $this);
         }
     }
 
@@ -1378,6 +1378,8 @@ class rex_sql implements Iterator
      * @param string $name
      *
      * @return string
+     *
+     * @psalm-taint-escape sql
      */
     public function escapeIdentifier($name)
     {
@@ -1390,6 +1392,39 @@ class rex_sql implements Iterator
     public function escapeLikeWildcards(string $value): string
     {
         return str_replace(['_', '%'], ['\_', '\%'], $value);
+    }
+
+    /**
+     * Escapes and transforms values for `IN (...)` clause.
+     *
+     * Example: `$sql->setQuery('SELECT * FROM my_table WHERE foo IN ('.$sql->in($values).')');`
+     *
+     * @param int[]|string[] $values
+     */
+    public function in(array $values): string
+    {
+        $strings = false;
+
+        foreach ($values as $value) {
+            if (is_int($value)) {
+                continue;
+            }
+            if (is_string($value)) {
+                $strings = true;
+                continue;
+            }
+
+            /** @phpstan-ignore-next-line */
+            throw new InvalidArgumentException('Argument $values must be an array of ints and/or strings, but it contains "'.get_debug_type($value).'"');
+        }
+
+        if ($strings) {
+            $values = array_map(function ($value): string {
+                return $this->escape((string) $value);
+            }, $values);
+        }
+
+        return implode(', ', $values);
     }
 
     /**

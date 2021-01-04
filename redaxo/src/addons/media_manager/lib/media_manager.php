@@ -5,6 +5,13 @@
  */
 class rex_media_manager
 {
+    /**
+     * status of a system mediatyp.
+     *
+     * @var int
+     */
+    public const STATUS_SYSTEM_TYPE = 1;
+
     private $media;
     private $originalFilename;
     private $cache_path;

@@ -31,7 +31,7 @@ class rex_pager
      */
     public function __construct($rowsPerPage = 30, $cursorName = 'start')
     {
-        $this->rowsPerPage = $rowsPerPage;
+        $this->rowsPerPage = (int) $rowsPerPage;
         $this->cursorName = $cursorName;
     }
 
