@@ -76,6 +76,9 @@
 .rex-icon-category {
     @extend .fa-folder;
 }
+.rex-icon-category-without-elements {
+    @extend .fa-folder-o;
+}
 .rex-icon-cronjob {
     @extend .fa-code;
 }
