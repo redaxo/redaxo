@@ -273,3 +273,8 @@ label.required::after {
 .form-control {
     height: auto;
 }
+
+// Overwrite Bootstrap searchfield definition 
+input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: searchfield-cancel-button;
+}  
