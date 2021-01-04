@@ -145,7 +145,7 @@ if ($addonkey && isset($addons[$addonkey])) {
     } else {
         $icon = '';
         if (rex_addon::exists($addonkey)) {
-            $icon = '<a class="rex-link" href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => 'new']) . '" title="' . $package->i18n('file_add') . '"><i class="rex-icon rex-icon-add-package"></i></a>';
+            $icon = '<a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => 'new']) . '" title="' . $package->i18n('file_add') . '"><i class="rex-icon rex-icon-add-package"></i></a>';
         }
 
         $panel = '
@@ -173,7 +173,7 @@ if ($addonkey && isset($addons[$addonkey])) {
             $panel .= '
                 <tr>
                     <th>' . $package->i18n('website') . '</th>
-                    <td data-title="' . $package->i18n('website') . '"><a class="rex-link" href="' . rex_escape($addon['website']) . '">' . rex_escape($addon['website']) . '</a></td>
+                    <td data-title="' . $package->i18n('website') . '"><a class="rex-link-expanded" href="' . rex_escape($addon['website']) . '">' . rex_escape($addon['website']) . '</a></td>
                 </tr>';
         }
 
@@ -206,11 +206,11 @@ if ($addonkey && isset($addons[$addonkey])) {
             $status = $file['status'] ? 'online' : 'offline';
             $panel .= '
             <tr data-pjax-scroll-to="0">
-                <td class="rex-table-icon"><a class="rex-link" href="' . $url . '"><i class="rex-icon rex-icon-package"></i></a></td>
+                <td class="rex-table-icon"><a class="rex-link-expanded" href="' . $url . '"><i class="rex-icon rex-icon-package"></i></a></td>
                 <td data-title="' . $package->i18n('version') . '">' . rex_escape($file['version']) . '</td>
                 <td data-title="REDAXO">' . rex_escape(implode(', ', $file['redaxo_versions'])) . '</td>
                 <td data-title="' . $package->i18n('description') . '">' . $markdown($file['description']) . '</td>
-                <td class="rex-table-action"><a class="rex-link" href="' . $url . '"><i class="rex-icon rex-icon-edit"></i> ' . $package->i18n('file_edit') . '</a></td>
+                <td class="rex-table-action"><a class="rex-link-expanded" href="' . $url . '"><i class="rex-icon rex-icon-edit"></i> ' . $package->i18n('file_edit') . '</a></td>
                 <td class="rex-table-action"><span class="rex-text-' . $status . '"><i class="rex-icon rex-icon-' . $status . '"></i> ' . $package->i18n($status) . '</span></td>
             </tr>';
         }
@@ -231,7 +231,7 @@ if ($addonkey && isset($addons[$addonkey])) {
         <table class="table table-striped table-hover">
          <thead>
             <tr>
-                <th class="rex-table-icon"><a class="rex-link" href="' . rex_url::currentBackendPage(['func' => 'reload']) . '" title="' . $package->i18n('reload') . '"><i class="rex-icon rex-icon-refresh"></i></a></th>
+                <th class="rex-table-icon"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['func' => 'reload']) . '" title="' . $package->i18n('reload') . '"><i class="rex-icon rex-icon-refresh"></i></a></th>
                 <th>' . $package->i18n('key') . '</th>
                 <th>' . $package->i18n('name') . '</th>
                 <th class="rex-table-action" colspan="2">' . $package->i18n('status') . '</th>
@@ -244,10 +244,10 @@ if ($addonkey && isset($addons[$addonkey])) {
         $status = $addon['status'] ? 'online' : 'offline';
         $panel .= '
             <tr data-pjax-scroll-to="0">
-                <td class="rex-table-icon"><a class="rex-link" href="' . $url . '"><i class="rex-icon rex-icon-package"></i></a></td>
+                <td class="rex-table-icon"><a class="rex-link-expanded" href="' . $url . '"><i class="rex-icon rex-icon-package"></i></a></td>
                 <td data-title="' . $package->i18n('key') . '">' . rex_escape($key) . '</td>
                 <td data-title="' . $package->i18n('name') . '">' . rex_escape($addon['name']) . '</td>
-                <td class="rex-table-action"><a class="rex-link" href="' . $url . '"><i class="rex-icon rex-icon-view"></i> ' . rex_i18n::msg('view') . '</a></td>
+                <td class="rex-table-action"><a class="rex-link-expanded" href="' . $url . '"><i class="rex-icon rex-icon-view"></i> ' . rex_i18n::msg('view') . '</a></td>
                 <td class="rex-table-action"><span class="rex-text-' . $status . '">' . $package->i18n($status) . '</span></td>
             </tr>';
     }
