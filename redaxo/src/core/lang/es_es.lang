@@ -73,7 +73,7 @@ safemode_deactivate = Desactivar el modo seguro
 form_field_first_priority = primera posición
 form_field_after_priority = después de "{0}"
 
-# redaxo\include\pages\system.php
+# src\core\pages\system.php
 info_updated = ¡Información actualizada!
 delete_cache = Eliminar caché
 delete_cache_description = Plantillas y archivos de idiomas se creará, caso del artículo se eliminará. La memoria caché del artículo respectivo se recreará en la llamada de fondo del artículo.
@@ -161,7 +161,7 @@ debug_confirm = El modo de depuración no debe activarse en modo en vivo.  ¿Sig
 system_report = Informe del sistema
 system_report_markdown = Como markdown
 
-# redaxo\include\pages\medienpool.php\setup.php
+# src\core\pages\setup.php
 setup = Preparar
 setup_restart = Reiniciar la configuración
 setup_text = Puede iniciar el proceso de configuración aquí. Esto es sólo para emergencias y no se requiere en condiciones normales.
@@ -289,7 +289,7 @@ https_activate = Activar para frontend y backend
 setup_password_hint = Ingrese una nueva contraseña o deje la entrada sin cambios de lo contrario.
 hsts_more_information = Se recomienda activar HSTS en la configuración de alojamiento de su dominio / s, pero también se puede activar en config.yml de REDAXO en una etapa posterior.  Hay más información disponible en la documentación de REDAXO
 
-# redaxo\include\pages\addon.php
+# src\core\pages\addon.php
 addon = AddOn
 addons = AddOns
 package_help = Ayuda para
@@ -381,7 +381,7 @@ plugin_systempackage_delete_not_allowed = Plugins del sistema no deben ser elimi
 plugin_dir_not_writable = Falta permisos de escritura para el directorio de complementos.
 plugin_cache_not_writable = ¡La carpeta de caché de Plugin no tiene permisos de escritura!
 
-# redaxo\include\pages\credits.php
+# src\core\pages\credits.php
 credits = Créditos
 credits_name = Añadir
 credits_help = Ayuda
@@ -398,7 +398,7 @@ credits_designer = Diseñador
 credits_license = Licencia
 credits_explain_license = Declarar licencia
 
-# redaxo\include\pages\profile.php
+# src\core\pages\profile.php
 profile_myprofile = Editar mi perfil
 profile_title = Mi perfil
 profile_save = Guardar perfil

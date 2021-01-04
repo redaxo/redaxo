@@ -29,7 +29,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '423e647c20a7ed176cb6baf80cef37eb674fb9fc',
+    'reference' => 'd19b3eb64a9276bb808b6ab55257ba6be38dbe5e',
     'name' => '__root__',
   ),
   'versions' => 
@@ -41,7 +41,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '423e647c20a7ed176cb6baf80cef37eb674fb9fc',
+      'reference' => 'd19b3eb64a9276bb808b6ab55257ba6be38dbe5e',
     ),
     'erusev/parsedown' => 
     array (
@@ -129,7 +129,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'd5961914bf7f90e81af509b81e51450bff419815',
+      'reference' => 'a2c04f857299a7119e96448249a9dd5954e099c1',
     ),
     'symfony/console' => 
     array (
