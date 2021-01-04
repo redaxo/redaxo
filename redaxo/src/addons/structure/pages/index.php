@@ -168,8 +168,8 @@ if ($KAT->getRows() > 0) {
 
         $kat_link = $structureContext->getContext()->getUrl(['category_id' => $i_category_id]);
 
+        /** @var rex_category $kat_object */
         $kat_object = rex_category::get($KAT->getValue('id'));
-        assert($kat_object instanceof rex_category);
         $kat_has_child_elements = (count($kat_object->getChildren()) > 0 || count($kat_object->getArticles()) > 1); // contains child categories or articles other than the start article
         $kat_icon_class = $kat_has_child_elements ? 'rex-icon-category' : 'rex-icon-category-without-elements';
         $kat_icon_title = $kat_has_child_elements ? rex_i18n::msg('category_has_child_elements') : rex_i18n::msg('category_without_child_elements');
