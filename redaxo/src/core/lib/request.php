@@ -251,7 +251,7 @@ class rex_request
      */
     public static function isPJAXRequest()
     {
-        return 'true' == rex::getRequest()->headers->get('X-PJAX');
+        return 'true' == rex::getRequest()->headers->get('X-Pjax');
     }
 
     /**
