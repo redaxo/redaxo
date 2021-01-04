@@ -1003,7 +1003,7 @@ class rex_list implements rex_url_provider_interface
      */
     public function getColumnLink($columnName, $columnValue, $params = [])
     {
-        return '<a class="rex-link" href="' . $this->getParsedUrl(array_merge($this->getColumnParams($columnName), $params)) . '"' . $this->_getAttributeString($this->getLinkAttributes($columnName, [])) . '>' . $columnValue . '</a>';
+        return '<a class="rex-link-expanded" href="' . $this->getParsedUrl(array_merge($this->getColumnParams($columnName), $params)) . '"' . $this->_getAttributeString($this->getLinkAttributes($columnName, [])) . '>' . $columnValue . '</a>';
     }
 
     public function getValue($column)
@@ -1101,7 +1101,7 @@ class rex_list implements rex_url_provider_interface
                 } else {
                     $columnSortType = $this->getColumnOption($columnName, REX_LIST_OPT_SORT_DIRECTION, 'asc');
                 }
-                $columnHead = '<a class="rex-link" href="' . $this->getUrl([$this->pager->getCursorName() => $this->pager->getCursor(), 'sort' => $columnName, 'sorttype' => $columnSortType]) . '">' . $columnHead . '</a>';
+                $columnHead = '<a class="rex-link-expanded" href="' . $this->getUrl([$this->pager->getCursorName() => $this->pager->getCursor(), 'sort' => $columnName, 'sorttype' => $columnSortType]) . '">' . $columnHead . '</a>';
             }
 
             $layout = $this->getColumnLayout($columnName);

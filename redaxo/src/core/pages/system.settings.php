@@ -204,7 +204,7 @@ $content = '
         </tr>
         <tr>
             <th>PHP</th>
-            <td>' . PHP_VERSION . ' <a class="rex-link" href="' . rex_url::backendPage('system/phpinfo') . '" title="phpinfo" onclick="newWindow(\'phpinfo\', this.href, 1000,800,\',status=yes,resizable=yes\');return false;"><i class="rex-icon rex-icon-phpinfo"></i></a></td>
+            <td>' . PHP_VERSION . ' <a class="rex-link-expanded" href="' . rex_url::backendPage('system/phpinfo') . '" title="phpinfo" onclick="newWindow(\'phpinfo\', this.href, 1000,800,\',status=yes,resizable=yes\');return false;"><i class="rex-icon rex-icon-phpinfo"></i></a></td>
         </tr>
     </table>';
 

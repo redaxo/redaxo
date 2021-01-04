@@ -92,7 +92,7 @@ $content .= '
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th class="rex-table-icon"><a class="rex-link" href="' . rex_url::currentBackendPage(['func' => 'addclang']) . '#clang"' . rex::getAccesskey(rex_i18n::msg('clang_add'), 'add') . '><i class="rex-icon rex-icon-add-language"></i></a></th>
+                    <th class="rex-table-icon"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['func' => 'addclang']) . '#clang"' . rex::getAccesskey(rex_i18n::msg('clang_add'), 'add') . '><i class="rex-icon rex-icon-add-language"></i></a></th>
                     <th class="rex-table-id">' . rex_i18n::msg('id') . '</th>
                     <th>' . rex_i18n::msg('clang_code') . '</th>
                     <th>' . rex_i18n::msg('clang_name') . '</th>
@@ -134,7 +134,7 @@ foreach ($sql as $row) {
     if ($lang_id == rex_clang::getStartId()) {
         $delLink = '<span class="text-muted"><i class="rex-icon rex-icon-delete"></i> ' . $delLink . '</span>';
     } else {
-        $delLink = '<a class="rex-link" href="' . rex_url::currentBackendPage(['func' => 'deleteclang', 'clang_id' => $lang_id] + $csrfToken->getUrlParams()) . '" data-confirm="' . rex_i18n::msg('delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . $delLink . '</a>';
+        $delLink = '<a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['func' => 'deleteclang', 'clang_id' => $lang_id] + $csrfToken->getUrlParams()) . '" data-confirm="' . rex_i18n::msg('delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . $delLink . '</a>';
     }
 
     // Edit form
@@ -162,14 +162,14 @@ foreach ($sql as $row) {
 
         $content .= '
                     <tr>
-                        <td class="rex-table-icon"><a class="rex-link" href="' . $editLink . '" title="' . rex_escape($clang_name) . '"><i class="rex-icon rex-icon-language"></i></a></td>
+                        <td class="rex-table-icon"><a class="rex-link-expanded" href="' . $editLink . '" title="' . rex_escape($clang_name) . '"><i class="rex-icon rex-icon-language"></i></a></td>
                         ' . $add_td . '
                         <td data-title="' . rex_i18n::msg('clang_code') . '">' . rex_escape($sql->getValue('code')) . '</td>
                         <td data-title="' . rex_i18n::msg('clang_name') . '">' . rex_escape($sql->getValue('name')) . '</td>
                         <td class="rex-table-priority" data-title="' . rex_i18n::msg('clang_priority') . '">' . rex_escape($sql->getValue('priority')) . '</td>
-                        <td class="rex-table-action"><a class="rex-link" href="' . $editLink . '"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit') . '</a></td>
+                        <td class="rex-table-action"><a class="rex-link-expanded" href="' . $editLink . '"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit') . '</a></td>
                         <td class="rex-table-action">' . $delLink . '</td>
-                        <td class="rex-table-action"><a class="rex-link" class="rex-' . $status . '" href="' . rex_url::currentBackendPage(['clang_id' => $lang_id, 'func' => 'editstatus', 'clang_status' => $sql->getValue('status') ? 0 : 1] + $csrfToken->getUrlParams()) . '"><i class="rex-icon rex-icon-' . $status . '"></i> ' . rex_i18n::msg('clang_'.$status) . '</a></td>
+                        <td class="rex-table-action"><a class="rex-link-expanded" class="rex-' . $status . '" href="' . rex_url::currentBackendPage(['clang_id' => $lang_id, 'func' => 'editstatus', 'clang_status' => $sql->getValue('status') ? 0 : 1] + $csrfToken->getUrlParams()) . '"><i class="rex-icon rex-icon-' . $status . '"></i> ' . rex_i18n::msg('clang_'.$status) . '</a></td>
                     </tr>';
     }
 }
