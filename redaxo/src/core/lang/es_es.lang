@@ -329,7 +329,6 @@ package_yes = sí
 package_no = no
 package_caption = Lista de paquetes disponibles
 package_search = Buscar...
-package_clear = Restablecer entrada
 addon_systemaddon = Addon del sistema
 addon_systempackage_delete_not_allowed = Los complementos del sistema no se pueden eliminar!
 addon_dir_not_writable = ¡Los permisos de escritura están faltando para el directorio addon!
