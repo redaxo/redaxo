@@ -329,7 +329,6 @@ package_yes = ja
 package_no = nej
 package_caption = List av alla tillgängliga paket (Packages)
 package_search = Söker ...
-package_clear = Återställ inmatning
 addon_systemaddon = System AddOn
 addon_systempackage_delete_not_allowed = System AddOns får inte raderas!
 addon_dir_not_writable = AddOn-mappen saknar skrivrättigheter!
