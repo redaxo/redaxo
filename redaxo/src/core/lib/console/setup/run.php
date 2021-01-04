@@ -279,6 +279,9 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
         $tables_complete = '' == rex_setup_importer::verifyDbSchema();
 
+        // spaces before/after to make sf-console render the array-key instead of
+        // our overlong description text
+        $defaultDbMode = ' normal ';
         $createdbOptions = [
             'normal' => 'Setup database',
             'override' => 'Setup database and overwrite it if it exitsts already (Caution - All existing data will be deleted!)',
@@ -286,7 +289,10 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             'update' => 'Update database (Update from previous version)',
             'import' => 'Import existing database export',
         ];
-        if (!$tables_complete) {
+
+        if ($tables_complete) {
+            $defaultDbMode = ' existing ';
+        } else {
             unset($createdbOptions['existing']);
         }
         if (0 === count($backups)) {
@@ -294,7 +300,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         }
 
         $createdb = $this->getOptionOrAsk(
-            new ChoiceQuestion('Choose database setup', $createdbOptions, ' normal '),
+            new ChoiceQuestion('Choose database setup', $createdbOptions, $defaultDbMode),
             'db-setup',
             null,
             null,
