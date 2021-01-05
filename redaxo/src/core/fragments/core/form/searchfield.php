@@ -15,5 +15,5 @@ if ($this->class) {
 echo '<div class="'. $class . '"' . $id . '>
       <span class="input-group-addon clear-button"><i class="rex-icon rex-icon-search"></i></span>
       <input class="form-control" type="text" autofocus ' . $placeholder . '>
-      <span title="' . $clear . '" class="form-control-clear fa fa-times-circle form-control-feedback hidden"></span>
+      <span title="' . $clear . '" class="form-control-clear rex-icon rex-icon-clear form-control-feedback hidden"></span>
 </div>';
