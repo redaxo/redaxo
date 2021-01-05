@@ -1,8 +1,9 @@
 <?php
+
 $id = '';
 $class = 'input-group input-group-xs has-feedback form-clear-button';
 $clear = rex_i18n::msg('search_clear');
-$placeholder =  ' placeholder = "' . rex_i18n::msg('search_placeholder') . '"';
+$placeholder = ' placeholder = "' . rex_i18n::msg('search_placeholder') . '"';
 
 if ($this->id) {
     $id = ' id = "' . $this->id .'"';
