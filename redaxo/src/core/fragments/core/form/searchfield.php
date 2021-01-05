@@ -9,7 +9,7 @@ if ($this->id) {
     $id = ' id="' . $this->id .'"';
 }
 if ($this->placeholder) {
-    $placeholder = ' placeholder = "' . $this->placeholder . '"';
+    $placeholder = ' placeholder="' . $this->placeholder . '"';
 }
 if ($this->class) {
     $class = ' class = "' . $this->class . '"';
