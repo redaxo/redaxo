@@ -76,6 +76,9 @@
 .rex-icon-category {
     @extend .fa-folder;
 }
+.rex-icon-category-without-elements {
+    @extend .fa-folder-o;
+}
 .rex-icon-cronjob {
     @extend .fa-code;
 }
@@ -294,6 +297,9 @@
 }
 .rex-icon-user-secret {
     @extend .fa-user-secret;
+}
+.rex-icon-user-inactive {
+    @extend .fa-user-o;
 }
 .rex-icon-unstable-version {
     @extend .fa-flask;
