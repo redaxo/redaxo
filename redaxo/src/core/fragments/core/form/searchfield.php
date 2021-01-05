@@ -11,7 +11,7 @@ if ($this->id) {
 if ($this->placeholder) {
     $placeholder = ' placeholder = "' . $this->placeholder . '"';
 }
-if ($this->setclass) {
+if ($this->class) {
     $class = ' class = "' . $this->class . '"';
 }
 
