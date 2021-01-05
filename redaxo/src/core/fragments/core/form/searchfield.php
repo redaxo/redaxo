@@ -1,4 +1,5 @@
 <?php
+
 $id = $clear = $placeholder = '';
 $class = 'input-group input-group-xs has-feedback form-clear-button';
 $clear = rex_i18n::msg('search_clear');
