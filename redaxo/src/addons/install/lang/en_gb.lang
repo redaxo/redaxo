@@ -70,5 +70,5 @@ install_settings_error = Settings not saved, check file permissions for: {0}
 
 install_header_function = Function
 
-install_clear = Clear
+install_clear = Reset input
 install_search = Search ...
