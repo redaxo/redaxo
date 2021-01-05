@@ -514,20 +514,36 @@ var onDocumentReady = function () {
         time = new Date();
         time.setTime(time.getTime() + 1000 * 60 * 60 * 24);
         setCookie('rex_htaccess_check', '1', time.toGMTString(), '', '', false, 'lax');
-        checkHtaccess('bin', 'console');
-        checkHtaccess('cache', '.redaxo');
-        checkHtaccess('data', '.redaxo');
-        checkHtaccess('src', 'core/boot.php');
-    }
 
-    function checkHtaccess(dir, file)
-    {
-        $.get(dir +'/'+ file +'?redaxo-security-self-test',
-            function(data) {
-                $('#rex-js-page-main').prepend('<div class="alert alert-danger" style="margin-top: 20px;">The folder <code>redaxo/'+ dir +'</code> is insecure. Please protect this folder.</div>');
-                setCookie('rex_htaccess_check', '');
-            }
-        );
+        var whiteUrl = 'index.php';
+
+        // test urls, which is not expected to be accessible
+        // after each expected error, run a request which is expected to succeed.
+        // that way we try to make sure tools like fail2ban dont block the client
+        var urls = [
+            'bin/console',
+            whiteUrl,
+            'data/.redaxo',
+            whiteUrl,
+            'src/core/boot.php',
+            whiteUrl,
+            'cache/.redaxo'
+        ];
+
+        // NOTE: we have essentially a copy of this code in the setup process.
+        $.each(urls, function (i, url) {
+            $.ajax({
+                // add a human readable suffix so people get an idea what we are doing here
+                url: url + '?redaxo-security-self-test',
+                cache: false,
+                success: function (data) {
+                    if (i % 2 == 0) {
+                        $('#rex-js-page-main').prepend('<div class="alert alert-danger" style="margin-top: 20px;">The folder <code>redaxo/' + url + '</code> is insecure. Please protect this folder.</div>');
+                        setCookie('rex_htaccess_check', '');
+                    }
+                }
+            });
+        });
     }
 
     if (!("autofocus" in document.createElement("input"))) {
