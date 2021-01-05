@@ -21,6 +21,10 @@ $toolbar = '
     </div>
 ';
 
+$fragment = new rex_fragment();
+$fragment->setVar('id','rex-js-available-addon-search');
+$toolbar  = $fragment->parse('core/form/searchfield.php');
+
 $content .= '
         <table class="table table-hover" id="rex-js-table-available-packages-addons">
         <thead>

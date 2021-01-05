@@ -4,38 +4,30 @@
 
 // -------------------------------------------------------------------------------------------------------------------
 
-function getObj(name)
-{
-    if (document.getElementById)
-    {
+function getObj(name) {
+    if (document.getElementById) {
         this.obj = document.getElementById(name);
-        if(this.obj)
+        if (this.obj)
             this.style = this.obj.style;
-    }
-    else if (document.all)
-    {
+    } else if (document.all) {
         this.obj = document.all[name];
-        if(this.obj)
+        if (this.obj)
             this.style = this.obj.style;
-    }
-    else if (document.layers)
-    {
+    } else if (document.layers) {
         this.obj = document.layers[name];
-        if(this.obj)
+        if (this.obj)
             this.style = this.obj;
     }
 }
 
-function getObjArray(name)
-{
+function getObjArray(name) {
     return document.getElementsByName(name);
 }
 
 // -------------------------------------------------------------------------------------------------------------------
 
-function changeImage(id,img)
-{
-    if(document.getElementById(id)) {
+function changeImage(id, img) {
+    if (document.getElementById(id)) {
         document.getElementById(id).src = img;
     }
 
@@ -45,22 +37,20 @@ function changeImage(id,img)
 
 var pageloaded = false;
 
-function init()
-{
+function init() {
     pageloaded = true;
 }
 
 // -------------------------------------------------------------------------------------------------------------------
 
-function makeWinObj(name,url,posx,posy,width,height,extra)
-{
+function makeWinObj(name, url, posx, posy, width, height, extra) {
     if (extra == 'toolbar') extra = 'scrollbars=yes,toolbar=yes';
     else if (extra == 'empty') extra = 'scrollbars=no,toolbar=no';
     else extra = 'scrollbars=yes,toolbar=no' + extra;
 
-    this.name=name;
-    this.url=url;
-    this.obj=window.open(url,name,'left='+posx+',top='+posy+',width='+width+',height='+height+', ' + extra);
+    this.name = name;
+    this.url = url;
+    this.obj = window.open(url, name, 'left=' + posx + ',top=' + posy + ',width=' + width + ',height=' + height + ', ' + extra);
 
     // alert("x: "+posx+" | posy: "+posy);
 
@@ -70,50 +60,41 @@ function makeWinObj(name,url,posx,posy,width,height,extra)
     return this;
 }
 
-function closeAll()
-{
-    for( var i=0;i<=winObjCounter;i++)
-    {
-        if(winObj[i]) winObj[i].obj.close();
+function closeAll() {
+    for (var i = 0; i <= winObjCounter; i++) {
+        if (winObj[i]) winObj[i].obj.close();
     }
 }
 
-function newWindow(name,link,width,height,type)
-{
-    if (width==0) width=550;
-    if (height==0) height=400;
+function newWindow(name, link, width, height, type) {
+    if (width == 0) width = 550;
+    if (height == 0) height = 400;
 
-    if (type == 'scrollbars')
-    {
+    if (type == 'scrollbars') {
         extra = 'toolbar';
-    }else if (type == 'empty')
-    {
+    } else if (type == 'empty') {
         extra = 'empty';
-    }else
-    {
+    } else {
         extra = type;
     }
 
-    if (type=="nav")
-    {
-        posx = parseInt(screen.width/2)-390;
-        posy = parseInt(screen.height/2) - 24 - 290;
-        width= 320;
-        height=580;
-    }else if (type=="content")
-    {
-        posx = parseInt(screen.width/2) - 390 + 330;
-        posy = parseInt(screen.height/2) - 24 - 290;
-        width= 470;
-        height=580;
-    }else
-    {
-        posx = parseInt((screen.width-width)/2);
-        posy = parseInt((screen.height-height)/2) - 24;
+    if (type == "nav") {
+        posx = parseInt(screen.width / 2) - 390;
+        posy = parseInt(screen.height / 2) - 24 - 290;
+        width = 320;
+        height = 580;
+    } else if (type == "content") {
+        posx = parseInt(screen.width / 2) - 390 + 330;
+        posy = parseInt(screen.height / 2) - 24 - 290;
+        width = 470;
+        height = 580;
+    } else {
+        posx = parseInt((screen.width - width) / 2);
+        posy = parseInt((screen.height - height) / 2) - 24;
     }
 
     winObjCounter++;
-    winObj[winObjCounter] = new makeWinObj(name,link,posx,posy,width,height,extra);
+    winObj[winObjCounter] = new makeWinObj(name, link, posx, posy, width, height, extra);
 
     if (rex.popupEvents && rex.popupEvents[name]) {
         rex.popupEvents[name] = {};
@@ -123,19 +104,16 @@ function newWindow(name,link,width,height,type)
 }
 
 var winObj = new Array();
-if (opener != null)
-{
-    try{
-        if (typeof(opener.winObjCounter) == "number")
-        {
+if (opener != null) {
+    try {
+        if (typeof(opener.winObjCounter) == "number") {
             var winObjCounter = opener.winObjCounter;
         }
-    } catch(e) {
+    } catch (e) {
         // in x-origin cases opener.winObjCounter would not be readable
         var winObjCounter = -1;
     }
-}else
-{
+} else {
     var winObjCounter = -1;
 }
 
@@ -147,7 +125,7 @@ function rex_retain_popup_event_handlers(eventName) {
     var events = opener.rex.popupEvents || {};
 
     if (events[window.name] && events[window.name][eventName]) {
-        $.each(events[window.name][eventName], function (i, event) {
+        $.each(events[window.name][eventName], function(i, event) {
             opener.jQuery(window).on(eventName, event);
         });
 
@@ -161,7 +139,7 @@ function rex_retain_popup_event_handlers(eventName) {
     }
 
     var handlers = [];
-    $.each(events[eventName], function (i, event) {
+    $.each(events[eventName], function(i, event) {
         handlers.push(event.handler);
     });
 
@@ -175,15 +153,13 @@ function rex_retain_popup_event_handlers(eventName) {
     opener.rex.popupEvents[window.name][eventName] = handlers;
 }
 
-function setValue(id,value)
-{
+function setValue(id, value) {
     var field = new getObj(id);
     field.obj.value = value;
 }
 
-function deleteREX(id, i_list, i_select)
-{
-    var medialist = i_select+id;
+function deleteREX(id, i_list, i_select) {
+    var medialist = i_select + id;
     var needle = new getObj(medialist);
     var source = needle.obj;
     var sourcelength = source.options.length;
@@ -196,34 +172,29 @@ function deleteREX(id, i_list, i_select)
         }
     }
 
-    if(position != null)
-    {
+    if (position != null) {
         source.options[position] = null;
         sourcelength--;
 
         // Wenn das erste gel�scht wurde
-        if(position == 0)
-        {
+        if (position == 0) {
             // Und es gibt noch weitere,
             // -> selektiere das "neue" erste
-            if(sourcelength > 0)
+            if (sourcelength > 0)
                 source.options[0].selected = "selected";
-        }
-        else
-        {
+        } else {
             // -> selektiere das neue an der stelle >position<
-            if(sourcelength > position)
-                source.options[position].selected= "selected";
+            if (sourcelength > position)
+                source.options[position].selected = "selected";
             else
-                source.options[position-1].selected= "selected";
+                source.options[position - 1].selected = "selected";
         }
         writeREX(id, i_list, i_select);
     }
 }
 
-function moveREX(id, i_list, i_select, direction)
-{
-    var medialist = i_select+id;
+function moveREX(id, i_list, i_select, direction) {
+    var medialist = i_select + id;
     var needle = new getObj(medialist);
     var source = needle.obj;
     var sourcelength = source.options.length;
@@ -258,7 +229,7 @@ function moveREX(id, i_list, i_select, direction)
         for (ii = 0; ii < sourcelength; ii++) {
             was_moved[ii] = false;
             if (source.options[ii].selected) {
-                to = ii-1;
+                to = ii - 1;
                 if (was_moved[to]) {
                     to = ii;
                 }
@@ -270,10 +241,10 @@ function moveREX(id, i_list, i_select, direction)
     }
 
     if (direction == 'down') {
-        for (ii = sourcelength-1; ii >= 0; ii--) {
+        for (ii = sourcelength - 1; ii >= 0; ii--) {
             was_moved[ii] = false;
             if (source.options[ii].selected) {
-                to = ii+1;
+                to = ii + 1;
                 if (was_moved[to]) {
                     to = ii;
                 }
@@ -286,9 +257,9 @@ function moveREX(id, i_list, i_select, direction)
 
     if (direction == 'bottom') {
         inserted = 0;
-        for (ii = sourcelength-1; ii >= 0; ii--) {
+        for (ii = sourcelength - 1; ii >= 0; ii--) {
             if (source.options[ii].selected) {
-                to = sourcelength - inserted-1;
+                to = sourcelength - inserted - 1;
                 if (to > sourcelength) {
                     to = sourcelength;
                 }
@@ -307,39 +278,35 @@ function moveREX(id, i_list, i_select, direction)
     writeREX(id, i_list, i_select);
 }
 
-function writeREX(id, i_list, i_select)
-{
+function writeREX(id, i_list, i_select) {
 
-    var v_list = i_list+id;
-    var v_select = i_select+id;
+    var v_list = i_list + id;
+    var v_select = i_select + id;
     var source = document.getElementById(v_select);
     var sourcelength = source.options.length;
     var target = document.getElementById(v_list);
 
     target.value = "";
 
-    for (i=0; i < sourcelength; i++) {
+    for (i = 0; i < sourcelength; i++) {
         target.value += (source[i].value);
-        if (sourcelength > (i+1))  target.value += ',';
+        if (sourcelength > (i + 1)) target.value += ',';
     }
 }
 
-function moveItem(arr, from, to)
-{
-    if (from == to || to < 0)
-    {
+function moveItem(arr, from, to) {
+    if (from == to || to < 0) {
         return arr;
     }
 
     tmp = arr[from];
-    if (from > to)
-    {
+    if (from > to) {
         for (index = from; index > to; index--) {
-            arr[index] = arr[index-1];
+            arr[index] = arr[index - 1];
         }
     } else {
         for (index = from; index < to; index++) {
-            arr[index] = arr[index+1];
+            arr[index] = arr[index + 1];
         }
     }
     arr[to] = tmp;
@@ -347,28 +314,22 @@ function moveItem(arr, from, to)
 }
 
 // Checkbox mit der ID <id> anhaken
-function checkInput(id)
-{
-    if(id)
-    {
+function checkInput(id) {
+    if (id) {
         var result = new getObj(id);
         var input = result.obj;
-        if(input != null)
-        {
+        if (input != null) {
             input.checked = 'checked';
         }
     }
 }
 
 // Inputfield (Checkbox/Radio) mit der ID <id> Haken entfernen
-function uncheckInput(id)
-{
-    if(id)
-    {
+function uncheckInput(id) {
+    if (id) {
         var result = new getObj(id);
         var input = result.obj;
-        if(input != null)
-        {
+        if (input != null) {
             input.checked = '';
         }
     }
@@ -376,21 +337,16 @@ function uncheckInput(id)
 
 // Wenn der 2. Parameter angegeben wird, wird die style.display Eigenschaft auf den entsprechenden wert gesetzt,
 // Sonst wird der wert getoggled
-function toggleElement(id,display)
-{
+function toggleElement(id, display) {
     var needle;
 
-    if(typeof(id) != 'object')
-    {
+    if (typeof(id) != 'object') {
         needle = new getObj(id);
-    }
-    else
-    {
+    } else {
         needle = id;
     }
 
-    if (typeof(display) == 'undefined')
-    {
+    if (typeof(display) == 'undefined') {
         display = needle.style.display == '' ? 'none' : '';
     }
 
@@ -408,12 +364,12 @@ function setCookie(name, value, expires, path, domain, secure, samesite) {
         expires = expires.toGMTString();
     }
 
-    document.cookie = name + "=" + escape(value)
-        + ((expires) ? "; expires=" + expires : "")
-        + ((path) ? "; path=" + path : "")
-        + ((domain) ? "; domain=" + domain : "")
-        + ((secure) ? "; secure" : "")
-        + ((samesite) ? "; samesite=" + samesite : "");
+    document.cookie = name + "=" + escape(value) +
+        ((expires) ? "; expires=" + expires : "") +
+        ((path) ? "; path=" + path : "") +
+        ((domain) ? "; domain=" + domain : "") +
+        ((secure) ? "; secure" : "") +
+        ((samesite) ? "; samesite=" + samesite : "");
 }
 
 function getCookie(cookieName) {
@@ -432,7 +388,7 @@ function getCookie(cookieName) {
 // -------------------------------------------------------------------------------
 
 // add eye-toggle to each password input
-$(document).on('rex:ready', function (event, viewRoot) {
+$(document).on('rex:ready', function(event, viewRoot) {
     $(viewRoot).find('input[type="password"]').each(function() {
         var $el = $(this);
         var $eye = jQuery('<i class="rex-icon rex-icon-view" aria-hidden="true"></i>');
@@ -463,7 +419,7 @@ $(document).on('rex:ready', function (event, viewRoot) {
 
 // -------------------------------------------------------------------------------
 
-var onDocumentReady = function () {
+var onDocumentReady = function() {
 
     // ------------------ Accesskey Navigation
     $(document).keypress(function(event) {
@@ -474,23 +430,19 @@ var onDocumentReady = function () {
         }
 
         var key = String.fromCharCode(event.which);
-        var haystack = $("input[accesskey='"+ key +"'], button[accesskey='"+ key +"']");
+        var haystack = $("input[accesskey='" + key + "'], button[accesskey='" + key + "']");
 
-        if(haystack.length > 0)
-        {
+        if (haystack.length > 0) {
             $(haystack.get(0)).click();
             return false;
-        }
-        else
-        {
-            haystack = $("a[accesskey='"+ key +"']");
+        } else {
+            haystack = $("a[accesskey='" + key + "']");
 
-            if(haystack.length > 0)
-            {
+            if (haystack.length > 0) {
                 var hit = $(haystack.get(0));
-                if(hit.attr("onclick") != undefined)
+                if (hit.attr("onclick") != undefined)
                     hit.click();
-                else if(hit.attr("href") != undefined && hit.attr("href") != "#")
+                else if (hit.attr("href") != undefined && hit.attr("href") != "#")
                     document.location = hit.attr("href");
 
                 return false;
@@ -509,8 +461,7 @@ var onDocumentReady = function () {
         });
     $("[autofocus]").trigger("focus");
 
-    if ($('#rex-page-setup, #rex-page-login').length == 0 && getCookie('rex_htaccess_check') == '')
-    {
+    if ($('#rex-page-setup, #rex-page-login').length == 0 && getCookie('rex_htaccess_check') == '') {
         time = new Date();
         time.setTime(time.getTime() + 1000 * 60 * 60 * 24);
         setCookie('rex_htaccess_check', '1', time.toGMTString(), '', '', false, 'lax');
@@ -531,12 +482,12 @@ var onDocumentReady = function () {
         ];
 
         // NOTE: we have essentially a copy of this code in the setup process.
-        $.each(urls, function (i, url) {
+        $.each(urls, function(i, url) {
             $.ajax({
                 // add a human readable suffix so people get an idea what we are doing here
                 url: url + '?redaxo-security-self-test',
                 cache: false,
-                success: function (data) {
+                success: function(data) {
                     if (i % 2 == 0) {
                         $('#rex-js-page-main').prepend('<div class="alert alert-danger" style="margin-top: 20px;">The folder <code>redaxo/' + url + '</code> is insecure. Please protect this folder.</div>');
                         setCookie('rex_htaccess_check', '');
@@ -553,7 +504,7 @@ var onDocumentReady = function () {
     /*
      * Replace all SVG images with inline SVG
      */
-    $('img.rex-js-svg').each(function(){
+    $('img.rex-js-svg').each(function() {
         var $img = jQuery(this);
         var imgID = $img.attr('id');
         var imgClass = $img.attr('class');
@@ -564,12 +515,12 @@ var onDocumentReady = function () {
             var $svg = jQuery(data).find('svg');
 
             // Add replaced image's ID to the new SVG
-            if(typeof imgID !== 'undefined') {
+            if (typeof imgID !== 'undefined') {
                 $svg = $svg.attr('id', imgID);
             }
             // Add replaced image's classes to the new SVG
-            if(typeof imgClass !== 'undefined') {
-                $svg = $svg.attr('class', imgClass+' replaced-svg');
+            if (typeof imgClass !== 'undefined') {
+                $svg = $svg.attr('class', imgClass + ' replaced-svg');
             }
 
             // Remove any invalid XML tags as per http://validator.w3.org
@@ -582,7 +533,7 @@ var onDocumentReady = function () {
 
     });
 
-    $(document).on('show.bs.dropdown', '.dropdown', function () {
+    $(document).on('show.bs.dropdown', '.dropdown', function() {
         var windowHeight = $(window).height();
         var rect = this.getBoundingClientRect();
         if (rect.top > windowHeight) return;
@@ -594,14 +545,14 @@ var onDocumentReady = function () {
 
     // keep session alive
     if ('login' !== rex.page && rex.session_keep_alive) {
-        var keepAliveInterval = setInterval(function () {
+        var keepAliveInterval = setInterval(function() {
             jQuery.ajax('index.php?page=credits', {
                 cache: false
             });
-        }, 5 * 60 * 1000 /* make ajax request every 5 minutes */);
-        setTimeout(function () {
+        }, 5 * 60 * 1000 /* make ajax request every 5 minutes */ );
+        setTimeout(function() {
             clearInterval(keepAliveInterval);
-        }, rex.session_keep_alive * 1000 /* stop request after x seconds - see config.yml */);
+        }, rex.session_keep_alive * 1000 /* stop request after x seconds - see config.yml */ );
     }
 
     $('body').trigger('rex:ready', [$('body')]);
@@ -620,7 +571,7 @@ var pjaxDefaultConfig = {
 var rexAjaxLoaderId;
 
 // DOMContentLoaded
-jQuery(document).ready(function ($) {
+jQuery(document).ready(function($) {
 
     // init
     onDocumentReady();
@@ -670,16 +621,16 @@ jQuery(document).ready(function ($) {
         debug: pjaxDefaultConfig.debug,
     });
 
-    document.addEventListener('pjax:send', function (e) {
+    document.addEventListener('pjax:send', function(e) {
         // show loader
         // show only if page takes longer than 200 ms to load
         window.clearTimeout(rexAjaxLoaderId);
-        rexAjaxLoaderId = setTimeout(function () {
+        rexAjaxLoaderId = setTimeout(function() {
             document.querySelector('#rex-js-ajax-loader').classList.add('rex-visible');
         }, 200);
     });
 
-    document.addEventListener('pjax:complete', function () {
+    document.addEventListener('pjax:complete', function() {
         // reset pjax config to defaults
         pjax.options.cacheBust = pjaxDefaultConfig.cacheBust;
         pjax.options.history = pjaxDefaultConfig.history;
@@ -691,12 +642,12 @@ jQuery(document).ready(function ($) {
         document.querySelector('#rex-js-ajax-loader').classList.remove('rex-visible');
     });
 
-    document.addEventListener('pjax:success', function () {
+    document.addEventListener('pjax:success', function() {
         // init page content
         onDocumentReady();
     });
 
-    document.addEventListener('pjax:error', function (event) {
+    document.addEventListener('pjax:error', function(event) {
         switch (event.request.status) {
             case 401:
                 // user not authorized -> redirect to login page
@@ -716,7 +667,7 @@ jQuery(document).ready(function ($) {
 // -------------------------------------------------------------------------------
 
 // handle click and submit events
-var handleClickAndSubmitEvents = function (event) {
+var handleClickAndSubmitEvents = function(event) {
 
     // handle confirm dialogs
     if (event.target.dataset.confirm) {
@@ -779,7 +730,7 @@ var handleClickAndSubmitEvents = function (event) {
 }
 
 // handle key events
-var handleKeyEvents = function (event) {
+var handleKeyEvents = function(event) {
 
     // submit forms via strg/cmd + enter
     if (event.metaKey && event.keyCode === 13) {
@@ -799,3 +750,25 @@ var handleKeyEvents = function (event) {
         }
     }
 }
+
+/* Searchfield clearer */
+$(document).on('rex:ready', function() {
+    var root = $("#rex-quicknavigation-structure");
+    if (root) {
+        $.get(root.data('url')).done(function(quickNav) {
+            root.html(quickNav);
+        });
+    }
+
+    $('.form-clear-button input[type="text"]').on('input propertychange', function() {
+        var $this = $(this);
+        var visible = Boolean($this.val());
+        $this.siblings('.form-control-clear').toggleClass('hidden', !visible);
+    }).trigger('propertychange');
+
+    $('.form-control-clear, .clear-button').click(function() {
+        $(this).siblings('input[type="text"]').val('')
+            .trigger('propertychange').focus();
+    });
+
+});
