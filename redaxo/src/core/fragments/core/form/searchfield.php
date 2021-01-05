@@ -12,7 +12,7 @@ if ($this->placeholder) {
     $placeholder = ' placeholder="' . $this->placeholder . '"';
 }
 if ($this->class) {
-    $class = ' class = "' . $this->class . '"';
+    $class = ' class="' . $this->class . '"';
 }
 
 echo '<div class="'. $class . '"' . $id . '>
