@@ -9,7 +9,7 @@ if ($this->id) {
     $id = ' id="' . $this->id .'"';
 }
 if ($this->class) {
-    $class = ' class="' . $this->class . '"';
+    $class = $this->class;
 }
 
 echo '<div class="'. $class . '"' . $id . '>
