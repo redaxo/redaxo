@@ -5,7 +5,7 @@
  * @psalm-scope-this rex_fragment
  */
 
-$id = $clear = $class = $placeholder = '';
+$id = '';
 $class = $this->getVar('class', 'input-group input-group-xs has-feedback form-clear-button');
 $clear = rex_i18n::msg('search_clear');
 $placeholder = ' placeholder="'.$this->getVar('placeholder', rex_i18n::msg('search_placeholder')).'"';
