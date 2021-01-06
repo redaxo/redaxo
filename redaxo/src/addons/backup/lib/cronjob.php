@@ -31,7 +31,7 @@ class rex_cronjob_export extends rex_cronjob
         $exportFilePath = $dir . $file . $ext;
 
         if (rex_backup::exportDb($exportFilePath, $whitelist_tables)) {
-            $message = basename($exportFilePath) . ' created';
+            $message = rex_path::basename($exportFilePath) . ' created';
 
             if ($this->getParam('compress')) {
                 $archiveFilePath = $exportFilePath.'.tar.gz';
@@ -43,7 +43,7 @@ class rex_cronjob_export extends rex_cronjob
 
                 rex_file::delete($exportFilePath);
 
-                $message = basename($archiveFilePath) .' created';
+                $message = rex_path::basename($archiveFilePath) .' created';
                 $exportFilePath = $archiveFilePath;
             }
 
