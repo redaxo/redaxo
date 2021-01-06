@@ -810,7 +810,7 @@ $(document).on('rex:ready', function() {
     }).trigger('propertychange');
 
     $('.form-control-clear, .clear-button').click(function() {
-        $(this).siblings('input[type="text"]').val('')
+        $(this).siblings('input[type="text"]').val('').trigger("keyup")
             .trigger('propertychange').focus();
     });
 
