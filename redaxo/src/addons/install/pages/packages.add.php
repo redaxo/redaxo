@@ -281,9 +281,6 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
                     sortRows(search);
                 }, 500);
             });
-            $("#rex-js-install-addon-search .btn").click(function () {
-                $("#rex-js-install-addon-search .form-control").val("").trigger("keyup");
-            });
         });
         //-->
         </script>
