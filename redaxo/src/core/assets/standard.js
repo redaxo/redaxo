@@ -803,13 +803,6 @@ var handleKeyEvents = function (event) {
 
 /* Searchfield clearer */
 $(document).on('rex:ready', function() {
-    var root = $("#rex-quicknavigation-structure");
-    if (root) {
-        $.get(root.data('url')).done(function(quickNav) {
-            root.html(quickNav);
-        });
-    }
-
     $('.form-clear-button input[type="text"]').on('input propertychange', function() {
         var $this = $(this);
         var visible = Boolean($this.val());
