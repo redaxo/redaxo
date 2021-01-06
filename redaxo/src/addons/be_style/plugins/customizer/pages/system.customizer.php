@@ -176,7 +176,10 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="customizer-labelcolor">' . rex_i18n::msg('customizer_labelcolor') . '</label>';
-$n['field'] = '<input class="form-control" id="customizer-labelcolor" type="text" name="settings[labelcolor]" value="' . htmlspecialchars($config['labelcolor']) . '" />';
+$n['field'] = '
+    <input class="form-control" id="customizer-labelcolor" type="text" name="settings[labelcolor]" value="' . htmlspecialchars($config['labelcolor']) . '" />
+    <input oninput="jQuery(\'#customizer-labelcolor\').val(this.value)" type="color" value="' . htmlspecialchars($config['labelcolor']) . '" />
+';
 $n['note'] = rex_i18n::msg('customizer_labelcolor_notice');
 $formElements[] = $n;
 
