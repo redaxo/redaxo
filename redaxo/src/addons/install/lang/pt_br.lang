@@ -63,5 +63,5 @@ install_settings_error = As configurações não foram salvas, verifique permiss
 
 install_header_function = Função
 
-install_clear = Apagar
+install_clear = Reiniciar entrada
 install_search = Procurar...
