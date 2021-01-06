@@ -100,7 +100,7 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
 } else {
     $fragment = new rex_fragment();
     $fragment->setVar('id', 'rex-js-install-addon-search');
-    $toolbar = $fragment->parse('core/form/searchfield.php');
+    $toolbar = $fragment->parse('core/form/search.php');
 
     $sort = rex_request('sort', 'string', '');
     if ('up' === $sort) {
