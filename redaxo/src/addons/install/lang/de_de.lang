@@ -70,5 +70,5 @@ install_settings_error = Einstellungen konnten nicht gespeichert werden, Schreib
 
 install_header_function = Funktion
 
-install_clear = Löschen
+install_clear =  Eingabe zurücksetzen
 install_search = Suchen ...

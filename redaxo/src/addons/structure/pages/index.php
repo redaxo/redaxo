@@ -75,10 +75,10 @@ echo rex_extension::registerPoint(new rex_extension_point('PAGE_STRUCTURE_HEADER
 $KAT = rex_sql::factory();
 // $KAT->setDebug();
 if (count($structureContext->getMountpoints()) > 0 && 0 == $structureContext->getCategoryId()) {
-    $parent_id = implode(',', $structureContext->getMountpoints());
-    $KAT->setQuery('SELECT COUNT(*) as rowCount FROM ' . rex::getTablePrefix() . 'article WHERE id IN (' . $parent_id . ') AND startarticle=1 AND clang_id=' . $structureContext->getClangId());
+    $parentIds = $KAT->in($structureContext->getMountpoints());
+    $KAT->setQuery('SELECT COUNT(*) as rowCount FROM ' . rex::getTablePrefix() . 'article WHERE id IN (' . $parentIds . ') AND startarticle=1 AND clang_id=?', [$structureContext->getClangId()]);
 } else {
-    $KAT->setQuery('SELECT COUNT(*) as rowCount FROM ' . rex::getTablePrefix() . 'article WHERE parent_id=' . $structureContext->getCategoryId() . ' AND startarticle=1 AND clang_id=' . $structureContext->getClangId());
+    $KAT->setQuery('SELECT COUNT(*) as rowCount FROM ' . rex::getTablePrefix() . 'article WHERE parent_id=? AND startarticle=1 AND clang_id=?', [$structureContext->getCategoryId(), $structureContext->getClangId()]);
 }
 
 // --------------------- ADD PAGINATION
@@ -93,14 +93,14 @@ echo $catFragment->parse('core/navigations/pagination.php');
 // --------------------- GET THE DATA
 
 if (count($structureContext->getMountpoints()) > 0 && 0 == $structureContext->getCategoryId()) {
-    $parent_id = implode(',', $structureContext->getMountpoints());
+    $parentIds = $KAT->in($structureContext->getMountpoints());
 
-    $KAT->setQuery('SELECT parent_id FROM ' . rex::getTable('article') . ' WHERE id IN (' . $parent_id . ') GROUP BY parent_id');
+    $KAT->setQuery('SELECT parent_id FROM ' . rex::getTable('article') . ' WHERE id IN (' . $parentIds . ') GROUP BY parent_id');
     $orderBy = $KAT->getRows() > 1 ? 'catname' : 'catpriority';
 
-    $KAT->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE id IN (' . $parent_id . ') AND startarticle=1 AND clang_id=' . $structureContext->getClangId() . ' ORDER BY ' . $orderBy . ' LIMIT ' . $catPager->getCursor() . ',' . $catPager->getRowsPerPage());
+    $KAT->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE id IN (' . $parentIds . ') AND startarticle=1 AND clang_id = ? ORDER BY ' . $orderBy . ' LIMIT ' . $catPager->getCursor() . ',' . $catPager->getRowsPerPage(), [$structureContext->getClangId()]);
 } else {
-    $KAT->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE parent_id=' . $structureContext->getCategoryId() . ' AND startarticle=1 AND clang_id=' . $structureContext->getClangId() . ' ORDER BY catpriority LIMIT ' . $catPager->getCursor() . ',' . $catPager->getRowsPerPage());
+    $KAT->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE parent_id = ? AND startarticle=1 AND clang_id = ? ORDER BY catpriority LIMIT ' . $catPager->getCursor() . ',' . $catPager->getRowsPerPage(), [$structureContext->getCategoryId(), $structureContext->getClangId()]);
 }
 
 $echo = '';
@@ -167,7 +167,13 @@ if ($KAT->getRows() > 0) {
         $i_category_id = $KAT->getValue('id');
 
         $kat_link = $structureContext->getContext()->getUrl(['category_id' => $i_category_id]);
-        $kat_icon_td = '<td class="rex-table-icon"><a href="' . $kat_link . '" title="' . rex_escape($KAT->getValue('catname')) . '"><i class="rex-icon rex-icon-category"></i></a></td>';
+
+        /** @var rex_category $kat_object */
+        $kat_object = rex_category::get($KAT->getValue('id'));
+        $kat_has_child_elements = (count($kat_object->getChildren()) > 0 || count($kat_object->getArticles()) > 1); // contains child categories or articles other than the start article
+        $kat_icon_class = $kat_has_child_elements ? 'rex-icon-category' : 'rex-icon-category-without-elements';
+        $kat_icon_title = $kat_has_child_elements ? rex_i18n::msg('category_has_child_elements') : rex_i18n::msg('category_without_child_elements');
+        $kat_icon_td = '<td class="rex-table-icon"><a href="' . $kat_link . '" title="' . rex_escape($KAT->getValue('catname')) . '"><i class="rex-icon ' . $kat_icon_class . '" title="' . $kat_icon_title . '"></i></a></td>';
 
         $kat_status = $catStatusTypes[$KAT->getValue('status')][0];
         $status_class = $catStatusTypes[$KAT->getValue('status')][1];
@@ -335,14 +341,17 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
     // ---------- COUNT DATA
     $sql = rex_sql::factory();
     // $sql->setDebug();
-    $sql->setQuery('SELECT COUNT(*) as artCount
-                FROM
-                    ' . rex::getTablePrefix() . 'article
-                WHERE
-                    ((parent_id=' . $structureContext->getCategoryId() . ' AND startarticle=0) OR (id=' . $structureContext->getCategoryId() . ' AND startarticle=1))
-                    AND clang_id=' . $structureContext->getClangId() . '
-                ORDER BY
-                    priority, name');
+    $sql->setQuery('
+        SELECT COUNT(*) as artCount
+        FROM ' . rex::getTablePrefix() . 'article
+        WHERE
+            ((parent_id = :category_id AND startarticle=0) OR (id = :category_id AND startarticle=1))
+            AND clang_id = :clang_id
+        ORDER BY priority, name
+    ', [
+        'category_id' => $structureContext->getCategoryId(),
+        'clang_id' => $structureContext->getClangId(),
+    ]);
 
     // --------------------- ADD PAGINATION
 
@@ -354,15 +363,20 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
     echo $artFragment->parse('core/navigations/pagination.php');
 
     // ---------- READ DATA
-    $sql->setQuery('SELECT *
-                FROM
-                    ' . rex::getTablePrefix() . 'article
-                WHERE
-                    ((parent_id=' . $structureContext->getCategoryId() . ' AND startarticle=0) OR (id=' . $structureContext->getCategoryId() . ' AND startarticle=1))
-                    AND clang_id=' . $structureContext->getClangId() . '
-                ORDER BY
-                    priority, name
-                LIMIT ' . $artPager->getCursor() . ',' . $artPager->getRowsPerPage());
+    $sql->setQuery('
+        SELECT *
+        FROM ' . rex::getTablePrefix() . 'article
+        WHERE
+            ((parent_id = :category_id AND startarticle=0) OR (id = :category_id AND startarticle=1))
+            AND clang_id = :clang_id
+        ORDER BY
+            priority, name
+        LIMIT ' . $artPager->getCursor() . ',' . $artPager->getRowsPerPage(),
+        [
+            'category_id' => $structureContext->getCategoryId(),
+            'clang_id' => $structureContext->getClangId(),
+        ]
+    );
 
     // ---------- INLINE THE EDIT/ADD FORM
     if ('add_art' == $structureContext->getFunction() || 'edit_art' == $structureContext->getFunction()) {
