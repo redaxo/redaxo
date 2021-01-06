@@ -28,9 +28,21 @@ class rex_cronjob_export extends rex_cronjob
             }
             $file = $file . '_' . $i;
         }
+        $exportFilePath = $dir . $file . $ext;
 
-        if (rex_backup::exportDb($dir . $file . $ext, $whitelist_tables)) {
+        if (rex_backup::exportDb($exportFilePath, $whitelist_tables)) {
             $message = $file . $ext . ' created';
+
+            if ($this->getParam('compress')) {
+                $tar = new rex_backup_tar();
+                $tar->create($exportFilePath.'.tar.gz');
+                $tar->addFile($exportFilePath);
+                $tar->close();
+
+                rex_file::delete($exportFilePath);
+
+                $message = $file . $ext . '.tar.gz created';
+            }
 
             if ($this->getParam('delete_interval')) {
                 $allSqlfiles = glob(rex_path::addonData('backup', '*'.$ext));
@@ -82,7 +94,7 @@ class rex_cronjob_export extends rex_cronjob
                 $mail->AddAddress($this->getParam('mailaddress'));
                 $mail->Subject = rex_i18n::rawMsg('backup_mail_subject');
                 $mail->Body = rex_i18n::rawMsg('backup_mail_body', rex::getServerName());
-                $mail->AddAttachment($dir . $file . $ext, $filename . $ext);
+                $mail->AddAttachment($exportFilePath, $filename . $ext);
                 if ($mail->Send()) {
                     $this->setMessage($message . ', mail sent');
 
@@ -144,6 +156,14 @@ class rex_cronjob_export extends rex_cronjob
         } else {
             $fields[2]['notice'] = rex_i18n::msg('backup_send_mail_notice');
             $fields[2]['attributes'] = ['disabled' => 'disabled'];
+        }
+
+        if (class_exists('ZipArchive')) {
+            $fields[] = [
+                'name' => 'compress',
+                'type' => 'checkbox',
+                'options' => [1 => rex_i18n::msg('backup_compress')],
+            ];
         }
 
         $fields[] = [

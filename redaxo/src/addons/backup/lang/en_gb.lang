@@ -58,6 +58,8 @@ backup_mailaddress = E-mail address
 backup_mail_subject = New database backup
 backup_mail_body = Attached you'll find the latest database backup from the website "{0}".
 
+backup_compress = Compress backup
+
 backup_delete_interval = Delete old backups
 backup_delete_interval_off = Off
 backup_delete_interval_weekly = Keep one backup per week
