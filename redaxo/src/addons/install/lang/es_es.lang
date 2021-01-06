@@ -70,5 +70,5 @@ install_settings_error = La configuración no se ha guardado, compruebe los perm
 
 install_header_function = Función
 
-install_clear = Claro
+install_clear =  Restablecer entrada
 install_search = Buscar...

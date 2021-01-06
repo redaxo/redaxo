@@ -70,5 +70,5 @@ install_settings_error = Inställningarna kunde inte sparas. Kolla skrivrättigh
 
 install_header_function = Funktion
 
-install_clear = Radera
+install_clear = Återställ inmatning
 install_search = Sök ...
