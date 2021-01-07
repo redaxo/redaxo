@@ -800,9 +800,7 @@ var handleKeyEvents = function (event) {
     }
 }
 
-
-/* Searchfield clearer */
-$(document).on('rex:ready', function() {
+function searchfield_init() {  
     $('.form-clear-button input[type="text"]').on('input propertychange', function() {
         var $this = $(this);
         var visible = Boolean($this.val());
@@ -813,5 +811,8 @@ $(document).on('rex:ready', function() {
         $(this).siblings('input[type="text"]').val('').trigger("keyup")
             .trigger('propertychange').focus();
     });
+}
 
+$(document).on('rex:ready', function() {
+  searchfield_init();  
 });
