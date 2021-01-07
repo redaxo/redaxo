@@ -808,6 +808,7 @@ function searchfield_init() {
     }).trigger('propertychange');
 
     $('.form-control-clear, .clear-button').click(function() {
+        event.stopPropagation();
         $(this).siblings('input[type="text"]').val('').trigger("keyup")
             .trigger('propertychange').focus();
     });
