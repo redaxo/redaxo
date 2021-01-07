@@ -804,7 +804,7 @@ function searchfield_init(selector_id = '') {
 
     var $css_selector = selector_id;
 
-    $($css_selector + '.form-clear-button input[type="text"]').on('input propertychange', function () {
+    $($css_selector).on('input propertychange', function () {
         var $this = $(this);
         var visible = Boolean($this.val());
         $this.siblings('.form-control-clear').toggleClass('hidden', !visible);
