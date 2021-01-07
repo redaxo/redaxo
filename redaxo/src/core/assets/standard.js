@@ -800,20 +800,19 @@ var handleKeyEvents = function (event) {
     }
 }
 
-function rex_searchfield_init() {  
-    $('.form-clear-button input[type="text"]').on('input propertychange', function() {
+function searchfield_init(selector_id = '') {
+
+    var $css_selector = selector_id;
+
+    $($css_selector + '.form-clear-button input[type="text"]').on('input propertychange', function () {
         var $this = $(this);
         var visible = Boolean($this.val());
         $this.siblings('.form-control-clear').toggleClass('hidden', !visible);
     }).trigger('propertychange');
 
-    $('.form-control-clear, .clear-button').click(function() {
+    $('.form-control-clear, .clear-button').click(function () {
         event.stopPropagation();
         $(this).siblings('input[type="text"]').val('').trigger("keyup")
             .trigger('propertychange').focus();
     });
 }
-
-$(document).on('rex:ready', function() {
-  searchfield_init();  
-});
