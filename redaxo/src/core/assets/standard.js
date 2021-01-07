@@ -800,7 +800,7 @@ var handleKeyEvents = function (event) {
     }
 }
 
-function searchfield_init() {  
+function rex_searchfield_init() {  
     $('.form-clear-button input[type="text"]').on('input propertychange', function() {
         var $this = $(this);
         var visible = Boolean($this.val());
