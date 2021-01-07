@@ -282,8 +282,8 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
                 }, 500);
             });
         });
-        
-        searchfield_init("#rex-js-install-addon-search"); 
+
+        searchfield_init("#rex-js-install-addon-search");
         //-->
         </script>
     ';
