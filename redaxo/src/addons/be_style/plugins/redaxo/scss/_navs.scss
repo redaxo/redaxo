@@ -452,3 +452,18 @@
         padding-left: 0;
     }
 }
+
+#rex-page-setup {
+    .rex-nav-main {
+        li {
+            &.active > a {
+                cursor: default;
+            }
+            &.disabled > a {
+                cursor: default;
+                color: $color-a;
+                background-color: transparent;
+            }
+        }
+    }
+}
