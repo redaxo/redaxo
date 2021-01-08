@@ -146,7 +146,7 @@ if ('setup' == rex_be_controller::getCurrentPagePart(1)) {
     $end = $lang ? 7 : 1;
     for ($i = 1; $i <= $end; ++$i) {
         $n = [];
-        if ($i == $step) {
+        if (!$step || $i == $step) {
             $n['active'] = true;
         }
 
