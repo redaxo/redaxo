@@ -158,6 +158,11 @@ if ('setup' == rex_be_controller::getCurrentPagePart(1)) {
                 $n['href'] = 'javascript:void(0)';
             }
         }
+
+        if ($step && $i > $step) {
+            $n['itemAttr']['class'][] = 'disabled';
+        }
+
         $name = '';
         if (isset($n['href']) && '' != $lang) {
             $name = rex_i18n::msg('setup_' . $i . '99');
