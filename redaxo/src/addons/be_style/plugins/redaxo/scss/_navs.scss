@@ -456,6 +456,9 @@
 #rex-page-setup {
     .rex-nav-main {
         li {
+            > a {
+                padding-left: 30px;
+            }
             &.active > a {
                 cursor: default;
             }
