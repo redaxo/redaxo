@@ -276,7 +276,7 @@
     // Tab subnavigation
     .navbar {
         background-color: #fff;
-        border-color: darken($color-a-light, 3%);
+        border-color: $color-a-light;
     }
     .navbar-default .navbar-nav {
         @media (max-width: $screen-xs-max) {
@@ -291,7 +291,7 @@
         float: left;
         height: $line-height-computed;
         margin-top: 12px;
-        border-right: 1px solid darken($color-a-light, 3%);
+        border-right: 1px solid $color-a-light;
     }
     .navbar-default .navbar-nav > li > a {
         float: left;
