@@ -227,7 +227,7 @@
 
 .rex-page-nav {
     .nav-tabs {
-        border-bottom-color: darken($color-a-light, 3%);
+        border-bottom-color: darken($color-a-light, 5%);
         .rex-main-frame & {
             border-bottom-color: #fff;
         }
@@ -238,7 +238,7 @@
                 > a:not(.btn):hover {
                     padding-bottom: 10px;
                     background-color: #fff;
-                    border-color: darken($color-a-light, 3%);
+                    border-color: darken($color-a-light, 5%);
                     border-bottom-color: transparent;
 
                     .rex-main-frame & {
@@ -252,16 +252,16 @@
             > a:not(.btn) {
                 padding-top: 10px;
                 padding-bottom: 9px;
-                background-color: lighten($color-a-light, 3%);
-                border-color: lighten($color-a-light, 3%);
+                background-color: $color-a-light;
+                border-color: $color-a-light;
                 border-bottom-color: transparent;
 
                 border-radius: 4px 4px 0 0;
                 color: $text-color;
 
                 .rex-main-frame & {
-                    background-color: darken($color-a-light, 3%);
-                    border-color: darken($color-a-light, 3%);
+                    background-color: darken($color-a-light, 5%);
+                    border-color: darken($color-a-light, 5%);
                     border-bottom-color: transparent;
                 }
 
