@@ -408,12 +408,12 @@ if ('' != $FUNC_ADD || $user_id > 0) {
     $formElements = [];
 
     $n = [];
-    $n['label'] = '<label for="rex-user-login">' . rex_i18n::msg('login_name') . '</label>';
+    $n['label'] = '<label for="rex-user-login" class="required">' . rex_i18n::msg('login_name') . '</label>';
     $n['field'] = $add_user_login;
     $formElements[] = $n;
 
     $n = [];
-    $n['label'] = '<label for="rex-js-user-password">' . rex_i18n::msg('password') . '</label>';
+    $n['label'] = '<label for="rex-js-user-password" class="required">' . rex_i18n::msg('password') . '</label>';
     $n['field'] = '<input class="form-control" type="password" id="rex-js-user-password" name="userpsw" autocomplete="new-password"/>';
     $n['note'] = $passwordPolicy->getDescription();
 
@@ -472,7 +472,7 @@ if ('' != $FUNC_ADD || $user_id > 0) {
     }
 
     $n = [];
-    $n['label'] = '<label for="rex-user-status">' . rex_i18n::msg('user_status') . '</label>';
+    $n['label'] = '<label for="rex-user-status">' . rex_i18n::msg('user_status_active') . '</label>';
     $n['field'] = $add_status_chkbox;
     $formElements[] = $n;
 
@@ -563,13 +563,16 @@ if ($SHOW) {
     ');
     $list->addTableAttribute('class', 'table-striped table-hover');
 
-    $tdIcon = '<i class="rex-icon rex-icon-user"></i>';
-    $thIcon = '<a class="rex-link-expanded" href="' . $list->getUrl(['FUNC_ADD' => '1']) . '"' . rex::getAccesskey(rex_i18n::msg('create_user'), 'add') . ' title="' . rex_i18n::msg('create_user') . '"><i class="rex-icon rex-icon-add-user"></i></a>';
+    $tdIcon = '<i class="rex-icon rex-icon-user" title="'.  rex_i18n::msg('user_status_active') . '"></i>';
+    $thIcon = '<a href="' . $list->getUrl(['FUNC_ADD' => '1']) . '"' . rex::getAccesskey(rex_i18n::msg('create_user'), 'add') . ' title="' . rex_i18n::msg('create_user') . '"><i class="rex-icon rex-icon-add-user"></i></a>';
     $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-table-icon">###VALUE###</th>', '<td class="rex-table-icon">###VALUE###</td>']);
     $list->setColumnParams($thIcon, ['user_id' => '###id###']);
     $list->setColumnFormat($thIcon, 'custom', static function ($params) use ($thIcon, $tdIcon) {
         $list = $params['list'];
-        $tdIcon = !$list->getValue('status') ? str_replace('rex-icon-user', 'rex-icon-user text-muted', $tdIcon) : $tdIcon;
+        if (!$list->getValue('status')) {
+            $tdIcon = str_replace('rex-icon-user', 'rex-icon-user-inactive text-muted', $tdIcon);
+            $tdIcon = str_replace(rex_i18n::msg('user_status_active'), rex_i18n::msg('user_status_inactive'), $tdIcon);
+        }
         return !$list->getValue('admin') || rex::getUser()->isAdmin() ? $list->getColumnLink($thIcon, $tdIcon) : $tdIcon;
     });
 
@@ -650,7 +653,7 @@ if ($SHOW) {
             }
 
             $url = rex_url::currentBackendPage(['_impersonate' => $list->getValue('id')] + rex_api_user_impersonate::getUrlParams());
-            return sprintf('<a class="rex-link-expanded" href="%s" data-pjax="false"><i class="rex-icon rex-icon-sign-in"></i> %s</a>', $url, rex_i18n::msg('login_impersonate'));
+            return sprintf('<a href="%s" data-pjax="false"><i class="rex-icon rex-icon-sign-in"></i> %s</a>', $url, rex_i18n::msg('login_impersonate'));
         });
     }
 
