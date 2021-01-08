@@ -243,7 +243,8 @@
 
                     .rex-main-frame & {
                         background-color: #fff;
-                        border-color: #fff;
+                        background-color: $nav-tabs-active-link-hover-bg;
+                        border-color: $nav-tabs-active-link-hover-bg;
                         border-bottom-color: transparent;
                     }
                 }
