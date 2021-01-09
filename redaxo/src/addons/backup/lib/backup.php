@@ -94,15 +94,13 @@ class rex_backup
             return $return;
         }
 
-        $wasTempDeCompressed = false;
-        $decompressedFilename = null;
+        $decompressedFilename = false;
 
         if ('gz' === rex_file::extension($filename)) {
             $compressor = new rex_backup_file_compressor();
             $decompressedFilename = $compressor->gzDeCompress($filename);
 
             if ($decompressedFilename) {
-                $wasTempDeCompressed = true;
                 $filename = $decompressedFilename;
             } else {
                 $return['message'] = rex_i18n::msg('backup_no_valid_import_file') . '. Unable to decompress '. $filename;
@@ -113,12 +111,12 @@ class rex_backup
         /**
          * @psalm-return array{state: bool, message: string}
          */
-        $returnErrorAndCleanup = static function (string $message) use ($wasTempDeCompressed, $decompressedFilename): array {
+        $returnErrorAndCleanup = static function (string $message) use ($decompressedFilename): array {
             $return = [];
             $return['state'] = false;
             $return['message'] = $message;
 
-            if ($wasTempDeCompressed) {
+            if ($decompressedFilename) {
                 rex_file::delete($decompressedFilename);
             }
             return $return;
@@ -224,7 +222,7 @@ class rex_backup
         $return['state'] = true;
         $return['message'] = $msg;
 
-        if ($wasTempDeCompressed) {
+        if ($decompressedFilename) {
             rex_file::delete($decompressedFilename);
         }
 
