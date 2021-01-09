@@ -33,7 +33,7 @@ if ('' != $impname) {
 }
 
 if ('download' == $function && $impname && is_readable(rex_backup::getDir() . '/' . $impname)) {
-    rex_response::sendFile(rex_backup::getDir() . '/' . $impname, '.tar.gz' != substr($impname, -7, 7) ? 'tar/gzip' : 'plain/test', 'attachment');
+    rex_response::sendFile(rex_backup::getDir() . '/' . $impname, str_ends_with($impname, '.tar.gz') ? 'tar/gzip' : 'plain/test', 'attachment');
     exit;
 }
 
@@ -135,7 +135,7 @@ $content = '<table class="table table-striped table-hover">
                 <tbody>';
 
 $dir = rex_backup::getDir();
-$folder = rex_backup::getBackupFiles('.sql');
+$folder = rex_backup::getBackupFiles(rex_backup::IMPORT_DB);
 
 foreach ($folder as $file) {
     $filepath = $dir . '/' . $file;
@@ -178,7 +178,7 @@ $content = '<table class="table table-striped table-hover">
                 <tbody>';
 
 $dir = rex_backup::getDir();
-$folder = rex_backup::getBackupFiles('.tar.gz');
+$folder = rex_backup::getBackupFiles(rex_backup::IMPORT_ARCHIVE);
 
 foreach ($folder as $file) {
     $filepath = $dir . '/' . $file;

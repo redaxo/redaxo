@@ -27,19 +27,21 @@ class rex_backup
     public static function isFilenameValid(int $importType, string $filename): bool
     {
         if (self::IMPORT_ARCHIVE === $importType) {
-            return '.tar.gz' == substr($filename, -7, 7);
+            return str_ends_with($filename, '.tar.gz');
         }
         if (self::IMPORT_DB === $importType) {
-            return '.sql' == substr($filename, -4, 4);
+            return str_ends_with($filename, '.sql') || str_ends_with($filename, '.sql.gz');
         }
 
         throw new rex_exception('unexpected importType '. $importType);
     }
 
     /**
+     * @param self::IMPORT_* $fileType
+     *
      * @return string[]
      */
-    public static function getBackupFiles($filePrefix)
+    public static function getBackupFiles($fileType)
     {
         $dir = self::getDir();
 
@@ -48,7 +50,7 @@ class rex_backup
         $filtered = [];
         foreach ($folder as $file) {
             $file = $file->getFilename();
-            if (substr($file, strlen($file) - strlen($filePrefix)) == $filePrefix) {
+            if (self::isFilenameValid($fileType, $file)) {
                 $filtered[] = $file;
             }
         }
