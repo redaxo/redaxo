@@ -34,6 +34,8 @@ error_undefined = Se ha producido un error indefinido
 csrf_token_invalid = Vuelva a enviar el formulario o vuelva a ejecutar la acción (error: el token CSRF no es válido).
 unstable_version = Versión de desarrollo: utilícela bajo su propio riesgo.
 copy_to_clipboard = Copiar al portapapeles
+search_placeholder = Buscar…
+search_clear = Restablecer entrada
 
 # redaxo/redaxo/index.php
 system = Sistema
@@ -328,8 +330,6 @@ package_activate = activar
 package_yes = sí
 package_no = no
 package_caption = Lista de paquetes disponibles
-package_search = Buscar...
-package_clear = Restablecer entrada
 addon_systemaddon = Addon del sistema
 addon_systempackage_delete_not_allowed = Los complementos del sistema no se pueden eliminar!
 addon_dir_not_writable = ¡Los permisos de escritura están faltando para el directorio addon!
