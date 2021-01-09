@@ -2,7 +2,7 @@
 
 /**
  * @package redaxo\backup
- *          
+ *
  * @internal
  */
 class rex_backup_file_compressor

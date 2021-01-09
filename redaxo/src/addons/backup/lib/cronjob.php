@@ -34,7 +34,7 @@ class rex_cronjob_export extends rex_cronjob
             $message = rex_path::basename($exportFilePath) . ' created';
 
             if ($this->getParam('compress')) {
-                $compressor = new rex_file_compressor();
+                $compressor = new rex_backup_file_compressor();
                 $gzPath = $compressor->gzCompress($exportFilePath);
                 if ($gzPath) {
                     rex_file::delete($exportFilePath);
