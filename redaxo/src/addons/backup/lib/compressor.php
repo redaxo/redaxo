@@ -18,7 +18,7 @@ class rex_backup_file_compressor
      * @param int $level GZIP compression level (default: 9)
      * @return string|false New filename (with .gz appended) if success, or false if operation fails
      */
-    public function gzCompress($source, $level = 9)
+    public function gzCompress(string $source, int $level = 9)
     {
         $dest = $source . '.gz';
         $mode = 'wb' . $level;
