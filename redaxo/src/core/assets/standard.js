@@ -805,7 +805,7 @@ var handleKeyEvents = function (event) {
  */
 function rex_searchfield_init(selector_id) {
 
-    $(selector_id).on('input propertychange', function () {
+    $(selector_id).find('input[type="text"]').on('input propertychange', function () {
         var $this = $(this);
         var visible = Boolean($this.val());
         $this.siblings('.form-control-clear').toggleClass('hidden', !visible);
