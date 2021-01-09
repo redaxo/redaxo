@@ -106,6 +106,7 @@ class rex_backup
          * @psalm-return array{state: bool, message: string}
          */
         $returnErrorAndCleanup = function(string $message) use ($wasTempDeCompressed, $decompressedFilename):array {
+            $return = [];
             $return['state'] = false;
             $return['message'] = $message;
 
