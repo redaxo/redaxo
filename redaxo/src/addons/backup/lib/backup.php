@@ -61,7 +61,6 @@ class rex_backup
                     $filtered[] = $file;
                 }
             }
-            
         }
         $folder = $filtered;
 
@@ -98,7 +97,7 @@ class rex_backup
         $wasTempDeCompressed = false;
         $decompressedFilename = null;
 
-        if (rex_file::extension($filename) === 'gz') {
+        if ('gz' === rex_file::extension($filename)) {
             $compressor = new rex_backup_file_compressor();
             $decompressedFilename = $compressor->gzDeCompress($filename);
 
@@ -114,7 +113,7 @@ class rex_backup
         /**
          * @psalm-return array{state: bool, message: string}
          */
-        $returnErrorAndCleanup = function(string $message) use ($wasTempDeCompressed, $decompressedFilename):array {
+        $returnErrorAndCleanup = static function (string $message) use ($wasTempDeCompressed, $decompressedFilename): array {
             $return = [];
             $return['state'] = false;
             $return['message'] = $message;

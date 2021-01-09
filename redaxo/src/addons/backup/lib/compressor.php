@@ -51,7 +51,7 @@ class rex_backup_file_compressor
      */
     public function gzDeCompress(string $source)
     {
-        if (rex_file::extension($source) !== 'gz') {
+        if ('gz' !== rex_file::extension($source)) {
             throw new \Exception('Expecting a file with .gz suffix');
         }
 
@@ -63,7 +63,7 @@ class rex_backup_file_compressor
         if ($fp_out = fopen($dest, $mode)) {
             if ($fp_in = gzopen($source, 'r')) {
                 while (!gzeof($fp_in)) {
-                    fwrite($fp_out, gzgets ($fp_in, 1024 * 512));
+                    fwrite($fp_out, gzgets($fp_in, 1024 * 512));
                 }
                 gzclose($fp_in);
             } else {
