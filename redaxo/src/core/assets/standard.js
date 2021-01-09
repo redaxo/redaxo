@@ -799,3 +799,21 @@ var handleKeyEvents = function (event) {
         }
     }
 }
+
+/**
+ * @param {string} selector_id
+ */
+function rex_searchfield_init(selector_id) {
+
+    $(selector_id).find('input[type="text"]').on('input propertychange', function () {
+        var $this = $(this);
+        var visible = Boolean($this.val());
+        $this.siblings('.form-control-clear').toggleClass('hidden', !visible);
+    }).trigger('propertychange');
+
+    $(selector_id).find('.form-control-clear, .clear-button').click(function (event) {
+        event.stopPropagation();
+        $(this).siblings('input[type="text"]').val('').trigger("keyup")
+            .trigger('propertychange').focus();
+    });
+}
