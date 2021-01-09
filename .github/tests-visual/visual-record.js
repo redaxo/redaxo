@@ -113,29 +113,27 @@ async function main() {
     if (isSetup) {
 
         // setup step 1
-        await page.goto(START_URL);
-        await new Promise(res => setTimeout(() => res(), 300));
+        await page.goto(START_URL, { waitUntil: 'load' });
         await createScreenshot(page, 'setup.png');
 
         // setup steps 2-7
         for (var step = 2; step <= 7; step++) {
-            await page.goto(START_URL + '?page=setup&lang=de_de&step=' + step);
-            await new Promise(res => setTimeout(() => res(), 1000));
+            await page.goto(START_URL + '?page=setup&lang=de_de&step=' + step, { waitUntil: 'load' });
             await createScreenshot(page, 'setup_' + step + '.png');
         }
 
     } else {
 
         // login page
-        await page.goto(START_URL);
-        await new Promise(res => setTimeout(() => res(), 300));
+        await page.goto(START_URL, { waitUntil: 'load' });
+        await page.waitForTimeout(1000); // CSS animation
         await createScreenshot(page, 'login.png');
 
         // login successful
         await page.type('#rex-id-login-user', 'myusername');
         await page.type('#rex-id-login-password', '91dfd9ddb4198affc5c194cd8ce6d338fde470e2'); // sha1('mypassword')
         await page.$eval('#rex-form-login', form => form.submit());
-        await new Promise(res => setTimeout(() => res(), 1000));
+        await page.waitForNavigation();
         await createScreenshot(page, 'index.png');
 
         // all pages
@@ -170,8 +168,7 @@ async function main() {
         };
 
         for (var fileName in config) {
-            await page.goto(config[fileName]);
-            await new Promise(res => setTimeout(() => res(), 1000));
+            await page.goto(config[fileName], { waitUntil: 'load' });
             await createScreenshot(page, fileName);
         }
     }
