@@ -21,6 +21,10 @@ $toolbar = '
     </div>
 ';
 
+$fragment = new rex_fragment();
+$fragment->setVar('id', 'rex-js-available-addon-search');
+$toolbar = $fragment->parse('core/form/search.php');
+
 $content .= '
         <table class="table table-hover" id="rex-js-table-available-packages-addons">
         <thead>
@@ -166,10 +170,8 @@ $content .= '
                 });
             }
         });
-        $("#rex-js-available-addon-search .btn").click(function () {
-            $("#rex-js-available-addon-search .form-control").val("").trigger("keyup");
-        });
     });
+    rex_searchfield_init("#rex-js-available-addon-search");
     //-->
     </script>
 ';
