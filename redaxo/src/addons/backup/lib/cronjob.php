@@ -34,17 +34,14 @@ class rex_cronjob_export extends rex_cronjob
             $message = rex_path::basename($exportFilePath) . ' created';
 
             if ($this->getParam('compress')) {
-                $archiveFilePath = $exportFilePath.'.tar.gz';
+                $compressor = new rex_file_compressor();
+                $gzPath = $compressor->gzCompress($exportFilePath);
+                if ($gzPath) {
+                    rex_file::delete($exportFilePath);
 
-                $tar = new rex_backup_tar();
-                $tar->create($archiveFilePath);
-                $tar->addFile($exportFilePath);
-                $tar->close();
-
-                rex_file::delete($exportFilePath);
-
-                $message = rex_path::basename($archiveFilePath) .' created';
-                $exportFilePath = $archiveFilePath;
+                    $message = rex_path::basename($gzPath) .' created';
+                    $exportFilePath = $gzPath;
+                }
             }
 
             if ($this->getParam('delete_interval')) {
