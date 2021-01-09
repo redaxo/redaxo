@@ -74,3 +74,17 @@ tr.mark {
      font-weight: 700;
      text-decoration: none;
  }
+
+// helper to expand clickable area of text links
+.rex-link-expanded {
+    display: inline-block;
+    padding: 4px 7px;
+    margin: -4px -7px;
+    border-radius: 20px;
+
+    // increase even more for add buttons (+)
+    .rex-table-icon & {
+        padding: 7px 11px;
+        margin: -7px -11px;
+    }
+}
