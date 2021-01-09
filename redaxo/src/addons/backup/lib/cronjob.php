@@ -158,13 +158,11 @@ class rex_cronjob_export extends rex_cronjob
             $fields[2]['attributes'] = ['disabled' => 'disabled'];
         }
 
-        if (class_exists('ZipArchive')) {
-            $fields[] = [
-                'name' => 'compress',
-                'type' => 'checkbox',
-                'options' => [1 => rex_i18n::msg('backup_compress')],
-            ];
-        }
+        $fields[] = [
+            'name' => 'compress',
+            'type' => 'checkbox',
+            'options' => [1 => rex_i18n::msg('backup_compress')],
+        ];
 
         $fields[] = [
             'label' => rex_i18n::msg('backup_delete_interval'),
