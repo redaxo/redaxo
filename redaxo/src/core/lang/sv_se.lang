@@ -34,6 +34,8 @@ error_undefined = Okänt fel
 csrf_token_invalid = Vänligen skicka formuläret igen, eller kör åtgärden igen (fel: CSRF-token är ogiltig).
 unstable_version = Utvecklingsversion - användning på egen risk
 copy_to_clipboard = Copy to clipboard
+search_placeholder = Söker…
+search_clear = Återställ inmatning
 
 # redaxo/redaxo/index.php
 system = System
@@ -328,8 +330,6 @@ package_activate = aktivera
 package_yes = ja
 package_no = nej
 package_caption = List av alla tillgängliga paket (Packages)
-package_search = Söker ...
-package_clear = Återställ inmatning
 addon_systemaddon = System AddOn
 addon_systempackage_delete_not_allowed = System AddOns får inte raderas!
 addon_dir_not_writable = AddOn-mappen saknar skrivrättigheter!
