@@ -1,6 +1,11 @@
 <?php
 
-class rex_file_compressor
+/**
+ * @package redaxo\backup
+ *          
+ * @internal
+ */
+class rex_backup_file_compressor
 {
     /**
      * GZIPs a file on disk (appending .gz to the name).
