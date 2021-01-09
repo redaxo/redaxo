@@ -42,4 +42,41 @@ class rex_backup_file_compressor
 
         return $dest;
     }
+
+    /**
+     * De-compress GZIPed file on disk (stripping .gz of the name).
+     *
+     * @param string $source Path to file that should be decompressed
+     * @return string|false New filename (with .gz stripped) if success, or false if operation fails
+     */
+    public function gzDeCompress(string $source, int $level = 9)
+    {
+        if (rex_file::extension($source) !== 'gz') {
+            throw new \Exception('Expecting a file with .gz suffix');
+        }
+
+        // strip .gz extension
+        $dest = dirname($source) .'/'. pathinfo($source, PATHINFO_FILENAME);
+
+        $mode = 'wb' . $level;
+        $error = false;
+        if ($fp_out = fopen($dest, $mode)) {
+            if ($fp_in = gzopen($source, 'r')) {
+                while (!gzeof($fp_in)) {
+                    fwrite($fp_out, gzgets ($fp_in, 1024 * 512));
+                }
+                gzclose($fp_in);
+            } else {
+                $error = true;
+            }
+            fclose($fp_out);
+        } else {
+            $error = true;
+        }
+        if ($error) {
+            return false;
+        }
+
+        return $dest;
+    }
 }
