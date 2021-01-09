@@ -87,6 +87,7 @@ class rex_backup
         }
 
         $wasTempDeCompressed = false;
+        $decompressedFilename = null;
 
         if (rex_file::extension($filename) === 'gz') {
             $compressor = new rex_backup_file_compressor();
@@ -104,7 +105,7 @@ class rex_backup
         /**
          * @psalm-return array{state: bool, message: string}
          */
-        $returnError = function(string $message) use ($wasTempDeCompressed, $decompressedFilename):array {
+        $returnErrorAndCleanup = function(string $message) use ($wasTempDeCompressed, $decompressedFilename):array {
             $return['state'] = false;
             $return['message'] = $message;
 
@@ -121,7 +122,7 @@ class rex_backup
         $mainVersion = rex::getVersion('%s');
         $version = strpos($conts, '## Redaxo Database Dump Version ' . $mainVersion);
         if (false === $version) {
-            return $returnError(rex_i18n::msg('backup_no_valid_import_file') . '. [## Redaxo Database Dump Version ' . $mainVersion . '] is missing');
+            return $returnErrorAndCleanup(rex_i18n::msg('backup_no_valid_import_file') . '. [## Redaxo Database Dump Version ' . $mainVersion . '] is missing');
         }
         // Versionsstempel entfernen
         $conts = trim(str_replace('## Redaxo Database Dump Version ' . $mainVersion, '', $conts));
@@ -134,7 +135,7 @@ class rex_backup
             $conts = trim(str_replace('## Prefix ' . $prefix, '', $conts));
         } else {
             // Prefix wurde nicht gefunden
-            return $returnError(rex_i18n::msg('backup_no_valid_import_file') . '. [## Prefix ' . rex::getTablePrefix() . '] is missing');
+            return $returnErrorAndCleanup(rex_i18n::msg('backup_no_valid_import_file') . '. [## Prefix ' . rex::getTablePrefix() . '] is missing');
         }
 
         // Charset prüfen
@@ -146,7 +147,7 @@ class rex_backup
 
             if ('utf8mb4' === $charset && !rex::getConfig('utf8mb4') && !rex_setup_importer::supportsUtf8mb4()) {
                 $sql = rex_sql::factory();
-                return $returnError(rex_i18n::msg('backup_utf8mb4_not_supported', $sql->getDbType().' '.$sql->getDbVersion()));
+                return $returnErrorAndCleanup(rex_i18n::msg('backup_utf8mb4_not_supported', $sql->getDbType().' '.$sql->getDbVersion()));
             }
         }
 
@@ -186,7 +187,7 @@ class rex_backup
         }
 
         if ($error) {
-            return $returnError(implode('<br/>', $error));
+            return $returnErrorAndCleanup(implode('<br/>', $error));
         }
 
         $msg .= rex_i18n::msg('backup_database_imported') . '. ' . rex_i18n::msg('backup_entry_count', (string) count($lines)) . '<br />';
