@@ -49,7 +49,7 @@ class rex_backup_file_compressor
      * @param string $source Path to file that should be decompressed
      * @return string|false New filename (with .gz stripped) if success, or false if operation fails
      */
-    public function gzDeCompress(string $source, int $level = 9)
+    public function gzDeCompress(string $source)
     {
         if (rex_file::extension($source) !== 'gz') {
             throw new \Exception('Expecting a file with .gz suffix');
@@ -58,7 +58,7 @@ class rex_backup_file_compressor
         // strip .gz extension
         $dest = dirname($source) .'/'. pathinfo($source, PATHINFO_FILENAME);
 
-        $mode = 'wb' . $level;
+        $mode = 'wb';
         $error = false;
         if ($fp_out = fopen($dest, $mode)) {
             if ($fp_in = gzopen($source, 'r')) {
