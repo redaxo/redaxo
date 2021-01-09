@@ -169,6 +169,7 @@ async function main() {
 
         for (var fileName in config) {
             await page.goto(config[fileName], { waitUntil: 'load' });
+            await page.waitForTimeout(300); // CSS animation
             await createScreenshot(page, fileName);
         }
     }
