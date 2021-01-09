@@ -444,7 +444,7 @@
     .rex-nav-main {
         li {
             > a {
-                padding-left: 30px;
+                padding-left: $navbar-padding-horizontal;
             }
             &.active > a {
                 cursor: default;
