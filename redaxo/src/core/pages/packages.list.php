@@ -171,7 +171,7 @@ $content .= '
             }
         });
     });
-    searchfield_init("#rex-js-available-addon-search");
+    rex_searchfield_init("#rex-js-available-addon-search");
     //-->
     </script>
 ';
