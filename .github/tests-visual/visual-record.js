@@ -133,7 +133,7 @@ async function main() {
         await page.type('#rex-id-login-user', 'myusername');
         await page.type('#rex-id-login-password', '91dfd9ddb4198affc5c194cd8ce6d338fde470e2'); // sha1('mypassword')
         await page.$eval('#rex-form-login', form => form.submit());
-        await page.waitForNavigation();
+        await page.waitForTimeout(1000);
         await createScreenshot(page, 'index.png');
 
         // all pages
