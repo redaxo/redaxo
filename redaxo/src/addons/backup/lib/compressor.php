@@ -11,7 +11,7 @@ class rex_file_compressor
      *
      * @param string $source Path to file that should be compressed
      * @param int $level GZIP compression level (default: 9)
-     * @return string New filename (with .gz appended) if success, or false if operation fails
+     * @return string|false New filename (with .gz appended) if success, or false if operation fails
      */
     public function gzCompress($source, $level = 9)
     {
