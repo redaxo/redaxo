@@ -71,6 +71,7 @@ jobs:
 
             - run: |
                   php redaxo/bin/console user:create myusername mypassword --admin --ansi
+                  php redaxo/bin/console config:set error_email 'test@redaxo.invalid' --ansi
 
             - name: Setup nodejs
               uses: actions/setup-node@v2
