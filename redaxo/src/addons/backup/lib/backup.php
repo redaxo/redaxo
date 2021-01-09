@@ -37,7 +37,7 @@ class rex_backup
     }
 
     /**
-     * @param self::IMPORT_* $fileType
+     * @param self::IMPORT_*|string $fileType
      *
      * @return string[]
      */
@@ -50,9 +50,18 @@ class rex_backup
         $filtered = [];
         foreach ($folder as $file) {
             $file = $file->getFilename();
-            if (self::isFilenameValid($fileType, $file)) {
-                $filtered[] = $file;
+            if (is_int($fileType)) {
+                if (self::isFilenameValid($fileType, $file)) {
+                    $filtered[] = $file;
+                }
+            } else {
+                // bc compat
+                $fileSuffix = $fileType;
+                if (substr($file, strlen($file) - strlen($fileSuffix)) == $fileSuffix) {
+                    $filtered[] = $file;
+                }
             }
+            
         }
         $folder = $filtered;
 
