@@ -84,10 +84,16 @@ jobs:
             - name: Take screenshots (differential)
               if: "github.event_name != 'repository_dispatch'"
               run: |
+                  php redaxo/bin/console config:set setup true --ansi
+                  node .github/tests-visual/visual-record.js setup
+                  php redaxo/bin/console config:set setup false --ansi
                   node .github/tests-visual/visual-record.js
             - name: Force regenerate all screenshots
               if: "github.event_name == 'repository_dispatch'"
               run: |
+                  php redaxo/bin/console config:set setup true --ansi
+                  node .github/tests-visual/visual-record.js setup regenerate-all
+                  php redaxo/bin/console config:set setup false --ansi
                   node .github/tests-visual/visual-record.js regenerate-all
 
             - uses: stefanzweifel/git-auto-commit-action@v4
