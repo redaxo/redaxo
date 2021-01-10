@@ -69,6 +69,3 @@ install_settings_saved = Inställningarna sparades!
 install_settings_error = Inställningarna kunde inte sparas. Kolla skrivrättigheterna till: {0}
 
 install_header_function = Funktion
-
-install_clear = Återställ inmatning
-install_search = Sök ...
