@@ -703,11 +703,26 @@ jQuery(document).ready(function ($) {
                 window.location = 'index.php?page=login';
                 break;
             default:
-                // load URL and show error/whoops
+                // load URL (could be error/whoops also)
                 window.location = event.request.responseURL;
                 break;
         }
     });
+
+    // handle pjax response
+    pjax._handleResponse = pjax.handleResponse;
+    pjax.handleResponse = function(responseText, request, href, options) {
+        if (request.responseText.match("<html")) {
+            // handle HTML response
+            pjax._handleResponse(responseText, request, href, options);
+        } else {
+            // handle non-HTML response
+            window.location = href;
+            // hide loader
+            window.clearTimeout(rexAjaxLoaderId);
+            document.querySelector('#rex-js-ajax-loader').classList.remove('rex-visible');
+        }
+    }
 
     document.addEventListener('click', handleClickAndSubmitEvents, true);
     document.addEventListener('submit', handleClickAndSubmitEvents, true);
