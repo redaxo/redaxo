@@ -56,18 +56,12 @@ class rex_backup_file_compressor
         }
 
         $str = '';
-        $error = false;
-
         if ($fp_in = gzopen($source, 'r')) {
             while (!gzeof($fp_in)) {
                 $str .= gzgets($fp_in, 1024 * 512);
             }
             gzclose($fp_in);
         } else {
-            $error = true;
-        }
-
-        if ($error) {
             return false;
         }
 
