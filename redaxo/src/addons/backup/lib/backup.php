@@ -101,6 +101,11 @@ class rex_backup
         if ('gz' === rex_file::extension($filename)) {
             $compressor = new rex_backup_file_compressor();
             $conts = $compressor->gzReadDeCompressed($filename);
+
+            // should not happen
+            if ($conts === false) {
+                return $returnError(rex_i18n::msg('backup_no_valid_import_file').'. Unable to decompress .gz');
+            }
         } else {
             $conts = rex_file::require($filename);
         }
