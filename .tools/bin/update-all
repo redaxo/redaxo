@@ -10,7 +10,10 @@ rm -rf redaxo/src/core/vendor/filp/whoops/.github/
 rm -rf redaxo/src/core/vendor/psr/log/Psr/Log/Test/
 rm -rf redaxo/src/core/vendor/ramsey/http-range/tests/
 rm -rf redaxo/src/core/vendor/symfony/console/Tests/
+rm -rf redaxo/src/core/vendor/symfony/http-foundation/RateLimiter/
+rm -rf redaxo/src/core/vendor/symfony/http-foundation/Session/
 rm -rf redaxo/src/core/vendor/symfony/http-foundation/Test/
+rm -f redaxo/src/core/vendor/symfony/http-foundation/*Response*.php
 rm -rf redaxo/src/core/vendor/symfony/service-contracts/Test/
 rm -rf redaxo/src/core/vendor/symfony/var-dumper/Resources/bin/
 rm -rf redaxo/src/core/vendor/symfony/var-dumper/Test/

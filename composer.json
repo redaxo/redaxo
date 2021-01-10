@@ -35,6 +35,7 @@
         "splitbrain/php-archive": "1.2.0",
         "symfony/console": "v5.2.1",
         "symfony/deprecation-contracts": "v2.2.0",
+        "symfony/http-foundation": "v5.2.1",
         "symfony/polyfill-ctype": "v1.22.0",
         "symfony/polyfill-intl-grapheme": "v1.22.0",
         "symfony/polyfill-intl-normalizer": "v1.22.0",
