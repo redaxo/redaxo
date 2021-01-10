@@ -86,7 +86,7 @@ class rex_backup
         /**
          * @psalm-return array{state: bool, message: string}
          */
-        $returnError = static function (string $message) : array {
+        $returnError = static function (string $message): array {
             $return = [];
             $return['state'] = false;
             $return['message'] = $message;
