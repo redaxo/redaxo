@@ -42,4 +42,29 @@ class rex_backup_file_compressor
 
         return $dest;
     }
+
+    /**
+     * Read a gz compressed file into a plain string.
+     *
+     * @param string $source Path to a .gz file that should be decompressed
+     * @return string|false The uncompressed content if success, or false if operation fails
+     */
+    public function gzReadDeCompressed(string $source)
+    {
+        if ('gz' !== rex_file::extension($source)) {
+            throw new \Exception('Expecting a file with .gz suffix');
+        }
+
+        $str = '';
+        if ($fp_in = gzopen($source, 'r')) {
+            while (!gzeof($fp_in)) {
+                $str .= gzgets($fp_in, 1024 * 512);
+            }
+            gzclose($fp_in);
+        } else {
+            return false;
+        }
+
+        return $str;
+    }
 }
