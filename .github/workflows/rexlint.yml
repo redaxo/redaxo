@@ -48,7 +48,4 @@ jobs:
                   git checkout -- redaxo/src/core/default.config.yml
 
                   # check if compiling the scss lead to uncommitted changes
-                  git diff HEAD --exit-code --output=/dev/null
-                  if [ "$?" -ne 0 ]; then
-                    echo "::error it seems you missed to commit the compiled css files"
-                  fi
+                  git diff HEAD --exit-code || (echo "::error it seems you missed to commit the compiled css files" && exit 1)
