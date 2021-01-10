@@ -83,53 +83,34 @@ class rex_backup
      */
     public static function importDb($filename)
     {
-        $return = [];
-        $return['state'] = false;
-        $return['message'] = '';
-
-        $msg = '';
-
-        if ('' == $filename || !self::isFilenameValid(self::IMPORT_DB, $filename)) {
-            $return['message'] = rex_i18n::msg('backup_no_import_file_chosen_or_wrong_version') . '<br>';
-            return $return;
-        }
-
-        $decompressedFilename = false;
-
-        if ('gz' === rex_file::extension($filename)) {
-            $compressor = new rex_backup_file_compressor();
-            $decompressedFilename = $compressor->gzDeCompress($filename);
-
-            if ($decompressedFilename) {
-                $filename = $decompressedFilename;
-            } else {
-                $return['message'] = rex_i18n::msg('backup_no_valid_import_file') . '. Unable to decompress '. $filename;
-                return $return;
-            }
-        }
-
         /**
          * @psalm-return array{state: bool, message: string}
          */
-        $returnErrorAndCleanup = static function (string $message) use ($decompressedFilename): array {
+        $returnError = static function (string $message) : array {
             $return = [];
             $return['state'] = false;
             $return['message'] = $message;
 
-            if ($decompressedFilename) {
-                rex_file::delete($decompressedFilename);
-            }
             return $return;
         };
 
-        $conts = rex_file::require($filename);
+        if ('' == $filename || !self::isFilenameValid(self::IMPORT_DB, $filename)) {
+            return $returnError(rex_i18n::msg('backup_no_import_file_chosen_or_wrong_version') . '<br>');
+        }
+
+        if ('gz' === rex_file::extension($filename)) {
+            $compressor = new rex_backup_file_compressor();
+            $conts = $compressor->gzReadDeCompressed($filename);
+        } else {
+            $conts = rex_file::require($filename);
+        }
 
         // Versionsstempel prüfen
         // ## Redaxo Database Dump Version x.x
         $mainVersion = rex::getVersion('%s');
         $version = strpos($conts, '## Redaxo Database Dump Version ' . $mainVersion);
         if (false === $version) {
-            return $returnErrorAndCleanup(rex_i18n::msg('backup_no_valid_import_file') . '. [## Redaxo Database Dump Version ' . $mainVersion . '] is missing');
+            return $returnError(rex_i18n::msg('backup_no_valid_import_file') . '. [## Redaxo Database Dump Version ' . $mainVersion . '] is missing');
         }
         // Versionsstempel entfernen
         $conts = trim(str_replace('## Redaxo Database Dump Version ' . $mainVersion, '', $conts));
@@ -142,7 +123,7 @@ class rex_backup
             $conts = trim(str_replace('## Prefix ' . $prefix, '', $conts));
         } else {
             // Prefix wurde nicht gefunden
-            return $returnErrorAndCleanup(rex_i18n::msg('backup_no_valid_import_file') . '. [## Prefix ' . rex::getTablePrefix() . '] is missing');
+            return $returnError(rex_i18n::msg('backup_no_valid_import_file') . '. [## Prefix ' . rex::getTablePrefix() . '] is missing');
         }
 
         // Charset prüfen
@@ -154,7 +135,7 @@ class rex_backup
 
             if ('utf8mb4' === $charset && !rex::getConfig('utf8mb4') && !rex_setup_importer::supportsUtf8mb4()) {
                 $sql = rex_sql::factory();
-                return $returnErrorAndCleanup(rex_i18n::msg('backup_utf8mb4_not_supported', $sql->getDbType().' '.$sql->getDbVersion()));
+                return $returnError(rex_i18n::msg('backup_utf8mb4_not_supported', $sql->getDbType().' '.$sql->getDbVersion()));
             }
         }
 
@@ -169,6 +150,7 @@ class rex_backup
 
         // ----- EXTENSION POINT
         $filesize = filesize($filename);
+        $msg = '';
         $msg = rex_extension::registerPoint(new rex_extension_point('BACKUP_BEFORE_DB_IMPORT', $msg, [
             'content' => $conts,
             'filename' => $filename,
@@ -194,7 +176,7 @@ class rex_backup
         }
 
         if ($error) {
-            return $returnErrorAndCleanup(implode('<br/>', $error));
+            return $returnError(implode('<br/>', $error));
         }
 
         $msg .= rex_i18n::msg('backup_database_imported') . '. ' . rex_i18n::msg('backup_entry_count', (string) count($lines)) . '<br />';
@@ -219,14 +201,7 @@ class rex_backup
         // delete cache again because the extensions and the php script could have changed data again
         $msg .= rex_delete_cache();
 
-        $return['state'] = true;
-        $return['message'] = $msg;
-
-        if ($decompressedFilename) {
-            rex_file::delete($decompressedFilename);
-        }
-
-        return $return;
+        return ['state' => true, 'message' => $msg];
     }
 
     /**
