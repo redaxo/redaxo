@@ -14,7 +14,7 @@ $csrfToken = rex_csrf_token::factory('system');
 
 if ($func && !$csrfToken->isValid()) {
     $error = rex_i18n::msg('csrf_token_invalid');
-}elseif ('delLog' == $func) {
+} elseif ('delLog' == $func) {
     // close logger, to free remaining file-handles to syslog
     // so we can safely delete the file
     rex_logger::close();
@@ -24,7 +24,7 @@ if ($func && !$csrfToken->isValid()) {
     } else {
         $error = rex_i18n::msg('syslog_delete_error');
     }
-}elseif ('download' == $func && is_file($logFile)) {
+} elseif ('download' == $func && is_file($logFile)) {
     rex_response::sendFile($logFile, 'application/octet-stream', 'attachment');
     exit;
 }
