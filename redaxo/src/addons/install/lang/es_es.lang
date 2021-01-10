@@ -69,6 +69,3 @@ install_settings_saved = Ajustes guardados !
 install_settings_error = La configuración no se ha guardado, compruebe los permisos de archivo para: {0}
 
 install_header_function = Función
-
-install_clear = Claro
-install_search = Buscar...

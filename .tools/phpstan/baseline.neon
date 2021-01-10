@@ -126,7 +126,7 @@ parameters:
 			path: ../../redaxo/src/addons/structure/plugins/version/boot.php
 
 		-
-			message: "#^Offset 'href' on array\\(\\?'active' \\=\\> true, 'href' \\=\\> string, \\?'itemAttr' \\=\\> array\\('class' \\=\\> array\\('bg\\-success'\\)\\)\\) in isset\\(\\) always exists and is not nullable\\.$#"
+			message: "#^Offset 'href' on array\\(\\?'active' \\=\\> true, 'href' \\=\\> string, \\?'itemAttr' \\=\\> array\\('class' \\=\\> array\\(0 \\=\\> 'bg\\-success', \\?1 \\=\\> 'disabled'\\)\\)\\) in isset\\(\\) always exists and is not nullable\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/layout/top.php
 

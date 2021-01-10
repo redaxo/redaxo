@@ -14,5 +14,7 @@ page:
     linkAttr: { target: _blank }
 
 requires:
-    php: '>=7.3'
+    php:
+        version: '>=7.3'
+        extensions: [zip]
     redaxo: ^5.11.0

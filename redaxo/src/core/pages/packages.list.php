@@ -15,11 +15,15 @@ rex_package_manager::synchronizeWithFileSystem();
 $toolbar = '
     <div class="form-group form-group-xs">
         <div class="input-group input-group-xs" id="rex-js-available-addon-search">
-            <input class="form-control" type="text" placeholder="' . rex_i18n::msg('package_search') . '" '.(rex_request('function') ? '' : 'autofocus ').'/>
+            <input class="form-control" type="search" placeholder="' . rex_i18n::msg('package_search') . '" '.(rex_request('function') ? '' : 'autofocus ').'/>
             <span class="input-group-btn"><button class="btn btn-default">' . rex_i18n::msg('package_clear') . '</button></span>
         </div>
     </div>
 ';
+
+$fragment = new rex_fragment();
+$fragment->setVar('id', 'rex-js-available-addon-search');
+$toolbar = $fragment->parse('core/form/search.php');
 
 $content .= '
         <table class="table table-hover" id="rex-js-table-available-packages-addons">
@@ -49,7 +53,7 @@ $getLink = static function (rex_package $package, $function, $icon = '', $confir
 
     $icon = ('' != $icon) ? '<i class="rex-icon ' . $icon . '"></i>' : '';
     $class = ($key ?: $function);
-    return '<a href="' . $url . '"' . $onclick . '>' . $icon . ' ' . $text . '</a>';
+    return '<a class="rex-link-expanded" href="' . $url . '"' . $onclick . '>' . $icon . ' ' . $text . '</a>';
 };
 
 $getTableRow = static function (rex_package $package) use ($getLink) {
@@ -115,7 +119,7 @@ $getTableRow = static function (rex_package $package) use ($getLink) {
             $firstLine = 'MIT License';
         }
 
-        $license = '<a href="'. rex_url::currentBackendPage(['subpage' => 'license', 'package' => $packageId]) .'" data-pjax-scroll-to="0"><i class="rex-icon rex-icon-license"></i> '. rex_escape($firstLine) .'</a>';
+        $license = '<a class="rex-link-expanded" href="'. rex_url::currentBackendPage(['subpage' => 'license', 'package' => $packageId]) .'" data-pjax-scroll-to="0"><i class="rex-icon rex-icon-license"></i> '. rex_escape($firstLine) .'</a>';
     }
 
     return $message . '
@@ -124,7 +128,7 @@ $getTableRow = static function (rex_package $package) use ($getLink) {
                     <td data-title="' . rex_i18n::msg('package_hname') . '">' . $name . '</td>
                     <td data-title="' . rex_i18n::msg('package_hversion') . '">' . $version . '</td>
                     <td class="rex-table-slim" data-title="' . rex_i18n::msg('package_hhelp') . '">
-                        <a href="' . rex_url::currentBackendPage(['subpage' => 'help', 'package' => $packageId]) . '" data-pjax-scroll-to="0" title="' . rex_i18n::msg('package_help') . ' ' . rex_escape($package->getName()) . '"><i class="rex-icon rex-icon-help"></i> ' . rex_i18n::msg('package_hhelp') . ' <span class="sr-only">' . rex_escape($package->getName()) . '</span></a>
+                        <a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['subpage' => 'help', 'package' => $packageId]) . '" data-pjax-scroll-to="0" title="' . rex_i18n::msg('package_help') . ' ' . rex_escape($package->getName()) . '"><i class="rex-icon rex-icon-help"></i> ' . rex_i18n::msg('package_hhelp') . ' <span class="sr-only">' . rex_escape($package->getName()) . '</span></a>
                     </td>
                     <td class="rex-table-width-6" data-title="' . rex_i18n::msg('package_hlicense') . '">'. $license .'</td>
                     <td class="rex-table-action" data-pjax-container="#rex-js-page-container">' . $install . '</td>
@@ -166,10 +170,8 @@ $content .= '
                 });
             }
         });
-        $("#rex-js-available-addon-search .btn").click(function () {
-            $("#rex-js-available-addon-search .form-control").val("").trigger("keyup");
-        });
     });
+    rex_searchfield_init("#rex-js-available-addon-search");
     //-->
     </script>
 ';

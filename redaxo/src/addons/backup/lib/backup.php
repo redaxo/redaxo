@@ -27,19 +27,21 @@ class rex_backup
     public static function isFilenameValid(int $importType, string $filename): bool
     {
         if (self::IMPORT_ARCHIVE === $importType) {
-            return '.tar.gz' == substr($filename, -7, 7);
+            return str_ends_with($filename, '.tar.gz');
         }
         if (self::IMPORT_DB === $importType) {
-            return '.sql' == substr($filename, -4, 4);
+            return str_ends_with($filename, '.sql') || str_ends_with($filename, '.sql.gz');
         }
 
         throw new rex_exception('unexpected importType '. $importType);
     }
 
     /**
+     * @param self::IMPORT_*|string $fileType
+     *
      * @return string[]
      */
-    public static function getBackupFiles($filePrefix)
+    public static function getBackupFiles($fileType)
     {
         $dir = self::getDir();
 
@@ -48,8 +50,16 @@ class rex_backup
         $filtered = [];
         foreach ($folder as $file) {
             $file = $file->getFilename();
-            if (substr($file, strlen($file) - strlen($filePrefix)) == $filePrefix) {
-                $filtered[] = $file;
+            if (is_int($fileType)) {
+                if (self::isFilenameValid($fileType, $file)) {
+                    $filtered[] = $file;
+                }
+            } else {
+                // bc compat
+                $fileSuffix = $fileType;
+                if (substr($file, strlen($file) - strlen($fileSuffix)) == $fileSuffix) {
+                    $filtered[] = $file;
+                }
             }
         }
         $folder = $filtered;
@@ -69,29 +79,43 @@ class rex_backup
      * @return array Gibt ein Assoc. Array zurück.
      *               'state' => boolean (Status ob fehler aufgetreten sind)
      *               'message' => Evtl. Status/Fehlermeldung
+     * @psalm-return array{state: bool, message: string}
      */
     public static function importDb($filename)
     {
-        $return = [];
-        $return['state'] = false;
-        $return['message'] = '';
+        /**
+         * @psalm-return array{state: bool, message: string}
+         */
+        $returnError = static function (string $message): array {
+            $return = [];
+            $return['state'] = false;
+            $return['message'] = $message;
 
-        $msg = '';
+            return $return;
+        };
 
         if ('' == $filename || !self::isFilenameValid(self::IMPORT_DB, $filename)) {
-            $return['message'] = rex_i18n::msg('backup_no_import_file_chosen_or_wrong_version') . '<br>';
-            return $return;
+            return $returnError(rex_i18n::msg('backup_no_import_file_chosen_or_wrong_version') . '<br>');
         }
 
-        $conts = rex_file::require($filename);
+        if ('gz' === rex_file::extension($filename)) {
+            $compressor = new rex_backup_file_compressor();
+            $conts = $compressor->gzReadDeCompressed($filename);
+
+            // should not happen
+            if (false === $conts) {
+                return $returnError(rex_i18n::msg('backup_no_valid_import_file').'. Unable to decompress .gz');
+            }
+        } else {
+            $conts = rex_file::require($filename);
+        }
 
         // Versionsstempel prüfen
         // ## Redaxo Database Dump Version x.x
         $mainVersion = rex::getVersion('%s');
         $version = strpos($conts, '## Redaxo Database Dump Version ' . $mainVersion);
         if (false === $version) {
-            $return['message'] = rex_i18n::msg('backup_no_valid_import_file') . '. [## Redaxo Database Dump Version ' . $mainVersion . '] is missing';
-            return $return;
+            return $returnError(rex_i18n::msg('backup_no_valid_import_file') . '. [## Redaxo Database Dump Version ' . $mainVersion . '] is missing');
         }
         // Versionsstempel entfernen
         $conts = trim(str_replace('## Redaxo Database Dump Version ' . $mainVersion, '', $conts));
@@ -104,8 +128,7 @@ class rex_backup
             $conts = trim(str_replace('## Prefix ' . $prefix, '', $conts));
         } else {
             // Prefix wurde nicht gefunden
-            $return['message'] = rex_i18n::msg('backup_no_valid_import_file') . '. [## Prefix ' . rex::getTablePrefix() . '] is missing';
-            return $return;
+            return $returnError(rex_i18n::msg('backup_no_valid_import_file') . '. [## Prefix ' . rex::getTablePrefix() . '] is missing');
         }
 
         // Charset prüfen
@@ -117,8 +140,7 @@ class rex_backup
 
             if ('utf8mb4' === $charset && !rex::getConfig('utf8mb4') && !rex_setup_importer::supportsUtf8mb4()) {
                 $sql = rex_sql::factory();
-                $return['message'] = rex_i18n::msg('backup_utf8mb4_not_supported', $sql->getDbType().' '.$sql->getDbVersion());
-                return $return;
+                return $returnError(rex_i18n::msg('backup_utf8mb4_not_supported', $sql->getDbType().' '.$sql->getDbVersion()));
             }
         }
 
@@ -133,6 +155,7 @@ class rex_backup
 
         // ----- EXTENSION POINT
         $filesize = filesize($filename);
+        $msg = '';
         $msg = rex_extension::registerPoint(new rex_extension_point('BACKUP_BEFORE_DB_IMPORT', $msg, [
             'content' => $conts,
             'filename' => $filename,
@@ -158,8 +181,7 @@ class rex_backup
         }
 
         if ($error) {
-            $return['message'] = implode('<br/>', $error);
-            return $return;
+            return $returnError(implode('<br/>', $error));
         }
 
         $msg .= rex_i18n::msg('backup_database_imported') . '. ' . rex_i18n::msg('backup_entry_count', (string) count($lines)) . '<br />';
@@ -184,10 +206,7 @@ class rex_backup
         // delete cache again because the extensions and the php script could have changed data again
         $msg .= rex_delete_cache();
 
-        $return['state'] = true;
-        $return['message'] = $msg;
-
-        return $return;
+        return ['state' => true, 'message' => $msg];
     }
 
     /**

@@ -59,6 +59,8 @@ backup_mailaddress = Mailadresse
 backup_mail_subject = Neue Datenbank-Sicherung
 backup_mail_body = Im Anhang befindet sich eine neue Datenbank-Sicherung der Website "{0}".
 
+backup_compress = Backup komprimieren
+
 backup_delete_interval = Alte Backups löschen
 backup_delete_interval_off = Aus
 backup_delete_interval_weekly = Ein Backup pro Woche behalten
