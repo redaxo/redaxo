@@ -22,9 +22,9 @@ const DEBUGGING = false;
 const WORKING_DIR = '.tests-visual/';
 const GOLDEN_SAMPLES_DIR = '.github/tests-visual/';
 
-var myArgs = process.argv.slice(2);
-var minDiffPixels = 1;
-var isSetup = false;
+const myArgs = process.argv.slice(2);
+let minDiffPixels = 1;
+let isSetup = false;
 
 if (myArgs.includes('regenerate-all')) {
     // force sample-regeneration, even if pixelmatch() thinks nothing changed
@@ -43,6 +43,45 @@ const noHtaccessCheckCookie = {
     domain: 'localhost',
     httpOnly: false,
     secure: false
+};
+
+// all pages
+const allPages = {
+    'mediapool_media.png': START_URL + '?page=mediapool/media',
+    'mediapool_upload.png': START_URL + '?page=mediapool/upload',
+    'mediapool_structure.png': START_URL + '?page=mediapool/structure',
+    'mediapool_sync.png': START_URL + '?page=mediapool/sync',
+    'templates.png': START_URL + '?page=templates',
+    'templates_add.png': START_URL + '?page=templates&function=add',
+    'templates_edit.png': START_URL + '?page=templates&function=edit&template_id=1',
+    'modules_modules.png': START_URL + '?page=modules/modules',
+    'modules_modules_add.png': START_URL + '?page=modules/modules&function=add',
+    'modules_actions.png': START_URL + '?page=modules/actions',
+    'modules_actions_add.png': START_URL + '?page=modules/actions&function=add',
+    'users_users.png': START_URL + '?page=users/users',
+    'users_edit.png': START_URL + '?page=users/users&user_id=1',
+    'users_roles.png': START_URL + '?page=users/roles',
+    'users_role_add.png': START_URL + '?page=users/roles&func=add&default_value=1',
+    'packages.png': START_URL + '?page=packages',
+    'system_settings.png': START_URL + '?page=system/settings',
+    'system_lang.png': START_URL + '?page=system/lang',
+    'system_log.png': START_URL + '?page=system/log/redaxo',
+    'system_report.png': START_URL + '?page=system/report/html',
+    'backup_export.png': START_URL + '?page=backup/export',
+    'backup_import.png': START_URL + '?page=backup/import',
+    'backup_import_server.png': START_URL + '?page=backup/import/server',
+    'cronjob_cronjobs.png': START_URL + '?page=cronjob/cronjobs',
+    'cronjob_cronjobs_add.png': START_URL + '?page=cronjob/cronjobs&func=add',
+    'media_manager_types.png': START_URL + '?page=media_manager/types',
+    'media_manager_types_add.png': START_URL + '?page=media_manager/types&func=add',
+    'media_manager_types_edit.png': START_URL + '?page=media_manager/types&type_id=1&effects=1',
+    'media_manager_settings.png': START_URL + '?page=media_manager/settings',
+    'metainfo_articles.png': START_URL + '?page=metainfo/articles',
+    'metainfo_articles_add.png': START_URL + '?page=metainfo/articles&func=add',
+    'metainfo_categories.png': START_URL + '?page=metainfo/categories',
+    'metainfo_media.png': START_URL + '?page=metainfo/media',
+    'metainfo_clangs.png': START_URL + '?page=metainfo/clangs',
+    'phpmailer_config.png': START_URL + '?page=phpmailer/config',
 };
 
 function countDiffPixels(img1path, img2path ) {
@@ -136,47 +175,9 @@ async function main() {
         await page.waitForTimeout(1000);
         await createScreenshot(page, 'index.png');
 
-        // all pages
-        var config = {
-            'mediapool_media.png': START_URL + '?page=mediapool/media',
-            'mediapool_upload.png': START_URL + '?page=mediapool/upload',
-            'mediapool_structure.png': START_URL + '?page=mediapool/structure',
-            'mediapool_sync.png': START_URL + '?page=mediapool/sync',
-            'templates.png': START_URL + '?page=templates',
-            'templates_add.png': START_URL + '?page=templates&function=add',
-            'templates_edit.png': START_URL + '?page=templates&function=edit&template_id=1',
-            'modules_modules.png': START_URL + '?page=modules/modules',
-            'modules_modules_add.png': START_URL + '?page=modules/modules&function=add',
-            'modules_actions.png': START_URL + '?page=modules/actions',
-            'modules_actions_add.png': START_URL + '?page=modules/actions&function=add',
-            'users_users.png': START_URL + '?page=users/users',
-            'users_edit.png': START_URL + '?page=users/users&user_id=1',
-            'users_roles.png': START_URL + '?page=users/roles',
-            'users_role_add.png': START_URL + '?page=users/roles&func=add&default_value=1',
-            'packages.png': START_URL + '?page=packages',
-            'system_settings.png': START_URL + '?page=system/settings',
-            'system_lang.png': START_URL + '?page=system/lang',
-            'system_log.png': START_URL + '?page=system/log/redaxo',
-            'system_report.png': START_URL + '?page=system/report/html',
-            'backup_export.png': START_URL + '?page=backup/export',
-            'backup_import.png': START_URL + '?page=backup/import',
-            'backup_import_server.png': START_URL + '?page=backup/import/server',
-            'cronjob_cronjobs.png': START_URL + '?page=cronjob/cronjobs',
-            'cronjob_cronjobs_add.png': START_URL + '?page=cronjob/cronjobs&func=add',
-            'media_manager_types.png': START_URL + '?page=media_manager/types',
-            'media_manager_types_add.png': START_URL + '?page=media_manager/types&func=add',
-            'media_manager_types_edit.png': START_URL + '?page=media_manager/types&type_id=1&effects=1',
-            'media_manager_settings.png': START_URL + '?page=media_manager/settings',
-            'metainfo_articles.png': START_URL + '?page=metainfo/articles',
-            'metainfo_articles_add.png': START_URL + '?page=metainfo/articles&func=add',
-            'metainfo_categories.png': START_URL + '?page=metainfo/categories',
-            'metainfo_media.png': START_URL + '?page=metainfo/media',
-            'metainfo_clangs.png': START_URL + '?page=metainfo/clangs',
-            'phpmailer_config.png': START_URL + '?page=phpmailer/config',
-        };
-
-        for (var fileName in config) {
-            await page.goto(config[fileName], { waitUntil: 'load' });
+        // run through all pages
+        for (var fileName in allPages) {
+            await page.goto(allPages[fileName], { waitUntil: 'load' });
             await page.waitForTimeout(300); // CSS animation
             await createScreenshot(page, fileName);
         }
