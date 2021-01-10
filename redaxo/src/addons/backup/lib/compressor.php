@@ -44,7 +44,7 @@ class rex_backup_file_compressor
     }
 
     /**
-     * Read a gz compressed file into a plain string
+     * Read a gz compressed file into a plain string.
      *
      * @param string $source Path to a .gz file that should be decompressed
      * @return string|false The uncompressed content if success, or false if operation fails
