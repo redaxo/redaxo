@@ -32,7 +32,7 @@
 .panel > form {
     margin-bottom: 0;
 }
-.form-control:focus {
+.form-control:focus:not([readonly]) {
     background-color: #fff;
 }
 // rex_select liefert immer size=1 und bs3 setzt height auf auto
@@ -275,4 +275,17 @@ label.required::after {
 // https://github.com/redaxo/redaxo/issues/3962
 .form-control {
     height: auto;
+}
+
+// clear button for search inputs
+.form-control-clear {
+    z-index: 22;
+    pointer-events: auto;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0.3em;
+    opacity: 0.6;
+}
+.form-clear-button input.form-control {
+    padding-right: 25px;
 }

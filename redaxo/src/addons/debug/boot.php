@@ -34,7 +34,6 @@ if (rex::isBackend() && 'debug' === rex_request::get('page') && rex::getUser() &
             if (!store.settings.global) store.settings.global = {};
 
             store.settings.global.editor = '$curEditor';
-            store.settings.global.seenReleaseNotesVersion = "4.1";
 
             if (!store.settings.site) store.settings.site = {};
 
@@ -63,12 +62,12 @@ rex_response::setHeader('X-Clockwork-Path', rex_debug_clockwork::getClockworkApi
 $shutdownFn = static function () {
     $clockwork = rex_debug_clockwork::getInstance();
 
-    $clockwork->getTimeline()->endEvent('total');
+    $clockwork->timeline()->finalize($clockwork->getRequest()->time);
 
     foreach (rex_timer::$serverTimings as $label => $timings) {
         foreach ($timings['timings'] as $i => $timing) {
             if ($timing['end'] - $timing['start'] >= 0.001) {
-                $clockwork->getTimeline()->addEvent($label.'_'.$i, $label, $timing['start'], $timing['end']);
+                $clockwork->timeline()->event($label, ['start' => $timing['start'], 'end' => $timing['end']]);
             }
         }
     }
@@ -104,7 +103,7 @@ $shutdownFn = static function () {
         }
     }
 
-    $ep = $clockwork->userData('ep');
+    $ep = $clockwork->getRequest()->userData('ep');
     $ep->title('Extension Point');
     $ep->counters([
         'Extension Points' => count(rex_extension_debug::getExtensionPoints()),

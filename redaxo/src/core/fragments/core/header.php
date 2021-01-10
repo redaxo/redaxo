@@ -28,7 +28,7 @@
                         <?php endif; ?>
                         <?php if (!rex_be_controller::getCurrentPageObject()->isPopup() && rex::getUser() && rex::getUser()->isAdmin() && rex::isDebugMode()): ?>
                             <a class="rex-marker-debugmode" href="<?= rex_url::backendPage('system/settings') ?>" title="<?= rex_i18n::msg('debug_mode_marker') ?>">
-                                <i class="rex-icon rex-icon-heartbeat"></i>
+                                <i class="rex-icon rex-icon-heartbeat rex-pulse"></i>
                             </a>
                         <?php endif; ?>
                     </div>

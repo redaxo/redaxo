@@ -146,7 +146,7 @@ if ('setup' == rex_be_controller::getCurrentPagePart(1)) {
     $end = $lang ? 7 : 1;
     for ($i = 1; $i <= $end; ++$i) {
         $n = [];
-        if ($i == $step) {
+        if (!$step || $i == $step) {
             $n['active'] = true;
         }
 
@@ -158,6 +158,11 @@ if ('setup' == rex_be_controller::getCurrentPagePart(1)) {
                 $n['href'] = 'javascript:void(0)';
             }
         }
+
+        if ($step && $i > $step) {
+            $n['itemAttr']['class'][] = 'disabled';
+        }
+
         $name = '';
         if (isset($n['href']) && '' != $lang) {
             $name = rex_i18n::msg('setup_' . $i . '99');
@@ -178,29 +183,6 @@ if ('setup' == rex_be_controller::getCurrentPagePart(1)) {
     $navigation = $fragment->parse('core/navigations/main.php');
 }
 
-/* Login Navigation ***********************************************************/
-/*
-if (!rex::getUser() && !rex::isSetup()) {
-    $navi = array();
-
-    $n = array();
-    $n['href'] = rex_url::backendPage('login');
-    $n['title'] = rex_i18n::msg('login');
-    $n['linkClasses'] = array('rex-active');
-    $navi[] = $n;
-
-    $block = array();
-    $block['headline'] = array('title' => rex_i18n::msg('login'));
-    $block['navigation'] = $navi;
-    $blocks[] = $block;
-
-    $fragment = new rex_fragment();
-    // $fragment->setVar('headline', array("title" => $this->getHeadline($block)), false);
-    $fragment->setVar('type', 'main', false);
-    $fragment->setVar('blocks', $blocks, false);
-    $navigation = $fragment->parse('navigation.php');
-}
-*/
 /* PJAX Footer Header ***********************************************************/
 
 $fragment = new rex_fragment();
