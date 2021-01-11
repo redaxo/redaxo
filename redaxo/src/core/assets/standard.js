@@ -716,7 +716,7 @@ jQuery(document).ready(function ($) {
         var contentType = request.getResponseHeader('content-type');
 
         if ((contentDisposition && contentDisposition.indexOf('attachment') === 0)
-            || contentDisposition && contentDisposition.indexOf('text/html') !== 0) {
+            || contentType &&  contentType.indexOf('text/html') !== 0) {
             // fallback: handle responses with attachment or other than text/html
             // at best links responding with "attachment" would not use pjax in the first place.
             window.location = href;
