@@ -714,9 +714,10 @@ jQuery(document).ready(function ($) {
     pjax.handleResponse = function (responseText, request, href, options) {
         var contentDisposition = request.getResponseHeader('content-disposition');
         var contentType = request.getResponseHeader('content-type');
+
         if ((contentDisposition && contentDisposition.indexOf('attachment') === 0)
-            || contentDisposition === 'inline' && contentType !== 'text/html') {
-            // fallback: handle responses with attachment (downloads) or inline but not text/html
+            || contentDisposition && contentDisposition.indexOf('text/html') !== 0) {
+            // fallback: handle responses with attachment or other than text/html
             // at best links responding with "attachment" would not use pjax in the first place.
             window.location = href;
             // hide loader
