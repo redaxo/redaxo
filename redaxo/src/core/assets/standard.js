@@ -709,7 +709,7 @@ jQuery(document).ready(function ($) {
         }
     });
 
-    // handle pjax response
+    // handle pjax response, https://github.com/MoOx/pjax#handleresponseresponsetext-request-href-options
     pjax._handleResponse = pjax.handleResponse;
     pjax.handleResponse = function(responseText, request, href, options) {
         if (request.getResponseHeader('content-disposition').indexOf('attachment') !== -1) {
