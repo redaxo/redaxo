@@ -712,15 +712,15 @@ jQuery(document).ready(function ($) {
     // handle pjax response
     pjax._handleResponse = pjax.handleResponse;
     pjax.handleResponse = function(responseText, request, href, options) {
-        if (request.responseText.match("<html")) {
-            // handle HTML response
-            pjax._handleResponse(responseText, request, href, options);
-        } else {
-            // handle non-HTML response
+        if (request.getResponseHeader('content-disposition').indexOf('attachment') !== -1) {
+            // handle responses with attachment (downloads)
             window.location = href;
             // hide loader
             window.clearTimeout(rexAjaxLoaderId);
             document.querySelector('#rex-js-ajax-loader').classList.remove('rex-visible');
+        } else {
+            // handle inline responses (HTML)
+            pjax._handleResponse(responseText, request, href, options);
         }
     }
 
