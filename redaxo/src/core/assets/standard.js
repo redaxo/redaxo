@@ -720,7 +720,7 @@ jQuery(document).ready(function ($) {
             window.clearTimeout(rexAjaxLoaderId);
             document.querySelector('#rex-js-ajax-loader').classList.remove('rex-visible');
         } else {
-            // handle inline responses (HTML)
+            // happy path: handle inline responses (HTML)
             pjax._handleResponse(responseText, request, href, options);
         }
     }
