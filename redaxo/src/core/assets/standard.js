@@ -713,7 +713,8 @@ jQuery(document).ready(function ($) {
     pjax._handleResponse = pjax.handleResponse;
     pjax.handleResponse = function(responseText, request, href, options) {
         if (request.getResponseHeader('content-disposition').indexOf('attachment') !== -1) {
-            // handle responses with attachment (downloads)
+            // fallback: handle responses with attachment (downloads)
+            // at best links responding with "attachment" would not use pjax in the first place.
             window.location = href;
             // hide loader
             window.clearTimeout(rexAjaxLoaderId);
