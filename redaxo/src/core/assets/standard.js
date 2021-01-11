@@ -711,16 +711,19 @@ jQuery(document).ready(function ($) {
 
     // handle pjax response, https://github.com/MoOx/pjax#handleresponseresponsetext-request-href-options
     pjax._handleResponse = pjax.handleResponse;
-    pjax.handleResponse = function(responseText, request, href, options) {
-        if (request.getResponseHeader('content-disposition').indexOf('attachment') !== -1) {
-            // fallback: handle responses with attachment (downloads)
+    pjax.handleResponse = function (responseText, request, href, options) {
+        var contentDisposition = request.getResponseHeader('content-disposition');
+        var contentType = request.getResponseHeader('content-type');
+        if ((contentDisposition && contentDisposition.indexOf('attachment') === 0)
+            || contentDisposition === 'inline' && contentType !== 'text/html') {
+            // fallback: handle responses with attachment (downloads) or inline but not text/html
             // at best links responding with "attachment" would not use pjax in the first place.
             window.location = href;
             // hide loader
             window.clearTimeout(rexAjaxLoaderId);
             document.querySelector('#rex-js-ajax-loader').classList.remove('rex-visible');
         } else {
-            // happy path: handle inline responses (HTML)
+            // happy path: handle other responses (html, form-data)
             pjax._handleResponse(responseText, request, href, options);
         }
     }
