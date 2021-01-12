@@ -385,7 +385,7 @@ if ('' != $FUNC_ADD || $user_id > 0) {
             $add_admin_chkbox = '';
         }
         $add_status_chkbox = '<input type="checkbox" id="rex-user-status" name="userstatus" value="1" ' . $statuschecked . ' />';
-        $add_user_login = '<input class="form-control" type="text" id="rex-user-login" name="userlogin" value="' . rex_escape($userlogin) . '" autofocus />';
+        $add_user_login = '<input class="form-control" type="text" id="rex-user-login" name="userlogin" value="' . rex_escape($userlogin) . '" autofocus autocomplete="nickname" />';
 
         $formElements = [];
 
@@ -414,7 +414,7 @@ if ('' != $FUNC_ADD || $user_id > 0) {
 
     $n = [];
     $n['label'] = '<label for="rex-js-user-password" class="required">' . rex_i18n::msg('password') . '</label>';
-    $n['field'] = '<input class="form-control" type="password" id="rex-js-user-password" name="userpsw" autocomplete="new-password"/>';
+    $n['field'] = '<input class="form-control" type="password" id="rex-js-user-password" name="userpsw" autocomplete="new-password" />';
     $n['note'] = $passwordPolicy->getDescription();
 
     $formElements[] = $n;
@@ -442,17 +442,17 @@ if ('' != $FUNC_ADD || $user_id > 0) {
 
     $n = [];
     $n['label'] = '<label for="rex-user-name">' . rex_i18n::msg('name') . '</label>';
-    $n['field'] = '<input class="form-control" type="text" id="rex-user-name" name="username" value="' . rex_escape($username) . '" />';
+    $n['field'] = '<input class="form-control" type="text" id="rex-user-name" name="username" value="' . rex_escape($username) . '"  autocomplete="name" />';
     $formElements[] = $n;
 
     $n = [];
     $n['label'] = '<label for="rex-user-description">' . rex_i18n::msg('description') . '</label>';
-    $n['field'] = '<input class="form-control" type="text" id="rex-user-description" name="userdesc" value="' . rex_escape($userdesc) . '" />';
+    $n['field'] = '<input class="form-control" type="text" id="rex-user-description" name="userdesc" value="' . rex_escape($userdesc) . '" autocomplete="organization" />';
     $formElements[] = $n;
 
     $n = [];
     $n['label'] = '<label for="rex-user-email">' . rex_i18n::msg('email') . '</label>';
-    $n['field'] = '<input class="form-control" type="email" placeholder="name@domain.tld" id="rex-user-email" name="useremail" value="' . rex_escape($useremail) . '" />';
+    $n['field'] = '<input class="form-control" type="email" placeholder="user@example.org" id="rex-user-email" name="useremail" value="' . rex_escape($useremail) . '"  autocomplete="email" />';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
