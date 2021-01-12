@@ -79,13 +79,12 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
             $version = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $version;
             $description = rex_view::warning(rex_i18n::msg('unstable_version')) . $description;
         }
-        
+
         $button = '';
-        if ($fileId === array_key_first($addon['files']))
-        {
-        $button = "btn btn-save ";
-        } 
-        
+        if ($fileId === array_key_first($addon['files'])) {
+            $button = 'btn btn-save ';
+        }
+
         $content .= '
             <tr>
                 <td class="rex-table-icon"><i class="rex-icon rex-icon-package"></i></td>
