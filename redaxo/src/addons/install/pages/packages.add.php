@@ -80,9 +80,9 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
             $description = rex_view::warning(rex_i18n::msg('unstable_version')) . $description;
         }
 
-        $button = '';
+        $button_class = 'rex-link-expanded';
         if ($fileId === array_key_first($addon['files'])) {
-            $button = 'btn btn-save ';
+            $button_class = 'btn btn-save';
         }
 
         $content .= '
@@ -91,7 +91,7 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
                 <td data-title="' . $package->i18n('version') . '">' . $version . '</td>
                 <td data-title="' . $package->i18n('published_on') . '">' . rex_escape(rex_formatter::strftime($file['created'])) . '</td>
                 <td data-title="' . $package->i18n('description') . '">' . $description . '</td>
-                <td class="rex-table-action"><a class="class="'.$button.'rex-link-expanded" href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $fileId] + rex_api_install_package_add::getUrlParams()) . '" data-pjax="false"><i class="rex-icon rex-icon-download"></i> ' . $package->i18n('download') . '</a></td>
+                <td class="rex-table-action"><a class="'.$button_class.'" href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $fileId] + rex_api_install_package_add::getUrlParams()) . '" data-pjax="false"><i class="rex-icon rex-icon-download"></i> ' . $package->i18n('download') . '</a></td>
             </tr>';
     }
 
