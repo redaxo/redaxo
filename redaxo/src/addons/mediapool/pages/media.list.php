@@ -143,7 +143,7 @@ $panel = '
         <table class="table table-striped table-hover">
             <thead>
             <tr>
-                <th class="rex-table-icon"><a href="' . rex_url::backendController(array_merge(['page' => 'mediapool/upload'], $arg_url)) . '"' . rex::getAccesskey(rex_i18n::msg('pool_file_insert'), 'add') . ' title="' . rex_i18n::msg('pool_file_insert') . '"><i class="rex-icon rex-icon-add-media"></i></a></th>
+                <th class="rex-table-icon"><a class="rex-link-expanded" href="' . rex_url::backendController(array_merge(['page' => 'mediapool/upload'], $arg_url)) . '"' . rex::getAccesskey(rex_i18n::msg('pool_file_insert'), 'add') . ' title="' . rex_i18n::msg('pool_file_insert') . '"><i class="rex-icon rex-icon-add-media"></i></a></th>
                 <th class="rex-table-thumbnail">' . rex_i18n::msg('pool_file_thumbnail') . '</th>
                 <th>' . rex_i18n::msg('pool_file_info') . ' / ' . rex_i18n::msg('pool_file_description') . '</th>
                 <th>' . rex_i18n::msg('pool_last_update') . '</th>
@@ -341,12 +341,12 @@ $panel = '
                     ' . $add_td . '
                     <td data-title="' . rex_i18n::msg('pool_file_thumbnail') . '"><a href="' . $ilink . '"><div class="lazyload" data-noscript=""><noscript>' . $thumbnail . '</noscript></div></a></td>
                     <td data-title="' . rex_i18n::msg('pool_file_info') . '">
-                        <h3><a href="' . $ilink . '">' . rex_escape($file_title) . '</a></h3>
+                        <h3><a class="rex-link-expanded" href="' . $ilink . '">' . rex_escape($file_title) . '</a></h3>
                         ' . $desc . '
                         <p>' . rex_escape($file_name) . ' <span class="rex-filesize">' . $file_size . '</span></p>
                     </td>
                     <td data-title="' . rex_i18n::msg('pool_last_update') . '"><p class="rex-date">' . $file_stamp . '</p><p class="rex-author">' . rex_escape($file_updateuser) . '</p></td>
-                    <td class="rex-table-action"><a href="' . $ilink . '">' . rex_i18n::msg('edit') . '</a></td>
+                    <td class="rex-table-action"><a class="rex-link-expanded" href="' . $ilink . '">' . rex_i18n::msg('edit') . '</a></td>
                     <td class="rex-table-action">';
 
                     $panel .= rex_extension::registerPoint(new rex_extension_point('MEDIA_LIST_FUNCTIONS', $opener_link, [

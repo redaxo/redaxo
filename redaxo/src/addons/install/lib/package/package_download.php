@@ -14,7 +14,7 @@ abstract class rex_install_package_download
 
     public function run(string $addonkey, int $fileId)
     {
-        $this->addonkey = $addonkey;
+        $this->addonkey = rex_path::basename($addonkey); // the addonkey is used in file paths
         $this->fileId = $fileId;
 
         $packages = $this->getPackages();

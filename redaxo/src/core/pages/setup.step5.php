@@ -2,6 +2,7 @@
 
 assert(isset($context) && $context instanceof rex_context);
 assert(isset($errors) && is_array($errors));
+assert(isset($cancelSetupBtn));
 
 $tables_complete = ('' == rex_setup_importer::verifyDbSchema()) ? true : false;
 
@@ -19,7 +20,7 @@ if ($supportsUtf8mb4) {
     }
 }
 
-$headline = rex_view::title(rex_i18n::msg('setup_500'));
+$headline = rex_view::title(rex_i18n::msg('setup_500').$cancelSetupBtn);
 
 $content = '
             <fieldset class="rex-js-setup-step-5">
@@ -38,14 +39,18 @@ foreach (rex_setup::checkDbSecurity() as $message) {
 
 $dbchecked = array_fill(0, 6, '');
 switch ($createdb) {
-    case 1:
-    case 2:
-    case 3:
-    case 4:
+    case rex_setup::DB_MODE_SETUP_AND_OVERRIDE:
+    case rex_setup::DB_MODE_SETUP_SKIP:
+    case rex_setup::DB_MODE_SETUP_IMPORT_BACKUP:
+    case rex_setup::DB_MODE_SETUP_UPDATE_FROM_PREVIOUS:
         $dbchecked[$createdb] = ' checked="checked"';
         break;
     default:
-        $dbchecked[0] = ' checked="checked"';
+        if ($tables_complete) {
+            $dbchecked[rex_setup::DB_MODE_SETUP_SKIP] = ' checked="checked"';
+        } else {
+            $dbchecked[rex_setup::DB_MODE_SETUP_NO_OVERRIDE] = ' checked="checked"';
+        }
 }
 
 // Vorhandene Exporte auslesen
@@ -86,26 +91,26 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="rex-form-createdb-0">' . rex_i18n::msg('setup_504') . '</label>';
-$n['field'] = '<input type="radio" id="rex-form-createdb-0" name="createdb" value="0"' . $dbchecked[0] . ' />';
+$n['field'] = '<input type="radio" id="rex-form-createdb-0" name="createdb" value="'. rex_setup::DB_MODE_SETUP_NO_OVERRIDE .'"' . $dbchecked[0] . ' />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-form-createdb-1">' . rex_i18n::msg('setup_505') . '</label>';
-$n['field'] = '<input type="radio" id="rex-form-createdb-1" name="createdb" value="1"' . $dbchecked[1] . ' />';
+$n['field'] = '<input type="radio" id="rex-form-createdb-1" name="createdb" value="'. rex_setup::DB_MODE_SETUP_AND_OVERRIDE .'"' . $dbchecked[1] . ' />';
 $n['note'] = rex_i18n::msg('setup_505_note');
 $formElements[] = $n;
 
 if ($tables_complete) {
     $n = [];
     $n['label'] = '<label for="rex-form-createdb-2">' . rex_i18n::msg('setup_506') . '</label>';
-    $n['field'] = '<input type="radio" id="rex-form-createdb-2" name="createdb" value="2"' . $dbchecked[2] . ' />';
+    $n['field'] = '<input type="radio" id="rex-form-createdb-2" name="createdb" value="'. rex_setup::DB_MODE_SETUP_SKIP .'"' . $dbchecked[2] . ' />';
     $n['note'] = rex_i18n::msg('setup_506_note');
     $formElements[] = $n;
 }
 
 $n = [];
 $n['label'] = '<label for="rex-form-createdb-4">' . rex_i18n::msg('setup_514') . '</label>';
-$n['field'] = '<input type="radio" id="rex-form-createdb-4" name="createdb" value="4"' . $dbchecked[4] . ' />';
+$n['field'] = '<input type="radio" id="rex-form-createdb-4" name="createdb" value="'. rex_setup::DB_MODE_SETUP_UPDATE_FROM_PREVIOUS .'"' . $dbchecked[4] . ' />';
 $n['note'] = rex_i18n::msg('setup_514_note');
 $formElements[] = $n;
 
@@ -117,7 +122,7 @@ if ($exports_found) {
     $formElements = [];
     $n = [];
     $n['label'] = '<label for="rex-form-createdb-3">' . rex_i18n::msg('setup_507') . '</label>';
-    $n['field'] = '<input type="radio" id="rex-form-createdb-3" name="createdb" value="3"' . $dbchecked[3] . ' />';
+    $n['field'] = '<input type="radio" id="rex-form-createdb-3" name="createdb" value="'. rex_setup::DB_MODE_SETUP_IMPORT_BACKUP .'"' . $dbchecked[3] . ' />';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -163,12 +168,12 @@ $n['field'] = '<p class="form-control-static">'.$sql->getDbType().' '.$sql->getD
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label>'.rex_i18n::msg('mode').'</label>';
+$n['label'] = '<label class="required">'.rex_i18n::msg('mode').'</label>';
 $n['field'] = $mode;
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label>'.rex_i18n::msg('charset').'</label>';
+$n['label'] = '<label class="required">'.rex_i18n::msg('charset').'</label>';
 $n['field'] = $charset;
 $formElements[] = $n;
 
@@ -198,30 +203,34 @@ $content .= '
 
                     // when opening backup dropdown -> mark corresponding radio button as checked
                     $container.find(".rex-js-import-name").click(function () {
-                        $container.find("[name=createdb][value=3]").prop("checked", true);
+                        $container.find("[name=createdb][value='. rex_setup::DB_MODE_SETUP_IMPORT_BACKUP .']").prop("checked", true);
                     });
 
-                    if (!$container.find("[name=utf8mb4][value=1]").prop("disabled")) {
-                        // when changing mode -> reset disabled state
-                        $container.find("[name=createdb]").click(function () {
+                    if (!$container.find("[name=utf8mb4][value='. rex_setup::DB_MODE_SETUP_AND_OVERRIDE .']").prop("disabled")) {
+                        var update = function () {
+                            // when changing mode -> reset disabled state
                             $container.find("[name=utf8mb4]").prop("disabled", false);
-                        });
 
-                        // when selecting "existing db" -> select current charset and disable radios
-                        $container.find("[name=createdb][value=2]").click(function () {
-                            $container.find("[name=utf8mb4][value='.((int) $existingUtf8mb4).']").prop("checked", true);
-                            $container.find("[name=utf8mb4]").prop("disabled", true);
-                        });
+                            switch (parseInt($container.find("[name=createdb]:checked").val())) {
+                                case '. rex_setup::DB_MODE_SETUP_SKIP .':
+                                    // when selecting "existing db" -> select current charset and disable radios
+                                    $container.find("[name=utf8mb4][value='.((int) $existingUtf8mb4).']").prop("checked", true);
+                                    $container.find("[name=utf8mb4]").prop("disabled", true);
+                                    break;
+                                case '. rex_setup::DB_MODE_SETUP_UPDATE_FROM_PREVIOUS .':
+                                    // when selecting "update db" -> select utf8mb4 charset
+                                    $container.find("[name=utf8mb4][value=1]").prop("checked", true);
+                                    break;
+                                case '. rex_setup::DB_MODE_SETUP_IMPORT_BACKUP .':
+                                    // when selecting "import backup" -> disable radios
+                                    $container.find("[name=utf8mb4]").prop("disabled", true);
+                                    break;
 
-                        // when selecting "update db" -> select utf8mb4 charset
-                        $container.find("[name=createdb][value=4]").click(function () {
-                            $container.find("[name=utf8mb4][value=1]").prop("checked", true);
-                        });
+                            }
+                        }
 
-                        // when selecting "import backup" -> disable radios
-                        $container.find("[name=createdb][value=3]").click(function () {
-                            $container.find("[name=utf8mb4]").prop("disabled", true);
-                        });
+                        $container.find("[name=createdb]").click(update);
+                        update();
                     }
                 });
                  //-->

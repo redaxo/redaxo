@@ -92,14 +92,37 @@
 .rex-nav-main {
     background-color: $color-a-dark;
 
+    > .navbar-collapse {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    h4 {
+        padding-left: $navbar-padding-horizontal;
+        padding-right: $navbar-padding-horizontal;
+    }
+
     li {
         > a {
+            padding-left: 30 + $navbar-padding-horizontal;
+            padding-right: $navbar-padding-horizontal;
             color: $color-a;
 
             &:hover,
             &:focus {
                 color: $color-b;
                 background-color: $color-a-darker;
+            }
+        }
+
+        &.rex-has-icon {
+            > a {
+                > .rex-icon {
+                    text-align: center;
+                    // slighly adjust position to improve visual appeal
+                    margin-left: -28px;
+                    margin-right: 3px;
+                }
             }
         }
     }
@@ -204,53 +227,47 @@
 
 .rex-page-nav {
     .nav-tabs {
-        border-bottom-color: $color-a-light;
+        border-bottom-color: darken($color-a-light, 5%);
         .rex-main-frame & {
             border-bottom-color: #fff;
         }
 
         > li {
-            .rex-main-frame & {
-                margin-bottom: 0;
-            }
-
             &.active {
                 > a:not(.btn),
                 > a:not(.btn):hover {
+                    padding-bottom: 10px;
                     background-color: #fff;
-                    border-top-color: $color-b;
-                    border-top-width: 2px;
+                    border-color: darken($color-a-light, 5%);
+                    border-bottom-color: transparent;
 
                     .rex-main-frame & {
-                        border-left-width: 0;
-                        border-right-width: 0;
-                        border-top-color: $color-b;
+                        background-color: $nav-tabs-active-link-hover-bg;
+                        border-color: $nav-tabs-active-link-hover-bg;
+                        border-bottom-color: transparent;
                     }
                 }
             }
 
             > a:not(.btn) {
                 padding-top: 10px;
-                padding-bottom: 10px;
+                padding-bottom: 9px;
                 background-color: $color-a-light;
                 border-color: $color-a-light;
                 border-bottom-color: transparent;
-                border-top-color: $color-a;
-                border-top-width: 2px;
 
                 border-radius: 4px 4px 0 0;
                 color: $text-color;
 
                 .rex-main-frame & {
-                    padding-bottom: 9px;
-                    border-left-width: 0;
-                    border-right-width: 0;
-                    border-top-color: darken($color-a, 15%);
+                    background-color: darken($color-a-light, 5%);
+                    border-color: darken($color-a-light, 5%);
+                    border-bottom-color: transparent;
                 }
 
                 &:hover {
                     background-color: $color-a-light;
-                    border-top-color: $color-b;
+                    border-color: $color-a-light;
                     color: $color-b;
                 }
             }
@@ -260,9 +277,6 @@
     .navbar {
         background-color: #fff;
         border-color: $color-a-light;
-        .rex-main-frame & {
-            border-color: #fff;
-        }
     }
     .navbar-default .navbar-nav {
         @media (max-width: $screen-xs-max) {
@@ -277,11 +291,7 @@
         float: left;
         height: $line-height-computed;
         margin-top: 12px;
-        border-right: 2px solid $color-a-light;
-
-        .rex-main-frame & {
-            border-color: darken($color-a-light, 15%);
-        }
+        border-right: 1px solid $color-a-light;
     }
     .navbar-default .navbar-nav > li > a {
         float: left;
@@ -427,5 +437,23 @@
     .container-fluid,
     .navbar-collapse {
         padding-left: 0;
+    }
+}
+
+#rex-page-setup {
+    .rex-nav-main {
+        li {
+            > a {
+                padding-left: $navbar-padding-horizontal;
+            }
+            &.active > a {
+                cursor: default;
+            }
+            &.disabled > a {
+                cursor: default;
+                color: $color-a;
+                background-color: transparent;
+            }
+        }
     }
 }

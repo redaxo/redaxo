@@ -514,20 +514,36 @@ var onDocumentReady = function () {
         time = new Date();
         time.setTime(time.getTime() + 1000 * 60 * 60 * 24);
         setCookie('rex_htaccess_check', '1', time.toGMTString(), '', '', false, 'lax');
-        checkHtaccess('bin', 'console');
-        checkHtaccess('cache', '.redaxo');
-        checkHtaccess('data', '.redaxo');
-        checkHtaccess('src', 'core/boot.php');
-    }
 
-    function checkHtaccess(dir, file)
-    {
-        $.get(dir +'/'+ file +'?redaxo-security-self-test',
-            function(data) {
-                $('#rex-js-page-main').prepend('<div class="alert alert-danger" style="margin-top: 20px;">The folder <code>redaxo/'+ dir +'</code> is insecure. Please protect this folder.</div>');
-                setCookie('rex_htaccess_check', '');
-            }
-        );
+        var whiteUrl = 'index.php';
+
+        // test urls, which is not expected to be accessible
+        // after each expected error, run a request which is expected to succeed.
+        // that way we try to make sure tools like fail2ban dont block the client
+        var urls = [
+            'bin/console',
+            whiteUrl,
+            'data/.redaxo',
+            whiteUrl,
+            'src/core/boot.php',
+            whiteUrl,
+            'cache/.redaxo'
+        ];
+
+        // NOTE: we have essentially a copy of this code in the setup process.
+        $.each(urls, function (i, url) {
+            $.ajax({
+                // add a human readable suffix so people get an idea what we are doing here
+                url: url + '?redaxo-security-self-test',
+                cache: false,
+                success: function (data) {
+                    if (i % 2 == 0) {
+                        $('#rex-js-page-main').prepend('<div class="alert alert-danger" style="margin-top: 20px;">The folder <code>redaxo/' + url + '</code> is insecure. Please protect this folder.</div>');
+                        setCookie('rex_htaccess_check', '');
+                    }
+                }
+            });
+        });
     }
 
     if (!("autofocus" in document.createElement("input"))) {
@@ -687,11 +703,31 @@ jQuery(document).ready(function ($) {
                 window.location = 'index.php?page=login';
                 break;
             default:
-                // load URL and show error/whoops
+                // load URL (could be error/whoops also)
                 window.location = event.request.responseURL;
                 break;
         }
     });
+
+    // handle pjax response, https://github.com/MoOx/pjax#handleresponseresponsetext-request-href-options
+    pjax._handleResponse = pjax.handleResponse;
+    pjax.handleResponse = function (responseText, request, href, options) {
+        var contentDisposition = request.getResponseHeader('content-disposition');
+        var contentType = request.getResponseHeader('content-type');
+
+        if ((contentDisposition && contentDisposition.indexOf('attachment') === 0)
+            || contentType &&  contentType.indexOf('text/html') !== 0) {
+            // fallback: handle responses with attachment or other than text/html
+            // at best links responding with "attachment" would not use pjax in the first place.
+            window.location = href;
+            // hide loader
+            window.clearTimeout(rexAjaxLoaderId);
+            document.querySelector('#rex-js-ajax-loader').classList.remove('rex-visible');
+        } else {
+            // happy path: handle other responses (html, form-data)
+            pjax._handleResponse(responseText, request, href, options);
+        }
+    }
 
     document.addEventListener('click', handleClickAndSubmitEvents, true);
     document.addEventListener('submit', handleClickAndSubmitEvents, true);
@@ -782,4 +818,22 @@ var handleKeyEvents = function (event) {
             }
         }
     }
+}
+
+/**
+ * @param {string} selector_id
+ */
+function rex_searchfield_init(selector_id) {
+
+    $(selector_id).find('input[type="text"]').on('input propertychange', function () {
+        var $this = $(this);
+        var visible = Boolean($this.val());
+        $this.siblings('.form-control-clear').toggleClass('hidden', !visible);
+    }).trigger('propertychange');
+
+    $(selector_id).find('.form-control-clear, .clear-button').click(function (event) {
+        event.stopPropagation();
+        $(this).siblings('input[type="text"]').val('').trigger("keyup")
+            .trigger('propertychange').focus();
+    });
 }
