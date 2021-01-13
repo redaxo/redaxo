@@ -55,9 +55,8 @@ if (rex::isBackend()) {
     $curDir = __DIR__;
     require_once $curDir . '/functions/function_metainfo.php';
 
-    rex_view::addCSSFile(rex_url::addonAssets('metainfo', 'metainfo.css'));
-
     if ('content' == rex_be_controller::getCurrentPagePart(1)) {
+        rex_view::addCSSFile(rex_url::addonAssets('metainfo', 'metainfo.css'));
         rex_view::addJsFile(rex_url::addonAssets('metainfo', 'metainfo.js'));
     }
 
