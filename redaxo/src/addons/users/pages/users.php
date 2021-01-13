@@ -385,7 +385,7 @@ if ('' != $FUNC_ADD || $user_id > 0) {
             $add_admin_chkbox = '';
         }
         $add_status_chkbox = '<input type="checkbox" id="rex-user-status" name="userstatus" value="1" ' . $statuschecked . ' />';
-        $add_user_login = '<input class="form-control" type="text" id="rex-user-login" name="userlogin" value="' . rex_escape($userlogin) . '" autofocus autocomplete="nickname" />';
+        $add_user_login = '<input class="form-control" type="text" id="rex-user-login" name="userlogin" value="' . rex_escape($userlogin) . '" autofocus autocomplete="username" />';
 
         $formElements = [];
 
