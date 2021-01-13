@@ -70,14 +70,14 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
             </tr>
             </thead>
             <tbody>';
-
-    $latest_release = false;
-
+    $latest_release = false; 
     foreach ($addon['files'] as $fileId => $file) {
-        $version = rex_escape($file['version']);
         $release_label = '';
-
-        if (class_exists(rex_version::class) && !rex_version::isUnstable($version) && false == $latest_release) {
+        $confirm = '';
+        $package_icon = '<i class="rex-icon rex-icon-package"></i>';
+        $version = rex_escape($file['version']);
+        if (class_exists(rex_version::class) && !rex_version::isUnstable($version) && $latest_release == false)
+            {
             $release_label = '<br><span class="label label-success">'.rex_i18n::msg('install_latest_release').'</span>';
             $latest_release = true;
         }
@@ -85,17 +85,18 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
         $description = $markdown($file['description']);
 
         if (class_exists(rex_version::class) && rex_version::isUnstable($version)) {
-            $version = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $version;
-            $description = rex_view::warning(rex_i18n::msg('unstable_version')) . '<br>' . $description;
+            $release_label = '<br><span class="label label-warning" title="'. rex_i18n::msg('unstable_version') .'">'.rex_i18n::msg('unstable_version').'</span> ';
+            $confirm = ' data-confirm="'.rex_i18n::msg('install_download_unstable').'"';
+            $package_icon = '<i class="rex-icon rex-icon-unstable-version"></i>';
         }
 
         $content .= '
             <tr>
-                <td class="rex-table-icon"><i class="rex-icon rex-icon-package"></i></td>
+                <td class="rex-table-icon">'.$package_icon.'</td>
                 <td data-title="' . $package->i18n('version') .'">' . $version . $release_label .'</td>
                 <td data-title="' . $package->i18n('published_on') . '">' . rex_escape(rex_formatter::strftime($file['created'])) . '</td>
                 <td data-title="' . $package->i18n('description') . '">' . $description . '</td>
-                <td class="rex-table-action"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $fileId] + rex_api_install_package_add::getUrlParams()) . '" data-pjax="false"><i class="rex-icon rex-icon-download"></i> ' . $package->i18n('download') . '</a></td>
+                <td class="rex-table-action"><a class="rex-link-expanded"'.$confirm.' href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $fileId] + rex_api_install_package_add::getUrlParams()) . '" data-pjax="false"><i class="rex-icon rex-icon-download"></i> ' . $package->i18n('download') . '</a></td>
             </tr>';
     }
 
