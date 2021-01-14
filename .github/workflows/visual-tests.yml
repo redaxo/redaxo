@@ -72,7 +72,7 @@ jobs:
             - run: |
                   php redaxo/bin/console user:create myusername mypassword --admin --ansi
                   php redaxo/bin/console config:set error_email 'test@redaxo.invalid' --ansi
-                  php redaxo/bin/console setup:run -n --lang=de_de --agree-license --db-import=.github/imports/initial-content-for-visual-testing.sql --ansi
+                  php redaxo/bin/console setup:run -n --lang=de_de --agree-license --db-password="" --db-import=.github/imports/initial-content-for-visual-testing.sql --ansi
 
             - name: Setup nodejs
               uses: actions/setup-node@v2
