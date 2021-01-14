@@ -117,24 +117,22 @@ if ($core && !empty($coreVersions)) {
             </tr>
             </thead>
             <tbody>';
+
     $latestRelease = false;
     foreach ($addon['files'] as $fileId => $file) {
         $releaseLabel = '';
         $confirm = '';
         $packageIcon = '<i class="rex-icon rex-icon-package"></i>';
         $version = rex_escape($file['version']);
-
-        if (!rex_version::isUnstable($version) && false == $latestRelease) {
-            $releaseLabel = '<br><span class="label label-success">'.rex_i18n::msg('install_latest_release').'</span>';
-            $latestRelease = true;
-        }
-
         $description = $markdown($file['description']);
 
         if (rex_version::isUnstable($version)) {
             $releaseLabel = '<br><span class="label label-warning" title="'. rex_i18n::msg('unstable_version') .'">'.rex_i18n::msg('unstable_version').'</span> ';
             $confirm = ' data-confirm="'.rex_i18n::msg('install_download_unstable').'"';
             $packageIcon = '<i class="rex-icon rex-icon-unstable-version"></i>';
+        } elseif (!$latestRelease) {
+            $releaseLabel = '<br><span class="label label-success">'.rex_i18n::msg('install_latest_release').'</span>';
+            $latestRelease = true;
         }
 
         $panel .= '
