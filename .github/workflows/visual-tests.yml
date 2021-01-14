@@ -76,7 +76,7 @@ jobs:
                   php redaxo/bin/console config:set error_email 'test@redaxo.invalid' --ansi
             - name: Import mock data
               run: |
-                  mkdir ${{ github.workspace }}/redaxo/data/addons/backup && cp -r .github/imports/inital-content-for-visual-tests.sql ${{ github.workspace }}/redaxo/data/addons/backup/
+                  mkdir -p $GITHUB_WORKSPACE/redaxo/data/addons/backup && cp -r .github/imports/inital-content-for-visual-tests.sql $GITHUB_WORKSPACE/redaxo/data/addons/backup/
                   php redaxo/bin/console setup:run -n --lang=de_de --agree-license --db-password=root --db-setup=import --db-import=initial-content-for-visual-testing.sql --ansi
 
             - name: Setup nodejs
