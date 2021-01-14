@@ -70,13 +70,12 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
             </tr>
             </thead>
             <tbody>';
-    $latest_release = false; 
+    $latest_release = false;
     foreach ($addon['files'] as $fileId => $file) {
         $confirm = $release_label = '';
         $package_icon = '<i class="rex-icon rex-icon-package"></i>';
         $version = rex_escape($file['version']);
-        if (class_exists(rex_version::class) && !rex_version::isUnstable($version) && false == $latest_release)
-            {
+        if (class_exists(rex_version::class) && !rex_version::isUnstable($version) && false == $latest_release) {
             $release_label = '<br><span class="label label-success">'.rex_i18n::msg('install_latest_release').'</span>';
             $latest_release = true;
         }
