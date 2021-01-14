@@ -60,16 +60,9 @@ jobs:
                   sudo /etc/init.d/mysql start
                   mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
                   git apply .github/workflows/default.config.yml.github-action.diff
-            - name: Install packages
+            - name: Setup
               run: |
                   php .tools/bin/setup
-                  php redaxo/bin/console package:install phpmailer --ansi
-                  php redaxo/bin/console package:install cronjob --ansi
-                  php redaxo/bin/console package:install cronjob/article_status --ansi
-                  php redaxo/bin/console package:install cronjob/optimize_tables --ansi
-                  php redaxo/bin/console package:install debug --ansi
-                  php redaxo/bin/console package:install structure/history --ansi
-                  php redaxo/bin/console package:install structure/version --ansi
             - name: Create user, update config
               run: |
                   php redaxo/bin/console user:create myusername mypassword --admin --ansi
@@ -78,6 +71,15 @@ jobs:
               run: |
                   mkdir -p $GITHUB_WORKSPACE/redaxo/data/addons/backup && cp -r .github/imports/inital-content-for-visual-tests.sql $GITHUB_WORKSPACE/redaxo/data/addons/backup/
                   php redaxo/bin/console setup:run -n --lang=de_de --agree-license --db-password=root --db-setup=import --db-import=inital-content-for-visual-tests --ansi
+            - name: Install packages
+              run: |
+                  php redaxo/bin/console package:install phpmailer --ansi
+                  php redaxo/bin/console package:install cronjob --ansi
+                  php redaxo/bin/console package:install cronjob/article_status --ansi
+                  php redaxo/bin/console package:install cronjob/optimize_tables --ansi
+                  php redaxo/bin/console package:install debug --ansi
+                  php redaxo/bin/console package:install structure/history --ansi
+                  php redaxo/bin/console package:install structure/version --ansi
 
             - name: Setup nodejs
               uses: actions/setup-node@v2
