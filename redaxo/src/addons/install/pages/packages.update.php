@@ -117,22 +117,35 @@ if ($core && !empty($coreVersions)) {
             </tr>
             </thead>
             <tbody>';
-
+    $latest_release = false; 
     foreach ($addon['files'] as $fileId => $file) {
+        $release_label = '';
+        $confirm = '';
+        $package_icon = '<i class="rex-icon rex-icon-package"></i>';
         $version = rex_escape($file['version']);
+        
+         if (class_exists(rex_version::class) && !rex_version::isUnstable($version) && $latest_release == false)
+            {
+            $release_label = '<br><span class="label label-success">'.rex_i18n::msg('install_latest_release').'</span>';
+            $latest_release = true;
+        }
+
         $description = $markdown($file['description']);
 
+
         if (class_exists(rex_version::class) && rex_version::isUnstable($version)) {
-            $version = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $version;
-            $description = rex_view::warning(rex_i18n::msg('unstable_version')) . $description;
+            $release_label = '<br><span class="label label-warning" title="'. rex_i18n::msg('unstable_version') .'">'.rex_i18n::msg('unstable_version').'</span> ';
+            $confirm = ' data-confirm="'.rex_i18n::msg('install_download_unstable').'"';
+            $package_icon = '<i class="rex-icon rex-icon-unstable-version"></i>';
         }
+
 
         $panel .= '
             <tr>
-                <td class="rex-table-icon"><i class="rex-icon rex-icon-package"></i></td>
-                <td data-title="' . $package->i18n('version') . '">' . $version . '</td>
+                <td class="rex-table-icon">'.$package_icon.'</td>
+                <td data-title="' . $package->i18n('version') . '">' . $version . $release_label .'</td>
                 <td data-title="' . $package->i18n('description') . '">' . $description . '</td>
-                <td class="rex-table-action"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $fileId] + rex_api_install_package_update::getUrlParams()) . '" data-pjax="false">' . $package->i18n('update') . '</a></td>
+                <td class="rex-table-action"><a'.$confirm.' class="rex-link-expanded" href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $fileId] + rex_api_install_package_update::getUrlParams()) . '" data-pjax="false">' . $package->i18n('update') . '</a></td>
             </tr>';
     }
 
@@ -218,3 +231,4 @@ if ($core && !empty($coreVersions)) {
 
 echo $message;
 echo $content;
+
