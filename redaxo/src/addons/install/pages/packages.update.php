@@ -124,14 +124,14 @@ if ($core && !empty($coreVersions)) {
         $package_icon = '<i class="rex-icon rex-icon-package"></i>';
         $version = rex_escape($file['version']);
 
-        if (class_exists(rex_version::class) && !rex_version::isUnstable($version) && false == $latest_release) {
+        if (!rex_version::isUnstable($version) && false == $latest_release) {
             $release_label = '<br><span class="label label-success">'.rex_i18n::msg('install_latest_release').'</span>';
             $latest_release = true;
         }
 
         $description = $markdown($file['description']);
 
-        if (class_exists(rex_version::class) && rex_version::isUnstable($version)) {
+        if (rex_version::isUnstable($version)) {
             $release_label = '<br><span class="label label-warning" title="'. rex_i18n::msg('unstable_version') .'">'.rex_i18n::msg('unstable_version').'</span> ';
             $confirm = ' data-confirm="'.rex_i18n::msg('install_download_unstable').'"';
             $package_icon = '<i class="rex-icon rex-icon-unstable-version"></i>';
