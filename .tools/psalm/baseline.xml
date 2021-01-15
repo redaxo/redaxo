@@ -604,11 +604,6 @@
       <code>$command-&gt;getName()</code>
     </PossiblyNullArgument>
   </file>
-  <file src="redaxo/src/core/fragments/core/bottom.php">
-    <PossiblyNullReference occurrences="1">
-      <code>isPopup</code>
-    </PossiblyNullReference>
-  </file>
   <file src="redaxo/src/core/fragments/core/footer.php">
     <PossiblyNullReference occurrences="1">
       <code>isAdmin</code>
