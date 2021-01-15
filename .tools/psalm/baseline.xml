@@ -615,8 +615,9 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/fragments/core/header.php">
-    <PossiblyNullReference occurrences="3">
+    <PossiblyNullReference occurrences="4">
       <code>isAdmin</code>
+      <code>isPopup</code>
       <code>isPopup</code>
       <code>isPopup</code>
     </PossiblyNullReference>
