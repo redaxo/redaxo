@@ -311,12 +311,17 @@ parameters:
 			path: ../../redaxo/src/core/lib/login/login.php
 
 		-
-			message: "#^Offset 'install' on array\\('install' \\=\\> bool, \\?'status' \\=\\> bool, \\?'plugins' \\=\\> array\\<int\\|string, array\\('install' \\=\\> bool, \\?'status' \\=\\> bool\\)\\>\\) on left side of \\?\\? always exists and is not nullable\\.$#"
+			message: "#^Offset 'install' on array\\('install' \\=\\> bool, \\?'status' \\=\\> bool, \\?'plugins' \\=\\> array\\<int\\|string, array\\('install' \\=\\> bool, 'status' \\=\\> bool\\)\\>\\) on left side of \\?\\? always exists and is not nullable\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/addons/addon.php
 
 		-
-			message: "#^Offset 'install' on array\\('install' \\=\\> bool, \\?'status' \\=\\> bool\\) on left side of \\?\\? always exists and is not nullable\\.$#"
+			message: "#^Offset 'install' on array\\('install' \\=\\> bool, 'status' \\=\\> bool\\) on left side of \\?\\? always exists and is not nullable\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/packages/addons/addon.php
+
+		-
+			message: "#^Offset 'status' on array\\('install' \\=\\> bool, 'status' \\=\\> bool\\) on left side of \\?\\? always exists and is not nullable\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/addons/addon.php
 
