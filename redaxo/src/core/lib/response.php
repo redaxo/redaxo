@@ -127,7 +127,7 @@ class rex_response
         if (false !== strpos($url, "\n")) {
             throw new InvalidArgumentException('Illegal redirect url "' . $url . '", contains newlines');
         }
-        
+
         if ($httpStatus) {
             self::setStatus($httpStatus);
         }
