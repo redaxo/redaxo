@@ -116,15 +116,20 @@ class rex_response
      * NOTE: Execution will stop within this method!
      *
      * @param string $url URL
+     * @param self::HTTP_MOVED_PERMANENTLY|self::HTTP_MOVED_TEMPORARILY|null $httpStatus
      *
      * @throws InvalidArgumentException
      *
      * @psalm-return never-return
      */
-    public static function sendRedirect($url)
+    public static function sendRedirect($url, $httpStatus = null)
     {
         if (false !== strpos($url, "\n")) {
             throw new InvalidArgumentException('Illegal redirect url "' . $url . '", contains newlines');
+        }
+        
+        if ($httpStatus) {
+            self::setStatus($httpStatus);
         }
 
         self::cleanOutputBuffers();
