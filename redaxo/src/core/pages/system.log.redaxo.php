@@ -101,7 +101,7 @@ if ($url = $editor->getUrl($logFile, 0)) {
 if (is_file($logFile)) {
     $url = rex_url::currentBackendPage(['func' => 'download'] + $csrfToken->getUrlParams());
     $n = [];
-    $n['field'] = '<a class="btn btn-save" href="'. $url .'">' . rex_i18n::msg('syslog_download', rex_path::basename($logFile)) . '</a>';
+    $n['field'] = '<a class="btn btn-save" href="'. $url .'" download>' . rex_i18n::msg('syslog_download', rex_path::basename($logFile)) . '</a>';
     $formElements[] = $n;
 }
 
