@@ -762,6 +762,11 @@ var handleClickAndSubmitEvents = function (event) {
             event.stopPropagation();
         }
 
+        // handle download links
+        if (event.target.hasAttribute('download')) {
+            event.stopPropagation();
+        }
+
         // handle (no) history via data attribute
         wrapper = event.target.closest('[data-pjax-no-history]');
         if (wrapper && wrapper.dataset.pjaxNoHistory === '1') {
