@@ -20,4 +20,5 @@ if (rex::isBackend() && rex::getUser()) {
     rex_view::addJsFile($addon->getAssetsUrl('lazysizes.min.js'), [rex_view::JS_IMMUTABLE => true, rex_view::JS_ASYNC => true]);
     rex_view::addJsFile($addon->getAssetsUrl('mediapool.js'), [rex_view::JS_IMMUTABLE]);
     rex_view::setJsProperty('imageExtensions', $addon->getProperty('image_extensions'));
+    rex_view::addCssFile($addon->getAssetsUrl('styles.css'));
 }
