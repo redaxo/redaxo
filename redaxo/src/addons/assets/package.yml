@@ -1,0 +1,8 @@
+package: assets
+version: '0.0.0-dev'
+author: ''
+supportpage: https://github.com/redaxo/redaxo
+
+requires:
+    php: '>=7.3'
+    redaxo: ^5.10.0
