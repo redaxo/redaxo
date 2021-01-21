@@ -11,6 +11,8 @@
 rex_sql_table::get(rex::getTable('media'))
     ->ensurePrimaryIdColumn()
     ->ensureColumn(new rex_sql_column('category_id', 'int(10) unsigned'))
+    ->ensureColumn(new rex_sql_column('categories', 'varchar(255)'))
+    ->ensureColumn(new rex_sql_column('tags', 'TEXT'))
     ->ensureColumn(new rex_sql_column('attributes', 'text', true))
     ->ensureColumn(new rex_sql_column('filetype', 'varchar(255)', true))
     ->ensureColumn(new rex_sql_column('filename', 'varchar(255)', true))

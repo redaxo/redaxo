@@ -87,6 +87,12 @@ class rex_media
         });
     }
 
+    public static function getById($id)
+    {
+        $medias = rex_sql::factory()->getArray('select filename from '.rex::getTablePrefix() . 'media where id=:id', ['id' => $id]);
+        return count($medias)>0 ? self::get($medias[0]['filename']) : null;
+    }
+
     /**
      * @return static[]
      */

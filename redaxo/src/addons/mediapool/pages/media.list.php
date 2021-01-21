@@ -5,11 +5,11 @@
  */
 
 assert(isset($csrf) && $csrf instanceof rex_csrf_token);
-assert(isset($rex_file_category) && is_int($rex_file_category));
+/*assert(isset($rex_file_category) && is_int($rex_file_category));*/
 assert(isset($opener_input_field) && is_string($opener_input_field));
 assert(isset($arg_fields) && is_string($arg_fields));
 assert(isset($toolbar) && is_string($toolbar));
-assert(isset($rex_file_category_name) && is_string($rex_file_category_name));
+/*assert(isset($rex_file_category_name) && is_string($rex_file_category_name));*/
 
 // defaults for globals passed in from index.php
 if (!isset($success)) {
@@ -25,71 +25,8 @@ if (!isset($arg_url)) {
     $arg_url = [];
 }
 
-
-$sql = rex_sql::factory();
-$where = [];
-$queryParams = [];
-if (isset($arg_url['args']['types'])) {
-    $types = [];
-    foreach (explode(',', $arg_url['args']['types']) as $index => $type) {
-        $types[] = 'LOWER(RIGHT(m.filename, LOCATE(".", REVERSE(m.filename))-1)) = :type'.$index;
-        $queryParams['type'.$index] = strtolower($type);
-    }
-    $where[] = ' AND (' . implode(' OR ', $types) . ')';
-}
-$where = count($where) ? ' WHERE '.implode(' ', $where) : '';
-$query = 'SELECT m.* FROM '.rex::getTable('media').' AS m '.$where.' ORDER BY m.updatedate DESC, m.id DESC';
-
-// ----- EXTENSION POINT
-$query = rex_extension::registerPoint(new rex_extension_point('MEDIA_LIST_QUERY', $query, [
-    'category_id' => $rex_file_category,
-]));
-$sql->setQuery($query, $queryParams);
-
-
-$media_manager_url = null;
-if (rex_addon::get('media_manager')->isAvailable()) {
-    $media_manager_url = [rex_media_manager::class, 'getUrl'];
-}
-
-$elements = [];
-for ($i = 1; $i <= $sql->getRows(); ++$i, $sql->next()) {
-    $mediaName = $sql->getValue('filename');
-    $media = [
-        'id' => $sql->getValue('id'),
-        'name' => $mediaName,
-        'nameEncoded' => urlencode($mediaName),
-        'originalName' => $sql->getValue('originalname'),
-        'title' => $sql->getValue('title'),
-        'type' => $sql->getValue('filetype'),
-        'size' => $sql->getValue('filesize'),
-        'stamp' => rex_formatter::strftime($sql->getDateTimeValue('updatedate'), 'datetime'),
-        'updateUser' => $sql->getValue('updateuser'),
-
-        'document' => false,
-        'url' => '',
-        'exists' => file_exists(rex_path::media($mediaName)),
-    ];
-
-    if ($media['exists']) {
-        $mediaExtension = substr(strrchr($media['name'], '.'), 1);
-        $media['extension'] = $mediaExtension;
-
-        if (rex_media::isDocType($mediaExtension)) {
-            $media['document'] = true;
-        }
-
-        if (rex_media::isImageType(rex_file::extension($media['name']))) {
-            $media['document'] = false;
-            $media['url'] = rex_url::media($media['name']).'?buster='.$sql->getDateTimeValue('updatedate');
-            if ($media_manager_url && 'svg' != rex_file::extension($media['name'])) {
-                $media['url'] = $media_manager_url('rex_mediapool_maximized', $media['nameEncoded'], $sql->getDateTimeValue('updatedate'));
-            }
-        }
-    }
-
-    $elements[] = $media;
-}
+$result = rex_mediapool::getMediaList($arg_url);
+$elements = $result['items'];
 
 $uploadButton = [
     'label' => rex_i18n::msg('pool_upload'),
@@ -100,6 +37,9 @@ $fragment = new rex_fragment();
 $fragment->setVar('uploadButton', $uploadButton, false);
 $fragment->setVar('elements', $elements, false);
 echo $fragment->parse('mediapool.php');
+
+return;
+
 
 
 $media_method = rex_request('media_method', 'string');

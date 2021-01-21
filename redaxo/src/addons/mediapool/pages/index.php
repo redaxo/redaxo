@@ -43,24 +43,27 @@ if ('' != $opener_input_field) {
 }
 
 // -------------- CatId in Session speichern
-$file_id = rex_request('file_id', 'int');
-$file_name = rex_request('file_name', 'string');
-$rex_file_category = rex_request('rex_file_category', 'int', -1);
+$media_id = rex_request('file_id', 'int');
+$media_name = rex_request('file_name', 'string');
 
-if ('' != $file_name) {
-    $sql = rex_sql::factory();
-    $sql->setQuery('select * from ' . rex::getTablePrefix() . 'media where filename=?', [$file_name]);
-    if (1 == $sql->getRows()) {
-        $file_id = (int) $sql->getValue('id');
-        $rex_file_category = (int) $sql->getValue('category_id');
+if ('' != $media_name) {
+    $media = rex_media::get($media_name);
+    if ($media) {
+        $file_id = (int) $media->getId();
+    }
+} else if ($media_id > 0) {
+    $media = rex_media::getById($media_id);
+    if ($media) {
+        $media_id = (int) $media->getId();
     }
 }
 
-if (-1 == $rex_file_category) {
-    $rex_file_category = rex_session('media[rex_file_category]', 'int');
-}
 
-$gc = rex_sql::factory();
+/*if (-1 == $rex_file_category) {
+    $rex_file_category = rex_session('media[rex_file_category]', 'int');
+}*/
+
+/*$gc = rex_sql::factory();
 $gc->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media_category WHERE id=?', [$rex_file_category]);
 if (1 != $gc->getRows()) {
     $rex_file_category = 0;
@@ -72,7 +75,7 @@ if (1 != $gc->getRows()) {
 rex_set_session('media[rex_file_category]', $rex_file_category);
 
 // -------------- PERMS
-$PERMALL = rex::getUser()->getComplexPerm('media')->hasCategoryPerm(0);
+$PERMALL = rex::getUser()->getComplexPerm('media')->hasCategoryPerm(0);*/
 
 // -------------- Header
 $subline = rex_be_controller::getPageObject('mediapool')->getSubpages();
@@ -103,4 +106,4 @@ if (!rex_request::isXmlHttpRequest()) {
 }
 
 // -------------- Include Page
-rex_be_controller::includeCurrentPageSubPath(compact('opener_input_field', 'opener_link', 'arg_url', 'args', 'arg_fields', 'rex_file_category', 'rex_file_category_name', 'PERMALL', 'file_id', 'error', 'success'));
+rex_be_controller::includeCurrentPageSubPath(compact('opener_input_field', 'opener_link', 'arg_url', 'args', 'arg_fields', 'media_id', 'error', 'success')); // , 'PERMALL' 'rex_file_category', 'rex_file_category_name',

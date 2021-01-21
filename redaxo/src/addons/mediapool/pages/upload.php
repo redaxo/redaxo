@@ -1,11 +1,6 @@
 <?php
 
-assert(isset($PERMALL) && is_bool($PERMALL));
 assert(isset($opener_input_field) && is_string($opener_input_field));
-
-if (!isset($rex_file_category)) {
-    $rex_file_category = 0;
-}
 
 // *************************************** Subpage: ADD FILE
 
@@ -20,24 +15,26 @@ if ('add_file' == $media_method) {
         global $warning;
         if (rex_post('save', 'boolean') || rex_post('saveandexit', 'boolean')) {
             if ('' != $_FILES['file_new']['name'] && 'none' != $_FILES['file_new']['name']) {
-                if (!rex_mediapool_isAllowedMediaType($_FILES['file_new']['name'], rex_post('args', 'array'))) {
+                if (!rex_mediapool::isAllowedMediaType($_FILES['file_new']['name'], rex_post('args', 'array'))) {
                     $warning = rex_i18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . rex_file::extension($_FILES['file_new']['name']) . '</code>';
-                    $whitelist = rex_mediapool_getMediaTypeWhitelist(rex_post('args', 'array'));
+                    $whitelist = rex_mediapool::getMediaTypeWhitelist(rex_post('args', 'array'));
                     $warning .= count($whitelist) > 0
                         ? '<br />' . rex_i18n::msg('pool_file_allowed_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', $whitelist), ', ') . '</code>'
                         : '<br />' . rex_i18n::msg('pool_file_banned_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', rex_mediapool_getMediaTypeBlacklist()), ', ') . '</code>';
-                } elseif (!rex_mediapool_isAllowedMimeType($_FILES['file_new']['tmp_name'], $_FILES['file_new']['name'])) {
+                } elseif (!rex_mediapool::isAllowedMimeType($_FILES['file_new']['tmp_name'], $_FILES['file_new']['name'])) {
                     $warning = rex_i18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . rex_file::extension($_FILES['file_new']['name']) . '</code> (<code>' . rex_file::mimeType($_FILES['file_new']['tmp_name']) . '</code>)';
                 } else {
                     $FILEINFOS = [];
                     $FILEINFOS['title'] = rex_request('ftitle', 'string');
 
-                    if (!$PERMALL && !rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category)) {
+                    /*if (!$PERMALL && !rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category)) {
                         $rex_file_category = 0;
-                    }
+                    }*/
+
+                    $params = []; // TODO
 
                     // function in function.rex_mediapool.php
-                    $return = rex_mediapool_saveMedia($_FILES['file_new'], $rex_file_category, $FILEINFOS, rex::getUser()->getValue('login'));
+                    $return = rex_media_service::addMedia($_FILES['file_new'], $params, $FILEINFOS, rex::getUser()->getValue('login'));
                     $info = $return['msg'];
                     $subpage = '';
 
@@ -78,4 +75,4 @@ if ('add_file' == $media_method) {
 }
 
 // ----- METHOD ADD FORM
-echo rex_mediapool_Uploadform($rex_file_category);
+echo rex_mediapool_Uploadform([]); // params

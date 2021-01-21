@@ -4,9 +4,8 @@
  * @package redaxo5
  */
 
-assert(isset($rex_file_category) && is_int($rex_file_category));
 assert(isset($arg_fields) && is_string($arg_fields));
-assert(isset($file_id) && is_int($file_id));
+assert(isset($media_id) && is_int($media_id));
 
 $subpage = rex_be_controller::getCurrentPagePart(2);
 
@@ -15,16 +14,16 @@ $csrf = rex_csrf_token::factory('mediapool');
 
 // *************************************** KATEGORIEN CHECK UND AUSWAHL
 
-$sel_media = new rex_media_category_select($check_perm = false);
+/*$sel_media = new rex_media_category_select($check_perm = false);
 $sel_media->setId('rex_file_category');
 $sel_media->setName('rex_file_category');
 $sel_media->setSize(1);
 $sel_media->setSelected($rex_file_category);
 $sel_media->setAttribute('onchange', 'this.form.submit();');
 $sel_media->setAttribute('class', 'selectpicker');
-$sel_media->setAttribute('data-live-search', 'true');
+$sel_media->setAttribute('data-live-search', 'true');*/
 
-if (rex::getUser()->getComplexPerm('media')->hasAll()) {
+/*if (rex::getUser()->getComplexPerm('media')->hasAll()) {
     $sel_media->addOption(rex_i18n::msg('pool_kats_no'), '0');
 }
 
@@ -32,14 +31,14 @@ if (rex::getUser()->getComplexPerm('media')->hasAll()) {
 echo rex_extension::registerPoint(new rex_extension_point('PAGE_MEDIAPOOL_HEADER', '', [
     'subpage' => $subpage,
     'category_id' => $rex_file_category,
-]));
+]));*/
 
 $formElements = [];
-$n = [];
+/*$n = [];
 $n['field'] = '<input class="form-control" type="text" name="media_name" id="be_search-media-name" value="' . rex_escape($media_name) . '" />';
 $n['before'] = $sel_media->get();
 $n['right'] = '<button class="btn btn-search" type="submit"><i class="rex-icon rex-icon-search"></i></button>';
-$formElements[] = $n;
+$formElements[] = $n;*/
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
@@ -62,17 +61,17 @@ $context = new rex_context([
 // ----- EXTENSION POINT
 $toolbar = rex_extension::registerPoint(new rex_extension_point('MEDIA_LIST_TOOLBAR', $toolbar, [
     'subpage' => $subpage,
-    'category_id' => $rex_file_category,
+//    'category_id' => $rex_file_category,
 ]));
 
 // *************************************** Subpage: Media
 
-if ($file_id) {
+if ($media_id) {
     require __DIR__ .'/media.detail.php';
 }
 
 // *************************************** SUBPAGE: "" -> MEDIEN ANZEIGEN
 
-if (!$file_id) {
+if (!$media_id) {
     require __DIR__.'/media.list.php';
 }
