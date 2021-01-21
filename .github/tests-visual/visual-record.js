@@ -173,7 +173,7 @@ async function main() {
 
         // setup steps 2-7
         for (var step = 2; step <= 7; step++) {
-            await page.goto(START_URL + '?page=setup&lang=de_de&step=' + step, { waitUntil: 'networkidle0' });
+            await page.goto(START_URL + '?page=setup&lang=de_de&step=' + step, { waitUntil: step === 3 ? 'networkidle0' : 'load'});
             await createScreenshot(page, 'setup_' + step + '.png');
         }
 
