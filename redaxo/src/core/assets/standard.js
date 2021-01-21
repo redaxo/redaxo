@@ -726,6 +726,7 @@ jQuery(document).ready(function ($) {
 
     document.addEventListener('click', handleClickAndSubmitEvents, true);
     document.addEventListener('submit', handleClickAndSubmitEvents, true);
+    document.addEventListener('keydown', handleKeyEvents, true);
 });
 
 // -------------------------------------------------------------------------------
