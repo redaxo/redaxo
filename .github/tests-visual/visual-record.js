@@ -174,7 +174,7 @@ async function main() {
         // setup steps 2-7
         for (var step = 2; step <= 7; step++) {
             await page.goto(START_URL + '?page=setup&lang=de_de&step=' + step, { waitUntil: step === 3 ? 'networkidle0' : 'load'});
-            await page.waitForTimeout(100); // slight buffer for CSS animations or :focus styles etc.
+            await page.waitForTimeout(200); // slight buffer for CSS animations or :focus styles etc.
             await createScreenshot(page, 'setup_' + step + '.png');
         }
 
@@ -195,7 +195,7 @@ async function main() {
         // run through all pages
         for (var fileName in allPages) {
             await page.goto(allPages[fileName], { waitUntil: 'load' });
-            await page.waitForTimeout(100); // slight buffer for CSS animations or :focus styles etc.
+            await page.waitForTimeout(200); // slight buffer for CSS animations or :focus styles etc.
             await createScreenshot(page, fileName);
         }
     }
