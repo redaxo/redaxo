@@ -21,7 +21,7 @@
     width: 0;
     height: 100%;
     overflow-y: auto;
-    background: #fff;
+    /*background: #fff;*/
     transition: all 0.2s ease;
 }
 
@@ -88,21 +88,10 @@
 
 .mediapool-element {
     display: flex;
-    flex-direction: column;
-    margin: 0 1rem 2rem 1rem;
     background: #fff;
     cursor: pointer;
 }
-.mediapool-element-media {
-    position: relative;
-    width: 100%;
-}
 .mediapool-element-image {
-}
-.mediapool-element-image img {
-    width: 100%;
-    height: 20rem;
-    object-fit: cover;
 }
 .mediapool-element-image .label {
     position: absolute;
@@ -115,4 +104,46 @@
 }
 .mediapool-element-footer {
     font-size: 90%;
+}
+
+.mediapool-list.is-grid .mediapool-element {
+    flex-direction: column;
+    margin: 0 1rem 2rem 1rem;
+}
+.mediapool-list.is-grid .mediapool-element-media {
+    position: relative;
+    width: 100%;
+}
+.mediapool-list.is-grid .mediapool-element-image img {
+    width: 100%;
+    height: 20rem;
+    object-fit: cover;
+}
+
+.mediapool-list.is-list {
+    background-color: #fff;
+}
+.mediapool-list.is-list .mediapool-element {
+    padding: 1rem;
+}
+.mediapool-list.is-list .mediapool-element:not(:first-child) {
+    border-top: 1px solid #d0d6df;
+}
+.mediapool-list.is-list .mediapool-element-media {
+    position: relative;
+    width: 100px;
+}
+.mediapool-list.is-list .mediapool-element-image {
+    position: relative;
+    display: block;
+    padding-top: 66.6666%;
+}
+.mediapool-list.is-list .mediapool-element-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
 }
