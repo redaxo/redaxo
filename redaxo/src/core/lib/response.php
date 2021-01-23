@@ -104,10 +104,16 @@ class rex_response
     private static function sendServerTimingHeaders()
     {
         // see https://w3c.github.io/server-timing/#the-server-timing-header-field
+        $timings = [];
+
         foreach (rex_timer::$serverTimings as $label => $timing) {
             $label = preg_replace('{[^!#$%&\'*+-\.\^_`|~\w]}i', '_', $label);
-            header('Server-Timing: '. $label .';dur='. number_format($timing['sum'], 3, '.', ''), false);
+            $timings[] = $label .';dur='. number_format($timing['sum'], 3, '.', '');
         }
+
+        // some proxy servers seem to have a limit for the number of headers
+        // so we use single header for all values
+        header('Server-Timing: '. implode(', ', $timings), false);
     }
 
     /**
