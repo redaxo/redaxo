@@ -1,0 +1,68 @@
+name: CSS Styles
+
+on:
+    push:
+        branches:
+            - master
+            - bugfix
+            - temp
+    pull_request:
+        types: [opened, synchronize, reopened, ready_for_review]
+        branches:
+            - '*'
+
+jobs:
+    compile:
+        name: be_style:compile
+        runs-on: ubuntu-latest
+
+        services:
+            mysql:
+                image: mysql:5.7
+                ports:
+                    - 3306
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+              if: "github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository"
+              with:
+                  ref: ${{ github.head_ref }}
+                  token: ${{ secrets.STAABM_TOKEN }}
+            - name: Checkout fork
+              uses: actions/checkout@v2
+              if: "github.event_name != 'push' && github.event.pull_request.head.repo.full_name != github.repository"
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: 7.4
+                  coverage: none # disable xdebug, pcov
+                  tools: cs2pr
+
+            - name: Setup REDAXO
+              run: |
+                  sudo /etc/init.d/mysql start
+                  mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
+                  git apply .github/workflows/default.config.yml.github-action.diff
+                  php .tools/bin/setup
+
+            - name: Compile styles
+              run: |
+                  php redaxo/bin/console be_style:compile --ansi
+
+            - name: Commit changed files
+              uses: stefanzweifel/git-auto-commit-action@v4
+              if: "github.event_name != 'push' && github.event.pull_request.head.repo.full_name == github.repository"
+              with:
+                  commit_message: Apply be_style:compile
+                  file_pattern: "*.css"
+
+            - name: Check diff
+              if: "github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository"
+              run: |
+                  # revert changes made initially
+                  git checkout -- redaxo/src/core/default.config.yml
+
+                  # check if compiling the scss lead to uncommitted changes
+                  git diff HEAD --exit-code --output=/dev/null || (echo "::error::It seems you missed to commit the compiled css files, run 'redaxo/bin/console be_style:compile' and push the changes." && exit 1)
