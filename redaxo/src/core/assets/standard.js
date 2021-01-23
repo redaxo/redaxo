@@ -780,6 +780,27 @@ var handleClickAndSubmitEvents = function (event) {
             event.target.dataset.pjaxCancelRequest = 'download';
         }
 
+        // handle redaxo links to pages other than current page
+        // hint: check global `rex.page` variable
+        // hint: use custom `data-pjax-cancel-request` since `data-pjax-state` would be overwritten
+        var regex = new RegExp('\\bpage=' + rex.page + '(\\b[^\/]|$)');
+        if (event.target.tagName.toLowerCase() === 'form') {
+            if (event.target.getAttribute('method') === 'get') {
+                // forms with matching get parameter
+                event.target.dataset.pjaxCancelRequest = 'get';
+            } else {
+                if (!regex.test(event.target.getAttribute('action'))) {
+                    // forms with matching action
+                    event.target.dataset.pjaxCancelRequest = 'action';
+                }
+            }
+        } else {
+            if (!regex.test(event.target.getAttribute('href'))) {
+                // links with matching href attribute
+                event.target.dataset.pjaxCancelRequest = 'href';
+            }
+        }
+
         // handle (no) history via data attribute
         wrapper = event.target.closest('[data-pjax-no-history]');
         if (wrapper && wrapper.dataset.pjaxNoHistory === '1') {
