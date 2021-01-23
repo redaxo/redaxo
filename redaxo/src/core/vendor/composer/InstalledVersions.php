@@ -29,7 +29,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '592c15228cb23ea2b0a4253ab09d3a02b846c41f',
+    'reference' => 'e33b8963cb6a39f6ec4a753bf2faef7d10b4989b',
     'name' => '__root__',
   ),
   'versions' => 
@@ -41,7 +41,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '592c15228cb23ea2b0a4253ab09d3a02b846c41f',
+      'reference' => 'e33b8963cb6a39f6ec4a753bf2faef7d10b4989b',
     ),
     'erusev/parsedown' => 
     array (
@@ -148,6 +148,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '5fa56b4074d1ae755beb55617ddafe6f5d78f665',
+    ),
+    'symfony/http-foundation' => 
+    array (
+      'pretty_version' => 'v5.2.1',
+      'version' => '5.2.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'a1f6218b29897ab52acba58cfa905b83625bef8d',
     ),
     'symfony/polyfill-ctype' => 
     array (
