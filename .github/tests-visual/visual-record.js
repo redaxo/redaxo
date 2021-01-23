@@ -173,7 +173,9 @@ async function main() {
 
         // setup steps 2-7
         for (var step = 2; step <= 7; step++) {
-            await page.goto(START_URL + '?page=setup&lang=de_de&step=' + step, { waitUntil: 'load' });
+            // step 3: wait until `networkidle0` to finish AJAX requests, see https://github.com/puppeteer/puppeteer/blob/main/docs/api.md#pagegotourl-options
+            await page.goto(START_URL + '?page=setup&lang=de_de&step=' + step, { waitUntil: step === 3 ? 'networkidle0' : 'load'});
+            await page.waitForTimeout(250); // slight buffer for CSS animations or :focus styles etc.
             await createScreenshot(page, 'setup_' + step + '.png');
         }
 
@@ -194,7 +196,7 @@ async function main() {
         // run through all pages
         for (var fileName in allPages) {
             await page.goto(allPages[fileName], { waitUntil: 'load' });
-            await page.waitForTimeout(300); // CSS animation
+            await page.waitForTimeout(250); // slight buffer for CSS animations or :focus styles etc.
             await createScreenshot(page, fileName);
         }
     }
