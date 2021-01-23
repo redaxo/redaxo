@@ -724,6 +724,18 @@ jQuery(document).ready(function ($) {
         }
     }
 
+    // handle loading urls
+    pjax._loadUrl = pjax.loadUrl;
+    pjax.loadUrl = function(href, options) {
+        if(options.triggerElement.dataset.pjaxCancelRequest) {
+            // cancel request by manually loading the page
+            window.location = href;
+        } else {
+            // continue loading url via pjax
+            pjax._loadUrl(href, options);
+        }
+    }
+
     document.addEventListener('click', handleClickAndSubmitEvents, true);
     document.addEventListener('submit', handleClickAndSubmitEvents, true);
     document.addEventListener('keydown', handleKeyEvents, true);
