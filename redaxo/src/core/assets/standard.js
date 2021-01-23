@@ -772,12 +772,12 @@ var handleClickAndSubmitEvents = function (event) {
         // handle links with pjax disabled
         wrapper = event.target.closest('[data-pjax-container]');
         if (wrapper && wrapper.dataset.pjaxContainer === 'false') {
-            event.stopPropagation();
+            event.target.dataset.pjaxCancelRequest = 'wrapper-false';
         }
 
         // handle download links
         if (event.target.hasAttribute('download')) {
-            event.stopPropagation();
+            event.target.dataset.pjaxCancelRequest = 'download';
         }
 
         // handle (no) history via data attribute
