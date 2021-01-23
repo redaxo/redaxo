@@ -814,12 +814,12 @@ var handleClickAndSubmitEvents = function (event) {
         }
 
         // handle scrollTo inside of forms
-        if (event.target.tagName === 'FORM') {
+        if (event.target.tagName.toLowerCase() === 'form') {
             pjax.options.scrollTo = 0;
         }
 
         // handle form submit
-        if (event.type === 'submit' && event.target.tagName === 'FORM') {
+        if (event.type === 'submit' && event.target.tagName.toLowerCase() === 'form') {
             var submitButton = event.target.querySelector('[data-clicked]');
             if (submitButton) {
                 var hiddenField = document.createElement("input");
