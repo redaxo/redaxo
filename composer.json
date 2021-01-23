@@ -11,7 +11,7 @@
         "friendsofredaxo/linter": "1.3.0",
         "j13k/yaml-lint": "^1.1@dev",
         "phpstan/extension-installer": "1.1.0",
-        "phpstan/phpstan": "0.12.67",
+        "phpstan/phpstan": "0.12.68",
         "phpstan/phpstan-deprecation-rules": "0.12.6",
         "phpstan/phpstan-phpunit": "0.12.17",
         "phpstan/phpstan-symfony": "0.12.14",
