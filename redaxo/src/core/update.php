@@ -44,9 +44,15 @@ if (rex_string::versionCompare(rex::getVersion(), '5.9.0-beta1', '<')) {
 }
 
 $path = rex_path::coreData('config.yml');
-rex_file::putConfig($path, array_merge(
+$config = array_merge(
     rex_file::getConfig(__DIR__.'/default.config.yml'),
     rex_file::getConfig($path)
-));
+);
+
+if (rex_string::versionCompare(rex::getVersion(), '5.12.0-dev', '<')) {
+    $config['setup_addons'][] = 'install';
+}
+
+rex_file::putConfig($path, $config);
 
 require __DIR__.'/install.php';
