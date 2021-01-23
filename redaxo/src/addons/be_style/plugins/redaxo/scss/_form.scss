@@ -198,6 +198,9 @@ input[type=range] {
         min-width: 160px;
         width:100%;
     }
+    .input-group .input-group-btn {
+        width: auto;
+    }
 }
 
 .rex-select-style {

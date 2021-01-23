@@ -1,0 +1,3 @@
+@mixin scroll-padding {
+    scroll-padding-top: $top-navbar-height + floor($grid-gutter-width / 2);
+}

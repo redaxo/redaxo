@@ -431,6 +431,25 @@ function getCookie(cookieName) {
 
 // -------------------------------------------------------------------------------
 
+// scroll to anchor element + adjust scroll-padding-top
+function scrollToAnchor() {
+    if (window.location.hash) {
+        var scrollPadding = window.getComputedStyle(document.documentElement).getPropertyValue('scroll-padding-top');
+        scrollPadding = parseInt(scrollPadding, 10); // so 65px will be 65
+        if (scrollPadding > 0) {
+            var anchorItem = document.querySelector(window.location.hash);
+            if (anchorItem) {
+                var anchorItemPosition = anchorItem.getBoundingClientRect().top;
+                if (!isNaN(scrollPadding) && scrollPadding > 0 && anchorItemPosition < scrollPadding) {
+                    window.scrollBy(0, -scrollPadding);
+                }
+            }
+        }
+    }
+}
+
+// -------------------------------------------------------------------------------
+
 // add eye-toggle to each password input
 $(document).on('rex:ready', function (event, viewRoot) {
     $(viewRoot).find('input[type="password"]').each(function() {
@@ -638,14 +657,14 @@ jQuery(document).ready(function ($) {
         ],
         selectors: [
             'title', // title
-            '#rex-js-nav-top', // top navigation
-            '#rex-js-nav-main', // main navigation
+            '#rex-js-nav-top nav', // top navigation
+            '#rex-js-nav-main nav', // main navigation
             '#rex-js-page-main', // page content
             '#rex-js-global-footer', // footer
         ],
         switches: {
             // navigation: switch inner HTML only to keep scroll position
-            '#rex-js-nav-main': Pjax.switches.innerHTML,
+            '#rex-js-nav-main nav': Pjax.switches.innerHTML,
             // page content: switch either given section or whole content
             '#rex-js-page-main': function(oldEl, newEl, options) {
                 var source = oldEl;
@@ -680,6 +699,10 @@ jQuery(document).ready(function ($) {
     });
 
     document.addEventListener('pjax:complete', function () {
+        // adjust scroll position for anchors depending on scroll-margin-top value
+        setTimeout(function() {
+             scrollToAnchor();
+        }, 0);
         // reset pjax config to defaults
         pjax.options.cacheBust = pjaxDefaultConfig.cacheBust;
         pjax.options.history = pjaxDefaultConfig.history;
@@ -687,8 +710,11 @@ jQuery(document).ready(function ($) {
         pjax.options.timeout = pjaxDefaultConfig.timeout;
         pjax.options.debug = pjaxDefaultConfig.debug;
         // hide loader
+        // make sure loader was visible for at least 500 ms to avoid flickering
         window.clearTimeout(rexAjaxLoaderId);
-        document.querySelector('#rex-js-ajax-loader').classList.remove('rex-visible');
+        rexAjaxLoaderId = setTimeout(function () {
+             document.querySelector('#rex-js-ajax-loader').classList.remove('rex-visible');
+        }, 500);
     });
 
     document.addEventListener('pjax:success', function () {

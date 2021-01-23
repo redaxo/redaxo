@@ -1,5 +1,7 @@
 html {
     overflow-y: scroll;
+    height: 100%;
+    @include scroll-padding;
 }
 @media(min-width: $grid-float-breakpoint) {
     body, .rex-page {
@@ -14,6 +16,42 @@ html {
         min-height: 100%;
     }
 }
+
+.rex-is-logged-in,
+#rex-page-setup {
+    .rex-page-container {
+        display: block;
+        min-width: auto;
+        height: auto;
+        min-height: 100%;
+        padding-top: $top-navbar-height;
+
+        @media (min-width: $grid-float-breakpoint) {
+            padding-left: 250px;
+        }
+
+        .rex-is-popup& {
+            padding-left: 0;
+        }
+    }
+
+    .rex-page-main {
+        display: block;
+    }
+
+    .rex-page-main-inner {
+        @media (min-width: $screen-lg-min) {
+            padding-left: $grid-gutter-width;
+            padding-right: $grid-gutter-width;
+        }
+
+        .rex-is-popup& {
+            padding-left: floor($grid-gutter-width / 2);
+            padding-right: floor($grid-gutter-width / 2);
+        }
+    }
+}
+
 .rex-breadcrumb {
     //padding-top: 32px;
     overflow: hidden;
@@ -27,6 +65,8 @@ html {
 }
 
 .rex-redaxo-logo {
+    height: 22px;
+
     path.rex-redaxo-logo-r,
     path.rex-redaxo-logo-e,
     path.rex-redaxo-logo-d,
@@ -47,11 +87,16 @@ html {
             fill: #fff;
         }
     }
+
+    .rex-is-popup & {
+        height: 22px;
+    }
 }
 
 .rex-marker-debugmode {
     position: absolute;
-    transform: translate(0, -5px);
+    top: 10px;
+    right: -22px;
     line-height: 0;
     border-radius: 100px;
     padding: 5px;
@@ -61,19 +106,19 @@ html {
     &:focus {
         color: darken(#f90, 3%);
     }
-
-    @media (min-width: $grid-float-breakpoint) {
-        transform: translate(0);
-        top: 23px;
-        right: -28px;
-    }
 }
 
 .rex-main-frame {
     margin-left: floor(-$grid-gutter-width / 2);
     margin-right: floor(-$grid-gutter-width / 2);
-    padding: floor($grid-gutter-width * 2) floor($grid-gutter-width / 2);
+    padding: $grid-gutter-width floor($grid-gutter-width / 2);
     background-color: $color-a;
+
+    @media (min-width: $screen-lg-min) {
+        margin-left: -$grid-gutter-width;
+        margin-right: -$grid-gutter-width;
+        padding: floor($grid-gutter-width * 1.5) $grid-gutter-width;
+    }
 }
 @media(min-width: $grid-float-breakpoint) {
     .rex-main-sidebar {
@@ -82,6 +127,18 @@ html {
         &:hover {
             opacity: 1;
         }
+    }
+}
+
+.rex-global-footer {
+    margin-left: 0;
+
+    @media(min-width: $grid-float-breakpoint) {
+        margin-left: 250px;
+    }
+    @media (min-width: $screen-lg-min) {
+        padding-left: $grid-gutter-width;
+        padding-right: $grid-gutter-width;
     }
 }
 
@@ -107,24 +164,6 @@ html {
     background-color: $navbar-default-bg;
 }
 
-@media(max-width: $grid-float-breakpoint-max) {
-    .rex-is-logged-in {
-        .rex-page {
-            position: relative;
-            z-index: 3;
-            background-color: $body-bg;
-            /* Force Hardware Acceleration */
-            @include translate3d(0, 0, 0);
-            @include backface-visibility(hidden);
-            @include transition-transform(0.3s);
-
-            &.rex-nav-main-is-visible {
-                @include translate(-260px, 0);
-            }
-        }
-    }
-}
-
 .rex-is-popup {
     .rex-page-header {
         padding-top: $grid-gutter-width;
@@ -133,7 +172,7 @@ html {
             position: absolute;
             top: 0;
             right: $grid-gutter-width / 2;
-            z-index: 1020;
+            z-index: $zindex-navbar-fixed;
             margin: 0;
             padding: 0;
             > h1 {
