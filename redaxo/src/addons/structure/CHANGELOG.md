@@ -1,6 +1,18 @@
 Changelog
 =========
 
+Version 2.11.2 – XX.XX.2021
+---------------------------
+
+### Security
+
+* Fehhlendes Escaping ergänzt (@gharlan)
+
+### Bugfixes
+
+* `rex_module::forKey()` korrigiert (@DanielWeitenauer)
+
+
 Version 2.11.1 – 11.11.2020
 ---------------------------
 

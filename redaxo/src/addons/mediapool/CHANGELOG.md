@@ -1,6 +1,16 @@
 Changelog
 =========
 
+Version 2.9.1 – XX.XX.2021
+--------------------------
+
+### Bugfixes
+
+* `rex_media_category_select`:
+    - `setRootId` funktionierte nur mit Root-Kategorien (@gharlan)
+    - Bei eingeschränkten Kategorierechten fehlten berechtigte Kategorien, wenn für deren Root keine Berechtigung vorhanden ist (@gharlan)
+
+
 Version 2.9.0 – 01.07.2020
 --------------------------
 
