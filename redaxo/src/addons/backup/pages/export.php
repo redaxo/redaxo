@@ -160,7 +160,7 @@ foreach ($tables as $table) {
 
 $formElements = [];
 $n = [];
-$n['header'] = '<div id="rex-js-exporttype-sql-div">';
+$n['header'] = '<div id="rex-js-exporttype-sql-div"'.($checkedsql ? '' : ' style="display: none;"').'>';
 $n['label'] = '<label for="rex-form-exporttables">' . rex_i18n::msg('backup_export_select_tables') . '</label>';
 $n['field'] = $tableSelect->get();
 $n['footer'] = '</div>';
@@ -191,7 +191,7 @@ foreach ($folders as $path => $_) {
 }
 
 $n = [];
-$n['header'] = '<div id="rex-js-exporttype-files-div" style="display: none;">';
+$n['header'] = '<div id="rex-js-exporttype-files-div"'.($checkedfiles ? '' : ' style="display: none;"').'>';
 $n['label'] = '<label for="rex-form-exportdir">' . rex_i18n::msg('backup_export_select_dir') . '</label>';
 $n['field'] = $sel_dirs->get();
 $n['footer'] = '</div>';
