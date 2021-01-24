@@ -55,7 +55,7 @@ if (rex::getUser() && $hasNavigation) {
         $item = [];
         $item['title'] = rex_i18n::msg('safemode_deactivate');
         $item['href'] = rex_url::backendController(['safemode' => 0]);
-        $item['attributes'] = 'class="btn btn-safemode-deactivate"';
+        $item['attributes'] = 'class="btn btn-safemode-deactivate" data-pjax="false"';
         $meta_items[] = $item;
         unset($item);
     }
