@@ -586,7 +586,10 @@ jQuery(document).ready(function($) {
                 return;
             }
 
-            if(self.is('[data-pjax]')) {
+            if (self.is('[download]')) {
+                return;
+            }
+            if (self.is('[data-pjax]')) {
                 container = self.attr('data-pjax');
             }
             if ('false' === container) {
