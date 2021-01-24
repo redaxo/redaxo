@@ -6,7 +6,7 @@ Version 2.8.1 – XX.XX.2021
 
 ### Security
 
-* Fehhlendes Escaping ergänzt (@gharlan)
+* Fehlendes Escaping ergänzt (@gharlan)
 
 
 Version 2.8.0 – 01.07.2020

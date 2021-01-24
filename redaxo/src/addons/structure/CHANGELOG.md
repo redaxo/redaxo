@@ -6,7 +6,7 @@ Version 2.11.2 – XX.XX.2021
 
 ### Security
 
-* Fehhlendes Escaping ergänzt (@gharlan)
+* Fehlendes Escaping ergänzt (@gharlan)
 
 ### Bugfixes
 
@@ -306,4 +306,3 @@ Version 2.0.1 – 09.02.2016
 ### Bugfixes
 
 * Die CommonVars (REX_ARTICLE_ID etc.) konnten nicht innerhalb der ObjectVars (REX_ARTICLE[] etc.) verwendet werden (@schuer)
-

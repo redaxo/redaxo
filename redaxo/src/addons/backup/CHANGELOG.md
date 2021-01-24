@@ -6,7 +6,7 @@ Version 2.6.3 – XX.XX.2021
 
 ### Security
 
-* Fehhlendes Escaping ergänzt (@gharlan)
+* Fehlendes Escaping ergänzt (@gharlan)
 
 ### Bugfixes
 
