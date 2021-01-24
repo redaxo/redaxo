@@ -5,7 +5,7 @@
  */
 ?>
 
-        <nav id="rex-js-nav-top" class="rex-nav-top navbar navbar-default" data-pjax-container>
+        <nav id="rex-js-nav-top" class="rex-nav-top navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <?php if (rex_be_controller::getCurrentPageObject()->isPopup()): ?>

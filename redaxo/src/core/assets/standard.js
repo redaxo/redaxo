@@ -637,15 +637,9 @@ jQuery(document).ready(function ($) {
             'form[data-pjax]:not([data-pjax=\'false\'])',
         ],
         selectors: [
-            'title', // title
-            '#rex-js-nav-top', // top navigation
-            '#rex-js-nav-main', // main navigation
             '#rex-js-page-main', // page content
-            '#rex-js-global-footer', // footer
         ],
         switches: {
-            // navigation: switch inner HTML only to keep scroll position
-            '#rex-js-nav-main': Pjax.switches.innerHTML,
             // page content: switch either given section or whole content
             '#rex-js-page-main': function(oldEl, newEl, options) {
                 var source = oldEl;
@@ -709,14 +703,15 @@ jQuery(document).ready(function ($) {
         }
     });
 
-    // handle pjax response, https://github.com/MoOx/pjax#handleresponseresponsetext-request-href-options
+    // handle pjax response
+    // https://github.com/MoOx/pjax#handleresponseresponsetext-request-href-options
     pjax._handleResponse = pjax.handleResponse;
     pjax.handleResponse = function (responseText, request, href, options) {
         var contentDisposition = request.getResponseHeader('content-disposition');
         var contentType = request.getResponseHeader('content-type');
 
         if ((contentDisposition && contentDisposition.indexOf('attachment') === 0)
-            || contentType &&  contentType.indexOf('text/html') !== 0) {
+            || contentType && contentType.indexOf('text/html') !== 0) {
             // fallback: handle responses with attachment or other than text/html
             // at best links responding with "attachment" would not use pjax in the first place.
             window.location = href;
@@ -729,8 +724,21 @@ jQuery(document).ready(function ($) {
         }
     }
 
+    // handle loading urls
+    pjax._loadUrl = pjax.loadUrl;
+    pjax.loadUrl = function(href, options) {
+        if(options.triggerElement.dataset.pjaxCancelRequest) {
+            // cancel request by manually loading the page
+            window.location = href;
+        } else {
+            // continue loading url via pjax
+            pjax._loadUrl(href, options);
+        }
+    }
+
     document.addEventListener('click', handleClickAndSubmitEvents, true);
     document.addEventListener('submit', handleClickAndSubmitEvents, true);
+    document.addEventListener('keydown', handleKeyEvents, true);
 });
 
 // -------------------------------------------------------------------------------
@@ -764,7 +772,33 @@ var handleClickAndSubmitEvents = function (event) {
         // handle links with pjax disabled
         wrapper = event.target.closest('[data-pjax-container]');
         if (wrapper && wrapper.dataset.pjaxContainer === 'false') {
-            event.stopPropagation();
+            event.target.dataset.pjaxCancelRequest = 'wrapper-false';
+        }
+
+        // handle download links
+        if (event.target.hasAttribute('download')) {
+            event.target.dataset.pjaxCancelRequest = 'download';
+        }
+
+        // handle redaxo links to pages other than current page
+        // hint: check global `rex.page` variable
+        // hint: use custom `data-pjax-cancel-request` since `data-pjax-state` would be overwritten
+        var regex = new RegExp('\\bpage=' + rex.page + '(\\b[^\/]|$)');
+        if (event.target.tagName.toLowerCase() === 'form') {
+            if (event.target.getAttribute('method') === 'get') {
+                // forms with matching get parameter
+                event.target.dataset.pjaxCancelRequest = 'get';
+            } else {
+                if (!regex.test(event.target.getAttribute('action'))) {
+                    // forms with matching action
+                    event.target.dataset.pjaxCancelRequest = 'action';
+                }
+            }
+        } else {
+            if (!regex.test(event.target.getAttribute('href'))) {
+                // links with matching href attribute
+                event.target.dataset.pjaxCancelRequest = 'href';
+            }
         }
 
         // handle (no) history via data attribute
@@ -780,12 +814,12 @@ var handleClickAndSubmitEvents = function (event) {
         }
 
         // handle scrollTo inside of forms
-        if (event.target.tagName === 'FORM') {
+        if (event.target.tagName.toLowerCase() === 'form') {
             pjax.options.scrollTo = 0;
         }
 
         // handle form submit
-        if (event.type === 'submit' && event.target.tagName === 'FORM') {
+        if (event.type === 'submit' && event.target.tagName.toLowerCase() === 'form') {
             var submitButton = event.target.querySelector('[data-clicked]');
             if (submitButton) {
                 var hiddenField = document.createElement("input");
