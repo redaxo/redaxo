@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'e33b8963cb6a39f6ec4a753bf2faef7d10b4989b',
+    'reference' => '30f8034dfab9651a288f3cc0859828ee33fb1740',
     'name' => '__root__',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'e33b8963cb6a39f6ec4a753bf2faef7d10b4989b',
+      'reference' => '30f8034dfab9651a288f3cc0859828ee33fb1740',
     ),
     'erusev/parsedown' => 
     array (
@@ -40,12 +40,12 @@
     ),
     'filp/whoops' => 
     array (
-      'pretty_version' => '2.9.1',
-      'version' => '2.9.1.0',
+      'pretty_version' => '2.9.2',
+      'version' => '2.9.2.0',
       'aliases' => 
       array (
       ),
-      'reference' => '307fb34a5ab697461ec4c9db865b20ff2fd40771',
+      'reference' => 'df7933820090489623ce0be5e85c7e693638e536',
     ),
     'psr/container' => 
     array (
@@ -106,7 +106,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'a2c04f857299a7119e96448249a9dd5954e099c1',
+      'reference' => 'db043e108edc5065662fec040aedea5bf30f8a12',
     ),
     'symfony/console' => 
     array (
