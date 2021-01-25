@@ -7,7 +7,7 @@
         "php": ">=7.3"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "2.18.0",
+        "friendsofphp/php-cs-fixer": "2.18.1",
         "friendsofredaxo/linter": "1.3.0",
         "j13k/yaml-lint": "^1.1@dev",
         "phpstan/extension-installer": "1.1.0",
@@ -16,7 +16,7 @@
         "phpstan/phpstan-phpunit": "0.12.17",
         "phpstan/phpstan-symfony": "0.12.14",
         "phpunit/phpunit": "^9.3",
-        "psalm/plugin-phpunit": "0.15.0",
+        "psalm/plugin-phpunit": "0.15.1",
         "psalm/plugin-symfony": "2.1.1",
         "vimeo/psalm": "4.4.1"
     },
