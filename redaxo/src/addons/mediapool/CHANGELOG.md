@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 2.9.1 – XX.XX.2021
+Version 2.9.1 – 25.01.2021
 --------------------------
 
 ### Bugfixes

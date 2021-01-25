@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 5.11.2 – XX.XX.2021
+Version 5.11.2 – 25.01.2021
 ---------------------------
 
 ### Security
@@ -18,8 +18,8 @@ Version 5.11.2 – XX.XX.2021
 ### Bugfixes
 
 * PHP 8:
-    - Wenn `debug.throw_always_exception` aktiv ist, wurden Notices trotz `@`-Operator nicht ignoriert (@gharlan)
-    - In `rex_sql` kam es teilweise zu Warnings bzgl `reset()` (@gharlan)
+    - Wenn `debug.throw_always_exception` aktiv ist, wurden Warnings/Notices trotz `@`-Operator nicht ignoriert (@gharlan)
+    - In `rex_sql` kam es teilweise zu Warnings bzgl. `reset()` (@gharlan)
 * Whoops: Button-Styles korrigiert, unnötigen "Hide"-Button entfernt (@gharlan)
 * `rex_logger`: Bei `rex_`-Exceptions wurde im Log der erste Buchstabe großgeschrieben (`Rex_exception` etc.) (@gharlan)
 * Bei manchen Proxy-Servern (z. B. im Boostmodus bei Strato) konnte es im Debug-Modus zu einem Fehler kommen aufgrund zu vieler Header (`Server-Timing`-Header) (@gharlan)

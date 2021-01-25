@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 2.8.1 – XX.XX.2021
+Version 2.8.1 – 25.01.2021
 --------------------------
 
 ### Security

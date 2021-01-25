@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 2.7.3 – XX.XX.2021
+Version 2.7.3 – 25.01.2021
 --------------------------
 
 ### Security
