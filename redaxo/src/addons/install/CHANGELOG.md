@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.8.1 – 25.01.2021
+--------------------------
+
+### Security
+
+* Fehlendes Escaping ergänzt (@gharlan)
+
+
 Version 2.8.0 – 01.07.2020
 --------------------------
 
