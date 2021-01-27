@@ -3,6 +3,8 @@
 /**
  * Instance Pool Trait.
  *
+ * @psalm-template TKey of mixed
+ *
  * @author gharlan
  *
  * @package redaxo\core
@@ -28,6 +30,7 @@ trait rex_instance_pool_trait
      * Adds an instance.
      *
      * @param mixed $key      Key
+     * @psalm-param TKey $key
      * @param self  $instance Instance
      */
     protected static function addInstance($key, self $instance)
@@ -41,6 +44,7 @@ trait rex_instance_pool_trait
      * Checks whether an instance exists for the given key.
      *
      * @param mixed $key Key
+     * @psalm-param TKey $key
      *
      * @return bool
      */
@@ -57,6 +61,7 @@ trait rex_instance_pool_trait
      * If the instance does not exist it will be created by calling the $createCallback
      *
      * @param mixed    $key            Key
+     * @psalm-param TKey $key
      * @param callable $createCallback Callback, will be called to create a new instance
      * @psalm-param callable(mixed...):?static $createCallback
      *
@@ -81,6 +86,7 @@ trait rex_instance_pool_trait
      * Removes the instance of the given key.
      *
      * @param mixed $key Key
+     * @psalm-param TKey $key
      */
     public static function clearInstance($key)
     {
@@ -109,6 +115,7 @@ trait rex_instance_pool_trait
      * The original key can be a scalar value or an array of scalar values
      *
      * @param mixed $key Key
+     * @psalm-param TKey $key
      *
      * @return string
      */
