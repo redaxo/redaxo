@@ -19,9 +19,9 @@ $buttonGroupB = [
     ['attributes' => ['class' => ['btn', 'btn-primary', 'navbar-btn']], 'label' => '<i class="fa fa-file-text"></i>'],
 ];
 $buttonGroupC = [
-    ['attributes' => ['class' => ['btn', 'btn-primary', 'navbar-btn']], 'label' => '<i class="fa fa-list"></i>'],
-    ['attributes' => ['class' => ['btn', 'btn-primary', 'navbar-btn']], 'label' => '<i class="fa fa-th"></i>'],
-    ['attributes' => ['class' => ['btn', 'btn-primary', 'navbar-btn']], 'label' => '<i class="fa fa-th-large"></i>'],
+    ['attributes' => ['class' => ['btn', 'btn-primary', 'navbar-btn'], 'data-layout' => 'is-list', 'data-target' => '.mediapool-list'], 'label' => '<i class="fa fa-list"></i>'],
+    ['attributes' => ['class' => ['btn', 'btn-primary', 'navbar-btn'], 'data-layout' => 'is-grid', 'data-target' => '.mediapool-list'], 'label' => '<i class="fa fa-th"></i>'],
+    ['attributes' => ['class' => ['btn', 'btn-primary', 'navbar-btn'], 'data-layout' => 'is-raster', 'data-target' => '.mediapool-list'], 'label' => '<i class="fa fa-th-large"></i>'],
 ];
 ?>
 <nav class="navbar navbar-inverse">

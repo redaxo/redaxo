@@ -94,4 +94,20 @@
         let target = $(this).data('target');
         $(target).toggleClass('toggled');
     });
+
+    $('[data-layout]').on('click', function (event) {
+        event.preventDefault();
+        let layout = $(this).data('layout');
+        let target = $(this).data('target');
+
+        $(target).removeClass(function (index, css) {
+            return (css.match (/(^|\s)is-\S+/g) || []).join(' ');
+        });
+
+        $(this).parent().children().removeClass('active');
+        $(this).addClass('active');
+        $(target).addClass(layout);
+    });
+
+    $('[data-layout]').last().trigger('click');
 </script>
