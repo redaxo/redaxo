@@ -33,9 +33,21 @@ $uploadButton = [
     'url' => '#!',
 ];
 
+$filterCategory = new rex_media_category_select();
+$filterCategory->setSize(1);
+$filterCategory->setAttributes([
+    'name' => 'rex_file_category',
+    'id' => 'rex_file_category',
+    'class' => 'form-control input-sm selectpicker',
+    'data-live-search' => 'true',
+    'data-style' => 'btn-default btn-sm',
+]);
+$filterCategory->setSelected($rex_file_category);
+
 $fragment = new rex_fragment();
 $fragment->setVar('uploadButton', $uploadButton, false);
 $fragment->setVar('elements', $elements, false);
+$fragment->setVar('filterCategory', $filterCategory->get(), false);
 echo $fragment->parse('mediapool.php');
 
 return;
