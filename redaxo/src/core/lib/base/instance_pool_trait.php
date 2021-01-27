@@ -3,7 +3,7 @@
 /**
  * Instance Pool Trait.
  *
- * @psalm-template TKey of mixed
+ * @psalm-template TKey
  *
  * @author gharlan
  *
