@@ -8,6 +8,9 @@
 class rex_media_category
 {
     use rex_instance_list_pool_trait;
+    /**
+     * @use rex_instance_pool_trait<int>
+     */
     use rex_instance_pool_trait;
 
     // id
