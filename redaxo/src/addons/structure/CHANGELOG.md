@@ -1,6 +1,18 @@
 Changelog
 =========
 
+Version 2.11.2 – 25.01.2021
+---------------------------
+
+### Security
+
+* Fehlendes Escaping ergänzt (@gharlan)
+
+### Bugfixes
+
+* `rex_module::forKey()` korrigiert (@DanielWeitenauer)
+
+
 Version 2.11.1 – 11.11.2020
 ---------------------------
 
@@ -294,4 +306,3 @@ Version 2.0.1 – 09.02.2016
 ### Bugfixes
 
 * Die CommonVars (REX_ARTICLE_ID etc.) konnten nicht innerhalb der ObjectVars (REX_ARTICLE[] etc.) verwendet werden (@schuer)
-
