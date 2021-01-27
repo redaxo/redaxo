@@ -10,8 +10,8 @@
 class rex_user
 {
     /**
-      * @use rex_instance_pool_trait<int>
-      */
+     * @use rex_instance_pool_trait<int>
+     */
     use rex_instance_pool_trait {
         clearInstance as baseClearInstance;
     }
