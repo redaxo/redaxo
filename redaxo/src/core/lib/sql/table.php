@@ -182,6 +182,9 @@ class rex_sql_table
         return $table;
     }
 
+    /**
+     * @param string|array{int, string} $key A table-name or a array[db-id, table-name]
+     */
     public static function clearInstance($key)
     {
         // BC layer for old cache keys without db id
