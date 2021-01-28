@@ -219,17 +219,17 @@ class rex_mediapool
     /**
      * get whitelist of mediatypes(extensions) given via media widget "types" param.
      *
-     * @param array $args widget params
+     * @param array $types widget params
      *
      * @return array whitelisted extensions
      */
-    public static function getMediaTypeWhitelist($args = [])
+    public static function getMediaTypeWhitelist($types = [])
     {
         $blacklist = self::getMediaTypeBlacklist();
 
         $whitelist = [];
-        if (isset($args['types'])) {
-            foreach (explode(',', $args['types']) as $ext) {
+        if (is_array($types)) {
+            foreach ($types as $ext) {
                 $ext = ltrim($ext, '.');
                 $ext = mb_strtolower($ext);
                 if (!in_array($ext, $blacklist)) { // whitelist cannot override any blacklist entry from master

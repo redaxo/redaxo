@@ -2,77 +2,117 @@
 
 assert(isset($opener_input_field) && is_string($opener_input_field));
 
-// *************************************** Subpage: ADD FILE
-
 $media_method = rex_request('media_method', 'string');
+$opener_input_field = rex_request('opener_input_field', 'string');
 $csrf = rex_csrf_token::factory('mediapool');
 
-// ----- METHOD ADD FILE
+$mediaForm = new rex_media_form();
+$mediaForm->setTitle(rex_i18n::msg('pool_file_insert'));
+$mediaForm->setButtonTitle(rex_i18n::msg('pool_file_upload'));
+
+$mediaForm->addField([
+    'label' => '',
+    'field' => $csrf->getHiddenField(),
+]);
+
+$mediaForm->addField([
+    'label' => '',
+    'field' => '<input type="hidden" name="media_method" value="add_file">',
+]);
+
+foreach (rex_request('args', 'array') as $arg_name => $arg_value) {
+    $mediaForm->addField([
+        'label' => '',
+        'field' => '<input type="hidden" name="args[' . rex_escape($arg_name) . ']" value="' . rex_escape($arg_value) . '" />',
+    ]);
+}
+
+if ('' != $opener_input_field) {
+    $mediaForm->addField([
+        'label' => '',
+        'field' => '<input class="form-control" type="hidden" name="opener_input_field" value="' . rex_escape($opener_input_field) . '" />',
+    ]);
+}
+
+$data = [];
+
 if ('add_file' == $media_method) {
     if (!$csrf->isValid()) {
         echo rex_view::error(rex_i18n::msg('csrf_token_invalid'));
     } else {
-        global $warning;
-        if (rex_post('save', 'boolean') || rex_post('saveandexit', 'boolean')) {
-            if ('' != $_FILES['file_new']['name'] && 'none' != $_FILES['file_new']['name']) {
-                if (!rex_mediapool::isAllowedMediaType($_FILES['file_new']['name'], rex_post('args', 'array'))) {
-                    $warning = rex_i18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . rex_file::extension($_FILES['file_new']['name']) . '</code>';
-                    $whitelist = rex_mediapool::getMediaTypeWhitelist(rex_post('args', 'array'));
-                    $warning .= count($whitelist) > 0
-                        ? '<br />' . rex_i18n::msg('pool_file_allowed_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', $whitelist), ', ') . '</code>'
-                        : '<br />' . rex_i18n::msg('pool_file_banned_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', rex_mediapool_getMediaTypeBlacklist()), ', ') . '</code>';
-                } elseif (!rex_mediapool::isAllowedMimeType($_FILES['file_new']['tmp_name'], $_FILES['file_new']['name'])) {
-                    $warning = rex_i18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . rex_file::extension($_FILES['file_new']['name']) . '</code> (<code>' . rex_file::mimeType($_FILES['file_new']['tmp_name']) . '</code>)';
-                } else {
-                    $FILEINFOS = [];
-                    $FILEINFOS['title'] = rex_request('ftitle', 'string');
+        $data = [];
+        $data['file'] = [];
 
-                    /*if (!$PERMALL && !rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category)) {
-                        $rex_file_category = 0;
-                    }*/
+        $data['file']['name'] = $_FILES['rex_media_file']['name'] ?? '';
+        $data['file']['path'] = $_FILES['rex_media_file']['tmp_name'] ?? '';
+        $data['file']['type'] = $_FILES['rex_media_file']['type'] ?? '';
+        $data['file']['size'] = $_FILES['rex_media_file']['size'] ?? 0;
+        $data['title'] = rex_request('rex_media_title', 'string');
+        $data['categories'] = rex_request('rex_media_categories', 'array');
+        $data['tags'] = rex_request('rex_media_tags', 'string');
+        $data['status'] = rex_request('rex_media_status', 'int');
 
-                    $params = []; // TODO
+        $args = rex_post('args', 'array');
+        $whitelist_types = is_array(@$args['types']) ? $args['types'] : [];
 
-                    // function in function.rex_mediapool.php
-                    $return = rex_media_service::addMedia($_FILES['file_new'], $params, $FILEINFOS, rex::getUser()->getValue('login'));
-                    $info = $return['msg'];
-                    $subpage = '';
+        try {
+            $message = new rex_api_result(
+                true,
+                rex_media_service::addMedia($data, rex::getUser()->getValue('login'), true, $whitelist_types)
+            );
 
-                    if (rex_post('saveandexit', 'boolean') && 1 == $return['ok']) {
-                        $file_name = $return['filename'];
-                        $ffiletype = $return['type'];
-                        $title = $return['title'];
+            dump($message);
 
-                        if ('' != $opener_input_field) {
-                            if ('REX_MEDIALIST_' == substr($opener_input_field, 0, 14)) {
-                                $js = "selectMedialist('" . $file_name . "');";
-                                $js .= 'location.href = "' . rex_url::backendPage('mediapool', ['info' => rex_i18n::msg('pool_file_added'), 'opener_input_field' => $opener_input_field], false) . '";';
-                            } else {
-                                $js = "selectMedia('" . $file_name . "');";
-                            }
-                        }
+            echo rex_view::success($message->getMessage());
 
-                        echo "<script language=javascript>\n";
+            /*
+            if (rex_post('saveandexit', 'boolean') && 1 == $return['ok']) {
 
-                        if (isset($js)) {
-                            echo $js;
-                        }
-                        // echo "\nself.close();\n";
-                        echo '</script>';
-                        exit;
-                    }
-                    if (1 == $return['ok']) {
-                        rex_response::sendRedirect(rex_url::backendPage('mediapool/media', ['info' => $info, 'opener_input_field' => $opener_input_field], false));
+                // TODO:
+                // wie bekomme ich den Filenam zurück für die Übergabe
+
+                $file_name = $return['filename'];
+                $ffiletype = $return['type'];
+                $title = $return['title'];
+
+                if ('' != $opener_input_field) {
+                    if ('REX_MEDIALIST_' == substr($opener_input_field, 0, 14)) {
+                        $js = "selectMedialist('" . $file_name . "');";
+                        $js .= 'location.href = "' . rex_url::backendPage('mediapool', ['info' => rex_i18n::msg('pool_file_added'), 'opener_input_field' => $opener_input_field], false) . '";';
                     } else {
-                        $warning = rex_i18n::msg('pool_file_movefailed');
+                        $js = "selectMedia('" . $file_name . "');";
                     }
                 }
-            } else {
-                $warning = rex_i18n::msg('pool_file_not_found');
+
+                echo "<script language=javascript>\n";
+
+                if (isset($js)) {
+                    echo $js;
+                }
+                // echo "\nself.close();\n";
+                echo '</script>';
+                exit;
             }
+            if (1 == $return['ok']) {
+                rex_response::sendRedirect(rex_url::backendPage('mediapool/media', ['info' => $info, 'opener_input_field' => $opener_input_field], false));
+            } else {
+                $warning = rex_i18n::msg('pool_file_movefailed');
+            }
+            */
+        } catch (Exception $exception) {
+            echo rex_view::error($exception->getMessage());
         }
     }
 }
 
-// ----- METHOD ADD FORM
-echo rex_mediapool_Uploadform([]); // params
+$add_submit = '';
+if ('' != $opener_input_field) {
+    $mediaForm->addSubmit(
+        '<button class="btn btn-save" type="submit" name="saveandexit" value="' . rex_i18n::msg('pool_file_upload_get') . '"' . rex::getAccesskey(rex_i18n::msg('save_and_close_tooltip'), 'save') . '>' . rex_i18n::msg('pool_file_upload_get') . '</button>'
+    );
+}
+
+$mediaForm->setData($data);
+$mediaForm->setfileSelection();
+
+echo $mediaForm->get();

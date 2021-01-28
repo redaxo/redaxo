@@ -10,36 +10,29 @@ class rex_media
     use rex_instance_list_pool_trait;
     use rex_instance_pool_trait;
 
-    // id
     protected $id = '';
-    // categoryid
+
+    /** @deprecated */
     protected $category_id = '';
 
-    // filename
+    protected $categories = '';
+    protected $tags = '';
+    protected $status = 0;
+
     protected $name = '';
-    // originalname
     protected $originalname = '';
-    // filetype
     protected $type = '';
-    // filesize
     protected $size = '';
 
-    // filewidth
     protected $width = '';
-    // fileheight
     protected $height = '';
 
-    // filetitle
     protected $title = '';
 
-    // updatedate
     protected $updatedate = '';
-    // createdate
     protected $createdate = '';
 
-    // updateuser
     protected $updateuser = '';
-    // createuser
     protected $createuser = '';
 
     /**
@@ -90,11 +83,12 @@ class rex_media
     public static function getById($id)
     {
         $medias = rex_sql::factory()->getArray('select filename from '.rex::getTablePrefix() . 'media where id=:id', ['id' => $id]);
-        return count($medias)>0 ? self::get($medias[0]['filename']) : null;
+        return count($medias) > 0 ? self::get($medias[0]['filename']) : null;
     }
 
     /**
      * @return static[]
+     * @deprecated
      */
     public static function getRootMedia()
     {
@@ -124,6 +118,7 @@ class rex_media
 
     /**
      * @return rex_media_category|null
+     * @deprecated
      */
     public function getCategory()
     {
@@ -132,10 +127,27 @@ class rex_media
 
     /**
      * @return int
+     * @deprecated
      */
     public function getCategoryId()
     {
         return $this->category_id;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCategoryIds()
+    {
+        return ('' != $this->categories) ? explode(',', $this->categories) : [];
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getCategories()
+    {
+        return rex_media_category::getByIds($this->getCategoryIds());
     }
 
     /**

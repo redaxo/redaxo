@@ -117,6 +117,21 @@ class rex_media_category
     }
 
     /**
+     * @return array
+     */
+    public static function getByIds(array $ids)
+    {
+        $categories = [];
+        foreach ($ids as $id) {
+            $category = self::get($id);
+            if ($category) {
+                $categories[] = $category;
+            }
+        }
+        return $categories;
+    }
+
+    /**
      * @return string
      */
     public function getName()
