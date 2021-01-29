@@ -82,7 +82,7 @@ $getTableRow = static function (rex_package $package) use ($getLink) {
     } else {
         $class .= ' rex-package-not-installed';
     }
-    $name = '<span class="rex-' . $type . '-name" id="package-' . rex_escape($packageId) . '">' . rex_escape($package->getName()) . '</span>';
+    $name = '<span class="rex-' . $type . '-name">' . rex_escape($package->getName()) . '</span>';
 
     $class .= $package->isSystemPackage() ? ' rex-system-' . $type : '';
 
@@ -123,7 +123,7 @@ $getTableRow = static function (rex_package $package) use ($getLink) {
     }
 
     return $message . '
-                <tr class="rex-package-is-' . $type . $class . '">
+                 <tr id="package-' . rex_escape($packageId) . '" class="rex-package-is-' . $type . $class . '">
                     <td class="rex-table-icon"><i class="rex-icon rex-icon-package-' . $type . '"></i></td>
                     <td data-title="' . rex_i18n::msg('package_hname') . '">' . $name . '</td>
                     <td data-title="' . rex_i18n::msg('package_hversion') . '">' . $version . '</td>
