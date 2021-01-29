@@ -123,7 +123,7 @@ $getTableRow = static function (rex_package $package) use ($getLink) {
     }
 
     return $message . '
-                 <tr id="package-' . rex_escape($packageId) . '" class="rex-package-is-' . $type . $class . '">
+                <tr id="package-' . rex_escape($packageId) . '" class="rex-package-is-' . $type . $class . '">
                     <td class="rex-table-icon"><i class="rex-icon rex-icon-package-' . $type . '"></i></td>
                     <td data-title="' . rex_i18n::msg('package_hname') . '">' . $name . '</td>
                     <td data-title="' . rex_i18n::msg('package_hversion') . '">' . $version . '</td>
