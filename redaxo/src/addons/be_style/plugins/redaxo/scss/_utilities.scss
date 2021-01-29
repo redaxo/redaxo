@@ -40,3 +40,25 @@
         transform:scale(1);
     }
 }
+
+/* Packages highlight required package */ 
+#rex-js-table-available-packages-addons :target {
+  background: $color-d-lighter;  
+  transition: background-color 0.5s linear;
+  animation: fade_to_light 2s forwards;
+  animation-delay: 2s;
+    -moz-animation: fade_to_light 0.5s forwards;
+    -moz-animation-delay: 0.5s;
+    -webkit-animation: fade_to_light 0.5s forwards;
+    -webkit-animation-delay: 0.5s;
+    -o-animation: fade_to_light 0.5s forwards;
+    -o-animation-delay: 0.5s;
+}
+
+
+@keyframes fade_to_light {
+    to {
+        background-color: $color-c-light;
+    }
+
+}
