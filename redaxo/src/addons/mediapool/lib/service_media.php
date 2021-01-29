@@ -10,15 +10,14 @@ class rex_media_service
      * Dabei wird kontrolliert ob das File schon vorhanden ist und es
      * wird eventuell angepasst, weiterhin werden die Fileinformationen übergeben.
      *
-     * @param array  $FILE
-     * @param array  $params
+     * @param array  $data
      * @param string $userlogin
      * @param bool   $doSubindexing // echte Dateinamen anpassen, falls schon vorhanden
      * @param array   $whitelist_types
      *
      * @return array
      */
-    public static function addMedia($data, $userlogin = null, $doSubindexing = true, $whitelist_types = [])
+    public static function addMedia($data, $userlogin = null, $doSubindexing = true, $whitelist_types = []) : array
     {
         if (!is_array($data)) {
             throw new rex_api_exception('Expecting $data to be an array!');
@@ -54,13 +53,11 @@ class rex_media_service
         }
 
         $data['file']['name_new'] = rex_mediapool::filename($data['file']['name'], $doSubindexing);
-        $message = [];
 
         // ----- alter/neuer filename
         $srcFile = rex_path::media($data['file']['name']);
         $dstFile = rex_path::media($data['file']['name_new']);
 
-        $success = true;
         $data['file']['type'] = $isFileUpload ? rex_file::mimeType($data['file']['path']) : rex_file::mimeType($srcFile);
 
         // Bevor die Datei engueltig in den Medienpool uebernommen wird, koennen
@@ -82,84 +79,80 @@ class rex_media_service
 
         if ($errorMessage) {
             // ein Addon hat die Fehlermeldung gesetzt, dem Upload also faktisch widersprochen
-            $success = false;
-            $message[] = $errorMessage;
-        } elseif ($isFileUpload) { // Fileupload?
+            throw new rex_api_exception($errorMessage);
+        }
+        if ($isFileUpload) { // Fileupload?
             if (!@move_uploaded_file($data['file']['path'], $dstFile)) {
-                $message[] = rex_i18n::msg('pool_file_movefailed');
-                $success = false;
+                throw new rex_api_exception(rex_i18n::msg('pool_file_movefailed'));
             }
         } else { // Filesync?
             if (!@rename($srcFile, $dstFile)) {
-                $message[] = rex_i18n::msg('pool_file_movefailed');
-                $success = false;
+                throw new rex_api_exception(rex_i18n::msg('pool_file_movefailed'));
             }
         }
 
-        if ($success) {
-            @chmod($dstFile, rex::getFilePerm());
+        @chmod($dstFile, rex::getFilePerm());
 
-            // get widht height
-            $size = @getimagesize($dstFile);
+        // get widht height
+        $size = @getimagesize($dstFile);
 
-            if ('' == $data['file']['type'] && isset($size['mime'])) {
-                $data['file']['type'] = $size['mime'];
-            }
-
-            $saveObject = rex_sql::factory();
-            $saveObject->setTable(rex::getTablePrefix() . 'media');
-            $saveObject->setValue('filetype', $data['file']['type']);
-            $saveObject->setValue('title', $title);
-            $saveObject->setValue('filename', $data['file']['name_new']);
-            $saveObject->setValue('originalname', $data['file']['name']);
-            $saveObject->setValue('filesize', $data['file']['size']);
-
-            if ($size) {
-                $saveObject->setValue('width', $size[0]);
-                $saveObject->setValue('height', $size[1]);
-            }
-
-            $saveObject->setValue('categories', implode(',', $categories));
-            $saveObject->setValue('tags', $tags);
-            $saveObject->setValue('status', $status);
-            $saveObject->addGlobalCreateFields($userlogin);
-            $saveObject->addGlobalUpdateFields($userlogin);
-            $saveObject->insert();
-
-            if ($isFileUpload) {
-                $message[] = rex_i18n::msg('pool_file_added');
-            }
-
-            if ($data['file']['name_new'] != $data['file']['name']) {
-                $message[] = rex_i18n::rawMsg('pool_file_renamed', $data['file']['name'], $data['file']['name_new']);
-            }
+        if ('' == $data['file']['type'] && isset($size['mime'])) {
+            $data['file']['type'] = $size['mime'];
         }
 
-        // TODO:
-        // wirklich gut so ?
-        $RETURN = [];
-        $RETURN['title'] = $title;
-        $RETURN['type'] = $data['file']['type'];
-        $RETURN['msg'] = implode('<br />', $message);
-        // Aus BC gruenden hier mit int 1/0
-        $RETURN['ok'] = $success ? 1 : 0;
-        $RETURN['filename'] = $data['file']['name_new'];
-        $RETURN['old_filename'] = $data['file']['name'];
-        $RETURN['categories'] = $categories;
-        $RETURN['tags'] = $tags;
-        $RETURN['status'] = $status;
+        $saveObject = rex_sql::factory();
+        $saveObject->setTable(rex::getTablePrefix() . 'media');
+        $saveObject->setValue('filetype', $data['file']['type']);
+        $saveObject->setValue('title', $title);
+        $saveObject->setValue('filename', $data['file']['name_new']);
+        $saveObject->setValue('originalname', $data['file']['name']);
+        $saveObject->setValue('filesize', $data['file']['size']);
+
+        if ($size) {
+            $saveObject->setValue('width', $size[0]);
+            $saveObject->setValue('height', $size[1]);
+        }
+
+        $saveObject->setValue('categories', implode(',', $categories));
+        $saveObject->setValue('tags', $tags);
+        $saveObject->setValue('status', $status);
+        $saveObject->addGlobalCreateFields($userlogin);
+        $saveObject->addGlobalUpdateFields($userlogin);
+        $saveObject->insert();
+
+        $message = [];
+
+        if ($isFileUpload) {
+            $message[] = rex_i18n::msg('pool_file_added');
+        }
+
+        if ($data['file']['name_new'] != $data['file']['name']) {
+            $message[] = rex_i18n::rawMsg('pool_file_renamed', $data['file']['name'], $data['file']['name_new']);
+        }
+
+        $data['message'] = implode('<br />', $message);
+
+        /**
+         * TODO:.
+         * @deprecated $return
+         */
+        $return = $data;
+        $return['type'] = $data['file']['type'];
+        $return['msg'] = implode('<br />', $message);
+
+        $return['filename'] = $data['file']['name_new'];
+        $return['old_filename'] = $data['file']['name'];
+        $return['ok'] = 1;
 
         if (isset($size) && $size) {
-            $RETURN['width'] = $size[0];
-            $RETURN['height'] = $size[1];
+            $return['width'] = $size[0];
+            $return['height'] = $size[1];
         }
 
         // ----- EXTENSION POINT
-        if ($success) {
-            rex_extension::registerPoint(new rex_extension_point('MEDIA_ADDED', '', $RETURN));
-        }
+        rex_extension::registerPoint(new rex_extension_point('MEDIA_ADDED', '', $return));
 
-        return $RETURN['msg'];
+        return $data;
     }
 
     /**

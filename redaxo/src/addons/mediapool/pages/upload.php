@@ -3,7 +3,6 @@
 assert(isset($opener_input_field) && is_string($opener_input_field));
 
 $media_method = rex_request('media_method', 'string');
-$opener_input_field = rex_request('opener_input_field', 'string');
 $csrf = rex_csrf_token::factory('mediapool');
 
 $mediaForm = new rex_media_form();
@@ -56,49 +55,28 @@ if ('add_file' == $media_method) {
         $whitelist_types = is_array(@$args['types']) ? $args['types'] : [];
 
         try {
-            $message = new rex_api_result(
-                true,
-                rex_media_service::addMedia($data, rex::getUser()->getValue('login'), true, $whitelist_types)
-            );
+            $data = rex_media_service::addMedia($data, rex::getUser()->getValue('login'), true, $whitelist_types);
 
-            dump($message);
+            dump($data);
 
-            echo rex_view::success($message->getMessage());
+            echo rex_view::success($data['message']);
 
-            /*
-            if (rex_post('saveandexit', 'boolean') && 1 == $return['ok']) {
-
-                // TODO:
-                // wie bekomme ich den Filenam zurück für die Übergabe
-
-                $file_name = $return['filename'];
-                $ffiletype = $return['type'];
-                $title = $return['title'];
-
+            if (rex_post('saveandexit', 'boolean')) {
                 if ('' != $opener_input_field) {
                     if ('REX_MEDIALIST_' == substr($opener_input_field, 0, 14)) {
-                        $js = "selectMedialist('" . $file_name . "');";
+                        $js = "selectMedialist('" . $data['file']['name_new'] . "');";
                         $js .= 'location.href = "' . rex_url::backendPage('mediapool', ['info' => rex_i18n::msg('pool_file_added'), 'opener_input_field' => $opener_input_field], false) . '";';
                     } else {
-                        $js = "selectMedia('" . $file_name . "');";
+                        $js = "selectMedia('" . $data['file']['name_new'] . "');";
                     }
-                }
-
-                echo "<script language=javascript>\n";
-
-                if (isset($js)) {
+                    echo "<script language=javascript>\n";
                     echo $js;
+                    echo '</script>';
+                    return;
                 }
-                // echo "\nself.close();\n";
-                echo '</script>';
-                exit;
             }
-            if (1 == $return['ok']) {
-                rex_response::sendRedirect(rex_url::backendPage('mediapool/media', ['info' => $info, 'opener_input_field' => $opener_input_field], false));
-            } else {
-                $warning = rex_i18n::msg('pool_file_movefailed');
-            }
-            */
+
+            rex_response::sendRedirect(rex_url::backendPage('mediapool/media', ['info' => $data['message'], 'opener_input_field' => $opener_input_field], false));
         } catch (Exception $exception) {
             echo rex_view::error($exception->getMessage());
         }
