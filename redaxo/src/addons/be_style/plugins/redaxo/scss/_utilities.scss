@@ -43,7 +43,7 @@
 
 /* Packages highlight required package */ 
 #rex-js-table-available-packages-addons :target {
-  background: $color-d-lighter;  
+  background-color: $color-d-lighter;  
   transition: background-color 0.5s linear;
   animation: fade_to_light 2s forwards;
   animation-delay: 2s;
