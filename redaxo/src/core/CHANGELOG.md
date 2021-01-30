@@ -1,6 +1,31 @@
 Changelog
 =========
 
+Version 5.11.2 – 25.01.2021
+---------------------------
+
+### Security
+
+* SQL-Injection im `rex_form`-Prio-Feld verhindert (@gharlan)
+* XSS in `rex_form` verhindert (@staabm, @gharlan)
+* Path-Traversal während des Setups verhindert (@staabm)
+
+### Neu
+
+* Update der externen Bibliotheken
+* `rex_escape`: Neue Escape-Strategie `html_simplified`, bei der HTML escaped wird mit Ausnahme weniger einfacher Tags (`<b>`, `<code>` etc.) (@staabm)
+
+### Bugfixes
+
+* PHP 8:
+    - Wenn `debug.throw_always_exception` aktiv ist, wurden Warnings/Notices trotz `@`-Operator nicht ignoriert (@gharlan)
+    - In `rex_sql` kam es teilweise zu Warnings bzgl. `reset()` (@gharlan)
+* Whoops: Button-Styles korrigiert, unnötigen "Hide"-Button entfernt (@gharlan)
+* `rex_logger`: Bei `rex_`-Exceptions wurde im Log der erste Buchstabe großgeschrieben (`Rex_exception` etc.) (@gharlan)
+* Bei manchen Proxy-Servern (z. B. im Boostmodus bei Strato) konnte es im Debug-Modus zu einem Fehler kommen aufgrund zu vieler Header (`Server-Timing`-Header) (@gharlan)
+* Links mit `download`-Attribut wurden trotzdem über PJAX geladen (@gharlan)
+
+
 Version 5.11.1 – 11.11.2020
 ---------------------------
 

@@ -23,7 +23,7 @@
     "replace": {
         "erusev/parsedown": "1.7.4",
         "erusev/parsedown-extra": "0.8.1",
-        "filp/whoops": "2.9.1",
+        "filp/whoops": "2.9.2",
         "itsgoingd/clockwork": "v5.0.6",
         "phpmailer/phpmailer": "v6.2.0",
         "psr/container": "1.0.0",
