@@ -181,7 +181,7 @@ setup_199 = 1 / Language
 setup_200 = Setup: step 2 of 7 / Licence
 setup_201 = Welcome to the REDAXO-Setup.
 setup_202 = <h3>What happens now:</h3><ol><li>Checking file and folder permissions</li><li>Checking database access and writing database credentials into config.yml</li><li>Setting up/resetting the database</li><li>Creation of an admin user account</li></ol>
-setup_203 = Accept licence terms and conditions and move on to step 3
+setup_203 = Accept licence terms and conditions
 setup_299 = 2 / Licence
 
 setup_300 = Setup: step 3 of 7 / System check
