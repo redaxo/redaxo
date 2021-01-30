@@ -41,24 +41,13 @@
     }
 }
 
-/* Packages highlight required package */ 
+/* Packages highlight required package */
 .targeted-rows :target {
-  background-color: $color-d-lighter;  
-  transition: background-color 0.5s linear;
-  animation: fade_to_light 0.5s forwards;
-  animation-delay: 2s;
-    -moz-animation: fade_to_light 0.5s forwards;
-    -moz-animation-delay: 0.5s;
-    -webkit-animation: fade_to_light 0.5s forwards;
-    -webkit-animation-delay: 0.5s;
-    -o-animation: fade_to_light 0.5s forwards;
-    -o-animation-delay: 0.5s;
+  animation: 0.5s fade_to_light 0.5s forwards;
 }
-
 
 @keyframes fade_to_light {
     to {
         background-color: $color-c-light;
     }
-
 }
