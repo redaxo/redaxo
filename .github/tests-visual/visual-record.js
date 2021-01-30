@@ -182,7 +182,7 @@ async function main() {
         // step 7
         // requires form in step 6 to be submitted
         await page.$eval('.rex-js-createadminform', form => form.submit());
-        await page.waitForNavigation();
+        await page.waitForTimeout(1000);
         await createScreenshot(page, 'setup_7.png');
 
     } else {
