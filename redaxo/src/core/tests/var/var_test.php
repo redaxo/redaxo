@@ -14,6 +14,14 @@ class rex_var_test_var extends rex_var
     }
 }
 
+class rex_var_2nd_test_var extends rex_var
+{
+    public function getOutput()
+    {
+        return '2';
+    }
+}
+
 class rex_var_test extends rex_var_base_test
 {
     public function parseTokensProvider()
@@ -23,6 +31,7 @@ class rex_var_test extends rex_var_base_test
             ['a<?php echo \'bREX_TEST_VAR[content=c]d\'; ?>e', 'abcde'],
             ['a<?php echo "bREX_TEST_VAR[content=c]d"; ?>e', 'abcde'],
             ['a<?php echo REX_TEST_VAR[content=b]; ?>c', 'abc'],
+            ['REX_2ND_TEST_VAR[]', '2'],
             ['a<?php echo <<<EOT
 bREX_TEST_VAR[content=c]d
 EOT;
