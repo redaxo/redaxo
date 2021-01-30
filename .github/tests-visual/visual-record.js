@@ -171,13 +171,19 @@ async function main() {
         await page.goto(START_URL, { waitUntil: 'load' });
         await createScreenshot(page, 'setup.png');
 
-        // setup steps 2-7
-        for (var step = 2; step <= 7; step++) {
+        // setup steps 2-6
+        for (var step = 2; step <= 6; step++) {
             // step 3: wait until `networkidle0` to finish AJAX requests, see https://github.com/puppeteer/puppeteer/blob/main/docs/api.md#pagegotourl-options
             await page.goto(START_URL + '?page=setup&lang=de_de&step=' + step, { waitUntil: step === 3 ? 'networkidle0' : 'load'});
             await page.waitForTimeout(250); // slight buffer for CSS animations or :focus styles etc.
             await createScreenshot(page, 'setup_' + step + '.png');
         }
+
+        // step 7
+        // requires form in step 6 to be submitted
+        await page.$eval('.rex-js-createadminform', form => form.submit());
+        await page.waitForTimeout(1000);
+        await createScreenshot(page, 'setup_7.png');
 
     } else {
 
