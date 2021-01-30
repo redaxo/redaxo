@@ -288,7 +288,7 @@ class rex_setup
             'step' => rex_request('step', 'int', 1),
         ]);
 
-        if ($token = rex_setup::getToken()) {
+        if ($token = self::getToken()) {
             $context->setParam('setup_token', $token);
         }
 
