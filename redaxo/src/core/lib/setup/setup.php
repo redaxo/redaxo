@@ -261,6 +261,46 @@ class rex_setup
     }
 
     /**
+     * @return string|false Setup URL or `false` on failure
+     */
+    public static function startWithToken()
+    {
+        $token = rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');
+
+        $configFile = rex_path::coreData('config.yml');
+        $config = rex_file::getConfig($configFile);
+
+        $config['setup'] = isset($config['setup']) && is_array($config['setup']) ? $config['setup'] : [];
+        $config['setup'][$token] = time();
+
+        if (false === rex_file::putConfig($configFile, $config)) {
+            return false;
+        }
+
+        return rex_url::backendPage('setup', ['setup_token' => $token], false);
+    }
+
+    public static function getContext(): rex_context
+    {
+        $context = new rex_context([
+            'page' => 'setup',
+            'lang' => rex_request('lang', 'string', ''),
+            'step' => rex_request('step', 'int', 1),
+        ]);
+
+        if ($token = rex_setup::getToken()) {
+            $context->setParam('setup_token', $token);
+        }
+
+        return $context;
+    }
+
+    public static function getToken(): ?string
+    {
+        return rex_get('setup_token', 'string', null);
+    }
+
+    /**
      * Mark the setup as completed.
      */
     public static function markSetupCompleted(): bool
@@ -270,7 +310,20 @@ class rex_setup
             rex_file::getConfig(rex_path::core('default.config.yml')),
             rex_file::getConfig($configFile)
         );
-        $config['setup'] = false;
+
+        if (is_array($config['setup'])) {
+            if ($token = self::getToken()) {
+                unset($config['setup'][$token]);
+            }
+
+            $config['setup'] = array_filter($config['setup'], static function (int $timestamp): bool {
+                return $timestamp > time() - 60 * 60;
+            });
+
+            $config['setup'] = $config['setup'] ?: false;
+        } else {
+            $config['setup'] = false;
+        }
 
         $configWritten = rex_file::putConfig($configFile, $config);
 

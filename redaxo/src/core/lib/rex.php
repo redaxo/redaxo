@@ -181,7 +181,20 @@ class rex
      */
     public static function isSetup()
     {
-        return (bool) self::getProperty('setup', false);
+        static $setup;
+
+        if (null !== $setup) {
+            return $setup;
+        }
+
+        $setup = self::getProperty('setup', false);
+
+        if (is_array($setup)) {
+            $token = rex_setup::getToken();
+            $setup = $token && isset($setup[$token]) && $setup[$token] > time() - 60 * 60;
+        }
+
+        return $setup;
     }
 
     /**

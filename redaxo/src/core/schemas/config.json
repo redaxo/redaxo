@@ -15,7 +15,16 @@
     "properties": {
         "setup": {
             "description": "Setup mode",
-            "type": "boolean"
+            "oneOf": [
+                {
+                    "type": "boolean"
+                },
+                {
+                    "additionalProperties": {
+                        "type": "integer"
+                    }
+                }
+            ]
         },
         "debug": {
             "description": "Debug mode",
