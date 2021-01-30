@@ -96,4 +96,5 @@ jobs:
             - name: Install Dependencies
               run: composer install --ansi --prefer-dist
             - run: |
+                  redaxo/bin/console
                   vendor/bin/phpstan analyse --ansi --no-progress --debug
