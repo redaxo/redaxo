@@ -183,15 +183,8 @@ class rex
     {
         static $setup;
 
-        if (null !== $setup) {
-            return $setup;
-        }
-
-        $setup = self::getProperty('setup', false);
-
-        if (is_array($setup)) {
-            $token = rex_setup::getToken();
-            $setup = $token && isset($setup[$token]) && $setup[$token] > time() - 60 * 60;
+        if (null === $setup) {
+            $setup = rex_setup::isEnabled();
         }
 
         return $setup;

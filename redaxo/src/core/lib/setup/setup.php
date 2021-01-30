@@ -271,13 +271,45 @@ class rex_setup
         $config = rex_file::getConfig($configFile);
 
         $config['setup'] = isset($config['setup']) && is_array($config['setup']) ? $config['setup'] : [];
-        $config['setup'][$token] = time();
+        $config['setup'][$token] = (new DateTimeImmutable('+1 hour'))->format('Y-m-d H:i:s');
 
         if (false === rex_file::putConfig($configFile, $config)) {
             return false;
         }
 
         return rex_url::backendPage('setup', ['setup_token' => $token], false);
+    }
+
+    public static function isEnabled(): bool
+    {
+        $setup = rex::getProperty('setup', false);
+
+        if (!is_array($setup)) {
+            return (bool) $setup;
+        }
+
+        $currentToken = self::getToken();
+
+        if (!$currentToken && rex::isFrontend()) {
+            return false;
+        }
+
+        $updated = false;
+        foreach ($setup as $token => $expire) {
+            if (strtotime($expire) < time()) {
+                unset($setup[$token]);
+                $updated = true;
+            }
+        }
+
+        if ($updated) {
+            $configFile = rex_path::coreData('config.yml');
+            $config = rex_file::getConfig($configFile);
+            $config['setup'] = $setup ?: false;
+            rex_file::putConfig($configFile, $config);
+        }
+
+        return isset($setup[$currentToken]);
     }
 
     public static function getContext(): rex_context
@@ -315,10 +347,6 @@ class rex_setup
             if ($token = self::getToken()) {
                 unset($config['setup'][$token]);
             }
-
-            $config['setup'] = array_filter($config['setup'], static function (int $timestamp): bool {
-                return $timestamp > time() - 60 * 60;
-            });
 
             $config['setup'] = $config['setup'] ?: false;
         } else {
