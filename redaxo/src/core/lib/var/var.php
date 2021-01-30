@@ -214,7 +214,7 @@ abstract class rex_var
      */
     private static function getMatches($content)
     {
-        preg_match_all('/(REX_[A-Z_]+)\[((?:[^\[\]]|\\\\[\[\]]|(?R))*)(?<!\\\\)\]/s', $content, $matches, PREG_SET_ORDER);
+        preg_match_all('/(REX_[A-Z0-9_]+)\[((?:[^\[\]]|\\\\[\[\]]|(?R))*)(?<!\\\\)\]/s', $content, $matches, PREG_SET_ORDER);
         return $matches;
     }
 
