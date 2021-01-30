@@ -8,6 +8,8 @@ if (!defined('REX_MIN_PHP_VERSION')) {
     $REX['LOAD_PAGE'] = false;
 
     require dirname(__DIR__, 2).'/redaxo/src/core/boot.php';
+
+    class_exists(rex_backend_login::class);
 }
 
 $application = new rex_console_application();
