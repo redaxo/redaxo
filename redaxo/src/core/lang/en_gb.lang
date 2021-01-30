@@ -258,8 +258,8 @@ setup_700 = Setup: step 7 of 7 / Hooray
 setup_701 = Writing to config.yml failed. Please change the file manually by FTP.
 setup_702 = Congratulations! REDAXO has successfully been installed.
 setup_703 = Please note:
-setup_704 = <ol><li>{0}Sign in{1} with the created account</li><li>Import a demo [after signing in]: go to Import/Export and setup the database and source files</li></ol>
-setup_705 = Have fun and good luck<br />The REDAXO team
+setup_704 = <ol><li>{0}Sign in{1} with the created account</li><li>Within the community we have developed several website demos that show typical use cases with REDAXO. They can be downloaded after login via the already included <strong>install</strong> add-on. <a href="https://redaxo.org/download/website-demos/">Info about website demos on redaxo.org</a> <i>(German)</i></li></ol>
+setup_705 = Have fun and good luck!<br />The REDAXO team
 setup_706 = Sign in
 setup_799 = 7 / Hooray
 
