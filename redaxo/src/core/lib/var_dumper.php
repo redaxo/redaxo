@@ -28,7 +28,7 @@ abstract class rex_var_dumper
             }
 
             // register noop handler for non-admins (if not in debug mode)
-            VarDumper::setHandler(static function ($var) {
+            VarDumper::setHandler(static function () {
                 // noop
             });
         });

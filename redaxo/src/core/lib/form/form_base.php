@@ -890,7 +890,7 @@ abstract class rex_form_base
         foreach ($this->elements as $fieldsetName => $fieldsetElementsArray) {
             $fieldsetElements[$fieldsetName] = [];
 
-            foreach ($fieldsetElementsArray as $key => $element) {
+            foreach ($fieldsetElementsArray as $element) {
                 if ($this->isFooterElement($element)) {
                     continue;
                 }
@@ -909,15 +909,15 @@ abstract class rex_form_base
      */
     protected function getControlElement()
     {
-        foreach ($this->elements as $fieldsetName => $fieldsetElementsArray) {
+        foreach ($this->elements as $fieldsetElementsArray) {
             foreach ($fieldsetElementsArray as $element) {
                 if ($this->isControlElement($element)) {
                     return $element;
                 }
             }
         }
-        $noElement = null;
-        return $noElement;
+
+        return null;
     }
 
     /**
@@ -929,8 +929,8 @@ abstract class rex_form_base
     protected function getElement($fieldsetName, $elementName)
     {
         $normalizedName = rex_string::normalize($fieldsetName . '[' . $elementName . ']', '_', '[]');
-        $result = $this->_getElement($fieldsetName, $normalizedName);
-        return $result;
+
+        return $this->_getElement($fieldsetName, $normalizedName);
     }
 
     /**
@@ -948,8 +948,8 @@ abstract class rex_form_base
                 }
             }
         }
-        $result = null;
-        return $result;
+
+        return null;
     }
 
     /**
@@ -1066,9 +1066,8 @@ abstract class rex_form_base
             $messages[] = rex_i18n::msg('csrf_token_invalid');
         }
 
-        foreach ($this->getSaveElements() as $fieldsetName => $fieldsetElements) {
+        foreach ($this->getSaveElements() as $fieldsetElements) {
             foreach ($fieldsetElements as $element) {
-                /** @var rex_form_element $element */
                 // read-only-fields
                 if (false !== strpos($element->getAttribute('class'), 'form-control-static')) {
                     continue;
@@ -1091,7 +1090,7 @@ abstract class rex_form_base
     {
         $saveElements = $this->getSaveElements();
         foreach ($saveElements as $fieldsetName => $fieldsetElements) {
-            foreach ($fieldsetElements as $key => $element) {
+            foreach ($fieldsetElements as $element) {
                 // read-only-fields nicht speichern
                 if (false !== strpos($element->getAttribute('class'), 'form-control-static')) {
                     continue;
