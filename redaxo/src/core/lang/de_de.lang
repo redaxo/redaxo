@@ -258,8 +258,8 @@ setup_700 = Setup: Schritt 7 von 7 / Heureka
 setup_701 = Leider konnte die config.yml nicht beschrieben werden. Bitte ändern Sie die Datei manuell über FTP.
 setup_702 = Herzlichen Glückwunsch zur REDAXO-Installation!
 setup_703 = Bitte noch dieses beachten:
-setup_704 = <ol><li>Mit dem {0}eingerichtetem Zugang einloggen{1}</li><li>Importieren einer Demo über [wenn eingeloggt]: Import/Export und dort jeweils die Datenbank und Files installieren.</li></ol>
-setup_705 = Viel Spass und Erfolg<br />Das REDAXO Team
+setup_704 = <ol><li>Mit dem {0}eingerichtetem Zugang einloggen{1}</li><li>Innerhalb der Community haben wir mehrere Website-Demos entwickelt, die typische Anwendungsfälle mit REDAXO zeigen. Sie können nach Login über das bereits enthaltene <strong>Install</strong>-AddOn runtergeladen werden. <a href="https://redaxo.org/download/website-demos/">Infos zu Website-Demos auf redaxo.org</a></li></ol>
+setup_705 = Viel Spaß und Erfolg!<br />Das REDAXO-Team
 setup_706 = zum Login
 setup_799 = 7 / Heureka
 
