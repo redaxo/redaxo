@@ -56,7 +56,6 @@ if (rex_get('asset') && rex_get('buster')) {
 
 // ----- verfuegbare seiten
 $pages = [];
-$page = '';
 
 // ----------------- SETUP
 if (rex::isSetup()) {
@@ -71,7 +70,6 @@ if (rex::isSetup()) {
     rex_i18n::setLocale(rex::getProperty('lang'));
 
     $pages['setup'] = rex_be_controller::getSetupPage();
-    $page = 'setup';
     rex_be_controller::setCurrentPage('setup');
 } else {
     // ----------------- CREATE LANG OBJ
@@ -136,7 +134,6 @@ if (rex::isSetup()) {
         }
 
         $pages['login'] = rex_be_controller::getLoginPage();
-        $page = 'login';
         rex_be_controller::setCurrentPage('login');
 
         if ('login' !== rex_request('page', 'string', 'login')) {

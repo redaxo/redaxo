@@ -463,7 +463,6 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
      */
     private function getDbCharset()
     {
-        /** @var null|string $charset */
         $charset = $this->input->getOption('db-charset');
 
         if ($charset) {

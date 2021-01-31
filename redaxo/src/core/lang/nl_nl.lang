@@ -156,8 +156,7 @@ setup_199 = 1 / Taal
 
 setup_200 = Installatie: stap 2 van 7 / Licentie
 setup_201 = Welkom bij de REDAXO-installatie.
-setup_202 = <h3>Wat gebeurt er nu:</h3><ol><li>Controle van bestands- en maptoegang</li><li>Controleren van databasegegevens en deze wegschrijven in config.yml</li><li>Instellen of resetten van de database</li><li>Aanmaken van een administratoraccount</li></ol>
-setup_203 = Accepteer de gebruikersvoorwaarden en de licentie en ga door naar stap 3
+setup_203 = Accepteer de gebruikersvoorwaarden en de licentie
 setup_299 = 2 / Licentie
 
 setup_300 = Installatie: stap 3 van 7 / Systeemcontrole
