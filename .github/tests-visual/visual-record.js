@@ -25,6 +25,7 @@ const GOLDEN_SAMPLES_DIR = '.github/tests-visual/';
 const myArgs = process.argv.slice(2);
 let minDiffPixels = 1;
 let isSetup = false;
+let isCustomizer = false;
 
 if (myArgs.includes('regenerate-all')) {
     // force sample-regeneration, even if pixelmatch() thinks nothing changed
@@ -32,6 +33,9 @@ if (myArgs.includes('regenerate-all')) {
 }
 if (myArgs.includes('setup')) {
     isSetup = true;
+}
+if (myArgs.includes('customizer')) {
+    isCustomizer = true;
 }
 const MIN_DIFF_PIXELS = minDiffPixels;
 
@@ -165,46 +169,57 @@ async function main() {
     await page.setViewport({ width: screenshotWidth, height: screenshotHeight });
     await page.setCookie(noHtaccessCheckCookie);
 
-    if (isSetup) {
+    switch (true) {
 
-        // setup step 1
-        await page.goto(START_URL, { waitUntil: 'load' });
-        await createScreenshot(page, 'setup.png');
+        case isSetup:
+            // setup step 1
+            await page.goto(START_URL, { waitUntil: 'load' });
+            await createScreenshot(page, 'setup.png');
 
-        // setup steps 2-6
-        for (var step = 2; step <= 6; step++) {
-            // step 3: wait until `networkidle0` to finish AJAX requests, see https://github.com/puppeteer/puppeteer/blob/main/docs/api.md#pagegotourl-options
-            await page.goto(START_URL + '?page=setup&lang=de_de&step=' + step, { waitUntil: step === 3 ? 'networkidle0' : 'load'});
+            // setup steps 2-6
+            for (var step = 2; step <= 6; step++) {
+                // step 3: wait until `networkidle0` to finish AJAX requests, see https://github.com/puppeteer/puppeteer/blob/main/docs/api.md#pagegotourl-options
+                await page.goto(START_URL + '?page=setup&lang=de_de&step=' + step, { waitUntil: step === 3 ? 'networkidle0' : 'load'});
+                await page.waitForTimeout(250); // slight buffer for CSS animations or :focus styles etc.
+                await createScreenshot(page, 'setup_' + step + '.png');
+            }
+
+            // step 7
+            // requires form in step 6 to be submitted
+            await page.$eval('.rex-js-createadminform', form => form.submit());
+            await page.waitForTimeout(1000);
+            await createScreenshot(page, 'setup_7.png');
+
+            break;
+
+        case isCustomizer:
+            await page.goto(START_URL + '?page=system/customizer', { waitUntil: 'load' });
             await page.waitForTimeout(250); // slight buffer for CSS animations or :focus styles etc.
-            await createScreenshot(page, 'setup_' + step + '.png');
-        }
+            await createScreenshot(page, 'system_customizer.png');
 
-        // step 7
-        // requires form in step 6 to be submitted
-        await page.$eval('.rex-js-createadminform', form => form.submit());
-        await page.waitForTimeout(1000);
-        await createScreenshot(page, 'setup_7.png');
+            break;
 
-    } else {
+        default:
+            // login page
+            await page.goto(START_URL, { waitUntil: 'load' });
+            await page.waitForTimeout(1000); // CSS animation
+            await createScreenshot(page, 'login.png');
 
-        // login page
-        await page.goto(START_URL, { waitUntil: 'load' });
-        await page.waitForTimeout(1000); // CSS animation
-        await createScreenshot(page, 'login.png');
+            // login successful
+            await page.type('#rex-id-login-user', 'myusername');
+            await page.type('#rex-id-login-password', '91dfd9ddb4198affc5c194cd8ce6d338fde470e2'); // sha1('mypassword')
+            await page.$eval('#rex-form-login', form => form.submit());
+            await page.waitForTimeout(1000);
+            await createScreenshot(page, 'index.png');
 
-        // login successful
-        await page.type('#rex-id-login-user', 'myusername');
-        await page.type('#rex-id-login-password', '91dfd9ddb4198affc5c194cd8ce6d338fde470e2'); // sha1('mypassword')
-        await page.$eval('#rex-form-login', form => form.submit());
-        await page.waitForTimeout(1000);
-        await createScreenshot(page, 'index.png');
+            // run through all pages
+            for (var fileName in allPages) {
+                await page.goto(allPages[fileName], { waitUntil: 'load' });
+                await page.waitForTimeout(250); // slight buffer for CSS animations or :focus styles etc.
+                await createScreenshot(page, fileName);
+            }
 
-        // run through all pages
-        for (var fileName in allPages) {
-            await page.goto(allPages[fileName], { waitUntil: 'load' });
-            await page.waitForTimeout(250); // slight buffer for CSS animations or :focus styles etc.
-            await createScreenshot(page, fileName);
-        }
+            break;
     }
 
     await page.close();
