@@ -179,8 +179,7 @@ setup_199 = 1 / Språk
 
 setup_200 = Installation: Steg 2 av 7 / Licens
 setup_201 = Välkommen till REDAXO-installationen.
-setup_202 = <h3>Vad händer härnäst:</h3><ol><li>Filrättigheterna kontrolleras</li><li>Databastillgängliheten kontrolleras och skrivas in i config.yml</li><li>Databasen (ny)skapas</li><li>Ett administratörskonto skapas</li></ol>
-setup_203 = Akceptera licensbestämmelserna. Fortsätt med steg 3
+setup_203 = Akceptera licensbestämmelserna
 setup_299 = 2 / Licens
 
 setup_300 = Installation: Steg 3 av 7 / Systemkontroll
@@ -257,7 +256,7 @@ setup_700 = Installation: Steg 7 av 7 / Heureka
 setup_701 = Config.yml - filen kunde inte skrivas. Vänligen ändrar filen manuellt via FTP.
 setup_702 = Grattis till REDAXO-installationen!
 setup_703 = Vänligen observera följande:
-setup_704 = <ol><li>Logga in {1} med {0}</li><li>Importera demo via [om inloggat]: Import/Export och installera där resp. databas och filerna.</li></ol>
+setup_704 =
 setup_705 = Lycka till!<br />REDAXO teamet
 setup_706 = till login
 setup_799 = 7 / Heureka
