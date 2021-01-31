@@ -146,6 +146,9 @@ if (rex::getUser() && $hasNavigation) {
 if ('setup' == rex_be_controller::getCurrentPagePart(1)) {
     $step = rex_request('step', 'float');
     $lang = rex_request('lang', 'string', '');
+
+    $context = rex_setup::getContext();
+
     $navi = [];
     $end = $lang ? 7 : 1;
     for ($i = 1; $i <= $end; ++$i) {
@@ -157,7 +160,7 @@ if ('setup' == rex_be_controller::getCurrentPagePart(1)) {
         $n['href'] = 'javascript:void(0)';
         if ($i < $step) {
             $n['itemAttr']['class'][] = 'bg-success';
-            $n['href'] = rex_url::backendPage('setup', ['step' => $i, 'lang' => $lang]);
+            $n['href'] = $context->getUrl(['step' => $i]);
             if (7 == $step) {
                 $n['href'] = 'javascript:void(0)';
             }
