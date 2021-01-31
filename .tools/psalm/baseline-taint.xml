@@ -25,12 +25,6 @@
       <code>$this-&gt;getVar('content')</code>
     </TaintedHtml>
   </file>
-  <file src="redaxo/src/core/lib/error_handler.php">
-    <TaintedHtml occurrences="2">
-      <code>$exception-&gt;__toString()</code>
-      <code>$exception-&gt;__toString()</code>
-    </TaintedHtml>
-  </file>
   <file src="redaxo/src/core/lib/response.php">
     <TaintedHeader occurrences="2">
       <code>$str</code>
