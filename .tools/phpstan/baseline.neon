@@ -1,16 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/pages/log.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/debug/lib/debug_clockwork.php
-
-		-
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/install/lib/archive.php
@@ -19,11 +9,6 @@ parameters:
 			message: "#^Parameter \\#3 \\$alias of class PharData constructor expects string, null given\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/install/lib/archive.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/install/pages/index.php
 
 		-
 			message: "#^Method rex_media\\:\\:getRootMedia\\(\\) should return array\\<static\\(rex_media\\)\\> but returns array\\<rex_media\\>\\.$#"
@@ -161,11 +146,6 @@ parameters:
 			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
 
 		-
-			message: "#^Property rex_test_instance_list_pool\\:\\:\\$id is never read, only written\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
-
-		-
 			message: "#^Parameter \\#3 \\$createListCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: array\\)\\|null, Closure\\(mixed, mixed\\)\\: array\\(\\) given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
@@ -229,11 +209,6 @@ parameters:
 			message: "#^Method rex_user\\:\\:getComplexPerm\\(\\) should return rex_clang_perm\\|rex_media_perm\\|rex_module_perm\\|rex_structure_perm\\|null but returns rex_complex_perm\\|null\\.$#"
 			count: 2
 			path: ../../redaxo/src/core/lib/login/user.php
-
-		-
-			message: "#^Property rex_command_setup_run\\:\\:\\$output is never read, only written\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/console/setup/run.php
 
 		-
 			message: "#^If condition is always true\\.$#"
@@ -339,11 +314,6 @@ parameters:
 			message: "#^Strict comparison using \\=\\=\\= between null and bool will always evaluate to false\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/version.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/var_dumper.php
 
 		-
 			message: "#^Call to static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertSame\\(\\) with \\*NEVER\\* and array\\<int, \\(int\\|string\\)\\> will always evaluate to false\\.$#"

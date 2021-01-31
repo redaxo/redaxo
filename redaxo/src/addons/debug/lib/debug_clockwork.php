@@ -6,9 +6,12 @@
  */
 class rex_debug_clockwork
 {
-    /** @var \Clockwork\Support\Vanilla\Clockwork */
+    /** @var \Clockwork\Support\Vanilla\Clockwork|null */
     private static $instance;
 
+    /**
+     * @psalm-assert \Clockwork\Support\Vanilla\Clockwork self::$instance
+     */
     private static function init(): void
     {
         $clockwork = \Clockwork\Support\Vanilla\Clockwork::init([
