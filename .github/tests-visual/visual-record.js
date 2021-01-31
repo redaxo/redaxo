@@ -15,7 +15,7 @@ const fs = require('fs');
 const mkdirp = require('mkdirp');
 
 const screenshotWidth = 1280;
-const screenshotHeight = 1280;
+const screenshotHeight = 1024;
 
 const START_URL = 'http://localhost:8000/redaxo/index.php';
 const DEBUGGING = false;
@@ -155,11 +155,10 @@ async function createScreenshot(page, screenshotName) {
 
 async function logIntoBackend(page, username = 'myusername', password = '91dfd9ddb4198affc5c194cd8ce6d338fde470e2') {
     await page.goto(START_URL, { waitUntil: 'load' });
-    await page.waitForTimeout(1000);
     await page.type('#rex-id-login-user', username);
     await page.type('#rex-id-login-password', password); // sha1('mypassword')
     await page.$eval('#rex-form-login', form => form.submit());
-    await page.waitForTimeout(1000);
+    await page.waitForNavigation();
 }
 
 async function main() {
