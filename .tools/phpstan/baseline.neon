@@ -11,11 +11,6 @@ parameters:
 			path: ../../redaxo/src/addons/install/lib/archive.php
 
 		-
-			message: "#^Call to function is_bool\\(\\) with string\\|null will always evaluate to false\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/functions/function_rex_mediapool.php
-
-		-
 			message: "#^Method rex_media\\:\\:getRootMedia\\(\\) should return array\\<static\\(rex_media\\)\\> but returns array\\<rex_media\\>\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/lib/media.php
@@ -301,12 +296,12 @@ parameters:
 			path: ../../redaxo/src/core/lib/util/socket/socket.php
 
 		-
-			message: "#^Result of && is always false\\.$#"
+			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int, array\\)\\: bool\\)\\|null, Closure\\(mixed, mixed\\)\\: void given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/socket/socket.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int, array\\)\\: bool\\)\\|null, Closure\\(mixed, mixed\\)\\: void given\\.$#"
+			message: "#^If condition is always false\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/socket/socket.php
 
