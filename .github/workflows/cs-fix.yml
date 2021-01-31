@@ -35,5 +35,7 @@ jobs:
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
         commit_message: Apply php-cs-fixer changes
+        commit_user_name: rex-bot
+        commit_user_email: 78283150+rex-bot@users.noreply.github.com
 
     - run: vendor/bin/php-cs-fixer fix --ansi --diff --dry-run --format=checkstyle | cs2pr # check whether there are still errors left
