@@ -181,13 +181,7 @@ class rex
      */
     public static function isSetup()
     {
-        static $setup;
-
-        if (null === $setup) {
-            $setup = rex_setup::isEnabled();
-        }
-
-        return $setup;
+        return rex_setup::isEnabled();
     }
 
     /**
