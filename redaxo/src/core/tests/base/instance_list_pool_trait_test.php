@@ -11,8 +11,7 @@ class rex_test_instance_list_pool
         getInstanceListPoolKey as public;
     }
 
-    /** @phpstan-ignore-next-line */
-    private $id;
+    protected $id;
 
     public static function get($id)
     {
