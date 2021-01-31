@@ -158,7 +158,7 @@ async function logIntoBackend(page, username = 'myusername', password = '91dfd9d
     await page.type('#rex-id-login-user', username);
     await page.type('#rex-id-login-password', password); // sha1('mypassword')
     await page.$eval('#rex-form-login', form => form.submit());
-    await page.waitForNavigation();
+    await page.waitForTimeout(1000);
 }
 
 async function main() {
