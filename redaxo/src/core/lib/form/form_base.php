@@ -1134,13 +1134,10 @@ abstract class rex_form_base
             $params[$listName . '_warning'] = $listWarning;
         }
 
-        $paramString = '';
-        foreach ($params as $name => $value) {
-            $paramString .= '&' . $name . '=' . $value;
-        }
+        $paramString = '&'.rex_string::buildQuery($params);
 
         if ($this->debug) {
-            echo 'redirect to: ' . $this->applyUrl . $paramString;
+            echo 'redirect to: ' . rex_escape($this->applyUrl . $paramString);
             exit();
         }
 
