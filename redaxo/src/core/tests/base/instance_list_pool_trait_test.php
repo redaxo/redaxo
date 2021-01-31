@@ -11,8 +11,9 @@ class rex_test_instance_list_pool
         getInstanceListPoolKey as public;
     }
 
-    private $id; /** @phpstan-ignore-line */
+    private $id;
 
+    /** @phpstan-ignore-line */
     public static function get($id)
     {
         $instance = new self();
