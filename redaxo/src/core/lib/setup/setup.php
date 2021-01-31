@@ -261,7 +261,7 @@ class rex_setup
     }
 
     /**
-     * @return string|false Setup URL or `false` on failure
+     * @return string|false Single-User-Setup URL or `false` on failure
      */
     public static function startWithToken()
     {
@@ -285,15 +285,19 @@ class rex_setup
         $setup = rex::getProperty('setup', false);
 
         if (!is_array($setup)) {
+            // system wide setup
             return (bool) $setup;
         }
 
         $currentToken = self::getToken();
 
         if (!$currentToken && rex::isFrontend()) {
+            // no token in url, fast fail in frontend
+            // (in backend all existing tokens are revalidated below)
             return false;
         }
 
+        // invalidate expired tokens
         $updated = false;
         foreach ($setup as $token => $expire) {
             if (strtotime($expire) < time()) {
@@ -344,10 +348,12 @@ class rex_setup
         );
 
         if (is_array($config['setup'])) {
+            // remove current token
             if ($token = self::getToken()) {
                 unset($config['setup'][$token]);
             }
 
+            // if array is empty now, convert it to global `false` value
             $config['setup'] = $config['setup'] ?: false;
         } else {
             $config['setup'] = false;
