@@ -20,9 +20,6 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
     /** @var InputInterface */
     private $input;
 
-    /** @var OutputInterface */
-    private $output;
-
     private $forceAsking = false;
 
     protected function configure()
@@ -54,7 +51,6 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
         $this->io = $io;
         $this->input = $input;
-        $this->output = $output;
 
         $configFile = rex_path::coreData('config.yml');
         $config = array_merge(
