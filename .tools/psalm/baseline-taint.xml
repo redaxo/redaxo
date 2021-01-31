@@ -142,12 +142,6 @@
       <code>$this-&gt;getVar('content')</code>
     </TaintedHtml>
   </file>
-  <file src="redaxo/src/core/lib/error_handler.php">
-    <TaintedHtml occurrences="2">
-      <code>$exception-&gt;__toString()</code>
-      <code>$exception-&gt;__toString()</code>
-    </TaintedHtml>
-  </file>
   <file src="redaxo/src/core/lib/form/form_base.php">
     <TaintedHeader occurrences="2">
       <code>'Location: ' . $this-&gt;applyUrl . $paramString</code>
