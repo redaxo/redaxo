@@ -28,7 +28,7 @@ jobs:
               if: "github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository"
               with:
                   ref: ${{ github.head_ref }}
-                  token: ${{ secrets.STAABM_TOKEN }}
+                  token: ${{ secrets.BOT_TOKEN }}
             - name: Checkout fork
               uses: actions/checkout@v2
               if: "github.event_name != 'push' && github.event.pull_request.head.repo.full_name != github.repository"
@@ -56,6 +56,8 @@ jobs:
               if: "github.event_name != 'push' && github.event.pull_request.head.repo.full_name == github.repository"
               with:
                   commit_message: Apply be_style:compile
+                  commit_user_name: rex-bot
+                  commit_user_email: rex-bot@users.noreply.github.com
                   file_pattern: "*.css"
 
             - name: Check diff
