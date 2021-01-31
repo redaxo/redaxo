@@ -179,7 +179,6 @@ setup_199 = 1 / Språk
 
 setup_200 = Installation: Steg 2 av 7 / Licens
 setup_201 = Välkommen till REDAXO-installationen.
-setup_202 = <h3>Vad händer härnäst:</h3><ol><li>Filrättigheterna kontrolleras</li><li>Databastillgängliheten kontrolleras och skrivas in i config.yml</li><li>Databasen (ny)skapas</li><li>Ett administratörskonto skapas</li></ol>
 setup_203 = Akceptera licensbestämmelserna
 setup_299 = 2 / Licens
 
