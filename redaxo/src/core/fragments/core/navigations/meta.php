@@ -4,8 +4,6 @@
  * @psalm-scope-this rex_fragment
  */
 
-$echo = '';
-
 $items = $this->items;
 
 // --------------------- List Items

@@ -25,7 +25,7 @@ if (isset($this->right)) {
     $navigationArrays['right'] = array_reverse($this->right);
 }
 
-foreach ($navigationArrays as $nav_key => $navigation) {
+foreach ($navigationArrays as $navigation) {
     foreach ($navigation as $navi) {
         if (isset($navi['active']) && $navi['active'] && isset($navi['children']) && count($navi['children']) > 0) {
             $navigationArrays['children'] = $navi['children'];
