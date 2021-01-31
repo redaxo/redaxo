@@ -14,13 +14,8 @@ if ($func && !$csrfToken->isValid()) {
     $error[] = rex_i18n::msg('csrf_token_invalid');
 } elseif ('setup' == $func) {
     // REACTIVATE SETUP
-
-    $configFile = rex_path::coreData('config.yml');
-    $config = rex_file::getConfig($configFile);
-    $config['setup'] = true;
-
-    if (false !== rex_file::putConfig($configFile, $config)) {
-        header('Location:' . rex_url::backendController());
+    if (false !== $url = rex_setup::startWithToken()) {
+        header('Location:' . $url);
         exit;
     }
     $error[] = rex_i18n::msg('setup_error2');
