@@ -181,7 +181,7 @@ class rex
      */
     public static function isSetup()
     {
-        return (bool)  self::getProperty('setup', false);
+        return (bool) self::getProperty('setup', false);
     }
 
     /**
