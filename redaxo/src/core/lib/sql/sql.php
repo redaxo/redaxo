@@ -1414,7 +1414,6 @@ class rex_sql implements Iterator
                 continue;
             }
 
-            /** @phpstan-ignore-next-line */
             throw new InvalidArgumentException('Argument $values must be an array of ints and/or strings, but it contains "'.get_debug_type($value).'"');
         }
 
