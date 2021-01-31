@@ -331,11 +331,6 @@ class rex_setup
         return $context;
     }
 
-    public static function getToken(): ?string
-    {
-        return rex_get('setup_token', 'string', null);
-    }
-
     /**
      * Mark the setup as completed.
      */
@@ -366,5 +361,10 @@ class rex_setup
         }
 
         return $configWritten;
+    }
+
+    private static function getToken(): ?string
+    {
+        return rex_get('setup_token', 'string', null);
     }
 }
