@@ -8,11 +8,7 @@ $step = rex_request('step', 'int', 1);
 $lang = rex_request('lang', 'string');
 $func = rex_request('func', 'string');
 
-$context = new rex_context([
-    'page' => 'setup',
-    'lang' => $lang,
-    'step' => $step,
-]);
+$context = rex_setup::getContext();
 
 // ---------------------------------- Global Step features
 
@@ -26,7 +22,7 @@ if (!rex_setup::isInitialSetup()) {
             right: 40px;
         }
     </style>
-    <a href="?page=setup&amp;func=abort" data-confirm="Cancel Setup?" class="btn btn-delete rex-cancel-setup">'.rex_i18n::msg('setup_cancel').'</a>';
+    <a href="'.$context->getUrl(['func' => 'abort']).'" data-confirm="Cancel Setup?" class="btn btn-delete rex-cancel-setup">'.rex_i18n::msg('setup_cancel').'</a>';
 
     if ('abort' === $func) {
         rex_setup::markSetupCompleted();
