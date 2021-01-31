@@ -148,8 +148,6 @@ if ('' != $error) {
 
 // --------------------------------- FORMS
 
-$grid = [];
-
 $content = '';
 $content .= '<fieldset>';
 

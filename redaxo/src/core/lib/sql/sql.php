@@ -1944,9 +1944,6 @@ class rex_sql implements Iterator
             }
         }
 
-        // close the connection
-        $conn = null;
-
         return $err_msg;
     }
 
