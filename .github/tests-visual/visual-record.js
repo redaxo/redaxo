@@ -153,6 +153,14 @@ async function createScreenshot(page, screenshotName) {
     }
 }
 
+async function logIntoBackend(page, username = 'myusername', password = '91dfd9ddb4198affc5c194cd8ce6d338fde470e2') {
+    await page.goto(START_URL, { waitUntil: 'load' });
+    await page.type('#rex-id-login-user', username);
+    await page.type('#rex-id-login-password', password); // sha1('mypassword')
+    await page.$eval('#rex-form-login', form => form.submit());
+    await page.waitForNavigation();
+}
+
 async function main() {
     const options = { args: ['--no-sandbox', '--disable-setuid-sandbox'] };
 
@@ -193,6 +201,7 @@ async function main() {
             break;
 
         case isCustomizer:
+            await logIntoBackend(page);
             await page.goto(START_URL + '?page=system/customizer', { waitUntil: 'load' });
             await page.waitForTimeout(250); // slight buffer for CSS animations or :focus styles etc.
             await createScreenshot(page, 'system_customizer.png');
@@ -206,10 +215,7 @@ async function main() {
             await createScreenshot(page, 'login.png');
 
             // login successful
-            await page.type('#rex-id-login-user', 'myusername');
-            await page.type('#rex-id-login-password', '91dfd9ddb4198affc5c194cd8ce6d338fde470e2'); // sha1('mypassword')
-            await page.$eval('#rex-form-login', form => form.submit());
-            await page.waitForTimeout(1000);
+            await logIntoBackend(page);
             await createScreenshot(page, 'index.png');
 
             // run through all pages
