@@ -23,7 +23,7 @@ jobs:
               if: "github.event_name == 'repository_dispatch'"
               uses: peter-evans/create-or-update-comment@v1
               with:
-                  token: ${{ secrets.STAABM_TOKEN }}
+                  token: ${{ secrets.BOT_TOKEN }}
                   repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
                   comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
                   body: |
@@ -36,7 +36,7 @@ jobs:
               if: "github.event_name != 'repository_dispatch' && github.event.pull_request.head.repo.full_name == github.repository"
               with:
                   ref: ${{ github.head_ref }}
-                  token: ${{ secrets.STAABM_TOKEN }}
+                  token: ${{ secrets.BOT_TOKEN }}
             - name: Checkout fork
               uses: actions/checkout@v2
               if: "github.event_name != 'repository_dispatch' && github.event.pull_request.head.repo.full_name != github.repository"
@@ -44,7 +44,7 @@ jobs:
               uses: actions/checkout@v2
               if: "github.event_name == 'repository_dispatch'"
               with:
-                  token: ${{ secrets.STAABM_TOKEN }}
+                  token: ${{ secrets.BOT_TOKEN }}
                   repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
                   ref: ${{ github.event.client_payload.pull_request.head.ref }}
 
@@ -99,6 +99,8 @@ jobs:
                   php redaxo/bin/console config:set setup false -t boolean --ansi
                   php redaxo/bin/console cache:clear --ansi
                   node .github/tests-visual/visual-record.js
+                  php redaxo/bin/console package:install be_style/customizer --ansi
+                  node .github/tests-visual/visual-record.js customizer
             - name: Force regenerate all screenshots
               if: "github.event_name == 'repository_dispatch'"
               run: |
@@ -108,11 +110,15 @@ jobs:
                   php redaxo/bin/console config:set setup false -t boolean --ansi
                   php redaxo/bin/console cache:clear --ansi
                   node .github/tests-visual/visual-record.js regenerate-all
+                  php redaxo/bin/console package:install be_style/customizer --ansi
+                  node .github/tests-visual/visual-record.js customizer regenerate-all
 
             - uses: stefanzweifel/git-auto-commit-action@v4
               if: "(github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'repository_dispatch')"
               with:
                   commit_message: Update screenshots
+                  commit_user_name: rex-bot
+                  commit_user_email: rex-bot@users.noreply.github.com
                   file_pattern: .github/tests-visual/*
                   # repo dispatch needs the target branch
                   branch: ${{ github.head_ref }}

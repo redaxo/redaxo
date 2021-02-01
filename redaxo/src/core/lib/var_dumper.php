@@ -11,7 +11,7 @@ use Symfony\Component\VarDumper\VarDumper;
  */
 abstract class rex_var_dumper
 {
-    /** @var VarCloner */
+    /** @var VarCloner|null */
     private static $cloner;
 
     /** @var DataDumperInterface */

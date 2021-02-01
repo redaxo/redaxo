@@ -20,9 +20,6 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
     /** @var InputInterface */
     private $input;
 
-    /** @var OutputInterface */
-    private $output;
-
     private $forceAsking = false;
 
     protected function configure()
@@ -54,14 +51,12 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
         $this->io = $io;
         $this->input = $input;
-        $this->output = $output;
 
         $configFile = rex_path::coreData('config.yml');
         $config = array_merge(
             rex_file::getConfig(rex_path::core('default.config.yml')),
             rex_file::getConfig($configFile)
         );
-        $config['setup'] = true;
 
         $requiredValue = static function ($value) {
             if (empty($value)) {
@@ -447,7 +442,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
         // ---------------------------------- last step. save config
 
-        $config['setup'] = false;
+        $config['setup'] = is_array($config['setup']) ? $config['setup'] : false;
         if (!rex_file::putConfig($configFile, $config)) {
             $io->error('Writing to config.yml failed.');
             return 1;

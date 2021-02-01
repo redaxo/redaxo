@@ -51,7 +51,9 @@ abstract class rex_error_handler
 
             // in case exceptions happen early - before symfony-console doRun()
             if ('cli' === PHP_SAPI) {
-                echo $exception->__toString();
+                /** @psalm-taint-escape html */ // actually it is not escaped, it is not necessary in cli output
+                $exceptionString = $exception->__toString();
+                echo $exceptionString;
                 exit(1);
             }
 
