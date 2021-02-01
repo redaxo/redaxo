@@ -331,14 +331,10 @@ class rex_form_element
      */
     protected function _get()
     {
-        $class = $this->formatClass();
-        $class = '' == $class ? '' : ' ' . $class;
-
         $formElements = [];
         $n = [];
         $n['header'] = $this->getHeader();
         $n['id'] = '';
-        //$n['class']     = $class;
         $n['label'] = $this->formatLabel();
         $n['before'] = $this->getPrefix();
         $n['field'] = $this->formatElement();

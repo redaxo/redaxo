@@ -4,8 +4,6 @@
  * @package redaxo5
  */
 
-$func = rex_request('func', 'string');
-
 if (!isset($logFile)) {
     $logFile = ini_get('error_log');
 }

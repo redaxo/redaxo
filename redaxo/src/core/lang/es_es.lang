@@ -179,8 +179,7 @@ setup_199 = 1 / Idioma
 
 setup_200 = Configuración: Paso 2 de 7 / Licencia
 setup_201 = Bienvenido a REDAXO-Setup.
-setup_202 = <h3>A continuación:</h3><ol><li>Comprobar los permisos del archivo </li><li> Comprobar la configuración de la base de datos y escribir en config.yml </li> <li> Crear una cuenta de administrador </li> </ol>
-setup_203 = Aceptar términos de licencia y pasar al paso 3
+setup_203 = Aceptar términos de licencia
 setup_299 = 2 / Licencia
 
 setup_300 = Configuración: Paso 3 de 7 / Comprobación del sistema
@@ -257,7 +256,7 @@ setup_700 = Configuración: Paso 7 de 7 / Hooray
 setup_701 = Error al escribir en config.yml. Por favor, cambie el archivo manualmente por FTP.
 setup_702 = ¡Felicitaciones! REDAXO ha sido instalado.
 setup_703 = Tenga en cuenta:
-setup_704 = <ol><li>Utilice esta {0} cuenta para iniciar sesión{1}.</li><li>Importe una demostración [después de iniciar sesión]: Vaya a Importar/Exportar e instale la base de datos y los archivos de origen necesarios. </li></ol>
+setup_704 =
 setup_705 = Diviértete y suerte <br /> El equipo REDAXO
 setup_706 = Iniciar sesión
 setup_799 = 7 / Eureka

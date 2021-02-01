@@ -101,7 +101,7 @@ class rex_form_container_element extends rex_form_element
                 continue;
             }
 
-            foreach ($groupFields as $key => $field) {
+            foreach ($groupFields as $field) {
                 if (isset($values[$group][$field->getFieldName()])) {
                     $field->setValue($values[$group][$field->getFieldName()]);
                 }

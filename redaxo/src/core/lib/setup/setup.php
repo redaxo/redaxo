@@ -261,6 +261,77 @@ class rex_setup
     }
 
     /**
+     * @return string|false Single-User-Setup URL or `false` on failure
+     */
+    public static function startWithToken()
+    {
+        $token = rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');
+
+        $configFile = rex_path::coreData('config.yml');
+        $config = rex_file::getConfig($configFile);
+
+        $config['setup'] = isset($config['setup']) && is_array($config['setup']) ? $config['setup'] : [];
+        $config['setup'][$token] = (new DateTimeImmutable('+1 hour'))->format('Y-m-d H:i:s');
+
+        if (false === rex_file::putConfig($configFile, $config)) {
+            return false;
+        }
+
+        return rex_url::backendPage('setup', ['setup_token' => $token], false);
+    }
+
+    public static function isEnabled(): bool
+    {
+        $setup = rex::getProperty('setup', false);
+
+        if (!is_array($setup)) {
+            // system wide setup
+            return (bool) $setup;
+        }
+
+        $currentToken = self::getToken();
+
+        if (!$currentToken && rex::isFrontend()) {
+            // no token in url, fast fail in frontend
+            // (in backend all existing tokens are revalidated below)
+            return false;
+        }
+
+        // invalidate expired tokens
+        $updated = false;
+        foreach ($setup as $token => $expire) {
+            if (strtotime($expire) < time()) {
+                unset($setup[$token]);
+                $updated = true;
+            }
+        }
+
+        if ($updated) {
+            $configFile = rex_path::coreData('config.yml');
+            $config = rex_file::getConfig($configFile);
+            $config['setup'] = $setup ?: false;
+            rex_file::putConfig($configFile, $config);
+        }
+
+        return isset($setup[$currentToken]);
+    }
+
+    public static function getContext(): rex_context
+    {
+        $context = new rex_context([
+            'page' => 'setup',
+            'lang' => rex_request('lang', 'string', ''),
+            'step' => rex_request('step', 'int', 1),
+        ]);
+
+        if ($token = self::getToken()) {
+            $context->setParam('setup_token', $token);
+        }
+
+        return $context;
+    }
+
+    /**
      * Mark the setup as completed.
      */
     public static function markSetupCompleted(): bool
@@ -270,7 +341,18 @@ class rex_setup
             rex_file::getConfig(rex_path::core('default.config.yml')),
             rex_file::getConfig($configFile)
         );
-        $config['setup'] = false;
+
+        if (is_array($config['setup'])) {
+            // remove current token
+            if ($token = self::getToken()) {
+                unset($config['setup'][$token]);
+            }
+
+            // if array is empty now, convert it to global `false` value
+            $config['setup'] = $config['setup'] ?: false;
+        } else {
+            $config['setup'] = false;
+        }
 
         $configWritten = rex_file::putConfig($configFile, $config);
 
@@ -279,5 +361,10 @@ class rex_setup
         }
 
         return $configWritten;
+    }
+
+    private static function getToken(): ?string
+    {
+        return rex_get('setup_token', 'string', null);
     }
 }

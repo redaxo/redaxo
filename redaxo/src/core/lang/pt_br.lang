@@ -133,8 +133,7 @@ setup_199 = 1 /  idioma
 
 setup_200 = Setup: passo 2 de 7 /  Licença
 setup_201 = Bem-vindo ao Setup do REDAXO.
-setup_202 = <h3> O que acontece a seguir:</h3><ol><li>Checando os arquivos e permissões de pastas</li><li>Checando acesso ao banco de dados e adicionando credencias às configurações.yml</li><li>Resetando/fazendo o Setup do banco de dados</li><li>Criando uma conta de usuário para administrador</li></ol>
-setup_203 = Aceita os termos e condições da licença e avence para o passo 3
+setup_203 = Aceita os termos e condições da licença
 setup_299 = 2 / Licença
 
 setup_300 = Setup: passo 3 de 7 / Checando o sistema
@@ -206,7 +205,7 @@ setup_700 = Setup: passo 7 de 7 / Uhuul!
 setup_701 = A gravação de config.yml falhou. Por favor, modifique o arquivo manualmente através do FTP.
 setup_702 = Parabéns! O REDAXO foi instalado com sucesso!
 setup_703 = Por favor, note:
-setup_704 = <ol><li>{0} {0}Registre-se{1} com a conta criada</li><li> Importe um demo [depois de se registrar]: vá para Importação/exportação e faça o setup do banco de dados e arquivos.
+setup_704 =
 setup_705 = Divirta-se e boa sorte<br /> Time REDAXO
 setup_706 = Registre-se
 setup_799 = 7 / Uhuul!

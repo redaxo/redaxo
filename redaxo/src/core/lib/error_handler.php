@@ -51,7 +51,9 @@ abstract class rex_error_handler
 
             // in case exceptions happen early - before symfony-console doRun()
             if ('cli' === PHP_SAPI) {
-                echo $exception->__toString();
+                /** @psalm-taint-escape html */ // actually it is not escaped, it is not necessary in cli output
+                $exceptionString = $exception->__toString();
+                echo $exceptionString;
                 exit(1);
             }
 
@@ -220,7 +222,9 @@ abstract class rex_error_handler
                 "\n". $bugBody;
         }
 
-        $reportBugLink = '<a class="rex-report-bug" href="https://github.com/redaxo/redaxo/issues/new?labels='. rex_escape($bugLabel, 'url') .'&title='. rex_escape($bugTitle, 'url') .'&body='.rex_escape($bugBody, 'url').'">Report a REDAXO bug</a>';
+        $bugBodyCompressed = preg_replace('/ {2,}/u', ' ', $bugBody); // replace multiple spaces with one space
+        assert(is_string($bugBodyCompressed));
+        $reportBugLink = '<a class="rex-report-bug" href="https://github.com/redaxo/redaxo/issues/new?labels='. rex_escape($bugLabel, 'url') .'&title='. rex_escape($bugTitle, 'url') .'&body='.rex_escape($bugBodyCompressed, 'url').'">Report a REDAXO bug</a>';
 
         $url = rex::isFrontend() ? rex_url::frontendController() : rex_url::backendController();
 

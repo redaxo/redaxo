@@ -3,12 +3,20 @@
 $curPage = rex_be_controller::getCurrentPageObject();
 
 if (!$curPage->hasLayout()) {
+    if (rex_request::isPJAXRequest()) {
+        echo '</section>';
+    }
+
     return;
 }
 
 ?>
 
 </section></div><?php
+
+if (rex_request::isPJAXContainer('#rex-js-page-container')) {
+    return;
+}
 
 echo '</div>';
 
