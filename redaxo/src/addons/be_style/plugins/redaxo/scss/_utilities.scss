@@ -41,11 +41,12 @@
     }
 }
 
+
 /* Packages highlight required package */
+/* Yellow Fade */
 .targeted-rows :target {
   animation: 3s fade_to_light 3s backwards;
 }
-
 @keyframes fade_to_light {
     from {
         background-color: $color-c-light;
