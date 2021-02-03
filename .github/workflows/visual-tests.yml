@@ -51,7 +51,7 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: 7.3
+                  php-version: 8.0
                   extensions: intl, imagick
                   coverage: none # disable xdebug, pcov
                   tools: cs2pr
