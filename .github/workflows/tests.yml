@@ -66,5 +66,6 @@ jobs:
                   git apply .github/workflows/default.config.yml.github-action.diff
             - run: |
                   php .tools/bin/setup
+                  redaxo/bin/console system:report
             - run: |
                   vendor/bin/phpunit --colors=always
