@@ -60,7 +60,6 @@ jobs:
 
             - run: |
                   mysql --version
-                  sudo apt-get install -y mysql-client
                   mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
                   git apply .github/workflows/default.config.yml.github-action.diff
             - run: |
