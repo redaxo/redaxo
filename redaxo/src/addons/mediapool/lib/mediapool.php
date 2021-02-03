@@ -2,6 +2,15 @@
 
 class rex_mediapool
 {
+
+    static $orderby = [
+        'filename',
+        'updatedate',
+        'status',
+        'title',
+        'description'
+    ];
+
     /**
      * Erstellt einen Filename der eindeutig ist für den Medienpool.
      *
@@ -247,45 +256,99 @@ class rex_mediapool
      */
     public static function getMediaTypeBlacklist()
     {
-        return rex_addon::get('mediapool')->getProperty('blocked_extensions');
+        return rex_addon::get('mediapool')->getProperty('blocked_extensions') ?? [];
     }
 
-    public static function getMediaList($params, int $offset = 0, int $limit = 20)
+    public static function getMediaList(array $params = [], array $search = [], int $offset = 0, int $limit = 50)
     {
-        // TODO:
-        // $params['args']['orderby'] = '';
-        // $params['args']['searchterm'] = '';
-        // $params['args']['filename'] = '';
-        // $params['args']['tags'] = '';
-        // $params['args']['categories'] = '';
 
         $sql = rex_sql::factory();
         $where = [];
         $queryParams = [];
 
-        // TODO:
-        // wie wird das verarbeitet
-        // was ist alles möglich
-        dump($params);
-        $rex_file_category = '';
-
-        if (isset($params['args']['types'])) {
-            $types = [];
-            foreach (explode(',', $params['args']['types']) as $index => $type) {
-                $types[] = 'LOWER(RIGHT(m.filename, LOCATE(".", REVERSE(m.filename))-1)) = :type'.$index;
-                $queryParams['type'.$index] = strtolower($type);
+        $types = [];
+        if (isset($search['types']) && is_array($search['types'])) {
+            foreach ($search['types'] as $index => $type) {
+                if (is_string($type)) {
+                    $types[] = 'LOWER(RIGHT(m.filename, LOCATE(".", REVERSE(m.filename))-1)) = :searchtype'.$index;
+                    $queryParams['searchtype'.$index] = strtolower($type);
+                }
             }
-            $where[] = ' AND (' . implode(' OR ', $types) . ')';
+            if (count($types) > 0) {
+                $where[] = '(' . implode(' OR ', $types) . ')';
+            }
         }
-        $where = count($where) ? ' WHERE '.implode(' ', $where) : '';
-        $query = 'SELECT m.* FROM '.rex::getTable('media').' AS m '.$where.' ORDER BY m.updatedate DESC, m.id DESC';
+
+        $categories = [];
+        if (isset($search['categories']) && is_array($search['categories'])) {
+            foreach ($search['categories'] as $index => $category) {
+                if (is_string($category) || is_int($category)) {
+                    $categories[] = 'FIND_IN_SET(:searchcategory'.$index.',categories)';
+                    $queryParams['searchcategory'.$index] = $category;
+                }
+            }
+            if (count($categories) > 0) {
+                $where[] = '(' . implode(' OR ', $categories) . ')';
+            }
+        }
+
+        $tags = [];
+        if (isset($search['tags']) && is_array($search['tags'])) {
+            foreach ($search['tags'] as $index => $tag) {
+                if (is_string($tag)) {
+                    $tags[] = 'FIND_IN_SET(:searchtag'.$index.',tags)';
+                    $queryParams['searchtag'.$index] = $tag;
+                }
+            }
+            if (count($tags) > 0) {
+                $where[] = '(' . implode(' OR ', $tags) . ')';
+            }
+        }
+
+        $status = null;
+        if (isset($search['status']) && (is_int($search['status']) || is_string($search['status']))) {
+            $status = $queryParams['status'];
+            $queryParams['status'] = (0 == $status) ? 0 : 1;
+            $where[] = '(status LIKE :searchstatus)';
+        }
+
+        $term = '';
+        if (isset($search['term']) && is_string($search['term']) && '' != $search['term']) {
+            $term = $search['term'];
+            $queryParams['searchterm'] = $term;
+            $where[] = '(filename LIKE :searchterm)';
+        }
+
+        $where = count($where) ? ' WHERE '.implode(' AND ', $where) : '';
+        $query = 'SELECT m.* FROM '.rex::getTable('media').' AS m '.$where;
+
+        $orderbys = [];
+
+        if (isset($search['orderby']) && is_array($search['orderby'])) {
+            foreach($search['orderby'] as $index => $orderby) {
+                if (is_array($orderby)) {
+                    if (array_key_exists($orderby[0], static::$orderby)) {
+                        $orderbys[] = ':orderby'.$index.' '.('ASC' == $orderby[1]) ? 'ASC' : 'DESC';
+                        $queryParams['orderby'.$index] = 'm.' . $orderby[0];
+                    }
+                }
+            }
+        }
+
+        if (0 == count($orderbys)) {
+            $orderbys[] = 'm.id DESC';
+        }
+
+        $query .= ' ORDER BY '.implode(', ', $orderbys);
 
         $query = rex_extension::registerPoint(new rex_extension_point('MEDIA_LIST_QUERY', $query, [
-            'category_id' => $rex_file_category,
-            'params' => $params, // NEW
+            'params' => $queryParams,
         ]));
 
-        $query .= ' LIMIT '.$offset.','.$limit;
+        $sql->setQuery(str_replace('SELECT m.*', 'SELECT count(id)', $query), $queryParams);
+        $count = $sql->getValue('count(id)');
+
+            $query .= ' LIMIT '.$offset.','.$limit;
 
         $media_manager_url = null;
         if (rex_addon::get('media_manager')->isAvailable()) {
@@ -328,8 +391,17 @@ class rex_mediapool
         }
 
         return [
-            'amount' => 'todo',
-            'items' => $elements
+            'count' => $count,
+            'items' => $elements,
+            'offset' => $offset,
+            'limit' => $limit,
+            'search' => [
+                'categories' => $categories,
+                'types' => $types,
+                'tags' => $tags,
+                'term' => $term,
+                'status' => $status
+            ]
         ];
     }
 

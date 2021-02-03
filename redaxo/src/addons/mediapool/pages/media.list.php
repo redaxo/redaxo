@@ -25,7 +25,17 @@ if (!isset($arg_url)) {
     $arg_url = [];
 }
 
-$result = rex_mediapool::getMediaList($arg_url);
+$result = rex_mediapool::getMediaList([
+    'params' => $arg_url['args'],
+    'search' => [
+        'categories' => $arg_url['args']['categories'] ?? [],
+        'types' => $arg_url['args']['types'] ?? [],
+        'term' => $arg_url['args']['term'] ?? '',
+        'tags' => $arg_url['args']['tags'] ?? [],
+        'status' => $arg_url['args']['status'] ?? [],
+        'orderby' => $arg_url['args']['orderby'] ?? []
+    ]
+]);
 $elements = $result['items'];
 
 $uploadButton = [
@@ -33,21 +43,10 @@ $uploadButton = [
     'url' => '#!',
 ];
 
-$filterCategory = new rex_media_category_select();
-$filterCategory->setSize(1);
-$filterCategory->setAttributes([
-    'name' => 'rex_file_category',
-    'id' => 'rex_file_category',
-    'class' => 'form-control input-sm selectpicker',
-    'data-live-search' => 'true',
-    'data-style' => 'btn-default btn-sm',
-]);
-$filterCategory->setSelected($rex_file_category);
-
 $fragment = new rex_fragment();
 $fragment->setVar('uploadButton', $uploadButton, false);
 $fragment->setVar('elements', $elements, false);
-$fragment->setVar('filterCategory', $filterCategory->get(), false);
+$fragment->setVar('search', $result['search'], false);
 echo $fragment->parse('mediapool.php');
 
 return;

@@ -57,8 +57,6 @@ if ('add_file' == $media_method) {
         try {
             $data = rex_media_service::addMedia($data, rex::getUser()->getValue('login'), true, $whitelist_types);
 
-            dump($data);
-
             echo rex_view::success($data['message']);
 
             if (rex_post('saveandexit', 'boolean')) {
