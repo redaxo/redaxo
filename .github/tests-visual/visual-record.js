@@ -155,7 +155,6 @@ async function createScreenshot(page, screenshotName) {
 
 async function logIntoBackend(page, username = 'myusername', password = '91dfd9ddb4198affc5c194cd8ce6d338fde470e2') {
     await page.goto(START_URL, { waitUntil: 'load' });
-    await page.waitForTimeout(1000); // wait for bg image to fade in
     await page.type('#rex-id-login-user', username);
     await page.type('#rex-id-login-password', password); // sha1('mypassword')
     await page.$eval('#rex-form-login', form => form.submit());
@@ -212,7 +211,7 @@ async function main() {
         default:
             // login page
             await page.goto(START_URL, { waitUntil: 'load' });
-            await page.waitForTimeout(1000); // CSS animation
+            await page.waitForTimeout(1500); // wait for bg image to fade in
             await createScreenshot(page, 'login.png');
 
             // login successful
