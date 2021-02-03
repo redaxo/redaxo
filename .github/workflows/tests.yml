@@ -35,6 +35,7 @@ jobs:
                 image: ${{ matrix.db-image }}
                 ports:
                     - 3306:3306
+                options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
         steps:
             - uses: actions/checkout@v2
             - name: Setup PHP
