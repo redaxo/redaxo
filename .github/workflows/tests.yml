@@ -34,7 +34,7 @@ jobs:
             mysql:
                 image: ${{ matrix.db-image }}
                 ports:
-                    - 3306
+                    - 3306:3306
         steps:
             - uses: actions/checkout@v2
             - name: Setup PHP
@@ -59,8 +59,6 @@ jobs:
               run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
             - run: |
-                  mysql --version
-                  sudo /etc/init.d/mysql start
                   mysql --version
                   mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
                   git apply .github/workflows/default.config.yml.github-action.diff
