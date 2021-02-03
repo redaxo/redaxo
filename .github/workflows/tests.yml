@@ -18,10 +18,12 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-              php-version: ['7.3', '7.4', '8.0']
-              db-image: ['mysql:5.7'] # a docker-hub key
               include:
+                  - php-version: '7.3'
+                    db-image: 'mysql:5.6'
                   - php-version: '7.4'
+                    db-image: 'mysql:5.7'
+                  - php-version: '8.0'
                     db-image: 'mysql:8.0'
                   - php-version: '7.3'
                     db-image: 'mariadb:10.1'
@@ -61,8 +63,8 @@ jobs:
             - name: Setup Problem Matchers for PHPUnit
               run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-            - run: |
-                  mysql --version
+            - name: Setup database
+              run: |
                   mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
                   git apply .github/workflows/default.config.yml.github-action.diff
             - run: |
