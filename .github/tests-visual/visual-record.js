@@ -188,7 +188,7 @@ async function main() {
             for (var step = 2; step <= 6; step++) {
                 // step 3: wait until `networkidle0` to finish AJAX requests, see https://github.com/puppeteer/puppeteer/blob/main/docs/api.md#pagegotourl-options
                 await page.goto(START_URL + '?page=setup&lang=de_de&step=' + step, { waitUntil: step === 3 ? 'networkidle0' : 'load'});
-                await page.waitForTimeout(250); // slight buffer for CSS animations or :focus styles etc.
+                await page.waitForTimeout(300); // slight buffer for CSS animations or :focus styles etc.
                 await createScreenshot(page, 'setup_' + step + '.png');
             }
 
@@ -203,7 +203,7 @@ async function main() {
         case isCustomizer:
             await logIntoBackend(page);
             await page.goto(START_URL + '?page=system/customizer', { waitUntil: 'load' });
-            await page.waitForTimeout(250); // slight buffer for CSS animations or :focus styles etc.
+            await page.waitForTimeout(300); // slight buffer for CSS animations or :focus styles etc.
             await createScreenshot(page, 'system_customizer.png');
 
             break;
@@ -221,7 +221,7 @@ async function main() {
             // run through all pages
             for (var fileName in allPages) {
                 await page.goto(allPages[fileName], { waitUntil: 'load' });
-                await page.waitForTimeout(250); // slight buffer for CSS animations or :focus styles etc.
+                await page.waitForTimeout(300); // slight buffer for CSS animations or :focus styles etc.
                 await createScreenshot(page, fileName);
             }
 
