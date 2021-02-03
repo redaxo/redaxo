@@ -15,7 +15,7 @@ $fragment->setVar('id', 'rex-js-available-addon-search');
 $toolbar = $fragment->parse('core/form/search.php');
 
 $content = '
-        <table class="table table-hover targeted-rows" id="rex-js-table-available-packages-addons">
+        <table class="table table-hover rex-targeted-rows" id="rex-js-table-available-packages-addons">
         <thead>
             <tr>
                 <th class="rex-table-icon">&nbsp;</th>
