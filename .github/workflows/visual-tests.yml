@@ -12,12 +12,6 @@ jobs:
         runs-on: ubuntu-latest
         if: "github.event.pull_request.draft == false"
 
-        services:
-            mysql:
-                image: mysql:5.7
-                ports:
-                    - 3306
-
         steps:
             - name: Add action run link to trigger comment
               if: "github.event_name == 'repository_dispatch'"
@@ -51,7 +45,7 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: 7.3
+                  php-version: 8.0
                   extensions: intl, imagick
                   coverage: none # disable xdebug, pcov
                   tools: cs2pr
