@@ -46,7 +46,7 @@ jobs:
               uses: shivammathur/setup-php@v2
               with:
                   php-version: ${{ matrix.php-version }}
-                  extensions: intl, mysql, pdo_mysql
+                  extensions: intl, pdo_mysql
                   coverage: none # disable xdebug, pcov
 
             - name: "composer install --prefer-dist"
