@@ -161,7 +161,7 @@ async function createScreenshot(page, screenshotName) {
 }
 
 async function logIntoBackend(page, username = 'myusername', password = '91dfd9ddb4198affc5c194cd8ce6d338fde470e2') {
-    await page.goto(START_URL, { waitUntil: 'networkidle0' });
+    await page.goto(START_URL, { waitUntil: 'load' });
     await page.type('#rex-id-login-user', username);
     await page.type('#rex-id-login-password', password); // sha1('mypassword')
     await page.$eval('#rex-form-login', form => form.submit());
@@ -188,13 +188,14 @@ async function main() {
 
         case isSetup:
             // setup step 1
-            await page.goto(START_URL, { waitUntil: 'networkidle0' });
+            await page.goto(START_URL, { waitUntil: 'load' });
             await createScreenshot(page, 'setup.png');
 
             // setup steps 2-6
             for (var step = 2; step <= 6; step++) {
                 // step 3: wait until `networkidle0` to finish AJAX requests, see https://github.com/puppeteer/puppeteer/blob/main/docs/api.md#pagegotourl-options
-                await page.goto(START_URL + '?page=setup&lang=de_de&step=' + step, { waitUntil: 'networkidle0'});
+                await page.goto(START_URL + '?page=setup&lang=de_de&step=' + step, { waitUntil: step === 3 ? 'networkidle0' : 'load'});
+                await page.waitForTimeout(300); // slight buffer for CSS animations or :focus styles etc.
                 await createScreenshot(page, 'setup_' + step + '.png');
             }
 
@@ -208,14 +209,16 @@ async function main() {
 
         case isCustomizer:
             await logIntoBackend(page);
-            await page.goto(START_URL + '?page=system/customizer', { waitUntil: 'networkidle0' });
+            await page.goto(START_URL + '?page=system/customizer', { waitUntil: 'load' });
+            await page.waitForTimeout(300); // slight buffer for CSS animations or :focus styles etc.
             await createScreenshot(page, 'system_customizer.png');
 
             break;
 
         default:
             // login page
-            await page.goto(START_URL, { waitUntil: 'networkidle0' });
+            await page.goto(START_URL, { waitUntil: 'load' });
+            await page.waitForTimeout(1500); // wait for bg image to fade in
             await createScreenshot(page, 'login.png');
 
             // login successful
@@ -224,7 +227,8 @@ async function main() {
 
             // run through all pages
             for (var fileName in allPages) {
-                await page.goto(allPages[fileName], { waitUntil: 'networkidle0' });
+                await page.goto(allPages[fileName], { waitUntil: 'load' });
+                await page.waitForTimeout(300); // slight buffer for CSS animations or :focus styles etc.
                 await createScreenshot(page, fileName);
             }
 
