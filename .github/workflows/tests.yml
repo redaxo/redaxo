@@ -70,5 +70,6 @@ jobs:
             - run: |
                   php .tools/bin/setup
                   redaxo/bin/console system:report
+                  php -i | grep pdo
             - run: |
                   vendor/bin/phpunit --colors=always
