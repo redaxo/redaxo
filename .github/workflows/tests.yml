@@ -63,8 +63,6 @@ jobs:
             - name: Setup Problem Matchers for PHPUnit
               run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-            - run: php -i | grep pdo
-
             - name: Setup database
               run: |
                   mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
