@@ -14,8 +14,8 @@ const PNG = require('pngjs').PNG;
 const fs = require('fs');
 const mkdirp = require('mkdirp');
 
-const screenshotWidth = 1280;
-const screenshotHeight = 1024;
+const viewportWidth = 1280;
+const viewportHeight = 800;
 
 const START_URL = 'http://localhost:8000/redaxo/index.php';
 const DEBUGGING = false;
@@ -113,7 +113,13 @@ function countDiffPixels(img1path, img2path ) {
     const img1 = PNG.sync.read(fs.readFileSync(img1path));
     const img2 = PNG.sync.read(fs.readFileSync(img2path));
 
-    return pixelmatch(img1.data, img2.data, null, screenshotWidth, screenshotHeight, {threshold: 0.1});
+    if (img1.width !== img2.width || img1.height !== img2.height) {
+        // different image sizes
+        // we assume a new reference screenshot will be added
+        return MIN_DIFF_PIXELS;
+    }
+
+    return pixelmatch(img1.data, img2.data, null, img1.width, img1.height, {threshold: 0.1});
 }
 
 async function createScreenshot(page, screenshotName) {
@@ -123,6 +129,7 @@ async function createScreenshot(page, screenshotName) {
     await page.evaluate(function() {
         var changingElements = [
             '.rex-js-script-time',
+            '.rex-js-setup-step-5 .form-control-static',
             'td[data-title="Letzter Login"]',
             '#rex-form-exportfilename',
             '#rex-page-system-report-html .row td',
@@ -142,7 +149,7 @@ async function createScreenshot(page, screenshotName) {
         });
     });
 
-    await page.screenshot({ path: WORKING_DIR + screenshotName });
+    await page.screenshot({ path: WORKING_DIR + screenshotName, fullPage: true });
 
     // make sure we only create changes in .github/tests-visual/ on substential screenshot changes.
     // this makes sure to prevent endless loops within the github action
@@ -158,7 +165,7 @@ async function logIntoBackend(page, username = 'myusername', password = '91dfd9d
     await page.type('#rex-id-login-user', username);
     await page.type('#rex-id-login-password', password); // sha1('mypassword')
     await page.$eval('#rex-form-login', form => form.submit());
-    await page.waitForNavigation();
+    await page.waitForTimeout(1000);
 }
 
 async function main() {
@@ -174,7 +181,7 @@ async function main() {
     // log browser errors into the console
     page.on('console', msg => console.log('BROWSER-CONSOLE:', msg.text()));
 
-    await page.setViewport({ width: screenshotWidth, height: screenshotHeight });
+    await page.setViewport({ width: viewportWidth, height: viewportHeight });
     await page.setCookie(noHtaccessCheckCookie);
 
     switch (true) {
@@ -188,7 +195,7 @@ async function main() {
             for (var step = 2; step <= 6; step++) {
                 // step 3: wait until `networkidle0` to finish AJAX requests, see https://github.com/puppeteer/puppeteer/blob/main/docs/api.md#pagegotourl-options
                 await page.goto(START_URL + '?page=setup&lang=de_de&step=' + step, { waitUntil: step === 3 ? 'networkidle0' : 'load'});
-                await page.waitForTimeout(250); // slight buffer for CSS animations or :focus styles etc.
+                await page.waitForTimeout(300); // slight buffer for CSS animations or :focus styles etc.
                 await createScreenshot(page, 'setup_' + step + '.png');
             }
 
@@ -203,7 +210,7 @@ async function main() {
         case isCustomizer:
             await logIntoBackend(page);
             await page.goto(START_URL + '?page=system/customizer', { waitUntil: 'load' });
-            await page.waitForTimeout(250); // slight buffer for CSS animations or :focus styles etc.
+            await page.waitForTimeout(300); // slight buffer for CSS animations or :focus styles etc.
             await createScreenshot(page, 'system_customizer.png');
 
             break;
@@ -211,7 +218,7 @@ async function main() {
         default:
             // login page
             await page.goto(START_URL, { waitUntil: 'load' });
-            await page.waitForTimeout(1000); // CSS animation
+            await page.waitForTimeout(1000); // wait for bg image to fade in
             await createScreenshot(page, 'login.png');
 
             // login successful
@@ -221,7 +228,7 @@ async function main() {
             // run through all pages
             for (var fileName in allPages) {
                 await page.goto(allPages[fileName], { waitUntil: 'load' });
-                await page.waitForTimeout(250); // slight buffer for CSS animations or :focus styles etc.
+                await page.waitForTimeout(300); // slight buffer for CSS animations or :focus styles etc.
                 await createScreenshot(page, fileName);
             }
 
