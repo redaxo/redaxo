@@ -14,8 +14,8 @@ const PNG = require('pngjs').PNG;
 const fs = require('fs');
 const mkdirp = require('mkdirp');
 
-const screenshotWidth = 1280;
-const screenshotHeight = 800;
+const viewportWidth = 1280;
+const viewportHeight = 800;
 
 const START_URL = 'http://localhost:8000/redaxo/index.php';
 const DEBUGGING = false;
@@ -181,7 +181,7 @@ async function main() {
     // log browser errors into the console
     page.on('console', msg => console.log('BROWSER-CONSOLE:', msg.text()));
 
-    await page.setViewport({ width: screenshotWidth, height: screenshotHeight });
+    await page.setViewport({ width: viewportWidth, height: viewportHeight });
     await page.setCookie(noHtaccessCheckCookie);
 
     switch (true) {
