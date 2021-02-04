@@ -46,7 +46,7 @@ jobs:
               uses: shivammathur/setup-php@v2
               with:
                   php-version: 8.0
-                  extensions: pdo_mysql
+                  extensions: gd, pdo_mysql
                   coverage: none # disable xdebug, pcov
                   tools: cs2pr
             - name: Init database
