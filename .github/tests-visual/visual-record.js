@@ -113,7 +113,13 @@ function countDiffPixels(img1path, img2path ) {
     const img1 = PNG.sync.read(fs.readFileSync(img1path));
     const img2 = PNG.sync.read(fs.readFileSync(img2path));
 
-    return pixelmatch(img1.data, img2.data, null, screenshotWidth, screenshotHeight, {threshold: 0.1});
+    if (img1.width !== img2.width || img1.height !== img2.height) {
+        // different image sizes
+        // we assume a new reference screenshot will be added
+        return MIN_DIFF_PIXELS;
+    }
+
+    return pixelmatch(img1.data, img2.data, null, img1.width, img1.height, {threshold: 0.1});
 }
 
 async function createScreenshot(page, screenshotName) {
