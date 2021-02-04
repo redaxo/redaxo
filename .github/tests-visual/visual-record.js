@@ -149,6 +149,7 @@ async function createScreenshot(page, screenshotName) {
         });
     });
 
+    await page.mouse.move(0, 0);
     await page.screenshot({ path: WORKING_DIR + screenshotName, fullPage: true });
 
     // make sure we only create changes in .github/tests-visual/ on substential screenshot changes.
