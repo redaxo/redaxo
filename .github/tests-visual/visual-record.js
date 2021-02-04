@@ -218,7 +218,7 @@ async function main() {
         default:
             // login page
             await page.goto(START_URL, { waitUntil: 'load' });
-            await page.waitForTimeout(1500); // wait for bg image to fade in
+            await page.waitForTimeout(1000); // wait for bg image to fade in
             await createScreenshot(page, 'login.png');
 
             // login successful
