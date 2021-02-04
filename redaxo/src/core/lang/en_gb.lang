@@ -30,7 +30,7 @@ email = E-mail
 function = Function
 no_editing_rights = permission denied
 check_rights_in_directory = Please review permissions in directory
-error_undefined = An undefinied error occurred
+error_undefined = An undefined error occurred
 csrf_token_invalid = Please send the form again, redo the action respectively (error: invalid CSRF token).
 unstable_version = Development version
 copy_to_clipboard = Copy to clipboard
@@ -67,7 +67,7 @@ login_depersonate = switch back
 logged_out = Not signed in
 logged_in_as = Signed in as
 safemode = Safe mode
-safemode_text = In safe mode all AddOns are temporarily deactivated. If a specific AddOn is causing problems it can be deactivated or removed in safe mode.
+safemode_text = In safe mode all AddOns are temporarily deactivated. If a specific AddOn is causing problems, it can be deactivated or removed in safe mode.
 safemode_activate = Activate safe mode
 safemode_deactivate = Deactivate safe mode
 
@@ -133,10 +133,10 @@ error_email = E-mail address in case of errors
 error_email_required = E-mail address is required!
 error_email_invalid = Please enter a valid e-mail address
 server_required = A website URL is required
-server_invalid = The website URL is invalid, please enter a valid URL inluding protocol!
+server_invalid = The website URL is invalid, please enter a valid URL including protocol!
 servername_required = Server name is required
 system_editor = Editor integration
-system_editor_note = Links REDAXO with an editor in order to edit source files directly in an editor of choice. <br /> These settings can be set globally in config.yml or saved individually per user as a cookie in the browser.
+system_editor_note = Links REDAXO with an editor to edit source files directly in an editor of choice. <br /> These settings can be set globally in config.yml or saved individually per user as a cookie in the browser.
 system_editor_note_cookie = Currently the following settings from the cookie are being used
 system_editor_name = Editor
 system_editor_no_editor = disabled
@@ -167,8 +167,8 @@ system_report_markdown = As markdown
 setup = Setup
 setup_cancel = Cancel setup
 setup_restart = Restart setup
-setup_text = Here you can restart the setup process. This is for emergencies only and shouldn't be required under normal circumstances.
-setup_error2 = Unfortunately the configuration file could not be written to. Please make change \"setup: true\" in config.yml
+setup_text = Here you can restart the setup process. This is for emergencies only and should not be required under normal circumstances.
+setup_error2 = Unfortunately, the configuration file could not be written to. Please make change \"setup: true\" in config.yml
 
 
 
@@ -290,7 +290,7 @@ https_only_backend = Activate only for backend
 https_activate = Activate for frontend and backend
 
 setup_password_hint = Enter a new password or leave the input unchanged otherwise.
-hsts_more_information = It is recommended to activate HSTS in your domain/s hosting settings, but can also be activated in REDAXOs config.yml at a later stage. More information is available in the REDAXO documentation
+hsts_more_information = It is recommended to activate HSTS in your domain/s hosting settings but can also be activated in REDAXOs config.yml at a later stage. More information is available in the REDAXO documentation
 
 # src\core\pages\addon.php
 addon = AddOn
@@ -319,7 +319,7 @@ package_hhelp = Help
 package_hinstall = Installed
 package_hactive = Activated
 package_hdelete = Delete
-package_hinformation = Informations
+package_hinformation = Information
 package_hlicense = License
 package_reinstall = reinstall
 package_install = install
@@ -346,7 +346,7 @@ package_install_cant_copy_files = An error occurred copying the /assets folder!
 package_install_cant_delete_files = An error occurred deleting the /assets folder!
 package_requirement_wrong_format = The dependencies in package.yml must be in a valid array format!
 package_requirement_error_redaxo_version = This version of REDAXO (<b>{0}</b>) does not match the specified version requirements <b>{1}</b>!
-package_requirement_error_php_version = The PHP  version (<b>{0}</b>) does not match the specified version requirements <b>{1}</b>!
+package_requirement_error_php_version = The PHP version (<b>{0}</b>) does not match the specified version requirements <b>{1}</b>!
 package_requirement_error_php_extension = The PHP extension module <b>{0}</b> is required!
 package_requirement_error_addon = The AddOn <b>{0}</b> is required!
 package_requirement_error_addon_version = The AddOn <b>{0}</b> (version <b>{1}</b>) does not match the specified version requirements <b>{2}</b>!
@@ -386,7 +386,7 @@ plugin_cache_not_writable = The PlugIn cache directory is not writable!
 credits = Credits
 credits_name = Name
 credits_help = Help
-credits_information = Informations
+credits_information = Information
 credits_version = Version
 credits_author = Author
 credits_supportpage = Support
@@ -416,7 +416,7 @@ backend_language = Backend language
 user_data_updated = User data updated!
 
 password_change_required = A password change is required!
-password_not_changed = The new password has to be different than the previous one!
+password_not_changed = The new password must be different than the previous one!
 password_already_used = This password has been used before and cannot be used again!
 password_invalid = The password does not match the required rules ({0})!
 password_admin_notice = The password rules can be changed in config.yml.
