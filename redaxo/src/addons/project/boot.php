@@ -8,6 +8,9 @@ $addon = rex_addon::get('project');
 // register yform template path
 // rex_yform::addTemplatePath($addon->getPath('yform-templates'));
 
+// register yorm class
+// rex_yform_manager_dataset::setModelClass('rex_my_table', dc_my_classname::class);
+
 // Example of mediapool Whitelist
 /*
 rex_addon::get('mediapool')->setProperty('allowed_mime_types', [
