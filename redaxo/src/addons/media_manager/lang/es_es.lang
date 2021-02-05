@@ -107,10 +107,10 @@ media_manager_effect_rounded_corners_topright = Arriba a la derecha
 media_manager_effect_rounded_corners_bottomleft = Abajo a la izquierda
 media_manager_effect_rounded_corners_bottomright = Abajo a la derecha
 
-media_manager_effect_flip = Dirección
+media_manager_effect_flip =
 media_manager_effect_flip_direction = Dirección
 
-media_manager_effect_rotate = Rotar (grado)
+media_manager_effect_rotate = Imagen: Rotar
 media_manager_effect_rotate_degree = Volver (grado)
 
 media_manager_effect_mirror = Imagen: Añade reflejo de agua
@@ -127,7 +127,7 @@ media_manager_effect_workspace_pos = Posición
 
 media_manager_effect_folder = Ruta alternativa predeterminada: "media"
 
-media_manager_effect_mediapath = Vía de medios
+media_manager_effect_mediapath =
 media_manager_effect_mediapath_path = Carpeta de medios
 media_manager_effect_mediapath_path_notice = Ruta al origen de la imagen en relación con la instalación de REDAXO en lugar de <code>media</code>, por ejemplo, el directorio <code>images</code>. No se requiere una barra diagonal inicial/final (<code>/</code>).
 
@@ -155,11 +155,11 @@ media_manager_effect_image_properties_png_compression_notice = [0-9]. Dejar en b
 media_manager_effect_image_properties_webp_quality_notice = [0-100]. Dejar en blanco para el valor por defecto.
 media_manager_effect_image_properties_interlace_notice = Dejar en blanco para el valor por defecto.
 
-media_manager_effect_brightness = Brillo
+media_manager_effect_brightness = Imagen: Brillo
 media_manager_effect_brightness_value = Claridad
 media_manager_effect_brightness_notice = [-255 a 255]. Dejar en blanco para el valor por defecto. (0).
 
-media_manager_effect_contrast = Contraste
+media_manager_effect_contrast = Imagen: Contraste
 media_manager_effect_contrast_value = Contrastar
 media_manager_effect_contrast_notice = [-100 a 100]. Dejar en blanco para el valor por defecto (0).
 
