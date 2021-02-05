@@ -44,6 +44,15 @@ if (rex::isBackend()) {
     rex_view::addCssFile($addon->getAssetsUrl('css/bootstrap-select.min.css'));
     rex_view::addJsFile($addon->getAssetsUrl('javascripts/bootstrap.js'), [rex_view::JS_IMMUTABLE => true]);
     rex_view::addJsFile($addon->getAssetsUrl('javascripts/bootstrap-select.min.js'), [rex_view::JS_IMMUTABLE => true]);
-    rex_view::addJsFile($addon->getAssetsUrl('javascripts/bootstrap-select-defaults-de_DE.min.js'), [rex_view::JS_IMMUTABLE => true]);
+    $bootstrapSelectLang = [
+        'de_de' => 'de_DE',
+        'en_gb' => 'en_US',
+        'es_es' => 'de_DE',
+        'it_it' => 'it_IT',
+        'nl_nl' => 'nl_NL',
+        'pt_br' => 'pt_BR',
+        'sv_se' => 'sv_SE',
+    ][rex_i18n::getLocale()] ?? 'en_US';
+    rex_view::addJsFile($addon->getAssetsUrl('javascripts/bootstrap-select-defaults-'.$bootstrapSelectLang.'.min.js'), [rex_view::JS_IMMUTABLE => true]);
     rex_view::addJsFile($addon->getAssetsUrl('javascripts/main.js'), [rex_view::JS_IMMUTABLE => true]);
 }
