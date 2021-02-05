@@ -16,12 +16,6 @@ jobs:
         name: be_style:compile
         runs-on: ubuntu-latest
 
-        services:
-            mysql:
-                image: mysql:5.7
-                ports:
-                    - 3306
-
         steps:
             - name: Checkout
               uses: actions/checkout@v2
@@ -37,6 +31,7 @@ jobs:
               uses: shivammathur/setup-php@v2
               with:
                   php-version: 7.4
+                  extensions: pdo_mysql
                   coverage: none # disable xdebug, pcov
                   tools: cs2pr
 

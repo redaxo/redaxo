@@ -24,7 +24,6 @@ jobs:
             uses: shivammathur/setup-php@v2
             with:
                 php-version: 7.3
-                extensions: intl
                 coverage: none # disable xdebug, pcov
                 tools: cs2pr
           - uses: "ramsey/composer-install@v1"
