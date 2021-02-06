@@ -10,6 +10,10 @@ $func = rex_request('func', 'string');
 
 $csrfToken = rex_csrf_token::factory('system');
 
+  if (rex_request('rex_debug_updated', 'bool', false)) {
+    $success = (rex::isDebugMode()) ? rex_i18n::msg('debug_mode_info_on') : rex_i18n::msg('debug_mode_info_off');
+    }
+
 if ($func && !$csrfToken->isValid()) {
     $error[] = rex_i18n::msg('csrf_token_invalid');
 } elseif ('setup' == $func) {
@@ -36,10 +40,12 @@ if ($func && !$csrfToken->isValid()) {
         $config['debug'] = [];
     }
 
+
     $config['debug']['enabled'] = (rex::isDebugMode()) ? false : true;
     rex::setProperty('debug', $config['debug']);
     if (rex_file::putConfig($configFile, $config) > 0) {
-        $success = (rex::isDebugMode()) ? rex_i18n::msg('debug_mode_info_on') : rex_i18n::msg('debug_mode_info_off');
+
+        rex_response::sendRedirect(rex_url::currentBackendPage(['rex_debug_updated' => true], false));
     }
 } elseif ('updateinfos' == $func) {
     $configFile = rex_path::coreData('config.yml');
@@ -383,3 +389,4 @@ $fragment = new rex_fragment();
 $fragment->setVar('content', [implode('', $mainContent), implode('', $sideContent)], false);
 $fragment->setVar('classes', ['col-lg-8', 'col-lg-4'], false);
 echo $fragment->parse('core/page/grid.php');
+
