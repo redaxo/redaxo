@@ -25,7 +25,6 @@ const GOLDEN_SAMPLES_DIR = '.github/tests-visual/';
 const myArgs = process.argv.slice(2);
 let minDiffPixels = 1;
 let isSetup = false;
-let isCustomizer = false;
 
 if (myArgs.includes('regenerate-all')) {
     // force sample-regeneration, even if pixelmatch() thinks nothing changed
@@ -33,9 +32,6 @@ if (myArgs.includes('regenerate-all')) {
 }
 if (myArgs.includes('setup')) {
     isSetup = true;
-}
-if (myArgs.includes('customizer')) {
-    isCustomizer = true;
 }
 const MIN_DIFF_PIXELS = minDiffPixels;
 
@@ -204,14 +200,6 @@ async function main() {
             await page.$eval('.rex-js-createadminform', form => form.submit());
             await page.waitForTimeout(1000);
             await createScreenshot(page, 'setup_7.png');
-
-            break;
-
-        case isCustomizer:
-            await logIntoBackend(page);
-            await page.goto(START_URL + '?page=system/customizer', { waitUntil: 'load' });
-            await page.waitForTimeout(300); // slight buffer for CSS animations or :focus styles etc.
-            await createScreenshot(page, 'system_customizer.png');
 
             break;
 
