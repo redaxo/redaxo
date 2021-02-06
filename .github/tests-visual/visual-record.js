@@ -230,6 +230,7 @@ async function main() {
             await createScreenshot(page, 'system_settings_debugmode.png');
             await page.evaluate('window.confirm = () => true'); // avoid confirm dialog
             await page.click('.btn-debug-mode');
+            await page.waitForSelector('.btn-debug-mode');
 
             // test safe mode
             await page.goto(START_URL + '?page=system/settings', { waitUntil: 'load' });
