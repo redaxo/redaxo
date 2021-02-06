@@ -221,22 +221,6 @@ async function main() {
                 await createScreenshot(page, fileName);
             }
 
-            // test debug mode
-            await page.goto(START_URL + '?page=system/settings', { waitUntil: 'load' });
-            await Promise.all([
-                page.evaluate('window.confirm = () => true'), // avoid confirm dialog
-                page.waitForNavigation({ waitUntil: 'networkidle0' }),
-                page.click('.btn-debug-mode') // enable debug mode
-            ]);
-            await page.goto(START_URL, { waitUntil: 'load' });
-            await createScreenshot(page, 'index_debugmode.png');
-            await page.goto(START_URL + '?page=system/settings', { waitUntil: 'load' });
-            await Promise.all([
-                page.evaluate('window.confirm = () => true'), // avoid confirm dialog
-                page.waitForNavigation({ waitUntil: 'networkidle0' }),
-                page.click('.btn-debug-mode') // disable debug mode again
-            ]);
-
             // test safe mode
             await page.goto(START_URL + '?page=system/settings', { waitUntil: 'load' });
             await Promise.all([
