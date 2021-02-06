@@ -252,7 +252,7 @@ async function main() {
             // test customizer
             await page.goto(START_URL + '?page=packages', { waitUntil: 'load' });
             await Promise.all([
-                page.waitForNavigation(),
+                page.waitForNavigation({ waitUntil: 'networkidle0' }),
                 page.click('#package-be_style + .rex-package-is-plugin .rex-table-action > a:first-child') // TODO: improve selector once https://github.com/redaxo/redaxo/issues/4405 was fixed!
             ]);
             await createScreenshot(page, 'packages_customizer_installed.png');
