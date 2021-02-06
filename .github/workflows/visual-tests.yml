@@ -82,7 +82,7 @@ jobs:
             - name: Setup Webserver
               run: |
                   php -S localhost:8000 &
-                  npm install puppeteer pixelmatch pngjs fs mkdirp
+                  npm install puppeteer@6 pixelmatch pngjs fs mkdirp
 
             - name: Take screenshots (differential)
               if: "github.event_name != 'repository_dispatch'"
