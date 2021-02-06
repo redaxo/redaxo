@@ -223,26 +223,38 @@ async function main() {
 
             // test debug mode
             await page.goto(START_URL + '?page=system/settings', { waitUntil: 'load' });
-            await page.evaluate('window.confirm = () => true'); // avoid confirm dialog
-            await page.click('.btn-debug-mode');
-            await page.waitForSelector('.btn-debug-mode');
-            await page.goto(START_URL + '?page=system/settings', { waitUntil: 'load' }); // TODO: remove once https://github.com/redaxo/redaxo/pull/4403 was merged!
-            await createScreenshot(page, 'system_settings_debugmode.png');
-            await page.evaluate('window.confirm = () => true'); // avoid confirm dialog
-            await page.click('.btn-debug-mode');
-            await page.waitForSelector('.btn-debug-mode');
+            await Promise.all([
+                page.evaluate('window.confirm = () => true'), // avoid confirm dialog
+                page.waitForNavigation(),
+                page.click('.btn-debug-mode') // enable debug mode
+            ]);
+            await page.goto(START_URL, { waitUntil: 'load' });
+            await createScreenshot(page, 'index_debugmode.png');
+            await page.goto(START_URL + '?page=system/settings', { waitUntil: 'load' });
+            await Promise.all([
+                page.evaluate('window.confirm = () => true'), // avoid confirm dialog
+                page.waitForNavigation(),
+                page.click('.btn-debug-mode') // disable debug mode again
+            ]);
 
             // test safe mode
             await page.goto(START_URL + '?page=system/settings', { waitUntil: 'load' });
-            await page.click('.btn-safemode-activate');
-            await page.waitForSelector('.btn-safemode-deactivate');
+            await Promise.all([
+                page.waitForNavigation(),
+                page.click('.btn-safemode-activate') // enable safe mode
+            ]);
             await createScreenshot(page, 'system_settings_safemode.png');
-            await page.click('.btn-safemode-deactivate'); // disable safe-mode again
+            await Promise.all([
+                page.waitForNavigation(),
+                page.click('.btn-safemode-deactivate') // disable safe mode again
+            ]);
 
             // test customizer
             await page.goto(START_URL + '?page=packages', { waitUntil: 'load' });
-            await page.click('#package-be_style + .rex-package-is-plugin .rex-table-action > a:first-child'); // TODO: improve selector once https://github.com/redaxo/redaxo/issues/4405 was fixed!
-            await page.waitForNavigation();
+            await Promise.all([
+                page.waitForNavigation(),
+                page.click('#package-be_style + .rex-package-is-plugin .rex-table-action > a:first-child') // TODO: improve selector once https://github.com/redaxo/redaxo/issues/4405 was fixed!
+            ]);
             await createScreenshot(page, 'packages_customizer_installed.png');
             await page.goto(START_URL + '?page=system/customizer', { waitUntil: 'load' });
             await page.waitForTimeout(300); // slight buffer for CSS animations or :focus styles etc.
