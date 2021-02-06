@@ -240,7 +240,7 @@ async function main() {
 
             // test customizer
             await page.goto(START_URL + '?page=packages', { waitUntil: 'load' });
-            await page.click('#package-be_style + .rex-package-is-plugin .rex-table-action > a:first-child');
+            await page.click('#package-be_style + .rex-package-is-plugin .rex-table-action > a:first-child'); // TODO: improve selector once https://github.com/redaxo/redaxo/issues/4405 was fixed!
             await page.waitForNavigation();
             await createScreenshot(page, 'packages_customizer_installed.png');
             await page.goto(START_URL + '?page=system/customizer', { waitUntil: 'load' });
