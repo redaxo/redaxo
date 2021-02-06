@@ -248,6 +248,12 @@ async function main() {
             await page.waitForTimeout(300); // slight buffer for CSS animations or :focus styles etc.
             await createScreenshot(page, 'system_customizer.png');
 
+            // logout
+            await page.click('#rex-js-nav-top .rex-logout');
+            await page.waitForSelector('.rex-background--ready');
+            await page.waitForTimeout(1000); // wait for bg image to fade in
+            await createScreenshot(page, 'logout.png');
+
             break;
     }
 
