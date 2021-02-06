@@ -846,4 +846,3 @@ abstract class rex_package_manager
         return $packages;
     }
 }
-

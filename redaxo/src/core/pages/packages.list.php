@@ -169,4 +169,3 @@ $fragment->setVar('title', rex_i18n::msg('package_caption'), false);
 $fragment->setVar('options', $toolbar, false);
 $fragment->setVar('content', $content, false);
 echo $fragment->parse('core/page/section.php');
-
