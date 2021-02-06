@@ -226,6 +226,7 @@ async function main() {
             await page.evaluate('window.confirm = () => true'); // avoid confirm dialog
             await page.click('.btn-debug-mode');
             await page.waitForSelector('.btn-debug-mode');
+            await page.goto(START_URL + '?page=system/settings', { waitUntil: 'load' }); // TODO: remove once https://github.com/redaxo/redaxo/pull/4403 was merged!
             await createScreenshot(page, 'system_settings_debugmode.png');
             await page.evaluate('window.confirm = () => true'); // avoid confirm dialog
             await page.click('.btn-debug-mode');
