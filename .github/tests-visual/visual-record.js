@@ -221,6 +221,31 @@ async function main() {
                 await createScreenshot(page, fileName);
             }
 
+            // test debug mode
+            await page.goto(START_URL + '?page=system/settings', { waitUntil: 'load' });
+            await page.evaluate('window.confirm = () => true'); // avoid confirm dialog
+            await page.click('.btn-debug-mode');
+            await page.waitForSelector('.btn-debug-mode');
+            await createScreenshot(page, 'system_settings_debugmode.png');
+            await page.evaluate('window.confirm = () => true'); // avoid confirm dialog
+            await page.click('.btn-debug-mode');
+
+            // test safe mode
+            await page.goto(START_URL + '?page=system/settings', { waitUntil: 'load' });
+            await page.click('.btn-safemode-activate');
+            await page.waitForSelector('.btn-safemode-deactivate');
+            await createScreenshot(page, 'system_settings_safemode.png');
+            await page.click('.btn-safemode-deactivate');
+
+            // test customizer
+            await page.goto(START_URL + '?page=packages', { waitUntil: 'load' });
+            await page.click('#package-be_style + .rex-package-is-plugin .rex-table-action > a:first-child');
+            await page.waitForNavigation();
+            await createScreenshot(page, 'packages_customizer_installed.png');
+            await page.goto(START_URL + '?page=system/customizer', { waitUntil: 'load' });
+            await page.waitForTimeout(300); // slight buffer for CSS animations or :focus styles etc.
+            await createScreenshot(page, 'system_customizer.png');
+
             break;
     }
 
