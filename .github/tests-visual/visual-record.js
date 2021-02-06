@@ -237,7 +237,7 @@ async function main() {
             await page.click('.btn-safemode-activate');
             await page.waitForSelector('.btn-safemode-deactivate');
             await createScreenshot(page, 'system_settings_safemode.png');
-            await page.click('.btn-safemode-deactivate');
+            await page.click('.btn-safemode-deactivate'); // disable safe-mode again
 
             // test customizer
             await page.goto(START_URL + '?page=packages', { waitUntil: 'load' });
