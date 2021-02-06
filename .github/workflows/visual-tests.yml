@@ -5,7 +5,6 @@ on:
     types: [opened, synchronize, reopened, ready_for_review]
   repository_dispatch:
       types: [visual-test-command] # triggered by /visual-test PR comment
-  workflow_dispatch:
 
 jobs:
     build:
