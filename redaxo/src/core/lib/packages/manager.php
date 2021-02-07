@@ -502,7 +502,7 @@ abstract class rex_package_manager
             // first make sure the addon itself is available.
             $jumpPackageId = $packageId;
             if ($package instanceof rex_plugin_interface && !$package->getAddon()->isAvailable() && $package->getAddon()->getPackageId()) {
-                $jumpPackageId = $package->getAddon()->getPackageId();
+                $jumpPackageId = (string)$package->getAddon()->getPackageId();
                 $jumpPackageId = rex_string::normalize($jumpPackageId);
             }
 
