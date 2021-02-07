@@ -43,7 +43,7 @@ if ($func && !$csrfToken->isValid()) {
     $config['debug']['enabled'] = (rex::isDebugMode()) ? false : true;
     rex::setProperty('debug', $config['debug']);
     if (rex_file::putConfig($configFile, $config) > 0) {
-        // fullpage reload, so safe-mode visualias take effect immediately
+        // reload the page so that debug mode is immediately visible
         rex_response::sendRedirect(rex_url::currentBackendPage(['rex_debug_updated' => true], false));
     }
 } elseif ('updateinfos' == $func) {
