@@ -501,16 +501,14 @@ abstract class rex_package_manager
             // this package requires a plugin from another addon.
             // first make sure the addon itself is available.
             $jumpPackageId = $packageId;
-            if ($package instanceof rex_plugin_interface && !$package->getAddon()->isAvailable()) {
-                $jumpPackageId = (string) $package->getAddon()->getPackageId();
-                $jumpPackageId = rex_string::normalize($jumpPackageId);
+            if ($package instanceof rex_plugin && !$package->getAddon()->isAvailable()) {
+                $jumpPackageId = $package->getAddon()->getPackageId();
             }
 
-            if ('packages' == rex_be_controller::getCurrentPage()) {
-                $jumpPackageUrl = '#package-'.  rex_string::normalize($jumpPackageId);
-            } else {
+            $jumpPackageUrl = '#package-'.  rex_string::normalize($jumpPackageId, '-', '_');
+            if ('packages' !== rex_be_controller::getCurrentPage()) {
                 // error while update/install within install-addon. x-link to packages core page
-                $jumpPackageUrl = rex_url::backendPage('packages'). '#package-'. rex_string::normalize($jumpPackageId);
+                $jumpPackageUrl = rex_url::backendPage('packages').$jumpPackageUrl;
             }
 
             $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId.$required_version) . ' <a href="'. $jumpPackageUrl .'"><i class="rex-icon fa-arrow-circle-right" title="'. $this->i18n('jump_to', $jumpPackageId) .'"></i></a>';
