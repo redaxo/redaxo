@@ -25,7 +25,6 @@ const GOLDEN_SAMPLES_DIR = '.github/tests-visual/';
 const myArgs = process.argv.slice(2);
 let minDiffPixels = 1;
 let isSetup = false;
-let isCustomizer = false;
 
 if (myArgs.includes('regenerate-all')) {
     // force sample-regeneration, even if pixelmatch() thinks nothing changed
@@ -33,9 +32,6 @@ if (myArgs.includes('regenerate-all')) {
 }
 if (myArgs.includes('setup')) {
     isSetup = true;
-}
-if (myArgs.includes('customizer')) {
-    isCustomizer = true;
 }
 const MIN_DIFF_PIXELS = minDiffPixels;
 
@@ -207,14 +203,6 @@ async function main() {
 
             break;
 
-        case isCustomizer:
-            await logIntoBackend(page);
-            await page.goto(START_URL + '?page=system/customizer', { waitUntil: 'load' });
-            await page.waitForTimeout(300); // slight buffer for CSS animations or :focus styles etc.
-            await createScreenshot(page, 'system_customizer.png');
-
-            break;
-
         default:
             // login page
             await page.goto(START_URL, { waitUntil: 'load' });
@@ -232,6 +220,35 @@ async function main() {
                 await page.waitForTimeout(300); // slight buffer for CSS animations or :focus styles etc.
                 await createScreenshot(page, fileName);
             }
+
+            // test safe mode
+            await page.goto(START_URL + '?page=system/settings', { waitUntil: 'load' });
+            await Promise.all([
+                page.waitForNavigation(),
+                page.click('.btn-safemode-activate') // enable safe mode
+            ]);
+            await createScreenshot(page, 'system_settings_safemode.png');
+            await Promise.all([
+                page.waitForNavigation(),
+                page.click('.btn-safemode-deactivate') // disable safe mode again
+            ]);
+
+            // test customizer
+            await page.goto(START_URL + '?page=packages', { waitUntil: 'load' });
+            await Promise.all([
+                page.waitForNavigation({ waitUntil: 'networkidle0' }),
+                page.click('#package-be_style + .rex-package-is-plugin .rex-table-action > a:first-child') // TODO: improve selector once https://github.com/redaxo/redaxo/issues/4405 was fixed!
+            ]);
+            await createScreenshot(page, 'packages_customizer_installed.png');
+            await page.goto(START_URL + '?page=system/customizer', { waitUntil: 'load' });
+            await page.waitForTimeout(300); // slight buffer for CSS animations or :focus styles etc.
+            await createScreenshot(page, 'system_customizer.png');
+
+            // logout
+            await page.click('#rex-js-nav-top .rex-logout');
+            await page.waitForSelector('.rex-background--ready');
+            await page.waitForTimeout(1000); // wait for bg image to fade in
+            await createScreenshot(page, 'logout.png');
 
             break;
     }
