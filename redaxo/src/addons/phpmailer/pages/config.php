@@ -73,9 +73,8 @@ $sel_mailer->setSize(1);
 $sel_mailer->setAttribute('class', 'form-control selectpicker');
 $sel_mailer->setSelected($addon->getConfig('mailer'));
 $mta = [];
-if (function_exists('mail'))
-    {
-$mta[] = 'mail';
+if (function_exists('mail')) {
+    $mta[] = 'mail';
 }
 $mta[] = 'smtp';
 $mta[] = 'sendmail';
