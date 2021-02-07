@@ -9,6 +9,7 @@ $id = '';
 $class = $this->getVar('class', 'input-group input-group-xs has-feedback form-clear-button');
 $clear = rex_i18n::msg('search_clear');
 $placeholder = ' placeholder="'.$this->getVar('placeholder', rex_i18n::msg('search_placeholder')).'"';
+$autofocus = '';
 if (isset($this->autofocus) && true == $this->autofocus) {
     $autofocus = ' autofocus ';
 }
