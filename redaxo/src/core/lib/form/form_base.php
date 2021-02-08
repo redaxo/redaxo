@@ -935,15 +935,15 @@ abstract class rex_form_base
 
     /**
      * @param string $fieldsetName
-     * @param string $elementName
+     * @param string $normalizedElementName
      *
      * @return rex_form_element|null
      */
-    private function _getElement($fieldsetName, $elementName)
+    private function _getElement($fieldsetName, $normalizedElementName)
     {
         if (is_array($this->elements[$fieldsetName])) {
             for ($i = 0; $i < count($this->elements[$fieldsetName]); ++$i) {
-                if ($this->elements[$fieldsetName][$i]->getAttribute('name') == $elementName) {
+                if ($this->elements[$fieldsetName][$i]->getAttribute('name') == $normalizedElementName) {
                     return $this->elements[$fieldsetName][$i];
                 }
             }
