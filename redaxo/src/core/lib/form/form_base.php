@@ -928,13 +928,15 @@ abstract class rex_form_base
      */
     protected function getElement($fieldsetName, $elementName)
     {
+        if (!is_array($this->elements[$fieldsetName])) {
+            return null;
+        }
+        
         $normalizedName = rex_string::normalize($fieldsetName . '[' . $elementName . ']', '_', '[]');
 
-        if (is_array($this->elements[$fieldsetName])) {
-            for ($i = 0; $i < count($this->elements[$fieldsetName]); ++$i) {
-                if ($this->elements[$fieldsetName][$i]->getAttribute('name') == $normalizedName) {
-                    return $this->elements[$fieldsetName][$i];
-                }
+        for ($i = 0; $i < count($this->elements[$fieldsetName]); ++$i) {
+            if ($this->elements[$fieldsetName][$i]->getAttribute('name') == $normalizedName) {
+                return $this->elements[$fieldsetName][$i];
             }
         }
 
