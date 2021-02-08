@@ -277,6 +277,10 @@
     .navbar {
         background-color: #fff;
         border-color: $color-a-light;
+
+        .rex-main-frame & {
+            border-color: #fff;
+        }
     }
     .navbar-default .navbar-nav {
         @media (max-width: $screen-xs-max) {
