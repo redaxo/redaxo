@@ -929,7 +929,7 @@ abstract class rex_form_base
     protected function getElement($fieldsetName, $elementName)
     {
         $normalizedName = rex_string::normalize($fieldsetName . '[' . $elementName . ']', '_', '[]');
-        
+
         if (is_array($this->elements[$fieldsetName])) {
             for ($i = 0; $i < count($this->elements[$fieldsetName]); ++$i) {
                 if ($this->elements[$fieldsetName][$i]->getAttribute('name') == $normalizedName) {
