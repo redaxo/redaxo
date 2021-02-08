@@ -130,7 +130,8 @@ async function createScreenshot(page, screenshotName) {
             '#rex-form-exportfilename',
             '#rex-page-system-report-html .row td',
             'td[data-title="Version"]',
-            'td[data-title="Erstellt am"]'
+            'td[data-title="Erstellt am"]',
+            'tr[class^="rex-state-"] td[data-title="Zeit"]' // system log items
         ];
 
         changingElements.forEach(function (selector) {
