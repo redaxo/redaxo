@@ -931,7 +931,7 @@ abstract class rex_form_base
         if (!is_array($this->elements[$fieldsetName])) {
             return null;
         }
-        
+
         $normalizedName = rex_string::normalize($fieldsetName . '[' . $elementName . ']', '_', '[]');
 
         for ($i = 0; $i < count($this->elements[$fieldsetName]); ++$i) {
