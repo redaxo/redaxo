@@ -12,6 +12,7 @@ rex_package_manager::synchronizeWithFileSystem();
 
 $fragment = new rex_fragment();
 $fragment->setVar('id', 'rex-js-available-addon-search');
+$fragment->setVar('autofocus', !rex_request('function', 'bool'));
 $toolbar = $fragment->parse('core/form/search.php');
 
 $content = '
