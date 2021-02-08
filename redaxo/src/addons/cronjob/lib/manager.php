@@ -9,22 +9,20 @@
  */
 class rex_cronjob_manager
 {
-    /**
-     * @template T of rex_cronjob
-     *
-     * @return class-string<T>[]
-     */
+    /** @var list<class-string<rex_cronjob>> */
     private static $types = [
-        'rex_cronjob_phpcode',
-        'rex_cronjob_phpcallback',
-        'rex_cronjob_urlrequest',
+        rex_cronjob_phpcode::class,
+        rex_cronjob_phpcallback::class,
+        rex_cronjob_urlrequest::class,
     ];
 
     /** @var string */
     private $message = '';
+    /** @var rex_cronjob|class-string<rex_cronjob>|null */
     private $cronjob;
     /** @var string|null */
     private $name;
+    /** @var int|null */
     private $id;
 
     /**
@@ -35,6 +33,9 @@ class rex_cronjob_manager
         return new self();
     }
 
+    /**
+     * @param string $message
+     */
     public function setMessage($message)
     {
         $this->message = $message;
@@ -56,15 +57,26 @@ class rex_cronjob_manager
         return !empty($this->message);
     }
 
+    /**
+     * @param rex_cronjob|class-string<rex_cronjob> $cronjob
+     */
     public function setCronjob($cronjob)
     {
         $this->cronjob = $cronjob;
     }
 
+    /**
+     * @param rex_cronjob|class-string<rex_cronjob> $cronjob
+     * @param string $name
+     * @param array $params
+     * @param bool $log
+     * @param int|null $id
+     * @return bool
+     */
     public function tryExecute($cronjob, $name = '', $params = [], $log = true, $id = null)
     {
-        $success = $cronjob instanceof rex_cronjob;
-        if (!$success) {
+        if (!$cronjob instanceof rex_cronjob) {
+            $success = false;
             if (is_object($cronjob)) {
                 $message = 'Invalid cronjob class "' . get_class($cronjob) . '"';
             } else {
@@ -139,9 +151,7 @@ class rex_cronjob_manager
     }
 
     /**
-     * @template T of rex_cronjob
-     *
-     * @return class-string<T>[]
+     * @return list<class-string<rex_cronjob>>
      */
     public static function getTypes()
     {
@@ -149,9 +159,7 @@ class rex_cronjob_manager
     }
 
     /**
-     * @template T of rex_cronjob
-     *
-     * @param class-string<T> $class
+     * @param class-string<rex_cronjob> $class
      */
     public static function registerType($class)
     {
