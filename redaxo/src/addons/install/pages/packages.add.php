@@ -108,6 +108,7 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
 } else {
     $fragment = new rex_fragment();
     $fragment->setVar('id', 'rex-js-install-addon-search');
+    $fragment->setVar('autofocus', true);
     $toolbar = $fragment->parse('core/form/search.php');
 
     $sort = rex_request('sort', 'string', '');
