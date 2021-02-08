@@ -90,7 +90,6 @@ html {
     @media(min-width: $grid-float-breakpoint) {
         float: right;
         margin-left: $grid-gutter-width;
-        padding-top: 2px;
 
         .dropdown-menu {
             left: auto;
