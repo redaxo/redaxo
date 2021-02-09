@@ -16,12 +16,6 @@ if ($addon->hasConfig('log')) {
     }
     $addon->removeConfig('log');
 }
-if (!$addon->hasConfig('errormail')) {
-    $addon->setConfig('errormail', 0);
-}
-if (!$addon->hasConfig('security_mode')) {
-    $addon->setConfig('security_mode', false); // AutoTLS per default deaktiviert
-}
 
 $oldBackUpFolder = rex_path::addonData('phpmailer', 'mail_backup');
 $logFolder = rex_path::addonData('phpmailer', 'mail_log');
