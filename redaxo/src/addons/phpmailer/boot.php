@@ -10,7 +10,7 @@
 $addon = rex_addon::get('phpmailer');
 
 if (!rex::isBackend() && 0 != $addon->getConfig('errormail')) {
-    rex_mailer::ErrorMail();
+    rex_mailer::errorMail();
 }
 
 if ('system' == rex_be_controller::getCurrentPagePart(1)) {
