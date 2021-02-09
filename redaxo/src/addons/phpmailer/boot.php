@@ -10,7 +10,9 @@
 $addon = rex_addon::get('phpmailer');
 
 if (!rex::isBackend() && 0 != $addon->getConfig('errormail')) {
-    rex_mailer::errorMail();
+    rex_extension::register('RESPONSE_SHUTDOWN', static function (rex_extension_point $ep) use ($addon) {
+        rex_mailer::errorMail();
+    });
 }
 
 if ('system' == rex_be_controller::getCurrentPagePart(1)) {
