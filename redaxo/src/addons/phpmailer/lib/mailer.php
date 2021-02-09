@@ -304,8 +304,5 @@ class rex_mailer extends PHPMailer
 
             $mail->Send();
         }
-
-        // close logger, to free remaining file-handles to syslog
-        rex_logger::close();
     }
 }
