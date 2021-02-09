@@ -222,7 +222,8 @@ class rex_mailer extends PHPMailer
     {
         return rex_path::log('mail.log');
     }
- public static function ErrorMail()
+
+    public static function ErrorMail()
     {
         $addon = rex_addon::get('phpmailer');
         rex_extension::register('RESPONSE_SHUTDOWN', static function (rex_extension_point $ep) use ($addon) {
@@ -281,7 +282,7 @@ class rex_mailer extends PHPMailer
                     $mailBody .= '    </tbody>';
                     $mailBody .= '</table>';
                     //End - generate mailbody
-                    $mail = new rex_mailer();
+                    $mail = new self();
                     $mail->Subject = rex::getServerName() . ' - error report ';
                     $mail->Body = $mailBody;
                     $mail->AltBody = strip_tags($mailBody);
