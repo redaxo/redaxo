@@ -229,7 +229,6 @@ class rex_mailer extends PHPMailer
     public static function errorMail(): void
     {
         $addon = rex_addon::get('phpmailer');
-        rex_extension::register('RESPONSE_SHUTDOWN', static function (rex_extension_point $ep) use ($addon) {
             $logFile = rex_path::log('system.log');
             $sendTime = $addon->getConfig('last_log_file_send_time', 0);
             $timediff = '';
@@ -301,6 +300,6 @@ class rex_mailer extends PHPMailer
                 rex_logger::close();
                 //End  send mail
             }
-        });
     }
 }
+
