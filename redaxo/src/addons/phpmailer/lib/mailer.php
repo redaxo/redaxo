@@ -223,7 +223,10 @@ class rex_mailer extends PHPMailer
         return rex_path::log('mail.log');
     }
 
-    public static function ErrorMail()
+    /**
+     * @internal
+     */
+    public static function errorMail(): void
     {
         $addon = rex_addon::get('phpmailer');
         rex_extension::register('RESPONSE_SHUTDOWN', static function (rex_extension_point $ep) use ($addon) {
