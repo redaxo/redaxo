@@ -1,22 +1,29 @@
 name: php-cs-fixer
 
 on:
+  push:
+    branches:
+      - master
+      - bugfix
+      - temp
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
-    paths:
-    - '**.php'
 
 jobs:
   php-cs-fixer:
     runs-on: ubuntu-latest
-    # dont run jobs on forks, because we are not allowed to commit
-    if: github.event.pull_request.draft == false && github.event.pull_request.head.repo.full_name == github.repository
+    if: github.event.pull_request.draft == false
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v2
+      if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
       with:
         ref: ${{ github.head_ref }}
         token: ${{ secrets.BOT_TOKEN }}
+    - name: Checkout fork
+      uses: actions/checkout@v2
+      if: github.event_name != 'push' && github.event.pull_request.head.repo.full_name != github.repository
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
@@ -30,9 +37,11 @@ jobs:
         composer-options: "--ansi --prefer-dist"
 
     - run: vendor/bin/php-cs-fixer fix --diff
+      if: github.event_name != 'push' && github.event.pull_request.head.repo.full_name == github.repository
 
     - name: Commit changed files
       uses: stefanzweifel/git-auto-commit-action@v4
+      if: github.event_name != 'push' && github.event.pull_request.head.repo.full_name == github.repository
       with:
         commit_message: Apply php-cs-fixer changes
         commit_user_name: rex-bot
