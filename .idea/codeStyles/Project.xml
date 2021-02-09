@@ -98,6 +98,8 @@
       </indentOptions>
     </codeStyleSettings>
     <codeStyleSettings language="yaml">
+      <option name="SPACE_WITHIN_BRACKETS" value="false" />
+      <option name="SPACE_WITHIN_BRACES" value="false" />
       <indentOptions>
         <option name="INDENT_SIZE" value="4" />
       </indentOptions>
