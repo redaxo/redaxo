@@ -233,7 +233,8 @@ class rex_mailer extends PHPMailer
             $fatalerror = false;
             $logevent = false;
             $timediff = time() - $sendTime;
-            if ($timediff > $addon->getConfig('errormail') && filesize($logFile) > 0 && $file = new rex_log_file($logFile)) {
+            if ($timediff > $addon->getConfig('errormail') && filesize($logFile) > 0) {
+                $file = new rex_log_file($logFile);
                 //Start - generate mailbody
                 $mailBody = '<h2>Error protocol for: ' . rex::getServerName() . '</h2>';
                 $mailBody .= '<style> .errorbg {background: #F6C4AF; } .eventbg {background: #E1E1E1; } td, th {padding: 5px;} table {width: 100%; border: 1px solid #ccc; } th {background: #b00; color: #fff;} td { border: 0; border-bottom: 1px solid #b00;} </style> ';
