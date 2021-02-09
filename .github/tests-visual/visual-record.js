@@ -130,7 +130,8 @@ async function createScreenshot(page, screenshotName) {
             '#rex-form-exportfilename',
             '#rex-page-system-report-html .row td',
             'td[data-title="Version"]',
-            'td[data-title="Erstellt am"]'
+            'td[data-title="Erstellt am"]',
+            'tr[class^="rex-state-"] td[data-title="Zeit"]' // system log items
         ];
 
         changingElements.forEach(function (selector) {
@@ -237,7 +238,7 @@ async function main() {
             await page.goto(START_URL + '?page=packages', { waitUntil: 'load' });
             await Promise.all([
                 page.waitForNavigation({ waitUntil: 'networkidle0' }),
-                page.click('#package-be_style + .rex-package-is-plugin .rex-table-action > a:first-child') // TODO: improve selector once https://github.com/redaxo/redaxo/issues/4405 was fixed!
+                page.click('#package-be_style-customizer .rex-table-action > a:first-child') // install
             ]);
             await createScreenshot(page, 'packages_customizer_installed.png');
             await page.goto(START_URL + '?page=system/customizer', { waitUntil: 'load' });
