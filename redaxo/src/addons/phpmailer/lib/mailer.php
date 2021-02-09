@@ -288,21 +288,23 @@ class rex_mailer extends PHPMailer
         }
 
         // check if logevent occured then send mail
-        if ($logevent) {
-            $mailBody .= '    </tbody>';
-            $mailBody .= '</table>';
-            //End - generate mailbody
-
-            $mail = new self();
-            $mail->Subject = rex::getServerName() . ' - error report ';
-            $mail->Body = $mailBody;
-            $mail->AltBody = strip_tags($mailBody);
-            $mail->setFrom(rex::getErrorEmail(), 'REDAXO error report');
-            $mail->addAddress(rex::getErrorEmail());
-
-            $addon->setConfig('last_log_file_send_time', time());
-
-            $mail->Send();
+        if (!$logevent) {
+            return;
         }
+
+        $mailBody .= '    </tbody>';
+        $mailBody .= '</table>';
+        //End - generate mailbody
+
+        $mail = new self();
+        $mail->Subject = rex::getServerName() . ' - error report ';
+        $mail->Body = $mailBody;
+        $mail->AltBody = strip_tags($mailBody);
+        $mail->setFrom(rex::getErrorEmail(), 'REDAXO error report');
+        $mail->addAddress(rex::getErrorEmail());
+
+        $addon->setConfig('last_log_file_send_time', time());
+
+        $mail->Send();
     }
 }
