@@ -7,10 +7,10 @@ Es basiert auf [Clockwork](https://github.com/itsgoingd/clockwork) und bietet da
 um die Abläufe innerhalb des REDAXO CMS zu visualisieren.
 
 <blockquote>
-Clockwork is a development tool for PHP available right in your browser.
-Clockwork gives you an insight into your application runtime - including request data,
-performance metrics, log entries, database queries, cache queries, redis commands, dispatched events, queued jobs,
-rendered views and more - for HTTP requests, commands, queue jobs and tests.
+Clockwork ist ein Entwicklungswerkzeug für PHP, das direkt in Ihrem Browser verfügbar ist.
+Clockwork gibt Ihnen einen Einblick in die Laufzeit Ihrer Anwendung - einschließlich Anfragedaten,
+Performance-Metriken, Log-Einträge, Datenbankabfragen, Cache-Abfragen, Redis-Befehle, Dispatched Events, Queue-Jobs,
+gerenderte Ansichten und mehr - für HTTP-Anfragen, Befehle, Warteschlangenjobs und Tests.
 <footer>Clockwork Project</footer>
 </blockquote>
 
