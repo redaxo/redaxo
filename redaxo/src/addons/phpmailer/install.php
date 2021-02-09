@@ -16,7 +16,9 @@ if ($addon->hasConfig('log')) {
     }
     $addon->removeConfig('log');
 }
-
+if (!$addon->hasConfig('errormail')) {
+    $addon->setConfig('errormail', 0);
+}
 $oldBackUpFolder = rex_path::addonData('phpmailer', 'mail_backup');
 $logFolder = rex_path::addonData('phpmailer', 'mail_log');
 if (is_dir($oldBackUpFolder) && !is_dir($logFolder)) {
