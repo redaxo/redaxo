@@ -9,10 +9,6 @@
 
 $addon = rex_addon::get('phpmailer');
 
-if (!$addon->hasConfig('security_mode')) {
-    $addon->setConfig('security_mode', true); // true = AutoTLS
-}
-
 if (!rex::isBackend() && 0 != $addon->getConfig('errormail')) {
     rex_mailer::ErrorMail();
 }
