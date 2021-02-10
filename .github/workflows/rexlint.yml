@@ -1,32 +1,30 @@
-name: PHP Checks
+name: Linting
 
 on:
     push:
-        branches:
-            - master
-            - bugfix
-            - temp
+        branches: [master, bugfix, temp]
     pull_request:
         types: [opened, synchronize, reopened, ready_for_review]
-        branches:
-            - '*'
 
 jobs:
-
-    rex-lint:
-        name: REX Linting
+    rexlint:
         runs-on: ubuntu-latest
         if: "github.event.pull_request.draft == false && !contains(github.event.head_commit.message, '[ci skip]')"
 
         steps:
-            - uses: actions/checkout@v2
-            - name: Setup PHP
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: 7.3
-                  coverage: none # disable xdebug, pcov
-            - uses: "ramsey/composer-install@v1"
-              with:
-                  composer-options: "--ansi --prefer-dist"
-            - run: |
-                  vendor/bin/rexlint
+            -   name: Checkout
+                uses: actions/checkout@v2
+
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: 7.3
+                    coverage: none # disable xdebug, pcov
+
+            -   name: Composer install
+                uses: ramsey/composer-install@v1
+                with:
+                    composer-options: --ansi --prefer-dist
+
+            -   name: Run rexlint
+                run: vendor/bin/rexlint

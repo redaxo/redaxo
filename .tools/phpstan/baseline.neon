@@ -36,11 +36,6 @@ parameters:
 			path: ../../redaxo/src/addons/metainfo/functions/function_metainfo.php
 
 		-
-			message: "#^Right side of && is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/phpmailer/boot.php
-
-		-
 			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/phpmailer/pages/log.php
