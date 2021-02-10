@@ -128,6 +128,7 @@ async function createScreenshot(page, screenshotName) {
             '.rex-js-setup-step-5 .form-control-static',
             'td[data-title="Letzter Login"]',
             '#rex-form-exportfilename',
+            '#rex-page-system-settings .col-lg-4 td',
             '#rex-page-system-report-html .row td',
             'td[data-title="Version"]',
             'td[data-title="Erstellt am"]',
