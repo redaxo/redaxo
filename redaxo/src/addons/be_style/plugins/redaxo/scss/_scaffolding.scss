@@ -91,9 +91,13 @@ html {
         float: right;
         margin-left: $grid-gutter-width;
 
+        .dropdown-toggle {
+            border-color: $color-a-light;
+        }
+
         .dropdown-menu {
             left: auto;
-            right: 0
+            right: 0;
         }
     }
 }
