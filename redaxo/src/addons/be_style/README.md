@@ -1,30 +1,30 @@
 be_style-Addon
 =============
 
-Dieses Addon stellt die Styles, Skripte und Grafiken für das REDAXO-Backend bereit.
+This addon provides the assets for the REDAXO backend.
 
-## Styles kompilieren
+##  Compiling styles
 
-Bei Änderungen müssen die Styles neu kompiliert werden. Hierfür stellt **be_style** mehrere Varianten zur Verfügung.
+If changes are made, the styles must be recompiled. For this purpose **be_style** provides several options.
 
-### 1. via REDAXO Konsole
-Über die Konsole von REDAXO können die Styles neu kompiliert werden. Hierfür benutzt man den von **be_style** bereitgestellten Kompilierungsvorgang via `be_style:compile` oder `styles:compile`.
+### 1. via REDAXO console
+Using the console of REDAXO the styles can be recompiled. For this option you use the compilation process provided by **be_style** via `be_style:compile` or `styles:compile`.
 
 ### 2. via package.yml
-In der `package.yml` von dem PlugIn **redaxo** kann der Wert von `compile` von `0` auf `1` gesetzt werden.
-Beim nächsten Aufruf als eingeloggter Backend Benutzer werden die Styles neu kompiliert.
+In the `package.yml` of the PlugIn **redaxo** the value of `compile` can be set from `0` to `1`.
+At the next request as a logged in backend user the styles will be recompiled.
 
-##### Hinweis
-Der Wert sollte im Anschluss wieder auf `0` gesetzt werden, da sonst bei jedem Seitenaufruf die Styles neu kompiliert werden.
+##### Note
+The value should be set back to `0` afterwards, otherwise the styles will be recompiled on every page load.
 
 
 # Extension Points
 
 ### BE_STYLE_SCSS_FILES
-Über diesen Extension Point können weiere SCSS-Dateien zum Kompiliervorgang von REDAXO hinzugefügt werden.
-Dies bietet sich an, wenn Variablen oder CSS-Eigenschaften überschrieben werden sollen.
+This extension point can be used to add additional SCSS files to the compilation process of REDAXO.
+This is useful if variables or CSS properties should be overwritten.
 
-##### Beispiel
+##### Example
 ```php
 rex_extension::register('BE_STYLE_SCSS_FILES', function(rex_extension_point $ep) {
    $files = $ep->getSubject();
@@ -34,17 +34,17 @@ rex_extension::register('BE_STYLE_SCSS_FILES', function(rex_extension_point $ep)
 ```
 
 ### BE_STYLE_SCSS_COMPILE
-Über diesen Extension Point können eigene CSS-Dateien erstellt werden. Bei der Verwendung eigener Styles beispielsweise im AddOn oder im Frontend können über diesen EP komplett getrennte CSS-Dateien erstellt werden.
+Own CSS files can be created via this extension point. When using own styles, for example in your AddOn or in the frontend, completely separate CSS files can be created via this EP.
 
-##### Beispiel
+##### Example
 ```php
 rex_extension::register('BE_STYLE_SCSS_FILES', function(rex_extension_point $ep) {
    $files = $ep->getSubject();
    $files[] = [
-       'scss_files' => 'pfad/zu/scss/dateien',   # Quell SCSS Dateien als string oder array
-       'css_file' => 'pfad/zur/ziel/css/datei',  # Pfad zum Speicherort, wo die CSS Datei abgelegt werden soll
+       'scss_files' => 'pfad/zu/scss/dateien',   # Source SCSS files as string or array
+       'css_file' => 'pfad/zur/ziel/css/datei',  # Path to the destination where the CSS file should be stored.
 
-       'copy_dest' => 'pfad/zur/kopie',          # Optional: Wenn die Datei an einem zweiten Ort z.B. dem assets ordner abgelegt werden soll, kann dies hier angegeben werden 
+       'copy_dest' => 'pfad/zur/kopie',          # Optional: If the file should be stored in a second location, e.g. the assets folder, this can be specified here 
    ];
    return $files;
 });
