@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 2.9.0 – XX.XX.2021
+--------------------------
+
+### Neu
+
+* Bei Core-/AddOn-Updates wird ein Info-Eintrag ins Systemlog geschrieben (@staabm)
+* Beim Laden neuer Addons wird bei Entwicklungsversionen gewarnt, wie zuvor schon bei Updates (@anveno)
+
+
 Version 2.8.1 – 25.01.2021
 --------------------------
 

@@ -1,6 +1,22 @@
 Changelog
 =========
 
+Version 5.12.0 – XX.XX.2021
+---------------------------
+
+### Neu
+
+* Neue PHP-Mindestversion 7.3
+* `rex_markdown`: Die Header-IDs sind im gleichen Format wie auf GitHub (@jelleschutter)
+* Systembericht: Fehlerhandling bei invaliden `package.yml` optimiert (@staabm)
+* Console:
+    - `config:get/set`: Über neue Option `--package` können die Packages-Properties (statt Core-Properties) verwaltet werden (@staabm)
+    - `config:get/set`: `--type`-Option unterstützt den `octal`-Typ für `fileperm`/`dirperm` (@staabm)
+    - `assets:sync`: Dateivergleich optimiert und Beschreibung/Hilfe verbessert (@staabm)
+* Code-Stabilität durch statische Code-Analyse verbessert (@staabm, @gharlan)
+* Parameternamen in vielen Funktionen/Methoden optimiert (u.a. wegen Named Arguments in PHP 8) (@gharlan)
+
+
 Version 5.11.2 – 25.01.2021
 ---------------------------
 

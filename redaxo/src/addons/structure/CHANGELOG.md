@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.12.0 – XX.XX.2021
+---------------------------
+
+### Neu
+
+* Aus Templates/Modulen heraus kann neue Exception `rex_article_not_found_exception` geworfen werden, wodurch auf den Fehlerartikel gewechselt wird (@gharlan)
+
+
 Version 2.11.2 – 25.01.2021
 ---------------------------
 
