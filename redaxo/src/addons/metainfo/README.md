@@ -1,4 +1,4 @@
-# Meta Infos AddOn
+# Meta Infos Add-On
 
 With the Meta Infos add-on the meta fields for articles, categories, media and languages can be created and designed.
 
