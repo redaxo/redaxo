@@ -90,11 +90,14 @@ html {
     @media(min-width: $grid-float-breakpoint) {
         float: right;
         margin-left: $grid-gutter-width;
-        padding-top: 2px;
+
+        .dropdown-toggle {
+            border-color: $color-a-light;
+        }
 
         .dropdown-menu {
             left: auto;
-            right: 0
+            right: 0;
         }
     }
 }
