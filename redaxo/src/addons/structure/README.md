@@ -7,4 +7,3 @@ Categories and articles are created and hierarchically managed via the structure
 - Normal articles can be created in any number. 
 - The order of the individual categories and articles is determined by priority.
 
-Translated with www.DeepL.com/Translator (free version)
