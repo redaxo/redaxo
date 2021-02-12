@@ -98,9 +98,11 @@ if ($addonkey && isset($addons[$addonkey])) {
         $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" name="upload[send]" value="' . $package->i18n('send') . '">' . $package->i18n('send') . '</button>';
         $formElements[] = $n;
 
-        $n = [];
-        $n['field'] = '<button class="btn btn-delete" value="' . $package->i18n('delete') . '" onclick="if(confirm(\'' . $package->i18n('delete') . ' ?\')) location.href=\'' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $file_id] + rex_api_install_package_delete::getUrlParams()) . '\';">' . $package->i18n('delete') . '</button>';
-        $formElements[] = $n;
+        if (!$new) {
+            $n = [];
+            $n['field'] = '<button class="btn btn-delete" value="' . $package->i18n('delete') . '" onclick="if(confirm(\'' . $package->i18n('delete') . ' ?\')) location.href=\'' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $file_id] + rex_api_install_package_delete::getUrlParams()) . '\'; else return false;">' . $package->i18n('delete') . '</button>';
+            $formElements[] = $n;
+        }
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
