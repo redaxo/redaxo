@@ -1,3 +1,5 @@
+# Installer
+
 With the installer, add-ons can be downloaded and updated from the download area at [www.redaxo.org](https://www.redaxo.org).
 
 Depending on the settings, a backup of the old add-on folder is made during the update, however, a database backup is not made. If the add-on stores settings directly in the add-on folder, these will be lost during an update.
