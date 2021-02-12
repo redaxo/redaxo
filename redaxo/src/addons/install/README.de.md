@@ -1,6 +1,6 @@
 # Installer
 
-Mit dem Installer können AddOns aus dem Downloadbereich auf [www.redaxo.org](https://www.redaxo.org") heruntergeladen und aktualisiert werden.
+Mit dem Installer können AddOns aus dem Downloadbereich auf [www.redaxo.org](https://www.redaxo.org) heruntergeladen und aktualisiert werden.
 
 Bei der Aktualisierung wird je nach Einstellung ein Backup des alten AddOn-Ordners gemacht, ein Datenbankbackup wird jedoch nicht ausgeführt. Falls das AddOn Einstellungen direkt im AddOn-Ordner ablegt, gehen diese bei einem Update verloren.
 
