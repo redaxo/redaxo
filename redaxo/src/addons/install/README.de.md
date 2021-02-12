@@ -4,7 +4,7 @@ Mit dem Installer können AddOns aus dem Downloadbereich auf [www.redaxo.org](ht
 
 Bei der Aktualisierung wird je nach Einstellung ein Backup des alten AddOn-Ordners gemacht, ein Datenbankbackup wird jedoch nicht ausgeführt. Falls das AddOn Einstellungen direkt im AddOn-Ordner ablegt, gehen diese bei einem Update verloren.
 
-AddOn-Entwickler sollten Einstellungen nicht mehr in der <code>config.inc.php</code> oder in anderen Dateien innerhalb des AddOn-Ordners ablegen. Stattdessen sollte der Data-Ordner (`/redaxo/include/data/addons/addonkey`) verwendet werden.
-Des Weiteren kann dem AddOn ein Updateskript (`update.inc.php`) beigelegt werden, welches während des Updates Änderungen an der Datenbank etc. durchführt.
+AddOn-Entwickler sollten Einstellungen nicht mehr in der <code>config.inc.php</code> oder in anderen Dateien innerhalb des AddOn-Ordners ablegen. Stattdessen sollte der Data-Ordner `/redaxo/include/data/addons/addonkey` verwendet werden.
+Des Weiteren kann dem AddOn ein Updateskript `update.inc.php` beigelegt werden, welches während des Updates Änderungen an der Datenbank etc. durchführt.
 
-Wenn in den Einstellungen der Benutzer und der Api-Key für myREDAXO hinterlegt werden, können über den Installer auch die eigenen Addons in den Downloadbereich hochgeladen werden. Der Api-Key ist im eingeloggten Bereich unter <a href="https://www.redaxo.org/de/myredaxo/mein-api-key/">https://www.redaxo.org/de/myredaxo/mein-api-key/</a> einzusehen. Da mit dem Key die eigenen AddOns über die Api verändert werden können, sollte der Key nicht weitergegeben werden.
+Wenn in den Einstellungen der Benutzer und der Api-Key für myREDAXO hinterlegt werden, können über den Installer auch die eigenen Addons in den Downloadbereich hochgeladen werden. Der Api-Key ist im eingeloggten Bereich unter[https://www.redaxo.org/de/myredaxo/mein-api-key/](https://www.redaxo.org/de/myredaxo/mein-api-key/)einzusehen. Da mit dem Key die eigenen AddOns über die Api verändert werden können, sollte der Key nicht weitergegeben werden.
