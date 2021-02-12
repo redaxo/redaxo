@@ -1,6 +1,6 @@
 # Struktur
 
-Über die Strukturverwaltung werden Kategorien und Artikel angelegt und hierarchisch verwaltet.
+Über das Struktur-AddOn werden Kategorien und Artikel angelegt und hierarchisch verwaltet.
 
 - Den Kategorien sind Artikeln zugeordnet, in denen die Inhalte der Website organisiert werden. 
 - Jede Kategorie hat einen Startartikel. Startartikel sind die Einstiegsseiten einer Kategorie. 
