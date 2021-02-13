@@ -53,6 +53,7 @@ const allPages = {
     'structure_slice_edit.png': START_URL + '?page=content/edit&article_id=1&slice_id=3&clang=1&ctype=1&function=edit#slice3',
 
     'mediapool_media.png': START_URL + '?page=mediapool/media',
+    'mediapool_media_file.png': START_URL + '?page=mediapool/media&file_id=1&rex_file_category=0',
     'mediapool_upload.png': START_URL + '?page=mediapool/upload',
     'mediapool_structure.png': START_URL + '?page=mediapool/structure',
     'mediapool_sync.png': START_URL + '?page=mediapool/sync',
