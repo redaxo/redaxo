@@ -3,7 +3,7 @@
 /**
  * Manager class for packages.
  *
- * @template T as rex_package
+ * @template-covariant T as rex_package
  *
  * @package redaxo\core\packages
  */
