@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.5.1@257a1ca672a79dedc852be1285a7b97154646418">
+<files psalm-version="4.5.2@15a9eece1305fd26eb1336a78e5a2ee7a4b36214">
   <file src="redaxo/src/addons/backup/lib/backup.php">
     <TaintedInclude occurrences="5">
       <code>$filename</code>
