@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.7.0 – XX.XX.2021
+--------------------------
+
+### Neu
+
+* Code entfernt, um die User-Tabellen anzulegen nach Import, falls nicht vorhanden, da die Tabellendefinition veraltet war und die Situation im Normalfall nicht vorkommen kann (@gharlan)
+
+
 Version 2.6.3 – 25.01.2021
 --------------------------
 

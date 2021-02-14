@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.8.0 – XX.XX.2020
+--------------------------
+
+### Neu
+
+* Passwortregeln werden unterhalb des Passwortfelds angezeigt (@gharlan)
+
+
 Version 2.7.1 – 11.11.2020
 --------------------------
 

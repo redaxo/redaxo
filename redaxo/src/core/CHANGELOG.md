@@ -7,12 +7,19 @@ Version 5.12.0 – XX.XX.2021
 ### Neu
 
 * Neue PHP-Mindestversion 7.3
-* `rex_markdown`: Die Header-IDs sind im gleichen Format wie auf GitHub (@jelleschutter)
+* Update der externen Bibliotheken (u.a. Symfony Components 5.x)
+* `rex_markdown`:
+    - Die Umwandlung einfacher Zeilenumbrüche zu `<br/>` (kein Markdown-Standard) kann deaktiviert werden und ist bei der Darstellung von Markdown-Dateien im Backend deaktiviert (@christophboecker)
+    - Die Header-IDs sind im gleichen Format wie auf GitHub (@jelleschutter)
+* `rex_validator`: Rules werden über neue Klasse `rex_validation_rule` abgebildet; Objekte der Klasse können über `addRule` hinzugefügt und über `getRules` abgefragt werden (@staabm)
+* `rex_user`: Neue Methode `forLogin` um User über den Benutzernamen abzufragen (@jelleschutter)
+* Passwortregeln werden unterhalb der Passwortfelder angezeigt (@gharlan)
 * Systembericht: Fehlerhandling bei invaliden `package.yml` optimiert (@staabm)
 * Console:
     - `config:get/set`: Über neue Option `--package` können die Packages-Properties (statt Core-Properties) verwaltet werden (@staabm)
     - `config:get/set`: `--type`-Option unterstützt den `octal`-Typ für `fileperm`/`dirperm` (@staabm)
     - `assets:sync`: Dateivergleich optimiert und Beschreibung/Hilfe verbessert (@staabm)
+* Optimierte Fehlermeldung, wenn die Datenbankverbindung nicht aufgebaut werden kann (@staabm)
 * Code-Stabilität durch statische Code-Analyse verbessert (@staabm, @gharlan)
 * Parameternamen in vielen Funktionen/Methoden optimiert (u.a. wegen Named Arguments in PHP 8) (@gharlan)
 
