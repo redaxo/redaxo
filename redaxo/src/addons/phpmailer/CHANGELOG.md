@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 2.10.0 – XX.XX.2021
+---------------------------
+
+### Neu
+
+* E-Mail-Archiv kann über neuen Button in den Einstellungen geleert werden (@skerbis)
+* `phpmailer[]`-Recht mit Textbeschreibung „PHPMailer-Einstellungen“ (@skerbis)
+
+
 Version 2.9.1 – 11.11.2020
 --------------------------
 

@@ -6,6 +6,7 @@ Version 2.12.0 – XX.XX.2021
 
 ### Neu
 
+* Die Paginierung der Kategorien/Artikel kann über die AddOn-Property `rows_per_page` angepasst werden; der Default-Wert wurde auf 50 erhöht (@tyrant88)
 * Aus Templates/Modulen heraus kann neue Exception `rex_article_not_found_exception` geworfen werden, wodurch auf den Fehlerartikel gewechselt wird (@gharlan)
 
 

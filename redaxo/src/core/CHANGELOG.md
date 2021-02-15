@@ -12,7 +12,10 @@ Version 5.12.0 – XX.XX.2021
     - Die Umwandlung einfacher Zeilenumbrüche zu `<br/>` (kein Markdown-Standard) kann deaktiviert werden und ist bei der Darstellung von Markdown-Dateien im Backend deaktiviert (@christophboecker)
     - Die Header-IDs sind im gleichen Format wie auf GitHub (@jelleschutter)
 * `rex_validator`: Rules werden über neue Klasse `rex_validation_rule` abgebildet; Objekte der Klasse können über `addRule` hinzugefügt und über `getRules` abgefragt werden (@staabm)
+* `rex_form`: Pflichtfelder (gesetzt über `notEmpty`-Validator) werden im Label markiert und erhalten das `required`-Attribut (@staabm)
 * `rex_user`: Neue Methode `forLogin` um User über den Benutzernamen abzufragen (@jelleschutter)
+* Setup: der DB-Host wird separat validiert, mit spezifischer Fehlermeldung (@trailsnail)
+* Package-Abhängigkeiten: Wenn ein nicht vorhandenes Package erfordert wird, wird direkt die Versionsbedingung mit ausgegeben (@skerbis)
 * Passwortregeln werden unterhalb der Passwortfelder angezeigt (@gharlan)
 * Systembericht: Fehlerhandling bei invaliden `package.yml` optimiert (@staabm)
 * Console:

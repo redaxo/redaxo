@@ -8,6 +8,7 @@ Version 2.9.0 – XX.XX.2021
 
 * Bei Core-/AddOn-Updates wird ein Info-Eintrag ins Systemlog geschrieben (@staabm)
 * Beim Laden neuer Addons wird bei Entwicklungsversionen gewarnt, wie zuvor schon bei Updates (@anveno)
+* Bei Nutzung der Suche werden die Ergebnisse nach Relevanz sortiert (@xong)
 * Im Backend-Menü steht der Installer direkt unterhalb von „AddOns“ (@gharlan)
 
 
