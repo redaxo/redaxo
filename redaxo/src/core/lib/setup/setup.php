@@ -23,7 +23,7 @@ class rex_setup
     public const DB_MODE_SETUP_IMPORT_BACKUP = 3;
     public const DB_MODE_SETUP_UPDATE_FROM_PREVIOUS = 4;
 
-    private static $MIN_PHP_EXTENSIONS = ['fileinfo', 'iconv', 'pcre', 'pdo', 'pdo_mysql', 'session', 'tokenizer'];
+    private static $MIN_PHP_EXTENSIONS = ['fileinfo', 'filter', 'iconv', 'pcre', 'pdo', 'pdo_mysql', 'session', 'tokenizer'];
 
     /**
      * very basic setup steps, so everything is in place for our browser-based setup wizard.
