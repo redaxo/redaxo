@@ -7,8 +7,8 @@
 class rex_effect_img2img extends rex_effect_abstract
 {
     private static $convert_types = [
-        'png',
         'jpg',
+        'png',
         'gif',
         'webp',
     ];
@@ -34,13 +34,23 @@ class rex_effect_img2img extends rex_effect_abstract
 
     private static $convert_tos = ['jpg', 'png', 'gif', 'webp'];
     private static $convert_to_default = 'jpg';
-    private static $convert_to_default_quality = 80;
 
     public function execute()
     {
-        $this->media->asImage();
-        $imageObject = $this->media->getImage();
+        $media = $this->media;
+
+        $media->asImage();
+        $imageObject = $media->getImage();
+
+        $this->keepTransparent($imageObject);
+
         if (null === $imageObject) {
+            return;
+        }
+
+        $ext = $media->getFormat();
+        // skip if extension is not in list
+        if (!in_array(strtolower($ext), self::$convert_types)) {
             return;
         }
 
@@ -50,84 +60,43 @@ class rex_effect_img2img extends rex_effect_abstract
             $convert_to = self::$convert_to[$this->params['convert_to']];
         }
 
-        $quality = 0;
+        // convert image
+        $addon = rex_addon::get('media_manager');
+
+        imagepalettetotruecolor($imageObject);
+
+        $interlace = $media->getImageProperty(rex_managed_media::PROP_INTERLACE, $addon->getConfig('interlace'));
+        imageinterlace($imageObject, in_array($convert_to['ext'], $interlace) ? 1 : 0);
+
         switch ($convert_to['ext']) {
             case 'jpg':
-                $quality = rex_addon::get('media_manager')->getConfig('jpg_quality');
+                $quality = $media->getImageProperty(rex_managed_media::PROP_JPG_QUALITY, $addon->getConfig('jpg_quality'));
+                imagejpeg($imageObject, null, $quality);
                 break;
 
             case 'webp':
-                $quality = rex_addon::get('media_manager')->getConfig('webp_quality');
+                $quality = $media->getImageProperty(rex_managed_media::PROP_WEBP_QUALITY, $addon->getConfig('webp_quality'));
+                imagewebp($imageObject, null, $quality);
                 break;
 
             case 'png':
-                $quality = rex_addon::get('media_manager')->getConfig('png_compression');
+                $compression = $media->getImageProperty(rex_managed_media::PROP_PNG_COMPRESSION, $addon->getConfig('png_compression'));
+                imagepng($imageObject, null, $compression);
+                break;
+
+             case 'gif':
+                imagegif($imageObject);
                 break;
         }
 
-        if (!$quality) {
-            $quality = self::$convert_to_default_quality;
-        }
-        if ($this->params['quality'] && (int) $this->params['quality'] > 0) {
-            $quality = $this->params['quality'];
-        }
-        if (100 < (int) $quality) {
-            $quality = 100;
-        }
-        if ('png' == $convert_to['ext']) {
-            if (9 < (int) $quality) {
-                $quality = 9;
-            }
-        }
-
-        $from_path = realpath($this->media->getMediaPath());
-        $ext = rex_file::extension($from_path);
-
-        // skip if extension is not in list
-        if (!in_array(strtolower($ext), self::$convert_types)) {
-            return;
-        }
-
-        $filename = $this->media->getMediaFilename();
+        $filename = $media->getMediaFilename();
         $filename_wo_ext = substr($filename, 0, (strlen($filename) - strlen($ext)));
         $targetFilename = $filename_wo_ext . $convert_to['ext'];
-        $to_path = rex_path::addonCache('media_manager', 'media_manager__convert_img2img_'.md5($this->media->getMediaPath()).'_'.$targetFilename);
 
-        // save
-        $funcOut = 'image' . strtolower('jpg' == $this->params['convert_to'] ? 'jpeg' : $this->params['convert_to']);
-
-        // no support for the output function
-        if (!function_exists($funcOut)) {
-            rex_file::delete($to_path);
-            return;
-        }
-
-        imagepalettetotruecolor($imageObject);
-        $saved = @call_user_func($funcOut, $imageObject, $to_path, $quality);
-
-        if (!$saved) {
-            return;
-        }
-
-        $funcIn = 'imagecreatefrom' . strtolower('jpg' == $this->params['convert_to'] ? 'jpeg' : $this->params['convert_to']);
-
-        // no support for the input function
-        if (!function_exists($funcIn)) {
-            rex_file::delete($to_path);
-            return;
-        }
-
-        $desObject = @call_user_func($funcIn, $to_path);
-
-        $this->media->setImage($desObject);
-        $this->media->setSourcePath($to_path);
-        $this->media->setFormat($convert_to['ext']);
-        $this->media->setMediaFilename($targetFilename);
-        $this->media->setHeader('Content-Type', $convert_to['content-type']);
-
-        register_shutdown_function(static function () use ($to_path) {
-            rex_file::delete($to_path);
-        });
+        $media->setImage($imageObject);
+        $media->setFormat($convert_to['ext']);
+        $media->setMediaFilename($targetFilename);
+        $media->setHeader('Content-Type', $convert_to['content-type']);
     }
 
     public function getName()
@@ -144,13 +113,6 @@ class rex_effect_img2img extends rex_effect_abstract
                 'type' => 'select',
                 'options' => self::$convert_tos,
                 'default' => self::$convert_to_default,
-            ],
-            [
-                'label' => rex_i18n::msg('media_manager_effect_img2img_quality'),
-                'notice' => rex_i18n::msg('media_manager_effect_img2img_quality_notice'),
-                'name' => 'quality',
-                'type' => 'int',
-                'default' => self::$convert_to_default_quality,
             ],
         ];
     }

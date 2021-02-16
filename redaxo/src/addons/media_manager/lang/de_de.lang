@@ -167,7 +167,5 @@ media_manager_effect_sepia = Bild: Sepia
 
 media_manager_effect_greyscale = Bild: Graustufen
 
-media_manager_effect_img2img = Bild: Bild in anderes Format konvertieren
+media_manager_effect_img2img = Bild: In JPEG/PNG/GIF/WEBP konvertieren
 media_manager_effect_img2img_convertto = Zielformat
-media_manager_effect_img2img_quality = Qualität 
-media_manager_effect_img2img_quality_notice = jpg/webp: [0-100] Leer lassen für Standardwert.<br>png: [0-9]. Werte über 6-7 verlangsamen die Bilderzeugung massiv. Leer lassen für Standardwert.
