@@ -8,14 +8,26 @@ Version 5.12.0 – XX.XX.2021
 
 * Neue PHP-Mindestversion 7.3
 * Update der externen Bibliotheken (u.a. Symfony Components 5.x)
+* `rex`: Neue Methode `getDbConfig` liefert die DB-Config als Objekt der neuen Klasse `rex_config_db` (@staabm)
 * `rex_markdown`:
     - Die Umwandlung einfacher Zeilenumbrüche zu `<br/>` (kein Markdown-Standard) kann deaktiviert werden und ist bei der Darstellung von Markdown-Dateien im Backend deaktiviert (@christophboecker)
     - Die Header-IDs sind im gleichen Format wie auf GitHub (@jelleschutter)
 * `rex_validator`: Rules werden über neue Klasse `rex_validation_rule` abgebildet; Objekte der Klasse können über `addRule` hinzugefügt und über `getRules` abgefragt werden (@staabm)
 * `rex_form`: Pflichtfelder (gesetzt über `notEmpty`-Validator) werden im Label markiert und erhalten das `required`-Attribut (@staabm)
 * `rex_user`: Neue Methode `forLogin` um User über den Benutzernamen abzufragen (@jelleschutter)
-* Setup: der DB-Host wird separat validiert, mit spezifischer Fehlermeldung (@trailsnail)
-* Package-Abhängigkeiten: Wenn ein nicht vorhandenes Package erfordert wird, wird direkt die Versionsbedingung mit ausgegeben (@skerbis)
+* `rex_file`: Neue Methode `require`, wie `get`, aber wirft Exception, wenn die Datei nicht gelesen werden kann (@staabm)
+* `rex_response`: Bei `sendResource` ist der Client-Cache default deaktiviert, und kann vorab per `sendCacheControl` geändert werden (@alxndr-w)
+* `rex_package`: Neue Methode `splitId` um eine Package-ID in AddOn- und PlugIn-Part zu trennen (@gharlan)
+* `rex_sql_util`: Methode `importDump` prüft, ob es eine `*.sql`-Datei ist (@staabm)
+* `rex_api_function`: Exception bei ungültigem JSON (@staabm)
+* `rex_editor`: Die Editoren haben Konstanten erhalten, und die Klasse validiert den gesetzen Editor (@staabm)
+* Setup: 
+    - Der DB-Host wird separat validiert, mit spezifischer Fehlermeldung (@trailsnail)
+    - „End of life“-Daten für PHP 8.0, MySQL 8.0 und MariaDB 10.5 ergänzt (@staabm)
+* Package-Installation: Packages können über neue `successmsg`-Property eine eigene Erfolgsmeldung setzen (@BlackScorp, @staabm)
+* Package-Abhängigkeiten: 
+    - Wenn ein nicht vorhandenes Package erfordert wird, wird direkt die Versionsbedingung mit ausgegeben (@skerbis)
+    - In der Fehlermeldung sind die Abhängigkeiten verlinkt (Sprunglink oder Link in den Installer) (@staabm, @gharlan)
 * Passwortregeln werden unterhalb der Passwortfelder angezeigt (@gharlan)
 * Systembericht: Fehlerhandling bei invaliden `package.yml` optimiert (@staabm)
 * Console:

@@ -8,6 +8,11 @@ Version 2.12.0 – XX.XX.2021
 
 * Die Paginierung der Kategorien/Artikel kann über die AddOn-Property `rows_per_page` angepasst werden; der Default-Wert wurde auf 50 erhöht (@tyrant88)
 * Aus Templates/Modulen heraus kann neue Exception `rex_article_not_found_exception` geworfen werden, wodurch auf den Fehlerartikel gewechselt wird (@gharlan)
+* Wenn eine Sprache mit ID=0 (R4-Import) existiert, wird im Backend eine gesonderte Meldung ausgegeben (@staabm)
+
+### Bugfixes
+
+* Bei Exceptions in Modulen war anschließend ein zusätzlicher Output-Buffer aktiv (@staabm)
 
 
 Version 2.11.2 – 25.01.2021

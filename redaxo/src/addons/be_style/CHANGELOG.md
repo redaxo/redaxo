@@ -5,6 +5,7 @@ Version 2.12.0 – XX.XX.2021
 ---------------------------
 
 * Login-Seite modernisiert, u.a. mit vollflächigem Hintergrundbild (kann über Fragment geändert werden) (@schuer)
+* Customizer: Codemirror-Update auf Version 5.58.3 (@aeberhard)
 
 
 Version 2.11.1 – 11.11.2020
