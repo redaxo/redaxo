@@ -33,24 +33,22 @@ class rex_effect_img2img extends rex_effect_abstract
     ];
 
     private static $convert_tos = ['jpg', 'png', 'gif', 'webp'];
-    private static $convert_to_default = 'jpg';
+    private static $convert_to_default = 'webp';
 
     public function execute()
     {
         $media = $this->media;
 
-        $media->asImage();
-        $imageObject = $media->getImage();
-
-        $this->keepTransparent($imageObject);
-
-        if (null === $imageObject) {
+        $ext = $media->getFormat();
+        $ext = 'jpeg' === $ext ? 'jpg' : $ext;
+        // skip if extension is not in list
+        if (!in_array(strtolower($ext), self::$convert_types)) {
             return;
         }
 
-        $ext = $media->getFormat();
-        // skip if extension is not in list
-        if (!in_array(strtolower($ext), self::$convert_types)) {
+        $media->asImage();
+        $imageObject = $media->getImage();
+        if (null === $imageObject) {
             return;
         }
 
@@ -60,32 +58,31 @@ class rex_effect_img2img extends rex_effect_abstract
             $convert_to = self::$convert_to[$this->params['convert_to']];
         }
 
-        // convert image
-        $addon = rex_addon::get('media_manager');
-
-        imagepalettetotruecolor($imageObject);
-
-        $interlace = $media->getImageProperty(rex_managed_media::PROP_INTERLACE, $addon->getConfig('interlace'));
-        imageinterlace($imageObject, in_array($convert_to['ext'], $interlace) ? 1 : 0);
-
         switch ($convert_to['ext']) {
-            case 'jpg':
-                $quality = $media->getImageProperty(rex_managed_media::PROP_JPG_QUALITY, $addon->getConfig('jpg_quality'));
-                imagejpeg($imageObject, null, $quality);
-                break;
-
             case 'webp':
-                $quality = $media->getImageProperty(rex_managed_media::PROP_WEBP_QUALITY, $addon->getConfig('webp_quality'));
-                imagewebp($imageObject, null, $quality);
-                break;
-
-            case 'png':
-                $compression = $media->getImageProperty(rex_managed_media::PROP_PNG_COMPRESSION, $addon->getConfig('png_compression'));
-                imagepng($imageObject, null, $compression);
+                imagepalettetotruecolor($imageObject); // Prevent error 'Paletter image not supported by webp' (PNG mit indizierten Farben)
                 break;
 
              case 'gif':
-                imagegif($imageObject);
+                $w = $media->getWidth();
+                $h = $media->getHeight();
+
+                $transparencyColor = ['red' => 1, 'green' => 2, 'blue' => 3];
+
+                $newimage = imagecreatetruecolor($w, $h);
+
+                $transparencyIndex = imagecolortransparent($imageObject);
+                if ($transparencyIndex >= 0) {
+                    $transparencyColor = imagecolorsforindex($imageObject, $transparencyIndex);
+                    $bgcolor = imagecolorallocate($newimage, $transparencyColor['red'], $transparencyColor['green'], $transparencyColor['blue']);
+                } else {
+                    $bgcolor = imagecolorallocate($newimage, $transparencyColor['red'], $transparencyColor['green'], $transparencyColor['blue']);
+                }
+
+                imagefill($newimage, 0, 0, $bgcolor);
+                imagecolortransparent($newimage, $bgcolor);
+                imagecopyresampled($newimage, $imageObject, 0, 0, 0, 0, $w, $h, $w, $h);
+                $imageObject = $newimage;
                 break;
         }
 
