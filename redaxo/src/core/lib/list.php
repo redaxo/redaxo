@@ -8,7 +8,6 @@ define('REX_LIST_OPT_SORT_DIRECTION', 1);
 EXAMPLE:
 
 $list = rex_list::factory('SELECT id,name FROM rex_article');
-$list->setRowAttributes(['data-id'=>'###id###']);
 $list->setColumnFormat('id', 'date');
 $list->setColumnLabel('name', 'Artikel-Name');
 $list->setColumnSortable('name');
@@ -53,10 +52,11 @@ class rex_list implements rex_url_provider_interface
 {
     use rex_factory_trait;
 
-    /** @var int */
+    /**
+     * @var int
+     * @psalm-var positive-int
+     */
     private $db;
-    /** @var string */
-    private $query;
     /** @var rex_sql */
     private $sql;
     /** @var bool */
@@ -82,7 +82,7 @@ class rex_list implements rex_url_provider_interface
     /** @var bool  */
     private $rowAttributesCallable;
 
-    // --------- Column Attributes
+   // --------- Column Attributes
     /** @psalm-var array<string, string>  */
     private $customColumns;
     /** @psalm-var list<string> */
@@ -128,6 +128,8 @@ class rex_list implements rex_url_provider_interface
      * @param string|null $listName    Name der Liste
      * @param bool        $debug
      * @param int         $db
+     *
+     * @psalm-param positive-int $db
      */
     protected function __construct($query, $rowsPerPage = 30, $listName = null, $debug = false, $db = 1)
     {
@@ -139,7 +141,6 @@ class rex_list implements rex_url_provider_interface
 
         // --------- List Attributes
         $this->db = $db;
-        $this->query = $query;
         $this->sql = rex_sql::factory($db);
         $this->debug = $debug;
         $this->sql->setDebug($this->debug);
@@ -210,6 +211,8 @@ class rex_list implements rex_url_provider_interface
      * @param bool        $debug
      * @param int         $db          DB connection ID
      *
+     * @psalm-param positive-int $db
+     *
      * @return static
      */
     public static function factory($query, $rowsPerPage = 30, $listName = null, $debug = false, $db = 1)
@@ -276,9 +279,12 @@ class rex_list implements rex_url_provider_interface
         return $this->caption;
     }
 
-    public function setNoRowsMessage($msg)
+    /**
+     * @param string $message
+     */
+    public function setNoRowsMessage($message)
     {
-        $this->noRowsMessage = $msg;
+        $this->noRowsMessage = $message;
     }
 
     public function getNoRowsMessage()
@@ -308,9 +314,13 @@ class rex_list implements rex_url_provider_interface
         $this->addParam('page', rex_be_controller::getCurrentPage());
     }
 
-    public function addTableAttribute($attrName, $attrValue)
+    /**
+     * @param string     $name
+     * @param string|int $value
+     */
+    public function addTableAttribute($name, $value)
     {
-        $this->tableAttributes[$attrName] = $attrValue;
+        $this->tableAttributes[$name] = $value;
     }
 
     public function getTableAttributes()
@@ -319,12 +329,12 @@ class rex_list implements rex_url_provider_interface
     }
 
     /**
-     * @param string     $attrName
-     * @param string|int $attrValue
+     * @param string     $name
+     * @param string|int $value
      */
-    public function addFormAttribute($attrName, $attrValue)
+    public function addFormAttribute($name, $value)
     {
-        $this->formAttributes[$attrName] = $attrValue;
+        $this->formAttributes[$name] = $value;
     }
 
     /**
@@ -342,10 +352,10 @@ class rex_list implements rex_url_provider_interface
 
     public function getLinkAttributes($column, $default = null)
     {
-        return isset($this->linkAttributes[$column]) ? $this->linkAttributes[$column] : $default;
+        return $this->linkAttributes[$column] ?? $default;
     }
 
-    // row attribute setter/getter
+    // row attribute setter/getter etc
 
     /**
      * Methode, um dem der Zeile (<tr>) Attribute hinzuzufügen.
@@ -532,14 +542,14 @@ class rex_list implements rex_url_provider_interface
     /**
      * Setzt ein Format für die Spalte.
      *
-     * @param string $columnName  Name der Spalte
-     * @param string $format_type Formatierungstyp
-     * @param mixed  $format      Zu verwendentes Format
-     * @param array  $params      Custom params für callback func bei format_type 'custom'
+     * @param string $columnName Name der Spalte
+     * @param string $formatType Formatierungstyp
+     * @param mixed  $format     Zu verwendentes Format
+     * @param array  $params     Custom params für callback func bei format_type 'custom'
      */
-    public function setColumnFormat($columnName, $format_type, $format = '', array $params = [])
+    public function setColumnFormat($columnName, $formatType, $format = '', array $params = [])
     {
-        $this->columnFormates[$columnName] = [$format_type, $format, $params];
+        $this->columnFormates[$columnName] = [$formatType, $format, $params];
     }
 
     /**
@@ -708,8 +718,8 @@ class rex_list implements rex_url_provider_interface
     /**
      * Fügt der zuletzte eingefügten TableColumnGroup eine weitere Spalte hinzu.
      *
-     * @param int $width Breite der Spalte
-     * @param int $span  Span der Spalte
+     * @param int|'*' $width Breite der Spalte
+     * @param int     $span  Span der Spalte
      */
     public function addTableColumn($width, $span = null, $class = null)
     {
@@ -889,19 +899,32 @@ class rex_list implements rex_url_provider_interface
     /**
      * Gibt zurück, in welcher Art und Weise sortiert werden soll (ASC/DESC).
      *
-     * @param string|null $default
+     * @param 'asc'|'desc'|null $default
      *
      * @return string|null
+     *
+     * @psalm-taint-escape html
+     * @psalm-taint-escape sql
      */
     public function getSortType($default = null)
     {
         if (rex_request('list', 'string') == $this->getName()) {
             $sortType = strtolower(rex_request('sorttype', 'string'));
 
-            if (in_array($sortType, ['asc', 'desc'])) {
+            if (in_array($sortType, ['asc', 'desc'], true)) {
                 return $sortType;
             }
         }
+
+        if (null === $default) {
+            return null;
+        }
+
+        $default = strtolower($default);
+        if (!in_array($default, ['asc', 'desc'], true)) {
+            throw new InvalidArgumentException('Default sort type must be "asc", "desc" or null, but "'.$default.'" given');
+        }
+
         return $default;
     }
 
@@ -963,6 +986,8 @@ class rex_list implements rex_url_provider_interface
      * @param string $value Zu durchsuchender String
      *
      * @return string
+     *
+     * @psalm-taint-specialize
      */
     public function replaceVariables($value)
     {
@@ -1042,19 +1067,18 @@ class rex_list implements rex_url_provider_interface
      */
     public function getColumnLink($columnName, $columnValue, $params = [])
     {
-        return '<a href="' . $this->getParsedUrl(array_merge($this->getColumnParams($columnName), $params)) . '"' . $this->_getAttributeString($this->getLinkAttributes($columnName, [])) . '>' . $columnValue . '</a>';
+        return '<a class="rex-link-expanded" href="' . $this->getParsedUrl(array_merge($this->getColumnParams($columnName), $params)) . '"' . $this->_getAttributeString($this->getLinkAttributes($columnName, [])) . '>' . $columnValue . '</a>';
     }
 
-    public function getValue($colname)
+    public function getValue($column)
     {
-        return isset($this->customColumns[$colname]) ? $this->customColumns[$colname] : $this->sql->getValue($colname);
+        return $this->customColumns[$column] ?? $this->sql->getValue($column);
     }
 
-    public function getArrayValue($colname)
+    public function getArrayValue($column)
     {
-        return json_decode($this->getValue($colname), true);
+        return json_decode($this->getValue($column), true);
     }
-
 
     /**
      * Erstellt den Tabellen Quellcode.
@@ -1141,7 +1165,7 @@ class rex_list implements rex_url_provider_interface
                 } else {
                     $columnSortType = $this->getColumnOption($columnName, REX_LIST_OPT_SORT_DIRECTION, 'asc');
                 }
-                $columnHead = '<a href="' . $this->getUrl([$this->pager->getCursorName() => $this->pager->getCursor(), 'sort' => $columnName, 'sorttype' => $columnSortType]) . '">' . $columnHead . '</a>';
+                $columnHead = '<a class="rex-link-expanded" href="' . $this->getUrl([$this->pager->getCursorName() => $this->pager->getCursor(), 'sort' => $columnName, 'sorttype' => $columnSortType]) . '">' . $columnHead . '</a>';
             }
 
             $layout = $this->getColumnLayout($columnName);
@@ -1164,7 +1188,6 @@ class rex_list implements rex_url_provider_interface
 
             $s .= '        <tbody>' . "\n";
             for ($i = 0; $i < $this->pager->getRowsPerPage() && $i < $maxRows; ++$i) {
-
                 $s .= '            <tr' . $this->fetchRowAttributes() . ">\n";
                 foreach ($columnNames as $columnName) {
                     $columnValue = $this->formatValue($this->getValue($columnName), $columnFormates[$columnName], !isset($this->customColumns[$columnName]), $columnName);
