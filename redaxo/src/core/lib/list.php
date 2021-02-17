@@ -79,8 +79,6 @@ class rex_list implements rex_url_provider_interface
     //  --------- Row Attributes
     /** @psalm-var array<string, string|int>|callable  */
     private $rowAttributes;
-    /** @var bool */
-    private $rowAttributesCallable;
 
     // --------- Column Attributes
     /** @psalm-var array<string, string>  */
@@ -175,8 +173,7 @@ class rex_list implements rex_url_provider_interface
 
         // --------- Row Attributes
         $this->rowAttributes = [];
-        $this->rowAttributesCallable = false;
-
+  
         // --------- Pagination Attributes
         $cursorName = $listName .'_start';
         if (null === rex_request($cursorName, 'int', null) && rex_request('start', 'int')) {
@@ -355,7 +352,7 @@ class rex_list implements rex_url_provider_interface
         return $this->linkAttributes[$column] ?? $default;
     }
 
-    // row attribute setter/getter etc
+    // row attribute setter/getter
 
     /**
      * Methode, um der Zeile (<tr>) Attribute hinzuzufügen.
@@ -365,15 +362,10 @@ class rex_list implements rex_url_provider_interface
      */
     public function setRowAttributes($attr)
     {
-        if (is_callable($attr)) {
+        if (is_callable($attr) || (is_array($attr) && count($attr))) {
             $this->rowAttributes = $attr;
-            $this->rowAttributesCallable = true;
-        } elseif (is_array($attr) && count($attr)) {
-            $this->rowAttributes = $attr;
-            $this->rowAttributesCallable = false;
         } else {
             $this->rowAttributes = [];
-            $this->rowAttributesCallable = false;
         }
     }
 
@@ -386,25 +378,6 @@ class rex_list implements rex_url_provider_interface
     public function getRowAttributes()
     {
         return $this->rowAttributes;
-    }
-
-    /**
-     * Methode, um die aktuellen Attribute als Attribut-String auszugeben.
-     *
-     * @return string   attributname="..." ....
-     */
-    private function fetchRowAttributes(): string
-    {
-        if ($this->rowAttributesCallable) {
-            $RETURN = call_user_func($this->rowAttributes, $this);
-        } else {
-            $RETURN = rex_string::buildAttributes($this->rowAttributes);
-            $RETURN = $this->replaceVariables($RETURN);
-        }
-        if (0 < strlen($RETURN)) {
-            $RETURN = ' ' . $RETURN;
-        }
-        return $RETURN;
     }
 
     // ---------------------- Column setters/getters/etc
@@ -1183,10 +1156,20 @@ class rex_list implements rex_url_provider_interface
 
         if ($nbRows > 0) {
             $maxRows = $nbRows - $this->pager->getCursor();
+            $rowAttributesCallable = is_callable($this->rowAttributes);
 
             $s .= '        <tbody>' . "\n";
             for ($i = 0; $i < $this->pager->getRowsPerPage() && $i < $maxRows; ++$i) {
-                $s .= '            <tr' . $this->fetchRowAttributes() . ">\n";
+  
+                $rowAttributes = '';
+                if ($rowAttributesCallable) {
+                    $rowAttributes = ' ' . call_user_func($this->rowAttributes, $this);
+                } else {
+                    $rowAttributes = rex_string::buildAttributes($this->rowAttributes);
+                    $rowAttributes = ' ' . $this->replaceVariables($rowAttributes);
+                }
+                
+                $s .= '            <tr' . $rowAttributes . ">\n";
                 foreach ($columnNames as $columnName) {
                     $columnValue = $this->formatValue($this->getValue($columnName), $columnFormates[$columnName], !isset($this->customColumns[$columnName]), $columnName);
 
