@@ -358,7 +358,7 @@ class rex_list implements rex_url_provider_interface
     // row attribute setter/getter etc
 
     /**
-     * Methode, um dem der Zeile (<tr>) Attribute hinzuzufügen.
+     * Methode, um der Zeile (<tr>) Attribute hinzuzufügen.
      *
      * @param mixed $attr   entweder ein array: [attributname => attribut, ...]
      *                      oder eine Callback-Funktion
