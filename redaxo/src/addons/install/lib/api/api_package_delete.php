@@ -18,7 +18,7 @@ class rex_api_install_package_delete extends rex_api_function
         } catch (rex_functional_exception $e) {
             throw new rex_api_exception($e->getMessage());
         }
-        unset($_REQUEST['addonkey']);
+
         unset($_REQUEST['file']);
         rex_install_packages::deleteCache();
         return new rex_api_result(true, rex_i18n::msg('install_info_addon_deleted', $addonkey));

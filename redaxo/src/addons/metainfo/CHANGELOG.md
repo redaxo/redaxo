@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.7.3 – 25.01.2021
+--------------------------
+
+### Security
+
+* SQL-Injection in der Feldverwaltung (Adminbereich) verhindert (@gharlan)
+
+
 Version 2.7.2 – 01.07.2020
 --------------------------
 

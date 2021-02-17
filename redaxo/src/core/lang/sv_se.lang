@@ -32,8 +32,10 @@ no_editing_rights = Du har inte rätt att ändra
 check_rights_in_directory = Vänligen kolla rättigheterna i mappen
 error_undefined = Okänt fel
 csrf_token_invalid = Vänligen skicka formuläret igen, eller kör åtgärden igen (fel: CSRF-token är ogiltig).
-unstable_version = Utvecklingsversion - användning på egen risk
+unstable_version = Utvecklingsversion
 copy_to_clipboard = Copy to clipboard
+search_placeholder = Söker…
+search_clear = Återställ inmatning
 
 # redaxo/redaxo/index.php
 system = System
@@ -73,7 +75,7 @@ safemode_deactivate = deaktivera safe mode
 form_field_first_priority = Vid början
 form_field_after_priority = Efter fältet "{0}"
 
-# redaxo\include\pages\system.php
+# src\core\pages\system.php
 info_updated = Informationen aktualiserades!
 delete_cache = Radera cachen
 delete_cache_description = Mallar och språkfiler skapas, sidcachen raderas. So fort en sida öppnas i browsern (frontend) återskapas cachen av sidan (eller kategorien).
@@ -161,7 +163,7 @@ debug_confirm = Debug mode ska inte användas i live-modus. Vill du aktivera deb
 system_report = Systemrapport
 system_report_markdown = Som markdown
 
-# redaxo\include\pages\medienpool.php\setup.php
+# src\core\pages\setup.php
 setup = Installation
 setup_restart = Installation: starta på nytt
 setup_text = Här kan du starta om installationen. Detta bör du bara göra i en nödsituation. Under normala omständigheter är det inte nödvändigt.
@@ -177,8 +179,7 @@ setup_199 = 1 / Språk
 
 setup_200 = Installation: Steg 2 av 7 / Licens
 setup_201 = Välkommen till REDAXO-installationen.
-setup_202 = <h3>Vad händer härnäst:</h3><ol><li>Filrättigheterna kontrolleras</li><li>Databastillgängliheten kontrolleras och skrivas in i config.yml</li><li>Databasen (ny)skapas</li><li>Ett administratörskonto skapas</li></ol>
-setup_203 = Akceptera licensbestämmelserna. Fortsätt med steg 3
+setup_203 = Akceptera licensbestämmelserna
 setup_299 = 2 / Licens
 
 setup_300 = Installation: Steg 3 av 7 / Systemkontroll
@@ -255,7 +256,7 @@ setup_700 = Installation: Steg 7 av 7 / Heureka
 setup_701 = Config.yml - filen kunde inte skrivas. Vänligen ändrar filen manuellt via FTP.
 setup_702 = Grattis till REDAXO-installationen!
 setup_703 = Vänligen observera följande:
-setup_704 = <ol><li>Logga in {1} med {0}</li><li>Importera demo via [om inloggat]: Import/Export och installera där resp. databas och filerna.</li></ol>
+setup_704 =
 setup_705 = Lycka till!<br />REDAXO teamet
 setup_706 = till login
 setup_799 = 7 / Heureka
@@ -289,7 +290,7 @@ https_activate = aktivera för frontend och backend
 setup_password_hint = HSTS bör aktiveras i värdinställningarna för domänen / domänerna (rekommenderas), men kan också aktiveras efteråt i config.yml från REDAXO. Mer information i REDAXO-dokumentet.
 hsts_more_information = HSTS bör aktiveras i värdinställningarna för domänen / domänerna (rekommenderas), men kan också aktiveras efteråt i config.yml för REDAXO. Mer information i REDAXO-dokumentet.
 
-# redaxo\include\pages\addon.php
+# src\core\pages\addon.php
 addon = AddOn
 addons = AddOns
 package_help = Hjälp
@@ -328,8 +329,6 @@ package_activate = aktivera
 package_yes = ja
 package_no = nej
 package_caption = List av alla tillgängliga paket (Packages)
-package_search = Söker ...
-package_clear = Återställ inmatning
 addon_systemaddon = System AddOn
 addon_systempackage_delete_not_allowed = System AddOns får inte raderas!
 addon_dir_not_writable = AddOn-mappen saknar skrivrättigheter!
@@ -381,7 +380,7 @@ plugin_systempackage_delete_not_allowed = System plugIns får inte raderas!
 plugin_dir_not_writable = PlugIn-mappen har inga skrivrättigheter!
 plugin_cache_not_writable = Plugin-Cache mappen har inga skrivrättigheter!
 
-# redaxo\include\pages\credits.php
+# src\core\pages\credits.php
 credits = Credits
 credits_name = Namn
 credits_help = Hjälp
@@ -398,7 +397,7 @@ credits_designer = Grafiker
 credits_license = Licens
 credits_explain_license = Förklara licens
 
-# redaxo\include\pages\profile.php
+# src\core\pages\profile.php
 profile_myprofile = Ändra min profil
 profile_title = Min profil
 profile_save = Spara profil

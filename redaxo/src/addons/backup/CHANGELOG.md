@@ -1,6 +1,21 @@
 Changelog
 =========
 
+Version 2.6.3 – 25.01.2021
+--------------------------
+
+### Security
+
+* Fehlendes Escaping ergänzt (@gharlan)
+
+### Bugfixes
+
+* Nach Import wurde der Cache nicht gelöscht, und die Erfolgsmeldung erschien in rot (@gharlan)
+* Beim Dateiimport wurde der `media`-Ordner grundsätzlich geleert, auch wenn das Backup den `media`-Ordner gar nicht enthält (@gharlan)
+* Beim Download der vorhandenen Backups wurde die Datei immer doppelt geladen (erst über PJAX, dann normal) (@gharlan)
+* Nach Dateiexport wurden im Formular fälschlich Tabellen- und Ordner-Auswahl angezeigt (@gharlan)
+
+
 Version 2.6.2 – 11.11.2020
 --------------------------
 

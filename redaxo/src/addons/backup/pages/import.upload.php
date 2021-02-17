@@ -31,7 +31,7 @@ if ('' != $impname) {
 }
 
 if ('download' == $function && $impname && is_readable(rex_backup::getDir() . '/' . $impname)) {
-    rex_response::sendFile(rex_backup::getDir() . '/' . $impname, '.tar.gz' != substr($impname, -7, 7) ? 'tar/gzip' : 'plain/test', 'attachment');
+    rex_response::sendFile(rex_backup::getDir() . '/' . $impname, str_ends_with($impname, '.gz') ? 'application/gzip' : 'plain/text', 'attachment');
     exit;
 }
 
@@ -113,6 +113,7 @@ if ('' != $error) {
 }
 
 $body = '<p>' . rex_i18n::msg('backup_intro_import') . '</p>';
+$body .= '<p>' . rex_i18n::msg('backup_intro_import_files') . '</p>';
 $body .= '<p>' . rex_i18n::msg('backup_version_warning') . '</p>';
 
 $body .= ' <hr><p>

@@ -9,7 +9,7 @@
 echo rex_view::title(rex_i18n::msg('credits'), '');
 
 if (rex_get('license')) {
-    $license = rex_markdown::factory()->parse(rex_file::get(rex_path::base('LICENSE.md')));
+    $license = rex_markdown::factory()->parse(rex_file::require(rex_path::base('LICENSE.md')));
 
     $fragment = new rex_fragment();
     $fragment->setVar('title', 'REDAXO '. rex_i18n::msg('credits_license'));

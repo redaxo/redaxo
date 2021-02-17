@@ -19,6 +19,7 @@ $KAToutARR = []; // Variable definiert und vorbelegt wenn nicht existent
 
 $navigation = [];
 
+/** @psalm-suppress RedundantCondition */
 $object_id = $article_id > 0 ? $article_id : $category_id;
 $object = rex_article::get($object_id, $clang);
 if ($object) {
@@ -39,7 +40,7 @@ if ($object) {
     }
 }
 
-$title = '<a href="' . rex_url::backendPage('structure', ['category_id' => 0, 'clang' => $clang]) . '"><i class="rex-icon rex-icon-structure-root-level"></i> ' . rex_i18n::msg('root_level') . '</a>';
+$title = '<a class="rex-link-expanded" href="' . rex_url::backendPage('structure', ['category_id' => 0, 'clang' => $clang]) . '"><i class="rex-icon rex-icon-structure-root-level"></i> ' . rex_i18n::msg('root_level') . '</a>';
 
 $fragment = new rex_fragment();
 $fragment->setVar('id', 'rex-js-structure-breadcrumb', false);

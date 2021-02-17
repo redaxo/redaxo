@@ -67,7 +67,7 @@ safemode_deactivate = Deactiveer safe mode
 form_field_first_priority = Op het begin
 form_field_after_priority = Na veld "{0}"
 
-# redaxo\include\pages\system.php
+# src\core\pages\system.php
 info_updated = Informatie bijgewerkt!
 delete_cache = Leeg cache
 delete_cache_description = Sjabloonbestanden en taalbestanden worden opnieuw aangemaakt, de artikelcache wordt gereset. De cache van elk artikel of categorie kan op aanvraag worden geleegd
@@ -140,7 +140,7 @@ debug_mode_info_off = Debug-mode is uitgeschakeld
 system_report = Systeemverslag
 system_report_markdown = In markdown
 
-# redaxo\include\pages\medienpool.php\setup.php
+# src\core\pages\setup.php
 setup = Installatie
 setup_restart = Herstart installatie
 setup_text = Hier kan u het installatieproces herstarten. Dit is normaalgesproken niet nodig en alleen bedoeld voor noodgevallen.
@@ -156,8 +156,7 @@ setup_199 = 1 / Taal
 
 setup_200 = Installatie: stap 2 van 7 / Licentie
 setup_201 = Welkom bij de REDAXO-installatie.
-setup_202 = <h3>Wat gebeurt er nu:</h3><ol><li>Controle van bestands- en maptoegang</li><li>Controleren van databasegegevens en deze wegschrijven in config.yml</li><li>Instellen of resetten van de database</li><li>Aanmaken van een administratoraccount</li></ol>
-setup_203 = Accepteer de gebruikersvoorwaarden en de licentie en ga door naar stap 3
+setup_203 = Accepteer de gebruikersvoorwaarden en de licentie
 setup_299 = 2 / Licentie
 
 setup_300 = Installatie: stap 3 van 7 / Systeemcontrole
@@ -229,7 +228,7 @@ setup_700 = Installatie: stap 7 van 7 / Hoera
 setup_701 = Schrijven naar config.yml mislukt. Pas het bestand handmatig aan via FTP.
 setup_702 = Gefeliciteerd! REDAXO is succesvol geïnstalleerd.
 setup_703 = Let op:
-setup_704 = <ol><li>{0}Log in{1} met het aangemaakte account</li><li>Importeer een demo [na het inloggen]: ga naar Importeren/Exporteren en stel de database en bronbestanden in</li></ol>
+setup_704 =
 setup_705 = Veel plezier en succes<br />Het REDAXO-team
 setup_706 = Log in
 setup_799 = 7 / Hoera
@@ -256,7 +255,7 @@ https_only_frontend = Alleen inschakelen voor frontend
 https_only_backend = Alleen inschakelen voor backend
 https_activate = Inschakelen voor front- en backend
 
-# redaxo\include\pages\addon.php
+# src\core\pages\addon.php
 addon = AddOn
 addons = AddOns
 package_help = Help voor
@@ -346,7 +345,7 @@ plugin_systempackage_delete_not_allowed = Systeem PlugIns mogen niet verwijderd 
 plugin_dir_not_writable = De PlugIn map is niet schrijfbaar!
 plugin_cache_not_writable = De PlugIn cachemap is niet schrijfbaar!
 
-# redaxo\include\pages\credits.php
+# src\core\pages\credits.php
 credits = Credits
 credits_name = Naam
 credits_help = Help
@@ -362,7 +361,7 @@ credits_developer = Ontwikkelaar
 credits_designer = Ontwerper
 credits_license = Licentie
 
-# redaxo\include\pages\profile.php
+# src\core\pages\profile.php
 profile_myprofile = Bewerk mijn profiel
 profile_title = Mijn profiel
 profile_save = Sla profiel op

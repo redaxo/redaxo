@@ -331,14 +331,10 @@ class rex_form_element
      */
     protected function _get()
     {
-        $class = $this->formatClass();
-        $class = '' == $class ? '' : ' ' . $class;
-
         $formElements = [];
         $n = [];
         $n['header'] = $this->getHeader();
         $n['id'] = '';
-        //$n['class']     = $class;
         $n['label'] = $this->formatLabel();
         $n['before'] = $this->getPrefix();
         $n['field'] = $this->formatElement();
@@ -349,13 +345,12 @@ class rex_form_element
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
-        return  $fragment->parse($this->getFragment());
+        return $fragment->parse($this->getFragment());
     }
 
     public function get()
     {
-        $s = $this->wrapContent($this->_get());
-        return $s;
+        return $this->wrapContent($this->_get());
     }
 
     public function show()

@@ -31,7 +31,6 @@ class rex_form_checkbox_element extends rex_form_options_element
      */
     public function formatElement()
     {
-        $s = '';
         $values = explode('|', trim($this->getValue(), '|'));
         $options = $this->getOptions();
         $name = $this->getAttribute('name');
@@ -64,8 +63,7 @@ class rex_form_checkbox_element extends rex_form_options_element
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
         $fragment->setVar('grouped', true);
-        $s = $fragment->parse('core/form/checkbox.php');
 
-        return $s;
+        return $fragment->parse('core/form/checkbox.php');
     }
 }

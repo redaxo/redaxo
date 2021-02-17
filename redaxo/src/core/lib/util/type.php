@@ -38,6 +38,8 @@ class rex_type
      * @throws InvalidArgumentException
      *
      * @return mixed Castet value
+     *
+     * @psalm-taint-specialize
      */
     public static function cast($var, $vartype)
     {
@@ -74,7 +76,6 @@ class rex_type
 
                     // kein Cast, nichts tun
                 case '': break;
-
                 default:
                     // check for array with generic type
                     if (0 === strpos($vartype, 'array[')) {

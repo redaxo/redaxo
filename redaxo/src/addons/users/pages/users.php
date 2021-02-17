@@ -173,7 +173,7 @@ if ($warnings) {
         'password' => $userpsw,
     ], true));
 
-    if (isset($FUNC_UPDATE) && '' != $FUNC_UPDATE) {
+    if ('' != $FUNC_UPDATE) {
         $user_id = 0;
         $FUNC_UPDATE = '';
     }
@@ -220,7 +220,7 @@ if ($warnings) {
         $adduser->setDateTimeValue('password_changed', time());
         $adduser->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords(null, $userpswHash));
         $adduser->setValue('password_change_required', (int) $passwordChangeRequired);
-        if (isset($userstatus) && 1 == $userstatus) {
+        if (1 == $userstatus) {
             $adduser->setValue('status', 1);
         } else {
             $adduser->setValue('status', 0);
@@ -385,7 +385,7 @@ if ('' != $FUNC_ADD || $user_id > 0) {
             $add_admin_chkbox = '';
         }
         $add_status_chkbox = '<input type="checkbox" id="rex-user-status" name="userstatus" value="1" ' . $statuschecked . ' />';
-        $add_user_login = '<input class="form-control" type="text" id="rex-user-login" name="userlogin" value="' . rex_escape($userlogin) . '" autofocus />';
+        $add_user_login = '<input class="form-control" type="text" id="rex-user-login" name="userlogin" value="' . rex_escape($userlogin) . '" autofocus autocomplete="username" />';
 
         $formElements = [];
 
@@ -408,13 +408,13 @@ if ('' != $FUNC_ADD || $user_id > 0) {
     $formElements = [];
 
     $n = [];
-    $n['label'] = '<label for="rex-user-login">' . rex_i18n::msg('login_name') . '</label>';
+    $n['label'] = '<label for="rex-user-login" class="required">' . rex_i18n::msg('login_name') . '</label>';
     $n['field'] = $add_user_login;
     $formElements[] = $n;
 
     $n = [];
-    $n['label'] = '<label for="rex-js-user-password">' . rex_i18n::msg('password') . '</label>';
-    $n['field'] = '<input class="form-control" type="password" id="rex-js-user-password" name="userpsw" autocomplete="new-password"/>';
+    $n['label'] = '<label for="rex-js-user-password" class="required">' . rex_i18n::msg('password') . '</label>';
+    $n['field'] = '<input class="form-control" type="password" id="rex-js-user-password" name="userpsw" autocomplete="new-password" />';
     $n['note'] = $passwordPolicy->getDescription();
 
     $formElements[] = $n;
@@ -442,17 +442,17 @@ if ('' != $FUNC_ADD || $user_id > 0) {
 
     $n = [];
     $n['label'] = '<label for="rex-user-name">' . rex_i18n::msg('name') . '</label>';
-    $n['field'] = '<input class="form-control" type="text" id="rex-user-name" name="username" value="' . rex_escape($username) . '" />';
+    $n['field'] = '<input class="form-control" type="text" id="rex-user-name" name="username" value="' . rex_escape($username) . '"  autocomplete="name" />';
     $formElements[] = $n;
 
     $n = [];
     $n['label'] = '<label for="rex-user-description">' . rex_i18n::msg('description') . '</label>';
-    $n['field'] = '<input class="form-control" type="text" id="rex-user-description" name="userdesc" value="' . rex_escape($userdesc) . '" />';
+    $n['field'] = '<input class="form-control" type="text" id="rex-user-description" name="userdesc" value="' . rex_escape($userdesc) . '" autocomplete="off" />';
     $formElements[] = $n;
 
     $n = [];
     $n['label'] = '<label for="rex-user-email">' . rex_i18n::msg('email') . '</label>';
-    $n['field'] = '<input class="form-control" type="email" placeholder="name@domain.tld" id="rex-user-email" name="useremail" value="' . rex_escape($useremail) . '" />';
+    $n['field'] = '<input class="form-control" type="email" placeholder="user@example.org" id="rex-user-email" name="useremail" value="' . rex_escape($useremail) . '"  autocomplete="email" />';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -472,7 +472,7 @@ if ('' != $FUNC_ADD || $user_id > 0) {
     }
 
     $n = [];
-    $n['label'] = '<label for="rex-user-status">' . rex_i18n::msg('user_status') . '</label>';
+    $n['label'] = '<label for="rex-user-status">' . rex_i18n::msg('user_status_active') . '</label>';
     $n['field'] = $add_status_chkbox;
     $formElements[] = $n;
 
@@ -563,13 +563,16 @@ if ($SHOW) {
     ');
     $list->addTableAttribute('class', 'table-striped table-hover');
 
-    $tdIcon = '<i class="rex-icon rex-icon-user"></i>';
-    $thIcon = '<a href="' . $list->getUrl(['FUNC_ADD' => '1']) . '"' . rex::getAccesskey(rex_i18n::msg('create_user'), 'add') . ' title="' . rex_i18n::msg('create_user') . '"><i class="rex-icon rex-icon-add-user"></i></a>';
+    $tdIcon = '<i class="rex-icon rex-icon-user" title="'.  rex_i18n::msg('user_status_active') . '"></i>';
+    $thIcon = '<a class="rex-link-expanded" href="' . $list->getUrl(['FUNC_ADD' => '1']) . '"' . rex::getAccesskey(rex_i18n::msg('create_user'), 'add') . ' title="' . rex_i18n::msg('create_user') . '"><i class="rex-icon rex-icon-add-user"></i></a>';
     $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-table-icon">###VALUE###</th>', '<td class="rex-table-icon">###VALUE###</td>']);
     $list->setColumnParams($thIcon, ['user_id' => '###id###']);
     $list->setColumnFormat($thIcon, 'custom', static function ($params) use ($thIcon, $tdIcon) {
         $list = $params['list'];
-        $tdIcon = !$list->getValue('status') ? str_replace('rex-icon-user', 'rex-icon-user text-muted', $tdIcon) : $tdIcon;
+        if (!$list->getValue('status')) {
+            $tdIcon = str_replace('rex-icon-user', 'rex-icon-user-inactive text-muted', $tdIcon);
+            $tdIcon = str_replace(rex_i18n::msg('user_status_active'), rex_i18n::msg('user_status_inactive'), $tdIcon);
+        }
         return !$list->getValue('admin') || rex::getUser()->isAdmin() ? $list->getColumnLink($thIcon, $tdIcon) : $tdIcon;
     });
 
@@ -650,7 +653,7 @@ if ($SHOW) {
             }
 
             $url = rex_url::currentBackendPage(['_impersonate' => $list->getValue('id')] + rex_api_user_impersonate::getUrlParams());
-            return sprintf('<a href="%s" data-pjax="false"><i class="rex-icon rex-icon-sign-in"></i> %s</a>', $url, rex_i18n::msg('login_impersonate'));
+            return sprintf('<a class="rex-link-expanded" href="%s" data-pjax="false"><i class="rex-icon rex-icon-sign-in"></i> %s</a>', $url, rex_i18n::msg('login_impersonate'));
         });
     }
 

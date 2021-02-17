@@ -10,17 +10,16 @@ $func = rex_request('func', 'string');
 
 $csrfToken = rex_csrf_token::factory('system');
 
+  if (rex_request('rex_debug_updated', 'bool', false)) {
+      $success = (rex::isDebugMode()) ? rex_i18n::msg('debug_mode_info_on') : rex_i18n::msg('debug_mode_info_off');
+  }
+
 if ($func && !$csrfToken->isValid()) {
     $error[] = rex_i18n::msg('csrf_token_invalid');
 } elseif ('setup' == $func) {
     // REACTIVATE SETUP
-
-    $configFile = rex_path::coreData('config.yml');
-    $config = rex_file::getConfig($configFile);
-    $config['setup'] = true;
-
-    if (false !== rex_file::putConfig($configFile, $config)) {
-        header('Location:' . rex_url::backendController());
+    if (false !== $url = rex_setup::startWithToken()) {
+        header('Location:' . $url);
         exit;
     }
     $error[] = rex_i18n::msg('setup_error2');
@@ -44,7 +43,8 @@ if ($func && !$csrfToken->isValid()) {
     $config['debug']['enabled'] = (rex::isDebugMode()) ? false : true;
     rex::setProperty('debug', $config['debug']);
     if (rex_file::putConfig($configFile, $config) > 0) {
-        $success = (rex::isDebugMode()) ? rex_i18n::msg('debug_mode_info_on') : rex_i18n::msg('debug_mode_info_off');
+        // reload the page so that debug mode is immediately visible
+        rex_response::sendRedirect(rex_url::currentBackendPage(['rex_debug_updated' => true], false));
     }
 } elseif ('updateinfos' == $func) {
     $configFile = rex_path::coreData('config.yml');
@@ -204,7 +204,7 @@ $content = '
         </tr>
         <tr>
             <th>PHP</th>
-            <td>' . PHP_VERSION . ' <a href="' . rex_url::backendPage('system/phpinfo') . '" title="phpinfo" onclick="newWindow(\'phpinfo\', this.href, 1000,800,\',status=yes,resizable=yes\');return false;"><i class="rex-icon rex-icon-phpinfo"></i></a></td>
+            <td>' . PHP_VERSION . ' <a class="rex-link-expanded" href="' . rex_url::backendPage('system/phpinfo') . '" title="phpinfo" onclick="newWindow(\'phpinfo\', this.href, 1000,800,\',status=yes,resizable=yes\');return false;"><i class="rex-icon rex-icon-phpinfo"></i></a></td>
         </tr>
     </table>';
 
@@ -241,22 +241,22 @@ $content = '';
 $formElements = [];
 
 $n = [];
-$n['label'] = '<label for="rex-id-server">' . rex_i18n::msg('server') . '</label>';
+$n['label'] = '<label for="rex-id-server" class="required">' . rex_i18n::msg('server') . '</label>';
 $n['field'] = '<input class="form-control" type="text" id="rex-id-server" name="settings[server]" value="' . rex_escape(rex::getServer()) . '" />';
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="rex-id-servername">' . rex_i18n::msg('servername') . '</label>';
+$n['label'] = '<label for="rex-id-servername" class="required">' . rex_i18n::msg('servername') . '</label>';
 $n['field'] = '<input class="form-control" type="text" id="rex-id-servername" name="settings[servername]" value="' . rex_escape(rex::getServerName()) . '" />';
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="rex-id-lang">' . rex_i18n::msg('backend_language') . '</label>';
+$n['label'] = '<label for="rex-id-lang" class="required">' . rex_i18n::msg('backend_language') . '</label>';
 $n['field'] = $sel_lang->get();
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="rex-id-error-email">' . rex_i18n::msg('error_email') . '</label>';
+$n['label'] = '<label for="rex-id-error-email" class="required">' . rex_i18n::msg('error_email') . '</label>';
 $n['field'] = '<input class="form-control" type="text" id="rex-id-error-email" name="settings[error_email]" value="' . rex_escape(rex::getErrorEmail()) . '" />';
 $formElements[] = $n;
 

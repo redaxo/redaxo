@@ -30,10 +30,12 @@ email = E-mail
 function = Function
 no_editing_rights = permission denied
 check_rights_in_directory = Please review permissions in directory
-error_undefined = An undefinied error occurred
+error_undefined = An undefined error occurred
 csrf_token_invalid = Please send the form again, redo the action respectively (error: invalid CSRF token).
-unstable_version = Development version - use at your own risk.
+unstable_version = Development version
 copy_to_clipboard = Copy to clipboard
+search_placeholder = Search...
+search_clear = Reset input
 
 # redaxo/redaxo/index.php
 system = System
@@ -65,7 +67,7 @@ login_depersonate = switch back
 logged_out = Not signed in
 logged_in_as = Signed in as
 safemode = Safe mode
-safemode_text = In safe mode all AddOns are temporarily deactivated. If a specific AddOn is causing problems it can be deactivated or removed in safe mode.
+safemode_text = In safe mode all AddOns are temporarily deactivated. If a specific AddOn is causing problems, it can be deactivated or removed in safe mode.
 safemode_activate = Activate safe mode
 safemode_deactivate = Deactivate safe mode
 
@@ -73,7 +75,7 @@ safemode_deactivate = Deactivate safe mode
 form_field_first_priority = At the beginning
 form_field_after_priority = After field "{0}"
 
-# redaxo\include\pages\system.php
+# src\core\pages\system.php
 info_updated = Information updated!
 delete_cache = Delete cache
 delete_cache_description = Template and language files will be recreated, article cache will be reset. The cache of the respective article/category will be recreated on request
@@ -131,10 +133,10 @@ error_email = E-mail address in case of errors
 error_email_required = E-mail address is required!
 error_email_invalid = Please enter a valid e-mail address
 server_required = A website URL is required
-server_invalid = The website URL is invalid, please enter a valid URL inluding protocol!
+server_invalid = The website URL is invalid, please enter a valid URL including protocol!
 servername_required = Server name is required
 system_editor = Editor integration
-system_editor_note = Links REDAXO with an editor in order to edit source files directly in an editor of choice. <br /> These settings can be set globally in config.yml or saved individually per user as a cookie in the browser.
+system_editor_note = Links REDAXO with an editor to edit source files directly in an editor of choice. <br /> These settings can be set globally in config.yml or saved individually per user as a cookie in the browser.
 system_editor_note_cookie = Currently the following settings from the cookie are being used
 system_editor_name = Editor
 system_editor_no_editor = disabled
@@ -161,11 +163,12 @@ debug_confirm = Debug mode should not be activated in live mode. Still activate 
 system_report = System report
 system_report_markdown = As markdown
 
-# redaxo\include\pages\medienpool.php\setup.php
+# src\core\pages\setup.php
 setup = Setup
+setup_cancel = Cancel setup
 setup_restart = Restart setup
-setup_text = Here you can restart the setup process. This is for emergencies only and shouldn't be required under normal circumstances.
-setup_error2 = Unfortunately the configuration file could not be written to. Please make change \"setup: true\" in config.yml
+setup_text = Here you can restart the setup process. This is for emergencies only and should not be required under normal circumstances.
+setup_error2 = Unfortunately, the configuration file could not be written to. Please make change \"setup: true\" in config.yml
 
 
 
@@ -177,8 +180,7 @@ setup_199 = 1 / Language
 
 setup_200 = Setup: step 2 of 7 / Licence
 setup_201 = Welcome to the REDAXO-Setup.
-setup_202 = <h3>What happens now:</h3><ol><li>Checking file and folder permissions</li><li>Checking database access and writing database credentials into config.yml</li><li>Setting up/resetting the database</li><li>Creation of an admin user account</li></ol>
-setup_203 = Accept licence terms and conditions and move on to step 3
+setup_203 = Accept licence terms and conditions
 setup_299 = 2 / Licence
 
 setup_300 = Setup: step 3 of 7 / System check
@@ -255,8 +257,8 @@ setup_700 = Setup: step 7 of 7 / Hooray
 setup_701 = Writing to config.yml failed. Please change the file manually by FTP.
 setup_702 = Congratulations! REDAXO has successfully been installed.
 setup_703 = Please note:
-setup_704 = <ol><li>{0}Sign in{1} with the created account</li><li>Import a demo [after signing in]: go to Import/Export and setup the database and source files</li></ol>
-setup_705 = Have fun and good luck<br />The REDAXO team
+setup_704 = <ol><li>{0}Sign in{1} with the created account</li><li>Within the community we have developed several website demos that show typical use cases with REDAXO. They can be downloaded after login via the already included <strong>install</strong> add-on. <a href="https://redaxo.org/download/website-demos/">Info about website demos on redaxo.org</a> <i>(German)</i></li></ol>
+setup_705 = Have fun and good luck!<br />The REDAXO team
 setup_706 = Sign in
 setup_799 = 7 / Hooray
 
@@ -288,9 +290,9 @@ https_only_backend = Activate only for backend
 https_activate = Activate for frontend and backend
 
 setup_password_hint = Enter a new password or leave the input unchanged otherwise.
-hsts_more_information = It is recommended to activate HSTS in your domain/s hosting settings, but can also be activated in REDAXOs config.yml at a later stage. More information is available in the REDAXO documentation
+hsts_more_information = It is recommended to activate HSTS in your domain/s hosting settings but can also be activated in REDAXOs config.yml at a later stage. More information is available in the REDAXO documentation
 
-# redaxo\include\pages\addon.php
+# src\core\pages\addon.php
 addon = AddOn
 addons = AddOns
 package_help = Help for
@@ -317,7 +319,7 @@ package_hhelp = Help
 package_hinstall = Installed
 package_hactive = Activated
 package_hdelete = Delete
-package_hinformation = Informations
+package_hinformation = Information
 package_hlicense = License
 package_reinstall = reinstall
 package_install = install
@@ -329,8 +331,6 @@ package_activate = activate
 package_yes = yes
 package_no = no
 package_caption = List of available packages
-package_search = Search...
-package_clear = Reset input
 addon_systemaddon = System AddOn
 addon_systempackage_delete_not_allowed = System AddOns may not be deleted!
 addon_dir_not_writable = Write permissions are missing for the AddOn directory!
@@ -346,7 +346,7 @@ package_install_cant_copy_files = An error occurred copying the /assets folder!
 package_install_cant_delete_files = An error occurred deleting the /assets folder!
 package_requirement_wrong_format = The dependencies in package.yml must be in a valid array format!
 package_requirement_error_redaxo_version = This version of REDAXO (<b>{0}</b>) does not match the specified version requirements <b>{1}</b>!
-package_requirement_error_php_version = The PHP  version (<b>{0}</b>) does not match the specified version requirements <b>{1}</b>!
+package_requirement_error_php_version = The PHP version (<b>{0}</b>) does not match the specified version requirements <b>{1}</b>!
 package_requirement_error_php_extension = The PHP extension module <b>{0}</b> is required!
 package_requirement_error_addon = The AddOn <b>{0}</b> is required!
 package_requirement_error_addon_version = The AddOn <b>{0}</b> (version <b>{1}</b>) does not match the specified version requirements <b>{2}</b>!
@@ -382,11 +382,11 @@ plugin_systempackage_delete_not_allowed = System PlugIns may be deleted!
 plugin_dir_not_writable = The PlugIn directory is not writable!
 plugin_cache_not_writable = The PlugIn cache directory is not writable!
 
-# redaxo\include\pages\credits.php
+# src\core\pages\credits.php
 credits = Credits
 credits_name = Name
 credits_help = Help
-credits_information = Informations
+credits_information = Information
 credits_version = Version
 credits_author = Author
 credits_supportpage = Support
@@ -397,9 +397,10 @@ credits_inventor = Inventor
 credits_developer = Developer
 credits_designer = Designer
 credits_license = Licence
+credits_changelog = Changelog
 credits_explain_license = explain licence
 
-# redaxo\include\pages\profile.php
+# src\core\pages\profile.php
 profile_myprofile = Edit my user profile
 profile_title = My profile
 profile_save = Save profile
@@ -415,7 +416,7 @@ backend_language = Backend language
 user_data_updated = User data updated!
 
 password_change_required = A password change is required!
-password_not_changed = The new password has to be different than the previous one!
+password_not_changed = The new password must be different than the previous one!
 password_already_used = This password has been used before and cannot be used again!
 password_invalid = The password does not match the required rules ({0})!
 password_admin_notice = The password rules can be changed in config.yml.

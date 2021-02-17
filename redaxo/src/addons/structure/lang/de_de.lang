@@ -46,6 +46,8 @@ article_doesnt_exist = Artikel existiert nicht!
 cant_delete_sitestartarticle = Der Webseiten-Startartikel kann nicht gelöscht werden!
 cant_delete_notfoundarticle = Der "Nicht-gefunden" Artikel kann nicht gelöscht werden!
 structure_copy = Kopie
+category_has_child_elements = Kategorie enthält Kindelemente
+category_without_child_elements = Kategorie ohne Kindelemente
 
 all_categories = Alle Kategorien
 categories = Kategorien

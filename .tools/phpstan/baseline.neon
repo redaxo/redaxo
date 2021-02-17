@@ -1,16 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/pages/log.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/debug/lib/debug_clockwork.php
-
-		-
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/install/lib/archive.php
@@ -19,21 +9,6 @@ parameters:
 			message: "#^Parameter \\#3 \\$alias of class PharData constructor expects string, null given\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/install/lib/archive.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/install/pages/index.php
-
-		-
-			message: "#^Parameter \\#1 \\$callback of method rex_sql\\:\\:addRecord\\(\\) expects callable\\(rex_sql\\)\\: void, Closure\\(rex_sql\\)\\: mixed given\\.$#"
-			count: 2
-			path: ../../redaxo/src/addons/media_manager/install.php
-
-		-
-			message: "#^Call to function is_bool\\(\\) with string\\|null will always evaluate to false\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/functions/function_rex_mediapool.php
 
 		-
 			message: "#^Method rex_media\\:\\:getRootMedia\\(\\) should return array\\<static\\(rex_media\\)\\> but returns array\\<rex_media\\>\\.$#"
@@ -61,16 +36,6 @@ parameters:
 			path: ../../redaxo/src/addons/metainfo/functions/function_metainfo.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of method rex_sql\\:\\:addRecord\\(\\) expects callable\\(rex_sql\\)\\: void, Closure\\(rex_sql\\)\\: mixed given\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/install.php
-
-		-
-			message: "#^Right side of && is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/phpmailer/boot.php
-
-		-
 			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/phpmailer/pages/log.php
@@ -81,17 +46,17 @@ parameters:
 			path: ../../redaxo/src/addons/structure/lib/select_category.php
 
 		-
-			message: "#^Parameter \\#2 \\$createCallback of static method rex_structure_element\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: rex_structure_element\\|null\\)\\|null, Closure\\(mixed, mixed\\)\\: mixed given\\.$#"
+			message: "#^Parameter \\#2 \\$createCallback of static method rex_structure_element\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: rex_structure_element\\|null\\)\\|null, Closure\\(mixed, mixed\\)\\: static\\(rex_structure_element\\)\\|null given\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/lib/structure_element.php
 
 		-
-			message: "#^Method rex_structure_element\\:\\:getChildElements\\(\\) should return array\\<static\\(rex_structure_element\\)\\> but returns array\\<object\\>\\.$#"
+			message: "#^Method rex_structure_element\\:\\:getChildElements\\(\\) should return array\\<static\\(rex_structure_element\\)\\> but returns array\\<rex_structure_element\\>\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/lib/structure_element.php
 
 		-
-			message: "#^Parameter \\#3 \\$createListCallback of static method rex_structure_element\\:\\:getInstanceList\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: array\\)\\|null, Closure\\(mixed, mixed\\)\\: mixed given\\.$#"
+			message: "#^Parameter \\#3 \\$createListCallback of static method rex_structure_element\\:\\:getInstanceList\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: array\\)\\|null, Closure\\(mixed, mixed\\)\\: array given\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/lib/structure_element.php
 
@@ -126,7 +91,7 @@ parameters:
 			path: ../../redaxo/src/addons/structure/plugins/version/boot.php
 
 		-
-			message: "#^Offset 'href' on array\\(\\?'active' \\=\\> true, 'href' \\=\\> string, \\?'itemAttr' \\=\\> array\\('class' \\=\\> array\\('bg\\-success'\\)\\)\\) in isset\\(\\) always exists and is not nullable\\.$#"
+			message: "#^Offset 'href' on array\\(\\?'active' \\=\\> true, 'href' \\=\\> string, \\?'itemAttr' \\=\\> array\\('class' \\=\\> array\\(0 \\=\\> 'bg\\-success', \\?1 \\=\\> 'disabled'\\)\\)\\) in isset\\(\\) always exists and is not nullable\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/layout/top.php
 
@@ -176,17 +141,12 @@ parameters:
 			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
 
 		-
-			message: "#^Property rex_test_instance_list_pool\\:\\:\\$id is never read, only written\\.$#"
+			message: "#^Parameter \\#3 \\$createListCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: array\\)\\|null, Closure\\(mixed, mixed\\)\\: array\\(\\) given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
 
 		-
-			message: "#^Parameter \\#3 \\$createListCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: array\\)\\|null, Closure\\(mixed, mixed\\)\\: mixed given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
-
-		-
-			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects callable\\(\\.\\.\\.mixed\\)\\: object\\|null, Closure\\(mixed, mixed\\)\\: mixed given\\.$#"
+			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects callable\\(\\.\\.\\.mixed\\)\\: object\\|null, Closure\\(mixed, mixed\\)\\: void given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
 
@@ -196,7 +156,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/sql/table.php
 
 		-
-			message: "#^Parameter \\#2 \\$createCallback of static method rex_sql_table\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: rex_sql_table\\|null\\)\\|null, Closure\\(mixed, mixed\\)\\: mixed given\\.$#"
+			message: "#^Parameter \\#2 \\$createCallback of static method rex_sql_table\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: rex_sql_table\\|null\\)\\|null, Closure\\(mixed, mixed\\)\\: static\\(rex_sql_table\\) given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/sql/table.php
 
@@ -231,7 +191,7 @@ parameters:
 			path: ../../redaxo/src/core/tests/base/instance_pool_trait_test.php
 
 		-
-			message: "#^Parameter \\#2 \\$createCallback of static method rex_test_instance_pool_base\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: rex_test_instance_pool_1\\|null\\)\\|null, Closure\\(mixed, mixed\\)\\: mixed given\\.$#"
+			message: "#^Parameter \\#2 \\$createCallback of static method rex_test_instance_pool_base\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: rex_test_instance_pool_1\\|null\\)\\|null, Closure\\(mixed, mixed\\)\\: void given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/base/instance_pool_trait_test.php
 
@@ -244,21 +204,6 @@ parameters:
 			message: "#^Method rex_user\\:\\:getComplexPerm\\(\\) should return rex_clang_perm\\|rex_media_perm\\|rex_module_perm\\|rex_structure_perm\\|null but returns rex_complex_perm\\|null\\.$#"
 			count: 2
 			path: ../../redaxo/src/core/lib/login/user.php
-
-		-
-			message: "#^Parameter \\#1 \\$callback of method rex_sql\\:\\:addRecord\\(\\) expects callable\\(rex_sql\\)\\: void, Closure\\(rex_sql\\)\\: mixed given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/config.php
-
-		-
-			message: "#^Property rex_command_setup_run\\:\\:\\$output is never read, only written\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/console/setup/run.php
-
-		-
-			message: "#^Parameter \\#1 \\$exception_handler of function set_exception_handler expects \\(callable\\(Throwable\\)\\: void\\)\\|null, array\\('rex_error_handler', 'handleException'\\) given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/error_handler.php
 
 		-
 			message: "#^If condition is always true\\.$#"
@@ -346,7 +291,12 @@ parameters:
 			path: ../../redaxo/src/core/lib/util/socket/socket.php
 
 		-
-			message: "#^Result of && is always false\\.$#"
+			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int, array\\)\\: bool\\)\\|null, Closure\\(mixed, mixed\\)\\: void given\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/util/socket/socket.php
+
+		-
+			message: "#^If condition is always false\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/socket/socket.php
 
@@ -361,11 +311,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/util/version.php
 
 		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/var_dumper.php
-
-		-
 			message: "#^Call to static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertSame\\(\\) with \\*NEVER\\* and array\\<int, \\(int\\|string\\)\\> will always evaluate to false\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/sql/sql_table_test.php
@@ -373,11 +318,6 @@ parameters:
 		-
 			message: "#^Array \\(array\\<int\\<1, max\\>, PDO\\>\\) does not accept class@anonymous/core/tests/sql/sql_test\\.php\\:130\\.$#"
 			count: 1
-			path: ../../redaxo/src/core/tests/sql/sql_test.php
-
-		-
-			message: "#^Parameter \\#1 \\$callback of method rex_sql\\:\\:addRecord\\(\\) expects callable\\(rex_sql\\)\\: void, Closure\\(rex_sql\\)\\: mixed given\\.$#"
-			count: 10
 			path: ../../redaxo/src/core/tests/sql/sql_test.php
 
 		-

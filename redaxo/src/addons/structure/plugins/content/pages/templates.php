@@ -211,7 +211,7 @@ if ('add' == $function || 'edit' == $function) {
         }
     }
 
-    if (!isset($save) || 'ja' != $save) {
+    if ('ja' != $save) {
         // Ctype Handling
         $ctypes = $attributes['ctype'] ?? [];
         $modules = $attributes['modules'] ?? [];
@@ -511,7 +511,7 @@ if ('add' == $function || 'edit' == $function) {
                     var id = $(e.target).attr("href").substr(1);
                     $("#rex-js-form-template-tab").val(id);
                 });
-                $("#rex-js-form-template-tabs a[href=\"#' . $activeTab . '\"]").tab("show");
+                $("#rex-js-form-template-tabs a[href=\"#' . rex_escape($activeTab, 'js') . '\"]").tab("show");
 
                 $("#rex-js-active").click(function() {
                     $("#rex-js-form-template-tabs a[href=\"#rex-form-template-ctype\"]").toggle("slow");
@@ -556,7 +556,7 @@ if ($OUT) {
     $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-template"></i>';
-    $thIcon = '<a href="' . $list->getUrl(['function' => 'add']) . '"' . rex::getAccesskey(rex_i18n::msg('create_template'), 'add') . ' title="' . rex_i18n::msg('create_template') . '"><i class="rex-icon rex-icon-add-template"></i></a>';
+    $thIcon = '<a class="rex-link-expanded" href="' . $list->getUrl(['function' => 'add']) . '"' . rex::getAccesskey(rex_i18n::msg('create_template'), 'add') . ' title="' . rex_i18n::msg('create_template') . '"><i class="rex-icon rex-icon-add-template"></i></a>';
     $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-table-icon">###VALUE###</th>', '<td class="rex-table-icon">###VALUE###</td>']);
     $list->setColumnParams($thIcon, ['function' => 'edit', 'template_id' => '###id###']);
 

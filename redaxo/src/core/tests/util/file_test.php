@@ -26,6 +26,14 @@ class rex_file_test extends TestCase
         return rex_path::addonData('tests', 'rex_file_test/' . $file);
     }
 
+    public function testRequireThrows()
+    {
+        $this->expectException(rex_exception::class);
+
+        $file = $this->getPath('non_existing.txt');
+        rex_file::require($file);
+    }
+
     public function testGetDefault()
     {
         $file = $this->getPath('non_existing.txt');

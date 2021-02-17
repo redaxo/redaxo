@@ -4,8 +4,7 @@
 }
 
 .table tr .alert {
-    margin-top: $line-height-computed;
-    margin-bottom: floor($line-height-computed / 2);
+    margin: -$table-cell-padding;
 }
 
 @media (min-width: $screen-md-min) {
@@ -42,6 +41,10 @@
     }
     .table th.rex-table-date,
     .table td.rex-table-date {
+        white-space: nowrap;
+    }
+    .table th.rex-table-sort,
+    .table td.rex-table-sort {
         white-space: nowrap;
     }
     .table th.rex-table-priority,

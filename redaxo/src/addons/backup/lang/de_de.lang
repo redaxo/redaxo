@@ -23,6 +23,7 @@ backup_db_export = Export
 backup_filename_updated = Der gewählte Dateiname wurde angepasst, da er unkorrekte Zeichen enthielt. Sofern dieser stimmig ist bitte nochmal auf Export klicken.
 backup_please_choose_folder = Bitte die Verzeichnisse auswählen, die exportiert werden sollen.
 backup_intro_import = Bitte beachten, dass beim Importieren einer Datenbank <b>die alte Datenbank gelöscht</b> wird. Im Zweifel vor dem Import die aktuelle Datenbank sichern.
+backup_intro_import_files = Beim Import von Dateien werden gleichnamig vorhandene Dateien überschrieben, zusätzlich vorhandene Dateien innerhalb der Ordner bleiben jedoch erhalten.
 backup_version_warning = Backups von älteren REDAXO-Versionen oder AddOns sind nicht immer vollständig kompatibel und können nach dem Import zu Problemen führen.
 backup_database = Datenbank-Import
 backup_filename = Dateiname
@@ -57,6 +58,8 @@ backup_send_mail_notice = Für diese Option wird das Addon "phpmailer" benötigt
 backup_mailaddress = Mailadresse
 backup_mail_subject = Neue Datenbank-Sicherung
 backup_mail_body = Im Anhang befindet sich eine neue Datenbank-Sicherung der Website "{0}".
+
+backup_compress = Backup komprimieren
 
 backup_delete_interval = Alte Backups löschen
 backup_delete_interval_off = Aus

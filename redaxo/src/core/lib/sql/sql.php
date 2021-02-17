@@ -145,9 +145,9 @@ class rex_sql implements Iterator
             }
         } catch (PDOException $e) {
             if ('cli' === PHP_SAPI) {
-                throw new rex_sql_exception("Could not connect to database.\n\nConsider starting either the web-based or console-based REDAXO setup to configure the database connection settings.", $e, $this);
+                throw new rex_sql_could_not_connect_exception("Could not connect to database.\n\nConsider starting either the web-based or console-based REDAXO setup to configure the database connection settings.", $e, $this);
             }
-            throw new rex_sql_exception('Could not connect to database', $e, $this);
+            throw new rex_sql_could_not_connect_exception('Could not connect to database', $e, $this);
         }
     }
 
@@ -1018,10 +1018,6 @@ class rex_sql implements Iterator
             return $this->setMultiRecordQuery('INSERT', true);
         }
 
-        // hold a copies of the query fields for later debug out (the class property will be reverted in setQuery())
-        $tableName = $this->table;
-        $values = $this->values;
-
         $onDuplicateKeyUpdate = $this->buildOnDuplicateKeyUpdate(array_keys(array_merge($this->values, $this->rawValues)));
         $this->setQuery(
             'INSERT INTO ' . $this->escapeIdentifier($this->table) . ' SET ' . $this->buildPreparedValues() . ' ' . $onDuplicateKeyUpdate,
@@ -1381,6 +1377,8 @@ class rex_sql implements Iterator
      * @param string $name
      *
      * @return string
+     *
+     * @psalm-taint-escape sql
      */
     public function escapeIdentifier($name)
     {
@@ -1393,6 +1391,38 @@ class rex_sql implements Iterator
     public function escapeLikeWildcards(string $value): string
     {
         return str_replace(['_', '%'], ['\_', '\%'], $value);
+    }
+
+    /**
+     * Escapes and transforms values for `IN (...)` clause.
+     *
+     * Example: `$sql->setQuery('SELECT * FROM my_table WHERE foo IN ('.$sql->in($values).')');`
+     *
+     * @param int[]|string[] $values
+     */
+    public function in(array $values): string
+    {
+        $strings = false;
+
+        foreach ($values as $value) {
+            if (is_int($value)) {
+                continue;
+            }
+            if (is_string($value)) {
+                $strings = true;
+                continue;
+            }
+
+            throw new InvalidArgumentException('Argument $values must be an array of ints and/or strings, but it contains "'.get_debug_type($value).'"');
+        }
+
+        if ($strings) {
+            $values = array_map(function ($value): string {
+                return $this->escape((string) $value);
+            }, $values);
+        }
+
+        return implode(', ', $values);
     }
 
     /**
@@ -1687,7 +1717,9 @@ class rex_sql implements Iterator
         }
 
         $tables = $this->getArray($qry);
-        $tables = array_map('reset', $tables);
+        $tables = array_map(static function (array $table) {
+            return reset($table);
+        }, $tables);
 
         return $tables;
     }
@@ -1874,7 +1906,7 @@ class rex_sql implements Iterator
                             $login,
                             $password
                         );
-                        if (1 !== $conn->exec('CREATE DATABASE ' . $database . ' CHARACTER SET utf8 COLLATE utf8_general_ci')) {
+                        if (1 !== $conn->exec('CREATE DATABASE ' . $database . ' CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci')) {
                             // unable to create db
                             $err_msg = rex_i18n::msg('sql_unable_to_create_database');
                         }
@@ -1909,9 +1941,6 @@ class rex_sql implements Iterator
                 throw $e;
             }
         }
-
-        // close the connection
-        $conn = null;
 
         return $err_msg;
     }

@@ -1,10 +1,10 @@
 Debug-Addon
 ===========
 
-Das Debug-Addon erweitert REDAXO um Werkzeuge zur besseren Performance- und Fehler-Analyse.
+The debug addon extends REDAXO with tools for better performance and error analysis.
 
-Es basiert auf [Clockwork](https://github.com/itsgoingd/clockwork) und bietet damit eine [browserbasierte Oberfläche](https://github.com/underground-works/clockwork-app),
-um die Abläufe innerhalb des REDAXO CMS zu visualisieren.
+It is based on [Clockwork](https://github.com/itsgoingd/clockwork) and thus offers a [browser-based interface](https://github.com/underground-works/clockwork-app),
+to visualise the processes within the REDAXO CMS.
 
 <blockquote>
 Clockwork is a development tool for PHP available right in your browser.
@@ -14,16 +14,16 @@ rendered views and more - for HTTP requests, commands, queue jobs and tests.
 <footer>Clockwork Project</footer>
 </blockquote>
 
-Es kann sowohl direkt im Browser, als auch mit einer separaten Browser-Erweiterung verwendet werden.
-Eine ausführliche Beschreibung und die Informationen zu optionalen Browser-Erweiterung sind auf der [Clockwork-Website](https://underground.works/clockwork) verfügbar.
+It can be used directly in the browser or with a separate browser extension.
+A detailed description and information on optional browser extensions are available on the [Clockwork website](https://underground.works/clockwork).
 
-Das AddOn integriert Informationen zu folgenden Klassen in Clockwork:
+The add-on integrates information on the following classes in Clockwork:
 - `rex_sql`
 - `rex_logger`
 - `rex_timer`
 - `rex_extension/rex_extension_point`
 
-Um eigenen PHP-Code in Clockwork sichtbar zu machen und damit zu analysieren, kann dieser mittels `rex_timer` gemessen werden:
+To make your own PHP code visible in Clockwork and to analyse it, it can be measured using `rex_timer`:
 
 ```php
 <?php

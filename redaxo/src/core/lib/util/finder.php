@@ -139,7 +139,7 @@ class rex_finder implements IteratorAggregate, Countable
         if (is_array($glob)) {
             $this->$var += $glob;
         } else {
-            array_push($this->$var, $glob);
+            $this->$var[] = $glob;
         }
 
         return $this;
@@ -159,7 +159,7 @@ class rex_finder implements IteratorAggregate, Countable
         if (is_array($glob)) {
             $this->$var += $glob;
         } else {
-            array_push($this->$var, $glob);
+            $this->$var[] = $glob;
         }
 
         return $this;
@@ -200,6 +200,7 @@ class rex_finder implements IteratorAggregate, Countable
      */
     public function getIterator()
     {
+        /** @var RecursiveIterator<string, SplFileInfo> $iterator */
         $iterator = new RecursiveDirectoryIterator($this->dir, FilesystemIterator::KEY_AS_PATHNAME | FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::SKIP_DOTS);
 
         $iterator = new RecursiveCallbackFilterIterator($iterator, function (SplFileInfo $current, $key, $currentIterator) use ($iterator) {

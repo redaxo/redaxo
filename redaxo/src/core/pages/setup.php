@@ -6,12 +6,30 @@
 
 $step = rex_request('step', 'int', 1);
 $lang = rex_request('lang', 'string');
+$func = rex_request('func', 'string');
 
-$context = new rex_context([
-    'page' => 'setup',
-    'lang' => $lang,
-    'step' => $step,
-]);
+$context = rex_setup::getContext();
+
+// ---------------------------------- Global Step features
+
+$cancelSetupBtn = '';
+if (!rex_setup::isInitialSetup()) {
+    $cancelSetupBtn = '
+    <style>
+        .rex-cancel-setup {
+            position: absolute;
+            top: 17px;
+            right: 40px;
+        }
+    </style>
+    <a href="'.$context->getUrl(['func' => 'abort']).'" data-confirm="Cancel Setup?" class="btn btn-delete rex-cancel-setup">'.rex_i18n::msg('setup_cancel').'</a>';
+
+    if ('abort' === $func) {
+        rex_setup::markSetupCompleted();
+
+        rex_response::sendRedirect(rex_url::backendController());
+    }
+}
 
 // ---------------------------------- Step 1 . Language
 if (1 >= $step) {

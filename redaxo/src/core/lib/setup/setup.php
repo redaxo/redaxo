@@ -17,7 +17,13 @@ class rex_setup
      */
     public const DEFAULT_DUMMY_PASSWORD = '-REDAXO-DEFAULT-DUMMY-PASSWORD-';
 
-    private static $MIN_PHP_EXTENSIONS = ['fileinfo', 'iconv', 'pcre', 'pdo', 'pdo_mysql', 'session', 'tokenizer'];
+    public const DB_MODE_SETUP_NO_OVERRIDE = 0;
+    public const DB_MODE_SETUP_AND_OVERRIDE = 1;
+    public const DB_MODE_SETUP_SKIP = 2;
+    public const DB_MODE_SETUP_IMPORT_BACKUP = 3;
+    public const DB_MODE_SETUP_UPDATE_FROM_PREVIOUS = 4;
+
+    private static $MIN_PHP_EXTENSIONS = ['fileinfo', 'filter', 'iconv', 'pcre', 'pdo', 'pdo_mysql', 'session', 'tokenizer'];
 
     /**
      * very basic setup steps, so everything is in place for our browser-based setup wizard.
@@ -187,9 +193,12 @@ class rex_setup
             $security[] = rex_i18n::msg('setup_session_autostart_warning');
         }
 
+        // https://www.php.net/supported-versions.php
         if (1 == version_compare(PHP_VERSION, '7.4', '<') && time() > strtotime('6 Dec 2021')) {
             $security[] = rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION);
         } elseif (1 == version_compare(PHP_VERSION, '8.0', '<') && time() > strtotime('28 Nov 2022')) {
+            $security[] = rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION);
+        } elseif (1 == version_compare(PHP_VERSION, '8.1', '<') && time() > strtotime('26 Nov 2023')) {
             $security[] = rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION);
         }
 
@@ -218,18 +227,144 @@ class rex_setup
                 $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
             } elseif (1 == version_compare($dbVersion, '10.5', '<') && time() > strtotime('1 Jun 2024')) {
                 $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
+            } elseif (1 == version_compare($dbVersion, '10.6', '<') && time() > strtotime('1 Jun 2025')) {
+                $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
             }
-            // 10.5 is not yet released
         } elseif (rex_sql::MYSQL === $dbType) {
             // https://en.wikipedia.org/wiki/MySQL#Release_history
             if (1 == version_compare($dbVersion, '5.7', '<') && time() > strtotime('1 Feb 2021')) {
                 $security[] = rex_i18n::msg('setup_security_deprecated_mysql', $dbVersion);
             } elseif (1 == version_compare($dbVersion, '8.0', '<') && time() > strtotime('1 Oct 2023')) {
                 $security[] = rex_i18n::msg('setup_security_deprecated_mysql', $dbVersion);
+            } elseif (1 == version_compare($dbVersion, '8.1', '<') && time() > strtotime('1 Apr 2026')) {
+                $security[] = rex_i18n::msg('setup_security_deprecated_mysql', $dbVersion);
             }
-            // EOL 8.0 is April 2026
         }
 
         return $security;
+    }
+
+    /**
+     * Returns true when we are running the very first setup for this instance.
+     * Otherwise false is returned, e.g. when setup was re-started from the core/systems page.
+     */
+    public static function isInitialSetup(): bool
+    {
+        try {
+            $user_sql = rex_sql::factory();
+            $user_sql->setQuery('select * from ' . rex::getTable('user') . ' LIMIT 1');
+
+            return 0 == $user_sql->getRows();
+        } catch (rex_sql_could_not_connect_exception $e) {
+            return true;
+        }
+    }
+
+    /**
+     * @return string|false Single-User-Setup URL or `false` on failure
+     */
+    public static function startWithToken()
+    {
+        $token = rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');
+
+        $configFile = rex_path::coreData('config.yml');
+        $config = rex_file::getConfig($configFile);
+
+        $config['setup'] = isset($config['setup']) && is_array($config['setup']) ? $config['setup'] : [];
+        $config['setup'][$token] = (new DateTimeImmutable('+1 hour'))->format('Y-m-d H:i:s');
+
+        if (false === rex_file::putConfig($configFile, $config)) {
+            return false;
+        }
+
+        return rex_url::backendPage('setup', ['setup_token' => $token], false);
+    }
+
+    public static function isEnabled(): bool
+    {
+        $setup = rex::getProperty('setup', false);
+
+        if (!is_array($setup)) {
+            // system wide setup
+            return (bool) $setup;
+        }
+
+        $currentToken = self::getToken();
+
+        if (!$currentToken && rex::isFrontend()) {
+            // no token in url, fast fail in frontend
+            // (in backend all existing tokens are revalidated below)
+            return false;
+        }
+
+        // invalidate expired tokens
+        $updated = false;
+        foreach ($setup as $token => $expire) {
+            if (strtotime($expire) < time()) {
+                unset($setup[$token]);
+                $updated = true;
+            }
+        }
+
+        if ($updated) {
+            $configFile = rex_path::coreData('config.yml');
+            $config = rex_file::getConfig($configFile);
+            $config['setup'] = $setup ?: false;
+            rex_file::putConfig($configFile, $config);
+        }
+
+        return isset($setup[$currentToken]);
+    }
+
+    public static function getContext(): rex_context
+    {
+        $context = new rex_context([
+            'page' => 'setup',
+            'lang' => rex_request('lang', 'string', ''),
+            'step' => rex_request('step', 'int', 1),
+        ]);
+
+        if ($token = self::getToken()) {
+            $context->setParam('setup_token', $token);
+        }
+
+        return $context;
+    }
+
+    /**
+     * Mark the setup as completed.
+     */
+    public static function markSetupCompleted(): bool
+    {
+        $configFile = rex_path::coreData('config.yml');
+        $config = array_merge(
+            rex_file::getConfig(rex_path::core('default.config.yml')),
+            rex_file::getConfig($configFile)
+        );
+
+        if (is_array($config['setup'])) {
+            // remove current token
+            if ($token = self::getToken()) {
+                unset($config['setup'][$token]);
+            }
+
+            // if array is empty now, convert it to global `false` value
+            $config['setup'] = $config['setup'] ?: false;
+        } else {
+            $config['setup'] = false;
+        }
+
+        $configWritten = rex_file::putConfig($configFile, $config);
+
+        if ($configWritten) {
+            rex_file::delete(rex_path::coreCache('config.yml.cache'));
+        }
+
+        return $configWritten;
+    }
+
+    private static function getToken(): ?string
+    {
+        return rex_get('setup_token', 'string', null);
     }
 }

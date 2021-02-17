@@ -6,9 +6,12 @@
  */
 class rex_debug_clockwork
 {
-    /** @var \Clockwork\Support\Vanilla\Clockwork */
+    /** @var \Clockwork\Support\Vanilla\Clockwork|null */
     private static $instance;
 
+    /**
+     * @psalm-assert \Clockwork\Support\Vanilla\Clockwork self::$instance
+     */
     private static function init(): void
     {
         $clockwork = \Clockwork\Support\Vanilla\Clockwork::init([
@@ -18,16 +21,19 @@ class rex_debug_clockwork
             // there is a probability from 1 to 100 that the cleanup mechanism will be triggered and files older than 2 days will be removed
             'storage_expiration' => 60 * 24 * 2,
         ]);
+        if (extension_loaded('xdebug')) {
+            $clockwork->getClockwork()->addDataSource(new \Clockwork\DataSource\XdebugDataSource());
+        }
 
         self::$instance = $clockwork;
     }
 
-    public static function getInstance(): \Clockwork\Clockwork
+    public static function getInstance(): Clockwork\Clockwork
     {
         return self::getHelper()->getClockwork();
     }
 
-    public static function getHelper(): \Clockwork\Support\Vanilla\Clockwork
+    public static function getHelper(): Clockwork\Support\Vanilla\Clockwork
     {
         if (!self::$instance) {
             self::init();

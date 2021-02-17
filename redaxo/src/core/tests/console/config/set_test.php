@@ -34,6 +34,7 @@ class rex_command_config_set_test extends TestCase
             'value' => $value,
         ]);
         $config = rex_file::getConfig(rex_path::coreData('config.yml'));
+        static::assertArrayHasKey('test', $config);
         static::assertIsBool($config['test']);
         static::assertEquals($expectedValue, $config['test']);
         static::assertEquals(0, $commandTester->getStatusCode());

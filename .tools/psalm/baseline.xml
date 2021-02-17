@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.2.1@ea9cb72143b77e7520c52fa37290bd8d8bc88fd9">
+<files psalm-version="4.5.2@15a9eece1305fd26eb1336a78e5a2ee7a4b36214">
+  <file src="redaxo/src/addons/backup/pages/export.php">
+    <NullOperand occurrences="1">
+      <code>rex_escape($exportfilename)</code>
+    </NullOperand>
+  </file>
   <file src="redaxo/src/addons/cronjob/lib/form.php">
     <PossiblyNullReference occurrences="2">
       <code>getIntervalElements</code>
@@ -58,6 +63,12 @@
       <code>getVersion</code>
     </PossiblyNullReference>
   </file>
+  <file src="redaxo/src/addons/install/pages/settings.php">
+    <NullOperand occurrences="2">
+      <code>rex_escape($config['api_key'])</code>
+      <code>rex_escape($config['api_login'])</code>
+    </NullOperand>
+  </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_convert2img.php">
     <PossiblyNullArgument occurrences="2">
       <code>$this-&gt;media-&gt;getMediaPath()</code>
@@ -74,6 +85,16 @@
       <code>$this-&gt;getMediaPath()</code>
     </PossiblyNullArgument>
   </file>
+  <file src="redaxo/src/addons/media_manager/pages/settings.php">
+    <NullOperand occurrences="6">
+      <code>rex_escape($addon-&gt;getConfig('jpg_quality'))</code>
+      <code>rex_escape($addon-&gt;getConfig('jpg_quality'))</code>
+      <code>rex_escape($addon-&gt;getConfig('png_compression'))</code>
+      <code>rex_escape($addon-&gt;getConfig('png_compression'))</code>
+      <code>rex_escape($addon-&gt;getConfig('webp_quality'))</code>
+      <code>rex_escape($addon-&gt;getConfig('webp_quality'))</code>
+    </NullOperand>
+  </file>
   <file src="redaxo/src/addons/media_manager/pages/types.php">
     <PossiblyNullReference occurrences="2">
       <code>getLogin</code>
@@ -85,6 +106,11 @@
       <code>getComplexPerm</code>
       <code>getName</code>
     </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/addons/mediapool/lib/media.php">
+    <InvalidIterator occurrences="1">
+      <code>$cache</code>
+    </InvalidIterator>
   </file>
   <file src="redaxo/src/addons/mediapool/lib/media_category_select.php">
     <PossiblyNullReference occurrences="1">
@@ -118,9 +144,6 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/mediapool/pages/media.list.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$files-&gt;getDateTimeValue('updatedate')</code>
-    </PossiblyNullArgument>
     <PossiblyNullReference occurrences="3">
       <code>getComplexPerm</code>
       <code>getComplexPerm</code>
@@ -144,10 +167,6 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/metainfo/extensions/extension_content_sidebar.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$article-&gt;getValue('createdate')</code>
-      <code>$article-&gt;getValue('updatedate')</code>
-    </PossiblyNullArgument>
     <PossiblyNullReference occurrences="1">
       <code>getValue</code>
     </PossiblyNullReference>
@@ -169,6 +188,10 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/handler/handler.php">
+    <NullOperand occurrences="2">
+      <code>rex_escape(preg_replace('/[^a-zA-Z0-9_-]/', '_', $key))</code>
+      <code>rex_escape(preg_replace('/[^a-zA-Z0-9_-]/', '_', $name))</code>
+    </NullOperand>
     <PossiblyNullArgument occurrences="1">
       <code>$id</code>
     </PossiblyNullArgument>
@@ -192,10 +215,6 @@
     </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/metainfo/pages/content.metainfo.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$article-&gt;getValue('createdate')</code>
-      <code>$article-&gt;getValue('updatedate')</code>
-    </PossiblyNullArgument>
     <PossiblyNullReference occurrences="2">
       <code>getName</code>
       <code>getValue</code>
@@ -207,9 +226,29 @@
     </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/phpmailer/pages/checkmail.php">
+    <NullOperand occurrences="3">
+      <code>rex_escape($addon-&gt;getConfig('host'))</code>
+      <code>rex_escape($addon-&gt;getConfig('port'))</code>
+      <code>rex_escape($addon-&gt;getConfig('test_address'))</code>
+    </NullOperand>
     <PossiblyNullArgument occurrences="1">
       <code>$addon-&gt;getConfig('test_address')</code>
     </PossiblyNullArgument>
+  </file>
+  <file src="redaxo/src/addons/phpmailer/pages/config.php">
+    <NullOperand occurrences="11">
+      <code>rex_escape($addon-&gt;getConfig('bcc'))</code>
+      <code>rex_escape($addon-&gt;getConfig('charset'))</code>
+      <code>rex_escape($addon-&gt;getConfig('confirmto'))</code>
+      <code>rex_escape($addon-&gt;getConfig('from'))</code>
+      <code>rex_escape($addon-&gt;getConfig('fromname'))</code>
+      <code>rex_escape($addon-&gt;getConfig('host'))</code>
+      <code>rex_escape($addon-&gt;getConfig('password'))</code>
+      <code>rex_escape($addon-&gt;getConfig('port'))</code>
+      <code>rex_escape($addon-&gt;getConfig('test_address'))</code>
+      <code>rex_escape($addon-&gt;getConfig('username'))</code>
+      <code>rex_escape($addon-&gt;getConfig('wordwrap'))</code>
+    </NullOperand>
   </file>
   <file src="redaxo/src/addons/structure/functions/function_rex_category.php">
     <PossiblyNullReference occurrences="1">
@@ -354,17 +393,17 @@
       <code>getComplexPerm</code>
     </PossiblyNullReference>
   </file>
+  <file src="redaxo/src/addons/structure/lib/structure_element.php">
+    <EmptyArrayAccess occurrences="1">
+      <code>$genVars['last_update_stamp']</code>
+    </EmptyArrayAccess>
+  </file>
   <file src="redaxo/src/addons/structure/lib/var_article.php">
     <PossiblyNullReference occurrences="1">
       <code>getValue</code>
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/pages/index.php">
-    <PossiblyNullArgument occurrences="3">
-      <code>$sql-&gt;getDateTimeValue('createdate')</code>
-      <code>$sql-&gt;getDateTimeValue('createdate')</code>
-      <code>$sql-&gt;getDateTimeValue('createdate')</code>
-    </PossiblyNullArgument>
     <PossiblyNullReference occurrences="12">
       <code>getComplexPerm</code>
       <code>getComplexPerm</code>
@@ -470,12 +509,19 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/pages/modules.modules.php">
+    <NullOperand occurrences="1">
+      <code>rex_escape($mkey)</code>
+    </NullOperand>
     <PossiblyNullReference occurrences="2">
       <code>getCode</code>
       <code>getName</code>
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/pages/templates.php">
+    <NullOperand occurrences="2">
+      <code>rex_escape($templatekey)</code>
+      <code>rex_escape($templatename)</code>
+    </NullOperand>
     <PossiblyNullArgument occurrences="2">
       <code>$templatename</code>
       <code>$templatename</code>
@@ -639,6 +685,12 @@
       <code>createInput</code>
     </PossiblyNullReference>
   </file>
+  <file src="redaxo/src/core/lib/form/elements/element.php">
+    <NullOperand occurrences="2">
+      <code>rex_escape($value)</code>
+      <code>rex_escape($value)</code>
+    </NullOperand>
+  </file>
   <file src="redaxo/src/core/lib/form/elements/select.php">
     <PossiblyNullArgument occurrences="1">
       <code>$this-&gt;getValue()</code>
@@ -739,6 +791,9 @@
       <code>add</code>
     </PossiblyNullReference>
   </file>
+  <file src="redaxo/src/core/lib/util/socket/socket.php">
+    <InvalidArgument occurrences="1"/>
+  </file>
   <file src="redaxo/src/core/lib/util/version.php">
     <PossiblyNullArgument occurrences="3">
       <code>$comparator</code>
@@ -758,6 +813,11 @@
       <code>isAdmin</code>
     </PossiblyNullReference>
   </file>
+  <file src="redaxo/src/core/pages/packages.help.php">
+    <NullOperand occurrences="1">
+      <code>rex_escape($name)</code>
+    </NullOperand>
+  </file>
   <file src="redaxo/src/core/pages/profile.php">
     <PossiblyNullReference occurrences="1">
       <code>getId</code>
@@ -767,6 +827,16 @@
     <PossiblyNullReference occurrences="1">
       <code>getCode</code>
     </PossiblyNullReference>
+  </file>
+  <file src="redaxo/src/core/pages/system.settings.php">
+    <NullOperand occurrences="1">
+      <code>rex_escape($editor-&gt;getBasepath())</code>
+    </NullOperand>
+  </file>
+  <file src="redaxo/src/core/tests/console/config/set_test.php">
+    <EmptyArrayAccess occurrences="1">
+      <code>$config['test']</code>
+    </EmptyArrayAccess>
   </file>
   <file src="redaxo/src/core/tests/sql/sql_table_test.php">
     <PossiblyNullReference occurrences="19">

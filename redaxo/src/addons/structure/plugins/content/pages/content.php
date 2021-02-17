@@ -74,7 +74,7 @@ $context = new rex_context([
 ]);
 
 // ----- Titel anzeigen
-echo rex_view::title(rex_i18n::msg('content'), '');
+echo rex_view::title(rex_i18n::msg('content') . ': ' . $OOArt->getName(), '');
 
 // ----- Languages
 echo rex_view::clangSwitchAsButtons($context);
@@ -248,7 +248,7 @@ if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id))
                                 rex_sql_util::organizePriorities(
                                     rex::getTable('article_slice'),
                                     'priority',
-                                    'article_id=' . (int) $article_id . ' AND clang_id=' . (int) $clang . ' AND ctype_id=' . (int) $ctype . ' AND revision=' . (int) $slice_revision,
+                                    'article_id=' . $article_id . ' AND clang_id=' . $clang . ' AND ctype_id=' . $ctype . ' AND revision=' . (int) $slice_revision,
                                     'priority, updatedate DESC'
                                 );
 
@@ -385,7 +385,7 @@ if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id))
     $navigation = current($blocks);
     $content_navi_right = $navigation['navigation'];
 
-    $content_navi_right[] = ['title' => '<a href="' . rex_getUrl($article_id, $clang) . '" onclick="window.open(this.href); return false;"><i class="rex-icon rex-icon-view"></i> ' . rex_i18n::msg('article') . ' ' . rex_i18n::msg('show') . '</a>'];
+    $content_navi_right[] = ['title' => '<a href="' . rex_getUrl($article_id, $clang) . '" onclick="window.open(this.href); return false;">' . rex_i18n::msg('article') . ' ' . rex_i18n::msg('show') . ' <i class="rex-icon rex-icon-external-link"></i></a>'];
 
     $fragment = new rex_fragment();
     $fragment->setVar('id', 'rex-js-structure-content-nav', false);

@@ -4,14 +4,17 @@
  * @package redaxo5
  */
 
-// -------------- Defaults
-$func = rex_request('func', 'string');
-
 $error = '';
 $success = '';
 
+$func = rex_request('func', 'string');
 $logFile = rex_logger::getPath();
-if ('delLog' == $func) {
+
+$csrfToken = rex_csrf_token::factory('system');
+
+if ($func && !$csrfToken->isValid()) {
+    $error = rex_i18n::msg('csrf_token_invalid');
+} elseif ('delLog' == $func) {
     // close logger, to free remaining file-handles to syslog
     // so we can safely delete the file
     rex_logger::close();
@@ -21,8 +24,7 @@ if ('delLog' == $func) {
     } else {
         $error = rex_i18n::msg('syslog_delete_error');
     }
-}
-if ('download' == $func && is_file($logFile)) {
+} elseif ('download' == $func && is_file($logFile)) {
     rex_response::sendFile($logFile, 'application/octet-stream', 'attachment');
     exit;
 }
@@ -73,8 +75,8 @@ foreach (new LimitIterator($file, 0, 100) as $entry) {
     $content .= '
                 <tr class="rex-state-' . $class . '">
                     <td data-title="' . rex_i18n::msg('syslog_timestamp') . '">' . $entry->getTimestamp('%d.%m.%Y %H:%M:%S') . '</td>
-                    <td data-title="' . rex_i18n::msg('syslog_type') . '">' . rex_escape($data[0]) . '</td>
-                    <td data-title="' . rex_i18n::msg('syslog_message') . '">' . nl2br(rex_escape($data[1])) . '</td>
+                    <td data-title="' . rex_i18n::msg('syslog_type') . '"><div class="rex-word-break">' . rex_escape($data[0]) . '</div></td>
+                    <td data-title="' . rex_i18n::msg('syslog_message') . '"><div class="rex-word-break">' . nl2br(rex_escape($data[1])) . '</div></td>
                     <td data-title="' . rex_i18n::msg('syslog_file') . '"><div class="rex-word-break">' . $path . '</div></td>
                     <td class="rex-table-number" data-title="' . rex_i18n::msg('syslog_line') . '">' . (isset($data[3]) ? rex_escape($data[3]) : '') . '</td>
                 </tr>';
@@ -97,9 +99,9 @@ if ($url = $editor->getUrl($logFile, 0)) {
 }
 
 if (is_file($logFile)) {
-    $url = rex_url::currentBackendPage(['func' => 'download']);
+    $url = rex_url::currentBackendPage(['func' => 'download'] + $csrfToken->getUrlParams());
     $n = [];
-    $n['field'] = '<a class="btn btn-save" href="'. $url .'">' . rex_i18n::msg('syslog_download', rex_path::basename($logFile)) . '</a>';
+    $n['field'] = '<a class="btn btn-save" href="'. $url .'" download>' . rex_i18n::msg('syslog_download', rex_path::basename($logFile)) . '</a>';
     $formElements[] = $n;
 }
 
@@ -116,6 +118,7 @@ $content = $fragment->parse('core/page/section.php');
 $content = '
     <form action="' . rex_url::currentBackendPage() . '" method="post">
         <input type="hidden" name="func" value="delLog" />
+        ' . $csrfToken->getHiddenField() . '
         ' . $content . '
     </form>';
 

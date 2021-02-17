@@ -193,6 +193,8 @@ class rex_log_file implements Iterator
  */
 class rex_log_entry
 {
+    public const DATE_FORMAT = 'Y-m-d H:i:s';
+
     /** @var int */
     private $timestamp;
 
@@ -265,6 +267,6 @@ class rex_log_entry
         }, $this->data);
         $data = implode(' | ', $data);
         $data = str_replace("\r", '', $data);
-        return date('Y-m-d H:i:s', $this->timestamp) . ' | ' . $data;
+        return date(self::DATE_FORMAT, $this->timestamp) . ' | ' . $data;
     }
 }

@@ -62,6 +62,3 @@ install_settings_saved = Configurações salvas!
 install_settings_error = As configurações não foram salvas, verifique permissões de arquivo para: {0}
 
 install_header_function = Função
-
-install_clear = Apagar
-install_search = Procurar...

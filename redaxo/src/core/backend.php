@@ -11,6 +11,7 @@ header("Content-Security-Policy: frame-ancestors 'self'");
 // assets which are passed with a cachebuster will be cached very long,
 // as we assume their url will change when the underlying content changes
 if (rex_get('asset') && rex_get('buster')) {
+    /** @psalm-taint-escape file */ // it is not escaped here, but it is validated below via the realpath
     $assetFile = rex_get('asset');
 
     // relative to the assets-root
@@ -27,14 +28,14 @@ if (rex_get('asset') && rex_get('buster')) {
 
     $ext = rex_file::extension($assetFile);
     if ('js' === $ext) {
-        $js = rex_file::get($assetFile);
+        $js = rex_file::require($assetFile);
 
         $js = preg_replace('@^//# sourceMappingURL=.*$@m', '', $js);
 
         rex_response::sendCacheControl('max-age=31536000, immutable');
         rex_response::sendContent($js, 'application/javascript');
     } elseif ('css' === $ext) {
-        $styles = rex_file::get($assetFile);
+        $styles = rex_file::require($assetFile);
 
         // If we are in a directory off the root, add a relative path here back to the root, like "../"
         // get the public path to this file, plus the baseurl
@@ -55,7 +56,6 @@ if (rex_get('asset') && rex_get('buster')) {
 
 // ----- verfuegbare seiten
 $pages = [];
-$page = '';
 
 // ----------------- SETUP
 if (rex::isSetup()) {
@@ -70,7 +70,6 @@ if (rex::isSetup()) {
     rex_i18n::setLocale(rex::getProperty('lang'));
 
     $pages['setup'] = rex_be_controller::getSetupPage();
-    $page = 'setup';
     rex_be_controller::setCurrentPage('setup');
 } else {
     // ----------------- CREATE LANG OBJ
@@ -135,7 +134,6 @@ if (rex::isSetup()) {
         }
 
         $pages['login'] = rex_be_controller::getLoginPage();
-        $page = 'login';
         rex_be_controller::setCurrentPage('login');
 
         if ('login' !== rex_request('page', 'string', 'login')) {

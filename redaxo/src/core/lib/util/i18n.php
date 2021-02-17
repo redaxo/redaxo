@@ -233,6 +233,8 @@ class rex_i18n
      * @param string         $locale       A Locale
      * @psalm-param list<string|int> $replacements
      *
+     * @psalm-taint-escape ($escape is true ? "html" : null)
+     *
      * @return mixed
      */
     private static function getMsg($key, $escape, array $replacements, $locale = null)
@@ -347,6 +349,8 @@ class rex_i18n
      *
      * @throws InvalidArgumentException
      *
+     * @psalm-taint-escape ($escape is true ? "html" : null)
+     *
      * @return string Translated text
      */
     public static function translate($text, $escape = true, callable $i18nFunction = null)
@@ -382,6 +386,8 @@ class rex_i18n
      *
      * @throws InvalidArgumentException
      *
+     * @psalm-taint-escape ($escape is true ? "html" : null)
+     *
      * @return mixed
      */
     public static function translateArray($array, $escape = true, callable $i18nFunction = null)
@@ -414,14 +420,14 @@ class rex_i18n
     private static function loadFile($dir, $locale)
     {
         $file = $dir.DIRECTORY_SEPARATOR.$locale.'.lang';
-
-        if (
-            ($content = rex_file::get($file)) &&
-            preg_match_all('/^([^=\s]+)\h*=\h*(\S.*)(?<=\S)/m', $content, $matches, PREG_SET_ORDER)
-        ) {
-            foreach ($matches as $match) {
-                self::$msg[$locale][$match[1]] = $match[2];
-            }
+        if (!($content = rex_file::get($file))) {
+            return;
+        }
+        if (!preg_match_all('/^([^=\s]+)\h*=\h*(\S.*)(?<=\S)/m', $content, $matches, PREG_SET_ORDER)) {
+            return;
+        }
+        foreach ($matches as $match) {
+            self::$msg[$locale][$match[1]] = $match[2];
         }
     }
 

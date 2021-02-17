@@ -51,7 +51,9 @@ abstract class rex_error_handler
 
             // in case exceptions happen early - before symfony-console doRun()
             if ('cli' === PHP_SAPI) {
-                echo $exception->__toString();
+                /** @psalm-taint-escape html */ // actually it is not escaped, it is not necessary in cli output
+                $exceptionString = $exception->__toString();
+                echo $exceptionString;
                 exit(1);
             }
 
@@ -135,6 +137,9 @@ abstract class rex_error_handler
                     .search-for-help {
                         width: auto;
                     }
+                    .search-for-help li:nth-child(n+2) {
+                        display: none;
+                    }
                     .rex-whoops-header {
                         position: fixed;
                         top: 0;
@@ -168,6 +173,22 @@ abstract class rex_error_handler
                         background-color: #754600;
                         color: #f90;
                     }
+                    .rex-report-bug {
+                        position: absolute;
+                        top: 17px;
+                        right: 200px;
+                        display: inline-block;
+                        padding: 10px;
+                        border-radius: 4px;
+                        color: white;
+                        font-size: .875rem;
+                        font-weight: 700;
+                        transition: 0.2s ease-out;
+                    }
+                    .rex-report-bug:hover {
+                        background-color: white;
+                        color: #b00;
+                    }
                     button.clipboard {
                         margin: 10px 5px;
                         padding: 0 10px;
@@ -191,6 +212,20 @@ abstract class rex_error_handler
             $saveModeLink = '<a class="rex-safemode" href="' . rex_url::backendPage('packages', ['safemode' => 1]) . '">activate safe mode</a>';
         }
 
+        $bugTitle = 'Exception: '. $exception->getMessage();
+        $bugLabel = 'Bug';
+        $bugBody = self::getMarkdownReport($exception);
+        if (rex_server('REQUEST_URI')) {
+            $bugBody =
+                '**Request-Uri:** ' . rex_server('REQUEST_URI')."\n".
+                '**Request-Method:** ' . strtoupper(rex_request::requestMethod()) ."\n".
+                "\n". $bugBody;
+        }
+
+        $bugBodyCompressed = preg_replace('/ {2,}/u', ' ', $bugBody); // replace multiple spaces with one space
+        assert(is_string($bugBodyCompressed));
+        $reportBugLink = '<a class="rex-report-bug" href="https://github.com/redaxo/redaxo/issues/new?labels='. rex_escape($bugLabel, 'url') .'&title='. rex_escape($bugTitle, 'url') .'&body='.rex_escape($bugBodyCompressed, 'url').'">Report a REDAXO bug</a>';
+
         $url = rex::isFrontend() ? rex_url::frontendController() : rex_url::backendController();
 
         $errPage = str_replace(
@@ -199,7 +234,7 @@ abstract class rex_error_handler
                 '</body>',
             ], [
                 $styles . '</head>',
-                '<div class="rex-whoops-header"><a href="' . $url . '" class="rex-logo">' . $logo . '</a>' . $saveModeLink . '</div></body>',
+                '<div class="rex-whoops-header"><a href="' . $url . '" class="rex-logo">' . $logo . '</a>' . $reportBugLink . $saveModeLink . '</div></body>',
             ],
             $errPage
         );
@@ -215,10 +250,11 @@ abstract class rex_error_handler
             $errPage
         );
 
-        $errPage = preg_replace('@<button id="copy-button" .*?</button>@s', '$0<button class="clipboard" data-clipboard-text="'.rex_escape(self::getMarkdownReport($exception)).'" title="Copy exception details and system report as markdown to clipboard">
+        $errPage = preg_replace('@<button id="copy-button" .*?</button>@s', '$0<button class="rightButton clipboard" data-clipboard-text="'.rex_escape(self::getMarkdownReport($exception)).'" title="Copy exception details and system report as markdown to clipboard">
       COPY MARKDOWN
     </button>', $errPage);
         $errPage = str_replace('<button id="copy-button"', '<button ', $errPage);
+        $errPage = preg_replace('@<button id="hide-error" .*?</button>@s', '', $errPage);
 
         return [$errPage, $handler->contentType()];
     }
@@ -239,8 +275,8 @@ abstract class rex_error_handler
             throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
         }
 
-        // silenced errors ("@" operator)
-        if (0 === error_reporting()) {
+        // silenced errors (via php.ini or "@" operator)
+        if (!(error_reporting() & $errno)) {
             return false;
         }
 
@@ -252,10 +288,6 @@ abstract class rex_error_handler
             is_int($alwaysThrow) && $errno === ($errno & $alwaysThrow)
         ) {
             throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
-        }
-
-        if ((error_reporting() & $errno) !== $errno) {
-            return;
         }
 
         if (ini_get('display_errors') && (rex::isSetup() || rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin())) {
@@ -282,9 +314,13 @@ abstract class rex_error_handler
         // catch fatal/parse errors
         if (self::$registered) {
             $error = error_get_last();
-            if (is_array($error) && in_array($error['type'], [E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR, E_PARSE])) {
-                self::handleException(new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']));
+            if (!is_array($error)) {
+                return;
             }
+            if (!in_array($error['type'], [E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR, E_PARSE])) {
+                return;
+            }
+            self::handleException(new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']));
         }
     }
 
