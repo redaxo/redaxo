@@ -398,10 +398,8 @@ class rex_list implements rex_url_provider_interface
         if ($this->rowAttributesCallable) {
             $RETURN = call_user_func($this->rowAttributes, $this);
         } else {
-            foreach ($this->rowAttributes as &$attr) {
-                $attr = $this->replaceVariables((string) $attr);
-            }
             $RETURN = rex_string::buildAttributes($this->rowAttributes);
+            $RETURN = $this->replaceVariables($RETURN);
         }
         if (0 < strlen($RETURN)) {
             $RETURN = ' ' . $RETURN;
