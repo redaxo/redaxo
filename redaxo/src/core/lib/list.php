@@ -393,7 +393,7 @@ class rex_list implements rex_url_provider_interface
      *
      * @return string   attributname="..." ....
      */
-    protected function fetchRowAttributes()
+    private function fetchRowAttributes(): string
     {
         if ($this->rowAttributesCallable) {
             $RETURN = call_user_func($this->rowAttributes, $this);
