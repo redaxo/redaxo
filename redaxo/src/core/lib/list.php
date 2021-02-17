@@ -79,10 +79,10 @@ class rex_list implements rex_url_provider_interface
     //  --------- Row Attributes
     /** @psalm-var array<string, string|int>|callable  */
     private $rowAttributes;
-    /** @var bool  */
+    /** @var bool */
     private $rowAttributesCallable;
 
-   // --------- Column Attributes
+    // --------- Column Attributes
     /** @psalm-var array<string, string>  */
     private $customColumns;
     /** @psalm-var list<string> */
@@ -363,12 +363,12 @@ class rex_list implements rex_url_provider_interface
      * @param mixed $attr   entweder ein array: [attributname => attribut, ...]
      *                      oder eine Callback-Funktion
      */
-    public function setRowAttributes( $attr )
+    public function setRowAttributes($attr)
     {
         if (is_callable($attr)) {
             $this->rowAttributes = $attr;
             $this->rowAttributesCallable = true;
-        } elseif (is_array($attr) && count($attr) ) {
+        } elseif (is_array($attr) && count($attr)) {
             $this->rowAttributes = $attr;
             $this->rowAttributesCallable = false;
         } else {
@@ -393,13 +393,13 @@ class rex_list implements rex_url_provider_interface
      *
      * @return string   attributname="..." ....
      */
-    protected function fetchRowAttributes( )
+    protected function fetchRowAttributes()
     {
         if ($this->rowAttributesCallable) {
             $RETURN = call_user_func($this->rowAttributes, $this);
         } else {
             foreach ($this->rowAttributes as &$attr) {
-                $attr = $this->replaceVariables((string)$attr);
+                $attr = $this->replaceVariables((string) $attr);
             }
             $RETURN = rex_string::buildAttributes($this->rowAttributes);
         }
