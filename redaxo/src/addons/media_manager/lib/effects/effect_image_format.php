@@ -39,8 +39,8 @@ class rex_effect_image_format extends rex_effect_abstract
     {
         $media = $this->media;
 
-        $ext = $media->getFormat();
-        $ext = strtolower('jpeg' === $ext ? 'jpg' : $ext);
+        $ext = strtolower($media->getFormat());
+        $ext = 'jpeg' === $ext ? 'jpg' : $ext;
         // skip if extension is not in list
         if (!in_array($ext, self::$convert_types)) {
             return;
