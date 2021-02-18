@@ -4,7 +4,7 @@
  * @package redaxo\media-manager
  */
 
-class rex_effect_img2img extends rex_effect_abstract
+class rex_effect_image_format extends rex_effect_abstract
 {
     private static $convert_types = [
         'jpg',
@@ -101,14 +101,14 @@ class rex_effect_img2img extends rex_effect_abstract
 
     public function getName()
     {
-        return rex_i18n::msg('media_manager_effect_img2img');
+        return rex_i18n::msg('media_manager_effect_image_format');
     }
 
     public function getParams()
     {
         return [
             [
-                'label' => rex_i18n::msg('media_manager_effect_img2img_convertto'),
+                'label' => rex_i18n::msg('media_manager_effect_image_format_convertto'),
                 'name' => 'convert_to',
                 'type' => 'select',
                 'options' => self::$convert_tos,
