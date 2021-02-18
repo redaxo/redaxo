@@ -40,15 +40,9 @@ class rex_effect_img2img extends rex_effect_abstract
         $media = $this->media;
 
         $ext = $media->getFormat();
-        $ext = 'jpeg' === $ext ? 'jpg' : $ext;
+        $ext = strtolower('jpeg' === $ext ? 'jpg' : $ext);
         // skip if extension is not in list
-        if (!in_array(strtolower($ext), self::$convert_types)) {
-            return;
-        }
-
-        $media->asImage();
-        $imageObject = $media->getImage();
-        if (null === $imageObject) {
+        if (!in_array($ext, self::$convert_types)) {
             return;
         }
 
@@ -56,6 +50,15 @@ class rex_effect_img2img extends rex_effect_abstract
             $convert_to = self::$convert_to[self::$convert_to_default];
         } else {
             $convert_to = self::$convert_to[$this->params['convert_to']];
+        }
+        if ($convert_to['ext'] == $ext) {
+            return;
+        }
+
+        $media->asImage();
+        $imageObject = $media->getImage();
+        if (null === $imageObject) {
+            return;
         }
 
         switch ($convert_to['ext']) {
