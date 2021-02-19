@@ -8,6 +8,7 @@ Version 5.12.0 – XX.XX.2021
 
 * Neue PHP-Mindestversion 7.3
 * Update der externen Bibliotheken (u.a. Symfony Components 5.x)
+* `symfony/http-foundation` neu aufgenommen; das Request-Objekt kann über `rex::getRequest()` abgefragt werden (@gharlan)
 * `rex`: Neue Methode `getDbConfig` liefert die DB-Config als Objekt der neuen Klasse `rex_config_db` (@staabm)
 * `rex_markdown`:
     - Die Umwandlung einfacher Zeilenumbrüche zu `<br/>` (kein Markdown-Standard) kann deaktiviert werden und ist bei der Darstellung von Markdown-Dateien im Backend deaktiviert (@christophboecker)
@@ -16,10 +17,13 @@ Version 5.12.0 – XX.XX.2021
 * `rex_form`: Pflichtfelder (gesetzt über `notEmpty`-Validator) werden im Label markiert und erhalten das `required`-Attribut (@staabm)
 * `rex_user`: Neue Methode `forLogin` um User über den Benutzernamen abzufragen (@jelleschutter)
 * `rex_file`: Neue Methode `require`, wie `get`, aber wirft Exception, wenn die Datei nicht gelesen werden kann (@staabm)
-* `rex_response`: Bei `sendResource` ist der Client-Cache default deaktiviert, und kann vorab per `sendCacheControl` geändert werden (@alxndr-w)
+* `rex_response`: 
+    - Bei `sendResource` ist der Client-Cache default deaktiviert, und kann vorab per `sendCacheControl` geändert werden (@alxndr-w)
+    - Bei `sendRedirect` kann der Statuscode als zweiter Parameter übergeben werden (@staabm)
 * `rex_package`: Neue Methode `splitId` um eine Package-ID in AddOn- und PlugIn-Part zu trennen (@gharlan)
 * `rex_sql`: Neue statische Methode `in`, um die Parameter für die `IN (…)`-Clause mit Escaping zu erhalten (@gharlan)
 * `rex_sql_util`: Methode `importDump` prüft, ob es eine `*.sql`-Datei ist (@staabm)
+* `rex_var`: Variablen können auch Ziffern im Namen enthalten (@gharlan)
 * `rex_api_function`: Exception bei ungültigem JSON (@staabm)
 * `rex_editor`: Die Editoren haben Konstanten erhalten, und die Klasse validiert den gesetzen Editor (@staabm)
 * Console:
@@ -27,16 +31,21 @@ Version 5.12.0 – XX.XX.2021
     - `config:get/set`: `--type`-Option unterstützt den `octal`-Typ für `fileperm`/`dirperm` (@staabm)
     - `assets:sync`: Dateivergleich optimiert und Beschreibung/Hilfe verbessert (@staabm)
     - `setup:run`: Die Ordner/Dateien mit fehlenden Schreibrechten werden im Listen-Style aufgelistet (@staabm)
-* Setup: 
-    - Der DB-Host wird separat validiert, mit spezifischer Fehlermeldung (@trailsnail)
-    - „End of life“-Daten für PHP 8.0, MySQL 8.0 und MariaDB 10.5 ergänzt (@staabm)
+* Setup:
+    - Erneutes Setup (über Backend gestartet) aktiviert nicht mehr den globalen Setup-Modus, sondern läuft über einen URL-Token parallel zum normalen Seitenbetrieb (@gharlan)
     - Erneutes Setup kann jederzeit über Button abgebrochen/beendet werden (@staabm)
     - Bei erneutem Setup ist „Datenbank existiert schon“ vorausgewählt (@staabm)
+    - Der DB-Host wird separat validiert, mit spezifischer Fehlermeldung (@trailsnail)
+    - Bei „Datenbank erstellen“ wird die Collation `utf8mb4_unicode_ci` genutzt (@ixtension)
+    - „End of life“-Daten für PHP 8.0, MySQL 8.0 und MariaDB 10.5 ergänzt (@staabm)
+    - Lizenztext wird per Markdown geparsed (@schuer)
+    - Textaktualisierungen/-verbesserungen (@schuer, @alxndr-w)
 * Package-Installation: Packages können über neue `successmsg`-Property eine eigene Erfolgsmeldung setzen (@BlackScorp, @staabm)
 * Über das Fragezeichen in der AddOn-Verwaltung ist über eine weitere Subpage die `CHANGELOG.md` der AddOns einsehbar (@staabm, @gharlan)
 * Package-Abhängigkeiten: 
     - Wenn ein nicht vorhandenes Package erfordert wird, wird direkt die Versionsbedingung mit ausgegeben (@skerbis)
     - In der Fehlermeldung sind die Abhängigkeiten verlinkt (Sprunglink oder Link in den Installer) (@staabm, @gharlan)
+* Im Safe-Mode wird neu auch das `install`-AddOn geladen und ist nutzbar (@alxndr-w, @gharlan)
 * Passwortregeln werden unterhalb der Passwortfelder angezeigt (@gharlan)
 * Systembericht: Fehlerhandling bei invaliden `package.yml` optimiert (@staabm)
 * REDAXO-Logo wird direkt als SVG ausgegeben, dadurch kein Flackern mehr (@schuer)
@@ -44,8 +53,10 @@ Version 5.12.0 – XX.XX.2021
 * Pflichtfelder werden an vielen Stellen mit einem roten Sternchen markiert (@staabm)
 * Externe Links werden mit einem Icon markiert (@staabm)
 * Neues Fragment `core/form/search.php` für Suchfelder wie in der AddOn-Verwaltung, mit zugehöriger JS-Funktion `rex_searchfield_init` (@skerbis)
-* Whoops-Page enthält Button „Report a bug“, der GitHub öffnet mit vorausgefüllter Issue-Maske (@staabm)
+* Whoops-Page enthält Button „Report a bug“, der GitHub öffnet mit vorausgefüllter Issue-Maske (@staabm, @schuer)
 * Optimierte Fehlermeldung, wenn die Datenbankverbindung nicht aufgebaut werden kann (@staabm)
+* Backend-Übersetzungsdateien:
+    - Textkorrekturen/-verbesserungen (@alxndr-w, @gharlan)
 * Einige Deprecated-Methods erhalten in PhpStorm automatische Ersetzungsvorschläge (@staabm)
 * Code-Stabilität durch statische Code-Analyse verbessert (@staabm, @gharlan)
 * Parameternamen in vielen Funktionen/Methoden optimiert (u.a. wegen Named Arguments in PHP 8) (@gharlan)
@@ -55,6 +66,7 @@ Version 5.12.0 – XX.XX.2021
 * Wenn die Console mit nicht-unterstützter PHP-Version aufgerufen wird, war die Fehlermeldung dazu teils nicht sichtbar (@staabm)
 * fail2ban-Blocking während des htaccess-Sicherheitschecks wird verhindert (@skerbis, @staabm)
 * Systemlog: Beim Löschen der Logdatei fehlte der CSRF-Schutz (@staabm)
+* `rex_form`: Bei aktiviertem Debug-Parameter wurde die Redirect-URL nicht escaped (@gharlan)
 
 
 Version 5.11.2 – 25.01.2021
