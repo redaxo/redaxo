@@ -5,6 +5,17 @@ Version 2.12.0 – XX.XX.2021
 ---------------------------
 
 * Login-Seite modernisiert, u.a. mit vollflächigem Hintergrundbild (kann über Fragment geändert werden) (@schuer)
+* Es werden die Systemschriften statt Lucida Grande verwendet, mit etwas größerer Schriftgröße (@schuer)
+* Navigation: Die Menüpunkte und Trennlinien nehmen gesamte Breite der Sidebar ein und die Icons stehen zentriert untereinander (@schuer)
+* Navigation im Setup mit optimierter Darstellung bzgl. aktiver/disabled Setupschritte (@schuer)
+* Grüneres Grün im Backend (@schuer)
+* Tab-Darstellung optimiert/modernisiert (@schuer)
+* Das Herzsymbol neben dem Logo bei aktivem Debug-Modus pulsiert für bessere Sichtbarkeit (@staabm)
+* Klickbare Fläche um Links herum an vielen Stellen vergrößert (@schuer)
+* Alert-Meldungen innerhalb von Tabellen werden nahtlos ohne Abstand in die Zeilen eingefasst (@schuer)
+* Readonly-Inputfelder reagieren nicht mehr auf focus/hover (@skerbis)
+* Buttons in Input-Groups haben dieselbe Höhe wie die Inputs (@schuer)
+* Customizer: Das Farbeingabefeld unterstützt zusätzlich den Standard-Colorpicker (@staabm)
 * Customizer: Codemirror-Update auf Version 5.58.3 (@aeberhard)
 
 

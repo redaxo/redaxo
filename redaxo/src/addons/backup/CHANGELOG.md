@@ -6,6 +6,7 @@ Version 2.7.0 – XX.XX.2021
 
 ### Neu
 
+* Datenbank-Backups können im Cronjob optional gz-komprimiert werden, solche können auch wieder importiert werden (@staabm)
 * Es können deutlich größere Dateibackups ex-/importiert werden (bei programmatischer Nutzung von `rex_backup::exportFiles` sollte dafür der neue zweite Parameter mit einem Zielpfad gesetzt werden) (@staabm)
 * Code entfernt, der die User-Tabellen anlegt nach Import, falls nicht vorhanden, da die Tabellendefinition veraltet war und die Situation im Normalfall nicht vorkommen kann (@gharlan)
 

@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.11.0 – XX.XX.2021
+---------------------------
+
+### Bugfixes
+
+* System-Mediatypen konnten umbenannt werden (@staabm)
+
+
 Version 2.10.1 – 11.11.2020
 ---------------------------
 

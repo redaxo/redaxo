@@ -18,25 +18,43 @@ Version 5.12.0 – XX.XX.2021
 * `rex_file`: Neue Methode `require`, wie `get`, aber wirft Exception, wenn die Datei nicht gelesen werden kann (@staabm)
 * `rex_response`: Bei `sendResource` ist der Client-Cache default deaktiviert, und kann vorab per `sendCacheControl` geändert werden (@alxndr-w)
 * `rex_package`: Neue Methode `splitId` um eine Package-ID in AddOn- und PlugIn-Part zu trennen (@gharlan)
+* `rex_sql`: Neue statische Methode `in`, um die Parameter für die `IN (…)`-Clause mit Escaping zu erhalten (@gharlan)
 * `rex_sql_util`: Methode `importDump` prüft, ob es eine `*.sql`-Datei ist (@staabm)
 * `rex_api_function`: Exception bei ungültigem JSON (@staabm)
 * `rex_editor`: Die Editoren haben Konstanten erhalten, und die Klasse validiert den gesetzen Editor (@staabm)
+* Console:
+    - `config:get/set`: Über neue Option `--package` können die Packages-Properties (statt Core-Properties) verwaltet werden (@staabm)
+    - `config:get/set`: `--type`-Option unterstützt den `octal`-Typ für `fileperm`/`dirperm` (@staabm)
+    - `assets:sync`: Dateivergleich optimiert und Beschreibung/Hilfe verbessert (@staabm)
+    - `setup:run`: Die Ordner/Dateien mit fehlenden Schreibrechten werden im Listen-Style aufgelistet (@staabm)
 * Setup: 
     - Der DB-Host wird separat validiert, mit spezifischer Fehlermeldung (@trailsnail)
     - „End of life“-Daten für PHP 8.0, MySQL 8.0 und MariaDB 10.5 ergänzt (@staabm)
+    - Erneutes Setup kann jederzeit über Button abgebrochen/beendet werden (@staabm)
+    - Bei erneutem Setup ist „Datenbank existiert schon“ vorausgewählt (@staabm)
 * Package-Installation: Packages können über neue `successmsg`-Property eine eigene Erfolgsmeldung setzen (@BlackScorp, @staabm)
+* Über das Fragezeichen in der AddOn-Verwaltung ist über eine weitere Subpage die `CHANGELOG.md` der AddOns einsehbar (@staabm, @gharlan)
 * Package-Abhängigkeiten: 
     - Wenn ein nicht vorhandenes Package erfordert wird, wird direkt die Versionsbedingung mit ausgegeben (@skerbis)
     - In der Fehlermeldung sind die Abhängigkeiten verlinkt (Sprunglink oder Link in den Installer) (@staabm, @gharlan)
 * Passwortregeln werden unterhalb der Passwortfelder angezeigt (@gharlan)
 * Systembericht: Fehlerhandling bei invaliden `package.yml` optimiert (@staabm)
-* Console:
-    - `config:get/set`: Über neue Option `--package` können die Packages-Properties (statt Core-Properties) verwaltet werden (@staabm)
-    - `config:get/set`: `--type`-Option unterstützt den `octal`-Typ für `fileperm`/`dirperm` (@staabm)
-    - `assets:sync`: Dateivergleich optimiert und Beschreibung/Hilfe verbessert (@staabm)
+* REDAXO-Logo wird direkt als SVG ausgegeben, dadurch kein Flackern mehr (@schuer)
+* Formulare können aus Textfeldern heraus per Strg/Cmd+Enter abgesendet werden (@schuer)
+* Pflichtfelder werden an vielen Stellen mit einem roten Sternchen markiert (@staabm)
+* Externe Links werden mit einem Icon markiert (@staabm)
+* Neues Fragment `core/form/search.php` für Suchfelder wie in der AddOn-Verwaltung, mit zugehöriger JS-Funktion `rex_searchfield_init` (@skerbis)
+* Whoops-Page enthält Button „Report a bug“, der GitHub öffnet mit vorausgefüllter Issue-Maske (@staabm)
 * Optimierte Fehlermeldung, wenn die Datenbankverbindung nicht aufgebaut werden kann (@staabm)
+* Einige Deprecated-Methods erhalten in PhpStorm automatische Ersetzungsvorschläge (@staabm)
 * Code-Stabilität durch statische Code-Analyse verbessert (@staabm, @gharlan)
 * Parameternamen in vielen Funktionen/Methoden optimiert (u.a. wegen Named Arguments in PHP 8) (@gharlan)
+
+### Bugfixes
+
+* Wenn die Console mit nicht-unterstützter PHP-Version aufgerufen wird, war die Fehlermeldung dazu teils nicht sichtbar (@staabm)
+* fail2ban-Blocking während des htaccess-Sicherheitschecks wird verhindert (@skerbis, @staabm)
+* Systemlog: Beim Löschen der Logdatei fehlte der CSRF-Schutz (@staabm)
 
 
 Version 5.11.2 – 25.01.2021

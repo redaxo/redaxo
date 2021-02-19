@@ -6,6 +6,7 @@ Version 2.8.0 – XX.XX.2020
 
 ### Neu
 
+* Aktive/inaktive Benutzer werden in Liste über Iconvarianten unterschieden (@schuer)
 * Passwortregeln werden unterhalb des Passwortfelds angezeigt (@gharlan)
 
 
