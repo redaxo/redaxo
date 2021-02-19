@@ -1171,7 +1171,7 @@ class rex_list implements rex_url_provider_interface
             for ($i = 0; $i < $this->pager->getRowsPerPage() && $i < $maxRows; ++$i) {
                 $rowAttributes = '';
                 if ($rowAttributesCallable) {
-                    $rowAttributes = ' ' . call_user_func($rowAttributesCallable, $this);
+                    $rowAttributes = ' ' . $rowAttributesCallable($this);
                 }
 
                 $s .= '            <tr' . $rowAttributes . ">\n";
