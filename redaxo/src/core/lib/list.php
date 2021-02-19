@@ -201,7 +201,7 @@ class rex_list implements rex_url_provider_interface
      * @param bool        $debug
      * @param int         $db          DB connection ID
      *
-     * @psalm-var positive-int $db
+     * @psalm-param positive-int $db
      *
      * @return static
      */
