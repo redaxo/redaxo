@@ -76,6 +76,10 @@ class rex_list implements rex_url_provider_interface
     /** @psalm-var array<string, string|int> */
     private $formAttributes;
 
+    //  --------- Row Attributes
+    /** @psalm-var array<string, string|int>|callable(self):string  */
+    private $rowAttributes;
+
     // --------- Column Attributes
     /** @psalm-var array<string, string>  */
     private $customColumns;
@@ -166,6 +170,9 @@ class rex_list implements rex_url_provider_interface
 
         // --------- Link Attributes
         $this->linkAttributes = [];
+
+        // --------- Row Attributes
+        $this->rowAttributes = [];
 
         // --------- Pagination Attributes
         $cursorName = $listName .'_start';
@@ -343,6 +350,34 @@ class rex_list implements rex_url_provider_interface
     public function getLinkAttributes($column, $default = null)
     {
         return $this->linkAttributes[$column] ?? $default;
+    }
+
+    // row attribute setter/getter
+
+    /**
+     * Methode, um der Zeile (<tr>) Attribute hinzuzufügen.
+     *
+     * @param array<string, string|int>|callable(self):string $attr Entweder ein array: [attributname => attribut, ...]
+     *                                                              oder eine Callback-Funktion
+     */
+    public function setRowAttributes($attr): void
+    {
+        if (!is_array($attr) && !is_callable($attr)) {
+            throw new InvalidArgumentException('$attr must be an array or a callable, but "'.get_debug_type($attr).'" given');
+        }
+
+        $this->rowAttributes = $attr;
+    }
+
+    /**
+     * Methode, um die Zeilen-Attribute (<tr>) abzufragen.
+     *
+     * @return array<string, string|int>|callable(self):string Entweder ein array: [attributname => attribut, ...]
+     *                                                         oder eine Callback-Funktion
+     */
+    public function getRowAttributes()
+    {
+        return $this->rowAttributes;
     }
 
     // ---------------------- Column setters/getters/etc
@@ -1122,9 +1157,24 @@ class rex_list implements rex_url_provider_interface
         if ($nbRows > 0) {
             $maxRows = $nbRows - $this->pager->getCursor();
 
+            $rowAttributesCallable = null;
+            if (is_callable($this->rowAttributes)) {
+                $rowAttributesCallable = $this->rowAttributes;
+            } elseif ($this->rowAttributes) {
+                $rowAttributes = rex_string::buildAttributes($this->rowAttributes);
+                $rowAttributesCallable = function () use ($rowAttributes) {
+                    return $this->replaceVariables($rowAttributes);
+                };
+            }
+
             $s .= '        <tbody>' . "\n";
             for ($i = 0; $i < $this->pager->getRowsPerPage() && $i < $maxRows; ++$i) {
-                $s .= '            <tr>' . "\n";
+                $rowAttributes = '';
+                if ($rowAttributesCallable) {
+                    $rowAttributes = ' ' . $rowAttributesCallable($this);
+                }
+
+                $s .= '            <tr' . $rowAttributes . ">\n";
                 foreach ($columnNames as $columnName) {
                     $columnValue = $this->formatValue($this->getValue($columnName), $columnFormates[$columnName], !isset($this->customColumns[$columnName]), $columnName);
 

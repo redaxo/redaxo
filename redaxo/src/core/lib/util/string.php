@@ -221,6 +221,7 @@ class rex_string
         if (!$antiXss) {
             $antiXss = new voku\helper\AntiXSS();
             $antiXss->removeEvilAttributes(['style']);
+            $antiXss->removeNeverAllowedRegex(['(\(?:?document\)?|\(?:?window\)?(?:\.document)?)\.(?:location|on\w*)' => '']);
             $antiXss->removeNeverAllowedStrAfterwards(['&lt;script&gt;', '&lt;/script&gt;']);
         }
 
