@@ -166,3 +166,6 @@ media_manager_effect_contrast_notice = [-100 to 100]. Leave empty for default va
 media_manager_effect_sepia = Image: sepia
 
 media_manager_effect_greyscale = Image: greyscale
+
+media_manager_effect_image_format = Image: convert to JPEG/PNG/GIF/WEBP
+media_manager_effect_image_format_convertto = Target format
