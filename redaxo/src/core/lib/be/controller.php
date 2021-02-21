@@ -462,11 +462,17 @@ class rex_be_controller
             $pattern = '@' . preg_quote(rex_path::src('addons/'), '@') . '([^/\\\]+)(?:[/\\\]plugins[/\\\]([^/\\\]+))?@';
 
             if (!preg_match($pattern, $path, $matches)) {
-                $context = $context;
-                $path = $path;
+                /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
+                $__context = $context;
+                /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
+                $__path = $path;
+
                 unset($context, $path, $pattern, $matches);
-                extract($context, EXTR_SKIP);
-                return include $path;
+
+                /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
+                extract($__context, EXTR_SKIP);
+                /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
+                return include $__path;
             }
 
             $package = rex_addon::get($matches[1]);

@@ -259,20 +259,29 @@ abstract class rex_package implements rex_package_interface
 
     /**
      * {@inheritdoc}
+     *
+     * @noRector
      */
     public function includeFile($file, array $context = [])
     {
-        $file = $file;
-        $context = $context;
+        /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
+        $__file = $file;
+        /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
+        $__context = $context;
+
         unset($file, $context);
 
-        extract($context, EXTR_SKIP);
+        /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
+        extract($__context, EXTR_SKIP);
 
-        if (is_file($this->getPath($file))) {
-            return include $this->getPath($file);
+        /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
+        if (is_file($this->getPath($__file))) {
+            /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
+            return include $this->getPath($__file);
         }
 
-        return include $file;
+        /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
+        return include $__file;
     }
 
     /**
