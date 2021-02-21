@@ -37,10 +37,10 @@ class rex_article_slice
      * Constructor.
      *
      * @param int    $id
-     * @param int    $article_id
+     * @param int    $articleId
      * @param int    $clang
      * @param int    $ctype
-     * @param int    $module_id
+     * @param int    $moduleId
      * @param int    $priority
      * @param int    $status
      * @param int    $createdate
@@ -55,17 +55,17 @@ class rex_article_slice
      * @param array  $linklists
      */
     protected function __construct(
-        $id, $article_id, $clang, $ctype, $module_id, $priority, $status,
+        $id, $articleId, $clang, $ctype, $moduleId, $priority, $status,
         $createdate, $updatedate, $createuser, $updateuser, $revision,
         $values, $media, $medialists, $links, $linklists)
     {
         $this->_id = $id;
-        $this->_article_id = $article_id;
+        $this->_article_id = $articleId;
         $this->_clang = $clang;
         $this->_ctype = $ctype;
         $this->_priority = $priority;
         $this->_status = $status;
-        $this->_module_id = $module_id;
+        $this->_module_id = $moduleId;
 
         $this->_createdate = $createdate;
         $this->_updatedate = $updatedate;
@@ -83,13 +83,13 @@ class rex_article_slice
     /**
      * Return an ArticleSlice by its id.
      *
-     * @param int      $an_id
+     * @param int      $anId
      * @param bool|int $clang
      * @param int      $revision
      *
      * @return self|null
      */
-    public static function getArticleSliceById($an_id, $clang = false, $revision = 0)
+    public static function getArticleSliceById($anId, $clang = false, $revision = 0)
     {
         if (false === $clang) {
             $clang = rex_clang::getCurrentId();
@@ -97,7 +97,7 @@ class rex_article_slice
 
         return self::getSliceWhere(
             'id=? AND clang_id=? and revision=?',
-            [$an_id, $clang, $revision]
+            [$anId, $clang, $revision]
         );
     }
 
@@ -107,21 +107,21 @@ class rex_article_slice
      * slices in the order as they appear using the
      * getNextSlice() function.
      *
-     * @param int      $an_article_id
+     * @param int      $anArticleId
      * @param bool|int $clang
      * @param int      $revision
      * @param bool     $ignoreOfflines
      *
      * @return self|null
      */
-    public static function getFirstSliceForArticle($an_article_id, $clang = false, $revision = 0, $ignoreOfflines = false)
+    public static function getFirstSliceForArticle($anArticleId, $clang = false, $revision = 0, $ignoreOfflines = false)
     {
         if (false === $clang) {
             $clang = rex_clang::getCurrentId();
         }
 
         foreach (range(1, 20) as $ctype) {
-            $slice = self::getFirstSliceForCtype($ctype, $an_article_id, $clang, $revision, $ignoreOfflines);
+            $slice = self::getFirstSliceForCtype($ctype, $anArticleId, $clang, $revision, $ignoreOfflines);
             if (null !== $slice) {
                 return $slice;
             }
@@ -134,14 +134,14 @@ class rex_article_slice
      * Returns the first slice of the given ctype of an article.
      *
      * @param int      $ctype
-     * @param int      $an_article_id
+     * @param int      $anArticleId
      * @param bool|int $clang
      * @param int      $revision
      * @param bool     $ignoreOfflines
      *
      * @return self|null
      */
-    public static function getFirstSliceForCtype($ctype, $an_article_id, $clang = false, $revision = 0, $ignoreOfflines = false)
+    public static function getFirstSliceForCtype($ctype, $anArticleId, $clang = false, $revision = 0, $ignoreOfflines = false)
     {
         if (false === $clang) {
             $clang = rex_clang::getCurrentId();
@@ -149,7 +149,7 @@ class rex_article_slice
 
         return self::getSliceWhere(
             'article_id=? AND clang_id=? AND ctype_id=? AND priority=1 AND revision=?'.($ignoreOfflines ? ' AND status = 1' : ''),
-            [$an_article_id, $clang, $ctype, $revision]
+            [$anArticleId, $clang, $ctype, $revision]
         );
     }
 
@@ -157,14 +157,14 @@ class rex_article_slice
      * Return all slices for an article that have a certain
      * clang or revision.
      *
-     * @param int      $an_article_id
+     * @param int      $anArticleId
      * @param bool|int $clang
      * @param int      $revision
      * @param bool     $ignoreOfflines
      *
      * @return self[]
      */
-    public static function getSlicesForArticle($an_article_id, $clang = false, $revision = 0, $ignoreOfflines = false)
+    public static function getSlicesForArticle($anArticleId, $clang = false, $revision = 0, $ignoreOfflines = false)
     {
         if (false === $clang) {
             $clang = rex_clang::getCurrentId();
@@ -172,7 +172,7 @@ class rex_article_slice
 
         return self::getSlicesWhere(
             'article_id=? AND clang_id=? AND revision=?'.($ignoreOfflines ? ' AND status = 1' : ''),
-            [$an_article_id, $clang, $revision]
+            [$anArticleId, $clang, $revision]
         );
     }
 
@@ -180,15 +180,15 @@ class rex_article_slice
      * Return all slices for an article that have a certain
      * module type.
      *
-     * @param int      $an_article_id
-     * @param int      $a_moduletype_id
+     * @param int      $anArticleId
+     * @param int      $aModuletypeId
      * @param bool|int $clang
      * @param int      $revision
      * @param bool     $ignoreOfflines
      *
      * @return self[]
      */
-    public static function getSlicesForArticleOfType($an_article_id, $a_moduletype_id, $clang = false, $revision = 0, $ignoreOfflines = false)
+    public static function getSlicesForArticleOfType($anArticleId, $aModuletypeId, $clang = false, $revision = 0, $ignoreOfflines = false)
     {
         if (false === $clang) {
             $clang = rex_clang::getCurrentId();
@@ -196,7 +196,7 @@ class rex_article_slice
 
         return self::getSlicesWhere(
             'article_id=? AND clang_id=? AND module_id=? AND revision=?'.($ignoreOfflines ? ' AND status = 1' : ''),
-            [$an_article_id, $clang, $a_moduletype_id, $revision]
+            [$anArticleId, $clang, $aModuletypeId, $revision]
         );
     }
 

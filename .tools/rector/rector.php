@@ -29,6 +29,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         'redaxo/src/addons/backup/lib/',
         'redaxo/src/addons/be_style/lib/',
         'redaxo/src/addons/cronjob/lib/',
+        'redaxo/src/addons/cronjob/plugins/article_status/lib/',
+        'redaxo/src/addons/cronjob/plugins/optimize_tables/lib/',
         'redaxo/src/addons/debug/lib/',
         'redaxo/src/addons/install/lib/',
         'redaxo/src/addons/media_manager/lib/',
@@ -37,6 +39,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         'redaxo/src/addons/phpmailer/lib/',
         'redaxo/src/addons/project/lib/',
         'redaxo/src/addons/structure/lib/',
+        'redaxo/src/addons/structure/plugins/content/lib/',
+        'redaxo/src/addons/structure/plugins/history/lib/',
+        'redaxo/src/addons/structure/plugins/version/lib/',
         'redaxo/src/addons/users/lib/',
     ]);
 
