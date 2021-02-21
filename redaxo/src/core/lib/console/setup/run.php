@@ -109,7 +109,9 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         // ---------------------------------- Step 3 . Perms, Environment
         $io->title('Step 3 of 6 / System check');
 
-        $this->performSystemcheck();
+        if (0 !== $code = $this->performSystemcheck()) {
+            return $code;
+        }
 
         // ---------------------------------- step 4 . Config
         $io->title('Step 4 of 6 / Creating config');
@@ -542,7 +544,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         return $this->io->ask($question, $default, $validator);
     }
 
-    private function performSystemcheck()
+    private function performSystemcheck(): int
     {
         /** Cloned from comannd setup:check*/
         $errors = rex_setup::checkEnvironment();
@@ -579,5 +581,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             return 1;
         }
         $this->io->success('Directory permissions ok');
+
+        return 0;
     }
 }
