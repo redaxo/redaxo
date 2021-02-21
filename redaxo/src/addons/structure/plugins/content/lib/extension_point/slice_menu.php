@@ -222,7 +222,7 @@ class rex_extension_point_slice_menu extends rex_extension_point
         return $this->clang;
     }
 
-    public function getCtype(): int
+    public function getCtypeId(): int
     {
         return $this->ctype;
     }
