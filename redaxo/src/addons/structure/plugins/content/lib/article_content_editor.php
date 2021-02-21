@@ -205,14 +205,14 @@ class rex_article_content_editor extends rex_article_content
             $menu_status_action,
             $menu_moveup_action,
             $menu_movedown_action,
-                 $context,
-                 $fragment,
-                $this->article_id,
-                 $this->clang,
-                 $sliceCtype,
-                $moduleId,
-                 $sliceId,
-                rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId),
+            $context,
+            $fragment,
+            $this->article_id,
+            $this->clang,
+            $sliceCtype,
+            $moduleId,
+            $sliceId,
+            rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId),
         ));
 
         $actionItems = [];
