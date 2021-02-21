@@ -236,7 +236,7 @@ class rex_extension_point_slice_menu extends rex_extension_point
         return $this->slice_id;
     }
 
-    public function isHasPerm(): bool
+    public function hasPerm(): bool
     {
         return $this->has_perm;
     }
