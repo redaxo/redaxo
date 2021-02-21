@@ -339,15 +339,15 @@ class rex_article_content_editor extends rex_article_content
     protected function postArticle($articleContent, $moduleId)
     {
         // special identifier for the slot behind the last slice
-        $lCTSLID = -1;
+        $behindlastSliceId = -1;
 
         // ----- add module im edit mode
         if ('edit' == $this->mode) {
-            if ('add' == $this->function && $this->slice_id == $lCTSLID) {
-                $sliceContent = $this->addSlice($lCTSLID, $moduleId);
+            if ('add' == $this->function && $this->slice_id == $behindlastSliceId) {
+                $sliceContent = $this->addSlice($behindlastSliceId, $moduleId);
             } else {
                 // ----- BLOCKAUSWAHL - SELECT
-                $sliceContent = $this->getModuleSelect($lCTSLID);
+                $sliceContent = $this->getModuleSelect($behindlastSliceId);
             }
             $articleContent .= $sliceContent;
         }
@@ -446,18 +446,19 @@ class rex_article_content_editor extends rex_article_content
     }
 
     // ----- EDIT Slice
+
     /**
-     * @param int $rECONTS
-     * @param string $rEMODULIN
-     * @param int $rECTYPE
-     * @param int $rEMODULID
+     * @param int     $sliceId
+     * @param string  $moduleInput
+     * @param int     $ctypeId
+     * @param int     $moduleId
      * @param rex_sql $artDataSql
      * @return string
      */
-    protected function editSlice($rECONTS, $rEMODULIN, $rECTYPE, $rEMODULID, $artDataSql)
+    protected function editSlice($sliceId, $moduleInput, $ctypeId, $moduleId, $artDataSql)
     {
         $msg = '';
-        if ($this->slice_id == $rECONTS) {
+        if ($this->slice_id == $sliceId) {
             if ('' != $this->warning) {
                 $msg .= rex_view::warning($this->warning);
             }
@@ -469,7 +470,7 @@ class rex_article_content_editor extends rex_article_content
         $formElements = [];
 
         $n = [];
-        $n['field'] = '<a class="btn btn-abort" href="' . rex_url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $rECONTS, 'ctype' => $rECTYPE, 'clang' => $this->clang]) . '#slice' . $rECONTS . '">' . rex_i18n::msg('form_abort') . '</a>';
+        $n['field'] = '<a class="btn btn-abort" href="' . rex_url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $sliceId, 'ctype' => $ctypeId, 'clang' => $this->clang]) . '#slice' . $sliceId . '">' . rex_i18n::msg('form_abort') . '</a>';
         $formElements[] = $n;
 
         $n = [];
@@ -487,12 +488,12 @@ class rex_article_content_editor extends rex_article_content
         $panel = '
                 <fieldset>
                     <legend>' . rex_i18n::msg('edit_block') . '</legend>
-                    <input type="hidden" name="module_id" value="' . $rEMODULID . '" />
+                    <input type="hidden" name="module_id" value="' . $moduleId . '" />
                     <input type="hidden" name="save" value="1" />
                     <input type="hidden" name="update" value="0" />
 
                     <div class="rex-slice-input">
-                        ' . $msg . $this->getStreamOutput('module/' . $rEMODULID . '/input', $rEMODULIN) . '
+                        ' . $msg . $this->getStreamOutput('module/' . $moduleId . '/input', $moduleInput) . '
                     </div>
                 </fieldset>
 
@@ -507,8 +508,8 @@ class rex_article_content_editor extends rex_article_content
         $sliceContent = $fragment->parse('core/page/section.php');
 
         $sliceContent = '
-            <li class="rex-slice rex-slice-edit" id="slice' . $rECONTS . '">
-                <form enctype="multipart/form-data" action="' . rex_url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $rECONTS, 'ctype' => $rECTYPE, 'clang' => $this->clang, 'function' => 'edit']) . '#slice' . $rECONTS . '" method="post" id="REX_FORM">
+            <li class="rex-slice rex-slice-edit" id="slice' . $sliceId . '">
+                <form enctype="multipart/form-data" action="' . rex_url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $sliceId, 'ctype' => $ctypeId, 'clang' => $this->clang, 'function' => 'edit']) . '#slice' . $sliceId . '" method="post" id="REX_FORM">
                     ' . $sliceContent . '
                 </form>
                 <script type="text/javascript">
