@@ -72,14 +72,6 @@ class rex_extension_point_slice_menu extends rex_extension_point
         array $params = [],
         $readonly = false
     ) {
-        // for BC 'simple' attach params
-        $params['article_id'] = $article_id;
-        $params['clang'] = $clang;
-        $params['ctype'] = $ctype;
-        $params['module_id'] = $module_id;
-        $params['slice_id'] = $slice_id;
-        $params['perm'] = $has_perm;
-
         parent::__construct(self::NAME, $subject, $params, $readonly);
 
         $this->menu_edit_action = $menu_edit_action;
