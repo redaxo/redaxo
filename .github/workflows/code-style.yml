@@ -69,7 +69,6 @@ jobs:
                 with:
                     php-version: 7.3
                     coverage: none # disable xdebug, pcov
-                    tools: cs2pr
 
             -   name: Composer install
                 uses: ramsey/composer-install@v1
@@ -89,4 +88,4 @@ jobs:
                     commit_user_email: rex-bot@users.noreply.github.com
 
             -   name: Check code style
-                run: vendor/bin/rector process --ansi --dry-run --output-format=checkstyle | cs2pr # check whether there are still errors left
+                run: vendor/bin/rector process --ansi --dry-run
