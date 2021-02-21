@@ -215,21 +215,6 @@ class rex_article_content_editor extends rex_article_content
                 rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId),
         ));
 
-        // ----- EXTENSION POINT
-        $menu_items_ep = [];
-        $menu_items_ep = rex_extension::registerPoint(new rex_extension_point(
-            'STRUCTURE_CONTENT_SLICE_MENU',
-            $menu_items_ep,
-            [
-                'article_id' => $this->article_id,
-                'clang' => $this->clang,
-                'ctype' => $sliceCtype,
-                'module_id' => $moduleId,
-                'slice_id' => $sliceId,
-                'perm' => rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId),
-            ]
-        ));
-
         $actionItems = [];
         if ($ep->getMenuEditAction()) {
             $actionItems[] = $ep->getMenuEditAction();
@@ -249,9 +234,9 @@ class rex_article_content_editor extends rex_article_content
             $header_right .= $fragment->parse('slice_menu_action.php');
         }
 
-        if (count($menu_items_ep) > 0) {
+        if (count($ep->getAdditionalActions()) > 0) {
             $fragment = new rex_fragment();
-            $fragment->setVar('items', $menu_items_ep, false);
+            $fragment->setVar('items', $ep->getAdditionalActions(), false);
             $header_right .= $fragment->parse('slice_menu_ep.php');
         }
 

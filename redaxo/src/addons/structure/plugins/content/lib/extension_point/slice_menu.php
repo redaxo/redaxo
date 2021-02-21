@@ -180,6 +180,27 @@ class rex_extension_point_slice_menu extends rex_extension_point
         $this->menu_movedown_action = $menu_movedown_action;
     }
 
+    /**
+     * @return array
+     */
+    public function getAdditionalActions() {
+        // ----- EXTENSION POINT / for BC reasons we wrap the old and pre-existing EP here
+        $menu_items_ep = [];
+
+        return rex_extension::registerPoint(new rex_extension_point(
+            'STRUCTURE_CONTENT_SLICE_MENU',
+            $menu_items_ep,
+            [
+                'article_id' => $this->article_id,
+                'clang' => $this->clang,
+                'ctype' => $this->ctype,
+                'module_id' => $this->module_id,
+                'slice_id' => $this->slice_id,
+                'perm' => $this->has_perm
+            ]
+        ));
+    }
+
     public function getContext(): rex_context
     {
         return $this->context;
