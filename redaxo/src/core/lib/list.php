@@ -740,18 +740,18 @@ class rex_list implements rex_url_provider_interface
             }
         }
 
-        $_params = [];
+        $flatParams = [];
         foreach ($params as $name => $value) {
             if (is_array($value)) {
                 foreach ($value as $v) {
-                    $_params[$name] = $v;
+                    $flatParams[$name] = $v;
                 }
             } else {
-                $_params[$name] = $value;
+                $flatParams[$name] = $value;
             }
         }
 
-        return rex::isBackend() ? rex_url::backendController($_params, $escape) : rex_url::frontendController($_params, $escape);
+        return rex::isBackend() ? rex_url::backendController($flatParams, $escape) : rex_url::frontendController($flatParams, $escape);
     }
 
     /**
@@ -781,17 +781,17 @@ class rex_list implements rex_url_provider_interface
             }
         }
 
-        $_params = [];
+        $flatParams = [];
         foreach ($params as $name => $value) {
             if (is_array($value)) {
                 foreach ($value as $v) {
-                    $_params[$name] = $this->replaceVariables($v);
+                    $flatParams[$name] = $this->replaceVariables($v);
                 }
             } else {
-                $_params[$name] = $this->replaceVariables((string) $value);
+                $flatParams[$name] = $this->replaceVariables((string) $value);
             }
         }
-        return rex::isBackend() ? rex_url::backendController($_params, $escape) : rex_url::frontendController($_params, $escape);
+        return rex::isBackend() ? rex_url::backendController($flatParams, $escape) : rex_url::frontendController($flatParams, $escape);
     }
 
     // ---------------------- Pagination

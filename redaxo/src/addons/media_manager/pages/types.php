@@ -4,7 +4,7 @@ $content = '';
 
 $Basedir = __DIR__;
 
-$type_id = rex_request('type_id', 'int');
+$typeId = rex_request('type_id', 'int');
 $func = rex_request('func', 'string');
 
 if (rex_request('effects', 'boolean')) {
@@ -16,21 +16,21 @@ $success = '';
 $error = '';
 
 //-------------- delete type
-if ('delete' == $func && $type_id > 0) {
+if ('delete' == $func && $typeId > 0) {
     // must be called before deletion, otherwise the method can not resolve the id to type name
-    rex_media_manager::deleteCacheByType($type_id);
+    rex_media_manager::deleteCacheByType($typeId);
 
     $sql = rex_sql::factory();
     //  $sql->setDebug();
 
     try {
-        $sql->transactional(static function () use ($sql, $type_id) {
+        $sql->transactional(static function () use ($sql, $typeId) {
             $sql->setTable(rex::getTablePrefix() . 'media_manager_type');
-            $sql->setWhere(['id' => $type_id]);
+            $sql->setWhere(['id' => $typeId]);
             $sql->delete();
 
             $sql->setTable(rex::getTablePrefix() . 'media_manager_type_effect');
-            $sql->setWhere(['type_id' => $type_id]);
+            $sql->setWhere(['type_id' => $typeId]);
             $sql->delete();
         });
 
@@ -42,20 +42,20 @@ if ('delete' == $func && $type_id > 0) {
 }
 
 //-------------- delete cache by type-id
-if ('delete_cache' == $func && $type_id > 0) {
-    $counter = rex_media_manager::deleteCacheByType($type_id);
+if ('delete_cache' == $func && $typeId > 0) {
+    $counter = rex_media_manager::deleteCacheByType($typeId);
     $success = rex_i18n::msg('media_manager_cache_files_removed', $counter);
     $func = '';
 }
 
 //-------------- copy type
-if ('copy' == $func && $type_id > 0) {
+if ('copy' == $func && $typeId > 0) {
     $sql = rex_sql::factory();
 
     try {
-        $sql->setQuery('INSERT INTO '.rex::getTablePrefix() . 'media_manager_type (status, name, description) SELECT 0, CONCAT(name, \' '.rex_i18n::msg('media_manager_type_name_copy').'\'), description FROM '.rex::getTablePrefix() . 'media_manager_type WHERE id = ?', [$type_id]);
+        $sql->setQuery('INSERT INTO '.rex::getTablePrefix() . 'media_manager_type (status, name, description) SELECT 0, CONCAT(name, \' '.rex_i18n::msg('media_manager_type_name_copy').'\'), description FROM '.rex::getTablePrefix() . 'media_manager_type WHERE id = ?', [$typeId]);
         $newTypeId = $sql->getLastId();
-        $sql->setQuery('INSERT INTO '.rex::getTablePrefix() . 'media_manager_type_effect (type_id, effect, parameters, priority, updatedate, updateuser, createdate, createuser) SELECT ?, effect, parameters, priority, ?, ?, ?, ? FROM '.rex::getTablePrefix() . 'media_manager_type_effect WHERE type_id = ?', [$newTypeId, date(rex_sql::FORMAT_DATETIME), rex::getUser()->getLogin(), date(rex_sql::FORMAT_DATETIME), rex::getUser()->getLogin(), $type_id]);
+        $sql->setQuery('INSERT INTO '.rex::getTablePrefix() . 'media_manager_type_effect (type_id, effect, parameters, priority, updatedate, updateuser, createdate, createuser) SELECT ?, effect, parameters, priority, ?, ?, ?, ? FROM '.rex::getTablePrefix() . 'media_manager_type_effect WHERE type_id = ?', [$newTypeId, date(rex_sql::FORMAT_DATETIME), rex::getUser()->getLogin(), date(rex_sql::FORMAT_DATETIME), rex::getUser()->getLogin(), $typeId]);
 
         $success = rex_i18n::msg('media_manager_type_copied');
     } catch (rex_sql_exception $e) {
@@ -137,7 +137,7 @@ if ('' == $func) {
     $content = $fragment->parse('core/page/section.php');
 
     echo $content;
-} elseif ('add' == $func || 'edit' == $func && $type_id > 0) {
+} elseif ('add' == $func || 'edit' == $func && $typeId > 0) {
     if ('edit' == $func) {
         $formLabel = rex_i18n::msg('media_manager_type_edit');
     } else {
@@ -156,17 +156,17 @@ if ('' == $func) {
         return $controlFields;
     });
 
-    $form = rex_form::factory(rex::getTablePrefix() . 'media_manager_type', '', 'id = ' . $type_id);
-    $form->addParam('type_id', $type_id);
+    $form = rex_form::factory(rex::getTablePrefix() . 'media_manager_type', '', 'id = ' . $typeId);
+    $form->addParam('type_id', $typeId);
     if ('edit' == $func) {
         $form->setEditMode('edit' == $func);
 
-        rex_extension::register('REX_FORM_SAVED', static function (rex_extension_point $ep) use ($form, $type_id) {
+        rex_extension::register('REX_FORM_SAVED', static function (rex_extension_point $ep) use ($form, $typeId) {
             if ($form !== $ep->getParam('form')) {
                 return;
             }
 
-            rex_media_manager::deleteCacheByType($type_id);
+            rex_media_manager::deleteCacheByType($typeId);
         });
     }
 

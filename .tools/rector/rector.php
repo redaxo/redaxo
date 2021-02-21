@@ -25,24 +25,19 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // to make sure we can review every transformation and not introduce unseen bugs
     $parameters->set(Option::PATHS, [
         // restrict to core and core addons, ignore other locally installed addons
-        'redaxo/src/core/lib/',
-        'redaxo/src/addons/backup/lib/',
-        'redaxo/src/addons/be_style/lib/',
-        'redaxo/src/addons/cronjob/lib/',
-        'redaxo/src/addons/cronjob/plugins/article_status/lib/',
-        'redaxo/src/addons/cronjob/plugins/optimize_tables/lib/',
-        'redaxo/src/addons/debug/lib/',
-        'redaxo/src/addons/install/lib/',
-        'redaxo/src/addons/media_manager/lib/',
-        'redaxo/src/addons/mediapool/lib/',
-        'redaxo/src/addons/metainfo/lib/',
-        'redaxo/src/addons/phpmailer/lib/',
-        'redaxo/src/addons/project/lib/',
-        'redaxo/src/addons/structure/lib/',
-        'redaxo/src/addons/structure/plugins/content/lib/',
-        'redaxo/src/addons/structure/plugins/history/lib/',
-        'redaxo/src/addons/structure/plugins/version/lib/',
-        'redaxo/src/addons/users/lib/',
+        'redaxo/src/core/',
+        'redaxo/src/addons/backup/',
+        'redaxo/src/addons/be_style/',
+        'redaxo/src/addons/cronjob/',
+        'redaxo/src/addons/debug/',
+        'redaxo/src/addons/install/',
+        'redaxo/src/addons/media_manager/',
+        'redaxo/src/addons/mediapool/',
+        'redaxo/src/addons/metainfo/',
+        'redaxo/src/addons/phpmailer/',
+        'redaxo/src/addons/project/',
+        'redaxo/src/addons/structure/',
+        'redaxo/src/addons/users/',
     ]);
 
     $parameters->set(Option::SKIP, [
@@ -53,6 +48,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         'redaxo/src/core/lib/sql/sql.php',
         'redaxo/src/core/lib/var/var.php',
         'redaxo/src/core/lib/util/version.php',
+        'redaxo/src/core/vendor',
+        'redaxo/src/addons/backup/vendor',
+        'redaxo/src/addons/be_style/vendor',
+        'redaxo/src/addons/phpmailer/vendor',
     ]);
 
     $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersion::PHP_73);

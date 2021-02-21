@@ -123,17 +123,17 @@ if ($func && !$csrfToken->isValid()) {
     }
 }
 
-$sel_lang = new rex_select();
-$sel_lang->setStyle('class="form-control"');
-$sel_lang->setName('settings[lang]');
-$sel_lang->setId('rex-id-lang');
-$sel_lang->setAttribute('class', 'form-control selectpicker');
-$sel_lang->setSize(1);
-$sel_lang->setSelected(rex::getProperty('lang'));
+$selLang = new rex_select();
+$selLang->setStyle('class="form-control"');
+$selLang->setName('settings[lang]');
+$selLang->setId('rex-id-lang');
+$selLang->setAttribute('class', 'form-control selectpicker');
+$selLang->setSize(1);
+$selLang->setSelected(rex::getProperty('lang'));
 $locales = rex_i18n::getLocales();
 asort($locales);
 foreach ($locales as $locale) {
-    $sel_lang->addOption(rex_i18n::msgInLocale('lang', $locale).' ('.$locale.')', $locale);
+    $selLang->addOption(rex_i18n::msgInLocale('lang', $locale).' ('.$locale.')', $locale);
 }
 
 if (!empty($error)) {
@@ -252,7 +252,7 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-lang" class="required">' . rex_i18n::msg('backend_language') . '</label>';
-$n['field'] = $sel_lang->get();
+$n['field'] = $selLang->get();
 $formElements[] = $n;
 
 $n = [];
@@ -322,18 +322,18 @@ if ($viaCookie) {
 
 $formElements = [];
 
-$sel_editor = new rex_select();
-$sel_editor->setStyle('class="form-control"');
-$sel_editor->setName('editor[name]');
-$sel_editor->setId('rex-id-editor');
-$sel_editor->setAttribute('class', 'form-control selectpicker');
-$sel_editor->setSize(1);
-$sel_editor->setSelected($editor->getName());
-$sel_editor->addArrayOptions(['' => rex_i18n::msg('system_editor_no_editor')] + $editor->getSupportedEditors());
+$selEditor = new rex_select();
+$selEditor->setStyle('class="form-control"');
+$selEditor->setName('editor[name]');
+$selEditor->setId('rex-id-editor');
+$selEditor->setAttribute('class', 'form-control selectpicker');
+$selEditor->setSize(1);
+$selEditor->setSelected($editor->getName());
+$selEditor->addArrayOptions(['' => rex_i18n::msg('system_editor_no_editor')] + $editor->getSupportedEditors());
 
 $n = [];
 $n['label'] = '<label for="rex-id-editor">' . rex_i18n::msg('system_editor_name') . '</label>';
-$n['field'] = $sel_editor->get();
+$n['field'] = $selEditor->get();
 $formElements[] = $n;
 
 $n = [];

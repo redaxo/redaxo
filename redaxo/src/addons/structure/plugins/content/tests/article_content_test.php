@@ -10,8 +10,8 @@ class rex_article_content_test extends TestCase
     protected function setUp(): void
     {
         // fake article
-        $article_file = rex_path::addonCache('structure', '1.1.article');
-        rex_file::putCache($article_file, [
+        $articleFile = rex_path::addonCache('structure', '1.1.article');
+        rex_file::putCache($articleFile, [
             'pid' => 1,
             'id' => 1,
             'parent_id' => 0,

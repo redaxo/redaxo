@@ -683,16 +683,16 @@ class rex_sql implements Iterator
         }
 
         $qry = '';
-        foreach ($columns as $fld_name => $value) {
+        foreach ($columns as $fldName => $value) {
             if (is_array($value)) {
                 $arg = '(' . $this->buildWhereArg($value, $params, $level + 1) . ')';
             } else {
-                $paramName = $fld_name;
+                $paramName = $fldName;
                 for ($i = 1; array_key_exists($paramName, $params) || array_key_exists($paramName, $this->values); ++$i) {
-                    $paramName = $fld_name.'_'.$i;
+                    $paramName = $fldName.'_'.$i;
                 }
 
-                $arg = $this->escapeIdentifier($fld_name) . ' = :' . $paramName;
+                $arg = $this->escapeIdentifier($fldName) . ' = :' . $paramName;
                 $params[$paramName] = $value;
             }
 
@@ -889,21 +889,21 @@ class rex_sql implements Iterator
     {
         $qry = '';
         if (is_array($this->values)) {
-            foreach ($this->values as $fld_name => $value) {
+            foreach ($this->values as $fldName => $value) {
                 if ('' != $qry) {
                     $qry .= ', ';
                 }
 
-                $qry .= $this->escapeIdentifier($fld_name) .' = :' . $fld_name;
+                $qry .= $this->escapeIdentifier($fldName) .' = :' . $fldName;
             }
         }
         if (is_array($this->rawValues)) {
-            foreach ($this->rawValues as $fld_name => $value) {
+            foreach ($this->rawValues as $fldName => $value) {
                 if ('' != $qry) {
                     $qry .= ', ';
                 }
 
-                $qry .= $this->escapeIdentifier($fld_name) . ' = ' . $value;
+                $qry .= $this->escapeIdentifier($fldName) . ' = ' . $value;
             }
         }
 
@@ -1870,7 +1870,7 @@ class rex_sql implements Iterator
             }
         }
 
-        $err_msg = true;
+        $errMsg = true;
 
         try {
             self::createConnection(
@@ -1883,7 +1883,7 @@ class rex_sql implements Iterator
             // db connection was successfully established, but we were meant to create the db
             if ($createDb) {
                 // -> throw db already exists error
-                $err_msg = rex_i18n::msg('sql_database_already_exists');
+                $errMsg = rex_i18n::msg('sql_database_already_exists');
             }
         } catch (PDOException $e) {
             // see client mysql error codes at https://dev.mysql.com/doc/mysql-errors/8.0/en/client-error-reference.html
@@ -1891,7 +1891,7 @@ class rex_sql implements Iterator
             // ER_BAD_HOST
             if (false !== strpos($e->getMessage(), 'SQLSTATE[HY000] [2002]')) {
                 // unable to connect to db server
-                $err_msg = rex_i18n::msg('sql_unable_to_connect_database');
+                $errMsg = rex_i18n::msg('sql_unable_to_connect_database');
             }
             // ER_BAD_DB_ERROR
             elseif (false !== strpos($e->getMessage(), 'SQLSTATE[HY000] [1049]') ||
@@ -1908,15 +1908,15 @@ class rex_sql implements Iterator
                         );
                         if (1 !== $conn->exec('CREATE DATABASE ' . $database . ' CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci')) {
                             // unable to create db
-                            $err_msg = rex_i18n::msg('sql_unable_to_create_database');
+                            $errMsg = rex_i18n::msg('sql_unable_to_create_database');
                         }
                     } catch (PDOException $e) {
                         // unable to find database
-                        $err_msg = rex_i18n::msg('sql_unable_to_open_database');
+                        $errMsg = rex_i18n::msg('sql_unable_to_open_database');
                     }
                 } else {
                     // unable to find database
-                    $err_msg = rex_i18n::msg('sql_unable_to_find_database');
+                    $errMsg = rex_i18n::msg('sql_unable_to_find_database');
                 }
             }
             // ER_ACCESS_DENIED_ERROR
@@ -1928,21 +1928,21 @@ class rex_sql implements Iterator
                 false !== strpos($e->getMessage(), 'SQLSTATE[42000]')
             ) {
                 // unable to connect to db
-                $err_msg = rex_i18n::msg('sql_unable_to_connect_database');
+                $errMsg = rex_i18n::msg('sql_unable_to_connect_database');
             }
             // ER_ACCESS_TO_SERVER_ERROR
             elseif (
                 false !== strpos($e->getMessage(), 'SQLSTATE[HY000] [2005]')
             ) {
                 // unable to connect to server
-                $err_msg = rex_i18n::msg('sql_unable_to_connect_server');
+                $errMsg = rex_i18n::msg('sql_unable_to_connect_server');
             } else {
                 // we didn't expected this error, so rethrow it to show it to the admin/end-user
                 throw $e;
             }
         }
 
-        return $err_msg;
+        return $errMsg;
     }
 
     /**

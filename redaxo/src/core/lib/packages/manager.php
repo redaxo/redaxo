@@ -87,9 +87,9 @@ abstract class rex_package_manager
     {
         try {
             // check package directory perms
-            $install_dir = $this->package->getPath();
-            if (!rex_dir::isWritable($install_dir)) {
-                throw new rex_functional_exception($this->i18n('dir_not_writable', $install_dir));
+            $installDir = $this->package->getPath();
+            if (!rex_dir::isWritable($installDir)) {
+                throw new rex_functional_exception($this->i18n('dir_not_writable', $installDir));
             }
 
             // check package.yml
@@ -478,10 +478,10 @@ abstract class rex_package_manager
             return true;
         }
         $package = rex_package::get($packageId);
-        $required_version = '';
+        $requiredVersion = '';
         if (!$package->isAvailable()) {
             if ('' != $requirements['packages'][$packageId]) {
-                $required_version = ' '.$requirements['packages'][$packageId];
+                $requiredVersion = ' '.$requirements['packages'][$packageId];
             }
 
             if (!rex_package::exists($packageId)) {
@@ -494,7 +494,7 @@ abstract class rex_package_manager
                     $jumpToInstaller = ' <a href="'. $installUrl .'"><i class="rex-icon fa-arrow-circle-right" title="'. $this->i18n('search_in_installer', $addonId) .'"></i></a>';
                 }
 
-                $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId.$required_version).$jumpToInstaller;
+                $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId.$requiredVersion).$jumpToInstaller;
                 return false;
             }
 
@@ -511,7 +511,7 @@ abstract class rex_package_manager
                 $jumpPackageUrl = rex_url::backendPage('packages').$jumpPackageUrl;
             }
 
-            $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId.$required_version) . ' <a href="'. $jumpPackageUrl .'"><i class="rex-icon fa-arrow-circle-right" title="'. $this->i18n('jump_to', $jumpPackageId) .'"></i></a>';
+            $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId.$requiredVersion) . ' <a href="'. $jumpPackageUrl .'"><i class="rex-icon fa-arrow-circle-right" title="'. $this->i18n('jump_to', $jumpPackageId) .'"></i></a>';
             return false;
         }
 
