@@ -77,7 +77,7 @@ class rex_media
                         $varName = $key;
                     }
 
-                    $media->$var_name = $value;
+                    $media->$varName = $value;
                 }
 
                 return $media;

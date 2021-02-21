@@ -92,7 +92,7 @@ class rex_media_manager
 
             // execute effects on image
             foreach ($set as $effectParams) {
-                /** @var class-string<rex_effect_abstract> $effect_class */
+                /** @var class-string<rex_effect_abstract> $effectClass */
                 $effectClass = 'rex_effect_' . $effectParams['effect'];
                 /** @var rex_effect_abstract $effect */
                 $effect = new $effectClass();
