@@ -75,12 +75,14 @@ composer update --ansi --no-dev -d redaxo/src/addons/phpmailer/
 
 rm -f redaxo/src/addons/phpmailer/vendor/autoload.php
 rm -rf redaxo/src/addons/phpmailer/vendor/composer/
-rm -f redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/.php_cs
-rm -f redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/phpdoc.dist.xml
 rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/.github/
 rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/.phan/
 rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/examples/
 rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/extras/
+rm -f redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/.php_cs
+rm -f redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/get_oauth_token.php
+rm -f redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/phpdoc.dist.xml
+rm -f redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/phpunit.xml.dist
 find redaxo/src/addons/phpmailer/vendor -name "*.md" ! -name "LICENSE.md" -type f -delete
 
 printf "\nUpdate root composer.json and vendor/\n"
