@@ -13,7 +13,7 @@ class rex_media_category
     // id
     private $id = '';
     // parent_id
-    private $parent_id = '';
+    private $parentId = '';
 
     // name
     private $name = '';
@@ -56,7 +56,7 @@ class rex_media_category
                 $cat = new static();
 
                 $cat->id = $cache['id'];
-                $cat->parent_id = $cache['parent_id'];
+                $cat->parentId = $cache['parent_id'];
 
                 $cat->name = $cache['name'];
                 $cat->path = $cache['path'];
@@ -181,7 +181,7 @@ class rex_media_category
      */
     public function getParentId()
     {
-        return $this->parent_id;
+        return $this->parentId;
     }
 
     /**

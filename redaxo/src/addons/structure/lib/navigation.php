@@ -43,8 +43,8 @@ class rex_navigation
     private $filter = [];
     private $callbacks = [];
 
-    private $current_article_id = -1; // Aktueller Artikel
-    private $current_category_id = -1; // Aktuelle Katgorie
+    private $currentArticleId = -1; // Aktueller Artikel
+    private $currentCategoryId = -1; // Aktuelle Katgorie
 
     private static $factoryCall = false;
 
@@ -154,14 +154,14 @@ class rex_navigation
         }
 
         if ($includeCurrent) {
-            if ($art = rex_article::get($this->current_article_id)) {
+            if ($art = rex_article::get($this->currentArticleId)) {
                 if (!$art->isStartArticle()) {
                     $lis[] = $this->getBreadcrumbListItemTag(rex_escape($art->getName()), [
                         'class' => 'rex-lvl'.$i,
                     ], $i);
                 }
             } else {
-                $cat = rex_category::get($this->current_article_id);
+                $cat = rex_category::get($this->currentArticleId);
                 $lis[] = $this->getBreadcrumbListItemTag(rex_escape($cat->getName()), [
                     'class' => 'rex-lvl'.$i,
                 ], $i);
@@ -236,8 +236,8 @@ class rex_navigation
                 $this->path = explode('|', $path);
             }
 
-            $this->current_article_id = $articleId;
-            $this->current_category_id = $OOArt->getCategoryId();
+            $this->currentArticleId = $articleId;
+            $this->currentCategoryId = $OOArt->getCategoryId();
             return true;
         }
 
@@ -357,7 +357,7 @@ class rex_navigation
             if ($this->checkFilter($nav, $depth) && $this->checkCallbacks($nav, $depth, $li, $a, $aContent)) {
                 $li['class'][] = 'rex-article-' . $nav->getId();
                 // classes abhaengig vom pfad
-                if ($nav->getId() == $this->current_category_id) {
+                if ($nav->getId() == $this->currentCategoryId) {
                     $li['class'][] = 'rex-current';
                     $a['class'][] = 'rex-current';
                 } elseif (in_array($nav->getId(), $this->path)) {
@@ -377,7 +377,7 @@ class rex_navigation
 
                 ++$depth;
                 if (($this->open ||
-                        $nav->getId() == $this->current_category_id ||
+                        $nav->getId() == $this->currentCategoryId ||
                         in_array($nav->getId(), $this->path))
                     && ($this->depth >= $depth || $this->depth < 0)
                 ) {

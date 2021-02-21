@@ -6,14 +6,14 @@
 
 class rex_effect_image_format extends rex_effect_abstract
 {
-    private static $convert_types = [
+    private static $convertTypes = [
         'jpg',
         'png',
         'gif',
         'webp',
     ];
 
-    private static $convert_to = [
+    private static $convertTo = [
         'jpg' => [
             'ext' => 'jpg',
             'content-type' => 'image/jpeg',
@@ -32,8 +32,8 @@ class rex_effect_image_format extends rex_effect_abstract
         ],
     ];
 
-    private static $convert_tos = ['jpg', 'png', 'gif', 'webp'];
-    private static $convert_to_default = 'webp';
+    private static $convertTos = ['jpg', 'png', 'gif', 'webp'];
+    private static $convertToDefault = 'webp';
 
     public function execute()
     {
@@ -42,14 +42,14 @@ class rex_effect_image_format extends rex_effect_abstract
         $ext = strtolower($media->getFormat());
         $ext = 'jpeg' === $ext ? 'jpg' : $ext;
         // skip if extension is not in list
-        if (!in_array($ext, self::$convert_types)) {
+        if (!in_array($ext, self::$convertTypes)) {
             return;
         }
 
-        if (!isset(self::$convert_to[$this->params['convert_to']])) {
-            $convertTo = self::$convert_to[self::$convert_to_default];
+        if (!isset(self::$convertTo[$this->params['convert_to']])) {
+            $convertTo = self::$convertTo[self::$convertToDefault];
         } else {
-            $convertTo = self::$convert_to[$this->params['convert_to']];
+            $convertTo = self::$convertTo[$this->params['convert_to']];
         }
         if ($convertTo['ext'] == $ext) {
             return;
@@ -111,8 +111,8 @@ class rex_effect_image_format extends rex_effect_abstract
                 'label' => rex_i18n::msg('media_manager_effect_image_format_convertto'),
                 'name' => 'convert_to',
                 'type' => 'select',
-                'options' => self::$convert_tos,
-                'default' => self::$convert_to_default,
+                'options' => self::$convertTos,
+                'default' => self::$convertToDefault,
             ],
         ];
     }

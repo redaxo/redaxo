@@ -13,25 +13,25 @@ class rex_article_slice
     protected const ORDER_ASC = 'ASC';
     protected const ORDER_DESC = 'DESC';
 
-    private $_id;
-    private $_article_id;
-    private $_clang;
-    private $_ctype;
-    private $_priority;
-    private $_status;
-    private $_module_id;
+    private $id;
+    private $articleId;
+    private $clang;
+    private $ctype;
+    private $priority;
+    private $status;
+    private $moduleId;
 
-    private $_createdate;
-    private $_updatedate;
-    private $_createuser;
-    private $_updateuser;
-    private $_revision;
+    private $createdate;
+    private $updatedate;
+    private $createuser;
+    private $updateuser;
+    private $revision;
 
-    private $_values;
-    private $_media;
-    private $_medialists;
-    private $_links;
-    private $_linklists;
+    private $values;
+    private $media;
+    private $medialists;
+    private $links;
+    private $linklists;
 
     /**
      * Constructor.
@@ -59,25 +59,25 @@ class rex_article_slice
         $createdate, $updatedate, $createuser, $updateuser, $revision,
         $values, $media, $medialists, $links, $linklists)
     {
-        $this->_id = $id;
-        $this->_article_id = $articleId;
-        $this->_clang = $clang;
-        $this->_ctype = $ctype;
-        $this->_priority = $priority;
-        $this->_status = $status;
-        $this->_module_id = $moduleId;
+        $this->id = $id;
+        $this->articleId = $articleId;
+        $this->clang = $clang;
+        $this->ctype = $ctype;
+        $this->priority = $priority;
+        $this->status = $status;
+        $this->moduleId = $moduleId;
 
-        $this->_createdate = $createdate;
-        $this->_updatedate = $updatedate;
-        $this->_createuser = $createuser;
-        $this->_updateuser = $updateuser;
-        $this->_revision = $revision;
+        $this->createdate = $createdate;
+        $this->updatedate = $updatedate;
+        $this->createuser = $createuser;
+        $this->updateuser = $updateuser;
+        $this->revision = $revision;
 
-        $this->_values = $values;
-        $this->_media = $media;
-        $this->_medialists = $medialists;
-        $this->_links = $links;
-        $this->_linklists = $linklists;
+        $this->values = $values;
+        $this->media = $media;
+        $this->medialists = $medialists;
+        $this->links = $links;
+        $this->linklists = $linklists;
     }
 
     /**
@@ -211,7 +211,7 @@ class rex_article_slice
     {
         return self::getSliceWhere(
             'priority '.($ignoreOfflines ? '>=' : '=').' ? AND article_id=? AND clang_id = ? AND ctype_id = ? AND revision=?'.($ignoreOfflines ? ' AND status = 1' : ''),
-            [$this->_priority + 1, $this->_article_id, $this->_clang, $this->_ctype, $this->_revision]
+            [$this->priority + 1, $this->articleId, $this->clang, $this->ctype, $this->revision]
         );
     }
 
@@ -224,7 +224,7 @@ class rex_article_slice
     {
         return self::getSliceWhere(
             'priority '.($ignoreOfflines ? '<=' : '=').' ? AND article_id=? AND clang_id = ? AND ctype_id = ? AND revision=?'.($ignoreOfflines ? ' AND status = 1' : ''),
-            [$this->_priority - 1, $this->_article_id, $this->_clang, $this->_ctype, $this->_revision],
+            [$this->priority - 1, $this->articleId, $this->clang, $this->ctype, $this->revision],
             self::ORDER_DESC
         );
     }
@@ -388,12 +388,12 @@ class rex_article_slice
 
     public function getArticleId()
     {
-        return $this->_article_id;
+        return $this->articleId;
     }
 
     public function getClangId()
     {
-        return $this->_clang;
+        return $this->clang;
     }
 
     /**
@@ -401,33 +401,33 @@ class rex_article_slice
      */
     public function getClang()
     {
-        return $this->_clang;
+        return $this->clang;
     }
 
     public function getCtype()
     {
-        return $this->_ctype;
+        return $this->ctype;
     }
 
     public function getRevision()
     {
-        return $this->_revision;
+        return $this->revision;
     }
 
     public function getModuleId()
     {
-        return $this->_module_id;
+        return $this->moduleId;
     }
 
     public function getId()
     {
-        return $this->_id;
+        return $this->id;
     }
 
     public function getValue($index)
     {
         if (is_int($index)) {
-            return $this->_values[$index - 1];
+            return $this->values[$index - 1];
         }
 
         $attrName = '_' . $index;
@@ -440,7 +440,7 @@ class rex_article_slice
 
     public function getLink($index)
     {
-        return $this->_links[$index - 1];
+        return $this->links[$index - 1];
     }
 
     public function getLinkUrl($index)
@@ -450,12 +450,12 @@ class rex_article_slice
 
     public function getLinkList($index)
     {
-        return $this->_linklists[$index - 1];
+        return $this->linklists[$index - 1];
     }
 
     public function getMedia($index)
     {
-        return $this->_media[$index - 1];
+        return $this->media[$index - 1];
     }
 
     /**
@@ -470,16 +470,16 @@ class rex_article_slice
 
     public function getMediaList($index)
     {
-        return $this->_medialists[$index - 1];
+        return $this->medialists[$index - 1];
     }
 
     public function getPriority()
     {
-        return $this->_priority;
+        return $this->priority;
     }
 
     public function isOnline(): bool
     {
-        return 1 == $this->_status;
+        return 1 == $this->status;
     }
 }
