@@ -217,7 +217,7 @@ class rex_extension_point_slice_menu extends rex_extension_point
         return $this->article_id;
     }
 
-    public function getClang(): int
+    public function getClangId(): int
     {
         return $this->clang;
     }
