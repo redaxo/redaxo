@@ -84,7 +84,7 @@ if (count($structureContext->getMountpoints()) > 0 && 0 == $structureContext->ge
 // --------------------- ADD PAGINATION
 
 $catPager = new rex_pager($structureContext->getRowsPerPage(), 'catstart');
-$catPager->setRowCount($KAT->getValue('rowCount'));
+$catPager->setRowCount($KAT->getValue('rowCount', 'int'));
 $catFragment = new rex_fragment();
 $catFragment->setVar('urlprovider', $structureContext->getContext());
 $catFragment->setVar('pager', $catPager);
@@ -164,7 +164,7 @@ if ('add_cat' == $structureContext->getFunction() && rex::getUser()->hasPerm('ad
 // --------------------- KATEGORIE LIST
 if ($KAT->getRows() > 0) {
     for ($i = 0; $i < $KAT->getRows(); ++$i) {
-        $i_category_id = $KAT->getValue('id');
+        $i_category_id = $KAT->getValue('id', 'int');
 
         $kat_link = $structureContext->getContext()->getUrl(['category_id' => $i_category_id]);
 
@@ -175,9 +175,10 @@ if ($KAT->getRows() > 0) {
         $kat_icon_title = $kat_has_child_elements ? rex_i18n::msg('category_has_child_elements') : rex_i18n::msg('category_without_child_elements');
         $kat_icon_td = '<td class="rex-table-icon"><a class="rex-link-expanded" href="' . $kat_link . '" title="' . rex_escape($KAT->getValue('catname')) . '"><i class="rex-icon ' . $kat_icon_class . '" title="' . $kat_icon_title . '"></i></a></td>';
 
-        $kat_status = $catStatusTypes[$KAT->getValue('status')][0];
-        $status_class = $catStatusTypes[$KAT->getValue('status')][1];
-        $status_icon = $catStatusTypes[$KAT->getValue('status')][2];
+        $status = $KAT->getValue('status', 'int');
+        $kat_status = $catStatusTypes[$status][0];
+        $status_class = $catStatusTypes[$status][1];
+        $status_icon = $catStatusTypes[$status][2];
 
         $td_layout_class = '';
         if ($structureContext->hasCategoryPermission()) {
@@ -356,7 +357,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
     // --------------------- ADD PAGINATION
 
     $artPager = new rex_pager($structureContext->getRowsPerPage(), 'artstart');
-    $artPager->setRowCount($sql->getValue('artCount'));
+    $artPager->setRowCount($sql->getValue('artCount', 'int'));
     $artFragment = new rex_fragment();
     $artFragment->setVar('urlprovider', $structureContext->getContext());
     $artFragment->setVar('pager', $artPager);
@@ -474,9 +475,10 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
         } elseif ($structureContext->hasCategoryPermission()) {
             // --------------------- ARTIKEL NORMAL VIEW | EDIT AND ENTER
 
-            $article_status = $artStatusTypes[$sql->getValue('status')][0];
-            $article_class = $artStatusTypes[$sql->getValue('status')][1];
-            $article_icon = $artStatusTypes[$sql->getValue('status')][2];
+            $status = $sql->getValue('status', 'int');
+            $article_status = $artStatusTypes[$status][0];
+            $article_class = $artStatusTypes[$status][1];
+            $article_icon = $artStatusTypes[$status][2];
 
             $add_extra = '';
             if ($canEdit) {
@@ -519,7 +521,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
 
             $tmpl_td = '';
             if ($template_select) {
-                $tmpl = isset($TEMPLATE_NAME[$sql->getValue('template_id')]) ? $TEMPLATE_NAME[$sql->getValue('template_id')] : '';
+                $tmpl = isset($TEMPLATE_NAME[$sql->getValue('template_id')]) ? $TEMPLATE_NAME[$sql->getValue('template_id', 'int')] : '';
                 $tmpl_td = '<td class="rex-table-template" data-title="' . rex_i18n::msg('header_template') . '">' . $tmpl . '</td>';
             }
 
@@ -536,9 +538,10 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
         } else {
             // --------------------- ARTIKEL NORMAL VIEW | NO EDIT NO ENTER
 
-            $art_status = $artStatusTypes[$sql->getValue('status')][0];
-            $art_status_class = $artStatusTypes[$sql->getValue('status')][1];
-            $art_status_icon = $artStatusTypes[$sql->getValue('status')][2];
+            $status = $sql->getValue('status', 'int');
+            $art_status = $artStatusTypes[$status][0];
+            $art_status_class = $artStatusTypes[$status][1];
+            $art_status_icon = $artStatusTypes[$status][2];
 
             $tmpl_td = '';
             if ($template_select) {

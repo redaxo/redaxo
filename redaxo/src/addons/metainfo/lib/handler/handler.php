@@ -33,12 +33,12 @@ abstract class rex_metainfo_handler
             $tag = 'p';
             $tag_attr = '';
 
-            $name = $sqlFields->getValue('name');
-            $title = $sqlFields->getValue('title');
-            $params = $sqlFields->getValue('params');
-            $typeLabel = $sqlFields->getValue('label');
-            $attr = $sqlFields->getValue('attributes');
-            $dblength = $sqlFields->getValue('dblength');
+            $name = $sqlFields->getValue('name', 'string');
+            $title = $sqlFields->getValue('title', 'string');
+            $params = $sqlFields->getValue('params', 'string');
+            $typeLabel = $sqlFields->getValue('label', 'string');
+            $attr = $sqlFields->getValue('attributes', 'string');
+            $dblength = $sqlFields->getValue('dblength', 'int');
 
             $attrArray = rex_string::split($attr);
             if (isset($attrArray['perm'])) {
@@ -57,7 +57,7 @@ abstract class rex_metainfo_handler
                 }
             }
 
-            $defaultValue = $sqlFields->getValue('default');
+            $defaultValue = $sqlFields->getValue('default', 'string');
             if ($activeItem) {
                 $itemValue = $activeItem->getValue($name);
 
@@ -277,10 +277,8 @@ abstract class rex_metainfo_handler
                         $rexInput = new rex_input_date();
                     } elseif ('time' == $typeLabel) {
                         $rexInput = new rex_input_time();
-                    } elseif ('datetime' == $typeLabel) {
-                        $rexInput = new rex_input_datetime();
                     } else {
-                        throw new Exception('Unexpected $typeLabel "'. $typeLabel .'"');
+                        $rexInput = new rex_input_datetime();
                     }
                     $tag_attr = ' class="form-control-date"';
 
@@ -530,9 +528,9 @@ abstract class rex_metainfo_handler
         }
 
         for ($i = 0; $i < $sqlFields->getRows(); $i++, $sqlFields->next()) {
-            $fieldName = $sqlFields->getValue('name');
-            $fieldType = $sqlFields->getValue('type_id');
-            $fieldAttributes = $sqlFields->getValue('attributes');
+            $fieldName = $sqlFields->getValue('name', 'string');
+            $fieldType = $sqlFields->getValue('type_id', 'int');
+            $fieldAttributes = $sqlFields->getValue('attributes', 'string');
 
             // dont save restricted fields
             $attrArray = rex_string::split($fieldAttributes);

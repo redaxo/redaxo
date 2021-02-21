@@ -53,9 +53,9 @@ class rex_metainfo_table_expander extends rex_form
         $sql->setQuery($qry, $params);
         $value = 1;
         for ($i = 0; $i < $sql->getRows(); ++$i) {
-            $value = $sql->getValue('priority') + 1;
+            $value = $sql->getValue('priority', 'int') + 1;
             $select->addOption(
-                rex_i18n::rawMsg('minfo_field_after_priority', $sql->getValue('name')),
+                rex_i18n::rawMsg('minfo_field_after_priority', $sql->getValue('name', 'string')),
                 $value
             );
             $sql->next();

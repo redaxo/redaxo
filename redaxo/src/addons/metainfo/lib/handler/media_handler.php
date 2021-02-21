@@ -36,7 +36,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         ];
         $escapedFilename = $sql->escape($params['filename']);
         for ($i = 0; $i < $rows; ++$i) {
-            $name = $sql->getValue('name');
+            $name = $sql->getValue('name', 'string');
             $prefix = rex_metainfo_meta_prefix($name);
             if (self::PREFIX === $prefix) {
                 $key = 'media';
@@ -45,7 +45,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
             } else {
                 $key = 'articles';
             }
-            switch ($sql->getValue('type_id')) {
+            switch ($sql->getValue('type_id', 'int')) {
                 case '6':
                     $where[$key][] = $sql->escapeIdentifier($name) . ' = ' . $escapedFilename;
                     break;

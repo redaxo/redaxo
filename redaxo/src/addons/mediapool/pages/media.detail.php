@@ -31,7 +31,7 @@ if (rex_post('btn_delete', 'string')) {
         $sql = rex_sql::factory()->setQuery('SELECT filename FROM ' . rex::getTable('media') . ' WHERE id = ?', [$file_id]);
         $media = null;
         if (1 == $sql->getRows()) {
-            $media = rex_media::get($sql->getValue('filename'));
+            $media = rex_media::get($sql->getValue('filename', 'string'));
         }
 
         if ($media) {
@@ -108,12 +108,12 @@ if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('cate
     $TPERM = true;
 }
 
-$ftitle = $gf->getValue('title');
-$fname = $gf->getValue('filename');
+$ftitle = $gf->getValue('title', 'string');
+$fname = $gf->getValue('filename', 'string');
 $ffiletype = $gf->getValue('filetype');
-$ffile_size = $gf->getValue('filesize');
+$ffile_size = $gf->getValue('filesize', 'int');
 $ffile_size = rex_formatter::bytes($ffile_size);
-$rex_file_category = $gf->getValue('category_id');
+$rex_file_category = $gf->getValue('category_id', 'int');
 
 $sidebar = '';
 $add_ext_info = '';
@@ -232,12 +232,12 @@ if ($TPERM) {
 
     $e = [];
     $e['label'] = '<label>' . rex_i18n::msg('pool_last_update') . '</label>';
-    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime(strtotime($gf->getValue('updatedate')), 'datetime') . ' <span class="rex-author">' . rex_escape($gf->getValue('updateuser')) . '</span></p>';
+    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime($gf->getDateTimeValue('updatedate'), 'datetime') . ' <span class="rex-author">' . rex_escape($gf->getValue('updateuser')) . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
     $e['label'] = '<label>' . rex_i18n::msg('pool_created') . '</label>';
-    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime(strtotime($gf->getValue('createdate')), 'datetime') . ' <span class="rex-author">' . rex_escape($gf->getValue('createuser')) . '</span></p>';
+    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime($gf->getDateTimeValue('createdate'), 'datetime') . ' <span class="rex-author">' . rex_escape($gf->getValue('createuser')) . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
@@ -317,12 +317,12 @@ if ($TPERM) {
 
     $e = [];
     $e['label'] = '<label>' . rex_i18n::msg('pool_last_update') . '</label>';
-    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime(strtotime($gf->getValue('updatedate')), 'datetime') . ' <span class="rex-author">' . $gf->getValue('updateuser') . '</span></p>';
+    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime($gf->getDateTimeValue('updatedate'), 'datetime') . ' <span class="rex-author">' . rex_escape($gf->getValue('updateuser')) . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
     $e['label'] = '<label>' . rex_i18n::msg('pool_created') . '</label>';
-    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime(strtotime($gf->getValue('createdate')), 'datetime') . ' <span class="rex-author">' . $gf->getValue('createuser') . '</span></p>';
+    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime($gf->getDateTimeValue('createdate'), 'datetime') . ' <span class="rex-author">' . rex_escape($gf->getValue('createuser')) . '</span></p>';
     $formElements[] = $e;
 
     $fragment = new rex_fragment();
