@@ -357,14 +357,14 @@ abstract class rex_package implements rex_package_interface
      */
     public function clearCache()
     {
-        $cacheDir = $this->getCachePath();
-        if (!is_dir($cacheDir)) {
+        $cache_dir = $this->getCachePath();
+        if (!is_dir($cache_dir)) {
             return;
         }
-        if (rex_dir::delete($cacheDir)) {
+        if (rex_dir::delete($cache_dir)) {
             return;
         }
-        throw new rex_functional_exception($this->i18n('cache_not_writable', $cacheDir));
+        throw new rex_functional_exception($this->i18n('cache_not_writable', $cache_dir));
     }
 
     public function enlist()
