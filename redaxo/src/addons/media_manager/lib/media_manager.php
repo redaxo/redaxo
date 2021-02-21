@@ -48,7 +48,7 @@ class rex_media_manager
         $manager->setCachePath($cachePath);
         $manager->applyEffects($type);
 
-        if ($manager->use_cache && $manager->isCached()) {
+        if ($manager->useCache && $manager->isCached()) {
             $media->setSourcePath($manager->getCacheFilename());
 
             $cache = $manager->getHeaderCache();
@@ -58,7 +58,7 @@ class rex_media_manager
             foreach ($cache['headers'] as $key => $value) {
                 $media->setHeader($key, $value);
             }
-        } elseif ($manager->use_cache && !$manager->notFound) {
+        } elseif ($manager->useCache && !$manager->notFound) {
             $media->save($manager->getCacheFilename(), $manager->getHeaderCacheFilename());
         }
 

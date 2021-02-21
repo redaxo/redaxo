@@ -56,7 +56,7 @@ class rex_media_category
                 $cat = new static();
 
                 $cat->id = $cache['id'];
-                $cat->parent_id = $cache['parent_id'];
+                $cat->parentId = $cache['parent_id'];
 
                 $cat->name = $cache['name'];
                 $cat->path = $cache['path'];
