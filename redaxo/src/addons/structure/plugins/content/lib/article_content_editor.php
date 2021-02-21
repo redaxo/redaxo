@@ -138,11 +138,11 @@ class rex_article_content_editor extends rex_article_content
 
         $header_right = '';
 
-         $menu_edit_action= [];
-             $menu_delete_action= [];
-                 $menu_status_action= [];
-                     $menu_moveup_action= [];
-                         $menu_movedown_action= [];
+        $menu_edit_action = [];
+        $menu_delete_action = [];
+        $menu_status_action = [];
+        $menu_moveup_action = [];
+        $menu_movedown_action = [];
         if (rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId)) {
             $templateHasModule = rex_template::hasModule($this->template_attributes, $this->ctype, $moduleId);
             if ($templateHasModule) {
