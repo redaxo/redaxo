@@ -14,9 +14,9 @@ class rex_form_widget_media_element extends rex_form_element
         parent::__construct('', $form, $attributes);
     }
 
-    public function setCategoryId($category_id)
+    public function setCategoryId($categoryId)
     {
-        $this->args['category'] = $category_id;
+        $this->args['category'] = $categoryId;
     }
 
     public function setTypes($types)
@@ -31,11 +31,11 @@ class rex_form_widget_media_element extends rex_form_element
 
     public function formatElement()
     {
-        static $widget_counter = 1;
+        static $widgetCounter = 1;
 
-        $html = rex_var_media::getWidget($widget_counter, $this->getAttribute('name'), $this->getValue(), $this->args);
+        $html = rex_var_media::getWidget($widgetCounter, $this->getAttribute('name'), $this->getValue(), $this->args);
 
-        ++$widget_counter;
+        ++$widgetCounter;
         return $html;
     }
 }

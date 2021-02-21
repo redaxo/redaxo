@@ -23,7 +23,7 @@ class rex_setup
     public const DB_MODE_SETUP_IMPORT_BACKUP = 3;
     public const DB_MODE_SETUP_UPDATE_FROM_PREVIOUS = 4;
 
-    private static $MIN_PHP_EXTENSIONS = ['fileinfo', 'filter', 'iconv', 'pcre', 'pdo', 'pdo_mysql', 'session', 'tokenizer'];
+    private const MIN_PHP_EXTENSIONS = ['fileinfo', 'filter', 'iconv', 'pcre', 'pdo', 'pdo_mysql', 'session', 'tokenizer'];
 
     /**
      * very basic setup steps, so everything is in place for our browser-based setup wizard.
@@ -76,7 +76,7 @@ class rex_setup
         }
 
         // -------------------------- EXTENSION CHECK
-        foreach (self::$MIN_PHP_EXTENSIONS as $extension) {
+        foreach (self::MIN_PHP_EXTENSIONS as $extension) {
             if (!extension_loaded($extension)) {
                 $errors[] = rex_i18n::msg('setup_302', $extension);
             }
@@ -251,10 +251,10 @@ class rex_setup
     public static function isInitialSetup(): bool
     {
         try {
-            $user_sql = rex_sql::factory();
-            $user_sql->setQuery('select * from ' . rex::getTable('user') . ' LIMIT 1');
+            $userSql = rex_sql::factory();
+            $userSql->setQuery('select * from ' . rex::getTable('user') . ' LIMIT 1');
 
-            return 0 == $user_sql->getRows();
+            return 0 == $userSql->getRows();
         } catch (rex_sql_could_not_connect_exception $e) {
             return true;
         }

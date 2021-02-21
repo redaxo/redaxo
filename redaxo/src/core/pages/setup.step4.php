@@ -1,7 +1,7 @@
 <?php
 
 assert(isset($context) && $context instanceof rex_context);
-assert(isset($error_array) && is_array($error_array));
+assert(isset($errorArray) && is_array($errorArray));
 assert(isset($config) && is_array($config));
 assert(isset($cancelSetupBtn));
 
@@ -10,24 +10,24 @@ $headline = rex_view::title(rex_i18n::msg('setup_400', rex_path::relative($confi
 
 $content = '';
 
-$submit_message = rex_i18n::msg('setup_410');
-if (count($error_array) > 0) {
-    $submit_message = rex_i18n::msg('setup_414');
+$submitMessage = rex_i18n::msg('setup_410');
+if (count($errorArray) > 0) {
+    $submitMessage = rex_i18n::msg('setup_414');
 }
 
 $content .= '
             <fieldset>';
 
-$timezone_sel = new rex_select();
-$timezone_sel->setId('rex-form-timezone');
-$timezone_sel->setStyle('class="form-control selectpicker"');
-$timezone_sel->setAttribute('data-live-search', 'true');
-$timezone_sel->setName('timezone');
-$timezone_sel->setSize(1);
-$timezone_sel->addOptions(DateTimeZone::listIdentifiers(), true);
-$timezone_sel->setSelected($config['timezone']);
+$timezoneSel = new rex_select();
+$timezoneSel->setId('rex-form-timezone');
+$timezoneSel->setStyle('class="form-control selectpicker"');
+$timezoneSel->setAttribute('data-live-search', 'true');
+$timezoneSel->setName('timezone');
+$timezoneSel->setSize(1);
+$timezoneSel->addOptions(DateTimeZone::listIdentifiers(), true);
+$timezoneSel->setSelected($config['timezone']);
 
-$db_create_checked = rex_post('redaxo_db_create', 'boolean') ? ' checked="checked"' : '';
+$dbCreateChecked = rex_post('redaxo_db_create', 'boolean') ? ' checked="checked"' : '';
 
 $httpsRedirectSel = new rex_select();
 $httpsRedirectSel->setId('rex-form-https');
@@ -63,7 +63,7 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-form-timezone" class="required">' . rex_i18n::msg('setup_412') . '</label>';
-$n['field'] = $timezone_sel->get();
+$n['field'] = $timezoneSel->get();
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -105,7 +105,7 @@ $content .= $fragment->parse('core/form/form.php');
 $formElements = [];
 $n = [];
 $n['label'] = '<label>' . rex_i18n::msg('setup_411') . '</label>';
-$n['field'] = '<input type="checkbox" name="redaxo_db_create" value="1"' . $db_create_checked . ' />';
+$n['field'] = '<input type="checkbox" name="redaxo_db_create" value="1"' . $dbCreateChecked . ' />';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -140,7 +140,7 @@ $content .= '</fieldset>';
 $formElements = [];
 
 $n = [];
-$n['field'] = '<button class="btn btn-setup" type="submit" value="' . rex_i18n::msg('system_update') . '">' . $submit_message . '</button>';
+$n['field'] = '<button class="btn btn-setup" type="submit" value="' . rex_i18n::msg('system_update') . '">' . $submitMessage . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -148,7 +148,7 @@ $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
 
 echo $headline;
-echo implode('', $error_array);
+echo implode('', $errorArray);
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', rex_i18n::msg('setup_416'), false);

@@ -141,12 +141,12 @@ class rex_effect_mirror extends rex_effect_abstract
      */
     private function imagereflection(&$image, $reflectionHeight, $reflectionOpacity, $transparent, $bgColor)
     {
-        $src_height = imagesy($image);
-        $src_width = imagesx($image);
-        $dest_height = $src_height + $reflectionHeight;
-        $dest_width = $src_width;
+        $srcHeight = imagesy($image);
+        $srcWidth = imagesx($image);
+        $destHeight = $srcHeight + $reflectionHeight;
+        $destWidth = $srcWidth;
 
-        $reflected = imagecreatetruecolor($dest_width, $dest_height);
+        $reflected = imagecreatetruecolor($destWidth, $destHeight);
         if (!$reflected) {
             throw new LogicException('unable to create image');
         }
@@ -158,21 +158,21 @@ class rex_effect_mirror extends rex_effect_abstract
             imagefill($reflected, 0, 0, imagecolorallocate($reflected, $bgColor[0], $bgColor[1], $bgColor[2]));
         }
 
-        imagecopy($reflected, $image, 0, 0, 0, 0, $src_width, $src_height);
+        imagecopy($reflected, $image, 0, 0, 0, 0, $srcWidth, $srcHeight);
 
         if ($reflectionOpacity < 100) {
             $transparency = 1 - $reflectionOpacity / 100;
             imagefilter($image, IMG_FILTER_COLORIZE, 0, 0, 0, 127 * $transparency);
         }
-        $alpha_step = 80 / $reflectionHeight;
+        $alphaStep = 80 / $reflectionHeight;
         for ($y = 1; $y <= $reflectionHeight; ++$y) {
-            for ($x = 0; $x < $dest_width; ++$x) {
-                $rgba = imagecolorat($image, $x, $src_height - $y);
+            for ($x = 0; $x < $destWidth; ++$x) {
+                $rgba = imagecolorat($image, $x, $srcHeight - $y);
                 $alpha = ($rgba & 0x7F000000) >> 24;
-                $alpha = max($alpha, 47 + ($y * $alpha_step));
+                $alpha = max($alpha, 47 + ($y * $alphaStep));
                 $rgba = imagecolorsforindex($image, $rgba);
                 $rgba = imagecolorallocatealpha($reflected, $rgba['red'], $rgba['green'], $rgba['blue'], $alpha);
-                imagesetpixel($reflected, $x, $src_height + $y - 1, $rgba);
+                imagesetpixel($reflected, $x, $srcHeight + $y - 1, $rgba);
             }
         }
 

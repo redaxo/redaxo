@@ -51,7 +51,7 @@ class rex_var_linklist extends rex_var
             $category = (int) $args['category'];
         }
 
-        $open_params = '&clang=' . rex_clang::getCurrentId() . '&category_id=' . $category;
+        $openParams = '&clang=' . rex_clang::getCurrentId() . '&category_id=' . $category;
 
         $options = '';
         $linklistarray = explode(',', $value);
@@ -64,12 +64,12 @@ class rex_var_linklist extends rex_var
         }
 
         $disabled = ' disabled';
-        $open_func = '';
-        $delete_func = '';
+        $openFunc = '';
+        $deleteFunc = '';
         if (rex::getUser()->getComplexPerm('structure')->hasStructurePerm()) {
             $disabled = '';
-            $open_func = 'openREXLinklist(' . $id . ', \'' . $open_params . '\');';
-            $delete_func = 'deleteREXLinklist(' . $id . ');';
+            $openFunc = 'openREXLinklist(' . $id . ', \'' . $openParams . '\');';
+            $deleteFunc = 'deleteREXLinklist(' . $id . ');';
         }
 
         $e = [];
@@ -84,8 +84,8 @@ class rex_var_linklist extends rex_var
                     <a href="#" class="btn btn-popup" onclick="moveREXLinklist(' . $id . ',\'down\');return false;" title="' . rex_i18n::msg('var_linklist_move_down') . '"><i class="rex-icon rex-icon-down"></i></a>
                     <a href="#" class="btn btn-popup" onclick="moveREXLinklist(' . $id . ',\'bottom\');return false;" title="' . rex_i18n::msg('var_linklist_move_bottom') . '"><i class="rex-icon rex-icon-bottom"></i></a>';
         $e['functionButtons'] = '
-                    <a href="#" class="btn btn-popup" onclick="' . $open_func . 'return false;" title="' . rex_i18n::msg('var_link_open') . '"' . $disabled . '><i class="rex-icon rex-icon-open-linkmap"></i></a>
-                    <a href="#" class="btn btn-popup" onclick="' . $delete_func . 'return false;" title="' . rex_i18n::msg('var_link_delete') . '"' . $disabled . '><i class="rex-icon rex-icon-delete-link"></i></a>';
+                    <a href="#" class="btn btn-popup" onclick="' . $openFunc . 'return false;" title="' . rex_i18n::msg('var_link_open') . '"' . $disabled . '><i class="rex-icon rex-icon-open-linkmap"></i></a>
+                    <a href="#" class="btn btn-popup" onclick="' . $deleteFunc . 'return false;" title="' . rex_i18n::msg('var_link_delete') . '"' . $disabled . '><i class="rex-icon rex-icon-delete-link"></i></a>';
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', [$e], false);

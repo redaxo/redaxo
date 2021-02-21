@@ -79,9 +79,9 @@ if (rex::isSetup()) {
     $login = new rex_backend_login();
     rex::setProperty('login', $login);
 
-    $rex_user_login = rex_post('rex_user_login', 'string');
-    $rex_user_psw = rex_post('rex_user_psw', 'string');
-    $rex_user_stay_logged_in = rex_post('rex_user_stay_logged_in', 'boolean', false);
+    $rexUserLogin = rex_post('rex_user_login', 'string');
+    $rexUserPsw = rex_post('rex_user_psw', 'string');
+    $rexUserStayLoggedIn = rex_post('rex_user_stay_logged_in', 'boolean', false);
 
     if (rex_get('rex_logout', 'boolean') && rex_csrf_token::factory('backend_logout')->isValid()) {
         $login->setLogout(true);
@@ -108,15 +108,15 @@ if (rex::isSetup()) {
         rex_response::sendRedirect(rex_url::backendController(['rex_logged_out' => 1]));
     }
 
-    $rex_user_loginmessage = '';
+    $rexUserLoginmessage = '';
 
-    if ($rex_user_login && !rex_csrf_token::factory('backend_login')->isValid()) {
+    if ($rexUserLogin && !rex_csrf_token::factory('backend_login')->isValid()) {
         $loginCheck = rex_i18n::msg('csrf_token_invalid');
     } else {
         // the server side encryption of pw is only required
         // when not already encrypted by client using javascript
-        $login->setLogin($rex_user_login, $rex_user_psw, rex_post('javascript', 'boolean'));
-        $login->setStayLoggedIn($rex_user_stay_logged_in);
+        $login->setLogin($rexUserLogin, $rexUserPsw, rex_post('javascript', 'boolean'));
+        $login->setStayLoggedIn($rexUserStayLoggedIn);
         $loginCheck = $login->checkLogin();
     }
 
@@ -126,11 +126,11 @@ if (rex::isSetup()) {
         }
 
         // login failed
-        $rex_user_loginmessage = $login->getMessage();
+        $rexUserLoginmessage = $login->getMessage();
 
         // Fehlermeldung von der Datenbank
         if (is_string($loginCheck)) {
-            $rex_user_loginmessage = $loginCheck;
+            $rexUserLoginmessage = $loginCheck;
         }
 
         $pages['login'] = rex_be_controller::getLoginPage();
@@ -157,8 +157,8 @@ if (rex::isSetup()) {
         rex::setProperty('user', $user);
     }
 
-    if ('' === $rex_user_loginmessage && rex_get('rex_logged_out', 'boolean')) {
-        $rex_user_loginmessage = rex_i18n::msg('login_logged_out');
+    if ('' === $rexUserLoginmessage && rex_get('rex_logged_out', 'boolean')) {
+        $rexUserLoginmessage = rex_i18n::msg('login_logged_out');
     }
 
     // Safe Mode

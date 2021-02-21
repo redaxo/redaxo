@@ -16,12 +16,12 @@ class rex_history_login extends rex_backend_login
 
     public function checkTempSession($historyLogin, $historySession, $historyValidtime)
     {
-        $user_sql = rex_sql::factory($this->DB);
-        $user_sql->setQuery($this->loginQuery, [':login' => $historyLogin]);
+        $userSql = rex_sql::factory($this->DB);
+        $userSql->setQuery($this->loginQuery, [':login' => $historyLogin]);
 
-        if (1 == $user_sql->getRows()) {
-            if (self::verifySessionKey($historyLogin . $user_sql->getValue('session_id') . $historyValidtime, $historySession)) {
-                $this->user = $user_sql;
+        if (1 == $userSql->getRows()) {
+            if (self::verifySessionKey($historyLogin . $userSql->getValue('session_id') . $historyValidtime, $historySession)) {
+                $this->user = $userSql;
                 $this->setSessionVar('STAMP', time());
                 $this->setSessionVar('UID', $this->user->getValue($this->idColumn));
                 return parent::checkLogin();

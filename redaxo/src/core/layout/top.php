@@ -21,34 +21,34 @@ if (!$curPage->hasLayout()) {
     return;
 }
 
-$body_attr = [];
-$body_id = rex_string::normalize(rex_be_controller::getCurrentPage(), '-', ' ');
+$bodyAttr = [];
+$bodyId = rex_string::normalize(rex_be_controller::getCurrentPage(), '-', ' ');
 
-$body_attr['id'] = ['rex-page-' . $body_id];
-$body_attr['onunload'] = ['closeAll();'];
+$bodyAttr['id'] = ['rex-page-' . $bodyId];
+$bodyAttr['onunload'] = ['closeAll();'];
 
-$body_attr['class'] = ['rex-is-logged-out'];
+$bodyAttr['class'] = ['rex-is-logged-out'];
 if (rex::getUser()) {
-    $body_attr['class'] = ['rex-is-logged-in'];
+    $bodyAttr['class'] = ['rex-is-logged-in'];
 }
 if (rex::isDebugMode()) {
-    $body_attr['class'][] = 'rex-is-debugmode';
+    $bodyAttr['class'][] = 'rex-is-debugmode';
 }
 if (rex::isSafeMode()) {
-    $body_attr['class'][] = 'rex-is-safemode';
+    $bodyAttr['class'][] = 'rex-is-safemode';
 }
 if ($curPage->isPopup()) {
-    $body_attr['class'][] = 'rex-is-popup';
+    $bodyAttr['class'][] = 'rex-is-popup';
 }
 if (rex::getImpersonator()) {
-    $body_attr['class'][] = 'rex-is-impersonated';
+    $bodyAttr['class'][] = 'rex-is-impersonated';
 }
 
 // ----- EXTENSION POINT
-$body_attr = rex_extension::registerPoint(new rex_extension_point('PAGE_BODY_ATTR', $body_attr));
+$bodyAttr = rex_extension::registerPoint(new rex_extension_point('PAGE_BODY_ATTR', $bodyAttr));
 
 $body = '';
-foreach ($body_attr as $k => $v) {
+foreach ($bodyAttr as $k => $v) {
     $body .= ' ' . $k . '="';
     if (is_array($v)) {
         $body .= implode(' ', $v);
@@ -58,29 +58,29 @@ foreach ($body_attr as $k => $v) {
 
 $hasNavigation = $curPage->hasNavigation();
 
-$meta_items = [];
+$metaItems = [];
 if (rex::getUser() && $hasNavigation) {
     if (rex::isSafeMode()) {
         $item = [];
         $item['title'] = rex_i18n::msg('safemode_deactivate');
         $item['href'] = rex_url::backendController(['safemode' => 0]);
         $item['attributes'] = 'class="btn btn-safemode-deactivate" data-pjax="false"';
-        $meta_items[] = $item;
+        $metaItems[] = $item;
         unset($item);
     }
 
-    $user_name = rex::getUser()->getName() ?: rex::getUser()->getLogin();
+    $userName = rex::getUser()->getName() ?: rex::getUser()->getLogin();
     $impersonator = rex::getImpersonator();
     if ($impersonator) {
         $impersonator = $impersonator->getName() ?: $impersonator->getLogin();
     }
 
     $item = [];
-    $item['title'] = '<span class="text-muted">' . rex_i18n::msg('logged_in_as') . '</span> <a class="rex-username" href="' . rex_url::backendPage('profile') . '" title="' . rex_i18n::msg('profile_title') . '"><i class="rex-icon rex-icon-user"></i> ' . rex_escape($user_name) . '</a>';
+    $item['title'] = '<span class="text-muted">' . rex_i18n::msg('logged_in_as') . '</span> <a class="rex-username" href="' . rex_url::backendPage('profile') . '" title="' . rex_i18n::msg('profile_title') . '"><i class="rex-icon rex-icon-user"></i> ' . rex_escape($userName) . '</a>';
     if ($impersonator) {
         $item['title'] .= ' (<i class="rex-icon rex-icon-user"></i> '.rex_escape($impersonator).')';
     }
-    $meta_items[] = $item;
+    $metaItems[] = $item;
     unset($item);
 
     $item = [];
@@ -93,12 +93,12 @@ if (rex::getUser() && $hasNavigation) {
         $item['title'] = '<i class="rex-icon rex-icon-sign-out"></i> ' . rex_i18n::msg('logout');
         $item['href'] = rex_url::backendController(['rex_logout' => 1] + rex_csrf_token::factory('backend_logout')->getUrlParams());
     }
-    $meta_items[] = $item;
+    $metaItems[] = $item;
     unset($item);
 } elseif ($hasNavigation && !rex::isSetup()) {
     $item = [];
     $item['title'] = rex_i18n::msg('logged_out');
-    $meta_items[] = $item;
+    $metaItems[] = $item;
     unset($item);
 }
 
@@ -203,12 +203,12 @@ if (!rex_request::isPJAXContainer('#rex-js-page-container')) {
     echo $fragment->parse('core/top.php');
 
     $fragment = new rex_fragment();
-    $fragment->setVar('items', $meta_items, false);
-    $meta_navigation = $fragment->parse('core/navigations/meta.php');
+    $fragment->setVar('items', $metaItems, false);
+    $metaNavigation = $fragment->parse('core/navigations/meta.php');
 
     $fragment = new rex_fragment();
     // $fragment->setVar('pageHeader', rex_extension::registerPoint(new rex_extension_point('PAGE_HEADER', '')), false);
-    $fragment->setVar('meta_navigation', $meta_navigation, false);
+    $fragment->setVar('meta_navigation', $metaNavigation, false);
     echo $fragment->parse('core/header.php');
 }
 

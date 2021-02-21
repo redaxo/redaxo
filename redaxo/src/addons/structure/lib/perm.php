@@ -6,16 +6,16 @@
 class rex_structure_perm extends rex_complex_perm
 {
     /**
-     * @param int $category_id
+     * @param int $categoryId
      *
      * @return bool
      */
-    public function hasCategoryPerm($category_id)
+    public function hasCategoryPerm($categoryId)
     {
-        if ($this->hasAll() || in_array($category_id, $this->perms)) {
+        if ($this->hasAll() || in_array($categoryId, $this->perms)) {
             return true;
         }
-        if ($c = rex_category::get($category_id)) {
+        if ($c = rex_category::get($categoryId)) {
             foreach ($c->getPathAsArray() as $k) {
                 if (in_array($k, $this->perms)) {
                     return true;

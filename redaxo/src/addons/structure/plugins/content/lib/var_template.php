@@ -9,20 +9,20 @@ class rex_var_template extends rex_var
 {
     protected function getOutput()
     {
-        $template_id = $this->getParsedArg('id', 0, true);
-        $template_key = $this->getArg('key', null, true);
+        $templateId = $this->getParsedArg('id', 0, true);
+        $templateKey = $this->getArg('key', null, true);
 
-        if (0 === $template_id && $template_key) {
-            $template = rex_template::forKey($template_key);
+        if (0 === $templateId && $templateKey) {
+            $template = rex_template::forKey($templateKey);
 
             if ($template) {
-                $template_id = $template->getId();
+                $templateId = $template->getId();
             }
         }
 
-        if ($template_id > 0) {
+        if ($templateId > 0) {
             // the `require` statement must be in outer context, so that the included template uses the same variable scope
-            return self::class . '::getTemplateOutput(' . $template_id . ', new rex_timer(), require ' . self::class . '::getTemplateStream(' . $template_id . ', $this))';
+            return self::class . '::getTemplateOutput(' . $templateId . ', new rex_timer(), require ' . self::class . '::getTemplateStream(' . $templateId . ', $this))';
         }
 
         return false;

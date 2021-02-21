@@ -50,15 +50,15 @@ function rex_metainfo_add_field_type($label, $dbtype, $dblength)
  *
  * @return bool|string
  */
-function rex_metainfo_delete_field_type($field_type_id)
+function rex_metainfo_delete_field_type($fieldTypeId)
 {
-    if (!is_int($field_type_id) || empty($field_type_id)) {
+    if (!is_int($fieldTypeId) || empty($fieldTypeId)) {
         return rex_i18n::msg('minfo_field_error_invalid_typeid');
     }
 
     $sql = rex_sql::factory();
     $sql->setTable(rex::getTablePrefix() . 'metainfo_type');
-    $sql->setWhere(['id' => $field_type_id]);
+    $sql->setWhere(['id' => $fieldTypeId]);
 
     $sql->delete();
     return 1 == $sql->getRows();
@@ -151,7 +151,7 @@ function rex_metainfo_delete_field($fieldIdOrName)
     }
 
     $name = $sql->getValue('name');
-    $field_id = $sql->getValue('id');
+    $fieldId = $sql->getValue('id');
 
     $prefix = rex_metainfo_meta_prefix($name);
     $metaTable = rex_metainfo_meta_table($prefix);
@@ -163,7 +163,7 @@ function rex_metainfo_delete_field($fieldIdOrName)
     }
 
     $sql->setTable(rex::getTablePrefix() . 'metainfo_field');
-    $sql->setWhere(['id' => $field_id]);
+    $sql->setWhere(['id' => $fieldId]);
 
     $sql->delete();
 

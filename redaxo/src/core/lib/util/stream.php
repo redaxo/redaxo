@@ -77,7 +77,7 @@ class rex_stream
     /**
      * @see http://www.php.net/manual/en/streamwrapper.stream-open.php
      */
-    public function stream_open($path, $mode, $options, &$opened_path)
+    public function stream_open($path, $mode, $options, &$openedPath)
     {
         if (!isset(self::$nextContent[$path]) || !is_string(self::$nextContent[$path])) {
             return false;

@@ -65,7 +65,7 @@ class rex_mailer extends PHPMailer
 
         if ($addon->getConfig('detour_mode') && '' != $addon->getConfig('test_address')) {
             if ('to' == $kind) {
-                $detour_address = $addon->getConfig('test_address');
+                $detourAddress = $addon->getConfig('test_address');
 
                 // store the address so we can use it in the subject later
 
@@ -82,7 +82,7 @@ class rex_mailer extends PHPMailer
                 $this->xHeader['to'] = $address;
 
                 // Set $address to the detour address
-                $address = $detour_address;
+                $address = $detourAddress;
             } else {
                 if (isset($this->xHeader[$kind])) {
                     $this->xHeader[$kind] .= ', ' . $address;

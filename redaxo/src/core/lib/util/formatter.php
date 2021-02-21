@@ -129,10 +129,10 @@ abstract class rex_formatter
         $value = (int) $value;
 
         $units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
-        $unit_index = 0;
+        $unitIndex = 0;
         while (($value / 1024) >= 1) {
             $value /= 1024;
-            ++$unit_index;
+            ++$unitIndex;
         }
 
         if (isset($format[0])) {
@@ -148,7 +148,7 @@ abstract class rex_formatter
             }
         }
 
-        return self::number($value, $format) . ' ' . $units[$unit_index];
+        return self::number($value, $format) . ' ' . $units[$unitIndex];
     }
 
     /**

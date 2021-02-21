@@ -10,7 +10,7 @@ class rex_managed_media
     public const PROP_WEBP_QUALITY = 'webp_quality';
     public const PROP_INTERLACE = 'interlace';
 
-    private $media_path = '';
+    private $mediaPath = '';
     private $media;
     private $asImage = false;
     private $image;
@@ -43,12 +43,12 @@ class rex_managed_media
      */
     public function getMediaPath()
     {
-        return $this->media_path;
+        return $this->mediaPath;
     }
 
     public function setMediaPath($mediaPath)
     {
-        $this->media_path = $mediaPath;
+        $this->mediaPath = $mediaPath;
 
         if (null === $mediaPath) {
             return;
@@ -378,10 +378,10 @@ class rex_managed_media
 
         $header = $this->getHeader();
         if (!isset($header['Content-Type']) && $this->sourcePath) {
-            $content_type = rex_file::mimeType($this->sourcePath);
+            $contentType = rex_file::mimeType($this->sourcePath);
 
-            if ($content_type) {
-                $this->setHeader('Content-Type', $content_type);
+            if ($contentType) {
+                $this->setHeader('Content-Type', $contentType);
             }
         }
         if (!isset($header['Content-Disposition'])) {
