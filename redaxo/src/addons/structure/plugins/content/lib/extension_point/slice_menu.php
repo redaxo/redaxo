@@ -8,23 +8,23 @@ class rex_extension_point_slice_menu extends rex_extension_point
     public const NAME = 'SLICE_MENU';
 
     /**
-     * @var array<label: string, url: string, attributes: array<class: string[], title: string>>
+     * @var array{label: string, url: string, attributes: array{class: string[], title: string}}
      */
     private $menu_edit_action = [];
     /**
-     * @var array<label: string, url: string, attributes: array<class: string[], title: string, data-confirm: string>>
+     * @var array{label: string, url: string, attributes: array{class: string[], title: string, data-confirm: string}}
      */
     private $menu_delete_action = [];
     /**
-     * @var array<label: string, url: string, attributes: array<class: string[]>>
+     * @var array{label: string, url: string, attributes: array{class: string[]}}
      */
     private $menu_status_action = [];
     /**
-     * @var array<hidden_label: string, url: string, attributes: array<class: string[], title: string>, icon: string>
+     * @var array{hidden_label: string, url: string, attributes: array{class: string[], title: string>, icon: string}}
      */
     private $menu_moveup_action = [];
     /**
-     * @var array<hidden_label: string, url: string, attributes: array<class: string[], title: string>, icon: string>
+     * @var array{hidden_label: string, url: string, attributes: array{class: string[], title: string>, icon: string}}
      */
     private $menu_movedown_action = [];
 
@@ -48,11 +48,11 @@ class rex_extension_point_slice_menu extends rex_extension_point
     private $has_perm;
 
     /**
-     * @param array<label: string, url: string, attributes: array<class: string[], title: string>>       $menu_edit_action
-     * @param array<label: string, url: string, attributes: array<class: string[], title: string, data-confirm: string>>       $menu_delete_action
-     * @param array<label: string, url: string, attributes: array<class: string[]>>       $menu_status_action
-     * @param array<hidden_label: string, url: string, attributes: array<class: string[], title: string>, icon: string>       $menu_moveup_action
-     * @param array<hidden_label: string, url: string, attributes: array<class: string[], title: string>, icon: string>       $menu_movedown_action
+     * @param array{label: string, url: string, attributes: array{class: string[], title: string}}       $menu_edit_action
+     * @param array{label: string, url: string, attributes: array{class: string[], title: string, data-confirm: string}}       $menu_delete_action
+     * @param array{label: string, url: string, attributes: array{class: string[]}}       $menu_status_action
+     * @param array{hidden_label: string, url: string, attributes: array{class: string[], title: string>, icon: string}}       $menu_moveup_action
+     * @param array{hidden_label: string, url: string, attributes: array{class: string[], title: string>, icon: string}}       $menu_movedown_action
      */
     public function __construct(
         array $menu_edit_action,
@@ -101,7 +101,7 @@ class rex_extension_point_slice_menu extends rex_extension_point
     }
 
     /**
-     * @return array<label: string, url: string, attributes: array<class: string[], title: string>>
+     * @return array{label: string, url: string, attributes: array{class: string[], title: string}}
      */
     public function getMenuEditAction(): array
     {
@@ -109,7 +109,7 @@ class rex_extension_point_slice_menu extends rex_extension_point
     }
 
     /**
-     * @param array<label: string, url: string, attributes: array<class: string[], title: string>>       $menu_edit_action
+     * @param array{label: string, url: string, attributes: array{class: string[], title: string}}       $menu_edit_action
      */
     public function setMenuEditAction(array $menu_edit_action): void
     {
@@ -117,7 +117,7 @@ class rex_extension_point_slice_menu extends rex_extension_point
     }
 
     /**
-     * @return array<label: string, url: string, attributes: array<class: string[], title: string, data-confirm: string>>
+     * @return array{label: string, url: string, attributes: array{class: string[], title: string, data-confirm: string}}
      */
     public function getMenuDeleteAction(): array
     {
@@ -125,7 +125,7 @@ class rex_extension_point_slice_menu extends rex_extension_point
     }
 
     /**
-     * @param array<label: string, url: string, attributes: array<class: string[], title: string, data-confirm: string>>       $menu_delete_action
+     * @param array{label: string, url: string, attributes: array{class: string[], title: string, data-confirm: string}}       $menu_delete_action
      */
     public function setMenuDeleteAction(array $menu_delete_action): void
     {
@@ -133,7 +133,7 @@ class rex_extension_point_slice_menu extends rex_extension_point
     }
 
     /**
-     * @return array<label: string, url: string, attributes: array<class: string[]>>
+     * @return array{label: string, url: string, attributes: array{class: string[]}}
      */
     public function getMenuStatusAction(): array
     {
@@ -141,7 +141,7 @@ class rex_extension_point_slice_menu extends rex_extension_point
     }
 
     /**
-     * @param array<label: string, url: string, attributes: array<class: string[]>>       $menu_status_action
+     * @param array{label: string, url: string, attributes: array{class: string[]}}       $menu_status_action
      */
     public function setMenuStatusAction(array $menu_status_action): void
     {
@@ -149,7 +149,7 @@ class rex_extension_point_slice_menu extends rex_extension_point
     }
 
     /**
-     * @return array<hidden_label: string, url: string, attributes: array<class: string[], title: string>, icon: string>
+     * @return array{hidden_label: string, url: string, attributes: array{class: string[], title: string>, icon: string}}
      */
     public function getMenuMoveupAction(): array
     {
@@ -157,7 +157,7 @@ class rex_extension_point_slice_menu extends rex_extension_point
     }
 
     /**
-     * @param array<hidden_label: string, url: string, attributes: array<class: string[], title: string>, icon: string>       $menu_moveup_action
+     * @param array{hidden_label: string, url: string, attributes: array{class: string[], title: string>, icon: string}}       $menu_moveup_action
      */
     public function setMenuMoveupAction(array $menu_moveup_action): void
     {
@@ -165,7 +165,7 @@ class rex_extension_point_slice_menu extends rex_extension_point
     }
 
     /**
-     * @return array<hidden_label: string, url: string, attributes: array<class: string[], title: string>, icon: string>
+     * @return array{hidden_label: string, url: string, attributes: array{class: string[], title: string>, icon: string}}
      */
     public function getMenuMovedownAction(): array
     {
@@ -173,7 +173,7 @@ class rex_extension_point_slice_menu extends rex_extension_point
     }
 
     /**
-     * @param array<hidden_label: string, url: string, attributes: array<class: string[], title: string>, icon: string>       $menu_movedown_action
+     * @param array{hidden_label: string, url: string, attributes: array{class: string[], title: string>, icon: string}}       $menu_movedown_action
      */
     public function setMenuMovedownAction(array $menu_movedown_action): void
     {
