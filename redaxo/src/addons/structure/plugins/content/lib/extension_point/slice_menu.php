@@ -10,23 +10,23 @@ class rex_extension_point_slice_menu extends rex_extension_point
     /**
      * @var array{label: string, url: string, attributes: array{class: string[], title: string}}
      */
-    private $menu_edit_action = [];
+    private $menuEditAction = [];
     /**
      * @var array{label: string, url: string, attributes: array{class: string[], title: string, data-confirm: string}}
      */
-    private $menu_delete_action = [];
+    private $menuDeleteAction = [];
     /**
      * @var array{label: string, url: string, attributes: array{class: string[]}}
      */
-    private $menu_status_action = [];
+    private $menuStatusAction = [];
     /**
      * @var array{hidden_label: string, url: string, attributes: array{class: string[], title: string>, icon: string}}
      */
-    private $menu_moveup_action = [];
+    private $menuMoveupAction = [];
     /**
      * @var array{hidden_label: string, url: string, attributes: array{class: string[], title: string>, icon: string}}
      */
-    private $menu_movedown_action = [];
+    private $menuMovedownAction = [];
 
     /** @var rex_context */
     private $context;
@@ -34,62 +34,62 @@ class rex_extension_point_slice_menu extends rex_extension_point
     private $fragment;
 
     /** @var int */
-    private $article_id;
+    private $articleId;
     /** @var int */
     private $clang;
     /** @var int */
     private $ctype;
     /** @var int */
-    private $module_id;
+    private $moduleId;
     /** @var int */
-    private $slice_id;
+    private $sliceId;
 
     /** @var bool */
-    private $has_perm;
+    private $hasPerm;
 
     /**
-     * @param array{label: string, url: string, attributes: array{class: string[], title: string}}       $menu_edit_action
-     * @param array{label: string, url: string, attributes: array{class: string[], title: string, data-confirm: string}}       $menu_delete_action
-     * @param array{label: string, url: string, attributes: array{class: string[]}}       $menu_status_action
+     * @param array{label: string, url: string, attributes: array{class: string[], title: string}}       $menuEditAction
+     * @param array{label: string, url: string, attributes: array{class: string[], title: string, data-confirm: string}}       $menuDeleteAction
+     * @param array{label: string, url: string, attributes: array{class: string[]}}       $menuStatusAction
      * @param array{hidden_label: string, url: string, attributes: array{class: string[], title: string}, icon: string}}       $menu_moveup_action
      * @param array{hidden_label: string, url: string, attributes: array{class: string[], title: string}, icon: string}}       $menu_movedown_action
      */
     public function __construct(
-        array $menu_edit_action,
-        array $menu_delete_action,
-        array $menu_status_action,
-        array $menu_moveup_action,
-        array $menu_movedown_action,
+        array $menuEditAction,
+        array $menuDeleteAction,
+        array $menuStatusAction,
+        array $menuMoveupAction,
+        array $menuMovedownAction,
         rex_context $context,
         string $fragment,
-        int $article_id,
+        int $articleId,
         int $clang,
         int $ctype,
-        int $module_id,
-        int $slice_id,
-        bool $has_perm,
+        int $moduleId,
+        int $sliceId,
+        bool $hasPerm,
         $subject = null,
         array $params = [],
         $readonly = false
     ) {
         parent::__construct(self::NAME, $subject, $params, $readonly);
 
-        $this->menu_edit_action = $menu_edit_action;
-        $this->menu_delete_action = $menu_delete_action;
-        $this->menu_status_action = $menu_status_action;
-        $this->menu_moveup_action = $menu_moveup_action;
-        $this->menu_movedown_action = $menu_movedown_action;
+        $this->menuEditAction = $menuEditAction;
+        $this->menuDeleteAction = $menuDeleteAction;
+        $this->menuStatusAction = $menuStatusAction;
+        $this->menuMoveupAction = $menuMoveupAction;
+        $this->menuMovedownAction = $menuMovedownAction;
 
         $this->context = $context;
         $this->fragment = $fragment;
 
-        $this->article_id = $article_id;
+        $this->articleId = $articleId;
         $this->clang = $clang;
         $this->ctype = $ctype;
-        $this->module_id = $module_id;
-        $this->slice_id = $slice_id;
+        $this->moduleId = $moduleId;
+        $this->sliceId = $sliceId;
 
-        $this->has_perm = $has_perm;
+        $this->hasPerm = $hasPerm;
     }
 
     /**
@@ -97,15 +97,15 @@ class rex_extension_point_slice_menu extends rex_extension_point
      */
     public function getMenuEditAction(): array
     {
-        return $this->menu_edit_action;
+        return $this->menuEditAction;
     }
 
     /**
-     * @param array{label: string, url: string, attributes: array{class: string[], title: string}}       $menu_edit_action
+     * @param array{label: string, url: string, attributes: array{class: string[], title: string}}       $menuEditAction
      */
-    public function setMenuEditAction(array $menu_edit_action): void
+    public function setMenuEditAction(array $menuEditAction): void
     {
-        $this->menu_edit_action = $menu_edit_action;
+        $this->menuEditAction = $menuEditAction;
     }
 
     /**
@@ -113,15 +113,15 @@ class rex_extension_point_slice_menu extends rex_extension_point
      */
     public function getMenuDeleteAction(): array
     {
-        return $this->menu_delete_action;
+        return $this->menuDeleteAction;
     }
 
     /**
-     * @param array{label: string, url: string, attributes: array{class: string[], title: string, data-confirm: string}}       $menu_delete_action
+     * @param array{label: string, url: string, attributes: array{class: string[], title: string, data-confirm: string}}       $menuDeleteAction
      */
-    public function setMenuDeleteAction(array $menu_delete_action): void
+    public function setMenuDeleteAction(array $menuDeleteAction): void
     {
-        $this->menu_delete_action = $menu_delete_action;
+        $this->menuDeleteAction = $menuDeleteAction;
     }
 
     /**
@@ -129,15 +129,15 @@ class rex_extension_point_slice_menu extends rex_extension_point
      */
     public function getMenuStatusAction(): array
     {
-        return $this->menu_status_action;
+        return $this->menuStatusAction;
     }
 
     /**
-     * @param array{label: string, url: string, attributes: array{class: string[]}}       $menu_status_action
+     * @param array{label: string, url: string, attributes: array{class: string[]}}       $menuStatusAction
      */
-    public function setMenuStatusAction(array $menu_status_action): void
+    public function setMenuStatusAction(array $menuStatusAction): void
     {
-        $this->menu_status_action = $menu_status_action;
+        $this->menuStatusAction = $menuStatusAction;
     }
 
     /**
@@ -145,15 +145,15 @@ class rex_extension_point_slice_menu extends rex_extension_point
      */
     public function getMenuMoveupAction(): array
     {
-        return $this->menu_moveup_action;
+        return $this->menuMoveupAction;
     }
 
     /**
-     * @param array{hidden_label: string, url: string, attributes: array{class: string[], title: string}, icon: string}       $menu_moveup_action
+     * @param array{hidden_label: string, url: string, attributes: array{class: string[], title: string}, icon: string}       $menuMoveupAction
      */
-    public function setMenuMoveupAction(array $menu_moveup_action): void
+    public function setMenuMoveupAction(array $menuMoveupAction): void
     {
-        $this->menu_moveup_action = $menu_moveup_action;
+        $this->menuMoveupAction = $menuMoveupAction;
     }
 
     /**
@@ -161,15 +161,15 @@ class rex_extension_point_slice_menu extends rex_extension_point
      */
     public function getMenuMovedownAction(): array
     {
-        return $this->menu_movedown_action;
+        return $this->menuMovedownAction;
     }
 
     /**
-     * @param array{hidden_label: string, url: string, attributes: array{class: string[], title: string}, icon: string}       $menu_movedown_action
+     * @param array{hidden_label: string, url: string, attributes: array{class: string[], title: string}, icon: string}       $menuMovedownAction
      */
-    public function setMenuMovedownAction(array $menu_movedown_action): void
+    public function setMenuMovedownAction(array $menuMovedownAction): void
     {
-        $this->menu_movedown_action = $menu_movedown_action;
+        $this->menuMovedownAction = $menuMovedownAction;
     }
 
     /**
@@ -178,18 +178,18 @@ class rex_extension_point_slice_menu extends rex_extension_point
     public function getAdditionalActions()
     {
         // ----- EXTENSION POINT / for BC reasons we wrap the old and pre-existing EP here
-        $menu_items_ep = [];
+        $menuItemsEp = [];
 
         return rex_extension::registerPoint(new rex_extension_point(
             'STRUCTURE_CONTENT_SLICE_MENU',
-            $menu_items_ep,
+            $menuItemsEp,
             [
-                'article_id' => $this->article_id,
+                'article_id' => $this->articleId,
                 'clang' => $this->clang,
                 'ctype' => $this->ctype,
-                'module_id' => $this->module_id,
-                'slice_id' => $this->slice_id,
-                'perm' => $this->has_perm,
+                'module_id' => $this->moduleId,
+                'slice_id' => $this->sliceId,
+                'perm' => $this->hasPerm,
             ]
         ));
     }
@@ -206,7 +206,7 @@ class rex_extension_point_slice_menu extends rex_extension_point
 
     public function getArticleId(): int
     {
-        return $this->article_id;
+        return $this->articleId;
     }
 
     public function getClangId(): int
@@ -221,16 +221,16 @@ class rex_extension_point_slice_menu extends rex_extension_point
 
     public function getModuleId(): int
     {
-        return $this->module_id;
+        return $this->moduleId;
     }
 
     public function getSliceId(): int
     {
-        return $this->slice_id;
+        return $this->sliceId;
     }
 
     public function hasPerm(): bool
     {
-        return $this->has_perm;
+        return $this->hasPerm;
     }
 }
