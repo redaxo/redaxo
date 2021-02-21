@@ -104,7 +104,7 @@
   <file src="redaxo/src/addons/mediapool/pages/media.list.php">
     <TaintedHtml occurrences="3">
       <code>rex_view::error($error)</code>
-      <code>rex_view::info(rex_i18n::msg('pool_file_filter') . ' &lt;code&gt;' . $arg_url['args']['types'] . '&lt;/code&gt;')</code>
+      <code>rex_view::info(rex_i18n::msg('pool_file_filter') . ' &lt;code&gt;' . $argUrl['args']['types'] . '&lt;/code&gt;')</code>
       <code>rex_view::success($success)</code>
     </TaintedHtml>
   </file>

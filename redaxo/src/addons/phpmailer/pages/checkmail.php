@@ -18,28 +18,28 @@ if ('' == $addon->getConfig('from') || '' == $addon->getConfig('test_address')) 
     $mail->Subject = 'PHPMailer-Test | ' . rex_escape(rex::getServerName()) . ' | ' . date_format($date, 'Y-m-d H:i:s');
 
     $devider = "\n--------------------------------------------------";
-    $security_mode = '';
+    $securityMode = '';
 
     if ('smtp' == $addon->getConfig('mailer')) {
-        $security_mode = $addon->getConfig('security_mode');
+        $securityMode = $addon->getConfig('security_mode');
 
         $host = "\nHost: " . rex_escape($addon->getConfig('host'));
         $smtpinfo = $host. "\nPort: " . rex_escape($addon->getConfig('port'));
         $smtpinfo .= $devider;
 
-        if (false == $security_mode) {
-            $security_mode = 'manual configured ' . $addon->getConfig('smtpsecure');
-            $security_mode = "\n".$addon->i18n('security_mode')."\n" . $security_mode . $devider . $smtpinfo;
+        if (false == $securityMode) {
+            $securityMode = 'manual configured ' . $addon->getConfig('smtpsecure');
+            $securityMode = "\n".$addon->i18n('security_mode')."\n" . $securityMode . $devider . $smtpinfo;
         } else {
-            $security_mode = 'Auto';
-            $security_mode = "\n".$addon->i18n('security_mode').": \n" . $security_mode . $devider . $host . $devider;
+            $securityMode = 'Auto';
+            $securityMode = "\n".$addon->i18n('security_mode').": \n" . $securityMode . $devider . $host . $devider;
         }
     }
 
     $mail->Body = $addon->i18n('checkmail_greeting') ."\n\n" .  $addon->i18n('checkmail_text') .' '. rex::getServerName();
     $mail->Body .= "\n\nDomain: ".  $_SERVER['HTTP_HOST'];
 
-    $mail->Body .= "\nMailer: " . $addon->getConfig('mailer') . $devider . $security_mode;
+    $mail->Body .= "\nMailer: " . $addon->getConfig('mailer') . $devider . $securityMode;
     $mail->Body .= "\n". $addon->i18n('checkmail_domain_note'). "\n". $devider;
     $mail->Debugoutput = static function ($str, $level) use (&$mailerDebug) {
         $mailerDebug .= date('Y-m-d H:i:s', time()).' '.nl2br($str);

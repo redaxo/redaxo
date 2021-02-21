@@ -102,14 +102,14 @@ class rex_user_role implements rex_user_role_interface
     public static function get($ids)
     {
         $sql = rex_sql::factory();
-        $user_roles = $sql->getArray('SELECT perms FROM ' . rex::getTablePrefix() . 'user_role WHERE FIND_IN_SET(id, ?)', [$ids]);
-        if (0 == count($user_roles)) {
+        $userRoles = $sql->getArray('SELECT perms FROM ' . rex::getTablePrefix() . 'user_role WHERE FIND_IN_SET(id, ?)', [$ids]);
+        if (0 == count($userRoles)) {
             return null;
         }
 
         $roles = [];
-        foreach ($user_roles as $user_role) {
-            $roles[] = json_decode($user_role['perms'], true);
+        foreach ($userRoles as $userRole) {
+            $roles[] = json_decode($userRole['perms'], true);
         }
 
         return new static($roles);

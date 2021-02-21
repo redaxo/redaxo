@@ -3,8 +3,8 @@
 assert(isset($context) && $context instanceof rex_context);
 assert(isset($cancelSetupBtn));
 
-$license_file = rex_path::base('LICENSE.md');
-$license = rex_markdown::factory()->parse(rex_file::require($license_file));
+$licenseFile = rex_path::base('LICENSE.md');
+$license = rex_markdown::factory()->parse(rex_file::require($licenseFile));
 
 $content = $license;
 

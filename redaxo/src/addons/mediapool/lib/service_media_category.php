@@ -16,27 +16,27 @@ class rex_media_category_service
         $db = rex_sql::factory();
 
         // root category
-        $parent_id = 0;
+        $parentId = 0;
         $path = '|';
         if ($parent) {
-            $parent_id = $parent->getId();
+            $parentId = $parent->getId();
             $path = $parent->getPath() . $parent->getId().'|';
         }
 
         $db->setTable(rex::getTablePrefix() . 'media_category');
         $db->setValue('name', $name);
-        $db->setValue('parent_id', $parent_id);
+        $db->setValue('parent_id', $parentId);
         $db->setValue('path', $path);
         $db->addGlobalCreateFields();
         $db->addGlobalUpdateFields();
 
         $db->insert();
 
-        rex_media_cache::deleteCategoryList($parent_id);
+        rex_media_cache::deleteCategoryList($parentId);
 
         rex_extension::registerPoint(new rex_extension_point('MEDIA_CATEGORY_ADDED', [
             'id' => (int) $db->getLastId(),
-            'parent_id' => $parent_id,
+            'parent_id' => $parentId,
             'name' => $name,
         ]));
 
@@ -102,12 +102,12 @@ class rex_media_category_service
      */
     public static function editCategory($categoryId, array $data)
     {
-        $cat_name = $data['name'];
+        $catName = $data['name'];
 
         $db = rex_sql::factory();
         $db->setTable(rex::getTablePrefix() . 'media_category');
         $db->setWhere(['id' => $categoryId]);
-        $db->setValue('name', $cat_name);
+        $db->setValue('name', $catName);
         $db->addGlobalUpdateFields();
 
         $db->update();
@@ -116,9 +116,9 @@ class rex_media_category_service
 
         rex_extension::registerPoint(new rex_extension_point('MEDIA_CATEGORY_UPDATED', [
             'id' => $categoryId,
-            'name' => $cat_name,
+            'name' => $catName,
         ]));
 
-        return rex_i18n::msg('pool_kat_updated', $cat_name);
+        return rex_i18n::msg('pool_kat_updated', $catName);
     }
 }

@@ -23,11 +23,11 @@ if (rex::isBackend()) {
     });
 
     rex_extension::register('BE_STYLE_SCSS_COMPILE', static function (rex_extension_point $ep) use ($addon) {
-        $scss_files = rex_extension::registerPoint(new rex_extension_point('BE_STYLE_SCSS_FILES', []));
+        $scssFiles = rex_extension::registerPoint(new rex_extension_point('BE_STYLE_SCSS_FILES', []));
 
         $subject = $ep->getSubject();
         $subject[] = [
-            'scss_files' => array_merge($scss_files, [$addon->getPath('scss/master.scss')]),
+            'scss_files' => array_merge($scssFiles, [$addon->getPath('scss/master.scss')]),
             'css_file' => $addon->getPath('assets/css/styles.css'),
             'copy_dest' => $addon->getAssetsPath('css/styles.css'),
         ];

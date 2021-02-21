@@ -10,7 +10,7 @@
 
 class rex_effect_convert2img extends rex_effect_abstract
 {
-    private static $convert_types = [
+    private static $convertTypes = [
         'pdf',
         'ps',
         'psd',
@@ -21,7 +21,7 @@ class rex_effect_convert2img extends rex_effect_abstract
         'ico',
         'svg',
     ];
-    private static $convert_to = [
+    private static $convertTo = [
         'jpg' => [
             'ext' => 'jpg',
             'content-type' => 'image/jpeg',
@@ -32,16 +32,16 @@ class rex_effect_convert2img extends rex_effect_abstract
         ],
     ];
     private static $densities = [100, 150, 200, 300, 600];
-    private static $density_default = 150;
-    private static $convert_tos = ['jpg', 'png'];
-    private static $convert_to_default = 'jpg';
+    private static $densityDefault = 150;
+    private static $convertTos = ['jpg', 'png'];
+    private static $convertToDefault = 'jpg';
 
     public function execute()
     {
-        if (!isset(self::$convert_to[$this->params['convert_to']])) {
-            $convert_to = self::$convert_to[self::$convert_to_default];
+        if (!isset(self::$convertTo[$this->params['convert_to']])) {
+            $convertTo = self::$convertTo[self::$convertToDefault];
         } else {
-            $convert_to = self::$convert_to[$this->params['convert_to']];
+            $convertTo = self::$convertTo[$this->params['convert_to']];
         }
 
         $density = (int) $this->params['density'];
@@ -49,24 +49,24 @@ class rex_effect_convert2img extends rex_effect_abstract
         $color = $this->params['color'] ?? '';
 
         if (!in_array($density, self::$densities)) {
-            $density = self::$density_default;
+            $density = self::$densityDefault;
         }
 
-        $from_path = realpath($this->media->getMediaPath());
-        $ext = rex_file::extension($from_path);
+        $fromPath = realpath($this->media->getMediaPath());
+        $ext = rex_file::extension($fromPath);
 
         if (!$ext) {
             return;
         }
 
-        if (!in_array(strtolower($ext), self::$convert_types)) {
+        if (!in_array(strtolower($ext), self::$convertTypes)) {
             return;
         }
 
         if (class_exists(Imagick::class)) {
             $imagick = new Imagick();
             $imagick->setResolution($density, $density);
-            $imagick->readImage($from_path.'[0]');
+            $imagick->readImage($fromPath.'[0]');
 
             if ('' != $color) {
                 $imagick->setImageBackgroundColor($color);
@@ -75,32 +75,32 @@ class rex_effect_convert2img extends rex_effect_abstract
             }
 
             $imagick->transformImageColorspace(Imagick::COLORSPACE_RGB);
-            $imagick->setImageFormat($convert_to['ext']);
+            $imagick->setImageFormat($convertTo['ext']);
 
             $gd = imagecreatefromstring($imagick->getImageBlob());
 
             $this->media->setImage($gd);
-            $this->media->setFormat($convert_to['ext']);
-            $this->media->setHeader('Content-Type', $convert_to['content-type']);
+            $this->media->setFormat($convertTo['ext']);
+            $this->media->setHeader('Content-Type', $convertTo['content-type']);
             $this->media->refreshImageDimensions();
 
             return;
         }
 
-        $convert_path = self::getConvertPath();
+        $convertPath = self::getConvertPath();
 
-        if ('' == $convert_path) {
+        if ('' == $convertPath) {
             return;
         }
 
         $filename = $this->media->getMediaFilename();
-        $filename_wo_ext = substr($filename, 0, (strlen($filename) - strlen($ext)));
+        $filenameWoExt = substr($filename, 0, (strlen($filename) - strlen($ext)));
 
-        $to_path = rex_path::addonCache('media_manager', 'media_manager__convert2img_' . md5($this->media->getMediaPath()) . '_' . $filename_wo_ext . $convert_to['ext']);
+        $toPath = rex_path::addonCache('media_manager', 'media_manager__convert2img_' . md5($this->media->getMediaPath()) . '_' . $filenameWoExt . $convertTo['ext']);
 
-        $add_color = ('' != $color) ? ' -background "' . $color  . '" -flatten' : '';
+        $addColor = ('' != $color) ? ' -background "' . $color  . '" -flatten' : '';
 
-        $cmd = $convert_path . ' -density '.$density.' "' . $from_path . '[0]"  ' . $add_color . ' -colorspace RGB "' . $to_path . '"';
+        $cmd = $convertPath . ' -density '.$density.' "' . $fromPath . '[0]"  ' . $addColor . ' -colorspace RGB "' . $toPath . '"';
         exec($cmd, $out, $ret);
 
         if (0 != $ret) {
@@ -110,14 +110,14 @@ class rex_effect_convert2img extends rex_effect_abstract
             throw new rex_exception('Unable to exec command '. $cmd);
         }
 
-        $this->media->setSourcePath($to_path);
+        $this->media->setSourcePath($toPath);
         $this->media->refreshImageDimensions();
-        $this->media->setFormat($convert_to['ext']);
+        $this->media->setFormat($convertTo['ext']);
         $this->media->setMediaFilename($filename);
-        $this->media->setHeader('Content-Type', $convert_to['content-type']);
+        $this->media->setHeader('Content-Type', $convertTo['content-type']);
 
-        register_shutdown_function(static function () use ($to_path) {
-            rex_file::delete($to_path);
+        register_shutdown_function(static function () use ($toPath) {
+            rex_file::delete($toPath);
         });
     }
 
@@ -128,18 +128,18 @@ class rex_effect_convert2img extends rex_effect_abstract
 
     public function getParams()
     {
-        $im_notfound = '';
+        $imNotfound = '';
         if (!class_exists(Imagick::class) && '' == self::getConvertPath()) {
-            $im_notfound = '<strong>'.rex_i18n::msg('media_manager_effect_convert2img_noimagemagick').'</strong>';
+            $imNotfound = '<strong>'.rex_i18n::msg('media_manager_effect_convert2img_noimagemagick').'</strong>';
         }
         return [
             [
                 'label' => rex_i18n::msg('media_manager_effect_convert2img_convertto'),
                 'name' => 'convert_to',
                 'type' => 'select',
-                'options' => self::$convert_tos,
-                'default' => self::$convert_to_default,
-                'prefix' => $im_notfound,
+                'options' => self::$convertTos,
+                'default' => self::$convertToDefault,
+                'prefix' => $imNotfound,
                 'notice' => rex_i18n::msg('media_manager_effect_convert2img_convertto_notice'),
             ],
             [
@@ -147,7 +147,7 @@ class rex_effect_convert2img extends rex_effect_abstract
                 'name' => 'density',
                 'type' => 'select',
                 'options' => self::$densities,
-                'default' => self::$density_default,
+                'default' => self::$densityDefault,
                 'notice' => rex_i18n::msg('media_manager_effect_convert2img_density_notice'),
             ],
             [

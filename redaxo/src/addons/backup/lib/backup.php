@@ -64,8 +64,8 @@ class rex_backup
         }
         $folder = $filtered;
 
-        usort($folder, static function ($file_a, $file_b) {
-            return $file_a <=> $file_b;
+        usort($folder, static function ($fileA, $fileB) {
+            return $fileA <=> $fileB;
         });
 
         return $folder;
@@ -241,8 +241,8 @@ class rex_backup
             $msg = rex_i18n::msg('backup_problem_when_extracting') . '<br />';
             if (count($tar->getMessages()) > 0) {
                 $msg .= rex_i18n::msg('backup_create_dirs_manually') . '<br />';
-                foreach ($tar->getMessages() as $_message) {
-                    $msg .= rex_path::absolute($_message) . '<br />';
+                foreach ($tar->getMessages() as $message) {
+                    $msg .= rex_path::absolute($message) . '<br />';
                 }
             }
         } else {

@@ -11,19 +11,19 @@ class rex_article_revision
     /**
      * @return bool
      */
-    public static function copyContent($article_id, $clang, $from_revision_id, $to_revision_id)
+    public static function copyContent($articleId, $clang, $fromRevisionId, $toRevisionId)
     {
-        if ($from_revision_id == $to_revision_id) {
+        if ($fromRevisionId == $toRevisionId) {
             return false;
         }
 
         // clear the revision to which we will later copy all slices
         $dc = rex_sql::factory();
         // $dc->setDebug();
-        $dc->setQuery('delete from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=?', [$article_id, $clang, $to_revision_id]);
+        $dc->setQuery('delete from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=?', [$articleId, $clang, $toRevisionId]);
 
         $gc = rex_sql::factory();
-        $gc->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=? ORDER by ctype_id, priority', [$article_id, $clang, $from_revision_id]);
+        $gc->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=? ORDER by ctype_id, priority', [$articleId, $clang, $fromRevisionId]);
 
         $cols = rex_sql::factory();
         $cols->setquery('SHOW COLUMNS FROM ' . rex::getTablePrefix() . 'article_slice');
@@ -38,28 +38,28 @@ class rex_article_revision
             }
 
             $ins->setValue('id', 0); // trigger auto increment
-            $ins->setValue('revision', $to_revision_id);
+            $ins->setValue('revision', $toRevisionId);
             $ins->addGlobalCreateFields();
             $ins->addGlobalUpdateFields();
             $ins->insert();
         }
 
-        rex_article_cache::delete($article_id);
+        rex_article_cache::delete($articleId);
         return true;
     }
 
     /**
      * @return true
      */
-    public static function clearContent($article_id, $clang, $from_revision_id)
+    public static function clearContent($articleId, $clang, $fromRevisionId)
     {
-        if (self::WORK != $from_revision_id) {
-            throw new InvalidArgumentException(sprintf('Revision "%s" can not be cleared, only the working version (%d).', $from_revision_id, self::WORK));
+        if (self::WORK != $fromRevisionId) {
+            throw new InvalidArgumentException(sprintf('Revision "%s" can not be cleared, only the working version (%d).', $fromRevisionId, self::WORK));
         }
 
         $dc = rex_sql::factory();
         // $dc->setDebug();
-        $dc->setQuery('delete from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=?', [$article_id, $clang, $from_revision_id]);
+        $dc->setQuery('delete from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=?', [$articleId, $clang, $fromRevisionId]);
 
         return true;
     }

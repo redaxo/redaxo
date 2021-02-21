@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Rector\Core\Configuration\Option;
 use Rector\Core\ValueObject\PhpVersion;
+use Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector;
 use Rector\Set\ValueObject\SetList;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -24,19 +25,19 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // to make sure we can review every transformation and not introduce unseen bugs
     $parameters->set(Option::PATHS, [
         // restrict to core and core addons, ignore other locally installed addons
-        'redaxo/src/core/lib/',
-        'redaxo/src/addons/backup/lib/',
-        'redaxo/src/addons/be_style/lib/',
-        'redaxo/src/addons/cronjob/lib/',
-        'redaxo/src/addons/debug/lib/',
-        'redaxo/src/addons/install/lib/',
-        'redaxo/src/addons/media_manager/lib/',
-        'redaxo/src/addons/mediapool/lib/',
-        'redaxo/src/addons/metainfo/lib/',
-        'redaxo/src/addons/phpmailer/lib/',
-        'redaxo/src/addons/project/lib/',
-        'redaxo/src/addons/structure/lib/',
-        'redaxo/src/addons/users/lib/',
+        'redaxo/src/core/',
+        'redaxo/src/addons/backup/',
+        'redaxo/src/addons/be_style/',
+        'redaxo/src/addons/cronjob/',
+        'redaxo/src/addons/debug/',
+        'redaxo/src/addons/install/',
+        'redaxo/src/addons/media_manager/',
+        'redaxo/src/addons/mediapool/',
+        'redaxo/src/addons/metainfo/',
+        'redaxo/src/addons/phpmailer/',
+        'redaxo/src/addons/project/',
+        'redaxo/src/addons/structure/',
+        'redaxo/src/addons/users/',
     ]);
 
     $parameters->set(Option::SKIP, [
@@ -47,9 +48,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         'redaxo/src/core/lib/sql/sql.php',
         'redaxo/src/core/lib/var/var.php',
         'redaxo/src/core/lib/util/version.php',
+        'redaxo/src/core/vendor',
+        'redaxo/src/addons/backup/vendor',
+        'redaxo/src/addons/be_style/vendor',
+        'redaxo/src/addons/phpmailer/vendor',
     ]);
 
-    $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersion::PHP_7_3);
+    $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersion::PHP_73);
 
     // get services (needed for register a single rule)
     $services = $containerConfigurator->services();
@@ -57,4 +62,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // we will grow this rector list step by step.
     // after some basic rectors have been enabled we can finally enable whole-sets (when diffs get stable and reviewable)
     // $services->set(Rector\SOLID\Rector\If_\ChangeAndIfToEarlyReturnRector::class);
+    $services->set(UnderscoreToCamelCasePropertyNameRector::class);
+    $services->set(UnderscoreToCamelCaseVariableNameRector::class);
 };

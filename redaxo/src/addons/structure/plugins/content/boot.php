@@ -62,8 +62,8 @@ if (rex::isBackend()) {
             $content .= $article->getArticleTemplate();
         }
 
-        $art_id = $article->getArticleId();
-        if ($art_id == rex_article::getNotfoundArticleId() && $art_id != rex_article::getSiteStartArticleId()) {
+        $artId = $article->getArticleId();
+        if ($artId == rex_article::getNotfoundArticleId() && $artId != rex_article::getSiteStartArticleId()) {
             rex_response::setStatus(rex_response::HTTP_NOT_FOUND);
         }
 

@@ -35,9 +35,9 @@ $addon->setProperty('notfound_article_id', $addon->getConfig('notfound_article_i
 if (0 == rex_request('article_id', 'int')) {
     $addon->setProperty('article_id', rex_article::getSiteStartArticleId());
 } else {
-    $article_id = rex_request('article_id', 'int');
-    $article_id = rex_article::get($article_id) ? $article_id : rex_article::getNotfoundArticleId();
-    $addon->setProperty('article_id', $article_id);
+    $articleId = rex_request('article_id', 'int');
+    $articleId = rex_article::get($articleId) ? $articleId : rex_article::getNotfoundArticleId();
+    $addon->setProperty('article_id', $articleId);
 }
 
 if (rex::isBackend() && rex::getUser()) {

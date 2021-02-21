@@ -6,14 +6,14 @@
 
 class rex_effect_image_format extends rex_effect_abstract
 {
-    private static $convert_types = [
+    private static $convertTypes = [
         'jpg',
         'png',
         'gif',
         'webp',
     ];
 
-    private static $convert_to = [
+    private static $convertTo = [
         'jpg' => [
             'ext' => 'jpg',
             'content-type' => 'image/jpeg',
@@ -32,8 +32,8 @@ class rex_effect_image_format extends rex_effect_abstract
         ],
     ];
 
-    private static $convert_tos = ['jpg', 'png', 'gif', 'webp'];
-    private static $convert_to_default = 'webp';
+    private static $convertTos = ['jpg', 'png', 'gif', 'webp'];
+    private static $convertToDefault = 'webp';
 
     public function execute()
     {
@@ -42,16 +42,16 @@ class rex_effect_image_format extends rex_effect_abstract
         $ext = strtolower($media->getFormat());
         $ext = 'jpeg' === $ext ? 'jpg' : $ext;
         // skip if extension is not in list
-        if (!in_array($ext, self::$convert_types)) {
+        if (!in_array($ext, self::$convertTypes)) {
             return;
         }
 
-        if (!isset(self::$convert_to[$this->params['convert_to']])) {
-            $convert_to = self::$convert_to[self::$convert_to_default];
+        if (!isset(self::$convertTo[$this->params['convert_to']])) {
+            $convertTo = self::$convertTo[self::$convertToDefault];
         } else {
-            $convert_to = self::$convert_to[$this->params['convert_to']];
+            $convertTo = self::$convertTo[$this->params['convert_to']];
         }
-        if ($convert_to['ext'] == $ext) {
+        if ($convertTo['ext'] == $ext) {
             return;
         }
 
@@ -61,7 +61,7 @@ class rex_effect_image_format extends rex_effect_abstract
             return;
         }
 
-        switch ($convert_to['ext']) {
+        switch ($convertTo['ext']) {
             case 'webp':
                 imagepalettetotruecolor($imageObject); // Prevent error 'Paletter image not supported by webp' (PNG mit indizierten Farben)
                 break;
@@ -90,13 +90,13 @@ class rex_effect_image_format extends rex_effect_abstract
         }
 
         $filename = $media->getMediaFilename();
-        $filename_wo_ext = substr($filename, 0, (strlen($filename) - strlen($ext)));
-        $targetFilename = $filename_wo_ext . $convert_to['ext'];
+        $filenameWoExt = substr($filename, 0, (strlen($filename) - strlen($ext)));
+        $targetFilename = $filenameWoExt . $convertTo['ext'];
 
         $media->setImage($imageObject);
-        $media->setFormat($convert_to['ext']);
+        $media->setFormat($convertTo['ext']);
         $media->setMediaFilename($targetFilename);
-        $media->setHeader('Content-Type', $convert_to['content-type']);
+        $media->setHeader('Content-Type', $convertTo['content-type']);
     }
 
     public function getName()
@@ -111,8 +111,8 @@ class rex_effect_image_format extends rex_effect_abstract
                 'label' => rex_i18n::msg('media_manager_effect_image_format_convertto'),
                 'name' => 'convert_to',
                 'type' => 'select',
-                'options' => self::$convert_tos,
-                'default' => self::$convert_to_default,
+                'options' => self::$convertTos,
+                'default' => self::$convertToDefault,
             ],
         ];
     }
