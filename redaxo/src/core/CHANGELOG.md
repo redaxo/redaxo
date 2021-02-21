@@ -74,6 +74,7 @@ Version 5.12.0 – XX.XX.2021
 * Beim Umschalten des Debug-Modus über die Systemeinstellungen erschien/verschwand das Debug-Symbol erst nach nächstem Seitenload (@skerbis)
 * `rex_markdown`: In Code-Snippets wurde die Zeichenkette `window.location` pauschal entfernt (@gharlan)
 * `rex_form`: Bei aktiviertem Debug-Parameter wurde die Redirect-URL nicht escaped (@gharlan)
+* Console-Command `setup:run`: Wenn die Systemvoraussetzungen nicht erfüllt werden, wurde nach der Fehlermeldung trotzdem das Setup fortgesetzt (@gharlan)
 
 
 Version 5.11.2 – 25.01.2021
