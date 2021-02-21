@@ -77,7 +77,7 @@ jobs:
 
             -   name: Fix code style
                 if: github.event_name != 'push' && github.event.pull_request.head.repo.full_name == github.repository
-                run: vendor/bin/rector process
+                run: vendor/bin/rector process --no-progress-bar
 
             -   name: Commit changed files
                 uses: stefanzweifel/git-auto-commit-action@v4
@@ -88,4 +88,4 @@ jobs:
                     commit_user_email: rex-bot@users.noreply.github.com
 
             -   name: Check code style
-                run: vendor/bin/rector process --ansi --dry-run
+                run: vendor/bin/rector process --ansi --no-progress-bar --dry-run

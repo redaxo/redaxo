@@ -57,6 +57,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersion::PHP_73);
 
+    $parameters->set(Option::ENABLE_CACHE, true);
+
     // get services (needed for register a single rule)
     $services = $containerConfigurator->services();
 
