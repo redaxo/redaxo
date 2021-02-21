@@ -94,13 +94,19 @@ class rex_string_test extends TestCase
             <p align=center><img src="foo.jpg" style="width: 200px"></p>
             <a name="test"></a>
 
-            <script>alert(1)</script>
+            <script>
+                alert(1);
+                window.location.replace(my_link);
+            </script>
             <a href="javascript:alert(1)">Foo</a>
             <a href="index.php" onclick="alert(1)">Foo</a>
             <img src="foo.jpg" onmouseover="alert(1)"/>
 
             <pre><code>
-                &lt;script&gt; foo() &lt;/script&gt;
+                &lt;script&gt;
+                    foo();
+                    window.location.replace(my_link);
+                &lt;/script&gt;
             </code></pre>
             INPUT;
 
@@ -114,7 +120,10 @@ class rex_string_test extends TestCase
             <img src="foo.jpg" />
 
             <pre><code>
-                &lt;script&gt; foo() &lt;/script&gt;
+                &lt;script&gt;
+                    foo();
+                    window.location.replace(my_link);
+                &lt;/script&gt;
             </code></pre>
             EXPECTED;
 
