@@ -428,7 +428,7 @@ if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($categoryId)) 
     ]));
 
     // ------------------------------------------ START: MODULE EDITIEREN/ADDEN ETC.
-    $contentMain .= rex_be_controller::includeCurrentPageSubPath(compact('info', 'warning', 'template_attributes', 'article', 'article_id', 'category_id', 'clang', 'slice_id', 'slice_revision', 'function', 'ctype', 'context'));
+    $contentMain .= rex_be_controller::includeCurrentPageSubPath(compact('info', 'warning', 'templateAttributes', 'article', 'article_id', 'categoryId', 'clang', 'sliceId', 'sliceRevision', 'function', 'ctype', 'context'));
     // ------------------------------------------ END: AUSGABE
 
     // ----- EXTENSION POINT
