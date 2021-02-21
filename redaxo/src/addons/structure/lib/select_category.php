@@ -29,12 +29,12 @@ class rex_category_select extends rex_select
 
     private $loaded;
 
-    public function __construct($ignore_offlines = false, $clang = false, $check_perms = true, $add_homepage = true)
+    public function __construct($ignoreOfflines = false, $clang = false, $checkPerms = true, $addHomepage = true)
     {
-        $this->ignore_offlines = $ignore_offlines;
+        $this->ignore_offlines = $ignoreOfflines;
         $this->clang = false === $clang ? null : $clang;
-        $this->check_perms = $check_perms;
-        $this->add_homepage = $add_homepage;
+        $this->check_perms = $checkPerms;
+        $this->add_homepage = $addHomepage;
         $this->rootId = null;
         $this->loaded = false;
 

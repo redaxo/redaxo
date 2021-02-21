@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Rector\Core\Configuration\Option;
 use Rector\Core\ValueObject\PhpVersion;
+use Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector;
 use Rector\Set\ValueObject\SetList;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -49,7 +50,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         'redaxo/src/core/lib/util/version.php',
     ]);
 
-    $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersion::PHP_7_3);
+    $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersion::PHP_73);
 
     // get services (needed for register a single rule)
     $services = $containerConfigurator->services();
@@ -57,4 +58,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // we will grow this rector list step by step.
     // after some basic rectors have been enabled we can finally enable whole-sets (when diffs get stable and reviewable)
     // $services->set(Rector\SOLID\Rector\If_\ChangeAndIfToEarlyReturnRector::class);
+    $services->set(UnderscoreToCamelCaseVariableNameRector::class);
 };

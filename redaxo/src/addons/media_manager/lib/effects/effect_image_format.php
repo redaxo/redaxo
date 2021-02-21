@@ -47,11 +47,11 @@ class rex_effect_image_format extends rex_effect_abstract
         }
 
         if (!isset(self::$convert_to[$this->params['convert_to']])) {
-            $convert_to = self::$convert_to[self::$convert_to_default];
+            $convertTo = self::$convert_to[self::$convert_to_default];
         } else {
-            $convert_to = self::$convert_to[$this->params['convert_to']];
+            $convertTo = self::$convert_to[$this->params['convert_to']];
         }
-        if ($convert_to['ext'] == $ext) {
+        if ($convertTo['ext'] == $ext) {
             return;
         }
 
@@ -61,7 +61,7 @@ class rex_effect_image_format extends rex_effect_abstract
             return;
         }
 
-        switch ($convert_to['ext']) {
+        switch ($convertTo['ext']) {
             case 'webp':
                 imagepalettetotruecolor($imageObject); // Prevent error 'Paletter image not supported by webp' (PNG mit indizierten Farben)
                 break;
@@ -90,13 +90,13 @@ class rex_effect_image_format extends rex_effect_abstract
         }
 
         $filename = $media->getMediaFilename();
-        $filename_wo_ext = substr($filename, 0, (strlen($filename) - strlen($ext)));
-        $targetFilename = $filename_wo_ext . $convert_to['ext'];
+        $filenameWoExt = substr($filename, 0, (strlen($filename) - strlen($ext)));
+        $targetFilename = $filenameWoExt . $convertTo['ext'];
 
         $media->setImage($imageObject);
-        $media->setFormat($convert_to['ext']);
+        $media->setFormat($convertTo['ext']);
         $media->setMediaFilename($targetFilename);
-        $media->setHeader('Content-Type', $convert_to['content-type']);
+        $media->setHeader('Content-Type', $convertTo['content-type']);
     }
 
     public function getName()

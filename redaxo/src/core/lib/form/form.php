@@ -362,7 +362,7 @@ class rex_form extends rex_form_base
                 $sql->update();
             } else {
                 if (count($this->languageSupport)) {
-                    foreach (rex_clang::getAllIds() as $clang_id) {
+                    foreach (rex_clang::getAllIds() as $clangId) {
                         $sql->setTable($this->tableName);
                         $this->setGlobalSqlFields($sql);
                         if (!isset($id)) {
@@ -370,7 +370,7 @@ class rex_form extends rex_form_base
                         } else {
                             $sql->setValue($this->languageSupport['id'], $id);
                         }
-                        $sql->setValue($this->languageSupport['clang'], $clang_id);
+                        $sql->setValue($this->languageSupport['clang'], $clangId);
                         $sql->setValues($values);
                         $sql->insert();
                     }

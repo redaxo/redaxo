@@ -54,12 +54,12 @@ class rex_media
         }
 
         return static::getInstance($name, static function ($name) {
-            $media_path = rex_path::addonCache('mediapool', $name . '.media');
+            $mediaPath = rex_path::addonCache('mediapool', $name . '.media');
 
-            $cache = rex_file::getCache($media_path, []);
+            $cache = rex_file::getCache($mediaPath, []);
             if (!$cache) {
                 rex_media_cache::generate($name);
-                $cache = rex_file::getCache($media_path, []);
+                $cache = rex_file::getCache($mediaPath, []);
             }
 
             if ($cache) {
@@ -72,9 +72,9 @@ class rex_media
                 $media = new static();
                 foreach ($cache as $key => $value) {
                     if (isset($aliasMap[$key])) {
-                        $var_name = $aliasMap[$key];
+                        $varName = $aliasMap[$key];
                     } else {
-                        $var_name = $key;
+                        $varName = $key;
                     }
 
                     $media->$var_name = $value;
@@ -96,12 +96,12 @@ class rex_media
         $getInstance = [static::class, 'get'];
 
         return static::getInstanceList('root_media', $getInstance, static function () {
-            $list_path = rex_path::addonCache('mediapool', '0.mlist');
+            $listPath = rex_path::addonCache('mediapool', '0.mlist');
 
-            $list = rex_file::getCache($list_path, null);
+            $list = rex_file::getCache($listPath, null);
             if (null === $list) {
                 rex_media_cache::generateList(0);
-                $list = rex_file::getCache($list_path);
+                $list = rex_file::getCache($listPath);
             }
 
             return $list;

@@ -95,8 +95,8 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 return 1;
             }
 
-            $license_file = rex_path::base('LICENSE.md');
-            $license = rex_file::require($license_file);
+            $licenseFile = rex_path::base('LICENSE.md');
+            $license = rex_file::require($licenseFile);
             $io->writeln($license);
             if (!$io->confirm('Accept license terms and conditions?', false)) {
                 $io->error('You need to accept license terms and conditions');
@@ -272,7 +272,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             }
         }
 
-        $tables_complete = '' == rex_setup_importer::verifyDbSchema();
+        $tablesComplete = '' == rex_setup_importer::verifyDbSchema();
 
         // spaces before/after to make sf-console render the array-key instead of
         // our overlong description text
@@ -285,7 +285,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             'import' => 'Import existing database export',
         ];
 
-        if ($tables_complete) {
+        if ($tablesComplete) {
             $defaultDbMode = ' existing ';
         } else {
             unset($createdbOptions['existing']);
@@ -315,14 +315,14 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             rex::setConfig('utf8mb4', $useUtf8mb4);
             $io->success('Database successfully updated');
         } elseif ('import' == $createdb) {
-            $import_name = $input->getOption('db-import') ?? $io->askQuestion(new ChoiceQuestion('Please choose a database export', $backups));
-            assert(is_string($import_name));
-            if (!in_array($import_name, $backups, true)) {
-                throw new InvalidArgumentException('Unknown import file "'.$import_name.'" specified');
+            $importName = $input->getOption('db-import') ?? $io->askQuestion(new ChoiceQuestion('Please choose a database export', $backups));
+            assert(is_string($importName));
+            if (!in_array($importName, $backups, true)) {
+                throw new InvalidArgumentException('Unknown import file "'.$importName.'" specified');
             }
-            $error = rex_setup_importer::loadExistingImport($import_name);
-            $io->success('Database successfully imported using file "'.$import_name.'"');
-        } elseif ('existing' == $createdb && $tables_complete) {
+            $error = rex_setup_importer::loadExistingImport($importName);
+            $io->success('Database successfully imported using file "'.$importName.'"');
+        } elseif ('existing' == $createdb && $tablesComplete) {
             $error = rex_setup_importer::databaseAlreadyExists();
             $io->success('Skipping database setup');
         } elseif ('override' == $createdb) {

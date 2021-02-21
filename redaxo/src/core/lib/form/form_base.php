@@ -584,16 +584,16 @@ abstract class rex_form_base
             unset($attributes['internal::fieldSeparateEnding']);
         }
 
-        $internal_attr = ['name' => $name];
+        $internalAttr = ['name' => $name];
         if (isset($attributes['internal::noNameAttribute'])) {
-            $internal_attr = [];
+            $internalAttr = [];
             unset($attributes['internal::noNameAttribute']);
         }
 
         // 1. Array: Eigenschaften, die via Parameter Überschrieben werden können/dürfen
         // 2. Array: Eigenschaften, via Parameter
         // 3. Array: Eigenschaften, die hier fest definiert sind / nicht veränderbar via Parameter
-        $attributes = array_merge(['id' => $id], $attributes, $internal_attr);
+        $attributes = array_merge(['id' => $id], $attributes, $internalAttr);
         $element = new $class($tag, $this, $attributes, $separateEnding);
         $element->setFieldName($fieldName);
         $element->setValue($value);

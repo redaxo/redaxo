@@ -102,10 +102,10 @@ $(function() {
     private function resizeMax($width, $height)
     {
         if (!empty($this->params['height']) && !empty($this->params['width'])) {
-            $img_ratio = $width / $height;
-            $resize_ratio = $this->params['width'] / $this->params['height'];
+            $imgRatio = $width / $height;
+            $resizeRatio = $this->params['width'] / $this->params['height'];
 
-            if ($img_ratio >= $resize_ratio) {
+            if ($imgRatio >= $resizeRatio) {
                 // --- width
                 $this->params['height'] = ceil($this->params['width'] / $width * $height);
             } else {
@@ -113,21 +113,21 @@ $(function() {
                 $this->params['width'] = ceil($this->params['height'] / $height * $width);
             }
         } elseif (!empty($this->params['height'])) {
-            $img_factor = $height / $this->params['height'];
-            $this->params['width'] = ceil($width / $img_factor);
+            $imgFactor = $height / $this->params['height'];
+            $this->params['width'] = ceil($width / $imgFactor);
         } elseif (!empty($this->params['width'])) {
-            $img_factor = $width / $this->params['width'];
-            $this->params['height'] = ceil($height / $img_factor);
+            $imgFactor = $width / $this->params['width'];
+            $this->params['height'] = ceil($height / $imgFactor);
         }
     }
 
     private function resizeMin($width, $height)
     {
         if (!empty($this->params['height']) && !empty($this->params['width'])) {
-            $img_ratio = $width / $height;
-            $resize_ratio = $this->params['width'] / $this->params['height'];
+            $imgRatio = $width / $height;
+            $resizeRatio = $this->params['width'] / $this->params['height'];
 
-            if ($img_ratio < $resize_ratio) {
+            if ($imgRatio < $resizeRatio) {
                 // --- width
                 $this->params['height'] = ceil($this->params['width'] / $width * $height);
             } else {
@@ -135,11 +135,11 @@ $(function() {
                 $this->params['width'] = ceil($this->params['height'] / $height * $width);
             }
         } elseif (!empty($this->params['height'])) {
-            $img_factor = $height / $this->params['height'];
-            $this->params['width'] = ceil($width / $img_factor);
+            $imgFactor = $height / $this->params['height'];
+            $this->params['width'] = ceil($width / $imgFactor);
         } elseif (!empty($this->params['width'])) {
-            $img_factor = $width / $this->params['width'];
-            $this->params['height'] = ceil($height / $img_factor);
+            $imgFactor = $width / $this->params['width'];
+            $this->params['height'] = ceil($height / $imgFactor);
         }
     }
 

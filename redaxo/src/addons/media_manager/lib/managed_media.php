@@ -378,10 +378,10 @@ class rex_managed_media
 
         $header = $this->getHeader();
         if (!isset($header['Content-Type']) && $this->sourcePath) {
-            $content_type = rex_file::mimeType($this->sourcePath);
+            $contentType = rex_file::mimeType($this->sourcePath);
 
-            if ($content_type) {
-                $this->setHeader('Content-Type', $content_type);
+            if ($contentType) {
+                $this->setHeader('Content-Type', $contentType);
             }
         }
         if (!isset($header['Content-Disposition'])) {

@@ -405,7 +405,7 @@ class rex_view
             return '';
         }
 
-        $button_label = '';
+        $buttonLabel = '';
         $items = [];
         foreach (rex_clang::getAll() as $id => $clang) {
             if (rex::getUser()->getComplexPerm('clang')->hasPerm($id)) {
@@ -414,7 +414,7 @@ class rex_view
                 $item['href'] = $context->getUrl(['clang' => $id]);
                 if ($id == $context->getParam('clang')) {
                     $item['active'] = true;
-                    $button_label = rex_i18n::translate($clang->getName());
+                    $buttonLabel = rex_i18n::translate($clang->getName());
                 }
                 $items[] = $item;
             }
@@ -423,7 +423,7 @@ class rex_view
         $fragment = new rex_fragment();
         $fragment->setVar('class', 'rex-language');
         $fragment->setVar('button_prefix', rex_i18n::msg('language'));
-        $fragment->setVar('button_label', $button_label);
+        $fragment->setVar('button_label', $buttonLabel);
         $fragment->setVar('header', rex_i18n::msg('clang_select'));
         $fragment->setVar('items', $items, false);
 

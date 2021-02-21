@@ -46,17 +46,17 @@ class rex_form_checkbox_element extends rex_form_options_element
 
         $formElements = [];
 
-        foreach ($options as $opt_name => $opt_value) {
-            $opt_id = $id;
-            if ('' != $opt_value) {
-                $opt_id .= '-' . rex_string::normalize($opt_value, '-');
+        foreach ($options as $optName => $optValue) {
+            $optId = $id;
+            if ('' != $optValue) {
+                $optId .= '-' . rex_string::normalize($optValue, '-');
             }
-            $opt_attr = $attr . ' id="' . rex_escape($opt_id) . '"';
-            $checked = in_array($opt_value, $values) ? ' checked="checked"' : '';
+            $optAttr = $attr . ' id="' . rex_escape($optId) . '"';
+            $checked = in_array($optValue, $values) ? ' checked="checked"' : '';
 
             $n = [];
-            $n['label'] = '<label class="control-label" for="' . rex_escape($opt_id) . '">' . rex_escape($opt_name) . '</label>';
-            $n['field'] = '<input type="checkbox" name="' . rex_escape($name) . '[' . rex_escape($opt_value) . ']" value="' . rex_escape($opt_value) . '"' . $opt_attr . $checked . ' />';
+            $n['label'] = '<label class="control-label" for="' . rex_escape($optId) . '">' . rex_escape($optName) . '</label>';
+            $n['field'] = '<input type="checkbox" name="' . rex_escape($name) . '[' . rex_escape($optValue) . ']" value="' . rex_escape($optValue) . '"' . $optAttr . $checked . ' />';
             $formElements[] = $n;
         }
 
