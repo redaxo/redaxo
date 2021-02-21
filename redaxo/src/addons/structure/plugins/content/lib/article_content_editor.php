@@ -215,7 +215,7 @@ class rex_article_content_editor extends rex_article_content
                 rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId),
         ));
 
-        // ----- EXTENSION POINT / deprecated use rex_extension_point_slice_menu instead::NAME!
+        // ----- EXTENSION POINT
         $menu_items_ep = [];
         $menu_items_ep = rex_extension::registerPoint(new rex_extension_point(
             'STRUCTURE_CONTENT_SLICE_MENU',
