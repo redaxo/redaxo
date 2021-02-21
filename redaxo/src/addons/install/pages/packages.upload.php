@@ -18,11 +18,11 @@ try {
 
 if ($addonkey && isset($addons[$addonkey])) {
     $addon = $addons[$addonkey];
-    $file_id = rex_request('file', 'string');
+    $fileId = rex_request('file', 'string');
 
-    if ($file_id) {
-        $new = 'new' == $file_id;
-        $file = $new ? ['version' => '', 'description' => '', 'status' => 1] : $addon['files'][$file_id];
+    if ($fileId) {
+        $new = 'new' == $fileId;
+        $file = $new ? ['version' => '', 'description' => '', 'status' => 1] : $addon['files'][$fileId];
 
         $newVersion = rex_addon::get($addonkey)->getVersion();
 
@@ -100,7 +100,7 @@ if ($addonkey && isset($addons[$addonkey])) {
 
         if (!$new) {
             $n = [];
-            $n['field'] = '<button class="btn btn-delete" value="' . $package->i18n('delete') . '" onclick="if(confirm(\'' . $package->i18n('delete') . ' ?\')) location.href=\'' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $file_id] + rex_api_install_package_delete::getUrlParams()) . '\'; else return false;">' . $package->i18n('delete') . '</button>';
+            $n['field'] = '<button class="btn btn-delete" value="' . $package->i18n('delete') . '" onclick="if(confirm(\'' . $package->i18n('delete') . ' ?\')) location.href=\'' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $fileId] + rex_api_install_package_delete::getUrlParams()) . '\'; else return false;">' . $package->i18n('delete') . '</button>';
             $formElements[] = $n;
         }
 
@@ -118,7 +118,7 @@ if ($addonkey && isset($addons[$addonkey])) {
         $content = $fragment->parse('core/page/section.php');
 
         $content = '
-            <form action="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $file_id] + rex_api_install_package_upload::getUrlParams()) . '" method="post">
+            <form action="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $fileId] + rex_api_install_package_upload::getUrlParams()) . '" method="post">
                 ' . $content . '
             </form>';
         echo $content;

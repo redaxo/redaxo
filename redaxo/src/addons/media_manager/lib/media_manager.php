@@ -91,13 +91,13 @@ class rex_media_manager
             }
 
             // execute effects on image
-            foreach ($set as $effect_params) {
-                /** @var class-string<rex_effect_abstract> $effect_class */
-                $effect_class = 'rex_effect_' . $effect_params['effect'];
+            foreach ($set as $effectParams) {
+                /** @var class-string<rex_effect_abstract> $effectClass */
+                $effectClass = 'rex_effect_' . $effectParams['effect'];
                 /** @var rex_effect_abstract $effect */
-                $effect = new $effect_class();
+                $effect = new $effectClass();
                 $effect->setMedia($this->media);
-                $effect->setParams($effect_params['params']);
+                $effect->setParams($effectParams['params']);
 
                 try {
                     $effect->execute();
@@ -174,9 +174,9 @@ class rex_media_manager
      */
     public function isCached()
     {
-        $cache_file = $this->getCacheFilename();
+        $cacheFile = $this->getCacheFilename();
 
-        if (!is_file($cache_file)) {
+        if (!is_file($cacheFile)) {
             return false;
         }
 
@@ -196,7 +196,7 @@ class rex_media_manager
             return false;
         }
 
-        $cachetime = filemtime($cache_file);
+        $cachetime = filemtime($cacheFile);
         $filetime = filemtime($mediapath);
 
         // cache is newer?
@@ -385,18 +385,18 @@ class rex_media_manager
     public static function init()
     {
         //--- handle image request
-        $rex_media_manager_file = self::getMediaFile();
-        $rex_media_manager_type = self::getMediaType();
+        $rexMediaManagerFile = self::getMediaFile();
+        $rexMediaManagerType = self::getMediaType();
 
-        if ('' != $rex_media_manager_file && '' != $rex_media_manager_type) {
-            $media_path = rex_path::media($rex_media_manager_file);
-            $cache_path = rex_path::addonCache('media_manager');
+        if ('' != $rexMediaManagerFile && '' != $rexMediaManagerType) {
+            $mediaPath = rex_path::media($rexMediaManagerFile);
+            $cachePath = rex_path::addonCache('media_manager');
 
-            $media = new rex_managed_media($media_path);
-            $media_manager = new self($media);
-            $media_manager->setCachePath($cache_path);
-            $media_manager->applyEffects($rex_media_manager_type);
-            $media_manager->sendMedia();
+            $media = new rex_managed_media($mediaPath);
+            $mediaManager = new self($media);
+            $mediaManager->setCachePath($cachePath);
+            $mediaManager->applyEffects($rexMediaManagerType);
+            $mediaManager->sendMedia();
 
             exit();
         }
@@ -407,14 +407,14 @@ class rex_media_manager
      */
     public static function getMediaFile()
     {
-        $rex_media_file = rex_get('rex_media_file', 'string');
+        $rexMediaFile = rex_get('rex_media_file', 'string');
 
         // can be used with REDAXO >= 5.5.1
         // $rex_media_file = rex_path::basename($rex_media_file);
-        $rex_media_file = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $rex_media_file);
-        $rex_media_file = rex_path::basename($rex_media_file);
+        $rexMediaFile = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $rexMediaFile);
+        $rexMediaFile = rex_path::basename($rexMediaFile);
 
-        return $rex_media_file;
+        return $rexMediaFile;
     }
 
     /**

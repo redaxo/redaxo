@@ -4,9 +4,9 @@
  * @package redaxo5
  */
 
-global $rex_user_loginmessage;
+global $rexUserLoginmessage;
 
-$rex_user_login = rex_post('rex_user_login', 'string');
+$rexUserLogin = rex_post('rex_user_login', 'string');
 
 echo rex_view::title(rex_i18n::msg('login'));
 
@@ -16,8 +16,8 @@ $fragment = new rex_fragment();
 $content .= $fragment->parse('core/login_branding.php');
 
 $js = '';
-if ('' != $rex_user_loginmessage) {
-    $content .= '<div class="rex-js-login-message">'.rex_view::error($rex_user_loginmessage) . '</div>';
+if ('' != $rexUserLoginmessage) {
+    $content .= '<div class="rex-js-login-message">'.rex_view::error($rexUserLoginmessage) . '</div>';
     $js = '
         var time_el = $(".rex-js-login-message strong[data-time]");
         if(time_el.length == 1) {
@@ -50,7 +50,7 @@ $formElements = [];
 
 $inputGroups = [];
 $n = [];
-$n['field'] = '<input class="form-control" type="text" value="' . rex_escape($rex_user_login) . '" id="rex-id-login-user" name="rex_user_login" autofocus />';
+$n['field'] = '<input class="form-control" type="text" value="' . rex_escape($rexUserLogin) . '" id="rex-id-login-user" name="rex_user_login" autofocus />';
 $n['left'] = '<i class="rex-icon rex-icon-user"></i>';
 $inputGroups[] = $n;
 

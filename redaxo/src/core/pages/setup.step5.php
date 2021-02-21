@@ -4,7 +4,7 @@ assert(isset($context) && $context instanceof rex_context);
 assert(isset($errors) && is_array($errors));
 assert(isset($cancelSetupBtn));
 
-$tables_complete = ('' == rex_setup_importer::verifyDbSchema()) ? true : false;
+$tablesComplete = ('' == rex_setup_importer::verifyDbSchema()) ? true : false;
 
 $createdb = rex_post('createdb', 'int', '');
 
@@ -14,7 +14,7 @@ $utf8mb4 = false;
 if ($supportsUtf8mb4) {
     $utf8mb4 = rex_post('utf8mb4', 'bool', true);
     $existingUtf8mb4 = $utf8mb4;
-    if ($tables_complete) {
+    if ($tablesComplete) {
         $data = rex_sql::factory()->getArray('SELECT value FROM '.rex::getTable('config').' WHERE namespace="core" AND `key`="utf8mb4"');
         $existingUtf8mb4 = isset($data[0]['value']) ? json_decode($data[0]['value']) : false;
     }
@@ -26,11 +26,11 @@ $content = '
             <fieldset class="rex-js-setup-step-5">
             ';
 
-$submit_message = rex_i18n::msg('setup_511');
+$submitMessage = rex_i18n::msg('setup_511');
 if (count($errors) > 0) {
     $errors[] = rex_view::error(rex_i18n::msg('setup_503'));
     $headline .= implode('', $errors);
-    $submit_message = rex_i18n::msg('setup_512');
+    $submitMessage = rex_i18n::msg('setup_512');
 }
 
 foreach (rex_setup::checkDbSecurity() as $message) {
@@ -46,7 +46,7 @@ switch ($createdb) {
         $dbchecked[$createdb] = ' checked="checked"';
         break;
     default:
-        if ($tables_complete) {
+        if ($tablesComplete) {
             $dbchecked[rex_setup::DB_MODE_SETUP_SKIP] = ' checked="checked"';
         } else {
             $dbchecked[rex_setup::DB_MODE_SETUP_NO_OVERRIDE] = ' checked="checked"';
@@ -54,19 +54,19 @@ switch ($createdb) {
 }
 
 // Vorhandene Exporte auslesen
-$sel_export = new rex_select();
-$sel_export->setName('import_name');
-$sel_export->setId('rex-form-import-name');
-$sel_export->setSize(1);
-$sel_export->setStyle('class="form-control selectpicker rex-js-import-name"');
-$sel_export->setAttribute('onclick', 'checkInput(\'createdb_3\')');
-$export_dir = rex_backup::getDir();
-$exports_found = false;
+$selExport = new rex_select();
+$selExport->setName('import_name');
+$selExport->setId('rex-form-import-name');
+$selExport->setSize(1);
+$selExport->setStyle('class="form-control selectpicker rex-js-import-name"');
+$selExport->setAttribute('onclick', 'checkInput(\'createdb_3\')');
+$exportDir = rex_backup::getDir();
+$exportsFound = false;
 
-if (is_dir($export_dir)) {
-    $export_sqls = [];
+if (is_dir($exportDir)) {
+    $exportSqls = [];
 
-    if ($handle = opendir($export_dir)) {
+    if ($handle = opendir($exportDir)) {
         while (false !== ($file = readdir($handle))) {
             if ('.' == $file || '..' == $file) {
                 continue;
@@ -75,15 +75,15 @@ if (is_dir($export_dir)) {
             $isSql = ('.sql' == substr($file, strlen($file) - 4));
             if ($isSql) {
                 // cut .sql
-                $export_sqls[] = substr($file, 0, -4);
-                $exports_found = true;
+                $exportSqls[] = substr($file, 0, -4);
+                $exportsFound = true;
             }
         }
         closedir($handle);
     }
 
-    foreach ($export_sqls as $sql_export) {
-        $sel_export->addOption($sql_export, $sql_export);
+    foreach ($exportSqls as $sqlExport) {
+        $selExport->addOption($sqlExport, $sqlExport);
     }
 }
 
@@ -100,7 +100,7 @@ $n['field'] = '<input type="radio" id="rex-form-createdb-1" name="createdb" valu
 $n['note'] = rex_i18n::msg('setup_505_note');
 $formElements[] = $n;
 
-if ($tables_complete) {
+if ($tablesComplete) {
     $n = [];
     $n['label'] = '<label for="rex-form-createdb-2">' . rex_i18n::msg('setup_506') . '</label>';
     $n['field'] = '<input type="radio" id="rex-form-createdb-2" name="createdb" value="'. rex_setup::DB_MODE_SETUP_SKIP .'"' . $dbchecked[2] . ' />';
@@ -118,7 +118,7 @@ $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $mode = $fragment->parse('core/form/radio.php');
 
-if ($exports_found) {
+if ($exportsFound) {
     $formElements = [];
     $n = [];
     $n['label'] = '<label for="rex-form-createdb-3">' . rex_i18n::msg('setup_507') . '</label>';
@@ -131,7 +131,7 @@ if ($exports_found) {
 
     $formElements = [];
     $n = [];
-    $n['field'] = $sel_export->get();
+    $n['field'] = $selExport->get();
     $n['note'] = rex_i18n::msg('backup_version_warning');
     $formElements[] = $n;
 
@@ -186,7 +186,7 @@ $content .= '</fieldset>';
 $formElements = [];
 
 $n = [];
-$n['field'] = '<button class="btn btn-setup" type="submit" value="' . $submit_message . '">' . $submit_message . '</button>';
+$n['field'] = '<button class="btn btn-setup" type="submit" value="' . $submitMessage . '">' . $submitMessage . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();

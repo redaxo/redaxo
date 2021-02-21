@@ -8,9 +8,9 @@
  */
 
 /** @psalm-suppress RedundantCondition */
-assert(isset($article_id) && is_int($article_id));
+assert(isset($articleId) && is_int($articleId));
 /** @psalm-suppress RedundantCondition */
-assert(isset($category_id) && is_int($category_id));
+assert(isset($categoryId) && is_int($categoryId));
 /** @psalm-suppress RedundantCondition */
 assert(isset($clang) && is_int($clang));
 
@@ -20,8 +20,8 @@ $KAToutARR = []; // Variable definiert und vorbelegt wenn nicht existent
 $navigation = [];
 
 /** @psalm-suppress RedundantCondition */
-$object_id = $article_id > 0 ? $article_id : $category_id;
-$object = rex_article::get($object_id, $clang);
+$objectId = $articleId > 0 ? $articleId : $categoryId;
+$object = rex_article::get($objectId, $clang);
 if ($object) {
     $tree = $object->getParentTree();
     if (!$object->isStartarticle()) {

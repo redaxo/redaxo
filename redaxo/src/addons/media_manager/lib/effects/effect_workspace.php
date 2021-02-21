@@ -87,22 +87,22 @@ $(function() {
             imagefill($workspace, 0, 0, imagecolorallocate($workspace, $this->params['bg_r'], $this->params['bg_g'], $this->params['bg_b']));
         }
 
-        $src_w = $w;
-        $src_h = $h;
-        $dst_x = 0;
-        $dst_y = 0;
-        $src_x = 0;
-        $src_y = 0;
+        $srcW = $w;
+        $srcH = $h;
+        $dstX = 0;
+        $dstY = 0;
+        $srcX = 0;
+        $srcY = 0;
 
         switch ($this->params['vpos']) {
             case 'top':
                 break;
             case 'bottom':
-                $dst_y = (int) $this->params['height'] - $h;
+                $dstY = (int) $this->params['height'] - $h;
                 break;
             case 'middle':
             default: // center
-                $dst_y = (int) ($this->params['height'] / 2) - ($h / 2);
+                $dstY = (int) ($this->params['height'] / 2) - ($h / 2);
                 break;
         }
 
@@ -110,15 +110,15 @@ $(function() {
             case 'left':
                 break;
             case 'right':
-                $dst_x = (int) $this->params['width'] - $w;
+                $dstX = (int) $this->params['width'] - $w;
                 break;
             case 'center':
             default: // center
-                $dst_x = (int) ($this->params['width'] / 2) - ($w / 2);
+                $dstX = (int) ($this->params['width'] / 2) - ($w / 2);
                 break;
         }
 
-        imagecopy($workspace, $gdimage, $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h);
+        imagecopy($workspace, $gdimage, $dstX, $dstY, $srcX, $srcY, $srcW, $srcH);
         $this->media->setImage($workspace);
         $this->media->refreshImageDimensions();
 

@@ -8,9 +8,9 @@ class rex_module_perm extends rex_complex_perm
     /**
      * @return bool
      */
-    public function hasPerm($module_id)
+    public function hasPerm($moduleId)
     {
-        return $this->hasAll() || in_array($module_id, $this->perms);
+        return $this->hasAll() || in_array($moduleId, $this->perms);
     }
 
     public static function getFieldParams()

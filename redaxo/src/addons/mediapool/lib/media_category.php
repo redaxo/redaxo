@@ -44,12 +44,12 @@ class rex_media_category
         }
 
         return static::getInstance($id, static function ($id) {
-            $cat_path = rex_path::addonCache('mediapool', $id . '.mcat');
-            $cache = rex_file::getCache($cat_path);
+            $catPath = rex_path::addonCache('mediapool', $id . '.mcat');
+            $cache = rex_file::getCache($catPath);
 
             if (!$cache) {
                 rex_media_cache::generateCategory($id);
-                $cache = rex_file::getCache($cat_path);
+                $cache = rex_file::getCache($catPath);
             }
 
             if ($cache) {
@@ -96,12 +96,12 @@ class rex_media_category
         }
 
         return self::getInstanceList([$parentId, 'children'], [self::class, 'get'], static function ($parentId) {
-            $catlist_path = rex_path::addonCache('mediapool', $parentId . '.mclist');
+            $catlistPath = rex_path::addonCache('mediapool', $parentId . '.mclist');
 
-            $list = rex_file::getCache($catlist_path, null);
+            $list = rex_file::getCache($catlistPath, null);
             if (null === $list) {
                 rex_media_cache::generateCategoryList($parentId);
-                $list = rex_file::getCache($catlist_path);
+                $list = rex_file::getCache($catlistPath);
             }
 
             return $list;
@@ -252,12 +252,12 @@ class rex_media_category
     public function getMedia()
     {
         return self::getInstanceList([$this->getId(), 'media'], ['rex_media', 'get'], static function ($id) {
-            $list_path = rex_path::addonCache('mediapool', $id . '.mlist');
+            $listPath = rex_path::addonCache('mediapool', $id . '.mlist');
 
-            $list = rex_file::getCache($list_path, null);
+            $list = rex_file::getCache($listPath, null);
             if (null === $list) {
                 rex_media_cache::generateList($id);
-                $list = rex_file::getCache($list_path);
+                $list = rex_file::getCache($listPath);
             }
 
             return $list;
