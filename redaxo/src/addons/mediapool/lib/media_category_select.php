@@ -10,7 +10,7 @@ class rex_media_category_select extends rex_select
     /**
      * @var bool
      */
-    private $check_perms;
+    private $checkPerms;
 
     /**
      * @var int|int[]|null
@@ -21,7 +21,7 @@ class rex_media_category_select extends rex_select
 
     public function __construct($checkPerms = true)
     {
-        $this->check_perms = $checkPerms;
+        $this->checkPerms = $checkPerms;
         $this->rootId = null;
 
         parent::__construct();
@@ -62,8 +62,8 @@ class rex_media_category_select extends rex_select
 
     protected function addCatOption(rex_media_category $mediacat, int $parentId = 0)
     {
-        if (!$this->check_perms ||
-                $this->check_perms && rex::getUser()->getComplexPerm('media')->hasCategoryPerm($mediacat->getId())
+        if (!$this->checkPerms ||
+                $this->checkPerms && rex::getUser()->getComplexPerm('media')->hasCategoryPerm($mediacat->getId())
         ) {
             $mid = $mediacat->getId();
             $mname = $mediacat->getName();

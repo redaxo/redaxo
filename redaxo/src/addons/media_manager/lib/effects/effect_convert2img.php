@@ -10,7 +10,7 @@
 
 class rex_effect_convert2img extends rex_effect_abstract
 {
-    private static $convert_types = [
+    private static $convertTypes = [
         'pdf',
         'ps',
         'psd',
@@ -21,7 +21,7 @@ class rex_effect_convert2img extends rex_effect_abstract
         'ico',
         'svg',
     ];
-    private static $convert_to = [
+    private static $convertTo = [
         'jpg' => [
             'ext' => 'jpg',
             'content-type' => 'image/jpeg',
@@ -32,16 +32,16 @@ class rex_effect_convert2img extends rex_effect_abstract
         ],
     ];
     private static $densities = [100, 150, 200, 300, 600];
-    private static $density_default = 150;
-    private static $convert_tos = ['jpg', 'png'];
-    private static $convert_to_default = 'jpg';
+    private static $densityDefault = 150;
+    private static $convertTos = ['jpg', 'png'];
+    private static $convertToDefault = 'jpg';
 
     public function execute()
     {
-        if (!isset(self::$convert_to[$this->params['convert_to']])) {
-            $convertTo = self::$convert_to[self::$convert_to_default];
+        if (!isset(self::$convertTo[$this->params['convert_to']])) {
+            $convertTo = self::$convertTo[self::$convertToDefault];
         } else {
-            $convertTo = self::$convert_to[$this->params['convert_to']];
+            $convertTo = self::$convertTo[$this->params['convert_to']];
         }
 
         $density = (int) $this->params['density'];
@@ -49,7 +49,7 @@ class rex_effect_convert2img extends rex_effect_abstract
         $color = $this->params['color'] ?? '';
 
         if (!in_array($density, self::$densities)) {
-            $density = self::$density_default;
+            $density = self::$densityDefault;
         }
 
         $fromPath = realpath($this->media->getMediaPath());
@@ -59,7 +59,7 @@ class rex_effect_convert2img extends rex_effect_abstract
             return;
         }
 
-        if (!in_array(strtolower($ext), self::$convert_types)) {
+        if (!in_array(strtolower($ext), self::$convertTypes)) {
             return;
         }
 
@@ -137,8 +137,8 @@ class rex_effect_convert2img extends rex_effect_abstract
                 'label' => rex_i18n::msg('media_manager_effect_convert2img_convertto'),
                 'name' => 'convert_to',
                 'type' => 'select',
-                'options' => self::$convert_tos,
-                'default' => self::$convert_to_default,
+                'options' => self::$convertTos,
+                'default' => self::$convertToDefault,
                 'prefix' => $imNotfound,
                 'notice' => rex_i18n::msg('media_manager_effect_convert2img_convertto_notice'),
             ],
@@ -147,7 +147,7 @@ class rex_effect_convert2img extends rex_effect_abstract
                 'name' => 'density',
                 'type' => 'select',
                 'options' => self::$densities,
-                'default' => self::$density_default,
+                'default' => self::$densityDefault,
                 'notice' => rex_i18n::msg('media_manager_effect_convert2img_density_notice'),
             ],
             [
