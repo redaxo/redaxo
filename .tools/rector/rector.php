@@ -55,6 +55,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         'redaxo/src/core/vendor',
         'redaxo/src/addons/backup/vendor',
         'redaxo/src/addons/be_style/vendor',
+        'redaxo/src/addons/debug/vendor',
         'redaxo/src/addons/phpmailer/vendor',
     ]);
 
