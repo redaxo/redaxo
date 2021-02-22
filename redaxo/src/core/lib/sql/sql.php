@@ -726,7 +726,7 @@ class rex_sql implements Iterator
 
         // check if there is an table alias defined
         // if not, try to guess the tablename
-        if (false === strpos($column, '.')) {
+        if (!str_contains($column, '.')) {
             $tables = $this->getTablenames();
             foreach ($tables as $table) {
                 if (in_array($table . '.' . $column, $this->rawFieldnames)) {

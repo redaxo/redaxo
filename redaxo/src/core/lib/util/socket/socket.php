@@ -294,7 +294,7 @@ class rex_socket
                 return $response;
             }
 
-            if (false === strpos($location, '//')) {
+            if (!str_contains($location, '//')) {
                 $socket = self::factory($this->host, $this->port, $this->ssl)->setPath($location);
             } else {
                 $socket = self::factoryUrl($location);

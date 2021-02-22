@@ -167,7 +167,7 @@ class rex_install_webservice
      */
     private static function getPath($path)
     {
-        $path = false === strpos($path, '?') ? rtrim($path, '/') . '/?' : $path . '&';
+        $path = !str_contains($path, '?') ? rtrim($path, '/') . '/?' : $path . '&';
         $path .= 'rex_version=' . rex::getVersion();
 
         static $config;
