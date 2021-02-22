@@ -255,12 +255,12 @@ class rex_setup
             $userSql->setQuery('select * from ' . rex::getTable('user') . ' LIMIT 1');
 
             return 0 == $userSql->getRows();
+        } catch (rex_sql_could_not_connect_exception $e) {
+            return true;
         } catch (rex_sql_exception $e) {
             if ($e->getSql() && rex_sql::ERRNO_TABLE_OR_VIEW_DOESNT_EXIST !== $e->getSql()->getErrno()) {
                 throw $e;
             }
-            return true;
-        } catch (rex_sql_could_not_connect_exception $e) {
             return true;
         }
     }
