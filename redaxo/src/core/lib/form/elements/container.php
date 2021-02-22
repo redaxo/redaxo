@@ -160,7 +160,7 @@ class rex_form_container_element extends rex_form_element
             foreach ($this->fields as $group => $groupFields) {
                 foreach ($groupFields as $field) {
                     // read-only-fields nicht speichern
-                    if (!str_contains($field->getAttribute('class'), 'form-control-static')) {
+                    if (!$field->isReadOnly()) {
                         $value[$group][$field->getFieldName()] = $field->getSaveValue();
                     }
                 }
@@ -168,7 +168,7 @@ class rex_form_container_element extends rex_form_element
         } elseif ($this->active && isset($this->fields[$this->active])) {
             foreach ($this->fields[$this->active] as $field) {
                 // read-only-fields nicht speichern
-                if (!str_contains($field->getAttribute('class'), 'form-control-static')) {
+                if (!$field->isReadOnly()) {
                     $value[$field->getFieldName()] = $field->getSaveValue();
                 }
             }
