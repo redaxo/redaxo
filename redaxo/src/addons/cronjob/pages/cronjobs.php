@@ -77,13 +77,13 @@ if ('' == $func) {
     $list->setColumnFormat('environment', 'custom', static function ($params) {
         $value = $params['list']->getValue('environment');
         $env = [];
-        if (false !== strpos($value, '|frontend|')) {
+        if (str_contains($value, '|frontend|')) {
             $env[] = rex_i18n::msg('cronjob_environment_frontend');
         }
-        if (false !== strpos($value, '|backend|')) {
+        if (str_contains($value, '|backend|')) {
             $env[] = rex_i18n::msg('cronjob_environment_backend');
         }
-        if (false !== strpos($value, '|script|')) {
+        if (str_contains($value, '|script|')) {
             $env[] = rex_i18n::msg('cronjob_environment_script');
         }
         return implode(', ', $env);
@@ -127,7 +127,7 @@ if ('' == $func) {
     $list->addLinkAttribute('execute', 'data-pjax', 'false');
     $list->setColumnFormat('execute', 'custom', static function ($params) use ($addon) {
         $list = $params['list'];
-        if (false !== strpos($list->getValue('environment'), '|backend|') && class_exists($list->getValue('type'))) {
+        if (str_contains($list->getValue('environment'), '|backend|') && class_exists($list->getValue('type'))) {
             return $list->getColumnLink('execute', '<i class="rex-icon rex-icon-execute"></i> ' . $addon->i18n('execute'));
         }
         return '<span class="text-muted"><i class="rex-icon rex-icon-execute"></i> ' . $addon->i18n('execute') . '</span>';

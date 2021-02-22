@@ -76,7 +76,7 @@ if ('' == $func) {
         foreach ($pages as $page) {
             foreach ($page->getRequiredPermissions() as $perm) {
                 // ignore admin perm and complex perms (with "/")
-                if ($perm && !in_array($perm, ['isAdmin', 'admin', 'admin[]']) && false === strpos($perm, '/') && !rex_perm::has($perm)) {
+                if ($perm && !in_array($perm, ['isAdmin', 'admin', 'admin[]']) && !str_contains($perm, '/') && !rex_perm::has($perm)) {
                     rex_perm::register($perm);
                 }
             }

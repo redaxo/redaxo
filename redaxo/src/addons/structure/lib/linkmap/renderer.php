@@ -100,7 +100,7 @@ abstract class rex_linkmap_tree_renderer
     {
         $linkAttr .= ' class="' . ($OOobject->isOnline() ? 'rex-online' : 'rex-offline') . '"';
 
-        if (false === strpos($linkAttr, ' href=')) {
+        if (!str_contains($linkAttr, ' href=')) {
             $linkAttr .= ' href="' . $context->getUrl(['category_id' => $OOobject->getId()]) . '"';
         }
 

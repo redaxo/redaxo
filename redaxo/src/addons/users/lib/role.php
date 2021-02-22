@@ -127,7 +127,7 @@ class rex_user_role implements rex_user_role_interface
         $update->prepareQuery('UPDATE ' . rex::getTable('user_role') . ' SET perms = ? WHERE id = ?');
         foreach ($sql as $row) {
             $perms = $row->getArrayValue('perms');
-            if (isset($perms[$key]) && false !== strpos($perms[$key], $item)) {
+            if (isset($perms[$key]) && str_contains($perms[$key], $item)) {
                 $perms[$key] = str_replace($item, $new, $perms[$key]);
                 $update->execute([json_encode($perms), $row->getValue('id')]);
             }

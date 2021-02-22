@@ -962,7 +962,7 @@ class rex_list implements rex_url_provider_interface
      */
     public function replaceVariables($value)
     {
-        if (false === strpos($value, '###')) {
+        if (!str_contains($value, '###')) {
             return $value;
         }
 

@@ -294,7 +294,7 @@ class rex_socket
                 return $response;
             }
 
-            if (false === strpos($location, '//')) {
+            if (!str_contains($location, '//')) {
                 $socket = self::factory($this->host, $this->port, $this->ssl)->setPath($location);
             } else {
                 $socket = self::factoryUrl($location);
@@ -409,7 +409,7 @@ class rex_socket
     protected static function parseUrl($url)
     {
         $parts = parse_url($url);
-        if (false !== $parts && !isset($parts['host']) && 0 !== strpos($url, 'http')) {
+        if (false !== $parts && !isset($parts['host']) && !str_starts_with($url, 'http')) {
             $parts = parse_url('http://' . $url);
         }
         if (false === $parts || !isset($parts['host'])) {

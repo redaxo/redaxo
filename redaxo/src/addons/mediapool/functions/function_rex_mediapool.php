@@ -586,11 +586,11 @@ function rex_mediapool_isAllowedMediaType($filename, array $args = [])
 {
     $fileExt = mb_strtolower(rex_file::extension($filename));
 
-    if ('' === $filename || false !== strpos($fileExt, ' ') || '' === $fileExt) {
+    if ('' === $filename || str_contains($fileExt, ' ') || '' === $fileExt) {
         return false;
     }
 
-    if (0 === strpos($fileExt, 'php')) {
+    if (str_starts_with($fileExt, 'php')) {
         return false;
     }
 
@@ -598,7 +598,7 @@ function rex_mediapool_isAllowedMediaType($filename, array $args = [])
     foreach ($blacklist as $blackExtension) {
         // blacklisted extensions are not allowed within filenames, to prevent double extension vulnerabilities:
         // -> some webspaces execute files named file.php.txt as php
-        if (false !== strpos($filename, '.'. $blackExtension)) {
+        if (str_contains($filename, '.'. $blackExtension)) {
             return false;
         }
     }
