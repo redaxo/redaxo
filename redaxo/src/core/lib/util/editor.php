@@ -61,7 +61,7 @@ class rex_editor
             $filePath = str_replace(rex_path::base(), $editorBasepath, $filePath);
         }
 
-        if (false !== strpos($filePath, '://')) {
+        if (str_contains($filePath, '://')) {
             // don't provide editor urls for paths containing "://", like "rex://..."
             // but they can be converted into an url by the extension point below
         } elseif (isset($this->editors[$editor]) || 'xdebug' === $editor) {

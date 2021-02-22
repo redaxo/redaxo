@@ -112,7 +112,7 @@ class rex_select
      */
     public function setStyle($style)
     {
-        if (false !== strpos($style, 'class=')) {
+        if (str_contains($style, 'class=')) {
             if (preg_match('/class=["\']?([^"\']*)["\']?/i', $style, $matches)) {
                 $this->setAttribute('class', $matches[1]);
             }
@@ -253,7 +253,7 @@ class rex_select
             $useRexSelectStyle = true;
         }
         // RexSelectStyle nicht nutzen, wenn die Klasse `.selectpicker` gesetzt ist
-        if (isset($this->attributes['class']) && false !== strpos($this->attributes['class'], 'selectpicker')) {
+        if (isset($this->attributes['class']) && str_contains($this->attributes['class'], 'selectpicker')) {
             $useRexSelectStyle = false;
         }
         // RexSelectStyle nicht nutzen, wenn das Selectfeld mehrzeilig ist

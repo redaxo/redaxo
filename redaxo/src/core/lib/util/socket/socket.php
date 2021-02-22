@@ -409,7 +409,7 @@ class rex_socket
     protected static function parseUrl($url)
     {
         $parts = parse_url($url);
-        if (false !== $parts && !isset($parts['host']) && 0 !== strpos($url, 'http')) {
+        if (false !== $parts && !isset($parts['host']) && !str_starts_with($url, 'http')) {
             $parts = parse_url('http://' . $url);
         }
         if (false === $parts || !isset($parts['host'])) {
