@@ -258,7 +258,8 @@ class rex_setup
         } catch (rex_sql_could_not_connect_exception $e) {
             return true;
         } catch (rex_sql_exception $e) {
-            if ($e->getSql() && rex_sql::ERRNO_TABLE_OR_VIEW_DOESNT_EXIST !== $e->getSql()->getErrno()) {
+            $sql = $e->getSql();
+            if ($sql && rex_sql::ERRNO_TABLE_OR_VIEW_DOESNT_EXIST !== $sql->getErrno()) {
                 throw $e;
             }
             return true;
