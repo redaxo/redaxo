@@ -77,7 +77,8 @@ class rex_sql_table
             $columns = rex_sql::showColumns($name, $db);
             $this->new = false;
         } catch (rex_sql_exception $exception) {
-            if ($exception->getSql() && rex_sql::ERRNO_TABLE_OR_VIEW_DOESNT_EXIST !== $exception->getSql()->getErrno()) {
+            $sql = $exception->getSql();
+            if ($sql && rex_sql::ERRNO_TABLE_OR_VIEW_DOESNT_EXIST !== $sql->getErrno()) {
                 throw $exception;
             }
 
