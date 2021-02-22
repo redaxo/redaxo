@@ -1,6 +1,25 @@
 Changelog
 =========
 
+Version 2.9.0 – XX.XX.2021
+--------------------------
+
+### Neu
+
+* Bei Core-/AddOn-Updates wird ein Info-Eintrag ins Systemlog geschrieben (@staabm)
+* Beim Laden neuer Addons wird bei Entwicklungsversionen gewarnt, wie zuvor schon bei Updates (@anveno)
+* In Versionslisten wird das aktuelle Stable-Release hervorgehoben (@skerbis)
+* Bei Nutzung der Suche werden die Ergebnisse nach Relevanz sortiert (@xong)
+* Im Backend-Menü steht der Installer direkt unterhalb von „AddOns“ (@gharlan)
+
+### Bugfixes
+
+* Löschen von AddOn-Versionen:
+    - Lösch-Button erschien auch im Formular zum Hochladen neuer Versionen (@gharlan)
+    - Wenn man den Confirm-Dialog verneint hat, wurde die Speichernroutine ausgelöst, statt gar keiner Aktion (@gharlan)
+    - Nach dem Löschen landete man in der AddOn-Liste statt in der AddOn-Detailseite (@gharlan)
+
+
 Version 2.8.1 – 25.01.2021
 --------------------------
 
