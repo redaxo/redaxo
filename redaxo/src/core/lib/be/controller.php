@@ -200,7 +200,7 @@ class rex_be_controller
 
             if (is_array($pages = $addon->getProperty('pages'))) {
                 foreach ($pages as $key => $page) {
-                    if (false !== strpos($key, '/')) {
+                    if (str_contains($key, '/')) {
                         $insertPages[$key] = [$addon, $page];
                     } else {
                         self::pageCreate($page, $addon, false, $mainPage, $key, true);
@@ -215,7 +215,7 @@ class rex_be_controller
 
                 if (is_array($pages = $plugin->getProperty('pages'))) {
                     foreach ($pages as $key => $page) {
-                        if (false !== strpos($key, '/')) {
+                        if (str_contains($key, '/')) {
                             $insertPages[$key] = [$plugin, $page];
                         } else {
                             self::pageCreate($page, $plugin, false, $mainPage, $key, true);

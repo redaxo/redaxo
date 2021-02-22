@@ -15,14 +15,14 @@ if (rex_get('asset') && rex_get('buster')) {
     $assetFile = rex_get('asset');
 
     // relative to the assets-root
-    if (0 === strpos($assetFile, '/assets/')) {
+    if (str_starts_with($assetFile, '/assets/')) {
         $assetFile = '..'. $assetFile;
     }
 
     $fullPath = realpath($assetFile);
     $assetDir = rex_path::assets();
 
-    if (0 !== strpos($fullPath, $assetDir)) {
+    if (!str_starts_with($fullPath, $assetDir)) {
         throw new Exception('Assets can only be streamed from within the assets folder. "'. $fullPath .'" is not within "'. $assetDir .'"');
     }
 

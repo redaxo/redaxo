@@ -147,7 +147,7 @@ if ('' != $success) {
 $dbconfig = rex::getDbConfig(1);
 
 $rexVersion = rex::getVersion();
-if (false !== strpos($rexVersion, '-dev')) {
+if (str_contains($rexVersion, '-dev')) {
     $hash = rex_version::gitHash(rex_path::base(), 'redaxo/redaxo');
     if ($hash) {
         $rexVersion .= '#'. $hash;

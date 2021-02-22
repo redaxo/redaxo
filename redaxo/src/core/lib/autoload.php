@@ -355,7 +355,7 @@ class rex_autoload
         $contents = preg_replace('{\?>(?:[^<]++|<(?!\?))*+<\?}s', '?><?', $contents);
         // strip trailing non-php code if needed
         $pos = strrpos($contents, '?>');
-        if (false !== $pos && false === strpos(substr($contents, $pos), '<?')) {
+        if (false !== $pos && !str_contains(substr($contents, $pos), '<?')) {
             $contents = substr($contents, 0, $pos);
         }
         // strip comments if short open tags are in the file

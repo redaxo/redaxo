@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 use Rector\Core\Configuration\Option;
 use Rector\Core\ValueObject\PhpVersion;
+use Rector\Naming\Rector\Property\UnderscoreToCamelCasePropertyNameRector;
 use Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector;
+use Rector\Php80\Rector\Identical\StrEndsWithRector;
+use Rector\Php80\Rector\Identical\StrStartsWithRector;
+use Rector\Php80\Rector\NotIdentical\StrContainsRector;
 use Rector\Set\ValueObject\SetList;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -51,6 +55,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         'redaxo/src/core/vendor',
         'redaxo/src/addons/backup/vendor',
         'redaxo/src/addons/be_style/vendor',
+        'redaxo/src/addons/debug/vendor',
         'redaxo/src/addons/phpmailer/vendor',
     ]);
 
@@ -62,6 +67,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // we will grow this rector list step by step.
     // after some basic rectors have been enabled we can finally enable whole-sets (when diffs get stable and reviewable)
     // $services->set(Rector\SOLID\Rector\If_\ChangeAndIfToEarlyReturnRector::class);
+    $services->set(StrContainsRector::class);
+    $services->set(StrEndsWithRector::class);
+    $services->set(StrStartsWithRector::class);
     $services->set(UnderscoreToCamelCasePropertyNameRector::class);
     $services->set(UnderscoreToCamelCaseVariableNameRector::class);
 };

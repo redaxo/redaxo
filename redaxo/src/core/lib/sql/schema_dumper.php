@@ -159,7 +159,7 @@ class rex_sql_schema_dumper
 
     private function tableName($name)
     {
-        if (0 !== strpos($name, rex::getTablePrefix())) {
+        if (!str_starts_with($name, rex::getTablePrefix())) {
             return $this->scalar($name);
         }
 
