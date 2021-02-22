@@ -18,7 +18,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     // Define what rule sets will be applied
     $parameters->set(Option::SETS, [
-        SetList::EARLY_RETURN,
+        // SetList::EARLY_RETURN,
     ]);
 
     $parameters->set(OPTION::OPTION_AUTOLOAD_FILE, [
@@ -46,12 +46,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $parameters->set(Option::SKIP, [
         // skip because of phpdocs which get mangled https://github.com/rectorphp/rector/issues/4691
-        'redaxo/src/core/lib/fragment.php',
-        'redaxo/src/core/lib/list.php',
-        'redaxo/src/core/lib/packages/manager.php',
-        'redaxo/src/core/lib/sql/sql.php',
-        'redaxo/src/core/lib/var/var.php',
-        'redaxo/src/core/lib/util/version.php',
+        // 'redaxo/src/core/lib/fragment.php',
+        // 'redaxo/src/core/lib/list.php',
+        // 'redaxo/src/core/lib/packages/manager.php',
+        // 'redaxo/src/core/lib/sql/sql.php',
+        // 'redaxo/src/core/lib/var/var.php',
+        // 'redaxo/src/core/lib/util/version.php',
         'redaxo/src/core/vendor',
         'redaxo/src/addons/backup/vendor',
         'redaxo/src/addons/be_style/vendor',
@@ -60,6 +60,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ]);
 
     $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersion::PHP_73);
+
+    $parameters->set(Option::ENABLE_CACHE, true);
 
     // get services (needed for register a single rule)
     $services = $containerConfigurator->services();
