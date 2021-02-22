@@ -46,6 +46,8 @@ article_doesnt_exist = Artikeln finns inte!
 cant_delete_sitestartarticle = Startartikeln kan inte raderas!
 cant_delete_notfoundarticle = "Inte hittat"-artikeln kan inte raderas!
 structure_copy = Kopia
+category_has_child_elements = Kategori innehåller underordnade element
+category_without_child_elements = Kategori utan underordnade element
 
 all_categories = Alla kategorier
 categories = Kategorier
