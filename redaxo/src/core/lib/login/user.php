@@ -210,7 +210,7 @@ class rex_user
             return true;
         }
         $result = false;
-        if (false !== strpos($perm, '/')) {
+        if (str_contains($perm, '/')) {
             [$complexPerm, $method] = explode('/', $perm, 2);
             $complexPerm = $this->getComplexPerm($complexPerm);
             return $complexPerm ? $complexPerm->$method() : false;
