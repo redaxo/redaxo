@@ -565,8 +565,7 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/users/lib/select_element.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$this-&gt;getValue()</code>
+    <PossiblyNullArgument occurrences="1">
       <code>$this-&gt;getValue()</code>
     </PossiblyNullArgument>
   </file>
