@@ -9,8 +9,6 @@
  */
 class rex_sql_table
 {
-    const ERRNO_TABLE_OR_VIEW_DOESNT_EXIST = '42S02';
-    
     use rex_instance_pool_trait {
         clearInstance as private baseClearInstance;
     }
@@ -79,8 +77,7 @@ class rex_sql_table
             $columns = rex_sql::showColumns($name, $db);
             $this->new = false;
         } catch (rex_sql_exception $exception) {
-            // Error code 42S02 means: Table does not exist
-            if ($exception->getSql() && self::ERRNO_TABLE_OR_VIEW_DOESNT_EXIST !== $exception->getSql()->getErrno()) {
+            if ($exception->getSql() && rex_sql::ERRNO_TABLE_OR_VIEW_DOESNT_EXIST !== $exception->getSql()->getErrno()) {
                 throw $exception;
             }
 
