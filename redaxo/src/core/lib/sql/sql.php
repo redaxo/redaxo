@@ -573,7 +573,7 @@ class rex_sql implements Iterator
         if ('' == $value) {
             return true;
         }
-        return str_contains($this->getValue($column), $value);
+        return str_contains((string) $this->getValue($column), $value);
     }
 
     /**
