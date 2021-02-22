@@ -59,7 +59,7 @@ Version 5.12.0 – XX.XX.2021
 * Projekt-AddOn: Code-Beispiel für yform-Modelklassen in `boot.php` (@dtpop)
 * Backend-Übersetzungsdateien:
     - Textkorrekturen/-verbesserungen (@alxndr-w, @gharlan)
-    - Aktualisierung Übersetzungen: englisch (@skerbis)
+    - Aktualisierung Übersetzungen: englisch (@ynamite, @skerbis), schwedisch (@interweave-media)
 * Readme-Dateien der Addons erstellt/erweitert, englische Übersetzungen erstellt, und alte `help.php` entfernt (@skerbis)
 * Einige Deprecated-Methods erhalten in PhpStorm automatische Ersetzungsvorschläge (@staabm)
 * Code-Stabilität durch statische Code-Analyse verbessert (@staabm, @gharlan)
