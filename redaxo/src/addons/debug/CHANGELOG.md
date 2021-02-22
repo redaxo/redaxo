@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 1.1.0 – XX.XX.2020
+Version 1.1.0 – XX.XX.2021
 --------------------------
 
 ### Neu

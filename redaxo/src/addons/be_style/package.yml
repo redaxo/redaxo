@@ -13,4 +13,4 @@ console_commands:
 
 requires:
     php: '>=7.3'
-    redaxo: ^5.10.0
+    redaxo: ^5.12.0-beta1

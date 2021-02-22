@@ -13,9 +13,9 @@ pages:
     system/customizer: { title: 'translate:customizer', icon: rex-icon rex-icon-customizer }
 
 requires:
-    redaxo: ^5.10.0
     php:
         extensions: [zip]
+    redaxo: ^5.12.0-beta1
 
 default_config:
     labelcolor: '#3bb594'
