@@ -259,10 +259,10 @@ class rex_setup
             return true;
         } catch (rex_sql_exception $e) {
             $sql = $e->getSql();
-            if ($sql && rex_sql::ERRNO_TABLE_OR_VIEW_DOESNT_EXIST !== $sql->getErrno()) {
-                throw $e;
+            if ($sql && rex_sql::ERRNO_TABLE_OR_VIEW_DOESNT_EXIST === $sql->getErrno()) {
+                return true;
             }
-            return true;
+            throw $e;
         }
     }
 
