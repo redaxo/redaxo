@@ -18,6 +18,7 @@
         "phpunit/phpunit": "^9.3",
         "psalm/plugin-phpunit": "0.15.1",
         "psalm/plugin-symfony": "2.1.2",
+        "rector/rector": "0.9.30",
         "vimeo/psalm": "4.6.1"
     },
     "replace": {
@@ -110,6 +111,7 @@
         "phpstan-baseline": "phpstan analyse --generate-baseline .tools/phpstan/baseline.neon",
         "psalm": "psalm --use-baseline=.tools/psalm/baseline.xml",
         "psalm-baseline": "psalm --set-baseline=.tools/psalm/baseline.xml",
+        "rector": "rector process --ansi",
         "taint": "psalm --use-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache --threads=1",
         "taint-baseline": "psalm --set-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache --threads=1 || git checkout -- psalm.xml",
         "sa": [
@@ -121,9 +123,6 @@
             "@sa",
             "@phpunit",
             "@taint"
-        ],
-        "rector": [
-            "rector process --config=.tools/rector/rector.php"
         ]
     },
     "scripts-descriptions": {
@@ -137,6 +136,7 @@
         "phpstan-baseline": "Regenerate the phpstan baseline",
         "psalm": "Run static analysis via psalm",
         "psalm-baseline": "Regenerate the psalm static analysis baseline",
+        "rector": "Fix code style via rector",
         "taint": "Run taint analysis via psalm",
         "taint-baseline": "Regenerate the psalm taint  analysis baseline",
         "sa": "Run all static analyses (psalm and phpstan)",
