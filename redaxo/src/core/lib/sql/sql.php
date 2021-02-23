@@ -573,7 +573,7 @@ class rex_sql implements Iterator
         if ('' == $value) {
             return true;
         }
-        return str_contains($this->getValue($column), $value);
+        return str_contains((string) $this->getValue($column), $value);
     }
 
     /**
@@ -1840,6 +1840,11 @@ class rex_sql implements Iterator
     {
         $class = static::getFactoryClass();
         return new $class($db);
+    }
+
+    public static function closeConnection(int $db = 1): void
+    {
+        unset(self::$pdo[$db]);
     }
 
     /**
