@@ -1842,7 +1842,7 @@ class rex_sql implements Iterator
         return new $class($db);
     }
 
-    public static function clearConnection(int $db = 1): void
+    public static function closeConnection(int $db = 1): void
     {
         unset(self::$pdo[$db]);
     }
