@@ -61,12 +61,12 @@ abstract class rex_metainfo_handler
             if ($activeItem) {
                 $itemValue = $activeItem->getValue($name);
 
-                if (str_contains($itemValue, '|+|')) {
+                if ($itemValue && str_contains($itemValue, '|+|')) {
                     // Alte notation mit |+| als Trenner
-                    $dbvalues = explode('|+|', $activeItem->getValue($name));
+                    $dbvalues = explode('|+|', $itemValue);
                 } else {
                     // Neue Notation mit | als Trenner
-                    $dbvalues = explode('|', trim($activeItem->getValue($name), '|'));
+                    $dbvalues = explode('|', trim($itemValue, '|'));
                 }
             } else {
                 $dbvalues = (array) $sqlFields->getValue('default');
