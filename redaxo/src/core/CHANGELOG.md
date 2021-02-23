@@ -45,7 +45,9 @@ Version 5.12.0 – XX.XX.2021
     - Bei `sendResource` ist der Client-Cache default deaktiviert, und kann vorab per `sendCacheControl` geändert werden (@alxndr-w)
     - Bei `sendRedirect` kann der Statuscode als zweiter Parameter übergeben werden (@staabm)
 * `rex_package`: Neue Methode `splitId` um eine Package-ID in AddOn- und PlugIn-Part zu trennen (@gharlan)
-* `rex_sql`: Neue statische Methode `in`, um die Parameter für die `IN (…)`-Clause mit Escaping zu erhalten (@gharlan)
+* `rex_sql`: 
+    - Neue statische Methode `in`, um die Parameter für die `IN (…)`-Clause mit Escaping zu erhalten (@gharlan)
+    - Neue statische Methode `closeConnection` (@gharlan)
 * `rex_sql_util`: Methode `importDump` prüft, ob es eine `*.sql`-Datei ist (@staabm)
 * `rex_var`: Variablen können auch Ziffern im Namen enthalten (@gharlan)
 * `rex_api_function`: Exception bei ungültigem JSON (@staabm)
@@ -55,6 +57,7 @@ Version 5.12.0 – XX.XX.2021
     - `config:get/set`: `--type`-Option unterstützt den `octal`-Typ für `fileperm`/`dirperm` (@staabm)
     - `assets:sync`: Dateivergleich optimiert und Beschreibung/Hilfe verbessert (@staabm)
     - `setup:run`: Die Ordner/Dateien mit fehlenden Schreibrechten werden im Listen-Style aufgelistet (@staabm)
+* `Server-Timing`-Header im Debug-Modus werden nicht mehr gesendet, da inzwischen das Debug-AddOn existiert und die Header sich als problematisch herausgestellt haben (@gharlan)
 * Optimierte Fehlermeldung, wenn die Datenbankverbindung nicht aufgebaut werden kann (@staabm)
 * Projekt-AddOn: Code-Beispiel für yform-Modelklassen in `boot.php` (@dtpop)
 * Backend-Übersetzungsdateien:
@@ -74,6 +77,7 @@ Version 5.12.0 – XX.XX.2021
 * Beim Umschalten des Debug-Modus über die Systemeinstellungen erschien/verschwand das Debug-Symbol erst nach nächstem Seitenload (@skerbis)
 * `rex_markdown`: In Code-Snippets wurde die Zeichenkette `window.location` pauschal entfernt (@gharlan)
 * `rex_form`: Bei aktiviertem Debug-Parameter wurde die Redirect-URL nicht escaped (@gharlan)
+* `rex_extension`: Wenn der Runlevel als String übergeben wurde („EARLY“, „LATE“), wurde stillschweigend immer LATE verwendet; neu wird auf die korrekte Nutzung über die Integer-Konstanten `rex_extension::EARLY/LATE` per Warning hingewiesen (@gharlan)
 * Console-Command `setup:run`: Wenn die Systemvoraussetzungen nicht erfüllt werden, wurde nach der Fehlermeldung trotzdem das Setup fortgesetzt (@gharlan)
 
 
