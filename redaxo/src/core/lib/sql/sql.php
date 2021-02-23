@@ -1842,6 +1842,11 @@ class rex_sql implements Iterator
         return new $class($db);
     }
 
+    public static function clearConnection(int $db = 1): void
+    {
+        unset(self::$pdo[$db]);
+    }
+
     /**
      * Prueft die uebergebenen Zugangsdaten auf gueltigkeit und legt ggf. die
      * Datenbank an.
