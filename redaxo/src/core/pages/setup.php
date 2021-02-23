@@ -166,6 +166,7 @@ if ($step > 4) {
 
     if (0 == count($errorArray)) {
         try {
+            rex_sql::closeConnection();
             $err = rex_setup::checkDb($config, $redaxoDbCreate);
         } catch (PDOException $e) {
             $err = rex_i18n::msg('setup_415', $e->getMessage());
