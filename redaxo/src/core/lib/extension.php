@@ -81,6 +81,18 @@ abstract class rex_extension
             static::callFactoryClass(__FUNCTION__, func_get_args());
             return;
         }
+
+        // bc
+        if (is_string($level)) {
+            trigger_error(__METHOD__.': Argument $level should be one of the constants rex_extension::EARLY/NORMAL/LATE, but string "'.$level.'" given', E_USER_WARNING);
+
+            $level = (int) $level;
+        }
+
+        if (!in_array($level, [self::EARLY, self::NORMAL, self::LATE], true)) {
+            throw new InvalidArgumentException('Argument $level should be one of the constants rex_extension::EARLY/NORMAL/LATE, but "'.(is_int($level) ? $level : get_debug_type($level)).'" given');
+        }
+
         foreach ((array) $extensionPoint as $ep) {
             self::$extensions[$ep][$level][] = [$extension, $params];
         }

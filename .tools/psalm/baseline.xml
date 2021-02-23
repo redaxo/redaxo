@@ -766,11 +766,10 @@
       <code>$comment</code>
       <code>$oldName</code>
     </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="7">
+    <PossiblyNullReference occurrences="6">
       <code>equals</code>
       <code>equals</code>
       <code>equals</code>
-      <code>getErrno</code>
       <code>setName</code>
       <code>setName</code>
       <code>setName</code>
