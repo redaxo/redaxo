@@ -1059,8 +1059,7 @@ abstract class rex_form_base
 
         foreach ($this->getSaveElements() as $fieldsetElements) {
             foreach ($fieldsetElements as $element) {
-                // read-only-fields
-                if (str_contains($element->getAttribute('class'), 'form-control-static')) {
+                if ($element->isReadOnly()) {
                     continue;
                 }
 
@@ -1083,7 +1082,7 @@ abstract class rex_form_base
         foreach ($saveElements as $fieldsetName => $fieldsetElements) {
             foreach ($fieldsetElements as $element) {
                 // read-only-fields nicht speichern
-                if (str_contains($element->getAttribute('class'), 'form-control-static')) {
+                if ($element->isReadOnly()) {
                     continue;
                 }
 
