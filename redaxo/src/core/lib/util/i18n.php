@@ -265,7 +265,7 @@ class rex_i18n
         }
 
         $msg = preg_replace($patterns, $replaceWith, $msg);
-        if ($msg === null) {
+        if (null === $msg) {
             throw new rex_exception(preg_last_error_msg());
         }
 
