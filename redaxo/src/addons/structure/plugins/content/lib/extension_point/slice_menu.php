@@ -55,8 +55,8 @@ class rex_extension_point_slice_menu extends rex_extension_point
      * @param array{label?: string, url?: string, attributes?: array{class: string[], title: string}}       $menuEditAction
      * @param array{label?: string, url?: string, attributes?: array{class: string[], title: string, data-confirm: string}}       $menuDeleteAction
      * @param array{label?: string, url?: string, attributes?: array{class: string[]}}       $menuStatusAction
-     * @param array{hidden_label?: string, url?: string, icon?: string, attributes?: array{class: string[], title: string}}       $menu_moveup_action
-     * @param array{hidden_label?: string, url?: string, icon?: string, attributes?: array{class: string[], title: string}}       $menu_movedown_action
+     * @param array{hidden_label?: string, url?: string, icon?: string, attributes?: array{class: string[], title: string}}       $menuMoveupAction
+     * @param array{hidden_label?: string, url?: string, icon?: string, attributes?: array{class: string[], title: string}}       $menuMovedownAction
      */
     public function __construct(
         array $menuEditAction,
@@ -173,10 +173,7 @@ class rex_extension_point_slice_menu extends rex_extension_point
         $this->menuMovedownAction = $menuMovedownAction;
     }
 
-    /**
-     * @return array
-     */
-    public function getAdditionalActions()
+    public function getAdditionalActions(): array
     {
         if (null === $this->additionalActions) {
             // ----- EXTENSION POINT / for BC reasons we wrap the old and pre-existing EP here
