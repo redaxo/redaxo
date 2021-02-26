@@ -27,6 +27,10 @@ class rex_extension_point_slice_menu extends rex_extension_point
      * @var array{hidden_label: string, url: string, attributes: array{class: string[], title: string>, icon: string}}
      */
     private $menuMovedownAction = [];
+    /**
+     * @var array
+     */
+    private $additionalActions = [];
 
     /** @var rex_context */
     private $context;
@@ -177,21 +181,31 @@ class rex_extension_point_slice_menu extends rex_extension_point
      */
     public function getAdditionalActions()
     {
-        // ----- EXTENSION POINT / for BC reasons we wrap the old and pre-existing EP here
-        $menuItemsEp = [];
+        if ($this->additionalActions === null) {
+            // ----- EXTENSION POINT / for BC reasons we wrap the old and pre-existing EP here
+            $menuItemsEp = [];
 
-        return rex_extension::registerPoint(new rex_extension_point(
-            'STRUCTURE_CONTENT_SLICE_MENU',
-            $menuItemsEp,
-            [
-                'article_id' => $this->articleId,
-                'clang' => $this->clang,
-                'ctype' => $this->ctype,
-                'module_id' => $this->moduleId,
-                'slice_id' => $this->sliceId,
-                'perm' => $this->hasPerm,
-            ]
-        ));
+            $this->additionalActions =  rex_extension::registerPoint(new rex_extension_point(
+                'STRUCTURE_CONTENT_SLICE_MENU',
+                $menuItemsEp,
+                [
+                    'article_id' => $this->articleId,
+                    'clang' => $this->clang,
+                    'ctype' => $this->ctype,
+                    'module_id' => $this->moduleId,
+                    'slice_id' => $this->sliceId,
+                    'perm' => $this->hasPerm,
+                ]
+            ));
+        }
+
+        return $this->additionalActions;
+    }
+
+
+    public function setAdditionalActions(array $additionalActions)
+    {
+        $this->additionalActions = $additionalActions;
     }
 
     public function getContext(): rex_context
