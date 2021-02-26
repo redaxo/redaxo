@@ -73,7 +73,7 @@ class rex_extension_point_slice_menu extends rex_extension_point
         int $sliceId,
         bool $hasPerm
     ) {
-        parent::__construct(self::NAME, null, [], false);
+        parent::__construct(self::NAME);
 
         $this->menuEditAction = $menuEditAction;
         $this->menuDeleteAction = $menuDeleteAction;
