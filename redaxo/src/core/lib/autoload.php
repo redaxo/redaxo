@@ -30,7 +30,7 @@ class rex_autoload
      */
     protected static $cacheChanged = false;
     /**
-     * @var bool
+     * @var bool Remember the cache was deleted, to make sure we don't generate a stale cache file.
      */
     protected static $cacheDeleted = false;
     /**
