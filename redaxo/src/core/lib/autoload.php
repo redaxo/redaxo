@@ -32,6 +32,10 @@ class rex_autoload
     /**
      * @var bool
      */
+    protected static $cacheDeleted = false;
+    /**
+     * @var bool
+     */
     protected static $reloaded = false;
     /**
      * @var string[][]
@@ -162,7 +166,7 @@ class rex_autoload
      */
     public static function saveCache()
     {
-        if (!self::$cacheChanged) {
+        if (!self::$cacheChanged || self::$cacheDeleted) {
             return;
         }
 
@@ -209,6 +213,7 @@ class rex_autoload
     public static function removeCache()
     {
         rex_file::delete(self::$cacheFile);
+        self::$cacheDeleted = true;
     }
 
     /**
@@ -226,7 +231,6 @@ class rex_autoload
         self::$addedDirs[] = $dir;
         if (!isset(self::$dirs[$dir])) {
             self::_addDirectory($dir);
-            self::$cacheChanged = true;
         }
     }
 
@@ -253,6 +257,7 @@ class rex_autoload
 
         if (!isset(self::$dirs[$dir])) {
             self::$dirs[$dir] = [];
+            self::$cacheChanged = true;
         }
         $files = self::$dirs[$dir];
         $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dirPath, RecursiveDirectoryIterator::SKIP_DOTS));
