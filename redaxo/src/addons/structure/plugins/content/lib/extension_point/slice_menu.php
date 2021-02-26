@@ -71,12 +71,9 @@ class rex_extension_point_slice_menu extends rex_extension_point
         int $ctype,
         int $moduleId,
         int $sliceId,
-        bool $hasPerm,
-        $subject = null,
-        array $params = [],
-        $readonly = false
+        bool $hasPerm
     ) {
-        parent::__construct(self::NAME, $subject, $params, $readonly);
+        parent::__construct(self::NAME, null, [], false);
 
         $this->menuEditAction = $menuEditAction;
         $this->menuDeleteAction = $menuDeleteAction;
