@@ -74,6 +74,11 @@
         a {
             color: $color-a-dark;
         }
+        a[href="#rex-start-of-page"] {
+            position: fixed;
+            bottom: 11px;
+            right: 11px;
+        }
     }
 }
 
