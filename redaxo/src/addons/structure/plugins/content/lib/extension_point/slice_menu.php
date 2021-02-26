@@ -181,11 +181,11 @@ class rex_extension_point_slice_menu extends rex_extension_point
      */
     public function getAdditionalActions()
     {
-        if ($this->additionalActions === null) {
+        if (null === $this->additionalActions) {
             // ----- EXTENSION POINT / for BC reasons we wrap the old and pre-existing EP here
             $menuItemsEp = [];
 
-            $this->additionalActions =  rex_extension::registerPoint(new rex_extension_point(
+            $this->additionalActions = rex_extension::registerPoint(new rex_extension_point(
                 'STRUCTURE_CONTENT_SLICE_MENU',
                 $menuItemsEp,
                 [
@@ -201,7 +201,6 @@ class rex_extension_point_slice_menu extends rex_extension_point
 
         return $this->additionalActions;
     }
-
 
     public function setAdditionalActions(array $additionalActions)
     {
