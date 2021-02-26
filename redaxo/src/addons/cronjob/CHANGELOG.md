@@ -1,6 +1,19 @@
 Changelog
 =========
 
+Version 2.8.0 – XX.XX.2021
+--------------------------
+
+### Neu
+
+* Der Hinweis für die Skript-Umgebung enthält den absoluten Pfad zur REDAXO-Console (@skerbis)
+* PlugIn `article_status`: Neu können die Artikel-Datumsfelder nach Statusänderung automatisch geleert werden (optional) (@tyrant88)
+
+### Bugfixes
+
+* Fehlendes Escaping ergänzt (@gharlan)
+
+
 Version 2.7.0 – 10.03.2020
 --------------------------
 

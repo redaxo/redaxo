@@ -257,6 +257,12 @@ class rex_setup
             return 0 == $userSql->getRows();
         } catch (rex_sql_could_not_connect_exception $e) {
             return true;
+        } catch (rex_sql_exception $e) {
+            $sql = $e->getSql();
+            if ($sql && rex_sql::ERRNO_TABLE_OR_VIEW_DOESNT_EXIST === $sql->getErrno()) {
+                return true;
+            }
+            throw $e;
         }
     }
 

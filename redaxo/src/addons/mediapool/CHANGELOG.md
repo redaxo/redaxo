@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.10.0 – XX.XX.2021
+---------------------------
+
+### Neu
+
+* Bei der Darstellung der Metabeschreibung im Backend werden HTML-Tags entfernt (@skerbis)
+
+
 Version 2.9.1 – 25.01.2021
 --------------------------
 

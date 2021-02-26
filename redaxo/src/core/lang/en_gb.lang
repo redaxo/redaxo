@@ -272,6 +272,7 @@ setup_security_deprecated_mariadb = The used MariaDB Version {0} version will no
 setup_session_autostart_warning = The php settings "session.auto_start" is activated. It is recommended to disable this for avoiding problems.
 
 sql_database_name_missing = Enter a database name!
+sql_database_host_invalid = "{0}" is not a valid MySQL host
 sql_database_already_exists = Database already exists!
 sql_database_required_version = The {0} version {1} is too old, you need at least MySQL {2} or MariaDB {3}!
 sql_unable_to_connect_database = Unable to establish a connection to the database!
@@ -344,6 +345,8 @@ package_is_plugin = The package has to be installed as a PlugIn "<b>{1}</b>" of 
 package_is_addon = The package has to be installed as AddOn "<b>{0}</b>"!
 package_install_cant_copy_files = An error occurred copying the /assets folder!
 package_install_cant_delete_files = An error occurred deleting the /assets folder!
+package_search_in_installer = Search for "{0}" in Installer
+package_jump_to = Jump to "{0}"
 package_requirement_wrong_format = The dependencies in package.yml must be in a valid array format!
 package_requirement_error_redaxo_version = This version of REDAXO (<b>{0}</b>) does not match the specified version requirements <b>{1}</b>!
 package_requirement_error_php_version = The PHP version (<b>{0}</b>) does not match the specified version requirements <b>{1}</b>!

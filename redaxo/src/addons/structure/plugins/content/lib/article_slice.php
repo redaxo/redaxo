@@ -430,9 +430,8 @@ class rex_article_slice
             return $this->values[$index - 1];
         }
 
-        $attrName = '_' . $index;
-        if (isset($this->$attrName)) {
-            return $this->$attrName;
+        if (isset($this->$index)) {
+            return $this->$index;
         }
 
         return null;

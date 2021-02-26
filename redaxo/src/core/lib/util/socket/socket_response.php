@@ -34,7 +34,7 @@ class rex_socket_response
 
         $this->stream = $stream;
 
-        while (!feof($this->stream) && false === strpos($this->header, "\r\n\r\n")) {
+        while (!feof($this->stream) && !str_contains($this->header, "\r\n\r\n")) {
             $this->header .= fgets($this->stream);
         }
         $this->header = rtrim($this->header);

@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.8.0 – XX.XX.2021
+--------------------------
+
+### Neu
+
+* Die CSS-Datei wird nur noch auf der Content-Page eingebunden, da sie nur dort benötigt wird (@aeberhard)
+
+
 Version 2.7.3 – 25.01.2021
 --------------------------
 

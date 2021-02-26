@@ -130,7 +130,8 @@
     .input-group-btn .btn-view {
         background-color: $color-a;
         color: $color-a-darker;
-        border: none;
+        border-color: $color-a-dark;
+        border-left: none;
         transition: background-color 100ms ease-out;
         &:hover {
             background-color: $color-a-light;

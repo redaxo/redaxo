@@ -127,7 +127,7 @@ media_manager_effect_workspace_pos = Position
 
 media_manager_effect_folder = Alternativ mapp default: "media"
 
-media_manager_effect_mediapath =
+media_manager_effect_mediapath = Fil: Anpassa sökväg
 media_manager_effect_mediapath_path = Mediamapp
 media_manager_effect_mediapath_path_notice = Vägen till bildkällan i förhållande till REDAXO-installationen istället för <code> media </ code>, t.ex. katalogen <code> images </ code>. Ledande / avslutande snedstreck (<code> / </ code>) krävs inte.
 

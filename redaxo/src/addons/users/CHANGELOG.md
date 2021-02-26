@@ -1,6 +1,16 @@
 Changelog
 =========
 
+Version 2.8.0 – XX.XX.2021
+--------------------------
+
+### Neu
+
+* Aktive/inaktive Benutzer werden in Liste über Iconvarianten unterschieden (@schuer)
+* Passwortregeln werden unterhalb des Passwortfelds angezeigt (@gharlan)
+* Passende `autocomplete`-Attribute werden gesetzt (@alxndr-w)
+
+
 Version 2.7.1 – 11.11.2020
 --------------------------
 

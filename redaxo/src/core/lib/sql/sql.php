@@ -15,6 +15,7 @@ class rex_sql implements Iterator
     public const MARIADB = 'MariaDB';
 
     public const ERROR_VIOLATE_UNIQUE_KEY = 1062;
+    public const ERRNO_TABLE_OR_VIEW_DOESNT_EXIST = '42S02';
 
     /**
      * Default SQL datetime format.
@@ -167,7 +168,7 @@ class rex_sql implements Iterator
         }
 
         $port = null;
-        if (false !== strpos($host, ':')) {
+        if (str_contains($host, ':')) {
             [$host, $port] = explode(':', $host, 2);
         }
 
@@ -572,7 +573,7 @@ class rex_sql implements Iterator
         if ('' == $value) {
             return true;
         }
-        return false !== strpos($this->getValue($column), $value);
+        return str_contains((string) $this->getValue($column), $value);
     }
 
     /**
@@ -726,7 +727,7 @@ class rex_sql implements Iterator
 
         // check if there is an table alias defined
         // if not, try to guess the tablename
-        if (false === strpos($column, '.')) {
+        if (!str_contains($column, '.')) {
             $tables = $this->getTablenames();
             foreach ($tables as $table) {
                 if (in_array($table . '.' . $column, $this->rawFieldnames)) {
@@ -829,7 +830,7 @@ class rex_sql implements Iterator
             return true;
         }
 
-        if (false !== strpos($column, '.')) {
+        if (str_contains($column, '.')) {
             $parts = explode('.', $column);
             return in_array($parts[0], $this->getTablenames()) && in_array($parts[1], $this->getFieldnames());
         }
@@ -1841,6 +1842,11 @@ class rex_sql implements Iterator
         return new $class($db);
     }
 
+    public static function closeConnection(int $db = 1): void
+    {
+        unset(self::$pdo[$db]);
+    }
+
     /**
      * Prueft die uebergebenen Zugangsdaten auf gueltigkeit und legt ggf. die
      * Datenbank an.
@@ -1859,7 +1865,7 @@ class rex_sql implements Iterator
             return rex_i18n::msg('sql_database_name_missing');
         }
 
-        if (false !== strpos($host, ':')) {
+        if (str_contains($host, ':')) {
             [$hostName, $port] = explode(':', $host, 2);
             if (!filter_var($hostName, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME)) {
                 return rex_i18n::msg('sql_database_host_invalid', $hostName);
@@ -1889,13 +1895,13 @@ class rex_sql implements Iterator
             // see client mysql error codes at https://dev.mysql.com/doc/mysql-errors/8.0/en/client-error-reference.html
 
             // ER_BAD_HOST
-            if (false !== strpos($e->getMessage(), 'SQLSTATE[HY000] [2002]')) {
+            if (str_contains($e->getMessage(), 'SQLSTATE[HY000] [2002]')) {
                 // unable to connect to db server
                 $errMsg = rex_i18n::msg('sql_unable_to_connect_database');
             }
             // ER_BAD_DB_ERROR
-            elseif (false !== strpos($e->getMessage(), 'SQLSTATE[HY000] [1049]') ||
-                    false !== strpos($e->getMessage(), 'SQLSTATE[42000]')
+            elseif (str_contains($e->getMessage(), 'SQLSTATE[HY000] [1049]') ||
+                    str_contains($e->getMessage(), 'SQLSTATE[42000]')
             ) {
                 if ($createDb) {
                     try {
@@ -1922,17 +1928,17 @@ class rex_sql implements Iterator
             // ER_ACCESS_DENIED_ERROR
             // ER_DBACCESS_DENIED_ERROR
             elseif (
-                false !== strpos($e->getMessage(), 'SQLSTATE[HY000] [1045]') ||
-                false !== strpos($e->getMessage(), 'SQLSTATE[28000]') ||
-                false !== strpos($e->getMessage(), 'SQLSTATE[HY000] [1044]') ||
-                false !== strpos($e->getMessage(), 'SQLSTATE[42000]')
+                str_contains($e->getMessage(), 'SQLSTATE[HY000] [1045]') ||
+                str_contains($e->getMessage(), 'SQLSTATE[28000]') ||
+                str_contains($e->getMessage(), 'SQLSTATE[HY000] [1044]') ||
+                str_contains($e->getMessage(), 'SQLSTATE[42000]')
             ) {
                 // unable to connect to db
                 $errMsg = rex_i18n::msg('sql_unable_to_connect_database');
             }
             // ER_ACCESS_TO_SERVER_ERROR
             elseif (
-                false !== strpos($e->getMessage(), 'SQLSTATE[HY000] [2005]')
+                str_contains($e->getMessage(), 'SQLSTATE[HY000] [2005]')
             ) {
                 // unable to connect to server
                 $errMsg = rex_i18n::msg('sql_unable_to_connect_server');
