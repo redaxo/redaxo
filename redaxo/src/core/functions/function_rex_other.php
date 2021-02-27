@@ -23,6 +23,7 @@ function rex_delete_cache()
         ->ignoreSystemStuff(false);
     rex_dir::deleteIterator($finder);
 
+    rex_autoload::removeCache();
     rex_clang::reset();
 
     if (function_exists('opcache_reset')) {
