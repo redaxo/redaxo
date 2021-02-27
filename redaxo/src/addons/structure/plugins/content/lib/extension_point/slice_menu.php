@@ -194,7 +194,7 @@ class rex_extension_point_slice_menu extends rex_extension_point
         return array_merge($this->additionalActions, $menuItemsEp);
     }
 
-    public function setAdditionalActions(array $additionalActions)
+    public function setAdditionalActions(array $additionalActions): void
     {
         $this->additionalActions = $additionalActions;
     }
