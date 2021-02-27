@@ -175,11 +175,10 @@ class rex_extension_point_slice_menu extends rex_extension_point
 
     public function getAdditionalActions(): array
     {
-       
-            // ----- EXTENSION POINT / for BC reasons we wrap the old and pre-existing EP here
-            $menuItemsEp = [];
+        // ----- EXTENSION POINT / for BC reasons we wrap the old and pre-existing EP here
+        $menuItemsEp = [];
 
-            $menuItemsEp = rex_extension::registerPoint(new rex_extension_point(
+        $menuItemsEp = rex_extension::registerPoint(new rex_extension_point(
                 'STRUCTURE_CONTENT_SLICE_MENU',
                 $menuItemsEp,
                 [
@@ -191,7 +190,6 @@ class rex_extension_point_slice_menu extends rex_extension_point
                     'perm' => $this->hasPerm,
                 ]
             ));
-        
 
         return array_merge($this->additionalActions, $menuItemsEp);
     }
@@ -201,9 +199,9 @@ class rex_extension_point_slice_menu extends rex_extension_point
         $this->additionalActions = $additionalActions;
     }
 
-public function addAdditionalActions(array $additionalActions)
+    public function addAdditionalActions(array $additionalActions)
     {
-        $this->additionalActions = array_merge($this->additionalActions , $additionalActions);
+        $this->additionalActions = array_merge($this->additionalActions, $additionalActions);
     }
 
     public function getContext(): rex_context
