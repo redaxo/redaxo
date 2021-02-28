@@ -36,9 +36,6 @@ class rex_setup
         // initial purge all generated files
         rex_delete_cache();
 
-        // delete backend session
-        rex_backend_login::deleteSession();
-
         // copy alle media files of the current rex-version into redaxo_media
         rex_dir::copy(rex_path::core('assets'), rex_path::coreAssets());
         // in a regular release the folder will never be empty, because we ship it prefilled.
