@@ -180,7 +180,10 @@ class rex_log_file implements Iterator
      */
     public static function delete($path)
     {
-        return rex_file::delete($path) && rex_file::delete($path . '.2');
+        if (!rex_file::delete($path)) {
+            return false;
+        }
+        return rex_file::delete($path . '.2');
     }
 }
 

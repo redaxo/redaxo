@@ -283,8 +283,13 @@ class rex_socket
 
             $this->openConnection();
             $response = $this->writeRequest($method, $this->path, $this->headers, $data);
-
-            if ('GET' !== $method || !$this->followRedirects || !$response->isRedirection()) {
+            if ('GET' !== $method) {
+                return $response;
+            }
+            if (!$this->followRedirects) {
+                return $response;
+            }
+            if (!$response->isRedirection()) {
                 return $response;
             }
 
@@ -298,10 +303,13 @@ class rex_socket
                 $socket = self::factory($this->host, $this->port, $this->ssl)->setPath($location);
             } else {
                 $socket = self::factoryUrl($location);
-
-                if ($this->ssl && !$socket->ssl) {
-                    return $response;
+                if (!$this->ssl) {
+                    return;
                 }
+                if ($socket->ssl) {
+                    return;
+                }
+                return $response;
             }
 
             $socket->setTimeout($this->timeout);
@@ -390,11 +398,13 @@ class rex_socket
         }
 
         $meta = stream_get_meta_data($this->stream);
-        if (isset($meta['timed_out']) && $meta['timed_out']) {
-            throw new rex_socket_exception('Timeout!');
+        if (!isset($meta['timed_out'])) {
+            return new rex_socket_response($this->stream);
         }
-
-        return new rex_socket_response($this->stream);
+        if (!$meta['timed_out']) {
+            return new rex_socket_response($this->stream);
+        }
+        throw new rex_socket_exception('Timeout!');
     }
 
     /**

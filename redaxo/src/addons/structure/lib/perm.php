@@ -12,7 +12,10 @@ class rex_structure_perm extends rex_complex_perm
      */
     public function hasCategoryPerm($categoryId)
     {
-        if ($this->hasAll() || in_array($categoryId, $this->perms)) {
+        if ($this->hasAll()) {
+            return true;
+        }
+        if (in_array($categoryId, $this->perms)) {
             return true;
         }
         if ($c = rex_category::get($categoryId)) {
@@ -46,7 +49,10 @@ class rex_structure_perm extends rex_complex_perm
      */
     public function hasMountpoints()
     {
-        return !$this->hasAll() && count($this->perms) > 0;
+        if ($this->hasAll()) {
+            return false;
+        }
+        return count($this->perms) > 0;
     }
 
     /**

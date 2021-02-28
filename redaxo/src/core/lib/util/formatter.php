@@ -373,10 +373,12 @@ abstract class rex_formatter
      */
     private static function getTimestamp($value)
     {
-        if (is_int($value) || ctype_digit($value)) {
+        if (is_int($value)) {
             return (int) $value;
         }
-
+        if (ctype_digit($value)) {
+            return (int) $value;
+        }
         $time = strtotime($value);
 
         if (false === $time) {

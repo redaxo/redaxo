@@ -19,6 +19,10 @@ if ($addon->hasConfig('log')) {
 
 $oldBackUpFolder = rex_path::addonData('phpmailer', 'mail_backup');
 $logFolder = rex_path::addonData('phpmailer', 'mail_log');
-if (is_dir($oldBackUpFolder) && !is_dir($logFolder)) {
-    rename($oldBackUpFolder, $logFolder);
+if (!is_dir($oldBackUpFolder)) {
+    return;
 }
+if (is_dir($logFolder)) {
+    return;
+}
+rename($oldBackUpFolder, $logFolder);

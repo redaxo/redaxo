@@ -93,8 +93,10 @@ class rex_backup
 
             return $return;
         };
-
-        if ('' == $filename || !self::isFilenameValid(self::IMPORT_DB, $filename)) {
+        if ('' == $filename) {
+            return $returnError(rex_i18n::msg('backup_no_import_file_chosen_or_wrong_version') . '<br>');
+        }
+        if (!self::isFilenameValid(self::IMPORT_DB, $filename)) {
             return $returnError(rex_i18n::msg('backup_no_import_file_chosen_or_wrong_version') . '<br>');
         }
 
@@ -436,11 +438,15 @@ class rex_backup
             // - addons verzeichnis im mediafolder (wird bei addoninstallation wiedererstellt)
             // - svn infos
             // - tmp prefix Dateien
-
-            if ('.' == $file || '..' == $file || '.svn' == $file) {
+            if ('.' == $file) {
                 continue;
             }
-
+            if ('..' == $file) {
+                continue;
+            }
+            if ('.svn' == $file) {
+                continue;
+            }
             if (substr($file, 0, strlen(rex::getTempPrefix())) == rex::getTempPrefix()) {
                 continue;
             }

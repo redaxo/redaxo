@@ -101,10 +101,13 @@ class rex_cronjob_manager
                 $success = false;
                 $message = $t->getMessage();
             }
-
-            if ('' == $message && !$success) {
-                $message = 'Unknown error';
+            if ('' != $message) {
+                return;
             }
+            if ($success) {
+                return;
+            }
+            $message = 'Unknown error';
         }
 
         if ($log) {
@@ -171,10 +174,12 @@ class rex_cronjob_manager
      */
     public static function getCurrentEnvironment()
     {
-        if (defined('REX_CRONJOB_SCRIPT') && REX_CRONJOB_SCRIPT) {
-            return 'script';
+        if (!defined('REX_CRONJOB_SCRIPT')) {
+            return rex::isBackend() ? 'backend' : 'frontend';
         }
-
-        return rex::isBackend() ? 'backend' : 'frontend';
+        if (!REX_CRONJOB_SCRIPT) {
+            return rex::isBackend() ? 'backend' : 'frontend';
+        }
+        return 'script';
     }
 }

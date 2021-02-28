@@ -15,18 +15,24 @@
  */
 function rex_metainfo_add_field_type($label, $dbtype, $dblength)
 {
-    if (!is_string($label) || empty($label)) {
+    if (!is_string($label)) {
         return rex_i18n::msg('minfo_field_error_invalid_name');
     }
-
-    if (!is_string($dbtype) || empty($dbtype)) {
+    if (empty($label)) {
+        return rex_i18n::msg('minfo_field_error_invalid_name');
+    }
+    if (!is_string($dbtype)) {
         return rex_i18n::msg('minfo_field_error_invalid_type');
     }
-
-    if (!is_int($dblength) || empty($dblength)) {
+    if (empty($dbtype)) {
+        return rex_i18n::msg('minfo_field_error_invalid_type');
+    }
+    if (!is_int($dblength)) {
         return rex_i18n::msg('minfo_field_error_invalid_length');
     }
-
+    if (empty($dblength)) {
+        return rex_i18n::msg('minfo_field_error_invalid_length');
+    }
     $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'metainfo_type WHERE label=:label LIMIT 1';
     $sql = rex_sql::factory();
     $sql->setQuery($qry, [':label' => $label]);
@@ -52,10 +58,12 @@ function rex_metainfo_add_field_type($label, $dbtype, $dblength)
  */
 function rex_metainfo_delete_field_type($fieldTypeId)
 {
-    if (!is_int($fieldTypeId) || empty($fieldTypeId)) {
+    if (!is_int($fieldTypeId)) {
         return rex_i18n::msg('minfo_field_error_invalid_typeid');
     }
-
+    if (empty($fieldTypeId)) {
+        return rex_i18n::msg('minfo_field_error_invalid_typeid');
+    }
     $sql = rex_sql::factory();
     $sql->setTable(rex::getTablePrefix() . 'metainfo_type');
     $sql->setWhere(['id' => $fieldTypeId]);

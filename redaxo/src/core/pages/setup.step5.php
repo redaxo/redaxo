@@ -68,10 +68,12 @@ if (is_dir($exportDir)) {
 
     if ($handle = opendir($exportDir)) {
         while (false !== ($file = readdir($handle))) {
-            if ('.' == $file || '..' == $file) {
+            if ('.' == $file) {
                 continue;
             }
-
+            if ('..' == $file) {
+                continue;
+            }
             $isSql = ('.sql' == substr($file, strlen($file) - 4));
             if ($isSql) {
                 // cut .sql

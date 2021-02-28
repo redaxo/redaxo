@@ -585,8 +585,13 @@ function rex_mediapool_Syncform($rexFileCategory)
 function rex_mediapool_isAllowedMediaType($filename, array $args = [])
 {
     $fileExt = mb_strtolower(rex_file::extension($filename));
-
-    if ('' === $filename || str_contains($fileExt, ' ') || '' === $fileExt) {
+    if ('' === $filename) {
+        return false;
+    }
+    if (str_contains($fileExt, ' ')) {
+        return false;
+    }
+    if ('' === $fileExt) {
         return false;
     }
 

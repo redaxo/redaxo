@@ -472,8 +472,11 @@ class rex_category_service
 
         $tcat = rex_sql::factory();
         $tcat->setQuery('select * from ' . rex::getTablePrefix() . 'article where startarticle=1 and id=? and clang_id=?', [$toCat, rex_clang::getStartId()]);
-
-        if (1 != $fcat->getRows() || (1 != $tcat->getRows() && 0 != $toCat)) {
+        if (1 != $fcat->getRows()) {
+            // eine der kategorien existiert nicht
+            return false;
+        }
+        if (1 != $tcat->getRows() && 0 != $toCat) {
             // eine der kategorien existiert nicht
             return false;
         }

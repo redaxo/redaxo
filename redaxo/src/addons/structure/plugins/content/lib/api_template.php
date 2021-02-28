@@ -197,11 +197,16 @@ class rex_template
     public static function hasModule(array $templateAttributes, $ctype, $moduleId)
     {
         $templateModules = $templateAttributes['modules'] ?? [];
-        if (!isset($templateModules[$ctype]['all']) || 1 == $templateModules[$ctype]['all']) {
+        if (!isset($templateModules[$ctype]['all'])) {
             return true;
         }
-
-        return is_array($templateModules[$ctype]) && in_array($moduleId, $templateModules[$ctype]);
+        if (1 == $templateModules[$ctype]['all']) {
+            return true;
+        }
+        if (!is_array($templateModules[$ctype])) {
+            return false;
+        }
+        return in_array($moduleId, $templateModules[$ctype]);
     }
 
     /**

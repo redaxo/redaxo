@@ -229,10 +229,12 @@ class rex_fragment
      */
     public function __get($name)
     {
-        if (isset($this->vars[$name]) || array_key_exists($name, $this->vars)) {
+        if (isset($this->vars[$name])) {
             return $this->vars[$name];
         }
-
+        if (array_key_exists($name, $this->vars)) {
+            return $this->vars[$name];
+        }
         trigger_error(sprintf('Undefined variable "%s" in rex_fragment "%s"', $name, $this->filename), E_USER_WARNING);
 
         return null;

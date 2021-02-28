@@ -81,8 +81,10 @@ class rex_backend_password_policy extends rex_password_policy
         if (true !== $msg = parent::check($password, $id)) {
             return $msg;
         }
-
-        if (null === $id || !isset($this->noReuseOfLast) && !isset($this->noReuseWithin)) {
+        if (null === $id) {
+            return true;
+        }
+        if (!isset($this->noReuseOfLast) && !isset($this->noReuseWithin)) {
             return true;
         }
 

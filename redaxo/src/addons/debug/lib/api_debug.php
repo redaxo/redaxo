@@ -9,10 +9,12 @@ class rex_api_debug extends rex_api_function
 {
     public function execute()
     {
-        if (!rex::isDebugMode() || !(rex::getUser() && rex::getUser()->isAdmin())) {
+        if (!rex::isDebugMode()) {
             return new rex_api_result(false);
         }
-
+        if (!(rex::getUser() && rex::getUser()->isAdmin())) {
+            return new rex_api_result(false);
+        }
         $debug = rex_debug_clockwork::getHelper();
 
         rex_response::sendJson($debug->getMetadata());

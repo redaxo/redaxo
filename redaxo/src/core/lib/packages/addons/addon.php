@@ -68,7 +68,10 @@ class rex_addon extends rex_package implements rex_addon_interface
      */
     public static function exists($addon)
     {
-        return is_string($addon) && isset(self::$addons[$addon]);
+        if (!is_string($addon)) {
+            return false;
+        }
+        return isset(self::$addons[$addon]);
     }
 
     /**
@@ -191,7 +194,10 @@ class rex_addon extends rex_package implements rex_addon_interface
      */
     public function pluginExists($plugin)
     {
-        return is_string($plugin) && isset($this->plugins[$plugin]);
+        if (!is_string($plugin)) {
+            return false;
+        }
+        return isset($this->plugins[$plugin]);
     }
 
     /**

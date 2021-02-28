@@ -158,9 +158,16 @@ $tableSelect->setAttribute('class', 'form-control');
 $tables = rex_sql::factory()->getTables();
 foreach ($tables as $table) {
     $tableSelect->addOption($table, $table);
-    if ($table != rex::getTable('user') && str_starts_with($table, rex::getTablePrefix()) && !str_starts_with($table, rex::getTablePrefix() . rex::getTempPrefix())) {
-        $tableSelect->setSelected($table);
+    if ($table == rex::getTable('user')) {
+        continue;
     }
+    if (!str_starts_with($table, rex::getTablePrefix())) {
+        continue;
+    }
+    if (str_starts_with($table, rex::getTablePrefix() . rex::getTempPrefix())) {
+        continue;
+    }
+    $tableSelect->setSelected($table);
 }
 
 $formElements = [];

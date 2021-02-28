@@ -79,13 +79,11 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
 
     public function renderFormItem($field, $tag, $tagAttr, $id, $label, $labelIt, $inputType)
     {
-        $element = $field;
-
         if ('legend' == $inputType) {
-            $element = '<h3 class="form-legend">' . $label . '</h3>';
+            return '<h3 class="form-legend">' . $label . '</h3>';
         }
 
-        return $element;
+        return $field;
     }
 
     public function extendForm(rex_extension_point $ep)
@@ -107,9 +105,11 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
                     </div>
                 </td>
             </tr>';
-
         // Bei CAT_ADDED und CAT_UPDATED nur speichern und kein Formular zurückgeben
-        if ('CAT_UPDATED' == $ep->getName() || 'CAT_ADDED' == $ep->getName()) {
+        if ('CAT_UPDATED' == $ep->getName()) {
+            return $ep->getSubject();
+        }
+        if ('CAT_ADDED' == $ep->getName()) {
             return $ep->getSubject();
         }
         return $ep->getSubject() . $result;

@@ -212,7 +212,10 @@ abstract class rex_api_function
         }
 
         $result = $apiFunc->getResult();
-        return $result && null !== $result->getMessage();
+        if (!$result) {
+            return false;
+        }
+        return null !== $result->getMessage();
     }
 
     /**

@@ -79,10 +79,12 @@ class rex_stream
      */
     public function stream_open($path, $mode, $options, &$openedPath)
     {
-        if (!isset(self::$nextContent[$path]) || !is_string(self::$nextContent[$path])) {
+        if (!isset(self::$nextContent[$path])) {
             return false;
         }
-
+        if (!is_string(self::$nextContent[$path])) {
+            return false;
+        }
         $this->position = 0;
         $this->content = self::$nextContent[$path];
         //unset(self::$nextContent[$path]);

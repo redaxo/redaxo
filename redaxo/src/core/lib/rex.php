@@ -113,9 +113,13 @@ class rex
                 }
                 break;
             case 'console':
-                if (null !== $value && !$value instanceof rex_console_application) {
-                    throw new InvalidArgumentException(sprintf('"%s" property: expecting $value to be an instance of rex_console_application, "%s" found!', $key, is_object($value) ? get_class($value) : gettype($value)));
+                if (null === $value) {
+                    return;
                 }
+                if ($value instanceof rex_console_application) {
+                    return;
+                }
+                throw new InvalidArgumentException(sprintf('"%s" property: expecting $value to be an instance of rex_console_application, "%s" found!', $key, is_object($value) ? get_class($value) : gettype($value)));
         }
         $exists = isset(self::$properties[$key]);
         self::$properties[$key] = $value;
@@ -152,7 +156,10 @@ class rex
      */
     public static function hasProperty($key)
     {
-        return is_string($key) && isset(self::$properties[$key]);
+        if (!is_string($key)) {
+            return false;
+        }
+        return isset(self::$properties[$key]);
     }
 
     /**
@@ -256,7 +263,13 @@ class rex
      */
     public static function isSafeMode()
     {
-        return self::isBackend() && PHP_SESSION_ACTIVE == session_status() && rex_session('safemode', 'boolean', false);
+        if (!self::isBackend()) {
+            return false;
+        }
+        if (PHP_SESSION_ACTIVE != session_status()) {
+            return false;
+        }
+        return (bool) rex_session('safemode', 'boolean', false);
     }
 
     /**

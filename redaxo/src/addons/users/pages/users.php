@@ -76,9 +76,13 @@ $selStartpage->addOption('default', '');
 $startpages = [];
 foreach (rex_be_controller::getPages() as $page => $pageObj) {
     /** @var rex_be_page $pageObj */
-    if ($pageObj->hasNavigation() && !$pageObj->isHidden()) {
-        $startpages[$page] = $pageObj->getTitle();
+    if (!$pageObj->hasNavigation()) {
+        continue;
     }
+    if ($pageObj->isHidden()) {
+        continue;
+    }
+    $startpages[$page] = $pageObj->getTitle();
 }
 asort($startpages);
 $selStartpage->addOptions($startpages);
@@ -637,7 +641,10 @@ if ($SHOW) {
     $list->setColumnParams('funcs', ['FUNC_DELETE' => '1', 'user_id' => '###id###'] + rex_csrf_token::factory('user_delete')->getUrlParams());
     $list->setColumnFormat('funcs', 'custom', static function ($params) {
         $list = $params['list'];
-        if ($list->getValue('id') == rex::getUser()->getId() || $list->getValue('admin') && !rex::getUser()->isAdmin()) {
+        if ($list->getValue('id') == rex::getUser()->getId()) {
+            return '<span class="rex-text-disabled"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('user_delete') . '</span>';
+        }
+        if ($list->getValue('admin') && !rex::getUser()->isAdmin()) {
             return '<span class="rex-text-disabled"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('user_delete') . '</span>';
         }
         return $list->getColumnLink('funcs', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('user_delete'));
@@ -648,10 +655,12 @@ if ($SHOW) {
         $list->addColumn('impersonate', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete'));
         $list->setColumnLayout('impersonate', ['', '<td class="rex-table-action">###VALUE###</td>']);
         $list->setColumnFormat('impersonate', 'custom', static function ($params) use ($list) {
-            if (rex::getImpersonator() || $list->getValue('id') == rex::getUser()->getId()) {
+            if (rex::getImpersonator()) {
                 return '<span class="rex-text-disabled"><i class="rex-icon rex-icon-sign-in"></i> ' . rex_i18n::msg('login_impersonate') . '</span>';
             }
-
+            if ($list->getValue('id') == rex::getUser()->getId()) {
+                return '<span class="rex-text-disabled"><i class="rex-icon rex-icon-sign-in"></i> ' . rex_i18n::msg('login_impersonate') . '</span>';
+            }
             $url = rex_url::currentBackendPage(['_impersonate' => $list->getValue('id')] + rex_api_user_impersonate::getUrlParams());
             return sprintf('<a class="rex-link-expanded" href="%s" data-pjax="false"><i class="rex-icon rex-icon-sign-in"></i> %s</a>', $url, rex_i18n::msg('login_impersonate'));
         });

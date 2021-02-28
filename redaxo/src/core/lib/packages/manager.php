@@ -578,7 +578,10 @@ abstract class rex_package_manager
     {
         $conflicts = $this->package->getProperty('conflicts', []);
         $package = rex_package::get($packageId);
-        if (!isset($conflicts['packages'][$packageId]) || !$package->isAvailable()) {
+        if (!isset($conflicts['packages'][$packageId])) {
+            return true;
+        }
+        if (!$package->isAvailable()) {
             return true;
         }
         $constraints = $conflicts['packages'][$packageId];
@@ -604,10 +607,12 @@ abstract class rex_package_manager
         $state = [];
 
         foreach (rex_package::getAvailablePackages() as $package) {
-            if ($package === $this->package || $package->getAddon() === $this->package) {
+            if ($package === $this->package) {
                 continue;
             }
-
+            if ($package->getAddon() === $this->package) {
+                continue;
+            }
             $requirements = $package->getProperty('requires', []);
             if (isset($requirements['packages'][$this->package->getPackageId()])) {
                 $state[] = rex_i18n::msg($i18nPrefix . $package->getType(), $package->getPackageId());
@@ -750,9 +755,13 @@ abstract class rex_package_manager
                 $config[$addonName]['plugins'][$pluginName]['install'] = $plugin->isInstalled();
                 $config[$addonName]['plugins'][$pluginName]['status'] = $plugin->getProperty('status');
             }
-            if (isset($config[$addonName]['plugins']) && is_array($config[$addonName]['plugins'])) {
-                ksort($config[$addonName]['plugins']);
+            if (!isset($config[$addonName]['plugins'])) {
+                continue;
             }
+            if (!is_array($config[$addonName]['plugins'])) {
+                continue;
+            }
+            ksort($config[$addonName]['plugins']);
         }
         ksort($config);
 

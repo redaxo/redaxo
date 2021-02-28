@@ -405,7 +405,10 @@ class rex_i18n
         if (is_string($array)) {
             return self::translate($array, $escape, $i18nFunction);
         }
-        if (null === $array || is_scalar($array)) {
+        if (null === $array) {
+            return $array;
+        }
+        if (is_scalar($array)) {
             return $array;
         }
         throw new InvalidArgumentException('Expecting $text to be a String or Array of Scalar, "' . gettype($array) . '" given!');

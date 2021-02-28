@@ -27,10 +27,12 @@ class rex_effect_rounded_corners extends rex_effect_abstract
         $colour = 'ffffff';
 
         foreach ($radius as $k => $r) {
-            if (empty($r) || $r < 0) {
+            if (empty($r)) {
                 continue;
             }
-
+            if ($r < 0) {
+                continue;
+            }
             $cornerImage = imagecreatetruecolor($r, $r);
 
             $clearColour = imagecolorallocate($cornerImage, 0, 0, 0);

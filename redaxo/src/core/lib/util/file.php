@@ -93,10 +93,12 @@ class rex_file
     public static function put($file, $content)
     {
         return rex_timer::measure(__METHOD__, static function () use ($file, $content) {
-            if (!rex_dir::create(dirname($file)) || is_file($file) && !is_writable($file)) {
+            if (!rex_dir::create(dirname($file))) {
                 return false;
             }
-
+            if (is_file($file) && !is_writable($file)) {
+                return false;
+            }
             // mimic a atomic write
             $tmpFile = @tempnam(dirname($file), rex_path::basename($file));
             if (false !== file_put_contents($tmpFile, $content) && rename($tmpFile, $file)) {

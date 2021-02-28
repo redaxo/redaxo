@@ -266,13 +266,15 @@ class rex_sql_util
                 $time0 = $time1;
                 header('X-pmaPing: Pong');
             } // end if
-        } // end for
-
-        // add any rest to the returned array
-        if (!empty($sql) && preg_match('@[^[:space:]]+@', $sql)) {
-            $queries[] = ['query' => $sql, 'empty' => $nothing];
         }
-
-        return true;
+        // end for
+        // add any rest to the returned array
+        if (empty($sql)) {
+            return true;
+        }
+        if (!preg_match('@[^[:space:]]+@', $sql)) {
+            return true;
+        }
+        $queries[] = ['query' => $sql, 'empty' => $nothing];
     }
 }

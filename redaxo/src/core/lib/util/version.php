@@ -91,8 +91,10 @@ class rex_version
 
         $command = 'cd '. escapeshellarg($path).' && '.escapeshellarg($git).' ls-remote --get-url';
         $remote = @exec($command, $output, $exitCode);
-
-        if (0 !== $exitCode || !preg_match('{github.com[:/]'.preg_quote($repo).'\.git$}i', $remote)) {
+        if (0 !== $exitCode) {
+            return null;
+        }
+        if (!preg_match('{github.com[:/]'.preg_quote($repo).'\.git$}i', $remote)) {
             return null;
         }
 

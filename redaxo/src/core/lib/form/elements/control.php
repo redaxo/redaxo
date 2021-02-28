@@ -117,7 +117,10 @@ class rex_form_control_element extends rex_form_element
      */
     public function submitted($element)
     {
-        return is_object($element) && '' != rex_post($element->getAttribute('name'), 'string');
+        if (!is_object($element)) {
+            return false;
+        }
+        return '' != rex_post($element->getAttribute('name'), 'string');
     }
 
     public function saved()

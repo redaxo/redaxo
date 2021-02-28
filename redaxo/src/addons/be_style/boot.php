@@ -35,9 +35,13 @@ if (rex::isBackend()) {
     });
 
     rex_extension::register('PACKAGES_INCLUDED', static function () use ($addon) {
-        if (rex::getUser() && $addon->getProperty('compile')) {
-            rex_be_style::compile();
+        if (!rex::getUser()) {
+            return;
         }
+        if (!$addon->getProperty('compile')) {
+            return;
+        }
+        rex_be_style::compile();
     });
 
     rex_view::addCssFile($addon->getAssetsUrl('css/styles.css'));

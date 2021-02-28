@@ -832,7 +832,10 @@ class rex_sql implements Iterator
 
         if (str_contains($column, '.')) {
             $parts = explode('.', $column);
-            return in_array($parts[0], $this->getTablenames()) && in_array($parts[1], $this->getFieldnames());
+            if (!in_array($parts[0], $this->getTablenames())) {
+                return false;
+            }
+            return in_array($parts[1], $this->getFieldnames());
         }
         return in_array($column, $this->getFieldnames());
     }

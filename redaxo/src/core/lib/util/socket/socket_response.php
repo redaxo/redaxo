@@ -82,7 +82,10 @@ class rex_socket_response
      */
     public function isInformational()
     {
-        return $this->statusCode >= 100 && $this->statusCode < 200;
+        if ($this->statusCode < 100) {
+            return false;
+        }
+        return $this->statusCode < 200;
     }
 
     /**
@@ -92,7 +95,10 @@ class rex_socket_response
      */
     public function isSuccessful()
     {
-        return $this->statusCode >= 200 && $this->statusCode < 300;
+        if ($this->statusCode < 200) {
+            return false;
+        }
+        return $this->statusCode < 300;
     }
 
     /**
@@ -102,7 +108,10 @@ class rex_socket_response
      */
     public function isRedirection()
     {
-        return $this->statusCode >= 300 && $this->statusCode < 400;
+        if ($this->statusCode < 300) {
+            return false;
+        }
+        return $this->statusCode < 400;
     }
 
     /**
@@ -112,7 +121,10 @@ class rex_socket_response
      */
     public function isClientError()
     {
-        return $this->statusCode >= 400 && $this->statusCode < 500;
+        if ($this->statusCode < 400) {
+            return false;
+        }
+        return $this->statusCode < 500;
     }
 
     /**
@@ -122,7 +134,10 @@ class rex_socket_response
      */
     public function isServerError()
     {
-        return $this->statusCode >= 500 && $this->statusCode < 600;
+        if ($this->statusCode < 500) {
+            return false;
+        }
+        return $this->statusCode < 600;
     }
 
     /**

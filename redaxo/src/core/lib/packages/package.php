@@ -218,7 +218,10 @@ abstract class rex_package implements rex_package_interface
      */
     public function isAvailable()
     {
-        return $this->isInstalled() && (bool) $this->getProperty('status', false);
+        if (!$this->isInstalled()) {
+            return false;
+        }
+        return (bool) $this->getProperty('status', false);
     }
 
     /**

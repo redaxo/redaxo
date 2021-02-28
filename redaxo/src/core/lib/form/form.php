@@ -250,11 +250,13 @@ class rex_form extends rex_form_base
 
     protected function getValue($name)
     {
-        if (1 == $this->sql->getRows() && $this->sql->hasValue($name)) {
-            return $this->sql->getValue($name);
+        if (1 != $this->sql->getRows()) {
+            return null;
         }
-
-        return null;
+        if (!$this->sql->hasValue($name)) {
+            return null;
+        }
+        return $this->sql->getValue($name);
     }
 
     /**
@@ -312,10 +314,13 @@ class rex_form extends rex_form_base
      */
     public function equals($form)
     {
-        return
-            $form instanceof self &&
-            $this->getTableName() == $form->getTableName() &&
-            $this->getWhereCondition() == $form->getWhereCondition();
+        if (!$form instanceof self) {
+            return false;
+        }
+        if ($this->getTableName() != $form->getTableName()) {
+            return false;
+        }
+        return $this->getWhereCondition() == $form->getWhereCondition();
     }
 
     /**

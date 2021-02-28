@@ -193,13 +193,14 @@ abstract class rex_structure_element
             if (!$metadata) {
                 return null;
             }
-
             // don't allow to retrieve non-categories (startarticle=0) as rex_category
-            if (!$metadata['startarticle'] && (rex_category::class === static::class || is_subclass_of(static::class, rex_category::class))) {
-                return null;
+            if ($metadata['startarticle']) {
+                return new $class($metadata);
             }
-
-            return new $class($metadata);
+            if (!(rex_category::class === static::class || is_subclass_of(static::class, rex_category::class))) {
+                return new $class($metadata);
+            }
+            return null;
         });
     }
 

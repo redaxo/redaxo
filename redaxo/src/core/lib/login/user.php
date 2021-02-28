@@ -218,10 +218,13 @@ class rex_user
         if ($this->hasRole()) {
             $result = $this->role->hasPerm($perm);
         }
-        if (!$result && in_array($perm, ['isAdmin', 'admin', 'admin[]'])) {
-            return $this->isAdmin();
+        if ($result) {
+            return $result;
         }
-        return $result;
+        if (!in_array($perm, ['isAdmin', 'admin', 'admin[]'])) {
+            return $result;
+        }
+        return $this->isAdmin();
     }
 
     /**

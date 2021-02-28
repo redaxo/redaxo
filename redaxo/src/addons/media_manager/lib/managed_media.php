@@ -349,8 +349,10 @@ class rex_managed_media
         }
         // suppress warning in case of corrupt/ missing exif data
         $exif = @exif_read_data($this->getSourcePath());
-
-        if (!isset($exif['Orientation']) || !in_array($exif['Orientation'], [3, 6, 8])) {
+        if (!isset($exif['Orientation'])) {
+            return;
+        }
+        if (!in_array($exif['Orientation'], [3, 6, 8])) {
             return;
         }
 

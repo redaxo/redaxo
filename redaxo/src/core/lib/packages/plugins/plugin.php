@@ -84,7 +84,10 @@ class rex_plugin extends rex_package implements rex_plugin_interface
      */
     public static function exists($addon, $plugin = null)
     {
-        return rex_addon::exists($addon) && rex_addon::get($addon)->pluginExists($plugin);
+        if (!rex_addon::exists($addon)) {
+            return false;
+        }
+        return rex_addon::get($addon)->pluginExists($plugin);
     }
 
     /**
@@ -160,7 +163,10 @@ class rex_plugin extends rex_package implements rex_plugin_interface
      */
     public function isAvailable()
     {
-        return $this->getAddon()->isAvailable() && parent::isAvailable();
+        if (!$this->getAddon()->isAvailable()) {
+            return false;
+        }
+        return parent::isAvailable();
     }
 
     /**
