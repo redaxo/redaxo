@@ -19,6 +19,7 @@ Version 2.12.0 – XX.XX.2021
 * Buttons in Input-Groups haben dieselbe Höhe wie die Inputs (@schuer)
 * Höhe der Breadcrumbs und Sprachauswahl optimiert (@schuer)
 * bootstrap-select: Es wurden ausschließlich die mitgelieferten deutschen Texte verwendet (@gharlan)
+* Während Update wurden Vendor-Files von bootstrap-select und fontawesome nicht korrekt aktualisiert (@gharlan)
 * Weitere Layoutoptimierungen (@schuer)
 * Customizer: Das Farbeingabefeld unterstützt zusätzlich den Standard-Colorpicker (@staabm)
 * Customizer: Codemirror-Update auf Version 5.58.3 (@aeberhard)
