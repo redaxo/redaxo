@@ -9,6 +9,7 @@ Version 2.12.0 – XX.XX.2021
 * In der Strukturübersicht werden leere Kategorien von solchen mit Kindelementen durch Iconvarianten unterschieden (@schuer)
 * Die Paginierung der Kategorien/Artikel kann über die AddOn-Property `rows_per_page` angepasst werden; der Default-Wert wurde auf 50 erhöht (@tyrant88)
 * Überschrift auf content-Page enthält Artikelnamen (@schuer)
+* Neuer EP `SLICE_MENU` (mit eigener Klasse `rex_extension_point_slice_menu`), als Weiterentwicklung von `STRUCTURE_CONTENT_SLICE_MENU` mit mehr Möglickeiten, die vorhandenen Buttons zu ändern/entfernen (@staabm)
 * Aus Templates/Modulen heraus kann neue Exception `rex_article_not_found_exception` geworfen werden, wodurch auf den Fehlerartikel gewechselt wird (@gharlan)
 * Wenn eine Sprache mit ID=0 (R4-Import) existiert, wird im Backend eine gesonderte Meldung ausgegeben (@staabm)
 
