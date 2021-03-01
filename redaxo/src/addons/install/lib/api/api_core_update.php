@@ -61,10 +61,10 @@ class rex_api_install_core_update extends rex_api_function
                     }
 
                     $config = rex_file::getConfig($addonPath . rex_package::FILE_PACKAGE);
-                    if (
-                        !isset($config['version']) ||
-                        rex_addon::exists($addonkey) && rex_version::compare($config['version'], rex_addon::get($addonkey)->getVersion(), '<')
-                    ) {
+                    if (!isset($config['version'])) {
+                        continue;
+                    }
+                    if (rex_addon::exists($addonkey) && rex_version::compare($config['version'], rex_addon::get($addonkey)->getVersion(), '<')) {
                         continue;
                     }
 

@@ -31,10 +31,13 @@ foreach ($this->elements as $element) {
     }
 
     $out .= '</div>';
-
-    if (isset($element['after']) && '' != $element['after']) {
-        $out .= $element['after'];
+    if (!isset($element['after'])) {
+        continue;
     }
+    if ('' == $element['after']) {
+        continue;
+    }
+    $out .= $element['after'];
 }
 
 echo $out;

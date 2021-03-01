@@ -41,10 +41,12 @@ abstract class rex_extension
 
         rex_timer::measure('EP: '.$name, static function () use ($extensionPoint, $name) {
             foreach ([self::EARLY, self::NORMAL, self::LATE] as $level) {
-                if (!isset(self::$extensions[$name][$level]) || !is_array(self::$extensions[$name][$level])) {
+                if (!isset(self::$extensions[$name][$level])) {
                     continue;
                 }
-
+                if (!is_array(self::$extensions[$name][$level])) {
+                    continue;
+                }
                 foreach (self::$extensions[$name][$level] as $extensionAndParams) {
                     [$extension, $params] = $extensionAndParams;
                     $extensionPoint->setExtensionParams($params);

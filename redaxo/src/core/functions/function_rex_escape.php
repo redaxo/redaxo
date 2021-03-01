@@ -140,12 +140,14 @@ function rex_escape($value, $strategy = 'html')
                  */
                 $chr = $matches[0];
                 $ord = ord($chr);
-
                 /*
                  * The following replaces characters undefined in HTML with the
                  * hex entity for the Unicode replacement character.
                  */
-                if (($ord <= 0x1f && "\t" != $chr && "\n" != $chr && "\r" != $chr) || ($ord >= 0x7f && $ord <= 0x9f)) {
+                if ($ord <= 0x1f && "\t" != $chr && "\n" != $chr && "\r" != $chr) {
+                    return '&#xFFFD;';
+                }
+                if ($ord >= 0x7f && $ord <= 0x9f) {
                     return '&#xFFFD;';
                 }
 

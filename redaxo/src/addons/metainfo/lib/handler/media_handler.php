@@ -151,10 +151,12 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
      */
     protected function handleSave(array $params, rex_sql $sqlFields)
     {
-        if ('post' != rex_request_method() || !isset($params['id'])) {
+        if ('post' != rex_request_method()) {
             return $params;
         }
-
+        if (!isset($params['id'])) {
+            return $params;
+        }
         $media = rex_sql::factory();
         //  $media->setDebug();
         $media->setTable(rex::getTablePrefix() . 'media');

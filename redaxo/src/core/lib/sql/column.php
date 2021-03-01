@@ -202,12 +202,21 @@ class rex_sql_column
      */
     public function equals(self $column)
     {
-        return
-            $this->name === $column->name &&
-            $this->type === $column->type &&
-            $this->nullable === $column->nullable &&
-            $this->default === $column->default &&
-            $this->extra === $column->extra &&
-            $this->comment === $column->comment;
+        if ($this->name !== $column->name) {
+            return false;
+        }
+        if ($this->type !== $column->type) {
+            return false;
+        }
+        if ($this->nullable !== $column->nullable) {
+            return false;
+        }
+        if ($this->default !== $column->default) {
+            return false;
+        }
+        if ($this->extra !== $column->extra) {
+            return false;
+        }
+        return $this->comment === $column->comment;
     }
 }

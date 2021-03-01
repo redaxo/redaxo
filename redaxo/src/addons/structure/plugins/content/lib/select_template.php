@@ -78,10 +78,13 @@ class rex_template_select extends rex_select
         if (!$selected || !isset($templates[$selected])) {
             $selected = rex_template::getDefaultId();
         }
-
-        if ($selected && isset($templates[$selected])) {
-            parent::setSelected($selected);
+        if (!$selected) {
+            return;
         }
+        if (!isset($templates[$selected])) {
+            return;
+        }
+        parent::setSelected($selected);
     }
 
     /**

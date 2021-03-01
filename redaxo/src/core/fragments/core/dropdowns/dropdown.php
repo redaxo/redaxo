@@ -45,6 +45,12 @@ $group = isset($this->group) && $this->group ? true : false;
             <li><?= $this->footer ?></li>
         <?php endif; ?>
     </ul>
-<?php if (!$toolbar && !$group): ?>
-</div>
-<?php endif;
+
+        if ($toolbar) {
+            return;
+        }
+        if ($group) {
+            return;
+        }
+        </div>
+

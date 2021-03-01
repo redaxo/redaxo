@@ -69,7 +69,10 @@ class rex_be_navigation
                 uasort($blockPages, static function (rex_be_page_main $a, rex_be_page_main $b) {
                     $aPrio = (int) $a->getPrio();
                     $bPrio = (int) $b->getPrio();
-                    if ($aPrio === $bPrio || ($aPrio <= 0 && $bPrio <= 0)) {
+                    if ($aPrio === $bPrio) {
+                        return strnatcasecmp($a->getTitle(), $b->getTitle());
+                    }
+                    if ($aPrio <= 0 && $bPrio <= 0) {
                         return strnatcasecmp($a->getTitle(), $b->getTitle());
                     }
 
@@ -109,7 +112,10 @@ class rex_be_navigation
         $navigation = [];
 
         foreach ($blockPages as $page) {
-            if ($page->isHidden() || !$page->checkPermission(rex::getUser())) {
+            if ($page->isHidden()) {
+                continue;
+            }
+            if (!$page->checkPermission(rex::getUser())) {
                 continue;
             }
             $n = [];

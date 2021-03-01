@@ -294,10 +294,21 @@ class rex_cronjob_manager_sql
      */
     public static function calculateNextTime(array $interval)
     {
-        if (empty($interval['minutes']) || empty($interval['hours']) || empty($interval['days']) || empty($interval['weekdays']) || empty($interval['months'])) {
+        if (empty($interval['minutes'])) {
             return null;
         }
-
+        if (empty($interval['hours'])) {
+            return null;
+        }
+        if (empty($interval['days'])) {
+            return null;
+        }
+        if (empty($interval['weekdays'])) {
+            return null;
+        }
+        if (empty($interval['months'])) {
+            return null;
+        }
         $date = new \DateTime('+5 min');
         $date->setTime((int) $date->format('G'), (int) floor((int) $date->format('i') / 5) * 5, 0);
 

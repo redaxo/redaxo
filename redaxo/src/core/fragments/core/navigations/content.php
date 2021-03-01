@@ -27,9 +27,19 @@ if (isset($this->right)) {
 
 foreach ($navigationArrays as $navigation) {
     foreach ($navigation as $navi) {
-        if (isset($navi['active']) && $navi['active'] && isset($navi['children']) && count($navi['children']) > 0) {
-            $navigationArrays['children'] = $navi['children'];
+        if (!isset($navi['active'])) {
+            continue;
         }
+        if (!$navi['active']) {
+            continue;
+        }
+        if (!isset($navi['children'])) {
+            continue;
+        }
+        if (count($navi['children']) <= 0) {
+            continue;
+        }
+        $navigationArrays['children'] = $navi['children'];
     }
 }
 

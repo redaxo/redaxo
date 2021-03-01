@@ -79,7 +79,10 @@ class rex_be_controller
         if (!is_array($page)) {
             $page = explode('/', $page);
         }
-        if (!isset($page[0]) || !isset(self::$pages[$page[0]])) {
+        if (!isset($page[0])) {
+            return null;
+        }
+        if (!isset(self::$pages[$page[0]])) {
             return null;
         }
         $obj = self::$pages[$page[0]];

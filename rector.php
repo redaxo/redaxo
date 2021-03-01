@@ -18,7 +18,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     // Define what rule sets will be applied
     $parameters->set(Option::SETS, [
-        // SetList::EARLY_RETURN,
+        SetList::EARLY_RETURN,
     ]);
 
     $parameters->set(OPTION::OPTION_AUTOLOAD_FILE, [

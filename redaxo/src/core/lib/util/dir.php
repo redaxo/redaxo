@@ -46,7 +46,10 @@ class rex_dir
     public static function isWritable($dir)
     {
         $dir = rtrim($dir, DIRECTORY_SEPARATOR);
-        return @is_dir($dir) && @is_writable($dir . DIRECTORY_SEPARATOR . '.');
+        if (!@is_dir($dir)) {
+            return false;
+        }
+        return @is_writable($dir . DIRECTORY_SEPARATOR . '.');
     }
 
     /**

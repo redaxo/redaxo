@@ -109,7 +109,10 @@ class rex_install_webservice
             $response = $socket->doPost($data, $files);
             if ($response->isOk()) {
                 $data = json_decode($response->getBody(), true);
-                if (!isset($data['error']) || !is_string($data['error'])) {
+                if (!isset($data['error'])) {
+                    return;
+                }
+                if (!is_string($data['error'])) {
                     return;
                 }
                 $error = rex_i18n::msg('install_webservice_error') . '<br />' . $data['error'];
@@ -142,7 +145,10 @@ class rex_install_webservice
             $response = $socket->doDelete();
             if ($response->isOk()) {
                 $data = json_decode($response->getBody(), true);
-                if (!isset($data['error']) || !is_string($data['error'])) {
+                if (!isset($data['error'])) {
+                    return;
+                }
+                if (!is_string($data['error'])) {
                     return;
                 }
                 $error = rex_i18n::msg('install_webservice_error') . '<br />' . $data['error'];

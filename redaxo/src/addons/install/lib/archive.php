@@ -40,8 +40,10 @@ class rex_install_archive
                 if (!$zip->extractTo($tempdir)) {
                     return false;
                 }
-
-                if (!is_dir($tempdir . '/' . $basename) || !rename($tempdir . '/' . $basename, $dir)) {
+                if (!is_dir($tempdir . '/' . $basename)) {
+                    return false;
+                }
+                if (!rename($tempdir . '/' . $basename, $dir)) {
                     return false;
                 }
 

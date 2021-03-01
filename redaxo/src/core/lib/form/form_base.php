@@ -774,7 +774,10 @@ abstract class rex_form_base
      */
     protected function isHeaderElement(rex_form_element $element)
     {
-        return 'input' == $element->getTag() && 'hidden' == $element->getAttribute('type');
+        if ('input' != $element->getTag()) {
+            return false;
+        }
+        return 'hidden' == $element->getAttribute('type');
     }
 
     /**

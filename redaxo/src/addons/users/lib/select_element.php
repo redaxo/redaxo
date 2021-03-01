@@ -12,12 +12,13 @@ class rex_form_perm_select_element extends rex_form_select_element
     public function getSaveValue()
     {
         $value = $this->getValue();
-
-        if ($value && str_contains($value, '|' . rex_complex_perm::ALL . '|')) {
-            return rex_complex_perm::ALL;
+        if (!$value) {
+            return $value;
         }
-
-        return $value;
+        if (!str_contains($value, '|' . rex_complex_perm::ALL . '|')) {
+            return $value;
+        }
+        return rex_complex_perm::ALL;
     }
 
     public function setCheckboxLabel($label)

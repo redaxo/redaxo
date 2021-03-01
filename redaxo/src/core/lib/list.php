@@ -615,10 +615,13 @@ class rex_list implements rex_url_provider_interface
      */
     public function getColumnParams($columnName)
     {
-        if (isset($this->columnParams[$columnName]) && is_array($this->columnParams[$columnName])) {
-            return $this->columnParams[$columnName];
+        if (!isset($this->columnParams[$columnName])) {
+            return [];
         }
-        return [];
+        if (!is_array($this->columnParams[$columnName])) {
+            return [];
+        }
+        return $this->columnParams[$columnName];
     }
 
     /**
@@ -630,7 +633,13 @@ class rex_list implements rex_url_provider_interface
      */
     public function hasColumnParams($columnName)
     {
-        return isset($this->columnParams[$columnName]) && is_array($this->columnParams[$columnName]) && count($this->columnParams[$columnName]) > 0;
+        if (!isset($this->columnParams[$columnName])) {
+            return false;
+        }
+        if (!is_array($this->columnParams[$columnName])) {
+            return false;
+        }
+        return count($this->columnParams[$columnName]) > 0;
     }
 
     // ---------------------- TableColumnGroup setters/getters/etc
@@ -986,7 +995,13 @@ class rex_list implements rex_url_provider_interface
      */
     public function isCustomFormat($format)
     {
-        return is_array($format) && isset($format[0]) && 'custom' == $format[0];
+        if (!is_array($format)) {
+            return false;
+        }
+        if (!isset($format[0])) {
+            return false;
+        }
+        return 'custom' == $format[0];
     }
 
     /**

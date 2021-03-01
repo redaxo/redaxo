@@ -24,12 +24,10 @@ class rex_api_content_copy extends rex_api_function
             $user->getComplexPerm('clang')->hasPerm($clangB)
         ) {
             if (rex_content_service::copyContent($articleId, $articleId, $clangA, $clangB, $sliceRevision)) {
-                $result = new rex_api_result(true, rex_i18n::msg('content_contentcopy'));
-            } else {
-                $result = new rex_api_result(true, rex_i18n::msg('content_errorcopy'));
+                return new rex_api_result(true, rex_i18n::msg('content_contentcopy'));
             }
 
-            return $result;
+            return new rex_api_result(true, rex_i18n::msg('content_errorcopy'));
         }
 
         throw new rex_api_exception(rex_i18n::msg('no_rights_to_this_function'));

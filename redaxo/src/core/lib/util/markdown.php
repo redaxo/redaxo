@@ -151,15 +151,16 @@ final class rex_parsedown_with_toc extends ParsedownExtra
 
         $id = $block['element']['attributes']['id'];
         $this->ids[$id] = true;
-
-        if ($level >= $this->topLevel && $level <= $this->bottomLevel) {
-            $this->headers[] = [
-                'level' => $level,
-                'id' => $id,
-                'text' => $plainText,
-            ];
+        if ($level < $this->topLevel) {
+            return $block;
         }
-
-        return $block;
+        if ($level > $this->bottomLevel) {
+            return $block;
+        }
+        $this->headers[] = [
+            'level' => $level,
+            'id' => $id,
+            'text' => $plainText,
+        ];
     }
 }

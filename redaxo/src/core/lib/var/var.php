@@ -129,7 +129,10 @@ abstract class rex_var
         if (!isset(self::$vars[$var])) {
             /** @var class-string $class */
             $class = 'rex_var_' . strtolower(substr($var, 4));
-            if (!class_exists($class) || !is_subclass_of($class, self::class)) {
+            if (!class_exists($class)) {
+                return null;
+            }
+            if (!is_subclass_of($class, self::class)) {
                 return null;
             }
             self::$vars[$var] = $class;
@@ -188,10 +191,13 @@ abstract class rex_var
                     $replaced = true;
                 }
             }
-
-            if (!$replaced && $matches = self::getMatches($match[2])) {
-                $iterator->append(new ArrayIterator($matches));
+            if ($replaced) {
+                continue;
             }
+            if (!($matches = self::getMatches($match[2]))) {
+                continue;
+            }
+            $iterator->append(new ArrayIterator($matches));
         }
 
         if ($replacements) {

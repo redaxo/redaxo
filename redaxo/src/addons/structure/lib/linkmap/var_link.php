@@ -13,7 +13,16 @@ class rex_var_link extends rex_var
     protected function getOutput()
     {
         $id = $this->getArg('id', 0, true);
-        if (!in_array($this->getContext(), ['module', 'action']) || !is_numeric($id) || $id < 1 || $id > 10) {
+        if (!in_array($this->getContext(), ['module', 'action'])) {
+            return false;
+        }
+        if (!is_numeric($id)) {
+            return false;
+        }
+        if ($id < 1) {
+            return false;
+        }
+        if ($id > 10) {
             return false;
         }
 
@@ -35,9 +44,16 @@ class rex_var_link extends rex_var
             }
             $value = self::getWidget($id, 'REX_INPUT_LINK[' . $id . ']', $value, $args);
         } else {
-            if ($value && $this->hasArg('output') && 'id' != $this->getArg('output')) {
-                $value = rex_getUrl($value);
+            if (!$value) {
+                return;
             }
+            if (!$this->hasArg('output')) {
+                return;
+            }
+            if ('id' == $this->getArg('output')) {
+                return;
+            }
+            $value = rex_getUrl($value);
         }
 
         return self::quote($value);

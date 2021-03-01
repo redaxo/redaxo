@@ -154,10 +154,12 @@ class rex_autoload
      */
     private static function loadCache()
     {
-        if (!self::$cacheFile || !($cache = @file_get_contents(self::$cacheFile))) {
+        if (!self::$cacheFile) {
             return;
         }
-
+        if (!($cache = @file_get_contents(self::$cacheFile))) {
+            return;
+        }
         [self::$classes, self::$dirs] = json_decode($cache, true);
     }
 
@@ -166,10 +168,12 @@ class rex_autoload
      */
     public static function saveCache()
     {
-        if (!self::$cacheChanged || self::$cacheDeleted) {
+        if (!self::$cacheChanged) {
             return;
         }
-
+        if (self::$cacheDeleted) {
+            return;
+        }
         // dont persist a possible incomplete cache, because requests of end-users (which are not allowed to regenerate a existing cache)
         // can error in some crazy class-not-found errors which are hard to debug.
         $error = error_get_last();
@@ -263,14 +267,19 @@ class rex_autoload
         $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dirPath, RecursiveDirectoryIterator::SKIP_DOTS));
         foreach ($iterator as $path => $file) {
             /** @var SplFileInfo $file */
-            if (!$file->isFile() || !in_array($file->getExtension(), ['php', 'inc'])) {
+            if (!$file->isFile()) {
                 continue;
             }
-
+            if (!in_array($file->getExtension(), ['php', 'inc'])) {
+                continue;
+            }
             $file = rex_path::relative($path);
             unset($files[$file]);
             $checksum = (string) filemtime($path);
-            if (!$checksum || isset(self::$dirs[$dir][$file]) && self::$dirs[$dir][$file] === $checksum) {
+            if (!$checksum) {
+                continue;
+            }
+            if (isset(self::$dirs[$dir][$file]) && self::$dirs[$dir][$file] === $checksum) {
                 continue;
             }
             self::$dirs[$dir][$file] = $checksum;
@@ -384,7 +393,10 @@ class rex_autoload
             } else {
                 $name = $matches['name'][$i];
                 // skip anon classes extending/implementing
-                if ('extends' === $name || 'implements' === $name) {
+                if ('extends' === $name) {
+                    continue;
+                }
+                if ('implements' === $name) {
                     continue;
                 }
                 if (':' === $name[0]) {

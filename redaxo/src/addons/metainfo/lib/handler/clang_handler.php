@@ -27,10 +27,12 @@ class rex_metainfo_clang_handler extends rex_metainfo_handler
      */
     public function handleSave(array $params, rex_sql $sqlFields)
     {
-        if ('post' != rex_request_method() || !isset($params['id'])) {
+        if ('post' != rex_request_method()) {
             return $params;
         }
-
+        if (!isset($params['id'])) {
+            return $params;
+        }
         $sql = rex_sql::factory();
         // $sql->setDebug();
         $sql->setTable(rex::getTablePrefix() . 'clang');
@@ -54,13 +56,11 @@ class rex_metainfo_clang_handler extends rex_metainfo_handler
 
     public function renderFormItem($field, $tag, $tagAttr, $id, $label, $labelIt, $inputType)
     {
-        $element = $field;
-
         if ('legend' == $inputType) {
-            $element = '<h3 class="form-legend">' . $label . '</h3>';
+            return '<h3 class="form-legend">' . $label . '</h3>';
         }
 
-        return $element;
+        return $field;
     }
 
     public function extendForm(rex_extension_point $ep)
@@ -79,9 +79,11 @@ class rex_metainfo_clang_handler extends rex_metainfo_handler
                     </div>
                 </td>
             </tr>';
-
         // Bei CLANG_ADDED und CLANG_UPDATED nur speichern und kein Formular zurückgeben
-        if ('CLANG_UPDATED' == $ep->getName() || 'CLANG_ADDED' == $ep->getName()) {
+        if ('CLANG_UPDATED' == $ep->getName()) {
+            return $ep->getSubject();
+        }
+        if ('CLANG_ADDED' == $ep->getName()) {
             return $ep->getSubject();
         }
         return $ep->getSubject() . $result;

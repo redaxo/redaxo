@@ -232,8 +232,10 @@ class rex_mailer extends PHPMailer
         $logFile = rex_path::log('system.log');
         $sendTime = $addon->getConfig('last_log_file_send_time', 0);
         $timediff = time() - $sendTime;
-
-        if ($timediff <= $addon->getConfig('errormail') || !filesize($logFile)) {
+        if ($timediff <= $addon->getConfig('errormail')) {
+            return;
+        }
+        if (!filesize($logFile)) {
             return;
         }
 

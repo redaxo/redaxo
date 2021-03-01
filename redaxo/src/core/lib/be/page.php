@@ -127,8 +127,10 @@ class rex_be_page
         if (null !== $this->popup) {
             return $this->popup;
         }
-
-        return $this->parent && $this->parent->isPopup();
+        if (!$this->parent) {
+            return false;
+        }
+        return $this->parent->isPopup();
     }
 
     /**
@@ -584,7 +586,10 @@ class rex_be_page
      */
     public function hasLayout()
     {
-        return $this->hasLayout && (!$this->parent || $this->parent->hasLayout());
+        if (!$this->hasLayout) {
+            return false;
+        }
+        return !$this->parent || $this->parent->hasLayout();
     }
 
     /**
@@ -608,7 +613,10 @@ class rex_be_page
      */
     public function hasNavigation()
     {
-        return $this->hasNavigation && (!$this->parent || $this->parent->hasNavigation());
+        if (!$this->hasNavigation) {
+            return false;
+        }
+        return !$this->parent || $this->parent->hasNavigation();
     }
 
     /**
