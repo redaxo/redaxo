@@ -37,10 +37,10 @@ jobs:
             -   name: Run psalm analysis
                 run: vendor/bin/psalm --show-info=false --shepherd --diff --output-format=github
 
-            -   name: Check psalm baseline
+            -   name: Check psalm baseline and show type coverage
                 if: ${{ success() }}
                 run: |
-                    composer psalm-baseline
+                    vendor/bin/psalm --set-baseline=.tools/psalm/baseline.xml --stats
                     git diff --exit-code .tools/psalm/baseline.xml || (echo "::error file=.tools/psalm/baseline.xml,line=1,col=1::Psalm baseline file is outdated and must be regenerated via \`composer psalm-baseline\`." && exit 1)
 
     psalm-taint-analysis:
