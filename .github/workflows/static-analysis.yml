@@ -40,7 +40,7 @@ jobs:
             -   name: Check psalm baseline and show type coverage
                 if: ${{ success() }}
                 run: |
-                    psalm --set-baseline=.tools/psalm/baseline.xml --stats
+                    vendor/bin/psalm --set-baseline=.tools/psalm/baseline.xml --stats
                     git diff --exit-code .tools/psalm/baseline.xml || (echo "::error file=.tools/psalm/baseline.xml,line=1,col=1::Psalm baseline file is outdated and must be regenerated via \`composer psalm-baseline\`." && exit 1)
 
     psalm-taint-analysis:
