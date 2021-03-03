@@ -1,13 +1,13 @@
 Changelog
 =========
 
-Version 5.12.0 – XX.XX.2021
+Version 5.12.0 – 03.03.2021
 ---------------------------
 
 ### Neu
 
 * Neue PHP-Mindestversion 7.3
-* Update der externen Bibliotheken (u.a. Symfony Components 5.x)
+* Update der externen Bibliotheken (u.a. Symfony Components 5.x, jQuery 3.6)
 * `symfony/http-foundation` neu aufgenommen; das Request-Objekt kann über `rex::getRequest()` abgefragt werden (@gharlan)
 * Setup:
     - Erneutes Setup (über Backend gestartet) aktiviert nicht mehr den globalen Setup-Modus, sondern läuft über einen URL-Token parallel zum normalen Seitenbetrieb (@gharlan)
