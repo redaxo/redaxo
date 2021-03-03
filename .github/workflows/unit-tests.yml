@@ -8,13 +8,15 @@ on:
 
 jobs:
     phpunit:
-        runs-on: ubuntu-latest
+        runs-on: ${{ matrix.os }}
         if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
         strategy:
             matrix:
+                os: [ubuntu-latest]
                 include:
-                    -   php-version: '7.3'
+                    -   os: ubuntu-18.04
+                        php-version: '7.3'
                         db-image: 'mysql:5.6'
                     -   php-version: '7.4'
                         db-image: 'mysql:5.7'
