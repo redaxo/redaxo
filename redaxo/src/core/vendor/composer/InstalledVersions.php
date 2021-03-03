@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'e26c250b74e9070e62432d46753db4ae8fca48fc',
+    'reference' => 'ee90a59be912d6756704edc6e811d9683268ccd3',
     'name' => '__root__',
   ),
   'versions' => 
@@ -42,7 +42,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'e26c250b74e9070e62432d46753db4ae8fca48fc',
+      'reference' => 'ee90a59be912d6756704edc6e811d9683268ccd3',
     ),
     'erusev/parsedown' => 
     array (
@@ -130,7 +130,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '640ff0b5dcacc0958534c8c0255b90697f3eb2a8',
+      'reference' => 'a6bfc5a1416f0dde1f53b7737b2cf983352737b8',
     ),
     'symfony/console' => 
     array (
@@ -511,7 +511,6 @@ self::$canGetVendors = method_exists('Composer\Autoload\ClassLoader', 'getRegist
 $installed = array();
 
 if (self::$canGetVendors) {
-
 foreach (ClassLoader::getRegisteredLoaders() as $vendorDir => $loader) {
 if (isset(self::$installedByVendor[$vendorDir])) {
 $installed[] = self::$installedByVendor[$vendorDir];
