@@ -33,7 +33,7 @@
         "ramsey/collection": "1.1.3",
         "ramsey/http-range": "1.0.0",
         "scssphp/scssphp": "v1.4.1",
-        "splitbrain/php-archive": "1.2.0",
+        "splitbrain/php-archive": "1.2.1",
         "symfony/console": "v5.2.3",
         "symfony/deprecation-contracts": "v2.2.0",
         "symfony/http-foundation": "v5.2.3",
