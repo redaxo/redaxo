@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 2.12.0 – XX.XX.2021
+Version 2.12.0 – 03.03.2021
 ---------------------------
 
 * Login-Seite modernisiert, u.a. mit vollflächigem Hintergrundbild (kann über Fragment geändert werden) (@schuer)
