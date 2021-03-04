@@ -370,5 +370,5 @@ function rex_mediapool_getMediaTypeWhitelist($args = [])
  */
 function rex_mediapool_getMediaTypeBlacklist()
 {
-    return rex_mediapool::getBlockedMediaTypeExtensions();
+    return rex_mediapool::getBlockedExtensions();
 }
