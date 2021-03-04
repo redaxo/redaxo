@@ -123,17 +123,17 @@ class rex_mediapool
             return false;
         }
 
-        $blacklist = self::getMediaTypeBlacklist();
-        foreach ($blacklist as $blackExtension) {
+        $blockedExtensions = self::getBlockedMediaTypeExtensions();
+        foreach ($blockedExtensions as $blockedExtension) {
             // blacklisted extensions are not allowed within filenames, to prevent double extension vulnerabilities:
             // -> some webspaces execute files named file.php.txt as php
-            if (str_contains($filename, '.'. $blackExtension)) {
+            if (str_contains($filename, '.'. $blockedExtension)) {
                 return false;
             }
         }
 
-        $whitelist = self::getMediaTypeWhitelist($args);
-        return !count($whitelist) || in_array($fileExt, $whitelist);
+        $allowedExtensions = self::getAllowedMediaTypeExtensions($args);
+        return !count($allowedExtensions) || in_array($fileExt, $allowedExtensions);
     }
 
     /**
@@ -171,9 +171,9 @@ class rex_mediapool
      *
      * @return array whitelisted extensions
      */
-    public static function getMediaTypeWhitelist($args = [])
+    public static function getAllowedMediaTypeExtensions($args = [])
     {
-        $blacklist = self::getMediaTypeBlacklist();
+        $blacklist = self::getBlockedMediaTypeExtensions();
 
         $whitelist = [];
         if (isset($args['types'])) {
@@ -193,7 +193,7 @@ class rex_mediapool
      *
      * @return array blacklisted mediatype extensions
      */
-    public static function getMediaTypeBlacklist()
+    public static function getBlockedMediaTypeExtensions()
     {
         return rex_addon::get('mediapool')->getProperty('blocked_extensions');
     }
