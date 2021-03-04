@@ -226,7 +226,7 @@ class rex_select
     /**
      * Fügt Optionen anhand der Übergeben SQL-Select-Abfrage hinzu.
      */
-    public function addSqlOptions($query, $db=1)
+    public function addSqlOptions($query, int $db = 1)
     {
         $sql = rex_sql::factory($db);
         $this->addOptions($sql->getArray($query, [], PDO::FETCH_NUM));
