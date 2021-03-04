@@ -54,10 +54,10 @@ jobs:
                     extensions: gd, intl, pdo_mysql
                     coverage: none # disable xdebug, pcov
 
-            -   name: "composer install --prefer-dist"
-                uses: "ramsey/composer-install@v1"
+            -   name: Composer install
+                uses: ramsey/composer-install@v1
                 with:
-                    composer-options: "--ansi --prefer-dist"
+                    composer-options: ${{ matrix.php-version == '8.1' && '--ansi --prefer-dist --ignore-platform-req=php' || '--ansi --prefer-dist' }}
 
             -   name: Setup Problem Matchers for PHPUnit
                 run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
