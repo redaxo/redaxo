@@ -43,6 +43,10 @@
     .table td.rex-table-date {
         white-space: nowrap;
     }
+    .table th.rex-table-sort,
+    .table td.rex-table-sort {
+        white-space: nowrap;
+    }
     .table th.rex-table-priority,
     .table td.rex-table-priority {
         min-width: 80px; // allow for 4 digit input field in edit mode

@@ -18,8 +18,8 @@ class rex_cronjob_export extends rex_cronjob
         $ext = '.cronjob.sql';
 
         $tables = rex_backup::getTables();
-        $blacklist_tables = explode('|', $this->getParam('blacklist_tables'));
-        $whitelist_tables = array_diff($tables, $blacklist_tables);
+        $blacklistTables = explode('|', $this->getParam('blacklist_tables'));
+        $whitelistTables = array_diff($tables, $blacklistTables);
 
         if (is_file($dir . $file . $ext)) {
             $i = 1;
@@ -30,7 +30,7 @@ class rex_cronjob_export extends rex_cronjob
         }
         $exportFilePath = $dir . $file . $ext;
 
-        if (rex_backup::exportDb($exportFilePath, $whitelist_tables)) {
+        if (rex_backup::exportDb($exportFilePath, $whitelistTables)) {
             $message = rex_path::basename($exportFilePath) . ' created';
 
             if ($this->getParam('compress')) {

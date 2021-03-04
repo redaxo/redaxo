@@ -4,8 +4,6 @@
  * @package redaxo5
  */
 
-$content = '';
-
 $package = rex_package::get(rex_request('package', 'string'));
 
 $license = null;

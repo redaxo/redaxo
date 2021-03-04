@@ -20,9 +20,6 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
     /** @var InputInterface */
     private $input;
 
-    /** @var OutputInterface */
-    private $output;
-
     private $forceAsking = false;
 
     protected function configure()
@@ -54,14 +51,12 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
         $this->io = $io;
         $this->input = $input;
-        $this->output = $output;
 
         $configFile = rex_path::coreData('config.yml');
         $config = array_merge(
             rex_file::getConfig(rex_path::core('default.config.yml')),
             rex_file::getConfig($configFile)
         );
-        $config['setup'] = true;
 
         $requiredValue = static function ($value) {
             if (empty($value)) {
@@ -100,8 +95,8 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 return 1;
             }
 
-            $license_file = rex_path::base('LICENSE.md');
-            $license = rex_file::require($license_file);
+            $licenseFile = rex_path::base('LICENSE.md');
+            $license = rex_file::require($licenseFile);
             $io->writeln($license);
             if (!$io->confirm('Accept license terms and conditions?', false)) {
                 $io->error('You need to accept license terms and conditions');
@@ -114,7 +109,9 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         // ---------------------------------- Step 3 . Perms, Environment
         $io->title('Step 3 of 6 / System check');
 
-        $this->performSystemcheck();
+        if (0 !== $code = $this->performSystemcheck()) {
+            return $code;
+        }
 
         // ---------------------------------- step 4 . Config
         $io->title('Step 4 of 6 / Creating config');
@@ -277,7 +274,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             }
         }
 
-        $tables_complete = '' == rex_setup_importer::verifyDbSchema();
+        $tablesComplete = '' == rex_setup_importer::verifyDbSchema();
 
         // spaces before/after to make sf-console render the array-key instead of
         // our overlong description text
@@ -290,7 +287,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             'import' => 'Import existing database export',
         ];
 
-        if ($tables_complete) {
+        if ($tablesComplete) {
             $defaultDbMode = ' existing ';
         } else {
             unset($createdbOptions['existing']);
@@ -320,14 +317,14 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             rex::setConfig('utf8mb4', $useUtf8mb4);
             $io->success('Database successfully updated');
         } elseif ('import' == $createdb) {
-            $import_name = $input->getOption('db-import') ?? $io->askQuestion(new ChoiceQuestion('Please choose a database export', $backups));
-            assert(is_string($import_name));
-            if (!in_array($import_name, $backups, true)) {
-                throw new InvalidArgumentException('Unknown import file "'.$import_name.'" specified');
+            $importName = $input->getOption('db-import') ?? $io->askQuestion(new ChoiceQuestion('Please choose a database export', $backups));
+            assert(is_string($importName));
+            if (!in_array($importName, $backups, true)) {
+                throw new InvalidArgumentException('Unknown import file "'.$importName.'" specified');
             }
-            $error = rex_setup_importer::loadExistingImport($import_name);
-            $io->success('Database successfully imported using file "'.$import_name.'"');
-        } elseif ('existing' == $createdb && $tables_complete) {
+            $error = rex_setup_importer::loadExistingImport($importName);
+            $io->success('Database successfully imported using file "'.$importName.'"');
+        } elseif ('existing' == $createdb && $tablesComplete) {
             $error = rex_setup_importer::databaseAlreadyExists();
             $io->success('Skipping database setup');
         } elseif ('override' == $createdb) {
@@ -447,7 +444,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
         // ---------------------------------- last step. save config
 
-        $config['setup'] = false;
+        $config['setup'] = is_array($config['setup']) ? $config['setup'] : false;
         if (!rex_file::putConfig($configFile, $config)) {
             $io->error('Writing to config.yml failed.');
             return 1;
@@ -463,7 +460,6 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
      */
     private function getDbCharset()
     {
-        /** @var null|string $charset */
         $charset = $this->input->getOption('db-charset');
 
         if ($charset) {
@@ -548,7 +544,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         return $this->io->ask($question, $default, $validator);
     }
 
-    private function performSystemcheck()
+    private function performSystemcheck(): int
     {
         /** Cloned from comannd setup:check*/
         $errors = rex_setup::checkEnvironment();
@@ -585,5 +581,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             return 1;
         }
         $this->io->success('Directory permissions ok');
+
+        return 0;
     }
 }

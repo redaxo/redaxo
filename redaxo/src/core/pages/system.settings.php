@@ -10,17 +10,16 @@ $func = rex_request('func', 'string');
 
 $csrfToken = rex_csrf_token::factory('system');
 
+  if (rex_request('rex_debug_updated', 'bool', false)) {
+      $success = (rex::isDebugMode()) ? rex_i18n::msg('debug_mode_info_on') : rex_i18n::msg('debug_mode_info_off');
+  }
+
 if ($func && !$csrfToken->isValid()) {
     $error[] = rex_i18n::msg('csrf_token_invalid');
 } elseif ('setup' == $func) {
     // REACTIVATE SETUP
-
-    $configFile = rex_path::coreData('config.yml');
-    $config = rex_file::getConfig($configFile);
-    $config['setup'] = true;
-
-    if (false !== rex_file::putConfig($configFile, $config)) {
-        header('Location:' . rex_url::backendController());
+    if (false !== $url = rex_setup::startWithToken()) {
+        header('Location:' . $url);
         exit;
     }
     $error[] = rex_i18n::msg('setup_error2');
@@ -44,7 +43,8 @@ if ($func && !$csrfToken->isValid()) {
     $config['debug']['enabled'] = (rex::isDebugMode()) ? false : true;
     rex::setProperty('debug', $config['debug']);
     if (rex_file::putConfig($configFile, $config) > 0) {
-        $success = (rex::isDebugMode()) ? rex_i18n::msg('debug_mode_info_on') : rex_i18n::msg('debug_mode_info_off');
+        // reload the page so that debug mode is immediately visible
+        rex_response::sendRedirect(rex_url::currentBackendPage(['rex_debug_updated' => true], false));
     }
 } elseif ('updateinfos' == $func) {
     $configFile = rex_path::coreData('config.yml');
@@ -123,17 +123,17 @@ if ($func && !$csrfToken->isValid()) {
     }
 }
 
-$sel_lang = new rex_select();
-$sel_lang->setStyle('class="form-control"');
-$sel_lang->setName('settings[lang]');
-$sel_lang->setId('rex-id-lang');
-$sel_lang->setAttribute('class', 'form-control selectpicker');
-$sel_lang->setSize(1);
-$sel_lang->setSelected(rex::getProperty('lang'));
+$selLang = new rex_select();
+$selLang->setStyle('class="form-control"');
+$selLang->setName('settings[lang]');
+$selLang->setId('rex-id-lang');
+$selLang->setAttribute('class', 'form-control selectpicker');
+$selLang->setSize(1);
+$selLang->setSelected(rex::getProperty('lang'));
 $locales = rex_i18n::getLocales();
 asort($locales);
 foreach ($locales as $locale) {
-    $sel_lang->addOption(rex_i18n::msgInLocale('lang', $locale).' ('.$locale.')', $locale);
+    $selLang->addOption(rex_i18n::msgInLocale('lang', $locale).' ('.$locale.')', $locale);
 }
 
 if (!empty($error)) {
@@ -147,7 +147,7 @@ if ('' != $success) {
 $dbconfig = rex::getDbConfig(1);
 
 $rexVersion = rex::getVersion();
-if (false !== strpos($rexVersion, '-dev')) {
+if (str_contains($rexVersion, '-dev')) {
     $hash = rex_version::gitHash(rex_path::base(), 'redaxo/redaxo');
     if ($hash) {
         $rexVersion .= '#'. $hash;
@@ -252,7 +252,7 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-lang" class="required">' . rex_i18n::msg('backend_language') . '</label>';
-$n['field'] = $sel_lang->get();
+$n['field'] = $selLang->get();
 $formElements[] = $n;
 
 $n = [];
@@ -322,18 +322,18 @@ if ($viaCookie) {
 
 $formElements = [];
 
-$sel_editor = new rex_select();
-$sel_editor->setStyle('class="form-control"');
-$sel_editor->setName('editor[name]');
-$sel_editor->setId('rex-id-editor');
-$sel_editor->setAttribute('class', 'form-control selectpicker');
-$sel_editor->setSize(1);
-$sel_editor->setSelected($editor->getName());
-$sel_editor->addArrayOptions(['' => rex_i18n::msg('system_editor_no_editor')] + $editor->getSupportedEditors());
+$selEditor = new rex_select();
+$selEditor->setStyle('class="form-control"');
+$selEditor->setName('editor[name]');
+$selEditor->setId('rex-id-editor');
+$selEditor->setAttribute('class', 'form-control selectpicker');
+$selEditor->setSize(1);
+$selEditor->setSelected($editor->getName());
+$selEditor->addArrayOptions(['' => rex_i18n::msg('system_editor_no_editor')] + $editor->getSupportedEditors());
 
 $n = [];
 $n['label'] = '<label for="rex-id-editor">' . rex_i18n::msg('system_editor_name') . '</label>';
-$n['field'] = $sel_editor->get();
+$n['field'] = $selEditor->get();
 $formElements[] = $n;
 
 $n = [];

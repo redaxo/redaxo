@@ -8,11 +8,7 @@ $step = rex_request('step', 'int', 1);
 $lang = rex_request('lang', 'string');
 $func = rex_request('func', 'string');
 
-$context = new rex_context([
-    'page' => 'setup',
-    'lang' => $lang,
-    'step' => $step,
-]);
+$context = rex_setup::getContext();
 
 // ---------------------------------- Global Step features
 
@@ -26,7 +22,7 @@ if (!rex_setup::isInitialSetup()) {
             right: 40px;
         }
     </style>
-    <a href="?page=setup&amp;func=abort" data-confirm="Cancel Setup?" class="btn btn-delete rex-cancel-setup">'.rex_i18n::msg('setup_cancel').'</a>';
+    <a href="'.$context->getUrl(['func' => 'abort']).'" data-confirm="Cancel Setup?" class="btn btn-delete rex-cancel-setup">'.rex_i18n::msg('setup_cancel').'</a>';
 
     if ('abort' === $func) {
         rex_setup::markSetupCompleted();
@@ -52,16 +48,16 @@ if (2 === $step) {
 
 // ---------------------------------- Step 3 . Perms, Environment
 
-$error_array = [];
-$success_array = [];
+$errorArray = [];
+$successArray = [];
 
 $errors = rex_setup::checkEnvironment();
 if (count($errors) > 0) {
     foreach ($errors as $error) {
-        $error_array[] = rex_view::error($error);
+        $errorArray[] = rex_view::error($error);
     }
 } else {
-    $success_array[] = rex_i18n::msg('setup_308');
+    $successArray[] = rex_i18n::msg('setup_308');
 }
 
 $res = rex_setup::checkFilesystem();
@@ -72,14 +68,14 @@ if (count($res) > 0) {
             foreach ($messages as $message) {
                 $li[] = '<li>' . rex_path::relative($message) . '</li>';
             }
-            $error_array[] = '<p>' . rex_i18n::msg($key) . '</p><ul>' . implode('', $li) . '</ul>';
+            $errorArray[] = '<p>' . rex_i18n::msg($key) . '</p><ul>' . implode('', $li) . '</ul>';
         }
     }
 } else {
-    $success_array[] = rex_i18n::msg('setup_309');
+    $successArray[] = rex_i18n::msg('setup_309');
 }
 
-if (count($error_array) > 0) {
+if (count($errorArray) > 0) {
     $step = 3;
     $context->setParam('step', $step);
 }
@@ -92,7 +88,7 @@ if (3 === $step) {
 
 // ---------------------------------- step 4 . Config
 
-$error_array = [];
+$errorArray = [];
 
 $configFile = rex_path::coreData('config.yml');
 $config = array_merge(
@@ -128,7 +124,7 @@ if ($step > 4) {
         }
     }
 
-    $redaxo_db_create = rex_post('redaxo_db_create', 'boolean');
+    $redaxoDbCreate = rex_post('redaxo_db_create', 'boolean');
 
     if (empty($config['instname'])) {
         $config['instname'] = 'rex' . date('YmdHis');
@@ -136,19 +132,19 @@ if ($step > 4) {
 
     // check if timezone is valid
     if (false === @date_default_timezone_set($config['timezone'])) {
-        $error_array[] = rex_view::error(rex_i18n::msg('setup_413'));
+        $errorArray[] = rex_view::error(rex_i18n::msg('setup_413'));
     }
 
     $check = ['server', 'servername', 'error_email', 'lang'];
     foreach ($check as $key) {
         if (!isset($config[$key]) || !$config[$key]) {
-            $error_array[] = rex_view::error(rex_i18n::msg($key . '_required'));
+            $errorArray[] = rex_view::error(rex_i18n::msg($key . '_required'));
             continue;
         }
         try {
             rex::setProperty($key, $config[$key]);
         } catch (InvalidArgumentException $e) {
-            $error_array[] = rex_view::error(rex_i18n::msg($key . '_invalid'));
+            $errorArray[] = rex_view::error(rex_i18n::msg($key . '_invalid'));
         }
     }
 
@@ -162,25 +158,26 @@ if ($step > 4) {
         rex::setProperty($key, $value);
     }
 
-    if (0 == count($error_array)) {
+    if (0 == count($errorArray)) {
         if (!rex_file::putConfig($configFile, $config)) {
-            $error_array[] = rex_view::error(rex_i18n::msg('setup_401', rex_path::relative($configFile)));
+            $errorArray[] = rex_view::error(rex_i18n::msg('setup_401', rex_path::relative($configFile)));
         }
     }
 
-    if (0 == count($error_array)) {
+    if (0 == count($errorArray)) {
         try {
-            $err = rex_setup::checkDb($config, $redaxo_db_create);
+            rex_sql::closeConnection();
+            $err = rex_setup::checkDb($config, $redaxoDbCreate);
         } catch (PDOException $e) {
             $err = rex_i18n::msg('setup_415', $e->getMessage());
         }
 
         if ('' != $err) {
-            $error_array[] = rex_view::error($err);
+            $errorArray[] = rex_view::error($err);
         }
     }
 
-    if (count($error_array) > 0) {
+    if (count($errorArray) > 0) {
         $step = 4;
         $context->setParam('step', $step);
     }
@@ -199,7 +196,7 @@ $errors = [];
 $createdb = rex_post('createdb', 'int', -1);
 
 if ($step > 5 && $createdb > -1) {
-    $tables_complete = ('' == rex_setup_importer::verifyDbSchema()) ? true : false;
+    $tablesComplete = ('' == rex_setup_importer::verifyDbSchema()) ? true : false;
 
     $utf8mb4 = null;
     if (!in_array($step, [2, 3])) {
@@ -213,13 +210,13 @@ if ($step > 5 && $createdb > -1) {
             $errors[] = rex_view::error($error);
         }
     } elseif (3 == $createdb) {
-        $import_name = rex_post('import_name', 'string');
+        $importName = rex_post('import_name', 'string');
 
-        $error = rex_setup_importer::loadExistingImport($import_name);
+        $error = rex_setup_importer::loadExistingImport($importName);
         if ('' != $error) {
             $errors[] = rex_view::error($error);
         }
-    } elseif (2 == $createdb && $tables_complete) {
+    } elseif (2 == $createdb && $tablesComplete) {
         $error = rex_setup_importer::databaseAlreadyExists();
         if ('' != $error) {
             $errors[] = rex_view::error($error);
@@ -275,45 +272,45 @@ $errors = [];
 
 if (7 === $step) {
     $noadmin = rex_post('noadmin', 'int');
-    $redaxo_user_login = rex_post('redaxo_user_login', 'string');
-    $redaxo_user_pass = rex_post('redaxo_user_pass', 'string');
+    $redaxoUserLogin = rex_post('redaxo_user_login', 'string');
+    $redaxoUserPass = rex_post('redaxo_user_pass', 'string');
 
     if (1 != $noadmin) {
-        if ('' == $redaxo_user_login) {
+        if ('' == $redaxoUserLogin) {
             $errors[] = rex_view::error(rex_i18n::msg('setup_601'));
         }
 
-        if ('' == $redaxo_user_pass) {
+        if ('' == $redaxoUserPass) {
             $errors[] = rex_view::error(rex_i18n::msg('setup_602'));
         }
 
         $passwordPolicy = rex_backend_password_policy::factory();
-        if (true !== $msg = $passwordPolicy->check($redaxo_user_pass)) {
+        if (true !== $msg = $passwordPolicy->check($redaxoUserPass)) {
             $errors[] = rex_view::error($msg);
         }
 
         if (0 == count($errors)) {
             $ga = rex_sql::factory();
-            $ga->setQuery('select * from ' . rex::getTablePrefix() . 'user where login = ? ', [$redaxo_user_login]);
+            $ga->setQuery('select * from ' . rex::getTablePrefix() . 'user where login = ? ', [$redaxoUserLogin]);
 
             if ($ga->getRows() > 0) {
                 $errors[] = rex_view::error(rex_i18n::msg('setup_603'));
             } else {
                 // the server side encryption of pw is only required
                 // when not already encrypted by client using javascript
-                $redaxo_user_pass = rex_login::passwordHash($redaxo_user_pass);
+                $redaxoUserPass = rex_login::passwordHash($redaxoUserPass);
 
                 $user = rex_sql::factory();
                 // $user->setDebug();
                 $user->setTable(rex::getTablePrefix() . 'user');
                 $user->setValue('name', 'Administrator');
-                $user->setValue('login', $redaxo_user_login);
-                $user->setValue('password', $redaxo_user_pass);
+                $user->setValue('login', $redaxoUserLogin);
+                $user->setValue('password', $redaxoUserPass);
                 $user->setValue('admin', 1);
                 $user->addGlobalCreateFields('setup');
                 $user->addGlobalUpdateFields('setup');
                 $user->setDateTimeValue('password_changed', time());
-                $user->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords(null, $redaxo_user_pass));
+                $user->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords(null, $redaxoUserPass));
                 $user->setValue('status', '1');
                 try {
                     $user->insert();

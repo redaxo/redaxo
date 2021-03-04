@@ -14,8 +14,8 @@ const PNG = require('pngjs').PNG;
 const fs = require('fs');
 const mkdirp = require('mkdirp');
 
-const screenshotWidth = 1280;
-const screenshotHeight = 1024;
+const viewportWidth = 1280;
+const viewportHeight = 800;
 
 const START_URL = 'http://localhost:8000/redaxo/index.php';
 const DEBUGGING = false;
@@ -53,6 +53,7 @@ const allPages = {
     'structure_slice_edit.png': START_URL + '?page=content/edit&article_id=1&slice_id=3&clang=1&ctype=1&function=edit#slice3',
 
     'mediapool_media.png': START_URL + '?page=mediapool/media',
+    'mediapool_media_file.png': START_URL + '?page=mediapool/media&file_id=1&rex_file_category=0',
     'mediapool_upload.png': START_URL + '?page=mediapool/upload',
     'mediapool_structure.png': START_URL + '?page=mediapool/structure',
     'mediapool_sync.png': START_URL + '?page=mediapool/sync',
@@ -109,7 +110,13 @@ function countDiffPixels(img1path, img2path ) {
     const img1 = PNG.sync.read(fs.readFileSync(img1path));
     const img2 = PNG.sync.read(fs.readFileSync(img2path));
 
-    return pixelmatch(img1.data, img2.data, null, screenshotWidth, screenshotHeight, {threshold: 0.1});
+    if (img1.width !== img2.width || img1.height !== img2.height) {
+        // different image sizes
+        // we assume a new reference screenshot will be added
+        return MIN_DIFF_PIXELS;
+    }
+
+    return pixelmatch(img1.data, img2.data, null, img1.width, img1.height, {threshold: 0.1});
 }
 
 async function createScreenshot(page, screenshotName) {
@@ -119,11 +126,14 @@ async function createScreenshot(page, screenshotName) {
     await page.evaluate(function() {
         var changingElements = [
             '.rex-js-script-time',
+            '.rex-js-setup-step-5 .form-control-static',
             'td[data-title="Letzter Login"]',
             '#rex-form-exportfilename',
+            '#rex-page-system-settings .col-lg-4 td',
             '#rex-page-system-report-html .row td',
             'td[data-title="Version"]',
-            'td[data-title="Erstellt am"]'
+            'td[data-title="Erstellt am"]',
+            'tr[class^="rex-state-"] td[data-title="Zeit"]' // system log items
         ];
 
         changingElements.forEach(function (selector) {
@@ -138,7 +148,7 @@ async function createScreenshot(page, screenshotName) {
         });
     });
 
-    await page.screenshot({ path: WORKING_DIR + screenshotName });
+    await page.screenshot({ path: WORKING_DIR + screenshotName, fullPage: true });
 
     // make sure we only create changes in .github/tests-visual/ on substential screenshot changes.
     // this makes sure to prevent endless loops within the github action
@@ -147,6 +157,14 @@ async function createScreenshot(page, screenshotName) {
     if (diffPixels >= MIN_DIFF_PIXELS) {
         fs.renameSync(WORKING_DIR + screenshotName, GOLDEN_SAMPLES_DIR + screenshotName);
     }
+}
+
+async function logIntoBackend(page, username = 'myusername', password = '91dfd9ddb4198affc5c194cd8ce6d338fde470e2') {
+    await page.goto(START_URL, { waitUntil: 'load' });
+    await page.type('#rex-id-login-user', username);
+    await page.type('#rex-id-login-password', password); // sha1('mypassword')
+    await page.$eval('#rex-form-login', form => form.submit());
+    await page.waitForTimeout(1000);
 }
 
 async function main() {
@@ -162,41 +180,80 @@ async function main() {
     // log browser errors into the console
     page.on('console', msg => console.log('BROWSER-CONSOLE:', msg.text()));
 
-    await page.setViewport({ width: screenshotWidth, height: screenshotHeight });
+    await page.setViewport({ width: viewportWidth, height: viewportHeight });
     await page.setCookie(noHtaccessCheckCookie);
 
-    if (isSetup) {
+    switch (true) {
 
-        // setup step 1
-        await page.goto(START_URL, { waitUntil: 'load' });
-        await createScreenshot(page, 'setup.png');
+        case isSetup:
+            // setup step 1
+            await page.goto(START_URL, { waitUntil: 'load' });
+            await createScreenshot(page, 'setup.png');
 
-        // setup steps 2-7
-        for (var step = 2; step <= 7; step++) {
-            await page.goto(START_URL + '?page=setup&lang=de_de&step=' + step, { waitUntil: 'load' });
-            await createScreenshot(page, 'setup_' + step + '.png');
-        }
+            // setup steps 2-6
+            for (var step = 2; step <= 6; step++) {
+                // step 3: wait until `networkidle0` to finish AJAX requests, see https://github.com/puppeteer/puppeteer/blob/main/docs/api.md#pagegotourl-options
+                await page.goto(START_URL + '?page=setup&lang=de_de&step=' + step, { waitUntil: step === 3 ? 'networkidle0' : 'load'});
+                await page.waitForTimeout(300); // slight buffer for CSS animations or :focus styles etc.
+                await createScreenshot(page, 'setup_' + step + '.png');
+            }
 
-    } else {
+            // step 7
+            // requires form in step 6 to be submitted
+            await page.$eval('.rex-js-createadminform', form => form.submit());
+            await page.waitForTimeout(1000);
+            await createScreenshot(page, 'setup_7.png');
 
-        // login page
-        await page.goto(START_URL, { waitUntil: 'load' });
-        await page.waitForTimeout(1000); // CSS animation
-        await createScreenshot(page, 'login.png');
+            break;
 
-        // login successful
-        await page.type('#rex-id-login-user', 'myusername');
-        await page.type('#rex-id-login-password', '91dfd9ddb4198affc5c194cd8ce6d338fde470e2'); // sha1('mypassword')
-        await page.$eval('#rex-form-login', form => form.submit());
-        await page.waitForTimeout(1000);
-        await createScreenshot(page, 'index.png');
+        default:
+            // login page
+            await page.goto(START_URL, { waitUntil: 'load' });
+            await page.waitForSelector('.rex-background--ready');
+            await page.waitForTimeout(1000); // wait for bg image to fade in
+            await createScreenshot(page, 'login.png');
 
-        // run through all pages
-        for (var fileName in allPages) {
-            await page.goto(allPages[fileName], { waitUntil: 'load' });
-            await page.waitForTimeout(300); // CSS animation
-            await createScreenshot(page, fileName);
-        }
+            // login successful
+            await logIntoBackend(page);
+            await createScreenshot(page, 'index.png');
+
+            // run through all pages
+            for (var fileName in allPages) {
+                await page.goto(allPages[fileName], { waitUntil: 'load' });
+                await page.waitForTimeout(300); // slight buffer for CSS animations or :focus styles etc.
+                await createScreenshot(page, fileName);
+            }
+
+            // test safe mode
+            await page.goto(START_URL + '?page=system/settings', { waitUntil: 'load' });
+            await Promise.all([
+                page.waitForNavigation(),
+                page.click('.btn-safemode-activate') // enable safe mode
+            ]);
+            await createScreenshot(page, 'system_settings_safemode.png');
+            await Promise.all([
+                page.waitForNavigation(),
+                page.click('.btn-safemode-deactivate') // disable safe mode again
+            ]);
+
+            // test customizer
+            await page.goto(START_URL + '?page=packages', { waitUntil: 'load' });
+            await Promise.all([
+                page.waitForNavigation({ waitUntil: 'networkidle0' }),
+                page.click('#package-be_style-customizer .rex-table-action > a:first-child') // install
+            ]);
+            await createScreenshot(page, 'packages_customizer_installed.png');
+            await page.goto(START_URL + '?page=system/customizer', { waitUntil: 'load' });
+            await page.waitForTimeout(300); // slight buffer for CSS animations or :focus styles etc.
+            await createScreenshot(page, 'system_customizer.png');
+
+            // logout
+            await page.click('#rex-js-nav-top .rex-logout');
+            await page.waitForSelector('.rex-background--ready');
+            await page.waitForTimeout(1000); // wait for bg image to fade in
+            await createScreenshot(page, 'logout.png');
+
+            break;
     }
 
     await page.close();

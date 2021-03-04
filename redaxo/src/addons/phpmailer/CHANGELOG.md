@@ -1,6 +1,17 @@
 Changelog
 =========
 
+Version 2.10.0 – 03.03.2021
+---------------------------
+
+### Neu
+
+* Voreinstellung für den Mailer ist nun `smtp` statt `mail` (@gharlan)
+* Mailer `mail` steht nur noch zur Auswahl, wenn die PHP-Funktion auch verfügbar ist (@skerbis)
+* E-Mail-Archiv kann über neuen Button in den Einstellungen geleert werden (@skerbis)
+* `phpmailer[]`-Recht mit Textbeschreibung „PHPMailer-Einstellungen“ (@skerbis)
+
+
 Version 2.9.1 – 11.11.2020
 --------------------------
 

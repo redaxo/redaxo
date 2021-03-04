@@ -178,15 +178,15 @@ abstract class rex_structure_element
 
         $class = static::class;
         return static::getInstance([$id, $clang], static function ($id, $clang) use ($class) {
-            $article_path = rex_path::addonCache('structure', $id . '.' . $clang . '.article');
+            $articlePath = rex_path::addonCache('structure', $id . '.' . $clang . '.article');
 
             // load metadata from cache
-            $metadata = rex_file::getCache($article_path);
+            $metadata = rex_file::getCache($articlePath);
 
             // generate cache if not exists
             if (!$metadata) {
                 rex_article_cache::generateMeta($id, $clang);
-                $metadata = rex_file::getCache($article_path);
+                $metadata = rex_file::getCache($articlePath);
             }
 
             // if cache does not exist after generation, the article id is invalid

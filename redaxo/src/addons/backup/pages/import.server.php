@@ -55,13 +55,13 @@ if ($function && !$csrfToken->isValid()) {
         $error = rex_i18n::msg('backup_no_import_file_chosen_or_wrong_version') . '<br>';
     } else {
         if ('' != $impname) {
-            $file_temp = rex_backup::getDir() . '/' . $impname;
+            $fileTemp = rex_backup::getDir() . '/' . $impname;
         } else {
-            $file_temp = rex_backup::getDir() . '/temp.sql';
+            $fileTemp = rex_backup::getDir() . '/temp.sql';
         }
 
-        if ('' != $impname || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp)) {
-            $state = rex_backup::importDb($file_temp);
+        if ('' != $impname || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $fileTemp)) {
+            $state = rex_backup::importDb($fileTemp);
             if ($state['state']) {
                 $success = $state['message'];
             } else {
@@ -70,7 +70,7 @@ if ($function && !$csrfToken->isValid()) {
 
             // temp datei löschen
             if ('' == $impname) {
-                rex_file::delete($file_temp);
+                rex_file::delete($fileTemp);
             }
         } else {
             $error = rex_i18n::msg('backup_file_could_not_be_uploaded') . ' ' . rex_i18n::msg('backup_you_have_no_write_permission_in', 'data/addons/backup/') . ' <br>';
@@ -83,13 +83,13 @@ if ($function && !$csrfToken->isValid()) {
         $error = rex_i18n::msg('backup_no_import_file_chosen') . '<br/>';
     } else {
         if ('' == $impname) {
-            $file_temp = rex_backup::getDir() . '/temp.tar.gz';
+            $fileTemp = rex_backup::getDir() . '/temp.tar.gz';
         } else {
-            $file_temp = rex_backup::getDir() . '/' . $impname;
+            $fileTemp = rex_backup::getDir() . '/' . $impname;
         }
 
-        if ('' != $impname || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp)) {
-            $return = rex_backup::importFiles($file_temp);
+        if ('' != $impname || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $fileTemp)) {
+            $return = rex_backup::importFiles($fileTemp);
             if ($return['state']) {
                 $success = $return['message'];
             } else {
@@ -98,7 +98,7 @@ if ($function && !$csrfToken->isValid()) {
 
             // temp datei löschen
             if ('' == $impname) {
-                rex_file::delete($file_temp);
+                rex_file::delete($fileTemp);
             }
         } else {
             $error = rex_i18n::msg('backup_file_could_not_be_uploaded') . ' ' . rex_i18n::msg('backup_you_have_no_write_permission_in', 'data/addons/backup/') . ' <br>';
@@ -148,7 +148,7 @@ foreach ($folder as $file) {
                     <td data-title="' . rex_i18n::msg('backup_filesize') . '">' . $filesize . '</td>
                     <td data-title="' . rex_i18n::msg('backup_createdate') . '">' . $filec . '</td>
                     <td class="rex-table-action"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['function' => 'dbimport', 'impname' => $file] + $csrfToken->getUrlParams()) . '" title="' . rex_i18n::msg('backup_import_file') . '" data-confirm="' . rex_i18n::msg('backup_proceed_db_import') . '"><i class="rex-icon rex-icon-import"></i> ' . rex_i18n::msg('backup_to_import') . '</a></td>
-                    <td class="rex-table-action"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['function' => 'download', 'impname' => $file]) . '" title="' . rex_i18n::msg('backup_download_file') . '"><i class="rex-icon rex-icon-download"></i> ' . rex_i18n::msg('backup_download') . '</a></td>
+                    <td class="rex-table-action"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['function' => 'download', 'impname' => $file]) . '" download title="' . rex_i18n::msg('backup_download_file') . '"><i class="rex-icon rex-icon-download"></i> ' . rex_i18n::msg('backup_download') . '</a></td>
                     <td class="rex-table-action"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['function' => 'delete', 'impname' => $file] + $csrfToken->getUrlParams()) . '" title="' . rex_i18n::msg('backup_delete_file') . '" data-confirm="' . rex_i18n::msg('backup_delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('backup_delete') . '</a></td>
                 </tr>
     ';
@@ -191,7 +191,7 @@ foreach ($folder as $file) {
                     <td data-title="' . rex_i18n::msg('backup_filesize') . '">' . $filesize . '</td>
                     <td data-title="' . rex_i18n::msg('backup_createdate') . '">' . $filec . '</td>
                     <td class="rex-table-action"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['function' => 'fileimport', 'impname' => $file] + $csrfToken->getUrlParams()) . '" title="' . rex_i18n::msg('backup_import_file') . '" data-confirm="' . rex_i18n::msg('backup_proceed_file_import') . '"><i class="rex-icon rex-icon-import"></i> ' . rex_i18n::msg('backup_to_import') . '</a></td>
-                    <td class="rex-table-action"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['function' => 'download', 'impname' => $file]) . '" title="' . rex_i18n::msg('backup_download_file') . '"><i class="rex-icon rex-icon-download"></i> ' . rex_i18n::msg('backup_download') . '</a></td>
+                    <td class="rex-table-action"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['function' => 'download', 'impname' => $file]) . '" download title="' . rex_i18n::msg('backup_download_file') . '"><i class="rex-icon rex-icon-download"></i> ' . rex_i18n::msg('backup_download') . '</a></td>
                     <td class="rex-table-action"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['function' => 'delete', 'impname' => $file] + $csrfToken->getUrlParams()) . '" title="' . rex_i18n::msg('backup_delete_file') . '" data-confirm="' . rex_i18n::msg('backup_delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('backup_delete') . '</a></td>
                 </tr>';
 }

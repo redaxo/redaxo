@@ -79,7 +79,7 @@ class rex_article_content_base
      */
     protected $ARTICLE;
 
-    public function __construct($article_id = null, $clang = null)
+    public function __construct($articleId = null, $clang = null)
     {
         $this->article_id = 0;
         $this->template_id = 0;
@@ -103,12 +103,12 @@ class rex_article_content_base
         // ----- EXTENSION POINT
         rex_extension::registerPoint(new rex_extension_point('ART_INIT', '', [
             'article' => $this,
-            'article_id' => $article_id,
+            'article_id' => $articleId,
             'clang' => $this->clang,
         ]));
 
-        if (null !== $article_id) {
-            $this->setArticleId($article_id);
+        if (null !== $articleId) {
+            $this->setArticleId($articleId);
         }
     }
 
@@ -167,14 +167,14 @@ class rex_article_content_base
     /**
      * @return bool
      */
-    public function setArticleId($article_id)
+    public function setArticleId($articleId)
     {
-        $article_id = (int) $article_id;
-        $this->article_id = $article_id;
+        $articleId = (int) $articleId;
+        $this->article_id = $articleId;
 
         // ---------- select article
         $sql = $this->getSqlInstance();
-        $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE ' . rex::getTablePrefix() . 'article.id=? AND clang_id=?', [$article_id, $this->clang]);
+        $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE ' . rex::getTablePrefix() . 'article.id=? AND clang_id=?', [$articleId, $this->clang]);
 
         if (1 == $sql->getRows()) {
             $this->template_id = $this->getValue('template_id');
@@ -188,9 +188,9 @@ class rex_article_content_base
         return false;
     }
 
-    public function setTemplateId($template_id)
+    public function setTemplateId($templateId)
     {
-        $this->template_id = $template_id;
+        $this->template_id = $templateId;
     }
 
     public function getTemplateId()
@@ -430,9 +430,12 @@ class rex_article_content_base
         try {
             ob_implicit_flush(0);
 
+            /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
             $__stream = rex_stream::factory($path, $content);
 
+            /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
             $sandbox = function () use ($__stream) {
+                /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
                 require $__stream;
             };
             $sandbox();
@@ -499,24 +502,24 @@ class rex_article_content_base
     /**
      * @return string
      */
-    public function replaceCommonVars($content, $template_id = null)
+    public function replaceCommonVars($content, $templateId = null)
     {
-        static $user_id = null;
-        static $user_login = null;
+        static $userId = null;
+        static $userLogin = null;
 
         // UserId gibts nur im Backend
-        if (null === $user_id) {
+        if (null === $userId) {
             if (rex::getUser()) {
-                $user_id = rex::getUser()->getId();
-                $user_login = rex::getUser()->getLogin();
+                $userId = rex::getUser()->getId();
+                $userLogin = rex::getUser()->getLogin();
             } else {
-                $user_id = '';
-                $user_login = '';
+                $userId = '';
+                $userLogin = '';
             }
         }
 
-        if (!$template_id) {
-            $template_id = $this->getTemplateId();
+        if (!$templateId) {
+            $templateId = $this->getTemplateId();
         }
 
         static $search = [
@@ -532,14 +535,14 @@ class rex_article_content_base
             $this->article_id,
             $this->category_id,
             $this->clang,
-            $template_id,
-            $user_id,
-            $user_login,
+            $templateId,
+            $userId,
+            $userLogin,
         ];
 
         // calculating the key takes an additional sql query... execute the query only when we are sure the var is used
-        if (false !== strpos($content, 'REX_TEMPLATE_KEY')) {
-            $template = new rex_template($template_id);
+        if (str_contains($content, 'REX_TEMPLATE_KEY')) {
+            $template = new rex_template($templateId);
             $content = str_replace('REX_TEMPLATE_KEY', $template->getKey(), $content);
         }
 
@@ -571,7 +574,7 @@ class rex_article_content_base
      */
     private function renderSlices(string $articleLimit, string $sliceLimit): void
     {
-        $module_id = rex_request('module_id', 'int');
+        $moduleId = rex_request('module_id', 'int');
 
         // ---------- alle teile/slices eines artikels auswaehlen
         $query = 'SELECT '.rex::getTablePrefix().'module.id, '.rex::getTablePrefix().'module.key, '.rex::getTablePrefix(
@@ -605,7 +608,7 @@ class rex_article_content_base
 
         // pre hook
         $articleContent = '';
-        $articleContent = $this->preArticle($articleContent, $module_id);
+        $articleContent = $this->preArticle($articleContent, $moduleId);
 
         // ---------- SLICES AUSGEBEN
 
@@ -628,17 +631,17 @@ class rex_article_content_base
             }
 
             // ------------- EINZELNER SLICE - AUSGABE
-            $slice_content = $this->outputSlice(
+            $sliceContent = $this->outputSlice(
                 $artDataSql,
-                $module_id
+                $moduleId
             );
             // --------------- ENDE EINZELNER SLICE
 
             // --------------- EP: SLICE_SHOW
-            $slice_content = rex_extension::registerPoint(
+            $sliceContent = rex_extension::registerPoint(
                 new rex_extension_point(
                     'SLICE_SHOW',
-                    $slice_content,
+                    $sliceContent,
                     [
                         'article_id' => $this->article_id,
                         'clang' => $this->clang,
@@ -654,7 +657,7 @@ class rex_article_content_base
 
             // ---------- slice in ausgabe speichern wenn ctype richtig
             if (-1 == $this->ctype || $this->ctype == $sliceCtypeId) {
-                $articleContent .= $slice_content;
+                $articleContent .= $sliceContent;
             }
 
             $prevCtype = $sliceCtypeId;
@@ -669,7 +672,7 @@ class rex_article_content_base
         }
 
         // ----- post hook
-        $articleContent = $this->postArticle($articleContent, $module_id);
+        $articleContent = $this->postArticle($articleContent, $moduleId);
 
         // -------------------------- schreibe content
         echo $articleContent;

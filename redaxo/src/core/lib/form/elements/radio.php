@@ -27,7 +27,6 @@ class rex_form_radio_element extends rex_form_options_element
      */
     public function formatElement()
     {
-        $s = '';
         $value = $this->getValue();
         $options = $this->getOptions();
         $id = $this->getAttribute('id');
@@ -42,14 +41,14 @@ class rex_form_radio_element extends rex_form_options_element
 
         $formElements = [];
 
-        foreach ($options as $opt_name => $opt_value) {
-            $checked = $opt_value == $value ? ' checked="checked"' : '';
-            $opt_id = $id . '-' . rex_string::normalize($opt_value, '-');
-            $opt_attr = $attr . ' id="' . $opt_id . '"';
+        foreach ($options as $optName => $optValue) {
+            $checked = $optValue == $value ? ' checked="checked"' : '';
+            $optId = $id . '-' . rex_string::normalize($optValue, '-');
+            $optAttr = $attr . ' id="' . $optId . '"';
 
             $n = [];
-            $n['label'] = '<label class="control-label" for="' . $opt_id . '">' . rex_escape($opt_name) . '</label>';
-            $n['field'] = '<input type="radio" value="' . rex_escape($opt_value) . '"' . $opt_attr . $checked . ' />';
+            $n['label'] = '<label class="control-label" for="' . $optId . '">' . rex_escape($optName) . '</label>';
+            $n['field'] = '<input type="radio" value="' . rex_escape($optValue) . '"' . $optAttr . $checked . ' />';
             $formElements[] = $n;
         }
 

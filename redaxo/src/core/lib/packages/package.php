@@ -259,19 +259,28 @@ abstract class rex_package implements rex_package_interface
 
     /**
      * {@inheritdoc}
+     *
+     * @noRector
      */
     public function includeFile($file, array $context = [])
     {
+        /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
         $__file = $file;
+        /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
         $__context = $context;
+
         unset($file, $context);
 
+        /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
         extract($__context, EXTR_SKIP);
 
+        /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
         if (is_file($this->getPath($__file))) {
+            /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
             return include $this->getPath($__file);
         }
 
+        /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
         return include $__file;
     }
 
@@ -348,14 +357,14 @@ abstract class rex_package implements rex_package_interface
      */
     public function clearCache()
     {
-        $cache_dir = $this->getCachePath();
-        if (!is_dir($cache_dir)) {
+        $cacheDir = $this->getCachePath();
+        if (!is_dir($cacheDir)) {
             return;
         }
-        if (rex_dir::delete($cache_dir)) {
+        if (rex_dir::delete($cacheDir)) {
             return;
         }
-        throw new rex_functional_exception($this->i18n('cache_not_writable', $cache_dir));
+        throw new rex_functional_exception($this->i18n('cache_not_writable', $cacheDir));
     }
 
     public function enlist()

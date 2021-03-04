@@ -14,6 +14,14 @@ class rex_var_test_var extends rex_var
     }
 }
 
+class rex_var_2nd_test_var extends rex_var
+{
+    public function getOutput()
+    {
+        return '2';
+    }
+}
+
 class rex_var_test extends rex_var_base_test
 {
     public function parseTokensProvider()
@@ -23,6 +31,7 @@ class rex_var_test extends rex_var_base_test
             ['a<?php echo \'bREX_TEST_VAR[content=c]d\'; ?>e', 'abcde'],
             ['a<?php echo "bREX_TEST_VAR[content=c]d"; ?>e', 'abcde'],
             ['a<?php echo REX_TEST_VAR[content=b]; ?>c', 'abc'],
+            ['REX_2ND_TEST_VAR[]', '2'],
             ['a<?php echo <<<EOT
 bREX_TEST_VAR[content=c]d
 EOT;
@@ -163,14 +172,14 @@ c', "a\nb\nc"],
         $this->assertParseOutputEquals(print_r($array, true), $content, 'toArray() works with htmlspecialchar\'ed data');
 
         $array = ['&#039;', '\&quot;']; // [code for ', code for "]
-        $unescaped_array = ["'", '"'];
+        $unescapedArray = ["'", '"'];
         $content = '<?php print_r(rex_var::toArray("REX_TEST_VAR[content=\'' . addcslashes(json_encode($array), '[]"') . '\']"));';
-        $this->assertParseOutputEquals(print_r($unescaped_array, true), $content, 'toArray() rebuilds quotes');
+        $this->assertParseOutputEquals(print_r($unescapedArray, true), $content, 'toArray() rebuilds quotes');
 
         $array = ['&lt;strong&gt;inject me&lt;/strong&gt;', 'foo&amp;bar'];
-        $unescaped_array = ['<strong>inject me</strong>', 'foo&bar'];
+        $unescapedArray = ['<strong>inject me</strong>', 'foo&bar'];
         $content = '<?php print_r(rex_var::toArray("REX_TEST_VAR[content=\'' . addcslashes(json_encode($array), '[]"') . '\']"));';
-        $this->assertParseOutputEquals(print_r($unescaped_array, true), $content, 'toArray() rebuilds HTML');
+        $this->assertParseOutputEquals(print_r($unescapedArray, true), $content, 'toArray() rebuilds HTML');
     }
 
     public function testQuote()

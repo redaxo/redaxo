@@ -43,7 +43,7 @@ class rex_response
      */
     public static function setStatus($httpStatus)
     {
-        if (false !== strpos($httpStatus, "\n")) {
+        if (str_contains($httpStatus, "\n")) {
             throw new InvalidArgumentException('Illegal http-status "' . $httpStatus . '", contains newlines');
         }
 
@@ -101,36 +101,31 @@ class rex_response
         }
     }
 
-    private static function sendServerTimingHeaders()
-    {
-        // see https://w3c.github.io/server-timing/#the-server-timing-header-field
-        foreach (rex_timer::$serverTimings as $label => $timing) {
-            $label = preg_replace('{[^!#$%&\'*+-\.\^_`|~\w]}i', '_', $label);
-            header('Server-Timing: '. $label .';dur='. number_format($timing['sum'], 3, '.', ''), false);
-        }
-    }
-
     /**
      * Redirects to a URL.
      *
      * NOTE: Execution will stop within this method!
      *
      * @param string $url URL
+     * @param self::HTTP_MOVED_PERMANENTLY|self::HTTP_MOVED_TEMPORARILY|null $httpStatus
      *
      * @throws InvalidArgumentException
      *
      * @psalm-return never-return
      */
-    public static function sendRedirect($url)
+    public static function sendRedirect($url, $httpStatus = null)
     {
-        if (false !== strpos($url, "\n")) {
+        if (str_contains($url, "\n")) {
             throw new InvalidArgumentException('Illegal redirect url "' . $url . '", contains newlines');
+        }
+
+        if ($httpStatus) {
+            self::setStatus($httpStatus);
         }
 
         self::cleanOutputBuffers();
         self::sendAdditionalHeaders();
         self::sendPreloadHeaders();
-        self::sendServerTimingHeaders();
 
         header('HTTP/1.1 ' . self::$httpStatus);
         header('Location: ' . $url);
@@ -178,7 +173,6 @@ class rex_response
 
         self::sendAdditionalHeaders();
         self::sendPreloadHeaders();
-        self::sendServerTimingHeaders();
 
         header('Accept-Ranges: bytes');
         $rangeHeader = rex_request::server('HTTP_RANGE', 'string', null);
@@ -317,7 +311,6 @@ class rex_response
 
         self::sendAdditionalHeaders();
         self::sendPreloadHeaders();
-        self::sendServerTimingHeaders();
 
         echo $content;
 

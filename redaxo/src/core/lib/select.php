@@ -14,7 +14,7 @@ class rex_select
     /** @var array */
     private $options = [];
     /** @var array */
-    private $option_selected;
+    private $optionSelected;
     /** @var int */
     private $optCount = 0;
 
@@ -112,7 +112,7 @@ class rex_select
      */
     public function setStyle($style)
     {
-        if (false !== strpos($style, 'class=')) {
+        if (str_contains($style, 'class=')) {
             if (preg_match('/class=["\']?([^"\']*)["\']?/i', $style, $matches)) {
                 $this->setAttribute('class', $matches[1]);
             }
@@ -133,13 +133,13 @@ class rex_select
                 $this->setSelected($sectvalue);
             }
         } else {
-            $this->option_selected[] = (string) rex_escape($selected);
+            $this->optionSelected[] = (string) rex_escape($selected);
         }
     }
 
     public function resetSelected()
     {
-        $this->option_selected = [];
+        $this->optionSelected = [];
     }
 
     public function addOptgroup($label)
@@ -253,7 +253,7 @@ class rex_select
             $useRexSelectStyle = true;
         }
         // RexSelectStyle nicht nutzen, wenn die Klasse `.selectpicker` gesetzt ist
-        if (isset($this->attributes['class']) && false !== strpos($this->attributes['class'], 'selectpicker')) {
+        if (isset($this->attributes['class']) && str_contains($this->attributes['class'], 'selectpicker')) {
             $useRexSelectStyle = false;
         }
         // RexSelectStyle nicht nutzen, wenn das Selectfeld mehrzeilig ist
@@ -346,7 +346,7 @@ class rex_select
             $bsps = str_repeat('&nbsp;&nbsp;&nbsp;', $level);
         }
 
-        if (null !== $this->option_selected && in_array($value, $this->option_selected, true)) {
+        if (null !== $this->optionSelected && in_array($value, $this->optionSelected, true)) {
             $attributes['selected'] = 'selected';
         }
 

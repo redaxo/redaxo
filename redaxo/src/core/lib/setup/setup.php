@@ -23,7 +23,7 @@ class rex_setup
     public const DB_MODE_SETUP_IMPORT_BACKUP = 3;
     public const DB_MODE_SETUP_UPDATE_FROM_PREVIOUS = 4;
 
-    private static $MIN_PHP_EXTENSIONS = ['fileinfo', 'iconv', 'pcre', 'pdo', 'pdo_mysql', 'session', 'tokenizer'];
+    private const MIN_PHP_EXTENSIONS = ['fileinfo', 'filter', 'iconv', 'pcre', 'pdo', 'pdo_mysql', 'session', 'tokenizer'];
 
     /**
      * very basic setup steps, so everything is in place for our browser-based setup wizard.
@@ -35,9 +35,6 @@ class rex_setup
     {
         // initial purge all generated files
         rex_delete_cache();
-
-        // delete backend session
-        rex_backend_login::deleteSession();
 
         // copy alle media files of the current rex-version into redaxo_media
         rex_dir::copy(rex_path::core('assets'), rex_path::coreAssets());
@@ -76,7 +73,7 @@ class rex_setup
         }
 
         // -------------------------- EXTENSION CHECK
-        foreach (self::$MIN_PHP_EXTENSIONS as $extension) {
+        foreach (self::MIN_PHP_EXTENSIONS as $extension) {
             if (!extension_loaded($extension)) {
                 $errors[] = rex_i18n::msg('setup_302', $extension);
             }
@@ -251,13 +248,90 @@ class rex_setup
     public static function isInitialSetup(): bool
     {
         try {
-            $user_sql = rex_sql::factory();
-            $user_sql->setQuery('select * from ' . rex::getTable('user') . ' LIMIT 1');
+            $userSql = rex_sql::factory();
+            $userSql->setQuery('select * from ' . rex::getTable('user') . ' LIMIT 1');
 
-            return 0 == $user_sql->getRows();
+            return 0 == $userSql->getRows();
         } catch (rex_sql_could_not_connect_exception $e) {
             return true;
+        } catch (rex_sql_exception $e) {
+            $sql = $e->getSql();
+            if ($sql && rex_sql::ERRNO_TABLE_OR_VIEW_DOESNT_EXIST === $sql->getErrno()) {
+                return true;
+            }
+            throw $e;
         }
+    }
+
+    /**
+     * @return string|false Single-User-Setup URL or `false` on failure
+     */
+    public static function startWithToken()
+    {
+        $token = rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');
+
+        $configFile = rex_path::coreData('config.yml');
+        $config = rex_file::getConfig($configFile);
+
+        $config['setup'] = isset($config['setup']) && is_array($config['setup']) ? $config['setup'] : [];
+        $config['setup'][$token] = (new DateTimeImmutable('+1 hour'))->format('Y-m-d H:i:s');
+
+        if (false === rex_file::putConfig($configFile, $config)) {
+            return false;
+        }
+
+        return rex_url::backendPage('setup', ['setup_token' => $token], false);
+    }
+
+    public static function isEnabled(): bool
+    {
+        $setup = rex::getProperty('setup', false);
+
+        if (!is_array($setup)) {
+            // system wide setup
+            return (bool) $setup;
+        }
+
+        $currentToken = self::getToken();
+
+        if (!$currentToken && rex::isFrontend()) {
+            // no token in url, fast fail in frontend
+            // (in backend all existing tokens are revalidated below)
+            return false;
+        }
+
+        // invalidate expired tokens
+        $updated = false;
+        foreach ($setup as $token => $expire) {
+            if (strtotime($expire) < time()) {
+                unset($setup[$token]);
+                $updated = true;
+            }
+        }
+
+        if ($updated) {
+            $configFile = rex_path::coreData('config.yml');
+            $config = rex_file::getConfig($configFile);
+            $config['setup'] = $setup ?: false;
+            rex_file::putConfig($configFile, $config);
+        }
+
+        return isset($setup[$currentToken]);
+    }
+
+    public static function getContext(): rex_context
+    {
+        $context = new rex_context([
+            'page' => 'setup',
+            'lang' => rex_request('lang', 'string', ''),
+            'step' => rex_request('step', 'int', 1),
+        ]);
+
+        if ($token = self::getToken()) {
+            $context->setParam('setup_token', $token);
+        }
+
+        return $context;
     }
 
     /**
@@ -270,7 +344,18 @@ class rex_setup
             rex_file::getConfig(rex_path::core('default.config.yml')),
             rex_file::getConfig($configFile)
         );
-        $config['setup'] = false;
+
+        if (is_array($config['setup'])) {
+            // remove current token
+            if ($token = self::getToken()) {
+                unset($config['setup'][$token]);
+            }
+
+            // if array is empty now, convert it to global `false` value
+            $config['setup'] = $config['setup'] ?: false;
+        } else {
+            $config['setup'] = false;
+        }
 
         $configWritten = rex_file::putConfig($configFile, $config);
 
@@ -279,5 +364,10 @@ class rex_setup
         }
 
         return $configWritten;
+    }
+
+    private static function getToken(): ?string
+    {
+        return rex_get('setup_token', 'string', null);
     }
 }

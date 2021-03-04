@@ -168,21 +168,21 @@ class rex_sql_util
         // do not trim, see bug #1030644
         //$sql          = trim($sql);
         $sql = rtrim($sql, "\n\r");
-        $sql_len = strlen($sql);
-        $string_start = '';
-        $in_string = false;
+        $sqlLen = strlen($sql);
+        $stringStart = '';
+        $inString = false;
         $nothing = true;
         $time0 = time();
 
-        for ($i = 0; $i < $sql_len; ++$i) {
+        for ($i = 0; $i < $sqlLen; ++$i) {
             $char = $sql[$i];
 
             // We are in a string, check for not escaped end of strings except for
             // backquotes that can't be escaped
-            if ($in_string) {
+            if ($inString) {
                 for (;;) {
                     /** @psalm-suppress LoopInvalidation */
-                    $i = strpos($sql, $string_start, $i);
+                    $i = strpos($sql, $stringStart, $i);
                     // No end of string found -> add the current substring to the
                     // returned array
                     if (!$i) {
@@ -191,25 +191,25 @@ class rex_sql_util
                     }
                     // Backquotes or no backslashes before quotes: it's indeed the
                     // end of the string -> exit the loop
-                    if ('`' == $string_start || '\\' != $sql[$i - 1]) {
-                        $string_start = '';
-                        $in_string = false;
+                    if ('`' == $stringStart || '\\' != $sql[$i - 1]) {
+                        $stringStart = '';
+                        $inString = false;
                         break;
                     }
                     // one or more Backslashes before the presumed end of string...
 
                     // ... first checks for escaped backslashes
                     $j = 2;
-                    $escaped_backslash = false;
+                    $escapedBackslash = false;
                     while ($i - $j > 0 && '\\' == $sql[$i - $j]) {
-                        $escaped_backslash = !$escaped_backslash;
+                        $escapedBackslash = !$escapedBackslash;
                         ++$j;
                     }
                     // ... if escaped backslashes: it's really the end of the
                     // string -> exit the loop
-                    if ($escaped_backslash) {
-                        $string_start = '';
-                        $in_string = false;
+                    if ($escapedBackslash) {
+                        $stringStart = '';
+                        $inString = false;
                         break;
                     }
                     // ... else loop
@@ -221,7 +221,7 @@ class rex_sql_util
             } // end if (in string)
 
             // lets skip comments (/*, -- and #)
-            elseif (('-' == $char && $sql_len > $i + 2 && '-' == $sql[$i + 1] && $sql[$i + 2] <= ' ') || '#' == $char || ('/' == $char && $sql_len > $i + 1 && '*' == $sql[$i + 1])) {
+            elseif (('-' == $char && $sqlLen > $i + 2 && '-' == $sql[$i + 1] && $sql[$i + 2] <= ' ') || '#' == $char || ('/' == $char && $sqlLen > $i + 1 && '*' == $sql[$i + 1])) {
                 /** @psalm-suppress LoopInvalidation */
                 $i = strpos($sql, '/' == $char ? '*/' : "\n", $i);
                 // didn't we hit end of string?
@@ -238,9 +238,9 @@ class rex_sql_util
                 // if delimiter found, add the parsed part to the returned array
                 $queries[] = ['query' => substr($sql, 0, $i), 'empty' => $nothing];
                 $nothing = true;
-                $sql = ltrim(substr($sql, min($i + 1, $sql_len)));
-                $sql_len = strlen($sql);
-                if ($sql_len) {
+                $sql = ltrim(substr($sql, min($i + 1, $sqlLen)));
+                $sqlLen = strlen($sql);
+                if ($sqlLen) {
                     /** @psalm-suppress LoopInvalidation */
                     $i = -1;
                 } else {
@@ -251,9 +251,9 @@ class rex_sql_util
 
             // ... then check for start of a string,...
             elseif (('"' == $char) || ('\'' == $char) || ('`' == $char)) {
-                $in_string = true;
+                $inString = true;
                 $nothing = false;
-                $string_start = $char;
+                $stringStart = $char;
             } // end else if (is start of string)
 
             elseif ($nothing) {

@@ -192,7 +192,7 @@ class rex_metainfo_table_expander extends rex_form
     public function addPrefix($string)
     {
         $lowerString = strtolower($string);
-        if (substr($lowerString, 0, strlen($this->metaPrefix)) !== $this->metaPrefix) {
+        if (!str_starts_with($lowerString, $this->metaPrefix)) {
             return $this->metaPrefix . $string;
         }
         return $string;
@@ -201,7 +201,7 @@ class rex_metainfo_table_expander extends rex_form
     public function stripPrefix($string)
     {
         $lowerString = strtolower($string);
-        if (substr($lowerString, 0, strlen($this->metaPrefix)) === $this->metaPrefix) {
+        if (str_starts_with($lowerString, $this->metaPrefix)) {
             return substr($string, strlen($this->metaPrefix));
         }
         return $string;

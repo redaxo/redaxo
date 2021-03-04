@@ -3,11 +3,10 @@
 assert(isset($context) && $context instanceof rex_context);
 assert(isset($cancelSetupBtn));
 
-$license_file = rex_path::base('LICENSE.md');
-$license = '<p>' . nl2br(rex_file::require($license_file)) . '</p>';
+$licenseFile = rex_path::base('LICENSE.md');
+$license = rex_markdown::factory()->parse(rex_file::require($licenseFile));
 
-$content = rex_i18n::rawMsg('setup_202');
-$content .= $license;
+$content = $license;
 
 $buttons = '<a class="btn btn-setup" href="' . $context->getUrl(['step' => 3]) . '">' . rex_i18n::msg('setup_203') . '</a>';
 

@@ -4,14 +4,14 @@ assert(isset($context) && $context instanceof rex_context);
 assert(isset($errors) && is_array($errors));
 assert(isset($cancelSetupBtn));
 
-$user_sql = rex_sql::factory();
-$user_sql->setQuery('select * from ' . rex::getTablePrefix() . 'user LIMIT 1');
+$userSql = rex_sql::factory();
+$userSql->setQuery('select * from ' . rex::getTablePrefix() . 'user LIMIT 1');
 
 $headline = rex_view::title(rex_i18n::msg('setup_600').$cancelSetupBtn);
 
-$submit_message = rex_i18n::msg('setup_610');
+$submitMessage = rex_i18n::msg('setup_610');
 if (count($errors) > 0) {
-    $submit_message = rex_i18n::msg('setup_611');
+    $submitMessage = rex_i18n::msg('setup_611');
     $headline .= implode('', $errors);
 }
 
@@ -21,10 +21,10 @@ $content .= '
         <fieldset>
             ';
 
-$redaxo_user_login = rex_post('redaxo_user_login', 'string');
-$redaxo_user_pass = rex_post('redaxo_user_pass', 'string');
+$redaxoUserLogin = rex_post('redaxo_user_login', 'string');
+$redaxoUserPass = rex_post('redaxo_user_pass', 'string');
 
-if ($user_sql->getRows() > 0) {
+if ($userSql->getRows() > 0) {
     $formElements = [];
     $n = [];
 
@@ -46,12 +46,12 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="rex-form-redaxo-user-login" class="required">' . rex_i18n::msg('setup_607') . '</label>';
-$n['field'] = '<input class="form-control" type="text" value="' . rex_escape($redaxo_user_login) . '" id="rex-form-redaxo-user-login" name="redaxo_user_login" autofocus />';
+$n['field'] = '<input class="form-control" type="text" value="' . rex_escape($redaxoUserLogin) . '" id="rex-form-redaxo-user-login" name="redaxo_user_login" autofocus />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-form-redaxo-user-pass" class="required">' . rex_i18n::msg('setup_608') . '</label>';
-$n['field'] = '<input class="form-control" type="password" value="' . rex_escape($redaxo_user_pass) . '" id="rex-form-redaxo-user-pass" name="redaxo_user_pass" />';
+$n['field'] = '<input class="form-control" type="password" value="' . rex_escape($redaxoUserPass) . '" id="rex-form-redaxo-user-pass" name="redaxo_user_pass" />';
 $n['note'] = rex_backend_password_policy::factory()->getDescription();
 $formElements[] = $n;
 
@@ -64,7 +64,7 @@ $content .= '</fieldset>';
 $formElements = [];
 
 $n = [];
-$n['field'] = '<button class="btn btn-setup" type="submit" value="' . $submit_message . '">' . $submit_message . '</button>';
+$n['field'] = '<button class="btn btn-setup" type="submit" value="' . $submitMessage . '">' . $submitMessage . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();

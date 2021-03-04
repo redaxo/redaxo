@@ -1,21 +1,21 @@
 <?php
 
 assert(isset($context) && $context instanceof rex_context);
-assert(isset($success_array) && is_array($success_array));
-assert(isset($error_array) && is_array($error_array));
+assert(isset($successArray) && is_array($successArray));
+assert(isset($errorArray) && is_array($errorArray));
 assert(isset($cancelSetupBtn));
 
 $content = '';
 
-if (count($success_array) > 0) {
-    $content .= '<ul><li>' . implode('</li><li>', $success_array) . '</li></ul>';
+if (count($successArray) > 0) {
+    $content .= '<ul><li>' . implode('</li><li>', $successArray) . '</li></ul>';
 }
 
 $buttons = '';
 $class = '';
-if (count($error_array) > 0) {
+if (count($errorArray) > 0) {
     $class = 'error';
-    $content .= implode('', $error_array);
+    $content .= implode('', $errorArray);
 
     $buttons = '<a class="btn btn-setup" href="' . $context->getUrl(['step' => 4]) . '">' . rex_i18n::msg('setup_312') . '</a>';
 } else {

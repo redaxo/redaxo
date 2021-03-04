@@ -1,6 +1,19 @@
 Changelog
 =========
 
+Version 2.11.0 – 03.03.2021
+---------------------------
+
+### Neu
+
+* Neuer Effekt `image_format`, über den das Bildformat geändert werden kann (JPG, PNG, GIF, WEBP) (@aeberhard)
+
+### Bugfixes
+
+* System-Mediatypen konnten umbenannt werden (@staabm)
+* Effekt `image_properties`: Der Effekt wirkte sich nur aus, wenn noch weitere Bildeffekte aktiv waren (@gharlan)
+
+
 Version 2.10.1 – 11.11.2020
 ---------------------------
 

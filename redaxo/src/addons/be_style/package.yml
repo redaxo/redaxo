@@ -1,5 +1,5 @@
 package: be_style
-version: '2.11.1'
+version: '2.12.0'
 author: 'Jan Kristinus, Markus Staab, Thomas Blum'
 supportpage: https://github.com/redaxo/redaxo
 
@@ -13,4 +13,4 @@ console_commands:
 
 requires:
     php: '>=7.3'
-    redaxo: ^5.10.0
+    redaxo: ^5.12.0

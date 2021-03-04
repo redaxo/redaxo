@@ -49,11 +49,17 @@ abstract class rex_formatter
             return '';
         }
 
+        $timestamp = self::getTimestamp($value);
+
+        if (null === $timestamp) {
+            return '';
+        }
+
         if ('' == $format) {
             $format = 'd.m.Y';
         }
 
-        return date($format, self::getTimestamp($value));
+        return date($format, $timestamp);
     }
 
     /**
@@ -72,6 +78,12 @@ abstract class rex_formatter
             return '';
         }
 
+        $timestamp = self::getTimestamp($value);
+
+        if (null === $timestamp) {
+            return '';
+        }
+
         if ('' == $format || 'date' == $format) {
             // Default REX-Dateformat
             $format = rex_i18n::msg('dateformat');
@@ -82,7 +94,7 @@ abstract class rex_formatter
             // Default REX-Timeformat
             $format = rex_i18n::msg('timeformat');
         }
-        return strftime($format, self::getTimestamp($value));
+        return strftime($format, $timestamp);
     }
 
     /**
@@ -129,10 +141,10 @@ abstract class rex_formatter
         $value = (int) $value;
 
         $units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
-        $unit_index = 0;
+        $unitIndex = 0;
         while (($value / 1024) >= 1) {
             $value /= 1024;
-            ++$unit_index;
+            ++$unitIndex;
         }
 
         if (isset($format[0])) {
@@ -148,7 +160,7 @@ abstract class rex_formatter
             }
         }
 
-        return self::number($value, $format) . ' ' . $units[$unit_index];
+        return self::number($value, $format) . ' ' . $units[$unitIndex];
     }
 
     /**
@@ -369,7 +381,7 @@ abstract class rex_formatter
      *
      * @param string|int $value
      *
-     * @return int
+     * @return int|null
      */
     private static function getTimestamp($value)
     {
@@ -377,12 +389,22 @@ abstract class rex_formatter
             return (int) $value;
         }
 
-        $time = strtotime($value);
-
-        if (false === $time) {
-            throw new InvalidArgumentException(sprintf('"%s" is not a valid datetime string.', $value));
+        if (!is_string($value)) {
+            throw new InvalidArgumentException('$value must be a unix timestamp as int or a date(time) string, but "'.get_debug_type($value).'" given');
         }
 
-        return $time;
+        $time = strtotime($value);
+
+        if (false !== $time) {
+            return $time;
+        }
+
+        if (str_starts_with($value, '0000-00-00')) {
+            trigger_error(sprintf('%s: "%s" is not a valid dateime string.', __METHOD__, $value), E_USER_WARNING);
+
+            return null;
+        }
+
+        throw new InvalidArgumentException(sprintf('"%s" is not a valid datetime string.', $value));
     }
 }

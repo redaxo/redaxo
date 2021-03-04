@@ -6,27 +6,17 @@
 
 echo rex_view::title(rex_i18n::msg('addons'), '');
 
-$content = '';
-
 // the package manager don't know new packages in the addon folder
 // so we need to make them available
 rex_package_manager::synchronizeWithFileSystem();
 
-$toolbar = '
-    <div class="form-group form-group-xs">
-        <div class="input-group input-group-xs" id="rex-js-available-addon-search">
-            <input class="form-control" type="search" placeholder="' . rex_i18n::msg('package_search') . '" '.(rex_request('function') ? '' : 'autofocus ').'/>
-            <span class="input-group-btn"><button class="btn btn-default">' . rex_i18n::msg('package_clear') . '</button></span>
-        </div>
-    </div>
-';
-
 $fragment = new rex_fragment();
 $fragment->setVar('id', 'rex-js-available-addon-search');
+$fragment->setVar('autofocus', !rex_request('function', 'bool'));
 $toolbar = $fragment->parse('core/form/search.php');
 
-$content .= '
-        <table class="table table-hover" id="rex-js-table-available-packages-addons">
+$content = '
+        <table class="table table-hover rex-targeted-rows" id="rex-js-table-available-packages-addons">
         <thead>
             <tr>
                 <th class="rex-table-icon">&nbsp;</th>
@@ -52,7 +42,6 @@ $getLink = static function (rex_package $package, $function, $icon = '', $confir
     ] + rex_api_package::getUrlParams());
 
     $icon = ('' != $icon) ? '<i class="rex-icon ' . $icon . '"></i>' : '';
-    $class = ($key ?: $function);
     return '<a class="rex-link-expanded" href="' . $url . '"' . $onclick . '>' . $icon . ' ' . $text . '</a>';
 };
 
@@ -82,7 +71,7 @@ $getTableRow = static function (rex_package $package) use ($getLink) {
     } else {
         $class .= ' rex-package-not-installed';
     }
-    $name = '<span class="rex-' . $type . '-name" id="package-' . rex_escape($packageId) . '">' . rex_escape($package->getName()) . '</span>';
+    $name = '<span class="rex-' . $type . '-name">' . rex_escape($package->getName()) . '</span>';
 
     $class .= $package->isSystemPackage() ? ' rex-system-' . $type : '';
 
@@ -123,7 +112,7 @@ $getTableRow = static function (rex_package $package) use ($getLink) {
     }
 
     return $message . '
-                <tr class="rex-package-is-' . $type . $class . '">
+                <tr id="package-' . rex_escape(rex_string::normalize($packageId, '-', '_')) . '" class="rex-package-is-' . $type . $class . '">
                     <td class="rex-table-icon"><i class="rex-icon rex-icon-package-' . $type . '"></i></td>
                     <td data-title="' . rex_i18n::msg('package_hname') . '">' . $name . '</td>
                     <td data-title="' . rex_i18n::msg('package_hversion') . '">' . $version . '</td>
@@ -138,11 +127,11 @@ $getTableRow = static function (rex_package $package) use ($getLink) {
                 </tr>' . "\n   ";
 };
 
-foreach (rex_addon::getRegisteredAddons() as $addonName => $addon) {
+foreach (rex_addon::getRegisteredAddons() as $addon) {
     $content .= $getTableRow($addon);
 
     if ($addon->isAvailable()) {
-        foreach ($addon->getRegisteredPlugins() as $pluginName => $plugin) {
+        foreach ($addon->getRegisteredPlugins() as $plugin) {
             $content .= $getTableRow($plugin);
         }
     }

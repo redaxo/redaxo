@@ -36,6 +36,7 @@ composer update --ansi --no-dev -d redaxo/src/addons/backup/
 
 rm -f redaxo/src/addons/backup/vendor/autoload.php
 rm -rf redaxo/src/addons/backup/vendor/composer/
+rm -rf redaxo/src/addons/backup/vendor/splitbrain/php-archive/.github
 rm -rf redaxo/src/addons/backup/vendor/splitbrain/php-archive/.gitignore
 rm -rf redaxo/src/addons/backup/vendor/splitbrain/php-archive/.travis.yml
 rm -rf redaxo/src/addons/backup/vendor/splitbrain/php-archive/apigen.neon
@@ -75,12 +76,14 @@ composer update --ansi --no-dev -d redaxo/src/addons/phpmailer/
 
 rm -f redaxo/src/addons/phpmailer/vendor/autoload.php
 rm -rf redaxo/src/addons/phpmailer/vendor/composer/
-rm -f redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/.php_cs
-rm -f redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/phpdoc.dist.xml
 rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/.github/
 rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/.phan/
 rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/examples/
 rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/extras/
+rm -f redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/.php_cs
+rm -f redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/get_oauth_token.php
+rm -f redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/phpdoc.dist.xml
+rm -f redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/phpunit.xml.dist
 find redaxo/src/addons/phpmailer/vendor -name "*.md" ! -name "LICENSE.md" -type f -delete
 
 printf "\nUpdate root composer.json and vendor/\n"
@@ -92,10 +95,11 @@ curl -# https://cdn.jsdelivr.net/gh/jquery/jquery@3/dist/jquery.js > redaxo/src/
 curl -# https://cdn.jsdelivr.net/gh/jquery/jquery@3/dist/jquery.min.js > redaxo/src/core/assets/jquery.min.js
 curl -# https://cdn.jsdelivr.net/gh/jquery/jquery@3/dist/jquery.min.map > redaxo/src/core/assets/jquery.min.map
 
-printf "\nUpdate redaxo/src/core/assets/pjax.min.js\n"
-curl -# https://cdn.jsdelivr.net/npm/pjax@0/pjax.min.js > redaxo/src/core/assets/pjax.min.js
+# Currently we are using last 1.x version of pjax, so we do not want to update to 2.x
+#printf "\nUpdate redaxo/src/core/assets/jquery-pjax.min.js\n"
+#curl -#d output_info=compiled_code -d compilation_level=SIMPLE_OPTIMIZATIONS -d code_url=https://github.com/defunkt/jquery-pjax/raw/master/jquery.pjax.js https://closure-compiler.appspot.com/compile > redaxo/src/core/assets/jquery-pjax.min.js
 
-cp redaxo/src/core/assets/pjax.min.js assets/core
+cp redaxo/src/core/assets/jquery-pjax.min.js assets/core
 cp redaxo/src/core/assets/jquery.js assets/core
 cp redaxo/src/core/assets/jquery.min.js assets/core
 cp redaxo/src/core/assets/jquery.min.map assets/core

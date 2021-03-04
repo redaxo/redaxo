@@ -77,13 +77,13 @@ if ('' == $func) {
     $list->setColumnFormat('environment', 'custom', static function ($params) {
         $value = $params['list']->getValue('environment');
         $env = [];
-        if (false !== strpos($value, '|frontend|')) {
+        if (str_contains($value, '|frontend|')) {
             $env[] = rex_i18n::msg('cronjob_environment_frontend');
         }
-        if (false !== strpos($value, '|backend|')) {
+        if (str_contains($value, '|backend|')) {
             $env[] = rex_i18n::msg('cronjob_environment_backend');
         }
-        if (false !== strpos($value, '|script|')) {
+        if (str_contains($value, '|script|')) {
             $env[] = rex_i18n::msg('cronjob_environment_script');
         }
         return implode(', ', $env);
@@ -127,7 +127,7 @@ if ('' == $func) {
     $list->addLinkAttribute('execute', 'data-pjax', 'false');
     $list->setColumnFormat('execute', 'custom', static function ($params) use ($addon) {
         $list = $params['list'];
-        if (false !== strpos($list->getValue('environment'), '|backend|') && class_exists($list->getValue('type'))) {
+        if (str_contains($list->getValue('environment'), '|backend|') && class_exists($list->getValue('type'))) {
             return $list->getColumnLink('execute', '<i class="rex-icon rex-icon-execute"></i> ' . $addon->i18n('execute'));
         }
         return '<span class="text-muted"><i class="rex-icon rex-icon-execute"></i> ' . $addon->i18n('execute') . '</span>';
@@ -235,12 +235,12 @@ if ('' == $func) {
     $form->addFieldset($addon->i18n('interval'));
     $field = $form->addIntervalField('interval');
 
-    $env_js = '';
+    $envJs = '';
     $visible = [];
     foreach ($cronjobs as $group => $cronjob) {
         $disabled = array_diff(['frontend', 'backend', 'script'], (array) $cronjob->getEnvironments());
         if (count($disabled) > 0) {
-            $env_js .= '
+            $envJs .= '
                 if ($("#' . $typeFieldId . ' option:selected").val() == "' . $group . '")
                     $("#' . $envFieldId . ' option[value=\'' . implode('\'], #' . $envFieldId . ' option[value=\'', $disabled) . '\']").prop("disabled","disabled").prop("selected","");
 ';
@@ -312,14 +312,14 @@ if ('' == $func) {
             }
         }
     }
-    $visible_js = '';
+    $visibleJs = '';
     if (!empty($visible)) {
         foreach ($fieldContainer->getFields() as $group => $fieldElements) {
             foreach ($fieldElements as $field) {
                 $name = $field->getFieldName();
                 if (isset($visible[$name])) {
                     foreach ($visible[$name] as $value => $fieldIds) {
-                        $visible_js .= '
+                        $visibleJs .= '
                         var first = 1;
                         $("#' . rex_escape($field->getAttribute('id'), 'js') . '-' . $value . '").change(function(){
                             var checkbox = $(this);
@@ -369,8 +369,8 @@ if ('' == $func) {
                 currentShown = next;
             }).change();
             $('#<?php echo $typeFieldId ?>').change(function(){
-                $('#<?php echo $envFieldId ?> option').prop('disabled','');<?php echo $env_js; ?>
-            }).change();<?php echo $visible_js . "\n"; ?>
+                $('#<?php echo $envFieldId ?> option').prop('disabled','');<?php echo $envJs; ?>
+            }).change();<?php echo $visibleJs . "\n"; ?>
         });
     // ]]>
     </script>

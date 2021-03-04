@@ -78,7 +78,7 @@ class rex_type
                 case '': break;
                 default:
                     // check for array with generic type
-                    if (0 === strpos($vartype, 'array[')) {
+                    if (str_starts_with($vartype, 'array[')) {
                         if (empty($var)) {
                             $var = [];
                         } else {

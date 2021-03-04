@@ -23,16 +23,16 @@ class rex_backup_file_compressor
         $dest = $source . '.gz';
         $mode = 'wb' . $level;
         $error = false;
-        if ($fp_out = gzopen($dest, $mode)) {
-            if ($fp_in = fopen($source, 'r')) {
-                while (!feof($fp_in)) {
-                    gzwrite($fp_out, fread($fp_in, 1024 * 512));
+        if ($fpOut = gzopen($dest, $mode)) {
+            if ($fpIn = fopen($source, 'r')) {
+                while (!feof($fpIn)) {
+                    gzwrite($fpOut, fread($fpIn, 1024 * 512));
                 }
-                fclose($fp_in);
+                fclose($fpIn);
             } else {
                 $error = true;
             }
-            gzclose($fp_out);
+            gzclose($fpOut);
         } else {
             $error = true;
         }
@@ -56,11 +56,11 @@ class rex_backup_file_compressor
         }
 
         $str = '';
-        if ($fp_in = gzopen($source, 'r')) {
-            while (!gzeof($fp_in)) {
-                $str .= gzgets($fp_in, 1024 * 512);
+        if ($fpIn = gzopen($source, 'r')) {
+            while (!gzeof($fpIn)) {
+                $str .= gzgets($fpIn, 1024 * 512);
             }
-            gzclose($fp_in);
+            gzclose($fpIn);
         } else {
             return false;
         }

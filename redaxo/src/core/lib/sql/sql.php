@@ -15,6 +15,7 @@ class rex_sql implements Iterator
     public const MARIADB = 'MariaDB';
 
     public const ERROR_VIOLATE_UNIQUE_KEY = 1062;
+    public const ERRNO_TABLE_OR_VIEW_DOESNT_EXIST = '42S02';
 
     /**
      * Default SQL datetime format.
@@ -167,7 +168,7 @@ class rex_sql implements Iterator
         }
 
         $port = null;
-        if (false !== strpos($host, ':')) {
+        if (str_contains($host, ':')) {
             [$host, $port] = explode(':', $host, 2);
         }
 
@@ -572,7 +573,7 @@ class rex_sql implements Iterator
         if ('' == $value) {
             return true;
         }
-        return false !== strpos($this->getValue($column), $value);
+        return str_contains((string) $this->getValue($column), $value);
     }
 
     /**
@@ -683,16 +684,16 @@ class rex_sql implements Iterator
         }
 
         $qry = '';
-        foreach ($columns as $fld_name => $value) {
+        foreach ($columns as $fldName => $value) {
             if (is_array($value)) {
                 $arg = '(' . $this->buildWhereArg($value, $params, $level + 1) . ')';
             } else {
-                $paramName = $fld_name;
+                $paramName = $fldName;
                 for ($i = 1; array_key_exists($paramName, $params) || array_key_exists($paramName, $this->values); ++$i) {
-                    $paramName = $fld_name.'_'.$i;
+                    $paramName = $fldName.'_'.$i;
                 }
 
-                $arg = $this->escapeIdentifier($fld_name) . ' = :' . $paramName;
+                $arg = $this->escapeIdentifier($fldName) . ' = :' . $paramName;
                 $params[$paramName] = $value;
             }
 
@@ -708,13 +709,12 @@ class rex_sql implements Iterator
      * Returns the value of a column.
      *
      * @param string $column Name of the column
-     * @param string|null $type Column type, see `rex_type::cast()` (only scalar types)
      *
      * @throws rex_sql_exception
      *
      * @return mixed
      */
-    public function getValue($column, $type = null)
+    public function getValue($column)
     {
         if (empty($column)) {
             throw new rex_sql_exception('parameter $column must not be empty!', null, $this);
@@ -722,21 +722,21 @@ class rex_sql implements Iterator
 
         // fast fail,... value already set manually?
         if (isset($this->values[$column])) {
-            return $this->castValue($this->values[$column], $type);
+            return $this->values[$column];
         }
 
         // check if there is an table alias defined
         // if not, try to guess the tablename
-        if (false === strpos($column, '.')) {
+        if (!str_contains($column, '.')) {
             $tables = $this->getTablenames();
             foreach ($tables as $table) {
                 if (in_array($table . '.' . $column, $this->rawFieldnames)) {
-                    return $this->castValue($this->fetchValue($table . '.' . $column), $type);
+                    return $this->fetchValue($table . '.' . $column);
                 }
             }
         }
 
-        return $this->castValue($this->fetchValue($column), $type);
+        return $this->fetchValue($column);
     }
 
     /**
@@ -830,7 +830,7 @@ class rex_sql implements Iterator
             return true;
         }
 
-        if (false !== strpos($column, '.')) {
+        if (str_contains($column, '.')) {
             $parts = explode('.', $column);
             return in_array($parts[0], $this->getTablenames()) && in_array($parts[1], $this->getFieldnames());
         }
@@ -890,21 +890,21 @@ class rex_sql implements Iterator
     {
         $qry = '';
         if (is_array($this->values)) {
-            foreach ($this->values as $fld_name => $value) {
+            foreach ($this->values as $fldName => $value) {
                 if ('' != $qry) {
                     $qry .= ', ';
                 }
 
-                $qry .= $this->escapeIdentifier($fld_name) .' = :' . $fld_name;
+                $qry .= $this->escapeIdentifier($fldName) .' = :' . $fldName;
             }
         }
         if (is_array($this->rawValues)) {
-            foreach ($this->rawValues as $fld_name => $value) {
+            foreach ($this->rawValues as $fldName => $value) {
                 if ('' != $qry) {
                     $qry .= ', ';
                 }
 
-                $qry .= $this->escapeIdentifier($fld_name) . ' = ' . $value;
+                $qry .= $this->escapeIdentifier($fldName) . ' = ' . $value;
             }
         }
 
@@ -1414,7 +1414,6 @@ class rex_sql implements Iterator
                 continue;
             }
 
-            /** @phpstan-ignore-next-line */
             throw new InvalidArgumentException('Argument $values must be an array of ints and/or strings, but it contains "'.get_debug_type($value).'"');
         }
 
@@ -1843,6 +1842,11 @@ class rex_sql implements Iterator
         return new $class($db);
     }
 
+    public static function closeConnection(int $db = 1): void
+    {
+        unset(self::$pdo[$db]);
+    }
+
     /**
      * Prueft die uebergebenen Zugangsdaten auf gueltigkeit und legt ggf. die
      * Datenbank an.
@@ -1861,7 +1865,7 @@ class rex_sql implements Iterator
             return rex_i18n::msg('sql_database_name_missing');
         }
 
-        if (false !== strpos($host, ':')) {
+        if (str_contains($host, ':')) {
             [$hostName, $port] = explode(':', $host, 2);
             if (!filter_var($hostName, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME)) {
                 return rex_i18n::msg('sql_database_host_invalid', $hostName);
@@ -1872,7 +1876,7 @@ class rex_sql implements Iterator
             }
         }
 
-        $err_msg = true;
+        $errMsg = true;
 
         try {
             self::createConnection(
@@ -1885,19 +1889,19 @@ class rex_sql implements Iterator
             // db connection was successfully established, but we were meant to create the db
             if ($createDb) {
                 // -> throw db already exists error
-                $err_msg = rex_i18n::msg('sql_database_already_exists');
+                $errMsg = rex_i18n::msg('sql_database_already_exists');
             }
         } catch (PDOException $e) {
             // see client mysql error codes at https://dev.mysql.com/doc/mysql-errors/8.0/en/client-error-reference.html
 
             // ER_BAD_HOST
-            if (false !== strpos($e->getMessage(), 'SQLSTATE[HY000] [2002]')) {
+            if (str_contains($e->getMessage(), 'SQLSTATE[HY000] [2002]')) {
                 // unable to connect to db server
-                $err_msg = rex_i18n::msg('sql_unable_to_connect_database');
+                $errMsg = rex_i18n::msg('sql_unable_to_connect_database');
             }
             // ER_BAD_DB_ERROR
-            elseif (false !== strpos($e->getMessage(), 'SQLSTATE[HY000] [1049]') ||
-                    false !== strpos($e->getMessage(), 'SQLSTATE[42000]')
+            elseif (str_contains($e->getMessage(), 'SQLSTATE[HY000] [1049]') ||
+                    str_contains($e->getMessage(), 'SQLSTATE[42000]')
             ) {
                 if ($createDb) {
                     try {
@@ -1908,59 +1912,43 @@ class rex_sql implements Iterator
                             $login,
                             $password
                         );
-                        if (1 !== $conn->exec('CREATE DATABASE ' . $database . ' CHARACTER SET utf8 COLLATE utf8_general_ci')) {
+                        if (1 !== $conn->exec('CREATE DATABASE ' . $database . ' CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci')) {
                             // unable to create db
-                            $err_msg = rex_i18n::msg('sql_unable_to_create_database');
+                            $errMsg = rex_i18n::msg('sql_unable_to_create_database');
                         }
                     } catch (PDOException $e) {
                         // unable to find database
-                        $err_msg = rex_i18n::msg('sql_unable_to_open_database');
+                        $errMsg = rex_i18n::msg('sql_unable_to_open_database');
                     }
                 } else {
                     // unable to find database
-                    $err_msg = rex_i18n::msg('sql_unable_to_find_database');
+                    $errMsg = rex_i18n::msg('sql_unable_to_find_database');
                 }
             }
             // ER_ACCESS_DENIED_ERROR
             // ER_DBACCESS_DENIED_ERROR
             elseif (
-                false !== strpos($e->getMessage(), 'SQLSTATE[HY000] [1045]') ||
-                false !== strpos($e->getMessage(), 'SQLSTATE[28000]') ||
-                false !== strpos($e->getMessage(), 'SQLSTATE[HY000] [1044]') ||
-                false !== strpos($e->getMessage(), 'SQLSTATE[42000]')
+                str_contains($e->getMessage(), 'SQLSTATE[HY000] [1045]') ||
+                str_contains($e->getMessage(), 'SQLSTATE[28000]') ||
+                str_contains($e->getMessage(), 'SQLSTATE[HY000] [1044]') ||
+                str_contains($e->getMessage(), 'SQLSTATE[42000]')
             ) {
                 // unable to connect to db
-                $err_msg = rex_i18n::msg('sql_unable_to_connect_database');
+                $errMsg = rex_i18n::msg('sql_unable_to_connect_database');
             }
             // ER_ACCESS_TO_SERVER_ERROR
             elseif (
-                false !== strpos($e->getMessage(), 'SQLSTATE[HY000] [2005]')
+                str_contains($e->getMessage(), 'SQLSTATE[HY000] [2005]')
             ) {
                 // unable to connect to server
-                $err_msg = rex_i18n::msg('sql_unable_to_connect_server');
+                $errMsg = rex_i18n::msg('sql_unable_to_connect_server');
             } else {
                 // we didn't expected this error, so rethrow it to show it to the admin/end-user
                 throw $e;
             }
         }
 
-        // close the connection
-        $conn = null;
-
-        return $err_msg;
-    }
-
-    /**
-     * @param mixed $value
-     * @param string|null $type Column type, see `rex_type::cast()` (only scalar types)
-     */
-    private function castValue($value, $type)
-    {
-        if (null === $type) {
-            return $value;
-        }
-
-        return rex_type::cast($value, $type);
+        return $errMsg;
     }
 
     /**

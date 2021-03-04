@@ -277,6 +277,10 @@
     .navbar {
         background-color: #fff;
         border-color: $color-a-light;
+
+        .rex-main-frame & {
+            border-color: #fff;
+        }
     }
     .navbar-default .navbar-nav {
         @media (max-width: $screen-xs-max) {
@@ -317,48 +321,38 @@
 .panel-heading .nav-tabs {
     border-bottom: 0;
     margin-bottom: -10px;
+    display: flex; // avoid collapsing margins
+
     > li {
         &.active {
             > a:not(.btn),
             > a:not(.btn):hover {
+                padding-bottom: $padding-small-vertical;
                 background-color: #fff;
-                border-top-color: $color-b;
-                border-top-width: 2px;
-                border-left-width: 0;
-                border-right-width: 0;
 
                 .panel-edit & {
                     background-color: $color-d-lighter;
-                    border-top-color: $color-d-light;
                 }
             }
         }
 
         > a:not(.btn) {
             padding-top: $padding-small-vertical;
-            padding-bottom: $padding-small-vertical;
-            background-color: $color-a-lighter;
-            border-color: $color-a-lighter;
-            border-bottom-color: transparent;
-            border-top-color: $color-a;
-            border-top-width: 2px;
-            border-left-width: 0;
-            border-right-width: 0;
-
+            padding-bottom: $padding-small-vertical - 1;
+            background-color: lighten($color-a-light, 5%);
+            border-color: transparent;
             border-radius: 4px 4px 0 0;
             color: $text-color;
 
             .panel-edit & {
-                background-color: #fff;
-                border-top-color: $color-d-lighter;
+                background-color: $color-d-light;
             }
 
             &:hover {
-                background-color: $color-a-lighter;
-                border-top-color: $color-b;
+                background-color: lighten($color-a-light, 8%);
 
                 .panel-edit & {
-                    border-top-color: $color-d-light;
+                    background-color: lighten($color-d-light, 7%);
                 }
             }
         }

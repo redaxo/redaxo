@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.4.1@9fd7a7d885b3a216cff8dec9d8c21a132f275224">
+<files psalm-version="4.6.2@bca09d74adc704c4eaee36a3c3e9d379e290fc3b">
   <file src="redaxo/src/addons/backup/pages/export.php">
     <NullOperand occurrences="1">
       <code>rex_escape($exportfilename)</code>
@@ -565,8 +565,7 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/users/lib/select_element.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$this-&gt;getValue()</code>
+    <PossiblyNullArgument occurrences="1">
       <code>$this-&gt;getValue()</code>
     </PossiblyNullArgument>
   </file>
@@ -643,12 +642,13 @@
     <PossiblyNullArgument occurrences="1">
       <code>$currentPage-&gt;getPath()</code>
     </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="5">
+    <PossiblyNullReference occurrences="6">
       <code>getHref</code>
       <code>getPath</code>
       <code>getSubPath</code>
       <code>getTitle</code>
       <code>getTitle</code>
+      <code>setHasLayout</code>
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/lib/be/navigation.php">
@@ -765,11 +765,10 @@
       <code>$comment</code>
       <code>$oldName</code>
     </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="7">
+    <PossiblyNullReference occurrences="6">
       <code>equals</code>
       <code>equals</code>
       <code>equals</code>
-      <code>getErrno</code>
       <code>setName</code>
       <code>setName</code>
       <code>setName</code>

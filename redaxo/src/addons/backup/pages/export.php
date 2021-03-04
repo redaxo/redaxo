@@ -57,11 +57,11 @@ if ($export && !$csrfToken->isValid()) {
         $hasContent = false;
         $header = '';
         $ext = 'sql' == $exporttype ? '.sql' : '.tar.gz';
-        $export_path = rex_backup::getDir() . '/';
+        $exportPath = rex_backup::getDir() . '/';
 
-        if (is_file($export_path . $filename . $ext)) {
+        if (is_file($exportPath . $filename . $ext)) {
             $i = 1;
-            while (is_file($export_path . $filename . '_' . $i . $ext)) {
+            while (is_file($exportPath . $filename . '_' . $i . $ext)) {
                 ++$i;
             }
             $filename = $filename . '_' . $i;
@@ -71,7 +71,7 @@ if ($export && !$csrfToken->isValid()) {
             // ------------------------------ FUNC EXPORT SQL
             $header = 'plain/text';
 
-            $hasContent = rex_backup::exportDb($export_path . $filename . $ext, $EXPTABLES);
+            $hasContent = rex_backup::exportDb($exportPath . $filename . $ext, $EXPTABLES);
         } elseif ('files' == $exporttype) {
             // ------------------------------ FUNC EXPORT FILES
             $header = 'tar/gzip';
@@ -79,7 +79,7 @@ if ($export && !$csrfToken->isValid()) {
             if (empty($EXPDIR)) {
                 $error = rex_i18n::msg('backup_please_choose_folder');
             } else {
-                rex_backup::exportFiles($EXPDIR, $export_path . $filename . $ext);
+                rex_backup::exportFiles($EXPDIR, $exportPath . $filename . $ext);
                 $hasContent = true;
             }
         }
@@ -87,13 +87,13 @@ if ($export && !$csrfToken->isValid()) {
         if ($hasContent) {
             if ($exportdl) {
                 $filename = $filename . $ext;
-                rex_response::sendFile($export_path . $filename, $header, 'attachment');
-                rex_file::delete($export_path . $filename);
+                rex_response::sendFile($exportPath . $filename, $header, 'attachment');
+                rex_file::delete($exportPath . $filename);
                 exit;
             }
             $success = rex_i18n::msg('backup_file_generated_in') . ' ' . strtr($filename . $ext, '\\', '/');
         } elseif (empty($error)) { //if the user selected no files to export $error is already filled
-            $error = rex_i18n::msg('backup_file_could_not_be_generated') . ' ' . rex_i18n::msg('backup_check_rights_in_directory') . ' ' . $export_path;
+            $error = rex_i18n::msg('backup_file_could_not_be_generated') . ' ' . rex_i18n::msg('backup_check_rights_in_directory') . ' ' . $exportPath;
         }
     }
 }
@@ -158,26 +158,26 @@ $tableSelect->setAttribute('class', 'form-control');
 $tables = rex_sql::factory()->getTables();
 foreach ($tables as $table) {
     $tableSelect->addOption($table, $table);
-    if ($table != rex::getTable('user') && 0 === strpos($table, rex::getTablePrefix()) && 0 !== strpos($table, rex::getTablePrefix() . rex::getTempPrefix())) {
+    if ($table != rex::getTable('user') && str_starts_with($table, rex::getTablePrefix()) && !str_starts_with($table, rex::getTablePrefix() . rex::getTempPrefix())) {
         $tableSelect->setSelected($table);
     }
 }
 
 $formElements = [];
 $n = [];
-$n['header'] = '<div id="rex-js-exporttype-sql-div">';
+$n['header'] = '<div id="rex-js-exporttype-sql-div"'.($checkedsql ? '' : ' style="display: none;"').'>';
 $n['label'] = '<label for="rex-form-exporttables">' . rex_i18n::msg('backup_export_select_tables') . '</label>';
 $n['field'] = $tableSelect->get();
 $n['footer'] = '</div>';
 $formElements[] = $n;
 
 // Vorhandene Exporte auslesen
-$sel_dirs = new rex_select();
-$sel_dirs->setId('rex-form-exportdir');
-$sel_dirs->setName('EXPDIR[]');
-$sel_dirs->setMultiple();
-$sel_dirs->setSelected($EXPDIR);
-$sel_dirs->setStyle('class="form-control"');
+$selDirs = new rex_select();
+$selDirs->setId('rex-form-exportdir');
+$selDirs->setName('EXPDIR[]');
+$selDirs->setMultiple();
+$selDirs->setSelected($EXPDIR);
+$selDirs->setStyle('class="form-control"');
 
 $dir = rex_path::frontend();
 $folders = rex_finder::factory($dir)
@@ -186,19 +186,19 @@ $folders = rex_finder::factory($dir)
     ->ignoreDirs('redaxo')
 ;
 $folders = iterator_to_array($folders);
-$count_folders = count($folders);
-if ($count_folders > 4) {
-    $sel_dirs->setSize($count_folders);
+$countFolders = count($folders);
+if ($countFolders > 4) {
+    $selDirs->setSize($countFolders);
 }
 foreach ($folders as $path => $_) {
     $file = rex_path::basename($path);
-    $sel_dirs->addOption($file, $file);
+    $selDirs->addOption($file, $file);
 }
 
 $n = [];
-$n['header'] = '<div id="rex-js-exporttype-files-div" style="display: none;">';
+$n['header'] = '<div id="rex-js-exporttype-files-div"'.($checkedfiles ? '' : ' style="display: none;"').'>';
 $n['label'] = '<label for="rex-form-exportdir">' . rex_i18n::msg('backup_export_select_dir') . '</label>';
-$n['field'] = $sel_dirs->get();
+$n['field'] = $selDirs->get();
 $n['footer'] = '</div>';
 $formElements[] = $n;
 

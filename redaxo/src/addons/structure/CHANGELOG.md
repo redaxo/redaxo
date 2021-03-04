@@ -1,6 +1,35 @@
 Changelog
 =========
 
+Version 2.12.0 – 03.03.2021
+---------------------------
+
+### Neu
+
+* In der Strukturübersicht werden leere Kategorien von solchen mit Kindelementen durch Iconvarianten unterschieden (@schuer)
+* Die Paginierung der Kategorien/Artikel kann über die AddOn-Property `rows_per_page` angepasst werden; der Default-Wert wurde auf 50 erhöht (@tyrant88)
+* Überschrift auf content-Page enthält Artikelnamen (@schuer)
+* Neuer EP `SLICE_MENU` (mit eigener Klasse `rex_extension_point_slice_menu`), als Weiterentwicklung von `STRUCTURE_CONTENT_SLICE_MENU` mit mehr Möglickeiten, die vorhandenen Buttons zu ändern/entfernen (@staabm)
+* Aus Templates/Modulen heraus kann neue Exception `rex_article_not_found_exception` geworfen werden, wodurch auf den Fehlerartikel gewechselt wird (@gharlan)
+* Wenn eine Sprache mit ID=0 (R4-Import) existiert, wird im Backend eine gesonderte Meldung ausgegeben (@staabm)
+
+### Bugfixes
+
+* Bei Exceptions in Modulen war anschließend ein zusätzlicher Output-Buffer aktiv (@staabm)
+
+
+Version 2.11.2 – 25.01.2021
+---------------------------
+
+### Security
+
+* Fehlendes Escaping ergänzt (@gharlan)
+
+### Bugfixes
+
+* `rex_module::forKey()` korrigiert (@DanielWeitenauer)
+
+
 Version 2.11.1 – 11.11.2020
 ---------------------------
 
@@ -294,4 +323,3 @@ Version 2.0.1 – 09.02.2016
 ### Bugfixes
 
 * Die CommonVars (REX_ARTICLE_ID etc.) konnten nicht innerhalb der ObjectVars (REX_ARTICLE[] etc.) verwendet werden (@schuer)
-
