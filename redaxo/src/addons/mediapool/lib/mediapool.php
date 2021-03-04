@@ -5,48 +5,48 @@ class rex_mediapool
     /**
      * Erstellt einen Filename der eindeutig ist für den Medienpool.
      *
-     * @param string $FILENAME      Dateiname
+     * @param string $MediaName      Dateiname
      * @param bool   $doSubindexing
      *
      * @return string
      */
-    public static function filename($FILENAME, $doSubindexing = true)
+    public static function getUniqueMediaName($MediaName, $doSubindexing = true)
     {
         // ----- neuer filename und extension holen
-        $NFILENAME = rex_string::normalize($FILENAME, '_', '.-@');
+        $NewMediaName = rex_string::normalize($MediaName, '_', '.-@');
 
-        if ('.' === $NFILENAME[0]) {
-            $NFILENAME[0] = '_';
+        if ('.' === $NewMediaName[0]) {
+            $NewMediaName[0] = '_';
         }
 
-        if ($pos = strrpos($NFILENAME, '.')) {
-            $NFILE_NAME = substr($NFILENAME, 0, strlen($NFILENAME) - (strlen($NFILENAME) - $pos));
-            $NFILE_EXT = substr($NFILENAME, $pos, strlen($NFILENAME) - $pos);
+        if ($pos = strrpos($NewMediaName, '.')) {
+            $NewMediaBaseName = substr($NewMediaName, 0, strlen($NewMediaName) - (strlen($NewMediaName) - $pos));
+            $NewMediaExtension = substr($NewMediaName, $pos, strlen($NewMediaName) - $pos);
         } else {
-            $NFILE_NAME = $NFILENAME;
-            $NFILE_EXT = '';
+            $NewMediaBaseName = $NewMediaName;
+            $NewMediaExtension = '';
         }
 
         // ---- ext checken - alle scriptendungen rausfiltern
-        if (!self::isAllowedMediaType($NFILENAME)) {
+        if (!self::isAllowedMediaType($NewMediaName)) {
             // make sure we dont add a 2nd file-extension to the file,
             // because some webspaces execute files like file.php.txt as a php script
-            $NFILE_NAME .= str_replace('.', '_', $NFILE_EXT);
-            $NFILE_EXT = '.txt';
+            $NewMediaBaseName .= str_replace('.', '_', $NewMediaExtension);
+            $NewMediaExtension = '.txt';
         }
 
-        $NFILENAME = $NFILE_NAME . $NFILE_EXT;
+        $NewMediaName = $NewMediaBaseName . $NewMediaExtension;
 
-        if ($doSubindexing || $FILENAME != $NFILENAME) {
+        if ($doSubindexing || $MediaName != $NewMediaName) {
             // ----- datei schon vorhanden -> namen aendern -> _1 ..
             $cnt = 0;
-            while (is_file(rex_path::media($NFILENAME)) || rex_media::get($NFILENAME)) {
+            while (is_file(rex_path::media($NewMediaName)) || rex_media::get($NewMediaName)) {
                 ++$cnt;
-                $NFILENAME = $NFILE_NAME . '_' . $cnt . $NFILE_EXT;
+                $NewMediaName = $NewMediaBaseName . '_' . $cnt . $NewMediaExtension;
             }
         }
 
-        return $NFILENAME;
+        return $NewMediaName;
     }
 
     /**

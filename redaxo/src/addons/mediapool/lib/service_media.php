@@ -40,7 +40,7 @@ class rex_media_service
         $category_id = (int) $data['category_id'];
         $title = (string) $data['title'];
 
-        $data['file']['name_new'] = rex_mediapool::filename($data['file']['name'], $doSubindexing);
+        $data['file']['name_new'] = rex_mediapool::getUniqueMediaName($data['file']['name'], $doSubindexing);
 
         // ----- alter/neuer filename
         $srcFile = $data['file']['path'];
