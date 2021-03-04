@@ -5,11 +5,13 @@
  */
 
 assert(isset($csrf) && $csrf instanceof rex_csrf_token);
-/*assert(isset($rex_file_category) && is_int($rex_file_category));*/
 assert(isset($opener_input_field) && is_string($opener_input_field));
 assert(isset($arg_fields) && is_string($arg_fields));
-assert(isset($toolbar) && is_string($toolbar));
-/*assert(isset($rex_file_category_name) && is_string($rex_file_category_name));*/
+
+$csrf = rex_csrf_token::factory('mediapool');
+
+
+
 
 // defaults for globals passed in from index.php
 if (!isset($success)) {
@@ -34,7 +36,9 @@ $result = rex_mediapool::getMediaList([
         'tags' => $arg_url['args']['tags'] ?? [],
         'status' => $arg_url['args']['status'] ?? [],
         'orderby' => $arg_url['args']['orderby'] ?? []
-    ]
+    ],
+    rex_get('limit','int',0),
+    rex_get('offset','int',50),
 ]);
 $elements = $result['items'];
 
@@ -50,6 +54,19 @@ $fragment->setVar('search', $result['search'], false);
 echo $fragment->parse('mediapool.php');
 
 return;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

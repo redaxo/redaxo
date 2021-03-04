@@ -41,7 +41,7 @@ if ('add_file' == $media_method) {
     } else {
         $data = [];
         $data['file'] = [];
-
+        dump($_FILES);
         $data['file']['name'] = $_FILES['rex_media_file']['name'] ?? '';
         $data['file']['path'] = $_FILES['rex_media_file']['tmp_name'] ?? '';
         $data['file']['type'] = $_FILES['rex_media_file']['type'] ?? '';
@@ -55,6 +55,11 @@ if ('add_file' == $media_method) {
         $whitelist_types = is_array(@$args['types']) ? $args['types'] : [];
 
         try {
+
+
+
+            dump($data);
+
             $data = rex_media_service::addMedia($data, rex::getUser()->getValue('login'), true, $whitelist_types);
 
             echo rex_view::success($data['message']);

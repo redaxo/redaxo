@@ -4,6 +4,16 @@
  * @package redaxo5
  */
 
+echo rex_view::title("jjj");
+
+rex_be_controller::includeCurrentPageSubPath();
+
+return;
+
+
+
+
+
 global $subpage, $ftitle, $error, $success;
 
 // -------------- Defaults
