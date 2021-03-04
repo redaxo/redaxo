@@ -322,7 +322,7 @@ class rex_sql_test extends TestCase
 
         static::assertSame(2, $sql->getRows());
 
-        static::assertSame('1', $sql->getValue('id'));
+        static::assertEquals(1, $sql->getValue('id'));
         static::assertSame('foo', $sql->getValue('col_str'));
 
         $sql = rex_sql::factory();
