@@ -8,21 +8,26 @@ on:
 
 jobs:
     phpunit:
-        runs-on: ubuntu-latest
+        runs-on: ${{ matrix.os }}
         if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
         strategy:
             matrix:
                 include:
-                    -   php-version: '7.3'
+                    -   os: ubuntu-18.04
+                        php-version: '7.3'
                         db-image: 'mysql:5.6'
-                    -   php-version: '7.4'
+                    -   os: ubuntu-latest
+                        php-version: '7.4'
                         db-image: 'mysql:5.7'
-                    -   php-version: '8.0'
+                    -   os: ubuntu-latest
+                        php-version: '8.0'
                         db-image: 'mysql:8.0'
-                    -   php-version: '7.3'
+                    -   os: ubuntu-18.04
+                        php-version: '7.3'
                         db-image: 'mariadb:10.1'
-                    -   php-version: '7.4'
+                    -   os: ubuntu-latest
+                        php-version: '7.4'
                         db-image: 'mariadb:latest'
 
         # https://docs.github.com/en/free-pro-team@latest/actions/guides/about-service-containers
