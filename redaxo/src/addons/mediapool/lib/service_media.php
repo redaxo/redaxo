@@ -10,24 +10,22 @@ class rex_media_service
      * Dabei wird kontrolliert ob das File schon vorhanden ist und es
      * wird eventuell angepasst, weiterhin werden die Fileinformationen übergeben.
      *
-     * @param array  $data
      * @param string $userlogin
      * @param bool   $doSubindexing // echte Dateinamen anpassen, falls schon vorhanden
-     * @param array  $whitelist_types
+     * @param array  $allowedExtensions
      */
-    public static function addMedia(array $data, $userlogin = null, $doSubindexing = true, $whitelist_types = []): array
+    public static function addMedia(array $data, $userlogin = null, $doSubindexing = true, $allowedExtensions = []): array
     {
-
         if (empty($data['file']) || empty($data['file']['name']) || empty($data['file']['path'])) {
             throw new rex_api_exception(rex_i18n::msg('pool_file_not_found'));
         }
 
-        if (!rex_mediapool::isAllowedMediaType($data['file']['name'], $whitelist_types)) {
+        if (!rex_mediapool::isAllowedMediaType($data['file']['name'], $allowedExtensions)) {
             $warning = rex_i18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . rex_file::extension($data['file']['name']) . '</code>';
-            $whitelist = rex_mediapool::getMediaTypeWhitelist($whitelist_types);
-            $warning .= count($whitelist) > 0
-                    ? '<br />' . rex_i18n::msg('pool_file_allowed_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', $whitelist), ', ') . '</code>'
-                    : '<br />' . rex_i18n::msg('pool_file_banned_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', rex_mediapool::getMediaTypeBlacklist()), ', ') . '</code>';
+            $allowedExtensions = rex_mediapool::getAllowedExtensions($allowedExtensions);
+            $warning .= count($allowedExtensions) > 0
+                    ? '<br />' . rex_i18n::msg('pool_file_allowed_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', $allowedExtensions), ', ') . '</code>'
+                    : '<br />' . rex_i18n::msg('pool_file_banned_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', rex_mediapool::getBlockedExtensions()), ', ') . '</code>';
 
             throw new rex_api_exception($warning);
         }
@@ -132,14 +130,10 @@ class rex_media_service
      * Dabei wird kontrolliert ob das File schon vorhanden ist und es
      * wird eventuell angepasst, weiterhin werden die Fileinformationen übergeben.
      *
-     * @param array  $data
      * @param string $userlogin
-     *
-     * @return array
      */
     public static function updateMedia(array $data, $userlogin = null): array
     {
-
         if (empty($data['media_id'])) {
             throw new rex_api_exception('Expecting Media-ID.');
         }
@@ -214,12 +208,7 @@ class rex_media_service
         return $return;
     }
 
-    /**
-     * @param string $filename
-     *
-     * @return bool
-     */
-    public static function deleteMedia(string $filename):bool
+    public static function deleteMedia(string $filename): bool
     {
         if ($uses = rex_mediapool::mediaIsInUse($filename)) {
             throw new rex_api_exception(rex_i18n::msg('pool_file_delete_error', $filename) . ' ' . rex_i18n::rawMsg('pool_object_in_use_by', $uses));

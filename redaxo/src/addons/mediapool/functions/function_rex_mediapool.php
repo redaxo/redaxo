@@ -359,7 +359,7 @@ function rex_mediapool_isAllowedMimeType($path, $filename = null)
  */
 function rex_mediapool_getMediaTypeWhitelist($args = [])
 {
-    return rex_mediapool::getAllowedMediaTypeExtensions($args);
+    return rex_mediapool::getAllowedExtensions($args);
 }
 
 /**

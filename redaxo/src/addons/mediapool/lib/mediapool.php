@@ -54,7 +54,7 @@ class rex_mediapool
      *
      * @return bool|string
      */
-    public static function mediaIsInUse($filename)
+    public static function mediaIsInUse(string $filename)
     {
         $sql = rex_sql::factory();
 
@@ -111,7 +111,7 @@ class rex_mediapool
      *
      * @return bool
      */
-    public static function isAllowedMediaType($filename, array $args = [])
+    public static function isAllowedMediaType(string $filename, array $args = []):bool
     {
         $fileExt = mb_strtolower(rex_file::extension($filename));
 
@@ -123,21 +123,21 @@ class rex_mediapool
             return false;
         }
 
-        $blockedExtensions = self::getBlockedMediaTypeExtensions();
+        $blockedExtensions = self::getBlockedExtensions();
         foreach ($blockedExtensions as $blockedExtension) {
-            // blacklisted extensions are not allowed within filenames, to prevent double extension vulnerabilities:
+            // $blockedExtensions extensions are not allowed within filenames, to prevent double extension vulnerabilities:
             // -> some webspaces execute files named file.php.txt as php
             if (str_contains($filename, '.'. $blockedExtension)) {
                 return false;
             }
         }
 
-        $allowedExtensions = self::getAllowedMediaTypeExtensions($args);
+        $allowedExtensions = self::getAllowedExtensions($args);
         return !count($allowedExtensions) || in_array($fileExt, $allowedExtensions);
     }
 
     /**
-     * Checks file against optional whitelist from property `allowed_mime_types`.
+     * Checks file against optional AllowedMimetypes from property `allowed_mime_types`.
      *
      * @param string      $path     Path to the physical file
      * @param null|string $filename Optional filename, will be used for extracting the file extension.
@@ -145,55 +145,55 @@ class rex_mediapool
      *
      * @return bool
      */
-    public static function isAllowedMimeType($path, $filename = null)
+    public static function isAllowedMimeType(string $path, $filename = null):bool
     {
-        $whitelist = rex_addon::get('mediapool')->getProperty('allowed_mime_types');
+        $allowedMimetypes = rex_addon::get('mediapool')->getProperty('allowed_mime_types');
 
-        if (!$whitelist) {
+        if (!$allowedMimetypes) {
             return true;
         }
 
         $extension = mb_strtolower(rex_file::extension($filename ?: $path));
 
-        if (!isset($whitelist[$extension])) {
+        if (!isset($allowedMimetypes[$extension])) {
             return false;
         }
 
         $mime_type = rex_file::mimeType($path);
 
-        return in_array($mime_type, $whitelist[$extension]);
+        return in_array($mime_type, $allowedMimetypes[$extension]);
     }
 
     /**
-     * get whitelist of mediatypes(extensions) given via media widget "types" param.
+     * get allowedExtensions of mediatypes(extensions) given via media widget "types" param.
      *
      * @param array $args widget params
      *
-     * @return array whitelisted extensions
+     * @return array allowedExtensions
      */
-    public static function getAllowedMediaTypeExtensions($args = [])
+    public static function getAllowedExtensions($args = []):array
     {
-        $blacklist = self::getBlockedMediaTypeExtensions();
+        $blockedExtensions = self::getBlockedExtensions();
 
-        $whitelist = [];
+        $allowedExtensions = [];
         if (isset($args['types'])) {
             foreach (explode(',', $args['types']) as $ext) {
                 $ext = ltrim($ext, '.');
                 $ext = mb_strtolower($ext);
-                if (!in_array($ext, $blacklist)) { // whitelist cannot override any blacklist entry from master
-                    $whitelist[] = $ext;
+                if (!in_array($ext, $blockedExtensions)) { // allowedExtensions cannot override any blockedExtensions entry from master
+                    $allowedExtensions[] = $ext;
                 }
             }
         }
-        return $whitelist;
+        return $allowedExtensions;
     }
 
     /**
-     * return global mediatype blacklist from master.inc.
+     * return global mediatype blockedExtensions from master.inc.
      *
-     * @return array blacklisted mediatype extensions
+     * @return array blocked mediatype extensions
      */
-    public static function getBlockedMediaTypeExtensions()
+    public static function getBlockedExtensions()
     {
         return rex_addon::get('mediapool')->getProperty('blocked_extensions');
     }
