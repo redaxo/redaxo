@@ -17,9 +17,6 @@ class rex_media_service
      */
     public static function addMedia(array $data, $userlogin = null, $doSubindexing = true, $whitelist_types = []): array
     {
-        if (!is_array($data)) {
-            throw new rex_api_exception('Expecting $data to be an array!');
-        }
 
         if (empty($data['file']) || empty($data['file']['name']) || empty($data['file']['path'])) {
             throw new rex_api_exception(rex_i18n::msg('pool_file_not_found'));
@@ -142,10 +139,6 @@ class rex_media_service
      */
     public static function updateMedia(array $data, $userlogin = null): array
     {
-
-        if (!is_array($data)) {
-            throw new rex_api_exception('Expecting $data to be an array!');
-        }
 
         if (empty($data['media_id'])) {
             throw new rex_api_exception('Expecting Media-ID.');
