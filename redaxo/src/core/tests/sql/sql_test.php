@@ -263,7 +263,7 @@ class rex_sql_test extends TestCase
 
         static::assertSame('foo', $sql->getValue('col_str'));
         static::assertSame((new DateTime('now', new DateTimeZone('UTC')))->format('Y-m-d'), $sql->getValue('col_date'));
-        static::assertSame('3', $sql->getValue('col_int'));
+        static::assertEquals(3, $sql->getValue('col_int'));
 
         $sql->next();
 
@@ -345,15 +345,15 @@ class rex_sql_test extends TestCase
 
         static::assertSame(3, $sql->getRows());
 
-        static::assertSame('1', $sql->getValue('id'));
+        static::assertEquals(1, $sql->getValue('id'));
         static::assertSame('abc', $sql->getValue('col_str'));
 
         $sql->next();
-        static::assertSame('2', $sql->getValue('id'));
+        static::assertEquals(2, $sql->getValue('id'));
         static::assertSame('bar', $sql->getValue('col_str'));
 
         $sql->next();
-        static::assertSame('3', $sql->getValue('id'));
+        static::assertEquals(3, $sql->getValue('id'));
         static::assertSame('baz', $sql->getValue('col_str'));
     }
 
@@ -379,7 +379,7 @@ class rex_sql_test extends TestCase
 
         static::assertSame(2, $sql->getRows());
 
-        static::assertSame('1', $sql->getValue('id'));
+        static::assertEquals(1, $sql->getValue('id'));
         static::assertSame('foo', $sql->getValue('col_str'));
 
         $sql = rex_sql::factory();
@@ -402,15 +402,15 @@ class rex_sql_test extends TestCase
 
         static::assertSame(3, $sql->getRows());
 
-        static::assertSame('1', $sql->getValue('id'));
+        static::assertEquals(1, $sql->getValue('id'));
         static::assertSame('abc', $sql->getValue('col_str'));
 
         $sql->next();
-        static::assertSame('2', $sql->getValue('id'));
+        static::assertEquals(2, $sql->getValue('id'));
         static::assertSame('bar', $sql->getValue('col_str'));
 
         $sql->next();
-        static::assertSame('3', $sql->getValue('id'));
+        static::assertEquals(3, $sql->getValue('id'));
         static::assertSame('baz', $sql->getValue('col_str'));
     }
 
@@ -430,7 +430,7 @@ class rex_sql_test extends TestCase
 
         $sql->setQuery('SELECT * FROM '.self::TABLE);
         static::assertSame('def', $sql->getValue('col_str'));
-        static::assertSame('6', $sql->getValue('col_int'));
+        static::assertEquals(6, $sql->getValue('col_int'));
     }
 
     public function testUpdateRowByNamedWhere()
