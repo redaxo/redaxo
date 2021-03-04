@@ -17,12 +17,12 @@ return;
  * @package redaxo5
  */
 
-assert(isset($arg_fields) && is_string($arg_fields));
-assert(isset($media_id) && is_int($media_id));
+assert(isset($argFields) && is_string($argFields));
+assert(isset($mediaId) && is_int($mediaId));
 
 $subpage = rex_be_controller::getCurrentPagePart(2);
 
-$media_name = rex_request('media_name', 'string');
+$mediaName = rex_request('media_name', 'string');
 $csrf = rex_csrf_token::factory('mediapool');
 
 $formElements = [];
@@ -34,7 +34,7 @@ $toolbar = '<div class="rex-truncate-dropdown">' . $fragment->parse('core/form/i
 $toolbar = '
 <div class="navbar-form navbar-right">
 <form action="' . rex_url::currentBackendPage() . '" method="post">
-    ' . $arg_fields . '
+    ' . $argFields . '
     <div class="form-group">
     ' . $toolbar . '
     </div>
@@ -53,15 +53,15 @@ $toolbar = rex_extension::registerPoint(new rex_extension_point('MEDIA_LIST_TOOL
 
 // *************************************** Subpage: Media
 
-if ($media_id) {
+if ($mediaId) {
 
-    dump($media_id);
+    dump($mediaId);
 
     require __DIR__ .'/media.detail.php';
 }
 
 // *************************************** SUBPAGE: "" -> MEDIEN ANZEIGEN
 
-if (!$media_id) {
+if (!$mediaId) {
     require __DIR__.'/media.list.php';
 }

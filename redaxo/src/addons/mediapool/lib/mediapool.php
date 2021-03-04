@@ -29,29 +29,29 @@ class rex_mediapool
         }
 
         if ($pos = strrpos($NFILENAME, '.')) {
-            $NFILE_NAME = substr($NFILENAME, 0, strlen($NFILENAME) - (strlen($NFILENAME) - $pos));
-            $NFILE_EXT = substr($NFILENAME, $pos, strlen($NFILENAME) - $pos);
+            $nFILENAME = substr($NFILENAME, 0, strlen($NFILENAME) - (strlen($NFILENAME) - $pos));
+            $nFILEEXT = substr($NFILENAME, $pos, strlen($NFILENAME) - $pos);
         } else {
-            $NFILE_NAME = $NFILENAME;
-            $NFILE_EXT = '';
+            $nFILENAME = $NFILENAME;
+            $nFILEEXT = '';
         }
 
         // ---- ext checken - alle scriptendungen rausfiltern
         if (!self::isAllowedMediaType($NFILENAME)) {
             // make sure we dont add a 2nd file-extension to the file,
             // because some webspaces execute files like file.php.txt as a php script
-            $NFILE_NAME .= str_replace('.', '_', $NFILE_EXT);
-            $NFILE_EXT = '.txt';
+            $nFILENAME .= str_replace('.', '_', $nFILEEXT);
+            $nFILEEXT = '.txt';
         }
 
-        $NFILENAME = $NFILE_NAME . $NFILE_EXT;
+        $NFILENAME = $nFILENAME . $nFILEEXT;
 
         if ($doSubindexing || $FILENAME != $NFILENAME) {
             // ----- datei schon vorhanden -> namen aendern -> _1 ..
             $cnt = 0;
             while (is_file(rex_path::media($NFILENAME)) || rex_media::get($NFILENAME)) {
                 ++$cnt;
-                $NFILENAME = $NFILE_NAME . '_' . $cnt . $NFILE_EXT;
+                $NFILENAME = $nFILENAME . '_' . $cnt . $nFILEEXT;
             }
         }
 
@@ -62,7 +62,7 @@ class rex_mediapool
      * Synchronisiert die Datei $physical_filename des Mediafolders in den
      * Medienpool.
      *
-     * @param string      $physical_filename
+     * @param string      $physicalFilename
      * @param int         $category_id
      * @param string      $title
      * @param null|int    $filesize
@@ -71,30 +71,30 @@ class rex_mediapool
      *
      * @return array
      */
-    public static function syncFile($physical_filename, $params, $title, $filesize = null, $filetype = null, $userlogin = null)
+    public static function syncFile($physicalFilename, $params, $title, $filesize = null, $filetype = null, $userlogin = null)
     {
         // TODO
         // params [categories, tags, status]
-        $category_id = $params['categories'];
+        $categoryId = $params['categories'];
         $tags = $params['tags'];
         $status = $params['status'];
 
-        $abs_file = rex_path::media($physical_filename);
+        $absFile = rex_path::media($physicalFilename);
 
-        if (!is_file($abs_file)) {
-            throw new rex_exception(sprintf('File "%s" does not exist.', $abs_file));
+        if (!is_file($absFile)) {
+            throw new rex_exception(sprintf('File "%s" does not exist.', $absFile));
         }
 
         if (empty($filesize)) {
-            $filesize = filesize($abs_file);
+            $filesize = filesize($absFile);
         }
 
         if (empty($filetype)) {
-            $filetype = rex_file::mimeType($abs_file);
+            $filetype = rex_file::mimeType($absFile);
         }
 
         $FILE = [];
-        $FILE['name'] = $physical_filename;
+        $FILE['name'] = $physicalFilename;
         $FILE['size'] = $filesize;
         $FILE['type'] = $filetype;
 
@@ -106,7 +106,7 @@ class rex_mediapool
             $userlogin = null;
         }
 
-        $RETURN = rex_mediapool_saveMedia($FILE, $category_id, $FILEINFOS, $userlogin, false);
+        $RETURN = rex_mediapool_saveMedia($FILE, $categoryId, $FILEINFOS, $userlogin, false);
         return $RETURN;
     }
 
@@ -143,9 +143,9 @@ class rex_mediapool
         $res = $sql->getArray($query);
         if ($sql->getRows() > 0) {
             $warning[0] = rex_i18n::msg('pool_file_in_use_articles') . '<br /><ul>';
-            foreach ($res as $art_arr) {
-                $aid = $art_arr['article_id'];
-                $clang = $art_arr['clang_id'];
+            foreach ($res as $artArr) {
+                $aid = $artArr['article_id'];
+                $clang = $artArr['clang_id'];
                 $ooa = rex_article::get($aid, $clang);
                 $name = $ooa->getName();
                 $warning[0] .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('content', ['article_id' => $aid, 'mode' => 'edit', 'clang' => $clang]) . '\')">' . $name . '</a></li>';
@@ -174,13 +174,13 @@ class rex_mediapool
      */
     public static function isAllowedMediaType($filename, array $args = [])
     {
-        $file_ext = mb_strtolower(rex_file::extension($filename));
+        $fileExt = mb_strtolower(rex_file::extension($filename));
 
-        if ('' === $filename || false !== strpos($file_ext, ' ') || '' === $file_ext) {
+        if ('' === $filename || str_contains($fileExt, ' ') || '' === $fileExt) {
             return false;
         }
 
-        if (0 === strpos($file_ext, 'php')) {
+        if (str_starts_with($fileExt, 'php')) {
             return false;
         }
 
@@ -188,13 +188,13 @@ class rex_mediapool
         foreach ($blacklist as $blackExtension) {
             // blacklisted extensions are not allowed within filenames, to prevent double extension vulnerabilities:
             // -> some webspaces execute files named file.php.txt as php
-            if (false !== strpos($filename, '.'. $blackExtension)) {
+            if (str_contains($filename, '.'. $blackExtension)) {
                 return false;
             }
         }
 
         $whitelist = self::getMediaTypeWhitelist($args);
-        return !count($whitelist) || in_array($file_ext, $whitelist);
+        return !count($whitelist) || in_array($fileExt, $whitelist);
     }
 
     /**
@@ -220,9 +220,9 @@ class rex_mediapool
             return false;
         }
 
-        $mime_type = rex_file::mimeType($path);
+        $mimeType = rex_file::mimeType($path);
 
-        return in_array($mime_type, $whitelist[$extension]);
+        return in_array($mimeType, $whitelist[$extension]);
     }
 
     /**
@@ -350,9 +350,9 @@ class rex_mediapool
 
             $query .= ' LIMIT '.$offset.','.$limit;
 
-        $media_manager_url = null;
+        $mediaManagerUrl = null;
         if (rex_addon::get('media_manager')->isAvailable()) {
-            $media_manager_url = [rex_media_manager::class, 'getUrl'];
+            $mediaManagerUrl = [rex_media_manager::class, 'getUrl'];
         }
 
         $elements = [];
@@ -382,8 +382,8 @@ class rex_mediapool
                 if (rex_media::isImageType(rex_file::extension($element['name']))) {
                     $element['document'] = false;
                     $element['url'] = rex_url::media($element['name']).'?buster='.$media['updatedate'];
-                    if ($media_manager_url && 'svg' != rex_file::extension($element['name'])) {
-                        $element['url'] = $media_manager_url('rex_mediapool_maximized', $element['nameEncoded'], $element['stamp']);
+                    if ($mediaManagerUrl && 'svg' != rex_file::extension($element['name'])) {
+                        $element['url'] = $mediaManagerUrl('rex_mediapool_maximized', $element['nameEncoded'], $element['stamp']);
                     }
                 }
             }

@@ -60,24 +60,24 @@ class rex_media_form
         $e['field'] = '<label for="rex-media-status">' . rex_i18n::msg('pool_file_status') . '</label>';
         $formElements[] = $e;
 
-        $cats_sel = new rex_media_category_select();
-        $cats_sel->setStyle('class="form-control"');
-        $cats_sel->setSize(1);
-        $cats_sel->setMultiple();
-        $cats_sel->setName('rex_media_categories[]');
-        $cats_sel->setId('rex-mediapool-category');
-        $cats_sel->setAttribute('class', 'selectpicker form-control');
-        $cats_sel->setAttribute('data-live-search', 'true');
+        $catsSel = new rex_media_category_select();
+        $catsSel->setStyle('class="form-control"');
+        $catsSel->setSize(1);
+        $catsSel->setMultiple();
+        $catsSel->setName('rex_media_categories[]');
+        $catsSel->setId('rex-mediapool-category');
+        $catsSel->setAttribute('class', 'selectpicker form-control');
+        $catsSel->setAttribute('data-live-search', 'true');
 
 
         $categories = $this->data['categories'] ?? [];
         foreach ($categories as $category) {
-            $cats_sel->setSelected($category);
+            $catsSel->setSelected($category);
         }
 
         $e = [];
         $e['label'] = '<label for="rex-media-categories">' . rex_i18n::msg('pool_media_categories') . '</label>';
-        $e['field'] = $cats_sel->get();
+        $e['field'] = $catsSel->get();
         $formElements[] = $e;
 
         $tags = $this->data['tags'] ?? '';
@@ -94,10 +94,10 @@ class rex_media_form
         $e['field'] = '<input class="form-control" type="text" id="rex-mediapool-title" name="rex_media_title" value="' . rex_escape($title) . '" />';
         $formElements[] = $e;
 
-        foreach($this->addedFields as $add_field) {
+        foreach($this->addedFields as $addField) {
             $e = [];
-            $e['label'] = $add_field['label'];
-            $e['field'] = $add_field['field'];
+            $e['label'] = $addField['label'];
+            $e['field'] = $addField['field'];
             $formElements[] = $e;
         }
 
@@ -130,9 +130,9 @@ class rex_media_form
         $e['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" name="save" value="' . $this->buttonTitle . '"' . rex::getAccesskey($this->buttonTitle, 'save') . '>' . $this->buttonTitle . '</button>';
         $formElements[] = $e;
 
-        foreach($this->addedSubmits as $add_submit) {
+        foreach($this->addedSubmits as $addSubmit) {
             $e = [];
-            $e['field'] = $add_submit;
+            $e['field'] = $addSubmit;
             $formElements[] = $e;
         }
 

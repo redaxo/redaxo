@@ -13,11 +13,11 @@ class rex_media_service
      * @param array  $data
      * @param string $userlogin
      * @param bool   $doSubindexing // echte Dateinamen anpassen, falls schon vorhanden
-     * @param array   $whitelist_types
+     * @param array   $whitelistTypes
      *
      * @return array
      */
-    public static function addMedia($data, $userlogin = null, $doSubindexing = true, $whitelist_types = []) : array
+    public static function addMedia($data, $userlogin = null, $doSubindexing = true, $whitelistTypes = []) : array
     {
         if (!is_array($data)) {
             throw new rex_api_exception('Expecting $data to be an array!');
@@ -27,9 +27,9 @@ class rex_media_service
             throw new rex_api_exception(rex_i18n::msg('pool_file_not_found'));
         }
 
-        if (!rex_mediapool::isAllowedMediaType($data['file']['name'], $whitelist_types)) {
+        if (!rex_mediapool::isAllowedMediaType($data['file']['name'], $whitelistTypes)) {
             $warning = rex_i18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . rex_file::extension($data['file']['name']) . '</code>';
-            $whitelist = rex_mediapool::getMediaTypeWhitelist($whitelist_types);
+            $whitelist = rex_mediapool::getMediaTypeWhitelist($whitelistTypes);
             $warning .= count($whitelist) > 0
                     ? '<br />' . rex_i18n::msg('pool_file_allowed_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', $whitelist), ', ') . '</code>'
                     : '<br />' . rex_i18n::msg('pool_file_banned_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', rex_mediapool::getMediaTypeBlacklist()), ', ') . '</code>';

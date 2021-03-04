@@ -11,7 +11,7 @@
  *
  * @return string
  */
-function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category, $file_chooser, $close_form)
+function rex_mediapool_Mediaform($formTitle, $buttonTitle, $rexFileCategory, $fileChooser, $closeForm)
 {
     global $ftitle, $warning, $info;
 
@@ -19,18 +19,18 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
 
     $s = '';
 
-    $cats_sel = new rex_media_category_select();
-    $cats_sel->setStyle('class="form-control"');
-    $cats_sel->setSize(1);
-    $cats_sel->setMultiple();
-    $cats_sel->setName('rex_media_categories');
-    $cats_sel->setId('rex-mediapool-category');
-    $cats_sel->setAttribute('class', 'selectpicker form-control');
-    $cats_sel->setAttribute('data-live-search', 'true');
-    $cats_sel->setAttribute('onchange', 'this.form.submit()');
+    $catsSel = new rex_media_category_select();
+    $catsSel->setStyle('class="form-control"');
+    $catsSel->setSize(1);
+    $catsSel->setMultiple();
+    $catsSel->setName('rex_media_categories');
+    $catsSel->setId('rex-mediapool-category');
+    $catsSel->setAttribute('class', 'selectpicker form-control');
+    $catsSel->setAttribute('data-live-search', 'true');
+    $catsSel->setAttribute('onchange', 'this.form.submit()');
 
     foreach ($categories as $category) {
-        $cats_sel->setSelected($category);
+        $catsSel->setSelected($category);
     }
 
     $tags = $params['tags'] ?? '';
@@ -61,19 +61,19 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
         $ftitle = '';
     }
 
-    $arg_fields = '';
-    foreach (rex_request('args', 'array') as $arg_name => $arg_value) {
-        $arg_fields .= '<input type="hidden" name="args[' . rex_escape($arg_name) . ']" value="' . rex_escape($arg_value) . '" />' . "\n";
+    $argFields = '';
+    foreach (rex_request('args', 'array') as $argName => $argValue) {
+        $argFields .= '<input type="hidden" name="args[' . rex_escape($argName) . ']" value="' . rex_escape($argValue) . '" />' . "\n";
     }
 
-    $opener_input_field = rex_request('opener_input_field', 'string');
-    if ('' != $opener_input_field) {
-        $arg_fields .= '<input class="form-control" type="hidden" name="opener_input_field" value="' . rex_escape($opener_input_field) . '" />' . "\n";
+    $openerInputField = rex_request('opener_input_field', 'string');
+    if ('' != $openerInputField) {
+        $argFields .= '<input class="form-control" type="hidden" name="opener_input_field" value="' . rex_escape($openerInputField) . '" />' . "\n";
     }
 
-    $add_submit = '';
-    if ($close_form && '' != $opener_input_field) {
-        $add_submit = '<button class="btn btn-save" type="submit" name="saveandexit" value="' . rex_i18n::msg('pool_file_upload_get') . '"' . rex::getAccesskey(rex_i18n::msg('save_and_close_tooltip'), 'save') . '>' . rex_i18n::msg('pool_file_upload_get') . '</button>';
+    $addSubmit = '';
+    if ($closeForm && '' != $openerInputField) {
+        $addSubmit = '<button class="btn btn-save" type="submit" name="saveandexit" value="' . rex_i18n::msg('pool_file_upload_get') . '"' . rex::getAccesskey(rex_i18n::msg('save_and_close_tooltip'), 'save') . '>' . rex_i18n::msg('pool_file_upload_get') . '</button>';
     }
 
     $panel = '';
@@ -82,7 +82,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
 
     $e = [];
     $e['label'] = '<label for="rex-mediapool-categories">' . rex_i18n::msg('pool_media_categories') . '</label>';
-    $e['field'] = $cats_sel->get();
+    $e['field'] = $catsSel->get();
     $formElements[] = $e;
 
     $e = [];
@@ -101,7 +101,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
 
     $panel .= rex_extension::registerPoint(new rex_extension_point('MEDIA_FORM_ADD', ''));
 
-    if ($file_chooser) {
+    if ($fileChooser) {
         $e = [];
         $e['label'] = '<label for="rex-mediapool-choose-file">' . rex_i18n::msg('pool_file_file') . '</label>';
         $e['field'] = '<input id="rex-mediapool-choose-file" type="file" name="file_new" />';
@@ -121,11 +121,11 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
     $formElements = [];
 
     $e = [];
-    $e['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" name="save" value="' . $button_title . '"' . rex::getAccesskey($button_title, 'save') . '>' . $button_title . '</button>';
+    $e['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" name="save" value="' . $buttonTitle . '"' . rex::getAccesskey($buttonTitle, 'save') . '>' . $buttonTitle . '</button>';
     $formElements[] = $e;
 
     $e = [];
-    $e['field'] = $add_submit;
+    $e['field'] = $addSubmit;
     $formElements[] = $e;
 
     $fragment = new rex_fragment();
@@ -134,7 +134,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
 
     $fragment = new rex_fragment();
     $fragment->setVar('class', 'edit', false);
-    $fragment->setVar('title', $form_title, false);
+    $fragment->setVar('title', $formTitle, false);
     $fragment->setVar('body', $panel, false);
     $fragment->setVar('buttons', $buttons, false);
     $content = $fragment->parse('core/page/section.php');
@@ -143,12 +143,12 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
                 ' . rex_csrf_token::factory('mediapool')->getHiddenField() . '
                 <fieldset>
                     <input type="hidden" name="media_method" value="add_file" />
-                    ' . $arg_fields . '
+                    ' . $argFields . '
                     ' . $content . '
                 </fieldset>
             ';
 
-    if ($close_form) {
+    if ($closeForm) {
         $s .= '</form>' . "\n";
     }
 

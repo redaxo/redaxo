@@ -21,7 +21,7 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
  * wird eventuell angepasst, weiterhin werden die Fileinformationen übergeben.
  *
  * @param array  $FILE
- * @param int    $rex_file_category
+ * @param int    $rexFileCategory
  * @param array  $FILEINFOS
  * @param string $userlogin
  * @param bool   $doSubindexing
@@ -30,9 +30,9 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
  *
  * @deprecated
  */
-function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlogin = null, $doSubindexing = true)
+function rex_mediapool_saveMedia($FILE, $rexFileCategory, $FILEINFOS, $userlogin = null, $doSubindexing = true)
 {
-    return rex_media_service::addMedia($FILE, ['categories' => $rex_file_category], $FILEINFOS, $userlogin, $doSubindexing);
+    return rex_media_service::addMedia($FILE, ['categories' => $rexFileCategory], $FILEINFOS, $userlogin, $doSubindexing);
 }
 
 /**
@@ -81,8 +81,8 @@ function rex_mediapool_mediaIsInUse($filename)
  * Synchronisiert die Datei $physical_filename des Mediafolders in den
  * Medienpool.
  *
- * @param string      $physical_filename
- * @param int         $category_id
+ * @param string      $physicalFilename
+ * @param int         $categoryId
  * @param string      $title
  * @param null|int    $filesize
  * @param null|string $filetype
@@ -92,7 +92,7 @@ function rex_mediapool_mediaIsInUse($filename)
  *
  * @deprecated
  */
-function rex_mediapool_syncFile($physical_filename, $category_id, $title, $filesize = null, $filetype = null, $userlogin = null)
+function rex_mediapool_syncFile($physicalFilename, $categoryId, $title, $filesize = null, $filetype = null, $userlogin = null)
 {
-    rex_mediapool::syncFile($physical_filename, ['categories' => $category_id], $title, $filesize, $filetype, $userlogin);
+    rex_mediapool::syncFile($physicalFilename, ['categories' => $categoryId], $title, $filesize, $filetype, $userlogin);
 }

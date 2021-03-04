@@ -1,19 +1,19 @@
 <?php
 
-$media_id = rex_request('media_id','int',0);
+$mediaId = rex_request('media_id','int',0);
 
-if ($media_id < 1) {
+if ($mediaId < 1) {
     return false;
 } else {
-    $media = rex_media::getById($media_id);
+    $media = rex_media::getById($mediaId);
     if (!$media) {
         return false;
     }
 }
 
-assert(isset($opener_input_field) && is_string($opener_input_field));
+assert(isset($openerInputField) && is_string($openerInputField));
 
-$media_method = rex_request('media_method', 'string');
+$mediaMethod = rex_request('media_method', 'string');
 $csrf = rex_csrf_token::factory('mediapool');
 
 $mediaForm = new rex_media_form();
@@ -34,23 +34,23 @@ $mediaForm->addField(
     ]
 );
 
-foreach (rex_request('args', 'array') as $arg_name => $arg_value) {
+foreach (rex_request('args', 'array') as $argName => $argValue) {
     $mediaForm->addField(
         [
             'label' => '',
-            'field' => '<input type="hidden" name="args['.rex_escape($arg_name).']" value="'.rex_escape(
-                    $arg_value
+            'field' => '<input type="hidden" name="args['.rex_escape($argName).']" value="'.rex_escape(
+                    $argValue
                 ).'" />',
         ]
     );
 }
 
-if ('' != $opener_input_field) {
+if ('' != $openerInputField) {
     $mediaForm->addField(
         [
             'label' => '',
             'field' => '<input class="form-control" type="hidden" name="opener_input_field" value="'.rex_escape(
-                    $opener_input_field
+                    $openerInputField
                 ).'" />',
         ]
     );
@@ -58,7 +58,7 @@ if ('' != $opener_input_field) {
 
 $data = [];
 
-if ('add_file' == $media_method) {
+if ('add_file' == $mediaMethod) {
     if (!$csrf->isValid()) {
         echo rex_view::error(rex_i18n::msg('csrf_token_invalid'));
     } else {
@@ -75,24 +75,24 @@ if ('add_file' == $media_method) {
         $data['status'] = rex_request('rex_media_status', 'int');
 
         $args = rex_post('args', 'array');
-        $whitelist_types = is_array(@$args['types']) ? $args['types'] : [];
+        $whitelistTypes = is_array(@$args['types']) ? $args['types'] : [];
 
         try {
             dump($data);
 
-            $data = rex_media_service::updateMedia($data, rex::getUser()->getValue('login'), true, $whitelist_types);
+            $data = rex_media_service::updateMedia($data, rex::getUser()->getValue('login'), true, $whitelistTypes);
 
             echo rex_view::success($data['message']);
 
             if (rex_post('saveandexit', 'boolean')) {
-                if ('' != $opener_input_field) {
-                    if ('REX_MEDIALIST_' == substr($opener_input_field, 0, 14)) {
+                if ('' != $openerInputField) {
+                    if ('REX_MEDIALIST_' == substr($openerInputField, 0, 14)) {
                         $js = "selectMedialist('".$data['file']['name_new']."');";
                         $js .= 'location.href = "'.rex_url::backendPage(
                                 'mediapool',
                                 [
                                     'info' => rex_i18n::msg('pool_file_added'),
-                                    'opener_input_field' => $opener_input_field
+                                    'opener_input_field' => $openerInputField
                                 ],
                                 false
                             ).'";';
@@ -109,7 +109,7 @@ if ('add_file' == $media_method) {
             rex_response::sendRedirect(
                 rex_url::backendPage(
                     'mediapool/media',
-                    ['info' => $data['message'], 'opener_input_field' => $opener_input_field],
+                    ['info' => $data['message'], 'opener_input_field' => $openerInputField],
                     false
                 )
             );
@@ -119,8 +119,8 @@ if ('add_file' == $media_method) {
     }
 }
 
-$add_submit = '';
-if ('' != $opener_input_field) {
+$addSubmit = '';
+if ('' != $openerInputField) {
     $mediaForm->addSubmit(
         '<button class="btn btn-save" type="submit" name="saveandexit" value="'.rex_i18n::msg(
             'pool_file_upload_get'
@@ -136,9 +136,9 @@ $mediaForm->setfileSelection();
 echo $mediaForm->get();
 
 return;
-assert(isset($opener_input_field) && is_string($opener_input_field));
+assert(isset($openerInputField) && is_string($openerInputField));
 
-$media_method = rex_request('media_method', 'string');
+$mediaMethod = rex_request('media_method', 'string');
 $csrf = rex_csrf_token::factory('mediapool');
 
 $mediaForm = new rex_media_form();
@@ -155,23 +155,23 @@ $mediaForm->addField([
     'field' => '<input type="hidden" name="media_method" value="add_file">',
 ]);
 
-foreach (rex_request('args', 'array') as $arg_name => $arg_value) {
+foreach (rex_request('args', 'array') as $argName => $argValue) {
     $mediaForm->addField([
         'label' => '',
-        'field' => '<input type="hidden" name="args[' . rex_escape($arg_name) . ']" value="' . rex_escape($arg_value) . '" />',
+        'field' => '<input type="hidden" name="args[' . rex_escape($argName) . ']" value="' . rex_escape($argValue) . '" />',
     ]);
 }
 
-if ('' != $opener_input_field) {
+if ('' != $openerInputField) {
     $mediaForm->addField([
         'label' => '',
-        'field' => '<input class="form-control" type="hidden" name="opener_input_field" value="' . rex_escape($opener_input_field) . '" />',
+        'field' => '<input class="form-control" type="hidden" name="opener_input_field" value="' . rex_escape($openerInputField) . '" />',
     ]);
 }
 
 $data = [];
 
-if ('add_file' == $media_method) {
+if ('add_file' == $mediaMethod) {
     if (!$csrf->isValid()) {
         echo rex_view::error(rex_i18n::msg('csrf_token_invalid'));
     } else {
@@ -188,7 +188,7 @@ if ('add_file' == $media_method) {
         $data['status'] = rex_request('rex_media_status', 'int');
 
         $args = rex_post('args', 'array');
-        $whitelist_types = is_array(@$args['types']) ? $args['types'] : [];
+        $whitelistTypes = is_array(@$args['types']) ? $args['types'] : [];
 
         try {
 
@@ -196,15 +196,15 @@ if ('add_file' == $media_method) {
 
             dump($data);
 
-            $data = rex_media_service::addMedia($data, rex::getUser()->getValue('login'), true, $whitelist_types);
+            $data = rex_media_service::addMedia($data, rex::getUser()->getValue('login'), true, $whitelistTypes);
 
             echo rex_view::success($data['message']);
 
             if (rex_post('saveandexit', 'boolean')) {
-                if ('' != $opener_input_field) {
-                    if ('REX_MEDIALIST_' == substr($opener_input_field, 0, 14)) {
+                if ('' != $openerInputField) {
+                    if ('REX_MEDIALIST_' == substr($openerInputField, 0, 14)) {
                         $js = "selectMedialist('" . $data['file']['name_new'] . "');";
-                        $js .= 'location.href = "' . rex_url::backendPage('mediapool', ['info' => rex_i18n::msg('pool_file_added'), 'opener_input_field' => $opener_input_field], false) . '";';
+                        $js .= 'location.href = "' . rex_url::backendPage('mediapool', ['info' => rex_i18n::msg('pool_file_added'), 'opener_input_field' => $openerInputField], false) . '";';
                     } else {
                         $js = "selectMedia('" . $data['file']['name_new'] . "');";
                     }
@@ -215,15 +215,15 @@ if ('add_file' == $media_method) {
                 }
             }
 
-            rex_response::sendRedirect(rex_url::backendPage('mediapool/media', ['info' => $data['message'], 'opener_input_field' => $opener_input_field], false));
+            rex_response::sendRedirect(rex_url::backendPage('mediapool/media', ['info' => $data['message'], 'opener_input_field' => $openerInputField], false));
         } catch (Exception $exception) {
             echo rex_view::error($exception->getMessage());
         }
     }
 }
 
-$add_submit = '';
-if ('' != $opener_input_field) {
+$addSubmit = '';
+if ('' != $openerInputField) {
     $mediaForm->addSubmit(
         '<button class="btn btn-save" type="submit" name="saveandexit" value="' . rex_i18n::msg('pool_file_upload_get') . '"' . rex::getAccesskey(rex_i18n::msg('save_and_close_tooltip'), 'save') . '>' . rex_i18n::msg('pool_file_upload_get') . '</button>'
     );

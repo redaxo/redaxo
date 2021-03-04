@@ -28,43 +28,43 @@ $success = preg_replace($regex, '<$1>', $success);
 $error = preg_replace($regex, '<$1>', $error);
 
 // -------------- Additional Args
-$arg_url = ['args' => $args];
-$arg_fields = '';
-foreach ($args as $arg_name => $arg_value) {
-    $arg_fields .= '<input type="hidden" name="args[' . rex_escape($arg_name) . ']" value="' . rex_escape($arg_value) . '" />' . "\n";
+$argUrl = ['args' => $args];
+$argFields = '';
+foreach ($args as $argName => $argValue) {
+    $argFields .= '<input type="hidden" name="args[' . rex_escape($argName) . ']" value="' . rex_escape($argValue) . '" />' . "\n";
 }
 
 // ----- opener_input_field setzen
-$opener_link = rex_request('opener_link', 'string');
-$opener_input_field = rex_request('opener_input_field', 'string', '');
+$openerLink = rex_request('opener_link', 'string');
+$openerInputField = rex_request('opener_input_field', 'string', '');
 
-if ('' != $opener_input_field) {
-    if (!preg_match('{^[A-Za-z]+[\w\-\:\.]*$}', $opener_input_field)) {
-        throw new Exception('invalid opener_input_field given: '. $opener_input_field);
+if ('' != $openerInputField) {
+    if (!preg_match('{^[A-Za-z]+[\w\-\:\.]*$}', $openerInputField)) {
+        throw new Exception('invalid opener_input_field given: '. $openerInputField);
     }
 
-    $opener_id = null;
-    if ('REX_MEDIALIST_' == substr($opener_input_field, 0, 14)) {
-        $opener_id = (int) substr($opener_input_field, 14, strlen($opener_input_field));
+    $openerId = null;
+    if ('REX_MEDIALIST_' == substr($openerInputField, 0, 14)) {
+        $openerId = (int) substr($openerInputField, 14, strlen($openerInputField));
     }
 
-    $arg_url['opener_input_field'] = $opener_input_field;
-    $arg_fields .= '<input type="hidden" name="opener_input_field" value="' . rex_escape($opener_input_field) . '"/>' . "\n";
+    $argUrl['opener_input_field'] = $openerInputField;
+    $argFields .= '<input type="hidden" name="opener_input_field" value="' . rex_escape($openerInputField) . '"/>' . "\n";
 }
 
 // -------------- CatId in Session speichern
-$media_id = rex_request('file_id', 'int');
-$media_name = rex_request('file_name', 'string');
+$mediaId = rex_request('file_id', 'int');
+$mediaName = rex_request('file_name', 'string');
 
-if ('' != $media_name) {
-    $media = rex_media::get($media_name);
+if ('' != $mediaName) {
+    $media = rex_media::get($mediaName);
     if ($media) {
-        $file_id = (int) $media->getId();
+        $fileId = (int) $media->getId();
     }
-} else if ($media_id > 0) {
-    $media = rex_media::getById($media_id);
+} else if ($mediaId > 0) {
+    $media = rex_media::getById($mediaId);
     if ($media) {
-        $media_id = (int) $media->getId();
+        $mediaId = (int) $media->getId();
     }
 }
 
@@ -91,7 +91,7 @@ $PERMALL = rex::getUser()->getComplexPerm('media')->hasCategoryPerm(0);*/
 $subline = rex_be_controller::getPageObject('mediapool')->getSubpages();
 
 foreach ($subline as $sp) {
-    $sp->setHref(rex_url::backendPage($sp->getFullKey(), $arg_url, false));
+    $sp->setHref(rex_url::backendPage($sp->getFullKey(), $argUrl, false));
 }
 
 echo rex_view::title(rex_i18n::msg('pool_media'), $subline);
@@ -110,7 +110,7 @@ if (!rex_request::isXmlHttpRequest()) {
     ?>
     <script type="text/javascript">
         rex_retain_popup_event_handlers("rex:selectMedia");
-        <?= $opener_input_field ? 'rex.mediapoolOpenerInputField = "'.rex_escape($opener_input_field, 'js').'";' : '' ?>
+        <?= $openerInputField ? 'rex.mediapoolOpenerInputField = "'.rex_escape($openerInputField, 'js').'";' : '' ?>
     </script>
     <?php
 }
