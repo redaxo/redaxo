@@ -74,3 +74,37 @@ jobs:
 
             -   name: Run phpunit
                 run: vendor/bin/phpunit --colors=always
+
+    phpunit-windows:
+        name: phpunit (windows)
+        runs-on: windows-latest
+        if: "!contains(github.event.head_commit.message, '[ci skip]')"
+
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v2
+
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: '8.0'
+                    extensions: gd, intl, pdo_mysql
+                    coverage: none # disable xdebug, pcov
+
+            -   name: Composer install
+                uses: ramsey/composer-install@v1
+                with:
+                    composer-options: --ansi --prefer-dist
+
+            -   name: Setup Problem Matchers for PHPUnit
+                run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+            -   name: Setup REDAXO
+                run: |
+                    mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
+                    git apply .github/workflows/default.config.yml.github-action.diff
+                    php .tools/bin/setup
+                    redaxo/bin/console system:report
+
+            -   name: Run phpunit
+                run: vendor/bin/phpunit --colors=always
