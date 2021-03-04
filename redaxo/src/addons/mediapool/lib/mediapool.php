@@ -2,7 +2,6 @@
 
 class rex_mediapool
 {
-
     /**
      * Erstellt einen Filename der eindeutig ist für den Medienpool.
      *
@@ -87,6 +86,7 @@ class rex_mediapool
                 $aid = $art_arr['article_id'];
                 $clang = $art_arr['clang_id'];
                 $ooa = rex_article::get($aid, $clang);
+
                 $name = $ooa->getName();
                 $warning[0] .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('content', ['article_id' => $aid, 'mode' => 'edit', 'clang' => $clang]) . '\')">' . $name . '</a></li>';
             }
@@ -114,13 +114,13 @@ class rex_mediapool
      */
     public static function isAllowedMediaType($filename, array $args = [])
     {
-        $file_ext = mb_strtolower(rex_file::extension($filename));
+        $fileExt = mb_strtolower(rex_file::extension($filename));
 
-        if ('' === $filename || false !== strpos($file_ext, ' ') || '' === $file_ext) {
+        if ('' === $filename || str_contains($fileExt, ' ') || '' === $fileExt) {
             return false;
         }
 
-        if (0 === strpos($file_ext, 'php')) {
+        if (str_starts_with($fileExt, 'php')) {
             return false;
         }
 
@@ -128,14 +128,13 @@ class rex_mediapool
         foreach ($blacklist as $blackExtension) {
             // blacklisted extensions are not allowed within filenames, to prevent double extension vulnerabilities:
             // -> some webspaces execute files named file.php.txt as php
-            if (false !== strpos($filename, '.'. $blackExtension)) {
+            if (str_contains($filename, '.'. $blackExtension)) {
                 return false;
             }
         }
 
         $whitelist = self::getMediaTypeWhitelist($args);
-
-        return !count($whitelist) || in_array($file_ext, $whitelist);
+        return !count($whitelist) || in_array($fileExt, $whitelist);
     }
 
     /**
@@ -169,17 +168,17 @@ class rex_mediapool
     /**
      * get whitelist of mediatypes(extensions) given via media widget "types" param.
      *
-     * @param array $types widget params
+     * @param array $args widget params
      *
      * @return array whitelisted extensions
      */
-    public static function getMediaTypeWhitelist($types = [])
+    public static function getMediaTypeWhitelist($args = [])
     {
         $blacklist = self::getMediaTypeBlacklist();
 
         $whitelist = [];
-        if (is_array($types)) {
-            foreach ($types as $ext) {
+        if (isset($args['types'])) {
+            foreach (explode(',', $args['types']) as $ext) {
                 $ext = ltrim($ext, '.');
                 $ext = mb_strtolower($ext);
                 if (!in_array($ext, $blacklist)) { // whitelist cannot override any blacklist entry from master
@@ -197,7 +196,6 @@ class rex_mediapool
      */
     public static function getMediaTypeBlacklist()
     {
-        return rex_addon::get('mediapool')->getProperty('blocked_extensions') ?? [];
+        return rex_addon::get('mediapool')->getProperty('blocked_extensions');
     }
-
 }
