@@ -226,18 +226,18 @@ class rex_select
     /**
      * Fügt Optionen anhand der Übergeben SQL-Select-Abfrage hinzu.
      */
-    public function addSqlOptions($query)
+    public function addSqlOptions($query, $db=1)
     {
-        $sql = rex_sql::factory();
+        $sql = rex_sql::factory($db);
         $this->addOptions($sql->getArray($query, [], PDO::FETCH_NUM));
     }
 
     /**
      * Fügt Optionen anhand der Übergeben DBSQL-Select-Abfrage hinzu.
      */
-    public function addDBSqlOptions($query)
+    public function addDBSqlOptions($query, $db=1)
     {
-        $sql = rex_sql::factory();
+        $sql = rex_sql::factory($db);
         $this->addOptions($sql->getDBArray($query, [], PDO::FETCH_NUM));
     }
 
