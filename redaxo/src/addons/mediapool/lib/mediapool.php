@@ -86,8 +86,7 @@ class rex_mediapool
                 $aid = $art_arr['article_id'];
                 $clang = $art_arr['clang_id'];
                 $ooa = rex_article::get($aid, $clang);
-
-                $name = $ooa->getName();
+                $name = ($ooa) ? $ooa->getName() : '';
                 $warning[0] .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('content', ['article_id' => $aid, 'mode' => 'edit', 'clang' => $clang]) . '\')">' . $name . '</a></li>';
             }
             $warning[0] .= '</ul>';
