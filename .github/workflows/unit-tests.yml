@@ -94,11 +94,9 @@ jobs:
             -   name: Chocolatey cache
                 uses: actions/cache@v2
                 with:
-                    path: |
-                        C:\Users\runneradmin\AppData\Local\Temp\chocolatey
-                        C:\ProgramData\chocolatey\lib
-                    key: ${{ runner.os }}-chocolatey-${{ github.sha }}
-                    restore-keys: ${{ runner.os }}-chocolatey-
+                    path: C:\Users\runneradmin\AppData\Local\Temp\chocolatey
+                    key: chocolatey-${{ github.sha }}
+                    restore-keys: chocolatey-
 
             -   name: Setup MySQL
                 run: |
