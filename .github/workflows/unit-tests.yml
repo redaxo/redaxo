@@ -95,11 +95,13 @@ jobs:
                 run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
             -   name: Install MySQL
-                run: choco install mysql
+                run: |
+                    choco install mysql
+                    mysqladmin --user=root password root
 
             -   name: Setup REDAXO
                 run: |
-                    mysql -u root -e "create database redaxo5;"
+                    mysql -uroot -proot -e "create database redaxo5;"
                     echo 123
                     git apply .github/workflows/default.config.yml.github-action.diff
                     php .tools/bin/setup
