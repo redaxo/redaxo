@@ -9,7 +9,6 @@ on:
 jobs:
     phpunit:
         runs-on: ${{ matrix.os }}
-        if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
         strategy:
             matrix:
@@ -75,7 +74,6 @@ jobs:
     phpunit-windows:
         name: phpunit (windows)
         runs-on: windows-latest
-        if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
         steps:
             -   name: Checkout
