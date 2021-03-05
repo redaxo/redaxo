@@ -11,10 +11,8 @@ final class rex_mediapool
      *
      * @param string $mediaName      Dateiname
      * @param bool   $doSubindexing
-     *
-     * @return string
      */
-    public static function filename(string $mediaName, $doSubindexing = true):string
+    public static function filename(string $mediaName, $doSubindexing = true): string
     {
         // ----- neuer filename und extension holen
         $newMediaName = rex_string::normalize($mediaName, '_', '.-@');
@@ -54,8 +52,6 @@ final class rex_mediapool
     }
 
     /**
-     * @param string $filename
-     *
      * @return bool|string
      */
     public static function mediaIsInUse(string $filename)
@@ -110,12 +106,8 @@ final class rex_mediapool
 
     /**
      * check if mediatpye(extension) is allowed for upload.
-     *
-     * @param string $filename
-     *
-     * @return bool
      */
-    public static function isAllowedExtension(string $filename, array $args = []):bool
+    public static function isAllowedExtension(string $filename, array $args = []): bool
     {
         $fileExt = mb_strtolower(rex_file::extension($filename));
 
@@ -146,10 +138,8 @@ final class rex_mediapool
      * @param string      $path     Path to the physical file
      * @param null|string $filename Optional filename, will be used for extracting the file extension.
      *                              If not given, the extension is extracted from `$path`.
-     *
-     * @return bool
      */
-    public static function isAllowedMimeType(string $path, $filename = null):bool
+    public static function isAllowedMimeType(string $path, $filename = null): bool
     {
         $allowedMimetypes = rex_addon::get('mediapool')->getProperty('allowed_mime_types');
 
@@ -175,7 +165,7 @@ final class rex_mediapool
      *
      * @return array allowedExtensions
      */
-    public static function getAllowedExtensions($args = []):array
+    public static function getAllowedExtensions($args = []): array
     {
         $blockedExtensions = self::getBlockedExtensions();
 

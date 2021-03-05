@@ -12,7 +12,6 @@
  * @param string $mediaName      Dateiname
  * @param bool   $doSubindexing
  *
- * @return string
  * @deprecated since 2.11, use `rex_mediapool::filename` instead
  */
 function rex_mediapool_filename($mediaName, $doSubindexing = true): string
@@ -59,8 +58,8 @@ function rex_mediapool_saveMedia($FILE, $rexFileCategory, $FILEINFOS, $userlogin
         $RETURN['category_id'] = $rexFileCategory;
 
         // if (isset($size) && $size) {
-            // $RETURN['width'] = $size[0];
-            // $RETURN['height'] = $size[1];
+        // $RETURN['width'] = $size[0];
+        // $RETURN['height'] = $size[1];
         // }
 
         return $RETURN;
@@ -123,7 +122,7 @@ function rex_mediapool_syncFile($physicalFilename, $categoryId, $title, $filesiz
         'name' => $physicalFilename,
         'path' => rex_path::media($physicalFilename),
         'site' => $filesize,
-        'type' => $filetype
+        'type' => $filetype,
     ];
 
     try {

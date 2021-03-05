@@ -68,7 +68,6 @@ if (rex_post('btn_update', 'string')) {
         } elseif (!rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('category_id')) || !rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rexFileCategory)) {
             $error = rex_i18n::msg('no_permission');
         } else {
-
             $data = [];
             $data['category_id'] = $rexFileCategory;
             $data['media_id'] = $fileId;
