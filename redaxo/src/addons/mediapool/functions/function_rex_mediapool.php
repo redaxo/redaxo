@@ -13,7 +13,7 @@
  * @param bool   $doSubindexing
  *
  * @return string
- * @deprecated
+ * @deprecated since 2.11, use `rex_mediapool::filename` instead
  */
 function rex_mediapool_filename($mediaName, $doSubindexing = true): string
 {
@@ -32,7 +32,7 @@ function rex_mediapool_filename($mediaName, $doSubindexing = true): string
  * @param bool   $doSubindexing
  *
  * @return array
- * @deprecated
+ * @deprecated since 2.11, use `rex_media_service::addMedia` instead
  */
 function rex_mediapool_saveMedia($FILE, $rexFileCategory, $FILEINFOS, $userlogin = null, $doSubindexing = true)
 {
@@ -77,7 +77,7 @@ function rex_mediapool_saveMedia($FILE, $rexFileCategory, $FILEINFOS, $userlogin
  * @param string $userlogin
  *
  * @return array
- * @deprecated
+ * @deprecated since 2.11, use `rex_media_service::updateMedia` instead
  */
 function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
 {
@@ -112,7 +112,7 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
  * @param null|string $userlogin
  *
  * @return array
- * @deprecated
+ * @deprecated since 2.11, use `rex_media_service::addMedia` instead
  */
 function rex_mediapool_syncFile($physicalFilename, $categoryId, $title, $filesize = null, $filetype = null, $userlogin = null)
 {
@@ -142,7 +142,7 @@ function rex_mediapool_syncFile($physicalFilename, $categoryId, $title, $filesiz
  * @return array
  *
  * @psalm-return array{ok: bool, msg: string}
- * @deprecated
+ * @deprecated since 2.11, use `rex_media_service::deleteMedia` instead
  */
 function rex_mediapool_deleteMedia($filename)
 {
@@ -158,7 +158,7 @@ function rex_mediapool_deleteMedia($filename)
  * @param string $filename
  *
  * @return bool|string
- * @deprecated
+ * @deprecated since 2.11, use `rex_mediapool::mediaIsInUse` instead
  */
 function rex_mediapool_mediaIsInUse($filename)
 {
@@ -327,7 +327,7 @@ function rex_mediapool_Syncform($rexFileCategory)
  * @param string $filename
  *
  * @return bool
- * @deprecated
+ * @deprecated since 2.11, use `rex_mediapool::isAllowedExtension` instead
  */
 function rex_mediapool_isAllowedMediaType($filename, array $args = [])
 {
@@ -342,7 +342,7 @@ function rex_mediapool_isAllowedMediaType($filename, array $args = [])
  *                              If not given, the extension is extracted from `$path`.
  *
  * @return bool
- * @deprecated
+ * @deprecated since 2.11, use `rex_mediapool::isAllowedMimeType` instead
  */
 function rex_mediapool_isAllowedMimeType($path, $filename = null)
 {
@@ -355,7 +355,7 @@ function rex_mediapool_isAllowedMimeType($path, $filename = null)
  * @param array $args widget params
  *
  * @return array whitelisted extensions
- * @deprecated
+ * @deprecated since 2.11, use `rex_mediapool::getAllowedExtensions` instead
  */
 function rex_mediapool_getMediaTypeWhitelist($args = [])
 {
@@ -366,7 +366,7 @@ function rex_mediapool_getMediaTypeWhitelist($args = [])
  * return global mediatype blacklist from master.inc.
  *
  * @return array blacklisted mediatype extensions
- * @deprecated
+ * @deprecated since 2.11, use `rex_mediapool::getBlockedExtensions` instead
  */
 function rex_mediapool_getMediaTypeBlacklist()
 {
