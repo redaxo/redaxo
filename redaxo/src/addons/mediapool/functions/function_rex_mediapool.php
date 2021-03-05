@@ -82,7 +82,6 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
 {
     $data = $FILEINFOS;
     $data['category_id'] = $data['rex_file_category'];
-    $data['media_id'] = $data['file_id'];
 
     if ($FILE) {
         $data['file'] = $FILE;

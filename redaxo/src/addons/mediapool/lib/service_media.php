@@ -134,15 +134,15 @@ final class rex_media_service
      */
     public static function updateMedia(array $data, $userlogin = null): array
     {
-        if (empty($data['media_id'])) {
-            throw new rex_api_exception('Expecting Media-ID.');
+        if (empty($data['filename'])) {
+            throw new rex_api_exception('Expecting Filename.');
         }
 
         $categoryId = (int) $data['category_id'];
 
         $saveObject = rex_sql::factory();
         $saveObject->setTable(rex::getTablePrefix() . 'media');
-        $saveObject->setWhere(['id' => $data['media_id']]);
+        $saveObject->setWhere(['filename' => $data['filename']]);
         $saveObject->setValue('title', $data['title']);
         $saveObject->setValue('category_id', $categoryId);
 
