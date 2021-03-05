@@ -10,7 +10,6 @@ jobs:
     psalm-analysis:
         name: psalm static code analysis
         runs-on: ubuntu-latest
-        if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
         steps:
             -   name: Checkout
@@ -22,13 +21,6 @@ jobs:
                     php-version: 7.4
                     extensions: gd, intl, imagick
                     coverage: none # disable xdebug, pcov
-
-            -   name: Psalm Resultcache
-                uses: actions/cache@v2
-                with:
-                    path: /tmp/psalm
-                    key: psalm-${{ github.sha }}
-                    restore-keys: psalm-
 
             -   name: Composer install
                 uses: ramsey/composer-install@v1
@@ -47,7 +39,7 @@ jobs:
     psalm-taint-analysis:
         name: psalm taint analysis
         runs-on: ubuntu-latest
-        if: "github.event.pull_request.draft == false && !contains(github.event.head_commit.message, '[ci skip]')"
+        if: "github.event.pull_request.draft == false"
 
         steps:
             -   name: Checkout
@@ -77,7 +69,6 @@ jobs:
     phpstan-analysis:
         name: phpstan static code analysis
         runs-on: ubuntu-latest
-        if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
         steps:
             -   name: Checkout
@@ -89,13 +80,6 @@ jobs:
                     php-version: 7.4
                     extensions: gd, intl, imagick, pdo_mysql
                     coverage: none # disable xdebug, pcov
-
-            -   name: PHPStan Resultcache
-                uses: actions/cache@v2
-                with:
-                    path: /tmp/phpstan
-                    key: phpstan-${{ github.sha }}
-                    restore-keys: phpstan-
 
             -   name: Composer install
                 uses: ramsey/composer-install@v1
