@@ -234,6 +234,8 @@ class rex_select
 
     /**
      * Fügt Optionen anhand der Übergeben DBSQL-Select-Abfrage hinzu.
+     *
+     * @see rex_sql::setDBQuery()
      */
     public function addDBSqlOptions($query)
     {
