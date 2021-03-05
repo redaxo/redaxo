@@ -127,7 +127,7 @@ function rex_mediapool_syncFile($physicalFilename, $categoryId, $title, $filesiz
     ];
 
     try {
-        return rex_media_service::addMedia($data, $userlogin);
+        return rex_media_service::addMedia($data, $userlogin, false);
     } catch (rex_api_exception $e) {
         return [
             'ok' => 0,
