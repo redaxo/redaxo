@@ -41,9 +41,7 @@ if (ini_get('html_errors')) {
 require_once __DIR__ . '/lib/util/path.php';
 
 if (isset($REX['PATH_PROVIDER']) && is_object($REX['PATH_PROVIDER'])) {
-    /**
-      * @var rex_path_default_provider
-      */
+    /** @var rex_path_default_provider */
     $pathProvider = $REX['PATH_PROVIDER'];
 } else {
     require_once __DIR__ . '/lib/util/path_default_provider.php';
