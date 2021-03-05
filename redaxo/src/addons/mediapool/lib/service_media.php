@@ -20,7 +20,7 @@ class rex_media_service
             throw new rex_api_exception(rex_i18n::msg('pool_file_not_found'));
         }
 
-        if (!rex_mediapool::isAllowedMediaType($data['file']['name'], $allowedExtensions)) {
+        if (!rex_mediapool::isAllowedExtension($data['file']['name'], $allowedExtensions)) {
             $warning = rex_i18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . rex_file::extension($data['file']['name']) . '</code>';
             $allowedExtensions = rex_mediapool::getAllowedExtensions($allowedExtensions);
             $warning .= count($allowedExtensions) > 0

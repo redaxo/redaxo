@@ -32,7 +32,7 @@ class rex_mediapool
         }
 
         // ---- ext checken - alle scriptendungen rausfiltern
-        if (!self::isAllowedMediaType($newMediaName)) {
+        if (!self::isAllowedExtension($newMediaName)) {
             // make sure we dont add a 2nd file-extension to the file,
             // because some webspaces execute files like file.php.txt as a php script
             $newMediaBaseName .= str_replace('.', '_', $newMediaExtension);
@@ -115,7 +115,7 @@ class rex_mediapool
      *
      * @return bool
      */
-    public static function isAllowedMediaType(string $filename, array $args = []):bool
+    public static function isAllowedExtension(string $filename, array $args = []):bool
     {
         $fileExt = mb_strtolower(rex_file::extension($filename));
 

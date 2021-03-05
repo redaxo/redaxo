@@ -331,7 +331,7 @@ function rex_mediapool_Syncform($rexFileCategory)
  */
 function rex_mediapool_isAllowedMediaType($filename, array $args = [])
 {
-    return rex_mediapool::isAllowedMediaType($filename, $args);
+    return rex_mediapool::isAllowedExtension($filename, $args);
 }
 
 /**
