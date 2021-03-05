@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="4.6.2@bca09d74adc704c4eaee36a3c3e9d379e290fc3b">
   <file src="redaxo/src/addons/backup/lib/backup.php">
-    <TaintedInclude occurrences="5">
+    <TaintedFile occurrences="2">
+      <code>$tempCacheFile</code>
+      <code>$tempCacheFile</code>
+    </TaintedFile>
+    <TaintedInclude occurrences="11">
+      <code>$filename</code>
+      <code>$filename</code>
+      <code>$filename</code>
+      <code>$filename</code>
+      <code>$filename</code>
+      <code>$filename</code>
       <code>$filename</code>
       <code>$filename</code>
       <code>$filename</code>
@@ -16,12 +26,24 @@
     </TaintedHtml>
   </file>
   <file src="redaxo/src/addons/backup/pages/import.server.php">
+    <TaintedFile occurrences="4">
+      <code>$fileTemp</code>
+      <code>$fileTemp</code>
+      <code>$fileTemp</code>
+      <code>$fileTemp</code>
+    </TaintedFile>
     <TaintedHtml occurrences="2">
       <code>rex_view::error($error)</code>
       <code>rex_view::success($success)</code>
     </TaintedHtml>
   </file>
   <file src="redaxo/src/addons/backup/pages/import.upload.php">
+    <TaintedFile occurrences="4">
+      <code>$fileTemp</code>
+      <code>$fileTemp</code>
+      <code>$fileTemp</code>
+      <code>$fileTemp</code>
+    </TaintedFile>
     <TaintedHtml occurrences="2">
       <code>rex_view::error($error)</code>
       <code>rex_view::success($success)</code>
@@ -44,11 +66,35 @@
       <code>rex_view::success($addon-&gt;i18n('execute_success', $name) . $msg)</code>
     </TaintedHtml>
   </file>
+  <file src="redaxo/src/addons/cronjob/update.php">
+    <TaintedFile occurrences="2">
+      <code>rex_path::data('log/cronjob.log')</code>
+      <code>rex_path::data('log/cronjob.log.2')</code>
+    </TaintedFile>
+  </file>
   <file src="redaxo/src/addons/debug/pages/index.php">
     <TaintedHtml occurrences="2">
       <code>rex_view::info('&lt;a href="'. rex_url::backendPage('system/settings') .'"&gt;'.rex_i18n::msg('debug_activate_debugmode').'&lt;/a&gt;')</code>
       <code>rex_view::warning(rex_i18n::msg('debug_mode_note'))</code>
     </TaintedHtml>
+  </file>
+  <file src="redaxo/src/addons/install/lib/api/api_core_update.php">
+    <TaintedFile occurrences="8">
+      <code>$pathCore</code>
+      <code>$pathCore</code>
+      <code>$pathCore</code>
+      <code>$pathOld</code>
+      <code>$pathOld</code>
+      <code>$temppath . 'addons/' . $addonkey</code>
+      <code>$temppath . 'core'</code>
+      <code>rex_path::addon($addonkey)</code>
+    </TaintedFile>
+  </file>
+  <file src="redaxo/src/addons/install/lib/package/package_update.php">
+    <TaintedFile occurrences="2">
+      <code>$path</code>
+      <code>$temppath</code>
+    </TaintedFile>
   </file>
   <file src="redaxo/src/addons/install/pages/packages.add.php">
     <TaintedHtml occurrences="1">
@@ -65,6 +111,11 @@
       <code>rex_view::error($addon-&gt;i18n('settings_error', $configFile))</code>
       <code>rex_view::success($addon-&gt;i18n('settings_saved'))</code>
     </TaintedHtml>
+  </file>
+  <file src="redaxo/src/addons/media_manager/lib/effects/effect_convert2img.php">
+    <TaintedShell occurrences="1">
+      <code>$cmd</code>
+    </TaintedShell>
   </file>
   <file src="redaxo/src/addons/media_manager/pages/effects.php">
     <TaintedHtml occurrences="3">
@@ -88,6 +139,20 @@
       <code>rex_view::error($error)</code>
       <code>rex_view::success($success)</code>
     </TaintedHtml>
+  </file>
+  <file src="redaxo/src/addons/media_manager/tests/media_manager_test.php">
+    <TaintedFile occurrences="1">
+      <code>$path</code>
+    </TaintedFile>
+  </file>
+  <file src="redaxo/src/addons/mediapool/functions/function_rex_mediapool.php">
+    <TaintedFile occurrences="5">
+      <code>$dstFile</code>
+      <code>$dstFile</code>
+      <code>$srcFile</code>
+      <code>rex_path::media($FILEINFOS['filename'])</code>
+      <code>rex_path::media($FILEINFOS['filename'])</code>
+    </TaintedFile>
   </file>
   <file src="redaxo/src/addons/mediapool/pages/index.php">
     <TaintedHtml occurrences="2">
@@ -130,6 +195,12 @@
       <code>rex_view::error(rex_i18n::msg('minfo_field_error_deleted'))</code>
       <code>rex_view::success(rex_i18n::msg('minfo_field_successfull_deleted'))</code>
     </TaintedHtml>
+  </file>
+  <file src="redaxo/src/addons/phpmailer/install.php">
+    <TaintedFile occurrences="2">
+      <code>$logFolder</code>
+      <code>$oldBackUpFolder</code>
+    </TaintedFile>
   </file>
   <file src="redaxo/src/addons/phpmailer/pages/config.php">
     <TaintedHtml occurrences="4">
@@ -192,6 +263,10 @@
     </TaintedHtml>
   </file>
   <file src="redaxo/src/core/lib/response.php">
+    <TaintedFile occurrences="2">
+      <code>$file</code>
+      <code>$file</code>
+    </TaintedFile>
     <TaintedHeader occurrences="1">
       <code>$str</code>
     </TaintedHeader>
@@ -202,16 +277,38 @@
       <code>$query</code>
     </TaintedSql>
   </file>
-  <file src="redaxo/src/core/lib/util/file.php">
+  <file src="redaxo/src/core/lib/util/dir.php">
     <TaintedFile occurrences="2">
+      <code>$dir</code>
+      <code>$dir</code>
+    </TaintedFile>
+  </file>
+  <file src="redaxo/src/core/lib/util/file.php">
+    <TaintedFile occurrences="6">
+      <code>$dstfile</code>
       <code>$file</code>
       <code>$file</code>
+      <code>$file</code>
+      <code>$file</code>
+      <code>$srcfile</code>
+    </TaintedFile>
+  </file>
+  <file src="redaxo/src/core/lib/util/log_file.php">
+    <TaintedFile occurrences="3">
+      <code>$path</code>
+      <code>$path</code>
+      <code>$path . '.2'</code>
     </TaintedFile>
   </file>
   <file src="redaxo/src/core/lib/util/socket/socket.php">
     <TaintedCallable occurrences="1">
       <code>$data</code>
     </TaintedCallable>
+  </file>
+  <file src="redaxo/src/core/lib/util/socket/socket_response.php">
+    <TaintedFile occurrences="1">
+      <code>$resource</code>
+    </TaintedFile>
   </file>
   <file src="redaxo/src/core/pages/profile.php">
     <TaintedHtml occurrences="3">
@@ -231,5 +328,19 @@
       <code>rex_view::error(implode('&lt;br /&gt;', $error))</code>
       <code>rex_view::success($success)</code>
     </TaintedHtml>
+  </file>
+  <file src="redaxo/src/core/tests/console/config/set_test.php">
+    <TaintedFile occurrences="2">
+      <code>$configPath</code>
+      <code>$configPath</code>
+    </TaintedFile>
+  </file>
+  <file src="redaxo/src/core/update.php">
+    <TaintedFile occurrences="4">
+      <code>rex_path::coreData('system.log')</code>
+      <code>rex_path::coreData('system.log.2')</code>
+      <code>rex_path::data('log/system.log')</code>
+      <code>rex_path::data('log/system.log.2')</code>
+    </TaintedFile>
   </file>
 </files>
