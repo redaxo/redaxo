@@ -58,15 +58,15 @@ jobs:
                 with:
                     composer-options: ${{ matrix.php-version == '8.1' && '--ansi --prefer-dist --ignore-platform-req=php' || '--ansi --prefer-dist' }}
 
-            -   name: Setup Problem Matchers for PHPUnit
-                run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
-
             -   name: Setup REDAXO
                 run: |
                     mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
                     git apply .github/workflows/default.config.yml.github-action.diff
                     php .tools/bin/setup
                     redaxo/bin/console system:report
+
+            -   name: Setup Problem Matchers for PHPUnit
+                run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
             -   name: Run phpunit
                 run: vendor/bin/phpunit --colors=always
@@ -83,7 +83,7 @@ jobs:
                 uses: shivammathur/setup-php@v2
                 with:
                     php-version: '8.0'
-                    extensions: gd, intl, pdo_mysql
+                    extensions: fileinfo, gd, intl, pdo_mysql
                     coverage: none # disable xdebug, pcov
 
             -   name: Composer install
@@ -91,10 +91,7 @@ jobs:
                 with:
                     composer-options: --ansi --prefer-dist
 
-            -   name: Setup Problem Matchers for PHPUnit
-                run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
-
-            -   name: Install MySQL
+            -   name: Setup MySQL
                 run: |
                     choco install mysql --version=5.7.18
                     mysqladmin --user=root password root
@@ -102,10 +99,12 @@ jobs:
             -   name: Setup REDAXO
                 run: |
                     mysql -uroot -proot -e "create database redaxo5;"
-                    echo 123
                     git apply .github/workflows/default.config.yml.github-action.diff
                     php .tools/bin/setup
                     redaxo/bin/console system:report
+
+            -   name: Setup Problem Matchers for PHPUnit
+                run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
             -   name: Run phpunit
                 run: vendor/bin/phpunit --colors=always
