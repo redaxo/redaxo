@@ -70,9 +70,7 @@ if (rex_post('btn_update', 'string')) {
         } else {
             $data = [];
             $data['category_id'] = $rexFileCategory;
-            $data['media_id'] = $fileId;
             $data['title'] = rex_request('ftitle', 'string');
-
             $data['filename'] = $gf->getValue('filename');
             $data['filetype'] = $gf->getValue('filetype');
 
