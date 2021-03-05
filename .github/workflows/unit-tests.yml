@@ -94,6 +94,9 @@ jobs:
             -   name: Setup Problem Matchers for PHPUnit
                 run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
+            -   name: Install MySQL
+                run: choco install mysql
+
             -   name: Setup REDAXO
                 run: |
                     mysql -u root -e "create database redaxo5;"
