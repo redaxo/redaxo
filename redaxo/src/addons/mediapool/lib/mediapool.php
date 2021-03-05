@@ -85,7 +85,7 @@ final class rex_mediapool
         $warning = [];
         $res = $sql->getArray($query);
         if ($sql->getRows() > 0) {
-            $warning[0] = rex_i18n::msg('pool_file_in_use_articles') . '<br /><ul>';
+            $warning[0] = rex_i18n::msg('pool_file_in_use_articles') . '<ul>';
             foreach ($res as $art_arr) {
                 $aid = $art_arr['article_id'];
                 $clang = $art_arr['clang_id'];
@@ -102,7 +102,7 @@ final class rex_mediapool
         ]));
 
         if (!empty($warning)) {
-            return implode('<br />', $warning);
+            return '<br /><br />' . implode('', $warning);
         }
 
         return false;
