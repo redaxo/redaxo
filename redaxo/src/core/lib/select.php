@@ -225,6 +225,7 @@ class rex_select
 
     /**
      * Fügt Optionen anhand der Übergeben SQL-Select-Abfrage hinzu.
+     * @psalm-param positive-int $db
      */
     public function addSqlOptions($query, int $db = 1)
     {
