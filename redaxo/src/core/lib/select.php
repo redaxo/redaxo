@@ -225,10 +225,11 @@ class rex_select
 
     /**
      * Fügt Optionen anhand der Übergeben SQL-Select-Abfrage hinzu.
+     * @psalm-param positive-int $db
      */
-    public function addSqlOptions($query)
+    public function addSqlOptions($query, int $db = 1)
     {
-        $sql = rex_sql::factory();
+        $sql = rex_sql::factory($db);
         $this->addOptions($sql->getArray($query, [], PDO::FETCH_NUM));
     }
 
