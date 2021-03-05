@@ -1,52 +1,56 @@
 <?php
 
+/*
+ * @package redaxo\mediapool
+ */
+
 class rex_mediapool
 {
     /**
      * Erstellt einen Filename der eindeutig ist für den Medienpool.
      *
-     * @param string $MediaName      Dateiname
+     * @param string $mediaName      Dateiname
      * @param bool   $doSubindexing
      *
      * @return string
      */
-    public static function getUniqueMediaName($MediaName, $doSubindexing = true)
+    public static function filename(string $mediaName, $doSubindexing = true):string
     {
         // ----- neuer filename und extension holen
-        $NewMediaName = rex_string::normalize($MediaName, '_', '.-@');
+        $newMediaName = rex_string::normalize($mediaName, '_', '.-@');
 
-        if ('.' === $NewMediaName[0]) {
-            $NewMediaName[0] = '_';
+        if ('.' === $newMediaName[0]) {
+            $newMediaName[0] = '_';
         }
 
-        if ($pos = strrpos($NewMediaName, '.')) {
-            $NewMediaBaseName = substr($NewMediaName, 0, strlen($NewMediaName) - (strlen($NewMediaName) - $pos));
-            $NewMediaExtension = substr($NewMediaName, $pos, strlen($NewMediaName) - $pos);
+        if ($pos = strrpos($newMediaName, '.')) {
+            $newMediaBaseName = substr($newMediaName, 0, strlen($newMediaName) - (strlen($newMediaName) - $pos));
+            $newMediaExtension = substr($newMediaName, $pos, strlen($newMediaName) - $pos);
         } else {
-            $NewMediaBaseName = $NewMediaName;
-            $NewMediaExtension = '';
+            $newMediaBaseName = $newMediaName;
+            $newMediaExtension = '';
         }
 
         // ---- ext checken - alle scriptendungen rausfiltern
-        if (!self::isAllowedMediaType($NewMediaName)) {
+        if (!self::isAllowedMediaType($newMediaName)) {
             // make sure we dont add a 2nd file-extension to the file,
             // because some webspaces execute files like file.php.txt as a php script
-            $NewMediaBaseName .= str_replace('.', '_', $NewMediaExtension);
-            $NewMediaExtension = '.txt';
+            $newMediaBaseName .= str_replace('.', '_', $newMediaExtension);
+            $newMediaExtension = '.txt';
         }
 
-        $NewMediaName = $NewMediaBaseName . $NewMediaExtension;
+        $newMediaName = $newMediaBaseName . $newMediaExtension;
 
-        if ($doSubindexing || $MediaName != $NewMediaName) {
+        if ($doSubindexing || $mediaName != $newMediaName) {
             // ----- datei schon vorhanden -> namen aendern -> _1 ..
             $cnt = 0;
-            while (is_file(rex_path::media($NewMediaName)) || rex_media::get($NewMediaName)) {
+            while (is_file(rex_path::media($newMediaName)) || rex_media::get($newMediaName)) {
                 ++$cnt;
-                $NewMediaName = $NewMediaBaseName . '_' . $cnt . $NewMediaExtension;
+                $newMediaName = $newMediaBaseName . '_' . $cnt . $newMediaExtension;
             }
         }
 
-        return $NewMediaName;
+        return $newMediaName;
     }
 
     /**

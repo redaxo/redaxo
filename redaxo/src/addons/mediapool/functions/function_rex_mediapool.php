@@ -17,7 +17,7 @@
  */
 function rex_mediapool_filename($mediaName, $doSubindexing = true): string
 {
-    return rex_mediapool::getUniqueMediaName($mediaName, $doSubindexing);
+    return rex_mediapool::filename($mediaName, $doSubindexing);
 }
 
 /**
