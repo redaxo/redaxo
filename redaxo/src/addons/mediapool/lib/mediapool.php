@@ -4,7 +4,7 @@
  * @package redaxo\mediapool
  */
 
-class rex_mediapool
+final class rex_mediapool
 {
     /**
      * Erstellt einen Filename der eindeutig ist für den Medienpool.
