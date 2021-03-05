@@ -35,7 +35,7 @@ final class rex_media_service
             throw new rex_api_exception($warning);
         }
 
-        $category_id = (int) $data['category_id'];
+        $categoryId = (int) $data['category_id'];
         $title = (string) $data['title'];
 
         $data['file']['name_new'] = rex_mediapool::filename($data['file']['name'], $doSubindexing);
@@ -57,7 +57,7 @@ final class rex_media_service
             'filename' => $data['file']['name_new'],
             'old_filename' => $data['file']['name'],
             'is_upload' => true,
-            'category_id' => $category_id,
+            'category_id' => $categoryId,
             'type' => $data['file']['type'],
         ]));
         if ($errorMessage) {
@@ -91,7 +91,7 @@ final class rex_media_service
             $saveObject->setValue('height', $data['height']);
         }
 
-        $saveObject->setValue('category_id', $category_id);
+        $saveObject->setValue('category_id', $categoryId);
         $saveObject->addGlobalCreateFields($userlogin);
         $saveObject->addGlobalUpdateFields($userlogin);
         $saveObject->insert();
@@ -106,7 +106,7 @@ final class rex_media_service
 
         $data['message'] = implode('<br />', $message);
 
-        rex_media_cache::deleteList($category_id);
+        rex_media_cache::deleteList($categoryId);
 
         /**
          * @deprecated $return
@@ -138,13 +138,13 @@ final class rex_media_service
             throw new rex_api_exception('Expecting Media-ID.');
         }
 
-        $category_id = (int) $data['category_id'];
+        $categoryId = (int) $data['category_id'];
 
         $saveObject = rex_sql::factory();
         $saveObject->setTable(rex::getTablePrefix() . 'media');
         $saveObject->setWhere(['id' => $data['media_id']]);
         $saveObject->setValue('title', $data['title']);
-        $saveObject->setValue('category_id', $category_id);
+        $saveObject->setValue('category_id', $categoryId);
 
         if (!empty($data['file']) && !empty($data['file']['name']) && !empty($data['file']['path'])) {
             $data['file']['type'] = rex_file::mimeType($data['file']['path']);

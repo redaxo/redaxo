@@ -86,9 +86,9 @@ final class rex_mediapool
         $res = $sql->getArray($query);
         if ($sql->getRows() > 0) {
             $warning[0] = rex_i18n::msg('pool_file_in_use_articles') . '<ul>';
-            foreach ($res as $art_arr) {
-                $aid = $art_arr['article_id'];
-                $clang = $art_arr['clang_id'];
+            foreach ($res as $artArr) {
+                $aid = $artArr['article_id'];
+                $clang = $artArr['clang_id'];
                 $ooa = rex_article::get($aid, $clang);
                 $name = ($ooa) ? $ooa->getName() : '';
                 $warning[0] .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('content', ['article_id' => $aid, 'mode' => 'edit', 'clang' => $clang]) . '\')">' . $name . '</a></li>';
@@ -163,9 +163,9 @@ final class rex_mediapool
             return false;
         }
 
-        $mime_type = rex_file::mimeType($path);
+        $mimeType = rex_file::mimeType($path);
 
-        return in_array($mime_type, $allowedMimetypes[$extension]);
+        return in_array($mimeType, $allowedMimetypes[$extension]);
     }
 
     /**
