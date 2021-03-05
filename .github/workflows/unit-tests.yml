@@ -96,7 +96,7 @@ jobs:
 
             -   name: Install MySQL
                 run: |
-                    choco install mysql
+                    choco install mysql --version=5.7.34
                     mysqladmin --user=root password root
 
             -   name: Setup REDAXO
