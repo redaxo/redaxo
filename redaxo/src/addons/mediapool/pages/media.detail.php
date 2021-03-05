@@ -67,9 +67,8 @@ if (rex_post('btn_update', 'string')) {
             $fileId = 0;
         } elseif (!rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('category_id')) || !rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rexFileCategory)) {
             $error = rex_i18n::msg('no_permission');
-        } elseif (!empty($_FILES['file_new']['tmp_name']) && !rex_mediapool_isAllowedMimeType($_FILES['file_new']['tmp_name'], $_FILES['file_new']['name'])) {
-            $error = rex_i18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . rex_file::extension($_FILES['file_new']['name']) . '</code> (<code>' . rex_file::mimeType($_FILES['file_new']['tmp_name']) . '</code>)';
         } else {
+
             $data = [];
             $data['category_id'] = $rexFileCategory;
             $data['media_id'] = $fileId;
