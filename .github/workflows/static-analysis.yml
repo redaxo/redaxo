@@ -109,5 +109,5 @@ jobs:
                     git apply .github/workflows/default.config.yml.github-action.diff
                     php .tools/bin/setup
 
-            -   name: Rune phpstan analysis
+            -   name: Run phpstan analysis
                 run: vendor/bin/phpstan analyse --ansi --no-progress --debug
