@@ -96,7 +96,6 @@ jobs:
                 with:
                     path: |
                         C:\Users\runneradmin\AppData\Local\Temp\chocolatey
-                        C:\ProgramData\chocolatey\bin
                         C:\ProgramData\chocolatey\lib
                     key: ${{ runner.os }}-chocolatey-${{ github.sha }}
                     restore-keys: ${{ runner.os }}-chocolatey-
