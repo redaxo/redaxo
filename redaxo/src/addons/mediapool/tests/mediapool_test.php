@@ -5,17 +5,17 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  */
-class rex_mediapool_functions_test extends TestCase
+class rex_mediapool_test extends TestCase
 {
     /**
-     * @dataProvider provideIsAllowedMediaType
+     * @dataProvider provideIsAllowedExtension
      */
-    public function testIsAllowedMediaType($expected, $filename, array $args = [])
+    public function testIsAllowedExtension($expected, $filename, array $args = [])
     {
-        static::assertSame($expected, rex_mediapool_isAllowedMediaType($filename, $args));
+        static::assertSame($expected, rex_mediapool::isAllowedExtension($filename, $args));
     }
 
-    public function provideIsAllowedMediaType()
+    public function provideIsAllowedExtension()
     {
         return [
             [false, 'foo.bar.php'],
@@ -45,7 +45,7 @@ class rex_mediapool_functions_test extends TestCase
             'md' => ['text/plain'],
         ]);
 
-        static::assertSame($expected, rex_mediapool_isAllowedMimeType($path, $filename));
+        static::assertSame($expected, rex_mediapool::isAllowedMimeType($path, $filename));
 
         $addon->setProperty('allowed_mime_types', $whitelist);
     }
