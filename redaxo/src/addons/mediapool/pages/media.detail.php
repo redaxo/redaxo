@@ -37,15 +37,15 @@ if (rex_post('btn_delete', 'string')) {
         if ($media) {
             $filename = $media->getFileName();
             if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($media->getCategoryId())) {
-                $return = rex_mediapool_deleteMedia($filename);
-                if ($return['ok']) {
-                    $success = $return['msg'];
+                try {
+                    rex_media_service::deleteMedia($filename);
+                    $success = rex_i18n::msg('pool_file_deleted');
                     $fileId = 0;
 
                     return;
+                } catch (rex_api_exception $e) {
+                    $error = $e->getMessage();
                 }
-
-                $error = $return['msg'];
             } else {
                 $error = rex_i18n::msg('no_permission');
             }
@@ -70,25 +70,31 @@ if (rex_post('btn_update', 'string')) {
         } elseif (!empty($_FILES['file_new']['tmp_name']) && !rex_mediapool_isAllowedMimeType($_FILES['file_new']['tmp_name'], $_FILES['file_new']['name'])) {
             $error = rex_i18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . rex_file::extension($_FILES['file_new']['name']) . '</code> (<code>' . rex_file::mimeType($_FILES['file_new']['tmp_name']) . '</code>)';
         } else {
-            $FILEINFOS = [];
-            $FILEINFOS['rex_file_category'] = $rexFileCategory;
-            $FILEINFOS['file_id'] = $fileId;
-            $FILEINFOS['title'] = rex_request('ftitle', 'string');
-            $FILEINFOS['filetype'] = $gf->getValue('filetype');
-            $FILEINFOS['filename'] = $gf->getValue('filename');
+            $data = [];
+            $data['category_id'] = $rexFileCategory;
+            $data['media_id'] = $fileId;
+            $data['title'] = rex_request('ftitle', 'string');
 
-            $return = rex_mediapool_updateMedia($_FILES['file_new'], $FILEINFOS, rex::getUser()->getValue('login'));
+            $data['filename'] = $gf->getValue('filename');
+            $data['filetype'] = $gf->getValue('filetype');
 
-            if (1 == $return['ok']) {
+            if ($_FILES['file_new']) {
+                $data['file'] = $_FILES['file_new'];
+                $data['file']['path'] = $_FILES['file_new']['tmp_name'];
+            }
+
+            try {
+                $data = rex_media_service::updateMedia($data, rex::getUser()->getValue('login'));
+
                 if ($gf->getValue('category_id') != $rexFileCategory) {
                     rex_extension::registerPoint(new rex_extension_point('MEDIA_MOVED', null, [
-                        'filename' => $FILEINFOS['filename'],
+                        'filename' => $data['filename'],
                         'category_id' => $rexFileCategory,
                     ]));
                 }
-                $success = $return['msg'];
-            } else {
-                $error = $return['msg'];
+                $success = rex_i18n::msg('pool_file_infos_updated');
+            } catch (rex_api_exception $e) {
+                $error = $e->getMessage();
             }
         }
     }
