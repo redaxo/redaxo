@@ -210,6 +210,11 @@ final class rex_media_service
 
     public static function deleteMedia(string $filename): bool
     {
+        $media = rex_media::get($filename);
+        if (!$media) {
+            throw new rex_api_exception(rex_i18n::msg('pool_file_not_found', $filename));
+        }
+
         if ($uses = rex_mediapool::mediaIsInUse($filename)) {
             throw new rex_api_exception(rex_i18n::msg('pool_file_delete_error', $filename) . ' ' . rex_i18n::msg('pool_object_in_use_by') . $uses);
         }
