@@ -27,7 +27,8 @@ jobs:
                 uses: actions/cache@v2
                 with:
                     path: /tmp/psalm
-                    key: psalm-result-cache
+                    key: psalm-${{ github.sha }}
+                    restore-keys: psalm-
 
             -   name: Composer install
                 uses: ramsey/composer-install@v1
@@ -93,7 +94,8 @@ jobs:
                 uses: actions/cache@v2
                 with:
                     path: /tmp/phpstan
-                    key: phpstan-result-cache
+                    key: phpstan-${{ github.sha }}
+                    restore-keys: phpstan-
 
             -   name: Composer install
                 uses: ramsey/composer-install@v1
