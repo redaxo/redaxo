@@ -3,7 +3,7 @@
 /**
  * @package redaxo\mediapool
  */
-class rex_media_service
+final class rex_media_service
 {
     /**
      * Holt ein upgeloadetes File und legt es in den Medienpool
