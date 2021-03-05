@@ -91,6 +91,13 @@ jobs:
                 with:
                     composer-options: --ansi --prefer-dist
 
+            -   name: Chocolatey cache
+                uses: actions/cache@v2
+                with:
+                    path: C:\Users\runneradmin\AppData\Local\Temp\chocolatey
+                    key: ${{ runner.os }}-chocolatey-${{ github.sha }}
+                    restore-keys: ${{ runner.os }}-chocolatey-
+
             -   name: Setup MySQL
                 run: |
                     choco install mysql --version=5.7.18
