@@ -201,11 +201,4 @@
         -webkit-animation: fadeIn 800ms ease-out;
                 animation: fadeIn 800ms ease-out;
     }
-
-    .rex-background,
-    .rex-background-credits {
-        @media (max-width: $screen-sm-max) {
-            display: none;
-        }
-    }
 }
