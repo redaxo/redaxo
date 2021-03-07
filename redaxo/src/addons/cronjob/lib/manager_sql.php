@@ -222,9 +222,9 @@ class rex_cronjob_manager_sql
     }
 
     /**
-    * @param string $id
-      * @return bool
-      */
+     * @param string $id
+     * @return bool
+     */
     public function tryExecute($id, $log = true)
     {
         $sql = rex_sql::factory();
@@ -245,8 +245,8 @@ class rex_cronjob_manager_sql
     }
 
     /**
-      * @return bool
-      */
+     * @return bool
+     */
     private function tryExecuteJob(array $job, $log = true, $resetExecutionStart = false)
     {
         $params = json_decode($job['parameters'], true);
@@ -299,7 +299,7 @@ class rex_cronjob_manager_sql
     }
 
     /**
-    * @param int|null $nexttime
+     * @param int|null $nexttime
      * @return true
      */
     public function saveNextTime($nexttime = null)
