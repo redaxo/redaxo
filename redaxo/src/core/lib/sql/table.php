@@ -813,7 +813,8 @@ class rex_sql_table
 
         $currentOrder = [];
         $after = self::FIRST;
-        foreach ($columns as $name => $column) {
+        /** @var string $name */
+        foreach ($columns as $name => $_) {
             $currentOrder[$after] = $name;
             $after = $name;
 

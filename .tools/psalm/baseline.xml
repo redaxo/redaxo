@@ -7883,8 +7883,7 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/lib/sql/table.php">
-    <MixedArgument occurrences="8">
-      <code>$after</code>
+    <MixedArgument occurrences="7">
       <code>$column</code>
       <code>$columns</code>
       <code>$db</code>
@@ -7907,21 +7906,8 @@
       <code>$parts[]</code>
       <code>$parts[]</code>
     </MixedArrayAssignment>
-    <MixedArrayOffset occurrences="7">
-      <code>$columnsExisting[$name]</code>
-      <code>$columnsExisting[$name]</code>
-      <code>$columnsExisting[$name]</code>
-      <code>$columns[$name]</code>
-      <code>$columns[$name]</code>
-      <code>$currentOrder[$after]</code>
-      <code>$this-&gt;positions[$name]</code>
-    </MixedArrayOffset>
-    <MixedAssignment occurrences="8">
-      <code>$after</code>
+    <MixedAssignment occurrences="4">
       <code>$column</code>
-      <code>$column</code>
-      <code>$currentOrder[$after]</code>
-      <code>$name</code>
       <code>$oldName</code>
       <code>$oldName</code>
       <code>$stepParts</code>
