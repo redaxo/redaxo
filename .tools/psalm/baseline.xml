@@ -7221,12 +7221,9 @@
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/packages/package.php">
-    <MixedArgument occurrences="12">
+    <MixedArgument occurrences="9">
       <code>$__file</code>
       <code>$__file</code>
-      <code>$cacheDir</code>
-      <code>$cacheDir</code>
-      <code>$cacheDir</code>
       <code>$dir</code>
       <code>$key</code>
       <code>$key</code>
@@ -7252,9 +7249,8 @@
       <code>$this-&gt;properties[$key]</code>
       <code>$this-&gt;properties[$key]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="12">
+    <MixedAssignment occurrences="11">
       <code>$addon</code>
-      <code>$cacheDir</code>
       <code>$dir</code>
       <code>$key</code>
       <code>$package</code>
