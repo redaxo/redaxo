@@ -30,6 +30,9 @@ class rex_cronjob_manager_sql
         return new self($manager);
     }
 
+    /**
+     * @return rex_cronjob_manager
+     */
     public function getManager()
     {
         if (!is_object($this->manager)) {
@@ -46,21 +49,35 @@ class rex_cronjob_manager_sql
         return is_object($this->manager);
     }
 
+    /**
+     * @param string $message
+     */
     public function setMessage($message)
     {
         $this->getManager()->setMessage($message);
     }
 
+    /**
+     * @return string
+     */
     public function getMessage()
     {
         return $this->getManager()->getMessage();
     }
 
+    /**
+     * @return bool
+     */
     public function hasMessage()
     {
         return $this->getManager()->hasMessage();
     }
 
+    /**
+     * @param string $id
+     *
+     * @return string|null
+     */
     public function getName($id)
     {
         $this->sql->setQuery('
@@ -76,6 +93,7 @@ class rex_cronjob_manager_sql
     }
 
     /**
+     * @param string $id
      * @return bool
      */
     public function setStatus($id, $status)
@@ -95,6 +113,7 @@ class rex_cronjob_manager_sql
     }
 
     /**
+     * @param string $id
      * @return bool
      */
     public function setExecutionStart($id, $reset = false)
@@ -111,6 +130,7 @@ class rex_cronjob_manager_sql
     }
 
     /**
+     * @param string $id
      * @return bool
      */
     public function delete($id)
@@ -201,6 +221,10 @@ class rex_cronjob_manager_sql
         });
     }
 
+    /**
+    * @param string $id
+      * @return bool
+      */
     public function tryExecute($id, $log = true)
     {
         $sql = rex_sql::factory();
@@ -220,6 +244,9 @@ class rex_cronjob_manager_sql
         return $this->tryExecuteJob($jobs[0], $log);
     }
 
+    /**
+      * @return bool
+      */
     private function tryExecuteJob(array $job, $log = true, $resetExecutionStart = false)
     {
         $params = json_decode($job['parameters'], true);
@@ -272,6 +299,7 @@ class rex_cronjob_manager_sql
     }
 
     /**
+    * @param int|null $nexttime
      * @return true
      */
     public function saveNextTime($nexttime = null)
