@@ -3,6 +3,11 @@
 /**
  * Represents a null package.
  *
+ * Instances of this class are returned by `rex_package::get()` for non-existing packages.
+ * Thereby it is safe to call `rex_package::get(...)->isAvailable()` and `isInstalled()`.
+ * Other methods should not be called on null-packages since they do not return useful values.
+ * Some methods like `getPath()` throw exceptions.
+ *
  * @author gharlan
  *
  * @package redaxo\core\packages
