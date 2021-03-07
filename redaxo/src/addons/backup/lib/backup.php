@@ -217,6 +217,7 @@ class rex_backup
      * @return array Gibt ein Assoc. Array zurück.
      *               'state' => boolean (Status ob fehler aufgetreten sind)
      *               'message' => Evtl. Status/Fehlermeldung
+     * @psalm-return array{state: bool, message: string}
      */
     public static function importFiles($filename)
     {
@@ -265,7 +266,7 @@ class rex_backup
      * Dieser wird in der Datei $filename gespeichert.
      *
      * @param string $filename
-     * @param array  $tables
+     * @param string[]  $tables
      *
      * @return bool TRUE wenn ein Dump erstellt wurde, sonst FALSE
      */
@@ -378,8 +379,8 @@ class rex_backup
      * Exportiert alle Ordner $folders aus dem Verzeichnis /files.
      * Wenn $archivePath übergeben wird, wird das Achive mittels Streaming gebaut, sodass sehr große Exporte möglich sind.
      *
-     * @param array $folders Array von Ordnernamen, die exportiert werden sollen
-     * @param string $archivePath Pfad, wo das archiv angelegt werden soll
+     * @param string[] $folders Array von Ordnernamen, die exportiert werden sollen
+     * @param string|null $archivePath Pfad, wo das archiv angelegt werden soll
      *
      * @return string|null Inhalt des Tar-Archives als string, wenn $archivePath nicht uebergeben wurde - sonst null
      */
@@ -403,6 +404,10 @@ class rex_backup
         return null;
     }
 
+    /**
+     * @param string[] $folders
+     * @param string $archivePath
+     */
     private static function streamExport($folders, $archivePath)
     {
         $tar = new rex_backup_tar();
@@ -484,6 +489,14 @@ class rex_backup
         }
     }
 
+    /**
+     * @param string $table
+     * @param int $start
+     * @param int $max
+     * @param resource $fp
+     * @param string $nl
+     * @param list<string> $fields
+     */
     private static function exportTable($table, &$start, $max, $fp, $nl, array $fields)
     {
         do {
