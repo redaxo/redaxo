@@ -12,7 +12,7 @@ class rex_log_file_test extends TestCase
         rex_dir::delete($this->getPath());
     }
 
-    private function getPath($file = ''): string
+    private function getPath(string $file = ''): string
     {
         return rex_path::addonData('tests', 'rex_log_file_test/' . $file);
     }

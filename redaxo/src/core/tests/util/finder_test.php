@@ -30,7 +30,7 @@ class rex_finder_test extends TestCase
         rex_dir::delete($this->getPath());
     }
 
-    public function getPath($file = ''): string
+    public function getPath(string $file = ''): string
     {
         return rex_path::addonData('tests', 'rex_finder_test/' . $file);
     }
