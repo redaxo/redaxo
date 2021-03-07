@@ -5,12 +5,6 @@
       <code>rex_escape($exportfilename)</code>
     </NullOperand>
   </file>
-  <file src="redaxo/src/addons/cronjob/lib/command/run.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$name</code>
-      <code>$name</code>
-    </PossiblyNullArgument>
-  </file>
   <file src="redaxo/src/addons/cronjob/lib/form.php">
     <PossiblyNullReference occurrences="2">
       <code>getIntervalElements</code>
@@ -18,15 +12,9 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/cronjob/pages/cronjobs.php">
-    <PossiblyNullArgument occurrences="8">
+    <PossiblyNullArgument occurrences="2">
       <code>$activeType</code>
       <code>$field-&gt;getValue()</code>
-      <code>$name</code>
-      <code>$name</code>
-      <code>$name</code>
-      <code>$name</code>
-      <code>$name</code>
-      <code>$name</code>
     </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/debug/boot.php">
