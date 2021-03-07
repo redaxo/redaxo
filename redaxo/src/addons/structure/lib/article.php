@@ -70,7 +70,7 @@ class rex_article extends rex_structure_element
      */
     public static function getNotfoundArticle($clang = null)
     {
-        return self::get((string) self::getNotfoundArticleId(), $clang);
+        return self::get(self::getNotfoundArticleId(), $clang);
     }
 
     /**
