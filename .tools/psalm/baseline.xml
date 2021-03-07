@@ -9022,11 +9022,6 @@
       <code>iterable</code>
     </MixedInferredReturnType>
   </file>
-  <file src="redaxo/src/core/tests/util/dir_test.php">
-    <MixedOperand occurrences="1">
-      <code>$file</code>
-    </MixedOperand>
-  </file>
   <file src="redaxo/src/core/tests/util/file_test.php">
     <MixedArgument occurrences="1">
       <code>$file</code>
@@ -9034,22 +9029,16 @@
     <MixedInferredReturnType occurrences="1">
       <code>iterable</code>
     </MixedInferredReturnType>
-    <MixedOperand occurrences="1">
-      <code>$file</code>
-    </MixedOperand>
   </file>
   <file src="redaxo/src/core/tests/util/finder_test.php">
-    <MixedArgument occurrences="2">
+    <MixedArgument occurrences="3">
       <code>$contains</code>
+      <code>$file</code>
       <code>$iterator</code>
     </MixedArgument>
     <MixedAssignment occurrences="1">
       <code>$file</code>
     </MixedAssignment>
-    <MixedOperand occurrences="2">
-      <code>$file</code>
-      <code>$file</code>
-    </MixedOperand>
   </file>
   <file src="redaxo/src/core/tests/util/formatter_test.php">
     <MixedArrayAccess occurrences="2">
@@ -9068,11 +9057,6 @@
     <MixedArgumentTypeCoercion occurrences="1">
       <code>['rex_i18n_trans_cb', 'mytranslate']</code>
     </MixedArgumentTypeCoercion>
-  </file>
-  <file src="redaxo/src/core/tests/util/log_file_test.php">
-    <MixedOperand occurrences="1">
-      <code>$file</code>
-    </MixedOperand>
   </file>
   <file src="redaxo/src/core/tests/util/markdown_test.php">
     <MixedArgument occurrences="1">
