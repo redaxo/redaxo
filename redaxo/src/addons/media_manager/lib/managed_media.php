@@ -15,7 +15,7 @@ class rex_managed_media
      */
     private $mediaPath = '';
     /**
-     * @var string|null
+     * @var string
      */
     private $media;
     /**
@@ -49,6 +49,9 @@ class rex_managed_media
         'image/webp' => 'webp',
     ];
 
+    /**
+     * @param string $mediaPath
+     */
     public function __construct($mediaPath)
     {
         $this->setMediaPath($mediaPath);
