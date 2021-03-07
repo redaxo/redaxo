@@ -491,6 +491,7 @@ class rex_backup
     
     /**
      * @param string $table
+     * @param int $start
      * @param int $max
      * @param resource $fp
      * @param string $nl
