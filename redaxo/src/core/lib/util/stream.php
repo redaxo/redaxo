@@ -18,13 +18,18 @@
  */
 class rex_stream
 {
+    /** @var bool|null */
     private static $useRealFiles;
 
+    /** @var bool */
     private static $registered = false;
+    /** @var array<string, string> */
     private static $nextContent = [];
 
-    private $position;
-    private $content;
+    /** @var int */
+    private $position = 0;
+    /** @var string */
+    private $content = '';
 
     /**
      * Prepares a new stream.
@@ -77,7 +82,7 @@ class rex_stream
     /**
      * @see http://www.php.net/manual/en/streamwrapper.stream-open.php
      */
-    public function stream_open($path, $mode, $options, &$openedPath)
+    public function stream_open(string $path, string $mode, int $options, ?string &$openedPath): bool
     {
         if (!isset(self::$nextContent[$path]) || !is_string(self::$nextContent[$path])) {
             return false;
@@ -93,7 +98,7 @@ class rex_stream
     /**
      * @see http://www.php.net/manual/en/streamwrapper.stream-read.php
      */
-    public function stream_read($count)
+    public function stream_read(int $count): string
     {
         $ret = substr($this->content, $this->position, $count);
         $this->position += strlen($ret);
@@ -103,7 +108,7 @@ class rex_stream
     /**
      * @see http://www.php.net/manual/en/streamwrapper.stream-eof.php
      */
-    public function stream_eof()
+    public function stream_eof(): bool
     {
         return $this->position >= strlen($this->content);
     }
@@ -111,7 +116,7 @@ class rex_stream
     /**
      * @see http://www.php.net/manual/en/streamwrapper.stream-seek.php
      */
-    public function stream_seek($offset, $whence = SEEK_SET)
+    public function stream_seek(int $offset, int $whence = SEEK_SET): bool
     {
         switch ($whence) {
             case SEEK_SET:
@@ -131,7 +136,7 @@ class rex_stream
     /**
      * @see http://www.php.net/manual/en/streamwrapper.stream-set-option.php
      */
-    public function stream_set_option()
+    public function stream_set_option(): bool
     {
         return false;
     }
@@ -139,7 +144,7 @@ class rex_stream
     /**
      * @see http://www.php.net/manual/en/streamwrapper.stream-tell.php
      */
-    public function stream_tell()
+    public function stream_tell(): int
     {
         return $this->position;
     }
@@ -147,7 +152,7 @@ class rex_stream
     /**
      * @see http://www.php.net/manual/en/streamwrapper.stream-flush.php
      */
-    public function stream_flush()
+    public function stream_flush(): bool
     {
         return true;
     }

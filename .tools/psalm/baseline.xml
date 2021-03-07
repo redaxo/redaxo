@@ -8316,30 +8316,6 @@
       <code>$sort</code>
     </MixedAssignment>
   </file>
-  <file src="redaxo/src/core/lib/util/stream.php">
-    <MixedArgument occurrences="5">
-      <code>$count</code>
-      <code>$this-&gt;content</code>
-      <code>$this-&gt;content</code>
-      <code>$this-&gt;content</code>
-      <code>$this-&gt;position</code>
-    </MixedArgument>
-    <MixedArrayAccess occurrences="1">
-      <code>self::$nextContent[$path]</code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="1">
-      <code>self::$nextContent[$path]</code>
-    </MixedArrayAssignment>
-    <MixedArrayOffset occurrences="2">
-      <code>self::$nextContent[$path]</code>
-      <code>self::$nextContent[$path]</code>
-    </MixedArrayOffset>
-    <MixedOperand occurrences="3">
-      <code>$offset</code>
-      <code>$this-&gt;position</code>
-      <code>$this-&gt;position</code>
-    </MixedOperand>
-  </file>
   <file src="redaxo/src/core/lib/util/string.php">
     <MixedArgument occurrences="8">
       <code>$comparator</code>
