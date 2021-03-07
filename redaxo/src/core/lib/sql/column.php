@@ -9,34 +9,25 @@
  */
 class rex_sql_column
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $name;
-    /**
-     * @var string
-     */
+
+    /** @var string */
     private $type;
-    /**
-     * @var bool
-     */
+
+    /** @var bool */
     private $nullable;
-    /**
-     * @var null|string
-     */
+
+    /** @var null|string */
     private $default;
-    /**
-     * @var null|string
-     */
+
+    /** @var null|string */
     private $extra;
-    /**
-     * @var null|string
-     */
+
+    /** @var null|string */
     private $comment;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private $modified = false;
 
     /**
