@@ -380,7 +380,7 @@ class rex_backup
      * Wenn $archivePath übergeben wird, wird das Achive mittels Streaming gebaut, sodass sehr große Exporte möglich sind.
      *
      * @param string[] $folders Array von Ordnernamen, die exportiert werden sollen
-     * @param string $archivePath Pfad, wo das archiv angelegt werden soll
+     * @param string|null $archivePath Pfad, wo das archiv angelegt werden soll
      *
      * @return string|null Inhalt des Tar-Archives als string, wenn $archivePath nicht uebergeben wurde - sonst null
      */
@@ -488,7 +488,14 @@ class rex_backup
             require $filename;
         }
     }
-
+    
+    /**
+     * @param string $table
+     * @param int $max
+     * @param resource $fp
+     * @param string $nl
+     * @param list<string> $fields
+     */
     private static function exportTable($table, &$start, $max, $fp, $nl, array $fields)
     {
         do {
