@@ -73,6 +73,7 @@ interface rex_package_interface
      * Returns the cache path.
      *
      * @param string $file File
+     * @return string
      */
     public function getCachePath($file = '');
 
