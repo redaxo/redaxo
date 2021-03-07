@@ -7883,45 +7883,21 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/lib/sql/table.php">
-    <MixedArgument occurrences="15">
+    <MixedArgument occurrences="8">
       <code>$after</code>
-      <code>$afterColumn</code>
-      <code>$afterColumn</code>
       <code>$column</code>
       <code>$columns</code>
       <code>$db</code>
-      <code>$fk['DELETE_RULE']</code>
-      <code>$fk['REFERENCED_TABLE_NAME']</code>
-      <code>$fk['UPDATE_RULE']</code>
-      <code>$name</code>
-      <code>$name</code>
       <code>$name</code>
       <code>$oldName</code>
       <code>$oldName</code>
       <code>$stepParts</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="4">
-      <code>$columns</code>
-      <code>$columns</code>
-      <code>$fkName</code>
-      <code>$indexName</code>
-    </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="15">
+    <MixedArrayAccess occurrences="4">
       <code>$columnsExisting[$name]</code>
       <code>$columnsExisting[$name]</code>
       <code>$columns[$name]</code>
       <code>$columns[$name]</code>
-      <code>$fk['DELETE_RULE']</code>
-      <code>$fk['REFERENCED_TABLE_NAME']</code>
-      <code>$fk['UPDATE_RULE']</code>
-      <code>$part['COLUMN_NAME']</code>
-      <code>$part['CONSTRAINT_NAME']</code>
-      <code>$part['Column_name']</code>
-      <code>$part['Key_name']</code>
-      <code>$part['Key_name']</code>
-      <code>$part['REFERENCED_COLUMN_NAME']</code>
-      <code>$parts[0]['Index_type']</code>
-      <code>$parts[0]['Non_unique']</code>
     </MixedArrayAccess>
     <MixedArrayAssignment occurrences="6">
       <code>$parts[]</code>
@@ -7931,52 +7907,28 @@
       <code>$parts[]</code>
       <code>$parts[]</code>
     </MixedArrayAssignment>
-    <MixedArrayOffset occurrences="12">
+    <MixedArrayOffset occurrences="7">
       <code>$columnsExisting[$name]</code>
       <code>$columnsExisting[$name]</code>
       <code>$columnsExisting[$name]</code>
       <code>$columns[$name]</code>
       <code>$columns[$name]</code>
-      <code>$columns[$part['COLUMN_NAME']]</code>
       <code>$currentOrder[$after]</code>
-      <code>$foreignKeys[$part['CONSTRAINT_NAME']]</code>
-      <code>$indexes[$part['Key_name']]</code>
-      <code>$this-&gt;positions[$name]</code>
-      <code>$this-&gt;positions[$name]</code>
       <code>$this-&gt;positions[$name]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="19">
+    <MixedAssignment occurrences="8">
       <code>$after</code>
       <code>$column</code>
       <code>$column</code>
-      <code>$columns[$part['COLUMN_NAME']]</code>
-      <code>$columns[]</code>
       <code>$currentOrder[$after]</code>
-      <code>$fk</code>
-      <code>$foreignKeys[$part['CONSTRAINT_NAME']][]</code>
-      <code>$indexes[$part['Key_name']][]</code>
       <code>$name</code>
       <code>$oldName</code>
       <code>$oldName</code>
-      <code>$part</code>
-      <code>$part</code>
-      <code>$part</code>
-      <code>$part</code>
       <code>$stepParts</code>
-      <code>$this-&gt;name</code>
-      <code>$this-&gt;originalName</code>
     </MixedAssignment>
     <MixedMethodCall occurrences="1">
       <code>isModified</code>
     </MixedMethodCall>
-    <MixedPropertyTypeCoercion occurrences="6">
-      <code>$this-&gt;foreignKeysExisting</code>
-      <code>$this-&gt;implicitOrder</code>
-      <code>$this-&gt;indexesExisting</code>
-      <code>$this-&gt;positions</code>
-      <code>$this-&gt;positions</code>
-      <code>$this-&gt;positions</code>
-    </MixedPropertyTypeCoercion>
     <PossiblyNullArgument occurrences="4">
       <code>$column-&gt;getDefault()</code>
       <code>$column-&gt;getExtra()</code>
