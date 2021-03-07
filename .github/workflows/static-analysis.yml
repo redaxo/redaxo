@@ -38,13 +38,14 @@ jobs:
                 run: vendor/bin/psalm --show-info=false --shepherd --diff --output-format=github
 
             -   name: Check psalm baseline and show type coverage
+                id: baseline
                 run: |
                     vendor/bin/psalm --set-baseline=.tools/psalm/baseline.xml --stats
                     git diff --exit-code .tools/psalm/baseline.xml || (echo "::error file=.tools/psalm/baseline.xml,line=1,col=1::Psalm baseline file is outdated and must be regenerated via \`composer psalm-baseline\`." && exit 1)
 
             -   name: Commit changed files
                 uses: stefanzweifel/git-auto-commit-action@v4
-                if: "failure() && github.event_name != 'push' && github.event.pull_request.head.repo.full_name == github.repository"
+                if: "failure() && steps.baseline.conclusion != 'skipped' && github.event_name != 'push' && github.event.pull_request.head.repo.full_name == github.repository"
                 with:
                     commit_message: Apply be_style:compile
                     commit_user_name: rex-bot
@@ -83,13 +84,14 @@ jobs:
                 run: vendor/bin/psalm --use-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache
 
             -   name: Check psalm baseline
+                id: baseline
                 run: |
                     composer taint-baseline
                     git diff --exit-code .tools/psalm/baseline-taint.xml || (echo "::error file=.tools/psalm/baseline-taint.xml,line=1,col=1::Psalm taint baseline file is outdated and must be regenerated via \`composer taint-baseline\`." && exit 1)
 
             -   name: Commit changed files
                 uses: stefanzweifel/git-auto-commit-action@v4
-                if: "failure() && github.event_name != 'push' && github.event.pull_request.head.repo.full_name == github.repository"
+                if: "failure() && steps.baseline.conclusion != 'skipped' && github.event_name != 'push' && github.event.pull_request.head.repo.full_name == github.repository"
                 with:
                     commit_message: Apply be_style:compile
                     commit_user_name: rex-bot
