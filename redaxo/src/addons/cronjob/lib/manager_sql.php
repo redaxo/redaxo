@@ -77,6 +77,7 @@ class rex_cronjob_manager_sql
      * @param int $id
      *
      * @return string
+     * @throws rex_exception
      */
     public function getName($id)
     {
