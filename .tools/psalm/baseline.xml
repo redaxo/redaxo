@@ -7753,26 +7753,6 @@
       <code>$func($path)</code>
     </MixedFunctionCall>
   </file>
-  <file src="redaxo/src/core/lib/sql/foreign_key.php">
-    <MixedInferredReturnType occurrences="1">
-      <code>bool</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="1">
-      <code>$this-&gt;modified</code>
-    </MixedReturnStatement>
-  </file>
-  <file src="redaxo/src/core/lib/sql/index.php">
-    <MixedInferredReturnType occurrences="3">
-      <code>bool</code>
-      <code>string</code>
-      <code>string</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="3">
-      <code>$this-&gt;modified</code>
-      <code>$this-&gt;name</code>
-      <code>$this-&gt;type</code>
-    </MixedReturnStatement>
-  </file>
   <file src="redaxo/src/core/lib/sql/schema_dumper.php">
     <MixedArgument occurrences="1">
       <code>$name</code>
