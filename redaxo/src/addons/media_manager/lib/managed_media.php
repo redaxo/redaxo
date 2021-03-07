@@ -31,7 +31,7 @@ class rex_managed_media
      */
     private $header = [];
     /**
-     * @var string|null
+     * @var string
      */
     private $sourcePath;
     /**
