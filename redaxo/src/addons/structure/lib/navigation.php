@@ -401,17 +401,24 @@ class rex_navigation
 
     /**
      * @param string[] $items
+     * @param array<int|string, int|string|list<string>> $attributes
      */
     protected function getBreadcrumbListTag(array $items, array $attributes): string
     {
         return '<ul'.rex_string::buildAttributes($attributes).">\n".implode('', $items)."</ul>\n";
     }
 
+    /**
+     * @param array<int|string, int|string|list<string>> $attributes
+     */
     protected function getBreadcrumbListItemTag(string $item, array $attributes, int $depth): string
     {
         return '<li'.rex_string::buildAttributes($attributes).'>'.$item."</li>\n";
     }
 
+    /**
+     * @param array<int|string, int|string|list<string>> $attributes
+     */
     protected function getBreadcrumbLinkTag(rex_category $category, string $content, array $attributes, int $depth): string
     {
         if (!isset($attributes['href'])) {
@@ -423,17 +430,24 @@ class rex_navigation
 
     /**
      * @param string[] $items
+     * @param array<int|string, int|string|list<string>> $attributes
      */
     protected function getListTag(array $items, array $attributes, int $depth): string
     {
         return '<ul'.rex_string::buildAttributes($attributes).">\n".implode('', $items)."</ul>\n";
     }
 
+    /**
+     * @param array<int|string, int|string|list<string>> $attributes
+     */
     protected function getListItemTag(rex_category $category, string $item, array $attributes, int $depth): string
     {
         return '<li'.rex_string::buildAttributes($attributes).'>'.$item."</li>\n";
     }
 
+    /**
+     * @param array<int|string, int|string|list<string>> $attributes
+     */
     protected function getLinkTag(rex_category $category, string $content, array $attributes, int $depth): string
     {
         if (!isset($attributes['href'])) {
