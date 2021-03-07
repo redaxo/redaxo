@@ -7,6 +7,7 @@
  */
 class rex_input_select extends rex_input
 {
+    /** @var rex_select */
     private $select;
 
     public function __construct()

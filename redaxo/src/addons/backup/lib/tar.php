@@ -49,6 +49,9 @@ class rex_backup_tar
         return true;
     }
 
+    /**
+     * @param string $archivePath
+     */
     public function create($archivePath)
     {
         $this->tar->create($archivePath);
@@ -87,6 +90,8 @@ class rex_backup_tar
     }
 
     /**
+     * Extract an existing TAR archive.
+     *
      * @param string $outdir the target directory for extracting
      *
      * @return bool
