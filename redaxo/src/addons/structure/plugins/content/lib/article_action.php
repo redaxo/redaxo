@@ -21,7 +21,7 @@ class rex_article_action
     private $messages = [];
     /** @var rex_sql */
     private $sql;
-    /** @var array */
+    /** @var array{search: list<string>, replace: list<int>} */
     private $vars;
 
     public function __construct($moduleId, $function, rex_sql $sql)
