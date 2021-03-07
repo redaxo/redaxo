@@ -306,7 +306,9 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/cronjob/lib/command/run.php">
-    <MixedArgument occurrences="3">
+    <MixedArgument occurrences="5">
+      <code>$id</code>
+      <code>$id</code>
       <code>$name</code>
       <code>$name</code>
       <code>$selected</code>
@@ -314,19 +316,14 @@
     <MixedArrayOffset occurrences="1">
       <code>$jobs[$id]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="5">
+    <MixedAssignment occurrences="3">
       <code>$id</code>
       <code>$name</code>
-      <code>$name</code>
       <code>$nexttime</code>
-      <code>$success</code>
     </MixedAssignment>
     <MixedInferredReturnType occurrences="1">
       <code>execute</code>
     </MixedInferredReturnType>
-    <MixedOperand occurrences="1">
-      <code>$manager-&gt;getMessage()</code>
-    </MixedOperand>
     <MixedReturnStatement occurrences="1">
       <code>$this-&gt;executeSingleJob($io, $job)</code>
     </MixedReturnStatement>
@@ -397,14 +394,20 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/cronjob/lib/manager_sql.php">
-    <MixedArgument occurrences="9">
+    <MixedArgument occurrences="15">
       <code>$interval</code>
       <code>$job</code>
+      <code>$job['id']</code>
+      <code>$job['id']</code>
+      <code>$job['id']</code>
+      <code>$job['name']</code>
       <code>$job['parameters']</code>
       <code>$job['type']</code>
       <code>$job['type']</code>
       <code>$jobs[0]</code>
       <code>$jobs[0]</code>
+      <code>$log</code>
+      <code>$params</code>
       <code>$value</code>
       <code>json_decode($interval, true)</code>
     </MixedArgument>
@@ -422,24 +425,18 @@
       <code>$jobs[0]</code>
       <code>$jobs[0]</code>
     </MixedArrayAssignment>
-    <MixedAssignment occurrences="7">
+    <MixedAssignment occurrences="4">
       <code>$job</code>
       <code>$job</code>
       <code>$job</code>
-      <code>$manager</code>
-      <code>$nexttime</code>
       <code>$params</code>
-      <code>$success</code>
     </MixedAssignment>
-    <MixedMethodCall occurrences="7">
-      <code>getMessage</code>
-      <code>hasMessage</code>
-      <code>log</code>
-      <code>setCronjob</code>
-      <code>setMessage</code>
-      <code>setMessage</code>
-      <code>tryExecute</code>
-    </MixedMethodCall>
+    <MixedInferredReturnType occurrences="1">
+      <code>string</code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement occurrences="1">
+      <code>$this-&gt;sql-&gt;getValue('name')</code>
+    </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/cronjob/lib/types/phpcallback.php">
     <MixedArgument occurrences="1">
@@ -466,19 +463,13 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/cronjob/pages/cronjobs.php">
-    <MixedArgument occurrences="20">
+    <MixedArgument occurrences="13">
       <code>$attributes</code>
       <code>$attributes</code>
       <code>$attributes</code>
       <code>$list-&gt;getValue('environment')</code>
       <code>$list-&gt;getValue('type')</code>
       <code>$list-&gt;getValue('type')</code>
-      <code>$name</code>
-      <code>$name</code>
-      <code>$name</code>
-      <code>$name</code>
-      <code>$name</code>
-      <code>$name</code>
       <code>$param['options']</code>
       <code>$param['options']</code>
       <code>$param['type']</code>
@@ -486,7 +477,6 @@
       <code>$type</code>
       <code>$type</code>
       <code>$value</code>
-      <code>rex_escape($manager-&gt;getMessage())</code>
     </MixedArgument>
     <MixedArrayAccess occurrences="16">
       <code>$param['attributes']</code>
@@ -511,18 +501,14 @@
       <code>$visible[$key][$value]</code>
       <code>$visible[$key][$value]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="16">
+    <MixedAssignment occurrences="12">
       <code>$attributes</code>
       <code>$label</code>
       <code>$list</code>
       <code>$list</code>
-      <code>$name</code>
-      <code>$name</code>
-      <code>$name</code>
       <code>$param</code>
       <code>$str</code>
       <code>$str</code>
-      <code>$success</code>
       <code>$type</code>
       <code>$value</code>
       <code>$value</code>
