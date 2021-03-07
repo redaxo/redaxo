@@ -141,6 +141,8 @@ class rex_view
      * @param string $cssClass
      *
      * @return string
+     *
+     * @psalm-taint-specialize
      */
     public static function info($message, $cssClass = '')
     {
@@ -159,6 +161,8 @@ class rex_view
      * @param string $cssClass
      *
      * @return string
+     *
+     * @psalm-taint-specialize
      */
     public static function success($message, $cssClass = '')
     {
@@ -177,6 +181,8 @@ class rex_view
      * @param string $cssClass
      *
      * @return string
+     *
+     * @psalm-taint-specialize
      */
     public static function warning($message, $cssClass = '')
     {
@@ -195,6 +201,8 @@ class rex_view
      * @param string $cssClass
      *
      * @return string
+     *
+     * @psalm-taint-specialize
      */
     public static function error($message, $cssClass = '')
     {
