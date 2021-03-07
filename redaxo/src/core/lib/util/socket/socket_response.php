@@ -6,17 +6,26 @@
  * @author gharlan
  *
  * @package redaxo\core
- */
+*/
 class rex_socket_response
 {
+    /** @var resource */
     private $stream;
+    /** @var bool */
     private $chunked = false;
+    /** @var int */
     private $chunkPos = 0;
+    /** @var int */
     private $chunkLength = 0;
+    /** @var int */
     private $statusCode;
+    /** @var string */
     private $statusMessage;
+    /** @var string */
     private $header = '';
+    /** @var array */
     private $headers = [];
+    /** @var null|string */
     private $body;
 
     /**
