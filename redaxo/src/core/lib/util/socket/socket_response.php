@@ -6,7 +6,7 @@
  * @author gharlan
  *
  * @package redaxo\core
-*/
+ */
 class rex_socket_response
 {
     /** @var resource */
