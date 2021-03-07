@@ -76,7 +76,7 @@ class rex_cronjob_manager_sql
     /**
      * @param int $id
      *
-     * @return string|null
+     * @return string
      */
     public function getName($id)
     {
@@ -89,7 +89,7 @@ class rex_cronjob_manager_sql
         if (1 == $this->sql->getRows()) {
             return $this->sql->getValue('name');
         }
-        return null;
+        throw new rex_exception(sprintf('No cronjob found with id %s', $id));
     }
 
     /**
