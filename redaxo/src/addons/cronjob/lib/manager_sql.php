@@ -74,7 +74,7 @@ class rex_cronjob_manager_sql
     }
 
     /**
-     * @param string $id
+     * @param int $id
      *
      * @return string|null
      */
@@ -93,7 +93,7 @@ class rex_cronjob_manager_sql
     }
 
     /**
-     * @param string $id
+     * @param int $id
      * @return bool
      */
     public function setStatus($id, $status)
@@ -113,7 +113,7 @@ class rex_cronjob_manager_sql
     }
 
     /**
-     * @param string $id
+     * @param int $id
      * @return bool
      */
     public function setExecutionStart($id, $reset = false)
@@ -130,7 +130,7 @@ class rex_cronjob_manager_sql
     }
 
     /**
-     * @param string $id
+     * @param int $id
      * @return bool
      */
     public function delete($id)
@@ -222,7 +222,7 @@ class rex_cronjob_manager_sql
     }
 
     /**
-     * @param string $id
+     * @param int $id
      * @return bool
      */
     public function tryExecute($id, $log = true)
