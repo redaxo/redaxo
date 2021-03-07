@@ -335,11 +335,6 @@
       <code>getComplexPerm</code>
     </PossiblyNullReference>
   </file>
-  <file src="redaxo/src/addons/structure/lib/article.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>(string) self::getNotfoundArticleId()</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="redaxo/src/addons/structure/lib/linkmap/renderer.php">
     <PossiblyNullReference occurrences="3">
       <code>getArticles</code>
