@@ -217,6 +217,7 @@ class rex_backup
      * @return array Gibt ein Assoc. Array zurück.
      *               'state' => boolean (Status ob fehler aufgetreten sind)
      *               'message' => Evtl. Status/Fehlermeldung
+     * @psalm-return array{state: bool, message: string}
      */
     public static function importFiles($filename)
     {
@@ -403,7 +404,10 @@ class rex_backup
         return null;
     }
 
-    private static function streamExport($folders, $archivePath)
+    /**
+     * @param string $folders
+     */
+    private static function streamExport( $folders, $archivePath)
     {
         $tar = new rex_backup_tar();
         $tar->create($archivePath);
