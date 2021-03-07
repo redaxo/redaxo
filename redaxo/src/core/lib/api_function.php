@@ -80,7 +80,7 @@ abstract class rex_api_function
         }
 
         $api = rex_request(self::REQ_CALL_PARAM, 'string');
-        
+
         if (empty($api)) {
             $messageBody = file_get_contents("php://input");
             if (!empty($messageBody)) {
@@ -99,7 +99,7 @@ abstract class rex_api_function
                     self::$instance = $apiImpl;
                     return $apiImpl;
                 }
-                throw new rex_exception('$apiClass is expected to define a subclass of rex_api_function, "' . $apiClass . '" given!');
+                throw new rex_exception('$apiClass is expected to define a subclass of rex_api_function, "'. $apiClass .'" given!');
             }
             throw new rex_exception('$apiClass "' . $apiClass . '" not found!');
         }
@@ -119,7 +119,7 @@ abstract class rex_api_function
         $class = static::class;
 
         if (self::class === $class) {
-            throw new BadMethodCallException(__FUNCTION__ . ' must be called on subclasses of "' . self::class . '".');
+            throw new BadMethodCallException(__FUNCTION__.' must be called on subclasses of "'.self::class.'".');
         }
 
         // remove the `rex_api_` prefix
@@ -140,7 +140,7 @@ abstract class rex_api_function
         $class = static::class;
 
         if (self::class === $class) {
-            throw new BadMethodCallException(__FUNCTION__ . ' must be called on subclasses of "' . self::class . '".');
+            throw new BadMethodCallException(__FUNCTION__.' must be called on subclasses of "'.self::class.'".');
         }
 
         // remove the `rex_api_` prefix
@@ -148,7 +148,7 @@ abstract class rex_api_function
         assert(false !== $name);
 
         return sprintf('<input type="hidden" name="%s" value="%s"/>', self::REQ_CALL_PARAM, rex_escape($name))
-            . rex_csrf_token::factory($class)->getHiddenField();
+            .rex_csrf_token::factory($class)->getHiddenField();
     }
 
     /**
@@ -190,7 +190,7 @@ abstract class rex_api_function
                     $result = $apiFunc->execute();
 
                     if (!($result instanceof rex_api_result)) {
-                        throw new rex_exception('Illegal result returned from api-function ' . rex_get(self::REQ_CALL_PARAM) . '. Expected a instance of rex_api_result but got "' . (is_object($result) ? get_class($result) : gettype($result)) . '".');
+                        throw new rex_exception('Illegal result returned from api-function ' . rex_get(self::REQ_CALL_PARAM) .'. Expected a instance of rex_api_result but got "'. (is_object($result) ? get_class($result) : gettype($result)) .'".');
                     }
 
                     $apiFunc->result = $result;
