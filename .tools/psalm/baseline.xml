@@ -8888,14 +8888,6 @@
       <code>new $clazz()</code>
     </MixedMethodCall>
   </file>
-  <file src="redaxo/src/core/tests/base/instance_list_pool_trait_test.php">
-    <MixedArgumentTypeCoercion occurrences="4">
-      <code>['rex_test_instance_list_pool', 'get']</code>
-      <code>['rex_test_instance_list_pool', 'get']</code>
-      <code>['rex_test_instance_list_pool', 'get']</code>
-      <code>['rex_test_instance_list_pool', 'get']</code>
-    </MixedArgumentTypeCoercion>
-  </file>
   <file src="redaxo/src/core/tests/be/navigation_test.php">
     <MixedArrayAccess occurrences="3">
       <code>$navi[0]['headline']</code>
@@ -8992,139 +8984,7 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/tests/sql/sql_table_test.php">
-    <MixedAssignment occurrences="25">
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table2</code>
-      <code>$table2</code>
-      <code>$table2</code>
-    </MixedAssignment>
-    <MixedMethodCall occurrences="103">
-      <code>addColumn</code>
-      <code>addColumn</code>
-      <code>addColumn</code>
-      <code>addColumn</code>
-      <code>addColumn</code>
-      <code>addColumn</code>
-      <code>addColumn</code>
-      <code>addColumn</code>
-      <code>addForeignKey</code>
-      <code>addIndex</code>
-      <code>addIndex</code>
-      <code>addIndex</code>
-      <code>addIndex</code>
-      <code>alter</code>
-      <code>alter</code>
-      <code>alter</code>
-      <code>alter</code>
-      <code>alter</code>
-      <code>alter</code>
-      <code>alter</code>
-      <code>alter</code>
-      <code>alter</code>
-      <code>alter</code>
-      <code>alter</code>
-      <code>alter</code>
-      <code>alter</code>
-      <code>alter</code>
-      <code>alter</code>
-      <code>alter</code>
-      <code>alter</code>
-      <code>alter</code>
-      <code>alter</code>
-      <code>drop</code>
-      <code>ensureColumn</code>
-      <code>ensureColumn</code>
-      <code>ensureColumn</code>
-      <code>ensureColumn</code>
-      <code>ensureColumn</code>
-      <code>ensureColumn</code>
-      <code>ensureColumn</code>
-      <code>ensureColumn</code>
-      <code>ensureForeignKey</code>
-      <code>ensureForeignKey</code>
-      <code>ensureGlobalColumns</code>
-      <code>ensureIndex</code>
-      <code>ensureIndex</code>
-      <code>exists</code>
-      <code>exists</code>
-      <code>exists</code>
-      <code>getColumn</code>
-      <code>getColumn</code>
-      <code>getColumn</code>
-      <code>getColumn</code>
-      <code>getColumn</code>
-      <code>getColumn</code>
-      <code>getColumn</code>
-      <code>getColumn</code>
-      <code>getColumn</code>
-      <code>getColumn</code>
-      <code>getColumn</code>
-      <code>getForeignKey</code>
-      <code>getForeignKey</code>
-      <code>getForeignKey</code>
-      <code>getIndex</code>
-      <code>getIndex</code>
-      <code>getIndex</code>
-      <code>getIndex</code>
-      <code>getIndex</code>
-      <code>getPrimaryKey</code>
-      <code>getType</code>
-      <code>getType</code>
-      <code>getType</code>
-      <code>getType</code>
-      <code>hasColumn</code>
-      <code>hasColumn</code>
-      <code>hasColumn</code>
-      <code>hasColumn</code>
-      <code>hasColumn</code>
-      <code>hasColumn</code>
-      <code>hasColumn</code>
-      <code>hasColumn</code>
-      <code>hasColumn</code>
-      <code>hasForeignKey</code>
-      <code>hasForeignKey</code>
-      <code>hasForeignKey</code>
-      <code>hasForeignKey</code>
-      <code>hasIndex</code>
-      <code>hasIndex</code>
-      <code>hasIndex</code>
-      <code>removeColumn</code>
-      <code>removeColumn</code>
-      <code>removeForeignKey</code>
-      <code>removeIndex</code>
-      <code>renameColumn</code>
-      <code>renameColumn</code>
-      <code>renameColumn</code>
-      <code>renameForeignKey</code>
-      <code>renameIndex</code>
-      <code>setName</code>
-      <code>setName</code>
-      <code>setPrimaryKey</code>
-      <code>setPrimaryKey</code>
-      <code>setType</code>
-    </MixedMethodCall>
-    <PossiblyNullReference occurrences="19">
+    <PossiblyNullReference occurrences="24">
       <code>getColumns</code>
       <code>getColumns</code>
       <code>getColumns</code>
@@ -9143,7 +9003,12 @@
       <code>getType</code>
       <code>getType</code>
       <code>getType</code>
+      <code>getType</code>
+      <code>getType</code>
+      <code>getType</code>
+      <code>getType</code>
       <code>setExtra</code>
+      <code>setType</code>
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/tests/sql/sql_test.php">
@@ -9158,139 +9023,14 @@
     </MixedInferredReturnType>
   </file>
   <file src="redaxo/src/core/tests/util/dir_test.php">
-    <MixedArgument occurrences="33">
-      <code>$copy</code>
-      <code>$copy</code>
-      <code>$dir</code>
-      <code>$dir</code>
-      <code>$dir</code>
-      <code>$dir</code>
-      <code>$dir</code>
-      <code>$dir</code>
+    <MixedOperand occurrences="1">
       <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file1</code>
-      <code>$file1</code>
-      <code>$file1</code>
-      <code>$file1</code>
-      <code>$file1</code>
-      <code>$file1</code>
-      <code>$file2</code>
-      <code>$file2</code>
-      <code>$file2</code>
-      <code>$file2</code>
-      <code>$file2</code>
-      <code>$file2</code>
-      <code>$orig</code>
-      <code>$orig</code>
-      <code>$path</code>
-      <code>$path</code>
-      <code>$path</code>
-      <code>$path</code>
-      <code>$this-&gt;getPath()</code>
-      <code>$this-&gt;getPath()</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="16">
-      <code>$copy</code>
-      <code>$copy</code>
-      <code>$dir</code>
-      <code>$dir</code>
-      <code>$dir</code>
-      <code>$dir</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file1</code>
-      <code>$file1</code>
-      <code>$file2</code>
-      <code>$file2</code>
-      <code>$orig</code>
-      <code>$orig</code>
-      <code>$path</code>
-      <code>$path</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="25">
-      <code>$copy</code>
-      <code>$copy</code>
-      <code>$copy</code>
-      <code>$copy</code>
-      <code>$copy</code>
-      <code>$copy</code>
-      <code>$copy</code>
-      <code>$copy</code>
-      <code>$copy</code>
-      <code>$copy</code>
-      <code>$copy</code>
-      <code>$copy</code>
-      <code>$copy</code>
-      <code>$copy</code>
-      <code>$dir</code>
-      <code>$dir</code>
-      <code>$file</code>
-      <code>$orig</code>
-      <code>$orig</code>
-      <code>$orig</code>
-      <code>$orig</code>
-      <code>$orig</code>
-      <code>$orig</code>
-      <code>$orig</code>
-      <code>$orig</code>
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/tests/util/file_test.php">
-    <MixedArgument occurrences="32">
-      <code>$copy</code>
-      <code>$copy</code>
-      <code>$copyDir</code>
-      <code>$copyDir</code>
-      <code>$copyFile</code>
+    <MixedArgument occurrences="1">
       <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$orig</code>
-      <code>$orig</code>
-      <code>$orig</code>
-      <code>$orig</code>
-      <code>$orig</code>
-      <code>$this-&gt;getPath()</code>
-      <code>$this-&gt;getPath()</code>
     </MixedArgument>
-    <MixedAssignment occurrences="15">
-      <code>$copy</code>
-      <code>$copyDir</code>
-      <code>$copyFile</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$orig</code>
-      <code>$orig</code>
-    </MixedAssignment>
     <MixedInferredReturnType occurrences="1">
       <code>iterable</code>
     </MixedInferredReturnType>
@@ -9299,28 +9039,9 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/tests/util/finder_test.php">
-    <MixedArgument occurrences="21">
+    <MixedArgument occurrences="2">
       <code>$contains</code>
       <code>$iterator</code>
-      <code>$this-&gt;getPath($file)</code>
-      <code>$this-&gt;getPath('.DS_Store')</code>
-      <code>$this-&gt;getPath('dir')</code>
-      <code>$this-&gt;getPath('dir1/Thumbs.db')</code>
-      <code>$this-&gt;getPath('dir1/dir')</code>
-      <code>$this-&gt;getPath('dir1/file3.txt')</code>
-      <code>$this-&gt;getPath('dir2/dir/file5.yml')</code>
-      <code>$this-&gt;getPath('dir2/dir1')</code>
-      <code>$this-&gt;getPath('dir2/file4.yml')</code>
-      <code>$this-&gt;getPath('file1.txt')</code>
-      <code>$this-&gt;getPath('file2.yml')</code>
-      <code>$this-&gt;getPath()</code>
-      <code>$this-&gt;getPath()</code>
-      <code>$this-&gt;getPath()</code>
-      <code>$this-&gt;getPath()</code>
-      <code>$this-&gt;getPath()</code>
-      <code>$this-&gt;getPath()</code>
-      <code>$this-&gt;getPath()</code>
-      <code>$this-&gt;getPath()</code>
     </MixedArgument>
     <MixedAssignment occurrences="1">
       <code>$file</code>
@@ -9341,52 +9062,16 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/tests/util/i18n_test.php">
-    <MixedArgument occurrences="7">
-      <code>$this-&gt;getPath()</code>
-      <code>$this-&gt;getPath()</code>
-      <code>$this-&gt;getPath()</code>
-      <code>$this-&gt;getPath()</code>
-      <code>$this-&gt;getPath()</code>
-      <code>$this-&gt;getPath()</code>
+    <MixedArgument occurrences="1">
       <code>$this-&gt;previousLocale</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="1">
       <code>['rex_i18n_trans_cb', 'mytranslate']</code>
     </MixedArgumentTypeCoercion>
-    <MixedOperand occurrences="2">
-      <code>$this-&gt;getPath()</code>
-      <code>$this-&gt;getPath()</code>
-    </MixedOperand>
   </file>
   <file src="redaxo/src/core/tests/util/log_file_test.php">
-    <MixedArgument occurrences="14">
-      <code>$path</code>
-      <code>$path</code>
-      <code>$path</code>
-      <code>$path</code>
-      <code>$path</code>
-      <code>$path</code>
-      <code>$path</code>
-      <code>$path</code>
-      <code>$path</code>
-      <code>$path</code>
-      <code>$path</code>
-      <code>$path</code>
-      <code>$path</code>
-      <code>$this-&gt;getPath()</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="5">
-      <code>$path</code>
-      <code>$path</code>
-      <code>$path</code>
-      <code>$path</code>
-      <code>$path</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="4">
+    <MixedOperand occurrences="1">
       <code>$file</code>
-      <code>$path</code>
-      <code>$path</code>
-      <code>$path</code>
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/tests/util/markdown_test.php">

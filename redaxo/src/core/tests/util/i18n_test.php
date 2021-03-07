@@ -43,7 +43,7 @@ class rex_i18n_test extends TestCase
         rex_i18n::setLocale($this->previousLocale, false);
     }
 
-    private function getPath()
+    private function getPath(): string
     {
         return rex_path::addonData('tests', 'lang');
     }

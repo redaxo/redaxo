@@ -21,7 +21,7 @@ class rex_dir_test extends TestCase
         rex_dir::delete($this->getPath());
     }
 
-    private function getPath($file = '')
+    private function getPath($file = ''): string
     {
         return rex_path::addonData('tests', 'rex_dir_test/' . $file);
     }
