@@ -42,7 +42,7 @@ abstract class rex_null_package implements rex_package_interface
      */
     public function getPath($file = '')
     {
-        return null;
+        throw new rex_exception(sprintf('Calling %s on %s is not allowed', __FUNCTION__, __CLASS__));
     }
 
     /**
@@ -50,7 +50,7 @@ abstract class rex_null_package implements rex_package_interface
      */
     public function getAssetsPath($file = '')
     {
-        return null;
+        throw new rex_exception(sprintf('Calling %s on %s is not allowed', __FUNCTION__, __CLASS__));
     }
 
     /**
@@ -58,7 +58,7 @@ abstract class rex_null_package implements rex_package_interface
      */
     public function getAssetsUrl($file = '')
     {
-        return null;
+        throw new rex_exception(sprintf('Calling %s on %s is not allowed', __FUNCTION__, __CLASS__));
     }
 
     /**
@@ -66,7 +66,7 @@ abstract class rex_null_package implements rex_package_interface
      */
     public function getDataPath($file = '')
     {
-        return null;
+        throw new rex_exception(sprintf('Calling %s on %s is not allowed', __FUNCTION__, __CLASS__));
     }
 
     /**
@@ -74,7 +74,7 @@ abstract class rex_null_package implements rex_package_interface
      */
     public function getCachePath($file = '')
     {
-        return null;
+        throw new rex_exception(sprintf('Calling %s on %s is not allowed', __FUNCTION__, __CLASS__));
     }
 
     /**

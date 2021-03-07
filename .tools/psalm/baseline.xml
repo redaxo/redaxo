@@ -114,13 +114,7 @@
     </MixedArrayAccess>
   </file>
   <file src="redaxo/src/addons/be_style/boot.php">
-    <MixedArgument occurrences="7">
-      <code>$addon-&gt;getAssetsUrl('css/bootstrap-select.min.css')</code>
-      <code>$addon-&gt;getAssetsUrl('css/styles.css')</code>
-      <code>$addon-&gt;getAssetsUrl('javascripts/bootstrap-select-defaults-'.$bootstrapSelectLang.'.min.js')</code>
-      <code>$addon-&gt;getAssetsUrl('javascripts/bootstrap-select.min.js')</code>
-      <code>$addon-&gt;getAssetsUrl('javascripts/bootstrap.js')</code>
-      <code>$addon-&gt;getAssetsUrl('javascripts/main.js')</code>
+    <MixedArgument occurrences="1">
       <code>$scssFiles</code>
     </MixedArgument>
     <MixedArrayAssignment occurrences="1">
@@ -130,11 +124,6 @@
       <code>$scssFiles</code>
       <code>$subject</code>
     </MixedAssignment>
-  </file>
-  <file src="redaxo/src/addons/be_style/install.php">
-    <MixedArgument occurrences="1">
-      <code>$addon-&gt;getAssetsPath($destination)</code>
-    </MixedArgument>
   </file>
   <file src="redaxo/src/addons/be_style/lib/be_style.php">
     <MixedArgument occurrences="2">
@@ -177,81 +166,16 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/be_style/plugins/customizer/boot.php">
-    <MixedArgument occurrences="7">
-      <code>$filename</code>
-      <code>$filename</code>
-      <code>$plugin-&gt;getAssetsUrl('css/styles-labelcolor.css')</code>
-      <code>$plugin-&gt;getAssetsUrl('css/styles.css')</code>
-      <code>$plugin-&gt;getAssetsUrl('js/main.js')</code>
-      <code>$plugin-&gt;getAssetsUrl('vendor/codemirror/codemirror.min.css')</code>
-      <code>$plugin-&gt;getAssetsUrl('vendor/codemirror/codemirror.min.js')</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="47">
-      <code>$filename</code>
-      <code>$filename</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-      <code>$filenames[]</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="6">
+    <MixedOperand occurrences="4">
       <code>$_SESSION['codemirror_reload']</code>
       <code>$_SESSION['codemirror_reload']</code>
       <code>$config['codemirror-selectors']</code>
       <code>$config['codemirror_theme']</code>
-      <code>$filename</code>
-      <code>$filename</code>
     </MixedOperand>
     <PossiblyNullOperand occurrences="2">
       <code>rex_file::get($filename)</code>
       <code>rex_file::get($filename)</code>
     </PossiblyNullOperand>
-  </file>
-  <file src="redaxo/src/addons/be_style/plugins/customizer/install.php">
-    <MixedArgument occurrences="1">
-      <code>$plugin-&gt;getAssetsPath('vendor/')</code>
-    </MixedArgument>
   </file>
   <file src="redaxo/src/addons/be_style/plugins/customizer/pages/system.customizer.php">
     <MixedArgument occurrences="5">
@@ -261,37 +185,25 @@
       <code>$labelcolor</code>
       <code>$newConfig['codemirror_theme']</code>
     </MixedArgument>
-    <MixedAssignment occurrences="3">
-      <code>$curDir</code>
+    <MixedAssignment occurrences="2">
       <code>$labelcolor</code>
       <code>$tempConfig['codemirror-selectors']</code>
     </MixedAssignment>
-    <MixedOperand occurrences="1">
-      <code>$curDir</code>
-    </MixedOperand>
   </file>
   <file src="redaxo/src/addons/be_style/plugins/redaxo/boot.php">
-    <MixedArgument occurrences="3">
-      <code>$plugin-&gt;getAssetsUrl('css/styles.css')</code>
-      <code>$plugin-&gt;getAssetsUrl('javascripts/redaxo.js')</code>
+    <MixedArgument occurrences="1">
       <code>$subject</code>
     </MixedArgument>
     <MixedArrayAssignment occurrences="1">
       <code>$subject[]</code>
     </MixedArrayAssignment>
-    <MixedAssignment occurrences="4">
-      <code>$file</code>
+    <MixedAssignment occurrences="3">
       <code>$subject</code>
       <code>$subject</code>
       <code>$themeColor</code>
     </MixedAssignment>
-    <MixedOperand occurrences="8">
+    <MixedOperand occurrences="3">
       <code>$ep-&gt;getSubject()</code>
-      <code>$plugin-&gt;getAssetsUrl('icons/apple-touch-icon.png')</code>
-      <code>$plugin-&gt;getAssetsUrl('icons/favicon-16x16.png')</code>
-      <code>$plugin-&gt;getAssetsUrl('icons/favicon-32x32.png')</code>
-      <code>$plugin-&gt;getAssetsUrl('icons/safari-pinned-tab.svg')</code>
-      <code>$plugin-&gt;getAssetsUrl('icons/site.webmanifest')</code>
       <code>$themeColor</code>
       <code>$themeColor</code>
     </MixedOperand>
@@ -629,16 +541,8 @@
       <code>$tables</code>
     </MixedArgument>
   </file>
-  <file src="redaxo/src/addons/cronjob/uninstall.php">
-    <MixedArgument occurrences="1">
-      <code>$addon-&gt;getDataPath()</code>
-    </MixedArgument>
-  </file>
   <file src="redaxo/src/addons/cronjob/update.php">
-    <MixedArgument occurrences="4">
-      <code>$addon-&gt;getDataPath('cronjob.log')</code>
-      <code>$addon-&gt;getDataPath('cronjob.log.2')</code>
-      <code>$addon-&gt;getDataPath()</code>
+    <MixedArgument occurrences="1">
       <code>$job['interval']</code>
     </MixedArgument>
     <MixedArrayAccess occurrences="2">
@@ -650,9 +554,8 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/debug/boot.php">
-    <MixedArgument occurrences="3">
+    <MixedArgument occurrences="2">
       <code>$query['query']</code>
-      <code>rex_addon::get('debug')-&gt;getAssetsPath('clockwork/index.html')</code>
       <code>rex_debug_clockwork::getInstance()-&gt;getRequest()-&gt;id</code>
     </MixedArgument>
     <MixedArrayAccess occurrences="2">
@@ -707,20 +610,6 @@
     <PossiblyNullReference occurrences="1">
       <code>isAdmin</code>
     </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/addons/debug/install.php">
-    <MixedArgument occurrences="4">
-      <code>$addon-&gt;getAssetsPath('clockwork')</code>
-      <code>$addon-&gt;getAssetsPath()</code>
-      <code>$indexPath</code>
-      <code>$indexPath</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="1">
-      <code>$indexPath</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="1">
-      <code>$addon-&gt;getAssetsUrl('clockwork/$3')</code>
-    </MixedOperand>
   </file>
   <file src="redaxo/src/addons/debug/lib/api_debug.php">
     <PossiblyNullReference occurrences="1">
@@ -809,16 +698,12 @@
     </MixedMethodCall>
   </file>
   <file src="redaxo/src/addons/install/lib/api/api_core_update.php">
-    <MixedArgument occurrences="13">
+    <MixedArgument occurrences="9">
       <code>$addon-&gt;getProperty('conflicts', [])</code>
       <code>$addon-&gt;getProperty('requires', [])</code>
       <code>$addon-&gt;getVersion()</code>
       <code>$config['version']</code>
-      <code>$installAddon-&gt;getDataPath('config.json')</code>
-      <code>$installAddon-&gt;getDataPath()</code>
       <code>$msg</code>
-      <code>$plugin-&gt;getAssetsPath()</code>
-      <code>$plugin-&gt;getPath()</code>
       <code>$plugin-&gt;getProperty('conflicts', [])</code>
       <code>$plugin-&gt;getProperty('requires', [])</code>
       <code>$plugin-&gt;getProperty('version')</code>
@@ -834,8 +719,7 @@
       <code>$config['requires']</code>
       <code>$config['version']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="11">
-      <code>$archive</code>
+    <MixedAssignment occurrences="10">
       <code>$config</code>
       <code>$conflicts[$addon]</code>
       <code>$conflicts[$plugin]</code>
@@ -1051,13 +935,7 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/install/lib/package/package_update.php">
-    <MixedArgument occurrences="23">
-      <code>$assets</code>
-      <code>$assets</code>
-      <code>$origAssets</code>
-      <code>$origAssets</code>
-      <code>$plugin-&gt;getAssetsPath()</code>
-      <code>$plugin-&gt;getPath()</code>
+    <MixedArgument occurrences="16">
       <code>$plugin-&gt;getProperty('conflicts', [])</code>
       <code>$plugin-&gt;getProperty('requires', [])</code>
       <code>$plugin-&gt;getProperty('version')</code>
@@ -1074,7 +952,6 @@
       <code>$this-&gt;addonkey</code>
       <code>$this-&gt;file['version']</code>
       <code>$this-&gt;file['version']</code>
-      <code>rex_addon::get('install')-&gt;getDataPath('config.json')</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="2">
       <code>$manager</code>
@@ -1090,14 +967,12 @@
       <code>$this-&gt;file['version']</code>
       <code>$this-&gt;file['version']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="12">
-      <code>$assets</code>
+    <MixedAssignment occurrences="10">
       <code>$conflicts[$plugin]</code>
       <code>$conflicts[$this-&gt;addon]</code>
       <code>$key</code>
       <code>$msg</code>
       <code>$oldVersion</code>
-      <code>$origAssets</code>
       <code>$requirements[$plugin]</code>
       <code>$requirements[$this-&gt;addon]</code>
       <code>$value</code>
@@ -1361,23 +1236,10 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/install/pages/settings.php">
-    <MixedArgument occurrences="3">
-      <code>$configFile</code>
-      <code>$configFile</code>
-      <code>$configFile</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="1">
-      <code>$configFile</code>
-    </MixedAssignment>
     <NullOperand occurrences="2">
       <code>rex_escape($config['api_key'])</code>
       <code>rex_escape($config['api_login'])</code>
     </NullOperand>
-  </file>
-  <file src="redaxo/src/addons/install/update.php">
-    <MixedArgument occurrences="1">
-      <code>$addon-&gt;getDataPath('config.json')</code>
-    </MixedArgument>
   </file>
   <file src="redaxo/src/addons/media_manager/boot.php">
     <MixedArgumentTypeCoercion occurrences="3">
@@ -2144,12 +2006,6 @@
       <code>$typeTimestamp</code>
       <code>$typeTimestamp</code>
     </PossiblyNullOperand>
-  </file>
-  <file src="redaxo/src/addons/mediapool/boot.php">
-    <MixedArgument occurrences="2">
-      <code>$addon-&gt;getAssetsUrl('lazysizes.min.js')</code>
-      <code>$addon-&gt;getAssetsUrl('mediapool.js')</code>
-    </MixedArgument>
   </file>
   <file src="redaxo/src/addons/mediapool/functions/function_rex_mediapool.php">
     <MixedArgument occurrences="27">
@@ -3471,8 +3327,7 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/phpmailer/lib/mailer.php">
-    <MixedArgument occurrences="8">
-      <code>$addon-&gt;getPath('vendor/phpmailer/phpmailer/language/')</code>
+    <MixedArgument occurrences="7">
       <code>$address</code>
       <code>$bcc</code>
       <code>$data[0]</code>
@@ -3596,9 +3451,6 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/structure/boot.php">
-    <MixedArgument occurrences="1">
-      <code>$addon-&gt;getAssetsUrl('linkmap.js')</code>
-    </MixedArgument>
     <MixedMethodCall occurrences="2">
       <code>getId</code>
       <code>getId</code>
@@ -5069,11 +4921,7 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/plugins/history/boot.php">
-    <MixedArgument occurrences="5">
-      <code>$plugin-&gt;getAssetsUrl('history.css')</code>
-      <code>$plugin-&gt;getAssetsUrl('history.js')</code>
-      <code>$plugin-&gt;getAssetsUrl('noUiSlider/nouislider.css')</code>
-      <code>$plugin-&gt;getAssetsUrl('noUiSlider/nouislider.js')</code>
+    <MixedArgument occurrences="1">
       <code>$version['history_date']</code>
     </MixedArgument>
     <MixedArrayAccess occurrences="6">
@@ -6168,19 +6016,14 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/be/controller.php">
-    <MixedArgument occurrences="18">
+    <MixedArgument occurrences="13">
       <code>$addon-&gt;getProperty('page')</code>
-      <code>$package-&gt;getPath('pages/' . $prefix . $subpage-&gt;getKey() . '.php')</code>
-      <code>$package-&gt;getPath('pages/' . ($prefix ?: 'index.') . 'php')</code>
-      <code>$package-&gt;getPath('pages/' . ($prefix ?: 'index.') . 'php')</code>
-      <code>$package-&gt;getPath()</code>
       <code>$page</code>
       <code>$page</code>
       <code>$page</code>
       <code>$pageArray['title']</code>
       <code>$pageArray['title']</code>
       <code>$page[$i]</code>
-      <code>$path = $package-&gt;getPath($value)</code>
       <code>$plugin-&gt;getProperty('page')</code>
       <code>$subProperties</code>
       <code>$subProperties['title']</code>
@@ -6211,7 +6054,7 @@
       <code>self::$pages[$page[0]]</code>
       <code>self::$pages[$page[0]]</code>
     </MixedArrayTypeCoercion>
-    <MixedAssignment occurrences="13">
+    <MixedAssignment occurrences="11">
       <code>$k</code>
       <code>$page</code>
       <code>$page</code>
@@ -6219,11 +6062,9 @@
       <code>$pages</code>
       <code>$pages</code>
       <code>$parts[]</code>
-      <code>$path</code>
       <code>$subProperties</code>
       <code>$v</code>
       <code>$v</code>
-      <code>$value</code>
       <code>$value</code>
     </MixedAssignment>
     <MixedFunctionCall occurrences="2">
@@ -6393,20 +6234,10 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/lib/console/assets_sync.php">
-    <MixedArgument occurrences="8">
-      <code>$assetsPublicPath</code>
-      <code>$assetsPublicPath</code>
-      <code>$assetsPublicPath</code>
-      <code>$assetsSrcPath</code>
-      <code>$assetsSrcPath</code>
-      <code>$assetsSrcPath</code>
+    <MixedArgument occurrences="2">
       <code>$folder1</code>
       <code>$folder2</code>
     </MixedArgument>
-    <MixedAssignment occurrences="2">
-      <code>$assetsPublicPath</code>
-      <code>$assetsSrcPath</code>
-    </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/console/cache/clear.php">
     <MixedArgument occurrences="1">
@@ -7252,12 +7083,11 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/lib/packages/addons/addon.php">
-    <MixedArgument occurrences="6">
+    <MixedArgument occurrences="5">
       <code>$addon</code>
       <code>$addon</code>
       <code>$addon</code>
       <code>$addon</code>
-      <code>$this-&gt;getPath(parent::FILE_PACKAGE)</code>
       <code>rex::getProperty('system_addons')</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="3">
@@ -7296,39 +7126,20 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/packages/manager.php">
-    <MixedArgument occurrences="32">
-      <code>$assets</code>
-      <code>$assets</code>
-      <code>$assets</code>
-      <code>$assets</code>
-      <code>$installDir</code>
-      <code>$installSql</code>
-      <code>$installSql</code>
+    <MixedArgument occurrences="13">
       <code>$instmsg</code>
       <code>$instmsg</code>
       <code>$normal</code>
       <code>$normal</code>
       <code>$package-&gt;getVersion()</code>
       <code>$package-&gt;getVersion()</code>
-      <code>$packageFile</code>
-      <code>$packageFile</code>
       <code>$packageId</code>
       <code>$pos</code>
       <code>$requirements['packages'][$packageId]</code>
       <code>$requirements['php']['version']</code>
       <code>$requirements['redaxo']</code>
       <code>$requires</code>
-      <code>$this-&gt;package-&gt;getAssetsPath()</code>
-      <code>$this-&gt;package-&gt;getPath('lang')</code>
-      <code>$this-&gt;package-&gt;getPath('lang')</code>
-      <code>$this-&gt;package-&gt;getPath('lib')</code>
-      <code>$this-&gt;package-&gt;getPath('vendor')</code>
-      <code>$this-&gt;package-&gt;getPath()</code>
-      <code>$this-&gt;package-&gt;getPath(rex_package::FILE_INSTALL)</code>
-      <code>$this-&gt;package-&gt;getPath(rex_package::FILE_UNINSTALL)</code>
       <code>$this-&gt;package-&gt;getVersion()</code>
-      <code>$uninstallSql</code>
-      <code>$uninstallSql</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="4">
       <code>$addonName</code>
@@ -7359,22 +7170,17 @@
     <MixedArrayTypeCoercion occurrences="1">
       <code>$config[$addonName]</code>
     </MixedArrayTypeCoercion>
-    <MixedAssignment occurrences="28">
+    <MixedAssignment occurrences="22">
       <code>$addonLoad</code>
-      <code>$assets</code>
-      <code>$assets</code>
       <code>$config[$addonName]['plugins'][$pluginName]['status']</code>
       <code>$config[$addonName]['plugins'][$pluginName]['status']</code>
       <code>$conflicts</code>
       <code>$conflicts</code>
       <code>$constraints</code>
-      <code>$installDir</code>
-      <code>$installSql</code>
       <code>$key</code>
       <code>$load</code>
       <code>$load</code>
       <code>$normal[]</code>
-      <code>$packageFile</code>
       <code>$packageId</code>
       <code>$ps</code>
       <code>$reinstall</code>
@@ -7386,7 +7192,6 @@
       <code>$requirements</code>
       <code>$rp</code>
       <code>$successMessage</code>
-      <code>$uninstallSql</code>
       <code>$value</code>
     </MixedAssignment>
     <MixedFunctionCall occurrences="2">
@@ -7416,25 +7221,17 @@
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/packages/package.php">
-    <MixedArgument occurrences="20">
+    <MixedArgument occurrences="12">
       <code>$__file</code>
       <code>$__file</code>
       <code>$cacheDir</code>
       <code>$cacheDir</code>
       <code>$cacheDir</code>
       <code>$dir</code>
-      <code>$dir</code>
-      <code>$dir</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
       <code>$key</code>
       <code>$key</code>
       <code>$key</code>
       <code>$package</code>
-      <code>$this-&gt;getPath($__file)</code>
-      <code>$this-&gt;getPath(self::FILE_BOOT)</code>
       <code>$value</code>
       <code>$version</code>
     </MixedArgument>
@@ -7455,13 +7252,10 @@
       <code>$this-&gt;properties[$key]</code>
       <code>$this-&gt;properties[$key]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="15">
+    <MixedAssignment occurrences="12">
       <code>$addon</code>
       <code>$cacheDir</code>
       <code>$dir</code>
-      <code>$dir</code>
-      <code>$file</code>
-      <code>$folder</code>
       <code>$key</code>
       <code>$package</code>
       <code>$packages[$addon-&gt;getPackageId()]</code>
@@ -7477,15 +7271,7 @@
       <code>getPackageId</code>
       <code>getPackageId</code>
     </MixedMethodCall>
-    <MixedOperand occurrences="9">
-      <code>$folder</code>
-      <code>$folder</code>
-      <code>$folder</code>
-      <code>$folder</code>
-      <code>$folder</code>
-      <code>$folder</code>
-      <code>$folder</code>
-      <code>$folder</code>
+    <MixedOperand occurrences="1">
       <code>$value</code>
     </MixedOperand>
     <MixedReturnTypeCoercion occurrences="2">
@@ -7719,7 +7505,7 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/setup/setup.php">
-    <MixedArgument occurrences="17">
+    <MixedArgument occurrences="11">
       <code>$config['db'][1]['host']</code>
       <code>$config['db'][1]['login']</code>
       <code>$config['db'][1]['name']</code>
@@ -7729,12 +7515,6 @@
       <code>$expire</code>
       <code>$func($path)</code>
       <code>$path</code>
-      <code>$skinAddon-&gt;getAssetsPath()</code>
-      <code>$skinAddon-&gt;getPath('assets')</code>
-      <code>$skinAddon-&gt;getPath('install.php')</code>
-      <code>$skinPlugin-&gt;getAssetsPath()</code>
-      <code>$skinPlugin-&gt;getPath('assets')</code>
-      <code>$skinPlugin-&gt;getPath('install.php')</code>
       <code>self::MIN_PHP_VERSION</code>
       <code>self::MIN_PHP_VERSION</code>
     </MixedArgument>
@@ -8612,15 +8392,10 @@
     </MixedArgumentTypeCoercion>
   </file>
   <file src="redaxo/src/core/pages/credits.php">
-    <MixedArgument occurrences="4">
-      <code>$licenseFile</code>
-      <code>$licenseFile = $package-&gt;getPath('LICENSE')</code>
-      <code>$licenseFile = $package-&gt;getPath('LICENSE.md')</code>
+    <MixedArgument occurrences="1">
       <code>$packageVersion</code>
     </MixedArgument>
-    <MixedAssignment occurrences="4">
-      <code>$licenseFile</code>
-      <code>$licenseFile</code>
+    <MixedAssignment occurrences="2">
       <code>$packageVersion</code>
       <code>$supportpage</code>
     </MixedAssignment>
@@ -8634,31 +8409,13 @@
       <code>$rexUserLoginmessage</code>
     </MixedArgument>
   </file>
-  <file src="redaxo/src/core/pages/packages.changelog.php">
-    <MixedArgument occurrences="2">
-      <code>$package-&gt;getPath('CHANGELOG.md')</code>
-      <code>$package-&gt;getPath('CHANGELOG.md')</code>
-    </MixedArgument>
-  </file>
   <file src="redaxo/src/core/pages/packages.details.php">
-    <MixedArgument occurrences="1">
-      <code>$package-&gt;getPath('CHANGELOG.md')</code>
-    </MixedArgument>
     <PossiblyNullOperand occurrences="2">
       <code>$packageId</code>
       <code>$packageId</code>
     </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/pages/packages.help.php">
-    <MixedArgument occurrences="7">
-      <code>$package-&gt;getPath('README.'. rex_i18n::getLanguage() .'.md')</code>
-      <code>$package-&gt;getPath('README.'. rex_i18n::getLanguage() .'.md')</code>
-      <code>$package-&gt;getPath('README.md')</code>
-      <code>$package-&gt;getPath('README.md')</code>
-      <code>$package-&gt;getPath('help.php')</code>
-      <code>$package-&gt;getPath('lang')</code>
-      <code>$package-&gt;getPath('lang')</code>
-    </MixedArgument>
     <MixedAssignment occurrences="3">
       <code>$author</code>
       <code>$supportPage</code>
@@ -8674,27 +8431,12 @@
       <code>rex_escape($name)</code>
     </NullOperand>
   </file>
-  <file src="redaxo/src/core/pages/packages.license.php">
-    <MixedArgument occurrences="4">
-      <code>$package-&gt;getPath('LICENSE')</code>
-      <code>$package-&gt;getPath('LICENSE')</code>
-      <code>$package-&gt;getPath('LICENSE.md')</code>
-      <code>$package-&gt;getPath('LICENSE.md')</code>
-    </MixedArgument>
-  </file>
   <file src="redaxo/src/core/pages/packages.list.php">
-    <MixedArgument occurrences="6">
-      <code>$licenseFile</code>
-      <code>$licenseFile = $package-&gt;getPath('LICENSE')</code>
-      <code>$licenseFile = $package-&gt;getPath('LICENSE.md')</code>
+    <MixedArgument occurrences="3">
       <code>$package-&gt;getVersion()</code>
       <code>$package-&gt;getVersion()</code>
       <code>$package-&gt;getVersion()</code>
     </MixedArgument>
-    <MixedAssignment occurrences="2">
-      <code>$licenseFile</code>
-      <code>$licenseFile</code>
-    </MixedAssignment>
     <MixedOperand occurrences="3">
       <code>$function</code>
       <code>$icon</code>
