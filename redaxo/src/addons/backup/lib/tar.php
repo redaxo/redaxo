@@ -90,7 +90,7 @@ class rex_backup_tar
     }
 
     /**
-     * Extract an existing TAR archive
+     * Extract an existing TAR archive.
      *
      * @param string $outdir the target directory for extracting
      *

@@ -408,7 +408,7 @@ class rex_backup
      * @param string[] $folders
      * @param string $archivePath
      */
-    private static function streamExport( $folders, $archivePath)
+    private static function streamExport($folders, $archivePath)
     {
         $tar = new rex_backup_tar();
         $tar->create($archivePath);
@@ -488,7 +488,7 @@ class rex_backup
             require $filename;
         }
     }
-    
+
     /**
      * @param string $table
      * @param int $start
