@@ -21,7 +21,7 @@ class rex_be_controller
     private static $pageObject;
 
     /**
-     * @var rex_be_page[]
+     * @var array<string, rex_be_page>
      */
     private static $pages = [];
 
@@ -94,7 +94,7 @@ class rex_be_controller
     }
 
     /**
-     * @return rex_be_page[]
+     * @return array<string, rex_be_page>
      */
     public static function getPages()
     {
@@ -102,7 +102,7 @@ class rex_be_controller
     }
 
     /**
-     * @param rex_be_page[] $pages
+     * @param array<string, rex_be_page> $pages
      */
     public static function setPages(array $pages)
     {

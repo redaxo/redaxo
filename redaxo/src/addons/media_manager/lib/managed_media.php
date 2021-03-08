@@ -10,12 +10,33 @@ class rex_managed_media
     public const PROP_WEBP_QUALITY = 'webp_quality';
     public const PROP_INTERLACE = 'interlace';
 
+    /**
+     * @var string|null
+     */
     private $mediaPath = '';
+    /**
+     * @var string
+     */
     private $media;
+    /**
+     * @var bool
+     */
     private $asImage = false;
+    /**
+     * @var array
+     */
     private $image;
+    /**
+     * @var array
+     */
     private $header = [];
+    /**
+     * @var string
+     */
     private $sourcePath;
+    /**
+     * @var string
+     */
     private $format;
 
     private $mimetypeMap = [
@@ -28,6 +49,9 @@ class rex_managed_media
         'image/webp' => 'webp',
     ];
 
+    /**
+     * @param string $mediaPath
+     */
     public function __construct($mediaPath)
     {
         $this->setMediaPath($mediaPath);

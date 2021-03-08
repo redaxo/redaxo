@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="4.6.2@bca09d74adc704c4eaee36a3c3e9d379e290fc3b">
   <file src="redaxo/src/addons/backup/lib/backup.php">
-    <TaintedInclude occurrences="5">
+    <TaintedFile occurrences="2">
+      <code>$tempCacheFile</code>
+      <code>$tempCacheFile</code>
+    </TaintedFile>
+    <TaintedInclude occurrences="11">
+      <code>$filename</code>
+      <code>$filename</code>
+      <code>$filename</code>
+      <code>$filename</code>
+      <code>$filename</code>
+      <code>$filename</code>
       <code>$filename</code>
       <code>$filename</code>
       <code>$filename</code>
@@ -9,156 +19,74 @@
       <code>$filename</code>
     </TaintedInclude>
   </file>
-  <file src="redaxo/src/addons/backup/pages/export.php">
-    <TaintedHtml occurrences="2">
-      <code>rex_view::error($error)</code>
-      <code>rex_view::success($success)</code>
-    </TaintedHtml>
-  </file>
   <file src="redaxo/src/addons/backup/pages/import.server.php">
-    <TaintedHtml occurrences="2">
-      <code>rex_view::error($error)</code>
-      <code>rex_view::success($success)</code>
-    </TaintedHtml>
+    <TaintedFile occurrences="4">
+      <code>$fileTemp</code>
+      <code>$fileTemp</code>
+      <code>$fileTemp</code>
+      <code>$fileTemp</code>
+    </TaintedFile>
   </file>
   <file src="redaxo/src/addons/backup/pages/import.upload.php">
-    <TaintedHtml occurrences="2">
-      <code>rex_view::error($error)</code>
-      <code>rex_view::success($success)</code>
-    </TaintedHtml>
+    <TaintedFile occurrences="4">
+      <code>$fileTemp</code>
+      <code>$fileTemp</code>
+      <code>$fileTemp</code>
+      <code>$fileTemp</code>
+    </TaintedFile>
   </file>
-  <file src="redaxo/src/addons/be_style/plugins/customizer/pages/system.customizer.php">
-    <TaintedHtml occurrences="2">
-      <code>rex_view::error($error)</code>
-      <code>rex_view::success($success)</code>
-    </TaintedHtml>
+  <file src="redaxo/src/addons/cronjob/update.php">
+    <TaintedFile occurrences="2">
+      <code>rex_path::data('log/cronjob.log')</code>
+      <code>rex_path::data('log/cronjob.log.2')</code>
+    </TaintedFile>
   </file>
-  <file src="redaxo/src/addons/cronjob/pages/cronjobs.php">
-    <TaintedHtml occurrences="7">
-      <code>rex_view::error($addon-&gt;i18n($msg . '_error', $name))</code>
-      <code>rex_view::error($addon-&gt;i18n('delete_error', $name))</code>
-      <code>rex_view::error($addon-&gt;i18n('execute_error', $name) . $msg)</code>
-      <code>rex_view::error(rex_i18n::msg('csrf_token_invalid'))</code>
-      <code>rex_view::success($addon-&gt;i18n($msg . '_success', $name))</code>
-      <code>rex_view::success($addon-&gt;i18n('delete_success', $name))</code>
-      <code>rex_view::success($addon-&gt;i18n('execute_success', $name) . $msg)</code>
-    </TaintedHtml>
+  <file src="redaxo/src/addons/install/lib/api/api_core_update.php">
+    <TaintedFile occurrences="8">
+      <code>$pathCore</code>
+      <code>$pathCore</code>
+      <code>$pathCore</code>
+      <code>$pathOld</code>
+      <code>$pathOld</code>
+      <code>$temppath . 'addons/' . $addonkey</code>
+      <code>$temppath . 'core'</code>
+      <code>rex_path::addon($addonkey)</code>
+    </TaintedFile>
   </file>
-  <file src="redaxo/src/addons/debug/pages/index.php">
-    <TaintedHtml occurrences="2">
-      <code>rex_view::info('&lt;a href="'. rex_url::backendPage('system/settings') .'"&gt;'.rex_i18n::msg('debug_activate_debugmode').'&lt;/a&gt;')</code>
-      <code>rex_view::warning(rex_i18n::msg('debug_mode_note'))</code>
-    </TaintedHtml>
+  <file src="redaxo/src/addons/install/lib/package/package_update.php">
+    <TaintedFile occurrences="2">
+      <code>$path</code>
+      <code>$temppath</code>
+    </TaintedFile>
   </file>
-  <file src="redaxo/src/addons/install/pages/packages.add.php">
-    <TaintedHtml occurrences="1">
-      <code>rex_view::warning($e-&gt;getMessage())</code>
-    </TaintedHtml>
+  <file src="redaxo/src/addons/media_manager/lib/effects/effect_convert2img.php">
+    <TaintedShell occurrences="1">
+      <code>$cmd</code>
+    </TaintedShell>
   </file>
-  <file src="redaxo/src/addons/install/pages/packages.upload.php">
-    <TaintedHtml occurrences="1">
-      <code>rex_view::error($e-&gt;getMessage())</code>
-    </TaintedHtml>
+  <file src="redaxo/src/addons/media_manager/tests/media_manager_test.php">
+    <TaintedFile occurrences="1">
+      <code>$path</code>
+    </TaintedFile>
   </file>
-  <file src="redaxo/src/addons/install/pages/settings.php">
-    <TaintedHtml occurrences="2">
-      <code>rex_view::error($addon-&gt;i18n('settings_error', $configFile))</code>
-      <code>rex_view::success($addon-&gt;i18n('settings_saved'))</code>
-    </TaintedHtml>
+  <file src="redaxo/src/addons/mediapool/functions/function_rex_mediapool.php">
+    <TaintedFile occurrences="5">
+      <code>$dstFile</code>
+      <code>$dstFile</code>
+      <code>$srcFile</code>
+      <code>rex_path::media($FILEINFOS['filename'])</code>
+      <code>rex_path::media($FILEINFOS['filename'])</code>
+    </TaintedFile>
   </file>
-  <file src="redaxo/src/addons/media_manager/pages/effects.php">
-    <TaintedHtml occurrences="3">
-      <code>rex_view::info($info)</code>
-      <code>rex_view::info(rex_i18n::msg('media_manager_effect_list_header', $typeName))</code>
-      <code>rex_view::warning($warning)</code>
-    </TaintedHtml>
-  </file>
-  <file src="redaxo/src/addons/media_manager/pages/index.php">
-    <TaintedHtml occurrences="1">
-      <code>rex_view::info(rex_i18n::msg('media_manager_cache_files_removed', $c))</code>
-    </TaintedHtml>
-  </file>
-  <file src="redaxo/src/addons/media_manager/pages/settings.php">
-    <TaintedHtml occurrences="1">
-      <code>rex_view::info($addon-&gt;i18n('config_saved'))</code>
-    </TaintedHtml>
-  </file>
-  <file src="redaxo/src/addons/media_manager/pages/types.php">
-    <TaintedHtml occurrences="2">
-      <code>rex_view::error($error)</code>
-      <code>rex_view::success($success)</code>
-    </TaintedHtml>
-  </file>
-  <file src="redaxo/src/addons/mediapool/pages/index.php">
-    <TaintedHtml occurrences="2">
-      <code>rex_view::error($error)</code>
-      <code>rex_view::info($success)</code>
-    </TaintedHtml>
-  </file>
-  <file src="redaxo/src/addons/mediapool/pages/media.detail.php">
-    <TaintedHtml occurrences="2">
-      <code>rex_view::error($error)</code>
-      <code>rex_view::success($success)</code>
-    </TaintedHtml>
-  </file>
-  <file src="redaxo/src/addons/mediapool/pages/media.list.php">
-    <TaintedHtml occurrences="3">
-      <code>rex_view::error($error)</code>
-      <code>rex_view::info(rex_i18n::msg('pool_file_filter') . ' &lt;code&gt;' . $argUrl['args']['types'] . '&lt;/code&gt;')</code>
-      <code>rex_view::success($success)</code>
-    </TaintedHtml>
-  </file>
-  <file src="redaxo/src/addons/mediapool/pages/structure.php">
-    <TaintedHtml occurrences="2">
-      <code>rex_view::error($error)</code>
-      <code>rex_view::info($success)</code>
-    </TaintedHtml>
-  </file>
-  <file src="redaxo/src/addons/mediapool/pages/sync.php">
-    <TaintedHtml occurrences="2">
-      <code>rex_view::error(implode('&lt;br /&gt;', $error))</code>
-      <code>rex_view::info(implode('&lt;br /&gt;', $success))</code>
-    </TaintedHtml>
-  </file>
-  <file src="redaxo/src/addons/mediapool/pages/upload.php">
-    <TaintedHtml occurrences="1">
-      <code>rex_view::error(rex_i18n::msg('csrf_token_invalid'))</code>
-    </TaintedHtml>
-  </file>
-  <file src="redaxo/src/addons/metainfo/pages/field.php">
-    <TaintedHtml occurrences="2">
-      <code>rex_view::error(rex_i18n::msg('minfo_field_error_deleted'))</code>
-      <code>rex_view::success(rex_i18n::msg('minfo_field_successfull_deleted'))</code>
-    </TaintedHtml>
-  </file>
-  <file src="redaxo/src/addons/phpmailer/pages/config.php">
-    <TaintedHtml occurrences="4">
-      <code>rex_view::success($addon-&gt;i18n('archive_deleted'))</code>
-      <code>rex_view::success($message)</code>
-      <code>rex_view::warning($warning)</code>
-      <code>rex_view::warning($warning)</code>
-    </TaintedHtml>
-  </file>
-  <file src="redaxo/src/addons/structure/pages/index.php">
-    <TaintedHtml occurrences="2">
-      <code>rex_view::error('Oooops. Your clang ids start with &lt;code&gt;0&lt;/code&gt;. Looks like a broken REDAXO 4.x to 5.x upgrade. Please update all your database tables, php code (if there are any hard coded clang ids) aswell as additional configurations in add-ons, e.g. YRewrite. You may start with updating those tables: &lt;code&gt;rex_article&lt;/code&gt;, &lt;code&gt;rex_article_slice&lt;/code&gt;, &lt;code&gt;rex_clang&lt;/code&gt;, by increasing every clang id &lt;code&gt;+ 1&lt;/code&gt;.')</code>
-      <code>rex_view::error('You have no permission to access this area')</code>
-    </TaintedHtml>
+  <file src="redaxo/src/addons/phpmailer/install.php">
+    <TaintedFile occurrences="2">
+      <code>$logFolder</code>
+      <code>$oldBackUpFolder</code>
+    </TaintedFile>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/article_content_base.php">
     <TaintedHtml occurrences="1">
       <code>$articleContent</code>
-    </TaintedHtml>
-  </file>
-  <file src="redaxo/src/addons/structure/plugins/content/pages/content.php">
-    <TaintedHtml occurrences="2">
-      <code>rex_view::error(rex_i18n::msg('article_doesnt_exist'))</code>
-      <code>rex_view::warning(rex_i18n::msg('no_rights_to_edit'))</code>
-    </TaintedHtml>
-  </file>
-  <file src="redaxo/src/addons/structure/plugins/content/pages/templates.php">
-    <TaintedHtml occurrences="1">
-      <code>rex_view::error(rex_i18n::msg('csrf_token_invalid'))</code>
     </TaintedHtml>
   </file>
   <file src="redaxo/src/addons/structure/plugins/history/fragments/history/layer.php">
@@ -167,11 +95,6 @@
       <code>$this-&gt;getVar('content1select')</code>
       <code>$this-&gt;getVar('content2iframe')</code>
       <code>$this-&gt;getVar('content2select')</code>
-    </TaintedHtml>
-  </file>
-  <file src="redaxo/src/addons/structure/plugins/history/pages/system.history.php">
-    <TaintedHtml occurrences="1">
-      <code>rex_view::success($plugin-&gt;i18n('deleted'))</code>
     </TaintedHtml>
   </file>
   <file src="redaxo/src/core/fragments/core/fe_ooops.php">
@@ -192,6 +115,10 @@
     </TaintedHtml>
   </file>
   <file src="redaxo/src/core/lib/response.php">
+    <TaintedFile occurrences="2">
+      <code>$file</code>
+      <code>$file</code>
+    </TaintedFile>
     <TaintedHeader occurrences="1">
       <code>$str</code>
     </TaintedHeader>
@@ -202,10 +129,27 @@
       <code>$query</code>
     </TaintedSql>
   </file>
-  <file src="redaxo/src/core/lib/util/file.php">
+  <file src="redaxo/src/core/lib/util/dir.php">
     <TaintedFile occurrences="2">
+      <code>$dir</code>
+      <code>$dir</code>
+    </TaintedFile>
+  </file>
+  <file src="redaxo/src/core/lib/util/file.php">
+    <TaintedFile occurrences="6">
+      <code>$dstfile</code>
       <code>$file</code>
       <code>$file</code>
+      <code>$file</code>
+      <code>$file</code>
+      <code>$srcfile</code>
+    </TaintedFile>
+  </file>
+  <file src="redaxo/src/core/lib/util/log_file.php">
+    <TaintedFile occurrences="3">
+      <code>$path</code>
+      <code>$path</code>
+      <code>$path . '.2'</code>
     </TaintedFile>
   </file>
   <file src="redaxo/src/core/lib/util/socket/socket.php">
@@ -213,23 +157,23 @@
       <code>$data</code>
     </TaintedCallable>
   </file>
-  <file src="redaxo/src/core/pages/profile.php">
-    <TaintedHtml occurrences="3">
-      <code>rex_view::error($error)</code>
-      <code>rex_view::success($success)</code>
-      <code>rex_view::warning(rex_i18n::msg('password_change_required'))</code>
-    </TaintedHtml>
+  <file src="redaxo/src/core/lib/util/socket/socket_response.php">
+    <TaintedFile occurrences="1">
+      <code>$resource</code>
+    </TaintedFile>
   </file>
-  <file src="redaxo/src/core/pages/system.clangs.php">
-    <TaintedHtml occurrences="2">
-      <code>rex_view::error($e-&gt;getMessage())</code>
-      <code>rex_view::error($e-&gt;getMessage())</code>
-    </TaintedHtml>
+  <file src="redaxo/src/core/tests/console/config/set_test.php">
+    <TaintedFile occurrences="2">
+      <code>$configPath</code>
+      <code>$configPath</code>
+    </TaintedFile>
   </file>
-  <file src="redaxo/src/core/pages/system.settings.php">
-    <TaintedHtml occurrences="2">
-      <code>rex_view::error(implode('&lt;br /&gt;', $error))</code>
-      <code>rex_view::success($success)</code>
-    </TaintedHtml>
+  <file src="redaxo/src/core/update.php">
+    <TaintedFile occurrences="4">
+      <code>rex_path::coreData('system.log')</code>
+      <code>rex_path::coreData('system.log.2')</code>
+      <code>rex_path::data('log/system.log')</code>
+      <code>rex_path::data('log/system.log.2')</code>
+    </TaintedFile>
   </file>
 </files>
