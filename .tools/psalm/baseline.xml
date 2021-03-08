@@ -2008,85 +2008,27 @@
     </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/addons/mediapool/functions/function_rex_mediapool.php">
-    <MixedArgument occurrences="27">
-      <code>$FILEINFOS['filename']</code>
-      <code>$FILEINFOS['filename']</code>
-      <code>$FILEINFOS['filename']</code>
-      <code>$FILEINFOS['filename']</code>
-      <code>$FILEINFOS['filename']</code>
-      <code>$FILEINFOS['filename']</code>
-      <code>$FILEINFOS['filename']</code>
-      <code>$FILEINFOS['filename']</code>
-      <code>$FILENAME</code>
-      <code>$FILENAME</code>
-      <code>$FILENAME</code>
-      <code>$FILE['name']</code>
-      <code>$FILE['tmp_name']</code>
-      <code>$FILE['tmp_name']</code>
-      <code>$FILE['tmp_name']</code>
-      <code>$aid</code>
-      <code>$args['types']</code>
+    <MixedArgument occurrences="3">
       <code>$buttonTitle</code>
-      <code>$clang</code>
-      <code>$ffilename</code>
-      <code>$ffilename</code>
       <code>$info</code>
-      <code>$jpgExtensions</code>
-      <code>$jpgExtensions</code>
       <code>$warning</code>
-      <code>$warning</code>
-      <code>$whitelist[$extension]</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="5">
-      <code>$artArr['article_id']</code>
-      <code>$artArr['clang_id']</code>
-      <code>$size[0]</code>
-      <code>$size[1]</code>
-      <code>$whitelist[$extension]</code>
-    </MixedArrayAccess>
-    <MixedAssignment occurrences="24">
-      <code>$FILEINFOS['filesize']</code>
-      <code>$FILENAME</code>
-      <code>$FILESIZE</code>
-      <code>$FILETYPE</code>
-      <code>$RETURN['category_id']</code>
-      <code>$RETURN['filename']</code>
-      <code>$RETURN['filetype']</code>
-      <code>$RETURN['height']</code>
-      <code>$RETURN['id']</code>
-      <code>$RETURN['old_filename']</code>
+    <MixedAssignment occurrences="5">
       <code>$RETURN['title']</code>
-      <code>$RETURN['type']</code>
-      <code>$RETURN['width']</code>
-      <code>$aid</code>
       <code>$argValue</code>
-      <code>$artArr</code>
-      <code>$blackExtension</code>
-      <code>$clang</code>
-      <code>$errorMessage</code>
-      <code>$ffilename</code>
-      <code>$ffilesize</code>
-      <code>$message[]</code>
-      <code>$warning</code>
-      <code>$whitelist</code>
+      <code>$data['category_id']</code>
+      <code>$data['file']['path']</code>
+      <code>$data['file']['path']</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="1">
-      <code>array</code>
-    </MixedInferredReturnType>
-    <MixedOperand occurrences="6">
-      <code>$blackExtension</code>
+    <MixedOperand occurrences="5">
       <code>$buttonTitle</code>
       <code>$buttonTitle</code>
       <code>rex_escape($argValue)</code>
       <code>rex_escape($ftitle)</code>
       <code>rex_extension::registerPoint(new rex_extension_point('MEDIA_FORM_ADD', ''))</code>
     </MixedOperand>
-    <MixedReturnStatement occurrences="1">
-      <code>rex_addon::get('mediapool')-&gt;getProperty('blocked_extensions')</code>
-    </MixedReturnStatement>
-    <PossiblyNullReference occurrences="2">
+    <PossiblyNullReference occurrences="1">
       <code>getComplexPerm</code>
-      <code>getName</code>
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/mediapool/lib/cache_media.php">
@@ -2245,6 +2187,84 @@
       <code>getComplexPerm</code>
     </PossiblyNullReference>
   </file>
+  <file src="redaxo/src/addons/mediapool/lib/mediapool.php">
+    <MixedArgument occurrences="5">
+      <code>$aid</code>
+      <code>$allowedMimetypes[$extension]</code>
+      <code>$args['types']</code>
+      <code>$clang</code>
+      <code>$warning</code>
+    </MixedArgument>
+    <MixedArrayAccess occurrences="3">
+      <code>$allowedMimetypes[$extension]</code>
+      <code>$artArr['article_id']</code>
+      <code>$artArr['clang_id']</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="6">
+      <code>$aid</code>
+      <code>$allowedMimetypes</code>
+      <code>$artArr</code>
+      <code>$blockedExtension</code>
+      <code>$clang</code>
+      <code>$warning</code>
+    </MixedAssignment>
+    <MixedInferredReturnType occurrences="1">
+      <code>array</code>
+    </MixedInferredReturnType>
+    <MixedOperand occurrences="1">
+      <code>$blockedExtension</code>
+    </MixedOperand>
+    <MixedReturnStatement occurrences="1">
+      <code>rex_addon::get('mediapool')-&gt;getProperty('blocked_extensions')</code>
+    </MixedReturnStatement>
+  </file>
+  <file src="redaxo/src/addons/mediapool/lib/service_media.php">
+    <MixedArgument occurrences="21">
+      <code>$data['file']['name']</code>
+      <code>$data['file']['name']</code>
+      <code>$data['file']['name']</code>
+      <code>$data['file']['name']</code>
+      <code>$data['file']['name']</code>
+      <code>$data['file']['name']</code>
+      <code>$data['file']['name']</code>
+      <code>$data['file']['name_new']</code>
+      <code>$data['file']['name_new']</code>
+      <code>$data['file']['path']</code>
+      <code>$data['file']['path']</code>
+      <code>$data['file']['path']</code>
+      <code>$data['filename']</code>
+      <code>$data['filename']</code>
+      <code>$data['filename']</code>
+      <code>$errorMessage</code>
+      <code>$jpgExtensions</code>
+      <code>$jpgExtensions</code>
+      <code>$srcFile</code>
+      <code>$srcFile</code>
+      <code>$srcFile</code>
+    </MixedArgument>
+    <MixedArrayAccess occurrences="3">
+      <code>$data['file']['name']</code>
+      <code>$data['file']['type']</code>
+      <code>$data['file']['type']</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="12">
+      <code>$data['file']['type']</code>
+      <code>$data['height']</code>
+      <code>$data['width']</code>
+      <code>$errorMessage</code>
+      <code>$return['filename']</code>
+      <code>$return['filename']</code>
+      <code>$return['filetype']</code>
+      <code>$return['old_filename']</code>
+      <code>$return['type']</code>
+      <code>$return['type']</code>
+      <code>$srcFile</code>
+      <code>$srcFile</code>
+    </MixedAssignment>
+    <PossiblyNullOperand occurrences="1">
+      <code>rex_file::mimeType($data['file']['path'])</code>
+    </PossiblyNullOperand>
+  </file>
   <file src="redaxo/src/addons/mediapool/lib/service_media_category.php">
     <MixedArgument occurrences="2">
       <code>$catName</code>
@@ -2331,12 +2351,7 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/mediapool/pages/media.detail.php">
-    <MixedArgument occurrences="20">
-      <code>$_FILES['file_new']</code>
-      <code>$_FILES['file_new']['name']</code>
-      <code>$_FILES['file_new']['name']</code>
-      <code>$_FILES['file_new']['tmp_name']</code>
-      <code>$_FILES['file_new']['tmp_name']</code>
+    <MixedArgument occurrences="15">
       <code>$error</code>
       <code>$ffileSize</code>
       <code>$fname</code>
@@ -2353,11 +2368,17 @@
       <code>$sql-&gt;getValue('filename')</code>
       <code>$success</code>
     </MixedArgument>
-    <MixedAssignment occurrences="14">
-      <code>$FILEINFOS['file_id']</code>
-      <code>$FILEINFOS['filename']</code>
-      <code>$FILEINFOS['filetype']</code>
-      <code>$error</code>
+    <MixedArrayAccess occurrences="1">
+      <code>$_FILES['file_new']['tmp_name']</code>
+    </MixedArrayAccess>
+    <MixedArrayAssignment occurrences="1">
+      <code>$data['file']['path']</code>
+    </MixedArrayAssignment>
+    <MixedAssignment occurrences="13">
+      <code>$data['file']</code>
+      <code>$data['file']['path']</code>
+      <code>$data['filename']</code>
+      <code>$data['filetype']</code>
       <code>$ffileSize</code>
       <code>$ffiletype</code>
       <code>$fheight</code>
@@ -2367,7 +2388,6 @@
       <code>$rexFileCategory</code>
       <code>$rfwidth</code>
       <code>$sidebar</code>
-      <code>$success</code>
     </MixedAssignment>
     <MixedOperand occurrences="22">
       <code>$fheight</code>
@@ -2393,9 +2413,8 @@
       <code>rex_escape($gf-&gt;getValue('updateuser'))</code>
       <code>rex_extension::registerPoint(new rex_extension_point('MEDIA_FORM_EDIT', '', ['id' =&gt; $fileId, 'media' =&gt; $gf]))</code>
     </MixedOperand>
-    <PossiblyNullOperand occurrences="2">
+    <PossiblyNullOperand occurrences="1">
       <code>$gf-&gt;getDateTimeValue('updatedate')</code>
-      <code>rex_file::mimeType($_FILES['file_new']['tmp_name'])</code>
     </PossiblyNullOperand>
     <PossiblyNullReference occurrences="6">
       <code>getComplexPerm</code>
@@ -2407,7 +2426,7 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/mediapool/pages/media.list.php">
-    <MixedArgument occurrences="17">
+    <MixedArgument occurrences="18">
       <code>$argUrl</code>
       <code>$argUrl</code>
       <code>$argUrl['args']['types']</code>
@@ -2419,8 +2438,9 @@
       <code>$fileName</code>
       <code>$fileName</code>
       <code>$fileName</code>
-      <code>$fileName</code>
-      <code>$fileName</code>
+      <code>$filename</code>
+      <code>$filename</code>
+      <code>$filename</code>
       <code>$files-&gt;getValue($col)</code>
       <code>$qry</code>
       <code>$size</code>
@@ -2431,12 +2451,12 @@
       <code>$fileId</code>
       <code>$fileName</code>
       <code>$fileName</code>
-      <code>$fileName</code>
       <code>$fileOname</code>
       <code>$fileSize</code>
       <code>$fileTitle</code>
       <code>$fileType</code>
       <code>$fileUpdateuser</code>
+      <code>$filename</code>
       <code>$qry</code>
       <code>$size</code>
     </MixedAssignment>
@@ -2520,7 +2540,7 @@
       <code>$dbFile['filename']</code>
       <code>$dbFile['filename']</code>
       <code>$dbFile['filename']</code>
-      <code>$file</code>
+      <code>$filename</code>
     </MixedArgument>
     <MixedArrayAccess occurrences="7">
       <code>$dbFile['filename']</code>
@@ -2531,53 +2551,44 @@
       <code>$dbFile['filesize']</code>
       <code>$dbFile['width']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="7">
+    <MixedAssignment occurrences="6">
+      <code>$data['filename']</code>
       <code>$dbFile</code>
       <code>$dbFile</code>
       <code>$dbFilenames[]</code>
       <code>$dbFiles[]</code>
-      <code>$error[]</code>
-      <code>$file</code>
-      <code>$success[]</code>
+      <code>$filename</code>
     </MixedAssignment>
+    <PossiblyNullReference occurrences="1">
+      <code>getValue</code>
+    </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/mediapool/pages/upload.php">
-    <MixedArgument occurrences="10">
-      <code>$_FILES['file_new']</code>
-      <code>$_FILES['file_new']['name']</code>
-      <code>$_FILES['file_new']['name']</code>
-      <code>$_FILES['file_new']['name']</code>
-      <code>$_FILES['file_new']['name']</code>
-      <code>$_FILES['file_new']['tmp_name']</code>
-      <code>$_FILES['file_new']['tmp_name']</code>
+    <MixedArgument occurrences="2">
       <code>$js</code>
-      <code>$rexFileCategory</code>
       <code>rex_mediapool_Uploadform($rexFileCategory)</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="3">
-      <code>$_FILES['file_new']['name']</code>
-      <code>$_FILES['file_new']['tmp_name']</code>
+    <MixedArrayAccess occurrences="1">
       <code>$_FILES['file_new']['tmp_name']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="4">
-      <code>$ffiletype</code>
-      <code>$fileName</code>
-      <code>$info</code>
-      <code>$title</code>
+    <MixedArrayAssignment occurrences="1">
+      <code>$data['file']['path']</code>
+    </MixedArrayAssignment>
+    <MixedAssignment occurrences="3">
+      <code>$data['category_id']</code>
+      <code>$data['file']</code>
+      <code>$data['file']['path']</code>
     </MixedAssignment>
     <MixedOperand occurrences="2">
-      <code>$fileName</code>
-      <code>$fileName</code>
+      <code>$data['filename']</code>
+      <code>$data['filename']</code>
     </MixedOperand>
-    <PossiblyNullOperand occurrences="1">
-      <code>rex_file::mimeType($_FILES['file_new']['tmp_name'])</code>
-    </PossiblyNullOperand>
     <PossiblyNullReference occurrences="2">
       <code>getComplexPerm</code>
       <code>getValue</code>
     </PossiblyNullReference>
   </file>
-  <file src="redaxo/src/addons/mediapool/tests/mediapool_functions_test.php">
+  <file src="redaxo/src/addons/mediapool/tests/mediapool_test.php">
     <MixedArgument occurrences="3">
       <code>$filename</code>
       <code>$filename</code>

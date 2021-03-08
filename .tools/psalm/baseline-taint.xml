@@ -69,15 +69,6 @@
       <code>$path</code>
     </TaintedFile>
   </file>
-  <file src="redaxo/src/addons/mediapool/functions/function_rex_mediapool.php">
-    <TaintedFile occurrences="5">
-      <code>$dstFile</code>
-      <code>$dstFile</code>
-      <code>$srcFile</code>
-      <code>rex_path::media($FILEINFOS['filename'])</code>
-      <code>rex_path::media($FILEINFOS['filename'])</code>
-    </TaintedFile>
-  </file>
   <file src="redaxo/src/addons/phpmailer/install.php">
     <TaintedFile occurrences="2">
       <code>$logFolder</code>
@@ -136,7 +127,8 @@
     </TaintedFile>
   </file>
   <file src="redaxo/src/core/lib/util/file.php">
-    <TaintedFile occurrences="6">
+    <TaintedFile occurrences="7">
+      <code>$dstfile</code>
       <code>$dstfile</code>
       <code>$file</code>
       <code>$file</code>
