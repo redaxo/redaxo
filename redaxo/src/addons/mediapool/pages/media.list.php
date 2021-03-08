@@ -228,146 +228,126 @@ $panel = '
                 ';
             }
 
-                $files = rex_sql::factory();
-                $where = 'f.category_id=' . $rexFileCategory;
-                $addTable = '';
-                $mediaName = rex_request('media_name', 'string');
-                if ('' != $mediaName) {
-                    $mediaName = str_replace(['_', '%'], ['\_', '\%'], $mediaName);
-                    $mediaName = $files->escape('%'.$mediaName.'%');
-                    $where = '(f.filename LIKE ' . $mediaName . ' OR f.title LIKE ' . $mediaName . ')';
-                    if ('global' != rex_addon::get('mediapool')->getConfig('searchmode', 'local') && 0 != $rexFileCategory) {
-                        $addTable = rex::getTablePrefix() . 'media_category c, ';
-                        $where .= ' AND f.category_id = c.id ';
-                        $where .= " AND (c.path LIKE '%|" . $rexFileCategory . "|%' OR c.id=" . $rexFileCategory . ') ';
-                    }
-                }
-                if (isset($argUrl['args']['types'])) {
-                    $types = [];
-                    foreach (explode(',', $argUrl['args']['types']) as $type) {
-                        $types[] = 'LOWER(RIGHT(f.filename, LOCATE(".", REVERSE(f.filename))-1))=' . $files->escape(strtolower($type));
-                    }
-                    $where .= ' AND (' . implode(' OR ', $types) . ')';
-                }
-                $qry = 'SELECT f.* FROM ' . $addTable . rex::getTablePrefix() . 'media f WHERE ' . $where . ' ORDER BY f.updatedate desc, f.id desc';
+            $searchItems = [];
 
-                // ----- EXTENSION POINT
-                $qry = rex_extension::registerPoint(new rex_extension_point('MEDIA_LIST_QUERY', $qry, [
-                    'category_id' => $rexFileCategory,
-                ]));
-                $files->setQuery($qry);
+            $mediaName = rex_request('media_name', 'string');
+            if ('' != $mediaName) {
+                $mediaName = '%'.str_replace(['_', '%'], ['\_', '\%'], $mediaName).'%';
+                $searchItems[] = [
+                    'type' => 'term',
+                    'value' => $mediaName,
+                ];
 
-                if (!rex_addon::get('media_manager')->isAvailable()) {
-                    $mediaManagerUrl = null;
+                if ('global' != rex_addon::get('mediapool')->getConfig('searchmode', 'local') && 0 != $rexFileCategory) {
+                    $searchItems[] = [
+                        'type' => 'term',
+                        'value' => $mediaName,
+                    ];
+                    $searchItems[] = [
+                        'type' => 'category_id_path',
+                        'value' => $rexFileCategory,
+                    ];
+                }
+            } else {
+                $searchItems[] = [
+                    'type' => 'category_id',
+                    'value' => $rexFileCategory,
+                ];
+            }
+
+            if (isset($argUrl['args']['types']) && is_array($argUrl['args']['types'])) {
+                $searchItems[] = [
+                    'type' => 'types',
+                    'value' => $argUrl['args']['types'],
+                ];
+            }
+
+            if (!rex_addon::get('media_manager')->isAvailable()) {
+                $mediaManagerUrl = null;
+            } else {
+                $mediaManagerUrl = [rex_media_manager::class, 'getUrl'];
+            }
+
+            $result = rex_media_service::getList($searchItems);
+
+            $panel .= '<tbody>';
+            foreach ($result['items'] as $i => $media) {
+                /** @var rex_media $media */
+
+                $alt = rex_escape($media->getTitle());
+                $desc = '';
+                $desc = '<p>' . rex_escape(strip_tags($media->getValue('med_description'))) . '</p>';
+
+                if (!is_file(rex_path::media($media->getFileName()))) {
+                    $thumbnail = '<i class="rex-mime rex-mime-error" title="' . rex_i18n::msg('pool_file_does_not_exist') . '"></i><span class="sr-only">' . $media->getFileName() . '</span>';
                 } else {
-                    $mediaManagerUrl = [rex_media_manager::class, 'getUrl'];
+                    $fileExt = rex_file::extension($media->getFileName());
+                    $iconClass = ' rex-mime-default';
+                    if (rex_media::isDocType($fileExt)) {
+                        $iconClass = ' rex-mime-' . $fileExt;
+                    }
+                    $thumbnail = '<i class="rex-mime' . $iconClass . '" title="' . $alt . '" data-extension="' . $fileExt . '"></i><span class="sr-only">' . $media->getFileName() . '</span>';
+
+                    if (rex_media::isImageType(rex_file::extension($media->getFileName()))) {
+                        $thumbnail = '<img class="thumbnail" src="' . rex_url::media($media->getFileName()) . '?buster=' . $media->getValue('updatedate') . '" width="80" height="80" alt="' . $alt . '" title="' . $alt . '" />';
+                        if ($mediaManagerUrl && 'svg' != rex_file::extension($media->getFileName())) {
+                            $thumbnail = '<img class="thumbnail" src="' . $mediaManagerUrl('rex_mediapool_preview', urlencode($media->getFileName()), $media->getValue('updatedate')) . '" alt="' . $alt . '" title="' . $alt . '" />';
+                        }
+                    }
                 }
 
-                $panel .= '<tbody>';
-                for ($i = 0; $i < $files->getRows(); ++$i) {
-                    $fileId = $files->getValue('id');
-                    $fileName = $files->getValue('filename');
-                    $fileOname = $files->getValue('originalname');
-                    $fileTitle = $files->getValue('title');
-                    $fileType = $files->getValue('filetype');
-                    $fileSize = $files->getValue('filesize');
-                    $fileStamp = rex_formatter::strftime($files->getDateTimeValue('updatedate'), 'datetime');
-                    $fileUpdateuser = $files->getValue('updateuser');
+                $size = $media->getSize();
+                $fileSize = rex_formatter::bytes($size);
 
-                    $encodedFileName = urlencode($fileName);
+                if ('' == $media->getTitle()) {
+                    $fileTitle = '[' . rex_i18n::msg('pool_file_notitle') . ']';
+                }
 
-                    // Eine titel Spalte schätzen
-                    $alt = '';
-                    foreach (['title'] as $col) {
-                        if ($files->hasValue($col) && '' != $files->getValue($col)) {
-                            $alt = rex_escape($files->getValue($col));
-                            break;
-                        }
+                $openerLink = '';
+                if ('' != $openerInputField) {
+                    $openerLink = '<a class="btn btn-xs btn-select" onclick="selectMedia(\'' . $media->getFileName() . '\', \'' . rex_escape($media->getTitle(), 'js') . '\'); return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
+                    if ('REX_MEDIALIST_' == substr($openerInputField, 0, 14)) {
+                        $openerLink = '<a class="btn btn-xs btn-select btn-highlight" onclick="selectMedialist(\'' . $media->getFileName() . '\', this);return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
                     }
+                }
 
-                    // Eine beschreibende Spalte schätzen
-                    $desc = '';
-                    foreach (['med_description'] as $col) {
-                        if ($files->hasValue($col) && '' != $files->getValue($col)) {
-                            $desc = '<p>' . rex_escape(strip_tags($files->getValue($col))) . '</p>';
-                            break;
-                        }
-                    }
+                $ilink = rex_url::currentBackendPage(array_merge(['file_id' => $media->getId(), 'rex_file_category' => $rexFileCategory], $argUrl));
 
-                    // wenn datei fehlt
-                    if (!is_file(rex_path::media($fileName))) {
-                        $thumbnail = '<i class="rex-mime rex-mime-error" title="' . rex_i18n::msg('pool_file_does_not_exist') . '"></i><span class="sr-only">' . $fileName . '</span>';
-                    } else {
-                        $fileExt = rex_file::extension($fileName);
-                        $iconClass = ' rex-mime-default';
-                        if (rex_media::isDocType($fileExt)) {
-                            $iconClass = ' rex-mime-' . $fileExt;
-                        }
-                        $thumbnail = '<i class="rex-mime' . $iconClass . '" title="' . $alt . '" data-extension="' . $fileExt . '"></i><span class="sr-only">' . $fileName . '</span>';
+                $addTd = '<td></td>';
+                if ($hasCategoryPerm) {
+                    $addTd = '<td><input type="checkbox" name="selectedmedia[]" value="' . $media->getFileName() . '" /></td>';
+                }
 
-                        if (rex_media::isImageType(rex_file::extension($fileName))) {
-                            $thumbnail = '<img class="thumbnail" src="' . rex_url::media($fileName) . '?buster=' . $files->getDateTimeValue('updatedate') . '" width="80" height="80" alt="' . $alt . '" title="' . $alt . '" />';
-                            if ($mediaManagerUrl && 'svg' != rex_file::extension($fileName)) {
-                                $thumbnail = '<img class="thumbnail" src="' . $mediaManagerUrl('rex_mediapool_preview', $encodedFileName, $files->getDateTimeValue('updatedate')) . '" alt="' . $alt . '" title="' . $alt . '" />';
-                            }
-                        }
-                    }
-
-                    // ----- get file size
-                    $size = $fileSize;
-                    $fileSize = rex_formatter::bytes($size);
-
-                    if ('' == $fileTitle) {
-                        $fileTitle = '[' . rex_i18n::msg('pool_file_notitle') . ']';
-                    }
-
-                    // ----- opener
-                    $openerLink = '';
-                    if ('' != $openerInputField) {
-                        $openerLink = '<a class="btn btn-xs btn-select" onclick="selectMedia(\'' . $fileName . '\', \'' . rex_escape($files->getValue('title'), 'js') . '\'); return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
-                        if ('REX_MEDIALIST_' == substr($openerInputField, 0, 14)) {
-                            $openerLink = '<a class="btn btn-xs btn-select btn-highlight" onclick="selectMedialist(\'' . $fileName . '\', this);return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
-                        }
-                    }
-
-                    $ilink = rex_url::currentBackendPage(array_merge(['file_id' => $fileId, 'rex_file_category' => $rexFileCategory], $argUrl));
-
-                    $addTd = '<td></td>';
-                    if ($hasCategoryPerm) {
-                        $addTd = '<td><input type="checkbox" name="selectedmedia[]" value="' . $fileName . '" /></td>';
-                    }
-
-                    $panel .= '<tr>
+                $panel .= '<tr>
                     ' . $addTd . '
                     <td class="rex-word-break" data-title="' . rex_i18n::msg('pool_file_thumbnail') . '"><a href="' . $ilink . '"><div class="lazyload" data-noscript=""><noscript>' . $thumbnail . '</noscript></div></a></td>
                     <td class="rex-word-break" data-title="' . rex_i18n::msg('pool_file_info') . '">
-                        <h3><a class="rex-link-expanded" href="' . $ilink . '">' . rex_escape($fileTitle) . '</a></h3>
+                        <h3><a class="rex-link-expanded" href="' . $ilink . '">' . rex_escape($media->getTitle()) . '</a></h3>
                         ' . $desc . '
-                        <p>' . rex_escape($fileName) . ' <span class="rex-filesize">' . $fileSize . '</span></p>
+                        <p>' . rex_escape($media->getFileName()) . ' <span class="rex-filesize">' . $media->getSize() . '</span></p>
                     </td>
-                    <td data-title="' . rex_i18n::msg('pool_last_update') . '"><p class="rex-date">' . $fileStamp . '</p><p class="rex-author">' . rex_escape($fileUpdateuser) . '</p></td>
+                    <td data-title="' . rex_i18n::msg('pool_last_update') . '"><p class="rex-date">' . rex_formatter::strftime($media->getUpdateDate(), 'datetime') . '</p><p class="rex-author">' . rex_escape($media->getUpdateUser()) . '</p></td>
                     <td class="rex-table-action"><a class="rex-link-expanded" href="' . $ilink . '">' . rex_i18n::msg('edit') . '</a></td>
                     <td class="rex-table-action">';
 
-                    $panel .= rex_extension::registerPoint(new rex_extension_point('MEDIA_LIST_FUNCTIONS', $openerLink, [
-                        'file_id' => $files->getValue('id'),
-                        'file_name' => $files->getValue('filename'),
-                        'file_oname' => $files->getValue('originalname'),
-                        'file_title' => $files->getValue('title'),
-                        'file_type' => $files->getValue('filetype'),
-                        'file_size' => $files->getValue('filesize'),
-                        'file_stamp' => $files->getDateTimeValue('updatedate'),
-                        'file_updateuser' => $files->getValue('updateuser'),
-                    ]));
+                $panel .= rex_extension::registerPoint(new rex_extension_point('MEDIA_LIST_FUNCTIONS', $openerLink, [
+                    'media' => $media, // new
+                    'file_id' => $media->getId(), // @deprecated
+                    'file_name' => $media->getFileName(), // @deprecated
+                    'file_oname' => $media->getOriginalFileName(), // @deprecated
+                    'file_title' => $media->getTitle(), // @deprecated
+                    'file_type' => $media->getType(), // @deprecated
+                    'file_size' => $media->getSize(), // @deprecated
+                    'file_stamp' => $media->getUpdateDate(), // @deprecated
+                    'file_updateuser' => $media->getUpdateUser(), // @deprecated
+                ]));
 
-                    $panel .= '</td>
+                $panel .= '</td>
                 </tr>';
-
-                    $files->next();
-                } // endforeach
+            }
 
                 // ----- no items found
-                if (0 == $files->getRows()) {
+                if (0 == $result['count']) {
                     $panel .= '
                 <tr>
                     <td></td>
