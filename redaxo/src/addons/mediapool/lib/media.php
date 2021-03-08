@@ -88,6 +88,23 @@ class rex_media
     }
 
     /**
+     * @param int $mediaId
+     * @throws rex_sql_exception
+     * @return null|static
+     */
+
+    public static function getById(int $mediaId)
+    {
+        $media = rex_sql::factory();
+        $media->setQuery('select * from ' . rex::getTable('media') . ' where id=?', [$mediaId]);
+
+        if (1 != $media->getRows()) {
+            return null;
+        }
+        return self::get($media->getValue('filename'));
+    }
+
+    /**
      * @return static[]
      */
     public static function getRootMedia()
