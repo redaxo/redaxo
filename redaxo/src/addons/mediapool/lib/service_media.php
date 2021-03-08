@@ -10,11 +10,9 @@ final class rex_media_service
      * Dabei wird kontrolliert ob das File schon vorhanden ist und es
      * wird eventuell angepasst, weiterhin werden die Fileinformationen übergeben.
      *
-     * @param string $userlogin
-     * @param bool   $doSubindexing // echte Dateinamen anpassen, falls schon vorhanden
-     * @param array  $allowedExtensions
+     * @param bool $doSubindexing // echte Dateinamen anpassen, falls schon vorhanden
      */
-    public static function addMedia(array $data, $userlogin = null, $doSubindexing = true, $allowedExtensions = []): array
+    public static function addMedia(array $data, ?string $userlogin = null, bool $doSubindexing = true, array $allowedExtensions = []): array
     {
         if (empty($data['file']) || empty($data['file']['name']) || empty($data['file']['path'])) {
             throw new rex_api_exception(rex_i18n::msg('pool_file_not_found'));
@@ -56,7 +54,7 @@ final class rex_media_service
             'title' => $title,
             'filename' => $data['file']['name_new'],
             'old_filename' => $data['file']['name'],
-            'is_upload' => (empty($data['file']['tmp_name'])) ? false : true, // wir gehen davon aus, dass aus BC Gründen das tmp_name vorhanden sein muss wenn es ein upload ist.
+            'is_upload' => !empty($data['file']['tmp_name']), // wir gehen davon aus, dass aus BC Gründen das tmp_name vorhanden sein muss wenn es ein upload ist.
             'category_id' => $categoryId,
             'type' => $data['file']['type'],
         ]));
@@ -129,10 +127,8 @@ final class rex_media_service
      * Holt ein upgeloadetes File und legt es in den Medienpool
      * Dabei wird kontrolliert ob das File schon vorhanden ist und es
      * wird eventuell angepasst, weiterhin werden die Fileinformationen übergeben.
-     *
-     * @param string $userlogin
      */
-    public static function updateMedia(array $data, $userlogin = null): array
+    public static function updateMedia(array $data, ?string $userlogin = null): array
     {
         if (empty($data['filename'])) {
             throw new rex_api_exception('Expecting Filename.');
@@ -208,7 +204,7 @@ final class rex_media_service
         return $return;
     }
 
-    public static function deleteMedia(string $filename): bool
+    public static function deleteMedia(string $filename): void
     {
         $media = rex_media::get($filename);
         if (!$media) {
@@ -228,7 +224,5 @@ final class rex_media_service
         rex_extension::registerPoint(new rex_extension_point('MEDIA_DELETED', '', [
             'filename' => $filename,
         ]));
-
-        return true;
     }
 }

@@ -1,9 +1,8 @@
 <?php
 
-/*
+/**
  * @package redaxo\mediapool
  */
-
 final class rex_mediapool
 {
     /**
@@ -139,7 +138,7 @@ final class rex_mediapool
      * @param null|string $filename Optional filename, will be used for extracting the file extension.
      *                              If not given, the extension is extracted from `$path`.
      */
-    public static function isAllowedMimeType(string $path, $filename = null): bool
+    public static function isAllowedMimeType(string $path, ?string $filename = null): bool
     {
         $allowedMimetypes = rex_addon::get('mediapool')->getProperty('allowed_mime_types');
 
@@ -165,7 +164,7 @@ final class rex_mediapool
      *
      * @return array allowedExtensions
      */
-    public static function getAllowedExtensions($args = []): array
+    public static function getAllowedExtensions(array $args = []): array
     {
         $blockedExtensions = self::getBlockedExtensions();
 
@@ -187,7 +186,7 @@ final class rex_mediapool
      *
      * @return array blocked mediatype extensions
      */
-    public static function getBlockedExtensions()
+    public static function getBlockedExtensions(): array
     {
         return rex_addon::get('mediapool')->getProperty('blocked_extensions');
     }
