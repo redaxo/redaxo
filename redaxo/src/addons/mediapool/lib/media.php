@@ -88,11 +88,9 @@ class rex_media
     }
 
     /**
-     * @param int $mediaId
      * @throws rex_sql_exception
      * @return null|static
      */
-
     public static function getById(int $mediaId)
     {
         $media = rex_sql::factory();
