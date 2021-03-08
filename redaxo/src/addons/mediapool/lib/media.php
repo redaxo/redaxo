@@ -91,15 +91,15 @@ class rex_media
      * @throws rex_sql_exception
      * @return null|static
      */
-    public static function getById(int $mediaId)
+    public static function fromId(int $mediaId):?self
     {
         $media = rex_sql::factory();
-        $media->setQuery('select * from ' . rex::getTable('media') . ' where id=?', [$mediaId]);
+        $media->setQuery('select filename from ' . rex::getTable('media') . ' where id=?', [$mediaId]);
 
         if (1 != $media->getRows()) {
             return null;
         }
-        return self::get($media->getValue('filename'));
+        return static::get((string) $media->getValue('filename'));
     }
 
     /**
