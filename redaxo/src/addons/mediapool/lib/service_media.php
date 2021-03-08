@@ -301,7 +301,6 @@ final class rex_media_service
 
         $query .= ' ORDER BY '.implode(', ', $orderbys);
 
-        $sql->setDebug();
         $sql->setQuery(str_replace('SELECT m.filename', 'SELECT count(*)', $query), $queryParams);
         $count = $sql->getValue('count(*)');
         $query .= ' LIMIT '.$offset.','.$limit;
