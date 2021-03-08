@@ -131,7 +131,7 @@ if ($step > 4) {
     }
 
     // check if timezone is valid
-    if (false === @date_default_timezone_set($config['timezone'])) {
+    if (!@date_default_timezone_set($config['timezone'])) {
         $errorArray[] = rex_view::error(rex_i18n::msg('setup_413'));
     }
 
@@ -196,7 +196,7 @@ $errors = [];
 $createdb = rex_post('createdb', 'int', -1);
 
 if ($step > 5 && $createdb > -1) {
-    $tablesComplete = ('' == rex_setup_importer::verifyDbSchema()) ? true : false;
+    $tablesComplete = '' == rex_setup_importer::verifyDbSchema();
 
     $utf8mb4 = null;
     if (!in_array($step, [2, 3])) {

@@ -350,7 +350,7 @@ class rex_content_service
                 'article' => $CONT,
             ]));
 
-            if (false === rex_file::put($articleContentFile, $articleContent)) {
+            if (!rex_file::put($articleContentFile, $articleContent)) {
                 throw new rex_exception(sprintf('Article %d could not be generated, check the directory permissions for "%s".', $articleId, rex_path::addonCache('structure')));
             }
         }

@@ -153,7 +153,7 @@ abstract class rex_package_manager
 
             // import install.sql
             $installSql = $this->package->getPath(rex_package::FILE_INSTALL_SQL);
-            if (true === $installDump && is_readable($installSql)) {
+            if ($installDump && is_readable($installSql)) {
                 rex_sql_util::importDump($installSql);
             }
 
@@ -234,7 +234,7 @@ abstract class rex_package_manager
 
             // import uninstall.sql
             $uninstallSql = $this->package->getPath(rex_package::FILE_UNINSTALL_SQL);
-            if (true === $installDump && is_readable($uninstallSql)) {
+            if ($installDump && is_readable($uninstallSql)) {
                 rex_sql_util::importDump($uninstallSql);
             }
 
@@ -317,7 +317,7 @@ abstract class rex_package_manager
     {
         $state = $this->checkDependencies();
 
-        if (true === $state) {
+        if ($state) {
             $this->package->setProperty('status', false);
             $this->saveConfig();
 

@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+use Rector\CodeQuality\Rector\BooleanNot\SimplifyDeMorganBinaryRector;
+use Rector\CodeQuality\Rector\Identical\SimplifyBoolIdenticalTrueRector;
+use Rector\CodeQuality\Rector\Identical\SimplifyConditionsRector;
+use Rector\CodeQuality\Rector\If_\SimplifyIfReturnBoolRector;
+use Rector\CodeQuality\Rector\Ternary\UnnecessaryTernaryExpressionRector;
 use Rector\Core\Configuration\Option;
 use Rector\Core\ValueObject\PhpVersion;
 use Rector\Naming\Rector\Property\UnderscoreToCamelCasePropertyNameRector;
@@ -69,9 +74,14 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // we will grow this rector list step by step.
     // after some basic rectors have been enabled we can finally enable whole-sets (when diffs get stable and reviewable)
     // $services->set(Rector\SOLID\Rector\If_\ChangeAndIfToEarlyReturnRector::class);
+    $services->set(SimplifyBoolIdenticalTrueRector::class);
+    $services->set(SimplifyConditionsRector::class);
+    $services->set(SimplifyDeMorganBinaryRector::class);
+    $services->set(SimplifyIfReturnBoolRector::class);
     $services->set(StrContainsRector::class);
     $services->set(StrEndsWithRector::class);
     $services->set(StrStartsWithRector::class);
     $services->set(UnderscoreToCamelCasePropertyNameRector::class);
     $services->set(UnderscoreToCamelCaseVariableNameRector::class);
+    $services->set(UnnecessaryTernaryExpressionRector::class);
 };

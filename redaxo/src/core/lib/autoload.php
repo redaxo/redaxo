@@ -67,7 +67,7 @@ class rex_autoload
             self::$composerLoader->unregister();
         }
 
-        if (false === spl_autoload_register([self::class, 'autoload'])) {
+        if (!spl_autoload_register([self::class, 'autoload'])) {
             throw new Exception(sprintf('Unable to register %s::autoload as an autoloading method.', self::class));
         }
 

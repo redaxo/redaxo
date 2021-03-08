@@ -169,7 +169,7 @@ rex_extension::register('STRUCTURE_CONTENT_BEFORE_SLICES', static function (rex_
         }
     }
 
-    $inverse = 1 == $rexVersionArticle[$params['article_id']] ? true : false;
+    $inverse = 1 == $rexVersionArticle[$params['article_id']];
     $cssClass = 1 == $rexVersionArticle[$params['article_id']] ? 'rex-state-inprogress' : 'rex-state-live';
 
     $return .= rex_view::toolbar('<ul class="nav navbar-nav">' . $toolbar . '</ul>', null, $cssClass, $inverse);
