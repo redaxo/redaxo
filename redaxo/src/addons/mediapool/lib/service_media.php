@@ -56,7 +56,7 @@ final class rex_media_service
             'title' => $title,
             'filename' => $data['file']['name_new'],
             'old_filename' => $data['file']['name'],
-            'is_upload' => true,
+            'is_upload' => (empty($data['file']['tmp_name'])) ? false : true, // wir gehen davon aus, dass aus BC Gründen das tmp_name vorhanden sein muss wenn es ein upload ist.
             'category_id' => $categoryId,
             'type' => $data['file']['type'],
         ]));
