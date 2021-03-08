@@ -236,7 +236,7 @@ final class rex_media_service
      * @param array $searchParams
      * @throws rex_sql_exception
      */
-    public static function getList(array $searchItems = [], array $orderbyItems = [], int $offset = 1, int $limit = 50): array
+    public static function getList(array $searchItems = [], array $orderbyItems = [], int $offset = 0, int $limit = 500): array
     {
         $sql = rex_sql::factory();
         $where = [];

@@ -240,10 +240,6 @@ $panel = '
 
                 if ('global' != rex_addon::get('mediapool')->getConfig('searchmode', 'local') && 0 != $rexFileCategory) {
                     $searchItems[] = [
-                        'type' => 'term',
-                        'value' => $mediaName,
-                    ];
-                    $searchItems[] = [
                         'type' => 'category_id_path',
                         'value' => $rexFileCategory,
                     ];
