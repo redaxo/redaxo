@@ -41,6 +41,7 @@ interface rex_package_interface
      * Returns the base path.
      *
      * @param string $file File
+     * @return string
      */
     public function getPath($file = '');
 
@@ -48,6 +49,7 @@ interface rex_package_interface
      * Returns the assets path.
      *
      * @param string $file File
+     * @return string
      */
     public function getAssetsPath($file = '');
 
@@ -55,6 +57,7 @@ interface rex_package_interface
      * Returns the assets url.
      *
      * @param string $file File
+     * @return string
      */
     public function getAssetsUrl($file = '');
 
@@ -62,6 +65,7 @@ interface rex_package_interface
      * Returns the data path.
      *
      * @param string $file File
+     * @return string
      */
     public function getDataPath($file = '');
 
@@ -69,6 +73,7 @@ interface rex_package_interface
      * Returns the cache path.
      *
      * @param string $file File
+     * @return string
      */
     public function getCachePath($file = '');
 
