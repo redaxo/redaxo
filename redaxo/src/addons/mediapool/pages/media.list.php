@@ -71,21 +71,21 @@ if ($hasCategoryPerm && 'delete_selectedmedia' == $mediaMethod) {
             $success = [];
 
             $countDeleted = 0;
-            foreach ($selectedmedia as $fileName) {
-                $media = rex_media::get($fileName);
+            foreach ($selectedmedia as $filename) {
+                $media = rex_media::get($filename);
                 if ($media) {
                     if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($media->getCategoryId())) {
-                        $return = rex_mediapool_deleteMedia($fileName);
-                        if ($return['ok']) {
+                        try {
+                            rex_media_service::deleteMedia($filename);
                             ++$countDeleted;
-                        } else {
-                            $error[] = $return['msg'];
+                        } catch (rex_api_exception $e) {
+                            $error[] = $e->getMessage();
                         }
                     } else {
                         $error[] = rex_i18n::msg('no_permission');
                     }
                 } else {
-                    $error[] = rex_i18n::msg('pool_file_not_found');
+                    $error[] = rex_i18n::msg('pool_file_not_found', $filename);
                 }
             }
             if ($countDeleted) {

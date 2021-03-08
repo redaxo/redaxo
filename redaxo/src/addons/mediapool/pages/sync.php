@@ -64,24 +64,30 @@ $csrf = rex_csrf_token::factory('mediapool');
             if ($diffCount > 0) {
                 $success = [];
                 $first = true;
-                foreach ($syncFiles as $file) {
-                    // hier mit is_int, wg kompatibilität zu PHP < 4.2.0
-                    if (!is_int($key = array_search($file, $diffFiles))) {
+                foreach ($syncFiles as $filename) {
+                    if (!($key = array_search($filename, $diffFiles))) {
                         continue;
                     }
 
-                    $syncResult = rex_mediapool_syncFile($file, $rexFileCategory, $ftitle, null, '');
-                    if ($syncResult['ok']) {
+                    $data = [];
+                    $data['title'] = $ftitle;
+                    $data['category_id'] = $rexFileCategory;
+                    $data['filename'] = $filename;
+                    $data['file'] = [
+                        'name' => $filename,
+                        'path' => rex_path::media($filename),
+                    ];
+
+                    try {
+                        $data = rex_media_service::addMedia($data, rex::getUser()->getValue('login'), false);
+
                         unset($diffFiles[$key]);
                         if ($first) {
                             $success[] = rex_i18n::msg('pool_sync_files_synced');
                             $first = false;
                         }
-                        if ($syncResult['msg']) {
-                            $success[] = $syncResult['msg'];
-                        }
-                    } elseif ($syncResult['msg']) {
-                        $error[] = $syncResult['msg'];
+                    } catch (rex_api_exception $e) {
+                        $error[] = $e->getMessage();
                     }
                 }
                 // diff count neu berechnen, da (hoffentlich) diff files in die db geladen wurden
