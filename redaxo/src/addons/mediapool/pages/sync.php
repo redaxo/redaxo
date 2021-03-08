@@ -79,7 +79,7 @@ $csrf = rex_csrf_token::factory('mediapool');
                     ];
 
                     try {
-                        $data = rex_media_service::addMedia($data, rex::getUser()->getValue('login'), false);
+                        $data = rex_media_service::addMedia($data, (rex::getUser()) ? rex::getUser()->getValue('login') : '', false);
 
                         unset($diffFiles[$key]);
                         if ($first) {
