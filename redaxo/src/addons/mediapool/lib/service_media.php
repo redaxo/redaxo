@@ -5,6 +5,12 @@
  */
 final class rex_media_service
 {
+    public static $orderby = [
+        'filename',
+        'updatedate',
+        'title',
+    ];
+
     /**
      * Holt ein upgeloadetes File und legt es in den Medienpool
      * Dabei wird kontrolliert ob das File schon vorhanden ist und es
@@ -224,5 +230,96 @@ final class rex_media_service
         rex_extension::registerPoint(new rex_extension_point('MEDIA_DELETED', '', [
             'filename' => $filename,
         ]));
+    }
+
+    /**
+     * @param array $searchParams
+     * @throws rex_sql_exception
+     */
+    public static function getList(array $searchItems = [], array $orderbyItems = [], int $offset = 1, int $limit = 50): array
+    {
+        $sql = rex_sql::factory();
+        $where = [];
+        $queryParams = [];
+        $tables = [];
+        $tables[] = rex::getTable('media').' AS m';
+
+        foreach ($searchItems as $counter => $searchItem) {
+            switch ($searchItem['type']) {
+                case 'category_id':
+                    if (is_int($searchItem['value'])) {
+                        $where[] = '(m.category_id = :search_'.$counter.')';
+                        $queryParams['search_'.$counter] = $searchItem['value'];
+                    }
+                    break;
+                case 'category_id_path':
+                    if (is_int($searchItem['value'])) {
+                        $tables[] = rex::getTable('media_category').' AS c';
+                        $where[] .= '(m.category_id = c.id AND (c.path LIKE "%|'.$searchItem['value'].'|%" OR c.id='.$searchItem['value'].') )';
+                        $queryParams['search_'.$counter] = $searchItem['value'];
+                    }
+                    break;
+                case 'types':
+                    if (is_array($searchItem['value'])) {
+                        $types = [];
+                        foreach ($searchItem['value'] as $index => $type) {
+                            if (is_string($type)) {
+                                $types[] = 'LOWER(RIGHT(m.filename, LOCATE(".", REVERSE(m.filename))-1)) = :search_'.$counter.'_'.$index;
+                                $queryParams['search_'.$counter.'_'.$index] = strtolower($type);
+                            }
+                        }
+                        if (count($types) > 0) {
+                            $where[] = '('.implode(' OR ', $types).')';
+                        }
+                    }
+                    break;
+                case 'term':
+                    if (is_string($searchItem['value']) && '' != $searchItem['value']) {
+                        $where[] = '(m.filename LIKE :search_'.$counter.' || m.title LIKE :search_'.$counter.')';
+                        $queryParams['search_'.$counter] = $searchItem['value'];
+                    }
+                    break;
+            }
+        }
+
+        $where = count($where) ? ' WHERE '.implode(' AND ', $where) : '';
+        $query = 'SELECT m.filename FROM '.implode(',', $tables).' '.$where;
+
+        $orderbys = [];
+        foreach ($orderbyItems as $orderbyItem) {
+            if (is_array($orderbyItem)) {
+                if (array_key_exists($orderbyItem[0], static::$orderby)) {
+                    $orderbys[] = ':orderby_'.$index.' '.('ASC' == $orderbyItem[1]) ? 'ASC' : 'DESC';
+                    $queryParams['orderby_'.$index] = 'm.' . $orderbyItem[0];
+                }
+            }
+        }
+
+        if (0 == count($orderbys)) {
+            $orderbys[] = 'm.id DESC';
+        }
+
+        $query .= ' ORDER BY '.implode(', ', $orderbys);
+
+        $sql->setDebug();
+        $sql->setQuery(str_replace('SELECT m.filename', 'SELECT count(*)', $query), $queryParams);
+        $count = $sql->getValue('count(*)');
+        $query .= ' LIMIT '.$offset.','.$limit;
+
+        $items = [];
+        foreach ($sql->getArray($query, $queryParams) as $media) {
+            $items[] = rex_media::get($media['filename']);
+        }
+
+        return [
+            'count' => $count,
+            'offset' => $offset,
+            'limit' => $limit,
+            'items' => $items,
+            'search' => [
+                'searchItems' => $searchItems,
+                'orderbyItems' => $orderbyItems,
+            ],
+        ];
     }
 }
