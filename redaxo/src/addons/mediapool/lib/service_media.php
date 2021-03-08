@@ -233,8 +233,12 @@ final class rex_media_service
     }
 
     /**
-     * @param array $searchParams
+     * @param array $searchItems
+     * @param array $orderbyItems
+     * @param int   $offset
+     * @param int   $limit
      * @throws rex_sql_exception
+     * @return array
      */
     public static function getList(array $searchItems = [], array $orderbyItems = [], int $offset = 0, int $limit = 500): array
     {
@@ -286,7 +290,7 @@ final class rex_media_service
         $query = 'SELECT m.filename FROM '.implode(',', $tables).' '.$where;
 
         $orderbys = [];
-        foreach ($orderbyItems as $orderbyItem) {
+        foreach ($orderbyItems as $index => $orderbyItem) {
             if (is_array($orderbyItem)) {
                 if (array_key_exists($orderbyItem[0], static::$orderby)) {
                     $orderbys[] = ':orderby_'.$index.' '.('ASC' == $orderbyItem[1]) ? 'ASC' : 'DESC';
