@@ -273,7 +273,6 @@ $panel = '
 
             /** @var rex_media $media */
             foreach ($result['items'] as $i => $media) {
-
                 $alt = rex_escape($media->getTitle());
                 $desc = '';
                 $desc = '<p>' . rex_escape(strip_tags((string) $media->getValue('med_description'))) . '</p>';
