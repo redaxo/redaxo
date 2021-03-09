@@ -5,7 +5,7 @@
  */
 final class rex_media_service
 {
-    public static $orderby = [
+    private static $orderby = [
         'filename',
         'updatedate',
         'title',
@@ -233,12 +233,12 @@ final class rex_media_service
     }
 
     /**
-     * @param array $searchItems
-     * @param array $orderbyItems
+     * @param array<array{type: string, value: int}> $searchItems
+     * @param array<array{string, string}> $orderbyItems
      * @param int   $offset
      * @param int   $limit
      * @throws rex_sql_exception
-     * @return array
+     * @return array<array{count: int, offset: int, limit: int, items: array<array{rex_media}>, search: array<array{searchItem: array, orderbyItems: array}>}>
      */
     public static function getList(array $searchItems = [], array $orderbyItems = [], int $offset = 0, int $limit = 500): array
     {
@@ -259,7 +259,7 @@ final class rex_media_service
                 case 'category_id_path':
                     if (is_int($searchItem['value'])) {
                         $tables[] = rex::getTable('media_category').' AS c';
-                        $where[] .= '(m.category_id = c.id AND (c.path LIKE "%|'.$searchItem['value'].'|%" OR c.id='.$searchItem['value'].') )';
+                        $where[] = '(m.category_id = c.id AND (c.path LIKE "%|'.$searchItem['value'].'|%" OR c.id='.$searchItem['value'].') )';
                         $queryParams['search_'.$counter] = $searchItem['value'];
                     }
                     break;
@@ -292,7 +292,7 @@ final class rex_media_service
         $orderbys = [];
         foreach ($orderbyItems as $index => $orderbyItem) {
             if (is_array($orderbyItem)) {
-                if (array_key_exists($orderbyItem[0], static::$orderby)) {
+                if (in_array($orderbyItem[0], static::$orderby, true)) {
                     $orderbys[] = ':orderby_'.$index.' '.('ASC' == $orderbyItem[1]) ? 'ASC' : 'DESC';
                     $queryParams['orderby_'.$index] = 'm.' . $orderbyItem[0];
                 }
