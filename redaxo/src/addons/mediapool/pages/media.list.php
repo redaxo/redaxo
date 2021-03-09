@@ -270,12 +270,13 @@ $panel = '
             $pager->setRowCount($result['count']);
 
             $panel .= '<tbody>';
+
+            /** @var rex_media $media */
             foreach ($result['items'] as $i => $media) {
-                /** @var rex_media $media */
 
                 $alt = rex_escape($media->getTitle());
                 $desc = '';
-                $desc = '<p>' . rex_escape(strip_tags($media->getValue('med_description'))) . '</p>';
+                $desc = '<p>' . rex_escape(strip_tags((string) $media->getValue('med_description'))) . '</p>';
 
                 if (!is_file(rex_path::media($media->getFileName()))) {
                     $thumbnail = '<i class="rex-mime rex-mime-error" title="' . rex_i18n::msg('pool_file_does_not_exist') . '"></i><span class="sr-only">' . $media->getFileName() . '</span>';
