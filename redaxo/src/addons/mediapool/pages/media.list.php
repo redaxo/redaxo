@@ -264,10 +264,11 @@ $panel = '
                 $mediaManagerUrl = [rex_media_manager::class, 'getUrl'];
             }
 
-            $result = rex_media_service::getList($searchItems);
+            $pager = new rex_pager(1000, 0);
+            $items = rex_media_service::getList($searchItems, [], $pager);
 
             $panel .= '<tbody>';
-            foreach ($result['items'] as $i => $media) {
+            foreach ($items as $i => $media) {
                 /** @var rex_media $media */
 
                 $alt = rex_escape($media->getTitle());
@@ -342,16 +343,16 @@ $panel = '
                 </tr>';
             }
 
-                // ----- no items found
-                if (0 == $result['count']) {
-                    $panel .= '
-                <tr>
-                    <td></td>
-                    <td colspan="5">' . rex_i18n::msg('pool_nomediafound') . '</td>
-                </tr>';
-                }
-
+            // ----- no items found
+            if (0 == $pager->getRowCount()) {
                 $panel .= '
+            <tr>
+                <td></td>
+                <td colspan="5">' . rex_i18n::msg('pool_nomediafound') . '</td>
+            </tr>';
+            }
+
+            $panel .= '
                 </tbody>
         </table>
     </fieldset>
