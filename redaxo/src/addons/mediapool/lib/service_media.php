@@ -237,7 +237,7 @@ final class rex_media_service
      * @param list<array{string, string}> $orderbyItems
      * @param rex_pager $pager
      * @throws rex_sql_exception
-     * @return list<array{rex_media}>
+     * @return list<rex_media>
      */
     public static function getList(array $searchItems = [], array $orderbyItems = [], rex_pager $pager = null): array
     {
