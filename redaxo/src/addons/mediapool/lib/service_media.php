@@ -5,7 +5,7 @@
  */
 final class rex_media_service
 {
-    private static $orderby = [
+    public const orderby = [
         'filename',
         'updatedate',
         'title',
@@ -293,7 +293,7 @@ final class rex_media_service
             if (!is_array($orderbyItem)) {
                 continue;
             }
-            if (!in_array($orderbyItem[0], self::$orderby, true)) {
+            if (!in_array($orderbyItem[0], self::orderby, true)) {
                 continue;
             }
             $orderbys[] = ':orderby_'.$index.' '.('ASC' == $orderbyItem[1]) ? 'ASC' : 'DESC';
@@ -305,7 +305,6 @@ final class rex_media_service
         }
 
         $query .= ' ORDER BY '.implode(', ', $orderbys);
-        $sql->setDebug();
         $sql->setQuery(str_replace('SELECT m.filename', 'SELECT count(*)', $query), $queryParams);
         $count = $sql->getValue('count(*)');
 
