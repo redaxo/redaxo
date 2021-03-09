@@ -264,11 +264,13 @@ $panel = '
                 $mediaManagerUrl = [rex_media_manager::class, 'getUrl'];
             }
 
-            $pager = new rex_pager(1000, 0);
-            $items = rex_media_service::getList($searchItems, [], $pager);
+            $pager = new rex_pager(5000);
+
+            $result = rex_media_service::getList($searchItems, [], $pager->getCursor(), $pager->getRowsPerPage());
+            $pager->setRowCount($result['count']);
 
             $panel .= '<tbody>';
-            foreach ($items as $i => $media) {
+            foreach ($result['items'] as $i => $media) {
                 /** @var rex_media $media */
 
                 $alt = rex_escape($media->getTitle());
