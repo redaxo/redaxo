@@ -234,7 +234,7 @@ final class rex_media_service
 
     /**
      * @param list<array{type: string, value: int}> $searchItems
-     * @param array{string, string} $orderbyItems
+     * @param list<array{string, string}> $orderbyItems
      * @param rex_pager $pager
      * @throws rex_sql_exception
      * @return list<array{rex_media}>
