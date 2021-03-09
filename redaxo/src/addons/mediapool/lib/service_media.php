@@ -5,7 +5,7 @@
  */
 final class rex_media_service
 {
-    public const orderby = [
+    public const ORDERBY = [
         'filename',
         'updatedate',
         'title',
@@ -233,7 +233,7 @@ final class rex_media_service
     }
 
     /**
-     * @param list<array{type: string, value: int}> $searchItems
+     * @param list<array{type: string, value: int|list<string>}> $searchItems
      * @param list<array{string, string}> $orderbyItems
      * @param rex_pager $pager
      * @throws rex_sql_exception
@@ -293,7 +293,7 @@ final class rex_media_service
             if (!is_array($orderbyItem)) {
                 continue;
             }
-            if (!in_array($orderbyItem[0], self::orderby, true)) {
+            if (!in_array($orderbyItem[0], self::ORDERBY, true)) {
                 continue;
             }
             $orderbys[] = ':orderby_'.$index.' '.('ASC' == $orderbyItem[1]) ? 'ASC' : 'DESC';
@@ -306,7 +306,7 @@ final class rex_media_service
 
         $query .= ' ORDER BY '.implode(', ', $orderbys);
         $sql->setQuery(str_replace('SELECT m.filename', 'SELECT count(*)', $query), $queryParams);
-        $count = $sql->getValue('count(*)');
+        $count = (int) $sql->getValue('count(*)');
 
         if ($pager) {
             $pager->setRowCount($count);
@@ -314,8 +314,14 @@ final class rex_media_service
         }
 
         $items = [];
+
+        /** @var array{filename: string} $media */
         foreach ($sql->getArray($query, $queryParams) as $media) {
-            $items[] = rex_media::get($media['filename']);
+            $mediaObject = rex_media::get($media['filename']);
+            if(!$mediaObject) {
+                throw new LogicException('Media "'.$media['filename'].'" does not exist');
+            }
+            $items[] = $mediaObject;
         }
 
         return $items;
