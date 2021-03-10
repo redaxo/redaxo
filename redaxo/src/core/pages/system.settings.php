@@ -40,7 +40,7 @@ if ($func && !$csrfToken->isValid()) {
         $config['debug'] = [];
     }
 
-    $config['debug']['enabled'] = (rex::isDebugMode()) ? false : true;
+    $config['debug']['enabled'] = !rex::isDebugMode();
     rex::setProperty('debug', $config['debug']);
     if (rex_file::putConfig($configFile, $config) > 0) {
         // reload the page so that debug mode is immediately visible

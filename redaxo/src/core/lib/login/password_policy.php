@@ -119,10 +119,6 @@ class rex_password_policy
             return false;
         }
 
-        if (isset($options['max']) && $count > $options['max']) {
-            return false;
-        }
-
-        return true;
+        return !isset($options['max']) || $count <= $options['max'];
     }
 }

@@ -86,7 +86,7 @@ class rex_sql_schema_dumper
             $nonDefault = true;
         }
 
-        if ($nonDefault || false !== $column->isNullable()) {
+        if ($nonDefault || $column->isNullable()) {
             $parameters[] = $this->scalar($column->isNullable());
         }
 

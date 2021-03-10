@@ -14,7 +14,7 @@ $path = __DIR__.'/frontend/frontend.zip';
 $message = '';
 try {
     if (true === $zipArchive->open($path) &&
-        true === $zipArchive->extractTo($addon->getAssetsPath('clockwork'))
+        $zipArchive->extractTo($addon->getAssetsPath('clockwork'))
     ) {
         $zipArchive->close();
 
