@@ -274,7 +274,6 @@ $panel = '
             /** @var rex_media $media */
             foreach ($result['items'] as $i => $media) {
                 $alt = rex_escape($media->getTitle());
-                $desc = '';
                 $desc = '<p>' . rex_escape(strip_tags((string) $media->getValue('med_description'))) . '</p>';
 
                 if (!is_file(rex_path::media($media->getFileName()))) {
@@ -294,9 +293,6 @@ $panel = '
                         }
                     }
                 }
-
-                $size = $media->getSize();
-                $fileSize = rex_formatter::bytes($size);
 
                 if ('' == $media->getTitle()) {
                     $fileTitle = '[' . rex_i18n::msg('pool_file_notitle') . ']';
@@ -323,7 +319,7 @@ $panel = '
                     <td class="rex-word-break" data-title="' . rex_i18n::msg('pool_file_info') . '">
                         <h3><a class="rex-link-expanded" href="' . $ilink . '">' . rex_escape($media->getTitle()) . '</a></h3>
                         ' . $desc . '
-                        <p>' . rex_escape($media->getFileName()) . ' <span class="rex-filesize">' . $media->getSize() . '</span></p>
+                        <p>' . rex_escape($media->getFileName()) . ' <span class="rex-filesize">' . rex_formatter::bytes($media->getSize()) . '</span></p>
                     </td>
                     <td data-title="' . rex_i18n::msg('pool_last_update') . '"><p class="rex-date">' . rex_formatter::strftime($media->getUpdateDate(), 'datetime') . '</p><p class="rex-author">' . rex_escape($media->getUpdateUser()) . '</p></td>
                     <td class="rex-table-action"><a class="rex-link-expanded" href="' . $ilink . '">' . rex_i18n::msg('edit') . '</a></td>
