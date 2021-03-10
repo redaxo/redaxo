@@ -2426,61 +2426,25 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/mediapool/pages/media.list.php">
-    <MixedArgument occurrences="18">
+    <MixedArgument occurrences="8">
       <code>$argUrl</code>
       <code>$argUrl</code>
-      <code>$argUrl['args']['types']</code>
       <code>$error</code>
       <code>$fileName</code>
-      <code>$fileName</code>
-      <code>$fileName</code>
-      <code>$fileName</code>
-      <code>$fileName</code>
-      <code>$fileName</code>
-      <code>$fileName</code>
       <code>$filename</code>
       <code>$filename</code>
       <code>$filename</code>
-      <code>$files-&gt;getValue($col)</code>
-      <code>$qry</code>
-      <code>$size</code>
       <code>$success</code>
     </MixedArgument>
-    <MixedAssignment occurrences="12">
-      <code>$alt</code>
-      <code>$fileId</code>
+    <MixedAssignment occurrences="2">
       <code>$fileName</code>
-      <code>$fileName</code>
-      <code>$fileOname</code>
-      <code>$fileSize</code>
-      <code>$fileTitle</code>
-      <code>$fileType</code>
-      <code>$fileUpdateuser</code>
       <code>$filename</code>
-      <code>$qry</code>
-      <code>$size</code>
     </MixedAssignment>
-    <MixedOperand occurrences="17">
-      <code>$alt</code>
-      <code>$alt</code>
-      <code>$alt</code>
-      <code>$alt</code>
-      <code>$alt</code>
+    <MixedOperand occurrences="4">
       <code>$argUrl['args']['types']</code>
-      <code>$fileName</code>
-      <code>$fileName</code>
-      <code>$fileName</code>
-      <code>$fileName</code>
-      <code>$fileName</code>
-      <code>$mediaManagerUrl('rex_mediapool_preview', $encodedFileName, $files-&gt;getDateTimeValue('updatedate'))</code>
-      <code>rex_escape($fileName)</code>
-      <code>rex_escape($fileTitle)</code>
-      <code>rex_escape($fileUpdateuser)</code>
-      <code>rex_escape($files-&gt;getValue('title'), 'js')</code>
+      <code>$media-&gt;getValue('updatedate')</code>
+      <code>$mediaManagerUrl('rex_mediapool_preview', urlencode($media-&gt;getFileName()), $media-&gt;getValue('updatedate'))</code>
     </MixedOperand>
-    <PossiblyNullOperand occurrences="1">
-      <code>$files-&gt;getDateTimeValue('updatedate')</code>
-    </PossiblyNullOperand>
     <PossiblyNullReference occurrences="3">
       <code>getComplexPerm</code>
       <code>getComplexPerm</code>
