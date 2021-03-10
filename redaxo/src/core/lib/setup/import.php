@@ -218,7 +218,7 @@ class rex_setup_importer
                 $manager = rex_package_manager::factory($package);
                 $state = $manager->uninstall($installDump);
 
-                if (true !== $state) {
+                if (!$state) {
                     $addonErr .= '<li>' . $package->getPackageId() . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
                 }
             }
@@ -232,14 +232,14 @@ class rex_setup_importer
                 $state = $manager->install($installDump);
             }
 
-            if (true !== $state) {
+            if (!$state) {
                 $addonErr .= '<li>' . rex_escape($package->getPackageId()) . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
             }
 
-            if (true === $state && !$package->isAvailable()) {
+            if ($state && !$package->isAvailable()) {
                 $state = $manager->activate();
 
-                if (true !== $state) {
+                if (!$state) {
                     $addonErr .= '<li>' . rex_escape($package->getPackageId()) . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
                 }
             }

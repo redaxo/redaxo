@@ -28,7 +28,7 @@ $sectionAttributes['class'][] = 'rex-page-section';
 
         <?php
         $collapseId = (isset($this->collapse) && $this->collapse) ? 'collapse-' . random_int(100000, 999999) : '';
-        $collapsed = (isset($this->collapsed) && $this->collapsed) ? true : false;
+        $collapsed = isset($this->collapsed) && $this->collapsed;
         $header = '';
 
         $attributes = [];

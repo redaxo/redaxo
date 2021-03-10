@@ -4,7 +4,7 @@ assert(isset($context) && $context instanceof rex_context);
 assert(isset($errors) && is_array($errors));
 assert(isset($cancelSetupBtn));
 
-$tablesComplete = ('' == rex_setup_importer::verifyDbSchema()) ? true : false;
+$tablesComplete = '' == rex_setup_importer::verifyDbSchema();
 
 $createdb = rex_post('createdb', 'int', '');
 

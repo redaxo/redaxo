@@ -276,7 +276,7 @@ class rex_setup
         $config['setup'] = isset($config['setup']) && is_array($config['setup']) ? $config['setup'] : [];
         $config['setup'][$token] = (new DateTimeImmutable('+1 hour'))->format('Y-m-d H:i:s');
 
-        if (false === rex_file::putConfig($configFile, $config)) {
+        if (!rex_file::putConfig($configFile, $config)) {
             return false;
         }
 
