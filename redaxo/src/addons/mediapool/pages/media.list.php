@@ -252,9 +252,11 @@ $panel = '
             }
 
             if (isset($argUrl['args']['types']) && is_array($argUrl['args']['types'])) {
+                /** @var list<string> $types */
+                $types = $argUrl['args']['types'];
                 $searchItems[] = [
                     'type' => 'types',
-                    'value' => $argUrl['args']['types'],
+                    'value' => $types,
                 ];
             }
 
