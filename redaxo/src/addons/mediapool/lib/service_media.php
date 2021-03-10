@@ -233,8 +233,8 @@ final class rex_media_service
     }
 
     /**
-     * @param list<array{type: string, value: int|string|list<string>}> $searchItems
-     * @param list<array{string, string}> $orderbyItems
+     * @param list<array{type: 'category_id'|'category_id_path'|'types'|'term', value: int|string|list<string>}> $searchItems
+     * @param list<array{string, 'ASC'|'DESC'}> $orderbyItems
      * @throws rex_sql_exception
      * @return array{count: int, items: list<rex_media>}
      */
