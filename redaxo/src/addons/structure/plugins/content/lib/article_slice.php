@@ -84,7 +84,7 @@ class rex_article_slice
      * Return an ArticleSlice by its id.
      *
      * @param int      $anId
-     * @param bool|int $clang
+     * @param false|int $clang
      * @param int      $revision
      *
      * @return self|null
@@ -108,7 +108,7 @@ class rex_article_slice
      * getNextSlice() function.
      *
      * @param int      $anArticleId
-     * @param bool|int $clang
+     * @param false|int $clang
      * @param int      $revision
      * @param bool     $ignoreOfflines
      *
@@ -135,7 +135,7 @@ class rex_article_slice
      *
      * @param int      $ctype
      * @param int      $anArticleId
-     * @param bool|int $clang
+     * @param false|int $clang
      * @param int      $revision
      * @param bool     $ignoreOfflines
      *
@@ -158,7 +158,7 @@ class rex_article_slice
      * clang or revision.
      *
      * @param int      $anArticleId
-     * @param bool|int $clang
+     * @param false|int $clang
      * @param int      $revision
      * @param bool     $ignoreOfflines
      *
@@ -182,7 +182,7 @@ class rex_article_slice
      *
      * @param int      $anArticleId
      * @param int      $aModuletypeId
-     * @param bool|int $clang
+     * @param false|int $clang
      * @param int      $revision
      * @param bool     $ignoreOfflines
      *
