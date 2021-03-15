@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '95f9e0afe7639ce871adf726d167f159cf280373',
+    'reference' => '66a5adf76af88b384a7fe8c4a28b0ac3a186329f',
     'name' => '__root__',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '95f9e0afe7639ce871adf726d167f159cf280373',
+      'reference' => '66a5adf76af88b384a7fe8c4a28b0ac3a186329f',
     ),
     'erusev/parsedown' => 
     array (
@@ -106,16 +106,16 @@
       'aliases' => 
       array (
       ),
-      'reference' => '0745f820eed6cb92603ca44a9c137ff8ce315e86',
+      'reference' => '43a315341710475e88006a0e55864b348d3d781c',
     ),
     'symfony/console' => 
     array (
-      'pretty_version' => 'v5.2.4',
-      'version' => '5.2.4.0',
+      'pretty_version' => 'v5.2.5',
+      'version' => '5.2.5.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'd6d0cc30d8c0fda4e7b213c20509b0159a8f4556',
+      'reference' => '938ebbadae1b0a9c9d1ec313f87f9708609f1b79',
     ),
     'symfony/deprecation-contracts' => 
     array (
@@ -221,21 +221,21 @@
     ),
     'symfony/var-dumper' => 
     array (
-      'pretty_version' => 'v5.2.4',
-      'version' => '5.2.4.0',
+      'pretty_version' => 'v5.2.5',
+      'version' => '5.2.5.0',
       'aliases' => 
       array (
       ),
-      'reference' => '6a81fec0628c468cf6d5c87a4d003725e040e223',
+      'reference' => '002ab5a36702adf0c9a11e6d8836623253e9045e',
     ),
     'symfony/yaml' => 
     array (
-      'pretty_version' => 'v5.2.4',
-      'version' => '5.2.4.0',
+      'pretty_version' => 'v5.2.5',
+      'version' => '5.2.5.0',
       'aliases' => 
       array (
       ),
-      'reference' => '7d6ae0cce3c33965af681a4355f1c4de326ed277',
+      'reference' => '298a08ddda623485208506fcee08817807a251dd',
     ),
     'voku/anti-xss' => 
     array (

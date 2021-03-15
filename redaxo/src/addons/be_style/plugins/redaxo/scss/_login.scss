@@ -114,6 +114,9 @@
         color: $color-a-darker;
         border-color: $color-a-dark;
         box-shadow: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
 
         &:focus {
             @include box-shadow(none);
@@ -197,12 +200,5 @@
         display: flex;
         -webkit-animation: fadeIn 800ms ease-out;
                 animation: fadeIn 800ms ease-out;
-    }
-
-    .rex-background,
-    .rex-background-credits {
-        @media (max-width: $screen-sm-max) {
-            display: none;
-        }
     }
 }
