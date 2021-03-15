@@ -10,6 +10,11 @@ jobs:
     compile:
         name: be_style:compile
         runs-on: ubuntu-latest
+        if: |
+          (
+            github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]' ||
+            github.event_name != 'pull_request_target' && github.actor != 'dependabot[bot]'
+          )
 
         steps:
             -   name: Checkout
