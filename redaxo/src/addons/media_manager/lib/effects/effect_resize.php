@@ -51,10 +51,10 @@ $(function() {
         }
 
         // relatives resizen
-        if ('%' === substr(trim($this->params['width']), -1)) {
+        if (isset($this->params['width']) && '%' === substr(trim($this->params['width']), -1)) {
             $this->params['width'] = round($w * ((int) rtrim($this->params['width'], '%') / 100));
         }
-        if ('%' === substr(trim($this->params['height']), -1)) {
+        if (isset($this->params['height']) && '%' === substr(trim($this->params['height']), -1)) {
             $this->params['height'] = round($h * ((int) rtrim($this->params['height'], '%') / 100));
         }
 
