@@ -116,6 +116,7 @@
       <path value="$PROJECT_DIR$/vendor/symplify/symfony-php-config" />
       <path value="$PROJECT_DIR$/vendor/symplify/symplify-kernel" />
       <path value="$PROJECT_DIR$/vendor/symplify/composer-json-manipulator" />
+      <path value="$PROJECT_DIR$/vendor/symplify/rule-doc-generator-contracts" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.3">

@@ -126,6 +126,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/symplify/symfony-php-config" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symplify/symplify-kernel" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symplify/composer-json-manipulator" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symplify/rule-doc-generator-contracts" />
       <excludePattern pattern=".php_cs.cache" />
       <excludePattern pattern="composer.lock" />
     </content>
