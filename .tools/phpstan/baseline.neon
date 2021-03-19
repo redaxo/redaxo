@@ -11,21 +11,6 @@ parameters:
 			path: ../../redaxo/src/addons/install/lib/archive.php
 
 		-
-			message: "#^Method rex_media\\:\\:getRootMedia\\(\\) should return array\\<static\\(rex_media\\)\\> but returns array\\<rex_media\\>\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/media.php
-
-		-
-			message: "#^Method rex_media\\:\\:getInstanceList\\(\\) should return array\\<T of object\\> but returns array\\<int, mixed\\>\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/media.php
-
-		-
-			message: "#^Result of \\|\\| is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/media.php
-
-		-
 			message: "#^Left side of && is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/lib/media_category_select.php
@@ -46,12 +31,7 @@ parameters:
 			path: ../../redaxo/src/addons/structure/lib/select_category.php
 
 		-
-			message: "#^Parameter \\#2 \\$createCallback of static method rex_structure_element\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: rex_structure_element\\|null\\)\\|null, Closure\\(mixed, mixed\\)\\: static\\(rex_structure_element\\)\\|null given\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/lib/structure_element.php
-
-		-
-			message: "#^Method rex_structure_element\\:\\:getChildElements\\(\\) should return array\\<static\\(rex_structure_element\\)\\> but returns array\\<rex_structure_element\\>\\.$#"
+			message: "#^Parameter \\#2 \\$createCallback of static method rex_structure_element\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: static\\(rex_structure_element\\)\\|null\\)\\|null, Closure\\(mixed, mixed\\)\\: static\\(rex_structure_element\\)\\|null given\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/lib/structure_element.php
 
@@ -126,6 +106,16 @@ parameters:
 			path: ../../redaxo/src/core/lib/autoload.php
 
 		-
+			message: "#^Method rex_media\\:\\:getInstanceList\\(\\) should return array\\<T of object\\> but returns array\\<int, mixed\\>\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/mediapool/lib/media.php
+
+		-
+			message: "#^Result of \\|\\| is always true\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/mediapool/lib/media.php
+
+		-
 			message: "#^Method rex_media_category\\:\\:getInstanceList\\(\\) should return array\\<T of object\\> but returns array\\<int, mixed\\>\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/lib/media_category.php
@@ -156,7 +146,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/sql/table.php
 
 		-
-			message: "#^Parameter \\#2 \\$createCallback of static method rex_sql_table\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: rex_sql_table\\|null\\)\\|null, Closure\\(mixed, mixed\\)\\: static\\(rex_sql_table\\) given\\.$#"
+			message: "#^Parameter \\#2 \\$createCallback of static method rex_sql_table\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: static\\(rex_sql_table\\)\\|null\\)\\|null, Closure\\(mixed, mixed\\)\\: static\\(rex_sql_table\\) given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/sql/table.php
 
@@ -287,11 +277,6 @@ parameters:
 
 		-
 			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int, array\\)\\: bool\\)\\|null, Closure\\(mixed, mixed\\)\\: void given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/socket/socket.php
-
-		-
-			message: "#^If condition is always false\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/socket/socket.php
 
