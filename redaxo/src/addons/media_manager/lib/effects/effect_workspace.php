@@ -5,45 +5,13 @@
  */
 class rex_effect_workspace extends rex_effect_abstract
 {
-    private $script;
-
-    public function __construct()
-    {
-        $this->script = '
-<script type="text/javascript">
-<!--
-
-$(function() {
-    var $fx_workspace_select_trans = $("#media-manager-rex-effect-workspace-set-transparent-select");
-    var $fx_workspace_bg_r = $("#media-manager-rex-effect-workspace-bg-r-text").closest(".rex-form-group");
-    var $fx_workspace_bg_g = $("#media-manager-rex-effect-workspace-bg-g-text").closest(".rex-form-group");
-    var $fx_workspace_bg_b = $("#media-manager-rex-effect-workspace-bg-b-text").closest(".rex-form-group");
-
-    $fx_workspace_select_trans.change(function(){
-        if(jQuery(this).val() != "colored")
-        {
-            $fx_workspace_bg_r.hide();
-            $fx_workspace_bg_g.hide();
-            $fx_workspace_bg_b.hide();
-        }else
-        {
-            $fx_workspace_bg_r.show();
-            $fx_workspace_bg_g.show();
-            $fx_workspace_bg_b.show();
-        }
-    }).change();
-});
-
-//--></script>';
-    }
-
     public function execute()
     {
         $this->media->asImage();
 
         $gdimage = $this->media->getImage();
-        $w = $this->media->getWidth();
-        $h = $this->media->getHeight();
+        $w = (int) $this->media->getWidth();
+        $h = (int) $this->media->getHeight();
 
         $this->params['width'] = (int) $this->params['width'];
         if ($this->params['width'] <= 0) {
@@ -98,11 +66,11 @@ $(function() {
             case 'top':
                 break;
             case 'bottom':
-                $dstY = (int) $this->params['height'] - $h;
+                $dstY = $this->params['height'] - $h;
                 break;
             case 'middle':
             default: // center
-                $dstY = (int) ($this->params['height'] / 2) - ($h / 2);
+                $dstY = (int) (($this->params['height'] - $h) / 2);
                 break;
         }
 
@@ -110,11 +78,11 @@ $(function() {
             case 'left':
                 break;
             case 'right':
-                $dstX = (int) $this->params['width'] - $w;
+                $dstX = $this->params['width'] - $w;
                 break;
             case 'center':
             default: // center
-                $dstX = (int) ($this->params['width'] / 2) - ($w / 2);
+                $dstX = (int) (($this->params['width'] - $w) / 2);
                 break;
         }
 
@@ -170,7 +138,32 @@ $(function() {
                 'type' => 'select',
                 'options' => ['colored', 'transparent'],
                 'default' => 'colored',
-                'suffix' => $this->script,
+                'suffix' => '
+<script type="text/javascript">
+<!--
+
+$(function() {
+    var $fx_workspace_select_trans = $("#media-manager-rex-effect-workspace-set-transparent-select");
+    var $fx_workspace_bg_r = $("#media-manager-rex-effect-workspace-bg-r-text").closest(".rex-form-group");
+    var $fx_workspace_bg_g = $("#media-manager-rex-effect-workspace-bg-g-text").closest(".rex-form-group");
+    var $fx_workspace_bg_b = $("#media-manager-rex-effect-workspace-bg-b-text").closest(".rex-form-group");
+
+    $fx_workspace_select_trans.change(function(){
+        if(jQuery(this).val() != "colored")
+        {
+            $fx_workspace_bg_r.hide();
+            $fx_workspace_bg_g.hide();
+            $fx_workspace_bg_b.hide();
+        }else
+        {
+            $fx_workspace_bg_r.show();
+            $fx_workspace_bg_g.show();
+            $fx_workspace_bg_b.show();
+        }
+    }).change();
+});
+
+//--></script>',
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_mirror_background_r'),

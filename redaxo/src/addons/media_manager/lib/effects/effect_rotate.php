@@ -7,14 +7,7 @@
  */
 class rex_effect_rotate extends rex_effect_abstract
 {
-    private $options;
-
-    public function __construct()
-    {
-        $this->options = [
-            '0', '90', '180', '270',
-        ];
-    }
+    private const OPTIONS = ['0', '90', '180', '270'];
 
     public function execute()
     {
@@ -37,7 +30,7 @@ class rex_effect_rotate extends rex_effect_abstract
                 'label' => rex_i18n::msg('media_manager_effect_rotate_degree'),
                 'name' => 'rotate',
                 'type' => 'select',
-                'options' => $this->options,
+                'options' => self::OPTIONS,
                 'default' => '0',
             ],
         ];
