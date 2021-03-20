@@ -5,55 +5,20 @@
  */
 class rex_effect_mirror extends rex_effect_abstract
 {
-    private $script;
-
-    public function __construct()
-    {
-        $this->script = '
-<script type="text/javascript">
-<!--
-
-(function($) {
-    $(function() {
-        var $fx_mirror_select_trans = $("#media-manager-rex-effect-mirror-set-transparent-select");
-        var $fx_mirror_bg_r = $("#media-manager-rex-effect-mirror-bg-r-text").closest(".rex-form-group");
-        var $fx_mirror_bg_g = $("#media-manager-rex-effect-mirror-bg-g-text").closest(".rex-form-group");
-        var $fx_mirror_bg_b = $("#media-manager-rex-effect-mirror-bg-b-text").closest(".rex-form-group");
-
-        $fx_mirror_select_trans.change(function(){
-            if(jQuery(this).val() != "colored")
-            {
-                $fx_mirror_bg_r.hide();
-                $fx_mirror_bg_g.hide();
-                $fx_mirror_bg_b.hide();
-            }else
-            {
-                $fx_mirror_bg_r.show();
-                $fx_mirror_bg_g.show();
-                $fx_mirror_bg_b.show();
-            }
-        }).change();
-    });
-})(jQuery);
-
-//--></script>';
-    }
-
     public function execute()
     {
         $this->media->asImage();
         $gdimage = $this->media->getImage();
 
-        $w = $this->media->getWidth();
-        $h = $this->media->getHeight();
+        $h = (int) $this->media->getHeight();
 
         if ('%' === substr(trim($this->params['height']), -1)) {
-            $this->params['height'] = round($h * ((int) rtrim($this->params['height'], '%') / 100));
+            $this->params['height'] = (int) round($h * ((int) rtrim($this->params['height'], '%') / 100));
         } else {
             $this->params['height'] = (int) $this->params['height'];
         }
         if ($this->params['height'] < 1) {
-            $this->params['height'] = round($h / 2);
+            $this->params['height'] = (int) round($h / 2);
         }
 
         $this->params['bg_r'] = (int) $this->params['bg_r'];
@@ -115,7 +80,34 @@ class rex_effect_mirror extends rex_effect_abstract
                 'type' => 'select',
                 'options' => ['colored', 'transparent / png24'],
                 'default' => 'colored',
-                'suffix' => $this->script,
+                'suffix' => '
+<script type="text/javascript">
+<!--
+
+(function($) {
+    $(function() {
+        var $fx_mirror_select_trans = $("#media-manager-rex-effect-mirror-set-transparent-select");
+        var $fx_mirror_bg_r = $("#media-manager-rex-effect-mirror-bg-r-text").closest(".rex-form-group");
+        var $fx_mirror_bg_g = $("#media-manager-rex-effect-mirror-bg-g-text").closest(".rex-form-group");
+        var $fx_mirror_bg_b = $("#media-manager-rex-effect-mirror-bg-b-text").closest(".rex-form-group");
+
+        $fx_mirror_select_trans.change(function(){
+            if(jQuery(this).val() != "colored")
+            {
+                $fx_mirror_bg_r.hide();
+                $fx_mirror_bg_g.hide();
+                $fx_mirror_bg_b.hide();
+            }else
+            {
+                $fx_mirror_bg_r.show();
+                $fx_mirror_bg_g.show();
+                $fx_mirror_bg_b.show();
+            }
+        }).change();
+    });
+})(jQuery);
+
+//--></script>',
             ],
 
             [

@@ -27,12 +27,10 @@ class rex_effect_filter_colorize extends rex_effect_abstract
             $t = 256;
             imagetruecolortopalette($img, true, $t);
         }
-        $imagex = imagesx($img);
-        $imagey = imagesy($img);
 
         $gdimage = $this->media->getImage();
-        $w = $this->media->getWidth();
-        $h = $this->media->getHeight();
+        $w = (int) $this->media->getWidth();
+        $h = (int) $this->media->getHeight();
 
         $srcX = (int) ceil($w);
         $srcY = (int) ceil($h);

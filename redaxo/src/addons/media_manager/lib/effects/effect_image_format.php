@@ -6,14 +6,14 @@
 
 class rex_effect_image_format extends rex_effect_abstract
 {
-    private static $convertTypes = [
+    private const CONVERT_TYPES = [
         'jpg',
         'png',
         'gif',
         'webp',
     ];
 
-    private static $convertTo = [
+    private const CONVERT_TO = [
         'jpg' => [
             'ext' => 'jpg',
             'content-type' => 'image/jpeg',
@@ -32,8 +32,8 @@ class rex_effect_image_format extends rex_effect_abstract
         ],
     ];
 
-    private static $convertTos = ['jpg', 'png', 'gif', 'webp'];
-    private static $convertToDefault = 'webp';
+    private const CONVERT_TOS = ['jpg', 'png', 'gif', 'webp'];
+    private const CONVERT_TO_DEFAULT = 'webp';
 
     public function execute()
     {
@@ -42,14 +42,14 @@ class rex_effect_image_format extends rex_effect_abstract
         $ext = strtolower($media->getFormat());
         $ext = 'jpeg' === $ext ? 'jpg' : $ext;
         // skip if extension is not in list
-        if (!in_array($ext, self::$convertTypes)) {
+        if (!in_array($ext, self::CONVERT_TYPES)) {
             return;
         }
 
-        if (!isset(self::$convertTo[$this->params['convert_to']])) {
-            $convertTo = self::$convertTo[self::$convertToDefault];
+        if (!isset(self::CONVERT_TO[(string) $this->params['convert_to']])) {
+            $convertTo = self::CONVERT_TO[self::CONVERT_TO_DEFAULT];
         } else {
-            $convertTo = self::$convertTo[$this->params['convert_to']];
+            $convertTo = self::CONVERT_TO[(string) $this->params['convert_to']];
         }
         if ($convertTo['ext'] == $ext) {
             return;
@@ -57,9 +57,6 @@ class rex_effect_image_format extends rex_effect_abstract
 
         $media->asImage();
         $imageObject = $media->getImage();
-        if (null === $imageObject) {
-            return;
-        }
 
         switch ($convertTo['ext']) {
             case 'webp':
@@ -67,8 +64,8 @@ class rex_effect_image_format extends rex_effect_abstract
                 break;
 
              case 'gif':
-                $w = $media->getWidth();
-                $h = $media->getHeight();
+                $w = (int) $media->getWidth();
+                $h = (int) $media->getHeight();
 
                 $transparencyColor = ['red' => 1, 'green' => 2, 'blue' => 3];
 
@@ -111,8 +108,8 @@ class rex_effect_image_format extends rex_effect_abstract
                 'label' => rex_i18n::msg('media_manager_effect_image_format_convertto'),
                 'name' => 'convert_to',
                 'type' => 'select',
-                'options' => self::$convertTos,
-                'default' => self::$convertToDefault,
+                'options' => self::CONVERT_TOS,
+                'default' => self::CONVERT_TO_DEFAULT,
             ],
         ];
     }
