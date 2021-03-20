@@ -5,14 +5,8 @@
  */
 class rex_effect_filter_blur extends rex_effect_abstract
 {
-    protected $options;
-    protected $options_smoothit;
-
-    public function __construct()
-    {
-        $this->options = ['', 'gaussian', 'selective'];
-        $this->options_smoothit = [-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, '', 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    }
+    private const OPTIONS = ['', 'gaussian', 'selective'];
+    private const OPTIONS_SMOOTHIT = [-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, '', 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
     public function execute()
     {
@@ -28,11 +22,11 @@ class rex_effect_filter_blur extends rex_effect_abstract
             return;
         }
 
-        if (!in_array($this->params['type'], $this->options)) {
+        if (!in_array($this->params['type'], self::OPTIONS)) {
             $this->params['type'] = '';
         }
 
-        if (!in_array($this->params['smoothit'], $this->options_smoothit)) {
+        if (!in_array($this->params['smoothit'], self::OPTIONS_SMOOTHIT)) {
             $this->params['smoothit'] = '';
         }
 
@@ -65,14 +59,14 @@ class rex_effect_filter_blur extends rex_effect_abstract
                 'label' => rex_i18n::msg('media_manager_effect_blur_type'),
                 'name' => 'type',
                 'type' => 'select',
-                'options' => $this->options,
+                'options' => self::OPTIONS,
                 'default' => 'gaussian',
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_blur_smoothit'),
                 'name' => 'smoothit',
                 'type' => 'select',
-                'options' => $this->options_smoothit,
+                'options' => self::OPTIONS_SMOOTHIT,
                 'default' => '',
             ],
         ];

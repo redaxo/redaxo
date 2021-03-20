@@ -46,10 +46,10 @@ class rex_effect_insert_image extends rex_effect_abstract
         $gdbrand = $brand->getImage();
         $gdimage = $this->media->getImage();
 
-        $imageWidth = $this->media->getWidth();
-        $imageHeight = $this->media->getHeight();
-        $brandWidth = $brand->getWidth();
-        $brandHeight = $brand->getHeight();
+        $imageWidth = (int) $this->media->getWidth();
+        $imageHeight = (int) $this->media->getHeight();
+        $brandWidth = (int) $brand->getWidth();
+        $brandHeight = (int) $brand->getHeight();
 
         switch ($hpos) {
             case 'left':

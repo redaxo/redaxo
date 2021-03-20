@@ -14,22 +14,17 @@ class rex_effect_rounded_corners extends rex_effect_abstract
     {
         $this->media->asImage();
         $gdimage = $this->media->getImage();
-        $w = $this->media->getWidth();
-        $h = $this->media->getHeight();
-
-        $radius = [
-            'tl' => $this->params['topleft'],
-            'tr' => $this->params['topright'],
-            'br' => $this->params['bottomright'],
-            'bl' => $this->params['bottomleft'],
-        ];
+        $w = (int) $this->media->getWidth();
+        $h = (int) $this->media->getHeight();
 
         $colour = 'ffffff';
 
-        foreach ($radius as $k => $r) {
-            if (empty($r) || $r < 0) {
+        foreach (['topleft', 'topright', 'bottomright', 'bottomleft'] as $corner) {
+            if (empty($this->params[$corner]) || $this->params[$corner] < 0) {
                 continue;
             }
+
+            $r = (int) $this->params[$corner];
 
             $cornerImage = imagecreatetruecolor($r, $r);
 
@@ -48,22 +43,22 @@ class rex_effect_rounded_corners extends rex_effect_abstract
 
             imagefilledellipse($cornerImage, $r, $r, $r * 2, $r * 2, $clearColour);
 
-            switch ($k) {
-                case 'tl':
+            switch ($corner) {
+                case 'topleft':
                     imagecopymerge($gdimage, $cornerImage, 0, 0, 0, 0, $r, $r, 100);
                     break;
 
-                case 'tr':
+                case 'topright':
                     $cornerImage = imagerotate($cornerImage, 270, 0);
                     imagecopymerge($gdimage, $cornerImage, $w - $r, 0, 0, 0, $r, $r, 100);
                     break;
 
-                case 'br':
+                case 'bottomright':
                     $cornerImage = imagerotate($cornerImage, 180, 0);
                     imagecopymerge($gdimage, $cornerImage, $w - $r, $h - $r, 0, 0, $r, $r, 100);
                     break;
 
-                case 'bl':
+                case 'bottomleft':
                     $cornerImage = imagerotate($cornerImage, 90, 0);
                     imagecopymerge($gdimage, $cornerImage, 0, $h - $r, 0, 0, $r, $r, 100);
                     break;
