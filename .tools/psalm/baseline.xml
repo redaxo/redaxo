@@ -1223,57 +1223,15 @@
       <code>['rex_media_manager', 'mediaUpdated']</code>
     </MixedArgumentTypeCoercion>
   </file>
-  <file src="redaxo/src/addons/media_manager/lib/effect_abstract.php">
-    <MixedArgument occurrences="8">
-      <code>$gdImage</code>
-      <code>$gdImage</code>
-      <code>$gdImage</code>
-      <code>$gdImage</code>
-      <code>$gdImage</code>
-      <code>$gdImage</code>
-      <code>$gdimage</code>
-      <code>$gdimage</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="1">
-      <code>$gdimage</code>
-    </MixedAssignment>
-  </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_convert2img.php">
-    <MixedArgument occurrences="5">
-      <code>$convertTo['ext']</code>
-      <code>$density</code>
-      <code>$density</code>
-      <code>self::$convertTypes</code>
-      <code>self::$densities</code>
-    </MixedArgument>
-    <MixedArrayAccess occurrences="8">
-      <code>$convertTo['content-type']</code>
-      <code>$convertTo['content-type']</code>
-      <code>$convertTo['ext']</code>
-      <code>$convertTo['ext']</code>
-      <code>$convertTo['ext']</code>
-      <code>$convertTo['ext']</code>
-      <code>self::$convertTo[$this-&gt;params['convert_to']]</code>
-      <code>self::$convertTo[self::$convertToDefault]</code>
-    </MixedArrayAccess>
-    <MixedArrayOffset occurrences="3">
-      <code>self::$convertTo[$this-&gt;params['convert_to']]</code>
-      <code>self::$convertTo[$this-&gt;params['convert_to']]</code>
-      <code>self::$convertTo[self::$convertToDefault]</code>
-    </MixedArrayOffset>
-    <MixedAssignment occurrences="6">
+    <MixedAssignment occurrences="3">
       <code>$color</code>
       <code>$convertPath</code>
-      <code>$convertTo</code>
-      <code>$convertTo</code>
-      <code>$density</code>
       <code>$path</code>
     </MixedAssignment>
-    <MixedOperand occurrences="4">
+    <MixedOperand occurrences="2">
       <code>$color</code>
       <code>$convertPath</code>
-      <code>$convertTo['ext']</code>
-      <code>$density</code>
     </MixedOperand>
     <PossiblyNullArgument occurrences="2">
       <code>$this-&gt;media-&gt;getMediaPath()</code>
@@ -1281,158 +1239,44 @@
     </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_crop.php">
-    <MixedArgument occurrences="3">
-      <code>$gdimage</code>
+    <MixedArgument occurrences="2">
       <code>$offsetHeight</code>
       <code>$offsetWidth</code>
     </MixedArgument>
-    <MixedAssignment occurrences="7">
-      <code>$gdimage</code>
-      <code>$h</code>
+    <MixedAssignment occurrences="4">
       <code>$offsetHeight</code>
       <code>$offsetHeight</code>
       <code>$offsetWidth</code>
       <code>$offsetWidth</code>
-      <code>$w</code>
     </MixedAssignment>
-    <MixedOperand occurrences="10">
-      <code>$h</code>
-      <code>$h</code>
+    <MixedOperand occurrences="6">
       <code>$this-&gt;params['offset_height']</code>
       <code>$this-&gt;params['offset_height']</code>
       <code>$this-&gt;params['offset_height']</code>
       <code>$this-&gt;params['offset_width']</code>
       <code>$this-&gt;params['offset_width']</code>
       <code>$this-&gt;params['offset_width']</code>
-      <code>$w</code>
-      <code>$w</code>
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_filter_blur.php">
-    <MixedArgument occurrences="5">
-      <code>$gdimage</code>
-      <code>$gdimage</code>
+    <MixedArgument occurrences="1">
       <code>$options[$this-&gt;params['type']]</code>
-      <code>$this-&gt;options</code>
-      <code>$this-&gt;options_smoothit</code>
     </MixedArgument>
     <MixedArrayOffset occurrences="1">
       <code>$options[$this-&gt;params['type']]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="1">
-      <code>$gdimage</code>
-    </MixedAssignment>
-  </file>
-  <file src="redaxo/src/addons/media_manager/lib/effects/effect_filter_brightness.php">
-    <MixedArgument occurrences="1">
-      <code>$img</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="1">
-      <code>$img</code>
-    </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_filter_colorize.php">
-    <MixedArgument occurrences="10">
+    <MixedArgument occurrences="3">
       <code>$TabColors['blue'] * $this-&gt;params['filter_b'] / 255</code>
       <code>$TabColors['green'] * $this-&gt;params['filter_g'] / 255</code>
       <code>$TabColors['red'] * $this-&gt;params['filter_r'] / 255</code>
-      <code>$gdimage</code>
-      <code>$h</code>
-      <code>$img</code>
-      <code>$img</code>
-      <code>$img</code>
-      <code>$img</code>
-      <code>$w</code>
     </MixedArgument>
-    <MixedAssignment occurrences="4">
-      <code>$gdimage</code>
-      <code>$h</code>
-      <code>$img</code>
-      <code>$w</code>
-    </MixedAssignment>
     <MixedOperand occurrences="3">
       <code>$TabColors['blue']</code>
       <code>$TabColors['green']</code>
       <code>$TabColors['red']</code>
     </MixedOperand>
-  </file>
-  <file src="redaxo/src/addons/media_manager/lib/effects/effect_filter_contrast.php">
-    <MixedArgument occurrences="1">
-      <code>$img</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="1">
-      <code>$img</code>
-    </MixedAssignment>
-  </file>
-  <file src="redaxo/src/addons/media_manager/lib/effects/effect_filter_greyscale.php">
-    <MixedArgument occurrences="1">
-      <code>$img</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="1">
-      <code>$img</code>
-    </MixedAssignment>
-  </file>
-  <file src="redaxo/src/addons/media_manager/lib/effects/effect_filter_sepia.php">
-    <MixedArgument occurrences="3">
-      <code>$img</code>
-      <code>$img</code>
-      <code>$img</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="1">
-      <code>$img</code>
-    </MixedAssignment>
-  </file>
-  <file src="redaxo/src/addons/media_manager/lib/effects/effect_filter_sharpen.php">
-    <MixedArgument occurrences="28">
-      <code>$gdimage</code>
-      <code>$gdimage</code>
-      <code>$gdimage</code>
-      <code>$gdimage</code>
-      <code>$gdimage</code>
-      <code>$gdimage</code>
-      <code>$gdimage</code>
-      <code>$gdimage</code>
-      <code>$gdimage</code>
-      <code>$h</code>
-      <code>$h</code>
-      <code>$h</code>
-      <code>$h</code>
-      <code>$h</code>
-      <code>$h</code>
-      <code>$h</code>
-      <code>$h</code>
-      <code>$h - 1</code>
-      <code>$this-&gt;media-&gt;getFormat()</code>
-      <code>$w</code>
-      <code>$w</code>
-      <code>$w</code>
-      <code>$w</code>
-      <code>$w</code>
-      <code>$w</code>
-      <code>$w</code>
-      <code>$w</code>
-      <code>$w - 1</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="3">
-      <code>$gdimage</code>
-      <code>$h</code>
-      <code>$w</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="3">
-      <code>$h</code>
-      <code>$w</code>
-      <code>$w</code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/addons/media_manager/lib/effects/effect_flip.php">
-    <MixedArgument occurrences="3">
-      <code>$gdimage</code>
-      <code>$gdimage</code>
-      <code>$gdimage</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="1">
-      <code>$gdimage</code>
-    </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_header.php">
     <MixedArgument occurrences="1">
@@ -1443,47 +1287,11 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_image_format.php">
-    <MixedArgument occurrences="15">
-      <code>$h</code>
-      <code>$h</code>
-      <code>$h</code>
-      <code>$imageObject</code>
-      <code>$imageObject</code>
-      <code>$imageObject</code>
-      <code>$imageObject</code>
-      <code>$media-&gt;getFormat()</code>
+    <MixedArgument occurrences="3">
       <code>$transparencyColor['blue']</code>
       <code>$transparencyColor['green']</code>
       <code>$transparencyColor['red']</code>
-      <code>$w</code>
-      <code>$w</code>
-      <code>$w</code>
-      <code>self::$convertTypes</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="7">
-      <code>$convertTo['content-type']</code>
-      <code>$convertTo['ext']</code>
-      <code>$convertTo['ext']</code>
-      <code>$convertTo['ext']</code>
-      <code>$convertTo['ext']</code>
-      <code>self::$convertTo[$this-&gt;params['convert_to']]</code>
-      <code>self::$convertTo[self::$convertToDefault]</code>
-    </MixedArrayAccess>
-    <MixedArrayOffset occurrences="3">
-      <code>self::$convertTo[$this-&gt;params['convert_to']]</code>
-      <code>self::$convertTo[$this-&gt;params['convert_to']]</code>
-      <code>self::$convertTo[self::$convertToDefault]</code>
-    </MixedArrayOffset>
-    <MixedAssignment occurrences="5">
-      <code>$convertTo</code>
-      <code>$convertTo</code>
-      <code>$h</code>
-      <code>$imageObject</code>
-      <code>$w</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="1">
-      <code>$convertTo['ext']</code>
-    </MixedOperand>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_image_properties.php">
     <MixedArgument occurrences="1">
@@ -1491,32 +1299,9 @@
     </MixedArgument>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_insert_image.php">
-    <MixedArgument occurrences="8">
-      <code>$brandHeight</code>
-      <code>$brandWidth</code>
-      <code>$dstX</code>
-      <code>$dstY</code>
-      <code>$gdbrand</code>
-      <code>$gdimage</code>
-      <code>$gdimage</code>
+    <MixedArgument occurrences="1">
       <code>$this-&gt;params['brandimage']</code>
     </MixedArgument>
-    <MixedAssignment occurrences="8">
-      <code>$brandHeight</code>
-      <code>$brandWidth</code>
-      <code>$dstX</code>
-      <code>$dstY</code>
-      <code>$gdbrand</code>
-      <code>$gdimage</code>
-      <code>$imageHeight</code>
-      <code>$imageWidth</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="4">
-      <code>$imageHeight</code>
-      <code>$imageHeight</code>
-      <code>$imageWidth</code>
-      <code>$imageWidth</code>
-    </MixedOperand>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_mediapath.php">
     <MixedOperand occurrences="1">
@@ -1524,14 +1309,12 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_mirror.php">
-    <MixedArgument occurrences="19">
+    <MixedArgument occurrences="17">
       <code>$alpha</code>
       <code>$bgColor[0]</code>
       <code>$bgColor[1]</code>
       <code>$bgColor[2]</code>
       <code>$destHeight</code>
-      <code>$h * ((int) rtrim($this-&gt;params['height'], '%') / 100)</code>
-      <code>$h / 2</code>
       <code>$image</code>
       <code>$image</code>
       <code>$image</code>
@@ -1550,19 +1333,14 @@
       <code>$bgColor[1]</code>
       <code>$bgColor[2]</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="7">
+    <MixedAssignment occurrences="4">
       <code>$alpha</code>
       <code>$alphaStep</code>
       <code>$destHeight</code>
-      <code>$gdimage</code>
-      <code>$h</code>
       <code>$transparency</code>
-      <code>$w</code>
     </MixedAssignment>
-    <MixedOperand occurrences="8">
+    <MixedOperand occurrences="6">
       <code>$alphaStep</code>
-      <code>$h</code>
-      <code>$h</code>
       <code>$reflectionHeight</code>
       <code>$reflectionHeight</code>
       <code>$reflectionOpacity</code>
@@ -1571,13 +1349,9 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_resize.php">
-    <MixedArgument occurrences="24">
-      <code>$gdimage</code>
-      <code>$h</code>
-      <code>$h * ((int) rtrim($this-&gt;params['height'], '%') / 100)</code>
+    <MixedArgument occurrences="18">
       <code>$height / $imgFactor</code>
       <code>$height / $imgFactor</code>
-      <code>$this-&gt;options</code>
       <code>$this-&gt;params['height']</code>
       <code>$this-&gt;params['height']</code>
       <code>$this-&gt;params['height']</code>
@@ -1592,14 +1366,10 @@
       <code>$this-&gt;params['width']</code>
       <code>$this-&gt;params['width'] / $width * $height</code>
       <code>$this-&gt;params['width'] / $width * $height</code>
-      <code>$w</code>
-      <code>$w * ((int) rtrim($this-&gt;params['width'], '%') / 100)</code>
       <code>$width / $imgFactor</code>
       <code>$width / $imgFactor</code>
     </MixedArgument>
-    <MixedAssignment occurrences="11">
-      <code>$gdimage</code>
-      <code>$h</code>
+    <MixedAssignment occurrences="8">
       <code>$imgFactor</code>
       <code>$imgFactor</code>
       <code>$imgFactor</code>
@@ -1608,10 +1378,8 @@
       <code>$imgRatio</code>
       <code>$resizeRatio</code>
       <code>$resizeRatio</code>
-      <code>$w</code>
     </MixedAssignment>
-    <MixedOperand occurrences="18">
-      <code>$h</code>
+    <MixedOperand occurrences="16">
       <code>$height</code>
       <code>$height</code>
       <code>$height</code>
@@ -1622,7 +1390,6 @@
       <code>$this-&gt;params['width']</code>
       <code>$this-&gt;params['width']</code>
       <code>$this-&gt;params['width']</code>
-      <code>$w</code>
       <code>$width</code>
       <code>$width</code>
       <code>$width</code>
@@ -1632,146 +1399,9 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_rotate.php">
-    <MixedArgument occurrences="2">
-      <code>$gdimage</code>
+    <MixedArgument occurrences="1">
       <code>$this-&gt;params['rotate']</code>
     </MixedArgument>
-    <MixedAssignment occurrences="1">
-      <code>$gdimage</code>
-    </MixedAssignment>
-  </file>
-  <file src="redaxo/src/addons/media_manager/lib/effects/effect_rounded_corners.php">
-    <MixedArgument occurrences="22">
-      <code>$gdimage</code>
-      <code>$gdimage</code>
-      <code>$gdimage</code>
-      <code>$gdimage</code>
-      <code>$h - $r</code>
-      <code>$h - $r</code>
-      <code>$r</code>
-      <code>$r</code>
-      <code>$r</code>
-      <code>$r</code>
-      <code>$r</code>
-      <code>$r</code>
-      <code>$r</code>
-      <code>$r</code>
-      <code>$r</code>
-      <code>$r</code>
-      <code>$r</code>
-      <code>$r</code>
-      <code>$r * 2</code>
-      <code>$r * 2</code>
-      <code>$w - $r</code>
-      <code>$w - $r</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="4">
-      <code>$gdimage</code>
-      <code>$h</code>
-      <code>$r</code>
-      <code>$w</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="6">
-      <code>$h</code>
-      <code>$h</code>
-      <code>$r</code>
-      <code>$r</code>
-      <code>$w</code>
-      <code>$w</code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/addons/media_manager/lib/effects/effect_workspace.php">
-    <MixedArgument occurrences="7">
-      <code>$dstX</code>
-      <code>$dstY</code>
-      <code>$gdimage</code>
-      <code>$srcH</code>
-      <code>$srcW</code>
-      <code>$this-&gt;params['height']</code>
-      <code>$this-&gt;params['width']</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="9">
-      <code>$dstX</code>
-      <code>$dstX</code>
-      <code>$dstY</code>
-      <code>$dstY</code>
-      <code>$gdimage</code>
-      <code>$h</code>
-      <code>$srcH</code>
-      <code>$srcW</code>
-      <code>$w</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="6">
-      <code>$h</code>
-      <code>$h</code>
-      <code>$this-&gt;params['height']</code>
-      <code>$this-&gt;params['width']</code>
-      <code>$w</code>
-      <code>$w</code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/addons/media_manager/lib/managed_media.php">
-    <MixedArgument occurrences="26">
-      <code>$c</code>
-      <code>$compression</code>
-      <code>$headerCachePath</code>
-      <code>$headerCachePath</code>
-      <code>$headerCachePath</code>
-      <code>$interlace</code>
-      <code>$mediaPath</code>
-      <code>$quality</code>
-      <code>$quality</code>
-      <code>$sourceCachePath</code>
-      <code>$sourceCachePath</code>
-      <code>$sourceCachePath</code>
-      <code>$this-&gt;header['Content-Type']</code>
-      <code>$this-&gt;image['src']</code>
-      <code>$this-&gt;image['src']</code>
-      <code>$this-&gt;image['src']</code>
-      <code>$this-&gt;image['src']</code>
-      <code>$this-&gt;image['src']</code>
-      <code>$this-&gt;image['src']</code>
-      <code>$this-&gt;image['src']</code>
-      <code>$this-&gt;image['src']</code>
-      <code>$this-&gt;image['src']</code>
-      <code>$this-&gt;image['src']</code>
-      <code>$this-&gt;image['src']</code>
-      <code>$this-&gt;mimetypeMap</code>
-      <code>$this-&gt;mimetypeMap</code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="1">
-      <code>$t</code>
-    </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="1">
-      <code>$this-&gt;mimetypeMap[$ftype]</code>
-    </MixedArrayAccess>
-    <MixedArrayOffset occurrences="3">
-      <code>$this-&gt;header[$name]</code>
-      <code>$this-&gt;image[$name]</code>
-      <code>$this-&gt;image[$name]</code>
-    </MixedArrayOffset>
-    <MixedAssignment occurrences="14">
-      <code>$c</code>
-      <code>$c</code>
-      <code>$compression</code>
-      <code>$format</code>
-      <code>$header</code>
-      <code>$interlace</code>
-      <code>$quality</code>
-      <code>$quality</code>
-      <code>$this-&gt;format</code>
-      <code>$this-&gt;format</code>
-      <code>$this-&gt;media</code>
-      <code>$this-&gt;mediaPath</code>
-      <code>$this-&gt;sourcePath</code>
-      <code>$this-&gt;sourcePath</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="1">
-      <code>$c</code>
-    </MixedOperand>
-    <PossiblyNullArgument occurrences="1">
-      <code>$this-&gt;getMediaPath()</code>
-    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/media_manager.php">
     <MixedAssignment occurrences="2">
@@ -1784,56 +1414,25 @@
     <MixedReturnStatement occurrences="1"/>
   </file>
   <file src="redaxo/src/addons/media_manager/pages/effects.php">
-    <MixedArgument occurrences="10">
-      <code>$attributes</code>
-      <code>$attributes</code>
-      <code>$attributes</code>
-      <code>$type</code>
-      <code>$type</code>
+    <MixedArgument occurrences="5">
       <code>$typeName</code>
       <code>$typeName</code>
       <code>$warning</code>
       <code>rex_escape($typeName)</code>
       <code>rex_escape($typeName)</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="18">
-      <code>$param['attributes']</code>
-      <code>$param['default']</code>
-      <code>$param['label']</code>
-      <code>$param['label']</code>
-      <code>$param['label']</code>
-      <code>$param['name']</code>
-      <code>$param['notice']</code>
-      <code>$param['notice']</code>
-      <code>$param['notice']</code>
-      <code>$param['options']</code>
-      <code>$param['prefix']</code>
-      <code>$param['prefix']</code>
-      <code>$param['prefix']</code>
-      <code>$param['suffix']</code>
-      <code>$param['suffix']</code>
-      <code>$param['suffix']</code>
-      <code>$param['type']</code>
+    <MixedArrayAccess occurrences="1">
       <code>$params['value']</code>
     </MixedArrayAccess>
     <MixedArrayOffset occurrences="2">
       <code>$effects[$shortName]</code>
       <code>$effects[$shortName]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="8">
-      <code>$attributes</code>
-      <code>$param</code>
+    <MixedAssignment occurrences="3">
       <code>$shortName</code>
-      <code>$type</code>
-      <code>$type</code>
       <code>$typeName</code>
-      <code>$value</code>
       <code>$warning</code>
     </MixedAssignment>
-    <MixedOperand occurrences="2">
-      <code>$param['name']</code>
-      <code>$param['type']</code>
-    </MixedOperand>
     <PossiblyNullOperand occurrences="1">
       <code>$field-&gt;getAttribute('id')</code>
     </PossiblyNullOperand>

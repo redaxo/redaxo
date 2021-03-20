@@ -188,6 +188,7 @@ if ('' == $func) {
 
         foreach ($effectParams as $param) {
             $name = $effectClass . '_' . $param['name'];
+            /** @psalm-suppress MixedAssignment */
             $value = $param['default'] ?? null;
             $attributes = [];
             if (isset($param['attributes'])) {
@@ -233,7 +234,7 @@ if ('' == $func) {
                     if (!isset($attributes['multiple'])) {
                         $select->setSize(1);
                     }
-                    $select->addOptions($param['options'], true);
+                    $select->addOptions($param['options'] ?? [], true);
                     break;
                 case 'media':
                     $type = $param['type'];

@@ -9,44 +9,17 @@
  */
 class rex_effect_resize extends rex_effect_abstract
 {
-    private $options;
-    private $script;
-
-    public function __construct()
-    {
-        $this->options = ['maximum', 'minimum', 'exact'];
-
-        $this->script = '
-<script type="text/javascript">
-<!--
-
-$(function() {
-    var $fx_resize_select_style = $("#media-manager-rex-effect-resize-style-select");
-    var $fx_resize_enlarge = $("#media-manager-rex-effect-resize-allow-enlarge-select").closest(".rex-form-group");
-
-    $fx_resize_select_style.change(function(){
-        if(jQuery(this).val() == "exact")
-        {
-            $fx_resize_enlarge.hide();
-        }else
-        {
-            $fx_resize_enlarge.show();
-        }
-    }).change();
-});
-
-//--></script>';
-    }
+    private const OPTIONS = ['maximum', 'minimum', 'exact'];
 
     public function execute()
     {
         $this->media->asImage();
 
         $gdimage = $this->media->getImage();
-        $w = $this->media->getWidth();
-        $h = $this->media->getHeight();
+        $w = (int) $this->media->getWidth();
+        $h = (int) $this->media->getHeight();
 
-        if (!isset($this->params['style']) || !in_array($this->params['style'], $this->options)) {
+        if (!isset($this->params['style']) || !in_array($this->params['style'], self::OPTIONS)) {
             $this->params['style'] = 'maximum';
         }
 
@@ -165,9 +138,28 @@ $(function() {
                 'label' => rex_i18n::msg('media_manager_effect_resize_style'),
                 'name' => 'style',
                 'type' => 'select',
-                'options' => $this->options,
+                'options' => self::OPTIONS,
                 'default' => 'fit',
-                'suffix' => $this->script,
+                'suffix' => '
+<script type="text/javascript">
+<!--
+
+$(function() {
+    var $fx_resize_select_style = $("#media-manager-rex-effect-resize-style-select");
+    var $fx_resize_enlarge = $("#media-manager-rex-effect-resize-allow-enlarge-select").closest(".rex-form-group");
+
+    $fx_resize_select_style.change(function(){
+        if(jQuery(this).val() == "exact")
+        {
+            $fx_resize_enlarge.hide();
+        }else
+        {
+            $fx_resize_enlarge.show();
+        }
+    }).change();
+});
+
+//--></script>',
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_resize_imgtosmall'),
