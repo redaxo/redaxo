@@ -82,8 +82,8 @@ final class rex_mediapool
         if ($sql->getRows() > 0) {
             $warning[0] = rex_i18n::msg('pool_file_in_use_articles') . '<ul>';
             foreach ($res as $artArr) {
-                $aid = $artArr['article_id'];
-                $clang = $artArr['clang_id'];
+                $aid = (int) $artArr['article_id'];
+                $clang = (int) $artArr['clang_id'];
                 $ooa = rex_article::get($aid, $clang);
                 $name = ($ooa) ? $ooa->getName() : '';
                 $warning[0] .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('content', ['article_id' => $aid, 'mode' => 'edit', 'clang' => $clang]) . '\')">' . $name . '</a></li>';

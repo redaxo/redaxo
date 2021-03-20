@@ -128,11 +128,9 @@ abstract class rex_metainfo_handler
                         $sql = rex_sql::factory();
                         $valueGroups = $sql->getDBArray($params, [], PDO::FETCH_NUM);
                         foreach ($valueGroups as $valueGroup) {
-                            if (isset($valueGroup[1])) {
-                                $values[$valueGroup[1]] = $valueGroup[0];
-                            } else {
-                                $values[$valueGroup[0]] = $valueGroup[0];
-                            }
+                            $key = $valueGroup[1] ?? $valueGroup[0];
+                            $key = is_int($key) ? $key : (string) $key;
+                            $values[$key] = (string) $valueGroup[0];
                         }
                     } else {
                         $valueGroups = explode('|', $params);
@@ -179,7 +177,7 @@ abstract class rex_metainfo_handler
                         if ($oneValue) {
                             $e['label'] = $label;
                         } else {
-                            $currentId .= '-'.rex_escape(preg_replace('/[^a-zA-Z0-9_-]/', '_', $key));
+                            $currentId .= '-'.rex_escape((string) preg_replace('/[^a-zA-Z0-9_-]/', '_', (string) $key));
                             $e['label'] = '<label for="' . $currentId . '">' . rex_escape($value) . '</label>';
                         }
                         $e['field'] = '<input type="' . $typeLabel . '" name="' . $name . '" value="' . rex_escape($key) . '" id="' . $currentId . '" ' . $attrStr . $selected . ' />';

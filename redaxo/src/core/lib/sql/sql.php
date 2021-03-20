@@ -1154,13 +1154,19 @@ class rex_sql implements Iterator
      * Laedt das komplette Resultset in ein Array und gibt dieses zurueck und
      * wechselt die DBID falls vorhanden.
      *
+     * @psalm-template TFetchType as PDO::FETCH_ASSOC|PDO::FETCH_NUM
+     * @phpstan-template TFetchType
+     *
      * @param string $query     The sql-query
      * @param array  $params    An optional array of statement parameter
-     * @param int    $fetchType
+     * @param TFetchType $fetchType
      *
      * @throws rex_sql_exception on errors
      *
-     * @return array
+     * @return list<array<int|string, scalar|null>>
+     * @psalm-return list<array<(TFetchType is PDO::FETCH_NUM ? int : string), scalar|null>>
+     *
+     * @psalm-suppress MixedReturnTypeCoercion
      */
     public function getDBArray($query = null, array $params = [], $fetchType = PDO::FETCH_ASSOC)
     {
@@ -1181,13 +1187,19 @@ class rex_sql implements Iterator
     /**
      * Laedt das komplette Resultset in ein Array und gibt dieses zurueck.
      *
+     * @psalm-template TFetchType as PDO::FETCH_ASSOC|PDO::FETCH_NUM
+     * @phpstan-template TFetchType
+     *
      * @param string $query     The sql-query
      * @param array  $params    An optional array of statement parameter
-     * @param int    $fetchType
+     * @param TFetchType $fetchType
      *
      * @throws rex_sql_exception on errors
      *
-     * @return array
+     * @return list<array<int|string, scalar|null>>
+     * @psalm-return list<array<(TFetchType is PDO::FETCH_NUM ? int : string), scalar|null>>
+     *
+     * @psalm-suppress MixedReturnTypeCoercion
      */
     public function getArray($query = null, array $params = [], $fetchType = PDO::FETCH_ASSOC)
     {

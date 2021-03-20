@@ -109,7 +109,7 @@ class rex_user_role implements rex_user_role_interface
 
         $roles = [];
         foreach ($userRoles as $userRole) {
-            $roles[] = json_decode($userRole['perms'], true);
+            $roles[] = json_decode((string) $userRole['perms'], true);
         }
 
         return new static($roles);

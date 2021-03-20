@@ -448,7 +448,7 @@ class rex_article_service
 
             $ids = rex_sql::factory()->getArray('SELECT id FROM '.rex::getTable('article').' WHERE startarticle=0 AND parent_id = ? GROUP BY id', [$parentId]);
             foreach ($ids as $id) {
-                rex_article_cache::deleteMeta($id['id']);
+                rex_article_cache::deleteMeta((int) $id['id']);
             }
         }
     }

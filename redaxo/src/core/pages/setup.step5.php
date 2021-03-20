@@ -16,7 +16,7 @@ if ($supportsUtf8mb4) {
     $existingUtf8mb4 = $utf8mb4;
     if ($tablesComplete) {
         $data = rex_sql::factory()->getArray('SELECT value FROM '.rex::getTable('config').' WHERE namespace="core" AND `key`="utf8mb4"');
-        $existingUtf8mb4 = isset($data[0]['value']) ? json_decode($data[0]['value']) : false;
+        $existingUtf8mb4 = isset($data[0]['value']) ? json_decode((string) $data[0]['value']) : false;
     }
 }
 

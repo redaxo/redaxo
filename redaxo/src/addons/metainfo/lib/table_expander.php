@@ -73,7 +73,7 @@ class rex_metainfo_table_expander extends rex_form
         $textFields = [];
         foreach ($gq->getArray() as $f) {
             if ('text' == $f['dbtype']) {
-                $textFields[$f['id']] = $f['id'];
+                $textFields[(int) $f['id']] = (int) $f['id'];
             }
         }
 

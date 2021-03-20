@@ -338,9 +338,10 @@ class rex_article_content_editor extends rex_article_content
             $this->MODULESELECT = [];
             foreach ($templateCtypes as $ctId => $ctName) {
                 foreach ($modules as $m) {
-                    if (rex::getUser()->getComplexPerm('modules')->hasPerm($m['id'])) {
-                        if (rex_template::hasModule($this->template_attributes, $ctId, $m['id'])) {
-                            $this->MODULESELECT[$ctId][] = ['name' => rex_i18n::translate($m['name'], false), 'id' => $m['id'], 'key' => $m['key']];
+                    $id = (int) $m['id'];
+                    if (rex::getUser()->getComplexPerm('modules')->hasPerm($id)) {
+                        if (rex_template::hasModule($this->template_attributes, $ctId, $id)) {
+                            $this->MODULESELECT[$ctId][] = ['name' => rex_i18n::translate((string) $m['name'], false), 'id' => $id, 'key' => $m['key']];
                         }
                     }
                 }
