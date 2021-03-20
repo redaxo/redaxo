@@ -12,21 +12,34 @@ class rex_media_manager
      */
     public const STATUS_SYSTEM_TYPE = 1;
 
+    /** @var rex_managed_media */
     private $media;
+
+    /** @var string */
     private $originalFilename;
+
+    /** @var string|null */
     private $cachePath;
+
+    /** @var string|null */
     private $type;
-    private $useCache;
+
+    /** @var bool */
+    private $useCache = true;
+
+    /** @var array{media_path: ?string, format: string, headers: array<string, string>}|null */
     private $cache;
+
+    /** @var bool */
     private $notFound = false;
 
+    /** @var list<class-string<rex_effect_abstract>> */
     private static $effects = [];
 
     public function __construct(rex_managed_media $media)
     {
         $this->media = $media;
         $this->originalFilename = $media->getMediaFilename();
-        $this->useCache(true);
     }
 
     /**
@@ -52,6 +65,7 @@ class rex_media_manager
             $media->setSourcePath($manager->getCacheFilename());
 
             $cache = $manager->getHeaderCache();
+            assert(null !== $cache);
 
             $media->setFormat($cache['format']);
 
@@ -75,19 +89,23 @@ class rex_media_manager
         return $this->media;
     }
 
+    /**
+     * @param string $type
+     */
     protected function applyEffects($type)
     {
         $this->type = $type;
 
         if (!$this->isCached()) {
             $set = $this->effectsFromType($type);
+            /** @var list<array{effect: string, params: array<string, mixed>}> $set */
             $set = rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_FILTERSET', $set, ['rex_media_type' => $type]));
 
             if (0 == count($set)) {
                 $this->useCache = false;
                 $this->notFound = !$this->media->exists();
 
-                return $this->media;
+                return;
             }
 
             // execute effects on image
@@ -113,6 +131,7 @@ class rex_media_manager
     }
 
     /**
+     * @param string $type
      * @return array[]
      *
      * @psalm-return list<array{effect: string, params: array<string, mixed>}>
@@ -129,9 +148,9 @@ class rex_media_manager
         $sql->setQuery($qry, [$type]);
 
         $effects = [];
-        /** @var rex_sql $row */
         foreach ($sql as $row) {
             $effname = (string) $row->getValue('effect');
+            /** @var array<string, array<string, mixed>> $params */
             $params = $row->getArrayValue('parameters');
             $effparams = [];
 
@@ -154,16 +173,25 @@ class rex_media_manager
         return $effects;
     }
 
+    /**
+     * @param string $path
+     */
     public function setCachePath($path = '')
     {
         $this->cachePath = $path;
     }
 
+    /**
+     * @return null|string
+     */
     public function getCachePath()
     {
         return $this->cachePath;
     }
 
+    /**
+     * @param bool $useCache
+     */
     protected function useCache($useCache = true)
     {
         $this->useCache = $useCache;
@@ -208,6 +236,8 @@ class rex_media_manager
      */
     public function getCacheFilename()
     {
+        assert(null !== $this->cachePath);
+        assert(null !== $this->type);
         return $this->cachePath.$this->type.'/'.$this->originalFilename;
     }
 
@@ -219,15 +249,25 @@ class rex_media_manager
         return $this->getCacheFilename() . '.header';
     }
 
+    /**
+     * @return array{media_path: ?string, format: string, headers: array<string, string>}|null
+     */
     private function getHeaderCache()
     {
         if ($this->cache) {
             return $this->cache;
         }
 
-        return $this->cache = rex_file::getCache($this->getHeaderCacheFilename(), null);
+        /** @var array{media_path: ?string, format: string, headers: array<string, string>}|null $cache */
+        $cache = rex_file::getCache($this->getHeaderCacheFilename(), null);
+
+        return $this->cache = $cache;
     }
 
+    /**
+     * @param int $typeId
+     * @return int
+     */
     public static function deleteCacheByType($typeId)
     {
         $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type' . ' WHERE id=?';
@@ -236,7 +276,7 @@ class rex_media_manager
         $sql->setQuery($qry, [$typeId]);
         $counter = 0;
         foreach ($sql as $row) {
-            $counter += self::deleteCache(null, $row->getValue('name'));
+            $counter += self::deleteCache(null, (string) $row->getValue('name'));
         }
 
         rex_file::delete(rex_path::addonCache('media_manager', 'types.cache'));
@@ -245,6 +285,8 @@ class rex_media_manager
     }
 
     /**
+     * @param string|null $filename
+     * @param string|null $type
      * @return int
      */
     public static function deleteCache($filename = null, $type = null)
@@ -300,7 +342,9 @@ class rex_media_manager
         $CacheFilename = $this->getCacheFilename();
 
         if ($this->useCache && $this->isCached()) {
-            $header = $this->getHeaderCache()['headers'];
+            $cache = $this->getHeaderCache();
+            assert(null !== $cache);
+            $header = $cache['headers'];
             if (isset($header['Last-Modified'])) {
                 rex_response::sendLastModified(strtotime($header['Last-Modified']));
                 unset($header['Last-Modified']);
@@ -344,15 +388,15 @@ class rex_media_manager
         return $effects;
     }
 
+    /**
+     * @param class-string<rex_effect_abstract> $class
+     */
     public static function addEffect($class)
     {
         self::$effects[] = $class;
     }
 
-    /**
-     * @return string
-     */
-    private static function getEffectName($effectFile)
+    private static function getEffectName(string $effectFile): string
     {
         return str_replace(
             ['effect_', '.php'],
@@ -362,10 +406,11 @@ class rex_media_manager
     }
 
     /**
-     * @return string
+     * @return class-string<rex_effect_abstract>
      */
-    private static function getEffectClass($effectFile)
+    private static function getEffectClass(string $effectFile): string
     {
+        /** @var class-string<rex_effect_abstract> */
         return 'rex_' . str_replace(
             '.php',
             '',
@@ -379,7 +424,7 @@ class rex_media_manager
 
     public static function mediaUpdated(rex_extension_point $ep)
     {
-        self::deleteCache($ep->getParam('filename'));
+        self::deleteCache((string) $ep->getParam('filename'));
     }
 
     public static function init()
@@ -474,11 +519,17 @@ class rex_media_manager
         ]));
     }
 
-    private static function getTypeCache()
+    /**
+     * @return array<string, int>
+     */
+    private static function getTypeCache(): array
     {
         $file = rex_path::addonCache('media_manager', 'types.cache');
 
-        if (null !== $cache = rex_file::getCache($file, null)) {
+        /** @var array<string, int>|null $cache */
+        $cache = rex_file::getCache($file, null);
+
+        if (null !== $cache) {
             return $cache;
         }
 
@@ -487,9 +538,8 @@ class rex_media_manager
         $sql = rex_sql::factory();
         $sql->setQuery('SELECT name, updatedate FROM '.rex::getTable('media_manager_type'));
 
-        /** @var rex_sql $row */
         foreach ($sql as $row) {
-            $cache[$row->getValue('name')] = $row->getDateTimeValue('updatedate');
+            $cache[(string) $row->getValue('name')] = (int) $row->getDateTimeValue('updatedate');
         }
 
         rex_file::putCache($file, $cache);
