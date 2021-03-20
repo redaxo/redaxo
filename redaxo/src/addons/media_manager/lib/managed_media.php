@@ -84,6 +84,9 @@ class rex_managed_media
         $this->sourcePath = $mediaPath;
     }
 
+    /**
+     * @return string
+     */
     public function getMediaFilename()
     {
         return $this->media;

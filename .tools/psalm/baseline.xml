@@ -1239,12 +1239,10 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_convert2img.php">
-    <MixedArgument occurrences="7">
+    <MixedArgument occurrences="5">
       <code>$convertTo['ext']</code>
       <code>$density</code>
       <code>$density</code>
-      <code>$filename</code>
-      <code>$filename</code>
       <code>self::$convertTypes</code>
       <code>self::$densities</code>
     </MixedArgument>
@@ -1263,13 +1261,12 @@
       <code>self::$convertTo[$this-&gt;params['convert_to']]</code>
       <code>self::$convertTo[self::$convertToDefault]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="7">
+    <MixedAssignment occurrences="6">
       <code>$color</code>
       <code>$convertPath</code>
       <code>$convertTo</code>
       <code>$convertTo</code>
       <code>$density</code>
-      <code>$filename</code>
       <code>$path</code>
     </MixedAssignment>
     <MixedOperand occurrences="4">
@@ -1438,9 +1435,7 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_header.php">
-    <MixedArgument occurrences="3">
-      <code>$this-&gt;media-&gt;getMediaFilename()</code>
-      <code>$this-&gt;media-&gt;getMediaFilename()</code>
+    <MixedArgument occurrences="1">
       <code>$this-&gt;params['cache']</code>
     </MixedArgument>
     <PossiblyNullReference occurrences="1">
@@ -1448,9 +1443,7 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_image_format.php">
-    <MixedArgument occurrences="17">
-      <code>$filename</code>
-      <code>$filename</code>
+    <MixedArgument occurrences="15">
       <code>$h</code>
       <code>$h</code>
       <code>$h</code>
@@ -1481,10 +1474,9 @@
       <code>self::$convertTo[$this-&gt;params['convert_to']]</code>
       <code>self::$convertTo[self::$convertToDefault]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="6">
+    <MixedAssignment occurrences="5">
       <code>$convertTo</code>
       <code>$convertTo</code>
-      <code>$filename</code>
       <code>$h</code>
       <code>$imageObject</code>
       <code>$w</code>
@@ -1527,8 +1519,7 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_mediapath.php">
-    <MixedOperand occurrences="2">
-      <code>$this-&gt;media-&gt;getMediaFilename()</code>
+    <MixedOperand occurrences="1">
       <code>$this-&gt;params['mediapath']</code>
     </MixedOperand>
   </file>
@@ -1775,92 +1766,22 @@
       <code>$this-&gt;sourcePath</code>
       <code>$this-&gt;sourcePath</code>
     </MixedAssignment>
-    <MixedOperand occurrences="2">
+    <MixedOperand occurrences="1">
       <code>$c</code>
-      <code>$this-&gt;getMediaFilename()</code>
     </MixedOperand>
     <PossiblyNullArgument occurrences="1">
       <code>$this-&gt;getMediaPath()</code>
     </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/media_manager.php">
-    <MixedArgument occurrences="13">
-      <code>$c</code>
-      <code>$class</code>
-      <code>$effectFile</code>
-      <code>$effectFile</code>
-      <code>$effectParams['params']</code>
-      <code>$header['Content-Type']</code>
-      <code>$header['Last-Modified']</code>
-      <code>$mediapath</code>
-      <code>$mediapath</code>
-      <code>$name</code>
-      <code>$set</code>
-      <code>$t</code>
-      <code>$this-&gt;media</code>
-    </MixedArgument>
-    <MixedArrayAccess occurrences="10">
-      <code>$cache[$type]</code>
-      <code>$cache['format']</code>
-      <code>$cache['headers']</code>
-      <code>$cache['media_path']</code>
-      <code>$effectParams['effect']</code>
-      <code>$effectParams['params']</code>
-      <code>$header['Content-Type']</code>
-      <code>$header['Last-Modified']</code>
-      <code>$header['Last-Modified']</code>
-      <code>$this-&gt;getHeaderCache()['headers']</code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="1">
-      <code>self::$effects[]</code>
-    </MixedArrayAssignment>
-    <MixedArrayOffset occurrences="3">
-      <code>$cache[$row-&gt;getValue('name')]</code>
-      <code>$effects[$class]</code>
-      <code>$effparams[$name]</code>
-    </MixedArrayOffset>
-    <MixedAssignment occurrences="17">
-      <code>$c</code>
-      <code>$cache</code>
-      <code>$cache</code>
-      <code>$cache</code>
-      <code>$class</code>
-      <code>$effectParams</code>
+    <MixedAssignment occurrences="2">
       <code>$effparams[str_replace('rex_effect_' . $effname . '_', '', $name)]</code>
-      <code>$header</code>
-      <code>$key</code>
-      <code>$mediapath</code>
-      <code>$name</code>
-      <code>$params['buster']</code>
-      <code>$set</code>
-      <code>$t</code>
       <code>$value</code>
-      <code>$value</code>
-      <code>self::$effects[]</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="2">
-      <code>rex_managed_media</code>
+    <MixedInferredReturnType occurrences="1">
       <code>string</code>
     </MixedInferredReturnType>
-    <MixedMethodCall occurrences="3">
-      <code>exists</code>
-      <code>exists</code>
-      <code>sendMedia</code>
-    </MixedMethodCall>
-    <MixedOperand occurrences="5">
-      <code>$effectParams['effect']</code>
-      <code>$filename ?: ''</code>
-      <code>$this-&gt;cachePath</code>
-      <code>$this-&gt;originalFilename</code>
-      <code>$type</code>
-    </MixedOperand>
-    <MixedReturnStatement occurrences="2">
-      <code>$this-&gt;media</code>
-    </MixedReturnStatement>
-    <MixedReturnTypeCoercion occurrences="2">
-      <code>$effects</code>
-      <code>array&lt;class-string&lt;rex_effect_abstract&gt;, string&gt;</code>
-    </MixedReturnTypeCoercion>
+    <MixedReturnStatement occurrences="1"/>
   </file>
   <file src="redaxo/src/addons/media_manager/pages/effects.php">
     <MixedArgument occurrences="10">
@@ -1928,8 +1849,7 @@
     </NullOperand>
   </file>
   <file src="redaxo/src/addons/media_manager/pages/types.php">
-    <MixedArgument occurrences="2">
-      <code>$counter</code>
+    <MixedArgument occurrences="1">
       <code>$error</code>
     </MixedArgument>
     <MixedArrayAccess occurrences="2">
@@ -1939,9 +1859,8 @@
     <MixedArrayAssignment occurrences="1">
       <code>$controlFields['delete']</code>
     </MixedArrayAssignment>
-    <MixedAssignment occurrences="8">
+    <MixedAssignment occurrences="7">
       <code>$controlFields</code>
-      <code>$counter</code>
       <code>$error</code>
       <code>$error</code>
       <code>$form</code>
