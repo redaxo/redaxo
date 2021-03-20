@@ -235,7 +235,7 @@ if ('add' == $function || 'edit' == $function) {
         $modulSelect->setAttribute('class', 'form-control');
         $mSql = rex_sql::factory();
         foreach ($mSql->getArray('SELECT id, name FROM ' . rex::getTablePrefix() . 'module ORDER BY name') as $m) {
-            $modulSelect->addOption(rex_i18n::translate($m['name']), $m['id']);
+            $modulSelect->addOption(rex_i18n::translate((string) $m['name']), (int) $m['id']);
         }
 
         // Kategorien

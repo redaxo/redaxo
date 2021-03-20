@@ -310,20 +310,24 @@ class rex_backup
             fwrite($fp, 'DROP TABLE IF EXISTS ' . $sql->escapeIdentifier($table) . ';' . $nl);
             fwrite($fp, $create . ';' . $nl);
 
-            $fields = $sql->getArray('SHOW FIELDS FROM ' . $sql->escapeIdentifier($table));
+            $fields = [];
 
-            foreach ($fields as &$field) {
-                if (preg_match('#^(bigint|int|smallint|mediumint|tinyint|timestamp)#i', $field['Type'])) {
-                    $field = 'int';
-                } elseif (preg_match('#^(float|double|decimal)#', $field['Type'])) {
-                    $field = 'double';
-                } elseif (preg_match('#^(char|varchar|text|longtext|mediumtext|tinytext)#', $field['Type'])) {
-                    $field = 'string';
-                } elseif (preg_match('#^(date|datetime|time|timestamp|year)#', $field['Type'])) {
+            foreach ($sql->getArray('SHOW FIELDS FROM ' . $sql->escapeIdentifier($table)) as $field) {
+                $type = (string) $field['Type'];
+                if (preg_match('#^(bigint|int|smallint|mediumint|tinyint|timestamp)#i', $type)) {
+                    $type = 'int';
+                } elseif (preg_match('#^(float|double|decimal)#', $type)) {
+                    $type = 'double';
+                } elseif (preg_match('#^(char|varchar|text|longtext|mediumtext|tinytext)#', $type)) {
+                    $type = 'string';
+                } elseif (preg_match('#^(date|datetime|time|timestamp|year)#', $type)) {
                     // types which can be passed tru 1:1 as escaping isn't necessary, because we know the mysql internal format.
-                    $field = 'raw';
+                    $type = 'raw';
+                } else {
+                    $type = 'unknown';
                 }
-                // else ?
+
+                $fields[] = $type;
             }
 
             //---- export tabledata

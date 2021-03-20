@@ -1,38 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="4.6.4@97fe86c4e158b5a57c5150aa5055c38b5a809aab">
   <file src="redaxo/src/addons/backup/lib/backup.php">
-    <MixedArgument occurrences="14">
+    <MixedArgument occurrences="10">
       <code>$column</code>
       <code>$column</code>
       <code>$column</code>
       <code>$content</code>
       <code>$content</code>
-      <code>$field['Type']</code>
-      <code>$field['Type']</code>
-      <code>$field['Type']</code>
-      <code>$field['Type']</code>
       <code>$line['query']</code>
       <code>$message</code>
       <code>$table</code>
       <code>$tar</code>
       <code>$tar-&gt;getMessages()</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="1">
-      <code>$fields</code>
-    </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="6">
+    <MixedArrayAccess occurrences="2">
       <code>$array[$idx]</code>
-      <code>$field['Type']</code>
-      <code>$field['Type']</code>
-      <code>$field['Type']</code>
-      <code>$field['Type']</code>
       <code>$line['query']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="14">
+    <MixedAssignment occurrences="13">
       <code>$array</code>
       <code>$column</code>
       <code>$content</code>
-      <code>$field</code>
       <code>$line</code>
       <code>$message</code>
       <code>$msg</code>
@@ -306,7 +294,7 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/cronjob/lib/manager_sql.php">
-    <MixedArgument occurrences="15">
+    <MixedArgument occurrences="14">
       <code>$interval</code>
       <code>$job</code>
       <code>$job['id']</code>
@@ -316,7 +304,6 @@
       <code>$job['parameters']</code>
       <code>$job['type']</code>
       <code>$job['type']</code>
-      <code>$jobs[0]</code>
       <code>$jobs[0]</code>
       <code>$log</code>
       <code>$params</code>
@@ -540,18 +527,6 @@
     <MixedArgument occurrences="1">
       <code>$tables</code>
     </MixedArgument>
-  </file>
-  <file src="redaxo/src/addons/cronjob/update.php">
-    <MixedArgument occurrences="1">
-      <code>$job['interval']</code>
-    </MixedArgument>
-    <MixedArrayAccess occurrences="2">
-      <code>$job['id']</code>
-      <code>$job['interval']</code>
-    </MixedArrayAccess>
-    <MixedAssignment occurrences="1">
-      <code>$job</code>
-    </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/debug/boot.php">
     <MixedArgument occurrences="2">
@@ -2188,24 +2163,17 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/mediapool/lib/mediapool.php">
-    <MixedArgument occurrences="5">
-      <code>$aid</code>
+    <MixedArgument occurrences="3">
       <code>$allowedMimetypes[$extension]</code>
       <code>$args['types']</code>
-      <code>$clang</code>
       <code>$warning</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="3">
+    <MixedArrayAccess occurrences="1">
       <code>$allowedMimetypes[$extension]</code>
-      <code>$artArr['article_id']</code>
-      <code>$artArr['clang_id']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="6">
-      <code>$aid</code>
+    <MixedAssignment occurrences="3">
       <code>$allowedMimetypes</code>
-      <code>$artArr</code>
       <code>$blockedExtension</code>
-      <code>$clang</code>
       <code>$warning</code>
     </MixedAssignment>
     <MixedInferredReturnType occurrences="1">
@@ -2500,27 +2468,11 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/mediapool/pages/sync.php">
-    <MixedArgument occurrences="4">
-      <code>$dbFile['filename']</code>
-      <code>$dbFile['filename']</code>
-      <code>$dbFile['filename']</code>
+    <MixedArgument occurrences="1">
       <code>$filename</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="7">
-      <code>$dbFile['filename']</code>
-      <code>$dbFile['filename']</code>
-      <code>$dbFile['filename']</code>
-      <code>$dbFile['filename']</code>
-      <code>$dbFile['filename']</code>
-      <code>$dbFile['filesize']</code>
-      <code>$dbFile['width']</code>
-    </MixedArrayAccess>
-    <MixedAssignment occurrences="6">
+    <MixedAssignment occurrences="2">
       <code>$data['filename']</code>
-      <code>$dbFile</code>
-      <code>$dbFile</code>
-      <code>$dbFilenames[]</code>
-      <code>$dbFiles[]</code>
       <code>$filename</code>
     </MixedAssignment>
     <PossiblyNullReference occurrences="1">
@@ -2638,14 +2590,10 @@
       <code>$name</code>
       <code>$name</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="3">
+    <MixedArrayAccess occurrences="1">
       <code>$metaTables[$prefix]</code>
-      <code>$typeInfos[0]['dblength']</code>
-      <code>$typeInfos[0]['dbtype']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="8">
-      <code>$fieldDbLength</code>
-      <code>$fieldDbType</code>
+    <MixedAssignment occurrences="6">
       <code>$fieldId</code>
       <code>$metaTable</code>
       <code>$metaTable</code>
@@ -2800,27 +2748,18 @@
       <code>$title</code>
       <code>$typeLabel</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="1">
-      <code>$key</code>
-    </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="10">
+    <MixedArrayAccess occurrences="6">
       <code>$field</code>
       <code>$id</code>
       <code>$label</code>
       <code>$labelIt</code>
       <code>$tag</code>
       <code>$tagAttr</code>
-      <code>$valueGroup[0]</code>
-      <code>$valueGroup[0]</code>
-      <code>$valueGroup[0]</code>
-      <code>$valueGroup[1]</code>
     </MixedArrayAccess>
-    <MixedArrayOffset occurrences="3">
+    <MixedArrayOffset occurrences="1">
       <code>$attrArray[$value]</code>
-      <code>$values[$valueGroup[0]]</code>
-      <code>$values[$valueGroup[1]]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="32">
+    <MixedAssignment occurrences="28">
       <code>$activeItem</code>
       <code>$activeItem</code>
       <code>$attr</code>
@@ -2848,10 +2787,6 @@
       <code>$title</code>
       <code>$typeLabel</code>
       <code>$value</code>
-      <code>$value</code>
-      <code>$valueGroup</code>
-      <code>$values[$valueGroup[0]]</code>
-      <code>$values[$valueGroup[1]]</code>
       <code>[$field, $tag, $tagAttr, $id, $label, $labelIt]</code>
     </MixedAssignment>
     <MixedInferredReturnType occurrences="1">
@@ -2870,7 +2805,7 @@
       <code>getValue</code>
       <code>setValue</code>
     </MixedMethodCall>
-    <MixedOperand occurrences="11">
+    <MixedOperand occurrences="10">
       <code>$label</code>
       <code>$name</code>
       <code>$name</code>
@@ -2881,13 +2816,11 @@
       <code>$postValue</code>
       <code>$typeLabel</code>
       <code>$typeLabel</code>
-      <code>rex_escape($value)</code>
     </MixedOperand>
     <MixedReturnStatement occurrences="1">
       <code>$saveValue</code>
     </MixedReturnStatement>
-    <NullOperand occurrences="2">
-      <code>rex_escape(preg_replace('/[^a-zA-Z0-9_-]/', '_', $key))</code>
+    <NullOperand occurrences="1">
       <code>rex_escape(preg_replace('/[^a-zA-Z0-9_-]/', '_', $name))</code>
     </NullOperand>
     <PossiblyNullArgument occurrences="1">
@@ -2910,40 +2843,17 @@
       <code>[$mediaHandler, 'extendForm']</code>
       <code>[$mediaHandler, 'extendForm']</code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="12">
-      <code>$artArr['catname']</code>
-      <code>$artArr['clang_id']</code>
-      <code>$artArr['id']</code>
-      <code>$artArr['name']</code>
-      <code>$artArr['parent_id']</code>
-      <code>$artArr['startarticle']</code>
-      <code>$clangArr['id']</code>
-      <code>$clangArr['name']</code>
-      <code>$clangArr['name']</code>
-      <code>$medArr['category_id']</code>
-      <code>$medArr['filename']</code>
-      <code>$medArr['id']</code>
-    </MixedArrayAccess>
     <MixedArrayAssignment occurrences="4">
       <code>$warning[]</code>
       <code>$warning[]</code>
       <code>$warning[]</code>
       <code>$warning[]</code>
     </MixedArrayAssignment>
-    <MixedAssignment occurrences="14">
-      <code>$aid</code>
-      <code>$artArr</code>
+    <MixedAssignment occurrences="5">
       <code>$catId</code>
-      <code>$catId</code>
-      <code>$clang</code>
-      <code>$clangArr</code>
-      <code>$filename</code>
-      <code>$id</code>
-      <code>$medArr</code>
       <code>$name</code>
       <code>$params['activeItem']</code>
       <code>$params['id']</code>
-      <code>$parentId</code>
       <code>$warning</code>
     </MixedAssignment>
     <MixedInferredReturnType occurrences="1">
@@ -2952,14 +2862,9 @@
     <MixedMethodCall occurrences="1">
       <code>getValue</code>
     </MixedMethodCall>
-    <MixedOperand occurrences="9">
-      <code>$artArr['catname']</code>
-      <code>$artArr['name']</code>
+    <MixedOperand occurrences="4">
       <code>$catId</code>
-      <code>$clangArr['name']</code>
-      <code>$clangArr['name']</code>
       <code>$ep-&gt;getSubject()</code>
-      <code>$filename</code>
       <code>$params['filename']</code>
       <code>$sql-&gt;getValue('type_id')</code>
     </MixedOperand>
@@ -3165,26 +3070,12 @@
       <code>$typeFields</code>
       <code>$whereCondition</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="5">
-      <code>$f['dbtype']</code>
-      <code>$f['id']</code>
-      <code>$f['id']</code>
-      <code>$result[0]['dblength']</code>
-      <code>$result[0]['dbtype']</code>
-    </MixedArrayAccess>
-    <MixedArrayOffset occurrences="1">
-      <code>$textFields[$f['id']]</code>
-    </MixedArrayOffset>
-    <MixedAssignment occurrences="13">
+    <MixedAssignment occurrences="9">
       <code>$columnName</code>
-      <code>$f</code>
-      <code>$fieldDbLength</code>
-      <code>$fieldDbType</code>
       <code>$fieldName</code>
       <code>$fieldOldName</code>
       <code>$fieldOldPriority</code>
       <code>$params['id']</code>
-      <code>$textFields[$f['id']]</code>
       <code>$tmRes</code>
       <code>$tmRes</code>
       <code>$typeFields</code>
@@ -3790,7 +3681,7 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/lib/service_article.php">
-    <MixedArgument occurrences="21">
+    <MixedArgument occurrences="20">
       <code>$Art-&gt;getValue('parent_id')</code>
       <code>$altId</code>
       <code>$articles-&gt;getValue('path')</code>
@@ -3802,7 +3693,6 @@
       <code>$data['priority']</code>
       <code>$gid</code>
       <code>$id</code>
-      <code>$id['id']</code>
       <code>$oldPrio</code>
       <code>$parentId</code>
       <code>$parentId</code>
@@ -3813,9 +3703,6 @@
       <code>$value</code>
       <code>$value</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="1">
-      <code>$id['id']</code>
-    </MixedArrayAccess>
     <MixedArrayOffset occurrences="5">
       <code>$GAID[$altId]</code>
       <code>$GAID[$iid]</code>
@@ -3823,7 +3710,7 @@
       <code>$templates[$data['template_id']]</code>
       <code>$templates[$data['template_id']]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="27">
+    <MixedAssignment occurrences="26">
       <code>$GAID[$altId]</code>
       <code>$GAID[$iid]</code>
       <code>$GAID[$parentId]</code>
@@ -3835,7 +3722,6 @@
       <code>$catname</code>
       <code>$data[$optionalData]</code>
       <code>$gid</code>
-      <code>$id</code>
       <code>$iid</code>
       <code>$message</code>
       <code>$message</code>
@@ -3880,14 +3766,13 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/lib/service_category.php">
-    <MixedArgument occurrences="11">
+    <MixedArgument occurrences="10">
       <code>$ArtSql-&gt;getValue('id')</code>
       <code>$clang</code>
       <code>$data['catpriority']</code>
       <code>$data['catpriority']</code>
       <code>$fcat-&gt;getValue('parent_id')</code>
       <code>$gcats-&gt;getValue('path')</code>
-      <code>$id['id']</code>
       <code>$oldPrio</code>
       <code>$parentId</code>
       <code>$parentId</code>
@@ -3896,21 +3781,17 @@
     <MixedArgumentTypeCoercion occurrences="1">
       <code>$id</code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="1">
-      <code>$id['id']</code>
-    </MixedArrayAccess>
     <MixedArrayOffset occurrences="4">
       <code>$RC[$fcat-&gt;getValue('parent_id')]</code>
       <code>$RC[$icid]</code>
       <code>$startpageTemplates[$sql-&gt;getValue('clang_id')]</code>
       <code>$templates[$templateId]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="15">
+    <MixedAssignment occurrences="14">
       <code>$catStatusTypes</code>
       <code>$clang</code>
       <code>$data['name']</code>
       <code>$icid</code>
-      <code>$id</code>
       <code>$message</code>
       <code>$message</code>
       <code>$message</code>
@@ -4384,11 +4265,10 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/article_content_editor.php">
-    <MixedArgument occurrences="13">
+    <MixedArgument occurrences="12">
       <code>$MOD-&gt;getValue('name')</code>
       <code>$artDataSql-&gt;getValue(rex::getTablePrefix() . 'module.name')</code>
       <code>$artDataSql-&gt;getValue(rex::getTablePrefix() . 'module.name')</code>
-      <code>$m['name']</code>
       <code>$moduleId</code>
       <code>$moduleId</code>
       <code>$moduleId</code>
@@ -4399,24 +4279,18 @@
       <code>$sliceId</code>
       <code>$templateCtypes</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="10">
-      <code>$m['id']</code>
-      <code>$m['id']</code>
-      <code>$m['id']</code>
-      <code>$m['key']</code>
-      <code>$m['name']</code>
+    <MixedArrayAccess occurrences="5">
       <code>$module['id']</code>
       <code>$module['id']</code>
       <code>$module['key']</code>
       <code>$module['name']</code>
       <code>$this-&gt;MODULESELECT[$this-&gt;ctype]</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="22">
+    <MixedAssignment occurrences="21">
       <code>$ctName</code>
       <code>$item['id']</code>
       <code>$item['key']</code>
       <code>$item['title']</code>
-      <code>$m</code>
       <code>$module</code>
       <code>$moduleId</code>
       <code>$moduleId</code>
@@ -4768,11 +4642,10 @@
       <code>$success</code>
       <code>$success</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="4">
+    <MixedArrayAccess occurrences="3">
       <code>$params['list']</code>
       <code>$params['list']</code>
       <code>$params['list']</code>
-      <code>$slice['module_id']</code>
     </MixedArrayAccess>
     <MixedArrayOffset occurrences="1">
       <code>$usedIds[$list-&gt;getValue('id')]</code>
@@ -4815,20 +4688,17 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/pages/templates.php">
-    <MixedArgument occurrences="9">
+    <MixedArgument occurrences="8">
       <code>$aid</code>
       <code>$clangId</code>
       <code>$clangId</code>
-      <code>$m['name']</code>
       <code>$modules[$i]</code>
       <code>$success</code>
       <code>$success</code>
       <code>$templatename</code>
       <code>$templatename</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="3">
-      <code>$m['id']</code>
-      <code>$m['name']</code>
+    <MixedArrayAccess occurrences="1">
       <code>$params['list']</code>
     </MixedArrayAccess>
     <MixedArrayAssignment occurrences="3">
@@ -4836,7 +4706,7 @@
       <code>$modules[$k]['all']</code>
       <code>$modules[1]['all']</code>
     </MixedArrayAssignment>
-    <MixedAssignment occurrences="21">
+    <MixedAssignment occurrences="20">
       <code>$active</code>
       <code>$aid</code>
       <code>$categories</code>
@@ -4846,7 +4716,6 @@
       <code>$j</code>
       <code>$jj</code>
       <code>$list</code>
-      <code>$m</code>
       <code>$module</code>
       <code>$modules</code>
       <code>$name</code>
@@ -4943,20 +4812,10 @@
     </MixedArgument>
   </file>
   <file src="redaxo/src/addons/structure/plugins/history/lib/article_slice_history.php">
-    <MixedArgument occurrences="3">
+    <MixedArgument occurrences="2">
       <code>$articleId</code>
       <code>$clangId</code>
-      <code>$k</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="1">
-      <code>$slice[$columnName]</code>
-    </MixedArrayAccess>
-    <MixedAssignment occurrences="4">
-      <code>$k</code>
-      <code>$slice</code>
-      <code>$slice</code>
-      <code>$v</code>
-    </MixedAssignment>
     <MixedOperand occurrences="1">
       <code>$historyDate</code>
     </MixedOperand>
@@ -5097,27 +4956,22 @@
     </MixedArgumentTypeCoercion>
   </file>
   <file src="redaxo/src/addons/users/lib/role.php">
-    <MixedArgument occurrences="5">
+    <MixedArgument occurrences="4">
       <code>$perms[$key]</code>
       <code>$perms[$key]</code>
       <code>$role[$key]</code>
       <code>$role[$key]</code>
-      <code>$userRole['perms']</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="1">
       <code>$roles</code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="1">
-      <code>$userRole['perms']</code>
-    </MixedArrayAccess>
     <MixedArrayOffset occurrences="2">
       <code>$perms[$key]</code>
       <code>$perms[$key]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="4">
+    <MixedAssignment occurrences="3">
       <code>$key</code>
       <code>$roles[]</code>
-      <code>$userRole</code>
       <code>$value</code>
     </MixedAssignment>
     <MixedOperand occurrences="2">
@@ -6628,13 +6482,13 @@
     </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/lib/form/elements/options.php">
+    <InvalidArgument occurrences="2">
+      <code>$sql-&gt;getArray($query, [], PDO::FETCH_NUM)</code>
+      <code>$sql-&gt;getDBArray($query, [], PDO::FETCH_NUM)</code>
+    </InvalidArgument>
     <MixedArgument occurrences="1">
       <code>$tag</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="2">
-      <code>$sql-&gt;getArray($query, [], PDO::FETCH_NUM)</code>
-      <code>$sql-&gt;getDBArray($query, [], PDO::FETCH_NUM)</code>
-    </MixedArgumentTypeCoercion>
   </file>
   <file src="redaxo/src/core/lib/form/elements/prio.php">
     <MixedArgument occurrences="3">
@@ -8375,9 +8229,6 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/pages/setup.step5.php">
-    <MixedArgument occurrences="1">
-      <code>$data[0]['value']</code>
-    </MixedArgument>
     <MixedAssignment occurrences="1">
       <code>$existingUtf8mb4</code>
     </MixedAssignment>
@@ -8561,33 +8412,11 @@
     <MixedArgument occurrences="1">
       <code>$sql-&gt;getRow()</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="17">
+    <MixedArrayAccess occurrences="1">
       <code>$property-&gt;getValue()[1]</code>
-      <code>$row1['col_int']</code>
-      <code>$row1['col_int']</code>
-      <code>$row1['col_int']</code>
-      <code>$row1['col_int']</code>
-      <code>$row1['col_str']</code>
-      <code>$row1['col_str']</code>
-      <code>$row1['col_str']</code>
-      <code>$row1['col_str']</code>
-      <code>$row1[1]</code>
-      <code>$row1[1]</code>
-      <code>$row1[2]</code>
-      <code>$row1[2]</code>
-      <code>$row1[5]</code>
-      <code>$row1[5]</code>
-      <code>$row1[5]</code>
-      <code>$row1[5]</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="7">
+    <MixedAssignment occurrences="1">
       <code>$row</code>
-      <code>$row1</code>
-      <code>$row1</code>
-      <code>$row1</code>
-      <code>$row1</code>
-      <code>$row1</code>
-      <code>$row1</code>
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/tests/sql/sql_table_test.php">

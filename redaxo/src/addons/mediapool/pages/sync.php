@@ -21,7 +21,7 @@ $csrf = rex_csrf_token::factory('mediapool');
     $dbFilenames = [];
 
     foreach ($db->getArray() as $dbFile) {
-        $dbFilenames[] = $dbFile['filename'];
+        $dbFilenames[] = (string) $dbFile['filename'];
         $dbFiles[] = $dbFile;
     }
 
@@ -30,7 +30,8 @@ $csrf = rex_csrf_token::factory('mediapool');
 
     // Extra - filesize/width/height DB-Filesystem Sync
     foreach ($dbFiles as $dbFile) {
-        $path = rex_path::media($dbFile['filename']);
+        $filename = (string) $dbFile['filename'];
+        $path = rex_path::media($filename);
         if (!is_file($path)) {
             continue;
         }
@@ -39,16 +40,16 @@ $csrf = rex_csrf_token::factory('mediapool');
         if ($dbFile['filesize'] != $fileFilesize) {
             $fileSql = rex_sql::factory();
             $fileSql->setTable(rex::getTable('media'));
-            $fileSql->setWhere(['filename' => $dbFile['filename']]);
+            $fileSql->setWhere(['filename' => $filename]);
             $fileSql->setValue('filesize', $fileFilesize);
             if ($dbFile['width'] > 0) {
-                if ($size = @getimagesize(rex_path::media($dbFile['filename']))) {
+                if ($size = @getimagesize(rex_path::media($filename))) {
                     $fileSql->setValue('width', $size[0]);
                     $fileSql->setValue('height', $size[1]);
                 }
             }
             $fileSql->update();
-            rex_media_cache::delete($dbFile['filename']);
+            rex_media_cache::delete($filename);
         }
     }
 
