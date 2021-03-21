@@ -47,11 +47,11 @@ class rex_article_content_base
      */
     protected $getSlice;
     /**
-     * @var string
+     * @var 'view'|'edit'
      */
     protected $mode;
     /**
-     * @var string
+     * @var 'add'|'edit'
      */
     protected $function;
 
@@ -225,7 +225,7 @@ class rex_article_content_base
     }
 
     /**
-     * @param string $mode
+     * @param 'view'|'edit' $mode
      */
     public function setMode($mode)
     {
@@ -233,7 +233,7 @@ class rex_article_content_base
     }
 
     /**
-     * @param string $function
+     * @param 'add'|'edit' $function
      */
     public function setFunction($function)
     {
