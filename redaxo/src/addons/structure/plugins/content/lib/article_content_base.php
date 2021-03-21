@@ -448,6 +448,7 @@ class rex_article_content_base
     }
 
     // ----- Template inklusive Artikel zurückgeben
+
     /**
      * @return string
      */
