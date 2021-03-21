@@ -11,7 +11,7 @@ class rex_pager_test extends TestCase
     {
         $_REQUEST['start'] = 60;
 
-        $pager = new rex_pager();
+        $pager = new rex_pager(30);
         static::assertSame(60, $pager->getCursor());
         static::assertSame(2, $pager->getCurrentPage());
 
@@ -28,7 +28,7 @@ class rex_pager_test extends TestCase
     {
         $_REQUEST['start'] = 60;
 
-        $pager = new rex_pager();
+        $pager = new rex_pager(30);
         static::assertSame(60, $pager->getCursor());
         static::assertSame(2, $pager->getCurrentPage());
 
