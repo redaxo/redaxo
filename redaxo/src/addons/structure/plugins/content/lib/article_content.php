@@ -29,7 +29,7 @@ class rex_article_content extends rex_article_content_base
      */
     public function getContentAsQuery($viasql = true)
     {
-        if (true !== $viasql) {
+        if (!$viasql) {
             $viasql = false;
         }
         $this->viasql = $viasql;
