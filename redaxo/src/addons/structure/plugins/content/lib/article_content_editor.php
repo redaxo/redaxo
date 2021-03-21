@@ -7,9 +7,16 @@
  */
 class rex_article_content_editor extends rex_article_content
 {
+    /** @var array<int, list<array{name: string, id: int, key: string}>> */
     private $MODULESELECT;
+
+    /** @var int */
     private $sliceAddPosition = 0;
 
+    /**
+     * @param int|null $articleId
+     * @param int|null $clang
+     */
     public function __construct($articleId = null, $clang = null)
     {
         parent::__construct($articleId, $clang);
@@ -27,13 +34,13 @@ class rex_article_content_editor extends rex_article_content
                 $moduleIdToAdd
             );
         } else {
-            $sliceId = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.id');
-            $sliceCtype = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.ctype_id');
-            $sliceStatus = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.status');
+            $sliceId = (int) $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.id');
+            $sliceCtype = (int) $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.ctype_id');
+            $sliceStatus = (int) $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.status');
 
-            $moduleInput = $artDataSql->getValue(rex::getTablePrefix() . 'module.input');
-            $moduleOutput = $artDataSql->getValue(rex::getTablePrefix() . 'module.output');
-            $moduleId = $artDataSql->getValue(rex::getTablePrefix() . 'module.id');
+            $moduleInput = (string) $artDataSql->getValue(rex::getTablePrefix() . 'module.input');
+            $moduleOutput = (string) $artDataSql->getValue(rex::getTablePrefix() . 'module.output');
+            $moduleId = (int) $artDataSql->getValue(rex::getTablePrefix() . 'module.id');
 
             // ----- add select box einbauen
             $sliceContent = $this->getModuleSelect($sliceId);
@@ -102,13 +109,7 @@ class rex_article_content_editor extends rex_article_content
      */
     private function getSliceHeading(rex_sql $artDataSql)
     {
-        $sliceId = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.id');
-        $sliceCtype = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.ctype_id');
-
-        $moduleId = $artDataSql->getValue(rex::getTablePrefix() . 'module.id');
-        $moduleName = rex_i18n::translate($artDataSql->getValue(rex::getTablePrefix() . 'module.name'));
-
-        return $moduleName;
+        return rex_i18n::translate((string) $artDataSql->getValue(rex::getTablePrefix() . 'module.name'));
     }
 
     /**
@@ -120,12 +121,12 @@ class rex_article_content_editor extends rex_article_content
      */
     private function getSliceMenu(rex_sql $artDataSql)
     {
-        $sliceId = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.id');
-        $sliceCtype = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.ctype_id');
-        $sliceStatus = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.status');
+        $sliceId = (int) $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.id');
+        $sliceCtype = (int) $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.ctype_id');
+        $sliceStatus = (int) $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.status');
 
-        $moduleId = $artDataSql->getValue(rex::getTablePrefix() . 'module.id');
-        $moduleName = rex_i18n::translate($artDataSql->getValue(rex::getTablePrefix() . 'module.name'));
+        $moduleId = (int) $artDataSql->getValue(rex::getTablePrefix() . 'module.id');
+        $moduleName = rex_i18n::translate((string) $artDataSql->getValue(rex::getTablePrefix() . 'module.name'));
 
         $context = new rex_context([
             'page' => rex_be_controller::getCurrentPage(),
@@ -268,10 +269,11 @@ class rex_article_content_editor extends rex_article_content
      */
     private function getWrappedModuleOutput($moduleId, $moduleOutput)
     {
-        return $this->getStreamOutput('module/' . $moduleId . '/output', $moduleOutput);
+        return $this->getStreamOutput('module/' . (int) $moduleId . '/output', $moduleOutput);
     }
 
     /**
+     * @param int $sliceId
      * @return string
      */
     private function getModuleSelect($sliceId)
@@ -341,7 +343,7 @@ class rex_article_content_editor extends rex_article_content
                     $id = (int) $m['id'];
                     if (rex::getUser()->getComplexPerm('modules')->hasPerm($id)) {
                         if (rex_template::hasModule($this->template_attributes, $ctId, $id)) {
-                            $this->MODULESELECT[$ctId][] = ['name' => rex_i18n::translate((string) $m['name'], false), 'id' => $id, 'key' => $m['key']];
+                            $this->MODULESELECT[$ctId][] = ['name' => rex_i18n::translate((string) $m['name'], false), 'id' => $id, 'key' => (string) $m['key']];
                         }
                     }
                 }
@@ -376,10 +378,15 @@ class rex_article_content_editor extends rex_article_content
     // ----- ADD Slice
 
     /**
+     * @param int $sliceId
+     * @param int $moduleId
      * @return string
      */
     protected function addSlice($sliceId, $moduleId)
     {
+        $sliceId = (int) $sliceId;
+        $moduleId = (int) $moduleId;
+
         $MOD = rex_sql::factory();
         $MOD->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module WHERE id="' . $moduleId . '"');
 
@@ -397,7 +404,7 @@ class rex_article_content_editor extends rex_article_content
             $action->exec(rex_article_action::PREVIEW);
             // ----- / PRE VIEW ACTION
 
-            $moduleInput = $this->replaceVars($initDataSql, $MOD->getValue('input'));
+            $moduleInput = $this->replaceVars($initDataSql, (string) $MOD->getValue('input'));
 
             $moduleInput = $this->getStreamOutput('module/' . $moduleId . '/input', $moduleInput);
 
@@ -439,7 +446,7 @@ class rex_article_content_editor extends rex_article_content
             $fragment = new rex_fragment();
             $fragment->setVar('before', $msg, false);
             $fragment->setVar('class', 'add', false);
-            $fragment->setVar('title', rex_i18n::msg('module') . ': ' . rex_i18n::translate($MOD->getValue('name')), false);
+            $fragment->setVar('title', rex_i18n::msg('module') . ': ' . rex_i18n::translate((string) $MOD->getValue('name')), false);
             $fragment->setVar('body', $panel, false);
             $fragment->setVar('footer', $sliceFooter, false);
             $sliceContent = $fragment->parse('core/page/section.php');

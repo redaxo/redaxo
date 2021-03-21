@@ -9,8 +9,13 @@
 class rex_article_content extends rex_article_content_base
 {
     // bc schalter
+    /** @var bool */
     private $viasql;
 
+    /**
+     * @param int|null $articleId
+     * @param int|null $clang
+     */
     public function __construct($articleId = null, $clang = null)
     {
         $this->viasql = false;
@@ -18,9 +23,13 @@ class rex_article_content extends rex_article_content_base
     }
 
     // bc
+
+    /**
+     * @param bool $viasql
+     */
     public function getContentAsQuery($viasql = true)
     {
-        if (true !== $viasql) {
+        if (!$viasql) {
             $viasql = false;
         }
         $this->viasql = $viasql;
@@ -86,21 +95,22 @@ class rex_article_content extends rex_article_content_base
         $this->ctype = $curctype;
 
         if (!$this->getSlice && 0 != $this->article_id) {
-            // ----- start: article caching
+            // article caching
             ob_start();
-            ob_implicit_flush(0);
+            try {
+                ob_implicit_flush(0);
 
-            $articleContentFile = rex_path::addonCache('structure', $this->article_id . '.' . $this->clang . '.content');
+                $articleContentFile = rex_path::addonCache('structure', $this->article_id . '.' . $this->clang . '.content');
 
-            if (!is_file($articleContentFile)) {
-                rex_content_service::generateArticleContent($this->article_id, $this->clang);
+                if (!is_file($articleContentFile)) {
+                    rex_content_service::generateArticleContent($this->article_id, $this->clang);
+                }
+
+                require $articleContentFile;
+            } finally {
+                $CONTENT = ob_get_clean();
+                assert(is_string($CONTENT));
             }
-
-            require $articleContentFile;
-
-            // ----- end: article caching
-            $CONTENT = ob_get_clean();
-            assert(is_string($CONTENT));
         } else {
             // Inhalt ueber sql generierens
             $CONTENT = parent::getArticle($curctype);
