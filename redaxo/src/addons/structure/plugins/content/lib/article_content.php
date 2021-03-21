@@ -86,9 +86,10 @@ class rex_article_content extends rex_article_content_base
         $this->ctype = $curctype;
 
         if (!$this->getSlice && 0 != $this->article_id) {
-            // ----- start: article caching
+            // article caching
+            ob_start();
             try {
-                ob_start();
+                
                 ob_implicit_flush(0);
 
                 $articleContentFile = rex_path::addonCache('structure', $this->article_id . '.' . $this->clang . '.content');
@@ -98,8 +99,6 @@ class rex_article_content extends rex_article_content_base
                 }
 
                 require $articleContentFile;
-
-                // ----- end: article caching
             } finally {
                 $CONTENT = ob_get_clean();
             }
