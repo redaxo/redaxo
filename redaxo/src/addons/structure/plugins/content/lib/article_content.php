@@ -9,8 +9,13 @@
 class rex_article_content extends rex_article_content_base
 {
     // bc schalter
+    /** @var bool */
     private $viasql;
 
+    /**
+     * @param int|null $articleId
+     * @param int|null $clang
+     */
     public function __construct($articleId = null, $clang = null)
     {
         $this->viasql = false;
@@ -18,9 +23,13 @@ class rex_article_content extends rex_article_content_base
     }
 
     // bc
+
+    /**
+     * @param bool $viasql
+     */
     public function getContentAsQuery($viasql = true)
     {
-        if (true !== $viasql) {
+        if (!$viasql) {
             $viasql = false;
         }
         $this->viasql = $viasql;
