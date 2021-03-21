@@ -295,6 +295,8 @@ class rex
      * Returns the current user.
      *
      * @return null|rex_user
+     *
+     * @psalm-ignore-nullable-return
      */
     public static function getUser()
     {
