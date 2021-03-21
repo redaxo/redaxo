@@ -1,79 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="4.6.4@97fe86c4e158b5a57c5150aa5055c38b5a809aab">
   <file src="redaxo/src/addons/backup/lib/backup.php">
-    <TaintedFile occurrences="2">
-      <code>$tempCacheFile</code>
-      <code>$tempCacheFile</code>
-    </TaintedFile>
-    <TaintedInclude occurrences="11">
-      <code>$filename</code>
-      <code>$filename</code>
-      <code>$filename</code>
-      <code>$filename</code>
-      <code>$filename</code>
-      <code>$filename</code>
-      <code>$filename</code>
-      <code>$filename</code>
-      <code>$filename</code>
-      <code>$filename</code>
+    <TaintedInclude occurrences="1">
       <code>$filename</code>
     </TaintedInclude>
-  </file>
-  <file src="redaxo/src/addons/backup/pages/import.server.php">
-    <TaintedFile occurrences="4">
-      <code>$fileTemp</code>
-      <code>$fileTemp</code>
-      <code>$fileTemp</code>
-      <code>$fileTemp</code>
-    </TaintedFile>
-  </file>
-  <file src="redaxo/src/addons/backup/pages/import.upload.php">
-    <TaintedFile occurrences="4">
-      <code>$fileTemp</code>
-      <code>$fileTemp</code>
-      <code>$fileTemp</code>
-      <code>$fileTemp</code>
-    </TaintedFile>
-  </file>
-  <file src="redaxo/src/addons/cronjob/update.php">
-    <TaintedFile occurrences="2">
-      <code>rex_path::data('log/cronjob.log')</code>
-      <code>rex_path::data('log/cronjob.log.2')</code>
-    </TaintedFile>
-  </file>
-  <file src="redaxo/src/addons/install/lib/api/api_core_update.php">
-    <TaintedFile occurrences="8">
-      <code>$pathCore</code>
-      <code>$pathCore</code>
-      <code>$pathCore</code>
-      <code>$pathOld</code>
-      <code>$pathOld</code>
-      <code>$temppath . 'addons/' . $addonkey</code>
-      <code>$temppath . 'core'</code>
-      <code>rex_path::addon($addonkey)</code>
-    </TaintedFile>
-  </file>
-  <file src="redaxo/src/addons/install/lib/package/package_update.php">
-    <TaintedFile occurrences="2">
-      <code>$path</code>
-      <code>$temppath</code>
-    </TaintedFile>
-  </file>
-  <file src="redaxo/src/addons/media_manager/lib/effects/effect_convert2img.php">
-    <TaintedShell occurrences="1">
-      <code>$cmd</code>
-    </TaintedShell>
-  </file>
-  <file src="redaxo/src/addons/media_manager/tests/media_manager_test.php">
-    <TaintedFile occurrences="1">
-      <code>$path</code>
-    </TaintedFile>
-  </file>
-  <file src="redaxo/src/addons/phpmailer/install.php">
-    <TaintedFile occurrences="2">
-      <code>$logFolder</code>
-      <code>$oldBackUpFolder</code>
-    </TaintedFile>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/article_content_base.php">
     <TaintedHtml occurrences="1">
@@ -106,10 +36,6 @@
     </TaintedHtml>
   </file>
   <file src="redaxo/src/core/lib/response.php">
-    <TaintedFile occurrences="2">
-      <code>$file</code>
-      <code>$file</code>
-    </TaintedFile>
     <TaintedHeader occurrences="1">
       <code>$str</code>
     </TaintedHeader>
@@ -120,52 +46,15 @@
       <code>$query</code>
     </TaintedSql>
   </file>
-  <file src="redaxo/src/core/lib/util/dir.php">
-    <TaintedFile occurrences="2">
-      <code>$dir</code>
-      <code>$dir</code>
-    </TaintedFile>
-  </file>
   <file src="redaxo/src/core/lib/util/file.php">
-    <TaintedFile occurrences="7">
-      <code>$dstfile</code>
-      <code>$dstfile</code>
+    <TaintedFile occurrences="2">
       <code>$file</code>
       <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$srcfile</code>
-    </TaintedFile>
-  </file>
-  <file src="redaxo/src/core/lib/util/log_file.php">
-    <TaintedFile occurrences="3">
-      <code>$path</code>
-      <code>$path</code>
-      <code>$path . '.2'</code>
     </TaintedFile>
   </file>
   <file src="redaxo/src/core/lib/util/socket/socket.php">
     <TaintedCallable occurrences="1">
       <code>$data</code>
     </TaintedCallable>
-  </file>
-  <file src="redaxo/src/core/lib/util/socket/socket_response.php">
-    <TaintedFile occurrences="1">
-      <code>$resource</code>
-    </TaintedFile>
-  </file>
-  <file src="redaxo/src/core/tests/console/config/set_test.php">
-    <TaintedFile occurrences="2">
-      <code>$configPath</code>
-      <code>$configPath</code>
-    </TaintedFile>
-  </file>
-  <file src="redaxo/src/core/update.php">
-    <TaintedFile occurrences="4">
-      <code>rex_path::coreData('system.log')</code>
-      <code>rex_path::coreData('system.log.2')</code>
-      <code>rex_path::data('log/system.log')</code>
-      <code>rex_path::data('log/system.log.2')</code>
-    </TaintedFile>
   </file>
 </files>

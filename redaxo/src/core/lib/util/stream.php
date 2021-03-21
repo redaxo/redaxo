@@ -40,6 +40,8 @@ class rex_stream
      * @throws InvalidArgumentException
      *
      * @return string Full path with protocol (e.g. "rex:///template/1")
+     *
+     * @psalm-taint-specialize
      */
     public static function factory($path, $content)
     {
