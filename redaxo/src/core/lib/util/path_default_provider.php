@@ -47,6 +47,8 @@ class rex_path_default_provider
      * @param string $file File
      *
      * @return string
+     *
+     * @psalm-taint-specialize
      */
     public function base($file)
     {
@@ -84,6 +86,8 @@ class rex_path_default_provider
      * @param string $file File
      *
      * @return string
+     *
+     * @psalm-taint-specialize
      */
     public function backend($file)
     {
