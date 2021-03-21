@@ -232,23 +232,15 @@ class rex_backup
         $tar = new rex_backup_tar();
 
         // ----- EXTENSION POINT
+        /** @var rex_backup_tar $tar */
         $tar = rex_extension::registerPoint(new rex_extension_point('BACKUP_BEFORE_FILE_IMPORT', $tar));
 
         // require import skript to do some userside-magic
         self::importScript(str_replace('.tar.gz', '.php', $filename), self::IMPORT_ARCHIVE, self::IMPORT_EVENT_PRE);
 
         $tar->openTAR($filename);
-        if (!$tar->extractTar(rex_path::base())) {
-            $msg = rex_i18n::msg('backup_problem_when_extracting') . '<br />';
-            if (count($tar->getMessages()) > 0) {
-                $msg .= rex_i18n::msg('backup_create_dirs_manually') . '<br />';
-                foreach ($tar->getMessages() as $message) {
-                    $msg .= rex_path::absolute($message) . '<br />';
-                }
-            }
-        } else {
-            $msg = rex_i18n::msg('backup_file_imported') . '<br />';
-        }
+        $tar->extractTar(rex_path::base());
+        $msg = rex_i18n::msg('backup_file_imported') . '<br />';
 
         // ----- EXTENSION POINT
         $tar = rex_extension::registerPoint(new rex_extension_point('BACKUP_AFTER_FILE_IMPORT', $tar));
