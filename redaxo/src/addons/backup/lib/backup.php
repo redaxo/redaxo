@@ -238,11 +238,8 @@ class rex_backup
         self::importScript(str_replace('.tar.gz', '.php', $filename), self::IMPORT_ARCHIVE, self::IMPORT_EVENT_PRE);
 
         $tar->openTAR($filename);
-        if (!$tar->extractTar(rex_path::base())) {
-            $msg = rex_i18n::msg('backup_problem_when_extracting') . '<br />';
-        } else {
-            $msg = rex_i18n::msg('backup_file_imported') . '<br />';
-        }
+        $tar->extractTar(rex_path::base());
+        $msg = rex_i18n::msg('backup_file_imported') . '<br />';
 
         // ----- EXTENSION POINT
         $tar = rex_extension::registerPoint(new rex_extension_point('BACKUP_AFTER_FILE_IMPORT', $tar));
