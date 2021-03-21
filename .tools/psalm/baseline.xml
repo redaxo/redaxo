@@ -87,22 +87,6 @@
       <code>$subject</code>
     </MixedAssignment>
   </file>
-  <file src="redaxo/src/addons/be_style/lib/be_style.php">
-    <MixedArgument occurrences="2">
-      <code>$file['copy_dest']</code>
-      <code>$file['css_file']</code>
-    </MixedArgument>
-    <MixedArrayAccess occurrences="5">
-      <code>$file['copy_dest']</code>
-      <code>$file['css_file']</code>
-      <code>$file['css_file']</code>
-      <code>$file['root_dir']</code>
-      <code>$file['scss_files']</code>
-    </MixedArrayAccess>
-    <MixedAssignment occurrences="1">
-      <code>$file</code>
-    </MixedAssignment>
-  </file>
   <file src="redaxo/src/addons/be_style/lib/scss_compiler.php">
     <MixedArgument occurrences="4">
       <code>$scssFile</code>
