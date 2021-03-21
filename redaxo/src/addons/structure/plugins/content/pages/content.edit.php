@@ -30,6 +30,7 @@ $CONT->setMode('edit');
 $CONT->setCLang($clang);
 $CONT->setEval(true);
 $CONT->setSliceRevision($sliceRevision);
+/** @var 'add'|'edit' $function */
 $CONT->setFunction($function);
 $content = $CONT->getArticle($ctype);
 
