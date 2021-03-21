@@ -12,6 +12,8 @@ class rex_be_style
     public static function compile()
     {
         $scssFiles = rex_extension::registerPoint(new rex_extension_point('BE_STYLE_SCSS_COMPILE', []));
+        
+        assert(is_array($scssFiles));
         foreach ($scssFiles as $file) {
             $compiler = new rex_scss_compiler();
 
