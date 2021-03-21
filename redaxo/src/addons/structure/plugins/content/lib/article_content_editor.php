@@ -446,7 +446,7 @@ class rex_article_content_editor extends rex_article_content
             $fragment = new rex_fragment();
             $fragment->setVar('before', $msg, false);
             $fragment->setVar('class', 'add', false);
-            $fragment->setVar('title', rex_i18n::msg('module') . ': ' . rex_i18n::translate($MOD->getValue('name')), false);
+            $fragment->setVar('title', rex_i18n::msg('module') . ': ' . rex_i18n::translate((string) $MOD->getValue('name')), false);
             $fragment->setVar('body', $panel, false);
             $fragment->setVar('footer', $sliceFooter, false);
             $sliceContent = $fragment->parse('core/page/section.php');

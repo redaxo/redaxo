@@ -3706,36 +3706,20 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/article_content_base.php">
-    <MixedArgument occurrences="6">
+    <MixedArgument occurrences="3">
       <code>$TEMPLATE-&gt;getTemplate()</code>
-      <code>$matches[1]</code>
-      <code>$matches[2] ?? (int) $this-&gt;clang</code>
       <code>$output</code>
       <code>$query</code>
-      <code>$search</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="1">
-      <code>$replace</code>
-    </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="2">
-      <code>$matches[1]</code>
-      <code>$matches[2]</code>
-    </MixedArrayAccess>
-    <MixedAssignment occurrences="9">
+    <MixedAssignment occurrences="5">
       <code>$output</code>
-      <code>$prevCtype</code>
       <code>$query</code>
       <code>$sliceContent</code>
-      <code>$sliceCtypeId</code>
       <code>$sliceId</code>
-      <code>$sliceId</code>
-      <code>$sliceModuleId</code>
       <code>$value</code>
     </MixedAssignment>
-    <MixedOperand occurrences="3">
+    <MixedOperand occurrences="1">
       <code>$sliceContent</code>
-      <code>$sliceCtypeId</code>
-      <code>$sliceCtypeId</code>
     </MixedOperand>
     <PossiblyNullArgument occurrences="1">
       <code>$template-&gt;getKey()</code>
@@ -3746,8 +3730,7 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/article_content_editor.php">
-    <MixedArgument occurrences="2">
-      <code>$MOD-&gt;getValue('name')</code>
+    <MixedArgument occurrences="1">
       <code>$templateCtypes</code>
     </MixedArgument>
     <MixedAssignment occurrences="3">

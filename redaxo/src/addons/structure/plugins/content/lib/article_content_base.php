@@ -572,11 +572,13 @@ class rex_article_content_base
      */
     public function replaceCommonVars($content, $templateId = null)
     {
+        /** @var int|string|null $userId */
         static $userId = null;
+        /** @var string|null $userLogin */
         static $userLogin = null;
 
         // UserId gibts nur im Backend
-        if (null === $userId) {
+        if (null === $userId || null === $userLogin) {
             if (rex::getUser()) {
                 $userId = rex::getUser()->getId();
                 $userLogin = rex::getUser()->getLogin();
@@ -590,6 +592,7 @@ class rex_article_content_base
             $templateId = $this->getTemplateId();
         }
 
+        /** @var list<string> $search */
         static $search = [
             'REX_ARTICLE_ID',
             'REX_CATEGORY_ID',
@@ -625,8 +628,8 @@ class rex_article_content_base
     {
         $result = preg_replace_callback(
             '@redaxo://(\d+)(?:-(\d+))?/?@i',
-            function ($matches) {
-                return rex_getUrl($matches[1], $matches[2] ?? (int) $this->clang);
+            function (array $matches) {
+                return rex_getUrl((int) $matches[1], (int) ($matches[2] ?? $this->clang));
             },
             $content
         );
@@ -685,9 +688,9 @@ class rex_article_content_base
         $artDataSql->reset();
         $rows = $artDataSql->getRows();
         for ($i = 0; $i < $rows; ++$i) {
-            $sliceId = $artDataSql->getValue(rex::getTablePrefix().'article_slice.id');
-            $sliceCtypeId = $artDataSql->getValue(rex::getTablePrefix().'article_slice.ctype_id');
-            $sliceModuleId = $artDataSql->getValue(rex::getTablePrefix().'module.id');
+            $sliceId = (int) $artDataSql->getValue(rex::getTablePrefix().'article_slice.id');
+            $sliceCtypeId = (int) $artDataSql->getValue(rex::getTablePrefix().'article_slice.ctype_id');
+            $sliceModuleId = (int) $artDataSql->getValue(rex::getTablePrefix().'module.id');
 
             // ----- ctype unterscheidung
             if ('edit' != $this->mode && !$this->eval) {
