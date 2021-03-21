@@ -236,9 +236,9 @@ final class rex_media_service
      * @param list<array{type: 'category_id'|'category_id_path'|'types'|'term', value: int|string|list<string>}> $searchItems
      * @param list<array{string, 'ASC'|'DESC'}> $orderbyItems
      * @throws rex_sql_exception
-     * @return array{count: int, items: list<rex_media>}
+     * @return list<rex_media>
      */
-    public static function getList(array $searchItems = [], array $orderbyItems = [], int $cursor = 0, int $rows = 10): array
+    public static function getList(array $searchItems = [], array $orderbyItems = [], ?rex_pager $pager = null): array
     {
         $sql = rex_sql::factory();
         $where = [];
@@ -303,10 +303,13 @@ final class rex_media_service
             $orderbys[] = 'm.id DESC';
         }
 
-        $query .= ' ORDER BY '.implode(', ', $orderbys);
-        $sql->setQuery(str_replace('SELECT m.filename', 'SELECT count(*)', $query), $queryParams);
-        $count = (int) $sql->getValue('count(*)');
-        $query .= ' LIMIT '.$cursor.','.$rows;
+        if ($pager) {
+            $query .= ' ORDER BY '.implode(', ', $orderbys);
+            $sql->setQuery(str_replace('SELECT m.filename', 'SELECT count(*)', $query), $queryParams);
+            $pager->setRowCount((int) $sql->getValue('count(*)'));
+
+            $query .= ' LIMIT '.$pager->getCursor().','.$pager->getRowsPerPage();
+        }
 
         $items = [];
 
@@ -319,9 +322,6 @@ final class rex_media_service
             $items[] = $mediaObject;
         }
 
-        return [
-            'items' => $items,
-            'count' => $count,
-        ];
+        return $items;
     }
 }

@@ -268,13 +268,11 @@ $panel = '
 
             $pager = new rex_pager(5000);
 
-            $result = rex_media_service::getList($searchItems, [], $pager->getCursor(), $pager->getRowsPerPage());
-            $pager->setRowCount($result['count']);
+            $items = rex_media_service::getList($searchItems, [], $pager);
 
             $panel .= '<tbody>';
 
-            /** @var rex_media $media */
-            foreach ($result['items'] as $i => $media) {
+            foreach ($items as $i => $media) {
                 $alt = rex_escape($media->getTitle());
                 $desc = '<p>' . rex_escape(strip_tags((string) $media->getValue('med_description'))) . '</p>';
 
