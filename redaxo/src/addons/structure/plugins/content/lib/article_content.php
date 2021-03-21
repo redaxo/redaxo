@@ -87,6 +87,8 @@ class rex_article_content extends rex_article_content_base
 
         if (!$this->getSlice && 0 != $this->article_id) {
             // ----- start: article caching
+            try {
+
             ob_start();
             ob_implicit_flush(0);
 
@@ -99,7 +101,9 @@ class rex_article_content extends rex_article_content_base
             require $articleContentFile;
 
             // ----- end: article caching
+            } finally {
             $CONTENT = ob_get_clean();
+            }
         } else {
             // Inhalt ueber sql generierens
             $CONTENT = parent::getArticle($curctype);
