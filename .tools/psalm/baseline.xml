@@ -1,24 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="4.6.4@97fe86c4e158b5a57c5150aa5055c38b5a809aab">
   <file src="redaxo/src/addons/backup/lib/backup.php">
-    <MixedArgument occurrences="7">
+    <MixedArgument occurrences="5">
       <code>$column</code>
       <code>$column</code>
       <code>$column</code>
       <code>$line['query']</code>
-      <code>$message</code>
       <code>$table</code>
-      <code>$tar-&gt;getMessages()</code>
     </MixedArgument>
     <MixedArrayAccess occurrences="2">
       <code>$array[$idx]</code>
       <code>$line['query']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="6">
+    <MixedAssignment occurrences="5">
       <code>$array</code>
       <code>$column</code>
       <code>$line</code>
-      <code>$message</code>
       <code>$table</code>
       <code>$tables[]</code>
     </MixedAssignment>
