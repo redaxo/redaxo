@@ -79,6 +79,10 @@ class rex_article_content_base
      */
     protected $ARTICLE;
 
+    /**
+     * @param int|null $articleId
+     * @param int|null $clang
+     */
     public function __construct($articleId = null, $clang = null)
     {
         $this->article_id = 0;
@@ -113,7 +117,7 @@ class rex_article_content_base
     }
 
     /**
-     * @return object
+     * @return rex_sql
      */
     protected function getSqlInstance()
     {
@@ -126,6 +130,9 @@ class rex_article_content_base
         return $this->ARTICLE;
     }
 
+    /**
+     * @param int $sr
+     */
     public function setSliceRevision($sr)
     {
         $this->slice_revision = (int) $sr;
@@ -133,11 +140,17 @@ class rex_article_content_base
 
     // ----- Slice Id setzen für Editiermodus
 
+    /**
+     * @param int $value
+     */
     public function setSliceId($value)
     {
         $this->slice_id = $value;
     }
 
+    /**
+     * @param int $value
+     */
     public function setClang($value)
     {
         if (!rex_clang::exists($value)) {
@@ -146,11 +159,17 @@ class rex_article_content_base
         $this->clang = $value;
     }
 
+    /**
+     * @return int
+     */
     public function getArticleId()
     {
         return $this->article_id;
     }
 
+    /**
+     * @return int
+     */
     public function getClangId()
     {
         return $this->clang;
@@ -165,6 +184,7 @@ class rex_article_content_base
     }
 
     /**
+     * @param int $articleId
      * @return bool
      */
     public function setArticleId($articleId)
@@ -177,8 +197,8 @@ class rex_article_content_base
         $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE ' . rex::getTablePrefix() . 'article.id=? AND clang_id=?', [$articleId, $this->clang]);
 
         if (1 == $sql->getRows()) {
-            $this->template_id = $this->getValue('template_id');
-            $this->category_id = $this->getValue('category_id');
+            $this->template_id = (int) $this->getValue('template_id');
+            $this->category_id = (int) $this->getValue('category_id');
             return true;
         }
 
@@ -188,26 +208,41 @@ class rex_article_content_base
         return false;
     }
 
+    /**
+     * @param int $templateId
+     */
     public function setTemplateId($templateId)
     {
         $this->template_id = $templateId;
     }
 
+    /**
+     * @return int
+     */
     public function getTemplateId()
     {
         return $this->template_id;
     }
 
+    /**
+     * @param string $mode
+     */
     public function setMode($mode)
     {
         $this->mode = $mode;
     }
 
+    /**
+     * @param string $function
+     */
     public function setFunction($function)
     {
         $this->function = $function;
     }
 
+    /**
+     * @param bool $value
+     */
     public function setEval($value)
     {
         if ($value) {
@@ -217,6 +252,10 @@ class rex_article_content_base
         }
     }
 
+    /**
+     * @param string $value
+     * @return string
+     */
     protected function correctValue($value)
     {
         if ('category_id' == $value) {
@@ -232,6 +271,10 @@ class rex_article_content_base
         return $value;
     }
 
+    /**
+     * @param string $value
+     * @return string|int|null
+     */
     protected function _getValue($value)
     {
         $value = $this->correctValue($value);
@@ -241,9 +284,16 @@ class rex_article_content_base
             return $this->getSqlInstance()->getDateTimeValue($value);
         }
 
-        return $this->getSqlInstance()->getValue($value);
+        $value = $this->getSqlInstance()->getValue($value);
+        assert(null === $value || is_int($value) || is_string($value));
+
+        return $value;
     }
 
+    /**
+     * @param string $value
+     * @return string|int|null
+     */
     public function getValue($value)
     {
         // damit alte rex_article felder wie teaser, online_from etc
@@ -258,6 +308,10 @@ class rex_article_content_base
         return '[' . $value . ' not found]';
     }
 
+    /**
+     * @param string $value
+     * @return bool
+     */
     public function hasValue($value)
     {
         foreach (['', 'art_', 'cat_'] as $prefix) {
@@ -269,6 +323,10 @@ class rex_article_content_base
         return false;
     }
 
+    /**
+     * @param string $value
+     * @return bool
+     */
     private function _hasValue($value)
     {
         return $this->getSqlInstance()->hasValue($this->correctValue($value));
@@ -390,6 +448,9 @@ class rex_article_content_base
     }
 
     // ----- Template inklusive Artikel zurückgeben
+    /**
+     * @return string
+     */
     public function getArticleTemplate()
     {
         if (0 != $this->template_id && 0 != $this->article_id) {
@@ -417,6 +478,8 @@ class rex_article_content_base
     }
 
     /**
+     * @param string $path
+     * @param string $content
      * @return string
      */
     protected function getStreamOutput($path, $content)
@@ -449,6 +512,7 @@ class rex_article_content_base
     // ----- Modulvariablen werden ersetzt
 
     /**
+     * @param string $content
      * @return string
      */
     protected function replaceVars(rex_sql $sql, $content)
@@ -478,6 +542,7 @@ class rex_article_content_base
     // ----- REX_VAR Ersetzungen
 
     /**
+     * @param string $content
      * @return string
      */
     protected function replaceObjectVars(rex_sql $sql, $content)
@@ -500,6 +565,8 @@ class rex_article_content_base
     // ---- Artikelweite globale variablen werden ersetzt
 
     /**
+     * @param string $content
+     * @param int|null $templateId
      * @return string
      */
     public function replaceCommonVars($content, $templateId = null)
@@ -550,6 +617,7 @@ class rex_article_content_base
     }
 
     /**
+     * @param string $content
      * @return string
      */
     protected function replaceLinks($content)

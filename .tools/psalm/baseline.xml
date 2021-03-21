@@ -3431,10 +3431,12 @@
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/structure/lib/var_article.php">
-    <MixedArgument occurrences="4">
+    <MixedArgument occurrences="6">
+      <code>$clang</code>
       <code>$clang</code>
       <code>$ctype</code>
       <code>$field</code>
+      <code>$id</code>
       <code>$id</code>
     </MixedArgument>
     <PossiblyNullReference occurrences="1">
@@ -3587,8 +3589,10 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/boot.php">
-    <MixedArgument occurrences="3">
+    <InvalidScalarArgument occurrences="1">
       <code>$article-&gt;getValue('updatedate')</code>
+    </InvalidScalarArgument>
+    <MixedArgument occurrences="2">
       <code>$ep-&gt;getParam('file')</code>
       <code>$urls[$match[1]][0]</code>
     </MixedArgument>
@@ -3599,8 +3603,7 @@
     <MixedArrayOffset occurrences="1">
       <code>['function' =&gt; 'edit', $urls[$match[1]][1] =&gt; $match[2]]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="2">
-      <code>$artId</code>
+    <MixedAssignment occurrences="1">
       <code>$content</code>
     </MixedAssignment>
     <MixedMethodCall occurrences="1">
@@ -3689,22 +3692,12 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/article_content.php">
-    <MixedArgument occurrences="3">
-      <code>$value</code>
-      <code>$value</code>
-      <code>$value</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="3">
+    <MixedAssignment occurrences="1">
       <code>$CONTENT</code>
-      <code>$value</code>
-      <code>$value</code>
     </MixedAssignment>
     <MixedInferredReturnType occurrences="1">
       <code>getArticle</code>
     </MixedInferredReturnType>
-    <MixedOperand occurrences="1">
-      <code>$value</code>
-    </MixedOperand>
     <MixedReturnStatement occurrences="1">
       <code>$CONTENT</code>
     </MixedReturnStatement>
@@ -3713,17 +3706,13 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/article_content_base.php">
-    <MixedArgument occurrences="10">
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
+    <MixedArgument occurrences="6">
+      <code>$TEMPLATE-&gt;getTemplate()</code>
       <code>$matches[1]</code>
       <code>$matches[2] ?? (int) $this-&gt;clang</code>
-      <code>$path</code>
+      <code>$output</code>
       <code>$query</code>
       <code>$search</code>
-      <code>$value</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="1">
       <code>$replace</code>
@@ -3732,7 +3721,7 @@
       <code>$matches[1]</code>
       <code>$matches[2]</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="17">
+    <MixedAssignment occurrences="9">
       <code>$output</code>
       <code>$prevCtype</code>
       <code>$query</code>
@@ -3741,30 +3730,12 @@
       <code>$sliceId</code>
       <code>$sliceId</code>
       <code>$sliceModuleId</code>
-      <code>$templateId</code>
-      <code>$this-&gt;category_id</code>
-      <code>$this-&gt;clang</code>
-      <code>$this-&gt;function</code>
-      <code>$this-&gt;mode</code>
-      <code>$this-&gt;slice_id</code>
-      <code>$this-&gt;template_id</code>
-      <code>$this-&gt;template_id</code>
       <code>$value</code>
     </MixedAssignment>
-    <MixedMethodCall occurrences="5">
-      <code>getDateTimeValue</code>
-      <code>getRows</code>
-      <code>getValue</code>
-      <code>hasValue</code>
-      <code>setQuery</code>
-    </MixedMethodCall>
-    <MixedOperand occurrences="6">
+    <MixedOperand occurrences="3">
       <code>$sliceContent</code>
       <code>$sliceCtypeId</code>
       <code>$sliceCtypeId</code>
-      <code>$value</code>
-      <code>$value</code>
-      <code>$value</code>
     </MixedOperand>
     <PossiblyNullArgument occurrences="1">
       <code>$template-&gt;getKey()</code>
@@ -3775,62 +3746,17 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/article_content_editor.php">
-    <MixedArgument occurrences="12">
+    <MixedArgument occurrences="2">
       <code>$MOD-&gt;getValue('name')</code>
-      <code>$artDataSql-&gt;getValue(rex::getTablePrefix() . 'module.name')</code>
-      <code>$artDataSql-&gt;getValue(rex::getTablePrefix() . 'module.name')</code>
-      <code>$moduleId</code>
-      <code>$moduleId</code>
-      <code>$moduleId</code>
-      <code>$moduleId</code>
-      <code>$sliceCtype</code>
-      <code>$sliceCtype</code>
-      <code>$sliceId</code>
-      <code>$sliceId</code>
       <code>$templateCtypes</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="5">
-      <code>$module['id']</code>
-      <code>$module['id']</code>
-      <code>$module['key']</code>
-      <code>$module['name']</code>
-      <code>$this-&gt;MODULESELECT[$this-&gt;ctype]</code>
-    </MixedArrayAccess>
-    <MixedAssignment occurrences="21">
+    <MixedAssignment occurrences="3">
       <code>$ctName</code>
-      <code>$item['id']</code>
-      <code>$item['key']</code>
-      <code>$item['title']</code>
-      <code>$module</code>
-      <code>$moduleId</code>
-      <code>$moduleId</code>
-      <code>$moduleId</code>
-      <code>$moduleInput</code>
-      <code>$moduleOutput</code>
-      <code>$position</code>
       <code>$select</code>
-      <code>$sliceCtype</code>
-      <code>$sliceCtype</code>
-      <code>$sliceCtype</code>
-      <code>$sliceId</code>
-      <code>$sliceId</code>
-      <code>$sliceId</code>
-      <code>$sliceStatus</code>
-      <code>$sliceStatus</code>
       <code>$templateCtypes</code>
     </MixedAssignment>
-    <MixedOperand occurrences="11">
-      <code>$moduleId</code>
-      <code>$moduleId</code>
-      <code>$moduleId</code>
-      <code>$position</code>
-      <code>$position</code>
+    <MixedOperand occurrences="1">
       <code>$select</code>
-      <code>$sliceId</code>
-      <code>$sliceId</code>
-      <code>$this-&gt;sliceAddPosition</code>
-      <code>$this-&gt;sliceAddPosition</code>
-      <code>$this-&gt;sliceAddPosition</code>
     </MixedOperand>
     <PossiblyNullReference occurrences="6">
       <code>getComplexPerm</code>
@@ -3842,14 +3768,17 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/article_slice.php">
-    <MixedArgument occurrences="7">
+    <MixedArgument occurrences="10">
       <code>$sql-&gt;getValue('createuser')</code>
       <code>$sql-&gt;getValue('updateuser')</code>
       <code>$this-&gt;getArticleId()</code>
       <code>$this-&gt;getArticleId()</code>
+      <code>$this-&gt;getArticleId()</code>
+      <code>$this-&gt;getClangId()</code>
       <code>$this-&gt;getId()</code>
       <code>$this-&gt;getLink($index)</code>
       <code>$this-&gt;getMedia($index)</code>
+      <code>$this-&gt;getRevision()</code>
     </MixedArgument>
     <MixedArrayAccess occurrences="5">
       <code>$this-&gt;linklists[$index - 1]</code>
@@ -3987,7 +3916,11 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/var_template.php">
-    <MixedArgument occurrences="1">
+    <InvalidScalarArgument occurrences="1">
+      <code>$id</code>
+    </InvalidScalarArgument>
+    <MixedArgument occurrences="2">
+      <code>$tmpl</code>
       <code>$tmpl</code>
     </MixedArgument>
     <MixedAssignment occurrences="1">
@@ -4298,10 +4231,7 @@
     <MixedMethodCall occurrences="1">
       <code>setEval</code>
     </MixedMethodCall>
-    <MixedOperand occurrences="8">
-      <code>$article-&gt;getArticleId()</code>
-      <code>$article-&gt;getClangId()</code>
-      <code>$article-&gt;getClangId()</code>
+    <MixedOperand occurrences="5">
       <code>$ep-&gt;getParam('direction')</code>
       <code>$historyInfo</code>
       <code>$version['history_date']</code>
