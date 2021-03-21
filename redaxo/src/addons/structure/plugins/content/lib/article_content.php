@@ -88,21 +88,20 @@ class rex_article_content extends rex_article_content_base
         if (!$this->getSlice && 0 != $this->article_id) {
             // ----- start: article caching
             try {
+                ob_start();
+                ob_implicit_flush(0);
 
-            ob_start();
-            ob_implicit_flush(0);
+                $articleContentFile = rex_path::addonCache('structure', $this->article_id . '.' . $this->clang . '.content');
 
-            $articleContentFile = rex_path::addonCache('structure', $this->article_id . '.' . $this->clang . '.content');
+                if (!is_file($articleContentFile)) {
+                    rex_content_service::generateArticleContent($this->article_id, $this->clang);
+                }
 
-            if (!is_file($articleContentFile)) {
-                rex_content_service::generateArticleContent($this->article_id, $this->clang);
-            }
+                require $articleContentFile;
 
-            require $articleContentFile;
-
-            // ----- end: article caching
+                // ----- end: article caching
             } finally {
-            $CONTENT = ob_get_clean();
+                $CONTENT = ob_get_clean();
             }
         } else {
             // Inhalt ueber sql generierens
