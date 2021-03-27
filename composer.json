@@ -110,7 +110,10 @@
         "phpstan-baseline": "phpstan analyse --generate-baseline .tools/phpstan/baseline.neon",
         "psalm": "psalm --use-baseline=.tools/psalm/baseline.xml",
         "psalm-baseline": "psalm --set-baseline=.tools/psalm/baseline.xml",
-        "rector": "rector process --ansi",
+        "rector": [
+            "Composer\\Config::disableProcessTimeout",
+            "rector process --ansi"
+        ],
         "taint": "psalm --use-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache --threads=1",
         "taint-baseline": "psalm --set-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache --threads=1 || git checkout -- psalm.xml",
         "sa": [
