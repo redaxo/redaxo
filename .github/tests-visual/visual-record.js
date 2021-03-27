@@ -122,6 +122,9 @@ function countDiffPixels(img1path, img2path ) {
 async function createScreenshot(page, screenshotName) {
     mkdirp.sync(WORKING_DIR);
 
+    // hide blinking cursor
+    await page.addStyleTag({ content: 'input { caret-color: transparent !important; }' });
+
     // mask dynamic content, to make it not appear like change (visual noise)
     await page.evaluate(function() {
         var changingElements = [
@@ -211,7 +214,6 @@ async function main() {
             await page.goto(START_URL, { waitUntil: 'load' });
             await page.waitForSelector('.rex-background--ready');
             await page.waitForTimeout(1000); // wait for bg image to fade in
-            await page.addStyleTag({ content: 'input { caret-color: transparent !important; }' }); // hide blinking cursor
             await createScreenshot(page, 'login.png');
 
             // login successful
@@ -222,7 +224,6 @@ async function main() {
             for (var fileName in allPages) {
                 await page.goto(allPages[fileName], { waitUntil: 'load' });
                 await page.waitForTimeout(350); // slight buffer for CSS animations or :focus styles etc.
-                await page.addStyleTag({ content: 'input { caret-color: transparent !important; }' }); // hide blinking cursor
                 await createScreenshot(page, fileName);
             }
 
@@ -253,7 +254,6 @@ async function main() {
             await page.click('#rex-js-nav-top .rex-logout');
             await page.waitForSelector('.rex-background--ready');
             await page.waitForTimeout(1000); // wait for bg image to fade in
-            await page.addStyleTag({ content: 'input { caret-color: transparent !important; }' }); // hide blinking cursor
             await createScreenshot(page, 'logout.png');
 
             break;
