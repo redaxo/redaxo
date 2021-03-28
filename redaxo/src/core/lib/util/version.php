@@ -67,13 +67,6 @@ class rex_version
      */
     public static function gitHash($path, ?string $repo = null): ?string
     {
-        static $gitHash = [];
-
-        if (array_key_exists($path, $gitHash)) {
-            return $gitHash[$path];
-        }
-
-        $gitHash[$path] = null; // exec only once
         $output = [];
         $exitCode = -1;
 
@@ -101,10 +94,6 @@ class rex_version
         $command = 'cd '. escapeshellarg($path).' && '.escapeshellarg($git).' log -1 --pretty=format:%h';
         $version = @exec($command, $output, $exitCode);
 
-        if (0 === $exitCode) {
-            $gitHash[$path] = $version;
-        }
-
-        return $gitHash[$path];
+        return 0 === $exitCode ? $version : null;
     }
 }
