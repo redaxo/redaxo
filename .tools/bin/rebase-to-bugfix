@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -e
+
+branch=$(git symbolic-ref --short HEAD)
+
+git checkout master
+git pull
+
+git checkout bugfix
+git pull
+
+git checkout $branch
+git rebase --onto bugfix master
