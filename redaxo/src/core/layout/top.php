@@ -58,8 +58,10 @@ foreach ($bodyAttr as $k => $v) {
 
 $hasNavigation = $curPage->hasNavigation();
 
+$user = rex::getUser();
+
 $metaItems = [];
-if (rex::getUser() && $hasNavigation) {
+if ($user && $hasNavigation) {
     if (rex::isSafeMode()) {
         $item = [];
         $item['title'] = rex_i18n::msg('safemode_deactivate');
@@ -69,7 +71,7 @@ if (rex::getUser() && $hasNavigation) {
         unset($item);
     }
 
-    $userName = rex::getUser()->getName() ?: rex::getUser()->getLogin();
+    $userName = $user->getName() ?: $user->getLogin();
     $impersonator = rex::getImpersonator();
     if ($impersonator) {
         $impersonator = $impersonator->getName() ?: $impersonator->getLogin();
@@ -104,7 +106,7 @@ if (rex::getUser() && $hasNavigation) {
 
 // wird in bottom.php an Fragment uebergeben
 $navigation = '';
-if (rex::getUser() && $hasNavigation) {
+if ($user && $hasNavigation) {
     $n = rex_be_navigation::factory();
     foreach (rex_be_controller::getPages() as $p => $pageObj) {
         $p = strtolower($p);
