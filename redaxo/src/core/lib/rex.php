@@ -303,6 +303,8 @@ class rex
 
     /**
      * Returns the current user.
+     *
+     * In contrast to `getUser`, this method throw a `rex_exception` if the user does not exist.
      */
     public static function requireUser(): rex_user
     {
