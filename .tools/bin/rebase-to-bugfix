@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# This script is useful when changing the target branch of pull requests from master to bugfix.
+# 1. Checkout the pull request
+# 2. Call this script via `composer rebase-to-bugfix`
+# 3. Force-push to remote branch
+
 set -e
 
 branch=$(git symbolic-ref --short HEAD)
