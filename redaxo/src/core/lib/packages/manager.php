@@ -110,7 +110,7 @@ abstract class rex_package_manager
                 [$addonId, $pluginId] = rex_package::splitId($packageId);
                 throw new rex_functional_exception($this->wrongPackageId($addonId, $pluginId));
             }
-            if (null === $this->package->getVersion()) {
+            if (null === $this->package->getProperty('version')) {
                 throw new rex_functional_exception($this->i18n('missing_version'));
             }
 

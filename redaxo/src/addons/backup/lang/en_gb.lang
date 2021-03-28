@@ -65,8 +65,8 @@ backup_delete_interval_weekly = Keep one backup per week
 backup_delete_interval_monthly = Keep one backup per month
 backup_delete_interval_notice = Only backups older than one month will be deleted, and file name must end with <code>.cronjob.sql</code>.
 
-backup_blacklist_tables = Exclude from backup
-backup_blacklist_tables_notice = The selected tables will not be backed up. Tables with a prefix of <code>rex_tmp_*</code> will be excluded automatically.
+backup_exclude_tables = Exclude from backup
+backup_exclude_tables_notice = The selected tables will not be backed up. Tables with a prefix of <code>rex_tmp_*</code> will be excluded automatically.
 
 perm_general_backup[export] = Webseite exportieren
 

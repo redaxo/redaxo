@@ -132,7 +132,7 @@ final class rex_mediapool
     }
 
     /**
-     * Checks file against optional AllowedMimetypes from property `allowed_mime_types`.
+     * Checks file against optional property `allowed_mime_types`.
      *
      * @param string      $path     Path to the physical file
      * @param null|string $filename Optional filename, will be used for extracting the file extension.
@@ -158,7 +158,7 @@ final class rex_mediapool
     }
 
     /**
-     * get allowedExtensions of mediatypes(extensions) given via media widget "types" param.
+     * Get allowed mediatype extensions given via media widget "types" param.
      *
      * @param array $args widget params
      *
@@ -182,7 +182,7 @@ final class rex_mediapool
     }
 
     /**
-     * return global mediatype blockedExtensions from master.inc.
+     * Get global blocked mediatype extensions.
      *
      * @return array blocked mediatype extensions
      */
