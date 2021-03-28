@@ -52,12 +52,13 @@ class rex_version
         if (null === $comparator) {
             $result = version_compare($version1, $version2);
         } else {
+            if (!in_array($comparator, ['=', '==', '!=', '<>', '<', '<=', '>', '>='], true)) {
+                throw new InvalidArgumentException(sprintf('Unknown comparator "%s".', $comparator));
+            }
+
             $result = version_compare($version1, $version2, $comparator);
         }
 
-        if (null === $result) {
-            throw new InvalidArgumentException(sprintf('Unknown comparator "%s".', $comparator));
-        }
 
         return $result;
     }
