@@ -75,6 +75,8 @@ class rex_version_test extends TestCase
 
     /**
      * @dataProvider compareProvider
+     *
+     * @param null|'='|'=='|'!='|'<>'|'<'|'<='|'>'|'>=' $comparator
      */
     public function testCompare($expected, string $version1, string $version2, ?string $comparator)
     {
