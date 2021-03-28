@@ -29,18 +29,27 @@ if ('https://' === substr($url, 0, 8) || 'git@' === substr($url, 0, 4)) {
     $url = 'https://github.com/'.$repo.'.git';
 }
 
-$package = file_get_contents('https://github.com/'.$repo.'/raw/master/package.yml');
-if (!preg_match('/^package:\s*[\'"]?(.*?)[\'"]?$/m', $package, $match)) {
-    exit('Package ID not found'.PHP_EOL);
-}
-$package = $match[1];
+$tempPath = dirname(__DIR__, 2).'/redaxo/src/addons/.clone-addon.temp';
+exec('rm -rf '.escapeshellarg($tempPath));
 
-$path = dirname(__DIR__, 2).'/redaxo/src/addons/'.$package;
-if (file_exists($path)) {
-    exit('Addon "'.$package.'" already exists'.PHP_EOL);
-}
+try {
+    passthru('git clone '.$url.' '.$tempPath);
 
-passthru('git clone '.$url.' '.$path);
+    $package = file_get_contents($tempPath.'/package.yml');
+    if (!preg_match('/^package:\s*[\'"]?(.*?)[\'"]?$/m', $package, $match)) {
+        exit('Package ID not found'.PHP_EOL);
+    }
+    $package = $match[1];
+
+    $path = dirname(__DIR__, 2).'/redaxo/src/addons/'.$package;
+    if (file_exists($path)) {
+        exit('Addon "'.$package.'" already exists'.PHP_EOL);
+    }
+
+    rename($tempPath, $path);
+} finally {
+    exec('rm -rf '.escapeshellarg($tempPath));
+}
 
 exec('command -v gittower || which gittower', $output, $status);
 if (0 == $status) {
