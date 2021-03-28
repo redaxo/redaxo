@@ -65,8 +65,8 @@ backup_delete_interval_weekly = Spara en säkerhetskopia per vecka
 backup_delete_interval_monthly = Spara en säkerhetskopia per månad
 backup_delete_interval_notice = Endast säkerhetskopior som är äldre än en månad och deras filnamn slutar på <code> .cronjob.sql </ code>raderas.
 
-backup_blacklist_tables = Uteslut från säkerhetskopiering
-backup_blacklist_tables_notice = Om utvald kommer de här tabellerna inte att sparas.  Tabeller med prefixet <code> rex_tmp_ * </code> utesluts automatiskt.
+backup_exclude_tables = Uteslut från säkerhetskopiering
+backup_exclude_tables_notice = Om utvald kommer de här tabellerna inte att sparas.  Tabeller med prefixet <code> rex_tmp_ * </code> utesluts automatiskt.
 
 perm_general_backup[export] = Exportera webbsajten
 

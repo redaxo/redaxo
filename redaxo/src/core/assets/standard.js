@@ -450,18 +450,18 @@ jQuery(function($){
         time.setTime(time.getTime() + 1000 * 60 * 60 * 24);
         setCookie('rex_htaccess_check', '1', time.toGMTString(), '', '', false, 'lax');
 
-        var whiteUrl = 'index.php';
+        var allowedUrl = 'index.php';
 
         // test urls, which is not expected to be accessible
         // after each expected error, run a request which is expected to succeed.
         // that way we try to make sure tools like fail2ban dont block the client
         var urls = [
             'bin/console',
-            whiteUrl,
+            allowedUrl,
             'data/.redaxo',
-            whiteUrl,
+            allowedUrl,
             'src/core/boot.php',
-            whiteUrl,
+            allowedUrl,
             'cache/.redaxo'
         ];
 
