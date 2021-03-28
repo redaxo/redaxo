@@ -59,7 +59,6 @@ class rex_version
             $result = version_compare($version1, $version2, $comparator);
         }
 
-
         return $result;
     }
 
