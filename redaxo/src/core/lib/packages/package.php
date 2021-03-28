@@ -234,7 +234,9 @@ abstract class rex_package implements rex_package_interface
      */
     public function getAuthor($default = null)
     {
-        return $this->getProperty('author', $default);
+        $author = (string) $this->getProperty('author', '');
+
+        return '' === $author ? $default : $author;
     }
 
     /**
@@ -242,7 +244,8 @@ abstract class rex_package implements rex_package_interface
      */
     public function getVersion($format = null)
     {
-        $version = $this->getProperty('version');
+        $version = (string) $this->getProperty('version');
+
         if ($format) {
             return rex_formatter::version($version, $format);
         }
@@ -254,7 +257,9 @@ abstract class rex_package implements rex_package_interface
      */
     public function getSupportPage($default = null)
     {
-        return $this->getProperty('supportpage', $default);
+        $supportPage = (string) $this->getProperty('supportpage', '');
+
+        return '' === $supportPage ? $default : $supportPage;
     }
 
     /**
