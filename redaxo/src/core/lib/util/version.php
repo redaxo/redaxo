@@ -89,11 +89,13 @@ class rex_version
             return null;
         }
 
-        $command = 'cd '. escapeshellarg($path).' && '.escapeshellarg($git).' ls-remote --get-url';
-        $remote = @exec($command, $output, $exitCode);
+        if (null !== $repo) {
+            $command = 'cd '. escapeshellarg($path).' && '.escapeshellarg($git).' ls-remote --get-url';
+            $remote = @exec($command, $output, $exitCode);
 
-        if (0 !== $exitCode || !preg_match('{github.com[:/]'.preg_quote($repo).'\.git$}i', $remote)) {
-            return null;
+            if (0 !== $exitCode || !preg_match('{github.com[:/]'.preg_quote($repo).'\.git$}i', $remote)) {
+                return null;
+            }
         }
 
         $command = 'cd '. escapeshellarg($path).' && '.escapeshellarg($git).' log -1 --pretty=format:%h';
