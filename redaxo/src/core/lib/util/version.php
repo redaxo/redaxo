@@ -49,7 +49,11 @@ class rex_version
         $version1 = implode('.', array_pad($version1, $max, '0'));
         $version2 = implode('.', array_pad($version2, $max, '0'));
 
-        $result = version_compare($version1, $version2, $comparator);
+        if (null === $comparator) {
+            $result = version_compare($version1, $version2);
+        } else {
+            $result = version_compare($version1, $version2, $comparator);
+        }
 
         if (null === $result) {
             throw new InvalidArgumentException(sprintf('Unknown comparator "%s".', $comparator));
