@@ -11,7 +11,7 @@ $addon = rex_addon::get('project');
 // register yorm class
 // rex_yform_manager_dataset::setModelClass('rex_my_table', my_classname::class);
 
-// Example of mediapool Whitelist
+// Example list of allowed mime types for mediapool
 /*
 rex_addon::get('mediapool')->setProperty('allowed_mime_types', [
     'gif'   => ['image/gif'],

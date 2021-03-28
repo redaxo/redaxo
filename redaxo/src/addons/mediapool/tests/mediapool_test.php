@@ -39,7 +39,7 @@ class rex_mediapool_test extends TestCase
     {
         $addon = rex_addon::get('mediapool');
 
-        $whitelist = $addon->getProperty('allowed_mime_types');
+        $allowedMimeTypes = $addon->getProperty('allowed_mime_types');
 
         $addon->setProperty('allowed_mime_types', [
             'md' => ['text/plain'],
@@ -47,7 +47,7 @@ class rex_mediapool_test extends TestCase
 
         static::assertSame($expected, rex_mediapool::isAllowedMimeType($path, $filename));
 
-        $addon->setProperty('allowed_mime_types', $whitelist);
+        $addon->setProperty('allowed_mime_types', $allowedMimeTypes);
     }
 
     public function provideIsAllowedMimeType()

@@ -42,7 +42,7 @@ class rex_string
      *
      * @param string $string       Input string
      * @param string $replaceChar  Character that is used to replace not allowed chars
-     * @param string $allowedChars Character whitelist
+     * @param string $allowedChars Allowed character list
      *
      * @return string
      */

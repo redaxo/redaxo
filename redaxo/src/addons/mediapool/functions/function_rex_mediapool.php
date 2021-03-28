@@ -333,7 +333,7 @@ function rex_mediapool_isAllowedMediaType($filename, array $args = [])
 }
 
 /**
- * Checks file against optional whitelist from property `allowed_mime_types`.
+ * Checks file against optional property `allowed_mime_types`.
  *
  * @param string      $path     Path to the physical file
  * @param null|string $filename Optional filename, will be used for extracting the file extension.
@@ -348,11 +348,11 @@ function rex_mediapool_isAllowedMimeType($path, $filename = null)
 }
 
 /**
- * get whitelist of mediatypes(extensions) given via media widget "types" param.
+ * Get allowed mediatype extensions given via media widget "types" param.
  *
  * @param array $args widget params
  *
- * @return array whitelisted extensions
+ * @return array allowed extensions
  * @deprecated since 2.11, use `rex_mediapool::getAllowedExtensions` instead
  */
 function rex_mediapool_getMediaTypeWhitelist($args = [])
@@ -361,9 +361,9 @@ function rex_mediapool_getMediaTypeWhitelist($args = [])
 }
 
 /**
- * return global mediatype blacklist from master.inc.
+ * Get global blocked mediatype extensions.
  *
- * @return array blacklisted mediatype extensions
+ * @return array blocked mediatype extensions
  * @deprecated since 2.11, use `rex_mediapool::getBlockedExtensions` instead
  */
 function rex_mediapool_getMediaTypeBlacklist()
