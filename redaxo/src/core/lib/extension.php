@@ -50,6 +50,7 @@ abstract class rex_extension
                 foreach (self::$extensions[$name][$level] as $extensionAndParams) {
                     [$extension, $params] = $extensionAndParams;
                     $extensionPoint->setExtensionParams($params);
+                    /** @var T|null $subject */
                     $subject = call_user_func($extension, $extensionPoint);
                     // Update subject only if the EP is not readonly and the extension has returned something
                     if ($extensionPoint->isReadonly()) {
