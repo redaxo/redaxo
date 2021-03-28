@@ -287,7 +287,7 @@ class rex_form extends rex_form_base
         $fieldnames = $this->sql->getFieldnames();
 
         if (in_array('updateuser', $fieldnames)) {
-            $saveSql->setValue('updateuser', rex::getUser()->getValue('login'));
+            $saveSql->setValue('updateuser', rex::requireUser()->getValue('login'));
         }
 
         if (in_array('updatedate', $fieldnames)) {
@@ -296,7 +296,7 @@ class rex_form extends rex_form_base
 
         if (!$this->isEditMode()) {
             if (in_array('createuser', $fieldnames)) {
-                $saveSql->setValue('createuser', rex::getUser()->getValue('login'));
+                $saveSql->setValue('createuser', rex::requireUser()->getValue('login'));
             }
 
             if (in_array('createdate', $fieldnames)) {

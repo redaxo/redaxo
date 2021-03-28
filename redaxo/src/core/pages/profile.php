@@ -6,7 +6,7 @@
 
 $error = '';
 $success = '';
-$user = rex::getUser();
+$user = rex::requireUser();
 $userId = $user->getId();
 
 $passwordChangeRequired = rex::getProperty('login')->requiresPasswordChange();
