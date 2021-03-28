@@ -793,10 +793,9 @@
     <InvalidArgument occurrences="1"/>
   </file>
   <file src="redaxo/src/core/lib/util/version.php">
-    <PossiblyNullArgument occurrences="3">
+    <PossiblyNullArgument occurrences="2">
       <code>$comparator</code>
       <code>$comparator</code>
-      <code>$repo</code>
     </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/lib/view.php">
