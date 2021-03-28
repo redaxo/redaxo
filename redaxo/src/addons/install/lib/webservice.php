@@ -13,9 +13,7 @@ class rex_install_webservice
     public const PATH = '/de/ws/';
     public const REFRESH_CACHE = 600;
 
-    /**
-     * @var array
-     */
+    /** @var array<string, array{stamp: int, data: array}> */
     private static $cache;
 
     /**
@@ -224,9 +222,11 @@ class rex_install_webservice
     private static function loadCache()
     {
         if (null === self::$cache) {
-            foreach ((array) rex_file::getCache(rex_path::addonCache('install', 'webservice.cache')) as $path => $cache) {
-                if ($cache['stamp'] > time() - self::REFRESH_CACHE) {
-                    self::$cache[$path] = $cache;
+            /** @var array<string, array{stamp: int, data: array}> $cache */
+            $cache = (array) rex_file::getCache(rex_path::addonCache('install', 'webservice.cache'));
+            foreach ($cache as $path => $pathCache) {
+                if ($pathCache['stamp'] > time() - self::REFRESH_CACHE) {
+                    self::$cache[$path] = $pathCache;
                 }
             }
         }

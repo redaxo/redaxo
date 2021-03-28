@@ -11,6 +11,7 @@ echo rex_api_function::getMessage();
 
 try {
     $addons = rex_install_packages::getMyPackages();
+    dd($addons);
 } catch (rex_functional_exception $e) {
     echo rex_view::error($e->getMessage());
     $addonkey = '';
@@ -22,7 +23,7 @@ if ($addonkey && isset($addons[$addonkey])) {
 
     if ($fileId) {
         $new = 'new' == $fileId;
-        $file = $new ? ['version' => '', 'description' => '', 'status' => 1] : $addon['files'][$fileId];
+        $file = $new ? ['version' => '', 'description' => '', 'status' => 1] : $addon['files'][(int) $fileId];
 
         $newVersion = rex_addon::get($addonkey)->getVersion();
 
