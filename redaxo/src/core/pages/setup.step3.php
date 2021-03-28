@@ -29,23 +29,23 @@ $security .= '<noscript>' . rex_view::error(rex_i18n::msg('setup_no_js_security_
 $security .= '<script>
 
     jQuery(function($){
-        var whiteUrl = "' . rex_url::backend('index.php') . '";
+        var allowedUrl = "' . rex_url::backend('index.php') . '";
 
         // test url, which is not expected to be accessible
         // after each expected error, run a request which is expected to succeed.
         // that way we try to make sure tools like fail2ban dont block the client
-        var blacklistedUrls = [
+        var urls = [
             "' . rex_url::backend('bin/console') . '",
-            whiteUrl,
+            allowedUrl,
             "' . rex_url::backend('data/.redaxo') . '",
-            whiteUrl,
+            allowedUrl,
             "' . rex_url::backend('src/core/boot.php') . '",
-            whiteUrl,
+            allowedUrl,
             "' . rex_url::backend('cache/.redaxo') . '"
         ];
 
         // NOTE: we have essentially a copy of this code in checkHtaccess() - see standard.js
-        $.each(blacklistedUrls, function (i, url) {
+        $.each(urls, function (i, url) {
             $.ajax({
                 url: url,
                 cache: false,

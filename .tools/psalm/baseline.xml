@@ -31,8 +31,8 @@
   <file src="redaxo/src/addons/backup/lib/cronjob.php">
     <MixedArgument occurrences="4">
       <code>$filename</code>
-      <code>$this-&gt;getParam('blacklist_tables')</code>
       <code>$this-&gt;getParam('delete_interval')</code>
+      <code>$this-&gt;getParam('exclude_tables')</code>
       <code>$this-&gt;getParam('mailaddress')</code>
     </MixedArgument>
     <MixedAssignment occurrences="1">
@@ -1957,7 +1957,7 @@
       <code>$path</code>
     </MixedArgument>
     <MixedAssignment occurrences="1">
-      <code>$whitelist</code>
+      <code>$allowedMimeTypes</code>
     </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/mediapool/update.php">
