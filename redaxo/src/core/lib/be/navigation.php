@@ -109,7 +109,7 @@ class rex_be_navigation
         $navigation = [];
 
         foreach ($blockPages as $page) {
-            if ($page->isHidden() || !$page->checkPermission(rex::getUser())) {
+            if ($page->isHidden() || !$page->checkPermission(rex::requireUser())) {
                 continue;
             }
             $n = [];

@@ -160,9 +160,9 @@ interface rex_package_interface
     /**
      * Returns the author.
      *
-     * @param mixed $default Default value, will be returned if the property isn't set
+     * @param string|null $default Default value, will be returned if the property isn't set
      *
-     * @return mixed
+     * @return string|null
      */
     public function getAuthor($default = null);
 
@@ -171,16 +171,16 @@ interface rex_package_interface
      *
      * @param string $format See {@link rex_formatter::version()}
      *
-     * @return mixed
+     * @return string
      */
     public function getVersion($format = null);
 
     /**
      * Returns the supportpage.
      *
-     * @param mixed $default Default value, will be returned if the property isn't set
+     * @param string|null $default Default value, will be returned if the property isn't set
      *
-     * @return mixed
+     * @return string|null
      */
     public function getSupportPage($default = null);
 

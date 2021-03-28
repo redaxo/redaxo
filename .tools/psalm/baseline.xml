@@ -621,16 +621,14 @@
     </MixedMethodCall>
   </file>
   <file src="redaxo/src/addons/install/lib/api/api_core_update.php">
-    <MixedArgument occurrences="9">
+    <MixedArgument occurrences="7">
       <code>$addon-&gt;getProperty('conflicts', [])</code>
       <code>$addon-&gt;getProperty('requires', [])</code>
-      <code>$addon-&gt;getVersion()</code>
       <code>$config['version']</code>
       <code>$msg</code>
       <code>$plugin-&gt;getProperty('conflicts', [])</code>
       <code>$plugin-&gt;getProperty('requires', [])</code>
       <code>$plugin-&gt;getProperty('version')</code>
-      <code>rex_addon::get($addonkey)-&gt;getVersion()</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="3">
       <code>$addonkey</code>
@@ -642,7 +640,7 @@
       <code>$config['requires']</code>
       <code>$config['version']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="10">
+    <MixedAssignment occurrences="9">
       <code>$config</code>
       <code>$conflicts[$addon]</code>
       <code>$conflicts[$plugin]</code>
@@ -651,7 +649,6 @@
       <code>$requirements[$addon]</code>
       <code>$requirements[$plugin]</code>
       <code>$value</code>
-      <code>$versions[$addon]</code>
       <code>$versions[$plugin]</code>
     </MixedAssignment>
     <MixedReturnTypeCoercion occurrences="2">
@@ -690,10 +687,9 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/install/lib/api/api_package_upload.php">
-    <MixedAssignment occurrences="4">
+    <MixedAssignment occurrences="3">
       <code>$excludeItem</code>
       <code>$exclude[]</code>
-      <code>$file['version']</code>
       <code>$packageExclude</code>
     </MixedAssignment>
     <PossiblyNullReference occurrences="1">
@@ -858,16 +854,12 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/install/lib/package/package_update.php">
-    <MixedArgument occurrences="16">
+    <MixedArgument occurrences="12">
       <code>$plugin-&gt;getProperty('conflicts', [])</code>
       <code>$plugin-&gt;getProperty('requires', [])</code>
       <code>$plugin-&gt;getProperty('version')</code>
       <code>$this-&gt;addon-&gt;getProperty('conflicts', [])</code>
       <code>$this-&gt;addon-&gt;getProperty('requires', [])</code>
-      <code>$this-&gt;addon-&gt;getVersion('0')</code>
-      <code>$this-&gt;addon-&gt;getVersion()</code>
-      <code>$this-&gt;addon-&gt;getVersion()</code>
-      <code>$this-&gt;addon-&gt;getVersion()</code>
       <code>$this-&gt;addonkey</code>
       <code>$this-&gt;addonkey</code>
       <code>$this-&gt;addonkey</code>
@@ -890,20 +882,17 @@
       <code>$this-&gt;file['version']</code>
       <code>$this-&gt;file['version']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="10">
+    <MixedAssignment occurrences="8">
       <code>$conflicts[$plugin]</code>
       <code>$conflicts[$this-&gt;addon]</code>
       <code>$key</code>
       <code>$msg</code>
-      <code>$oldVersion</code>
       <code>$requirements[$plugin]</code>
       <code>$requirements[$this-&gt;addon]</code>
       <code>$value</code>
       <code>$versions[$plugin]</code>
-      <code>$versions[$this-&gt;addon]</code>
     </MixedAssignment>
-    <MixedOperand occurrences="8">
-      <code>$oldVersion</code>
+    <MixedOperand occurrences="7">
       <code>$this-&gt;addonkey</code>
       <code>$this-&gt;addonkey</code>
       <code>$this-&gt;addonkey</code>
@@ -1055,10 +1044,8 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/install/pages/packages.update.php">
-    <MixedArgument occurrences="6">
+    <MixedArgument occurrences="4">
       <code>$availVers</code>
-      <code>$packageVersion</code>
-      <code>$version</code>
       <code>$version</code>
       <code>rex_escape($addon['description'])</code>
       <code>rex_escape($addon['shortdescription'])</code>
@@ -1081,7 +1068,7 @@
       <code>$file['version']</code>
       <code>$file['version']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="12">
+    <MixedAssignment occurrences="10">
       <code>$addon</code>
       <code>$addon</code>
       <code>$availVers</code>
@@ -1091,15 +1078,11 @@
       <code>$file</code>
       <code>$file</code>
       <code>$fileId</code>
-      <code>$packageVersion</code>
-      <code>$version</code>
       <code>$version</code>
     </MixedAssignment>
-    <MixedOperand occurrences="9">
+    <MixedOperand occurrences="7">
       <code>$description</code>
       <code>$description</code>
-      <code>$packageVersion</code>
-      <code>$version</code>
       <code>rex_escape($addon['author'])</code>
       <code>rex_escape($addon['name'])</code>
       <code>rex_escape($addon['name'])</code>
@@ -1134,15 +1117,14 @@
       <code>$file['version']</code>
       <code>$file['version']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="6">
+    <MixedAssignment occurrences="5">
       <code>$addon</code>
       <code>$addon</code>
       <code>$file</code>
       <code>$file</code>
       <code>$fileId</code>
-      <code>$newVersion</code>
     </MixedAssignment>
-    <MixedOperand occurrences="13">
+    <MixedOperand occurrences="12">
       <code>$file['version']</code>
       <code>$markdown($file['description'])</code>
       <code>rex_escape($addon['author'])</code>
@@ -1155,7 +1137,6 @@
       <code>rex_escape($file['version'])</code>
       <code>rex_escape($file['version'], 'js')</code>
       <code>rex_escape($new ? $newVersion : $file['version'])</code>
-      <code>rex_escape($newVersion, 'js')</code>
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/install/pages/settings.php">
@@ -2006,10 +1987,9 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/metainfo/extensions/extension_content_sidebar.php">
-    <MixedArgument occurrences="3">
+    <MixedArgument occurrences="2">
       <code>$params['article_id']</code>
       <code>$params['clang']</code>
-      <code>rex_plugin::get('structure', 'content')-&gt;getVersion()</code>
     </MixedArgument>
     <MixedArrayAccess occurrences="2">
       <code>$articleStatusTypes[$status][0]</code>
@@ -5013,9 +4993,7 @@
     <MixedAssignment occurrences="1">
       <code>$block</code>
     </MixedAssignment>
-    <PossiblyNullReference occurrences="3">
-      <code>getLogin</code>
-      <code>getName</code>
+    <PossiblyNullReference occurrences="1">
       <code>hasLayout</code>
     </PossiblyNullReference>
   </file>
@@ -5175,9 +5153,6 @@
       <code>isActive</code>
       <code>isActive</code>
     </MixedMethodCall>
-    <PossiblyNullArgument occurrences="1">
-      <code>rex::getUser()</code>
-    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/lib/be/page.php">
     <MixedArgument occurrences="1">
@@ -5787,10 +5762,6 @@
     <MixedOperand occurrences="1">
       <code>$name</code>
     </MixedOperand>
-    <PossiblyNullReference occurrences="2">
-      <code>getValue</code>
-      <code>getValue</code>
-    </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/lib/form/form_base.php">
     <MixedArrayOffset occurrences="3">
@@ -5950,10 +5921,6 @@
     <MixedAssignment occurrences="1">
       <code>$impersonate</code>
     </MixedAssignment>
-    <PossiblyNullReference occurrences="2">
-      <code>getLogin</code>
-      <code>isAdmin</code>
-    </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/lib/login/backend_login.php">
     <MixedArgument occurrences="1">
@@ -6159,20 +6126,17 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/packages/manager.php">
-    <MixedArgument occurrences="13">
+    <MixedArgument occurrences="10">
       <code>$instmsg</code>
       <code>$instmsg</code>
       <code>$normal</code>
       <code>$normal</code>
-      <code>$package-&gt;getVersion()</code>
-      <code>$package-&gt;getVersion()</code>
       <code>$packageId</code>
       <code>$pos</code>
       <code>$requirements['packages'][$packageId]</code>
       <code>$requirements['php']['version']</code>
       <code>$requirements['redaxo']</code>
       <code>$requires</code>
-      <code>$this-&gt;package-&gt;getVersion()</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="4">
       <code>$addonName</code>
@@ -6254,7 +6218,7 @@
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/packages/package.php">
-    <MixedArgument occurrences="9">
+    <MixedArgument occurrences="8">
       <code>$__file</code>
       <code>$__file</code>
       <code>$dir</code>
@@ -6263,7 +6227,6 @@
       <code>$key</code>
       <code>$package</code>
       <code>$value</code>
-      <code>$version</code>
     </MixedArgument>
     <MixedArrayAccess occurrences="4">
       <code>$cache[$id]</code>
@@ -6282,7 +6245,7 @@
       <code>$this-&gt;properties[$key]</code>
       <code>$this-&gt;properties[$key]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="11">
+    <MixedAssignment occurrences="10">
       <code>$addon</code>
       <code>$dir</code>
       <code>$key</code>
@@ -6293,7 +6256,6 @@
       <code>$properties</code>
       <code>$value</code>
       <code>$value</code>
-      <code>$version</code>
     </MixedAssignment>
     <MixedMethodCall occurrences="3">
       <code>$pluginMethod</code>
@@ -6460,6 +6422,9 @@
       <code>array&lt;string, array{install: bool, status: bool, plugins?: array&lt;string, array{install: bool, status: bool}&gt;}&gt;</code>
       <code>list&lt;string&gt;</code>
     </MixedReturnTypeCoercion>
+    <TypeDoesNotContainType occurrences="1">
+      <code>$user instanceof rex_user</code>
+    </TypeDoesNotContainType>
   </file>
   <file src="redaxo/src/core/lib/select.php">
     <MixedArgument occurrences="7">
@@ -7291,12 +7256,8 @@
     <PossiblyNullArgument occurrences="1">
       <code>rex_be_controller::getCurrentPagePart(1)</code>
     </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="5">
-      <code>getComplexPerm</code>
-      <code>getComplexPerm</code>
-      <code>getComplexPerm</code>
+    <PossiblyNullReference occurrences="1">
       <code>getSubpages</code>
-      <code>isAdmin</code>
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/packages.php">
@@ -7304,19 +7265,6 @@
       <code>$packageId</code>
       <code>$packageId</code>
     </MixedArgumentTypeCoercion>
-  </file>
-  <file src="redaxo/src/core/pages/credits.php">
-    <MixedArgument occurrences="1">
-      <code>$packageVersion</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="2">
-      <code>$packageVersion</code>
-      <code>$supportpage</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="2">
-      <code>$package-&gt;getAuthor()</code>
-      <code>$supportpage</code>
-    </MixedOperand>
   </file>
   <file src="redaxo/src/core/pages/login.php">
     <MixedArgument occurrences="1">
@@ -7330,37 +7278,16 @@
     </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/pages/packages.help.php">
-    <MixedAssignment occurrences="3">
-      <code>$author</code>
-      <code>$supportPage</code>
-      <code>$version</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="4">
-      <code>$supportPage</code>
-      <code>$supportPage</code>
-      <code>$version</code>
-      <code>rex_escape($author)</code>
-    </MixedOperand>
     <NullOperand occurrences="1">
       <code>rex_escape($name)</code>
     </NullOperand>
   </file>
   <file src="redaxo/src/core/pages/packages.list.php">
-    <MixedArgument occurrences="3">
-      <code>$package-&gt;getVersion()</code>
-      <code>$package-&gt;getVersion()</code>
-      <code>$package-&gt;getVersion()</code>
-    </MixedArgument>
     <MixedOperand occurrences="3">
       <code>$function</code>
       <code>$icon</code>
       <code>$key ?: $function</code>
     </MixedOperand>
-  </file>
-  <file src="redaxo/src/core/pages/profile.php">
-    <PossiblyNullReference occurrences="1">
-      <code>getId</code>
-    </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/pages/setup.php">
     <MixedArgument occurrences="6">
