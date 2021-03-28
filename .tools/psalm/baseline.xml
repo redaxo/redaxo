@@ -5619,9 +5619,6 @@
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/extension.php">
-    <MixedAssignment occurrences="1">
-      <code>$subject</code>
-    </MixedAssignment>
     <MixedInferredReturnType occurrences="1">
       <code>bool</code>
     </MixedInferredReturnType>
