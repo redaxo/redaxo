@@ -6964,47 +6964,6 @@
       <code>$var[$key]</code>
     </MixedAssignment>
   </file>
-  <file src="redaxo/src/core/lib/util/url.php">
-    <MixedAssignment occurrences="1">
-      <code>self::$pathprovider</code>
-    </MixedAssignment>
-    <MixedInferredReturnType occurrences="8">
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-    </MixedInferredReturnType>
-    <MixedMethodCall occurrences="10">
-      <code>addonAssets</code>
-      <code>assets</code>
-      <code>backend</code>
-      <code>backendController</code>
-      <code>base</code>
-      <code>coreAssets</code>
-      <code>frontend</code>
-      <code>frontendController</code>
-      <code>media</code>
-      <code>pluginAssets</code>
-    </MixedMethodCall>
-    <MixedOperand occurrences="2">
-      <code>self::$pathprovider-&gt;backendController()</code>
-      <code>self::$pathprovider-&gt;frontendController()</code>
-    </MixedOperand>
-    <MixedReturnStatement occurrences="8">
-      <code>self::$pathprovider-&gt;addonAssets($addon, $file)</code>
-      <code>self::$pathprovider-&gt;assets($file)</code>
-      <code>self::$pathprovider-&gt;backend($file)</code>
-      <code>self::$pathprovider-&gt;base($file)</code>
-      <code>self::$pathprovider-&gt;coreAssets($file)</code>
-      <code>self::$pathprovider-&gt;frontend($file)</code>
-      <code>self::$pathprovider-&gt;media($file)</code>
-      <code>self::$pathprovider-&gt;pluginAssets($addon, $plugin, $file)</code>
-    </MixedReturnStatement>
-  </file>
   <file src="redaxo/src/core/lib/util/version.php">
     <MixedArgument occurrences="1">
       <code>$gitHash</code>
