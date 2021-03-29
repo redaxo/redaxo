@@ -7,7 +7,7 @@
  */
 class rex_install_archive
 {
-    public static function extract($archive, $dir, $basename = '')
+    public static function extract(string $archive, string $dir, string $basename = ''): bool
     {
         $dir = rtrim($dir, '/\\');
         rex_dir::delete($dir);
@@ -58,7 +58,10 @@ class rex_install_archive
         return false;
     }
 
-    public static function copyDirToArchive($dir, $archive, $basename = null, $exclude = null)
+    /**
+     * @param string|string[]|null $exclude
+     */
+    public static function copyDirToArchive(string $dir, string $archive, ?string $basename = null, $exclude = null)
     {
         $dir = rtrim($dir, '/\\');
         $basename = $basename ?: rex_path::basename($dir);

@@ -4,17 +4,16 @@
  * @package redaxo\install
  *
  * @internal
+ *
+ * @psalm-suppress MissingConstructor
  */
 class rex_install_package_update extends rex_install_package_download
 {
     /**
-     * @var rex_addon|null
+     * @var rex_addon
      */
     private $addon;
 
-    /**
-     * @return array
-     */
     protected function getPackages()
     {
         return rex_install_packages::getUpdatePackages();
@@ -67,7 +66,7 @@ class rex_install_package_update extends rex_install_package_download
             } catch (rex_sql_exception $e) {
                 return 'SQL error: ' . $e->getMessage();
             }
-            if ('' != ($msg = $this->addon->getProperty('updatemsg', ''))) {
+            if ('' != ($msg = (string) $this->addon->getProperty('updatemsg', ''))) {
                 return $msg;
             }
             if (!$this->addon->getProperty('update', true)) {
@@ -134,6 +133,8 @@ class rex_install_package_update extends rex_install_package_download
         if (function_exists('opcache_reset')) {
             opcache_reset();
         }
+
+        return null;
     }
 
     /**

@@ -660,12 +660,6 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/install/lib/api/api_package_add.php">
-    <MixedAssignment occurrences="1">
-      <code>$message</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="1">
-      <code>$message</code>
-    </MixedOperand>
     <PossiblyNullReference occurrences="1">
       <code>isAdmin</code>
     </PossiblyNullReference>
@@ -676,261 +670,68 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/install/lib/api/api_package_update.php">
-    <MixedAssignment occurrences="1">
-      <code>$message</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="1">
-      <code>$message</code>
-    </MixedOperand>
     <PossiblyNullReference occurrences="1">
       <code>isAdmin</code>
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/install/lib/api/api_package_upload.php">
-    <MixedAssignment occurrences="3">
-      <code>$excludeItem</code>
-      <code>$exclude[]</code>
-      <code>$packageExclude</code>
-    </MixedAssignment>
     <PossiblyNullReference occurrences="1">
       <code>isAdmin</code>
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/install/lib/archive.php">
-    <MixedArgument occurrences="9">
-      <code>$archive</code>
-      <code>$archive</code>
-      <code>$archive</code>
-      <code>$archive</code>
-      <code>$basename</code>
-      <code>$dir</code>
-      <code>$dir</code>
-      <code>$exclude</code>
-      <code>$exclude</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="1">
-      <code>$basename</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="4">
-      <code>$archive</code>
-      <code>$basename</code>
-      <code>$basename</code>
-      <code>$basename</code>
-    </MixedOperand>
+    <MixedInferredReturnType occurrences="1">
+      <code>bool</code>
+    </MixedInferredReturnType>
   </file>
   <file src="redaxo/src/addons/install/lib/command/download.php">
-    <MixedArgument occurrences="4">
-      <code>$fileId</code>
-      <code>$message</code>
+    <MixedArgument occurrences="2">
       <code>$version</code>
       <code>$version</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="3">
-      <code>$fileMeta['version']</code>
-      <code>$fileMeta['version']</code>
-      <code>$package['files']</code>
-    </MixedArrayAccess>
-    <MixedArrayOffset occurrences="1">
-      <code>$files[$fileId]</code>
-    </MixedArrayOffset>
-    <MixedAssignment occurrences="8">
-      <code>$fId</code>
-      <code>$fileId</code>
-      <code>$fileMeta</code>
-      <code>$fileMeta</code>
-      <code>$files</code>
-      <code>$package</code>
-      <code>$version</code>
-      <code>$versions[]</code>
-    </MixedAssignment>
-  </file>
-  <file src="redaxo/src/addons/install/lib/command/list.php">
-    <MixedArgument occurrences="5">
-      <code>$package['files']</code>
-      <code>$package['name']</code>
-      <code>$package['name']</code>
-      <code>$package['shortdescription']</code>
-      <code>$package['updated']</code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="1">
-      <code>$key</code>
-    </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="8">
-      <code>$package['author']</code>
-      <code>$package['files']</code>
-      <code>$package['name']</code>
-      <code>$package['name']</code>
-      <code>$package['name']</code>
-      <code>$package['shortdescription']</code>
-      <code>$package['updated']</code>
-      <code>reset($package['files'])['version']</code>
-    </MixedArrayAccess>
     <MixedAssignment occurrences="1">
-      <code>$package</code>
+      <code>$version</code>
     </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/install/lib/command/update.php">
-    <MixedArgument occurrences="4">
-      <code>$fileId</code>
-      <code>$message</code>
+    <MixedArgument occurrences="2">
       <code>$version</code>
       <code>$version</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="3">
-      <code>$fileMeta['version']</code>
-      <code>$fileMeta['version']</code>
-      <code>$package['files']</code>
-    </MixedArrayAccess>
-    <MixedArrayOffset occurrences="1">
-      <code>$files[$fileId]</code>
-    </MixedArrayOffset>
-    <MixedAssignment occurrences="8">
-      <code>$fId</code>
-      <code>$fileId</code>
-      <code>$fileMeta</code>
-      <code>$fileMeta</code>
-      <code>$files</code>
-      <code>$package</code>
+    <MixedAssignment occurrences="1">
       <code>$version</code>
-      <code>$versions[]</code>
     </MixedAssignment>
-  </file>
-  <file src="redaxo/src/addons/install/lib/install.php">
-    <MixedArgument occurrences="4">
-      <code>$fileId</code>
-      <code>$fileId</code>
-      <code>$message</code>
-      <code>$message</code>
-    </MixedArgument>
-    <MixedArrayAccess occurrences="4">
-      <code>$fileMeta['version']</code>
-      <code>$fileMeta['version']</code>
-      <code>$package['files']</code>
-      <code>$package['files']</code>
-    </MixedArrayAccess>
-    <MixedArrayOffset occurrences="2">
-      <code>$files[$fileId]</code>
-      <code>$files[$fileId]</code>
-    </MixedArrayOffset>
-    <MixedAssignment occurrences="10">
-      <code>$fId</code>
-      <code>$fId</code>
-      <code>$fileId</code>
-      <code>$fileId</code>
-      <code>$fileMeta</code>
-      <code>$fileMeta</code>
-      <code>$files</code>
-      <code>$files</code>
-      <code>$package</code>
-      <code>$package</code>
-    </MixedAssignment>
-  </file>
-  <file src="redaxo/src/addons/install/lib/package/package_add.php">
-    <MixedArgument occurrences="3">
-      <code>$this-&gt;addonkey</code>
-      <code>$this-&gt;addonkey</code>
-      <code>$this-&gt;addonkey</code>
-    </MixedArgument>
   </file>
   <file src="redaxo/src/addons/install/lib/package/package_download.php">
-    <MixedArgument occurrences="3">
+    <MixedArgument occurrences="1">
       <code>$dir</code>
-      <code>$file</code>
-      <code>$this-&gt;file['path']</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="3">
-      <code>$packages[$this-&gt;addonkey]</code>
-      <code>$this-&gt;file['checksum']</code>
-      <code>$this-&gt;file['path']</code>
-    </MixedArrayAccess>
-    <MixedAssignment occurrences="2">
-      <code>$msg</code>
-      <code>$packages</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="3">
-      <code>$this-&gt;addonkey</code>
-      <code>$this-&gt;addonkey</code>
-      <code>$this-&gt;addonkey</code>
-    </MixedOperand>
   </file>
   <file src="redaxo/src/addons/install/lib/package/package_update.php">
-    <MixedArgument occurrences="12">
+    <MixedArgument occurrences="5">
       <code>$plugin-&gt;getProperty('conflicts', [])</code>
       <code>$plugin-&gt;getProperty('requires', [])</code>
       <code>$plugin-&gt;getProperty('version')</code>
       <code>$this-&gt;addon-&gt;getProperty('conflicts', [])</code>
       <code>$this-&gt;addon-&gt;getProperty('requires', [])</code>
-      <code>$this-&gt;addonkey</code>
-      <code>$this-&gt;addonkey</code>
-      <code>$this-&gt;addonkey</code>
-      <code>$this-&gt;addonkey</code>
-      <code>$this-&gt;addonkey</code>
-      <code>$this-&gt;file['version']</code>
-      <code>$this-&gt;file['version']</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="2">
       <code>$manager</code>
       <code>$manager</code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="8">
+    <MixedArrayAccess occurrences="3">
       <code>$config['conflicts']</code>
       <code>$config['requires']</code>
       <code>$config['version']</code>
-      <code>$this-&gt;file['version']</code>
-      <code>$this-&gt;file['version']</code>
-      <code>$this-&gt;file['version']</code>
-      <code>$this-&gt;file['version']</code>
-      <code>$this-&gt;file['version']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="8">
+    <MixedAssignment occurrences="7">
       <code>$conflicts[$plugin]</code>
       <code>$conflicts[$this-&gt;addon]</code>
       <code>$key</code>
-      <code>$msg</code>
       <code>$requirements[$plugin]</code>
       <code>$requirements[$this-&gt;addon]</code>
       <code>$value</code>
       <code>$versions[$plugin]</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="7">
-      <code>$this-&gt;addonkey</code>
-      <code>$this-&gt;addonkey</code>
-      <code>$this-&gt;addonkey</code>
-      <code>$this-&gt;addonkey</code>
-      <code>$this-&gt;addonkey</code>
-      <code>$this-&gt;addonkey</code>
-      <code>$this-&gt;file['version']</code>
-    </MixedOperand>
-    <PossiblyNullReference occurrences="2">
-      <code>getProperty</code>
-      <code>getVersion</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/addons/install/lib/packages.php">
-    <MixedArgument occurrences="4">
-      <code>$fileId</code>
-      <code>$file['version']</code>
-      <code>$package</code>
-      <code>$version</code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="3">
-      <code>$key</code>
-      <code>$key</code>
-      <code>$key</code>
-    </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="1">
-      <code>self::$updatePackages[$package]['files'][$fileId]</code>
-    </MixedArrayAccess>
-    <MixedArrayOffset occurrences="3">
-      <code>$updatePackages[$package]</code>
-      <code>self::$updatePackages[$package]</code>
-      <code>self::$updatePackages[$package]['files'][$fileId]</code>
-    </MixedArrayOffset>
-    <MixedAssignment occurrences="4">
-      <code>$addon</code>
-      <code>$addon</code>
-      <code>$file</code>
-      <code>$fileId</code>
     </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/install/lib/webservice.php">
@@ -938,205 +739,55 @@
       <code>$config['api_key']</code>
       <code>$config['api_login']</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="2">
+    <MixedArgumentTypeCoercion occurrences="1">
       <code>$data</code>
-      <code>$path</code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="2">
-      <code>$cache['stamp']</code>
-      <code>self::$cache[$path]['data']</code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="2">
-      <code>self::$cache[$path]['data']</code>
-      <code>self::$cache[$path]['stamp']</code>
-    </MixedArrayAssignment>
-    <MixedArrayOffset occurrences="1">
-      <code>self::$cache[$path]</code>
-    </MixedArrayOffset>
-    <MixedAssignment occurrences="6">
-      <code>$cache</code>
-      <code>$cache</code>
+    <MixedAssignment occurrences="2">
       <code>$data</code>
       <code>$data</code>
-      <code>$path</code>
-      <code>self::$cache[$path]</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="1">
-      <code>array|null</code>
-    </MixedInferredReturnType>
     <MixedOperand occurrences="2">
       <code>$data['error']</code>
       <code>$data['error']</code>
     </MixedOperand>
-    <MixedReturnStatement occurrences="1">
-      <code>self::$cache[$path]['data']</code>
-    </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/install/pages/packages.add.php">
-    <MixedArgument occurrences="14">
+    <MixedArgument occurrences="4">
       <code>$addon1['files']</code>
       <code>$addon1['files']</code>
       <code>$addon2['files']</code>
       <code>$addon2['files']</code>
-      <code>$addon['files']</code>
-      <code>$addon['files']</code>
-      <code>$file['created']</code>
-      <code>$version</code>
-      <code>reset($addon['files'])['created']</code>
-      <code>reset($addon['files'])['created']</code>
-      <code>rex_escape($addon['description'])</code>
-      <code>rex_escape($addon['shortdescription'])</code>
-      <code>rex_escape($addon['shortdescription'])</code>
-      <code>rex_escape($addon['shortdescription'])</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="1">
-      <code>$key</code>
-    </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="29">
+    <MixedArrayAccess occurrences="8">
       <code>$addon1['files']</code>
       <code>$addon1['files']</code>
       <code>$addon2['files']</code>
       <code>$addon2['files']</code>
-      <code>$addon['author']</code>
-      <code>$addon['author']</code>
-      <code>$addon['author']</code>
-      <code>$addon['description']</code>
-      <code>$addon['files']</code>
-      <code>$addon['files']</code>
-      <code>$addon['files']</code>
-      <code>$addon['name']</code>
-      <code>$addon['name']</code>
-      <code>$addon['name']</code>
-      <code>$addon['shortdescription']</code>
-      <code>$addon['shortdescription']</code>
-      <code>$addon['shortdescription']</code>
-      <code>$addon['website']</code>
-      <code>$addon['website']</code>
-      <code>$addon['website']</code>
-      <code>$file['created']</code>
-      <code>$file['description']</code>
-      <code>$file['version']</code>
       <code>reset($addon1['files'])['created']</code>
       <code>reset($addon1['files'])['created']</code>
       <code>reset($addon2['files'])['created']</code>
       <code>reset($addon2['files'])['created']</code>
-      <code>reset($addon['files'])['created']</code>
-      <code>reset($addon['files'])['created']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="6">
-      <code>$addon</code>
-      <code>$addon</code>
+    <MixedAssignment occurrences="1">
       <code>$description</code>
-      <code>$file</code>
-      <code>$fileId</code>
-      <code>$version</code>
     </MixedAssignment>
-    <MixedOperand occurrences="9">
+    <MixedOperand occurrences="1">
       <code>$description</code>
-      <code>rex_escape($addon['author'])</code>
-      <code>rex_escape($addon['author'])</code>
-      <code>rex_escape($addon['author'])</code>
-      <code>rex_escape($addon['name'])</code>
-      <code>rex_escape($addon['name'])</code>
-      <code>rex_escape($addon['name'])</code>
-      <code>rex_escape($addon['website'])</code>
-      <code>rex_escape($addon['website'])</code>
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/install/pages/packages.update.php">
-    <MixedArgument occurrences="4">
-      <code>$availVers</code>
-      <code>$version</code>
-      <code>rex_escape($addon['description'])</code>
-      <code>rex_escape($addon['shortdescription'])</code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="1">
-      <code>$key</code>
-    </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="13">
-      <code>$addon['author']</code>
-      <code>$addon['description']</code>
-      <code>$addon['files']</code>
-      <code>$addon['files']</code>
-      <code>$addon['name']</code>
-      <code>$addon['name']</code>
-      <code>$addon['shortdescription']</code>
-      <code>$addon['website']</code>
-      <code>$addon['website']</code>
-      <code>$addon['website']</code>
-      <code>$file['description']</code>
-      <code>$file['version']</code>
-      <code>$file['version']</code>
-    </MixedArrayAccess>
-    <MixedAssignment occurrences="10">
-      <code>$addon</code>
-      <code>$addon</code>
-      <code>$availVers</code>
-      <code>$availableVersions[]</code>
+    <MixedAssignment occurrences="2">
       <code>$description</code>
       <code>$description</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$fileId</code>
-      <code>$version</code>
     </MixedAssignment>
-    <MixedOperand occurrences="7">
+    <MixedOperand occurrences="2">
       <code>$description</code>
       <code>$description</code>
-      <code>rex_escape($addon['author'])</code>
-      <code>rex_escape($addon['name'])</code>
-      <code>rex_escape($addon['name'])</code>
-      <code>rex_escape($addon['website'])</code>
-      <code>rex_escape($addon['website'])</code>
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/install/pages/packages.upload.php">
-    <MixedArgument occurrences="3">
-      <code>$file['redaxo_versions']</code>
-      <code>rex_escape($addon['description'])</code>
-      <code>rex_escape($addon['shortdescription'])</code>
-    </MixedArgument>
-    <MixedArrayAccess occurrences="19">
-      <code>$addon['author']</code>
-      <code>$addon['description']</code>
-      <code>$addon['files']</code>
-      <code>$addon['files']</code>
-      <code>$addon['name']</code>
-      <code>$addon['name']</code>
-      <code>$addon['shortdescription']</code>
-      <code>$addon['status']</code>
-      <code>$addon['website']</code>
-      <code>$addon['website']</code>
-      <code>$addon['website']</code>
-      <code>$file['description']</code>
-      <code>$file['description']</code>
-      <code>$file['redaxo_versions']</code>
-      <code>$file['status']</code>
-      <code>$file['status']</code>
-      <code>$file['version']</code>
-      <code>$file['version']</code>
-      <code>$file['version']</code>
-    </MixedArrayAccess>
-    <MixedAssignment occurrences="5">
-      <code>$addon</code>
-      <code>$addon</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$fileId</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="12">
-      <code>$file['version']</code>
+    <MixedOperand occurrences="1">
       <code>$markdown($file['description'])</code>
-      <code>rex_escape($addon['author'])</code>
-      <code>rex_escape($addon['name'])</code>
-      <code>rex_escape($addon['name'])</code>
-      <code>rex_escape($addon['website'])</code>
-      <code>rex_escape($addon['website'])</code>
-      <code>rex_escape($file['description'])</code>
-      <code>rex_escape($file['version'])</code>
-      <code>rex_escape($file['version'])</code>
-      <code>rex_escape($file['version'], 'js')</code>
-      <code>rex_escape($new ? $newVersion : $file['version'])</code>
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/install/pages/settings.php">
@@ -7088,47 +6739,6 @@
       <code>$var</code>
       <code>$var[$key]</code>
     </MixedAssignment>
-  </file>
-  <file src="redaxo/src/core/lib/util/url.php">
-    <MixedAssignment occurrences="1">
-      <code>self::$pathprovider</code>
-    </MixedAssignment>
-    <MixedInferredReturnType occurrences="8">
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-    </MixedInferredReturnType>
-    <MixedMethodCall occurrences="10">
-      <code>addonAssets</code>
-      <code>assets</code>
-      <code>backend</code>
-      <code>backendController</code>
-      <code>base</code>
-      <code>coreAssets</code>
-      <code>frontend</code>
-      <code>frontendController</code>
-      <code>media</code>
-      <code>pluginAssets</code>
-    </MixedMethodCall>
-    <MixedOperand occurrences="2">
-      <code>self::$pathprovider-&gt;backendController()</code>
-      <code>self::$pathprovider-&gt;frontendController()</code>
-    </MixedOperand>
-    <MixedReturnStatement occurrences="8">
-      <code>self::$pathprovider-&gt;addonAssets($addon, $file)</code>
-      <code>self::$pathprovider-&gt;assets($file)</code>
-      <code>self::$pathprovider-&gt;backend($file)</code>
-      <code>self::$pathprovider-&gt;base($file)</code>
-      <code>self::$pathprovider-&gt;coreAssets($file)</code>
-      <code>self::$pathprovider-&gt;frontend($file)</code>
-      <code>self::$pathprovider-&gt;media($file)</code>
-      <code>self::$pathprovider-&gt;pluginAssets($addon, $plugin, $file)</code>
-    </MixedReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/util/version.php">
     <MixedArgument occurrences="1">
