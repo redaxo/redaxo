@@ -11,7 +11,6 @@ echo rex_api_function::getMessage();
 
 try {
     $addons = rex_install_packages::getMyPackages();
-    dd($addons);
 } catch (rex_functional_exception $e) {
     echo rex_view::error($e->getMessage());
     $addonkey = '';
