@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 use Rector\Core\Configuration\Option;
 use Rector\Core\ValueObject\PhpVersion;
-use Rector\Naming\Rector\Property\UnderscoreToCamelCasePropertyNameRector;
-use Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector;
 use Rector\Php80\Rector\Identical\StrEndsWithRector;
 use Rector\Php80\Rector\Identical\StrStartsWithRector;
 use Rector\Php80\Rector\NotIdentical\StrContainsRector;
 use Rector\Set\ValueObject\SetList;
+use Redaxo\Rector\UnderscoreCamelCaseConflictingNameGuard;
+use Redaxo\Rector\UnderscoreCamelCaseExpectedNameResolver;
+use Redaxo\Rector\UnderscoreCamelCasePropertyRenamer;
+use Redaxo\Rector\UnderscoreToCamelCasePropertyNameRector;
+use Redaxo\Rector\UnderscoreToCamelCaseVariableNameRector;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -21,8 +24,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         // SetList::EARLY_RETURN,
     ]);
 
-    $parameters->set(OPTION::OPTION_AUTOLOAD_FILE, [
-        __DIR__.'/../constants.php',
+    $parameters->set(OPTION::BOOTSTRAP_FILES, [
+        __DIR__.'/.tools/constants.php',
     ]);
 
     // this list will grow over time.
@@ -45,13 +48,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ]);
 
     $parameters->set(Option::SKIP, [
-        // skip because of phpdocs which get mangled https://github.com/rectorphp/rector/issues/4691
-        // 'redaxo/src/core/lib/fragment.php',
-        // 'redaxo/src/core/lib/list.php',
-        // 'redaxo/src/core/lib/packages/manager.php',
-        // 'redaxo/src/core/lib/sql/sql.php',
-        // 'redaxo/src/core/lib/var/var.php',
-        // 'redaxo/src/core/lib/util/version.php',
         'redaxo/src/core/vendor',
         'redaxo/src/addons/backup/vendor',
         'redaxo/src/addons/be_style/vendor',
@@ -72,6 +68,17 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(StrContainsRector::class);
     $services->set(StrEndsWithRector::class);
     $services->set(StrStartsWithRector::class);
+
+    require_once __DIR__.'/.tools/rector/UnderscoreCamelCaseConflictingNameGuard.php';
+    require_once __DIR__.'/.tools/rector/UnderscoreCamelCaseExpectedNameResolver.php';
+    require_once __DIR__.'/.tools/rector/UnderscoreCamelCasePropertyRenamer.php';
+    require_once __DIR__.'/.tools/rector/UnderscoreToCamelCasePropertyNameRector.php';
+    require_once __DIR__.'/.tools/rector/UnderscoreToCamelCaseVariableNameRector.php';
+
+    $services->set(UnderscoreCamelCaseConflictingNameGuard::class)->autowire();
+    $services->set(UnderscoreCamelCaseExpectedNameResolver::class)->autowire();
+    $services->set(UnderscoreCamelCasePropertyRenamer::class)->autowire();
+
     $services->set(UnderscoreToCamelCasePropertyNameRector::class);
     $services->set(UnderscoreToCamelCaseVariableNameRector::class);
 };
