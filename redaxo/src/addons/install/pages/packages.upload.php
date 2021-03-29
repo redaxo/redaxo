@@ -22,7 +22,7 @@ if ($addonkey && isset($addons[$addonkey])) {
 
     if ($fileId) {
         $new = 'new' == $fileId;
-        $file = $new ? ['version' => '', 'description' => '', 'status' => 1] : $addon['files'][$fileId];
+        $file = $new ? ['version' => '', 'description' => '', 'status' => 1] : $addon['files'][(int) $fileId];
 
         $newVersion = rex_addon::get($addonkey)->getVersion();
 

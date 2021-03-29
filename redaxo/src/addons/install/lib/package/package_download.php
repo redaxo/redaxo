@@ -7,12 +7,19 @@
  */
 abstract class rex_install_package_download
 {
+    /** @var string */
     protected $addonkey;
+
+    /** @var int */
     protected $fileId;
+
+    /** @var array{version: string, description: string, path: string, checksum: string, created: string, updated: string} */
     protected $file;
+
+    /** @var string */
     protected $archive;
 
-    public function run(string $addonkey, int $fileId)
+    public function run(string $addonkey, int $fileId): string
     {
         $this->addonkey = rex_path::basename($addonkey); // the addonkey is used in file paths
         $this->fileId = $fileId;
@@ -56,16 +63,19 @@ abstract class rex_install_package_download
         return true;
     }
 
+    /**
+     * @return array<string, array{name: string, author: string, shortdescription: string, description: string, website: string, created: string, updated: string, files: array<int, array{version: string, description: string, path: string, checksum: string, created: string, updated: string}>}>
+     */
     abstract protected function getPackages();
 
     abstract protected function checkPreConditions();
 
+    /**
+     * @return string|null
+     */
     abstract protected function doAction();
 
-    /**
-     * @return bool
-     */
-    private function isCorrectFormat($file)
+    private function isCorrectFormat(string $file): bool
     {
         if (class_exists('ZipArchive')) {
             $success = false;
