@@ -61,6 +61,7 @@ rex_autoload::addDirectory(rex_path::core('lib'));
 mb_internal_encoding('UTF-8');
 
 if (isset($REX['URL_PROVIDER']) && is_object($REX['URL_PROVIDER'])) {
+    /** @var rex_path_default_provider */
     $urlProvider = $REX['URL_PROVIDER'];
 } else {
     $urlProvider = new rex_path_default_provider($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER'], false);
