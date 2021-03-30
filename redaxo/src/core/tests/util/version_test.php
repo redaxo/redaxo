@@ -82,4 +82,11 @@ class rex_version_test extends TestCase
     {
         static::assertSame($expected, rex_version::compare($version1, $version2, $comparator));
     }
+
+    public function testGitHash(): void
+    {
+        static::assertIsString(rex_version::gitHash(__DIR__));
+
+        static::assertNull(rex_version::gitHash(__DIR__, 'foo/bar'));
+    }
 }
