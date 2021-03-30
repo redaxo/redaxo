@@ -39,23 +39,24 @@ class rex_version
      * @param string $comparator Optional comparator
      * @psalm-param null|'='|'=='|'!='|'<>'|'<'|'<='|'>'|'>=' $comparator
      *
-     * @return int|bool
+     * @return bool
      */
-    public static function compare(string $version1, string $version2, ?string $comparator = null)
+    public static function compare(string $version1, string $version2, ?string $comparator = '<')
     {
+        // bc
+        $comparator = $comparator ?? '<';
+
+        if (!in_array($comparator, ['=', '==', '!=', '<>', '<', '<=', '>', '>='], true)) {
+            throw new InvalidArgumentException(sprintf('Unknown comparator "%s".', $comparator));
+        }
+
         $version1 = self::split($version1);
         $version2 = self::split($version2);
         $max = max(count($version1), count($version2));
         $version1 = implode('.', array_pad($version1, $max, '0'));
         $version2 = implode('.', array_pad($version2, $max, '0'));
 
-        $result = version_compare($version1, $version2, $comparator);
-
-        if (null === $result) {
-            throw new InvalidArgumentException(sprintf('Unknown comparator "%s".', $comparator));
-        }
-
-        return $result;
+        return version_compare($version1, $version2, $comparator);
     }
 
     /**

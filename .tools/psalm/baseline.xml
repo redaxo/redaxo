@@ -792,12 +792,6 @@
   <file src="redaxo/src/core/lib/util/socket/socket.php">
     <InvalidArgument occurrences="1"/>
   </file>
-  <file src="redaxo/src/core/lib/util/version.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$comparator</code>
-      <code>$comparator</code>
-    </PossiblyNullArgument>
-  </file>
   <file src="redaxo/src/core/lib/view.php">
     <PossiblyNullArgument occurrences="1">
       <code>rex_be_controller::getCurrentPagePart(1)</code>
