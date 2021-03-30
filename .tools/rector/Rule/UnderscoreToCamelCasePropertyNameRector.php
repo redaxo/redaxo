@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Redaxo\Rector;
+namespace Redaxo\Rector\Rule;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
@@ -10,6 +10,8 @@ use PhpParser\Node\Stmt\Property;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Naming\ValueObject\PropertyRename;
 use Rector\Naming\ValueObjectFactory\PropertyRenameFactory;
+use Redaxo\Rector\Util\UnderscoreCamelCaseExpectedNameResolver;
+use Redaxo\Rector\Util\UnderscoreCamelCasePropertyRenamer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 

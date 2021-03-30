@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Redaxo\Rector;
+namespace Redaxo\Rector\Util;
 
 use PhpParser\Node\Stmt\Property;
 use Rector\Naming\PropertyRenamer\PropertyRenamer;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Redaxo\Rector;
+namespace Redaxo\Rector\Util;
 
 use PhpParser\Node;
 use PhpParser\Node\Param;

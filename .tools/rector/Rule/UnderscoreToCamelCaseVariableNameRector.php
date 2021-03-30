@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Redaxo\Rector;
+namespace Redaxo\Rector\Rule;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
@@ -14,6 +14,7 @@ use Rector\Naming\ParamRenamer\ParamRenamer;
 use Rector\Naming\ValueObject\ParamRename;
 use Rector\Naming\ValueObjectFactory\ParamRenameFactory;
 use Rector\NodeTypeResolver\Node\AttributeKey;
+use Redaxo\Rector\Util\UnderscoreCamelCaseExpectedNameResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 

@@ -8,12 +8,14 @@ use Rector\Php80\Rector\Identical\StrEndsWithRector;
 use Rector\Php80\Rector\Identical\StrStartsWithRector;
 use Rector\Php80\Rector\NotIdentical\StrContainsRector;
 use Rector\Set\ValueObject\SetList;
-use Redaxo\Rector\UnderscoreCamelCaseConflictingNameGuard;
-use Redaxo\Rector\UnderscoreCamelCaseExpectedNameResolver;
-use Redaxo\Rector\UnderscoreCamelCasePropertyRenamer;
-use Redaxo\Rector\UnderscoreToCamelCasePropertyNameRector;
-use Redaxo\Rector\UnderscoreToCamelCaseVariableNameRector;
+use Redaxo\Rector\Rule\UnderscoreToCamelCasePropertyNameRector;
+use Redaxo\Rector\Rule\UnderscoreToCamelCaseVariableNameRector;
+use Redaxo\Rector\Util\UnderscoreCamelCaseConflictingNameGuard;
+use Redaxo\Rector\Util\UnderscoreCamelCaseExpectedNameResolver;
+use Redaxo\Rector\Util\UnderscoreCamelCasePropertyRenamer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+require_once __DIR__.'/.tools/rector/autoload.php';
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     // get parameters
@@ -24,7 +26,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         // SetList::EARLY_RETURN,
     ]);
 
-    $parameters->set(OPTION::BOOTSTRAP_FILES, [
+    $parameters->set(Option::BOOTSTRAP_FILES, [
         __DIR__.'/.tools/constants.php',
     ]);
 
@@ -69,16 +71,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(StrEndsWithRector::class);
     $services->set(StrStartsWithRector::class);
 
-    require_once __DIR__.'/.tools/rector/UnderscoreCamelCaseConflictingNameGuard.php';
-    require_once __DIR__.'/.tools/rector/UnderscoreCamelCaseExpectedNameResolver.php';
-    require_once __DIR__.'/.tools/rector/UnderscoreCamelCasePropertyRenamer.php';
-    require_once __DIR__.'/.tools/rector/UnderscoreToCamelCasePropertyNameRector.php';
-    require_once __DIR__.'/.tools/rector/UnderscoreToCamelCaseVariableNameRector.php';
-
+    // Util services for own rules
     $services->set(UnderscoreCamelCaseConflictingNameGuard::class)->autowire();
     $services->set(UnderscoreCamelCaseExpectedNameResolver::class)->autowire();
     $services->set(UnderscoreCamelCasePropertyRenamer::class)->autowire();
 
+    // Own rules
     $services->set(UnderscoreToCamelCasePropertyNameRector::class);
     $services->set(UnderscoreToCamelCaseVariableNameRector::class);
 };
