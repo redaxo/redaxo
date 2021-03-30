@@ -67,9 +67,9 @@ class rex_version_test extends TestCase
             [true, '1.0',    '1.1a1',    '<'],
             [true, '1.0.1',  '1.1a1',    '<'],
 
-            [0, '1.0', '1.0', null],
-            [-1, '1.0', '1.1', null],
-            [1, '1.1', '1.0', null],
+            [false, '1.0', '1.0', null],
+            [true, '1.0', '1.1', null],
+            [false, '1.1', '1.0', null],
         ];
     }
 
