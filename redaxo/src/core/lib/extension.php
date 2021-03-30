@@ -30,13 +30,11 @@ abstract class rex_extension
      * @return T Subject, maybe adjusted by the extensions
      *
      * @psalm-taint-specialize
-     * @psalm-suppress MixedInferredReturnType
      */
     public static function registerPoint(rex_extension_point $extensionPoint)
     {
-        if (static::hasFactoryClass()) {
-            /** @psalm-suppress MixedReturnStatement */
-            return static::callFactoryClass(__FUNCTION__, func_get_args());
+        if ($factoryClass = static::getFactoryClassOrNull()) {
+            return $factoryClass::registerPoint($extensionPoint);
         }
 
         $name = $extensionPoint->getName();
@@ -80,8 +78,8 @@ abstract class rex_extension
      */
     public static function register($extensionPoint, callable $extension, $level = self::NORMAL, array $params = [])
     {
-        if (static::hasFactoryClass()) {
-            static::callFactoryClass(__FUNCTION__, func_get_args());
+        if ($factoryClass = static::getFactoryClassOrNull()) {
+            $factoryClass::register($extensionPoint, $extension, $level, $params);
             return;
         }
 
@@ -110,8 +108,8 @@ abstract class rex_extension
      */
     public static function isRegistered($extensionPoint)
     {
-        if (static::hasFactoryClass()) {
-            return static::callFactoryClass(__FUNCTION__, func_get_args());
+        if ($factoryClass = static::getFactoryClassOrNull()) {
+            return $factoryClass::isRegistered($extensionPoint);
         }
         return !empty(self::$extensions[$extensionPoint]);
     }

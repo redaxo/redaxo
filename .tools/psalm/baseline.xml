@@ -4705,11 +4705,6 @@
       <code>self::$cacheFile</code>
     </PossiblyNullOperand>
   </file>
-  <file src="redaxo/src/core/lib/base/factory_trait.php">
-    <MixedInferredReturnType occurrences="1">
-      <code>class-string&lt;static&gt;</code>
-    </MixedInferredReturnType>
-  </file>
   <file src="redaxo/src/core/lib/base/instance_list_pool_trait.php">
     <MixedAssignment occurrences="1">
       <code>$instanceKey</code>
@@ -5245,15 +5240,9 @@
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/extension.php">
-    <MixedInferredReturnType occurrences="1">
-      <code>bool</code>
-    </MixedInferredReturnType>
     <MixedOperand occurrences="1">
       <code>$level</code>
     </MixedOperand>
-    <MixedReturnStatement occurrences="1">
-      <code>static::callFactoryClass(__FUNCTION__, func_get_args())</code>
-    </MixedReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/form/config_form.php">
     <PossiblyNullOperand occurrences="1">
@@ -7032,16 +7021,6 @@
     </NullOperand>
   </file>
   <file src="redaxo/src/core/tests/base/factory_trait_test.php">
-    <MixedAssignment occurrences="2">
-      <code>$clazz</code>
-      <code>$clazz</code>
-    </MixedAssignment>
-    <MixedMethodCall occurrences="4">
-      <code>doSomething</code>
-      <code>doSomething</code>
-      <code>new $clazz()</code>
-      <code>new $clazz()</code>
-    </MixedMethodCall>
   </file>
   <file src="redaxo/src/core/tests/be/navigation_test.php">
     <MixedArrayAccess occurrences="3">

@@ -29,14 +29,14 @@
 trait rex_factory_trait
 {
     /**
-     * @var array
+     * @var array<class-string<static>, class-string<static>>
      */
     private static $factoryClasses = [];
 
     /**
      * Sets the class for the factory.
      *
-     * @param string $subclass Classname
+     * @param class-string<static> $subclass Classname
      *
      * @throws InvalidArgumentException
      */
@@ -55,13 +55,23 @@ trait rex_factory_trait
     /**
      * Returns the class for the factory.
      *
-     * @return string
-     * @psalm-return class-string<static>
+     * @return class-string<static>
      */
     public static function getFactoryClass()
     {
         $calledClass = static::class;
         return self::$factoryClasses[$calledClass] ?? $calledClass;
+    }
+
+    /**
+     * Returns the explicitly set factory class, otherwise null.
+     *
+     * @return class-string<static>|null
+     */
+    public static function getFactoryClassOrNull(): ?string
+    {
+        $calledClass = static::class;
+        return self::$factoryClasses[$calledClass] ?? null;
     }
 
     /**
@@ -82,6 +92,8 @@ trait rex_factory_trait
      * @param array  $arguments Array of arguments
      *
      * @return mixed Result of the callback
+     *
+     * @deprecated since 5.13, call the method on the factory class by yourself instead.
      */
     protected static function callFactoryClass($method, array $arguments)
     {
