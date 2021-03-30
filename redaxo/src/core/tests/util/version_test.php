@@ -43,37 +43,50 @@ class rex_version_test extends TestCase
     public function compareProvider()
     {
         return [
-            ['1',      '1',      '='],
-            ['1.0',    '1.0',    '='],
-            ['1',      '1.0',    '='],
-            ['1.0 a1', '1.0.a1', '='],
-            ['1.0a1',  '1.0.a1', '='],
-            ['1.0 alpha 1', '1.0.a1', '='],
+            [true, '1',      '1',      '='],
+            [true, '1.0',    '1.0',    '='],
+            [true, '1',      '1.0',    '='],
+            [true, '1.0 a1', '1.0.a1', '='],
+            [true, '1.0a1',  '1.0.a1', '='],
+            [true, '1.0 alpha 1', '1.0.a1', '='],
 
-            ['1',      '2',        '<'],
-            ['1',      '1.1',      '<'],
-            ['1.0',    '1.1',      '<'],
-            ['1.1',    '1.2',      '<'],
-            ['1.2',    '1.10',     '<'],
-            ['1.a1',   '1',        '<'],
-            ['1.a1',   '1.0',      '<'],
-            ['1.a1',   '1.a2',     '<'],
-            ['1.a1',   '1.b1',     '<'],
-            ['1.0.a1', '1',        '<'],
-            ['1.0.a1', '1.0.0.0.', '<'],
-            ['1.0a1',  '1.0',      '<'],
-            ['1.0a1',  '1.0.1',    '<'],
-            ['1.0a1',  '1.0a2',    '<'],
-            ['1.0',    '1.1a1',    '<'],
-            ['1.0.1',  '1.1a1',    '<'],
+            [true, '1',      '2',        '<'],
+            [true, '1',      '1.1',      '<'],
+            [true, '1.0',    '1.1',      '<'],
+            [true, '1.1',    '1.2',      '<'],
+            [true, '1.2',    '1.10',     '<'],
+            [true, '1.a1',   '1',        '<'],
+            [true, '1.a1',   '1.0',      '<'],
+            [true, '1.a1',   '1.a2',     '<'],
+            [true, '1.a1',   '1.b1',     '<'],
+            [true, '1.0.a1', '1',        '<'],
+            [true, '1.0.a1', '1.0.0.0.', '<'],
+            [true, '1.0a1',  '1.0',      '<'],
+            [true, '1.0a1',  '1.0.1',    '<'],
+            [true, '1.0a1',  '1.0a2',    '<'],
+            [true, '1.0',    '1.1a1',    '<'],
+            [true, '1.0.1',  '1.1a1',    '<'],
+
+            [false, '1.0', '1.0', null],
+            [true, '1.0', '1.1', null],
+            [false, '1.1', '1.0', null],
         ];
     }
 
     /**
      * @dataProvider compareProvider
+     *
+     * @param null|'='|'=='|'!='|'<>'|'<'|'<='|'>'|'>=' $comparator
      */
-    public function testCompare($version1, $version2, $comparator)
+    public function testCompare($expected, string $version1, string $version2, ?string $comparator)
     {
-        static::assertTrue(rex_version::compare($version1, $version2, $comparator));
+        static::assertSame($expected, rex_version::compare($version1, $version2, $comparator));
+    }
+
+    public function testGitHash(): void
+    {
+        static::assertIsString(rex_version::gitHash(__DIR__));
+
+        static::assertNull(rex_version::gitHash(__DIR__, 'foo/bar'));
     }
 }
