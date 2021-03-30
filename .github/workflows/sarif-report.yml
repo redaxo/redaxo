@@ -2,7 +2,7 @@ name: Security Checks
 
 on:
     push:
-        branches: [master] # bugfix (should be activated when the psalm baseline gets part of the bugfix branch)
+        branches: [main] # bugfix (should be activated when the psalm baseline gets part of the bugfix branch)
     schedule: # runs every week at 00:00 on Sunday UTC time.
         -   cron: '0 0 * * 0'
 
