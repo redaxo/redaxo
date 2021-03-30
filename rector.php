@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 use Rector\Core\Configuration\Option;
 use Rector\Core\ValueObject\PhpVersion;
-use Rector\Naming\Rector\Property\UnderscoreToCamelCasePropertyNameRector;
-use Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector;
 use Rector\Php80\Rector\Identical\StrEndsWithRector;
 use Rector\Php80\Rector\Identical\StrStartsWithRector;
 use Rector\Php80\Rector\NotIdentical\StrContainsRector;
 use Rector\Set\ValueObject\SetList;
+use Redaxo\Rector\Rule\UnderscoreToCamelCasePropertyNameRector;
+use Redaxo\Rector\Rule\UnderscoreToCamelCaseVariableNameRector;
+use Redaxo\Rector\Util\UnderscoreCamelCaseConflictingNameGuard;
+use Redaxo\Rector\Util\UnderscoreCamelCaseExpectedNameResolver;
+use Redaxo\Rector\Util\UnderscoreCamelCasePropertyRenamer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+require_once __DIR__.'/.tools/rector/autoload.php';
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     // get parameters
@@ -21,8 +26,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         // SetList::EARLY_RETURN,
     ]);
 
-    $parameters->set(OPTION::OPTION_AUTOLOAD_FILE, [
-        __DIR__.'/../constants.php',
+    $parameters->set(Option::BOOTSTRAP_FILES, [
+        __DIR__.'/.tools/constants.php',
     ]);
 
     // this list will grow over time.
@@ -45,13 +50,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ]);
 
     $parameters->set(Option::SKIP, [
-        // skip because of phpdocs which get mangled https://github.com/rectorphp/rector/issues/4691
-        // 'redaxo/src/core/lib/fragment.php',
-        // 'redaxo/src/core/lib/list.php',
-        // 'redaxo/src/core/lib/packages/manager.php',
-        // 'redaxo/src/core/lib/sql/sql.php',
-        // 'redaxo/src/core/lib/var/var.php',
-        // 'redaxo/src/core/lib/util/version.php',
         'redaxo/src/core/vendor',
         'redaxo/src/addons/backup/vendor',
         'redaxo/src/addons/be_style/vendor',
@@ -72,6 +70,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(StrContainsRector::class);
     $services->set(StrEndsWithRector::class);
     $services->set(StrStartsWithRector::class);
+
+    // Util services for own rules
+    $services->set(UnderscoreCamelCaseConflictingNameGuard::class)->autowire();
+    $services->set(UnderscoreCamelCaseExpectedNameResolver::class)->autowire();
+    $services->set(UnderscoreCamelCasePropertyRenamer::class)->autowire();
+
+    // Own rules
     $services->set(UnderscoreToCamelCasePropertyNameRector::class);
     $services->set(UnderscoreToCamelCaseVariableNameRector::class);
 };
