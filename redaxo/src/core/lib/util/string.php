@@ -113,7 +113,7 @@ class rex_string
      * @deprecated since 5.10, use `rex_version::compare` instead
      */
     #[\JetBrains\PhpStorm\Deprecated(reason: 'since 5.10, use `rex_version::compare` instead', replacement: 'rex_version::compare(!%parametersList%)')]
-    public static function versionCompare($version1, $version2, $comparator = null)
+    public static function versionCompare($version1, $version2, $comparator = '<')
     {
         return rex_version::compare($version1, $version2, $comparator);
     }

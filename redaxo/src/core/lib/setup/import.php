@@ -181,14 +181,14 @@ class rex_setup_importer
 
                 // DB Import
                 $stateDb = rex_backup::importDb($importSql);
-                if (false === $stateDb['state']) {
+                if (!$stateDb['state']) {
                     $errMsg .= nl2br($stateDb['message']) . '<br />';
                 }
 
                 // Archiv optional importieren
-                if (true === $stateDb['state'] && null !== $importArchive && is_file($importArchive)) {
+                if ($stateDb['state'] && null !== $importArchive && is_file($importArchive)) {
                     $stateArchiv = rex_backup::importFiles($importArchive);
-                    if (false === $stateArchiv['state']) {
+                    if (!$stateArchiv['state']) {
                         $errMsg .= $stateArchiv['message'] . '<br />';
                     }
                 }

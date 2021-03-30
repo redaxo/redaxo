@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '66a5adf76af88b384a7fe8c4a28b0ac3a186329f',
+    'reference' => '9bbaa6840e4963e2f15412fd6f8085abde1b6eb5',
     'name' => '__root__',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '66a5adf76af88b384a7fe8c4a28b0ac3a186329f',
+      'reference' => '9bbaa6840e4963e2f15412fd6f8085abde1b6eb5',
     ),
     'erusev/parsedown' => 
     array (
@@ -40,12 +40,12 @@
     ),
     'filp/whoops' => 
     array (
-      'pretty_version' => '2.9.2',
-      'version' => '2.9.2.0',
+      'pretty_version' => '2.11.0',
+      'version' => '2.11.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'df7933820090489623ce0be5e85c7e693638e536',
+      'reference' => 'f6e14679f948d8a5cfb866fa7065a30c66bd64d3',
     ),
     'psr/container' => 
     array (
@@ -106,16 +106,16 @@
       'aliases' => 
       array (
       ),
-      'reference' => '43a315341710475e88006a0e55864b348d3d781c',
+      'reference' => 'd113d94cd9d8bc7ec35be1179315ed06b21b26c8',
     ),
     'symfony/console' => 
     array (
-      'pretty_version' => 'v5.2.5',
-      'version' => '5.2.5.0',
+      'pretty_version' => 'v5.2.6',
+      'version' => '5.2.6.0',
       'aliases' => 
       array (
       ),
-      'reference' => '938ebbadae1b0a9c9d1ec313f87f9708609f1b79',
+      'reference' => '35f039df40a3b335ebf310f244cb242b3a83ac8d',
     ),
     'symfony/deprecation-contracts' => 
     array (
@@ -212,21 +212,21 @@
     ),
     'symfony/string' => 
     array (
-      'pretty_version' => 'v5.2.4',
-      'version' => '5.2.4.0',
+      'pretty_version' => 'v5.2.6',
+      'version' => '5.2.6.0',
       'aliases' => 
       array (
       ),
-      'reference' => '4e78d7d47061fa183639927ec40d607973699609',
+      'reference' => 'ad0bd91bce2054103f5eaa18ebeba8d3bc2a0572',
     ),
     'symfony/var-dumper' => 
     array (
-      'pretty_version' => 'v5.2.5',
-      'version' => '5.2.5.0',
+      'pretty_version' => 'v5.2.6',
+      'version' => '5.2.6.0',
       'aliases' => 
       array (
       ),
-      'reference' => '002ab5a36702adf0c9a11e6d8836623253e9045e',
+      'reference' => '89412a68ea2e675b4e44f260a5666729f77f668e',
     ),
     'symfony/yaml' => 
     array (

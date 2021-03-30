@@ -2,7 +2,7 @@ name: Linting
 
 on:
     push:
-        branches: [master, bugfix, temp]
+        branches: [main, bugfix, temp]
     pull_request:
         types: [opened, synchronize, reopened, ready_for_review]
 

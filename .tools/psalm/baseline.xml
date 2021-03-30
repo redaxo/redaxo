@@ -6740,31 +6740,6 @@
       <code>$var[$key]</code>
     </MixedAssignment>
   </file>
-  <file src="redaxo/src/core/lib/util/version.php">
-    <MixedArgument occurrences="1">
-      <code>$gitHash</code>
-    </MixedArgument>
-    <MixedArrayAccess occurrences="2">
-      <code>$gitHash[$path]</code>
-      <code>$gitHash[$path]</code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="2">
-      <code>$gitHash[$path]</code>
-      <code>$gitHash[$path]</code>
-    </MixedArrayAssignment>
-    <MixedInferredReturnType occurrences="1">
-      <code>?string</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="2">
-      <code>$gitHash[$path]</code>
-      <code>$gitHash[$path]</code>
-    </MixedReturnStatement>
-    <PossiblyNullArgument occurrences="3">
-      <code>$comparator</code>
-      <code>$comparator</code>
-      <code>$repo</code>
-    </PossiblyNullArgument>
-  </file>
   <file src="redaxo/src/core/lib/var/var.php">
     <MixedArgument occurrences="13">
       <code>$add</code>
@@ -7297,11 +7272,8 @@
     </MixedArgument>
   </file>
   <file src="redaxo/src/core/tests/util/version_test.php">
-    <MixedArgument occurrences="4">
-      <code>$comparator</code>
+    <MixedArgument occurrences="1">
       <code>$version</code>
-      <code>$version1</code>
-      <code>$version2</code>
     </MixedArgument>
   </file>
   <file src="redaxo/src/core/tests/var/var_base_test.php">

@@ -88,7 +88,7 @@ class rex_install_package_update extends rex_install_package_download
         if (isset($installConfig['backups']) && $installConfig['backups']) {
             $archivePath = rex_path::addonData('install', $this->addonkey . '/');
             rex_dir::create($archivePath);
-            $archive = $archivePath . strtolower(preg_replace('/[^a-z0-9-_.]/i', '_', $this->addon->getVersion('0'))) . '.zip';
+            $archive = $archivePath . strtolower(preg_replace('/[^a-z0-9-_.]/i', '_', $this->addon->getVersion() ?: '0')) . '.zip';
             rex_install_archive::copyDirToArchive($path, $archive);
             if (is_dir($assets)) {
                 rex_install_archive::copyDirToArchive($assets, $archive, 'assets');
