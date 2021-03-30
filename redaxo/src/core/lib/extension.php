@@ -25,15 +25,17 @@ abstract class rex_extension
     /**
      * Registers an extension point.
      *
-     * @param rex_extension_point $extensionPoint Extension point
-     *
-     * @return mixed Subject, maybe adjusted by the extensions
+     * @template T
+     * @param rex_extension_point<T> $extensionPoint Extension point
+     * @return T Subject, maybe adjusted by the extensions
      *
      * @psalm-taint-specialize
+     * @psalm-suppress MixedInferredReturnType
      */
     public static function registerPoint(rex_extension_point $extensionPoint)
     {
         if (static::hasFactoryClass()) {
+            /** @psalm-suppress MixedReturnStatement */
             return static::callFactoryClass(__FUNCTION__, func_get_args());
         }
 
@@ -48,6 +50,7 @@ abstract class rex_extension
                 foreach (self::$extensions[$name][$level] as $extensionAndParams) {
                     [$extension, $params] = $extensionAndParams;
                     $extensionPoint->setExtensionParams($params);
+                    /** @var T|null $subject */
                     $subject = call_user_func($extension, $extensionPoint);
                     // Update subject only if the EP is not readonly and the extension has returned something
                     if ($extensionPoint->isReadonly()) {

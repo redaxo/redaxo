@@ -10,6 +10,8 @@
  * Deletes the cache.
  *
  * @package redaxo\core
+ *
+ * @return string
  */
 function rex_delete_cache()
 {

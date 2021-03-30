@@ -109,6 +109,7 @@ class rex_article_content extends rex_article_content_base
                 require $articleContentFile;
             } finally {
                 $CONTENT = ob_get_clean();
+                assert(is_string($CONTENT));
             }
         } else {
             // Inhalt ueber sql generierens

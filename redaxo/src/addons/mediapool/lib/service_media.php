@@ -55,7 +55,9 @@ final class rex_media_service
         // Sobald ein Addon eine negative Entscheidung getroffen hat, sollten
         // Addons, fuer die der Extension-Point spaeter ausgefuehrt wird, diese
         // Entscheidung respektieren
-        $errorMessage = rex_extension::registerPoint(new rex_extension_point('MEDIA_ADD', null, [
+        /** @var string|null $errorMessage */
+        $errorMessage = null;
+        $errorMessage = rex_extension::registerPoint(new rex_extension_point('MEDIA_ADD', $errorMessage, [
             'file' => $data['file'],
             'title' => $title,
             'filename' => $data['file']['name_new'],

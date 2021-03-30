@@ -719,7 +719,9 @@ abstract class rex_form_base
     public static function getInputAttributes($inputType)
     {
         // ----- EXTENSION POINT
-        $inputAttr = rex_extension::registerPoint(new rex_extension_point('REX_FORM_INPUT_ATTRIBUTES', [], ['inputType' => $inputType]));
+        /** @var array<string, scalar> $inputAttr */
+        $inputAttr = [];
+        $inputAttr = rex_extension::registerPoint(new rex_extension_point('REX_FORM_INPUT_ATTRIBUTES', $inputAttr, ['inputType' => $inputType]));
 
         if ($inputAttr) {
             return $inputAttr;
