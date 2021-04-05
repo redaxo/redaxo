@@ -8,7 +8,6 @@
  * @package redaxo5
  */
 
-$title = '';
 $content = '';
 
 //------------------------------> Parameter
@@ -20,7 +19,6 @@ if (empty($metaTable)) {
     throw new rex_exception('Fehler: metaTable nicht definiert!');
 }
 
-$Basedir = __DIR__;
 $func = rex_request('func', 'string');
 $fieldId = rex_request('field_id', 'int');
 

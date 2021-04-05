@@ -1,7 +1,5 @@
 <?php
 
-$Basedir = __DIR__;
-
 $effectId = rex_request('effect_id', 'int');
 $typeId = rex_request('type_id', 'int');
 $func = rex_request('func', 'string');

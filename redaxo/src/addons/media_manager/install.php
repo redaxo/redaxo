@@ -9,8 +9,6 @@
  * @package redaxo5
  */
 
-$addon = rex_addon::get('media_manager');
-
 rex_sql_table::get(rex::getTable('media_manager_type'))
     ->ensurePrimaryIdColumn()
     ->ensureColumn(new rex_sql_column('status', 'int(10) unsigned'))

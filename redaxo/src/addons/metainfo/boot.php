@@ -8,7 +8,6 @@
  * @package redaxo5
  */
 
-$mypage = 'metainfo';
 $addon = rex_addon::get('metainfo');
 
 if (!defined('REX_METAINFO_FIELD_TEXT')) {

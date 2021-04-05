@@ -56,7 +56,6 @@ $selBeSprache->setId('rex-user-perm-mylang');
 $selBeSprache->setAttribute('class', 'form-control selectpicker');
 $selBeSprache->addOption('default', '');
 $saveLocale = rex_i18n::getLocale();
-$langs = [];
 foreach (rex_i18n::getLocales() as $locale) {
     rex_i18n::setLocale($locale, false); // Locale nicht neu setzen
     $selBeSprache->addOption(rex_i18n::msg('lang'), $locale);
@@ -108,7 +107,6 @@ if ($save && ($fUNCADD || $fUNCUPDATE || $fUNCAPPLY)) {
         $warnings[] = rex_i18n::msg('csrf_token_invalid');
     }
 
-    $validator = rex_validator::factory();
     if ($useremail && !rex_validator::factory()->email($useremail)) {
         $warnings[] = rex_i18n::msg('invalid_email');
     }
@@ -296,7 +294,6 @@ if ('' != $fUNCADD || $userId > 0) {
         $statuschecked = 'checked="checked"';
     }
 
-    $buttons = '';
     if ($userId > 0) {
         // User Edit
 
@@ -339,7 +336,6 @@ if ('' != $fUNCADD || $userId > 0) {
                 }
                 $userpermBeSprache = $sql->getValue('language');
                 $userpermStartpage = $sql->getValue('startpage');
-                $userpsw = $sql->getValue(rex::getTablePrefix() . 'user.password');
                 $username = $sql->getValue(rex::getTablePrefix() . 'user.name');
                 $userdesc = $sql->getValue(rex::getTablePrefix() . 'user.description');
                 $useremail = $sql->getValue(rex::getTablePrefix() . 'user.email');
@@ -647,7 +643,7 @@ if ($SHOW) {
     if (rex::getUser()->isAdmin()) {
         $list->addColumn('impersonate', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete'));
         $list->setColumnLayout('impersonate', ['', '<td class="rex-table-action">###VALUE###</td>']);
-        $list->setColumnFormat('impersonate', 'custom', static function ($params) use ($list) {
+        $list->setColumnFormat('impersonate', 'custom', static function () use ($list) {
             if (rex::getImpersonator() || $list->getValue('id') == rex::getUser()->getId()) {
                 return '<span class="rex-text-disabled"><i class="rex-icon rex-icon-sign-in"></i> ' . rex_i18n::msg('login_impersonate') . '</span>';
             }

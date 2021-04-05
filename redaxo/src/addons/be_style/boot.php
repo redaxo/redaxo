@@ -11,7 +11,6 @@
  * @package redaxo5
  */
 
-$mypage = 'be_style';
 $addon = rex_addon::get('be_style');
 
 /* Addon Parameter */
