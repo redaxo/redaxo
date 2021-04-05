@@ -11,6 +11,7 @@
 $content = '';
 
 //------------------------------> Parameter
+/** @psalm-suppress TypeDoesNotContainType */
 if (empty($prefix)) {
     throw new rex_exception('Fehler: Prefix nicht definiert!');
 }
