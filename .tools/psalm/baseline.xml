@@ -326,7 +326,7 @@
       <code>$type</code>
       <code>$value</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="16">
+    <MixedArrayAccess occurrences="12">
       <code>$param['attributes']</code>
       <code>$param['default']</code>
       <code>$param['label']</code>
@@ -339,41 +339,22 @@
       <code>$param['type']</code>
       <code>$param['type']</code>
       <code>$param['value']</code>
-      <code>$params['list']</code>
-      <code>$params['list']</code>
-      <code>$params['list']</code>
-      <code>$params['list']</code>
     </MixedArrayAccess>
     <MixedArrayOffset occurrences="3">
       <code>$visible[$key][$value]</code>
       <code>$visible[$key][$value]</code>
       <code>$visible[$key][$value]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="12">
+    <MixedAssignment occurrences="8">
       <code>$attributes</code>
       <code>$label</code>
-      <code>$list</code>
-      <code>$list</code>
       <code>$param</code>
-      <code>$str</code>
-      <code>$str</code>
       <code>$type</code>
       <code>$value</code>
       <code>$value</code>
       <code>$value</code>
       <code>$value</code>
     </MixedAssignment>
-    <MixedMethodCall occurrences="9">
-      <code>getColumnLink</code>
-      <code>getColumnLink</code>
-      <code>getColumnLink</code>
-      <code>getValue</code>
-      <code>getValue</code>
-      <code>getValue</code>
-      <code>getValue</code>
-      <code>getValue</code>
-      <code>getValue</code>
-    </MixedMethodCall>
     <MixedOperand occurrences="1">
       <code>$param['name']</code>
     </MixedOperand>
@@ -1027,30 +1008,19 @@
     <MixedArgument occurrences="1">
       <code>$error</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="2">
-      <code>$params['list']</code>
-      <code>$params['list']</code>
-    </MixedArrayAccess>
     <MixedArrayAssignment occurrences="1">
       <code>$controlFields['delete']</code>
     </MixedArrayAssignment>
-    <MixedAssignment occurrences="7">
+    <MixedAssignment occurrences="5">
       <code>$controlFields</code>
       <code>$error</code>
       <code>$error</code>
       <code>$form</code>
-      <code>$list</code>
-      <code>$list</code>
       <code>$sql</code>
     </MixedAssignment>
-    <MixedMethodCall occurrences="8">
-      <code>getColumnLink</code>
+    <MixedMethodCall occurrences="3">
       <code>getRows</code>
       <code>getSql</code>
-      <code>getValue</code>
-      <code>getValue</code>
-      <code>getValue</code>
-      <code>getValue</code>
       <code>getValue</code>
     </MixedMethodCall>
     <MixedOperand occurrences="2">
@@ -3530,14 +3500,9 @@
       <code>$gaa-&gt;getValue('name')</code>
       <code>$gc-&gt;getValue(rex::getTablePrefix() . 'article.id')</code>
       <code>$gma-&gt;getValue('name')</code>
+      <code>$list-&gt;getValue('name')</code>
       <code>$modulname</code>
-      <code>$params['list']-&gt;getValue('name')</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="3">
-      <code>$params['list']</code>
-      <code>$params['list']</code>
-      <code>$params['list']</code>
-    </MixedArrayAccess>
     <MixedArrayOffset occurrences="1">
       <code>$usedIds[$list-&gt;getValue('id')]</code>
     </MixedArrayOffset>
@@ -3556,10 +3521,6 @@
       <code>$modulname</code>
       <code>$oldAusgabe</code>
     </MixedAssignment>
-    <MixedMethodCall occurrences="2">
-      <code>getColumnLink</code>
-      <code>getValue</code>
-    </MixedMethodCall>
     <MixedOperand occurrences="5">
       <code>$aid</code>
       <code>$gma-&gt;getValue('id')</code>
@@ -3584,15 +3545,12 @@
       <code>$templatename</code>
       <code>$templatename</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="1">
-      <code>$params['list']</code>
-    </MixedArrayAccess>
     <MixedArrayAssignment occurrences="3">
       <code>$ctypes[]</code>
       <code>$modules[$k]['all']</code>
       <code>$modules[1]['all']</code>
     </MixedArrayAssignment>
-    <MixedAssignment occurrences="17">
+    <MixedAssignment occurrences="16">
       <code>$active</code>
       <code>$aid</code>
       <code>$categories</code>
@@ -3601,7 +3559,6 @@
       <code>$ctypes</code>
       <code>$j</code>
       <code>$jj</code>
-      <code>$list</code>
       <code>$module</code>
       <code>$modules</code>
       <code>$name</code>
@@ -3611,9 +3568,6 @@
       <code>$templatename</code>
       <code>$templatename</code>
     </MixedAssignment>
-    <MixedMethodCall occurrences="1">
-      <code>getValue</code>
-    </MixedMethodCall>
     <MixedOperand occurrences="3">
       <code>$aid</code>
       <code>rex_escape($name)</code>
@@ -3899,24 +3853,10 @@
       <code>$userrole</code>
       <code>rex_escape($roles)</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="6">
-      <code>$params['list']</code>
-      <code>$params['list']</code>
-      <code>$params['list']</code>
-      <code>$params['list']</code>
-      <code>$params['list']</code>
-      <code>$params['list']</code>
-    </MixedArrayAccess>
     <MixedArrayOffset occurrences="1">
       <code>$roles[$role-&gt;getValue('id')]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="20">
-      <code>$list</code>
-      <code>$list</code>
-      <code>$list</code>
-      <code>$list</code>
-      <code>$list</code>
-      <code>$list</code>
+    <MixedAssignment occurrences="14">
       <code>$login</code>
       <code>$name</code>
       <code>$roles</code>
@@ -3932,22 +3872,6 @@
       <code>$userrole</code>
       <code>$userstatus</code>
     </MixedAssignment>
-    <MixedMethodCall occurrences="14">
-      <code>getColumnLink</code>
-      <code>getColumnLink</code>
-      <code>getColumnLink</code>
-      <code>getColumnLink</code>
-      <code>getValue</code>
-      <code>getValue</code>
-      <code>getValue</code>
-      <code>getValue</code>
-      <code>getValue</code>
-      <code>getValue</code>
-      <code>getValue</code>
-      <code>getValue</code>
-      <code>getValue</code>
-      <code>getValue</code>
-    </MixedMethodCall>
     <MixedOperand occurrences="4">
       <code>$login</code>
       <code>rex_escape($userdesc)</code>
