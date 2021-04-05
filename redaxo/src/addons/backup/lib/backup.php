@@ -243,7 +243,7 @@ class rex_backup
         $msg = rex_i18n::msg('backup_file_imported') . '<br />';
 
         // ----- EXTENSION POINT
-        $tar = rex_extension::registerPoint(new rex_extension_point('BACKUP_AFTER_FILE_IMPORT', $tar));
+        rex_extension::registerPoint(new rex_extension_point('BACKUP_AFTER_FILE_IMPORT', $tar));
 
         // require import skript to do some userside-magic
         self::importScript(str_replace('.tar.gz', '.php', $filename), self::IMPORT_ARCHIVE, self::IMPORT_EVENT_POST);
