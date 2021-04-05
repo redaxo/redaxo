@@ -1944,8 +1944,7 @@ class rex_sql implements Iterator
             elseif (
                 str_contains($e->getMessage(), 'SQLSTATE[HY000] [1045]') ||
                 str_contains($e->getMessage(), 'SQLSTATE[28000]') ||
-                str_contains($e->getMessage(), 'SQLSTATE[HY000] [1044]') ||
-                str_contains($e->getMessage(), 'SQLSTATE[42000]')
+                str_contains($e->getMessage(), 'SQLSTATE[HY000] [1044]')
             ) {
                 // unable to connect to db
                 $errMsg = rex_i18n::msg('sql_unable_to_connect_database');
