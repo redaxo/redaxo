@@ -146,7 +146,7 @@ abstract class rex_api_function
      */
     public static function handleCall()
     {
-        if ($factoryClass = static::getFactoryClassOrNull()) {
+        if ($factoryClass = static::getExplicitFactoryClass()) {
             return $factoryClass::handleCall();
         }
 

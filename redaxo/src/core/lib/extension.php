@@ -33,7 +33,7 @@ abstract class rex_extension
      */
     public static function registerPoint(rex_extension_point $extensionPoint)
     {
-        if ($factoryClass = static::getFactoryClassOrNull()) {
+        if ($factoryClass = static::getExplicitFactoryClass()) {
             return $factoryClass::registerPoint($extensionPoint);
         }
 
@@ -78,7 +78,7 @@ abstract class rex_extension
      */
     public static function register($extensionPoint, callable $extension, $level = self::NORMAL, array $params = [])
     {
-        if ($factoryClass = static::getFactoryClassOrNull()) {
+        if ($factoryClass = static::getExplicitFactoryClass()) {
             $factoryClass::register($extensionPoint, $extension, $level, $params);
             return;
         }
@@ -108,7 +108,7 @@ abstract class rex_extension
      */
     public static function isRegistered($extensionPoint)
     {
-        if ($factoryClass = static::getFactoryClassOrNull()) {
+        if ($factoryClass = static::getExplicitFactoryClass()) {
             return $factoryClass::isRegistered($extensionPoint);
         }
         return !empty(self::$extensions[$extensionPoint]);

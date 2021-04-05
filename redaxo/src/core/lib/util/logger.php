@@ -85,7 +85,7 @@ class rex_logger extends AbstractLogger
      */
     public function log($level, $message, array $context = [], $file = null, $line = null)
     {
-        if ($factoryClass = static::getFactoryClassOrNull()) {
+        if ($factoryClass = static::getExplicitFactoryClass()) {
             $factoryClass::log($level, $message, $context, $file, $line);
             return;
         }

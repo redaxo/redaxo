@@ -21,7 +21,7 @@ class rex_test_factory
 
     public static function staticCall(): string
     {
-        if ($factoryClass = static::getFactoryClassOrNull()) {
+        if ($factoryClass = static::getExplicitFactoryClass()) {
             return $factoryClass::staticCall();
         }
         return 'static-base';

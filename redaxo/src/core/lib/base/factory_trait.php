@@ -53,7 +53,7 @@ trait rex_factory_trait
     }
 
     /**
-     * Returns the class for the factory.
+     * Returns the class for the factory. In case no factory is defined the late static binding class is returned.
      *
      * @return class-string<static>
      */
@@ -68,7 +68,7 @@ trait rex_factory_trait
      *
      * @return class-string<static>|null
      */
-    public static function getFactoryClassOrNull(): ?string
+    public static function getExplicitFactoryClass(): ?string
     {
         $calledClass = static::class;
         return self::$factoryClasses[$calledClass] ?? null;
