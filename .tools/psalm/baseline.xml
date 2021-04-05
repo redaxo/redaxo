@@ -1786,10 +1786,8 @@
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/handler/handler.php">
-    <MixedArgument occurrences="31">
+    <MixedArgument occurrences="29">
       <code>$attr</code>
-      <code>$attrArray['perm']</code>
-      <code>$attrArray['perm']</code>
       <code>$defaultValue</code>
       <code>$defaultValue</code>
       <code>$field-&gt;getValue('callback')</code>
@@ -1819,16 +1817,10 @@
       <code>$title</code>
       <code>$typeLabel</code>
     </MixedArgument>
-    <MixedArrayOffset occurrences="1">
-      <code>$attrArray[$value]</code>
-    </MixedArrayOffset>
-    <MixedAssignment occurrences="27">
+    <MixedAssignment occurrences="23">
       <code>$activeItem</code>
       <code>$activeItem</code>
       <code>$attr</code>
-      <code>$attrValue</code>
-      <code>$category</code>
-      <code>$category</code>
       <code>$category</code>
       <code>$category</code>
       <code>$dblength</code>
@@ -1849,7 +1841,6 @@
       <code>$saveValue</code>
       <code>$title</code>
       <code>$typeLabel</code>
-      <code>$value</code>
     </MixedAssignment>
     <MixedInferredReturnType occurrences="1">
       <code>string|int|null</code>
@@ -4389,6 +4380,10 @@
       <code>$navi['linkClasses']</code>
       <code>$this-&gt;right</code>
     </MixedArgument>
+    <MixedArgumentTypeCoercion occurrences="2">
+      <code>$attributes</code>
+      <code>$attributes</code>
+    </MixedArgumentTypeCoercion>
     <MixedArrayAccess occurrences="4">
       <code>$navi['itemAttr']['class']</code>
       <code>$navi['itemClasses'][0]</code>
@@ -6655,25 +6650,15 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/util/string.php">
-    <MixedArgument occurrences="8">
-      <code>$comparator</code>
-      <code>$match[2]</code>
+    <MixedArgument occurrences="2">
       <code>$query</code>
       <code>$value</code>
-      <code>$value</code>
-      <code>$version</code>
-      <code>$version1</code>
-      <code>$version2</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="3">
+    <MixedArgumentTypeCoercion occurrences="2">
       <code>$key</code>
       <code>$key</code>
-      <code>[$match[1], '\\']</code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="5">
-      <code>$match[1]</code>
-      <code>$match[1]</code>
-      <code>$match[2]</code>
+    <MixedArrayAccess occurrences="2">
       <code>$quoted[$i++]</code>
       <code>$quoted[$i++]</code>
     </MixedArrayAccess>
@@ -6681,10 +6666,9 @@
       <code>$query[]</code>
       <code>$quoted[]</code>
     </MixedArrayAssignment>
-    <MixedAssignment occurrences="6">
+    <MixedAssignment occurrences="5">
       <code>$result[$part[0]]</code>
       <code>$result[]</code>
-      <code>$value</code>
       <code>$value</code>
       <code>$value</code>
       <code>$value</code>
@@ -6696,18 +6680,14 @@
       <code>array</code>
       <code>string</code>
     </MixedInferredReturnType>
-    <MixedMethodCall occurrences="1">
-      <code>xss_clean</code>
-    </MixedMethodCall>
-    <MixedOperand occurrences="3">
-      <code>$fullkey</code>
-      <code>$match[1]</code>
-      <code>rex_escape($value)</code>
-    </MixedOperand>
     <MixedReturnStatement occurrences="2">
       <code>$antiXss-&gt;xss_clean($html)</code>
       <code>Symfony\Component\Yaml\Yaml::parse($value)</code>
     </MixedReturnStatement>
+    <MixedReturnTypeCoercion occurrences="2">
+      <code>$result</code>
+      <code>string[]</code>
+    </MixedReturnTypeCoercion>
   </file>
   <file src="redaxo/src/core/lib/util/timer.php">
     <MixedAssignment occurrences="2">
