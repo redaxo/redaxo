@@ -3950,11 +3950,6 @@
       <code>$command-&gt;getName()</code>
     </PossiblyNullArgument>
   </file>
-  <file src="redaxo/src/core/fragments/core/bottom.php">
-    <PossiblyNullReference occurrences="1">
-      <code>isPopup</code>
-    </PossiblyNullReference>
-  </file>
   <file src="redaxo/src/core/fragments/core/buttons/button.php">
     <MixedArgument occurrences="3">
       <code>$button['attributes']</code>
@@ -4265,9 +4260,8 @@
     <MixedArgument occurrences="1">
       <code>$this-&gt;meta_navigation</code>
     </MixedArgument>
-    <PossiblyNullReference occurrences="3">
+    <PossiblyNullReference occurrences="2">
       <code>isAdmin</code>
-      <code>isPopup</code>
       <code>isPopup</code>
     </PossiblyNullReference>
   </file>
