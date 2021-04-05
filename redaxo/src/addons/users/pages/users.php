@@ -563,8 +563,7 @@ if ($SHOW) {
     $thIcon = '<a class="rex-link-expanded" href="' . $list->getUrl(['FUNC_ADD' => '1']) . '"' . rex::getAccesskey(rex_i18n::msg('create_user'), 'add') . ' title="' . rex_i18n::msg('create_user') . '"><i class="rex-icon rex-icon-add-user"></i></a>';
     $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-table-icon">###VALUE###</th>', '<td class="rex-table-icon">###VALUE###</td>']);
     $list->setColumnParams($thIcon, ['user_id' => '###id###']);
-    $list->setColumnFormat($thIcon, 'custom', static function ($params) use ($thIcon, $tdIcon) {
-        $list = $params['list'];
+    $list->setColumnFormat($thIcon, 'custom', static function () use ($list, $thIcon, $tdIcon) {
         if (!$list->getValue('status')) {
             $tdIcon = str_replace('rex-icon-user', 'rex-icon-user-inactive text-muted', $tdIcon);
             $tdIcon = str_replace(rex_i18n::msg('user_status_active'), rex_i18n::msg('user_status_inactive'), $tdIcon);
@@ -581,17 +580,14 @@ if ($SHOW) {
 
     $list->setColumnLabel('name', rex_i18n::msg('name'));
     $list->setColumnParams('name', ['user_id' => '###id###']);
-    $list->setColumnFormat('name', 'custom', static function ($params) {
-        $list = $params['list'];
+    $list->setColumnFormat('name', 'custom', static function () use ($list) {
         $name = rex_escape($list->getValue('name'));
         return !$list->getValue('admin') || rex::getUser()->isAdmin() ? $list->getColumnLink('name', $name) : $name;
     });
     $list->setColumnSortable('name');
 
     $list->setColumnLabel('login', rex_i18n::msg('login'));
-    $list->setColumnFormat('login', 'custom', static function ($params) {
-        $list = $params['list'];
-
+    $list->setColumnFormat('login', 'custom', static function () use ($list) {
         $login = rex_escape($list->getValue('login'));
         if (!$list->getValue('status')) {
             $login = '<span class="text-muted">' . $login . '</span>';
@@ -601,8 +597,7 @@ if ($SHOW) {
     $list->setColumnSortable('login');
 
     $list->setColumnLabel('role', rex_i18n::msg('user_role'));
-    $list->setColumnFormat('role', 'custom', static function ($params) use ($noRole) {
-        $list = $params['list'];
+    $list->setColumnFormat('role', 'custom', static function () use ($list, $noRole) {
         $roles = $list->getValue('role');
         if ($noRole === $roles) {
             return rex_i18n::msg('user_no_role');
@@ -622,8 +617,7 @@ if ($SHOW) {
     $list->addColumn(rex_i18n::msg('user_functions'), '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));
     $list->setColumnLayout(rex_i18n::msg('user_functions'), ['<th class="rex-table-action" colspan="'.$colspan.'">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams(rex_i18n::msg('user_functions'), ['user_id' => '###id###']);
-    $list->setColumnFormat(rex_i18n::msg('user_functions'), 'custom', static function ($params) {
-        $list = $params['list'];
+    $list->setColumnFormat(rex_i18n::msg('user_functions'), 'custom', static function () use ($list) {
         $edit = '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit');
         return !$list->getValue('admin') || rex::getUser()->isAdmin() ? $list->getColumnLink(rex_i18n::msg('user_functions'), $edit) : $edit;
     });
@@ -631,8 +625,7 @@ if ($SHOW) {
     $list->addColumn('funcs', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete'));
     $list->setColumnLayout('funcs', ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('funcs', ['FUNC_DELETE' => '1', 'user_id' => '###id###'] + rex_csrf_token::factory('user_delete')->getUrlParams());
-    $list->setColumnFormat('funcs', 'custom', static function ($params) {
-        $list = $params['list'];
+    $list->setColumnFormat('funcs', 'custom', static function () use ($list) {
         if ($list->getValue('id') == rex::getUser()->getId() || $list->getValue('admin') && !rex::getUser()->isAdmin()) {
             return '<span class="rex-text-disabled"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('user_delete') . '</span>';
         }

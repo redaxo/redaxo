@@ -86,8 +86,7 @@ if ('' == $func) {
     $list->removeColumn('description');
 
     $list->setColumnLabel('name', rex_i18n::msg('media_manager_type_name'));
-    $list->setColumnFormat('name', 'custom', static function ($params) {
-        $list = $params['list'];
+    $list->setColumnFormat('name', 'custom', static function () use ($list) {
         $name = '<b>' . rex_escape($list->getValue('name')) . '</b>';
         $name .= ('' != $list->getValue('description')) ? '<br /><span class="rex-note">' . rex_escape($list->getValue('description')) . '</span>' : '';
         return $name;
@@ -119,8 +118,7 @@ if ('' == $func) {
     $list->addColumn('deleteType', '', -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('deleteType', ['type_id' => '###id###', 'func' => 'delete']);
     $list->addLinkAttribute('deleteType', 'data-confirm', rex_i18n::msg('delete') . ' ?');
-    $list->setColumnFormat('deleteType', 'custom', static function ($params) {
-        $list = $params['list'];
+    $list->setColumnFormat('deleteType', 'custom', static function () use ($list) {
         if (rex_media_manager::STATUS_SYSTEM_TYPE == $list->getValue('status')) {
             return '<small class="text-muted">' . rex_i18n::msg('media_manager_type_system') . '</small>';
         }
