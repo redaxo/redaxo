@@ -10,9 +10,6 @@ $error = '';
 // ------------------------------ Requestvars
 $function = rex_request('function', 'string');
 $impname = rex_request('impname', 'string');
-$exporttype = rex_post('exporttype', 'string');
-$exportdl = rex_post('exportdl', 'boolean');
-$EXPDIR = rex_post('EXPDIR', 'array');
 
 @set_time_limit(0);
 

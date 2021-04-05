@@ -1,7 +1,7 @@
 <?php
 
 /**
- * REDAXO Master File.
+ * REDAXO main boot file.
  *
  * @global string  $REX['HTDOCS_PATH']    [Required] Relative path to htdocs directory
  * @global string  $REX['BACKEND_FOLDER'] [Required] Name of backend folder

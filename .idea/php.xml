@@ -95,17 +95,12 @@
       <path value="$PROJECT_DIR$/vendor/vimeo/psalm" />
       <path value="$PROJECT_DIR$/vendor/webmozart/assert" />
       <path value="$PROJECT_DIR$/vendor/webmozart/path-util" />
-      <path value="$PROJECT_DIR$/vendor/symfony/expression-language" />
       <path value="$PROJECT_DIR$/vendor/rector/rector" />
-      <path value="$PROJECT_DIR$/vendor/psr/simple-cache" />
       <path value="$PROJECT_DIR$/vendor/doctrine/inflector" />
-      <path value="$PROJECT_DIR$/vendor/symplify/rule-doc-generator" />
       <path value="$PROJECT_DIR$/vendor/symplify/console-color-diff" />
-      <path value="$PROJECT_DIR$/vendor/symplify/markdown-diff" />
       <path value="$PROJECT_DIR$/vendor/symplify/skipper" />
       <path value="$PROJECT_DIR$/vendor/symplify/easy-testing" />
       <path value="$PROJECT_DIR$/vendor/symplify/smart-file-system" />
-      <path value="$PROJECT_DIR$/vendor/symplify/php-config-printer" />
       <path value="$PROJECT_DIR$/vendor/symplify/package-builder" />
       <path value="$PROJECT_DIR$/vendor/symplify/autowire-array-parameter" />
       <path value="$PROJECT_DIR$/vendor/symplify/astral" />
@@ -117,6 +112,16 @@
       <path value="$PROJECT_DIR$/vendor/symplify/symplify-kernel" />
       <path value="$PROJECT_DIR$/vendor/symplify/composer-json-manipulator" />
       <path value="$PROJECT_DIR$/vendor/symplify/rule-doc-generator-contracts" />
+      <path value="$PROJECT_DIR$/vendor/symfony/uid" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-uuid" />
+      <path value="$PROJECT_DIR$/vendor/danielstjules/stringy" />
+      <path value="$PROJECT_DIR$/vendor/nette/caching" />
+      <path value="$PROJECT_DIR$/vendor/rector/rector-cakephp" />
+      <path value="$PROJECT_DIR$/vendor/rector/rector-symfony" />
+      <path value="$PROJECT_DIR$/vendor/rector/rector-doctrine" />
+      <path value="$PROJECT_DIR$/vendor/rector/rector-phpunit" />
+      <path value="$PROJECT_DIR$/vendor/rector/rector-nette" />
+      <path value="$PROJECT_DIR$/vendor/rector/rector-laravel" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.3">
