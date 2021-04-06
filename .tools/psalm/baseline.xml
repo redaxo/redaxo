@@ -3856,7 +3856,7 @@
     <MixedArrayOffset occurrences="1">
       <code>$roles[$role-&gt;getValue('id')]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="14">
+    <MixedAssignment occurrences="13">
       <code>$login</code>
       <code>$name</code>
       <code>$roles</code>
@@ -3868,7 +3868,6 @@
       <code>$username</code>
       <code>$userpermBeSprache</code>
       <code>$userpermStartpage</code>
-      <code>$userpsw</code>
       <code>$userrole</code>
       <code>$userstatus</code>
     </MixedAssignment>

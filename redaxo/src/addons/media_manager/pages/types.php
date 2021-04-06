@@ -2,8 +2,6 @@
 
 $content = '';
 
-$Basedir = __DIR__;
-
 $typeId = rex_request('type_id', 'int');
 $func = rex_request('func', 'string');
 

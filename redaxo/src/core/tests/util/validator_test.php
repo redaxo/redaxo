@@ -127,27 +127,32 @@ class rex_validator_test extends TestCase
         static::assertTrue($validator->values('ghi', ['def', 'ghi']));
     }
 
-    public function testCustom()
+    /**
+     * @dataProvider dataCustom
+     */
+    public function testCustom(bool $expected, string $value)
     {
         $validator = rex_validator::factory();
 
-        $callback = function ($v) use (&$value, &$isCalled) {
+        $isCalled = false;
+
+        $callback = function ($v) use ($value, &$isCalled) {
             $isCalled = true;
             $this->assertEquals($value, $v);
             return 'abc' === $value;
         };
 
-        $isCalled = false;
-        $value = 'abc';
-        static::assertTrue($validator->custom($value, $callback));
-        /** @psalm-suppress TypeDoesNotContainType */
+        static::assertSame($expected, $validator->custom($value, $callback));
         static::assertTrue($isCalled, 'Custom callback is called');
+    }
 
-        $isCalled = false;
-        $value = 'def';
-        static::assertFalse($validator->custom($value, $callback));
-        /** @psalm-suppress TypeDoesNotContainType */
-        static::assertTrue($isCalled, 'Custom callback is called');
+    /** @return iterable<int, array{bool, string}> */
+    public function dataCustom(): iterable
+    {
+        return [
+            [true, 'abc'],
+            [false, 'def'],
+        ];
     }
 
     public function testIsValid()
