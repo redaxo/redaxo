@@ -75,11 +75,11 @@ jobs:
                 with:
                     composer-options: --ansi --prefer-dist
 
-            -   name: Fix code style
+            -   name: Rector Rectify
                 if: github.event_name != 'push' && github.event.pull_request.head.repo.full_name == github.repository
                 run: vendor/bin/rector process --no-progress-bar
 
-            -   name: Commit changed files
+            -   name: Commit rector changes
                 uses: stefanzweifel/git-auto-commit-action@v4
                 if: github.event_name != 'push' && github.event.pull_request.head.repo.full_name == github.repository
                 with:
@@ -87,5 +87,14 @@ jobs:
                     commit_user_name: rex-bot
                     commit_user_email: rex-bot@users.noreply.github.com
 
-            -   name: Check code style
-                run: vendor/bin/rector process --ansi --no-progress-bar --dry-run
+            -   name: Fix code style
+                if: github.event_name != 'push' && github.event.pull_request.head.repo.full_name == github.repository
+                run: vendor/bin/php-cs-fixer fix --diff
+
+            -   name: Commit php-cs-fixer changes
+                uses: stefanzweifel/git-auto-commit-action@v4
+                if: github.event_name != 'push' && github.event.pull_request.head.repo.full_name == github.repository
+                with:
+                    commit_message: Apply php-cs-fixer changes
+                    commit_user_name: rex-bot
+                    commit_user_email: rex-bot@users.noreply.github.com
