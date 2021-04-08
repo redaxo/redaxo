@@ -127,7 +127,13 @@
         // init
         function init() {
             navigationBarElm = document.querySelector(navigationBarSelector);
-            navigationBarHiddenPosition = -(navigationBarElm.querySelector('.navbar').offsetHeight);
+            calculateHiddenPosition();
+        }
+
+        function calculateHiddenPosition() {
+            if (navigationBarElm) {
+                navigationBarHiddenPosition = -(navigationBarElm.querySelector('.navbar').offsetHeight);
+            }
         }
 
         // update position and mode
@@ -151,6 +157,7 @@
             if (!viewport.isNavigationActive() && currentScrollPosition > previousScrollPosition && currentScrollPosition >= 0) {
                 // snap
                 if (!isSnapped && currentNavbarPosition !== navigationBarHiddenPosition && currentScrollPosition >= snapScrollPosition + scrollUntilSnap) {
+                    calculateHiddenPosition();
                     releaseScrollDownPosition = currentScrollPosition - navigationBarHiddenPosition;
                     releaseScrollUpPosition = currentScrollPosition;
                     currentNavbarPosition = currentScrollPosition;
