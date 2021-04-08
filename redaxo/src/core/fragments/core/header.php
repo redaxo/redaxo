@@ -6,9 +6,10 @@
 
 $isPopup = rex_be_controller::getCurrentPageObject()->isPopup();
 $isLogin = ('login' === rex_be_controller::getCurrentPage());
+$isSetup = ('setup' === rex_be_controller::getCurrentPage());
 ?>
 
-        <div id="rex-js-nav-top" class="rex-nav-top<?php if (!$isPopup): ?> rex-nav-top-fixed<?php endif; ?>">
+        <div id="rex-js-nav-top" class="rex-nav-top<?php if (!$isPopup && !$isSetup): ?> rex-nav-top-is-fixed<?php endif; ?>">
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
 

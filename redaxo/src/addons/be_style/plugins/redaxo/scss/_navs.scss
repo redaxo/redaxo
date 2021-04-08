@@ -205,7 +205,7 @@ $transitionDuration: 300ms;
 .rex-is-logged-in,
 #rex-page-setup {
     .rex-nav-top {
-        position: fixed;
+        position: absolute;
         top: 0;
         left: 0;
         right: 0;
@@ -329,7 +329,6 @@ $transitionDuration: 300ms;
         }
 
         .rex-is-popup& {
-            position: absolute;
             z-index: auto;
 
             .navbar {
@@ -338,6 +337,10 @@ $transitionDuration: 300ms;
                 padding-bottom: 0;
             }
         }
+    }
+
+    .rex-nav-top-is-fixed {
+        position: fixed;
     }
 
     .rex-nav-top-is-elevated {

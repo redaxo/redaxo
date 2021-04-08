@@ -114,7 +114,7 @@
         var currentScrollPosition = 0;
         var currentNavbarPosition = 0;
         var navigationBarVisiblePosition = 0;
-        var navigationBarSelector = '#rex-js-nav-top.rex-nav-top-fixed';
+        var navigationBarSelector = '#rex-js-nav-top.rex-nav-top-is-fixed';
         var isSnapped = false;
         var scrollUntilSnap = 150; // amount of px to be scrolled before navbar changes its mode
         var previousScrollPosition;
