@@ -222,7 +222,6 @@ if ('add' == $function || 'edit' == $function) {
             $message .= rex_view::error($error);
         }
 
-        $echo = '';
         $content = '';
         $panel = '';
         $panel .= '

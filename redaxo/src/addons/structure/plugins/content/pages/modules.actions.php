@@ -4,7 +4,6 @@
  * @package redaxo5
  */
 
-$PREPOST = ['PRE', 'POST'];
 $ASTATUS = ['ADD', 'EDIT', 'DELETE'];
 
 $OUT = true;
