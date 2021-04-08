@@ -18,8 +18,9 @@ if (!rex_setup::isInitialSetup()) {
     <style>
         .rex-cancel-setup {
             position: absolute;
-            top: 17px;
+            top: 7px;
             right: 40px;
+            z-index: 1100;
         }
     </style>
     <a href="'.$context->getUrl(['func' => 'abort']).'" data-confirm="Cancel Setup?" class="btn btn-delete rex-cancel-setup">'.rex_i18n::msg('setup_cancel').'</a>';
