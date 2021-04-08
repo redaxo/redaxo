@@ -10,17 +10,15 @@ $loader-color-bar-2: $color-d;
     .rex-visible & {
         display: block;
     }
+}
 
-    // backdrop
-    &::before {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba($color-a-dark, 0.15);
-    }
+.rex-ajax-loader-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba($color-a-dark, 0.15);
 }
 
 .rex-ajax-loader-element {
