@@ -6,21 +6,25 @@ on:
     pull_request:
         types: [opened, synchronize, reopened, ready_for_review]
 
+env:
+    writable: ${{ github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository }}
+
 jobs:
     psalm-analysis:
         name: psalm static code analysis
         runs-on: ubuntu-latest
 
         steps:
+            -   run: echo "${{ env.writable }}"
             -   name: Checkout
                 uses: actions/checkout@v2
-                if: "github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository"
+                if: env.writable
                 with:
                     ref: ${{ github.head_ref }}
                     token: ${{ secrets.BOT_TOKEN }}
             -   name: Checkout fork
                 uses: actions/checkout@v2
-                if: "github.event_name != 'push' && github.event.pull_request.head.repo.full_name != github.repository"
+                if: !env.writable
 
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
