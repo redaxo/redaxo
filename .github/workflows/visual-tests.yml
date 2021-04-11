@@ -29,7 +29,7 @@ jobs:
 
             -   name: Checkout
                 uses: actions/checkout@v2
-                if: github.event_name != 'repository_dispatch' && env.writable = 1
+                if: "github.event_name != 'repository_dispatch' && env.writable = 1"
                 with:
                     ref: ${{ github.head_ref }}
                     token: ${{ secrets.BOT_TOKEN }}
@@ -90,7 +90,7 @@ jobs:
                     npm install puppeteer@6 pixelmatch pngjs fs mkdirp
 
             -   name: Take screenshots (differential)
-                if: github.event_name != 'repository_dispatch'
+                if: "github.event_name != 'repository_dispatch'"
                 run: |
                     php redaxo/bin/console config:set setup true -t boolean --ansi
                     php redaxo/bin/console cache:clear --ansi
@@ -99,7 +99,7 @@ jobs:
                     php redaxo/bin/console cache:clear --ansi
                     node .github/tests-visual/visual-record.js
             -   name: Force regenerate all screenshots
-                if: github.event_name == 'repository_dispatch'
+                if: "github.event_name == 'repository_dispatch'"
                 run: |
                     php redaxo/bin/console config:set setup true -t boolean --ansi
                     php redaxo/bin/console cache:clear --ansi
