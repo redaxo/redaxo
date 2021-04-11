@@ -323,7 +323,7 @@ $n['field'] = $selLog->get();
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="phpmailer-log">' . $addon->i18n('archive') . '</label>';
+$n['label'] = '<label for="phpmailer-archive">' . $addon->i18n('archive') . '</label>';
 $n['field'] = $selArchive->get();
 $n['note'] = rex_i18n::rawMsg('phpmailer_archive_info', rex_mailer::logFolder(), '...'.substr(rex_mailer::logFolder(), -30));
 $formElements[] = $n;
