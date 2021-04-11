@@ -9,7 +9,6 @@ on:
 jobs:
     visual-tests:
         runs-on: ubuntu-latest
-        if: "github.event.pull_request.draft == false"
 
         steps:
             -   name: Add action run link to trigger comment
