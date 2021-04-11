@@ -296,7 +296,6 @@ $content .= '<fieldset class="col-sm-6"><legend>' . $addon->i18n('dispatch_optio
 
 $formElements = [];
 
-
 $n = [];
 $n['label'] = '<label for="phpmailer-charset">' . $addon->i18n('charset') . '</label>';
 $n['field'] = '<input class="form-control" id="phpmailer-charset" type="text" name="settings[charset]" value="' . rex_escape($addon->getConfig('charset')) . '" />';
@@ -338,7 +337,6 @@ if (is_dir(rex_mailer::logFolder())) {
     $n['field'] = '<button data-confirm="' . $addon->i18n('archive_delete_confirm') . '" class="btn btn-danger pull-right" type="submit" name="btn_delete_archive" value="' . $addon->i18n('archive_delete') . '">' . $addon->i18n('archive_delete') . '</button>';
     $formElements[] = $n;
 }
-
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
