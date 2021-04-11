@@ -29,7 +29,7 @@ jobs:
 
             -   name: Checkout
                 uses: actions/checkout@v2
-                if: "env.writable = 1 && github.event_name != 'repository_dispatch'"
+                if: "github.event_name != 'repository_dispatch' && github.event.pull_request.head.repo.full_name == github.repository"
                 with:
                     ref: ${{ github.head_ref }}
                     token: ${{ secrets.BOT_TOKEN }}
