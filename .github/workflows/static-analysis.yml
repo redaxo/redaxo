@@ -7,7 +7,7 @@ on:
         types: [opened, synchronize, reopened, ready_for_review]
 
 env:
-    writable: ${{ github.event_name != 'push' && github.event.pull_request.head.repo.full_name != github.repository && 'true' || 'false' }}
+    writable: ${{ github.event_name != 'push' && github.event.pull_request.head.repo.full_name != github.repository && '1' || '0' }}
 
 jobs:
     psalm-analysis:
@@ -18,14 +18,17 @@ jobs:
             -   run: echo "${{ env.writable }}"
             -   name: Checkout
                 uses: actions/checkout@v2
-                if: ${{ env.writable == 'true' }}
+                if: ${{ env.writable == '1' }}
                 with:
                     ref: ${{ github.head_ref }}
                     token: ${{ secrets.BOT_TOKEN }}
             -   name: Checkout fork
                 uses: actions/checkout@v2
-                if: ${{ env.writable == 'false' }}
-            -   run: echo "${{ env.writable }}"
+                if: ${{ env.writable == '0' }}
+            -   if: 'env.writable'
+                run: echo 'writable'
+            -   if: '!env.writable'
+                run: echo 'not writable'
 
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
