@@ -126,4 +126,4 @@ jobs:
                     php .tools/bin/setup
 
             -   name: Run phpstan analysis
-                run: vendor/bin/phpstan analyse --ansi --no-progress --debug
+                run: vendor/bin/phpstan analyse --ansi
