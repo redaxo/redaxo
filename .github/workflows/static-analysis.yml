@@ -7,7 +7,7 @@ on:
         types: [opened, synchronize, reopened, ready_for_review]
 
 env:
-    writable: ${{ github.event_name != 'push' && github.event.pull_request.head.repo.full_name != github.repository && 1 || 0 }}
+    writable: ${{ github.event_name != 'push' && github.event.pull_request.head.repo.full_name != github.repository && 'true' || 'false' }}
 
 jobs:
     psalm-analysis:
@@ -18,13 +18,13 @@ jobs:
             -   run: echo "${{ env.writable }}"
             -   name: Checkout
                 uses: actions/checkout@v2
-                if: ${{ env.writable }}
+                if: ${{ env.writable == 'true' }}
                 with:
                     ref: ${{ github.head_ref }}
                     token: ${{ secrets.BOT_TOKEN }}
             -   name: Checkout fork
                 uses: actions/checkout@v2
-                if: ${{ !env.writable }}
+                if: ${{ env.writable == 'false' }}
             -   run: echo "${{ env.writable }}"
 
             -   name: Setup PHP
