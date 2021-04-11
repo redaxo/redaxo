@@ -7,7 +7,7 @@ on:
         types: [opened, synchronize, reopened, ready_for_review]
 
 env:
-    writable: ${{ github.event_name != 'push' && github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' && 1 || 0 }}
+    writable: ${{ github.event_name != 'push' && github.event.pull_request.head.repo.full_name == github.repository && github.actor == 'dependabot[bot]' && 1 || 0 }}
 
 jobs:
     psalm-analysis:
