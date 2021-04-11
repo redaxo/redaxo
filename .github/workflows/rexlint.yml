@@ -9,7 +9,7 @@ on:
 jobs:
     rexlint:
         runs-on: ubuntu-18.04
-        if: "github.event.pull_request.draft == false && !contains(github.event.head_commit.message, '[ci skip]')"
+        if: github.event.pull_request.draft == false
 
         steps:
             -   name: Checkout
