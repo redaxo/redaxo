@@ -18,13 +18,14 @@ jobs:
             -   run: echo "${{ env.writable }}"
             -   name: Checkout
                 uses: actions/checkout@v2
-                if: ${{ env.writable == true }}
+                if: ${{ env.writable }}
                 with:
                     ref: ${{ github.head_ref }}
                     token: ${{ secrets.BOT_TOKEN }}
             -   name: Checkout fork
                 uses: actions/checkout@v2
-                if: ${{ env.writable == false }}
+                if: ${{ !env.writable }}
+            -   run: echo "${{ env.writable }}"
 
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
