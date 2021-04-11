@@ -6,6 +6,9 @@ on:
     pull_request:
         types: [opened, synchronize, reopened, ready_for_review]
 
+env:
+    writable: ${{ github.event_name != 'push' && github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' && 1 || 0 }}
+
 jobs:
     psalm-analysis:
         name: psalm static code analysis
@@ -14,13 +17,13 @@ jobs:
         steps:
             -   name: Checkout
                 uses: actions/checkout@v2
-                if: "github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository"
+                if: env.writable == 1
                 with:
                     ref: ${{ github.head_ref }}
                     token: ${{ secrets.BOT_TOKEN }}
             -   name: Checkout fork
                 uses: actions/checkout@v2
-                if: "github.event_name != 'push' && github.event.pull_request.head.repo.full_name != github.repository"
+                if: env.writable == 0
 
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
@@ -45,7 +48,7 @@ jobs:
 
             -   name: Commit changed files
                 uses: stefanzweifel/git-auto-commit-action@v4
-                if: "failure() && steps.baseline.conclusion != 'skipped' && github.event_name != 'push' && github.event.pull_request.head.repo.full_name == github.repository"
+                if: failure() && steps.baseline.conclusion != 'skipped' && env.writable == 1
                 with:
                     commit_message: Update psalm baseline
                     commit_user_name: rex-bot
@@ -55,18 +58,18 @@ jobs:
     psalm-taint-analysis:
         name: psalm taint analysis
         runs-on: ubuntu-latest
-        if: "github.event.pull_request.draft == false"
+        if: github.event.pull_request.draft == false
 
         steps:
             -   name: Checkout
                 uses: actions/checkout@v2
-                if: "github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository"
+                if: env.writable == 1
                 with:
                     ref: ${{ github.head_ref }}
                     token: ${{ secrets.BOT_TOKEN }}
             -   name: Checkout fork
                 uses: actions/checkout@v2
-                if: "github.event_name != 'push' && github.event.pull_request.head.repo.full_name != github.repository"
+                if: env.writable == 0
 
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
@@ -91,7 +94,7 @@ jobs:
 
             -   name: Commit changed files
                 uses: stefanzweifel/git-auto-commit-action@v4
-                if: "failure() && steps.baseline.conclusion != 'skipped' && github.event_name != 'push' && github.event.pull_request.head.repo.full_name == github.repository"
+                if: failure() && steps.baseline.conclusion != 'skipped' && env.writable == 1
                 with:
                     commit_message: Update psalm taint baseline
                     commit_user_name: rex-bot
