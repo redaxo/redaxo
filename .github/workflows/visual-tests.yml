@@ -29,13 +29,13 @@ jobs:
 
             -   name: Checkout
                 uses: actions/checkout@v2
-                if: "github.event_name != 'repository_dispatch' && github.event.pull_request.head.repo.full_name == github.repository"
+                if: env.writable == 1 && github.event_name != 'repository_dispatch'"
                 with:
                     ref: ${{ github.head_ref }}
                     token: ${{ secrets.BOT_TOKEN }}
             -   name: Checkout fork
                 uses: actions/checkout@v2
-                if: env.writable = 0
+                if: env.writable == 0
             -   name: Checkout on chat commnad
                 uses: actions/checkout@v2
                 if: github.event_name == 'repository_dispatch'
@@ -90,7 +90,7 @@ jobs:
                     npm install puppeteer@6 pixelmatch pngjs fs mkdirp
 
             -   name: Take screenshots (differential)
-                if: "github.event_name != 'repository_dispatch'"
+                if: github.event_name != 'repository_dispatch'
                 run: |
                     php redaxo/bin/console config:set setup true -t boolean --ansi
                     php redaxo/bin/console cache:clear --ansi
@@ -99,7 +99,7 @@ jobs:
                     php redaxo/bin/console cache:clear --ansi
                     node .github/tests-visual/visual-record.js
             -   name: Force regenerate all screenshots
-                if: "github.event_name == 'repository_dispatch'"
+                if: github.event_name == 'repository_dispatch'
                 run: |
                     php redaxo/bin/console config:set setup true -t boolean --ansi
                     php redaxo/bin/console cache:clear --ansi
@@ -110,7 +110,7 @@ jobs:
 
             -   name: Commit changed files
                 uses: stefanzweifel/git-auto-commit-action@v4
-                if: env.writable = 1
+                if: env.writable == 1
                 with:
                     commit_message: Update screenshots
                     commit_user_name: rex-bot
