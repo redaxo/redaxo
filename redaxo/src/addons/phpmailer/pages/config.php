@@ -287,11 +287,6 @@ $content .= $fragment->parse('core/form/form.php');
 $formElements = [];
 $content .= '</div>';
 
-$n = [];
-$n['label'] = '<label for="phpmailer-smtp_debug">' . $addon->i18n('smtp_debug') . '</label>';
-$n['field'] = $selDebug->get().'<p class="help-block rex-note"> ' . $addon->i18n('smtp_debug_info').'</p>';
-$formElements[] = $n;
-
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
@@ -300,6 +295,7 @@ $content .= '</fieldset></div>';
 $content .= '<fieldset class="col-sm-6"><legend>' . $addon->i18n('dispatch_options') . '</legend>';
 
 $formElements = [];
+
 
 $n = [];
 $n['label'] = '<label for="phpmailer-charset">' . $addon->i18n('charset') . '</label>';
@@ -322,12 +318,17 @@ $n['field'] = $selPriority->get();
 $formElements[] = $n;
 
 $n = [];
+$n['label'] = '<label for="phpmailer-smtp_debug">' . $addon->i18n('smtp_debug') . '</label>';
+$n['field'] = $selDebug->get().'<p class="help-block rex-note"> ' . $addon->i18n('smtp_debug_info').'</p>';
+$formElements[] = $n;
+
+$n = [];
 $n['label'] = '<label for="phpmailer-log">' . $addon->i18n('logging') . '</label>';
 $n['field'] = $selLog->get();
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="phpmailer-archive">' . $addon->i18n('archive') . '</label>';
+$n['label'] = '<label for="phpmailer-log">' . $addon->i18n('archive') . '</label>';
 $n['field'] = $selArchive->get();
 $n['note'] = rex_i18n::rawMsg('phpmailer_archive_info', rex_mailer::logFolder(), '...'.substr(rex_mailer::logFolder(), -30));
 $formElements[] = $n;
@@ -337,6 +338,7 @@ if (is_dir(rex_mailer::logFolder())) {
     $n['field'] = '<button data-confirm="' . $addon->i18n('archive_delete_confirm') . '" class="btn btn-danger pull-right" type="submit" name="btn_delete_archive" value="' . $addon->i18n('archive_delete') . '">' . $addon->i18n('archive_delete') . '</button>';
     $formElements[] = $n;
 }
+
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
@@ -412,3 +414,4 @@ echo '
     });
 
 </script>
+
