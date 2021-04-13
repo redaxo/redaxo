@@ -10,16 +10,16 @@
 
 class rex_effect_convert2img extends rex_effect_abstract
 {
-    private const CONVERT_TYPES = [
-        'pdf',
-        'ps',
-        'psd',
-        'tif',
-        'tiff',
-        'bmp',
-        'eps',
-        'ico',
-        'svg',
+    private static $convertTypes = [
+        'pdf' => 'application/pdf',
+        'ps' => 'application/postscript',
+        'psd' => 'image/vnd.adobe.photoshop',
+        'tif' => 'image/tiff',
+        'tiff' => 'image/tiff',
+        'bmp' => 'image/bmp',
+        'eps' => 'application/postscript',
+        'ico' => 'image/x-icon',
+        'svg' => 'image/svg+xml',
     ];
     private const CONVERT_TO = [
         'jpg' => [
@@ -59,7 +59,7 @@ class rex_effect_convert2img extends rex_effect_abstract
             return;
         }
 
-        if (!in_array(strtolower($ext), self::CONVERT_TYPES)) {
+        if (!in_array(strtolower($ext), array_keys(self::$convertTypes)) && !in_array(rex_file::mimeType($fromPath), self::$convertTypes)) {
             return;
         }
 
