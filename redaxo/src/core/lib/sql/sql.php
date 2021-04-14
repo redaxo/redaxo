@@ -1036,7 +1036,7 @@ class rex_sql implements Iterator
      *
      * REPLACE works exactly like INSERT, except that if an old row in the table
      * has the same value as a new row for a PRIMARY KEY or a UNIQUE index,
-     * the old row is deleted before the new row is inserted. 
+     * the old row is deleted before the new row is inserted.
      *
      * @throws rex_sql_exception
      *
