@@ -6921,8 +6921,6 @@
       <code>rex_escape($editor-&gt;getBasepath())</code>
     </NullOperand>
   </file>
-  <file src="redaxo/src/core/tests/base/factory_trait_test.php">
-  </file>
   <file src="redaxo/src/core/tests/be/navigation_test.php">
     <MixedArrayAccess occurrences="3">
       <code>$navi[0]['headline']</code>
