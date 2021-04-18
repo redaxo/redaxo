@@ -113,7 +113,7 @@ class rex_install_packages
         /** @var array<string, array{name: string, author: string, shortdescription: string, description: string, website: string, created: string, updated: string, status: bool, files: array<int, array{version: string, description: string, path: string, checksum: string, created: string, updated: string, redaxo_versions: list<string>, status: bool}>}> $myPackages */
         $myPackages = self::getPackages('?only_my=1');
         self::$myPackages = $myPackages;
-        foreach (self::$myPackages as $key => $addon) {
+        foreach (self::$myPackages as $key => $_) {
             if (!rex_addon::exists($key)) {
                 unset(self::$myPackages[$key]);
             }
