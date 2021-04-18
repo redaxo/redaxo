@@ -37,6 +37,7 @@ trait rex_factory_trait
      * Sets the class for the factory.
      *
      * @param class-string<static> $subclass Classname
+     * @psalm-param class-string<self> $subclass https://github.com/vimeo/psalm/issues/5535
      *
      * @throws InvalidArgumentException
      */
@@ -49,6 +50,7 @@ trait rex_factory_trait
         if ($subclass != $calledClass && !is_subclass_of($subclass, $calledClass)) {
             throw new InvalidArgumentException('$class "' . $subclass . '" is expected to define a subclass of ' . $calledClass . '!');
         }
+        /** @psalm-suppress PropertyTypeCoercion */
         self::$factoryClasses[$calledClass] = $subclass;
     }
 
