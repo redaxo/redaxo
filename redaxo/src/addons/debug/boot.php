@@ -65,7 +65,7 @@ $shutdownFn = static function () {
     $clockwork->timeline()->finalize($clockwork->getRequest()->time);
 
     foreach (rex_timer::$serverTimings as $label => $timings) {
-        foreach ($timings['timings'] as $i => $timing) {
+        foreach ($timings['timings'] as $timing) {
             if ($timing['end'] - $timing['start'] >= 0.001) {
                 $clockwork->timeline()->event($label, ['start' => $timing['start'], 'end' => $timing['end']]);
             }
@@ -120,7 +120,7 @@ if (rex::getConsole()) {
 
         $command = $extensionPoint->getCommand();
         $input = $extensionPoint->getInput();
-        $output = $extensionPoint->getOutput();
+        // $output = $extensionPoint->getOutput();
         $exitCode = $extensionPoint->getExitCode();
 
         // we need to make sure that the storage path exists after actions like cache:clear

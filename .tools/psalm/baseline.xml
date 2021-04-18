@@ -660,11 +660,6 @@
       <code>isAdmin</code>
     </PossiblyNullReference>
   </file>
-  <file src="redaxo/src/addons/install/lib/archive.php">
-    <MixedInferredReturnType occurrences="1">
-      <code>bool</code>
-    </MixedInferredReturnType>
-  </file>
   <file src="redaxo/src/addons/install/lib/command/download.php">
     <MixedArgument occurrences="2">
       <code>$version</code>
@@ -1787,8 +1782,7 @@
       <code>$title</code>
       <code>$typeLabel</code>
     </MixedArgument>
-    <MixedAssignment occurrences="23">
-      <code>$activeItem</code>
+    <MixedAssignment occurrences="22">
       <code>$activeItem</code>
       <code>$attr</code>
       <code>$category</code>
@@ -2169,11 +2163,10 @@
       <code>$articleStatusTypes[$status][0]</code>
       <code>$articleStatusTypes[$status][1]</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="4">
+    <MixedAssignment occurrences="3">
       <code>$articleId</code>
       <code>$clang</code>
       <code>$ctypes</code>
-      <code>$subject</code>
     </MixedAssignment>
     <MixedOperand occurrences="2">
       <code>$articleStatusTypes[$status][0]</code>

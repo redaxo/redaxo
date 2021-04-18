@@ -42,7 +42,6 @@ $content .= '
                 </thead>
                 <tbody>';
 
-$buttons = '';
 $formElements = [];
 
 $file = new rex_log_file($logFile);
