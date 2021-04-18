@@ -51,7 +51,7 @@ trait rex_factory_trait
             throw new InvalidArgumentException('$class "' . $subclass . '" is expected to define a subclass of ' . $calledClass . '!');
         }
         /** @psalm-suppress PropertyTypeCoercion */
-        self::$factoryClasses[$calledClass] = $subclass;
+        self::$factoryClasses[$calledClass] = $subclass; /** @phpstan-ignore-line */
     }
 
     /**
