@@ -121,6 +121,8 @@ class rex_logger extends AbstractLogger
 
     /**
      * Prepares the logifle for later use.
+     *
+     * @psalm-assert !null self::$file
      */
     public static function open()
     {

@@ -261,16 +261,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/sql/table.php
 
 		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/lib/util/log_file.php
-
-		-
-			message: "#^Result of && is always false\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/log_file.php
-
-		-
 			message: "#^Method rex_socket\\:\\:factory\\(\\) should return static\\(rex_socket\\) but returns rex_socket_proxy\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/socket/socket.php
