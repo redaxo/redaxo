@@ -1,9 +1,9 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			message: "#^Dead catch \\- Throwable is never thrown in the try block\\.$#"
 			count: 1
-			path: ../../redaxo/src/addons/install/lib/archive.php
+			path: ../../redaxo/src/addons/cronjob/lib/types/phpcode.php
 
 		-
 			message: "#^Parameter \\#3 \\$alias of class PharData constructor expects string, null given\\.$#"
@@ -11,99 +11,9 @@ parameters:
 			path: ../../redaxo/src/addons/install/lib/archive.php
 
 		-
-			message: "#^Left side of && is always true\\.$#"
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/media_category_select.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between false and string will always evaluate to false\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/functions/function_metainfo.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/phpmailer/pages/log.php
-
-		-
-			message: "#^Left side of && is always true\\.$#"
-			count: 3
-			path: ../../redaxo/src/addons/structure/lib/select_category.php
-
-		-
-			message: "#^Parameter \\#2 \\$createCallback of static method rex_structure_element\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: static\\(rex_structure_element\\)\\|null\\)\\|null, Closure\\(mixed, mixed\\)\\: static\\(rex_structure_element\\)\\|null given\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/lib/structure_element.php
-
-		-
-			message: "#^Parameter \\#3 \\$createListCallback of static method rex_structure_element\\:\\:getInstanceList\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: array\\)\\|null, Closure\\(mixed, mixed\\)\\: array given\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/lib/structure_element.php
-
-		-
-			message: "#^Method rex_structure_element\\:\\:getInstanceList\\(\\) should return array\\<T of object\\> but returns array\\<int, mixed\\>\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/lib/structure_element.php
-
-		-
-			message: "#^Result of \\|\\| is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/lib/structure_element.php
-
-		-
-			message: "#^Right side of && is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/plugins/content/pages/content.edit.php
-
-		-
-			message: "#^Left side of && is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/plugins/content/pages/modules.modules.php
-
-		-
-			message: "#^Comparison operation \"\\>\" between int\\<min, 0\\>\\|null and 0 is always false\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/plugins/content/pages/modules.modules.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/plugins/version/boot.php
-
-		-
-			message: "#^Offset 'href' on array\\(\\?'active' \\=\\> true, 'href' \\=\\> string, \\?'itemAttr' \\=\\> array\\('class' \\=\\> array\\(0 \\=\\> 'bg\\-success', \\?1 \\=\\> 'disabled'\\)\\)\\) in isset\\(\\) always exists and is not nullable\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/layout/top.php
-
-		-
-			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/api_function.php
-
-		-
-			message: "#^Left side of && is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/api_function.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/api_function.php
-
-		-
-			message: "#^Argument of an invalid type rex_api_result supplied for foreach, only iterables are supported\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/api_function.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/autoload.php
-
-		-
-			message: "#^Parameter \\#1 \\$autoload_function of function spl_autoload_register expects callable\\(string\\)\\: void, array\\('rex_autoload', 'autoload'\\) given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/autoload.php
+			path: ../../redaxo/src/addons/install/lib/archive.php
 
 		-
 			message: "#^Method rex_media\\:\\:getInstanceList\\(\\) should return array\\<T of object\\> but returns array\\<int, mixed\\>\\.$#"
@@ -126,29 +36,199 @@ parameters:
 			path: ../../redaxo/src/addons/mediapool/lib/media_category.php
 
 		-
-			message: "#^Method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) should return array\\<T of object\\> but returns array\\<int, mixed\\>\\.$#"
+			message: "#^Left side of && is always true\\.$#"
 			count: 1
-			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
+			path: ../../redaxo/src/addons/mediapool/lib/media_category_select.php
 
 		-
-			message: "#^Parameter \\#3 \\$createListCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: array\\)\\|null, Closure\\(mixed, mixed\\)\\: array\\(\\) given\\.$#"
+			message: "#^Strict comparison using \\=\\=\\= between false and string will always evaluate to false\\.$#"
 			count: 1
-			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
+			path: ../../redaxo/src/addons/metainfo/functions/function_metainfo.php
 
 		-
-			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects callable\\(\\.\\.\\.mixed\\)\\: object\\|null, Closure\\(mixed, mixed\\)\\: void given\\.$#"
+			message: "#^If condition is always true\\.$#"
 			count: 1
-			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
+			path: ../../redaxo/src/addons/phpmailer/pages/log.php
+
+		-
+			message: "#^Left side of && is always true\\.$#"
+			count: 3
+			path: ../../redaxo/src/addons/structure/lib/select_category.php
+
+		-
+			message: "#^Method rex_structure_element\\:\\:getInstanceList\\(\\) should return array\\<T of object\\> but returns array\\<int, mixed\\>\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/structure/lib/structure_element.php
+
+		-
+			message: "#^Parameter \\#2 \\$createCallback of static method rex_structure_element\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: static\\(rex_structure_element\\)\\|null\\)\\|null, Closure\\(mixed, mixed\\)\\: static\\(rex_structure_element\\)\\|null given\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/structure/lib/structure_element.php
+
+		-
+			message: "#^Parameter \\#3 \\$createListCallback of static method rex_structure_element\\:\\:getInstanceList\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: array\\)\\|null, Closure\\(mixed, mixed\\)\\: array given\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/structure/lib/structure_element.php
 
 		-
 			message: "#^Result of \\|\\| is always true\\.$#"
 			count: 1
-			path: ../../redaxo/src/core/lib/sql/table.php
+			path: ../../redaxo/src/addons/structure/lib/structure_element.php
 
 		-
-			message: "#^Parameter \\#2 \\$createCallback of static method rex_sql_table\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: static\\(rex_sql_table\\)\\|null\\)\\|null, Closure\\(mixed, mixed\\)\\: static\\(rex_sql_table\\) given\\.$#"
+			message: "#^Left side of && is always true\\.$#"
 			count: 1
-			path: ../../redaxo/src/core/lib/sql/table.php
+			path: ../../redaxo/src/addons/structure/pages/index.php
+
+		-
+			message: "#^Right side of && is always true\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/structure/plugins/content/pages/content.edit.php
+
+		-
+			message: "#^Comparison operation \"\\>\" between int\\<min, 0\\>\\|null and 0 is always false\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/structure/plugins/content/pages/modules.modules.php
+
+		-
+			message: "#^Left side of && is always true\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/structure/plugins/content/pages/modules.modules.php
+
+		-
+			message: "#^If condition is always true\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/structure/plugins/version/boot.php
+
+		-
+			message: "#^Offset 'href' on array\\(\\?'active' \\=\\> true, 'href' \\=\\> string, \\?'itemAttr' \\=\\> array\\('class' \\=\\> array\\(0 \\=\\> 'bg\\-success', \\?1 \\=\\> 'disabled'\\)\\)\\) in isset\\(\\) always exists and is not nullable\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/layout/top.php
+
+		-
+			message: "#^Argument of an invalid type rex_api_result supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/api_function.php
+
+		-
+			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/api_function.php
+
+		-
+			message: "#^If condition is always true\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/api_function.php
+
+		-
+			message: "#^Left side of && is always true\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/api_function.php
+
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/autoload.php
+
+		-
+			message: "#^Negated boolean expression is always false\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/autoload.php
+
+		-
+			message: "#^Parameter \\#1 \\$autoload_function of function spl_autoload_register expects callable\\(string\\)\\: void, array\\('rex_autoload', 'autoload'\\) given\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/autoload.php
+
+		-
+			message: "#^Right side of && is always false\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/autoload.php
+
+		-
+			message: "#^Dead catch \\- TypeError is never thrown in the try block\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/console/command.php
+
+		-
+			message: "#^If condition is always true\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/form/elements/prio.php
+
+		-
+			message: "#^Call to function is_string\\(\\) with int\\|false will always evaluate to false\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/form/form_base.php
+
+		-
+			message: "#^Method rex_form_base\\:\\:getControlElement\\(\\) should return rex_form_control_element\\|null but returns rex_form_element\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/form/form_base.php
+
+		-
+			message: "#^Result of && is always false\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/form/form_base.php
+
+		-
+			message: "#^If condition is always true\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/fragment.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between null and string will always evaluate to false\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/fragment.php
+
+		-
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			count: 2
+			path: ../../redaxo/src/core/lib/login/api_user_impersonate.php
+
+		-
+			message: "#^If condition is always true\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/login/login.php
+
+		-
+			message: "#^Negated boolean expression is always false\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/login/login.php
+
+		-
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/login/login.php
+
+		-
+			message: "#^Method rex_user\\:\\:getComplexPerm\\(\\) should return rex_clang_perm\\|rex_media_perm\\|rex_module_perm\\|rex_structure_perm\\|null but returns rex_complex_perm\\|null\\.$#"
+			count: 2
+			path: ../../redaxo/src/core/lib/login/user.php
+
+		-
+			message: "#^Result of \\|\\| is always true\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/login/user.php
+
+		-
+			message: "#^Offset 'install' on array\\('install' \\=\\> bool, 'status' \\=\\> bool\\) on left side of \\?\\? always exists and is not nullable\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/packages/addons/addon.php
+
+		-
+			message: "#^Offset 'install' on array\\('install' \\=\\> bool, \\?'status' \\=\\> bool, \\?'plugins' \\=\\> array\\<int\\|string, array\\('install' \\=\\> bool, 'status' \\=\\> bool\\)\\>\\) on left side of \\?\\? always exists and is not nullable\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/packages/addons/addon.php
+
+		-
+			message: "#^Offset 'status' on array\\('install' \\=\\> bool, 'status' \\=\\> bool\\) on left side of \\?\\? always exists and is not nullable\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/packages/addons/addon.php
+
+		-
+			message: "#^Negated boolean expression is always true\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/sql/sql.php
 
 		-
 			message: "#^Call to function assert\\(\\) with false will always evaluate to false\\.$#"
@@ -157,6 +237,11 @@ parameters:
 
 		-
 			message: "#^Call to function is_int\\(\\) with false will always evaluate to false\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/sql/table.php
+
+		-
+			message: "#^Parameter \\#2 \\$createCallback of static method rex_sql_table\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: static\\(rex_sql_table\\)\\|null\\)\\|null, Closure\\(mixed, mixed\\)\\: static\\(rex_sql_table\\) given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/sql/table.php
 
@@ -173,92 +258,7 @@ parameters:
 		-
 			message: "#^Result of \\|\\| is always true\\.$#"
 			count: 1
-			path: ../../redaxo/src/core/tests/base/instance_pool_trait_test.php
-
-		-
-			message: "#^Call to static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertSame\\(\\) with arguments rex_test_instance_pool_1, null and 'getInstance uses…' will always evaluate to false\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/base/instance_pool_trait_test.php
-
-		-
-			message: "#^Parameter \\#2 \\$createCallback of static method rex_test_instance_pool_base\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: rex_test_instance_pool_1\\|null\\)\\|null, Closure\\(mixed, mixed\\)\\: void given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/base/instance_pool_trait_test.php
-
-		-
-			message: "#^Result of \\|\\| is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/user.php
-
-		-
-			message: "#^Method rex_user\\:\\:getComplexPerm\\(\\) should return rex_clang_perm\\|rex_media_perm\\|rex_module_perm\\|rex_structure_perm\\|null but returns rex_complex_perm\\|null\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/lib/login/user.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/elements/prio.php
-
-		-
-			message: "#^Method rex_form_base\\:\\:getControlElement\\(\\) should return rex_form_control_element\\|null but returns rex_form_element\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Call to function is_string\\(\\) with int\\|false will always evaluate to false\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Result of && is always false\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between null and string will always evaluate to false\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/fragment.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/fragment.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/lib/login/api_user_impersonate.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
-			message: "#^Offset 'install' on array\\('install' \\=\\> bool, \\?'status' \\=\\> bool, \\?'plugins' \\=\\> array\\<int\\|string, array\\('install' \\=\\> bool, 'status' \\=\\> bool\\)\\>\\) on left side of \\?\\? always exists and is not nullable\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/addons/addon.php
-
-		-
-			message: "#^Offset 'install' on array\\('install' \\=\\> bool, 'status' \\=\\> bool\\) on left side of \\?\\? always exists and is not nullable\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/addons/addon.php
-
-		-
-			message: "#^Offset 'status' on array\\('install' \\=\\> bool, 'status' \\=\\> bool\\) on left side of \\?\\? always exists and is not nullable\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/addons/addon.php
+			path: ../../redaxo/src/core/lib/sql/table.php
 
 		-
 			message: "#^Negated boolean expression is always false\\.$#"
@@ -276,14 +276,44 @@ parameters:
 			path: ../../redaxo/src/core/lib/util/socket/socket.php
 
 		-
+			message: "#^Offset 'timed_out' on array\\('timed_out' \\=\\> bool, 'blocked' \\=\\> bool, 'eof' \\=\\> bool, 'unread_bytes' \\=\\> int, 'stream_type' \\=\\> string, 'wrapper_type' \\=\\> string, 'wrapper_data' \\=\\> mixed, 'mode' \\=\\> string, \\.\\.\\.\\) in isset\\(\\) always exists and is not nullable\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/util/socket/socket.php
+
+		-
 			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int, array\\)\\: bool\\)\\|null, Closure\\(mixed, mixed\\)\\: void given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/socket/socket.php
 
 		-
-			message: "#^Offset 'timed_out' on array\\('timed_out' \\=\\> bool, 'blocked' \\=\\> bool, 'eof' \\=\\> bool, 'unread_bytes' \\=\\> int, 'stream_type' \\=\\> string, 'wrapper_type' \\=\\> string, 'wrapper_data' \\=\\> mixed, 'mode' \\=\\> string, \\.\\.\\.\\) in isset\\(\\) always exists and is not nullable\\.$#"
+			message: "#^Method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) should return array\\<T of object\\> but returns array\\<int, mixed\\>\\.$#"
 			count: 1
-			path: ../../redaxo/src/core/lib/util/socket/socket.php
+			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
+
+		-
+			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects callable\\(\\.\\.\\.mixed\\)\\: object\\|null, Closure\\(mixed, mixed\\)\\: void given\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
+
+		-
+			message: "#^Parameter \\#3 \\$createListCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: array\\)\\|null, Closure\\(mixed, mixed\\)\\: array\\(\\) given\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
+
+		-
+			message: "#^Call to static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertSame\\(\\) with arguments rex_test_instance_pool_1, null and 'getInstance uses…' will always evaluate to false\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/tests/base/instance_pool_trait_test.php
+
+		-
+			message: "#^Parameter \\#2 \\$createCallback of static method rex_test_instance_pool_base\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: rex_test_instance_pool_1\\|null\\)\\|null, Closure\\(mixed, mixed\\)\\: void given\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/tests/base/instance_pool_trait_test.php
+
+		-
+			message: "#^Result of \\|\\| is always true\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/tests/base/instance_pool_trait_test.php
 
 		-
 			message: "#^Call to static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertSame\\(\\) with \\*NEVER\\* and array\\<int, \\(int\\|string\\)\\> will always evaluate to false\\.$#"
@@ -296,7 +326,12 @@ parameters:
 			path: ../../redaxo/src/core/tests/sql/sql_test.php
 
 		-
-			message: "#^Strict comparison using \\=\\=\\= between 'abc' and null will always evaluate to false\\.$#"
+			message: "#^Dead catch \\- Throwable is never thrown in the try block\\.$#"
 			count: 1
-			path: ../../redaxo/src/core/tests/util/validator_test.php
+			path: ../../redaxo/src/core/tests/util/timer_test.php
+
+		-
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/tests/util/timer_test.php
 

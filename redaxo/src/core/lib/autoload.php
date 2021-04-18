@@ -143,6 +143,8 @@ class rex_autoload
      * @param string $class
      *
      * @return bool
+     *
+     * @phpstan-impure
      */
     private static function classExists($class)
     {

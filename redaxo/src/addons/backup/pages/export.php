@@ -13,7 +13,6 @@ $success = '';
 $error = '';
 
 // ------------------------------ Requestvars
-$function = rex_request('function', 'string');
 $exportfilename = rex_post('exportfilename', 'string');
 $exporttype = rex_post('exporttype', 'string');
 $exportdl = rex_post('exportdl', 'boolean');

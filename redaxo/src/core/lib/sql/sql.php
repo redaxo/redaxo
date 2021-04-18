@@ -1034,6 +1034,10 @@ class rex_sql implements Iterator
      * Setzt eine Replace-Anweisung auf die angegebene Tabelle
      * mit den angegebenen Werten ab.
      *
+     * REPLACE works exactly like INSERT, except that if an old row in the table
+     * has the same value as a new row for a PRIMARY KEY or a UNIQUE index,
+     * the old row is deleted before the new row is inserted.
+     *
      * @throws rex_sql_exception
      *
      * @return $this
@@ -1944,8 +1948,7 @@ class rex_sql implements Iterator
             elseif (
                 str_contains($e->getMessage(), 'SQLSTATE[HY000] [1045]') ||
                 str_contains($e->getMessage(), 'SQLSTATE[28000]') ||
-                str_contains($e->getMessage(), 'SQLSTATE[HY000] [1044]') ||
-                str_contains($e->getMessage(), 'SQLSTATE[42000]')
+                str_contains($e->getMessage(), 'SQLSTATE[HY000] [1044]')
             ) {
                 // unable to connect to db
                 $errMsg = rex_i18n::msg('sql_unable_to_connect_database');

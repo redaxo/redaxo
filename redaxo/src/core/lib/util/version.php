@@ -20,6 +20,8 @@ class rex_version
 
     /**
      * Splits a version string into its parts.
+     *
+     * @return list<string>
      */
     public static function split(string $version): array
     {
@@ -36,8 +38,7 @@ class rex_version
      *
      * @param string $version1   First version number
      * @param string $version2   Second version number
-     * @param string $comparator Optional comparator
-     * @psalm-param null|'='|'=='|'!='|'<>'|'<'|'<='|'>'|'>=' $comparator
+     * @param null|'='|'=='|'!='|'<>'|'<'|'<='|'>'|'>=' $comparator Optional comparator
      *
      * @return bool
      */

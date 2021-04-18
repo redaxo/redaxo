@@ -28,7 +28,7 @@ class rex_navigation_test extends TestCase
     public function testConstructAnonymousClass(): void
     {
         // no exception
-        $nav = new class() extends rex_navigation {
+        new class() extends rex_navigation {
         };
     }
 }

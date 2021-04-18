@@ -62,10 +62,6 @@ if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string'
     $message = $addon->i18n('config_saved_successful');
 }
 
-$emptymail = '1';
-if ('' == $addon->getConfig('from') || '' == $addon->getConfig('test_address')) {
-    $emptymail = '';
-}
 $selMailer = new rex_select();
 $selMailer->setId('phpmailer-mailer');
 $selMailer->setName('settings[mailer]');
@@ -327,7 +323,7 @@ $n['field'] = $selLog->get();
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="phpmailer-log">' . $addon->i18n('archive') . '</label>';
+$n['label'] = '<label for="phpmailer-archive">' . $addon->i18n('archive') . '</label>';
 $n['field'] = $selArchive->get();
 $n['note'] = rex_i18n::rawMsg('phpmailer_archive_info', rex_mailer::logFolder(), '...'.substr(rex_mailer::logFolder(), -30));
 $formElements[] = $n;

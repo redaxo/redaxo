@@ -1,14 +1,10 @@
 <?php
 
-$config = [];
 $success = '';
 $error = '';
 
 if ('' != rex_post('btn_save', 'string')) {
     // set config
-
-    $tempConfig = [];
-    $newConfig = [];
 
     $newConfig = rex_post('settings', 'array');
     $tempConfig = rex_plugin::get('be_style', 'customizer')->getConfig();
