@@ -11,11 +11,6 @@ parameters:
 			path: ../../redaxo/src/addons/install/lib/archive.php
 
 		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/install/lib/archive.php
-
-		-
 			message: "#^Method rex_media\\:\\:getInstanceList\\(\\) should return array\\<T of object\\> but returns array\\<int, mixed\\>\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/lib/media.php
@@ -44,11 +39,6 @@ parameters:
 			message: "#^Strict comparison using \\=\\=\\= between false and string will always evaluate to false\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/metainfo/functions/function_metainfo.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/phpmailer/pages/log.php
 
 		-
 			message: "#^Left side of && is always true\\.$#"
