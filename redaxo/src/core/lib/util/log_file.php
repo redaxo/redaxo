@@ -25,7 +25,7 @@ class rex_log_file implements Iterator
     private $pos;
 
     /** @var int|null */
-    private $key = null;
+    private $key;
 
     /** @var string|null */
     private $currentLine;
