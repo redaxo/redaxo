@@ -62,6 +62,10 @@ if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string'
     $message = $addon->i18n('config_saved_successful');
 }
 
+$emptymail = '1';
+if ('' == $addon->getConfig('from') || '' == $addon->getConfig('test_address')) {
+    $emptymail = '';
+}
 $selMailer = new rex_select();
 $selMailer->setId('phpmailer-mailer');
 $selMailer->setName('settings[mailer]');
