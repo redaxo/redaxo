@@ -18,7 +18,7 @@
         "psalm/plugin-phpunit": "0.15.1",
         "psalm/plugin-symfony": "2.2.4",
         "rector/rector": "0.10.6",
-        "vimeo/psalm": "4.6.4"
+        "vimeo/psalm": "4.7.0"
     },
     "replace": {
         "erusev/parsedown": "1.7.4",
