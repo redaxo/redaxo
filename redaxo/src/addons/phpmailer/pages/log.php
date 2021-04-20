@@ -13,7 +13,6 @@ if ('mailer_delLog' == $func) {
     }
 }
 $message = '';
-$content = '';
 if ('' != $success) {
     $message .= rex_view::success($success);
 }
@@ -21,9 +20,7 @@ if ('' != $error) {
     $message .= rex_view::error($error);
 }
 
-$content = '';
-
-$content .= '
+$content = '
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -37,21 +34,19 @@ $content .= '
                 </thead>
                 <tbody>';
 
-$buttons = '';
-if ($file = new rex_log_file($logFile)) {
-    foreach (new LimitIterator($file, 0, 30) as $entry) {
-        $data = $entry->getData();
-        $class = 'ERROR' == trim($data[0]) ? 'rex-state-error' : 'rex-mailer-log-ok';
-        $content .= '
-                    <tr class="'.$class.'">
-                     <td data-title="' . rex_i18n::msg('phpmailer_log_success') . '"><strong>' .rex_escape($data[0]). '</strong></td>
-                     <td data-title="' . rex_i18n::msg('phpmailer_log_date') . '">' . $entry->getTimestamp('%d.%m.%Y %H:%M:%S') . '</td>
-                      <td data-title="' . rex_i18n::msg('phpmailer_log_from') . '">' . rex_escape($data[1]) . '</td>
-                      <td data-title="' . rex_i18n::msg('phpmailer_log_to') . '">' . rex_escape($data[2]) . '</td>
-                      <td data-title="' . rex_i18n::msg('phpmailer_log_subject') . '">' . rex_escape($data[3]) . '</td>
-                      <td data-title="' . rex_i18n::msg('phpmailer_log_msg') . '">' . nl2br(rex_escape($data[4])) . '</td>
-                    </tr>';
-    }
+$file = new rex_log_file($logFile);
+foreach (new LimitIterator($file, 0, 30) as $entry) {
+    $data = $entry->getData();
+    $class = 'ERROR' == trim($data[0]) ? 'rex-state-error' : 'rex-mailer-log-ok';
+    $content .= '
+                <tr class="'.$class.'">
+                  <td data-title="' . rex_i18n::msg('phpmailer_log_success') . '"><strong>' .rex_escape($data[0]). '</strong></td>
+                  <td data-title="' . rex_i18n::msg('phpmailer_log_date') . '">' . $entry->getTimestamp('%d.%m.%Y %H:%M:%S') . '</td>
+                  <td data-title="' . rex_i18n::msg('phpmailer_log_from') . '">' . rex_escape($data[1]) . '</td>
+                  <td data-title="' . rex_i18n::msg('phpmailer_log_to') . '">' . rex_escape($data[2]) . '</td>
+                  <td data-title="' . rex_i18n::msg('phpmailer_log_subject') . '">' . rex_escape($data[3]) . '</td>
+                  <td data-title="' . rex_i18n::msg('phpmailer_log_msg') . '">' . nl2br(rex_escape($data[4])) . '</td>
+                </tr>';
 }
 
 $content .= '

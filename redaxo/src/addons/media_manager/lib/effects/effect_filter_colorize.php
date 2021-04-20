@@ -23,7 +23,7 @@ class rex_effect_filter_colorize extends rex_effect_abstract
         $this->media->asImage();
         $img = $this->media->getImage();
 
-        if (!($t = imagecolorstotal($img))) {
+        if (!imagecolorstotal($img)) {
             $t = 256;
             imagetruecolortopalette($img, true, $t);
         }

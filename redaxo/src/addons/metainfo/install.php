@@ -63,7 +63,6 @@ $columns = ['article' => [], 'media' => [], 'clang' => []];
 foreach ($tablePrefixes as $table => $prefixes) {
     foreach (rex_sql::showColumns(rex::getTable($table)) as $column) {
         $column = $column['name'];
-        $prefix = substr($column, 0, 4);
         if (in_array(substr($column, 0, 4), $prefixes)) {
             $columns[$table][$column] = true;
         }

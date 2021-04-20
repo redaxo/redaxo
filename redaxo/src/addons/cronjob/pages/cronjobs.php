@@ -149,7 +149,6 @@ if ('' == $func) {
     $field = $form->addTextField('name');
     $field->setLabel($addon->i18n('name'));
     $field->getValidator()->add('notEmpty', $addon->i18n('cronjob_error_no_name'));
-    $nameFieldId = $field->getAttribute('id');
 
     $field = $form->addTextAreaField('description');
     $field->setLabel($addon->i18n('description'));
@@ -231,7 +230,7 @@ if ('' == $func) {
     }
 
     $form->addFieldset($addon->i18n('interval'));
-    $field = $form->addIntervalField('interval');
+    $form->addIntervalField('interval');
 
     $envJs = '';
     $visible = [];
@@ -312,7 +311,7 @@ if ('' == $func) {
     }
     $visibleJs = '';
     if (!empty($visible)) {
-        foreach ($fieldContainer->getFields() as $group => $fieldElements) {
+        foreach ($fieldContainer->getFields() as $fieldElements) {
             foreach ($fieldElements as $field) {
                 $name = $field->getFieldName();
                 if (isset($visible[$name])) {
