@@ -370,17 +370,11 @@
     </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/addons/cronjob/pages/log.php">
-    <MixedArgument occurrences="2">
-      <code>$data[0]</code>
-      <code>rex_escape($data[3])</code>
-    </MixedArgument>
     <MixedAssignment occurrences="1">
       <code>$url</code>
     </MixedAssignment>
-    <MixedOperand occurrences="3">
-      <code>$data[4]</code>
+    <MixedOperand occurrences="1">
       <code>$url</code>
-      <code>rex_escape($data[2])</code>
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/cronjob/plugins/article_status/lib/cronjob.php">
@@ -2206,14 +2200,12 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/phpmailer/lib/mailer.php">
-    <MixedArgument occurrences="7">
+    <MixedArgument occurrences="5">
       <code>$address</code>
       <code>$bcc</code>
-      <code>$data[0]</code>
       <code>$exceptions</code>
       <code>$this-&gt;xHeader[$kind]</code>
       <code>$this-&gt;xHeader['to']</code>
-      <code>rex_escape($data[1])</code>
     </MixedArgument>
     <MixedAssignment occurrences="22">
       <code>$address</code>
@@ -2239,10 +2231,7 @@
       <code>$this-&gt;archive</code>
       <code>$timediff</code>
     </MixedAssignment>
-    <MixedOperand occurrences="7">
-      <code>$data[0]</code>
-      <code>$data[2] ?? ''</code>
-      <code>$data[3] ?? ''</code>
+    <MixedOperand occurrences="4">
       <code>$sendTime</code>
       <code>$this-&gt;xHeader[$kind]</code>
       <code>$this-&gt;xHeader['to']</code>
@@ -6427,28 +6416,6 @@
       <code>self::getMsg($key, true, func_get_args())</code>
     </MixedReturnStatement>
   </file>
-  <file src="redaxo/src/core/lib/util/log_file.php">
-    <MixedArgument occurrences="3">
-      <code>$bufferSize</code>
-      <code>$part</code>
-      <code>$this-&gt;pos</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="1">
-      <code>$this-&gt;pos</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="4">
-      <code>$bufferSize</code>
-      <code>$bufferSize</code>
-      <code>$this-&gt;pos</code>
-      <code>$this-&gt;pos</code>
-    </MixedOperand>
-    <PossiblyNullArgument occurrences="1">
-      <code>$this-&gt;currentLine</code>
-    </PossiblyNullArgument>
-    <PossiblyNullOperand occurrences="1">
-      <code>$this-&gt;key</code>
-    </PossiblyNullOperand>
-  </file>
   <file src="redaxo/src/core/lib/util/logger.php">
     <MixedArgument occurrences="1">
       <code>$level</code>
@@ -6457,9 +6424,6 @@
       <code>$replace['{' . $key . '}']</code>
       <code>$val</code>
     </MixedAssignment>
-    <PossiblyNullReference occurrences="1">
-      <code>add</code>
-    </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/lib/util/markdown.php">
     <MixedArgument occurrences="6">
@@ -6880,24 +6844,14 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/pages/system.log.redaxo.php">
-    <MixedArgument occurrences="3">
-      <code>$data[0]</code>
-      <code>$data[2]</code>
-      <code>rex_escape($data[1])</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="4">
+    <MixedAssignment occurrences="3">
       <code>$entry</code>
-      <code>$path</code>
       <code>$url</code>
       <code>$url</code>
     </MixedAssignment>
-    <MixedOperand occurrences="6">
-      <code>$path</code>
-      <code>$path</code>
+    <MixedOperand occurrences="2">
       <code>$url</code>
       <code>$url</code>
-      <code>isset($data[3]) ? rex_escape($data[3]) : ''</code>
-      <code>rex_escape($data[0])</code>
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/pages/system.report.html.php">
