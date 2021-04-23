@@ -178,7 +178,7 @@ if ($KAT->getRows() > 0) {
         $katStatus = $catStatusTypes[$KAT->getValue('status')][0];
         $statusClass = $catStatusTypes[$KAT->getValue('status')][1];
         $statusIcon = $catStatusTypes[$KAT->getValue('status')][2];
-        $trStatusClass = 'rex-status-'.$KAT->getValue('status');
+        $trStatusClass = 'rex-status';
         $dataCatStatus = 'data-status="'.$KAT->getValue('status').'"';
 
         $tdLayoutClass = '';
@@ -451,7 +451,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
         }
         $dataArtid = 'data-article-id="'.$sql->getValue('id').'"';
         $dataArtStatus = 'data-status="'.$sql->getValue('status').'"';
-        $trStatusClass = 'rex-status-'.$sql->getValue('status');
+        $trStatusClass = 'rex-status';
 
         $classStartarticle = '';
         if (1 == $sql->getValue('startarticle')) {
@@ -482,7 +482,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
             $articleClass = $artStatusTypes[$sql->getValue('status')][1];
             $articleIcon = $artStatusTypes[$sql->getValue('status')][2];
 			$dataArtStatus = 'data-status="'.$sql->getValue('status').'"';
-			$trStatusClass = 'rex-status-'.$sql->getValue('status');
+			$trStatusClass = 'rex-status';
 
             $addExtra = '';
             if ($canEdit) {
@@ -545,7 +545,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
             $artStatus = $artStatusTypes[$sql->getValue('status')][0];
             $artStatusClass = $artStatusTypes[$sql->getValue('status')][1];
             $artStatusIcon = $artStatusTypes[$sql->getValue('status')][2];
-            $trStatusClass = 'rex-status-'.$sql->getValue('status');			
+            $trStatusClass = 'rex-status';			
 
             $tmplTd = '';
             if ($templateSelect) {
