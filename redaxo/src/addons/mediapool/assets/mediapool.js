@@ -238,11 +238,11 @@ function selectMedia(filename, alt)
             if (input !== null) {
                 input.value = filename;
                 opener.jQuery("#"+rex.mediapoolOpenerInputField).trigger('change');
+                self.close();
             } else {
                 console.log("Media input field not found");
             }
         }
-        self.close();
     }
 }
 
