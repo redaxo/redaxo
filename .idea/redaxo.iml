@@ -141,7 +141,6 @@
       <excludePattern pattern="jquery*.js" />
       <excludePattern pattern="jquery*.min.map" />
       <excludePattern pattern="sha1.js" />
-      <excludePattern pattern="baseline*" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
