@@ -22,6 +22,7 @@ rm -rf redaxo/src/core/vendor/voku/portable-ascii/build/
 
 find redaxo/src/core/vendor -name ".gitattributes" -type f -delete
 find redaxo/src/core/vendor -name ".gitignore" -type f -delete
+find redaxo/src/core/vendor -name ".mailmap" -type f -delete
 find redaxo/src/core/vendor -name ".travis.yml" -type f -delete
 find redaxo/src/core/vendor -name "phpcs.xml" -type f -delete
 find redaxo/src/core/vendor -name "phpstan.neon" -type f -delete
