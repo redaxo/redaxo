@@ -14,7 +14,7 @@ class rex_select
     /** @var array */
     private $options = [];
     /** @var array */
-    private $option_selected;
+    private $optionSelected;
     /** @var int */
     private $optCount = 0;
 
@@ -42,6 +42,9 @@ class rex_select
         $this->attributes[$name] = $value;
     }
 
+    /**
+     * @return bool
+     */
     public function delAttribute($name)
     {
         if ($this->hasAttribute($name)) {
@@ -51,6 +54,9 @@ class rex_select
         return false;
     }
 
+    /**
+     * @return bool
+     */
     public function hasAttribute($name)
     {
         return isset($this->attributes[$name]);
@@ -106,7 +112,7 @@ class rex_select
      */
     public function setStyle($style)
     {
-        if (false !== strpos($style, 'class=')) {
+        if (str_contains($style, 'class=')) {
             if (preg_match('/class=["\']?([^"\']*)["\']?/i', $style, $matches)) {
                 $this->setAttribute('class', $matches[1]);
             }
@@ -127,13 +133,13 @@ class rex_select
                 $this->setSelected($sectvalue);
             }
         } else {
-            $this->option_selected[] = (string) rex_escape($selected);
+            $this->optionSelected[] = (string) rex_escape($selected);
         }
     }
 
     public function resetSelected()
     {
-        $this->option_selected = [];
+        $this->optionSelected = [];
     }
 
     public function addOptgroup($label)
@@ -145,9 +151,9 @@ class rex_select
     /**
      * Fügt eine Option hinzu.
      */
-    public function addOption($name, $value, $id = 0, $parent_id = 0, array $attributes = [])
+    public function addOption($name, $value, $id = 0, $parentId = 0, array $attributes = [])
     {
-        $this->options[$this->currentOptgroup][$parent_id][] = [$name, $value, $id, $attributes];
+        $this->options[$this->currentOptgroup][$parentId][] = [$name, $value, $id, $attributes];
         ++$this->optCount;
     }
 
@@ -196,12 +202,12 @@ class rex_select
 
     /**
      * Fügt ein Array von Optionen hinzu, dass eine Key/Value Struktur hat.
-     * Wenn $use_keys mit false, werden die Array-Keys mit den Array-Values überschrieben.
+     * Wenn $useKeys mit false, werden die Array-Keys mit den Array-Values überschrieben.
      */
-    public function addArrayOptions(array $options, $use_keys = true)
+    public function addArrayOptions(array $options, $useKeys = true)
     {
         foreach ($options as $key => $value) {
-            if (!$use_keys) {
+            if (!$useKeys) {
                 $key = $value;
             }
 
@@ -209,6 +215,9 @@ class rex_select
         }
     }
 
+    /**
+     * @return int
+     */
     public function countOptions()
     {
         return $this->optCount;
@@ -216,22 +225,28 @@ class rex_select
 
     /**
      * Fügt Optionen anhand der Übergeben SQL-Select-Abfrage hinzu.
+     * @psalm-param positive-int $db
      */
-    public function addSqlOptions($qry)
+    public function addSqlOptions($query, int $db = 1)
     {
-        $sql = rex_sql::factory();
-        $this->addOptions($sql->getArray($qry, [], PDO::FETCH_NUM));
+        $sql = rex_sql::factory($db);
+        $this->addOptions($sql->getArray($query, [], PDO::FETCH_NUM));
     }
 
     /**
      * Fügt Optionen anhand der Übergeben DBSQL-Select-Abfrage hinzu.
+     *
+     * @see rex_sql::setDBQuery()
      */
-    public function addDBSqlOptions($qry)
+    public function addDBSqlOptions($query)
     {
         $sql = rex_sql::factory();
-        $this->addOptions($sql->getDBArray($qry, [], PDO::FETCH_NUM));
+        $this->addOptions($sql->getDBArray($query, [], PDO::FETCH_NUM));
     }
 
+    /**
+     * @return string
+     */
     public function get()
     {
         $useRexSelectStyle = false;
@@ -241,7 +256,7 @@ class rex_select
             $useRexSelectStyle = true;
         }
         // RexSelectStyle nicht nutzen, wenn die Klasse `.selectpicker` gesetzt ist
-        if (isset($this->attributes['class']) && false !== strpos($this->attributes['class'], 'selectpicker')) {
+        if (isset($this->attributes['class']) && str_contains($this->attributes['class'], 'selectpicker')) {
             $useRexSelectStyle = false;
         }
         // RexSelectStyle nicht nutzen, wenn das Selectfeld mehrzeilig ist
@@ -262,7 +277,7 @@ class rex_select
 
         foreach ($this->options as $optgroup => $options) {
             $this->currentOptgroup = $optgroup;
-            if ($optgroupLabel = isset($this->optgroups[$optgroup]) ? $this->optgroups[$optgroup] : null) {
+            if ($optgroupLabel = $this->optgroups[$optgroup] ?? null) {
                 $ausgabe .= '  <optgroup label="' . rex_escape($optgroupLabel) . '">' . "\n";
             }
             if (is_array($options)) {
@@ -286,7 +301,10 @@ class rex_select
         echo $this->get();
     }
 
-    protected function outGroup($parent_id, $level = 0)
+    /**
+     * @return string
+     */
+    protected function outGroup($parentId, $level = 0)
     {
         if ($level > 100) {
             // nur mal so zu sicherheit .. man weiss nie ;)
@@ -294,7 +312,7 @@ class rex_select
         }
 
         $ausgabe = '';
-        $group = $this->getGroup($parent_id);
+        $group = $this->getGroup($parentId);
         if (!is_array($group)) {
             return '';
         }
@@ -316,6 +334,9 @@ class rex_select
         return $ausgabe;
     }
 
+    /**
+     * @return string
+     */
     protected function outOption($name, $value, $level = 0, array $attributes = [])
     {
         $name = rex_escape($name);
@@ -328,7 +349,7 @@ class rex_select
             $bsps = str_repeat('&nbsp;&nbsp;&nbsp;', $level);
         }
 
-        if (null !== $this->option_selected && in_array($value, $this->option_selected, true)) {
+        if (null !== $this->optionSelected && in_array($value, $this->optionSelected, true)) {
             $attributes['selected'] = 'selected';
         }
 
@@ -340,14 +361,14 @@ class rex_select
         return '        <option value="' . $value . '"' . $attr . '>' . $bsps . $name . '</option>' . "\n";
     }
 
-    protected function getGroup($parent_id, $ignore_main_group = false)
+    protected function getGroup($parentId, $ignoreMainGroup = false)
     {
-        if ($ignore_main_group && 0 == $parent_id) {
+        if ($ignoreMainGroup && 0 == $parentId) {
             return false;
         }
 
-        if (isset($this->options[$this->currentOptgroup][$parent_id])) {
-            return $this->options[$this->currentOptgroup][$parent_id];
+        if (isset($this->options[$this->currentOptgroup][$parentId])) {
+            return $this->options[$this->currentOptgroup][$parentId];
         }
 
         return false;

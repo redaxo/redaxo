@@ -47,16 +47,18 @@ function rex_metainfo_add_field_type($label, $dbtype, $dblength)
  * Löscht einen Feldtyp.
  *
  * Gibt beim Erfolg true zurück, sonst eine Fehlermeldung
+ *
+ * @return bool|string
  */
-function rex_metainfo_delete_field_type($field_type_id)
+function rex_metainfo_delete_field_type($fieldTypeId)
 {
-    if (!is_int($field_type_id) || empty($field_type_id)) {
+    if (!is_int($fieldTypeId) || empty($fieldTypeId)) {
         return rex_i18n::msg('minfo_field_error_invalid_typeid');
     }
 
     $sql = rex_sql::factory();
     $sql->setTable(rex::getTablePrefix() . 'metainfo_type');
-    $sql->setWhere(['id' => $field_type_id]);
+    $sql->setWhere(['id' => $fieldTypeId]);
 
     $sql->delete();
     return 1 == $sql->getRows();
@@ -149,7 +151,7 @@ function rex_metainfo_delete_field($fieldIdOrName)
     }
 
     $name = $sql->getValue('name');
-    $field_id = $sql->getValue('id');
+    $fieldId = $sql->getValue('id');
 
     $prefix = rex_metainfo_meta_prefix($name);
     $metaTable = rex_metainfo_meta_table($prefix);
@@ -161,7 +163,7 @@ function rex_metainfo_delete_field($fieldIdOrName)
     }
 
     $sql->setTable(rex::getTablePrefix() . 'metainfo_field');
-    $sql->setWhere(['id' => $field_id]);
+    $sql->setWhere(['id' => $fieldId]);
 
     $sql->delete();
 
@@ -171,24 +173,27 @@ function rex_metainfo_delete_field($fieldIdOrName)
 
 /**
  * Extrahiert den Prefix aus dem Namen eine Spalte.
+ *
+ * @return string
  */
-function rex_metainfo_meta_prefix($name)
+function rex_metainfo_meta_prefix(string $name)
 {
-    if (!is_string($name)) {
-        return false;
+    if (false === ($pos = strpos($name, '_'))) {
+        throw new InvalidArgumentException('$name must be like "prefix_name"');
     }
 
-    if (false !== ($pos = strpos($name, '_'))) {
-        return substr(strtolower($name), 0, $pos + 1);
+    $prefix = substr(strtolower($name), 0, $pos + 1);
+    if (false === $prefix) {
+        throw new InvalidArgumentException('$name must be like "prefix_name".');
     }
 
-    return false;
+    return $prefix;
 }
 
 /**
  * Gibt die mit dem Prefix verbundenen Tabellennamen zurück.
  */
-function rex_metainfo_meta_table($prefix)
+function rex_metainfo_meta_table(string $prefix)
 {
     $metaTables = rex_addon::get('metainfo')->getProperty('metaTables', []);
 
@@ -206,11 +211,10 @@ function rex_metainfo_extensions_handler(rex_extension_point $ep)
 {
     $page = $ep->getSubject();
     $mainpage = rex_be_controller::getCurrentPagePart(1);
-    $mypage = 'metainfo';
 
     // additional javascripts
     if (in_array($mainpage, ['metainfo', 'mediapool'], true) || in_array($page, ['content/metainfo', 'structure', 'system/lang'], true)) {
-        rex_view::addJsFile(rex_url::addonAssets($mypage, 'metainfo.js'), [rex_view::JS_IMMUTABLE => true]);
+        rex_view::addJsFile(rex_url::addonAssets('metainfo', 'metainfo.js'), [rex_view::JS_IMMUTABLE => true]);
     }
 
     // include extensions

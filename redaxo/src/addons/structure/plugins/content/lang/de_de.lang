@@ -1,6 +1,7 @@
 content = Artikel
 
 add_block = Block hinzufügen
+article_doesnt_exist = Dieser Artikel existiert nicht!
 module_doesnt_exist = Dieses Modul existiert nicht!
 update_block = Block übernehmen
 save_block = Block speichern
@@ -62,6 +63,7 @@ content_types = Bereiche (ctypes)
 content_type = Bereich (ctype)
 
 perm_options_moveSlice[] = Blöcke verschieben
+perm_options_publishSlice[] = Blöcke veröffentlichen
 
 templates = Templates
 
@@ -78,12 +80,16 @@ template_categories_custom = Nur in folgenden Kategorien verfügbar
 edit_template = Template editieren
 create_template = Neues Template erstellen
 template_name = Name
+template_key = Schlüssel
+template_key_notice = Der Schlüssel sollte eindeutig vergeben oder nicht ausgefüllt werden.
+template_key_exists = Der Schlüssel existiert bereits.
 checkbox_template_active = Aktiv
 checkbox_template_active_info = [Erscheint bei den Artikeln als Auswahl]
 save_template_and_quit = Template speichern
 save_template_and_continue = Template übernehmen
 header_template = Template
 header_template_description = Templatebezeichnung
+header_template_key = Schlüssel
 header_template_active = Aktiv
 header_template_functions = Funktionen
 delete_template = Template löschen
@@ -107,6 +113,10 @@ create_module = Neues Modul erstellen
 input = Eingabe
 output = Ausgabe
 module_name = Name
+module_key = Schlüssel
+module_key_notice = Der Schlüssel sollte eindeutig vergeben oder nicht ausgefüllt werden.
+module_key_exists = Der Schlüssel existiert bereits.
+module_actions_notice = Tipp: Mit Aktionen kann zusätzlich PHP-Code ausgeführt werden. Zum Beispiel, um Moduleingaben zu validieren.
 save_module_and_quit = Modul speichern
 save_module_and_continue = Modul übernehmen
 module_description = Modulbezeichnung

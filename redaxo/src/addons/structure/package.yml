@@ -1,7 +1,9 @@
 package: structure
-version: '2.8.1'
+version: '2.12.0'
 author: Markus Staab
-supportpage: www.redaxo.org/de/forum/
+supportpage: https://github.com/redaxo/redaxo
+
+rows_per_page:  50
 
 page:
     title: translate:structure
@@ -24,4 +26,5 @@ pages:
 system_plugins: [content]
 
 requires:
-    redaxo: ^5.5.0
+    php: '>=7.3'
+    redaxo: ^5.12.0

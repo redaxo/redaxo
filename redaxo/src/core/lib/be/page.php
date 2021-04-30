@@ -13,7 +13,9 @@ class rex_be_page
 
     private $popup;
     private $href;
+    /** @var array<string, string> */
     private $itemAttr = [];
+    /** @var array<string, string> */
     private $linkAttr = [];
     private $path;
     private $subPath;
@@ -199,6 +201,11 @@ class rex_be_page
      * @param string      $default
      *
      * @return string|array Attribute value for given `$name` or attribute array if `$name` is `null`
+     *
+     * @template T as ?string
+     * @phpstan-template T
+     * @psalm-param T $name
+     * @psalm-return (T is string ? string : array<string, string>)
      */
     public function getItemAttr($name, $default = '')
     {
@@ -207,7 +214,7 @@ class rex_be_page
             return $this->itemAttr;
         }
 
-        return isset($this->itemAttr[$name]) ? $this->itemAttr[$name] : $default;
+        return $this->itemAttr[$name] ?? $default;
     }
 
     /**
@@ -234,6 +241,7 @@ class rex_be_page
         if (!is_string($class)) {
             throw new InvalidArgumentException('Expecting $class to be a string, ' . gettype($class) . 'given!');
         }
+
         $classAttr = $this->getItemAttr('class');
         if (!preg_match('/\b' . preg_quote($class, '/') . '\b/', $classAttr)) {
             $this->setItemAttr('class', ltrim($classAttr . ' ' . $class));
@@ -292,6 +300,11 @@ class rex_be_page
      * @param string      $default
      *
      * @return string|array Attribute value for given `$name` or attribute array if `$name` is `null`
+     *
+     * @template T as ?string
+     * @phpstan-template T
+     * @psalm-param T $name
+     * @psalm-return (T is string ? string : array<string, string>)
      */
     public function getLinkAttr($name, $default = '')
     {
@@ -300,7 +313,7 @@ class rex_be_page
             return $this->linkAttr;
         }
 
-        return isset($this->linkAttr[$name]) ? $this->linkAttr[$name] : $default;
+        return $this->linkAttr[$name] ?? $default;
     }
 
     /**
@@ -317,6 +330,7 @@ class rex_be_page
         if (!is_string($class)) {
             throw new InvalidArgumentException('Expecting $class to be a string, ' . gettype($class) . 'given!');
         }
+
         $classAttr = $this->getLinkAttr('class');
         if (!preg_match('/\b' . preg_quote($class, '/') . '\b/', $classAttr)) {
             $this->setLinkAttr('class', ltrim($classAttr . ' ' . $class));
@@ -362,7 +376,7 @@ class rex_be_page
     /**
      * Returns the path which will be included directly by the core.
      *
-     * @return string
+     * @return string|null
      */
     public function getPath()
     {
@@ -451,11 +465,11 @@ class rex_be_page
      *
      * @param string $key
      *
-     * @return self
+     * @return self|null
      */
     public function getSubpage($key)
     {
-        return isset($this->subpages[$key]) ? $this->subpages[$key] : null;
+        return $this->subpages[$key] ?? null;
     }
 
     /**
@@ -690,15 +704,15 @@ class rex_be_page
      *
      * @return bool
      */
-    public function checkPermission(rex_user $rexUser)
+    public function checkPermission(rex_user $user)
     {
         foreach ($this->requiredPermissions as $perm) {
-            if (!$rexUser->hasPerm($perm)) {
+            if (!$user->hasPerm($perm)) {
                 return false;
             }
         }
         if ($parent = $this->getParent()) {
-            return $parent->checkPermission($rexUser);
+            return $parent->checkPermission($user);
         }
         return true;
     }

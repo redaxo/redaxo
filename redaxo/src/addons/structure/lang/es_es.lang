@@ -50,6 +50,12 @@ structure_copy = Copia
 all_categories = Todas las categorías
 categories = Categorías
 
+perm_options_addArticle[] = Añadir articulo
+perm_options_addCategory[] = Añadir categoría
+perm_options_editArticle[] = Editar artículo
+perm_options_editCategory[] = Editar categoria
+perm_options_deleteArticle[] = Eliminar articulo
+perm_options_deleteCategory[] = Eliminar categoria
 perm_options_article2category[] = Convertir elementos en categorías
 perm_options_article2startarticle[] = Convertir elementos de inicio en el artículo
 perm_options_copyArticle[] = Copia del artículo

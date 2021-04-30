@@ -1,6 +1,80 @@
 Changelog
 =========
 
+Version 2.10.1 – 29.04.2021
+---------------------------
+
+### Security
+
+* Update auf PHPMailer 6.4.1, inklusive Security-Fix: https://github.com/PHPMailer/PHPMailer/releases/tag/v6.4.1
+
+### Bugfixes
+
+* Einstellungen-Seite:
+    - `SMTPDebug`-Schalter wird von PHPMailer inzwischen auch bei anderen Versandmethoden verwendet, deswegen ist die Einstellung dazu nun immer sichtbar (@skerbis)
+    - E-Mail-Archivierung: `for`-Attribut für Label korrigiert (@aeberhard)
+
+
+Version 2.10.0 – 03.03.2021
+---------------------------
+
+### Neu
+
+* Voreinstellung für den Mailer ist nun `smtp` statt `mail` (@gharlan)
+* Mailer `mail` steht nur noch zur Auswahl, wenn die PHP-Funktion auch verfügbar ist (@skerbis)
+* E-Mail-Archiv kann über neuen Button in den Einstellungen geleert werden (@skerbis)
+* `phpmailer[]`-Recht mit Textbeschreibung „PHPMailer-Einstellungen“ (@skerbis)
+
+
+Version 2.9.1 – 11.11.2020
+--------------------------
+
+### Bugfixes
+
+* Testmailversand: Prüfung auf leere E-Mailadresse korrigiert (@gharlan)
+
+
+Version 2.9.0 – 01.07.2020
+--------------------------
+
+### Neu
+
+* Es kann eine E-Mailadresse angegeben werden, an die der gesamte E-Mailversand umgeleitet wird (@novinet-markusd, @gharlan)
+* Readme erweitert (@skerbis)
+
+
+Version 2.8.2 – 28.05.2020
+--------------------------
+
+### Security
+
+* Update PHPMailer 6.1.6, inklusive Security-Fix für [CVE-2020-13625](https://github.com/advisories/GHSA-f7hx-fqxw-rvvj) (@gharlan)
+
+
+Version 2.8.0 – 10.03.2020
+--------------------------
+
+### Neu
+
+* Default-Verschlüsselung auf "keine" gesetzt (da "Auto" bei manchen Providern Probleme verursachte) (@skerbis)
+* Log-Subpage auch im Addon verfügbar (nicht nur unter System/Log) (@skerbis)
+* Erläuterungstexte verbessert (@skerbis)
+
+### Bugfixes
+
+* Debug-Ausgabe erscheint nun im Panel (@skerbis)
+
+
+Version 2.7.0 – 02.02.2020
+--------------------------
+
+### Neu
+
+* Vorhandene Log-Funktion (Ablegen der ganzen Mails) umbenannt in Archivierung (@skerbis)
+* Neue Log-Funktion mit Zeit, Absender, Empfänger, Betreff und Meldung in Logdatei; optional für alle Mails, oder nur bei Fehlern, oder ganz deaktiviert (@skerbis)
+* Hinweis in Readme, dass über SMTP keine leeren Bodys möglich sind (@skerbis)
+
+
 Version 2.6.0 – 20.08.2019
 --------------------------
 

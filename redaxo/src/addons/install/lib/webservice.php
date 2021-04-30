@@ -13,9 +13,7 @@ class rex_install_webservice
     public const PATH = '/de/ws/';
     public const REFRESH_CACHE = 600;
 
-    /**
-     * @var array
-     */
+    /** @var array<string, array{stamp: int, data: array}> */
     private static $cache;
 
     /**
@@ -74,7 +72,7 @@ class rex_install_webservice
             $socket = rex_socket::factoryUrl($url);
             $response = $socket->doGet();
             if ($response->isOk()) {
-                $filename = basename($url);
+                $filename = rex_path::basename($url);
                 $file = rex_path::addonCache('install', md5($filename) . '.' . rex_file::extension($filename));
                 $response->writeBodyTo($file);
                 return $file;
@@ -167,7 +165,7 @@ class rex_install_webservice
      */
     private static function getPath($path)
     {
-        $path = false === strpos($path, '?') ? rtrim($path, '/') . '/?' : $path . '&';
+        $path = !str_contains($path, '?') ? rtrim($path, '/') . '/?' : $path . '&';
         $path .= 'rex_version=' . rex::getVersion();
 
         static $config;
@@ -191,8 +189,8 @@ class rex_install_webservice
     {
         self::loadCache();
         if ($pathBegin) {
-            foreach (self::$cache as $path => $cache) {
-                if (0 === strpos($path, $pathBegin)) {
+            foreach (self::$cache as $path => $_) {
+                if (str_starts_with($path, $pathBegin)) {
                     unset(self::$cache[$path]);
                 }
             }
@@ -224,9 +222,11 @@ class rex_install_webservice
     private static function loadCache()
     {
         if (null === self::$cache) {
-            foreach ((array) rex_file::getCache(rex_path::addonCache('install', 'webservice.cache')) as $path => $cache) {
-                if ($cache['stamp'] > time() - self::REFRESH_CACHE) {
-                    self::$cache[$path] = $cache;
+            /** @var array<string, array{stamp: int, data: array}> $cache */
+            $cache = (array) rex_file::getCache(rex_path::addonCache('install', 'webservice.cache'));
+            foreach ($cache as $path => $pathCache) {
+                if ($pathCache['stamp'] > time() - self::REFRESH_CACHE) {
+                    self::$cache[$path] = $pathCache;
                 }
             }
         }

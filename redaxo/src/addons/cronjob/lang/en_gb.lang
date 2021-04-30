@@ -45,10 +45,12 @@ cronjob_interval_months = Months
 cronjob_interval_months_all = Every month
 
 cronjob_environment = Environment
-cronjob_environment_notice = Script: Execution via <code>redaxo/src/addons/cronjob/bin/run</code>. The script should be invoked by a real cronjob.
+cronjob_environment_notice = Script: Execution via <code>{0}</code>. The script should be invoked by a real cronjob.
 cronjob_environment_frontend = Frontend
 cronjob_environment_backend = Backend
 cronjob_environment_script = Script
+cronjob_environment_console = Script
+cronjob_environment_backend_manual = Backend (manually)
 
 cronjob_execution = Execution
 cronjob_execution_beginning = Execution beginning
@@ -82,3 +84,5 @@ cronjob_log_no_data = No log data available.
 cronjob_log_caption_1 = List of executed cronjobs in {0} {1}
 cronjob_log_caption_2 = List of latest executed cronjobs
 cronjob_log_message = Log message
+
+cronjob_delete_log_msg = Delete the cronjob log?

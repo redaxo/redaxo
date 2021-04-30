@@ -1,19 +1,20 @@
 <?php
 
 /**
- * Verwaltung der Content Sprachen.
- *
  * @package redaxo5
  */
-
-// -------------- Defaults
-$func = rex_request('func', 'string');
 
 $error = '';
 $success = '';
 
+$func = rex_request('func', 'string');
 $logFile = rex_logger::getPath();
-if ('delLog' == $func) {
+
+$csrfToken = rex_csrf_token::factory('system');
+
+if ($func && !$csrfToken->isValid()) {
+    $error = rex_i18n::msg('csrf_token_invalid');
+} elseif ('delLog' == $func) {
     // close logger, to free remaining file-handles to syslog
     // so we can safely delete the file
     rex_logger::close();
@@ -23,7 +24,11 @@ if ('delLog' == $func) {
     } else {
         $error = rex_i18n::msg('syslog_delete_error');
     }
+} elseif ('download' == $func && is_file($logFile)) {
+    rex_response::sendFile($logFile, 'application/octet-stream', 'attachment');
+    exit;
 }
+
 $message = '';
 $content = '';
 
@@ -48,20 +53,31 @@ $content .= '
                 </thead>
                 <tbody>';
 
+$editor = rex_editor::factory();
+
 $file = new rex_log_file($logFile);
-foreach (new LimitIterator($file, 0, 30) as $entry) {
+foreach (new LimitIterator($file, 0, 100) as $entry) {
     /** @var rex_log_entry $entry */
     $data = $entry->getData();
 
     $class = strtolower($data[0]);
-    $class = ('notice' == $class || 'warning' == $class) ? $class : 'error';
+    $class = ('notice' == $class || 'warning' == $class || 'success' == $class || 'info' == $class) ? $class : 'error';
+
+    $path = '';
+    if (isset($data[2])) {
+        $path = rex_escape($data[2]);
+
+        if ($url = $editor->getUrl(rex_path::base($data[2]), $data[3] ?? 1)) {
+            $path = '<a href="'.$url.'">'.$path.'</a>';
+        }
+    }
 
     $content .= '
                 <tr class="rex-state-' . $class . '">
                     <td data-title="' . rex_i18n::msg('syslog_timestamp') . '">' . $entry->getTimestamp('%d.%m.%Y %H:%M:%S') . '</td>
-                    <td data-title="' . rex_i18n::msg('syslog_type') . '">' . rex_escape($data[0]) . '</td>
-                    <td data-title="' . rex_i18n::msg('syslog_message') . '">' . nl2br(rex_escape($data[1])) . '</td>
-                    <td data-title="' . rex_i18n::msg('syslog_file') . '"><div class="rex-word-break">' . (isset($data[2]) ? rex_escape($data[2]) : '') . '</div></td>
+                    <td data-title="' . rex_i18n::msg('syslog_type') . '"><div class="rex-word-break">' . rex_escape($data[0]) . '</div></td>
+                    <td data-title="' . rex_i18n::msg('syslog_message') . '"><div class="rex-word-break">' . nl2br(rex_escape($data[1])) . '</div></td>
+                    <td data-title="' . rex_i18n::msg('syslog_file') . '"><div class="rex-word-break">' . $path . '</div></td>
                     <td class="rex-table-number" data-title="' . rex_i18n::msg('syslog_line') . '">' . (isset($data[3]) ? rex_escape($data[3]) : '') . '</td>
                 </tr>';
 }
@@ -76,9 +92,16 @@ $n = [];
 $n['field'] = '<button class="btn btn-delete" type="submit" name="del_btn" data-confirm="' . rex_i18n::msg('delete') . '?">' . rex_i18n::msg('syslog_delete') . '</button>';
 $formElements[] = $n;
 
-if ($url = rex_editor::factory()->getUrl($logFile, 0)) {
+if ($url = $editor->getUrl($logFile, 0)) {
     $n = [];
-    $n['field'] = '<a class="btn btn-save" href="'. $url .'">' . rex_i18n::msg('system_editor_open_file', basename($logFile)) . '</a>';
+    $n['field'] = '<a class="btn btn-save" href="'. $url .'">' . rex_i18n::msg('system_editor_open_file', rex_path::basename($logFile)) . '</a>';
+    $formElements[] = $n;
+}
+
+if (is_file($logFile)) {
+    $url = rex_url::currentBackendPage(['func' => 'download'] + $csrfToken->getUrlParams());
+    $n = [];
+    $n['field'] = '<a class="btn btn-save" href="'. $url .'" download>' . rex_i18n::msg('syslog_download', rex_path::basename($logFile)) . '</a>';
     $formElements[] = $n;
 }
 
@@ -95,6 +118,7 @@ $content = $fragment->parse('core/page/section.php');
 $content = '
     <form action="' . rex_url::currentBackendPage() . '" method="post">
         <input type="hidden" name="func" value="delLog" />
+        ' . $csrfToken->getHiddenField() . '
         ' . $content . '
     </form>';
 

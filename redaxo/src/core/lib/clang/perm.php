@@ -5,16 +5,27 @@
  */
 class rex_clang_perm extends rex_complex_perm
 {
-    public function hasPerm($clang)
+    /**
+     * @param int $clangId
+     *
+     * @return bool
+     */
+    public function hasPerm($clangId)
     {
-        return $this->hasAll() || in_array($clang, $this->perms);
+        return $this->hasAll() || in_array($clangId, $this->perms);
     }
 
+    /**
+     * @return int
+     */
     public function count()
     {
         return $this->hasAll() ? rex_clang::count() : count($this->perms);
     }
 
+    /**
+     * @return array
+     */
     public function getClangs()
     {
         return $this->hasAll() ? rex_clang::getAllIds() : $this->perms;

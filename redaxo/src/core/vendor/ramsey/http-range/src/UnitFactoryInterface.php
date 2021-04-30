@@ -9,20 +9,24 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
+declare(strict_types=1);
+
 namespace Ramsey\Http\Range;
 
+use Ramsey\Http\Range\Unit\UnitInterface;
+
 /**
- * A factory for creating range units
+ * `UnitFactoryInterface` defines a factory interface for creating range units.
  */
 interface UnitFactoryInterface
 {
     /**
      * Returns a parsed unit for the HTTP Range header
      *
-     * @param string $rangesSpecifier The original value of the HTTP Range header
-     * @param mixed $totalSize The total size of the entity described by this unit
+     * @param string $rangesSpecifier The original value of the HTTP Range header.
+     * @param mixed $totalSize The total size of the entity described by this unit.
      *
      * @return UnitInterface
      */
-    public function getUnit($rangesSpecifier, $totalSize);
+    public function getUnit(string $rangesSpecifier, $totalSize): UnitInterface;
 }

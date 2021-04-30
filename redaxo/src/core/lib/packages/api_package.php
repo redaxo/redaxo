@@ -26,7 +26,7 @@ class rex_api_package extends rex_api_function
             return new rex_api_result(true);
         }
 
-        if ($package instanceof rex_null_package) {
+        if (!$package instanceof rex_package) {
             throw new rex_api_exception('Package "' . $packageId . '" doesn\'t exists!');
         }
         $reinstall = 'install' === $function && $package->isInstalled();

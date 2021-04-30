@@ -8,11 +8,19 @@
  */
 class rex_template
 {
+    /**
+     * @var int
+     */
     private $id;
+    /**
+     * @var string|null
+     */
+    private $key;
 
-    public function __construct($template_id)
+    public function __construct($templateId)
     {
-        $this->id = (int) $template_id;
+        $this->id = (int) $templateId;
+        $this->key = '';
     }
 
     public static function getDefaultId()
@@ -20,41 +28,76 @@ class rex_template
         return rex_config::get('structure/content', 'default_template_id', 1);
     }
 
+    public static function forKey(string $templateKey): ?self
+    {
+        $mapping = self::getKeyMapping();
+
+        if (false !== $id = array_search($templateKey, $mapping, true)) {
+            $template = new self($id);
+            $template->key == $templateKey;
+
+            return $template;
+        }
+
+        return null;
+    }
+
+    /**
+     * @return int
+     */
     public function getId()
     {
         return $this->id;
     }
 
+    public function getKey(): ?string
+    {
+        // key will never be empty string in the db
+        if ('' === $this->key) {
+            $this->key = self::getKeyMapping()[$this->id] ?? null;
+            assert('' !== $this->key);
+        }
+
+        return $this->key;
+    }
+
+    /**
+     * @return false|string
+     */
     public function getFile()
     {
         if ($this->getId() < 1) {
             return false;
         }
 
-        $file = $this->getFilePath($this->getId());
-        if (!$file) {
-            return false;
-        }
+        $file = rex_template_cache::getPath($this->id);
 
-        if (!file_exists($file)) {
-            // Generated Datei erzeugen
-            if (!$this->generate()) {
-                throw new rex_exception('Unable to generate rexTemplate with id "' . $this->getId() . '"');
-            }
+        if (!is_file($file)) {
+            rex_template_cache::generate($this->id);
         }
 
         return $file;
     }
 
-    public static function getFilePath($template_id)
+    /**
+     * @deprecated since structure 2.11, use `rex_template_cache::getPath` instead
+     *
+     * @return false|string
+     */
+    public static function getFilePath($templateId)
     {
-        if ($template_id < 1) {
+        if ($templateId < 1) {
             return false;
         }
 
-        return self::getTemplatesDir() . '/' . $template_id . '.template';
+        return rex_template_cache::getPath($templateId);
     }
 
+    /**
+     * @deprecated since structure 2.11, use `rex_template_cache` instead
+     *
+     * @return string
+     */
     public static function getTemplatesDir()
     {
         return rex_path::addonCache('templates');
@@ -70,39 +113,29 @@ class rex_template
         return rex_file::get($file);
     }
 
+    /**
+     * @deprecated since structure 2.11, use `rex_template_cache::generate` instead
+     *
+     * @return bool
+     */
     public function generate()
     {
-        $template_id = $this->getId();
-
-        if ($template_id < 1) {
-            return false;
-        }
-
-        $sql = rex_sql::factory();
-        $qry = 'SELECT * FROM ' . rex::getTablePrefix()  . 'template WHERE id = ' . $template_id;
-        $sql->setQuery($qry);
-
-        if (1 == $sql->getRows()) {
-            $templateFile = self::getFilePath($template_id);
-
-            $content = $sql->getValue('content');
-            $content = rex_var::parse($content, rex_var::ENV_FRONTEND, 'template');
-            if (false !== rex_file::put($templateFile, $content)) {
-                return true;
-            }
-            throw new rex_exception('Unable to generate template ' . $template_id . '!');
-        }
-        throw new rex_exception('Template with id "' . $template_id . '" does not exist!');
+        rex_template_cache::generate($this->id);
+        return true;
     }
 
+    /**
+     * @deprecated since structure 2.11, use `rex_template_cache::delete` instead
+     *
+     * @return bool
+     */
     public function deleteCache()
     {
         if ($this->id < 1) {
             return false;
         }
 
-        $file = $this->getFilePath($this->getId());
-        rex_file::delete($file);
+        rex_template_cache::delete($this->id);
         return true;
     }
 
@@ -111,21 +144,21 @@ class rex_template
      * if the category_id is non-positive all templates in the system are returned.
      * if the category_id is invalid an empty array is returned.
      *
-     * @param int  $category_id
-     * @param bool $ignore_inactive
+     * @param int  $categoryId
+     * @param bool $ignoreInactive
      *
      * @return array
      */
-    public static function getTemplatesForCategory($category_id, $ignore_inactive = true)
+    public static function getTemplatesForCategory($categoryId, $ignoreInactive = true)
     {
         $templates = [];
-        $t_sql = rex_sql::factory();
-        $where = $ignore_inactive ? ' WHERE active=1' : '';
-        $t_sql->setQuery('select id,name,attributes from ' . rex::getTablePrefix() . 'template' . $where . ' order by name');
+        $tSql = rex_sql::factory();
+        $where = $ignoreInactive ? ' WHERE active=1' : '';
+        $tSql->setQuery('select id,name,attributes from ' . rex::getTablePrefix() . 'template' . $where . ' order by name');
 
-        if ($category_id < 1) {
+        if ($categoryId < 1) {
             // Alle globalen Templates
-            foreach ($t_sql as $row) {
+            foreach ($tSql as $row) {
                 $attributes = $row->getArrayValue('attributes');
                 $categories = $attributes['categories'] ?? [];
                 if (!is_array($categories) || (isset($categories['all']) && 1 == $categories['all'])) {
@@ -133,10 +166,10 @@ class rex_template
                 }
             }
         } else {
-            if ($c = rex_category::get($category_id)) {
+            if ($c = rex_category::get($categoryId)) {
                 $path = $c->getPathAsArray();
-                $path[] = $category_id;
-                foreach ($t_sql as $row) {
+                $path[] = $categoryId;
+                foreach ($tSql as $row) {
                     $attributes = $row->getArrayValue('attributes');
                     $categories = $attributes['categories'] ?? [];
                     // template ist nicht kategoriespezifisch -> includen
@@ -158,17 +191,39 @@ class rex_template
         return $templates;
     }
 
-    public static function hasModule(array $template_attributes, $ctype, $module_id)
+    /**
+     * @return bool
+     */
+    public static function hasModule(array $templateAttributes, $ctype, $moduleId)
     {
-        $template_modules = $template_attributes['modules'] ?? [];
-        if (!isset($template_modules[$ctype]['all']) || 1 == $template_modules[$ctype]['all']) {
+        $templateModules = $templateAttributes['modules'] ?? [];
+        if (!isset($templateModules[$ctype]['all']) || 1 == $templateModules[$ctype]['all']) {
             return true;
         }
 
-        if (is_array($template_modules[$ctype]) && in_array($module_id, $template_modules[$ctype])) {
-            return true;
+        return is_array($templateModules[$ctype]) && in_array($moduleId, $templateModules[$ctype]);
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    private static function getKeyMapping(): array
+    {
+        static $mapping;
+
+        if (null !== $mapping) {
+            return $mapping;
         }
 
-        return false;
+        $file = rex_template_cache::getKeyMappingPath();
+        $mapping = rex_file::getCache($file, null);
+
+        if (null !== $mapping) {
+            return $mapping;
+        }
+
+        rex_template_cache::generateKeyMapping();
+
+        return $mapping = rex_file::getCache($file);
     }
 }

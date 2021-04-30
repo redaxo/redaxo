@@ -12,9 +12,9 @@ class rex_form_select_element extends rex_form_element
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
-    public function __construct($tag = '', rex_form_base $table = null, array $attributes = [])
+    public function __construct($tag = '', rex_form_base $form = null, array $attributes = [])
     {
-        parent::__construct('', $table, $attributes);
+        parent::__construct('', $form, $attributes);
 
         $this->select = new rex_select();
         $this->separator = '|';
@@ -63,11 +63,11 @@ class rex_form_select_element extends rex_form_element
         return $this->select;
     }
 
-    public function setSelect(rex_select $selectObj)
+    public function setSelect(rex_select $select)
     {
-        $this->select = $selectObj;
-        if ($selectObj->hasAttribute('multiple')) {
-            $this->setAttribute('multiple', $selectObj->getAttribute('multiple'));
+        $this->select = $select;
+        if ($select->hasAttribute('multiple')) {
+            $this->setAttribute('multiple', $select->getAttribute('multiple'));
         }
     }
 }

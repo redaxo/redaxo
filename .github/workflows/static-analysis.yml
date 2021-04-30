@@ -1,0 +1,132 @@
+name: Static Analysis
+
+on:
+    push:
+        branches: [main, bugfix, temp]
+    pull_request:
+        types: [opened, synchronize, reopened, ready_for_review]
+
+env:
+    writable: ${{ github.event_name != 'push' && github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' && 1 || 0 }}
+
+jobs:
+    psalm-analysis:
+        name: psalm static code analysis
+        runs-on: ubuntu-latest
+
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v2
+                if: env.writable == 1
+                with:
+                    ref: ${{ github.head_ref }}
+                    token: ${{ secrets.BOT_TOKEN }}
+            -   name: Checkout fork
+                uses: actions/checkout@v2
+                if: env.writable == 0
+
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: 7.4
+                    extensions: gd, intl, imagick
+                    coverage: none # disable xdebug, pcov
+
+            -   name: Composer install
+                uses: ramsey/composer-install@v1
+                with:
+                    composer-options: --ansi --prefer-dist
+
+            -   name: Run psalm analysis
+                run: vendor/bin/psalm --show-info=false --shepherd --diff --output-format=github
+
+            -   name: Check psalm baseline and show type coverage
+                id: baseline
+                run: |
+                    vendor/bin/psalm --set-baseline=.tools/psalm/baseline.xml --stats
+                    git diff --exit-code .tools/psalm/baseline.xml || (echo "::error file=.tools/psalm/baseline.xml,line=1,col=1::Psalm baseline file is outdated and must be regenerated via \`composer psalm-baseline\`." && exit 1)
+
+            -   name: Commit changed files
+                uses: stefanzweifel/git-auto-commit-action@v4
+                if: failure() && steps.baseline.conclusion != 'skipped' && env.writable == 1
+                with:
+                    commit_message: Update psalm baseline
+                    commit_user_name: rex-bot
+                    commit_user_email: rex-bot@users.noreply.github.com
+                    file_pattern: .tools/psalm/baseline.xml
+
+    psalm-taint-analysis:
+        name: psalm taint analysis
+        runs-on: ubuntu-latest
+        if: github.event.pull_request.draft == false
+
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v2
+                if: env.writable == 1
+                with:
+                    ref: ${{ github.head_ref }}
+                    token: ${{ secrets.BOT_TOKEN }}
+            -   name: Checkout fork
+                uses: actions/checkout@v2
+                if: env.writable == 0
+
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: 7.4
+                    extensions: gd, intl, imagick
+                    coverage: none # disable xdebug, pcov
+
+            -   name: Composer install
+                uses: ramsey/composer-install@v1
+                with:
+                    composer-options: --ansi --prefer-dist
+
+            -   name: Run psalm taint analysis
+                run: vendor/bin/psalm --use-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache
+
+            -   name: Check psalm baseline
+                id: baseline
+                run: |
+                    composer taint-baseline
+                    git diff --exit-code .tools/psalm/baseline-taint.xml || (echo "::error file=.tools/psalm/baseline-taint.xml,line=1,col=1::Psalm taint baseline file is outdated and must be regenerated via \`composer taint-baseline\`." && exit 1)
+
+            -   name: Commit changed files
+                uses: stefanzweifel/git-auto-commit-action@v4
+                if: failure() && steps.baseline.conclusion != 'skipped' && env.writable == 1
+                with:
+                    commit_message: Update psalm taint baseline
+                    commit_user_name: rex-bot
+                    commit_user_email: rex-bot@users.noreply.github.com
+                    file_pattern: .tools/psalm/baseline-taint.xml
+
+    phpstan-analysis:
+        name: phpstan static code analysis
+        runs-on: ubuntu-latest
+
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v2
+
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: 7.4
+                    extensions: gd, intl, imagick, pdo_mysql
+                    coverage: none # disable xdebug, pcov
+
+            -   name: Composer install
+                uses: ramsey/composer-install@v1
+                with:
+                    composer-options: --ansi --prefer-dist
+
+            -   name: Setup REDAXO
+                run: |
+                    sudo /etc/init.d/mysql start
+                    mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
+                    git apply .github/workflows/default.config.yml.github-action.diff
+                    php .tools/bin/setup
+
+            -   name: Run phpstan analysis
+                run: vendor/bin/phpstan analyse --ansi

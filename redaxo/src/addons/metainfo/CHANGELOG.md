@@ -1,6 +1,65 @@
 Changelog
 =========
 
+Version 2.8.0 – 03.03.2021
+--------------------------
+
+### Neu
+
+* Die CSS-Datei wird nur noch auf der Content-Page eingebunden, da sie nur dort benötigt wird (@aeberhard)
+
+
+Version 2.7.3 – 25.01.2021
+--------------------------
+
+### Security
+
+* SQL-Injection in der Feldverwaltung (Adminbereich) verhindert (@gharlan)
+
+
+Version 2.7.2 – 01.07.2020
+--------------------------
+
+### Bugfixes
+
+* Hinweistexte verbessert (@alexplusde)
+* Table-Hover-Effekt fehlte (@tbaddade)
+
+
+Version 2.7.1 – 08.05.2020
+--------------------------
+
+### Bugfixes
+
+* Attribute ohne Wert (`data-foo`) wurden teils ignoriert (@gharlan)
+
+
+Version 2.7.0 – 10.03.2020
+--------------------------
+
+### Neu
+
+* Artikel-Metainfos werden immer in der Seitenleite rechts angezeigt/geändert, nicht mehr in einer eigenen Page (@dergel)
+
+### Bugfixes
+
+* Template-Filter: Templates mit Kategoriebeschränkung standen fälschlich nicht zur Auswahl (@gharlan)
+* Der Default-Wert für die Standard-Metafelder unterschied sich zwischen MySQL und MariaDB (@gharlan)
+
+
+Version 2.6.0 – 02.02.2020
+--------------------------
+
+### Neu
+
+* Artikel-Metainfos können auf Templates beschränkt werden (@felixheidecke)
+* Bei (Re)Installation/Update wird `rex_sql_table` verwendet (@tbaddade)
+
+### Bugfixes
+
+* Manche Queries wurden unnötigt doppelt ausgeführt (@tbaddade)
+
+
 Version 2.5.1 – 01.11.2019
 --------------------------
 

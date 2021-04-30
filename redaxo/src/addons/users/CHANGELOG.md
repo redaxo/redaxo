@@ -1,6 +1,55 @@
 Changelog
 =========
 
+Version 2.8.0 – 03.03.2021
+--------------------------
+
+### Neu
+
+* Aktive/inaktive Benutzer werden in Liste über Iconvarianten unterschieden (@schuer)
+* Passwortregeln werden unterhalb des Passwortfelds angezeigt (@gharlan)
+* Passende `autocomplete`-Attribute werden gesetzt (@alxndr-w)
+
+
+Version 2.7.1 – 11.11.2020
+--------------------------
+
+### Bugfixes
+
+* Bei Verwendung von Passwortregeln bzgl. der vergangenen Passwörter, konnten keine neuen Benutzer erstellt werden (@gharlan)
+
+
+Version 2.7.0 – 01.07.2020
+--------------------------
+
+### Neu
+
+* Neuerungen bzgl. Passwortregeln/-wechsel siehe Core-Changelog für 5.11
+
+
+Version 2.6.2 – 08.05.2020
+--------------------------
+
+### Bugfixes
+
+* EP `USER_UPDATED`: Parameter `id` war immer `0` (@gharlan)
+
+
+Version 2.6.0 – 02.02.2020
+--------------------------
+
+### Neu
+
+* Perm-Selects in Rollenverwaltung:
+    - Perms mit vorangestellten Perm-Key (`perm[]`) und alphabetisch sortiert (@tbaddade)
+    - Bei Bedarf bis zu 20 Zeilen lang statt 10 (@gharlan)
+* Bei (Re)Installation/Update wird `rex_sql_table` verwendet (@tbaddade)
+
+### Bugfixes
+
+* Bei Benutzern mit mehreren Rollen konnte es bei den complex_perms (z.B. Mountpoints) zu Dopplungen kommen (@gharlan)
+
+
 Version 2.5.3 – 01.11.2019
 --------------------------
 

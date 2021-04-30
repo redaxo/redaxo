@@ -1,6 +1,47 @@
 Changelog
 =========
 
+Version 2.8.0 – 03.03.2021
+--------------------------
+
+### Neu
+
+* Der Hinweis für die Skript-Umgebung enthält den absoluten Pfad zur REDAXO-Console (@skerbis)
+* PlugIn `article_status`: Neu können die Artikel-Datumsfelder nach Statusänderung automatisch geleert werden (optional) (@tyrant88)
+
+### Bugfixes
+
+* Fehlendes Escaping ergänzt (@gharlan)
+
+
+Version 2.7.0 – 10.03.2020
+--------------------------
+
+### Neu
+
+* Die Umgebung, über die ein Job ausgeführt wurde, wird mit im Log gespeichert/ausgegeben (@alexplusde)
+
+### Bugfixes
+
+* Im Log war der Button "im Editor öffnen" nie sichtbar (@staabm)
+
+
+Version 2.6.0 – 02.02.2020
+--------------------------
+
+### Neu
+
+* Bei (Re)Installation/Update wird `rex_sql_table` verwendet (@tbaddade)
+* Button zum Löschen des Logs (@skerbis)
+
+### Bugfixes
+
+* Die Log-Message wurde nicht escaped ausgegeben (@gharlan)
+* Plugin `optimize_tables`:
+    - Tabellennamen wurden nicht escaped (@alexplusde)
+    - Fehlermeldungen wurden nicht ins Log geschrieben (@alexplusde)
+
+
 Version 2.5.0 – 20.08.2019
 --------------------------
 
@@ -79,7 +120,7 @@ Version 2.1.0 – 30.09.2016
 
 ### Neu
 
-* Neue Cronjob-Umgebung "Skript", insbesondere um die Redaxo-Cronjobs über 
+* Neue Cronjob-Umgebung "Skript", insbesondere um die Redaxo-Cronjobs über
   einen echten Cronjob laufen zu lassen
 * Flexiblere Intervallauswahl
 

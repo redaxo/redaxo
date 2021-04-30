@@ -34,6 +34,9 @@ class rex_system_setting_default_template_id extends rex_system_setting
         return $field;
     }
 
+    /**
+     * @return string|true
+     */
     public function setValue($value)
     {
         $value = (int) $value;

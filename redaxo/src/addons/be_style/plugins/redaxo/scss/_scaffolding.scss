@@ -72,7 +72,7 @@ html {
 .rex-main-frame {
     margin-left: floor(-$grid-gutter-width / 2);
     margin-right: floor(-$grid-gutter-width / 2);
-    padding: floor($grid-gutter-width * 2) floor($grid-gutter-width / 2);
+    padding: $grid-gutter-width floor($grid-gutter-width / 2) floor($grid-gutter-width * 2);
     background-color: $color-a;
 }
 @media(min-width: $grid-float-breakpoint) {
@@ -90,11 +90,14 @@ html {
     @media(min-width: $grid-float-breakpoint) {
         float: right;
         margin-left: $grid-gutter-width;
-        padding-top: 2px;
+
+        .dropdown-toggle {
+            border-color: $color-a-light;
+        }
 
         .dropdown-menu {
             left: auto;
-            right: 0
+            right: 0;
         }
     }
 }

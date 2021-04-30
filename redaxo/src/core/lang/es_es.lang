@@ -11,6 +11,8 @@ datetimeformat = %d %b. %Y, %H:%M
 timeformat = %H:%M
 ctrl = Selección múltiple mediante CTRL
 translatable = Traducible a través de <code>translate:i18n_key</code>
+save_and_goon_tooltip = Guardar y continuar editando
+save_and_close_tooltip = Guardar y cerrar
 
 # Allgemein
 abort = Cancelar
@@ -30,6 +32,10 @@ no_editing_rights = Permiso denegado
 check_rights_in_directory = Compruebe los permisos de carpeta.
 error_undefined = Se ha producido un error indefinido
 csrf_token_invalid = Vuelva a enviar el formulario o vuelva a ejecutar la acción (error: el token CSRF no es válido).
+unstable_version = Versión de desarrollo
+copy_to_clipboard = Copiar al portapapeles
+search_placeholder = Buscar…
+search_clear = Restablecer entrada
 
 # redaxo/redaxo/index.php
 system = Sistema
@@ -69,7 +75,7 @@ safemode_deactivate = Desactivar el modo seguro
 form_field_first_priority = primera posición
 form_field_after_priority = después de "{0}"
 
-# redaxo\include\pages\system.php
+# src\core\pages\system.php
 info_updated = ¡Información actualizada!
 delete_cache = Eliminar caché
 delete_cache_description = Plantillas y archivos de idiomas se creará, caso del artículo se eliminará. La memoria caché del artículo respectivo se recreará en la llamada de fondo del artículo.
@@ -103,6 +109,8 @@ clang_select = Elige lengua
 clang_caption = Lista de idiomas disponibles
 clang_function = Funciones
 version = Versión
+mode = Modo
+charset = Conjunto de caracteres
 host = Anfitrión
 database = Base de datos
 logfiles = Registros
@@ -118,6 +126,7 @@ syslog_line = Fila
 syslog_title = Archivo de registro "{0}"
 syslog_phperrors = Registro de errores de PHP
 syslog_empty = Archivo de registro vacío
+syslog_download = Descargar "{0}"
 server = URL del sitio web
 servername = Nombre del Sitio Web
 error_email = Dirección de correo electrónico en caso de errores
@@ -127,9 +136,19 @@ server_required = Se requiere url del sitio web
 server_invalid = Por favor, ingrese una url válida con el protocolo!
 servername_required = Se requiere el nombre del servidor
 system_editor = Integración del editor
-system_editor_note = Vincular a REDAXO con un editor para poder abrir directamente los archivos de código fuente. Requisito previo: el código fuente de la instalación de REDAXO está disponible localmente.
+system_editor_note = Vincula REDAXO a un editor para que los archivos de código fuente se puedan abrir directamente. <br> La configuración se puede guardar globalmente en config.yml o individualmente por usuario en el navegador como una cookie.
+system_editor_note_cookie = Actualmente se utilizan las siguientes configuraciones de la cookie.
+system_editor_name = Editor
 system_editor_no_editor = Desactivado
+system_editor_basepath = Camino base
+system_editor_basepath_note = Reemplaza la ruta base real de esta instalación con la ruta local especificada aquí (útil para entornos productivos, Docker, etc.).
 system_editor_open_file = Abra "{0}" en el editor
+system_editor_update_configyml = Guardar en config.yml
+system_editor_update_cookie = Guardar como cookie
+system_editor_delete_cookie = Eliminar cookie
+system_editor_success_configyml = La configuración del editor se guardó en config.yml.
+system_editor_success_cookie = La configuración del editor se guardó como una cookie del navegador.
+system_editor_success_cookie_deleted = Las cookies para la configuración del editor se han eliminado, la configuración global ahora se utiliza de nuevo.
 system_edit_config_note = La configuración principal de REDAXO ofrece la posibilidad de cambiar los parámetros internos del sistema. El archivo solo debe ser editado por usuarios experimentados.
 lang_required = Se requiere idioma
 debug_mode = Modo de depuración
@@ -139,15 +158,15 @@ debug_mode_off = Deshabilitar el modo de depuración
 debug_mode_info_on = El modo de depuración ha sido activado
 debug_mode_info_off = El modo de depuración ha sido desactivado
 debug_mode_marker = El modo de depuración está activo
+debug_confirm = El modo de depuración no debe activarse en modo en vivo.  ¿Sigue activando el modo de depuración?
 
 system_report = Informe del sistema
 system_report_markdown = Como markdown
 
-# redaxo\include\pages\medienpool.php\setup.php
+# src\core\pages\setup.php
 setup = Preparar
 setup_restart = Reiniciar la configuración
 setup_text = Puede iniciar el proceso de configuración aquí. Esto es sólo para emergencias y no se requiere en condiciones normales.
-setup_error1 = Configuración activada. Haga clic en {0}> continuar <{1} y ejecute la instalación.
 setup_error2 = Error. Boot.php no se puede escribir. Por favor, inserte \"$REX[SETUP] = true;\" en boot.php
 
 
@@ -160,8 +179,7 @@ setup_199 = 1 / Idioma
 
 setup_200 = Configuración: Paso 2 de 7 / Licencia
 setup_201 = Bienvenido a REDAXO-Setup.
-setup_202 = <h3>A continuación:</h3><ol><li>Comprobar los permisos del archivo </li><li> Comprobar la configuración de la base de datos y escribir en config.yml </li> <li> Crear una cuenta de administrador </li> </ol>
-setup_203 = Aceptar términos de licencia y pasar al paso 3
+setup_203 = Aceptar términos de licencia
 setup_299 = 2 / Licencia
 
 setup_300 = Configuración: Paso 3 de 7 / Comprobación del sistema
@@ -179,12 +197,11 @@ setup_311 = Los siguientes archivos/directorios son modificables para todos los 
 setup_312 = Repita el paso 3
 setup_399 = 3 / Comprobación del sistema
 
-setup_400 = Configuración: Paso 4 de 7 / Write 'data/config.yml'
-setup_401 = data/config.yml no se pudo escribir.
+setup_400 = Configuración: Paso 4 de 7 / Write '{0}'
+setup_401 = '{0}' no se pudo escribir.
 setup_402 = General
 setup_403 = Información de base de datos
 setup_404 = El archivo especificado ya existe
-setup_405 = Escribiendo el archivo 'data/config.yml'
 setup_408 = Nombre de la base de datos
 setup_409 = Contraseña
 setup_410 = Continúe con el paso 5
@@ -215,6 +232,10 @@ setup_512 = Repita el paso 5
 setup_513 = Sistema AddOn(s) no se pudo instalar
 setup_514 = Actualizar base de datos
 setup_514_note = Actualización de la versión anterior
+setup_charset_utf8mb4 = utf8mb4 [recomendado]
+setup_charset_utf8mb4_note = Requiere al menos MySQL 5.7.7 o MariaDB 10.2.  Soporte completo de Unicode, incluidos emojis y otros caracteres especiales.
+setup_charset_utf8 = utf8 [en desuso]
+setup_charset_utf8_note = Modo UTF8 no estándar.  El soporte se eliminará gradualmente en versiones posteriores de REDAXO.
 setup_599 = 5 / Base de datos
 
 setup_600 = Configuración: Paso 6 de 7 / Administrador
@@ -235,7 +256,7 @@ setup_700 = Configuración: Paso 7 de 7 / Hooray
 setup_701 = Error al escribir en config.yml. Por favor, cambie el archivo manualmente por FTP.
 setup_702 = ¡Felicitaciones! REDAXO ha sido instalado.
 setup_703 = Tenga en cuenta:
-setup_704 = <ol><li>Utilice esta {0} cuenta para iniciar sesión{1}.</li><li>Importe una demostración [después de iniciar sesión]: Vaya a Importar/Exportar e instale la base de datos y los archivos de origen necesarios. </li></ol>
+setup_704 =
 setup_705 = Diviértete y suerte <br /> El equipo REDAXO
 setup_706 = Iniciar sesión
 setup_799 = 7 / Eureka
@@ -245,10 +266,12 @@ setup_no_js_security_msg = Por favor, compruebe si los archivos de la carpeta re
 setup_security_no_https = La configuración se realiza sin HTTPS / cifrado. Se recomienda realizar todas las llamadas frontend y backend solo a través de HTTPS para garantizar su privacidad.
 setup_security_warn_mod_security = El módulo de Apache "mod_security" está cargado. Esto puede provocar problemas si se configura incorrectamente.
 setup_security_deprecated_php = La versión PHP usada {0} ya no es mantenida por el fabricante y debe actualizarse.
+setup_security_deprecated_mysql = La versión de MySQL {0} utilizada ya no es mantenida por el fabricante y debe actualizarse.
+setup_security_deprecated_mariadb = El fabricante ya no mantiene la versión MariaDB {0} utilizada y debe actualizarse.
+setup_session_autostart_warning = La configuración de php "session.auto_start" está activada.  Se recomienda desactivar esto para evitar problemas.
 
 sql_database_name_missing = ¡Falta el nombre de la base de datos!
 sql_database_already_exists = ¡La base de datos ya existe!
-sql_database_min_version = La versión de MySQL {0} está en desuso, ¡al menos se requiere la versión {1}!
 sql_unable_to_connect_database = ¡No se puede conectar a la base de datos!
 sql_unable_to_connect_server = ¡No se puede conectar al servidor de bases de datos!
 sql_unable_to_create_database = ¡No se puede crear la base de datos!
@@ -257,13 +280,17 @@ sql_unable_to_open_database = ¡No se puede abrir la base de datos definida!
 
 setup_security = Seguridad
 
+https_only_over_https = Estas opciones solo están disponibles cuando se llama a través de HTTPS
 https_activate_redirect_for = Redirección HTTPS automática
 https_disable = Desactivar
 https_only_frontend = Activar solo para frontend
 https_only_backend = Activar solo para backend
 https_activate = Activar para frontend y backend
 
-# redaxo\include\pages\addon.php
+setup_password_hint = Ingrese una nueva contraseña o deje la entrada sin cambios de lo contrario.
+hsts_more_information = Se recomienda activar HSTS en la configuración de alojamiento de su dominio / s, pero también se puede activar en config.yml de REDAXO en una etapa posterior.  Hay más información disponible en la documentación de REDAXO
+
+# src\core\pages\addon.php
 addon = AddOn
 addons = AddOns
 package_help = Ayuda para
@@ -353,13 +380,14 @@ plugin_systempackage_delete_not_allowed = Plugins del sistema no deben ser elimi
 plugin_dir_not_writable = Falta permisos de escritura para el directorio de complementos.
 plugin_cache_not_writable = ¡La carpeta de caché de Plugin no tiene permisos de escritura!
 
-# redaxo\include\pages\credits.php
+# src\core\pages\credits.php
 credits = Créditos
 credits_name = Añadir
 credits_help = Ayuda
+credits_information = Información
 credits_version = Versión
 credits_author = Autor
-credits_supportpage = Ayuda
+credits_supportpage = Soporte
 credits_addon_inactive = Addon inactivo
 credits_caption = Lista de los paquetes usados
 credits_open_help_file = Abrir archivo de ayuda
@@ -367,8 +395,9 @@ credits_inventor = Inventor
 credits_developer = Desarrollador
 credits_designer = Diseñador
 credits_license = Licencia
+credits_explain_license = Declarar licencia
 
-# redaxo\include\pages\profile.php
+# src\core\pages\profile.php
 profile_myprofile = Editar mi perfil
 profile_title = Mi perfil
 profile_save = Guardar perfil
@@ -383,6 +412,9 @@ profile_save_psw = Guardar contraseña
 backend_language = Idioma de backend
 user_data_updated = ¡Datos de usuario actualizados!
 
+password_change_required = ¡La contraseña debe ser cambiada!
+password_not_changed = ¡La nueva contraseña debe ser diferente de la anterior!
+password_already_used = ¡La contraseña ya se ha usado y no se puede volver a usar!
 password_invalid = La contraseña no coincide con las reglas requeridas ({0})!
 password_admin_notice = Las reglas de contraseña se pueden cambiar en config.yml.
 password_rule_min = min. {0}

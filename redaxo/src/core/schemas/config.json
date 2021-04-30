@@ -1,0 +1,386 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://redaxo.org/schemas/config.json",
+    "title": "JSON schema for REDAXO config.yml",
+    "type": "object",
+    "required": [
+        "setup",
+        "debug",
+        "instname",
+        "server",
+        "servername",
+        "error_email",
+        "db"
+    ],
+    "properties": {
+        "setup": {
+            "description": "Setup mode",
+            "oneOf": [
+                {
+                    "type": "boolean"
+                },
+                {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string",
+                        "pattern": "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}$"
+                    }
+                }
+            ]
+        },
+        "debug": {
+            "description": "Debug mode",
+            "oneOf": [
+                {
+                    "type": "boolean"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "throw_always_exception": {
+                            "oneOf": [
+                                {
+                                    "type": "boolean"
+                                },
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "enum": ["E_WARNING", "E_NOTICE", "E_DEPRECATED"]
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            ]
+        },
+        "instname": {
+            "description": "Unique instance name",
+            "type": ["null", "string"]
+        },
+        "server": {
+            "description": "Server URL",
+            "type": "string",
+            "format": "uri"
+        },
+        "servername": {
+            "description": "Server name",
+            "type": "string"
+        },
+        "error_email": {
+            "description": "Error email",
+            "type": ["null", "string"],
+            "format": "email"
+        },
+        "fileperm": {
+            "description": "File permission (octal)",
+            "type": "string",
+            "pattern": "^0\\d{3}$"
+        },
+        "dirperm": {
+            "description": "Directory permission (octal)",
+            "type": "string",
+            "pattern": "^0\\d{3}$"
+        },
+        "session_duration": {
+            "description": "Session duration (seconds)",
+            "type": "integer"
+        },
+        "session_keep_alive": {
+            "description": "Session keep alive (seconds)",
+            "type": "integer"
+        },
+        "session": {
+            "description": "Session configuration",
+            "type": "object",
+            "properties": {
+                "backend": {
+                    "$ref": "#/properties/session/definitions/cookie"
+                },
+                "frontend": {
+                    "$ref": "#/properties/session/definitions/cookie"
+                }
+            },
+            "additionalProperties": false,
+            "definitions": {
+                "cookie": {
+                    "type": "object",
+                    "properties": {
+                        "cookie": {
+                            "type": "object",
+                            "properties": {
+                                "lifetime": {
+                                    "description": "Lifetime of the cookie (seconds)",
+                                    "type": ["null", "integer"]
+                                },
+                                "path": {
+                                    "description": "Path on the domain where the cookie will work",
+                                    "type": ["null", "string"]
+                                },
+                                "domain": {
+                                    "description": "Cookie domain",
+                                    "type": ["null", "string"]
+                                },
+                                "secure": {
+                                    "description": "If true cookie will only be sent over secure connections",
+                                    "type": ["null", "boolean"]
+                                },
+                                "httponly": {
+                                    "description": "If set to TRUE then PHP will attempt to send the httponly flag when setting the session cookie",
+                                    "type": ["null", "boolean"]
+                                },
+                                "samesite": {
+                                    "description": "If set to TRUE then PHP will attempt to send the httponly flag when setting the session cookie",
+                                    "enum": [null, "Lax", "Strict"]
+                                }
+                            },
+                            "additionalProperties": false
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            }
+        },
+        "password_policy": {
+            "description": "Password policy for backend login",
+            "type": "object",
+            "properties": {
+                "length": {
+                    "description": "Password length",
+                    "$ref": "#/properties/password_policy/definitions/min_max"
+                },
+                "letter": {
+                    "description": "Required number of letters",
+                    "$ref": "#/properties/password_policy/definitions/min_max"
+                },
+                "uppercase": {
+                    "description": "Required number of uppercase letters",
+                    "$ref": "#/properties/password_policy/definitions/min_max"
+                },
+                "lowercase": {
+                    "description": "Required number of lowercase letters",
+                    "$ref": "#/properties/password_policy/definitions/min_max"
+                },
+                "digit": {
+                    "description": "Required number of digits",
+                    "$ref": "#/properties/password_policy/definitions/min_max"
+                },
+                "symbol": {
+                    "description": "Required number of symbols",
+                    "$ref": "#/properties/password_policy/definitions/min_max"
+                },
+                "no_reuse_of_last": {
+                    "description": "Forbid to reuse the last X previous passwords",
+                    "type": "integer"
+                },
+                "no_reuse_within": {
+                    "description": "Forbid to reuse the previous passwords used in the given interval (e.g. P2Y)",
+                    "$ref": "#/properties/password_policy/definitions/interval"
+                },
+                "force_renew_after": {
+                    "description": "Force to renew the password after the given interval (e.g. P6W)",
+                    "$ref": "#/properties/password_policy/definitions/interval"
+                },
+                "block_account_after": {
+                    "description": "Block account if the password wasn't changed in the given interval (e.g. P6M)",
+                    "$ref": "#/properties/password_policy/definitions/interval"
+                }
+            },
+            "additionalProperties": false,
+            "definitions": {
+                "min_max": {
+                    "type": "object",
+                    "properties": {
+                        "min": {
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "max": {
+                            "type": "integer",
+                            "minimum": 0
+                        }
+                    },
+                    "additionalProperties": false,
+                    "minProperties": 1
+                },
+                "interval": {
+                    "type": "string",
+                    "pattern": "^P(\\d+Y)?(\\d+M)?(\\d+W)?(\\d+D)?(T(\\d+H)?(\\d+M)?(\\d+S)?)?$"
+                }
+            }
+        },
+        "lang": {
+            "description": "Default language",
+            "$ref": "#/definitions/lang"
+        },
+        "lang_fallback": {
+            "description": "Fallback languages for missing translations",
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/lang"
+            }
+        },
+        "use_https": {
+            "description": "Force https",
+            "$ref": "#/definitions/bool-or-environment"
+        },
+        "use_hsts": {
+            "description": "Set HSTS header (HTTP Strict Transport Security)",
+            "type": "boolean"
+        },
+        "hsts_max_age": {
+            "description": "Max age for HSTS header (seconds)",
+            "type": "integer"
+        },
+        "use_gzip": {
+            "description": "Use gzip encoding",
+            "$ref": "#/definitions/bool-or-environment"
+        },
+        "use_etag": {
+            "description": "Use Etag header",
+            "$ref": "#/definitions/bool-or-environment"
+        },
+        "use_last_modified": {
+            "description": "Use Last-Modified header (not recommended)",
+            "$ref": "#/definitions/bool-or-environment"
+        },
+        "start_page": {
+            "description": "Default start page for backend",
+            "type": "string"
+        },
+        "timezone": {
+            "description": "Timezone (e.g. Europe/Berlin)",
+            "type": "string"
+        },
+        "socket_proxy": {
+            "description": "Proxy used for all rex_socket connections",
+            "type": ["null", "string"]
+        },
+        "setup_addons": {
+            "description": "Addons loaded in setup and in safe mode",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^[^/]+$"
+            }
+        },
+        "system_addons": {
+            "description": "Addons marked as system addons (installed in setup and not deletable)",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^[^/]+$"
+            }
+        },
+        "table_prefix": {
+            "description": "Table prefix for the database",
+            "type": "string",
+            "default": "rex_"
+        },
+        "temp_prefix": {
+            "description": "Temp prefix for the database and other purposes",
+            "type": "string",
+            "default": "tmp_"
+        },
+        "db": {
+            "description": "Database connections",
+            "patternProperties": {
+                "^\\d+$": {
+                    "type": "object",
+                    "required": ["host", "login", "password", "name", "persistent"],
+                    "properties": {
+                        "host": {
+                            "description": "Database hostname (optional with port)",
+                            "type": "string",
+                            "default": "localhost"
+                        },
+                        "login": {
+                            "description": "Database user name",
+                            "type": "string",
+                            "default": "root"
+                        },
+                        "password": {
+                            "description": "Database password",
+                            "type": "string"
+                        },
+                        "name": {
+                            "description": "Database name",
+                            "type": "string"
+                        },
+                        "persistent": {
+                            "description": "Whether a persistent connection should be used",
+                            "type": "boolean",
+                            "default": false
+                        },
+                        "ssl_key": {
+                            "description": "File path to the ssl key",
+                            "type": ["null", "string"]
+                        },
+                        "ssl_cert": {
+                            "description": "File path to the ssl certificate",
+                            "type": ["null", "string"]
+                        },
+                        "ssl_ca": {
+                            "description": "File path to the ssl certificate authority",
+                            "type": ["null", "string"]
+                        }
+                    },
+                    "additionalProperties": false,
+                    "dependencies": {
+                        "ssl_key": ["ssl_cert", "ssl_ca"],
+                        "ssl_cert": ["ssl_key", "ssl_ca"],
+                        "ssl_ca": ["ssl_key", "ssl_cert"]
+                    }
+                }
+            },
+            "additionalProperties": false
+        },
+        "use_accesskeys": {
+            "description": "Whether the accesskeys should be used",
+            "type": "boolean"
+        },
+        "accesskeys": {
+            "description": "Access keys",
+            "type": "object",
+            "additionalProperties": {
+                "type": "string",
+                "pattern": "^[a-z]$"
+            }
+        },
+        "editor": {
+            "description": "Editor integration (for opening files from backend links into your editor)",
+            "enum": [null, "atom", "emacs", "idea", "macvim", "phpstorm", "sublime", "textmate", "vscode", "xdebug"]
+        },
+        "editor_basepath": {
+            "description": "Base path for editor integration",
+            "type": ["null", "string"]
+        }
+    },
+    "additionalProperties": false,
+    "definitions": {
+        "lang": {
+            "anyOf": [
+                {
+                    "enum": ["de_de", "en_gb", "es_es", "it_it", "nl_nl", "pt_br", "sv_se"]
+                },
+                {
+                    "type": "string"
+                }
+            ]
+        },
+        "bool-or-environment": {
+            "oneOf": [
+                {
+                    "type": "boolean"
+                },
+                {
+                    "enum": ["frontend", "backend"]
+                }
+            ]
+        }
+    }
+}

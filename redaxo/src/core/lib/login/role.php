@@ -22,7 +22,7 @@ interface rex_user_role_interface
      * @param rex_user $user User instance
      * @param string   $key  Complex perm key
      *
-     * @return rex_complex_perm Complex perm
+     * @return rex_complex_perm|null Complex perm
      */
     public function getComplexPerm(rex_user $user, $key);
 
@@ -31,7 +31,7 @@ interface rex_user_role_interface
      *
      * @param string $id IDs comma seperated
      *
-     * @return static Role instance
+     * @return null|static Role instance
      */
     public static function get($id);
 }

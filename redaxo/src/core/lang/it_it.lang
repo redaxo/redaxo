@@ -61,7 +61,7 @@ safemode_deactivate = Safe mode deattivato
 form_field_first_priority = All'inizio
 form_field_after_priority = Dopo la casella "{0}"
 
-# redaxo\include\pages\system.php
+# src\core\pages\system.php
 info_updated = Le informazioni sono state attualizzate.
 delete_cache = Cancella il cache
 delete_cache_description =
@@ -117,11 +117,10 @@ servername_required = Serve un nome del server
 lang_required = Serve una lingua!
 debug_mode = Debug-Modus
 
-# redaxo\include\pages\medienpool.php\setup.php
+# src\core\pages\setup.php
 setup = Setup
 setup_restart = Fai ripartire l'installazione
 setup_text =
-setup_error1 =
 setup_error2 =
 
 
@@ -134,8 +133,7 @@ setup_199 = 1 / Lingua
 
 setup_200 = Installazione: passo 1 da 7 / Licenza
 setup_201 = Benvenuto al setup di REDAXO.
-setup_202 =
-setup_203 = Accetti i termini e condizioni d'utilizzo e proseguire con passo 3
+setup_203 = Accetti i termini e condizioni d'utilizzo
 setup_299 = 2 / Licenza
 
 setup_300 = Impostazioni: passo 3 di 7 / Controllo sistema
@@ -157,7 +155,6 @@ setup_401 =
 setup_402 = Generale
 setup_403 = Informazioni database
 setup_404 =
-setup_405 =
 setup_408 = Nome database
 setup_409 = Password
 setup_410 =
@@ -224,7 +221,7 @@ sql_unable_to_create_database =
 sql_unable_to_find_database =
 sql_unable_to_open_database =
 
-# redaxo\include\pages\addon.php
+# src\core\pages\addon.php
 addon = AddOn
 addons = AddOns
 package_help = Aiuto per
@@ -251,6 +248,7 @@ package_hhelp = Aiuto
 package_hinstall = Installato
 package_hactive = Attivato
 package_hdelete = Rimuovere
+package_hinformation =
 package_reinstall = reinstallare
 package_install = installare
 package_notinstalled =
@@ -310,21 +308,23 @@ plugin_systemplugin =
 plugin_systempackage_delete_not_allowed =
 plugin_dir_not_writable =
 
-# redaxo\include\pages\credits.php
+# src\core\pages\credits.php
 credits =
 credits_name =
 credits_help = Aiuto
+credits_information =
 credits_version = Versione
 credits_author = Autore
-credits_supportpage = Aiuto
+credits_supportpage =
 credits_addon_inactive = AddOn non attivo
 credits_caption =
 credits_open_help_file =
 credits_inventor = Inventore
 credits_developer = Sviluppatore
 credits_designer = Grafico
+credits_license =
 
-# redaxo\include\pages\profile.php
+# src\core\pages\profile.php
 profile_myprofile = Modifica il mio profilo
 profile_title = Il mio profilo
 profile_save = Salva profilo

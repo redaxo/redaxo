@@ -9,6 +9,9 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
 {
     public const PREFIX = 'art_';
 
+    /**
+     * @return array
+     */
     protected function handleSave(array $params, rex_sql $sqlFields)
     {
         // Nur speichern wenn auch das MetaForm ausgefüllt wurde
@@ -38,6 +41,9 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
         return $params;
     }
 
+    /**
+     * @return string
+     */
     protected function buildFilterCondition(array $params)
     {
         $restrictionsCondition = '';
@@ -61,11 +67,14 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
         return $restrictionsCondition;
     }
 
-    protected function renderFormItem($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel)
+    protected function renderFormItem($field, $tag, $tagAttr, $id, $label, $labelIt, $inputType)
     {
         return $field;
     }
 
+    /**
+     * @return string
+     */
     public function getForm(array $params)
     {
         $OOArt = rex_article::get($params['id'], $params['clang']);
@@ -80,5 +89,6 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
     public function extendForm(rex_extension_point $ep)
     {
         // noop
+        return '';
     }
 }

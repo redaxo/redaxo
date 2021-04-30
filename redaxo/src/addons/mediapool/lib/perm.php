@@ -5,11 +5,17 @@
  */
 class rex_media_perm extends rex_complex_perm
 {
-    public function hasCategoryPerm($category_id)
+    /**
+     * @return bool
+     */
+    public function hasCategoryPerm($categoryId)
     {
-        return $this->hasAll() || in_array($category_id, $this->perms);
+        return $this->hasAll() || in_array($categoryId, $this->perms);
     }
 
+    /**
+     * @return bool
+     */
     public function hasMediaPerm()
     {
         return $this->hasAll() || count($this->perms) > 0;

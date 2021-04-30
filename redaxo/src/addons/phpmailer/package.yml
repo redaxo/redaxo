@@ -1,7 +1,7 @@
 package: phpmailer
-version: '2.6.0'
+version: '2.10.1'
 author: 'Markus Staab, Thomas Skerbis, Jan Kristinus, Brent R. Matzelle'
-supportpage: www.redaxo.org/de/forum/
+supportpage: https://github.com/redaxo/redaxo
 
 page:
     title: PHPMailer
@@ -10,6 +10,7 @@ page:
     icon: rex-icon rex-icon-envelope
     subpages:
         config: { title: 'translate:configuration' }
+        log: { title: 'translate:logging' }
         help: { title: 'translate:help', subPath: README.md }
         checkmail: { title: 'translate:checkmail', hidden: true}
 
@@ -19,4 +20,29 @@ pages:
         perm: admin
 
 requires:
-    redaxo: ^5.7.0
+    php: '>=7.3'
+    redaxo: ^5.10.0
+
+default_config:
+    from: ''
+    test_address: ''
+    fromname: 'Mailer'
+    confirmto: ''
+    bcc: ''
+    mailer: 'smtp'
+    host: 'localhost'
+    port: 587
+    charset: 'utf-8'
+    wordwrap: 120
+    encoding: '8bit'
+    priority: 0
+    security_mode: false
+    smtpsecure: 'tls'
+    smtpauth: true
+    username: ''
+    password: ''
+    smtp_debug: '0'
+    logging: 0
+    errormail: 0
+    archive: false
+    detour_mode: false

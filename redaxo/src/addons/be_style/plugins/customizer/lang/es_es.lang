@@ -10,8 +10,10 @@ customizer_codemirror_langs = Resaltador adicional
 customizer_codemirror_langs_text = (markdown, textile, gfm, yaml)
 customizer_codemirror_tools = Características adicionales
 customizer_codemirror_tools_text = (Código plegable, Correspondencia de soportes, Coincidencia de etiquetas, Corchetes)
+customizer_codemirror_autoresize = AutoResize
+customizer_codemirror_autoresize_text = (CodeMirror ajusta automáticamente la altura)
 
-customizer_codemirror_info = Cuando se activa automáticamente CodeMirror que se utilizará durante la edición de plantillas o módulos. Para utilizar CodeMirror manualmente para los campos de área de texto personalizado, utilice la siguiente sintaxis: <br> <code> <textarea class="codemirror" codemirror-theme="themename" y codemirror-mode="php/htmlmixed"></textarea></code> <br> Los parámetros <i>codemirror-theme</i> y <i>codemirror-mode</ i> son opcionales.
+customizer_codemirror_info = Once CodeMirror is activated it will be used for templates, modules, actions and cronjobs automatically. If you'd like to use CodeMirror for your own forms, use this syntax: <br><br><code><textarea class="codemirror" data-codemirror-theme="themename" data-codemirror-mode="php/htmlmixed"></textarea></code><br><br>The parameters <i>data-codemirror-theme</i> and <i>data-codemirror-mode</i> are optional.<br><br>Use the F11 and ESC keys to enter and exit fullscreen mode.
 
 customizer_labeling = suplementos
 customizer_labelcolor = Color (#43a047)

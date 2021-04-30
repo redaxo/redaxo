@@ -5,46 +5,75 @@
  */
 class rex_system_report
 {
+    public const TITLE_REDAXO = 'REDAXO';
+    public const TITLE_PACKAGES = 'Packages';
+    public const TITLE_PHP = 'PHP';
+
     private function __construct()
     {
     }
 
+    /**
+     * @return self
+     */
     public static function factory()
     {
         return new self();
     }
 
+    /**
+     * @return array[]
+     */
     public function get()
     {
         $data = [];
 
         $rexVersion = rex::getVersion();
-        $hash = rex::getVersionHash(rex_path::base(), 'redaxo/redaxo');
+        $hash = rex_version::gitHash(rex_path::base(), 'redaxo/redaxo');
         if ($hash) {
             $rexVersion .= '#' . $hash;
         }
 
-        $data['REDAXO'] = [
+        $data[self::TITLE_REDAXO] = [
             'Version' => $rexVersion,
         ];
 
-        $data['PHP'] = [
+        $data[self::TITLE_PHP] = [
             'Version' => PHP_VERSION,
             'OPcache' => extension_loaded('Zend OPcache') && ini_get('opcache.enable'),
             'Xdebug' => extension_loaded('xdebug'),
         ];
+
+        $security = rex_setup::checkPhpSecurity();
+        if ($security) {
+            $data['PHP']['Warning'] = implode('<br/>', $security);
+        }
 
         foreach (rex::getProperty('db') as $dbId => $db) {
             if (empty($db['name'])) {
                 continue;
             }
 
-            $sql = rex_sql::factory($dbId);
+            $dbData = [];
 
-            $dbData = ['Version' => $sql->getDbType().' '.$sql->getDbVersion()];
+            try {
+                $sql = rex_sql::factory($dbId);
+
+                $dbData['Version'] = $sql->getDbType().' '.$sql->getDbVersion();
+
+                if (1 === $dbId) {
+                    $dbData['Character set'] = rex::getConfig('utf8mb4') ? 'utf8mb4' : 'utf8';
+
+                    $security = rex_setup::checkDbSecurity();
+                    if ($security) {
+                        $dbData['Warning'] = implode('<br/>', $security);
+                    }
+                }
+            } catch (rex_sql_exception $exception) {
+                $dbData['Warning'] = $exception->getMessage();
+            }
 
             if (1 === $dbId) {
-                $dbData['Character set'] = rex::getConfig('utf8mb4') ? 'utf8mb4' : 'utf8';
                 $data['Database'] = $dbData;
             } else {
                 $data['Database '.$dbId] = $dbData;
@@ -75,11 +104,14 @@ class rex_system_report
             $packages[$package->getPackageId()] = $package->getVersion();
         }
 
-        $data['Packages'] = $packages;
+        $data[self::TITLE_PACKAGES] = $packages;
 
         return $data;
     }
 
+    /**
+     * @return string
+     */
     public function asMarkdown()
     {
         $report = $this->get();
@@ -88,7 +120,7 @@ class rex_system_report
 
         foreach ($report as $groupLabel => $group) {
             $rows = [];
-            $labelWidth = max(13, mb_strlen($groupLabel));
+            $labelWidth = (int) max(13, mb_strlen($groupLabel));
             $valueWidth = 10;
 
             foreach ($group as $label => $value) {
@@ -97,8 +129,8 @@ class rex_system_report
                 }
 
                 $rows[$label] = $value;
-                $labelWidth = max($labelWidth, mb_strlen($label));
-                $valueWidth = min(30, max($valueWidth, mb_strlen($value)));
+                $labelWidth = (int) max($labelWidth, mb_strlen($label));
+                $valueWidth = (int) min(30, max($valueWidth, mb_strlen($value)));
             }
 
             $content .= '| '.str_pad($groupLabel, $labelWidth).' | '.str_repeat(' ', $valueWidth)." |\n";
@@ -112,15 +144,16 @@ class rex_system_report
         }
 
         $content = rtrim($content);
+        $database = $report['Database']['Version'] ?? $report['Database 1']['Version'];
 
         return <<<OUTPUT
-<details>
-<summary>System report (REDAXO {$report['REDAXO']['Version']}, PHP {$report['PHP']['Version']})</summary>
+            <details>
+            <summary>System report (REDAXO {$report['REDAXO']['Version']}, PHP {$report['PHP']['Version']}, {$database})</summary>
 
-$content
+            $content
 
-</details>
-OUTPUT;
+            </details>
+            OUTPUT;
     }
 
     private function getBrowser()

@@ -42,13 +42,15 @@ class rex_metainfo_table_expander extends rex_form
         $select->setSize(1);
         $select->addOption(rex_i18n::msg('minfo_field_first_priority'), 1);
         // Im Edit Mode das Feld selbst nicht als Position einf�gen
-        $qry = 'SELECT name,priority FROM ' . $this->tableName . ' WHERE `name` LIKE "' . $this->metaPrefix . '%"';
+        $qry = 'SELECT name,priority FROM ' . $this->tableName . ' WHERE `name` LIKE :name';
+        $params = ['name' => $this->metaPrefix . '%'];
         if ($this->isEditMode()) {
-            $qry .= ' AND id != ' . $this->getParam('field_id');
+            $qry .= ' AND id != :id';
+            $params['id'] = $this->getParam('field_id');
         }
         $qry .= ' ORDER BY priority';
         $sql = rex_sql::factory();
-        $sql->setQuery($qry);
+        $sql->setQuery($qry, $params);
         $value = 1;
         for ($i = 0; $i < $sql->getRows(); ++$i) {
             $value = $sql->getValue('priority') + 1;
@@ -71,7 +73,7 @@ class rex_metainfo_table_expander extends rex_form
         $textFields = [];
         foreach ($gq->getArray() as $f) {
             if ('text' == $f['dbtype']) {
-                $textFields[$f['id']] = $f['id'];
+                $textFields[(int) $f['id']] = (int) $f['id'];
             }
         }
 
@@ -133,7 +135,7 @@ class rex_metainfo_table_expander extends rex_form
             $field = $this->addRestrictionsField('templates');
             $field->setLabel(rex_i18n::msg('minfo_field_label_templates'));
             $field->setAllCheckboxLabel(rex_i18n::msg('minfo_field_label_all_templates'));
-            $field->setSelect(new rex_template_select(0, rex_clang::getCurrentId()));
+            $field->setSelect(new rex_template_select(null, rex_clang::getCurrentId()));
         }
 
         parent::init();
@@ -190,7 +192,7 @@ class rex_metainfo_table_expander extends rex_form
     public function addPrefix($string)
     {
         $lowerString = strtolower($string);
-        if (substr($lowerString, 0, strlen($this->metaPrefix)) !== $this->metaPrefix) {
+        if (!str_starts_with($lowerString, $this->metaPrefix)) {
             return $this->metaPrefix . $string;
         }
         return $string;
@@ -199,12 +201,15 @@ class rex_metainfo_table_expander extends rex_form
     public function stripPrefix($string)
     {
         $lowerString = strtolower($string);
-        if (substr($lowerString, 0, strlen($this->metaPrefix)) === $this->metaPrefix) {
+        if (str_starts_with($lowerString, $this->metaPrefix)) {
             return substr($string, strlen($this->metaPrefix));
         }
         return $string;
     }
 
+    /**
+     * @return bool|string
+     */
     protected function validate()
     {
         $fieldName = $this->elementPostValue($this->getFieldsetName(), 'name');
@@ -225,7 +230,7 @@ class rex_metainfo_table_expander extends rex_form
 
             // das meta-schema checken
             $sql = rex_sql::factory();
-            $sql->setQuery('SELECT * FROM ' . $this->tableName . ' WHERE name="' . $this->addPrefix($fieldName) . '" LIMIT 1');
+            $sql->setQuery('SELECT * FROM ' . $this->tableName . ' WHERE name = ? LIMIT 1', [$this->addPrefix($fieldName)]);
             if (1 == $sql->getRows()) {
                 return rex_i18n::msg('minfo_field_error_unique_name');
             }
@@ -261,11 +266,6 @@ class rex_metainfo_table_expander extends rex_form
             $result = $sql->getArray('SELECT `dbtype`, `dblength` FROM `' . rex::getTablePrefix() . 'metainfo_type` WHERE id=' . $fieldType);
             $fieldDbType = $result[0]['dbtype'];
             $fieldDbLength = $result[0]['dblength'];
-
-            // TEXT Spalten duerfen in MySQL keine Defaultwerte haben
-            if ('text' == $fieldDbType) {
-                $fieldDefault = null;
-            }
 
             if (
                 strlen($fieldDefault) &&

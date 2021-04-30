@@ -9,12 +9,15 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
+declare(strict_types=1);
+
 namespace Ramsey\Http\Range\Unit;
 
 /**
- * An HTTP Range bytes range spec as defined in RFC 7233
+ * An HTTP Range bytes range spec as defined in RFC 7233.
  *
- * @link https://tools.ietf.org/html/rfc7233#section-2.1 RFC 7233 § 2.1
+ * See [RFC 7233 § 2.1](https://tools.ietf.org/html/rfc7233#section-2.1) for the
+ * byte-ranges-specifier specification.
  */
 class BytesRange extends AbstractUnitRange implements UnitRangeInterface
 {

@@ -39,6 +39,27 @@ class rex_sql_exception extends rex_exception
     {
         return $this->sql;
     }
+
+    /**
+     * Returns the mysql native error code.
+     */
+    public function getErrorCode(): ?int
+    {
+        $previous = $this->getPrevious();
+        if ($previous instanceof \PDOException) {
+            return $previous->errorInfo[1] ?? null;
+        }
+        return null;
+    }
+}
+
+/**
+ * Exception class when redaxo is unable to connect to the database.
+ *
+ * @package redaxo\core
+ */
+class rex_sql_could_not_connect_exception extends rex_sql_exception
+{
 }
 
 /**
@@ -58,12 +79,12 @@ class rex_functional_exception extends rex_exception
 class rex_http_exception extends rex_exception
 {
     /**
-     * @var int
+     * @var string
      */
     private $httpCode;
 
     /**
-     * @param int $httpCode
+     * @param string $httpCode
      */
     public function __construct(Exception $cause, $httpCode)
     {
@@ -72,7 +93,7 @@ class rex_http_exception extends rex_exception
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function getHttpCode()
     {

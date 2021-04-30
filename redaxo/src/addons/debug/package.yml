@@ -1,6 +1,20 @@
 package: debug
-version: '0.1.0'
-author: Markus Staab
-supportpage: www.redaxo.org/de/forum/
+version: '1.1.0'
+author: Markus Staab, Marcel Kuhmann, Gregor Harlan
+supportpage: https://github.com/redaxo/redaxo
 
 load: early
+
+page:
+    title: translate:debug
+    perm: admin
+    block: system
+    pjax: false
+    icon: rex-icon rex-icon-heartbeat
+    linkAttr: { target: _blank }
+
+requires:
+    php:
+        version: '>=7.3'
+        extensions: [zip]
+    redaxo: ^5.11.0

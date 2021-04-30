@@ -1,6 +1,7 @@
 content = Artículo
 
 add_block = Añadir bloque
+article_doesnt_exist = ¡Este artículo no existe!
 module_doesnt_exist = Este módulo no existe!
 update_block = Aplicar bloque
 save_block = Guardar bloque
@@ -62,6 +63,7 @@ content_types = Manos
 content_type = Columna
 
 perm_options_moveSlice[] = Bloques de movimiento
+perm_options_publishSlice[] = Blöcke veröffentlichen
 
 templates = Plantillas
 
@@ -78,12 +80,16 @@ template_categories_custom = Sólo está disponible en las siguientes categoría
 edit_template = Editar plantilla
 create_template = Crear una nueva plantilla
 template_name = Nombre
+template_key = Clave
+template_key_notice = La clave debe asignarse de forma exclusiva o no completarse.
+template_key_exists = La clave ya existe.
 checkbox_template_active = Activamente
 checkbox_template_active_info = [Publicado en los artículos como la selección]
 save_template_and_quit = Guardar plantilla
 save_template_and_continue = Aceptar la plantilla
 header_template = Plantilla
 header_template_description = Nombre de la plantilla
+header_template_key = Clave
 header_template_active = Activamente
 header_template_functions = Características
 delete_template = Claro plantilla
@@ -107,6 +113,10 @@ create_module = Crear nuevo módulo
 input = Entrada
 output = Salida
 module_name = Nombre
+module_key = Clave
+module_key_notice = La clave debe estar claramente asignada o no completada.
+module_key_exists = La clave ya existe.
+module_actions_notice = Consejo: Al usar acciones, puede validar la entrada del usuario o activar scripts php personalizados
 save_module_and_quit = Guardar módulo
 save_module_and_continue = Tomar módulo
 module_description = Nombre del módulo

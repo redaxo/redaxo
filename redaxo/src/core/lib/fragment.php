@@ -1,6 +1,13 @@
 <?php
 
 /**
+ * Methods declared here are available to be called from within a fragment-file, even if not public:.
+ *
+ * @phpstan-method void   subfragment(string $filename, array $params = [])
+ * @phpstan-method string getSubfragment(string $filename, array $params = [])
+ * @phpstan-method string i18n(string $key, ...$replacements)
+ * @phpstan-method mixed  escape($value, $strategy = 'html')
+ *
  * @package redaxo\core
  */
 class rex_fragment
@@ -16,6 +23,7 @@ class rex_fragment
      * key-value pair which represents all variables defined inside the fragment.
      *
      * @var array
+     * @psalm-var array<string, mixed>
      */
     private $vars;
 
@@ -27,9 +35,17 @@ class rex_fragment
     private $decorator;
 
     /**
+     * array which contains all folders in which fragments will be searched for at runtime.
+     *
+     * @var string[]
+     */
+    private static $fragmentDirs = [];
+
+    /**
      * Creates a fragment with the given variables.
      *
      * @param array $vars A array of key-value pairs to pass as local parameters
+     * @psalm-param array<string, mixed> $vars
      */
     public function __construct(array $vars = [])
     {
@@ -40,7 +56,7 @@ class rex_fragment
      * Returns the value of the given variable $name.
      *
      * @param string $name    Variable name
-     * @param string $default Default value
+     * @param mixed  $default Default value
      *
      * @return mixed
      */
@@ -67,7 +83,7 @@ class rex_fragment
     public function setVar($name, $value, $escape = true)
     {
         if (null === $name) {
-            throw new InvalidArgumentException(sprintf('Expecting $name to be not null!'));
+            throw new InvalidArgumentException('Expecting $name to be not null!');
         }
 
         if ($escape) {
@@ -100,9 +116,14 @@ class rex_fragment
         foreach (self::$fragmentDirs as $fragDir) {
             $fragment = $fragDir . $filename;
             if (is_readable($fragment)) {
-                ob_start();
-                require $fragment;
-                $content = ob_get_clean();
+                $content = rex_timer::measure('Fragment: '.$filename, function () use ($fragment) {
+                    ob_start();
+                    require $fragment;
+                    $output = ob_get_clean();
+                    assert(false !== $output);
+
+                    return $output;
+                });
 
                 if ($this->decorator) {
                     $this->decorator->setVar('rexDecoratedContent', $content, false);
@@ -121,7 +142,7 @@ class rex_fragment
      * The decorated fragment receives the parameters which are passed to this method.
      *
      * @param string $filename The filename of the fragment used for decoration
-     * @param array  $params   A array of key-value pairs to pass as parameters
+     * @param array<string, mixed> $params A array of key-value pairs to pass as parameters
      *
      * @return $this
      */
@@ -140,6 +161,11 @@ class rex_fragment
      *
      * @param mixed  $value    The value to escape
      * @param string $strategy One of "html", "html_attr", "css", "js", "url"
+     * @psalm-param 'html'|'html_simplified'|'html_attr'|'js'|'css'|'url' $strategy
+     *
+     * @psalm-template T
+     * @psalm-param T $value
+     * @psalm-return (T is Stringable ? string : T)
      *
      * @throws InvalidArgumentException
      *
@@ -151,44 +177,47 @@ class rex_fragment
     }
 
     /**
+     * Returns the content of a Subfragment from within a fragment.
+     *
+     * The Subfragment gets all variables of the current fragment, plus optional overrides from $params
+     *
+     * @param string $filename The filename of the fragment to use
+     * @param array<string, mixed> $params A array of key-value pairs to pass as local parameters
+     */
+    protected function getSubfragment(string $filename, array $params = []): string
+    {
+        $fragment = new self(array_merge($this->vars, $params));
+        return $fragment->parse($filename);
+    }
+
+    /**
      * Include a Subfragment from within a fragment.
      *
      * The Subfragment gets all variables of the current fragment, plus optional overrides from $params
      *
      * @param string $filename The filename of the fragment to use
-     * @param array  $params   A array of key-value pairs to pass as local parameters
+     * @param array<string, mixed> $params A array of key-value pairs to pass as local parameters
      */
     protected function subfragment($filename, array $params = [])
     {
-        $fragment = new self(array_merge($this->vars, $params));
-        echo $fragment->parse($filename);
+        echo $this->getSubfragment($filename, $params);
     }
 
     /**
      * Translate the given key $key.
      *
-     * @param string $key The key to translate
+     * @param string     $key             The key to translate
+     * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
-     * @throws InvalidArgumentException
-     *
-     * @return string
+     * @return string Translation for the key
      */
-    protected function i18n($key)
+    protected function i18n($key, ...$replacements)
     {
         if (!is_string($key)) {
             throw new InvalidArgumentException(sprintf('Expecting $key to be a string, %s given!', gettype($key)));
         }
 
-        // use the magic call only when more than one parameter is passed along,
-        // to get best performance
-        $argNum = func_num_args();
-        if ($argNum > 1) {
-            // pass along all given parameters
-            $args = func_get_args();
-            return call_user_func_array(['rex_i18n', 'msg'], $args);
-        }
-
-        return rex_i18n::msg($key);
+        return rex_i18n::msg($key, ...$replacements);
     }
 
     /**
@@ -220,15 +249,6 @@ class rex_fragment
     {
         return isset($this->vars[$name]) || array_key_exists($name, $this->vars);
     }
-
-    // /-------------------------- in-fragment helpers
-
-    /**
-     * array which contains all folders in which fragments will be searched for at runtime.
-     *
-     * @var array
-     */
-    private static $fragmentDirs = [];
 
     /**
      * Add a path to the fragment search path.

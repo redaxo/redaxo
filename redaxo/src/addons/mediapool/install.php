@@ -8,8 +8,6 @@
  * @package redaxo5
  */
 
-rex_delete_cache();
-
 rex_sql_table::get(rex::getTable('media'))
     ->ensurePrimaryIdColumn()
     ->ensureColumn(new rex_sql_column('category_id', 'int(10) unsigned'))
@@ -24,6 +22,7 @@ rex_sql_table::get(rex::getTable('media'))
     ->ensureGlobalColumns()
     ->ensureColumn(new rex_sql_column('revision', 'int(10) unsigned'))
     ->ensureIndex(new rex_sql_index('category_id', ['category_id']))
+    ->ensureIndex(new rex_sql_index('filename', ['filename'], rex_sql_index::UNIQUE))
     ->ensure();
 
 rex_sql_table::get(rex::getTable('media_category'))

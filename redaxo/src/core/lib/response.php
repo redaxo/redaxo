@@ -43,7 +43,7 @@ class rex_response
      */
     public static function setStatus($httpStatus)
     {
-        if (false !== strpos($httpStatus, "\n")) {
+        if (str_contains($httpStatus, "\n")) {
             throw new InvalidArgumentException('Illegal http-status "' . $httpStatus . '", contains newlines');
         }
 
@@ -101,36 +101,31 @@ class rex_response
         }
     }
 
-    private static function sendServerTimingHeaders()
-    {
-        // see https://w3c.github.io/server-timing/#the-server-timing-header-field
-        foreach (rex_timer::$serverTimings as $label => $durationMs) {
-            $label = preg_replace('{[^!#$%&\'*+-\.\^_`|~\w]}i', '_', $label);
-            header('Server-Timing: '. $label .';dur='. number_format($durationMs, 3, '.', ''), false);
-        }
-    }
-
     /**
      * Redirects to a URL.
      *
      * NOTE: Execution will stop within this method!
      *
      * @param string $url URL
+     * @param self::HTTP_MOVED_PERMANENTLY|self::HTTP_MOVED_TEMPORARILY|null $httpStatus
      *
      * @throws InvalidArgumentException
      *
-     * @psalm-return no-return
+     * @psalm-return never-return
      */
-    public static function sendRedirect($url)
+    public static function sendRedirect($url, $httpStatus = null)
     {
-        if (false !== strpos($url, "\n")) {
+        if (str_contains($url, "\n")) {
             throw new InvalidArgumentException('Illegal redirect url "' . $url . '", contains newlines');
+        }
+
+        if ($httpStatus) {
+            self::setStatus($httpStatus);
         }
 
         self::cleanOutputBuffers();
         self::sendAdditionalHeaders();
         self::sendPreloadHeaders();
-        self::sendServerTimingHeaders();
 
         header('HTTP/1.1 ' . self::$httpStatus);
         header('Location: ' . $url);
@@ -149,7 +144,7 @@ class rex_response
     {
         self::cleanOutputBuffers();
 
-        if (!file_exists($file)) {
+        if (!is_file($file)) {
             header('HTTP/1.1 ' . self::HTTP_NOT_FOUND);
             exit;
         }
@@ -158,7 +153,7 @@ class rex_response
         session_write_close();
 
         if (!$filename) {
-            $filename = basename($file);
+            $filename = rex_path::basename($file);
         }
 
         self::sendContentType($contentType);
@@ -178,7 +173,6 @@ class rex_response
 
         self::sendAdditionalHeaders();
         self::sendPreloadHeaders();
-        self::sendServerTimingHeaders();
 
         header('Accept-Ranges: bytes');
         $rangeHeader = rex_request::server('HTTP_RANGE', 'string', null);
@@ -233,7 +227,9 @@ class rex_response
             header('Content-Disposition: ' . $contentDisposition . '; filename="' . $filename . '"');
         }
 
-        self::sendCacheControl('max-age=3600, must-revalidate, proxy-revalidate, private');
+        if (!self::$sentCacheControl) {
+            self::sendCacheControl();
+        }
         self::sendContent($content, $contentType, $lastModified, $etag);
     }
 
@@ -269,10 +265,10 @@ class rex_response
     /**
      * Sends content to the client.
      *
-     * @param string $content      Content
-     * @param string $contentType  Content type
-     * @param int    $lastModified HTTP Last-Modified Timestamp
-     * @param string $etag         HTTP Cachekey to identify the cache
+     * @param string      $content      Content
+     * @param string|null $contentType  Content type
+     * @param int|null    $lastModified HTTP Last-Modified Timestamp
+     * @param string|null $etag         HTTP Cachekey to identify the cache
      */
     public static function sendContent($content, $contentType = null, $lastModified = null, $etag = null)
     {
@@ -315,13 +311,22 @@ class rex_response
 
         self::sendAdditionalHeaders();
         self::sendPreloadHeaders();
-        self::sendServerTimingHeaders();
 
         echo $content;
 
         if (function_exists('fastcgi_finish_request')) {
             fastcgi_finish_request();
         }
+    }
+
+    /**
+     * @param mixed       $data         data to be json encoded and sent
+     * @param int|null    $lastModified HTTP Last-Modified Timestamp
+     * @param string|null $etag         HTTP Cachekey to identify the cache
+     */
+    public static function sendJson($data, ?int $lastModified = null, ?string $etag = null): void
+    {
+        self::sendContent(json_encode($data), 'application/json', $lastModified, $etag);
     }
 
     /**
@@ -367,7 +372,7 @@ class rex_response
             $lastModified = time();
         }
 
-        $lastModified = gmdate('D, d M Y H:i:s T', (float) $lastModified);
+        $lastModified = gmdate('D, d M Y H:i:s T', (int) $lastModified);
 
         // Sende Last-Modification time
         header('Last-Modified: ' . $lastModified);
@@ -449,15 +454,16 @@ class rex_response
 
     /**
      * @param string      $name    The name of the cookie
-     * @param string|null $value   The value of the cookie, a empty value to delete the cookie.
+     * @param string|null $value   the value of the cookie, a empty value to delete the cookie
      * @param array       $options Different cookie Options. Supported keys are:
-     *                             "expires" int|string|\DateTimeInterface The time the cookie expires
-     *                             "path" string                           The path on the server in which the cookie will be available on
-     *                             "domain" string|null                    The domain that the cookie is available to
-     *                             "secure" bool                           Whether the cookie should only be transmitted over a secure HTTPS connection from the client
-     *                             "httponly" bool                         Whether the cookie will be made accessible only through the HTTP protocol
-     *                             "samesite" string|null                  Whether the cookie will be available for cross-site requests
-     *                             "raw" bool                              Whether the cookie value should be sent with no url encoding
+     *                             "expires" int|string|DateTimeInterface The time the cookie expires
+     *                             "path" string                          The path on the server in which the cookie will be available on
+     *                             "domain" string|null                   The domain that the cookie is available to
+     *                             "secure" bool                          Whether the cookie should only be transmitted over a secure HTTPS connection from the client
+     *                             "httponly" bool                        Whether the cookie will be made accessible only through the HTTP protocol
+     *                             "samesite" string|null                 Whether the cookie will be available for cross-site requests
+     *                             "raw" bool                             Whether the cookie value should be sent with no url encoding
+     * @psalm-param array{expires?: int|string|DateTimeInterface, path?: string, domain?: ?string, secure?: bool, httponly?: bool, samesite?: ?string, raw?: bool} $options
      *
      * @throws \InvalidArgumentException
      */
@@ -526,6 +532,29 @@ class rex_response
         }
 
         header($str, false);
+    }
+
+    /**
+     * Clear the given cookie by name.
+     *
+     * You might pass additional options in case the name is not unique or the cookie is not stored on the current domain.
+     *
+     * @param string $name    The name of the cookie
+     * @param array  $options Different cookie Options. Supported keys are:
+     *                        "path" string          The path on the server in which the cookie will be available on
+     *                        "domain" string|null   The domain that the cookie is available to
+     *                        "secure" bool          Whether the cookie should only be transmitted over a secure HTTPS connection from the client
+     *                        "httponly" bool        Whether the cookie will be made accessible only through the HTTP protocol
+     *                        "samesite" string|null Whether the cookie will be available for cross-site requests
+     * @psalm-param array{path?: string, domain?: ?string, secure?: bool, httponly?: bool, samesite?: ?string} $options
+     *
+     * @throws \InvalidArgumentException
+     */
+    public static function clearCookie(string $name, array $options = []): void
+    {
+        $options['expires'] = 1;
+        // clear the cookie by sending it again with an expiration in the past
+        self::sendCookie($name, null, $options);
     }
 
     /**

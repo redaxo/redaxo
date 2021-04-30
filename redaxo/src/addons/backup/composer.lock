@@ -1,0 +1,80 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "d6217b68402ec1801b2eb2dbaed11215",
+    "packages": [
+        {
+            "name": "splitbrain/php-archive",
+            "version": "1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/splitbrain/php-archive.git",
+                "reference": "211a2198b73b233d7d2b6159462e11cd9a91348a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/splitbrain/php-archive/zipball/211a2198b73b233d7d2b6159462e11cd9a91348a",
+                "reference": "211a2198b73b233d7d2b6159462e11cd9a91348a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "ext-bz2": "*",
+                "ext-zip": "*",
+                "mikey179/vfsstream": "^1.6",
+                "phpunit/phpunit": "^8"
+            },
+            "suggest": {
+                "ext-iconv": "Used for proper filename encode handling",
+                "ext-mbstring": "Can be used alternatively for handling filename encoding"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "splitbrain\\PHPArchive\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andreas Gohr",
+                    "email": "andi@splitbrain.org"
+                }
+            ],
+            "description": "Pure-PHP implementation to read and write TAR and ZIP archives",
+            "keywords": [
+                "archive",
+                "extract",
+                "tar",
+                "unpack",
+                "unzip",
+                "zip"
+            ],
+            "support": {
+                "issues": "https://github.com/splitbrain/php-archive/issues",
+                "source": "https://github.com/splitbrain/php-archive/tree/1.2.1"
+            },
+            "time": "2021-02-22T17:59:24+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "platform-overrides": {
+        "php": "7.3.0"
+    },
+    "plugin-api-version": "2.0.0"
+}

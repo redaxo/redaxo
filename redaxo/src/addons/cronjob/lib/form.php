@@ -24,6 +24,8 @@ class rex_cronjob_form extends rex_form
      * @param string $method
      * @param bool   $debug
      * @param int    $db             DB connection ID
+     *
+     * @psalm-param positive-int $db
      */
     public function __construct($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false, $db = 1)
     {
@@ -31,10 +33,14 @@ class rex_cronjob_form extends rex_form
         $this->mainFieldset = $fieldset;
     }
 
+    /**
+     * @return rex_cronjob_form_interval_element
+     */
     public function addIntervalField($name, $value = null, $attributes = [])
     {
         $attributes['internal::fieldClass'] = 'rex_cronjob_form_interval_element';
         $attributes['class'] = 'form-control';
+        /** @var rex_cronjob_form_interval_element $field */
         $field = $this->addField('', $name, $value, $attributes, true);
         $this->intervalField = $field;
         return $field;
@@ -43,7 +49,7 @@ class rex_cronjob_form extends rex_form
     protected function save()
     {
         $nexttime = $this->getElement($this->mainFieldset, 'nexttime');
-        $timestamp = rex_cronjob_manager_sql::calculateNextTime($this->intervalField->getValue());
+        $timestamp = rex_cronjob_manager_sql::calculateNextTime($this->intervalField->getIntervalElements());
         $nexttime->setValue($timestamp ? rex_sql::datetime($timestamp) : null);
 
         $return = parent::save();
@@ -59,18 +65,31 @@ class rex_cronjob_form extends rex_form
  */
 class rex_cronjob_form_interval_element extends rex_form_element
 {
+    /** @var array */
+    private $intervalElements;
+
     public function setValue($value)
     {
         if (is_string($value)) {
-            $value = json_decode($value, true);
+            $this->value = $value;
+            $this->intervalElements = json_decode($value, true);
+        } else {
+            $this->value = json_encode($value);
+            $this->intervalElements = $value;
         }
+    }
 
-        $this->value = $value;
+    /**
+     * @return array
+     */
+    public function getIntervalElements()
+    {
+        return $this->intervalElements;
     }
 
     public function getSaveValue()
     {
-        $value = $this->getValue();
+        $value = $this->intervalElements;
 
         $save = [];
         foreach (['minutes', 'hours', 'days', 'weekdays', 'months'] as $key) {
@@ -86,11 +105,14 @@ class rex_cronjob_form_interval_element extends rex_form_element
         return json_encode($save);
     }
 
+    /**
+     * @return string
+     */
     public function formatElement()
     {
         $range = static function ($low, $high, $step = 1) {
             foreach (range($low, $high, $step) as $i) {
-                yield $i => str_pad($i, 2, '0', STR_PAD_LEFT);
+                yield $i => str_pad((string) $i, 2, '0', STR_PAD_LEFT);
             }
         };
 
@@ -159,9 +181,12 @@ class rex_cronjob_form_interval_element extends rex_form_element
         return $element;
     }
 
+    /**
+     * @return string
+     */
     protected function formatField($group, $optionAll, $options, $default = 'all')
     {
-        $value = $this->getValue();
+        $value = $this->intervalElements;
         $value = $value[$group] ?? $default;
 
         $field = '<div class="rex-js-cronjob-interval-all rex-cronjob-interval-all">';
@@ -207,6 +232,9 @@ class rex_cronjob_form_interval_element extends rex_form_element
         return $field;
     }
 
+    /**
+     * @return string
+     */
     protected function getFragment()
     {
         return 'core/form/container.php';

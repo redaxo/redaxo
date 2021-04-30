@@ -9,7 +9,8 @@
  */
 
 rex_perm::register('moveSlice[]', null, rex_perm::OPTIONS);
-rex_complex_perm::register('modules', 'rex_module_perm');
+rex_perm::register('publishSlice[]', null, rex_perm::OPTIONS);
+rex_complex_perm::register('modules', rex_module_perm::class);
 
 if (rex::isBackend()) {
     rex_extension::register('PAGE_CHECKED', static function () {
@@ -23,41 +24,7 @@ if (rex::isBackend()) {
     }
 
     if ('content' == rex_be_controller::getCurrentPagePart(1)) {
-        rex_extension::register('STRUCTURE_CONTENT_SIDEBAR', static function (rex_extension_point $ep) {
-            $params = $ep->getParams();
-            $subject = $ep->getSubject();
-
-            $article = rex_article::get($params['article_id'], $params['clang']);
-            $articleStatusTypes = rex_article_service::statusTypes();
-
-            $panel = '';
-            $panel .= '<dl class="dl-horizontal text-left">';
-
-            $panel .= '<dt>'.rex_i18n::msg('created_by').'</dt>';
-            $panel .= '<dd>'.rex_escape($article->getValue('createuser')).'</dd>';
-
-            $panel .= '<dt>'.rex_i18n::msg('created_on').'</dt>';
-            $panel .= '<dd>'.rex_formatter::strftime($article->getValue('createdate'), 'date').'</dd>';
-
-            $panel .= '<dt>'.rex_i18n::msg('updated_by').'</dt>';
-            $panel .= '<dd>'.rex_escape($article->getValue('updateuser')).'</dd>';
-
-            $panel .= '<dt>'.rex_i18n::msg('updated_on').'</dt>';
-            $panel .= '<dd>'.rex_formatter::strftime($article->getValue('updatedate'), 'date').'</dd>';
-
-            $panel .= '<dt>'.rex_i18n::msg('status').'</dt>';
-            $panel .= '<dd class="'.$articleStatusTypes[$article->getValue('status')][1].'">'.$articleStatusTypes[$article->getValue('status')][0].'</dd>';
-
-            $panel .= '</dl>';
-            $fragment = new rex_fragment();
-            $fragment->setVar('title', '<i class="rex-icon rex-icon-info"></i> '.rex_i18n::msg('metadata'), false);
-            $fragment->setVar('body', $panel, false);
-            $fragment->setVar('collapse', true);
-            $fragment->setVar('collapsed', true);
-            $content = $fragment->parse('core/page/section.php');
-
-            return $content.$subject;
-        });
+        rex_view::addJsFile(rex_url::pluginAssets('structure', 'content', 'content.js'), [rex_view::JS_IMMUTABLE => true]);
     }
 
     rex_extension::register('CLANG_DELETED', static function (rex_extension_point $ep) {
@@ -76,9 +43,7 @@ if (rex::isBackend()) {
         $article = new rex_article_content();
         $article->setCLang(rex_clang::getCurrentId());
 
-        if ($article->setArticleId(rex_article::getCurrentId())) {
-            $content .= $article->getArticleTemplate();
-        } else {
+        if (!$article->setArticleId(rex_article::getCurrentId())) {
             $fragment = new rex_fragment([
                 'content' => '<p><b>Kein Startartikel selektiert - No starting Article selected.</b><br />Please click here to enter <a href="' . rex_url::backendController() . '">redaxo</a>.</p>',
             ]);
@@ -87,8 +52,18 @@ if (rex::isBackend()) {
             exit;
         }
 
-        $art_id = $article->getArticleId();
-        if ($art_id == rex_article::getNotfoundArticleId() && $art_id != rex_article::getSiteStartArticleId()) {
+        try {
+            $content .= $article->getArticleTemplate();
+        } catch (rex_article_not_found_exception $exception) {
+            $article = new rex_article_content();
+            $article->setCLang(rex_clang::getCurrentId());
+            $article->setArticleId(rex_article::getNotfoundArticleId());
+
+            $content .= $article->getArticleTemplate();
+        }
+
+        $artId = $article->getArticleId();
+        if ($artId == rex_article::getNotfoundArticleId() && $artId != rex_article::getSiteStartArticleId()) {
             rex_response::setStatus(rex_response::HTTP_NOT_FOUND);
         }
 

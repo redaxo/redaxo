@@ -10,6 +10,12 @@
 
 $addon = rex_addon::get('structure');
 
+rex_perm::register('addArticle[]', null, rex_perm::OPTIONS);
+rex_perm::register('addCategory[]', null, rex_perm::OPTIONS);
+rex_perm::register('editArticle[]', null, rex_perm::OPTIONS);
+rex_perm::register('editCategory[]', null, rex_perm::OPTIONS);
+rex_perm::register('deleteArticle[]', null, rex_perm::OPTIONS);
+rex_perm::register('deleteCategory[]', null, rex_perm::OPTIONS);
 rex_perm::register('moveArticle[]', null, rex_perm::OPTIONS);
 rex_perm::register('moveCategory[]', null, rex_perm::OPTIONS);
 rex_perm::register('copyArticle[]', null, rex_perm::OPTIONS);
@@ -19,7 +25,7 @@ rex_perm::register('publishCategory[]', null, rex_perm::OPTIONS);
 rex_perm::register('article2startarticle[]', null, rex_perm::OPTIONS);
 rex_perm::register('article2category[]', null, rex_perm::OPTIONS);
 
-rex_complex_perm::register('structure', 'rex_structure_perm');
+rex_complex_perm::register('structure', rex_structure_perm::class);
 
 require_once __DIR__ . '/functions/function_rex_url.php';
 
@@ -29,9 +35,9 @@ $addon->setProperty('notfound_article_id', $addon->getConfig('notfound_article_i
 if (0 == rex_request('article_id', 'int')) {
     $addon->setProperty('article_id', rex_article::getSiteStartArticleId());
 } else {
-    $article_id = rex_request('article_id', 'int');
-    $article_id = rex_article::get($article_id) ? $article_id : rex_article::getNotfoundArticleId();
-    $addon->setProperty('article_id', $article_id);
+    $articleId = rex_request('article_id', 'int');
+    $articleId = rex_article::get($articleId) ? $articleId : rex_article::getNotfoundArticleId();
+    $addon->setProperty('article_id', $articleId);
 }
 
 if (rex::isBackend() && rex::getUser()) {

@@ -24,6 +24,8 @@ minfo_field_label_params = Parametrar
 minfo_field_label_priority = Fältposition
 minfo_field_label_restrictions = Bara tillgänglig i följande kategorier
 minfo_field_label_no_restrictions = Tillgänglig i alla kategorier
+minfo_field_label_all_templates = Finns till alla mallar
+minfo_field_label_templates = Endast tillgängligt till följande mallar
 
 minfo_field_notice_title = Prefix "translate:" översätta värdet via I18N
 

@@ -31,6 +31,7 @@ abstract class rex_complex_perm
      * Array of class names.
      *
      * @var array
+     * @psalm-var array<string, class-string<self>>
      */
     private static $classes = [];
 
@@ -71,6 +72,7 @@ abstract class rex_complex_perm
      *
      * @param string $key   Key for the complex perm
      * @param string $class Class name
+     * @psalm-param class-string<self> $class
      *
      * @throws InvalidArgumentException
      */
@@ -86,6 +88,7 @@ abstract class rex_complex_perm
      * Returns all complex perm classes.
      *
      * @return array Class names
+     * @psalm-return array<string, class-string<self>>
      */
     public static function getAll()
     {
@@ -99,7 +102,7 @@ abstract class rex_complex_perm
      * @param string   $key   Complex perm key
      * @param mixed    $perms Permissions
      *
-     * @return self
+     * @return self|null
      */
     public static function get(rex_user $user, $key, $perms = [])
     {
@@ -113,8 +116,8 @@ abstract class rex_complex_perm
     /**
      * Should be called if an item is removed.
      *
-     * @param string $key  Key
-     * @param string $item Item
+     * @param string     $key  Key
+     * @param string|int $item Item
      */
     public static function removeItem($key, $item)
     {
@@ -124,9 +127,9 @@ abstract class rex_complex_perm
     /**
      * Should be called if an item is replaced.
      *
-     * @param string $key  Key
-     * @param string $item Old item
-     * @param string $new  New item
+     * @param string     $key  Key
+     * @param string|int $item Old item
+     * @param string|int $new  New item
      */
     public static function replaceItem($key, $item, $new)
     {

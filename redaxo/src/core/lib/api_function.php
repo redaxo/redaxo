@@ -15,6 +15,8 @@
  *
  * The api functions return meaningfull error messages which the caller may display to the end-user.
  *
+ * Calling a api function with the backend-frontcontroller (index.php) requires a valid page parameter and the current user needs permissions to access the given page.
+ *
  * @author staabm
  *
  * @package redaxo\core
@@ -41,6 +43,18 @@ abstract class rex_api_function
     protected $result;
 
     /**
+     * The api function which is bound to the current request.
+     *
+     * @var rex_api_function|null
+     */
+    private static $instance;
+
+    protected function __construct()
+    {
+        // NOOP
+    }
+
+    /**
      * This method have to be overriden by a subclass and does all logic which the api function represents.
      *
      * In the first place this method may retrieve and validate parameters from the request.
@@ -53,18 +67,11 @@ abstract class rex_api_function
     abstract public function execute();
 
     /**
-     * The api function which is bound to the current request.
-     *
-     * @var rex_api_function
-     */
-    private static $instance;
-
-    /**
      * Returns the api function instance which is bound to the current request, or null if no api function was bound.
      *
      * @throws rex_exception
      *
-     * @return self
+     * @return self|null
      */
     public static function factory()
     {
@@ -128,6 +135,7 @@ abstract class rex_api_function
 
         // remove the `rex_api_` prefix
         $name = substr($class, 8);
+        assert(false !== $name);
 
         return sprintf('<input type="hidden" name="%s" value="%s"/>', self::REQ_CALL_PARAM, rex_escape($name))
             .rex_csrf_token::factory($class)->getHiddenField();
@@ -138,15 +146,15 @@ abstract class rex_api_function
      */
     public static function handleCall()
     {
-        if (static::hasFactoryClass()) {
-            return static::callFactoryClass(__FUNCTION__, func_get_args());
+        if ($factoryClass = static::getExplicitFactoryClass()) {
+            return $factoryClass::handleCall();
         }
 
         $apiFunc = self::factory();
 
         if (null != $apiFunc) {
-            if (true !== $apiFunc->published) {
-                if (true !== rex::isBackend()) {
+            if (!$apiFunc->published) {
+                if (!rex::isBackend()) {
                     throw new rex_http_exception(new rex_api_exception('the api function ' . get_class($apiFunc) . ' is not published, therefore can only be called from the backend!'), rex_response::HTTP_FORBIDDEN);
                 }
 
@@ -192,6 +200,9 @@ abstract class rex_api_function
         }
     }
 
+    /**
+     * @return bool
+     */
     public static function hasMessage()
     {
         $apiFunc = self::factory();
@@ -204,6 +215,9 @@ abstract class rex_api_function
         return $result && null !== $result->getMessage();
     }
 
+    /**
+     * @return string
+     */
     public static function getMessage($formatted = true)
     {
         $apiFunc = self::factory();
@@ -220,11 +234,6 @@ abstract class rex_api_function
         }
         // return a placeholder which can later be used by ajax requests to display messages
         return '<div id="rex-message-container">' . $message . '</div>';
-    }
-
-    protected function __construct()
-    {
-        // NOOP
     }
 
     /**
@@ -291,11 +300,17 @@ class rex_api_result
         $this->requiresReboot = $requiresReboot;
     }
 
+    /**
+     * @return bool
+     */
     public function requiresReboot()
     {
         return $this->requiresReboot;
     }
 
+    /**
+     * @return null|string
+     */
     public function getFormattedMessage()
     {
         if (null === $this->message) {
@@ -328,6 +343,9 @@ class rex_api_result
         return $this->succeeded;
     }
 
+    /**
+     * @return false|string
+     */
     public function toJSON()
     {
         $json = new stdClass();
@@ -337,10 +355,18 @@ class rex_api_result
         return json_encode($json);
     }
 
+    /**
+     * @return self
+     */
     public static function fromJSON($json)
     {
         $result = new self(true);
         $json = json_decode($json, true);
+
+        if (!is_array($json)) {
+            throw new rex_exception('Unable to decode json into an array.');
+        }
+
         foreach ($json as $key => $value) {
             $result->$key = $value;
         }

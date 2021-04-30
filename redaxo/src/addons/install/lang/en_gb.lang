@@ -16,6 +16,7 @@ install_name = Name
 install_author = Author
 install_shortdescription = Short description
 install_description = Description
+install_website = Website
 install_files = Files
 install_version = Version
 install_existing_version = Existing Version
@@ -68,6 +69,5 @@ install_settings_saved = Settings saved!
 install_settings_error = Settings not saved, check file permissions for: {0}
 
 install_header_function = Function
-
-install_clear = Clear
-install_search = Search ...
+install_latest_release = Current release
+install_download_unstable = Warning! This is a development version. Install at your own peril.

@@ -16,6 +16,7 @@ install_name = Nombre
 install_author = Autor
 install_shortdescription = Breve descripción
 install_description = Descripción
+install_website = Sitio web
 install_files = Archivos
 install_version = Versión
 install_existing_version = Versión existente
@@ -50,6 +51,8 @@ install_warning_addon_not_updated = No se pudo descargar AddOn <b>{0}</b> debido
 install_info_addon_uploaded = ¡Se ha cargado AddOn <b>{0}</b>!
 install_info_addon_deleted = ¡La versión AddOn de <b>{0}</b> ha sido eliminada!
 install_warning_addon_zip_not_extracted = El archivo Zip no se pudo extraer en el directorio AddOn. Es posible que tenga permisos de escritura que faltan o que el nombre de carpeta dentro del archivo zip no coincide con la clave de agregado.
+install_warning_message_from_addon = Complemento <b>{0}</b> informes:
+install_warning_message_from_plugin = PlugIn <b> {0} </b> informes:
 
 install_warning_zip_wrong_checksum = La suma de comprobación del archivo zip descargado no coincide!
 install_warning_zip_wrong_format = El archivo zip no está en el formato requerido.
@@ -66,6 +69,3 @@ install_settings_saved = Ajustes guardados !
 install_settings_error = La configuración no se ha guardado, compruebe los permisos de archivo para: {0}
 
 install_header_function = Función
-
-install_clear = Claro
-install_search = Buscar...

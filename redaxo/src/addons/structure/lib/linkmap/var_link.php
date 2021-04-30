@@ -43,15 +43,18 @@ class rex_var_link extends rex_var
         return self::quote($value);
     }
 
+    /**
+     * @return string
+     */
     public static function getWidget($id, $name, $value, array $args = [])
     {
-        $art_name = '';
+        $artName = '';
         $art = rex_article::get($value);
         $category = rex_category::getCurrent() ? rex_category::getCurrent()->getId() : 0; // Aktuelle Kategorie vorauswählen
 
         // Falls ein Artikel vorausgewählt ist, dessen Namen anzeigen und beim Öffnen der Linkmap dessen Kategorie anzeigen
         if ($art instanceof rex_article) {
-            $art_name = trim(sprintf('%s [%s]', $art->getName(), $art->getId()));
+            $artName = trim(sprintf('%s [%s]', $art->getName(), $art->getId()));
             $category = $art->getCategoryId();
         }
 
@@ -60,22 +63,22 @@ class rex_var_link extends rex_var
             $category = (int) $args['category'];
         }
 
-        $open_params = '&clang=' . rex_clang::getCurrentId() . '&category_id=' . $category;
+        $openParams = '&clang=' . rex_clang::getCurrentId() . '&category_id=' . $category;
 
         $class = ' rex-disabled';
-        $open_func = '';
-        $delete_func = '';
+        $openFunc = '';
+        $deleteFunc = '';
         if (rex::getUser()->getComplexPerm('structure')->hasStructurePerm()) {
             $class = '';
-            $open_func = 'openLinkMap(\'REX_LINK_' . $id . '\', \'' . $open_params . '\');';
-            $delete_func = 'deleteREXLink(' . $id . ');';
+            $openFunc = 'openLinkMap(\'REX_LINK_' . $id . '\', \'' . $openParams . '\');';
+            $deleteFunc = 'deleteREXLink(' . $id . ');';
         }
 
         $e = [];
-        $e['field'] = '<input class="form-control" type="text" name="REX_LINK_NAME[' . $id . ']" value="' . rex_escape($art_name) . '" id="REX_LINK_' . $id . '_NAME" readonly="readonly" /><input type="hidden" name="' . $name . '" id="REX_LINK_' . $id . '" value="' . $value . '" />';
+        $e['field'] = '<input class="form-control" type="text" name="REX_LINK_NAME[' . $id . ']" value="' . rex_escape($artName) . '" id="REX_LINK_' . $id . '_NAME" readonly="readonly" /><input type="hidden" name="' . $name . '" id="REX_LINK_' . $id . '" value="' . $value . '" />';
         $e['functionButtons'] = '
-                        <a href="#" class="btn btn-popup' . $class . '" onclick="' . $open_func . 'return false;" title="' . rex_i18n::msg('var_link_open') . '"><i class="rex-icon rex-icon-open-linkmap"></i></a>
-                        <a href="#" class="btn btn-popup' . $class . '" onclick="' . $delete_func . 'return false;" title="' . rex_i18n::msg('var_link_delete') . '"><i class="rex-icon rex-icon-delete-link"></i></a>';
+                        <a href="#" class="btn btn-popup' . $class . '" onclick="' . $openFunc . 'return false;" title="' . rex_i18n::msg('var_link_open') . '"><i class="rex-icon rex-icon-open-linkmap"></i></a>
+                        <a href="#" class="btn btn-popup' . $class . '" onclick="' . $deleteFunc . 'return false;" title="' . rex_i18n::msg('var_link_delete') . '"><i class="rex-icon rex-icon-delete-link"></i></a>';
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', [$e], false);

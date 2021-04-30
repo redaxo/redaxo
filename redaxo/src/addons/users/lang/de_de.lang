@@ -1,4 +1,5 @@
 user_management = Benutzerverwaltung
+perm_general_users[] = Benutzer
 roles = Rollen
 user = Benutzer
 users = Benutzer
@@ -24,9 +25,10 @@ user_functions = Funktionen
 user_options = Optionen
 user_extras = Extras
 last_login = Letzter Login
-psw_encrypted = Dieses Passwort ist verschlüsselt - bei Änderungen einfach neues Passwort eingeben
 user_caption = Liste der angelegten Benutzer
-user_status = User ist aktiv
+user_password_change_required = Passwort muss nach Login ausgetauscht werden
+user_status_active = Benutzer ist aktiv
+user_status_inactive = Benutzer ist inaktiv
 startpage = Startseite
 
 user_role = Rolle(n)

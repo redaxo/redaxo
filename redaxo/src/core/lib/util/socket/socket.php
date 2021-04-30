@@ -23,13 +23,21 @@
  */
 class rex_socket
 {
+    /** @var string */
     protected $host;
+    /** @var int */
     protected $port;
+    /** @var bool */
     protected $ssl;
+    /** @var string */
     protected $path = '/';
+    /** @var int */
     protected $timeout = 15;
+    /** @var false|int */
     protected $followRedirects = false;
+    /** @var array<string, string> */
     protected $headers = [];
+    /** @vat resource */
     protected $stream;
 
     /**
@@ -157,8 +165,8 @@ class rex_socket
      */
     public function followRedirects($redirects)
     {
-        if ($redirects < 0) {
-            throw new InvalidArgumentException(sprintf('$redirects must be `null` or an int >= 0, given "%s".', $redirects));
+        if (false !== $redirects && $redirects < 0) {
+            throw new InvalidArgumentException(sprintf('$redirects must be `false` or an int >= 0, given "%s".', $redirects));
         }
 
         $this->followRedirects = $redirects;
@@ -181,8 +189,11 @@ class rex_socket
     /**
      * Makes a POST request.
      *
-     * @param string|array|callable $data  Body data as string or array (POST parameters) or a callback for writing the body
-     * @param array                 $files Files array, e.g. `array('myfile' => array('path' => $path, 'type' => 'image/png'))`
+     * @param string|array|callable $data Body data as string or array (POST parameters) or a callback for writing the body
+     * @psalm-param string|array<string, string>|callable(resource): void $data
+     *
+     * @param array $files Files array, e.g. `array('myfile' => array('path' => $path, 'type' => 'image/png'))`
+     * @psalm-param array<string, array{path: string, type: string}> $files
      *
      * @throws rex_socket_exception
      *
@@ -209,7 +220,7 @@ class rex_socket
                 }
                 $partLength = rex_string::size(sprintf($fileFormat, '', '', '') . $eol);
                 foreach ($files as $key => $file) {
-                    $length += $partLength + rex_string::size($key) + rex_string::size(basename($file['path'])) + rex_string::size($file['type']) + filesize($file['path']);
+                    $length += $partLength + rex_string::size($key) + rex_string::size(rex_path::basename($file['path'])) + rex_string::size($file['type']) + filesize($file['path']);
                 }
                 $length += rex_string::size($end);
                 fwrite($stream, 'Content-Length: ' . $length . $eol . $eol);
@@ -217,7 +228,7 @@ class rex_socket
                     fwrite($stream, sprintf($dataFormat, $key) . $value . $eol);
                 }
                 foreach ($files as $key => $file) {
-                    fwrite($stream, sprintf($fileFormat, $key, basename($file['path']), $file['type']));
+                    fwrite($stream, sprintf($fileFormat, $key, rex_path::basename($file['path']), $file['type']));
                     $file = fopen($file['path'], 'r');
                     while (!feof($file)) {
                         fwrite($stream, fread($file, 1024));
@@ -253,6 +264,7 @@ class rex_socket
      *
      * @param string          $method HTTP method, e.g. "GET"
      * @param string|callable $data   Body data as string or a callback for writing the body
+     * @psalm-param string|callable(resource): void $data
      *
      * @throws InvalidArgumentException
      *
@@ -260,7 +272,7 @@ class rex_socket
      */
     public function doRequest($method, $data = '')
     {
-        return rex_timer::measure(__METHOD__, function () use ($method, $data) {
+        return rex_timer::measure('Socket request: '.$this->host.$this->path, function () use ($method, $data) {
             if (!is_string($data) && !is_callable($data)) {
                 throw new InvalidArgumentException(sprintf('Expecting $data to be a string or a callable, but %s given!', gettype($data)));
             }
@@ -282,7 +294,7 @@ class rex_socket
                 return $response;
             }
 
-            if (false === strpos($location, '//')) {
+            if (!str_contains($location, '//')) {
                 $socket = self::factory($this->host, $this->port, $this->ssl)->setPath($location);
             } else {
                 $socket = self::factoryUrl($location);
@@ -353,6 +365,7 @@ class rex_socket
      * @param string          $path    Path
      * @param array           $headers Headers
      * @param string|callable $data    Body data as string or a callback for writing the body
+     * @psalm-param string|callable(resource): void $data
      *
      * @throws rex_socket_exception
      *
@@ -396,7 +409,7 @@ class rex_socket
     protected static function parseUrl($url)
     {
         $parts = parse_url($url);
-        if (false !== $parts && !isset($parts['host']) && 0 !== strpos($url, 'http')) {
+        if (false !== $parts && !isset($parts['host']) && !str_starts_with($url, 'http')) {
             $parts = parse_url('http://' . $url);
         }
         if (false === $parts || !isset($parts['host'])) {
@@ -415,7 +428,7 @@ class rex_socket
                 $port = 443;
             }
         }
-        $port = isset($parts['port']) ? (int) $parts['port'] : $port;
+        $port = $parts['port'] ?? $port;
 
         $path = ($parts['path'] ?? '/')
             . (isset($parts['query']) ? '?' . $parts['query'] : '')

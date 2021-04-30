@@ -82,6 +82,7 @@ expectedArguments(\rex_sql_index::setType(), 0, argumentsSet('index_type'));
 expectedReturnValues(\rex_sql_index::getType(), argumentsSet('index_type'));
 
 expectedArguments(\rex_string::versionCompare(), 2, '<', '<=', '>', '>=', '==', '!=');
+expectedArguments(\rex_version::compare(), 2, '<', '<=', '>', '>=', '==', '!=');
 
 expectedArguments(\rex_timer::getDelta(), 0, \rex_timer::SEC, \rex_timer::MILLISEC, \rex_timer::MICROSEC);
 expectedArguments(\rex_timer::getFormattedDelta(), 0, \rex_timer::SEC, \rex_timer::MILLISEC, \rex_timer::MICROSEC);
@@ -110,7 +111,7 @@ override(
     map([
         'clang' => \rex_clang_perm::class,
         'media' => \rex_media_perm::class,
-        'module' => \rex_module_perm::class,
+        'modules' => \rex_module_perm::class,
         'structure' => \rex_structure_perm::class,
     ])
 );

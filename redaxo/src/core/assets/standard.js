@@ -125,15 +125,15 @@ function newWindow(name,link,width,height,type)
 var winObj = new Array();
 if (opener != null)
 {
-	try{
-	    if (typeof(opener.winObjCounter) == "number")
-	    {
-	        var winObjCounter = opener.winObjCounter;
-	    }
-	} catch(e) {
-	    // in x-origin cases opener.winObjCounter would not be readable
-	    var winObjCounter = -1;
-	}
+    try{
+        if (typeof(opener.winObjCounter) == "number")
+        {
+            var winObjCounter = opener.winObjCounter;
+        }
+    } catch(e) {
+        // in x-origin cases opener.winObjCounter would not be readable
+        var winObjCounter = -1;
+    }
 }else
 {
     var winObjCounter = -1;
@@ -411,7 +411,7 @@ jQuery(function($){
         var key = String.fromCharCode(event.which);
         var haystack = $("input[accesskey='"+ key +"'], button[accesskey='"+ key +"']");
 
-        if(haystack.size() > 0)
+        if(haystack.length > 0)
         {
             $(haystack.get(0)).click();
             return false;
@@ -420,7 +420,7 @@ jQuery(function($){
         {
             haystack = $("a[accesskey='"+ key +"']");
 
-            if(haystack.size() > 0)
+            if(haystack.length > 0)
             {
                 var hit = $(haystack.get(0));
                 if(hit.attr("onclick") != undefined)
@@ -449,20 +449,36 @@ jQuery(function($){
         time = new Date();
         time.setTime(time.getTime() + 1000 * 60 * 60 * 24);
         setCookie('rex_htaccess_check', '1', time.toGMTString(), '', '', false, 'lax');
-        checkHtaccess('bin', 'console');
-        checkHtaccess('cache', '.redaxo');
-        checkHtaccess('data', '.redaxo');
-        checkHtaccess('src', 'core/boot.php');
-    }
 
-    function checkHtaccess(dir, file)
-    {
-        $.get(dir +'/'+ file +'?redaxo-security-self-test',
-            function(data) {
-                $('#rex-js-page-main').prepend('<div class="alert alert-danger" style="margin-top: 20px;">The folder <code>redaxo/'+ dir +'</code> is insecure. Please protect this folder.</div>');
-                setCookie('rex_htaccess_check', '');
-            }
-        );
+        var allowedUrl = 'index.php';
+
+        // test urls, which is not expected to be accessible
+        // after each expected error, run a request which is expected to succeed.
+        // that way we try to make sure tools like fail2ban dont block the client
+        var urls = [
+            'bin/console',
+            allowedUrl,
+            'data/.redaxo',
+            allowedUrl,
+            'src/core/boot.php',
+            allowedUrl,
+            'cache/.redaxo'
+        ];
+
+        // NOTE: we have essentially a copy of this code in the setup process.
+        $.each(urls, function (i, url) {
+            $.ajax({
+                // add a human readable suffix so people get an idea what we are doing here
+                url: url + '?redaxo-security-self-test',
+                cache: false,
+                success: function (data) {
+                    if (i % 2 == 0) {
+                        $('#rex-js-page-main').prepend('<div class="alert alert-danger" style="margin-top: 20px;">The folder <code>redaxo/' + url + '</code> is insecure. Please protect this folder.</div>');
+                        setCookie('rex_htaccess_check', '');
+                    }
+                }
+            });
+        });
     }
 });
 
@@ -570,7 +586,10 @@ jQuery(document).ready(function($) {
                 return;
             }
 
-            if(self.is('[data-pjax]')) {
+            if (self.is('[download]')) {
+                return;
+            }
+            if (self.is('[data-pjax]')) {
                 container = self.attr('data-pjax');
             }
             if ('false' === container) {
@@ -679,6 +698,8 @@ jQuery(document).ready(function($) {
             ((windowHeight - rect.bottom) < menuHeight) &&
             (rect.top > menuHeight));
     });
+
+    document.addEventListener('keydown', handleKeyEvents, true);
 });
 
 // keep session alive
@@ -691,4 +712,44 @@ if ('login' !== rex.page && rex.session_keep_alive) {
     setTimeout(function () {
         clearInterval(keepAliveInterval);
     }, rex.session_keep_alive * 1000 /* stop request after x seconds - see config.yml */);
+}
+
+// handle key events
+var handleKeyEvents = function (event) {
+
+    // submit forms via strg/cmd + enter
+    if (event.metaKey && event.keyCode === 13) {
+        var form = event.target.closest('form');
+        if (form) {
+            // click apply button if available (e.g. when editing content)
+            var applyButton = form.querySelector('.btn-apply');
+            if (applyButton) {
+                applyButton.click();
+            } else {
+                // click (first) submit button
+                var submitButton = form.querySelector('[type=\'submit\']');
+                if (submitButton) {
+                    submitButton.click();
+                }
+            }
+        }
+    }
+}
+
+/**
+ * @param {string} selector_id
+ */
+function rex_searchfield_init(selector_id) {
+
+    $(selector_id).find('input[type="text"]').on('input propertychange', function () {
+        var $this = $(this);
+        var visible = Boolean($this.val());
+        $this.siblings('.form-control-clear').toggleClass('hidden', !visible);
+    }).trigger('propertychange');
+
+    $(selector_id).find('.form-control-clear, .clear-button').click(function (event) {
+        event.stopPropagation();
+        $(this).siblings('input[type="text"]').val('').trigger("keyup")
+            .trigger('propertychange').focus();
+    });
 }

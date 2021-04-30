@@ -19,14 +19,14 @@ interface rex_package_interface
     /**
      * Returns the related Addon.
      *
-     * @return rex_addon
+     * @return rex_addon_interface
      */
     public function getAddon();
 
     /**
      * Returns the package ID.
      *
-     * @return string
+     * @return string|null
      */
     public function getPackageId();
 
@@ -41,6 +41,7 @@ interface rex_package_interface
      * Returns the base path.
      *
      * @param string $file File
+     * @return string
      */
     public function getPath($file = '');
 
@@ -48,6 +49,7 @@ interface rex_package_interface
      * Returns the assets path.
      *
      * @param string $file File
+     * @return string
      */
     public function getAssetsPath($file = '');
 
@@ -55,6 +57,7 @@ interface rex_package_interface
      * Returns the assets url.
      *
      * @param string $file File
+     * @return string
      */
     public function getAssetsUrl($file = '');
 
@@ -62,6 +65,7 @@ interface rex_package_interface
      * Returns the data path.
      *
      * @param string $file File
+     * @return string
      */
     public function getDataPath($file = '');
 
@@ -69,6 +73,7 @@ interface rex_package_interface
      * Returns the cache path.
      *
      * @param string $file File
+     * @return string
      */
     public function getCachePath($file = '');
 
@@ -79,6 +84,11 @@ interface rex_package_interface
 
     /**
      * @see rex_config::get()
+     *
+     * @template T as ?string
+     * @phpstan-template T
+     * @psalm-param T $key
+     * @psalm-return (T is string ? mixed|null : array<string, mixed>)
      */
     public function getConfig($key = null, $default = null);
 
@@ -150,9 +160,9 @@ interface rex_package_interface
     /**
      * Returns the author.
      *
-     * @param mixed $default Default value, will be returned if the property isn't set
+     * @param string|null $default Default value, will be returned if the property isn't set
      *
-     * @return mixed
+     * @return string|null
      */
     public function getAuthor($default = null);
 
@@ -161,31 +171,32 @@ interface rex_package_interface
      *
      * @param string $format See {@link rex_formatter::version()}
      *
-     * @return mixed
+     * @return string
      */
     public function getVersion($format = null);
 
     /**
      * Returns the supportpage.
      *
-     * @param mixed $default Default value, will be returned if the property isn't set
+     * @param string|null $default Default value, will be returned if the property isn't set
      *
-     * @return mixed
+     * @return string|null
      */
     public function getSupportPage($default = null);
 
     /**
      * Includes a file in the package context.
      *
-     * @param string $file Filename
+     * @param string $file    Filename
+     * @param array  $context Context values, available as variables in given file
      */
-    public function includeFile($file);
+    public function includeFile($file, array $context = []);
 
     /**
      * Adds the package prefix to the given key and returns the translation for it.
      *
-     * @param string     $key          Key
-     * @param string,... $replacements A arbritary number of strings used for interpolating within the resolved messag
+     * @param string     $key             Key
+     * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved messag
      *
      * @return string Translation for the key
      */

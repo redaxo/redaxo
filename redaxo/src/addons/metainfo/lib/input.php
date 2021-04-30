@@ -132,7 +132,7 @@ abstract class rex_input
      *
      * @param string $inputType
      *
-     * @return self
+     * @return self|null
      *
      * @deprecated instantiate the concrete classes directly instead
      */
@@ -153,6 +153,7 @@ abstract class rex_input
             case 'medialistbutton':
             case 'linkbutton':
             case 'linklistbutton':
+                /** @var class-string<rex_input> $class */
                 $class = 'rex_input_' . $inputType;
                 return new $class();
         }

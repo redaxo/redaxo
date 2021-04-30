@@ -18,10 +18,13 @@ class rex_clang
      */
     private static $clangs = [];
     /**
+     * @var int|null
+     */
+    private static $currentId;
+
+    /**
      * @var int
      */
-    private static $currentId = 1;
-
     private $id;
     /**
      * @var string
@@ -62,7 +65,7 @@ class rex_clang
      *
      * @param int $id Clang id
      *
-     * @return self
+     * @return self|null
      */
     public static function get($id)
     {
@@ -82,6 +85,7 @@ class rex_clang
         foreach (self::getAll() as $id => $clang) {
             return $id;
         }
+        throw new LogicException('No clang found.');
     }
 
     /**
@@ -91,7 +95,13 @@ class rex_clang
      */
     public static function getCurrent()
     {
-        return self::get(self::getCurrentId());
+        $clang = self::get(self::getCurrentId());
+
+        if (!$clang) {
+            throw new LogicException('Clang with id "' . self::getCurrentId() . '" not found.');
+        }
+
+        return $clang;
     }
 
     /**
@@ -101,7 +111,7 @@ class rex_clang
      */
     public static function getCurrentId()
     {
-        return self::$currentId;
+        return self::$currentId ?? self::$currentId = self::getStartId();
     }
 
     /**
@@ -126,7 +136,7 @@ class rex_clang
      */
     public function getId()
     {
-        return (int) $this->id;
+        return $this->id;
     }
 
     /**
@@ -172,30 +182,30 @@ class rex_clang
     /**
      * Checks whether the clang has the given value.
      *
-     * @param string $value
+     * @param string $key
      *
      * @return bool
      */
-    public function hasValue($value)
+    public function hasValue($key)
     {
-        return isset($this->$value) || isset($this->{'clang_' . $value});
+        return isset($this->$key) || isset($this->{'clang_' . $key});
     }
 
     /**
      * Returns the given value.
      *
-     * @param string $value
+     * @param string $key
      *
      * @return mixed
      */
-    public function getValue($value)
+    public function getValue($key)
     {
-        if (isset($this->$value)) {
-            return $this->$value;
+        if (isset($this->$key)) {
+            return $this->$key;
         }
 
-        if (isset($this->{'clang_' . $value})) {
-            return $this->{'clang_' . $value};
+        if (isset($this->{'clang_' . $key})) {
+            return $this->{'clang_' . $key};
         }
 
         return null;
@@ -257,13 +267,20 @@ class rex_clang
         }
 
         $file = rex_path::coreCache('clang.cache');
-        if (!file_exists($file)) {
+        if (!is_file($file)) {
             rex_clang_service::generateCache();
         }
         foreach (rex_file::getCache($file) as $id => $data) {
             $clang = new self();
+            $clang->id = (int) $id;
+            $clang->priority = (int) $data['priority'];
+            $clang->status = (bool) $data['status'];
 
             foreach ($data as $key => $value) {
+                if (in_array($key, ['id', 'priority', 'status'], true)) {
+                    continue;
+                }
+
                 $clang->$key = $value;
             }
 

@@ -1,6 +1,6 @@
 <?php
 
-// $addon = rex_addon::get('project');
+$addon = rex_addon::get('project');
 
 // register a custom yrewrite scheme
 // rex_yrewrite::setScheme(new rex_project_rewrite_scheme());
@@ -8,7 +8,10 @@
 // register yform template path
 // rex_yform::addTemplatePath($addon->getPath('yform-templates'));
 
-// Example of mediapool Whitelist
+// register yorm class
+// rex_yform_manager_dataset::setModelClass('rex_my_table', my_classname::class);
+
+// Example list of allowed mime types for mediapool
 /*
 rex_addon::get('mediapool')->setProperty('allowed_mime_types', [
     'gif'   => ['image/gif'],

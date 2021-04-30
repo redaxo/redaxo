@@ -19,11 +19,11 @@ class rex_article_content_base_test extends TestCase
         $propArticle->setAccessible(true);
         $propArticle->setValue($instance, rex_sql::factory()->setValue('art_foo', 'teststring'));
 
-        $this->assertTrue($instance->hasValue('foo'));
-        $this->assertTrue($instance->hasValue('art_foo'));
+        static::assertTrue($instance->hasValue('foo'));
+        static::assertTrue($instance->hasValue('art_foo'));
 
-        $this->assertFalse($instance->hasValue('bar'));
-        $this->assertFalse($instance->hasValue('art_bar'));
+        static::assertFalse($instance->hasValue('bar'));
+        static::assertFalse($instance->hasValue('art_bar'));
     }
 
     public function testGetValue()
@@ -37,10 +37,10 @@ class rex_article_content_base_test extends TestCase
         $propArticle->setAccessible(true);
         $propArticle->setValue($instance, rex_sql::factory()->setValue('art_foo', 'teststring'));
 
-        $this->assertEquals('teststring', $instance->getValue('foo'));
-        $this->assertEquals('teststring', $instance->getValue('art_foo'));
+        static::assertEquals('teststring', $instance->getValue('foo'));
+        static::assertEquals('teststring', $instance->getValue('art_foo'));
 
-        $this->assertEquals('[bar not found]', $instance->getValue('bar'));
-        $this->assertEquals('[art_bar not found]', $instance->getValue('art_bar'));
+        static::assertEquals('[bar not found]', $instance->getValue('bar'));
+        static::assertEquals('[art_bar not found]', $instance->getValue('art_bar'));
     }
 }

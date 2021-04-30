@@ -115,6 +115,8 @@ media_manager_effect_rotate_degree = Drehen um (Grad)
 
 media_manager_effect_mirror = Bild: Wasserspiegelung hinzufügen
 media_manager_effect_mirror_height = Refl. Höhe (50 / 10%)
+media_manager_effect_mirror_opacity = Opazität der Spiegelung (0 - 100)
+media_manager_effect_mirror_opacity_notice = 0% komplett unsichtbare Spiegelung, 100% komplett sichtbare Spiegelung
 media_manager_effect_mirror_background_color = Hintergrundfarbe
 media_manager_effect_mirror_background_r = Hintergrund R (0-255)
 media_manager_effect_mirror_background_g = Hintergrund G (0-255)
@@ -140,9 +142,12 @@ media_manager_effect_header_filename_notice = <code>filename</code> ist der norm
 media_manager_effect_convert2img = Datei: In Bild konvertieren
 media_manager_effect_convert2img_density = Auflösungsdichte
 media_manager_effect_convert2img_convertto = Zielformat
-media_manager_effect_convert2img_density_notice = Auflösungsdichte in ppi (pixel per inch), mit der EPS- oder PDF-Dateien gerastert werden.
-media_manager_effect_convert2img_convertto_notice = Zielformat, in das die Datei konvertiert wird. Es werden folgende Dateiendungen berücksichtigt: <code>.pdf,.ps,.psd,.tif,.tiff,.bmp,.eps,.ico</code>.
-media_manager_effect_convert2img_noimagemagick = Achtung: ImageMagick konnte nicht gefunden werden. Dieser Effekt benötigt ImageMagick als "commandline binary", ausführbar per exec().  
+media_manager_effect_convert2img_density_notice = Auflösungsdichte in ppi (pixel per inch).
+media_manager_effect_convert2img_convertto_notice = Zielformat, in das die Datei konvertiert wird. Es werden folgende Dateiendungen berücksichtigt: <code>.pdf,.ps,.psd,.tif,.tiff,.bmp,.eps,.ico,.svg</code>.
+media_manager_effect_convert2img_noimagemagick = Achtung: ImageMagick konnte nicht gefunden werden. Dieser Effekt benötigt entweder die PHP-Extension "imagick" oder ImageMagick als "commandline binary", ausführbar per exec().
+media_manager_effect_convert2img_color = Farbe für Transparenz
+media_manager_effect_convert2img_color_notice = Format "#ffffff", wenn nichts gesetzt wird, dann wird Transparenz genutzt. Bei JPG bitte unbedingt eine Farbe angeben.
+
 
 media_manager_effect_image_properties = Bild: Einstellungen (Qualität, Interlace, ...)
 media_manager_effect_image_properties_jpg_quality_notice = [0-100]. Leer lassen für Standardwert.
@@ -161,3 +166,6 @@ media_manager_effect_contrast_notice = [-100 bis 100]. Leer lassen für Standard
 media_manager_effect_sepia = Bild: Sepia
 
 media_manager_effect_greyscale = Bild: Graustufen
+
+media_manager_effect_image_format = Bild: In JPEG/PNG/GIF/WEBP konvertieren
+media_manager_effect_image_format_convertto = Zielformat

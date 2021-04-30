@@ -7,13 +7,13 @@
  */
 class rex_media_category
 {
-    use rex_instance_pool_trait;
     use rex_instance_list_pool_trait;
+    use rex_instance_pool_trait;
 
     // id
     private $id = '';
     // parent_id
-    private $parent_id = '';
+    private $parentId = '';
 
     // name
     private $name = '';
@@ -33,7 +33,7 @@ class rex_media_category
     /**
      * @param int $id
      *
-     * @return self
+     * @return static|null
      */
     public static function get($id)
     {
@@ -43,20 +43,20 @@ class rex_media_category
             return null;
         }
 
-        return self::getInstance($id, static function ($id) {
-            $cat_path = rex_path::addonCache('mediapool', $id . '.mcat');
-            $cache = rex_file::getCache($cat_path);
+        return static::getInstance($id, static function ($id) {
+            $catPath = rex_path::addonCache('mediapool', $id . '.mcat');
+            $cache = rex_file::getCache($catPath);
 
             if (!$cache) {
                 rex_media_cache::generateCategory($id);
-                $cache = rex_file::getCache($cat_path);
+                $cache = rex_file::getCache($catPath);
             }
 
             if ($cache) {
-                $cat = new self();
+                $cat = new static();
 
                 $cat->id = $cache['id'];
-                $cat->parent_id = $cache['parent_id'];
+                $cat->parentId = $cache['parent_id'];
 
                 $cat->name = $cache['name'];
                 $cat->path = $cache['path'];
@@ -95,13 +95,13 @@ class rex_media_category
             return [];
         }
 
-        return self::getInstanceList([$parentId, 'children'], 'self::get', static function ($parentId) {
-            $catlist_path = rex_path::addonCache('mediapool', $parentId . '.mclist');
+        return self::getInstanceList([$parentId, 'children'], [self::class, 'get'], static function ($parentId) {
+            $catlistPath = rex_path::addonCache('mediapool', $parentId . '.mclist');
 
-            $list = rex_file::getCache($catlist_path, null);
+            $list = rex_file::getCache($catlistPath, null);
             if (null === $list) {
                 rex_media_cache::generateCategoryList($parentId);
-                $list = rex_file::getCache($catlist_path);
+                $list = rex_file::getCache($catlistPath);
             }
 
             return $list;
@@ -135,20 +135,13 @@ class rex_media_category
     /**
      * Returns the path ids of the category as an array.
      *
-     * @return int[]
+     * @return list<int>
      */
     public function getPathAsArray()
     {
-        $p = explode('|', $this->path);
-        foreach ($p as $k => $v) {
-            if ('' == $v) {
-                unset($p[$k]);
-            } else {
-                $p[$k] = (int) $v;
-            }
-        }
+        $p = array_filter(explode('|', $this->path));
 
-        return array_values($p);
+        return array_values(array_map('intval', $p));
     }
 
     /**
@@ -188,11 +181,11 @@ class rex_media_category
      */
     public function getParentId()
     {
-        return $this->parent_id;
+        return $this->parentId;
     }
 
     /**
-     * @return self
+     * @return self|null
      */
     public function getParent()
     {
@@ -210,12 +203,18 @@ class rex_media_category
         $tree = [];
         if ($this->path) {
             $explode = explode('|', $this->path);
-            if (is_array($explode)) {
-                foreach ($explode as $var) {
-                    if ('' != $var) {
-                        $tree[] = self::get($var);
-                    }
+            foreach ($explode as $var) {
+                if ('' == $var) {
+                    continue;
                 }
+
+                $category = self::get((int) $var);
+
+                if (!$category) {
+                    throw new LogicException(sprintf('Missing media category with id=%d.', $var));
+                }
+
+                $tree[] = $category;
             }
         }
         return $tree;
@@ -252,13 +251,13 @@ class rex_media_category
      */
     public function getMedia()
     {
-        return self::getInstanceList([$this->getId(), 'media'], 'rex_media::get', static function ($id) {
-            $list_path = rex_path::addonCache('mediapool', $id . '.mlist');
+        return self::getInstanceList([$this->getId(), 'media'], ['rex_media', 'get'], static function ($id) {
+            $listPath = rex_path::addonCache('mediapool', $id . '.mlist');
 
-            $list = rex_file::getCache($list_path, null);
+            $list = rex_file::getCache($listPath, null);
             if (null === $list) {
                 rex_media_cache::generateList($id);
-                $list = rex_file::getCache($list_path);
+                $list = rex_file::getCache($listPath);
             }
 
             return $list;

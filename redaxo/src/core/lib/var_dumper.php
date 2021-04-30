@@ -11,7 +11,7 @@ use Symfony\Component\VarDumper\VarDumper;
  */
 abstract class rex_var_dumper
 {
-    /** @var VarCloner */
+    /** @var VarCloner|null */
     private static $cloner;
 
     /** @var DataDumperInterface */
@@ -28,7 +28,7 @@ abstract class rex_var_dumper
             }
 
             // register noop handler for non-admins (if not in debug mode)
-            VarDumper::setHandler(static function ($var) {
+            VarDumper::setHandler(static function () {
                 // noop
             });
         });
@@ -60,6 +60,11 @@ abstract class rex_var_dumper
                     'default' => $styleAll . '
                         background-color: transparent;
                         color: #eeffff;
+                    ',
+                    'expanded' => $styleAll . '
+                        white-space: pre;
+                        background: unset;
+                        color: inherit;
                     ',
                     'const' => $styleAll . 'color: #F78C6C; font-weight: 700;',
                     'ellipsis' => $styleAll . 'color: #eeffff;',

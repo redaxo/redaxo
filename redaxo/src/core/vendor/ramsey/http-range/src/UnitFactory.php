@@ -9,6 +9,8 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
+declare(strict_types=1);
+
 namespace Ramsey\Http\Range;
 
 use Ramsey\Http\Range\Exception\InvalidRangeSetException;
@@ -18,22 +20,22 @@ use Ramsey\Http\Range\Unit\GenericUnit;
 use Ramsey\Http\Range\Unit\UnitInterface;
 
 /**
- * A default factory for creating bytes range units
+ * A default factory for creating range units.
  */
 class UnitFactory implements UnitFactoryInterface
 {
     /**
-     * Returns a parsed unit for the HTTP Range header
+     * Returns a parsed unit for the HTTP Range header.
      *
-     * @param string $rangesSpecifier The original value of the HTTP Range header
-     * @param mixed $totalSize The total size of the entity described by this unit
-     *
-     * @throws InvalidRangeUnitException
-     * @throws InvalidRangeSetException
+     * @param string $rangesSpecifier The original value of the HTTP Range header.
+     * @param mixed $totalSize The total size of the entity described by this unit.
      *
      * @return UnitInterface
+     *
+     * @throws InvalidRangeUnitException if no range unit could be found.
+     * @throws InvalidRangeSetException if no range set could be found.
      */
-    public function getUnit($rangesSpecifier, $totalSize)
+    public function getUnit(string $rangesSpecifier, $totalSize): UnitInterface
     {
         $unitSet = explode('=', $rangesSpecifier);
 

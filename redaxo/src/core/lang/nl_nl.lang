@@ -67,7 +67,7 @@ safemode_deactivate = Deactiveer safe mode
 form_field_first_priority = Op het begin
 form_field_after_priority = Na veld "{0}"
 
-# redaxo\include\pages\system.php
+# src\core\pages\system.php
 info_updated = Informatie bijgewerkt!
 delete_cache = Leeg cache
 delete_cache_description = Sjabloonbestanden en taalbestanden worden opnieuw aangemaakt, de artikelcache wordt gereset. De cache van elk artikel of categorie kan op aanvraag worden geleegd
@@ -125,8 +125,7 @@ error_email_invalid = Voer een geldig e-mail-adres in!
 server_required = Een website-url is verplicht
 server_invalid = De website-url is ongeldig, voer een geldige url in inclusief het protocol!
 servername_required = Servernaam is verplicht
-system_editor = editor-integratie
-system_editor_note = Verbind REDAXO met een editor om de broncode direct te openen. Vereisten: De broncode van de REDAXO-installatie moet lokaal beschikbaar zijn.
+system_editor = Editor-integratie
 system_editor_no_editor = uitgeschakeld
 system_editor_open_file = open "{0}" in editor
 system_edit_config_note = De REDAXO hoofdconfiguratie heeft de mogelijkheid om interne systeemvariabelen aan te passen. Het bestand moet alleen door geavanceerde gebruikers worden bewerkt.
@@ -141,11 +140,10 @@ debug_mode_info_off = Debug-mode is uitgeschakeld
 system_report = Systeemverslag
 system_report_markdown = In markdown
 
-# redaxo\include\pages\medienpool.php\setup.php
+# src\core\pages\setup.php
 setup = Installatie
 setup_restart = Herstart installatie
 setup_text = Hier kan u het installatieproces herstarten. Dit is normaalgesproken niet nodig en alleen bedoeld voor noodgevallen.
-setup_error1 = Installatieproces gestart. Klik op {0}doorgaan{1} om door te gaan met de installatie.
 setup_error2 = Er kon helaas niet geschreven worden naar het configuratiebestand. Zet \"setup: true\" in config.yml
 
 
@@ -158,8 +156,7 @@ setup_199 = 1 / Taal
 
 setup_200 = Installatie: stap 2 van 7 / Licentie
 setup_201 = Welkom bij de REDAXO-installatie.
-setup_202 = <h3>Wat gebeurt er nu:</h3><ol><li>Controle van bestands- en maptoegang</li><li>Controleren van databasegegevens en deze wegschrijven in config.yml</li><li>Instellen of resetten van de database</li><li>Aanmaken van een administratoraccount</li></ol>
-setup_203 = Accepteer de gebruikersvoorwaarden en de licentie en ga door naar stap 3
+setup_203 = Accepteer de gebruikersvoorwaarden en de licentie
 setup_299 = 2 / Licentie
 
 setup_300 = Installatie: stap 3 van 7 / Systeemcontrole
@@ -176,12 +173,11 @@ setup_310 = Doorgaan met stap 4
 setup_312 = Stap 3 herhalen
 setup_399 = 3 / Systeemcontrole
 
-setup_400 = Installatie: stap 4 van 7 / 'data/config.yml' aanmaken
-setup_401 = data/config.yml kon niet worden beschreven.
+setup_400 = Installatie: stap 4 van 7 / '{0}' aanmaken
+setup_401 = '{0}' kon niet worden beschreven.
 setup_402 = Algemeen
 setup_403 = Database-informatie
 setup_404 = De opgegeven database bestaat al
-setup_405 = 'data/config.yml' aanmaken
 setup_408 = Databasenaam
 setup_409 = Wachtwoord
 setup_410 = Doorgaan met stap 5
@@ -232,7 +228,7 @@ setup_700 = Installatie: stap 7 van 7 / Hoera
 setup_701 = Schrijven naar config.yml mislukt. Pas het bestand handmatig aan via FTP.
 setup_702 = Gefeliciteerd! REDAXO is succesvol geïnstalleerd.
 setup_703 = Let op:
-setup_704 = <ol><li>{0}Log in{1} met het aangemaakte account</li><li>Importeer een demo [na het inloggen]: ga naar Importeren/Exporteren en stel de database en bronbestanden in</li></ol>
+setup_704 =
 setup_705 = Veel plezier en succes<br />Het REDAXO-team
 setup_706 = Log in
 setup_799 = 7 / Hoera
@@ -245,7 +241,6 @@ setup_security_deprecated_php = De gebruikte PHP-versie {0} krijg niet langer up
 
 sql_database_name_missing = Voer een databasenaam in!
 sql_database_already_exists = Database bestaat al!
-sql_database_min_version = De MySQL-versie {0} is te oud, versie {1} is minimaal benodigd!
 sql_unable_to_connect_database = Kan geen verbinding krijgen met de database!
 sql_unable_to_connect_server = Kan geen verbinding krijgen met de database-server!
 sql_unable_to_create_database = Kan de database niet aanmaken!
@@ -260,7 +255,7 @@ https_only_frontend = Alleen inschakelen voor frontend
 https_only_backend = Alleen inschakelen voor backend
 https_activate = Inschakelen voor front- en backend
 
-# redaxo\include\pages\addon.php
+# src\core\pages\addon.php
 addon = AddOn
 addons = AddOns
 package_help = Help voor
@@ -350,13 +345,14 @@ plugin_systempackage_delete_not_allowed = Systeem PlugIns mogen niet verwijderd 
 plugin_dir_not_writable = De PlugIn map is niet schrijfbaar!
 plugin_cache_not_writable = De PlugIn cachemap is niet schrijfbaar!
 
-# redaxo\include\pages\credits.php
+# src\core\pages\credits.php
 credits = Credits
 credits_name = Naam
 credits_help = Help
+credits_information = Informatie
 credits_version = Versie
 credits_author = Auteur
-credits_supportpage = Help
+credits_supportpage =
 credits_addon_inactive = AddOn niet actief
 credits_caption = Lijst van gebruikte pakketten
 credits_open_help_file = Open helpbestand:
@@ -365,7 +361,7 @@ credits_developer = Ontwikkelaar
 credits_designer = Ontwerper
 credits_license = Licentie
 
-# redaxo\include\pages\profile.php
+# src\core\pages\profile.php
 profile_myprofile = Bewerk mijn profiel
 profile_title = Mijn profiel
 profile_save = Sla profiel op

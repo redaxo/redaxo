@@ -12,7 +12,7 @@ class rex_cronjob_manager_sql
 {
     /** @var rex_sql */
     private $sql;
-    /** @var rex_cronjob_manager */
+    /** @var rex_cronjob_manager|null */
     private $manager;
 
     private function __construct(rex_cronjob_manager $manager = null)
@@ -22,11 +22,17 @@ class rex_cronjob_manager_sql
         $this->manager = $manager;
     }
 
+    /**
+     * @return self
+     */
     public static function factory(rex_cronjob_manager $manager = null)
     {
         return new self($manager);
     }
 
+    /**
+     * @return rex_cronjob_manager
+     */
     public function getManager()
     {
         if (!is_object($this->manager)) {
@@ -35,26 +41,44 @@ class rex_cronjob_manager_sql
         return $this->manager;
     }
 
+    /**
+     * @return bool
+     */
     public function hasManager()
     {
         return is_object($this->manager);
     }
 
+    /**
+     * @param string $message
+     */
     public function setMessage($message)
     {
         $this->getManager()->setMessage($message);
     }
 
+    /**
+     * @return string
+     */
     public function getMessage()
     {
         return $this->getManager()->getMessage();
     }
 
+    /**
+     * @return bool
+     */
     public function hasMessage()
     {
         return $this->getManager()->hasMessage();
     }
 
+    /**
+     * @param int $id
+     *
+     * @throws rex_exception
+     * @return string
+     */
     public function getName($id)
     {
         $this->sql->setQuery('
@@ -66,9 +90,13 @@ class rex_cronjob_manager_sql
         if (1 == $this->sql->getRows()) {
             return $this->sql->getValue('name');
         }
-        return null;
+        throw new rex_exception(sprintf('No cronjob found with id %s', $id));
     }
 
+    /**
+     * @param int $id
+     * @return bool
+     */
     public function setStatus($id, $status)
     {
         $this->sql->setTable(rex::getTable('cronjob'));
@@ -85,6 +113,10 @@ class rex_cronjob_manager_sql
         return $success;
     }
 
+    /**
+     * @param int $id
+     * @return bool
+     */
     public function setExecutionStart($id, $reset = false)
     {
         $this->sql->setTable(rex::getTable('cronjob'));
@@ -98,6 +130,10 @@ class rex_cronjob_manager_sql
         }
     }
 
+    /**
+     * @param int $id
+     * @return bool
+     */
     public function delete($id)
     {
         $this->sql->setTable(rex::getTable('cronjob'));
@@ -135,7 +171,7 @@ class rex_cronjob_manager_sql
         } else {
             $query .= ' LIMIT 1';
 
-            $minExecutionStartDiff = 2 * (ini_get('max_execution_time') ?: 60 * 60);
+            $minExecutionStartDiff = 2 * ((int) ini_get('max_execution_time') ?: 60 * 60);
         }
 
         $jobs = $sql->getArray($query, [rex_sql::datetime(time() - $minExecutionStartDiff), '%|' .$env. '|%', rex_sql::datetime()]);
@@ -146,7 +182,7 @@ class rex_cronjob_manager_sql
         }
 
         ignore_user_abort(true);
-        register_shutdown_function(function () use (&$jobs) {
+        register_shutdown_function(function () use (&$jobs): void {
             foreach ($jobs as $job) {
                 if (isset($job['finished'])) {
                     continue;
@@ -186,6 +222,10 @@ class rex_cronjob_manager_sql
         });
     }
 
+    /**
+     * @param int $id
+     * @return bool
+     */
     public function tryExecute($id, $log = true)
     {
         $sql = rex_sql::factory();
@@ -205,6 +245,9 @@ class rex_cronjob_manager_sql
         return $this->tryExecuteJob($jobs[0], $log);
     }
 
+    /**
+     * @return bool
+     */
     private function tryExecuteJob(array $job, $log = true, $resetExecutionStart = false)
     {
         $params = json_decode($job['parameters'], true);
@@ -217,6 +260,9 @@ class rex_cronjob_manager_sql
         return $success;
     }
 
+    /**
+     * @return bool
+     */
     public function setNextTime($id, $interval, $resetExecutionStart = false)
     {
         $nexttime = self::calculateNextTime(json_decode($interval, true));
@@ -236,6 +282,9 @@ class rex_cronjob_manager_sql
         return $success;
     }
 
+    /**
+     * @return int|null
+     */
     public function getMinNextTime()
     {
         $this->sql->setQuery('
@@ -250,6 +299,10 @@ class rex_cronjob_manager_sql
         return null;
     }
 
+    /**
+     * @param int|null $nexttime
+     * @return true
+     */
     public function saveNextTime($nexttime = null)
     {
         if (null === $nexttime) {
@@ -265,6 +318,9 @@ class rex_cronjob_manager_sql
         return true;
     }
 
+    /**
+     * @return int|null
+     */
     public static function calculateNextTime(array $interval)
     {
         if (empty($interval['minutes']) || empty($interval['hours']) || empty($interval['days']) || empty($interval['weekdays']) || empty($interval['months'])) {
@@ -272,7 +328,7 @@ class rex_cronjob_manager_sql
         }
 
         $date = new \DateTime('+5 min');
-        $date->setTime($date->format('H'), floor($date->format('i') / 5) * 5, 0);
+        $date->setTime((int) $date->format('G'), (int) floor((int) $date->format('i') / 5) * 5, 0);
 
         $isValid = static function ($value, $current) {
             return 'all' === $value || in_array($current, $value);
@@ -281,7 +337,7 @@ class rex_cronjob_manager_sql
         $validateTime = static function () use ($interval, $date, $isValid) {
             while (!$isValid($interval['hours'], $date->format('G'))) {
                 $date->modify('+1 hour');
-                $date->setTime($date->format('H'), 0, 0);
+                $date->setTime((int) $date->format('G'), 0, 0);
             }
 
             while (!$isValid($interval['minutes'], (int) $date->format('i'))) {
@@ -289,7 +345,7 @@ class rex_cronjob_manager_sql
 
                 while (!$isValid($interval['hours'], $date->format('G'))) {
                     $date->modify('+1 hour');
-                    $date->setTime($date->format('H'), 0, 0);
+                    $date->setTime((int) $date->format('G'), 0, 0);
                 }
             }
         };

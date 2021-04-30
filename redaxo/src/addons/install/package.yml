@@ -1,13 +1,13 @@
 package: install
-version: '2.5.0'
+version: '2.9.0'
 author: Gregor Harlan
-supportpage: www.redaxo.org/de/forum
+supportpage: https://github.com/redaxo/redaxo
 
 page:
     title: 'translate:title'
     perm: admin[]
     block: system
-    prio: 80
+    prio: 70
     pjax: true
     icon: rex-icon rex-icon-install
     subpages:
@@ -21,5 +21,12 @@ page:
 
 requires:
     php:
+        version: '>=7.3'
         extensions: [zlib]
-    redaxo: ^5.5.0
+    redaxo: ^5.12.0
+
+
+console_commands:
+    install:download: rex_command_install_download
+    install:list: rex_command_install_list
+    install:update: rex_command_install_update

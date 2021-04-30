@@ -80,3 +80,35 @@
 .panel > .rex-nav-pagination {
     background-color: $color-a-lighter;
 }
+
+
+.rex-slice-offline {
+    opacity: 0.8;
+
+    .panel {
+        border-color: #707d8f;
+    }
+
+    .panel-heading {
+        background-color: #707d8f;
+        border-color: #707d8f;
+        color: rgba(#ffffff, 0.9);
+    }
+
+    .panel-body {
+        pointer-events: none;
+
+        // mask
+        &::before {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 100;
+            background: rgba(#6b7c94, 0.5);
+        }
+    }
+}

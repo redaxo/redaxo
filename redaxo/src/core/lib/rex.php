@@ -15,11 +15,14 @@ class rex
      * Array of properties.
      *
      * @var array
+     * @psalm-var array<string, mixed>
      */
     protected static $properties = [];
 
     /**
      * @see rex_config::set()
+     *
+     * @return bool TRUE when an existing value was overridden, otherwise FALSE
      */
     public static function setConfig($key, $value = null)
     {
@@ -28,6 +31,13 @@ class rex
 
     /**
      * @see rex_config::get()
+     *
+     * @return mixed the value for $key or $default if $key cannot be found in the given $namespace
+     *
+     * @template T as ?string
+     * @phpstan-template T
+     * @psalm-param T $key
+     * @psalm-return (T is string ? mixed|null : array<string, mixed>)
      */
     public static function getConfig($key = null, $default = null)
     {
@@ -36,6 +46,8 @@ class rex
 
     /**
      * @see rex_config::has()
+     *
+     * @return bool TRUE if the key is set, otherwise FALSE
      */
     public static function hasConfig($key)
     {
@@ -44,6 +56,8 @@ class rex
 
     /**
      * @see rex_config::remove()
+     *
+     * @return bool TRUE if the value was found and removed, otherwise FALSE
      */
     public static function removeConfig($key)
     {
@@ -167,7 +181,7 @@ class rex
      */
     public static function isSetup()
     {
-        return (bool) self::getProperty('setup', false);
+        return rex_setup::isEnabled();
     }
 
     /**
@@ -216,17 +230,23 @@ class rex
     {
         $debug = self::getDebugFlags();
 
-        return isset($debug['enabled']) && $debug['enabled'];
+        return $debug['enabled'];
     }
 
     /**
      * Returns the debug flags.
      *
      * @return array
+     * @psalm-return array{enabled: bool, throw_always_exception: bool|int}
      */
     public static function getDebugFlags()
     {
-        return self::getProperty('debug');
+        $flags = self::getProperty('debug', []);
+
+        $flags['enabled'] = $flags['enabled'] ?? false;
+        $flags['throw_always_exception'] = $flags['throw_always_exception'] ?? false;
+
+        return $flags;
     }
 
     /**
@@ -282,13 +302,29 @@ class rex
     }
 
     /**
+     * Returns the current user.
+     *
+     * In contrast to `getUser`, this method throw a `rex_exception` if the user does not exist.
+     */
+    public static function requireUser(): rex_user
+    {
+        $user = self::getProperty('user');
+
+        if (!$user instanceof rex_user) {
+            throw new rex_exception('User object does not exist');
+        }
+
+        return $user;
+    }
+
+    /**
      * Returns the current impersonator user.
      *
      * @return null|rex_user
      */
     public static function getImpersonator()
     {
-        $login = self::getProperty('login');
+        $login = self::$properties['login'] ?? null;
 
         return $login ? $login->getImpersonator() : null;
     }
@@ -301,6 +337,35 @@ class rex
     public static function getConsole()
     {
         return self::getProperty('console', null);
+    }
+
+    public static function getRequest(): Symfony\Component\HttpFoundation\Request
+    {
+        $request = self::getProperty('request');
+
+        if (null === $request) {
+            throw new rex_exception('The request object is not available in cli');
+        }
+
+        return $request;
+    }
+
+    /**
+     * @param positive-int $db
+     *
+     * @throws rex_exception
+     */
+    public static function getDbConfig(int $db = 1): rex_config_db
+    {
+        $config = self::getProperty('db', null);
+
+        if (!$config) {
+            $configFile = rex_path::coreData('config.yml');
+
+            throw new rex_exception('Unable to read db config from config.yml "'. $configFile .'"');
+        }
+
+        return new rex_config_db($config[$db]);
     }
 
     /**
@@ -357,53 +422,34 @@ class rex
     }
 
     /**
-     * Returns the current git version hash for the given path.
-     *
-     * @param string      $path A local filesystem path
-     * @param null|string $repo If given, the version hash is returned only if the remote repository matches the
-     *                          given github repo (e.g. `redaxo/redaxo`)
-     *
-     * @return false|string
+     * @deprecated since 5.10, use `rex_version::gitHash` instead
      */
+    #[\JetBrains\PhpStorm\Deprecated(reason: 'since 5.10, use `rex_version::gitHash` instead', replacement: 'rex_version::gitHash(!%parametersList%)')]
     public static function getVersionHash($path, ?string $repo = null)
     {
-        static $gitHash = [];
+        return rex_version::gitHash($path, $repo) ?? false;
+    }
 
-        if (isset($gitHash[$path])) {
-            return $gitHash[$path];
-        }
+    /**
+     * @return array<string, array{install: bool, status: bool, plugins?: array<string, array{install: bool, status: bool}>}>
+     */
+    public static function getPackageConfig(): array
+    {
+        $config = self::getConfig('package-config', []);
+        assert(is_array($config));
 
-        $gitHash[$path] = false; // exec only once
-        $output = [];
-        $exitCode = -1;
+        return $config;
+    }
 
-        if ('WIN' === strtoupper(substr(PHP_OS, 0, 3))) {
-            $command = 'where git';
-        } else {
-            $command = 'which git';
-        }
+    /**
+     * @return list<string>
+     */
+    public static function getPackageOrder(): array
+    {
+        $config = self::getConfig('package-order', []);
+        assert(is_array($config));
 
-        $git = @exec($command, $output, $exitCode);
-
-        if (0 !== $exitCode) {
-            return false;
-        }
-
-        $command = 'cd '. escapeshellarg($path).' && '.escapeshellarg($git).' ls-remote --get-url';
-        $remote = @exec($command, $output, $exitCode);
-
-        if (0 !== $exitCode || !preg_match('{github.com[:/]'.preg_quote($repo).'\.git$}i', $remote)) {
-            return false;
-        }
-
-        $command = 'cd '. escapeshellarg($path).' && '.escapeshellarg($git).' log -1 --pretty=format:%h';
-        $version = @exec($command, $output, $exitCode);
-
-        if (0 === $exitCode) {
-            $gitHash[$path] = $version;
-        }
-
-        return $gitHash[$path];
+        return $config;
     }
 
     /**

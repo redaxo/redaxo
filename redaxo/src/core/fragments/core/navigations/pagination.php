@@ -1,4 +1,10 @@
 <?php
+/**
+ * @var rex_fragment $this
+ * @psalm-scope-this rex_fragment
+ */
+?>
+<?php
     /** @var rex_pager $pager */
     $pager = $this->pager;
     /** @var rex_url_provider_interface $urlProvider */

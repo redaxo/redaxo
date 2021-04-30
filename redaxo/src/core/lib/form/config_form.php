@@ -60,10 +60,10 @@ class rex_config_form extends rex_form_base
 
     protected function save()
     {
-        foreach ($this->getSaveElements() as $fieldsetName => $fieldsetElements) {
+        foreach ($this->getSaveElements() as $fieldsetElements) {
             foreach ($fieldsetElements as $element) {
                 // read-only-fields nicht speichern
-                if (false !== strpos($element->getAttribute('class'), 'form-control-static')) {
+                if ($element->isReadOnly()) {
                     continue;
                 }
 

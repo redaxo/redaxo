@@ -47,6 +47,8 @@ class rex_path_default_provider
      * @param string $file File
      *
      * @return string
+     *
+     * @psalm-taint-specialize
      */
     public function base($file)
     {
@@ -84,6 +86,8 @@ class rex_path_default_provider
      * @param string $file File
      *
      * @return string
+     *
+     * @psalm-taint-specialize
      */
     public function backend($file)
     {
@@ -231,6 +235,14 @@ class rex_path_default_provider
     public function pluginData($addon, $plugin, $file)
     {
         return $this->addonData($addon, 'plugins/' . $plugin . '/' . $file);
+    }
+
+    /**
+     * Returns the path to the log folder.
+     */
+    public function log(string $file): string
+    {
+        return $this->data('log/'.$file);
     }
 
     /**

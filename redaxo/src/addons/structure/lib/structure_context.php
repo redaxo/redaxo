@@ -38,7 +38,7 @@ class rex_structure_context
                     break;
                 }
             }
-        } else {
+        } elseif (!$params['clang_id']) {
             $params['clang_id'] = rex_clang::getStartId();
         }
 
@@ -118,6 +118,6 @@ class rex_structure_context
      */
     protected function getValue($key, $default)
     {
-        return isset($this->params[$key]) ? $this->params[$key] : $default;
+        return $this->params[$key] ?? $default;
     }
 }

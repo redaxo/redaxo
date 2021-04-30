@@ -54,7 +54,8 @@
 }
 
 .CodeMirror {
-    min-height: 330px;
+    border: 1px solid #c1c9d4;
+    min-height: 490px;  
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
     font-size: 12px;
     line-height: 16px !important;

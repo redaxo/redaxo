@@ -9,37 +9,46 @@
 class rex_article_content extends rex_article_content_base
 {
     // bc schalter
+    /** @var bool */
     private $viasql;
 
-    public function __construct($article_id = null, $clang = null)
+    /**
+     * @param int|null $articleId
+     * @param int|null $clang
+     */
+    public function __construct($articleId = null, $clang = null)
     {
         $this->viasql = false;
-        parent::__construct($article_id, $clang);
+        parent::__construct($articleId, $clang);
     }
 
     // bc
+
+    /**
+     * @param bool $viasql
+     */
     public function getContentAsQuery($viasql = true)
     {
-        if (true !== $viasql) {
+        if (!$viasql) {
             $viasql = false;
         }
         $this->viasql = $viasql;
     }
 
-    public function setArticleId($article_id)
+    public function setArticleId($articleId)
     {
         // bc
         if ($this->viasql) {
-            return parent::setArticleId($article_id);
+            return parent::setArticleId($articleId);
         }
 
-        $article_id = (int) $article_id;
-        $this->article_id = $article_id;
+        $articleId = (int) $articleId;
+        $this->article_id = $articleId;
 
-        $rex_article = rex_article::get($article_id, $this->clang);
-        if ($rex_article instanceof rex_article) {
-            $this->category_id = $rex_article->getCategoryId();
-            $this->template_id = $rex_article->getTemplateId();
+        $rexArticle = rex_article::get($articleId, $this->clang);
+        if ($rexArticle instanceof rex_article) {
+            $this->category_id = $rexArticle->getCategoryId();
+            $this->template_id = $rexArticle->getTemplateId();
             return true;
         }
 
@@ -86,27 +95,22 @@ class rex_article_content extends rex_article_content_base
         $this->ctype = $curctype;
 
         if (!$this->getSlice && 0 != $this->article_id) {
-            // ----- start: article caching
+            // article caching
             ob_start();
-            ob_implicit_flush(0);
+            try {
+                ob_implicit_flush(0);
 
-            $article_content_file = rex_path::addonCache('structure', $this->article_id . '.' . $this->clang . '.content');
+                $articleContentFile = rex_path::addonCache('structure', $this->article_id . '.' . $this->clang . '.content');
 
-            $generated = true;
-            if (!file_exists($article_content_file)) {
-                $generated = rex_content_service::generateArticleContent($this->article_id, $this->clang);
-                if (true !== $generated) {
-                    // fehlermeldung ausgeben
-                    echo $generated;
+                if (!is_file($articleContentFile)) {
+                    rex_content_service::generateArticleContent($this->article_id, $this->clang);
                 }
-            }
 
-            if (true === $generated) {
-                require $article_content_file;
+                require $articleContentFile;
+            } finally {
+                $CONTENT = ob_get_clean();
+                assert(is_string($CONTENT));
             }
-
-            // ----- end: article caching
-            $CONTENT = ob_get_clean();
         } else {
             // Inhalt ueber sql generierens
             $CONTENT = parent::getArticle($curctype);

@@ -30,40 +30,43 @@ class rex_sql_table
     /** @var string */
     private $originalName;
 
-    /** @var rex_sql_column[] */
+    /** @var array<string, rex_sql_column> */
     private $columns = [];
 
-    /** @var string[] mapping from current (new) name to existing (old) name in database */
+    /** @var array<string, string> mapping from current (new) name to existing (old) name in database */
     private $columnsExisting = [];
 
-    /** @var string[] */
+    /** @var list<string> */
     private $implicitOrder = [];
 
-    /** @var string[] */
+    /** @var array<string, string> */
     private $positions = [];
 
     /** @var string[] */
     private $primaryKey = [];
 
-    /** @var bool */
-    private $primaryKeyModified = false;
+    /** @var string[] */
+    private $primaryKeyExisting = [];
 
-    /** @var rex_sql_index[] */
+    /** @var array<string, rex_sql_index> */
     private $indexes = [];
 
-    /** @var string[] mapping from current (new) name to existing (old) name in database */
+    /** @var array<string, string> mapping from current (new) name to existing (old) name in database */
     private $indexesExisting = [];
 
-    /** @var rex_sql_foreign_key[] */
+    /** @var array<string, rex_sql_foreign_key> */
     private $foreignKeys = [];
 
-    /** @var string[] mapping from current (new) name to existing (old) name in database */
+    /** @var array<string, string> mapping from current (new) name to existing (old) name in database */
     private $foreignKeysExisting = [];
 
-    /** @var string */
+    /** @var string|null */
     private static $explicitCharset;
 
-    private function __construct($name, int $db = 1)
+    /**
+     * @psalm-param positive-int $db
+     */
+    private function __construct(string $name, int $db = 1)
     {
         $this->db = $db;
         $this->sql = rex_sql::factory($db);
@@ -74,8 +77,8 @@ class rex_sql_table
             $columns = rex_sql::showColumns($name, $db);
             $this->new = false;
         } catch (rex_sql_exception $exception) {
-            // Error code 42S02 means: Table does not exist
-            if ($exception->getSql() && '42S02' !== $exception->getSql()->getErrno()) {
+            $sql = $exception->getSql();
+            if ($sql && rex_sql::ERRNO_TABLE_OR_VIEW_DOESNT_EXIST !== $sql->getErrno()) {
                 throw $exception;
             }
 
@@ -85,12 +88,24 @@ class rex_sql_table
         }
 
         foreach ($columns as $column) {
+            $type = $column['type'];
+
+            // Since MySQL 8.0.17 the display width for integer columns is deprecated.
+            // To be compatible with our code for MySQL 5 and MariaDB we simulate the max display width.
+            // https://dev.mysql.com/doc/refman/8.0/en/numeric-type-attributes.html
+            if ('int' === $type) {
+                $type = 'int(11)';
+            } elseif ('int unsigned' === $type) {
+                $type = 'int(10) unsigned';
+            }
+
             $this->columns[$column['name']] = new rex_sql_column(
                 $column['name'],
-                $column['type'],
+                $type,
                 'YES' === $column['null'],
                 $column['default'],
-                $column['extra'] ?: null
+                $column['extra'] ?: null,
+                $column['comment'] ?: null
             );
 
             $this->columnsExisting[$column['name']] = $column['name'];
@@ -100,6 +115,9 @@ class rex_sql_table
             }
         }
 
+        $this->primaryKeyExisting = $this->primaryKey;
+
+        /** @var list<array<string, string>> $indexParts */
         $indexParts = $this->sql->getArray('SHOW INDEXES FROM '.$this->sql->escapeIdentifier($name));
         $indexes = [];
         foreach ($indexParts as $part) {
@@ -126,41 +144,49 @@ class rex_sql_table
             $this->indexesExisting[$indexName] = $indexName;
         }
 
+        /** @var list<array{CONSTRAINT_NAME: string, COLUMN_NAME: string, REFERENCED_TABLE_NAME: string, REFERENCED_COLUMN_NAME: string, UPDATE_RULE: rex_sql_foreign_key::*, DELETE_RULE: rex_sql_foreign_key::*}> $foreignKeyParts */
         $foreignKeyParts = $this->sql->getArray('
-            SELECT c.constraint_name, c.referenced_table_name, c.update_rule, c.delete_rule, k.column_name, k.referenced_column_name
-            FROM information_schema.referential_constraints c
-            LEFT JOIN information_schema.key_column_usage k ON c.constraint_name = k.constraint_name
-            WHERE c.constraint_schema = DATABASE() AND c.table_name = ?', [$name]);
+            SELECT c.CONSTRAINT_NAME, c.REFERENCED_TABLE_NAME, c.UPDATE_RULE, c.DELETE_RULE, k.COLUMN_NAME, k.REFERENCED_COLUMN_NAME
+            FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS c
+            INNER JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE k ON c.CONSTRAINT_NAME = k.CONSTRAINT_NAME
+            WHERE c.CONSTRAINT_SCHEMA = DATABASE() AND c.TABLE_NAME = ?', [$name]);
         $foreignKeys = [];
         foreach ($foreignKeyParts as $part) {
-            $foreignKeys[$part['constraint_name']][] = $part;
+            $foreignKeys[$part['CONSTRAINT_NAME']][] = $part;
         }
 
         foreach ($foreignKeys as $fkName => $parts) {
             $columns = [];
             foreach ($parts as $part) {
-                $columns[$part['column_name']] = $part['referenced_column_name'];
+                $columns[$part['COLUMN_NAME']] = $part['REFERENCED_COLUMN_NAME'];
             }
 
             $fk = $parts[0];
 
-            $this->foreignKeys[$fkName] = new rex_sql_foreign_key($fkName, $fk['referenced_table_name'], $columns, $fk['update_rule'], $fk['delete_rule']);
+            $this->foreignKeys[$fkName] = new rex_sql_foreign_key($fkName, $fk['REFERENCED_TABLE_NAME'], $columns, $fk['UPDATE_RULE'], $fk['DELETE_RULE']);
             $this->foreignKeysExisting[$fkName] = $fkName;
         }
     }
 
     /**
      * @param string $name
+     * @psalm-param positive-int $db
      *
      * @return self
      */
     public static function get($name, int $db = 1)
     {
-        return self::getInstance([$db, $name], static function ($db, $name) {
-            return new self($name, $db);
+        $table = static::getInstance([$db, $name], static function ($db, $name) {
+            return new static($name, $db);
         });
+        assert($table instanceof self);
+
+        return $table;
     }
 
+    /**
+     * @param string|array{int, string} $key A table-name or a array[db-id, table-name]
+     */
     public static function clearInstance($key)
     {
         // BC layer for old cache keys without db id
@@ -335,7 +361,6 @@ class rex_sql_table
 
         if (false !== $key = array_search($oldName, $this->primaryKey)) {
             $this->primaryKey[$key] = $newName;
-            $this->primaryKeyModified = true;
         }
 
         return $this;
@@ -380,8 +405,7 @@ class rex_sql_table
             return $this;
         }
 
-        $this->primaryKey = (array) $columns;
-        $this->primaryKeyModified = true;
+        $this->primaryKey = $columns;
 
         return $this;
     }
@@ -644,10 +668,20 @@ class rex_sql_table
             $previous = $name;
         }
 
+        $implicitReversedPositions = array_flip($this->positions);
+
         foreach ($positions as $name => $after) {
             // unset is necessary to add new position as last array element
             unset($this->positions[$name]);
             $this->positions[$name] = $after;
+
+            if (isset($implicitReversedPositions[$after])) {
+                // move the implicitly after `$after` positioned column
+                // after the one that was explicitly positioned at that position
+                $this->positions[$implicitReversedPositions[$after]] = $name;
+                $implicitReversedPositions[$name] = $implicitReversedPositions[$after];
+                unset($implicitReversedPositions[$after]);
+            }
         }
 
         $this->alter();
@@ -667,7 +701,7 @@ class rex_sql_table
         $this->columnsExisting = [];
         $this->implicitOrder = [];
         $this->positions = [];
-        $this->primaryKeyModified = !empty($this->primaryKey);
+        $this->primaryKeyExisting = [];
     }
 
     /**
@@ -708,7 +742,7 @@ class rex_sql_table
 
         $query = 'CREATE TABLE '.$this->sql->escapeIdentifier($this->name)." (\n    ";
         $query .= implode(",\n    ", $parts);
-        $query .= "\n) ENGINE=InnoDB DEFAULT CHARSET=$charset;";
+        $query .= "\n) ENGINE=InnoDB DEFAULT CHARSET=$charset COLLATE={$charset}_unicode_ci;";
 
         $this->sql->setQuery($query);
 
@@ -733,7 +767,7 @@ class rex_sql_table
             $parts[] = 'RENAME '.$this->sql->escapeIdentifier($this->name);
         }
 
-        if ($this->primaryKeyModified) {
+        if ($this->primaryKeyExisting && $this->primaryKeyExisting !== $this->primaryKey) {
             $parts[] = 'DROP PRIMARY KEY';
         }
 
@@ -752,7 +786,7 @@ class rex_sql_table
         $columns = $this->columns;
         $columnsExisting = $this->columnsExisting;
 
-        $handle = function ($name, $after = null) use (&$parts, &$columns, &$columnsExisting) {
+        $handle = function (string $name, ?string $after = null) use (&$parts, &$columns, &$columnsExisting) {
             $column = $columns[$name];
             $new = !isset($columnsExisting[$name]);
             $oldName = $new ? null : $columnsExisting[$name];
@@ -779,7 +813,8 @@ class rex_sql_table
 
         $currentOrder = [];
         $after = self::FIRST;
-        foreach ($columns as $name => $column) {
+        /** @var string $name */
+        foreach ($columns as $name => $_) {
             $currentOrder[$after] = $name;
             $after = $name;
 
@@ -806,7 +841,7 @@ class rex_sql_table
             $parts[] = 'DROP '.$this->sql->escapeIdentifier($oldName);
         }
 
-        if ($this->primaryKeyModified && $this->primaryKey) {
+        if ($this->primaryKey && $this->primaryKey !== $this->primaryKeyExisting) {
             $parts[] = 'ADD PRIMARY KEY '.$this->getKeyColumnsDefintion($this->primaryKey);
         }
 
@@ -837,6 +872,8 @@ class rex_sql_table
         }
 
         if (!$parts && !$dropForeignKeys) {
+            $this->resetModified();
+
             return;
         }
 
@@ -858,7 +895,7 @@ class rex_sql_table
         $this->resetModified();
     }
 
-    private function setPosition($name, $afterColumn)
+    private function setPosition(string $name, ?string $afterColumn): void
     {
         if (null === $afterColumn) {
             $this->implicitOrder[] = $name;
@@ -875,7 +912,7 @@ class rex_sql_table
         $this->positions[$name] = $afterColumn;
     }
 
-    private function getColumnDefinition(rex_sql_column $column)
+    private function getColumnDefinition(rex_sql_column $column): string
     {
         $default = $column->getDefault();
         if (!$default) {
@@ -889,17 +926,23 @@ class rex_sql_table
             $default = 'DEFAULT '.$this->sql->escape($column->getDefault());
         }
 
+        $comment = $column->getComment();
+        if (null !== $comment && '' !== $comment) {
+            $comment = 'COMMENT '. $this->sql->escape($comment);
+        }
+
         return sprintf(
-            '%s %s %s %s %s',
+            '%s %s %s %s %s %s',
             $this->sql->escapeIdentifier($column->getName()),
             $column->getType(),
             $default,
             $column->isNullable() ? '' : 'NOT NULL',
-            $column->getExtra()
+            $column->getExtra(),
+            $comment
         );
     }
 
-    private function getIndexDefinition(rex_sql_index $index)
+    private function getIndexDefinition(rex_sql_index $index): string
     {
         return sprintf(
             '%s %s %s',
@@ -909,7 +952,7 @@ class rex_sql_table
         );
     }
 
-    private function getForeignKeyDefinition(rex_sql_foreign_key $foreignKey)
+    private function getForeignKeyDefinition(rex_sql_foreign_key $foreignKey): string
     {
         return sprintf(
             'CONSTRAINT %s FOREIGN KEY %s REFERENCES %s %s ON UPDATE %s ON DELETE %s',
@@ -922,14 +965,14 @@ class rex_sql_table
         );
     }
 
-    private function getKeyColumnsDefintion(array $columns)
+    private function getKeyColumnsDefintion(array $columns): string
     {
         $columns = array_map([$this->sql, 'escapeIdentifier'], $columns);
 
         return '('.implode(', ', $columns).')';
     }
 
-    private function sortColumns()
+    private function sortColumns(): void
     {
         $columns = [];
 
@@ -939,23 +982,37 @@ class rex_sql_table
             }
         }
 
-        foreach ($this->positions as $name => $after) {
-            $insert = [$name => $this->columns[$name]];
+        while ($count = count($this->positions)) {
+            foreach ($this->positions as $name => $after) {
+                $insert = [$name => $this->columns[$name]];
 
-            if (self::FIRST === $after) {
-                $columns = $insert + $columns;
+                if (self::FIRST === $after) {
+                    $columns = $insert + $columns;
+                    unset($this->positions[$name]);
 
-                continue;
+                    continue;
+                }
+
+                if (!isset($columns[$after])) {
+                    continue;
+                }
+
+                $offset = array_search($after, array_keys($columns));
+                assert(is_int($offset));
+                ++$offset;
+                $columns = array_slice($columns, 0, $offset) + $insert + array_slice($columns, $offset);
+                unset($this->positions[$name]);
             }
 
-            $offset = array_search($after, array_keys($columns)) + 1;
-            $columns = array_slice($columns, 0, $offset) + $insert + array_slice($columns, $offset);
+            if ($count === count($this->positions)) {
+                throw new LogicException('Columns can not be sorted because some explicit positions do not exist.');
+            }
         }
 
         $this->columns = $columns;
     }
 
-    private function resetModified()
+    private function resetModified(): void
     {
         $this->new = false;
 
@@ -978,7 +1035,7 @@ class rex_sql_table
         $this->implicitOrder = [];
         $this->positions = [];
 
-        $this->primaryKeyModified = false;
+        $this->primaryKeyExisting = $this->primaryKey;
 
         $indexes = $this->indexes;
         $this->indexes = [];

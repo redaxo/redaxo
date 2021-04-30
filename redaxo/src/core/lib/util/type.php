@@ -33,9 +33,13 @@ class rex_type
      * @param mixed $var     Variable to cast
      * @param mixed $vartype Variable type
      *
+     * @phpstan-param string|callable(mixed, mixed): mixed|list<list<string, string, mixed>> $vartype
+     *
      * @throws InvalidArgumentException
      *
      * @return mixed Castet value
+     *
+     * @psalm-taint-specialize
      */
     public static function cast($var, $vartype)
     {
@@ -72,10 +76,9 @@ class rex_type
 
                     // kein Cast, nichts tun
                 case '': break;
-
                 default:
                     // check for array with generic type
-                    if (0 === strpos($vartype, 'array[')) {
+                    if (str_starts_with($vartype, 'array[')) {
                         if (empty($var)) {
                             $var = [];
                         } else {

@@ -1,38 +1,42 @@
 <?php
+/**
+ * @var rex_fragment $this
+ * @psalm-scope-this rex_fragment
+ */
 
 $out = '';
 
 foreach ($this->elements as $element) {
-    $id = isset($element['id']) && $element['id'] != '' ? ' id="' . $element['id'] . '"' : '';
-    $field = isset($element['field']) && $element['field'] != '' ? $element['field']   : '';
-    $left_side = isset($element['left']) ? $element['left'] : '';
-    $right_side = isset($element['right']) ? $element['right'] : '';
+    $id = isset($element['id']) && '' != $element['id'] ? ' id="' . $element['id'] . '"' : '';
+    $field = isset($element['field']) && '' != $element['field'] ? $element['field'] : '';
+    $leftSide = $element['left'] ?? '';
+    $rightSide = $element['right'] ?? '';
     // special for bootstrap-select
-    $before = isset($element['before']) ? $element['before'] : '';
-    $after = isset($element['after']) ? $element['after'] : '';
+    $before = $element['before'] ?? '';
+    $after = $element['after'] ?? '';
 
     $classes = '';
 
-    if (isset($element['class']) && $element['class'] != '') {
+    if (isset($element['class']) && '' != $element['class']) {
         $classes .= ' ' . $element['class'];
     }
 
-    if ($left_side != '') {
+    if ('' != $leftSide) {
         $class = 'input-group-addon';
-        if (preg_match('@class=[\'|"]btn[^"\']@', $left_side)) {
+        if (preg_match('@class=[\'|"]btn[^"\']@', $leftSide)) {
             $class = 'input-group-btn';
         }
 
-        $field = '<span class="' . $class . '">' . $left_side . '</span>' . $field;
+        $field = '<span class="' . $class . '">' . $leftSide . '</span>' . $field;
     }
 
-    if ($right_side != '') {
+    if ('' != $rightSide) {
         $class = 'input-group-addon';
-        if (preg_match('@class=[\'|"]btn[^"\']@', $right_side)) {
+        if (preg_match('@class=[\'|"]btn[^"\']@', $rightSide)) {
             $class = 'input-group-btn';
         }
 
-        $field = $field . '<span class="' . $class . '">' . $right_side . '</span>';
+        $field = $field . '<span class="' . $class . '">' . $rightSide . '</span>';
     }
 
     $out .= '<div class="input-group' . $classes . '"' . $id . '>' . $before . $field . $after . '</div>';

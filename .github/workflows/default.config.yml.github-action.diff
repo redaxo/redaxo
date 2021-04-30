@@ -1,8 +1,8 @@
 diff --git a/redaxo/src/core/default.config.yml b/redaxo/src/core/default.config.yml
-index 559738c6b..3919e6fb1 100644
+index 8f1931d..d7b27f8 100644
 --- a/redaxo/src/core/default.config.yml
 +++ b/redaxo/src/core/default.config.yml
-@@ -62,9 +62,9 @@ table_prefix: rex_
+@@ -63,9 +63,9 @@ table_prefix: rex_
  temp_prefix: tmp_
  db:
      1:
@@ -13,4 +13,4 @@ index 559738c6b..3919e6fb1 100644
 +        password: root
          name: redaxo5
          persistent: false
-     2:
+         ssl_key: null

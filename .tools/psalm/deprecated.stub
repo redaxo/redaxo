@@ -1,0 +1,8 @@
+<?php
+
+/**
+ * instead of `basename()` you should use `rex_path::basename()` which works across different OS
+ *
+ * @deprecated see https://github.com/redaxo/redaxo/issues/4069
+ */
+function basename(string $path):string {}

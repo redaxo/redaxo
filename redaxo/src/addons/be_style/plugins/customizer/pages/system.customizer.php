@@ -1,15 +1,10 @@
 <?php
 
-$error = [];
-$config = [];
-$info = '';
 $success = '';
+$error = '';
 
 if ('' != rex_post('btn_save', 'string')) {
     // set config
-
-    $tempConfig = [];
-    $newConfig = [];
 
     $newConfig = rex_post('settings', 'array');
     $tempConfig = rex_plugin::get('be_style', 'customizer')->getConfig();
@@ -34,6 +29,11 @@ if ('' != rex_post('btn_save', 'string')) {
         $tempConfig['codemirror-tools'] = 1;
     }
 
+    $tempConfig['codemirror-autoresize'] = 0;
+    if (isset($newConfig['codemirror-autoresize']) && 1 == $newConfig['codemirror-autoresize']) {
+        $tempConfig['codemirror-autoresize'] = 1;
+    }
+
     $tempConfig['codemirror_theme'] = htmlspecialchars($newConfig['codemirror_theme']);
 
     $labelcolor = $newConfig['labelcolor'];
@@ -50,10 +50,10 @@ if ('' != rex_post('btn_save', 'string')) {
 
     // save config
 
-    if (empty($error) && rex_plugin::get('be_style', 'customizer')->setConfig($tempConfig)) {
+    if (rex_plugin::get('be_style', 'customizer')->setConfig($tempConfig)) {
         $success = rex_i18n::msg('customizer_config_updated');
     } else {
-        $error[] = rex_i18n::msg('customizer_config_update_failed');
+        $error = rex_i18n::msg('customizer_config_update_failed');
     }
 
     $_SESSION['codemirror_reload'] = time();
@@ -68,6 +68,9 @@ if (!isset($config['codemirror-langs'])) {
 if (!isset($config['codemirror-tools'])) {
     $config['codemirror-tools'] = 0;
 }
+if (!isset($config['codemirror-autoresize'])) {
+    $config['codemirror-autoresize'] = 0;
+}
 if (!isset($config['codemirror-selectors'])) {
     $config['codemirror-selectors'] = '';
 }
@@ -79,7 +82,7 @@ $curDir = $plugin->getAssetsUrl('vendor/');
 
 $themes = [];
 foreach (glob($curDir . '/codemirror/theme/*.css') as $filename) {
-    $themes[] = substr(basename($filename), 0, -4);
+    $themes[] = substr(rex_path::basename($filename), 0, -4);
 }
 
 $tselect = new rex_select();
@@ -95,12 +98,8 @@ foreach ($themes as $theme) {
 
 // messages
 
-if (!empty($error)) {
-    echo rex_view::error(implode('<br />', $error));
-}
-
-if ('' != $info) {
-    echo rex_view::info($info);
+if ($error) {
+    echo rex_view::error($error);
 }
 
 if ('' != $success) {
@@ -153,6 +152,12 @@ $n['field'] = '<input type="checkbox" id="customizer-codemirror-tools" name="set
 $n['field'] .= ' '.rex_i18n::msg('customizer_codemirror_tools_text');
 $formElements[] = $n;
 
+$n = [];
+$n['label'] = '<label for="customizer-codemirror-autoresize">' . rex_i18n::msg('customizer_codemirror_autoresize') . '</label>';
+$n['field'] = '<input type="checkbox" id="customizer-codemirror-autoresize" name="settings[codemirror-autoresize]" value="1" ' . ($config['codemirror-autoresize'] ? 'checked="checked" ' : '') . '/>';
+$n['field'] .= ' '.rex_i18n::msg('customizer_codemirror_autoresize_text');
+$formElements[] = $n;
+
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
@@ -167,7 +172,17 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="customizer-labelcolor">' . rex_i18n::msg('customizer_labelcolor') . '</label>';
-$n['field'] = '<input class="form-control" id="customizer-labelcolor" type="text" name="settings[labelcolor]" value="' . htmlspecialchars($config['labelcolor']) . '" />';
+$n['field'] = '
+    <div class="input-group">
+    <div class="input-group-addon">
+        <input id="customizer-labelcolor-picker" type="color" value="' . htmlspecialchars($config['labelcolor']) . '"
+            oninput="jQuery(\'#customizer-labelcolor\').val(this.value)" />
+    </div>
+    <input class="form-control" id="customizer-labelcolor" type="text" name="settings[labelcolor]"
+        value="' . htmlspecialchars($config['labelcolor']) . '"
+        oninput="jQuery(\'#customizer-labelcolor-picker\').val(this.value)" />
+</div>
+';
 $n['note'] = rex_i18n::msg('customizer_labelcolor_notice');
 $formElements[] = $n;
 

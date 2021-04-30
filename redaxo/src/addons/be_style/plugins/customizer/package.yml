@@ -1,7 +1,7 @@
 package: be_style/customizer
-version: '2.8.0'
+version: '2.12.0'
 author: Peter Thiel
-supportpage: www.redaxo.org/de/forum/
+supportpage: https://github.com/redaxo/redaxo
 
 page:
     title: translate:customizer
@@ -11,3 +11,18 @@ page:
 
 pages:
     system/customizer: { title: 'translate:customizer', icon: rex-icon rex-icon-customizer }
+
+requires:
+    php:
+        extensions: [zip]
+    redaxo: ^5.12.0
+
+default_config:
+    labelcolor: '#3bb594'
+    codemirror_theme: 'eclipse'
+    codemirror-selectors: ''
+    codemirror: 1
+    codemirror-langs: 0
+    codemirror-tools: 0
+    showlink: 1
+

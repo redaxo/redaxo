@@ -1,4 +1,5 @@
-user_management = Användare
+user_management = Användarförvaltning
+perm_general_users[] = Användare
 roles = Roller
 user = Användare
 users = Användare
@@ -24,9 +25,10 @@ user_functions = Funktioner
 user_options = Optioner
 user_extras = Extras
 last_login = Senase login
-psw_encrypted = Lösenordet är krypterat - vid ändring vänligen mata in ett nytt lösenord
 user_caption = Lista över sparade användare
-user_status = Användaren är aktiv
+user_password_change_required = Lösenord måste bytas ut efter inloggning
+user_status_active = Användaren är aktiv
+user_status_inactive = Användaren är inaktiv
 startpage = Startsida
 
 user_role = Roll

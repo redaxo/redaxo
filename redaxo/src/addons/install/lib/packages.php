@@ -8,22 +8,22 @@
 class rex_install_packages
 {
     /**
-     * @var array
+     * @var array<string, array{name: string, author: string, shortdescription: string, description: string, website: string, created: string, updated: string, files: array<int, array{version: string, description: string, path: string, checksum: string, created: string, updated: string}>}>|null
      */
     private static $updatePackages;
     /**
-     * @var array
+     * @var array<string, array{name: string, author: string, shortdescription: string, description: string, website: string, created: string, updated: string, files: array<int, array{version: string, description: string, path: string, checksum: string, created: string, updated: string}>}>|null
      */
     private static $addPackages;
     /**
-     * @var array
+     * @var array<string, array{name: string, author: string, shortdescription: string, description: string, website: string, created: string, updated: string, status: bool, files: array<int, array{version: string, description: string, path: string, checksum: string, created: string, updated: string, redaxo_versions: list<string>, status: bool}>}>|null
      */
     private static $myPackages;
 
     /**
      * @throws rex_functional_exception
      *
-     * @return array
+     * @return array<string, array{name: string, author: string, shortdescription: string, description: string, website: string, created: string, updated: string, files: array<int, array{version: string, description: string, path: string, checksum: string, created: string, updated: string}>}>
      */
     public static function getUpdatePackages()
     {
@@ -43,15 +43,30 @@ class rex_install_packages
         return self::$updatePackages;
     }
 
+    /**
+     * @param string $package
+     * @param int $fileId
+     */
     public static function updatedPackage($package, $fileId)
     {
-        self::unsetOlderVersions($package, self::$updatePackages[$package]['files'][$fileId]['version']);
+        $updatePackages = self::getUpdatePackages();
+
+        if (!isset($updatePackages[$package]['files'][$fileId]['version'])) {
+            throw new RuntimeException(sprintf('List of updatable packages does not contain package "%s", or the package does not contain file "%s"', $package, $fileId));
+        }
+
+        self::unsetOlderVersions($package, $updatePackages[$package]['files'][$fileId]['version']);
     }
 
+    /**
+     * @param string $package
+     * @param string $version
+     */
     private static function unsetOlderVersions($package, $version)
     {
+        assert(isset(self::$updatePackages[$package]['files']));
         foreach (self::$updatePackages[$package]['files'] as $fileId => $file) {
-            if (empty($version) || empty($file['version']) || rex_string::versionCompare($file['version'], $version, '<=')) {
+            if (empty($version) || empty($file['version']) || rex_version::compare($file['version'], $version, '<=')) {
                 unset(self::$updatePackages[$package]['files'][$fileId]);
             }
         }
@@ -65,7 +80,7 @@ class rex_install_packages
      *
      * @throws rex_functional_exception
      *
-     * @return array
+     * @return array<string, array{name: string, author: string, shortdescription: string, description: string, website: string, created: string, updated: string, files: array<int, array{version: string, description: string, path: string, checksum: string, created: string, updated: string}>}>
      */
     public static function getAddPackages()
     {
@@ -87,7 +102,7 @@ class rex_install_packages
      *
      * @throws rex_functional_exception
      *
-     * @return array
+     * @return array<string, array{name: string, author: string, shortdescription: string, description: string, website: string, created: string, updated: string, status: bool, files: array<int, array{version: string, description: string, path: string, checksum: string, created: string, updated: string, redaxo_versions: list<string>, status: bool}>}>
      */
     public static function getMyPackages()
     {
@@ -95,8 +110,10 @@ class rex_install_packages
             return self::$myPackages;
         }
 
-        self::$myPackages = self::getPackages('?only_my=1');
-        foreach (self::$myPackages as $key => $addon) {
+        /** @var array<string, array{name: string, author: string, shortdescription: string, description: string, website: string, created: string, updated: string, status: bool, files: array<int, array{version: string, description: string, path: string, checksum: string, created: string, updated: string, redaxo_versions: list<string>, status: bool}>}> $myPackages */
+        $myPackages = self::getPackages('?only_my=1');
+        self::$myPackages = $myPackages;
+        foreach (self::$myPackages as $key => $_) {
             if (!rex_addon::exists($key)) {
                 unset(self::$myPackages[$key]);
             }
@@ -119,7 +136,9 @@ class rex_install_packages
      *
      * @throws rex_functional_exception
      *
-     * @return array
+     * @return array<string, array{name: string, author: string, shortdescription: string, description: string, website: string, created: string, updated: string, status?: bool, files: array<int, array{version: string, description: string, path: string, checksum: string, created: string, updated: string, redaxo_versions?: list<string>, status?: bool}>}>
+     *
+     * @psalm-suppress MixedReturnTypeCoercion
      */
     private static function getPackages($path = '')
     {

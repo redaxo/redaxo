@@ -20,12 +20,12 @@ class rex_media_cache
     /**
      * Löscht die gecachten Dateien der Media-Kategorie.
      *
-     * @param int $category_id Id der Media-Kategorie
+     * @param int $categoryId Id der Media-Kategorie
      */
-    public static function deleteCategory($category_id)
+    public static function deleteCategory($categoryId)
     {
-        rex_file::delete(rex_path::addonCache('mediapool', $category_id . '.mcat'));
-        rex_media_category::clearInstance($category_id);
+        rex_file::delete(rex_path::addonCache('mediapool', $categoryId . '.mcat'));
+        rex_media_category::clearInstance($categoryId);
         self::deleteCategoryLists();
     }
 
@@ -48,12 +48,12 @@ class rex_media_cache
     /**
      * Löscht die gecachte Liste mit den Media der Kategorie.
      *
-     * @param int $category_id Id der Media-Kategorie
+     * @param int $categoryId Id der Media-Kategorie
      */
-    public static function deleteList($category_id)
+    public static function deleteList($categoryId)
     {
-        rex_file::delete(rex_path::addonCache('mediapool', $category_id . '.mlist'));
-        rex_media_category::clearInstanceList([$category_id, 'media']);
+        rex_file::delete(rex_path::addonCache('mediapool', $categoryId . '.mlist'));
+        rex_media_category::clearInstanceList([$categoryId, 'media']);
     }
 
     /**
@@ -75,12 +75,12 @@ class rex_media_cache
     /**
      * Löscht die gecachte Media-Kategorien-Liste.
      *
-     * @param int $category_id Id der Media-Kategorie
+     * @param int $categoryId Id der Media-Kategorie
      */
-    public static function deleteCategoryList($category_id)
+    public static function deleteCategoryList($categoryId)
     {
-        rex_file::delete(rex_path::addonCache('mediapool', $category_id . '.mclist'));
-        rex_media_category::clearInstanceList([$category_id, 'children']);
+        rex_file::delete(rex_path::addonCache('mediapool', $categoryId . '.mclist'));
+        rex_media_category::clearInstanceList([$categoryId, 'children']);
     }
 
     /**
@@ -113,32 +113,28 @@ class rex_media_cache
             }
         }
 
-        $media_file = rex_path::addonCache('mediapool', $filename . '.media');
-        if (rex_file::putCache($media_file, $cacheArray)) {
-            return true;
-        }
-
-        return false;
+        $mediaFile = rex_path::addonCache('mediapool', $filename . '.media');
+        return rex_file::putCache($mediaFile, $cacheArray);
     }
 
     /**
      * Generiert den Cache der Media-Kategorie.
      *
-     * @param int $category_id Id des zu generierenden Media-Kategorie
+     * @param int $categoryId Id des zu generierenden Media-Kategorie
      *
      * @return bool TRUE bei Erfolg, sonst FALSE
      */
-    public static function generateCategory($category_id)
+    public static function generateCategory($categoryId)
     {
         // sanity check
-        if ($category_id < 0) {
+        if ($categoryId < 0) {
             return false;
         }
 
         $query = 'SELECT * FROM ' . rex::getTable('media_category') . ' WHERE id = ?';
         $sql = rex_sql::factory();
         //$sql->setDebug();
-        $sql->setQuery($query, [$category_id]);
+        $sql->setQuery($query, [$categoryId]);
 
         if (0 == $sql->getRows()) {
             return false;
@@ -156,31 +152,27 @@ class rex_media_cache
             }
         }
 
-        $cat_file = rex_path::addonCache('mediapool', $category_id . '.mcat');
-        if (rex_file::putCache($cat_file, $cacheArray)) {
-            return true;
-        }
-
-        return false;
+        $catFile = rex_path::addonCache('mediapool', $categoryId . '.mcat');
+        return rex_file::putCache($catFile, $cacheArray);
     }
 
     /**
      * Generiert eine Liste mit den Media einer Kategorie.
      *
-     * @param int $category_id Id der Kategorie
+     * @param int $categoryId Id der Kategorie
      *
      * @return bool TRUE bei Erfolg, sonst FALSE
      */
-    public static function generateList($category_id)
+    public static function generateList($categoryId)
     {
         // sanity check
-        if ($category_id < 0) {
+        if ($categoryId < 0) {
             return false;
         }
 
         $query = 'SELECT filename FROM ' . rex::getTable('media') . ' WHERE category_id = ?';
         $sql = rex_sql::factory();
-        $sql->setQuery($query, [$category_id]);
+        $sql->setQuery($query, [$categoryId]);
 
         $cacheArray = [];
         for ($i = 0; $i < $sql->getRows(); ++$i) {
@@ -188,32 +180,28 @@ class rex_media_cache
             $sql->next();
         }
 
-        $list_file = rex_path::addonCache('mediapool', $category_id . '.mlist');
-        if (rex_file::putCache($list_file, $cacheArray)) {
-            return true;
-        }
-
-        return false;
+        $listFile = rex_path::addonCache('mediapool', $categoryId . '.mlist');
+        return rex_file::putCache($listFile, $cacheArray);
     }
 
     /**
      * Generiert eine Liste mit den Kindkategorien einer Kategorie.
      *
-     * @param int $category_id Id der Kategorie
+     * @param int $categoryId Id der Kategorie
      *
      * @return bool TRUE bei Erfolg, sonst FALSE
      */
-    public static function generateCategoryList($category_id)
+    public static function generateCategoryList($categoryId)
     {
         // sanity check
-        if ($category_id < 0) {
+        if ($categoryId < 0) {
             return false;
         }
 
         $query = 'SELECT id, cast( name AS SIGNED ) AS sort FROM ' . rex::getTable('media_category') . ' WHERE parent_id = ? ORDER BY sort, name';
         $sql = rex_sql::factory();
         //$sql->setDebug();
-        $sql->setQuery($query, [$category_id]);
+        $sql->setQuery($query, [$categoryId]);
 
         $cacheArray = [];
         for ($i = 0; $i < $sql->getRows(); ++$i) {
@@ -221,11 +209,7 @@ class rex_media_cache
             $sql->next();
         }
 
-        $list_file = rex_path::addonCache('mediapool', $category_id . '.mclist');
-        if (rex_file::putCache($list_file, $cacheArray)) {
-            return true;
-        }
-
-        return false;
+        $listFile = rex_path::addonCache('mediapool', $categoryId . '.mclist');
+        return rex_file::putCache($listFile, $cacheArray);
     }
 }

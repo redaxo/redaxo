@@ -1,14 +1,18 @@
 <?php
+/**
+ * @var rex_fragment $this
+ * @psalm-scope-this rex_fragment
+ */
 
 $out = '';
 
 foreach ($this->elements as $element) {
-    $field = isset($element['field']) ? $element['field'] : '';
-    $moveButtons = isset($element['moveButtons']) ? $element['moveButtons'] : '';
-    $functionButtons = isset($element['functionButtons']) ? $element['functionButtons'] : '';
-    $addon = trim($moveButtons . $functionButtons) == '' ? false : true;
+    $field = $element['field'] ?? '';
+    $moveButtons = $element['moveButtons'] ?? '';
+    $functionButtons = $element['functionButtons'] ?? '';
+    $addon = '' != trim($moveButtons . $functionButtons);
 
-    if (isset($element['before']) && $element['before'] != '') {
+    if (isset($element['before']) && '' != $element['before']) {
         $out .= $element['before'];
     }
 
@@ -16,11 +20,11 @@ foreach ($this->elements as $element) {
 
     if ($addon) {
         $out .= '<span class="input-group-addon">';
-        if ($moveButtons != '') {
+        if ('' != $moveButtons) {
             $out .= '<div class="btn-group-vertical">' . $moveButtons . '</div>';
         }
 
-        if ($functionButtons != '') {
+        if ('' != $functionButtons) {
             $out .= '<div class="btn-group-vertical">' . $functionButtons . '</div>';
         }
         $out .= '</span>';
@@ -28,7 +32,7 @@ foreach ($this->elements as $element) {
 
     $out .= '</div>';
 
-    if (isset($element['after']) && $element['after'] != '') {
+    if (isset($element['after']) && '' != $element['after']) {
         $out .= $element['after'];
     }
 }

@@ -7,13 +7,21 @@
  * @package redaxo5
  */
 
+/** @psalm-suppress RedundantCondition */
+assert(isset($articleId) && is_int($articleId));
+/** @psalm-suppress RedundantCondition */
+assert(isset($categoryId) && is_int($categoryId));
+/** @psalm-suppress RedundantCondition */
+assert(isset($clang) && is_int($clang));
+
 $KATout = ''; // Variable definiert und vorbelegt wenn nicht existent
 $KAToutARR = []; // Variable definiert und vorbelegt wenn nicht existent
 
 $navigation = [];
 
-$object_id = $article_id > 0 ? $article_id : $category_id;
-$object = rex_article::get($object_id, $clang);
+/** @psalm-suppress RedundantCondition */
+$objectId = $articleId > 0 ? $articleId : $categoryId;
+$object = rex_article::get($objectId, $clang);
 if ($object) {
     $tree = $object->getParentTree();
     if (!$object->isStartarticle()) {
@@ -32,7 +40,7 @@ if ($object) {
     }
 }
 
-$title = '<a href="' . rex_url::backendPage('structure', ['category_id' => 0, 'clang' => $clang]) . '"><i class="rex-icon rex-icon-structure-root-level"></i> ' . rex_i18n::msg('root_level') . '</a>';
+$title = '<a class="rex-link-expanded" href="' . rex_url::backendPage('structure', ['category_id' => 0, 'clang' => $clang]) . '"><i class="rex-icon rex-icon-structure-root-level"></i> ' . rex_i18n::msg('root_level') . '</a>';
 
 $fragment = new rex_fragment();
 $fragment->setVar('id', 'rex-js-structure-breadcrumb', false);

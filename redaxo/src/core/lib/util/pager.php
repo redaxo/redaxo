@@ -22,6 +22,10 @@ class rex_pager
      * @var string
      */
     private $cursorName;
+    /**
+     * @var int|null
+     */
+    private $cursor;
 
     /**
      * Constructs a rex_pager.
@@ -31,7 +35,7 @@ class rex_pager
      */
     public function __construct($rowsPerPage = 30, $cursorName = 'start')
     {
-        $this->rowsPerPage = $rowsPerPage;
+        $this->rowsPerPage = (int) $rowsPerPage;
         $this->cursorName = $cursorName;
     }
 
@@ -76,6 +80,16 @@ class rex_pager
         return $this->rowsPerPage;
     }
 
+    public function setPage(int $page): void
+    {
+        $this->cursor = $page * $this->rowsPerPage;
+    }
+
+    public function setCursor(int $cursor): void
+    {
+        $this->cursor = $cursor;
+    }
+
     /**
      * Returns the current pagination position.
      *
@@ -89,12 +103,10 @@ class rex_pager
     public function getCursor($pageNo = null)
     {
         if (null === $pageNo) {
-            $cursor = rex_request($this->cursorName, 'int', 0);
-        } else {
-            $cursor = $pageNo * $this->rowsPerPage;
+            return $this->cursor ?? rex_request($this->cursorName, 'int', 0);
         }
 
-        return $cursor;
+        return $pageNo * $this->rowsPerPage;
     }
 
     /**
@@ -157,7 +169,7 @@ class rex_pager
      */
     public function getCurrentPage()
     {
-        $cursor = rex_request($this->cursorName, 'int', null);
+        $cursor = $this->cursor ?? rex_request($this->cursorName, 'int', null);
 
         if (null === $cursor) {
             return $this->getFirstPage();
@@ -187,7 +199,7 @@ class rex_pager
      */
     public function getLastPage()
     {
-        return ceil($this->rowCount / $this->rowsPerPage) - 1;
+        return (int) (ceil($this->rowCount / $this->rowsPerPage) - 1);
     }
 
     /**

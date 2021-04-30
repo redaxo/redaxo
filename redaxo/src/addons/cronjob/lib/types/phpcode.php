@@ -13,7 +13,7 @@ class rex_cronjob_phpcode extends rex_cronjob
     public function execute()
     {
         $code = preg_replace('/^\<\?(?:php)?/', '', $this->getParam('code'));
-        $is = ini_set('display_errors', true);
+        $is = ini_set('display_errors', '1');
         ob_start();
         $return = false;
 
@@ -30,10 +30,7 @@ class rex_cronjob_phpcode extends rex_cronjob
             $output = preg_replace('@in ' . preg_quote(__FILE__, '@') . "\([0-9]*\) : eval\(\)'d code @", '', $output);
             $this->setMessage($output);
         }
-        if (false !== $return) {
-            return true;
-        }
-        return false;
+        return false !== $return;
     }
 
     public function getTypeName()

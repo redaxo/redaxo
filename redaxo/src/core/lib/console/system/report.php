@@ -37,7 +37,7 @@ class rex_command_system_report extends rex_console_command
         if ('markdown' === $format) {
             $output->writeln($report->asMarkdown());
 
-            return;
+            return 0;
         }
 
         $io = $this->getStyle($input, $output);

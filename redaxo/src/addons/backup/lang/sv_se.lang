@@ -4,14 +4,12 @@ backup_file_deleted = Filen raderades
 backup_file_error_while_delete = Filen kunde inte raderas
 backup_no_import_file_chosen_or_wrong_version = Ingen importfil valdes ut eller fel version
 backup_no_valid_import_file = Ingen korrekt importfil
-backup_no_valid_charset = Ingen matchande teckenuppsättningen.
+backup_utf8mb4_not_supported = Säkerhetskopian använder <code> utf8mb4 </code> som en charset, som inte stöds av databasen (<b> {0} </b>) (åtminstone MySQL 5.7.7 eller MariaDB 10.2 krävs).
 backup_database_imported = Datenbasimport lyckades
 backup_entry_count = ({0} Inlägg)
 backup_file_could_not_be_uploaded = Filen kunde inte laddas upp.
 backup_you_have_no_write_permission_in = Du har inga skrivrättigheter till den här mappen {0}.
 backup_no_import_file_chosen = Ingen importfil valt.
-backup_problem_when_extracting = Problem vid utdragning av filen.
-backup_create_dirs_manually = Skapa följande mappen manuellt och sätta skrivrättigheterna via FTP.
 backup_file_imported = Filimporten lyckades.
 backup_import = Import
 backup_to_import = importera
@@ -23,6 +21,8 @@ backup_db_export = Export
 backup_filename_updated = Filnamnet ändrades eftersom det innhöll icke tillåtna tecken. Om namnet är okej vänligen klicka en gång till på "Export"
 backup_please_choose_folder = Vänligen välj ut de förteckningar som ska exporteras!
 backup_intro_import = Observera att vid import av en databas kommer <b>den bestående databasen att raderas</b>. Om du är osäker: spara eller exportera den gamla databasen innan du skriver över med en ny.
+backup_intro_import_files = När filer importeras skrivs filer med samma namn över, men alla ytterligare filer i mappen sparas.
+backup_version_warning = Säkerhetskopior från äldre REDAXO-versioner eller tillägg är inte alltid fullt kompatibla och kan leda till problem efter importen.
 backup_database = Datenbasimport
 backup_filename = Filnamn
 backup_filename_notice = Variabler: %REX_SERVER, %REX_VERSION och datumsvariabler som hos strftime()
@@ -30,8 +30,8 @@ backup_filesize = Filstorlek
 backup_delete = radera
 backup_files = Filimport
 backup_intro_export = Här kan du spara dina befintliga inlägg och filer från Redaxo. För att få en fullständig säkerhetskopia måste du exportera <b>databasen OCH filerna</b>. Om du vill återanvända säkerhetskopian kan det vara bra att spara denna direkt på servern för att kunna importera den vid behov.
-backup_database_export =
-backup_file_export =
+backup_database_export = Skapa databas-backup
+backup_file_export = Skapa fil-backup
 backup_save_on_server = spara på servern
 backup_download_as_file = ladda ner som fil
 backup_createdate = Skapat den
@@ -46,8 +46,8 @@ backup_file_generated_in = Data sparades i
 backup_proceed_db_import = Befintliga filer (artiklar, mallar, moduler, ...) går förlorade. Fortsätta ändå?
 backup_proceed_file_import = Befintliga filer kommer att raderas. Vill du fortsätta?
 
-backup_export_db_caption =
-backup_export_file_caption =
+backup_export_db_caption = Återskapa databasbackup
+backup_export_file_caption = Återskapa filbackup
 
 backup_function = Funktion
 
@@ -57,11 +57,16 @@ backup_mailaddress = E-postadress
 backup_mail_subject = Ny datenbassäkerhetskopia
 backup_mail_body = Bifogat finns en ny säkerhetskopia av databasen från webbsajten "{0}".
 
+backup_compress = Komprimera backup:en
+
 backup_delete_interval = Radera gamla säkerhetskopior
 backup_delete_interval_off = Av
 backup_delete_interval_weekly = Spara en säkerhetskopia per vecka
 backup_delete_interval_monthly = Spara en säkerhetskopia per månad
 backup_delete_interval_notice = Endast säkerhetskopior som är äldre än en månad och deras filnamn slutar på <code> .cronjob.sql </ code>raderas.
+
+backup_exclude_tables = Uteslut från säkerhetskopiering
+backup_exclude_tables_notice = Om utvald kommer de här tabellerna inte att sparas.  Tabeller med prefixet <code> rex_tmp_ * </code> utesluts automatiskt.
 
 perm_general_backup[export] = Exportera webbsajten
 
@@ -75,3 +80,8 @@ backup_file = Fil
 backup_note = Notis
 backup_upload = Upload
 backup_load_from_server = Ladda ner från servern
+
+backup_warning = Varning
+backup_upload_disabled = Uppladdningar inte tillåtna
+backup_max_uploadsize = Max. uppladdningsstorlek
+backup_max_uploadtime = Max uppladdningstid

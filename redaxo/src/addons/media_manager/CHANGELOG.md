@@ -1,6 +1,78 @@
 Changelog
 =========
 
+Version 2.11.0 – 03.03.2021
+---------------------------
+
+### Neu
+
+* Neuer Effekt `image_format`, über den das Bildformat geändert werden kann (JPG, PNG, GIF, WEBP) (@aeberhard)
+
+### Bugfixes
+
+* System-Mediatypen konnten umbenannt werden (@staabm)
+* Effekt `image_properties`: Der Effekt wirkte sich nur aus, wenn noch weitere Bildeffekte aktiv waren (@gharlan)
+
+
+Version 2.10.1 – 11.11.2020
+---------------------------
+
+### Bugfixes
+
+* Effekt `insert_image`: Bei right und bottom hatte der Abstand zum Rand das falsche Vorzeichen (@gharlan)
+
+
+Version 2.10.0 – 01.07.2020
+---------------------------
+
+### Neu
+
+* Effekt `mirror`: Opazität der Spiegelung kann gesetzt werden (@lexplatt)
+
+### Bugfixes
+
+* Auslesen von Medien über `rex_media_manager::create()` funktionierte nicht korrekt, wenn der Mediatype den Effekt `mediapath` beinhaltete (@gharlan)
+* Table-Hover-Effekt fehlte (@tbaddade)
+
+
+Version 2.9.1 – 08.05.2020
+--------------------------
+
+### Bugfixes
+
+* Effekt `convert2img`: Wenn die PHP-Extension `imagick` installiert ist, dann wurde die Density nicht berücksichtigt und CMYK-PDFs wurden nicht korrekt in RGB umgewandelt (@lexplatt, @gharlan)
+* Bedingte Felder wurden teils nicht ausgeblendet (@gharlan)
+
+
+Version 2.9.0 – 10.03.2020
+--------------------------
+
+### Neu
+
+* Effekt `convert2img`:
+    - Wandelt auch SVGs in JPG/PNG um (@dergel)
+    - Unterstützt Transparenzen (Farbe kann angegeben werden) (@dergel)
+
+### Bugfixes
+
+* SVGs wurden teils mit falschem Content-Type ausgeliefert (@gharlan)
+* `rex_media_manager::getUrl` hat im Backend eine URL mit der Backend-`index.php` geliefert, was teils zu langsamen Backend-Seitenaufrufen führte (Session-Locks) (@gharlan)
+
+
+Version 2.8.0 – 02.02.2020
+--------------------------
+
+### Neu
+
+* Statt des Error-Bildes wird nun der 404-Statuscode gesendet (@gharlan)
+* Effekt `convert2img`: Funktioniert nun auch ohne `exec()`-Rechte, wenn die PHP-Extension `imagick` installiert ist (@iceman-fx, @gharlan)
+* Umbenennung "Mediatyp" in "Medientyp" (@alexplusde)
+
+### Bugfixes
+
+* Effekt `rotate`: Transparenz wurde nicht erhalten (@gharlan)
+
+
 Version 2.7.0 – 20.08.2019
 --------------------------
 

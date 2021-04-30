@@ -15,19 +15,19 @@ class rex_log_file implements Iterator
     /** @var resource */
     private $file;
 
-    /** @var resource */
+    /** @var resource|null */
     private $file2;
 
     /** @var bool */
     private $second = false;
 
-    /** @var int */
+    /** @var int|null */
     private $pos;
 
-    /** @var int */
+    /** @var int|null */
     private $key;
 
-    /** @var string */
+    /** @var string|null */
     private $currentLine;
 
     /** @var string */
@@ -37,15 +37,13 @@ class rex_log_file implements Iterator
     private $bufferPos;
 
     /**
-     * Constructor.
-     *
      * @param string   $path        File path
      * @param int|null $maxFileSize Maximum file size
      */
     public function __construct($path, $maxFileSize = null)
     {
         $this->path = $path;
-        if (!file_exists($path)) {
+        if (!is_file($path)) {
             rex_file::put($path, '');
         }
         if ($maxFileSize && filesize($path) > $maxFileSize) {
@@ -57,7 +55,7 @@ class rex_log_file implements Iterator
     /**
      * Adds a log entry.
      *
-     * @param array $data Log data
+     * @param list<string|int> $data Log data
      */
     public function add(array $data)
     {
@@ -70,6 +68,10 @@ class rex_log_file implements Iterator
      */
     public function current()
     {
+        if (null === $this->currentLine) {
+            throw new rex_exception('current() can not be used before calling rewind()/next() or after last line');
+        }
+
         return rex_log_entry::createFromString($this->currentLine);
     }
 
@@ -78,12 +80,13 @@ class rex_log_file implements Iterator
      */
     public function next()
     {
+        /** @var int $bufferSize */
         static $bufferSize = 500;
 
         if ($this->pos < 0) {
             // position is before file start -> look for next file
             $path2 = $this->path . '.2';
-            if ($this->second || !$this->file2 && !file_exists($path2)) {
+            if ($this->second || !$this->file2 && !is_file($path2)) {
                 // already in file2 or file2 does not exist -> mark currentLine as invalid
                 $this->currentLine = null;
                 $this->key = null;
@@ -99,6 +102,7 @@ class rex_log_file implements Iterator
 
         // get current file
         $file = $this->second ? $this->file2 : $this->file;
+        assert(null !== $file);
 
         if (null === $this->pos) {
             // position is not set -> set start position to start of last buffer
@@ -139,12 +143,12 @@ class rex_log_file implements Iterator
             return;
         }
         // found a non-empty line
-        ++$this->key;
+        $this->key = null === $this->key ? 0 : $this->key + 1;
         $this->currentLine = $line;
     }
 
     /**
-     * {@inheritdoc}
+     * @return int|null
      */
     public function key()
     {
@@ -193,22 +197,22 @@ class rex_log_file implements Iterator
  */
 class rex_log_entry
 {
+    public const DATE_FORMAT = 'Y-m-d H:i:s';
+
     /** @var int */
     private $timestamp;
 
-    /** @var array */
+    /** @var list<string> */
     private $data;
 
     /**
-     * Constructor.
-     *
-     * @param int   $timestamp Timestamp
-     * @param array $data      Log data
+     * @param int $timestamp Timestamp
+     * @param list<string|int> $data Log data
      */
     public function __construct($timestamp, array $data)
     {
         $this->timestamp = $timestamp;
-        $this->data = $data;
+        $this->data = array_map('strval', $data);
     }
 
     /**
@@ -248,7 +252,7 @@ class rex_log_entry
     /**
      * Returns the log data.
      *
-     * @return array
+     * @return list<string>
      */
     public function getData()
     {
@@ -265,6 +269,6 @@ class rex_log_entry
         }, $this->data);
         $data = implode(' | ', $data);
         $data = str_replace("\r", '', $data);
-        return date('Y-m-d H:i:s', $this->timestamp) . ' | ' . $data;
+        return date(self::DATE_FORMAT, $this->timestamp) . ' | ' . $data;
     }
 }

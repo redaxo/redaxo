@@ -1,9 +1,9 @@
 <?php
 
 /**
- * @package redaxo\core\packages
+ * @extends rex_package_manager<rex_addon>
  *
- * @psalm-property rex_addon $package
+ * @package redaxo\core\packages
  */
 class rex_addon_manager extends rex_package_manager
 {
@@ -27,7 +27,7 @@ class rex_addon_manager extends rex_package_manager
         $return = parent::install($installDump);
         $this->generatePackageOrder = true;
 
-        if (true === $return) {
+        if ($return) {
             if (!$installed) {
                 foreach ($this->package->getSystemPlugins() as $plugin) {
                     $manager = rex_plugin_manager::factory($plugin);
@@ -71,10 +71,11 @@ class rex_addon_manager extends rex_package_manager
         $state = parent::activate();
         $this->generatePackageOrder = true;
 
-        if (true !== $state) {
+        if (!$state) {
             return false;
         }
 
+        /** @psalm-var SplObjectStorage<rex_plugin, rex_plugin_manager> $plugins */
         $plugins = new SplObjectStorage();
         // create the managers for all available plugins
         foreach ($this->package->getAvailablePlugins() as $plugin) {

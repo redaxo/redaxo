@@ -9,15 +9,32 @@ class rex_var_template extends rex_var
 {
     protected function getOutput()
     {
-        $template_id = $this->getParsedArg('id', 0, true);
+        $templateId = $this->getParsedArg('id', 0, true);
+        $templateKey = $this->getArg('key', null, true);
 
-        if ($template_id > 0) {
-            return self::class . '::getTemplateOutput(require ' . self::class . '::getTemplateStream(' . $template_id . ', $this))';
+        if (0 === $templateId && $templateKey) {
+            $template = rex_template::forKey($templateKey);
+
+            if ($template) {
+                $templateId = $template->getId();
+            }
+        }
+
+        if ($templateId > 0) {
+            // the `require` statement must be in outer context, so that the included template uses the same variable scope
+            return self::class . '::getTemplateOutput(' . $templateId . ', new rex_timer(), require ' . self::class . '::getTemplateStream(' . $templateId . ', $this))';
         }
 
         return false;
     }
 
+    /**
+     * @internal
+     *
+     * @param int|numeric-string $id
+     *
+     * @return string
+     */
     public static function getTemplateStream($id, rex_article_content_base $article = null)
     {
         ob_start();
@@ -26,11 +43,25 @@ class rex_var_template extends rex_var
         if ($article) {
             $tmpl = $article->replaceCommonVars($tmpl, $id);
         }
+
         return rex_stream::factory('template/' . $id, $tmpl);
     }
 
-    public static function getTemplateOutput()
+    /**
+     * @internal
+     *
+     * @param int|numeric-string $id
+     *
+     * @return false|string
+     */
+    public static function getTemplateOutput($id, ?rex_timer $timer = null)
     {
+        if ($timer && rex::isDebugMode()) {
+            $timer->stop();
+            $tmpl = new rex_template($id);
+            rex_timer::measured('Template: '.($tmpl->getKey() ?? $tmpl->getId()), $timer);
+        }
+
         return ob_get_clean();
     }
 }

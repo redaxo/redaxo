@@ -5,7 +5,18 @@
     right: 0;
     bottom: 0;
     z-index: 1990;
-    background-color: rgba($color-a-darker, .4);
+    background: none;
+
+    &.rex-visible::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        display: block;
+        background-color: rgba(40, 53, 66, 0.4);
+    }
 }
 .rex-ajax-loader-elements {
     display: block;
@@ -123,5 +134,22 @@
              -o-transform: perspective(140px) rotateY(180deg);
                 transform: perspective(140px) rotateY(180deg);
         opacity: 0;
+    }
+}
+
+.rex-ajax-loader.rex-visible::after,
+.rex-ajax-loader.rex-visible .rex-ajax-loader-elements {
+    animation: rex-ajax-loader-fade-in 500ms linear;
+}
+
+@keyframes rex-ajax-loader-fade-in {
+    0% {
+        opacity: 0;
+    }
+    70% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
     }
 }

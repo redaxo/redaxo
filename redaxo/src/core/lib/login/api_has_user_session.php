@@ -7,25 +7,28 @@
  */
 class rex_api_has_user_session extends rex_api_function
 {
+    /**
+     * @psalm-return never-return
+     */
     public function execute()
     {
         if (!rex_request::isHttps()) {
-            throw new rex_api_exception(sprintf('https is required'));
+            throw new rex_api_exception('https is required');
         }
 
         $user = rex::getUser();
         if (!$user) {
-            rex_response::sendContent(json_encode(false), 'application/json');
+            rex_response::sendJson(false);
             exit();
         }
 
         $perm = rex_get('perm');
         if ($perm) {
-            rex_response::sendContent(json_encode($user->hasPerm($perm)), 'application/json');
+            rex_response::sendJson($user->hasPerm($perm));
             exit();
         }
 
-        rex_response::sendContent(json_encode(true), 'application/json');
+        rex_response::sendJson(true);
         exit();
     }
 

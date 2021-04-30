@@ -13,16 +13,22 @@ class rex_sql_index
     public const UNIQUE = 'UNIQUE';
     public const FULLTEXT = 'FULLTEXT';
 
+    /** @var string */
     private $name;
+
+    /** @var self::INDEX|self::UNIQUE|self::FULLTEXT */
     private $type;
+
+    /** @var list<string> */
     private $columns;
 
+    /** @var bool */
     private $modified = false;
 
     /**
-     * @param string   $name
-     * @param string[] $columns
-     * @param string   $type    One of `rex_sql_index::INDEX`, `rex_sql_index::UNIQUE`, `rex_sql_index::FULLTEXT`
+     * @param string $name
+     * @param list<string> $columns
+     * @param self::INDEX|self::UNIQUE|self::FULLTEXT $type
      */
     public function __construct($name, array $columns, $type = self::INDEX)
     {
@@ -72,7 +78,7 @@ class rex_sql_index
     }
 
     /**
-     * @param string $type
+     * @param self::INDEX|self::UNIQUE|self::FULLTEXT $type
      *
      * @return $this
      */
@@ -84,7 +90,7 @@ class rex_sql_index
     }
 
     /**
-     * @return string
+     * @return self::INDEX|self::UNIQUE|self::FULLTEXT
      */
     public function getType()
     {
@@ -92,7 +98,7 @@ class rex_sql_index
     }
 
     /**
-     * @param string[] $columns
+     * @param list<string> $columns
      *
      * @return $this
      */
@@ -104,7 +110,7 @@ class rex_sql_index
     }
 
     /**
-     * @return string[]
+     * @return list<string>
      */
     public function getColumns()
     {
@@ -119,6 +125,6 @@ class rex_sql_index
         return
             $this->name === $index->name &&
             $this->type === $index->type &&
-            $this->columns == $index->columns;
+            $this->columns === $index->columns;
     }
 }

@@ -3,6 +3,11 @@
 /**
  * Represents a null package.
  *
+ * Instances of this class are returned by `rex_package::get()` for non-existing packages.
+ * Thereby it is safe to call `rex_package::get(...)->isAvailable()` and `isInstalled()`.
+ * Other methods should not be called on null-packages since they do not return useful values.
+ * Some methods like `getPath()` throw exceptions.
+ *
  * @author gharlan
  *
  * @package redaxo\core\packages
@@ -16,11 +21,13 @@ abstract class rex_null_package implements rex_package_interface
      */
     public function getName()
     {
-        return get_class($this);
+        return static::class;
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @return rex_null_addon
      */
     public function getAddon()
     {
@@ -40,7 +47,7 @@ abstract class rex_null_package implements rex_package_interface
      */
     public function getPath($file = '')
     {
-        return null;
+        throw new rex_exception(sprintf('Calling %s on %s is not allowed', __FUNCTION__, __CLASS__));
     }
 
     /**
@@ -48,7 +55,7 @@ abstract class rex_null_package implements rex_package_interface
      */
     public function getAssetsPath($file = '')
     {
-        return null;
+        throw new rex_exception(sprintf('Calling %s on %s is not allowed', __FUNCTION__, __CLASS__));
     }
 
     /**
@@ -56,7 +63,7 @@ abstract class rex_null_package implements rex_package_interface
      */
     public function getAssetsUrl($file = '')
     {
-        return null;
+        throw new rex_exception(sprintf('Calling %s on %s is not allowed', __FUNCTION__, __CLASS__));
     }
 
     /**
@@ -64,7 +71,7 @@ abstract class rex_null_package implements rex_package_interface
      */
     public function getDataPath($file = '')
     {
-        return null;
+        throw new rex_exception(sprintf('Calling %s on %s is not allowed', __FUNCTION__, __CLASS__));
     }
 
     /**
@@ -72,7 +79,7 @@ abstract class rex_null_package implements rex_package_interface
      */
     public function getCachePath($file = '')
     {
-        return null;
+        throw new rex_exception(sprintf('Calling %s on %s is not allowed', __FUNCTION__, __CLASS__));
     }
 
     /**
@@ -174,7 +181,7 @@ abstract class rex_null_package implements rex_package_interface
      */
     public function getVersion($format = null)
     {
-        return null;
+        return '';
     }
 
     /**
@@ -198,6 +205,6 @@ abstract class rex_null_package implements rex_package_interface
     public function i18n($key, ...$replacements)
     {
         $args = func_get_args();
-        return call_user_func_array('rex_i18n::msg', $args);
+        return call_user_func_array(['rex_i18n', 'msg'], $args);
     }
 }

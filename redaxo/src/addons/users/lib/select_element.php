@@ -11,10 +11,13 @@ class rex_form_perm_select_element extends rex_form_select_element
 
     public function getSaveValue()
     {
-        if (false !== strpos($this->getValue(), '|' . rex_complex_perm::ALL . '|')) {
+        $value = $this->getValue();
+
+        if ($value && str_contains($value, '|' . rex_complex_perm::ALL . '|')) {
             return rex_complex_perm::ALL;
         }
-        return $this->getValue();
+
+        return $value;
     }
 
     public function setCheckboxLabel($label)
@@ -22,11 +25,14 @@ class rex_form_perm_select_element extends rex_form_select_element
         $this->checkboxLabel = $label;
     }
 
+    /**
+     * @return string
+     */
     public function get()
     {
         $field = new rex_form_checkbox_element('', $this->table);
-        $field->setAttribute('name', $this->getAttribute('name'));
-        $field->setAttribute('id', $this->getAttribute('id'));
+        $field->setAttribute('name', $this->getAttribute('name', ''));
+        $field->setAttribute('id', $this->getAttribute('id', ''));
         if (rex_complex_perm::ALL == trim($this->getValue(), '|')) {
             $field->setValue('|' . rex_complex_perm::ALL . '|');
         }

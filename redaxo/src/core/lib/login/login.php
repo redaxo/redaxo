@@ -6,6 +6,8 @@
 class rex_login
 {
     /**
+     * @psalm-var positive-int
+     *
      * @var int
      */
     protected $DB = 1;
@@ -47,7 +49,7 @@ class rex_login
     /** @var rex_sql|rex_user */
     protected $user;
 
-    /** @var rex_sql|rex_user */
+    /** @var rex_sql|rex_user|null */
     protected $impersonator;
 
     /**
@@ -79,9 +81,9 @@ class rex_login
      * Setzt eine eindeutige System Id, damit mehrere
      * Sessions auf der gleichen Domain unterschieden werden können.
      */
-    public function setSystemId($system_id)
+    public function setSystemId($systemId)
     {
-        $this->systemId = $system_id;
+        $this->systemId = $systemId;
     }
 
     /**
@@ -122,10 +124,12 @@ class rex_login
      *
      * Dieser wird benutzt, um einen bereits eingeloggten User
      * im Verlauf seines Aufenthaltes auf der Webseite zu verifizieren
+     *
+     * @param string $userQuery
      */
-    public function setUserQuery($user_query)
+    public function setUserQuery($userQuery)
     {
-        $this->userQuery = $user_query;
+        $this->userQuery = $userQuery;
     }
 
     /**
@@ -143,10 +147,12 @@ class rex_login
      *
      * Dieser wird benutzt, um den eigentlichne Loginvorgang durchzuführen.
      * Hier wird das eingegebene Password und der Login eingesetzt.
+     *
+     * @param string $loginQuery
      */
-    public function setLoginQuery($login_query)
+    public function setLoginQuery($loginQuery)
     {
-        $this->loginQuery = $login_query;
+        $this->loginQuery = $loginQuery;
     }
 
     /**
@@ -190,6 +196,8 @@ class rex_login
      * anhand des LoginQueries/UserQueries und gibt den Status zurück.
      *
      * Gibt true zurück bei erfolg, sonst false
+     *
+     * @return bool
      */
     public function checkLogin()
     {
@@ -225,8 +233,8 @@ class rex_login
                 // message schreiben und falls falsch auf error verweisen
 
                 $ok = true;
-
-                if (($this->getSessionVar('STAMP') + $this->sessionDuration) < time()) {
+                $sessionStartStamp = (int) $this->getSessionVar('STAMP');
+                if (($sessionStartStamp + $this->sessionDuration) < time()) {
                     $ok = false;
                     $this->message = rex_i18n::msg('login_session_expired');
 
@@ -276,11 +284,7 @@ class rex_login
             $this->setSessionVar('impersonator', null);
         }
 
-        if ($ok) {
-            $this->loginStatus = 1;
-        } else {
-            $this->loginStatus = -1;
-        }
+        $this->loginStatus = $ok ? 1 : -1;
 
         return $ok;
     }
@@ -322,7 +326,7 @@ class rex_login
     }
 
     /**
-     * @return null|rex_sql
+     * @return rex_sql|rex_user|null
      */
     public function getUser()
     {
@@ -330,7 +334,7 @@ class rex_login
     }
 
     /**
-     * @return null|rex_sql
+     * @return rex_sql|rex_user|null
      */
     public function getImpersonator()
     {
@@ -340,10 +344,10 @@ class rex_login
     /**
      * Gibt einen Benutzer-Spezifischen Wert zurück.
      */
-    public function getValue($value, $default = null)
+    public function getValue($key, $default = null)
     {
         if ($this->user) {
-            return $this->user->getValue($value);
+            return $this->user->getValue($key);
         }
 
         return $default;
@@ -463,7 +467,7 @@ class rex_login
      *
      * see https://wiki.php.net/rfc/same-site-cookie
      *
-     * @param "Strict"|"Lax" $sameSite
+     * @param string $sameSite
      */
     private static function rewriteSessionCookie($sameSite)
     {
@@ -475,11 +479,11 @@ class rex_login
         $sessionCookiePrefix = 'Set-Cookie: '. session_name() .'=';
         foreach (headers_list() as $rawHeader) {
             // rewrite the session cookie
-            if (substr($rawHeader, 0, strlen($sessionCookiePrefix)) === $sessionCookiePrefix) {
+            if (str_starts_with($rawHeader, $sessionCookiePrefix)) {
                 $rawHeader .= '; SameSite='. $sameSite;
             }
             // collect all cookies
-            if (substr($rawHeader, 0, strlen($cookieHeadersPrefix)) === $cookieHeadersPrefix) {
+            if (str_starts_with($rawHeader, $cookieHeadersPrefix)) {
                 $cookiesHeaders[] = $rawHeader;
             }
         }
@@ -495,19 +499,33 @@ class rex_login
 
     /**
      * Verschlüsselt den übergebnen String.
+     *
+     * @throws rex_exception
+     *
+     * @return string Returns the hashed password
      */
     public static function passwordHash($password, $isPreHashed = false)
     {
         $password = $isPreHashed ? $password : sha1($password);
-        return password_hash($password, PASSWORD_DEFAULT);
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        if (!is_string($hash)) {
+            throw new rex_exception('error while hashing password');
+        }
+        return $hash;
     }
 
+    /**
+     * @return bool returns TRUE if the password and hash match, or FALSE otherwise
+     */
     public static function passwordVerify($password, $hash, $isPreHashed = false)
     {
         $password = $isPreHashed ? $password : sha1($password);
         return password_verify($password, $hash);
     }
 
+    /**
+     * @return bool returns TRUE if the hash should be rehashed to match the given algo and options, or FALSE otherwise
+     */
     public static function passwordNeedsRehash($hash)
     {
         return password_needs_rehash($hash, PASSWORD_DEFAULT);

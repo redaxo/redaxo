@@ -15,7 +15,7 @@ class rex_stream_test extends TestCase
         require $streamUrl;
         $result = ob_get_clean();
 
-        $this->assertEquals('foo bar', $result);
+        static::assertEquals('foo bar', $result);
     }
 
     public function testStreamIncludeWithRealFile()
@@ -30,7 +30,7 @@ class rex_stream_test extends TestCase
         require $streamUrl;
         $result = ob_get_clean();
 
-        $this->assertEquals('foo bar', $result);
+        static::assertEquals('foo bar', $result);
 
         $property->setValue(null);
     }
