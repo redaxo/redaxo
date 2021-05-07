@@ -166,11 +166,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/fragment.php
 
 		-
-			message: "#^Strict comparison using \\=\\=\\= between null and string will always evaluate to false\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/fragment.php
-
-		-
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 2
 			path: ../../redaxo/src/core/lib/login/api_user_impersonate.php
@@ -214,11 +209,6 @@ parameters:
 			message: "#^Offset 'status' on array\\('install' \\=\\> bool, 'status' \\=\\> bool\\) on left side of \\?\\? always exists and is not nullable\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/addons/addon.php
-
-		-
-			message: "#^Negated boolean expression is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/sql.php
 
 		-
 			message: "#^Call to function assert\\(\\) with false will always evaluate to false\\.$#"
