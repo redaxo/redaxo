@@ -12,6 +12,7 @@ class rex_response
     public const HTTP_MOVED_PERMANENTLY = '301 Moved Permanently';
     public const HTTP_NOT_MODIFIED = '304 Not Modified';
     public const HTTP_MOVED_TEMPORARILY = '307 Temporary Redirect';
+    public const HTTP_BAD_REQUEST = '400 Bad Request';
     public const HTTP_NOT_FOUND = '404 Not Found';
     public const HTTP_FORBIDDEN = '403 Forbidden';
     public const HTTP_UNAUTHORIZED = '401 Unauthorized';
