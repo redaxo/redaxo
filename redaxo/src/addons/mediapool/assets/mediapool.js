@@ -86,7 +86,7 @@ function deleteREXMedia(id)
     var input = new getObj("REX_MEDIA_" + id).obj;
     if (input !== null) {
         input.value = "";
-        jQuery("#REX_MEDIA_" + id).trigger('change');
+        jQuery(input).trigger('change');
     } else {
         console.log("Media input field not found");
     }
@@ -237,7 +237,7 @@ function selectMedia(filename, alt)
             var input = opener.document.getElementById(rex.mediapoolOpenerInputField);
             if (input !== null) {
                 input.value = filename;
-                opener.jQuery("#"+rex.mediapoolOpenerInputField).trigger('change');
+                opener.jQuery(input).trigger('change');
                 self.close();
             } else {
                 console.log("Media input field not found");
