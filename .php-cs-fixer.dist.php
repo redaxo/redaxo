@@ -33,7 +33,7 @@ $finder = PhpCsFixer\Finder::create()
     })
 ;
 
-return PhpCsFixer\Config::create()
+return (new PhpCsFixer\Config())
     ->setUsingCache(true)
     ->setRiskyAllowed(true)
     ->setRules([
@@ -51,6 +51,7 @@ return PhpCsFixer\Config::create()
         'echo_tag_syntax' => false,
         'heredoc_to_nowdoc' => true,
         'list_syntax' => ['syntax' => 'short'],
+        'method_argument_space' => ['on_multiline' => 'ignore'],
         'native_constant_invocation' => false,
         'no_alternative_syntax' => false,
         'no_blank_lines_after_phpdoc' => false,
