@@ -15,7 +15,6 @@
       <path value="$PROJECT_DIR$/vendor/phpstan/phpdoc-parser" />
       <path value="$PROJECT_DIR$/vendor/nette/neon" />
       <path value="$PROJECT_DIR$/vendor/amphp/amp" />
-      <path value="$PROJECT_DIR$/vendor/nette/robot-loader" />
       <path value="$PROJECT_DIR$/vendor/amphp/byte-stream" />
       <path value="$PROJECT_DIR$/vendor/nette/finder" />
       <path value="$PROJECT_DIR$/vendor/composer" />
@@ -112,8 +111,6 @@
       <path value="$PROJECT_DIR$/vendor/symplify/symplify-kernel" />
       <path value="$PROJECT_DIR$/vendor/symplify/composer-json-manipulator" />
       <path value="$PROJECT_DIR$/vendor/symplify/rule-doc-generator-contracts" />
-      <path value="$PROJECT_DIR$/vendor/symfony/uid" />
-      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-uuid" />
       <path value="$PROJECT_DIR$/vendor/danielstjules/stringy" />
       <path value="$PROJECT_DIR$/vendor/nette/caching" />
       <path value="$PROJECT_DIR$/vendor/rector/rector-cakephp" />
@@ -122,6 +119,12 @@
       <path value="$PROJECT_DIR$/vendor/rector/rector-phpunit" />
       <path value="$PROJECT_DIR$/vendor/rector/rector-nette" />
       <path value="$PROJECT_DIR$/vendor/rector/rector-laravel" />
+      <path value="$PROJECT_DIR$/vendor/tracy/tracy" />
+      <path value="$PROJECT_DIR$/vendor/ergebnis/json-printer" />
+      <path value="$PROJECT_DIR$/vendor/shanethehat/pretty-xml" />
+      <path value="$PROJECT_DIR$/vendor/idiosyncratic/editorconfig" />
+      <path value="$PROJECT_DIR$/vendor/rector/rector-nette-to-symfony" />
+      <path value="$PROJECT_DIR$/vendor/rector/extension-installer" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.3">
