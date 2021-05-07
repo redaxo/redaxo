@@ -27,9 +27,6 @@
       <code>$tables</code>
       <code>list&lt;string&gt;</code>
     </MixedReturnTypeCoercion>
-    <UnnecessaryVarAnnotation occurrences="1">
-      <code>rex_backup_tar</code>
-    </UnnecessaryVarAnnotation>
     <UnusedParam occurrences="2">
       <code>$eventType</code>
       <code>$importType</code>
@@ -965,10 +962,6 @@
       <code>$effparams[str_replace('rex_effect_' . $effname . '_', '', $name)]</code>
       <code>$value</code>
     </MixedAssignment>
-    <UnnecessaryVarAnnotation occurrences="2">
-      <code>list&lt;array{effect: string, params: array&lt;string, mixed&gt;}&gt;</code>
-      <code>rex_effect_abstract</code>
-    </UnnecessaryVarAnnotation>
   </file>
   <file src="redaxo/src/addons/media_manager/pages/effects.php">
     <MixedArgument occurrences="5">
@@ -1591,12 +1584,6 @@
     <UnusedVariable occurrences="1">
       <code>$warning</code>
     </UnusedVariable>
-  </file>
-  <file src="redaxo/src/addons/mediapool/tests/media_test.php">
-    <UnnecessaryVarAnnotation occurrences="2">
-      <code>rex_media</code>
-      <code>rex_media</code>
-    </UnnecessaryVarAnnotation>
   </file>
   <file src="redaxo/src/addons/mediapool/tests/mediapool_test.php">
     <MixedArgument occurrences="3">
@@ -3688,22 +3675,10 @@
       <code>$id</code>
     </UnusedVariable>
   </file>
-  <file src="redaxo/src/addons/structure/plugins/content/tests/article_content_base_test.php">
-    <UnnecessaryVarAnnotation occurrences="2">
-      <code>rex_article_content_base</code>
-      <code>rex_article_content_base</code>
-    </UnnecessaryVarAnnotation>
-  </file>
   <file src="redaxo/src/addons/structure/plugins/content/tests/article_content_test.php">
     <MixedArgument occurrences="1">
       <code>$classVarsProperty-&gt;getValue()</code>
     </MixedArgument>
-    <UnnecessaryVarAnnotation occurrences="4">
-      <code>rex_article_content</code>
-      <code>rex_article_content</code>
-      <code>rex_article_content</code>
-      <code>rex_article_content</code>
-    </UnnecessaryVarAnnotation>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/tests/article_slice_test.php">
     <PossiblyNullReference occurrences="6">
@@ -3864,10 +3839,6 @@
     <MixedArgument occurrences="1">
       <code>$classVarsProperty-&gt;getValue()</code>
     </MixedArgument>
-    <UnnecessaryVarAnnotation occurrences="2">
-      <code>rex_article</code>
-      <code>rex_article</code>
-    </UnnecessaryVarAnnotation>
   </file>
   <file src="redaxo/src/addons/structure/tests/category_test.php">
     <MixedArgument occurrences="1">
@@ -3888,10 +3859,6 @@
     <MixedReturnStatement occurrences="1">
       <code>$this-&gt;parent</code>
     </MixedReturnStatement>
-    <UnnecessaryVarAnnotation occurrences="2">
-      <code>rex_category</code>
-      <code>rex_category</code>
-    </UnnecessaryVarAnnotation>
   </file>
   <file src="redaxo/src/addons/structure/tests/function_rex_url_test.php">
     <MixedArgument occurrences="1">
@@ -4027,9 +3994,6 @@
       <code>isAdmin</code>
       <code>isAdmin</code>
     </PossiblyNullReference>
-    <UnnecessaryVarAnnotation occurrences="1">
-      <code>rex_be_page</code>
-    </UnnecessaryVarAnnotation>
   </file>
   <file src="redaxo/src/core/backend.php">
     <MixedArgument occurrences="6">
@@ -7095,12 +7059,6 @@
       <code>$navi[1]['headline']</code>
       <code>$navi[2]['headline']</code>
     </MixedArrayAccess>
-  </file>
-  <file src="redaxo/src/core/tests/clang/clang_test.php">
-    <UnnecessaryVarAnnotation occurrences="2">
-      <code>rex_clang</code>
-      <code>rex_clang</code>
-    </UnnecessaryVarAnnotation>
   </file>
   <file src="redaxo/src/core/tests/console/config/set_test.php">
     <EmptyArrayAccess occurrences="1">
