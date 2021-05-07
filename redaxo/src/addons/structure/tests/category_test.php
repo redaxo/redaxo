@@ -35,9 +35,7 @@ class rex_category_test extends TestCase
 
     public function testHasValue()
     {
-        $class = new ReflectionClass(rex_category::class);
-        /** @var rex_category $instance */
-        $instance = $class->newInstanceWithoutConstructor();
+        $instance = $this->createCategoryWithoutConstructor();
 
         /** @psalm-suppress UndefinedPropertyAssignment */
         $instance->cat_foo = 'teststring';
@@ -51,9 +49,7 @@ class rex_category_test extends TestCase
 
     public function testGetValue()
     {
-        $class = new ReflectionClass(rex_category::class);
-        /** @var rex_category $instance */
-        $instance = $class->newInstanceWithoutConstructor();
+        $instance = $this->createCategoryWithoutConstructor();
 
         /** @psalm-suppress UndefinedPropertyAssignment */
         $instance->cat_foo = 'teststring';
@@ -161,6 +157,12 @@ class rex_category_test extends TestCase
 
         [$lev1, $_, $lev3] = $this->createCategories(['cat_foo' => 4], [], ['cat_foo' => 2]);
         yield [$lev1, $lev3, $callback];
+    }
+
+    private function createCategoryWithoutConstructor(): rex_category
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return (new ReflectionClass(rex_category::class))->newInstanceWithoutConstructor();
     }
 
     private function createCategories(array $lev1Params, array $lev2Params, array $lev3Params): array

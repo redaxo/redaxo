@@ -9,10 +9,7 @@ class rex_article_content_base_test extends TestCase
 {
     public function testHasValue()
     {
-        $class = new ReflectionClass(rex_article_content_base::class);
-
-        /** @var rex_article_content_base $instance */
-        $instance = $class->newInstanceWithoutConstructor();
+        $instance = $this->createArticleContentBaseWithoutConstructor();
 
         // fake meta field in database structure
         $propArticle = new ReflectionProperty(rex_article_content_base::class, 'ARTICLE');
@@ -28,9 +25,7 @@ class rex_article_content_base_test extends TestCase
 
     public function testGetValue()
     {
-        $class = new ReflectionClass(rex_article_content_base::class);
-        /** @var rex_article_content_base $instance */
-        $instance = $class->newInstanceWithoutConstructor();
+        $instance = $this->createArticleContentBaseWithoutConstructor();
 
         // fake meta field in database structure
         $propArticle = new ReflectionProperty(rex_article_content_base::class, 'ARTICLE');
@@ -42,5 +37,11 @@ class rex_article_content_base_test extends TestCase
 
         static::assertEquals('[bar not found]', $instance->getValue('bar'));
         static::assertEquals('[art_bar not found]', $instance->getValue('art_bar'));
+    }
+
+    private function createArticleContentBaseWithoutConstructor(): rex_article_content_base
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return (new ReflectionClass(rex_article_content_base::class))->newInstanceWithoutConstructor();
     }
 }
