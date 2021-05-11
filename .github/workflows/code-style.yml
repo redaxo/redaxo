@@ -39,7 +39,7 @@ jobs:
 
             -   name: Fix code style
                 if: env.writable == 1
-                run: vendor/bin/php-cs-fixer fix --diff
+                run: vendor/bin/php-cs-fixer list-files | xargs -P 3 vendor/bin/php-cs-fixer fix --diff
 
             -   name: Commit changed files
                 uses: stefanzweifel/git-auto-commit-action@v4
@@ -50,7 +50,7 @@ jobs:
                     commit_user_email: rex-bot@users.noreply.github.com
 
             -   name: Check code style
-                run: vendor/bin/php-cs-fixer fix --ansi --diff --dry-run --format=checkstyle | cs2pr # check whether there are still errors left
+                run: vendor/bin/php-cs-fixer list-files | xargs -P 3 vendor/bin/php-cs-fixer fix --ansi --diff --dry-run --format=checkstyle | cs2pr # check whether there are still errors left
 
     rector:
         runs-on: ubuntu-latest
