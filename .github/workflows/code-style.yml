@@ -39,7 +39,7 @@ jobs:
 
             -   name: Fix code style
                 if: env.writable == 1
-                run: vendor/bin/php-cs-fixer list-files --config=.php-cs-fixer.dist.php | xargs -n 50 -P 3 vendor/bin/php-cs-fixer fix --diff --config=.php-cs-fixer.dist.php
+                run: vendor/bin/php-cs-fixer list-files --config=.php-cs-fixer.dist.php | xargs -n 30 -P 3 vendor/bin/php-cs-fixer fix --diff --config=.php-cs-fixer.dist.php
 
             -   name: Commit changed files
                 uses: stefanzweifel/git-auto-commit-action@v4
