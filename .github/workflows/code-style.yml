@@ -50,7 +50,7 @@ jobs:
                     commit_user_email: rex-bot@users.noreply.github.com
 
             -   name: Check code style
-                run: vendor/bin/php-cs-fixer list-files --config=.php-cs-fixer.dist.php | xargs -n 30 -P 3 vendor/bin/php-cs-fixer fix --ansi --diff --dry-run --format=checkstyle --config=.php-cs-fixer.dist.php | cs2pr # check whether there are still errors left
+                run: vendor/bin/php-cs-fixer fix --ansi --diff --dry-run --format=checkstyle | cs2pr # check whether there are still errors left
 
     rector:
         runs-on: ubuntu-latest
