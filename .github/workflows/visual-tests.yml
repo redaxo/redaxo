@@ -44,7 +44,7 @@ jobs:
                     ref: ${{ github.event.client_payload.pull_request.head.ref }}
 
             -   name: Setup PHP
-                uses: shivammathur/setup-php@v2
+                uses: shivammathur/setup-php@2.11.0
                 with:
                     php-version: 8.0
                     extensions: gd, pdo_mysql
