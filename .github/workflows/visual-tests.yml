@@ -80,7 +80,7 @@ jobs:
                     php redaxo/bin/console package:install structure/version --ansi
 
             -   name: Setup nodejs
-                uses: actions/setup-node@v2
+                uses: actions/setup-node@v2.1.5
                 with:
                     node-version: "12.x"
             -   name: Setup Webserver
