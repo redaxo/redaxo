@@ -44,7 +44,7 @@ jobs:
                 run: php redaxo/bin/console be_style:compile --ansi
 
             -   name: Commit changed files
-                uses: stefanzweifel/git-auto-commit-action@v4
+                uses: stefanzweifel/git-auto-commit-action@v4.11.0
                 if: env.writable == 1
                 with:
                     commit_message: Apply be_style:compile
