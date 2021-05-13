@@ -85,8 +85,8 @@ class rex_logger extends AbstractLogger
      */
     public function log($level, $message, array $context = [], $file = null, $line = null)
     {
-        if (static::hasFactoryClass()) {
-            static::callFactoryClass(__FUNCTION__, func_get_args());
+        if ($factoryClass = static::getExplicitFactoryClass()) {
+            $factoryClass::log($level, $message, $context, $file, $line);
             return;
         }
 
@@ -121,6 +121,8 @@ class rex_logger extends AbstractLogger
 
     /**
      * Prepares the logifle for later use.
+     *
+     * @psalm-assert !null self::$file
      */
     public static function open()
     {

@@ -1,4 +1,4 @@
-.php_cs.cache
+.php-cs-fixer.cache
 /.htaccess
 /.phpunit.result.cache
 /composer.lock

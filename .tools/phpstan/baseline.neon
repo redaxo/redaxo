@@ -11,11 +11,6 @@ parameters:
 			path: ../../redaxo/src/addons/install/lib/archive.php
 
 		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/install/lib/archive.php
-
-		-
 			message: "#^Method rex_media\\:\\:getInstanceList\\(\\) should return array\\<T of object\\> but returns array\\<int, mixed\\>\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/lib/media.php
@@ -44,11 +39,6 @@ parameters:
 			message: "#^Strict comparison using \\=\\=\\= between false and string will always evaluate to false\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/metainfo/functions/function_metainfo.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/phpmailer/pages/log.php
 
 		-
 			message: "#^Left side of && is always true\\.$#"
@@ -176,11 +166,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/fragment.php
 
 		-
-			message: "#^Strict comparison using \\=\\=\\= between null and string will always evaluate to false\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/fragment.php
-
-		-
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 2
 			path: ../../redaxo/src/core/lib/login/api_user_impersonate.php
@@ -226,11 +211,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/packages/addons/addon.php
 
 		-
-			message: "#^Negated boolean expression is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/sql.php
-
-		-
 			message: "#^Call to function assert\\(\\) with false will always evaluate to false\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/sql/table.php
@@ -259,16 +239,6 @@ parameters:
 			message: "#^Result of \\|\\| is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/sql/table.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/lib/util/log_file.php
-
-		-
-			message: "#^Result of && is always false\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/log_file.php
 
 		-
 			message: "#^Method rex_socket\\:\\:factory\\(\\) should return static\\(rex_socket\\) but returns rex_socket_proxy\\.$#"

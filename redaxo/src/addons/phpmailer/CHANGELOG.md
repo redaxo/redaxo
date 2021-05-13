@@ -1,6 +1,20 @@
 Changelog
 =========
 
+Version 2.10.1 – 29.04.2021
+---------------------------
+
+### Security
+
+* Update auf PHPMailer 6.4.1, inklusive Security-Fix: https://github.com/PHPMailer/PHPMailer/releases/tag/v6.4.1
+
+### Bugfixes
+
+* Einstellungen-Seite:
+    - `SMTPDebug`-Schalter wird von PHPMailer inzwischen auch bei anderen Versandmethoden verwendet, deswegen ist die Einstellung dazu nun immer sichtbar (@skerbis)
+    - E-Mail-Archivierung: `for`-Attribut für Label korrigiert (@aeberhard)
+
+
 Version 2.10.0 – 03.03.2021
 ---------------------------
 
