@@ -7,8 +7,7 @@
  *
  * @package redaxo\core
  */
-class rex_csrf_token
-{
+class rex_csrf_token{
     use rex_factory_trait;
 
     public const PARAM = '_csrf_token';
