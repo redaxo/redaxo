@@ -6,6 +6,8 @@ about: Before you start, check whether a similar suggestion was already made. Se
 
 **Feature description / Feature Beschreibung**
 
+
+
 **Did REDAXO help you today? Did it make you happy in any way?**
 
 <!--
