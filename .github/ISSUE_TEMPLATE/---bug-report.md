@@ -21,3 +21,12 @@ AddOns:
 
 <!-- Don't forget to insert the stacktrace to provide more details and recieve answers faster. Use `COPY MARKDOWN` right under the message and paste it here. -->
 <!-- Vergiss nicht, den Stracktrace hier einzufügen, um genauere Details zur Verfügung zu stellen und schneller eine Antwort zu erhalten. Klicke `COPY MARKDOWN` unterhalb der Fehlermeldung und füge es hier ein. -->
+
+
+**Did REDAXO help you today? Did it make you happy in any way?**
+
+<!--
+Answering this question is not required, but if you have anything positive to share, please do so here!
+Sometimes we get tired of reading bug reports all day and a little positive end note does wonders.
+Idea by Joey Hess, https://joeyh.name/blog/entry/two_holiday_stories/
+-->
