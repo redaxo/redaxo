@@ -70,7 +70,7 @@ legend {
     @media (min-width: $grid-float-breakpoint) {
 
         display: table;
-        width: 100%;
+        min-width: 100%;
         table-layout: fixed;
         @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
             // IE10 + IE11 Bug
