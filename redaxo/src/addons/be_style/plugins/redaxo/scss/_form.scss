@@ -70,14 +70,11 @@ legend {
     @media (min-width: $grid-float-breakpoint) {
 
         display: table;
-        min-width: 100%;
+        width: 100%;
         table-layout: fixed;
-        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-            // IE10 + IE11 Bug
-            // Mediapool form-group to wide in <tfoot> > setAllCheckBoxes
-            .table & {
-                table-layout: auto;
-            }
+
+        .table & {
+            table-layout: auto;
         }
 
         > dt,
