@@ -622,6 +622,7 @@ jQuery(document).ready(function($) {
             return $.pjax.click(event, options);
         };
 
+        var rexAjaxLoaderId;
         $(document)
             // install pjax handlers, see defunkt/jquery-pjax#142
             .on('click', '[data-pjax-container] a, a[data-pjax]', pjaxHandler)
@@ -646,10 +647,20 @@ jQuery(document).ready(function($) {
             /*.on('pjax:success', function(e, data, status, xhr, options) {
              })*/
             .on('pjax:start', function () {
-                $('#rex-js-ajax-loader').addClass('rex-visible');
+                // show loader
+                // show only if page takes longer than 200 ms to load
+                window.clearTimeout(rexAjaxLoaderId);
+                rexAjaxLoaderId = setTimeout(function () {
+                    document.querySelector('#rex-js-ajax-loader').classList.add('rex-visible');
+                }, 200);
             })
             .on('pjax:end',   function (event, xhr, options) {
-                $('#rex-js-ajax-loader').removeClass('rex-visible');
+                // hide loader
+                // make sure loader was visible for at least 500 ms to avoid flickering
+                window.clearTimeout(rexAjaxLoaderId);
+                rexAjaxLoaderId = setTimeout(function () {
+                    document.querySelector('#rex-js-ajax-loader').classList.remove('rex-visible');
+                }, 500);
 
                 options.context.trigger('rex:ready', [options.context]);
             });
