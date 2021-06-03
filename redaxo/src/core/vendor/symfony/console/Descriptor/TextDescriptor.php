@@ -117,7 +117,7 @@ class TextDescriptor extends Descriptor
 
             $this->writeText('<comment>Options:</comment>', $options);
             foreach ($definition->getOptions() as $option) {
-                if (\strlen($option->getShortcut()) > 1) {
+                if (\strlen($option->getShortcut() ?? '') > 1) {
                     $laterOptions[] = $option;
                     continue;
                 }
@@ -296,7 +296,7 @@ class TextDescriptor extends Descriptor
     }
 
     /**
-     * @param (Command|string)[] $commands
+     * @param array<Command|string> $commands
      */
     private function getColumnWidth(array $commands): int
     {
