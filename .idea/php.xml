@@ -122,6 +122,7 @@
       <path value="$PROJECT_DIR$/vendor/rector/rector-phpunit" />
       <path value="$PROJECT_DIR$/vendor/rector/rector-nette" />
       <path value="$PROJECT_DIR$/vendor/rector/rector-laravel" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php81" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.3">
