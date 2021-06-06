@@ -66,7 +66,7 @@ class rex_effect_convert2img extends rex_effect_abstract
         if (class_exists(Imagick::class)) {
             $imagick = new Imagick();
             $imagick->setResolution($density, $density);
-            $imagick->readImage($fromPath.'[0]');
+            $imagick->readImage($fromPath);
 
             if ('' != $color) {
                 $imagick->setImageBackgroundColor($color);
