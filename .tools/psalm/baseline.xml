@@ -3031,29 +3031,23 @@
       <code>$artStatusType[0]</code>
       <code>$artStatusType[1]</code>
       <code>$artStatusTypes[$sql-&gt;getValue('status')][0]</code>
-      <code>$artStatusTypes[$sql-&gt;getValue('status')][0]</code>
-      <code>$artStatusTypes[$sql-&gt;getValue('status')][1]</code>
       <code>$artStatusTypes[$sql-&gt;getValue('status')][1]</code>
       <code>$artStatusTypes[$sql-&gt;getValue('status')][2]</code>
-      <code>$artStatusTypes[$sql-&gt;getValue('status')][2]</code>
+      <code>$artStatusTypes[$status][0]</code>
+      <code>$artStatusTypes[$status][1]</code>
+      <code>$artStatusTypes[$status][2]</code>
       <code>$catStatusType[0]</code>
       <code>$catStatusType[1]</code>
-      <code>$catStatusTypes[$KAT-&gt;getValue('status')][0]</code>
-      <code>$catStatusTypes[$KAT-&gt;getValue('status')][1]</code>
-      <code>$catStatusTypes[$KAT-&gt;getValue('status')][2]</code>
+      <code>$catStatusTypes[$status][0]</code>
+      <code>$catStatusTypes[$status][1]</code>
+      <code>$catStatusTypes[$status][2]</code>
       <code>$tEMPLATENAME[$sql-&gt;getValue('template_id')]</code>
       <code>$tEMPLATENAME[$sql-&gt;getValue('template_id')]</code>
     </MixedArrayAccess>
-    <MixedArrayOffset occurrences="11">
+    <MixedArrayOffset occurrences="5">
       <code>$artStatusTypes[$sql-&gt;getValue('status')]</code>
       <code>$artStatusTypes[$sql-&gt;getValue('status')]</code>
       <code>$artStatusTypes[$sql-&gt;getValue('status')]</code>
-      <code>$artStatusTypes[$sql-&gt;getValue('status')]</code>
-      <code>$artStatusTypes[$sql-&gt;getValue('status')]</code>
-      <code>$artStatusTypes[$sql-&gt;getValue('status')]</code>
-      <code>$catStatusTypes[$KAT-&gt;getValue('status')]</code>
-      <code>$catStatusTypes[$KAT-&gt;getValue('status')]</code>
-      <code>$catStatusTypes[$KAT-&gt;getValue('status')]</code>
       <code>$tEMPLATENAME[$sql-&gt;getValue('template_id')]</code>
       <code>$tEMPLATENAME[$sql-&gt;getValue('template_id')]</code>
     </MixedArrayOffset>
