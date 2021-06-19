@@ -176,10 +176,11 @@ if ($KAT->getRows() > 0) {
         $katIconTitle = $katHasChildElements ? rex_i18n::msg('category_has_child_elements') : rex_i18n::msg('category_without_child_elements');
         $katIconTd = '<td class="rex-table-icon"><a class="rex-link-expanded" href="' . $katLink . '" title="' . rex_escape($KAT->getValue('catname')) . '"><i class="rex-icon ' . $katIconClass . '" title="' . $katIconTitle . '"></i></a></td>';
 
-        $katStatus = $catStatusTypes[$KAT->getValue('status')][0];
-        $statusClass = $catStatusTypes[$KAT->getValue('status')][1];
-        $statusIcon = $catStatusTypes[$KAT->getValue('status')][2];
-        $dataCatStatus = 'data-status="'.$KAT->getValue('status').'"';
+        $status = (int) $KAT->getValue('status');
+        $katStatus = $catStatusTypes[$status][0];
+        $statusClass = $catStatusTypes[$status][1];
+        $statusIcon = $catStatusTypes[$status][2];
+        $dataCatStatus = 'data-status="'.$status.'"';
 
         $tdLayoutClass = '';
         if ($structureContext->hasCategoryPermission()) {
@@ -450,7 +451,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
             $class = ' rex-icon-article';
         }
         $dataArtid = 'data-article-id="'.$sql->getValue('id').'"';
-        $dataArtStatus = 'data-status="'.$sql->getValue('status').'"';
+        $dataArtStatus = 'data-status="'.((int) $sql->getValue('status')).'"';
 
         $classStartarticle = '';
         if (1 == $sql->getValue('startarticle')) {
@@ -477,10 +478,11 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
         } elseif ($structureContext->hasCategoryPermission()) {
             // --------------------- ARTIKEL NORMAL VIEW | EDIT AND ENTER
 
-            $articleStatus = $artStatusTypes[$sql->getValue('status')][0];
-            $articleClass = $artStatusTypes[$sql->getValue('status')][1];
-            $articleIcon = $artStatusTypes[$sql->getValue('status')][2];
-            $dataArtStatus = 'data-status="'.$sql->getValue('status').'"';
+            $status = (int) $sql->getValue('status');
+            $articleStatus = $artStatusTypes[$status][0];
+            $articleClass = $artStatusTypes[$status][1];
+            $articleIcon = $artStatusTypes[$status][2];
+            $dataArtStatus = 'data-status="'.$status.'"';
 
             $addExtra = '';
             if ($canEdit) {
