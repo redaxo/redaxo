@@ -91,7 +91,7 @@ class rex_scss_compiler
         // try/catch block to prevent script stopping when scss compiler throws an error
         try {
             // compile this SASS code to CSS
-            $stringCss = $scssCompiler->compile($stringSass) . "\n";
+            $stringCss = $scssCompiler->compileString($stringSass)->getCss() . "\n";
 
             // $string_css = csscrush_string($string_css, $options = array('minify' => true));
 

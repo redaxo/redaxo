@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.6.4@97fe86c4e158b5a57c5150aa5055c38b5a809aab">
+<files psalm-version="4.7.3@38c452ae584467e939d55377aaf83b5a26f19dd1">
+  <file src="redaxo/src/addons/cronjob/pages/cronjobs.php">
+    <TaintedHtml occurrences="1">
+      <code>$visibleJs . "\n"</code>
+    </TaintedHtml>
+  </file>
   <file src="redaxo/src/addons/structure/plugins/history/fragments/history/layer.php">
     <TaintedHtml occurrences="4">
       <code>$this-&gt;getVar('content1iframe')</code>
@@ -12,6 +17,9 @@
     <TaintedHtml occurrences="1">
       <code>$this-&gt;getVar('content', '')</code>
     </TaintedHtml>
+  </file>
+  <file src="redaxo/src/core/fragments/core/form/search.php">
+    <TaintedHtml occurrences="1"/>
   </file>
   <file src="redaxo/src/core/fragments/core/page/docs.php">
     <TaintedHtml occurrences="3">

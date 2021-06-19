@@ -232,7 +232,10 @@ class rex_backup
         $tar = new rex_backup_tar();
 
         // ----- EXTENSION POINT
-        /** @var rex_backup_tar $tar */
+        /**
+         * @var rex_backup_tar $tar
+         * @psalm-ignore-var
+         */
         $tar = rex_extension::registerPoint(new rex_extension_point('BACKUP_BEFORE_FILE_IMPORT', $tar));
 
         // require import skript to do some userside-magic
