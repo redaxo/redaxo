@@ -480,7 +480,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
             $articleStatus = $artStatusTypes[$sql->getValue('status')][0];
             $articleClass = $artStatusTypes[$sql->getValue('status')][1];
             $articleIcon = $artStatusTypes[$sql->getValue('status')][2];
-			$dataArtStatus = 'data-status="'.$sql->getValue('status').'"';
+            $dataArtStatus = 'data-status="'.$sql->getValue('status').'"';
 
             $addExtra = '';
             if ($canEdit) {
