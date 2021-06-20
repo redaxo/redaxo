@@ -1,6 +1,20 @@
 Changelog
 =========
 
+Version 5.12.1 – XX.06.2021
+---------------------------
+
+### Neu
+
+* Update der externen Bibliotheken
+
+### Bugfixes
+
+* `rex_version`:
+    - Methode `compare` für Aufrufe ohne letzten Parameter `$comparator` korrigiert (@gharlan)
+    - Methode `gitHash` für Aufrufe ohne zweiten Parameter `$repo` korrigiert (@gharlan)
+
+
 Version 5.12.0 – 03.03.2021
 ---------------------------
 

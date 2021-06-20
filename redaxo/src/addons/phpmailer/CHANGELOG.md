@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.10.2 – XX.06.2021
+---------------------------
+
+### Security
+
+* Update auf PHPMailer 6.5.0, inklusive Security-Fix: https://github.com/PHPMailer/PHPMailer/releases/tag/v6.5.0
+
+
 Version 2.10.1 – 29.04.2021
 ---------------------------
 
