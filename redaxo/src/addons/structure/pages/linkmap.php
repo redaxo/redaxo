@@ -33,7 +33,7 @@ if ('' != $openerInputField && '' == $openerInputFieldName) {
     $openerInputFieldName = $openerInputField . '_NAME';
 }
 if ('REX_LINKLIST_' == substr($openerInputField, 0, 13)) {
-    $id = rex_escape(substr($openerInputField, 13, strlen($openerInputField)), 'js');
+    $id = rex_escape((string) substr($openerInputField, 13, strlen($openerInputField)), 'js');
     $funcBody .= 'var linklist = "REX_LINKLIST_SELECT_' . $id . '";
                              var linkid = link.replace("redaxo://","");
                  var source = opener.document.getElementById(linklist);
