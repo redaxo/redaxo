@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.10.1 – XX.06.2021
+---------------------------
+
+### Bugfixes
+
+* `rex_var_media(list)::getWidget`: ID-Parameter mit zusätzlichem Namespace-Anteil (nicht nur integer) wurden nur teilweise unterstützt (@gharlan)
+
+
 Version 2.10.0 – 03.03.2021
 ---------------------------
 
