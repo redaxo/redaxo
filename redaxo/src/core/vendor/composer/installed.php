@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'd461c7bd999fe2dc13a436d2f45e42b9b511a839',
+        'reference' => 'cc75721e22de61aa1ab6594df1480c4be2cd6d9a',
         'name' => '__root__',
         'dev' => false,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'd461c7bd999fe2dc13a436d2f45e42b9b511a839',
+            'reference' => 'cc75721e22de61aa1ab6594df1480c4be2cd6d9a',
             'dev_requirement' => false,
         ),
         'erusev/parsedown' => array(
@@ -38,12 +38,12 @@
             'dev_requirement' => false,
         ),
         'filp/whoops' => array(
-            'pretty_version' => '2.12.1',
-            'version' => '2.12.1.0',
+            'pretty_version' => '2.13.0',
+            'version' => '2.13.0.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../filp/whoops',
             'aliases' => array(),
-            'reference' => 'c13c0be93cff50f88bbd70827d993026821914dd',
+            'reference' => '2edbc73a4687d9085c8f20f398eebade844e8424',
             'dev_requirement' => false,
         ),
         'psr/container' => array(
@@ -103,7 +103,7 @@
             'type' => 'metapackage',
             'install_path' => NULL,
             'aliases' => array(),
-            'reference' => '9460a22455b82b353d2212fecedebcf73b141baa',
+            'reference' => 'ac3658667fbbdd16f2be6f0976b8527f5f9ddf6d',
             'dev_requirement' => false,
         ),
         'symfony/console' => array(
@@ -206,12 +206,12 @@
             'dev_requirement' => false,
         ),
         'symfony/string' => array(
-            'pretty_version' => 'v5.3.0',
-            'version' => '5.3.0.0',
+            'pretty_version' => 'v5.3.2',
+            'version' => '5.3.2.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/string',
             'aliases' => array(),
-            'reference' => 'a9a0f8b6aafc5d2d1c116dcccd1573a95153515b',
+            'reference' => '0732e97e41c0a590f77e231afc16a327375d50b0',
             'dev_requirement' => false,
         ),
         'symfony/var-dumper' => array(

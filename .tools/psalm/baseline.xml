@@ -1121,8 +1121,9 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/mediapool/lib/form_element/media.php">
-    <MixedArgument occurrences="1">
+    <MixedArgument occurrences="2">
       <code>$this-&gt;args</code>
+      <code>$widgetCounter</code>
     </MixedArgument>
     <MixedArrayAssignment occurrences="3">
       <code>$this-&gt;args['category']</code>
@@ -1137,8 +1138,9 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/mediapool/lib/form_element/medialist.php">
-    <MixedArgument occurrences="1">
+    <MixedArgument occurrences="2">
       <code>$this-&gt;args</code>
+      <code>$widgetCounter</code>
     </MixedArgument>
     <MixedArrayAssignment occurrences="3">
       <code>$this-&gt;args['category']</code>
@@ -1339,12 +1341,7 @@
     <MixedMethodCall occurrences="1">
       <code>getValue</code>
     </MixedMethodCall>
-    <MixedOperand occurrences="7">
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
+    <MixedOperand occurrences="2">
       <code>$name</code>
       <code>$value</code>
     </MixedOperand>
@@ -1365,18 +1362,7 @@
     <MixedMethodCall occurrences="1">
       <code>getValue</code>
     </MixedMethodCall>
-    <MixedOperand occurrences="13">
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
+    <MixedOperand occurrences="2">
       <code>$name</code>
       <code>$value</code>
     </MixedOperand>
@@ -2038,6 +2024,9 @@
     </MixedArgument>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/input/linkbutton.php">
+    <MixedArgument occurrences="1">
+      <code>$buttonId</code>
+    </MixedArgument>
     <MixedAssignment occurrences="3">
       <code>$buttonId</code>
       <code>$categoryId</code>
@@ -2048,6 +2037,9 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/input/linklistbutton.php">
+    <MixedArgument occurrences="1">
+      <code>$buttonId</code>
+    </MixedArgument>
     <MixedAssignment occurrences="3">
       <code>$buttonId</code>
       <code>$category</code>
@@ -2058,8 +2050,9 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/input/mediabutton.php">
-    <MixedArgument occurrences="1">
+    <MixedArgument occurrences="2">
       <code>$args</code>
+      <code>$buttonId</code>
     </MixedArgument>
     <MixedArrayAssignment occurrences="3">
       <code>$this-&gt;args['category']</code>
@@ -2076,8 +2069,9 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/input/medialistbutton.php">
-    <MixedArgument occurrences="1">
+    <MixedArgument occurrences="2">
       <code>$args</code>
+      <code>$buttonId</code>
     </MixedArgument>
     <MixedArrayAssignment occurrences="3">
       <code>$this-&gt;args['category']</code>
@@ -2540,6 +2534,9 @@
     </UnusedVariable>
   </file>
   <file src="redaxo/src/addons/structure/lib/linkmap/form_element/linklist.php">
+    <MixedArgument occurrences="1">
+      <code>$widgetCounter</code>
+    </MixedArgument>
     <MixedAssignment occurrences="1">
       <code>$widgetCounter</code>
     </MixedAssignment>
@@ -2548,6 +2545,9 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/structure/lib/linkmap/form_element/linkmap.php">
+    <MixedArgument occurrences="1">
+      <code>$widgetCounter</code>
+    </MixedArgument>
     <MixedAssignment occurrences="1">
       <code>$widgetCounter</code>
     </MixedAssignment>
@@ -2611,12 +2611,7 @@
     <MixedMethodCall occurrences="1">
       <code>getValue</code>
     </MixedMethodCall>
-    <MixedOperand occurrences="7">
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
+    <MixedOperand occurrences="2">
       <code>$name</code>
       <code>$value</code>
     </MixedOperand>
@@ -2636,16 +2631,7 @@
     <MixedMethodCall occurrences="1">
       <code>getValue</code>
     </MixedMethodCall>
-    <MixedOperand occurrences="11">
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
+    <MixedOperand occurrences="2">
       <code>$name</code>
       <code>$value</code>
     </MixedOperand>
