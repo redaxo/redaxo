@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.8.1 – 21.06.2021
+--------------------------
+
+### Bugfixes
+
+* Media(list)- und Link(list)-Widgets hatten teils gleiche IDs wie entsprechende Widgets in den Slices, wodurch es zu Konflikten kam (@gharlan)
+
+
 Version 2.8.0 – 03.03.2021
 --------------------------
 
