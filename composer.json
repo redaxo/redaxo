@@ -16,7 +16,7 @@
         "phpstan/phpstan-symfony": "0.12.35",
         "phpunit/phpunit": "^9.3",
         "psalm/plugin-phpunit": "0.15.2",
-        "psalm/plugin-symfony": "2.3.0",
+        "psalm/plugin-symfony": "2.3.1",
         "rector/rector": "0.11.8",
         "vimeo/psalm": "4.7.3"
     },
