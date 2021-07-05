@@ -1,9 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.7.3@38c452ae584467e939d55377aaf83b5a26f19dd1">
+<files psalm-version="4.8.1@f73f2299dbc59a3e6c4d66cff4605176e728ee69">
+  <file src="redaxo/src/addons/backup/pages/export.php">
+    <TaintedTextWithQuotes occurrences="1">
+      <code>rex_view::success($success)</code>
+    </TaintedTextWithQuotes>
+  </file>
   <file src="redaxo/src/addons/cronjob/pages/cronjobs.php">
     <TaintedHtml occurrences="1">
       <code>$visibleJs . "\n"</code>
     </TaintedHtml>
+    <TaintedTextWithQuotes occurrences="11">
+      <code>$envFieldId</code>
+      <code>$envFieldId</code>
+      <code>$envJs</code>
+      <code>$envJs</code>
+      <code>$typeFieldId</code>
+      <code>$typeFieldId</code>
+      <code>$typeFieldId</code>
+      <code>$typeFieldId</code>
+      <code>$visibleJs . "\n"</code>
+      <code>$visibleJs . "\n"</code>
+      <code>$visibleJs . "\n"</code>
+    </TaintedTextWithQuotes>
+  </file>
+  <file src="redaxo/src/addons/install/pages/packages.add.php">
+    <TaintedTextWithQuotes occurrences="1">
+      <code>rex_api_function::getMessage()</code>
+    </TaintedTextWithQuotes>
+  </file>
+  <file src="redaxo/src/addons/install/pages/packages.upload.php">
+    <TaintedTextWithQuotes occurrences="3">
+      <code>rex_api_function::getMessage()</code>
+    </TaintedTextWithQuotes>
+  </file>
+  <file src="redaxo/src/addons/mediapool/pages/index.php">
+    <TaintedTextWithQuotes occurrences="2">
+      <code>$openerInputField ? 'rex.mediapoolOpenerInputField = "'.rex_escape($openerInputField, 'js').'";' : ''</code>
+      <code>$openerInputField ? 'rex.mediapoolOpenerInputField = "'.rex_escape($openerInputField, 'js').'";' : ''</code>
+    </TaintedTextWithQuotes>
+  </file>
+  <file src="redaxo/src/addons/mediapool/pages/sync.php">
+    <TaintedTextWithQuotes occurrences="1">
+      <code>$content</code>
+    </TaintedTextWithQuotes>
+  </file>
+  <file src="redaxo/src/addons/mediapool/pages/upload.php">
+    <TaintedTextWithQuotes occurrences="2">
+      <code>rex_mediapool_Uploadform($rexFileCategory)</code>
+      <code>rex_mediapool_Uploadform($rexFileCategory)</code>
+    </TaintedTextWithQuotes>
+  </file>
+  <file src="redaxo/src/addons/metainfo/pages/field.php">
+    <TaintedTextWithQuotes occurrences="1">
+      <code>rex_api_function::getMessage()</code>
+    </TaintedTextWithQuotes>
+  </file>
+  <file src="redaxo/src/addons/structure/lib/navigation.php">
+    <TaintedTextWithQuotes occurrences="4">
+      <code>$this-&gt;get($categoryId, $depth, $open, $ignoreOfflines)</code>
+      <code>$this-&gt;get($categoryId, $depth, $open, $ignoreOfflines)</code>
+      <code>$this-&gt;getBreadcrumb($startPageLabel, $includeCurrent, $categoryId)</code>
+      <code>$this-&gt;getBreadcrumb($startPageLabel, $includeCurrent, $categoryId)</code>
+    </TaintedTextWithQuotes>
+  </file>
+  <file src="redaxo/src/addons/structure/pages/index.php">
+    <TaintedTextWithQuotes occurrences="1">
+      <code>rex_api_function::getMessage()</code>
+    </TaintedTextWithQuotes>
+  </file>
+  <file src="redaxo/src/addons/structure/pages/linkmap.php">
+    <TaintedTextWithQuotes occurrences="2">
+      <code>$funcBody . "\n"</code>
+      <code>$funcBody . "\n"</code>
+    </TaintedTextWithQuotes>
+  </file>
+  <file src="redaxo/src/addons/structure/plugins/content/pages/templates.php">
+    <TaintedTextWithQuotes occurrences="2">
+      <code>$content</code>
+      <code>$content</code>
+    </TaintedTextWithQuotes>
   </file>
   <file src="redaxo/src/addons/structure/plugins/history/fragments/history/layer.php">
     <TaintedHtml occurrences="4">
@@ -12,14 +87,53 @@
       <code>$this-&gt;getVar('content2iframe')</code>
       <code>$this-&gt;getVar('content2select')</code>
     </TaintedHtml>
+    <TaintedTextWithQuotes occurrences="12">
+      <code>$this-&gt;getVar('content1iframe')</code>
+      <code>$this-&gt;getVar('content1iframe')</code>
+      <code>$this-&gt;getVar('content1iframe')</code>
+      <code>$this-&gt;getVar('content1select')</code>
+      <code>$this-&gt;getVar('content1select')</code>
+      <code>$this-&gt;getVar('content1select')</code>
+      <code>$this-&gt;getVar('content2iframe')</code>
+      <code>$this-&gt;getVar('content2iframe')</code>
+      <code>$this-&gt;getVar('content2iframe')</code>
+      <code>$this-&gt;getVar('content2select')</code>
+      <code>$this-&gt;getVar('content2select')</code>
+      <code>$this-&gt;getVar('content2select')</code>
+    </TaintedTextWithQuotes>
+  </file>
+  <file src="redaxo/src/core/fragments/core/buttons/button.php">
+    <TaintedTextWithQuotes occurrences="2">
+      <code>'&lt;' .$tag . $href . rex_string::buildAttributes($button['attributes']) . '&gt;' . $icon . $button['label'] . '&lt;/' . $tag . '&gt;'</code>
+      <code>'&lt;' .$tag . $href . rex_string::buildAttributes($button['attributes']) . '&gt;' . $icon . $button['label'] . '&lt;/' . $tag . '&gt;'</code>
+    </TaintedTextWithQuotes>
   </file>
   <file src="redaxo/src/core/fragments/core/fe_ooops.php">
     <TaintedHtml occurrences="1">
       <code>$this-&gt;getVar('content', '')</code>
     </TaintedHtml>
+    <TaintedTextWithQuotes occurrences="3">
+      <code>$this-&gt;getVar('content', '')</code>
+      <code>$this-&gt;getVar('content', '')</code>
+      <code>$this-&gt;getVar('content', '')</code>
+    </TaintedTextWithQuotes>
   </file>
   <file src="redaxo/src/core/fragments/core/form/search.php">
     <TaintedHtml occurrences="1"/>
+    <TaintedTextWithQuotes occurrences="3"/>
+  </file>
+  <file src="redaxo/src/core/fragments/core/navigations/content.php">
+    <TaintedTextWithQuotes occurrences="1">
+      <code>'&lt;div' . ((isset($this-&gt;id) &amp;&amp; '' != $this-&gt;id) ? ' id="' .  $this-&gt;id . '"' : '') . ' class="nav rex-page-nav"&gt;' . $out . '&lt;/div&gt;'</code>
+    </TaintedTextWithQuotes>
+  </file>
+  <file src="redaxo/src/core/fragments/core/navigations/main.php">
+    <TaintedTextWithQuotes occurrences="4">
+      <code>$itemAttr</code>
+      <code>$itemAttr</code>
+      <code>$linkAttr</code>
+      <code>$linkAttr</code>
+    </TaintedTextWithQuotes>
   </file>
   <file src="redaxo/src/core/fragments/core/page/docs.php">
     <TaintedHtml occurrences="3">
@@ -27,18 +141,82 @@
       <code>$this-&gt;getVar('sidebar')</code>
       <code>$this-&gt;getVar('toc')</code>
     </TaintedHtml>
+    <TaintedTextWithQuotes occurrences="9">
+      <code>$this-&gt;getVar('content')</code>
+      <code>$this-&gt;getVar('content')</code>
+      <code>$this-&gt;getVar('content')</code>
+      <code>$this-&gt;getVar('sidebar')</code>
+      <code>$this-&gt;getVar('sidebar')</code>
+      <code>$this-&gt;getVar('sidebar')</code>
+      <code>$this-&gt;getVar('toc')</code>
+      <code>$this-&gt;getVar('toc')</code>
+      <code>$this-&gt;getVar('toc')</code>
+    </TaintedTextWithQuotes>
   </file>
   <file src="redaxo/src/core/fragments/core/page/readme.php">
     <TaintedHtml occurrences="1">
       <code>$this-&gt;getVar('content')</code>
     </TaintedHtml>
+    <TaintedTextWithQuotes occurrences="3">
+      <code>$this-&gt;getVar('content')</code>
+      <code>$this-&gt;getVar('content')</code>
+      <code>$this-&gt;getVar('content')</code>
+    </TaintedTextWithQuotes>
+  </file>
+  <file src="redaxo/src/core/fragments/core/page/section.php">
+    <TaintedTextWithQuotes occurrences="4">
+      <code>'' != $header ? '&lt;header' . rex_string::buildAttributes($attributes) . '&gt;' . $header . '&lt;/header&gt;' : ''</code>
+      <code>'' != $header ? '&lt;header' . rex_string::buildAttributes($attributes) . '&gt;' . $header . '&lt;/header&gt;' : ''</code>
+      <code>rex_string::buildAttributes($sectionAttributes)</code>
+      <code>rex_string::buildAttributes($sectionAttributes)</code>
+    </TaintedTextWithQuotes>
+  </file>
+  <file src="redaxo/src/core/layout/top.php">
+    <TaintedTextWithQuotes occurrences="2">
+      <code>'&lt;title&gt;' . rex_escape(rex_be_controller::getPageTitle()) . '&lt;/title&gt;'</code>
+      <code>'&lt;title&gt;' . rex_escape(rex_be_controller::getPageTitle()) . '&lt;/title&gt;'</code>
+    </TaintedTextWithQuotes>
+  </file>
+  <file src="redaxo/src/core/lib/error_handler.php">
+    <TaintedTextWithQuotes occurrences="3">
+      <code>$exceptionString</code>
+      <code>'&lt;div&gt;&lt;b&gt;' . self::getErrorType($errno) . '&lt;/b&gt;: '.rex_escape($errstr)." in &lt;b&gt;$file&lt;/b&gt; on line &lt;b&gt;$errline&lt;/b&gt;&lt;/div&gt;"</code>
+      <code>'&lt;div&gt;&lt;b&gt;' . self::getErrorType($errno) . '&lt;/b&gt;: '.rex_escape($errstr)." in &lt;b&gt;$file&lt;/b&gt; on line &lt;b&gt;$errline&lt;/b&gt;&lt;/div&gt;"</code>
+    </TaintedTextWithQuotes>
+  </file>
+  <file src="redaxo/src/core/lib/form/form_base.php">
+    <TaintedTextWithQuotes occurrences="4">
+      <code>$this-&gt;get()</code>
+      <code>$this-&gt;get()</code>
+      <code>'redirect to: ' . rex_escape($this-&gt;applyUrl . $paramString)</code>
+      <code>'redirect to: ' . rex_escape($this-&gt;applyUrl . $paramString)</code>
+    </TaintedTextWithQuotes>
+  </file>
+  <file src="redaxo/src/core/lib/list.php">
+    <TaintedTextWithQuotes occurrences="1">
+      <code>$this-&gt;get()</code>
+    </TaintedTextWithQuotes>
   </file>
   <file src="redaxo/src/core/lib/response.php">
     <TaintedHeader occurrences="1">
       <code>$str</code>
     </TaintedHeader>
   </file>
+  <file src="redaxo/src/core/lib/select.php">
+    <TaintedTextWithQuotes occurrences="2">
+      <code>$this-&gt;get()</code>
+      <code>$this-&gt;get()</code>
+    </TaintedTextWithQuotes>
+  </file>
+  <file src="redaxo/src/core/lib/sql/schema_dumper.php">
+    <TaintedHtml occurrences="1">
+      <code>$scalar</code>
+    </TaintedHtml>
+  </file>
   <file src="redaxo/src/core/lib/sql/sql.php">
+    <TaintedHtml occurrences="1">
+      <code>$values</code>
+    </TaintedHtml>
     <TaintedSql occurrences="2">
       <code>$query</code>
       <code>$query</code>
@@ -54,5 +232,11 @@
     <TaintedCallable occurrences="1">
       <code>$data</code>
     </TaintedCallable>
+  </file>
+  <file src="redaxo/src/core/pages/system.report.markdown.php">
+    <TaintedTextWithQuotes occurrences="2">
+      <code>'&lt;pre&gt;'.rex_escape($report).'&lt;/pre&gt;'</code>
+      <code>'&lt;pre&gt;'.rex_escape($report).'&lt;/pre&gt;'</code>
+    </TaintedTextWithQuotes>
   </file>
 </files>
