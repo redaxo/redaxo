@@ -31,31 +31,31 @@ class rex_mailer extends PHPMailer
         $this->Timeout = 10;
         $this->setLanguage(rex_i18n::getLanguage(), $addon->getPath('vendor/phpmailer/phpmailer/language/'));
         $this->XMailer = 'REXMailer';
-        $this->From = $addon->getConfig('from');
-        $this->FromName = $addon->getConfig('fromname');
-        $this->ConfirmReadingTo = $addon->getConfig('confirmto');
-        $this->Mailer = $addon->getConfig('mailer');
-        $this->Host = $addon->getConfig('host');
-        $this->Port = $addon->getConfig('port');
-        $this->CharSet = $addon->getConfig('charset');
-        $this->WordWrap = $addon->getConfig('wordwrap');
-        $this->Encoding = $addon->getConfig('encoding');
-        if (0 == $addon->getConfig('priority')) {
+        $this->From = $addon->getProperty('from');
+        $this->FromName = $addon->getProperty('fromname');
+        $this->ConfirmReadingTo = $addon->getProperty('confirmto');
+        $this->Mailer = $addon->getProperty('mailer');
+        $this->Host = $addon->getProperty('host');
+        $this->Port = $addon->getProperty('port');
+        $this->CharSet = $addon->getProperty('charset');
+        $this->WordWrap = $addon->getProperty('wordwrap');
+        $this->Encoding = $addon->getProperty('encoding');
+        if (0 == $addon->getProperty('priority')) {
             $this->Priority = null;
         } else {
-            $this->Priority = $addon->getConfig('priority');
+            $this->Priority = $addon->getProperty('priority');
         }
-        $this->SMTPDebug = $addon->getConfig('smtp_debug');
-        $this->SMTPSecure = $addon->getConfig('smtpsecure');
-        $this->SMTPAuth = $addon->getConfig('smtpauth');
-        $this->SMTPAutoTLS = $addon->getConfig('security_mode');
-        $this->Username = $addon->getConfig('username');
-        $this->Password = $addon->getConfig('password');
+        $this->SMTPDebug = $addon->getProperty('smtp_debug');
+        $this->SMTPSecure = $addon->getProperty('smtpsecure');
+        $this->SMTPAuth = $addon->getProperty('smtpauth');
+        $this->SMTPAutoTLS = $addon->getProperty('security_mode');
+        $this->Username = $addon->getProperty('username');
+        $this->Password = $addon->getProperty('password');
 
-        if ($bcc = $addon->getConfig('bcc')) {
+        if ($bcc = $addon->getProperty('bcc')) {
             $this->addBCC($bcc);
         }
-        $this->archive = $addon->getConfig('archive');
+        $this->archive = $addon->getProperty('archive');
         parent::__construct($exceptions);
     }
 
@@ -63,9 +63,9 @@ class rex_mailer extends PHPMailer
     {
         $addon = rex_addon::get('phpmailer');
 
-        if ($addon->getConfig('detour_mode') && '' != $addon->getConfig('test_address')) {
+        if ($addon->getProperty('detour_mode') && '' != $addon->getProperty('test_address')) {
             if ('to' == $kind) {
-                $detourAddress = $addon->getConfig('test_address');
+                $detourAddress = $addon->getProperty('test_address');
 
                 // store the address so we can use it in the subject later
 
@@ -105,7 +105,7 @@ class rex_mailer extends PHPMailer
             }
             $addon = rex_addon::get('phpmailer');
 
-            $detour = $addon->getConfig('detour_mode') && '' != $addon->getConfig('test_address');
+            $detour = $addon->getProperty('detour_mode') && '' != $addon->getProperty('test_address');
 
             // Clears the CCs and BCCs if detour mode is active
             // Sets Subject of E-Mail to [DETOUR] $subject [$this->xHeader['to']]
@@ -127,13 +127,13 @@ class rex_mailer extends PHPMailer
             }
 
             if (!parent::send()) {
-                if ($addon->getConfig('logging')) {
+                if ($addon->getProperty('logging')) {
                     $this->log('ERROR');
                 }
                 return false;
             }
 
-            if (self::LOG_ALL == $addon->getConfig('logging')) {
+            if (self::LOG_ALL == $addon->getProperty('logging')) {
                 $this->log('OK');
             }
             return true;
@@ -230,10 +230,10 @@ class rex_mailer extends PHPMailer
     {
         $addon = rex_addon::get('phpmailer');
         $logFile = rex_path::log('system.log');
-        $sendTime = $addon->getConfig('last_log_file_send_time', 0);
+        $sendTime = $addon->getProperty('last_log_file_send_time', 0);
         $timediff = time() - $sendTime;
 
-        if ($timediff <= $addon->getConfig('errormail') || !filesize($logFile)) {
+        if ($timediff <= $addon->getProperty('errormail') || !filesize($logFile)) {
             return;
         }
 

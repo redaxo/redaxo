@@ -25,3 +25,9 @@ if (true == $addon->getConfig('detour_mode')) {
     $page['icon'] .= ' text-danger';
     $addon->setProperty('page', $page);
 }
+
+// set properties
+$aProperties = array("from","fromname","confirmto","mailer","host","port","charset","wordwrap","encoding","priority","smtp_debug","smtpsecure","smtpauth","security_mode","username","password","bcc","archive","test_address","detour_mode","logging","errormail","last_log_file_send_time");
+foreach($aProperties AS $sProperty) {
+    $addon->setProperty($sProperty,$addon->getConfig($sProperty));
+}
