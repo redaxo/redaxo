@@ -242,6 +242,8 @@ function selectMedia(filename, alt)
             } else {
                 console.log("Media input field not found");
             }
+        } else {
+            self.close();
         }
     }
 }
