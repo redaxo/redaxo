@@ -83,8 +83,13 @@ function viewREXMedia(id,param)
 
 function deleteREXMedia(id)
 {
-    var a = new getObj("REX_MEDIA_"+id);
-    a.obj.value = "";
+    var input = new getObj("REX_MEDIA_" + id).obj;
+    if (input !== null) {
+        input.value = "";
+        jQuery(input).trigger('change');
+    } else {
+        console.log("Media input field not found");
+    }
 }
 
 function addREXMedia(id,params)
@@ -229,9 +234,17 @@ function selectMedia(filename, alt)
     opener.jQuery(window).trigger(event, [filename, alt]);
     if (!event.isDefaultPrevented()) {
         if (rex.mediapoolOpenerInputField) {
-            opener.document.getElementById(rex.mediapoolOpenerInputField).value = filename;
+            var input = opener.document.getElementById(rex.mediapoolOpenerInputField);
+            if (input !== null) {
+                input.value = filename;
+                opener.jQuery(input).trigger('change');
+                self.close();
+            } else {
+                console.log("Media input field not found");
+            }
+        } else {
+            self.close();
         }
-        self.close();
     }
 }
 
