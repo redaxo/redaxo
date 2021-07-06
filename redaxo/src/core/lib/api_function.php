@@ -81,6 +81,16 @@ abstract class rex_api_function
 
         $api = rex_request(self::REQ_CALL_PARAM, 'string');
 
+        if (empty($api)) {
+            $messageBody = file_get_contents('php://input');
+            if (!empty($messageBody)) {
+                parse_str($messageBody, $data);
+                if (isset($data[self::REQ_CALL_PARAM]) && is_string($data[self::REQ_CALL_PARAM])) {
+                    $api = rex_type::cast($data[self::REQ_CALL_PARAM], 'string');
+                }
+            }
+        }
+
         if ($api) {
             $apiClass = 'rex_api_' . $api;
             if (class_exists($apiClass)) {
