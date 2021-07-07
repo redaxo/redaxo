@@ -4,32 +4,45 @@
  * @psalm-scope-this rex_fragment
  */
 
-$toolbar = isset($this->toolbar) && $this->toolbar;
-$group = isset($this->group) && $this->group;
+$toolbar = isset($this->toolbar) && $this->toolbar ? true : false;
+$group = isset($this->group) && $this->group ? true : false;
+$module_dropdown_id = 'module-dropdown-'.rand(999,999999999);
 ?>
 
 <?php if (!$toolbar && !$group): ?>
-<div class="dropdown<?= (isset($this->block) ? ' btn-block' : '')?><?= ((isset($this->class) && '' != $this->class) ? ' ' . $this->class : '') ?>">
+    <div class="dropdown<?= (isset($this->block) ? ' btn-block' : '')?><?= ((isset($this->class) && '' != $this->class) ? ' ' . $this->class : '') ?>">
 <?php endif; ?>
 
-    <?php if ($toolbar): ?>
+<?php if ($toolbar): ?>
     <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"<?= ((isset($this->disabled) && $this->disabled) ? ' disabled' : '') ?>>
     <?php else: ?>
     <button class="btn btn-default<?= (isset($this->block) ? ' btn-block' : '')?> dropdown-toggle" type="button" data-toggle="dropdown"<?= ((isset($this->disabled) && $this->disabled) ? ' disabled' : '') ?>>
-    <?php endif; ?>
-        <?php if (isset($this->button_prefix) && '' != $this->button_prefix): ?>
-        <?= $this->button_prefix ?>
-        <?php endif; ?>
-        <?php if (isset($this->button_label) && '' != $this->button_label): ?>
-        <?= ' <b>' . $this->button_label . '</b>' ?>
-        <?php endif; ?>
-        <span class="caret"></span>
-    <?php if ($toolbar): ?>
+<?php endif; ?>
+<?php if (isset($this->button_prefix) && '' != $this->button_prefix): ?>
+    <?= $this->button_prefix ?>
+<?php endif; ?>
+<?php if (isset($this->button_label) && '' != $this->button_label): ?>
+    <?= ' <b>' . $this->button_label . '</b>' ?>
+<?php endif; ?>
+    <span class="caret"></span>
+<?php if ($toolbar): ?>
     </a>
-    <?php else: ?>
+<?php else: ?>
     </button>
-    <?php endif; ?>
-    <ul class="dropdown-menu<?= (isset($this->right) ? ' dropdown-menu-right' : '')?><?= (isset($this->block) ? ' btn-block' : '')?>" role="menu">
+<?php endif; ?>
+    <ul id="<?= $module_dropdown_id ?>" class="dropdown-menu<?= (isset($this->right) ? ' dropdown-menu-right' : '')?><?= (isset($this->block) ? ' btn-block' : '')?>" role="menu">
+
+        <div class="form-group alert alert-info" style="padding: 10px 15px 10px 15px;">
+            <label class="control-label"><i class="rex-icon rex-icon-search"></i> <?= rex_i18n::msg('rex_slice_search_headline') ?></label>
+            <input type="text" class="slice-search-box form-control" placeholder="<?= rex_i18n::msg('rex_slice_search_placeholder') ?>">
+
+            <div class="hidden rex-slice-search-lang-var">
+                <span><?= rex_i18n::msg('rex_slice_search_pretext') ?></span>
+            </div>
+
+            <div class="slice-search-result"><small><span class="qty-live"><?= count($this->items) ?></span> <span class="slice-search-singular" style="display: none;"><?= rex_i18n::msg('rex_slice_search_module') ?></span><span class="slice-search-plural"><?= rex_i18n::msg('rex_slice_search_modules') ?></span> <span class="query-live"></span></small></div>
+        </div>
+
         <?php if (isset($this->header) && '' != $this->header): ?>
             <li class="dropdown-header"><?= $this->header ?></li>
         <?php endif; ?>
@@ -46,5 +59,6 @@ $group = isset($this->group) && $this->group;
         <?php endif; ?>
     </ul>
 <?php if (!$toolbar && !$group): ?>
-</div>
+    </div>
 <?php endif;
+
