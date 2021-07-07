@@ -40,4 +40,42 @@ $(document).on('rex:ready', function (event, viewRoot) {
             store_sidebar_status ();
         });
     }
+
+// Search Slices
+    $('.slice-search-box').on('keyup', function() {
+        var dropdownId = $(this).closest('ul').attr('id');
+        var searchTerm = $(this).val().toLowerCase();
+        var searchTermOriginal = $(this).val();
+
+        $('#' + dropdownId + ' li').each(function() {
+            var moduleName = $(this).text();
+            //console.log(moduleName + ' | Suchbegriff: '+searchTerm);
+
+            if (moduleName.toLowerCase().indexOf(searchTerm) >= 0) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        }); /* EoF each */
+
+        var n = $('#' + dropdownId + ' li:visible').length;
+        $('#' + dropdownId + ' .qty-live').html(n);
+        if (n == 1) {
+            $('#' + dropdownId + ' .slice-search-plural').hide();
+            $('#' + dropdownId + ' .slice-search-singular').show();
+        } else {
+            $('#' + dropdownId + ' .slice-search-plural').show();
+            $('#' + dropdownId + ' .slice-search-singular').hide();
+        }
+        var preText = $('#' + dropdownId + ' .rex-slice-search-lang-var').text();
+        $('#' + dropdownId + ' .query-live').html(' ' + preText + ' <strong><em>' + searchTermOriginal + '</em></strong>');
+
+        if (searchTerm == "") {
+            $('#' + dropdownId + ' .query-live').html('');
+        }
+
+    });
+// End Search Slices
+
 });
+// End on rex::ready
