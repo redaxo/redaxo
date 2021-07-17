@@ -278,8 +278,14 @@ final class rex_media_service
                     }
                     break;
                 case 'term':
-                    if (is_string($searchItem['value']) && '' != $searchItem['value']) {
-                        $where[] = '(m.filename LIKE :search_'.$counter.' || m.title LIKE :search_'.$counter.')';
+                    if (is_string($searchItem['value']) && '' != $searchItem['value']) {                      
+                        if(is_int(@preg_match("/^.*".$searchItem['value'].".*$/", '')) {
+                            $where[] = '(m.filename REGEXP :search_regexp_'.$counter.' || m.title LIKE :search_regexp_'.$counter.' || m.filename :search_'.$counter.' || m.title LIKE :search_'.$counter.')';
+                            $queryParams['search_regexp_'.$counter] = "^.*".$searchItem['value'].".*$";
+                        } else {
+                            $where[] = '(m.filename :search_'.$counter.' || m.title LIKE :search_'.$counter.')';
+                        }
+
                         $queryParams['search_'.$counter] = $searchItem['value'];
                     }
                     break;
