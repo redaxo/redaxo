@@ -579,9 +579,11 @@ $transitionDuration: 300ms;
 }
 
 .rex-navbar-without-brand {
-    .container-fluid,
-    .navbar-collapse {
-        padding-left: 0;
+    @media (min-width: $grid-float-breakpoint) {
+        .container-fluid,
+        .navbar-collapse {
+            padding-left: 0;
+        }
     }
 }
 

@@ -7,7 +7,6 @@ namespace Redaxo\Rector\Util;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassLike;
 use Rector\Naming\Contract\Guard\ConflictingNameGuardInterface;
-use Rector\Naming\Contract\RenameValueObjectInterface;
 use Rector\Naming\PhpArray\ArrayFilter;
 use Rector\Naming\ValueObject\PropertyRename;
 use Rector\NodeNameResolver\NodeNameResolver;
@@ -33,7 +32,7 @@ final class UnderscoreCamelCaseConflictingNameGuard implements ConflictingNameGu
     /**
      * @param PropertyRename $renameValueObject
      */
-    public function isConflicting(RenameValueObjectInterface $renameValueObject): bool
+    public function isConflicting($renameValueObject): bool
     {
         $conflictingPropertyNames = $this->resolve($renameValueObject->getClassLike());
         return \in_array($renameValueObject->getExpectedName(), $conflictingPropertyNames, true);

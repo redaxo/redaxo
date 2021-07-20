@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 1.1.1 – 21.06.2021
+--------------------------
+
+### Bugfixes
+
+* `rex_socket`-Einträge in Timeline enthielten doppelten Slash in URL (@gharlan)
+
+
 Version 1.1.0 – 03.03.2021
 --------------------------
 

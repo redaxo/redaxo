@@ -1,6 +1,4 @@
-.btn-default:hover {
-    background-color: #dbdee4;
-}
+.btn-default,
 .btn-abort,
 .btn-back,
 .btn-clang,
@@ -9,7 +7,7 @@
 .btn-reset,
 .btn-search {
     &:hover {
-        @extend .btn-default:hover;
+        background-color: #dbdee4;
     }
 }
 
