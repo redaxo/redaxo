@@ -207,7 +207,7 @@ $content = '
             <td>' . PHP_VERSION . ' <a class="rex-link-expanded" href="' . rex_url::backendPage('system/phpinfo') . '" title="phpinfo" onclick="newWindow(\'phpinfo\', this.href, 1000,800,\',status=yes,resizable=yes\');return false;"><i class="rex-icon rex-icon-phpinfo"></i></a></td>
         </tr>
         <tr>
-            <th class="rex-table-width-3">'.rex_i18n::msg('path').'</th>
+            <th>'.rex_i18n::msg('path').'</th>
 			<td>
 			<div class="rex-word-break">'. rex_path::base() .'</div>
 			</td>
