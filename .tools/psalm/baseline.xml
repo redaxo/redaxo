@@ -5100,13 +5100,14 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/console/setup/run.php">
-    <MixedArgument occurrences="18">
+    <MixedArgument occurrences="19">
       <code>$config['db'][1]['host']</code>
       <code>$config['db'][1]['login']</code>
       <code>$config['db'][1]['name']</code>
       <code>$config['error_email']</code>
       <code>$config['server']</code>
       <code>$config['servername']</code>
+      <code>$config['timezone']</code>
       <code>$config['timezone']</code>
       <code>$dbCreate</code>
       <code>$error</code>
