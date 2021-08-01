@@ -36,6 +36,11 @@ parameters:
 			path: ../../redaxo/src/addons/mediapool/lib/media_category_select.php
 
 		-
+			message: "#^Ternary operator condition is always true\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/mediapool/lib/service_media.php
+
+		-
 			message: "#^Strict comparison using \\=\\=\\= between false and string will always evaluate to false\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/metainfo/functions/function_metainfo.php
@@ -89,6 +94,11 @@ parameters:
 			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/plugins/version/boot.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between 0 and int\\<1, max\\> will always evaluate to false\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/functions/function_rex_escape.php
 
 		-
 			message: "#^Offset 'href' on array\\(\\?'active' \\=\\> true, 'href' \\=\\> string, \\?'itemAttr' \\=\\> array\\('class' \\=\\> array\\(0 \\=\\> 'bg\\-success', \\?1 \\=\\> 'disabled'\\)\\)\\) in isset\\(\\) always exists and is not nullable\\.$#"
@@ -211,6 +221,11 @@ parameters:
 			path: ../../redaxo/src/core/lib/packages/addons/addon.php
 
 		-
+			message: "#^If condition is always true\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/response.php
+
+		-
 			message: "#^Call to function assert\\(\\) with false will always evaluate to false\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/sql/table.php
@@ -254,6 +269,11 @@ parameters:
 			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int, array\\)\\: bool\\)\\|null, Closure\\(mixed, mixed\\)\\: void given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/socket/socket.php
+
+		-
+			message: "#^PHPDoc tag @param for parameter \\$vartype contains unresolvable type\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/util/type.php
 
 		-
 			message: "#^Method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) should return array\\<T of object\\> but returns array\\<int, mixed\\>\\.$#"
