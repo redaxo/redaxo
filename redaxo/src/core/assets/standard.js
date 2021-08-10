@@ -668,6 +668,7 @@ jQuery(document).ready(function($) {
                 // show only if page takes longer than 200 ms to load
                 window.clearTimeout(rexAjaxLoaderId);
                 rexAjaxLoaderId = setTimeout(function () {
+                    document.documentElement.style.overflowY = 'hidden'; // freeze scroll position
                     document.querySelector('#rex-js-ajax-loader').classList.add('rex-visible');
                 }, 200);
             })
@@ -679,6 +680,7 @@ jQuery(document).ready(function($) {
                 window.clearTimeout(rexAjaxLoaderId);
                 rexAjaxLoaderId = setTimeout(function () {
                     document.querySelector('#rex-js-ajax-loader').classList.remove('rex-visible');
+                    document.documentElement.style.overflowY = null;
                 }, 500);
 
                 options.context.trigger('rex:ready', [options.context]);
