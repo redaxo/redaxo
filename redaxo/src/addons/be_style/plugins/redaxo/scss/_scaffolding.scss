@@ -1,6 +1,7 @@
 html {
     overflow-y: scroll;
     height: 100%;
+    scroll-padding-top: $top-navbar-height + floor($grid-gutter-width / 2);
 }
 @media(min-width: $grid-float-breakpoint) {
     body, .rex-page {

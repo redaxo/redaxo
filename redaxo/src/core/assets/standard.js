@@ -514,6 +514,23 @@ function getCookie(cookieName) {
     return unescape(theCookie.substring(ind + cookieName.length + 1, ind1));
 }
 
+// scroll to anchor element + adjust scroll-padding-top
+function scrollToAnchor() {
+    if (window.location.hash) {
+        var scrollPadding = window.getComputedStyle(document.documentElement).getPropertyValue('scroll-padding-top');
+        scrollPadding = parseInt(scrollPadding, 10); // so 65px will be 65
+        if (scrollPadding > 0) {
+            var anchorItem = document.querySelector(window.location.hash);
+            if (anchorItem) {
+                var anchorItemPosition = anchorItem.getBoundingClientRect().top;
+                if (!isNaN(scrollPadding) && scrollPadding > 0 && anchorItemPosition < scrollPadding) {
+                    window.scrollBy(0, -scrollPadding);
+                }
+            }
+        }
+    }
+}
+
 jQuery(document).ready(function($) {
 
     if (!("autofocus" in document.createElement("input"))) {
@@ -655,6 +672,8 @@ jQuery(document).ready(function($) {
                 }, 200);
             })
             .on('pjax:end',   function (event, xhr, options) {
+                // adjust scroll position for anchors depending on scroll-margin-top value
+                scrollToAnchor();
                 // hide loader
                 // make sure loader was visible for at least 500 ms to avoid flickering
                 window.clearTimeout(rexAjaxLoaderId);
