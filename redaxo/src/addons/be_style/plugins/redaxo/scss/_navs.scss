@@ -29,7 +29,12 @@ $transitionDuration: 300ms;
 #rex-page-setup {
 
     .rex-nav-main {
+        display: block;
         padding: $top-navbar-height 0 0 0;
+
+        @media (max-width: $grid-float-breakpoint-max) {
+            padding-top: $top-mobile-navbar-height;
+        }
     }
 }
 
@@ -77,6 +82,8 @@ $transitionDuration: 300ms;
         }
 
         div {
+            display: flex; // avoid collapsing margins
+            flex-direction: column;
             padding-bottom: $grid-gutter-width;
         }
     }
@@ -205,20 +212,23 @@ $transitionDuration: 300ms;
 .rex-is-logged-in,
 #rex-page-setup {
     .rex-nav-top {
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
         right: 0;
         z-index: $zindex-navbar-fixed;
 
         .navbar {
+            display: flex;
             min-height: $top-navbar-height;
             margin-bottom: 0;
-            padding-top: floor(($top-navbar-height - $navbar-height) / 2);
-            padding-bottom: floor(($top-navbar-height - $navbar-height) / 2);
             background-color: $color-b;
             border: 0;
-            transition: box-shadow 300ms ease-out;
+            transition: box-shadow $transitionDuration $easeOutCubic, transform $transitionDuration $easeOutCubic;
+
+            @media (max-width: $grid-float-breakpoint-max) {
+                min-height: $top-mobile-navbar-height;
+            }
         }
 
         .navbar-toggle {
@@ -227,11 +237,11 @@ $transitionDuration: 300ms;
             top: 0;
             left: 0;
             border: 0;
-            border-radius: $top-navbar-height;
+            border-radius: $navbar-height;
             padding: 0;
             margin: 0;
-            width: $top-navbar-height;
-            height: $top-navbar-height;
+            width: $navbar-height;
+            height: $navbar-height;
             background: transparent !important;
             cursor: pointer;
 
@@ -304,7 +314,7 @@ $transitionDuration: 300ms;
             margin: 0;
             padding: 5px;
             margin-left: -5px;
-            border-radius: $top-navbar-height;
+            border-radius: $navbar-height;
         }
 
         .rex-nav-meta {
@@ -313,7 +323,7 @@ $transitionDuration: 300ms;
             @media (max-width: $grid-float-breakpoint-max) {
                 position: absolute;
                 right: 0;
-                max-width: calc(100% - #{$top-navbar-height});
+                max-width: calc(100% - #{$navbar-height});
                 opacity: 0;
                 transition: opacity $transitionDuration * 2 $easeInOutCubic;
 
@@ -339,13 +349,15 @@ $transitionDuration: 300ms;
         }
     }
 
-    .rex-nav-top-is-fixed {
-        position: fixed;
-    }
-
     .rex-nav-top-is-elevated {
         .navbar {
             box-shadow: 0 2px 2px 0 rgba($color-a-darker, 0.2);
+        }
+    }
+
+    .rex-nav-top-is-hidden {
+        .navbar {
+            transform: translateY(-100%);
         }
     }
 
@@ -354,7 +366,7 @@ $transitionDuration: 300ms;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        min-height: $top-navbar-height;
+        width: 100%;
 
         @media (min-width: $screen-lg-min) {
             padding-right: $grid-gutter-width;
@@ -521,6 +533,10 @@ $transitionDuration: 300ms;
     margin-right: $grid-gutter-width / -2;
     padding-top: 26px;
     font-size: $font-size-base;
+
+    @media (max-width: $grid-float-breakpoint-max) {
+        top: $top-mobile-navbar-height;
+    }
 
     ul {
         margin: 0;
