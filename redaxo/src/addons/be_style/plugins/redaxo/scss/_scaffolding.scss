@@ -20,6 +20,9 @@ html {
 .rex-is-logged-in,
 #rex-page-setup {
     .rex-page-container {
+        display: flex;
+        height: auto;
+        min-height: 100%;
         padding-top: 0;
 
         .rex-is-popup& {
@@ -28,7 +31,13 @@ html {
     }
 
     .rex-page-main {
+        display: block;
+        flex: 1;
         padding-top: $top-navbar-height;
+
+        @media (max-width: $grid-float-breakpoint-max) {
+            padding-top: $top-mobile-navbar-height;
+        }
 
         .rex-is-popup& {
             padding-top: $top-popup-navbar-height;
@@ -61,7 +70,7 @@ html {
 }
 
 .rex-redaxo-logo {
-    height: 22px;
+    height: 24px;
 
     path.rex-redaxo-logo-r,
     path.rex-redaxo-logo-e,
@@ -82,6 +91,10 @@ html {
         #rex-page-login & {
             fill: #fff;
         }
+    }
+
+    @media (max-width: $grid-float-breakpoint-max) {
+        height: 22px;
     }
 
     .rex-is-popup & {
