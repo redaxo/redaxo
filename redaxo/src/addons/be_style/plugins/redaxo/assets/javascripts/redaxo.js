@@ -1,240 +1,145 @@
-(function () {
+;(function (redaxo, window) {
     'use strict';
 
+    var $ = window.$; // jQuery
+    var document = window.document;
 
-    // handle scroll events
-    // use ticking to debounce rAF (https://developer.mozilla.org/en-US/docs/Web/API/Document/scroll_event#Examples)
-    var ticking = false;
-    var handleScrollEvents = function (event) {
-        if (!ticking) {
-            requestAnimationFrame(function () {
-                navigationBar.update(window.scrollY);
-                ticking = false;
-            });
-            ticking = true;
-        }
-    };
-
-
-    // handle resize events
-    // use timeout to debounce (https://css-tricks.com/snippets/jquery/done-resizing-event/)
-    var timeout = false;
-    var handleResizeEvents = function (event) {
-        clearTimeout(timeout);
-        timeout = setTimeout(function () {
-            navigationBar.onViewportResize();
-        }, 100);
-    };
-
-
-    // handle click events
-    var handleClickEvents = function (event) {
-
-        // handle menu button
-        if (event.target.matches('#rex-js-nav-main-toggle, #rex-js-nav-main-toggle *')) {
-            event.preventDefault();
-            viewport.navigationToggle();
-            navigationBar.reset();
-        }
-
-        // handle backdrop
-        if (event.target.matches('#rex-js-nav-main-backdrop')) {
-            viewport.navigationToggle(false);
-        }
-    };
-
-
-    // ----------------------------------------------------------------------------
-
+    // -----------------------------------------------------------------------
 
     // viewport
-    // knows about viewport size and toggles navigation state
-    var viewport = function () {
+    // knows about screen size
+    redaxo.viewport = (function () {
         var mode;
-        var navigationActive;
-        var navigationActiveClass = 'rex-nav-main-is-visible';
 
-        // check viewport size
-        function checkViewportSize() {
-            var size = window.getComputedStyle(document.querySelector('body'), ':after').getPropertyValue('content').replace(/"/g, '');
+        var checkSize = function () {
+            var size = getComputedStyle(document.querySelector('body'), ':after').getPropertyValue('content').replace(/"/g, '');
             if (size === 'min' || size === 'max') {
                 mode = size;
             }
-        }
+        };
 
-        // is viewport small?
-        function isSmall() {
-            checkViewportSize();
-            // hint: it is small when it is max
-            return mode === 'max';
-        }
-
-        // check navigation status
-        function checkNavigationStatus() {
-            navigationActive = document.querySelector('body').classList.contains(navigationActiveClass);
-            return navigationActive;
-        }
-
-        // is navigation active?
-        function isNavigationActive() {
-            return checkNavigationStatus();
-        }
-
-        // toggle navigation
-        function navigationToggle(mode) {
-            if (typeof mode === 'undefined') {
-                mode = !navigationActive;
-            }
-            if (mode) {
-                document.querySelector('body').classList.add(navigationActiveClass);
-                navigationActive = true;
-            }
-            else {
-                document.querySelector('body').classList.remove(navigationActiveClass);
-                navigationActive = false;
-            }
-            return navigationActive;
-        }
+        var isSmall = function () {
+            checkSize();
+            return mode === 'max'; // hint: it is small when it is max
+        };
 
         // reveal
         return {
-            isSmall: isSmall,
-            isNavigationActive: isNavigationActive,
-            navigationToggle: navigationToggle
+            isSmall: isSmall
         };
-    }();
+    })();
 
+    // -----------------------------------------------------------------------
 
-    // ----------------------------------------------------------------------------
+    // navigation
+    // handles main navigation visibility
+    redaxo.navigation = (function () {
+        var active;
+        var activeClass = 'rex-nav-main-is-visible';
 
+        var isActive = function () {
+            active = document.querySelector('body').classList.contains(activeClass);
+            return active;
+        };
 
-    // navigationBar
-    // handles navigation bar position on scroll and on viewport resize
-    var navigationBar = function () {
-        var currentScrollPosition = 0;
-        var currentNavbarPosition = 0;
-        var navigationBarVisiblePosition = 0;
-        var navigationBarSelector = '#rex-js-nav-top.rex-nav-top-is-fixed';
-        var isSnapped = false;
-        var scrollUntilSnap = 150; // amount of px to be scrolled before navbar changes its mode
-        var previousScrollPosition;
-        var snapScrollPosition;
-        var releaseScrollUpPosition;
-        var releaseScrollDownPosition;
-        var navigationBarElm;
-        var navigationBarHiddenPosition;
-
-        // init
-        function init() {
-            navigationBarElm = document.querySelector(navigationBarSelector);
-            calculateHiddenPosition();
-        }
-
-        function calculateHiddenPosition() {
-            if (navigationBarElm) {
-                navigationBarHiddenPosition = -(navigationBarElm.querySelector('.navbar').offsetHeight);
+        var toggle = function (mode) {
+            if (typeof mode === 'undefined') {
+                mode = !active;
             }
-        }
+            if (mode) {
+                document.querySelector('body').classList.add(activeClass);
+                active = true;
+            } else {
+                document.querySelector('body').classList.remove(activeClass);
+                active = false;
+            }
+            return active;
+        };
+
+        // reveal
+        return {
+            isActive: isActive,
+            toggle: toggle
+        };
+    })();
+
+    // -----------------------------------------------------------------------
+
+    // navigation bar
+    // handles top navigation bar position on scroll and on viewport resize
+    redaxo.navigationBar = (function () {
+        var navbarElm;
+        var currentScrollPosition;
+        var previousScrollPosition;
+        var lastTogglePosition;
+        var scrollDownUntilToggle = 150; // amount of px to be scrolled down before navbar hides
+        var scrollUpUntilToggle = 300; // amount of px to be scrolled up before navbar appears
+
+        var init = function () {
+            navbarElm = document.querySelector('#rex-js-nav-top.rex-nav-top-is-fixed');
+        };
+
+        var show = function () {
+            navbarElm.classList.remove('rex-nav-top-is-hidden');
+        };
+
+        var hide = function () {
+            navbarElm.classList.add('rex-nav-top-is-hidden');
+        };
 
         // update position and mode
-        function update(scrollPosition) {
-            if (typeof scrollPosition === 'undefined') {
-                scrollPosition = window.scrollY;
-            }
+        var update = function (scrollPosition) {
+            scrollPosition = scrollPosition || window.scrollY;
 
-            if (!snapScrollPosition) {
-                snapScrollPosition = scrollPosition;
-            }
-
-            if (!navigationBarElm) {
+            // require navbar element
+            if (!navbarElm) {
                 return false;
             }
 
             // save current scroll position
             currentScrollPosition = scrollPosition;
+            var maxScrollPosition = document.body.scrollHeight - document.body.clientHeight;
+            currentScrollPosition = Math.min(Math.max(scrollPosition, 0), maxScrollPosition); // clamp within range
+            lastTogglePosition = lastTogglePosition || currentScrollPosition;
 
             // scrolling down
-            if (!viewport.isNavigationActive() && currentScrollPosition > previousScrollPosition && currentScrollPosition >= 0) {
-                // snap
-                if (!isSnapped && currentNavbarPosition !== navigationBarHiddenPosition && currentScrollPosition >= snapScrollPosition + scrollUntilSnap) {
-                    calculateHiddenPosition();
-                    releaseScrollDownPosition = currentScrollPosition - navigationBarHiddenPosition;
-                    releaseScrollUpPosition = currentScrollPosition;
-                    currentNavbarPosition = currentScrollPosition;
-                    isSnapped = true;
-                }
-                // release
-                if (isSnapped && releaseScrollDownPosition && currentScrollPosition >= releaseScrollDownPosition) {
-                    currentNavbarPosition = navigationBarHiddenPosition;
-                    isSnapped = false;
-                }
-                // update snap position
-                if (currentNavbarPosition === navigationBarHiddenPosition && currentScrollPosition >= snapScrollPosition) {
-                    snapScrollPosition = currentScrollPosition;
+            if (!redaxo.navigation.isActive() && currentScrollPosition > previousScrollPosition && currentScrollPosition >= 0) {
+                if (currentScrollPosition >= lastTogglePosition + scrollDownUntilToggle) {
+                    hide();
+                    lastTogglePosition = currentScrollPosition;
                 }
             }
 
             // scrolling up
-            if (!viewport.isNavigationActive() && currentScrollPosition < previousScrollPosition) {
-                // snap
-                if (!isSnapped && currentNavbarPosition !== navigationBarVisiblePosition && currentScrollPosition <= snapScrollPosition - scrollUntilSnap) {
-                    releaseScrollUpPosition = currentScrollPosition + navigationBarHiddenPosition;
-                    releaseScrollDownPosition = currentScrollPosition;
-                    currentNavbarPosition = currentScrollPosition + navigationBarHiddenPosition;
-                    isSnapped = true;
-                }
-                // release
-                if (isSnapped && releaseScrollUpPosition && currentScrollPosition <= releaseScrollUpPosition) {
-                    currentNavbarPosition = navigationBarVisiblePosition;
-                    isSnapped = false;
-                }
-                // update snap position
-                if (currentNavbarPosition === navigationBarVisiblePosition && currentScrollPosition <= snapScrollPosition) {
-                    snapScrollPosition = currentScrollPosition;
+            if (!redaxo.navigation.isActive() && currentScrollPosition < previousScrollPosition) {
+                if (currentScrollPosition <= lastTogglePosition - scrollUpUntilToggle || currentScrollPosition < 50) {
+                    show();
+                    lastTogglePosition = currentScrollPosition;
                 }
             }
 
             // toggle elevated style on scroll position
             if (currentScrollPosition > 10) {
-                navigationBarElm.classList.add('rex-nav-top-is-elevated');
+                navbarElm.classList.add('rex-nav-top-is-elevated');
             } else {
-                navigationBarElm.classList.remove('rex-nav-top-is-elevated');
-            }
-
-            // toggle elevated style when in hidden position
-            if (currentNavbarPosition === navigationBarHiddenPosition) {
-                navigationBarElm.classList.remove('rex-nav-top-is-elevated');
-            }
-
-            // update position
-            if (isSnapped) {
-                navigationBarElm.style.position = 'absolute';
-                navigationBarElm.style.top = currentNavbarPosition + 'px';
-            } else {
-                navigationBarElm.style.position = 'fixed';
-                navigationBarElm.style.top = currentNavbarPosition + 'px';
+                navbarElm.classList.remove('rex-nav-top-is-elevated');
             }
 
             // save current scroll position
             previousScrollPosition = currentScrollPosition;
-        }
+        };
 
-        // reset
-        function reset() {
-            currentNavbarPosition = navigationBarVisiblePosition;
-            isSnapped = false;
-            navigationBarElm.style.position = 'fixed';
-            navigationBarElm.style.top = currentNavbarPosition + 'px';
-        }
+        var reset = function () {
+            show();
+            lastTogglePosition = currentScrollPosition;
+        };
 
-        // on viewport resize
-        function onViewportResize() {
-            if (!navigationBarElm) {
+        var onViewportResize = function () {
+            if (!navbarElm) {
                 return false;
             }
-            navigationBar.reset();
-            navigationBar.init();
-        }
+            reset();
+        };
 
         // reveal
         return {
@@ -243,50 +148,107 @@
             reset: reset,
             onViewportResize: onViewportResize
         };
-    }();
+    })();
 
+    // -----------------------------------------------------------------------
 
-    // ----------------------------------------------------------------------------
+    // main navigation (sidebar)
+    // handles sticky positioning of main navigation within sidebar
+    redaxo.navigationMain = (function () {
+        var navigationElm;
+        var stickyPosition;
+        var initialPosition;
+        var observer;
 
+        var init = function () {
+            navigationElm = document.querySelector('.rex-nav-main-navigation');
+            initialPosition = initialPosition || navigationElm.offsetTop;
+            update();
+            startObserver();
+        };
+
+        var update = function () {
+            stickyPosition = window.innerHeight - navigationElm.offsetHeight;
+            if (stickyPosition > initialPosition) {
+                stickyPosition = initialPosition;
+            }
+            navigationElm.style.position = 'sticky';
+            navigationElm.style.top = stickyPosition + 'px';
+        };
+
+        var startObserver = function () {
+            if (!observer) {
+                observer = new MutationObserver(init);
+                observer.observe(navigationElm, { subtree: true, childList: true });
+            }
+        };
+
+        var onViewportResize = function () {
+            init();
+        };
+
+        // reveal
+        return {
+            init: init,
+            onViewportResize: onViewportResize
+        };
+    })();
+
+    // -----------------------------------------------------------------------
+
+    var ticking = false;
+    var timeout = false;
 
     // on DOMContentLoaded
     document.addEventListener('DOMContentLoaded', function () {
-        // re-init navigation bar
-        navigationBar.init();
-    });
-
-    // on PJAX success
-    document.addEventListener('pjax:success', function () {
-        // re-init and update navigation bar
-        navigationBar.init();
-        navigationBar.update(window.scrollY);
-        // close navigation
-        viewport.navigationToggle(false);
+        redaxo.navigationBar.init();
+        redaxo.navigationMain.init();
     });
 
     // on scroll
-    window.addEventListener('scroll', function (event) {
-        handleScrollEvents(event);
+    window.addEventListener('scroll', function () {
+        // use ticking to debounce rAF (https://developer.mozilla.org/en-US/docs/Web/API/Document/scroll_event#Examples)
+        if (!ticking) {
+            requestAnimationFrame(function () {
+                // update navigations with current scroll position
+                redaxo.navigationBar.update(window.scrollY);
+                ticking = false;
+            });
+            ticking = true;
+        }
     });
 
     // on resize
-    window.addEventListener('resize', function (event) {
-        handleResizeEvents(event);
+    window.addEventListener('resize', function () {
+        // use timeout to debounce (https://css-tricks.com/snippets/jquery/done-resizing-event/)
+        clearTimeout(timeout);
+        timeout = setTimeout(function () {
+            // trigger components
+            redaxo.navigationBar.onViewportResize();
+            redaxo.navigationMain.onViewportResize();
+        }, 100);
     });
 
     // on click
     window.addEventListener('click', function (event) {
-        handleClickEvents(event);
+        // handle menu button
+        if (event.target.matches('#rex-js-nav-main-toggle, #rex-js-nav-main-toggle *')) {
+            event.preventDefault();
+            redaxo.navigation.toggle();
+            redaxo.navigationBar.reset();
+        }
+        // handle backdrop
+        if (event.target.matches('#rex-js-nav-main-backdrop')) {
+            redaxo.navigation.toggle(false); // close navigation
+        }
     });
 
+    // on PJAX success (jQuery)
+    $(document).on('pjax:success', function () {
+        redaxo.navigationBar.init();
+        redaxo.navigationBar.update(window.scrollY); // update with current scroll position
+        redaxo.navigationMain.init();
+        redaxo.navigation.toggle(false); // close navigation
+    });
 
-    // ----------------------------------------------------------------------------
-
-
-    // reveal
-    return {
-        viewport: viewport,
-        navigationBar: navigationBar
-    };
-
-})();
+})(window.redaxo = window.redaxo || {}, window);
