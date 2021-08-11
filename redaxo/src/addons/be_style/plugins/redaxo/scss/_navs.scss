@@ -226,6 +226,7 @@ $transitionDuration: 300ms;
             background-color: $color-b;
             border: 0;
             transition: box-shadow $transitionDuration $easeOutCubic;
+            box-sizing: content-box; // makes it easier to use with customizer styles
 
             @media (max-width: $grid-float-breakpoint-max) {
                 min-height: $top-mobile-navbar-height;
@@ -343,6 +344,7 @@ $transitionDuration: 300ms;
             z-index: auto;
 
             .navbar {
+                min-height: $top-popup-navbar-height;
                 box-shadow: none;
                 padding-top: 0;
                 padding-bottom: 0;

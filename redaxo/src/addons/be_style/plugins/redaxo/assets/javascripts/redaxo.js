@@ -48,18 +48,27 @@
             }
             if (mode) {
                 document.querySelector('body').classList.add(activeClass);
+                document.documentElement.style.overflowY = 'hidden'; // freeze scroll position
                 active = true;
             } else {
                 document.querySelector('body').classList.remove(activeClass);
+                document.documentElement.style.overflowY = null;
                 active = false;
             }
             return active;
         };
 
+        var onViewportResize = function () {
+            if (!redaxo.viewport.isSmall()) {
+                toggle(false); // reset on desktop
+            }
+        };
+
         // reveal
         return {
             isActive: isActive,
-            toggle: toggle
+            toggle: toggle,
+            onViewportResize: onViewportResize
         };
     })();
 
@@ -74,17 +83,19 @@
         var lastTogglePosition;
         var scrollDownUntilToggle = 150; // amount of px to be scrolled down before navbar hides
         var scrollUpUntilToggle = 300; // amount of px to be scrolled up before navbar appears
+        var hiddenClass = 'rex-nav-top-is-hidden';
+        var elevatedClass = 'rex-nav-top-is-elevated';
 
         var init = function () {
             navbarElm = document.querySelector('#rex-js-nav-top.rex-nav-top-is-fixed');
         };
 
         var show = function () {
-            navbarElm.classList.remove('rex-nav-top-is-hidden');
+            navbarElm.classList.remove(hiddenClass);
         };
 
         var hide = function () {
-            navbarElm.classList.add('rex-nav-top-is-hidden');
+            navbarElm.classList.add(hiddenClass);
         };
 
         // update position and mode
@@ -120,9 +131,9 @@
 
             // toggle elevated style on scroll position
             if (currentScrollPosition > 10) {
-                navbarElm.classList.add('rex-nav-top-is-elevated');
+                navbarElm.classList.add(elevatedClass);
             } else {
-                navbarElm.classList.remove('rex-nav-top-is-elevated');
+                navbarElm.classList.remove(elevatedClass);
             }
 
             // save current scroll position
@@ -224,6 +235,7 @@
         clearTimeout(timeout);
         timeout = setTimeout(function () {
             // trigger components
+            redaxo.navigation.onViewportResize();
             redaxo.navigationBar.onViewportResize();
             redaxo.navigationMain.onViewportResize();
         }, 100);
