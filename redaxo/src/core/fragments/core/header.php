@@ -42,8 +42,4 @@ $isSetup = ('setup' === rex_be_controller::getCurrentPage());
                 </div>
             </nav>
 
-            <div class="rex-ajax-loader" id="rex-js-ajax-loader">
-                <div class="rex-ajax-loader-element"></div>
-                <div class="rex-ajax-loader-backdrop"></div>
-            </div>
         </div>
