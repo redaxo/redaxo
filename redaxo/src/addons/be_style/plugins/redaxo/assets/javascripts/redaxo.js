@@ -173,9 +173,11 @@
 
         var init = function () {
             navigationElm = document.querySelector('.rex-nav-main-navigation');
-            initialPosition = initialPosition || navigationElm.offsetTop;
-            update();
-            startObserver();
+            if (navigationElm) {
+                initialPosition = initialPosition || navigationElm.offsetTop;
+                update();
+                startObserver();
+            }
         };
 
         var update = function () {
