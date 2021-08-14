@@ -166,11 +166,11 @@ $(document).ready(function () {
         if($(this).hasClass("rex-js-widget-media"))
         {
             value = $("input[type=text]", this).val();
-            img_type = "rex_mediabutton_preview";
+            img_type = "rex_media_small";
         }else
         {
             value = $("select :selected", this).text();
-            img_type = "rex_medialistbutton_preview";
+            img_type = "rex_media_small";
         }
 
         var div = $(".rex-js-media-preview", this);
