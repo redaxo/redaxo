@@ -41,7 +41,7 @@ class rex_media_manager_test extends TestCase
         rex_file::put($path, base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII='));
 
         try {
-            $manager = rex_media_manager::create('rex_mediapool_preview', $filename);
+            $manager = rex_media_manager::create('rex_media_small', $filename);
 
             static::assertFileExists($manager->getCacheFilename());
             static::assertFileExists($manager->getHeaderCacheFilename());
