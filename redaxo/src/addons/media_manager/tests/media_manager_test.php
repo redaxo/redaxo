@@ -79,7 +79,7 @@ class rex_media_manager_test extends TestCase
 
         yield [false, 'non_existing', $media];
 
-        $type = 'rex_mediapool_preview';
+        $type = 'rex_media_small';
 
         yield [false, $type, 'test.jpg'];
 
