@@ -114,7 +114,7 @@ class rex_setup
                     $res = array_merge_recursive($res, $func($path));
                 } elseif (!$file->isWritable()) {
                     $res['setup_305'][] = $path;
-                } elseif (0 !== strcasecmp(substr(PHP_OS, 0, 3), 'WIN') && '7' === substr($getMod($path), -1)) {
+                } elseif (0 !== strcasecmp(substr(PHP_OS, 0, 3), 'WIN') && str_ends_with($getMod($path), '7')) {
                     // check the "other" filesystem-bit for "all" permission.
                     $res['setup_311'][] = $path;
                 }

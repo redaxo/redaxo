@@ -189,7 +189,7 @@ class rex_install_webservice
     {
         self::loadCache();
         if ($pathBegin) {
-            foreach (self::$cache as $path => $cache) {
+            foreach (self::$cache as $path => $_) {
                 if (str_starts_with($path, $pathBegin)) {
                     unset(self::$cache[$path]);
                 }

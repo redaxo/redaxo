@@ -9,7 +9,6 @@ on:
 jobs:
     phpunit:
         runs-on: ${{ matrix.os }}
-        if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
         strategy:
             matrix:

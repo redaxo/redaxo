@@ -98,7 +98,6 @@ class rex_media_manager
 
         if (!$this->isCached()) {
             $set = $this->effectsFromType($type);
-            /** @var list<array{effect: string, params: array<string, mixed>}> $set */
             $set = rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_FILTERSET', $set, ['rex_media_type' => $type]));
 
             if (0 == count($set)) {
@@ -112,7 +111,10 @@ class rex_media_manager
             foreach ($set as $effectParams) {
                 /** @var class-string<rex_effect_abstract> $effectClass */
                 $effectClass = 'rex_effect_' . $effectParams['effect'];
-                /** @var rex_effect_abstract $effect */
+                /**
+                 * @var rex_effect_abstract $effect
+                 * @psalm-ignore-var
+                 */
                 $effect = new $effectClass();
                 $effect->setMedia($this->media);
                 $effect->setParams($effectParams['params']);

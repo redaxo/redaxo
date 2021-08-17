@@ -222,7 +222,6 @@ if ('add' == $function || 'edit' == $function) {
             $message .= rex_view::error($error);
         }
 
-        $echo = '';
         $content = '';
         $panel = '';
         $panel .= '
@@ -426,8 +425,8 @@ if ($OUT) {
 
     $list->setColumnLabel('name', rex_i18n::msg('module_description'));
     $list->setColumnParams('name', ['function' => 'edit', 'module_id' => '###id###']);
-    $list->setColumnFormat('name', 'custom', static function ($params) {
-        return $params['list']->getColumnLink('name', rex_i18n::translate($params['list']->getValue('name')));
+    $list->setColumnFormat('name', 'custom', static function () use ($list) {
+        return $list->getColumnLink('name', rex_i18n::translate($list->getValue('name')));
     });
 
     $slices = rex_sql::factory()->getArray('SELECT `module_id` FROM '.rex::getTable('article_slice').' GROUP BY `module_id`');
@@ -438,9 +437,7 @@ if ($OUT) {
 
         $list->addColumn('use', '');
         $list->setColumnLabel('use', rex_i18n::msg('module_in_use'));
-        $list->setColumnFormat('use', 'custom', static function ($params) use ($usedIds) {
-            /** @var rex_list $list */
-            $list = $params['list'];
+        $list->setColumnFormat('use', 'custom', static function () use ($list, $usedIds) {
             return isset($usedIds[$list->getValue('id')]) ? '<i class="rex-icon rex-icon-active-true"></i> ' . rex_i18n::msg('yes') : '<i class="rex-icon rex-icon-active-false"></i> ' . rex_i18n::msg('no');
         });
     }

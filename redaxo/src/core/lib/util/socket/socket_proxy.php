@@ -72,7 +72,9 @@ class rex_socket_proxy extends rex_socket
             if (!$response->isOk()) {
                 throw new rex_socket_exception(sprintf('Couldn\'t connect to proxy server, server responds with "%s %s"', $response->getStatusCode(), $response->getStatusMessage()));
             }
-            stream_socket_enable_crypto($this->stream, true, STREAM_CRYPTO_METHOD_SSLv3_CLIENT);
+            stream_context_set_option($this->stream, 'ssl', 'SNI_enabled', true);
+            stream_context_set_option($this->stream, 'ssl', 'peer_name', $this->destinationHost);
+            stream_socket_enable_crypto($this->stream, true, STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT);
         } else {
             unset($this->headers['Connection']);
             $this->addHeader('Proxy-Connection', 'Close');

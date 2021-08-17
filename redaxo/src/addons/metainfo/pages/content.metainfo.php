@@ -3,11 +3,9 @@
 assert(isset($ep) && $ep instanceof rex_extension_point);
 
 $params = $ep->getParams();
-$subject = $ep->getSubject();
 
 $articleId = $params['article_id'];
 $clang = $params['clang'];
-$ctype = rex_request('ctype', 'int', 0);
 
 $content = [];
 

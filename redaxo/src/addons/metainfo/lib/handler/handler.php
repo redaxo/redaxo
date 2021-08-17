@@ -655,12 +655,6 @@ abstract class rex_metainfo_handler
      */
     public function renderFormAndSave($prefix, array $params)
     {
-        // Beim ADD gibts noch kein activeItem
-        $activeItem = null;
-        if (isset($params['activeItem'])) {
-            $activeItem = $params['activeItem'];
-        }
-
         $filterCondition = $this->buildFilterCondition($params);
         $sqlFields = $this->getSqlFields($prefix, $filterCondition);
         $params = $this->handleSave($params, $sqlFields);

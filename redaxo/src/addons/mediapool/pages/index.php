@@ -4,7 +4,7 @@
  * @package redaxo5
  */
 
-global $subpage, $ftitle, $error, $success;
+global $ftitle, $error, $success;
 
 // -------------- Defaults
 $subpage = rex_be_controller::getCurrentPagePart(2);

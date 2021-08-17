@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.11.1 – 21.06.2021
+---------------------------
+
+### Bugfixes
+
+* Effekt `resize`: Warning vermeiden, wenn nur Höhe oder nur Breite gesetzt wurde (@Hirbod)
+
+
 Version 2.11.0 – 03.03.2021
 ---------------------------
 

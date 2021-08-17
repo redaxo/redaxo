@@ -35,9 +35,7 @@ class rex_category_test extends TestCase
 
     public function testHasValue()
     {
-        $class = new ReflectionClass(rex_category::class);
-        /** @var rex_category $instance */
-        $instance = $class->newInstanceWithoutConstructor();
+        $instance = $this->createCategoryWithoutConstructor();
 
         /** @psalm-suppress UndefinedPropertyAssignment */
         $instance->cat_foo = 'teststring';
@@ -51,9 +49,7 @@ class rex_category_test extends TestCase
 
     public function testGetValue()
     {
-        $class = new ReflectionClass(rex_category::class);
-        /** @var rex_category $instance */
-        $instance = $class->newInstanceWithoutConstructor();
+        $instance = $this->createCategoryWithoutConstructor();
 
         /** @psalm-suppress UndefinedPropertyAssignment */
         $instance->cat_foo = 'teststring';
@@ -75,27 +71,27 @@ class rex_category_test extends TestCase
 
     public function dataGetClosestValue(): iterable
     {
-        [$lev1, $lev2, $lev3] = $this->createCategories([], [], []);
+        [$lev1, $_, $lev3] = $this->createCategories([], [], []);
         yield [null, $lev1];
         yield [null, $lev3];
 
-        [$lev1, $lev2, $lev3] = $this->createCategories([], [], ['cat_foo' => 'foo']);
+        [$_, $_, $lev3] = $this->createCategories([], [], ['cat_foo' => 'foo']);
         yield ['foo', $lev3];
 
-        [$lev1, $lev2, $lev3] = $this->createCategories([], ['cat_foo' => 'bar'], ['cat_foo' => 'foo']);
+        [$_, $_, $lev3] = $this->createCategories([], ['cat_foo' => 'bar'], ['cat_foo' => 'foo']);
         yield ['foo', $lev3];
 
-        [$lev1, $lev2, $lev3] = $this->createCategories([], ['cat_foo' => 'bar'], []);
+        [$_, $_, $lev3] = $this->createCategories([], ['cat_foo' => 'bar'], []);
         yield ['bar', $lev3];
 
-        [$lev1, $lev2, $lev3] = $this->createCategories(['cat_foo' => 'baz'], ['cat_foo' => 'bar'], []);
+        [$_, $_, $lev3] = $this->createCategories(['cat_foo' => 'baz'], ['cat_foo' => 'bar'], []);
         yield ['bar', $lev3];
 
-        [$lev1, $lev2, $lev3] = $this->createCategories(['cat_foo' => 'baz'], [], []);
+        [$lev1, $_, $lev3] = $this->createCategories(['cat_foo' => 'baz'], [], []);
         yield ['baz', $lev1];
         yield ['baz', $lev3];
 
-        [$lev1, $lev2, $lev3] = $this->createCategories([], ['cat_foo' => 0], []);
+        [$_, $_, $lev3] = $this->createCategories([], ['cat_foo' => 0], []);
         yield [0, $lev3];
     }
 
@@ -109,21 +105,21 @@ class rex_category_test extends TestCase
 
     public function dataIsOnlineIncludingParents(): iterable
     {
-        [$lev1, $lev2, $lev3] = $this->createCategories(['status' => 0], ['status' => 0], ['status' => 0]);
+        [$lev1, $_, $lev3] = $this->createCategories(['status' => 0], ['status' => 0], ['status' => 0]);
         yield [false, $lev1];
         yield [false, $lev3];
 
-        [$lev1, $lev2, $lev3] = $this->createCategories(['status' => 1], ['status' => 1], ['status' => 1]);
+        [$lev1, $_, $lev3] = $this->createCategories(['status' => 1], ['status' => 1], ['status' => 1]);
         yield [true, $lev1];
         yield [true, $lev3];
 
-        [$lev1, $lev2, $lev3] = $this->createCategories(['status' => 1], ['status' => 1], ['status' => 0]);
+        [$_, $_, $lev3] = $this->createCategories(['status' => 1], ['status' => 1], ['status' => 0]);
         yield [false, $lev3];
 
-        [$lev1, $lev2, $lev3] = $this->createCategories(['status' => 0], ['status' => 1], ['status' => 1]);
+        [$_, $_, $lev3] = $this->createCategories(['status' => 0], ['status' => 1], ['status' => 1]);
         yield [false, $lev3];
 
-        [$lev1, $lev2, $lev3] = $this->createCategories(['status' => 1], ['status' => 2], ['status' => 1]);
+        [$_, $_, $lev3] = $this->createCategories(['status' => 1], ['status' => 2], ['status' => 1]);
         yield [false, $lev3];
     }
 
@@ -141,26 +137,32 @@ class rex_category_test extends TestCase
             return 1 === $category->getValue('status');
         };
 
-        [$lev1, $lev2, $lev3] = $this->createCategories(['status' => 0], ['status' => 0], ['status' => 0]);
+        [$lev1, $_, $lev3] = $this->createCategories(['status' => 0], ['status' => 0], ['status' => 0]);
         yield [null, $lev1, $callback];
         yield [null, $lev3, $callback];
 
-        [$lev1, $lev2, $lev3] = $this->createCategories(['status' => 1], ['status' => 1], ['status' => 1]);
+        [$lev1, $_, $lev3] = $this->createCategories(['status' => 1], ['status' => 1], ['status' => 1]);
         yield [$lev1, $lev1, $callback];
         yield [$lev3, $lev3, $callback];
 
-        [$lev1, $lev2, $lev3] = $this->createCategories(['status' => 1], ['status' => 1], ['status' => 0]);
+        [$_, $lev2, $lev3] = $this->createCategories(['status' => 1], ['status' => 1], ['status' => 0]);
         yield [$lev2, $lev3, $callback];
 
-        [$lev1, $lev2, $lev3] = $this->createCategories(['status' => 1], ['status' => 0], ['status' => 0]);
+        [$lev1, $_, $lev3] = $this->createCategories(['status' => 1], ['status' => 0], ['status' => 0]);
         yield [$lev1, $lev3, $callback];
 
         $callback = static function (rex_category $category) {
             return $category->getValue('cat_foo') > 3;
         };
 
-        [$lev1, $lev2, $lev3] = $this->createCategories(['cat_foo' => 4], [], ['cat_foo' => 2]);
+        [$lev1, $_, $lev3] = $this->createCategories(['cat_foo' => 4], [], ['cat_foo' => 2]);
         yield [$lev1, $lev3, $callback];
+    }
+
+    private function createCategoryWithoutConstructor(): rex_category
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return (new ReflectionClass(rex_category::class))->newInstanceWithoutConstructor();
     }
 
     private function createCategories(array $lev1Params, array $lev2Params, array $lev3Params): array

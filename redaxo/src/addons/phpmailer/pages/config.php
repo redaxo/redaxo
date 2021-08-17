@@ -62,10 +62,6 @@ if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string'
     $message = $addon->i18n('config_saved_successful');
 }
 
-$emptymail = '1';
-if ('' == $addon->getConfig('from') || '' == $addon->getConfig('test_address')) {
-    $emptymail = '';
-}
 $selMailer = new rex_select();
 $selMailer->setId('phpmailer-mailer');
 $selMailer->setName('settings[mailer]');
@@ -287,11 +283,6 @@ $content .= $fragment->parse('core/form/form.php');
 $formElements = [];
 $content .= '</div>';
 
-$n = [];
-$n['label'] = '<label for="phpmailer-smtp_debug">' . $addon->i18n('smtp_debug') . '</label>';
-$n['field'] = $selDebug->get().'<p class="help-block rex-note"> ' . $addon->i18n('smtp_debug_info').'</p>';
-$formElements[] = $n;
-
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
@@ -322,12 +313,17 @@ $n['field'] = $selPriority->get();
 $formElements[] = $n;
 
 $n = [];
+$n['label'] = '<label for="phpmailer-smtp_debug">' . $addon->i18n('smtp_debug') . '</label>';
+$n['field'] = $selDebug->get().'<p class="help-block rex-note"> ' . $addon->i18n('smtp_debug_info').'</p>';
+$formElements[] = $n;
+
+$n = [];
 $n['label'] = '<label for="phpmailer-log">' . $addon->i18n('logging') . '</label>';
 $n['field'] = $selLog->get();
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="phpmailer-log">' . $addon->i18n('archive') . '</label>';
+$n['label'] = '<label for="phpmailer-archive">' . $addon->i18n('archive') . '</label>';
 $n['field'] = $selArchive->get();
 $n['note'] = rex_i18n::rawMsg('phpmailer_archive_info', rex_mailer::logFolder(), '...'.substr(rex_mailer::logFolder(), -30));
 $formElements[] = $n;
@@ -412,3 +408,4 @@ echo '
     });
 
 </script>
+

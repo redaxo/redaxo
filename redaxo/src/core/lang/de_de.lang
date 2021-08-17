@@ -113,6 +113,7 @@ mode = Modus
 charset = Zeichensatz
 host = Host
 database = Datenbank
+installation = Installation
 logfiles = Logdateien
 syslog_redaxo = REDAXO
 syslog_delete = Logdatei löschen

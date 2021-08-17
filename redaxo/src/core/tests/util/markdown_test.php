@@ -77,7 +77,7 @@ class rex_markdown_test extends TestCase
             ## Title with "quotes" & 'other' special &lt;chars&gt;
             MARKDOWN;
 
-        [$toc, $content] = rex_markdown::factory()->parseWithToc($input, 2, 4);
+        [$toc] = rex_markdown::factory()->parseWithToc($input, 2, 4);
 
         $expected = <<<'HTML'
             <ul>

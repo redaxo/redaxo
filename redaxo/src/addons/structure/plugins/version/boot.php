@@ -8,8 +8,6 @@
  * @package redaxo5
  */
 
-$mypage = 'version';
-
 rex_perm::register('version[live_version]', null, rex_perm::OPTIONS);
 
 // ***** an EPs andocken

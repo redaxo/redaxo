@@ -66,10 +66,7 @@ class rex_article_content_test extends TestCase
 
     public function testBcHasValue()
     {
-        $class = new ReflectionClass(rex_article_content::class);
-
-        /** @var rex_article_content $instance */
-        $instance = $class->newInstance(1, 1);
+        $instance = new rex_article_content(1, 1);
 
         $viaSql = new ReflectionProperty(rex_article_content::class, 'viasql');
         $viaSql->setAccessible(true);
@@ -89,9 +86,7 @@ class rex_article_content_test extends TestCase
 
     public function testBcGetValue()
     {
-        $class = new ReflectionClass(rex_article_content::class);
-        /** @var rex_article_content $instance */
-        $instance = $class->newInstance(1, 1);
+        $instance = new rex_article_content(1, 1);
 
         $viaSql = new ReflectionProperty(rex_article_content::class, 'viasql');
         $viaSql->setAccessible(true);
@@ -111,10 +106,7 @@ class rex_article_content_test extends TestCase
 
     public function testHasValue()
     {
-        $class = new ReflectionClass(rex_article_content::class);
-
-        /** @var rex_article_content $instance */
-        $instance = $class->newInstance(1, 1);
+        $instance = new rex_article_content(1, 1);
 
         static::assertTrue($instance->hasValue('foo'));
         static::assertTrue($instance->hasValue('art_foo'));
@@ -125,9 +117,7 @@ class rex_article_content_test extends TestCase
 
     public function testGetValue()
     {
-        $class = new ReflectionClass(rex_article_content::class);
-        /** @var rex_article_content $instance */
-        $instance = $class->newInstance(1, 1);
+        $instance = new rex_article_content(1, 1);
 
         static::assertEquals('teststring', $instance->getValue('foo'));
         static::assertEquals('teststring', $instance->getValue('art_foo'));

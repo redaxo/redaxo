@@ -8,7 +8,6 @@
  * @package redaxo5
  */
 
-$mypage = 'history';
 $plugin = rex_plugin::get('structure', 'history');
 
 $historyDate = rex_request('rex_history_date', 'string');

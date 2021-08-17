@@ -12,15 +12,11 @@
       <path value="$PROJECT_DIR$/redaxo/src/addons/debug/vendor" />
       <path value="$PROJECT_DIR$/redaxo/src/addons/phpmailer/vendor" />
       <path value="$PROJECT_DIR$/redaxo/src/core/vendor" />
-      <path value="$PROJECT_DIR$/vendor/phpstan/phpdoc-parser" />
-      <path value="$PROJECT_DIR$/vendor/nette/neon" />
       <path value="$PROJECT_DIR$/vendor/amphp/amp" />
-      <path value="$PROJECT_DIR$/vendor/nette/robot-loader" />
       <path value="$PROJECT_DIR$/vendor/amphp/byte-stream" />
-      <path value="$PROJECT_DIR$/vendor/nette/finder" />
       <path value="$PROJECT_DIR$/vendor/composer" />
-      <path value="$PROJECT_DIR$/vendor/nette/utils" />
       <path value="$PROJECT_DIR$/vendor/doctrine/annotations" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php81" />
       <path value="$PROJECT_DIR$/vendor/doctrine/instantiator" />
       <path value="$PROJECT_DIR$/vendor/phpstan/phpstan-symfony" />
       <path value="$PROJECT_DIR$/vendor/doctrine/lexer" />
@@ -96,32 +92,6 @@
       <path value="$PROJECT_DIR$/vendor/webmozart/assert" />
       <path value="$PROJECT_DIR$/vendor/webmozart/path-util" />
       <path value="$PROJECT_DIR$/vendor/rector/rector" />
-      <path value="$PROJECT_DIR$/vendor/doctrine/inflector" />
-      <path value="$PROJECT_DIR$/vendor/symplify/console-color-diff" />
-      <path value="$PROJECT_DIR$/vendor/symplify/skipper" />
-      <path value="$PROJECT_DIR$/vendor/symplify/easy-testing" />
-      <path value="$PROJECT_DIR$/vendor/symplify/smart-file-system" />
-      <path value="$PROJECT_DIR$/vendor/symplify/package-builder" />
-      <path value="$PROJECT_DIR$/vendor/symplify/autowire-array-parameter" />
-      <path value="$PROJECT_DIR$/vendor/symplify/astral" />
-      <path value="$PROJECT_DIR$/vendor/symplify/set-config-resolver" />
-      <path value="$PROJECT_DIR$/vendor/jean85/pretty-package-versions" />
-      <path value="$PROJECT_DIR$/vendor/symplify/console-package-builder" />
-      <path value="$PROJECT_DIR$/vendor/symplify/simple-php-doc-parser" />
-      <path value="$PROJECT_DIR$/vendor/symplify/symfony-php-config" />
-      <path value="$PROJECT_DIR$/vendor/symplify/symplify-kernel" />
-      <path value="$PROJECT_DIR$/vendor/symplify/composer-json-manipulator" />
-      <path value="$PROJECT_DIR$/vendor/symplify/rule-doc-generator-contracts" />
-      <path value="$PROJECT_DIR$/vendor/symfony/uid" />
-      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-uuid" />
-      <path value="$PROJECT_DIR$/vendor/danielstjules/stringy" />
-      <path value="$PROJECT_DIR$/vendor/nette/caching" />
-      <path value="$PROJECT_DIR$/vendor/rector/rector-cakephp" />
-      <path value="$PROJECT_DIR$/vendor/rector/rector-symfony" />
-      <path value="$PROJECT_DIR$/vendor/rector/rector-doctrine" />
-      <path value="$PROJECT_DIR$/vendor/rector/rector-phpunit" />
-      <path value="$PROJECT_DIR$/vendor/rector/rector-nette" />
-      <path value="$PROJECT_DIR$/vendor/rector/rector-laravel" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.3">
