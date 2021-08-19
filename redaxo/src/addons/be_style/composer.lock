@@ -73,10 +73,6 @@
                 "scss",
                 "stylesheet"
             ],
-            "support": {
-                "issues": "https://github.com/scssphp/scssphp/issues",
-                "source": "https://github.com/scssphp/scssphp/tree/v1.6.0"
-            },
             "time": "2021-07-02T16:28:10+00:00"
         }
     ],
@@ -90,6 +86,5 @@
     "platform-dev": [],
     "platform-overrides": {
         "php": "7.3.0"
-    },
-    "plugin-api-version": "2.1.0"
+    }
 }
