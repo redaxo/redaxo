@@ -9,6 +9,10 @@
 
 $addon = rex_addon::get('phpmailer');
 
+if (rex_addon::get('cronjob')->isAvailable() && !rex::isSafeMode()) {
+    rex_cronjob_manager::registerType('rex_cronjob_mailerArchiveCron');
+}
+
 if (!rex::isBackend() && 0 != $addon->getConfig('errormail')) {
     rex_extension::register('RESPONSE_SHUTDOWN', static function () {
         rex_mailer::errorMail();
