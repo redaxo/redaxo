@@ -9,14 +9,7 @@
 
 class rex_cronjob_mailerpurge extends rex_cronjob
 {
-    /**
-     * purgeMailArchive.
-     *
-     * @param  mixed $dir
-     * @param  mixed $log
-     * @return string
-     */
-    public function purgeMailArchive($dir, $log = '')
+    public function purgeMailArchive($dir = self::purgeMailArchive(rex_mailer::logFolder(), $log = '')
     {
         foreach (glob($dir . '/*') as $file) {
             if (is_dir($file)) {
