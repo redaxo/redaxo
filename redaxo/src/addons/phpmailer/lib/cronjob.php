@@ -9,7 +9,7 @@
 
 class rex_cronjob_mailerpurge extends rex_cronjob
 {
-    public function purgeMailArchive($dir = self::purgeMailArchive(rex_mailer::logFolder(), $log = '')
+    public function purgeMailArchive($dir = self::purgeMailArchive(rex_mailer::logFolder()), $log = '')
     {
         foreach (glob($dir . '/*') as $file) {
             if (is_dir($file)) {
@@ -33,7 +33,7 @@ class rex_cronjob_mailerpurge extends rex_cronjob
     {
         if (is_dir(rex_mailer::logFolder())) {
             $purgeMail = '';
-            $purgeMail = self::purgeMailArchive(rex_mailer::logFolder());
+            $purgeMail = self::purgeMailArchive();
             if ('' != $purgeMail) {
                 $this->setMessage($purgeMail);
                 return true;
