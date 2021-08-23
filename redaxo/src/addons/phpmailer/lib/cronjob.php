@@ -65,14 +65,15 @@ class rex_cronjob_mailerpurge extends rex_cronjob
                 'name' => 'time',
                 'type' => 'select',
                 'options' => [
-                    7 => '7 ' . rex_i18n::msg('phpmailer_archivecron_days'),
-                    14 => '14 ' . rex_i18n::msg('phpmailer_archivecron_days'),
-                    30 => '30 ' . rex_i18n::msg('phpmailer_archivecron_days'),
+                    '7' => '7 ' . rex_i18n::msg('phpmailer_archivecron_days'),
+                    '14' => '14 ' . rex_i18n::msg('phpmailer_archivecron_days'),
+                    '30' => '30 ' . rex_i18n::msg('phpmailer_archivecron_days'),
                 ],
-                'default' => 7,
+                'default' => '7',
                 'notice' => rex_i18n::msg('phpmailer_archivecron_notice'),
             ],
         ];
         return $fields;
     }
 }
+
