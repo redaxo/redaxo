@@ -28,7 +28,7 @@ class rex_cronjob_mailerpurge extends rex_cronjob
             }
         }
 
-        if (is_dir($dir) && $dir != rex_mailer::logFolder()) {
+        if ($dir != rex_mailer::logFolder() && is_dir($dir)) {
             if (true == rmdir($dir)) {
                 $log .= 'deleted directory: ' . $dir . "\n";
             }
