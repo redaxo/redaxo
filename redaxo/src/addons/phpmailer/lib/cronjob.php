@@ -8,9 +8,9 @@
  */
 
 class rex_cronjob_mailerArchiveCron extends rex_cronjob
-{    
+{
     /**
-     * purgeMailArchive
+     * purgeMailArchive.
      *
      * @param  mixed $dir
      * @param  mixed $log
@@ -21,8 +21,7 @@ class rex_cronjob_mailerArchiveCron extends rex_cronjob
         foreach (glob($dir . '/*') as $file) {
             if (is_dir($file)) {
                 $log .= self::purgeMailArchive($file);
-            } else
-           if ((time() - filemtime($file)) > (60 * 60 * 24 * $this->getParam('action'))) {
+            } elseif ((time() - filemtime($file)) > (60 * 60 * 24 * $this->getParam('action'))) {
                 if (rex_file::delete($file)) {
                     $log .= 'deleted file: ' . $file . "\n";
                 }
@@ -30,33 +29,34 @@ class rex_cronjob_mailerArchiveCron extends rex_cronjob
         }
 
         if (is_dir($dir)) {
-            if (rmdir($dir) == true) {
+            if (true == rmdir($dir)) {
                 $log .= 'deleted directory: ' . $dir . "\n";
             }
         }
         return $log;
     }
-    
+
     public function execute()
     {
         if (is_dir(rex_mailer::logFolder())) {
             $purgeMail = '';
-            $purgeMail =  self::purgeMailArchive(rex_mailer::logFolder());
-            if ($purgeMail != '') {
+            $purgeMail = self::purgeMailArchive(rex_mailer::logFolder());
+            if ('' != $purgeMail) {
                 $this->setMessage($purgeMail);
                 return true;
-            } else {
-                $this->setMessage(rex_i18n::msg('phpmailer_archivecron_nothing_to_delete'));
-                return true;
             }
+            $this->setMessage(rex_i18n::msg('phpmailer_archivecron_nothing_to_delete'));
+            return true;
         }
         $this->setMessage(rex_i18n::msg('phpmailer_archivecron_folder_not_found'));
         return false;
     }
+
     public function getTypeName()
     {
         return rex_i18n::msg('phpmailer_archivecron');
     }
+
     public function getParamFields()
     {
         $fields = [
@@ -67,7 +67,7 @@ class rex_cronjob_mailerArchiveCron extends rex_cronjob
                 'options' => [
                     7 => '7 ' . rex_i18n::msg('phpmailer_archivecron_days'),
                     2 => '14 ' . rex_i18n::msg('phpmailer_archivecron_days'),
-                    3 => '30 ' . rex_i18n::msg('phpmailer_archivecron_days')
+                    3 => '30 ' . rex_i18n::msg('phpmailer_archivecron_days'),
                 ],
                 'default' => '7 ',
                 'notice' => rex_i18n::msg('phpmailer_archivecron_notice'),
