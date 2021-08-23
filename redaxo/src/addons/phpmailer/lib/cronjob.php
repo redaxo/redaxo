@@ -21,7 +21,7 @@ class rex_cronjob_mailerArchiveCron extends rex_cronjob
         foreach (glob($dir . '/*') as $file) {
             if (is_dir($file)) {
                 $log .= self::purgeMailArchive($file);
-            } elseif ((time() - filemtime($file)) > (60 * 60 * 24 * $this->getParam('action'))) {
+            } elseif ((time() - filemtime($file)) > (60 * 60 * 24 * $this->getParam('time'))) {
                 if (rex_file::delete($file)) {
                     $log .= 'deleted file: ' . $file . "\n";
                 }
@@ -62,14 +62,14 @@ class rex_cronjob_mailerArchiveCron extends rex_cronjob
         $fields = [
             [
                 'label' => rex_i18n::msg('phpmailer_archivecron_label'),
-                'name' => 'action',
+                'name' => 'time',
                 'type' => 'select',
                 'options' => [
                     7 => '7 ' . rex_i18n::msg('phpmailer_archivecron_days'),
                     2 => '14 ' . rex_i18n::msg('phpmailer_archivecron_days'),
                     3 => '30 ' . rex_i18n::msg('phpmailer_archivecron_days'),
                 ],
-                'default' => '7 ',
+                'default' => 7,
                 'notice' => rex_i18n::msg('phpmailer_archivecron_notice'),
             ],
         ];
