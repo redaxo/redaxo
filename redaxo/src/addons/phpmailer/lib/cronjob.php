@@ -76,4 +76,3 @@ class rex_cronjob_mailerpurge extends rex_cronjob
         return $fields;
     }
 }
-
