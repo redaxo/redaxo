@@ -25,3 +25,7 @@ if (true == $addon->getConfig('detour_mode')) {
     $page['icon'] .= ' text-danger';
     $addon->setProperty('page', $page);
 }
+
+if (rex_addon::get('cronjob')->isAvailable() && !rex::isSafeMode()) {
+    rex_cronjob_manager::registerType('rex_cronjob_mailer_purge');
+}
