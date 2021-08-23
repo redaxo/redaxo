@@ -9,10 +9,6 @@
 
 $addon = rex_addon::get('phpmailer');
 
-if (rex_addon::get('cronjob')->isAvailable() && !rex::isSafeMode()) {
-    rex_cronjob_manager::registerType('rex_cronjob_mailerpurge');
-}
-
 if (!rex::isBackend() && 0 != $addon->getConfig('errormail')) {
     rex_extension::register('RESPONSE_SHUTDOWN', static function () {
         rex_mailer::errorMail();
@@ -28,4 +24,8 @@ if (true == $addon->getConfig('detour_mode')) {
     $page = $addon->getProperty('page');
     $page['icon'] .= ' text-danger';
     $addon->setProperty('page', $page);
+}
+
+if (rex_addon::get('cronjob')->isAvailable() && !rex::isSafeMode()) {
+    rex_cronjob_manager::registerType('rex_cronjob_mailerpurge');
 }
