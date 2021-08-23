@@ -23,10 +23,9 @@ class rex_cronjob_mailer_purge extends rex_cronjob
         }
 
         if ($dir != rex_mailer::logFolder() && is_dir($dir)) {
-			if(count(glob("$dir/*")) === 0 && true == rmdir($dir))
-			{
-            $log .= 'deleted directory: ' . $dir . "\n";
-			}
+            if (0 === count(glob("$dir/*")) && true == rmdir($dir)) {
+                $log .= 'deleted directory: ' . $dir . "\n";
+            }
         }
         return $log;
     }
@@ -35,7 +34,7 @@ class rex_cronjob_mailer_purge extends rex_cronjob
     {
         $purgeLog = '';
         if (is_dir(rex_mailer::logFolder())) {
-            $purgeLog = self::purgeMailarchive($this->getParam('days'),rex_mailer::logFolder());
+            $purgeLog = self::purgeMailarchive($this->getParam('days'), rex_mailer::logFolder());
             if ('' != $purgeLog) {
                 $this->setMessage($purgeLog);
                 return true;
