@@ -7,7 +7,7 @@
  * @package redaxo\phpmailer
  */
 
-class rex_cronjob_mailerArchiveCron extends rex_cronjob
+class rex_cronjob_mailerpurge extends rex_cronjob
 {
     /**
      * purgeMailArchive.
