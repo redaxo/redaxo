@@ -10,7 +10,7 @@
 $addon = rex_addon::get('phpmailer');
 
 if (rex_addon::get('cronjob')->isAvailable() && !rex::isSafeMode()) {
-    rex_cronjob_manager::registerType('rex_cronjob_mailerArchiveCron');
+    rex_cronjob_manager::registerType('rex_cronjob_mailerpurge');
 }
 
 if (!rex::isBackend() && 0 != $addon->getConfig('errormail')) {
