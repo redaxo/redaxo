@@ -72,6 +72,7 @@ phpmailer_archivecron_nothing_to_delete = Es wurde nichts zum Löschen gefunden
 phpmailer_archivecron_folder_not_found = Der Archiv-Ordner wurde nicht gefunden
 phpmailer_archivecron_label = Lösche Mails älter als 
 phpmailer_archivecron_days = Tage
+phpmailer_archivecron_delete = Anzahl gelöschter Objekte
 phpmailer_archivecron_notice = Datenschutzhinweis: Es sollte ein möglichst kurzer Zeitraum gewählt werden. 
 phpmailer_log_yes = Ja
 phpmailer_log_no = Nein
