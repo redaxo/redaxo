@@ -24,15 +24,13 @@ html {
 }
 .breadcrumb {
     border: 1px solid $color-a-light;
-}
 
-body.rex-theme-dark {
-    // TODO
-}
+    body.rex-theme-dark & {
+        // TODO
+    }
 
-@media (prefers-color-scheme: dark) {
-    body:not(.rex-theme-light) {
-        .breadcrumb {
+    @media (prefers-color-scheme: dark) {
+        body:not(.rex-theme-light) & {
             border-color: $color-grey-1;
         }
     }
@@ -86,6 +84,16 @@ body.rex-theme-dark {
     margin-right: floor(-$grid-gutter-width / 2);
     padding: $grid-gutter-width floor($grid-gutter-width / 2) floor($grid-gutter-width * 2);
     background-color: $color-a;
+
+    body.rex-theme-dark & {
+        // TODO
+    }
+
+    @media (prefers-color-scheme: dark) {
+        body:not(.rex-theme-light) & {
+            background-color: $color-grey-3;
+        }
+    }
 }
 @media(min-width: $grid-float-breakpoint) {
     .rex-main-sidebar {
