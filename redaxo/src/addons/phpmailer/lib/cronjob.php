@@ -13,20 +13,19 @@ class rex_cronjob_mailer_purge extends rex_cronjob
     protected function purgeMailarchive($days = 7, $dir = '', $log = 0)
     {
         foreach (glob($dir . '/*') as $file) {
-	            if (is_dir($file)) {
+            if (is_dir($file)) {
                 $log = $log + self::purgeMailarchive($days, $file);
             } elseif ((time() - filemtime($file)) > (60 * 60 * 24 * $days)) {
                 if (rex_file::delete($file)) {
-                    $log++;
+                    ++$log;
                 }
             }
         }
 
         if ($dir != rex_mailer::logFolder() && is_dir($dir)) {
-			if(count(glob("$dir/*")) === 0 && true == rmdir($dir))
-			{
-            $log++;
-			}
+            if (0 === count(glob("$dir/*")) && true == rmdir($dir)) {
+                ++$log;
+            }
         }
         return $log;
     }
@@ -35,7 +34,7 @@ class rex_cronjob_mailer_purge extends rex_cronjob
     {
         $purgeLog = 0;
         if (is_dir(rex_mailer::logFolder())) {
-            $purgeLog = self::purgeMailarchive($this->getParam('days'),rex_mailer::logFolder());
+            $purgeLog = self::purgeMailarchive($this->getParam('days'), rex_mailer::logFolder());
             if (0 != $purgeLog) {
                 $this->setMessage('Objekte gelöscht: '.$purgeLog);
                 return true;
