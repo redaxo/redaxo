@@ -1,0 +1,109 @@
+body.rex-theme-dark {
+    // TODO
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+
+        // body
+        background-color: $color-grey-2;
+        color: $color-grey-7;
+
+        // breadcrumb
+        .breadcrumb {
+            background-color: $color-grey-3;
+
+            > li {
+                + li:before {
+                    color: $color-grey-7;
+                }
+            }
+
+            > .active {
+                color: $color-grey-7;
+            }
+        }
+
+        // panel
+        .panel-default {
+            @include panel-variant($color-grey-1, $color-grey-7, $color-grey-1, $color-grey-1);
+        }
+
+        /*
+        .panel-primary {
+            @include panel-variant($panel-primary-border, $panel-primary-text, $panel-primary-heading-bg, $panel-primary-border);
+        }
+        .panel-success {
+            @include panel-variant($panel-success-border, $panel-success-text, $panel-success-heading-bg, $panel-success-border);
+        }
+        .panel-info {
+            @include panel-variant($panel-info-border, $panel-info-text, $panel-info-heading-bg, $panel-info-border);
+        }
+        .panel-warning {
+            @include panel-variant($panel-warning-border, $panel-warning-text, $panel-warning-heading-bg, $panel-warning-border);
+        }
+        .panel-danger {
+            @include panel-variant($panel-danger-border, $panel-danger-text, $panel-danger-heading-bg, $panel-danger-border);
+        }
+        */
+
+        // table
+        table {
+            background-color: $color-grey-3;
+        }
+
+        .table {
+            > thead,
+            > tbody,
+            > tfoot {
+                > tr {
+                    > th,
+                    > td {
+                        border-top-color: $color-grey-1;
+                    }
+                }
+            }
+
+            > thead > tr > th {
+                border-bottom-color: $color-grey-1;
+            }
+
+            > tbody + tbody {
+                border-top-color: $color-grey-1;
+            }
+
+            .table {
+                background-color: $color-grey-2;
+            }
+        }
+
+        .table-bordered {
+            border-color: $color-grey-1;
+
+            > thead,
+            > tbody,
+            > tfoot {
+                > tr {
+                    > th,
+                    > td {
+                        border-color: $color-grey-1;
+                    }
+                }
+            }
+        }
+
+        .table-hover {
+            > tbody > tr:hover {
+                background-color: $color-grey-4;
+            }
+        }
+
+        /*
+        @include table-row-variant('active', $table-bg-active);
+        @include table-row-variant('success', $state-success-bg);
+        @include table-row-variant('info', $state-info-bg);
+        @include table-row-variant('warning', $state-warning-bg);
+        @include table-row-variant('danger', $state-danger-bg);
+        */
+    }
+}
