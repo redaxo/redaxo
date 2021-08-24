@@ -335,6 +335,93 @@
     }
 }
 
+body.rex-theme-dark {
+    // TODO
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+
+        .rex-page-nav {
+            .nav-tabs {
+                border-bottom-color: $color-grey-5;
+
+                > li {
+                    &.active {
+                        > a:not(.btn),
+                        > a:not(.btn):hover {
+                            background-color: $color-grey-5;
+                            border-color: $color-grey-5;
+                            border-bottom-color: transparent;
+                            color: $color-grey-7;
+                        }
+                    }
+
+                    > a:not(.btn) {
+                        background-color: $color-grey-3;
+                        border-color: $color-grey-3;
+                        border-bottom-color: transparent;
+                        color: $color-grey-6;
+
+                        &:hover {
+                            background-color: $color-grey-3;
+                            border-color: $color-grey-3;
+                            color: $color-grey-7;
+                        }
+                    }
+                }
+            }
+            // Tab subnavigation
+            .navbar {
+                background-color: $color-grey-5;
+                border-color: $color-grey-5;
+            }
+            .navbar-default .navbar-nav > li:not(:last-child):after {
+                border-right-color: $color-grey-1;
+            }
+            //.navbar-default .navbar-nav > li > a {
+            //    color: $color-b;
+            //}
+            //.navbar-default .navbar-nav > .rex-empty > a {
+            //    color: $color-a;
+            //}
+            .navbar-default .navbar-nav > li > a:hover,
+            .navbar-default .navbar-nav > .active > a,
+            .navbar-default .navbar-nav > .active > a:hover,
+            .navbar-default .navbar-nav > .active > a:focus {
+                color: $color-grey-7;
+            }
+        }
+
+        // inside of main frame
+        .rex-main-frame {
+            .rex-page-nav {
+                .nav-tabs {
+                    border-bottom-color: lighten($color-grey-5, 8%);
+
+                    > li {
+                        &.active {
+                            > a:not(.btn),
+                            > a:not(.btn):hover {
+                                background-color: lighten($color-grey-5, 8%);
+                                border-color: lighten($color-grey-5, 8%);
+                            }
+                        }
+                        > a:not(.btn) {
+                            background-color: $color-grey-4;
+                            border-color: $color-grey-4;
+                        }
+                    }
+                }
+                // Tab subnavigation
+                .navbar {
+                    border-color: lighten($color-grey-5, 8%);
+                }
+            }
+        }
+    }
+}
+
 .rex-slice-input .nav-tabs {
     margin-bottom: $line-height-computed;
 }
