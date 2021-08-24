@@ -92,6 +92,16 @@
 .rex-nav-main {
     background-color: $color-a-dark;
 
+    body.rex-theme-dark & {
+        // TODO
+    }
+
+    @media (prefers-color-scheme: dark) {
+        body:not(.rex-theme-light) & {
+            background-color: $color-grey-4;
+        }
+    }
+
     > .navbar-collapse {
         padding-left: 0;
         padding-right: 0;
