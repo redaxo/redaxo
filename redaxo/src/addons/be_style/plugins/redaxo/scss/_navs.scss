@@ -71,8 +71,19 @@
         }
     }
     .rex-nav-footer {
+        li,
         a {
             color: $color-a-dark;
+
+            body.rex-theme-dark& {
+                // TODO
+            }
+
+            @media (prefers-color-scheme: dark) {
+                body:not(.rex-theme-light)& {
+                    color: $color-grey-6;
+                }
+            }
         }
     }
 }
