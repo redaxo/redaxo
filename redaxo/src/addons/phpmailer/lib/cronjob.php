@@ -10,33 +10,34 @@
 
 class rex_cronjob_mailer_purge extends rex_cronjob
 {
-    protected function purgeMailarchive($days = 7, $dir = '', $log = '')
+    protected function purgeMailarchive($days = 7, $dir = '', $log = 0)
     {
         foreach (glob($dir . '/*') as $file) {
-            if (is_dir($file)) {
-                $log .= self::purgeMailarchive($days, $file);
+	            if (is_dir($file)) {
+                $log = + self::purgeMailarchive($days, $file);
             } elseif ((time() - filemtime($file)) > (60 * 60 * 24 * $days)) {
                 if (rex_file::delete($file)) {
-                    $log .= 'deleted file: ' . $file . "\n";
+                    $log++;
                 }
             }
         }
 
         if ($dir != rex_mailer::logFolder() && is_dir($dir)) {
-            if (0 === count(glob("$dir/*")) && true == rmdir($dir)) {
-                $log .= 'deleted directory: ' . $dir . "\n";
-            }
+			if(count(glob("$dir/*")) === 0 && true == rmdir($dir))
+			{
+            $log++;
+			}
         }
         return $log;
     }
 
     public function execute()
     {
-        $purgeLog = '';
+        $purgeLog = 0;
         if (is_dir(rex_mailer::logFolder())) {
-            $purgeLog = self::purgeMailarchive($this->getParam('days'), rex_mailer::logFolder());
-            if ('' != $purgeLog) {
-                $this->setMessage($purgeLog);
+            $purgeLog = self::purgeMailarchive($this->getParam('days'),rex_mailer::logFolder());
+            if (0 != $purgeLog) {
+                $this->setMessage(rex_i18n::msg('phpmailer_archivecron_deleted').': ' .$purgeLog);
                 return true;
             }
             $this->setMessage(rex_i18n::msg('phpmailer_archivecron_nothing_to_delete'));
