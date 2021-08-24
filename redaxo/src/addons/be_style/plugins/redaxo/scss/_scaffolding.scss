@@ -26,6 +26,18 @@ html {
     border: 1px solid $color-a-light;
 }
 
+body.rex-theme-dark {
+    // TODO
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+        .breadcrumb {
+            border-color: $color-grey-1;
+        }
+    }
+}
+
 .rex-redaxo-logo {
     path.rex-redaxo-logo-r,
     path.rex-redaxo-logo-e,
