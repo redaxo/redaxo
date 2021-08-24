@@ -25,6 +25,15 @@ body.rex-theme-dark {
         }
 
         // panel
+        .panel {
+            background-color: $color-grey-3;
+        }
+
+        .panel-footer {
+            background-color: $color-grey-1;
+            border-top-color: $color-grey-1;
+        }
+
         .panel-default {
             @include panel-variant($color-grey-1, $color-grey-7, $color-grey-1, $color-grey-1);
         }
