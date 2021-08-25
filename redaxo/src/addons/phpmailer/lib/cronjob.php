@@ -42,7 +42,7 @@ class rex_cronjob_mailer_purge extends rex_cronjob
 
     public function execute()
     {
-     if (is_dir(rex_mailer::logFolder())) {
+        if (is_dir(rex_mailer::logFolder())) {
             $purgeLog = 0;
             $purgeLog = self::purgeMailarchive($this->getParam('days'), rex_mailer::logFolder());
             if (0 != $purgeLog) {
