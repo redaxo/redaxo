@@ -13,9 +13,6 @@ class rex_cronjob_mailer_purge extends rex_cronjob
     /**
      * purgeMailarchive.
      *
-     * @param  int $days
-     * @param  string $dir
-     * @param  int $log
      * @return int
      */
     protected function purgeMailarchive(int $days = 7, string $dir = '', int $log = 0)
@@ -81,4 +78,3 @@ class rex_cronjob_mailer_purge extends rex_cronjob
         return $fields;
     }
 }
-
