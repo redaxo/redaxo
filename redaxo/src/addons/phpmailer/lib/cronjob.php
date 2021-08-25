@@ -40,6 +40,7 @@ class rex_cronjob_mailer_purge extends rex_cronjob
 
     public function execute()
     {
+        $logfolder = '';
         $logfolder = rex_mailer::logFolder();
         if (is_string($logfolder) && is_dir($logfolder)) {
             $purgeLog = 0;
