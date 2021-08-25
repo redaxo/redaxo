@@ -16,7 +16,7 @@ class rex_cronjob_mailer_purge extends rex_cronjob
      * @param  int $days
      * @param  mixed $dir
      * @param  int $log
-     * @return void
+     * @return int
      */
     protected function purgeMailarchive($days = 7, $dir = '', $log = 0)
     {
