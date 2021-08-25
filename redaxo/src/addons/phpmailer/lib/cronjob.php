@@ -23,7 +23,7 @@ class rex_cronjob_mailer_purge extends rex_cronjob
             foreach ($files as $file) {
                 if (is_string($file) && is_dir($file)) {
                     $log = $log + self::purgeMailarchive($days, $file);
-                } elseif ((time() - filemtime($file)) > (60 * 60 * 24 * $days)) {
+                } elseif (is_int($days) && (time() - filemtime($file)) > (60 * 60 * 24 * $days)) {
                     if (rex_file::delete($file)) {
                         ++$log;
                     }
@@ -40,7 +40,8 @@ class rex_cronjob_mailer_purge extends rex_cronjob
 
     public function execute()
     {
-        if (is_dir(rex_mailer::logFolder())) {
+		$logfolder = rex_mailer::logFolder();
+        if (is_string($logfolder) && is_dir($logfolder)) {
             $purgeLog = 0;
             $purgeLog = self::purgeMailarchive($this->getParam('days'), rex_mailer::logFolder());
             if (0 != $purgeLog) {
@@ -78,3 +79,4 @@ class rex_cronjob_mailer_purge extends rex_cronjob
         return $fields;
     }
 }
+
