@@ -14,7 +14,7 @@ class rex_cronjob_mailer_purge extends rex_cronjob
      * purgeMailarchive.
      *
      * @param  int $days
-     * @param  mixed $dir
+     * @param  string $dir
      * @param  int $log
      * @return int
      */
