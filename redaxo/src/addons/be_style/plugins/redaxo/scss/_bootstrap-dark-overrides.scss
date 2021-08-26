@@ -38,23 +38,21 @@ body.rex-theme-dark {
             @include panel-variant($color-grey-1, $color-grey-7, $color-grey-1, $color-grey-1);
         }
 
-        /*
-        .panel-primary {
-            @include panel-variant($panel-primary-border, $panel-primary-text, $panel-primary-heading-bg, $panel-primary-border);
-        }
-        .panel-success {
-            @include panel-variant($panel-success-border, $panel-success-text, $panel-success-heading-bg, $panel-success-border);
-        }
+        //.panel-primary {
+        //    @include panel-variant($panel-primary-border, $panel-primary-text, $panel-primary-heading-bg, $panel-primary-border);
+        //}
+        //.panel-success {
+        //    @include panel-variant($panel-success-border, $panel-success-text, $panel-success-heading-bg, $panel-success-border);
+        //}
         .panel-info {
-            @include panel-variant($panel-info-border, $panel-info-text, $panel-info-heading-bg, $panel-info-border);
+            @include panel-variant($color-blue-1, $color-blue-5, $color-blue-1, $color-blue-1);
         }
-        .panel-warning {
-            @include panel-variant($panel-warning-border, $panel-warning-text, $panel-warning-heading-bg, $panel-warning-border);
-        }
-        .panel-danger {
-            @include panel-variant($panel-danger-border, $panel-danger-text, $panel-danger-heading-bg, $panel-danger-border);
-        }
-        */
+        //.panel-warning {
+        //    @include panel-variant($panel-warning-border, $panel-warning-text, $panel-warning-heading-bg, $panel-warning-border);
+        //}
+        //.panel-danger {
+        //    @include panel-variant($panel-danger-border, $panel-danger-text, $panel-danger-heading-bg, $panel-danger-border);
+        //}
 
         // table
         table {

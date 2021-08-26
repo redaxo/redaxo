@@ -13,6 +13,7 @@
 .rex-slice .panel-heading > .rex-panel-options {
     float: right;
 }
+
 .panel-add,
 .panel-edit {
     @include panel-variant($color-d, #fff, $color-d, $color-d);
@@ -27,6 +28,34 @@
         background-color: $color-d-lighter;
     }
 }
+
+body.rex-theme-dark {
+    // TODO
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+
+        .panel-add,
+        .panel-edit {
+            @include panel-variant($color-green-1, $color-green-5, $color-green-1, $color-green-1);
+
+            .panel-heading[data-toggle] {
+                &:hover {
+                    background-color: darken($color-green-1, 5%);
+                    border-color: darken($color-green-1, 5%);
+                }
+            }
+            .panel-body {
+                background-color: $color-green-2;
+            }
+            .panel-footer {
+                background-color: $color-green-1;
+            }
+        }
+    }
+}
+
 .panel-default {
     .panel-heading[data-toggle] {
         &:hover {
