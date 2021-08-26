@@ -217,6 +217,7 @@ class rex_mailer extends PHPMailer
 
     /**
      * Path to log file.
+     * @return string
      */
     public static function logFile(): string
     {
