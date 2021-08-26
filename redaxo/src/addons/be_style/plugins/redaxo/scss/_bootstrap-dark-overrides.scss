@@ -45,7 +45,7 @@ body.rex-theme-dark {
         //    @include panel-variant($panel-success-border, $panel-success-text, $panel-success-heading-bg, $panel-success-border);
         //}
         .panel-info {
-            @include panel-variant($color-blue-1, $color-blue-5, $color-blue-1, $color-blue-1);
+            @include panel-variant($color-blue-1, $color-blue-6, $color-blue-1, $color-blue-1);
         }
         //.panel-warning {
         //    @include panel-variant($panel-warning-border, $panel-warning-text, $panel-warning-heading-bg, $panel-warning-border);

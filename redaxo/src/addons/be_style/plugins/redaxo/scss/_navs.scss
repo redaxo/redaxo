@@ -246,6 +246,19 @@
     }
 }
 
+body.rex-theme-dark {
+    // TODO
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+        .rex-nav-top {
+            background-color: $color-blue-3;
+            border-color: $color-blue-3;
+        }
+    }
+}
+
 .rex-page-nav {
     .nav-tabs {
         border-bottom-color: darken($color-a-light, 5%);
