@@ -2330,11 +2330,10 @@
       <code>$this-&gt;archive</code>
       <code>$timediff</code>
     </MixedAssignment>
-    <MixedOperand occurrences="4">
+    <MixedOperand occurrences="3">
       <code>$sendTime</code>
       <code>$this-&gt;xHeader[$kind]</code>
       <code>$this-&gt;xHeader['to']</code>
-      <code>self::logFolder()</code>
     </MixedOperand>
     <PossiblyNullArgument occurrences="1">
       <code>$address</code>
@@ -2368,12 +2367,6 @@
     </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/phpmailer/pages/config.php">
-    <MixedArgument occurrences="4">
-      <code>rex_mailer::logFolder()</code>
-      <code>rex_mailer::logFolder()</code>
-      <code>rex_mailer::logFolder()</code>
-      <code>rex_mailer::logFolder()</code>
-    </MixedArgument>
     <NullOperand occurrences="11">
       <code>rex_escape($addon-&gt;getConfig('bcc'))</code>
       <code>rex_escape($addon-&gt;getConfig('charset'))</code>
