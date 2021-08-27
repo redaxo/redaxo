@@ -26,6 +26,7 @@ if (true == $addon->getConfig('detour_mode')) {
     $addon->setProperty('page', $page);
 }
 
+$mail_purge = rex_cronjob_mailer_purge::class
 if (rex_addon::get('cronjob')->isAvailable() && !rex::isSafeMode()) {
-    rex_cronjob_manager::registerType('rex_cronjob_mailer_purge');
+    rex_cronjob_manager::registerType($mail_purge);
 }
