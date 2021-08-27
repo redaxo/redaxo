@@ -13,8 +13,20 @@ $content.= '<br><h2>Panels</h2><br>';
 // buttons
 $formElements = [];
 $n = [];
-$n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" name="" value="">Speichern</button>';
+$n['field'] = '<button class="btn btn-save" type="submit" name="" value="">Speichern</button>';
 $formElements[] = $n;
+
+$n['field'] = '<button class="btn btn-delete" type="submit" name="" value="">Löschen</button>';
+$formElements[] = $n;
+
+$n['field'] = '<button class="btn btn-send" type="submit" name="" value="">Sonstiges</button>';
+$formElements[] = $n;
+
+$n['field'] = '<button class="btn btn-abort" type="submit" name="" value="">Abbrechen</button>';
+$formElements[] = $n;
+
+
+
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
@@ -89,4 +101,4 @@ $content.= '<div class="alert alert-danger">' . $alert . '</div>';
 
 
 
-echo '<div>'. $content . '</div>';
+echo '<div style="padding-bottom: 2000px;">'. $content . '</div>';
