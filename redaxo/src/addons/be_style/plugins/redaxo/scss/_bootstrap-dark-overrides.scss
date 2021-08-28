@@ -5,11 +5,14 @@ body.rex-theme-dark {
 @media (prefers-color-scheme: dark) {
     body:not(.rex-theme-light) {
 
-        // body
+        /* body */
+
         background-color: $color-grey-2;
         color: $color-grey-7;
 
-        // breadcrumb
+
+        /* breadcrumb */
+
         .breadcrumb {
             background-color: $color-grey-3;
 
@@ -24,13 +27,30 @@ body.rex-theme-dark {
             }
         }
 
-        // code
+        /* code */
+
         code {
             color: #d5baff;
             background-color: rgba($color-grey-1, 0.8);
         }
 
-        // panel
+
+        /* nav */
+
+        .nav-pills {
+            > li {
+                &.active > a {
+                    &,
+                    &:hover,
+                    &:focus {
+                        background-color: $color-blue-3;
+                    }
+                }
+            }
+        }
+
+        /* panel */
+
         .panel {
             background-color: $color-grey-3;
         }
@@ -43,23 +63,29 @@ body.rex-theme-dark {
         .panel-default {
             @include panel-variant($color-grey-1, $color-grey-7, $color-grey-1, $color-grey-1);
         }
+
         .panel-primary {
             @include panel-variant($color-grey-1, $color-blue-6, $color-blue-1, $color-grey-1);
         }
+
         .panel-success {
             @include panel-variant($color-green-2, $color-green-6, $color-green-2, $color-green-2);
         }
+
         .panel-info {
             @include panel-variant($color-blue-1, $color-blue-6, $color-blue-1, $color-blue-1);
         }
+
         .panel-warning {
             @include panel-variant($panel-warning-border, $panel-warning-text, $panel-warning-heading-bg, $panel-warning-border);
         }
+
         .panel-danger {
             @include panel-variant($panel-danger-border, $panel-danger-text, $panel-danger-heading-bg, $panel-danger-border);
         }
 
-        // table
+        /* table */
+
         table {
             background-color: $color-grey-3;
         }
