@@ -6,9 +6,23 @@
 
 $content = '';
 
+/* buttons ----------------------------------------------------------------------------- */
+
+$content.= '<br><br><h2>Buttons</h2><br>';
+
+$content.= '<button class="btn">Button</button> ';
+$content.= '<button class="btn btn-default">Button</button> ';
+$content.= '<button class="btn btn-primary">Button</button> ';
+$content.= '<button class="btn btn-success">Button</button> ';
+$content.= '<button class="btn btn-info">Button</button> ';
+$content.= '<button class="btn btn-warning">Button</button> ';
+$content.= '<button class="btn btn-danger">Button</button> ';
+$content.= '<button class="btn btn-link">Button</button> ';
+
+
 /* panels ----------------------------------------------------------------------------- */
 
-$content.= '<br><h2>Panels</h2><br>';
+$content.= '<br><br><h2>Panels</h2><br>';
 
 // buttons
 $formElements = [];
@@ -86,7 +100,7 @@ $content.= $fragment->parse('core/page/section.php');
 
 /* alerts ----------------------------------------------------------------------------- */
 
-$content.= '<br><h2>Alerts</h2><br>';
+$content.= '<br><br><h2>Alerts</h2><br>';
 
 $alert = 'Hello I’ve waited here for you <a href="#">Everlong</a> Tonight I throw myself into and out of the red <code>Out of her head</code>, she sang';
 
