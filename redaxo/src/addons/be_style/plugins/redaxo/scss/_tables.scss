@@ -1,6 +1,16 @@
 
 .table > tbody > tr.mark {
     background-color: $color-d-lighter;
+
+    body.rex-theme-dark & {
+        // TODO
+    }
+
+    @media (prefers-color-scheme: dark) {
+        body:not(.rex-theme-light) & {
+            background-color: $color-grey-5;
+        }
+    }
 }
 
 .table tr .alert {
@@ -141,6 +151,16 @@
         &:last-child {
             border-bottom: 0;
         }
+
+        body.rex-theme-dark & {
+            // TODO
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body:not(.rex-theme-light) & {
+                border-bottom-color: $color-grey-1;
+            }
+        }
     }
 
     .table > tbody > tr > th[data-title],
@@ -166,6 +186,16 @@
             line-height: $line-height-computed;
             text-align: left;
             text-overflow: ellipsis;
+        }
+
+        body.rex-theme-dark & {
+            // TODO
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body:not(.rex-theme-light) & {
+                border-bottom-color: $color-grey-1 !important;
+            }
         }
     }
     .table > tbody > tr.collapsing > th[data-title],

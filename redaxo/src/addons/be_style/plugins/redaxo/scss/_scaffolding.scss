@@ -146,6 +146,20 @@ html {
             }
         }
     }
+
+    body.rex-theme-dark {
+        // TODO
+    }
+
+    @media (prefers-color-scheme: dark) {
+        body:not(.rex-theme-light) {
+            &.rex-is-logged-in {
+                .rex-page {
+                    background-color: $color-grey-2;
+                }
+            }
+        }
+    }
 }
 
 .rex-is-popup {
