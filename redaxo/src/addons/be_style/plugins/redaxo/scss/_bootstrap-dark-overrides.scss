@@ -11,6 +11,25 @@ body.rex-theme-dark {
         color: $color-text-light;
 
 
+        /* alert */
+
+        .alert-success {
+            @include alert-variant($dark-brand-success, darken($dark-brand-success, 5%), $color-text-light);
+        }
+
+        .alert-info {
+            @include alert-variant($dark-brand-primary, darken($dark-brand-primary, 5%), $color-text-light);
+        }
+
+        .alert-warning {
+            @include alert-variant($dark-brand-warning, darken($dark-brand-warning, 5%), $color-text-light);
+        }
+
+        .alert-danger {
+            @include alert-variant($dark-brand-danger, darken($dark-brand-danger, 5%), $color-text-light);
+        }
+
+
         /* button */
 
         .btn-default {
@@ -101,23 +120,24 @@ body.rex-theme-dark {
         }
 
         .panel-primary {
-            @include panel-variant($color-grey-1, $color-text-light, $color-blue-1, $color-grey-1);
+            //@include panel-variant($color-grey-1, $color-text-light, $color-blue-1, $color-grey-1);
+            @include panel-variant($dark-brand-info, $color-text-light, $dark-brand-info, $dark-brand-info);
         }
 
         .panel-success {
-            @include panel-variant($color-green-2, $color-text-light, $color-green-2, $color-green-2);
+            @include panel-variant($dark-brand-success, $color-text-light, $dark-brand-success, $dark-brand-success);
         }
 
         .panel-info {
-            @include panel-variant($color-blue-1, $color-text-light, $color-blue-1, $color-blue-1);
+            @include panel-variant($dark-brand-info, $color-text-light, $dark-brand-info, $dark-brand-info);
         }
 
         .panel-warning {
-            @include panel-variant($panel-warning-border, $panel-warning-text, $panel-warning-heading-bg, $panel-warning-border);
+            @include panel-variant($dark-brand-warning, $color-text-light, $dark-brand-warning, $dark-brand-warning);
         }
 
         .panel-danger {
-            @include panel-variant($panel-danger-border, $panel-danger-text, $panel-danger-heading-bg, $panel-danger-border);
+            @include panel-variant($dark-brand-danger, $color-text-light, $dark-brand-danger, $dark-brand-danger);
         }
 
         /* table */
@@ -172,12 +192,10 @@ body.rex-theme-dark {
             }
         }
 
-        /*
-        @include table-row-variant('active', $table-bg-active);
-        @include table-row-variant('success', $state-success-bg);
-        @include table-row-variant('info', $state-info-bg);
-        @include table-row-variant('warning', $state-warning-bg);
-        @include table-row-variant('danger', $state-danger-bg);
-        */
+        @include table-row-variant('active', $dark-brand-primary);
+        @include table-row-variant('success', $dark-brand-success);
+        @include table-row-variant('info', $dark-brand-info);
+        @include table-row-variant('warning', $dark-brand-warning);
+        @include table-row-variant('danger', $dark-brand-danger);
     }
 }

@@ -64,23 +64,6 @@
     }
 }
 
-body.rex-theme-dark {
-    // TODO
-}
-
-@media (prefers-color-scheme: dark) {
-    body:not(.rex-theme-light) {
-
-        .btn-clang {
-            $normal: (color: $color-text-light, background: $color-grey-5, border: darken($color-grey-5, 5%));
-            $hover: (color: $color-text-light, background: darken($color-grey-5, 4%), border: darken($color-grey-5, 8%));
-            $active: (color: $color-text-light, background: $dark-brand-primary, border: darken($dark-brand-primary, 5%));
-            $activeHover: (color: $color-text-light, background: darken($dark-brand-primary, 10%), border: darken($dark-brand-primary, 16%));
-            @include rex-button-variant($normal, $hover, $active, $activeHover);
-        }
-    }
-}
-
 .btn-edit {
     @include button-variant(#fff, $color-d, $color-d);
 
@@ -136,4 +119,62 @@ body.rex-theme-dark {
     background-color: $color-b;
     border-color: $color-b;
     outline: 0px solid rgba($color-b-light, 1);
+}
+
+body.rex-theme-dark {
+    // TODO
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+
+        .btn-default,
+        .btn-abort,
+        .btn-back,
+        .btn-clang,
+        .btn-move,
+        .btn-popup,
+        .btn-reset,
+        .btn-search {
+            @include button-variant($color-text-light, $color-grey-5, darken($color-grey-5, 5%));
+        }
+
+        .btn-primary,
+        .btn-apply,
+        .btn-save,
+        .btn-select,
+        .btn-send,
+        .btn-setup,
+        .btn-update {
+            @include button-variant($color-text-light, $dark-brand-primary, darken($dark-brand-primary, 5%));
+        }
+
+        .btn-clang {
+            $normal: (color: $color-text-light, background: $color-grey-5, border: darken($color-grey-5, 5%));
+            $hover: (color: $color-text-light, background: darken($color-grey-5, 4%), border: darken($color-grey-5, 8%));
+            $active: (color: $color-text-light, background: $dark-brand-primary, border: darken($dark-brand-primary, 5%));
+            $activeHover: (color: $color-text-light, background: darken($dark-brand-primary, 10%), border: darken($dark-brand-primary, 16%));
+            @include rex-button-variant($normal, $hover, $active, $activeHover);
+        }
+
+        .btn-edit,
+        .panel-edit .btn-edit,
+        .btn-save,
+        .btn-apply {
+            @include button-variant($color-text-light, $dark-brand-success, darken($dark-brand-success, 5%));
+        }
+
+        .btn-delete {
+            @include button-variant($color-text-light, $dark-brand-danger, darken($dark-brand-danger, 5%));
+        }
+
+        .btn-debug-mode,
+        .btn-safemode-activate {
+            $normal: (color: $color-text-light, background: $dark-brand-warning, border: darken($dark-brand-warning, 5%));
+            $hover: (color: $color-text-light, background: darken($dark-brand-warning, 4%), border: darken($dark-brand-warning, 8%));
+            $active: $normal;
+            $activeHover: $hover;
+            @include rex-button-variant($normal, $hover, $active, $activeHover);
+        }
+    }
 }
