@@ -13,3 +13,18 @@
         background-color: $color-a-light;
     }
 }
+
+body.rex-theme-dark {
+    // TODO
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+        .rex-sticky-table-footer {
+            th,
+            td {
+                background-color: $color-grey-1;
+            }
+        }
+    }
+}
