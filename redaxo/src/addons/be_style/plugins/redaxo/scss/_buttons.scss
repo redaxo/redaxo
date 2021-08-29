@@ -137,6 +137,16 @@ body.rex-theme-dark {
         .btn-reset,
         .btn-search {
             @include button-variant($color-text-light, $color-grey-5, darken($color-grey-5, 5%));
+
+            &:focus,
+            &.focus {
+                background-color: darken($color-grey-5, 4%);
+                border-color: darken($color-grey-5, 16%);
+            }
+            &:hover {
+                background-color: darken($color-grey-5, 4%);
+                border-color: darken($color-grey-5, 8%);
+            }
         }
 
         .btn-primary,
