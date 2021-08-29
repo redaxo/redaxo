@@ -33,6 +33,7 @@ body.rex-theme-dark {
         }
 
         // refine hover styles
+        // TODO: use @mixin rex-button-variant?
         .btn-default {
             &:focus,
             &.focus {

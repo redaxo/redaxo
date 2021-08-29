@@ -63,6 +63,24 @@
         @include box-shadow(none);
     }
 }
+
+body.rex-theme-dark {
+    // TODO
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+
+        .btn-clang {
+            $normal: (color: $color-text-light, background: $color-grey-5, border: darken($color-grey-5, 5%));
+            $hover: (color: $color-text-light, background: darken($color-grey-5, 4%), border: darken($color-grey-5, 8%));
+            $active: (color: $color-text-light, background: $dark-brand-primary, border: darken($dark-brand-primary, 5%));
+            $activeHover: (color: $color-text-light, background: darken($dark-brand-primary, 10%), border: darken($dark-brand-primary, 16%));
+            @include rex-button-variant($normal, $hover, $active, $activeHover);
+        }
+    }
+}
+
 .btn-edit {
     @include button-variant(#fff, $color-d, $color-d);
 
