@@ -36,24 +36,25 @@ $color-grey-3: darken($color-a-darker, 2%);
 $color-grey-4: $color-a-darker;
 $color-grey-5: $color-a-dark;
 $color-grey-6: $color-a;
-$color-grey-7: darken($color-a-light, 8%);
-$color-grey-8: darken($color-a-lighter, 8%);
 
 // Blue
 $color-blue-1: rgba(darken($color-b, 30%), 0.5);
 $color-blue-2: rgba(darken($color-b, 24%), 0.3);
 $color-blue-3: darken($color-b, 12%);
 $color-blue-4: $color-b;
-$color-blue-5: $color-b-light;
-$color-blue-6: $color-b-lighter;
 
 // Green
 $color-green-1: rgba(darken($color-d, 37%), 0.4);
 $color-green-2: rgba(darken($color-d, 28%), 0.3);
 $color-green-3: darken($color-d, 12%);
 $color-green-4: $color-d;
-$color-green-5: $color-d-light;
-$color-green-6: $color-d-lighter;
+
+// text
+$color-text-dark: rgba(0, 0, 0, 0.85);
+$color-text-dark-inactive: rgba(0, 0, 0, 0.5);
+$color-text-light: rgba(255, 255, 255, 0.85);
+$color-text-light-inactive: rgba(255, 255, 255, 0.5);
+
 
 
 
@@ -125,6 +126,14 @@ $brand-success:         $color-d;
 $brand-info:            $color-b;
 $brand-warning:         #cfb550;
 $brand-danger:          #d9534f !default;
+
+// dark brand colors
+$dark-brand-primary: $color-blue-3;
+$dark-brand-success: $color-green-3;
+$dark-brand-info: $color-blue-3;
+$dark-brand-warning: #97832d;
+$dark-brand-danger: #a62a28;
+
 
 
 //== Scaffolding

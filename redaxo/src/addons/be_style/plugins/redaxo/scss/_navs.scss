@@ -366,7 +366,7 @@ body.rex-theme-dark {
                             background-color: $color-grey-5;
                             border-color: $color-grey-5;
                             border-bottom-color: transparent;
-                            color: $color-grey-7;
+                            color: $color-text-light;
                         }
                     }
 
@@ -379,7 +379,7 @@ body.rex-theme-dark {
                         &:hover {
                             background-color: $color-grey-3;
                             border-color: $color-grey-3;
-                            color: $color-grey-7;
+                            color: $color-text-light;
                         }
                     }
                 }
@@ -402,7 +402,7 @@ body.rex-theme-dark {
             .navbar-default .navbar-nav > .active > a,
             .navbar-default .navbar-nav > .active > a:hover,
             .navbar-default .navbar-nav > .active > a:focus {
-                color: $color-grey-7;
+                color: $color-text-light;
             }
         }
 

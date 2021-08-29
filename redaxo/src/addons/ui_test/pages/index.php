@@ -10,7 +10,6 @@ $content = '';
 
 $content.= '<br><br><h2>Buttons</h2><br>';
 
-$content.= '<button class="btn">Button</button> ';
 $content.= '<button class="btn btn-default">Button</button> ';
 $content.= '<button class="btn btn-primary">Button</button> ';
 $content.= '<button class="btn btn-success">Button</button> ';

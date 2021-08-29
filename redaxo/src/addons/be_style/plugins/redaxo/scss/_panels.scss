@@ -38,7 +38,7 @@ body.rex-theme-dark {
 
         .panel-add,
         .panel-edit {
-            @include panel-variant($color-green-1, $color-green-6, $color-green-1, $color-green-1);
+            @include panel-variant($color-green-1, $color-text-light, $color-green-1, $color-green-1);
 
             .panel-heading[data-toggle] {
                 &:hover {

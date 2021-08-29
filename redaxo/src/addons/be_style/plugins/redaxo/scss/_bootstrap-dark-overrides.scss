@@ -8,7 +8,42 @@ body.rex-theme-dark {
         /* body */
 
         background-color: $color-grey-2;
-        color: $color-grey-7;
+        color: $color-text-light;
+
+
+        /* button */
+
+        .btn-default {
+            @include button-variant($color-text-light, $color-grey-5, darken($color-grey-5, 5%));
+        }
+        .btn-primary {
+            @include button-variant($color-text-light, $dark-brand-primary, darken($dark-brand-primary, 5%));
+        }
+        .btn-success {
+            @include button-variant($color-text-light, $dark-brand-success, darken($dark-brand-success, 5%));
+        }
+        .btn-info {
+            @include button-variant($color-text-light, $dark-brand-info, darken($dark-brand-info, 5%));
+        }
+        .btn-warning {
+            @include button-variant($color-text-light, $dark-brand-warning, darken($dark-brand-warning, 5%));
+        }
+        .btn-danger {
+            @include button-variant($color-text-light, $dark-brand-danger, darken($dark-brand-danger, 5%));
+        }
+
+        // refine hover styles
+        .btn-default {
+            &:focus,
+            &.focus {
+                background-color: darken($color-grey-5, 4%);
+                border-color: darken($color-grey-5, 16%);
+            }
+            &:hover {
+                background-color: darken($color-grey-5, 4%);
+                border-color: darken($color-grey-5, 8%);
+            }
+        }
 
 
         /* breadcrumb */
@@ -18,12 +53,12 @@ body.rex-theme-dark {
 
             > li {
                 + li:before {
-                    color: $color-grey-7;
+                    color: $color-text-light;
                 }
             }
 
             > .active {
-                color: $color-grey-7;
+                color: $color-text-light;
             }
         }
 
@@ -61,19 +96,19 @@ body.rex-theme-dark {
         }
 
         .panel-default {
-            @include panel-variant($color-grey-1, $color-grey-7, $color-grey-1, $color-grey-1);
+            @include panel-variant($color-grey-1, $color-text-light, $color-grey-1, $color-grey-1);
         }
 
         .panel-primary {
-            @include panel-variant($color-grey-1, $color-blue-6, $color-blue-1, $color-grey-1);
+            @include panel-variant($color-grey-1, $color-text-light, $color-blue-1, $color-grey-1);
         }
 
         .panel-success {
-            @include panel-variant($color-green-2, $color-green-6, $color-green-2, $color-green-2);
+            @include panel-variant($color-green-2, $color-text-light, $color-green-2, $color-green-2);
         }
 
         .panel-info {
-            @include panel-variant($color-blue-1, $color-blue-6, $color-blue-1, $color-blue-1);
+            @include panel-variant($color-blue-1, $color-text-light, $color-blue-1, $color-blue-1);
         }
 
         .panel-warning {
