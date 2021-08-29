@@ -548,6 +548,20 @@ body.rex-theme-dark {
     }
 }
 
+body.rex-theme-dark {
+    // TODO
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+        .rex-nav-toc {
+            > ul > li > a {
+                background-color: $color-grey-2;
+            }
+        }
+    }
+}
+
 .rex-navbar-without-brand {
     @media (min-width: $grid-float-breakpoint) {
         .container-fluid,

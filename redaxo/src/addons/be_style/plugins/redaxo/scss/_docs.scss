@@ -221,3 +221,67 @@
         font-size: $font-size-h6;
     }
 }
+
+body.rex-theme-dark {
+    // TODO
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+
+        .rex-docs,
+        .rex-readme .rex-readme-content {
+            h1 + ul {
+                border-bottom-color: $color-grey-1;
+            }
+
+            h2 {
+                border-bottom-color: $color-grey-1;
+
+                a,
+                a:hover {
+                    color: $color-text-light;
+                }
+            }
+
+            table {
+                th,
+                td {
+                    border-color: $color-grey-1;
+                }
+                th {
+                    background-color: $color-grey-2;
+                }
+            }
+
+            code,
+            pre {
+                color: #d5baff;
+            }
+
+            pre::-moz-selection,
+            pre ::-moz-selection,
+            code::-moz-selection,
+            code ::-moz-selection {
+                background-color: #342d40;
+            }
+
+            pre::selection,
+            pre ::selection,
+            code::selection,
+            code ::selection {
+                background-color: #342d40;
+            }
+
+            :not(pre) > code,
+            pre {
+                background-color: $color-grey-1;
+            }
+        }
+        .rex-readme .rex-readme-content {
+            h2 {
+                border-bottom-color: 1px solid $color-grey-1;
+            }
+        }
+    }
+}
