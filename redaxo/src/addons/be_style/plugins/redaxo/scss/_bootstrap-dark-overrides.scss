@@ -197,5 +197,23 @@ body.rex-theme-dark {
         @include table-row-variant('info', $dark-brand-info);
         @include table-row-variant('warning', $dark-brand-warning);
         @include table-row-variant('danger', $dark-brand-danger);
+
+
+        /* thumbnail */
+
+        .thumbnail {
+            background-color: $color-grey-2;
+            border-color: $color-grey-1;
+
+            .caption {
+                color: $color-text-light;
+            }
+        }
+
+        a.thumbnail:hover,
+        a.thumbnail:focus,
+        a.thumbnail.active {
+            border-color: $color-grey-3;
+        }
     }
 }
