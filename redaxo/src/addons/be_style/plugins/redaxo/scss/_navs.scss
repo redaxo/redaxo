@@ -480,6 +480,49 @@ body.rex-theme-dark {
     }
 }
 
+body.rex-theme-dark {
+    // TODO
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+        .panel-heading .nav-tabs {
+            > li {
+                &.active {
+                    > a:not(.btn),
+                    > a:not(.btn):hover {
+                        background-color: $color-grey-3;
+                    }
+                }
+                > a:not(.btn) {
+                    background-color: $color-grey-2;
+                    color: $color-text-light;
+                    &:hover {
+                        background-color: darken($color-grey-2, 1%);
+                    }
+                }
+            }
+        }
+        .panel-edit .panel-heading .nav-tabs {
+            > li {
+                &.active {
+                    > a:not(.btn),
+                    > a:not(.btn):hover {
+                        background-color: $color-green-3;
+                    }
+                }
+                > a:not(.btn) {
+                    background-color: $color-green-2;
+                    color: $color-text-light;
+                    &:hover {
+                        background-color: darken($color-green-2, 3%);
+                    }
+                }
+            }
+        }
+    }
+}
+
 .rex-nav-toc {
     position: -webkit-sticky;
     position: sticky;
