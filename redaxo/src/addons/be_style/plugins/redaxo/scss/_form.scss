@@ -283,3 +283,55 @@ label.required::after {
 .form-clear-button input.form-control {
     padding-right: 25px;
 }
+
+
+body.rex-theme-dark {
+    // TODO
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+
+        .form-control:focus:not([readonly]) {
+            background-color: rgba($color-grey-1, 0.8);
+        }
+
+        //input[type=range] {
+        //    @include input-type-range();
+        //}
+
+        .input-group {
+            .bootstrap-select {
+                .btn {
+                    border-color: darken($color-grey-5, 5%);
+                }
+            }
+        }
+
+        .rex-panel-options {
+            .form-control,
+            .input-group .bootstrap-select .btn {
+                border-color: darken($color-grey-5, 5%);
+            }
+        }
+
+        .rex-select-style {
+            background-color: #fff;
+            border-color: $input-border;
+
+            &::after {
+                background-color: #fff;
+            }
+
+            select {
+                &[multiple],
+                &[multiple]:focus {
+                    background-color: #fff;
+                }
+                &:focus {
+                    background-color: transparent;
+                }
+            }
+        }
+    }
+}

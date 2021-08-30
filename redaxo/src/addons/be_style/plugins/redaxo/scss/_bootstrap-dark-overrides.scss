@@ -92,8 +92,47 @@ body.rex-theme-dark {
 
         /* forms */
 
+        legend {
+            color: $color-text-light-inactive;
+            border-bottom-color: rgba($color-grey-1, 0.5);
+        }
+
+        .form-control {
+            color: $color-text-light;
+            background-color: rgba($color-grey-2, 0.8);
+            border-color: rgba($color-grey-1, 0.8);
+            @include form-control-focus($color-grey-1);
+            @include placeholder($color-text-light-inactive);
+
+            &[disabled],
+            &[readonly],
+            fieldset[disabled] & {
+                background-color: rgba($color-grey-3, 0.4);
+                border-color: rgba($color-grey-2, 0.4);
+            }
+        }
+
+        //.has-success {
+        //    @include form-control-validation($state-success-text, $state-success-text, $state-success-bg);
+        //}
+        //.has-warning {
+        //    @include form-control-validation($state-warning-text, $state-warning-text, $state-warning-bg);
+        //}
+        //.has-error {
+        //    @include form-control-validation($state-danger-text, $state-danger-text, $state-danger-bg);
+        //}
+
         .help-block {
             color: $color-text-light-inactive;
+        }
+
+
+        /* input-groups */
+
+        .input-group-addon {
+            color: $color-text-light;
+            background-color: rgba($color-grey-3, 0.8);
+            border-color: darken($color-grey-5, 5%);
         }
 
 
@@ -222,6 +261,13 @@ body.rex-theme-dark {
         a.thumbnail:focus,
         a.thumbnail.active {
             border-color: $color-grey-3;
+        }
+
+
+        /* type */
+
+        .text-muted {
+            color: $color-text-light-inactive;
         }
     }
 }
