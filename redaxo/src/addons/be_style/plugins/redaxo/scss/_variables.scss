@@ -44,8 +44,8 @@ $color-blue-3: darken($color-b, 12%);
 $color-blue-4: $color-b;
 
 // Green
-$color-green-1: rgba(darken($color-d, 37%), 0.4);
-$color-green-2: rgba(darken($color-d, 28%), 0.3);
+$color-green-1: #203835; // rgba(darken($color-d, 35%), 0.5);
+$color-green-2: #26403f; // rgba(darken($color-d, 25%), 0.3);
 $color-green-3: darken($color-d, 12%);
 $color-green-4: $color-d;
 

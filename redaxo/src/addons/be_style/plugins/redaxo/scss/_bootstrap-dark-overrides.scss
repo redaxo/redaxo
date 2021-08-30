@@ -110,7 +110,8 @@ body.rex-theme-dark {
             background-color: $color-grey-3;
         }
 
-        .panel-footer {
+        .panel-footer,
+        .rex-form-panel-footer {
             background-color: $color-grey-1;
             border-top-color: $color-grey-1;
         }
