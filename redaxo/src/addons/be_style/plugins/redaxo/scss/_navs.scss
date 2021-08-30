@@ -492,13 +492,15 @@ body.rex-theme-dark {
                     > a:not(.btn),
                     > a:not(.btn):hover {
                         background-color: $color-grey-3;
+                        color: $color-text-light;
                     }
                 }
                 > a:not(.btn) {
                     background-color: $color-grey-2;
-                    color: $color-text-light;
+                    color: $color-text-light-inactive;
                     &:hover {
                         background-color: darken($color-grey-2, 1%);
+                        color: $color-text-light;
                     }
                 }
             }
@@ -508,14 +510,15 @@ body.rex-theme-dark {
                 &.active {
                     > a:not(.btn),
                     > a:not(.btn):hover {
-                        background-color: $color-green-3;
+                        background-color: $color-green-2;
+                        color: $color-text-light;
                     }
                 }
                 > a:not(.btn) {
-                    background-color: $color-green-2;
-                    color: $color-text-light;
+                    background-color: rgba($color-grey-1, 0.4);
+                    color: $color-text-light-inactive;
                     &:hover {
-                        background-color: darken($color-green-2, 3%);
+                        color: $color-text-light;
                     }
                 }
             }
