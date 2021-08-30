@@ -153,3 +153,23 @@
         opacity: 1;
     }
 }
+
+body.rex-theme-dark {
+    // TODO
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+
+        .rex-ajax-loader {
+            &.rex-visible::after {
+                background-color: rgba($color-grey-1, 0.4);
+            }
+        }
+        .rex-ajax-loader-element {
+            &:before {
+                background-color: $color-grey-5;
+            }
+        }
+    }
+}
