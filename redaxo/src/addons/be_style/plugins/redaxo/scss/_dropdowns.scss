@@ -23,8 +23,44 @@
     }
 }
 
-
 .dropdown-menu > li > a:hover,
 .dropdown-menu > li > a:focus {
     background-color: $color-d-lighter;
+}
+
+body.rex-theme-dark {
+    // TODO
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+
+        .rex-slice-select {
+            > .dropdown > .btn-default {
+                background-color: lighten($color-grey-5, 8%);
+                border-color: darken($color-grey-5, 4%);
+                color: $color-text-light;
+
+                &:hover {
+                    background-color: lighten($color-grey-5, 5%);
+                    border-color: darken($color-grey-5, 4%);
+                    color: $color-text-light;
+                }
+                &:focus,
+                &.focus,
+                &:active,
+                &.active,
+                .open > &.dropdown-toggle {
+                    background-color: $dark-brand-primary;
+                    border-color: darken($dark-brand-primary, 5%);
+                    color: $color-text-light;
+                }
+            }
+        }
+
+        //.dropdown-menu > li > a:hover,
+        //.dropdown-menu > li > a:focus {
+        //    background-color: $color-d-lighter;
+        //}
+    }
 }
