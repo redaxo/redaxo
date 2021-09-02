@@ -1,0 +1,47 @@
+body.rex-theme-dark {
+    // TODO
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+
+        .btn-default {
+            @include button-variant($color-text-light, $color-grey-5, darken($color-grey-5, 5%));
+        }
+
+        .btn-primary {
+            @include button-variant($color-text-light, $dark-brand-primary, darken($dark-brand-primary, 5%));
+        }
+
+        .btn-success {
+            @include button-variant($color-text-light, $dark-brand-success, darken($dark-brand-success, 5%));
+        }
+
+        .btn-info {
+            @include button-variant($color-text-light, $dark-brand-info, darken($dark-brand-info, 5%));
+        }
+
+        .btn-warning {
+            @include button-variant($color-text-light, $dark-brand-warning, darken($dark-brand-warning, 5%));
+        }
+
+        .btn-danger {
+            @include button-variant($color-text-light, $dark-brand-danger, darken($dark-brand-danger, 5%));
+        }
+
+        // refine hover styles
+        // TODO: use @mixin rex-button-variant?
+        .btn-default {
+            &:focus,
+            &.focus {
+                background-color: darken($color-grey-5, 4%);
+                border-color: darken($color-grey-5, 16%);
+            }
+
+            &:hover {
+                background-color: darken($color-grey-5, 4%);
+                border-color: darken($color-grey-5, 8%);
+            }
+        }
+    }
+}

@@ -1,0 +1,13 @@
+body.rex-theme-dark {
+    // TODO
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+
+        code {
+            color: #d5baff;
+            background-color: rgba($color-grey-1, 0.8);
+        }
+    }
+}

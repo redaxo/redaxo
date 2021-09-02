@@ -1,0 +1,20 @@
+body.rex-theme-dark {
+    // TODO
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+
+        .nav-pills {
+            > li {
+                &.active > a {
+                    &,
+                    &:hover,
+                    &:focus {
+                        background-color: $color-blue-3;
+                    }
+                }
+            }
+        }
+    }
+}

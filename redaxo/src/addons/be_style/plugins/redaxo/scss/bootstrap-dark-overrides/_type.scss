@@ -1,0 +1,12 @@
+body.rex-theme-dark {
+    // TODO
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+
+        .text-muted {
+            color: $color-text-light-inactive;
+        }
+    }
+}

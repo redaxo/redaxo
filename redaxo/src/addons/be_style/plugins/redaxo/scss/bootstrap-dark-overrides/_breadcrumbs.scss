@@ -1,0 +1,22 @@
+body.rex-theme-dark {
+    // TODO
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+
+        .breadcrumb {
+            background-color: $color-grey-3;
+
+            > li {
+                + li:before {
+                    color: $color-text-light;
+                }
+            }
+
+            > .active {
+                color: $color-text-light;
+            }
+        }
+    }
+}

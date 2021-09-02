@@ -1,0 +1,23 @@
+body.rex-theme-dark {
+    // TODO
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+
+        .thumbnail {
+            background-color: $color-grey-2;
+            border-color: $color-grey-1;
+
+            .caption {
+                color: $color-text-light;
+            }
+        }
+
+        a.thumbnail:hover,
+        a.thumbnail:focus,
+        a.thumbnail.active {
+            border-color: $color-grey-3;
+        }
+    }
+}
