@@ -9,5 +9,16 @@ body.rex-theme-dark {
             color: #d5baff;
             background-color: rgba($color-grey-1, 0.8);
         }
+
+        kbd {
+            color: $kbd-color;
+            background-color: $kbd-bg;
+        }
+
+        pre {
+            color: #d5baff;
+            background-color: rgba($color-grey-1, 0.8);
+            border-color: $color-grey-1;
+        }
     }
 }
