@@ -149,6 +149,21 @@ body.rex-theme-dark {
             }
         }
 
+        .input-group-btn .btn {
+            // sync with .form-control
+            @include button-variant($color-text-light, rgba($color-grey-2, 0.8), rgba($color-grey-1, 0.8));
+
+            &:focus,
+            &.focus {
+                background-color: darken(rgba($color-grey-2, 0.8), 4%);
+                border-color: darken(rgba($color-grey-1, 0.8), 16%);
+            }
+            &:hover {
+                background-color: darken(rgba($color-grey-2, 0.8), 4%);
+                border-color: darken(rgba($color-grey-1, 0.8), 8%);
+            }
+        }
+
         .btn-primary,
         .btn-apply,
         .btn-save,
