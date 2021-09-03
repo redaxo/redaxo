@@ -142,3 +142,32 @@ body.rex-theme-dark {
         }
     }
 }
+
+body.rex-theme-dark {
+    // TODO
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+
+        .rex-slice-offline {
+            opacity: 0.8;
+
+            .panel {
+                border-color: $color-grey-3;
+            }
+
+            .panel-heading {
+                background-color: $color-grey-3;
+                border-color: $color-grey-3;
+                color: $color-text-light-inactive;
+            }
+
+            .panel-body {
+                &::before {
+                    background-color: rgba($color-grey-5, 0.7);
+                }
+            }
+        }
+    }
+}
