@@ -81,7 +81,7 @@
 
             @media (prefers-color-scheme: dark) {
                 body:not(.rex-theme-light)& {
-                    color: $color-grey-6;
+                    color: $color-text-light-inactive;
                 }
             }
         }
@@ -374,7 +374,7 @@ body.rex-theme-dark {
                         background-color: $color-grey-3;
                         border-color: $color-grey-3;
                         border-bottom-color: transparent;
-                        color: $color-grey-6;
+                        color: $color-text-light-inactive;
 
                         &:hover {
                             background-color: $color-grey-3;
