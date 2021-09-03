@@ -122,12 +122,92 @@ html {
     }
 }
 
-
 .rex-state-inprogress {
     background-color: $navbar-inverse-bg;
 }
 .rex-state-live {
     background-color: $navbar-default-bg;
+}
+
+body.rex-theme-dark {
+    // TODO
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+
+        //.rex-state-inprogress {
+        //    background-color: $state-warning-bg;
+        //}
+        //
+        //.rex-state-live {
+        //    background-color: $state-success-bg;
+        //}
+
+        .rex-state-notice {
+            background-color: $dark-brand-info;
+        }
+
+        .rex-state-success {
+            background-color: $dark-brand-success;
+
+            &, a {
+                color: $color-a-lighter;
+            }
+        }
+        tr.rex-state-success {
+            &:hover > th,
+            &:hover > td {
+                background-color: darken($dark-brand-success, 5%);
+            }
+        }
+
+        .rex-state-info,
+        .rex-state-notice {
+            background-color: $dark-brand-info;
+
+            &, a {
+                color: $color-a-lighter;
+            }
+        }
+        tr.rex-state-info,
+        tr.rex-state-notice {
+            &:hover > th,
+            &:hover > td {
+                background-color: darken($dark-brand-info, 5%);
+            }
+        }
+
+        .rex-state-warning {
+            background-color: $dark-brand-warning;
+
+            &, a {
+                color: $color-a-lighter;
+            }
+        }
+        tr.rex-state-warning {
+            &:hover > th,
+            &:hover > td {
+                background-color: darken($dark-brand-warning, 5%);
+            }
+        }
+
+        .rex-state-danger,
+        .rex-state-error {
+            background-color: $dark-brand-danger;
+
+            &, a {
+                color: $color-a-lighter;
+            }
+        }
+        tr.rex-state-danger,
+        tr.rex-state-error {
+            &:hover > th,
+            &:hover > td {
+                background-color: darken($dark-brand-danger, 5%);
+            }
+        }
+    }
 }
 
 @media(max-width: $grid-float-breakpoint-max) {
