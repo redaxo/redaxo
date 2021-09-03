@@ -30,9 +30,9 @@ $color-offline:     #d9534f; // is $brand-danger
 // TODO: implement for production. currently it is temp only!
 
 // Grey
-$color-grey-1: darken($color-a-darker, 9%);
-$color-grey-2: darken($color-a-darker, 5%);
-$color-grey-3: darken($color-a-darker, 2%);
+$color-grey-1: darken($color-a-darker, 10%);
+$color-grey-2: darken($color-a-darker, 6%);
+$color-grey-3: darken($color-a-darker, 3%);
 $color-grey-4: $color-a-darker;
 $color-grey-5: $color-a-dark;
 
@@ -40,19 +40,17 @@ $color-grey-5: $color-a-dark;
 $color-blue-1: rgba(darken($color-b, 30%), 0.5);
 $color-blue-2: rgba(darken($color-b, 24%), 0.3);
 $color-blue-3: darken($color-b, 12%);
-$color-blue-4: $color-b;
 
 // Green
 $color-green-1: #203835; // rgba(darken($color-d, 35%), 0.5);
 $color-green-2: #26403f; // rgba(darken($color-d, 25%), 0.3);
-$color-green-3: darken($color-d, 12%);
-$color-green-4: $color-d;
+$color-green-3: #357553; // darken($color-d, 20%)
 
 // text
-$color-text-dark: rgba(0, 0, 0, 0.8);
-$color-text-dark-inactive: rgba(0, 0, 0, 0.5);
-$color-text-light: rgba(255, 255, 255, 0.8);
-$color-text-light-inactive: rgba(255, 255, 255, 0.5);
+$color-text-dark: rgba(0, 0, 0, 0.75);
+$color-text-dark-inactive: rgba(0, 0, 0, 0.45);
+$color-text-light: rgba(255, 255, 255, 0.75);
+$color-text-light-inactive: rgba(255, 255, 255, 0.45);
 
 
 
@@ -131,7 +129,7 @@ $dark-brand-primary: $color-blue-3;
 $dark-brand-success: $color-green-3;
 $dark-brand-info: $color-blue-3;
 $dark-brand-warning: #88752b;
-$dark-brand-danger: #a62a28;
+$dark-brand-danger: #982929;
 
 
 

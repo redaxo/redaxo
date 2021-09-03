@@ -410,25 +410,26 @@ body.rex-theme-dark {
         .rex-main-frame {
             .rex-page-nav {
                 .nav-tabs {
-                    border-bottom-color: lighten($color-grey-5, 8%);
+                    border-bottom-color: lighten($color-grey-5, 6%);
 
                     > li {
                         &.active {
                             > a:not(.btn),
                             > a:not(.btn):hover {
-                                background-color: lighten($color-grey-5, 8%);
-                                border-color: lighten($color-grey-5, 8%);
+                                background-color: lighten($color-grey-5, 6%);
+                                border-color: lighten($color-grey-5, 6%);
                             }
                         }
                         > a:not(.btn) {
-                            background-color: $color-grey-4;
-                            border-color: $color-grey-4;
+                            background-color: darken($color-grey-5, 3%);
+                            border-color: darken($color-grey-5, 3%);
                         }
                     }
                 }
                 // Tab subnavigation
                 .navbar {
-                    border-color: lighten($color-grey-5, 8%);
+                    background-color: lighten($color-grey-5, 6%);
+                    border-color: lighten($color-grey-5, 6%);
                 }
             }
         }

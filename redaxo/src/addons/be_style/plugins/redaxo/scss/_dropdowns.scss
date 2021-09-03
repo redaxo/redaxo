@@ -37,13 +37,13 @@ body.rex-theme-dark {
 
         .rex-slice-select {
             > .dropdown > .btn-default {
-                background-color: lighten($color-grey-5, 8%);
-                border-color: darken($color-grey-5, 4%);
+                background-color: lighten($color-grey-5, 6%);
+                border-color: darken($color-grey-5, 3%);
                 color: $color-text-light;
 
                 &:hover {
-                    background-color: lighten($color-grey-5, 5%);
-                    border-color: darken($color-grey-5, 4%);
+                    background-color: lighten($color-grey-5, 3%);
+                    border-color: darken($color-grey-5, 3%);
                     color: $color-text-light;
                 }
                 &:focus,
