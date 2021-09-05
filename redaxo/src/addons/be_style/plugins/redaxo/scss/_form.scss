@@ -333,5 +333,11 @@ body.rex-theme-dark {
                 }
             }
         }
+
+        .dropdown.form-control {
+            // dropdown form-control is invisible, color comes from child element
+            background: transparent;
+            border-color: transparent;
+        }
     }
 }

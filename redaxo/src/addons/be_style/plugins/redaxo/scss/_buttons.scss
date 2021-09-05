@@ -149,6 +149,8 @@ body.rex-theme-dark {
             }
         }
 
+        // TODO!
+        .dropdown-toggle,
         .input-group-btn .btn {
             // sync with .form-control
             @include button-variant($color-text-light, rgba($color-grey-2, 0.8), rgba($color-grey-1, 0.8));
