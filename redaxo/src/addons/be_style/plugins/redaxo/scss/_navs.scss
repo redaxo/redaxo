@@ -74,16 +74,6 @@
         li,
         a {
             color: $color-a-dark;
-
-            body.rex-theme-dark& {
-                // TODO
-            }
-
-            @media (prefers-color-scheme: dark) {
-                body:not(.rex-theme-light)& {
-                    color: $color-text-light-inactive;
-                }
-            }
         }
     }
 }
@@ -102,16 +92,6 @@
 }
 .rex-nav-main {
     background-color: $color-a-dark;
-
-    body.rex-theme-dark & {
-        // TODO
-    }
-
-    @media (prefers-color-scheme: dark) {
-        body:not(.rex-theme-light) & {
-            background-color: $color-grey-4;
-        }
-    }
 
     > .navbar-collapse {
         padding-left: 0;
@@ -246,19 +226,6 @@
     }
 }
 
-body.rex-theme-dark {
-    // TODO
-}
-
-@media (prefers-color-scheme: dark) {
-    body:not(.rex-theme-light) {
-        .rex-nav-top {
-            background-color: $color-blue-3;
-            border-color: $color-blue-3;
-        }
-    }
-}
-
 .rex-page-nav {
     .nav-tabs {
         border-bottom-color: darken($color-a-light, 5%);
@@ -348,12 +315,172 @@ body.rex-theme-dark {
     }
 }
 
+.rex-slice-input .nav-tabs {
+    margin-bottom: $line-height-computed;
+}
+
+.panel-heading .nav-tabs {
+    border-bottom: 0;
+    margin-bottom: -10px;
+    display: flex; // avoid collapsing margins
+
+    > li {
+        &.active {
+            > a:not(.btn),
+            > a:not(.btn):hover {
+                padding-bottom: $padding-small-vertical;
+                background-color: #fff;
+
+                .panel-edit & {
+                    background-color: $color-d-lighter;
+                }
+            }
+        }
+
+        > a:not(.btn) {
+            padding-top: $padding-small-vertical;
+            padding-bottom: $padding-small-vertical - 1;
+            background-color: lighten($color-a-light, 5%);
+            border-color: transparent;
+            border-radius: 4px 4px 0 0;
+            color: $text-color;
+
+            .panel-edit & {
+                background-color: $color-d-light;
+            }
+
+            &:hover {
+                background-color: lighten($color-a-light, 8%);
+
+                .panel-edit & {
+                    background-color: lighten($color-d-light, 7%);
+                }
+            }
+        }
+    }
+}
+
+.rex-nav-toc {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0px;
+    bottom: 20px;
+    max-height: 100vh;
+    overflow-y: auto;
+    margin-left: $grid-gutter-width / -2;
+    margin-right: $grid-gutter-width / -2;
+    padding-top: 26px;
+    font-size: $font-size-base;
+
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    a {
+        display: block;
+        padding: 1rem $grid-gutter-width / 2;
+        text-decoration: none;
+    }
+
+    > ul > li + li {
+        margin-top: $line-height-computed;
+    }
+    > ul > li > a {
+        background-color: $color-a-lighter;
+    }
+    > ul > li > ul {
+        padding-top: .5rem;
+    }
+
+    > ul > li ul > li > a {
+        padding-top: .5rem;
+        padding-bottom: .5rem;
+        padding-left: $grid-gutter-width;
+
+        &::before {
+            content: '\f061';
+            float: left;
+            margin-top: .25em;
+            margin-left: $grid-gutter-width / -2;
+            color: $color-a-light;
+            font-family: FontAwesome;
+            font-size: 10px;
+            vertical-align: .15;
+        }
+    }
+    // level 3
+    > ul > li > ul > li > ul > li > a {
+        padding-left: $grid-gutter-width * 1.5;
+    }
+    // level 4
+    > ul > li > ul > li > ul > li > ul > li > a {
+        padding-left: $grid-gutter-width * 3;
+    }
+    // level 5
+    > ul > li > ul > li > ul > li > ul > li > ul > li > a {
+        padding-left: $grid-gutter-width * 4.5;
+    }
+    // level 6
+    > ul > li > ul > li > ul > li > ul > li > ul > li > ul > li > a {
+        padding-left: $grid-gutter-width * 6;
+    }
+}
+
+.rex-navbar-without-brand {
+    @media (min-width: $grid-float-breakpoint) {
+        .container-fluid,
+        .navbar-collapse {
+            padding-left: 0;
+        }
+    }
+}
+
+#rex-page-setup {
+    .rex-nav-main {
+        li {
+            > a {
+                padding-left: $navbar-padding-horizontal;
+            }
+            &.active > a {
+                cursor: default;
+            }
+            &.disabled > a {
+                cursor: default;
+                color: $color-a;
+                background-color: transparent;
+            }
+        }
+    }
+}
+
+
+
 body.rex-theme-dark {
     // TODO
 }
 
 @media (prefers-color-scheme: dark) {
     body:not(.rex-theme-light) {
+
+        &.rex-is-logged-in {
+            .rex-nav-footer {
+                li,
+                a {
+                    color: $color-text-light-inactive;
+                }
+            }
+        }
+
+        .rex-nav-main {
+            background-color: $color-grey-4;
+        }
+
+        .rex-nav-top {
+            background-color: $color-blue-3;
+            border-color: $color-blue-3;
+        }
 
         .rex-page-nav {
             .nav-tabs {
@@ -433,60 +560,7 @@ body.rex-theme-dark {
                 }
             }
         }
-    }
-}
 
-.rex-slice-input .nav-tabs {
-    margin-bottom: $line-height-computed;
-}
-
-.panel-heading .nav-tabs {
-    border-bottom: 0;
-    margin-bottom: -10px;
-    display: flex; // avoid collapsing margins
-
-    > li {
-        &.active {
-            > a:not(.btn),
-            > a:not(.btn):hover {
-                padding-bottom: $padding-small-vertical;
-                background-color: #fff;
-
-                .panel-edit & {
-                    background-color: $color-d-lighter;
-                }
-            }
-        }
-
-        > a:not(.btn) {
-            padding-top: $padding-small-vertical;
-            padding-bottom: $padding-small-vertical - 1;
-            background-color: lighten($color-a-light, 5%);
-            border-color: transparent;
-            border-radius: 4px 4px 0 0;
-            color: $text-color;
-
-            .panel-edit & {
-                background-color: $color-d-light;
-            }
-
-            &:hover {
-                background-color: lighten($color-a-light, 8%);
-
-                .panel-edit & {
-                    background-color: lighten($color-d-light, 7%);
-                }
-            }
-        }
-    }
-}
-
-body.rex-theme-dark {
-    // TODO
-}
-
-@media (prefers-color-scheme: dark) {
-    body:not(.rex-theme-light) {
         .panel-heading .nav-tabs {
             > li {
                 &.active {
@@ -524,113 +598,10 @@ body.rex-theme-dark {
                 }
             }
         }
-    }
-}
 
-.rex-nav-toc {
-    position: -webkit-sticky;
-    position: sticky;
-    top: 0px;
-    bottom: 20px;
-    max-height: 100vh;
-    overflow-y: auto;
-    margin-left: $grid-gutter-width / -2;
-    margin-right: $grid-gutter-width / -2;
-    padding-top: 26px;
-    font-size: $font-size-base;
-
-    ul {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-    }
-
-    a {
-        display: block;
-        padding: 1rem $grid-gutter-width / 2;
-        text-decoration: none;
-    }
-
-    > ul > li + li {
-        margin-top: $line-height-computed;
-    }
-    > ul > li > a {
-        background-color: $color-a-lighter;
-    }
-    > ul > li > ul {
-        padding-top: .5rem;
-    }
-
-    > ul > li ul > li > a {
-        padding-top: .5rem;
-        padding-bottom: .5rem;
-        padding-left: $grid-gutter-width;
-
-        &::before {
-            content: '\f061';
-            float: left;
-            margin-top: .25em;
-            margin-left: $grid-gutter-width / -2;
-            color: $color-a-light;
-            font-family: FontAwesome;
-            font-size: 10px;
-            vertical-align: .15;
-        }
-    }
-    // level 3
-    > ul > li > ul > li > ul > li > a {
-        padding-left: $grid-gutter-width * 1.5;
-    }
-    // level 4
-    > ul > li > ul > li > ul > li > ul > li > a {
-        padding-left: $grid-gutter-width * 3;
-    }
-    // level 5
-    > ul > li > ul > li > ul > li > ul > li > ul > li > a {
-        padding-left: $grid-gutter-width * 4.5;
-    }
-    // level 6
-    > ul > li > ul > li > ul > li > ul > li > ul > li > ul > li > a {
-        padding-left: $grid-gutter-width * 6;
-    }
-}
-
-body.rex-theme-dark {
-    // TODO
-}
-
-@media (prefers-color-scheme: dark) {
-    body:not(.rex-theme-light) {
         .rex-nav-toc {
             > ul > li > a {
                 background-color: $color-grey-2;
-            }
-        }
-    }
-}
-
-.rex-navbar-without-brand {
-    @media (min-width: $grid-float-breakpoint) {
-        .container-fluid,
-        .navbar-collapse {
-            padding-left: 0;
-        }
-    }
-}
-
-#rex-page-setup {
-    .rex-nav-main {
-        li {
-            > a {
-                padding-left: $navbar-padding-horizontal;
-            }
-            &.active > a {
-                cursor: default;
-            }
-            &.disabled > a {
-                cursor: default;
-                color: $color-a;
-                background-color: transparent;
             }
         }
     }
