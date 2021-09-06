@@ -24,16 +24,6 @@ html {
 }
 .breadcrumb {
     border: 1px solid $color-a-light;
-
-    body.rex-theme-dark & {
-        // TODO
-    }
-
-    @media (prefers-color-scheme: dark) {
-        body:not(.rex-theme-light) & {
-            border-color: $color-grey-1;
-        }
-    }
 }
 
 .rex-redaxo-logo {
@@ -84,16 +74,6 @@ html {
     margin-right: floor(-$grid-gutter-width / 2);
     padding: $grid-gutter-width floor($grid-gutter-width / 2) floor($grid-gutter-width * 2);
     background-color: $color-a;
-
-    body.rex-theme-dark & {
-        // TODO
-    }
-
-    @media (prefers-color-scheme: dark) {
-        body:not(.rex-theme-light) & {
-            background-color: $color-grey-5;
-        }
-    }
 }
 @media(min-width: $grid-float-breakpoint) {
     .rex-main-sidebar {
@@ -129,12 +109,77 @@ html {
     background-color: $navbar-default-bg;
 }
 
+@media(max-width: $grid-float-breakpoint-max) {
+    .rex-is-logged-in {
+        .rex-page {
+            position: relative;
+            z-index: 3;
+            background-color: $body-bg;
+            /* Force Hardware Acceleration */
+            @include translate3d(0, 0, 0);
+            @include backface-visibility(hidden);
+            @include transition-transform(0.3s);
+
+            &.rex-nav-main-is-visible {
+                @include translate(-260px, 0);
+            }
+        }
+    }
+}
+
+.rex-is-popup {
+    .rex-page-header {
+        padding-top: $grid-gutter-width;
+
+        .page-header {
+            position: absolute;
+            top: 0;
+            right: $grid-gutter-width / 2;
+            z-index: 1020;
+            margin: 0;
+            padding: 0;
+            > h1 {
+                margin: 0;
+                color: #fff;
+                line-height: $top-popup-navbar-height;
+            }
+        }
+    }
+}
+
+
+
 body.rex-theme-dark {
     // TODO
 }
 
 @media (prefers-color-scheme: dark) {
     body:not(.rex-theme-light) {
+
+        .breadcrumb {
+            border-color: $color-grey-1;
+        }
+
+        :not(#rex-page-login) {
+            .rex-redaxo-logo {
+                path.rex-redaxo-logo-r,
+                path.rex-redaxo-logo-e,
+                path.rex-redaxo-logo-d,
+                path.rex-redaxo-logo-cms {
+                    fill: rgba(#fff, 0.8);
+                }
+                path.rex-redaxo-logo-a,
+                path.rex-redaxo-logo-x,
+                path.rex-redaxo-logo-o,
+                path.rex-redaxo-logo-reg {
+                    fill: rgba($color-a-darker, 0.8);
+                }
+            }
+        }
+
+        .rex-main-frame {
+            background-color: $color-grey-5;
+        }
 
         //.rex-state-inprogress {
         //    background-color: $state-warning-bg;
@@ -207,56 +252,22 @@ body.rex-theme-dark {
                 background-color: darken($dark-brand-danger, 5%);
             }
         }
-    }
-}
 
-@media(max-width: $grid-float-breakpoint-max) {
-    .rex-is-logged-in {
-        .rex-page {
-            position: relative;
-            z-index: 3;
-            background-color: $body-bg;
-            /* Force Hardware Acceleration */
-            @include translate3d(0, 0, 0);
-            @include backface-visibility(hidden);
-            @include transition-transform(0.3s);
-
-            &.rex-nav-main-is-visible {
-                @include translate(-260px, 0);
-            }
-        }
-    }
-
-    body.rex-theme-dark {
-        // TODO
-    }
-
-    @media (prefers-color-scheme: dark) {
-        body:not(.rex-theme-light) {
+        @media(max-width: $grid-float-breakpoint-max) {
             &.rex-is-logged-in {
                 .rex-page {
                     background-color: $color-grey-2;
                 }
             }
         }
-    }
-}
 
-.rex-is-popup {
-    .rex-page-header {
-        padding-top: $grid-gutter-width;
-
-        .page-header {
-            position: absolute;
-            top: 0;
-            right: $grid-gutter-width / 2;
-            z-index: 1020;
-            margin: 0;
-            padding: 0;
-            > h1 {
-                margin: 0;
-                color: #fff;
-                line-height: $top-popup-navbar-height;
+        .rex-is-popup {
+            .rex-page-header {
+                .page-header {
+                    > h1 {
+                        color: $color-text-light;
+                    }
+                }
             }
         }
     }
