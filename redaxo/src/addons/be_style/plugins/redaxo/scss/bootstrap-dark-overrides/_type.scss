@@ -8,5 +8,14 @@ body.rex-theme-dark {
         .text-muted {
             color: $color-text-light-inactive;
         }
+
+        blockquote {
+            border-left-color: rgba($color-grey-5, 0.5);
+
+            footer,
+            small {
+                color: $color-text-light-inactive;
+            }
+        }
     }
 }
