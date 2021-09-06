@@ -13,7 +13,6 @@
 .rex-slice .panel-heading > .rex-panel-options {
     float: right;
 }
-
 .panel-add,
 .panel-edit {
     @include panel-variant($color-d, #fff, $color-d, $color-d);
@@ -28,7 +27,6 @@
         background-color: $color-d-lighter;
     }
 }
-
 .panel-default {
     .panel-heading[data-toggle] {
         &:hover {
@@ -77,6 +75,7 @@
         }
     }
 }
+
 
 .panel > .rex-nav-pagination {
     background-color: $color-a-lighter;
