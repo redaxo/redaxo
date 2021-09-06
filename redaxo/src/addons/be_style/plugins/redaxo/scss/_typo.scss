@@ -36,13 +36,12 @@ tr.mark {
 .rex-text-offline {
     color: $color-offline;
 }
-     
 .rex-status[data-status="0"] td:not(.rex-table-action-no-dropdown, .rex-table-action-dropdown) {
     opacity: 0.5;
 
-	&:hover {
+    &:hover {
         opacity: 1;
-	}
+    }
 }
 .rex-page-header {
     .page-header {
