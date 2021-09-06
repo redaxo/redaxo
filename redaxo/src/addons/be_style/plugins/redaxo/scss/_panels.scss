@@ -29,35 +29,6 @@
     }
 }
 
-body.rex-theme-dark {
-    // TODO
-}
-
-@media (prefers-color-scheme: dark) {
-    body:not(.rex-theme-light) {
-
-        .panel-add,
-        .panel-edit {
-            @include panel-variant($color-green-1, $color-text-light, $color-green-1, $color-green-1);
-
-            .panel-heading[data-toggle] {
-                &:hover {
-                    background-color: darken($color-green-1, 5%);
-                    border-color: darken($color-green-1, 5%);
-                }
-            }
-            .panel-body {
-                background-color: $color-green-2;
-            }
-            .panel-footer,
-            .rex-form-panel-footer {
-                background-color: $color-green-1;
-                border-color: $color-green-1;
-            }
-        }
-    }
-}
-
 .panel-default {
     .panel-heading[data-toggle] {
         &:hover {
@@ -107,12 +78,70 @@ body.rex-theme-dark {
     }
 }
 
+.panel > .rex-nav-pagination {
+    background-color: $color-a-lighter;
+}
+
+
+.rex-slice-offline {
+    opacity: 0.8;
+
+    .panel {
+        border-color: #707d8f;
+    }
+
+    .panel-heading {
+        background-color: #707d8f;
+        border-color: #707d8f;
+        color: rgba(#ffffff, 0.9);
+    }
+
+    .panel-body {
+        pointer-events: none;
+
+        // mask
+        &::before {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 100;
+            background: rgba(#6b7c94, 0.5);
+        }
+    }
+}
+
+
+
 body.rex-theme-dark {
     // TODO
 }
 
 @media (prefers-color-scheme: dark) {
     body:not(.rex-theme-light) {
+
+        .panel-add,
+        .panel-edit {
+            @include panel-variant($color-green-1, $color-text-light, $color-green-1, $color-green-1);
+
+            .panel-heading[data-toggle] {
+                &:hover {
+                    background-color: darken($color-green-1, 5%);
+                    border-color: darken($color-green-1, 5%);
+                }
+            }
+            .panel-body {
+                background-color: $color-green-2;
+            }
+            .panel-footer,
+            .rex-form-panel-footer {
+                background-color: $color-green-1;
+                border-color: $color-green-1;
+            }
+        }
 
         .panel-default {
             .panel-heading[data-toggle] {
@@ -162,51 +191,6 @@ body.rex-theme-dark {
                 }
             }
         }
-    }
-}
-
-.panel > .rex-nav-pagination {
-    background-color: $color-a-lighter;
-}
-
-
-.rex-slice-offline {
-    opacity: 0.8;
-
-    .panel {
-        border-color: #707d8f;
-    }
-
-    .panel-heading {
-        background-color: #707d8f;
-        border-color: #707d8f;
-        color: rgba(#ffffff, 0.9);
-    }
-
-    .panel-body {
-        pointer-events: none;
-
-        // mask
-        &::before {
-            content: "";
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 100;
-            background: rgba(#6b7c94, 0.5);
-        }
-    }
-}
-
-body.rex-theme-dark {
-    // TODO
-}
-
-@media (prefers-color-scheme: dark) {
-    body:not(.rex-theme-light) {
 
         .rex-slice-offline {
             opacity: 0.8;

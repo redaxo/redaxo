@@ -1,16 +1,6 @@
 
 .table > tbody > tr.mark {
     background-color: $color-d-lighter;
-
-    body.rex-theme-dark & {
-        // TODO
-    }
-
-    @media (prefers-color-scheme: dark) {
-        body:not(.rex-theme-light) & {
-            background-color: $color-grey-4;
-        }
-    }
 }
 
 .table tr .alert {
@@ -151,16 +141,6 @@
         &:last-child {
             border-bottom: 0;
         }
-
-        body.rex-theme-dark & {
-            // TODO
-        }
-
-        @media (prefers-color-scheme: dark) {
-            body:not(.rex-theme-light) & {
-                border-bottom-color: $color-grey-1;
-            }
-        }
     }
 
     .table > tbody > tr > th[data-title],
@@ -186,16 +166,6 @@
             line-height: $line-height-computed;
             text-align: left;
             text-overflow: ellipsis;
-        }
-
-        body.rex-theme-dark & {
-            // TODO
-        }
-
-        @media (prefers-color-scheme: dark) {
-            body:not(.rex-theme-light) & {
-                border-bottom-color: $color-grey-1 !important;
-            }
         }
     }
     .table > tbody > tr.collapsing > th[data-title],
@@ -235,5 +205,31 @@ tr.rex-package-is-plugin > td.rex-table-icon {
     .table td.rex-table-action {
         padding-left: 16px;
         padding-right: 16px;
+    }
+}
+
+
+
+body.rex-theme-dark {
+    // TODO
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+
+        .table > tbody > tr.mark {
+            background-color: $color-grey-4;
+        }
+
+        @media (max-width: $screen-sm-min - 1) {
+            .table > tbody > tr {
+                border-bottom-color: $color-grey-1;
+            }
+
+            .table > tbody > tr > th[data-title],
+            .table > tbody > tr > td {
+                border-bottom-color: $color-grey-1 !important;
+            }
+        }
     }
 }
