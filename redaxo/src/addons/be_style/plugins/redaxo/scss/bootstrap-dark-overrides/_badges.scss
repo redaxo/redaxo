@@ -1,0 +1,26 @@
+body.rex-theme-dark {
+    // TODO
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+
+        .badge {
+            color: $color-text-light;
+            background-color: $color-text-dark-inactive;
+
+            .list-group-item.active > &,
+            .nav-pills > .active > a > & {
+                color: $color-text-dark;
+                background-color: $color-text-light-inactive;
+            }
+        }
+
+        a.badge {
+            &:hover,
+            &:focus {
+                color: $color-text-light;
+            }
+        }
+    }
+}
