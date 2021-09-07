@@ -1,0 +1,18 @@
+body.rex-theme-dark {
+    // TODO
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+
+        .close {
+            color: $color-text-light;
+            text-shadow: $color-text-dark;
+
+            &:hover,
+            &:focus {
+                color: $color-text-light;
+            }
+        }
+    }
+}
