@@ -161,7 +161,7 @@ body.rex-theme-dark {
             border-color: $color-grey-1;
         }
 
-        :not(#rex-page-login) {
+        &:not(#rex-page-login) {
             .rex-redaxo-logo {
                 path.rex-redaxo-logo-r,
                 path.rex-redaxo-logo-e,
