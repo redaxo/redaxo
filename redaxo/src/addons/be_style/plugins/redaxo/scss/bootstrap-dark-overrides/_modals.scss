@@ -1,0 +1,25 @@
+body.rex-theme-dark {
+    // TODO
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+
+        .modal-content {
+            background-color: $color-grey-3;
+            border-color: $color-grey-1;
+        }
+
+        .modal-backdrop {
+            background-color: $color-grey-1;
+        }
+
+        .modal-header {
+            border-bottom-color: $color-grey-2;
+        }
+
+        .modal-footer {
+            border-top-color: $color-grey-2;
+        }
+    }
+}
