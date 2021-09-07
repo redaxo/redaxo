@@ -5,6 +5,11 @@ body.rex-theme-dark {
 @media (prefers-color-scheme: dark) {
     body:not(.rex-theme-light) {
 
+        mark,
+        .mark {
+            background-color: rgba($color-blue-5, 0.4);
+        }
+
         .text-muted {
             color: $color-text-light-inactive;
         }
