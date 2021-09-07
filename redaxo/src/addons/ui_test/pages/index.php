@@ -111,6 +111,14 @@
 
 <div class="clearfix"></div><br><br>
 
+<button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+<div class="clearfix"></div><br><br>
+
+<span class="caret"></span>
+
+<div class="clearfix"></div><br><br>
+
 <div class="dropdown">
     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
         aria-haspopup="true" aria-expanded="true">
