@@ -9,6 +9,21 @@ body.rex-theme-dark {
             color: $color-text-light-inactive;
         }
 
+        @include text-emphasis-variant('.text-primary', $dark-brand-primary);
+        @include text-emphasis-variant('.text-success', $dark-brand-success);
+        @include text-emphasis-variant('.text-info', $dark-brand-info);
+        @include text-emphasis-variant('.text-warning', $dark-brand-warning);
+        @include text-emphasis-variant('.text-danger', $dark-brand-danger);
+
+        .bg-primary {
+            color: $color-text-light;
+        }
+        @include bg-variant('.bg-primary', rgba($dark-brand-primary, 0.3));
+        @include bg-variant('.bg-success', rgba($dark-brand-success, 0.3));
+        @include bg-variant('.bg-info', rgba($dark-brand-info, 0.3));
+        @include bg-variant('.bg-warning', rgba($dark-brand-warning, 0.3));
+        @include bg-variant('.bg-danger', rgba($dark-brand-danger, 0.3));
+
         blockquote {
             border-left-color: rgba($color-grey-5, 0.5);
 
