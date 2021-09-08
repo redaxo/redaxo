@@ -484,7 +484,7 @@ body.rex-theme-dark {
         }
 
         .rex-nav-main {
-            background-color: $color-grey-4;
+            background-color: darken($color-grey-4, 1%); // slightly reduce lightness
         }
 
         .rex-nav-top {

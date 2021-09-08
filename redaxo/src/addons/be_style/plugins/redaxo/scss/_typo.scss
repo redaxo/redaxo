@@ -108,11 +108,11 @@ body.rex-theme-dark {
 
         .rex-online,
         .rex-text-online {
-            color: $color-online;
+            color: saturate(darken($color-online, 5%), 10%);
         }
         .rex-offline,
         .rex-text-offline {
-            color: $color-offline;
+            color: saturate(darken($color-offline, 5%), 10%);
         }
     }
 }
