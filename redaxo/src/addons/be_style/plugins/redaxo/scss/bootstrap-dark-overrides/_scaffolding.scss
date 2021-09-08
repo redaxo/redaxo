@@ -7,5 +7,23 @@ body.rex-theme-dark {
 
         background-color: $color-grey-2;
         color: $color-text-light;
+
+        a {
+            color: $color-blue-4;
+
+            &:hover,
+            &:focus {
+                color: $color-blue-3;
+            }
+        }
+
+        .img-thumbnail {
+            background-color: $color-grey-2;
+            border-color: $color-grey-1;
+        }
+
+        hr {
+            border-top-color: $color-grey-2;
+        }
     }
 }
