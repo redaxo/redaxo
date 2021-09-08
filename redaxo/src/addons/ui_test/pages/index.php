@@ -238,6 +238,14 @@
 
 <div class="clearfix"></div><br><br>
 
+<div class="jumbotron">
+    <h1>Hello, world!</h1>
+    <hr>
+    <p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+</div>
+
+<div class="clearfix"></div><br><br>
+
 <div class="alert alert-success alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
             aria-hidden="true">&times;</span></button>

@@ -1,0 +1,22 @@
+body.rex-theme-dark {
+    // TODO
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+
+        .jumbotron {
+            color: $color-text-light;
+            background-color: $color-grey-3;
+
+            h1,
+            .h1 {
+                color: $color-text-light;
+            }
+
+            > hr {
+                border-top-color:  $color-grey-2;
+            }
+        }
+    }
+}
