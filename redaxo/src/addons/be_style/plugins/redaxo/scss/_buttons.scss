@@ -138,16 +138,6 @@ body.rex-theme-dark {
         .btn-reset,
         .btn-search {
             @include dark-button-variant($color-text-light, $color-grey-5, darken($color-grey-5, 5%));
-
-            &:focus,
-            &.focus {
-                background-color: lighten($color-grey-5, 4%);
-                border-color: lighten($color-grey-5, 16%);
-            }
-            &:hover {
-                background-color: lighten($color-grey-5, 4%);
-                border-color: lighten($color-grey-5, 8%);
-            }
         }
 
         // TODO!
@@ -155,16 +145,6 @@ body.rex-theme-dark {
         .input-group-btn .btn {
             // sync with .form-control
             @include dark-button-variant($color-text-light, rgba($color-grey-2, 0.8), rgba($color-grey-1, 0.8));
-
-            &:focus,
-            &.focus {
-                background-color: lighten(rgba($color-grey-2, 0.8), 4%);
-                border-color: lighten(rgba($color-grey-1, 0.8), 16%);
-            }
-            &:hover {
-                background-color: lighten(rgba($color-grey-2, 0.8), 4%);
-                border-color: lighten(rgba($color-grey-1, 0.8), 8%);
-            }
         }
 
         .btn-primary,
@@ -179,9 +159,9 @@ body.rex-theme-dark {
 
         .btn-clang {
             $normal: (color: $color-text-light, background: $color-grey-5, border: darken($color-grey-5, 5%));
-            $hover: (color: $color-text-light, background: darken($color-grey-5, 4%), border: darken($color-grey-5, 8%));
+            $hover: (color: $color-text-light, background: lighten($color-grey-5, 4%), border: darken($color-grey-5, 1%));
             $active: (color: $color-text-light, background: $dark-brand-primary, border: darken($dark-brand-primary, 5%));
-            $activeHover: (color: $color-text-light, background: darken($dark-brand-primary, 10%), border: darken($dark-brand-primary, 16%));
+            $activeHover: (color: $color-text-light, background: lighten($dark-brand-primary, 4%), border: darken($dark-brand-primary, 1%));
             @include rex-button-variant($normal, $hover, $active, $activeHover);
         }
 
@@ -198,11 +178,7 @@ body.rex-theme-dark {
 
         .btn-debug-mode,
         .btn-safemode-activate {
-            $normal: (color: $color-text-light, background: $dark-brand-warning, border: darken($dark-brand-warning, 5%));
-            $hover: (color: $color-text-light, background: lighten($dark-brand-warning, 4%), border: darken($dark-brand-warning, 1%));
-            $active: $normal;
-            $activeHover: $hover;
-            @include rex-button-variant($normal, $hover, $active, $activeHover);
+            @include dark-button-variant($color-text-light, $dark-brand-warning, darken($dark-brand-warning, 5%));
         }
     }
 }
