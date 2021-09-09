@@ -6,27 +6,27 @@ body.rex-theme-dark {
     body:not(.rex-theme-light) {
 
         .btn-default {
-            @include button-variant($color-text-light, $color-grey-5, darken($color-grey-5, 5%));
+            @include dark-button-variant($color-text-light, $color-grey-5, darken($color-grey-5, 5%));
         }
 
         .btn-primary {
-            @include button-variant($color-text-light, $dark-brand-primary, darken($dark-brand-primary, 5%));
+            @include dark-button-variant($color-text-light, $dark-brand-primary, darken($dark-brand-primary, 5%));
         }
 
         .btn-success {
-            @include button-variant($color-text-light, $dark-brand-success, darken($dark-brand-success, 5%));
+            @include dark-button-variant($color-text-light, $dark-brand-success, darken($dark-brand-success, 5%));
         }
 
         .btn-info {
-            @include button-variant($color-text-light, $dark-brand-info, darken($dark-brand-info, 5%));
+            @include dark-button-variant($color-text-light, $dark-brand-info, darken($dark-brand-info, 5%));
         }
 
         .btn-warning {
-            @include button-variant($color-text-light, $dark-brand-warning, darken($dark-brand-warning, 5%));
+            @include dark-button-variant($color-text-light, $dark-brand-warning, darken($dark-brand-warning, 5%));
         }
 
         .btn-danger {
-            @include button-variant($color-text-light, $dark-brand-danger, darken($dark-brand-danger, 5%));
+            @include dark-button-variant($color-text-light, $dark-brand-danger, darken($dark-brand-danger, 5%));
         }
 
         // refine hover styles
@@ -34,13 +34,13 @@ body.rex-theme-dark {
         .btn-default {
             &:focus,
             &.focus {
-                background-color: darken($color-grey-5, 4%);
-                border-color: darken($color-grey-5, 16%);
+                background-color: lighten($color-grey-5, 4%);
+                border-color: lighten($color-grey-5, 16%);
             }
 
             &:hover {
-                background-color: darken($color-grey-5, 4%);
-                border-color: darken($color-grey-5, 8%);
+                background-color: lighten($color-grey-5, 4%);
+                border-color: lighten($color-grey-5, 8%);
             }
         }
     }

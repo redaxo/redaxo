@@ -137,16 +137,16 @@ body.rex-theme-dark {
         .btn-popup,
         .btn-reset,
         .btn-search {
-            @include button-variant($color-text-light, $color-grey-5, darken($color-grey-5, 5%));
+            @include dark-button-variant($color-text-light, $color-grey-5, darken($color-grey-5, 5%));
 
             &:focus,
             &.focus {
-                background-color: darken($color-grey-5, 4%);
-                border-color: darken($color-grey-5, 16%);
+                background-color: lighten($color-grey-5, 4%);
+                border-color: lighten($color-grey-5, 16%);
             }
             &:hover {
-                background-color: darken($color-grey-5, 4%);
-                border-color: darken($color-grey-5, 8%);
+                background-color: lighten($color-grey-5, 4%);
+                border-color: lighten($color-grey-5, 8%);
             }
         }
 
@@ -154,16 +154,16 @@ body.rex-theme-dark {
         .dropdown-toggle,
         .input-group-btn .btn {
             // sync with .form-control
-            @include button-variant($color-text-light, rgba($color-grey-2, 0.8), rgba($color-grey-1, 0.8));
+            @include dark-button-variant($color-text-light, rgba($color-grey-2, 0.8), rgba($color-grey-1, 0.8));
 
             &:focus,
             &.focus {
-                background-color: darken(rgba($color-grey-2, 0.8), 4%);
-                border-color: darken(rgba($color-grey-1, 0.8), 16%);
+                background-color: lighten(rgba($color-grey-2, 0.8), 4%);
+                border-color: lighten(rgba($color-grey-1, 0.8), 16%);
             }
             &:hover {
-                background-color: darken(rgba($color-grey-2, 0.8), 4%);
-                border-color: darken(rgba($color-grey-1, 0.8), 8%);
+                background-color: lighten(rgba($color-grey-2, 0.8), 4%);
+                border-color: lighten(rgba($color-grey-1, 0.8), 8%);
             }
         }
 
@@ -174,7 +174,7 @@ body.rex-theme-dark {
         .btn-send,
         .btn-setup,
         .btn-update {
-            @include button-variant($color-text-light, $dark-brand-primary, darken($dark-brand-primary, 5%));
+            @include dark-button-variant($color-text-light, $dark-brand-primary, darken($dark-brand-primary, 5%));
         }
 
         .btn-clang {
@@ -189,17 +189,17 @@ body.rex-theme-dark {
         .panel-edit .btn-edit,
         .btn-save,
         .btn-apply {
-            @include button-variant($color-text-light, $dark-brand-success, darken($dark-brand-success, 5%));
+            @include dark-button-variant($color-text-light, $dark-brand-success, darken($dark-brand-success, 5%));
         }
 
         .btn-delete {
-            @include button-variant($color-text-light, $dark-brand-danger, darken($dark-brand-danger, 5%));
+            @include dark-button-variant($color-text-light, $dark-brand-danger, darken($dark-brand-danger, 5%));
         }
 
         .btn-debug-mode,
         .btn-safemode-activate {
             $normal: (color: $color-text-light, background: $dark-brand-warning, border: darken($dark-brand-warning, 5%));
-            $hover: (color: $color-text-light, background: darken($dark-brand-warning, 4%), border: darken($dark-brand-warning, 8%));
+            $hover: (color: $color-text-light, background: lighten($dark-brand-warning, 4%), border: darken($dark-brand-warning, 1%));
             $active: $normal;
             $activeHover: $hover;
             @include rex-button-variant($normal, $hover, $active, $activeHover);
