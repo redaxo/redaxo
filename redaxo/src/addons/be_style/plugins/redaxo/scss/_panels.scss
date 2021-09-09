@@ -128,8 +128,8 @@ body.rex-theme-dark {
 
             .panel-heading[data-toggle] {
                 &:hover {
-                    background-color: darken($color-green-1, 5%);
-                    border-color: darken($color-green-1, 5%);
+                    background-color: lighten($color-green-1, 1.5%);
+                    border-color: lighten($color-green-1, 1.5%);
                 }
             }
             .panel-body {
@@ -145,48 +145,48 @@ body.rex-theme-dark {
         .panel-default {
             .panel-heading[data-toggle] {
                 &:hover {
-                    background-color: darken($color-grey-1, 5%);
-                    border-color: darken($color-grey-1, 5%);
+                    background-color: lighten($color-grey-1, 1.5%);
+                    border-color: lighten($color-grey-1, 1.5%);
                 }
             }
         }
         .panel-primary {
             .panel-heading[data-toggle] {
                 &:hover {
-                    background-color: darken($dark-brand-primary, 5%);
-                    border-color: darken($dark-brand-primary, 5%);
+                    background-color: lighten($dark-brand-primary, 4%);
+                    border-color: lighten($dark-brand-primary, 4%);
                 }
             }
         }
         .panel-success {
             .panel-heading[data-toggle] {
                 &:hover {
-                    background-color: darken($dark-brand-success, 5%);
-                    border-color: darken($dark-brand-success, 5%);
+                    background-color: lighten($dark-brand-success, 4%);
+                    border-color: lighten($dark-brand-success, 4%);
                 }
             }
         }
         .panel-info {
             .panel-heading[data-toggle] {
                 &:hover {
-                    background-color: darken($dark-brand-info, 5%);
-                    border-color: darken($dark-brand-info, 5%);
+                    background-color: lighten($dark-brand-info, 4%);
+                    border-color: lighten($dark-brand-info, 4%);
                 }
             }
         }
         .panel-warning {
             .panel-heading[data-toggle] {
                 &:hover {
-                    background-color: darken($dark-brand-warning, 5%);
-                    border-color: darken($dark-brand-warning, 5%);
+                    background-color: lighten($dark-brand-warning, 4%);
+                    border-color: lighten($dark-brand-warning, 4%);
                 }
             }
         }
         .panel-danger {
             .panel-heading[data-toggle] {
                 &:hover {
-                    background-color: darken($dark-brand-danger, 5%);
-                    border-color: darken($dark-brand-danger, 5%);
+                    background-color: lighten($dark-brand-danger, 4%);
+                    border-color: lighten($dark-brand-danger, 4%);
                 }
             }
         }

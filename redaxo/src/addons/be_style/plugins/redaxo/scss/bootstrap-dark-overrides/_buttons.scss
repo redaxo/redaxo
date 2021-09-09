@@ -29,18 +29,15 @@ body.rex-theme-dark {
             @include dark-button-variant($color-text-light, $dark-brand-danger, darken($dark-brand-danger, 5%));
         }
 
-        // refine hover styles
-        // TODO: use @mixin rex-button-variant?
-        .btn-default {
-            &:focus,
-            &.focus {
-                background-color: lighten($color-grey-5, 4%);
-                border-color: lighten($color-grey-5, 16%);
-            }
+        .btn-link {
+            color: $color-blue-4;
 
-            &:hover {
-                background-color: lighten($color-grey-5, 4%);
-                border-color: lighten($color-grey-5, 8%);
+            &:focus,
+            &.focus,
+            &:hover,
+            &:active,
+            &.active {
+                color: $color-blue-5;
             }
         }
     }

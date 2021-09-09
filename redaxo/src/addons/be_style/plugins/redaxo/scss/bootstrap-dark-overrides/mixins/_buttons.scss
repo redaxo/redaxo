@@ -18,9 +18,9 @@
   &.active,
   .open > &.dropdown-toggle {
     color: $color;
-    background-color: lighten($background, 4%);
+    background-color: lighten($background, 8%);
     background-image: none;
-    border-color: lighten($border, 4%);
+    border-color: lighten($border, 8%);
 
     &:hover,
     &:focus,
