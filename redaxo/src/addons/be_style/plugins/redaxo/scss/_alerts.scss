@@ -30,3 +30,20 @@
 .alert-warning a {
     color: $alert-warning-text;
 }
+
+body.rex-theme-dark {
+    // TODO
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+
+        .alert {
+            a {
+                &:hover {
+                    color: $color-text-light;
+                }
+            }
+        }
+    }
+}
