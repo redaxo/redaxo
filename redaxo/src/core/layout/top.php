@@ -7,6 +7,7 @@
  */
 
 $curPage = rex_be_controller::getCurrentPageObject();
+$user = rex::getUser();
 
 if (rex_request::isPJAXRequest()) {
     // add title to the page, so pjax can update it. see gh#136
@@ -43,6 +44,14 @@ if ($curPage->isPopup()) {
 if (rex::getImpersonator()) {
     $bodyAttr['class'][] = 'rex-is-impersonated';
 }
+if (rex::getProperty('theme_disable_selection', false)) {
+    // force default styles (light theme) if theme selection is disabled
+    // so `prefers-color-scheme: dark` styles won’t be respected
+    $bodyAttr['class'][] = 'rex-theme-light';
+}
+elseif ($user->getValue('theme')) {
+    $bodyAttr['class'][] = 'rex-theme-' . rex_escape($user->getValue('theme'));
+}
 
 // ----- EXTENSION POINT
 $bodyAttr = rex_extension::registerPoint(new rex_extension_point('PAGE_BODY_ATTR', $bodyAttr));
@@ -57,8 +66,6 @@ foreach ($bodyAttr as $k => $v) {
 }
 
 $hasNavigation = $curPage->hasNavigation();
-
-$user = rex::getUser();
 
 $metaItems = [];
 if ($user && $hasNavigation) {
