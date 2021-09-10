@@ -4719,8 +4719,8 @@
       <code>$block</code>
     </MixedAssignment>
     <PossiblyNullReference occurrences="2">
-      <code>hasLayout</code>
       <code>getValue</code>
+      <code>hasLayout</code>
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/lib/api_function.php">
