@@ -358,6 +358,10 @@
         "editor_basepath": {
             "description": "Base path for editor integration",
             "type": ["null", "string"]
+        },
+        "theme_disable_selection": {
+            "description": "Disable the selection of backend themes (such as dark mode) so that only the default theme is used",
+            "type": "boolean"
         }
     },
     "additionalProperties": false,
