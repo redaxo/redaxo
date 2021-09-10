@@ -4654,9 +4654,6 @@
       <code>$this-&gt;favicon</code>
       <code>$this-&gt;jsProperties</code>
     </MixedOperand>
-    <PossiblyNullReference occurrences="1">
-      <code>getValue</code>
-    </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/functions/function_rex_escape.php">
     <InvalidReturnStatement occurrences="1">
@@ -4718,8 +4715,7 @@
     <MixedAssignment occurrences="1">
       <code>$block</code>
     </MixedAssignment>
-    <PossiblyNullReference occurrences="2">
-      <code>getValue</code>
+    <PossiblyNullReference occurrences="1">
       <code>hasLayout</code>
     </PossiblyNullReference>
   </file>
