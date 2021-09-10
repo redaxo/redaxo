@@ -19,6 +19,7 @@ $userpswNew2 = rex_request('userpsw_new_2', 'string');
 $username = rex_request('username', 'string', $user->getName());
 $userdesc = rex_request('userdesc', 'string', $user->getValue('description'));
 $useremail = rex_request('useremail', 'string', $user->getValue('email'));
+$usertheme = rex_request('usertheme', 'string', $user->getValue('theme'));
 $userlogin = $user->getLogin();
 $csrfToken = rex_csrf_token::factory('profile');
 $passwordPolicy = rex_backend_password_policy::factory();
@@ -43,6 +44,20 @@ asort($locales);
 foreach ($locales as $locale) {
     $selBeSprache->addOption(rex_i18n::msgInLocale('lang', $locale), $locale);
 }
+
+// --------------------------------- Theme
+
+$selBeTheme = new rex_select();
+$selBeTheme->setSize(1);
+$selBeTheme->setStyle('class="form-control"');
+$selBeTheme->setName('usertheme');
+$selBeTheme->setId('rex-id-usertheme');
+$selBeTheme->setAttribute('class', 'form-control selectpicker');
+$selBeTheme->setDisabled(rex::getProperty('theme_disable_selection', false));
+$selBeTheme->setSelected($usertheme);
+$selBeTheme->addOption(rex_i18n::msg('theme_auto'), '');
+$selBeTheme->addOption(rex_i18n::msg('theme_light'), 'light');
+$selBeTheme->addOption(rex_i18n::msg('theme_dark'), 'dark');
 
 // --------------------------------- FUNCTIONS
 
@@ -69,6 +84,7 @@ if ($update && !$error) {
     $updateuser->setValue('name', $username);
     $updateuser->setValue('description', $userdesc);
     $updateuser->setValue('email', $useremail);
+    $updateuser->setValue('theme', $usertheme);
     $updateuser->setValue('language', $userpermBeSprache);
 
     $updateuser->addGlobalUpdateFields();
@@ -176,6 +192,11 @@ $formElements[] = $n;
 $n = [];
 $n['label'] = '<label for="rex-id-useremail">' . rex_i18n::msg('email') . '</label>';
 $n['field'] = '<input class="form-control" type="text" id="rex-id-useremail" name="useremail" value="' . rex_escape($useremail) . '" />';
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="rex-id-usertheme">' . rex_i18n::msg('theme') . '</label>';
+$n['field'] = $selBeTheme->get();
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
