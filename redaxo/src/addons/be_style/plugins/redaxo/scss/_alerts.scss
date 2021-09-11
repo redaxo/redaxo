@@ -39,7 +39,10 @@ body.rex-theme-dark {
     body:not(.rex-theme-light) {
 
         .alert {
-            a {
+            a,
+            .alert-link {
+                color: $color-text-light-inactive;
+
                 &:hover {
                     color: $color-text-light;
                 }
