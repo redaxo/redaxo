@@ -15,8 +15,9 @@ $color-blue-4: saturate($color-b, 10%);
 $color-blue-5: saturate(lighten($color-b, 13%), 10%);
 
 // Green
-$color-green-1: #203835; // rgba(darken($color-d, 35%), 0.5)
-$color-green-2: #26403f; // rgba(darken($color-d, 25%), 0.3)
+// mix in blue when green gets darker
+$color-green-1: darken(mix($color-b, $color-d, 40%), 35%);
+$color-green-2: darken(mix($color-b, $color-d, 40%), 32%);
 $color-green-3: saturate(darken($color-d, 30%), 30%);
 
 // text
