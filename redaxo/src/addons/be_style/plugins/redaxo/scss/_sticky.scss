@@ -14,19 +14,24 @@
     }
 }
 
+// ----------------------------------------------------------------------------
 
+@mixin _dark-sticky {
+
+    .rex-sticky-table-footer {
+        th,
+        td {
+            background-color: $color-grey-1;
+        }
+    }
+}
 
 body.rex-theme-dark {
-    // TODO
+    @include _dark-sticky;
 }
 
 @media (prefers-color-scheme: dark) {
     body:not(.rex-theme-light) {
-        .rex-sticky-table-footer {
-            th,
-            td {
-                background-color: $color-grey-1;
-            }
-        }
+        @include _dark-sticky;
     }
 }

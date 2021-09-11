@@ -1,21 +1,25 @@
+@mixin _bootstrap-dark-navs {
+
+    .nav-pills {
+        > li {
+            &.active > a {
+                &,
+                &:hover,
+                &:focus {
+                    background-color: $color-blue-3;
+                    color: $color-text-light;
+                }
+            }
+        }
+    }
+}
+
 body.rex-theme-dark {
-    // TODO
+    @include _bootstrap-dark-navs;
 }
 
 @media (prefers-color-scheme: dark) {
     body:not(.rex-theme-light) {
-
-        .nav-pills {
-            > li {
-                &.active > a {
-                    &,
-                    &:hover,
-                    &:focus {
-                        background-color: $color-blue-3;
-                        color: $color-text-light;
-                    }
-                }
-            }
-        }
+        @include _bootstrap-dark-navs;
     }
 }

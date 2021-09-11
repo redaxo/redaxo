@@ -1,13 +1,17 @@
+@mixin _bootstrap-dark-wells {
+
+    .well {
+        background-color: $color-grey-3;
+        border-color: $color-grey-1;
+    }
+}
+
 body.rex-theme-dark {
-    // TODO
+    @include _bootstrap-dark-wells;
 }
 
 @media (prefers-color-scheme: dark) {
     body:not(.rex-theme-light) {
-
-        .well {
-            background-color: $color-grey-3;
-            border-color: $color-grey-1;
-        }
+        @include _bootstrap-dark-wells;
     }
 }

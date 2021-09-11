@@ -31,22 +31,28 @@
     color: $alert-warning-text;
 }
 
+// ----------------------------------------------------------------------------
+
+@mixin _dark-alerts {
+
+    .alert {
+        a,
+        .alert-link {
+            color: $color-text-light-inactive;
+
+            &:hover {
+                color: $color-text-light;
+            }
+        }
+    }
+}
+
 body.rex-theme-dark {
-    // TODO
+    @include _dark-alerts;
 }
 
 @media (prefers-color-scheme: dark) {
     body:not(.rex-theme-light) {
-
-        .alert {
-            a,
-            .alert-link {
-                color: $color-text-light-inactive;
-
-                &:hover {
-                    color: $color-text-light;
-                }
-            }
-        }
+        @include _dark-alerts;
     }
 }

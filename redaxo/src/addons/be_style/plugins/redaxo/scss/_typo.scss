@@ -97,22 +97,26 @@ tr.mark {
     }
 }
 
+// ----------------------------------------------------------------------------
 
+@mixin _dark-typo {
+
+    .rex-online,
+    .rex-text-online {
+        color: saturate(darken($color-online, 5%), 10%);
+    }
+    .rex-offline,
+    .rex-text-offline {
+        color: saturate(darken($color-offline, 5%), 10%);
+    }
+}
 
 body.rex-theme-dark {
-    // TODO
+    @include _dark-typo;
 }
 
 @media (prefers-color-scheme: dark) {
     body:not(.rex-theme-light) {
-
-        .rex-online,
-        .rex-text-online {
-            color: saturate(darken($color-online, 5%), 10%);
-        }
-        .rex-offline,
-        .rex-text-offline {
-            color: saturate(darken($color-offline, 5%), 10%);
-        }
+        @include _dark-typo;
     }
 }

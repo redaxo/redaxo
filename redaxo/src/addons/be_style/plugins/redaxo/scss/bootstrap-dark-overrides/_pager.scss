@@ -1,33 +1,37 @@
+@mixin _bootstrap-dark-pager {
+
+    .pager {
+        li {
+            > a,
+            > span {
+                background-color: $color-grey-2;
+                border-color: $color-grey-1;
+            }
+
+            > a:hover,
+            > a:focus {
+                background-color: $color-grey-3;
+            }
+        }
+
+        .disabled {
+            > a,
+            > a:hover,
+            > a:focus,
+            > span {
+                color: $color-text-light-inactive;
+                background-color: $color-grey-2;
+            }
+        }
+    }
+}
+
 body.rex-theme-dark {
-    // TODO
+    @include _bootstrap-dark-pager;
 }
 
 @media (prefers-color-scheme: dark) {
     body:not(.rex-theme-light) {
-
-        .pager {
-            li {
-                > a,
-                > span {
-                    background-color: $color-grey-2;
-                    border-color: $color-grey-1;
-                }
-
-                > a:hover,
-                > a:focus {
-                    background-color: $color-grey-3;
-                }
-            }
-
-            .disabled {
-                > a,
-                > a:hover,
-                > a:focus,
-                > span {
-                    color: $color-text-light-inactive;
-                    background-color: $color-grey-2;
-                }
-            }
-        }
+        @include _bootstrap-dark-pager;
     }
 }

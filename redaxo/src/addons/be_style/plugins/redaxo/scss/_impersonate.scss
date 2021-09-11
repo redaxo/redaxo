@@ -4,17 +4,23 @@
     }
 }
 
+// ----------------------------------------------------------------------------
+
+@mixin _dark-impersonate {
+
+    &.rex-is-impersonated {
+        .rex-nav-top {
+            background-color: saturate(darken($dark-brand-warning, 10%), 40%);
+        }
+    }
+}
+
 body.rex-theme-dark {
-    // TODO
+    @include _dark-impersonate;
 }
 
 @media (prefers-color-scheme: dark) {
     body:not(.rex-theme-light) {
-
-        &.rex-is-impersonated {
-            .rex-nav-top {
-                background-color: saturate(darken($dark-brand-warning, 10%), 40%);
-            }
-        }
+        @include _dark-impersonate;
     }
 }

@@ -1,44 +1,48 @@
+@mixin _bootstrap-dark-buttons {
+
+    .btn-default {
+        @include dark-button-variant($color-text-light, rgba($color-grey-4, 0.8), rgba(darken($color-grey-4, 4%), 0.8));
+    }
+
+    .btn-primary {
+        @include dark-button-variant($color-text-light, $dark-brand-primary, darken($dark-brand-primary, 8%));
+    }
+
+    .btn-success {
+        @include dark-button-variant($color-text-light, $dark-brand-success, darken($dark-brand-success, 8%));
+    }
+
+    .btn-info {
+        @include dark-button-variant($color-text-light, $dark-brand-info, darken($dark-brand-info, 8%));
+    }
+
+    .btn-warning {
+        @include dark-button-variant($color-text-light, $dark-brand-warning, darken($dark-brand-warning, 8%));
+    }
+
+    .btn-danger {
+        @include dark-button-variant($color-text-light, $dark-brand-danger, darken($dark-brand-danger, 8%));
+    }
+
+    .btn-link {
+        color: $color-blue-4;
+
+        &:focus,
+        &.focus,
+        &:hover,
+        &:active,
+        &.active {
+            color: $color-blue-5;
+        }
+    }
+}
+
 body.rex-theme-dark {
-    // TODO
+    @include _bootstrap-dark-buttons;
 }
 
 @media (prefers-color-scheme: dark) {
     body:not(.rex-theme-light) {
-
-        .btn-default {
-            @include dark-button-variant($color-text-light, $color-grey-5, darken($color-grey-5, 5%));
-        }
-
-        .btn-primary {
-            @include dark-button-variant($color-text-light, $dark-brand-primary, darken($dark-brand-primary, 5%));
-        }
-
-        .btn-success {
-            @include dark-button-variant($color-text-light, $dark-brand-success, darken($dark-brand-success, 5%));
-        }
-
-        .btn-info {
-            @include dark-button-variant($color-text-light, $dark-brand-info, darken($dark-brand-info, 5%));
-        }
-
-        .btn-warning {
-            @include dark-button-variant($color-text-light, $dark-brand-warning, darken($dark-brand-warning, 5%));
-        }
-
-        .btn-danger {
-            @include dark-button-variant($color-text-light, $dark-brand-danger, darken($dark-brand-danger, 5%));
-        }
-
-        .btn-link {
-            color: $color-blue-4;
-
-            &:focus,
-            &.focus,
-            &:hover,
-            &:active,
-            &.active {
-                color: $color-blue-5;
-            }
-        }
+        @include _bootstrap-dark-buttons;
     }
 }
