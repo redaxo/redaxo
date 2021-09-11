@@ -461,6 +461,32 @@
     </div>
 </section>
 
+<section class="rex-page-section">
+    <div class="panel panel-default">
+
+        <header class="panel-heading">
+            <div class="panel-title">default</div>
+        </header>
+
+        <div class="panel-body">
+            Hello I’ve waited here for you <a href="#">Everlong</a> Tonight I throw myself into and out of the red
+            <code>Out of her head</code>, she sang Come down and waste away with me Down with me Slow, how you wanted it
+            to be I’m over my head Out of her head, she sang And I wonder
+        </div>
+
+        <footer class="panel-footer">
+            <div class="rex-form-panel-footer">
+                <div class="btn-toolbar">
+                    <button class="btn btn-save" type="submit" name="" value="">Speichern</button>
+                    <button class="btn btn-delete" type="submit" name="" value="">Löschen</button>
+                    <button class="btn btn-send" type="submit" name="" value="">Sonstiges</button>
+                    <button class="btn btn-abort" type="submit" name="" value="">Abbrechen</button>
+                </div>
+            </div>
+        </footer>
+    </div>
+</section>
+
 <div class="clearfix"></div><br><br>
 
 <div class="panel panel-default">
