@@ -82,11 +82,11 @@ jobs:
             -   name: Setup nodejs
                 uses: actions/setup-node@v2
                 with:
-                    node-version: "12.x"
+                    node-version: "16.x"
             -   name: Setup Webserver
                 run: |
                     php -S localhost:8000 &
-                    npm install puppeteer@6 pixelmatch pngjs fs mkdirp
+                    npm install puppeteer@10 pixelmatch pngjs fs mkdirp
 
             -   name: Take screenshots (differential)
                 if: github.event_name != 'repository_dispatch'
