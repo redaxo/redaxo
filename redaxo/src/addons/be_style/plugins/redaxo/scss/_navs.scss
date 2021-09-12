@@ -471,8 +471,10 @@
         .navbar-nav {
             > li {
                 > a,
-                > a:hover {
+                > a:hover,
+                > a:focus {
                     color: $color-text-light;
+                    background-color: transparent;
                 }
             }
         }
