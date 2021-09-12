@@ -292,9 +292,9 @@ label.required::after {
         background-color: rgba($color-grey-1, 0.8);
     }
 
-    //input[type=range] {
-    //    @include input-type-range();
-    //}
+    input[type=range] {
+        // TODO: could be improved for dark mode
+    }
 
     .input-group {
         .bootstrap-select {
@@ -311,6 +311,7 @@ label.required::after {
         }
     }
 
+    // TODO: dark styles
     .rex-select-style {
         background-color: #fff;
         border-color: $input-border;
