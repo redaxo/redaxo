@@ -1,5 +1,41 @@
 @mixin _bootstrap-dark-navs {
 
+    .nav {
+        > li {
+            > a {
+                &:hover,
+                &:focus {
+                    background-color: $color-grey-3;
+                }
+            }
+
+            &.disabled > a {
+                color: $color-text-light-inactive;
+
+                &:hover,
+                &:focus {
+                    color: $color-text-light-inactive;
+                    background-color: transparent;
+                }
+            }
+        }
+
+        // Open dropdowns
+        .open > a {
+            &,
+            &:hover,
+            &:focus {
+                background-color: $color-grey-3;
+                border-color: $color-grey-3;
+            }
+        }
+    }
+
+    .nav-tabs {
+        // hint: since redaxo uses custom tab markup, we’d better not provide styles
+        // for native bootstrap tabs!
+    }
+
     .nav-pills {
         > li {
             &.active > a {
@@ -11,6 +47,11 @@
                 }
             }
         }
+    }
+
+    .nav-tabs-justified {
+        // hint: since redaxo uses custom tab markup, we’d better not provide styles
+        // for native bootstrap tabs!
     }
 }
 
