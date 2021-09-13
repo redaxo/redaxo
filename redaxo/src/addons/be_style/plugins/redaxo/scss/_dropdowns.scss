@@ -36,12 +36,12 @@
     .rex-slice-select {
         > .dropdown > .btn-default {
             background-color: desaturate(lighten($color-blue-1, 5%), 33%);
-            border-color: $color-blue-1;
+            border-color: desaturate($color-blue-1, 33%);
             color: $color-text-light;
 
             &:hover {
-                background-color: desaturate($color-blue-1, 33%);
-                border-color: $color-blue-1;
+                background-color: desaturate(lighten($color-blue-1, 7%), 20%);
+                border-color: desaturate($color-blue-1, 20%);
                 color: $color-text-light;
             }
             &:focus,
