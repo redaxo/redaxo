@@ -4,13 +4,13 @@
         > li {
             > a,
             > span {
-                color: $color-text-light;
+                color: $color-blue-4;
                 background-color: $color-grey-3;
                 border-color: $color-grey-1;
 
                 &:hover,
                 &:focus {
-                    color: $color-text-light;
+                    color: $color-blue-5;
                     background-color: $color-grey-4;
                     border-color: $color-grey-1;
                 }
