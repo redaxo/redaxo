@@ -513,7 +513,7 @@
                     &:hover {
                         background-color: $color-grey-3;
                         border-color: $color-grey-3;
-                        color: $color-text-light;
+                        color: $color-blue-5;
                     }
                 }
             }
@@ -526,17 +526,18 @@
         .navbar-default .navbar-nav > li:not(:last-child):after {
             border-right-color: $color-grey-1;
         }
-        //.navbar-default .navbar-nav > li > a {
-        //    color: $color-b;
-        //}
-        //.navbar-default .navbar-nav > .rex-empty > a {
-        //    color: $color-a;
-        //}
+        .navbar-default .navbar-nav > li > a {
+            color: $color-blue-4;
+        }
+        .navbar-default .navbar-nav > .rex-empty > a {
+            color: $color-text-light-inactive;
+        }
         .navbar-default .navbar-nav > li > a:hover,
         .navbar-default .navbar-nav > .active > a,
         .navbar-default .navbar-nav > .active > a:hover,
         .navbar-default .navbar-nav > .active > a:focus {
             color: $color-text-light;
+            background-color: transparent;
         }
     }
 
