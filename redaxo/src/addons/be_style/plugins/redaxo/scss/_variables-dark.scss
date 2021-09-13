@@ -18,13 +18,13 @@ $color-blue-5: saturate(lighten($color-b, 13%), 10%);
 // mix in blue when green gets darker
 $color-green-1: darken(mix($color-b, $color-d, 40%), 35%);
 $color-green-2: darken(mix($color-b, $color-d, 40%), 32%);
-$color-green-3: saturate(darken($color-d, 30%), 30%);
+$color-green-3: saturate(darken($color-d, 25%), 35%);
 
 // text
-$color-text-dark: rgba(0, 0, 0, 0.8);
-$color-text-dark-inactive: rgba(0, 0, 0, 0.5);
-$color-text-light: rgba(255, 255, 255, 0.8);
-$color-text-light-inactive: rgba(255, 255, 255, 0.5);
+$color-text-dark: rgba(0, 0, 0, 0.85);
+$color-text-dark-inactive: rgba(0, 0, 0, 0.45);
+$color-text-light: rgba(255, 255, 255, 0.85);
+$color-text-light-inactive: rgba(255, 255, 255, 0.45);
 
 // dark brand colors
 $dark-brand-primary: $color-blue-3;
