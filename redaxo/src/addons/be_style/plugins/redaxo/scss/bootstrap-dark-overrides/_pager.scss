@@ -4,13 +4,16 @@
         li {
             > a,
             > span {
-                background-color: $color-grey-2;
+                color: $color-blue-4;
+                background-color: $color-grey-3;
                 border-color: $color-grey-1;
             }
 
             > a:hover,
             > a:focus {
-                background-color: $color-grey-3;
+                color: $color-blue-5;
+                background-color: $color-grey-4;
+                border-color: $color-grey-1;
             }
         }
 
@@ -20,7 +23,8 @@
             > a:focus,
             > span {
                 color: $color-text-light-inactive;
-                background-color: $color-grey-2;
+                background-color: $color-grey-3;
+                border-color: $color-grey-1;
             }
         }
     }
