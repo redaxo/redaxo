@@ -9,7 +9,7 @@
         color: $color-text-light;
         background-color: rgba($color-grey-2, 0.8);
         border-color: rgba($color-grey-1, 0.8);
-        @include form-control-focus($color-grey-1);
+        @include form-control-focus($color-blue-2);
         @include placeholder($color-text-light-inactive);
 
         &[disabled],
@@ -20,15 +20,15 @@
         }
     }
 
-    //.has-success {
-    //    @include form-control-validation($state-success-text, $state-success-text, $state-success-bg);
-    //}
-    //.has-warning {
-    //    @include form-control-validation($state-warning-text, $state-warning-text, $state-warning-bg);
-    //}
-    //.has-error {
-    //    @include form-control-validation($state-danger-text, $state-danger-text, $state-danger-bg);
-    //}
+    .has-success {
+        @include form-control-validation(lighten($dark-brand-success, 20%), $dark-brand-success, $dark-brand-success);
+    }
+    .has-warning {
+        @include form-control-validation(lighten($dark-brand-warning, 20%), $dark-brand-warning, $dark-brand-warning);
+    }
+    .has-error {
+        @include form-control-validation(lighten($dark-brand-danger, 20%), $dark-brand-danger, $dark-brand-danger);
+    }
 
     .help-block {
         color: $color-text-light-inactive;
