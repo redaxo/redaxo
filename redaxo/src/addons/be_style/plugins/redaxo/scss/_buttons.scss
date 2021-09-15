@@ -129,18 +129,14 @@
     .btn-back,
     .btn-clang,
     .btn-move,
-    .btn-popup,
     .btn-reset,
     .btn-search {
         @include dark-button-variant($color-text-light, rgba($color-grey-5, 0.8), rgba(darken($color-grey-5, 15%), 0.8));
     }
 
-    // TODO!
-    //.dropdown-toggle,
-    //.input-group-btn .btn {
-    //    // sync with .form-control
-    //    @include dark-button-variant($color-text-light, rgba($color-grey-2, 0.8), rgba($color-grey-1, 0.8));
-    //}
+    .btn-popup {
+        @include dark-button-variant($color-text-light, rgba($color-grey-2, 0.8), rgba(darken($color-grey-1, 15%), 0.8));
+    }
 
     .btn-primary,
     .btn-apply,

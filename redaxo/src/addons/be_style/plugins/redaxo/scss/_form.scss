@@ -296,10 +296,17 @@ label.required::after {
         // TODO: could be improved for dark mode
     }
 
-    .input-group {
-        .bootstrap-select {
-            .btn {
-                border-color: darken($color-grey-5, 5%);
+    .bootstrap-select,
+    .input-group .bootstrap-select {
+        .btn {
+            color: $color-text-light;
+            background-color: rgba($color-grey-2, 0.8);
+            border-color: rgba($color-grey-1, 0.8);
+            @include form-control-focus($color-blue-2);
+
+            &:focus {
+                background-color: $color-grey-1;
+                color: $color-text-light;
             }
         }
     }
