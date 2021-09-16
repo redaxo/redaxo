@@ -7,10 +7,10 @@
 <picture class="rex-background">
     <source
         srcset="
-            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/nguyen-linh-hUlGJAYAKFo-unsplash_2100.webp') ?> 2100w,
-            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/nguyen-linh-hUlGJAYAKFo-unsplash_3300.webp') ?> 3300w"
+            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/nguyen-linh-hUlGJAYAKFo-unsplash_2100.avif') ?> 2100w,
+            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/nguyen-linh-hUlGJAYAKFo-unsplash_3300.avif') ?> 3300w"
         sizes="100vw"
-        type="image/webp"
+        type="image/avif"
     />
     <img
         alt=""
