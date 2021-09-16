@@ -48,8 +48,7 @@ if (rex::getProperty('theme_disable_selection', false)) {
     // force default styles (light theme) if theme selection is disabled
     // so `prefers-color-scheme: dark` styles won’t be respected
     $bodyAttr['class'][] = 'rex-theme-light';
-}
-elseif ($user && $user->getValue('theme')) {
+} elseif ($user && $user->getValue('theme')) {
     $bodyAttr['class'][] = 'rex-theme-' . rex_escape($user->getValue('theme'));
 }
 
