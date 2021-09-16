@@ -56,10 +56,36 @@
         }
     }
 
-    //.dropdown-menu > li > a:hover,
-    //.dropdown-menu > li > a:focus {
-    //    background-color: $color-d-lighter;
-    //}
+    // select: align colors with input fields
+    .bootstrap-select,
+    .input-group .bootstrap-select {
+        .dropdown-toggle {
+            color: $color-text-light;
+            background-color: rgba($color-grey-2, 0.8);
+            border-color: rgba($color-grey-1, 0.8);
+            @include form-control-focus($color-blue-2);
+
+            &:focus {
+                background-color: $color-grey-1;
+                color: $color-text-light;
+            }
+        }
+    }
+
+    // select inside of input-group
+    .input-group .bootstrap-select {
+        .dropdown-toggle {
+            border-color: darken($color-grey-5, 5%);
+
+            &:focus {
+                background-color: $color-grey-5;
+            }
+        }
+
+        &.open > .dropdown-toggle {
+            background-color: $color-grey-5;
+        }
+    }
 }
 
 body.rex-theme-dark {

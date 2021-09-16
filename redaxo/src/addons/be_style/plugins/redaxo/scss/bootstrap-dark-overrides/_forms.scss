@@ -20,13 +20,22 @@
         }
     }
 
-    .has-success {
+    .input-group .form-control:not(:focus) {
+        // align with input group buttons
+        border-color: darken($color-grey-5, 5%);
+    }
+
+    .has-success,
+    .has-success .input-group {
+        // raise specificity for input-groups
         @include form-control-validation(lighten($dark-brand-success, 20%), $dark-brand-success, $dark-brand-success);
     }
-    .has-warning {
+    .has-warning,
+    .has-warning .input-group {
         @include form-control-validation(lighten($dark-brand-warning, 20%), $dark-brand-warning, $dark-brand-warning);
     }
-    .has-error {
+    .has-error,
+    .has-error .input-group {
         @include form-control-validation(lighten($dark-brand-danger, 20%), $dark-brand-danger, $dark-brand-danger);
     }
 

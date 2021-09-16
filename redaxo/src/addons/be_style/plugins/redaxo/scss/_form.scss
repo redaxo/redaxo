@@ -293,44 +293,23 @@ label.required::after {
     }
 
     input[type=range] {
-        // TODO: could be improved for dark mode
+        // hint: too much effort to add dark styles
     }
 
-    .bootstrap-select,
-    .input-group .bootstrap-select {
-        .btn {
-            color: $color-text-light;
-            background-color: rgba($color-grey-2, 0.8);
-            border-color: rgba($color-grey-1, 0.8);
-            @include form-control-focus($color-blue-2);
-
-            &:focus {
-                background-color: $color-grey-1;
-                color: $color-text-light;
-            }
-        }
-    }
-
-    .rex-panel-options {
-        .form-control,
-        .input-group .bootstrap-select .btn {
-            border-color: darken($color-grey-5, 5%);
-        }
-    }
-
-    // TODO: dark styles
     .rex-select-style {
-        background-color: #fff;
-        border-color: $input-border;
+        color: $color-text-light;
+        background-color: $color-grey-2;
+        border-color: $color-grey-1;
 
         &::after {
-            background-color: #fff;
+            background-color: invert($color-grey-2, 100%); // invert background color first
+            filter: invert(100%); // invert whole element again to get light caret
         }
 
         select {
             &[multiple],
             &[multiple]:focus {
-                background-color: #fff;
+                background-color: $color-grey-2;
             }
             &:focus {
                 background-color: transparent;

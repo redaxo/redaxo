@@ -124,6 +124,7 @@
 
 @mixin _dark-buttons {
 
+    // grey (default)
     .btn-default,
     .btn-abort,
     .btn-back,
@@ -131,13 +132,20 @@
     .btn-move,
     .btn-reset,
     .btn-search {
-        @include dark-button-variant($color-text-light, rgba($color-grey-5, 0.8), rgba(darken($color-grey-5, 15%), 0.8));
+        @include dark-button-variant($color-text-light, rgba($color-grey-5, 0.8), rgba(darken($color-grey-5, 8%), 0.8));
     }
 
+    // grey (default) with light borders
+    .input-group-btn .btn {
+        border-color: darken($color-grey-5, 5%);
+    }
+
+    // dark (aligned with input elements)
     .btn-popup {
         @include dark-button-variant($color-text-light, rgba($color-grey-2, 0.8), rgba(darken($color-grey-1, 15%), 0.8));
     }
 
+    // blue
     .btn-primary,
     .btn-apply,
     .btn-save,
@@ -148,14 +156,16 @@
         @include dark-button-variant($color-text-light, $dark-brand-primary, darken($dark-brand-primary, 20%));
     }
 
+    // special: blue + grey with custom borders
     .btn-clang {
-        $normal: (color: $color-text-light, background: $color-grey-5, border: darken($color-grey-5, 15%));
-        $hover: (color: $color-text-light, background: lighten($color-grey-5, 4%), border: darken($color-grey-5, 11%));
+        $normal: (color: $color-text-light, background: $color-grey-5, border: darken($color-grey-5, 10%));
+        $hover: (color: $color-text-light, background: lighten($color-grey-5, 4%), border: darken($color-grey-5, 6%));
         $active: (color: $color-text-light, background: $dark-brand-primary, border: darken($dark-brand-primary, 24%)); // slightly increase contrast
         $activeHover: (color: $color-text-light, background: lighten($dark-brand-primary, 4%), border: darken($dark-brand-primary, 20%));
         @include rex-button-variant($normal, $hover, $active, $activeHover);
     }
 
+    // green
     .btn-edit,
     .panel-edit .btn-edit,
     .btn-save,
@@ -163,10 +173,12 @@
         @include dark-button-variant($color-text-light, $dark-brand-success, darken($dark-brand-success, 12%));
     }
 
+    // red
     .btn-delete {
         @include dark-button-variant($color-text-light, $dark-brand-danger, darken($dark-brand-danger, 15%));
     }
 
+    // yellow
     .btn-debug-mode,
     .btn-safemode-activate {
         @include dark-button-variant($color-text-light, $dark-brand-warning, darken($dark-brand-warning, 15%));
