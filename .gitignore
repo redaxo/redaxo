@@ -25,7 +25,6 @@
 !/redaxo/src/addons/project/
 !/redaxo/src/addons/structure/
 !/redaxo/src/addons/users/
-!/redaxo/src/addons/ui_test/
 
 # PhpStorm setting
 /.idea/*
