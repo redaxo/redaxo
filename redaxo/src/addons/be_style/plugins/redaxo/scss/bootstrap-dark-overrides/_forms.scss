@@ -12,17 +12,16 @@
         @include form-control-focus($color-blue-2);
         @include placeholder($color-text-light-inactive);
 
+        &:focus {
+            background-color: $color-grey-1;
+        }
+
         &[disabled],
         &[readonly],
         fieldset[disabled] & {
-            background-color: rgba($color-grey-3, 0.4);
-            border-color: rgba($color-grey-2, 0.4);
+            background-color: rgba($color-grey-3, 0.6);
+            border-color: rgba($color-grey-2, 0.6);
         }
-    }
-
-    .input-group .form-control:not(:focus) {
-        // align with input group buttons
-        border-color: darken($color-grey-5, 5%);
     }
 
     .has-success,

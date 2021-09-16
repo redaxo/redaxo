@@ -65,10 +65,19 @@
             border-color: rgba($color-grey-1, 0.8);
             @include form-control-focus($color-blue-2);
 
+            &:hover {
+                color: $color-text-light;
+                background-color: rgba($color-grey-2, 0.8);
+                border-color: rgba($color-grey-1, 0.8);
+            }
             &:focus {
                 background-color: $color-grey-1;
+                border-color: $color-blue-2;
                 color: $color-text-light;
             }
+        }
+        &.open > .dropdown-toggle {
+            background-color: $color-grey-1;
         }
     }
 
@@ -77,6 +86,9 @@
         .dropdown-toggle {
             border-color: darken($color-grey-5, 5%);
 
+            &:hover {
+                border-color: darken($color-grey-5, 5%);
+            }
             &:focus {
                 background-color: $color-grey-5;
             }

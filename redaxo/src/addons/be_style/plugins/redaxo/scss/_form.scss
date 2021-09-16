@@ -288,12 +288,21 @@ label.required::after {
 
 @mixin _dark-form {
 
-    .form-control:focus:not([readonly]) {
-        background-color: $color-grey-1;
+    legend,
+    .form-legend {
+        color: $color-text-light-inactive;
+        border-bottom-color: $color-grey-1;
     }
 
     input[type=range] {
         // hint: too much effort to add dark styles
+    }
+
+    .rex-panel-options {
+        .form-control,
+        .input-group .input-group-btn .btn {
+            border-color: darken($color-grey-5, 5%);
+        }
     }
 
     .rex-select-style {

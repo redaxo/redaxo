@@ -135,14 +135,16 @@
         @include dark-button-variant($color-text-light, rgba($color-grey-5, 0.8), rgba(darken($color-grey-5, 8%), 0.8));
     }
 
-    // grey (default) with light borders
-    .input-group-btn .btn {
-        border-color: darken($color-grey-5, 5%);
-    }
-
     // dark (aligned with input elements)
-    .btn-popup {
-        @include dark-button-variant($color-text-light, rgba($color-grey-2, 0.8), rgba(darken($color-grey-1, 15%), 0.8));
+    .btn-popup,
+    .btn-view {
+        @include dark-button-variant($color-text-light, rgba($color-grey-2, 0.8), rgba($color-grey-1, 0.8));
+
+        &.btn-popup:hover,
+        &.btn-popup:focus {
+            // raise specificity via double class to override mixin styles
+            border-color: rgba($color-grey-1, 0.8);
+        }
     }
 
     // blue
