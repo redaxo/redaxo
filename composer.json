@@ -17,7 +17,7 @@
         "phpunit/phpunit": "^9.3",
         "psalm/plugin-phpunit": "0.16.1",
         "psalm/plugin-symfony": "3.0.3",
-        "rector/rector": "0.11.40",
+        "rector/rector": "0.11.42",
         "vimeo/psalm": "4.10.0"
     },
     "replace": {
