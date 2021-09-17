@@ -10,14 +10,14 @@
         "friendsofphp/php-cs-fixer": "3.1.0",
         "friendsofredaxo/linter": "1.3.0",
         "phpstan/extension-installer": "1.1.0",
-        "phpstan/phpstan": "0.12.93",
+        "phpstan/phpstan": "0.12.98",
         "phpstan/phpstan-deprecation-rules": "0.12.6",
-        "phpstan/phpstan-phpunit": "0.12.21",
-        "phpstan/phpstan-symfony": "0.12.41",
+        "phpstan/phpstan-phpunit": "0.12.22",
+        "phpstan/phpstan-symfony": "0.12.44",
         "phpunit/phpunit": "^9.3",
         "psalm/plugin-phpunit": "0.16.1",
         "psalm/plugin-symfony": "3.0.3",
-        "rector/rector": "0.11.40",
+        "rector/rector": "0.11.53",
         "vimeo/psalm": "4.10.0"
     },
     "replace": {
