@@ -48,6 +48,9 @@ class PhpDataSource extends DataSource
 	// Get the request body data (attempt to parse as json, normalized with passwords removed)
 	protected function getRequestData()
 	{
+		// The data will already be parsed into POST data by PHP in case of application/x-www-form-urlencoded requests
+		if (count($_POST)) return;
+
 		$requestData = file_get_contents('php://input');
 		$requestJsonData = json_decode($requestData, true);
 
@@ -109,6 +112,9 @@ class PhpDataSource extends DataSource
 		$scheme = $https ? 'https' : 'http';
 		$host = $host ?: $addr;
 		$port = (! $https && $port != 80 || $https && $port != 443) ? ":{$port}" : '';
+
+		// remove port number from the host
+		$host = preg_replace('/:\d+$/', '', trim($host));
 
 		return "{$scheme}://{$host}{$port}{$uri}";
 	}
