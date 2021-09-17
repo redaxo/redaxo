@@ -173,6 +173,15 @@ html {
         }
     }
 
+    .rex-marker-debugmode {
+        color: #e68a00;
+
+        &:hover,
+        &:focus {
+            color: lighten(#e68a00, 4%);
+        }
+    }
+
     .rex-main-frame {
         background-color: darken($color-grey-1, 4%);
     }
