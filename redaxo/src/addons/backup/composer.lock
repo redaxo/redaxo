@@ -58,6 +58,10 @@
                 "unzip",
                 "zip"
             ],
+            "support": {
+                "issues": "https://github.com/splitbrain/php-archive/issues",
+                "source": "https://github.com/splitbrain/php-archive/tree/1.2.1"
+            },
             "time": "2021-02-22T17:59:24+00:00"
         }
     ],
@@ -71,5 +75,6 @@
     "platform-dev": [],
     "platform-overrides": {
         "php": "7.3.0"
-    }
+    },
+    "plugin-api-version": "2.1.0"
 }

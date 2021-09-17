@@ -63,6 +63,16 @@
                 "profiling",
                 "slim"
             ],
+            "support": {
+                "issues": "https://github.com/itsgoingd/clockwork/issues",
+                "source": "https://github.com/itsgoingd/clockwork/tree/v5.1.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/itsgoingd",
+                    "type": "github"
+                }
+            ],
             "time": "2021-08-07T23:04:17+00:00"
         },
         {
@@ -110,6 +120,9 @@
                 "psr",
                 "psr-3"
             ],
+            "support": {
+                "source": "https://github.com/php-fig/log/tree/1.1.4"
+            },
             "time": "2021-05-03T11:20:27+00:00"
         }
     ],
@@ -123,5 +136,6 @@
     "platform-dev": [],
     "platform-overrides": {
         "php": "7.3.0"
-    }
+    },
+    "plugin-api-version": "2.1.0"
 }
