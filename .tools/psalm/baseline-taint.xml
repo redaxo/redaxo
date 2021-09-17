@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.9.1@7e137f5b95f7394607f5d0631172ff4c2da46781">
+<files psalm-version="4.10.0@916b098b008f6de4543892b1e0651c1c3b92cbfa">
   <file src="redaxo/src/addons/backup/pages/export.php">
     <TaintedTextWithQuotes occurrences="1">
       <code>rex_view::success($success)</code>
