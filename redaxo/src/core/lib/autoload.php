@@ -24,7 +24,7 @@ class rex_autoload
     /**
      * @var null|string
      */
-    protected static $cacheFile = null;
+    protected static $cacheFile;
     /**
      * @var bool
      */
