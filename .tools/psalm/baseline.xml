@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.9.1@7e137f5b95f7394607f5d0631172ff4c2da46781">
+<files psalm-version="4.10.0@916b098b008f6de4543892b1e0651c1c3b92cbfa">
   <file src="redaxo/src/addons/backup/lib/backup.php">
     <MixedArgument occurrences="5">
       <code>$column</code>
@@ -523,6 +523,11 @@
       <code>isAdmin</code>
     </PossiblyNullReference>
   </file>
+  <file src="redaxo/src/addons/debug/lib/debug.php">
+    <PossiblyUndefinedArrayOffset occurrences="1">
+      <code>$trace[$i + 1]['class']</code>
+    </PossiblyUndefinedArrayOffset>
+  </file>
   <file src="redaxo/src/addons/debug/lib/debug_clockwork.php">
     <MixedArgument occurrences="3">
       <code>$_SERVER['REQUEST_URI']</code>
@@ -588,14 +593,7 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/debug/lib/extensions/sql_debug.php">
-    <MixedArgument occurrences="1">
-      <code>$trace[$i]['file']</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="5">
-      <code>$file</code>
-      <code>$file</code>
-      <code>$line</code>
-      <code>$line</code>
+    <MixedAssignment occurrences="1">
       <code>$qry</code>
     </MixedAssignment>
     <MixedMethodCall occurrences="2">
