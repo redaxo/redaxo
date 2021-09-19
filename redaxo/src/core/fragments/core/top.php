@@ -15,9 +15,12 @@
 <?php
     $user = rex::getUser();
 
-    // inject color scheme infos if specified by user (light/dark) and not disabled via config
-    if ($user && $user->getValue('theme') && rex::getProperty('theme_disable_selection', false)) {
-        $colorScheme = rex_escape($user->getValue('theme'));
+    // inject color scheme infos if not disabled via config
+    if ($user && !rex::getProperty('theme_disable_selection', false)) {
+        $colorScheme = 'light dark'; // default: support both
+        if ($user->getValue('theme')) {
+            $colorScheme = rex_escape($user->getValue('theme'));
+        }
         echo "\n" . '    <meta name="color-scheme" content="' . $colorScheme . '">';
         echo "\n" . '    <style>:root { color-scheme: ' . $colorScheme . ' }</style>';
     }
