@@ -1,13 +1,8 @@
 <?php
 
 /**
- * PHPMailer Addon.
- *
- * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- *
  * @package redaxo\phpmailer
  */
-
 class rex_cronjob_mailer_purge extends rex_cronjob
 {
     /**
