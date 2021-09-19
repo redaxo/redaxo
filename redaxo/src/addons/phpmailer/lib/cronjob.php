@@ -5,12 +5,7 @@
  */
 class rex_cronjob_mailer_purge extends rex_cronjob
 {
-    /**
-     * purgeMailarchive.
-     *
-     * @return int
-     */
-    protected function purgeMailarchive(int $days = 7, string $dir = '', int $log = 0)
+    private function purgeMailarchive(int $days = 7, string $dir = '', int $log = 0): int
     {
         $files = glob($dir . '/*');
         $file = '';
