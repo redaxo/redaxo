@@ -8,7 +8,6 @@ class rex_cronjob_mailer_purge extends rex_cronjob
     private function purgeMailarchive(int $days = 7, string $dir = '', int $log = 0): int
     {
         $files = glob($dir . '/*');
-        $file = '';
         if ($files) {
             foreach ($files as $file) {
                 if (is_dir($file)) {
@@ -21,7 +20,6 @@ class rex_cronjob_mailer_purge extends rex_cronjob
             }
             if ('' != $dir && $dir != rex_mailer::logFolder() && is_dir($dir)) {
                 if (0 === count(glob("$dir/*")) && true == rmdir($dir)) {
-                    ++$log;
                 }
             }
         }
@@ -35,13 +33,13 @@ class rex_cronjob_mailer_purge extends rex_cronjob
             $days = (int) $this->getParam('days');
             $purgeLog = self::purgeMailarchive($days, $logfolder);
             if (0 != $purgeLog) {
-                $this->setMessage('Objekte gelöscht: '.$purgeLog);
+                $this->setMessage('Mails deleted: '.$purgeLog);
                 return true;
             }
-            $this->setMessage(rex_i18n::msg('phpmailer_archivecron_nothing_to_delete'));
+            $this->setMessage('No Mails found to delete');
             return true;
         }
-        $this->setMessage(rex_i18n::msg('phpmailer_archivecron_folder_not_found'));
+        $this->setMessage('Unable to find the phpmailer archive folder');
         return false;
     }
 
@@ -63,7 +61,6 @@ class rex_cronjob_mailer_purge extends rex_cronjob
                     30 => '30 ' . rex_i18n::msg('phpmailer_archivecron_days'),
                 ],
                 'default' => 7,
-                'notice' => rex_i18n::msg('phpmailer_archivecron_notice'),
             ],
         ];
         return $fields;
