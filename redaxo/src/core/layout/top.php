@@ -46,7 +46,7 @@ if (rex::getImpersonator()) {
 }
 if (rex::getProperty('theme')) {
     // global theme from config.yml
-    $bodyAttr['class'][] = 'rex-theme-' . rex_escape(rex::getProperty('theme'));
+    $bodyAttr['class'][] = 'rex-theme-' . rex_escape((string) rex::getProperty('theme'));
 } elseif ($user && $user->getValue('theme')) {
     // user selected theme
     $bodyAttr['class'][] = 'rex-theme-' . rex_escape($user->getValue('theme'));

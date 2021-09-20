@@ -18,7 +18,7 @@
     $colorScheme = 'light dark'; // default: support both
     if (rex::getProperty('theme')) {
         // global theme from config.yml
-        $colorScheme = rex_escape(rex::getProperty('theme'));
+        $colorScheme = rex_escape((string) rex::getProperty('theme'));
     } elseif ($user && $user->getValue('theme')) {
         // user selected theme
         $colorScheme = rex_escape($user->getValue('theme'));
