@@ -53,7 +53,7 @@ $selBeTheme->setStyle('class="form-control"');
 $selBeTheme->setName('usertheme');
 $selBeTheme->setId('rex-id-usertheme');
 $selBeTheme->setAttribute('class', 'form-control selectpicker');
-$selBeTheme->setDisabled(rex::getProperty('theme_disable_selection', false));
+$selBeTheme->setDisabled(null !== rex::getProperty('theme'));
 $selBeTheme->setSelected($usertheme);
 $selBeTheme->addOption(rex_i18n::msg('theme_auto'), '');
 $selBeTheme->addOption(rex_i18n::msg('theme_light'), 'light');

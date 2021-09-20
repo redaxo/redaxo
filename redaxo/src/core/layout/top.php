@@ -44,11 +44,11 @@ if ($curPage->isPopup()) {
 if (rex::getImpersonator()) {
     $bodyAttr['class'][] = 'rex-is-impersonated';
 }
-if (rex::getProperty('theme_disable_selection', false)) {
-    // force default styles (light theme) if theme selection is disabled
-    // so `prefers-color-scheme: dark` styles won’t be respected
-    $bodyAttr['class'][] = 'rex-theme-light';
+if (rex::getProperty('theme')) {
+    // global theme from config.yml
+    $bodyAttr['class'][] = 'rex-theme-' . rex_escape(rex::getProperty('theme'));
 } elseif ($user && $user->getValue('theme')) {
+    // user selected theme
     $bodyAttr['class'][] = 'rex-theme-' . rex_escape($user->getValue('theme'));
 }
 

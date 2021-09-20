@@ -15,15 +15,16 @@
 <?php
     $user = rex::getUser();
 
-    // inject color scheme infos if not disabled via config
-    if ($user && !rex::getProperty('theme_disable_selection', false)) {
-        $colorScheme = 'light dark'; // default: support both
-        if ($user->getValue('theme')) {
-            $colorScheme = rex_escape($user->getValue('theme'));
-        }
-        echo "\n" . '    <meta name="color-scheme" content="' . $colorScheme . '">';
-        echo "\n" . '    <style>:root { color-scheme: ' . $colorScheme . ' }</style>';
+    $colorScheme = 'light dark'; // default: support both
+    if (rex::getProperty('theme')) {
+        // global theme from config.yml
+        $colorScheme = rex_escape(rex::getProperty('theme'));
+    } elseif ($user && $user->getValue('theme')) {
+        // user selected theme
+        $colorScheme = rex_escape($user->getValue('theme'));
     }
+    echo "\n" . '    <meta name="color-scheme" content="' . $colorScheme . '">';
+    echo "\n" . '    <style>:root { color-scheme: ' . $colorScheme . ' }</style>';
 
     $assetDir = rex_path::assets();
 
