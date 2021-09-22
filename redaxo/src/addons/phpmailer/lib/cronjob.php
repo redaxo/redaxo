@@ -5,8 +5,9 @@
  */
 class rex_cronjob_mailer_purge extends rex_cronjob
 {
-    private function purgeMailarchive(int $days = 7, string $dir = '', int $log = 0): int
+    private function purgeMailarchive(int $days = 7, string $dir = ''): int
     {
+        $log = 0;
         $files = glob($dir . '/*');
         if ($files) {
             foreach ($files as $file) {
@@ -18,8 +19,8 @@ class rex_cronjob_mailer_purge extends rex_cronjob
                     }
                 }
             }
-            if ('' != $dir && $dir != rex_mailer::logFolder() && is_dir($dir)) {
-                if (0 === count(glob("$dir/*")) && true == rmdir($dir)) {
+            if ('' != $dir && $dir != rex_mailer::logFolder() && is_dir($dir) && 0 === count(glob("$dir/*"))) {
+                if (true == rmdir($dir)) {
                 }
             }
         }
@@ -66,3 +67,4 @@ class rex_cronjob_mailer_purge extends rex_cronjob
         return $fields;
     }
 }
+
