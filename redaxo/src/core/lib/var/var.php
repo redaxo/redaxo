@@ -16,9 +16,9 @@ abstract class rex_var
      * @psalm-var null|array<string, class-string<self>>
      */
     private static $vars = [];
-    private static $env = null;
-    private static $context = null;
-    private static $contextData = null;
+    private static $env;
+    private static $context;
+    private static $contextData;
 
     private $args = [];
 

@@ -22,7 +22,7 @@ class rex_i18n
     /**
      * @var string|null
      */
-    private static $locale = null;
+    private static $locale;
     /**
      * @var string[][]
      */
