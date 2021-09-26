@@ -44,6 +44,7 @@ if ($export && !$csrfToken->isValid()) {
     $exportfilename = strtolower($exportfilename);
     /**
      * @psalm-taint-escape file
+     * @psalm-taint-escape has_quotes
      * @psalm-taint-escape html
      * @psalm-taint-escape shell
      */
