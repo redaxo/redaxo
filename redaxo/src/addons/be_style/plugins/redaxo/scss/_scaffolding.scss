@@ -147,3 +147,142 @@ html {
         }
     }
 }
+
+// ----------------------------------------------------------------------------
+
+@mixin _dark-scaffolding {
+
+    .breadcrumb {
+        border-color: $color-grey-1;
+    }
+
+    &:not(#rex-page-login) {
+        .rex-redaxo-logo {
+            path.rex-redaxo-logo-r,
+            path.rex-redaxo-logo-e,
+            path.rex-redaxo-logo-d,
+            path.rex-redaxo-logo-cms {
+                fill: rgba(#fff, 0.8);
+            }
+            path.rex-redaxo-logo-a,
+            path.rex-redaxo-logo-x,
+            path.rex-redaxo-logo-o,
+            path.rex-redaxo-logo-reg {
+                fill: rgba($color-grey-2, 0.8);
+            }
+        }
+    }
+
+    .rex-marker-debugmode {
+        color: #e68a00;
+
+        &:hover,
+        &:focus {
+            color: lighten(#e68a00, 4%);
+        }
+    }
+
+    .rex-main-frame {
+        background-color: darken($color-grey-1, 4%);
+    }
+
+    //.rex-state-inprogress {
+    //    background-color: $state-warning-bg;
+    //}
+    //
+    //.rex-state-live {
+    //    background-color: $state-success-bg;
+    //}
+
+    .rex-state-notice {
+        background-color: $dark-brand-info;
+    }
+
+    .rex-state-success {
+        background-color: $dark-brand-success;
+
+        &, a {
+            color: $color-a-lighter;
+        }
+    }
+    tr.rex-state-success {
+        &:hover > th,
+        &:hover > td {
+            background-color: darken($dark-brand-success, 5%);
+        }
+    }
+
+    .rex-state-info,
+    .rex-state-notice {
+        background-color: $dark-brand-info;
+
+        &, a {
+            color: $color-a-lighter;
+        }
+    }
+    tr.rex-state-info,
+    tr.rex-state-notice {
+        &:hover > th,
+        &:hover > td {
+            background-color: darken($dark-brand-info, 5%);
+        }
+    }
+
+    .rex-state-warning {
+        background-color: $dark-brand-warning;
+
+        &, a {
+            color: $color-a-lighter;
+        }
+    }
+    tr.rex-state-warning {
+        &:hover > th,
+        &:hover > td {
+            background-color: darken($dark-brand-warning, 5%);
+        }
+    }
+
+    .rex-state-danger,
+    .rex-state-error {
+        background-color: $dark-brand-danger;
+
+        &, a {
+            color: $color-a-lighter;
+        }
+    }
+    tr.rex-state-danger,
+    tr.rex-state-error {
+        &:hover > th,
+        &:hover > td {
+            background-color: darken($dark-brand-danger, 5%);
+        }
+    }
+
+    @media(max-width: $grid-float-breakpoint-max) {
+        &.rex-is-logged-in {
+            .rex-page {
+                background-color: $color-grey-2;
+            }
+        }
+    }
+
+    .rex-is-popup {
+        .rex-page-header {
+            .page-header {
+                > h1 {
+                    color: $color-text-light;
+                }
+            }
+        }
+    }
+}
+
+body.rex-theme-dark {
+    @include _dark-scaffolding;
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+        @include _dark-scaffolding;
+    }
+}

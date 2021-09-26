@@ -55,8 +55,22 @@
 
 .CodeMirror {
     border: 1px solid #c1c9d4;
-    min-height: 490px;  
+    min-height: 490px;
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
     font-size: 12px;
     line-height: 16px !important;
+}
+
+body.rex-theme-dark .be-style-customizer-title a,
+body.rex-theme-dark .be-style-customizer-title a:hover,
+body.rex-theme-dark .be-style-customizer-title a:focus {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) .be-style-customizer-title a,
+    body:not(.rex-theme-light) .be-style-customizer-title a:hover,
+    body:not(.rex-theme-light) .be-style-customizer-title a:focus {
+        color: rgba(255, 255, 255, 0.75);
+    }
 }

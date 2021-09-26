@@ -153,3 +153,29 @@
         opacity: 1;
     }
 }
+
+// ----------------------------------------------------------------------------
+
+@mixin _dark-loader {
+
+    .rex-ajax-loader {
+        &.rex-visible::after {
+            background-color: rgba($color-grey-1, 0.4);
+        }
+    }
+    .rex-ajax-loader-element {
+        &:before {
+            background-color: $color-grey-5;
+        }
+    }
+}
+
+body.rex-theme-dark {
+    @include _dark-loader;
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+        @include _dark-loader;
+    }
+}
