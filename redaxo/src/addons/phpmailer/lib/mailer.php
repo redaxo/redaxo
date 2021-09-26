@@ -210,7 +210,7 @@ class rex_mailer extends PHPMailer
     /**
      * Path to mail archive folder.
      */
-    public static function logFolder()
+    public static function logFolder(): string
     {
         return rex_path::addonData('phpmailer', 'mail_log');
     }
