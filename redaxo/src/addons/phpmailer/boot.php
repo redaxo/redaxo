@@ -7,6 +7,7 @@
  *
  * @package redaxo5
  */
+
 $addon = rex_addon::get('phpmailer');
 
 if (!rex::isBackend() && 0 != $addon->getConfig('errormail')) {
