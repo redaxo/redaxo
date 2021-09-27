@@ -9,7 +9,7 @@
 @mixin _dark-impersonate {
 
     &.rex-is-impersonated {
-        .rex-nav-top {
+        .rex-nav-top .navbar {
             background-color: saturate(darken($dark-brand-warning, 10%), 40%);
         }
     }

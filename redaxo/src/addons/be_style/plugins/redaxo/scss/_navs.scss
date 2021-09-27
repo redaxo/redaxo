@@ -657,9 +657,19 @@ $transitionDuration: 300ms;
         background-color: darken($color-grey-4, 1%); // slightly reduce lightness
     }
 
-    .rex-nav-top {
-        background-color: $color-blue-3;
-        border-color: $color-blue-3;
+    .rex-nav-main-backdrop {
+        @media (max-width: $grid-float-breakpoint-max) {
+            background: $color-a;
+        }
+    }
+
+    &.rex-is-logged-in,
+    &#rex-page-setup {
+        .rex-nav-top {
+            .navbar {
+                background-color: $color-blue-3;
+            }
+        }
     }
 
     .rex-page-nav {

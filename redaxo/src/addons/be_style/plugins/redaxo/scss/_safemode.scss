@@ -34,7 +34,7 @@
     &.rex-is-safemode {
         background-color: desaturate(darken(#ff9900, 40%), 80%);
 
-        .rex-nav-top {
+        .rex-nav-top .navbar {
             background-color: darken(#ff9900, 15%);
         }
 
