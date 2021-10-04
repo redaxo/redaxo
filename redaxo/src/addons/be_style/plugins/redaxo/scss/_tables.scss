@@ -207,3 +207,33 @@ tr.rex-package-is-plugin > td.rex-table-icon {
         padding-right: 16px;
     }
 }
+
+// ----------------------------------------------------------------------------
+
+@mixin _dark-tables {
+
+    .table > tbody > tr.mark {
+        background-color: $color-grey-4;
+    }
+
+    @media (max-width: $screen-sm-min - 1) {
+        .table > tbody > tr {
+            border-bottom-color: $color-grey-1;
+        }
+
+        .table > tbody > tr > th[data-title],
+        .table > tbody > tr > td {
+            border-bottom-color: $color-grey-1 !important;
+        }
+    }
+}
+
+body.rex-theme-dark {
+    @include _dark-tables;
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+        @include _dark-tables;
+    }
+}
