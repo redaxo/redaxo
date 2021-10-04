@@ -168,6 +168,7 @@ Das Log wird in der Datei `/redaxo/data/log/mail.log` gespeichert.
 ### E-Mail-Archivierung 
 
 Bei eingeschalteter E-Mail-Archivierung werden alle E-Mails im Ordner `/redaxo/data/addons/phpmailer/mail_log` chronologisch nach Jahr und Monat in Unterordnern archiviert. Anhänge werden nicht gespeichert. 
+Das Archiv kann über den CronJob "Mailer-Archiv bereinigen" regelmäßig bereinigt werden. 
 
 
 ## Tipps

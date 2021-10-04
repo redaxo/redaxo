@@ -27,6 +27,7 @@
  *
  * @return mixed
  *
+ * @psalm-taint-escape has_quotes
  * @psalm-taint-escape html
  */
 function rex_escape($value, $strategy = 'html')

@@ -358,6 +358,10 @@
         "editor_basepath": {
             "description": "Base path for editor integration",
             "type": ["null", "string"]
+        },
+        "theme": {
+            "description": "Backend theme for all users",
+            "enum": [null, "light", "dark"]
         }
     },
     "additionalProperties": false,
