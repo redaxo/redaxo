@@ -242,6 +242,7 @@ if (!$isStartpage && rex::getUser()->hasPerm('moveArticle[]')) {
     $moveA->setName('category_id_new');
     $moveA->setSize('1');
     $moveA->setAttribute('class', 'form-control selectpicker');
+    $moveA->setAttribute('data-live-search', 'true');
     $moveA->setSelected($categoryId);
 
     $panel = '<fieldset>';
@@ -282,6 +283,7 @@ if (rex::getUser()->hasPerm('copyArticle[]')) {
     $moveA->setId('category_copy_id_new');
     $moveA->setSize('1');
     $moveA->setAttribute('class', 'form-control selectpicker');
+    $moveA->setAttribute('data-live-search', 'true');
     $moveA->setSelected($categoryId);
 
     $panel = '<fieldset>';
@@ -322,6 +324,7 @@ if ($isStartpage && rex::getUser()->hasPerm('moveCategory[]') && rex::getUser()-
     $moveA->setName('category_id_new');
     $moveA->setSize('1');
     $moveA->setAttribute('class', 'form-control selectpicker');
+    $moveA->setAttribute('data-live-search', 'true');
     $moveA->setSelected($articleId);
 
     $panel = '<fieldset>';
