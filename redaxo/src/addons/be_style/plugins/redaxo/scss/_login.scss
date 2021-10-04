@@ -92,8 +92,15 @@
             padding: 5px 25px 25px 25px;
         }
     }
+
+    .rex-form-panel-footer {
+        background-color: transparent;
+    }
+
     .btn-primary {
         background-color: $color-a-darker;
+        border-color: $color-a-dark;
+        color: #fff;
         transition: background-color 100ms ease-out;
         &:hover {
             background-color: darken($color-a-darker, 5%);
