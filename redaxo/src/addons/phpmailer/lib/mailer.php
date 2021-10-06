@@ -188,9 +188,8 @@ class rex_mailer extends PHPMailer
         $this->archive = $status;
     }
 
-    private function archive($archivedata): void
+    private function archive(string $archivedata = ''): void
     {
-        $content = $archivedata;
         $dir = self::logFolder().'/'.date('Y').'/'.date('m');
         $count = 1;
         $archiveFile = $dir.'/'.date('Y-m-d_H_i_s').'.eml';
@@ -198,7 +197,7 @@ class rex_mailer extends PHPMailer
             $archiveFile = $dir.'/'.date('Y-m-d_H_i_s').'_'.(++$count).'.eml';
         }
 
-        rex_file::put($archiveFile, $content);
+        rex_file::put($archiveFile, $archivedata);
     }
 
     /**
