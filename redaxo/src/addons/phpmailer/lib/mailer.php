@@ -100,9 +100,7 @@ class rex_mailer extends PHPMailer
     public function send()
     {
         return rex_timer::measure(__METHOD__, function () {
-            if ($this->archive) {
-                $this->archive();
-            }
+
             $addon = rex_addon::get('phpmailer');
 
             $detour = $addon->getConfig('detour_mode') && '' != $addon->getConfig('test_address');
@@ -132,6 +130,10 @@ class rex_mailer extends PHPMailer
                 }
                 return false;
             }
+            
+            if ($this->archive) {
+                $this->archive($this->getSentMIMEMessage());
+            } 
 
             if (self::LOG_ALL == $addon->getConfig('logging')) {
                 $this->log('OK');
@@ -187,21 +189,14 @@ class rex_mailer extends PHPMailer
         $this->archive = $status;
     }
 
-    private function archive(): void
+    private function archive($archivedata): void
     {
-        $content = '<!-- '.PHP_EOL.date('d.m.Y H:i:s').PHP_EOL;
-        $content .= 'From : '.$this->From.PHP_EOL;
-        $content .= 'To : '.implode(', ', array_column($this->getToAddresses(), 0)).PHP_EOL;
-        $content .= 'Subject : '.$this->Subject.PHP_EOL;
-        $content .= ' -->'.PHP_EOL;
-        $content .= $this->Body;
-
+        $content = $archivedata;
         $dir = self::logFolder().'/'.date('Y').'/'.date('m');
-
         $count = 1;
-        $archiveFile = $dir.'/'.date('Y-m-d_H_i_s').'.html';
+        $archiveFile = $dir.'/'.date('Y-m-d_H_i_s').'.eml';
         while (is_file($archiveFile)) {
-            $archiveFile = $dir.'/'.date('Y-m-d_H_i_s').'_'.(++$count).'.html';
+            $archiveFile = $dir.'/'.date('Y-m-d_H_i_s').'_'.(++$count).'.eml';
         }
 
         rex_file::put($archiveFile, $content);
