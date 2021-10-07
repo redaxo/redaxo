@@ -180,7 +180,7 @@ class rex_sql_util
             // We are in a string, check for not escaped end of strings except for
             // backquotes that can't be escaped
             if ($inString) {
-                while (true) {
+                for (;;) {
                     /** @psalm-suppress LoopInvalidation */
                     $i = strpos($sql, $stringStart, $i);
                     // No end of string found -> add the current substring to the
