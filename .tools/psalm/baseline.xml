@@ -2300,8 +2300,7 @@
       <code>$this-&gt;xHeader[$kind]</code>
       <code>$this-&gt;xHeader['to']</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="2">
-      <code>array_column($this-&gt;getToAddresses(), 0)</code>
+    <MixedArgumentTypeCoercion occurrences="1">
       <code>array_column($this-&gt;getToAddresses(), 0)</code>
     </MixedArgumentTypeCoercion>
     <MixedAssignment occurrences="22">
