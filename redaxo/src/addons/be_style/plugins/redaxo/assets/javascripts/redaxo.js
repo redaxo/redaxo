@@ -163,59 +163,12 @@
 
     // -----------------------------------------------------------------------
 
-    // main navigation (sidebar)
-    // handles sticky positioning of main navigation within sidebar
-    redaxo.navigationMain = (function () {
-        var navigationElm;
-        var stickyPosition;
-        var initialPosition;
-        var observer;
-
-        var init = function () {
-            navigationElm = document.querySelector('.rex-nav-main-navigation');
-            if (navigationElm) {
-                initialPosition = initialPosition || navigationElm.offsetTop;
-                update();
-                startObserver();
-            }
-        };
-
-        var update = function () {
-            stickyPosition = window.innerHeight - navigationElm.offsetHeight;
-            if (stickyPosition > initialPosition) {
-                stickyPosition = initialPosition;
-            }
-            navigationElm.style.position = 'sticky';
-            navigationElm.style.top = stickyPosition + 'px';
-        };
-
-        var startObserver = function () {
-            if (!observer) {
-                observer = new MutationObserver(init);
-                observer.observe(navigationElm, { subtree: true, childList: true });
-            }
-        };
-
-        var onViewportResize = function () {
-            init();
-        };
-
-        // reveal
-        return {
-            init: init,
-            onViewportResize: onViewportResize
-        };
-    })();
-
-    // -----------------------------------------------------------------------
-
     var ticking = false;
     var timeout = false;
 
     // on DOMContentLoaded
     document.addEventListener('DOMContentLoaded', function () {
         redaxo.navigationBar.init();
-        redaxo.navigationMain.init();
     });
 
     // on scroll
@@ -239,7 +192,6 @@
             // trigger components
             redaxo.navigation.onViewportResize();
             redaxo.navigationBar.onViewportResize();
-            redaxo.navigationMain.onViewportResize();
         }, 100);
     });
 
@@ -261,7 +213,6 @@
     $(document).on('pjax:success', function () {
         redaxo.navigationBar.init();
         redaxo.navigationBar.update(window.scrollY); // update with current scroll position
-        redaxo.navigationMain.init();
         redaxo.navigation.toggle(false); // close navigation
     });
 
