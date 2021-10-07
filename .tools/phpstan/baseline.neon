@@ -41,6 +41,11 @@ parameters:
 			path: ../../redaxo/src/addons/mediapool/lib/service_media.php
 
 		-
+			message: "#^Variable \\$warning in empty\\(\\) always exists and is always falsy\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/mediapool/lib/service_media_category.php
+
+		-
 			message: "#^Strict comparison using \\=\\=\\= between false and string will always evaluate to false\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/metainfo/functions/function_metainfo.php
