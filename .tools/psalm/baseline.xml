@@ -1168,7 +1168,7 @@
       <code>$name</code>
       <code>$this-&gt;getValue('med_description')</code>
       <code>$this-&gt;name</code>
-      <code>self :: getDocTypes()</code>
+      <code>self::getDocTypes()</code>
       <code>self::getImageTypes()</code>
     </MixedArgument>
     <MixedAssignment occurrences="3">
@@ -2148,7 +2148,7 @@
   <file src="redaxo/src/addons/metainfo/lib/restrictions_element.php">
     <MixedOperand occurrences="2">
       <code>$checkbox-&gt;get()</code>
-      <code>parent :: get()</code>
+      <code>parent::get()</code>
     </MixedOperand>
     <PossiblyNullOperand occurrences="2">
       <code>$id</code>

@@ -333,7 +333,7 @@ class rex_media
      */
     public static function isDocType($type)
     {
-        return in_array($type, self :: getDocTypes());
+        return in_array($type, self::getDocTypes());
     }
 
     // allowed image upload types
