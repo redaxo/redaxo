@@ -1,5 +1,13 @@
 @mixin _bootstrap-dark-type {
 
+    h1, h2, h3, h4, h5, h6,
+    .h1, .h2, .h3, .h4, .h5, .h6 {
+        small,
+        .small {
+            color: $color-text-light-inactive;
+        }
+    }
+
     mark,
     .mark {
         background-color: rgba($color-blue-4, 0.2);
