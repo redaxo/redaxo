@@ -2161,8 +2161,8 @@
       <code>$method</code>
       <code>$sql-&gt;getValue('name')</code>
       <code>$string</code>
-      <code>$string</code>
-      <code>$string</code>
+      <code>$string ?? ''</code>
+      <code>$string ?? ''</code>
       <code>$tableName</code>
       <code>$this-&gt;metaPrefix</code>
       <code>$this-&gt;metaPrefix</code>
@@ -2201,11 +2201,12 @@
       <code>$this-&gt;tableManager-&gt;deleteColumn($columnName)</code>
       <code>$tmRes</code>
     </MixedReturnStatement>
-    <PossiblyNullArgument occurrences="4">
+    <PossiblyNullArgument occurrences="5">
       <code>$fieldAttributes</code>
       <code>$fieldDefault</code>
       <code>$fieldDefault</code>
       <code>$fieldName</code>
+      <code>$string</code>
     </PossiblyNullArgument>
     <PossiblyNullOperand occurrences="1">
       <code>$field-&gt;getAttribute('id')</code>
@@ -5329,9 +5330,6 @@
       <code>rex_escape($optValue)</code>
       <code>rex_escape($optValue)</code>
     </MixedOperand>
-    <PossiblyNullArgument occurrences="1">
-      <code>$this-&gt;getValue()</code>
-    </PossiblyNullArgument>
     <PossiblyNullOperand occurrences="4">
       <code>$optId</code>
       <code>rex_escape($name)</code>
@@ -5453,9 +5451,6 @@
     <MixedAssignment occurrences="1">
       <code>$this-&gt;separator</code>
     </MixedAssignment>
-    <PossiblyNullArgument occurrences="1">
-      <code>$this-&gt;getValue()</code>
-    </PossiblyNullArgument>
     <PossiblyNullOperand occurrences="1">
       <code>$this-&gt;getAttribute('name')</code>
     </PossiblyNullOperand>
@@ -5528,7 +5523,7 @@
     </MixedPropertyAssignment>
   </file>
   <file src="redaxo/src/core/lib/list.php">
-    <MixedArgument occurrences="24">
+    <MixedArgument occurrences="23">
       <code>$column</code>
       <code>$column</code>
       <code>$columnName</code>
@@ -5552,7 +5547,6 @@
       <code>$this-&gt;getValue($columnName)</code>
       <code>$this-&gt;rows</code>
       <code>$v</code>
-      <code>rex_escape($this-&gt;getValue($varname))</code>
     </MixedArgument>
     <MixedArrayAccess occurrences="2">
       <code>$tableColumnGroup['columns']</code>

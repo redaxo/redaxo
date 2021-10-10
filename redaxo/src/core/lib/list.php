@@ -948,7 +948,7 @@ class rex_list implements rex_url_provider_interface
      */
     public function replaceVariable($string, $varname)
     {
-        return str_replace('###' . $varname . '###', rex_escape($this->getValue($varname)), $string);
+        return str_replace('###' . $varname . '###', rex_escape((string) $this->getValue($varname)), $string);
     }
 
     /**
