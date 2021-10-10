@@ -2156,57 +2156,22 @@
     </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/table_expander.php">
-    <MixedArgument occurrences="11">
-      <code>$debug</code>
-      <code>$method</code>
+    <MixedArgument occurrences="1">
       <code>$sql-&gt;getValue('name')</code>
-      <code>$string</code>
-      <code>$string ?? ''</code>
-      <code>$string ?? ''</code>
-      <code>$tableName</code>
-      <code>$this-&gt;metaPrefix</code>
-      <code>$this-&gt;metaPrefix</code>
-      <code>$this-&gt;metaPrefix</code>
-      <code>$whereCondition</code>
     </MixedArgument>
-    <MixedAssignment occurrences="8">
+    <MixedAssignment occurrences="4">
       <code>$columnName</code>
-      <code>$fieldName</code>
       <code>$fieldOldName</code>
-      <code>$fieldOldPriority</code>
       <code>$params['id']</code>
-      <code>$tmRes</code>
-      <code>$tmRes</code>
       <code>$value</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="3">
-      <code>delete</code>
-      <code>preSave</code>
-      <code>save</code>
-    </MixedInferredReturnType>
-    <MixedMethodCall occurrences="4">
-      <code>addColumn</code>
-      <code>deleteColumn</code>
-      <code>editColumn</code>
-      <code>hasColumn</code>
-    </MixedMethodCall>
-    <MixedOperand occurrences="4">
+    <MixedOperand occurrences="1">
       <code>$sql-&gt;getValue('priority')</code>
-      <code>$string</code>
-      <code>$this-&gt;metaPrefix</code>
-      <code>$this-&gt;metaPrefix</code>
     </MixedOperand>
-    <MixedReturnStatement occurrences="3">
-      <code>$this-&gt;addPrefix($fieldValue)</code>
-      <code>$this-&gt;tableManager-&gt;deleteColumn($columnName)</code>
-      <code>$tmRes</code>
-    </MixedReturnStatement>
-    <PossiblyNullArgument occurrences="5">
+    <PossiblyNullArgument occurrences="3">
       <code>$fieldAttributes</code>
       <code>$fieldDefault</code>
       <code>$fieldDefault</code>
-      <code>$fieldName</code>
-      <code>$string</code>
     </PossiblyNullArgument>
     <PossiblyNullOperand occurrences="1">
       <code>$field-&gt;getAttribute('id')</code>
@@ -2265,11 +2230,6 @@
       <code>getName</code>
       <code>getValue</code>
     </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/addons/metainfo/pages/field.php">
-    <MixedArgument occurrences="1">
-      <code>$prefix</code>
-    </MixedArgument>
   </file>
   <file src="redaxo/src/addons/metainfo/pages/index.php">
     <MixedAssignment occurrences="1">
