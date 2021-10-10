@@ -514,6 +514,23 @@ function getCookie(cookieName) {
     return unescape(theCookie.substring(ind + cookieName.length + 1, ind1));
 }
 
+// scroll to anchor element + adjust scroll-padding-top
+function scrollToAnchor() {
+    if (window.location.hash) {
+        var scrollPadding = window.getComputedStyle(document.documentElement).getPropertyValue('scroll-padding-top');
+        scrollPadding = parseInt(scrollPadding, 10); // so 65px will be 65
+        if (scrollPadding > 0) {
+            var anchorItem = document.querySelector(window.location.hash);
+            if (anchorItem) {
+                var anchorItemPosition = anchorItem.getBoundingClientRect().top;
+                if (!isNaN(scrollPadding) && scrollPadding > 0 && anchorItemPosition < scrollPadding) {
+                    window.scrollBy(0, -scrollPadding);
+                }
+            }
+        }
+    }
+}
+
 jQuery(document).ready(function($) {
 
     if (!("autofocus" in document.createElement("input"))) {
@@ -622,6 +639,7 @@ jQuery(document).ready(function($) {
             return $.pjax.click(event, options);
         };
 
+        var rexAjaxLoaderId;
         $(document)
             // install pjax handlers, see defunkt/jquery-pjax#142
             .on('click', '[data-pjax-container] a, a[data-pjax]', pjaxHandler)
@@ -646,10 +664,24 @@ jQuery(document).ready(function($) {
             /*.on('pjax:success', function(e, data, status, xhr, options) {
              })*/
             .on('pjax:start', function () {
-                $('#rex-js-ajax-loader').addClass('rex-visible');
+                // show loader
+                // show only if page takes longer than 200 ms to load
+                window.clearTimeout(rexAjaxLoaderId);
+                rexAjaxLoaderId = setTimeout(function () {
+                    document.documentElement.style.overflowY = 'hidden'; // freeze scroll position
+                    document.querySelector('#rex-js-ajax-loader').classList.add('rex-visible');
+                }, 200);
             })
             .on('pjax:end',   function (event, xhr, options) {
-                $('#rex-js-ajax-loader').removeClass('rex-visible');
+                // adjust scroll position for anchors depending on scroll-margin-top value
+                scrollToAnchor();
+                // hide loader
+                // make sure loader was visible for at least 500 ms to avoid flickering
+                window.clearTimeout(rexAjaxLoaderId);
+                rexAjaxLoaderId = setTimeout(function () {
+                    document.querySelector('#rex-js-ajax-loader').classList.remove('rex-visible');
+                    document.documentElement.style.overflowY = null;
+                }, 500);
 
                 options.context.trigger('rex:ready', [options.context]);
             });

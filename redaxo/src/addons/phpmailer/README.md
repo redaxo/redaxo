@@ -162,6 +162,7 @@ The log is stored under `/redaxo/data/log/mail.log`.
 ### Email archiving 
 
 If Email archiving is switched on, all emails in the folder '/redaxo/data/addons/phpmailer/mail_log' are archived chronologically by year and month in subfolders. Attachments are not saved. 
+The archive can be purged periodically via the CronJob "Purge Mailer Archive". 
 
 
 ## Tips
