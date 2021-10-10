@@ -94,7 +94,7 @@ abstract class rex_formatter
             // Default REX-Timeformat
             $format = rex_i18n::msg('timeformat');
         }
-        return @strftime($format, $timestamp);
+        return strftime($format, $timestamp);
     }
 
     /**
