@@ -36,9 +36,8 @@ class rex_form_select_element extends rex_form_element
         if ($multipleSelect) {
             $this->setAttribute('name', $this->getAttribute('name') . '[]');
 
-            $value = $this->getValue();
-            $selectedOptions = null === $value ? [] : explode($this->separator, trim($value, $this->separator));
-            if (is_array($selectedOptions) && '' != ($selectedOptions[0] ?? '')) {
+            $selectedOptions = explode($this->separator, trim($this->getValue() ?? '', $this->separator));
+            if (is_array($selectedOptions) && '' != $selectedOptions[0]) {
                 foreach ($selectedOptions as $selectedOption) {
                     $this->select->setSelected($selectedOption);
                 }
