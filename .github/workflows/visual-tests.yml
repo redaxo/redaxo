@@ -46,8 +46,8 @@ jobs:
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: '8.0'
-                    ini-values: 'error_reporting=E_ALL'
+                    php-version: '8.1'
+                    ini-values: 'error_reporting=E_ALL, display_errors=On, display_startup_errors=On'
                     extensions: gd, pdo_mysql
                     coverage: none # disable xdebug, pcov
                     tools: cs2pr
