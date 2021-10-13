@@ -130,9 +130,9 @@ class rex_dir
         foreach ($iterator as $file) {
             if ($file->isDir()) {
                 // ignore warning "Directory not empty", there may already exist new files created by other page views
-                $state = @rmdir($file) && $state;
+                $state = @rmdir((string) $file) && $state;
             } else {
-                $state = rex_file::delete($file) && $state;
+                $state = rex_file::delete((string) $file) && $state;
             }
         }
 
