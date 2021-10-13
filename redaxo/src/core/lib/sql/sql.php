@@ -5,6 +5,8 @@
  *
  * see http://net.tutsplus.com/tutorials/php/why-you-should-be-using-phps-pdo-for-database-access/
  *
+ * @implements Iterator<int, rex_sql>
+ *
  * @package redaxo\core\sql
  */
 class rex_sql implements Iterator
