@@ -119,7 +119,7 @@ class rex_dir
     /**
      * Deletes files and directories by a rex_dir_iterator.
      *
-     * @param Traversable $iterator Iterator, $iterator->current() must return a SplFileInfo-Object
+     * @param Traversable<array-key, SplFileInfo> $iterator Iterator, $iterator->current() must return a SplFileInfo-Object
      *
      * @return bool TRUE on success, FALSE on failure
      */
