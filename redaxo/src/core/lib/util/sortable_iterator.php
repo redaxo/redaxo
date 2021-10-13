@@ -4,7 +4,7 @@
  * Sortable iterator.
  *
  * @author gharlan
- 
+
  * @template TKey of array-key
  * @template TValue
  * @implements IteratorAggregate<TKey, TValue>
