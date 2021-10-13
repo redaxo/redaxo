@@ -5,7 +5,7 @@
  *
  * see http://net.tutsplus.com/tutorials/php/why-you-should-be-using-phps-pdo-for-database-access/
  *
- * @implements Iterator<int, rex_sql>
+ * @implements Iterator<int<0, max>, rex_sql>
  *
  * @package redaxo\core\sql
  */
@@ -64,7 +64,7 @@ class rex_sql implements Iterator
 
     /** @var int */
     protected $rows; // anzahl der treffer
-    /** @var int */
+    /** @var int<0, max> */
     protected $counter; // pointer
     /** @var string */
     protected $query; // Die Abfrage
