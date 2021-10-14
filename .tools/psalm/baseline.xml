@@ -2339,35 +2339,6 @@
       <code>rex_escape($addon-&gt;getConfig('wordwrap'))</code>
     </NullOperand>
   </file>
-  <file src="redaxo/src/addons/phpmailer/pages/log.php">
-    <MixedArgument occurrences="2">
-      <code>$data[0]</code>
-      <code>rex_escape($data[4])</code>
-    </MixedArgument>
-    <MixedArrayAccess occurrences="6">
-      <code>$data[0]</code>
-      <code>$data[0]</code>
-      <code>$data[1]</code>
-      <code>$data[2]</code>
-      <code>$data[3]</code>
-      <code>$data[4]</code>
-    </MixedArrayAccess>
-    <MixedAssignment occurrences="2">
-      <code>$data</code>
-      <code>$entry</code>
-    </MixedAssignment>
-    <MixedMethodCall occurrences="2">
-      <code>getData</code>
-      <code>getTimestamp</code>
-    </MixedMethodCall>
-    <MixedOperand occurrences="5">
-      <code>$entry-&gt;getTimestamp('%d.%m.%Y %H:%M:%S')</code>
-      <code>rex_escape($data[0])</code>
-      <code>rex_escape($data[1])</code>
-      <code>rex_escape($data[2])</code>
-      <code>rex_escape($data[3])</code>
-    </MixedOperand>
-  </file>
   <file src="redaxo/src/addons/project/boot.php">
     <UnusedVariable occurrences="1">
       <code>$addon</code>
@@ -7031,8 +7002,7 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/pages/system.log.redaxo.php">
-    <MixedAssignment occurrences="3">
-      <code>$entry</code>
+    <MixedAssignment occurrences="2">
       <code>$url</code>
       <code>$url</code>
     </MixedAssignment>
