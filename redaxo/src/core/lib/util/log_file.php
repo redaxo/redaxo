@@ -5,7 +5,7 @@
  *
  * @author gharlan
  *
- * @implements Iterator<int|null, rex_log_entry>
+ * @implements Iterator<int, rex_log_entry>
  * @package redaxo\core
  */
 class rex_log_file implements Iterator
