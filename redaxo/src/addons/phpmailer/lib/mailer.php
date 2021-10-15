@@ -56,6 +56,7 @@ class rex_mailer extends PHPMailer
             $this->addBCC($bcc);
         }
         $this->archive = $addon->getConfig('archive');
+        rex_extension::registerPoint(new rex_extension_point('PHPMAILER_CONFIG', $this));
         parent::__construct($exceptions);
     }
 
