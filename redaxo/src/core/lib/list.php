@@ -833,13 +833,13 @@ class rex_list implements rex_url_provider_interface
     private static function prepareCountQuery(string $query): string
     {
         // remove "SELECT..." until first "(" or " FROM "
-        $query = preg_replace('/^\s*SELECT\s+[^(]+(?=\(|\sFROM\s)/iU', '', $query);
+        $query = preg_replace('/^\s*SELECT\s+.+(?=\(|\sFROM\s)/iU', '', $query);
 
         while ('(' === ($query[0] ?? null)) {
             // remove until closing ")" (with support for recursive parentheses)
             $query = preg_replace('/^\(([^(]+|(?R))\)/', '', $query);
             // remove until next "(" or " FROM "
-            $query = preg_replace('/^.+(?=\(|\sFROM\s)/i', '', $query);
+            $query = preg_replace('/^.+(?=\(|\sFROM\s)/iU', '', $query);
         }
 
         return 'SELECT COUNT(*) AS `rows`'.$query;
