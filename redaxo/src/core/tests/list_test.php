@@ -18,6 +18,7 @@ class rex_list_test extends TestCase
         static::assertSame($expected, $method->invoke(null, $query));
     }
 
+    /** @return iterable<int, array{string, string}> */
     public function dataPrepareCountQuery(): iterable
     {
         return [
