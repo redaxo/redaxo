@@ -77,7 +77,7 @@ if ('' == $func) {
     // (werden am seltesten bearbeitet)
     $query = 'SELECT id, status, name, description FROM ' . rex::getTablePrefix() . 'media_manager_type ORDER BY status, name';
 
-    $list = rex_list::factory($query, 3);
+    $list = rex_list::factory($query);
     $list->addTableAttribute('class', 'table-striped table-hover');
     $list->setNoRowsMessage(rex_i18n::msg('media_manager_type_no_types'));
 
