@@ -4,7 +4,11 @@
     "description": "REDAXO CMS source repository (for static analysis)",
     "license": "MIT",
     "require": {
-        "php": ">=7.3"
+        "php": ">=7.3",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "ext-intl": "*",
+        "ext-mbstring": "*"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "3.2.1",
@@ -36,10 +40,8 @@
         "symfony/console": "v5.3.7",
         "symfony/deprecation-contracts": "v2.4.0",
         "symfony/http-foundation": "v5.3.7",
-        "symfony/polyfill-ctype": "v1.23.0",
-        "symfony/polyfill-intl-grapheme": "v1.23.1",
-        "symfony/polyfill-intl-normalizer": "v1.23.0",
-        "symfony/polyfill-mbstring": "v1.23.1",
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-mbstring": "*",
         "symfony/polyfill-php70": "*",
         "symfony/polyfill-php72": "*",
         "symfony/polyfill-php73": "*",
