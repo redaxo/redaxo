@@ -35,8 +35,18 @@ class rex_list_test extends TestCase
                 'SELECT *, COUNT(1), IF(foo, bar + 1, 0) FROM foo',
             ],
             [
-                'SELECT COUNT(*) AS `rows` FROM foo',
-                'SELECT foo, (SELECT bar FROM baz WHERE x = 1), qux, IFNULL(quux, 2) FROM foo',
+                <<<'SQL'
+                    SELECT COUNT(*) AS `rows`
+                    FROM foo
+                    SQL,
+                <<<'SQL'
+                    SELECT
+                       foo,
+                       (SELECT bar FROM baz WHERE x = 1),
+                       qux,
+                       IFNULL(quux, 2)
+                    FROM foo
+                    SQL,
             ],
         ];
     }
