@@ -837,7 +837,16 @@ class rex_list implements rex_url_provider_interface
 
         while ('(' === ($query[0] ?? null)) {
             // remove until closing ")" (with support for recursive parentheses)
-            $query = preg_replace('/^\(([^(]+|(?R))\)/', '', $query);
+            $count = 1;
+            for ($i = 1; $count > 0; ++$i) {
+                if ('(' === $query[$i]) {
+                    ++$count;
+                } elseif (')' === $query[$i]) {
+                    --$count;
+                }
+            }
+            $query = substr($query, $i);
+
             // remove until next "(" or " FROM "
             $query = preg_replace('/^.+(?=\(|\sFROM\s)/isU', '', $query);
         }
