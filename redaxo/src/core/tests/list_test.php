@@ -42,7 +42,7 @@ class rex_list_test extends TestCase
                 <<<'SQL'
                     SELECT
                        foo,
-                       (SELECT bar FROM baz WHERE x = 1),
+                       (SELECT bar, IF(bar = 1, 2, 3) FROM baz WHERE x = 1),
                        qux,
                        IFNULL(quux, 2)
                     FROM foo
