@@ -10,3 +10,5 @@ $REX['LOAD_PAGE'] = false;
 
 require dirname(__DIR__).'/redaxo/src/core/boot.php';
 require dirname(__DIR__).'/redaxo/src/core/packages.php';
+
+rex_error_handler::unregister();
