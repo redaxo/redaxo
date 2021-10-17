@@ -101,11 +101,6 @@ parameters:
 			path: ../../redaxo/src/addons/structure/plugins/version/boot.php
 
 		-
-			message: "#^Strict comparison using \\=\\=\\= between 0 and int\\<1, max\\> will always evaluate to false\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/functions/function_rex_escape.php
-
-		-
 			message: "#^Offset 'href' on array\\(\\?'active' \\=\\> true, 'href' \\=\\> string, \\?'itemAttr' \\=\\> array\\('class' \\=\\> array\\(0 \\=\\> 'bg\\-success', \\?1 \\=\\> 'disabled'\\)\\)\\) in isset\\(\\) always exists and is not nullable\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/layout/top.php
