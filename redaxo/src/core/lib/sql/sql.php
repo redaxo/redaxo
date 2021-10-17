@@ -1736,8 +1736,8 @@ class rex_sql implements Iterator
         }
 
         $tables = $this->getArray($qry);
-         $tables = array_map('reset', $tables);
-        
+        $tables = array_map('reset', $tables);
+
         return $tables;
     }
 
