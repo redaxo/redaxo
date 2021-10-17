@@ -57,6 +57,8 @@ class rex_mailer extends PHPMailer
         }
         $this->archive = $addon->getConfig('archive');
         parent::__construct($exceptions);
+
+        rex_extension::registerPoint(new rex_extension_point('PHPMAILER_CONFIG', $this));
     }
 
     protected function addOrEnqueueAnAddress($kind, $address, $name)
