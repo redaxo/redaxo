@@ -4,7 +4,7 @@
  *
  * This function is adapted from code coming from Twig.
  * (c) Fabien Potencier
- * https://github.com/twigphp/Twig/blob/69633fc19189699d20114f005efc8851c3fe9288/lib/Twig/Extension/Core.php#L900-L1127
+ * https://github.com/twigphp/Twig/blob/5f20d4a362078e8a066f7dcc146e8005186d9663/src/Extension/EscaperExtension.php#L166
  *
  * @package redaxo\core
  *
@@ -73,9 +73,9 @@ function rex_escape($value, $strategy = 'html')
 
         case 'js':
             // escape all non-alphanumeric characters
-            // into their \xHH or \uHHHH representations
+            // into their \x or \uHHHH representations
 
-            if (0 === strlen($string) ? false : 1 !== preg_match('/^./su', $string)) {
+            if (!preg_match('//u', $string)) {
                 throw new InvalidArgumentException('The string to escape is not a valid UTF-8 string.');
             }
 
@@ -84,7 +84,7 @@ function rex_escape($value, $strategy = 'html')
 
                 /*
                  * A few characters have short escape sequences in JSON and JavaScript.
-                 * Escape sequences supported only by JavaScript, not JSON, are ommitted.
+                 * Escape sequences supported only by JavaScript, not JSON, are omitted.
                  * \" is also supported but omitted, because the resulting string is not HTML safe.
                  */
                 static $shortMap = [
@@ -101,15 +101,18 @@ function rex_escape($value, $strategy = 'html')
                     return $shortMap[$char];
                 }
 
-                // \uHHHH
-                $char = mb_convert_encoding($char, 'UTF-16BE', 'UTF-8');
-                $char = strtoupper(bin2hex($char));
-
-                if (4 >= strlen($char)) {
-                    return sprintf('\u%04s', $char);
+                $codepoint = mb_ord($char, 'UTF-8');
+                if (0x10000 > $codepoint) {
+                    return sprintf('\u%04X', $codepoint);
                 }
 
-                return sprintf('\u%04s\u%04s', substr($char, 0, -4), substr($char, -4));
+                // Split characters outside the BMP into surrogate pairs
+                // https://tools.ietf.org/html/rfc2781.html#section-2.1
+                $u = $codepoint - 0x10000;
+                $high = 0xD800 | ($u >> 10);
+                $low = 0xDC00 | ($u & 0x3FF);
+
+                return sprintf('\u%04X\u%04X', $high, $low);
             }, $string);
 
             return $string;
@@ -188,6 +191,6 @@ function rex_escape($value, $strategy = 'html')
             return rawurlencode($string);
 
         default:
-            throw new InvalidArgumentException(sprintf('Invalid escaping strategy "%s" (valid ones: "html", "html_attr", "css", "js", "url").', $strategy));
+            throw new InvalidArgumentException(sprintf('Invalid escaping strategy "%s" (valid ones: "html", "html_attr", "html_simplified", "css", "js", "url").', $strategy));
     }
 }

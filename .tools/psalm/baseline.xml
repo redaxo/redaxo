@@ -4587,8 +4587,7 @@
       <code>$chr</code>
       <code>$chr</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="11">
-      <code>$string</code>
+    <MixedArgumentTypeCoercion occurrences="10">
       <code>$string</code>
       <code>$string</code>
       <code>$string</code>
