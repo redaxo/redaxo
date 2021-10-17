@@ -811,7 +811,6 @@ class rex_list implements rex_url_provider_interface
      */
     protected function prepareQuery($query)
     {
-
         $sortColumn = $this->getSortColumn();
         if ('' != $sortColumn) {
             $sortType = $this->getSortType();
