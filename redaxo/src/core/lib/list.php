@@ -183,11 +183,12 @@ class rex_list implements rex_url_provider_interface
         $this->pager = new rex_pager($rowsPerPage, $cursorName);
 
         // --------- Load Data, Row-Count
-        $this->sql->setQuery($this->prepareQuery($query));
         $sql = rex_sql::factory($db);
-        $sql->setQuery('SELECT FOUND_ROWS() as '. $sql->escapeIdentifier('rows'));
-        $this->rows = $sql->getValue('rows');
+        $sql->setQuery(self::prepareCountQuery($query));
+        $this->rows = (int) $sql->getValue('rows');
         $this->pager->setRowCount($this->rows);
+
+        $this->sql->setQuery($this->prepareQuery($query));
 
         foreach ($this->sql->getFieldnames() as $columnName) {
             $this->columnNames[] = $columnName;
@@ -808,9 +809,6 @@ class rex_list implements rex_url_provider_interface
         $rowsPerPage = $this->pager->getRowsPerPage();
         $startRow = $this->pager->getCursor();
 
-        // prepare query for fast rowcount calculation
-        $query = preg_replace('/^\s*SELECT/i', 'SELECT SQL_CALC_FOUND_ROWS', $query, 1);
-
         $sortColumn = $this->getSortColumn();
         if ('' != $sortColumn) {
             $sortType = $this->getSortType();
@@ -830,6 +828,11 @@ class rex_list implements rex_url_provider_interface
         }
 
         return $query;
+    }
+
+    private static function prepareCountQuery(string $query): string
+    {
+        return 'SELECT COUNT(*) AS `rows` FROM ('.$query.') t';
     }
 
     /**
