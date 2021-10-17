@@ -1,6 +1,41 @@
 Changelog
 =========
 
+Version 2.12.1 – 21.06.2021
+---------------------------
+
+* Login-Seite: 
+    - Hintergrundbild und deren Credits werden nun auch auf kleinen Screens angezeigt (@schuer)
+    - Bei geringer Höhe schob sich der Footer über die Login-Box (@schuer)
+    - Darstellungen Eingabefelder im iOS-Safari korrigiert (@schuer)
+* `structure/version`: Die Leiste für den Wechsel zwischen Arbeits-/Liveversion wurde mobil nicht korrekt dargestellt (@schuer)
+* `mediapool`: Seit Chrome 91 stimmten die Spaltenbreiten teilweise nicht mehr (@schuer)
+
+
+Version 2.12.0 – 03.03.2021
+---------------------------
+
+* Login-Seite modernisiert, u.a. mit vollflächigem Hintergrundbild (kann über Fragment geändert werden) (@schuer)
+* Es werden die Systemschriften statt Lucida Grande verwendet, mit etwas größerer Schriftgröße (@schuer)
+* Navigation: Die Menüpunkte und Trennlinien nehmen gesamte Breite der Sidebar ein und die Icons stehen zentriert untereinander (@schuer)
+* Navigation im Setup mit optimierter Darstellung bzgl. aktiver/disabled Setupschritte (@schuer)
+* Grüneres Grün im Backend (@schuer)
+* Tab-Darstellung optimiert/modernisiert (@schuer)
+* Das Herzsymbol neben dem Logo bei aktivem Debug-Modus pulsiert für bessere Sichtbarkeit (@staabm)
+* Klickbare Fläche um Links herum an vielen Stellen vergrößert (@schuer)
+* Alert-Meldungen innerhalb von Tabellen werden nahtlos ohne Abstand in die Zeilen eingefasst (@schuer)
+* Bei Sprüngen in der AddOn-Liste wird das Zieladdon kurz farblich hervorgehoben (@skerbis)
+* Wortumbrüche bei langen Zeichenketten an vielen Stellen optimiert (u.a. Systemlog) (@schuer)
+* Readonly-Inputfelder reagieren nicht mehr auf focus/hover (@skerbis)
+* Buttons in Input-Groups haben dieselbe Höhe wie die Inputs (@schuer)
+* Höhe der Breadcrumbs und Sprachauswahl optimiert (@schuer)
+* bootstrap-select: Es wurden ausschließlich die mitgelieferten deutschen Texte verwendet (@gharlan)
+* Während Update wurden Vendor-Files von bootstrap-select und fontawesome nicht korrekt aktualisiert (@gharlan)
+* Weitere Layoutoptimierungen (@schuer)
+* Customizer: Das Farbeingabefeld unterstützt zusätzlich den Standard-Colorpicker (@staabm)
+* Customizer: Codemirror-Update auf Version 5.58.3 (@aeberhard)
+
+
 Version 2.11.1 – 11.11.2020
 ---------------------------
 

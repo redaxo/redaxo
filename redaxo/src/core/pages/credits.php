@@ -117,7 +117,7 @@ $content .= '
             $content .= '
                 </td>
                 <td class="rex-table-width-6" data-title="' . rex_i18n::msg('credits_license') . '">'. $license .'</td>
-                <td data-title="' . rex_i18n::msg('credits_author') . '">' . $package->getAuthor() . '</td>
+                <td data-title="' . rex_i18n::msg('credits_author') . '">' . (string) $package->getAuthor() . '</td>
             </tr>';
         }
 

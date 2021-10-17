@@ -5,6 +5,7 @@ includes:
 
 parameters:
     level: 5
+    treatPhpDocTypesAsCertain: false
     paths:
         # restrict to core and core addons, ignore other locally installed addons
         - redaxo/src/core
@@ -21,6 +22,7 @@ parameters:
         - redaxo/src/addons/structure
         - redaxo/src/addons/users
     excludes_analyse:
+        - redaxo/src/addons/backup/vendor/
         - redaxo/src/addons/be_style/vendor/
         - redaxo/src/addons/debug/vendor/
         - redaxo/src/addons/phpmailer/vendor/

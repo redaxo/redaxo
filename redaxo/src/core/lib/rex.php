@@ -181,7 +181,7 @@ class rex
      */
     public static function isSetup()
     {
-        return (bool) self::getProperty('setup', false);
+        return rex_setup::isEnabled();
     }
 
     /**
@@ -302,6 +302,22 @@ class rex
     }
 
     /**
+     * Returns the current user.
+     *
+     * In contrast to `getUser`, this method throw a `rex_exception` if the user does not exist.
+     */
+    public static function requireUser(): rex_user
+    {
+        $user = self::getProperty('user');
+
+        if (!$user instanceof rex_user) {
+            throw new rex_exception('User object does not exist');
+        }
+
+        return $user;
+    }
+
+    /**
      * Returns the current impersonator user.
      *
      * @return null|rex_user
@@ -321,6 +337,17 @@ class rex
     public static function getConsole()
     {
         return self::getProperty('console', null);
+    }
+
+    public static function getRequest(): Symfony\Component\HttpFoundation\Request
+    {
+        $request = self::getProperty('request');
+
+        if (null === $request) {
+            throw new rex_exception('The request object is not available in cli');
+        }
+
+        return $request;
     }
 
     /**
@@ -397,6 +424,7 @@ class rex
     /**
      * @deprecated since 5.10, use `rex_version::gitHash` instead
      */
+    #[\JetBrains\PhpStorm\Deprecated(reason: 'since 5.10, use `rex_version::gitHash` instead', replacement: 'rex_version::gitHash(!%parametersList%)')]
     public static function getVersionHash($path, ?string $repo = null)
     {
         return rex_version::gitHash($path, $repo) ?? false;

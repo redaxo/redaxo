@@ -76,6 +76,10 @@ class rex_list implements rex_url_provider_interface
     /** @psalm-var array<string, string|int> */
     private $formAttributes;
 
+    //  --------- Row Attributes
+    /** @psalm-var array<string, string|int>|callable(self):string  */
+    private $rowAttributes;
+
     // --------- Column Attributes
     /** @psalm-var array<string, string>  */
     private $customColumns;
@@ -167,6 +171,9 @@ class rex_list implements rex_url_provider_interface
         // --------- Link Attributes
         $this->linkAttributes = [];
 
+        // --------- Row Attributes
+        $this->rowAttributes = [];
+
         // --------- Pagination Attributes
         $cursorName = $listName .'_start';
         if (null === rex_request($cursorName, 'int', null) && rex_request('start', 'int')) {
@@ -201,7 +208,7 @@ class rex_list implements rex_url_provider_interface
      * @param bool        $debug
      * @param int         $db          DB connection ID
      *
-     * @psalm-var positive-int $db
+     * @psalm-param positive-int $db
      *
      * @return static
      */
@@ -343,6 +350,34 @@ class rex_list implements rex_url_provider_interface
     public function getLinkAttributes($column, $default = null)
     {
         return $this->linkAttributes[$column] ?? $default;
+    }
+
+    // row attribute setter/getter
+
+    /**
+     * Methode, um der Zeile (<tr>) Attribute hinzuzufügen.
+     *
+     * @param array<string, string|int>|callable(self):string $attr Entweder ein array: [attributname => attribut, ...]
+     *                                                              oder eine Callback-Funktion
+     */
+    public function setRowAttributes($attr): void
+    {
+        if (!is_array($attr) && !is_callable($attr)) {
+            throw new InvalidArgumentException('$attr must be an array or a callable, but "'.get_debug_type($attr).'" given');
+        }
+
+        $this->rowAttributes = $attr;
+    }
+
+    /**
+     * Methode, um die Zeilen-Attribute (<tr>) abzufragen.
+     *
+     * @return array<string, string|int>|callable(self):string Entweder ein array: [attributname => attribut, ...]
+     *                                                         oder eine Callback-Funktion
+     */
+    public function getRowAttributes()
+    {
+        return $this->rowAttributes;
     }
 
     // ---------------------- Column setters/getters/etc
@@ -705,18 +740,18 @@ class rex_list implements rex_url_provider_interface
             }
         }
 
-        $_params = [];
+        $flatParams = [];
         foreach ($params as $name => $value) {
             if (is_array($value)) {
                 foreach ($value as $v) {
-                    $_params[$name] = $v;
+                    $flatParams[$name] = $v;
                 }
             } else {
-                $_params[$name] = $value;
+                $flatParams[$name] = $value;
             }
         }
 
-        return rex::isBackend() ? rex_url::backendController($_params, $escape) : rex_url::frontendController($_params, $escape);
+        return rex::isBackend() ? rex_url::backendController($flatParams, $escape) : rex_url::frontendController($flatParams, $escape);
     }
 
     /**
@@ -746,17 +781,17 @@ class rex_list implements rex_url_provider_interface
             }
         }
 
-        $_params = [];
+        $flatParams = [];
         foreach ($params as $name => $value) {
             if (is_array($value)) {
                 foreach ($value as $v) {
-                    $_params[$name] = $this->replaceVariables($v);
+                    $flatParams[$name] = $this->replaceVariables($v);
                 }
             } else {
-                $_params[$name] = $this->replaceVariables((string) $value);
+                $flatParams[$name] = $this->replaceVariables((string) $value);
             }
         }
-        return rex::isBackend() ? rex_url::backendController($_params, $escape) : rex_url::frontendController($_params, $escape);
+        return rex::isBackend() ? rex_url::backendController($flatParams, $escape) : rex_url::frontendController($flatParams, $escape);
     }
 
     // ---------------------- Pagination
@@ -835,19 +870,32 @@ class rex_list implements rex_url_provider_interface
     /**
      * Gibt zurück, in welcher Art und Weise sortiert werden soll (ASC/DESC).
      *
-     * @param string|null $default
+     * @param 'asc'|'desc'|null $default
      *
      * @return string|null
+     *
+     * @psalm-taint-escape html
+     * @psalm-taint-escape sql
      */
     public function getSortType($default = null)
     {
         if (rex_request('list', 'string') == $this->getName()) {
             $sortType = strtolower(rex_request('sorttype', 'string'));
 
-            if (in_array($sortType, ['asc', 'desc'])) {
+            if (in_array($sortType, ['asc', 'desc'], true)) {
                 return $sortType;
             }
         }
+
+        if (null === $default) {
+            return null;
+        }
+
+        $default = strtolower($default);
+        if (!in_array($default, ['asc', 'desc'], true)) {
+            throw new InvalidArgumentException('Default sort type must be "asc", "desc" or null, but "'.$default.'" given');
+        }
+
         return $default;
     }
 
@@ -900,7 +948,7 @@ class rex_list implements rex_url_provider_interface
      */
     public function replaceVariable($string, $varname)
     {
-        return str_replace('###' . $varname . '###', rex_escape($this->getValue($varname)), $string);
+        return str_replace('###' . $varname . '###', rex_escape((string) $this->getValue($varname)), $string);
     }
 
     /**
@@ -909,10 +957,12 @@ class rex_list implements rex_url_provider_interface
      * @param string $value Zu durchsuchender String
      *
      * @return string
+     *
+     * @psalm-taint-specialize
      */
     public function replaceVariables($value)
     {
-        if (false === strpos($value, '###')) {
+        if (!str_contains($value, '###')) {
             return $value;
         }
 
@@ -988,7 +1038,7 @@ class rex_list implements rex_url_provider_interface
      */
     public function getColumnLink($columnName, $columnValue, $params = [])
     {
-        return '<a href="' . $this->getParsedUrl(array_merge($this->getColumnParams($columnName), $params)) . '"' . $this->_getAttributeString($this->getLinkAttributes($columnName, [])) . '>' . $columnValue . '</a>';
+        return '<a class="rex-link-expanded" href="' . $this->getParsedUrl(array_merge($this->getColumnParams($columnName), $params)) . '"' . $this->_getAttributeString($this->getLinkAttributes($columnName, [])) . '>' . $columnValue . '</a>';
     }
 
     public function getValue($column)
@@ -1086,7 +1136,7 @@ class rex_list implements rex_url_provider_interface
                 } else {
                     $columnSortType = $this->getColumnOption($columnName, REX_LIST_OPT_SORT_DIRECTION, 'asc');
                 }
-                $columnHead = '<a href="' . $this->getUrl([$this->pager->getCursorName() => $this->pager->getCursor(), 'sort' => $columnName, 'sorttype' => $columnSortType]) . '">' . $columnHead . '</a>';
+                $columnHead = '<a class="rex-link-expanded" href="' . $this->getUrl([$this->pager->getCursorName() => $this->pager->getCursor(), 'sort' => $columnName, 'sorttype' => $columnSortType]) . '">' . $columnHead . '</a>';
             }
 
             $layout = $this->getColumnLayout($columnName);
@@ -1107,9 +1157,24 @@ class rex_list implements rex_url_provider_interface
         if ($nbRows > 0) {
             $maxRows = $nbRows - $this->pager->getCursor();
 
+            $rowAttributesCallable = null;
+            if (is_callable($this->rowAttributes)) {
+                $rowAttributesCallable = $this->rowAttributes;
+            } elseif ($this->rowAttributes) {
+                $rowAttributes = rex_string::buildAttributes($this->rowAttributes);
+                $rowAttributesCallable = function () use ($rowAttributes) {
+                    return $this->replaceVariables($rowAttributes);
+                };
+            }
+
             $s .= '        <tbody>' . "\n";
             for ($i = 0; $i < $this->pager->getRowsPerPage() && $i < $maxRows; ++$i) {
-                $s .= '            <tr>' . "\n";
+                $rowAttributes = '';
+                if ($rowAttributesCallable) {
+                    $rowAttributes = ' ' . $rowAttributesCallable($this);
+                }
+
+                $s .= '            <tr' . $rowAttributes . ">\n";
                 foreach ($columnNames as $columnName) {
                     $columnValue = $this->formatValue($this->getValue($columnName), $columnFormates[$columnName], !isset($this->customColumns[$columnName]), $columnName);
 

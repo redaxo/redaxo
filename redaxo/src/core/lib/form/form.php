@@ -287,7 +287,7 @@ class rex_form extends rex_form_base
         $fieldnames = $this->sql->getFieldnames();
 
         if (in_array('updateuser', $fieldnames)) {
-            $saveSql->setValue('updateuser', rex::getUser()->getValue('login'));
+            $saveSql->setValue('updateuser', rex::requireUser()->getValue('login'));
         }
 
         if (in_array('updatedate', $fieldnames)) {
@@ -296,7 +296,7 @@ class rex_form extends rex_form_base
 
         if (!$this->isEditMode()) {
             if (in_array('createuser', $fieldnames)) {
-                $saveSql->setValue('createuser', rex::getUser()->getValue('login'));
+                $saveSql->setValue('createuser', rex::requireUser()->getValue('login'));
             }
 
             if (in_array('createdate', $fieldnames)) {
@@ -338,7 +338,7 @@ class rex_form extends rex_form_base
         foreach ($this->getSaveElements() as $fieldsetName => $fieldsetElements) {
             foreach ($fieldsetElements as $element) {
                 // read-only-fields nicht speichern
-                if (false !== strpos($element->getAttribute('class'), 'form-control-static')) {
+                if ($element->isReadOnly()) {
                     continue;
                 }
 
@@ -362,7 +362,7 @@ class rex_form extends rex_form_base
                 $sql->update();
             } else {
                 if (count($this->languageSupport)) {
-                    foreach (rex_clang::getAllIds() as $clang_id) {
+                    foreach (rex_clang::getAllIds() as $clangId) {
                         $sql->setTable($this->tableName);
                         $this->setGlobalSqlFields($sql);
                         if (!isset($id)) {
@@ -370,7 +370,7 @@ class rex_form extends rex_form_base
                         } else {
                             $sql->setValue($this->languageSupport['id'], $id);
                         }
-                        $sql->setValue($this->languageSupport['clang'], $clang_id);
+                        $sql->setValue($this->languageSupport['clang'], $clangId);
                         $sql->setValues($values);
                         $sql->insert();
                     }

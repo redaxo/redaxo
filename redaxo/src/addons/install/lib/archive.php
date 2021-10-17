@@ -7,7 +7,7 @@
  */
 class rex_install_archive
 {
-    public static function extract($archive, $dir, $basename = '')
+    public static function extract(string $archive, string $dir, string $basename = ''): bool
     {
         $dir = rtrim($dir, '/\\');
         rex_dir::delete($dir);
@@ -46,8 +46,6 @@ class rex_install_archive
                 }
 
                 self::setPermissions($dir);
-
-                return true;
             } finally {
                 rex_dir::delete($tempdir);
             }
@@ -55,10 +53,13 @@ class rex_install_archive
             $zip->close();
         }
 
-        return false;
+        return true;
     }
 
-    public static function copyDirToArchive($dir, $archive, $basename = null, $exclude = null)
+    /**
+     * @param string|string[]|null $exclude
+     */
+    public static function copyDirToArchive(string $dir, string $archive, ?string $basename = null, $exclude = null)
     {
         $dir = rtrim($dir, '/\\');
         $basename = $basename ?: rex_path::basename($dir);
@@ -69,7 +70,7 @@ class rex_install_archive
             $iterator->ignoreDirs($exclude, false);
             $iterator->ignoreFiles($exclude, false);
         }
-        foreach ($iterator as $path => $file) {
+        foreach ($iterator as $path => $_) {
             $subpath = str_replace($dir, $basename, $path);
             $subpath = str_replace('\\', '/', $subpath);
             $files[$subpath] = $path;

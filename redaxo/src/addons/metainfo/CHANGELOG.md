@@ -1,6 +1,30 @@
 Changelog
 =========
 
+Version 2.8.1 – 21.06.2021
+--------------------------
+
+### Bugfixes
+
+* Media(list)- und Link(list)-Widgets hatten teils gleiche IDs wie entsprechende Widgets in den Slices, wodurch es zu Konflikten kam (@gharlan)
+
+
+Version 2.8.0 – 03.03.2021
+--------------------------
+
+### Neu
+
+* Die CSS-Datei wird nur noch auf der Content-Page eingebunden, da sie nur dort benötigt wird (@aeberhard)
+
+
+Version 2.7.3 – 25.01.2021
+--------------------------
+
+### Security
+
+* SQL-Injection in der Feldverwaltung (Adminbereich) verhindert (@gharlan)
+
+
 Version 2.7.2 – 01.07.2020
 --------------------------
 

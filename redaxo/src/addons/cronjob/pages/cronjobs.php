@@ -63,7 +63,7 @@ if ('' == $func) {
     $list->setNoRowsMessage($addon->i18n('no_cronjobs'));
 
     $tdIcon = '<i class="rex-icon rex-icon-cronjob"></i>';
-    $thIcon = '<a href="' . $list->getUrl(['func' => 'add']) . '" title="' . $addon->i18n('add') . '"><i class="rex-icon rex-icon-add-cronjob"></i></a>';
+    $thIcon = '<a class="rex-link-expanded" href="' . $list->getUrl(['func' => 'add']) . '" title="' . $addon->i18n('add') . '"><i class="rex-icon rex-icon-add-cronjob"></i></a>';
     $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-table-icon">###VALUE###</th>', '<td class="rex-table-icon">###VALUE###</td>']);
     $list->setColumnParams($thIcon, ['func' => 'edit', 'oid' => '###id###']);
 
@@ -74,24 +74,24 @@ if ('' == $func) {
     $list->setColumnParams('name', ['func' => 'edit', 'oid' => '###id###']);
 
     $list->setColumnLabel('environment', $addon->i18n('environment'));
-    $list->setColumnFormat('environment', 'custom', static function ($params) {
-        $value = $params['list']->getValue('environment');
+    $list->setColumnFormat('environment', 'custom', static function () use ($list) {
+        $value = $list->getValue('environment');
         $env = [];
-        if (false !== strpos($value, '|frontend|')) {
+        if (str_contains($value, '|frontend|')) {
             $env[] = rex_i18n::msg('cronjob_environment_frontend');
         }
-        if (false !== strpos($value, '|backend|')) {
+        if (str_contains($value, '|backend|')) {
             $env[] = rex_i18n::msg('cronjob_environment_backend');
         }
-        if (false !== strpos($value, '|script|')) {
+        if (str_contains($value, '|script|')) {
             $env[] = rex_i18n::msg('cronjob_environment_script');
         }
         return implode(', ', $env);
     });
 
     $list->setColumnLabel('execution_moment', $addon->i18n('execution'));
-    $list->setColumnFormat('execution_moment', 'custom', static function ($params) {
-        if ($params['list']->getValue('execution_moment')) {
+    $list->setColumnFormat('execution_moment', 'custom', static function () use ($list) {
+        if ($list->getValue('execution_moment')) {
             return rex_i18n::msg('cronjob_execution_beginning');
         }
         return rex_i18n::msg('cronjob_execution_ending');
@@ -103,8 +103,7 @@ if ('' == $func) {
     $list->setColumnLabel('status', $addon->i18n('status_function'));
     $list->setColumnParams('status', ['func' => 'setstatus', 'oldstatus' => '###status###', 'oid' => '###id###'] + $csrfToken->getUrlParams());
     $list->setColumnLayout('status', ['<th class="rex-table-action" colspan="4">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
-    $list->setColumnFormat('status', 'custom', static function ($params) {
-        $list = $params['list'];
+    $list->setColumnFormat('status', 'custom', static function () use ($list) {
         if (!class_exists($list->getValue('type'))) {
             $str = rex_i18n::msg('cronjob_status_invalid');
         } elseif (1 == $list->getValue('status')) {
@@ -125,9 +124,8 @@ if ('' == $func) {
     $list->addColumn('execute', '<i class="rex-icon rex-icon-execute"></i> ' . $addon->i18n('execute'), -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('execute', ['func' => 'execute', 'oid' => '###id###'] + $csrfToken->getUrlParams());
     $list->addLinkAttribute('execute', 'data-pjax', 'false');
-    $list->setColumnFormat('execute', 'custom', static function ($params) use ($addon) {
-        $list = $params['list'];
-        if (false !== strpos($list->getValue('environment'), '|backend|') && class_exists($list->getValue('type'))) {
+    $list->setColumnFormat('execute', 'custom', static function () use ($list, $addon) {
+        if (str_contains($list->getValue('environment'), '|backend|') && class_exists($list->getValue('type'))) {
             return $list->getColumnLink('execute', '<i class="rex-icon rex-icon-execute"></i> ' . $addon->i18n('execute'));
         }
         return '<span class="text-muted"><i class="rex-icon rex-icon-execute"></i> ' . $addon->i18n('execute') . '</span>';
@@ -151,7 +149,6 @@ if ('' == $func) {
     $field = $form->addTextField('name');
     $field->setLabel($addon->i18n('name'));
     $field->getValidator()->add('notEmpty', $addon->i18n('cronjob_error_no_name'));
-    $nameFieldId = $field->getAttribute('id');
 
     $field = $form->addTextAreaField('description');
     $field->setLabel($addon->i18n('description'));
@@ -162,7 +159,7 @@ if ('' == $func) {
     $field->setNotice($addon->i18n('environment_notice', rex_path::bin('console').' cronjob:run'));
     $field->getValidator()->add('notEmpty', $addon->i18n('cronjob_error_no_environment'));
     $field->setAttribute('multiple', 'multiple');
-    $envFieldId = $field->getAttribute('id');
+    $envFieldId = rex_escape($field->getAttribute('id'), 'js');
     $select = $field->getSelect();
     $select->setSize(3);
     $select->addOption($addon->i18n('environment_frontend'), 'frontend');
@@ -199,7 +196,7 @@ if ('' == $func) {
     $field->setLabel($addon->i18n('type'));
     $select = $field->getSelect();
     $select->setSize(1);
-    $typeFieldId = $field->getAttribute('id');
+    $typeFieldId = rex_escape($field->getAttribute('id'), 'js');
     $types = rex_cronjob_manager::getTypes();
     $cronjobs = [];
     foreach ($types as $class) {
@@ -233,14 +230,14 @@ if ('' == $func) {
     }
 
     $form->addFieldset($addon->i18n('interval'));
-    $field = $form->addIntervalField('interval');
+    $form->addIntervalField('interval');
 
-    $env_js = '';
+    $envJs = '';
     $visible = [];
     foreach ($cronjobs as $group => $cronjob) {
         $disabled = array_diff(['frontend', 'backend', 'script'], (array) $cronjob->getEnvironments());
         if (count($disabled) > 0) {
-            $env_js .= '
+            $envJs .= '
                 if ($("#' . $typeFieldId . ' option:selected").val() == "' . $group . '")
                     $("#' . $envFieldId . ' option[value=\'' . implode('\'], #' . $envFieldId . ' option[value=\'', $disabled) . '\']").prop("disabled","disabled").prop("selected","");
 ';
@@ -312,18 +309,18 @@ if ('' == $func) {
             }
         }
     }
-    $visible_js = '';
+    $visibleJs = '';
     if (!empty($visible)) {
-        foreach ($fieldContainer->getFields() as $group => $fieldElements) {
+        foreach ($fieldContainer->getFields() as $fieldElements) {
             foreach ($fieldElements as $field) {
                 $name = $field->getFieldName();
                 if (isset($visible[$name])) {
                     foreach ($visible[$name] as $value => $fieldIds) {
-                        $visible_js .= '
+                        $visibleJs .= '
                         var first = 1;
-                        $("#' . $field->getAttribute('id') . '-' . $value . '").change(function(){
+                        $("#' . rex_escape($field->getAttribute('id'), 'js') . '-' . $value . '").change(function(){
                             var checkbox = $(this);
-                            $("#' . implode(',#', $fieldIds) . '").each(function(){
+                            $("#' . rex_escape(implode(',#', $fieldIds), 'js') . '").each(function(){
                                 if ($(checkbox).is(":checked"))
                                     $(this).parent().parent().slideDown();
                                 else if(first == 1)
@@ -369,8 +366,8 @@ if ('' == $func) {
                 currentShown = next;
             }).change();
             $('#<?php echo $typeFieldId ?>').change(function(){
-                $('#<?php echo $envFieldId ?> option').prop('disabled','');<?php echo $env_js; ?>
-            }).change();<?php echo $visible_js . "\n"; ?>
+                $('#<?php echo $envFieldId ?> option').prop('disabled','');<?php echo $envJs; ?>
+            }).change();<?php echo $visibleJs . "\n"; ?>
         });
     // ]]>
     </script>

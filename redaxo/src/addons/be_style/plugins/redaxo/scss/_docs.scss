@@ -221,3 +221,73 @@
         font-size: $font-size-h6;
     }
 }
+
+// ----------------------------------------------------------------------------
+
+@mixin _dark-docs {
+
+    .rex-docs,
+    .rex-readme .rex-readme-content {
+        h1 + ul {
+            border-bottom-color: $color-grey-1;
+        }
+
+        h2 {
+            border-bottom-color: $color-grey-1;
+
+            a,
+            a:hover {
+                color: $color-text-light;
+            }
+        }
+
+        table {
+            th,
+            td {
+                border-color: $color-grey-1;
+            }
+            th {
+                background-color: $color-grey-2;
+            }
+        }
+
+        code,
+        pre {
+            color: $color-blue-5;
+        }
+
+        pre::-moz-selection,
+        pre ::-moz-selection,
+        code::-moz-selection,
+        code ::-moz-selection {
+            background-color: $color-blue-1;
+        }
+
+        pre::selection,
+        pre ::selection,
+        code::selection,
+        code ::selection {
+            background-color: $color-blue-1;
+        }
+
+        :not(pre) > code,
+        pre {
+            background-color: $color-grey-1;
+        }
+    }
+    .rex-readme .rex-readme-content {
+        h2 {
+            border-bottom-color: $color-grey-1;
+        }
+    }
+}
+
+body.rex-theme-dark {
+    @include _dark-docs;
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+        @include _dark-docs;
+    }
+}

@@ -10,8 +10,6 @@ backup_entry_count = ({0} entries)
 backup_file_could_not_be_uploaded = File could not be uploaded.
 backup_you_have_no_write_permission_in = No write permissions for folder {0}.
 backup_no_import_file_chosen = Please choose an import file.
-backup_problem_when_extracting = Problems occurred while extracting the file.
-backup_create_dirs_manually = Please create the following folders manually and setup write permissions (via ftp).
 backup_file_imported = File has been imported.
 backup_import = Import
 backup_to_import = import
@@ -23,6 +21,7 @@ backup_db_export = Export
 backup_filename_updated = Filname updated due to invalid characters. Please click on export again
 backup_please_choose_folder = Please choose the folders you'd like to export
 backup_intro_import = Please take not that the current database <b>will be deleted</b> when importing a new one. To be safe create a backup of the existing database by exporting it first.
+backup_intro_import_files = When importing files existing files with the same filename will be replaced, files inside subfolders will not be changed.
 backup_version_warning = Backups from older REDAXO versions and/or AddOns may not be fully compatible and may lead to problems after importing.
 backup_database = Database import
 backup_filename = Filename
@@ -58,14 +57,16 @@ backup_mailaddress = E-mail address
 backup_mail_subject = New database backup
 backup_mail_body = Attached you'll find the latest database backup from the website "{0}".
 
+backup_compress = Compress backup
+
 backup_delete_interval = Delete old backups
 backup_delete_interval_off = Off
 backup_delete_interval_weekly = Keep one backup per week
 backup_delete_interval_monthly = Keep one backup per month
 backup_delete_interval_notice = Only backups older than one month will be deleted, and file name must end with <code>.cronjob.sql</code>.
 
-backup_blacklist_tables = Exclude from backup
-backup_blacklist_tables_notice = The selected tables will not be backed up. Tables with a prefix of <code>rex_tmp_*</code> will be excluded automatically.
+backup_exclude_tables = Exclude from backup
+backup_exclude_tables_notice = The selected tables will not be backed up. Tables with a prefix of <code>rex_tmp_*</code> will be excluded automatically.
 
 perm_general_backup[export] = Webseite exportieren
 

@@ -41,6 +41,7 @@ interface rex_package_interface
      * Returns the base path.
      *
      * @param string $file File
+     * @return string
      */
     public function getPath($file = '');
 
@@ -48,6 +49,7 @@ interface rex_package_interface
      * Returns the assets path.
      *
      * @param string $file File
+     * @return string
      */
     public function getAssetsPath($file = '');
 
@@ -55,6 +57,7 @@ interface rex_package_interface
      * Returns the assets url.
      *
      * @param string $file File
+     * @return string
      */
     public function getAssetsUrl($file = '');
 
@@ -62,6 +65,7 @@ interface rex_package_interface
      * Returns the data path.
      *
      * @param string $file File
+     * @return string
      */
     public function getDataPath($file = '');
 
@@ -69,6 +73,7 @@ interface rex_package_interface
      * Returns the cache path.
      *
      * @param string $file File
+     * @return string
      */
     public function getCachePath($file = '');
 
@@ -155,9 +160,9 @@ interface rex_package_interface
     /**
      * Returns the author.
      *
-     * @param mixed $default Default value, will be returned if the property isn't set
+     * @param string|null $default Default value, will be returned if the property isn't set
      *
-     * @return mixed
+     * @return string|null
      */
     public function getAuthor($default = null);
 
@@ -166,16 +171,16 @@ interface rex_package_interface
      *
      * @param string $format See {@link rex_formatter::version()}
      *
-     * @return mixed
+     * @return string
      */
     public function getVersion($format = null);
 
     /**
      * Returns the supportpage.
      *
-     * @param mixed $default Default value, will be returned if the property isn't set
+     * @param string|null $default Default value, will be returned if the property isn't set
      *
-     * @return mixed
+     * @return string|null
      */
     public function getSupportPage($default = null);
 

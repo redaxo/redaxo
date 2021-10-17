@@ -77,7 +77,7 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
         return $restrictionsCondition;
     }
 
-    public function renderFormItem($field, $tag, $tag_attr, $id, $label, $labelIt, $inputType)
+    public function renderFormItem($field, $tag, $tagAttr, $id, $label, $labelIt, $inputType)
     {
         $element = $field;
 

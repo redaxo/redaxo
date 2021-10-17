@@ -27,7 +27,8 @@ user_extras = Extras
 last_login = Senase login
 user_caption = Lista över sparade användare
 user_password_change_required = Lösenord måste bytas ut efter inloggning
-user_status = Användaren är aktiv
+user_status_active = Användaren är aktiv
+user_status_inactive = Användaren är inaktiv
 startpage = Startsida
 
 user_role = Roll

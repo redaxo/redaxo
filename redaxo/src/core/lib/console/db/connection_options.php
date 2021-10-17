@@ -36,7 +36,7 @@ class rex_command_db_connection_options extends rex_console_command
     {
         $db = rex::getDbConfig(1);
 
-        if (false === strpos($db->host, ':')) {
+        if (!str_contains($db->host, ':')) {
             $output->writeln('--host='.escapeshellarg($db->host));
         } else {
             [$host, $port] = explode(':', $db->host, 2);

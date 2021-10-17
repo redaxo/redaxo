@@ -24,11 +24,15 @@ class rex_autoload
     /**
      * @var null|string
      */
-    protected static $cacheFile = null;
+    protected static $cacheFile;
     /**
      * @var bool
      */
     protected static $cacheChanged = false;
+    /**
+     * @var bool remember the cache was deleted, to make sure we don't generate a stale cache file
+     */
+    protected static $cacheDeleted = false;
     /**
      * @var bool
      */
@@ -63,7 +67,7 @@ class rex_autoload
             self::$composerLoader->unregister();
         }
 
-        if (false === spl_autoload_register([self::class, 'autoload'])) {
+        if (!spl_autoload_register([self::class, 'autoload'])) {
             throw new Exception(sprintf('Unable to register %s::autoload as an autoloading method.', self::class));
         }
 
@@ -139,6 +143,8 @@ class rex_autoload
      * @param string $class
      *
      * @return bool
+     *
+     * @phpstan-impure
      */
     private static function classExists($class)
     {
@@ -162,7 +168,7 @@ class rex_autoload
      */
     public static function saveCache()
     {
-        if (!self::$cacheChanged) {
+        if (!self::$cacheChanged || self::$cacheDeleted) {
             return;
         }
 
@@ -209,6 +215,7 @@ class rex_autoload
     public static function removeCache()
     {
         rex_file::delete(self::$cacheFile);
+        self::$cacheDeleted = true;
     }
 
     /**
@@ -226,7 +233,6 @@ class rex_autoload
         self::$addedDirs[] = $dir;
         if (!isset(self::$dirs[$dir])) {
             self::_addDirectory($dir);
-            self::$cacheChanged = true;
         }
     }
 
@@ -253,6 +259,7 @@ class rex_autoload
 
         if (!isset(self::$dirs[$dir])) {
             self::$dirs[$dir] = [];
+            self::$cacheChanged = true;
         }
         $files = self::$dirs[$dir];
         $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dirPath, RecursiveDirectoryIterator::SKIP_DOTS));
@@ -355,7 +362,7 @@ class rex_autoload
         $contents = preg_replace('{\?>(?:[^<]++|<(?!\?))*+<\?}s', '?><?', $contents);
         // strip trailing non-php code if needed
         $pos = strrpos($contents, '?>');
-        if (false !== $pos && false === strpos(substr($contents, $pos), '<?')) {
+        if (false !== $pos && !str_contains(substr($contents, $pos), '<?')) {
             $contents = substr($contents, 0, $pos);
         }
         // strip comments if short open tags are in the file

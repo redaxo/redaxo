@@ -15,7 +15,7 @@ class rex_sql_debug extends rex_sql
 
             // to prevent double entries, log only if no params are passed
             if (empty($params)) {
-                rex_debug_clockwork::getInstance()
+                rex_debug_clockwork::getInstance()->getRequest()
                     ->addDatabaseQuery($query, $params, $timer->getDelta(), ['connection' => $this->DBID] + rex_debug::getTrace());
             }
         } catch (rex_exception $e) {
@@ -24,14 +24,14 @@ class rex_sql_debug extends rex_sql
             $file = $trace[0]['file'];
             $line = $trace[0]['line'];
             for ($i = 1; $i < count($trace); ++$i) {
-                if (isset($trace[$i]['file']) && false === strpos($trace[$i]['file'], 'sql.php')) {
+                if (isset($trace[$i]['file']) && !str_contains($trace[$i]['file'], 'sql.php')) {
                     $file = $trace[$i]['file'];
                     $line = $trace[$i]['line'];
                     break;
                 }
             }
             rex_debug_clockwork::getInstance()
-                ->error($e->getMessage(), ['file' => $file, 'line' => $line]);
+                ->log('error', $e->getMessage(), ['file' => $file, 'line' => $line]);
             throw $e; // re-throw exception after logging
         }
 
@@ -46,7 +46,7 @@ class rex_sql_debug extends rex_sql
         $timer = new rex_timer();
         parent::execute($params, $options);
 
-        rex_debug_clockwork::getInstance()
+        rex_debug_clockwork::getInstance()->getRequest()
             ->addDatabaseQuery($qry, $params, $timer->getDelta(), ['connection' => $this->DBID] + rex_debug::getTrace());
 
         return $this;

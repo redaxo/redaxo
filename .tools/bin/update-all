@@ -10,6 +10,7 @@ rm -rf redaxo/src/core/vendor/filp/whoops/.github/
 rm -rf redaxo/src/core/vendor/psr/log/Psr/Log/Test/
 rm -rf redaxo/src/core/vendor/ramsey/http-range/tests/
 rm -rf redaxo/src/core/vendor/symfony/console/Tests/
+rm -rf redaxo/src/core/vendor/symfony/http-foundation/Test/
 rm -rf redaxo/src/core/vendor/symfony/service-contracts/Test/
 rm -rf redaxo/src/core/vendor/symfony/var-dumper/Resources/bin/
 rm -rf redaxo/src/core/vendor/symfony/var-dumper/Test/
@@ -21,6 +22,7 @@ rm -rf redaxo/src/core/vendor/voku/portable-ascii/build/
 
 find redaxo/src/core/vendor -name ".gitattributes" -type f -delete
 find redaxo/src/core/vendor -name ".gitignore" -type f -delete
+find redaxo/src/core/vendor -name ".mailmap" -type f -delete
 find redaxo/src/core/vendor -name ".travis.yml" -type f -delete
 find redaxo/src/core/vendor -name "phpcs.xml" -type f -delete
 find redaxo/src/core/vendor -name "phpstan.neon" -type f -delete
@@ -29,6 +31,20 @@ find redaxo/src/core/vendor -name "psalm.xml" -type f -delete
 find redaxo/src/core/vendor -name "*.md" ! -name "LICENSE.md" -type f -delete
 
 composer dumpautoload --ansi --no-dev --classmap-authoritative -d redaxo/src/core/
+
+printf "\nUpdate redaxo/src/addons/backup/vendor\n"
+composer update --ansi --no-dev -d redaxo/src/addons/backup/
+
+rm -f redaxo/src/addons/backup/vendor/autoload.php
+rm -rf redaxo/src/addons/backup/vendor/composer/
+rm -rf redaxo/src/addons/backup/vendor/splitbrain/php-archive/.github
+rm -rf redaxo/src/addons/backup/vendor/splitbrain/php-archive/.gitignore
+rm -rf redaxo/src/addons/backup/vendor/splitbrain/php-archive/.travis.yml
+rm -rf redaxo/src/addons/backup/vendor/splitbrain/php-archive/apigen.neon
+rm -rf redaxo/src/addons/backup/vendor/splitbrain/php-archive/generate-api.sh
+rm -rf redaxo/src/addons/backup/vendor/splitbrain/php-archive/phpunit.xml
+rm -rf redaxo/src/addons/backup/vendor/splitbrain/php-archive/tests/
+find redaxo/src/addons/backup/vendor/splitbrain/php-archive -name "*.md" ! -name "LICENSE.md" -type f -delete
 
 printf "\nUpdate redaxo/src/addons/be_style/vendor\n"
 composer update --ansi --no-dev -d redaxo/src/addons/be_style/
@@ -61,12 +77,14 @@ composer update --ansi --no-dev -d redaxo/src/addons/phpmailer/
 
 rm -f redaxo/src/addons/phpmailer/vendor/autoload.php
 rm -rf redaxo/src/addons/phpmailer/vendor/composer/
-rm -f redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/.php_cs
-rm -f redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/phpdoc.dist.xml
 rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/.github/
 rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/.phan/
 rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/examples/
 rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/extras/
+rm -f redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/.php_cs
+rm -f redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/get_oauth_token.php
+rm -f redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/phpdoc.dist.xml
+rm -f redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/phpunit.xml.dist
 find redaxo/src/addons/phpmailer/vendor -name "*.md" ! -name "LICENSE.md" -type f -delete
 
 printf "\nUpdate root composer.json and vendor/\n"

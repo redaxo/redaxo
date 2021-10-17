@@ -5,7 +5,7 @@
  */
 class rex_form_widget_linkmap_element extends rex_form_element
 {
-    private $category_id = 0;
+    private $categoryId = 0;
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstruktorparameter
@@ -14,18 +14,18 @@ class rex_form_widget_linkmap_element extends rex_form_element
         parent::__construct('', $form, $attributes);
     }
 
-    public function setCategoryId($category_id)
+    public function setCategoryId($categoryId)
     {
-        $this->category_id = $category_id;
+        $this->categoryId = $categoryId;
     }
 
     public function formatElement()
     {
-        static $widget_counter = 1;
+        static $widgetCounter = 1;
 
-        $html = rex_var_link::getWidget($widget_counter, $this->getAttribute('name'), $this->getValue(), ['category' => $this->category_id]);
+        $html = rex_var_link::getWidget($widgetCounter, $this->getAttribute('name'), $this->getValue(), ['category' => $this->categoryId]);
 
-        ++$widget_counter;
+        ++$widgetCounter;
         return $html;
     }
 }

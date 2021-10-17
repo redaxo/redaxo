@@ -4,12 +4,11 @@
  * @package redaxo\install
  *
  * @internal
+ *
+ * @psalm-suppress MissingConstructor
  */
 class rex_install_package_add extends rex_install_package_download
 {
-    /**
-     * @return array
-     */
     protected function getPackages()
     {
         return rex_install_packages::getAddPackages();
@@ -29,5 +28,7 @@ class rex_install_package_add extends rex_install_package_download
         }
         rex_package_manager::synchronizeWithFileSystem();
         rex_install_packages::addedPackage($this->addonkey);
+
+        return null;
     }
 }

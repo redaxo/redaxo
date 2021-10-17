@@ -27,8 +27,8 @@ $sectionAttributes['class'][] = 'rex-page-section';
     <?php endif; ?>
 
         <?php
-        $collapse_id = (isset($this->collapse) && $this->collapse) ? 'collapse-' . random_int(100000, 999999) : '';
-        $collapsed = (isset($this->collapsed) && $this->collapsed) ? true : false;
+        $collapseId = (isset($this->collapse) && $this->collapse) ? 'collapse-' . random_int(100000, 999999) : '';
+        $collapsed = isset($this->collapsed) && $this->collapsed;
         $header = '';
 
         $attributes = [];
@@ -48,13 +48,13 @@ $sectionAttributes['class'][] = 'rex-page-section';
                 $attributes['class'][] = 'collapsed';
             }
             $attributes['data-toggle'] = 'collapse';
-            $attributes['data-target'] = '#' . $collapse_id;
+            $attributes['data-target'] = '#' . $collapseId;
         }
         echo '' != $header ? '<header' . rex_string::buildAttributes($attributes) . '>' . $header . '</header>' : '';
         ?>
 
         <?php if (isset($this->collapse) && $this->collapse): ?>
-            <div id="<?= $collapse_id; ?>" class="panel-collapse collapse<?= ($collapsed ? '' : ' in'); ?>">
+            <div id="<?= $collapseId; ?>" class="panel-collapse collapse<?= ($collapsed ? '' : ' in'); ?>">
         <?php endif; ?>
 
         <?php if (isset($this->body) && '' != $this->body): ?>

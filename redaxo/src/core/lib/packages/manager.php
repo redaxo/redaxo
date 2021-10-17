@@ -3,7 +3,7 @@
 /**
  * Manager class for packages.
  *
- * @template T as rex_package
+ * @template-covariant T as rex_package
  *
  * @package redaxo\core\packages
  */
@@ -87,9 +87,9 @@ abstract class rex_package_manager
     {
         try {
             // check package directory perms
-            $install_dir = $this->package->getPath();
-            if (!rex_dir::isWritable($install_dir)) {
-                throw new rex_functional_exception($this->i18n('dir_not_writable', $install_dir));
+            $installDir = $this->package->getPath();
+            if (!rex_dir::isWritable($installDir)) {
+                throw new rex_functional_exception($this->i18n('dir_not_writable', $installDir));
             }
 
             // check package.yml
@@ -110,7 +110,7 @@ abstract class rex_package_manager
                 [$addonId, $pluginId] = rex_package::splitId($packageId);
                 throw new rex_functional_exception($this->wrongPackageId($addonId, $pluginId));
             }
-            if (null === $this->package->getVersion()) {
+            if (null === $this->package->getProperty('version')) {
                 throw new rex_functional_exception($this->i18n('missing_version'));
             }
 
@@ -153,7 +153,7 @@ abstract class rex_package_manager
 
             // import install.sql
             $installSql = $this->package->getPath(rex_package::FILE_INSTALL_SQL);
-            if (true === $installDump && is_readable($installSql)) {
+            if ($installDump && is_readable($installSql)) {
                 rex_sql_util::importDump($installSql);
             }
 
@@ -234,7 +234,7 @@ abstract class rex_package_manager
 
             // import uninstall.sql
             $uninstallSql = $this->package->getPath(rex_package::FILE_UNINSTALL_SQL);
-            if (true === $installDump && is_readable($uninstallSql)) {
+            if ($installDump && is_readable($uninstallSql)) {
                 rex_sql_util::importDump($uninstallSql);
             }
 
@@ -317,7 +317,7 @@ abstract class rex_package_manager
     {
         $state = $this->checkDependencies();
 
-        if (true === $state) {
+        if ($state) {
             $this->package->setProperty('status', false);
             $this->saveConfig();
 
@@ -478,10 +478,10 @@ abstract class rex_package_manager
             return true;
         }
         $package = rex_package::get($packageId);
-        $required_version = '';
+        $requiredVersion = '';
         if (!$package->isAvailable()) {
             if ('' != $requirements['packages'][$packageId]) {
-                $required_version = ' '.$requirements['packages'][$packageId];
+                $requiredVersion = ' '.$requirements['packages'][$packageId];
             }
 
             if (!rex_package::exists($packageId)) {
@@ -494,7 +494,7 @@ abstract class rex_package_manager
                     $jumpToInstaller = ' <a href="'. $installUrl .'"><i class="rex-icon fa-arrow-circle-right" title="'. $this->i18n('search_in_installer', $addonId) .'"></i></a>';
                 }
 
-                $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId.$required_version).$jumpToInstaller;
+                $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId.$requiredVersion).$jumpToInstaller;
                 return false;
             }
 
@@ -502,17 +502,16 @@ abstract class rex_package_manager
             // first make sure the addon itself is available.
             $jumpPackageId = $packageId;
             if ($package instanceof rex_plugin_interface && !$package->getAddon()->isAvailable()) {
-                $jumpPackageId = $package->getAddon()->getPackageId();
+                $jumpPackageId = (string) $package->getAddon()->getPackageId();
             }
 
-            if ('packages' == rex_be_controller::getCurrentPage()) {
-                $jumpPackageUrl = '#package-'. $jumpPackageId;
-            } else {
+            $jumpPackageUrl = '#package-'.  rex_string::normalize($jumpPackageId, '-', '_');
+            if ('packages' !== rex_be_controller::getCurrentPage()) {
                 // error while update/install within install-addon. x-link to packages core page
-                $jumpPackageUrl = rex_url::backendPage('packages'). '#package-'. $jumpPackageId;
+                $jumpPackageUrl = rex_url::backendPage('packages').$jumpPackageUrl;
             }
 
-            $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId.$required_version) . ' <a href="'. $jumpPackageUrl .'"><i class="rex-icon fa-arrow-circle-right" title="'. $this->i18n('jump_to', $jumpPackageId) .'"></i></a>';
+            $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId.$requiredVersion) . ' <a href="'. $jumpPackageUrl .'"><i class="rex-icon fa-arrow-circle-right" title="'. $this->i18n('jump_to', $jumpPackageId) .'"></i></a>';
             return false;
         }
 

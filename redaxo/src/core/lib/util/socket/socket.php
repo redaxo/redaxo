@@ -272,7 +272,7 @@ class rex_socket
      */
     public function doRequest($method, $data = '')
     {
-        return rex_timer::measure('Socket request: '.$this->host.'/'.$this->path, function () use ($method, $data) {
+        return rex_timer::measure('Socket request: '.$this->host.$this->path, function () use ($method, $data) {
             if (!is_string($data) && !is_callable($data)) {
                 throw new InvalidArgumentException(sprintf('Expecting $data to be a string or a callable, but %s given!', gettype($data)));
             }
@@ -294,7 +294,7 @@ class rex_socket
                 return $response;
             }
 
-            if (false === strpos($location, '//')) {
+            if (!str_contains($location, '//')) {
                 $socket = self::factory($this->host, $this->port, $this->ssl)->setPath($location);
             } else {
                 $socket = self::factoryUrl($location);
@@ -409,7 +409,7 @@ class rex_socket
     protected static function parseUrl($url)
     {
         $parts = parse_url($url);
-        if (false !== $parts && !isset($parts['host']) && 0 !== strpos($url, 'http')) {
+        if (false !== $parts && !isset($parts['host']) && !str_starts_with($url, 'http')) {
             $parts = parse_url('http://' . $url);
         }
         if (false === $parts || !isset($parts['host'])) {

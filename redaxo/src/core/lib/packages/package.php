@@ -234,7 +234,9 @@ abstract class rex_package implements rex_package_interface
      */
     public function getAuthor($default = null)
     {
-        return $this->getProperty('author', $default);
+        $author = (string) $this->getProperty('author', '');
+
+        return '' === $author ? $default : $author;
     }
 
     /**
@@ -242,7 +244,8 @@ abstract class rex_package implements rex_package_interface
      */
     public function getVersion($format = null)
     {
-        $version = $this->getProperty('version');
+        $version = (string) $this->getProperty('version');
+
         if ($format) {
             return rex_formatter::version($version, $format);
         }
@@ -254,24 +257,35 @@ abstract class rex_package implements rex_package_interface
      */
     public function getSupportPage($default = null)
     {
-        return $this->getProperty('supportpage', $default);
+        $supportPage = (string) $this->getProperty('supportpage', '');
+
+        return '' === $supportPage ? $default : $supportPage;
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @noRector
      */
     public function includeFile($file, array $context = [])
     {
+        /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
         $__file = $file;
+        /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
         $__context = $context;
+
         unset($file, $context);
 
+        /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
         extract($__context, EXTR_SKIP);
 
+        /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
         if (is_file($this->getPath($__file))) {
+            /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
             return include $this->getPath($__file);
         }
 
+        /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
         return include $__file;
     }
 
@@ -348,14 +362,14 @@ abstract class rex_package implements rex_package_interface
      */
     public function clearCache()
     {
-        $cache_dir = $this->getCachePath();
-        if (!is_dir($cache_dir)) {
+        $cacheDir = $this->getCachePath();
+        if (!is_dir($cacheDir)) {
             return;
         }
-        if (rex_dir::delete($cache_dir)) {
+        if (rex_dir::delete($cacheDir)) {
             return;
         }
-        throw new rex_functional_exception($this->i18n('cache_not_writable', $cache_dir));
+        throw new rex_functional_exception($this->i18n('cache_not_writable', $cacheDir));
     }
 
     public function enlist()

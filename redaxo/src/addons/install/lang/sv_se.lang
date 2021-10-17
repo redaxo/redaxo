@@ -69,6 +69,5 @@ install_settings_saved = Inställningarna sparades!
 install_settings_error = Inställningarna kunde inte sparas. Kolla skrivrättigheterna till: {0}
 
 install_header_function = Funktion
-
-install_clear = Radera
-install_search = Sök ...
+install_latest_release = Aktuell release
+install_download_unstable = OBS! Det här är en utvecklingsversion. Installation sker på egen risk.

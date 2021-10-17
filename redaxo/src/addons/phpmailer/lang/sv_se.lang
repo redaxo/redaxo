@@ -64,6 +64,9 @@ phpmailer_log_errors = Logga bara fel
 phpmailer_log_all = Logga alla händelser
 phpmailer_archive = E-post arkivering
 phpmailer_archive_info = Arkiv-mappen: <span title="{0}">{1}</span>
+phpmailer_archive_delete = Radera e-post arkiv
+phpmailer_archive_deleted = E-post arkivet raderades.
+phpmailer_archive_delete_confirm = Ska e-postarkivet raderas helt? Denna åtgärd kan inte ångras.
 phpmailer_log_yes = Ja
 phpmailer_log_no = Nej
 phpmailer_log_title = PHPMailer-log "{0}"
@@ -80,4 +83,5 @@ phpmailer_errormail_30min = 30 minuters check-interval
 phpmailer_errormail_60min = 60 minuters check-interval
 
 system_setting_errormail = Skicka felmeddelanden
+perm_general_phpmailer[] = PHPMailer inställningar
 

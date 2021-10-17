@@ -69,6 +69,5 @@ install_settings_saved = Einstellungen wurden gespeichert!
 install_settings_error = Einstellungen konnten nicht gespeichert werden, Schreibrechte überprüfen für: {0}
 
 install_header_function = Funktion
-
-install_clear = Löschen
-install_search = Suchen ...
+install_latest_release = Aktuelles Release
+install_download_unstable = Vorsicht! Es handelt sich hierbei um eine Entwicklungsversion. Installation auf eigene Gefahr. 

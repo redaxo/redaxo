@@ -9,12 +9,13 @@
  */
 class rex_url
 {
+    /** @var rex_path_default_provider */
     protected static $pathprovider;
 
     /**
      * Initializes the class.
      *
-     * @param mixed $pathprovider A path provider
+     * @param rex_path_default_provider $pathprovider A path provider
      */
     public static function init($pathprovider)
     {

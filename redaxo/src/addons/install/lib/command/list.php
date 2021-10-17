@@ -46,7 +46,7 @@ class rex_command_install_list extends rex_console_command
             ];
 
             if (null !== $search
-                && false === in_array($search, $rowData)
+                && !in_array($search, $rowData)
                 && false === stripos($package['shortdescription'], $search)) {
                 continue;
             }

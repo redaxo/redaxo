@@ -1,6 +1,31 @@
 Changelog
 =========
 
+Version 2.7.0 – 03.03.2021
+--------------------------
+
+### Neu
+
+* Datenbank-Backups können im Cronjob optional gz-komprimiert werden, solche können auch wieder importiert werden (@staabm)
+* Es können deutlich größere Dateibackups ex-/importiert werden (bei programmatischer Nutzung von `rex_backup::exportFiles` sollte dafür der neue zweite Parameter mit einem Zielpfad gesetzt werden) (@staabm)
+* Code entfernt, der die User-Tabellen anlegt nach Import, falls nicht vorhanden, da die Tabellendefinition veraltet war und die Situation im Normalfall nicht vorkommen kann (@gharlan)
+
+
+Version 2.6.3 – 25.01.2021
+--------------------------
+
+### Security
+
+* Fehlendes Escaping ergänzt (@gharlan)
+
+### Bugfixes
+
+* Nach Import wurde der Cache nicht gelöscht, und die Erfolgsmeldung erschien in rot (@gharlan)
+* Beim Dateiimport wurde der `media`-Ordner grundsätzlich geleert, auch wenn das Backup den `media`-Ordner gar nicht enthält (@gharlan)
+* Beim Download der vorhandenen Backups wurde die Datei immer doppelt geladen (erst über PJAX, dann normal) (@gharlan)
+* Nach Dateiexport wurden im Formular fälschlich Tabellen- und Ordner-Auswahl angezeigt (@gharlan)
+
+
 Version 2.6.2 – 11.11.2020
 --------------------------
 

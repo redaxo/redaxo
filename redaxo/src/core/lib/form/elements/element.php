@@ -15,7 +15,7 @@ class rex_form_element
     protected $tag;
     /** @var rex_form_base|null */
     protected $table;
-    /** @var array */
+    /** @var array<string, int|string> */
     protected $attributes;
     /** @var bool */
     protected $separateEnding;
@@ -187,21 +187,31 @@ class rex_form_element
         return $this->footer;
     }
 
+    /**
+     * @param string $name
+     * @param int|string $value
+     */
     public function setAttribute($name, $value)
     {
         if ('value' == $name) {
             $this->setValue($value);
         } else {
             if ('id' == $name) {
-                $value = rex_string::normalize($value, '-');
+                $value = rex_string::normalize((string) $value, '-');
             } elseif ('name' == $name) {
-                $value = rex_string::normalize($value, '_', '[]');
+                $value = rex_string::normalize((string) $value, '_', '[]');
             }
 
             $this->attributes[$name] = $value;
         }
     }
 
+    /**
+     * @template T
+     * @param string $name
+     * @param T $default
+     * @return int|string|T
+     */
     public function getAttribute($name, $default = null)
     {
         if ('value' == $name) {
@@ -214,6 +224,9 @@ class rex_form_element
         return $default;
     }
 
+    /**
+     * @param array<string, int|string> $attributes
+     */
     public function setAttributes(array $attributes)
     {
         $this->attributes = [];
@@ -224,7 +237,7 @@ class rex_form_element
     }
 
     /**
-     * @return array
+     * @return array<string, int|string>
      */
     public function getAttributes()
     {
@@ -237,6 +250,11 @@ class rex_form_element
     public function hasAttribute($name)
     {
         return isset($this->attributes[$name]);
+    }
+
+    public function isReadOnly(): bool
+    {
+        return str_contains((string) $this->getAttribute('class', ''), 'form-control-static');
     }
 
     /**
@@ -331,14 +349,10 @@ class rex_form_element
      */
     protected function _get()
     {
-        $class = $this->formatClass();
-        $class = '' == $class ? '' : ' ' . $class;
-
         $formElements = [];
         $n = [];
         $n['header'] = $this->getHeader();
         $n['id'] = '';
-        //$n['class']     = $class;
         $n['label'] = $this->formatLabel();
         $n['before'] = $this->getPrefix();
         $n['field'] = $this->formatElement();
@@ -354,8 +368,7 @@ class rex_form_element
 
     public function get()
     {
-        $s = $this->wrapContent($this->_get());
-        return $s;
+        return $this->wrapContent($this->_get());
     }
 
     public function show()

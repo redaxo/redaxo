@@ -19,7 +19,7 @@ class rex_sql_table_test extends TestCase
         rex_sql_table::clearInstancePool();
     }
 
-    protected function createTable()
+    protected function createTable(): rex_sql_table
     {
         $table = rex_sql_table::get(self::TABLE);
 
@@ -33,7 +33,7 @@ class rex_sql_table_test extends TestCase
         return $table;
     }
 
-    protected function createTable2()
+    protected function createTable2(): rex_sql_table
     {
         $table = rex_sql_table::get(self::TABLE2);
 
@@ -98,7 +98,6 @@ class rex_sql_table_test extends TestCase
         $table2 = rex_sql_table::get(self::TABLE2);
 
         static::assertCount(1, $table2->getForeignKeys());
-        $a = $table2->hasForeignKey('test2_fk_test1');
         static::assertTrue($table2->hasForeignKey('test2_fk_test1'));
         static::assertFalse($table2->hasForeignKey('foo'));
 
@@ -512,7 +511,7 @@ class rex_sql_table_test extends TestCase
 
     public function testEnsureForeignKey()
     {
-        $table = $this->createTable();
+        $this->createTable();
         $table2 = $this->createTable2();
 
         $fk1 = new rex_sql_foreign_key('test2_fk_test1', self::TABLE, [
@@ -543,7 +542,7 @@ class rex_sql_table_test extends TestCase
 
     public function testRenameForeignKey()
     {
-        $table = $this->createTable();
+        $this->createTable();
         $table2 = $this->createTable2();
 
         $table2->renameForeignKey('test2_fk_test1', 'fk_test2_test1');
@@ -565,7 +564,7 @@ class rex_sql_table_test extends TestCase
 
     public function testRemoveForeignKey()
     {
-        $table = $this->createTable();
+        $this->createTable();
         $table2 = $this->createTable2();
 
         $table2

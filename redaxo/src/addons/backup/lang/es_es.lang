@@ -10,8 +10,6 @@ backup_entry_count = ({0} entradas)
 backup_file_could_not_be_uploaded = No se pudo cargar el archivo.
 backup_you_have_no_write_permission_in = No hay permisos para esta carpeta {0}.
 backup_no_import_file_chosen = Elija un archivo de importación.
-backup_problem_when_extracting = Se han producido problemas durante la extracción.
-backup_create_dirs_manually = Por favor, cree manualmente las siguientes carpetas (vía ftp).
 backup_file_imported = Se ha importado el archivo.
 backup_import = Importar
 backup_to_import = importar
@@ -64,8 +62,8 @@ backup_delete_interval_weekly = Mantenga una copia de seguridad por semana
 backup_delete_interval_monthly = Mantenga una copia de seguridad por mes
 backup_delete_interval_notice = Solo se eliminarán las copias de seguridad anteriores a un mes y el nombre del archivo debe finalizar con <code>.cronjob.sql</ code>.
 
-backup_blacklist_tables = Excluir de copia de seguridad
-backup_blacklist_tables_notice = Las tablas seleccionadas no serán respaldadas.  Las tablas con un prefijo <code>rex_tmp_ *</code> se excluirán automáticamente.
+backup_exclude_tables = Excluir de copia de seguridad
+backup_exclude_tables_notice = Las tablas seleccionadas no serán respaldadas.  Las tablas con un prefijo <code>rex_tmp_ *</code> se excluirán automáticamente.
 
 perm_general_backup[export] = Sitio web de exportación
 

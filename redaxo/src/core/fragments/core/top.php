@@ -13,12 +13,25 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 <?php
+    $user = rex::getUser();
+
+    $colorScheme = 'light dark'; // default: support both
+    if (rex::getProperty('theme')) {
+        // global theme from config.yml
+        $colorScheme = rex_escape((string) rex::getProperty('theme'));
+    } elseif ($user && $user->getValue('theme')) {
+        // user selected theme
+        $colorScheme = rex_escape($user->getValue('theme'));
+    }
+    echo "\n" . '    <meta name="color-scheme" content="' . $colorScheme . '">';
+    echo "\n" . '    <style>:root { color-scheme: ' . $colorScheme . ' }</style>';
+
     $assetDir = rex_path::assets();
 
     foreach ($this->cssFiles as $media => $files) {
         foreach ($files as $file) {
             $path = rex_path::frontend(rex_path::absolute($file));
-            if (!rex::isDebugMode() && 0 === strpos($path, $assetDir) && $mtime = @filemtime($path)) {
+            if (!rex::isDebugMode() && str_starts_with($path, $assetDir) && $mtime = @filemtime($path)) {
                 $file = rex_url::backendController(['asset' => $file, 'buster' => $mtime]);
             } elseif ($mtime = @filemtime($path)) {
                 $file .= '?buster='. $mtime;
@@ -42,7 +55,7 @@
 
         $path = rex_path::frontend(rex_path::absolute($file));
         if (array_key_exists(rex_view::JS_IMMUTABLE, $options) && $options[rex_view::JS_IMMUTABLE]) {
-            if (!rex::isDebugMode() && 0 === strpos($path, $assetDir) && $mtime = @filemtime($path)) {
+            if (!rex::isDebugMode() && str_starts_with($path, $assetDir) && $mtime = @filemtime($path)) {
                 $file = rex_url::backendController(['asset' => $file, 'buster' => $mtime]);
             }
         } elseif ($mtime = @filemtime($path)) {
@@ -69,12 +82,8 @@
 <body<?php echo $this->bodyAttr; ?>>
 
 <div class="rex-ajax-loader" id="rex-js-ajax-loader">
-    <div class="rex-ajax-loader-elements">
-        <div class="rex-ajax-loader-element1 rex-ajax-loader-element"></div>
-        <div class="rex-ajax-loader-element2 rex-ajax-loader-element"></div>
-        <div class="rex-ajax-loader-element3 rex-ajax-loader-element"></div>
-        <div class="rex-ajax-loader-element4 rex-ajax-loader-element"></div>
-        <div class="rex-ajax-loader-element5 rex-ajax-loader-element"></div>
-    </div>
+    <div class="rex-ajax-loader-element"></div>
+    <div class="rex-ajax-loader-backdrop"></div>
 </div>
+
 <div id="rex-start-of-page" class="rex-page">

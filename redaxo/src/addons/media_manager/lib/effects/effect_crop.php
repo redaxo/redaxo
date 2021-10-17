@@ -15,8 +15,8 @@ class rex_effect_crop extends rex_effect_abstract
         $this->media->asImage();
 
         $gdimage = $this->media->getImage();
-        $w = $this->media->getWidth();
-        $h = $this->media->getHeight();
+        $w = (int) $this->media->getWidth();
+        $h = (int) $this->media->getHeight();
 
         if (empty($this->params['width']) || $this->params['width'] < 0 ||
             empty($this->params['height']) || $this->params['height'] < 0
@@ -29,8 +29,8 @@ class rex_effect_crop extends rex_effect_abstract
             return;
         }
 
-        $offset_width = 0;
-        $offset_height = 0;
+        $offsetWidth = 0;
+        $offsetHeight = 0;
         if (empty($this->params['offset_width'])) {
             $this->params['offset_width'] = 0;
         }
@@ -43,27 +43,27 @@ class rex_effect_crop extends rex_effect_abstract
 
         switch ($this->params['vpos']) {
             case 'top':
-                $offset_height += $this->params['offset_height'];
+                $offsetHeight += $this->params['offset_height'];
                 break;
             case 'bottom':
-                $offset_height = (int) (($h - $cropH)) + $this->params['offset_height'];
+                $offsetHeight = (int) (($h - $cropH)) + $this->params['offset_height'];
                 break;
             case 'middle':
             default: // center
-                $offset_height = (int) (($h - $cropH) / 2) + $this->params['offset_height'];
+                $offsetHeight = (int) (($h - $cropH) / 2) + $this->params['offset_height'];
                 break;
         }
 
         switch ($this->params['hpos']) {
             case 'left':
-                $offset_width += $this->params['offset_width'];
+                $offsetWidth += $this->params['offset_width'];
                 break;
             case 'right':
-                $offset_width = (int) ($w - $cropW) + $this->params['offset_width'];
+                $offsetWidth = (int) ($w - $cropW) + $this->params['offset_width'];
                 break;
             case 'center':
             default: // center
-                $offset_width = (int) (($w - $cropW) / 2) + $this->params['offset_width'];
+                $offsetWidth = (int) (($w - $cropW) / 2) + $this->params['offset_width'];
                 break;
         }
 
@@ -80,7 +80,7 @@ class rex_effect_crop extends rex_effect_abstract
 
         // Transparenz erhalten
         $this->keepTransparent($des);
-        imagecopyresampled($des, $gdimage, 0, 0, $offset_width, $offset_height, $cropW, $cropH, $cropW, $cropH);
+        imagecopyresampled($des, $gdimage, 0, 0, $offsetWidth, $offsetHeight, $cropW, $cropH, $cropW, $cropH);
 
         $this->media->setImage($des);
         $this->media->refreshImageDimensions();

@@ -1,6 +1,4 @@
-.btn-default:hover {
-    background-color: #dbdee4;
-}
+.btn-default,
 .btn-abort,
 .btn-back,
 .btn-clang,
@@ -9,7 +7,7 @@
 .btn-reset,
 .btn-search {
     &:hover {
-        @extend .btn-default:hover;
+        background-color: #dbdee4;
     }
 }
 
@@ -120,4 +118,81 @@
     background-color: $color-b;
     border-color: $color-b;
     outline: 0px solid rgba($color-b-light, 1);
+}
+
+// ----------------------------------------------------------------------------
+
+@mixin _dark-buttons {
+
+    // grey (default)
+    .btn-default,
+    .btn-abort,
+    .btn-back,
+    .btn-clang,
+    .btn-move,
+    .btn-reset,
+    .btn-search {
+        @include dark-button-variant($color-text-light, rgba($color-grey-5, 0.8), rgba(darken($color-grey-5, 8%), 0.8));
+    }
+
+    // dark (aligned with input elements)
+    .btn-popup,
+    .btn-view {
+        @include dark-button-variant($color-text-light, rgba($color-grey-2, 0.8), rgba($color-grey-1, 0.8));
+
+        &.btn-popup:hover,
+        &.btn-popup:focus {
+            // raise specificity via double class to override mixin styles
+            border-color: rgba($color-grey-1, 0.8);
+        }
+    }
+
+    // blue
+    .btn-primary,
+    .btn-apply,
+    .btn-save,
+    .btn-select,
+    .btn-send,
+    .btn-setup,
+    .btn-update {
+        @include dark-button-variant($color-text-light, $dark-brand-primary, darken($dark-brand-primary, 20%));
+    }
+
+    // special: blue + grey with custom borders
+    .btn-clang {
+        $normal: (color: $color-text-light, background: $color-grey-5, border: darken($color-grey-5, 10%));
+        $hover: (color: $color-text-light, background: lighten($color-grey-5, 4%), border: darken($color-grey-5, 6%));
+        $active: (color: $color-text-light, background: $dark-brand-primary, border: darken($dark-brand-primary, 24%)); // slightly increase contrast
+        $activeHover: (color: $color-text-light, background: lighten($dark-brand-primary, 4%), border: darken($dark-brand-primary, 20%));
+        @include rex-button-variant($normal, $hover, $active, $activeHover);
+    }
+
+    // green
+    .btn-edit,
+    .panel-edit .btn-edit,
+    .btn-save,
+    .btn-apply {
+        @include dark-button-variant($color-text-light, $dark-brand-success, darken($dark-brand-success, 12%));
+    }
+
+    // red
+    .btn-delete {
+        @include dark-button-variant($color-text-light, $dark-brand-danger, darken($dark-brand-danger, 15%));
+    }
+
+    // yellow
+    .btn-debug-mode,
+    .btn-safemode-activate {
+        @include dark-button-variant($color-text-light, $dark-brand-warning, darken($dark-brand-warning, 15%));
+    }
+}
+
+body.rex-theme-dark {
+    @include _dark-buttons;
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+        @include _dark-buttons;
+    }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * REDAXO Master File.
+ * REDAXO main boot file.
  *
  * @global string  $REX['HTDOCS_PATH']    [Required] Relative path to htdocs directory
  * @global string  $REX['BACKEND_FOLDER'] [Required] Name of backend folder
@@ -41,6 +41,7 @@ if (ini_get('html_errors')) {
 require_once __DIR__ . '/lib/util/path.php';
 
 if (isset($REX['PATH_PROVIDER']) && is_object($REX['PATH_PROVIDER'])) {
+    /** @var rex_path_default_provider */
     $pathProvider = $REX['PATH_PROVIDER'];
 } else {
     require_once __DIR__ . '/lib/util/path_default_provider.php';
@@ -60,6 +61,7 @@ rex_autoload::addDirectory(rex_path::core('lib'));
 mb_internal_encoding('UTF-8');
 
 if (isset($REX['URL_PROVIDER']) && is_object($REX['URL_PROVIDER'])) {
+    /** @var rex_path_default_provider */
     $urlProvider = $REX['URL_PROVIDER'];
 } else {
     $urlProvider = new rex_path_default_provider($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER'], false);
@@ -82,7 +84,7 @@ require_once rex_path::core('functions/function_rex_globals.php');
 require_once rex_path::core('functions/function_rex_other.php');
 
 // ----------------- VERSION
-rex::setProperty('version', '5.12.0-dev');
+rex::setProperty('version', '5.13.0-dev');
 
 $cacheFile = rex_path::coreCache('config.yml.cache');
 $configFile = rex_path::coreData('config.yml');
@@ -105,6 +107,10 @@ foreach ($config as $key => $value) {
 }
 
 date_default_timezone_set(rex::getProperty('timezone', 'Europe/Berlin'));
+
+if ('cli' !== PHP_SAPI) {
+    rex::setProperty('request', Symfony\Component\HttpFoundation\Request::createFromGlobals());
+}
 
 rex_error_handler::register();
 rex_var_dumper::register();

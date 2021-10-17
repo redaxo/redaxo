@@ -142,8 +142,7 @@ class rex_fragment
      * The decorated fragment receives the parameters which are passed to this method.
      *
      * @param string $filename The filename of the fragment used for decoration
-     * @param array  $params   A array of key-value pairs to pass as parameters
-     * @psalm-var array<string, mixed> $params
+     * @param array<string, mixed> $params A array of key-value pairs to pass as parameters
      *
      * @return $this
      */
@@ -183,8 +182,7 @@ class rex_fragment
      * The Subfragment gets all variables of the current fragment, plus optional overrides from $params
      *
      * @param string $filename The filename of the fragment to use
-     * @param array  $params   A array of key-value pairs to pass as local parameters
-     * @psalm-var array<string, mixed> $params
+     * @param array<string, mixed> $params A array of key-value pairs to pass as local parameters
      */
     protected function getSubfragment(string $filename, array $params = []): string
     {
@@ -198,8 +196,7 @@ class rex_fragment
      * The Subfragment gets all variables of the current fragment, plus optional overrides from $params
      *
      * @param string $filename The filename of the fragment to use
-     * @param array  $params   A array of key-value pairs to pass as local parameters
-     * @psalm-var array<string, mixed> $params
+     * @param array<string, mixed> $params A array of key-value pairs to pass as local parameters
      */
     protected function subfragment($filename, array $params = [])
     {

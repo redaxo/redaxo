@@ -1,47 +1,30 @@
-name: PHP Checks
+name: Linting
 
 on:
     push:
-        branches:
-            - master
-            - bugfix
-            - temp
+        branches: [main, bugfix, temp]
     pull_request:
         types: [opened, synchronize, reopened, ready_for_review]
-        branches:
-            - '*'
 
 jobs:
+    rexlint:
+        runs-on: ubuntu-18.04
+        if: github.event.pull_request.draft == false
 
-    rex-lint:
-        name: REX Linting
-        runs-on: ubuntu-latest
-        if: "github.event.pull_request.draft == false && !contains(github.event.head_commit.message, '[ci skip]')"
-
-        services:
-            mysql:
-                image: mysql:5.7
-                ports:
-                    - 3306
         steps:
-            - uses: actions/checkout@v2
-            - name: Setup PHP
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: 7.3
-                  extensions: intl
-                  coverage: none # disable xdebug, pcov
-            - uses: "ramsey/composer-install@v1"
-              with:
-                  composer-options: "--ansi --prefer-dist"
-            - run: |
-                  sudo /etc/init.d/mysql start
-                  mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
-                  git apply .github/workflows/default.config.yml.github-action.diff
-            - run: |
-                  php .tools/bin/setup
-            - run: |
-                  vendor/bin/rexlint
-                  php redaxo/bin/console be_style:compile --ansi
-                  git checkout -- redaxo/src/core/default.config.yml # revert changes made initially
-                  git diff HEAD --exit-code # check if compiling the scss lead to uncommitted changes
+            -   name: Checkout
+                uses: actions/checkout@v2
+
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: 7.3
+                    coverage: none # disable xdebug, pcov
+
+            -   name: Composer install
+                uses: ramsey/composer-install@v1
+                with:
+                    composer-options: --ansi --prefer-dist
+
+            -   name: Run rexlint
+                run: vendor/bin/rexlint

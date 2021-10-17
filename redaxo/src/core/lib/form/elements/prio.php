@@ -15,7 +15,10 @@ class rex_form_prio_element extends rex_form_select_element
     private $firstOptionMsg;
     /** @var string */
     private $optionMsg;
-    /** @var rex_form */
+    /**
+     * @var rex_form
+     * @psalm-suppress NonInvariantDocblockPropertyType
+     */
     protected $table;
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
@@ -31,8 +34,12 @@ class rex_form_prio_element extends rex_form_select_element
         $this->optionMsg = 'form_field_after_priority';
         $this->select->setSize(1);
 
-        rex_extension::register('REX_FORM_SAVED', [$this, 'organizePriorities']);
-        rex_extension::register('REX_FORM_DELETED', [$this, 'organizePriorities']);
+        rex_extension::register('REX_FORM_SAVED', function (rex_extension_point $ep) {
+            $this->organizePriorities($ep);
+        });
+        rex_extension::register('REX_FORM_DELETED', function (rex_extension_point $ep) {
+            $this->organizePriorities($ep);
+        });
     }
 
     /**
@@ -72,14 +79,17 @@ class rex_form_prio_element extends rex_form_select_element
             $qry .= ' AND (' . $this->whereCondition . ')';
         }
 
+        $params = [];
+
         // Im Edit Mode das Feld selbst nicht als Position einfügen
         if ($this->table->isEditMode()) {
-            $qry .= ' AND (' . $name . '!=' . $this->getValue() . ')';
+            $qry .= ' AND (' . $name . ' != ?)';
+            $params[] = $this->getValue();
         }
 
         $qry .= ' ORDER BY ' . $name;
         $sql = rex_sql::factory();
-        $sql->setQuery($qry);
+        $sql->setQuery($qry, $params);
 
         $this->select->addOption(rex_i18n::msg($this->firstOptionMsg), 1);
         $value = 1;

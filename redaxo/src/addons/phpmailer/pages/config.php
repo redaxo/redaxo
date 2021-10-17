@@ -62,97 +62,99 @@ if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string'
     $message = $addon->i18n('config_saved_successful');
 }
 
-$emptymail = '1';
-if ('' == $addon->getConfig('from') || '' == $addon->getConfig('test_address')) {
-    $emptymail = '';
+$selMailer = new rex_select();
+$selMailer->setId('phpmailer-mailer');
+$selMailer->setName('settings[mailer]');
+$selMailer->setSize(1);
+$selMailer->setAttribute('class', 'form-control selectpicker');
+$selMailer->setSelected($addon->getConfig('mailer'));
+$mta = [];
+if (function_exists('mail')) {
+    $mta[] = 'mail';
 }
-$sel_mailer = new rex_select();
-$sel_mailer->setId('phpmailer-mailer');
-$sel_mailer->setName('settings[mailer]');
-$sel_mailer->setSize(1);
-$sel_mailer->setAttribute('class', 'form-control selectpicker');
-$sel_mailer->setSelected($addon->getConfig('mailer'));
-foreach (['mail', 'sendmail', 'smtp'] as $type) {
-    $sel_mailer->addOption($type, $type);
+$mta[] = 'smtp';
+$mta[] = 'sendmail';
+foreach ($mta as $type) {
+    $selMailer->addOption($type, $type);
 }
 
-$sel_security_mode = new rex_select();
-$sel_security_mode->setId('security_mode');
-$sel_security_mode->setName('settings[security_mode]');
-$sel_security_mode->setSize(1);
-$sel_security_mode->setAttribute('class', 'form-control selectpicker');
-$sel_security_mode->setSelected($addon->getConfig('security_mode'));
+$selSecurityMode = new rex_select();
+$selSecurityMode->setId('security_mode');
+$selSecurityMode->setName('settings[security_mode]');
+$selSecurityMode->setSize(1);
+$selSecurityMode->setAttribute('class', 'form-control selectpicker');
+$selSecurityMode->setSelected($addon->getConfig('security_mode'));
 foreach ([0 => $addon->i18n('security_mode_manual'), 1 => $addon->i18n('security_mode_auto')] as $i => $type) {
-    $sel_security_mode->addOption($type, $i);
+    $selSecurityMode->addOption($type, $i);
 }
 
-$sel_smtpauth = new rex_select();
-$sel_smtpauth->setId('phpmailer-smtpauth');
-$sel_smtpauth->setName('settings[smtpauth]');
-$sel_smtpauth->setSize(1);
-$sel_smtpauth->setAttribute('class', 'form-control selectpicker');
-$sel_smtpauth->setSelected($addon->getConfig('smtpauth'));
+$selSmtpauth = new rex_select();
+$selSmtpauth->setId('phpmailer-smtpauth');
+$selSmtpauth->setName('settings[smtpauth]');
+$selSmtpauth->setSize(1);
+$selSmtpauth->setAttribute('class', 'form-control selectpicker');
+$selSmtpauth->setSelected($addon->getConfig('smtpauth'));
 foreach ([0 => $addon->i18n('disabled'), 1 => $addon->i18n('enabled')] as $i => $type) {
-    $sel_smtpauth->addOption($type, $i);
+    $selSmtpauth->addOption($type, $i);
 }
 
-$sel_smtpsecure = new rex_select();
-$sel_smtpsecure->setId('phpmailer-smtpsecure');
-$sel_smtpsecure->setName('settings[smtpsecure]');
-$sel_smtpsecure->setSize(1);
-$sel_smtpsecure->setAttribute('class', 'form-control selectpicker');
-$sel_smtpsecure->setSelected($addon->getConfig('smtpsecure'));
+$selSmtpsecure = new rex_select();
+$selSmtpsecure->setId('phpmailer-smtpsecure');
+$selSmtpsecure->setName('settings[smtpsecure]');
+$selSmtpsecure->setSize(1);
+$selSmtpsecure->setAttribute('class', 'form-control selectpicker');
+$selSmtpsecure->setSelected($addon->getConfig('smtpsecure'));
 foreach (['' => $addon->i18n('no'), 'ssl' => 'ssl', 'tls' => 'tls'] as $type => $name) {
-    $sel_smtpsecure->addOption($name, $type);
+    $selSmtpsecure->addOption($name, $type);
 }
 
-$sel_encoding = new rex_select();
-$sel_encoding->setId('phpmailer-encoding');
-$sel_encoding->setName('settings[encoding]');
-$sel_encoding->setSize(1);
-$sel_encoding->setAttribute('class', 'form-control selectpicker');
-$sel_encoding->setSelected($addon->getConfig('encoding'));
+$selEncoding = new rex_select();
+$selEncoding->setId('phpmailer-encoding');
+$selEncoding->setName('settings[encoding]');
+$selEncoding->setSize(1);
+$selEncoding->setAttribute('class', 'form-control selectpicker');
+$selEncoding->setSelected($addon->getConfig('encoding'));
 foreach (['7bit', '8bit', 'binary', 'base64', 'quoted-printable'] as $enc) {
-    $sel_encoding->addOption($enc, $enc);
+    $selEncoding->addOption($enc, $enc);
 }
 
-$sel_priority = new rex_select();
-$sel_priority->setid('phpmailer-priority');
-$sel_priority->setName('settings[priority]');
-$sel_priority->setSize(1);
-$sel_priority->setAttribute('class', 'form-control selectpicker');
-$sel_priority->setSelected($addon->getConfig('priority'));
+$selPriority = new rex_select();
+$selPriority->setid('phpmailer-priority');
+$selPriority->setName('settings[priority]');
+$selPriority->setSize(1);
+$selPriority->setAttribute('class', 'form-control selectpicker');
+$selPriority->setSelected($addon->getConfig('priority'));
 foreach ([0 => $addon->i18n('disabled'), 1 => $addon->i18n('high'), 3 => $addon->i18n('normal'), 5 => $addon->i18n('low')] as $no => $name) {
-    $sel_priority->addOption($name, $no);
+    $selPriority->addOption($name, $no);
 }
 
-$sel_log = new rex_select();
-$sel_log->setid('phpmailer-log');
-$sel_log->setName('settings[logging]');
-$sel_log->setSize(1);
-$sel_log->setAttribute('class', 'form-control selectpicker');
-$sel_log->setSelected($addon->getConfig('logging'));
-$sel_log->addOption($addon->i18n('log_no'), 0);
-$sel_log->addOption($addon->i18n('log_errors'), rex_mailer::LOG_ERRORS);
-$sel_log->addOption($addon->i18n('log_all'), rex_mailer::LOG_ALL);
+$selLog = new rex_select();
+$selLog->setid('phpmailer-log');
+$selLog->setName('settings[logging]');
+$selLog->setSize(1);
+$selLog->setAttribute('class', 'form-control selectpicker');
+$selLog->setSelected($addon->getConfig('logging'));
+$selLog->addOption($addon->i18n('log_no'), 0);
+$selLog->addOption($addon->i18n('log_errors'), rex_mailer::LOG_ERRORS);
+$selLog->addOption($addon->i18n('log_all'), rex_mailer::LOG_ALL);
 
-$sel_archive = new rex_select();
-$sel_archive->setid('phpmailer-archive');
-$sel_archive->setName('settings[archive]');
-$sel_archive->setSize(1);
-$sel_archive->setAttribute('class', 'form-control selectpicker');
-$sel_archive->setSelected((int) $addon->getConfig('archive'));
-$sel_archive->addOption($addon->i18n('log_no'), 0);
-$sel_archive->addOption($addon->i18n('log_yes'), 1);
+$selArchive = new rex_select();
+$selArchive->setid('phpmailer-archive');
+$selArchive->setName('settings[archive]');
+$selArchive->setSize(1);
+$selArchive->setAttribute('class', 'form-control selectpicker');
+$selArchive->setSelected((int) $addon->getConfig('archive'));
+$selArchive->addOption($addon->i18n('log_no'), 0);
+$selArchive->addOption($addon->i18n('log_yes'), 1);
 
-$sel_debug = new rex_select();
-$sel_debug->setid('phpmailer-smtp_debug');
-$sel_debug->setName('settings[smtp_debug]');
-$sel_debug->setSize(1);
-$sel_debug->setAttribute('class', 'form-control selectpicker');
-$sel_debug->setSelected($addon->getConfig('smtp_debug'));
+$selDebug = new rex_select();
+$selDebug->setid('phpmailer-smtp_debug');
+$selDebug->setName('settings[smtp_debug]');
+$selDebug->setSize(1);
+$selDebug->setAttribute('class', 'form-control selectpicker');
+$selDebug->setSelected($addon->getConfig('smtp_debug'));
 foreach ([0 => $addon->i18n('smtp_debug_0'), 1 => $addon->i18n('smtp_debug_1'), 2 => $addon->i18n('smtp_debug_2'), 3 => $addon->i18n('smtp_debug_3'), 4 => $addon->i18n('smtp_debug_4')] as $no => $name) {
-    $sel_debug->addOption($name, $no);
+    $selDebug->addOption($name, $no);
 }
 
 if ('' != $message) {
@@ -180,22 +182,22 @@ $n['label'] = '<label for="phpmailer-testaddress">' . $addon->i18n('checkmail_te
 $n['field'] = '<input class="form-control" id="phpmailer-testaddress" type="email" name="settings[test_address]" placeholder="test@example.tld" value="' . rex_escape($addon->getConfig('test_address')) . '" />';
 $formElements[] = $n;
 
-$sel_detour_mode = new rex_select();
-$sel_detour_mode->setId('phpmailer-detour-mode');
-$sel_detour_mode->setName('settings[detour_mode]');
-$sel_detour_mode->setSize(1);
-$sel_detour_mode->setAttribute('class', 'form-control selectpicker');
+$selDetourMode = new rex_select();
+$selDetourMode->setId('phpmailer-detour-mode');
+$selDetourMode->setName('settings[detour_mode]');
+$selDetourMode->setSize(1);
+$selDetourMode->setAttribute('class', 'form-control selectpicker');
 
-$sel_detour_mode->setSelected($addon->getConfig('detour_mode') ?: 0);
+$selDetourMode->setSelected($addon->getConfig('detour_mode') ?: 0);
 foreach ([$addon->i18n('disabled'), $addon->i18n('enabled')] as $key => $value) {
-    $sel_detour_mode->addOption($value, $key);
+    $selDetourMode->addOption($value, $key);
 }
 
-$detour_mode_label_class = $addon->getConfig('detour_mode') ? 'text-danger' : '';
+$detourModeLabelClass = $addon->getConfig('detour_mode') ? 'text-danger' : '';
 
 $n = [];
-$n['label'] = '<label for="phpmailer-detour-mode" class="' . $detour_mode_label_class . '">' . $addon->i18n('detour_email_redirect') . '</label>';
-$n['field'] = $sel_detour_mode->get();
+$n['label'] = '<label for="phpmailer-detour-mode" class="' . $detourModeLabelClass . '">' . $addon->i18n('detour_email_redirect') . '</label>';
+$n['field'] = $selDetourMode->get();
 $formElements[] = $n;
 
 $n = [];
@@ -210,7 +212,7 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="phpmailer-mailer">' . $addon->i18n('mailertype') . '</label>';
-$n['field'] = $sel_mailer->get();
+$n['field'] = $selMailer->get();
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -233,7 +235,7 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label data-toggle="tooltip" title="' . $addon->i18n('security_mode_help') . '" for="security_mode">' . rex_escape($addon->i18n('security_mode')) . ' <i class="rex-icon fa-question-circle"></i></label>';
-$n['field'] = $sel_security_mode->get();
+$n['field'] = $selSecurityMode->get();
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -245,7 +247,7 @@ $formElements = [];
 $content .= '<div id="securetype">';
 $n = [];
 $n['label'] = '<label for="phpmailer-smtpsecure">' . $addon->i18n('smtp_secure') . '</label>';
-$n['field'] = $sel_smtpsecure->get();
+$n['field'] = $selSmtpsecure->get();
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -256,7 +258,7 @@ $content .= '</div>';
 
 $n = [];
 $n['label'] = '<label for="phpmailer-smtpauth">' . $addon->i18n('smtp_auth') . '</label>';
-$n['field'] = $sel_smtpauth->get();
+$n['field'] = $selSmtpauth->get();
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -281,11 +283,6 @@ $content .= $fragment->parse('core/form/form.php');
 $formElements = [];
 $content .= '</div>';
 
-$n = [];
-$n['label'] = '<label for="phpmailer-smtp_debug">' . $addon->i18n('smtp_debug') . '</label>';
-$n['field'] = $sel_debug->get().'<p class="help-block rex-note"> ' . $addon->i18n('smtp_debug_info').'</p>';
-$formElements[] = $n;
-
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
@@ -307,22 +304,27 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="phpmailer-encoding">' . $addon->i18n('encoding') . '</label>';
-$n['field'] = $sel_encoding->get();
+$n['field'] = $selEncoding->get();
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="phpmailer-priority">' . $addon->i18n('priority') . '</label>';
-$n['field'] = $sel_priority->get();
+$n['field'] = $selPriority->get();
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="phpmailer-smtp_debug">' . $addon->i18n('smtp_debug') . '</label>';
+$n['field'] = $selDebug->get().'<p class="help-block rex-note"> ' . $addon->i18n('smtp_debug_info').'</p>';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="phpmailer-log">' . $addon->i18n('logging') . '</label>';
-$n['field'] = $sel_log->get();
+$n['field'] = $selLog->get();
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="phpmailer-log">' . $addon->i18n('archive') . '</label>';
-$n['field'] = $sel_archive->get();
+$n['label'] = '<label for="phpmailer-archive">' . $addon->i18n('archive') . '</label>';
+$n['field'] = $selArchive->get();
 $n['note'] = rex_i18n::rawMsg('phpmailer_archive_info', rex_mailer::logFolder(), '...'.substr(rex_mailer::logFolder(), -30));
 $formElements[] = $n;
 

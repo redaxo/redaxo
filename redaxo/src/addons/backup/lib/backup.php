@@ -27,19 +27,21 @@ class rex_backup
     public static function isFilenameValid(int $importType, string $filename): bool
     {
         if (self::IMPORT_ARCHIVE === $importType) {
-            return '.tar.gz' == substr($filename, -7, 7);
+            return str_ends_with($filename, '.tar.gz');
         }
         if (self::IMPORT_DB === $importType) {
-            return '.sql' == substr($filename, -4, 4);
+            return str_ends_with($filename, '.sql') || str_ends_with($filename, '.sql.gz');
         }
 
         throw new rex_exception('unexpected importType '. $importType);
     }
 
     /**
+     * @param self::IMPORT_*|string $fileType
+     *
      * @return string[]
      */
-    public static function getBackupFiles($filePrefix)
+    public static function getBackupFiles($fileType)
     {
         $dir = self::getDir();
 
@@ -48,14 +50,22 @@ class rex_backup
         $filtered = [];
         foreach ($folder as $file) {
             $file = $file->getFilename();
-            if (substr($file, strlen($file) - strlen($filePrefix)) == $filePrefix) {
-                $filtered[] = $file;
+            if (is_int($fileType)) {
+                if (self::isFilenameValid($fileType, $file)) {
+                    $filtered[] = $file;
+                }
+            } else {
+                // bc compat
+                $fileSuffix = $fileType;
+                if (substr($file, strlen($file) - strlen($fileSuffix)) == $fileSuffix) {
+                    $filtered[] = $file;
+                }
             }
         }
         $folder = $filtered;
 
-        usort($folder, static function ($file_a, $file_b) {
-            return $file_a <=> $file_b;
+        usort($folder, static function ($fileA, $fileB) {
+            return $fileA <=> $fileB;
         });
 
         return $folder;
@@ -69,29 +79,43 @@ class rex_backup
      * @return array Gibt ein Assoc. Array zurück.
      *               'state' => boolean (Status ob fehler aufgetreten sind)
      *               'message' => Evtl. Status/Fehlermeldung
+     * @psalm-return array{state: bool, message: string}
      */
     public static function importDb($filename)
     {
-        $return = [];
-        $return['state'] = false;
-        $return['message'] = '';
+        /**
+         * @psalm-return array{state: bool, message: string}
+         */
+        $returnError = static function (string $message): array {
+            $return = [];
+            $return['state'] = false;
+            $return['message'] = $message;
 
-        $msg = '';
+            return $return;
+        };
 
         if ('' == $filename || !self::isFilenameValid(self::IMPORT_DB, $filename)) {
-            $return['message'] = rex_i18n::msg('backup_no_import_file_chosen_or_wrong_version') . '<br>';
-            return $return;
+            return $returnError(rex_i18n::msg('backup_no_import_file_chosen_or_wrong_version') . '<br>');
         }
 
-        $conts = rex_file::require($filename);
+        if ('gz' === rex_file::extension($filename)) {
+            $compressor = new rex_backup_file_compressor();
+            $conts = $compressor->gzReadDeCompressed($filename);
+
+            // should not happen
+            if (false === $conts) {
+                return $returnError(rex_i18n::msg('backup_no_valid_import_file').'. Unable to decompress .gz');
+            }
+        } else {
+            $conts = rex_file::require($filename);
+        }
 
         // Versionsstempel prüfen
         // ## Redaxo Database Dump Version x.x
         $mainVersion = rex::getVersion('%s');
         $version = strpos($conts, '## Redaxo Database Dump Version ' . $mainVersion);
         if (false === $version) {
-            $return['message'] = rex_i18n::msg('backup_no_valid_import_file') . '. [## Redaxo Database Dump Version ' . $mainVersion . '] is missing';
-            return $return;
+            return $returnError(rex_i18n::msg('backup_no_valid_import_file') . '. [## Redaxo Database Dump Version ' . $mainVersion . '] is missing');
         }
         // Versionsstempel entfernen
         $conts = trim(str_replace('## Redaxo Database Dump Version ' . $mainVersion, '', $conts));
@@ -104,8 +128,7 @@ class rex_backup
             $conts = trim(str_replace('## Prefix ' . $prefix, '', $conts));
         } else {
             // Prefix wurde nicht gefunden
-            $return['message'] = rex_i18n::msg('backup_no_valid_import_file') . '. [## Prefix ' . rex::getTablePrefix() . '] is missing';
-            return $return;
+            return $returnError(rex_i18n::msg('backup_no_valid_import_file') . '. [## Prefix ' . rex::getTablePrefix() . '] is missing');
         }
 
         // Charset prüfen
@@ -117,8 +140,7 @@ class rex_backup
 
             if ('utf8mb4' === $charset && !rex::getConfig('utf8mb4') && !rex_setup_importer::supportsUtf8mb4()) {
                 $sql = rex_sql::factory();
-                $return['message'] = rex_i18n::msg('backup_utf8mb4_not_supported', $sql->getDbType().' '.$sql->getDbVersion());
-                return $return;
+                return $returnError(rex_i18n::msg('backup_utf8mb4_not_supported', $sql->getDbType().' '.$sql->getDbVersion()));
             }
         }
 
@@ -133,6 +155,7 @@ class rex_backup
 
         // ----- EXTENSION POINT
         $filesize = filesize($filename);
+        $msg = '';
         $msg = rex_extension::registerPoint(new rex_extension_point('BACKUP_BEFORE_DB_IMPORT', $msg, [
             'content' => $conts,
             'filename' => $filename,
@@ -158,8 +181,7 @@ class rex_backup
         }
 
         if ($error) {
-            $return['message'] = implode('<br/>', $error);
-            return $return;
+            return $returnError(implode('<br/>', $error));
         }
 
         $msg .= rex_i18n::msg('backup_database_imported') . '. ' . rex_i18n::msg('backup_entry_count', (string) count($lines)) . '<br />';
@@ -184,10 +206,7 @@ class rex_backup
         // delete cache again because the extensions and the php script could have changed data again
         $msg .= rex_delete_cache();
 
-        $return['state'] = true;
-        $return['message'] = $msg;
-
-        return $return;
+        return ['state' => true, 'message' => $msg];
     }
 
     /**
@@ -198,6 +217,7 @@ class rex_backup
      * @return array Gibt ein Assoc. Array zurück.
      *               'state' => boolean (Status ob fehler aufgetreten sind)
      *               'message' => Evtl. Status/Fehlermeldung
+     * @psalm-return array{state: bool, message: string}
      */
     public static function importFiles($filename)
     {
@@ -209,32 +229,24 @@ class rex_backup
             return $return;
         }
 
-        // Ordner /files komplett leeren
-        rex_dir::deleteFiles(rex_path::media());
-
         $tar = new rex_backup_tar();
 
         // ----- EXTENSION POINT
+        /**
+         * @var rex_backup_tar $tar
+         * @psalm-ignore-var
+         */
         $tar = rex_extension::registerPoint(new rex_extension_point('BACKUP_BEFORE_FILE_IMPORT', $tar));
 
         // require import skript to do some userside-magic
         self::importScript(str_replace('.tar.gz', '.php', $filename), self::IMPORT_ARCHIVE, self::IMPORT_EVENT_PRE);
 
         $tar->openTAR($filename);
-        if (!$tar->extractTar()) {
-            $msg = rex_i18n::msg('backup_problem_when_extracting') . '<br />';
-            if (count($tar->getMessages()) > 0) {
-                $msg .= rex_i18n::msg('backup_create_dirs_manually') . '<br />';
-                foreach ($tar->getMessages() as $_message) {
-                    $msg .= rex_path::absolute($_message) . '<br />';
-                }
-            }
-        } else {
-            $msg = rex_i18n::msg('backup_file_imported') . '<br />';
-        }
+        $tar->extractTar(rex_path::base());
+        $msg = rex_i18n::msg('backup_file_imported') . '<br />';
 
         // ----- EXTENSION POINT
-        $tar = rex_extension::registerPoint(new rex_extension_point('BACKUP_AFTER_FILE_IMPORT', $tar));
+        rex_extension::registerPoint(new rex_extension_point('BACKUP_AFTER_FILE_IMPORT', $tar));
 
         // require import skript to do some userside-magic
         self::importScript(str_replace('.tar.gz', '.php', $filename), self::IMPORT_ARCHIVE, self::IMPORT_EVENT_POST);
@@ -249,7 +261,7 @@ class rex_backup
      * Dieser wird in der Datei $filename gespeichert.
      *
      * @param string $filename
-     * @param array  $tables
+     * @param string[]  $tables
      *
      * @return bool TRUE wenn ein Dump erstellt wurde, sonst FALSE
      */
@@ -293,20 +305,24 @@ class rex_backup
             fwrite($fp, 'DROP TABLE IF EXISTS ' . $sql->escapeIdentifier($table) . ';' . $nl);
             fwrite($fp, $create . ';' . $nl);
 
-            $fields = $sql->getArray('SHOW FIELDS FROM ' . $sql->escapeIdentifier($table));
+            $fields = [];
 
-            foreach ($fields as &$field) {
-                if (preg_match('#^(bigint|int|smallint|mediumint|tinyint|timestamp)#i', $field['Type'])) {
-                    $field = 'int';
-                } elseif (preg_match('#^(float|double|decimal)#', $field['Type'])) {
-                    $field = 'double';
-                } elseif (preg_match('#^(char|varchar|text|longtext|mediumtext|tinytext)#', $field['Type'])) {
-                    $field = 'string';
-                } elseif (preg_match('#^(date|datetime|time|timestamp|year)#', $field['Type'])) {
+            foreach ($sql->getArray('SHOW FIELDS FROM ' . $sql->escapeIdentifier($table)) as $field) {
+                $type = (string) $field['Type'];
+                if (preg_match('#^(bigint|int|smallint|mediumint|tinyint|timestamp)#i', $type)) {
+                    $type = 'int';
+                } elseif (preg_match('#^(float|double|decimal)#', $type)) {
+                    $type = 'double';
+                } elseif (preg_match('#^(char|varchar|text|longtext|mediumtext|tinytext)#', $type)) {
+                    $type = 'string';
+                } elseif (preg_match('#^(date|datetime|time|timestamp|year)#', $type)) {
                     // types which can be passed tru 1:1 as escaping isn't necessary, because we know the mysql internal format.
-                    $field = 'raw';
+                    $type = 'raw';
+                } else {
+                    $type = 'unknown';
                 }
-                // else ?
+
+                $fields[] = $type;
             }
 
             //---- export tabledata
@@ -360,14 +376,41 @@ class rex_backup
 
     /**
      * Exportiert alle Ordner $folders aus dem Verzeichnis /files.
+     * Wenn $archivePath übergeben wird, wird das Achive mittels Streaming gebaut, sodass sehr große Exporte möglich sind.
      *
-     * @param array $folders Array von Ordnernamen, die exportiert werden sollen
+     * @param string[] $folders Array von Ordnernamen, die exportiert werden sollen
+     * @param string|null $archivePath Pfad, wo das archiv angelegt werden soll
      *
-     * @return string Inhalt des Tar-Archives als String
+     * @return string|null Inhalt des Tar-Archives als string, wenn $archivePath nicht uebergeben wurde - sonst null
      */
-    public static function exportFiles($folders)
+    public static function exportFiles($folders, $archivePath = null)
+    {
+        if (null == $archivePath) {
+            $tmpArchivePath = false;
+            try {
+                $tmpArchivePath = tempnam(sys_get_temp_dir(), 'rex-file-export');
+
+                self::streamExport($folders, $tmpArchivePath);
+                return rex_file::get($tmpArchivePath);
+            } finally {
+                if ($tmpArchivePath) {
+                    rex_file::delete($tmpArchivePath);
+                }
+            }
+        }
+
+        self::streamExport($folders, $archivePath);
+        return null;
+    }
+
+    /**
+     * @param string[] $folders
+     * @param string $archivePath
+     */
+    private static function streamExport($folders, $archivePath)
     {
         $tar = new rex_backup_tar();
+        $tar->create($archivePath);
 
         // ----- EXTENSION POINT
         $tar = rex_extension::registerPoint(new rex_extension_point('BACKUP_BEFORE_FILE_EXPORT', $tar));
@@ -379,7 +422,7 @@ class rex_backup
         // ----- EXTENSION POINT
         $tar = rex_extension::registerPoint(new rex_extension_point('BACKUP_AFTER_FILE_EXPORT', $tar));
 
-        return $tar->toTar(null, true);
+        $tar->close();
     }
 
     /**
@@ -445,6 +488,14 @@ class rex_backup
         }
     }
 
+    /**
+     * @param string $table
+     * @param int $start
+     * @param int $max
+     * @param resource $fp
+     * @param string $nl
+     * @param list<string> $fields
+     */
     private static function exportTable($table, &$start, $max, $fp, $nl, array $fields)
     {
         do {

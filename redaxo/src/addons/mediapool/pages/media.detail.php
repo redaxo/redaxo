@@ -5,9 +5,9 @@
  */
 
 assert(isset($csrf) && $csrf instanceof rex_csrf_token);
-assert(isset($rex_file_category) && is_int($rex_file_category));
-assert(isset($opener_input_field) && is_string($opener_input_field));
-assert(isset($arg_fields) && is_string($arg_fields));
+assert(isset($rexFileCategory) && is_int($rexFileCategory));
+assert(isset($openerInputField) && is_string($openerInputField));
+assert(isset($argFields) && is_string($argFields));
 assert(isset($toolbar) && is_string($toolbar));
 
 // defaults for globals passed in from index.php
@@ -17,18 +17,18 @@ if (!isset($success)) {
 if (!isset($error)) {
     $error = '';
 }
-if (!isset($opener_link)) {
-    $opener_link = '';
+if (!isset($openerLink)) {
+    $openerLink = '';
 }
-if (!isset($file_id)) {
-    $file_id = 0;
+if (!isset($fileId)) {
+    $fileId = 0;
 }
 
 if (rex_post('btn_delete', 'string')) {
     if (!$csrf->isValid()) {
         $error = rex_i18n::msg('csrf_token_invalid');
     } else {
-        $sql = rex_sql::factory()->setQuery('SELECT filename FROM ' . rex::getTable('media') . ' WHERE id = ?', [$file_id]);
+        $sql = rex_sql::factory()->setQuery('SELECT filename FROM ' . rex::getTable('media') . ' WHERE id = ?', [$fileId]);
         $media = null;
         if (1 == $sql->getRows()) {
             $media = rex_media::get($sql->getValue('filename'));
@@ -37,21 +37,21 @@ if (rex_post('btn_delete', 'string')) {
         if ($media) {
             $filename = $media->getFileName();
             if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($media->getCategoryId())) {
-                $return = rex_mediapool_deleteMedia($filename);
-                if ($return['ok']) {
-                    $success = $return['msg'];
-                    $file_id = 0;
+                try {
+                    rex_media_service::deleteMedia($filename);
+                    $success = rex_i18n::msg('pool_file_deleted');
+                    $fileId = 0;
 
                     return;
+                } catch (rex_api_exception $e) {
+                    $error = $e->getMessage();
                 }
-
-                $error = $return['msg'];
             } else {
                 $error = rex_i18n::msg('no_permission');
             }
         } else {
             $error = rex_i18n::msg('pool_file_not_found');
-            $file_id = 0;
+            $fileId = 0;
         }
     }
 }
@@ -61,44 +61,46 @@ if (rex_post('btn_update', 'string')) {
         $error = rex_i18n::msg('csrf_token_invalid');
     } else {
         $gf = rex_sql::factory();
-        $gf->setQuery('select * from ' . rex::getTablePrefix() . 'media where id=?', [$file_id]);
+        $gf->setQuery('select * from ' . rex::getTablePrefix() . 'media where id=?', [$fileId]);
         if (1 != $gf->getRows()) {
             $error = rex_i18n::msg('pool_file_not_found');
-            $file_id = 0;
-        } elseif (!rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('category_id')) || !rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category)) {
+            $fileId = 0;
+        } elseif (!rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('category_id')) || !rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rexFileCategory)) {
             $error = rex_i18n::msg('no_permission');
-        } elseif (!empty($_FILES['file_new']['tmp_name']) && !rex_mediapool_isAllowedMimeType($_FILES['file_new']['tmp_name'], $_FILES['file_new']['name'])) {
-            $error = rex_i18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . rex_file::extension($_FILES['file_new']['name']) . '</code> (<code>' . rex_file::mimeType($_FILES['file_new']['tmp_name']) . '</code>)';
         } else {
-            $FILEINFOS = [];
-            $FILEINFOS['rex_file_category'] = $rex_file_category;
-            $FILEINFOS['file_id'] = $file_id;
-            $FILEINFOS['title'] = rex_request('ftitle', 'string');
-            $FILEINFOS['filetype'] = $gf->getValue('filetype');
-            $FILEINFOS['filename'] = $gf->getValue('filename');
+            $data = [];
+            $data['category_id'] = $rexFileCategory;
+            $data['title'] = rex_request('ftitle', 'string');
+            $data['filename'] = $gf->getValue('filename');
+            $data['filetype'] = $gf->getValue('filetype');
 
-            $return = rex_mediapool_updateMedia($_FILES['file_new'], $FILEINFOS, rex::getUser()->getValue('login'));
+            if ($_FILES['file_new']) {
+                $data['file'] = $_FILES['file_new'];
+                $data['file']['path'] = $_FILES['file_new']['tmp_name'];
+            }
 
-            if (1 == $return['ok']) {
-                if ($gf->getValue('category_id') != $rex_file_category) {
+            try {
+                $data = rex_media_service::updateMedia($data, rex::getUser()->getValue('login'));
+
+                if ($gf->getValue('category_id') != $rexFileCategory) {
                     rex_extension::registerPoint(new rex_extension_point('MEDIA_MOVED', null, [
-                        'filename' => $FILEINFOS['filename'],
-                        'category_id' => $rex_file_category,
+                        'filename' => $data['filename'],
+                        'category_id' => $rexFileCategory,
                     ]));
                 }
-                $success = $return['msg'];
-            } else {
-                $error = $return['msg'];
+                $success = rex_i18n::msg('pool_file_infos_updated');
+            } catch (rex_api_exception $e) {
+                $error = $e->getMessage();
             }
         }
     }
 }
 
 $gf = rex_sql::factory();
-$gf->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media WHERE id = ?', [$file_id]);
+$gf->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media WHERE id = ?', [$fileId]);
 if (1 != $gf->getRows()) {
     $error = rex_i18n::msg('pool_file_not_found');
-    $file_id = 0;
+    $fileId = 0;
 
     return;
 }
@@ -111,13 +113,13 @@ if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('cate
 $ftitle = $gf->getValue('title');
 $fname = $gf->getValue('filename');
 $ffiletype = $gf->getValue('filetype');
-$ffile_size = $gf->getValue('filesize');
-$ffile_size = rex_formatter::bytes($ffile_size);
-$rex_file_category = $gf->getValue('category_id');
+$ffileSize = $gf->getValue('filesize');
+$ffileSize = rex_formatter::bytes($ffileSize);
+$rexFileCategory = $gf->getValue('category_id');
 
 $sidebar = '';
-$add_ext_info = '';
-$encoded_fname = urlencode($fname);
+$addExtInfo = '';
+$encodedFname = urlencode($fname);
 
 $isImage = rex_media::isImageType(rex_file::extension($fname));
 if ($isImage) {
@@ -136,15 +138,15 @@ if ($isImage) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', [$e], false);
-    $add_ext_info = $fragment->parse('core/form/form.php');
+    $addExtInfo = $fragment->parse('core/form/form.php');
 
     $imgn = rex_url::media($fname).'?buster='.$gf->getDateTimeValue('updatedate');
     $width = ' width="'.$rfwidth.'"';
-    $img_max = rex_url::media($fname);
+    $imgMax = rex_url::media($fname);
 
     if (rex_addon::get('media_manager')->isAvailable() && 'svg' != rex_file::extension($fname)) {
-        $imgn = rex_media_manager::getUrl('rex_mediapool_detail', $encoded_fname, $gf->getDateTimeValue('updatedate'));
-        $img_max = rex_media_manager::getUrl('rex_mediapool_maximized', $encoded_fname, $gf->getDateTimeValue('updatedate'));
+        $imgn = rex_media_manager::getUrl('rex_media_medium', $encodedFname, $gf->getDateTimeValue('updatedate'));
+        $imgMax = rex_media_manager::getUrl('rex_media_large', $encodedFname, $gf->getDateTimeValue('updatedate'));
 
         $width = '';
     }
@@ -153,7 +155,7 @@ if ($isImage) {
         $sidebar = '<i class="rex-mime rex-mime-error"></i><span class="sr-only">' . $fname . '</span>';
     } else {
         $sidebar = '
-                <a href="' . $img_max . '">
+                <a href="' . $imgMax . '">
                     <img class="img-responsive" src="' . $imgn . '"' . $width . ' alt="' . rex_escape($ftitle) . '" title="' . rex_escape($ftitle) . '" />
                 </a>';
     }
@@ -168,20 +170,20 @@ if ('' != $success) {
     $success = '';
 }
 
-if ('' != $opener_input_field) {
-    $opener_link = '<a class="btn btn-xs btn-select" onclick="selectMedia(\'' . $encoded_fname . '\', \'' . rex_escape($gf->getValue('title'), 'js') . '\'); return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
-    if ('REX_MEDIALIST_' == substr($opener_input_field, 0, 14)) {
-        $opener_link = '<a class="btn btn-xs btn-select btn-highlight" onclick="selectMedialist(\'' . $encoded_fname . '\'); return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
+if ('' != $openerInputField) {
+    $openerLink = '<a class="btn btn-xs btn-select" onclick="selectMedia(\'' . $encodedFname . '\', \'' . rex_escape($gf->getValue('title'), 'js') . '\'); return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
+    if ('REX_MEDIALIST_' == substr($openerInputField, 0, 14)) {
+        $openerLink = '<a class="btn btn-xs btn-select btn-highlight" onclick="selectMedialist(\'' . $encodedFname . '\'); return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
     }
 }
 
-if ('' != $opener_link) {
-    $opener_link = ' | ' . $opener_link;
+if ('' != $openerLink) {
+    $openerLink = ' | ' . $openerLink;
 }
 
 // ----- EXTENSION POINT
 $sidebar = rex_extension::registerPoint(new rex_extension_point('MEDIA_DETAIL_SIDEBAR', $sidebar, [
-    'id' => $file_id,
+    'id' => $fileId,
     'filename' => $fname,
     'media' => $gf,
     'is_image' => $isImage,
@@ -190,17 +192,17 @@ $sidebar = rex_extension::registerPoint(new rex_extension_point('MEDIA_DETAIL_SI
 if ($TPERM) {
     $panel = '';
 
-    $cats_sel = new rex_media_category_select();
-    $cats_sel->setStyle('class="form-control"');
-    $cats_sel->setSize(1);
-    $cats_sel->setName('rex_file_category');
-    $cats_sel->setId('rex-mediapool-category');
-    $cats_sel->setAttribute('class', 'selectpicker form-control');
-    $cats_sel->setAttribute('data-live-search', 'true');
-    $cats_sel->setSelected($rex_file_category);
+    $catsSel = new rex_media_category_select();
+    $catsSel->setStyle('class="form-control"');
+    $catsSel->setSize(1);
+    $catsSel->setName('rex_file_category');
+    $catsSel->setId('rex-mediapool-category');
+    $catsSel->setAttribute('class', 'selectpicker form-control');
+    $catsSel->setAttribute('data-live-search', 'true');
+    $catsSel->setSelected($rexFileCategory);
 
     if (rex::getUser()->getComplexPerm('media')->hasAll()) {
-        $cats_sel->addOption(rex_i18n::msg('pool_kats_no'), '0');
+        $catsSel->addOption(rex_i18n::msg('pool_kats_no'), '0');
     }
 
     $formElements = [];
@@ -212,22 +214,22 @@ if ($TPERM) {
 
     $e = [];
     $e['label'] = '<label for="rex-mediapool-category">' . rex_i18n::msg('pool_file_category') . '</label>';
-    $e['field'] = $cats_sel->get();
+    $e['field'] = $catsSel->get();
     $formElements[] = $e;
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
     $panel .= $fragment->parse('core/form/form.php');
 
-    $panel .= rex_extension::registerPoint(new rex_extension_point('MEDIA_FORM_EDIT', '', ['id' => $file_id, 'media' => $gf]));
+    $panel .= rex_extension::registerPoint(new rex_extension_point('MEDIA_FORM_EDIT', '', ['id' => $fileId, 'media' => $gf]));
 
-    $panel .= $add_ext_info;
+    $panel .= $addExtInfo;
 
     $formElements = [];
 
     $e = [];
     $e['label'] = '<label>' . rex_i18n::msg('pool_filename') . '</label>';
-    $e['field'] = '<p class="form-control-static"><a href="' . rex_url::media($encoded_fname) . '">' . rex_escape($fname) . '</a> <span class="rex-filesize">' . $ffile_size . '</span></p>';
+    $e['field'] = '<p class="form-control-static rex-word-break"><a href="' . rex_url::media($encodedFname) . '">' . rex_escape($fname) . '</a> <span class="rex-filesize">' . $ffileSize . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
@@ -272,15 +274,15 @@ if ($TPERM) {
     $body = '
         <form action="' . rex_url::currentBackendPage() . '" method="post" enctype="multipart/form-data" data-pjax="false">
             ' . $csrf->getHiddenField() . '
-            <input type="hidden" name="file_id" value="' . $file_id . '" />
-            ' . $arg_fields . '
+            <input type="hidden" name="file_id" value="' . $fileId . '" />
+            ' . $argFields . '
             ' . $panel . '
             ' . $buttons . '
         </form>';
 
     $fragment = new rex_fragment();
     $fragment->setVar('class', 'edit', false);
-    $fragment->setVar('title', rex_i18n::msg('pool_file_edit') . $opener_link, false);
+    $fragment->setVar('title', rex_i18n::msg('pool_file_edit') . $openerLink, false);
     $fragment->setVar('options', $toolbar, false);
     $fragment->setVar('body', $body, false);
     $content = $fragment->parse('core/page/section.php');
@@ -290,13 +292,13 @@ if ($TPERM) {
     $panel = '';
 
     $catname = rex_i18n::msg('pool_kats_no');
-    $Cat = rex_media_category::get($rex_file_category);
+    $Cat = rex_media_category::get($rexFileCategory);
     if ($Cat) {
         $catname = $Cat->getName();
     }
 
-    $ftitle .= ' [' . $file_id . ']';
-    $catname .= ' [' . $rex_file_category . ']';
+    $ftitle .= ' [' . $fileId . ']';
+    $catname .= ' [' . $rexFileCategory . ']';
 
     $formElements = [];
 
@@ -312,7 +314,7 @@ if ($TPERM) {
 
     $e = [];
     $e['label'] = '<label>' . rex_i18n::msg('pool_filename') . '</label>';
-    $e['field'] = '<p class="form-control-static"><a href="' . rex_url::media($encoded_fname) . '">' . $fname . '</a>  <span class="rex-filesize">' . $ffile_size . '</span></p>';
+    $e['field'] = '<p class="form-control-static"><a href="' . rex_url::media($encodedFname) . '">' . $fname . '</a>  <span class="rex-filesize">' . $ffileSize . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
@@ -337,7 +339,7 @@ if ($TPERM) {
     }
 
     $fragment = new rex_fragment();
-    $fragment->setVar('title', rex_i18n::msg('pool_file_details') . $opener_link, false);
+    $fragment->setVar('title', rex_i18n::msg('pool_file_details') . $openerLink, false);
     $fragment->setVar('options', $toolbar, false);
     $fragment->setVar('body', $panel, false);
     $content = $fragment->parse('core/page/section.php');

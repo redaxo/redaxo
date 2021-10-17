@@ -11,6 +11,8 @@ class rex_effect_image_properties extends rex_effect_abstract
     {
         $media = $this->media;
 
+        $media->asImage();
+
         if (!empty($this->params['jpg_quality'])) {
             $media->setImageProperty(rex_managed_media::PROP_JPG_QUALITY, $this->params['jpg_quality']);
         }
