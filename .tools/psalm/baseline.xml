@@ -5454,7 +5454,7 @@
     </MixedPropertyAssignment>
   </file>
   <file src="redaxo/src/core/lib/list.php">
-    <MixedArgument occurrences="23">
+    <MixedArgument occurrences="22">
       <code>$column</code>
       <code>$column</code>
       <code>$columnName</code>
@@ -5476,7 +5476,6 @@
       <code>$string</code>
       <code>$this-&gt;getValue($column)</code>
       <code>$this-&gt;getValue($columnName)</code>
-      <code>$this-&gt;rows</code>
       <code>$v</code>
     </MixedArgument>
     <MixedArrayAccess occurrences="2">
@@ -5495,7 +5494,7 @@
       <code>$this-&gt;linkAttributes[$columnName]</code>
       <code>$this-&gt;linkAttributes[$column]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="22">
+    <MixedAssignment occurrences="21">
       <code>$column</code>
       <code>$columnName</code>
       <code>$columnName</code>
@@ -5512,7 +5511,6 @@
       <code>$tableColumnGroup</code>
       <code>$tableColumn['class']</code>
       <code>$tableColumns</code>
-      <code>$this-&gt;rows</code>
       <code>$v</code>
       <code>$v</code>
       <code>$value</code>
