@@ -303,7 +303,7 @@ class rex_autoload
      * Extract the classes in the given file.
      *
      * The method is copied from Composer (with little changes):
-     * https://github.com/composer/composer/blob/6034c2af01e264652a060e57f1e0288b4038a31a/src/Composer/Autoload/ClassMapGenerator.php#L205
+     * https://github.com/composer/composer/blob/d99b200cf3b9d24a166141420ca28c6a99f27bf5/src/Composer/Autoload/ClassMapGenerator.php#L215
      *
      * @param string $path The file to check
      *
@@ -314,13 +314,12 @@ class rex_autoload
     private static function findClasses($path)
     {
         $extraTypes = PHP_VERSION_ID < 50400 ? '' : '|trait';
-        if (defined('HHVM_VERSION') && version_compare(HHVM_VERSION, '3.3', '>=')) {
+        if (PHP_VERSION_ID >= 80100 || (defined('HHVM_VERSION') && version_compare(HHVM_VERSION, '3.3', '>='))) {
             $extraTypes .= '|enum';
         }
 
         /**
          * Use @ here instead of Silencer to actively suppress 'unhelpful' output.
-         *
          * @see https://github.com/composer/composer/pull/4886
          */
         $contents = @php_strip_whitespace($path);
@@ -348,11 +347,36 @@ class rex_autoload
         }
 
         // strip heredocs/nowdocs
-        $contents = preg_replace('{<<<[ \t]*([\'"]?)(\w+)\\1(?:\r\n|\n|\r)(?:.*?)(?:\r\n|\n|\r)(?:\s*)\\2(?=\s+|[;,.)])}s', 'null', $contents);
+        $heredocRegex = '{
+            # opening heredoc/nowdoc delimiter (word-chars)
+            <<<[ \t]*+([\'"]?)(\w++)\\1
+            # needs to be followed by a newline
+            (?:\r\n|\n|\r)
+            # the meat of it, matching line by line until end delimiter
+            (?:
+                # a valid line is optional white-space (possessive match) not followed by the end delimiter, then anything goes for the rest of the line
+                [\t ]*+(?!\\2 \b)[^\r\n]*+
+                # end of line(s)
+                [\r\n]++
+            )*
+            # end delimiter
+            [\t ]*+ \\2 (?=\b)
+        }x';
+
+        // run first assuming the file is valid unicode
+        $contentWithoutHeredoc = preg_replace($heredocRegex.'u', 'null', $contents);
+        if (null === $contentWithoutHeredoc) {
+            // run again without unicode support if the file failed to be parsed
+            $contents = preg_replace($heredocRegex, 'null', $contents);
+        } else {
+            $contents = $contentWithoutHeredoc;
+        }
+        unset($contentWithoutHeredoc);
+
         // strip strings
         $contents = preg_replace('{"[^"\\\\]*+(\\\\.[^"\\\\]*+)*+"|\'[^\'\\\\]*+(\\\\.[^\'\\\\]*+)*+\'}s', 'null', $contents);
         // strip leading non-php code if needed
-        if ('<?' !== substr($contents, 0, 2)) {
+        if (!str_starts_with($contents, '<?')) {
             $contents = preg_replace('{^.+?<\?}s', '<?', $contents, 1, $replacements);
             if (0 === $replacements) {
                 return [];

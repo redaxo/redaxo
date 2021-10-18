@@ -44,6 +44,8 @@ if ($curPage->isPopup()) {
 if (rex::getImpersonator()) {
     $bodyAttr['class'][] = 'rex-is-impersonated';
 }
+
+$bodyAttr['class'][] = 'rex-has-theme';
 if (rex::getProperty('theme')) {
     // global theme from config.yml
     $bodyAttr['class'][] = 'rex-theme-' . rex_escape((string) rex::getProperty('theme'));

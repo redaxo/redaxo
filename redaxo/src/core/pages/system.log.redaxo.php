@@ -67,7 +67,8 @@ foreach (new LimitIterator($file, 0, 100) as $entry) {
     if (isset($data[2])) {
         $path = rex_escape($data[2]);
 
-        if ($url = $editor->getUrl(rex_path::base($data[2]), $data[3] ?? 1)) {
+        $fullPath = str_starts_with($data[2], 'rex://') ? $data[2] : rex_path::base($data[2]);
+        if ($url = $editor->getUrl($fullPath, $data[3] ?? 1)) {
             $path = '<a href="'.$url.'">'.$path.'</a>';
         }
     }
