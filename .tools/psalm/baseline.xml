@@ -143,9 +143,8 @@
       <code>$subject</code>
       <code>$themeColor</code>
     </MixedAssignment>
-    <MixedOperand occurrences="3">
+    <MixedOperand occurrences="2">
       <code>$ep-&gt;getSubject()</code>
-      <code>$themeColor</code>
       <code>$themeColor</code>
     </MixedOperand>
   </file>
