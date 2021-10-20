@@ -637,32 +637,33 @@ class rex_list implements rex_url_provider_interface
      * Schiebt eine Spalte an eine andere Position in der Spaltenliste
      *
      * @param string        $columnName   Name der Spalte
-     * @param int|string    $columnIndex  Stelle, an der die Spalte erscheinen soll
-     *                                    als Index (int) oder vor "Spaltenname" (string)
+     * @param int|string    $columnIndex  Einfügen vor der angegebenen Spalte
+     *                                    (Spalten-Index analog zu addColumn oder Spaltenname)
      *
-     * @return int|bool     false falls unbekannter Zielspaltenname, sonst die Spaltennummer
+     * @throws InvalidArgumentException   $columnName kommt in $this->columnNames nicht vor
+     *
+     * @return int          Spaltennummer der neuen Position
      */
-    public function setColumnPosition(string $columnName, $columnIndex = -1)
+    public function setColumnPosition(string $columnName, $columnIndex)
     {
         $currentIndex = $this->getColumnPosition($columnName);
-
-        if (false !== $currentIndex) {
-
-            if( is_string($columnIndex) ) {
-                $columnIndex = $this->getColumnPosition($columnIndex) ?: -1;
-            }
-
-            // Bei negativem columnIndex, das Element am Ende anfügen
-            if ($columnIndex < 0) {
-                $columnIndex = count($this->columnNames);
-            }
-
-            unset ($this->columnNames[$currentIndex]);
-            array_splice($this->columnNames, $columnIndex, 0, [$columnName]);
-
-            return $columnIndex;
+        if (-1 === $currentIndex) {
+            throw new InvalidArgumentException('Unkown column name "'.$columnName.'". Unable to move not existing column.');
         }
-        return false;
+
+        if( is_string($columnIndex) ) {
+            $columnIndex = $this->getColumnPosition($columnIndex);
+        }
+
+        // Bei negativem columnIndex das Element am Ende anfügen
+        if (0 >= $columnIndex) {
+            $columnIndex = count($this->columnNames);
+        }
+
+        unset ($this->columnNames[$currentIndex]);
+        array_splice($this->columnNames, $columnIndex, 0, [$columnName]);
+
+        return $columnIndex;
     }
 
     /**
@@ -670,11 +671,12 @@ class rex_list implements rex_url_provider_interface
      *
      * @param string     $columnName   Name der Spalte
      *
-     * @return int|bool  Index falls der Name der Spalte existiert, sonst false
+     * @return int       Index falls der Name der Spalte existiert, sonst -1
      */
     public function getColumnPosition(string $columnName)
     {
-        return array_search($columnName, $this->columnNames);
+        $position = array_search($columnName, $this->columnNames);
+        return false === $position ? -1 : $position;
     }
 
     // ---------------------- TableColumnGroup setters/getters/etc
