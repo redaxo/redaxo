@@ -52,6 +52,8 @@ class rex_list implements rex_url_provider_interface
 {
     use rex_factory_trait;
 
+    public const DISABLE_PAGINATION = null;
+
     /**
      * @var int
      * @psalm-var positive-int
@@ -122,7 +124,7 @@ class rex_list implements rex_url_provider_interface
      * Erstellt ein rex_list Objekt.
      *
      * @param string      $query       SELECT Statement
-     * @param int|null    $rowsPerPage `null` disables the pagination
+     * @param int|self::DISABLE_PAGINATION $rowsPerPage
      * @param string|null $listName    Name der Liste
      * @param bool        $debug
      * @param int         $db
@@ -175,7 +177,7 @@ class rex_list implements rex_url_provider_interface
         $this->rowAttributes = [];
 
         // --------- Pagination Attributes
-        if (null !== $rowsPerPage) {
+        if (self::DISABLE_PAGINATION !== $rowsPerPage) {
             $cursorName = $listName .'_start';
             if (null === rex_request($cursorName, 'int', null) && rex_request('start', 'int')) {
                 // BC: Fallback to "start"
@@ -191,7 +193,7 @@ class rex_list implements rex_url_provider_interface
 
         // --------- Load Data
         $this->sql->setQuery($this->prepareQuery($query));
-        if (null === $rowsPerPage) {
+        if (self::DISABLE_PAGINATION === $rowsPerPage) {
             $this->rows = (int) $this->sql->getRows();
         }
 
@@ -209,7 +211,7 @@ class rex_list implements rex_url_provider_interface
 
     /**
      * @param string      $query
-     * @param int|null    $rowsPerPage `null` disables the pagination
+     * @param int|self::DISABLE_PAGINATION $rowsPerPage
      * @param string|null $listName
      * @param bool        $debug
      * @param int         $db          DB connection ID
