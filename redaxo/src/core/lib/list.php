@@ -52,6 +52,8 @@ class rex_list implements rex_url_provider_interface
 {
     use rex_factory_trait;
 
+    public const DISABLE_PAGINATION = null;
+
     /**
      * @var int
      * @psalm-var positive-int
@@ -115,14 +117,14 @@ class rex_list implements rex_url_provider_interface
     private $linkAttributes;
 
     // --------- Pagination Attributes
-    /** @var rex_pager */
+    /** @var rex_pager|null */
     private $pager;
 
     /**
      * Erstellt ein rex_list Objekt.
      *
      * @param string      $query       SELECT Statement
-     * @param int         $rowsPerPage Anzahl der Elemente pro Zeile
+     * @param int|self::DISABLE_PAGINATION $rowsPerPage
      * @param string|null $listName    Name der Liste
      * @param bool        $debug
      * @param int         $db
@@ -175,20 +177,25 @@ class rex_list implements rex_url_provider_interface
         $this->rowAttributes = [];
 
         // --------- Pagination Attributes
-        $cursorName = $listName .'_start';
-        if (null === rex_request($cursorName, 'int', null) && rex_request('start', 'int')) {
-            // BC: Fallback to "start"
-            $cursorName = 'start';
+        if (self::DISABLE_PAGINATION !== $rowsPerPage) {
+            $cursorName = $listName .'_start';
+            if (null === rex_request($cursorName, 'int', null) && rex_request('start', 'int')) {
+                // BC: Fallback to "start"
+                $cursorName = 'start';
+            }
+            $this->pager = new rex_pager($rowsPerPage, $cursorName);
+
+            $sql = rex_sql::factory($db);
+            $sql->setQuery(self::prepareCountQuery($query));
+            $this->rows = (int) $sql->getValue('rows');
+            $this->pager->setRowCount($this->rows);
         }
-        $this->pager = new rex_pager($rowsPerPage, $cursorName);
 
-        // --------- Load Data, Row-Count
-        $sql = rex_sql::factory($db);
-        $sql->setQuery(self::prepareCountQuery($query));
-        $this->rows = (int) $sql->getValue('rows');
-        $this->pager->setRowCount($this->rows);
-
+        // --------- Load Data
         $this->sql->setQuery($this->prepareQuery($query));
+        if (self::DISABLE_PAGINATION === $rowsPerPage) {
+            $this->rows = (int) $this->sql->getRows();
+        }
 
         foreach ($this->sql->getFieldnames() as $columnName) {
             $this->columnNames[] = $columnName;
@@ -204,7 +211,7 @@ class rex_list implements rex_url_provider_interface
 
     /**
      * @param string      $query
-     * @param int         $rowsPerPage
+     * @param int|self::DISABLE_PAGINATION $rowsPerPage
      * @param string|null $listName
      * @param bool        $debug
      * @param int         $db          DB connection ID
@@ -806,9 +813,6 @@ class rex_list implements rex_url_provider_interface
      */
     protected function prepareQuery($query)
     {
-        $rowsPerPage = $this->pager->getRowsPerPage();
-        $startRow = $this->pager->getCursor();
-
         $sortColumn = $this->getSortColumn();
         if ('' != $sortColumn) {
             $sortType = $this->getSortType();
@@ -823,8 +827,8 @@ class rex_list implements rex_url_provider_interface
             }
         }
 
-        if (false === stripos($query, ' LIMIT ')) {
-            $query .= ' LIMIT ' . $startRow . ',' . $rowsPerPage;
+        if ($this->pager && false === stripos($query, ' LIMIT ')) {
+            $query .= ' LIMIT ' . $this->pager->getCursor() . ',' . $this->pager->getRowsPerPage();
         }
 
         return $query;
@@ -848,7 +852,7 @@ class rex_list implements rex_url_provider_interface
     /**
      * Returns the pager for this list.
      *
-     * @return rex_pager
+     * @return rex_pager|null
      */
     public function getPager()
     {
@@ -909,6 +913,10 @@ class rex_list implements rex_url_provider_interface
      */
     protected function getPagination()
     {
+        if (null === $this->pager) {
+            return '';
+        }
+
         $fragment = new rex_fragment();
         $fragment->setVar('urlprovider', $this);
         $fragment->setVar('pager', $this->pager);
@@ -1139,7 +1147,9 @@ class rex_list implements rex_url_provider_interface
                 } else {
                     $columnSortType = $this->getColumnOption($columnName, REX_LIST_OPT_SORT_DIRECTION, 'asc');
                 }
-                $columnHead = '<a class="rex-link-expanded" href="' . $this->getUrl([$this->pager->getCursorName() => $this->pager->getCursor(), 'sort' => $columnName, 'sorttype' => $columnSortType]) . '">' . $columnHead . '</a>';
+                $params = $this->pager ? [$this->pager->getCursorName() => $this->pager->getCursor()] : [];
+                $params = array_merge($params, ['sort' => $columnName, 'sorttype' => $columnSortType]);
+                $columnHead = '<a class="rex-link-expanded" href="' . $this->getUrl($params) . '">' . $columnHead . '</a>';
             }
 
             $layout = $this->getColumnLayout($columnName);
@@ -1158,7 +1168,11 @@ class rex_list implements rex_url_provider_interface
         }
 
         if ($nbRows > 0) {
-            $maxRows = $nbRows - $this->pager->getCursor();
+            if ($this->pager) {
+                $maxRows = min($this->pager->getRowsPerPage(), $nbRows - $this->pager->getCursor());
+            } else {
+                $maxRows = $nbRows;
+            }
 
             $rowAttributesCallable = null;
             if (is_callable($this->rowAttributes)) {
@@ -1171,7 +1185,7 @@ class rex_list implements rex_url_provider_interface
             }
 
             $s .= '        <tbody>' . "\n";
-            for ($i = 0; $i < $this->pager->getRowsPerPage() && $i < $maxRows; ++$i) {
+            for ($i = 0; $i < $maxRows; ++$i) {
                 $rowAttributes = '';
                 if ($rowAttributesCallable) {
                     $rowAttributes = ' ' . $rowAttributesCallable($this);
