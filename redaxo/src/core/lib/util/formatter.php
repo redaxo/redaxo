@@ -86,34 +86,26 @@ abstract class rex_formatter
             return '';
         }
 
-        if (!function_exists('strftime')) {
-            if ('' === $format || 'date' === $format) {
-                return self::intlDate($timestamp);
-            }
-            if ('datetime' === $format) {
-                return self::intlDateTime($timestamp);
-            }
-            if ('time' === $format) {
-                return self::intlTime($timestamp);
-            }
-
-            if (is_int($value) || ctype_digit($value)) {
-                return date('Y-m-d H:i:s', (int) $value);
-            }
-            return $value;
+        if ('' === $format || 'date' === $format) {
+            return self::intlDate($timestamp);
+        }
+        if ('datetime' === $format) {
+            return self::intlDateTime($timestamp);
+        }
+        if ('time' === $format) {
+            return self::intlTime($timestamp);
         }
 
-        if ('' == $format || 'date' == $format) {
-            // Default REX-Dateformat
-            $format = rex_i18n::msg('dateformat');
-        } elseif ('datetime' == $format) {
-            // Default REX-Datetimeformat
-            $format = rex_i18n::msg('datetimeformat');
-        } elseif ('time' == $format) {
-            // Default REX-Timeformat
-            $format = rex_i18n::msg('timeformat');
+        if (function_exists('strftime')) {
+            return strftime($format, $timestamp);
         }
-        return strftime($format, $timestamp);
+
+        // strftime does not exist anymore, return unformatted datetime string
+        if (is_int($value) || ctype_digit($value)) {
+            return date('Y-m-d H:i:s', (int) $value);
+        }
+
+        return $value;
     }
 
     /**

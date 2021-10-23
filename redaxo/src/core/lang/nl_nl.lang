@@ -6,9 +6,6 @@ general = Algemeen
 setlocale = nl_NL,nl_NL.UTF8,dutch,nld_nld,nld,Nederlands
 phpini_settings = PHP.ini Instellingen
 
-dateformat = %d %b. %Y
-datetimeformat = %d %b. %Y, %H:%M
-timeformat = %H:%M
 ctrl = Selecteer meerdere met <kbd>CTRL</kbd> of <kbd>CMD</kbd>
 
 # Allgemein

@@ -6,9 +6,6 @@ general = geral
 setlocale = en_GB,en_UK,en_US,en_EN,en_AU,en_CA,American,ENG,English
 phpini_settings = PHP.ini Configurações
 
-dateformat = %d/%b/%Y
-datetimeformat = %d/%b/%Y, %H:%M
-timeformat = %H:%M
 ctrl = Seleção múltipla usando <kbd>CTRL</kbd> ou <kbd>CMD</kbd>
 
 # Allgemein
