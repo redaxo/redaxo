@@ -644,7 +644,7 @@ class rex_list implements rex_url_provider_interface
      *
      * @return int          Spaltennummer der neuen Position
      */
-    public function setColumnPosition(string $columnName, $columnIndex)
+    public function setColumnPosition(string $columnName, $columnIndex): int
     {
         $currentIndex = $this->getColumnPosition($columnName);
         if (-1 === $currentIndex) {
