@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'cc278ee5bb29c7540d38f16b2750d32d21745d0d',
+        'reference' => '9cff0bd200eafed6ac06217eaf7cf783851a67f3',
         'name' => '__root__',
         'dev' => false,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'cc278ee5bb29c7540d38f16b2750d32d21745d0d',
+            'reference' => '9cff0bd200eafed6ac06217eaf7cf783851a67f3',
             'dev_requirement' => false,
         ),
         'erusev/parsedown' => array(
@@ -80,12 +80,12 @@
             ),
         ),
         'ramsey/collection' => array(
-            'pretty_version' => '1.2.1',
-            'version' => '1.2.1.0',
+            'pretty_version' => '1.2.2',
+            'version' => '1.2.2.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../ramsey/collection',
             'aliases' => array(),
-            'reference' => 'eaca1dc1054ddd10cbd83c1461907bee6fb528fa',
+            'reference' => 'cccc74ee5e328031b15640b51056ee8d3bb66c0a',
             'dev_requirement' => false,
         ),
         'ramsey/http-range' => array(
