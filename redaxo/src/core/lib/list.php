@@ -642,7 +642,7 @@ class rex_list implements rex_url_provider_interface
     }
 
     /**
-     * Verschiebt eine Spalte an eine andere Position in der Spaltenliste
+     * Verschiebt eine Spalte an eine andere Position in der Spaltenliste.
      *
      * @param string        $columnName   Name der Spalte
      * @param int|string    $columnIndex  Einfügen vor der angegebenen Spalte
@@ -654,7 +654,7 @@ class rex_list implements rex_url_provider_interface
     {
         $currentIndex = $this->getColumnPosition($columnName);
 
-        if( is_string($columnIndex) ) {
+        if (is_string($columnIndex)) {
             $columnIndex = $this->getColumnPosition($columnIndex);
         }
 
@@ -663,7 +663,7 @@ class rex_list implements rex_url_provider_interface
             $columnIndex = count($this->columnNames);
         }
 
-        unset ($this->columnNames[$currentIndex]);
+        unset($this->columnNames[$currentIndex]);
         array_splice($this->columnNames, $columnIndex, 0, [$columnName]);
 
         return $columnIndex;
