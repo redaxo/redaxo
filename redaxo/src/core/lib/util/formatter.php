@@ -89,9 +89,11 @@ abstract class rex_formatter
         if (!function_exists('strftime')) {
             if ('' === $format || 'date' === $format) {
                 return self::intlDate($timestamp);
-            } elseif ('datetime' === $format) {
+            }
+            if ('datetime' === $format) {
                 return self::intlDateTime($timestamp);
-            } elseif ('time' === $format) {
+            }
+            if ('time' === $format) {
                 return self::intlTime($timestamp);
             }
 
