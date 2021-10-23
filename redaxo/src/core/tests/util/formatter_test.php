@@ -54,6 +54,108 @@ class rex_formatter_test extends TestCase
         rex_i18n::setLocale($oldLocale);
     }
 
+    /**
+     * @dataProvider dataIntlDateTime
+     *
+     * @param string|int|DateTimeInterface|null $value
+     * @param null|int|array{int, int}|string $format
+     */
+    public function testIntlDateTime(string $expected, $value, $format = null): void
+    {
+        if (null === $format) {
+            $string = rex_formatter::intlDateTime($value);
+        } else {
+            /** @psalm-suppress ArgumentTypeCoercion */
+            $string = rex_formatter::intlDateTime($value, $format);
+        }
+
+        static::assertSame($expected, $string);
+    }
+
+    /**
+     * @return list<array{string, string|int|DateTimeInterface|null, 3?: null|int|array{int, int}|string}>
+     */
+    public function dataIntlDateTime(): array
+    {
+        return [
+            ['', null],
+            ['', ''],
+            ['23. Okt. 2021, 11:39', '2021-10-23 11:39:30'],
+            ['23. Oktober 2021 um 11:56:38 MESZ', 1634982998, IntlDateFormatter::LONG],
+            ['23.10.2021, 11:56:38', 1634982998, [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]],
+            ['Samstag, 7. März 1998, 9 Uhr', '1998-03-07 09:00', "EEEE, d. MMMM y, H 'Uhr'"],
+            ['Samstag, 23. Oktober 2021 um 09:30:00 Mitteleuropäische Sommerzeit', new DateTime('2021-10-23 09:30'), IntlDateFormatter::FULL],
+            ['Samstag, 23. Oktober 2021 um 09:30:00 Nordamerikanische Westküsten-Sommerzeit', new DateTimeImmutable('2021-10-23 09:30', new DateTimeZone('America/Los_Angeles')), IntlDateFormatter::FULL],
+        ];
+    }
+
+    /**
+     * @dataProvider dataIntlDate
+     *
+     * @param string|int|DateTimeInterface|null $value
+     * @param null|int|string $format
+     */
+    public function testIntlDate(string $expected, $value, $format = null): void
+    {
+        if (null === $format) {
+            $string = rex_formatter::intlDate($value);
+        } else {
+            /** @psalm-suppress ArgumentTypeCoercion */
+            $string = rex_formatter::intlDate($value, $format);
+        }
+
+        static::assertSame($expected, $string);
+    }
+
+    /**
+     * @return list<array{string, string|int|DateTimeInterface|null, 3?: null|int|string}>
+     */
+    public function dataIntlDate(): array
+    {
+        return [
+            ['', null],
+            ['', ''],
+            ['23. Okt. 2021', '2021-10-23 11:39:30'],
+            ['23. Oktober 2021', 1634982998, IntlDateFormatter::LONG],
+            ['Samstag, 7. März 1998', '1998-03-07 09:00', 'EEEE, d. MMMM y'],
+            ['Samstag, 23. Oktober 2021', new DateTime('2021-10-23 09:30'), IntlDateFormatter::FULL],
+        ];
+    }
+
+    /**
+     * @dataProvider dataIntlTime
+     *
+     * @param string|int|DateTimeInterface|null $value
+     * @param null|int|string $format
+     */
+    public function testIntlTime(string $expected, $value, $format = null): void
+    {
+        if (null === $format) {
+            $string = rex_formatter::intlTime($value);
+        } else {
+            /** @psalm-suppress ArgumentTypeCoercion */
+            $string = rex_formatter::intlTime($value, $format);
+        }
+
+        static::assertSame($expected, $string);
+    }
+
+    /**
+     * @return list<array{string, string|int|DateTimeInterface|null, 3?: null|int|string}>
+     */
+    public function dataIntlTime(): array
+    {
+        return [
+            ['', null],
+            ['', ''],
+            ['11:39', '2021-10-23 11:39:30'],
+            ['11:56:38 MESZ', 1634982998, IntlDateFormatter::LONG],
+            ['9 Uhr', '1998-03-07 09:00', "H 'Uhr'"],
+            ['09:30:00 Mitteleuropäische Sommerzeit', new DateTime('2021-10-23 09:30'), IntlDateFormatter::FULL],
+            ['09:30:00 Nordamerikanische Westküsten-Sommerzeit', new DateTimeImmutable('2021-10-23 09:30', new DateTimeZone('America/Los_Angeles')), IntlDateFormatter::FULL],
+        ];
+    }
+
     public function testNumber()
     {
         $value = 1336811080.23;
