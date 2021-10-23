@@ -673,7 +673,7 @@ class rex_list implements rex_url_provider_interface
      *
      * @return int       Index falls der Name der Spalte existiert, sonst -1
      */
-    public function getColumnPosition(string $columnName)
+    public function getColumnPosition(string $columnName): int
     {
         $position = array_search($columnName, $this->columnNames);
         return false === $position ? -1 : $position;
