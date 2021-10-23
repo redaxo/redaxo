@@ -71,6 +71,8 @@ abstract class rex_formatter
      * @param string     $format Possible values are format strings like in `strftime` or "date" or "datetime", default is "date"
      *
      * @return string
+     *
+     * @deprecated since 5.13.0
      */
     public static function strftime($value, $format = '')
     {
@@ -82,6 +84,21 @@ abstract class rex_formatter
 
         if (null === $timestamp) {
             return '';
+        }
+
+        if (!function_exists('strftime')) {
+            if ('' === $format || 'date' === $format) {
+                return self::intlDate($timestamp);
+            } elseif ('datetime' === $format) {
+                return self::intlDateTime($timestamp);
+            } elseif ('time' === $format) {
+                return self::intlTime($timestamp);
+            }
+
+            if (is_int($value) || ctype_digit($value)) {
+                return date('Y-m-d H:i:s', (int) $value);
+            }
+            return $value;
         }
 
         if ('' == $format || 'date' == $format) {
