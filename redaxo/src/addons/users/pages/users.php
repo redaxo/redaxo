@@ -607,9 +607,7 @@ if ($SHOW) {
     $list->setColumnSortable('role');
 
     $list->setColumnLabel('lastlogin', rex_i18n::msg('last_login'));
-    $list->setColumnFormat('lastlogin', 'custom', static function () use ($list) {
-        return rex_formatter::strftime(strtotime($list->getValue('lastlogin')), 'datetime');
-    });
+    $list->setColumnFormat('lastlogin', 'intlDateTime');
     $list->setColumnSortable('lastlogin', 'desc');
 
     $colspan = rex::getUser()->isAdmin() ? 3 : 2;

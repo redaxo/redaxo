@@ -98,7 +98,7 @@ if ('' == $func) {
     });
 
     $list->setColumnLabel('nexttime', $addon->i18n('nexttime'));
-    $list->setColumnFormat('nexttime', 'strftime', 'datetime');
+    $list->setColumnFormat('nexttime', 'intlDateTime');
 
     $list->setColumnLabel('status', $addon->i18n('status_function'));
     $list->setColumnParams('status', ['func' => 'setstatus', 'oldstatus' => '###status###', 'oid' => '###id###'] + $csrfToken->getUrlParams());
