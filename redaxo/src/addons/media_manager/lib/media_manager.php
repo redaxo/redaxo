@@ -471,6 +471,18 @@ class rex_media_manager
     {
         $type = rex_get('rex_media_type', 'string');
 
+        // map deprecated types to new types
+        $deprecatedTypesMap = [
+            'rex_mediapool_detail' => 'rex_media_medium',
+            'rex_mediapool_maximized' => 'rex_media_large',
+            'rex_mediapool_preview' => 'rex_media_small',
+            'rex_mediabutton_preview' => 'rex_media_medium',
+            'rex_medialistbutton_preview' => 'rex_media_medium',
+        ];
+        if (array_key_exists($type, $deprecatedTypesMap)) {
+            $type = $deprecatedTypesMap[$type];
+        }
+
         // can be used with REDAXO >= 5.5.1
         // $type = rex_path::basename($type);
         $type = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $type);

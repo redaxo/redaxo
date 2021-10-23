@@ -38,6 +38,7 @@ $table
     ->ensureColumn(new rex_sql_column('language', 'varchar(255)'))
     ->ensureColumn(new rex_sql_column('startpage', 'varchar(255)'))
     ->ensureColumn(new rex_sql_column('role', 'text', true))
+    ->ensureColumn(new rex_sql_column('theme', 'varchar(255)', true))
     ->ensureColumn(new rex_sql_column('login_tries', 'tinyint(4)', false, '0'))
     ->ensureGlobalColumns()
     ->ensureColumn(new rex_sql_column('password_changed', 'datetime'))

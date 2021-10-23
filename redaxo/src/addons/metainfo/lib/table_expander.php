@@ -9,13 +9,15 @@
  *
  * @internal
  */
-
 class rex_metainfo_table_expander extends rex_form
 {
+    /** @var string */
     private $metaPrefix;
+
+    /** @var rex_metainfo_table_manager */
     private $tableManager;
 
-    public function __construct($metaPrefix, $metaTable, $tableName, $whereCondition, $method = 'post', $debug = false)
+    public function __construct(string $metaPrefix, string $metaTable, string $tableName, string $whereCondition, string $method = 'post', bool $debug = false)
     {
         $this->metaPrefix = $metaPrefix;
         $this->tableManager = new rex_metainfo_table_manager($metaTable);
@@ -174,7 +176,7 @@ class rex_metainfo_table_expander extends rex_form
     {
         if ($fieldsetName == $this->getFieldsetName() && 'name' == $fieldName) {
             // Den Namen mit Prefix speichern
-            return $this->addPrefix($fieldValue);
+            return $this->addPrefix((string) $fieldValue);
         }
 
         return parent::preSave($fieldsetName, $fieldName, $fieldValue, $saveSql);
@@ -184,12 +186,12 @@ class rex_metainfo_table_expander extends rex_form
     {
         if ($fieldsetName == $this->getFieldsetName() && 'name' == $fieldName) {
             // Den Namen ohne Prefix anzeigen
-            return $this->stripPrefix($fieldValue);
+            return $this->stripPrefix((string) $fieldValue);
         }
         return parent::preView($fieldsetName, $fieldName, $fieldValue);
     }
 
-    public function addPrefix($string)
+    public function addPrefix(string $string): string
     {
         $lowerString = strtolower($string);
         if (!str_starts_with($lowerString, $this->metaPrefix)) {
@@ -198,7 +200,7 @@ class rex_metainfo_table_expander extends rex_form
         return $string;
     }
 
-    public function stripPrefix($string)
+    public function stripPrefix(string $string): string
     {
         $lowerString = strtolower($string);
         if (str_starts_with($lowerString, $this->metaPrefix)) {
@@ -213,7 +215,7 @@ class rex_metainfo_table_expander extends rex_form
     protected function validate()
     {
         $fieldName = $this->elementPostValue($this->getFieldsetName(), 'name');
-        if ('' == $fieldName) {
+        if (!$fieldName) {
             return rex_i18n::msg('minfo_field_error_name');
         }
 
@@ -242,6 +244,7 @@ class rex_metainfo_table_expander extends rex_form
     protected function save()
     {
         $fieldName = $this->elementPostValue($this->getFieldsetName(), 'name');
+        assert(null !== $fieldName);
 
         // Den alten Wert aus der DB holen
         // Dies muss hier geschehen, da in parent::save() die Werte fuer die DB mit den
@@ -250,11 +253,11 @@ class rex_metainfo_table_expander extends rex_form
         $fieldOldPriority = 9999999999999; // dirty, damit die prio richtig l�uft...
         if (1 == $this->sql->getRows()) {
             $fieldOldName = $this->sql->getValue('name');
-            $fieldOldPriority = $this->sql->getValue('priority');
+            $fieldOldPriority = (int) $this->sql->getValue('priority');
         }
 
         if (parent::save()) {
-            $this->organizePriorities($this->elementPostValue($this->getFieldsetName(), 'priority'), $fieldOldPriority);
+            $this->organizePriorities((int) $this->elementPostValue($this->getFieldsetName(), 'priority'), $fieldOldPriority);
 
             $fieldName = $this->addPrefix($fieldName);
             $fieldType = (int) $this->elementPostValue($this->getFieldsetName(), 'type_id');
@@ -289,12 +292,12 @@ class rex_metainfo_table_expander extends rex_form
         return false;
     }
 
-    public function getPrefix()
+    public function getPrefix(): string
     {
         return $this->metaPrefix;
     }
 
-    protected function organizePriorities($newPrio, $oldPrio)
+    protected function organizePriorities(int $newPrio, int $oldPrio): void
     {
         if ($newPrio == $oldPrio) {
             return;

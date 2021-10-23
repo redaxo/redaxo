@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Redaxo\Rector\Rule;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Param;
@@ -96,7 +95,7 @@ final class UnderscoreToCamelCaseVariableNameRector extends AbstractRector
             return null;
         }
 
-        if (!Strings::contains($nodeName, '_')) {
+        if (!str_contains($nodeName, '_')) {
             return null;
         }
 

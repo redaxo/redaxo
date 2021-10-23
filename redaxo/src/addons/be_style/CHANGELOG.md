@@ -1,6 +1,17 @@
 Changelog
 =========
 
+Version 2.12.1 – 21.06.2021
+---------------------------
+
+* Login-Seite: 
+    - Hintergrundbild und deren Credits werden nun auch auf kleinen Screens angezeigt (@schuer)
+    - Bei geringer Höhe schob sich der Footer über die Login-Box (@schuer)
+    - Darstellungen Eingabefelder im iOS-Safari korrigiert (@schuer)
+* `structure/version`: Die Leiste für den Wechsel zwischen Arbeits-/Liveversion wurde mobil nicht korrekt dargestellt (@schuer)
+* `mediapool`: Seit Chrome 91 stimmten die Spaltenbreiten teilweise nicht mehr (@schuer)
+
+
 Version 2.12.0 – 03.03.2021
 ---------------------------
 

@@ -52,6 +52,7 @@ class rex_var_media extends rex_var
     }
 
     /**
+     * @param int|string $id
      * @return string
      */
     public static function getWidget($id, $name, $value, array $args = [])
@@ -80,10 +81,11 @@ class rex_var_media extends rex_var
         $viewFunc = '';
         if (rex::getUser()->getComplexPerm('media')->hasMediaPerm()) {
             $disabled = '';
-            $openFunc = 'openREXMedia(' . $id . ',\'' . $openParams . '\');';
-            $addFunc = 'addREXMedia(' . $id . ',\'' . $openParams . '\');';
-            $deleteFunc = 'deleteREXMedia(' . $id . ');';
-            $viewFunc = 'viewREXMedia(' . $id . ',\'' . $openParams . '\');';
+            $quotedId = "'".rex_escape($id, 'js')."'";
+            $openFunc = 'openREXMedia(' . $quotedId . ', \'' . $openParams . '\');';
+            $addFunc = 'addREXMedia(' . $quotedId . ', \'' . $openParams . '\');';
+            $deleteFunc = 'deleteREXMedia(' . $quotedId . ');';
+            $viewFunc = 'viewREXMedia(' . $quotedId . ', \'' . $openParams . '\');';
         }
 
         $e = [];

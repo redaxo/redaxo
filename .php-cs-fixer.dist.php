@@ -49,6 +49,7 @@ return (new PhpCsFixer\Config())
         'concat_space' => false,
         'declare_strict_types' => false,
         'echo_tag_syntax' => false,
+        'empty_loop_condition' => false,
         'heredoc_to_nowdoc' => true,
         'list_syntax' => ['syntax' => 'short'],
         'method_argument_space' => ['on_multiline' => 'ignore'],

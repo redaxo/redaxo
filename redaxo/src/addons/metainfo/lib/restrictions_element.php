@@ -71,7 +71,7 @@ class rex_form_restrictons_element extends rex_form_select_element
 
         $html .= $checkbox->get();
 
-        $html .= '<div id="' . $slctDivId . '">' . parent :: get() . '</div>';
+        $html .= '<div id="' . $slctDivId . '">' . parent::get() . '</div>';
 
         return $html;
     }

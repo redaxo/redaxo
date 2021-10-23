@@ -12,11 +12,11 @@ $content = '';
 
 //------------------------------> Parameter
 /** @psalm-suppress TypeDoesNotContainType */
-if (empty($prefix)) {
+if (empty($prefix) || !is_string($prefix)) {
     throw new rex_exception('Fehler: Prefix nicht definiert!');
 }
 
-if (empty($metaTable)) {
+if (empty($metaTable) || !is_string($metaTable)) {
     throw new rex_exception('Fehler: metaTable nicht definiert!');
 }
 

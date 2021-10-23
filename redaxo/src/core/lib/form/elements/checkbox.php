@@ -31,7 +31,7 @@ class rex_form_checkbox_element extends rex_form_options_element
      */
     public function formatElement()
     {
-        $values = explode('|', trim($this->getValue(), '|'));
+        $values = explode('|', trim($this->getValue() ?? '', '|'));
         $options = $this->getOptions();
         $name = $this->getAttribute('name');
         $id = $this->getAttribute('id');

@@ -36,6 +36,16 @@ parameters:
 			path: ../../redaxo/src/addons/mediapool/lib/media_category_select.php
 
 		-
+			message: "#^Ternary operator condition is always true\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/mediapool/lib/service_media.php
+
+		-
+			message: "#^Variable \\$warning in empty\\(\\) always exists and is always falsy\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/mediapool/lib/service_media_category.php
+
+		-
 			message: "#^Strict comparison using \\=\\=\\= between false and string will always evaluate to false\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/metainfo/functions/function_metainfo.php
@@ -186,6 +196,11 @@ parameters:
 			path: ../../redaxo/src/core/lib/login/login.php
 
 		-
+			message: "#^Unsafe call to private method rex_login\\:\\:getCookieParams\\(\\) through static\\:\\:\\.$#"
+			count: 2
+			path: ../../redaxo/src/core/lib/login/login.php
+
+		-
 			message: "#^Method rex_user\\:\\:getComplexPerm\\(\\) should return rex_clang_perm\\|rex_media_perm\\|rex_module_perm\\|rex_structure_perm\\|null but returns rex_complex_perm\\|null\\.$#"
 			count: 2
 			path: ../../redaxo/src/core/lib/login/user.php
@@ -209,6 +224,11 @@ parameters:
 			message: "#^Offset 'status' on array\\('install' \\=\\> bool, 'status' \\=\\> bool\\) on left side of \\?\\? always exists and is not nullable\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/addons/addon.php
+
+		-
+			message: "#^If condition is always true\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/response.php
 
 		-
 			message: "#^Call to function assert\\(\\) with false will always evaluate to false\\.$#"
@@ -241,6 +261,11 @@ parameters:
 			path: ../../redaxo/src/core/lib/sql/table.php
 
 		-
+			message: "#^Unsafe call to private method rex_sql_table\\:\\:baseClearInstance\\(\\) through static\\:\\:\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/sql/table.php
+
+		-
 			message: "#^Method rex_socket\\:\\:factory\\(\\) should return static\\(rex_socket\\) but returns rex_socket_proxy\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/socket/socket.php
@@ -254,6 +279,11 @@ parameters:
 			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int, array\\)\\: bool\\)\\|null, Closure\\(mixed, mixed\\)\\: void given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/socket/socket.php
+
+		-
+			message: "#^PHPDoc tag @param for parameter \\$vartype contains unresolvable type\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/util/type.php
 
 		-
 			message: "#^Method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) should return array\\<T of object\\> but returns array\\<int, mixed\\>\\.$#"

@@ -22,7 +22,7 @@ class rex_i18n
     /**
      * @var string|null
      */
-    private static $locale = null;
+    private static $locale;
     /**
      * @var string[][]
      */
@@ -114,6 +114,7 @@ class rex_i18n
      *
      * @return string Translation for the key
      *
+     * @psalm-taint-escape has_quotes
      * @psalm-taint-escape html
      */
     public static function msg($key, ...$replacements)
@@ -143,6 +144,7 @@ class rex_i18n
      *
      * @return string Translation for the key
      *
+     * @psalm-taint-escape has_quotes
      * @psalm-taint-escape html
      */
     public static function msgInLocale($key, $locale, ...$replacements)

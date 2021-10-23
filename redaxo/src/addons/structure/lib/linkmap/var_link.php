@@ -36,7 +36,7 @@ class rex_var_link extends rex_var
             $value = self::getWidget($id, 'REX_INPUT_LINK[' . $id . ']', $value, $args);
         } else {
             if ($value && $this->hasArg('output') && 'id' != $this->getArg('output')) {
-                $value = rex_getUrl($value);
+                return 'rex_getUrl('.self::quote($value).')';
             }
         }
 
@@ -44,6 +44,7 @@ class rex_var_link extends rex_var
     }
 
     /**
+     * @param int|string $id
      * @return string
      */
     public static function getWidget($id, $name, $value, array $args = [])
@@ -70,8 +71,9 @@ class rex_var_link extends rex_var
         $deleteFunc = '';
         if (rex::getUser()->getComplexPerm('structure')->hasStructurePerm()) {
             $class = '';
-            $openFunc = 'openLinkMap(\'REX_LINK_' . $id . '\', \'' . $openParams . '\');';
-            $deleteFunc = 'deleteREXLink(' . $id . ');';
+            $escapedId = rex_escape($id, 'js');
+            $openFunc = 'openLinkMap(\'REX_LINK_' . $escapedId . '\', \'' . $openParams . '\');';
+            $deleteFunc = 'deleteREXLink(\'' . $escapedId . '\');';
         }
 
         $e = [];

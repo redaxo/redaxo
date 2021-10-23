@@ -26,11 +26,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // get parameters
     $parameters = $containerConfigurator->parameters();
 
-    // Define what rule sets will be applied
-    $parameters->set(Option::SETS, [
-        // SetList::EARLY_RETURN,
-    ]);
-
     $parameters->set(Option::BOOTSTRAP_FILES, [
         __DIR__.'/.tools/constants.php',
     ]);
@@ -62,9 +57,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         'redaxo/src/addons/phpmailer/vendor',
     ]);
 
-    $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersion::PHP_73);
-
-    $parameters->set(Option::ENABLE_CACHE, true);
+    $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersion::PHP_80);
 
     // get services (needed for register a single rule)
     $services = $containerConfigurator->services();

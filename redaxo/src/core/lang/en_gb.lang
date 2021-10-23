@@ -36,6 +36,9 @@ unstable_version = Development version
 copy_to_clipboard = Copy to clipboard
 search_placeholder = Search...
 search_clear = Reset input
+theme_light = Light
+theme_dark = Dark
+theme_auto = Automatic
 
 # redaxo/redaxo/index.php
 system = System
@@ -113,6 +116,7 @@ mode = Mode
 charset = Character set
 host = Host
 database = Database
+installation = Installation
 logfiles = Logfiles
 syslog_redaxo = REDAXO
 syslog_delete = Clear log file
@@ -417,6 +421,7 @@ new_password_repeat = Repeat new password
 profile_save_psw = Save password
 backend_language = Backend language
 user_data_updated = User data updated!
+theme = Backend theme
 
 password_change_required = A password change is required!
 password_not_changed = The new password must be different than the previous one!

@@ -11,11 +11,15 @@
 
 namespace Symfony\Component\HttpFoundation\Session\Attribute;
 
+trigger_deprecation('symfony/http-foundation', '5.3', 'The "%s" class is deprecated.', NamespacedAttributeBag::class);
+
 /**
  * This class provides structured storage of session attributes using
  * a name spacing character in the key.
  *
  * @author Drak <drak@zikula.org>
+ *
+ * @deprecated since Symfony 5.3
  */
 class NamespacedAttributeBag extends AttributeBag
 {
@@ -102,7 +106,7 @@ class NamespacedAttributeBag extends AttributeBag
     protected function &resolveAttributePath(string $name, bool $writeContext = false)
     {
         $array = &$this->attributes;
-        $name = (0 === strpos($name, $this->namespaceCharacter)) ? substr($name, 1) : $name;
+        $name = (str_starts_with($name, $this->namespaceCharacter)) ? substr($name, 1) : $name;
 
         // Check if there is anything to do, else return
         if (!$name) {
