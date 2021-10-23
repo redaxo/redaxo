@@ -272,7 +272,7 @@ $panel = '
 
             $panel .= '<tbody>';
 
-            foreach ($items as $i => $media) {
+            foreach ($items as $media) {
                 $alt = rex_escape($media->getTitle());
                 $desc = '<p>' . rex_escape(strip_tags((string) $media->getValue('med_description'))) . '</p>';
 

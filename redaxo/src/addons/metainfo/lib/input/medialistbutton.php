@@ -44,8 +44,6 @@ class rex_input_medialistbutton extends rex_input
         $name = $this->attributes['name'];
         $args = $this->args;
 
-        $field = rex_var_medialist::getWidget($buttonId, $name, $value, $args);
-
-        return $field;
+        return rex_var_medialist::getWidget($buttonId, $name, $value, $args);
     }
 }

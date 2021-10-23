@@ -558,9 +558,8 @@ class rex_article_content_base
         } else {
             $env = rex_var::ENV_FRONTEND;
         }
-        $content = rex_var::parse($content, $env, 'module', $sql);
 
-        return $content;
+        return rex_var::parse($content, $env, 'module', $sql);
     }
 
     // ---- Artikelweite globale variablen werden ersetzt
