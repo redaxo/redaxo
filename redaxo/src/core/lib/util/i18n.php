@@ -46,6 +46,9 @@ class rex_i18n
         }
 
         if ($phpSetLocale) {
+            [$lang, $country] = explode('_', self::getLocale(), 2);
+            Locale::setDefault($lang.'-'.strtoupper($country));
+
             $locales = [];
             foreach (explode(',', trim(self::msg('setlocale'))) as $locale) {
                 $locales[] = $locale . '.UTF-8';
