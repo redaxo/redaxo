@@ -143,9 +143,8 @@
       <code>$subject</code>
       <code>$themeColor</code>
     </MixedAssignment>
-    <MixedOperand occurrences="3">
+    <MixedOperand occurrences="2">
       <code>$ep-&gt;getSubject()</code>
-      <code>$themeColor</code>
       <code>$themeColor</code>
     </MixedOperand>
   </file>
@@ -4587,8 +4586,7 @@
       <code>$chr</code>
       <code>$chr</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="11">
-      <code>$string</code>
+    <MixedArgumentTypeCoercion occurrences="10">
       <code>$string</code>
       <code>$string</code>
       <code>$string</code>
@@ -5454,7 +5452,7 @@
     </MixedPropertyAssignment>
   </file>
   <file src="redaxo/src/core/lib/list.php">
-    <MixedArgument occurrences="23">
+    <MixedArgument occurrences="22">
       <code>$column</code>
       <code>$column</code>
       <code>$columnName</code>
@@ -5476,7 +5474,6 @@
       <code>$string</code>
       <code>$this-&gt;getValue($column)</code>
       <code>$this-&gt;getValue($columnName)</code>
-      <code>$this-&gt;rows</code>
       <code>$v</code>
     </MixedArgument>
     <MixedArrayAccess occurrences="2">
@@ -5495,7 +5492,7 @@
       <code>$this-&gt;linkAttributes[$columnName]</code>
       <code>$this-&gt;linkAttributes[$column]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="22">
+    <MixedAssignment occurrences="21">
       <code>$column</code>
       <code>$columnName</code>
       <code>$columnName</code>
@@ -5512,7 +5509,6 @@
       <code>$tableColumnGroup</code>
       <code>$tableColumn['class']</code>
       <code>$tableColumns</code>
-      <code>$this-&gt;rows</code>
       <code>$v</code>
       <code>$v</code>
       <code>$value</code>

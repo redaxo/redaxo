@@ -36,7 +36,7 @@ class rex_var_link extends rex_var
             $value = self::getWidget($id, 'REX_INPUT_LINK[' . $id . ']', $value, $args);
         } else {
             if ($value && $this->hasArg('output') && 'id' != $this->getArg('output')) {
-                $value = rex_getUrl($value);
+                return 'rex_getUrl('.self::quote($value).')';
             }
         }
 
