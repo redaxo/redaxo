@@ -60,7 +60,7 @@ content_toarticle_ok = Diese Kategorie wurde erfolgreich in einen Artikel umgewa
 move_category = nach
 category_moved = Kategorie wurde verschoben
 content_types = Bereiche (ctypes) und Module
-content_type = Bereich (ctype) und Module
+content_type = Bereich (ctype)
 
 perm_options_moveSlice[] = Blöcke verschieben
 perm_options_publishSlice[] = Blöcke veröffentlichen
