@@ -171,7 +171,7 @@ class rex_form extends rex_form_base
      */
     public function addPrioField($name, $value = null, array $attributes = [])
     {
-        $attributes['internal::fieldClass'] = 'rex_form_prio_element';
+        $attributes['internal::fieldClass'] = rex_form_prio_element::class;
         if (!isset($attributes['class'])) {
             $attributes['class'] = 'form-control';
         }

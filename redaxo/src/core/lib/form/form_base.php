@@ -154,7 +154,7 @@ abstract class rex_form_base
         if (!isset($attributes['class'])) {
             $attributes['class'] = 'rex-form-container';
         }
-        $attributes['internal::fieldClass'] = 'rex_form_container_element';
+        $attributes['internal::fieldClass'] = rex_form_container_element::class;
 
         $field = $this->addField('', $name, $value, $attributes, true);
         assert($field instanceof rex_form_container_element);
@@ -257,7 +257,7 @@ abstract class rex_form_base
      */
     public function addCheckboxField($name, $value = null, array $attributes = [])
     {
-        $attributes['internal::fieldClass'] = 'rex_form_checkbox_element';
+        $attributes['internal::fieldClass'] = rex_form_checkbox_element::class;
         $field = $this->addField('', $name, $value, $attributes);
         assert($field instanceof rex_form_checkbox_element);
         return $field;
@@ -274,7 +274,7 @@ abstract class rex_form_base
      */
     public function addRadioField($name, $value = null, array $attributes = [])
     {
-        $attributes['internal::fieldClass'] = 'rex_form_radio_element';
+        $attributes['internal::fieldClass'] = rex_form_radio_element::class;
         $field = $this->addField('radio', $name, $value, $attributes);
         assert($field instanceof rex_form_radio_element);
         return $field;
@@ -315,7 +315,7 @@ abstract class rex_form_base
      */
     public function addSelectField($name, $value = null, array $attributes = [])
     {
-        $attributes['internal::fieldClass'] = 'rex_form_select_element';
+        $attributes['internal::fieldClass'] = rex_form_select_element::class;
         if (!isset($attributes['class'])) {
             $attributes['class'] = 'form-control';
         }
@@ -340,7 +340,7 @@ abstract class rex_form_base
         if (!rex_addon::get('mediapool')->isAvailable()) {
             throw new rex_exception(__METHOD__ . '() needs "mediapool" addon!');
         }
-        $attributes['internal::fieldClass'] = 'rex_form_widget_media_element';
+        $attributes['internal::fieldClass'] = rex_form_widget_media_element::class;
         $field = $this->addField('', $name, $value, $attributes, true);
         assert($field instanceof rex_form_widget_media_element);
         return $field;
@@ -362,7 +362,7 @@ abstract class rex_form_base
         if (!rex_addon::get('mediapool')->isAvailable()) {
             throw new rex_exception(__METHOD__ . '() needs "mediapool" addon!');
         }
-        $attributes['internal::fieldClass'] = 'rex_form_widget_medialist_element';
+        $attributes['internal::fieldClass'] = rex_form_widget_medialist_element::class;
         $field = $this->addField('', $name, $value, $attributes, true);
         assert($field instanceof rex_form_widget_medialist_element);
         return $field;
@@ -384,7 +384,7 @@ abstract class rex_form_base
         if (!rex_addon::get('structure')->isAvailable()) {
             throw new rex_exception(__METHOD__ . '() needs "structure" addon!');
         }
-        $attributes['internal::fieldClass'] = 'rex_form_widget_linkmap_element';
+        $attributes['internal::fieldClass'] = rex_form_widget_linkmap_element::class;
         $field = $this->addField('', $name, $value, $attributes, true);
         assert($field instanceof rex_form_widget_linkmap_element);
         return $field;
@@ -406,7 +406,7 @@ abstract class rex_form_base
         if (!rex_addon::get('structure')->isAvailable()) {
             throw new rex_exception(__METHOD__ . '() needs "structure" addon!');
         }
-        $attributes['internal::fieldClass'] = 'rex_form_widget_linklist_element';
+        $attributes['internal::fieldClass'] = rex_form_widget_linklist_element::class;
         $field = $this->addField('', $name, $value, $attributes, true);
         assert($field instanceof rex_form_widget_linklist_element);
         return $field;

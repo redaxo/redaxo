@@ -12,7 +12,7 @@ class rex_cronjob_mailer_purge extends rex_cronjob
         if ($files) {
             foreach ($files as $file) {
                 if (is_dir($file)) {
-                    $log = $log + self::purgeMailarchive($days, $file);
+                    $log += self::purgeMailarchive($days, $file);
                 } elseif ((time() - filemtime($file)) > (60 * 60 * 24 * $days)) {
                     if (rex_file::delete($file)) {
                         ++$log;

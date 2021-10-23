@@ -41,7 +41,7 @@ function rex_escape($value, $strategy = 'html')
             return $value;
         }
 
-        if ($value instanceof \stdClass) {
+        if ($value instanceof stdClass) {
             foreach (get_object_vars($value) as $k => $v) {
                 $value->$k = rex_escape($v, $strategy);
             }

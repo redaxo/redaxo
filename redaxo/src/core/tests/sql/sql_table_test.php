@@ -333,7 +333,7 @@ class rex_sql_table_test extends TestCase
 
     public function testRenameColumnNonExisting()
     {
-        $this->expectException(\rex_exception::class);
+        $this->expectException(rex_exception::class);
 
         $table = $this->createTable();
         $table->renameColumn('foo', 'bar');
@@ -341,7 +341,7 @@ class rex_sql_table_test extends TestCase
 
     public function testRenameColumnToAlreadyExisting()
     {
-        $this->expectException(\rex_exception::class);
+        $this->expectException(rex_exception::class);
 
         $table = $this->createTable();
         $table->renameColumn('id', 'title');

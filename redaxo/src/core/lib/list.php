@@ -515,7 +515,7 @@ class rex_list implements rex_url_provider_interface
             return $this->columnLabels[$columnName];
         }
 
-        return null === $default ? $columnName : $default;
+        return $default ?? $columnName;
     }
 
     /**
@@ -704,7 +704,7 @@ class rex_list implements rex_url_provider_interface
     {
         $tableColumn = [];
         if (is_numeric($width)) {
-            $width = $width . 'px';
+            $width .= 'px';
         }
         if ($width && '*' != $width) {
             $tableColumn['style'] = 'width:' . $width;
