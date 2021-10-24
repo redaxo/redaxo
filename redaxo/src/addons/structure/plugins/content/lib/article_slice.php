@@ -423,6 +423,20 @@ class rex_article_slice
         return null;
     }
 
+    public function getValueArray(int $index): ?array
+    {
+        $value = $this->values[$index - 1];
+
+        if (null === $value) {
+            return null;
+        }
+
+        /** @var mixed $value */
+        $value = json_decode($value, true);
+
+        return is_array($value) ? $value : null;
+    }
+
     /**
      * @param int $index
      * @return int|null
@@ -455,6 +469,20 @@ class rex_article_slice
     }
 
     /**
+     * @return null|list<int>
+     */
+    public function getLinkListArray(int $index): ?array
+    {
+        $list = $this->linklists[$index - 1];
+
+        if (null === $list) {
+            return null;
+        }
+
+        return array_map('intval', explode(',', $list));
+    }
+
+    /**
      * @param int $index
      * @return string|null
      */
@@ -481,6 +509,20 @@ class rex_article_slice
     public function getMediaList($index)
     {
         return $this->medialists[$index - 1];
+    }
+
+    /**
+     * @return null|list<string>
+     */
+    public function getMediaListArray(int $index): ?array
+    {
+        $list = $this->linklists[$index - 1];
+
+        if (null === $list) {
+            return null;
+        }
+
+        return explode(',', $list);
     }
 
     /** @return int */
