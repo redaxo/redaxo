@@ -119,7 +119,7 @@
             "rector process --ansi"
         ],
         "taint": "psalm --use-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache --threads=1",
-        "taint-baseline": "psalm --set-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache --threads=1 || git checkout -- psalm.xml",
+        "taint-baseline": "psalm --set-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache --threads=1; git checkout -- psalm.xml",
         "sa": [
             "@phpstan",
             "@psalm"
