@@ -48,9 +48,7 @@ class rex_api_content_move_slice extends rex_api_function
         } else {
             throw new rex_api_exception(rex_i18n::msg('no_rights_to_this_function'));
         }
-
-        $result = new rex_api_result(true, $message);
-        return $result;
+        return new rex_api_result(true, $message);
     }
 
     protected function requiresCsrfProtection()

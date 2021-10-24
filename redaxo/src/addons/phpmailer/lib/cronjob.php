@@ -51,7 +51,7 @@ class rex_cronjob_mailer_purge extends rex_cronjob
 
     public function getParamFields()
     {
-        $fields = [
+        return [
             [
                 'label' => rex_i18n::msg('phpmailer_archivecron_label'),
                 'name' => 'days',
@@ -64,6 +64,5 @@ class rex_cronjob_mailer_purge extends rex_cronjob
                 'default' => 7,
             ],
         ];
-        return $fields;
     }
 }

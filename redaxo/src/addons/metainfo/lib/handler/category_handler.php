@@ -72,9 +72,7 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
             $s .= ' OR `p`.`restrictions` LIKE "%|' . $params['id'] . '|%"';
         }
 
-        $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL ' . $s . ')';
-
-        return $restrictionsCondition;
+        return 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL ' . $s . ')';
     }
 
     public function renderFormItem($field, $tag, $tagAttr, $id, $label, $labelIt, $inputType)
