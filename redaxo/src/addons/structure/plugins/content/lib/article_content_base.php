@@ -470,12 +470,10 @@ class rex_article_content_base
                 $CONTENT = ob_get_clean();
             }
 
-            $CONTENT = $this->replaceLinks($CONTENT);
-        } else {
-            $CONTENT = 'no template';
+            return $this->replaceLinks($CONTENT);
         }
 
-        return $CONTENT;
+        return 'no template';
     }
 
     /**
