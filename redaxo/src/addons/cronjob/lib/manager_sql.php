@@ -255,9 +255,7 @@ class rex_cronjob_manager_sql
 
         $this->setNextTime($job['id'], $job['interval'], $resetExecutionStart);
 
-        $success = $this->getManager()->tryExecute($cronjob, $job['name'], $params, $log, $job['id']);
-
-        return $success;
+        return $this->getManager()->tryExecute($cronjob, $job['name'], $params, $log, $job['id']);
     }
 
     /**
@@ -327,7 +325,7 @@ class rex_cronjob_manager_sql
             return null;
         }
 
-        $date = new \DateTime('+5 min');
+        $date = new DateTime('+5 min');
         $date->setTime((int) $date->format('G'), (int) floor((int) $date->format('i') / 5) * 5, 0);
 
         $isValid = static function ($value, $current) {

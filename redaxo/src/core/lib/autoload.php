@@ -307,7 +307,7 @@ class rex_autoload
      *
      * @param string $path The file to check
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      *
      * @return array The found classes
      */
@@ -338,7 +338,7 @@ class rex_autoload
             if (isset($error['message'])) {
                 $message .= PHP_EOL . 'The following message may be helpful:' . PHP_EOL . $error['message'];
             }
-            throw new \RuntimeException(sprintf($message, $path));
+            throw new RuntimeException(sprintf($message, $path));
         }
 
         // return early if there is no chance of matching anything in this file

@@ -47,7 +47,7 @@ abstract class rex_null_package implements rex_package_interface
      */
     public function getPath($file = '')
     {
-        throw new rex_exception(sprintf('Calling %s on %s is not allowed', __FUNCTION__, __CLASS__));
+        throw new rex_exception(sprintf('Calling %s on %s is not allowed', __FUNCTION__, self::class));
     }
 
     /**
@@ -55,7 +55,7 @@ abstract class rex_null_package implements rex_package_interface
      */
     public function getAssetsPath($file = '')
     {
-        throw new rex_exception(sprintf('Calling %s on %s is not allowed', __FUNCTION__, __CLASS__));
+        throw new rex_exception(sprintf('Calling %s on %s is not allowed', __FUNCTION__, self::class));
     }
 
     /**
@@ -63,7 +63,7 @@ abstract class rex_null_package implements rex_package_interface
      */
     public function getAssetsUrl($file = '')
     {
-        throw new rex_exception(sprintf('Calling %s on %s is not allowed', __FUNCTION__, __CLASS__));
+        throw new rex_exception(sprintf('Calling %s on %s is not allowed', __FUNCTION__, self::class));
     }
 
     /**
@@ -71,7 +71,7 @@ abstract class rex_null_package implements rex_package_interface
      */
     public function getDataPath($file = '')
     {
-        throw new rex_exception(sprintf('Calling %s on %s is not allowed', __FUNCTION__, __CLASS__));
+        throw new rex_exception(sprintf('Calling %s on %s is not allowed', __FUNCTION__, self::class));
     }
 
     /**
@@ -79,7 +79,7 @@ abstract class rex_null_package implements rex_package_interface
      */
     public function getCachePath($file = '')
     {
-        throw new rex_exception(sprintf('Calling %s on %s is not allowed', __FUNCTION__, __CLASS__));
+        throw new rex_exception(sprintf('Calling %s on %s is not allowed', __FUNCTION__, self::class));
     }
 
     /**
@@ -205,6 +205,6 @@ abstract class rex_null_package implements rex_package_interface
     public function i18n($key, ...$replacements)
     {
         $args = func_get_args();
-        return call_user_func_array(['rex_i18n', 'msg'], $args);
+        return call_user_func_array([rex_i18n::class, 'msg'], $args);
     }
 }

@@ -454,14 +454,7 @@ class rex_media_manager
      */
     public static function getMediaFile()
     {
-        $rexMediaFile = rex_get('rex_media_file', 'string');
-
-        // can be used with REDAXO >= 5.5.1
-        // $rex_media_file = rex_path::basename($rex_media_file);
-        $rexMediaFile = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $rexMediaFile);
-        $rexMediaFile = rex_path::basename($rexMediaFile);
-
-        return $rexMediaFile;
+        return rex_path::basename(rex_get('rex_media_file', 'string'));
     }
 
     /**
@@ -483,12 +476,7 @@ class rex_media_manager
             $type = $deprecatedTypesMap[$type];
         }
 
-        // can be used with REDAXO >= 5.5.1
-        // $type = rex_path::basename($type);
-        $type = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $type);
-        $type = rex_path::basename($type);
-
-        return $type;
+        return rex_path::basename($type);
     }
 
     /**

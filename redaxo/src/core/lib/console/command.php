@@ -35,7 +35,7 @@ abstract class rex_console_command extends Command
     {
         try {
             return parent::run($input, $output);
-        } catch (\TypeError $error) {
+        } catch (TypeError $error) {
             $msg = $error->getMessage();
 
             // compat to symfony 4.x, where it wasn't required to return a status code from command::execute()

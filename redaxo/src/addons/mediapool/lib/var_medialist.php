@@ -103,8 +103,7 @@ class rex_var_medialist extends rex_var
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', [$e], false);
-        $media = $fragment->parse('core/form/widget_list.php');
 
-        return $media;
+        return $fragment->parse('core/form/widget_list.php');
     }
 }
