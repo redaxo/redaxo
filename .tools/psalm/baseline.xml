@@ -3217,9 +3217,6 @@
     <MixedOperand occurrences="1">
       <code>$index</code>
     </MixedOperand>
-    <PossiblyNullArgument occurrences="1">
-      <code>$this-&gt;getMedia($index)</code>
-    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/cache_template.php">
     <MixedArgument occurrences="1">
