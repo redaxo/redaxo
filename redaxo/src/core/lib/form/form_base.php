@@ -783,7 +783,7 @@ abstract class rex_form_base
      */
     protected function isControlElement(rex_form_element $element)
     {
-        return is_a($element, 'rex_form_control_element');
+        return $element instanceof rex_form_control_element;
     }
 
     /**
@@ -792,7 +792,7 @@ abstract class rex_form_base
      */
     protected function isRawElement(rex_form_element $element)
     {
-        return is_a($element, 'rex_form_raw_element');
+        return $element instanceof rex_form_raw_element;
     }
 
     /**

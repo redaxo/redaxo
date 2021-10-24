@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.10.0@916b098b008f6de4543892b1e0651c1c3b92cbfa">
+<files psalm-version="4.11.0@99e510d6ab1da2d61d4b5eb6314baa797fe0e76d">
   <file src="redaxo/src/addons/backup/lib/backup.php">
     <MixedArgument occurrences="5">
       <code>$column</code>
@@ -991,24 +991,6 @@
     <MixedArgument occurrences="1">
       <code>$this-&gt;params['rotate']</code>
     </MixedArgument>
-  </file>
-  <file src="redaxo/src/addons/media_manager/lib/effects/effect_workspace.php">
-    <MixedArgument occurrences="4">
-      <code>$dstX</code>
-      <code>$dstY</code>
-      <code>$this-&gt;params['height']</code>
-      <code>$this-&gt;params['width']</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="2">
-      <code>$dstX</code>
-      <code>$dstY</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="4">
-      <code>$this-&gt;params['height']</code>
-      <code>$this-&gt;params['height']</code>
-      <code>$this-&gt;params['width']</code>
-      <code>$this-&gt;params['width']</code>
-    </MixedOperand>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/media_manager.php">
     <MixedAssignment occurrences="2">
@@ -3582,10 +3564,9 @@
       <code>$templatename</code>
       <code>$templatename</code>
     </MixedArgument>
-    <MixedArrayAssignment occurrences="3">
+    <MixedArrayAssignment occurrences="2">
       <code>$ctypes[]</code>
       <code>$modules[$k]['all']</code>
-      <code>$modules[1]['all']</code>
     </MixedArrayAssignment>
     <MixedAssignment occurrences="16">
       <code>$active</code>
@@ -6346,6 +6327,12 @@
     <PossiblyNullReference occurrences="1">
       <code>getValue</code>
     </PossiblyNullReference>
+    <UnusedVariable occurrences="4">
+      <code>$inString</code>
+      <code>$inString</code>
+      <code>$stringStart</code>
+      <code>$stringStart</code>
+    </UnusedVariable>
   </file>
   <file src="redaxo/src/core/lib/system_report.php">
     <MixedArgument occurrences="13">
@@ -7225,6 +7212,9 @@
     <MixedOperand occurrences="1">
       <code>$i</code>
     </MixedOperand>
+    <UnusedVariable occurrences="1">
+      <code>$exception</code>
+    </UnusedVariable>
   </file>
   <file src="redaxo/src/core/tests/util/type_test.php">
     <MixedArgument occurrences="2">
