@@ -6,9 +6,6 @@ general = Allmänt
 setlocale = se_SE,se_SE@euro,sve_sve,swedish_sweden,sv,se
 phpini_settings = PHP.ini inställningar
 
-dateformat = %d %b. %Y
-datetimeformat = %d %b. %Y, %H:%M
-timeformat = %H:%M
 ctrl = Flervalsurval med <kbd>STRG</kbd> resp. <kbd>CMD</kbd>
 translatable = Översättbar via <code> translate: i18n_key </ code>
 save_and_goon_tooltip = Spara och fortsätt bearbeta

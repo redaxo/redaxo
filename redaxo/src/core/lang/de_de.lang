@@ -6,9 +6,6 @@ general = Allgemein
 setlocale = de_DE,de_DE@euro,deu_deu,german_germany,de,ge
 phpini_settings = PHP.ini Einstellungen
 
-dateformat = %d. %b. %Y
-datetimeformat = %d. %b. %Y, %H:%M
-timeformat = %H:%M
 ctrl = Mehrfachauswahl mit <kbd>STRG</kbd> bzw. <kbd>CMD</kbd>
 translatable = Übersetzbar via <code>translate:i18n_key</code>
 save_and_goon_tooltip = Speichern und weiter bearbeiten
