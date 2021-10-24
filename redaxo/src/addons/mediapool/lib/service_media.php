@@ -279,8 +279,11 @@ final class rex_media_service
                     break;
                 case 'term':
                     if (is_string($searchItem['value']) && '' != $searchItem['value']) {
-                        $where[] = '(m.filename LIKE :search_'.$counter.' || m.title LIKE :search_'.$counter.')';
-                        $queryParams['search_'.$counter] = $searchItem['value'];
+                        foreach (str_getcsv(trim($searchItem['value']), ' ') as $i => $part) {
+                            $param = "search_{$counter}_{$i}";
+                            $where[] = '(m.filename LIKE :'.$param.' || m.title LIKE :'.$param.')';
+                            $queryParams[$param] = '%'.$sql->escapeLikeWildcards($part).'%';
+                        }
                     }
                     break;
             }
