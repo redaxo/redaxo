@@ -6,9 +6,6 @@ general = General
 setlocale = en_GB,en_UK,en_US,en_EN,en_AU,en_CA,American,ENG,English
 phpini_settings = PHP.ini Settings
 
-dateformat = %d %b %Y
-datetimeformat = %d %b %Y, %H:%M
-timeformat = %H:%M
 ctrl = Select multiple using <kbd>CTRL</kbd> or <kbd>CMD</kbd> respectively
 translatable = Translatable via <code>translate:i18n_key</code>
 save_and_goon_tooltip = Save and continue editing

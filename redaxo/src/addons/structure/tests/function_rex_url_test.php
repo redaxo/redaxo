@@ -12,7 +12,7 @@ class rex_structure_function_url_test extends TestCase
      */
     public function testRedirectException($articleId)
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         rex_redirect($articleId);
     }

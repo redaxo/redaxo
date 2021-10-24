@@ -71,9 +71,7 @@ class rex_content_service
             'slice_revision' => $data['revision'],
         ]));
 
-        $message = rex_extension::registerPoint(new rex_extension_point_art_content_updated($article, 'slice_added', $message));
-
-        return $message;
+        return rex_extension::registerPoint(new rex_extension_point_art_content_updated($article, 'slice_added', $message));
     }
 
     /**

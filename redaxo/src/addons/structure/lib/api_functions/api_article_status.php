@@ -18,9 +18,7 @@ class rex_api_article_status extends rex_api_function
         if ($user->getComplexPerm('structure')->hasCategoryPerm($categoryId) && $user->hasPerm('publishArticle[]')) {
             rex_article_service::articleStatus($articleId, $clang, $status);
 
-            $result = new rex_api_result(true, rex_i18n::msg('article_status_updated'));
-
-            return $result;
+            return new rex_api_result(true, rex_i18n::msg('article_status_updated'));
         }
 
         throw new rex_api_exception('user has no permission for this article!');

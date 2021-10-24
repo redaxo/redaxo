@@ -230,12 +230,7 @@ class rex_media_category
     public function inParentTree($anObj)
     {
         $tree = $this->getParentTree();
-        foreach ($tree as $treeObj) {
-            if ($treeObj == $anObj) {
-                return true;
-            }
-        }
-        return false;
+        return in_array($anObj, $tree);
     }
 
     /**
@@ -251,7 +246,7 @@ class rex_media_category
      */
     public function getMedia()
     {
-        return self::getInstanceList([$this->getId(), 'media'], ['rex_media', 'get'], static function ($id) {
+        return self::getInstanceList([$this->getId(), 'media'], [rex_media::class, 'get'], static function ($id) {
             $listPath = rex_path::addonCache('mediapool', $id . '.mlist');
 
             $list = rex_file::getCache($listPath, null);

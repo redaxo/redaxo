@@ -22,7 +22,7 @@
         "psalm/plugin-phpunit": "0.16.1",
         "psalm/plugin-symfony": "3.0.4",
         "rector/rector": "0.11.60",
-        "vimeo/psalm": "4.10.0"
+        "vimeo/psalm": "4.11.0"
     },
     "replace": {
         "erusev/parsedown": "1.7.4",
@@ -119,7 +119,7 @@
             "rector process --ansi"
         ],
         "taint": "psalm --use-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache --threads=1",
-        "taint-baseline": "psalm --set-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache --threads=1 || git checkout -- psalm.xml",
+        "taint-baseline": "psalm --set-baseline=.tools/psalm/baseline-taint.xml --taint-analysis --no-cache --threads=1; git checkout -- psalm.xml",
         "sa": [
             "@phpstan",
             "@psalm"
