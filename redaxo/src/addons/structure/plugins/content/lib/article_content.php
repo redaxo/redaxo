@@ -12,6 +12,9 @@ class rex_article_content extends rex_article_content_base
     /** @var bool */
     private $viasql;
 
+    /** @var rex_article_slice|null */
+    private $currentSlice;
+
     /**
      * @param int|null $articleId
      * @param int|null $clang
@@ -127,5 +130,18 @@ class rex_article_content extends rex_article_content_base
             'ctype' => $curctype,
             'article' => $this,
         ]));
+    }
+
+    public function getCurrentSlice(): rex_article_slice
+    {
+        if ($this->viasql) {
+            return parent::getCurrentSlice();
+        }
+
+        if (!$this->currentSlice) {
+            throw new rex_exception('There is no current slice');
+        }
+
+        return $this->currentSlice;
     }
 }
