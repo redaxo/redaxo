@@ -659,7 +659,7 @@ class rex_list implements rex_url_provider_interface
         }
 
         // Bei negativem columnIndex das Element am Ende anfügen
-        if (0 >= $columnIndex) {
+        if (0 > $columnIndex) {
             $columnIndex = count($this->columnNames);
         }
 
