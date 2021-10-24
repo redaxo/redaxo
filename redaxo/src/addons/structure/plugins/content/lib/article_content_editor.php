@@ -532,7 +532,7 @@ class rex_article_content_editor extends rex_article_content
         $fragment->setVar('footer', $sliceFooter, false);
         $sliceContent = $fragment->parse('core/page/section.php');
 
-        $sliceContent = '
+        return '
             <li class="rex-slice rex-slice-edit" id="slice' . $sliceId . '">
                 <form enctype="multipart/form-data" action="' . rex_url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $sliceId, 'ctype' => $ctypeId, 'clang' => $this->clang, 'function' => 'edit']) . '#slice' . $sliceId . '" method="post" id="REX_FORM">
                     ' . $sliceContent . '
@@ -546,7 +546,5 @@ class rex_article_content_editor extends rex_article_content
                 </script>
             </li>
             ';
-
-        return $sliceContent;
     }
 }

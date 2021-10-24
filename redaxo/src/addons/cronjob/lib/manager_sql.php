@@ -255,9 +255,7 @@ class rex_cronjob_manager_sql
 
         $this->setNextTime($job['id'], $job['interval'], $resetExecutionStart);
 
-        $success = $this->getManager()->tryExecute($cronjob, $job['name'], $params, $log, $job['id']);
-
-        return $success;
+        return $this->getManager()->tryExecute($cronjob, $job['name'], $params, $log, $job['id']);
     }
 
     /**

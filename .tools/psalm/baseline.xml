@@ -1509,11 +1509,10 @@
       <code>getComplexPerm</code>
       <code>getComplexPerm</code>
     </PossiblyNullReference>
-    <UnusedVariable occurrences="5">
+    <UnusedVariable occurrences="4">
       <code>$addInput</code>
       <code>$error</code>
       <code>$fileTitle</code>
-      <code>$i</code>
       <code>$success</code>
     </UnusedVariable>
   </file>
@@ -2348,9 +2347,6 @@
       <code>getId</code>
       <code>getId</code>
     </MixedMethodCall>
-    <UnusedVariable occurrences="1">
-      <code>$key</code>
-    </UnusedVariable>
   </file>
   <file src="redaxo/src/addons/structure/functions/function_rex_category.php">
     <PossiblyNullReference occurrences="1">
@@ -2775,8 +2771,7 @@
       <code>getCategoryId</code>
       <code>getLogin</code>
     </PossiblyNullReference>
-    <UnusedVariable occurrences="2">
-      <code>$key</code>
+    <UnusedVariable occurrences="1">
       <code>$message</code>
     </UnusedVariable>
   </file>
@@ -3299,7 +3294,7 @@
       <code>$ctypes[$value]</code>
       <code>$maxPriority[$ctypeId]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="16">
+    <MixedAssignment occurrences="15">
       <code>$articleId</code>
       <code>$colname</code>
       <code>$ctype</code>
@@ -3309,7 +3304,6 @@
       <code>$data['priority']</code>
       <code>$data['revision']</code>
       <code>$info</code>
-      <code>$message</code>
       <code>$newPriority</code>
       <code>$oldPriority</code>
       <code>$sliceRevision</code>
@@ -3332,7 +3326,7 @@
     </MixedOperand>
     <MixedReturnStatement occurrences="2">
       <code>$info</code>
-      <code>$message</code>
+      <code>rex_extension::registerPoint(new rex_extension_point_art_content_updated($article, 'slice_added', $message))</code>
     </MixedReturnStatement>
     <PossiblyNullArgument occurrences="2">
       <code>$article</code>
@@ -3628,9 +3622,6 @@
       <code>getCode</code>
       <code>getName</code>
     </PossiblyNullReference>
-    <UnusedVariable occurrences="1">
-      <code>$id</code>
-    </UnusedVariable>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/tests/article_content_test.php">
     <MixedArgument occurrences="1">
@@ -5435,9 +5426,7 @@
     <UnusedForeachValue occurrences="1">
       <code>$fieldsetElementsArray</code>
     </UnusedForeachValue>
-    <UnusedVariable occurrences="4">
-      <code>$fieldsetName</code>
-      <code>$fieldsetName</code>
+    <UnusedVariable occurrences="2">
       <code>$result</code>
       <code>$result</code>
     </UnusedVariable>

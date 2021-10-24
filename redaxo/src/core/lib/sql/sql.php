@@ -1736,11 +1736,10 @@ class rex_sql implements Iterator
         }
 
         $tables = $this->getArray($qry);
-        $tables = array_map(static function (array $table) {
+
+        return array_map(static function (array $table) {
             return reset($table);
         }, $tables);
-
-        return $tables;
     }
 
     /**

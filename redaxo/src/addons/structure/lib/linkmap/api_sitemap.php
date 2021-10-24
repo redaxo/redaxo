@@ -27,9 +27,7 @@ class rex_api_sitemap_tree extends rex_api_function
         $context = rex_context::fromGet();
         $categoryTree = new rex_sitemap_category_tree($context);
         $tree = $categoryTree->getTree($categoryId);
-
-        $result = new rex_api_result(true);
-        return $result;
+        return new rex_api_result(true);
     }
 
     protected function requiresCsrfProtection()

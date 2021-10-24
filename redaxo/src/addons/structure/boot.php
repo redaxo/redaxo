@@ -59,7 +59,7 @@ rex_extension::register('CLANG_ADDED', static function (rex_extension_point $ep)
     foreach ($firstLang as $firstLangArt) {
         $newLang->setTable(rex::getTablePrefix() . 'article');
 
-        foreach ($fields as $key => $value) {
+        foreach ($fields as $value) {
             if ('pid' == $value) {
                 echo '';
             } // nix passiert

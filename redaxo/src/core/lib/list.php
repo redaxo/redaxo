@@ -946,10 +946,7 @@ class rex_list implements rex_url_provider_interface
      */
     public function getHeader()
     {
-        $s = '';
-        $s .= $this->getPagination();
-
-        return $s;
+        return $this->getPagination();
     }
 
     // ---------------------- Generate Output
@@ -1122,19 +1119,17 @@ class rex_list implements rex_url_provider_interface
             $s .= '        <caption>' . rex_escape($caption) . '</caption>' . "\n";
         }
 
-        if (count($tableColumnGroups) > 0) {
-            foreach ($tableColumnGroups as $tableColumnGroup) {
-                $tableColumns = $tableColumnGroup['columns'];
-                unset($tableColumnGroup['columns']);
+        foreach ($tableColumnGroups as $tableColumnGroup) {
+            $tableColumns = $tableColumnGroup['columns'];
+            unset($tableColumnGroup['columns']);
 
-                $s .= '        <colgroup' . $this->_getAttributeString($tableColumnGroup) . '>' . "\n";
+            $s .= '        <colgroup' . $this->_getAttributeString($tableColumnGroup) . '>' . "\n";
 
-                foreach ($tableColumns as $tableColumn) {
-                    $s .= '            <col' . $this->_getAttributeString($tableColumn) . ' />' . "\n";
-                }
-
-                $s .= '        </colgroup>' . "\n";
+            foreach ($tableColumns as $tableColumn) {
+                $s .= '            <col' . $this->_getAttributeString($tableColumn) . ' />' . "\n";
             }
+
+            $s .= '        </colgroup>' . "\n";
         }
 
         $s .= '        <thead>' . "\n";
