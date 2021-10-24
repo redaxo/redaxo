@@ -247,7 +247,9 @@ class rex_log_entry
         if (null === $format) {
             return $this->timestamp;
         }
-        return rex_formatter::strftime($this->timestamp, $format);
+
+        /** @psalm-suppress DeprecatedMethod */
+        return rex_formatter::strftime($this->timestamp, $format); /** @phpstan-ignore-line */
     }
 
     /**
