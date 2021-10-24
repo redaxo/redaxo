@@ -238,7 +238,7 @@ class rex_log_entry
     /**
      * Returns the timestamp.
      *
-     * @param string $format See {@link rex_formatter::strftime}
+     * @param string|null $format Deprecated since 5.13.0, use `rex_formatter::intl*` instead. Format for {@link rex_formatter::strftime}
      *
      * @return int|string Unix timestamp or formatted string if $format is given
      */
@@ -247,7 +247,9 @@ class rex_log_entry
         if (null === $format) {
             return $this->timestamp;
         }
-        return rex_formatter::strftime($this->timestamp, $format);
+
+        /** @psalm-suppress DeprecatedMethod */
+        return rex_formatter::strftime($this->timestamp, $format); /** @phpstan-ignore-line */
     }
 
     /**

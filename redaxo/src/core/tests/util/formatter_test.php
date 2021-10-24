@@ -21,34 +21,41 @@ class rex_formatter_test extends TestCase
         );
     }
 
-    public function testStrftime()
+    public function testStrftime(): void
     {
         $oldLocale = rex_i18n::getLocale();
         rex_i18n::setLocale('en_gb');
+
+        $strftime =
+            /** @param string|int $value */
+            static function ($value, string $format): string {
+                /** @psalm-suppress DeprecatedMethod */
+                return rex_formatter::strftime($value, $format); /** @phpstan-ignore-line */
+            };
 
         $value = 1336811080;
 
         $format = '%d.%m.%Y %H:%M';
         static::assertEquals(
             '12.05.2012 10:24',
-            rex_formatter::strftime($value, $format)
+            $strftime($value, $format)
         );
 
         static::assertEquals(
             '27.06.2016 21:40',
-            rex_formatter::strftime('2016-06-27 21:40:00', $format)
+            $strftime('2016-06-27 21:40:00', $format)
         );
 
         $format = 'date';
         static::assertEquals(
             '12 May 2012',
-            rex_formatter::strftime($value, $format)
+            $strftime($value, $format)
         );
 
         $format = 'datetime';
         static::assertEquals(
             '12 May 2012, 10:24',
-            rex_formatter::strftime($value, $format)
+            $strftime($value, $format)
         );
 
         rex_i18n::setLocale($oldLocale);
