@@ -3894,8 +3894,7 @@
     </MixedMethodCall>
   </file>
   <file src="redaxo/src/addons/users/pages/users.php">
-    <MixedArgument occurrences="3">
-      <code>$list-&gt;getValue('lastlogin')</code>
+    <MixedArgument occurrences="2">
       <code>$userrole</code>
       <code>rex_escape($roles)</code>
     </MixedArgument>

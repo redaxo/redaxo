@@ -18,13 +18,13 @@ if (rex_version::compare(rex_plugin::get('structure', 'content')->getVersion(), 
         $panel .= '<dd>' . $article->getValue('createuser') . '</dd>';
 
         $panel .= '<dt>' . rex_i18n::msg('created_on') . '</dt>';
-        $panel .= '<dd>' . rex_formatter::strftime($article->getValue('createdate'), 'date') . '</dd>';
+        $panel .= '<dd>' . rex_formatter::intlDate($article->getValue('createdate')) . '</dd>';
 
         $panel .= '<dt>' . rex_i18n::msg('updated_by') . '</dt>';
         $panel .= '<dd>' . $article->getValue('updateuser') . '</dd>';
 
         $panel .= '<dt>' . rex_i18n::msg('updated_on') . '</dt>';
-        $panel .= '<dd>' . rex_formatter::strftime($article->getValue('updatedate'), 'date') . '</dd>';
+        $panel .= '<dd>' . rex_formatter::intlDate($article->getValue('updatedate')) . '</dd>';
 
         $panel .= '<dt>' . rex_i18n::msg('status') . '</dt>';
         $panel .= '<dd class="' . $articleStatusTypes[$status][1] . '">' . $articleStatusTypes[$status][0] . '</dd>';
