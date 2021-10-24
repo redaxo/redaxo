@@ -696,7 +696,7 @@ class rex_article_service
             $uc->setWhere(['clang_id' => $toClang, 'id' => $toId]);
             $uc->addGlobalUpdateFields(self::getUser());
 
-            foreach ($params as $key => $value) {
+            foreach ($params as $value) {
                 $uc->setValue($value, $gc->getValue($value));
             }
 

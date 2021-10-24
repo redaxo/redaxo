@@ -101,9 +101,7 @@ abstract class rex_form_base
         $params = array_merge($this->getParams(), $params);
         $params['form'] = $this->getName();
 
-        $url = rex::isBackend() ? rex_url::backendController($params, $escape) : rex_url::frontendController($params, $escape);
-
-        return $url;
+        return rex::isBackend() ? rex_url::backendController($params, $escape) : rex_url::frontendController($params, $escape);
     }
 
     // --------- Sections
@@ -156,7 +154,7 @@ abstract class rex_form_base
         if (!isset($attributes['class'])) {
             $attributes['class'] = 'rex-form-container';
         }
-        $attributes['internal::fieldClass'] = 'rex_form_container_element';
+        $attributes['internal::fieldClass'] = rex_form_container_element::class;
 
         $field = $this->addField('', $name, $value, $attributes, true);
         assert($field instanceof rex_form_container_element);
@@ -176,8 +174,7 @@ abstract class rex_form_base
     public function addInputField($type, $name, $value = null, array $attributes = [], $addElement = true)
     {
         $attributes['type'] = $type;
-        $field = $this->addField('input', $name, $value, $attributes, $addElement);
-        return $field;
+        return $this->addField('input', $name, $value, $attributes, $addElement);
     }
 
     /**
@@ -193,8 +190,7 @@ abstract class rex_form_base
         if (!isset($attributes['class'])) {
             $attributes['class'] = 'form-control';
         }
-        $field = $this->addInputField('text', $name, $value, $attributes);
-        return $field;
+        return $this->addInputField('text', $name, $value, $attributes);
     }
 
     /**
@@ -212,8 +208,7 @@ abstract class rex_form_base
         if (!isset($attributes['class'])) {
             $attributes['class'] = 'form-control';
         }
-        $field = $this->addInputField('text', $name, $value, $attributes);
-        return $field;
+        return $this->addInputField('text', $name, $value, $attributes);
     }
 
     /**
@@ -235,8 +230,7 @@ abstract class rex_form_base
             // angepasst werden
             $attributes['class'] = 'form-control-static';
         }
-        $field = $this->addField('p', $name, $value, $attributes, true);
-        return $field;
+        return $this->addField('p', $name, $value, $attributes, true);
     }
 
     /**
@@ -249,8 +243,7 @@ abstract class rex_form_base
      */
     public function addHiddenField($name, $value = null, array $attributes = [])
     {
-        $field = $this->addInputField('hidden', $name, $value, $attributes, true);
-        return $field;
+        return $this->addInputField('hidden', $name, $value, $attributes, true);
     }
 
     /**
@@ -264,7 +257,7 @@ abstract class rex_form_base
      */
     public function addCheckboxField($name, $value = null, array $attributes = [])
     {
-        $attributes['internal::fieldClass'] = 'rex_form_checkbox_element';
+        $attributes['internal::fieldClass'] = rex_form_checkbox_element::class;
         $field = $this->addField('', $name, $value, $attributes);
         assert($field instanceof rex_form_checkbox_element);
         return $field;
@@ -281,7 +274,7 @@ abstract class rex_form_base
      */
     public function addRadioField($name, $value = null, array $attributes = [])
     {
-        $attributes['internal::fieldClass'] = 'rex_form_radio_element';
+        $attributes['internal::fieldClass'] = rex_form_radio_element::class;
         $field = $this->addField('radio', $name, $value, $attributes);
         assert($field instanceof rex_form_radio_element);
         return $field;
@@ -309,9 +302,7 @@ abstract class rex_form_base
         if (!isset($attributes['rows'])) {
             $attributes['rows'] = 6;
         }
-
-        $field = $this->addField('textarea', $name, $value, $attributes);
-        return $field;
+        return $this->addField('textarea', $name, $value, $attributes);
     }
 
     /**
@@ -324,7 +315,7 @@ abstract class rex_form_base
      */
     public function addSelectField($name, $value = null, array $attributes = [])
     {
-        $attributes['internal::fieldClass'] = 'rex_form_select_element';
+        $attributes['internal::fieldClass'] = rex_form_select_element::class;
         if (!isset($attributes['class'])) {
             $attributes['class'] = 'form-control';
         }
@@ -349,7 +340,7 @@ abstract class rex_form_base
         if (!rex_addon::get('mediapool')->isAvailable()) {
             throw new rex_exception(__METHOD__ . '() needs "mediapool" addon!');
         }
-        $attributes['internal::fieldClass'] = 'rex_form_widget_media_element';
+        $attributes['internal::fieldClass'] = rex_form_widget_media_element::class;
         $field = $this->addField('', $name, $value, $attributes, true);
         assert($field instanceof rex_form_widget_media_element);
         return $field;
@@ -371,7 +362,7 @@ abstract class rex_form_base
         if (!rex_addon::get('mediapool')->isAvailable()) {
             throw new rex_exception(__METHOD__ . '() needs "mediapool" addon!');
         }
-        $attributes['internal::fieldClass'] = 'rex_form_widget_medialist_element';
+        $attributes['internal::fieldClass'] = rex_form_widget_medialist_element::class;
         $field = $this->addField('', $name, $value, $attributes, true);
         assert($field instanceof rex_form_widget_medialist_element);
         return $field;
@@ -393,7 +384,7 @@ abstract class rex_form_base
         if (!rex_addon::get('structure')->isAvailable()) {
             throw new rex_exception(__METHOD__ . '() needs "structure" addon!');
         }
-        $attributes['internal::fieldClass'] = 'rex_form_widget_linkmap_element';
+        $attributes['internal::fieldClass'] = rex_form_widget_linkmap_element::class;
         $field = $this->addField('', $name, $value, $attributes, true);
         assert($field instanceof rex_form_widget_linkmap_element);
         return $field;
@@ -415,7 +406,7 @@ abstract class rex_form_base
         if (!rex_addon::get('structure')->isAvailable()) {
             throw new rex_exception(__METHOD__ . '() needs "structure" addon!');
         }
-        $attributes['internal::fieldClass'] = 'rex_form_widget_linklist_element';
+        $attributes['internal::fieldClass'] = rex_form_widget_linklist_element::class;
         $field = $this->addField('', $name, $value, $attributes, true);
         assert($field instanceof rex_form_widget_linklist_element);
         return $field;
@@ -529,9 +520,7 @@ abstract class rex_form_base
         $attributes = array_merge(self::getInputAttributes($inputType), $attributes);
         $attributes['internal::fieldClass'] = $className;
 
-        $element = $this->createElement($tag, $name, $value, $attributes);
-
-        return $element;
+        return $this->createElement($tag, $name, $value, $attributes);
     }
 
     /**
@@ -794,7 +783,7 @@ abstract class rex_form_base
      */
     protected function isControlElement(rex_form_element $element)
     {
-        return is_a($element, 'rex_form_control_element');
+        return $element instanceof rex_form_control_element;
     }
 
     /**
@@ -803,7 +792,7 @@ abstract class rex_form_base
      */
     protected function isRawElement(rex_form_element $element)
     {
-        return is_a($element, 'rex_form_raw_element');
+        return $element instanceof rex_form_raw_element;
     }
 
     /**
@@ -812,7 +801,7 @@ abstract class rex_form_base
     protected function getHeaderElements()
     {
         $headerElements = [];
-        foreach ($this->elements as $fieldsetName => $fieldsetElementsArray) {
+        foreach ($this->elements as $fieldsetElementsArray) {
             foreach ($fieldsetElementsArray as $element) {
                 if ($this->isHeaderElement($element)) {
                     $headerElements[] = $element;
@@ -828,7 +817,7 @@ abstract class rex_form_base
     protected function getFooterElements()
     {
         $footerElements = [];
-        foreach ($this->elements as $fieldsetName => $fieldsetElementsArray) {
+        foreach ($this->elements as $fieldsetElementsArray) {
             foreach ($fieldsetElementsArray as $element) {
                 if ($this->isFooterElement($element)) {
                     $footerElements[] = $element;

@@ -110,7 +110,7 @@ class rex_timer
      */
     public function getDelta($precision = self::MILLISEC)
     {
-        $duration = null === $this->duration ? microtime(true) - $this->start : $this->duration;
+        $duration = $this->duration ?? microtime(true) - $this->start;
 
         return $duration * $precision;
     }

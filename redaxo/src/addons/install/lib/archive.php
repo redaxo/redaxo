@@ -12,7 +12,7 @@ class rex_install_archive
         $dir = rtrim($dir, '/\\');
         rex_dir::delete($dir);
 
-        if (!class_exists('ZipArchive')) {
+        if (!class_exists(ZipArchive::class)) {
             $archive = 'phar://' . $archive . '/' . $basename;
             return rex_dir::copy($archive, $dir);
         }
@@ -75,7 +75,7 @@ class rex_install_archive
             $subpath = str_replace('\\', '/', $subpath);
             $files[$subpath] = $path;
         }
-        if (class_exists('ZipArchive')) {
+        if (class_exists(ZipArchive::class)) {
             $zip = new ZipArchive();
             $zip->open($archive, ZipArchive::CREATE);
             foreach ($files as $path => $realpath) {

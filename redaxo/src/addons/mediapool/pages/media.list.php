@@ -272,7 +272,7 @@ $panel = '
 
             $panel .= '<tbody>';
 
-            foreach ($items as $i => $media) {
+            foreach ($items as $media) {
                 $alt = rex_escape($media->getTitle());
                 $desc = '<p>' . rex_escape(strip_tags((string) $media->getValue('med_description'))) . '</p>';
 
@@ -289,7 +289,7 @@ $panel = '
                     if (rex_media::isImageType(rex_file::extension($media->getFileName()))) {
                         $thumbnail = '<img class="thumbnail" src="' . rex_url::media($media->getFileName()) . '?buster=' . $media->getValue('updatedate') . '" width="80" height="80" alt="' . $alt . '" title="' . $alt . '" />';
                         if ($mediaManagerUrl && 'svg' != rex_file::extension($media->getFileName())) {
-                            $thumbnail = '<img class="thumbnail" src="' . $mediaManagerUrl('rex_mediapool_preview', urlencode($media->getFileName()), $media->getValue('updatedate')) . '" alt="' . $alt . '" title="' . $alt . '" />';
+                            $thumbnail = '<img class="thumbnail" src="' . $mediaManagerUrl('rex_media_small', urlencode($media->getFileName()), $media->getValue('updatedate')) . '" width="100" alt="' . $alt . '" title="' . $alt . '" />';
                         }
                     }
                 }
@@ -321,7 +321,7 @@ $panel = '
                         ' . $desc . '
                         <p>' . rex_escape($media->getFileName()) . ' <span class="rex-filesize">' . rex_formatter::bytes($media->getSize()) . '</span></p>
                     </td>
-                    <td data-title="' . rex_i18n::msg('pool_last_update') . '"><p class="rex-date">' . rex_formatter::strftime($media->getUpdateDate(), 'datetime') . '</p><p class="rex-author">' . rex_escape($media->getUpdateUser()) . '</p></td>
+                    <td data-title="' . rex_i18n::msg('pool_last_update') . '"><p class="rex-date">' . rex_formatter::intlDateTime($media->getUpdateDate()) . '</p><p class="rex-author">' . rex_escape($media->getUpdateUser()) . '</p></td>
                     <td class="rex-table-action"><a class="rex-link-expanded" href="' . $ilink . '">' . rex_i18n::msg('edit') . '</a></td>
                     <td class="rex-table-action">';
 

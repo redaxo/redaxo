@@ -4,6 +4,10 @@
  * Sortable iterator.
  *
  * @author gharlan
+
+ * @template TKey of array-key
+ * @template TValue
+ * @implements IteratorAggregate<TKey, TValue>
  *
  * @package redaxo\core
  */
@@ -18,7 +22,7 @@ class rex_sortable_iterator implements IteratorAggregate
     /**
      * Constructor.
      *
-     * @param Traversable  $iterator Inner iterator
+     * @param Traversable<TKey, TValue>  $iterator Inner iterator
      * @param int|callable $sort     Sort mode, possible values are rex_sortable_iterator::VALUES (default), rex_sortable_iterator::KEYS or a callable
      * @psalm-param int|callable(mixed, mixed): int $sort
      */

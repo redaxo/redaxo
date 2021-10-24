@@ -39,7 +39,7 @@ abstract class rex_var
         $env = (int) $env;
 
         if (self::ENV_INPUT != ($env & self::ENV_INPUT)) {
-            $env = $env | self::ENV_OUTPUT;
+            $env |= self::ENV_OUTPUT;
         }
 
         self::$env = $env;

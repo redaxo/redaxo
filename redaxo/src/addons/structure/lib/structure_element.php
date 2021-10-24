@@ -498,12 +498,7 @@ abstract class rex_structure_element
     public function inParentTree(self $anObj)
     {
         $tree = $this->getParentTree();
-        foreach ($tree as $treeObj) {
-            if ($treeObj == $anObj) {
-                return true;
-            }
-        }
-        return false;
+        return in_array($anObj, $tree);
     }
 
     /**
