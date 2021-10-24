@@ -12,7 +12,10 @@ class rex_article_content extends rex_article_content_base
     /** @var bool */
     private $viasql;
 
-    /** @var rex_article_slice|null */
+    /**
+     * @var rex_article_slice|null
+     * @phpstan-ignore-next-line
+     */
     private $currentSlice;
 
     /**
