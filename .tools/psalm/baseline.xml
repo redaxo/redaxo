@@ -773,9 +773,9 @@
   </file>
   <file src="redaxo/src/addons/media_manager/boot.php">
     <MixedArgumentTypeCoercion occurrences="3">
-      <code>['rex_media_manager', 'init']</code>
-      <code>['rex_media_manager', 'mediaUpdated']</code>
-      <code>['rex_media_manager', 'mediaUpdated']</code>
+      <code>[rex_media_manager::class, 'init']</code>
+      <code>[rex_media_manager::class, 'mediaUpdated']</code>
+      <code>[rex_media_manager::class, 'mediaUpdated']</code>
     </MixedArgumentTypeCoercion>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_convert2img.php">
@@ -3825,8 +3825,8 @@
   </file>
   <file src="redaxo/src/addons/users/boot.php">
     <MixedArgumentTypeCoercion occurrences="2">
-      <code>['rex_user_role', 'removeOrReplaceItem']</code>
-      <code>['rex_user_role', 'removeOrReplaceItem']</code>
+      <code>[rex_user_role::class, 'removeOrReplaceItem']</code>
+      <code>[rex_user_role::class, 'removeOrReplaceItem']</code>
     </MixedArgumentTypeCoercion>
   </file>
   <file src="redaxo/src/addons/users/lib/role.php">
@@ -5524,8 +5524,8 @@
       <code>$default</code>
     </MixedReturnStatement>
     <MixedReturnTypeCoercion occurrences="2">
+      <code>$default ?? $columnName</code>
       <code>(T is null ? string : ?string)</code>
-      <code>null === $default ? $columnName : $default</code>
     </MixedReturnTypeCoercion>
     <PossiblyNullArgument occurrences="3">
       <code>$columnLayout</code>
@@ -5737,7 +5737,7 @@
       <code>i18n</code>
     </MixedInferredReturnType>
     <MixedReturnStatement occurrences="1">
-      <code>call_user_func_array(['rex_i18n', 'msg'], $args)</code>
+      <code>call_user_func_array([rex_i18n::class, 'msg'], $args)</code>
     </MixedReturnStatement>
     <MixedReturnTypeCoercion occurrences="6">
       <code>$this-&gt;plugins</code>
@@ -5838,7 +5838,7 @@
       <code>$successMessage</code>
     </MixedOperand>
     <MixedReturnStatement occurrences="1">
-      <code>call_user_func_array(['rex_i18n', 'msg'], $args)</code>
+      <code>call_user_func_array([rex_i18n::class, 'msg'], $args)</code>
     </MixedReturnStatement>
     <UnusedForeachValue occurrences="1">
       <code>$reqP</code>
@@ -5850,7 +5850,7 @@
     </MixedInferredReturnType>
     <MixedReturnStatement occurrences="2">
       <code>$default</code>
-      <code>call_user_func_array(['rex_i18n', 'msg'], $args)</code>
+      <code>call_user_func_array([rex_i18n::class, 'msg'], $args)</code>
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/packages/package.php">
@@ -5915,7 +5915,7 @@
     </MixedInferredReturnType>
     <MixedReturnStatement occurrences="2">
       <code>call_user_func_array([$this-&gt;getAddon(), 'i18n'], $args)</code>
-      <code>call_user_func_array(['rex_i18n', 'msg'], $args)</code>
+      <code>call_user_func_array([rex_i18n::class, 'msg'], $args)</code>
     </MixedReturnStatement>
     <PossiblyNullArgument occurrences="1">
       <code>$plugin</code>
@@ -7158,7 +7158,7 @@
       <code>$this-&gt;previousLocale</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="1">
-      <code>['rex_i18n_trans_cb', 'mytranslate']</code>
+      <code>[rex_i18n_trans_cb::class, 'mytranslate']</code>
     </MixedArgumentTypeCoercion>
   </file>
   <file src="redaxo/src/core/tests/util/markdown_test.php">
