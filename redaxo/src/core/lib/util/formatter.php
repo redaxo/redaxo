@@ -114,13 +114,14 @@ abstract class rex_formatter
      * @see https://www.php.net/manual/en/class.intldateformatter.php
      *
      * @param string|int|DateTimeInterface|null $value  Unix timestamp, datetime string for `strtotime` or DateTimeInterface object
-     * @param IntlDateFormatter::FULL|IntlDateFormatter::LONG|IntlDateFormatter::MEDIUM|IntlDateFormatter::SHORT|array{0: IntlDateFormatter::FULL|IntlDateFormatter::LONG|IntlDateFormatter::MEDIUM|IntlDateFormatter::SHORT|IntlDateFormatter::NONE, 1: IntlDateFormatter::FULL|IntlDateFormatter::LONG|IntlDateFormatter::MEDIUM|IntlDateFormatter::SHORT|IntlDateFormatter::NONE}|string $format
+     * @param IntlDateFormatter::FULL|IntlDateFormatter::LONG|IntlDateFormatter::MEDIUM|IntlDateFormatter::SHORT|array{0: IntlDateFormatter::FULL|IntlDateFormatter::LONG|IntlDateFormatter::MEDIUM|IntlDateFormatter::SHORT|IntlDateFormatter::NONE, 1: IntlDateFormatter::FULL|IntlDateFormatter::LONG|IntlDateFormatter::MEDIUM|IntlDateFormatter::SHORT|IntlDateFormatter::NONE}|string|null $format
      *              Possible format values:
      *                  - `IntlDateFormatter` constant, like `IntlDateFormatter::MEDIUM`
      *                  - array with two `IntlDateFormatter` constants for date format and time format, like `[IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT]`
      *                  - string pattern, like `dd.MM.y`
+     *              Defaults to `[IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT]`
      */
-    public static function intlDateTime($value, $format = [IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT]): string
+    public static function intlDateTime($value, $format = null): string
     {
         if (empty($value)) {
             return '';
@@ -136,6 +137,10 @@ abstract class rex_formatter
             }
 
             $timeZone = date_default_timezone_get();
+        }
+
+        if (null === $format || '' === $format) {
+            $format = [IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT];
         }
 
         if (is_string($format)) {
@@ -185,13 +190,18 @@ abstract class rex_formatter
      * @see https://www.php.net/manual/en/class.intldateformatter.php
      *
      * @param string|int|DateTimeInterface|null $value  Unix timestamp, date string for `strtotime` or DateTimeInterface object
-     * @param IntlDateFormatter::FULL|IntlDateFormatter::LONG|IntlDateFormatter::MEDIUM|IntlDateFormatter::SHORT|string $format
+     * @param IntlDateFormatter::FULL|IntlDateFormatter::LONG|IntlDateFormatter::MEDIUM|IntlDateFormatter::SHORT|string|null $format
      *              Possible format values:
      *                  - `IntlDateFormatter` constant, like `IntlDateFormatter::MEDIUM`
      *                  - string pattern, like `dd.MM.y`
+     *              Defaults to `IntlDateFormatter::MEDIUM`
      */
-    public static function intlDate($value, $format = IntlDateFormatter::MEDIUM): string
+    public static function intlDate($value, $format = null): string
     {
+        if (null === $format || '' === $format) {
+            $format = IntlDateFormatter::MEDIUM;
+        }
+
         return self::intlDateTime($value, is_string($format) ? $format : [$format, IntlDateFormatter::NONE]);
     }
 
@@ -201,13 +211,18 @@ abstract class rex_formatter
      * @see https://www.php.net/manual/en/class.intldateformatter.php
      *
      * @param string|int|DateTimeInterface|null $value  Unix timestamp, time string for `strtotime` or DateTimeInterface object
-     * @param IntlDateFormatter::FULL|IntlDateFormatter::LONG|IntlDateFormatter::MEDIUM|IntlDateFormatter::SHORT|string $format
+     * @param IntlDateFormatter::FULL|IntlDateFormatter::LONG|IntlDateFormatter::MEDIUM|IntlDateFormatter::SHORT|string|null $format
      *              Possible format values:
      *                  - `IntlDateFormatter` constant, like `IntlDateFormatter::MEDIUM`
      *                  - string pattern, like `HH:mm`
+     *              Defaults to `IntlDateFormatter::SHORT`
      */
     public static function intlTime($value, $format = IntlDateFormatter::SHORT): string
     {
+        if (null === $format || '' === $format) {
+            $format = IntlDateFormatter::SHORT;
+        }
+
         return self::intlDateTime($value, is_string($format) ? $format : [IntlDateFormatter::NONE, $format]);
     }
 
