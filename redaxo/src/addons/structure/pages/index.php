@@ -525,7 +525,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
 
             $tmplTd = '';
             if ($templateSelect) {
-                $tmpl = isset($tEMPLATENAME[$sql->getValue('template_id')]) ? $tEMPLATENAME[$sql->getValue('template_id')] : '';
+                $tmpl = $tEMPLATENAME[$sql->getValue('template_id')] ?? '';
                 $tmplTd = '<td class="rex-table-template" data-title="' . rex_i18n::msg('header_template') . '">' . $tmpl . '</td>';
             }
 
@@ -548,7 +548,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
 
             $tmplTd = '';
             if ($templateSelect) {
-                $tmpl = isset($tEMPLATENAME[$sql->getValue('template_id')]) ? $tEMPLATENAME[$sql->getValue('template_id')] : '';
+                $tmpl = $tEMPLATENAME[$sql->getValue('template_id')] ?? '';
                 $tmplTd = '<td class="rex-table-template" data-title="' . rex_i18n::msg('header_template') . '">' . $tmpl . '</td>';
             }
 

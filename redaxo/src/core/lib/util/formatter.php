@@ -145,7 +145,7 @@ abstract class rex_formatter
 
         if (is_string($format)) {
             $pattern = $format;
-            $dateFormat = $timeFormat = \IntlDateFormatter::NONE;
+            $dateFormat = $timeFormat = IntlDateFormatter::NONE;
         } elseif (is_array($format)) {
             $pattern = '';
             [$dateFormat, $timeFormat] = $format;

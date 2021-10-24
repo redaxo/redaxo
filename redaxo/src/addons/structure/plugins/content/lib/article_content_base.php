@@ -553,7 +553,7 @@ class rex_article_content_base
         if ('edit' == $this->mode) {
             $env = rex_var::ENV_BACKEND;
             if (('add' == $this->function && null == $sliceId) || ('edit' == $this->function && $sliceId == $this->slice_id)) {
-                $env = $env | rex_var::ENV_INPUT;
+                $env |= rex_var::ENV_INPUT;
             }
         } else {
             $env = rex_var::ENV_FRONTEND;

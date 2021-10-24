@@ -2,13 +2,13 @@
 
 class rex_var_config_test extends rex_var_base_test
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         rex::setConfig('myCoreConfig', 'myCoreConfigValue');
         rex_addon::get('project')->setConfig('myPackageConfig', 'myPackageConfigValue');
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         rex::removeConfig('myCoreConfig');
         rex_addon::get('project')->removeConfig('tests');

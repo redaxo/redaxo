@@ -207,7 +207,7 @@ if ('' == $func) {
         }
     }
     if ('add' == $func) {
-        $select->setSelected('rex_cronjob_phpcode');
+        $select->setSelected(rex_cronjob_phpcode::class);
     }
     $activeType = $field->getValue();
 

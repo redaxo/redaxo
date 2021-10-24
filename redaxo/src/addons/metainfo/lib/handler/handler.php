@@ -656,7 +656,7 @@ abstract class rex_metainfo_handler
     public function renderFormAndSave($prefix, array $params)
     {
         $filterCondition = $this->buildFilterCondition($params);
-        $sqlFields = $this->getSqlFields($prefix, $filterCondition);
+        $sqlFields = static::getSqlFields($prefix, $filterCondition);
         $params = $this->handleSave($params, $sqlFields);
 
         // trigger callback of sql fields

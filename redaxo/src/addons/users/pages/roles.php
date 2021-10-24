@@ -98,7 +98,7 @@ if ('' == $func) {
     }
 
     rex_extension::register('REX_FORM_INPUT_CLASS', static function (rex_extension_point $ep) {
-        return 'perm_select' == $ep->getParam('inputType') ? 'rex_form_perm_select_element' : null;
+        return 'perm_select' == $ep->getParam('inputType') ? rex_form_perm_select_element::class : null;
     });
 
     $fieldIds = [];
