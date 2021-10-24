@@ -440,7 +440,9 @@ class rex_article_slice
      */
     public function getLinkUrl($index)
     {
-        return rex_getUrl($this->getLink($index));
+        $link = $this->getLink($index);
+
+        return null === $link ? null : rex_getUrl($link);
     }
 
     /**
@@ -467,7 +469,9 @@ class rex_article_slice
      */
     public function getMediaUrl($index)
     {
-        return rex_url::media($this->getMedia($index));
+        $media = $this->getMedia($index);
+
+        return null === $media ? null : rex_url::media($media);
     }
 
     /**
