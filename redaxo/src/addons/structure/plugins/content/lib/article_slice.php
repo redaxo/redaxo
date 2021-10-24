@@ -465,7 +465,7 @@ class rex_article_slice
 
     /**
      * @param int $index
-     * @return string
+     * @return string|null
      */
     public function getMediaUrl($index)
     {
