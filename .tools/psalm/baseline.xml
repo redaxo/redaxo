@@ -3162,11 +3162,6 @@
       <code>$id</code>
     </MixedOperand>
   </file>
-  <file src="redaxo/src/addons/structure/plugins/content/lib/article_content.php">
-    <PossiblyNullReference occurrences="1">
-      <code>getValue</code>
-    </PossiblyNullReference>
-  </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/article_content_base.php">
     <MixedArgument occurrences="2">
       <code>$TEMPLATE-&gt;getTemplate()</code>

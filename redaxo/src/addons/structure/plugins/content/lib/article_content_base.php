@@ -305,7 +305,8 @@ class rex_article_content_base
                 return $this->_getValue($val);
             }
         }
-        return '[' . $value . ' not found]';
+
+        throw new rex_exception('Articles do not have the property "'.$value.'"');
     }
 
     /**
