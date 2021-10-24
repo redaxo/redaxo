@@ -272,7 +272,10 @@ final class rex_media_service
                     if (!is_string($searchItem['value']) || '' == $searchItem['value']) {
                         break;
                     }
-                    foreach (str_getcsv(trim($searchItem['value']), ' ') as $i => $part) {
+                    foreach (str_getcsv(trim((string) $searchItem['value']), ' ') as $i => $part) {
+                        if (!$part) {
+                            continue;
+                        }
                         if (str_starts_with($part, 'type:') && strlen($part) > 5) {
                             $types = explode(',', strtolower(substr($part, 5)));
                             $where[] = 'LOWER(RIGHT(m.filename, LOCATE(".", REVERSE(m.filename))-1)) IN ('.$sql->in($types).')';
