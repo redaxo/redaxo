@@ -17,6 +17,18 @@ class rex_article_slice_test extends TestCase
             ->delete();
     }
 
+    public function testGetValue(): void
+    {
+        $id = $this->addSlice(1, 1);
+
+        $slice = rex_article_slice::getArticleSliceById($id);
+
+        static::assertNotNull($slice);
+        static::assertSame('foo', $slice->getValue(1));
+        static::assertNull($slice->getValue(2));
+        static::assertSame(1, $slice->getValue('priority'));
+    }
+
     public function testGetNextSlice(): void
     {
         $id = $this->addSlice(1, 1);
@@ -58,6 +70,7 @@ class rex_article_slice_test extends TestCase
                 'revision' => 0,
                 'priority' => $priority,
                 'status' => $status,
+                'value1' => 'foo',
             ])
             ->insert();
 

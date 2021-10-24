@@ -13,29 +13,58 @@ class rex_article_slice
     protected const ORDER_ASC = 'ASC';
     protected const ORDER_DESC = 'DESC';
 
+    /** @var int */
     private $id;
+
+    /** @var int */
     private $articleId;
+
+    /** @var int */
     private $clang;
+
+    /** @var int */
     private $ctype;
+
+    /** @var int */
     private $priority;
+
+    /** @var int */
     private $status;
+
+    /** @var int */
     private $moduleId;
 
+    /** @var int */
     private $createdate;
+
+    /** @var int */
     private $updatedate;
+
+    /** @var string */
     private $createuser;
+
+    /** @var string */
     private $updateuser;
+
+    /** @var int */
     private $revision;
 
+    /** @var array<int, string|null> */
     private $values;
+
+    /** @var array<int, string|null> */
     private $media;
+
+    /** @var array<int, string|null> */
     private $medialists;
+
+    /** @var array<int, string|null> */
     private $links;
+
+    /** @var array<int, string|null> */
     private $linklists;
 
     /**
-     * Constructor.
-     *
      * @param int    $id
      * @param int    $articleId
      * @param int    $clang
@@ -48,11 +77,11 @@ class rex_article_slice
      * @param string $createuser
      * @param string $updateuser
      * @param int    $revision
-     * @param array  $values
-     * @param array  $media
-     * @param array  $medialists
-     * @param array  $links
-     * @param array  $linklists
+     * @param array<int, string|null> $values
+     * @param array<int, string|null> $media
+     * @param array<int, string|null> $medialists
+     * @param array<int, string|null> $links
+     * @param array<int, string|null> $linklists
      */
     protected function __construct(
         $id, $articleId, $clang, $ctype, $moduleId, $priority, $status,
@@ -282,6 +311,14 @@ class rex_article_slice
         $rows = $sql->getRows();
         $slices = [];
         for ($i = 0; $i < $rows; ++$i) {
+            $data = [];
+            foreach (['value' => 20, 'media' => 10, 'medialist' => 10, 'link' => 10, 'linklist' => 10] as $list => $count) {
+                for ($k = 1; $k <= $count; ++$k) {
+                    $value = $sql->getValue($list.$k);
+                    $data[$list][] = null == $value ? null : (string) $value;
+                }
+            }
+
             $slices[] = new self(
                 (int) $sql->getValue('id'),
                 (int) $sql->getValue('article_id'),
@@ -290,81 +327,16 @@ class rex_article_slice
                 (int) $sql->getValue('module_id'),
                 (int) $sql->getValue('priority'),
                 (int) $sql->getValue('status'),
-                $sql->getDateTimeValue('createdate'),
-                $sql->getDateTimeValue('updatedate'),
-                $sql->getValue('createuser'),
-                $sql->getValue('updateuser'),
+                (int) $sql->getDateTimeValue('createdate'),
+                (int) $sql->getDateTimeValue('updatedate'),
+                (string) $sql->getValue('createuser'),
+                (string) $sql->getValue('updateuser'),
                 (int) $sql->getValue('revision'),
-                [
-                    $sql->getValue('value1'),
-                    $sql->getValue('value2'),
-                    $sql->getValue('value3'),
-                    $sql->getValue('value4'),
-                    $sql->getValue('value5'),
-                    $sql->getValue('value6'),
-                    $sql->getValue('value7'),
-                    $sql->getValue('value8'),
-                    $sql->getValue('value9'),
-                    $sql->getValue('value10'),
-                    $sql->getValue('value11'),
-                    $sql->getValue('value12'),
-                    $sql->getValue('value13'),
-                    $sql->getValue('value14'),
-                    $sql->getValue('value15'),
-                    $sql->getValue('value16'),
-                    $sql->getValue('value17'),
-                    $sql->getValue('value18'),
-                    $sql->getValue('value19'),
-                    $sql->getValue('value20'),
-                ],
-                [
-                    $sql->getValue('media1'),
-                    $sql->getValue('media2'),
-                    $sql->getValue('media3'),
-                    $sql->getValue('media4'),
-                    $sql->getValue('media5'),
-                    $sql->getValue('media6'),
-                    $sql->getValue('media7'),
-                    $sql->getValue('media8'),
-                    $sql->getValue('media9'),
-                    $sql->getValue('media10'),
-                ],
-                [
-                    $sql->getValue('medialist1'),
-                    $sql->getValue('medialist2'),
-                    $sql->getValue('medialist3'),
-                    $sql->getValue('medialist4'),
-                    $sql->getValue('medialist5'),
-                    $sql->getValue('medialist6'),
-                    $sql->getValue('medialist7'),
-                    $sql->getValue('medialist8'),
-                    $sql->getValue('medialist9'),
-                    $sql->getValue('medialist10'),
-                ],
-                [
-                    $sql->getValue('link1'),
-                    $sql->getValue('link2'),
-                    $sql->getValue('link3'),
-                    $sql->getValue('link4'),
-                    $sql->getValue('link5'),
-                    $sql->getValue('link6'),
-                    $sql->getValue('link7'),
-                    $sql->getValue('link8'),
-                    $sql->getValue('link9'),
-                    $sql->getValue('link10'),
-                ],
-                [
-                    $sql->getValue('linklist1'),
-                    $sql->getValue('linklist2'),
-                    $sql->getValue('linklist3'),
-                    $sql->getValue('linklist4'),
-                    $sql->getValue('linklist5'),
-                    $sql->getValue('linklist6'),
-                    $sql->getValue('linklist7'),
-                    $sql->getValue('linklist8'),
-                    $sql->getValue('linklist9'),
-                    $sql->getValue('linklist10'),
-                ]
+                $data['value'],
+                $data['media'],
+                $data['medialist'],
+                $data['link'],
+                $data['linklist'],
             );
 
             $sql->next();
@@ -386,17 +358,20 @@ class rex_article_slice
         return $article;
     }
 
+    /** @return int */
     public function getArticleId()
     {
         return $this->articleId;
     }
 
+    /** @return int */
     public function getClangId()
     {
         return $this->clang;
     }
 
     /**
+     * @return int
      * @deprecated since redaxo 5.6, use getClangId() instead
      */
     public function getClang()
@@ -404,26 +379,36 @@ class rex_article_slice
         return $this->clang;
     }
 
+    /** @return int */
     public function getCtype()
     {
         return $this->ctype;
     }
 
+    /** @return int */
     public function getRevision()
     {
         return $this->revision;
     }
 
+    /** @return int */
     public function getModuleId()
     {
         return $this->moduleId;
     }
 
+    /** @return int */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * @template T of int|string
+     * @param T $index
+     * @return null|int|string
+     * @psalm-return (T is int ? string|null : int|string|null)
+     */
     public function getValue($index)
     {
         if (is_int($index)) {
@@ -431,27 +416,46 @@ class rex_article_slice
         }
 
         if (isset($this->$index)) {
+            /** @var string|int */
             return $this->$index;
         }
 
         return null;
     }
 
+    /**
+     * @param int $index
+     * @return int|null
+     */
     public function getLink($index)
     {
-        return $this->links[$index - 1];
+        $link = $this->links[$index - 1];
+
+        return null === $link ? null : (int) $link;
     }
 
+    /**
+     * @param int $index
+     * @return string|null
+     */
     public function getLinkUrl($index)
     {
         return rex_getUrl($this->getLink($index));
     }
 
+    /**
+     * @param int $index
+     * @return string|null
+     */
     public function getLinkList($index)
     {
         return $this->linklists[$index - 1];
     }
 
+    /**
+     * @param int $index
+     * @return string|null
+     */
     public function getMedia($index)
     {
         return $this->media[$index - 1];
@@ -459,7 +463,6 @@ class rex_article_slice
 
     /**
      * @param int $index
-     *
      * @return string
      */
     public function getMediaUrl($index)
@@ -467,11 +470,16 @@ class rex_article_slice
         return rex_url::media($this->getMedia($index));
     }
 
+    /**
+     * @param int $index
+     * @return string|null
+     */
     public function getMediaList($index)
     {
         return $this->medialists[$index - 1];
     }
 
+    /** @return int */
     public function getPriority()
     {
         return $this->priority;
