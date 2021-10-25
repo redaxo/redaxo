@@ -461,7 +461,7 @@ class rex_article_slice
 
     /**
      * @param int $index
-     * @return string|null
+     * @return string|null liefert kommaseparierten String
      */
     public function getLinkList($index)
     {
@@ -504,7 +504,7 @@ class rex_article_slice
 
     /**
      * @param int $index
-     * @return string|null
+     * @return string|null liefert kommaseparierten String
      */
     public function getMediaList($index)
     {
