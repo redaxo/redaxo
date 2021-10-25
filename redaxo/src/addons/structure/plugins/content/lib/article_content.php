@@ -14,7 +14,7 @@ class rex_article_content extends rex_article_content_base
 
     /**
      * @var rex_article_slice|null
-     * @phpstan-ignore-next-line
+     * @phpstan-ignore-next-line this property looks unread, but is written from content cache file
      */
     private $currentSlice;
 
