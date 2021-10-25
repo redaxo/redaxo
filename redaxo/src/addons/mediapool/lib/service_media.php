@@ -264,23 +264,28 @@ final class rex_media_service
                     }
                     break;
                 case 'types':
-                    if (is_array($searchItem['value'])) {
-                        $types = [];
-                        foreach ($searchItem['value'] as $index => $type) {
-                            if (is_string($type)) {
-                                $types[] = 'LOWER(RIGHT(m.filename, LOCATE(".", REVERSE(m.filename))-1)) = :search_'.$counter.'_'.$index;
-                                $queryParams['search_'.$counter.'_'.$index] = strtolower($type);
-                            }
-                        }
-                        if (count($types) > 0) {
-                            $where[] = '('.implode(' OR ', $types).')';
-                        }
+                    if (is_array($searchItem['value']) && $searchItem['value']) {
+                        $where[] = 'LOWER(RIGHT(m.filename, LOCATE(".", REVERSE(m.filename))-1)) IN ('.$sql->in($searchItem['value']).')';
                     }
                     break;
                 case 'term':
-                    if (is_string($searchItem['value']) && '' != $searchItem['value']) {
-                        $where[] = '(m.filename LIKE :search_'.$counter.' || m.title LIKE :search_'.$counter.')';
-                        $queryParams['search_'.$counter] = $searchItem['value'];
+                    if (!is_string($searchItem['value']) || '' == $searchItem['value']) {
+                        break;
+                    }
+                    foreach (str_getcsv(trim((string) $searchItem['value']), ' ') as $i => $part) {
+                        if (!$part) {
+                            continue;
+                        }
+                        if (str_starts_with($part, 'type:') && strlen($part) > 5) {
+                            $types = explode(',', strtolower(substr($part, 5)));
+                            $where[] = 'LOWER(RIGHT(m.filename, LOCATE(".", REVERSE(m.filename))-1)) IN ('.$sql->in($types).')';
+
+                            continue;
+                        }
+
+                        $param = "search_{$counter}_{$i}";
+                        $where[] = '(m.filename LIKE :'.$param.' || m.title LIKE :'.$param.')';
+                        $queryParams[$param] = '%'.$sql->escapeLikeWildcards($part).'%';
                     }
                     break;
             }

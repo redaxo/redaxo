@@ -232,7 +232,6 @@ $panel = '
 
             $mediaName = rex_request('media_name', 'string');
             if ('' != $mediaName) {
-                $mediaName = '%'.str_replace(['_', '%'], ['\_', '\%'], $mediaName).'%';
                 $searchItems[] = [
                     'type' => 'term',
                     'value' => $mediaName,
