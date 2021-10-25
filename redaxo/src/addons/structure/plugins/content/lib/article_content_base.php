@@ -486,7 +486,7 @@ class rex_article_content_base
     {
         if (!$this->eval) {
             $key = 'EOD_' . strtoupper(sha1((string) time()));
-            return "require rex_stream::factory('$path', \n<<<'$key'\n$content\n$key\n);\n";
+            return "require rex_stream::factory('$path', <<<'$key'\n$content\n$key);\n";
         }
 
         ob_start();
@@ -647,30 +647,25 @@ class rex_article_content_base
         $moduleId = rex_request('module_id', 'int');
 
         // ---------- alle teile/slices eines artikels auswaehlen
-        $query = 'SELECT '.rex::getTablePrefix().'module.id, '.rex::getTablePrefix().'module.key, '.rex::getTablePrefix(
-            ).'module.name, '.rex::getTablePrefix().'module.output, '.rex::getTablePrefix(
-            ).'module.input, '.rex::getTablePrefix().'article_slice.*, '.rex::getTablePrefix().'article.parent_id
-                        FROM
-                            '.rex::getTablePrefix().'article_slice
-                        LEFT JOIN '.rex::getTablePrefix().'module ON '.rex::getTablePrefix(
-            ).'article_slice.module_id='.rex::getTablePrefix().'module.id
-                        LEFT JOIN '.rex::getTablePrefix().'article ON '.rex::getTablePrefix(
-            ).'article_slice.article_id='.rex::getTablePrefix().'article.id
-                        WHERE
-                            '.rex::getTablePrefix()."article_slice.clang_id='".$this->clang."' AND
-                            ".rex::getTablePrefix()."article.clang_id='".$this->clang."' AND
-                            ".rex::getTablePrefix()."article_slice.revision='".$this->slice_revision."'
-                            ".$articleLimit.'
-                            '.$sliceLimit.'
-                            ORDER BY '.rex::getTablePrefix().'article_slice.priority';
+        $prefix = rex::getTablePrefix();
+        $query = <<<SQL
+            SELECT
+                {$prefix}module.id, {$prefix}module.key, {$prefix}module.name, {$prefix}module.output, {$prefix}module.input,
+                {$prefix}article_slice.*,
+                {$prefix}article.parent_id
+            FROM {$prefix}article_slice
+            LEFT JOIN {$prefix}module ON {$prefix}article_slice.module_id = {$prefix}module.id
+            LEFT JOIN {$prefix}article ON {$prefix}article_slice.article_id = {$prefix}article.id
+            WHERE
+                {$prefix}article_slice.clang_id = {$this->clang} AND
+                {$prefix}article.clang_id = {$this->clang} AND
+                {$prefix}article_slice.revision = {$this->slice_revision}
+                {$articleLimit}
+                {$sliceLimit}
+            ORDER BY {$prefix}article_slice.priority
+            SQL;
 
-        $query = rex_extension::registerPoint(
-            new rex_extension_point(
-                'ART_SLICES_QUERY',
-                $query,
-                ['article' => $this]
-            )
-        );
+        $query = rex_extension::registerPoint(new rex_extension_point('ART_SLICES_QUERY', $query, ['article' => $this]));
 
         $artDataSql = rex_sql::factory();
         $artDataSql->setDebug($this->debug);
@@ -686,17 +681,17 @@ class rex_article_content_base
         $artDataSql->reset();
         $rows = $artDataSql->getRows();
         for ($i = 0; $i < $rows; ++$i) {
-            $sliceId = (int) $artDataSql->getValue(rex::getTablePrefix().'article_slice.id');
-            $sliceCtypeId = (int) $artDataSql->getValue(rex::getTablePrefix().'article_slice.ctype_id');
-            $sliceModuleId = (int) $artDataSql->getValue(rex::getTablePrefix().'module.id');
+            $sliceId = (int) $artDataSql->getValue($prefix.'article_slice.id');
+            $sliceCtypeId = (int) $artDataSql->getValue($prefix.'article_slice.ctype_id');
+            $sliceModuleId = (int) $artDataSql->getValue($prefix.'module.id');
 
             // ----- ctype unterscheidung
             if ('edit' != $this->mode && !$this->eval) {
                 if (0 == $i) {
-                    $articleContent = "<?php if (\$this->ctype == '".$sliceCtypeId."' || (\$this->ctype == '-1')) { \n";
+                    $articleContent = "<?php\n\nif (\$this->ctype == '".$sliceCtypeId."' || \$this->ctype == '-1') {\n";
                 } elseif (isset($prevCtype) && $sliceCtypeId != $prevCtype) {
                     // ----- zwischenstand: ctype .. wenn ctype neu dann if
-                    $articleContent .= "\n } if(\$this->ctype == '".$sliceCtypeId."' || \$this->ctype == '-1'){ \n";
+                    $articleContent .= "}\n\nif (\$this->ctype == '".$sliceCtypeId."' || \$this->ctype == '-1') {\n";
                 }
             }
 
@@ -738,7 +733,7 @@ class rex_article_content_base
 
         // ----- end: ctype unterscheidung
         if ('edit' != $this->mode && !$this->eval && $i > 0) {
-            $articleContent .= "\n } ?>";
+            $articleContent .= "}\n";
         }
 
         // ----- post hook

@@ -3208,43 +3208,15 @@
     </UnusedForeachValue>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/article_slice.php">
-    <MixedArgument occurrences="10">
-      <code>$sql-&gt;getValue('createuser')</code>
-      <code>$sql-&gt;getValue('updateuser')</code>
-      <code>$this-&gt;getArticleId()</code>
-      <code>$this-&gt;getArticleId()</code>
-      <code>$this-&gt;getArticleId()</code>
-      <code>$this-&gt;getClangId()</code>
-      <code>$this-&gt;getId()</code>
-      <code>$this-&gt;getLink($index)</code>
-      <code>$this-&gt;getMedia($index)</code>
-      <code>$this-&gt;getRevision()</code>
-    </MixedArgument>
-    <MixedArrayAccess occurrences="5">
-      <code>$this-&gt;linklists[$index - 1]</code>
-      <code>$this-&gt;links[$index - 1]</code>
-      <code>$this-&gt;media[$index - 1]</code>
-      <code>$this-&gt;medialists[$index - 1]</code>
+    <MixedArrayOffset occurrences="1">
       <code>$this-&gt;values[$index - 1]</code>
-    </MixedArrayAccess>
-    <MixedArrayOffset occurrences="4">
-      <code>$this-&gt;linklists[$index - 1]</code>
-      <code>$this-&gt;links[$index - 1]</code>
-      <code>$this-&gt;media[$index - 1]</code>
-      <code>$this-&gt;medialists[$index - 1]</code>
     </MixedArrayOffset>
-    <MixedOperand occurrences="6">
+    <MixedAssignment occurrences="1">
+      <code>$value</code>
+    </MixedAssignment>
+    <MixedOperand occurrences="1">
       <code>$index</code>
-      <code>$index</code>
-      <code>$index</code>
-      <code>$index</code>
-      <code>$this-&gt;priority</code>
-      <code>$this-&gt;priority</code>
     </MixedOperand>
-    <PossiblyNullArgument occurrences="2">
-      <code>$sql-&gt;getDateTimeValue('createdate')</code>
-      <code>$sql-&gt;getDateTimeValue('updatedate')</code>
-    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/cache_template.php">
     <MixedArgument occurrences="1">

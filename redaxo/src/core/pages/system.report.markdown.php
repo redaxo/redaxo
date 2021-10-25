@@ -7,7 +7,7 @@ echo '<p><clipboard-copy for="rex-system-report-markdown" class="btn btn-copy bt
 // there must be no whitespace between div and pre and within pre
 // otherwise the copied markdown via clipboard-copy can be invalid
 echo '<div id="rex-system-report-markdown" contenteditable="true" spellcheck="false">';
-echo '<pre>'.rex_escape($report).'</pre>';
+echo '<pre><code>'.rex_escape($report).'</code></pre>';
 echo '</div>';
 
 echo '
