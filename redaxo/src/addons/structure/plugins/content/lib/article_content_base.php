@@ -366,7 +366,7 @@ class rex_article_content_base
     public function getCurrentSlice(): rex_article_slice
     {
         if (!$this->sliceSql || !$this->sliceSql->valid()) {
-            throw new rex_exception('There is no current slice');
+            throw new rex_exception('There is no current slice; getCurrentSlice() can be called only while rendering slices');
         }
 
         return rex_article_slice::fromSql($this->sliceSql);

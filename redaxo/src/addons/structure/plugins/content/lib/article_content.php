@@ -142,7 +142,7 @@ class rex_article_content extends rex_article_content_base
         }
 
         if (!$this->currentSlice) {
-            throw new rex_exception('There is no current slice');
+            throw new rex_exception('There is no current slice; getCurrentSlice() can be called only while rendering slices');
         }
 
         return $this->currentSlice;
