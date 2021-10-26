@@ -109,6 +109,40 @@ class rex_article_slice
         $this->linklists = $linklists;
     }
 
+    /** @internal  */
+    public static function fromSql(rex_sql $sql): self
+    {
+        $table = rex::getTable('article_slice');
+
+        $data = [];
+        foreach (['value' => 20, 'media' => 10, 'medialist' => 10, 'link' => 10, 'linklist' => 10] as $list => $count) {
+            for ($k = 1; $k <= $count; ++$k) {
+                $value = $sql->getValue($table.'.'.$list.$k);
+                $data[$list][] = null == $value ? null : (string) $value;
+            }
+        }
+
+        return new self(
+            (int) $sql->getValue($table.'.id'),
+            (int) $sql->getValue($table.'.article_id'),
+            (int) $sql->getValue($table.'.clang_id'),
+            (int) $sql->getValue($table.'.ctype_id'),
+            (int) $sql->getValue($table.'.module_id'),
+            (int) $sql->getValue($table.'.priority'),
+            (int) $sql->getValue($table.'.status'),
+            (int) $sql->getDateTimeValue($table.'.createdate'),
+            (int) $sql->getDateTimeValue($table.'.updatedate'),
+            (string) $sql->getValue($table.'.createuser'),
+            (string) $sql->getValue($table.'.updateuser'),
+            (int) $sql->getValue($table.'.revision'),
+            $data['value'],
+            $data['media'],
+            $data['medialist'],
+            $data['link'],
+            $data['linklist'],
+        );
+    }
+
     /**
      * Return an ArticleSlice by its id.
      *
@@ -311,33 +345,7 @@ class rex_article_slice
         $rows = $sql->getRows();
         $slices = [];
         for ($i = 0; $i < $rows; ++$i) {
-            $data = [];
-            foreach (['value' => 20, 'media' => 10, 'medialist' => 10, 'link' => 10, 'linklist' => 10] as $list => $count) {
-                for ($k = 1; $k <= $count; ++$k) {
-                    $value = $sql->getValue($list.$k);
-                    $data[$list][] = null == $value ? null : (string) $value;
-                }
-            }
-
-            $slices[] = new self(
-                (int) $sql->getValue('id'),
-                (int) $sql->getValue('article_id'),
-                (int) $sql->getValue('clang_id'),
-                (int) $sql->getValue('ctype_id'),
-                (int) $sql->getValue('module_id'),
-                (int) $sql->getValue('priority'),
-                (int) $sql->getValue('status'),
-                (int) $sql->getDateTimeValue('createdate'),
-                (int) $sql->getDateTimeValue('updatedate'),
-                (string) $sql->getValue('createuser'),
-                (string) $sql->getValue('updateuser'),
-                (int) $sql->getValue('revision'),
-                $data['value'],
-                $data['media'],
-                $data['medialist'],
-                $data['link'],
-                $data['linklist'],
-            );
+            $slices[] = self::fromSql($sql);
 
             $sql->next();
         }
@@ -534,5 +542,32 @@ class rex_article_slice
     public function isOnline(): bool
     {
         return 1 == $this->status;
+    }
+
+    /**
+     * @internal
+     * @param array{id: int, articleId: int, clang: int, ctype: int, moduleId: int, priority: int, status: int, createdate: int, updatedate: int, createuser: string, updateuser: string, revision: int, values: array<int, string|null>, media: array<int, string|null>, medialists: array<int, string|null>, links: array<int, string|null>, linklists: array<int, string|null>} $data
+     */
+    public static function __set_state(array $data): self
+    {
+        return new self(
+            $data['id'],
+            $data['articleId'],
+            $data['clang'],
+            $data['ctype'],
+            $data['moduleId'],
+            $data['priority'],
+            $data['status'],
+            $data['createdate'],
+            $data['updatedate'],
+            $data['createuser'],
+            $data['updateuser'],
+            $data['revision'],
+            $data['values'],
+            $data['media'],
+            $data['medialists'],
+            $data['links'],
+            $data['linklists'],
+        );
     }
 }
