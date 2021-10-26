@@ -1,10 +1,10 @@
 #!/bin/sh
-rm -rf clockwork-app-redaxo-v5.0
+rm -rf clockwork-app-redaxo
 rm -rf web
-curl -Ls -o clockwork.zip https://github.com/redaxo/clockwork-app/archive/redaxo-v5.0.zip
+curl -Ls -o clockwork.zip https://github.com/redaxo/clockwork-app/archive/redaxo.zip
 unzip clockwork.zip
 rm clockwork.zip
-cd clockwork-app-redaxo-v5.0
+cd clockwork-app-redaxo
 npm ci
 
 npm run build-web
@@ -22,7 +22,7 @@ rm dist/web/service-worker.js
 
 mv dist/web ../
 cd ..
-rm -rf clockwork-app-redaxo-v5.0
+rm -rf clockwork-app-redaxo
 
 # zip frontend
 cd web
