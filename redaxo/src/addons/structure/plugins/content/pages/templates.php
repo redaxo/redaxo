@@ -130,8 +130,8 @@ if ('add' == $function || 'edit' == $function) {
             $modules[1]['all'] = 0;
         }
 
-        foreach ($modules as $k => $module) {
-            if (!isset($module['all']) || 1 != $module['all']) {
+        foreach ($ctypes as $k => $_) {
+            if (!isset($modules[$k]['all']) || 1 != $modules[$k]['all']) {
                 $modules[$k]['all'] = 0;
             }
         }

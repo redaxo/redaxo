@@ -3535,7 +3535,7 @@
       <code>$ctypes[]</code>
       <code>$modules[$k]['all']</code>
     </MixedArrayAssignment>
-    <MixedAssignment occurrences="16">
+    <MixedAssignment occurrences="15">
       <code>$active</code>
       <code>$aid</code>
       <code>$categories</code>
@@ -3544,7 +3544,6 @@
       <code>$ctypes</code>
       <code>$j</code>
       <code>$jj</code>
-      <code>$module</code>
       <code>$modules</code>
       <code>$name</code>
       <code>$template</code>
