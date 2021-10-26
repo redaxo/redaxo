@@ -145,6 +145,11 @@ if (rex::getConsole()) {
     });
 } else {
     register_shutdown_function(static function () use ($shutdownFn) {
+        // don't track preflight requests
+        if ('/__clockwork/latest' === $_SERVER['REQUEST_URI']) {
+            return;
+        }
+
         $shutdownFn();
 
         // we need to make sure that the storage path exists after actions like cache:clear
