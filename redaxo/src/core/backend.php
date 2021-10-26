@@ -213,7 +213,7 @@ if ($user = rex::getUser()) {
         // profile is available for everyone, no additional checks required
         rex_be_controller::setCurrentPage('profile');
     } else {
-        // trigger api functions
+        // trigger api functions. the api function is responsible for checking permissions.
         rex_api_function::handleCall();
     }
 
