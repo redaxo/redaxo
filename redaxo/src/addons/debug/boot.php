@@ -20,6 +20,9 @@ if (rex::isBackend() && 'debug' === rex_request::get('page') && rex::getUser() &
         $realPath = rex_escape(rex_path::base(), 'js');
     }
 
+    // prepend backend folder
+    $apiUrl = dirname($_SERVER['REQUEST_URI']).'/'.rex_debug_clockwork::getClockworkApiUrl();
+
     $injectedScript = <<<EOF
         <script>
             let store;
@@ -34,6 +37,7 @@ if (rex::isBackend() && 'debug' === rex_request::get('page') && rex::getUser() &
             if (!store.settings.global) store.settings.global = {};
 
             store.settings.global.editor = '$curEditor';
+            store.settings.global.metadataPath = '$apiUrl';
 
             if (!store.settings.site) store.settings.site = {};
 
