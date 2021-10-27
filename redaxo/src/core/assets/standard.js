@@ -702,7 +702,7 @@ jQuery(document).ready(function($) {
     document.addEventListener('keydown', handleKeyEvents, true);
 
     // Dropdown Search
-    $('.rex-dropdown-search').on('keyup', function () {
+    $('.rex-js-dropdown-search').on('keyup', function () {
         var searchTerm = $(this).val().toLowerCase();
         $(this).closest('ul').find('li').each(function () {
             var moduleName = $(this).text();

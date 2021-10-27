@@ -33,7 +33,7 @@ $group = isset($this->group) && $this->group ? true : false;
     <ul class="dropdown-menu<?= (isset($this->right) ? ' dropdown-menu-right' : '')?><?= (isset($this->block) ? ' btn-block' : '')?>" role="menu">
         <?php if ($this->search && count($this->items)>5): ?>
             <div class="bs-searchbox">
-                <input type="search" class="rex-dropdown-search form-control" autocomplete="off" role="combobox" aria-label="Search">
+                <input type="search" class="rex-js-dropdown-search form-control" autocomplete="off" role="combobox" aria-label="<?= $this->i18n('search_placeholder') ?>">
             </div>
         <?php endif; ?>
         <?php if (isset($this->header) && '' != $this->header): ?>
