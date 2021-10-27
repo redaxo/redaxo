@@ -4,8 +4,8 @@
  * @psalm-scope-this rex_fragment
  */
 
-$toolbar = isset($this->toolbar) && $this->toolbar ? true : false;
-$group = isset($this->group) && $this->group ? true : false;
+$toolbar = isset($this->toolbar) && $this->toolbar;
+$group = isset($this->group) && $this->group;
 ?>
 
 <?php if (!$toolbar && !$group): ?>

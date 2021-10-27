@@ -3991,11 +3991,12 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/fragments/core/dropdowns/dropdown.php">
-    <MixedArgument occurrences="5">
+    <MixedArgument occurrences="6">
       <code>$item['attributes']</code>
       <code>$this-&gt;button_prefix</code>
       <code>$this-&gt;footer</code>
       <code>$this-&gt;header</code>
+      <code>$this-&gt;items</code>
       <code>(isset($item['href']) &amp;&amp; '' != $item['href']) ? '&lt;a href="' . $item['href'] . '"&gt;' . $item['title'] . '&lt;/a&gt;' : $item['title']</code>
     </MixedArgument>
     <MixedArrayAccess occurrences="2">
