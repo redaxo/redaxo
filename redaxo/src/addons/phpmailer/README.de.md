@@ -175,29 +175,29 @@ Das Archiv kann über den CronJob "Mailer-Archiv bereinigen" regelmäßig berein
 ### Extension-Point `PHPMAILER_CONFIG`
 
 Die Konfiguration kann mittels Extension-Point überschrieben und/oder ergänzt werden. 
+Weitere Informationen zur [PHPMailer-Konfiguration beim Vendor](https://github.com/PHPMailer/PHPMailer).
+
 Das folgende Beispiel zeigt die Verwendung von selbst signierten Zertifikaten. 
 
 > Per Default wird der Peer verifiziert. Dies kann ggf. zu Problemen führen. Die nachfolgenden Einstellungen helfen, dieses Problem zu umgehen.
 
 ```php 
-function customMailer($ep) {
+rex_extension::register('PHPMAILER_CONFIG', function (rex_extension_point $ep) {
     $subject = $ep->getSubject();
     // set SMTPOptions
-    $subject->SMTPOptions = array(
-    'ssl' => array(
-        'verify_peer' => false,
-        'verify_peer_name' => false,
-        'allow_self_signed' => true
-    ),
-    'tls' => array(
-        'verify_peer' => false,
-        'verify_peer_name' => false,
-        'allow_self_signed' => true
-    ),
-);
-    return $ep;
-}
-rex_extension::register('PHPMAILER_CONFIG', "customMailer");
+    $subject->SMTPOptions = [
+        'ssl' => [
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true
+        ],
+        'tls' => [
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true
+        ],
+    ];
+});
 ```
 
 
