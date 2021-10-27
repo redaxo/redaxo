@@ -36,6 +36,11 @@ parameters:
 			path: ../../redaxo/src/addons/mediapool/lib/media_category_select.php
 
 		-
+			message: "#^Offset 'file' on array\\('category_id' \\=\\> int, 'title' \\=\\> string, 'file' \\=\\> array\\('name' \\=\\> string, 'path' \\=\\> string, \\?'tmp_name' \\=\\> string\\)\\) in empty\\(\\) always exists and is not falsy\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/mediapool/lib/service_media.php
+
+		-
 			message: "#^Ternary operator condition is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/lib/service_media.php

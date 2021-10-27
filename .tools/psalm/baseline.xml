@@ -1105,11 +1105,6 @@
     <PossiblyNullReference occurrences="1">
       <code>getComplexPerm</code>
     </PossiblyNullReference>
-    <UnusedParam occurrences="3">
-      <code>$userlogin</code>
-      <code>$userlogin</code>
-      <code>$userlogin</code>
-    </UnusedParam>
   </file>
   <file src="redaxo/src/addons/mediapool/lib/cache_media.php">
     <MixedAssignment occurrences="4">
@@ -1553,9 +1548,14 @@
       <code>$js</code>
       <code>rex_mediapool_Uploadform($rexFileCategory)</code>
     </MixedArgument>
-    <MixedAssignment occurrences="3">
-      <code>$data['category_id']</code>
-      <code>$data['file']['name']</code>
+    <MixedArrayAccess occurrences="1">
+      <code>$_FILES['file_new']['tmp_name']</code>
+    </MixedArrayAccess>
+    <MixedArrayAssignment occurrences="1">
+      <code>$data['file']['path']</code>
+    </MixedArrayAssignment>
+    <MixedAssignment occurrences="2">
+      <code>$data['file']</code>
       <code>$data['file']['path']</code>
     </MixedAssignment>
     <MixedOperand occurrences="2">

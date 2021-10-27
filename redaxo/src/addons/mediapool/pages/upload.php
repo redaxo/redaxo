@@ -22,10 +22,10 @@ if ('add_file' == $mediaMethod) {
         if (rex_post('save', 'boolean') || rex_post('saveandexit', 'boolean')) {
             $data = [];
             $data['title'] = rex_request('ftitle', 'string');
-            $data['category_id'] = $rexFileCategory;
+            $data['category_id'] = (int) $rexFileCategory;
 
             if ($_FILES['file_new'] ?? null) {
-                $data['file']['name'] = $_FILES['file_new']['name'] ?? '';
+                $data['file'] = $_FILES['file_new'];
                 $data['file']['path'] = $_FILES['file_new']['tmp_name'] ?? '';
             }
 

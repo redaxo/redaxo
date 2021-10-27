@@ -32,6 +32,7 @@ function rex_mediapool_filename($mediaName, $doSubindexing = true): string
  *
  * @return array
  * @deprecated since 2.11, use `rex_media_service::addMedia` instead
+ * @psalm-suppress UnusedParam
  */
 function rex_mediapool_saveMedia($FILE, $rexFileCategory, $FILEINFOS, $userlogin = null, $doSubindexing = true)
 {
@@ -77,6 +78,7 @@ function rex_mediapool_saveMedia($FILE, $rexFileCategory, $FILEINFOS, $userlogin
  *
  * @return array
  * @deprecated since 2.11, use `rex_media_service::updateMedia` instead
+ * @psalm-suppress UnusedParam
  */
 function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
 {
@@ -113,6 +115,7 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
  *
  * @return array
  * @deprecated since 2.11, use `rex_media_service::addMedia` instead
+ * @psalm-suppress UnusedParam
  */
 function rex_mediapool_syncFile($physicalFilename, $categoryId, $title, $filesize = null, $filetype = null, $userlogin = null)
 {
@@ -122,8 +125,6 @@ function rex_mediapool_syncFile($physicalFilename, $categoryId, $title, $filesiz
     $data['file'] = [
         'name' => $physicalFilename,
         'path' => rex_path::media($physicalFilename),
-        'site' => $filesize,
-        'type' => $filetype,
     ];
 
     try {

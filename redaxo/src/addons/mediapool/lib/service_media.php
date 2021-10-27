@@ -16,7 +16,7 @@ final class rex_media_service
      * Dabei wird kontrolliert ob das File schon vorhanden ist und es
      * wird eventuell angepasst, weiterhin werden die Fileinformationen übergeben.
      *
-     * @param array{category_id: int, title: string, file: array{name: string, path: string}} $data
+     * @param array{category_id: int, title: string, file: array{name: string, path: string, tmp_name?: string}} $data
      * @param bool $doSubindexing // echte Dateinamen anpassen, falls schon vorhanden
      */
     public static function addMedia(array $data, bool $doSubindexing = true, array $allowedExtensions = []): array
