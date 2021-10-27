@@ -165,6 +165,34 @@ When email archiving is switched on, all emails are saved in complete `.eml` for
 
 The archive can be purged periodically via the CronJob "Purge Mailer Archive". 
 
+### Extension-Point PHPMAILER_CONFIG
+
+The configuration can be overwritten and/or extended via extension point. 
+The following example shows the use of self-signed certificates. 
+
+> By default, the peer is verified. This may lead to problems. The following settings help to avoid this problem.
+
+```php
+function customMailer($ep) {
+    $subject = $ep->getSubject();
+    // set SMTPOptions
+    $subject->SMTPOptions = array(
+    'ssl' => array(
+        'verify_peer' => false,
+        'verify_peer_name' => false,
+        'allow_self_signed' => true
+    ),
+    'tls' => array(
+        'verify_peer' => false,
+        'verify_peer_name' => false,
+        'allow_self_signed' => true
+    ),
+);
+    return $ep;
+}
+rex_extension::register('PHPMAILER_CONFIG', "customMailer");
+```
+
 
 ## Tips
 
@@ -185,27 +213,6 @@ PHPMailer checks on "AutoTLS" if the specified server supports TLS and establish
 
 > SMTP transmission does not allow sending emails with empty body 
 
-### Use of self-signed certificates
-
-The peer is verified by default. This can lead to problems. The following settings help to avoid this problem.
-
-```php
-<?php
-
-$mail = new rex_mailer();
-$mail->SMTPOptions = array(
-    'ssl' => array(
-        'verify_peer' => false,
-        'verify_peer_name' => false,
-        'allow_self_signed' => true
-    ),
-    'tls' => array(
-        'verify_peer' => false,
-        'verify_peer_name' => false,
-        'allow_self_signed' => true
-    ),
-);
-```
 
 ### Sending mails over different domains 
 
