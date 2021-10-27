@@ -6,7 +6,6 @@
 
 $toolbar = isset($this->toolbar) && $this->toolbar ? true : false;
 $group = isset($this->group) && $this->group ? true : false;
-$module_dropdown_id = 'module-dropdown-'.rand(999,999999999);
 ?>
 
 <?php if (!$toolbar && !$group): ?>
@@ -31,10 +30,10 @@ $module_dropdown_id = 'module-dropdown-'.rand(999,999999999);
 <?php else: ?>
     </button>
 <?php endif; ?>
-    <ul id="<?= $module_dropdown_id ?>" class="dropdown-menu<?= (isset($this->right) ? ' dropdown-menu-right' : '')?><?= (isset($this->block) ? ' btn-block' : '')?>" role="menu">
-        <?php if (count($this->items)>5): ?>
-            <div style="padding: 0 20px;">
-                <input type="search" class="slice-search-box form-control" autocomplete="off" role="combobox" aria-label="Search" aria-autocomplete="list">
+    <ul class="dropdown-menu<?= (isset($this->right) ? ' dropdown-menu-right' : '')?><?= (isset($this->block) ? ' btn-block' : '')?>" role="menu">
+        <?php if ($this->search && count($this->items)>5): ?>
+            <div class="bs-searchbox">
+                <input type="search" class="rex-dropdown-search form-control" autocomplete="off" role="combobox" aria-label="Search">
             </div>
         <?php endif; ?>
         <?php if (isset($this->header) && '' != $this->header): ?>

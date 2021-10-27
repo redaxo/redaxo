@@ -40,23 +40,5 @@ $(document).on('rex:ready', function (event, viewRoot) {
         });
     }
 
-    // Search Slices
-    $('.slice-search-box').on('keyup', function () {
-        var dropdownId = $(this).closest('ul').attr('id');
-        var searchTerm = $(this).val().toLowerCase();
-        var searchTermOriginal = $(this).val();
-
-        $('#' + dropdownId + ' li').each(function () {
-            var moduleName = $(this).text();
-            //console.log(moduleName + ' | Suchbegriff: '+searchTerm);
-            if (moduleName.toLowerCase().indexOf(searchTerm) >= 0) {
-                $(this).show();
-            } else {
-                $(this).hide();
-            }
-        }); /* EoF each */
-    });
-    // End Search Slices
-
 });
 // End on rex::ready
