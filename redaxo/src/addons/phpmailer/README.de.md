@@ -172,7 +172,7 @@ Bei eingeschalteter E-Mail-Archivierung werden alle E-Mails im Ordner `/redaxo/d
 Das Archiv kann über den CronJob "Mailer-Archiv bereinigen" regelmäßig bereinigt werden. 
 
 
-### Extension-Point `PHPMAILER_CONFIG`
+## Extension-Point `PHPMAILER_CONFIG`
 
 Die Konfiguration kann mittels Extension-Point überschrieben und/oder ergänzt werden. 
 Weitere Informationen zur [PHPMailer-Konfiguration beim Vendor](https://github.com/PHPMailer/PHPMailer).
