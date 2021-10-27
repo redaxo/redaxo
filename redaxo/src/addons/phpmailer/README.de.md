@@ -172,6 +172,35 @@ Bei eingeschalteter E-Mail-Archivierung werden alle E-Mails im Ordner `/redaxo/d
 Das Archiv kann über den CronJob "Mailer-Archiv bereinigen" regelmäßig bereinigt werden. 
 
 
+### Extension-Point
+
+Die Konfiguration kann mittels Extension-Point überschrieben und/oder ergänzt werden. 
+Das folgende Beispiel zeigt die Verwendung von selbst signierten Zertifikaten. 
+
+> Per Default wird der Peer verifiziert. Dies kann ggf. zu Problemen führen. Die nachfolgenden Einstellungen helfen, dieses Problem zu umgehen.
+
+```php 
+function customMailer($ep) {
+    $subject = $ep->getSubject();
+    // set SMTPOptions
+    $subject->SMTPOptions = array(
+    'ssl' => array(
+        'verify_peer' => false,
+        'verify_peer_name' => false,
+        'allow_self_signed' => true
+    ),
+    'tls' => array(
+        'verify_peer' => false,
+        'verify_peer_name' => false,
+        'allow_self_signed' => true
+    ),
+);
+    return $ep;
+}
+rex_extension::register('PHPMAILER_CONFIG', "customMailer");
+```
+
+
 ## Tipps
 
 ### Verschlüsselung: AutoTLS
@@ -190,27 +219,6 @@ PHPMailer prüft bei "AutoTLS", ob der angegebene Server TLS unterstützt und ba
 
 > Bei Verwendung von SMTP ist das Versenden von E-Mails mit leerem Body nicht gestattet. 
 
-### Verwendung bei selbstsignierten Zertifikaten
-
-Per Default wird der Peer verifiziert. Dies kann ggf. zu Problemen führen. Die nachfolgenden Einstellungen helfen, dieses Problem zu umgehen.
-
-```php
-<?php
-
-$mail = new rex_mailer();
-$mail->SMTPOptions = array(
-    'ssl' => array(
-        'verify_peer' => false,
-        'verify_peer_name' => false,
-        'allow_self_signed' => true
-    ),
-    'tls' => array(
-        'verify_peer' => false,
-        'verify_peer_name' => false,
-        'allow_self_signed' => true
-    ),
-);
-```
 
 ### Senden über unterschiedliche Domains 
 
