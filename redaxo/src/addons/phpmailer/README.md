@@ -168,30 +168,28 @@ The archive can be purged periodically via the CronJob "Purge Mailer Archive".
 ### Extension-Point PHPMAILER_CONFIG
 
 The configuration can be overwritten and/or extended via extension point. 
+For more information about[PHPMailer Configuration from vendor](https://github.com/PHPMailer/PHPMailer).
 The following example shows the use of self-signed certificates. 
 
 > By default, the peer is verified. This may lead to problems. The following settings help to avoid this problem.
 
-```php
-function customMailer($ep) {
+```php 
+rex_extension::register('PHPMAILER_CONFIG', function (rex_extension_point $ep) {
     $subject = $ep->getSubject();
     // set SMTPOptions
-    $subject->SMTPOptions = array(
-    'ssl' => array(
-        'verify_peer' => false,
-        'verify_peer_name' => false,
-        'allow_self_signed' => true
-    ),
-    'tls' => array(
-        'verify_peer' => false,
-        'verify_peer_name' => false,
-        'allow_self_signed' => true
-    ),
-);
-    return $ep;
-}
-rex_extension::register('PHPMAILER_CONFIG', "customMailer");
-```
+    $subject->SMTPOptions = [
+        'ssl' => [
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true
+        ],
+        'tls' => [
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true
+        ],
+    ];
+});
 
 
 ## Tips
