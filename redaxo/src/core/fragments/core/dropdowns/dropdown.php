@@ -18,7 +18,7 @@ $group = isset($this->group) && $this->group ? true : false;
     <button class="btn btn-default<?= (isset($this->block) ? ' btn-block' : '')?> dropdown-toggle" type="button" data-toggle="dropdown"<?= ((isset($this->disabled) && $this->disabled) ? ' disabled' : '') ?>>
 <?php endif; ?>
 <?php if (isset($this->button_prefix) && '' != $this->button_prefix): ?>
-    <?= $this->button_prefix ?>mam
+    <?= $this->button_prefix ?>
 
 <?php endif; ?>
 <?php if (isset($this->button_label) && '' != $this->button_label): ?>
