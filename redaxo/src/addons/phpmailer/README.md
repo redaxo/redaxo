@@ -168,7 +168,7 @@ The archive can be purged periodically via the CronJob "Purge Mailer Archive".
 ### Extension-Point `PHPMAILER_CONFIG`
 
 The configuration can be overwritten and/or extended via extension point. 
-For more information about[PHPMailer Configuration from vendor](https://github.com/PHPMailer/PHPMailer).
+More information about [PHPMailer Configuration from vendor](https://github.com/PHPMailer/PHPMailer).
 The following example shows the use of self-signed certificates. 
 
 > By default, the peer is verified. This may lead to problems. The following settings help to avoid this problem.
