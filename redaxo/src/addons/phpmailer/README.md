@@ -165,7 +165,7 @@ When email archiving is switched on, all emails are saved in complete `.eml` for
 
 The archive can be purged periodically via the CronJob "Purge Mailer Archive". 
 
-### Extension-Point PHPMAILER_CONFIG
+### Extension-Point `PHPMAILER_CONFIG`
 
 The configuration can be overwritten and/or extended via extension point. 
 For more information about[PHPMailer Configuration from vendor](https://github.com/PHPMailer/PHPMailer).
