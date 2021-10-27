@@ -31,7 +31,7 @@ $group = isset($this->group) && $this->group ? true : false;
     </button>
 <?php endif; ?>
     <ul class="dropdown-menu<?= (isset($this->right) ? ' dropdown-menu-right' : '')?><?= (isset($this->block) ? ' btn-block' : '')?>" role="menu">
-        <?php if ($this->search && count($this->items)>5): ?>
+        <?php if ($this->search && count($this->items) > 5): ?>
             <div class="bs-searchbox">
                 <input type="search" class="rex-js-dropdown-search form-control" autocomplete="off" role="combobox" aria-label="<?= $this->i18n('search_placeholder') ?>">
             </div>
@@ -54,4 +54,3 @@ $group = isset($this->group) && $this->group ? true : false;
 <?php if (!$toolbar && !$group): ?>
     </div>
 <?php endif;
-
