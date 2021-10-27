@@ -21,7 +21,7 @@ if (rex::isBackend() && 'debug' === rex_request::get('page') && rex::getUser() &
     }
 
     // prepend backend folder
-    $apiUrl = basename(rex_path::backend()).'/'.rex_debug_clockwork::getClockworkApiUrl();
+    $apiUrl = rex_path::basename(rex_path::backend()).'/'.rex_debug_clockwork::getClockworkApiUrl();
 
     $injectedScript = <<<EOF
         <script>
