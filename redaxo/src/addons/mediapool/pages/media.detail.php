@@ -145,8 +145,8 @@ if ($isImage) {
     $imgMax = rex_url::media($fname);
 
     if (rex_addon::get('media_manager')->isAvailable() && 'svg' != rex_file::extension($fname)) {
-        $imgn = rex_media_manager::getUrl('rex_mediapool_detail', $encodedFname, $gf->getDateTimeValue('updatedate'));
-        $imgMax = rex_media_manager::getUrl('rex_mediapool_maximized', $encodedFname, $gf->getDateTimeValue('updatedate'));
+        $imgn = rex_media_manager::getUrl('rex_media_medium', $encodedFname, $gf->getDateTimeValue('updatedate'));
+        $imgMax = rex_media_manager::getUrl('rex_media_large', $encodedFname, $gf->getDateTimeValue('updatedate'));
 
         $width = '';
     }
@@ -234,12 +234,12 @@ if ($TPERM) {
 
     $e = [];
     $e['label'] = '<label>' . rex_i18n::msg('pool_last_update') . '</label>';
-    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime(strtotime($gf->getValue('updatedate')), 'datetime') . ' <span class="rex-author">' . rex_escape($gf->getValue('updateuser')) . '</span></p>';
+    $e['field'] = '<p class="form-control-static">' . rex_formatter::intlDateTime(strtotime($gf->getValue('updatedate'))) . ' <span class="rex-author">' . rex_escape($gf->getValue('updateuser')) . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
     $e['label'] = '<label>' . rex_i18n::msg('pool_created') . '</label>';
-    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime(strtotime($gf->getValue('createdate')), 'datetime') . ' <span class="rex-author">' . rex_escape($gf->getValue('createuser')) . '</span></p>';
+    $e['field'] = '<p class="form-control-static">' . rex_formatter::intlDateTime(strtotime($gf->getValue('createdate'))) . ' <span class="rex-author">' . rex_escape($gf->getValue('createuser')) . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
@@ -319,12 +319,12 @@ if ($TPERM) {
 
     $e = [];
     $e['label'] = '<label>' . rex_i18n::msg('pool_last_update') . '</label>';
-    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime(strtotime($gf->getValue('updatedate')), 'datetime') . ' <span class="rex-author">' . $gf->getValue('updateuser') . '</span></p>';
+    $e['field'] = '<p class="form-control-static">' . rex_formatter::intlDateTime(strtotime($gf->getValue('updatedate'))) . ' <span class="rex-author">' . $gf->getValue('updateuser') . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
     $e['label'] = '<label>' . rex_i18n::msg('pool_created') . '</label>';
-    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime(strtotime($gf->getValue('createdate')), 'datetime') . ' <span class="rex-author">' . $gf->getValue('createuser') . '</span></p>';
+    $e['field'] = '<p class="form-control-static">' . rex_formatter::intlDateTime(strtotime($gf->getValue('createdate'))) . ' <span class="rex-author">' . $gf->getValue('createuser') . '</span></p>';
     $formElements[] = $e;
 
     $fragment = new rex_fragment();

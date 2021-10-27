@@ -119,7 +119,7 @@ function countDiffPixels(img1path, img2path ) {
     return pixelmatch(img1.data, img2.data, null, img1.width, img1.height, {threshold: 0.1});
 }
 
-async function createScreenshot(page, screenshotName) {
+async function processScreenshot(page, screenshotName) {
     mkdirp.sync(WORKING_DIR);
 
     // hide blinking cursor
@@ -162,6 +162,23 @@ async function createScreenshot(page, screenshotName) {
     }
 }
 
+async function createScreenshots(page, screenshotName) {
+    await createLightScreenshot(page, screenshotName);
+    await createDarkScreenshot(page, screenshotName);
+}
+
+async function createLightScreenshot(page, screenshotName) {
+    await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: 'light' }]);
+    await page.waitForTimeout(200); // wait for UI update
+    await processScreenshot(page, screenshotName);
+}
+
+async function createDarkScreenshot(page, screenshotName) {
+    await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: 'dark' }]);
+    await page.waitForTimeout(200); // wait for UI update
+    await processScreenshot(page, screenshotName.replace('.png', '--dark.png'));
+}
+
 async function logIntoBackend(page, username = 'myusername', password = '91dfd9ddb4198affc5c194cd8ce6d338fde470e2') {
     await page.goto(START_URL, { waitUntil: 'load' });
     await page.type('#rex-id-login-user', username);
@@ -191,21 +208,21 @@ async function main() {
         case isSetup:
             // setup step 1
             await page.goto(START_URL, { waitUntil: 'load' });
-            await createScreenshot(page, 'setup.png');
+            await createScreenshots(page, 'setup.png');
 
             // setup steps 2-6
             for (var step = 2; step <= 6; step++) {
                 // step 3: wait until `networkidle0` to finish AJAX requests, see https://github.com/puppeteer/puppeteer/blob/main/docs/api.md#pagegotourl-options
                 await page.goto(START_URL + '?page=setup&lang=de_de&step=' + step, { waitUntil: step === 3 ? 'networkidle0' : 'load'});
                 await page.waitForTimeout(350); // slight buffer for CSS animations or :focus styles etc.
-                await createScreenshot(page, 'setup_' + step + '.png');
+                await createScreenshots(page, 'setup_' + step + '.png');
             }
 
             // step 7
             // requires form in step 6 to be submitted
             await page.$eval('.rex-js-createadminform', form => form.submit());
             await page.waitForTimeout(1000);
-            await createScreenshot(page, 'setup_7.png');
+            await createScreenshots(page, 'setup_7.png');
 
             break;
 
@@ -214,17 +231,17 @@ async function main() {
             await page.goto(START_URL, { waitUntil: 'load' });
             await page.waitForSelector('.rex-background--ready');
             await page.waitForTimeout(1000); // wait for bg image to fade in
-            await createScreenshot(page, 'login.png');
+            await createScreenshots(page, 'login.png');
 
             // login successful
             await logIntoBackend(page);
-            await createScreenshot(page, 'index.png');
+            await createScreenshots(page, 'index.png');
 
             // run through all pages
             for (var fileName in allPages) {
                 await page.goto(allPages[fileName], { waitUntil: 'load' });
                 await page.waitForTimeout(350); // slight buffer for CSS animations or :focus styles etc.
-                await createScreenshot(page, fileName);
+                await createScreenshots(page, fileName);
             }
 
             // test safe mode
@@ -233,7 +250,7 @@ async function main() {
                 page.waitForNavigation(),
                 page.click('.btn-safemode-activate') // enable safe mode
             ]);
-            await createScreenshot(page, 'system_settings_safemode.png');
+            await createScreenshots(page, 'system_settings_safemode.png');
             await Promise.all([
                 page.waitForNavigation(),
                 page.click('.btn-safemode-deactivate') // disable safe mode again
@@ -245,16 +262,16 @@ async function main() {
                 page.waitForNavigation({ waitUntil: 'networkidle0' }),
                 page.click('#package-be_style-customizer .rex-table-action > a:first-child') // install
             ]);
-            await createScreenshot(page, 'packages_customizer_installed.png');
+            await createScreenshots(page, 'packages_customizer_installed.png');
             await page.goto(START_URL + '?page=system/customizer', { waitUntil: 'load' });
             await page.waitForTimeout(350); // slight buffer for CSS animations or :focus styles etc.
-            await createScreenshot(page, 'system_customizer.png');
+            await createScreenshots(page, 'system_customizer.png');
 
             // logout
             await page.click('#rex-js-nav-top .rex-logout');
             await page.waitForSelector('.rex-background--ready');
             await page.waitForTimeout(1000); // wait for bg image to fade in
-            await createScreenshot(page, 'logout.png');
+            await createScreenshots(page, 'logout.png');
 
             break;
     }

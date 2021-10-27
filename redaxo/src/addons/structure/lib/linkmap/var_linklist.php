@@ -57,10 +57,11 @@ class rex_var_linklist extends rex_var
         $options = '';
         $linklistarray = explode(',', $value);
         foreach ($linklistarray as $link) {
-            if ('' != $link) {
-                if ($article = rex_article::get((int) $link)) {
-                    $options .= '<option value="' . $link . '">' . rex_escape(trim(sprintf('%s [%s]', $article->getName(), $article->getId()))) . '</option>';
-                }
+            if ('' == $link) {
+                continue;
+            }
+            if ($article = rex_article::get((int) $link)) {
+                $options .= '<option value="' . $link . '">' . rex_escape(trim(sprintf('%s [%s]', $article->getName(), $article->getId()))) . '</option>';
             }
         }
 
@@ -91,8 +92,7 @@ class rex_var_linklist extends rex_var
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', [$e], false);
-        $link = $fragment->parse('core/form/widget_list.php');
 
-        return $link;
+        return $fragment->parse('core/form/widget_list.php');
     }
 }

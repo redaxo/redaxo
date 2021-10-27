@@ -40,7 +40,7 @@ class rex_command_install_list extends rex_console_command
                 'key' => $key,
                 'name' => strlen($package['name']) > 40 ? substr($package['name'], 0, 40).'...' : $package['name'],
                 'author' => $package['author'],
-                'last updated' => rex_formatter::strftime($package['updated']),
+                'last updated' => rex_formatter::intlDate($package['updated']),
                 'latest version' => reset($package['files'])['version'],
                 'installed version' => rex_addon::get($key)->getVersion(),
             ];

@@ -3,7 +3,6 @@
 // Todo:
 // - Vergrößern erlauben oder nicht. aber eher als Modul einsetzen, also
 // fit
-
 /**
  * @package redaxo\media-manager
  */
@@ -24,10 +23,10 @@ class rex_effect_resize extends rex_effect_abstract
         }
 
         // relatives resizen
-        if (isset($this->params['width']) && '%' === substr(trim($this->params['width']), -1)) {
+        if (isset($this->params['width']) && str_ends_with(trim($this->params['width']), '%')) {
             $this->params['width'] = round($w * ((int) rtrim($this->params['width'], '%') / 100));
         }
-        if (isset($this->params['height']) && '%' === substr(trim($this->params['height']), -1)) {
+        if (isset($this->params['height']) && str_ends_with(trim($this->params['height']), '%')) {
             $this->params['height'] = round($h * ((int) rtrim($this->params['height'], '%') / 100));
         }
 

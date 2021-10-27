@@ -466,7 +466,7 @@ class rex_response
      *                             "raw" bool                             Whether the cookie value should be sent with no url encoding
      * @psalm-param array{expires?: int|string|DateTimeInterface, path?: string, domain?: ?string, secure?: bool, httponly?: bool, samesite?: ?string, raw?: bool} $options
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public static function sendCookie($name, $value, array $options = [])
     {
@@ -480,18 +480,18 @@ class rex_response
 
         // from PHP source code
         if (preg_match("/[=,; \t\r\n\013\014]/", $name)) {
-            throw new \InvalidArgumentException(sprintf('The cookie name "%s" contains invalid characters.', $name));
+            throw new InvalidArgumentException(sprintf('The cookie name "%s" contains invalid characters.', $name));
         }
         if (empty($name)) {
-            throw new \InvalidArgumentException('The cookie name cannot be empty.');
+            throw new InvalidArgumentException('The cookie name cannot be empty.');
         }
         // convert expiration time to a Unix timestamp
-        if ($expire instanceof \DateTimeInterface) {
+        if ($expire instanceof DateTimeInterface) {
             $expire = $expire->format('U');
         } elseif (!is_numeric($expire)) {
             $expire = strtotime($expire);
             if (false === $expire) {
-                throw new \InvalidArgumentException('The cookie expiration time is not valid.');
+                throw new InvalidArgumentException('The cookie expiration time is not valid.');
             }
         }
 
@@ -504,7 +504,7 @@ class rex_response
             $sameSite = strtolower($sameSite);
         }
         if (!in_array($sameSite, ['lax', 'strict', 'none', null], true)) {
-            throw new \InvalidArgumentException('The "sameSite" parameter value is not valid.');
+            throw new InvalidArgumentException('The "sameSite" parameter value is not valid.');
         }
 
         $str = 'Set-Cookie: '. ($raw ? $name : urlencode($name)).'=';
@@ -549,7 +549,7 @@ class rex_response
      *                        "samesite" string|null Whether the cookie will be available for cross-site requests
      * @psalm-param array{path?: string, domain?: ?string, secure?: bool, httponly?: bool, samesite?: ?string} $options
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public static function clearCookie(string $name, array $options = []): void
     {

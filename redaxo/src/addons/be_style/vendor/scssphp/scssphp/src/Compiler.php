@@ -194,6 +194,11 @@ class Compiler
     protected $sourceMapOptions = [];
 
     /**
+     * @var bool
+     */
+    private $charset = true;
+
+    /**
      * @var string|\ScssPhp\ScssPhp\Formatter
      */
     protected $formatter = Expanded::class;
@@ -221,6 +226,8 @@ class Compiler
     protected $storeEnv;
     /**
      * @var bool|null
+     *
+     * @deprecated
      */
     protected $charsetSeen;
     /**
@@ -463,7 +470,6 @@ class Compiler
         $this->env            = null;
         $this->scope          = null;
         $this->storeEnv       = null;
-        $this->charsetSeen    = null;
         $this->shouldEvaluate = null;
         $this->ignoreCallStackMessage = false;
         $this->parsedFiles = [];
@@ -516,11 +522,9 @@ class Compiler
 
             $prefix = '';
 
-            if (!$this->charsetSeen) {
-                if (strlen($out) !== Util::mbStrlen($out)) {
-                    $prefix = '@charset "UTF-8";' . "\n";
-                    $out = $prefix . $out;
-                }
+            if ($this->charset && strlen($out) !== Util::mbStrlen($out)) {
+                $prefix = '@charset "UTF-8";' . "\n";
+                $out = $prefix . $out;
             }
 
             $sourceMap = null;
@@ -2877,10 +2881,6 @@ class Compiler
                 break;
 
             case Type::T_CHARSET:
-                if (! $this->charsetSeen) {
-                    $this->charsetSeen = true;
-                    $this->appendRootDirective('@charset ' . $this->compileValue($child[1]) . ';', $out);
-                }
                 break;
 
             case Type::T_CUSTOM_PROPERTY:
@@ -3070,6 +3070,21 @@ class Compiler
 
                         if (! $selectors && isset($child['selfParent'])) {
                             $selectors = $this->multiplySelectors($this->env, $child['selfParent']);
+                        }
+
+                        if (\count($result) > 1) {
+                            $replacement = implode(', ', $result);
+                            $fname = $this->getPrettyPath($this->sourceNames[$this->sourceIndex]);
+                            $line = $this->sourceLine;
+
+                            $message = <<<EOL
+on line $line of $fname:
+Compound selectors may no longer be extended.
+Consider `@extend $replacement` instead.
+See http://bit.ly/ExtendCompound for details.
+EOL;
+
+                            $this->logger->warn($message);
                         }
 
                         $this->pushExtends($result, $selectors, $child);
@@ -3812,7 +3827,6 @@ class Compiler
 
         // try to find a native lib function
         $normalizedName = $this->normalizeName($name);
-        $libName = null;
 
         if (isset($this->userFunctions[$normalizedName])) {
             // see if we can find a user function
@@ -3821,9 +3835,44 @@ class Compiler
             return [Type::T_FUNCTION_REFERENCE, 'user', $name, $f, $prototype];
         }
 
+        $lowercasedName = strtolower($normalizedName);
+
+        // Special functions overriding a CSS function are case-insensitive. We normalize them as lowercase
+        // to avoid the deprecation warning about the wrong case being used.
+        if ($lowercasedName === 'min' || $lowercasedName === 'max') {
+            $normalizedName = $lowercasedName;
+        }
+
         if (($f = $this->getBuiltinFunction($normalizedName)) && \is_callable($f)) {
             $libName   = $f[1];
             $prototype = isset(static::$$libName) ? static::$$libName : null;
+
+            // All core functions have a prototype defined. Not finding the
+            // prototype can mean 2 things:
+            // - the function comes from a child class (deprecated just after)
+            // - the function was found with a different case, which relates to calling the
+            //   wrong Sass function due to our camelCase usage (`fade-in()` vs `fadein()`),
+            //   because PHP method names are case-insensitive while property names are
+            //   case-sensitive.
+            if ($prototype === null || strtolower($normalizedName) !== $normalizedName) {
+                $r = new \ReflectionMethod($this, $libName);
+                $actualLibName = $r->name;
+
+                if ($actualLibName !== $libName || strtolower($normalizedName) !== $normalizedName) {
+                    $kebabCaseName = preg_replace('~(?<=\\w)([A-Z])~', '-$1', substr($actualLibName, 3));
+                    assert($kebabCaseName !== null);
+                    $originalName = strtolower($kebabCaseName);
+                    $warning = "Calling built-in functions with a non-standard name is deprecated since Scssphp 1.8.0 and will not work anymore in 2.0 (they will be treated as CSS function calls instead).\nUse \"$originalName\" instead of \"$name\".";
+                    @trigger_error($warning, E_USER_DEPRECATED);
+                    $fname = $this->getPrettyPath($this->sourceNames[$this->sourceIndex]);
+                    $line  = $this->sourceLine;
+                    Warn::deprecation("$warning\n         on line $line of $fname");
+
+                    // Use the actual function definition
+                    $prototype = isset(static::$$actualLibName) ? static::$$actualLibName : null;
+                    $f[1] = $libName = $actualLibName;
+                }
+            }
 
             if (\get_class($this) !== __CLASS__ && !isset($this->warnedChildFunctions[$libName])) {
                 $r = new \ReflectionMethod($this, $libName);
@@ -5484,6 +5533,25 @@ class Compiler
     }
 
     /**
+     * Configures the handling of non-ASCII outputs.
+     *
+     * If $charset is `true`, this will include a `@charset` declaration or a
+     * UTF-8 [byte-order mark][] if the stylesheet contains any non-ASCII
+     * characters. Otherwise, it will never include a `@charset` declaration or a
+     * byte-order mark.
+     *
+     * [byte-order mark]: https://en.wikipedia.org/wiki/Byte_order_mark#UTF-8
+     *
+     * @param bool $charset
+     *
+     * @return void
+     */
+    public function setCharset($charset)
+    {
+        $this->charset = $charset;
+    }
+
+    /**
      * Enable/disable source maps
      *
      * @api
@@ -5857,7 +5925,7 @@ class Compiler
         }
 
         if (0 === strpos($normalizedPath, $normalizedRootDirectory)) {
-            return substr($normalizedPath, \strlen($normalizedRootDirectory));
+            return substr($path, \strlen($normalizedRootDirectory));
         }
 
         return $path;
@@ -7194,9 +7262,13 @@ class Compiler
      * @param array|Number $value
      *
      * @return integer|float
+     *
+     * @deprecated
      */
     protected function coercePercent($value)
     {
+        @trigger_error(sprintf('"%s" is deprecated since 1.7.0.', __METHOD__), E_USER_DEPRECATED);
+
         if ($value instanceof Number) {
             if ($value->hasUnit('%')) {
                 return $value->getDimension() / 100;
@@ -7423,7 +7495,7 @@ class Compiler
             }
         }
 
-        return [Type::T_HSL, fmod($h, 360), $s * 100, $l / 5.1];
+        return [Type::T_HSL, fmod($h + 360, 360), $s * 100, $l / 5.1];
     }
 
     /**
@@ -7704,7 +7776,7 @@ class Compiler
                             [$funcName . '(', $color[1], ', ', $color[2], ', ', $color[3], ', ', $alpha, ')']];
                     }
                 } else {
-                    $color = [Type::T_STRING, '', [$funcName . '(', $args[0], ')']];
+                    $color = [Type::T_STRING, '', [$funcName . '(', $args[0], ', ', $args[1], ')']];
                 }
                 break;
 
@@ -8005,8 +8077,8 @@ class Compiler
 
     // mix two colors
     protected static $libMix = [
-        ['color1', 'color2', 'weight:0.5'],
-        ['color-1', 'color-2', 'weight:0.5']
+        ['color1', 'color2', 'weight:50%'],
+        ['color-1', 'color-2', 'weight:50%']
         ];
     protected function libMix($args)
     {
@@ -8014,25 +8086,26 @@ class Compiler
 
         $first = $this->assertColor($first, 'color1');
         $second = $this->assertColor($second, 'color2');
-        $weight = $this->coercePercent($this->assertNumber($weight, 'weight'));
+        $weightScale = $this->assertNumber($weight, 'weight')->valueInRange(0, 100, 'weight') / 100;
 
         $firstAlpha = isset($first[4]) ? $first[4] : 1;
         $secondAlpha = isset($second[4]) ? $second[4] : 1;
 
-        $w = $weight * 2 - 1;
-        $a = $firstAlpha - $secondAlpha;
+        $normalizedWeight = $weightScale * 2 - 1;
+        $alphaDistance = $firstAlpha - $secondAlpha;
 
-        $w1 = (($w * $a === -1 ? $w : ($w + $a) / (1 + $w * $a)) + 1) / 2.0;
-        $w2 = 1.0 - $w1;
+        $combinedWeight = $normalizedWeight * $alphaDistance == -1 ? $normalizedWeight : ($normalizedWeight + $alphaDistance) / (1 + $normalizedWeight * $alphaDistance);
+        $weight1 = ($combinedWeight + 1) / 2.0;
+        $weight2 = 1.0 - $weight1;
 
         $new = [Type::T_COLOR,
-            $w1 * $first[1] + $w2 * $second[1],
-            $w1 * $first[2] + $w2 * $second[2],
-            $w1 * $first[3] + $w2 * $second[3],
+            $weight1 * $first[1] + $weight2 * $second[1],
+            $weight1 * $first[2] + $weight2 * $second[2],
+            $weight1 * $first[3] + $weight2 * $second[3],
         ];
 
         if ($firstAlpha != 1.0 || $secondAlpha != 1.0) {
-            $new[] = $firstAlpha * $weight + $secondAlpha * (1 - $weight);
+            $new[] = $firstAlpha * $weightScale + $secondAlpha * (1 - $weightScale);
         }
 
         return $this->fixColor($new);
@@ -8109,7 +8182,7 @@ class Compiler
             }
         }
 
-        $hueValue = $hue->getDimension() % 360;
+        $hueValue = fmod($hue->getDimension(), 360);
 
         while ($hueValue < 0) {
             $hueValue += 360;
@@ -8291,6 +8364,12 @@ class Compiler
     {
         $hsl = $this->toHSL($color[1], $color[2], $color[3]);
         $hsl[$idx] += $amount;
+
+        if ($idx !== 1) {
+            // Clamp the saturation and lightness
+            $hsl[$idx] = min(max(0, $hsl[$idx]), 100);
+        }
+
         $out = $this->toRGB($hsl[1], $hsl[2], $hsl[3]);
 
         if (isset($color[4])) {
@@ -8338,19 +8417,19 @@ class Compiler
             return null;
         }
 
-        $color = $this->assertColor($value, 'color');
-        $amount = 100 * $this->coercePercent($this->assertNumber($args[1], 'amount'));
+        $color = $this->assertColor($args[0], 'color');
+        $amount = $this->assertNumber($args[1], 'amount');
 
-        return $this->adjustHsl($color, 2, $amount);
+        return $this->adjustHsl($color, 2, $amount->valueInRange(0, 100, 'amount'));
     }
 
     protected static $libDesaturate = ['color', 'amount'];
     protected function libDesaturate($args)
     {
         $color = $this->assertColor($args[0], 'color');
-        $amount = 100 * $this->coercePercent($this->assertNumber($args[1], 'amount'));
+        $amount = $this->assertNumber($args[1], 'amount');
 
-        return $this->adjustHsl($color, 2, -$amount);
+        return $this->adjustHsl($color, 2, -$amount->valueInRange(0, 100, 'amount'));
     }
 
     protected static $libGrayscale = ['color'];
@@ -8371,16 +8450,20 @@ class Compiler
         return $this->adjustHsl($this->assertColor($args[0], 'color'), 1, 180);
     }
 
-    protected static $libInvert = ['color', 'weight:1'];
+    protected static $libInvert = ['color', 'weight:100%'];
     protected function libInvert($args)
     {
         $value = $args[0];
 
+        $weight = $this->assertNumber($args[1], 'weight');
+
         if ($value instanceof Number) {
+            if ($weight->getDimension() != 100 || !$weight->hasUnit('%')) {
+                throw new SassScriptException('Only one argument may be passed to the plain-CSS invert() function.');
+            }
+
             return null;
         }
-
-        $weight = $this->coercePercent($this->assertNumber($args[1], 'weight'));
 
         $color = $this->assertColor($value, 'color');
         $inverted = $color;
@@ -8388,11 +8471,7 @@ class Compiler
         $inverted[2] = 255 - $inverted[2];
         $inverted[3] = 255 - $inverted[3];
 
-        if ($weight < 1) {
-            return $this->libMix([$inverted, $color, new Number($weight, '')]);
-        }
-
-        return $inverted;
+        return $this->libMix([$inverted, $color, $weight]);
     }
 
     // increases opacity by amount
@@ -8400,9 +8479,9 @@ class Compiler
     protected function libOpacify($args)
     {
         $color = $this->assertColor($args[0], 'color');
-        $amount = $this->coercePercent($this->assertNumber($args[1], 'amount'));
+        $amount = $this->assertNumber($args[1], 'amount');
 
-        $color[4] = (isset($color[4]) ? $color[4] : 1) + $amount;
+        $color[4] = (isset($color[4]) ? $color[4] : 1) + $amount->valueInRange(0, 1, 'amount');
         $color[4] = min(1, max(0, $color[4]));
 
         return $color;
@@ -8419,9 +8498,9 @@ class Compiler
     protected function libTransparentize($args)
     {
         $color = $this->assertColor($args[0], 'color');
-        $amount = $this->coercePercent($this->assertNumber($args[1], 'amount'));
+        $amount = $this->assertNumber($args[1], 'amount');
 
-        $color[4] = (isset($color[4]) ? $color[4] : 1) - $amount;
+        $color[4] = (isset($color[4]) ? $color[4] : 1) - $amount->valueInRange(0, 1, 'amount');
         $color[4] = min(1, max(0, $color[4]));
 
         return $color;

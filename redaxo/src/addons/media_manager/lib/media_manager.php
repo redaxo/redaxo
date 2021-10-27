@@ -454,14 +454,7 @@ class rex_media_manager
      */
     public static function getMediaFile()
     {
-        $rexMediaFile = rex_get('rex_media_file', 'string');
-
-        // can be used with REDAXO >= 5.5.1
-        // $rex_media_file = rex_path::basename($rex_media_file);
-        $rexMediaFile = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $rexMediaFile);
-        $rexMediaFile = rex_path::basename($rexMediaFile);
-
-        return $rexMediaFile;
+        return rex_path::basename(rex_get('rex_media_file', 'string'));
     }
 
     /**
@@ -471,12 +464,19 @@ class rex_media_manager
     {
         $type = rex_get('rex_media_type', 'string');
 
-        // can be used with REDAXO >= 5.5.1
-        // $type = rex_path::basename($type);
-        $type = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $type);
-        $type = rex_path::basename($type);
+        // map deprecated types to new types
+        $deprecatedTypesMap = [
+            'rex_mediapool_detail' => 'rex_media_medium',
+            'rex_mediapool_maximized' => 'rex_media_large',
+            'rex_mediapool_preview' => 'rex_media_small',
+            'rex_mediabutton_preview' => 'rex_media_medium',
+            'rex_medialistbutton_preview' => 'rex_media_medium',
+        ];
+        if (array_key_exists($type, $deprecatedTypesMap)) {
+            $type = $deprecatedTypesMap[$type];
+        }
 
-        return $type;
+        return rex_path::basename($type);
     }
 
     /**

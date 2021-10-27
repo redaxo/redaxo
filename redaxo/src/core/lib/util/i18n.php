@@ -22,7 +22,7 @@ class rex_i18n
     /**
      * @var string|null
      */
-    private static $locale = null;
+    private static $locale;
     /**
      * @var string[][]
      */
@@ -46,6 +46,9 @@ class rex_i18n
         }
 
         if ($phpSetLocale) {
+            [$lang, $country] = explode('_', self::getLocale(), 2);
+            Locale::setDefault($lang.'-'.strtoupper($country));
+
             $locales = [];
             foreach (explode(',', trim(self::msg('setlocale'))) as $locale) {
                 $locales[] = $locale . '.UTF-8';
@@ -114,6 +117,7 @@ class rex_i18n
      *
      * @return string Translation for the key
      *
+     * @psalm-taint-escape has_quotes
      * @psalm-taint-escape html
      */
     public static function msg($key, ...$replacements)
@@ -143,6 +147,7 @@ class rex_i18n
      *
      * @return string Translation for the key
      *
+     * @psalm-taint-escape has_quotes
      * @psalm-taint-escape html
      */
     public static function msgInLocale($key, $locale, ...$replacements)

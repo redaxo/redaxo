@@ -6,9 +6,6 @@ general = General
 setlocale = en_GB,en_UK,en_US,en_EN,en_AU,en_CA,American,ENG,English
 phpini_settings = PHP.ini Settings
 
-dateformat = %d %b %Y
-datetimeformat = %d %b %Y, %H:%M
-timeformat = %H:%M
 ctrl = Select multiple using <kbd>CTRL</kbd> or <kbd>CMD</kbd> respectively
 translatable = Translatable via <code>translate:i18n_key</code>
 save_and_goon_tooltip = Save and continue editing
@@ -36,6 +33,9 @@ unstable_version = Development version
 copy_to_clipboard = Copy to clipboard
 search_placeholder = Search...
 search_clear = Reset input
+theme_light = Light
+theme_dark = Dark
+theme_auto = Automatic
 
 # redaxo/redaxo/index.php
 system = System
@@ -113,6 +113,7 @@ mode = Mode
 charset = Character set
 host = Host
 database = Database
+installation = Installation
 logfiles = Logfiles
 syslog_redaxo = REDAXO
 syslog_delete = Clear log file
@@ -417,6 +418,7 @@ new_password_repeat = Repeat new password
 profile_save_psw = Save password
 backend_language = Backend language
 user_data_updated = User data updated!
+theme = Backend theme
 
 password_change_required = A password change is required!
 password_not_changed = The new password must be different than the previous one!

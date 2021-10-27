@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Redaxo\Rector\Rule;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Property;
 use Rector\Core\Rector\AbstractRector;
@@ -86,7 +85,7 @@ final class UnderscoreToCamelCasePropertyNameRector extends AbstractRector
     public function refactor(Node $node): ?Node
     {
         $propertyName = $this->getName($node);
-        if (!Strings::contains($propertyName, '_')) {
+        if (!str_contains($propertyName, '_')) {
             return null;
         }
 

@@ -16,9 +16,9 @@ abstract class rex_var
      * @psalm-var null|array<string, class-string<self>>
      */
     private static $vars = [];
-    private static $env = null;
-    private static $context = null;
-    private static $contextData = null;
+    private static $env;
+    private static $context;
+    private static $contextData;
 
     private $args = [];
 
@@ -39,7 +39,7 @@ abstract class rex_var
         $env = (int) $env;
 
         if (self::ENV_INPUT != ($env & self::ENV_INPUT)) {
-            $env = $env | self::ENV_OUTPUT;
+            $env |= self::ENV_OUTPUT;
         }
 
         self::$env = $env;

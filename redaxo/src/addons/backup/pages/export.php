@@ -44,6 +44,7 @@ if ($export && !$csrfToken->isValid()) {
     $exportfilename = strtolower($exportfilename);
     /**
      * @psalm-taint-escape file
+     * @psalm-taint-escape has_quotes
      * @psalm-taint-escape html
      * @psalm-taint-escape shell
      */
@@ -85,7 +86,7 @@ if ($export && !$csrfToken->isValid()) {
 
         if ($hasContent) {
             if ($exportdl) {
-                $filename = $filename . $ext;
+                $filename .= $ext;
                 rex_response::sendFile($exportPath . $filename, $header, 'attachment');
                 rex_file::delete($exportPath . $filename);
                 exit;

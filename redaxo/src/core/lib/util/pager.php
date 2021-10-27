@@ -102,11 +102,19 @@ class rex_pager
      */
     public function getCursor($pageNo = null)
     {
-        if (null === $pageNo) {
-            return $this->cursor ?? rex_request($this->cursorName, 'int', 0);
+        if (null !== $pageNo) {
+            return $pageNo * $this->rowsPerPage;
         }
 
-        return $pageNo * $this->rowsPerPage;
+        if (null === $this->cursor) {
+            $this->cursor = rex_request($this->cursorName, 'int', 0);
+
+            if (null !== $this->rowCount) {
+                $this->cursor = $this->validateCursor($this->cursor);
+            }
+        }
+
+        return $this->cursor;
     }
 
     /**

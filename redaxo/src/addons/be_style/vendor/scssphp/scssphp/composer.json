@@ -40,6 +40,7 @@
         "sass/sass-spec": "*",
         "squizlabs/php_codesniffer": "~3.5",
         "symfony/phpunit-bridge": "^5.1",
+        "thoughtbot/bourbon": "^7.0",
         "twbs/bootstrap": "~5.0",
         "twbs/bootstrap4": "4.6.0",
         "zurb/foundation": "~6.5"
@@ -49,16 +50,34 @@
             "type": "package",
             "package": {
                 "name": "sass/sass-spec",
-                "version": "2021.05.10",
+                "version": "2021.09.15",
                 "source": {
                     "type": "git",
                     "url": "https://github.com/sass/sass-spec.git",
-                    "reference": "b9bf24a936528f333fb30ee59ca550c6da551c11"
+                    "reference": "eb2d7a0865c1faf0b55a39ff962b24aca9b4c955"
                 },
                 "dist": {
                     "type": "zip",
-                    "url": "https://api.github.com/repos/sass/sass-spec/zipball/b9bf24a936528f333fb30ee59ca550c6da551c11",
-                    "reference": "b9bf24a936528f333fb30ee59ca550c6da551c11",
+                    "url": "https://api.github.com/repos/sass/sass-spec/zipball/eb2d7a0865c1faf0b55a39ff962b24aca9b4c955",
+                    "reference": "eb2d7a0865c1faf0b55a39ff962b24aca9b4c955",
+                    "shasum": ""
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "thoughtbot/bourbon",
+                "version": "v7.0.0",
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/thoughtbot/bourbon.git",
+                    "reference": "fbe338ee6807e7f7aa996d82c8a16f248bb149b3"
+                },
+                "dist": {
+                    "type": "zip",
+                    "url": "https://api.github.com/repos/thoughtbot/bourbon/zipball/fbe338ee6807e7f7aa996d82c8a16f248bb149b3",
+                    "reference": "fbe338ee6807e7f7aa996d82c8a16f248bb149b3",
                     "shasum": ""
                 }
             }

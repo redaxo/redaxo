@@ -5,6 +5,8 @@
  *
  * see http://net.tutsplus.com/tutorials/php/why-you-should-be-using-phps-pdo-for-database-access/
  *
+ * @implements Iterator<int<0, max>, rex_sql>
+ *
  * @package redaxo\core\sql
  */
 class rex_sql implements Iterator
@@ -62,7 +64,7 @@ class rex_sql implements Iterator
 
     /** @var int */
     protected $rows; // anzahl der treffer
-    /** @var int */
+    /** @var int<0, max> */
     protected $counter; // pointer
     /** @var string */
     protected $query; // Die Abfrage
@@ -179,7 +181,7 @@ class rex_sql implements Iterator
         $dsn .= ';dbname=' . $database;
 
         // array_merge() doesnt work because it looses integer keys
-        $options = $options + [
+        $options += [
             PDO::ATTR_PERSISTENT => (bool) $persistent,
             PDO::ATTR_FETCH_TABLE_NAMES => true,
         ];
@@ -273,7 +275,7 @@ class rex_sql implements Iterator
      */
     public static function datetime($timestamp = null)
     {
-        return date(self::FORMAT_DATETIME, null === $timestamp ? time() : $timestamp);
+        return date(self::FORMAT_DATETIME, $timestamp ?? time());
     }
 
     /**
@@ -1736,11 +1738,10 @@ class rex_sql implements Iterator
         }
 
         $tables = $this->getArray($qry);
-        $tables = array_map(static function (array $table) {
+
+        return array_map(static function (array $table) {
             return reset($table);
         }, $tables);
-
-        return $tables;
     }
 
     /**

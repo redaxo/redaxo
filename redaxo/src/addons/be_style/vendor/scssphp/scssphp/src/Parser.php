@@ -1580,7 +1580,9 @@ class Parser
                     } else {
                         list($line, $column) = $this->getSourcePosition($this->count);
                         $file = $this->sourceName;
-                        $this->logger->warn("Unterminated interpolations in multiline comments are deprecated and will be removed in ScssPhp 2.0, in \"$file\", line $line, column $column.", true);
+                        if (!$this->discardComments) {
+                            $this->logger->warn("Unterminated interpolations in multiline comments are deprecated and will be removed in ScssPhp 2.0, in \"$file\", line $line, column $column.", true);
+                        }
                         $comment[] = substr($this->buffer, $this->count, 2);
 
                         $this->count += 2;
@@ -2415,10 +2417,8 @@ class Parser
                 break;
             }
 
-            // peek and see if rhs belongs to next operator
-            if ($this->peek($operators, $next) && static::$precedence[$next[1]] > static::$precedence[$op]) {
-                $rhs = $this->expHelper($rhs, static::$precedence[$next[1]]);
-            }
+            // consume higher-precedence operators on the right-hand side
+            $rhs = $this->expHelper($rhs, static::$precedence[$op] + 1);
 
             $lhs = [Type::T_EXPRESSION, $op, $lhs, $rhs, $this->inParens, $whiteBefore, $whiteAfter];
 

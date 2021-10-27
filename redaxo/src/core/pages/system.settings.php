@@ -206,10 +206,16 @@ $content = '
             <th>PHP</th>
             <td>' . PHP_VERSION . ' <a class="rex-link-expanded" href="' . rex_url::backendPage('system/phpinfo') . '" title="phpinfo" onclick="newWindow(\'phpinfo\', this.href, 1000,800,\',status=yes,resizable=yes\');return false;"><i class="rex-icon rex-icon-phpinfo"></i></a></td>
         </tr>
+        <tr>
+            <th>'.rex_i18n::msg('path').'</th>
+			<td>
+			<div class="rex-word-break">'. rex_path::base() .'</div>
+			</td>
+        </tr>
     </table>';
 
 $fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('version'));
+$fragment->setVar('title', rex_i18n::msg('installation'));
 $fragment->setVar('content', $content, false);
 $sideContent[] = $fragment->parse('core/page/section.php');
 

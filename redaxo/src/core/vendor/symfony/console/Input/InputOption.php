@@ -41,6 +41,11 @@ class InputOption
      */
     public const VALUE_IS_ARRAY = 8;
 
+    /**
+     * The option may have either positive or negative value (e.g. --ansi or --no-ansi).
+     */
+    public const VALUE_NEGATABLE = 16;
+
     private $name;
     private $shortcut;
     private $mode;
@@ -48,17 +53,17 @@ class InputOption
     private $description;
 
     /**
-     * @param string                    $name        The option name
-     * @param string|array|null         $shortcut    The shortcuts, can be null, a string of shortcuts delimited by | or an array of shortcuts
-     * @param int|null                  $mode        The option mode: One of the VALUE_* constants
-     * @param string                    $description A description text
-     * @param string|string[]|bool|null $default     The default value (must be null for self::VALUE_NONE)
+     * @param string                           $name        The option name
+     * @param string|array|null                $shortcut    The shortcuts, can be null, a string of shortcuts delimited by | or an array of shortcuts
+     * @param int|null                         $mode        The option mode: One of the VALUE_* constants
+     * @param string                           $description A description text
+     * @param string|bool|int|float|array|null $default     The default value (must be null for self::VALUE_NONE)
      *
      * @throws InvalidArgumentException If option mode is invalid or incompatible
      */
     public function __construct(string $name, $shortcut = null, int $mode = null, string $description = '', $default = null)
     {
-        if (0 === strpos($name, '--')) {
+        if (str_starts_with($name, '--')) {
             $name = substr($name, 2);
         }
 
@@ -85,7 +90,7 @@ class InputOption
 
         if (null === $mode) {
             $mode = self::VALUE_NONE;
-        } elseif ($mode > 15 || $mode < 1) {
+        } elseif ($mode >= (self::VALUE_NEGATABLE << 1) || $mode < 1) {
             throw new InvalidArgumentException(sprintf('Option mode "%s" is not valid.', $mode));
         }
 
@@ -96,6 +101,9 @@ class InputOption
 
         if ($this->isArray() && !$this->acceptValue()) {
             throw new InvalidArgumentException('Impossible to have an option mode VALUE_IS_ARRAY if the option does not accept a value.');
+        }
+        if ($this->isNegatable() && $this->acceptValue()) {
+            throw new InvalidArgumentException('Impossible to have an option mode VALUE_NEGATABLE if the option also accepts a value.');
         }
 
         $this->setDefault($default);
@@ -161,12 +169,13 @@ class InputOption
         return self::VALUE_IS_ARRAY === (self::VALUE_IS_ARRAY & $this->mode);
     }
 
+    public function isNegatable(): bool
+    {
+        return self::VALUE_NEGATABLE === (self::VALUE_NEGATABLE & $this->mode);
+    }
+
     /**
-     * Sets the default value.
-     *
-     * @param string|string[]|bool|null $default The default value
-     *
-     * @throws LogicException When incorrect default value is given
+     * @param string|bool|int|float|array|null $default
      */
     public function setDefault($default = null)
     {
@@ -182,13 +191,13 @@ class InputOption
             }
         }
 
-        $this->default = $this->acceptValue() ? $default : false;
+        $this->default = $this->acceptValue() || $this->isNegatable() ? $default : false;
     }
 
     /**
      * Returns the default value.
      *
-     * @return string|string[]|bool|null The default value
+     * @return string|bool|int|float|array|null
      */
     public function getDefault()
     {
@@ -215,6 +224,7 @@ class InputOption
         return $option->getName() === $this->getName()
             && $option->getShortcut() === $this->getShortcut()
             && $option->getDefault() === $this->getDefault()
+            && $option->isNegatable() === $this->isNegatable()
             && $option->isArray() === $this->isArray()
             && $option->isValueRequired() === $this->isValueRequired()
             && $option->isValueOptional() === $this->isValueOptional()

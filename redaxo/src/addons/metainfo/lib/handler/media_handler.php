@@ -206,4 +206,4 @@ rex_extension::register('MEDIA_FORM_ADD', [$mediaHandler, 'extendForm']);
 rex_extension::register('MEDIA_ADDED', [$mediaHandler, 'extendForm']);
 rex_extension::register('MEDIA_UPDATED', [$mediaHandler, 'extendForm']);
 
-rex_extension::register('MEDIA_IS_IN_USE', ['rex_metainfo_media_handler', 'isMediaInUse']);
+rex_extension::register('MEDIA_IS_IN_USE', [rex_metainfo_media_handler::class, 'isMediaInUse']);

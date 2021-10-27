@@ -36,13 +36,7 @@ tr.mark {
 .rex-text-offline {
     color: $color-offline;
 }
-.rex-status[data-status="0"] td:not(.rex-table-action-no-dropdown, .rex-table-action-dropdown) {
-    opacity: 0.5;
-    
-	&:hover {
-        opacity: 1;
-	}
-}
+
 .rex-page-header {
     .page-header {
         margin-top: 0;
@@ -92,5 +86,29 @@ tr.mark {
     .rex-table-icon & {
         padding: 7px 11px;
         margin: -7px -11px;
+    }
+}
+
+// ----------------------------------------------------------------------------
+
+@mixin _dark-typo {
+
+    .rex-online,
+    .rex-text-online {
+        color: saturate(darken($color-online, 5%), 10%);
+    }
+    .rex-offline,
+    .rex-text-offline {
+        color: saturate(darken($color-offline, 5%), 10%);
+    }
+}
+
+body.rex-theme-dark {
+    @include _dark-typo;
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+        @include _dark-typo;
     }
 }

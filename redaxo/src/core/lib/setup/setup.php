@@ -9,6 +9,7 @@ class rex_setup
 {
     // These values must be synchronized with the values in redaxo/src/core/update.php
     public const MIN_PHP_VERSION = REX_MIN_PHP_VERSION;
+    public const MIN_PHP_EXTENSIONS = ['ctype', 'fileinfo', 'filter', 'iconv', 'intl', 'mbstring', 'pcre', 'pdo', 'pdo_mysql', 'session', 'tokenizer'];
     public const MIN_MYSQL_VERSION = '5.6';
     public const MIN_MARIADB_VERSION = '10.1';
 
@@ -22,8 +23,6 @@ class rex_setup
     public const DB_MODE_SETUP_SKIP = 2;
     public const DB_MODE_SETUP_IMPORT_BACKUP = 3;
     public const DB_MODE_SETUP_UPDATE_FROM_PREVIOUS = 4;
-
-    private const MIN_PHP_EXTENSIONS = ['fileinfo', 'filter', 'iconv', 'pcre', 'pdo', 'pdo_mysql', 'session', 'tokenizer'];
 
     /**
      * very basic setup steps, so everything is in place for our browser-based setup wizard.
@@ -114,7 +113,7 @@ class rex_setup
                     $res = array_merge_recursive($res, $func($path));
                 } elseif (!$file->isWritable()) {
                     $res['setup_305'][] = $path;
-                } elseif (0 !== strcasecmp(substr(PHP_OS, 0, 3), 'WIN') && '7' === substr($getMod($path), -1)) {
+                } elseif (0 !== strcasecmp(substr(PHP_OS, 0, 3), 'WIN') && str_ends_with($getMod($path), '7')) {
                     // check the "other" filesystem-bit for "all" permission.
                     $res['setup_311'][] = $path;
                 }

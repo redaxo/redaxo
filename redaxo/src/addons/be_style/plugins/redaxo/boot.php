@@ -57,7 +57,6 @@ if (rex::isBackend()) {
         $icons[] = '<link rel="manifest" href="' . $plugin->getAssetsUrl('icons/site.webmanifest') . '">';
         $icons[] = '<link rel="mask-icon" href="'.$plugin->getAssetsUrl('icons/safari-pinned-tab.svg').'" color="'.$themeColor.'">';
         $icons[] = '<meta name="msapplication-TileColor" content="#2d89ef">';
-        $icons[] = '<meta name="theme-color" content="'.$themeColor.'">';
 
         $icons = implode("\n    ", $icons);
         $ep->setSubject($icons . $ep->getSubject());
