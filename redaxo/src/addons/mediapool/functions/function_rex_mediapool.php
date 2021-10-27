@@ -44,7 +44,7 @@ function rex_mediapool_saveMedia($FILE, $rexFileCategory, $FILEINFOS, $userlogin
     }
 
     try {
-        return rex_media_service::addMedia($data, $userlogin, $doSubindexing);
+        return rex_media_service::addMedia($data, $doSubindexing);
     } catch (rex_api_exception $e) {
         // BC
         // Missing Fields
@@ -80,16 +80,18 @@ function rex_mediapool_saveMedia($FILE, $rexFileCategory, $FILEINFOS, $userlogin
  */
 function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
 {
-    $data = $FILEINFOS;
-    $data['category_id'] = $data['rex_file_category'];
+    $data = [
+        'category_id' => $FILEINFOS['rex_file_category'],
+        'title' => $FILEINFOS['title'],
+    ];
 
     if ($FILE) {
-        $data['file'] = $FILE;
+        $data['file']['name'] = $FILE['name'];
         $data['file']['path'] = $FILE['tmp_name'];
     }
 
     try {
-        return rex_media_service::updateMedia($data, $userlogin);
+        return rex_media_service::updateMedia($FILEINFOS['filename'], $data);
     } catch (rex_api_exception $e) {
         return [
             'ok' => 0,
@@ -125,7 +127,7 @@ function rex_mediapool_syncFile($physicalFilename, $categoryId, $title, $filesiz
     ];
 
     try {
-        return rex_media_service::addMedia($data, $userlogin, false);
+        return rex_media_service::addMedia($data, false);
     } catch (rex_api_exception $e) {
         return [
             'ok' => 0,
