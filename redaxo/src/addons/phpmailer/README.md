@@ -190,7 +190,7 @@ rex_extension::register('PHPMAILER_CONFIG', function (rex_extension_point $ep) {
         ],
     ];
 });
-
+```
 
 ## Tips
 
