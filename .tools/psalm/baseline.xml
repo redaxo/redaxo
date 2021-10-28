@@ -2825,12 +2825,6 @@
     <MixedAssignment occurrences="1">
       <code>$params['category_id']</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="1">
-      <code>string</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="1">
-      <code>$this-&gt;getValue('function', '')</code>
-    </MixedReturnStatement>
     <PossiblyNullReference occurrences="4">
       <code>getComplexPerm</code>
       <code>getComplexPerm</code>
