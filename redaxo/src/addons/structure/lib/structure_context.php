@@ -82,7 +82,7 @@ class rex_structure_context
 
     public function getFunction(): string
     {
-        return $this->getValue('function', '');
+        return (string) $this->getValue('function', '');
     }
 
     public function getMountpoints(): array
