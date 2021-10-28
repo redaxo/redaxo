@@ -52,6 +52,19 @@
         .ooops-error-message {
             padding: 0 20px;
         }
+
+        @media (prefers-color-scheme: dark) {
+            html, body {
+                background-color: #333;
+            }
+
+            .ooops-error a {
+                color: #b3b3b3;
+            }
+            .ooops-error a:hover {
+                color: #c6c6c6;
+            }
+        }
     </style>
 </head>
 <body>
