@@ -2825,27 +2825,11 @@
     <MixedAssignment occurrences="1">
       <code>$params['category_id']</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="9">
-      <code>int</code>
-      <code>int</code>
-      <code>int</code>
-      <code>int</code>
-      <code>int</code>
-      <code>int</code>
-      <code>int</code>
-      <code>int</code>
+    <MixedInferredReturnType occurrences="1">
       <code>string</code>
     </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="9">
-      <code>$this-&gt;getValue('article_id', 0)</code>
-      <code>$this-&gt;getValue('artstart', 0)</code>
-      <code>$this-&gt;getValue('category_id', 0)</code>
-      <code>$this-&gt;getValue('catstart', 0)</code>
-      <code>$this-&gt;getValue('clang_id', 0)</code>
-      <code>$this-&gt;getValue('ctype_id', 0)</code>
-      <code>$this-&gt;getValue('edit_id', 0)</code>
+    <MixedReturnStatement occurrences="1">
       <code>$this-&gt;getValue('function', '')</code>
-      <code>$this-&gt;getValue('rows_per_page', 30)</code>
     </MixedReturnStatement>
     <PossiblyNullReference occurrences="4">
       <code>getComplexPerm</code>
