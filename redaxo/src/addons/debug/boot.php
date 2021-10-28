@@ -20,6 +20,9 @@ if (rex::isBackend() && 'debug' === rex_request::get('page') && rex::getUser() &
         $realPath = rex_escape(rex_path::base(), 'js');
     }
 
+    // prepend backend folder
+    $apiUrl = rex_path::basename(rex_path::backend()).'/'.rex_debug_clockwork::getClockworkApiUrl();
+
     $injectedScript = <<<EOF
         <script>
             let store;
@@ -34,6 +37,7 @@ if (rex::isBackend() && 'debug' === rex_request::get('page') && rex::getUser() &
             if (!store.settings.global) store.settings.global = {};
 
             store.settings.global.editor = '$curEditor';
+            store.settings.global.metadataPath = '$apiUrl';
 
             if (!store.settings.site) store.settings.site = {};
 
@@ -141,6 +145,11 @@ if (rex::getConsole()) {
     });
 } else {
     register_shutdown_function(static function () use ($shutdownFn) {
+        // don't track preflight requests
+        if ('/__clockwork/latest' === $_SERVER['REQUEST_URI']) {
+            return;
+        }
+
         $shutdownFn();
 
         // we need to make sure that the storage path exists after actions like cache:clear
