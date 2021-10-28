@@ -1,4 +1,4 @@
-$docs-blockquote-bg: $color-a-light !default;
+$docs-blockquote-bg: $color-a-lighter !default;
 $docs-blockquote-border-color: $color-a-dark !default;
 $docs-code-bg: $color-a-lighter !default;
 
@@ -174,34 +174,6 @@ $docs-border-color-muted: $gray-lighter !default;
             border-bottom-width: 2px;
         }
 
-    }
-
-    h1 + ul {
-        margin: 0;
-        padding-left: 0;
-
-        &, ul {
-            list-style: none;
-        }
-
-        li a {
-            color: $docs-text-color;
-            font-weight: $docs-font-weight;
-            text-decoration: none;
-
-            &::before {
-                content: "# ";
-                color: $docs-anchor-color;
-            }
-        }
-
-        ul li a {
-            font-weight: 400;
-
-            &::before {
-                opacity: .7;
-            }
-        }
     }
 
     h2 {
