@@ -314,7 +314,7 @@ abstract class rex_metainfo_handler
                     $field = $rexInput->getHtml();
 
                     $checked = $active ? ' checked="checked"' : '';
-                    $field .= '<input class="rex-metainfo-checkbox" type="checkbox" name="' . $name . '[active]" value="1"' . $checked . ' />';
+                    $field .= '<input class="rex-metainfo-checkbox" type="checkbox" name="' . rex_escape($name) . '[active]" value="1"' . $checked . ' />';
 
                     $e = [];
                     $e['label'] = $label;
