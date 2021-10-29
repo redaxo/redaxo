@@ -47,42 +47,42 @@ class rex_structure_context
 
     public function getCategoryId(): int
     {
-        return $this->getValue('category_id', 0);
+        return (int) $this->getValue('category_id', 0);
     }
 
     public function getArticleId(): int
     {
-        return $this->getValue('article_id', 0);
+        return (int) $this->getValue('article_id', 0);
     }
 
     public function getClangId(): int
     {
-        return $this->getValue('clang_id', 0);
+        return (int) $this->getValue('clang_id', 0);
     }
 
     public function getCtypeId(): int
     {
-        return $this->getValue('ctype_id', 0);
+        return (int) $this->getValue('ctype_id', 0);
     }
 
     public function getArtStart(): int
     {
-        return $this->getValue('artstart', 0);
+        return (int) $this->getValue('artstart', 0);
     }
 
     public function getCatStart(): int
     {
-        return $this->getValue('catstart', 0);
+        return (int) $this->getValue('catstart', 0);
     }
 
     public function getEditId(): int
     {
-        return $this->getValue('edit_id', 0);
+        return (int) $this->getValue('edit_id', 0);
     }
 
     public function getFunction(): string
     {
-        return $this->getValue('function', '');
+        return (string) $this->getValue('function', '');
     }
 
     public function getMountpoints(): array
@@ -97,7 +97,7 @@ class rex_structure_context
 
     public function getRowsPerPage(): int
     {
-        return $this->getValue('rows_per_page', 30);
+        return (int) $this->getValue('rows_per_page', 30);
     }
 
     public function getContext(): rex_context

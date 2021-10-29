@@ -22,7 +22,7 @@
         "psalm/plugin-phpunit": "0.16.1",
         "psalm/plugin-symfony": "3.0.4",
         "rector/rector": "0.11.60",
-        "vimeo/psalm": "4.11.0"
+        "vimeo/psalm": "4.11.2"
     },
     "replace": {
         "erusev/parsedown": "1.7.4",
@@ -37,9 +37,9 @@
         "ramsey/http-range": "1.0.0",
         "scssphp/scssphp": "v1.8.1",
         "splitbrain/php-archive": "1.2.1",
-        "symfony/console": "v5.3.7",
+        "symfony/console": "v5.3.10",
         "symfony/deprecation-contracts": "v2.4.0",
-        "symfony/http-foundation": "v5.3.7",
+        "symfony/http-foundation": "v5.3.10",
         "symfony/polyfill-ctype": "*",
         "symfony/polyfill-mbstring": "*",
         "symfony/polyfill-php70": "*",
@@ -48,8 +48,8 @@
         "symfony/polyfill-php80": "v1.23.1",
         "symfony/polyfill-php81": "v1.23.0",
         "symfony/service-contracts": "v2.4.0",
-        "symfony/string": "v5.3.7",
-        "symfony/var-dumper": "v5.3.8",
+        "symfony/string": "v5.3.10",
+        "symfony/var-dumper": "v5.3.10",
         "symfony/yaml": "v5.3.6",
         "voku/anti-xss": "4.1.33",
         "voku/portable-ascii": "1.5.6",
