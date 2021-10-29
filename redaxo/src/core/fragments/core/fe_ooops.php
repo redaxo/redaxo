@@ -46,7 +46,7 @@
             margin: 0;
             font-size: 50px;
             font-weight: 700;
-            text-shadow: 0 2px 2px rgba(150, 150, 150, 1);
+            text-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
         }
 
         .ooops-error-message {
