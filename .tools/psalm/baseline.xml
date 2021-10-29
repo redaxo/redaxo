@@ -1383,15 +1383,8 @@
     </UnusedVariable>
   </file>
   <file src="redaxo/src/addons/mediapool/pages/media.detail.php">
-    <MixedArgument occurrences="15">
+    <MixedArgument occurrences="8">
       <code>$error</code>
-      <code>$ffileSize</code>
-      <code>$fname</code>
-      <code>$fname</code>
-      <code>$fname</code>
-      <code>$fname</code>
-      <code>$fname</code>
-      <code>$fname</code>
       <code>$gf-&gt;getValue('createdate')</code>
       <code>$gf-&gt;getValue('createdate')</code>
       <code>$gf-&gt;getValue('updatedate')</code>
@@ -1406,36 +1399,23 @@
     <MixedArrayAssignment occurrences="1">
       <code>$data['file']['path']</code>
     </MixedArrayAssignment>
-    <MixedAssignment occurrences="12">
+    <MixedAssignment occurrences="7">
       <code>$data['file']</code>
       <code>$data['file']['path']</code>
       <code>$data['filename']</code>
       <code>$data['filetype']</code>
-      <code>$ffileSize</code>
       <code>$ffiletype</code>
-      <code>$fheight</code>
-      <code>$fname</code>
       <code>$ftitle</code>
-      <code>$fwidth</code>
       <code>$rexFileCategory</code>
-      <code>$rfwidth</code>
     </MixedAssignment>
-    <MixedOperand occurrences="21">
-      <code>$fheight</code>
+    <MixedOperand occurrences="13">
       <code>$fileId</code>
       <code>$fileId</code>
-      <code>$fname</code>
-      <code>$fname</code>
       <code>$ftitle</code>
-      <code>$fwidth</code>
-      <code>$gf-&gt;getValue('createuser')</code>
-      <code>$gf-&gt;getValue('updateuser')</code>
       <code>$openerLink</code>
       <code>$openerLink</code>
       <code>$openerLink</code>
       <code>$rexFileCategory</code>
-      <code>$rfwidth</code>
-      <code>rex_escape($fname)</code>
       <code>rex_escape($ftitle)</code>
       <code>rex_escape($ftitle)</code>
       <code>rex_escape($ftitle)</code>
@@ -1800,7 +1780,7 @@
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/handler/handler.php">
-    <MixedArgument occurrences="29">
+    <MixedArgument occurrences="28">
       <code>$attr</code>
       <code>$defaultValue</code>
       <code>$defaultValue</code>
@@ -1816,7 +1796,6 @@
       <code>$filterCondition</code>
       <code>$itemValue</code>
       <code>$itemValue</code>
-      <code>$name</code>
       <code>$params</code>
       <code>$params</code>
       <code>$params</code>
@@ -1835,7 +1814,7 @@
       <code>$dbvalues</code>
       <code>$postValue</code>
     </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="22">
+    <MixedAssignment occurrences="20">
       <code>$activeItem</code>
       <code>$attr</code>
       <code>$category</code>
@@ -1850,8 +1829,6 @@
       <code>$fieldType</code>
       <code>$filterCondition</code>
       <code>$itemValue</code>
-      <code>$label</code>
-      <code>$name</code>
       <code>$params</code>
       <code>$params</code>
       <code>$postValue</code>
@@ -1875,14 +1852,7 @@
       <code>getValue</code>
       <code>setValue</code>
     </MixedMethodCall>
-    <MixedOperand occurrences="10">
-      <code>$label</code>
-      <code>$name</code>
-      <code>$name</code>
-      <code>$name</code>
-      <code>$name</code>
-      <code>$name</code>
-      <code>$name</code>
+    <MixedOperand occurrences="3">
       <code>$postValue</code>
       <code>$typeLabel</code>
       <code>$typeLabel</code>
@@ -2825,28 +2795,6 @@
     <MixedAssignment occurrences="1">
       <code>$params['category_id']</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="9">
-      <code>int</code>
-      <code>int</code>
-      <code>int</code>
-      <code>int</code>
-      <code>int</code>
-      <code>int</code>
-      <code>int</code>
-      <code>int</code>
-      <code>string</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="9">
-      <code>$this-&gt;getValue('article_id', 0)</code>
-      <code>$this-&gt;getValue('artstart', 0)</code>
-      <code>$this-&gt;getValue('category_id', 0)</code>
-      <code>$this-&gt;getValue('catstart', 0)</code>
-      <code>$this-&gt;getValue('clang_id', 0)</code>
-      <code>$this-&gt;getValue('ctype_id', 0)</code>
-      <code>$this-&gt;getValue('edit_id', 0)</code>
-      <code>$this-&gt;getValue('function', '')</code>
-      <code>$this-&gt;getValue('rows_per_page', 30)</code>
-    </MixedReturnStatement>
     <PossiblyNullReference occurrences="4">
       <code>getComplexPerm</code>
       <code>getComplexPerm</code>
