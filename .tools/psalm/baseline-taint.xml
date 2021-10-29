@@ -1,59 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="4.11.0@99e510d6ab1da2d61d4b5eb6314baa797fe0e76d">
-  <file src="redaxo/src/addons/cronjob/pages/cronjobs.php">
-    <TaintedHtml occurrences="1">
-      <code>$visibleJs . "\n"</code>
-    </TaintedHtml>
-    <TaintedTextWithQuotes occurrences="1">
-      <code>$visibleJs . "\n"</code>
-    </TaintedTextWithQuotes>
-  </file>
-  <file src="redaxo/src/addons/structure/plugins/history/fragments/history/layer.php">
-    <TaintedHtml occurrences="4">
-      <code>$this-&gt;getVar('content1iframe')</code>
-      <code>$this-&gt;getVar('content1select')</code>
-      <code>$this-&gt;getVar('content2iframe')</code>
-      <code>$this-&gt;getVar('content2select')</code>
-    </TaintedHtml>
-    <TaintedTextWithQuotes occurrences="4">
-      <code>$this-&gt;getVar('content1iframe')</code>
-      <code>$this-&gt;getVar('content1select')</code>
-      <code>$this-&gt;getVar('content2iframe')</code>
-      <code>$this-&gt;getVar('content2select')</code>
-    </TaintedTextWithQuotes>
-  </file>
-  <file src="redaxo/src/core/fragments/core/fe_ooops.php">
-    <TaintedHtml occurrences="1">
-      <code>$this-&gt;getVar('content', '')</code>
-    </TaintedHtml>
-    <TaintedTextWithQuotes occurrences="1">
-      <code>$this-&gt;getVar('content', '')</code>
-    </TaintedTextWithQuotes>
-  </file>
-  <file src="redaxo/src/core/fragments/core/form/search.php">
-    <TaintedHtml occurrences="1"/>
-    <TaintedTextWithQuotes occurrences="1"/>
-  </file>
-  <file src="redaxo/src/core/fragments/core/page/docs.php">
-    <TaintedHtml occurrences="3">
-      <code>$this-&gt;getVar('content')</code>
-      <code>$this-&gt;getVar('sidebar')</code>
-      <code>$this-&gt;getVar('toc')</code>
-    </TaintedHtml>
-    <TaintedTextWithQuotes occurrences="3">
-      <code>$this-&gt;getVar('content')</code>
-      <code>$this-&gt;getVar('sidebar')</code>
-      <code>$this-&gt;getVar('toc')</code>
-    </TaintedTextWithQuotes>
-  </file>
-  <file src="redaxo/src/core/fragments/core/page/readme.php">
-    <TaintedHtml occurrences="1">
-      <code>$this-&gt;getVar('content')</code>
-    </TaintedHtml>
-    <TaintedTextWithQuotes occurrences="1">
-      <code>$this-&gt;getVar('content')</code>
-    </TaintedTextWithQuotes>
-  </file>
   <file src="redaxo/src/core/lib/response.php">
     <TaintedHeader occurrences="1">
       <code>$str</code>
