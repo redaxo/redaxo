@@ -9,7 +9,10 @@ $content = '';
 $package = rex_package::get(rex_request('package', 'string'));
 
 if (is_readable($package->getPath('CHANGELOG.md'))) {
-    [$readmeToc, $readmeContent] = rex_markdown::factory()->parseWithToc(rex_file::require($package->getPath('CHANGELOG.md')), 1, 2, false);
+    [$readmeToc, $readmeContent] = rex_markdown::factory()->parseWithToc(rex_file::require($package->getPath('CHANGELOG.md')), 1, 2, [
+        rex_markdown::SOFT_LINE_BREAKS => false,
+        rex_markdown::HIGHLIGHT_PHP => true,
+    ]);
     $fragment = new rex_fragment();
     $fragment->setVar('content', $readmeContent, false);
     $fragment->setVar('toc', $readmeToc, false);
