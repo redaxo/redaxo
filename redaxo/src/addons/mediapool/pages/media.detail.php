@@ -111,9 +111,9 @@ if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('cate
 }
 
 $ftitle = $gf->getValue('title');
-$fname = $gf->getValue('filename');
+$fname = (string) $gf->getValue('filename');
 $ffiletype = $gf->getValue('filetype');
-$ffileSize = $gf->getValue('filesize');
+$ffileSize = (int) $gf->getValue('filesize');
 $ffileSize = rex_formatter::bytes($ffileSize);
 $rexFileCategory = $gf->getValue('category_id');
 
@@ -123,8 +123,8 @@ $encodedFname = urlencode($fname);
 
 $isImage = rex_media::isImageType(rex_file::extension($fname));
 if ($isImage) {
-    $fwidth = $gf->getValue('width');
-    $fheight = $gf->getValue('height');
+    $fwidth = (int) $gf->getValue('width');
+    $fheight = (int) $gf->getValue('height');
 
     if ($fwidth > 199) {
         $rfwidth = 200;
@@ -314,17 +314,17 @@ if ($TPERM) {
 
     $e = [];
     $e['label'] = '<label>' . rex_i18n::msg('pool_filename') . '</label>';
-    $e['field'] = '<p class="form-control-static"><a href="' . rex_url::media($encodedFname) . '">' . $fname . '</a>  <span class="rex-filesize">' . $ffileSize . '</span></p>';
+    $e['field'] = '<p class="form-control-static"><a href="' . rex_url::media($encodedFname) . '">' . rex_escape($fname) . '</a>  <span class="rex-filesize">' . $ffileSize . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
     $e['label'] = '<label>' . rex_i18n::msg('pool_last_update') . '</label>';
-    $e['field'] = '<p class="form-control-static">' . rex_formatter::intlDateTime(strtotime($gf->getValue('updatedate'))) . ' <span class="rex-author">' . $gf->getValue('updateuser') . '</span></p>';
+    $e['field'] = '<p class="form-control-static">' . rex_formatter::intlDateTime(strtotime($gf->getValue('updatedate'))) . ' <span class="rex-author">' . rex_escape((string) $gf->getValue('updateuser')) . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
     $e['label'] = '<label>' . rex_i18n::msg('pool_created') . '</label>';
-    $e['field'] = '<p class="form-control-static">' . rex_formatter::intlDateTime(strtotime($gf->getValue('createdate'))) . ' <span class="rex-author">' . $gf->getValue('createuser') . '</span></p>';
+    $e['field'] = '<p class="form-control-static">' . rex_formatter::intlDateTime(strtotime($gf->getValue('createdate'))) . ' <span class="rex-author">' . rex_escape((string) $gf->getValue('createuser')) . '</span></p>';
     $formElements[] = $e;
 
     $fragment = new rex_fragment();
