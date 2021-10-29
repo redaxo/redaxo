@@ -581,13 +581,29 @@ jQuery(document).ready(function($) {
         // Dropdown Search
         viewRoot.find('.rex-js-dropdown-search').on('keyup', function () {
             var searchTerm = $(this).val().toLowerCase();
-            $(this).closest('ul').find('li').each(function () {
+            $(this).closest('ul').find('li').not( '.rex-dropdown-search, .rex-dropdown-search-no-hits' ).each(function () {
                 if ($(this).text().toLowerCase().indexOf(searchTerm) >= 0) {
                     $(this).show();
                 } else {
                     $(this).hide();
                 }
             });
+            // Show no hits message
+            var n = $(this).closest('ul').find('li:visible').not( '.rex-dropdown-search, .rex-dropdown-search-no-hits' ).length;
+            if(n > 0){
+                $(this).closest('ul').find('.rex-dropdown-search-no-hits').hide();
+            } else {
+                $(this).closest('ul').find('.rex-dropdown-search-no-hits').show();
+            }
+        });
+
+        // Clear dropdown and focus search input and reset dropdown-list, prevent dropdown from hide
+        viewRoot.find('.rex-dropdown-search .rex-icon-clear').on('click', function (e) {
+            $(this).closest('.rex-dropdown-search').find('.rex-js-dropdown-search').val('');
+            $(this).closest('.rex-dropdown-search').find('.rex-js-dropdown-search').focus();
+            $(this).closest('ul').find('li').not( '.rex-dropdown-search' ).show();
+            $(this).closest('ul').find( '.rex-dropdown-search-no-hits' ).hide();
+            e.stopPropagation();
         });
     });
 
@@ -744,36 +760,6 @@ jQuery(document).ready(function($) {
     });
 
     document.addEventListener('keydown', handleKeyEvents, true);
-
-    // Dropdown Search
-    $('.rex-js-dropdown-search').on('keyup', function () {
-        var searchTerm = $(this).val().toLowerCase();
-        $(this).closest('ul').find('li').not( '.rex-dropdown-search, .rex-dropdown-search-no-hits' ).each(function () {
-            var moduleName = $(this).text();
-            if (moduleName.toLowerCase().indexOf(searchTerm) >= 0) {
-                $(this).show();
-            } else {
-                $(this).hide();
-            }
-        }); // End .each()
-        // Show no hits message
-        var n = $(this).closest('ul').find('li:visible').not( '.rex-dropdown-search, .rex-dropdown-search-no-hits' ).length;
-        if(n > 0){
-            $(this).closest('ul').find('.rex-dropdown-search-no-hits').hide();
-        } else {
-            $(this).closest('ul').find('.rex-dropdown-search-no-hits').show();
-        }
-    }); // End Dropdown Search
-
-    // Clear dropdown and focus search input and reset dropdown-list, prevent dropdown from hide
-    $('.rex-dropdown-search .rex-icon-clear').on('click', function (e) {
-        $(this).closest('.rex-dropdown-search').find('.rex-js-dropdown-search').val('');
-        $(this).closest('.rex-dropdown-search').find('.rex-js-dropdown-search').focus();
-        $(this).closest('ul').find('li').not( '.rex-dropdown-search' ).show();
-        $(this).closest('ul').find( '.rex-dropdown-search-no-hits' ).hide();
-        e.stopPropagation();
-    }); // End Clear Dropdown Search input
-
 });
 
 // keep session alive
