@@ -8,7 +8,7 @@
 if (rex_ini_get('memory_limit') < 67108864) {
     @ini_set('memory_limit', '64M');
 }
-echo 1;
+
 $success = '';
 $error = '';
 
