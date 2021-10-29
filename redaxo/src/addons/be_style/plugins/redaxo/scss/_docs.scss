@@ -27,6 +27,7 @@ $docs-border-color-muted: $gray-lighter !default;
     color: $docs-text-color;
     font-size: $docs-font-size;
     line-height: $docs-line-height;
+    word-wrap: break-word;
 
     h1, h2, h3, h4, h5, h6 {
         margin-top: 24px;
@@ -213,6 +214,7 @@ $docs-border-color-muted: $gray-lighter !default;
 
 .rex-docs {
     display: flex;
+    justify-content: space-between;
 
     &-sidebar {
         flex-basis: 230px;
@@ -223,6 +225,9 @@ $docs-border-color-muted: $gray-lighter !default;
     &-content {
         min-width: 0; // flexbox: reduce implied width
         flex-grow: 1;
+        max-width: 1012px;
+        margin-left: auto;
+        margin-right: auto;
     }
 }
 
