@@ -212,8 +212,9 @@ if ($user = rex::getUser()) {
     if (rex::getProperty('login')->requiresPasswordChange()) {
         // profile is available for everyone, no additional checks required
         rex_be_controller::setCurrentPage('profile');
-    } else {
-        // trigger api functions. the api function is responsible for checking permissions.
+    } elseif (!rex_be_controller::getCurrentPage()) {
+        // trigger api functions before page permission check/redirection, if page param is not set.
+        // the api function is responsible for checking permissions.
         rex_api_function::handleCall();
     }
 
@@ -226,6 +227,12 @@ rex_view::setJsProperty('page', $page);
 // ----- EXTENSION POINT
 // page variable validated
 rex_extension::registerPoint(new rex_extension_point('PAGE_CHECKED', $page, ['pages' => $pages], true));
+
+if ($page) {
+    // trigger api functions after PAGE_CHECKED, if page param is set
+    // the api function is responsible for checking permissions.
+    rex_api_function::handleCall();
+}
 
 // include the requested backend page
 rex_be_controller::includeCurrentPage();
