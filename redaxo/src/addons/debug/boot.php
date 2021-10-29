@@ -22,6 +22,7 @@ if (rex::isBackend() && 'debug' === rex_request::get('page') && rex::getUser() &
 
     // prepend backend folder
     $apiUrl = rex_path::basename(rex_path::backend()).'/'.rex_debug_clockwork::getClockworkApiUrl();
+    $appearance = rex::getProperty('theme') ?? rex::requireUser()->getValue('theme');
 
     $injectedScript = <<<EOF
         <script>
@@ -38,6 +39,7 @@ if (rex::isBackend() && 'debug' === rex_request::get('page') && rex::getUser() &
 
             store.settings.global.editor = '$curEditor';
             store.settings.global.metadataPath = '$apiUrl';
+            store.settings.global.appearance = '$appearance';
 
             if (!store.settings.site) store.settings.site = {};
 
