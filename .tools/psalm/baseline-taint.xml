@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.11.0@99e510d6ab1da2d61d4b5eb6314baa797fe0e76d">
+<files psalm-version="4.11.2@6fba5eb554f9507b72932f9c75533d8af593688d">
   <file src="redaxo/src/core/lib/response.php">
     <TaintedHeader occurrences="1">
       <code>$str</code>
