@@ -192,11 +192,11 @@ Project Link: [https://github.com/github_username/repo_name](https://github.com/
 
 ## Markdown parse test
 
-## Text
+### Text
 
 It's very easy to make some words **bold** and other words *italic* with Markdown. You can even [link to REDAXO!](https://redaxo.org)
 
-## Lists
+### Lists
 
 Sometimes you want numbered lists:
 
@@ -216,24 +216,14 @@ Alternatively,
   - Like this
   - And this
 
-## Images
+### Images
 
 If you want to embed images, this is how you do it:
 
 ![Logo of REDAXO](https://raw.githubusercontent.com/redaxo/redaxo/assets/redaxo-logo.png)
 
 
-### Headers and quotes
-
-# Structured documents
-
-Sometimes it's useful to have different levels of headings to structure your documents. Start lines with a `#` to create headings. Multiple `##` in a row denote smaller heading sizes.
-
-### This is a third-tier heading
-
-You can use one `#` all the way up to `######` six for different heading sizes.
-
-If you'd like to quote someone, use the > character before the line:
+### Quotes
 
 > Coffee. The finest organic suspension ever devised... I beat the Borg with it.
 > - Captain Janeway
