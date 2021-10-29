@@ -240,7 +240,12 @@ async function main() {
 
             // run through all pages
             for (var fileName in allPages) {
-                await page.goto(allPages[fileName], { waitUntil: 'load' });
+                const url = allPages[fileName]
+                const response = await page.goto(url, { waitUntil: 'load' });
+                if (!response.ok()) {
+                    throw new Error(`Failed to load ${url}: the server responded with a status of ${response.status()} (${response.statusText()})`)
+                }
+                
                 await page.waitForTimeout(350); // slight buffer for CSS animations or :focus styles etc.
                 await createScreenshots(page, fileName);
             }
