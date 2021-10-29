@@ -22,7 +22,7 @@ if (rex::isBackend() && 'debug' === rex_request::get('page') && rex::getUser() &
 
     // prepend backend folder
     $apiUrl = rex_path::basename(rex_path::backend()).'/'.rex_debug_clockwork::getClockworkApiUrl();
-    $appearance = rex::getProperty('theme') ?? rex::requireUser()->getValue('theme');
+    $appearance = (string) (rex::getProperty('theme') ?? rex::requireUser()->getValue('theme'));
 
     $injectedScript = <<<EOF
         <script>
