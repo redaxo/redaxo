@@ -281,12 +281,20 @@ label.required::after {
 
 // clear button for search inputs
 .form-control-clear {
+    display: block;
     z-index: 22;
+    position: absolute;
+    opacity: 0.6;
     pointer-events: auto;
     cursor: pointer;
     font-size: 16px;
-    padding: 0.3em;
-    opacity: 0.6;
+    width: 16px;
+    height: 16px;
+    align: center;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    right: 5px;
 }
 .form-clear-button input.form-control {
     padding-right: 25px;

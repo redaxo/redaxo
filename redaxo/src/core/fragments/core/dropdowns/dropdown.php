@@ -31,10 +31,16 @@ $group = isset($this->group) && $this->group;
     </button>
 <?php endif; ?>
     <ul class="dropdown-menu<?= (isset($this->right) ? ' dropdown-menu-right' : '')?><?= (isset($this->block) ? ' btn-block' : '')?>" role="menu">
-        <?php if ($this->search && count($this->items) > 5): ?>
-            <div class="bs-searchbox">
-                <input type="search" class="rex-js-dropdown-search form-control" autocomplete="off" role="combobox" aria-label="<?= $this->i18n('search_placeholder') ?>">
-            </div>
+        <?php if ($this->search && count($this->items)>5): ?>
+            <li class="rex-dropdown-search">
+                <div class="has-feedback form-clear-button">
+                    <input type="search" class="rex-js-dropdown-search form-control" autocomplete="off" role="combobox" placeholder="<?= $this->i18n('search_placeholder') ?>" aria-label="<?= $this->i18n('search_placeholder') ?>">
+                    <span title="<?= $this->i18n('search_clear') ?>" class="form-control-clear rex-icon rex-icon-clear form-control-feedback"></span>
+                </div>
+            </li>
+            <li class="rex-dropdown-search-no-hits">
+                <?= $this->i18n('search_no_results') ?>
+            </li>
         <?php endif; ?>
         <?php if (isset($this->header) && '' != $this->header): ?>
             <li class="dropdown-header"><?= $this->header ?></li>
