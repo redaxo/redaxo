@@ -3,7 +3,7 @@
 /**
  * @package redaxo5
  */
-
+echo 1;
 $error = '';
 $success = '';
 $user = rex::requireUser();
