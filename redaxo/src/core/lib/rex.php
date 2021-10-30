@@ -507,12 +507,12 @@ class rex
             return $globalTheme;
         }
 
-        // user selected theme
         $user = self::getUser();
         if (!$user) {
              return null;
         }
 
+        // user selected theme
         $userTheme = $user->getValue('theme')
         if (in_array($userTheme, $themes, true)) {
             return $userTheme;
