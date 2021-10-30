@@ -202,7 +202,7 @@ async function main() {
     page.on('console', function(msg) {
         var text = msg.text();
         if (text.indexOf("Unrecognized feature: 'interest-cohort'.") == -1) {
-            console.log('BROWSER-CONSOLE:', text));
+            console.log('BROWSER-CONSOLE:', text);
         }
     });
 
