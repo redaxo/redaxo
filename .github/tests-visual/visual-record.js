@@ -123,8 +123,8 @@ function countDiffPixels(img1path, img2path ) {
 async function processScreenshot(page, screenshotName) {
     mkdirp.sync(WORKING_DIR);
 
-    // hide blinking cursor
-    await page.addStyleTag({ content: 'input { caret-color: transparent !important; }' });
+    // hide blinking cursor/icon
+    await page.addStyleTag({ content: 'input { caret-color: transparent !important; } .rex-pulse { animation: initial }' });
 
     // mask dynamic content, to make it not appear like change (visual noise)
     await page.evaluate(function() {
@@ -255,7 +255,7 @@ async function main() {
             for (var fileName in allPages) {
                 const url = allPages[fileName]
                 await goToUrlOrThrow(page, url, { waitUntil: 'load' });
-                
+
                 await page.waitForTimeout(350); // slight buffer for CSS animations or :focus styles etc.
                 await createScreenshots(page, fileName);
             }
