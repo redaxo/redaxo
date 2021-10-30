@@ -98,6 +98,10 @@
             background-color: $color-grey-5;
         }
     }
+
+    .bootstrap-select .no-results {
+        background-color: transparent;
+    }
 }
 
 body.rex-theme-dark {
