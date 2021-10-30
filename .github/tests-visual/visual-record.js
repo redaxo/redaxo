@@ -25,6 +25,8 @@ const GOLDEN_SAMPLES_DIR = '.github/tests-visual/';
 const myArgs = process.argv.slice(2);
 let minDiffPixels = 1;
 let isSetup = false;
+//  overall exit-code
+let exitCode = 0;
 
 if (myArgs.includes('regenerate-all')) {
     // force sample-regeneration, even if pixelmatch() thinks nothing changed
@@ -294,9 +296,11 @@ async function main() {
 
     await page.close();
     await browser.close();
+    
+    process.exit(exitCode);
 }
 
 main().catch(error => {
     console.error("::error ::" +error);
-    process.exit(1);
+    exitCode = 1;
 });
