@@ -9,7 +9,7 @@ if (rex_request('effects', 'boolean')) {
     include __DIR__ . '/effects.php';
     return;
 }
-echo $aaa;
+
 $success = '';
 $error = '';
 
