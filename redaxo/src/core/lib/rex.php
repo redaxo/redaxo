@@ -502,7 +502,7 @@ class rex
         $themes = ['light', 'dark'];
 
         // global theme from config.yml
-        $globalTheme = self::getProperty('theme')
+        $globalTheme = (string) self::getProperty('theme');
         if (in_array($globalTheme, $themes, true)) {
             return $globalTheme;
         }
@@ -513,7 +513,7 @@ class rex
         }
 
         // user selected theme
-        $userTheme = $user->getValue('theme')
+        $userTheme = (string) $user->getValue('theme')
         if (in_array($userTheme, $themes, true)) {
             return $userTheme;
         }
