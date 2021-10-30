@@ -124,7 +124,7 @@ async function processScreenshot(page, screenshotName) {
     mkdirp.sync(WORKING_DIR);
 
     // hide blinking cursor/icon
-    await page.addStyleTag({ content: 'input { caret-color: transparent !important; } .rex-pulse { animation: initial }' });
+    await page.addStyleTag({ content: 'input { caret-color: transparent !important; } * { animation: initial !important}' });
 
     // mask dynamic content, to make it not appear like change (visual noise)
     await page.evaluate(function() {
