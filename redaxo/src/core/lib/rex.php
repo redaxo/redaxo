@@ -508,7 +508,7 @@ class rex
 
         // user selected theme
         $user = self::getUser();
-        if ($user && $userTheme = $user->getValue('theme') && in_array( $userTheme, $themes, true)) {
+        if ($user && $userTheme = $user->getValue('theme') && in_array($userTheme, $themes, true)) {
             return $userTheme;
         }
 
