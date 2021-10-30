@@ -89,7 +89,7 @@ const allPages = {
     'cronjob_cronjobs.png': START_URL + '?page=cronjob/cronjobs',
     'cronjob_cronjobs_add.png': START_URL + '?page=cronjob/cronjobs&func=add',
 
-    'debug_clockwork.png': START_URL * '?page=debug',
+    'debug_clockwork.png': START_URL + '?page=debug',
 
     'media_manager_types.png': START_URL + '?page=media_manager/types',
     'media_manager_types_add.png': START_URL + '?page=media_manager/types&func=add',
