@@ -301,3 +301,9 @@ async function main() {
     
     process.exit(exitCode);
 }
+
+// print uncaught exceptions and make github action fail
+main().catch(error => {
+     console.error("::error ::" +error);
+     process.exit(1);
+});
