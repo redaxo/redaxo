@@ -166,7 +166,7 @@ if ('' == $func) {
 
     $form = rex_form::factory(rex::getTablePrefix() . 'media_manager_type', '', 'id = ' . $typeId);
 
-    if (rex_media_manager::STATUS_SYSTEM_TYPE === (int) $form->getSql()->getValue('status')) {
+    if ($typeId && rex_media_manager::STATUS_SYSTEM_TYPE === (int) $form->getSql()->getValue('status')) {
         throw new rex_exception('System media types can not be edited.');
     }
 
