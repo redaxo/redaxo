@@ -304,6 +304,6 @@ async function main() {
 
 // print uncaught exceptions and make github action fail
 main().catch(error => {
-     console.error("::error ::" +error);
-     process.exit(1);
+    console.error("::error ::" +error);
+    process.exit(1);
 });
