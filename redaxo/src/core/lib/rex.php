@@ -499,14 +499,16 @@ class rex
      */
     public static function getTheme(): ?string
     {
+        $themes = array('light', 'dark');
+
         // global theme from config.yml
-        if ($globalTheme = self::getProperty('theme')) {
+        if ($globalTheme = self::getProperty('theme') && in_array($themes, $globalTheme, true) ) {
             return $globalTheme;
         }
 
         // user selected theme
         $user = self::getUser();
-        if ($user && $userTheme = $user->getValue('theme')) {
+        if ($user && $userTheme = $user->getValue('theme') && in_array($themes, $userTheme, true)) {
             return $userTheme;
         }
 
