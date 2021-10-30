@@ -286,4 +286,7 @@ async function main() {
     await browser.close();
 }
 
-main();
+main().catch(error => {
+  console.error(error);
+  process.exit(1);
+});
