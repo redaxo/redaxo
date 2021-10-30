@@ -491,4 +491,25 @@ class rex
     {
         return (int) self::getProperty('dirperm', 0775);
     }
+
+    /**
+     * Returns the current backend theme.
+     *
+     * @return 'dark'|'light'|null
+     */
+    public static function getTheme(): ?string
+    {
+        // global theme from config.yml
+        if (self::getProperty('theme')) {
+            return self::getProperty('theme');
+        }
+
+        // user selected theme
+        $user = self::getUser();
+        if ($user && $user->getValue('theme')) {
+            return $user->getValue('theme');
+        }
+
+        return null;
+    }
 }
