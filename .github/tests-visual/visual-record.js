@@ -25,6 +25,8 @@ const GOLDEN_SAMPLES_DIR = '.github/tests-visual/';
 const myArgs = process.argv.slice(2);
 let minDiffPixels = 1;
 let isSetup = false;
+//  overall exit-code
+let exitCode = 0;
 
 if (myArgs.includes('regenerate-all')) {
     // force sample-regeneration, even if pixelmatch() thinks nothing changed
@@ -191,7 +193,9 @@ async function logIntoBackend(page, username = 'myusername', password = '91dfd9d
 async function goToUrlOrThrow(page, url, options) {
     const response = await page.goto(url, options);
     if (!response.ok() && response.status() != 304) {
-        throw new Error(`Failed to load ${url}: the server responded with a status of ${response.status()} (${response.statusText()})`)
+        error = `Failed to load ${url}: the server responded with a status of ${response.status()} (${response.statusText()})`;
+        console.error("::error ::" +error);
+        exitCode = 1;
     }
     await response;
 }
@@ -294,9 +298,16 @@ async function main() {
 
     await page.close();
     await browser.close();
+    
+    process.exit(exitCode);
 }
 
+// print uncaught exceptions and make github action fail
 main().catch(error => {
-    console.error("::error ::" +error);
+    console.error("::error ::" +
+        error.replace(/%/g, '%25')
+             .replace(/\r/g, '%0D')
+             .replace(/\n/g, '%0A')
+    );
     process.exit(1);
 });
