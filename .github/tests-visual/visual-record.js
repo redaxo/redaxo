@@ -190,7 +190,7 @@ async function logIntoBackend(page, username = 'myusername', password = '91dfd9d
 
 async function goToUrlOrThrow(page, url, options) {
     const response = await page.goto(url, options);
-    if (!response.ok() && response.status() != 302) {
+    if (!response.ok() && response.status() != 304) {
         throw new Error(`Failed to load ${url}: the server responded with a status of ${response.status()} (${response.statusText()})`)
     }
     await response;
