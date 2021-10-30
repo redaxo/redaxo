@@ -500,14 +500,14 @@ class rex
     public static function getTheme(): ?string
     {
         // global theme from config.yml
-        if (self::getProperty('theme')) {
-            return self::getProperty('theme');
+        if ($globalTheme = self::getProperty('theme')) {
+            return $globalTheme;
         }
 
         // user selected theme
         $user = self::getUser();
-        if ($user && $user->getValue('theme')) {
-            return $user->getValue('theme');
+        if ($user && $userTheme = $user->getValue('theme')) {
+            return $userTheme;
         }
 
         return null;
