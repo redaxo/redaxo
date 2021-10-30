@@ -195,7 +195,6 @@ async function logIntoBackend(page, username = 'myusername', password = '91dfd9d
 async function goToUrlOrThrow(page, url, options) {
     const response = await page.goto(url, options);
     if (!response.ok() && response.status() != 304) {
-        console.log(await reponse.text());
         const error = `Failed to load ${url}: the server responded with a status of ${response.status()} (${response.statusText()})`;
         console.error("::error ::" +error);
         exitCode = 1;
@@ -217,7 +216,7 @@ async function main() {
     page.on('console', function(msg) {
         var text = msg.text();
         if (text.indexOf("Unrecognized feature: 'interest-cohort'.") == -1) {
-            console.log('BROWSER-CONSOLE:', text);
+            console.log('BROWSER-CONSOLE:', msg);
         }
     });
 
