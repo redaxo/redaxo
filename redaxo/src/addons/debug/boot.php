@@ -23,6 +23,9 @@ if (rex::isBackend() && 'debug' === rex_request::get('page') && rex::getUser() &
     // prepend backend folder
     $apiUrl = rex_path::basename(rex_path::backend()).'/'.rex_debug_clockwork::getClockworkApiUrl();
     $appearance = (string) (rex::getProperty('theme') ?? rex::requireUser()->getValue('theme'));
+    if (!$appearance) {
+        $appearance = 'auto';
+    }
 
     $injectedScript = <<<EOF
         <script>
