@@ -193,6 +193,7 @@ async function goToUrlOrThrow(page, url, options) {
     if (!response.ok()) {
         throw new Error(`Failed to load ${url}: the server responded with a status of ${response.status()} (${response.statusText()})`)
     }
+    return response;
 }
 
 async function main() {
