@@ -509,7 +509,7 @@ class rex
 
         $user = self::getUser();
         if (!$user) {
-             return null;
+            return null;
         }
 
         // user selected theme
