@@ -296,7 +296,6 @@ async function main() {
 }
 
 main().catch(error => {
-    console.error("::error ::file=.github/tests-visual/media_manager_types.png::markus test 123");
     console.error("::error ::" +error);
     process.exit(1);
 });
