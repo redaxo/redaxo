@@ -26,8 +26,6 @@ if (rex::isBackend() && 'debug' === rex_request::get('page') && rex::getUser() &
     if (!$appearance) {
         $appearance = 'auto';
     }
-    
-    $breakit;
 
     $injectedScript = <<<EOF
         <script>
