@@ -89,7 +89,7 @@ const allPages = {
 
     'media_manager_types.png': START_URL + '?page=media_manager/types',
     'media_manager_types_add.png': START_URL + '?page=media_manager/types&func=add',
-    'media_manager_types_edit.png': START_URL + '?page=media_manager/types&type_id=1&effects=1',
+    'media_manager_types_edit.png': START_URL + '?page=media_manager/types&type_id=4&effects=1',
     'media_manager_settings.png': START_URL + '?page=media_manager/settings',
 
     'metainfo_articles.png': START_URL + '?page=metainfo/articles',
