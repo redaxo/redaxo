@@ -305,7 +305,8 @@ async function main() {
 // print uncaught exceptions and make github action fail
 main().catch(error => {
     console.error("::error ::" +
-        error.replace(/%/g, '%25')
+        error.toString()
+             .replace(/%/g, '%25')
              .replace(/\r/g, '%0D')
              .replace(/\n/g, '%0A')
     );
