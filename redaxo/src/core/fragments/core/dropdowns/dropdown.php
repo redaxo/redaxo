@@ -30,7 +30,7 @@ $group = isset($this->group) && $this->group;
     </button>
     <?php endif; ?>
     <ul class="dropdown-menu<?= (isset($this->right) ? ' dropdown-menu-right' : '')?><?= (isset($this->block) ? ' btn-block' : '')?>" role="menu">
-        <?php if ($this->search && count($this->items)>5): ?>
+        <?php if ($this->search && count($this->items) > 5): ?>
             <li class="rex-dropdown-search">
                 <div class="has-feedback form-clear-button">
                     <input type="search" class="rex-js-dropdown-search form-control" autocomplete="off" role="combobox" placeholder="<?= $this->i18n('search_placeholder') ?>" aria-label="<?= $this->i18n('search_placeholder') ?>">
