@@ -193,7 +193,9 @@ async function logIntoBackend(page, username = 'myusername', password = '91dfd9d
 async function goToUrlOrThrow(page, url, options) {
     const response = await page.goto(url, options);
     if (!response.ok() && response.status() != 304) {
-        throw new Error(`Failed to load ${url}: the server responded with a status of ${response.status()} (${response.statusText()})`)
+        error = `Failed to load ${url}: the server responded with a status of ${response.status()} (${response.statusText()})`;
+        console.error("::error ::" +error);
+        exitCode = 1;
     }
     await response;
 }
@@ -299,8 +301,3 @@ async function main() {
     
     process.exit(exitCode);
 }
-
-main().catch(error => {
-    console.error("::error ::" +error);
-    exitCode = 1;
-});
