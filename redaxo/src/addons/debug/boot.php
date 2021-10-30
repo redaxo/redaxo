@@ -19,7 +19,7 @@ if (rex::isBackend() && 'debug' === rex_request::get('page') && rex::getUser() &
         $localPath = rex_escape($editorBasepath, 'js');
         $realPath = rex_escape(rex_path::base(), 'js');
     }
-    
+
     echo $badummmms;
 
     // prepend backend folder
