@@ -513,7 +513,7 @@ class rex
         }
 
         // user selected theme
-        $userTheme = (string) $user->getValue('theme')
+        $userTheme = (string) $user->getValue('theme');
         if (in_array($userTheme, $themes, true)) {
             return $userTheme;
         }
