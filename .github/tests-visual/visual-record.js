@@ -287,6 +287,9 @@ async function main() {
 }
 
 main().catch(error => {
+  if (error.indexOf("Unrecognized feature: 'interest-cohort'.") !== -1) {
+     return;
+  }
   console.error(error);
   process.exit(1);
 });
