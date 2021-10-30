@@ -199,7 +199,12 @@ async function main() {
     const browser = await puppeteer.launch(options);
     let page = await browser.newPage();
     // log browser errors into the console
-    page.on('console', msg => console.log('BROWSER-CONSOLE:', msg.text()));
+    page.on('console', function(msg) {
+        var text = msg.text();
+        if (text.indexOf("Unrecognized feature: 'interest-cohort'.") == -1) {
+            console.log('BROWSER-CONSOLE:', text));
+        }
+    });
 
     await page.setViewport({ width: viewportWidth, height: viewportHeight });
     await page.setCookie(noHtaccessCheckCookie);
@@ -287,8 +292,6 @@ async function main() {
 }
 
 main().catch(error => {
-  if (error.indexOf("Unrecognized feature: 'interest-cohort'.") == -1) {
-      console.error(error);
-      process.exit(1);
-  }
+    console.error(error);
+    process.exit(1);
 });
