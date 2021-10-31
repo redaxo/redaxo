@@ -284,18 +284,7 @@ async function main() {
                 page.waitForNavigation(),
                 page.click('.btn-safemode-deactivate') // disable safe mode again
             ]);
-
-            // test customizer
-            await goToUrlOrThrow(page, START_URL + '?page=packages', { waitUntil: 'load' });
-            await Promise.all([
-                page.waitForNavigation({ waitUntil: 'networkidle0' }),
-                page.click('#package-be_style-customizer .rex-table-action > a:first-child') // install
-            ]);
-            await createScreenshots(page, 'packages_customizer_installed.png');
-            await goToUrlOrThrow(page, START_URL + '?page=system/customizer', { waitUntil: 'load' });
-            await page.waitForTimeout(350); // slight buffer for CSS animations or :focus styles etc.
-            await createScreenshots(page, 'system_customizer.png');
-
+            
             // test debug
             const interceptClockworkRequest = request => {
                 if (request.url().indexOf('rex-api-call=debug') !== -1) {
@@ -310,6 +299,17 @@ async function main() {
             await createScreenshots(page, 'debug_clockwork.png');
             await page.setRequestInterception(false);
             page.off('request', interceptClockworkRequest);
+
+            // test customizer
+            await goToUrlOrThrow(page, START_URL + '?page=packages', { waitUntil: 'load' });
+            await Promise.all([
+                page.waitForNavigation({ waitUntil: 'networkidle0' }),
+                page.click('#package-be_style-customizer .rex-table-action > a:first-child') // install
+            ]);
+            await createScreenshots(page, 'packages_customizer_installed.png');
+            await goToUrlOrThrow(page, START_URL + '?page=system/customizer', { waitUntil: 'load' });
+            await page.waitForTimeout(350); // slight buffer for CSS animations or :focus styles etc.
+            await createScreenshots(page, 'system_customizer.png');
             
             // logout
             await page.click('#rex-js-nav-top .rex-logout');
