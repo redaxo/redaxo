@@ -459,7 +459,7 @@ class rex_i18n
         if (strlen($locale) != 5)) {
             throw new rex_exception("Invalid locale $locale");
         }
-        if (!preg_match("/^[a-z]{2}_[a-z]{2}")) {
+        if (!preg_match("/^[a-z]{2}_[a-z]{2}$")) {
 throw new rex_exception("Invalid locale $locale");
 }
     }
