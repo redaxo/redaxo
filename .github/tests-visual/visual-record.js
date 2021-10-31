@@ -297,8 +297,19 @@ async function main() {
             await createScreenshots(page, 'system_customizer.png');
 
             // test debug
+            const interceptClockworkRequest = request => {
+                if (request.url().indexOf('rex-api-call=debug') !== -1) {
+                    request.abort();
+                    return;
+                }
+                request.continue();
+            });
+            await page.setRequestInterception(true);
+            page.on('request', interceptClockworkRequest);
             await goToUrlOrThrow(page, START_URL + '?page=debug', { waitUntil: 'load' });
             await createScreenshots(page, 'debug_clockwork.png');
+            await page.setRequestInterception(false);
+            page.off('request', interceptClockworkRequest);
             
             // logout
             await page.click('#rex-js-nav-top .rex-logout');
