@@ -214,10 +214,19 @@ async function main() {
     let page = await browser.newPage();
     // log browser errors into the console
     page.on('console', function(msg) {
-        var text = msg.text();
-        if (text.indexOf("Unrecognized feature: 'interest-cohort'.") == -1) {
-            console.log('BROWSER-CONSOLE:', text);
+        const text = msg.text();
+        if (text.indexOf("Unrecognized feature: 'interest-cohort'.") !== -1) {
+            return;
         }
+        
+        // ajax requests
+        const origin = msg.location().url;
+        if (origin) {
+            console.log(`BROWSER-CONSOLE: "${origin}" (Ajax)`, text);    
+            return;
+        }
+        
+        console.log('BROWSER-CONSOLE:', text);
     });
 
     await page.setViewport({ width: viewportWidth, height: viewportHeight });
