@@ -303,7 +303,7 @@ async function main() {
                     return;
                 }
                 request.continue();
-            });
+            };
             await page.setRequestInterception(true);
             page.on('request', interceptClockworkRequest);
             await goToUrlOrThrow(page, START_URL + '?page=debug', { waitUntil: 'load' });
