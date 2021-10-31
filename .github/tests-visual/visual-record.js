@@ -287,7 +287,9 @@ async function main() {
             
             // test debug
             const interceptClockworkRequest = request => {
-                if (request.url().indexOf('rex-api-call=debug') !== -1) {
+                const url = request.url();
+                if (url.indexOf('rex-api-call=debug') !== -1) {
+                    console.log('ABORT REQUEST:', url);
                     request.abort();
                     return;
                 }
