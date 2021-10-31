@@ -424,7 +424,7 @@ class rex_i18n
      */
     private static function loadFile($dir, $locale)
     {
-        self::validateLocale($locale);
+        $locale = self::validateLocale($locale);
 
         $file = $dir.DIRECTORY_SEPARATOR.$locale.'.lang';
         if (!($content = rex_file::get($file))) {
@@ -465,5 +465,6 @@ class rex_i18n
         if (!preg_match('/^[a-z]{2}_[a-z]{2}$/', $locale)) {
             throw new rex_exception("Invalid locale $locale");
         }
+        return $locale;
     }
 }
