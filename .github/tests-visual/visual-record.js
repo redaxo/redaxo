@@ -222,7 +222,7 @@ async function main() {
         // ajax requests
         const origin = msg.location().url;
         if (origin) {
-            console.log(`BROWSER-CONSOLE: "${origin}" `, text);    
+            console.log(`BROWSER-CONSOLE: "${origin}" (Ajax)`, text);    
             return;
         }
         
