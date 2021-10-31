@@ -298,9 +298,6 @@ async function main() {
             await page.setRequestInterception(true);
             page.on('request', interceptClockworkRequest);
             await goToUrlOrThrow(page, START_URL + '?page=debug', { waitUntil: 'load' });
-            
-            await (new Promise(r => setTimeout(r,5000)));
-            
             await createScreenshots(page, 'debug_clockwork.png');
             await page.setRequestInterception(false);
             page.off('request', interceptClockworkRequest);
