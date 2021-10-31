@@ -453,6 +453,8 @@ class rex_i18n
     }
     
     /**
+     * @param string $locale Locale
+     *
      * @psalm-taint-escape file
      */
     private static function validateLocale($locale) {
