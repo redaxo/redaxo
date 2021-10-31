@@ -89,8 +89,6 @@ const allPages = {
     'cronjob_cronjobs.png': START_URL + '?page=cronjob/cronjobs',
     'cronjob_cronjobs_add.png': START_URL + '?page=cronjob/cronjobs&func=add',
 
-    'debug_clockwork.png': START_URL + '?page=debug',
-
     'media_manager_types.png': START_URL + '?page=media_manager/types',
     'media_manager_types_add.png': START_URL + '?page=media_manager/types&func=add',
     'media_manager_types_edit.png': START_URL + '?page=media_manager/types&type_id=4&effects=1',
@@ -298,6 +296,10 @@ async function main() {
             await page.waitForTimeout(350); // slight buffer for CSS animations or :focus styles etc.
             await createScreenshots(page, 'system_customizer.png');
 
+            // test debug
+            await goToUrlOrThrow(page, START_URL + '?page=debug', { waitUntil: 'load' });
+            await createScreenshots(page, 'debug_clockwork.png');
+            
             // logout
             await page.click('#rex-js-nav-top .rex-logout');
             await page.waitForSelector('.rex-background--ready');
