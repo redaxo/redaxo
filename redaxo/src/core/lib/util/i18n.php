@@ -424,6 +424,8 @@ class rex_i18n
      */
     private static function loadFile($dir, $locale)
     {
+        self::validateLocale($locale);
+        
         $file = $dir.DIRECTORY_SEPARATOR.$locale.'.lang';
         if (!($content = rex_file::get($file))) {
             return;
@@ -448,5 +450,17 @@ class rex_i18n
         }
 
         self::$loaded[$locale] = true;
+    }
+    
+    /**
+     * @psalm-taint-escape file
+     */
+    private static function validateLocale($locale) {
+        if (strlen($locale) != 5)) {
+            throw new rex_exception("Invalid locale $locale");
+        }
+        if (!preg_match("/^[a-z]{2}_[a-z]{2}")) {
+throw new rex_exception("Invalid locale $locale");
+}
     }
 }
