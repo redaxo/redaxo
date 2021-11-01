@@ -1,10 +1,14 @@
 #!/bin/sh
-rm -rf clockwork-app-redaxo-v5.0
+
+#cleanup previous build
+rm -rf clockwork-app-redaxo
 rm -rf web
-curl -Ls -o clockwork.zip https://github.com/redaxo/clockwork-app/archive/redaxo-v5.0.zip
+rm frontend.zip
+
+curl -Ls -o clockwork.zip https://github.com/redaxo/clockwork-app/archive/redaxo.zip
 unzip clockwork.zip
 rm clockwork.zip
-cd clockwork-app-redaxo-v5.0
+cd clockwork-app-redaxo
 npm ci
 
 npm run build-web
@@ -19,10 +23,11 @@ rm dist/web/manifest.json
 rm -rf dist/web/img/whats-new
 rm dist/web/precache*.js
 rm dist/web/service-worker.js
+rm dist/web/report.html
 
 mv dist/web ../
 cd ..
-rm -rf clockwork-app-redaxo-v5.0
+rm -rf clockwork-app-redaxo
 
 # zip frontend
 cd web

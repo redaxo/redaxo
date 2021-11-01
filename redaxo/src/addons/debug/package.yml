@@ -17,4 +17,4 @@ requires:
     php:
         version: '>=7.3'
         extensions: [zip]
-    redaxo: ^5.11.0
+    redaxo: ^5.13.0-dev

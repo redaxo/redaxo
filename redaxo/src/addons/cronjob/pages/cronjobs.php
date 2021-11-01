@@ -318,7 +318,7 @@ if ('' == $func) {
                     foreach ($visible[$name] as $value => $fieldIds) {
                         $visibleJs .= '
                         var first = 1;
-                        $("#' . rex_escape($field->getAttribute('id'), 'js') . '-' . $value . '").change(function(){
+                        $("#' . rex_escape($field->getAttribute('id'), 'js') . '-' . rex_escape($value, 'js') . '").change(function(){
                             var checkbox = $(this);
                             $("#' . rex_escape(implode(',#', $fieldIds), 'js') . '").each(function(){
                                 if ($(checkbox).is(":checked"))

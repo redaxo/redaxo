@@ -25,6 +25,8 @@ const GOLDEN_SAMPLES_DIR = '.github/tests-visual/';
 const myArgs = process.argv.slice(2);
 let minDiffPixels = 1;
 let isSetup = false;
+//  overall exit-code
+let exitCode = 0;
 
 if (myArgs.includes('regenerate-all')) {
     // force sample-regeneration, even if pixelmatch() thinks nothing changed
@@ -73,6 +75,7 @@ const allPages = {
     'users_role_add.png': START_URL + '?page=users/roles&func=add&default_value=1',
 
     'packages.png': START_URL + '?page=packages',
+    'packages_help.png': START_URL + '?page=packages&subpage=help&package=project',
 
     'system_settings.png': START_URL + '?page=system/settings',
     'system_lang.png': START_URL + '?page=system/lang',
@@ -88,7 +91,7 @@ const allPages = {
 
     'media_manager_types.png': START_URL + '?page=media_manager/types',
     'media_manager_types_add.png': START_URL + '?page=media_manager/types&func=add',
-    'media_manager_types_edit.png': START_URL + '?page=media_manager/types&type_id=1&effects=1',
+    'media_manager_types_edit.png': START_URL + '?page=media_manager/types&type_id=4&effects=1',
     'media_manager_settings.png': START_URL + '?page=media_manager/settings',
 
     'metainfo_articles.png': START_URL + '?page=metainfo/articles',
@@ -122,8 +125,8 @@ function countDiffPixels(img1path, img2path ) {
 async function processScreenshot(page, screenshotName) {
     mkdirp.sync(WORKING_DIR);
 
-    // hide blinking cursor
-    await page.addStyleTag({ content: 'input { caret-color: transparent !important; }' });
+    // hide blinking cursor/icon
+    await page.addStyleTag({ content: 'input { caret-color: transparent !important; } * { animation: initial !important}' });
 
     // mask dynamic content, to make it not appear like change (visual noise)
     await page.evaluate(function() {
@@ -180,11 +183,21 @@ async function createDarkScreenshot(page, screenshotName) {
 }
 
 async function logIntoBackend(page, username = 'myusername', password = '91dfd9ddb4198affc5c194cd8ce6d338fde470e2') {
-    await page.goto(START_URL, { waitUntil: 'load' });
+    await goToUrlOrThrow(page, START_URL, { waitUntil: 'load' });
     await page.type('#rex-id-login-user', username);
     await page.type('#rex-id-login-password', password); // sha1('mypassword')
     await page.$eval('#rex-form-login', form => form.submit());
     await page.waitForTimeout(1000);
+}
+
+async function goToUrlOrThrow(page, url, options) {
+    const response = await page.goto(url, options);
+    if (!response.ok() && response.status() != 304) {
+        const error = `Failed to load ${url}: the server responded with a status of ${response.status()} (${response.statusText()})`;
+        console.error("::error ::" +error);
+        exitCode = 1;
+    }
+    await response;
 }
 
 async function main() {
@@ -198,7 +211,21 @@ async function main() {
     const browser = await puppeteer.launch(options);
     let page = await browser.newPage();
     // log browser errors into the console
-    page.on('console', msg => console.log('BROWSER-CONSOLE:', msg.text()));
+    page.on('console', function(msg) {
+        const text = msg.text();
+        if (text.indexOf("Unrecognized feature: 'interest-cohort'.") !== -1) {
+            return;
+        }
+        
+        // ajax requests
+        const origin = msg.location().url;
+        if (origin) {
+            console.log(`BROWSER-CONSOLE: "${origin}" (Ajax)`, text);    
+            return;
+        }
+        
+        console.log('BROWSER-CONSOLE:', text);
+    });
 
     await page.setViewport({ width: viewportWidth, height: viewportHeight });
     await page.setCookie(noHtaccessCheckCookie);
@@ -207,13 +234,13 @@ async function main() {
 
         case isSetup:
             // setup step 1
-            await page.goto(START_URL, { waitUntil: 'load' });
+            await goToUrlOrThrow(page, START_URL, { waitUntil: 'load' });
             await createScreenshots(page, 'setup.png');
 
             // setup steps 2-6
             for (var step = 2; step <= 6; step++) {
                 // step 3: wait until `networkidle0` to finish AJAX requests, see https://github.com/puppeteer/puppeteer/blob/main/docs/api.md#pagegotourl-options
-                await page.goto(START_URL + '?page=setup&lang=de_de&step=' + step, { waitUntil: step === 3 ? 'networkidle0' : 'load'});
+                await goToUrlOrThrow(page, START_URL + '?page=setup&lang=de_de&step=' + step, { waitUntil: step === 3 ? 'networkidle0' : 'load'});
                 await page.waitForTimeout(350); // slight buffer for CSS animations or :focus styles etc.
                 await createScreenshots(page, 'setup_' + step + '.png');
             }
@@ -228,7 +255,7 @@ async function main() {
 
         default:
             // login page
-            await page.goto(START_URL, { waitUntil: 'load' });
+            await goToUrlOrThrow(page, START_URL, { waitUntil: 'load' });
             await page.waitForSelector('.rex-background--ready');
             await page.waitForTimeout(1000); // wait for bg image to fade in
             await createScreenshots(page, 'login.png');
@@ -239,13 +266,15 @@ async function main() {
 
             // run through all pages
             for (var fileName in allPages) {
-                await page.goto(allPages[fileName], { waitUntil: 'load' });
+                const url = allPages[fileName]
+                await goToUrlOrThrow(page, url, { waitUntil: 'load' });
+
                 await page.waitForTimeout(350); // slight buffer for CSS animations or :focus styles etc.
                 await createScreenshots(page, fileName);
             }
 
             // test safe mode
-            await page.goto(START_URL + '?page=system/settings', { waitUntil: 'load' });
+            await goToUrlOrThrow(page, START_URL + '?page=system/settings', { waitUntil: 'load' });
             await Promise.all([
                 page.waitForNavigation(),
                 page.click('.btn-safemode-activate') // enable safe mode
@@ -255,18 +284,35 @@ async function main() {
                 page.waitForNavigation(),
                 page.click('.btn-safemode-deactivate') // disable safe mode again
             ]);
+            
+            // test debug
+            const interceptClockworkRequest = request => {
+                const url = request.url();
+                if (url.indexOf('rex-api-call=debug') !== -1) {
+                    console.log('ABORT REQUEST:', url);
+                    request.abort();
+                    return;
+                }
+                request.continue();
+            };
+            await page.setRequestInterception(true);
+            page.on('request', interceptClockworkRequest);
+            await goToUrlOrThrow(page, START_URL + '?page=debug', { waitUntil: 'load' });
+            await createScreenshots(page, 'debug_clockwork.png');
+            await page.setRequestInterception(false);
+            page.off('request', interceptClockworkRequest);
 
             // test customizer
-            await page.goto(START_URL + '?page=packages', { waitUntil: 'load' });
+            await goToUrlOrThrow(page, START_URL + '?page=packages', { waitUntil: 'load' });
             await Promise.all([
                 page.waitForNavigation({ waitUntil: 'networkidle0' }),
                 page.click('#package-be_style-customizer .rex-table-action > a:first-child') // install
             ]);
             await createScreenshots(page, 'packages_customizer_installed.png');
-            await page.goto(START_URL + '?page=system/customizer', { waitUntil: 'load' });
+            await goToUrlOrThrow(page, START_URL + '?page=system/customizer', { waitUntil: 'load' });
             await page.waitForTimeout(350); // slight buffer for CSS animations or :focus styles etc.
             await createScreenshots(page, 'system_customizer.png');
-
+            
             // logout
             await page.click('#rex-js-nav-top .rex-logout');
             await page.waitForSelector('.rex-background--ready');
@@ -278,6 +324,17 @@ async function main() {
 
     await page.close();
     await browser.close();
+
+    process.exit(exitCode);
 }
 
-main();
+// print uncaught exceptions and make github action fail
+main().catch(error => {
+    console.error("::error ::" +
+        error.toString()
+             .replace(/%/g, '%25')
+             .replace(/\r/g, '%0D')
+             .replace(/\n/g, '%0A')
+    );
+    process.exit(1);
+});
