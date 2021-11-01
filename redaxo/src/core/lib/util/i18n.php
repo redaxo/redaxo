@@ -461,9 +461,6 @@ class rex_i18n
      */
     private static function validateLocale(string $locale): string
     {
-        if (5 != strlen($locale)) {
-            throw new rex_exception("Invalid locale $locale");
-        }
         if (!preg_match('/^[a-z]{2}_[a-z]{2}$/', $locale)) {
             throw new rex_exception('Invalid locale "'.$locale.'"');
         }
