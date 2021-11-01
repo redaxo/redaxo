@@ -112,12 +112,13 @@
 .btn.btn-highlight {
     transition: all 1000ms ease-out 1000ms, outline 800ms ease-out 100ms;
     outline: 25px solid rgba($color-b-light, 0);
-}
-.btn.btn-highlight:active {
-    transition: all 0ms linear 0ms;
-    background-color: $color-b;
-    border-color: $color-b;
-    outline: 0px solid rgba($color-b-light, 1);
+
+    &:active {
+        transition: all 0ms linear 0ms;
+        background-color: $color-b;
+        border-color: $color-b;
+        outline: 0 solid rgba($color-b-light, 1);
+    }
 }
 
 // ----------------------------------------------------------------------------
@@ -184,6 +185,14 @@
     .btn-debug-mode,
     .btn-safemode-activate {
         @include dark-button-variant($color-text-light, $dark-brand-warning, darken($dark-brand-warning, 15%));
+    }
+
+    .btn.btn-highlight {
+        outline-color: rgba($color-blue-2, 0);
+
+        &:active {
+            outline-color: rgba($color-blue-2, 1);
+        }
     }
 }
 
