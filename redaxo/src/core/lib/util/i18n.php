@@ -459,7 +459,7 @@ class rex_i18n
      *
      * @psalm-taint-escape file
      */
-    private static function validateLocale($locale)
+    private static function validateLocale(string $locale): string
     {
         if (5 != strlen($locale)) {
             throw new rex_exception("Invalid locale $locale");
