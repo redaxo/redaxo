@@ -212,10 +212,19 @@ async function main() {
     let page = await browser.newPage();
     // log browser errors into the console
     page.on('console', function(msg) {
-        var text = msg.text();
-        if (text.indexOf("Unrecognized feature: 'interest-cohort'.") == -1) {
-            console.log('BROWSER-CONSOLE:', text);
+        const text = msg.text();
+        if (text.indexOf("Unrecognized feature: 'interest-cohort'.") !== -1) {
+            return;
         }
+        
+        // ajax requests
+        const origin = msg.location().url;
+        if (origin) {
+            console.log(`BROWSER-CONSOLE: "${origin}" (Ajax)`, text);    
+            return;
+        }
+        
+        console.log('BROWSER-CONSOLE:', text);
     });
 
     await page.setViewport({ width: viewportWidth, height: viewportHeight });
@@ -275,6 +284,23 @@ async function main() {
                 page.waitForNavigation(),
                 page.click('.btn-safemode-deactivate') // disable safe mode again
             ]);
+            
+            // test debug
+            const interceptClockworkRequest = request => {
+                const url = request.url();
+                if (url.indexOf('rex-api-call=debug') !== -1) {
+                    console.log('ABORT REQUEST:', url);
+                    request.abort();
+                    return;
+                }
+                request.continue();
+            };
+            await page.setRequestInterception(true);
+            page.on('request', interceptClockworkRequest);
+            await goToUrlOrThrow(page, START_URL + '?page=debug', { waitUntil: 'load' });
+            await createScreenshots(page, 'debug_clockwork.png');
+            await page.setRequestInterception(false);
+            page.off('request', interceptClockworkRequest);
 
             // test customizer
             await goToUrlOrThrow(page, START_URL + '?page=packages', { waitUntil: 'load' });
@@ -286,7 +312,7 @@ async function main() {
             await goToUrlOrThrow(page, START_URL + '?page=system/customizer', { waitUntil: 'load' });
             await page.waitForTimeout(350); // slight buffer for CSS animations or :focus styles etc.
             await createScreenshots(page, 'system_customizer.png');
-
+            
             // logout
             await page.click('#rex-js-nav-top .rex-logout');
             await page.waitForSelector('.rex-background--ready');
@@ -298,7 +324,7 @@ async function main() {
 
     await page.close();
     await browser.close();
-    
+
     process.exit(exitCode);
 }
 
