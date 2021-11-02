@@ -155,7 +155,6 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         if ('post' != rex_request_method() || !isset($params['id'])) {
             return $params;
         }
-        dump(1);
 
         $media = rex_sql::factory();
         //  $media->setDebug();
