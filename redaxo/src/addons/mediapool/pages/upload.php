@@ -23,11 +23,9 @@ if ('add_file' == $mediaMethod) {
             $data = [];
             $data['title'] = rex_request('ftitle', 'string');
             $data['category_id'] = (int) $rexFileCategory;
-
-            if ($_FILES['file_new'] ?? null) {
-                $data['file'] = $_FILES['file_new'];
-                $data['file']['path'] = $_FILES['file_new']['tmp_name'] ?? '';
-            }
+            $data['file']['name'] = (string) ($_FILES['file_new']['name'] ?? '');
+            $data['file']['tmp_path'] = (string) ($_FILES['file_new']['tmp_name'] ?? '');
+            $data['file']['path'] = $data['file']['tmp_path'];
 
             try {
                 $data = rex_media_service::addMedia($data, true, rex_post('args', 'array'));
