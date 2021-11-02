@@ -420,7 +420,7 @@ class rex_article_slice
     public function getValue($index)
     {
         if (is_int($index)) {
-            return $this->values[$index - 1];
+            return $this->values[(int) $index - 1];
         }
 
         if (isset($this->$index)) {

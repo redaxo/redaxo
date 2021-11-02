@@ -42,6 +42,7 @@ $transitionDuration: 300ms;
     position: relative;
     z-index: $zindex-navbar-fixed - 1;
     width: 250px;
+    flex-shrink: 0;
     background-color: $color-a-dark;
 
     @media (max-width: $grid-float-breakpoint-max) {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.11.0@99e510d6ab1da2d61d4b5eb6314baa797fe0e76d">
+<files psalm-version="4.11.2@6fba5eb554f9507b72932f9c75533d8af593688d">
   <file src="redaxo/src/addons/backup/lib/backup.php">
     <MixedArgument occurrences="5">
       <code>$column</code>
@@ -1075,24 +1075,19 @@
     </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/addons/mediapool/functions/function_rex_mediapool.php">
-    <ArgumentTypeCoercion occurrences="1">
-      <code>$data</code>
-    </ArgumentTypeCoercion>
-    <MixedArgument occurrences="4">
-      <code>$FILEINFOS['filename']</code>
+    <MixedArgument occurrences="3">
       <code>$buttonTitle</code>
       <code>$info</code>
       <code>$warning</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="3">
-      <code>$data</code>
+    <MixedArgumentTypeCoercion occurrences="2">
       <code>$info</code>
       <code>$warning</code>
     </MixedArgumentTypeCoercion>
     <MixedAssignment occurrences="5">
       <code>$RETURN['title']</code>
       <code>$argValue</code>
-      <code>$data['file']['name']</code>
+      <code>$data['category_id']</code>
       <code>$data['file']['path']</code>
       <code>$data['file']['path']</code>
     </MixedAssignment>
@@ -1266,19 +1261,49 @@
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/mediapool/lib/service_media.php">
-    <MixedArgument occurrences="2">
+    <MixedArgument occurrences="20">
+      <code>$data['file']['name']</code>
+      <code>$data['file']['name']</code>
+      <code>$data['file']['name']</code>
+      <code>$data['file']['name']</code>
+      <code>$data['file']['name']</code>
+      <code>$data['file']['name']</code>
+      <code>$data['file']['name']</code>
+      <code>$data['file']['name_new']</code>
+      <code>$data['file']['name_new']</code>
+      <code>$data['file']['path']</code>
+      <code>$data['file']['path']</code>
+      <code>$data['file']['path']</code>
+      <code>$data['filename']</code>
+      <code>$data['filename']</code>
+      <code>$data['filename']</code>
       <code>$jpgExtensions</code>
       <code>$jpgExtensions</code>
+      <code>$srcFile</code>
+      <code>$srcFile</code>
+      <code>$srcFile</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="2">
       <code>$allowedExtensions</code>
       <code>rex_mediapool::getBlockedExtensions()</code>
     </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="4">
+    <MixedArrayAccess occurrences="3">
+      <code>$data['file']['name']</code>
+      <code>$data['file']['type']</code>
+      <code>$data['file']['type']</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="11">
       <code>$data['file']['type']</code>
       <code>$data['height']</code>
       <code>$data['width']</code>
+      <code>$return['filename']</code>
+      <code>$return['filename']</code>
+      <code>$return['filetype']</code>
+      <code>$return['old_filename']</code>
       <code>$return['type']</code>
+      <code>$return['type']</code>
+      <code>$srcFile</code>
+      <code>$srcFile</code>
     </MixedAssignment>
     <PossiblyNullOperand occurrences="1">
       <code>rex_file::mimeType($data['file']['path'])</code>
@@ -1358,19 +1383,8 @@
     </UnusedVariable>
   </file>
   <file src="redaxo/src/addons/mediapool/pages/media.detail.php">
-    <ArgumentTypeCoercion occurrences="1">
-      <code>$data</code>
-    </ArgumentTypeCoercion>
-    <MixedArgument occurrences="16">
+    <MixedArgument occurrences="8">
       <code>$error</code>
-      <code>$ffileSize</code>
-      <code>$filename</code>
-      <code>$fname</code>
-      <code>$fname</code>
-      <code>$fname</code>
-      <code>$fname</code>
-      <code>$fname</code>
-      <code>$fname</code>
       <code>$gf-&gt;getValue('createdate')</code>
       <code>$gf-&gt;getValue('createdate')</code>
       <code>$gf-&gt;getValue('updatedate')</code>
@@ -1379,35 +1393,29 @@
       <code>$sql-&gt;getValue('filename')</code>
       <code>$success</code>
     </MixedArgument>
-    <MixedAssignment occurrences="11">
-      <code>$data['file']['name']</code>
+    <MixedArrayAccess occurrences="1">
+      <code>$_FILES['file_new']['tmp_name']</code>
+    </MixedArrayAccess>
+    <MixedArrayAssignment occurrences="1">
       <code>$data['file']['path']</code>
-      <code>$ffileSize</code>
+    </MixedArrayAssignment>
+    <MixedAssignment occurrences="7">
+      <code>$data['file']</code>
+      <code>$data['file']['path']</code>
+      <code>$data['filename']</code>
+      <code>$data['filetype']</code>
       <code>$ffiletype</code>
-      <code>$fheight</code>
-      <code>$filename</code>
-      <code>$fname</code>
       <code>$ftitle</code>
-      <code>$fwidth</code>
       <code>$rexFileCategory</code>
-      <code>$rfwidth</code>
     </MixedAssignment>
-    <MixedOperand occurrences="21">
-      <code>$fheight</code>
+    <MixedOperand occurrences="13">
       <code>$fileId</code>
       <code>$fileId</code>
-      <code>$fname</code>
-      <code>$fname</code>
       <code>$ftitle</code>
-      <code>$fwidth</code>
-      <code>$gf-&gt;getValue('createuser')</code>
-      <code>$gf-&gt;getValue('updateuser')</code>
       <code>$openerLink</code>
       <code>$openerLink</code>
       <code>$openerLink</code>
       <code>$rexFileCategory</code>
-      <code>$rfwidth</code>
-      <code>rex_escape($fname)</code>
       <code>rex_escape($ftitle)</code>
       <code>rex_escape($ftitle)</code>
       <code>rex_escape($ftitle)</code>
@@ -1418,15 +1426,15 @@
     <PossiblyNullOperand occurrences="1">
       <code>$gf-&gt;getDateTimeValue('updatedate')</code>
     </PossiblyNullOperand>
-    <PossiblyNullReference occurrences="5">
+    <PossiblyNullReference occurrences="6">
       <code>getComplexPerm</code>
       <code>getComplexPerm</code>
       <code>getComplexPerm</code>
       <code>getComplexPerm</code>
       <code>getComplexPerm</code>
+      <code>getValue</code>
     </PossiblyNullReference>
-    <UnusedVariable occurrences="6">
-      <code>$data</code>
+    <UnusedVariable occurrences="5">
       <code>$error</code>
       <code>$error</code>
       <code>$ffiletype</code>
@@ -1524,9 +1532,6 @@
     </UnusedVariable>
   </file>
   <file src="redaxo/src/addons/mediapool/pages/sync.php">
-    <ArgumentTypeCoercion occurrences="1">
-      <code>$data</code>
-    </ArgumentTypeCoercion>
     <MixedArgument occurrences="1">
       <code>$filename</code>
     </MixedArgument>
@@ -1534,6 +1539,9 @@
       <code>$data['filename']</code>
       <code>$filename</code>
     </MixedAssignment>
+    <PossiblyNullReference occurrences="1">
+      <code>getValue</code>
+    </PossiblyNullReference>
     <UnusedVariable occurrences="3">
       <code>$data</code>
       <code>$error</code>
@@ -1541,9 +1549,6 @@
     </UnusedVariable>
   </file>
   <file src="redaxo/src/addons/mediapool/pages/upload.php">
-    <ArgumentTypeCoercion occurrences="1">
-      <code>$data</code>
-    </ArgumentTypeCoercion>
     <MixedArgument occurrences="2">
       <code>$js</code>
       <code>rex_mediapool_Uploadform($rexFileCategory)</code>
@@ -1554,7 +1559,8 @@
     <MixedArrayAssignment occurrences="1">
       <code>$data['file']['path']</code>
     </MixedArrayAssignment>
-    <MixedAssignment occurrences="2">
+    <MixedAssignment occurrences="3">
+      <code>$data['category_id']</code>
       <code>$data['file']</code>
       <code>$data['file']['path']</code>
     </MixedAssignment>
@@ -1562,8 +1568,9 @@
       <code>$data['filename']</code>
       <code>$data['filename']</code>
     </MixedOperand>
-    <PossiblyNullReference occurrences="1">
+    <PossiblyNullReference occurrences="2">
       <code>getComplexPerm</code>
+      <code>getValue</code>
     </PossiblyNullReference>
     <UnusedVariable occurrences="1">
       <code>$warning</code>
@@ -1773,7 +1780,7 @@
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/handler/handler.php">
-    <MixedArgument occurrences="29">
+    <MixedArgument occurrences="28">
       <code>$attr</code>
       <code>$defaultValue</code>
       <code>$defaultValue</code>
@@ -1789,7 +1796,6 @@
       <code>$filterCondition</code>
       <code>$itemValue</code>
       <code>$itemValue</code>
-      <code>$name</code>
       <code>$params</code>
       <code>$params</code>
       <code>$params</code>
@@ -1808,7 +1814,7 @@
       <code>$dbvalues</code>
       <code>$postValue</code>
     </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="22">
+    <MixedAssignment occurrences="20">
       <code>$activeItem</code>
       <code>$attr</code>
       <code>$category</code>
@@ -1823,8 +1829,6 @@
       <code>$fieldType</code>
       <code>$filterCondition</code>
       <code>$itemValue</code>
-      <code>$label</code>
-      <code>$name</code>
       <code>$params</code>
       <code>$params</code>
       <code>$postValue</code>
@@ -1848,14 +1852,7 @@
       <code>getValue</code>
       <code>setValue</code>
     </MixedMethodCall>
-    <MixedOperand occurrences="10">
-      <code>$label</code>
-      <code>$name</code>
-      <code>$name</code>
-      <code>$name</code>
-      <code>$name</code>
-      <code>$name</code>
-      <code>$name</code>
+    <MixedOperand occurrences="3">
       <code>$postValue</code>
       <code>$typeLabel</code>
       <code>$typeLabel</code>
@@ -2798,28 +2795,6 @@
     <MixedAssignment occurrences="1">
       <code>$params['category_id']</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="9">
-      <code>int</code>
-      <code>int</code>
-      <code>int</code>
-      <code>int</code>
-      <code>int</code>
-      <code>int</code>
-      <code>int</code>
-      <code>int</code>
-      <code>string</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="9">
-      <code>$this-&gt;getValue('article_id', 0)</code>
-      <code>$this-&gt;getValue('artstart', 0)</code>
-      <code>$this-&gt;getValue('category_id', 0)</code>
-      <code>$this-&gt;getValue('catstart', 0)</code>
-      <code>$this-&gt;getValue('clang_id', 0)</code>
-      <code>$this-&gt;getValue('ctype_id', 0)</code>
-      <code>$this-&gt;getValue('edit_id', 0)</code>
-      <code>$this-&gt;getValue('function', '')</code>
-      <code>$this-&gt;getValue('rows_per_page', 30)</code>
-    </MixedReturnStatement>
     <PossiblyNullReference occurrences="4">
       <code>getComplexPerm</code>
       <code>getComplexPerm</code>
@@ -3181,15 +3156,9 @@
     </UnusedForeachValue>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/article_slice.php">
-    <MixedArrayOffset occurrences="1">
-      <code>$this-&gt;values[$index - 1]</code>
-    </MixedArrayOffset>
     <MixedAssignment occurrences="1">
       <code>$value</code>
     </MixedAssignment>
-    <MixedOperand occurrences="1">
-      <code>$index</code>
-    </MixedOperand>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/cache_template.php">
     <MixedArgument occurrences="1">
