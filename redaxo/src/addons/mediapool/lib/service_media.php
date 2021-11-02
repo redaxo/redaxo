@@ -145,6 +145,11 @@ final class rex_media_service
             throw new rex_api_exception('Expecting Filename.');
         }
 
+        $media = rex_media::get($filename);
+        if (!$media) {
+            throw new rex_api_exception(rex_i18n::msg('pool_file_not_found'));
+        }
+
         $saveObject = rex_sql::factory();
         $saveObject->setTable(rex::getTablePrefix() . 'media');
         $saveObject->setWhere(['filename' => $filename]);
@@ -203,7 +208,9 @@ final class rex_media_service
         $return['ok'] = 1;
         $return['msg'] = rex_i18n::msg('pool_file_infos_updated');
 
+        $return['id'] = $media->getId();
         $return['filename'] = $filename;
+        $return['type'] = $filetype;
         $return['filetype'] = $filetype;
 
         rex_extension::registerPoint(new rex_extension_point('MEDIA_UPDATED', '', $return));
