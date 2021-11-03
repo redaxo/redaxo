@@ -11,6 +11,9 @@ class rex_markdown
 {
     use rex_factory_trait;
 
+    public const SOFT_LINE_BREAKS = 'soft_line_breaks';
+    public const HIGHLIGHT_PHP = 'highlight_php';
+
     private function __construct()
     {
     }
@@ -28,13 +31,18 @@ class rex_markdown
      * Parses markdown code.
      *
      * @param string $code Markdown code
+     * @param array<self::*, bool>|bool $options
      *
      * @return string HTML code
      */
-    public function parse($code, bool $softLineBreaks = true)
+    public function parse($code, $options = [])
     {
-        $parser = new ParsedownExtra();
-        $parser->setBreaksEnabled($softLineBreaks);
+        // deprecated bool param
+        $options = is_bool($options) ? [self::SOFT_LINE_BREAKS => $options] : $options;
+
+        $parser = new rex_parsedown();
+        $parser->setBreaksEnabled($options[self::SOFT_LINE_BREAKS] ?? true);
+        $parser->highlightPhp = $options[self::HIGHLIGHT_PHP] ?? false;
 
         return rex_string::sanitizeHtml($parser->text($code));
     }
@@ -45,13 +53,20 @@ class rex_markdown
      * @param string $code        Markdown code
      * @param int    $topLevel    Top included headline level for TOC, e.g. `1` for `<h1>`
      * @param int    $bottomLevel Bottom included headline level for TOC, e.g. `6` for `<h6>`
+     * @param array<self::*, bool>|bool $options
      *
      * @return array tupel of table-of-content and content
      */
-    public function parseWithToc($code, $topLevel = 2, $bottomLevel = 3, bool $softLineBreaks = true)
+    public function parseWithToc($code, $topLevel = 2, $bottomLevel = 3, $options = [])
     {
-        $parser = new rex_parsedown_with_toc();
-        $parser->setBreaksEnabled($softLineBreaks);
+        // deprecated bool param
+        $options = is_bool($options) ? [self::SOFT_LINE_BREAKS => $options] : $options;
+
+        $parser = new rex_parsedown();
+        $parser->setBreaksEnabled($options[self::SOFT_LINE_BREAKS] ?? true);
+        $parser->highlightPhp = $options[self::HIGHLIGHT_PHP] ?? false;
+
+        $parser->generateToc = true;
         $parser->topLevel = $topLevel;
         $parser->bottomLevel = $bottomLevel;
 
@@ -103,13 +118,18 @@ class rex_markdown
 /**
  * @internal
  */
-final class rex_parsedown_with_toc extends ParsedownExtra
+final class rex_parsedown extends ParsedownExtra
 {
-    private $ids = [];
+    /** @var bool */
+    public $highlightPhp = false;
 
+    /** @var bool */
+    public $generateToc = false;
     public $topLevel = 2;
     public $bottomLevel = 3;
     public $headers = [];
+
+    private $ids = [];
 
     protected function blockHeader($Line)
     {
@@ -125,11 +145,53 @@ final class rex_parsedown_with_toc extends ParsedownExtra
         return $this->handleHeader($block);
     }
 
+    protected function blockFencedCodeComplete($Block)
+    {
+        /** @var array $Block */
+        $Block = parent::blockFencedCodeComplete($Block);
+
+        if (!$this->highlightPhp) {
+            return $Block;
+        }
+
+        /** @psalm-suppress MixedArrayAccess */
+        if ('language-php' !== ($Block['element']['text']['attributes']['class'] ?? null)) {
+            return $Block;
+        }
+
+        /**
+         * @var string $text
+         * @psalm-suppress MixedArrayAccess
+         */
+        $text = $Block['element']['text']['text'];
+
+        if ($missingPhpStart = !str_contains($text, '<?php')) {
+            $text = '<?php '.$text;
+        }
+
+        $text = str_replace("\n", '', highlight_string($text, true));
+
+        if ($missingPhpStart) {
+            $text = preg_replace('@(<span style="color:[^"]+">)&lt;\?php&nbsp;@', '$1', $text, 1);
+        }
+
+        /** @psalm-suppress MixedArrayAssignment */
+        $Block['element']['rawHtml'] = $text;
+        /** @psalm-suppress MixedArrayAccess */
+        unset($Block['element']['text'], $Block['element']['handler']);
+
+        return $Block;
+    }
+
     /**
      * @return array|null
      */
     private function handleHeader(array $block = null)
     {
+        if (!$this->generateToc) {
+            return $block;
+        }
+
         if (!$block) {
             return $block;
         }
