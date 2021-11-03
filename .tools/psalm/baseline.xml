@@ -6045,14 +6045,12 @@
       <code>$matches[0]</code>
       <code>$matches[0]</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="22">
+    <MixedAssignment occurrences="20">
       <code>$buffered</code>
       <code>$buffered</code>
       <code>$errors['error']</code>
       <code>$field</code>
       <code>$i</code>
-      <code>$id</code>
-      <code>$id</code>
       <code>$key</code>
       <code>$lastRow</code>
       <code>$params[$paramName]</code>
@@ -6069,16 +6067,14 @@
       <code>$version</code>
       <code>$version</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="5">
+    <MixedInferredReturnType occurrences="4">
       <code>array</code>
-      <code>int</code>
       <code>string</code>
       <code>string</code>
       <code>string</code>
     </MixedInferredReturnType>
-    <MixedOperand occurrences="4">
+    <MixedOperand occurrences="3">
       <code>$i</code>
-      <code>$id</code>
       <code>$metadata['table']</code>
       <code>$value</code>
     </MixedOperand>
@@ -6086,8 +6082,7 @@
       <code>$this-&gt;rawFieldnames</code>
       <code>$this-&gt;tablenames</code>
     </MixedPropertyTypeCoercion>
-    <MixedReturnStatement occurrences="5">
-      <code>$id</code>
+    <MixedReturnStatement occurrences="4">
       <code>$sql-&gt;getValue('Create Table')</code>
       <code>$version</code>
       <code>json_decode($this-&gt;getValue($column), true)</code>
