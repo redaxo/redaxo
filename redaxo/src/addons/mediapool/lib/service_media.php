@@ -5,7 +5,7 @@
  */
 final class rex_media_service
 {
-    public const ORDERBY = [
+    private const ORDER_BY = [
         'filename',
         'updatedate',
         'title',
@@ -16,9 +16,10 @@ final class rex_media_service
      * Dabei wird kontrolliert ob das File schon vorhanden ist und es
      * wird eventuell angepasst, weiterhin werden die Fileinformationen übergeben.
      *
+     * @param array{category_id: int, title: string, file: array{name: string, path: string, tmp_name?: string}} $data
      * @param bool $doSubindexing // echte Dateinamen anpassen, falls schon vorhanden
      */
-    public static function addMedia(array $data, ?string $userlogin = null, bool $doSubindexing = true, array $allowedExtensions = []): array
+    public static function addMedia(array $data, bool $doSubindexing = true, array $allowedExtensions = []): array
     {
         if (empty($data['file']) || empty($data['file']['name']) || empty($data['file']['path'])) {
             throw new rex_api_exception(rex_i18n::msg('pool_file_not_found'));
@@ -98,8 +99,8 @@ final class rex_media_service
         }
 
         $saveObject->setValue('category_id', $categoryId);
-        $saveObject->addGlobalCreateFields($userlogin);
-        $saveObject->addGlobalUpdateFields($userlogin);
+        $saveObject->addGlobalCreateFields();
+        $saveObject->addGlobalUpdateFields();
         $saveObject->insert();
 
         $message = [];
@@ -135,29 +136,37 @@ final class rex_media_service
      * Holt ein upgeloadetes File und legt es in den Medienpool
      * Dabei wird kontrolliert ob das File schon vorhanden ist und es
      * wird eventuell angepasst, weiterhin werden die Fileinformationen übergeben.
+     *
+     * @param array{category_id: int, title: string, file?: array{name: string, path: string}} $data
      */
-    public static function updateMedia(array $data, ?string $userlogin = null): array
+    public static function updateMedia(string $filename, array $data): array
     {
-        if (empty($data['filename'])) {
+        if ('' === $filename) {
             throw new rex_api_exception('Expecting Filename.');
         }
 
-        $categoryId = (int) $data['category_id'];
+        $media = rex_media::get($filename);
+        if (!$media) {
+            throw new rex_api_exception(rex_i18n::msg('pool_file_not_found'));
+        }
 
         $saveObject = rex_sql::factory();
         $saveObject->setTable(rex::getTablePrefix() . 'media');
-        $saveObject->setWhere(['filename' => $data['filename']]);
+        $saveObject->setWhere(['filename' => $filename]);
         $saveObject->setValue('title', $data['title']);
-        $saveObject->setValue('category_id', $categoryId);
+        $saveObject->setValue('category_id', (int) $data['category_id']);
 
-        if (!empty($data['file']) && !empty($data['file']['name']) && !empty($data['file']['path'])) {
-            $data['file']['type'] = rex_file::mimeType($data['file']['path']);
+        $file = $data['file'] ?? null;
+        $filetype = null;
 
-            $srcFile = $data['file']['path'];
-            $dstFile = rex_path::media($data['filename']);
+        if ($file && !empty($file['name']) && !empty($file['path'])) {
+            $filetype = rex_file::mimeType($file['path']);
 
-            $extensionNew = mb_strtolower(pathinfo($data['file']['name'], PATHINFO_EXTENSION));
-            $extensionOld = mb_strtolower(pathinfo($data['filename'], PATHINFO_EXTENSION));
+            $srcFile = $file['path'];
+            $dstFile = rex_path::media($filename);
+
+            $extensionNew = mb_strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+            $extensionOld = mb_strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 
             static $jpgExtensions = ['jpg', 'jpeg'];
 
@@ -165,19 +174,15 @@ final class rex_media_service
                 $extensionNew == $extensionOld ||
                 in_array($extensionNew, $jpgExtensions) && in_array($extensionOld, $jpgExtensions)
             ) {
-                if (
-                    !rex_file::move($srcFile, $dstFile)
-                ) {
+                if (!rex_file::move($srcFile, $dstFile)) {
                     throw new rex_api_exception(rex_i18n::msg('pool_file_movefailed'));
                 }
 
                 @chmod($dstFile, rex::getFilePerm());
 
-                $data['file']['size'] = filesize($dstFile);
-
-                $saveObject->setValue('filetype', $data['file']['type']);
-                $saveObject->setValue('filesize', $data['file']['size']);
-                $saveObject->setValue('originalname', $data['file']['name']);
+                $saveObject->setValue('filetype', $filetype);
+                $saveObject->setValue('filesize', filesize($dstFile));
+                $saveObject->setValue('originalname', $file['name']);
 
                 if ($size = @getimagesize($dstFile)) {
                     $saveObject->setValue('width', $size[0]);
@@ -189,10 +194,10 @@ final class rex_media_service
             }
         }
 
-        $saveObject->addGlobalUpdateFields($userlogin);
+        $saveObject->addGlobalUpdateFields();
         $saveObject->update();
 
-        rex_media_cache::delete($data['filename']);
+        rex_media_cache::delete($filename);
 
         /**
          * @deprecated $return
@@ -202,10 +207,11 @@ final class rex_media_service
 
         $return['ok'] = 1;
         $return['msg'] = rex_i18n::msg('pool_file_infos_updated');
-        $return['type'] = $data['file']['type'];
 
-        $return['filename'] = $data['file']['name'];
-        $return['filetype'] = $data['file']['type'];
+        $return['id'] = $media->getId();
+        $return['filename'] = $filename;
+        $return['type'] = $filetype;
+        $return['filetype'] = $filetype;
 
         rex_extension::registerPoint(new rex_extension_point('MEDIA_UPDATED', '', $return));
 
@@ -235,12 +241,12 @@ final class rex_media_service
     }
 
     /**
-     * @param list<array{type: 'category_id'|'category_id_path'|'types'|'term', value: int|string|list<string>}> $searchItems
-     * @param list<array{string, 'ASC'|'DESC'}> $orderbyItems
+     * @param array{category_id?: int, category_id_path?: int, types?: string[], term?: string} $filter
+     * @param list<array{string, 'ASC'|'DESC'}> $orderBy
      * @throws rex_sql_exception
      * @return list<rex_media>
      */
-    public static function getList(array $searchItems = [], array $orderbyItems = [], ?rex_pager $pager = null): array
+    public static function getList(array $filter = [], array $orderBy = [], ?rex_pager $pager = null): array
     {
         $sql = rex_sql::factory();
         $where = [];
@@ -248,31 +254,34 @@ final class rex_media_service
         $tables = [];
         $tables[] = rex::getTable('media').' AS m';
 
-        foreach ($searchItems as $counter => $searchItem) {
-            switch ($searchItem['type']) {
+        $counter = 0;
+        foreach ($filter as $type => $value) {
+            ++$counter;
+
+            switch ($type) {
                 case 'category_id':
-                    if (is_int($searchItem['value'])) {
+                    if (is_int($value)) {
                         $where[] = '(m.category_id = :search_'.$counter.')';
-                        $queryParams['search_'.$counter] = $searchItem['value'];
+                        $queryParams['search_'.$counter] = $value;
                     }
                     break;
                 case 'category_id_path':
-                    if (is_int($searchItem['value'])) {
+                    if (is_int($value)) {
                         $tables[] = rex::getTable('media_category').' AS c';
-                        $where[] = '(m.category_id = c.id AND (c.path LIKE "%|'.$searchItem['value'].'|%" OR c.id='.$searchItem['value'].') )';
-                        $queryParams['search_'.$counter] = $searchItem['value'];
+                        $where[] = '(m.category_id = c.id AND (c.path LIKE "%|'.$value.'|%" OR c.id='.$value.') )';
+                        $queryParams['search_'.$counter] = $value;
                     }
                     break;
                 case 'types':
-                    if (is_array($searchItem['value']) && $searchItem['value']) {
-                        $where[] = 'LOWER(RIGHT(m.filename, LOCATE(".", REVERSE(m.filename))-1)) IN ('.$sql->in($searchItem['value']).')';
+                    if (is_array($value) && $value) {
+                        $where[] = 'LOWER(RIGHT(m.filename, LOCATE(".", REVERSE(m.filename))-1)) IN ('.$sql->in($value).')';
                     }
                     break;
                 case 'term':
-                    if (!is_string($searchItem['value']) || '' == $searchItem['value']) {
+                    if (!is_string($value) || '' == $value) {
                         break;
                     }
-                    foreach (str_getcsv(trim((string) $searchItem['value']), ' ') as $i => $part) {
+                    foreach (str_getcsv(trim($value), ' ') as $i => $part) {
                         if (!$part) {
                             continue;
                         }
@@ -295,15 +304,15 @@ final class rex_media_service
         $query = 'SELECT m.filename FROM '.implode(',', $tables).' '.$where;
 
         $orderbys = [];
-        foreach ($orderbyItems as $index => $orderbyItem) {
-            if (!is_array($orderbyItem)) {
+        foreach ($orderBy as $index => $orderByItem) {
+            if (!is_array($orderByItem)) {
                 continue;
             }
-            if (!in_array($orderbyItem[0], self::ORDERBY, true)) {
+            if (!in_array($orderByItem[0], self::ORDER_BY, true)) {
                 continue;
             }
-            $orderbys[] = ':orderby_'.$index.' '.('ASC' == $orderbyItem[1]) ? 'ASC' : 'DESC';
-            $queryParams['orderby_'.$index] = 'm.' . $orderbyItem[0];
+            $orderbys[] = ':orderby_'.$index.' '.('ASC' == $orderByItem[1]) ? 'ASC' : 'DESC';
+            $queryParams['orderby_'.$index] = 'm.' . $orderByItem[0];
         }
 
         if (0 == count($orderbys)) {

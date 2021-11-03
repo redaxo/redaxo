@@ -68,23 +68,22 @@ if (rex_post('btn_update', 'string')) {
         } elseif (!rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('category_id')) || !rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rexFileCategory)) {
             $error = rex_i18n::msg('no_permission');
         } else {
+            $filename = (string) $gf->getValue('filename');
             $data = [];
             $data['category_id'] = $rexFileCategory;
             $data['title'] = rex_request('ftitle', 'string');
-            $data['filename'] = $gf->getValue('filename');
-            $data['filetype'] = $gf->getValue('filetype');
 
-            if ($_FILES['file_new']) {
-                $data['file'] = $_FILES['file_new'];
-                $data['file']['path'] = $_FILES['file_new']['tmp_name'];
+            if ($_FILES['file_new'] ?? null) {
+                $data['file']['name'] = (string) ($_FILES['file_new']['name'] ?? '');
+                $data['file']['path'] = (string) ($_FILES['file_new']['tmp_name'] ?? '');
             }
 
             try {
-                $data = rex_media_service::updateMedia($data, rex::getUser()->getValue('login'));
+                rex_media_service::updateMedia($filename, $data);
 
                 if ($gf->getValue('category_id') != $rexFileCategory) {
                     rex_extension::registerPoint(new rex_extension_point('MEDIA_MOVED', null, [
-                        'filename' => $data['filename'],
+                        'filename' => $filename,
                         'category_id' => $rexFileCategory,
                     ]));
                 }
