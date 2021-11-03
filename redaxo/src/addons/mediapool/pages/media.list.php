@@ -228,35 +228,23 @@ $panel = '
                 ';
             }
 
-            $searchItems = [];
+            $filter = [];
 
             $mediaName = rex_request('media_name', 'string');
             if ('' != $mediaName) {
-                $searchItems[] = [
-                    'type' => 'term',
-                    'value' => $mediaName,
-                ];
+                $filter['term'] = $mediaName;
 
                 if ('global' != rex_addon::get('mediapool')->getConfig('searchmode', 'local') && 0 != $rexFileCategory) {
-                    $searchItems[] = [
-                        'type' => 'category_id_path',
-                        'value' => $rexFileCategory,
-                    ];
+                    $filter['category_id_path'] = $rexFileCategory;
                 }
             } else {
-                $searchItems[] = [
-                    'type' => 'category_id',
-                    'value' => $rexFileCategory,
-                ];
+                $filter['category_id'] = $rexFileCategory;
             }
 
             if (isset($argUrl['args']['types']) && is_array($argUrl['args']['types'])) {
                 /** @var list<string> $types */
                 $types = $argUrl['args']['types'];
-                $searchItems[] = [
-                    'type' => 'types',
-                    'value' => $types,
-                ];
+                $filter['types'] = $types;
             }
 
             if (!rex_addon::get('media_manager')->isAvailable()) {
@@ -267,7 +255,7 @@ $panel = '
 
             $pager = new rex_pager(5000);
 
-            $items = rex_media_service::getList($searchItems, [], $pager);
+            $items = rex_media_service::getList($filter, [], $pager);
 
             $panel .= '<tbody>';
 
