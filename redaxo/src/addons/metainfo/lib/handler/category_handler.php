@@ -117,7 +117,7 @@ $catHandler = new rex_metainfo_category_handler();
 rex_extension::register('CAT_FORM_ADD', [$catHandler, 'extendForm']);
 rex_extension::register('CAT_FORM_EDIT', [$catHandler, 'extendForm']);
 
-rex_extension::register('CAT_ADDED', [$catHandler, 'extendForm']);
-rex_extension::register('CAT_UPDATED', [$catHandler, 'extendForm']);
+rex_extension::register('CAT_ADDED', [$catHandler, 'extendForm'], rex_extension::EARLY);
+rex_extension::register('CAT_UPDATED', [$catHandler, 'extendForm'], rex_extension::EARLY);
 
 rex_extension::register('CAT_FORM_BUTTONS', [$catHandler, 'renderToggleButton']);

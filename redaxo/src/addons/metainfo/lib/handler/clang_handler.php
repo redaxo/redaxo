@@ -91,7 +91,7 @@ $clangHandler = new rex_metainfo_clang_handler();
 rex_extension::register('CLANG_FORM_ADD', [$clangHandler, 'extendForm']);
 rex_extension::register('CLANG_FORM_EDIT', [$clangHandler, 'extendForm']);
 
-rex_extension::register('CLANG_ADDED', [$clangHandler, 'extendForm']);
-rex_extension::register('CLANG_UPDATED', [$clangHandler, 'extendForm']);
+rex_extension::register('CLANG_ADDED', [$clangHandler, 'extendForm'], rex_extension::EARLY);
+rex_extension::register('CLANG_UPDATED', [$clangHandler, 'extendForm'], rex_extension::EARLY);
 
 rex_extension::register('CLANG_FORM_BUTTONS', [$clangHandler, 'renderToggleButton']);
