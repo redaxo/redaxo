@@ -145,7 +145,7 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
                 if ('' != $version['history_user']) {
                     $historyInfo = $version['history_date'] . ' [' . $version['history_user'] . ']';
                 }
-                $select2[] = '<option value="' . strtotime($version['history_date']) . '" data-history-date="' . $version['history_date'] . '">' . $historyInfo . '</option>';
+                $select2[] = '<option value="' . strtotime($version['history_date']) . '" data-history-date="' . rex_escape($version['history_date']) . '">' . rex_escape($historyInfo) . '</option>';
             }
 
             $content1select = '<select id="content-history-select-date-1" class="content-history-select" data-iframe="content-history-iframe-1" style="">' . implode('', $select1) . '</select>';

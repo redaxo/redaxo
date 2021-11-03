@@ -43,7 +43,7 @@ if ('delete' == $function && !$csrfToken->isValid()) {
         $actionInUseMsg = '';
         $actionName = $del->getValue('a.name');
         for ($i = 0; $i < $del->getRows(); ++$i) {
-            $actionInUseMsg .= '<li><a href="' . rex_url::backendPage('modules', ['function' => 'edit', 'module_id' => $del->getValue('ma.module_id')]) . '">' . rex_escape($del->getValue('m.name')) . ' [' . $del->getValue('ma.module_id') . ']</a></li>';
+            $actionInUseMsg .= '<li><a href="' . rex_url::backendPage('modules', ['function' => 'edit', 'module_id' => $del->getValue('ma.module_id')]) . '">' . rex_escape($del->getValue('m.name')) . ' [' . (int) $del->getValue('ma.module_id') . ']</a></li>';
             $del->next();
         }
 
@@ -471,7 +471,7 @@ if ($OUT) {
             $content .= '
                         <tr>
                             <td class="rex-table-icon"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'edit']) . '" title="' . rex_escape($sql->getValue('name')) . '"><i class="rex-icon rex-icon-action"></i></a></td>
-                            <td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">' . $sql->getValue('id') . '</td>
+                            <td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">' . (int) $sql->getValue('id') . '</td>
                             <td data-title="' . rex_i18n::msg('action_name') . '"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'edit']) . '">' . rex_escape($sql->getValue('name')) . '</a></td>
                             <td data-title="' . rex_i18n::msg('action_header_preview') . '">' . implode('/', $previewmode) . '</td>
                             <td data-title="' . rex_i18n::msg('action_header_presave') . '">' . implode('/', $presavemode) . '</td>

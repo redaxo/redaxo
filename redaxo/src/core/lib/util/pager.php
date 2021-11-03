@@ -46,7 +46,7 @@ class rex_pager
      */
     public function setRowCount($rowCount)
     {
-        $this->rowCount = $rowCount;
+        $this->rowCount = (int) $rowCount;
     }
 
     /**

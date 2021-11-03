@@ -199,8 +199,8 @@ class rex_category_service
 
             // ----- PRIOR
             if (isset($data['catpriority'])) {
-                $parentId = $thisCat->getValue('parent_id');
-                $oldPrio = $thisCat->getValue('catpriority');
+                $parentId = (int) $thisCat->getValue('parent_id');
+                $oldPrio = (int) $thisCat->getValue('catpriority');
 
                 if ($data['catpriority'] <= 0) {
                     $data['catpriority'] = 1;
@@ -277,11 +277,11 @@ class rex_category_service
                     $thisCat = rex_sql::factory();
                     $thisCat->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE id=?', [$categoryId]);
 
-                    $parentId = $thisCat->getValue('parent_id');
+                    $parentId = (int) $thisCat->getValue('parent_id');
                     $message = rex_article_service::_deleteArticle($categoryId);
 
                     foreach ($thisCat as $row) {
-                        $clang = $row->getValue('clang_id');
+                        $clang = (int) $row->getValue('clang_id');
 
                         // ----- PRIOR
                         self::newCatPrio($parentId, $clang, 0, 1);
@@ -543,7 +543,7 @@ class rex_category_service
         }
 
         foreach (rex_clang::getAllIds() as $clang) {
-            self::newCatPrio($fcat->getValue('parent_id'), $clang, 0, 1);
+            self::newCatPrio((int) $fcat->getValue('parent_id'), $clang, 0, 1);
 
             rex_extension::registerPoint(new rex_extension_point('CAT_MOVED', null, [
                 'id' => $fromCat,

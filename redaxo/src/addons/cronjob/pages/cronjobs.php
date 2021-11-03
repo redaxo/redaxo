@@ -238,7 +238,7 @@ if ('' == $func) {
         $disabled = array_diff(['frontend', 'backend', 'script'], (array) $cronjob->getEnvironments());
         if (count($disabled) > 0) {
             $envJs .= '
-                if ($("#' . $typeFieldId . ' option:selected").val() == "' . $group . '")
+                if ($("#' . $typeFieldId . ' option:selected").val() == "' . rex_escape($group, 'js') . '")
                     $("#' . $envFieldId . ' option[value=\'' . implode('\'], #' . $envFieldId . ' option[value=\'', $disabled) . '\']").prop("disabled","disabled").prop("selected","");
 ';
         }
