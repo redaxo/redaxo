@@ -59,7 +59,7 @@ $csrf = rex_csrf_token::factory('mediapool');
         if (!$csrf->isValid()) {
             $error[] = rex_i18n::msg('csrf_token_invalid');
         } else {
-            $syncFiles = rex_post('sync_files', 'array');
+            $syncFiles = rex_post('sync_files', 'array[string]');
             $ftitle = rex_post('ftitle', 'string');
 
             if ($diffCount > 0) {
@@ -80,7 +80,7 @@ $csrf = rex_csrf_token::factory('mediapool');
                     ];
 
                     try {
-                        $data = rex_media_service::addMedia($data, rex::getUser()->getValue('login'), false);
+                        rex_media_service::addMedia($data, false);
 
                         unset($diffFiles[$key]);
                         if ($first) {
