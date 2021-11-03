@@ -190,7 +190,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
             $qry = 'SELECT id FROM ' . rex::getTablePrefix() . 'media WHERE filename="' . $params['filename'] . '"';
             $sql->setQuery($qry);
             if (1 == $sql->getRows()) {
-                $params['id'] = $sql->getValue('id');
+                $params['id'] = (int) $sql->getValue('id');
             } else {
                 throw new rex_exception('Error occured during file upload!');
             }
