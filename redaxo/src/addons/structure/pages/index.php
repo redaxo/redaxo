@@ -84,7 +84,7 @@ if (count($structureContext->getMountpoints()) > 0 && 0 == $structureContext->ge
 // --------------------- ADD PAGINATION
 
 $catPager = new rex_pager($structureContext->getRowsPerPage(), 'catstart');
-$catPager->setRowCount($KAT->getValue('rowCount'));
+$catPager->setRowCount((int) $KAT->getValue('rowCount'));
 $catFragment = new rex_fragment();
 $catFragment->setVar('urlprovider', $structureContext->getContext());
 $catFragment->setVar('pager', $catPager);
@@ -165,12 +165,12 @@ if ('add_cat' == $structureContext->getFunction() && rex::getUser()->hasPerm('ad
 // --------------------- KATEGORIE LIST
 if ($KAT->getRows() > 0) {
     for ($i = 0; $i < $KAT->getRows(); ++$i) {
-        $iCategoryId = $KAT->getValue('id');
+        $iCategoryId = (int) $KAT->getValue('id');
 
         $katLink = $structureContext->getContext()->getUrl(['category_id' => $iCategoryId]);
 
         /** @var rex_category $katObject */
-        $katObject = rex_category::get($KAT->getValue('id'));
+        $katObject = rex_category::get($iCategoryId);
         $katHasChildElements = (count($katObject->getChildren()) > 0 || count($katObject->getArticles()) > 1); // contains child categories or articles other than the start article
         $katIconClass = $katHasChildElements ? 'rex-icon-category' : 'rex-icon-category-without-elements';
         $katIconTitle = $katHasChildElements ? rex_i18n::msg('category_has_child_elements') : rex_i18n::msg('category_without_child_elements');
@@ -264,7 +264,7 @@ if ($KAT->getRows() > 0) {
                     <tr class="'.$trStatusClass.'" '.$dataCatStatus.'>
                         ' . $katIconTd . '
                         <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">' . $iCategoryId . '</td>
-                        <td class="rex-table-category" data-title="' . rex_i18n::msg('header_category') . '"><a class="rex-link-expanded" href="' . $katLink . '">' . $KAT->getValue('catname') . '</a></td>
+                        <td class="rex-table-category" data-title="' . rex_i18n::msg('header_category') . '"><a class="rex-link-expanded" href="' . $katLink . '">' . rex_escape($KAT->getValue('catname')) . '</a></td>
                         <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '">' . rex_escape($KAT->getValue('catpriority')) . '</td>';
             if ($canEdit) {
                 $echo .= '
@@ -359,7 +359,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
     // --------------------- ADD PAGINATION
 
     $artPager = new rex_pager($structureContext->getRowsPerPage(), 'artstart');
-    $artPager->setRowCount($sql->getValue('artCount'));
+    $artPager->setRowCount((int) $sql->getValue('artCount'));
     $artFragment = new rex_fragment();
     $artFragment->setVar('urlprovider', $structureContext->getContext());
     $artFragment->setVar('pager', $artPager);
@@ -468,7 +468,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
             }
             $echo .= '<tr class="mark' . $classStartarticle . ' '.$trStatusClass.'">
                             <td class="rex-table-icon"><a class="rex-link-expanded" href="' . $structureContext->getContext()->getUrl(['page' => 'content/edit', 'article_id' => $sql->getValue('id')]) . '" title="' . rex_escape($sql->getValue('name')) . '"><i class="rex-icon' . $class . '"></i></a></td>
-                            <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">' . $sql->getValue('id') . '</td>
+                            <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">' . (int) $sql->getValue('id') . '</td>
                             <td class="rex-table-article-name" data-title="' . rex_i18n::msg('header_article_name') . '"><input class="form-control" type="text" name="article-name" value="' . rex_escape($sql->getValue('name')) . '" autofocus /></td>
                             ' . $tmplTd . '
                             <td class="rex-table-date" data-title="' . rex_i18n::msg('header_date') . '">' . rex_formatter::intlDate($sql->getDateTimeValue('createdate')) . '</td>
@@ -531,7 +531,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
 
             $echo .= '<tr '.$dataArtStatus.' '.$dataArtid.(('' != $classStartarticle) ? ' class="' . trim($classStartarticle) . ' '.$trStatusClass.'"' : ' class="'.$trStatusClass.'"') . '>
                             <td class="rex-table-icon"><a class="rex-link-expanded" href="' . $editModeUrl . '" title="' . rex_escape($sql->getValue('name')) . '"><i class="rex-icon' . $class . '"></i></a></td>
-                            <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">' . $sql->getValue('id') . '</td>
+                            <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">' . (int) $sql->getValue('id') . '</td>
                             <td class="rex-table-article-name" data-title="' . rex_i18n::msg('header_article_name') . '"><a class="rex-link-expanded" href="' . $editModeUrl . '">' . rex_escape($sql->getValue('name')) . '</a></td>
                             ' . $tmplTd . '
                             <td class="rex-table-date" data-title="' . rex_i18n::msg('header_date') . '">' . rex_formatter::intlDate($sql->getDateTimeValue('createdate')) . '</td>
@@ -554,7 +554,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
 
             $echo .= '<tr '.$dataArtStatus.' '.$dataArtid.' class="'.$trStatusClass.'">
                             <td class="rex-table-icon"><i class="rex-icon' . $class . '"></i></td>
-                            <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">' . $sql->getValue('id') . '</td>
+                            <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">' . (int) $sql->getValue('id') . '</td>
                             <td class="rex-table-article-name" data-title="' . rex_i18n::msg('header_article_name') . '">' . rex_escape($sql->getValue('name')) . '</td>
                             ' . $tmplTd . '
                             <td class="rex-table-date" data-title="' . rex_i18n::msg('header_date') . '">' . rex_formatter::intlDate($sql->getDateTimeValue('createdate')) . '</td>

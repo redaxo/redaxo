@@ -309,7 +309,7 @@ if ('add' == $function || 'edit' == $function) {
 
                     $actions .= '<tr>
                         <td class="rex-table-icon"><a class="rex-link-expanded" href="' . $actionEditUrl . '" title="' . rex_escape($actionName) . '"><i class="rex-icon rex-icon-action"></i></a></td>
-                        <td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">' . $gma->getValue('id') . '</td>
+                        <td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">' . (int) $gma->getValue('id') . '</td>
                         <td data-title="' . rex_i18n::msg('action_name') . '"><a class="rex-link-expanded" href="' . $actionEditUrl . '">' . $actionName . '</a></td>
                         <td class="rex-table-action"><a class="rex-link-expanded" href="' . $actionEditUrl . '"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit') . '</a></td>
                         <td class="rex-table-action"><a class="rex-link-expanded" href="' . rex_url::currentBackendPage(['module_id' => $moduleId, 'function_action' => 'delete', 'function' => 'edit', 'iaction_id' => $iactionId] + $csrfToken->getUrlParams()) . '" data-confirm="' . rex_i18n::msg('confirm_delete_action') . '"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</a></td>

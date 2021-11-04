@@ -505,7 +505,7 @@ class rex_be_page
      */
     public function setIsActive($isActive = true)
     {
-        $this->isActive = $isActive;
+        $this->isActive = (bool) $isActive;
 
         return $this;
     }
