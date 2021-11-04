@@ -21,6 +21,11 @@ use Ramsey\Collection\Tool\ValueToStringTrait;
 /**
  * This class provides a basic implementation of `TypedMapInterface`, to
  * minimize the effort required to implement this interface.
+ *
+ * @template K
+ * @template T
+ * @extends AbstractMap<T>
+ * @implements TypedMapInterface<T>
  */
 abstract class AbstractTypedMap extends AbstractMap implements TypedMapInterface
 {
@@ -28,16 +33,22 @@ abstract class AbstractTypedMap extends AbstractMap implements TypedMapInterface
     use ValueToStringTrait;
 
     /**
-     * Sets the given value to the given offset in the map.
+     * @param K|null $offset
+     * @param T $value
      *
-     * @param mixed $offset The offset to set.
-     * @param mixed $value The value to set at the given offset.
+     * @inheritDoc
      *
-     * @throws InvalidArgumentException if the offset or value do not match the
-     *     expected types.
+     * @psalm-suppress MoreSpecificImplementedParamType
      */
     public function offsetSet($offset, $value): void
     {
+        if ($offset === null) {
+            throw new InvalidArgumentException(
+                'Map elements are key/value pairs; a key must be provided for '
+                . 'value ' . var_export($value, true)
+            );
+        }
+
         if ($this->checkType($this->getKeyType(), $offset) === false) {
             throw new InvalidArgumentException(
                 'Key must be of type ' . $this->getKeyType() . '; key is '
@@ -52,6 +63,7 @@ abstract class AbstractTypedMap extends AbstractMap implements TypedMapInterface
             );
         }
 
+        /** @psalm-suppress MixedArgumentTypeCoercion */
         parent::offsetSet($offset, $value);
     }
 }

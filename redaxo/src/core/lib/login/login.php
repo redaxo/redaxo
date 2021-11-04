@@ -479,11 +479,11 @@ class rex_login
         $sessionCookiePrefix = 'Set-Cookie: '. session_name() .'=';
         foreach (headers_list() as $rawHeader) {
             // rewrite the session cookie
-            if (substr($rawHeader, 0, strlen($sessionCookiePrefix)) === $sessionCookiePrefix) {
+            if (str_starts_with($rawHeader, $sessionCookiePrefix)) {
                 $rawHeader .= '; SameSite='. $sameSite;
             }
             // collect all cookies
-            if (substr($rawHeader, 0, strlen($cookieHeadersPrefix)) === $cookieHeadersPrefix) {
+            if (str_starts_with($rawHeader, $cookieHeadersPrefix)) {
                 $cookiesHeaders[] = $rawHeader;
             }
         }

@@ -6,19 +6,20 @@
 
 $error = '';
 $success = '';
-$user = rex::getUser();
-$user_id = $user->getId();
+$user = rex::requireUser();
+$userId = $user->getId();
 
 $passwordChangeRequired = rex::getProperty('login')->requiresPasswordChange();
 
 // Allgemeine Infos
 $userpsw = rex_request('userpsw', 'string');
-$userpsw_new_1 = rex_request('userpsw_new_1', 'string');
-$userpsw_new_2 = rex_request('userpsw_new_2', 'string');
+$userpswNew1 = rex_request('userpsw_new_1', 'string');
+$userpswNew2 = rex_request('userpsw_new_2', 'string');
 
 $username = rex_request('username', 'string', $user->getName());
 $userdesc = rex_request('userdesc', 'string', $user->getValue('description'));
 $useremail = rex_request('useremail', 'string', $user->getValue('email'));
+$usertheme = rex_request('usertheme', 'string', $user->getValue('theme')) ?: null;
 $userlogin = $user->getLogin();
 $csrfToken = rex_csrf_token::factory('profile');
 $passwordPolicy = rex_backend_password_policy::factory();
@@ -29,20 +30,34 @@ echo rex_view::title(rex_i18n::msg('profile_title'), '');
 // --------------------------------- BE LANG
 
 // backend sprache
-$userperm_be_sprache = rex_request('userperm_be_sprache', 'string', $user->getLanguage());
-$sel_be_sprache = new rex_select();
-$sel_be_sprache->setSize(1);
-$sel_be_sprache->setStyle('class="form-control"');
-$sel_be_sprache->setName('userperm_be_sprache');
-$sel_be_sprache->setId('rex-id-userperm-mylang');
-$sel_be_sprache->setAttribute('class', 'form-control selectpicker');
-$sel_be_sprache->addOption('default', '');
-$sel_be_sprache->setSelected($userperm_be_sprache);
+$userpermBeSprache = rex_request('userperm_be_sprache', 'string', $user->getLanguage());
+$selBeSprache = new rex_select();
+$selBeSprache->setSize(1);
+$selBeSprache->setStyle('class="form-control"');
+$selBeSprache->setName('userperm_be_sprache');
+$selBeSprache->setId('rex-id-userperm-mylang');
+$selBeSprache->setAttribute('class', 'form-control selectpicker');
+$selBeSprache->addOption('default', '');
+$selBeSprache->setSelected($userpermBeSprache);
 $locales = rex_i18n::getLocales();
 asort($locales);
 foreach ($locales as $locale) {
-    $sel_be_sprache->addOption(rex_i18n::msgInLocale('lang', $locale), $locale);
+    $selBeSprache->addOption(rex_i18n::msgInLocale('lang', $locale), $locale);
 }
+
+// --------------------------------- Theme
+
+$selBeTheme = new rex_select();
+$selBeTheme->setSize(1);
+$selBeTheme->setStyle('class="form-control"');
+$selBeTheme->setName('usertheme');
+$selBeTheme->setId('rex-id-usertheme');
+$selBeTheme->setAttribute('class', 'form-control selectpicker');
+$selBeTheme->setDisabled(null !== rex::getProperty('theme'));
+$selBeTheme->setSelected($usertheme);
+$selBeTheme->addOption(rex_i18n::msg('theme_auto'), '');
+$selBeTheme->addOption(rex_i18n::msg('theme_light'), 'light');
+$selBeTheme->addOption(rex_i18n::msg('theme_dark'), 'dark');
 
 // --------------------------------- FUNCTIONS
 
@@ -65,21 +80,22 @@ if (rex_request('rex_user_updated', 'bool', false)) {
 if ($update && !$error) {
     $updateuser = rex_sql::factory();
     $updateuser->setTable(rex::getTablePrefix() . 'user');
-    $updateuser->setWhere(['id' => $user_id]);
+    $updateuser->setWhere(['id' => $userId]);
     $updateuser->setValue('name', $username);
     $updateuser->setValue('description', $userdesc);
     $updateuser->setValue('email', $useremail);
-    $updateuser->setValue('language', $userperm_be_sprache);
+    $updateuser->setValue('theme', $usertheme);
+    $updateuser->setValue('language', $userpermBeSprache);
 
     $updateuser->addGlobalUpdateFields();
 
     try {
         $updateuser->update();
-        rex_user::clearInstance($user_id);
+        rex_user::clearInstance($userId);
 
         rex_extension::registerPoint(new rex_extension_point('PROFILE_UPDATED', '', [
-            'user_id' => $user_id,
-            'user' => rex_user::require($user_id),
+            'user_id' => $userId,
+            'user' => rex_user::require($userId),
         ], true));
 
         // trigger a fullpage-reload which immediately reflects a possible changed language
@@ -92,27 +108,27 @@ if ($update && !$error) {
 if (rex_post('upd_psw_button', 'bool')) {
     if (!$csrfToken->isValid()) {
         $error = rex_i18n::msg('csrf_token_invalid');
-    } elseif (!$userpsw || !$userpsw_new_1 || $userpsw_new_1 != $userpsw_new_2 || !rex_login::passwordVerify($userpsw, $user->getValue('password'))) {
+    } elseif (!$userpsw || !$userpswNew1 || $userpswNew1 != $userpswNew2 || !rex_login::passwordVerify($userpsw, $user->getValue('password'))) {
         $error = rex_i18n::msg('user_psw_error');
-    } elseif (true !== $msg = $passwordPolicy->check($userpsw_new_1, $user_id)) {
+    } elseif (true !== $msg = $passwordPolicy->check($userpswNew1, $userId)) {
         $error = $msg;
-    } elseif ($passwordChangeRequired && $userpsw === $userpsw_new_1) {
+    } elseif ($passwordChangeRequired && $userpsw === $userpswNew1) {
         $error = rex_i18n::msg('password_not_changed');
     } else {
-        $userpsw_new_1 = rex_login::passwordHash($userpsw_new_1);
+        $userpswNew1 = rex_login::passwordHash($userpswNew1);
 
         $updateuser = rex_sql::factory();
         $updateuser->setTable(rex::getTablePrefix() . 'user');
-        $updateuser->setWhere(['id' => $user_id]);
-        $updateuser->setValue('password', $userpsw_new_1);
+        $updateuser->setWhere(['id' => $userId]);
+        $updateuser->setValue('password', $userpswNew1);
         $updateuser->addGlobalUpdateFields();
         $updateuser->setValue('password_change_required', 0);
         $updateuser->setDateTimeValue('password_changed', time());
-        $updateuser->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords($user, $userpsw_new_1));
+        $updateuser->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords($user, $userpswNew1));
 
         try {
             $updateuser->update();
-            rex_user::clearInstance($user_id);
+            rex_user::clearInstance($userId);
 
             $success = rex_i18n::msg('user_psw_updated');
 
@@ -122,9 +138,9 @@ if (rex_post('upd_psw_button', 'bool')) {
             }
 
             rex_extension::registerPoint(new rex_extension_point('PASSWORD_UPDATED', '', [
-                'user_id' => $user_id,
-                'user' => rex_user::require($user_id),
-                'password' => $userpsw_new_2,
+                'user_id' => $userId,
+                'user' => rex_user::require($userId),
+                'password' => $userpswNew2,
             ], true));
         } catch (rex_sql_exception $e) {
             $error = $e->getMessage();
@@ -148,8 +164,6 @@ if ('' != $error) {
 
 // --------------------------------- FORMS
 
-$grid = [];
-
 $content = '';
 $content .= '<fieldset>';
 
@@ -162,7 +176,7 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-userperm-mylang">' . rex_i18n::msg('backend_language') . '</label>';
-$n['field'] = $sel_be_sprache->get();
+$n['field'] = $selBeSprache->get();
 $formElements[] = $n;
 
 $n = [];
@@ -178,6 +192,11 @@ $formElements[] = $n;
 $n = [];
 $n['label'] = '<label for="rex-id-useremail">' . rex_i18n::msg('email') . '</label>';
 $n['field'] = '<input class="form-control" type="text" id="rex-id-useremail" name="useremail" value="' . rex_escape($useremail) . '" />';
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="rex-id-usertheme">' . rex_i18n::msg('theme') . '</label>';
+$n['field'] = $selBeTheme->get();
 $formElements[] = $n;
 
 $fragment = new rex_fragment();

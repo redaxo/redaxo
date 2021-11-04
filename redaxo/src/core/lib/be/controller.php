@@ -21,7 +21,7 @@ class rex_be_controller
     private static $pageObject;
 
     /**
-     * @var rex_be_page[]
+     * @var array<string, rex_be_page>
      */
     private static $pages = [];
 
@@ -94,7 +94,7 @@ class rex_be_controller
     }
 
     /**
-     * @return rex_be_page[]
+     * @return array<string, rex_be_page>
      */
     public static function getPages()
     {
@@ -102,7 +102,7 @@ class rex_be_controller
     }
 
     /**
-     * @param rex_be_page[] $pages
+     * @param array<string, rex_be_page> $pages
      */
     public static function setPages(array $pages)
     {
@@ -200,7 +200,7 @@ class rex_be_controller
 
             if (is_array($pages = $addon->getProperty('pages'))) {
                 foreach ($pages as $key => $page) {
-                    if (false !== strpos($key, '/')) {
+                    if (str_contains($key, '/')) {
                         $insertPages[$key] = [$addon, $page];
                     } else {
                         self::pageCreate($page, $addon, false, $mainPage, $key, true);
@@ -215,7 +215,7 @@ class rex_be_controller
 
                 if (is_array($pages = $plugin->getProperty('pages'))) {
                     foreach ($pages as $key => $page) {
-                        if (false !== strpos($key, '/')) {
+                        if (str_contains($key, '/')) {
                             $insertPages[$key] = [$plugin, $page];
                         } else {
                             self::pageCreate($page, $plugin, false, $mainPage, $key, true);
@@ -402,6 +402,12 @@ class rex_be_controller
     {
         $currentPage = self::getCurrentPageObject();
 
+        if (rex_request::isPJAXRequest() && !rex_request::isPJAXContainer('#rex-js-page-container')) {
+            // non-core pjax containers should not have a layout.
+            // they render their whole response on their own
+            $currentPage->setHasLayout(false);
+        }
+
         rex_timer::measure('Layout: top.php', function () {
             require rex_path::core('layout/top.php');
         });
@@ -456,10 +462,16 @@ class rex_be_controller
             $pattern = '@' . preg_quote(rex_path::src('addons/'), '@') . '([^/\\\]+)(?:[/\\\]plugins[/\\\]([^/\\\]+))?@';
 
             if (!preg_match($pattern, $path, $matches)) {
+                /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
                 $__context = $context;
+                /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
                 $__path = $path;
+
                 unset($context, $path, $pattern, $matches);
+
+                /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
                 extract($__context, EXTR_SKIP);
+                /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
                 return include $__path;
             }
 

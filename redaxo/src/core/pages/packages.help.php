@@ -4,8 +4,6 @@
  * @package redaxo5
  */
 
-echo rex_view::title(rex_i18n::msg('addons'), '');
-
 $content = '';
 
 $package = rex_package::get(rex_request('package', 'string'));
@@ -21,13 +19,19 @@ if (is_readable($package->getPath('help.php'))) {
     $package->includeFile('help.php');
     $content .= ob_get_clean();
 } elseif (is_readable($package->getPath('README.'. rex_i18n::getLanguage() .'.md'))) {
-    [$readmeToc, $readmeContent] = rex_markdown::factory()->parseWithToc(rex_file::require($package->getPath('README.'. rex_i18n::getLanguage() .'.md')), 2, 3, false);
+    [$readmeToc, $readmeContent] = rex_markdown::factory()->parseWithToc(rex_file::require($package->getPath('README.'. rex_i18n::getLanguage() .'.md')), 2, 3, [
+        rex_markdown::SOFT_LINE_BREAKS => false,
+        rex_markdown::HIGHLIGHT_PHP => true,
+    ]);
     $fragment = new rex_fragment();
     $fragment->setVar('content', $readmeContent, false);
     $fragment->setVar('toc', $readmeToc, false);
     $content .= $fragment->parse('core/page/docs.php');
 } elseif (is_readable($package->getPath('README.md'))) {
-    [$readmeToc, $readmeContent] = rex_markdown::factory()->parseWithToc(rex_file::require($package->getPath('README.md')), 2, 3, false);
+    [$readmeToc, $readmeContent] = rex_markdown::factory()->parseWithToc(rex_file::require($package->getPath('README.md')), 2, 3, [
+        rex_markdown::SOFT_LINE_BREAKS => false,
+        rex_markdown::HIGHLIGHT_PHP => true,
+    ]);
     $fragment = new rex_fragment();
     $fragment->setVar('content', $readmeContent, false);
     $fragment->setVar('toc', $readmeToc, false);
@@ -37,7 +41,7 @@ if (is_readable($package->getPath('help.php'))) {
 }
 
 $fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('package_help') . ' ' . $name, false);
+$fragment->setVar('title', rex_i18n::msg('package_hhelp'), false);
 $fragment->setVar('body', $content, false);
 echo $fragment->parse('core/page/section.php');
 
@@ -52,7 +56,7 @@ if ($author) {
     $credits .= '<dt>' . rex_i18n::msg('credits_author') . '</dt><dd>' . rex_escape($author) . '</dd>';
 }
 if ($supportPage) {
-    $credits .= '<dt>' . rex_i18n::msg('credits_supportpage') . '</dt><dd><a href="' . $supportPage . '" onclick="window.open(this.href); return false;">' . $supportPage . '</a></dd>';
+    $credits .= '<dt>' . rex_i18n::msg('credits_supportpage') . '</dt><dd><a href="' . $supportPage . '" onclick="window.open(this.href); return false;">' . $supportPage . ' <i class="fa fa-external-link"></i></a></a></dd>';
 }
 
 $credits .= '</dl>';

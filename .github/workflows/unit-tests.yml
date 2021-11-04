@@ -1,0 +1,72 @@
+name: Unit tests
+
+on:
+    push:
+        branches: [main, bugfix, temp]
+    pull_request:
+        types: [opened, synchronize, reopened, ready_for_review]
+
+jobs:
+    phpunit:
+        runs-on: ${{ matrix.os }}
+
+        strategy:
+            matrix:
+                include:
+                    -   os: ubuntu-18.04
+                        php-version: '7.3'
+                        db-image: 'mysql:5.6'
+                    -   os: ubuntu-latest
+                        php-version: '7.4'
+                        db-image: 'mysql:5.7'
+                    -   os: ubuntu-latest
+                        php-version: '8.0'
+                        db-image: 'mysql:8.0'
+                    -   os: ubuntu-latest
+                        php-version: '8.1'
+                        db-image: 'mysql:8.0'
+                    -   os: ubuntu-18.04
+                        php-version: '7.3'
+                        db-image: 'mariadb:10.1'
+                    -   os: ubuntu-latest
+                        php-version: '7.4'
+                        db-image: 'mariadb:latest'
+
+        # https://docs.github.com/en/free-pro-team@latest/actions/guides/about-service-containers
+        services:
+            mysql:
+                image: ${{ matrix.db-image }}
+                env:
+                    MYSQL_ROOT_PASSWORD: root
+                ports:
+                    - 3306:3306
+                options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v2
+
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: ${{ matrix.php-version }}
+                    extensions: gd, intl, pdo_mysql
+                    coverage: none # disable xdebug, pcov
+
+            -   name: Composer install
+                uses: ramsey/composer-install@v1
+                with:
+                    composer-options: ${{ matrix.php-version == '8.1' && '--ansi --prefer-dist --ignore-platform-req=php' || '--ansi --prefer-dist' }}
+
+            -   name: Setup Problem Matchers for PHPUnit
+                run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+            -   name: Setup REDAXO
+                run: |
+                    mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
+                    git apply .github/workflows/default.config.yml.github-action.diff
+                    php .tools/bin/setup
+                    redaxo/bin/console system:report
+
+            -   name: Run phpunit
+                run: vendor/bin/phpunit --colors=always

@@ -20,6 +20,8 @@ class rex_version
 
     /**
      * Splits a version string into its parts.
+     *
+     * @return list<string>
      */
     public static function split(string $version): array
     {
@@ -36,26 +38,26 @@ class rex_version
      *
      * @param string $version1   First version number
      * @param string $version2   Second version number
-     * @param string $comparator Optional comparator
-     * @psalm-param null|'='|'=='|'!='|'<>'|'<'|'<='|'>'|'>=' $comparator
+     * @param null|'='|'=='|'!='|'<>'|'<'|'<='|'>'|'>=' $comparator Optional comparator
      *
-     * @return int|bool
+     * @return bool
      */
-    public static function compare(string $version1, string $version2, ?string $comparator = null)
+    public static function compare(string $version1, string $version2, ?string $comparator = '<')
     {
+        // bc
+        $comparator = $comparator ?? '<';
+
+        if (!in_array($comparator, ['=', '==', '!=', '<>', '<', '<=', '>', '>='], true)) {
+            throw new InvalidArgumentException(sprintf('Unknown comparator "%s".', $comparator));
+        }
+
         $version1 = self::split($version1);
         $version2 = self::split($version2);
         $max = max(count($version1), count($version2));
         $version1 = implode('.', array_pad($version1, $max, '0'));
         $version2 = implode('.', array_pad($version2, $max, '0'));
 
-        $result = version_compare($version1, $version2, $comparator);
-
-        if (null === $result) {
-            throw new InvalidArgumentException(sprintf('Unknown comparator "%s".', $comparator));
-        }
-
-        return $result;
+        return version_compare($version1, $version2, $comparator);
     }
 
     /**
@@ -67,13 +69,6 @@ class rex_version
      */
     public static function gitHash($path, ?string $repo = null): ?string
     {
-        static $gitHash = [];
-
-        if (array_key_exists($path, $gitHash)) {
-            return $gitHash[$path];
-        }
-
-        $gitHash[$path] = null; // exec only once
         $output = [];
         $exitCode = -1;
 
@@ -89,20 +84,18 @@ class rex_version
             return null;
         }
 
-        $command = 'cd '. escapeshellarg($path).' && '.escapeshellarg($git).' ls-remote --get-url';
-        $remote = @exec($command, $output, $exitCode);
+        if (null !== $repo) {
+            $command = 'cd '. escapeshellarg($path).' && '.escapeshellarg($git).' ls-remote --get-url';
+            $remote = @exec($command, $output, $exitCode);
 
-        if (0 !== $exitCode || !preg_match('{github.com[:/]'.preg_quote($repo).'\.git$}i', $remote)) {
-            return null;
+            if (0 !== $exitCode || !preg_match('{github.com[:/]'.preg_quote($repo).'\.git$}i', $remote)) {
+                return null;
+            }
         }
 
         $command = 'cd '. escapeshellarg($path).' && '.escapeshellarg($git).' log -1 --pretty=format:%h';
         $version = @exec($command, $output, $exitCode);
 
-        if (0 === $exitCode) {
-            $gitHash[$path] = $version;
-        }
-
-        return $gitHash[$path];
+        return 0 === $exitCode ? $version : null;
     }
 }

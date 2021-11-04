@@ -6,9 +6,6 @@ general = general
 setlocale = es_ES,es_BO,latin_america,ES,Español,castellano
 phpini_settings = Ajustes PHP.ini
 
-dateformat = %d %b. %Y
-datetimeformat = %d %b. %Y, %H:%M
-timeformat = %H:%M
 ctrl = Selección múltiple mediante CTRL
 translatable = Traducible a través de <code>translate:i18n_key</code>
 save_and_goon_tooltip = Guardar y continuar editando
@@ -32,8 +29,10 @@ no_editing_rights = Permiso denegado
 check_rights_in_directory = Compruebe los permisos de carpeta.
 error_undefined = Se ha producido un error indefinido
 csrf_token_invalid = Vuelva a enviar el formulario o vuelva a ejecutar la acción (error: el token CSRF no es válido).
-unstable_version = Versión de desarrollo: utilícela bajo su propio riesgo.
+unstable_version = Versión de desarrollo
 copy_to_clipboard = Copiar al portapapeles
+search_placeholder = Buscar…
+search_clear = Restablecer entrada
 
 # redaxo/redaxo/index.php
 system = Sistema
@@ -73,7 +72,7 @@ safemode_deactivate = Desactivar el modo seguro
 form_field_first_priority = primera posición
 form_field_after_priority = después de "{0}"
 
-# redaxo\include\pages\system.php
+# src\core\pages\system.php
 info_updated = ¡Información actualizada!
 delete_cache = Eliminar caché
 delete_cache_description = Plantillas y archivos de idiomas se creará, caso del artículo se eliminará. La memoria caché del artículo respectivo se recreará en la llamada de fondo del artículo.
@@ -161,7 +160,7 @@ debug_confirm = El modo de depuración no debe activarse en modo en vivo.  ¿Sig
 system_report = Informe del sistema
 system_report_markdown = Como markdown
 
-# redaxo\include\pages\medienpool.php\setup.php
+# src\core\pages\setup.php
 setup = Preparar
 setup_restart = Reiniciar la configuración
 setup_text = Puede iniciar el proceso de configuración aquí. Esto es sólo para emergencias y no se requiere en condiciones normales.
@@ -177,8 +176,7 @@ setup_199 = 1 / Idioma
 
 setup_200 = Configuración: Paso 2 de 7 / Licencia
 setup_201 = Bienvenido a REDAXO-Setup.
-setup_202 = <h3>A continuación:</h3><ol><li>Comprobar los permisos del archivo </li><li> Comprobar la configuración de la base de datos y escribir en config.yml </li> <li> Crear una cuenta de administrador </li> </ol>
-setup_203 = Aceptar términos de licencia y pasar al paso 3
+setup_203 = Aceptar términos de licencia
 setup_299 = 2 / Licencia
 
 setup_300 = Configuración: Paso 3 de 7 / Comprobación del sistema
@@ -255,7 +253,7 @@ setup_700 = Configuración: Paso 7 de 7 / Hooray
 setup_701 = Error al escribir en config.yml. Por favor, cambie el archivo manualmente por FTP.
 setup_702 = ¡Felicitaciones! REDAXO ha sido instalado.
 setup_703 = Tenga en cuenta:
-setup_704 = <ol><li>Utilice esta {0} cuenta para iniciar sesión{1}.</li><li>Importe una demostración [después de iniciar sesión]: Vaya a Importar/Exportar e instale la base de datos y los archivos de origen necesarios. </li></ol>
+setup_704 =
 setup_705 = Diviértete y suerte <br /> El equipo REDAXO
 setup_706 = Iniciar sesión
 setup_799 = 7 / Eureka
@@ -289,7 +287,7 @@ https_activate = Activar para frontend y backend
 setup_password_hint = Ingrese una nueva contraseña o deje la entrada sin cambios de lo contrario.
 hsts_more_information = Se recomienda activar HSTS en la configuración de alojamiento de su dominio / s, pero también se puede activar en config.yml de REDAXO en una etapa posterior.  Hay más información disponible en la documentación de REDAXO
 
-# redaxo\include\pages\addon.php
+# src\core\pages\addon.php
 addon = AddOn
 addons = AddOns
 package_help = Ayuda para
@@ -328,8 +326,6 @@ package_activate = activar
 package_yes = sí
 package_no = no
 package_caption = Lista de paquetes disponibles
-package_search = Buscar...
-package_clear = Restablecer entrada
 addon_systemaddon = Addon del sistema
 addon_systempackage_delete_not_allowed = Los complementos del sistema no se pueden eliminar!
 addon_dir_not_writable = ¡Los permisos de escritura están faltando para el directorio addon!
@@ -381,7 +377,7 @@ plugin_systempackage_delete_not_allowed = Plugins del sistema no deben ser elimi
 plugin_dir_not_writable = Falta permisos de escritura para el directorio de complementos.
 plugin_cache_not_writable = ¡La carpeta de caché de Plugin no tiene permisos de escritura!
 
-# redaxo\include\pages\credits.php
+# src\core\pages\credits.php
 credits = Créditos
 credits_name = Añadir
 credits_help = Ayuda
@@ -398,7 +394,7 @@ credits_designer = Diseñador
 credits_license = Licencia
 credits_explain_license = Declarar licencia
 
-# redaxo\include\pages\profile.php
+# src\core\pages\profile.php
 profile_myprofile = Editar mi perfil
 profile_title = Mi perfil
 profile_save = Guardar perfil

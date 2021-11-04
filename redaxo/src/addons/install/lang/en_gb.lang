@@ -69,6 +69,5 @@ install_settings_saved = Settings saved!
 install_settings_error = Settings not saved, check file permissions for: {0}
 
 install_header_function = Function
-
-install_clear = Clear
-install_search = Search ...
+install_latest_release = Current release
+install_download_unstable = Warning! This is a development version. Install at your own peril.

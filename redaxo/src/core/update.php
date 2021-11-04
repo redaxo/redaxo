@@ -1,10 +1,18 @@
 <?php
 
-// don't use REX_MIN_PHP_VERSION or rex_setup::MIN_MYSQL_VERSION here!
+// don't use REX_MIN_PHP_VERSION or rex_setup::MIN_* constants here!
 // while updating the core, the constants contain the old min versions from previous core version
 
 if (PHP_VERSION_ID < 70300) {
     throw new rex_functional_exception(rex_i18n::msg('setup_301', PHP_VERSION, '7.3'));
+}
+
+$minExtensions = ['ctype', 'fileinfo', 'filter', 'iconv', 'intl', 'mbstring', 'pcre', 'pdo', 'pdo_mysql', 'session', 'tokenizer'];
+$missing = array_filter($minExtensions, static function (string $extension) {
+    return !extension_loaded($extension);
+});
+if ($missing) {
+    throw new rex_functional_exception('Missing required php extension(s): '.implode(', ', $missing));
 }
 
 $minMysqlVersion = '5.6';
@@ -44,9 +52,15 @@ if (rex_string::versionCompare(rex::getVersion(), '5.9.0-beta1', '<')) {
 }
 
 $path = rex_path::coreData('config.yml');
-rex_file::putConfig($path, array_merge(
+$config = array_merge(
     rex_file::getConfig(__DIR__.'/default.config.yml'),
     rex_file::getConfig($path)
-));
+);
+
+if (rex_string::versionCompare(rex::getVersion(), '5.12.0-dev', '<')) {
+    $config['setup_addons'][] = 'install';
+}
+
+rex_file::putConfig($path, $config);
 
 require __DIR__.'/install.php';

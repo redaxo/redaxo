@@ -91,7 +91,7 @@ class rex_cronjob_article_status extends rex_cronjob
 
     public function getParamFields()
     {
-        $fields = [
+        return [
             [
                 'name' => 'reset_date',
                 'type' => 'checkbox',
@@ -99,6 +99,5 @@ class rex_cronjob_article_status extends rex_cronjob
                 'notice' => rex_i18n::msg('cronjob_article_reset_date_info'),
             ],
         ];
-        return $fields;
     }
 }

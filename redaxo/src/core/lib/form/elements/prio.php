@@ -15,7 +15,10 @@ class rex_form_prio_element extends rex_form_select_element
     private $firstOptionMsg;
     /** @var string */
     private $optionMsg;
-    /** @var rex_form */
+    /**
+     * @var rex_form
+     * @psalm-suppress NonInvariantDocblockPropertyType
+     */
     protected $table;
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,

@@ -10,8 +10,8 @@ class rex_article_content_test extends TestCase
     protected function setUp(): void
     {
         // fake article
-        $article_file = rex_path::addonCache('structure', '1.1.article');
-        rex_file::putCache($article_file, [
+        $articleFile = rex_path::addonCache('structure', '1.1.article');
+        rex_file::putCache($articleFile, [
             'pid' => 1,
             'id' => 1,
             'parent_id' => 0,
@@ -66,10 +66,7 @@ class rex_article_content_test extends TestCase
 
     public function testBcHasValue()
     {
-        $class = new ReflectionClass(rex_article_content::class);
-
-        /** @var rex_article_content $instance */
-        $instance = $class->newInstance(1, 1);
+        $instance = new rex_article_content(1, 1);
 
         $viaSql = new ReflectionProperty(rex_article_content::class, 'viasql');
         $viaSql->setAccessible(true);
@@ -89,9 +86,7 @@ class rex_article_content_test extends TestCase
 
     public function testBcGetValue()
     {
-        $class = new ReflectionClass(rex_article_content::class);
-        /** @var rex_article_content $instance */
-        $instance = $class->newInstance(1, 1);
+        $instance = new rex_article_content(1, 1);
 
         $viaSql = new ReflectionProperty(rex_article_content::class, 'viasql');
         $viaSql->setAccessible(true);
@@ -104,17 +99,34 @@ class rex_article_content_test extends TestCase
 
         static::assertEquals('teststring', $instance->getValue('foo'));
         static::assertEquals('teststring', $instance->getValue('art_foo'));
+    }
 
-        static::assertEquals('[bar not found]', $instance->getValue('bar'));
-        static::assertEquals('[art_bar not found]', $instance->getValue('art_bar'));
+    /** @dataProvider dataBcGetValueNonExisting */
+    public function testBcGetValueNonExisting(string $value): void
+    {
+        $instance = new rex_article_content(1, 1);
+
+        $viaSql = new ReflectionProperty(rex_article_content::class, 'viasql');
+        $viaSql->setAccessible(true);
+        $viaSql->setValue($instance, true);
+
+        $this->expectException(rex_exception::class);
+
+        $instance->getValue($value);
+    }
+
+    /** @return list<array{string}> */
+    public function dataBcGetValueNonExisting(): array
+    {
+        return [
+            ['bar'],
+            ['art_bar'],
+        ];
     }
 
     public function testHasValue()
     {
-        $class = new ReflectionClass(rex_article_content::class);
-
-        /** @var rex_article_content $instance */
-        $instance = $class->newInstance(1, 1);
+        $instance = new rex_article_content(1, 1);
 
         static::assertTrue($instance->hasValue('foo'));
         static::assertTrue($instance->hasValue('art_foo'));
@@ -125,14 +137,28 @@ class rex_article_content_test extends TestCase
 
     public function testGetValue()
     {
-        $class = new ReflectionClass(rex_article_content::class);
-        /** @var rex_article_content $instance */
-        $instance = $class->newInstance(1, 1);
+        $instance = new rex_article_content(1, 1);
 
         static::assertEquals('teststring', $instance->getValue('foo'));
         static::assertEquals('teststring', $instance->getValue('art_foo'));
+    }
 
-        static::assertEquals('[bar not found]', $instance->getValue('bar'));
-        static::assertEquals('[art_bar not found]', $instance->getValue('art_bar'));
+    /** @dataProvider dataGetValueNonExisting */
+    public function testGetValueNonExisting(string $value): void
+    {
+        $instance = new rex_article_content(1, 1);
+
+        $this->expectException(rex_exception::class);
+
+        $instance->getValue($value);
+    }
+
+    /** @return list<array{string}> */
+    public function dataGetValueNonExisting(): array
+    {
+        return [
+            ['bar'],
+            ['art_bar'],
+        ];
     }
 }

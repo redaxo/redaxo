@@ -10,15 +10,7 @@ class rex_managed_media
     public const PROP_WEBP_QUALITY = 'webp_quality';
     public const PROP_INTERLACE = 'interlace';
 
-    private $media_path = '';
-    private $media;
-    private $asImage = false;
-    private $image;
-    private $header = [];
-    private $sourcePath;
-    private $format;
-
-    private $mimetypeMap = [
+    private const MIMETYPE_MAP = [
         'image/jpeg' => 'jpg',
         'image/jpg' => 'jpg',
         'image/pjpeg' => 'jpg',
@@ -28,10 +20,37 @@ class rex_managed_media
         'image/webp' => 'webp',
     ];
 
+    /** @var string|null */
+    private $mediaPath = '';
+
+    /** @var string */
+    private $media;
+
+    /** @var bool */
+    private $asImage = false;
+
+    /** @var array{width: ?int, height: ?int, src?: resource}&array<string, mixed> */
+    private $image = [
+        'width' => null,
+        'height' => null,
+    ];
+
+    /** @var array<string, string> */
+    private $header = [];
+
+    /** @var string */
+    private $sourcePath;
+
+    /** @var string */
+    private $format;
+
+    /**
+     * @param string $mediaPath
+     */
     public function __construct($mediaPath)
     {
         $this->setMediaPath($mediaPath);
-        $this->format = strtolower(rex_file::extension($this->getMediaPath()));
+        $this->format = strtolower(rex_file::extension($mediaPath));
     }
 
     /**
@@ -43,12 +62,15 @@ class rex_managed_media
      */
     public function getMediaPath()
     {
-        return $this->media_path;
+        return $this->mediaPath;
     }
 
+    /**
+     * @param string|null $mediaPath
+     */
     public function setMediaPath($mediaPath)
     {
-        $this->media_path = $mediaPath;
+        $this->mediaPath = $mediaPath;
 
         if (null === $mediaPath) {
             return;
@@ -60,21 +82,34 @@ class rex_managed_media
         $this->sourcePath = $mediaPath;
     }
 
+    /**
+     * @return string
+     */
     public function getMediaFilename()
     {
         return $this->media;
     }
 
+    /**
+     * @param string $filename
+     */
     public function setMediaFilename($filename)
     {
         $this->media = $filename;
     }
 
+    /**
+     * @param string $name
+     * @param string $value
+     */
     public function setHeader($name, $value)
     {
         $this->header[$name] = $value;
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function getHeader()
     {
         return $this->header;
@@ -90,44 +125,48 @@ class rex_managed_media
             throw new rex_media_manager_not_found_exception(sprintf('Source path "%s" does not exist.', $this->sourcePath));
         }
 
-        $this->image = [];
-        $this->image['src'] = false;
+        $this->image = [
+            'width' => null,
+            'height' => null,
+        ];
 
         $format = $this->format;
 
         // if mimetype detected and in imagemap -> change format
         if ($ftype = rex_file::mimeType($this->getSourcePath())) {
-            if (array_key_exists($ftype, $this->mimetypeMap)) {
-                $format = $this->mimetypeMap[$ftype];
+            if (array_key_exists($ftype, self::MIMETYPE_MAP)) {
+                $format = self::MIMETYPE_MAP[$ftype];
             }
         }
 
         if ('jpg' == $format || 'jpeg' == $format) {
             $format = 'jpeg';
-            $this->image['src'] = @imagecreatefromjpeg($this->getSourcePath());
+            $image = @imagecreatefromjpeg($this->getSourcePath());
         } elseif ('gif' == $format) {
-            $this->image['src'] = @imagecreatefromgif($this->getSourcePath());
+            $image = @imagecreatefromgif($this->getSourcePath());
         } elseif ('wbmp' == $format) {
-            $this->image['src'] = @imagecreatefromwbmp($this->getSourcePath());
+            $image = @imagecreatefromwbmp($this->getSourcePath());
         } elseif ('webp' == $format) {
+            $image = false;
             if (function_exists('imagecreatefromwebp')) {
-                $this->image['src'] = @imagecreatefromwebp($this->getSourcePath());
-                imagealphablending($this->image['src'], false);
-                imagesavealpha($this->image['src'], true);
+                $image = @imagecreatefromwebp($this->getSourcePath());
+                imagealphablending($image, false);
+                imagesavealpha($image, true);
             }
         } else {
-            $this->image['src'] = @imagecreatefrompng($this->getSourcePath());
-            if ($this->image['src']) {
-                imagealphablending($this->image['src'], false);
-                imagesavealpha($this->image['src'], true);
+            $image = @imagecreatefrompng($this->getSourcePath());
+            if ($image) {
+                imagealphablending($image, false);
+                imagesavealpha($image, true);
                 $format = 'png';
             }
         }
 
-        if (!$this->image['src']) {
+        if (!$image) {
             throw new rex_media_manager_not_found_exception(sprintf('Source path "%s" could not be converted to gd resource.', $this->sourcePath));
         }
 
+        $this->image['src'] = $image;
         $this->asImage = true;
         $this->format = $format;
 
@@ -138,38 +177,50 @@ class rex_managed_media
     public function refreshImageDimensions()
     {
         if ($this->asImage) {
+            assert(isset($this->image['src']));
             $this->image['width'] = imagesx($this->image['src']);
             $this->image['height'] = imagesy($this->image['src']);
 
             return;
         }
 
-        if ('jpeg' !== $this->format && !in_array($this->format, $this->mimetypeMap)) {
+        if ('jpeg' !== $this->format && !in_array($this->format, self::MIMETYPE_MAP)) {
             return;
         }
 
         $size = @getimagesize($this->sourcePath);
-        $this->image['width'] = $size[0] ?? null;
-        $this->image['height'] = $size[1] ?? null;
+        $this->image['width'] = isset($size[0]) ? (int) $size[0] : null;
+        $this->image['height'] = isset($size[1]) ? (int) $size[1] : null;
     }
 
+    /**
+     * @return string
+     */
     public function getFormat()
     {
         return $this->format;
     }
 
+    /**
+     * @param string $format
+     */
     public function setFormat($format)
     {
         $this->format = $format;
     }
 
+    /**
+     * @param string $sourceCachePath
+     * @param string $headerCachePath
+     * @param bool $save
+     */
     public function sendMedia($sourceCachePath, $headerCachePath, $save = false)
     {
         $this->prepareHeaders();
 
         if ($this->asImage) {
             $src = $this->getSource();
-            $this->setHeader('Content-Length', rex_string::size($src));
+            $this->setHeader('Content-Length', (string) rex_string::size($src));
 
             rex_response::cleanOutputBuffers();
             foreach ($this->header as $t => $c) {
@@ -188,7 +239,7 @@ class rex_managed_media
                 rex_file::put($sourceCachePath, $src);
             }
         } else {
-            $this->setHeader('Content-Length', filesize($this->getSourcePath()));
+            $this->setHeader('Content-Length', (string) filesize($this->getSourcePath()));
 
             rex_response::cleanOutputBuffers();
             foreach ($this->header as $t => $c) {
@@ -209,6 +260,10 @@ class rex_managed_media
         }
     }
 
+    /**
+     * @param string $sourceCachePath
+     * @param string $headerCachePath
+     */
     public function save($sourceCachePath, $headerCachePath)
     {
         $src = $this->getSource();
@@ -227,43 +282,60 @@ class rex_managed_media
      */
     protected function getImageSource()
     {
+        if (!isset($this->image['src'])) {
+            throw new BadMethodCallException(__METHOD__.' can not be called without calling asImage() before');
+        }
+
         $addon = rex_addon::get('media_manager');
 
         $format = $this->format;
         $format = 'jpeg' === $format ? 'jpg' : $format;
 
-        $interlace = $this->getImageProperty(self::PROP_INTERLACE, $addon->getConfig('interlace'));
+        $interlace = (array) $this->getImageProperty(self::PROP_INTERLACE, $addon->getConfig('interlace'));
         imageinterlace($this->image['src'], in_array($format, $interlace) ? 1 : 0);
 
         ob_start();
         if ('jpg' == $format) {
-            $quality = $this->getImageProperty(self::PROP_JPG_QUALITY, $addon->getConfig('jpg_quality'));
+            $quality = (int) $this->getImageProperty(self::PROP_JPG_QUALITY, $addon->getConfig('jpg_quality'));
             imagejpeg($this->image['src'], null, $quality);
         } elseif ('png' == $format) {
-            $compression = $this->getImageProperty(self::PROP_PNG_COMPRESSION, $addon->getConfig('png_compression'));
+            $compression = (int) $this->getImageProperty(self::PROP_PNG_COMPRESSION, $addon->getConfig('png_compression'));
             imagepng($this->image['src'], null, $compression);
         } elseif ('gif' == $format) {
             imagegif($this->image['src']);
         } elseif ('wbmp' == $format) {
             imagewbmp($this->image['src']);
         } elseif ('webp' == $format) {
-            $quality = $this->getImageProperty(self::PROP_WEBP_QUALITY, $addon->getConfig('webp_quality'));
+            $quality = (int) $this->getImageProperty(self::PROP_WEBP_QUALITY, $addon->getConfig('webp_quality'));
             imagewebp($this->image['src'], null, $quality);
         }
         return ob_get_clean();
     }
 
+    /**
+     * @return resource
+     */
     public function getImage()
     {
+        if (!isset($this->image['src'])) {
+            throw new BadMethodCallException(__METHOD__.' can not be called without calling asImage() before');
+        }
+
         return $this->image['src'];
     }
 
+    /**
+     * @param resource $src
+     */
     public function setImage($src)
     {
         $this->image['src'] = $src;
         $this->asImage = true;
     }
 
+    /**
+     * @param string $path
+     */
     public function setSourcePath($path)
     {
         $this->sourcePath = $path;
@@ -302,21 +374,36 @@ class rex_managed_media
         return rex_file::require($this->sourcePath);
     }
 
+    /**
+     * @param string $name
+     * @param mixed $value
+     */
     public function setImageProperty($name, $value)
     {
-        $this->image[$name] = $value;
+        $this->image[$name] = $value; /** @phpstan-ignore-line */
     }
 
+    /**
+     * @param string $name
+     * @param mixed $default
+     * @return null|mixed
+     */
     public function getImageProperty($name, $default = null)
     {
         return $this->image[$name] ?? $default;
     }
 
+    /**
+     * @return int|null
+     */
     public function getWidth()
     {
         return $this->image['width'];
     }
 
+    /**
+     * @return int|null
+     */
     public function getHeight()
     {
         return $this->image['height'];
@@ -340,6 +427,10 @@ class rex_managed_media
 
     private function fixOrientation()
     {
+        if (!isset($this->image['src'])) {
+            throw new BadMethodCallException(__METHOD__.' can not be called without calling asImage() before');
+        }
+
         if (!function_exists('exif_read_data')) {
             return;
         }
@@ -368,20 +459,20 @@ class rex_managed_media
     }
 
     /**
-     * @param string $src Source content
+     * @param string|null $src Source content
      */
     private function prepareHeaders($src = null)
     {
         if (null !== $src) {
-            $this->setHeader('Content-Length', rex_string::size($src));
+            $this->setHeader('Content-Length', (string) rex_string::size($src));
         }
 
         $header = $this->getHeader();
         if (!isset($header['Content-Type']) && $this->sourcePath) {
-            $content_type = rex_file::mimeType($this->sourcePath);
+            $contentType = rex_file::mimeType($this->sourcePath);
 
-            if ($content_type) {
-                $this->setHeader('Content-Type', $content_type);
+            if ($contentType) {
+                $this->setHeader('Content-Type', $contentType);
             }
         }
         if (!isset($header['Content-Disposition'])) {

@@ -4,10 +4,6 @@
  * @package redaxo5
  */
 
-echo rex_view::title(rex_i18n::msg('addons'), '');
-
-$content = '';
-
 $package = rex_package::get(rex_request('package', 'string'));
 
 $license = null;
@@ -19,11 +15,11 @@ if (is_readable($package->getPath('LICENSE.md'))) {
 
 if ($license) {
     $fragment = new rex_fragment();
-    $fragment->setVar('title', rex_i18n::msg('credits_license').': '.$package->getPackageId());
+    $fragment->setVar('title', rex_i18n::msg('credits_license'));
     $fragment->setVar('body', $license, false);
     echo '<div id="license"></div>'; // scroll anchor
     echo $fragment->parse('core/page/section.php');
 }
 
 echo '<a class="btn btn-back" href="javascript:history.back();">' . rex_i18n::msg('package_back') . '</a>';
-echo '<a class="btn" rel="noopener noreferrer" target="_blank" href="https://choosealicense.com/licenses/">' . rex_i18n::msg('credits_explain_license') . '</a>';
+echo '<a class="btn" rel="noopener noreferrer" target="_blank" href="https://choosealicense.com/licenses/">' . rex_i18n::msg('credits_explain_license') . ' <i class="fa fa-external-link"></i></a>';

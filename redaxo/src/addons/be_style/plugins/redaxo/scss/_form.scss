@@ -32,7 +32,7 @@
 .panel > form {
     margin-bottom: 0;
 }
-.form-control:focus {
+.form-control:focus:not([readonly]) {
     background-color: #fff;
 }
 // rex_select liefert immer size=1 und bs3 setzt height auf auto
@@ -40,6 +40,14 @@
 select.form-control {
     height: auto;
 }
+
+// workaround for select issues (Safari 15)
+// https://github.com/redaxo/redaxo/issues/4792
+// TODO: check if workaround can be removed with newer Safari releases
+:not(.rex-select-style) select.form-control {
+    white-space: normal;
+}
+
 legend {
     padding-bottom: 3px;
     font-size: $font-size-large;
@@ -72,12 +80,9 @@ legend {
         display: table;
         width: 100%;
         table-layout: fixed;
-        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-            // IE10 + IE11 Bug
-            // Mediapool form-group to wide in <tfoot> > setAllCheckBoxes
-            .table & {
-                table-layout: auto;
-            }
+
+        .table & {
+            table-layout: auto;
         }
 
         > dt,
@@ -272,4 +277,76 @@ label.required::after {
 // https://github.com/redaxo/redaxo/issues/3962
 .form-control {
     height: auto;
+}
+
+// clear button for search inputs
+.form-control-clear {
+    z-index: 22;
+    pointer-events: auto;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0.3em;
+    opacity: 0.6;
+}
+.form-clear-button input.form-control {
+    padding-right: 25px;
+}
+
+// ----------------------------------------------------------------------------
+
+@mixin _dark-form {
+
+    legend,
+    .form-legend {
+        color: $color-text-light-inactive;
+        border-bottom-color: $color-grey-1;
+    }
+
+    input[type=range] {
+        // hint: too much effort to add dark styles
+    }
+
+    .rex-panel-options {
+        .form-control,
+        .input-group .input-group-btn .btn {
+            border-color: darken($color-grey-5, 5%);
+        }
+    }
+
+    .rex-select-style {
+        color: $color-text-light;
+        background-color: $color-grey-2;
+        border-color: $color-grey-1;
+
+        &::after {
+            background-color: invert($color-grey-2, 100%); // invert background color first
+            filter: invert(100%); // invert whole element again to get light caret
+        }
+
+        select {
+            &[multiple],
+            &[multiple]:focus {
+                background-color: $color-grey-2;
+            }
+            &:focus {
+                background-color: transparent;
+            }
+        }
+    }
+
+    .dropdown.form-control {
+        // dropdown form-control is invisible, color comes from child element
+        background: transparent;
+        border-color: transparent;
+    }
+}
+
+body.rex-theme-dark {
+    @include _dark-form;
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+        @include _dark-form;
+    }
 }

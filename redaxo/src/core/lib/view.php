@@ -141,6 +141,8 @@ class rex_view
      * @param string $cssClass
      *
      * @return string
+     *
+     * @psalm-taint-specialize
      */
     public static function info($message, $cssClass = '')
     {
@@ -159,6 +161,8 @@ class rex_view
      * @param string $cssClass
      *
      * @return string
+     *
+     * @psalm-taint-specialize
      */
     public static function success($message, $cssClass = '')
     {
@@ -177,6 +181,8 @@ class rex_view
      * @param string $cssClass
      *
      * @return string
+     *
+     * @psalm-taint-specialize
      */
     public static function warning($message, $cssClass = '')
     {
@@ -195,6 +201,8 @@ class rex_view
      * @param string $cssClass
      *
      * @return string
+     *
+     * @psalm-taint-specialize
      */
     public static function error($message, $cssClass = '')
     {
@@ -339,7 +347,7 @@ class rex_view
 
         $items = [];
         foreach (rex_clang::getAll() as $id => $clang) {
-            if (rex::getUser()->getComplexPerm('clang')->hasPerm($id)) {
+            if (rex::requireUser()->getComplexPerm('clang')->hasPerm($id)) {
                 $icon = ($id == $context->getParam('clang')) ? '<i class="rex-icon rex-icon-language-active"></i> ' : '<i class="rex-icon rex-icon-language"></i> ';
                 $item = [];
                 $item['href'] = $context->getUrl(['clang' => $id]);
@@ -375,7 +383,7 @@ class rex_view
 
         $items = [];
         foreach (rex_clang::getAll() as $id => $clang) {
-            if (rex::getUser()->getComplexPerm('clang')->hasPerm($id)) {
+            if (rex::requireUser()->getComplexPerm('clang')->hasPerm($id)) {
                 $icon = $clang->isOnline() ? '<i class="rex-icon rex-icon-online"></i> ' : '<i class="rex-icon rex-icon-offline"></i> ';
                 $item = [];
                 $item['label'] = $icon . rex_i18n::translate($clang->getName());
@@ -405,16 +413,18 @@ class rex_view
             return '';
         }
 
-        $button_label = '';
+        $user = rex::requireUser();
+
+        $buttonLabel = '';
         $items = [];
         foreach (rex_clang::getAll() as $id => $clang) {
-            if (rex::getUser()->getComplexPerm('clang')->hasPerm($id)) {
+            if ($user->getComplexPerm('clang')->hasPerm($id)) {
                 $item = [];
                 $item['title'] = rex_i18n::translate($clang->getName());
                 $item['href'] = $context->getUrl(['clang' => $id]);
                 if ($id == $context->getParam('clang')) {
                     $item['active'] = true;
-                    $button_label = rex_i18n::translate($clang->getName());
+                    $buttonLabel = rex_i18n::translate($clang->getName());
                 }
                 $items[] = $item;
             }
@@ -423,11 +433,11 @@ class rex_view
         $fragment = new rex_fragment();
         $fragment->setVar('class', 'rex-language');
         $fragment->setVar('button_prefix', rex_i18n::msg('language'));
-        $fragment->setVar('button_label', $button_label);
+        $fragment->setVar('button_label', $buttonLabel);
         $fragment->setVar('header', rex_i18n::msg('clang_select'));
         $fragment->setVar('items', $items, false);
 
-        if (rex::getUser()->isAdmin()) {
+        if ($user->isAdmin()) {
             $fragment->setVar('footer', '<a href="' . rex_url::backendPage('system/lang') . '"><i class="fa fa-flag"></i> ' . rex_i18n::msg('languages_edit') . '</a>', false);
         }
 

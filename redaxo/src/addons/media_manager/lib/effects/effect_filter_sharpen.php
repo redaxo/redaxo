@@ -47,8 +47,8 @@ class rex_effect_filter_sharpen extends rex_effect_abstract
         }
 
         $gdimage = $this->media->getImage();
-        $w = $this->media->getWidth();
-        $h = $this->media->getHeight();
+        $w = (int) $this->media->getWidth();
+        $h = (int) $this->media->getHeight();
 
         $imgCanvas = imagecreatetruecolor($w, $h);
         $imgBlur = imagecreatetruecolor($w, $h);

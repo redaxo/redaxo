@@ -1,14 +1,10 @@
 <?php
 
-$config = [];
 $success = '';
 $error = '';
 
 if ('' != rex_post('btn_save', 'string')) {
     // set config
-
-    $tempConfig = [];
-    $newConfig = [];
 
     $newConfig = rex_post('settings', 'array');
     $tempConfig = rex_plugin::get('be_style', 'customizer')->getConfig();
@@ -176,7 +172,17 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="customizer-labelcolor">' . rex_i18n::msg('customizer_labelcolor') . '</label>';
-$n['field'] = '<input class="form-control" id="customizer-labelcolor" type="text" name="settings[labelcolor]" value="' . htmlspecialchars($config['labelcolor']) . '" />';
+$n['field'] = '
+    <div class="input-group">
+    <div class="input-group-addon">
+        <input id="customizer-labelcolor-picker" type="color" value="' . htmlspecialchars($config['labelcolor']) . '"
+            oninput="jQuery(\'#customizer-labelcolor\').val(this.value)" />
+    </div>
+    <input class="form-control" id="customizer-labelcolor" type="text" name="settings[labelcolor]"
+        value="' . htmlspecialchars($config['labelcolor']) . '"
+        oninput="jQuery(\'#customizer-labelcolor-picker\').val(this.value)" />
+</div>
+';
 $n['note'] = rex_i18n::msg('customizer_labelcolor_notice');
 $formElements[] = $n;
 

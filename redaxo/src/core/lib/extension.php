@@ -25,16 +25,16 @@ abstract class rex_extension
     /**
      * Registers an extension point.
      *
-     * @param rex_extension_point $extensionPoint Extension point
-     *
-     * @return mixed Subject, maybe adjusted by the extensions
+     * @template T
+     * @param rex_extension_point<T> $extensionPoint Extension point
+     * @return T Subject, maybe adjusted by the extensions
      *
      * @psalm-taint-specialize
      */
     public static function registerPoint(rex_extension_point $extensionPoint)
     {
-        if (static::hasFactoryClass()) {
-            return static::callFactoryClass(__FUNCTION__, func_get_args());
+        if ($factoryClass = static::getExplicitFactoryClass()) {
+            return $factoryClass::registerPoint($extensionPoint);
         }
 
         $name = $extensionPoint->getName();
@@ -48,6 +48,7 @@ abstract class rex_extension
                 foreach (self::$extensions[$name][$level] as $extensionAndParams) {
                     [$extension, $params] = $extensionAndParams;
                     $extensionPoint->setExtensionParams($params);
+                    /** @var T|null $subject */
                     $subject = call_user_func($extension, $extensionPoint);
                     // Update subject only if the EP is not readonly and the extension has returned something
                     if ($extensionPoint->isReadonly()) {
@@ -77,10 +78,22 @@ abstract class rex_extension
      */
     public static function register($extensionPoint, callable $extension, $level = self::NORMAL, array $params = [])
     {
-        if (static::hasFactoryClass()) {
-            static::callFactoryClass(__FUNCTION__, func_get_args());
+        if ($factoryClass = static::getExplicitFactoryClass()) {
+            $factoryClass::register($extensionPoint, $extension, $level, $params);
             return;
         }
+
+        // bc
+        if (is_string($level)) {
+            trigger_error(__METHOD__.': Argument $level should be one of the constants rex_extension::EARLY/NORMAL/LATE, but string "'.$level.'" given', E_USER_WARNING);
+
+            $level = (int) $level;
+        }
+
+        if (!in_array($level, [self::EARLY, self::NORMAL, self::LATE], true)) {
+            throw new InvalidArgumentException('Argument $level should be one of the constants rex_extension::EARLY/NORMAL/LATE, but "'.(is_int($level) ? $level : get_debug_type($level)).'" given');
+        }
+
         foreach ((array) $extensionPoint as $ep) {
             self::$extensions[$ep][$level][] = [$extension, $params];
         }
@@ -95,8 +108,8 @@ abstract class rex_extension
      */
     public static function isRegistered($extensionPoint)
     {
-        if (static::hasFactoryClass()) {
-            return static::callFactoryClass(__FUNCTION__, func_get_args());
+        if ($factoryClass = static::getExplicitFactoryClass()) {
+            return $factoryClass::isRegistered($extensionPoint);
         }
         return !empty(self::$extensions[$extensionPoint]);
     }

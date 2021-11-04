@@ -7,7 +7,6 @@ class rex_exception extends Exception
 {
     /**
      * @param string    $message
-     * @param Exception $previous
      */
     public function __construct($message, Exception $previous = null)
     {
@@ -21,7 +20,7 @@ class rex_exception extends Exception
 class rex_sql_exception extends rex_exception
 {
     /**
-     * @var null|\rex_sql
+     * @var null|rex_sql
      */
     private $sql;
 
@@ -46,11 +45,20 @@ class rex_sql_exception extends rex_exception
     public function getErrorCode(): ?int
     {
         $previous = $this->getPrevious();
-        if ($previous instanceof \PDOException) {
+        if ($previous instanceof PDOException) {
             return $previous->errorInfo[1] ?? null;
         }
         return null;
     }
+}
+
+/**
+ * Exception class when redaxo is unable to connect to the database.
+ *
+ * @package redaxo\core
+ */
+class rex_sql_could_not_connect_exception extends rex_sql_exception
+{
 }
 
 /**

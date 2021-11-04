@@ -6,23 +6,23 @@
 class rex_form_control_element extends rex_form_element
 {
     /**
-     * @var \rex_form_element|null
+     * @var rex_form_element|null
      */
     private $saveElement;
     /**
-     * @var \rex_form_element|null
+     * @var rex_form_element|null
      */
     private $applyElement;
     /**
-     * @var \rex_form_element|null
+     * @var rex_form_element|null
      */
     private $deleteElement;
     /**
-     * @var \rex_form_element|null
+     * @var rex_form_element|null
      */
     private $resetElement;
     /**
-     * @var \rex_form_element|null
+     * @var rex_form_element|null
      */
     private $abortElement;
 
@@ -51,7 +51,6 @@ class rex_form_control_element extends rex_form_element
             }
 
             $e = [];
-            $e['class'] = $this->saveElement->formatClass();
             $e['field'] = $this->saveElement->formatElement();
             $elements[] = $e;
         }
@@ -62,7 +61,6 @@ class rex_form_control_element extends rex_form_element
             }
 
             $e = [];
-            $e['class'] = $this->applyElement->formatClass();
             $e['field'] = $this->applyElement->formatElement();
             $elements[] = $e;
         }
@@ -73,7 +71,6 @@ class rex_form_control_element extends rex_form_element
             }
 
             $e = [];
-            $e['class'] = $this->abortElement->formatClass();
             $e['field'] = $this->abortElement->formatElement();
             $elements[] = $e;
         }
@@ -88,7 +85,6 @@ class rex_form_control_element extends rex_form_element
             }
 
             $e = [];
-            $e['class'] = $this->deleteElement->formatClass();
             $e['field'] = $this->deleteElement->formatElement();
             $elements[] = $e;
         }
@@ -103,7 +99,6 @@ class rex_form_control_element extends rex_form_element
             }
 
             $e = [];
-            $e['class'] = $this->resetElement->formatClass();
             $e['field'] = $this->resetElement->formatElement();
             $elements[] = $e;
         }

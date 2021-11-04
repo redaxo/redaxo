@@ -42,7 +42,7 @@ class rex_string
      *
      * @param string $string       Input string
      * @param string $replaceChar  Character that is used to replace not allowed chars
-     * @param string $allowedChars Character whitelist
+     * @param string $allowedChars Allowed character list
      *
      * @return string
      */
@@ -65,7 +65,7 @@ class rex_string
      *
      * @param string $string
      *
-     * @return array
+     * @return string[]
      */
     public static function split($string)
     {
@@ -73,12 +73,14 @@ class rex_string
         if (empty($string)) {
             return [];
         }
+
         $result = [];
         $spacer = '@@@REX_SPACER@@@';
         $quoted = [];
 
         $pattern = '@(?<=\s|=|^)(["\'])((?:.*[^\\\\])?(?:\\\\\\\\)*)\\1(?=\s|$)@Us';
-        $callback = static function ($match) use ($spacer, &$quoted) {
+        $callback = static function (array $match) use ($spacer, &$quoted) {
+            /** @var list<string> $match */
             $quoted[] = str_replace(['\\' . $match[1], '\\\\'], [$match[1], '\\'], $match[2]);
             return $spacer;
         };
@@ -102,6 +104,9 @@ class rex_string
 
     /**
      * @deprecated since 5.10, use `rex_version::split` instead
+     *
+     * @param string $version
+     * @return list<string>
      */
     #[\JetBrains\PhpStorm\Deprecated(reason: 'since 5.10, use `rex_version::split` instead', replacement: 'rex_version::split(!%parameter0%)')]
     public static function versionSplit($version)
@@ -111,9 +116,15 @@ class rex_string
 
     /**
      * @deprecated since 5.10, use `rex_version::compare` instead
+     *
+     * @param string $version1
+     * @param string $version2
+     * @param null|'='|'=='|'!='|'<>'|'<'|'<='|'>'|'>=' $comparator
+     *
+     * @return int|bool
      */
     #[\JetBrains\PhpStorm\Deprecated(reason: 'since 5.10, use `rex_version::compare` instead', replacement: 'rex_version::compare(!%parametersList%)')]
-    public static function versionCompare($version1, $version2, $comparator = null)
+    public static function versionCompare($version1, $version2, $comparator = '<')
     {
         return rex_version::compare($version1, $version2, $comparator);
     }
@@ -159,7 +170,7 @@ class rex_string
     public static function buildQuery(array $params, $argSeparator = '&')
     {
         $query = [];
-        $func = static function (array $params, $fullkey = null) use (&$query, &$func) {
+        $func = static function (array $params, ?string $fullkey = null) use (&$query, &$func) {
             foreach ($params as $key => $value) {
                 $key = $fullkey ? $fullkey . '[' . urlencode($key) . ']' : urlencode($key);
                 if (is_array($value)) {
@@ -176,6 +187,7 @@ class rex_string
     /**
      * Returns a string by key="value" pair.
      *
+     * @param array<int|string, int|string|list<string>> $attributes
      * @return string
      */
     public static function buildAttributes(array $attributes)
@@ -184,13 +196,16 @@ class rex_string
 
         foreach ($attributes as $key => $value) {
             if (is_int($key)) {
-                $attr .= ' ' . rex_escape($value);
+                if (is_array($value)) {
+                    throw new InvalidArgumentException('For integer keys the value can not be an array');
+                }
+                $attr .= ' ' . (string) rex_escape($value);
             } else {
                 if (is_array($value)) {
                     $value = implode(' ', $value);
                 }
                 // for bc reasons avoid double escaping of "&", especially in already escaped urls
-                $value = str_replace('&amp;', '&', $value);
+                $value = str_replace('&amp;', '&', (string) $value);
                 $attr .= ' ' . rex_escape($key) . '="' . rex_escape($value) . '"';
             }
         }
@@ -216,11 +231,13 @@ class rex_string
      */
     public static function sanitizeHtml(string $html): string
     {
+        /** @var voku\helper\AntiXSS|null $antiXss */
         static $antiXss;
 
         if (!$antiXss) {
             $antiXss = new voku\helper\AntiXSS();
             $antiXss->removeEvilAttributes(['style']);
+            $antiXss->removeNeverAllowedRegex(['(\(?:?document\)?|\(?:?window\)?(?:\.document)?)\.(?:location|on\w*)' => '']);
             $antiXss->removeNeverAllowedStrAfterwards(['&lt;script&gt;', '&lt;/script&gt;']);
         }
 

@@ -6,6 +6,8 @@
  * @author staabm
  * @author gharlan
  *
+ * @implements IteratorAggregate<string, SplFileInfo>
+ *
  * @package redaxo\core
  */
 class rex_finder implements IteratorAggregate, Countable
@@ -200,6 +202,7 @@ class rex_finder implements IteratorAggregate, Countable
      */
     public function getIterator()
     {
+        /** @var RecursiveIterator<string, SplFileInfo> $iterator */
         $iterator = new RecursiveDirectoryIterator($this->dir, FilesystemIterator::KEY_AS_PATHNAME | FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::SKIP_DOTS);
 
         $iterator = new RecursiveCallbackFilterIterator($iterator, function (SplFileInfo $current, $key, $currentIterator) use ($iterator) {

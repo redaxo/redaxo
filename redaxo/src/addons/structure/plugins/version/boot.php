@@ -8,13 +8,11 @@
  * @package redaxo5
  */
 
-$mypage = 'version';
-
 rex_perm::register('version[live_version]', null, rex_perm::OPTIONS);
 
 // ***** an EPs andocken
 rex_extension::register('ART_INIT', static function (rex_extension_point $ep) {
-    $version = rex_request('rex_version', 'int');
+    $version = rex_request(rex_version::class, 'int');
     if (rex_article_revision::WORK != $version) {
         return;
     }
@@ -40,28 +38,28 @@ rex_extension::register('STRUCTURE_CONTENT_HEADER', static function (rex_extensi
 
     $params = $ep->getParams();
 
-    $rex_version_article = rex::getProperty('login')->getSessionVar('rex_version_article');
-    if (!is_array($rex_version_article)) {
-        $rex_version_article = [];
+    $rexVersionArticle = rex::getProperty('login')->getSessionVar('rex_version_article');
+    if (!is_array($rexVersionArticle)) {
+        $rexVersionArticle = [];
     }
 
-    $version_id = rex_request('rex_set_version', 'int', '-1');
+    $versionId = rex_request('rex_set_version', 'int', '-1');
 
-    if (0 === $version_id) {
-        $rex_version_article[$params['article_id']] = 0;
-    } elseif (1 == $version_id) {
-        $rex_version_article[$params['article_id']] = 1;
-    } elseif (!isset($rex_version_article[$params['article_id']])) {
-        $rex_version_article[$params['article_id']] = 1;
+    if (0 === $versionId) {
+        $rexVersionArticle[$params['article_id']] = 0;
+    } elseif (1 == $versionId) {
+        $rexVersionArticle[$params['article_id']] = 1;
+    } elseif (!isset($rexVersionArticle[$params['article_id']])) {
+        $rexVersionArticle[$params['article_id']] = 1;
     }
 
     if (!rex::getUser()->hasPerm('version[live_version]')) {
-        $rex_version_article[$params['article_id']] = 1;
+        $rexVersionArticle[$params['article_id']] = 1;
     }
 
-    rex::getProperty('login')->setSessionVar('rex_version_article', $rex_version_article);
+    rex::getProperty('login')->setSessionVar('rex_version_article', $rexVersionArticle);
 
-    $params['slice_revision'] = $rex_version_article[$params['article_id']];
+    $params['slice_revision'] = $rexVersionArticle[$params['article_id']];
 });
 
 rex_extension::register('STRUCTURE_CONTENT_BEFORE_SLICES', static function (rex_extension_point $ep) {
@@ -72,17 +70,17 @@ rex_extension::register('STRUCTURE_CONTENT_BEFORE_SLICES', static function (rex_
     $params = $ep->getParams();
     $return = $ep->getSubject();
 
-    $working_version_empty = true;
+    $workingVersionEmpty = true;
     $gw = rex_sql::factory();
     $gw->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=1 LIMIT 1', [$params['article_id'], $params['clang']]);
     if ($gw->getRows() > 0) {
-        $working_version_empty = false;
+        $workingVersionEmpty = false;
     }
 
     $func = rex_request('rex_version_func', 'string');
     switch ($func) {
         case 'copy_work_to_live':
-            if ($working_version_empty) {
+            if ($workingVersionEmpty) {
                 $return .= rex_view::error(rex_i18n::msg('version_warning_working_version_to_live'));
             } elseif (rex::getUser()->hasPerm('version[live_version]')) {
                 if (rex_plugin::get('structure', 'history')->isAvailable()) {
@@ -108,9 +106,9 @@ rex_extension::register('STRUCTURE_CONTENT_BEFORE_SLICES', static function (rex_
         break;
     }
 
-    $rex_version_article = rex::getProperty('login')->getSessionVar('rex_version_article');
-    if (!is_array($rex_version_article)) {
-        $rex_version_article = [];
+    $rexVersionArticle = rex::getProperty('login')->getSessionVar('rex_version_article');
+    if (!is_array($rexVersionArticle)) {
+        $rexVersionArticle = [];
     }
 
     $revisions = [];
@@ -132,7 +130,7 @@ rex_extension::register('STRUCTURE_CONTENT_BEFORE_SLICES', static function (rex_
         $item = [];
         $item['title'] = $revision;
         $item['href'] = $context->getUrl(['rex_set_version' => $version]);
-        if ($rex_version_article[$params['article_id']] == $version) {
+        if ($rexVersionArticle[$params['article_id']] == $version) {
             $item['active'] = true;
             $currentRevision = $revision;
         }
@@ -153,24 +151,24 @@ rex_extension::register('STRUCTURE_CONTENT_BEFORE_SLICES', static function (rex_
     $toolbar .= '<li class="dropdown">' . $fragment->parse('core/dropdowns/dropdown.php') . '</li>';
 
     if (!rex::getUser()->hasPerm('version[live_version]')) {
-        if ($rex_version_article[$params['article_id']] > 0) {
+        if ($rexVersionArticle[$params['article_id']] > 0) {
             $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_live_to_work']) . '">' . rex_i18n::msg('version_copy_from_liveversion') . '</a></li>';
-            $toolbar .= '<li><a href="' . rex_getUrl($params['article_id'], $params['clang'], ['rex_version' => 1]) . '" rel="noopener noreferrer" target="_blank">' . rex_i18n::msg('version_preview') . '</a></li>';
+            $toolbar .= '<li><a href="' . rex_getUrl($params['article_id'], $params['clang'], [rex_version::class => 1]) . '" rel="noopener noreferrer" target="_blank">' . rex_i18n::msg('version_preview') . '</a></li>';
         }
     } else {
-        if ($rex_version_article[$params['article_id']] > 0) {
-            if (!$working_version_empty) {
+        if ($rexVersionArticle[$params['article_id']] > 0) {
+            if (!$workingVersionEmpty) {
                 $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'clear_work']) . '" data-confirm="' . rex_i18n::msg('version_confirm_clear_workingversion') . '">' . rex_i18n::msg('version_clear_workingversion') . '</a></li>';
                 $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_work_to_live']) . '">' . rex_i18n::msg('version_working_to_live') . '</a></li>';
             }
-            $toolbar .= '<li><a href="' . rex_getUrl($params['article_id'], $params['clang'], ['rex_version' => 1]) . '" rel="noopener noreferrer" target="_blank">' . rex_i18n::msg('version_preview') . '</a></li>';
+            $toolbar .= '<li><a href="' . rex_getUrl($params['article_id'], $params['clang'], [rex_version::class => 1]) . '" rel="noopener noreferrer" target="_blank">' . rex_i18n::msg('version_preview') . '</a></li>';
         } else {
             $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_live_to_work']) . '" data-confirm="' . rex_i18n::msg('version_confirm_copy_live_to_workingversion') . '">' . rex_i18n::msg('version_copy_live_to_workingversion') . '</a></li>';
         }
     }
 
-    $inverse = 1 == $rex_version_article[$params['article_id']] ? true : false;
-    $cssClass = 1 == $rex_version_article[$params['article_id']] ? 'rex-state-inprogress' : 'rex-state-live';
+    $inverse = 1 == $rexVersionArticle[$params['article_id']];
+    $cssClass = 1 == $rexVersionArticle[$params['article_id']] ? 'rex-state-inprogress' : 'rex-state-live';
 
     $return .= rex_view::toolbar('<ul class="nav navbar-nav">' . $toolbar . '</ul>', null, $cssClass, $inverse);
 

@@ -126,7 +126,7 @@ class rex_validator
      */
     public function notEmpty($value)
     {
-        return 0 !== strlen($value);
+        return '' !== $value;
     }
 
     /**

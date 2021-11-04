@@ -9,9 +9,7 @@ class rex_media_test extends TestCase
 {
     public function testHasValue()
     {
-        $mediaClass = new ReflectionClass(rex_media::class);
-        /** @var rex_media $media */
-        $media = $mediaClass->newInstanceWithoutConstructor();
+        $media = $this->createMediaWithoutConstructor();
 
         /** @psalm-suppress UndefinedPropertyAssignment */
         $media->med_foo = 'teststring';
@@ -25,9 +23,7 @@ class rex_media_test extends TestCase
 
     public function testGetValue()
     {
-        $mediaClass = new ReflectionClass(rex_media::class);
-        /** @var rex_media $media */
-        $media = $mediaClass->newInstanceWithoutConstructor();
+        $media = $this->createMediaWithoutConstructor();
 
         /** @psalm-suppress UndefinedPropertyAssignment */
         $media->med_foo = 'teststring';
@@ -37,5 +33,11 @@ class rex_media_test extends TestCase
 
         static::assertNull($media->getValue('bar'));
         static::assertNull($media->getValue('med_bar'));
+    }
+
+    private function createMediaWithoutConstructor(): rex_media
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return (new ReflectionClass(rex_media::class))->newInstanceWithoutConstructor();
     }
 }

@@ -8,57 +8,51 @@
  */
 
 $addon = rex_addon::get('phpmailer');
-
-$content = $smtpinfo = $mailerDebug = '';
+$content = $mailerDebug = '';
 $date = new DateTime();
 if ('' == $addon->getConfig('from') || '' == $addon->getConfig('test_address')) {
-    $content .= '<div class="alert alert-warning">';
-    $content .= $addon->i18n('checkmail_noadress');
-    $content .= '</div>';
+    $content .= rex_view::error($addon->i18n('checkmail_noadress'));
 } else {
     $mail = new rex_mailer();
     $mail->addAddress($addon->getConfig('test_address'));
     $mail->Subject = 'PHPMailer-Test | ' . rex_escape(rex::getServerName()) . ' | ' . date_format($date, 'Y-m-d H:i:s');
 
     $devider = "\n--------------------------------------------------";
-    $security_mode = '';
+    $securityMode = '';
 
     if ('smtp' == $addon->getConfig('mailer')) {
-        $security_mode = $addon->getConfig('security_mode');
+        $securityMode = $addon->getConfig('security_mode');
 
-        $smtpinfo = '';
-        $smtpinfo .= "\nHost: " . rex_escape($addon->getConfig('host'));
-        $smtpinfo .= "\nPort: " . rex_escape($addon->getConfig('port'));
+        $host = "\nHost: " . rex_escape($addon->getConfig('host'));
+        $smtpinfo = $host. "\nPort: " . rex_escape($addon->getConfig('port'));
         $smtpinfo .= $devider;
 
-        if (false == $security_mode) {
-            $security_mode = 'manual configured,  ' . $addon->getConfig('smtpsecure');
-            $security_mode = "\n".$addon->i18n('security_mode')."\n" . $security_mode . $devider;
+        if (false == $securityMode) {
+            $securityMode = 'manual configured ' . $addon->getConfig('smtpsecure');
+            $securityMode = "\n".$addon->i18n('security_mode')."\n" . $securityMode . $devider . $smtpinfo;
         } else {
-            $security_mode = 'Auto';
-            $security_mode = "\n".$addon->i18n('security_mode').": \n" . $security_mode . $devider;
+            $securityMode = 'Auto';
+            $securityMode = "\n".$addon->i18n('security_mode').": \n" . $securityMode . $devider . $host . $devider;
         }
     }
 
     $mail->Body = $addon->i18n('checkmail_greeting') ."\n\n" .  $addon->i18n('checkmail_text') .' '. rex::getServerName();
     $mail->Body .= "\n\nDomain: ".  $_SERVER['HTTP_HOST'];
 
-    $mail->Body .= "\nMailer: " . $addon->getConfig('mailer') . $devider.$security_mode;
+    $mail->Body .= "\nMailer: " . $addon->getConfig('mailer') . $devider . $securityMode;
     $mail->Body .= "\n". $addon->i18n('checkmail_domain_note'). "\n". $devider;
-    $mail->Debugoutput = static function ($str, $level) use (&$mailerDebug) {
+    $mail->Debugoutput = static function ($str) use (&$mailerDebug) {
         $mailerDebug .= date('Y-m-d H:i:s', time()).' '.nl2br($str);
     };
 
     if (!$mail->send()) {
-        $content .= '<div class="alert alert-danger">';
-        $content .= '<h2>' . $addon->i18n('checkmail_error_headline') . '</h2><hr>';
-        $content .= $addon->i18n('checkmail_error') . ': ' . $mail->ErrorInfo;
-        $content .= '</div>';
+        $alert = '<h2>' . $addon->i18n('checkmail_error_headline') . '</h2><hr>';
+        $alert .= $addon->i18n('checkmail_error') . ': ' . $mail->ErrorInfo;
+        $content .= rex_view::error($alert);
     } else {
-        $content .= '<div class="alert alert-success">';
-        $content .= '<strong>' . $addon->i18n('checkmail_send') . '</strong> ' . rex_escape($addon->getConfig('test_address')) . '<br>' . $addon->i18n('checkmail_info');
-        $content .= '<br><br><strong>' . $addon->i18n('checkmail_info_subject') . '</strong>';
-        $content .= '</div>';
+        $success = '<h2>' . $addon->i18n('checkmail_send') . '</h2> ' . rex_escape($addon->getConfig('test_address')) . '<br>' . $addon->i18n('checkmail_info');
+        $success .= '<br><br><strong>' . $addon->i18n('checkmail_info_subject') . '</strong>';
+        $content .= rex_view::success($success);
     }
 }
 

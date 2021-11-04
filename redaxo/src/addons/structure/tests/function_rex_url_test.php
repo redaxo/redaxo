@@ -10,11 +10,11 @@ class rex_structure_function_url_test extends TestCase
     /**
      * @dataProvider provideRedirectException
      */
-    public function testRedirectException($article_id)
+    public function testRedirectException($articleId)
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
-        rex_redirect($article_id);
+        rex_redirect($articleId);
     }
 
     public function provideRedirectException()

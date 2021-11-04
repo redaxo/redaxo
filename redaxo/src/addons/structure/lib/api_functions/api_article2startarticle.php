@@ -8,13 +8,13 @@ class rex_api_article2startarticle extends rex_api_function
 {
     public function execute()
     {
-        $article_id = rex_request('article_id', 'int');
-        $category_id = rex_article::get($article_id)->getCategoryId();
+        $articleId = rex_request('article_id', 'int');
+        $categoryId = rex_article::get($articleId)->getCategoryId();
         $user = rex::getUser();
 
         // Check permissions
-        if ($user->hasPerm('article2startarticle[]') && $user->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
-            if (rex_article_service::article2startarticle($article_id)) {
+        if ($user->hasPerm('article2startarticle[]') && $user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
+            if (rex_article_service::article2startarticle($articleId)) {
                 return new rex_api_result(true, rex_i18n::msg('content_tostartarticle_ok'));
             }
 

@@ -5,6 +5,7 @@ includes:
 
 parameters:
     level: 5
+    treatPhpDocTypesAsCertain: false
     paths:
         # restrict to core and core addons, ignore other locally installed addons
         - redaxo/src/core
@@ -20,12 +21,13 @@ parameters:
         - redaxo/src/addons/project
         - redaxo/src/addons/structure
         - redaxo/src/addons/users
-    excludes_analyse:
-        - redaxo/src/addons/backup/vendor/
-        - redaxo/src/addons/be_style/vendor/
-        - redaxo/src/addons/debug/vendor/
-        - redaxo/src/addons/phpmailer/vendor/
-        - redaxo/src/core/vendor/
+    excludePaths:
+        analyse:
+            - redaxo/src/addons/backup/vendor/
+            - redaxo/src/addons/be_style/vendor/
+            - redaxo/src/addons/debug/vendor/
+            - redaxo/src/addons/phpmailer/vendor/
+            - redaxo/src/core/vendor/
     # https://phpstan.org/config-reference#universal-object-crates
     universalObjectCratesClasses:
         - rex_fragment

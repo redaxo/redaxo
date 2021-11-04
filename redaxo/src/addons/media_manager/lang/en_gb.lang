@@ -78,7 +78,7 @@ media_manager_effect_blur_repeats = Repeats
 media_manager_effect_blur_type = Blur type
 media_manager_effect_blur_smoothit = smoothing (negative values for sharpening)
 
-media_manager_effect_colorize = Img: colorize
+media_manager_effect_colorize = Image: colorize
 media_manager_effect_colorize_r = Red value
 media_manager_effect_colorize_g = Green value
 media_manager_effect_colorize_b = Blue value
@@ -107,10 +107,10 @@ media_manager_effect_rounded_corners_topright = Top right
 media_manager_effect_rounded_corners_bottomleft = Bottom left
 media_manager_effect_rounded_corners_bottomright = Bottom right
 
-media_manager_effect_flip = Direction
+media_manager_effect_flip = Image: mirror horizontal/vertical
 media_manager_effect_flip_direction = Direction
 
-media_manager_effect_rotate = Rotate (degree)
+media_manager_effect_rotate = Image: rotate
 media_manager_effect_rotate_degree = Rotate (degrees)
 
 media_manager_effect_mirror = Image: add water reflection
@@ -127,7 +127,7 @@ media_manager_effect_workspace_pos = Position
 
 media_manager_effect_folder = Alternative path default: "media"
 
-media_manager_effect_mediapath = Media path
+media_manager_effect_mediapath = File: adjust path
 media_manager_effect_mediapath_path = Media folder
 media_manager_effect_mediapath_path_notice = Path to image source relative to the REDAXO installation instead of <code>media</code>, i.e. <code>images</code>. Leading/trailing slashes are not needed.
 
@@ -155,14 +155,17 @@ media_manager_effect_image_properties_png_compression_notice = [0-9]. Leave empt
 media_manager_effect_image_properties_webp_quality_notice = [0-100]. Leave empty for default value.
 media_manager_effect_image_properties_interlace_notice = Leave empty for default value.
 
-media_manager_effect_brightness = Brightness
+media_manager_effect_brightness = Image: brightness
 media_manager_effect_brightness_value = Brightness
 media_manager_effect_brightness_notice = [-255 to 255]. Leave empty for default value. (0).
 
-media_manager_effect_contrast = Contrast
+media_manager_effect_contrast = Image: contrast
 media_manager_effect_contrast_value = Contrast
 media_manager_effect_contrast_notice = [-100 to 100]. Leave empty for default value (0).
 
 media_manager_effect_sepia = Image: sepia
 
 media_manager_effect_greyscale = Image: greyscale
+
+media_manager_effect_image_format = Image: convert to JPEG/PNG/GIF/WEBP
+media_manager_effect_image_format_convertto = Target format

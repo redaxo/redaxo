@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "splitbrain/php-archive",
-            "version": "1.2.0",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/splitbrain/php-archive.git",
-                "reference": "d4cf2d9a2d82548b7e4f1dc04802c526eba68b65"
+                "reference": "211a2198b73b233d7d2b6159462e11cd9a91348a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/splitbrain/php-archive/zipball/d4cf2d9a2d82548b7e4f1dc04802c526eba68b65",
-                "reference": "d4cf2d9a2d82548b7e4f1dc04802c526eba68b65",
+                "url": "https://api.github.com/repos/splitbrain/php-archive/zipball/211a2198b73b233d7d2b6159462e11cd9a91348a",
+                "reference": "211a2198b73b233d7d2b6159462e11cd9a91348a",
                 "shasum": ""
             },
             "require": {
@@ -27,7 +27,7 @@
                 "ext-bz2": "*",
                 "ext-zip": "*",
                 "mikey179/vfsstream": "^1.6",
-                "phpunit/phpunit": "^4.8"
+                "phpunit/phpunit": "^8"
             },
             "suggest": {
                 "ext-iconv": "Used for proper filename encode handling",
@@ -60,9 +60,9 @@
             ],
             "support": {
                 "issues": "https://github.com/splitbrain/php-archive/issues",
-                "source": "https://github.com/splitbrain/php-archive/tree/1.2.0"
+                "source": "https://github.com/splitbrain/php-archive/tree/1.2.1"
             },
-            "time": "2020-10-13T12:41:15+00:00"
+            "time": "2021-02-22T17:59:24+00:00"
         }
     ],
     "packages-dev": [],
@@ -76,5 +76,5 @@
     "platform-overrides": {
         "php": "7.3.0"
     },
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }

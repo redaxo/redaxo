@@ -3,15 +3,13 @@
 assert(isset($ep) && $ep instanceof rex_extension_point);
 
 $params = $ep->getParams();
-$subject = $ep->getSubject();
 
-$article_id = $params['article_id'];
+$articleId = $params['article_id'];
 $clang = $params['clang'];
-$ctype = rex_request('ctype', 'int', 0);
 
 $content = [];
 
-$article = rex_article::get($article_id, $clang);
+$article = rex_article::get($articleId, $clang);
 $articleStatusTypes = rex_article_service::statusTypes();
 $status = (int) $article->getValue('status');
 
@@ -19,9 +17,9 @@ $status = (int) $article->getValue('status');
 
 $panels = [];
 $panels[] = '<dt>'.rex_i18n::msg('created_by').'</dt><dd>'.rex_escape($article->getValue('createuser')).'</dd>';
-$panels[] = '<dt>'.rex_i18n::msg('created_on').'</dt><dd>'.rex_formatter::strftime($article->getValue('createdate'), 'date').'</dd>';
+$panels[] = '<dt>'.rex_i18n::msg('created_on').'</dt><dd>'.rex_formatter::intlDate($article->getValue('createdate')).'</dd>';
 $panels[] = '<dt>'.rex_i18n::msg('updated_by').'</dt><dd>'.rex_escape($article->getValue('updateuser')).'</dd>';
-$panels[] = '<dt>'.rex_i18n::msg('updated_on').'</dt><dd>'.rex_formatter::strftime($article->getValue('updatedate'), 'date').'</dd>';
+$panels[] = '<dt>'.rex_i18n::msg('updated_on').'</dt><dd>'.rex_formatter::intlDate($article->getValue('updatedate')).'</dd>';
 $panels[] = '<dt>'.rex_i18n::msg('status').'</dt><dd class="'.$articleStatusTypes[$status][1].'">'.$articleStatusTypes[$status][0].'</dd>';
 $content[] = '<dl class="dl-horizontal text-left">' . implode('', $panels) . '</dl>';
 
@@ -36,20 +34,20 @@ $article->setQuery('
             LEFT JOIN '.rex::getTablePrefix()."template as template
                 ON template.id=article.template_id
             WHERE
-                article.id='$article_id'
+                article.id='$articleId'
                 AND clang_id=$clang"
 );
 
 if (1 == $article->getRows()) {
     // ----- ctype holen
-    $template_attributes = $article->getArrayValue('template_attributes');
+    $templateAttributes = $article->getArrayValue('template_attributes');
 
     // Für Artikel ohne Template
-    if (!is_array($template_attributes)) {
-        $template_attributes = [];
+    if (!is_array($templateAttributes)) {
+        $templateAttributes = [];
     }
 
-    $ctypes = $template_attributes['ctype'] ?? []; // ctypes - aus dem template
+    $ctypes = $templateAttributes['ctype'] ?? []; // ctypes - aus dem template
 
     $ctype = rex_request('ctype', 'int', 1);
     if (!array_key_exists($ctype, $ctypes)) {
@@ -58,14 +56,14 @@ if (1 == $article->getRows()) {
 
     $context = new rex_context([
         'page' => rex_be_controller::getCurrentPage(),
-        'article_id' => $article_id,
+        'article_id' => $articleId,
         'clang' => $clang,
         'ctype' => $ctype,
     ]);
 
     $metainfoHandler = new rex_metainfo_article_handler();
     $form = $metainfoHandler->getForm([
-        'id' => $article_id,
+        'id' => $articleId,
         'clang' => $clang,
         'article' => $article,
     ]);
@@ -73,7 +71,7 @@ if (1 == $article->getRows()) {
     $formElements = [];
     $formElements[] = [
         'label' => '<label for="rex-id-meta-article-name">'.rex_i18n::msg('header_article_name').'</label>',
-        'field' => '<input class="form-control" type="text" id="rex-id-meta-article-name" name="meta_article_name" value="'.htmlspecialchars(rex_article::get($article_id, $clang)->getName()).'" />',
+        'field' => '<input class="form-control" type="text" id="rex-id-meta-article-name" name="meta_article_name" value="'.htmlspecialchars(rex_article::get($articleId, $clang)->getName()).'" />',
     ];
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);

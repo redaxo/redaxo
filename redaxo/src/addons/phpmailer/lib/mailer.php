@@ -57,6 +57,8 @@ class rex_mailer extends PHPMailer
         }
         $this->archive = $addon->getConfig('archive');
         parent::__construct($exceptions);
+
+        rex_extension::registerPoint(new rex_extension_point('PHPMAILER_CONFIG', $this));
     }
 
     protected function addOrEnqueueAnAddress($kind, $address, $name)
@@ -65,7 +67,7 @@ class rex_mailer extends PHPMailer
 
         if ($addon->getConfig('detour_mode') && '' != $addon->getConfig('test_address')) {
             if ('to' == $kind) {
-                $detour_address = $addon->getConfig('test_address');
+                $detourAddress = $addon->getConfig('test_address');
 
                 // store the address so we can use it in the subject later
 
@@ -82,7 +84,7 @@ class rex_mailer extends PHPMailer
                 $this->xHeader['to'] = $address;
 
                 // Set $address to the detour address
-                $address = $detour_address;
+                $address = $detourAddress;
             } else {
                 if (isset($this->xHeader[$kind])) {
                     $this->xHeader[$kind] .= ', ' . $address;
@@ -100,9 +102,6 @@ class rex_mailer extends PHPMailer
     public function send()
     {
         return rex_timer::measure(__METHOD__, function () {
-            if ($this->archive) {
-                $this->archive();
-            }
             $addon = rex_addon::get('phpmailer');
 
             $detour = $addon->getConfig('detour_mode') && '' != $addon->getConfig('test_address');
@@ -131,6 +130,10 @@ class rex_mailer extends PHPMailer
                     $this->log('ERROR');
                 }
                 return false;
+            }
+
+            if ($this->archive) {
+                $this->archive($this->getSentMIMEMessage());
             }
 
             if (self::LOG_ALL == $addon->getConfig('logging')) {
@@ -187,30 +190,22 @@ class rex_mailer extends PHPMailer
         $this->archive = $status;
     }
 
-    private function archive(): void
+    private function archive(string $archivedata = ''): void
     {
-        $content = '<!-- '.PHP_EOL.date('d.m.Y H:i:s').PHP_EOL;
-        $content .= 'From : '.$this->From.PHP_EOL;
-        $content .= 'To : '.implode(', ', array_column($this->getToAddresses(), 0)).PHP_EOL;
-        $content .= 'Subject : '.$this->Subject.PHP_EOL;
-        $content .= ' -->'.PHP_EOL;
-        $content .= $this->Body;
-
         $dir = self::logFolder().'/'.date('Y').'/'.date('m');
-
         $count = 1;
-        $archiveFile = $dir.'/'.date('Y-m-d_H_i_s').'.html';
+        $archiveFile = $dir.'/'.date('Y-m-d_H_i_s').'.eml';
         while (is_file($archiveFile)) {
-            $archiveFile = $dir.'/'.date('Y-m-d_H_i_s').'_'.(++$count).'.html';
+            $archiveFile = $dir.'/'.date('Y-m-d_H_i_s').'_'.(++$count).'.eml';
         }
 
-        rex_file::put($archiveFile, $content);
+        rex_file::put($archiveFile, $archivedata);
     }
 
     /**
      * Path to mail archive folder.
      */
-    public static function logFolder()
+    public static function logFolder(): string
     {
         return rex_path::addonData('phpmailer', 'mail_log');
     }
@@ -221,5 +216,90 @@ class rex_mailer extends PHPMailer
     public static function logFile(): string
     {
         return rex_path::log('mail.log');
+    }
+
+    /**
+     * @internal
+     */
+    public static function errorMail(): void
+    {
+        $addon = rex_addon::get('phpmailer');
+        $logFile = rex_path::log('system.log');
+        $sendTime = $addon->getConfig('last_log_file_send_time', 0);
+        $timediff = time() - $sendTime;
+
+        if ($timediff <= $addon->getConfig('errormail') || !filesize($logFile)) {
+            return;
+        }
+
+        $file = new rex_log_file($logFile);
+
+        $logevent = false;
+
+        //Start - generate mailbody
+        $mailBody = '<h2>Error protocol for: ' . rex::getServerName() . '</h2>';
+        $mailBody .= '<style> .errorbg {background: #F6C4AF; } .eventbg {background: #E1E1E1; } td, th {padding: 5px;} table {width: 100%; border: 1px solid #ccc; } th {background: #b00; color: #fff;} td { border: 0; border-bottom: 1px solid #b00;} </style> ';
+        $mailBody .= '<table>';
+        $mailBody .= '    <thead>';
+        $mailBody .= '        <tr>';
+        $mailBody .= '            <th>' . rex_i18n::msg('syslog_timestamp') . '</th>';
+        $mailBody .= '            <th>' . rex_i18n::msg('syslog_type') . '</th>';
+        $mailBody .= '            <th>' . rex_i18n::msg('syslog_message') . '</th>';
+        $mailBody .= '            <th>' . rex_i18n::msg('syslog_file') . '</th>';
+        $mailBody .= '            <th>' . rex_i18n::msg('syslog_line') . '</th>';
+        $mailBody .= '        </tr>';
+        $mailBody .= '    </thead>';
+        $mailBody .= '    <tbody>';
+
+        /** @var rex_log_entry $entry */
+        foreach (new LimitIterator($file, 0, 30) as $entry) {
+            $data = $entry->getData();
+            $style = '';
+            $logtypes = [
+                'error',
+                'exception',
+            ];
+
+            foreach ($logtypes as $type) {
+                if (false !== stripos($data[0], $type)) {
+                    $logevent = true;
+                    $style = ' class="errorbg"';
+                    break;
+                }
+            }
+
+            if ('logevent' == $data[0]) {
+                $style = ' class="eventbg"';
+                $logevent = true;
+            }
+
+            $mailBody .= '        <tr' . $style . '>';
+            $mailBody .= '            <td>' . rex_formatter::intlDateTime($entry->getTimestamp(), [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]) . '</td>';
+            $mailBody .= '            <td>' . $data[0] . '</td>';
+            $mailBody .= '            <td>' . substr(rex_escape($data[1]), 0, 128) . '</td>';
+            $mailBody .= '            <td>' . ($data[2] ?? '') . '</td>';
+            $mailBody .= '            <td>' . ($data[3] ?? '') . '</td>';
+            $mailBody .= '        </tr>';
+        }
+
+        // check if logevent occured then send mail
+        if (!$logevent) {
+            return;
+        }
+
+        $mailBody .= '    </tbody>';
+        $mailBody .= '</table>';
+        //End - generate mailbody
+
+        $mail = new self();
+        $mail->Subject = rex::getServerName() . ' - error report ';
+        $mail->Body = $mailBody;
+        $mail->AltBody = strip_tags($mailBody);
+        $mail->setFrom(rex::getErrorEmail(), 'REDAXO error report');
+        $mail->addAddress(rex::getErrorEmail());
+
+        $addon->setConfig('last_log_file_send_time', time());
+
+        $mail->Send();
     }
 }

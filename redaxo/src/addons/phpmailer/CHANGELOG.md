@@ -1,6 +1,39 @@
 Changelog
 =========
 
+Version 2.10.2 – 21.06.2021
+---------------------------
+
+### Security
+
+* Update auf PHPMailer 6.5.0, inklusive Security-Fix: https://github.com/PHPMailer/PHPMailer/releases/tag/v6.5.0
+
+
+Version 2.10.1 – 29.04.2021
+---------------------------
+
+### Security
+
+* Update auf PHPMailer 6.4.1, inklusive Security-Fix: https://github.com/PHPMailer/PHPMailer/releases/tag/v6.4.1
+
+### Bugfixes
+
+* Einstellungen-Seite:
+    - `SMTPDebug`-Schalter wird von PHPMailer inzwischen auch bei anderen Versandmethoden verwendet, deswegen ist die Einstellung dazu nun immer sichtbar (@skerbis)
+    - E-Mail-Archivierung: `for`-Attribut für Label korrigiert (@aeberhard)
+
+
+Version 2.10.0 – 03.03.2021
+---------------------------
+
+### Neu
+
+* Voreinstellung für den Mailer ist nun `smtp` statt `mail` (@gharlan)
+* Mailer `mail` steht nur noch zur Auswahl, wenn die PHP-Funktion auch verfügbar ist (@skerbis)
+* E-Mail-Archiv kann über neuen Button in den Einstellungen geleert werden (@skerbis)
+* `phpmailer[]`-Recht mit Textbeschreibung „PHPMailer-Einstellungen“ (@skerbis)
+
+
 Version 2.9.1 – 11.11.2020
 --------------------------
 

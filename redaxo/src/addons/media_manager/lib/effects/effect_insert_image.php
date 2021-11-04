@@ -18,14 +18,14 @@ class rex_effect_insert_image extends rex_effect_abstract
         }
 
         // Abstand vom Rand
-        $padding_x = -10;
+        $paddingX = -10;
         if (isset($this->params['padding_x'])) {
-            $padding_x = (int) $this->params['padding_x'];
+            $paddingX = (int) $this->params['padding_x'];
         }
 
-        $padding_y = -10;
+        $paddingY = -10;
         if (isset($this->params['padding_y'])) {
-            $padding_y = (int) $this->params['padding_y'];
+            $paddingY = (int) $this->params['padding_y'];
         }
 
         // horizontale ausrichtung: left/center/right
@@ -46,37 +46,37 @@ class rex_effect_insert_image extends rex_effect_abstract
         $gdbrand = $brand->getImage();
         $gdimage = $this->media->getImage();
 
-        $image_width = $this->media->getWidth();
-        $image_height = $this->media->getHeight();
-        $brand_width = $brand->getWidth();
-        $brand_height = $brand->getHeight();
+        $imageWidth = (int) $this->media->getWidth();
+        $imageHeight = (int) $this->media->getHeight();
+        $brandWidth = (int) $brand->getWidth();
+        $brandHeight = (int) $brand->getHeight();
 
         switch ($hpos) {
             case 'left':
-                $dstX = $padding_x;
+                $dstX = $paddingX;
                 break;
             case 'center':
-                $dstX = (int) (($image_width - $brand_width) / 2) + $padding_x;
+                $dstX = (int) (($imageWidth - $brandWidth) / 2) + $paddingX;
                 break;
             case 'right':
             default:
-                $dstX = $image_width - $brand_width - $padding_x;
+                $dstX = $imageWidth - $brandWidth - $paddingX;
         }
 
         switch ($vpos) {
             case 'top':
-                $dstY = $padding_y;
+                $dstY = $paddingY;
                 break;
             case 'middle':
-                $dstY = (int) (($image_height - $brand_height) / 2) + $padding_y;
+                $dstY = (int) (($imageHeight - $brandHeight) / 2) + $paddingY;
                 break;
             case 'bottom':
             default:
-                $dstY = $image_height - $brand_height - $padding_y;
+                $dstY = $imageHeight - $brandHeight - $paddingY;
         }
 
         imagealphablending($gdimage, true);
-        imagecopy($gdimage, $gdbrand, $dstX, $dstY, 0, 0, $brand_width, $brand_height);
+        imagecopy($gdimage, $gdbrand, $dstX, $dstY, 0, 0, $brandWidth, $brandHeight);
 
         $this->media->setImage($gdimage);
     }

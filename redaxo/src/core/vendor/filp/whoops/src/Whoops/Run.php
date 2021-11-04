@@ -39,6 +39,11 @@ final class Run implements RunInterface
     private $sendHttpCode    = 500;
 
     /**
+     * @var integer|false
+     */
+    private $sendExitCode    = 1;
+
+    /**
      * @var HandlerInterface[]
      */
     private $handlerStack = [];
@@ -69,7 +74,7 @@ final class Run implements RunInterface
     /**
      * Explicitly request your handler runs as the last of all currently registered handlers.
      *
-     * @param HandlerInterface $handler
+     * @param callable|HandlerInterface $handler
      *
      * @return Run
      */
@@ -82,7 +87,7 @@ final class Run implements RunInterface
     /**
      * Explicitly request your handler runs as the first of all currently registered handlers.
      *
-     * @param HandlerInterface $handler
+     * @param callable|HandlerInterface $handler
      *
      * @return Run
      */
@@ -95,7 +100,7 @@ final class Run implements RunInterface
      * Register your handler as the last of all currently registered handlers (to be executed first).
      * Prefer using appendHandler and prependHandler for clarity.
      *
-     * @param Callable|HandlerInterface $handler
+     * @param callable|HandlerInterface $handler
      *
      * @return Run
      *
@@ -289,6 +294,31 @@ final class Run implements RunInterface
     }
 
     /**
+     * Should Whoops exit with a specific code on the CLI if possible?
+     * Whoops will exit with 1 by default, but you can specify something else.
+     *
+     * @param int $code
+     *
+     * @return int
+     *
+     * @throws InvalidArgumentException
+     */
+    public function sendExitCode($code = null)
+    {
+        if (func_num_args() == 0) {
+            return $this->sendExitCode;
+        }
+
+        if ($code < 0 || 255 <= $code) {
+            throw new InvalidArgumentException(
+                "Invalid status code '$code', must be between 0 and 254"
+            );
+        }
+
+        return $this->sendExitCode = (int) $code;
+    }
+
+    /**
      * Should Whoops push output directly to the client?
      * If this is false, output will be returned by handleException.
      *
@@ -380,7 +410,9 @@ final class Run implements RunInterface
             // HHVM fix for https://github.com/facebook/hhvm/issues/4055
             $this->system->flushOutputBuffer();
 
-            $this->system->stopExecution(1);
+            $this->system->stopExecution(
+                $this->sendExitCode()
+            );
         }
 
         return $output;
@@ -469,7 +501,7 @@ final class Run implements RunInterface
     /**
      * Resolves the giving handler.
      *
-     * @param HandlerInterface $handler
+     * @param callable|HandlerInterface $handler
      *
      * @return HandlerInterface
      *

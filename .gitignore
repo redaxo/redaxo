@@ -1,4 +1,4 @@
-.php_cs.cache
+.php-cs-fixer.cache
 /.htaccess
 /.phpunit.result.cache
 /composer.lock
@@ -41,3 +41,6 @@
 /.idea/runConfigurations/*
 !/.idea/runConfigurations/phpunit.xml
 !/.idea/scopes/
+
+# VSCode setting
+.vscode

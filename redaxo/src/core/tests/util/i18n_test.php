@@ -43,7 +43,7 @@ class rex_i18n_test extends TestCase
         rex_i18n::setLocale($this->previousLocale, false);
     }
 
-    private function getPath()
+    private function getPath(): string
     {
         return rex_path::addonData('tests', 'lang');
     }
@@ -95,6 +95,6 @@ class rex_i18n_test extends TestCase
 
     public function testTranslateCallable()
     {
-        static::assertSame('translated', rex_i18n::translate('translate:my_cb', false, ['rex_i18n_trans_cb', 'mytranslate']));
+        static::assertSame('translated', rex_i18n::translate('translate:my_cb', false, [rex_i18n_trans_cb::class, 'mytranslate']));
     }
 }

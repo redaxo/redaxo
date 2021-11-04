@@ -85,8 +85,8 @@ class rex_logger extends AbstractLogger
      */
     public function log($level, $message, array $context = [], $file = null, $line = null)
     {
-        if (static::hasFactoryClass()) {
-            static::callFactoryClass(__FUNCTION__, func_get_args());
+        if ($factoryClass = static::getExplicitFactoryClass()) {
+            $factoryClass::log($level, $message, $context, $file, $line);
             return;
         }
 
@@ -104,7 +104,11 @@ class rex_logger extends AbstractLogger
         // interpolate replacement values into the message and return
         $message = strtr($message, $replace);
 
-        $logData = [ucfirst($level), $message];
+        if (!str_starts_with($level, 'rex_')) {
+            $level = ucfirst($level);
+        }
+
+        $logData = [$level, $message];
         if ($file && $line) {
             $logData[] = rex_path::relative($file);
             $logData[] = $line;
@@ -117,6 +121,8 @@ class rex_logger extends AbstractLogger
 
     /**
      * Prepares the logifle for later use.
+     *
+     * @psalm-assert !null self::$file
      */
     public static function open()
     {

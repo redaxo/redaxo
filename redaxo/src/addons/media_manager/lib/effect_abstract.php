@@ -13,7 +13,7 @@ abstract class rex_effect_abstract
     /**
      * effekt parameter.
      *
-     * @var array
+     * @var array<string, mixed>
      */
     public $params = [];
 
@@ -26,6 +26,9 @@ abstract class rex_effect_abstract
         $this->media = $media;
     }
 
+    /**
+     * @param array<string, mixed> $params
+     */
     public function setParams(array $params)
     {
         $this->params = $params;
@@ -56,7 +59,7 @@ abstract class rex_effect_abstract
      *       // ... the next input-field spec
      *     ];
      *
-     * @return array
+     * @return list<array{label: string, name: string, type: 'int'|'float'|'string'|'select'|'media', default?: mixed, notice?: string, prefix?: string, suffix?: string, attributes?: array, options?: array}>
      */
     public function getParams()
     {
@@ -64,6 +67,9 @@ abstract class rex_effect_abstract
         return [];
     }
 
+    /**
+     * @param resource $gdImage
+     */
     protected function keepTransparent($gdImage)
     {
         $image = $this->media;

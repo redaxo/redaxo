@@ -86,7 +86,7 @@ class rex_sql_schema_dumper
             $nonDefault = true;
         }
 
-        if ($nonDefault || false !== $column->isNullable()) {
+        if ($nonDefault || $column->isNullable()) {
             $parameters[] = $this->scalar($column->isNullable());
         }
 
@@ -159,7 +159,7 @@ class rex_sql_schema_dumper
 
     private function tableName($name)
     {
-        if (0 !== strpos($name, rex::getTablePrefix())) {
+        if (!str_starts_with($name, rex::getTablePrefix())) {
             return $this->scalar($name);
         }
 
@@ -176,6 +176,9 @@ class rex_sql_schema_dumper
         if (null === $scalar) {
             return 'null';
         }
+
+        /** @psalm-taint-escape html */ // https://github.com/vimeo/psalm/issues/4669
+        $scalar = $scalar;
 
         return var_export($scalar, true);
     }

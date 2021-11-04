@@ -12,18 +12,18 @@ class rex_api_article_move extends rex_api_function
     public function execute()
     {
         // The article to move
-        $article_id = rex_request('article_id', 'int');
-        $category_id = rex_article::get($article_id)->getCategoryId();
+        $articleId = rex_request('article_id', 'int');
+        $categoryId = rex_article::get($articleId)->getCategoryId();
         // The destination category in which the given category will be moved
-        $category_id_new = rex_request('category_id_new', 'int');
+        $categoryIdNew = rex_request('category_id_new', 'int');
 
         $user = rex::getUser();
 
         // Check permissions
         if ($user->hasPerm('moveArticle[]') &&
-            $user->getComplexPerm('structure')->hasCategoryPerm($category_id_new)
+            $user->getComplexPerm('structure')->hasCategoryPerm($categoryIdNew)
         ) {
-            if (rex_article_service::moveArticle($article_id, $category_id, $category_id_new)) {
+            if (rex_article_service::moveArticle($articleId, $categoryId, $categoryIdNew)) {
                 return new rex_api_result(true, rex_i18n::msg('content_articlemoved'));
             }
 

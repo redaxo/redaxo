@@ -46,11 +46,24 @@
             margin: 0;
             font-size: 50px;
             font-weight: 700;
-            text-shadow: 0 2px 2px rgba(150, 150, 150, 1);
+            text-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
         }
 
         .ooops-error-message {
             padding: 0 20px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            html, body {
+                background-color: #333;
+            }
+
+            .ooops-error a {
+                color: #b3b3b3;
+            }
+            .ooops-error a:hover {
+                color: #c6c6c6;
+            }
         }
     </style>
 </head>

@@ -59,7 +59,7 @@ content_toarticle_failed = Category could not be converted to article
 content_toarticle_ok = Category was successfully converted to article
 move_category = to
 category_moved = Category moved
-content_types = Columns
+content_types = Columns and modules
 content_type = Column
 
 perm_options_moveSlice[] = Move block

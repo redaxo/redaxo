@@ -129,17 +129,25 @@ class Clockwork
 		}
 
 		if ($this->config['features']['performance']['client_metrics'] || $this->config['toolbar']) {
-			$clockworkBrowser = [
-				'requestId' => $clockworkRequest->id,
-				'version'   => BaseClockwork::VERSION,
-				'path'      => $this->config['api'],
-				'token'     => $clockworkRequest->updateToken,
-				'metrics'   => $this->config['features']['performance']['client_metrics'],
-				'toolbar'   => $this->config['toolbar']
-			];
-
-			$this->setCookie('x-clockwork', json_encode($clockworkBrowser), time() + 60);
+			$this->setCookie('x-clockwork', $this->getCookiePayload(), time() + 60);
 		}
+	}
+
+	// Returns the x-clockwork cookie payload in case you need to set the cookie yourself (cookie can't be http only,
+	// expiration time should be 60 seconds)
+	public function getCookiePayload()
+	{
+		$clockworkRequest = $this->request();
+
+		return json_encode([
+			'requestId' => $clockworkRequest->id,
+			'version'   => BaseClockwork::VERSION,
+			'path'      => $this->config['api'],
+			'webPath'   => $this->config['web']['enable'],
+			'token'     => $clockworkRequest->updateToken,
+			'metrics'   => $this->config['features']['performance']['client_metrics'],
+			'toolbar'   => $this->config['toolbar']
+		]);
 	}
 
 	// Handle Clockwork REST api request, retrieves or updates Clockwork metadata
@@ -228,6 +236,54 @@ class Clockwork
 		return $this->response();
 	}
 
+	// Returns the Clockwork Web UI as a HTTP response, installs the Web UI on the first run
+	public function returnWeb()
+	{
+		if (! $this->config['web']['enable']) return;
+
+		$this->installWeb();
+
+		$asset = function ($uri) { return "{$this->config['web']['uri']}/{$uri}"; };
+		$metadataPath = $this->config['api'];
+		$url = $this->config['web']['uri'];
+
+		if (! preg_match('#/index.html$#', $url)) {
+			$url = rtrim($url, '/') . '/index.html';
+		}
+
+		ob_start();
+
+		include __DIR__ . '/iframe.html.php';
+
+		$html = ob_get_clean();
+
+		return $this->response($html, null, false);
+	}
+
+	// Installs the Web UI by copying the assets to the public directory, no-op if already installed
+	public function installWeb()
+	{
+		$path = $this->config['web']['path'];
+		$source = __DIR__ . '/../../Web/public';
+
+		if (file_exists("{$path}/index.html")) return;
+
+		@mkdir($path, 0755, true);
+
+		$iterator = new \RecursiveIteratorIterator(
+			new \RecursiveDirectoryIterator($source, \RecursiveDirectoryIterator::SKIP_DOTS),
+			\RecursiveIteratorIterator::SELF_FIRST
+		);
+
+		foreach ($iterator as $item) {
+			if ($item->isDir()) {
+				mkdir("{$path}/" . $iterator->getSubPathName());
+			} else {
+				copy($item, "{$path}/" . $iterator->getSubPathName());
+			}
+		}
+	}
+
 	// Use a PSR-7 request and response instances instead of vanilla php HTTP apis
 	public function usePsrMessage(PsrRequest $request, PsrResponse $response = null)
 	{
@@ -311,7 +367,7 @@ class Clockwork
 	// Set a cookie on PSR-7 response or using vanilla php
 	protected function setCookie($name, $value, $expires) {
 		if ($this->psrResponse) {
-			$this->psrResponse = $this->psrResponse->withHeader(
+			$this->psrResponse = $this->psrResponse->withAddedHeader(
 				'Set-Cookie', "{$name}=" . urlencode($value) . '; expires=' . gmdate('D, d M Y H:i:s T', $expires)
 			);
 		} else {
@@ -330,17 +386,17 @@ class Clockwork
 	}
 
 	// Send a json response, uses the PSR-7 response if set
-	protected function response($data = null, $status = null)
+	protected function response($data = null, $status = null, $json = true)
 	{
-		$this->setHeader('Content-Type', 'application/json');
+		if ($json) $this->setHeader('Content-Type', 'application/json');
 
 		if ($this->psrResponse) {
 			if ($status) $this->psrResponse = $this->psrResponse->withStatus($status);
-			$this->psrResponse->getBody()->write(json_encode($data, \JSON_PARTIAL_OUTPUT_ON_ERROR));
+			$this->psrResponse->getBody()->write($json ? json_encode($data, \JSON_PARTIAL_OUTPUT_ON_ERROR) : $data);
 			return $this->psrResponse;
 		} else {
 			if ($status) http_response_code($status);
-			echo json_encode($data, \JSON_PARTIAL_OUTPUT_ON_ERROR);
+			echo $json ? json_encode($data, \JSON_PARTIAL_OUTPUT_ON_ERROR) : $data;
 		}
 	}
 

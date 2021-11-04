@@ -14,58 +14,53 @@ class rex_effect_rounded_corners extends rex_effect_abstract
     {
         $this->media->asImage();
         $gdimage = $this->media->getImage();
-        $w = $this->media->getWidth();
-        $h = $this->media->getHeight();
-
-        $radius = [
-            'tl' => $this->params['topleft'],
-            'tr' => $this->params['topright'],
-            'br' => $this->params['bottomright'],
-            'bl' => $this->params['bottomleft'],
-        ];
+        $w = (int) $this->media->getWidth();
+        $h = (int) $this->media->getHeight();
 
         $colour = 'ffffff';
 
-        foreach ($radius as $k => $r) {
-            if (empty($r) || $r < 0) {
+        foreach (['topleft', 'topright', 'bottomright', 'bottomleft'] as $corner) {
+            if (empty($this->params[$corner]) || $this->params[$corner] < 0) {
                 continue;
             }
 
-            $corner_image = imagecreatetruecolor($r, $r);
+            $r = (int) $this->params[$corner];
 
-            $clear_colour = imagecolorallocate($corner_image, 0, 0, 0);
+            $cornerImage = imagecreatetruecolor($r, $r);
 
-            $solid_colour = imagecolorallocate(
-                $corner_image,
+            $clearColour = imagecolorallocate($cornerImage, 0, 0, 0);
+
+            $solidColour = imagecolorallocate(
+                $cornerImage,
                 hexdec(substr($colour, 0, 2)),
                 hexdec(substr($colour, 2, 2)),
                 hexdec(substr($colour, 4, 2))
             );
 
-            imagecolortransparent($corner_image, $clear_colour);
+            imagecolortransparent($cornerImage, $clearColour);
 
-            imagefill($corner_image, 0, 0, $solid_colour);
+            imagefill($cornerImage, 0, 0, $solidColour);
 
-            imagefilledellipse($corner_image, $r, $r, $r * 2, $r * 2, $clear_colour);
+            imagefilledellipse($cornerImage, $r, $r, $r * 2, $r * 2, $clearColour);
 
-            switch ($k) {
-                case 'tl':
-                    imagecopymerge($gdimage, $corner_image, 0, 0, 0, 0, $r, $r, 100);
+            switch ($corner) {
+                case 'topleft':
+                    imagecopymerge($gdimage, $cornerImage, 0, 0, 0, 0, $r, $r, 100);
                     break;
 
-                case 'tr':
-                    $corner_image = imagerotate($corner_image, 270, 0);
-                    imagecopymerge($gdimage, $corner_image, $w - $r, 0, 0, 0, $r, $r, 100);
+                case 'topright':
+                    $cornerImage = imagerotate($cornerImage, 270, 0);
+                    imagecopymerge($gdimage, $cornerImage, $w - $r, 0, 0, 0, $r, $r, 100);
                     break;
 
-                case 'br':
-                    $corner_image = imagerotate($corner_image, 180, 0);
-                    imagecopymerge($gdimage, $corner_image, $w - $r, $h - $r, 0, 0, $r, $r, 100);
+                case 'bottomright':
+                    $cornerImage = imagerotate($cornerImage, 180, 0);
+                    imagecopymerge($gdimage, $cornerImage, $w - $r, $h - $r, 0, 0, $r, $r, 100);
                     break;
 
-                case 'bl':
-                    $corner_image = imagerotate($corner_image, 90, 0);
-                    imagecopymerge($gdimage, $corner_image, 0, $h - $r, 0, 0, $r, $r, 100);
+                case 'bottomleft':
+                    $cornerImage = imagerotate($cornerImage, 90, 0);
+                    imagecopymerge($gdimage, $cornerImage, 0, $h - $r, 0, 0, $r, $r, 100);
                     break;
             }
         }

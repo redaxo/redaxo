@@ -118,7 +118,10 @@ class rex_extension_test extends TestCase
             return 'foo';
         });
 
-        static::assertSame('foo', rex_extension::registerPoint(new rex_extension_point($EP1)));
-        static::assertSame('foo', rex_extension::registerPoint(new rex_extension_point($EP2)));
+        /** @var string|null $subject */
+        $subject = null;
+
+        static::assertSame('foo', rex_extension::registerPoint(new rex_extension_point($EP1, $subject)));
+        static::assertSame('foo', rex_extension::registerPoint(new rex_extension_point($EP2, $subject)));
     }
 }

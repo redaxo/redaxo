@@ -6,9 +6,6 @@ general = Allgemein
 setlocale = de_DE,de_DE@euro,deu_deu,german_germany,de,ge
 phpini_settings = PHP.ini Einstellungen
 
-dateformat = %d. %b. %Y
-datetimeformat = %d. %b. %Y, %H:%M
-timeformat = %H:%M
 ctrl = Mehrfachauswahl mit <kbd>STRG</kbd> bzw. <kbd>CMD</kbd>
 translatable = Übersetzbar via <code>translate:i18n_key</code>
 save_and_goon_tooltip = Speichern und weiter bearbeiten
@@ -32,8 +29,13 @@ no_editing_rights = Keine Editiererlaubnis
 check_rights_in_directory = Bitte überprüfen Sie die Rechte im Ordner
 error_undefined = Ein undefinierter Fehler ist aufgetreten
 csrf_token_invalid = Bitte das Formular erneut absenden, bzw. die Aktion erneut ausführen (Fehler: CSRF-Token ungültig).
-unstable_version = Entwicklungsversion - Benutzen auf eigene Gefahr.
+unstable_version = Entwicklungsversion
 copy_to_clipboard = In die Zwischenablage kopieren
+search_placeholder = Suchen...
+search_clear = Eingabe zurücksetzen
+theme_light = Hell
+theme_dark = Dunkel
+theme_auto = Automatisch
 
 # redaxo/redaxo/index.php
 system = System
@@ -64,16 +66,16 @@ login_depersonate = zurückwechseln
 # redaxo/include/layout_redaxo/top.php
 logged_out = nicht angemeldet
 logged_in_as = Angemeldet als
-safemode = Safe mode
-safemode_text = Im Safe mode werden vorübergehend alle AddOns deaktiviert. Falls bspw. ein AddOn nach der Installation Probleme macht, kann dieses über den Safe mode deaktiviert oder deinstalliert werden.
-safemode_activate = Safe mode aktivieren
-safemode_deactivate = Safe mode deaktivieren
+safemode = Safe Mode
+safemode_text = Im Safe Mode werden vorübergehend alle AddOns deaktiviert. Falls bspw. ein AddOn nach der Installation Probleme macht, kann dieses über den Safe Mode deaktiviert oder deinstalliert werden.
+safemode_activate = Safe Mode aktivieren
+safemode_deactivate = Safe Mode deaktivieren
 
 # redaxo/include/classes/class.form.php
 form_field_first_priority = Am Anfang
 form_field_after_priority = Nach dem Feld "{0}"
 
-# redaxo\include\pages\system.php
+# src\core\pages\system.php
 info_updated = Informationen wurden aktualisiert!
 delete_cache = Cache löschen
 delete_cache_description = Templates und Sprachdateien werden erstellt, Artikelcache wird gelöscht. Sobald ein Artikel im Frontend aufgerufen wird, wird der Cache des/der entsprechenden Artikels/Kategorie wieder erstellt.
@@ -111,6 +113,7 @@ mode = Modus
 charset = Zeichensatz
 host = Host
 database = Datenbank
+installation = Installation
 logfiles = Logdateien
 syslog_redaxo = REDAXO
 syslog_delete = Logdatei löschen
@@ -150,7 +153,7 @@ system_editor_success_cookie_deleted = Die Cookies für die Editor-Einstellungen
 system_edit_config_note = Die REDAXO Hauptkonfiguration bietet die Möglichkeit interne Systemparameter zu verändern. Die Datei sollte nur von erfahrenen Nutzern bearbeitet werden.
 lang_required = Es wird eine Sprache benötigt!
 debug_mode = Debug-Modus
-debug_mode_note = Mit dem Debug-Modus werden bei PHP-Skriptfehlern im Frontend und Backend zusätzliche Angaben zum Fehler ausgegeben. Ausserdem werden keine immutable cache-http-header verwendet. Im Live-Betrieb nicht aktivieren, da die Fehlermeldungen auch sensible Daten beinhalten können.
+debug_mode_note = Mit dem Debug-Modus werden bei PHP-Skriptfehlern im Frontend und Backend zusätzliche Angaben zum Fehler ausgegeben. Außerdem werden keine immutable cache-http-header verwendet. Im Live-Betrieb nicht aktivieren, da die Fehlermeldungen auch sensible Daten beinhalten können.
 debug_mode_on = Debug-Modus aktivieren
 debug_mode_off = Debug-Modus deaktivieren
 debug_mode_info_on = Der Debug-Modus wurde aktiviert
@@ -159,10 +162,11 @@ debug_mode_marker = Der Debug-Modus ist aktiv
 debug_confirm = Der Debug-Modus sollte nicht im Live-Betrieb verwendet werden. Dennoch den Debug-Modus aktivieren?
 
 system_report = Systembericht
-system_report_markdown = Als markdown
+system_report_markdown = Als Markdown
 
-# redaxo\include\pages\medienpool.php\setup.php
+# src\core\pages\setup.php
 setup = Setup
+setup_cancel = Setup abbrechen
 setup_restart = Setup neu starten
 setup_text = Hier können Sie das Setup erneut starten. Dies sollten Sie nur im Notfall machen. Unter normalen Umständen ist es nicht nötig.
 setup_error2 = Leider konnte die config.yml nicht beschrieben werden. Bitte tragen Sie dort in der \"setup: true\" ein
@@ -177,8 +181,7 @@ setup_199 = 1 / Sprache
 
 setup_200 = Setup: Schritt 2 von 7 / Lizenz
 setup_201 = Willkommen beim Setup von REDAXO.
-setup_202 = <h3>Was passiert jetzt:</h3><ol><li>Die Dateirechte werden überprüft</li><li>Der Datenbankzugang wird überprüft und in die config.yml eingetragen</li><li>Die Datenbank wird (neu) eingerichtet.</li><li>Ein Adminzugang wird eingerichtet</li></ol>
-setup_203 = Lizenzbestimmungen akzeptieren und weiter mit Schritt 3
+setup_203 = Lizenzbestimmungen akzeptieren
 setup_299 = 2 / Lizenz
 
 setup_300 = Setup: Schritt 3 von 7 / Systemcheck
@@ -192,7 +195,7 @@ setup_307 = PHP-Versionscheck | Rechteüberprüfung
 setup_308 = PHP-Version ok
 setup_309 = Ordnerrechte ok
 setup_310 = Weiter mit Schritt 4
-setup_311 = Die folgenden Dateien/Verzeichnisse sind für alle Anwender auf dem Server veränderbar ("Others"-Mode-Bit 7). Die Berechtigungen sollten restriktiver sein:
+setup_311 = Die folgenden Dateien/Verzeichnisse sind für alle Anwender auf dem Server veränderbar (Others-Mode-Bit 7). Die Berechtigungen sollten restriktiver sein:
 setup_312 = Schritt 3 erneut durchführen
 setup_399 = 3 / Systemcheck
 
@@ -255,19 +258,19 @@ setup_700 = Setup: Schritt 7 von 7 / Heureka
 setup_701 = Leider konnte die config.yml nicht beschrieben werden. Bitte ändern Sie die Datei manuell über FTP.
 setup_702 = Herzlichen Glückwunsch zur REDAXO-Installation!
 setup_703 = Bitte noch dieses beachten:
-setup_704 = <ol><li>Mit dem {0}eingerichtetem Zugang einloggen{1}</li><li>Importieren einer Demo über [wenn eingeloggt]: Import/Export und dort jeweils die Datenbank und Files installieren.</li></ol>
-setup_705 = Viel Spass und Erfolg<br />Das REDAXO Team
+setup_704 = <ol><li>Mit dem {0}eingerichtetem Zugang einloggen{1}</li><li>Innerhalb der Community haben wir mehrere Website-Demos entwickelt, die typische Anwendungsfälle mit REDAXO zeigen. Sie können nach Login über das bereits enthaltene <strong>Install</strong>-AddOn runtergeladen werden. <a href="https://redaxo.org/download/website-demos/">Infos zu Website-Demos auf redaxo.org</a></li></ol>
+setup_705 = Viel Spaß und Erfolg!<br />Das REDAXO-Team
 setup_706 = zum Login
 setup_799 = 7 / Heureka
 
 setup_security_msg = Der Ordner redaxo ist unsicher. Bitte schützen Sie diesen Ordner und starten das Setup erneut!
 setup_no_js_security_msg = Prüfen Sie, ob Dateien aus dem Ordner redaxo/cache, redaxo/data und redaxo/src direkt aufrufbar sind! Dies darf aus Sicherheitsgründen nicht möglich sein!
-setup_security_no_https = Das Setup wird ohne HTTPS/Verschlüsselung durchgeführt. Es wird empfohlen jegliche Frontend und Backend aufrufe nur mittels HTTPS durchzuführen, um die Privatsphäre und den Datenschutz zu gewährleisten.
+setup_security_no_https = Das Setup wird unverschlüsselt durchgeführt. Frontend und Backend sollten grundsätzlich durch HTTPS verschlüsselt aufgerufen werden, um die Privatsphäre zu schützen und den Datenschutz zu gewährleisten.
 setup_security_warn_mod_security = Das Apache Modul "mod_security" ist geladen. Dies kann bei falscher Konfiguration zu Problemen führen.
-setup_security_deprecated_php = Die verwendete PHP Version {0} wird nicht mehr vom Hersteller gepflegt und sollte aktualisiert werden.
-setup_security_deprecated_mysql = Die verwendete MySQL Version {0} wird nicht mehr vom Hersteller gepflegt und sollte aktualisiert werden.
-setup_security_deprecated_mariadb = Die verwendete MariaDB Version {0} wird nicht mehr vom Hersteller gepflegt und sollte aktualisiert werden.
-setup_session_autostart_warning = In den PHP-Einstellungen ist "session.auto_start" aktiviert. Es wird empfohlen, dies zu deaktiveren, um Probleme zu vermeiden.
+setup_security_deprecated_php = Die verwendete PHP-Version {0} wird nicht mehr vom Hersteller gepflegt und sollte aktualisiert werden.
+setup_security_deprecated_mysql = Die verwendete MySQL-Version {0} wird nicht mehr vom Hersteller gepflegt und sollte aktualisiert werden.
+setup_security_deprecated_mariadb = Die verwendete MariaDB-Version {0} wird nicht mehr vom Hersteller gepflegt und sollte aktualisiert werden.
+setup_session_autostart_warning = In den PHP-Einstellungen ist "session.auto_start" aktiviert. Es wird empfohlen, dies zu deaktivieren, um Probleme zu vermeiden.
 
 sql_database_name_missing = Es muss ein Datenbankname angegeben werden!
 sql_database_host_invalid = "{0}" ist kein gültiger MySQL Host
@@ -289,9 +292,9 @@ https_only_backend = nur für Backend aktivieren
 https_activate = für Frontend und Backend aktiveren
 
 setup_password_hint = Zur Vergabe eines neuen Passwortes dieses eintragen. Sonst unverändert lassen.
-hsts_more_information = HSTS sollte in den Hostingeinstellungen der Domain/s (empfohlen) aktiviert werden, kann aber auch in der config.yml von REDAXO nachträglich aktiviert werden. Weitere Informationen in der REDAXO-Doku.
+hsts_more_information = HSTS sollte in den Hosting-Einstellungen der Domain/s (empfohlen) aktiviert werden, kann aber auch in der config.yml von REDAXO nachträglich aktiviert werden. Weitere Informationen in der REDAXO-Doku.
 
-# redaxo\include\pages\addon.php
+# src\core\pages\addon.php
 addon = AddOn
 addons = AddOns
 package_help = Hilfe für
@@ -330,17 +333,15 @@ package_activate = aktivieren
 package_yes = ja
 package_no = nein
 package_caption = Liste der verfügbaren Packages
-package_search = Suchen...
-package_clear = Eingabe zurücksetzen
 addon_systemaddon = System AddOn
 addon_systempackage_delete_not_allowed = System AddOns dürfen nicht gelöscht werden!
 addon_dir_not_writable = Der AddOn-Ordner hat keine Schreibrechte!
 addon_cache_not_writable = Der AddOn-Cache-Ordner hat keine Schreibrechte!
 package_missing_yml_file = Die package.yml fehlt!
 package_invalid_yml_file = Die package.yml ist invalid:
-package_missing_id = Es fehlt die "package"-Angabe in der package.yml ("package: {0}")!
-package_missing_version = Es fehlt die Versionsangabe in der package.yml!
-package_wrong_dir_name = Das Ordnername muss gemäß package.yml "<b>{0}</b>" heißen!
+package_missing_id = Es fehlt die "package"-Angabe in der package.yml ("package: {0}").
+package_missing_version = Es fehlt die Versionsangabe in der package.yml.
+package_wrong_dir_name = Das Ordnername muss gemäß package.yml "<b>{0}</b>" heißen.
 package_is_plugin = Das Package muss als PlugIn "<b>{1}</b>" des AddOns "<b>{0}</b>" installiert werden!
 package_is_addon = Das Package muss als AddOn "<b>{0}</b>" installiert werden!
 package_install_cant_copy_files = Fehler beim Kopieren des /assets Ordners!
@@ -352,7 +353,7 @@ package_requirement_error_redaxo_version = Die REDAXO-Version (<b>{0}</b>) entsp
 package_requirement_error_php_version = Die PHP-Version (<b>{0}</b>) entspricht nicht der geforderten Versionsbedingung <b>{1}</b>!
 package_requirement_error_php_extension = Es wird die PHP-Extension <b>{0}</b> benötigt!
 package_requirement_error_addon = Es wird das AddOn <b>{0}</b> benötigt!
-package_requirement_error_addon_version = Das AddOn <b>{0}</b> (Version <b>{1}</b>) entspricht nicht der geforderten Versionbedingung <b>{2}</b>!
+package_requirement_error_addon_version = Das AddOn <b>{0}</b> (Version <b>{1}</b>) entspricht nicht der geforderten Versionsbedingung <b>{2}</b>!
 package_requirement_error_plugin = Es wird das PlugIn <b>{0}</b> benötigt!
 package_requirement_error_plugin_version = Das PlugIn <b>{0}</b> (Version <b>{1}</b>) entspricht nicht der geforderten Versionsbedingung <b>{2}</b>!
 package_conflict_error_addon = Es kann nicht gemeinsam mit dem AddOn <b>{0}</b> aktiviert sein!
@@ -382,10 +383,10 @@ plugin_delete_question = PlugIn "{0}" löschen?
 plugin_uninstall_question = PlugIn "{0}" de-installieren?
 plugin_systemplugin = System PlugIn
 plugin_systempackage_delete_not_allowed = System PlugIns dürfen nicht gelöscht werden!
-plugin_dir_not_writable = Der PlugIn-Ordner hat keine Schreibrechte!
-plugin_cache_not_writable = Der PlugIn-Cache-Ordner hat keine Schreibrechte!
+plugin_dir_not_writable = Der PlugIn-Ordner hat keine Schreibrechte.
+plugin_cache_not_writable = Der PlugIn-Cache-Ordner hat keine Schreibrechte.
 
-# redaxo\include\pages\credits.php
+# src\core\pages\credits.php
 credits = Credits
 credits_name = Name
 credits_help = Hilfe
@@ -400,14 +401,15 @@ credits_inventor = Erfinder
 credits_developer = Entwickler
 credits_designer = Grafiker
 credits_license = Lizenz
+credits_changelog = Changelog
 credits_explain_license = Lizenz erklären
 
-# redaxo\include\pages\profile.php
+# src\core\pages\profile.php
 profile_myprofile = Mein Benutzerprofil bearbeiten
 profile_title = Mein Profil
 profile_save = Profil speichern
 invalid_email = Die E-Mailadresse ist nicht gültig.
-user_psw_updated = Passwort wurde aktuallisiert
+user_psw_updated = Passwort wurde aktualisiert
 user_psw_error = Bitte das alte Passwort und das neue Passwort zweimal eingeben
 profile_changepsw = Passwort ändern
 old_password = Altes Psw.
@@ -416,6 +418,7 @@ new_password_repeat = Neues Psw. wdh.
 profile_save_psw = Passwort speichern
 backend_language = Backendsprache
 user_data_updated = Benutzerdaten wurden aktualisiert!
+theme = Backend-Theme
 
 password_change_required = Das Passwort muss ausgetauscht werden!
 password_not_changed = Das neue Passwort muss sich vom vorherigen unterscheiden!
@@ -445,10 +448,10 @@ form_delete = Löschen
 form_reset = Zurücksetzen
 form_abort = Abbrechen
 form_saved = Eingaben wurden gespeichert!
-form_save_error = Fehler beim speichern!
+form_save_error = Fehler beim Speichern!
 form_applied = Eingaben wurden übernommen!
 form_deleted = Eingaben wurden gelöscht!
-form_delete_error = Fehler beim löschen!
+form_delete_error = Fehler beim Löschen!
 form_resetted = Eingaben wurden verworfen!
 
 # clang

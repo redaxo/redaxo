@@ -146,15 +146,15 @@ abstract class rex_api_function
      */
     public static function handleCall()
     {
-        if (static::hasFactoryClass()) {
-            return static::callFactoryClass(__FUNCTION__, func_get_args());
+        if ($factoryClass = static::getExplicitFactoryClass()) {
+            return $factoryClass::handleCall();
         }
 
         $apiFunc = self::factory();
 
         if (null != $apiFunc) {
-            if (true !== $apiFunc->published) {
-                if (true !== rex::isBackend()) {
+            if (!$apiFunc->published) {
+                if (!rex::isBackend()) {
                     throw new rex_http_exception(new rex_api_exception('the api function ' . get_class($apiFunc) . ' is not published, therefore can only be called from the backend!'), rex_response::HTTP_FORBIDDEN);
                 }
 
@@ -180,7 +180,7 @@ abstract class rex_api_function
                     $result = $apiFunc->execute();
 
                     if (!($result instanceof rex_api_result)) {
-                        throw new rex_exception('Illegal result returned from api-function ' . rex_get(self::REQ_CALL_PARAM) .'. Expected a instance of rex_api_result but got "'. (is_object($result) ? get_class($result) : gettype($result)) .'".');
+                        throw new rex_exception('Illegal result returned from api-function ' . rex_get(self::REQ_CALL_PARAM) .'. Expected a instance of rex_api_result but got "'. (get_debug_type($result)) .'".');
                     }
 
                     $apiFunc->result = $result;

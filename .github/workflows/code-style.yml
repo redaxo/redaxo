@@ -1,0 +1,95 @@
+name: Code Style
+
+on:
+    push:
+        branches: [main, bugfix, temp]
+    pull_request:
+        types: [opened, synchronize, reopened, ready_for_review]
+
+env:
+    writable: ${{ github.event_name != 'push' && github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' && 1 || 0 }}
+
+jobs:
+    php-cs-fixer:
+        runs-on: ubuntu-18.04
+        if: github.event.pull_request.draft == false
+
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v2
+                if: env.writable == 1
+                with:
+                    ref: ${{ github.head_ref }}
+                    token: ${{ secrets.BOT_TOKEN }}
+            -   name: Checkout fork
+                uses: actions/checkout@v2
+                if: env.writable == 0
+
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: 7.3
+                    coverage: none # disable xdebug, pcov
+                    tools: cs2pr
+
+            -   name: Composer install
+                uses: ramsey/composer-install@v1
+                with:
+                    composer-options: --ansi --prefer-dist
+
+            -   name: Fix code style
+                if: env.writable == 1
+                run: vendor/bin/php-cs-fixer list-files --config=.php-cs-fixer.dist.php | xargs -n 250 -P 3 vendor/bin/php-cs-fixer fix --diff --config=.php-cs-fixer.dist.php
+
+            -   name: Commit changed files
+                uses: stefanzweifel/git-auto-commit-action@v4
+                if: env.writable == 1
+                with:
+                    commit_message: Apply php-cs-fixer changes
+                    commit_user_name: rex-bot
+                    commit_user_email: rex-bot@users.noreply.github.com
+
+            -   name: Check code style
+                if: env.writable == 0
+                run: vendor/bin/php-cs-fixer fix --ansi --diff --dry-run --format=checkstyle | cs2pr # check whether there are still errors left
+
+    rector:
+        runs-on: ubuntu-latest
+        if: github.event.pull_request.draft == false
+
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v2
+                if: env.writable == 1
+                with:
+                    ref: ${{ github.head_ref }}
+                    token: ${{ secrets.BOT_TOKEN }}
+            -   name: Checkout fork
+                uses: actions/checkout@v2
+                if: env.writable == 0
+
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: 8.0
+                    coverage: none # disable xdebug, pcov
+
+            -   name: Composer install
+                uses: ramsey/composer-install@v1
+                with:
+                    composer-options: --ansi --prefer-dist
+
+            -   name: Fix code style
+                if: env.writable == 1
+                run: vendor/bin/rector process --no-progress-bar
+
+            -   name: Commit changed files
+                uses: stefanzweifel/git-auto-commit-action@v4
+                if: env.writable == 1
+                with:
+                    commit_message: Apply rector changes
+                    commit_user_name: rex-bot
+                    commit_user_email: rex-bot@users.noreply.github.com
+
+            -   name: Check code style
+                run: vendor/bin/rector process --ansi --no-progress-bar --dry-run
