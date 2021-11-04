@@ -6533,14 +6533,7 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/var/var.php">
-    <MixedArgument occurrences="13">
-      <code>$add</code>
-      <code>$add</code>
-      <code>$add</code>
-      <code>$add</code>
-      <code>$add</code>
-      <code>$arg</code>
-      <code>$key</code>
+    <MixedArgument occurrences="6">
       <code>$match[0]</code>
       <code>$match[1]</code>
       <code>$match[1]</code>
@@ -6548,7 +6541,10 @@
       <code>$match[2]</code>
       <code>$match[2]</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="12">
+    <MixedArgumentTypeCoercion occurrences="1">
+      <code>$key</code>
+    </MixedArgumentTypeCoercion>
+    <MixedArrayAccess occurrences="8">
       <code>$match[0]</code>
       <code>$match[0]</code>
       <code>$match[0]</code>
@@ -6557,51 +6553,21 @@
       <code>$match[1]</code>
       <code>$match[2]</code>
       <code>$match[2]</code>
-      <code>$this-&gt;args[$key]</code>
-      <code>$this-&gt;args[$key]</code>
-      <code>$this-&gt;args[0]</code>
-      <code>$this-&gt;args[0]</code>
     </MixedArrayAccess>
     <MixedArrayOffset occurrences="2">
       <code>$replacements[$match[0]]</code>
       <code>$replacements[$match[0]]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="13">
-      <code>$add</code>
-      <code>$add</code>
-      <code>$add</code>
-      <code>$add</code>
-      <code>$add</code>
-      <code>$arg</code>
-      <code>$key</code>
+    <MixedAssignment occurrences="3">
       <code>$match</code>
       <code>$value</code>
-      <code>$value</code>
       <code>self::$contextData</code>
-      <code>self::$variableIndex</code>
-      <code>self::$variableIndex</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="2">
-      <code>string</code>
-      <code>string|T</code>
-    </MixedInferredReturnType>
-    <MixedOperand occurrences="11">
-      <code>$add</code>
+    <MixedOperand occurrences="3">
       <code>$match[0]</code>
       <code>$match[0]</code>
       <code>$match[1]</code>
-      <code>++self::$variableIndex</code>
-      <code>++self::$variableIndex</code>
-      <code>self::$env</code>
-      <code>self::$variableIndex</code>
-      <code>self::$variableIndex</code>
-      <code>self::$variableIndex</code>
-      <code>self::replaceVars($arg, $end . "' . %s . '" . $begin)</code>
     </MixedOperand>
-    <MixedReturnStatement occurrences="2">
-      <code>$this-&gt;args[$key] ?? $this-&gt;args[0]</code>
-      <code>self::$context</code>
-    </MixedReturnStatement>
     <PossiblyNullOperand occurrences="7">
       <code>$then</code>
       <code>$then</code>

@@ -12,16 +12,22 @@ abstract class rex_var
     public const ENV_INPUT = 4;
     public const ENV_OUTPUT = 8;
 
-    /**
-     * @psalm-var null|array<string, class-string<self>>
-     */
+    /** @var array<string, class-string<self>> */
     private static $vars = [];
+
+    /** @var null|int */
     private static $env;
+
+    /** @var null|string */
     private static $context;
+
+    /** @var mixed */
     private static $contextData;
 
+    /** @var string[] */
     private $args = [];
 
+    /** @var int */
     private static $variableIndex = 0;
 
     /**
@@ -146,7 +152,7 @@ abstract class rex_var
      * @param bool   $useVariables
      * @param string $stripslashes
      *
-     * @return mixed|string
+     * @return string
      */
     private static function replaceVars($content, $format = '%s', $useVariables = false, $stripslashes = null)
     {
@@ -302,13 +308,13 @@ abstract class rex_var
      */
     protected function environmentIs($env)
     {
-        return (self::$env & $env) == $env;
+        return null !== self::$env && (self::$env & $env) == $env;
     }
 
     /**
      * Returns the context.
      *
-     * @return string
+     * @return string|null
      */
     protected function getContext()
     {

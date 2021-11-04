@@ -281,7 +281,12 @@ parameters:
 			path: ../../redaxo/src/core/lib/util/socket/socket.php
 
 		-
-			message: "#^PHPDoc tag @param for parameter \\$vartype contains unresolvable type\\.$#"
+			message: "#^Offset 0 on array\\(string, string, mixed\\) in isset\\(\\) always exists and is not nullable\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/util/type.php
+
+		-
+			message: "#^Offset 1 on array\\(string, string, mixed\\) on left side of \\?\\? always exists and is not nullable\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/type.php
 
