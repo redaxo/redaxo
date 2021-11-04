@@ -2591,9 +2591,7 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/lib/service_article.php">
-    <MixedArgument occurrences="21">
-      <code>$Art-&gt;getValue('parent_id')</code>
-      <code>$altId</code>
+    <MixedArgument occurrences="14">
       <code>$articles-&gt;getValue('path')</code>
       <code>$data['category_id']</code>
       <code>$data['category_id']</code>
@@ -2606,40 +2604,27 @@
       <code>$id</code>
       <code>$oldPrio</code>
       <code>$parentId</code>
-      <code>$parentId</code>
-      <code>$parentId</code>
-      <code>$parentId</code>
-      <code>$parentId</code>
-      <code>$rev-&gt;getValue('revision')</code>
       <code>$value</code>
       <code>$value</code>
     </MixedArgument>
-    <MixedArrayOffset occurrences="5">
-      <code>$GAID[$altId]</code>
+    <MixedArrayOffset occurrences="3">
       <code>$GAID[$iid]</code>
-      <code>$GAID[$parentId]</code>
       <code>$templates[$data['template_id']]</code>
       <code>$templates[$data['template_id']]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="21">
-      <code>$GAID[$altId]</code>
+    <MixedAssignment occurrences="15">
       <code>$GAID[$iid]</code>
-      <code>$GAID[$parentId]</code>
-      <code>$altId</code>
       <code>$catname</code>
       <code>$catname</code>
       <code>$catname</code>
       <code>$catname</code>
-      <code>$data[$optionalData]</code>
+      <code>$data['path']</code>
+      <code>$data['priority']</code>
       <code>$gid</code>
       <code>$iid</code>
       <code>$neuCatId</code>
       <code>$newstatus</code>
       <code>$oldPrio</code>
-      <code>$parentId</code>
-      <code>$parentId</code>
-      <code>$parentId</code>
-      <code>$parentId</code>
       <code>$parentId</code>
       <code>$parentId</code>
       <code>$value</code>
@@ -2669,16 +2654,11 @@
     </UnusedVariable>
   </file>
   <file src="redaxo/src/addons/structure/lib/service_category.php">
-    <MixedArgument occurrences="10">
+    <MixedArgument occurrences="5">
       <code>$ArtSql-&gt;getValue('id')</code>
-      <code>$clang</code>
       <code>$data['catpriority']</code>
       <code>$data['catpriority']</code>
-      <code>$fcat-&gt;getValue('parent_id')</code>
       <code>$gcats-&gt;getValue('path')</code>
-      <code>$oldPrio</code>
-      <code>$parentId</code>
-      <code>$parentId</code>
       <code>$tcat-&gt;getValue('path')</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="1">
@@ -2690,14 +2670,10 @@
       <code>$startpageTemplates[$sql-&gt;getValue('clang_id')]</code>
       <code>$templates[$templateId]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="10">
-      <code>$clang</code>
+    <MixedAssignment occurrences="6">
       <code>$data['name']</code>
       <code>$icid</code>
       <code>$newstatus</code>
-      <code>$oldPrio</code>
-      <code>$parentId</code>
-      <code>$parentId</code>
       <code>$startpageTemplates[$sql-&gt;getValue('clang_id')]</code>
       <code>$templateId</code>
       <code>$templateId</code>
@@ -2813,12 +2789,6 @@
     </MixedArgument>
   </file>
   <file src="redaxo/src/addons/structure/pages/index.php">
-    <MixedArgument occurrences="4">
-      <code>$KAT-&gt;getValue('id')</code>
-      <code>$KAT-&gt;getValue('rowCount')</code>
-      <code>$iCategoryId</code>
-      <code>$sql-&gt;getValue('artCount')</code>
-    </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="2">
       <code>$structureContext-&gt;getMountpoints()</code>
       <code>$structureContext-&gt;getMountpoints()</code>
@@ -2847,7 +2817,7 @@
       <code>$tEMPLATENAME[$sql-&gt;getValue('template_id')]</code>
       <code>$tEMPLATENAME[$sql-&gt;getValue('template_id')]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="14">
+    <MixedAssignment occurrences="13">
       <code>$artStatus</code>
       <code>$artStatusClass</code>
       <code>$artStatusIcon</code>
@@ -2856,15 +2826,13 @@
       <code>$articleIcon</code>
       <code>$articleStatus</code>
       <code>$catStatusType</code>
-      <code>$iCategoryId</code>
       <code>$katStatus</code>
       <code>$statusClass</code>
       <code>$statusIcon</code>
       <code>$tmpl</code>
       <code>$tmpl</code>
     </MixedAssignment>
-    <MixedOperand occurrences="55">
-      <code>$KAT-&gt;getValue('catname')</code>
+    <MixedOperand occurrences="49">
       <code>$artStatus</code>
       <code>$artStatusClass</code>
       <code>$artStatusIcon</code>
@@ -2884,16 +2852,10 @@
       <code>$articleStatus</code>
       <code>$catStatusType[0]</code>
       <code>$catStatusType[1]</code>
-      <code>$iCategoryId</code>
-      <code>$iCategoryId</code>
-      <code>$iCategoryId</code>
       <code>$katStatus</code>
       <code>$katStatus</code>
       <code>$katStatus</code>
       <code>$katStatus</code>
-      <code>$sql-&gt;getValue('id')</code>
-      <code>$sql-&gt;getValue('id')</code>
-      <code>$sql-&gt;getValue('id')</code>
       <code>$sql-&gt;getValue('id')</code>
       <code>$statusClass</code>
       <code>$statusClass</code>
@@ -2905,6 +2867,7 @@
       <code>$statusIcon</code>
       <code>$tmpl</code>
       <code>$tmpl</code>
+      <code>rex_escape($KAT-&gt;getValue('catname'))</code>
       <code>rex_escape($KAT-&gt;getValue('catname'))</code>
       <code>rex_escape($KAT-&gt;getValue('catname'))</code>
       <code>rex_escape($KAT-&gt;getValue('catname'))</code>
@@ -3147,13 +3110,9 @@
       <code>string</code>
       <code>string</code>
     </MixedInferredReturnType>
-    <MixedOperand occurrences="7">
+    <MixedOperand occurrences="3">
       <code>$CM-&gt;getValue('priority')</code>
       <code>$CM-&gt;getValue('priority')</code>
-      <code>$curr-&gt;getValue('article_id')</code>
-      <code>$curr-&gt;getValue('clang_id')</code>
-      <code>$curr-&gt;getValue('ctype_id')</code>
-      <code>$curr-&gt;getValue('revision')</code>
       <code>$slice-&gt;getValue($colname)</code>
     </MixedOperand>
     <MixedReturnStatement occurrences="2">
@@ -3262,12 +3221,11 @@
     </UnusedVariable>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/pages/content.php">
-    <MixedArgument occurrences="7">
+    <MixedArgument occurrences="6">
       <code>$action-&gt;getMessages()</code>
       <code>$ctypes</code>
       <code>$globalInfo</code>
       <code>$info</code>
-      <code>$key</code>
       <code>$messages</code>
       <code>$val</code>
     </MixedArgument>
@@ -3293,9 +3251,8 @@
       <code>$priority</code>
       <code>$val</code>
     </MixedAssignment>
-    <MixedOperand occurrences="3">
+    <MixedOperand occurrences="2">
       <code>$info</code>
-      <code>$key</code>
       <code>rex_be_controller::includeCurrentPageSubPath(compact('info', 'warning', 'templateAttributes', 'article', 'articleId', 'categoryId', 'clang', 'sliceId', 'sliceRevision', 'function', 'ctype', 'context'))</code>
     </MixedOperand>
     <PossiblyNullReference occurrences="11">
@@ -3338,12 +3295,10 @@
       <code>$status</code>
       <code>$status</code>
     </MixedAssignment>
-    <MixedOperand occurrences="18">
-      <code>$del-&gt;getValue('ma.module_id')</code>
+    <MixedOperand occurrences="16">
       <code>$postsavestatus</code>
       <code>$presavestatus</code>
       <code>$previewstatus</code>
-      <code>$sql-&gt;getValue('id')</code>
       <code>$sql-&gt;getValue('postsavemode')</code>
       <code>$sql-&gt;getValue('presavemode')</code>
       <code>$sql-&gt;getValue('previewmode')</code>
@@ -3390,9 +3345,8 @@
       <code>$modulname</code>
       <code>$oldAusgabe</code>
     </MixedAssignment>
-    <MixedOperand occurrences="5">
+    <MixedOperand occurrences="4">
       <code>$aid</code>
-      <code>$gma-&gt;getValue('id')</code>
       <code>rex_escape($ausgabe)</code>
       <code>rex_escape($eingabe)</code>
       <code>rex_escape($mname)</code>
@@ -3494,10 +3448,10 @@
     </MixedMethodCall>
     <MixedOperand occurrences="5">
       <code>$ep-&gt;getParam('direction')</code>
-      <code>$historyInfo</code>
-      <code>$version['history_date']</code>
       <code>$version['history_date']</code>
       <code>$version['history_user']</code>
+      <code>rex_escape($historyInfo)</code>
+      <code>rex_escape($version['history_date'])</code>
     </MixedOperand>
     <PossiblyNullReference occurrences="2">
       <code>getLogin</code>
@@ -6004,10 +5958,11 @@
       <code>$options[$foreignKey-&gt;getOnUpdate()]</code>
       <code>$types[$index-&gt;getType()]</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="5">
+    <MixedAssignment occurrences="6">
       <code>$parameters[]</code>
       <code>$parameters[]</code>
       <code>$parameters[]</code>
+      <code>$scalar</code>
       <code>$value</code>
       <code>$value</code>
     </MixedAssignment>
@@ -6777,11 +6732,7 @@
     </UnusedVariable>
   </file>
   <file src="redaxo/src/core/pages/system.clangs.php">
-    <MixedAssignment occurrences="1">
-      <code>$langId</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="7">
-      <code>$langId</code>
+    <MixedOperand occurrences="6">
       <code>rex_escape($sql-&gt;getValue('code'))</code>
       <code>rex_escape($sql-&gt;getValue('code'))</code>
       <code>rex_escape($sql-&gt;getValue('name'))</code>
