@@ -158,11 +158,8 @@ class rex_article_service
         }
 
         // complete remaining optional aprams
-        foreach (['path', 'priority'] as $optionalData) {
-            if (!isset($data[$optionalData])) {
-                $data[$optionalData] = $thisArt->getValue($optionalData);
-            }
-        }
+        $data['path'] = $data['path'] ?? $thisArt->getValue('path');
+        $data['priority'] = $data['priority'] ?? $thisArt->getValue('priority');
 
         $EA = rex_sql::factory();
         $EA->setTable(rex::getTablePrefix() . 'article');
@@ -231,11 +228,11 @@ class rex_article_service
 
         if ($Art->getRows() > 0) {
             $message = self::_deleteArticle($articleId);
-            $parentId = $Art->getValue('parent_id');
+            $parentId = (int) $Art->getValue('parent_id');
 
             foreach (rex_clang::getAllIds() as $clang) {
                 // ----- PRIOR
-                self::newArtPrio($Art->getValue('parent_id'), $clang, 0, 1);
+                self::newArtPrio($parentId, $clang, 0, 1);
 
                 // ----- EXTENSION POINT
                 $message = rex_extension::registerPoint(new rex_extension_point('ART_DELETED', $message, [
@@ -429,6 +426,8 @@ class rex_article_service
      */
     public static function newArtPrio($parentId, $clang, $newPrio, $oldPrio)
     {
+        $parentId = (int) $parentId;
+
         if ($newPrio != $oldPrio) {
             if ($newPrio < $oldPrio) {
                 $addsql = 'desc';
@@ -439,7 +438,7 @@ class rex_article_service
             rex_sql_util::organizePriorities(
                 rex::getTable('article'),
                 'priority',
-                'clang_id=' . (int) $clang . ' AND ((startarticle<>1 AND parent_id=' . (int) $parentId . ') OR (startarticle=1 AND id=' . (int) $parentId . '))',
+                'clang_id=' . (int) $clang . ' AND ((startarticle<>1 AND parent_id=' . $parentId . ') OR (startarticle=1 AND id=' . $parentId . '))',
                 'priority,updatedate ' . $addsql
             );
 
@@ -471,7 +470,7 @@ class rex_article_service
             $sql->setQuery('select parent_id, name from ' . rex::getTablePrefix() . 'article where id=? and startarticle=0 and clang_id=?', [$artId, $clang]);
 
             if (!$parentId) {
-                $parentId = $sql->getValue('parent_id');
+                $parentId = (int) $sql->getValue('parent_id');
             }
 
             // artikel updaten
@@ -522,7 +521,7 @@ class rex_article_service
             $sql->setQuery('select parent_id, name from ' . rex::getTablePrefix() . 'article where id=? and startarticle=1 and clang_id=?', [$artId, $clang]);
 
             if (!$parentId) {
-                $parentId = $sql->getValue('parent_id');
+                $parentId = (int) $sql->getValue('parent_id');
             }
 
             // artikel updaten
@@ -578,8 +577,8 @@ class rex_article_service
         if (1 != $alt->getRows()) {
             return false;
         }
-        $altId = $alt->getValue('id');
-        $parentId = $alt->getValue('parent_id');
+        $altId = (int) $alt->getValue('id');
+        $parentId = (int) $alt->getValue('parent_id');
 
         // cat felder sammeln. +
         $params = ['path', 'priority', 'catname', 'startarticle', 'catpriority', 'status'];
@@ -777,7 +776,7 @@ class rex_article_service
                     foreach ($revisions as $rev) {
                         // FIXME this dependency is very ugly!
                         // ArticleSlices kopieren
-                        rex_content_service::copyContent($id, $newId, $clang, $clang, $rev->getValue('revision'));
+                        rex_content_service::copyContent($id, $newId, $clang, $clang, (int) $rev->getValue('revision'));
                     }
 
                     // Prios neu berechnen
