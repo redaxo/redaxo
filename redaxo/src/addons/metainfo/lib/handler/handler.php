@@ -276,8 +276,10 @@ abstract class rex_metainfo_handler
                         $rexInput = new rex_input_date();
                     } elseif ('time' == $typeLabel) {
                         $rexInput = new rex_input_time();
-                    } else {
+                    } elseif ('datetime' == $typeLabel) {
                         $rexInput = new rex_input_datetime();
+                    } else {
+                        throw new Exception('Unexpected $typeLabel "'. $typeLabel .'"');
                     }
                     $tagAttr = ' class="form-control-date"';
 
