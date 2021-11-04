@@ -163,8 +163,8 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
 
         parent::fetchRequestValues($params, $media, $sqlFields);
 
-        // do the save only when metafields are defined
-        if ($media->hasValues()) {
+        // do the save only when EP = MEDIA_ADDED/UPDATED and metafields are defined
+        if ($params['save'] && $media->hasValues()) {
             $media->update();
         }
 
@@ -179,6 +179,8 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
     public function extendForm(rex_extension_point $ep)
     {
         $params = $ep->getParams();
+        $params['save'] = $save = in_array($ep->getName(), ['MEDIA_ADDED', 'MEDIA_UPDATED'], true);
+
         // Nur beim EDIT gibts auch ein Medium zum bearbeiten
         if ('MEDIA_FORM_EDIT' == $ep->getName()) {
             $params['activeItem'] = $params['media'];
@@ -194,7 +196,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
             }
         }
 
-        return $ep->getSubject() . parent::renderFormAndSave(self::PREFIX, $params);
+        return $ep->getSubject() . parent::renderFormAndSave(self::PREFIX, $params, $save);
     }
 }
 
@@ -203,7 +205,7 @@ $mediaHandler = new rex_metainfo_media_handler();
 rex_extension::register('MEDIA_FORM_EDIT', [$mediaHandler, 'extendForm']);
 rex_extension::register('MEDIA_FORM_ADD', [$mediaHandler, 'extendForm']);
 
-rex_extension::register('MEDIA_ADDED', [$mediaHandler, 'extendForm']);
-rex_extension::register('MEDIA_UPDATED', [$mediaHandler, 'extendForm']);
+rex_extension::register('MEDIA_ADDED', [$mediaHandler, 'extendForm'], rex_extension::EARLY);
+rex_extension::register('MEDIA_UPDATED', [$mediaHandler, 'extendForm'], rex_extension::EARLY);
 
 rex_extension::register('MEDIA_IS_IN_USE', [rex_metainfo_media_handler::class, 'isMediaInUse']);

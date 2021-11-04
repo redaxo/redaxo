@@ -35,6 +35,7 @@ abstract class rex_metainfo_handler
 
             $name = (string) $sqlFields->getValue('name');
             $title = $sqlFields->getValue('title');
+            /** @psalm-taint-escape sql */ // it is intended that admins can paste sql queries inside this field
             $params = $sqlFields->getValue('params');
             $typeLabel = $sqlFields->getValue('label');
             $attr = $sqlFields->getValue('attributes');
@@ -653,14 +654,14 @@ abstract class rex_metainfo_handler
      *
      * @return string
      */
-    public function renderFormAndSave($prefix, array $params)
+    public function renderFormAndSave($prefix, array $params, bool $fireCallbacks = true)
     {
         $filterCondition = $this->buildFilterCondition($params);
         $sqlFields = static::getSqlFields($prefix, $filterCondition);
         $params = $this->handleSave($params, $sqlFields);
 
         // trigger callback of sql fields
-        if ('post' == rex_request_method()) {
+        if ($fireCallbacks && 'post' == rex_request_method()) {
             $this->fireCallbacks($sqlFields);
         }
 
