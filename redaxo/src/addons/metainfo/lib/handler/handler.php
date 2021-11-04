@@ -181,7 +181,7 @@ abstract class rex_metainfo_handler
                             $currentId .= '-'.rex_escape((string) preg_replace('/[^a-zA-Z0-9_-]/', '_', (string) $key));
                             $e['label'] = '<label for="' . $currentId . '">' . rex_escape($value) . '</label>';
                         }
-                        $e['field'] = '<input type="' . $typeLabel . '" name="' . $name . '" value="' . rex_escape($key) . '" id="' . $currentId . '" ' . $attrStr . $selected . ' />';
+                        $e['field'] = '<input type="' . rex_escape($typeLabel) . '" name="' . rex_escape($name) . '" value="' . rex_escape($key) . '" id="' . $currentId . '" ' . $attrStr . $selected . ' />';
                         $formElements[] = $e;
                     }
 
