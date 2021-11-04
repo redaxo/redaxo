@@ -63,6 +63,7 @@ composer update --ansi --no-dev -d redaxo/src/addons/debug/
 rm -f redaxo/src/addons/debug/vendor/autoload.php
 rm -rf redaxo/src/addons/debug/vendor/composer/
 rm -rf redaxo/src/addons/debug/vendor/psr/
+rm -f redaxo/src/addons/debug/vendor/itsgoingd/clockwork/.editorconfig
 rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/.github/
 find redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/DataSource/ -not -name Php* -not -name Xdebug* -not -name Data* -delete
 rm -rf redaxo/src/addons/debug/vendor/itsgoingd/clockwork/Clockwork/Storage/SqlSearch.php
