@@ -35,6 +35,7 @@ abstract class rex_metainfo_handler
 
             $name = (string) $sqlFields->getValue('name');
             $title = $sqlFields->getValue('title');
+            /** @psalm-taint-escape sql */ // it is intended that admins can paste sql queries inside this field
             $params = $sqlFields->getValue('params');
             $typeLabel = $sqlFields->getValue('label');
             $attr = $sqlFields->getValue('attributes');
