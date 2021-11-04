@@ -162,7 +162,7 @@ class rex_template
                 $attributes = $row->getArrayValue('attributes');
                 $categories = $attributes['categories'] ?? [];
                 if (!is_array($categories) || (isset($categories['all']) && 1 == $categories['all'])) {
-                    $templates[$row->getValue('id', 'int')] = $row->getValue('name', 'string');
+                    $templates[(int) $row->getValue('id')] = (string) $row->getValue('name');
                 }
             }
         } else {
@@ -174,13 +174,13 @@ class rex_template
                     $categories = $attributes['categories'] ?? [];
                     // template ist nicht kategoriespezifisch -> includen
                     if (!is_array($categories) || (isset($categories['all']) && 1 == $categories['all'])) {
-                        $templates[$row->getValue('id', 'int')] = $row->getValue('name', 'string');
+                        $templates[(int) $row->getValue('id')] = (string) $row->getValue('name');
                     } else {
                         // template ist auf kategorien beschraenkt..
                         // nachschauen ob eine davon im pfad der aktuellen kategorie liegt
                         foreach ($path as $p) {
                             if (in_array($p, $categories)) {
-                                $templates[$row->getValue('id', 'int')] = $row->getValue('name', 'string');
+                                $templates[(int) $row->getValue('id')] = (string) $row->getValue('name');
                                 break;
                             }
                         }

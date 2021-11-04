@@ -58,7 +58,7 @@ abstract class rex_metainfo_handler
                 }
             }
 
-            $defaultValue = $sqlFields->getValue('default', 'string');
+            $defaultValue = (string) $sqlFields->getValue('default');
             if ($activeItem) {
                 $itemValue = $activeItem->getValue($name);
 
@@ -527,9 +527,9 @@ abstract class rex_metainfo_handler
         }
 
         for ($i = 0; $i < $sqlFields->getRows(); $i++, $sqlFields->next()) {
-            $fieldName = $sqlFields->getValue('name', 'string');
-            $fieldType = $sqlFields->getValue('type_id', 'int');
-            $fieldAttributes = $sqlFields->getValue('attributes', 'string');
+            $fieldName = (string) $sqlFields->getValue('name');
+            $fieldType = (int) $sqlFields->getValue('type_id');
+            $fieldAttributes = (string) $sqlFields->getValue('attributes');
 
             // dont save restricted fields
             $attrArray = rex_string::split($fieldAttributes);

@@ -174,7 +174,7 @@ class rex_article_service
             $message = rex_i18n::msg('article_updated');
 
             // ----- PRIOR
-            $oldPrio = $thisArt->getValue('priority', 'int');
+            $oldPrio = (int) $thisArt->getValue('priority');
 
             if ($oldPrio != $data['priority']) {
                 rex_sql::factory()

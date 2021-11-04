@@ -31,7 +31,7 @@ if (rex_post('btn_delete', 'string')) {
         $sql = rex_sql::factory()->setQuery('SELECT filename FROM ' . rex::getTable('media') . ' WHERE id = ?', [$fileId]);
         $media = null;
         if (1 == $sql->getRows()) {
-            $media = rex_media::get($sql->getValue('filename', 'string'));
+            $media = rex_media::get((string) $sql->getValue('filename'));
         }
 
         if ($media) {
