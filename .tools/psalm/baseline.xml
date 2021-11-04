@@ -1796,7 +1796,7 @@
     <MixedOperand occurrences="3">
       <code>$postValue</code>
       <code>$typeLabel</code>
-      <code>$typeLabel</code>
+      <code>rex_escape($typeLabel)</code>
     </MixedOperand>
     <MixedReturnStatement occurrences="1">
       <code>$saveValue</code>
@@ -1833,11 +1833,10 @@
       <code>$warning[]</code>
       <code>$warning[]</code>
     </MixedArrayAssignment>
-    <MixedAssignment occurrences="5">
+    <MixedAssignment occurrences="4">
       <code>$catId</code>
       <code>$name</code>
       <code>$params['activeItem']</code>
-      <code>$params['id']</code>
       <code>$warning</code>
     </MixedAssignment>
     <MixedInferredReturnType occurrences="1">
@@ -2069,18 +2068,9 @@
     </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/table_manager.php">
-    <MixedArgument occurrences="4">
+    <MixedArgument occurrences="12">
       <code>$default</code>
       <code>$default</code>
-      <code>$qry</code>
-      <code>$this-&gt;getTableName()</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="1">
-      <code>$this-&gt;DBID</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="11">
-      <code>$length</code>
-      <code>$length</code>
       <code>$name</code>
       <code>$name</code>
       <code>$name</code>
@@ -2088,6 +2078,16 @@
       <code>$this-&gt;getTableName()</code>
       <code>$this-&gt;getTableName()</code>
       <code>$this-&gt;getTableName()</code>
+      <code>$this-&gt;getTableName()</code>
+      <code>$type</code>
+      <code>$type</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="1">
+      <code>$this-&gt;DBID</code>
+    </MixedAssignment>
+    <MixedOperand occurrences="4">
+      <code>$type</code>
+      <code>$type</code>
       <code>$type</code>
       <code>$type</code>
     </MixedOperand>
