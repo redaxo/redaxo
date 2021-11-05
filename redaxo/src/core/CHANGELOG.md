@@ -30,6 +30,7 @@ Version 5.13.0 – XX.XX.2021
 * `dump()`-Ausgaben enthalten einen Link (entsprechend der Editor-Einstellung in REDAXO) zu der Codestelle, wo die Ausgabe ausgelöst wurde (@gharlan)
 * Neuer Console-Command `package:run-update-script`, der das Update-Skript eines Addons manuell anstößt (@gharlan)
 * `use_gzip` wird in der `config.yml` default nicht mehr aktiviert (@gharlan)
+* Aktualisierung Übersetzungen: schwedisch (@interweave-media)
 * System-Page: Basis-Pfad der REDAXO-Installation wird ausgegeben (@skerbis)
 * Im Backend wird der Opt-Out-Header für Google FLoC gesetzt (@staabm)
 * Update der externen Bibliotheken (@skerbis, @gharlan)
