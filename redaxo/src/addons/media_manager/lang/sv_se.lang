@@ -166,3 +166,6 @@ media_manager_effect_contrast_notice = [-100 to 100].  Lämna tom för standardv
 media_manager_effect_sepia = Bild: sepia
 
 media_manager_effect_greyscale = Bild: grånyanser
+
+media_manager_effect_image_format = Bild: konvertera till JPEG/PNG/GIF/WEBP
+media_manager_effect_image_format_convertto = Målformat
