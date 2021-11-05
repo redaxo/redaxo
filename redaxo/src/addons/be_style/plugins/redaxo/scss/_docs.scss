@@ -251,11 +251,6 @@ $docs-border-color-muted: $gray-lighter !default;
         }
         h2 {
             border-bottom-color: $color-grey-5;
-
-            a,
-            a:hover {
-                color: $color-text-light;
-            }
         }
 
         blockquote {
@@ -276,16 +271,6 @@ $docs-border-color-muted: $gray-lighter !default;
         }
 
         table {
-            th,
-            td {
-                border-color: $color-grey-1;
-            }
-            th {
-                background-color: $color-grey-2;
-            }
-        }
-
-        table {
             tr {
                 background-color: transparent;
                 border-top-color: $color-grey-1;
@@ -301,6 +286,13 @@ $docs-border-color-muted: $gray-lighter !default;
 
             thead tr {
                 background-color: transparent;
+            }
+        }
+
+        h2 {
+            a,
+            a:hover {
+                color: $color-text-light;
             }
         }
 
