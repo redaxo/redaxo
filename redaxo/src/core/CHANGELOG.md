@@ -8,9 +8,9 @@ Version 5.13.0 – XX.XX.2021
 
 * Es werden neu die PHP-Extensions `ctpye`, `mbstring` und `intl` erfordert (@gharlan)
 * Dark-Mode für das Backend (@schuer): 
-    - default wird das Theme automatisch entsprechend der Systemeinstellung der User eingestellt
-    - User können im Profil aber auch ein Theme exlizit wählen
-    - über die `config.yml` kann alternativ auch ein Theme global gesetzt werden
+    - Die Theme-Auswahl erfolgt automatisch im Browser
+    - User können auf ihrer Profilseite aber auch ein Theme exlizit auswählen
+    - Über die `config.yml` kann ein Theme für alle User fest vorgegeben werden
 * `rex_list`:
     - Spaltenposition können abgefragt/verändert werden über `getColumnPosition`/`setColumnPosition` (@christophboecker)
     - Paginierung kann deaktiviert werden (@gharlan)
