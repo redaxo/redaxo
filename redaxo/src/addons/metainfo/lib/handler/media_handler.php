@@ -36,7 +36,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         ];
         $escapedFilename = $sql->escape($params['filename']);
         for ($i = 0; $i < $rows; ++$i) {
-            $name = $sql->getValue('name');
+            $name = (string) $sql->getValue('name');
             $prefix = rex_metainfo_meta_prefix($name);
             if (self::PREFIX === $prefix) {
                 $key = 'media';
@@ -45,7 +45,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
             } else {
                 $key = 'articles';
             }
-            switch ($sql->getValue('type_id')) {
+            switch ((int) $sql->getValue('type_id')) {
                 case '6':
                     $where[$key][] = $sql->escapeIdentifier($name) . ' = ' . $escapedFilename;
                     break;
@@ -190,7 +190,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
             $qry = 'SELECT id FROM ' . rex::getTablePrefix() . 'media WHERE filename="' . $params['filename'] . '"';
             $sql->setQuery($qry);
             if (1 == $sql->getRows()) {
-                $params['id'] = $sql->getValue('id');
+                $params['id'] = (int) $sql->getValue('id');
             } else {
                 throw new rex_exception('Error occured during file upload!');
             }

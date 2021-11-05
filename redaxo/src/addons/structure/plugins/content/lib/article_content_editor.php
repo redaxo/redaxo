@@ -294,10 +294,16 @@ class rex_article_content_editor extends rex_article_content
         if (isset($this->MODULESELECT[$this->ctype])) {
             foreach ($this->MODULESELECT[$this->ctype] as $module) {
                 $item = [];
-                $item['id'] = $module['id'];
+                $item['id'] = (int) $module['id'];
                 $item['key'] = $module['key'];
                 $item['title'] = rex_escape($module['name']);
                 $item['href'] = $context->getUrl(['module_id' => $module['id']]) . '#slice-add-pos-' . $position;
+                /**
+                 * It is intended to pass raw values to fragment here.
+                 * @psalm-taint-escape html
+                 * @psalm-taint-escape has_quotes
+                 */
+                $item = $item;
                 $items[] = $item;
             }
         }

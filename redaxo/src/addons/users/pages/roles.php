@@ -109,7 +109,7 @@ if ('' == $func) {
             $field = $fieldContainer->addGroupedField($group, 'perm_select', $key);
             $field->setLabel($params['label']);
             $field->setCheckboxLabel($params['all_label']);
-            $fieldIds[] = $field->getAttribute('id');
+            $fieldIds[] = rex_escape($field->getAttribute('id'), 'js');
             if (rex_request('default_value', 'boolean')) {
                 $field->setValue(rex_complex_perm::ALL);
             }

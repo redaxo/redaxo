@@ -36,11 +36,6 @@ parameters:
 			path: ../../redaxo/src/addons/mediapool/lib/media_category_select.php
 
 		-
-			message: "#^Offset 'file' on array\\('category_id' \\=\\> int, 'title' \\=\\> string, 'file' \\=\\> array\\('name' \\=\\> string, 'path' \\=\\> string, \\?'tmp_name' \\=\\> string\\)\\) in empty\\(\\) always exists and is not falsy\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/service_media.php
-
-		-
 			message: "#^Ternary operator condition is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/lib/service_media.php
@@ -104,11 +99,6 @@ parameters:
 			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/plugins/version/boot.php
-
-		-
-			message: "#^Offset 'href' on array\\(\\?'active' \\=\\> true, 'href' \\=\\> string, \\?'itemAttr' \\=\\> array\\('class' \\=\\> array\\(0 \\=\\> 'bg\\-success', \\?1 \\=\\> 'disabled'\\)\\)\\) in isset\\(\\) always exists and is not nullable\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/layout/top.php
 
 		-
 			message: "#^Argument of an invalid type rex_api_result supplied for foreach, only iterables are supported\\.$#"
@@ -211,21 +201,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/login/user.php
 
 		-
-			message: "#^Offset 'install' on array\\('install' \\=\\> bool, 'status' \\=\\> bool\\) on left side of \\?\\? always exists and is not nullable\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/addons/addon.php
-
-		-
-			message: "#^Offset 'install' on array\\('install' \\=\\> bool, \\?'status' \\=\\> bool, \\?'plugins' \\=\\> array\\<int\\|string, array\\('install' \\=\\> bool, 'status' \\=\\> bool\\)\\>\\) on left side of \\?\\? always exists and is not nullable\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/addons/addon.php
-
-		-
-			message: "#^Offset 'status' on array\\('install' \\=\\> bool, 'status' \\=\\> bool\\) on left side of \\?\\? always exists and is not nullable\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/addons/addon.php
-
-		-
 			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/response.php
@@ -271,19 +246,9 @@ parameters:
 			path: ../../redaxo/src/core/lib/util/socket/socket.php
 
 		-
-			message: "#^Offset 'timed_out' on array\\('timed_out' \\=\\> bool, 'blocked' \\=\\> bool, 'eof' \\=\\> bool, 'unread_bytes' \\=\\> int, 'stream_type' \\=\\> string, 'wrapper_type' \\=\\> string, 'wrapper_data' \\=\\> mixed, 'mode' \\=\\> string, \\.\\.\\.\\) in isset\\(\\) always exists and is not nullable\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/socket/socket.php
-
-		-
 			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int, array\\)\\: bool\\)\\|null, Closure\\(mixed, mixed\\)\\: void given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/socket/socket.php
-
-		-
-			message: "#^PHPDoc tag @param for parameter \\$vartype contains unresolvable type\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/type.php
 
 		-
 			message: "#^Method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) should return array\\<T of object\\> but returns array\\<int, mixed\\>\\.$#"
