@@ -150,7 +150,7 @@ function rex_metainfo_delete_field($fieldIdOrName)
         return $invalidField;
     }
 
-    $name = $sql->getValue('name');
+    $name = (string) $sql->getValue('name');
     $fieldId = $sql->getValue('id');
 
     $prefix = rex_metainfo_meta_prefix($name);

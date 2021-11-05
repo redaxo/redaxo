@@ -55,7 +55,7 @@ class rex_category_service
                 // $sql->setDebug();
                 $sql->setQuery('select clang_id,template_id from ' . rex::getTablePrefix() . 'article where id=? and startarticle=1', [$categoryId]);
                 for ($i = 0; $i < $sql->getRows(); $i++, $sql->next()) {
-                    $startpageTemplates[$sql->getValue('clang_id')] = $sql->getValue('template_id');
+                    $startpageTemplates[(int) $sql->getValue('clang_id')] = $sql->getValue('template_id');
                 }
             }
 
@@ -191,7 +191,7 @@ class rex_category_service
                     $EART->addGlobalUpdateFields($user);
 
                     $EART->update();
-                    rex_article_cache::delete($ArtSql->getValue('id'), $clang);
+                    rex_article_cache::delete((int) $ArtSql->getValue('id'), $clang);
 
                     $ArtSql->next();
                 }
@@ -366,6 +366,8 @@ class rex_category_service
     /**
      * Gibt alle Stati zurück, die für eine Kategorie gültig sind.
      *
+     * @psalm-return list<string[]>
+     *
      * @return array Array von Stati
      */
     public static function statusTypes()
@@ -478,7 +480,7 @@ class rex_category_service
             return false;
         }
         if ($toCat > 0) {
-            $tcats = explode('|', $tcat->getValue('path'));
+            $tcats = explode('|', (string) $tcat->getValue('path'));
             if (in_array($fromCat, $tcats)) {
                 // zielkategorie ist in quellkategorie -> nicht verschiebbar
                 return false;
@@ -487,7 +489,7 @@ class rex_category_service
 
         // ----- folgende cats regenerate
         $RC = [];
-        $RC[$fcat->getValue('parent_id')] = 1;
+        $RC[(int) $fcat->getValue('parent_id')] = 1;
         $RC[$fromCat] = 1;
         $RC[$toCat] = 1;
 
@@ -507,8 +509,8 @@ class rex_category_service
         // $up->setDebug();
         for ($i = 0; $i < $gcats->getRows(); ++$i) {
             // make update
-            $newPath = $toPath . $fromCat . '|' . str_replace($fromPath, '', $gcats->getValue('path'));
-            $icid = $gcats->getValue('id');
+            $newPath = $toPath . $fromCat . '|' . str_replace($fromPath, '', (string) $gcats->getValue('path'));
+            $icid = (int) $gcats->getValue('id');
 
             // path aendern und speichern
             $up->setTable(rex::getTablePrefix() . 'article');

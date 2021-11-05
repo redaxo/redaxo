@@ -525,7 +525,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
 
             $tmplTd = '';
             if ($templateSelect) {
-                $tmpl = $tEMPLATENAME[$sql->getValue('template_id')] ?? '';
+                $tmpl = $tEMPLATENAME[(int) $sql->getValue('template_id')] ?? '';
                 $tmplTd = '<td class="rex-table-template" data-title="' . rex_i18n::msg('header_template') . '">' . $tmpl . '</td>';
             }
 
@@ -542,9 +542,10 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
         } else {
             // --------------------- ARTIKEL NORMAL VIEW | NO EDIT NO ENTER
 
-            $artStatus = $artStatusTypes[$sql->getValue('status')][0];
-            $artStatusClass = $artStatusTypes[$sql->getValue('status')][1];
-            $artStatusIcon = $artStatusTypes[$sql->getValue('status')][2];
+            $status = (int) $sql->getValue('status');
+            $artStatus = $artStatusTypes[$status][0];
+            $artStatusClass = $artStatusTypes[$status][1];
+            $artStatusIcon = $artStatusTypes[$status][2];
 
             $tmplTd = '';
             if ($templateSelect) {
