@@ -372,14 +372,6 @@
       <code>rex_escape($field-&gt;getAttribute('id'), 'js')</code>
     </PossiblyNullOperand>
   </file>
-  <file src="redaxo/src/addons/cronjob/pages/log.php">
-    <MixedAssignment occurrences="1">
-      <code>$url</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="1">
-      <code>$url</code>
-    </MixedOperand>
-  </file>
   <file src="redaxo/src/addons/cronjob/plugins/article_status/lib/cronjob.php">
     <MixedArgument occurrences="3">
       <code>$sql-&gt;getValue('clang_id')</code>
@@ -4981,20 +4973,18 @@
       <code>$frame['line']</code>
       <code>$frame['type']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="4">
+    <MixedAssignment occurrences="3">
       <code>$frame</code>
       <code>$function</code>
       <code>$line</code>
-      <code>$url</code>
     </MixedAssignment>
     <MixedMethodCall occurrences="1">
       <code>getMessage</code>
     </MixedMethodCall>
-    <MixedOperand occurrences="5">
+    <MixedOperand occurrences="4">
       <code>$exception-&gt;getMessage()</code>
       <code>$frame['class']</code>
       <code>$function</code>
-      <code>rex_escape($url)</code>
       <code>rex_server('REQUEST_URI')</code>
     </MixedOperand>
   </file>
@@ -6724,23 +6714,11 @@
       <code>$logFile</code>
       <code>$logLine</code>
     </MixedArgument>
-    <MixedAssignment occurrences="2">
+    <MixedAssignment occurrences="1">
       <code>$logLine</code>
-      <code>$url</code>
     </MixedAssignment>
-    <MixedOperand occurrences="2">
-      <code>$url</code>
+    <MixedOperand occurrences="1">
       <code>rex_escape($logLine)</code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/core/pages/system.log.redaxo.php">
-    <MixedAssignment occurrences="2">
-      <code>$url</code>
-      <code>$url</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="2">
-      <code>$url</code>
-      <code>$url</code>
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/pages/system.report.html.php">
@@ -6756,13 +6734,11 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/pages/system.settings.php">
-    <MixedAssignment occurrences="2">
+    <MixedAssignment occurrences="1">
       <code>$config[$key]</code>
-      <code>$url</code>
     </MixedAssignment>
-    <MixedOperand occurrences="2">
+    <MixedOperand occurrences="1">
       <code>$field-&gt;get()</code>
-      <code>$url</code>
     </MixedOperand>
     <NullOperand occurrences="1">
       <code>rex_escape($editor-&gt;getBasepath())</code>
