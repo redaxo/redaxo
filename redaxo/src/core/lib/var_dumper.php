@@ -2,6 +2,8 @@
 
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
+use Symfony\Component\VarDumper\Dumper\ContextProvider\SourceContextProvider;
+use Symfony\Component\VarDumper\Dumper\ContextualizedDumper;
 use Symfony\Component\VarDumper\Dumper\DataDumperInterface;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 use Symfony\Component\VarDumper\VarDumper;
@@ -39,13 +41,13 @@ abstract class rex_var_dumper
         if (!self::$cloner) {
             self::$cloner = new VarCloner();
             if ('cli' === PHP_SAPI) {
-                self::$dumper = new CliDumper();
+                $dumper = new CliDumper();
             } else {
                 $styleAll = 'font-family: "Fira Code", Menlo, Monaco, Consolas, monospace; font-size: 14px; line-height: 1.4 !important;';
-                self::$dumper = new HtmlDumper();
-                self::$dumper->setDumpBoundaries('<pre class="rex-var-dumper sf-dump" id="%s" data-indent-pad="%s"><div class="sf-dump-rex-container">', '</div></pre><script>Sfdump(%s)</script>');
-                self::$dumper->setIndentPad('    ');
-                self::$dumper->setStyles([
+                $dumper = new HtmlDumper();
+                $dumper->setDumpBoundaries('<pre class="rex-var-dumper sf-dump" id="%s" data-indent-pad="%s"><div class="sf-dump-rex-container">', '</div></pre><script>Sfdump(%s)</script>');
+                $dumper->setIndentPad('    ');
+                $dumper->setStyles([
                     'rex-container' => $styleAll . '
                         position: relative;
                         z-index: 99999;
@@ -80,6 +82,21 @@ abstract class rex_var_dumper
                     'str' => $styleAll . 'color: #FF5370;',
                 ]);
             }
+
+            $dumper->setDisplayOptions([
+                'fileLinkFormat' => new class() {
+                    public function format(string $file, string $line): ?string
+                    {
+                        /** @var rex_editor|null $editor */
+                        static $editor;
+                        $editor = $editor ?? rex_editor::factory();
+
+                        return $editor->getUrl($file, $line);
+                    }
+                },
+            ]);
+
+            self::$dumper = new ContextualizedDumper($dumper, [new SourceContextProvider(null, rex_path::base())]);
         }
 
         self::$dumper->dump(self::$cloner->cloneVar($var));
