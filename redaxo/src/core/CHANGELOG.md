@@ -1,6 +1,48 @@
 Changelog
 =========
 
+Version 5.13.0 – XX.XX.2021
+---------------------------
+
+### Neu
+
+* Es werden neu die PHP-Extensions `ctpye`, `mbstring` und `intl` erfordert (@gharlan)
+* Dark-Mode für das Backend (@schuer): 
+    - Die Theme-Auswahl erfolgt automatisch im Browser
+    - User können auf ihrer Profilseite aber auch ein Theme exlizit auswählen
+    - Über die `config.yml` kann ein Theme für alle User fest vorgegeben werden
+* `rex_list`:
+    - Spaltenposition können abgefragt/verändert werden über `getColumnPosition`/`setColumnPosition` (@christophboecker)
+    - Paginierung kann deaktiviert werden (@gharlan)
+    - Gesamtanzahl wird nicht mehr über deprecated `SQL_CALC_FOUND_ROWS` abgefragt (@gharlan)
+* `rex_formatter`:
+    - Neue Methoden `intlDateTime`, `intlDate`, `intlTime` für die Datumsformatierung über `IntlDateFormatter` (@gharlan)
+    - Deprecated `strftime`, stattdessen die neuen `intl*`-Methoden verwenden (`strftime` wurde auch in PHP deprecated gesetzt) (@gharlan)
+* `rex_select`: Bei `addSqlOptions` kann als zweiter Parameter die DB-ID gesetzt werden (@christophboecker)
+* `rex_markdown`: Optional kann Highlighting für PHP-Codeblöcke aktiviert werden (wird in den Readme-Ausgaben im Backend verwendet) (@gharlan)
+* `rex_pager`: 
+    - Page/Cursor kann direkt gesetzt werden über `setPage`/`setCursor` (@gharlan)
+    - Page/Cursor wird automatisch validiert und ggf. auf erste/letzte Page angepasst (@gharlan)
+* `rex`: Neue Methode `requireUser` (nicht nullable) (@gharlan)
+* `rex_socket_proxy`: Bei https wird TLS v1.2 und SNI verwendet (@develerik)
+* `rex_response`: Neue Konstante `HTTP_BAD_REQUEST` für den entsprechenden HTTP-Status (@christophboecker)
+* `rex_factory_trait` Neue Methode `getExplicitFactoryClass`, dafür `callFactoryClass` deprecated (@gharlan)
+* `dump()`-Ausgaben enthalten einen Link (entsprechend der Editor-Einstellung in REDAXO) zu der Codestelle, wo die Ausgabe ausgelöst wurde (@gharlan)
+* Neuer Console-Command `package:run-update-script`, der das Update-Skript eines Addons manuell anstößt (@gharlan)
+* `use_gzip` wird in der `config.yml` default nicht mehr aktiviert (@gharlan)
+* Aktualisierung Übersetzungen: schwedisch (@interweave-media)
+* System-Page: Basis-Pfad der REDAXO-Installation wird ausgegeben (@skerbis)
+* Im Backend wird der Opt-Out-Header für Google FLoC gesetzt (@staabm)
+* Update der externen Bibliotheken (@skerbis, @gharlan)
+* Code-Stabilität durch statische Code-Analyse und Tests verbessert (@staabm, @bloep, @gharlan)
+
+### Bugfixes
+
+* Deprecations in PHP 8.1 aufgelöst (@gharlan)
+* Api-Functions haben immer einen gültigen `page`-Parameter erfordert (@gharlan)
+* System-Log: `rex:///`-Pfade wurden nicht mit den Editor-URLs verlinkt (@gharlan)
+
+
 Version 5.12.1 – 21.06.2021
 ---------------------------
 
