@@ -81,7 +81,7 @@ class rex_article_action
         $ga->setQuery('SELECT a.id, `' . $type . '` as code FROM ' . rex::getTable('module_action') . ' ma,' . rex::getTable('action') . ' a WHERE `' . $type . '` != "" AND ma.action_id=a.id AND module_id=? AND (a.' . $type . 'mode & ?)', [$this->moduleId, $this->mode]);
 
         foreach ($ga as $row) {
-            $action = $row->getValue('code');
+            $action = (string) $row->getValue('code');
             $action = str_replace($this->vars['search'], $this->vars['replace'], $action);
             $action = rex_var::parse($action, rex_var::ENV_BACKEND | rex_var::ENV_INPUT, 'action', $this->sql);
 

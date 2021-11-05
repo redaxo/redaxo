@@ -13,7 +13,7 @@ if (1 != $sql->getRows()) {
 if (rex_media_manager::STATUS_SYSTEM_TYPE === (int) $sql->getValue('status')) {
     throw new rex_exception('System media types can not be edited.');
 }
-$typeName = $sql->getValue('name');
+$typeName = (string) $sql->getValue('name');
 
 $info = '';
 $warning = '';

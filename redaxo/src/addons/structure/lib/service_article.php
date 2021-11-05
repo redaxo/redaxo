@@ -174,7 +174,7 @@ class rex_article_service
             $message = rex_i18n::msg('article_updated');
 
             // ----- PRIOR
-            $oldPrio = $thisArt->getValue('priority');
+            $oldPrio = (int) $thisArt->getValue('priority');
 
             if ($oldPrio != $data['priority']) {
                 rex_sql::factory()
@@ -291,7 +291,7 @@ class rex_article_service
 
         $message = '';
         if ($ART->getRows() > 0) {
-            $parentId = $ART->getValue('parent_id');
+            $parentId = (int) $ART->getValue('parent_id');
             $message = rex_extension::registerPoint(new rex_extension_point('ART_PRE_DELETED', $message, [
                 'id' => $id,
                 'parent_id' => $parentId,
@@ -379,6 +379,8 @@ class rex_article_service
 
     /**
      * Gibt alle Stati zurück, die für einen Artikel gültig sind.
+     *
+     * @psalm-return list<string[]>
      *
      * @return array Array von Stati
      */
@@ -564,7 +566,7 @@ class rex_article_service
         if (1 != $neu->getRows()) {
             return false;
         }
-        $neuCatId = $neu->getValue('parent_id');
+        $neuCatId = (int) $neu->getValue('parent_id');
 
         // in oberster kategorie dann return
         if (0 == $neuCatId) {
@@ -607,7 +609,7 @@ class rex_article_service
             $neu2 = rex_sql::factory();
             $neu2->setTable(rex::getTablePrefix() . 'article');
             $neu2->setWhere(['id' => $neuId, 'clang_id' => $clang]);
-            $neu2->setValue('parent_id', $alt->getValue('parent_id'));
+            $neu2->setValue('parent_id', (int) $alt->getValue('parent_id'));
 
             // austauschen der definierten paramater
             foreach ($params as $param) {
@@ -625,8 +627,8 @@ class rex_article_service
         $ia = rex_sql::factory();
         $articles->setQuery('select * from ' . rex::getTablePrefix() . "article where path like '%|$altId|%'");
         for ($i = 0; $i < $articles->getRows(); ++$i) {
-            $iid = $articles->getValue('id');
-            $ipath = str_replace("|$altId|", "|$neuId|", $articles->getValue('path'));
+            $iid = (int) $articles->getValue('id');
+            $ipath = str_replace("|$altId|", "|$neuId|", (string) $articles->getValue('path'));
 
             $ia->setTable(rex::getTablePrefix() . 'article');
             $ia->setWhere(['id' => $iid]);
