@@ -457,11 +457,11 @@ abstract class rex_package_manager
     public function checkRedaxoRequirement($redaxoVersion)
     {
         $requirements = $this->package->getProperty('requires', []);
-        if (isset($requirements['redaxo']) && !rex_version::matchVersionConstraints($redaxoVersion,$requirements['redaxo'])) {
-            $this->message = $this->i18n('requirement_error_redaxo_version', $redaxoVersion, $requirements['redaxo']);
-            return false;
-        }
-        return true;
+
+        $checker = new rex_package_requirement($requirements);
+        $result =  $checker->checkRedaxoRequirement($redaxoVersion);
+        $this->message = $checker->getMessage();
+        return $result;
     }
 
     /**
