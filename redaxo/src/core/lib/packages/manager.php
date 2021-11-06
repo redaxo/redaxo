@@ -401,50 +401,10 @@ abstract class rex_package_manager
     {
         $requirements = $this->package->getProperty('requires', []);
 
-        if (!is_array($requirements)) {
-            $this->message = $this->i18n('requirement_wrong_format');
-
-            return false;
-        }
-
-        if (!$this->checkRedaxoRequirement(rex::getVersion())) {
-            return false;
-        }
-
-        $state = [];
-
-        if (isset($requirements['php'])) {
-            if (!is_array($requirements['php'])) {
-                $requirements['php'] = ['version' => $requirements['php']];
-            }
-            if (isset($requirements['php']['version']) && !rex_version::matchVersionConstraints(PHP_VERSION,$requirements['php']['version'])) {
-                $state[] = $this->i18n('requirement_error_php_version', PHP_VERSION, $requirements['php']['version']);
-            }
-            if (isset($requirements['php']['extensions']) && $requirements['php']['extensions']) {
-                $extensions = (array) $requirements['php']['extensions'];
-                foreach ($extensions as $reqExt) {
-                    if (is_string($reqExt) && !extension_loaded($reqExt)) {
-                        $state[] = $this->i18n('requirement_error_php_extension', $reqExt);
-                    }
-                }
-            }
-        }
-
-        if (empty($state)) {
-            if (isset($requirements['packages']) && is_array($requirements['packages'])) {
-                foreach ($requirements['packages'] as $package => $_) {
-                    if (!$this->checkPackageRequirement($package)) {
-                        $state[] = $this->message;
-                    }
-                }
-            }
-        }
-
-        if (empty($state)) {
-            return true;
-        }
-        $this->message = implode('<br />', $state);
-        return false;
+        $checker = new rex_package_requirement($requirements, $this->i18nPrefix);
+        $result = $checker->checkRequirements();
+        $this->message = $checker->getMessage();
+        return $result;
     }
 
     /**
