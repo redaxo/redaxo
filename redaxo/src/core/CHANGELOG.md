@@ -6,10 +6,10 @@ Version 5.13.0 – XX.XX.2021
 
 ### Neu
 
-* Es werden neu die PHP-Extensions `ctpye`, `mbstring` und `intl` erfordert (@gharlan)
+* Es werden neu die PHP-Extensions `ctype`, `mbstring` und `intl` erfordert (@gharlan)
 * Dark-Mode für das Backend (@schuer): 
     - Die Theme-Auswahl erfolgt automatisch im Browser
-    - User können auf ihrer Profilseite aber auch ein Theme exlizit auswählen
+    - User können auf ihrer Profilseite ein Theme explizit auswählen
     - Über die `config.yml` kann ein Theme für alle User fest vorgegeben werden
 * `rex_list`:
     - Spaltenposition können abgefragt/verändert werden über `getColumnPosition`/`setColumnPosition` (@christophboecker)
