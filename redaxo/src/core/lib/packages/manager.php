@@ -458,7 +458,7 @@ abstract class rex_package_manager
     {
         $requirements = $this->package->getProperty('requires', []);
 
-        $checker = new rex_package_requirement($requirements);
+        $checker = new rex_package_requirement($requirements, $this->i18nPrefix);
         $result =  $checker->checkRedaxoRequirement($redaxoVersion);
         $this->message = $checker->getMessage();
         return $result;
