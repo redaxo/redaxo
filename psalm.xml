@@ -44,7 +44,7 @@
         <function name="dump"/>
     </forbiddenFunctions>
     <plugins>
-        <plugin filename=".tools/psalm/RexTypeReturnProvider.php" />
+        <pluginClass class="Redaxo\PsalmPlugin\Plugin" />
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin" />
         <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin" />
     </plugins>
