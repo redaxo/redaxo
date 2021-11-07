@@ -102,6 +102,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/webmozart/assert" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/webmozart/path-util" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/rector/rector" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/redaxo/psalm-plugin" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/redaxo/php-cs-fixer-config" />
       <excludePattern pattern=".php_cs.cache" />
       <excludePattern pattern=".phpunit.result.cache" />
