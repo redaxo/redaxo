@@ -34,11 +34,15 @@
     </projectFiles>
     <stubs>
         <file name="redaxo/src/core/.phpstorm.meta.php" />
-        <file name=".tools/psalm/deprecated.stub" />
     </stubs>
     <universalObjectCrates>
         <class name="rex_fragment" />
     </universalObjectCrates>
+    <forbiddenFunctions>
+        <function name="basename"/>
+        <function name="dd"/>
+        <function name="dump"/>
+    </forbiddenFunctions>
     <plugins>
         <plugin filename=".tools/psalm/RexTypeReturnProvider.php" />
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin" />
