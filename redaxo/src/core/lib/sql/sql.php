@@ -1320,6 +1320,7 @@ class rex_sql implements Iterator
             $errors['error'] = $this->getError();
             $errors['ecode'] = $this->getErrno();
         }
+        /** @psalm-suppress ForbiddenCode */
         dump($errors);
     }
 
