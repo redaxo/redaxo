@@ -49,6 +49,9 @@ class rex_editor
         return new $class();
     }
 
+    /**
+     * @return string|null
+     */
     public function getUrl($filePath, $line)
     {
         $editor = $this->getName();

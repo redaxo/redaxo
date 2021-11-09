@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.8.2 – XX.XX.2021
+--------------------------
+
+### Bugfixes
+
+* Metainfos wurden teils doppelt gespeichert, teils erneut nach den entsprechenden `*_UPDATED` EPs (@gharlan)
+
+
 Version 2.8.1 – 21.06.2021
 --------------------------
 

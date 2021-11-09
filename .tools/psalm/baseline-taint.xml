@@ -5,20 +5,6 @@
       <code>$str</code>
     </TaintedHeader>
   </file>
-  <file src="redaxo/src/core/lib/sql/schema_dumper.php">
-    <TaintedHtml occurrences="1">
-      <code>$scalar</code>
-    </TaintedHtml>
-  </file>
-  <file src="redaxo/src/core/lib/sql/sql.php">
-    <TaintedHtml occurrences="1">
-      <code>$values</code>
-    </TaintedHtml>
-    <TaintedSql occurrences="2">
-      <code>$query</code>
-      <code>$query</code>
-    </TaintedSql>
-  </file>
   <file src="redaxo/src/core/lib/util/file.php">
     <TaintedFile occurrences="1">
       <code>$file</code>

@@ -21,8 +21,9 @@ class StackFrame
 		}
 
 		$this->call = $this->formatCall();
-		$this->shortPath = str_replace($basePath, '', $this->file);
-		$this->vendor = strpos($this->file, $vendorPath) === 0
+
+		$this->shortPath = $this->file ? str_replace($basePath, '', $this->file) : null;
+		$this->vendor = ($this->file && strpos($this->file, $vendorPath) === 0)
 			? explode(DIRECTORY_SEPARATOR, str_replace($vendorPath, '', $this->file))[0] : null;
 	}
 

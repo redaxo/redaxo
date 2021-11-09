@@ -132,6 +132,8 @@ class rex_i18n
      * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
      * @return string Translation for the key
+     *
+     * @psalm-taint-specialize
      */
     public static function rawMsg($key, ...$replacements)
     {
@@ -355,6 +357,7 @@ class rex_i18n
      * @throws InvalidArgumentException
      *
      * @psalm-taint-escape ($escape is true ? "html" : null)
+     * @psalm-taint-specialize
      *
      * @return string Translated text
      */

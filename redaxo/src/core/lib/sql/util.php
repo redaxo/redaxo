@@ -112,6 +112,7 @@ class rex_sql_util
     private static function prepareQuery($query)
     {
         // rex::getUser() gibts im Setup nicht
+        /** @psalm-taint-escape sql */ // we trust the user db table
         $user = rex::getUser() ? rex::getUser()->getValue('login') : '';
 
         $query = str_replace('%USER%', $user, $query);

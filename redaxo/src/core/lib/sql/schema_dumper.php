@@ -177,6 +177,9 @@ class rex_sql_schema_dumper
             return 'null';
         }
 
+        /** @psalm-taint-escape html */ // https://github.com/vimeo/psalm/issues/4669
+        $scalar = $scalar;
+
         return var_export($scalar, true);
     }
 

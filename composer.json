@@ -22,13 +22,15 @@
         "psalm/plugin-phpunit": "0.16.1",
         "psalm/plugin-symfony": "3.0.4",
         "rector/rector": "0.12.1",
+        "redaxo/php-cs-fixer-config": "1.0.0",
+        "redaxo/psalm-plugin": "1.0.0",
         "vimeo/psalm": "4.11.2"
     },
     "replace": {
         "erusev/parsedown": "1.7.4",
         "erusev/parsedown-extra": "0.8.1",
         "filp/whoops": "2.14.4",
-        "itsgoingd/clockwork": "v5.1.0",
+        "itsgoingd/clockwork": "v5.1.1",
         "phpmailer/phpmailer": "v6.5.1",
         "psr/container": "1.1.1",
         "psr/http-message": "1.0.1",

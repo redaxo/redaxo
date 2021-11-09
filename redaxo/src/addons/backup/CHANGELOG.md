@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.8.0 – XX.XX.2021
+--------------------------
+
+### Neu
+
+* Begrifflichkeiten optimiert (@gharlan)
+
+
 Version 2.7.0 – 03.03.2021
 --------------------------
 

@@ -10,6 +10,7 @@ use Rector\Naming\Contract\Guard\ConflictingNameGuardInterface;
 use Rector\Naming\PhpArray\ArrayFilter;
 use Rector\Naming\ValueObject\PropertyRename;
 use Rector\NodeNameResolver\NodeNameResolver;
+use function in_array;
 
 final class UnderscoreCamelCaseConflictingNameGuard implements ConflictingNameGuardInterface
 {
@@ -35,7 +36,7 @@ final class UnderscoreCamelCaseConflictingNameGuard implements ConflictingNameGu
     public function isConflicting($renameValueObject): bool
     {
         $conflictingPropertyNames = $this->resolve($renameValueObject->getClassLike());
-        return \in_array($renameValueObject->getExpectedName(), $conflictingPropertyNames, true);
+        return in_array($renameValueObject->getExpectedName(), $conflictingPropertyNames, true);
     }
 
     /**

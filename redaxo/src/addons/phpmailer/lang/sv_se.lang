@@ -67,6 +67,9 @@ phpmailer_archive_info = Arkiv-mappen: <span title="{0}">{1}</span>
 phpmailer_archive_delete = Radera e-post arkiv
 phpmailer_archive_deleted = E-post arkivet raderades.
 phpmailer_archive_delete_confirm = Ska e-postarkivet raderas helt? Denna åtgärd kan inte ångras.
+phpmailer_archivecron = Rensa mailer-arkiv
+phpmailer_archivecron_label = Radera alla mail äldre än
+phpmailer_archivecron_days = Dagar
 phpmailer_log_yes = Ja
 phpmailer_log_no = Nej
 phpmailer_log_title = PHPMailer-log "{0}"

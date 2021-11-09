@@ -1,6 +1,20 @@
 Changelog
 =========
 
+Version 2.11.0 – XX.XX.2021
+---------------------------
+
+### Neu
+
+* Neue Serviceklassen `rex_mediapool` und `rex_media_service` (entsprechend alte Funktionen als deprecated gesetzt) (@dergel, @gharlan)
+* `rex_media`: Neue Methode `forId`, um ein Medium über die ID zu erhalten (@dergel)
+* Medienpool-Suche trennt die Eingabe in Wörter, die getrennt gesucht werden, und bietet eine Dateitypsuche ("type:jpg,gif") (@gharlan)
+
+### Bugfixes
+
+* Wenn eine Datei im Mediapool ausgewählt wird, wird das `onchange`-Event des MediaButton-Inputs getriggert (@BenJ1337)
+
+
 Version 2.10.1 – 21.06.2021
 ---------------------------
 
