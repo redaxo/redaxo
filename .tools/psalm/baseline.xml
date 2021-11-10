@@ -5776,14 +5776,13 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/setup/setup.php">
-    <MixedArgument occurrences="11">
+    <MixedArgument occurrences="10">
       <code>$config['db'][1]['host']</code>
       <code>$config['db'][1]['login']</code>
       <code>$config['db'][1]['name']</code>
       <code>$config['db'][1]['password']</code>
       <code>$dir</code>
       <code>$dir</code>
-      <code>$expire</code>
       <code>$func($path)</code>
       <code>$path</code>
       <code>self::MIN_PHP_VERSION</code>
