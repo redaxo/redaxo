@@ -24,7 +24,7 @@
         "rector/rector": "0.12.3",
         "redaxo/php-cs-fixer-config": "1.0.0",
         "redaxo/psalm-plugin": "1.0.0",
-        "vimeo/psalm": "4.11.2"
+        "vimeo/psalm": "4.12.0"
     },
     "replace": {
         "erusev/parsedown": "1.7.4",
