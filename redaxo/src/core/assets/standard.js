@@ -785,3 +785,8 @@ function rex_searchfield_init(selector_id) {
             .trigger('propertychange').focus();
     });
 }
+
+// tooltip toggle on title
+$(document).on('rex:ready', function (event, container) {
+     $('[data-toggle="tooltip"]').tooltip();
+});
