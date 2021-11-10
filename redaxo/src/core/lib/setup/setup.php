@@ -302,7 +302,7 @@ class rex_setup
         // invalidate expired tokens
         $updated = false;
         foreach ($setup as $token => $expire) {
-            if (strtotime($expire) < time()) {
+            if (strtotime((string) $expire) < time()) {
                 unset($setup[$token]);
                 $updated = true;
             }
