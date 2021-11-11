@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.11.2@6fba5eb554f9507b72932f9c75533d8af593688d">
+<files psalm-version="4.12.0@e42bc4a23f67acba28a23bb09c348e2ff38a1d87">
   <file src="redaxo/src/addons/backup/lib/backup.php">
     <MixedArgument occurrences="5">
       <code>$column</code>
@@ -5701,9 +5701,6 @@
       <code>array&lt;string, array{install: bool, status: bool, plugins?: array&lt;string, array{install: bool, status: bool}&gt;}&gt;</code>
       <code>list&lt;string&gt;</code>
     </MixedReturnTypeCoercion>
-    <TypeDoesNotContainType occurrences="1">
-      <code>$user instanceof rex_user</code>
-    </TypeDoesNotContainType>
   </file>
   <file src="redaxo/src/core/lib/select.php">
     <MixedArgument occurrences="7">
