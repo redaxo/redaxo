@@ -8,6 +8,12 @@
  *     try {
  *         $socket = rex_socket::factory('www.example.com');
  *         $socket->setPath('/url/to/my/resource?param=1');
+ *         $socket->setOptions([
+ *               'ssl' => [
+ *                 'verify_peer' => false,
+ *                 'verify_peer_name' => false
+ *               ]
+ *             ]);
  *         $response = $socket->doGet();
  *         if($response->isOk()) {
  *             $body = $response->getBody();
@@ -39,6 +45,8 @@ class rex_socket
     protected $headers = [];
     /** @vat resource */
     protected $stream;
+    /** @var array<string, string> */
+    protected $options;
 
     /**
      * Constructor.
@@ -106,6 +114,20 @@ class rex_socket
     public function setPath($path)
     {
         $this->path = $path;
+
+        return $this;
+    }
+
+    /**
+     * Sets the socket options.
+     *
+     * @param array $options
+     *
+     * @return $this Current socket
+     */
+    public function setOptions($options = [])
+    {
+        $this->options = $options;
 
         return $this;
     }
@@ -336,7 +358,9 @@ class rex_socket
         });
 
         try {
-            $this->stream = @fsockopen($host, $this->port, $errno, $errstr);
+            $context = stream_context_create($this->options);
+            $this->stream = stream_socket_client($host.':'.$this->port, $errno, $errstr, ini_get("default_socket_timeout"), STREAM_CLIENT_CONNECT, $context);
+
         } finally {
             restore_error_handler();
         }
