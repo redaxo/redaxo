@@ -351,6 +351,10 @@ class rex_content_service
             if (!rex_file::put($articleContentFile, $articleContent)) {
                 throw new rex_exception(sprintf('Article %d could not be generated, check the directory permissions for "%s".', $articleId, rex_path::addonCache('structure')));
             }
+
+            if (function_exists('opcache_invalidate')) {
+                opcache_invalidate($articleContentFile);
+            }
         }
 
         return true;
