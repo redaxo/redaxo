@@ -119,7 +119,7 @@ class rex_socket
     }
 
     /**
-     * Sets the socket options.
+     * Sets the socket context options.
      *
      * Available options can be found on https://www.php.net/manual/en/context.php
      *
