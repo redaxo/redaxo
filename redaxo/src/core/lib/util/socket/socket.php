@@ -359,8 +359,7 @@ class rex_socket
 
         try {
             $context = stream_context_create($this->options);
-            $this->stream = stream_socket_client($host.':'.$this->port, $errno, $errstr, ini_get("default_socket_timeout"), STREAM_CLIENT_CONNECT, $context);
-
+            $this->stream = stream_socket_client($host.':'.$this->port, $errno, $errstr, ini_get('default_socket_timeout'), STREAM_CLIENT_CONNECT, $context);
         } finally {
             restore_error_handler();
         }
