@@ -121,8 +121,6 @@ class rex_socket
     /**
      * Sets the socket options.
      *
-     * @param array $options
-     *
      * @return $this Current socket
      */
     public function setOptions(array $options)
