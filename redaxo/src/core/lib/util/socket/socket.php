@@ -46,7 +46,7 @@ class rex_socket
     /** @vat resource */
     protected $stream;
     /** @var array<array-key, mixed> */
-    protected $options;
+    protected $options = [];
 
     /**
      * Constructor.
@@ -125,7 +125,7 @@ class rex_socket
      *
      * @return $this Current socket
      */
-    public function setOptions($options = [])
+    public function setOptions(array $options)
     {
         $this->options = $options;
 
