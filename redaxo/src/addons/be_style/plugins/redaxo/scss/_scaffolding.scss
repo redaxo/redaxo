@@ -232,13 +232,15 @@ html {
         background-color: darken($color-grey-1, 4%);
     }
 
-    //.rex-state-inprogress {
-    //    background-color: $state-warning-bg;
-    //}
-    //
-    //.rex-state-live {
-    //    background-color: $state-success-bg;
-    //}
+    .rex-state-inprogress {
+        background-color: $color-grey-2;
+        border-color: $color-grey-2;
+    }
+
+    .rex-state-live {
+        background-color: $color-blue-3;
+        border-color: $color-blue-3;
+    }
 
     .rex-state-notice {
         background-color: $dark-brand-info;
