@@ -6,4 +6,7 @@ $(document).on('rex:ready', function (event, container) {
     });
     // refresh selects to force repaints fixing rendering issues in safari
     selects.selectpicker('refresh');
+    
+    // tooltip toggle on title
+    container.find('[data-toggle="tooltip"]').tooltip();
 });
