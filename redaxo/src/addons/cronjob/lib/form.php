@@ -21,7 +21,7 @@ class rex_cronjob_form extends rex_form
      * @param string $tableName
      * @param string $fieldset
      * @param string $whereCondition
-     * @param string $method
+     * @param 'post'|'get' $method
      * @param bool   $debug
      * @param int    $db             DB connection ID
      *

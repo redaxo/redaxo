@@ -14,16 +14,10 @@ abstract class rex_form_base
     /** @var string */
     protected $fieldset;
 
-    /**
-     * @var array
-     * @psalm-var array<string, list<rex_form_element>>
-     */
+    /** @var array<string, list<rex_form_element>> */
     protected $elements;
 
-    /**
-     * @var array
-     * @psalm-var array<string, string|int|bool>
-     */
+    /** @var array<string, string|int|bool> */
     protected $params;
 
     /** @var bool */
@@ -35,10 +29,10 @@ abstract class rex_form_base
     /** @var null|string */
     protected $message;
 
-    /** @var array */
+    /** @var array<int, string> */
     protected $errorMessages = [];
 
-    /** @var string */
+    /** @var null|string */
     protected $warning;
 
     /** @var null|string */
@@ -49,6 +43,11 @@ abstract class rex_form_base
 
     /**
      * Diese Konstruktor sollte nicht verwendet werden. Instanzen muessen ueber die factory() Methode erstellt werden!
+     *
+     * @param string|null $fieldset
+     * @param string $name
+     * @param 'post'|'get' $method
+     * @param bool $debug
      */
     protected function __construct($fieldset, $name, $method = 'post', $debug = false)
     {
@@ -84,6 +83,9 @@ abstract class rex_form_base
         $this->addParam('page', rex_be_controller::getCurrentPage());
     }
 
+    /**
+     * @param string|null $id
+     */
     public function setFormId($id)
     {
         $this->formId = $id;
@@ -109,6 +111,8 @@ abstract class rex_form_base
     /**
      * Fuegt dem Formular ein Fieldset hinzu.
      * Dieses dient dazu ein Formular in mehrere Abschnitte zu gliedern.
+     *
+     * @param string $fieldset
      */
     public function addFieldset($fieldset)
     {
@@ -447,6 +451,9 @@ abstract class rex_form_base
 
     /**
      * Fuegt dem Formular eine Fehlermeldung hinzu.
+     *
+     * @param int $errorCode
+     * @param string $errorMessage
      */
     public function addErrorMessage($errorCode, $errorMessage)
     {
@@ -468,8 +475,7 @@ abstract class rex_form_base
     /**
      * Gibt alle Parameter des Fomulars zurueck.
      *
-     * @return array
-     * @psalm-return array<string, string|int|bool>
+     * @return array<string, string|int|bool>
      */
     public function getParams()
     {
@@ -590,6 +596,7 @@ abstract class rex_form_base
     }
 
     /**
+     * @param string $name
      * @return string
      */
     protected function getId($name)
@@ -597,10 +604,16 @@ abstract class rex_form_base
         return $this->fieldset . '_' . $name;
     }
 
+    /**
+     * @param string $name
+     * @return mixed
+     */
     abstract protected function getValue($name);
 
     /**
      * Setzt die Url die bei der apply-action genutzt wird.
+     *
+     * @param string|array $url
      */
     public function setApplyUrl($url)
     {
@@ -618,8 +631,7 @@ abstract class rex_form_base
      *
      * @throws rex_exception
      *
-     * @return string
-     * @psalm-return class-string<rex_form_element>
+     * @return class-string<rex_form_element>
      */
     public static function getInputClassName($inputType)
     {
@@ -848,8 +860,7 @@ abstract class rex_form_base
     }
 
     /**
-     * @return array
-     * @psalm-return array<string, list<rex_form_element>>
+     * @return array<string, list<rex_form_element>>
      */
     protected function getFieldsetElements()
     {
@@ -872,8 +883,7 @@ abstract class rex_form_base
     }
 
     /**
-     * @return array
-     * @psalm-return array<string, list<rex_form_element>>
+     * @return array<string, list<rex_form_element>>
      */
     protected function getSaveElements()
     {
@@ -942,6 +952,9 @@ abstract class rex_form_base
         return $this->name;
     }
 
+    /**
+     * @param string|null $warning
+     */
     public function setWarning($warning)
     {
         $this->warning = $warning;
@@ -961,6 +974,9 @@ abstract class rex_form_base
         return $warning;
     }
 
+    /**
+     * @param string|null $message
+     */
     public function setMessage($message)
     {
         $this->message = $message;
@@ -983,6 +999,11 @@ abstract class rex_form_base
     /**
      * Callbackfunktion, damit in subklassen der Value noch beeinflusst werden kann
      * wenn das Feld mit Datenbankwerten angezeigt wird.
+     *
+     * @param string $fieldsetName
+     * @param string $fieldName
+     * @param mixed $fieldValue
+     * @return mixed
      */
     protected function preView($fieldsetName, $fieldName, $fieldValue)
     {
