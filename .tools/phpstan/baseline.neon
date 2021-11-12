@@ -1,11 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Dead catch \\- Throwable is never thrown in the try block\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/types/phpcode.php
-
-		-
 			message: "#^Parameter \\#3 \\$alias of class PharData constructor expects string, null given\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/install/lib/archive.php
@@ -126,7 +121,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/autoload.php
 
 		-
-			message: "#^Parameter \\#1 \\$autoload_function of function spl_autoload_register expects callable\\(string\\)\\: void, array\\('rex_autoload', 'autoload'\\) given\\.$#"
+			message: "#^Parameter \\#1 \\$autoload_function of function spl_autoload_register expects callable\\(string\\)\\: void, array\\{'rex_autoload', 'autoload'\\} given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/autoload.php
 
@@ -261,7 +256,7 @@ parameters:
 			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
 
 		-
-			message: "#^Parameter \\#3 \\$createListCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: array\\)\\|null, Closure\\(mixed, mixed\\)\\: array\\(\\) given\\.$#"
+			message: "#^Parameter \\#3 \\$createListCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: array\\)\\|null, Closure\\(mixed, mixed\\)\\: array\\{\\} given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
 

@@ -325,31 +325,35 @@ class rex_content_service
      */
     public static function generateArticleContent($articleId, $clang = null)
     {
-        foreach (rex_clang::getAllIds() as $clang) {
-            if (null !== $clang && $clang != $clang) {
+        foreach (rex_clang::getAllIds() as $clangId) {
+            if (null !== $clang && $clangId != $clang) {
                 continue;
             }
 
             $CONT = new rex_article_content_base();
-            $CONT->setCLang($clang);
+            $CONT->setCLang($clangId);
             $CONT->setEval(false); // Content nicht ausführen, damit in Cachedatei gespeichert werden kann
             if (!$CONT->setArticleId($articleId)) {
                 throw new rex_exception(sprintf('Article %d does not exist.', $articleId));
             }
 
             // --------------------------------------------------- Artikelcontent speichern
-            $articleContentFile = rex_path::addonCache('structure', "$articleId.$clang.content");
+            $articleContentFile = rex_path::addonCache('structure', "$articleId.$clangId.content");
             $articleContent = $CONT->getArticle();
 
             // ----- EXTENSION POINT
             $articleContent = rex_extension::registerPoint(new rex_extension_point('GENERATE_FILTER', $articleContent, [
                 'id' => $articleId,
-                'clang' => $clang,
+                'clang' => $clangId,
                 'article' => $CONT,
             ]));
 
             if (!rex_file::put($articleContentFile, $articleContent)) {
                 throw new rex_exception(sprintf('Article %d could not be generated, check the directory permissions for "%s".', $articleId, rex_path::addonCache('structure')));
+            }
+
+            if (function_exists('opcache_invalidate')) {
+                opcache_invalidate($articleContentFile);
             }
         }
 

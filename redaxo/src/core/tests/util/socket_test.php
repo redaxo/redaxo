@@ -23,8 +23,8 @@ class rex_socket_test extends TestCase
     public function testFactory()
     {
         $socket = rex_socket::factory('www.example.com');
+        $socket->setOptions([]);
         static::assertEquals(rex_socket::class, get_class($socket));
-
         return $socket;
     }
 
@@ -32,12 +32,14 @@ class rex_socket_test extends TestCase
     {
         rex::setProperty('socket_proxy', 'proxy.example.com:8888');
         $socket = rex_socket::factory('www.example.com');
+        $socket->setOptions([]);
         static::assertEquals(rex_socket_proxy::class, get_class($socket));
     }
 
     public function testFactoryUrl()
     {
         $socket = rex_socket::factoryUrl('www.example.com');
+        $socket->setOptions([]);
         static::assertEquals(rex_socket::class, get_class($socket));
     }
 
@@ -45,6 +47,7 @@ class rex_socket_test extends TestCase
     {
         rex::setProperty('socket_proxy', 'proxy.example.com:8888');
         $socket = rex_socket::factoryUrl('www.example.com');
+        $socket->setOptions([]);
         static::assertEquals(rex_socket_proxy::class, get_class($socket));
     }
 
