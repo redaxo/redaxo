@@ -10,6 +10,7 @@ Version 3.0.0 – XX.XX.2021
 * Login-Seite: Neues Hintergrundbild, dazu Styleanpassungen (@schuer)
 * Neuer Loading-Spinner (@schuer)
 * Optimierung der Darstellung von markdown-Dateien (@tbaddade)
+* Bootstrap-Tooltips werden global aktiviert (@skerbis)
 * `theme-color`-Metatag wird nicht mehr gesetzt (@gharlan)
 
 
