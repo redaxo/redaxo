@@ -15,6 +15,7 @@ Version 2.13.0 – XX.XX.2021
 
 ### Bugfixes
 
+* Sliceänderungen wirkten sich teils erst verzögert aus (wegen Opcache) (@gharlan)
 * `rex_article_slice`: bei `getLinkUrl` bekam man die aktuelle URL statt `null`, wenn das Feld nicht gesetzt ist (`getMediaUrl` entsprechend) (@gharlan)
 * `REX_LINK[id=X output=url]` hat teilweise die URL in falscher Sprache geliefert (@gharlan)
 * Bei der Modulzuweisung zu den CTypes wurde bei Abwahl aller Module wieder die Checkbox "Alle" gesetzt (@gharlan)

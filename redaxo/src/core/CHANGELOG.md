@@ -24,6 +24,7 @@ Version 5.13.0 – XX.XX.2021
     - Page/Cursor kann direkt gesetzt werden über `setPage`/`setCursor` (@gharlan)
     - Page/Cursor wird automatisch validiert und ggf. auf erste/letzte Page angepasst (@gharlan)
 * `rex`: Neue Methode `requireUser` (nicht nullable) (@gharlan)
+* `rex_socket`: Context-Options können gesetzt werden (z.B. `verify_peer` für SSL) (@dergel)
 * `rex_socket_proxy`: Bei https wird TLS v1.2 und SNI verwendet (@develerik)
 * `rex_response`: Neue Konstante `HTTP_BAD_REQUEST` für den entsprechenden HTTP-Status (@christophboecker)
 * `rex_factory_trait` Neue Methode `getExplicitFactoryClass`, dafür `callFactoryClass` deprecated (@gharlan)
@@ -33,6 +34,7 @@ Version 5.13.0 – XX.XX.2021
 * Aktualisierung Übersetzungen: schwedisch (@interweave-media)
 * System-Page: Basis-Pfad der REDAXO-Installation wird ausgegeben (@skerbis)
 * Im Backend wird der Opt-Out-Header für Google FLoC gesetzt (@staabm)
+* Dark-Mode für die Frontend-Fehlerseite (@gharlan)
 * Update der externen Bibliotheken (@skerbis, @gharlan)
 * Code-Stabilität durch statische Code-Analyse und Tests verbessert (@staabm, @bloep, @gharlan)
 
