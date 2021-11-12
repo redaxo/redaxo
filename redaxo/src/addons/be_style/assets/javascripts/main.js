@@ -8,5 +8,5 @@ $(document).on('rex:ready', function (event, container) {
     selects.selectpicker('refresh');
     
     // tooltip toggle on title
-    container.find('[data-toggle="tooltip"]').tooltip();   
+    container.find('[data-toggle="tooltip"]').tooltip();
 });
