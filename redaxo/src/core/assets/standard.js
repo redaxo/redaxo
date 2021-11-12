@@ -785,3 +785,4 @@ function rex_searchfield_init(selector_id) {
             .trigger('propertychange').focus();
     });
 }
+

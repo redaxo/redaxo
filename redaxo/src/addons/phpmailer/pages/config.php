@@ -371,7 +371,6 @@ echo '
     </form>';
 ?>
 <script>
-    $('[data-toggle="tooltip"]').tooltip();
     $('#smtpsettings').toggle(
         $('#phpmailer-mailer').find("option[value='smtp']").is(":checked")
     );

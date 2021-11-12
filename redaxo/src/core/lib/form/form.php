@@ -44,7 +44,7 @@ class rex_form extends rex_form_base
      * @param string $tableName
      * @param string $fieldset
      * @param string $whereCondition
-     * @param string $method
+     * @param 'post'|'get' $method
      * @param bool   $debug
      * @param int    $db             DB connection ID
      *
@@ -91,7 +91,7 @@ class rex_form extends rex_form_base
      * @param string $tableName
      * @param string $fieldset
      * @param string $whereCondition
-     * @param string $method
+     * @param 'post'|'get' $method
      * @param bool   $debug
      * @param int    $db             DB connection ID
      *
@@ -204,6 +204,8 @@ class rex_form extends rex_form_base
 
     /**
      * Wechselt den Modus des Formulars.
+     *
+     * @param bool $isEditMode
      */
     public function setEditMode($isEditMode)
     {
@@ -240,9 +242,6 @@ class rex_form extends rex_form_base
         return $this->sql;
     }
 
-    /**
-     * @return string
-     */
     protected function getId($name)
     {
         return $this->tableName . '_' . $this->fieldset . '_' . $name;
