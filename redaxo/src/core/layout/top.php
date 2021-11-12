@@ -23,7 +23,9 @@ if (!$curPage->hasLayout()) {
 }
 
 $bodyAttr = [];
-$bodyId = rex_string::normalize(rex_be_controller::getCurrentPage(), '-', ' ');
+
+// rex_string::normalize requires intl extension, which may not exist before extensions check in setup
+$bodyId = rex::isSetup() ? 'setup' : rex_string::normalize(rex_be_controller::getCurrentPage(), '-', ' ');
 
 $bodyAttr['id'] = ['rex-page-' . $bodyId];
 $bodyAttr['onunload'] = ['closeAll();'];

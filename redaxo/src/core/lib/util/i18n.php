@@ -47,7 +47,11 @@ class rex_i18n
 
         if ($phpSetLocale) {
             [$lang, $country] = explode('_', self::getLocale(), 2);
-            Locale::setDefault($lang.'-'.strtoupper($country));
+
+            // In setup we want to reach the php extensions check even if intl extension is missing
+            if (class_exists(Locale::class)) {
+                Locale::setDefault($lang.'-'.strtoupper($country));
+            }
 
             $locales = [];
             foreach (explode(',', trim(self::msg('setlocale'))) as $locale) {
