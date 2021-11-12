@@ -786,7 +786,3 @@ function rex_searchfield_init(selector_id) {
     });
 }
 
-// tooltip toggle on title
-$(document).on('rex:ready', function (event, container) {
-     container.find('[data-toggle="tooltip"]').tooltip();
-});
