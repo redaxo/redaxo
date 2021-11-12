@@ -17,6 +17,9 @@ class rex_metainfo_table_expander extends rex_form
     /** @var rex_metainfo_table_manager */
     private $tableManager;
 
+    /**
+     * @param 'post'|'get' $method
+     */
     public function __construct(string $metaPrefix, string $metaTable, string $tableName, string $whereCondition, string $method = 'post', bool $debug = false)
     {
         $this->metaPrefix = $metaPrefix;

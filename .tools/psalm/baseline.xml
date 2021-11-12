@@ -5007,54 +5007,42 @@
     </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/lib/form/form.php">
-    <MixedArgument occurrences="7">
+    <MixedArgument occurrences="4">
       <code>$id</code>
-      <code>$name</code>
-      <code>$name</code>
-      <code>$this-&gt;debug</code>
       <code>$this-&gt;languageSupport['clang']</code>
       <code>$this-&gt;languageSupport['id']</code>
       <code>$this-&gt;languageSupport['id']</code>
     </MixedArgument>
-    <MixedOperand occurrences="1">
-      <code>$name</code>
-    </MixedOperand>
   </file>
   <file src="redaxo/src/core/lib/form/form_base.php">
-    <MixedArrayOffset occurrences="3">
-      <code>$this-&gt;errorMessages[$errorCode]</code>
+    <MixedArgument occurrences="1">
+      <code>$result</code>
+    </MixedArgument>
+    <MixedArrayOffset occurrences="2">
       <code>$this-&gt;errorMessages[$result]</code>
       <code>$this-&gt;errorMessages[$result]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="12">
+    <MixedAssignment occurrences="4">
       <code>$params[$listName . '_msg']</code>
       <code>$params[$listName . '_warning']</code>
       <code>$separateEnding</code>
-      <code>$this-&gt;applyUrl</code>
-      <code>$this-&gt;debug</code>
-      <code>$this-&gt;fieldset</code>
-      <code>$this-&gt;formId</code>
-      <code>$this-&gt;message</code>
-      <code>$this-&gt;method</code>
-      <code>$this-&gt;name</code>
-      <code>$this-&gt;warning</code>
       <code>$value</code>
     </MixedAssignment>
     <MixedInferredReturnType occurrences="1">
       <code>string|null</code>
     </MixedInferredReturnType>
-    <MixedOperand occurrences="3">
+    <MixedOperand occurrences="2">
       <code>$element-&gt;get()</code>
       <code>$element-&gt;get()</code>
-      <code>$name</code>
     </MixedOperand>
     <MixedReturnStatement occurrences="1">
       <code>$fields[$normalizedFieldName]</code>
     </MixedReturnStatement>
-    <PossiblyNullOperand occurrences="3">
+    <PossiblyNullOperand occurrences="4">
       <code>$this-&gt;applyUrl</code>
       <code>$this-&gt;applyUrl</code>
       <code>$this-&gt;message</code>
+      <code>$this-&gt;warning</code>
     </PossiblyNullOperand>
     <UnusedForeachValue occurrences="1">
       <code>$fieldsetElementsArray</code>
