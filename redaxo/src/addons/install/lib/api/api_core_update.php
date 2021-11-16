@@ -39,6 +39,10 @@ class rex_api_install_core_update extends rex_api_function
         } catch (rex_functional_exception $e) {
             throw new rex_api_exception($e->getMessage());
         }
+
+        // load logger class before core update to avoid getting logger class from new core while logging success message
+        $logger = rex_logger::factory();
+
         $message = '';
         $temppath = rex_path::coreCache('.new.core/');
         $coreAddons = [];
@@ -195,7 +199,7 @@ class rex_api_install_core_update extends rex_api_function
             $message = $installAddon->i18n('warning_core_not_updated') . '<br />' . $message;
             $success = false;
         } else {
-            rex_logger::factory()->info('REDAXO Core updated from '. rex::getVersion() .' to version '. $version['version']);
+            $logger->info('REDAXO Core updated from '. rex::getVersion() .' to version '. $version['version']);
 
             $message = $installAddon->i18n('info_core_updated');
             $success = true;
