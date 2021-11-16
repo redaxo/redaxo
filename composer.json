@@ -43,7 +43,6 @@
         "symfony/deprecation-contracts": "v2.4.0",
         "symfony/http-foundation": "v5.3.10",
         "symfony/polyfill-ctype": "*",
-        "symfony/polyfill-mbstring": "*",
         "symfony/polyfill-php70": "*",
         "symfony/polyfill-php72": "*",
         "symfony/polyfill-php73": "*",
