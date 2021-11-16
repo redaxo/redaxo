@@ -1,6 +1,16 @@
 Changelog
 =========
 
+Version 2.9.2 – 16.11.2021
+--------------------------
+
+### Bugfixes
+
+* Core-Update:
+    - Beim Update auf 5.13 kam es teils zu einem Fehler beim Erstellen der Erfolgsmeldung im Log (@gharlan)
+    - Besserer Umgang mit fehlenden Schreibrechten (@gharlan)
+
+
 Version 2.9.0 – 03.03.2021
 --------------------------
 
