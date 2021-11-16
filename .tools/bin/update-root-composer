@@ -3,7 +3,6 @@
 
 $replace = [
     'symfony/polyfill-ctype' => '*',
-    'symfony/polyfill-mbstring' => '*',
     'symfony/polyfill-php70' => '*',
     'symfony/polyfill-php72' => '*',
     'symfony/polyfill-php73' => '*',
