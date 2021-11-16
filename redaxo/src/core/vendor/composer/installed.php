@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'b624c46d41d68fd4f2ae66282d32d8a0be3beb4c',
+        'reference' => 'f66de91c8128f91664f07c65cd4f3f5a78f4598f',
         'name' => '__root__',
         'dev' => false,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'b624c46d41d68fd4f2ae66282d32d8a0be3beb4c',
+            'reference' => 'f66de91c8128f91664f07c65cd4f3f5a78f4598f',
             'dev_requirement' => false,
         ),
         'erusev/parsedown' => array(
@@ -103,7 +103,7 @@
             'type' => 'metapackage',
             'install_path' => NULL,
             'aliases' => array(),
-            'reference' => '0488e161600117fc3a0d72397dad154729002f54',
+            'reference' => '3780dea9bb7ff2da83a08d662e1accb6f5f86976',
             'dev_requirement' => false,
         ),
         'symfony/console' => array(
