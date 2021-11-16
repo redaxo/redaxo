@@ -31,11 +31,18 @@ class rex_api_install_core_update extends rex_api_function
         if (!rex_version::compare($version['version'], rex::getVersion(), '>')) {
             throw new rex_api_exception(sprintf('Existing version of Core (%s) is newer than %s', rex::getVersion(), $version['version']));
         }
+        if (!is_writable(rex_path::core())) {
+            throw new rex_functional_exception($installAddon->i18n('warning_directory_not_writable', rex_path::core()));
+        }
         try {
             $archivefile = rex_install_webservice::getArchive($version['path']);
         } catch (rex_functional_exception $e) {
             throw new rex_api_exception($e->getMessage());
         }
+
+        // load logger class before core update to avoid getting logger class from new core while logging success message
+        $logger = rex_logger::factory();
+
         $message = '';
         $temppath = rex_path::coreCache('.new.core/');
         $coreAddons = [];
@@ -70,7 +77,13 @@ class rex_api_install_core_update extends rex_api_function
 
                     $coreAddons[$addonkey] = $addonkey;
                     if (rex_addon::exists($addonkey)) {
-                        $updateAddons[$addonkey] = rex_addon::get($addonkey);
+                        $addon = rex_addon::get($addonkey);
+
+                        if (!is_writable($addon->getPath())) {
+                            throw new rex_functional_exception($installAddon->i18n('warning_directory_not_writable', $addon->getPath()));
+                        }
+
+                        $updateAddons[$addonkey] = $addon;
                         $updateAddonsConfig[$addonkey] = $config;
                     }
                 }
@@ -162,7 +175,11 @@ class rex_api_install_core_update extends rex_api_function
             }
             foreach ($coreAddons as $addonkey) {
                 if (isset($updateAddons[$addonkey])) {
-                    rex_dir::delete(rex_path::addon($addonkey));
+                    $pathOld = rex_path::addon($addonkey.'.old');
+                    // move whole old addon to a temp dir (high priority to get the free space for new addon version)
+                    // and try to delete it afterwards (lower priority)
+                    rename(rex_path::addon($addonkey), $pathOld);
+                    rex_dir::delete($pathOld);
                 }
                 rename($temppath . 'addons/' . $addonkey, rex_path::addon($addonkey));
                 if (is_dir(rex_path::addon($addonkey, 'assets'))) {
@@ -182,7 +199,7 @@ class rex_api_install_core_update extends rex_api_function
             $message = $installAddon->i18n('warning_core_not_updated') . '<br />' . $message;
             $success = false;
         } else {
-            rex_logger::factory()->info('REDAXO Core updated from '. rex::getVersion() .' to version '. $version['version']);
+            $logger->info('REDAXO Core updated from '. rex::getVersion() .' to version '. $version['version']);
 
             $message = $installAddon->i18n('info_core_updated');
             $success = true;
