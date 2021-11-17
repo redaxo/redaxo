@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 2.8.2 – XX.XX.2021
+Version 2.8.2 – 17.11.2021
 --------------------------
 
 ### Bugfixes
