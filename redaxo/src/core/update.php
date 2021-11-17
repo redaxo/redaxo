@@ -40,6 +40,13 @@ if (rex_string::versionCompare(rex::getVersion(), '5.6', '<')) {
     throw new rex_functional_exception(sprintf('The REDAXO version "%s" is too old for this update, please update to 5.6.5 before.', rex::getVersion()));
 }
 
+// Installer >= 2.9.2 required because of https://github.com/redaxo/redaxo/pull/4922
+// (Installer < 2.9.0 also works, because it does not contain the bug)
+$installerVersion = rex_addon::get('install')->getVersion();
+if (rex_string::versionCompare($installerVersion, '2.9.2', '<') && rex_string::versionCompare($installerVersion, '2.9.0', '>=')) {
+    throw new rex_functional_exception('This update requires at least version <b>2.9.2</b> of the <b>install</b> addon!');
+}
+
 if (rex_string::versionCompare(rex::getVersion(), '5.7.0-beta3', '<')) {
     $_SESSION[rex::getProperty('instname').'_backend']['backend_login'] = $_SESSION[rex::getProperty('instname')]['backend_login'];
 }
