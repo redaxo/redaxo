@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 3.0.0 – XX.XX.2021
+Version 3.0.0 – 17.11.2021
 --------------------------
 
 * Dark-Mode (siehe Core-Changelog) (@schuer)
