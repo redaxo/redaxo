@@ -165,7 +165,8 @@ final class rex_parsedown extends ParsedownExtra
          */
         $text = $Block['element']['text']['text'];
 
-        if ($missingPhpStart = !str_contains($text, '<?php')) {
+        $missingPhpStart = !str_contains($text, '<?php') && !str_contains($text, '<?=');
+        if ($missingPhpStart) {
             $text = '<?php '.$text;
         }
 
