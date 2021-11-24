@@ -239,11 +239,12 @@ class rex_sql_table_test extends TestCase
 
         static::assertSame(['id', 'description', 'title'], array_keys($table->getColumns()));
 
+        $status = new rex_sql_column('status', 'tinyint(1)', false, '0');
         $amount = new rex_sql_column('amount', 'int(5)', true);
 
         $table
             ->ensureColumn($title, 'id')
-            ->ensureColumn(new rex_sql_column('status', 'tinyint(1)'), 'id')
+            ->ensureColumn($status, 'id')
             ->ensureColumn(new rex_sql_column('created', 'datetime', false, 'CURRENT_TIMESTAMP'), 'status')
             ->ensureColumn($title, 'status')
             ->ensureColumn($amount)
@@ -257,6 +258,8 @@ class rex_sql_table_test extends TestCase
         $table = rex_sql_table::get(self::TABLE);
 
         static::assertSame($expectedOrder, array_keys($table->getColumns()));
+
+        static::assertEquals($status, $table->getColumn('status'));
 
         $sql = rex_sql::factory();
         if (rex_sql::MYSQL === $sql->getDbType() && 8 <= (int) $sql->getDbVersion()) {
