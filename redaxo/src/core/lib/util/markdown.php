@@ -165,6 +165,11 @@ final class rex_parsedown extends ParsedownExtra
          */
         $text = $Block['element']['text']['text'];
 
+        // workaround for https://github.com/voku/anti-xss/issues/85
+        if (str_contains($text, '="<?')) {
+            return $Block;
+        }
+
         $missingPhpStart = !str_contains($text, '<?php') && !str_contains($text, '<?=');
         if ($missingPhpStart) {
             $text = '<?php '.$text;
