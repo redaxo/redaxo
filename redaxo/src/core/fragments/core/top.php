@@ -32,7 +32,7 @@
         foreach ($files as $file) {
             $path = rex_path::frontend(rex_path::absolute($file));
             if (!rex::isDebugMode() && str_starts_with($path, $assetDir) && $mtime = @filemtime($path)) {
-                $file = rex_url::backendController(['asset' => $file, 'buster' => $mtime]);
+                $file = rex_url::backendController(['asset' => ltrim($file, '.'), 'buster' => $mtime]);
             } elseif ($mtime = @filemtime($path)) {
                 $file .= '?buster='. $mtime;
             }
@@ -56,7 +56,7 @@
         $path = rex_path::frontend(rex_path::absolute($file));
         if (array_key_exists(rex_view::JS_IMMUTABLE, $options) && $options[rex_view::JS_IMMUTABLE]) {
             if (!rex::isDebugMode() && str_starts_with($path, $assetDir) && $mtime = @filemtime($path)) {
-                $file = rex_url::backendController(['asset' => $file, 'buster' => $mtime]);
+                $file = rex_url::backendController(['asset' => ltrim($file, '.'), 'buster' => $mtime]);
             }
         } elseif ($mtime = @filemtime($path)) {
             $file .= '?buster='. $mtime;
