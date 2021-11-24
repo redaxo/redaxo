@@ -6,9 +6,6 @@ general = Allmänt
 setlocale = se_SE,se_SE@euro,sve_sve,swedish_sweden,sv,se
 phpini_settings = PHP.ini inställningar
 
-dateformat = %d %b. %Y
-datetimeformat = %d %b. %Y, %H:%M
-timeformat = %H:%M
 ctrl = Flervalsurval med <kbd>STRG</kbd> resp. <kbd>CMD</kbd>
 translatable = Översättbar via <code> translate: i18n_key </ code>
 save_and_goon_tooltip = Spara och fortsätt bearbeta
@@ -36,6 +33,9 @@ unstable_version = Utvecklingsversion
 copy_to_clipboard = Copy to clipboard
 search_placeholder = Söker…
 search_clear = Återställ inmatning
+theme_light = Ljus
+theme_dark = Mörk
+theme_auto = Automatisk
 
 # redaxo/redaxo/index.php
 system = System
@@ -113,6 +113,7 @@ mode = Modus
 charset = Teckenuppsättning
 host = Host
 database = Databas
+installation = Installation
 logfiles = Logfiler
 syslog_redaxo = REDAXO
 syslog_delete = Radera systemlog
@@ -417,6 +418,7 @@ new_password_repeat = Upprepa nytt lösenord
 profile_save_psw = Spara lösenord
 backend_language = Backendspråk
 user_data_updated = Användaruppgifter aktualiserades!
+theme = Backend-Theme
 
 password_change_required = Lösenordet måste bytas ut!
 password_not_changed = Det nya lösenordet måste skilja sig från det föregående!

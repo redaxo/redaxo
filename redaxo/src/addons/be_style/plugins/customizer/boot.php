@@ -132,8 +132,8 @@ if (rex::isBackend() && rex::getUser()) {
         $mtimejs = filemtime($plugin->getAssetsUrl('vendor/codemirror/codemirror.min.js'));
         $mtimecss = filemtime($plugin->getAssetsUrl('vendor/codemirror/codemirror.min.css'));
         if (isset($_SESSION['codemirror_reload'])) {
-            $mtimejs = $mtimejs . $_SESSION['codemirror_reload'];
-            $mtimecss = $mtimecss . $_SESSION['codemirror_reload'];
+            $mtimejs .= $_SESSION['codemirror_reload'];
+            $mtimecss .= $_SESSION['codemirror_reload'];
         }
         rex_view::setJsProperty('customizer_codemirror_jsbuster', $mtimejs);
         rex_view::setJsProperty('customizer_codemirror_cssbuster', $mtimecss);

@@ -19,9 +19,7 @@ class rex_api_category_delete extends rex_api_function
             throw new rex_api_exception('user has no permission for this category!');
         }
 
-        $result = new rex_api_result(true, rex_category_service::deleteCategory($catId));
-
-        return $result;
+        return new rex_api_result(true, rex_category_service::deleteCategory($catId));
     }
 
     protected function requiresCsrfProtection()

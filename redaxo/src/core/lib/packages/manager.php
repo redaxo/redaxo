@@ -160,7 +160,7 @@ abstract class rex_package_manager
             if (!$reinstall) {
                 $this->package->setProperty('status', true);
             }
-            $this->saveConfig();
+            static::saveConfig();
             if ($this->generatePackageOrder) {
                 self::generatePackageOrder();
             }
@@ -249,7 +249,7 @@ abstract class rex_package_manager
 
             rex_config::removeNamespace($this->package->getPackageId());
 
-            $this->saveConfig();
+            static::saveConfig();
             $this->message = $this->i18n('uninstalled', $this->package->getName());
 
             return true;
@@ -263,7 +263,7 @@ abstract class rex_package_manager
         if ($isActivated) {
             $this->package->setProperty('status', true);
         }
-        $this->saveConfig();
+        static::saveConfig();
         $this->message = $this->i18n('no_uninstall', $this->package->getName()) . '<br />' . $this->message;
 
         return false;
@@ -288,7 +288,7 @@ abstract class rex_package_manager
 
             if (true === $state) {
                 $this->package->setProperty('status', true);
-                $this->saveConfig();
+                static::saveConfig();
             }
             if (true === $state && $this->generatePackageOrder) {
                 self::generatePackageOrder();
@@ -319,7 +319,7 @@ abstract class rex_package_manager
 
         if ($state) {
             $this->package->setProperty('status', false);
-            $this->saveConfig();
+            static::saveConfig();
 
             // clear cache of package
             $this->package->clearCache();
@@ -377,7 +377,7 @@ abstract class rex_package_manager
         }
 
         if (!$ignoreState) {
-            $this->saveConfig();
+            static::saveConfig();
             $this->message = $this->i18n('deleted', $this->package->getName());
         }
 
@@ -637,7 +637,7 @@ abstract class rex_package_manager
         }
         $args[0] = $key;
 
-        return call_user_func_array(['rex_i18n', 'msg'], $args);
+        return call_user_func_array([rex_i18n::class, 'msg'], $args);
     }
 
     /**

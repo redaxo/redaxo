@@ -10,7 +10,10 @@ $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type WH
 if (1 != $sql->getRows()) {
     throw new Exception('Invalid type_id "'. $typeId .'"');
 }
-$typeName = $sql->getValue('name');
+if (rex_media_manager::STATUS_SYSTEM_TYPE === (int) $sql->getValue('status')) {
+    throw new rex_exception('System media types can not be edited.');
+}
+$typeName = (string) $sql->getValue('name');
 
 $info = '';
 $warning = '';

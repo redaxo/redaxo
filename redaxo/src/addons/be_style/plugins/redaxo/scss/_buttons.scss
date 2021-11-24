@@ -112,12 +112,13 @@
 .btn.btn-highlight {
     transition: all 1000ms ease-out 1000ms, outline 800ms ease-out 100ms;
     outline: 25px solid rgba($color-b-light, 0);
-}
-.btn.btn-highlight:active {
-    transition: all 0ms linear 0ms;
-    background-color: $color-b;
-    border-color: $color-b;
-    outline: 0px solid rgba($color-b-light, 1);
+
+    &:active {
+        transition: all 0ms linear 0ms;
+        background-color: $color-b;
+        border-color: $color-b;
+        outline: 0 solid rgba($color-b-light, 1);
+    }
 }
 
 // ----------------------------------------------------------------------------
@@ -184,6 +185,35 @@
     .btn-debug-mode,
     .btn-safemode-activate {
         @include dark-button-variant($color-text-light, $dark-brand-warning, darken($dark-brand-warning, 15%));
+    }
+
+    // buttons with highlight fx on click
+    .btn.btn-highlight {
+        outline-color: rgba($color-blue-2, 0);
+
+        &:active {
+            outline-color: rgba($color-blue-2, 1);
+        }
+    }
+
+    // buttons inside of tabs
+    // override styles from `be_style/scss/_base.scss` (only those that we assume will actually be used)
+    .nav-tabs > li > .btn-default {
+        @include dark-button-variant($color-text-light, rgba($color-grey-5, 0.8), rgba(darken($color-grey-5, 8%), 0.8));
+    }
+    .nav-tabs > li > .btn-primary,
+    .nav-tabs > li > .btn-info {
+        @include dark-button-variant($color-text-light, $dark-brand-primary, darken($dark-brand-primary, 20%));
+    }
+    .nav-tabs > li > .btn-success {
+        @include dark-button-variant($color-text-light, $dark-brand-success, darken($dark-brand-success, 12%));
+    }
+    .nav-tabs > li > .btn-warning {
+        @include dark-button-variant($color-text-light, $dark-brand-warning, darken($dark-brand-warning, 15%));
+    }
+    .nav-tabs > li > .btn-danger,
+    .nav-tabs > li > .btn-delete {
+        @include dark-button-variant($color-text-light, $dark-brand-danger, darken($dark-brand-danger, 15%));
     }
 }
 

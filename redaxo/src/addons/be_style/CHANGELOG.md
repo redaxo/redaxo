@@ -1,6 +1,19 @@
 Changelog
 =========
 
+Version 3.0.0 – 17.11.2021
+--------------------------
+
+* Dark-Mode (siehe Core-Changelog) (@schuer)
+* Navigation grundlegend überarbeitet und für kleinere Bildschirme optimiert (@schuer)
+* Weitere UI- und UX-Verbesserungen (@schuer)
+* Login-Seite: Neues Hintergrundbild, dazu Styleanpassungen (@schuer)
+* Neuer Loading-Spinner (@schuer)
+* Optimierung der Darstellung von markdown-Dateien (@tbaddade)
+* Bootstrap-Tooltips werden global aktiviert (@skerbis)
+* `theme-color`-Metatag wird nicht mehr gesetzt (@gharlan)
+
+
 Version 2.12.1 – 21.06.2021
 ---------------------------
 

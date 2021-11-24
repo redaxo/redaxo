@@ -54,13 +54,11 @@ class rex_metainfo_clang_handler extends rex_metainfo_handler
 
     public function renderFormItem($field, $tag, $tagAttr, $id, $label, $labelIt, $inputType)
     {
-        $element = $field;
-
         if ('legend' == $inputType) {
-            $element = '<h3 class="form-legend">' . $label . '</h3>';
+            return '<h3 class="form-legend">' . $label . '</h3>';
         }
 
-        return $element;
+        return $field;
     }
 
     public function extendForm(rex_extension_point $ep)
@@ -93,7 +91,7 @@ $clangHandler = new rex_metainfo_clang_handler();
 rex_extension::register('CLANG_FORM_ADD', [$clangHandler, 'extendForm']);
 rex_extension::register('CLANG_FORM_EDIT', [$clangHandler, 'extendForm']);
 
-rex_extension::register('CLANG_ADDED', [$clangHandler, 'extendForm']);
-rex_extension::register('CLANG_UPDATED', [$clangHandler, 'extendForm']);
+rex_extension::register('CLANG_ADDED', [$clangHandler, 'extendForm'], rex_extension::EARLY);
+rex_extension::register('CLANG_UPDATED', [$clangHandler, 'extendForm'], rex_extension::EARLY);
 
 rex_extension::register('CLANG_FORM_BUTTONS', [$clangHandler, 'renderToggleButton']);

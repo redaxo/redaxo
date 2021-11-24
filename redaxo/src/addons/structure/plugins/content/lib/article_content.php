@@ -13,6 +13,12 @@ class rex_article_content extends rex_article_content_base
     private $viasql;
 
     /**
+     * @var rex_article_slice|null
+     * @phpstan-ignore-next-line this property looks unread, but is written from content cache file
+     */
+    private $currentSlice;
+
+    /**
      * @param int|null $articleId
      * @param int|null $clang
      */
@@ -67,10 +73,17 @@ class rex_article_content extends rex_article_content_base
 
         $value = $this->correctValue($value);
 
-        if (rex_article::hasValue($value)) {
-            return rex_article::get($this->article_id, $this->clang)->getValue($value);
+        if (!rex_article::hasValue($value)) {
+            throw new rex_exception('Articles do not have the property "'.$value.'"');
         }
-        return '[' . $value . ' not found]';
+
+        $article = rex_article::get($this->article_id, $this->clang);
+
+        if (!$article) {
+            throw new rex_exception('Article for id='.$this->article_id.' and clang='.$this->clang.' does not exist');
+        }
+
+        return $article->getValue($value);
     }
 
     public function hasValue($value)
@@ -116,11 +129,22 @@ class rex_article_content extends rex_article_content_base
             $CONTENT = parent::getArticle($curctype);
         }
 
-        $CONTENT = rex_extension::registerPoint(new rex_extension_point('ART_CONTENT', $CONTENT, [
+        return rex_extension::registerPoint(new rex_extension_point('ART_CONTENT', $CONTENT, [
             'ctype' => $curctype,
             'article' => $this,
         ]));
+    }
 
-        return $CONTENT;
+    public function getCurrentSlice(): rex_article_slice
+    {
+        if ($this->viasql) {
+            return parent::getCurrentSlice();
+        }
+
+        if (!$this->currentSlice) {
+            throw new rex_exception('There is no current slice; getCurrentSlice() can be called only while rendering slices');
+        }
+
+        return $this->currentSlice;
     }
 }

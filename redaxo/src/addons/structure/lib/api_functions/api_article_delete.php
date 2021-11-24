@@ -19,9 +19,7 @@ class rex_api_article_delete extends rex_api_function
         if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
             throw new rex_api_exception('user has no permission for this category!');
         }
-
-        $result = new rex_api_result(true, rex_article_service::deleteArticle($articleId));
-        return $result;
+        return new rex_api_result(true, rex_article_service::deleteArticle($articleId));
     }
 
     protected function requiresCsrfProtection()

@@ -54,6 +54,7 @@ install_warning_addon_zip_not_extracted = Beim Entpacken der Zip-Datei in das Ad
 install_warning_message_from_addon = AddOn <b>{0}</b> meldet:
 install_warning_message_from_plugin = PlugIn <b>{0}</b> meldet:
 
+install_warning_directory_not_writable = Der Ordner <b>{0}</b> ist nicht beschreibbar!
 install_warning_zip_wrong_checksum = Die Prüfsumme der heruntergeladenen Zip-Datei stimmt nicht mit der erwarteten überein. Bitte in wenigen Minuten noch einmal probieren!
 install_warning_zip_wrong_format = Die Zip-Datei ist nicht im erforderlichen Format.
 

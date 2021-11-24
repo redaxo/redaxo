@@ -23,7 +23,9 @@ if (!$curPage->hasLayout()) {
 }
 
 $bodyAttr = [];
-$bodyId = rex_string::normalize(rex_be_controller::getCurrentPage(), '-', ' ');
+
+// rex_string::normalize requires intl extension, which may not exist before extensions check in setup
+$bodyId = rex::isSetup() ? 'setup' : rex_string::normalize(rex_be_controller::getCurrentPage(), '-', ' ');
 
 $bodyAttr['id'] = ['rex-page-' . $bodyId];
 $bodyAttr['onunload'] = ['closeAll();'];
@@ -44,6 +46,8 @@ if ($curPage->isPopup()) {
 if (rex::getImpersonator()) {
     $bodyAttr['class'][] = 'rex-is-impersonated';
 }
+
+$bodyAttr['class'][] = 'rex-has-theme';
 if (rex::getProperty('theme')) {
     // global theme from config.yml
     $bodyAttr['class'][] = 'rex-theme-' . rex_escape((string) rex::getProperty('theme'));

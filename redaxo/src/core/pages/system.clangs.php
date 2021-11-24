@@ -127,7 +127,7 @@ if ('addclang' == $func) {
 
 $sql = rex_sql::factory()->setQuery('SELECT * FROM '.rex::getTable('clang').' ORDER BY priority');
 foreach ($sql as $row) {
-    $langId = $sql->getValue('id');
+    $langId = (int) $sql->getValue('id');
     $addTd = '<td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">' . $langId . '</td>';
 
     $delLink = rex_i18n::msg('delete');

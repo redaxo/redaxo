@@ -158,11 +158,8 @@ class rex_article_service
         }
 
         // complete remaining optional aprams
-        foreach (['path', 'priority'] as $optionalData) {
-            if (!isset($data[$optionalData])) {
-                $data[$optionalData] = $thisArt->getValue($optionalData);
-            }
-        }
+        $data['path'] = $data['path'] ?? $thisArt->getValue('path');
+        $data['priority'] = $data['priority'] ?? $thisArt->getValue('priority');
 
         $EA = rex_sql::factory();
         $EA->setTable(rex::getTablePrefix() . 'article');
@@ -177,7 +174,7 @@ class rex_article_service
             $message = rex_i18n::msg('article_updated');
 
             // ----- PRIOR
-            $oldPrio = $thisArt->getValue('priority');
+            $oldPrio = (int) $thisArt->getValue('priority');
 
             if ($oldPrio != $data['priority']) {
                 rex_sql::factory()
@@ -231,11 +228,11 @@ class rex_article_service
 
         if ($Art->getRows() > 0) {
             $message = self::_deleteArticle($articleId);
-            $parentId = $Art->getValue('parent_id');
+            $parentId = (int) $Art->getValue('parent_id');
 
             foreach (rex_clang::getAllIds() as $clang) {
                 // ----- PRIOR
-                self::newArtPrio($Art->getValue('parent_id'), $clang, 0, 1);
+                self::newArtPrio($parentId, $clang, 0, 1);
 
                 // ----- EXTENSION POINT
                 $message = rex_extension::registerPoint(new rex_extension_point('ART_DELETED', $message, [
@@ -294,7 +291,7 @@ class rex_article_service
 
         $message = '';
         if ($ART->getRows() > 0) {
-            $parentId = $ART->getValue('parent_id');
+            $parentId = (int) $ART->getValue('parent_id');
             $message = rex_extension::registerPoint(new rex_extension_point('ART_PRE_DELETED', $message, [
                 'id' => $id,
                 'parent_id' => $parentId,
@@ -383,6 +380,8 @@ class rex_article_service
     /**
      * Gibt alle Stati zurück, die für einen Artikel gültig sind.
      *
+     * @psalm-return list<string[]>
+     *
      * @return array Array von Stati
      */
     public static function statusTypes()
@@ -429,6 +428,8 @@ class rex_article_service
      */
     public static function newArtPrio($parentId, $clang, $newPrio, $oldPrio)
     {
+        $parentId = (int) $parentId;
+
         if ($newPrio != $oldPrio) {
             if ($newPrio < $oldPrio) {
                 $addsql = 'desc';
@@ -439,7 +440,7 @@ class rex_article_service
             rex_sql_util::organizePriorities(
                 rex::getTable('article'),
                 'priority',
-                'clang_id=' . (int) $clang . ' AND ((startarticle<>1 AND parent_id=' . (int) $parentId . ') OR (startarticle=1 AND id=' . (int) $parentId . '))',
+                'clang_id=' . (int) $clang . ' AND ((startarticle<>1 AND parent_id=' . $parentId . ') OR (startarticle=1 AND id=' . $parentId . '))',
                 'priority,updatedate ' . $addsql
             );
 
@@ -471,7 +472,7 @@ class rex_article_service
             $sql->setQuery('select parent_id, name from ' . rex::getTablePrefix() . 'article where id=? and startarticle=0 and clang_id=?', [$artId, $clang]);
 
             if (!$parentId) {
-                $parentId = $sql->getValue('parent_id');
+                $parentId = (int) $sql->getValue('parent_id');
             }
 
             // artikel updaten
@@ -522,7 +523,7 @@ class rex_article_service
             $sql->setQuery('select parent_id, name from ' . rex::getTablePrefix() . 'article where id=? and startarticle=1 and clang_id=?', [$artId, $clang]);
 
             if (!$parentId) {
-                $parentId = $sql->getValue('parent_id');
+                $parentId = (int) $sql->getValue('parent_id');
             }
 
             // artikel updaten
@@ -565,7 +566,7 @@ class rex_article_service
         if (1 != $neu->getRows()) {
             return false;
         }
-        $neuCatId = $neu->getValue('parent_id');
+        $neuCatId = (int) $neu->getValue('parent_id');
 
         // in oberster kategorie dann return
         if (0 == $neuCatId) {
@@ -578,8 +579,8 @@ class rex_article_service
         if (1 != $alt->getRows()) {
             return false;
         }
-        $altId = $alt->getValue('id');
-        $parentId = $alt->getValue('parent_id');
+        $altId = (int) $alt->getValue('id');
+        $parentId = (int) $alt->getValue('parent_id');
 
         // cat felder sammeln. +
         $params = ['path', 'priority', 'catname', 'startarticle', 'catpriority', 'status'];
@@ -608,7 +609,7 @@ class rex_article_service
             $neu2 = rex_sql::factory();
             $neu2->setTable(rex::getTablePrefix() . 'article');
             $neu2->setWhere(['id' => $neuId, 'clang_id' => $clang]);
-            $neu2->setValue('parent_id', $alt->getValue('parent_id'));
+            $neu2->setValue('parent_id', (int) $alt->getValue('parent_id'));
 
             // austauschen der definierten paramater
             foreach ($params as $param) {
@@ -626,8 +627,8 @@ class rex_article_service
         $ia = rex_sql::factory();
         $articles->setQuery('select * from ' . rex::getTablePrefix() . "article where path like '%|$altId|%'");
         for ($i = 0; $i < $articles->getRows(); ++$i) {
-            $iid = $articles->getValue('id');
-            $ipath = str_replace("|$altId|", "|$neuId|", $articles->getValue('path'));
+            $iid = (int) $articles->getValue('id');
+            $ipath = str_replace("|$altId|", "|$neuId|", (string) $articles->getValue('path'));
 
             $ia->setTable(rex::getTablePrefix() . 'article');
             $ia->setWhere(['id' => $iid]);
@@ -696,7 +697,7 @@ class rex_article_service
             $uc->setWhere(['clang_id' => $toClang, 'id' => $toId]);
             $uc->addGlobalUpdateFields(self::getUser());
 
-            foreach ($params as $key => $value) {
+            foreach ($params as $value) {
                 $uc->setValue($value, $gc->getValue($value));
             }
 
@@ -777,7 +778,7 @@ class rex_article_service
                     foreach ($revisions as $rev) {
                         // FIXME this dependency is very ugly!
                         // ArticleSlices kopieren
-                        rex_content_service::copyContent($id, $newId, $clang, $clang, $rev->getValue('revision'));
+                        rex_content_service::copyContent($id, $newId, $clang, $clang, (int) $rev->getValue('revision'));
                     }
 
                     // Prios neu berechnen

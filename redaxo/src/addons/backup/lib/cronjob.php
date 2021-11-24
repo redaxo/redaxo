@@ -12,7 +12,12 @@ class rex_cronjob_export extends rex_cronjob
         $filename = $this->getParam('filename', self::DEFAULT_FILENAME);
         $filename = str_replace('%REX_SERVER', rex_string::normalize(rex::getServerName(), '-'), $filename);
         $filename = str_replace('%REX_VERSION', rex::getVersion(), $filename);
-        $filename = strftime($filename);
+        $now = new DateTimeImmutable();
+        $filename = str_replace(
+            ['%Y', '%m', '%d', '%H', '%M', '%S'],
+            [$now->format('Y'), $now->format('m'), $now->format('d'), $now->format('H'), $now->format('i'), $now->format('s')],
+            $filename
+        );
         $file = $filename;
         $dir = rex_backup::getDir() . '/';
         $ext = '.cronjob.sql';

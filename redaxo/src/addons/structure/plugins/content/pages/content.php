@@ -338,6 +338,7 @@ if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($categoryId)) 
     $editPage = rex_be_controller::getPageObject('content/edit');
 
     foreach ($ctypes as $key => $val) {
+        $key = (int) $key;
         $hasSlice = true;
         if ($ctype != $key) {
             $hasSlice = null !== rex_article_slice::getFirstSliceForCtype($key, $articleId, $clang);

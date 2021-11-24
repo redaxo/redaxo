@@ -32,6 +32,7 @@ function rex_mediapool_filename($mediaName, $doSubindexing = true): string
  *
  * @return array
  * @deprecated since 2.11, use `rex_media_service::addMedia` instead
+ * @psalm-suppress UnusedParam
  */
 function rex_mediapool_saveMedia($FILE, $rexFileCategory, $FILEINFOS, $userlogin = null, $doSubindexing = true)
 {
@@ -44,7 +45,7 @@ function rex_mediapool_saveMedia($FILE, $rexFileCategory, $FILEINFOS, $userlogin
     }
 
     try {
-        return rex_media_service::addMedia($data, $userlogin, $doSubindexing);
+        return rex_media_service::addMedia($data, $doSubindexing);
     } catch (rex_api_exception $e) {
         // BC
         // Missing Fields
@@ -77,19 +78,22 @@ function rex_mediapool_saveMedia($FILE, $rexFileCategory, $FILEINFOS, $userlogin
  *
  * @return array
  * @deprecated since 2.11, use `rex_media_service::updateMedia` instead
+ * @psalm-suppress UnusedParam
  */
 function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
 {
-    $data = $FILEINFOS;
-    $data['category_id'] = $data['rex_file_category'];
+    $data = [
+        'category_id' => $FILEINFOS['rex_file_category'],
+        'title' => $FILEINFOS['title'],
+    ];
 
     if ($FILE) {
-        $data['file'] = $FILE;
+        $data['file']['name'] = $FILE['name'];
         $data['file']['path'] = $FILE['tmp_name'];
     }
 
     try {
-        return rex_media_service::updateMedia($data, $userlogin);
+        return rex_media_service::updateMedia($FILEINFOS['filename'], $data);
     } catch (rex_api_exception $e) {
         return [
             'ok' => 0,
@@ -111,6 +115,7 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
  *
  * @return array
  * @deprecated since 2.11, use `rex_media_service::addMedia` instead
+ * @psalm-suppress UnusedParam
  */
 function rex_mediapool_syncFile($physicalFilename, $categoryId, $title, $filesize = null, $filetype = null, $userlogin = null)
 {
@@ -120,12 +125,10 @@ function rex_mediapool_syncFile($physicalFilename, $categoryId, $title, $filesiz
     $data['file'] = [
         'name' => $physicalFilename,
         'path' => rex_path::media($physicalFilename),
-        'site' => $filesize,
-        'type' => $filetype,
     ];
 
     try {
-        return rex_media_service::addMedia($data, $userlogin, false);
+        return rex_media_service::addMedia($data, false);
     } catch (rex_api_exception $e) {
         return [
             'ok' => 0,

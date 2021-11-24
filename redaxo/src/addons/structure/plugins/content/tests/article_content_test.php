@@ -99,9 +99,29 @@ class rex_article_content_test extends TestCase
 
         static::assertEquals('teststring', $instance->getValue('foo'));
         static::assertEquals('teststring', $instance->getValue('art_foo'));
+    }
 
-        static::assertEquals('[bar not found]', $instance->getValue('bar'));
-        static::assertEquals('[art_bar not found]', $instance->getValue('art_bar'));
+    /** @dataProvider dataBcGetValueNonExisting */
+    public function testBcGetValueNonExisting(string $value): void
+    {
+        $instance = new rex_article_content(1, 1);
+
+        $viaSql = new ReflectionProperty(rex_article_content::class, 'viasql');
+        $viaSql->setAccessible(true);
+        $viaSql->setValue($instance, true);
+
+        $this->expectException(rex_exception::class);
+
+        $instance->getValue($value);
+    }
+
+    /** @return list<array{string}> */
+    public function dataBcGetValueNonExisting(): array
+    {
+        return [
+            ['bar'],
+            ['art_bar'],
+        ];
     }
 
     public function testHasValue()
@@ -121,8 +141,24 @@ class rex_article_content_test extends TestCase
 
         static::assertEquals('teststring', $instance->getValue('foo'));
         static::assertEquals('teststring', $instance->getValue('art_foo'));
+    }
 
-        static::assertEquals('[bar not found]', $instance->getValue('bar'));
-        static::assertEquals('[art_bar not found]', $instance->getValue('art_bar'));
+    /** @dataProvider dataGetValueNonExisting */
+    public function testGetValueNonExisting(string $value): void
+    {
+        $instance = new rex_article_content(1, 1);
+
+        $this->expectException(rex_exception::class);
+
+        $instance->getValue($value);
+    }
+
+    /** @return list<array{string}> */
+    public function dataGetValueNonExisting(): array
+    {
+        return [
+            ['bar'],
+            ['art_bar'],
+        ];
     }
 }

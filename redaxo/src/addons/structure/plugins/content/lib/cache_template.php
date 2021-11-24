@@ -28,8 +28,13 @@ class rex_template_cache
         $content = $sql->getValue('content');
         $content = rex_var::parse($content, rex_var::ENV_FRONTEND, 'template');
 
-        if (!rex_file::put(self::getPath($id), $content)) {
+        $path = self::getPath($id);
+        if (!rex_file::put($path, $content)) {
             throw new rex_exception('Unable to generate template "' . $id . '".');
+        }
+
+        if (function_exists('opcache_invalidate')) {
+            opcache_invalidate($path);
         }
     }
 

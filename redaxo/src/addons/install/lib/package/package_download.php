@@ -77,7 +77,7 @@ abstract class rex_install_package_download
 
     private function isCorrectFormat(string $file): bool
     {
-        if (class_exists('ZipArchive')) {
+        if (class_exists(ZipArchive::class)) {
             $success = false;
             $zip = new ZipArchive();
             if (true === $zip->open($file)) {

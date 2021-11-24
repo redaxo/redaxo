@@ -16,7 +16,7 @@ rex_perm::register('history[article_rollback]', null, rex_perm::OPTIONS);
 
 if ('' != $historyDate) {
     $historySession = rex_request('rex_history_session', 'string');
-    $historyLogin = rex_request('rex_history_login', 'string');
+    $historyLogin = rex_request(rex_history_login::class, 'string');
     $historyValidtime = rex_request('rex_history_validtime', 'string');
 
     $user = null;
@@ -145,7 +145,7 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
                 if ('' != $version['history_user']) {
                     $historyInfo = $version['history_date'] . ' [' . $version['history_user'] . ']';
                 }
-                $select2[] = '<option value="' . strtotime($version['history_date']) . '" data-history-date="' . $version['history_date'] . '">' . $historyInfo . '</option>';
+                $select2[] = '<option value="' . strtotime($version['history_date']) . '" data-history-date="' . rex_escape($version['history_date']) . '">' . rex_escape($historyInfo) . '</option>';
             }
 
             $content1select = '<select id="content-history-select-date-1" class="content-history-select" data-iframe="content-history-iframe-1" style="">' . implode('', $select1) . '</select>';
@@ -174,7 +174,7 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
                 $historyValidTime = new DateTime();
                 $historyValidTime = $historyValidTime->modify('+10 Minutes')->format('YmdHis'); // 10 minutes valid key
                 $userHistorySession = rex_history_login::createSessionKey($userLogin, $user->getValue('session_id'), $historyValidTime);
-                $articleLink = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['rex_history_login' => $userLogin, 'rex_history_session' => $userHistorySession, 'rex_history_validtime' => $historyValidTime], '&');
+                $articleLink = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), [rex_history_login::class => $userLogin, 'rex_history_session' => $userHistorySession, 'rex_history_validtime' => $historyValidTime], '&');
             }
 
             echo '<script>

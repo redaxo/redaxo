@@ -21,7 +21,7 @@ class rex_singleton_trait_test extends TestCase
 
     public function testClone()
     {
-        $this->expectException(\BadMethodCallException::class);
+        $this->expectException(BadMethodCallException::class);
 
         clone rex_test_singleton::getInstance();
     }

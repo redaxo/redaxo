@@ -1,10 +1,18 @@
 <?php
 
-// don't use REX_MIN_PHP_VERSION or rex_setup::MIN_MYSQL_VERSION here!
+// don't use REX_MIN_PHP_VERSION or rex_setup::MIN_* constants here!
 // while updating the core, the constants contain the old min versions from previous core version
 
 if (PHP_VERSION_ID < 70300) {
     throw new rex_functional_exception(rex_i18n::msg('setup_301', PHP_VERSION, '7.3'));
+}
+
+$minExtensions = ['ctype', 'fileinfo', 'filter', 'iconv', 'intl', 'mbstring', 'pcre', 'pdo', 'pdo_mysql', 'session', 'tokenizer'];
+$missing = array_filter($minExtensions, static function (string $extension) {
+    return !extension_loaded($extension);
+});
+if ($missing) {
+    throw new rex_functional_exception('Missing required php extension(s): '.implode(', ', $missing));
 }
 
 $minMysqlVersion = '5.6';
@@ -30,6 +38,13 @@ if (rex_string::versionCompare($dbVersion, $minVersion, '<')) {
 // Since R5.7 we require at least R5.4 because of some `rex_sql_table` and `rex_sql::addRecord` usages in core addons
 if (rex_string::versionCompare(rex::getVersion(), '5.6', '<')) {
     throw new rex_functional_exception(sprintf('The REDAXO version "%s" is too old for this update, please update to 5.6.5 before.', rex::getVersion()));
+}
+
+// Installer >= 2.9.2 required because of https://github.com/redaxo/redaxo/pull/4922
+// (Installer < 2.9.0 also works, because it does not contain the bug)
+$installerVersion = rex_addon::get('install')->getVersion();
+if (rex_string::versionCompare($installerVersion, '2.9.2', '<') && rex_string::versionCompare($installerVersion, '2.9.0', '>=')) {
+    throw new rex_functional_exception('This update requires at least version <b>2.9.2</b> of the <b>install</b> addon!');
 }
 
 if (rex_string::versionCompare(rex::getVersion(), '5.7.0-beta3', '<')) {

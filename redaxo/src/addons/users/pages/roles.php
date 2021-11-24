@@ -98,7 +98,7 @@ if ('' == $func) {
     }
 
     rex_extension::register('REX_FORM_INPUT_CLASS', static function (rex_extension_point $ep) {
-        return 'perm_select' == $ep->getParam('inputType') ? 'rex_form_perm_select_element' : null;
+        return 'perm_select' == $ep->getParam('inputType') ? rex_form_perm_select_element::class : null;
     });
 
     $fieldIds = [];
@@ -109,7 +109,7 @@ if ('' == $func) {
             $field = $fieldContainer->addGroupedField($group, 'perm_select', $key);
             $field->setLabel($params['label']);
             $field->setCheckboxLabel($params['all_label']);
-            $fieldIds[] = $field->getAttribute('id');
+            $fieldIds[] = rex_escape($field->getAttribute('id'), 'js');
             if (rex_request('default_value', 'boolean')) {
                 $field->setValue(rex_complex_perm::ALL);
             }

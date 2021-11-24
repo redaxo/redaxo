@@ -1,6 +1,26 @@
 Changelog
 =========
 
+Version 2.13.0 – 17.11.2021
+---------------------------
+
+### Neu
+
+* Im Modul wird der aktuelle Slice gecacht als `rex_article_slice`-Objekt zur Verfügung gestellt über `$this->getCurrentSlice()`, so kann über PHP ohne REX_VARs auf die Values zugegriffen werden (@gharlan)
+* `rex_article_slice`:
+    - Neue Methoden `getValueArray`, `getLinkListArray`, `getMediaListArray`, die den Feldinhalt direkt als Array liefern (@gharlan)
+* Strukur-Page: Tabellenzeilen erhalten `data-status="x"`-Attribut, so können die Zeilen je nach Status gestylet werden (@danspringer, @schuer)
+* Kategorie-Selectfelder mit Suchfeld (@skerbis)
+* Bezeichner optimiert (@alxndr-w)
+
+### Bugfixes
+
+* Sliceänderungen wirkten sich teils erst verzögert aus (wegen Opcache) (@gharlan)
+* `rex_article_slice`: bei `getLinkUrl` bekam man die aktuelle URL statt `null`, wenn das Feld nicht gesetzt ist (`getMediaUrl` entsprechend) (@gharlan)
+* `REX_LINK[id=X output=url]` hat teilweise die URL in falscher Sprache geliefert (@gharlan)
+* Bei der Modulzuweisung zu den CTypes wurde bei Abwahl aller Module wieder die Checkbox "Alle" gesetzt (@gharlan)
+
+
 Version 2.12.1 – 21.06.2021
 ---------------------------
 

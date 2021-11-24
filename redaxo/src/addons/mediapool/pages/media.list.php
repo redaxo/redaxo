@@ -228,36 +228,23 @@ $panel = '
                 ';
             }
 
-            $searchItems = [];
+            $filter = [];
 
             $mediaName = rex_request('media_name', 'string');
             if ('' != $mediaName) {
-                $mediaName = '%'.str_replace(['_', '%'], ['\_', '\%'], $mediaName).'%';
-                $searchItems[] = [
-                    'type' => 'term',
-                    'value' => $mediaName,
-                ];
+                $filter['term'] = $mediaName;
 
                 if ('global' != rex_addon::get('mediapool')->getConfig('searchmode', 'local') && 0 != $rexFileCategory) {
-                    $searchItems[] = [
-                        'type' => 'category_id_path',
-                        'value' => $rexFileCategory,
-                    ];
+                    $filter['category_id_path'] = $rexFileCategory;
                 }
             } else {
-                $searchItems[] = [
-                    'type' => 'category_id',
-                    'value' => $rexFileCategory,
-                ];
+                $filter['category_id'] = $rexFileCategory;
             }
 
             if (isset($argUrl['args']['types']) && is_array($argUrl['args']['types'])) {
                 /** @var list<string> $types */
                 $types = $argUrl['args']['types'];
-                $searchItems[] = [
-                    'type' => 'types',
-                    'value' => $types,
-                ];
+                $filter['types'] = $types;
             }
 
             if (!rex_addon::get('media_manager')->isAvailable()) {
@@ -268,11 +255,11 @@ $panel = '
 
             $pager = new rex_pager(5000);
 
-            $items = rex_media_service::getList($searchItems, [], $pager);
+            $items = rex_media_service::getList($filter, [], $pager);
 
             $panel .= '<tbody>';
 
-            foreach ($items as $i => $media) {
+            foreach ($items as $media) {
                 $alt = rex_escape($media->getTitle());
                 $desc = '<p>' . rex_escape(strip_tags((string) $media->getValue('med_description'))) . '</p>';
 
@@ -321,7 +308,7 @@ $panel = '
                         ' . $desc . '
                         <p>' . rex_escape($media->getFileName()) . ' <span class="rex-filesize">' . rex_formatter::bytes($media->getSize()) . '</span></p>
                     </td>
-                    <td data-title="' . rex_i18n::msg('pool_last_update') . '"><p class="rex-date">' . rex_formatter::strftime($media->getUpdateDate(), 'datetime') . '</p><p class="rex-author">' . rex_escape($media->getUpdateUser()) . '</p></td>
+                    <td data-title="' . rex_i18n::msg('pool_last_update') . '"><p class="rex-date">' . rex_formatter::intlDateTime($media->getUpdateDate()) . '</p><p class="rex-author">' . rex_escape($media->getUpdateUser()) . '</p></td>
                     <td class="rex-table-action"><a class="rex-link-expanded" href="' . $ilink . '">' . rex_i18n::msg('edit') . '</a></td>
                     <td class="rex-table-action">';
 

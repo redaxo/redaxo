@@ -147,7 +147,7 @@ as Connection protocol, plus even lower-level information, very verbose, don't u
 
 Most of the time you don't need a level over **server and client protocol**, unless there are difficulties with the connection. The output will usually be more extensive and harder to read.
 
-### Email log
+## Email log and archiving 
 
 The Email log can be found under 'System' > 'Log files' > 'PHPMailer'. The logging can be set in the settings of the PHPMailer addon at 3 levels. 
 
@@ -161,9 +161,36 @@ The log is stored under `/redaxo/data/log/mail.log`.
 
 ### Email archiving 
 
-If Email archiving is switched on, all emails in the folder '/redaxo/data/addons/phpmailer/mail_log' are archived chronologically by year and month in subfolders. Attachments are not saved. 
+When email archiving is switched on, all emails are saved in complete `.eml` format in the `/redaxo/data/addons/phpmailer/mail_log` folder, chronologically by year and month in subfolders. .eml files can be opened and imported for viewing in common email programs. 
+
 The archive can be purged periodically via the CronJob "Purge Mailer Archive". 
 
+### Extension-Point `PHPMAILER_CONFIG`
+
+The configuration can be overwritten and/or extended via extension point. 
+More information about [PHPMailer Configuration from vendor](https://github.com/PHPMailer/PHPMailer).
+The following example shows the use of self-signed certificates. 
+
+> By default, the peer is verified. This may lead to problems. The following settings help to avoid this problem.
+
+```php 
+rex_extension::register('PHPMAILER_CONFIG', function (rex_extension_point $ep) {
+    $subject = $ep->getSubject();
+    // set SMTPOptions
+    $subject->SMTPOptions = [
+        'ssl' => [
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true
+        ],
+        'tls' => [
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true
+        ],
+    ];
+});
+```
 
 ## Tips
 
@@ -184,27 +211,6 @@ PHPMailer checks on "AutoTLS" if the specified server supports TLS and establish
 
 > SMTP transmission does not allow sending emails with empty body 
 
-### Use of self-signed certificates
-
-The peer is verified by default. This can lead to problems. The following settings help to avoid this problem.
-
-```php
-<?php
-
-$mail = new rex_mailer();
-$mail->SMTPOptions = array(
-    'ssl' => array(
-        'verify_peer' => false,
-        'verify_peer_name' => false,
-        'allow_self_signed' => true
-    ),
-    'tls' => array(
-        'verify_peer' => false,
-        'verify_peer_name' => false,
-        'allow_self_signed' => true
-    ),
-);
-```
 
 ### Sending mails over different domains 
 

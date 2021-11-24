@@ -42,6 +42,7 @@ $transitionDuration: 300ms;
     position: relative;
     z-index: $zindex-navbar-fixed - 1;
     width: 250px;
+    flex-shrink: 0;
     background-color: $color-a-dark;
 
     @media (max-width: $grid-float-breakpoint-max) {
@@ -171,10 +172,12 @@ $transitionDuration: 300ms;
     .navbar-nav {
         > li {
             > a,
-            > a:hover {
+            > a:hover,
+            > a:focus {
                 color: #fff;
             }
-            > a:hover {
+            > a:hover,
+            > a:focus {
                 text-decoration: underline;
             }
         }
@@ -395,7 +398,8 @@ $transitionDuration: 300ms;
         > li {
             &.active {
                 > a:not(.btn),
-                > a:not(.btn):hover {
+                > a:not(.btn):hover,
+                > a:not(.btn):focus {
                     padding-bottom: 10px;
                     background-color: #fff;
                     border-color: darken($color-a-light, 5%);
@@ -425,7 +429,8 @@ $transitionDuration: 300ms;
                     border-bottom-color: transparent;
                 }
 
-                &:hover {
+                &:hover,
+                &:focus {
                     background-color: $color-a-light;
                     border-color: $color-a-light;
                     color: $color-b;
@@ -467,6 +472,7 @@ $transitionDuration: 300ms;
         color: $color-a;
     }
     .navbar-default .navbar-nav > li > a:hover,
+    .navbar-default .navbar-nav > li > a:focus,
     .navbar-default .navbar-nav > .active > a,
     .navbar-default .navbar-nav > .active > a:hover,
     .navbar-default .navbar-nav > .active > a:focus {
@@ -495,7 +501,8 @@ $transitionDuration: 300ms;
     > li {
         &.active {
             > a:not(.btn),
-            > a:not(.btn):hover {
+            > a:not(.btn):hover,
+            > a:not(.btn):focus {
                 padding-bottom: $padding-small-vertical;
                 background-color: #fff;
 
@@ -517,7 +524,8 @@ $transitionDuration: 300ms;
                 background-color: $color-d-light;
             }
 
-            &:hover {
+            &:hover,
+            &:focus {
                 background-color: lighten($color-a-light, 8%);
 
                 .panel-edit & {
@@ -679,7 +687,8 @@ $transitionDuration: 300ms;
             > li {
                 &.active {
                     > a:not(.btn),
-                    > a:not(.btn):hover {
+                    > a:not(.btn):hover,
+                    > a:not(.btn):focus {
                         background-color: $color-grey-5;
                         border-color: $color-grey-5;
                         border-bottom-color: transparent;
@@ -693,7 +702,8 @@ $transitionDuration: 300ms;
                     border-bottom-color: transparent;
                     color: $color-text-light-inactive;
 
-                    &:hover {
+                    &:hover,
+                    &:focus {
                         background-color: $color-grey-3;
                         border-color: $color-grey-3;
                         color: $color-blue-5;
@@ -716,6 +726,7 @@ $transitionDuration: 300ms;
             color: $color-text-light-inactive;
         }
         .navbar-default .navbar-nav > li > a:hover,
+        .navbar-default .navbar-nav > li > a:focus,
         .navbar-default .navbar-nav > .active > a,
         .navbar-default .navbar-nav > .active > a:hover,
         .navbar-default .navbar-nav > .active > a:focus {
@@ -733,7 +744,8 @@ $transitionDuration: 300ms;
                 > li {
                     &.active {
                         > a:not(.btn),
-                        > a:not(.btn):hover {
+                        > a:not(.btn):hover,
+                        > a:not(.btn):focus {
                             background-color: $color-grey-3;
                             border-color: $color-grey-3;
                         }
@@ -756,7 +768,8 @@ $transitionDuration: 300ms;
         > li {
             &.active {
                 > a:not(.btn),
-                > a:not(.btn):hover {
+                > a:not(.btn):hover,
+                > a:not(.btn):focus {
                     background-color: $color-grey-3;
                     color: $color-text-light;
                 }
@@ -764,7 +777,8 @@ $transitionDuration: 300ms;
             > a:not(.btn) {
                 background-color: $color-grey-2;
                 color: $color-text-light-inactive;
-                &:hover {
+                &:hover,
+                &:focus {
                     background-color: darken($color-grey-2, 1%);
                     color: $color-text-light;
                 }
@@ -775,7 +789,8 @@ $transitionDuration: 300ms;
         > li {
             &.active {
                 > a:not(.btn),
-                > a:not(.btn):hover {
+                > a:not(.btn):hover,
+                > a:not(.btn):focus {
                     background-color: $color-green-2;
                     color: $color-text-light;
                 }
@@ -783,7 +798,8 @@ $transitionDuration: 300ms;
             > a:not(.btn) {
                 background-color: rgba($color-grey-1, 0.4);
                 color: $color-text-light-inactive;
-                &:hover {
+                &:hover,
+                &:focus {
                     color: $color-text-light;
                 }
             }

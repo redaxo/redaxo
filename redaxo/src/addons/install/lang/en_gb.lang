@@ -54,6 +54,7 @@ install_warning_addon_zip_not_extracted = Zip file could not bee extracted in th
 install_warning_message_from_addon = AddOn <b>{0}</b> reports:
 install_warning_message_from_plugin = PlugIn <b>{0}</b> reports:
 
+install_warning_directory_not_writable = The directory <b>{0}</b> is not writable!
 install_warning_zip_wrong_checksum = The checksum of the downloaded zip file does not match. Please try again in a few minutes!
 install_warning_zip_wrong_format = The zip file is not in the required format.
 

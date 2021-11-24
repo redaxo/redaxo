@@ -57,6 +57,8 @@ class rex_mailer extends PHPMailer
         }
         $this->archive = $addon->getConfig('archive');
         parent::__construct($exceptions);
+
+        rex_extension::registerPoint(new rex_extension_point('PHPMAILER_CONFIG', $this));
     }
 
     protected function addOrEnqueueAnAddress($kind, $address, $name)
@@ -272,7 +274,7 @@ class rex_mailer extends PHPMailer
             }
 
             $mailBody .= '        <tr' . $style . '>';
-            $mailBody .= '            <td>' . $entry->getTimestamp('%d.%m.%Y %H:%M:%S') . '</td>';
+            $mailBody .= '            <td>' . rex_formatter::intlDateTime($entry->getTimestamp(), [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]) . '</td>';
             $mailBody .= '            <td>' . $data[0] . '</td>';
             $mailBody .= '            <td>' . substr(rex_escape($data[1]), 0, 128) . '</td>';
             $mailBody .= '            <td>' . ($data[2] ?? '') . '</td>';
