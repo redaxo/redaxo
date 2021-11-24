@@ -4158,9 +4158,7 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/fragments/core/top.php">
-    <MixedArgument occurrences="8">
-      <code>$file</code>
-      <code>$file</code>
+    <MixedArgument occurrences="6">
       <code>$options</code>
       <code>$options</code>
       <code>$options</code>
@@ -4182,11 +4180,7 @@
       <code>$media</code>
       <code>[$file, $options]</code>
     </MixedAssignment>
-    <MixedOperand occurrences="7">
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
-      <code>$file</code>
+    <MixedOperand occurrences="3">
       <code>$media</code>
       <code>$this-&gt;favicon</code>
       <code>$this-&gt;jsProperties</code>
