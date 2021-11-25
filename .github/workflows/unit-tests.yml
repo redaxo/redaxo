@@ -59,7 +59,7 @@ jobs:
             -   name: Composer install
                 uses: ramsey/composer-install@v1
                 with:
-                    composer-options: --ansi --prefer-dist
+                    composer-options: ${{ matrix.php-version == '8.2' && '--ansi --prefer-dist --ignore-platform-req=php' || '--ansi --prefer-dist' }}
 
             -   name: Setup Problem Matchers for PHPUnit
                 run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
