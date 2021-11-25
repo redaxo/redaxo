@@ -92,9 +92,12 @@ class rex_backend_login extends rex_login
                 $params = [];
                 $add = '';
                 if ($this->stayLoggedIn || $cookiekey) {
-                    $cookiekey = sha1($this->systemId . time() . $this->userLogin);
-                    $add = 'cookiekey = ?, ';
-                    $params[] = $cookiekey;
+                    $cookiekey = (string) $this->user->getValue('cookiekey');
+                    if (!$cookiekey) {
+                        $cookiekey = sha1($this->systemId . time() . $this->userLogin);
+                        $add = 'cookiekey = ?, ';
+                        $params[] = $cookiekey;
+                    }
                     rex_response::sendCookie($cookiename, $cookiekey, ['expires' => strtotime('+1 year'), 'samesite' => 'strict']);
                 }
                 if (self::passwordNeedsRehash($this->user->getValue('password'))) {
@@ -128,7 +131,7 @@ class rex_backend_login extends rex_login
                 $sql->setQuery('SELECT login_tries FROM ' . $this->tableName . ' WHERE login=? LIMIT 1', [$this->userLogin]);
                 if ($sql->getRows() > 0) {
                     $loginTries = $sql->getValue('login_tries');
-                    $sql->setQuery('UPDATE ' . $this->tableName . ' SET login_tries=login_tries+1,session_id="",cookiekey="",lasttrydate=? WHERE login=? LIMIT 1', [rex_sql::datetime(), $this->userLogin]);
+                    $sql->setQuery('UPDATE ' . $this->tableName . ' SET login_tries=login_tries+1,session_id="",lasttrydate=? WHERE login=? LIMIT 1', [rex_sql::datetime(), $this->userLogin]);
                     if ($loginTries >= self::LOGIN_TRIES_1 - 1) {
                         $time = $loginTries < self::LOGIN_TRIES_2 ? self::RELOGIN_DELAY_1 : self::RELOGIN_DELAY_2;
                         $hours = floor($time / 3600);
@@ -142,7 +145,7 @@ class rex_backend_login extends rex_login
         }
 
         if ($this->isLoggedOut() && '' != $userId) {
-            $sql->setQuery('UPDATE ' . $this->tableName . ' SET session_id="", cookiekey="" WHERE id=? LIMIT 1', [$userId]);
+            $sql->setQuery('UPDATE ' . $this->tableName . ' SET session_id="" WHERE id=? LIMIT 1', [$userId]);
             self::deleteStayLoggedInCookie();
         }
 
