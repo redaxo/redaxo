@@ -409,7 +409,7 @@ profile_save_psw = Guardar contraseña
 backend_language = Idioma de backend
 user_data_updated = ¡Datos de usuario actualizados!
 
-password_change_required = ¡La contraseña debe ser cambiada!
+password_change_required =
 password_not_changed = ¡La nueva contraseña debe ser diferente de la anterior!
 password_already_used = ¡La contraseña ya se ha usado y no se puede volver a usar!
 password_invalid = La contraseña no coincide con las reglas requeridas ({0})!
