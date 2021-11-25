@@ -230,7 +230,9 @@ $content = '
         ' . $content . '
     </form>';
 
-echo $content;
+if (!$passwordChangeRequired) {
+    echo $content;
+}
 
 $content = '';
 $content .= '

@@ -420,7 +420,7 @@ backend_language = Backendspråk
 user_data_updated = Användaruppgifter aktualiserades!
 theme = Backend-Theme
 
-password_change_required = Lösenordet måste bytas ut!
+password_change_required =
 password_not_changed = Det nya lösenordet måste skilja sig från det föregående!
 password_already_used = Lösenordet har redan använts och kan inte användas igen!
 password_invalid = Lösenordet motsvarar inte de föreskrivna reglerna ({0})!
