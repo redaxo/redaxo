@@ -47,8 +47,11 @@ if (rex_string::versionCompare($installerVersion, '2.9.2', '<') && rex_string::v
     throw new rex_functional_exception('This update requires at least version <b>2.9.2</b> of the <b>install</b> addon!');
 }
 
+$sessionKey = (string) rex::getProperty('instname').'_backend';
+
 if (rex_string::versionCompare(rex::getVersion(), '5.7.0-beta3', '<')) {
-    $_SESSION[rex::getProperty('instname').'_backend']['backend_login'] = $_SESSION[rex::getProperty('instname')]['backend_login'];
+    /** @psalm-suppress MixedArrayAssignment */
+    $_SESSION[$sessionKey]['backend_login'] = $_SESSION[rex::getProperty('instname')]['backend_login'];
 }
 
 if (rex_string::versionCompare(rex::getVersion(), '5.9.0-beta1', '<')) {
@@ -56,6 +59,11 @@ if (rex_string::versionCompare(rex::getVersion(), '5.9.0-beta1', '<')) {
     rex_dir::create(rex_path::data('log'));
     @rename(rex_path::coreData('system.log'), rex_path::data('log/system.log'));
     @rename(rex_path::coreData('system.log.2'), rex_path::data('log/system.log.2'));
+}
+
+if (rex_string::versionCompare(rex::getVersion(), '5.13.1', '<') && ($user = rex::getUser())) {
+    /** @psalm-suppress MixedArrayAssignment */
+    $_SESSION[$sessionKey]['backend_login']['password'] = $user->getValue('password');
 }
 
 $path = rex_path::coreData('config.yml');

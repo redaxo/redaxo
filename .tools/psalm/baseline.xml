@@ -6849,18 +6849,14 @@
     <MixedArrayAccess occurrences="1">
       <code>$_SESSION[rex::getProperty('instname')]['backend_login']</code>
     </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="2">
-      <code>$_SESSION[rex::getProperty('instname').'_backend']['backend_login']</code>
+    <MixedArrayAssignment occurrences="1">
       <code>$config['setup_addons'][]</code>
     </MixedArrayAssignment>
     <MixedArrayOffset occurrences="1">
       <code>$_SESSION[rex::getProperty('instname')]</code>
     </MixedArrayOffset>
     <MixedAssignment occurrences="1">
-      <code>$_SESSION[rex::getProperty('instname').'_backend']['backend_login']</code>
+      <code>$_SESSION[$sessionKey]['backend_login']</code>
     </MixedAssignment>
-    <MixedOperand occurrences="1">
-      <code>rex::getProperty('instname')</code>
-    </MixedOperand>
   </file>
 </files>

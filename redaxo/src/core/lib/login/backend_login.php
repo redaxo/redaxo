@@ -154,9 +154,13 @@ class rex_backend_login extends rex_login
         return (bool) $this->getSessionVar(self::SESSION_PASSWORD_CHANGE_REQUIRED, false);
     }
 
-    public function changedPassword(): void
+    public function changedPassword(?string $passwordHash = null): void
     {
         $this->setSessionVar(self::SESSION_PASSWORD_CHANGE_REQUIRED, false);
+
+        if (null !== $passwordHash) {
+            parent::changedPassword($passwordHash);
+        }
     }
 
     public static function deleteSession()
