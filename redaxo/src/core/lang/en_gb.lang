@@ -420,7 +420,7 @@ backend_language = Backend language
 user_data_updated = User data updated!
 theme = Backend theme
 
-password_change_required = A password change is required!
+password_change_required = The password has expired. To continue, please enter a new password!
 password_not_changed = The new password must be different than the previous one!
 password_already_used = This password has been used before and cannot be used again!
 password_invalid = The password does not match the required rules ({0})!
