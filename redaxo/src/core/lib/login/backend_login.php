@@ -92,7 +92,7 @@ class rex_backend_login extends rex_login
                 $params = [];
                 $add = '';
                 if ($this->stayLoggedIn || $cookiekey) {
-                    $cookiekey = $this->user->getValue('cookiekey');
+                    $cookiekey = (string) $this->user->getValue('cookiekey');
                     if (!$cookiekey) {
                         $cookiekey = sha1($this->systemId . time() . $this->userLogin);
                         $add = 'cookiekey = ?, ';
