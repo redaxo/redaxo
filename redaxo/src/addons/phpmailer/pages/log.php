@@ -41,7 +41,7 @@ foreach (new LimitIterator($file, 0, 30) as $entry) {
     $content .= '
                 <tr class="'.$class.'">
                   <td data-title="' . rex_i18n::msg('phpmailer_log_success') . '"><strong>' .rex_escape($data[0]). '</strong></td>
-                  <td data-title="' . rex_i18n::msg('phpmailer_log_date') . '" class="rex-table-tabular-nums">' . $entry->getTimestamp('%d.%m.%Y %H:%M:%S') . '</td>
+                  <td data-title="' . rex_i18n::msg('phpmailer_log_date') . '" class="rex-table-tabular-nums">' . rex_formatter::intlDateTime($entry->getTimestamp(), [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]) . '</td>
                   <td data-title="' . rex_i18n::msg('phpmailer_log_from') . '">' . rex_escape($data[1]) . '</td>
                   <td data-title="' . rex_i18n::msg('phpmailer_log_to') . '">' . rex_escape($data[2]) . '</td>
                   <td data-title="' . rex_i18n::msg('phpmailer_log_subject') . '">' . rex_escape($data[3]) . '</td>
