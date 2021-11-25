@@ -125,6 +125,7 @@ if (rex_post('upd_psw_button', 'bool')) {
         $updateuser->setValue('password_change_required', 0);
         $updateuser->setDateTimeValue('password_changed', time());
         $updateuser->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords($user, $userpswNew1));
+        // On password change the "stay logged in" cookies must be invalidated
         $updateuser->setValue('cookiekey', null);
 
         try {

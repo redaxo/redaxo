@@ -157,6 +157,9 @@ class rex_backend_login extends rex_login
         return (bool) $this->getSessionVar(self::SESSION_PASSWORD_CHANGE_REQUIRED, false);
     }
 
+    /**
+     * @param null|string $passwordHash Passing `null` or ommitting this param is DEPRECTED
+     */
     public function changedPassword(?string $passwordHash = null): void
     {
         $this->setSessionVar(self::SESSION_PASSWORD_CHANGE_REQUIRED, false);
