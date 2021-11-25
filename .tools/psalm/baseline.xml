@@ -1682,13 +1682,12 @@
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/handler/handler.php">
-    <MixedArgument occurrences="8">
+    <MixedArgument occurrences="7">
       <code>$field-&gt;getValue('callback')</code>
       <code>$fieldAttributes</code>
       <code>$fieldName</code>
       <code>$fieldType</code>
       <code>$filterCondition</code>
-      <code>$itemValue</code>
       <code>$itemValue</code>
       <code>$params</code>
     </MixedArgument>
@@ -3508,9 +3507,6 @@
     <MixedOperand occurrences="1">
       <code>$field-&gt;get()</code>
     </MixedOperand>
-    <PossiblyNullArgument occurrences="1">
-      <code>$this-&gt;getValue()</code>
-    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/users/pages/roles.php">
     <MixedArgument occurrences="3">
