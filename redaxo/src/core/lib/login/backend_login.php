@@ -158,7 +158,7 @@ class rex_backend_login extends rex_login
     }
 
     /**
-     * @param null|string $passwordHash Passing `null` or ommitting this param is DEPRECTED
+     * @param null|string $passwordHash Passing `null` or ommitting this param is DEPRECATED
      */
     public function changedPassword(?string $passwordHash = null): void
     {
