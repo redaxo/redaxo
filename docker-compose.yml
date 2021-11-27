@@ -11,12 +11,9 @@ services:
     db:
         image: mysql:8
         volumes:
-            - .db:/var/lib/mysql:cached
+            - ./.db:/var/lib/mysql:cached
         environment:
             MYSQL_DATABASE: redaxo
             MYSQL_USER: redaxo
             MYSQL_PASSWORD: redaxo   # do not use for production!
             MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
-
-volumes:
-    db:
