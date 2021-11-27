@@ -44,3 +44,8 @@
 
 # VSCode setting
 .vscode
+
+# Docker
+/.db
+/.docker
+/.docker-compose.yml
