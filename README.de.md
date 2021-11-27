@@ -66,8 +66,7 @@ Um am Core und an den Core-Addons zu entwickeln, setze das Projekt mit diesen Sc
 - Falls du PhpStorm verwendest, passe dort die Composer-Einstellungen (`Languages & Frameworks` > `PHP` > `Composer`) an und deaktiviere diese beiden Optionen:
     - [ ] Add packages as libraries
     - [ ] Synchronize IDE settings with composer.json
-- Du kannst die hinterlegte Docker-Konfiguration nutzen, um eine lokale Entwicklungsumgebung zu starten: `docker-compose up -d`.  
-  Falls du einen anderen Port als den Standardport 80 benötigst, ergänze die Angabe so: `REDAXO_PORT=8080 docker-compose up -d`.
+- Du kannst die hinterlegte Docker-Konfiguration nutzen, um eine lokale Entwicklungsumgebung zu starten: `docker-compose up -d`. Falls du einen anderen Port als den Standardport 80 benötigst, ergänze die Angabe so: `REDAXO_PORT=8080 docker-compose up -d`.
 
 &nbsp;
 
