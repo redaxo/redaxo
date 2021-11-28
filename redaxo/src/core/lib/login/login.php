@@ -225,6 +225,7 @@ class rex_login
                     $ok = true;
                     self::regenerateSessionId();
                     $this->setSessionVar('UID', $this->user->getValue($this->idColumn));
+                    $this->setSessionVar('password', $this->user->getValue($this->passwordColumn));
                 } else {
                     $this->message = rex_i18n::msg('login_error');
                 }
@@ -249,6 +250,10 @@ class rex_login
                         $ok = false;
                         $this->message = rex_i18n::msg('login_user_not_found');
                     }
+                    if ($this->impersonator->getValue($this->passwordColumn) !== $this->getSessionVar('password')) {
+                        $ok = false;
+                        $this->message = rex_i18n::msg('login_session_expired');
+                    }
                 }
 
                 if ($ok) {
@@ -259,6 +264,10 @@ class rex_login
                     if (!$this->user->getRows()) {
                         $ok = false;
                         $this->message = rex_i18n::msg('login_user_not_found');
+                    }
+                    if (!$this->impersonator && $this->user->getValue($this->passwordColumn) !== $this->getSessionVar('password')) {
+                        $ok = false;
+                        $this->message = rex_i18n::msg('login_session_expired');
                     }
                 }
             }
@@ -282,6 +291,7 @@ class rex_login
             $this->setSessionVar('STAMP', '');
             $this->setSessionVar('UID', '');
             $this->setSessionVar('impersonator', null);
+            $this->setSessionVar('password', null);
         }
 
         $this->loginStatus = $ok ? 1 : -1;
@@ -323,6 +333,11 @@ class rex_login
 
         $this->setSessionVar('UID', $this->user->getValue($this->idColumn));
         $this->setSessionVar('impersonator', null);
+    }
+
+    public function changedPassword(string $passwordHash): void
+    {
+        $this->setSessionVar('password', $passwordHash);
     }
 
     /**
