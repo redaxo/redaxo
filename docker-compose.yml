@@ -11,7 +11,7 @@ services:
     db:
         image: mysql:8
         volumes:
-            - ./.db:/var/lib/mysql:cached
+            - ./.docker/db:/var/lib/mysql:cached
         environment:
             MYSQL_DATABASE: redaxo
             MYSQL_USER: redaxo
