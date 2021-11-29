@@ -237,6 +237,7 @@ final class AntiXSS
         'onPointerMove',
         'onPointerOut',
         'onPointerOver',
+        'onPointerRawUpdate',
         'onPointerUp',
         'onPopState',
         'onProgress',
@@ -588,7 +589,7 @@ final class AntiXSS
     private function _decode_string($str)
     {
         // init
-        $regExForHtmlTags = '/<\p{L}+.*+/us';
+        $regExForHtmlTags = '/<\p{L}+(?:[^>"\']|(["\']).*\1)*>/usU';
 
         if (
             \strpos($str, '<') !== false
@@ -1576,8 +1577,8 @@ final class AntiXSS
     private function _close_html_callback($matches)
     {
         if (empty($matches['closeTag'])) {
-            // allow e.g. "< $2.20"
-            if (\preg_match('/^[ .,\d=%€$₢₣£₤₶ℳ₥₦₧₨රුரூ௹रू₹૱₩₪₸₫֏₭₺₼₮₯₰₷₱﷼₲₾₳₴₽₵₡¢¥円৳元៛₠¤฿؋]*$/u', $matches[1])) {
+            // allow e.g. "< $2.20" and e.g. "< 1 year"
+            if (\preg_match('/^[ .,\d=%€$₢₣£₤₶ℳ₥₦₧₨රුரூ௹रू₹૱₩₪₸₫֏₭₺₼₮₯₰₷₱﷼₲₾₳₴₽₵₡¢¥円৳元៛₠¤฿؋]*$|^[ .,\d=%€$₢₣£₤₶ℳ₥₦₧₨රුரூ௹रू₹૱₩₪₸₫֏₭₺₼₮₯₰₷₱﷼₲₾₳₴₽₵₡¢¥円৳元៛₠¤฿؋]+\p{L}*\s*$/u', $matches[1])) {
                 return '<' . \str_replace(['>', '<'], ['&gt;', '&lt;'], $matches[1]);
             }
 
