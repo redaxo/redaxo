@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.12.1 – 29.11.2021
+---------------------------
+
+### Bugfixes
+
+* Klickfläche für den Hinzufügen-Link vergrößert (@schuer)
+
+
 Version 2.12.0 – 17.11.2021
 ---------------------------
 

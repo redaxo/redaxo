@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.13.1 – 29.11.2021
+---------------------------
+
+### Bugfixes
+
+* Templates: bei Modulzuweisung zu CTypes wurde teils fälschlich nach Speichern wieder "Alle" aktiviert (@gharlan)
+
+
 Version 2.13.0 – 17.11.2021
 ---------------------------
 
