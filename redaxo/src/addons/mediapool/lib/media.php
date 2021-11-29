@@ -5,6 +5,7 @@
  *
  * @package redaxo\mediapool
  */
+#[AllowDynamicProperties]
 class rex_media
 {
     use rex_instance_list_pool_trait;

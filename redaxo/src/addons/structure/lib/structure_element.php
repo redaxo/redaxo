@@ -5,6 +5,7 @@
  *
  * @package redaxo\structure
  */
+#[AllowDynamicProperties]
 abstract class rex_structure_element
 {
     use rex_instance_list_pool_trait;
