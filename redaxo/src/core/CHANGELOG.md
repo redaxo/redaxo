@@ -1,6 +1,27 @@
 Changelog
 =========
 
+Version 5.13.1 – 29.11.2021
+---------------------------
+
+### Security
+
+* Bei Passwortänderung wurden die vorhandenen Sessions des Users nicht beendet (@gharlan)
+
+### Neu
+
+* Update der externen Bibliotheken (@gharlan)
+
+### Bugfixes
+
+* Deprecated-Meldungen in PHP 8.1 entfernt (@gharlan)
+* "Eingeloggt bleiben"-Cookies wurden teils unnötig invalidiert (z.B. bei Logout an einem anderen Rechner) (@gharlan)
+* Firewalls haben teils die Assets-URLs blockert (@gharlan)
+* Profilseite: Bei erzwungenem Passwortwechsel verständlichere Erläuterung und Reduzierung auf die Passwort-Felder (@schuer)
+* `rex_sql_table`: Defaultwert `0` wurde nicht gesetzt (@TobiasKrais)
+* `rex_markdown`: Korrekturen beim PHP-Syntaxthighlighting (@gharlan)
+
+
 Version 5.13.0 – 17.11.2021
 ---------------------------
 

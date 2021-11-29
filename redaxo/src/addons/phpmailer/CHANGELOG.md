@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.11.1 – 29.11.2021
+---------------------------
+
+### Bugfixes
+
+* PHP 8.1: Deprecated-Meldung im Log entfernt (@gharlan)
+
+
 Version 2.11.0 – 17.11.2021
 ---------------------------
 
