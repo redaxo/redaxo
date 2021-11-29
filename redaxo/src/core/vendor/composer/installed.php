@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '5b61ea341bd49bb69fda92432fa6032fe5e3e357',
+        'reference' => '97695e251f6a356c7a4618ef8d6e973e63c10d17',
         'name' => '__root__',
         'dev' => false,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '5b61ea341bd49bb69fda92432fa6032fe5e3e357',
+            'reference' => '97695e251f6a356c7a4618ef8d6e973e63c10d17',
             'dev_requirement' => false,
         ),
         'erusev/parsedown' => array(
@@ -230,12 +230,12 @@
             'dev_requirement' => false,
         ),
         'voku/anti-xss' => array(
-            'pretty_version' => '4.1.33',
-            'version' => '4.1.33.0',
+            'pretty_version' => '4.1.34',
+            'version' => '4.1.34.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../voku/anti-xss',
             'aliases' => array(),
-            'reference' => 'dcd44ad3726e97e3ea924e4c7257cb33976b71a5',
+            'reference' => 'a8b061eb2e01f6f57fd135dc519343564fb658ff',
             'dev_requirement' => false,
         ),
         'voku/portable-ascii' => array(
