@@ -66,7 +66,7 @@ $csrf = rex_csrf_token::factory('mediapool');
                 $success = [];
                 $first = true;
                 foreach ($syncFiles as $filename) {
-                    if (!($key = array_search($filename, $diffFiles))) {
+                    if (false === $key = array_search($filename, $diffFiles)) {
                         continue;
                     }
 
