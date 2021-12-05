@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.13.1@5cf660f63b548ccd4a56f62d916ee4d6028e01a3">
+<files psalm-version="v4.14.0@14dcbc908ab2625cd7a74258ee6c740cbecc6140">
   <file src="redaxo/src/addons/backup/lib/backup.php">
     <MixedArgument occurrences="5">
       <code>$column</code>
@@ -6590,6 +6590,11 @@
       <code>$navi[1]['headline']</code>
       <code>$navi[2]['headline']</code>
     </MixedArrayAccess>
+  </file>
+  <file src="redaxo/src/core/tests/console/config/set_test.php">
+    <MixedArgument occurrences="1">
+      <code>$this-&gt;initialConfig</code>
+    </MixedArgument>
   </file>
   <file src="redaxo/src/core/tests/extension_test.php">
     <MixedAssignment occurrences="2">

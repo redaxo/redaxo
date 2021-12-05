@@ -6,12 +6,16 @@
         "psr/log": "^1.0",
         "ramsey/http-range": "^1.0",
         "roave/security-advisories": "dev-master",
-        "symfony/console": "^5.3",
-        "symfony/http-foundation": "^5.3",
+        "symfony/console": "~5.3.0",
+        "symfony/http-foundation": "~5.3.0",
         "symfony/polyfill-php80": "^1.18",
-        "symfony/var-dumper": "^5.3",
-        "symfony/yaml": "^5.3",
+        "symfony/var-dumper": "~5.3.0",
+        "symfony/yaml": "~5.3.0",
         "voku/anti-xss": "^4.1.24"
+    },
+
+    "conflict": {
+        "symfony/string": ">=5.4"
     },
 
     "replace": {
