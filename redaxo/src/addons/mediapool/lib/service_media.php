@@ -16,11 +16,22 @@ final class rex_media_service
      * Dabei wird kontrolliert ob das File schon vorhanden ist und es
      * wird eventuell angepasst, weiterhin werden die Fileinformationen übergeben.
      *
-     * @param array{category_id: int, title: string, file: array{name: string, path: string, tmp_name?: string}} $data
+     * @param array{category_id: int, title: string, file: array{name: string, path?: string, tmp_name?: string, error?: int}} $data
      * @param bool $doSubindexing // echte Dateinamen anpassen, falls schon vorhanden
      */
     public static function addMedia(array $data, bool $doSubindexing = true, array $allowedExtensions = []): array
     {
+        $error = $data['file']['error'] ?? null;
+
+        if (UPLOAD_ERR_INI_SIZE === $error) {
+            throw new rex_api_exception(rex_i18n::msg('pool_file_upload_error_size', rex_formatter::bytes(rex_ini_get('upload_max_filesize'))));
+        }
+        if ($error) {
+            throw new rex_api_exception(rex_i18n::msg('pool_file_upload_error'));
+        }
+
+        $data['file']['path'] = $data['file']['path'] ?? $data['file']['tmp_name'] ?? null;
+
         if (empty($data['file']) || empty($data['file']['name']) || empty($data['file']['path'])) {
             throw new rex_api_exception(rex_i18n::msg('pool_file_not_found'));
         }
@@ -137,7 +148,7 @@ final class rex_media_service
      * Dabei wird kontrolliert ob das File schon vorhanden ist und es
      * wird eventuell angepasst, weiterhin werden die Fileinformationen übergeben.
      *
-     * @param array{category_id: int, title: string, file?: array{name: string, path: string}} $data
+     * @param array{category_id: int, title: string, file?: array{name: string, path?: string, tmp_name?: string, error?: int}} $data
      */
     public static function updateMedia(string $filename, array $data): array
     {
@@ -159,7 +170,21 @@ final class rex_media_service
         $file = $data['file'] ?? null;
         $filetype = null;
 
-        if ($file && !empty($file['name']) && !empty($file['path'])) {
+        if ($file && !empty($file['name'])) {
+            $error = $file['error'] ?? null;
+
+            if (UPLOAD_ERR_INI_SIZE === $error) {
+                throw new rex_api_exception(rex_i18n::msg('pool_file_upload_error_size', rex_formatter::bytes(rex_ini_get('upload_max_filesize'))));
+            }
+            if ($error) {
+                throw new rex_api_exception(rex_i18n::msg('pool_file_upload_error'));
+            }
+
+            $file['path'] = $file['tmp_name'] ?? null;
+            if (empty($file['path'])) {
+                throw new rex_api_exception(rex_i18n::msg('pool_file_not_found'));
+            }
+
             $filetype = rex_file::mimeType($file['path']);
 
             $srcFile = $file['path'];

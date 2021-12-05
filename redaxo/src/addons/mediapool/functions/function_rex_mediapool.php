@@ -41,7 +41,6 @@ function rex_mediapool_saveMedia($FILE, $rexFileCategory, $FILEINFOS, $userlogin
 
     if ($FILE) {
         $data['file'] = $FILE;
-        $data['file']['path'] = $FILE['tmp_name'];
     }
 
     try {
@@ -88,8 +87,7 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
     ];
 
     if ($FILE) {
-        $data['file']['name'] = $FILE['name'];
-        $data['file']['path'] = $FILE['tmp_name'];
+        $data['file'] = $FILE;
     }
 
     try {
