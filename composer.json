@@ -20,11 +20,11 @@
         "phpstan/phpstan-symfony": "1.0.2",
         "phpunit/phpunit": "^9.3",
         "psalm/plugin-phpunit": "0.16.1",
-        "psalm/plugin-symfony": "3.0.4",
+        "psalm/plugin-symfony": "3.1.0",
         "rector/rector": "0.12.5",
         "redaxo/php-cs-fixer-config": "1.0.0",
         "redaxo/psalm-plugin": "1.0.0",
-        "vimeo/psalm": "4.13.1"
+        "vimeo/psalm": "4.14.0"
     },
     "replace": {
         "erusev/parsedown": "1.7.4",
@@ -49,7 +49,7 @@
         "symfony/polyfill-php80": "v1.23.1",
         "symfony/polyfill-php81": "v1.23.0",
         "symfony/service-contracts": "v2.5.0",
-        "symfony/string": "v5.3.10",
+        "symfony/string": "v5.4.0",
         "symfony/var-dumper": "v5.3.11",
         "symfony/yaml": "v5.3.11",
         "voku/anti-xss": "4.1.34",
