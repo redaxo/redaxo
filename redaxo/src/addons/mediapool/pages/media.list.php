@@ -241,9 +241,8 @@ $panel = '
                 $filter['category_id'] = $rexFileCategory;
             }
 
-            if (isset($argUrl['args']['types']) && is_array($argUrl['args']['types'])) {
-                /** @var list<string> $types */
-                $types = $argUrl['args']['types'];
+            if (isset($argUrl['args']['types']) && is_string($argUrl['args']['types'])) {
+                $types = explode(',', $argUrl['args']['types']);
                 $filter['types'] = $types;
             }
 
