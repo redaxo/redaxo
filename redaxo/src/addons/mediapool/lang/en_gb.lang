@@ -15,6 +15,7 @@ pool_sync_no_diffs = no differences!
 pool_sync_files_synced = Files have been synchronised.
 pool_file_not_found = File not found
 pool_file_upload_error = Error uploading file
+pool_file_upload_error_size = The file exceeds the maximum upload size {0}!
 pool_file_upload_errortype = This file cannot be used to update the existing file because the file types do not match
 pool_file_title = Title
 pool_file_file = File
