@@ -1078,12 +1078,9 @@
       <code>$info</code>
       <code>$warning</code>
     </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="5">
+    <MixedAssignment occurrences="2">
       <code>$RETURN['title']</code>
       <code>$argValue</code>
-      <code>$data['file']['name']</code>
-      <code>$data['file']['path']</code>
-      <code>$data['file']['path']</code>
     </MixedAssignment>
     <MixedOperand occurrences="4">
       <code>$buttonTitle</code>
