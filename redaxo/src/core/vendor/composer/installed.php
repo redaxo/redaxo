@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '5ad1551cde4f64370a010602f6acb7a3900126f0',
+        'reference' => 'd941ebf8aed28e41c4bb17fd78d78aaaa4ecec9f',
         'name' => '__root__',
         'dev' => false,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '5ad1551cde4f64370a010602f6acb7a3900126f0',
+            'reference' => 'd941ebf8aed28e41c4bb17fd78d78aaaa4ecec9f',
             'dev_requirement' => false,
         ),
         'erusev/parsedown' => array(
@@ -203,12 +203,12 @@
             'dev_requirement' => false,
         ),
         'symfony/string' => array(
-            'pretty_version' => 'v5.3.10',
-            'version' => '5.3.10.0',
+            'pretty_version' => 'v5.4.0',
+            'version' => '5.4.0.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/string',
             'aliases' => array(),
-            'reference' => 'd70c35bb20bbca71fc4ab7921e3c6bda1a82a60c',
+            'reference' => '9ffaaba53c61ba75a3c7a3a779051d1e9ec4fd2d',
             'dev_requirement' => false,
         ),
         'symfony/var-dumper' => array(

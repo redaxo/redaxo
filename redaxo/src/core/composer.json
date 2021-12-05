@@ -14,10 +14,6 @@
         "voku/anti-xss": "^4.1.24"
     },
 
-    "conflict": {
-        "symfony/string": ">=5.4"
-    },
-
     "replace": {
         "symfony/polyfill-ctype": "*",
         "symfony/polyfill-iconv": "*",
