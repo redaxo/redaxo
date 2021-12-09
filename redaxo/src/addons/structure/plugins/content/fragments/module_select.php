@@ -20,4 +20,6 @@
  *             - [href]   the module url
  */
 
-$this->subfragment('/core/dropdowns/dropdown.php');
+$this->subfragment('/core/selects/select.php', [
+    'search' => true,
+]);

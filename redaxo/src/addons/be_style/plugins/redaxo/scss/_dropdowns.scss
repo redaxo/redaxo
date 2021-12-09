@@ -1,10 +1,13 @@
 
 .rex-slice-select {
+     .filter-option-inner-inner {
+        text-align: center;
+        font-weight: bold;
+    }
     > .dropdown > .btn-default {
         background-color: $color-b-lighter;
         border-color: $color-b-lighter;
         color: $color-b;
-
         &:hover {
             background-color: darken($color-b-lighter, 3%);
             border-color: darken($color-b-lighter, 3%);
@@ -34,6 +37,10 @@
 @mixin _dark-dropdowns {
 
     .rex-slice-select {
+        .filter-option-inner-inner {
+            text-align: center;
+            font-weight: bold;
+        }
         > .dropdown > .btn-default {
             background-color: desaturate(lighten($color-blue-1, 5%), 33%);
             border-color: desaturate($color-blue-1, 33%);
