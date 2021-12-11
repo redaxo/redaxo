@@ -330,11 +330,14 @@ $transitionDuration: 300ms;
                 right: 0;
                 max-width: calc(100% - #{$navbar-height});
                 opacity: 0;
-                transition: opacity $transitionDuration * 2 $easeInOutCubic;
+                transform: translateY(-$navbar-height); // hide above navbar
+                transition: opacity ($transitionDuration * 2) $easeInOutCubic, transform 0ms linear ($transitionDuration * 2); // fade out and transform afterwards
 
                 .rex-nav-main-is-visible& {
+                    display: block;
                     opacity: 1;
-                    transition: opacity $transitionDuration * 2 $easeInOutCubic $transitionDuration * 2;
+                    transform: translateY(0); // show at target position
+                    transition: opacity ($transitionDuration * 2) $easeInOutCubic ($transitionDuration * 2), transform 0ms linear 0ms; // fade in and immediately transform
                 }
 
                 > .nav {
