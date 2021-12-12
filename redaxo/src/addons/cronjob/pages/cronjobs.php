@@ -232,6 +232,7 @@ if ('' == $func) {
     $form->addFieldset($addon->i18n('interval'));
     $field = $form->addIntervalField('interval');
     $field->getValidator()->add('custom', $addon->i18n('error_interval_incomplete'), static function (string $interval) {
+        /** @psalm-suppress MixedAssignment */
         foreach (json_decode($interval) as $value) {
             if ([] === $value) {
                 return false;

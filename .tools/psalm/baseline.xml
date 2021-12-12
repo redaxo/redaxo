@@ -209,7 +209,7 @@
       <code>$key</code>
       <code>$label</code>
       <code>$this-&gt;intervalElements</code>
-      <code>$this-&gt;intervalElements</code>
+      <code>$value</code>
       <code>$value</code>
     </MixedAssignment>
     <MixedOperand occurrences="9">
