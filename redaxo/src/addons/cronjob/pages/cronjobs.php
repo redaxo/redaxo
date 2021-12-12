@@ -230,7 +230,16 @@ if ('' == $func) {
     }
 
     $form->addFieldset($addon->i18n('interval'));
-    $form->addIntervalField('interval');
+    $field = $form->addIntervalField('interval');
+    $field->getValidator()->add('custom', $addon->i18n('error_interval_incomplete'), static function (string $interval) {
+        foreach (json_decode($interval) as $value) {
+            if ([] === $value) {
+                return false;
+            }
+        }
+
+        return true;
+    });
 
     $envJs = '';
     $visible = [];
