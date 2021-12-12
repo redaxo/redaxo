@@ -74,9 +74,9 @@ if ('add' == $function || 'edit' == $function) {
     } elseif ($save) {
         $faction = rex_sql::factory();
 
-        $previewstatus = rex_post('previewstatus', 'array');
-        $presavestatus = rex_post('presavestatus', 'array');
-        $postsavestatus = rex_post('postsavestatus', 'array');
+        $previewstatus = rex_post('preview_allevents', 'bool') ? [1, 2] : rex_post('previewstatus', 'array');
+        $presavestatus = rex_post('presave_allevents', 'bool') ? [1, 2, 4] : rex_post('presavestatus', 'array');
+        $postsavestatus = rex_post('postsave_allevents', 'bool') ? [1, 2, 4] : rex_post('postsavestatus', 'array');
 
         $previewmode = 0;
         foreach ($previewstatus as $status) {
