@@ -65,18 +65,27 @@ class rex_cronjob_form extends rex_form
  */
 class rex_cronjob_form_interval_element extends rex_form_element
 {
+    private const DEFAULT_INTERVAL = [
+        'minutes' => [0],
+        'hours' => [0],
+        'days' => 'all',
+        'weekdays' => 'all',
+        'months' => 'all',
+    ];
+
     /** @var array */
-    private $intervalElements;
+    private $intervalElements = [];
 
     public function setValue($value)
     {
-        if (is_string($value)) {
-            $this->value = $value;
-            $this->intervalElements = json_decode($value, true);
-        } else {
-            $this->value = json_encode($value);
-            $this->intervalElements = $value;
+        if (null === $value && [] === $this->intervalElements) {
+            $value = self::DEFAULT_INTERVAL;
+        } elseif (is_string($value)) {
+            $value = json_decode($value, true) ?? [];
         }
+
+        $this->intervalElements = $value;
+        $this->value = json_encode($value);
     }
 
     /**
@@ -120,12 +129,12 @@ class rex_cronjob_form_interval_element extends rex_form_element
 
         $n = [];
         $n['label'] = '<label class="control-label">'.rex_i18n::msg('cronjob_interval_minutes').'</label>';
-        $n['field'] = $this->formatField('minutes', rex_i18n::msg('cronjob_interval_minutes_all'), $range(0, 55, 5), [0]);
+        $n['field'] = $this->formatField('minutes', rex_i18n::msg('cronjob_interval_minutes_all'), $range(0, 55, 5));
         $elements[] = $n;
 
         $n = [];
         $n['label'] = '<label class="control-label">'.rex_i18n::msg('cronjob_interval_hours').'</label>';
-        $n['field'] = $this->formatField('hours', rex_i18n::msg('cronjob_interval_hours_all'), $range(0, 23), [0]);
+        $n['field'] = $this->formatField('hours', rex_i18n::msg('cronjob_interval_hours_all'), $range(0, 23));
         $elements[] = $n;
 
         $n = [];
@@ -184,10 +193,10 @@ class rex_cronjob_form_interval_element extends rex_form_element
     /**
      * @return string
      */
-    protected function formatField($group, $optionAll, $options, $default = 'all')
+    protected function formatField($group, $optionAll, $options)
     {
         $value = $this->intervalElements;
-        $value = $value[$group] ?? $default;
+        $value = $value[$group] ?? [];
 
         $field = '<div class="rex-js-cronjob-interval-all rex-cronjob-interval-all">';
 
