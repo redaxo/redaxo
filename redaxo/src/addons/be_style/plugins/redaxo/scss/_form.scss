@@ -328,9 +328,6 @@ label.required::after {
             &[multiple]:focus {
                 background-color: $color-grey-2;
             }
-            &:focus {
-                background-color: transparent;
-            }
         }
     }
 
