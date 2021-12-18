@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="v4.14.0@14dcbc908ab2625cd7a74258ee6c740cbecc6140">
+<files psalm-version="v4.15.0@a1b5e489e6fcebe40cb804793d964e99fc347820">
   <file src="redaxo/src/addons/backup/lib/backup.php">
     <MixedArgument occurrences="5">
       <code>$column</code>
@@ -209,7 +209,7 @@
       <code>$key</code>
       <code>$label</code>
       <code>$this-&gt;intervalElements</code>
-      <code>$this-&gt;intervalElements</code>
+      <code>$value</code>
       <code>$value</code>
     </MixedAssignment>
     <MixedOperand occurrences="9">
