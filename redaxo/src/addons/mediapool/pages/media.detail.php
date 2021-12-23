@@ -74,8 +74,11 @@ if (rex_post('btn_update', 'string')) {
             $data['title'] = rex_request('ftitle', 'string');
 
             if ($_FILES['file_new'] ?? null) {
-                $data['file']['name'] = (string) ($_FILES['file_new']['name'] ?? '');
-                $data['file']['path'] = (string) ($_FILES['file_new']['tmp_name'] ?? '');
+                $data['file'] = rex_files('file_new', [
+                    ['name', 'string'],
+                    ['tmp_name', 'string'],
+                    ['error', 'int'],
+                ]);
             }
 
             try {

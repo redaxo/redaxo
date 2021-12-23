@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.13.1@5cf660f63b548ccd4a56f62d916ee4d6028e01a3">
+<files psalm-version="v4.15.0@a1b5e489e6fcebe40cb804793d964e99fc347820">
   <file src="redaxo/src/addons/backup/lib/backup.php">
     <MixedArgument occurrences="5">
       <code>$column</code>
@@ -209,7 +209,7 @@
       <code>$key</code>
       <code>$label</code>
       <code>$this-&gt;intervalElements</code>
-      <code>$this-&gt;intervalElements</code>
+      <code>$value</code>
       <code>$value</code>
     </MixedAssignment>
     <MixedOperand occurrences="9">
@@ -1078,12 +1078,9 @@
       <code>$info</code>
       <code>$warning</code>
     </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="5">
+    <MixedAssignment occurrences="2">
       <code>$RETURN['title']</code>
       <code>$argValue</code>
-      <code>$data['file']['name']</code>
-      <code>$data['file']['path']</code>
-      <code>$data['file']['path']</code>
     </MixedAssignment>
     <MixedOperand occurrences="4">
       <code>$buttonTitle</code>
@@ -6590,6 +6587,11 @@
       <code>$navi[1]['headline']</code>
       <code>$navi[2]['headline']</code>
     </MixedArrayAccess>
+  </file>
+  <file src="redaxo/src/core/tests/console/config/set_test.php">
+    <MixedArgument occurrences="1">
+      <code>$this-&gt;initialConfig</code>
+    </MixedArgument>
   </file>
   <file src="redaxo/src/core/tests/extension_test.php">
     <MixedAssignment occurrences="2">

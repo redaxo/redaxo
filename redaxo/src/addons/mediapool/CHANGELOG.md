@@ -1,6 +1,16 @@
 Changelog
 =========
 
+Version 2.11.1 – 05.12.2021
+---------------------------
+
+### Bugfixes
+
+* Uploaderrors (insbesondere bei zu großen Dateien) werden besser abgefangen (@gharlan)
+* Widgets: Filterung der Dateitypen hatte keine Auswirkung mehr (@gharlan)
+* Synchronisierung funktionierte teils nicht (@gharlan)
+
+
 Version 2.11.0 – 17.11.2021
 ---------------------------
 
