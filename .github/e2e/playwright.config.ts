@@ -4,8 +4,6 @@ const config: PlaywrightTestConfig = {
 
     // global setup
     globalSetup: require.resolve('./global-setup'),
-    preserveOutput: 'never',
-    reportSlowTests: null,
 
     // basic options
     // https://playwright.dev/docs/test-configuration#basic-options
@@ -45,6 +43,13 @@ const config: PlaywrightTestConfig = {
             },
         },
     ],
+
+    // advanced configutation
+    // https://playwright.dev/docs/test-advanced
+    preserveOutput: 'never',
+    reportSlowTests: null,
+    retries: 1,
+    reporter: 'list'
 };
 
 export default config;
