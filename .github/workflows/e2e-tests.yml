@@ -8,10 +8,6 @@ env:
     writable: ${{ (github.event_name == 'repository_dispatch' || github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') && 1 || 0 }}
     node-version: 16
 
-defaults:
-    run:
-        working-directory: .github/e2e
-
 jobs:
     e2e-parallel:
         # TODO: description
@@ -100,7 +96,7 @@ jobs:
 
             -   name: Install packages 🐿️🎒
                 run: |
-                    npm ci --audit=false
+                    cd .github/e2e && npm ci --audit=false
                     npx playwright install-deps chromium
                     npx playwright install-deps webkit
 
@@ -109,7 +105,7 @@ jobs:
                 # check for modified (M) and untracked (??) files afterwards
                 # hint: if workflow run was triggered by auto-commit, we do not let the step fail
                 run: |
-                    npm run test -- ./tests/parallel/ --shard=${{ matrix.shard }}
+                    cd .github/e2e && npm run test -- ./tests/parallel/ --shard=${{ matrix.shard }}
                     if [[ -n $(git status -s -uall ${{ env.file_pattern }} | grep "^ M\|^??") ]]; then
                         echo "has_changed_files=true" >> $GITHUB_ENV
                         if ${{ env.run_was_triggered_by_autocommit != 'true'}}; then
@@ -215,7 +211,7 @@ jobs:
 
             -   name: Install packages 🐿️🎒
                 run: |
-                    npm ci --audit=false
+                    cd .github/e2e && npm ci --audit=false
                     npx playwright install-deps chromium
                     npx playwright install-deps webkit
 
@@ -224,7 +220,7 @@ jobs:
                 # check for modified (M) and untracked (??) files afterwards
                 # hint: if workflow run was triggered by auto-commit, we do not let the step fail
                 run: |
-                    npm run test -- ./tests/serial/ --workers 1
+                    cd .github/e2e && npm run test -- ./tests/serial/ --workers 1
                     if [[ -n $(git status -s -uall ${{ env.file_pattern }} | grep "^ M\|^??") ]]; then
                         echo "has_changed_files=true" >> $GITHUB_ENV
                         if ${{ env.run_was_triggered_by_autocommit != 'true'}}; then
@@ -334,7 +330,7 @@ jobs:
 
             -   name: Install packages 🐿️🎒
                 run: |
-                    npm ci --audit=false
+                    cd .github/e2e && npm ci --audit=false
                     npx playwright install-deps chromium
                     npx playwright install-deps webkit
 
@@ -343,7 +339,7 @@ jobs:
                 # check for modified (M) and untracked (??) files afterwards
                 # hint: if workflow run was triggered by auto-commit, we do not let the step fail
                 run: |
-                    npm run test -- ./tests/setup/ --workers 1
+                    cd .github/e2e && npm run test -- ./tests/setup/ --workers 1
                     if [[ -n $(git status -s -uall ${{ env.file_pattern }} | grep "^ M\|^??") ]]; then
                         echo "has_changed_files=true" >> $GITHUB_ENV
                         if ${{ env.run_was_triggered_by_autocommit != 'true'}}; then
