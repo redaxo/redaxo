@@ -84,7 +84,7 @@ jobs:
 
             -   name: Setup Webserver
                 run: |
-                    php -S localhost:8000
+                    php -S localhost:8000 &
 
             -   name: Set up Node ${{ env.node-version }}
                 uses: actions/setup-node@v2
@@ -199,7 +199,7 @@ jobs:
 
             -   name: Setup Webserver
                 run: |
-                    php -S localhost:8000
+                    php -S localhost:8000 &
 
             -   name: Set up Node ${{ env.node-version }}
                 uses: actions/setup-node@v2
@@ -318,7 +318,7 @@ jobs:
 
             -   name: Setup Webserver
                 run: |
-                    php -S localhost:8000
+                    php -S localhost:8000 &
 
             -   name: Set up Node ${{ env.node-version }}
                 uses: actions/setup-node@v2
