@@ -411,7 +411,7 @@ abstract class rex_error_handler
         $markdown .= <<<OUTPUT
             <details>
             <summary>Stacktrace</summary>
-
+            
             $table
             </details>
 
