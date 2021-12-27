@@ -8,7 +8,7 @@ const config: PlaywrightTestConfig = {
     // basic options
     // https://playwright.dev/docs/test-configuration#basic-options
     use: {
-        baseURL: 'http://localhost/redaxo/index.php',
+        baseURL: 'http://localhost:8000/redaxo/index.php',
         headless: true,
         // Tell all tests to load signed-in state from 'storageState.json'
         // https://playwright.dev/docs/test-auth#reuse-signed-in-state
