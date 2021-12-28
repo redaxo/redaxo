@@ -4,10 +4,6 @@ on:
     pull_request:
         types: [opened, synchronize, reopened, ready_for_review]
 
-defaults:
-    run:
-        working-directory: .github/e2e
-
 env:
     writable: ${{ (github.event_name == 'repository_dispatch' || github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') && 1 || 0 }}
     node-version: 16
@@ -84,14 +80,14 @@ jobs:
 
             -   name: Install packages 🐿️🎒
                 run: |
-                    npm ci --audit=false
+                    npm ci --audit=false --prefix=.github/e2e
                     npx playwright install-deps chromium webkit
 
             -   name: E2E tests 🕹️
                 # run e2e tests, see package.json for details.
                 # check for modified (M) and untracked (??) files afterwards
                 run: |
-                    npm run test -- ./tests/parallel/ --shard=${{ matrix.shard }}
+                    npm run test --prefix=.github/e2e --shard=${{ matrix.shard }} -- ./tests/parallel/
                     if [[ -n $(git status -s -uall ${{ env.snapshot_files_pattern }} | grep "^ M\|^??") ]]; then
                         echo "has_changed_files=true" >> $GITHUB_ENV
                         exit 1;
@@ -178,14 +174,14 @@ jobs:
 
             -   name: Install packages 🐿️🎒
                 run: |
-                    npm ci --audit=false
+                    npm ci --audit=false --prefix=.github/e2e
                     npx playwright install-deps chromium webkit
 
             -   name: E2E tests 🕹️
                 # run e2e tests, see package.json for details.
                 # check for modified (M) and untracked (??) files afterwards
                 run: |
-                    npm run test -- ./tests/serial/ --workers 1
+                    npm run test --prefix=.github/e2e --workers=1 -- ./tests/serial/
                     if [[ -n $(git status -s -uall ${{ env.snapshot_files_pattern }} | grep "^ M\|^??") ]]; then
                         echo "has_changed_files=true" >> $GITHUB_ENV
                         exit 1;
@@ -277,14 +273,14 @@ jobs:
 
             -   name: Install packages 🐿️🎒
                 run: |
-                    npm ci --audit=false
+                    npm ci --audit=false --prefix=.github/e2e
                     npx playwright install-deps chromium webkit
 
             -   name: E2E tests 🕹️
                 # run e2e tests, see package.json for details.
                 # check for modified (M) and untracked (??) files afterwards
                 run: |
-                    npm run test -- ./tests/setup/ --workers 1
+                    npm run test --prefix=.github/e2e --workers=1 -- ./tests/setup/
                     if [[ -n $(git status -s -uall ${{ env.snapshot_files_pattern }} | grep "^ M\|^??") ]]; then
                         echo "has_changed_files=true" >> $GITHUB_ENV
                         exit 1;
@@ -336,7 +332,7 @@ jobs:
             -   name: Check if workflow run was triggerd by auto-commit ♻️
                 run: |
                     if ${{ contains(env.commit_message, '[CI_1]') }}; then
-                      echo "run_was_triggered_by_autocommit=true" >> $GITHUB_ENV
+                        echo "run_was_triggered_by_autocommit=true" >> $GITHUB_ENV
                     fi
 
             -   name: Load artifacts 💾
@@ -353,13 +349,13 @@ jobs:
                 if: env.run_was_triggered_by_autocommit != 'true'
                 run: |
                     for directory in ./ci-artifact-*; do
-                      [ -d "$directory" ] || continue
-                      echo "has_changed_files=true" >> $GITHUB_ENV
-                      if [[ "$directory" == *"e2e"* ]]; then
-                        echo "has_changed_e2e_files=true" >> $GITHUB_ENV
-                      fi
-                      tar -xvf "$directory"/*.tar
-                      rm -rf "$directory"
+                        [-d "$directory"] || continue
+                        echo "has_changed_files=true" >> $GITHUB_ENV
+                        if [[ "$directory" == *"e2e"* ]]; then
+                            echo "has_changed_e2e_files=true" >> $GITHUB_ENV
+                        fi
+                        tar -xvf "$directory"/*.tar
+                        rm -rf "$directory"
                     done
 
             -   name: Respond to new snapshots 🤖
@@ -369,10 +365,10 @@ jobs:
                 with:
                     script: |
                         github.rest.issues.createComment({
-                          issue_number: context.issue.number,
-                          owner: context.repo.owner,
-                          repo: context.repo.repo,
-                          body: '👋🤖 New snapshots for you people. Plz review!'
+                            issue_number: context.issue.number,
+                            owner: context.repo.owner,
+                            repo: context.repo.repo,
+                            body: '👋🤖 New snapshots for you people. Plz review!'
                         })
 
             -   name: Update repository 👀
