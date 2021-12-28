@@ -3,12 +3,12 @@ import {PlaywrightTestConfig} from '@playwright/test';
 const config: PlaywrightTestConfig = {
 
     // global setup
-    globalSetup: require.resolve('./global-setup'),
+    // globalSetup: require.resolve('./global-setup'),
 
     // basic options
     // https://playwright.dev/docs/test-configuration#basic-options
     use: {
-        baseURL: 'http://localhost:8000/redaxo/index.php',
+        baseURL: 'http://localhost/redaxo/index.php',
         headless: true,
         // Tell all tests to load signed-in state from 'storageState.json'
         // https://playwright.dev/docs/test-auth#reuse-signed-in-state
