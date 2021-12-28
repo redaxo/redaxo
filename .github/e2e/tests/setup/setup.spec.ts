@@ -1,7 +1,7 @@
 import {test} from '@playwright/test';
 import {gotoPage, matchPageSnapshot} from "../../lib";
 
-test.use({ storageState: undefined }); // do not use signed-in state from 'storageState.json'
+test.use({storageState: undefined}); // do not use signed-in state from 'storageState.json'
 
 // setup steps 1-6
 test.describe.parallel('All', () => {
@@ -13,11 +13,7 @@ test.describe.parallel('All', () => {
     }
 });
 
-// setup step 7
-// requires form in step 6 to be submitted
-test(`setup_step_7`, async ({page, browserName}) => {
-    await gotoPage(page, browserName, `?page=setup&lang=de_de&step=6`);
-    await page.click('button[type="submit"]');
-    await page.locator('.btn-setup').waitFor(); // wait for login button
-    await matchPageSnapshot(page, `setup_step_7`);
-});
+// skip setup step 7 since it requires form in step 6 to be submitted and it
+// disables REDAXO’s setup mode. in order to run all browsers with step 7, we
+// would have to reset REDAXO every time before or use separate workflows.
+// so let’s just skip step 7 for now…
