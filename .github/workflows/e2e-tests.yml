@@ -4,6 +4,10 @@ on:
     pull_request:
         types: [opened, synchronize, reopened, ready_for_review]
 
+defaults:
+    run:
+        working-directory: .github/e2e
+
 env:
     writable: ${{ (github.event_name == 'repository_dispatch' || github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') && 1 || 0 }}
     node-version: 16
@@ -80,14 +84,14 @@ jobs:
 
             -   name: Install packages 🐿️🎒
                 run: |
-                    cd .github/e2e && npm ci --audit=false
+                    npm ci --audit=false
                     npx playwright install-deps chromium webkit
 
             -   name: E2E tests 🕹️
                 # run e2e tests, see package.json for details.
                 # check for modified (M) and untracked (??) files afterwards
                 run: |
-                    cd .github/e2e && npm run test -- ./tests/parallel/ --shard=${{ matrix.shard }}
+                    npm run test -- ./tests/parallel/ --shard=${{ matrix.shard }}
                     if [[ -n $(git status -s -uall ${{ env.snapshot_files_pattern }} | grep "^ M\|^??") ]]; then
                         echo "has_changed_files=true" >> $GITHUB_ENV
                         exit 1;
@@ -174,14 +178,14 @@ jobs:
 
             -   name: Install packages 🐿️🎒
                 run: |
-                    cd .github/e2e && npm ci --audit=false
+                    npm ci --audit=false
                     npx playwright install-deps chromium webkit
 
             -   name: E2E tests 🕹️
                 # run e2e tests, see package.json for details.
                 # check for modified (M) and untracked (??) files afterwards
                 run: |
-                    cd .github/e2e && npm run test -- ./tests/serial/ --workers 1
+                    npm run test -- ./tests/serial/ --workers 1
                     if [[ -n $(git status -s -uall ${{ env.snapshot_files_pattern }} | grep "^ M\|^??") ]]; then
                         echo "has_changed_files=true" >> $GITHUB_ENV
                         exit 1;
@@ -273,14 +277,14 @@ jobs:
 
             -   name: Install packages 🐿️🎒
                 run: |
-                    cd .github/e2e && npm ci --audit=false
+                    npm ci --audit=false
                     npx playwright install-deps chromium webkit
 
             -   name: E2E tests 🕹️
                 # run e2e tests, see package.json for details.
                 # check for modified (M) and untracked (??) files afterwards
                 run: |
-                    cd .github/e2e && npm run test -- ./tests/setup/ --workers 1
+                    npm run test -- ./tests/setup/ --workers 1
                     if [[ -n $(git status -s -uall ${{ env.snapshot_files_pattern }} | grep "^ M\|^??") ]]; then
                         echo "has_changed_files=true" >> $GITHUB_ENV
                         exit 1;
@@ -385,7 +389,7 @@ jobs:
                     commit_message: Update screenshots [CI_1]
                     commit_user_name: rex-bot
                     commit_user_email: rex-bot@users.noreply.github.com
-                    file_pattern: rb-uux-toolkit/projects/**/*
+                    file_pattern: ${{ env.snapshot_files_pattern }}
 
             -   name: Fail after auto-commit 🙋
                 # let the job fail in case of auto-commit
