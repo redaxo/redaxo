@@ -1,6 +1,8 @@
 import {test} from '@playwright/test';
 import {gotoPage, matchPageSnapshot} from "../../lib";
 
+test.use({ storageState: undefined }); // do not use signed-in state from 'storageState.json'
+
 // setup steps 1-6
 test.describe.parallel('All', () => {
     for (let step = 1; step <= 6; step++) {
