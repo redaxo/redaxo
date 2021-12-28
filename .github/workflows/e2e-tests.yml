@@ -7,15 +7,14 @@ on:
 env:
     writable: ${{ (github.event_name == 'repository_dispatch' || github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') && 1 || 0 }}
     node-version: 16
+    snapshot_files_pattern: .github/e2e/tests/**/*.png
 
 jobs:
     e2e-parallel:
-        # TODO: description
+        # self-contained e2e tests that do not interfere and therefore can run in parallel
+        # examples: all common backend pages
         name: E2E parallel
         runs-on: ubuntu-latest
-        env:
-            file_pattern: .github/e2e/tests/**/*.png
-            artifact_name: e2e-parallel
 
         strategy:
             fail-fast: false
@@ -52,26 +51,26 @@ jobs:
                     coverage: none # disable xdebug, pcov
                     tools: cs2pr
 
-            -   name: Init database
+            -   name: Set up REDAXO
                 run: |
                     sudo /etc/init.d/mysql start
                     mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
                     git apply .github/workflows/default.config.yml.github-action.diff
-
-            -   name: Set up REDAXO
-                run: |
                     php .tools/bin/setup
+
             -   name: Create user, update config
                 run: |
                     php redaxo/bin/console user:create admin admin123 --admin --ansi
                     php redaxo/bin/console user:create user user1234 --ansi
                     php redaxo/bin/console config:set error_email 'test@redaxo.invalid' --ansi
+
             -   name: Import mock data
                 run: |
                     mkdir -p $GITHUB_WORKSPACE/redaxo/data/addons/backup && cp -r .github/imports/inital-content-for-visual-tests.sql $GITHUB_WORKSPACE/redaxo/data/addons/backup/
                     cp -r .github/imports/media/* $GITHUB_WORKSPACE/media/
                     cp -f .github/imports/README.md $GITHUB_WORKSPACE/redaxo/src/addons/project/README.de.md
                     php redaxo/bin/console setup:run -n --lang=de_de --agree-license --db-password=root --db-setup=import --db-import=inital-content-for-visual-tests --admin-username=myusername --admin-password=mypassword --ansi
+
             -   name: Install packages
                 run: |
                     php redaxo/bin/console package:install phpmailer --ansi
@@ -105,7 +104,7 @@ jobs:
                 # hint: if workflow run was triggered by auto-commit, we do not let the step fail
                 run: |
                     cd .github/e2e && npm run test -- ./tests/parallel/ --shard=${{ matrix.shard }}
-                    if [[ -n $(git status -s -uall ${{ env.file_pattern }} | grep "^ M\|^??") ]]; then
+                    if [[ -n $(git status -s -uall ${{ env.snapshot_files_pattern }} | grep "^ M\|^??") ]]; then
                         echo "has_changed_files=true" >> $GITHUB_ENV
                         if ${{ env.run_was_triggered_by_autocommit != 'true'}}; then
                             exit 1;
@@ -117,7 +116,7 @@ jobs:
                 # hint: we use `git status` to list changed files, grep all modified and untracked,
                 # cut off status infos and pipe each file to the tar archive
                 if: failure() && env.has_changed_files
-                run: git status -s -uall ${{ env.file_pattern }} | grep "^ M\|^??" | cut -c4- | xargs tar -cvf ${{ env.artifact_name }}.tar
+                run: git status -s -uall ${{ env.snapshot_files_pattern }} | grep "^ M\|^??" | cut -c4- | xargs tar -cvf ${{ job.job_id.name }}.tar
 
             -   name: Save artifact 💾
                 # upload artifact containing changed files
@@ -126,17 +125,15 @@ jobs:
                 uses: actions/upload-artifact@v2
                 if: failure() && env.has_changed_files
                 with:
-                    name: ci-artifact-${{ env.artifact_name }}-${{ strategy.job-index }}
-                    path: .github/e2e/${{ env.artifact_name }}.tar
+                    name: ci-artifact-${{ job.job_id.name }}-${{ strategy.job-index }}
+                    path: .github/e2e/${{ job.job_id.name }}.tar
                     retention-days: 1
 
     e2e-serial:
-        # TODO: description
+        # e2e tests that modify REDAXO and therefore may only be executed serially
+        # examples: safemode, debugmode, customizer
         name: E2E serial
         runs-on: ubuntu-latest
-        env:
-            file_pattern: .github/e2e/tests/**/*.png
-            artifact_name: e2e-serial
 
         steps:
             -   name: Checkout repository
@@ -166,26 +163,26 @@ jobs:
                     coverage: none # disable xdebug, pcov
                     tools: cs2pr
 
-            -   name: Init database
+            -   name: Set up REDAXO
                 run: |
                     sudo /etc/init.d/mysql start
                     mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
                     git apply .github/workflows/default.config.yml.github-action.diff
-
-            -   name: Set up REDAXO
-                run: |
                     php .tools/bin/setup
+
             -   name: Create user, update config
                 run: |
                     php redaxo/bin/console user:create admin admin123 --admin --ansi
                     php redaxo/bin/console user:create user user1234 --ansi
                     php redaxo/bin/console config:set error_email 'test@redaxo.invalid' --ansi
+
             -   name: Import mock data
                 run: |
                     mkdir -p $GITHUB_WORKSPACE/redaxo/data/addons/backup && cp -r .github/imports/inital-content-for-visual-tests.sql $GITHUB_WORKSPACE/redaxo/data/addons/backup/
                     cp -r .github/imports/media/* $GITHUB_WORKSPACE/media/
                     cp -f .github/imports/README.md $GITHUB_WORKSPACE/redaxo/src/addons/project/README.de.md
                     php redaxo/bin/console setup:run -n --lang=de_de --agree-license --db-password=root --db-setup=import --db-import=inital-content-for-visual-tests --admin-username=myusername --admin-password=mypassword --ansi
+
             -   name: Install packages
                 run: |
                     php redaxo/bin/console package:install phpmailer --ansi
@@ -219,7 +216,7 @@ jobs:
                 # hint: if workflow run was triggered by auto-commit, we do not let the step fail
                 run: |
                     cd .github/e2e && npm run test -- ./tests/serial/ --workers 1
-                    if [[ -n $(git status -s -uall ${{ env.file_pattern }} | grep "^ M\|^??") ]]; then
+                    if [[ -n $(git status -s -uall ${{ env.snapshot_files_pattern }} | grep "^ M\|^??") ]]; then
                         echo "has_changed_files=true" >> $GITHUB_ENV
                         if ${{ env.run_was_triggered_by_autocommit != 'true'}}; then
                             exit 1;
@@ -231,7 +228,7 @@ jobs:
                 # hint: we use `git status` to list changed files, grep all modified and untracked,
                 # cut off status infos and pipe each file to the tar archive
                 if: failure() && env.has_changed_files
-                run: git status -s -uall ${{ env.file_pattern }} | grep "^ M\|^??" | cut -c4- | xargs tar -cvf ${{ env.artifact_name }}.tar
+                run: git status -s -uall ${{ env.snapshot_files_pattern }} | grep "^ M\|^??" | cut -c4- | xargs tar -cvf ${{ job.job_id.name }}.tar
 
             -   name: Save artifact 💾
                 # upload artifact containing changed files
@@ -240,17 +237,15 @@ jobs:
                 uses: actions/upload-artifact@v2
                 if: failure() && env.has_changed_files
                 with:
-                    name: ci-artifact-${{ env.artifact_name }}
-                    path: .github/e2e/${{ env.artifact_name }}.tar
+                    name: ci-artifact-${{ job.job_id.name }}
+                    path: .github/e2e/${{ job.job_id.name }}.tar
                     retention-days: 1
 
     e2e-setup:
-        # TODO: description
+        # e2e tests to check REDAXO’s setup flow
+        # requires REDAXO to be in setup mode and tests executed serially
         name: E2E setup
         runs-on: ubuntu-latest
-        env:
-            file_pattern: .github/e2e/tests/**/*.png
-            artifact_name: e2e-setup
 
         steps:
             -   name: Checkout repository
@@ -280,26 +275,26 @@ jobs:
                     coverage: none # disable xdebug, pcov
                     tools: cs2pr
 
-            -   name: Init database
+            -   name: Set up REDAXO
                 run: |
                     sudo /etc/init.d/mysql start
                     mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
                     git apply .github/workflows/default.config.yml.github-action.diff
-
-            -   name: Set up REDAXO
-                run: |
                     php .tools/bin/setup
+
             -   name: Create user, update config
                 run: |
                     php redaxo/bin/console user:create admin admin123 --admin --ansi
                     php redaxo/bin/console user:create user user1234 --ansi
                     php redaxo/bin/console config:set error_email 'test@redaxo.invalid' --ansi
+
             -   name: Import mock data
                 run: |
                     mkdir -p $GITHUB_WORKSPACE/redaxo/data/addons/backup && cp -r .github/imports/inital-content-for-visual-tests.sql $GITHUB_WORKSPACE/redaxo/data/addons/backup/
                     cp -r .github/imports/media/* $GITHUB_WORKSPACE/media/
                     cp -f .github/imports/README.md $GITHUB_WORKSPACE/redaxo/src/addons/project/README.de.md
                     php redaxo/bin/console setup:run -n --lang=de_de --agree-license --db-password=root --db-setup=import --db-import=inital-content-for-visual-tests --admin-username=myusername --admin-password=mypassword --ansi
+
             -   name: Install packages
                 run: |
                     php redaxo/bin/console package:install phpmailer --ansi
@@ -309,6 +304,7 @@ jobs:
                     php redaxo/bin/console package:install debug --ansi
                     php redaxo/bin/console package:install structure/history --ansi
                     php redaxo/bin/console package:install structure/version --ansi
+
             -   name: Enable REDAXO setup mode
                 run: |
                     php redaxo/bin/console config:set setup true -t boolean --ansi
@@ -337,7 +333,7 @@ jobs:
                 # hint: if workflow run was triggered by auto-commit, we do not let the step fail
                 run: |
                     cd .github/e2e && npm run test -- ./tests/setup/ --workers 1
-                    if [[ -n $(git status -s -uall ${{ env.file_pattern }} | grep "^ M\|^??") ]]; then
+                    if [[ -n $(git status -s -uall ${{ env.snapshot_files_pattern }} | grep "^ M\|^??") ]]; then
                         echo "has_changed_files=true" >> $GITHUB_ENV
                         if ${{ env.run_was_triggered_by_autocommit != 'true'}}; then
                             exit 1;
@@ -349,7 +345,7 @@ jobs:
                 # hint: we use `git status` to list changed files, grep all modified and untracked,
                 # cut off status infos and pipe each file to the tar archive
                 if: failure() && env.has_changed_files
-                run: git status -s -uall ${{ env.file_pattern }} | grep "^ M\|^??" | cut -c4- | xargs tar -cvf ${{ env.artifact_name }}.tar
+                run: git status -s -uall ${{ env.snapshot_files_pattern }} | grep "^ M\|^??" | cut -c4- | xargs tar -cvf ${{ job.job_id.name }}.tar
 
             -   name: Save artifact 💾
                 # upload artifact containing changed files
@@ -358,6 +354,6 @@ jobs:
                 uses: actions/upload-artifact@v2
                 if: failure() && env.has_changed_files
                 with:
-                    name: ci-artifact-${{ env.artifact_name }}
-                    path: .github/e2e/${{ env.artifact_name }}.tar
+                    name: ci-artifact-${{ job.job_id.name }}
+                    path: .github/e2e/${{ job.job_id.name }}.tar
                     retention-days: 1
