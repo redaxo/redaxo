@@ -97,7 +97,7 @@ jobs:
             -   name: Install packages 🐿️🎒
                 run: |
                     cd .github/e2e && npm ci --audit=false
-                    npx playwright install --with-deps chromium webkit
+                    npx playwright install-deps chromium webkit
 
             -   name: E2E tests 🕹️
                 # run e2e tests, see package.json for details.
@@ -211,7 +211,7 @@ jobs:
             -   name: Install packages 🐿️🎒
                 run: |
                     cd .github/e2e && npm ci --audit=false
-                    npx playwright install --with-deps chromium webkit
+                    npx playwright install-deps chromium webkit
 
             -   name: E2E tests 🕹️
                 # run e2e tests, see package.json for details.
@@ -329,7 +329,7 @@ jobs:
             -   name: Install packages 🐿️🎒
                 run: |
                     cd .github/e2e && npm ci --audit=false
-                    npx playwright install --with-deps chromium webkit
+                    npx playwright install-deps chromium webkit
 
             -   name: E2E tests 🕹️
                 # run e2e tests, see package.json for details.

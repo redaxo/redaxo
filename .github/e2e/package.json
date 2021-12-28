@@ -2,9 +2,10 @@
   "name": "redaxo_e2e",
   "private": true,
   "scripts": {
-      "test": "playwright test --update-snapshots"
+    "test": "playwright test --update-snapshots"
   },
   "devDependencies": {
-    "@playwright/test": "^1.17.1"
+    "@playwright/test": "^1.17.1",
+    "playwright": "^1.17.1"
   }
 }
