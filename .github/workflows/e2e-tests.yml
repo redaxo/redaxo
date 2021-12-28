@@ -1,4 +1,4 @@
-name: E2E
+name: E2E Tests
 
 on:
     pull_request:
@@ -13,7 +13,7 @@ jobs:
     e2e-parallel:
         # self-contained e2e tests that do not interfere and therefore can run in parallel
         # examples: all common backend pages
-        name: E2E parallel
+        name: 'E2E Runners: Parallel'
         runs-on: ubuntu-latest
 
         strategy:
@@ -26,21 +26,6 @@ jobs:
         steps:
             -   name: Checkout repository
                 uses: actions/checkout@v2
-                with:
-                    # when in pull requests, we need to fetch more than the 1 default commit
-                    # also since we’re about to inspect a bunch of previous commits, we fetch some more commits here
-                    fetch-depth: 10
-
-            -   name: Prepare environment variables 🍿
-                # save some variables we need for processing later on
-                run: |
-                    echo "commit_message=$(git log -1 --format=%B ${{ github.event.pull_request.head.sha }})" >> $GITHUB_ENV
-
-            -   name: Check if workflow run was triggerd by auto-commit ♻️
-                run: |
-                    if ${{ contains(env.commit_message, '[CI_1]') }}; then
-                      echo "run_was_triggered_by_autocommit=true" >> $GITHUB_ENV
-                    fi
 
             -   name: Set up PHP
                 uses: shivammathur/setup-php@v2
@@ -101,14 +86,11 @@ jobs:
             -   name: E2E tests 🕹️
                 # run e2e tests, see package.json for details.
                 # check for modified (M) and untracked (??) files afterwards
-                # hint: if workflow run was triggered by auto-commit, we do not let the step fail
                 run: |
                     cd .github/e2e && npm run test -- ./tests/parallel/ --shard=${{ matrix.shard }}
                     if [[ -n $(git status -s -uall ${{ env.snapshot_files_pattern }} | grep "^ M\|^??") ]]; then
                         echo "has_changed_files=true" >> $GITHUB_ENV
-                        if ${{ env.run_was_triggered_by_autocommit != 'true'}}; then
-                            exit 1;
-                        fi
+                        exit 1;
                     fi
 
             -   name: Prepare artifact 📦
@@ -132,27 +114,12 @@ jobs:
     e2e-serial:
         # e2e tests that modify REDAXO and therefore may only be executed serially
         # examples: safemode, debugmode, customizer
-        name: E2E serial
+        name: 'E2E Runners: Serial'
         runs-on: ubuntu-latest
 
         steps:
             -   name: Checkout repository
                 uses: actions/checkout@v2
-                with:
-                    # when in pull requests, we need to fetch more than the 1 default commit
-                    # also since we’re about to inspect a bunch of previous commits, we fetch some more commits here
-                    fetch-depth: 10
-
-            -   name: Prepare environment variables 🍿
-                # save some variables we need for processing later on
-                run: |
-                    echo "commit_message=$(git log -1 --format=%B ${{ github.event.pull_request.head.sha }})" >> $GITHUB_ENV
-
-            -   name: Check if workflow run was triggerd by auto-commit ♻️
-                run: |
-                    if ${{ contains(env.commit_message, '[CI_1]') }}; then
-                      echo "run_was_triggered_by_autocommit=true" >> $GITHUB_ENV
-                    fi
 
             -   name: Set up PHP
                 uses: shivammathur/setup-php@v2
@@ -213,14 +180,11 @@ jobs:
             -   name: E2E tests 🕹️
                 # run e2e tests, see package.json for details.
                 # check for modified (M) and untracked (??) files afterwards
-                # hint: if workflow run was triggered by auto-commit, we do not let the step fail
                 run: |
                     cd .github/e2e && npm run test -- ./tests/serial/ --workers 1
                     if [[ -n $(git status -s -uall ${{ env.snapshot_files_pattern }} | grep "^ M\|^??") ]]; then
                         echo "has_changed_files=true" >> $GITHUB_ENV
-                        if ${{ env.run_was_triggered_by_autocommit != 'true'}}; then
-                            exit 1;
-                        fi
+                        exit 1;
                     fi
 
             -   name: Prepare artifact 📦
@@ -244,27 +208,12 @@ jobs:
     e2e-setup:
         # e2e tests to check REDAXO’s setup flow
         # requires REDAXO to be in setup mode and tests executed serially
-        name: E2E setup
+        name: 'E2E Runners: Setup'
         runs-on: ubuntu-latest
 
         steps:
             -   name: Checkout repository
                 uses: actions/checkout@v2
-                with:
-                    # when in pull requests, we need to fetch more than the 1 default commit
-                    # also since we’re about to inspect a bunch of previous commits, we fetch some more commits here
-                    fetch-depth: 10
-
-            -   name: Prepare environment variables 🍿
-                # save some variables we need for processing later on
-                run: |
-                    echo "commit_message=$(git log -1 --format=%B ${{ github.event.pull_request.head.sha }})" >> $GITHUB_ENV
-
-            -   name: Check if workflow run was triggerd by auto-commit ♻️
-                run: |
-                    if ${{ contains(env.commit_message, '[CI_1]') }}; then
-                      echo "run_was_triggered_by_autocommit=true" >> $GITHUB_ENV
-                    fi
 
             -   name: Set up PHP
                 uses: shivammathur/setup-php@v2
@@ -330,14 +279,11 @@ jobs:
             -   name: E2E tests 🕹️
                 # run e2e tests, see package.json for details.
                 # check for modified (M) and untracked (??) files afterwards
-                # hint: if workflow run was triggered by auto-commit, we do not let the step fail
                 run: |
                     cd .github/e2e && npm run test -- ./tests/setup/ --workers 1
                     if [[ -n $(git status -s -uall ${{ env.snapshot_files_pattern }} | grep "^ M\|^??") ]]; then
                         echo "has_changed_files=true" >> $GITHUB_ENV
-                        if ${{ env.run_was_triggered_by_autocommit != 'true'}}; then
-                            exit 1;
-                        fi
+                        exit 1;
                     fi
 
             -   name: Prepare artifact 📦
@@ -357,3 +303,92 @@ jobs:
                     name: ci-artifact-${{ job.job_id.name }}
                     path: .github/e2e/${{ job.job_id.name }}.tar
                     retention-days: 1
+
+    e2e-tests:
+        name: E2E Tests
+        runs-on: ubuntu-latest
+        if: ${{ always() }}
+        needs: [e2e-parallel, e2e-serial, e2e-setup]
+
+        steps:
+            -   name: Checkout repository
+                uses: actions/checkout@v2
+                with:
+                    # ref is required if auto-commit action is used in pull requests
+                    # see https://github.com/stefanzweifel/git-auto-commit-action#checkout-the-correct-branch
+                    ref: ${{ github.head_ref }}
+                    # token is required to trigger new workflow runs after auto-commit action
+                    # see https://github.com/stefanzweifel/git-auto-commit-action#commits-made-by-this-action-do-not-trigger-new-workflow-runs
+                    token: ${{ secrets.BOT_TOKEN }}
+                    # when in pull requests, we need to fetch more than the 1 default commit
+                    # also since we’re about to inspect a bunch of previous commits, we fetch some more commits here
+                    fetch-depth: 10
+
+            -   name: Prepare environment variables 🍿
+                # save some variables we need for processing later on
+                run: |
+                    echo "commit_message=$(git log -1 --format=%B ${{ github.event.pull_request.head.sha }})" >> $GITHUB_ENV
+
+            -   name: Check if workflow run was triggerd by auto-commit ♻️
+                run: |
+                    if ${{ contains(env.commit_message, '[CI_1]') }}; then
+                      echo "run_was_triggered_by_autocommit=true" >> $GITHUB_ENV
+                    fi
+
+            -   name: Load artifacts 💾
+                # download artifacts containing changed files
+                if: env.run_was_triggered_by_autocommit != 'true'
+                uses: actions/download-artifact@v2
+                with:
+                    path: .github/e2e
+
+            -   name: Extract artifacts 📦
+                # extract tar files contained in artifacts
+                # hint: loop through the artifacts directories and extract the (one) contained tar, delete the
+                # directories afterwards
+                if: env.run_was_triggered_by_autocommit != 'true'
+                run: |
+                    for directory in ./ci-artifact-*; do
+                      [ -d "$directory" ] || continue
+                      echo "has_changed_files=true" >> $GITHUB_ENV
+                      if [[ "$directory" == *"e2e"* ]]; then
+                        echo "has_changed_e2e_files=true" >> $GITHUB_ENV
+                      fi
+                      tar -xvf "$directory"/*.tar
+                      rm -rf "$directory"
+                    done
+
+            -   name: Respond to new snapshots 🤖
+                # leave a comment to current pull request to make the team aware of new E2E results
+                if: env.has_changed_e2e_files && env.run_was_triggered_by_autocommit != 'true'
+                uses: actions/github-script@v5
+                with:
+                    script: |
+                        github.rest.issues.createComment({
+                          issue_number: context.issue.number,
+                          owner: context.repo.owner,
+                          repo: context.repo.repo,
+                          body: '👋🤖 New snapshots for you people. Plz review!'
+                        })
+
+            -   name: Update repository 👀
+                # git pull to make sure the repo is not dirty
+                if: env.has_changed_files && env.run_was_triggered_by_autocommit != 'true'
+                run: git pull --ff-only
+
+            -   name: Auto-commit changed files 🤖
+                # automatically commit files which have been changed during the workflow run and push changes back
+                # to remote repository
+                if: env.has_changed_files && env.run_was_triggered_by_autocommit != 'true'
+                uses: stefanzweifel/git-auto-commit-action@v4
+                with:
+                    commit_message: Update screenshots [CI_1]
+                    commit_user_name: rex-bot
+                    commit_user_email: rex-bot@users.noreply.github.com
+                    file_pattern: rb-uux-toolkit/projects/**/*
+
+            -   name: Fail after auto-commit 🙋
+                # let the job fail in case of auto-commit
+                # hint: this job will be a required one, so a proper status is important!
+                if: env.has_changed_files && env.run_was_triggered_by_autocommit != 'true'
+                run: exit 1
