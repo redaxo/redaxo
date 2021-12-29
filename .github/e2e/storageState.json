@@ -3,17 +3,7 @@
     {
       "sameSite": "Lax",
       "name": "PHPSESSID",
-      "value": "78dd56aa37e1106913efb69a94844a37",
-      "domain": "localhost",
-      "path": "/",
-      "expires": -1,
-      "httpOnly": true,
-      "secure": false
-    },
-    {
-      "sameSite": "Lax",
-      "name": "rex_user_30a672848c2939eba3ce79d29b10fe3b27c63c84",
-      "value": "7a75420d5118985630cd249a640658b0f59b78b2",
+      "value": "d5f6841926ccf342647b7298157f4fb8",
       "domain": "localhost",
       "path": "/",
       "expires": -1,
