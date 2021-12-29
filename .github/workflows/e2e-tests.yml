@@ -98,7 +98,7 @@ jobs:
                 # hint: we use `git status` to list changed files, grep all modified and untracked,
                 # cut off status infos and pipe each file to the tar archive
                 if: failure() && env.has_changed_files
-                run: git status -s -uall ${{ env.snapshot_files_pattern }} | grep "^ M\|^??" | cut -c4- | xargs tar -cvf ${{ job.job_id.name }}.tar
+                run: git status -s -uall ${{ env.snapshot_files_pattern }} | grep "^ M\|^??" | cut -c4- | xargs tar -cvf ${{ github.job }}.tar
 
             -   name: Save artifact 💾
                 # upload artifact containing changed files
@@ -107,8 +107,8 @@ jobs:
                 uses: actions/upload-artifact@v2
                 if: failure() && env.has_changed_files
                 with:
-                    name: ci-artifact-${{ job.job_id.name }}-${{ strategy.job-index }}
-                    path: .github/e2e/${{ job.job_id.name }}.tar
+                    name: ci-artifact-${{ github.job }}-${{ strategy.job-index }}
+                    path: .github/e2e/${{ github.job }}.tar
                     retention-days: 1
 
     e2e-serial:
@@ -192,7 +192,7 @@ jobs:
                 # hint: we use `git status` to list changed files, grep all modified and untracked,
                 # cut off status infos and pipe each file to the tar archive
                 if: failure() && env.has_changed_files
-                run: git status -s -uall ${{ env.snapshot_files_pattern }} | grep "^ M\|^??" | cut -c4- | xargs tar -cvf ${{ job.job_id.name }}.tar
+                run: git status -s -uall ${{ env.snapshot_files_pattern }} | grep "^ M\|^??" | cut -c4- | xargs tar -cvf ${{ github.job }}.tar
 
             -   name: Save artifact 💾
                 # upload artifact containing changed files
@@ -201,8 +201,8 @@ jobs:
                 uses: actions/upload-artifact@v2
                 if: failure() && env.has_changed_files
                 with:
-                    name: ci-artifact-${{ job.job_id.name }}
-                    path: .github/e2e/${{ job.job_id.name }}.tar
+                    name: ci-artifact-${{ github.job }}
+                    path: .github/e2e/${{ github.job }}.tar
                     retention-days: 1
 
     e2e-setup:
@@ -291,7 +291,7 @@ jobs:
                 # hint: we use `git status` to list changed files, grep all modified and untracked,
                 # cut off status infos and pipe each file to the tar archive
                 if: failure() && env.has_changed_files
-                run: git status -s -uall ${{ env.snapshot_files_pattern }} | grep "^ M\|^??" | cut -c4- | xargs tar -cvf ${{ job.job_id.name }}.tar
+                run: git status -s -uall ${{ env.snapshot_files_pattern }} | grep "^ M\|^??" | cut -c4- | xargs tar -cvf ${{ github.job }}.tar
 
             -   name: Save artifact 💾
                 # upload artifact containing changed files
@@ -300,8 +300,8 @@ jobs:
                 uses: actions/upload-artifact@v2
                 if: failure() && env.has_changed_files
                 with:
-                    name: ci-artifact-${{ job.job_id.name }}
-                    path: .github/e2e/${{ job.job_id.name }}.tar
+                    name: ci-artifact-${{ github.job }}
+                    path: .github/e2e/${{ github.job }}.tar
                     retention-days: 1
 
     e2e-tests:
