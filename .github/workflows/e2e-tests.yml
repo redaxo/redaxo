@@ -116,7 +116,7 @@ jobs:
         # examples: safemode, debugmode, customizer
         name: 'E2E Runners: Serial'
         runs-on: ubuntu-latest
-        if: true === false # TODO: enable
+        if: true == false # TODO: enable
 
         steps:
             -   name: Checkout repository
