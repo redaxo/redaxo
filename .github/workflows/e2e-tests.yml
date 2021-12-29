@@ -108,7 +108,7 @@ jobs:
                 if: failure() && env.has_changed_files
                 with:
                     name: ci-artifact-${{ github.job }}-${{ strategy.job-index }}
-                    path: .github/e2e/${{ github.job }}.tar
+                    path: ${{ github.job }}.tar
                     retention-days: 1
 
     e2e-serial:
@@ -202,7 +202,7 @@ jobs:
                 if: failure() && env.has_changed_files
                 with:
                     name: ci-artifact-${{ github.job }}
-                    path: .github/e2e/${{ github.job }}.tar
+                    path: ${{ github.job }}.tar
                     retention-days: 1
 
     e2e-setup:
@@ -301,7 +301,7 @@ jobs:
                 if: failure() && env.has_changed_files
                 with:
                     name: ci-artifact-${{ github.job }}
-                    path: .github/e2e/${{ github.job }}.tar
+                    path: ${{ github.job }}.tar
                     retention-days: 1
 
     e2e-tests:
