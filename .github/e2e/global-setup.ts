@@ -12,8 +12,8 @@ async function globalSetup(config: FullConfig) {
         await page.fill('#rex-id-login-password', 'admin123');
         await page.click('#rex-id-login-stay-logged-in');
         await page.click('button:has-text("Login")');
+        await page.waitForURL(`**/*?page=structure`);
     }
-    await page.waitForTimeout(2000);
     // Save signed-in state to 'storageState.json'
     await page.context().storageState({path: storageState as string});
     console.log(await page.context().storageState()); // TODO: remove
