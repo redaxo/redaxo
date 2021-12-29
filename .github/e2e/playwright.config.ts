@@ -3,7 +3,7 @@ import {PlaywrightTestConfig} from '@playwright/test';
 const config: PlaywrightTestConfig = {
 
     // global setup
-    // globalSetup: require.resolve('./global-setup'),
+    globalSetup: require.resolve('./global-setup'),
 
     // basic options
     // https://playwright.dev/docs/test-configuration#basic-options
