@@ -9,7 +9,7 @@ index 2880a09e9..7b45ccd4b 100644
 -    throw_always_exception: false # `true` for all error levels, `[E_WARNING, E_NOTICE]` for subset
 +    enabled: true
 +    throw_always_exception: true # `true` for all error levels, `[E_WARNING, E_NOTICE]` for subset
- instname: null
+ instname: rex20210101000000
  server: https://www.redaxo.org/
  servername: REDAXO
 @@ -64,9 +64,9 @@ table_prefix: rex_
