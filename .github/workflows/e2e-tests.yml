@@ -8,6 +8,7 @@ env:
     writable: ${{ (github.event_name == 'repository_dispatch' || github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') && 1 || 0 }}
     node-version: 16
     snapshot_files_pattern: .github/e2e/tests/**/*.png
+    e2e-working-path: .github/e2e
 
 jobs:
     e2e-parallel:
@@ -76,18 +77,18 @@ jobs:
                     node-version: ${{ env.node-version }}
                     # cache all packages as specified in lockfile
                     cache: 'npm'
-                    cache-dependency-path: .github/e2e/package-lock.json
+                    cache-dependency-path: ${{ env.e2e-working-path }}/package-lock.json
 
             -   name: Install packages 🐿️🎒
                 run: |
-                    npm ci --audit=false --prefix=.github/e2e
+                    npm ci --audit=false --prefix=${{ env.e2e-working-path }}
                     npx playwright install-deps chromium webkit
 
             -   name: E2E tests 🕹️
                 # run e2e tests, see package.json for details.
                 # check for modified (M) and untracked (??) files afterwards
                 run: |
-                    npm run test --prefix=.github/e2e --shard=${{ matrix.shard }} -- ./tests/parallel/
+                    npm run test --prefix=${{ env.e2e-working-path }} --shard=${{ matrix.shard }} -- ./tests/parallel/
                     if [[ -n $(git status -s -uall ${{ env.snapshot_files_pattern }} | grep "^ M\|^??") ]]; then
                         echo "has_changed_files=true" >> $GITHUB_ENV
                         exit 1;
@@ -171,18 +172,18 @@ jobs:
                     node-version: ${{ env.node-version }}
                     # cache all packages as specified in lockfile
                     cache: 'npm'
-                    cache-dependency-path: .github/e2e/package-lock.json
+                    cache-dependency-path: ${{ env.e2e-working-path }}/package-lock.json
 
             -   name: Install packages 🐿️🎒
                 run: |
-                    npm ci --audit=false --prefix=.github/e2e
+                    npm ci --audit=false --prefix=${{ env.e2e-working-path }}
                     npx playwright install-deps chromium webkit
 
             -   name: E2E tests 🕹️
                 # run e2e tests, see package.json for details.
                 # check for modified (M) and untracked (??) files afterwards
                 run: |
-                    npm run test --prefix=.github/e2e --workers=1 -- ./tests/serial/
+                    npm run test --prefix=${{ env.e2e-working-path }} --workers=1 -- ./tests/serial/
                     if [[ -n $(git status -s -uall ${{ env.snapshot_files_pattern }} | grep "^ M\|^??") ]]; then
                         echo "has_changed_files=true" >> $GITHUB_ENV
                         exit 1;
@@ -270,18 +271,18 @@ jobs:
                     node-version: ${{ env.node-version }}
                     # cache all packages as specified in lockfile
                     cache: 'npm'
-                    cache-dependency-path: .github/e2e/package-lock.json
+                    cache-dependency-path: ${{ env.e2e-working-path }}/package-lock.json
 
             -   name: Install packages 🐿️🎒
                 run: |
-                    npm ci --audit=false --prefix=.github/e2e
+                    npm ci --audit=false --prefix=${{ env.e2e-working-path }}
                     npx playwright install-deps chromium webkit
 
             -   name: E2E tests 🕹️
                 # run e2e tests, see package.json for details.
                 # check for modified (M) and untracked (??) files afterwards
                 run: |
-                    npm run test --prefix=.github/e2e --workers=1 -- ./tests/setup/
+                    npm run test --prefix=${{ env.e2e-working-path }} --workers=1 -- ./tests/setup/
                     if [[ -n $(git status -s -uall ${{ env.snapshot_files_pattern }} | grep "^ M\|^??") ]]; then
                         echo "has_changed_files=true" >> $GITHUB_ENV
                         exit 1;
@@ -341,7 +342,7 @@ jobs:
                 if: env.run_was_triggered_by_autocommit != 'true'
                 uses: actions/download-artifact@v2
                 with:
-                    path: .github/e2e
+                    path: ${{ env.e2e-working-path }}
 
             -   name: Extract artifacts 📦
                 # extract tar files contained in artifacts
@@ -349,7 +350,7 @@ jobs:
                 # directories afterwards
                 if: env.run_was_triggered_by_autocommit != 'true'
                 run: |
-                    for directory in ./ci-artifact-*; do
+                    for directory in ${{ env.e2e-working-path }}/ci-artifact-*; do
                         [ -d "$directory" ] || continue
                         echo "has_changed_files=true" >> $GITHUB_ENV
                         tar -xvf "$directory"/*.tar
