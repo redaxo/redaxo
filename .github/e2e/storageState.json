@@ -11,12 +11,12 @@
       "secure": false
     },
     {
-      "sameSite": "Strict",
+      "sameSite": "Lax",
       "name": "rex_user_30a672848c2939eba3ce79d29b10fe3b27c63c84",
       "value": "7a75420d5118985630cd249a640658b0f59b78b2",
       "domain": "localhost",
       "path": "/",
-      "expires": 1672325373.985705,
+      "expires": -1,
       "httpOnly": true,
       "secure": false
     }
