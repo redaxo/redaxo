@@ -116,6 +116,7 @@ jobs:
         # examples: safemode, debugmode, customizer
         name: 'E2E Runners: Serial'
         runs-on: ubuntu-latest
+        if: true === false # TODO: enable
 
         steps:
             -   name: Checkout repository
@@ -349,18 +350,15 @@ jobs:
                 if: env.run_was_triggered_by_autocommit != 'true'
                 run: |
                     for directory in ./ci-artifact-*; do
-                        [-d "$directory"] || continue
+                        [ -d "$directory" ] || continue
                         echo "has_changed_files=true" >> $GITHUB_ENV
-                        if [[ "$directory" == *"e2e"* ]]; then
-                            echo "has_changed_e2e_files=true" >> $GITHUB_ENV
-                        fi
                         tar -xvf "$directory"/*.tar
                         rm -rf "$directory"
                     done
 
             -   name: Respond to new snapshots 🤖
                 # leave a comment to current pull request to make the team aware of new E2E results
-                if: env.has_changed_e2e_files && env.run_was_triggered_by_autocommit != 'true'
+                if: env.has_changed_files && env.run_was_triggered_by_autocommit != 'true'
                 uses: actions/github-script@v5
                 with:
                     script: |
