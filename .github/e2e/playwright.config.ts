@@ -2,8 +2,8 @@ import {PlaywrightTestConfig} from '@playwright/test';
 
 const config: PlaywrightTestConfig = {
 
-    // global setup
-    globalSetup: require.resolve('./global-setup'),
+    // global setup (disabled)
+    // globalSetup: require.resolve('./global-setup'),
 
     // basic options
     // https://playwright.dev/docs/test-configuration#basic-options

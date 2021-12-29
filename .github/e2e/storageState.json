@@ -1,0 +1,25 @@
+{
+  "cookies": [
+    {
+      "sameSite": "Lax",
+      "name": "PHPSESSID",
+      "value": "78dd56aa37e1106913efb69a94844a37",
+      "domain": "localhost",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false
+    },
+    {
+      "sameSite": "Strict",
+      "name": "rex_user_30a672848c2939eba3ce79d29b10fe3b27c63c84",
+      "value": "7a75420d5118985630cd249a640658b0f59b78b2",
+      "domain": "localhost",
+      "path": "/",
+      "expires": 1672325373.985705,
+      "httpOnly": true,
+      "secure": false
+    }
+  ],
+  "origins": []
+}
