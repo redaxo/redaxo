@@ -22,7 +22,7 @@ jobs:
             matrix:
                 # run parallel tests on multiple instances
                 # see https://playwright.dev/docs/test-parallel#shard-tests-between-multiple-machines
-                shard: [1/3, 2/3, 3/3]
+                shard: [1/1]
 
         steps:
             -   name: Checkout repository
