@@ -1,7 +1,7 @@
 import {test} from '@playwright/test';
 import {gotoPage, matchPageSnapshot} from "../../lib";
 
-test(`impersonate`, async ({page, browserName}, testInfo) => {
+test.skip(`impersonate`, async ({page, browserName}, testInfo) => {
     // impersonate
     await gotoPage(page, browserName, `?page=users/users`);
     await page.click('[href*="?page=users/users&_impersonate=2"]');
