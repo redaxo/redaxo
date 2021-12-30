@@ -24,6 +24,7 @@
         "rector/rector": "0.12.7",
         "redaxo/php-cs-fixer-config": "1.0.0",
         "redaxo/psalm-plugin": "1.0.0",
+        "staabm/phpstan-dba": "dev-main",
         "vimeo/psalm": "4.15.0"
     },
     "replace": {

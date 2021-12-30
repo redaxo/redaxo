@@ -2,6 +2,7 @@ includes:
 	- .tools/phpstan/baseline.neon
 	# activate dead code detection. this line should be removed after we updated to phpstan 1.0+
 	- vendor/phpstan/phpstan/conf/bleedingEdge.neon
+	- vendor/staabm/phpstan-dba/config/dba.neon
 
 parameters:
     level: 5
@@ -38,6 +39,8 @@ parameters:
             - sendRedirect
     symfony:
         console_application_loader: .tools/phpstan/console.php
+    bootstrapFiles:
+        - .tools/phpstan/bootstrap.php
     ignoreErrors:
         - '#Access to an undefined property rex_media::\$med_foo\.#'
         - '#Access to an undefined property rex_article::\$art_foo\.#'
@@ -49,3 +52,12 @@ parameters:
         -
             message: '#.*deprecated.*#'
             path: '*/update.php'
+
+services:
+	-
+		class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule
+		tags: [phpstan.rules.rule]
+		arguments:
+			classMethods:
+				- 'rex_sql::setQuery#0'
+				- 'rex_sql::setDBQuery#0'
