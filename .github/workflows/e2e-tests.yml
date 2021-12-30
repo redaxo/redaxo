@@ -49,12 +49,9 @@ jobs:
                     mkdir -p $GITHUB_WORKSPACE/redaxo/data/addons/backup && cp -r .github/imports/inital-content-for-visual-tests.sql $GITHUB_WORKSPACE/redaxo/data/addons/backup/
                     cp -r .github/imports/media/* $GITHUB_WORKSPACE/media/
                     cp -f .github/imports/README.md $GITHUB_WORKSPACE/redaxo/src/addons/project/README.de.md
-                    php redaxo/bin/console setup:run -n --lang=de_de --agree-license --db-password=root --db-setup=import --db-import=inital-content-for-visual-tests --admin-username=admin --admin-password=admin123 --ansi
-
-            -   name: Create user, update config
-                run: |
-                    php redaxo/bin/console user:create user user1234 --ansi
                     php redaxo/bin/console config:set error_email 'test@redaxo.invalid' --ansi
+                    php redaxo/bin/console setup:run -n --lang=de_de --agree-license --db-password=root --db-setup=import --db-import=inital-content-for-visual-tests --admin-username=admin --admin-password=admin123 --ansi
+                    php redaxo/bin/console user:create user user1234 --ansi
 
             -   name: Install packages
                 run: |
@@ -142,12 +139,9 @@ jobs:
                     mkdir -p $GITHUB_WORKSPACE/redaxo/data/addons/backup && cp -r .github/imports/inital-content-for-visual-tests.sql $GITHUB_WORKSPACE/redaxo/data/addons/backup/
                     cp -r .github/imports/media/* $GITHUB_WORKSPACE/media/
                     cp -f .github/imports/README.md $GITHUB_WORKSPACE/redaxo/src/addons/project/README.de.md
-                    php redaxo/bin/console setup:run -n --lang=de_de --agree-license --db-password=root --db-setup=import --db-import=inital-content-for-visual-tests --admin-username=admin --admin-password=admin123 --ansi
-
-            -   name: Create user, update config
-                run: |
-                    php redaxo/bin/console user:create user user1234 --ansi
                     php redaxo/bin/console config:set error_email 'test@redaxo.invalid' --ansi
+                    php redaxo/bin/console setup:run -n --lang=de_de --agree-license --db-password=root --db-setup=import --db-import=inital-content-for-visual-tests --admin-username=admin --admin-password=admin123 --ansi
+                    php redaxo/bin/console user:create user user1234 --ansi
 
             -   name: Install packages
                 run: |
@@ -235,12 +229,9 @@ jobs:
                     mkdir -p $GITHUB_WORKSPACE/redaxo/data/addons/backup && cp -r .github/imports/inital-content-for-visual-tests.sql $GITHUB_WORKSPACE/redaxo/data/addons/backup/
                     cp -r .github/imports/media/* $GITHUB_WORKSPACE/media/
                     cp -f .github/imports/README.md $GITHUB_WORKSPACE/redaxo/src/addons/project/README.de.md
-                    php redaxo/bin/console setup:run -n --lang=de_de --agree-license --db-password=root --db-setup=import --db-import=inital-content-for-visual-tests --admin-username=admin --admin-password=admin123 --ansi
-
-            -   name: Create user, update config
-                run: |
-                    php redaxo/bin/console user:create user user1234 --ansi
                     php redaxo/bin/console config:set error_email 'test@redaxo.invalid' --ansi
+                    php redaxo/bin/console setup:run -n --lang=de_de --agree-license --db-password=root --db-setup=import --db-import=inital-content-for-visual-tests --admin-username=admin --admin-password=admin123 --ansi
+                    php redaxo/bin/console user:create user user1234 --ansi
 
             -   name: Install packages
                 run: |
