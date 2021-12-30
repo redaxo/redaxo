@@ -1,8 +1,8 @@
 name: Visual Regression Testing
 
 on:
-    pull_request:
-        types: [opened, synchronize, reopened, ready_for_review]
+#    pull_request:
+#        types: [opened, synchronize, reopened, ready_for_review]
     repository_dispatch:
         types: [visual-test-command] # triggered by /visual-test PR comment
 

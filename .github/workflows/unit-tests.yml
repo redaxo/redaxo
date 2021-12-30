@@ -3,8 +3,8 @@ name: Unit tests
 on:
     push:
         branches: [main, bugfix, temp]
-    pull_request:
-        types: [opened, synchronize, reopened, ready_for_review]
+#    pull_request:
+#        types: [opened, synchronize, reopened, ready_for_review]
 
 jobs:
     phpunit:
