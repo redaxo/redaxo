@@ -53,10 +53,8 @@ jobs:
 
             -   name: Create user, update config
                 run: |
-#                    php redaxo/bin/console user:create admin admin123 --admin --ansi
                     php redaxo/bin/console user:create user user1234 --ansi
                     php redaxo/bin/console config:set error_email 'test@redaxo.invalid' --ansi
-#                    php redaxo/bin/console config:set instname 'rex20210101000000' --ansi
 
             -   name: Install packages
                 run: |
@@ -148,10 +146,8 @@ jobs:
 
             -   name: Create user, update config
                 run: |
-#                    php redaxo/bin/console user:create admin admin123 --admin --ansi
                     php redaxo/bin/console user:create user user1234 --ansi
                     php redaxo/bin/console config:set error_email 'test@redaxo.invalid' --ansi
-#                    php redaxo/bin/console config:set instname 'rex20210101000000' --ansi
 
             -   name: Install packages
                 run: |
@@ -243,10 +239,8 @@ jobs:
 
             -   name: Create user, update config
                 run: |
-#                    php redaxo/bin/console user:create admin admin123 --admin --ansi
                     php redaxo/bin/console user:create user user1234 --ansi
                     php redaxo/bin/console config:set error_email 'test@redaxo.invalid' --ansi
-#                    php redaxo/bin/console config:set instname 'rex20210101000000' --ansi
 
             -   name: Install packages
                 run: |
