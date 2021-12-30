@@ -82,7 +82,7 @@ class rex_cronjob_manager_sql
     public function getName($id)
     {
         $this->sql->setQuery('
-            SELECT  name
+            SELECT  name123
             FROM    ' . rex::getTable('cronjob') . '
             WHERE   id = ?
             LIMIT   1
