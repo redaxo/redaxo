@@ -50,6 +50,7 @@ jobs:
                     cp -r .github/imports/media/* $GITHUB_WORKSPACE/media/
                     cp -f .github/imports/README.md $GITHUB_WORKSPACE/redaxo/src/addons/project/README.de.md
                     php redaxo/bin/console config:set error_email 'test@redaxo.invalid' --ansi
+                    php redaxo/bin/console config:set instname 'rex20210101000000' --ansi
                     php redaxo/bin/console setup:run -n --lang=de_de --agree-license --db-password=root --db-setup=import --db-import=inital-content-for-visual-tests --admin-username=admin --admin-password=admin123 --ansi
                     php redaxo/bin/console user:create user user1234 --ansi
 
@@ -140,6 +141,7 @@ jobs:
                     cp -r .github/imports/media/* $GITHUB_WORKSPACE/media/
                     cp -f .github/imports/README.md $GITHUB_WORKSPACE/redaxo/src/addons/project/README.de.md
                     php redaxo/bin/console config:set error_email 'test@redaxo.invalid' --ansi
+                    php redaxo/bin/console config:set instname 'rex20210101000000' --ansi
                     php redaxo/bin/console setup:run -n --lang=de_de --agree-license --db-password=root --db-setup=import --db-import=inital-content-for-visual-tests --admin-username=admin --admin-password=admin123 --ansi
                     php redaxo/bin/console user:create user user1234 --ansi
 
@@ -230,6 +232,7 @@ jobs:
                     cp -r .github/imports/media/* $GITHUB_WORKSPACE/media/
                     cp -f .github/imports/README.md $GITHUB_WORKSPACE/redaxo/src/addons/project/README.de.md
                     php redaxo/bin/console config:set error_email 'test@redaxo.invalid' --ansi
+                    php redaxo/bin/console config:set instname 'rex20210101000000' --ansi
                     php redaxo/bin/console setup:run -n --lang=de_de --agree-license --db-password=root --db-setup=import --db-import=inital-content-for-visual-tests --admin-username=admin --admin-password=admin123 --ansi
                     php redaxo/bin/console user:create user user1234 --ansi
 
