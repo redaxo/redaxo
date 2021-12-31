@@ -1594,6 +1594,7 @@ class rex_sql implements Iterator
      *
      * @throws rex_sql_exception
      */
+    #[ReturnTypeWillChange]
     public function rewind()
     {
         $this->reset();
@@ -1604,6 +1605,7 @@ class rex_sql implements Iterator
      *
      * @return $this
      */
+    #[ReturnTypeWillChange]
     public function current()
     {
         return $this;
@@ -1612,6 +1614,7 @@ class rex_sql implements Iterator
     /**
      * @see http://www.php.net/manual/en/iterator.key.php
      */
+    #[ReturnTypeWillChange]
     public function key()
     {
         return $this->counter;
@@ -1620,6 +1623,7 @@ class rex_sql implements Iterator
     /**
      * @see http://www.php.net/manual/en/iterator.next.php
      */
+    #[ReturnTypeWillChange]
     public function next()
     {
         ++$this->counter;
@@ -1629,6 +1633,7 @@ class rex_sql implements Iterator
     /**
      * @see http://www.php.net/manual/en/iterator.valid.php
      */
+    #[ReturnTypeWillChange]
     public function valid()
     {
         return $this->hasNext();
