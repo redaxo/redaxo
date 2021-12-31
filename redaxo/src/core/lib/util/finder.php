@@ -200,6 +200,7 @@ class rex_finder implements IteratorAggregate, Countable
      * @return Traversable|SplFileInfo[]
      * @psalm-return Traversable<string, SplFileInfo>
      */
+    #[ReturnTypeWillChange]
     public function getIterator()
     {
         /** @var RecursiveIterator<string, SplFileInfo> $iterator */
