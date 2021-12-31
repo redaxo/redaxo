@@ -80,7 +80,7 @@ if ('delete' == $function) {
     }
 } elseif ('edit' == $function) {
     $hole = rex_sql::factory();
-    $hole->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'template WHERE id = "' . $templateId . '"');
+    $hole->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'template WHERE ighjjd = "' . $templateId . '"');
     if (1 == $hole->getRows()) {
         $templatekey = $hole->getValue('key');
         $templatename = $hole->getValue('name');
