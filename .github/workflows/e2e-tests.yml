@@ -1,0 +1,216 @@
+name: E2E Tests
+
+on:
+    pull_request:
+        types: [opened, synchronize, reopened, ready_for_review]
+
+env:
+    writable: ${{ (github.event_name == 'repository_dispatch' || github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') && 1 || 0 }}
+    node-version: 16
+    snapshot_files_pattern: .github/e2e/tests/**/*.png
+    e2e-working-path: .github/e2e
+
+jobs:
+    e2e-runners:
+        name: E2E Runners
+        runs-on: ubuntu-latest
+
+        strategy:
+            fail-fast: false
+            matrix:
+                # run parallel tests on multiple instances
+                # see https://playwright.dev/docs/test-parallel#shard-tests-between-multiple-machines
+                #
+                # setup: tests REDAXO setup flow
+                # serial: tests that modify REDAXO and therefore may only be executed serially
+                # 1/2, 2/2, …: self-contained parallel tests via playwright shard
+                mode: [setup, serial, 1/2, 2/2]
+
+        steps:
+            -   name: Checkout repository
+                uses: actions/checkout@v2
+
+            -   name: Set up PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: '8.1'
+                    ini-values: 'error_reporting=E_ALL, display_errors=On, display_startup_errors=On'
+                    extensions: gd, pdo_mysql
+                    coverage: none # disable xdebug, pcov
+                    tools: cs2pr
+
+            -   name: Set up REDAXO
+                run: |
+                    sudo /etc/init.d/mysql start
+                    mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
+                    git apply .github/workflows/default.config.yml.github-action.diff
+                    php .tools/bin/setup
+
+            -   name: Import mock data
+                run: |
+                    mkdir -p $GITHUB_WORKSPACE/redaxo/data/addons/backup && cp -r .github/imports/inital-content-for-visual-tests.sql $GITHUB_WORKSPACE/redaxo/data/addons/backup/
+                    cp -r .github/imports/media/* $GITHUB_WORKSPACE/media/
+                    cp -f .github/imports/README.md $GITHUB_WORKSPACE/redaxo/src/addons/project/README.de.md
+                    php redaxo/bin/console config:set error_email 'test@redaxo.invalid' --ansi
+                    php redaxo/bin/console config:set instname 'rex20210101000000' --ansi
+                    php redaxo/bin/console config:set debug.enabled false -t boolean --ansi
+                    php redaxo/bin/console setup:run -n --lang=de_de --agree-license --db-password=root --db-setup=import --db-import=inital-content-for-visual-tests --admin-username=admin --admin-password=admin123 --ansi
+                    php redaxo/bin/console user:create user user1234 --ansi
+
+            -   name: Install packages
+                run: |
+                    php redaxo/bin/console package:install phpmailer --ansi
+                    php redaxo/bin/console package:install cronjob --ansi
+                    php redaxo/bin/console package:install cronjob/article_status --ansi
+                    php redaxo/bin/console package:install cronjob/optimize_tables --ansi
+                    php redaxo/bin/console package:install debug --ansi
+                    php redaxo/bin/console package:install structure/history --ansi
+                    php redaxo/bin/console package:install structure/version --ansi
+
+            -   name: Enable REDAXO setup mode
+                if: matrix.mode == 'setup'
+                run: |
+                    php redaxo/bin/console config:set setup true -t boolean --ansi
+                    php redaxo/bin/console cache:clear --ansi
+
+            -   name: Setup Webserver
+                run: |
+                    php -S localhost:8000 &
+
+            -   name: Set up Node ${{ env.node-version }}
+                uses: actions/setup-node@v2
+                with:
+                    node-version: ${{ env.node-version }}
+                    # cache all packages as specified in lockfile
+                    cache: 'npm'
+                    cache-dependency-path: ${{ env.e2e-working-path }}/package-lock.json
+
+            -   name: Install packages 🐿️🎒
+                run: |
+                    npm ci --audit=false --prefix=${{ env.e2e-working-path }}
+                    npx playwright install-deps chromium webkit
+
+            -   name: E2E tests 🕹️
+                # run e2e tests, see package.json for details.
+                # check for modified (M) and untracked (??) files afterwards
+                run: |
+                    case ${{ matrix.mode }} in
+                        [1-9]/[1-9])
+                            npm run test --prefix=${{ env.e2e-working-path }} -- --shard=${{ matrix.mode }} ./tests/parallel/
+                            ;;
+                        *)
+                            npm run test --prefix=${{ env.e2e-working-path }} -- --workers=1 ./tests/${{ matrix.mode }}/
+                            ;;
+                    esac
+                    if [[ -n $(git status -s -uall ${{ env.snapshot_files_pattern }} | grep "^ M\|^??") ]]; then
+                        echo "has_changed_files=true" >> $GITHUB_ENV
+                        exit 1;
+                    fi
+
+            -   name: Prepare artifact 📦
+                # prepare tar archive containing changed files
+                # hint: we use `git status` to list changed files, grep all modified and untracked,
+                # cut off status infos and pipe each file to the tar archive
+                if: failure() && env.has_changed_files
+                run: git status -s -uall ${{ env.snapshot_files_pattern }} | grep "^ M\|^??" | cut -c4- | xargs tar -cvf ${{ github.job }}.tar
+
+            -   name: Save artifact 💾
+                # upload artifact containing changed files
+                # hint: since github does not provide a list of artifacts, we prefix them with `ci-artifact-` for now
+                # to be able to loop over them when downloaded again
+                uses: actions/upload-artifact@v2
+                if: failure() && env.has_changed_files
+                with:
+                    name: ci-artifact-${{ github.job }}-${{ strategy.job-index }}
+                    path: ${{ github.job }}.tar
+                    retention-days: 1
+
+    e2e-tests:
+        # this job aggregates the artifacts containing results from test runners.
+        # it auto-commits the results and leaves a comment to review e2e snapshots.
+        # this job should be required and must not fail!
+        name: E2E Tests
+        runs-on: ubuntu-latest
+        if: ${{ always() }}
+        needs: [e2e-parallel, e2e-serial, e2e-setup]
+
+        steps:
+            -   name: Checkout repository
+                uses: actions/checkout@v2
+                with:
+                    # ref is required if auto-commit action is used in pull requests
+                    # see https://github.com/stefanzweifel/git-auto-commit-action#checkout-the-correct-branch
+                    ref: ${{ github.head_ref }}
+                    # token is required to trigger new workflow runs after auto-commit action
+                    # see https://github.com/stefanzweifel/git-auto-commit-action#commits-made-by-this-action-do-not-trigger-new-workflow-runs
+                    token: ${{ secrets.BOT_TOKEN }}
+                    # when in pull requests, we need to fetch more than the 1 default commit
+                    # also since we’re about to inspect a bunch of previous commits, we fetch some more commits here
+                    fetch-depth: 10
+
+            -   name: Prepare environment variables 🍿
+                # save some variables we need for processing later on
+                run: |
+                    echo "commit_message=$(git log -1 --format=%B ${{ github.event.pull_request.head.sha }})" >> $GITHUB_ENV
+
+            -   name: Check if workflow run was triggerd by auto-commit ♻️
+                run: |
+                    if ${{ contains(env.commit_message, '[CI_1]') }}; then
+                        echo "run_was_triggered_by_autocommit=true" >> $GITHUB_ENV
+                    fi
+
+            -   name: Load artifacts 💾
+                # download artifacts containing changed files
+                if: env.run_was_triggered_by_autocommit != 'true'
+                uses: actions/download-artifact@v2
+                with:
+                    path: ${{ env.e2e-working-path }}
+
+            -   name: Extract artifacts 📦
+                # extract tar files contained in artifacts
+                # hint: loop through the artifacts directories and extract the (one) contained tar, delete the
+                # directories afterwards
+                if: env.run_was_triggered_by_autocommit != 'true'
+                run: |
+                    for directory in ${{ env.e2e-working-path }}/ci-artifact-*; do
+                        [ -d "$directory" ] || continue
+                        echo "has_changed_files=true" >> $GITHUB_ENV
+                        tar -xvf "$directory"/*.tar
+                        rm -rf "$directory"
+                    done
+
+            -   name: Respond to new snapshots 🤖
+                # leave a comment to current pull request to make the team aware of new E2E results
+                if: env.has_changed_files && env.run_was_triggered_by_autocommit != 'true'
+                uses: actions/github-script@v5
+                with:
+                    github-token: ${{ secrets.BOT_TOKEN }}
+                    script: |
+                        github.rest.issues.createComment({
+                            issue_number: context.issue.number,
+                            owner: context.repo.owner,
+                            repo: context.repo.repo,
+                            body: '👋🤖 New snapshots for you people. Plz review!'
+                        })
+
+            -   name: Update repository 👀
+                # git pull to make sure the repo is not dirty
+                if: env.has_changed_files && env.run_was_triggered_by_autocommit != 'true'
+                run: git pull --ff-only
+
+            -   name: Auto-commit changed files 🤖
+                # automatically commit files which have been changed during the workflow run and push changes back
+                # to remote repository
+                if: env.has_changed_files && env.run_was_triggered_by_autocommit != 'true'
+                uses: stefanzweifel/git-auto-commit-action@v4
+                with:
+                    commit_message: Update screenshots [CI_1]
+                    commit_user_name: rex-bot
+                    commit_user_email: rex-bot@users.noreply.github.com
+                    file_pattern: ${{ env.snapshot_files_pattern }}
+
+            -   name: Fail after auto-commit 🙋
+                # let the job fail in case of auto-commit
+                # hint: this job will be a required one, so a proper status is important!
+                if: env.has_changed_files && env.run_was_triggered_by_autocommit != 'true'
+                run: exit 1
