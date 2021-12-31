@@ -27,7 +27,7 @@ final class RexClassDynamicReturnTypeExtension implements DynamicMethodReturnTyp
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
     {
-        $name = strtolower($methodReflection->getName();
+        $name = strtolower($methodReflection->getName());
 
         if ($name === "gettableprefix") {
             return new ConstantStringType('rex_');
