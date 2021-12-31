@@ -15,6 +15,7 @@ async function globalSetup(config: FullConfig) {
     }
     // Save signed-in state to 'storageState.json'
     await page.context().storageState({path: storageState as string});
+    console.log(await page.context().cookies());
     await browser.close();
 }
 
