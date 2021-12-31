@@ -94,6 +94,7 @@
     },
     "autoload-dev": {
         "classmap": [
+            ".tools/phpstan/",
             "redaxo/src/addons/media_manager/tests/",
             "redaxo/src/addons/mediapool/tests/",
             "redaxo/src/addons/structure/tests/",
