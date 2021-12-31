@@ -57,6 +57,12 @@
                 <file name="redaxo/src/core/pages/login.php"/>
             </errorLevel>
         </InvalidGlobal>
+        <UndefinedAttributeClass>
+            <errorLevel type="suppress">
+                <referencedClass name="AllowDynamicProperties"/>
+                <referencedClass name="JetBrains\PhpStorm\Deprecated"/>
+            </errorLevel>
+        </UndefinedAttributeClass>
         <UnnecessaryVarAnnotation>
             <errorLevel type="suppress">
                 <!-- Fragments always contain a `@var rex_fragment $this` annotation, which is unused for psalm -->
