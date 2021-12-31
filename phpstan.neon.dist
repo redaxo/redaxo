@@ -6,6 +6,7 @@ includes:
 
 parameters:
     level: 5
+    phpVersion: 70400 # PHP 7.4
     treatPhpDocTypesAsCertain: false
     paths:
         # restrict to core and core addons, ignore other locally installed addons
