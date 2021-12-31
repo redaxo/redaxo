@@ -61,3 +61,8 @@ services:
 			classMethods:
 				- 'rex_sql::setQuery#0'
 				- 'rex_sql::setDBQuery#0'
+
+    -
+        class: redaxo\phpstan\RexClassDynamicReturnTypeExtension
+        tags:
+        	- phpstan.broker.dynamicMethodReturnTypeExtension
