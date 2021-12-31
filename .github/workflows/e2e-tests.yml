@@ -132,7 +132,7 @@ jobs:
         name: E2E Tests
         runs-on: ubuntu-latest
         if: ${{ always() }}
-        needs: [e2e-parallel, e2e-serial, e2e-setup]
+        needs: [e2e-runners]
 
         steps:
             -   name: Checkout repository
