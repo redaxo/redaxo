@@ -60,6 +60,7 @@
         <UndefinedAttributeClass>
             <errorLevel type="suppress">
                 <referencedClass name="AllowDynamicProperties"/>
+                <referencedClass name="ReturnTypeWillChange"/>
                 <referencedClass name="JetBrains\PhpStorm\Deprecated"/>
             </errorLevel>
         </UndefinedAttributeClass>
