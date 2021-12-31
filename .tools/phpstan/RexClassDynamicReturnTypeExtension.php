@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace redaxo\phpstan;
 
+use rex;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
