@@ -67,6 +67,7 @@ class rex_log_file implements Iterator
     /**
      * @return rex_log_entry
      */
+    #[ReturnTypeWillChange]
     public function current()
     {
         if (null === $this->currentLine) {
@@ -79,6 +80,7 @@ class rex_log_file implements Iterator
     /**
      * Reads the log file backwards line by line (each call reads one line).
      */
+    #[ReturnTypeWillChange]
     public function next()
     {
         /** @var int $bufferSize */
@@ -151,6 +153,7 @@ class rex_log_file implements Iterator
     /**
      * @return int|null
      */
+    #[ReturnTypeWillChange]
     public function key()
     {
         return $this->key;
@@ -159,6 +162,7 @@ class rex_log_file implements Iterator
     /**
      * {@inheritdoc}
      */
+    #[ReturnTypeWillChange]
     public function valid()
     {
         return !empty($this->currentLine);
@@ -167,6 +171,7 @@ class rex_log_file implements Iterator
     /**
      * {@inheritdoc}
      */
+    #[ReturnTypeWillChange]
     public function rewind()
     {
         $this->second = false;
