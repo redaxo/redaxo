@@ -2,30 +2,30 @@
 
 declare(strict_types=1);
 
-namespace redaxo\phpstan;
+namespace staabm\PHPStanDba\Extensions;
 
+use PhpParser\Node\Expr\StaticCall;
 use rex;
-use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\Constant\ConstantStringType;
-use PHPStan\Type\DynamicMethodReturnTypeExtension;
+use PHPStan\Type\DynamicStaticMethodReturnTypeExtension;
 use PHPStan\Type\Type;
 
-final class RexClassDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
+final class RexClassDynamicReturnTypeExtension implements DynamicStaticMethodReturnTypeExtension
 {
     public function getClass(): string
     {
         return rex::class;
     }
 
-    public function isMethodSupported(MethodReflection $methodReflection): bool
+    public function isStaticMethodSupported(MethodReflection $methodReflection): bool
     {
         return in_array(strtolower($methodReflection->getName()), ['gettable', 'gettableprefix'], true);
     }
 
-    public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
+    public function getTypeFromStaticMethodCall(MethodReflection $methodReflection, StaticCall $methodCall, Scope $scope): Type
     {
         $name = strtolower($methodReflection->getName());
 
