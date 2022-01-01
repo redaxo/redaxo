@@ -69,8 +69,3 @@ services:
         class: redaxo\phpstan\RexClassDynamicReturnTypeExtension
         tags:
             - phpstan.broker.dynamicStaticMethodReturnTypeExtension
-
-    -
-        class: redaxo\phpstan\RexSqlClassDynamicReturnTypeExtension
-        tags:
-            - phpstan.broker.dynamicMethodReturnTypeExtension
