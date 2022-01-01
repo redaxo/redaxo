@@ -12,7 +12,6 @@ class rex_api_content_copy extends rex_api_function
     public function execute()
     {
         $articleId = rex_request('article_id', 'int');
-        $sliceRevision = rex_request('slice_revision', 'int');
         $clangA = rex_request('clang_a', 'int');
         $clangB = rex_request('clang_b', 'int');
 
@@ -23,7 +22,7 @@ class rex_api_content_copy extends rex_api_function
             $user->getComplexPerm('clang')->hasPerm($clangA) &&
             $user->getComplexPerm('clang')->hasPerm($clangB)
         ) {
-            if (rex_content_service::copyContent($articleId, $articleId, $clangA, $clangB, $sliceRevision)) {
+            if (rex_content_service::copyContent($articleId, $articleId, $clangA, $clangB)) {
                 return new rex_api_result(true, rex_i18n::msg('content_contentcopy'));
             }
 

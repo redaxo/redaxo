@@ -226,18 +226,22 @@ class rex_content_service
      * @param int $toId      ArtikelId des Artikel, in den kopiert werden sollen (Ziel ArtikelId)
      * @param int $fromClang ClangId des Artikels, aus dem kopiert werden soll (Quell ClangId)
      * @param int $toClang   ClangId des Artikels, in den kopiert werden soll (Ziel ClangId)
-     * @param int $revision
+     * @param null|int $revision If null, slices of all revisions are copied
      *
      * @return bool TRUE bei Erfolg, sonst FALSE
      */
-    public static function copyContent($fromId, $toId, $fromClang = 1, $toClang = 1, $revision = 0)
+    public static function copyContent($fromId, $toId, $fromClang = 1, $toClang = 1, $revision = null)
     {
         if ($fromId == $toId && $fromClang == $toClang) {
             return false;
         }
 
         $gc = rex_sql::factory();
-        $gc->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=?', [$fromId, $fromClang, $revision]);
+        if (null === $revision) {
+            $gc->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=?', [$fromId, $fromClang]);
+        } else {
+            $gc->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=?', [$fromId, $fromClang, $revision]);
+        }
 
         if (!$gc->getRows()) {
             return true;
@@ -257,11 +261,14 @@ class rex_content_service
         //$cols->setDebug();
         $cols->setQuery('SHOW COLUMNS FROM ' . rex::getTablePrefix() . 'article_slice');
 
-        $maxPriority = rex_sql::factory()->getArray(
-            'SELECT `ctype_id`, MAX(`priority`) as max FROM ' . rex::getTable('article_slice') . ' WHERE `article_id` = :to_id AND `clang_id` = :to_clang AND `revision` = :revision GROUP BY `ctype_id`',
-            ['to_id' => $toId, 'to_clang' => $toClang, 'revision' => $revision]
+        $maxPriorityRaw = rex_sql::factory()->getArray(
+            'SELECT `ctype_id`, `revision`, MAX(`priority`) as max FROM ' . rex::getTable('article_slice') . ' WHERE `article_id` = :to_id AND `clang_id` = :to_clang GROUP BY `ctype_id`, `revision`',
+            ['to_id' => $toId, 'to_clang' => $toClang]
         );
-        $maxPriority = array_column($maxPriority, 'max', 'ctype_id');
+        $maxPriority = [];
+        foreach ($maxPriorityRaw as $row) {
+            $maxPriority[(int) $row['ctype_id']][(int) $row['revision']] = (int) $row['max'];
+        }
 
         $user = self::getUser();
 
@@ -274,14 +281,14 @@ class rex_content_service
                     $value = $toId;
                 } elseif ('priority' == $colname) {
                     $ctypeId = $slice->getValue('ctype_id');
-                    $value = $slice->getValue($colname) + ($maxPriority[$ctypeId] ?? 0);
+                    $value = (int) $slice->getValue($colname) + ($maxPriority[$ctypeId][(int) $slice->getValue('revision')] ?? 0);
                 } else {
                     $value = $slice->getValue($colname);
                 }
 
                 // collect all affected ctypes
                 if ('ctype_id' == $colname) {
-                    $ctypes[$value] = $value;
+                    $ctypes[$value][(int) $slice->getValue('revision')] = true;
                 }
 
                 if ('id' != $colname) {
@@ -295,14 +302,16 @@ class rex_content_service
             $ins->insert();
         }
 
-        foreach ($ctypes as $ctype) {
-            // reorg slices
-            rex_sql_util::organizePriorities(
-                rex::getTable('article_slice'),
-                'priority',
-                'article_id=' . (int) $toId . ' AND clang_id=' . (int) $toClang . ' AND ctype_id=' . (int) $ctype . ' AND revision=' . (int) $revision,
-                'priority, updatedate'
-            );
+        foreach ($ctypes as $ctype => $revisions) {
+            foreach ($revisions as $revision => $_) {
+                // reorg slices
+                rex_sql_util::organizePriorities(
+                    rex::getTable('article_slice'),
+                    'priority',
+                    'article_id=' . (int) $toId . ' AND clang_id=' . (int) $toClang . ' AND ctype_id=' . (int) $ctype . ' AND revision=' . $revision,
+                    'priority, updatedate'
+                );
+            }
         }
 
         rex_article_cache::deleteContent($toId, $toClang);
