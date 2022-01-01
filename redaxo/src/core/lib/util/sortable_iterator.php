@@ -35,6 +35,7 @@ class rex_sortable_iterator implements IteratorAggregate
     /**
      * {@inheritdoc}
      */
+    #[ReturnTypeWillChange]
     public function getIterator()
     {
         $array = iterator_to_array($this->iterator);

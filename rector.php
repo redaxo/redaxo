@@ -59,6 +59,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         'redaxo/src/addons/phpmailer/vendor',
     ]);
 
+    $parameters->set(Option::PARALLEL, true);
+
     $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersion::PHP_80);
 
     // get services (needed for register a single rule)
