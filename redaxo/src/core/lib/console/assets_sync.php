@@ -17,7 +17,12 @@ class rex_command_assets_sync extends rex_console_command
     {
         $this
             ->setDescription('Sync assets within the assets-dir with the sources-dir')
-            ->setHelp('Sync folders and files of /assets with /redaxo/src/addons/my-addon/assets (or plugin) respectively /redaxo/src/core/assets folders')
+            ->setHelp(sprintf(
+                'Sync folders and files of /%s with /%s (or plugin) respectively /%s folders',
+                rtrim(rex_path::relative(rex_path::assets()), '/'),
+                rex_path::relative(rex_path::addon('my-addon', 'assets')),
+                rex_path::relative(rex_path::core('assets')),
+            ))
         ;
     }
 
