@@ -109,6 +109,8 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         // ---------------------------------- Step 3 . Perms, Environment
         $io->title('Step 3 of 6 / System check');
 
+        $io->warning('The checks are executed only in the cli environment and do not guarantee correctness in the web server environment.');
+
         if (0 !== $code = $this->performSystemcheck()) {
             return $code;
         }
