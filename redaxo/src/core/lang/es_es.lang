@@ -258,7 +258,7 @@ setup_705 = Diviértete y suerte <br /> El equipo REDAXO
 setup_706 = Iniciar sesión
 setup_799 = 7 / Eureka
 
-setup_security_msg = La carpeta redaxo/include es insegura. Proteja esta carpeta y vuelva a ejecutar el programa de instalación.
+setup_security_msg =
 setup_no_js_security_msg = Por favor, compruebe si los archivos de la carpeta redaxo/include están directamente accesibles. Esto debería ser imposible debido a las restricciones de seguridad!
 setup_security_no_https = La configuración se realiza sin HTTPS / cifrado. Se recomienda realizar todas las llamadas frontend y backend solo a través de HTTPS para garantizar su privacidad.
 setup_security_warn_mod_security = El módulo de Apache "mod_security" está cargado. Esto puede provocar problemas si se configura incorrectamente.
