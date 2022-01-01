@@ -373,7 +373,19 @@ class rex_sql implements Iterator
             $this->flush();
             $this->params = $params;
 
-            $this->stmt->execute($params);
+            static $types = [
+                'bool' => PDO::PARAM_BOOL,
+                'integer' => PDO::PARAM_INT,
+                'null' => PDO::PARAM_NULL,
+            ];
+            foreach ($params as $param => $value) {
+                $param = is_int($param) ? $param + 1 : $param;
+                $type = $types[gettype($value)] ?? PDO::PARAM_STR;
+
+                $this->stmt->bindValue($param, $value, $type);
+            }
+
+            $this->stmt->execute();
             $this->rows = $this->stmt->rowCount();
             $this->lastInsertId = self::$pdo[$this->DBID]->lastInsertId();
         } catch (PDOException $e) {
