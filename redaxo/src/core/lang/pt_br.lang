@@ -208,6 +208,7 @@ setup_706 = Registre-se
 setup_799 = 7 / Uhuul!
 
 setup_security_msg =
+setup_no_js_security_msg =
 
 sql_database_name_missing = Insira um nome para o banco de dados!
 sql_database_already_exists = O banco de dados já existe!
