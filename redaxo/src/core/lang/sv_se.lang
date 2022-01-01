@@ -263,8 +263,8 @@ setup_705 = Lycka till!<br />REDAXO teamet
 setup_706 = till login
 setup_799 = 7 / Heureka
 
-setup_security_msg = Redaxo-mappem är inte säker. Vänligen skydda mappen och starta om installationen!
-setup_no_js_security_msg = Kolla om filer från mappen redaxo/cache, redaxo/data och redaxo/src är direkt tillgängliga! Det ska de av säkerhetsskäl inte vara!
+setup_security_msg =
+setup_no_js_security_msg =
 setup_security_no_https = Setup görs utan HTTPS / kryptering. Det rekommenderas att alla frontend och backend-upprop görs med endast HTTPS för att säkerställa integritet och datasäkerhet.
 setup_security_warn_mod_security = Apache-modulen "mod_security" laddades. Detta kan leda till problem om det är felaktigt konfigurerat.
 setup_security_deprecated_php = Den använda PHP-versionen {0} underhålls inte längre av tillverkaren och bör uppdateras.
