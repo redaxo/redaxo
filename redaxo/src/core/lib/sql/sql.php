@@ -373,6 +373,7 @@ class rex_sql implements Iterator
             $this->flush();
             $this->params = $params;
 
+            /** @var array<string, PDO::PARAM_*> $types */
             static $types = [
                 'bool' => PDO::PARAM_BOOL,
                 'integer' => PDO::PARAM_INT,
