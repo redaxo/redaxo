@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace staabm\PHPStanDba\Extensions;
+namespace redaxo\phpstan;
 
 use PhpParser\Node\Expr\StaticCall;
 use rex;
