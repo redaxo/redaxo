@@ -5822,7 +5822,7 @@
     <MixedArgumentTypeCoercion occurrences="1">
       <code>$fldName</code>
     </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="12">
+    <MixedAssignment occurrences="13">
       <code>$buffered</code>
       <code>$buffered</code>
       <code>$errors['error']</code>
@@ -5832,6 +5832,7 @@
       <code>$lastRow</code>
       <code>$params[$paramName]</code>
       <code>$this-&gt;lastRow</code>
+      <code>$value</code>
       <code>$value</code>
       <code>$version</code>
       <code>$version</code>
