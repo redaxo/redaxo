@@ -49,7 +49,7 @@ if (rex::isBackend()) {
             }
 
             $fragment = new rex_fragment([
-                'content' => '<p><b>Article with ID '.rex_article::getCurrentId().' not found.</b><br />If this is a fresh setup, the first article must be created first.<br />Enter <a href="' . rex_url::backendController() . '">REDAXO</a>.</p>',
+                'content' => '<p><b>Article with ID '.rex_article::getCurrentId().' not found.</b><br />If this is a fresh setup, an article must be created first.<br />Enter <a href="' . rex_url::backendController() . '">REDAXO</a>.</p>',
             ]);
             $content .= $fragment->parse('core/fe_ooops.php');
             rex_response::sendPage($content);
