@@ -127,16 +127,20 @@ class rex_sql_select_test extends TestCase
 
     public function testPreparedSetQuery()
     {
+        $this->insertRow();
+
         $sql = rex_sql::factory();
-        $sql->setQuery('SELECT * FROM ' . self::TABLE . ' WHERE col_str = ? and col_int = ?', ['abc', 5]);
+        $sql->setQuery('SELECT * FROM ' . self::TABLE . ' WHERE col_str = ? and col_int = ? LIMIT ?', ['abc', 5, 1]);
 
         static::assertEquals(1, $sql->getRows());
     }
 
     public function testPreparedNamedSetQuery()
     {
+        $this->insertRow();
+
         $sql = rex_sql::factory();
-        $sql->setQuery('SELECT * FROM ' . self::TABLE . ' WHERE col_str = :mystr and col_int = :myint', ['mystr' => 'abc', ':myint' => 5]);
+        $sql->setQuery('SELECT * FROM ' . self::TABLE . ' WHERE col_str = :mystr and col_int = :myint LIMIT :limit', ['mystr' => 'abc', ':myint' => 5, 'limit' => 1]);
 
         static::assertEquals(1, $sql->getRows());
     }
