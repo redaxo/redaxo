@@ -211,6 +211,7 @@ class rex
      * Returns the environment.
      *
      * @return string
+     * @psalm-return 'console'|'backend'|'frontend'
      */
     public static function getEnvironment()
     {
