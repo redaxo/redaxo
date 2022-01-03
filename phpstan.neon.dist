@@ -55,6 +55,8 @@ parameters:
         -
             message: '#.*deprecated.*#'
             path: '*/update.php'
+        # ignore query errors in the temporary rex_tests table
+        - '#^Query error.*rex_tests.*#'
 
 services:
     -
