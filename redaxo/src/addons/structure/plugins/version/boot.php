@@ -32,7 +32,7 @@ rex_extension::register('ART_INIT', static function (rex_extension_point $ep) {
 });
 
 rex_extension::register('STRUCTURE_CONTENT_HEADER', static function (rex_extension_point $ep) {
-    if (!in_array($ep->getParam('page'), ['content/edit', 'content/functions'], true)) {
+    if ('content/edit' !== $ep->getParam('page')) {
         return null;
     }
 
@@ -63,7 +63,7 @@ rex_extension::register('STRUCTURE_CONTENT_HEADER', static function (rex_extensi
 });
 
 rex_extension::register('STRUCTURE_CONTENT_BEFORE_SLICES', static function (rex_extension_point $ep) {
-    if (!in_array($ep->getParam('page'), ['content/edit', 'content/functions'], true)) {
+    if ('content/edit' !== $ep->getParam('page')) {
         return null;
     }
 
