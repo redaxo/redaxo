@@ -30,7 +30,7 @@ class rex_formatter_test extends TestCase
             /** @param string|int $value */
             static function ($value, string $format): string {
                 /** @psalm-suppress DeprecatedMethod */
-                return rex_formatter::strftime($value, $format); /** @phpstan-ignore-line */
+                return @rex_formatter::strftime($value, $format); /** @phpstan-ignore-line */
             };
 
         $value = 1336811080;

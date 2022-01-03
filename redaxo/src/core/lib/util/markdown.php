@@ -131,6 +131,18 @@ final class rex_parsedown extends ParsedownExtra
 
     private $ids = [];
 
+    public function text($text)
+    {
+        // https://github.com/erusev/parsedown-extra/issues/173
+        $errorReporting = error_reporting(error_reporting() ^ E_DEPRECATED);
+
+        try {
+            return parent::text($text);
+        } finally {
+            error_reporting($errorReporting);
+        }
+    }
+
     protected function blockHeader($Line)
     {
         $block = parent::blockHeader($Line);

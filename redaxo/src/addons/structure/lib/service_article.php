@@ -520,17 +520,25 @@ class rex_article_service
         // LANG SCHLEIFE
         foreach (rex_clang::getAllIds() as $clang) {
             // artikel
-            $sql->setQuery('select parent_id, name from ' . rex::getTablePrefix() . 'article where id=? and startarticle=1 and clang_id=?', [$artId, $clang]);
+            $sql->setQuery('
+                select parent_id, (select catname FROM '.rex::getTable('article').' parent WHERE parent.id = category.parent_id AND parent.clang_id = category.clang_id) as catname
+                from '.rex::getTable('article').' category
+                where id=? and startarticle=1 and clang_id=?
+            ', [$artId, $clang]);
 
             if (!$parentId) {
                 $parentId = (int) $sql->getValue('parent_id');
             }
 
+            $catname = (string) $sql->getValue('catname');
+
             // artikel updaten
             $sql->setTable(rex::getTablePrefix() . 'article');
             $sql->setWhere(['id' => $artId, 'clang_id' => $clang]);
             $sql->setValue('startarticle', 0);
+            $sql->setValue('catname', $catname);
             $sql->setValue('priority', 100);
+            $sql->setValue('catpriority', 0);
             $sql->update();
 
             self::newArtPrio($parentId, $clang, 0, 100);
