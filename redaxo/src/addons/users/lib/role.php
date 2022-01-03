@@ -51,7 +51,7 @@ class rex_user_role implements rex_user_role_interface
                 if (rex_complex_perm::ALL === $role[$key]) {
                     $perms = rex_complex_perm::ALL;
                 } else {
-                    $perms = explode('|', trim($role[$key], '|'));
+                    $perms = $role[$key] ? explode('|', trim($role[$key], '|')) : [];
                     if (1 == count($perms) && '' == $perms[0]) {
                         $perms = [];
                     }
