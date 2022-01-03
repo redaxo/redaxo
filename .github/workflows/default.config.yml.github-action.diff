@@ -1,17 +1,19 @@
 diff --git a/redaxo/src/core/default.config.yml b/redaxo/src/core/default.config.yml
-index 2880a09e9..7b45ccd4b 100644
+index 2880a09e9..3485d830a 100644
 --- a/redaxo/src/core/default.config.yml
 +++ b/redaxo/src/core/default.config.yml
-@@ -1,7 +1,7 @@
+@@ -1,8 +1,8 @@
  setup: true
  debug:
 -    enabled: false
 -    throw_always_exception: false # `true` for all error levels, `[E_WARNING, E_NOTICE]` for subset
+-instname: null
 +    enabled: true
 +    throw_always_exception: true # `true` for all error levels, `[E_WARNING, E_NOTICE]` for subset
- instname: null
++instname: 57d0619b2d578f108506a917826ea8b62c1c3eea
  server: https://www.redaxo.org/
  servername: REDAXO
+ error_email: null
 @@ -64,9 +64,9 @@ table_prefix: rex_
  temp_prefix: tmp_
  db:
