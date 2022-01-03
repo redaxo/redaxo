@@ -2935,31 +2935,21 @@
       <code>$sql-&gt;getValue('article_id')</code>
       <code>$sql-&gt;getValue('clang_id')</code>
     </InvalidScalarArgument>
-    <MixedArgument occurrences="2">
-      <code>$value</code>
+    <MixedArgument occurrences="1">
       <code>$value</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="1">
       <code>$key</code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayOffset occurrences="1">
-      <code>$ctypes[$value]</code>
-    </MixedArrayOffset>
-    <MixedAssignment occurrences="6">
-      <code>$ctype</code>
-      <code>$ctypes[$value]</code>
+    <MixedAssignment occurrences="3">
       <code>$data['revision']</code>
       <code>$info</code>
-      <code>$value</code>
       <code>$value</code>
     </MixedAssignment>
     <MixedInferredReturnType occurrences="2">
       <code>string</code>
       <code>string</code>
     </MixedInferredReturnType>
-    <MixedOperand occurrences="1">
-      <code>$maxPriority[$ctypeId] ?? 0</code>
-    </MixedOperand>
     <MixedReturnStatement occurrences="2">
       <code>$info</code>
       <code>rex_extension::registerPoint(new rex_extension_point_art_content_updated($article, 'slice_added', $message))</code>
@@ -2971,10 +2961,9 @@
     <PossiblyNullArrayOffset occurrences="1">
       <code>$ctypes</code>
     </PossiblyNullArrayOffset>
-    <PossiblyNullOperand occurrences="3">
+    <PossiblyNullOperand occurrences="2">
       <code>$CM-&gt;getValue('priority')</code>
       <code>$CM-&gt;getValue('priority')</code>
-      <code>$slice-&gt;getValue($colname)</code>
     </PossiblyNullOperand>
     <PossiblyNullReference occurrences="3">
       <code>getCategoryId</code>
