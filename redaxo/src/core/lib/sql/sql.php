@@ -1409,9 +1409,11 @@ class rex_sql implements Iterator
     /**
      * Escaped den uebergeben Wert fuer den DB Query.
      *
-     * @param string $value den zu escapenden Wert
+     * @template T of string
      *
-     * @return string
+     * @param T $value den zu escapenden Wert
+     *
+     * @return T
      */
     public function escape($value)
     {
