@@ -5,16 +5,19 @@ declare(strict_types=1);
 namespace redaxo\phpstan;
 
 use PhpParser\Node\Expr\FuncCall;
-use PHPStan\Reflection\FunctionReflection;
-use PHPStan\Type\BooleanType;
-use PHPStan\Type\DynamicFunctionReturnTypeExtension;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\FunctionReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
+use PHPStan\Type\BooleanType;
 use PHPStan\Type\Constant\ConstantStringType;
+use PHPStan\Type\DynamicFunctionReturnTypeExtension;
 use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
+use PHPStan\Type\TypeCombinator;
+use function count;
+use function in_array;
 
 final class RexFunctionsDynamicReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
@@ -30,18 +33,20 @@ final class RexFunctionsDynamicReturnTypeExtension implements DynamicFunctionRet
     ): Type {
         $args = $functionCall->getArgs();
 
-        if (count($args) < 2 ) {
+        if (count($args) < 2) {
             return ParametersAcceptorSelector::selectSingle($functionReflection->getVariants())->getReturnType();
+        }
+
+        if (count($args) >= 3) {
+            $defaultArgType = $scope->getType($args[2]->value);
         }
 
         $typeString = $scope->getType($args[1]->value);
         if ($typeString instanceof ConstantStringType) {
             $resolvedType = $this->resolveTypeFromString($typeString->getValue());
-            if ($resolvedType) {
-            }
 
-            if ($resolvedType !== null) {
-                return $resolvedType;
+            if (null !== $resolvedType) {
+                return TypeCombinator::union($resolvedType, $defaultArgType);
             }
         }
 
