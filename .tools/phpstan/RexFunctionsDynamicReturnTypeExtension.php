@@ -8,6 +8,7 @@ use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\FunctionReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
+use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\BooleanType;
 use PHPStan\Type\Constant\ConstantStringType;
@@ -104,10 +105,16 @@ final class RexFunctionsDynamicReturnTypeExtension implements DynamicFunctionRet
         }
 
         if (preg_match('/^array\[(.+)\]$/', $vartype, $match)) {
-            return new UnionType(new ArrayType(
+            $valueType = $this->resolveTypeFromString($match[1]);
+
+            if ($valueType === null) {
+                throw new ShouldNotHappenException();
+            }
+
+            return new ArrayType(
                 new MixedType(),
-                $this->resolveTypeFromString($match[1])
-            ));
+                $valueType
+            );
         }
 
         return null;
