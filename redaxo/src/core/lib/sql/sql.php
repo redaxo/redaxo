@@ -1419,7 +1419,7 @@ class rex_sql implements Iterator
     {
         $quoted = self::$pdo[$this->DBID]->quote($value);
 
-        if ($quoted === false) {
+        if (false === $quoted) {
             throw new rex_sql_exception('Could not escape value "' . $value . '"');
         }
 
