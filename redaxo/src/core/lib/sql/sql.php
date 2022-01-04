@@ -1417,7 +1417,13 @@ class rex_sql implements Iterator
      */
     public function escape($value)
     {
-        return self::$pdo[$this->DBID]->quote($value);
+        $quoted = self::$pdo[$this->DBID]->quote($value);
+
+        if ($quoted === false) {
+            throw new rex_sql_exception('Could not escape value "' . $value . '"');
+        }
+
+        return $quoted;
     }
 
     /**
