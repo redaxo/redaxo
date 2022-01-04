@@ -8,14 +8,18 @@ use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\FunctionReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
+use PHPStan\Type\ArrayType;
 use PHPStan\Type\BooleanType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\DynamicFunctionReturnTypeExtension;
 use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
+use PHPStan\Type\MixedType;
+use PHPStan\Type\ObjectWithoutClassType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PHPStan\Type\UnionType;
 use function count;
 use function in_array;
 
@@ -87,30 +91,24 @@ final class RexFunctionsDynamicReturnTypeExtension implements DynamicFunctionRet
             return new StringType();
         }
 
-        /*
         if (in_array($vartype, [
             'object',
         ], true)) {
-            return new ObjectType();
+            return new ObjectWithoutClassType();
         }
-         */
 
-        /*
         if (in_array($vartype, [
             'array',
         ], true)) {
-            return new ArrayType();
+            return new ArrayType(new MixedType(), new MixedType());
         }
-        */
 
-        /*
         if (preg_match('/^array\[(.+)\]$/', $vartype, $match)) {
-            return new Union([new TArray([
-                new Union([new TArrayKey()]),
-                Type::parseString($match[1]),
-            ])]);
+            return new UnionType(new ArrayType(
+                new MixedType(),
+                $this->resolveTypeFromString($match[1])
+            ));
         }
-        */
 
         return null;
     }
