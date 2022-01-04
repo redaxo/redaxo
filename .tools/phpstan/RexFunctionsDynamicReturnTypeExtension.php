@@ -37,6 +37,7 @@ final class RexFunctionsDynamicReturnTypeExtension implements DynamicFunctionRet
             return ParametersAcceptorSelector::selectSingle($functionReflection->getVariants())->getReturnType();
         }
 
+        $defaultArgType = null;
         if (count($args) >= 3) {
             $defaultArgType = $scope->getType($args[2]->value);
         }
@@ -46,7 +47,10 @@ final class RexFunctionsDynamicReturnTypeExtension implements DynamicFunctionRet
             $resolvedType = $this->resolveTypeFromString($typeString->getValue());
 
             if (null !== $resolvedType) {
-                return TypeCombinator::union($resolvedType, $defaultArgType);
+                if ($defaultArgType) {
+                    return TypeCombinator::union($resolvedType, $defaultArgType);
+                }
+                return $resolvedType;
             }
         }
 
