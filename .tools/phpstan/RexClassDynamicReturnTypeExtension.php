@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace redaxo\phpstan;
 
 use PhpParser\Node\Expr\StaticCall;
-use rex;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\DynamicStaticMethodReturnTypeExtension;
 use PHPStan\Type\Type;
+use rex;
+use function count;
+use function in_array;
 
 final class RexClassDynamicReturnTypeExtension implements DynamicStaticMethodReturnTypeExtension
 {
@@ -29,12 +31,12 @@ final class RexClassDynamicReturnTypeExtension implements DynamicStaticMethodRet
     {
         $name = strtolower($methodReflection->getName());
 
-        if ($name === "gettableprefix") {
+        if ('gettableprefix' === $name) {
             return new ConstantStringType('rex_');
         }
 
         $args = $methodCall->getArgs();
-        if (\count($args) < 1) {
+        if (count($args) < 1) {
             return ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
         }
 
