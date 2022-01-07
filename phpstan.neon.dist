@@ -64,8 +64,12 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             classMethods:
+                - 'rex_sql::prepareQuery#0'
                 - 'rex_sql::setQuery#0'
                 - 'rex_sql::setDBQuery#0'
+                - 'rex_sql::getQueryType#0'
+                - 'rex_sql::getArray#0'
+                - 'rex_sql::getDBArray#0'
 
     -
         class: redaxo\phpstan\RexClassDynamicReturnTypeExtension
