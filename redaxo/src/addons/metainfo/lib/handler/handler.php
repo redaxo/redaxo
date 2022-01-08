@@ -283,7 +283,7 @@ abstract class rex_metainfo_handler
                     }
                     $tagAttr = ' class="form-control-date"';
 
-                    $active = 0 != $dbvalues[0];
+                    $active = (bool) $dbvalues[0];
                     if ('' == $dbvalues[0]) {
                         $dbvalues[0] = time();
                     }
