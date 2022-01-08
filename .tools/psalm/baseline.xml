@@ -5142,14 +5142,18 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/login/backend_login.php">
+    <InvalidArgument occurrences="1"/>
     <MixedArgument occurrences="1">
       <code>rex::getProperty('instname')</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="2">
+    <MixedArrayAccess occurrences="4">
       <code>$_SESSION[$sessionNs][self::SYSTEM_ID]['UID']</code>
       <code>$_SESSION[static::getSessionNamespace()][self::SYSTEM_ID]</code>
+      <code>$sessionConfig['samesite']</code>
+      <code>$sessionConfig['secure']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="1">
+    <MixedAssignment occurrences="2">
+      <code>$sessionConfig</code>
       <code>$userId</code>
     </MixedAssignment>
     <MixedOperand occurrences="2">
