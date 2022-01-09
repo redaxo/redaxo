@@ -71,10 +71,11 @@ class rex_backend_login extends rex_login
 
         if ($cookiekey = rex_cookie($cookiename, 'string')) {
             if (!$userId) {
-                $sql->setQuery('SELECT id FROM ' . rex::getTable('user') . ' WHERE cookiekey = ? LIMIT 1', [$cookiekey]);
+                $sql->setQuery('SELECT id, password FROM ' . rex::getTable('user') . ' WHERE cookiekey = ? LIMIT 1', [$cookiekey]);
                 if (1 == $sql->getRows()) {
                     $this->setSessionVar('UID', $sql->getValue('id'));
-                    rex_response::sendCookie($cookiename, $cookiekey, ['expires' => strtotime('+1 year'), 'samesite' => 'strict']);
+                    $this->setSessionVar('password', $sql->getValue('password'));
+                    self::setStayLoggedInCookie($cookiekey);
                     $loggedInViaCookie = true;
                 } else {
                     self::deleteStayLoggedInCookie();
@@ -98,7 +99,7 @@ class rex_backend_login extends rex_login
                         $add = 'cookiekey = ?, ';
                         $params[] = $cookiekey;
                     }
-                    rex_response::sendCookie($cookiename, $cookiekey, ['expires' => strtotime('+1 year'), 'samesite' => 'strict']);
+                    self::setStayLoggedInCookie($cookiekey);
                 }
                 if (self::passwordNeedsRehash($this->user->getValue('password'))) {
                     $add .= 'password = ?, ';
@@ -177,6 +178,17 @@ class rex_backend_login extends rex_login
         self::deleteStayLoggedInCookie();
 
         rex_csrf_token::removeAll();
+    }
+
+    private static function setStayLoggedInCookie(string $cookiekey): void
+    {
+        $sessionConfig = rex::getProperty('session', [])['backend'] ?? [];
+
+        rex_response::sendCookie(self::getStayLoggedInCookieName(), $cookiekey, [
+            'expires' => strtotime('+1 year'),
+            'secure' => $sessionConfig['secure'] ?? false,
+            'samesite' => $sessionConfig['samesite'] ?? 'lax',
+        ]);
     }
 
     private static function deleteStayLoggedInCookie()
