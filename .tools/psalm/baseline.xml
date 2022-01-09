@@ -1070,8 +1070,9 @@
     <ArgumentTypeCoercion occurrences="1">
       <code>$data</code>
     </ArgumentTypeCoercion>
-    <MixedArgument occurrences="4">
+    <MixedArgument occurrences="5">
       <code>$FILEINFOS['filename']</code>
+      <code>$FILE['name']</code>
       <code>$buttonTitle</code>
       <code>$info</code>
       <code>$warning</code>
