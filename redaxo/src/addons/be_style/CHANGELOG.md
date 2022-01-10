@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 3.0.1 – XX.01.2022
+Version 3.0.1 – 10.01.2022
 --------------------------
 
 * Sichtbarkeit der Elemente in der mobilen Navbar korrigiert (@schuer)
