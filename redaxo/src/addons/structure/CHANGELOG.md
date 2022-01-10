@@ -1,6 +1,19 @@
 Changelog
 =========
 
+Version 2.13.2 – XX.01.2022
+---------------------------
+
+### Bugfixes
+
+* Kategorie in Artikel umwandeln: Felder `catname` und `catpriority` wurden nicht korrekt aktualisiert (@gharlan)
+* Inhalt von/zu Sprache kopieren: Es werden auch die Inhalte der Arbeitsversion kopiert (@gharlan)
+* Die Version-Toolbar wird nicht in der Artikel-Funktionen-Page angezeigt, da dort nicht relevant (@gharlan)
+* Modul-Aktionen: Speicherung korrigiert bei Auswahl der "Alle"-Checkboxen (@gharlan)
+* Fehlermeldung im Fronted optimiert, wenn noch kein Artikel existiert (@gharlan)
+* Bei Installation wird die Default-Config für Start-/Fehler-Artikel in `rex_config` gespeichert (@gharlan)
+
+
 Version 2.13.1 – 29.11.2021
 ---------------------------
 

@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 3.0.1 – XX.01.2022
+--------------------------
+
+* Sichtbarkeit der Elemente in der mobilen Navbar korrigiert (@schuer)
+* Im Dark-Mode waren aufgeklappte Selectboxen teilweise hell (@schuer)
+* Bilder innerhalb von Slices wurden im Backend teilweise verzerrt dargestellt (@alxndr-w)
+* `boostrap-select`: Statt "Bitte wählen" wird "—" angezeigt (weniger Verwirrung bei optionalen Feldern und bei leeren Selectboxen) (@gharlan)
+
+
 Version 3.0.0 – 17.11.2021
 --------------------------
 

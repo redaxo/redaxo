@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.11.2 – XX.01.2022
+---------------------------
+
+### Bugfixes
+
+* Verhalten der alten (deprecated) Funktionen `rex_mediapool_saveMedia` und `rex_mediapool_updateMedia` an das frühere Verhalten wieder angeglichen (@gharlan)
+
+
 Version 2.11.1 – 05.12.2021
 ---------------------------
 
