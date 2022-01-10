@@ -5457,7 +5457,8 @@
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/packages/package.php">
-    <MixedArgument occurrences="8">
+    <MixedArgument occurrences="9">
+      <code>$__file</code>
       <code>$__file</code>
       <code>$__file</code>
       <code>$dir</code>
