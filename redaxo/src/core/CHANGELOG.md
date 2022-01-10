@@ -13,6 +13,7 @@ Version 5.13.2 – XX.01.2022
 * Cli-Setup: Es wird darauf hingewiesen, dass die Setup-Checks dort nicht die Korrektheit innerhalb der Server-Umgebung garantieren können (@gharlan)
 * `rex_sql`: Die Query-Parameter werden entsprechend ihrer PHP-Typen gebunden, dadurch z.B. Parameter auch in `LIMIT`-Ausdrücken möglich (@gharlan)
 * EOL-Daten für PHP 8 und MariaDB 10.6 hinterlegt (@staabm)
+* Fehlermeldung optimiert, wenn die Datei zu einer Package-Page nicht existiert (@gharlan)
 * Deprecation-Meldungen vermieden (teilweise noch PHP 8.1, ansonsten schon für PHP 8.2) (@gharlan)
 
 
