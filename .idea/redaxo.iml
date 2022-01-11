@@ -104,6 +104,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/redaxo/psalm-plugin" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/redaxo/php-cs-fixer-config" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-mbstring" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bin" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/staabm/phpstan-dba" />
       <excludePattern pattern=".php_cs.cache" />
       <excludePattern pattern=".phpunit.result.cache" />

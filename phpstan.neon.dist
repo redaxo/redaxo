@@ -55,6 +55,8 @@ parameters:
         -
             message: '#.*deprecated.*#'
             path: '*/update.php'
+        # ignore query errors in the temporary rex_tests table
+        - '#^Query error.*rex_tests.*#'
 
 services:
 	-
@@ -68,6 +70,24 @@ services:
 				- 'rex_sql::getDBArray'
 
     -
+        class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            classMethods:
+                - 'rex_sql::prepareQuery#0'
+                - 'rex_sql::getQueryType#0'
+
+    -
         class: redaxo\phpstan\RexClassDynamicReturnTypeExtension
         tags:
             - phpstan.broker.dynamicStaticMethodReturnTypeExtension
+
+    -
+        class: redaxo\phpstan\RexSqlDynamicReturnTypeExtension
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+
+    -
+        class: redaxo\phpstan\RexFunctionsDynamicReturnTypeExtension
+        tags:
+            - phpstan.broker.dynamicFunctionReturnTypeExtension

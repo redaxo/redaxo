@@ -33,7 +33,7 @@ jobs:
                     coverage: none # disable xdebug, pcov
 
             -   name: Composer install
-                uses: ramsey/composer-install@v1
+                uses: ramsey/composer-install@v2
                 with:
                     composer-options: --ansi --prefer-dist
 
@@ -79,7 +79,7 @@ jobs:
                     coverage: none # disable xdebug, pcov
 
             -   name: Composer install
-                uses: ramsey/composer-install@v1
+                uses: ramsey/composer-install@v2
                 with:
                     composer-options: --ansi --prefer-dist
 
@@ -117,7 +117,7 @@ jobs:
                     coverage: none # disable xdebug, pcov
 
             -   name: Composer install
-                uses: ramsey/composer-install@v1
+                uses: ramsey/composer-install@v2
                 with:
                     composer-options: --ansi --prefer-dist
 
