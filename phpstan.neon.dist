@@ -57,13 +57,15 @@ parameters:
             path: '*/update.php'
 
 services:
-    -
-        class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            classMethods:
-                - 'rex_sql::setQuery#0'
-                - 'rex_sql::setDBQuery#0'
+	-
+		class: staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule
+		tags: [phpstan.rules.rule]
+		arguments:
+			classMethods:
+				- 'rex_sql::setQuery'
+				- 'rex_sql::setDBQuery'
+				- 'rex_sql::getArray'
+				- 'rex_sql::getDBArray'
 
     -
         class: redaxo\phpstan\RexClassDynamicReturnTypeExtension
