@@ -2,6 +2,7 @@
 
 use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
+use staabm\PHPStanDba\QueryReflection\RuntimeConfiguration;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
@@ -13,5 +14,6 @@ if (false !== getenv('GITHUB_ACTION')) {
 }
 
 QueryReflection::setupReflector(
-    new MysqliQueryReflector($mysqli)
+    new MysqliQueryReflector($mysqli),
+    RuntimeConfiguration::create()->errorMode(RuntimeConfiguration::ERROR_MODE_EXCEPTION)
 );
