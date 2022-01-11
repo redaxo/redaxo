@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.8.4 – 10.01.2022
+--------------------------
+
+### Bugfixes
+
+* Bei Datumsfeldern funktionierte die Checkbox mit PHP 8 nicht mehr (@gharlan)
+
+
 Version 2.8.3 – 29.11.2021
 --------------------------
 

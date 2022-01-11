@@ -60,7 +60,6 @@
         <UndefinedAttributeClass>
             <errorLevel type="suppress">
                 <referencedClass name="AllowDynamicProperties"/>
-                <referencedClass name="ReturnTypeWillChange"/>
                 <referencedClass name="JetBrains\PhpStorm\Deprecated"/>
             </errorLevel>
         </UndefinedAttributeClass>
@@ -100,6 +99,7 @@
         </RawObjectIteration>
         <RedundantCastGivenDocblockType errorLevel="info" />
         <RedundantConditionGivenDocblockType errorLevel="info" />
+        <RedundantFunctionCallGivenDocblockType errorLevel="info" />
         <UnresolvableInclude errorLevel="suppress" />
         <UnsafeInstantiation errorLevel="info" />
 <!-- level 4 issues -->
