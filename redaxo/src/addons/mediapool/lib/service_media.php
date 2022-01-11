@@ -341,7 +341,7 @@ final class rex_media_service
         }
 
         if (0 == count($orderbys)) {
-            $orderbys[] = 'm.id DESC';
+            $orderbys[] = 'm.updatedate DESC';
         }
 
         if ($pager) {
