@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.8.2 – 10.01.2022
+--------------------------
+
+### Bugfixes
+
+* Validierung für die Intervall-Felder korrigiert (@gharlan)
+
+
 Version 2.8.0 – 03.03.2021
 --------------------------
 

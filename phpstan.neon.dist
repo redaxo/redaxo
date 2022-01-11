@@ -49,7 +49,7 @@ parameters:
         - '#Unsafe usage of new static\(\)\.#'
         - '#Constructor of class rex_form_.*_element has an unused parameter \$tag.#'
         - '#^Offset .* on .* always exists#'
-        - '#Attribute class (?:AllowDynamicProperties|ReturnTypeWillChange|JetBrains\\PhpStorm\\Deprecated) does not exist\.#'
+        - '#Attribute class (?:AllowDynamicProperties|JetBrains\\PhpStorm\\Deprecated) does not exist\.#'
         - '#Parameter \#2 \$algo of function password_.+ expects int, string given\.#'
         -
             message: '#.*deprecated.*#'
