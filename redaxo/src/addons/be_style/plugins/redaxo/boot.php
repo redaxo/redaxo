@@ -33,7 +33,8 @@ if (rex::isBackend()) {
         return $subject;
     });
 
-    if (rex::getUser() && $plugin->getProperty('compile')) {
+    $user = rex::getUser();
+    if ($user && $plugin->getProperty('compile')) {
         rex_addon::get('be_style')->setProperty('compile', true);
     }
 
@@ -62,4 +63,19 @@ if (rex::isBackend()) {
         $icons = implode("\n    ", $icons);
         $ep->setSubject($icons . $ep->getSubject());
     });
+    
+    // add theme-information dark/light/auto to js-variable rex as rex.darkmode
+    // System-Settings first
+    $darkmode = \rex::getProperty('theme');
+    if( 'light' === $darkmode || 'dark' === $darkmode) {
+        $darkmode = $darkmode;
+    } else {
+        $darkmode = null;
+    }
+    // No systemforced mode -> use user-mode
+    if (null === $darkmode && $user) {
+        $darkmode = $user->getValue('theme');
+    }
+    \rex_view::setJsProperty('darkmode', (string)($darkmode ?? 'auto'));
+
 }
