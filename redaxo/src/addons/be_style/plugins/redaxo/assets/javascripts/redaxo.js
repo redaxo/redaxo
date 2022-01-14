@@ -163,12 +163,55 @@
 
     // -----------------------------------------------------------------------
 
+    // Darkmode
+    // prerequisites to detect darkmode-changes
+    if( rex && rex.darkmode && !redaxo.darkmode && window.matchMedia ) {
+
+        redaxo.darkmode = {
+            match: window.matchMedia('(prefers-color-scheme: dark)'),
+            mode: null,
+            switched: function( mode ) {
+                let darkmode;
+                if( document.body.classList.contains('rex-theme-light') ){
+                    darkmode = false;
+                } else if ( document.body.classList.contains('rex-theme-dark') ){
+                    darkmode = true;
+                } else {
+                    darkmode = true === mode;
+                }
+                if( darkmode === this.mode ) return false;
+                this.mode = darkmode;
+                document.body.dispatchEvent(new CustomEvent('rex.darkmode.change', { 'detail':{'darkmode':this.mode}}));
+                return true;
+            },
+            observer: null,
+        };
+
+        // initial darkmode-status based on rex.darkmode to support js running before the DOM is ready
+        // document.body ist not initialized at this point.
+        redaxo.darkmode.mode = 'light'===rex.darkmode ? false : ('dark'===rex.darkmode ? true : redaxo.darkmode.match.matches);
+
+        // Detect future darkmode-change on system-level
+        redaxo.darkmode.match.addEventListener('change', (event) => redaxo.darkmode.switched( event.matches ),true);
+
+    }
+
+
+    // -----------------------------------------------------------------------
+
     var ticking = false;
     var timeout = false;
 
     // on DOMContentLoaded
     document.addEventListener('DOMContentLoaded', function () {
         redaxo.navigationBar.init();
+        // initialize Observer to detect by js changed darkmode/lightmode-themes on body-tag
+        if( redaxo.darkmode && null === redaxo.darkmode.observer ) {
+            redaxo.darkmode.observer = new MutationObserver( () => redaxo.darkmode.switched( redaxo.darkmode.matches ) );
+            if( redaxo.darkmode.observer ) {
+                redaxo.darkmode.observer.observe( document.body, {attributes:true,attributeFilter:['class']} );
+            }
+        }
     });
 
     // on scroll
