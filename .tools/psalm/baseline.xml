@@ -5057,7 +5057,8 @@
       <code>$tableColumnGroup['columns']</code>
       <code>$tableColumnGroup['columns']</code>
     </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="1">
+    <MixedArrayAssignment occurrences="2">
+      <code>$attributes['class']</code>
       <code>$groupColumns[]</code>
     </MixedArrayAssignment>
     <MixedArrayOffset occurrences="7">
@@ -5069,7 +5070,8 @@
       <code>$this-&gt;linkAttributes[$columnName]</code>
       <code>$this-&gt;linkAttributes[$column]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="21">
+    <MixedAssignment occurrences="22">
+      <code>$attributes</code>
       <code>$column</code>
       <code>$columnName</code>
       <code>$columnName</code>

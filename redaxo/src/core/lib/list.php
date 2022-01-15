@@ -1092,7 +1092,11 @@ class rex_list implements rex_url_provider_interface
      */
     public function getColumnLink($columnName, $columnValue, $params = [])
     {
-        return '<a class="rex-link-expanded" href="' . $this->getParsedUrl(array_merge($this->getColumnParams($columnName), $params)) . '"' . $this->_getAttributeString($this->getLinkAttributes($columnName, [])) . '>' . $columnValue . '</a>';
+        $attributes = $this->getLinkAttributes($columnName, []);
+        if (!isset($attributes['class']) && rex::isBackend()) {
+            $attributes['class'] = 'rex-link-expanded';
+        }
+        return '<a href="' . $this->getParsedUrl(array_merge($this->getColumnParams($columnName), $params)) . '"' . $this->_getAttributeString($attributes) . '>' . $columnValue . '</a>';
     }
 
     public function getValue($column)
