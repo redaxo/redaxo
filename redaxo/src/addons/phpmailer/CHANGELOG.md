@@ -1,6 +1,25 @@
 Changelog
 =========
 
+Version 2.11.1 – 29.11.2021
+---------------------------
+
+### Bugfixes
+
+* PHP 8.1: Deprecated-Meldung im Log entfernt (@gharlan)
+
+
+Version 2.11.0 – 17.11.2021
+---------------------------
+
+### Neu
+
+* Neuer EP `PHPMAILER_CONFIG`, über den die Einstellungen dynamisch angepasst werden können (@skerbis)
+* Mails werden im Archiv als `.eml`-Datei abgelegt, statt in einem eigenen Format (@skerbis)
+* Neuer Cronjob-Typ "Mailer-Archiv bereinigen", der die Archivdateien nach X Tagen löschen kann (@skerbis)
+* Readme erweitert (@skerbis)
+
+
 Version 2.10.2 – 21.06.2021
 ---------------------------
 

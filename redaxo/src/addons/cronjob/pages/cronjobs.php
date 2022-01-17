@@ -98,7 +98,7 @@ if ('' == $func) {
     });
 
     $list->setColumnLabel('nexttime', $addon->i18n('nexttime'));
-    $list->setColumnFormat('nexttime', 'strftime', 'datetime');
+    $list->setColumnFormat('nexttime', 'intlDateTime');
 
     $list->setColumnLabel('status', $addon->i18n('status_function'));
     $list->setColumnParams('status', ['func' => 'setstatus', 'oldstatus' => '###status###', 'oid' => '###id###'] + $csrfToken->getUrlParams());
@@ -207,7 +207,7 @@ if ('' == $func) {
         }
     }
     if ('add' == $func) {
-        $select->setSelected('rex_cronjob_phpcode');
+        $select->setSelected(rex_cronjob_phpcode::class);
     }
     $activeType = $field->getValue();
 
@@ -230,7 +230,17 @@ if ('' == $func) {
     }
 
     $form->addFieldset($addon->i18n('interval'));
-    $form->addIntervalField('interval');
+    $field = $form->addIntervalField('interval');
+    $field->getValidator()->add('custom', $addon->i18n('error_interval_incomplete'), static function (string $interval) {
+        /** @psalm-suppress MixedAssignment */
+        foreach (json_decode($interval) as $value) {
+            if ([] === $value) {
+                return false;
+            }
+        }
+
+        return true;
+    });
 
     $envJs = '';
     $visible = [];
@@ -238,7 +248,7 @@ if ('' == $func) {
         $disabled = array_diff(['frontend', 'backend', 'script'], (array) $cronjob->getEnvironments());
         if (count($disabled) > 0) {
             $envJs .= '
-                if ($("#' . $typeFieldId . ' option:selected").val() == "' . $group . '")
+                if ($("#' . $typeFieldId . ' option:selected").val() == "' . rex_escape($group, 'js') . '")
                     $("#' . $envFieldId . ' option[value=\'' . implode('\'], #' . $envFieldId . ' option[value=\'', $disabled) . '\']").prop("disabled","disabled").prop("selected","");
 ';
         }
@@ -318,7 +328,7 @@ if ('' == $func) {
                     foreach ($visible[$name] as $value => $fieldIds) {
                         $visibleJs .= '
                         var first = 1;
-                        $("#' . rex_escape($field->getAttribute('id'), 'js') . '-' . $value . '").change(function(){
+                        $("#' . rex_escape($field->getAttribute('id'), 'js') . '-' . rex_escape($value, 'js') . '").change(function(){
                             var checkbox = $(this);
                             $("#' . rex_escape(implode(',#', $fieldIds), 'js') . '").each(function(){
                                 if ($(checkbox).is(":checked"))

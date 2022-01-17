@@ -1,6 +1,23 @@
 Changelog
 =========
 
+Version 2.12.1 – 29.11.2021
+---------------------------
+
+### Bugfixes
+
+* Klickfläche für den Hinzufügen-Link vergrößert (@schuer)
+
+
+Version 2.12.0 – 17.11.2021
+---------------------------
+
+### Neu
+
+* System-Mediatypen reduziert auf `rex_media_small`, `rex_media_medium`, `rex_media_large` (@schuer)
+* System-Mediatypen sind nicht mehr bearbeitbar (es war sowieso nicht updatesicher möglich) (@gharlan, @bloep)
+
+
 Version 2.11.1 – 21.06.2021
 ---------------------------
 

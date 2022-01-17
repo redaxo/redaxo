@@ -1,6 +1,87 @@
 Changelog
 =========
 
+Version 5.13.2 – 10.01.2022
+---------------------------
+
+### Bugfixes
+
+* "Eingeloggt bleiben" funktionierte nicht mehr korrekt (@gharlan)
+* In der Sprachverwaltung wurde der online/offline-Status nicht mehr farblich unterschieden (@schuer)
+* Klickfläche weiterer Icon-Links vergrößert (@schuer)
+* Setup: Fehlermeldung bzgl. unsicherer Ordner verständlicher gemacht (@skerbis)
+* Cli-Setup: Es wird darauf hingewiesen, dass die Setup-Checks dort nicht die Korrektheit innerhalb der Server-Umgebung garantieren können (@gharlan)
+* `rex_sql`: Die Query-Parameter werden entsprechend ihrer PHP-Typen gebunden, dadurch z.B. Parameter auch in `LIMIT`-Ausdrücken möglich (@gharlan)
+* EOL-Daten für PHP 8 und MariaDB 10.6 hinterlegt (@staabm)
+* Fehlermeldung optimiert, wenn die Datei zu einer Package-Page nicht existiert (@gharlan)
+* Deprecation-Meldungen vermieden (teilweise noch PHP 8.1, ansonsten schon für PHP 8.2) (@gharlan)
+
+
+Version 5.13.1 – 29.11.2021
+---------------------------
+
+### Security
+
+* Bei Passwortänderung wurden die vorhandenen Sessions des Users nicht beendet (@gharlan)
+
+### Neu
+
+* Update der externen Bibliotheken (@gharlan)
+
+### Bugfixes
+
+* Deprecated-Meldungen in PHP 8.1 entfernt (@gharlan)
+* "Eingeloggt bleiben"-Cookies wurden teils unnötig invalidiert (z.B. bei Logout an einem anderen Rechner) (@gharlan)
+* Firewalls haben teils die Assets-URLs blockert (@gharlan)
+* Profilseite: Bei erzwungenem Passwortwechsel verständlichere Erläuterung und Reduzierung auf die Passwort-Felder (@schuer)
+* `rex_sql_table`: Defaultwert `0` wurde nicht gesetzt (@TobiasKrais)
+* `rex_markdown`: Korrekturen beim PHP-Syntaxthighlighting (@gharlan)
+
+
+Version 5.13.0 – 17.11.2021
+---------------------------
+
+### Neu
+
+* Es werden neu die PHP-Extensions `ctype`, `mbstring` und `intl` erfordert (@gharlan)
+* Dark-Mode für das Backend (@schuer): 
+    - Die Theme-Auswahl erfolgt automatisch im Browser
+    - User können auf ihrer Profilseite ein Theme explizit auswählen
+    - Über die `config.yml` kann ein Theme für alle User fest vorgegeben werden
+* `rex_list`:
+    - Spaltenposition können abgefragt/verändert werden über `getColumnPosition`/`setColumnPosition` (@christophboecker)
+    - Paginierung kann deaktiviert werden (@gharlan)
+    - Gesamtanzahl wird nicht mehr über deprecated `SQL_CALC_FOUND_ROWS` abgefragt (@gharlan)
+* `rex_formatter`:
+    - Neue Methoden `intlDateTime`, `intlDate`, `intlTime` für die Datumsformatierung über `IntlDateFormatter` (@gharlan)
+    - Deprecated `strftime`, stattdessen die neuen `intl*`-Methoden verwenden (`strftime` wurde auch in PHP deprecated gesetzt) (@gharlan)
+* `rex_select`: Bei `addSqlOptions` kann als zweiter Parameter die DB-ID gesetzt werden (@christophboecker)
+* `rex_markdown`: Optional kann Highlighting für PHP-Codeblöcke aktiviert werden (wird in den Readme-Ausgaben im Backend verwendet) (@gharlan)
+* `rex_pager`: 
+    - Page/Cursor kann direkt gesetzt werden über `setPage`/`setCursor` (@gharlan)
+    - Page/Cursor wird automatisch validiert und ggf. auf erste/letzte Page angepasst (@gharlan)
+* `rex`: Neue Methode `requireUser` (nicht nullable) (@gharlan)
+* `rex_socket`: Context-Options können gesetzt werden (z.B. `verify_peer` für SSL) (@dergel)
+* `rex_socket_proxy`: Bei https wird TLS v1.2 und SNI verwendet (@develerik)
+* `rex_response`: Neue Konstante `HTTP_BAD_REQUEST` für den entsprechenden HTTP-Status (@christophboecker)
+* `rex_factory_trait` Neue Methode `getExplicitFactoryClass`, dafür `callFactoryClass` deprecated (@gharlan)
+* `dump()`-Ausgaben enthalten einen Link (entsprechend der Editor-Einstellung in REDAXO) zu der Codestelle, wo die Ausgabe ausgelöst wurde (@gharlan)
+* Neuer Console-Command `package:run-update-script`, der das Update-Skript eines Addons manuell anstößt (@gharlan)
+* `use_gzip` wird in der `config.yml` default nicht mehr aktiviert (@gharlan)
+* Aktualisierung Übersetzungen: schwedisch (@interweave-media)
+* System-Page: Basis-Pfad der REDAXO-Installation wird ausgegeben (@skerbis)
+* Im Backend wird der Opt-Out-Header für Google FLoC gesetzt (@staabm)
+* Dark-Mode für die Frontend-Fehlerseite (@gharlan)
+* Update der externen Bibliotheken (@skerbis, @gharlan)
+* Code-Stabilität durch statische Code-Analyse und Tests verbessert (@staabm, @bloep, @gharlan)
+
+### Bugfixes
+
+* Deprecations in PHP 8.1 aufgelöst (@gharlan)
+* Api-Functions haben immer einen gültigen `page`-Parameter erfordert (@gharlan)
+* System-Log: `rex:///`-Pfade wurden nicht mit den Editor-URLs verlinkt (@gharlan)
+
+
 Version 5.12.1 – 21.06.2021
 ---------------------------
 

@@ -6,9 +6,6 @@ general = Allmänt
 setlocale = se_SE,se_SE@euro,sve_sve,swedish_sweden,sv,se
 phpini_settings = PHP.ini inställningar
 
-dateformat = %d %b. %Y
-datetimeformat = %d %b. %Y, %H:%M
-timeformat = %H:%M
 ctrl = Flervalsurval med <kbd>STRG</kbd> resp. <kbd>CMD</kbd>
 translatable = Översättbar via <code> translate: i18n_key </ code>
 save_and_goon_tooltip = Spara och fortsätt bearbeta
@@ -36,6 +33,9 @@ unstable_version = Utvecklingsversion
 copy_to_clipboard = Copy to clipboard
 search_placeholder = Söker…
 search_clear = Återställ inmatning
+theme_light = Ljus
+theme_dark = Mörk
+theme_auto = Automatisk
 
 # redaxo/redaxo/index.php
 system = System
@@ -113,6 +113,7 @@ mode = Modus
 charset = Teckenuppsättning
 host = Host
 database = Databas
+installation = Installation
 logfiles = Logfiler
 syslog_redaxo = REDAXO
 syslog_delete = Radera systemlog
@@ -262,8 +263,8 @@ setup_705 = Lycka till!<br />REDAXO teamet
 setup_706 = till login
 setup_799 = 7 / Heureka
 
-setup_security_msg = Redaxo-mappem är inte säker. Vänligen skydda mappen och starta om installationen!
-setup_no_js_security_msg = Kolla om filer från mappen redaxo/cache, redaxo/data och redaxo/src är direkt tillgängliga! Det ska de av säkerhetsskäl inte vara!
+setup_security_msg =
+setup_no_js_security_msg =
 setup_security_no_https = Setup görs utan HTTPS / kryptering. Det rekommenderas att alla frontend och backend-upprop görs med endast HTTPS för att säkerställa integritet och datasäkerhet.
 setup_security_warn_mod_security = Apache-modulen "mod_security" laddades. Detta kan leda till problem om det är felaktigt konfigurerat.
 setup_security_deprecated_php = Den använda PHP-versionen {0} underhålls inte längre av tillverkaren och bör uppdateras.
@@ -417,8 +418,9 @@ new_password_repeat = Upprepa nytt lösenord
 profile_save_psw = Spara lösenord
 backend_language = Backendspråk
 user_data_updated = Användaruppgifter aktualiserades!
+theme = Backend-Theme
 
-password_change_required = Lösenordet måste bytas ut!
+password_change_required =
 password_not_changed = Det nya lösenordet måste skilja sig från det föregående!
 password_already_used = Lösenordet har redan använts och kan inte användas igen!
 password_invalid = Lösenordet motsvarar inte de föreskrivna reglerna ({0})!

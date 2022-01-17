@@ -34,13 +34,17 @@
     </projectFiles>
     <stubs>
         <file name="redaxo/src/core/.phpstorm.meta.php" />
-        <file name=".tools/psalm/deprecated.stub" />
     </stubs>
     <universalObjectCrates>
         <class name="rex_fragment" />
     </universalObjectCrates>
+    <forbiddenFunctions>
+        <function name="basename"/>
+        <function name="dd"/>
+        <function name="dump"/>
+    </forbiddenFunctions>
     <plugins>
-        <plugin filename=".tools/psalm/RexTypeReturnProvider.php" />
+        <pluginClass class="Redaxo\PsalmPlugin\Plugin" />
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin" />
         <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin" />
     </plugins>
@@ -53,6 +57,12 @@
                 <file name="redaxo/src/core/pages/login.php"/>
             </errorLevel>
         </InvalidGlobal>
+        <UndefinedAttributeClass>
+            <errorLevel type="suppress">
+                <referencedClass name="AllowDynamicProperties"/>
+                <referencedClass name="JetBrains\PhpStorm\Deprecated"/>
+            </errorLevel>
+        </UndefinedAttributeClass>
         <UnnecessaryVarAnnotation>
             <errorLevel type="suppress">
                 <!-- Fragments always contain a `@var rex_fragment $this` annotation, which is unused for psalm -->
@@ -89,6 +99,7 @@
         </RawObjectIteration>
         <RedundantCastGivenDocblockType errorLevel="info" />
         <RedundantConditionGivenDocblockType errorLevel="info" />
+        <RedundantFunctionCallGivenDocblockType errorLevel="info" />
         <UnresolvableInclude errorLevel="suppress" />
         <UnsafeInstantiation errorLevel="info" />
 <!-- level 4 issues -->

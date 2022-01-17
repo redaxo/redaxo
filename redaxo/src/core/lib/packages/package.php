@@ -280,13 +280,19 @@ abstract class rex_package implements rex_package_interface
         extract($__context, EXTR_SKIP);
 
         /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
-        if (is_file($this->getPath($__file))) {
+        if (is_file($__path = $this->getPath($__file))) {
             /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
-            return include $this->getPath($__file);
+            return require $__path;
         }
 
         /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
-        return include $__file;
+        if (is_file($__file)) {
+            /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
+            return require $__file;
+        }
+
+        /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
+        throw new rex_exception(sprintf('Package "%s": the page path "%s" neither exists as standalone path nor as package subpath "%s"', $this->getPackageId(), $__file, $__path));
     }
 
     /**

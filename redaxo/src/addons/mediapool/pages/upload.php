@@ -22,15 +22,15 @@ if ('add_file' == $mediaMethod) {
         if (rex_post('save', 'boolean') || rex_post('saveandexit', 'boolean')) {
             $data = [];
             $data['title'] = rex_request('ftitle', 'string');
-            $data['category_id'] = $rexFileCategory;
-
-            if ($_FILES['file_new']) {
-                $data['file'] = $_FILES['file_new'];
-                $data['file']['path'] = $_FILES['file_new']['tmp_name'] ?? '';
-            }
+            $data['category_id'] = (int) $rexFileCategory;
+            $data['file'] = rex_files('file_new', [
+                ['name', 'string'],
+                ['tmp_name', 'string'],
+                ['error', 'int'],
+            ]);
 
             try {
-                $data = rex_media_service::addMedia($data, rex::getUser()->getValue('login'), true, rex_post('args', 'array'));
+                $data = rex_media_service::addMedia($data, true, rex_post('args', 'array'));
                 $info = rex_i18n::msg('pool_file_added');
                 if (rex_post('saveandexit', 'boolean')) {
                     if ('' != $openerInputField) {

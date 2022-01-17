@@ -8,22 +8,22 @@
     "packages": [
         {
             "name": "itsgoingd/clockwork",
-            "version": "v5.1.0",
+            "version": "v5.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/itsgoingd/clockwork.git",
-                "reference": "b963dee47429a49c9669981cfa9a8362ce209278"
+                "reference": "e03f8a7f4bcd99ec67e56428e4fc7424de4cefa8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/itsgoingd/clockwork/zipball/b963dee47429a49c9669981cfa9a8362ce209278",
-                "reference": "b963dee47429a49c9669981cfa9a8362ce209278",
+                "url": "https://api.github.com/repos/itsgoingd/clockwork/zipball/e03f8a7f4bcd99ec67e56428e4fc7424de4cefa8",
+                "reference": "e03f8a7f4bcd99ec67e56428e4fc7424de4cefa8",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "php": ">=5.6",
-                "psr/log": "1.*"
+                "psr/log": "1.* || ^2.0"
             },
             "type": "library",
             "extra": {
@@ -65,7 +65,7 @@
             ],
             "support": {
                 "issues": "https://github.com/itsgoingd/clockwork/issues",
-                "source": "https://github.com/itsgoingd/clockwork/tree/v5.1.0"
+                "source": "https://github.com/itsgoingd/clockwork/tree/v5.1.3"
             },
             "funding": [
                 {
@@ -73,7 +73,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-08-07T23:04:17+00:00"
+            "time": "2021-12-24T12:24:20+00:00"
         },
         {
             "name": "psr/log",
@@ -137,5 +137,5 @@
     "platform-overrides": {
         "php": "7.3.0"
     },
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }

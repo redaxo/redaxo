@@ -6,23 +6,23 @@
 class rex_form_control_element extends rex_form_element
 {
     /**
-     * @var \rex_form_element|null
+     * @var rex_form_element|null
      */
     private $saveElement;
     /**
-     * @var \rex_form_element|null
+     * @var rex_form_element|null
      */
     private $applyElement;
     /**
-     * @var \rex_form_element|null
+     * @var rex_form_element|null
      */
     private $deleteElement;
     /**
-     * @var \rex_form_element|null
+     * @var rex_form_element|null
      */
     private $resetElement;
     /**
-     * @var \rex_form_element|null
+     * @var rex_form_element|null
      */
     private $abortElement;
 

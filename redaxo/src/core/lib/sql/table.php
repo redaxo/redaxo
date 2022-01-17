@@ -915,7 +915,7 @@ class rex_sql_table
     private function getColumnDefinition(rex_sql_column $column): string
     {
         $default = $column->getDefault();
-        if (!$default) {
+        if (null === $default) {
             $default = '';
         } elseif (
             in_array(strtolower($column->getType()), ['timestamp', 'datetime'], true) &&

@@ -46,6 +46,13 @@ class rex_i18n
         }
 
         if ($phpSetLocale) {
+            [$lang, $country] = explode('_', self::getLocale(), 2);
+
+            // In setup we want to reach the php extensions check even if intl extension is missing
+            if (class_exists(Locale::class)) {
+                Locale::setDefault($lang.'-'.strtoupper($country));
+            }
+
             $locales = [];
             foreach (explode(',', trim(self::msg('setlocale'))) as $locale) {
                 $locales[] = $locale . '.UTF-8';
@@ -129,6 +136,8 @@ class rex_i18n
      * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
      * @return string Translation for the key
+     *
+     * @psalm-taint-specialize
      */
     public static function rawMsg($key, ...$replacements)
     {
@@ -352,6 +361,7 @@ class rex_i18n
      * @throws InvalidArgumentException
      *
      * @psalm-taint-escape ($escape is true ? "html" : null)
+     * @psalm-taint-specialize
      *
      * @return string Translated text
      */
@@ -421,6 +431,8 @@ class rex_i18n
      */
     private static function loadFile($dir, $locale)
     {
+        $locale = self::validateLocale($locale);
+
         $file = $dir.DIRECTORY_SEPARATOR.$locale.'.lang';
         if (!($content = rex_file::get($file))) {
             return;
@@ -445,5 +457,20 @@ class rex_i18n
         }
 
         self::$loaded[$locale] = true;
+    }
+
+    /**
+     * @param string $locale Locale
+     *
+     * @return string the validated locale
+     *
+     * @psalm-taint-escape file
+     */
+    private static function validateLocale(string $locale): string
+    {
+        if (!preg_match('/^[a-z]{2}_[a-z]{2}$/', $locale)) {
+            throw new rex_exception('Invalid locale "'.$locale.'"');
+        }
+        return $locale;
     }
 }

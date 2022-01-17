@@ -71,9 +71,7 @@ class rex_content_service
             'slice_revision' => $data['revision'],
         ]));
 
-        $message = rex_extension::registerPoint(new rex_extension_point_art_content_updated($article, 'slice_added', $message));
-
-        return $message;
+        return rex_extension::registerPoint(new rex_extension_point_art_content_updated($article, 'slice_added', $message));
     }
 
     /**
@@ -192,7 +190,7 @@ class rex_content_service
         rex_sql_util::organizePriorities(
             rex::getTable('article_slice'),
             'priority',
-            'article_id=' . $curr->getValue('article_id') . ' AND clang_id=' . $curr->getValue('clang_id') . ' AND ctype_id=' . $curr->getValue('ctype_id') . ' AND revision=' . $curr->getValue('revision'),
+            'article_id=' . (int) $curr->getValue('article_id') . ' AND clang_id=' . (int) $curr->getValue('clang_id') . ' AND ctype_id=' . (int) $curr->getValue('ctype_id') . ' AND revision=' . (int) $curr->getValue('revision'),
             'priority'
         );
 
@@ -228,18 +226,22 @@ class rex_content_service
      * @param int $toId      ArtikelId des Artikel, in den kopiert werden sollen (Ziel ArtikelId)
      * @param int $fromClang ClangId des Artikels, aus dem kopiert werden soll (Quell ClangId)
      * @param int $toClang   ClangId des Artikels, in den kopiert werden soll (Ziel ClangId)
-     * @param int $revision
+     * @param null|int $revision If null, slices of all revisions are copied
      *
      * @return bool TRUE bei Erfolg, sonst FALSE
      */
-    public static function copyContent($fromId, $toId, $fromClang = 1, $toClang = 1, $revision = 0)
+    public static function copyContent($fromId, $toId, $fromClang = 1, $toClang = 1, $revision = null)
     {
         if ($fromId == $toId && $fromClang == $toClang) {
             return false;
         }
 
         $gc = rex_sql::factory();
-        $gc->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=?', [$fromId, $fromClang, $revision]);
+        if (null === $revision) {
+            $gc->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=?', [$fromId, $fromClang]);
+        } else {
+            $gc->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=?', [$fromId, $fromClang, $revision]);
+        }
 
         if (!$gc->getRows()) {
             return true;
@@ -259,11 +261,14 @@ class rex_content_service
         //$cols->setDebug();
         $cols->setQuery('SHOW COLUMNS FROM ' . rex::getTablePrefix() . 'article_slice');
 
-        $maxPriority = rex_sql::factory()->getArray(
-            'SELECT `ctype_id`, MAX(`priority`) as max FROM ' . rex::getTable('article_slice') . ' WHERE `article_id` = :to_id AND `clang_id` = :to_clang AND `revision` = :revision GROUP BY `ctype_id`',
-            ['to_id' => $toId, 'to_clang' => $toClang, 'revision' => $revision]
+        $maxPriorityRaw = rex_sql::factory()->getArray(
+            'SELECT `ctype_id`, `revision`, MAX(`priority`) as max FROM ' . rex::getTable('article_slice') . ' WHERE `article_id` = :to_id AND `clang_id` = :to_clang GROUP BY `ctype_id`, `revision`',
+            ['to_id' => $toId, 'to_clang' => $toClang]
         );
-        $maxPriority = array_column($maxPriority, 'max', 'ctype_id');
+        $maxPriority = [];
+        foreach ($maxPriorityRaw as $row) {
+            $maxPriority[(int) $row['ctype_id']][(int) $row['revision']] = (int) $row['max'];
+        }
 
         $user = self::getUser();
 
@@ -276,14 +281,14 @@ class rex_content_service
                     $value = $toId;
                 } elseif ('priority' == $colname) {
                     $ctypeId = $slice->getValue('ctype_id');
-                    $value = $slice->getValue($colname) + ($maxPriority[$ctypeId] ?? 0);
+                    $value = (int) $slice->getValue($colname) + ($maxPriority[$ctypeId][(int) $slice->getValue('revision')] ?? 0);
                 } else {
                     $value = $slice->getValue($colname);
                 }
 
                 // collect all affected ctypes
                 if ('ctype_id' == $colname) {
-                    $ctypes[$value] = $value;
+                    $ctypes[$value][(int) $slice->getValue('revision')] = true;
                 }
 
                 if ('id' != $colname) {
@@ -297,14 +302,16 @@ class rex_content_service
             $ins->insert();
         }
 
-        foreach ($ctypes as $ctype) {
-            // reorg slices
-            rex_sql_util::organizePriorities(
-                rex::getTable('article_slice'),
-                'priority',
-                'article_id=' . (int) $toId . ' AND clang_id=' . (int) $toClang . ' AND ctype_id=' . (int) $ctype . ' AND revision=' . (int) $revision,
-                'priority, updatedate'
-            );
+        foreach ($ctypes as $ctype => $revisions) {
+            foreach ($revisions as $revision => $_) {
+                // reorg slices
+                rex_sql_util::organizePriorities(
+                    rex::getTable('article_slice'),
+                    'priority',
+                    'article_id=' . (int) $toId . ' AND clang_id=' . (int) $toClang . ' AND ctype_id=' . (int) $ctype . ' AND revision=' . $revision,
+                    'priority, updatedate'
+                );
+            }
         }
 
         rex_article_cache::deleteContent($toId, $toClang);
@@ -327,31 +334,35 @@ class rex_content_service
      */
     public static function generateArticleContent($articleId, $clang = null)
     {
-        foreach (rex_clang::getAllIds() as $clang) {
-            if (null !== $clang && $clang != $clang) {
+        foreach (rex_clang::getAllIds() as $clangId) {
+            if (null !== $clang && $clangId != $clang) {
                 continue;
             }
 
             $CONT = new rex_article_content_base();
-            $CONT->setCLang($clang);
+            $CONT->setCLang($clangId);
             $CONT->setEval(false); // Content nicht ausführen, damit in Cachedatei gespeichert werden kann
             if (!$CONT->setArticleId($articleId)) {
                 throw new rex_exception(sprintf('Article %d does not exist.', $articleId));
             }
 
             // --------------------------------------------------- Artikelcontent speichern
-            $articleContentFile = rex_path::addonCache('structure', "$articleId.$clang.content");
+            $articleContentFile = rex_path::addonCache('structure', "$articleId.$clangId.content");
             $articleContent = $CONT->getArticle();
 
             // ----- EXTENSION POINT
             $articleContent = rex_extension::registerPoint(new rex_extension_point('GENERATE_FILTER', $articleContent, [
                 'id' => $articleId,
-                'clang' => $clang,
+                'clang' => $clangId,
                 'article' => $CONT,
             ]));
 
             if (!rex_file::put($articleContentFile, $articleContent)) {
                 throw new rex_exception(sprintf('Article %d could not be generated, check the directory permissions for "%s".', $articleId, rex_path::addonCache('structure')));
+            }
+
+            if (function_exists('opcache_invalidate')) {
+                opcache_invalidate($articleContentFile);
             }
         }
 

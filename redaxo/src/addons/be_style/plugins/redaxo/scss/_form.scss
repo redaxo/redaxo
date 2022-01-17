@@ -40,6 +40,14 @@
 select.form-control {
     height: auto;
 }
+
+// workaround for select issues (Safari 15)
+// https://github.com/redaxo/redaxo/issues/4792
+// TODO: check if workaround can be removed with newer Safari releases
+:not(.rex-select-style) select.form-control {
+    white-space: normal;
+}
+
 legend {
     padding-bottom: 3px;
     font-size: $font-size-large;
@@ -319,9 +327,6 @@ label.required::after {
             &[multiple],
             &[multiple]:focus {
                 background-color: $color-grey-2;
-            }
-            &:focus {
-                background-color: transparent;
             }
         }
     }

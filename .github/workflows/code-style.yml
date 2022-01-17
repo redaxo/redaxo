@@ -11,7 +11,7 @@ env:
 
 jobs:
     php-cs-fixer:
-        runs-on: ubuntu-18.04
+        runs-on: ubuntu-latest
         if: github.event.pull_request.draft == false
 
         steps:
@@ -28,12 +28,12 @@ jobs:
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: 7.3
+                    php-version: 8.1
                     coverage: none # disable xdebug, pcov
                     tools: cs2pr
 
             -   name: Composer install
-                uses: ramsey/composer-install@v1
+                uses: ramsey/composer-install@v2
                 with:
                     composer-options: --ansi --prefer-dist
 
@@ -71,11 +71,11 @@ jobs:
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: 7.4
+                    php-version: 8.1
                     coverage: none # disable xdebug, pcov
 
             -   name: Composer install
-                uses: ramsey/composer-install@v1
+                uses: ramsey/composer-install@v2
                 with:
                     composer-options: --ansi --prefer-dist
 

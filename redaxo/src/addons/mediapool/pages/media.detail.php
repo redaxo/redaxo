@@ -31,7 +31,7 @@ if (rex_post('btn_delete', 'string')) {
         $sql = rex_sql::factory()->setQuery('SELECT filename FROM ' . rex::getTable('media') . ' WHERE id = ?', [$fileId]);
         $media = null;
         if (1 == $sql->getRows()) {
-            $media = rex_media::get($sql->getValue('filename'));
+            $media = rex_media::get((string) $sql->getValue('filename'));
         }
 
         if ($media) {
@@ -68,23 +68,25 @@ if (rex_post('btn_update', 'string')) {
         } elseif (!rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('category_id')) || !rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rexFileCategory)) {
             $error = rex_i18n::msg('no_permission');
         } else {
+            $filename = (string) $gf->getValue('filename');
             $data = [];
             $data['category_id'] = $rexFileCategory;
             $data['title'] = rex_request('ftitle', 'string');
-            $data['filename'] = $gf->getValue('filename');
-            $data['filetype'] = $gf->getValue('filetype');
 
-            if ($_FILES['file_new']) {
-                $data['file'] = $_FILES['file_new'];
-                $data['file']['path'] = $_FILES['file_new']['tmp_name'];
+            if ($_FILES['file_new'] ?? null) {
+                $data['file'] = rex_files('file_new', [
+                    ['name', 'string'],
+                    ['tmp_name', 'string'],
+                    ['error', 'int'],
+                ]);
             }
 
             try {
-                $data = rex_media_service::updateMedia($data, rex::getUser()->getValue('login'));
+                rex_media_service::updateMedia($filename, $data);
 
                 if ($gf->getValue('category_id') != $rexFileCategory) {
                     rex_extension::registerPoint(new rex_extension_point('MEDIA_MOVED', null, [
-                        'filename' => $data['filename'],
+                        'filename' => $filename,
                         'category_id' => $rexFileCategory,
                     ]));
                 }
@@ -110,12 +112,12 @@ if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('cate
     $TPERM = true;
 }
 
-$ftitle = $gf->getValue('title');
-$fname = $gf->getValue('filename');
+$ftitle = (string) $gf->getValue('title');
+$fname = (string) $gf->getValue('filename');
 $ffiletype = $gf->getValue('filetype');
-$ffileSize = $gf->getValue('filesize');
+$ffileSize = (int) $gf->getValue('filesize');
 $ffileSize = rex_formatter::bytes($ffileSize);
-$rexFileCategory = $gf->getValue('category_id');
+$rexFileCategory = (int) $gf->getValue('category_id');
 
 $sidebar = '';
 $addExtInfo = '';
@@ -123,8 +125,8 @@ $encodedFname = urlencode($fname);
 
 $isImage = rex_media::isImageType(rex_file::extension($fname));
 if ($isImage) {
-    $fwidth = $gf->getValue('width');
-    $fheight = $gf->getValue('height');
+    $fwidth = (int) $gf->getValue('width');
+    $fheight = (int) $gf->getValue('height');
 
     if ($fwidth > 199) {
         $rfwidth = 200;
@@ -234,12 +236,12 @@ if ($TPERM) {
 
     $e = [];
     $e['label'] = '<label>' . rex_i18n::msg('pool_last_update') . '</label>';
-    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime(strtotime($gf->getValue('updatedate')), 'datetime') . ' <span class="rex-author">' . rex_escape($gf->getValue('updateuser')) . '</span></p>';
+    $e['field'] = '<p class="form-control-static">' . rex_formatter::intlDateTime($gf->getDateTimeValue('updatedate')) . ' <span class="rex-author">' . rex_escape($gf->getValue('updateuser')) . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
     $e['label'] = '<label>' . rex_i18n::msg('pool_created') . '</label>';
-    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime(strtotime($gf->getValue('createdate')), 'datetime') . ' <span class="rex-author">' . rex_escape($gf->getValue('createuser')) . '</span></p>';
+    $e['field'] = '<p class="form-control-static">' . rex_formatter::intlDateTime($gf->getDateTimeValue('createdate')) . ' <span class="rex-author">' . rex_escape($gf->getValue('createuser')) . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
@@ -314,17 +316,17 @@ if ($TPERM) {
 
     $e = [];
     $e['label'] = '<label>' . rex_i18n::msg('pool_filename') . '</label>';
-    $e['field'] = '<p class="form-control-static"><a href="' . rex_url::media($encodedFname) . '">' . $fname . '</a>  <span class="rex-filesize">' . $ffileSize . '</span></p>';
+    $e['field'] = '<p class="form-control-static"><a href="' . rex_url::media($encodedFname) . '">' . rex_escape($fname) . '</a>  <span class="rex-filesize">' . $ffileSize . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
     $e['label'] = '<label>' . rex_i18n::msg('pool_last_update') . '</label>';
-    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime(strtotime($gf->getValue('updatedate')), 'datetime') . ' <span class="rex-author">' . $gf->getValue('updateuser') . '</span></p>';
+    $e['field'] = '<p class="form-control-static">' . rex_formatter::intlDateTime($gf->getDateTimeValue('updatedate')) . ' <span class="rex-author">' . rex_escape((string) $gf->getValue('updateuser')) . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
     $e['label'] = '<label>' . rex_i18n::msg('pool_created') . '</label>';
-    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime(strtotime($gf->getValue('createdate')), 'datetime') . ' <span class="rex-author">' . $gf->getValue('createuser') . '</span></p>';
+    $e['field'] = '<p class="form-control-static">' . rex_formatter::intlDateTime($gf->getDateTimeValue('createdate')) . ' <span class="rex-author">' . rex_escape((string) $gf->getValue('createuser')) . '</span></p>';
     $formElements[] = $e;
 
     $fragment = new rex_fragment();

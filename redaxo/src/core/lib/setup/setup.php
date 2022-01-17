@@ -9,6 +9,7 @@ class rex_setup
 {
     // These values must be synchronized with the values in redaxo/src/core/update.php
     public const MIN_PHP_VERSION = REX_MIN_PHP_VERSION;
+    public const MIN_PHP_EXTENSIONS = ['ctype', 'fileinfo', 'filter', 'iconv', 'intl', 'mbstring', 'pcre', 'pdo', 'pdo_mysql', 'session', 'tokenizer'];
     public const MIN_MYSQL_VERSION = '5.6';
     public const MIN_MARIADB_VERSION = '10.1';
 
@@ -22,8 +23,6 @@ class rex_setup
     public const DB_MODE_SETUP_SKIP = 2;
     public const DB_MODE_SETUP_IMPORT_BACKUP = 3;
     public const DB_MODE_SETUP_UPDATE_FROM_PREVIOUS = 4;
-
-    private const MIN_PHP_EXTENSIONS = ['fileinfo', 'filter', 'iconv', 'pcre', 'pdo', 'pdo_mysql', 'session', 'tokenizer'];
 
     /**
      * very basic setup steps, so everything is in place for our browser-based setup wizard.
@@ -197,6 +196,8 @@ class rex_setup
             $security[] = rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION);
         } elseif (1 == version_compare(PHP_VERSION, '8.1', '<') && time() > strtotime('26 Nov 2023')) {
             $security[] = rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION);
+        } elseif (1 == version_compare(PHP_VERSION, '8.2', '<') && time() > strtotime('25 Nov 2024')) {
+            $security[] = rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION);
         }
 
         return $security;
@@ -225,6 +226,8 @@ class rex_setup
             } elseif (1 == version_compare($dbVersion, '10.5', '<') && time() > strtotime('1 Jun 2024')) {
                 $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
             } elseif (1 == version_compare($dbVersion, '10.6', '<') && time() > strtotime('1 Jun 2025')) {
+                $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
+            } elseif (1 == version_compare($dbVersion, '10.7', '<') && time() > strtotime('1 Jul 2026')) {
                 $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
             }
         } elseif (rex_sql::MYSQL === $dbType) {
@@ -303,7 +306,7 @@ class rex_setup
         // invalidate expired tokens
         $updated = false;
         foreach ($setup as $token => $expire) {
-            if (strtotime($expire) < time()) {
+            if (strtotime((string) $expire) < time()) {
                 unset($setup[$token]);
                 $updated = true;
             }

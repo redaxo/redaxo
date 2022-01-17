@@ -67,6 +67,7 @@ class rex_log_file implements Iterator
     /**
      * @return rex_log_entry
      */
+    #[ReturnTypeWillChange]
     public function current()
     {
         if (null === $this->currentLine) {
@@ -79,6 +80,7 @@ class rex_log_file implements Iterator
     /**
      * Reads the log file backwards line by line (each call reads one line).
      */
+    #[ReturnTypeWillChange]
     public function next()
     {
         /** @var int $bufferSize */
@@ -151,6 +153,7 @@ class rex_log_file implements Iterator
     /**
      * @return int|null
      */
+    #[ReturnTypeWillChange]
     public function key()
     {
         return $this->key;
@@ -159,6 +162,7 @@ class rex_log_file implements Iterator
     /**
      * {@inheritdoc}
      */
+    #[ReturnTypeWillChange]
     public function valid()
     {
         return !empty($this->currentLine);
@@ -167,6 +171,7 @@ class rex_log_file implements Iterator
     /**
      * {@inheritdoc}
      */
+    #[ReturnTypeWillChange]
     public function rewind()
     {
         $this->second = false;
@@ -238,7 +243,7 @@ class rex_log_entry
     /**
      * Returns the timestamp.
      *
-     * @param string $format See {@link rex_formatter::strftime}
+     * @param string|null $format Deprecated since 5.13.0, use `rex_formatter::intl*` instead. Format for {@link rex_formatter::strftime}
      *
      * @return int|string Unix timestamp or formatted string if $format is given
      */
@@ -247,7 +252,9 @@ class rex_log_entry
         if (null === $format) {
             return $this->timestamp;
         }
-        return rex_formatter::strftime($this->timestamp, $format);
+
+        /** @psalm-suppress DeprecatedMethod */
+        return rex_formatter::strftime($this->timestamp, $format); /** @phpstan-ignore-line */
     }
 
     /**

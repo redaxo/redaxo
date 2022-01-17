@@ -1,6 +1,47 @@
 Changelog
 =========
 
+Version 2.13.2 – 10.01.2022
+---------------------------
+
+### Bugfixes
+
+* Kategorie in Artikel umwandeln: Felder `catname` und `catpriority` wurden nicht korrekt aktualisiert (@gharlan)
+* Inhalt von/zu Sprache kopieren: Es werden auch die Inhalte der Arbeitsversion kopiert (@gharlan)
+* Die Version-Toolbar wird nicht in der Artikel-Funktionen-Page angezeigt, da dort nicht relevant (@gharlan)
+* Modul-Aktionen: Speicherung korrigiert bei Auswahl der "Alle"-Checkboxen (@gharlan)
+* Fehlermeldung im Fronted optimiert, wenn noch kein Artikel existiert (@gharlan)
+* Bei Installation wird die Default-Config für Start-/Fehler-Artikel in `rex_config` gespeichert (@gharlan)
+
+
+Version 2.13.1 – 29.11.2021
+---------------------------
+
+### Bugfixes
+
+* Templates: bei Modulzuweisung zu CTypes wurde teils fälschlich nach Speichern wieder "Alle" aktiviert (@gharlan)
+
+
+Version 2.13.0 – 17.11.2021
+---------------------------
+
+### Neu
+
+* Im Modul wird der aktuelle Slice gecacht als `rex_article_slice`-Objekt zur Verfügung gestellt über `$this->getCurrentSlice()`, so kann über PHP ohne REX_VARs auf die Values zugegriffen werden (@gharlan)
+* `rex_article_slice`:
+    - Neue Methoden `getValueArray`, `getLinkListArray`, `getMediaListArray`, die den Feldinhalt direkt als Array liefern (@gharlan)
+* Strukur-Page: Tabellenzeilen erhalten `data-status="x"`-Attribut, so können die Zeilen je nach Status gestylet werden (@danspringer, @schuer)
+* Kategorie-Selectfelder mit Suchfeld (@skerbis)
+* Bezeichner optimiert (@alxndr-w)
+
+### Bugfixes
+
+* Sliceänderungen wirkten sich teils erst verzögert aus (wegen Opcache) (@gharlan)
+* `rex_article_slice`: bei `getLinkUrl` bekam man die aktuelle URL statt `null`, wenn das Feld nicht gesetzt ist (`getMediaUrl` entsprechend) (@gharlan)
+* `REX_LINK[id=X output=url]` hat teilweise die URL in falscher Sprache geliefert (@gharlan)
+* Bei der Modulzuweisung zu den CTypes wurde bei Abwahl aller Module wieder die Checkbox "Alle" gesetzt (@gharlan)
+
+
 Version 2.12.1 – 21.06.2021
 ---------------------------
 

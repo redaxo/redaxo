@@ -1,5 +1,5 @@
 package: install
-version: '2.9.1'
+version: '2.9.3'
 author: Gregor Harlan
 supportpage: https://github.com/redaxo/redaxo
 
@@ -23,7 +23,7 @@ requires:
     php:
         version: '>=7.3'
         extensions: [zlib]
-    redaxo: ^5.12.0
+    redaxo: ^5.13.0
 
 
 console_commands:

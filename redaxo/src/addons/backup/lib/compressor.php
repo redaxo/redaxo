@@ -52,7 +52,7 @@ class rex_backup_file_compressor
     public function gzReadDeCompressed(string $source)
     {
         if ('gz' !== rex_file::extension($source)) {
-            throw new \Exception('Expecting a file with .gz suffix');
+            throw new Exception('Expecting a file with .gz suffix');
         }
 
         $str = '';

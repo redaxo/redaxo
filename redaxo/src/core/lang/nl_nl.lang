@@ -6,9 +6,6 @@ general = Algemeen
 setlocale = nl_NL,nl_NL.UTF8,dutch,nld_nld,nld,Nederlands
 phpini_settings = PHP.ini Instellingen
 
-dateformat = %d %b. %Y
-datetimeformat = %d %b. %Y, %H:%M
-timeformat = %H:%M
 ctrl = Selecteer meerdere met <kbd>CTRL</kbd> of <kbd>CMD</kbd>
 
 # Allgemein
@@ -233,8 +230,8 @@ setup_705 = Veel plezier en succes<br />Het REDAXO-team
 setup_706 = Log in
 setup_799 = 7 / Hoera
 
-setup_security_msg = De map redaxo/include is niet beveiligd. Beveilig deze map en herstart de installatie.
-setup_no_js_security_msg = Zorg ervoor dat de bestanden in redaxo/include niet direct toegankelijk zijn! Door veiligheidsoverwegingen zouden deze bestanden niet toegankelijk mogen zijn!
+setup_security_msg =
+setup_no_js_security_msg =
 setup_security_no_https = De installatie gaat door zonder SSL-versleuteling. Het is aanbevolen om SSL-versleuteling te gebruiken om de privacy en beveiliging in elke aanvraag te waarborgen.
 setup_security_warn_mod_security = De Apache-module "mod_security" is geladen. Dit kan problemen veroorzaken indien niet juist geconfigureerd.
 setup_security_deprecated_php = De gebruikte PHP-versie {0} krijg niet langer updates. Overweeg om te upgraden naar een nieuwere versie.

@@ -1,10 +1,9 @@
 includes:
 	- .tools/phpstan/baseline.neon
-	# activate dead code detection. this line should be removed after we updated to phpstan 1.0+
-	- vendor/phpstan/phpstan/conf/bleedingEdge.neon
 
 parameters:
     level: 5
+    phpVersion: 70300 # PHP 7.3
     treatPhpDocTypesAsCertain: false
     paths:
         # restrict to core and core addons, ignore other locally installed addons
@@ -21,12 +20,13 @@ parameters:
         - redaxo/src/addons/project
         - redaxo/src/addons/structure
         - redaxo/src/addons/users
-    excludes_analyse:
-        - redaxo/src/addons/backup/vendor/
-        - redaxo/src/addons/be_style/vendor/
-        - redaxo/src/addons/debug/vendor/
-        - redaxo/src/addons/phpmailer/vendor/
-        - redaxo/src/core/vendor/
+    excludePaths:
+        analyse:
+            - redaxo/src/addons/backup/vendor/
+            - redaxo/src/addons/be_style/vendor/
+            - redaxo/src/addons/debug/vendor/
+            - redaxo/src/addons/phpmailer/vendor/
+            - redaxo/src/core/vendor/
     # https://phpstan.org/config-reference#universal-object-crates
     universalObjectCratesClasses:
         - rex_fragment
@@ -44,6 +44,9 @@ parameters:
         - '#Access to an undefined property rex_clang::\$clang_foo\.#'
         - '#Unsafe usage of new static\(\)\.#'
         - '#Constructor of class rex_form_.*_element has an unused parameter \$tag.#'
+        - '#^Offset .* on .* always exists#'
+        - '#Attribute class (?:AllowDynamicProperties|JetBrains\\PhpStorm\\Deprecated) does not exist\.#'
+        - '#Parameter \#2 \$algo of function password_.+ expects int, string given\.#'
         -
             message: '#.*deprecated.*#'
             path: '*/update.php'

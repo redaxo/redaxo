@@ -1,6 +1,38 @@
 Changelog
 =========
 
+Version 2.11.2 – 10.01.2022
+---------------------------
+
+### Bugfixes
+
+* Verhalten der alten (deprecated) Funktionen `rex_mediapool_saveMedia` und `rex_mediapool_updateMedia` an das frühere Verhalten wieder angeglichen (@gharlan)
+
+
+Version 2.11.1 – 05.12.2021
+---------------------------
+
+### Bugfixes
+
+* Uploaderrors (insbesondere bei zu großen Dateien) werden besser abgefangen (@gharlan)
+* Widgets: Filterung der Dateitypen hatte keine Auswirkung mehr (@gharlan)
+* Synchronisierung funktionierte teils nicht (@gharlan)
+
+
+Version 2.11.0 – 17.11.2021
+---------------------------
+
+### Neu
+
+* Neue Serviceklassen `rex_mediapool` und `rex_media_service` (entsprechend alte Funktionen als deprecated gesetzt) (@dergel, @gharlan)
+* `rex_media`: Neue Methode `forId`, um ein Medium über die ID zu erhalten (@dergel)
+* Medienpool-Suche trennt die Eingabe in Wörter, die getrennt gesucht werden, und bietet eine Dateitypsuche ("type:jpg,gif") (@gharlan)
+
+### Bugfixes
+
+* Wenn eine Datei im Mediapool ausgewählt wird, wird das `onchange`-Event des MediaButton-Inputs getriggert (@BenJ1337)
+
+
 Version 2.10.1 – 21.06.2021
 ---------------------------
 

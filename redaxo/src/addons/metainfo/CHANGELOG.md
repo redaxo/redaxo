@@ -1,6 +1,30 @@
 Changelog
 =========
 
+Version 2.8.4 – 10.01.2022
+--------------------------
+
+### Bugfixes
+
+* Bei Datumsfeldern funktionierte die Checkbox mit PHP 8 nicht mehr (@gharlan)
+
+
+Version 2.8.3 – 29.11.2021
+--------------------------
+
+### Bugfixes
+
+* Klickfläche für den Hinzufügen-Link vergrößert (@schuer)
+
+
+Version 2.8.2 – 17.11.2021
+--------------------------
+
+### Bugfixes
+
+* Metainfos wurden teils doppelt gespeichert, teils erneut nach den entsprechenden `*_UPDATED` EPs (@gharlan)
+
+
 Version 2.8.1 – 21.06.2021
 --------------------------
 

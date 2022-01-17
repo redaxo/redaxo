@@ -148,11 +148,14 @@ if ($warnings) {
         $updateuser->setValue('status', 0);
     }
 
+    $passwordHash = null;
     if ('' != $userpsw) {
         $passwordHash = rex_login::passwordHash($userpsw);
         $updateuser->setValue('password', $passwordHash);
         $updateuser->setDateTimeValue('password_changed', time());
         $updateuser->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords($user, $passwordHash));
+        // On password change the "stay logged in" cookies must be invalidated
+        $updateuser->setValue('cookiekey', null);
     }
 
     $updateuser->setValue('password_change_required', (int) $passwordChangeRequired);
@@ -163,6 +166,10 @@ if ($warnings) {
 
     rex_user::clearInstance($userId);
     $user = rex_user::require($userId);
+
+    if (null !== $passwordHash && $userId == rex::requireUser()->getId()) {
+        rex::getProperty('login')->changedPassword($passwordHash);
+    }
 
     rex_extension::registerPoint(new rex_extension_point('USER_UPDATED', '', [
         'id' => $userId,
@@ -607,9 +614,7 @@ if ($SHOW) {
     $list->setColumnSortable('role');
 
     $list->setColumnLabel('lastlogin', rex_i18n::msg('last_login'));
-    $list->setColumnFormat('lastlogin', 'custom', static function () use ($list) {
-        return rex_formatter::strftime(strtotime($list->getValue('lastlogin')), 'datetime');
-    });
+    $list->setColumnFormat('lastlogin', 'intlDateTime');
     $list->setColumnSortable('lastlogin', 'desc');
 
     $colspan = rex::getUser()->isAdmin() ? 3 : 2;

@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 1.2.0 – 17.11.2021
+--------------------------
+
+### Neu
+
+* Update auf Clockwork 5.1 (@bloep)
+* Light/Dark-Mode wird entsprechend der Einstellung in REDAXO gesetzt (@bloep)
+
+
 Version 1.1.1 – 21.06.2021
 --------------------------
 

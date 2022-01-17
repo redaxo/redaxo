@@ -33,12 +33,13 @@ abstract class rex_metainfo_handler
             $tag = 'p';
             $tagAttr = '';
 
-            $name = $sqlFields->getValue('name');
-            $title = $sqlFields->getValue('title');
-            $params = $sqlFields->getValue('params');
-            $typeLabel = $sqlFields->getValue('label');
-            $attr = $sqlFields->getValue('attributes');
-            $dblength = $sqlFields->getValue('dblength');
+            $name = (string) $sqlFields->getValue('name');
+            $title = (string) $sqlFields->getValue('title');
+            /** @psalm-taint-escape sql */ // it is intended that admins can paste sql queries inside this field
+            $params = (string) $sqlFields->getValue('params');
+            $typeLabel = (string) $sqlFields->getValue('label');
+            $attr = (string) $sqlFields->getValue('attributes');
+            $dblength = (int) $sqlFields->getValue('dblength');
 
             $attrArray = rex_string::split($attr);
             if (isset($attrArray['perm'])) {
@@ -57,7 +58,7 @@ abstract class rex_metainfo_handler
                 }
             }
 
-            $defaultValue = $sqlFields->getValue('default');
+            $defaultValue = (string) $sqlFields->getValue('default');
             if ($activeItem) {
                 $itemValue = $activeItem->getValue($name);
 
@@ -66,7 +67,7 @@ abstract class rex_metainfo_handler
                     $dbvalues = explode('|+|', $itemValue);
                 } else {
                     // Neue Notation mit | als Trenner
-                    $dbvalues = explode('|', trim($itemValue, '|'));
+                    $dbvalues = explode('|', trim((string) $itemValue, '|'));
                 }
             } else {
                 $dbvalues = (array) $sqlFields->getValue('default');
@@ -180,7 +181,7 @@ abstract class rex_metainfo_handler
                             $currentId .= '-'.rex_escape((string) preg_replace('/[^a-zA-Z0-9_-]/', '_', (string) $key));
                             $e['label'] = '<label for="' . $currentId . '">' . rex_escape($value) . '</label>';
                         }
-                        $e['field'] = '<input type="' . $typeLabel . '" name="' . $name . '" value="' . rex_escape($key) . '" id="' . $currentId . '" ' . $attrStr . $selected . ' />';
+                        $e['field'] = '<input type="' . rex_escape($typeLabel) . '" name="' . rex_escape($name) . '" value="' . rex_escape($key) . '" id="' . $currentId . '" ' . $attrStr . $selected . ' />';
                         $formElements[] = $e;
                     }
 
@@ -282,7 +283,7 @@ abstract class rex_metainfo_handler
                     }
                     $tagAttr = ' class="form-control-date"';
 
-                    $active = 0 != $dbvalues[0];
+                    $active = (bool) $dbvalues[0];
                     if ('' == $dbvalues[0]) {
                         $dbvalues[0] = time();
                     }
@@ -314,7 +315,7 @@ abstract class rex_metainfo_handler
                     $field = $rexInput->getHtml();
 
                     $checked = $active ? ' checked="checked"' : '';
-                    $field .= '<input class="rex-metainfo-checkbox" type="checkbox" name="' . $name . '[active]" value="1"' . $checked . ' />';
+                    $field .= '<input class="rex-metainfo-checkbox" type="checkbox" name="' . rex_escape($name) . '[active]" value="1"' . $checked . ' />';
 
                     $e = [];
                     $e['label'] = $label;
@@ -528,9 +529,9 @@ abstract class rex_metainfo_handler
         }
 
         for ($i = 0; $i < $sqlFields->getRows(); $i++, $sqlFields->next()) {
-            $fieldName = $sqlFields->getValue('name');
-            $fieldType = $sqlFields->getValue('type_id');
-            $fieldAttributes = $sqlFields->getValue('attributes');
+            $fieldName = (string) $sqlFields->getValue('name');
+            $fieldType = (int) $sqlFields->getValue('type_id');
+            $fieldAttributes = (string) $sqlFields->getValue('attributes');
 
             // dont save restricted fields
             $attrArray = rex_string::split($fieldAttributes);
@@ -653,14 +654,14 @@ abstract class rex_metainfo_handler
      *
      * @return string
      */
-    public function renderFormAndSave($prefix, array $params)
+    public function renderFormAndSave($prefix, array $params, bool $fireCallbacks = true)
     {
         $filterCondition = $this->buildFilterCondition($params);
-        $sqlFields = $this->getSqlFields($prefix, $filterCondition);
+        $sqlFields = static::getSqlFields($prefix, $filterCondition);
         $params = $this->handleSave($params, $sqlFields);
 
         // trigger callback of sql fields
-        if ('post' == rex_request_method()) {
+        if ($fireCallbacks && 'post' == rex_request_method()) {
             $this->fireCallbacks($sqlFields);
         }
 

@@ -130,8 +130,8 @@ if ('add' == $function || 'edit' == $function) {
             $modules[1]['all'] = 0;
         }
 
-        foreach ($modules as $k => $module) {
-            if (!isset($module['all']) || 1 != $module['all']) {
+        for ($k = 1; $k <= $numCtypes; ++$k) {
+            if (!isset($modules[$k]['all']) || 1 != $modules[$k]['all']) {
                 $modules[$k]['all'] = 0;
             }
         }
@@ -246,12 +246,10 @@ if ('add' == $function || 'edit' == $function) {
         $catSelect->setId('rex-id-categories-select');
         $catSelect->setAttribute('class', 'form-control');
 
-        if (count($categories) > 0) {
-            foreach ($categories as $c => $cc) {
-                // typsicherer vergleich, weil (0 != "all") => false
-                if ('all' !== $c) {
-                    $catSelect->setSelected($cc);
-                }
+        foreach ($categories as $c => $cc) {
+            // typsicherer vergleich, weil (0 != "all") => false
+            if ('all' !== $c) {
+                $catSelect->setSelected($cc);
             }
         }
 
@@ -260,7 +258,7 @@ if ('add' == $function || 'edit' == $function) {
         $ctypes[] = ''; // Extra, fuer Neue Spalte
 
         if (is_array($ctypes)) {
-            foreach ($ctypes as $id => $name) {
+            foreach ($ctypes as $name) {
                 $modulSelect->setName('modules[' . $i . '][]');
                 $modulSelect->setId('rex-id-modules-' . $i . '-select');
                 $modulSelect->resetSelected();

@@ -5,6 +5,8 @@
  *
  * see http://net.tutsplus.com/tutorials/php/why-you-should-be-using-phps-pdo-for-database-access/
  *
+ * @implements Iterator<int<0, max>, rex_sql>
+ *
  * @package redaxo\core\sql
  */
 class rex_sql implements Iterator
@@ -31,9 +33,9 @@ class rex_sql implements Iterator
 
     /** @var bool */
     protected $debug; // debug schalter
-    /** @var array */
+    /** @var array<string, scalar|null> */
     protected $values; // Werte von setValue
-    /** @var array */
+    /** @var array<string, string> */
     protected $rawValues; // Werte von setRawValue
     /** @var string[]|null */
     protected $fieldnames; // Spalten im ResultSet
@@ -62,7 +64,7 @@ class rex_sql implements Iterator
 
     /** @var int */
     protected $rows; // anzahl der treffer
-    /** @var int */
+    /** @var int<0, max> */
     protected $counter; // pointer
     /** @var string */
     protected $query; // Die Abfrage
@@ -179,7 +181,7 @@ class rex_sql implements Iterator
         $dsn .= ';dbname=' . $database;
 
         // array_merge() doesnt work because it looses integer keys
-        $options = $options + [
+        $options += [
             PDO::ATTR_PERSISTENT => (bool) $persistent,
             PDO::ATTR_FETCH_TABLE_NAMES => true,
         ];
@@ -273,7 +275,7 @@ class rex_sql implements Iterator
      */
     public static function datetime($timestamp = null)
     {
-        return date(self::FORMAT_DATETIME, null === $timestamp ? time() : $timestamp);
+        return date(self::FORMAT_DATETIME, $timestamp ?? time());
     }
 
     /**
@@ -371,7 +373,20 @@ class rex_sql implements Iterator
             $this->flush();
             $this->params = $params;
 
-            $this->stmt->execute($params);
+            /** @var array<string, PDO::PARAM_*> $types */
+            static $types = [
+                'bool' => PDO::PARAM_BOOL,
+                'integer' => PDO::PARAM_INT,
+                'null' => PDO::PARAM_NULL,
+            ];
+            foreach ($params as $param => $value) {
+                $param = is_int($param) ? $param + 1 : $param;
+                $type = $types[gettype($value)] ?? PDO::PARAM_STR;
+
+                $this->stmt->bindValue($param, $value, $type);
+            }
+
+            $this->stmt->execute();
             $this->rows = $this->stmt->rowCount();
             $this->lastInsertId = self::$pdo[$this->DBID]->lastInsertId();
         } catch (PDOException $e) {
@@ -406,6 +421,8 @@ class rex_sql implements Iterator
      * @throws rex_sql_exception on errors
      *
      * @return $this
+     *
+     * @psalm-taint-specialize
      */
     public function setQuery($query, array $params = [], array $options = [])
     {
@@ -496,7 +513,7 @@ class rex_sql implements Iterator
      * Set the value of a column.
      *
      * @param string $column Name of the column
-     * @param mixed  $value  The value
+     * @param scalar|null  $value  The value
      *
      * @return $this the current rex_sql object
      */
@@ -537,7 +554,7 @@ class rex_sql implements Iterator
     /**
      * Setzt ein Array von Werten zugleich.
      *
-     * @param array $valueArray Ein Array von Werten
+     * @param array<string, scalar|null> $valueArray Ein Array von Werten
      *
      * @return $this the current rex_sql object
      */
@@ -714,7 +731,9 @@ class rex_sql implements Iterator
      *
      * @throws rex_sql_exception
      *
-     * @return mixed
+     * @return scalar|null
+     *
+     * @psalm-taint-source input
      */
     public function getValue($column)
     {
@@ -773,7 +792,7 @@ class rex_sql implements Iterator
     /**
      * @param string $column
      *
-     * @return mixed
+     * @return scalar|null
      */
     protected function fetchValue($column)
     {
@@ -805,6 +824,8 @@ class rex_sql implements Iterator
      * @param int $fetchType
      *
      * @return mixed
+     *
+     * @psalm-taint-source input
      */
     public function getRow($fetchType = PDO::FETCH_ASSOC)
     {
@@ -897,6 +918,7 @@ class rex_sql implements Iterator
                     $qry .= ', ';
                 }
 
+                /** @psalm-taint-escape sql */ // psalm marks whole array (keys and values) as tainted, not values only
                 $qry .= $this->escapeIdentifier($fldName) .' = :' . $fldName;
             }
         }
@@ -1005,7 +1027,10 @@ class rex_sql implements Iterator
         // provide debug infos, if insert is considered successfull, but no rows were inserted.
         // this happens when you violate against a NOTNULL constraint
         if (0 == $this->getRows()) {
-            throw new rex_sql_exception('Error while inserting into table "' . $tableName . '" with values ' . print_r($values, true) . '! Check your null/not-null constraints!', null, $this);
+            /** @psalm-taint-escape html */ // https://github.com/vimeo/psalm/issues/4669
+            $printValues = $values;
+            $printValues = print_r($printValues, true);
+            throw new rex_sql_exception('Error while inserting into table "' . $tableName . '" with values ' . $printValues . '! Check your null/not-null constraints!', null, $this);
         }
         return $this;
     }
@@ -1170,6 +1195,7 @@ class rex_sql implements Iterator
      * @return list<array<int|string, scalar|null>>
      * @psalm-return list<array<(TFetchType is PDO::FETCH_NUM ? int : string), scalar|null>>
      *
+     * @psalm-taint-source input
      * @psalm-suppress MixedReturnTypeCoercion
      */
     public function getDBArray($query = null, array $params = [], $fetchType = PDO::FETCH_ASSOC)
@@ -1203,6 +1229,7 @@ class rex_sql implements Iterator
      * @return list<array<int|string, scalar|null>>
      * @psalm-return list<array<(TFetchType is PDO::FETCH_NUM ? int : string), scalar|null>>
      *
+     * @psalm-taint-source input
      * @psalm-suppress MixedReturnTypeCoercion
      */
     public function getArray($query = null, array $params = [], $fetchType = PDO::FETCH_ASSOC)
@@ -1306,6 +1333,7 @@ class rex_sql implements Iterator
             $errors['error'] = $this->getError();
             $errors['ecode'] = $this->getErrno();
         }
+        /** @psalm-suppress ForbiddenCode */
         dump($errors);
     }
 
@@ -1327,7 +1355,7 @@ class rex_sql implements Iterator
         if (0 == $sql->getRows()) {
             $id = $startId;
         } else {
-            $id = $sql->getValue($column);
+            $id = (int) $sql->getValue($column);
         }
         ++$id;
         $this->setValue($column, $id);
@@ -1418,6 +1446,8 @@ class rex_sql implements Iterator
      * Example: `$sql->setQuery('SELECT * FROM my_table WHERE foo IN ('.$sql->in($values).')');`
      *
      * @param int[]|string[] $values
+     *
+     * @psalm-taint-escape sql
      */
     public function in(array $values): string
     {
@@ -1577,6 +1607,7 @@ class rex_sql implements Iterator
      *
      * @throws rex_sql_exception
      */
+    #[ReturnTypeWillChange]
     public function rewind()
     {
         $this->reset();
@@ -1587,6 +1618,7 @@ class rex_sql implements Iterator
      *
      * @return $this
      */
+    #[ReturnTypeWillChange]
     public function current()
     {
         return $this;
@@ -1595,6 +1627,7 @@ class rex_sql implements Iterator
     /**
      * @see http://www.php.net/manual/en/iterator.key.php
      */
+    #[ReturnTypeWillChange]
     public function key()
     {
         return $this->counter;
@@ -1603,6 +1636,7 @@ class rex_sql implements Iterator
     /**
      * @see http://www.php.net/manual/en/iterator.next.php
      */
+    #[ReturnTypeWillChange]
     public function next()
     {
         ++$this->counter;
@@ -1612,6 +1646,7 @@ class rex_sql implements Iterator
     /**
      * @see http://www.php.net/manual/en/iterator.valid.php
      */
+    #[ReturnTypeWillChange]
     public function valid()
     {
         return $this->hasNext();
@@ -1728,7 +1763,7 @@ class rex_sql implements Iterator
 
         if (null != $tablePrefix) {
             $column = $this->escapeIdentifier('Tables_in_'.$dbConfig->name);
-            $where[] = $column.' LIKE "' . $this->escapeLikeWildcards($tablePrefix) . '%"';
+            $where[] = $column.' LIKE ' . $this->escape($this->escapeLikeWildcards($tablePrefix).'%');
         }
 
         if ($where) {
@@ -1736,11 +1771,10 @@ class rex_sql implements Iterator
         }
 
         $tables = $this->getArray($qry);
-        $tables = array_map(static function (array $table) {
+
+        return array_map(static function (array $table) {
             return reset($table);
         }, $tables);
-
-        return $tables;
     }
 
     /**
@@ -1786,7 +1820,8 @@ class rex_sql implements Iterator
             $null = (string) $col->getValue('Null');
             assert('YES' === $null || 'NO' === $null);
 
-            $columns[] = [
+            /** @psalm-taint-escape sql */
+            $column = [
                 'name' => (string) $col->getValue('Field'),
                 'type' => (string) $col->getValue('Type'),
                 'null' => $null,
@@ -1795,6 +1830,8 @@ class rex_sql implements Iterator
                 'extra' => (string) $col->getValue('Extra'),
                 'comment' => null === $col->getValue('Comment') ? null : (string) $col->getValue('Comment'),
             ];
+
+            $columns[] = $column;
         }
 
         return $columns;

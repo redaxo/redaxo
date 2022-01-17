@@ -114,7 +114,7 @@ class rex
                 break;
             case 'console':
                 if (null !== $value && !$value instanceof rex_console_application) {
-                    throw new InvalidArgumentException(sprintf('"%s" property: expecting $value to be an instance of rex_console_application, "%s" found!', $key, is_object($value) ? get_class($value) : gettype($value)));
+                    throw new InvalidArgumentException(sprintf('"%s" property: expecting $value to be an instance of rex_console_application, "%s" found!', $key, get_debug_type($value)));
                 }
         }
         $exists = isset(self::$properties[$key]);
@@ -211,6 +211,7 @@ class rex
      * Returns the environment.
      *
      * @return string
+     * @psalm-return 'console'|'backend'|'frontend'
      */
     public static function getEnvironment()
     {
@@ -490,5 +491,34 @@ class rex
     public static function getDirPerm()
     {
         return (int) self::getProperty('dirperm', 0775);
+    }
+
+    /**
+     * Returns the current backend theme.
+     *
+     * @return 'dark'|'light'|null
+     */
+    public static function getTheme(): ?string
+    {
+        $themes = ['light', 'dark'];
+
+        // global theme from config.yml
+        $globalTheme = (string) self::getProperty('theme');
+        if (in_array($globalTheme, $themes, true)) {
+            return $globalTheme;
+        }
+
+        $user = self::getUser();
+        if (!$user) {
+            return null;
+        }
+
+        // user selected theme
+        $userTheme = (string) $user->getValue('theme');
+        if (in_array($userTheme, $themes, true)) {
+            return $userTheme;
+        }
+
+        return null;
     }
 }

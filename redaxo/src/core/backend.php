@@ -212,6 +212,10 @@ if ($user = rex::getUser()) {
     if (rex::getProperty('login')->requiresPasswordChange()) {
         // profile is available for everyone, no additional checks required
         rex_be_controller::setCurrentPage('profile');
+    } elseif (!rex_be_controller::getCurrentPage()) {
+        // trigger api functions before page permission check/redirection, if page param is not set.
+        // the api function is responsible for checking permissions.
+        rex_api_function::handleCall();
     }
 
     // --- page pruefen und benoetigte rechte checken
@@ -224,10 +228,9 @@ rex_view::setJsProperty('page', $page);
 // page variable validated
 rex_extension::registerPoint(new rex_extension_point('PAGE_CHECKED', $page, ['pages' => $pages], true));
 
-// trigger api functions
-// If the backend session is timed out, rex_api_function would throw an exception
-// so only trigger api functions if page != login
-if ('login' != $page) {
+if ($page) {
+    // trigger api functions after PAGE_CHECKED, if page param is set
+    // the api function is responsible for checking permissions.
     rex_api_function::handleCall();
 }
 

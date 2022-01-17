@@ -1,5 +1,5 @@
 package: mediapool
-version: '2.11.0-dev'
+version: '2.11.2'
 author: 'Jan Kristinus'
 supportpage: https://github.com/redaxo/redaxo
 
@@ -31,4 +31,4 @@ image_extensions: [bmp, gif, jpeg, jpg, png, svg, tif, tiff, webp]
 
 requires:
     php: '>=7.3'
-    redaxo: ^5.10.0
+    redaxo: ^5.13.0
