@@ -64,18 +64,11 @@ if (rex::isBackend()) {
         $ep->setSubject($icons . $ep->getSubject());
     });
     
-    // add theme-information dark/light/auto to js-variable rex as rex.darkmode
-    // System-Settings first
-    $darkmode = \rex::getProperty('theme');
-    if( 'light' === $darkmode || 'dark' === $darkmode) {
-        $darkmode = $darkmode;
-    } else {
-        $darkmode = null;
+    // add theme-information to js-variable rex as rex.theme
+    // (1) System-Settings (2) no systemforced mode: user-mode (3) fallback: "auto"
+    $theme = \rex::getProperty('theme');
+    if (null === $theme && $user) {
+        $theme = $user->getValue('theme');
     }
-    // No systemforced mode -> use user-mode
-    if (null === $darkmode && $user) {
-        $darkmode = $user->getValue('theme');
-    }
-    \rex_view::setJsProperty('darkmode', (string)($darkmode ?? 'auto'));
-
+    \rex_view::setJsProperty('theme', (string)($theme ?? 'auto'));
 }
