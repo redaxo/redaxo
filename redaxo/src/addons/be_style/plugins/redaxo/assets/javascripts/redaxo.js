@@ -163,37 +163,38 @@
 
     // -----------------------------------------------------------------------
 
-    // Darkmode
-    // prerequisites to detect darkmode-changes
-    if( rex && rex.darkmode && !redaxo.darkmode && window.matchMedia ) {
+    // Theme amd Darkmode
+    // prerequisites to detect darkmode-changes and have current settings simply available 
+    if( typeof rex !== 'undefined' && rex && rex.theme && !redaxo.theme && window.matchMedia ) {
 
-        redaxo.darkmode = {
-            match: window.matchMedia('(prefers-color-scheme: dark)'),
-            mode: null,
-            switched: function( mode ) {
-                let darkmode;
+        redaxo.theme = {
+            matchMediaDark: window.matchMedia('(prefers-color-scheme: dark)'),
+            isDarkMode: false,
+            current: rex.theme,
+            switched: function() {
+                let prevDarkMode = this.isDarkMode,
+                    prevTheme = this.current;
                 if( document.body.classList.contains('rex-theme-light') ){
-                    darkmode = false;
+                    this.isDarkMode = false;
+                    this.current = 'light';
                 } else if ( document.body.classList.contains('rex-theme-dark') ){
-                    darkmode = true;
-                } else {
-                    darkmode = true === mode;
+                    this.isDarkMode = true;
+                    this.current = 'dark';
+                } else { //auto
+                    this.isDarkMode = this.matchMediaDark.matches;
+                    this.current = 'auto';
                 }
-                if( darkmode === this.mode ) return false;
-                this.mode = darkmode;
-                document.body.dispatchEvent(new CustomEvent('rex.darkmode.change', { 'detail':{'darkmode':this.mode}}));
+                if( prevDarkMode === this.isDarkMode && prevTheme === this.current ) return false;
+                document.body.dispatchEvent(new CustomEvent('rex.darkmode.change', { detail:{theme:this.current,darkmode:this.isDarkMode}}));
                 return true;
             },
             observer: null,
         };
-
         // initial darkmode-status based on rex.darkmode to support js running before the DOM is ready
         // document.body ist not initialized at this point.
-        redaxo.darkmode.mode = 'light'===rex.darkmode ? false : ('dark'===rex.darkmode ? true : redaxo.darkmode.match.matches);
-
+        redaxo.theme.isDarkMode = 'light'===rex.theme ? false : ('dark'===rex.theme || redaxo.theme.matchMediaDark.matches);
         // Detect future darkmode-change on system-level
-        redaxo.darkmode.match.addEventListener('change', (event) => redaxo.darkmode.switched( event.matches ),true);
-
+        redaxo.theme.matchMediaDark.addEventListener('change', () => redaxo.theme.switched(),true);
     }
 
 
@@ -206,10 +207,10 @@
     document.addEventListener('DOMContentLoaded', function () {
         redaxo.navigationBar.init();
         // initialize Observer to detect by js changed darkmode/lightmode-themes on body-tag
-        if( redaxo.darkmode && null === redaxo.darkmode.observer ) {
-            redaxo.darkmode.observer = new MutationObserver( () => redaxo.darkmode.switched( redaxo.darkmode.matches ) );
-            if( redaxo.darkmode.observer ) {
-                redaxo.darkmode.observer.observe( document.body, {attributes:true,attributeFilter:['class']} );
+        if( redaxo.theme && null === redaxo.theme.observer ) {
+            redaxo.theme.observer = new MutationObserver( () => redaxo.theme.switched() );
+            if( redaxo.theme.observer ) {
+                redaxo.theme.observer.observe( document.body, {attributes:true,attributeFilter:['class']} );
             }
         }
     });
