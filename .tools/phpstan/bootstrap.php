@@ -13,7 +13,11 @@ if (false !== getenv('GITHUB_ACTION')) {
     $mysqli = new mysqli('mysql80.ab', 'testuser', 'test', 'redaxo5');
 }
 
+$config = RuntimeConfiguration::create();
+$config->errorMode(RuntimeConfiguration::ERROR_MODE_EXCEPTION);
+// $config->debugMode(true);
+
 QueryReflection::setupReflector(
     new MysqliQueryReflector($mysqli),
-    RuntimeConfiguration::create()->errorMode(RuntimeConfiguration::ERROR_MODE_EXCEPTION)
+    $config
 );
