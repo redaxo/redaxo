@@ -3260,7 +3260,9 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/plugins/history/boot.php">
-    <MixedArgument occurrences="1">
+    <MixedArgument occurrences="3">
+      <code>$articleId</code>
+      <code>$clangId</code>
       <code>$version['history_date']</code>
     </MixedArgument>
     <MixedArrayAccess occurrences="6">
@@ -3307,14 +3309,6 @@
     </MixedArgument>
   </file>
   <file src="redaxo/src/addons/structure/plugins/history/lib/article_slice_history.php">
-    <MixedArgument occurrences="3">
-      <code>$articleId</code>
-      <code>$clangId</code>
-      <code>$historyType</code>
-    </MixedArgument>
-    <MixedOperand occurrences="1">
-      <code>$historyDate</code>
-    </MixedOperand>
     <PossiblyNullReference occurrences="1">
       <code>getValue</code>
     </PossiblyNullReference>
@@ -3343,10 +3337,12 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/structure/plugins/version/boot.php">
-    <MixedArgument occurrences="6">
+    <MixedArgument occurrences="8">
       <code>$params['article_id']</code>
       <code>$params['article_id']</code>
       <code>$params['article_id']</code>
+      <code>$params['article_id']</code>
+      <code>$params['clang']</code>
       <code>$params['clang']</code>
       <code>$params['clang']</code>
       <code>$params['clang']</code>
