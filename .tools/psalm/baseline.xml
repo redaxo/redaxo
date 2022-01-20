@@ -3337,11 +3337,17 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/structure/plugins/version/boot.php">
-    <MixedArgument occurrences="8">
+    <MixedArgument occurrences="14">
       <code>$params['article_id']</code>
       <code>$params['article_id']</code>
       <code>$params['article_id']</code>
       <code>$params['article_id']</code>
+      <code>$params['article_id']</code>
+      <code>$params['article_id']</code>
+      <code>$params['article_id']</code>
+      <code>$params['clang']</code>
+      <code>$params['clang']</code>
+      <code>$params['clang']</code>
       <code>$params['clang']</code>
       <code>$params['clang']</code>
       <code>$params['clang']</code>
@@ -3395,11 +3401,6 @@
       <code>$colname</code>
       <code>$colname</code>
     </InvalidScalarArgument>
-    <MixedArgument occurrences="3">
-      <code>$articleId</code>
-      <code>$fromRevisionId</code>
-      <code>$toRevisionId</code>
-    </MixedArgument>
   </file>
   <file src="redaxo/src/addons/structure/tests/article_test.php">
     <MixedArgument occurrences="1">
