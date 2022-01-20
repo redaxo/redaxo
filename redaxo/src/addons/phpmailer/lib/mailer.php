@@ -290,6 +290,7 @@ class rex_mailer extends PHPMailer
         $mailBody .= '    </tbody>';
         $mailBody .= '</table>';
         //End - generate mailbody
+
         $mail = new self();
         $mail->Subject = rex::getServerName() . ' - error report ';
         $mail->Body = $mailBody;
