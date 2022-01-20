@@ -247,7 +247,7 @@ class rex_cronjob_manager_sql
     }
 
     /**
-     * @param array{id: int, interval: string, parameters: string} $job
+     * @param array{id: int, interval: string, parameters: string, type: string} $job
      * @param bool $log
      * @param bool $resetExecutionStart
      * @return bool
