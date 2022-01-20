@@ -189,7 +189,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
             $sql = rex_sql::factory();
 
             $qry = 'SELECT id FROM ' . rex::getTablePrefix() . 'media WHERE filename=:filename';
-            $sql->setQuery($qry, [':filename' => $params['filename']]);
+            $sql->setQuery($qry, ['filename' => $params['filename']]);
             if (1 == $sql->getRows()) {
                 $params['id'] = (int) $sql->getValue('id');
             } else {
