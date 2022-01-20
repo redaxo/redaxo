@@ -247,24 +247,23 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/cronjob/lib/manager_sql.php">
+    <InvalidArgument occurrences="1">
+      <code>$jobs[0]</code>
+    </InvalidArgument>
     <InvalidReturnStatement occurrences="1">
       <code>$this-&gt;sql-&gt;getValue('name')</code>
     </InvalidReturnStatement>
     <InvalidReturnType occurrences="1">
       <code>string</code>
     </InvalidReturnType>
-    <MixedArgument occurrences="15">
-      <code>$interval</code>
+    <MixedArgument occurrences="11">
       <code>$job</code>
       <code>$job['id']</code>
       <code>$job['id']</code>
       <code>$job['id']</code>
-      <code>$job['name']</code>
-      <code>$job['parameters']</code>
-      <code>$job['type']</code>
+      <code>$job['interval']</code>
       <code>$job['type']</code>
       <code>$jobs[0]</code>
-      <code>$log</code>
       <code>$params</code>
       <code>$status</code>
       <code>$value</code>
@@ -1773,10 +1772,9 @@
     <MixedMethodCall occurrences="1">
       <code>getValue</code>
     </MixedMethodCall>
-    <MixedOperand occurrences="3">
+    <MixedOperand occurrences="2">
       <code>$catId</code>
       <code>$ep-&gt;getSubject()</code>
-      <code>$params['filename']</code>
     </MixedOperand>
     <MixedReturnStatement occurrences="2">
       <code>$warning</code>
@@ -3262,7 +3260,9 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/plugins/history/boot.php">
-    <MixedArgument occurrences="1">
+    <MixedArgument occurrences="3">
+      <code>$articleId</code>
+      <code>$clangId</code>
       <code>$version['history_date']</code>
     </MixedArgument>
     <MixedArrayAccess occurrences="6">
@@ -3309,14 +3309,6 @@
     </MixedArgument>
   </file>
   <file src="redaxo/src/addons/structure/plugins/history/lib/article_slice_history.php">
-    <MixedArgument occurrences="3">
-      <code>$articleId</code>
-      <code>$clangId</code>
-      <code>$historyType</code>
-    </MixedArgument>
-    <MixedOperand occurrences="1">
-      <code>$historyDate</code>
-    </MixedOperand>
     <PossiblyNullReference occurrences="1">
       <code>getValue</code>
     </PossiblyNullReference>
@@ -3345,10 +3337,12 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/structure/plugins/version/boot.php">
-    <MixedArgument occurrences="6">
+    <MixedArgument occurrences="8">
       <code>$params['article_id']</code>
       <code>$params['article_id']</code>
       <code>$params['article_id']</code>
+      <code>$params['article_id']</code>
+      <code>$params['clang']</code>
       <code>$params['clang']</code>
       <code>$params['clang']</code>
       <code>$params['clang']</code>

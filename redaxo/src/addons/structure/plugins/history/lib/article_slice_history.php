@@ -15,10 +15,13 @@ class rex_article_slice_history
         return rex::getTablePrefix() . 'article_slice_history';
     }
 
-    /*
+    /**
      * Only Snapshots from LiveVersion.
+     *
+     * @param int $articleId
+     * @param int $clangId
+     * @param string $historyType
      */
-
     public static function makeSnapshot($articleId, $clangId, $historyType)
     {
         self::checkTables();
@@ -52,6 +55,9 @@ class rex_article_slice_history
     }
 
     /**
+     * @param int $articleId
+     * @param int $clangId
+     *
      * @return array
      */
     public static function getSnapshots($articleId, $clangId)
@@ -63,6 +69,10 @@ class rex_article_slice_history
     }
 
     /**
+     * @param string $historyDate
+     * @param int $articleId
+     * @param int $clangId
+     *
      * @return bool
      */
     public static function restoreSnapshot($historyDate, $articleId, $clangId)
