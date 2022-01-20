@@ -9,6 +9,11 @@ class rex_article_revision
     public const WORK = 1; // working copy
 
     /**
+     * @param int $articleId
+     * @param int $clang
+     * @param int $fromRevisionId
+     * @param int $toRevisionId
+     *
      * @return bool
      */
     public static function copyContent($articleId, $clang, $fromRevisionId, $toRevisionId)
@@ -49,6 +54,10 @@ class rex_article_revision
     }
 
     /**
+     * @param int $articleId
+     * @param int $clang
+     * @param int $fromRevisionId
+     *
      * @return true
      */
     public static function clearContent($articleId, $clang, $fromRevisionId)

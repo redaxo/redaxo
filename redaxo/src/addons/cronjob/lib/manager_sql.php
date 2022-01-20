@@ -224,6 +224,7 @@ class rex_cronjob_manager_sql
 
     /**
      * @param int $id
+     * @param bool $log
      * @return bool
      */
     public function tryExecute($id, $log = true)
@@ -246,6 +247,9 @@ class rex_cronjob_manager_sql
     }
 
     /**
+     * @param array{id: int, interval: string, name: string, parameters: string, type: class-string<rex_cronjob>} $job
+     * @param bool $log
+     * @param bool $resetExecutionStart
      * @return bool
      */
     private function tryExecuteJob(array $job, $log = true, $resetExecutionStart = false)
@@ -259,6 +263,10 @@ class rex_cronjob_manager_sql
     }
 
     /**
+     * @param int $id
+     * @param string $interval
+     * @param bool $resetExecutionStart
+     *
      * @return bool
      */
     public function setNextTime($id, $interval, $resetExecutionStart = false)

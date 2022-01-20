@@ -295,7 +295,7 @@ class rex_mailer extends PHPMailer
         $mail->Subject = rex::getServerName() . ' - error report ';
         $mail->Body = $mailBody;
         $mail->AltBody = strip_tags($mailBody);
-        $mail->setFrom(rex::getErrorEmail(), 'REDAXO error report');
+        $mail->FromName = 'REDAXO error report';
         $mail->addAddress(rex::getErrorEmail());
 
         $addon->setConfig('last_log_file_send_time', time());
