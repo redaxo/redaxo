@@ -259,6 +259,8 @@ class rex_cronjob_manager_sql
     }
 
     /**
+     * @param int $id
+     *
      * @return bool
      */
     public function setNextTime($id, $interval, $resetExecutionStart = false)
