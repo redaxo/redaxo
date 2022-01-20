@@ -15,7 +15,7 @@ class rex_article_slice_history
         return rex::getTablePrefix() . 'article_slice_history';
     }
 
-    /*
+    /**
      * Only Snapshots from LiveVersion.
      *
      * @param int $articleId
