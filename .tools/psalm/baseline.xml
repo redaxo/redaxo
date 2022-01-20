@@ -1772,10 +1772,9 @@
     <MixedMethodCall occurrences="1">
       <code>getValue</code>
     </MixedMethodCall>
-    <MixedOperand occurrences="3">
+    <MixedOperand occurrences="2">
       <code>$catId</code>
       <code>$ep-&gt;getSubject()</code>
-      <code>$params['filename']</code>
     </MixedOperand>
     <MixedReturnStatement occurrences="2">
       <code>$warning</code>
