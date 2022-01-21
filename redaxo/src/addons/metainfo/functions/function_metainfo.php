@@ -16,7 +16,7 @@
  * @param string $label
  * @param string $dbtype
  * @param int $dblength
- * @throws rex_sql_exception
+ *
  * @return string
  */
 function rex_metainfo_add_field_type($label, $dbtype, $dblength)
