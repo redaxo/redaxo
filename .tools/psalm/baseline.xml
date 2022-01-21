@@ -1563,18 +1563,6 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/metainfo/functions/function_metainfo.php">
-    <MixedArgument occurrences="10">
-      <code>$attributes</code>
-      <code>$callback</code>
-      <code>$default</code>
-      <code>$name</code>
-      <code>$params</code>
-      <code>$priority</code>
-      <code>$restrictions</code>
-      <code>$title</code>
-      <code>$type</code>
-      <code>$validate</code>
-    </MixedArgument>
     <MixedArrayAccess occurrences="1">
       <code>$metaTables[$prefix]</code>
     </MixedArrayAccess>
@@ -1584,10 +1572,9 @@
       <code>$metaTables</code>
       <code>$page</code>
     </MixedAssignment>
-    <MixedOperand occurrences="3">
+    <MixedOperand occurrences="2">
       <code>$metaTable</code>
       <code>$metaTable</code>
-      <code>$type</code>
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/handler/api_default_fields.php">
