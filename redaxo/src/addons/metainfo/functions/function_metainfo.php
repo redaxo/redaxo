@@ -150,7 +150,7 @@ function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $d
 }
 
 /**
- * @param string|id $fieldIdOrName
+ * @param string|int $fieldIdOrName
  *
  * @return bool|string
  */
