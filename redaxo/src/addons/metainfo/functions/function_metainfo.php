@@ -12,6 +12,12 @@
  * Fügt einen neuen Feldtyp ein.
  *
  * Gibt beim Erfolg die Id des Feldes zurück, bei Fehler die Fehlermeldung
+ *
+ * @param string $label
+ * @param string $dbtype
+ * @param int $dblength
+ *
+ * @return string
  */
 function rex_metainfo_add_field_type($label, $dbtype, $dblength)
 {
@@ -48,6 +54,8 @@ function rex_metainfo_add_field_type($label, $dbtype, $dblength)
  *
  * Gibt beim Erfolg true zurück, sonst eine Fehlermeldung
  *
+ * @param int $fieldTypeId
+ *
  * @return bool|string
  */
 function rex_metainfo_delete_field_type($fieldTypeId)
@@ -66,6 +74,19 @@ function rex_metainfo_delete_field_type($fieldTypeId)
 
 /**
  * Fügt ein MetaFeld hinzu und legt dafür eine Spalte in der MetaTable an.
+ *
+ * @param string $title
+ * @param string $name
+ * @param int $priority
+ * @param string $attributes
+ * @param int $type
+ * @param string $default
+ * @param string $params
+ * @param string $validate
+ * @param string $restrictions
+ * @param string $callback
+ *
+ * @return bool|string
  */
 function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $default, $params = null, $validate = null, $restrictions = '', $callback = null)
 {
@@ -128,6 +149,11 @@ function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $d
     return $tableManager->addColumn($name, $fieldDbType, $fieldDbLength, $default);
 }
 
+/**
+ * @param string|int $fieldIdOrName
+ *
+ * @return bool|string
+ */
 function rex_metainfo_delete_field($fieldIdOrName)
 {
     // Löschen anhand der FieldId
