@@ -29,16 +29,15 @@ function rex_media_manager_media_is_in_use(rex_extension_point $ep) {
 	$filename = addslashes($params['filename']);
 
 	if($filename) {
-		// Templates
-		$sql_template = \rex_sql::factory();
+		$sql = \rex_sql::factory();
 		$query = 'SELECT DISTINCT effect.id AS effect_id, effect.type_id, type.id, type.name FROM `' . rex::getTablePrefix() . 'media_manager_type_effect` AS effect '
 			.'LEFT JOIN `' . rex::getTablePrefix() . 'media_manager_type`AS type ON effect.type_id = type.id '
-			.'WHERE parameters REGEXP ' . $sql_template->escape('(^|[^[:alnum:]+_-])'. $filename);
-		$sql_template->setQuery($query);
+			.'WHERE parameters REGEXP ' . $sql->escape('(^|[^[:alnum:]+_-])'. $filename);
+		$sql->setQuery($query);
 
-		// Prepare warnings for templates
-		for($i = 0; $i < $sql_template->getRows(); $i++) {
-			$message = '<a href="javascript:openPage(\''. rex_url::backendPage('media_manager/types', ['effects' => 1, 'type_id' => $sql_template->getValue('type_id'), 'effect_id' => $sql_template->getValue('effect_id'), 'func' => 'edit']) .'\')">'. rex_i18n::msg('media_manager') .' '. rex_i18n::msg('media_manager_effect_name') .': '. $sql_template->getValue('name') .'</a>';
+		// Prepare warnings
+		for($i = 0; $i < $sql->getRows(); $i++) {
+			$message = '<a href="javascript:openPage(\''. rex_url::backendPage('media_manager/types', ['effects' => 1, 'type_id' => $sql->getValue('type_id'), 'effect_id' => $sql->getValue('effect_id'), 'func' => 'edit']) .'\')">'. rex_i18n::msg('media_manager') .' '. rex_i18n::msg('media_manager_effect_name') .': '. $sql->getValue('name') .'</a>';
 			if(!in_array($message, $warning)) {
 				$warning[] = $message;
 			}
