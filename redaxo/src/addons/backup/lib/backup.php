@@ -434,6 +434,11 @@ class rex_backup
     private static function addFolderToTar(rex_backup_tar $tar, $path, $dir)
     {
         $handle = opendir($path . $dir);
+
+        if (false === $handle) {
+            throw new rex_exception(sprintf('Unable to open dir "%s"', $path . $dir));
+        }
+
         $isMediafolder = realpath($path . $dir) . '/' == rex_path::media();
         while (false !== ($file = readdir($handle))) {
             // Alles exportieren, außer ...
