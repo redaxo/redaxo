@@ -26,7 +26,7 @@ if (rex::isBackend()) {
 function rex_media_manager_media_is_in_use(rex_extension_point $ep) {
 	$warning = $ep->getSubject();
 	$params = $ep->getParams();
-	$filename = addslashes($params['filename']);
+	$filename = $params['filename'];
 
 	if($filename) {
 		$sql = \rex_sql::factory();
