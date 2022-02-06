@@ -481,6 +481,7 @@ class rex_article_service
             $sql->setValue('startarticle', 1);
             $sql->setValue('catname', $sql->getValue('name'));
             $sql->setValue('catpriority', 100);
+            $sql->setValue('priority', 1);
             $sql->update();
 
             rex_category_service::newCatPrio($parentId, $clang, 0, 100);
