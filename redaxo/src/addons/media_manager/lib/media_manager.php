@@ -425,16 +425,17 @@ class rex_media_manager
      */
 
     /**
-     * Checks if media is used by this addon
+     * Checks if media is used by this addon.
      * @param rex_extension_point $ep Redaxo extension point
      * @return string[] Warning message as array
      */
-    public static function mediaIsInUse(rex_extension_point $ep) {
+    public static function mediaIsInUse(rex_extension_point $ep)
+    {
         $warning = $ep->getSubject();
         $params = $ep->getParams();
         $filename = $params['filename'];
 
-        if($filename) {
+        if ($filename) {
             $sql = \rex_sql::factory();
             $query = 'SELECT DISTINCT effect.id AS effect_id, effect.type_id, type.id, type.name FROM `' . rex::getTablePrefix() . 'media_manager_type_effect` AS effect '
                 .'LEFT JOIN `' . rex::getTablePrefix() . 'media_manager_type`AS type ON effect.type_id = type.id '
@@ -442,9 +443,9 @@ class rex_media_manager
             $sql->setQuery($query);
 
             // Prepare warnings
-            for($i = 0; $i < $sql->getRows(); $i++) {
+            for ($i = 0; $i < $sql->getRows(); ++$i) {
                 $message = '<a href="javascript:openPage(\''. rex_url::backendPage('media_manager/types', ['effects' => 1, 'type_id' => $sql->getValue('type_id'), 'effect_id' => $sql->getValue('effect_id'), 'func' => 'edit']) .'\')">'. rex_i18n::msg('media_manager') .' '. rex_i18n::msg('media_manager_effect_name') .': '. $sql->getValue('name') .'</a>';
-                if(!in_array($message, $warning)) {
+                if (!in_array($message, $warning)) {
                     $warning[] = $message;
                 }
             }
@@ -452,7 +453,7 @@ class rex_media_manager
 
         return $warning;
     }
-    
+
     public static function mediaUpdated(rex_extension_point $ep)
     {
         self::deleteCache((string) $ep->getParam('filename'));
