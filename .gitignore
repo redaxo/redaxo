@@ -29,6 +29,7 @@
 # PhpStorm setting
 /.idea/*
 !/.idea/encodings.xml
+!/.idea/icon.svg
 !/.idea/jsonSchemas.xml
 !/.idea/modules.xml
 !/.idea/php.xml
