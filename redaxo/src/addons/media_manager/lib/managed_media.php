@@ -380,7 +380,7 @@ class rex_managed_media
      */
     public function setImageProperty($name, $value)
     {
-        $this->image[$name] = $value; /** @phpstan-ignore-line */
+        $this->image[$name] = $value;
     }
 
     /**
