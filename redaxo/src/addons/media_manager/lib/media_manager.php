@@ -426,7 +426,6 @@ class rex_media_manager
 
     /**
      * Checks if media is used by this addon.
-     * @param rex_extension_point $ep
      * @return string[] Warning message as array
      */
     public static function mediaIsInUse(rex_extension_point $ep)
