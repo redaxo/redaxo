@@ -2,7 +2,7 @@
 
 $addon = rex_addon::get('backup');
 
-if (rex_addon::get('cronjob')->isInstalled() && rex_string::versionCompare($addon->getVersion(), '2.8.0-dev', '<')) {
+if (rex_addon::get('cronjob')->isInstalled() && rex_version::compare($addon->getVersion(), '2.8.0-dev', '<')) {
     rex_sql::factory()
         ->setTable(rex::getTable('cronjob'))
         ->setWhere(['type' => rex_cronjob_export::class])
