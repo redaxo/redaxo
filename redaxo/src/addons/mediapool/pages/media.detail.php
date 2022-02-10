@@ -144,11 +144,10 @@ if ($isImage) {
 
     $imgn = rex_url::media($fname).'?buster='.$gf->getDateTimeValue('updatedate');
     $width = '';
-	
-	if($rfwidth > 0)
-	{
-		$width = ' width="'.$rfwidth.'"';
-	}
+
+    if ($rfwidth > 0) {
+        $width = ' width="'.$rfwidth.'"';
+    }
     $imgMax = rex_url::media($fname);
 
     if (rex_addon::get('media_manager')->isAvailable() && 'svg' != rex_file::extension($fname)) {
