@@ -1,15 +1,14 @@
 <?php
 
-$mediaId = rex_request('media_id','int',0);
+$mediaId = rex_request('media_id', 'int', 0);
 
 if ($mediaId < 1) {
     return false;
-} else {
+}
     $media = rex_media::getById($mediaId);
     if (!$media) {
         return false;
     }
-}
 
 assert(isset($openerInputField) && is_string($openerInputField));
 
@@ -92,7 +91,7 @@ if ('add_file' == $mediaMethod) {
                                 'mediapool',
                                 [
                                     'info' => rex_i18n::msg('pool_file_added'),
-                                    'opener_input_field' => $openerInputField
+                                    'opener_input_field' => $openerInputField,
                                 ],
                                 false
                             ).'";';
@@ -191,9 +190,6 @@ if ('add_file' == $mediaMethod) {
         $whitelistTypes = is_array(@$args['types']) ? $args['types'] : [];
 
         try {
-
-
-
             dump($data);
 
             $data = rex_media_service::addMedia($data, rex::getUser()->getValue('login'), true, $whitelistTypes);

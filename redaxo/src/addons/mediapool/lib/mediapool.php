@@ -2,13 +2,12 @@
 
 class rex_mediapool
 {
-
-    static $orderby = [
+    public static $orderby = [
         'filename',
         'updatedate',
         'status',
         'title',
-        'description'
+        'description',
     ];
 
     /**
@@ -261,7 +260,6 @@ class rex_mediapool
 
     public static function getMediaList(array $params = [], array $search = [], int $offset = 0, int $limit = 50)
     {
-
         $sql = rex_sql::factory();
         $where = [];
         $queryParams = [];
@@ -325,7 +323,7 @@ class rex_mediapool
         $orderbys = [];
 
         if (isset($search['orderby']) && is_array($search['orderby'])) {
-            foreach($search['orderby'] as $index => $orderby) {
+            foreach ($search['orderby'] as $index => $orderby) {
                 if (is_array($orderby)) {
                     if (array_key_exists($orderby[0], static::$orderby)) {
                         $orderbys[] = ':orderby'.$index.' '.('ASC' == $orderby[1]) ? 'ASC' : 'DESC';
@@ -348,7 +346,7 @@ class rex_mediapool
         $sql->setQuery(str_replace('SELECT m.*', 'SELECT count(id)', $query), $queryParams);
         $count = $sql->getValue('count(id)');
 
-            $query .= ' LIMIT '.$offset.','.$limit;
+        $query .= ' LIMIT '.$offset.','.$limit;
 
         $mediaManagerUrl = null;
         if (rex_addon::get('media_manager')->isAvailable()) {
@@ -400,8 +398,8 @@ class rex_mediapool
                 'types' => $types,
                 'tags' => $tags,
                 'term' => $term,
-                'status' => $status
-            ]
+                'status' => $status,
+            ],
         ];
     }
 

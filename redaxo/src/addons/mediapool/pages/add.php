@@ -55,9 +55,6 @@ if ('add_file' == $mediaMethod) {
         $whitelistTypes = is_array(@$args['types']) ? $args['types'] : [];
 
         try {
-
-
-
             dump($data);
 
             $data = rex_media_service::addMedia($data, rex::getUser()->getValue('login'), true, $whitelistTypes);

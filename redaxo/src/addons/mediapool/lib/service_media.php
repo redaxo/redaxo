@@ -14,10 +14,8 @@ class rex_media_service
      * @param string $userlogin
      * @param bool   $doSubindexing // echte Dateinamen anpassen, falls schon vorhanden
      * @param array   $whitelistTypes
-     *
-     * @return array
      */
-    public static function addMedia($data, $userlogin = null, $doSubindexing = true, $whitelistTypes = []) : array
+    public static function addMedia($data, $userlogin = null, $doSubindexing = true, $whitelistTypes = []): array
     {
         if (!is_array($data)) {
             throw new rex_api_exception('Expecting $data to be an array!');

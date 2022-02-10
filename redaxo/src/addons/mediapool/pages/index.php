@@ -4,15 +4,11 @@
  * @package redaxo5
  */
 
-echo rex_view::title("jjj");
+echo rex_view::title('jjj');
 
 rex_be_controller::includeCurrentPageSubPath();
 
 return;
-
-
-
-
 
 global $subpage, $ftitle, $error, $success;
 
@@ -61,13 +57,12 @@ if ('' != $mediaName) {
     if ($media) {
         $fileId = (int) $media->getId();
     }
-} else if ($mediaId > 0) {
+} elseif ($mediaId > 0) {
     $media = rex_media::getById($mediaId);
     if ($media) {
         $mediaId = (int) $media->getId();
     }
 }
-
 
 /*if (-1 == $rex_file_category) {
     $rex_file_category = rex_session('media[rex_file_category]', 'int');

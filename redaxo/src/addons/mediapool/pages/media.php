@@ -8,11 +8,6 @@ if (0 > rex_request('media_id', 'int', 0)) {
 
 return;
 
-
-
-
-
-
 /**
  * @package redaxo5
  */
@@ -48,13 +43,12 @@ $context = new rex_context([
 // ----- EXTENSION POINT
 $toolbar = rex_extension::registerPoint(new rex_extension_point('MEDIA_LIST_TOOLBAR', $toolbar, [
     'subpage' => $subpage,
-//    'category_id' => $rex_file_category,
+    //    'category_id' => $rex_file_category,
 ]));
 
 // *************************************** Subpage: Media
 
 if ($mediaId) {
-
     dump($mediaId);
 
     require __DIR__ .'/media.detail.php';

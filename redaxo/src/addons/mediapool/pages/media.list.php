@@ -10,9 +10,6 @@ assert(isset($argFields) && is_string($argFields));
 
 $csrf = rex_csrf_token::factory('mediapool');
 
-
-
-
 // defaults for globals passed in from index.php
 if (!isset($success)) {
     $success = '';
@@ -35,10 +32,10 @@ $result = rex_mediapool::getMediaList([
         'term' => $argUrl['args']['term'] ?? '',
         'tags' => $argUrl['args']['tags'] ?? [],
         'status' => $argUrl['args']['status'] ?? [],
-        'orderby' => $argUrl['args']['orderby'] ?? []
+        'orderby' => $argUrl['args']['orderby'] ?? [],
     ],
-    rex_get('limit','int',0),
-    rex_get('offset','int',50),
+    rex_get('limit', 'int', 0),
+    rex_get('offset', 'int', 50),
 ]);
 $elements = $result['items'];
 
@@ -54,21 +51,6 @@ $fragment->setVar('search', $result['search'], false);
 echo $fragment->parse('mediapool.php');
 
 return;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 $mediaMethod = rex_request('media_method', 'string');
 

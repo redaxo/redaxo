@@ -46,7 +46,6 @@ class rex_media_form
 
     public function get()
     {
-
         $s = '';
 
         $panel = '';
@@ -68,7 +67,6 @@ class rex_media_form
         $catsSel->setId('rex-mediapool-category');
         $catsSel->setAttribute('class', 'selectpicker form-control');
         $catsSel->setAttribute('data-live-search', 'true');
-
 
         $categories = $this->data['categories'] ?? [];
         foreach ($categories as $category) {
@@ -94,7 +92,7 @@ class rex_media_form
         $e['field'] = '<input class="form-control" type="text" id="rex-mediapool-title" name="rex_media_title" value="' . rex_escape($title) . '" />';
         $formElements[] = $e;
 
-        foreach($this->addedFields as $addField) {
+        foreach ($this->addedFields as $addField) {
             $e = [];
             $e['label'] = $addField['label'];
             $e['field'] = $addField['field'];
@@ -130,7 +128,7 @@ class rex_media_form
         $e['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" name="save" value="' . $this->buttonTitle . '"' . rex::getAccesskey($this->buttonTitle, 'save') . '>' . $this->buttonTitle . '</button>';
         $formElements[] = $e;
 
-        foreach($this->addedSubmits as $addSubmit) {
+        foreach ($this->addedSubmits as $addSubmit) {
             $e = [];
             $e['field'] = $addSubmit;
             $formElements[] = $e;
