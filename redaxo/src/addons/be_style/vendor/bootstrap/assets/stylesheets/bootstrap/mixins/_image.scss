@@ -5,6 +5,7 @@
   display: $display;
   max-width: 100%; // Part 1: Set a maximum relative to the parent
   height: auto; // Part 2: Scale the height according to the width, otherwise you get stretching
+  min-width: 50px; // sets a min-width otherwise SVG images will not be visible    
 }
 
 
