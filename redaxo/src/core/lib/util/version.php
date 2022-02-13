@@ -69,6 +69,10 @@ class rex_version
      */
     public static function gitHash($path, ?string $repo = null): ?string
     {
+        if (!function_exists('exec')) {
+            return null;
+        }
+
         $output = [];
         $exitCode = -1;
 
