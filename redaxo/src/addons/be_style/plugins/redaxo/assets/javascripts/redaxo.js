@@ -163,9 +163,9 @@
 
     // -----------------------------------------------------------------------
 
-    // Theme amd Darkmode
+    // Theme and Darkmode
     // prerequisites to detect darkmode-changes and have current settings simply available 
-    if( typeof rex !== 'undefined' && rex && rex.theme && !redaxo.theme && window.matchMedia ) {
+    if( typeof rex === 'object' && rex && rex.theme && !redaxo.theme && window.matchMedia ) {
 
         redaxo.theme = {
             matchMediaDark: window.matchMedia('(prefers-color-scheme: dark)'),
@@ -209,9 +209,7 @@
         // initialize Observer to detect by js changed darkmode/lightmode-themes on body-tag
         if( redaxo.theme && null === redaxo.theme.observer ) {
             redaxo.theme.observer = new MutationObserver( () => redaxo.theme.switched() );
-            if( redaxo.theme.observer ) {
-                redaxo.theme.observer.observe( document.body, {attributes:true,attributeFilter:['class']} );
-            }
+            redaxo.theme.observer.observe( document.body, {attributes:true,attributeFilter:['class']} );
         }
     });
 
