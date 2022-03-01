@@ -264,34 +264,24 @@ abstract class rex_package implements rex_package_interface
 
     /**
      * {@inheritdoc}
-     *
-     * @noRector
      */
     public function includeFile($file, array $context = [])
     {
-        /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
         $__file = $file;
-        /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
         $__context = $context;
 
         unset($file, $context);
 
-        /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
         extract($__context, EXTR_SKIP);
 
-        /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
         if (is_file($__path = $this->getPath($__file))) {
-            /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
             return require $__path;
         }
 
-        /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
         if (is_file($__file)) {
-            /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
             return require $__file;
         }
 
-        /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
         throw new rex_exception(sprintf('Package "%s": the page path "%s" neither exists as standalone path nor as package subpath "%s"', $this->getPackageId(), $__file, $__path));
     }
 

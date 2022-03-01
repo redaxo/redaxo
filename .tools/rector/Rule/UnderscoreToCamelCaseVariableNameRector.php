@@ -78,7 +78,7 @@ final class UnderscoreToCamelCaseVariableNameRector extends AbstractRector
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {
@@ -95,7 +95,7 @@ final class UnderscoreToCamelCaseVariableNameRector extends AbstractRector
             return null;
         }
 
-        if (!str_contains($nodeName, '_')) {
+        if (!str_contains(ltrim($nodeName, '_'), '_')) {
             return null;
         }
 
@@ -106,7 +106,6 @@ final class UnderscoreToCamelCaseVariableNameRector extends AbstractRector
         $parts = explode('_', $nodeName);
         $uppercasedParts = array_map('ucfirst', $parts);
         $camelCaseName = lcfirst(implode('', $uppercasedParts));
-
         if ('this' === $camelCaseName) {
             return null;
         }
@@ -135,7 +134,12 @@ final class UnderscoreToCamelCaseVariableNameRector extends AbstractRector
 
     private function renameParam(Param $param): ?Variable
     {
-        $paramRename = $this->paramRenameFactory->create($param, $this->underscoreCamelCaseExpectedNameResolver);
+        $resolvedExpectedName = $this->underscoreCamelCaseExpectedNameResolver->resolve($param);
+        if (null === $resolvedExpectedName) {
+            return null;
+        }
+
+        $paramRename = $this->paramRenameFactory->createFromResolvedExpectedName($param, $resolvedExpectedName);
         if (!$paramRename instanceof ParamRename) {
             return null;
         }
