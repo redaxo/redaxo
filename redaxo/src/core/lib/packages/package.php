@@ -415,7 +415,7 @@ abstract class rex_package implements rex_package_interface
     /**
      * Returns the registered packages.
      *
-     * @return self[]
+     * @return array<string, self>
      */
     public static function getRegisteredPackages()
     {
@@ -425,7 +425,7 @@ abstract class rex_package implements rex_package_interface
     /**
      * Returns the installed packages.
      *
-     * @return self[]
+     * @return array<string, self>
      */
     public static function getInstalledPackages()
     {
@@ -435,7 +435,7 @@ abstract class rex_package implements rex_package_interface
     /**
      * Returns the available packages.
      *
-     * @return self[]
+     * @return array<string, self>
      */
     public static function getAvailablePackages()
     {
@@ -445,7 +445,7 @@ abstract class rex_package implements rex_package_interface
     /**
      * Returns the setup packages.
      *
-     * @return self[]
+     * @return array<string, self>
      */
     public static function getSetupPackages()
     {
@@ -455,7 +455,7 @@ abstract class rex_package implements rex_package_interface
     /**
      * Returns the system packages.
      *
-     * @return self[]
+     * @return array<string, self>
      */
     public static function getSystemPackages()
     {
@@ -465,10 +465,10 @@ abstract class rex_package implements rex_package_interface
     /**
      * Returns the packages by the given method.
      *
-     * @param string $method       Method
-     * @param string $pluginMethod Optional other method for plugins
+     * @param string $method Method
+     * @param string|null $pluginMethod Optional other method for plugins
      *
-     * @return self[]
+     * @return array<string, self>
      */
     private static function getPackages($method, $pluginMethod = null)
     {
@@ -476,8 +476,10 @@ abstract class rex_package implements rex_package_interface
         $addonMethod = 'get' . $method . 'Addons';
         $pluginMethod = 'get' . ($pluginMethod ?: $method) . 'Plugins';
         foreach (rex_addon::$addonMethod() as $addon) {
+            assert($addon instanceof rex_addon);
             $packages[$addon->getPackageId()] = $addon;
             foreach ($addon->$pluginMethod() as $plugin) {
+                assert($plugin instanceof rex_plugin);
                 $packages[$plugin->getPackageId()] = $plugin;
             }
         }
