@@ -4,18 +4,16 @@ declare(strict_types=1);
 
 namespace Redaxo\Rector\Util;
 
-use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassLike;
-use Rector\Naming\Contract\Guard\ConflictingNameGuardInterface;
 use Rector\Naming\PhpArray\ArrayFilter;
 use Rector\Naming\ValueObject\PropertyRename;
 use Rector\NodeNameResolver\NodeNameResolver;
 use function in_array;
 
-final class UnderscoreCamelCaseConflictingNameGuard implements ConflictingNameGuardInterface
+final class UnderscoreCamelCaseConflictingNameGuard
 {
     /** @var UnderscoreCamelCaseExpectedNameResolver */
-    private $expectedNameResolver;
+    private $underscoreCamelCaseExpectedNameResolver;
 
     /** @var NodeNameResolver */
     private $nodeNameResolver;
@@ -23,33 +21,32 @@ final class UnderscoreCamelCaseConflictingNameGuard implements ConflictingNameGu
     /** @var ArrayFilter */
     private $arrayFilter;
 
-    public function __construct(UnderscoreCamelCaseExpectedNameResolver $underscoreCamelCaseExpectedNameResolver, NodeNameResolver $nodeNameResolver, ArrayFilter $arrayFilter)
-    {
-        $this->expectedNameResolver = $underscoreCamelCaseExpectedNameResolver;
+    public function __construct(
+        UnderscoreCamelCaseExpectedNameResolver $underscoreCamelCaseExpectedNameResolver,
+        NodeNameResolver $nodeNameResolver,
+        ArrayFilter $arrayFilter
+    ) {
+        $this->underscoreCamelCaseExpectedNameResolver = $underscoreCamelCaseExpectedNameResolver;
         $this->nodeNameResolver = $nodeNameResolver;
         $this->arrayFilter = $arrayFilter;
     }
 
-    /**
-     * @param PropertyRename $renameValueObject
-     */
-    public function isConflicting($renameValueObject): bool
+    public function isConflicting(PropertyRename $propertyRename): bool
     {
-        $conflictingPropertyNames = $this->resolve($renameValueObject->getClassLike());
-        return in_array($renameValueObject->getExpectedName(), $conflictingPropertyNames, true);
+        $conflictingPropertyNames = $this->resolve($propertyRename->getClassLike());
+        return in_array($propertyRename->getExpectedName(), $conflictingPropertyNames, true);
     }
 
     /**
-     * @param ClassLike $node
      * @return string[]
      */
-    private function resolve(Node $node): array
+    public function resolve(ClassLike $classLike): array
     {
         $expectedNames = [];
-        foreach ($node->getProperties() as $property) {
-            $expectedName = $this->expectedNameResolver->resolve($property);
+        foreach ($classLike->getProperties() as $property) {
+            $expectedName = $this->underscoreCamelCaseExpectedNameResolver->resolve($property);
             if (null === $expectedName) {
-                /** @var string $expectedName */
+                // fallback to existing name
                 $expectedName = $this->nodeNameResolver->getName($property);
             }
 
