@@ -159,16 +159,17 @@ class rex_sql implements Iterator
      * return the PDO Instance, select database when not already created
      *
      * @param int|null $db
-     * @return PDO
+     * @psalm-param positive-int|null $db
+     *
      * @throws rex_sql_exception
+     *
+     * @return PDO
      */
     public function getConnection($db = null)
     {
-        if (is_null($db)) {
-            $db = $this->DBID;
-        }
+        $db = $db ?? $this->DBID;
 
-        if (!self::$pdo[$db]) {
+        if (!isset(self::$pdo[$db])) {
             $this->selectDB($db);
         }
 
