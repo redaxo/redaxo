@@ -1468,6 +1468,8 @@ class rex_sql implements Iterator
      * Example: `$sql->setQuery('SELECT * FROM my_table WHERE foo IN ('.$sql->in($values).')');`
      *
      * @param int[]|string[] $values
+     *
+     * @psalm-taint-escape sql
      */
     public function in(array $values): string
     {
