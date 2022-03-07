@@ -162,7 +162,7 @@ class rex_sql implements Iterator
      *
      * @return PDO
      */
-    public function getConnection()
+    public function getConnection(): PDO
     {
         if (!isset(self::$pdo[$this->DBID])) {
             $this->selectDB($this->DBID);
