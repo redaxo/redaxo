@@ -450,7 +450,6 @@ class rex_sql implements Iterator
         $this->query = $query;
         $this->params = $params;
         $this->stmt = null;
-        throw new Exception('abc');
 
         if (!empty($params)) {
             $this->prepareQuery($query);
