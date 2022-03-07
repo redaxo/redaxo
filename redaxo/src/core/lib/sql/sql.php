@@ -164,13 +164,11 @@ class rex_sql implements Iterator
      */
     public function getConnection()
     {
-        $db = $this->DBID;
-
-        if (!isset(self::$pdo[$db])) {
-            $this->selectDB($db);
+        if (!isset(self::$pdo[$this->DBID])) {
+            $this->selectDB($this->DBID);
         }
 
-        return self::$pdo[$db];
+        return self::$pdo[$this->DBID];
     }
 
     /**
@@ -1868,7 +1866,7 @@ class rex_sql implements Iterator
      */
     public static function getServerVersion($db = 1)
     {
-        return self::factory($db)->getConnection($db)->getAttribute(PDO::ATTR_SERVER_VERSION);
+        return self::factory($db)->getConnection()->getAttribute(PDO::ATTR_SERVER_VERSION);
     }
 
     /**
