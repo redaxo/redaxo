@@ -156,11 +156,9 @@ class rex_sql implements Iterator
     }
 
     /**
-     * return the PDO Instance, create database connection when not already created
+     * return the PDO Instance, create database connection when not already created.
      *
      * @throws rex_sql_exception
-     *
-     * @return PDO
      */
     public function getConnection(): PDO
     {
