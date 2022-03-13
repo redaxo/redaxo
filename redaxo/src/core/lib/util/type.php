@@ -134,4 +134,46 @@ class rex_type
 
         return $var;
     }
+
+    /**
+     * @param mixed $value
+     * @psalm-assert string $value
+     */
+    public static function string($value): string
+    {
+        if (!is_string($value)) {
+            throw new InvalidArgumentException('Exptected a string, but got '.get_debug_type($value));
+        }
+
+        return $value;
+    }
+
+    /**
+     * @param mixed $value
+     * @psalm-assert int $value
+     */
+    public static function integer($value): int
+    {
+        if (!is_int($value)) {
+            throw new InvalidArgumentException('Exptected an integer, but got '.get_debug_type($value));
+        }
+
+        return $value;
+    }
+
+    /**
+     * @template T of object
+     * @param mixed $value
+     * @param class-string<T> $class
+     * @return T
+     * @psalm-assert T $value
+     */
+    public static function instanceOf($value, string $class): object
+    {
+        if (!$value instanceof $class) {
+            throw new InvalidArgumentException('Exptected a '.$class.', but got '.get_debug_type($value));
+        }
+
+        return $value;
+    }
 }
