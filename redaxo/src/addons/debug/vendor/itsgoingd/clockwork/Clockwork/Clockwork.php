@@ -15,7 +15,7 @@ use Clockwork\Storage\StorageInterface;
 class Clockwork
 {
 	// Clockwork library version
-	const VERSION = '5.1.4';
+	const VERSION = '5.1.5';
 
 	// Array of data sources, these objects collect metadata for the current application run
 	protected $dataSources = [];
@@ -267,7 +267,7 @@ class Clockwork
 		return $this;
 	}
 
-	// Get an authenitcator implementation
+	// Get an authenticator implementation
 	public function getAuthenticator()
 	{
 		return $this->authenticator;
