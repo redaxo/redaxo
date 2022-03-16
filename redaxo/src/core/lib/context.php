@@ -112,9 +112,7 @@ class rex_context implements rex_context_provider_interface
     }
 
     /**
-     * Removes a global parameter
-     *
-     * @param string $name
+     * Removes a global parameter.
      *
      * @return bool TRUE if the parameter was found and removed, otherwise FALSE
      */
