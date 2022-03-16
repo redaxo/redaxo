@@ -71,7 +71,7 @@ class rex_context implements rex_context_provider_interface
     public function getUrl(array $params = [], $escape = true)
     {
         // combine global params with local
-        $params = array_merge($this->getParams(), $params);
+        $params = array_merge($this->globalParams, $params);
 
         return rex::isBackend() ? rex_url::backendController($params, $escape) : rex_url::frontendController($params, $escape);
     }
@@ -117,7 +117,7 @@ class rex_context implements rex_context_provider_interface
     public function getHiddenInputFields(array $params = [])
     {
         // combine global params with local
-        $params = array_merge($this->getParams(), $params);
+        $params = array_merge($this->globalParams, $params);
 
         return self::array2inputStr($params);
     }
