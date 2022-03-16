@@ -112,6 +112,23 @@ class rex_context implements rex_context_provider_interface
     }
 
     /**
+     * Removes a global parameter
+     *
+     * @param string $name
+     *
+     * @return bool TRUE if the parameter was found and removed, otherwise FALSE
+     */
+    public function removeParam(string $name): bool
+    {
+        if (isset($this->globalParams[$name])) {
+            unset($this->globalParams[$name]);
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * @see rex_context_provider::getHiddenInputFields()
      */
     public function getHiddenInputFields(array $params = [])
