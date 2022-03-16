@@ -104,9 +104,9 @@ class rex_context implements rex_context_provider_interface
     /**
      * Returns the global parameters.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function getParams()
+    public function getParams(): array
     {
         return $this->globalParams;
     }
