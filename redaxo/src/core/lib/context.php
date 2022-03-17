@@ -124,9 +124,7 @@ class rex_context implements rex_context_provider_interface
      */
     public function removeParam(string $name): void
     {
-        if (isset($this->globalParams[$name])) {
-            unset($this->globalParams[$name]);
-        }
+        unset($this->globalParams[$name]);
     }
 
     /**
