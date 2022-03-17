@@ -113,17 +113,12 @@ class rex_context implements rex_context_provider_interface
 
     /**
      * Removes a global parameter.
-     *
-     * @return bool TRUE if the parameter was found and removed, otherwise FALSE
      */
-    public function removeParam(string $name): bool
+    public function removeParam(string $name): void
     {
         if (isset($this->globalParams[$name])) {
             unset($this->globalParams[$name]);
-            return true;
         }
-
-        return false;
     }
 
     /**
