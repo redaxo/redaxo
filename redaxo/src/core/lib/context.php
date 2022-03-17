@@ -113,10 +113,6 @@ class rex_context implements rex_context_provider_interface
 
     /**
      * Returns whether the given parameter exists.
-     *
-     * @param string $name
-     *
-     * @return bool
      */
     public function hasParam(string $name): bool
     {
