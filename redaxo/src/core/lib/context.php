@@ -112,6 +112,18 @@ class rex_context implements rex_context_provider_interface
     }
 
     /**
+     * Returns whether the given parameter exists.
+     *
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function hasParam(string $name): bool
+    {
+        return isset($this->globalParams[$name]);
+    }
+
+    /**
      * Removes a global parameter.
      */
     public function removeParam(string $name): void
