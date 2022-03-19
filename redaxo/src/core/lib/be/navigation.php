@@ -7,12 +7,18 @@ class rex_be_navigation
 {
     use rex_factory_trait;
 
+    /** @psalm-var array<string, string> */
     private $headlines = [];
-    private $pages = [
-        'default' => [],
-        'system' => [],
-        'addons' => [],
+
+    /** @psalm-var array<string, int> */
+    private $prios = [
+        'default' => 0,
+        'system' => 10,
+        'addons' => 20,
     ];
+
+    /** @psalm-var array<string, list> */
+    private $pages = [];
 
     /**
      * @return static
@@ -42,26 +48,40 @@ class rex_be_navigation
      */
     public function getNavigation()
     {
+        uksort($this->pages, function (string $block1, string $block2) {
+            $prio1 = $this->getPrio($block1);
+            $prio2 = $this->getPrio($block2);
+
+            if (null === $prio2) {
+                return -1;
+            }
+            if (null === $prio1) {
+                return 1;
+            }
+
+            return $prio1 <=> $prio2;
+        });
+
         //$this->setActiveElements();
         $return = [];
         foreach ($this->pages as $block => $blockPages) {
-            if (is_array($blockPages) && count($blockPages) > 0 && $blockPages[0] instanceof rex_be_page_main) {
+            if (count($blockPages) > 0 && $blockPages[0] instanceof rex_be_page_main) {
                 uasort($blockPages, static function (rex_be_page_main $a, rex_be_page_main $b) {
-                    $a_prio = (int) $a->getPrio();
-                    $b_prio = (int) $b->getPrio();
-                    if ($a_prio == $b_prio || ($a_prio <= 0 && $b_prio <= 0)) {
+                    $aPrio = (int) $a->getPrio();
+                    $bPrio = (int) $b->getPrio();
+                    if ($aPrio === $bPrio || ($aPrio <= 0 && $bPrio <= 0)) {
                         return strnatcasecmp($a->getTitle(), $b->getTitle());
                     }
 
-                    if ($a_prio <= 0) {
+                    if ($aPrio <= 0) {
                         return 1;
                     }
 
-                    if ($b_prio <= 0) {
+                    if ($bPrio <= 0) {
                         return -1;
                     }
 
-                    return $a_prio > $b_prio ? 1 : -1;
+                    return $aPrio > $bPrio ? 1 : -1;
                 });
             }
 
@@ -89,7 +109,7 @@ class rex_be_navigation
         $navigation = [];
 
         foreach ($blockPages as $page) {
-            if ($page->isHidden() || !$page->checkPermission(rex::getUser())) {
+            if ($page->isHidden() || !$page->checkPermission(rex::requireUser())) {
                 continue;
             }
             $n = [];
@@ -174,5 +194,15 @@ class rex_be_navigation
         }
 
         return '';
+    }
+
+    public function setPrio(string $block, int $prio): void
+    {
+        $this->prios[$block] = $prio;
+    }
+
+    public function getPrio(string $block): ?int
+    {
+        return $this->prios[$block] ?? null;
     }
 }

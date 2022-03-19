@@ -12,7 +12,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     /**
      * Array of all addons.
      *
-     * @var rex_addon[]
+     * @var array<string, self>
      */
     private static $addons = [];
 
@@ -155,7 +155,7 @@ class rex_addon extends rex_package implements rex_addon_interface
         if (rex_i18n::hasMsgOrFallback($key)) {
             $args[0] = $key;
         }
-        return call_user_func_array(['rex_i18n', 'msg'], $args);
+        return call_user_func_array([rex_i18n::class, 'msg'], $args);
     }
 
     /**
@@ -244,7 +244,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     /**
      * Returns the registered addons.
      *
-     * @return self[]
+     * @return array<string, self>
      */
     public static function getRegisteredAddons()
     {
@@ -254,7 +254,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     /**
      * Returns the installed addons.
      *
-     * @return self[]
+     * @return array<string, self>
      */
     public static function getInstalledAddons()
     {
@@ -264,7 +264,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     /**
      * Returns the available addons.
      *
-     * @return self[]
+     * @return array<string, self>
      */
     public static function getAvailableAddons()
     {
@@ -274,7 +274,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     /**
      * Returns the setup addons.
      *
-     * @return self[]
+     * @return array<string, self>
      */
     public static function getSetupAddons()
     {
@@ -290,7 +290,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     /**
      * Returns the system addons.
      *
-     * @return self[]
+     * @return array<string, self>
      */
     public static function getSystemAddons()
     {
@@ -309,11 +309,11 @@ class rex_addon extends rex_package implements rex_addon_interface
     public static function initialize($dbExists = true)
     {
         if ($dbExists) {
-            $config = rex::getConfig('package-config', []);
+            $config = rex::getPackageConfig();
         } else {
             $config = [];
             foreach (rex::getProperty('setup_addons') as $addon) {
-                $config[$addon]['install'] = false;
+                $config[(string) $addon]['install'] = false;
             }
         }
         $addons = self::$addons;
@@ -344,19 +344,18 @@ class rex_addon extends rex_package implements rex_addon_interface
     /**
      * Filters packages by the given method.
      *
-     * @param rex_package[] $packages Array of packages
-     * @param string        $method   A rex_package method
-     *
-     * @return rex_package[]
-     *
      * @template T of rex_package
-     * @psalm-param T[] $packages
-     * @psalm-return T[]
+     * @param array<string, T> $packages Array of packages
+     * @param string $method   A rex_package method
+     * @return array<string, T>
      */
     private static function filterPackages(array $packages, $method)
     {
-        return array_filter($packages, static function (rex_package $package) use ($method) {
-            return $package->$method();
+        return array_filter($packages, static function (rex_package $package) use ($method): bool {
+            $return = $package->$method();
+            assert(is_bool($return));
+
+            return $return;
         });
     }
 }

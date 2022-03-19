@@ -9,14 +9,23 @@
  */
 class rex_socket_response
 {
+    /** @var resource */
     private $stream;
+    /** @var bool */
     private $chunked = false;
+    /** @var int */
     private $chunkPos = 0;
+    /** @var int */
     private $chunkLength = 0;
+    /** @var int */
     private $statusCode;
+    /** @var string */
     private $statusMessage;
+    /** @var string */
     private $header = '';
+    /** @var array */
     private $headers = [];
+    /** @var null|string */
     private $body;
 
     /**
@@ -34,7 +43,7 @@ class rex_socket_response
 
         $this->stream = $stream;
 
-        while (!feof($this->stream) && false === strpos($this->header, "\r\n\r\n")) {
+        while (!feof($this->stream) && !str_contains($this->header, "\r\n\r\n")) {
             $this->header .= fgets($this->stream);
         }
         $this->header = rtrim($this->header);
@@ -163,7 +172,7 @@ class rex_socket_response
      *
      * @param int $length Max number of bytes
      *
-     * @return bool|string
+     * @return false|string
      */
     public function getBufferedBody($length = 1024)
     {
@@ -198,6 +207,8 @@ class rex_socket_response
     public function getBody()
     {
         if (null === $this->body) {
+            $this->body = '';
+
             while (false !== ($buf = $this->getBufferedBody())) {
                 $this->body .= $buf;
             }

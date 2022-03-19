@@ -1,6 +1,74 @@
 Changelog
 =========
 
+Version 2.12.1 – 29.11.2021
+---------------------------
+
+### Bugfixes
+
+* Klickfläche für den Hinzufügen-Link vergrößert (@schuer)
+
+
+Version 2.12.0 – 17.11.2021
+---------------------------
+
+### Neu
+
+* System-Mediatypen reduziert auf `rex_media_small`, `rex_media_medium`, `rex_media_large` (@schuer)
+* System-Mediatypen sind nicht mehr bearbeitbar (es war sowieso nicht updatesicher möglich) (@gharlan, @bloep)
+
+
+Version 2.11.1 – 21.06.2021
+---------------------------
+
+### Bugfixes
+
+* Effekt `resize`: Warning vermeiden, wenn nur Höhe oder nur Breite gesetzt wurde (@Hirbod)
+
+
+Version 2.11.0 – 03.03.2021
+---------------------------
+
+### Neu
+
+* Neuer Effekt `image_format`, über den das Bildformat geändert werden kann (JPG, PNG, GIF, WEBP) (@aeberhard)
+
+### Bugfixes
+
+* System-Mediatypen konnten umbenannt werden (@staabm)
+* Effekt `image_properties`: Der Effekt wirkte sich nur aus, wenn noch weitere Bildeffekte aktiv waren (@gharlan)
+
+
+Version 2.10.1 – 11.11.2020
+---------------------------
+
+### Bugfixes
+
+* Effekt `insert_image`: Bei right und bottom hatte der Abstand zum Rand das falsche Vorzeichen (@gharlan)
+
+
+Version 2.10.0 – 01.07.2020
+---------------------------
+
+### Neu
+
+* Effekt `mirror`: Opazität der Spiegelung kann gesetzt werden (@lexplatt)
+
+### Bugfixes
+
+* Auslesen von Medien über `rex_media_manager::create()` funktionierte nicht korrekt, wenn der Mediatype den Effekt `mediapath` beinhaltete (@gharlan)
+* Table-Hover-Effekt fehlte (@tbaddade)
+
+
+Version 2.9.1 – 08.05.2020
+--------------------------
+
+### Bugfixes
+
+* Effekt `convert2img`: Wenn die PHP-Extension `imagick` installiert ist, dann wurde die Density nicht berücksichtigt und CMYK-PDFs wurden nicht korrekt in RGB umgewandelt (@lexplatt, @gharlan)
+* Bedingte Felder wurden teils nicht ausgeblendet (@gharlan)
+
+
 Version 2.9.0 – 10.03.2020
 --------------------------
 

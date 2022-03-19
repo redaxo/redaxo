@@ -3,8 +3,8 @@
 assert(isset($context) && $context instanceof rex_context);
 assert(isset($ctype) && is_int($ctype));
 assert(isset($article) && $article instanceof rex_sql);
-assert(isset($category_id) && is_int($category_id));
-assert(isset($article_id) && is_int($article_id));
+assert(isset($categoryId) && is_int($categoryId));
+assert(isset($articleId) && is_int($articleId));
 
 $content = '
         <form id="rex-form-content-metamode" action="' . $context->getUrl() . '" method="post" enctype="multipart/form-data" data-pjax-container="#rex-page-main">
@@ -112,7 +112,7 @@ if (!$isStartpage && rex::getUser()->hasPerm('article2category[]')) {
 // --------------------------------------------------- IN ARTIKEL UMWANDELN START
 if ($isStartpage && rex::getUser()->hasPerm('article2category[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getValue('parent_id'))) {
     $sql = rex_sql::factory();
-    $sql->setQuery('SELECT pid FROM ' . rex::getTablePrefix() . 'article WHERE parent_id=? LIMIT 1', [$article_id]);
+    $sql->setQuery('SELECT pid FROM ' . rex::getTablePrefix() . 'article WHERE parent_id=? LIMIT 1', [$articleId]);
     $emptyCategory = 0 == $sql->getRows();
 
     $panel = '<fieldset>';
@@ -164,30 +164,30 @@ if ($isStartpage && rex::getUser()->hasPerm('article2category[]') && rex::getUse
 // --------------------------------------------------- INHALTE KOPIEREN START
 $user = rex::getUser();
 if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() > 1) {
-    $clang_perm = $user->getComplexPerm('clang')->getClangs();
+    $clangPerm = $user->getComplexPerm('clang')->getClangs();
 
-    $lang_a = new rex_select();
-    $lang_a->setId('clang_a');
-    $lang_a->setName('clang_a');
-    $lang_a->setSize('1');
-    $lang_a->setAttribute('class', 'form-control selectpicker');
-    foreach ($clang_perm as $key) {
+    $langA = new rex_select();
+    $langA->setId('clang_a');
+    $langA->setName('clang_a');
+    $langA->setSize('1');
+    $langA->setAttribute('class', 'form-control selectpicker');
+    foreach ($clangPerm as $key) {
         $val = rex_i18n::translate(rex_clang::get($key)->getName());
-        $lang_a->addOption($val, $key);
+        $langA->addOption($val, $key);
     }
 
-    $lang_b = new rex_select();
-    $lang_b->setId('clang_b');
-    $lang_b->setName('clang_b');
-    $lang_b->setSize('1');
-    $lang_b->setAttribute('class', 'form-control selectpicker');
-    foreach ($clang_perm as $key) {
+    $langB = new rex_select();
+    $langB->setId('clang_b');
+    $langB->setName('clang_b');
+    $langB->setSize('1');
+    $langB->setAttribute('class', 'form-control selectpicker');
+    foreach ($clangPerm as $key) {
         $val = rex_i18n::translate(rex_clang::get($key)->getName());
-        $lang_b->addOption($val, $key);
+        $langB->addOption($val, $key);
     }
 
-    $lang_a->setSelected(rex_request('clang_a', 'int', null));
-    $lang_b->setSelected(rex_request('clang_b', 'int', null));
+    $langA->setSelected(rex_request('clang_a', 'int', null));
+    $langB->setSelected(rex_request('clang_b', 'int', null));
 
     $panel = '<fieldset>';
 
@@ -196,7 +196,7 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() >
     $formElements = [];
     $n = [];
     $n['label'] = '<label for="clang_a">' . rex_i18n::msg('content_contentoflang') . '</label>';
-    $n['field'] = $lang_a->get();
+    $n['field'] = $langA->get();
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -207,7 +207,7 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() >
     $formElements = [];
     $n = [];
     $n['label'] = '<label for="clang_b">' . rex_i18n::msg('content_to') . '</label>';
-    $n['field'] = $lang_b->get();
+    $n['field'] = $langB->get();
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -237,19 +237,20 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() >
 // --------------------------------------------------- ARTIKEL VERSCHIEBEN START
 if (!$isStartpage && rex::getUser()->hasPerm('moveArticle[]')) {
     // Wenn Artikel kein Startartikel dann Selectliste darstellen, sonst...
-    $move_a = new rex_category_select(false, false, true, !rex::getUser()->getComplexPerm('structure')->hasMountPoints());
-    $move_a->setId('category_id_new');
-    $move_a->setName('category_id_new');
-    $move_a->setSize('1');
-    $move_a->setAttribute('class', 'form-control selectpicker');
-    $move_a->setSelected($category_id);
+    $moveA = new rex_category_select(false, false, true, !rex::getUser()->getComplexPerm('structure')->hasMountPoints());
+    $moveA->setId('category_id_new');
+    $moveA->setName('category_id_new');
+    $moveA->setSize('1');
+    $moveA->setAttribute('class', 'form-control selectpicker');
+    $moveA->setAttribute('data-live-search', 'true');
+    $moveA->setSelected($categoryId);
 
     $panel = '<fieldset>';
 
     $formElements = [];
     $n = [];
     $n['label'] = '<label for="category_id_new">' . rex_i18n::msg('move_article') . '</label>';
-    $n['field'] = $move_a->get();
+    $n['field'] = $moveA->get();
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -277,19 +278,20 @@ if (!$isStartpage && rex::getUser()->hasPerm('moveArticle[]')) {
 
 // -------------------------------------------------- ARTIKEL KOPIEREN START
 if (rex::getUser()->hasPerm('copyArticle[]')) {
-    $move_a = new rex_category_select(false, false, true, !rex::getUser()->getComplexPerm('structure')->hasMountPoints());
-    $move_a->setName('category_copy_id_new');
-    $move_a->setId('category_copy_id_new');
-    $move_a->setSize('1');
-    $move_a->setAttribute('class', 'form-control selectpicker');
-    $move_a->setSelected($category_id);
+    $moveA = new rex_category_select(false, false, true, !rex::getUser()->getComplexPerm('structure')->hasMountPoints());
+    $moveA->setName('category_copy_id_new');
+    $moveA->setId('category_copy_id_new');
+    $moveA->setSize('1');
+    $moveA->setAttribute('class', 'form-control selectpicker');
+    $moveA->setAttribute('data-live-search', 'true');
+    $moveA->setSelected($categoryId);
 
     $panel = '<fieldset>';
 
     $formElements = [];
     $n = [];
     $n['label'] = '<label for="category_copy_id_new">' . rex_i18n::msg('copy_article') . '</label>';
-    $n['field'] = $move_a->get();
+    $n['field'] = $moveA->get();
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -317,19 +319,20 @@ if (rex::getUser()->hasPerm('copyArticle[]')) {
 
 // --------------------------------------------------- KATEGORIE/STARTARTIKEL VERSCHIEBEN START
 if ($isStartpage && rex::getUser()->hasPerm('moveCategory[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getValue('parent_id'))) {
-    $move_a = new rex_category_select(false, false, true, !rex::getUser()->getComplexPerm('structure')->hasMountPoints());
-    $move_a->setId('category_id_new');
-    $move_a->setName('category_id_new');
-    $move_a->setSize('1');
-    $move_a->setAttribute('class', 'form-control selectpicker');
-    $move_a->setSelected($article_id);
+    $moveA = new rex_category_select(false, false, true, !rex::getUser()->getComplexPerm('structure')->hasMountPoints());
+    $moveA->setId('category_id_new');
+    $moveA->setName('category_id_new');
+    $moveA->setSize('1');
+    $moveA->setAttribute('class', 'form-control selectpicker');
+    $moveA->setAttribute('data-live-search', 'true');
+    $moveA->setSelected($articleId);
 
     $panel = '<fieldset>';
 
     $formElements = [];
     $n = [];
     $n['label'] = '<label for="category_id_new">' . rex_i18n::msg('move_category') . '</label>';
-    $n['field'] = $move_a->get();
+    $n['field'] = $moveA->get();
     $formElements[] = $n;
 
     $fragment = new rex_fragment();

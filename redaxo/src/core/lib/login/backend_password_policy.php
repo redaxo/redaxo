@@ -42,6 +42,7 @@ class rex_backend_password_policy extends rex_password_policy
      */
     public function __construct()
     {
+        /** @var array{no_reuse_of_last?: int, no_reuse_within?: string, force_renew_after?: string, block_account_after?: string} $options */
         $options = rex::getProperty('password_policy', []);
 
         if (isset($options['no_reuse_of_last'])) {
@@ -61,6 +62,7 @@ class rex_backend_password_policy extends rex_password_policy
             unset($options['block_account_after']);
         }
 
+        /** @psalm-suppress InvalidArgument */
         parent::__construct($options);
     }
 
@@ -92,7 +94,9 @@ class rex_backend_password_policy extends rex_password_policy
         }
 
         $password = sha1($password);
-        $previousPasswords = $this->cleanUpPreviousPasswords(json_decode($previousPasswords, true));
+        $previousPasswords = json_decode($previousPasswords, true);
+        assert(is_array($previousPasswords));
+        $previousPasswords = $this->cleanUpPreviousPasswords($previousPasswords);
 
         foreach ($previousPasswords as $previousPassword) {
             if (rex_backend_login::passwordVerify($password, $previousPassword[0], true)) {
@@ -115,6 +119,8 @@ class rex_backend_password_policy extends rex_password_policy
 
     /**
      * @internal
+     *
+     * @return list<array{string, int}>
      */
     public function updatePreviousPasswords(?rex_user $user, string $password): array
     {
@@ -133,6 +139,10 @@ class rex_backend_password_policy extends rex_password_policy
         return $this->cleanUpPreviousPasswords($previousPasswords);
     }
 
+    /**
+     * @param list<array{string, int}> $previousPasswords
+     * @return list<array{string, int}>
+     */
     private function cleanUpPreviousPasswords(array $previousPasswords): array
     {
         if (!isset($this->noReuseOfLast) && !isset($this->noReuseWithin)) {

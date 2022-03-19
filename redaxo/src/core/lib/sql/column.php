@@ -9,30 +9,25 @@
  */
 class rex_sql_column
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $name;
-    /**
-     * @var string
-     */
+
+    /** @var string */
     private $type;
-    /**
-     * @var bool
-     */
+
+    /** @var bool */
     private $nullable;
-    /**
-     * @var null|string
-     */
+
+    /** @var null|string */
     private $default;
-    /**
-     * @var null|string
-     */
+
+    /** @var null|string */
     private $extra;
 
-    /**
-     * @var bool
-     */
+    /** @var null|string */
+    private $comment;
+
+    /** @var bool */
     private $modified = false;
 
     /**
@@ -41,14 +36,16 @@ class rex_sql_column
      * @param bool        $nullable
      * @param null|string $default
      * @param null|string $extra
+     * @param null|string $comment
      */
-    public function __construct($name, $type, $nullable = false, $default = null, $extra = null)
+    public function __construct($name, $type, $nullable = false, $default = null, $extra = null, $comment = null)
     {
         $this->name = $name;
         $this->type = $type;
         $this->nullable = $nullable;
         $this->default = $default;
         $this->extra = $extra;
+        $this->comment = $comment;
     }
 
     /**
@@ -172,6 +169,26 @@ class rex_sql_column
     }
 
     /**
+     * @param null|string $comment
+     *
+     * @return $this
+     */
+    public function setComment($comment)
+    {
+        $this->comment = $comment;
+
+        return $this->setModified(true);
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    /**
      * @return bool
      */
     public function equals(self $column)
@@ -181,6 +198,7 @@ class rex_sql_column
             $this->type === $column->type &&
             $this->nullable === $column->nullable &&
             $this->default === $column->default &&
-            $this->extra === $column->extra;
+            $this->extra === $column->extra &&
+            $this->comment === $column->comment;
     }
 }

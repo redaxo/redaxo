@@ -7,6 +7,7 @@
  *
  * @package redaxo\core
  */
+#[AllowDynamicProperties]
 class rex_clang
 {
     /**
@@ -18,7 +19,7 @@ class rex_clang
      */
     private static $clangs = [];
     /**
-     * @var int
+     * @var int|null
      */
     private static $currentId;
 
@@ -182,30 +183,30 @@ class rex_clang
     /**
      * Checks whether the clang has the given value.
      *
-     * @param string $value
+     * @param string $key
      *
      * @return bool
      */
-    public function hasValue($value)
+    public function hasValue($key)
     {
-        return isset($this->$value) || isset($this->{'clang_' . $value});
+        return isset($this->$key) || isset($this->{'clang_' . $key});
     }
 
     /**
      * Returns the given value.
      *
-     * @param string $value
+     * @param string $key
      *
      * @return mixed
      */
-    public function getValue($value)
+    public function getValue($key)
     {
-        if (isset($this->$value)) {
-            return $this->$value;
+        if (isset($this->$key)) {
+            return $this->$key;
         }
 
-        if (isset($this->{'clang_' . $value})) {
-            return $this->{'clang_' . $value};
+        if (isset($this->{'clang_' . $key})) {
+            return $this->{'clang_' . $key};
         }
 
         return null;
@@ -267,7 +268,7 @@ class rex_clang
         }
 
         $file = rex_path::coreCache('clang.cache');
-        if (!file_exists($file)) {
+        if (!is_file($file)) {
             rex_clang_service::generateCache();
         }
         foreach (rex_file::getCache($file) as $id => $data) {

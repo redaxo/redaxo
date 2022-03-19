@@ -1,6 +1,7 @@
 content = Artículo
 
 add_block = Añadir bloque
+article_doesnt_exist = ¡Este artículo no existe!
 module_doesnt_exist = Este módulo no existe!
 update_block = Aplicar bloque
 save_block = Guardar bloque
@@ -62,6 +63,7 @@ content_types = Manos
 content_type = Columna
 
 perm_options_moveSlice[] = Bloques de movimiento
+perm_options_publishSlice[] = Blöcke veröffentlichen
 
 templates = Plantillas
 
@@ -111,6 +113,10 @@ create_module = Crear nuevo módulo
 input = Entrada
 output = Salida
 module_name = Nombre
+module_key = Clave
+module_key_notice = La clave debe estar claramente asignada o no completada.
+module_key_exists = La clave ya existe.
+module_actions_notice = Consejo: Al usar acciones, puede validar la entrada del usuario o activar scripts php personalizados
 save_module_and_quit = Guardar módulo
 save_module_and_continue = Tomar módulo
 module_description = Nombre del módulo

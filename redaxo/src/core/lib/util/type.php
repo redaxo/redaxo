@@ -30,12 +30,14 @@ class rex_type
      *      ...
      *    )
      *
-     * @param mixed $var     Variable to cast
-     * @param mixed $vartype Variable type
+     * @param mixed $var Variable to cast
+     * @param string|callable(mixed):mixed|list<array{string, string, mixed}> $vartype Variable type
      *
      * @throws InvalidArgumentException
      *
-     * @return mixed Castet value
+     * @return mixed Casted value
+     *
+     * @psalm-taint-specialize
      */
     public static function cast($var, $vartype)
     {
@@ -72,10 +74,9 @@ class rex_type
 
                     // kein Cast, nichts tun
                 case '': break;
-
                 default:
                     // check for array with generic type
-                    if (0 === strpos($vartype, 'array[')) {
+                    if (str_starts_with($vartype, 'array[')) {
                         if (empty($var)) {
                             $var = [];
                         } else {

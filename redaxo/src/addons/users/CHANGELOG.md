@@ -1,6 +1,48 @@
 Changelog
 =========
 
+Version 2.8.2 – 29.11.2021
+--------------------------
+
+### Security
+
+* Siehe Core-Changelog zu 5.13.1
+
+
+Version 2.8.0 – 03.03.2021
+--------------------------
+
+### Neu
+
+* Aktive/inaktive Benutzer werden in Liste über Iconvarianten unterschieden (@schuer)
+* Passwortregeln werden unterhalb des Passwortfelds angezeigt (@gharlan)
+* Passende `autocomplete`-Attribute werden gesetzt (@alxndr-w)
+
+
+Version 2.7.1 – 11.11.2020
+--------------------------
+
+### Bugfixes
+
+* Bei Verwendung von Passwortregeln bzgl. der vergangenen Passwörter, konnten keine neuen Benutzer erstellt werden (@gharlan)
+
+
+Version 2.7.0 – 01.07.2020
+--------------------------
+
+### Neu
+
+* Neuerungen bzgl. Passwortregeln/-wechsel siehe Core-Changelog für 5.11
+
+
+Version 2.6.2 – 08.05.2020
+--------------------------
+
+### Bugfixes
+
+* EP `USER_UPDATED`: Parameter `id` war immer `0` (@gharlan)
+
+
 Version 2.6.0 – 02.02.2020
 --------------------------
 

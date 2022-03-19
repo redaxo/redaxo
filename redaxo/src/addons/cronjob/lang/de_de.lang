@@ -45,7 +45,7 @@ cronjob_interval_months = Monate
 cronjob_interval_months_all = Jeden Monat
 
 cronjob_environment = Umgebung
-cronjob_environment_notice = Skript: Ausführung über <code>redaxo/bin/console cronjob:run</code>. Das Skript sollte mittels eines echten Cronjobs regelmäßig aufgerufen werden.
+cronjob_environment_notice = Skript: Ausführung über <code>{0}</code>. Das Skript sollte mittels eines echten Cronjobs regelmäßig aufgerufen werden.
 cronjob_environment_frontend = Frontend
 cronjob_environment_backend = Backend
 cronjob_environment_script = Skript
@@ -70,6 +70,7 @@ cronjob_status_deactivate_error = Cronjob "{0}" konnte nicht deaktiviert werden!
 
 cronjob_error_no_name = Der Name darf nicht leer sein!
 cronjob_error_no_environment = Mindestens eine Umgebung muss ausgewählt werden!
+cronjob_error_interval_incomplete = Beim Intervall muss in jeder Kategorie ein Wert ausgewählt werden!
 
 cronjob_not_found = Cronjob nicht gefunden!
 cronjob_not_editable = Cronjob ist nicht editierbar!

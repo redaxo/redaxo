@@ -49,12 +49,16 @@ interface rex_context_provider_interface extends rex_url_provider_interface
  */
 class rex_context implements rex_context_provider_interface
 {
+    /**
+     * @psalm-var array<string, mixed>
+     */
     private $globalParams;
 
     /**
      * Constructs a rex_context with the given global parameters.
      *
      * @param array $globalParams A array containing only scalar values for key/value
+     * @psalm-param array<string, mixed> $globalParams
      */
     public function __construct(array $globalParams = [])
     {
@@ -67,9 +71,9 @@ class rex_context implements rex_context_provider_interface
     public function getUrl(array $params = [], $escape = true)
     {
         // combine global params with local
-        $_params = array_merge($this->globalParams, $params);
+        $params = array_merge($this->globalParams, $params);
 
-        return rex::isBackend() ? rex_url::backendController($_params, $escape) : rex_url::frontendController($_params, $escape);
+        return rex::isBackend() ? rex_url::backendController($params, $escape) : rex_url::frontendController($params, $escape);
     }
 
     /**
@@ -88,13 +92,39 @@ class rex_context implements rex_context_provider_interface
      * When no value is set, $default will be returned.
      *
      * @param string $name
-     * @param string $default
+     * @param mixed  $default
      *
      * @return mixed
      */
     public function getParam($name, $default = null)
     {
-        return isset($this->globalParams[$name]) ? $this->globalParams[$name] : $default;
+        return $this->globalParams[$name] ?? $default;
+    }
+
+    /**
+     * Returns the global parameters.
+     *
+     * @return array<string, mixed>
+     */
+    public function getParams(): array
+    {
+        return $this->globalParams;
+    }
+
+    /**
+     * Returns whether the given parameter exists.
+     */
+    public function hasParam(string $name): bool
+    {
+        return isset($this->globalParams[$name]);
+    }
+
+    /**
+     * Removes a global parameter.
+     */
+    public function removeParam(string $name): void
+    {
+        unset($this->globalParams[$name]);
     }
 
     /**
@@ -103,9 +133,9 @@ class rex_context implements rex_context_provider_interface
     public function getHiddenInputFields(array $params = [])
     {
         // combine global params with local
-        $_params = array_merge($this->globalParams, $params);
+        $params = array_merge($this->globalParams, $params);
 
-        return self::array2inputStr($_params);
+        return self::array2inputStr($params);
     }
 
     /**

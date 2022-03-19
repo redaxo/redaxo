@@ -18,7 +18,7 @@ include_once rex_path::core('packages.php');
 // ----- caching end für output filter
 $CONTENT = ob_get_clean();
 
-// trigger api functions
+// trigger api functions. the api function is responsible for checking permissions.
 rex_api_function::handleCall();
 
 if (rex_extension::isRegistered('FE_OUTPUT')) {

@@ -21,16 +21,16 @@ class rex_console_application extends Application
         try {
             $this->checkConsoleUser($input, $output);
             return parent::doRun($input, $output);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // catch and rethrow \Exceptions first to only catch fatal errors below (\Exception implements \Throwable)
             throw $e;
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $message = $e->getMessage();
 
-            if ($e instanceof \ParseError) {
+            if ($e instanceof ParseError) {
                 $message = 'Parse error: '.$message;
                 $severity = E_PARSE;
-            } elseif ($e instanceof \TypeError) {
+            } elseif ($e instanceof TypeError) {
                 $message = 'Type error: '.$message;
                 $severity = E_RECOVERABLE_ERROR;
             } else {
@@ -48,7 +48,11 @@ class rex_console_application extends Application
             $this->loadPackages($command);
         }
 
-        return parent::doRunCommand($command, $input, $output);
+        $exitCode = parent::doRunCommand($command, $input, $output);
+
+        rex_extension::registerPoint(new rex_extension_point_console_shutdown($command, $input, $output, $exitCode));
+
+        return $exitCode;
     }
 
     private function loadPackages(rex_console_command $command)
@@ -85,7 +89,7 @@ class rex_console_application extends Application
         if (!rex::isSetup()) {
             // boot all known packages in the defined order
             // which reflects dependencies before consumers
-            foreach (rex::getConfig('package-order') as $packageId) {
+            foreach (rex::getPackageOrder() as $packageId) {
                 rex_package::require($packageId)->boot();
             }
         }

@@ -7,12 +7,12 @@
  */
 class rex_install_archive
 {
-    public static function extract($archive, $dir, $basename = '')
+    public static function extract(string $archive, string $dir, string $basename = ''): bool
     {
         $dir = rtrim($dir, '/\\');
         rex_dir::delete($dir);
 
-        if (!class_exists('ZipArchive')) {
+        if (!class_exists(ZipArchive::class)) {
             $archive = 'phar://' . $archive . '/' . $basename;
             return rex_dir::copy($archive, $dir);
         }
@@ -24,7 +24,13 @@ class rex_install_archive
 
         try {
             if ('' === $basename) {
-                return $zip->extractTo($dir);
+                if (!$zip->extractTo($dir)) {
+                    return false;
+                }
+
+                self::setPermissions($dir);
+
+                return true;
             }
 
             $tempdir = $dir . '.temp';
@@ -35,9 +41,11 @@ class rex_install_archive
                     return false;
                 }
 
-                if (is_dir($tempdir . '/' . $basename)) {
-                    return rename($tempdir . '/' . $basename, $dir);
+                if (!is_dir($tempdir . '/' . $basename) || !rename($tempdir . '/' . $basename, $dir)) {
+                    return false;
                 }
+
+                self::setPermissions($dir);
             } finally {
                 rex_dir::delete($tempdir);
             }
@@ -45,13 +53,16 @@ class rex_install_archive
             $zip->close();
         }
 
-        return false;
+        return true;
     }
 
-    public static function copyDirToArchive($dir, $archive, $basename = null, $exclude = null)
+    /**
+     * @param string|string[]|null $exclude
+     */
+    public static function copyDirToArchive(string $dir, string $archive, ?string $basename = null, $exclude = null)
     {
         $dir = rtrim($dir, '/\\');
-        $basename = $basename ?: basename($dir);
+        $basename = $basename ?: rex_path::basename($dir);
         rex_dir::create(dirname($archive));
         $files = [];
         $iterator = rex_finder::factory($dir)->recursive()->filesOnly();
@@ -59,12 +70,12 @@ class rex_install_archive
             $iterator->ignoreDirs($exclude, false);
             $iterator->ignoreFiles($exclude, false);
         }
-        foreach ($iterator as $path => $file) {
+        foreach ($iterator as $path => $_) {
             $subpath = str_replace($dir, $basename, $path);
             $subpath = str_replace('\\', '/', $subpath);
             $files[$subpath] = $path;
         }
-        if (class_exists('ZipArchive')) {
+        if (class_exists(ZipArchive::class)) {
             $zip = new ZipArchive();
             $zip->open($archive, ZipArchive::CREATE);
             foreach ($files as $path => $realpath) {
@@ -80,6 +91,17 @@ class rex_install_archive
                     $phar[$path]->decompress();
                 }
             }
+        }
+    }
+
+    private static function setPermissions(string $dir): void
+    {
+        @chmod($dir, rex::getDirPerm());
+
+        $finder = rex_finder::factory($dir)->recursive();
+
+        foreach ($finder as $path => $file) {
+            @chmod($path, $file->isDir() ? rex::getDirPerm() : rex::getFilePerm());
         }
     }
 }

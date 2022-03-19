@@ -15,7 +15,7 @@ class rex_form_element
     protected $tag;
     /** @var rex_form_base|null */
     protected $table;
-    /** @var array */
+    /** @var array<string, int|string> */
     protected $attributes;
     /** @var bool */
     protected $separateEnding;
@@ -37,12 +37,12 @@ class rex_form_element
     /**
      * @param string $tag
      */
-    public function __construct($tag, rex_form_base $table = null, array $attributes = [], $separateEnding = false)
+    public function __construct($tag, rex_form_base $form = null, array $attributes = [], $separateEnding = false)
     {
         $this->value = null;
         $this->label = '';
         $this->tag = $tag;
-        $this->table = $table;
+        $this->table = $form;
         $this->setAttributes($attributes);
         $this->separateEnding = $separateEnding;
         $this->setHeader('');
@@ -187,21 +187,31 @@ class rex_form_element
         return $this->footer;
     }
 
+    /**
+     * @param string $name
+     * @param int|string $value
+     */
     public function setAttribute($name, $value)
     {
         if ('value' == $name) {
             $this->setValue($value);
         } else {
             if ('id' == $name) {
-                $value = rex_string::normalize($value, '-');
+                $value = rex_string::normalize((string) $value, '-');
             } elseif ('name' == $name) {
-                $value = rex_string::normalize($value, '_', '[]');
+                $value = rex_string::normalize((string) $value, '_', '[]');
             }
 
             $this->attributes[$name] = $value;
         }
     }
 
+    /**
+     * @template T
+     * @param string $name
+     * @param T $default
+     * @return int|string|T
+     */
     public function getAttribute($name, $default = null)
     {
         if ('value' == $name) {
@@ -214,6 +224,9 @@ class rex_form_element
         return $default;
     }
 
+    /**
+     * @param array<string, int|string> $attributes
+     */
     public function setAttributes(array $attributes)
     {
         $this->attributes = [];
@@ -224,7 +237,7 @@ class rex_form_element
     }
 
     /**
-     * @return array
+     * @return array<string, int|string>
      */
     public function getAttributes()
     {
@@ -237,6 +250,11 @@ class rex_form_element
     public function hasAttribute($name)
     {
         return isset($this->attributes[$name]);
+    }
+
+    public function isReadOnly(): bool
+    {
+        return str_contains((string) $this->getAttribute('class', ''), 'form-control-static');
     }
 
     /**
@@ -271,7 +289,7 @@ class rex_form_element
         $label = $this->getLabel();
 
         if ('' != $label) {
-            $s .= '<label class="control-label" for="' . $this->getAttribute('id') . '">' . $label . '</label>';
+            $s .= '<label class="control-label '.($this->isRequiredField() ? 'required' : '').'" for="' . $this->getAttribute('id').'">' . $label . '</label>';
         }
 
         return $s;
@@ -285,6 +303,10 @@ class rex_form_element
         $attr = '';
         $value = $this->getValue();
         $tag = rex_escape($this->getTag(), 'html_attr');
+
+        if ($this->isRequiredField()) {
+            $this->setAttribute('required', 'required');
+        }
 
         foreach ($this->getAttributes() as $attributeName => $attributeValue) {
             $attr .= ' ' . rex_escape($attributeName, 'html_attr') . '="' . rex_escape($attributeValue) . '"';
@@ -327,14 +349,10 @@ class rex_form_element
      */
     protected function _get()
     {
-        $class = $this->formatClass();
-        $class = '' == $class ? '' : ' ' . $class;
-
         $formElements = [];
         $n = [];
         $n['header'] = $this->getHeader();
         $n['id'] = '';
-        //$n['class']     = $class;
         $n['label'] = $this->formatLabel();
         $n['before'] = $this->getPrefix();
         $n['field'] = $this->formatElement();
@@ -345,17 +363,27 @@ class rex_form_element
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
-        return  $fragment->parse($this->getFragment());
+        return $fragment->parse($this->getFragment());
     }
 
     public function get()
     {
-        $s = $this->wrapContent($this->_get());
-        return $s;
+        return $this->wrapContent($this->_get());
     }
 
     public function show()
     {
         echo $this->get();
+    }
+
+    private function isRequiredField(): bool
+    {
+        foreach ($this->getValidator()->getRules() as $rule) {
+            if (rex_validation_rule::NOT_EMPTY == $rule->getType()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

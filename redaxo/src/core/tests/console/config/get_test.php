@@ -17,7 +17,7 @@ class rex_command_config_get_test extends TestCase
         $commandTester->execute([
             'config-key' => $key,
         ]);
-        static::assertEquals($expectedValue, $commandTester->getDisplay());
+        static::assertEquals($expectedValue, $commandTester->getDisplay(true));
         static::assertEquals(0, $commandTester->getStatusCode());
     }
 
@@ -36,5 +36,16 @@ class rex_command_config_get_test extends TestCase
             'config-key' => 'foo.bar',
         ]);
         static::assertEquals(1, $commandTester->getStatusCode());
+    }
+
+    public function testPackageKeyFound()
+    {
+        $commandTester = new CommandTester(new rex_command_config_get());
+        $commandTester->execute([
+            'config-key' => 'author',
+            '--package' => 'backup', ]
+        );
+        static::assertEquals("\"Jan Kristinus, Markus Staab\"\n", $commandTester->getDisplay(true));
+        static::assertEquals(0, $commandTester->getStatusCode());
     }
 }

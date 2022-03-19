@@ -1,5 +1,6 @@
 <?php namespace Clockwork\Helpers;
 
+// A single frame of a stack trace
 class StackFrame
 {
 	public $call;
@@ -20,9 +21,10 @@ class StackFrame
 		}
 
 		$this->call = $this->formatCall();
-		$this->shortPath = str_replace($basePath, '', $this->file);
-		$this->vendor = strpos($this->file, $vendorPath) === 0
-			? explode('/', str_replace($vendorPath, '', $this->file))[0] : null;
+
+		$this->shortPath = $this->file ? str_replace($basePath, '', $this->file) : null;
+		$this->vendor = ($this->file && strpos($this->file, $vendorPath) === 0)
+			? explode(DIRECTORY_SEPARATOR, str_replace($vendorPath, '', $this->file))[0] : null;
 	}
 
 	protected function formatCall()

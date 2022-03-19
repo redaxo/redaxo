@@ -1,6 +1,122 @@
 Changelog
 =========
 
+Version 2.13.2 – 10.01.2022
+---------------------------
+
+### Bugfixes
+
+* Kategorie in Artikel umwandeln: Felder `catname` und `catpriority` wurden nicht korrekt aktualisiert (@gharlan)
+* Inhalt von/zu Sprache kopieren: Es werden auch die Inhalte der Arbeitsversion kopiert (@gharlan)
+* Die Version-Toolbar wird nicht in der Artikel-Funktionen-Page angezeigt, da dort nicht relevant (@gharlan)
+* Modul-Aktionen: Speicherung korrigiert bei Auswahl der "Alle"-Checkboxen (@gharlan)
+* Fehlermeldung im Fronted optimiert, wenn noch kein Artikel existiert (@gharlan)
+* Bei Installation wird die Default-Config für Start-/Fehler-Artikel in `rex_config` gespeichert (@gharlan)
+
+
+Version 2.13.1 – 29.11.2021
+---------------------------
+
+### Bugfixes
+
+* Templates: bei Modulzuweisung zu CTypes wurde teils fälschlich nach Speichern wieder "Alle" aktiviert (@gharlan)
+
+
+Version 2.13.0 – 17.11.2021
+---------------------------
+
+### Neu
+
+* Im Modul wird der aktuelle Slice gecacht als `rex_article_slice`-Objekt zur Verfügung gestellt über `$this->getCurrentSlice()`, so kann über PHP ohne REX_VARs auf die Values zugegriffen werden (@gharlan)
+* `rex_article_slice`:
+    - Neue Methoden `getValueArray`, `getLinkListArray`, `getMediaListArray`, die den Feldinhalt direkt als Array liefern (@gharlan)
+* Strukur-Page: Tabellenzeilen erhalten `data-status="x"`-Attribut, so können die Zeilen je nach Status gestylet werden (@danspringer, @schuer)
+* Kategorie-Selectfelder mit Suchfeld (@skerbis)
+* Bezeichner optimiert (@alxndr-w)
+
+### Bugfixes
+
+* Sliceänderungen wirkten sich teils erst verzögert aus (wegen Opcache) (@gharlan)
+* `rex_article_slice`: bei `getLinkUrl` bekam man die aktuelle URL statt `null`, wenn das Feld nicht gesetzt ist (`getMediaUrl` entsprechend) (@gharlan)
+* `REX_LINK[id=X output=url]` hat teilweise die URL in falscher Sprache geliefert (@gharlan)
+* Bei der Modulzuweisung zu den CTypes wurde bei Abwahl aller Module wieder die Checkbox "Alle" gesetzt (@gharlan)
+
+
+Version 2.12.1 – 21.06.2021
+---------------------------
+
+### Bugfixes
+
+* `rex_var_link(list)::getWidget`: ID-Parameter mit zusätzlichem Namespace-Anteil (nicht nur integer) wurden nur teilweise unterstützt (@gharlan)
+
+
+Version 2.12.0 – 03.03.2021
+---------------------------
+
+### Neu
+
+* In der Strukturübersicht werden leere Kategorien von solchen mit Kindelementen durch Iconvarianten unterschieden (@schuer)
+* Die Paginierung der Kategorien/Artikel kann über die AddOn-Property `rows_per_page` angepasst werden; der Default-Wert wurde auf 50 erhöht (@tyrant88)
+* Überschrift auf content-Page enthält Artikelnamen (@schuer)
+* Neuer EP `SLICE_MENU` (mit eigener Klasse `rex_extension_point_slice_menu`), als Weiterentwicklung von `STRUCTURE_CONTENT_SLICE_MENU` mit mehr Möglickeiten, die vorhandenen Buttons zu ändern/entfernen (@staabm)
+* Aus Templates/Modulen heraus kann neue Exception `rex_article_not_found_exception` geworfen werden, wodurch auf den Fehlerartikel gewechselt wird (@gharlan)
+* Wenn eine Sprache mit ID=0 (R4-Import) existiert, wird im Backend eine gesonderte Meldung ausgegeben (@staabm)
+
+### Bugfixes
+
+* Bei Exceptions in Modulen war anschließend ein zusätzlicher Output-Buffer aktiv (@staabm)
+
+
+Version 2.11.2 – 25.01.2021
+---------------------------
+
+### Security
+
+* Fehlendes Escaping ergänzt (@gharlan)
+
+### Bugfixes
+
+* `rex_module::forKey()` korrigiert (@DanielWeitenauer)
+
+
+Version 2.11.1 – 11.11.2020
+---------------------------
+
+### Bugfixes
+
+* `rex_article_slice`: `getPreviousSlice`/`getNextSlice` lieferten mit `$ignoreOfflines` teilweise fälschlich `null` (@gharlan)
+
+
+Version 2.11.0 – 01.07.2020
+---------------------------
+
+### Neu
+
+* Neues Recht `publishSlice[]` für den Slice-Status (@tbaddade)
+* `rex_category`/`rex_article`: Neue Methoden `getClosest` und `getClosestValue` für Abfragen vom Element ausgehend den ParentTree aufwärts, sowie `isOnlineIncludingParents` (@gharlan)
+* `rex_article_slice`: neue `isOnline`-Methode, und `$ignoreOfflines`-Parameter bei einigen Methoden (@DanielWeitenauer)
+* `rex_template`/`rex_module`: Abfrage der Keys wird gecacht (@gharlan)
+* Fragment `module_select.php`: Module-Key wird mit übergeben (@skerbis)
+* Darstellung in Artikelbearbeitung bei fehlenden Slice-Rechten verbessert (@tbaddade)
+* Modulbearbeitung: Hinweis auf Nutzungsmöglichkeit der Aktionen (@staabm)
+
+### Bugfixes
+
+* Beim Versuch das Default-Template zu löschen, kam es teilweise zu einer Exception statt zu der angedachten Fehlermeldung (@gharlan)
+* history-Plugin: Beim Aufruf der alten Artikelversionen kam es zu einer Warning bzgl. Module-Keys (@gharlan)
+* Mobilansicht der Struktur: Bei leerer Artikelliste erschien der Hinzufügen-Button ohne Untergrund (@tbaddade)
+
+
+Version 2.10.1 – 08.05.2020
+---------------------------
+
+### Bugfixes
+
+* Bei Fehlern während der Artikelcache-Generierung wurde im Frontend eine Fehlermeldung ausgegeben, die den vollen Cachepfad enthielt (@gharlan)
+* Beim Backendaufruf von nicht existenten Artikeln erschien keine Fehlermeldung (@tbaddade)
+* Es wurden teilweise falsche Übersetzungsschlüssel verwendet (@bloep)
+
+
 Version 2.10.0 – 10.03.2020
 ---------------------------
 
@@ -256,4 +372,3 @@ Version 2.0.1 – 09.02.2016
 ### Bugfixes
 
 * Die CommonVars (REX_ARTICLE_ID etc.) konnten nicht innerhalb der ObjectVars (REX_ARTICLE[] etc.) verwendet werden (@schuer)
-

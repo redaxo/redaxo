@@ -68,7 +68,7 @@ class rex_category extends rex_structure_element
     /**
      * Returns the parent category.
      *
-     * @return self|null
+     * @return static|null
      */
     public function getParent()
     {

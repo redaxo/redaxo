@@ -10,10 +10,35 @@ class rex_file
     /**
      * Returns the content of a file.
      *
+     * @param string $file Path to the file
+     *
+     * @throws rex_exception throws when the file cannot be read
+     *
+     * @return string Content of the file
+     */
+    public static function require(string $file): string
+    {
+        return rex_timer::measure(__METHOD__, static function () use ($file) {
+            $content = @file_get_contents($file);
+
+            if (false === $content) {
+                throw new rex_exception('Unable to read file "'. $file .'"');
+            }
+
+            return $content;
+        });
+    }
+
+    /**
+     * Returns the content of a file.
+     *
      * @param string $file    Path to the file
      * @param mixed  $default Default value
+     * @psalm-template T
+     * @psalm-param T $default
      *
      * @return mixed Content of the file or default value if the file isn't readable
+     * @psalm-return string|T
      */
     public static function get($file, $default = null)
     {
@@ -28,8 +53,11 @@ class rex_file
      *
      * @param string $file    Path to the file
      * @param mixed  $default Default value
+     * @psalm-template T
+     * @psalm-param T $default
      *
      * @return mixed Content of the file or default value if the file isn't readable
+     * @psalm-return array|T
      */
     public static function getConfig($file, $default = [])
     {
@@ -42,8 +70,11 @@ class rex_file
      *
      * @param string $file    Path to the file
      * @param mixed  $default Default value
+     * @psalm-template T
+     * @psalm-param T $default
      *
      * @return mixed Content of the file or default value if the file isn't readable
+     * @psalm-return array|T
      */
     public static function getCache($file, $default = [])
     {
@@ -62,12 +93,12 @@ class rex_file
     public static function put($file, $content)
     {
         return rex_timer::measure(__METHOD__, static function () use ($file, $content) {
-            if (!rex_dir::create(dirname($file)) || file_exists($file) && !is_writable($file)) {
+            if (!rex_dir::create(dirname($file)) || is_file($file) && !is_writable($file)) {
                 return false;
             }
 
             // mimic a atomic write
-            $tmpFile = @tempnam(dirname($file), basename($file));
+            $tmpFile = @tempnam(dirname($file), rex_path::basename($file));
             if (false !== file_put_contents($tmpFile, $content) && rename($tmpFile, $file)) {
                 @chmod($file, rex::getFilePerm());
                 return true;
@@ -119,15 +150,15 @@ class rex_file
             if (is_file($srcfile)) {
                 if (is_dir($dstfile)) {
                     $dstdir = rtrim($dstfile, DIRECTORY_SEPARATOR);
-                    $dstfile = $dstdir . DIRECTORY_SEPARATOR . basename($srcfile);
+                    $dstfile = $dstdir . DIRECTORY_SEPARATOR . rex_path::basename($srcfile);
                 } else {
                     $dstdir = dirname($dstfile);
                     rex_dir::create($dstdir);
                 }
 
-                if (rex_dir::isWritable($dstdir) && (!file_exists($dstfile) || is_writable($dstfile)) && copy($srcfile, $dstfile)) {
+                if (rex_dir::isWritable($dstdir) && (!is_file($dstfile) || is_writable($dstfile)) && copy($srcfile, $dstfile)) {
                     @chmod($dstfile, rex::getFilePerm());
-                    touch($dstfile, filemtime($srcfile), fileatime($srcfile));
+                    @touch($dstfile, filemtime($srcfile), fileatime($srcfile));
                     return true;
                 }
             }
@@ -158,7 +189,7 @@ class rex_file
     public static function delete($file)
     {
         return rex_timer::measure(__METHOD__, static function () use ($file) {
-            if (file_exists($file)) {
+            if (is_file($file)) {
                 return unlink($file);
             }
             return true;

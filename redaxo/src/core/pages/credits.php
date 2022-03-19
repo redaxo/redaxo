@@ -9,7 +9,7 @@
 echo rex_view::title(rex_i18n::msg('credits'), '');
 
 if (rex_get('license')) {
-    $license = rex_markdown::factory()->parse(rex_file::get(rex_path::base('LICENSE.md')));
+    $license = rex_markdown::factory()->parse(rex_file::require(rex_path::base('LICENSE.md')));
 
     $fragment = new rex_fragment();
     $fragment->setVar('title', 'REDAXO '. rex_i18n::msg('credits_license'));
@@ -87,7 +87,7 @@ $content .= '
             $license = '';
             if (is_readable($licenseFile = $package->getPath('LICENSE.md')) || is_readable($licenseFile = $package->getPath('LICENSE'))) {
                 $f = fopen($licenseFile, 'r');
-                $firstLine = fgets($f);
+                $firstLine = fgets($f) ?: '';
                 fclose($f);
 
                 if (preg_match('/^The MIT License(?: \(MIT\))$/i', $firstLine)) {
@@ -117,7 +117,7 @@ $content .= '
             $content .= '
                 </td>
                 <td class="rex-table-width-6" data-title="' . rex_i18n::msg('credits_license') . '">'. $license .'</td>
-                <td data-title="' . rex_i18n::msg('credits_author') . '">' . $package->getAuthor() . '</td>
+                <td data-title="' . rex_i18n::msg('credits_author') . '">' . rex_escape((string) $package->getAuthor()) . '</td>
             </tr>';
         }
 

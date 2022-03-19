@@ -42,34 +42,34 @@ $content .= '
                 </thead>
                 <tbody>';
 
-$buttons = '';
 $formElements = [];
-if ($file = new rex_log_file($logFile)) {
-    foreach (new LimitIterator($file, 0, 30) as $entry) {
-        /** @var rex_log_entry $entry */
-        $data = $entry->getData();
-        $class = 'ERROR' == trim($data[0]) ? 'rex-state-error' : 'rex-state-success';
-        if ('--' == $data[1]) {
-            $icon = '<i class="rex-icon rex-icon-cronjob" title="' . rex_i18n::msg('cronjob_not_editable') . '"></i>';
-        } else {
-            $icon = '<a href="' . rex_url::backendPage('cronjob', ['list' => 'cronjobs', 'func' => 'edit', 'oid' => $data[1]]) . '" title="' . rex_i18n::msg('cronjob_edit') . '"><i class="rex-icon rex-icon-cronjob"></i></a>';
-        }
-        $content .= '
-                    <tr class="' . $class . '">
-                        <td class="rex-table-icon">' . $icon . '</td>
-                        <td data-title="' . rex_i18n::msg('cronjob_log_date') . '">' . $entry->getTimestamp('%d.%m.%Y %H:%M:%S') . '</td>
-                        <td data-title="' . rex_i18n::msg('cronjob_name') . '">' . rex_escape($data[2]) . '</td>
-                        <td data-title="' . rex_i18n::msg('cronjob_log_message') . '">' . nl2br(rex_escape($data[3])) . '</td>
-                        <td data-title="' . rex_i18n::msg('cronjob_environment') . '">' . (isset($data[4]) ? rex_i18n::msg('cronjob_environment_'.$data[4]) : '') . '</td>
-                    </tr>';
-    }
 
-    // XXX calc last line and use it instead
-    if ($url = rex_editor::factory()->getUrl($logFile, 1)) {
-        $n = [];
-        $n['field'] = '<a class="btn btn-save" href="'. $url .'">' . rex_i18n::msg('system_editor_open_file', basename($logFile)) . '</a>';
-        $formElements[] = $n;
+$file = new rex_log_file($logFile);
+
+/** @var rex_log_entry $entry */
+foreach (new LimitIterator($file, 0, 30) as $entry) {
+    $data = $entry->getData();
+    $class = 'ERROR' == trim($data[0]) ? 'rex-state-error' : 'rex-state-success';
+    if ('--' == $data[1]) {
+        $icon = '<i class="rex-icon rex-icon-cronjob" title="' . rex_i18n::msg('cronjob_not_editable') . '"></i>';
+    } else {
+        $icon = '<a href="' . rex_url::backendPage('cronjob', ['list' => 'cronjobs', 'func' => 'edit', 'oid' => $data[1]]) . '" title="' . rex_i18n::msg('cronjob_edit') . '"><i class="rex-icon rex-icon-cronjob"></i></a>';
     }
+    $content .= '
+        <tr class="' . $class . '">
+            <td class="rex-table-icon">' . $icon . '</td>
+            <td data-title="' . rex_i18n::msg('cronjob_log_date') . '" class="rex-table-tabular-nums">' . rex_formatter::intlDateTime($entry->getTimestamp(), [IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM]) . '</td>
+            <td data-title="' . rex_i18n::msg('cronjob_name') . '">' . rex_escape($data[2]) . '</td>
+            <td data-title="' . rex_i18n::msg('cronjob_log_message') . '">' . nl2br(rex_escape($data[3])) . '</td>
+            <td data-title="' . rex_i18n::msg('cronjob_environment') . '">' . (isset($data[4]) ? rex_i18n::msg('cronjob_environment_'.$data[4]) : '') . '</td>
+        </tr>';
+}
+
+// XXX calc last line and use it instead
+if ($url = rex_editor::factory()->getUrl($logFile, 1)) {
+    $n = [];
+    $n['field'] = '<a class="btn btn-save" href="'. $url .'">' . rex_i18n::msg('system_editor_open_file', rex_path::basename($logFile)) . '</a>';
+    $formElements[] = $n;
 }
 
 $n = [];

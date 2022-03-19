@@ -10,26 +10,25 @@ $error = '';
 // ------------------------------ Requestvars
 $function = rex_request('function', 'string');
 $impname = rex_request('impname', 'string');
-$exporttype = rex_post('exporttype', 'string');
-$exportdl = rex_post('exportdl', 'boolean');
-$EXPDIR = rex_post('EXPDIR', 'array');
 
 @set_time_limit(0);
 
 if ('' != $impname) {
-    $impname = basename($impname);
+    $impname = rex_path::basename($impname);
+    $validDump = rex_backup::isFilenameValid(rex_backup::IMPORT_DB, $impname);
+    $validArchive = rex_backup::isFilenameValid(rex_backup::IMPORT_ARCHIVE, $impname);
 
-    if ('dbimport' == $function && '.sql' != substr($impname, -4, 4)) {
+    if ('dbimport' == $function && !$validDump) {
         $impname = '';
-    } elseif ('fileimport' == $function && '.tar.gz' != substr($impname, -7, 7)) {
+    } elseif ('fileimport' == $function && !$validArchive) {
         $impname = '';
-    } elseif (('delete' == $function || 'download' == $function) && '.sql' != substr($impname, -4, 4) && '.tar.gz' != substr($impname, -7, 7)) {
+    } elseif (('delete' == $function || 'download' == $function) && !$validDump && !$validArchive) {
         $impname = '';
     }
 }
 
 if ('download' == $function && $impname && is_readable(rex_backup::getDir() . '/' . $impname)) {
-    rex_response::sendFile(rex_backup::getDir() . '/' . $impname, '.tar.gz' != substr($impname, -7, 7) ? 'tar/gzip' : 'plain/test', 'attachment');
+    rex_response::sendFile(rex_backup::getDir() . '/' . $impname, str_ends_with($impname, '.gz') ? 'application/gzip' : 'plain/text', 'attachment');
     exit;
 }
 
@@ -53,13 +52,13 @@ if ($function && !$csrfToken->isValid()) {
         $error = rex_i18n::msg('backup_no_import_file_chosen_or_wrong_version') . '<br>';
     } else {
         if ('' != $impname) {
-            $file_temp = rex_backup::getDir() . '/' . $impname;
+            $fileTemp = rex_backup::getDir() . '/' . $impname;
         } else {
-            $file_temp = rex_backup::getDir() . '/temp.sql';
+            $fileTemp = rex_backup::getDir() . '/temp.sql';
         }
 
-        if ('' != $impname || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp)) {
-            $state = rex_backup::importDb($file_temp);
+        if ('' != $impname || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $fileTemp)) {
+            $state = rex_backup::importDb($fileTemp);
             if ($state['state']) {
                 $success = $state['message'];
             } else {
@@ -68,7 +67,7 @@ if ($function && !$csrfToken->isValid()) {
 
             // temp datei löschen
             if ('' == $impname) {
-                rex_file::delete($file_temp);
+                rex_file::delete($fileTemp);
             }
         } else {
             $error = rex_i18n::msg('backup_file_could_not_be_uploaded') . ' ' . rex_i18n::msg('backup_you_have_no_write_permission_in', 'data/addons/backup/') . ' <br>';
@@ -81,13 +80,13 @@ if ($function && !$csrfToken->isValid()) {
         $error = rex_i18n::msg('backup_no_import_file_chosen') . '<br/>';
     } else {
         if ('' == $impname) {
-            $file_temp = rex_backup::getDir() . '/temp.tar.gz';
+            $fileTemp = rex_backup::getDir() . '/temp.tar.gz';
         } else {
-            $file_temp = rex_backup::getDir() . '/' . $impname;
+            $fileTemp = rex_backup::getDir() . '/' . $impname;
         }
 
-        if ('' != $impname || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp)) {
-            $return = rex_backup::importFiles($file_temp);
+        if ('' != $impname || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $fileTemp)) {
+            $return = rex_backup::importFiles($fileTemp);
             if ($return['state']) {
                 $success = $return['message'];
             } else {
@@ -96,7 +95,7 @@ if ($function && !$csrfToken->isValid()) {
 
             // temp datei löschen
             if ('' == $impname) {
-                rex_file::delete($file_temp);
+                rex_file::delete($fileTemp);
             }
         } else {
             $error = rex_i18n::msg('backup_file_could_not_be_uploaded') . ' ' . rex_i18n::msg('backup_you_have_no_write_permission_in', 'data/addons/backup/') . ' <br>';
@@ -111,6 +110,7 @@ if ('' != $error) {
 }
 
 $body = '<p>' . rex_i18n::msg('backup_intro_import') . '</p>';
+$body .= '<p>' . rex_i18n::msg('backup_intro_import_files') . '</p>';
 $body .= '<p>' . rex_i18n::msg('backup_version_warning') . '</p>';
 
 $body .= ' <hr><p>

@@ -7,9 +7,6 @@
  */
 class rex_debug
 {
-    /** @var \Clockwork\Support\Vanilla\Clockwork */
-    private static $instance;
-
     /** @var class-string[] */
     private static $ignoreClasses = [
         rex_extension_debug::class,
@@ -23,28 +20,9 @@ class rex_debug
         rex_error_handler::class,
     ];
 
-    private static function init(): void
-    {
-        $clockwork = \Clockwork\Support\Vanilla\Clockwork::init([
-            'storage_files_path' => rex_addon::get('debug')->getCachePath('clockwork.db'),
-        ]);
-
-        self::$instance = $clockwork;
-    }
-
-    public static function getInstance(): \Clockwork\Clockwork
-    {
-        return self::getHelper()->getClockwork();
-    }
-
-    public static function getHelper(): \Clockwork\Support\Vanilla\Clockwork
-    {
-        if (!self::$instance) {
-            self::init();
-        }
-        return self::$instance;
-    }
-
+    /**
+     * @param class-string[] $ignoredClasses
+     */
     public static function getTrace(array $ignoredClasses = []): array
     {
         $ignoredClasses = array_merge(self::$ignoreClasses, $ignoredClasses);
@@ -60,8 +38,8 @@ class rex_debug
             break;
         }
         return [
-            'file' => $trace[$start]['file'],
-            'line' => $trace[$start]['line'],
+            'file' => $trace[$start]['file'] ?? null,
+            'line' => $trace[$start]['line'] ?? null,
             'trace' => array_slice($trace, $start),
         ];
     }

@@ -7,8 +7,14 @@
  */
 class rex_password_policy
 {
+    /**
+     * @var array<string, array{min?: int, max?: int}>
+     */
     private $options;
 
+    /**
+     * @param array<string, array{min?: int, max?: int}> $options
+     */
     public function __construct(array $options)
     {
         $this->options = $options;
@@ -28,29 +34,39 @@ class rex_password_policy
             return true;
         }
 
-        return rex_i18n::msg('password_invalid', $this->getRule());
+        return rex_i18n::msg('password_invalid', $this->getDescription());
     }
 
-    /**
-     * @return string
-     */
-    protected function getRule()
+    public function getDescription(): ?string
     {
         $parts = [];
 
         foreach ($this->options as $key => $options) {
-            if (isset($options['min'], $options['max'])) {
+            if (isset($options['min'], $options['max']) && $options['min']) {
                 $constraint = rex_i18n::msg('password_rule_between', $options['min'], $options['max']);
             } elseif (isset($options['max'])) {
                 $constraint = rex_i18n::msg('password_rule_max', $options['max']);
-            } else {
+            } elseif (isset($options['min']) && $options['min']) {
                 $constraint = rex_i18n::msg('password_rule_min', $options['min']);
+            } else {
+                continue;
             }
 
             $parts[] = rex_i18n::msg('password_rule_'.$key, $constraint);
         }
 
-        return implode('; ', $parts);
+        return $parts ? implode('; ', $parts) : null;
+    }
+
+    /**
+     * @return string
+     *
+     * @deprecated since 5.12, use `getDescription` instead
+     */
+    #[\JetBrains\PhpStorm\Deprecated(reason: 'since 5.12, use `getDescription` instead', replacement: '%class%->getDescription()')]
+    protected function getRule()
+    {
+        return $this->getDescription() ?? '';
     }
 
     /**
@@ -92,6 +108,9 @@ class rex_password_policy
     }
 
     /**
+     * @param int $count
+     * @param array{min?: int, max?: int} $options
+     *
      * @return bool
      */
     protected function matchesCount($count, array $options)
@@ -100,10 +119,6 @@ class rex_password_policy
             return false;
         }
 
-        if (isset($options['max']) && $count > $options['max']) {
-            return false;
-        }
-
-        return true;
+        return !isset($options['max']) || $count <= $options['max'];
     }
 }

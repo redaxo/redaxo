@@ -9,14 +9,14 @@ class rex_timer_test extends TestCase
 {
     private $orgDebug;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         // rex_timer internals depend on debug mode..
         $this->orgDebug = rex::getProperty('debug');
         rex::setProperty('debug', true);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         rex::setProperty('debug', $this->orgDebug);
     }

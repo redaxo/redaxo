@@ -31,7 +31,7 @@
       <option name="NULL_TYPE_POSITION" value="IN_THE_BEGINNING" />
     </PHPCodeStyleSettings>
     <XML>
-      <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
+      <option name="XML_ALIGN_ATTRIBUTES" value="false" />
     </XML>
     <codeStyleSettings language="CSS">
       <indentOptions>
@@ -98,6 +98,8 @@
       </indentOptions>
     </codeStyleSettings>
     <codeStyleSettings language="yaml">
+      <option name="SPACE_WITHIN_BRACKETS" value="false" />
+      <option name="SPACE_WITHIN_BRACES" value="false" />
       <indentOptions>
         <option name="INDENT_SIZE" value="4" />
       </indentOptions>

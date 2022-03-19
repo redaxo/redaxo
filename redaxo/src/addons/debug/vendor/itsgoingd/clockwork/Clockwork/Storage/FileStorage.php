@@ -3,9 +3,7 @@
 use Clockwork\Request\Request;
 use Clockwork\Storage\Storage;
 
-/**
- * Simple file based storage for requests
- */
+// File based storage for requests
 class FileStorage extends Storage
 {
 	// Path where files are stored
@@ -34,14 +32,14 @@ class FileStorage extends Storage
 
 			// create default .gitignore, to ignore stored json files
 			file_put_contents("{$path}/.gitignore", "*.json\n*.json.gz\nindex\n");
-		}
-
-		if (! is_writable($path)) {
+		} elseif (! is_writable($path)) {
 			throw new \Exception("Path \"{$path}\" is not writable.");
 		}
 
 		if (! file_exists($indexFile = "{$path}/index")) {
 			file_put_contents($indexFile, '');
+		} elseif (! is_writable($indexFile)) {
+			throw new \Exception("Path \"{$indexFile}\" is not writable.");
 		}
 
 		$this->path = $path;
@@ -64,7 +62,8 @@ class FileStorage extends Storage
 	// Return the latest request
 	public function latest(Search $search = null)
 	{
-		return $this->loadRequests($this->searchIndexBackward($search, null, 1));
+		$requests = $this->loadRequests($this->searchIndexBackward($search, null, 1));
+		return reset($requests);
 	}
 
 	// Return requests received before specified id, optionally limited to specified count
@@ -80,7 +79,7 @@ class FileStorage extends Storage
 	}
 
 	// Store request, requests are stored in JSON representation in files named <request id>.json in storage path
-	public function store(Request $request)
+	public function store(Request $request, $skipIndex = false)
 	{
 		$path = "{$this->path}/{$request->id}.json";
 		$data = @json_encode($request->toArray(), \JSON_PARTIAL_OUTPUT_ON_ERROR);
@@ -89,8 +88,15 @@ class FileStorage extends Storage
 			? file_put_contents("{$path}.gz", gzcompress($data))
 			: file_put_contents($path, $data);
 
-		$this->updateIndex($request);
+		if (! $skipIndex) $this->updateIndex($request);
+
 		$this->cleanup();
+	}
+
+	// Update existing request
+	public function update(Request $request)
+	{
+		return $this->store($request, true);
 	}
 
 	// Cleanup old requests
@@ -106,7 +112,7 @@ class FileStorage extends Storage
 			new Search([ 'received' => [ '<' . date('c', $expirationTime) ] ], [ 'stopOnFirstMismatch' => true ])
 		);
 
-		if (! count($old)) return;
+		if (! count($old)) return $this->closeIndex(true);
 
 		$this->readPreviousIndex();
 		$this->trimIndex();
@@ -118,6 +124,7 @@ class FileStorage extends Storage
 		}
 	}
 
+	// Load a single request by id from filesystem
 	protected function loadRequest($id)
 	{
 		$path = "{$this->path}/{$id}.json";
@@ -129,6 +136,7 @@ class FileStorage extends Storage
 		return new Request(json_decode($this->compress ? gzuncompress($data) : $data, true));
 	}
 
+	// Load multiple requests by ids from filesystem
 	protected function loadRequests($ids)
 	{
 		return array_filter(array_map(function ($id) { return $this->loadRequest($id); }, $ids));
@@ -149,7 +157,7 @@ class FileStorage extends Storage
 	// Search index in specified direction from specified ID or last record, with optional results count limit
 	protected function searchIndex($direction, Search $search = null, $id = null, $count = null)
 	{
-		$this->openIndex($direction == 'previous' ? 'end' : 'start');
+		$this->openIndex($direction == 'previous' ? 'end' : 'start', false, true);
 
 		if ($id) {
 			while ($request = $this->readIndex($direction)) { if ($request->id == $id) break; }
@@ -161,13 +169,11 @@ class FileStorage extends Storage
 			if (! $search || $search->matches($request)) {
 				$found[] = $request->id;
 			} elseif ($search->stopOnFirstMismatch) {
-				return $found;
+				break;
 			}
 
-			if ($count && count($found) == $count) return $found;
+			if ($count && count($found) == $count) break;
 		}
-
-		if ($count == 1) return reset($found);
 
 		return $direction == 'next' ? $found : array_reverse($found);
 	}
@@ -266,12 +272,24 @@ class FileStorage extends Storage
 		file_put_contents("{$this->path}/index", $trimmed);
 	}
 
+	// Create an incomplete request from index data
 	protected function makeRequestFromIndex($record)
 	{
-		if (count($record) != 7) return new Request; // invalid index data, return a null request
+		$type = isset($record[7]) ? $record[7] : 'response';
+
+		if ($type == 'command') {
+			$nameField = 'commandName';
+		} elseif ($type == 'queue-job') {
+			$nameField = 'jobName';
+		} elseif ($type == 'test') {
+			$nameField = 'testName';
+		} else {
+			$nameField = 'uri';
+		}
 
 		return new Request(array_combine(
-			[ 'id', 'time', 'method', 'uri', 'controller', 'responseStatus', 'responseDuration' ], $record
+			[ 'id', 'time', 'method', $nameField, 'controller', 'responseStatus', 'responseDuration', 'type' ],
+			array_slice($record, 0, 8) + [ null, null, null, null, null, null, null, 'response' ]
 		));
 	}
 
@@ -279,16 +297,30 @@ class FileStorage extends Storage
 	protected function updateIndex(Request $request)
 	{
 		$handle = fopen("{$this->path}/index", 'a');
-		flock($handle, LOCK_EX);
+
+		if (! $handle) return;
+
+		if (! flock($handle, LOCK_EX)) return fclose($handle);
+
+		if ($request->type == 'command') {
+			$nameField = 'commandName';
+		} elseif ($request->type == 'queue-job') {
+			$nameField = 'jobName';
+		} elseif ($request->type == 'test') {
+			$nameField = 'testName';
+		} else {
+			$nameField = 'uri';
+		}
 
 		fputcsv($handle, [
 			$request->id,
 			$request->time,
 			$request->method,
-			$request->uri,
+			$request->$nameField,
 			$request->controller,
 			$request->responseStatus,
-			$request->getResponseDuration()
+			$request->getResponseDuration(),
+			$request->type
 		]);
 
 		flock($handle, LOCK_UN);

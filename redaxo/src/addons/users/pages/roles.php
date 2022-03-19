@@ -25,7 +25,7 @@ if ('' == $func) {
     $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-userrole"></i>';
-    $thIcon = '<a href="' . $list->getUrl(['func' => 'add', 'default_value' => 1]) . '"' . rex::getAccesskey(rex_i18n::msg('create_user_role'), 'add') . ' title="' . rex_i18n::msg('create_user_role') . '"><i class="rex-icon rex-icon-add-userrole"></i></a>';
+    $thIcon = '<a class="rex-link-expanded" href="' . $list->getUrl(['func' => 'add', 'default_value' => 1]) . '"' . rex::getAccesskey(rex_i18n::msg('create_user_role'), 'add') . ' title="' . rex_i18n::msg('create_user_role') . '"><i class="rex-icon rex-icon-add-userrole"></i></a>';
     $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-table-icon">###VALUE###</th>', '<td class="rex-table-icon">###VALUE###</td>']);
     $list->setColumnParams($thIcon, ['func' => 'edit', 'id' => '###id###']);
 
@@ -76,7 +76,7 @@ if ('' == $func) {
         foreach ($pages as $page) {
             foreach ($page->getRequiredPermissions() as $perm) {
                 // ignore admin perm and complex perms (with "/")
-                if ($perm && !in_array($perm, ['isAdmin', 'admin', 'admin[]']) && false === strpos($perm, '/') && !rex_perm::has($perm)) {
+                if ($perm && !in_array($perm, ['isAdmin', 'admin', 'admin[]']) && !str_contains($perm, '/') && !rex_perm::has($perm)) {
                     rex_perm::register($perm);
                 }
             }
@@ -98,7 +98,7 @@ if ('' == $func) {
     }
 
     rex_extension::register('REX_FORM_INPUT_CLASS', static function (rex_extension_point $ep) {
-        return 'perm_select' == $ep->getParam('inputType') ? 'rex_form_perm_select_element' : null;
+        return 'perm_select' == $ep->getParam('inputType') ? rex_form_perm_select_element::class : null;
     });
 
     $fieldIds = [];
@@ -109,7 +109,7 @@ if ('' == $func) {
             $field = $fieldContainer->addGroupedField($group, 'perm_select', $key);
             $field->setLabel($params['label']);
             $field->setCheckboxLabel($params['all_label']);
-            $fieldIds[] = $field->getAttribute('id');
+            $fieldIds[] = rex_escape($field->getAttribute('id'), 'js');
             if (rex_request('default_value', 'boolean')) {
                 $field->setValue(rex_complex_perm::ALL);
             }

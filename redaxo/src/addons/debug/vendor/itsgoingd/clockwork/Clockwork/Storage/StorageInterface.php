@@ -2,9 +2,7 @@
 
 use Clockwork\Request\Request;
 
-/**
- * Interface for requests storage implementations
- */
+// Interface for requests storage implementations
 interface StorageInterface
 {
 	// Returns all requests
@@ -24,6 +22,9 @@ interface StorageInterface
 
 	// Store request
 	public function store(Request $request);
+
+	// Update existing request
+	public function update(Request $request);
 
 	// Cleanup old requests
 	public function cleanup();

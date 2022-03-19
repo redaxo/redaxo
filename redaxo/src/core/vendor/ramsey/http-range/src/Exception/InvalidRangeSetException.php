@@ -9,10 +9,12 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
+declare(strict_types=1);
+
 namespace Ramsey\Http\Range\Exception;
 
 /**
- * Indicates a problem with the range-set property
+ * Thrown to indicate a problem with the range-set property.
  */
 class InvalidRangeSetException extends HttpRangeException
 {

@@ -1,5 +1,11 @@
 <?php
 /**
+ * @var rex_fragment $this
+ * @psalm-scope-this rex_fragment
+ */
+?>
+<?php
+/**
  * Discussion Issue #1174
  * Manipulate this fragment to influence the selection of modules on the slice.
  * By default the core fragment is used.

@@ -15,7 +15,7 @@ if (rex_string::versionCompare($addon->getVersion(), '2.1-dev', '<')) {
 
     $jobs = $sql->getArray('SELECT id, `interval` FROM '.$table);
     foreach ($jobs as $job) {
-        $old = explode('|', trim($job['interval'], '|'));
+        $old = explode('|', trim((string) $job['interval'], '|'));
         $count = (int) $old[0];
 
         $interval = [

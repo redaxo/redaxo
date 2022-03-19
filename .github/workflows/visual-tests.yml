@@ -1,77 +1,123 @@
 name: Visual Regression Testing
 
-on: [pull_request]
+on:
+    pull_request:
+        types: [opened, synchronize, reopened, ready_for_review]
+    repository_dispatch:
+        types: [visual-test-command] # triggered by /visual-test PR comment
+
+env:
+    writable: ${{ (github.event_name == 'repository_dispatch' || github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') && 1 || 0 }}
 
 jobs:
-    build:
-
+    visual-tests:
         runs-on: ubuntu-latest
-        services:
-            mysql:
-                image: mysql:5.7
-                ports:
-                    - 3306
 
         steps:
-            - uses: actions/checkout@v1
-              with:
-               token: ${{ secrets.STAABM_TOKEN }}
-            - name: Setup PHP
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: 7.3
-                  extensions: intl, imagick
-                  coverage: none # disable xdebug, pcov
-                  tools: cs2pr
-            - name: Get Composer Cache Directory
-              id: composer-cache
-              run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-            - name: Cache dependencies
-              uses: actions/cache@v1
-              with:
-                  path: ${{ steps.composer-cache.outputs.dir }}
-                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-                  restore-keys: ${{ runner.os }}-composer-
-            - name: Install Dependencies
-              run: composer install --prefer-dist
-            - run: |
-                  sudo /etc/init.d/mysql start
-                  mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
-                  git apply .github/workflows/default.config.yml.github-action.diff
-            - run: |
-                  php redaxo/src/addons/tests/bin/setup.php
-                  php redaxo/bin/console package:install phpmailer
-                  php redaxo/bin/console package:install cronjob
-                  php redaxo/bin/console package:install cronjob/article_status
-                  php redaxo/bin/console package:install cronjob/optimize_tables
-                  php redaxo/bin/console package:install debug
-                  php redaxo/bin/console package:install structure/history
-                  php redaxo/bin/console package:install structure/version
+            -   name: Add action run link to trigger comment
+                uses: peter-evans/create-or-update-comment@v1
+                if: github.event_name == 'repository_dispatch'
+                with:
+                    token: ${{ secrets.BOT_TOKEN }}
+                    repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
+                    comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
+                    body: |
+                        ```
+                        https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+                        ```
 
-            - run: |
-                  php redaxo/bin/console user:create myusername mypassword --admin
+            -   name: Checkout
+                uses: actions/checkout@v2
+                if: env.writable == 1 && github.event_name != 'repository_dispatch'
+                with:
+                    ref: ${{ github.head_ref }}
+                    token: ${{ secrets.BOT_TOKEN }}
+            -   name: Checkout fork
+                uses: actions/checkout@v2
+                if: env.writable == 0
+            -   name: Checkout on chat commnad
+                uses: actions/checkout@v2
+                if: github.event_name == 'repository_dispatch'
+                with:
+                    token: ${{ secrets.BOT_TOKEN }}
+                    repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
+                    ref: ${{ github.event.client_payload.pull_request.head.ref }}
 
-            - name: Setup Node.js
-              uses: actions/setup-node@v1
-              with:
-                  node-version: "12.x"
-            - name: Setup Webserver
-              run: |
-                  php -S localhost:8000 &
-                  npm install puppeteer pixelmatch pngjs fs mkdirp
-            - name: Take Screenshots
-              run: |
-                  node .github/tests-visual/visual-record.js
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: '8.1'
+                    ini-values: 'error_reporting=E_ALL, display_errors=On, display_startup_errors=On'
+                    extensions: gd, pdo_mysql
+                    coverage: none # disable xdebug, pcov
+                    tools: cs2pr
 
-            - id: visual_changes
-              name: Detect Changes
-              run: git diff-index --quiet HEAD -- .github/tests-visual/
+            -   name: Init database
+                run: |
+                    sudo /etc/init.d/mysql start
+                    mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
+                    git apply .github/workflows/default.config.yml.github-action.diff
 
-            - uses: stefanzweifel/git-auto-commit-action@v2.5.0
-              if: failure()
-              with:
-                commit_message: Update screenshots
-                branch: ${{ github.head_ref }}
-                file_pattern: .github/tests-visual/*
-              env:
-                GITHUB_TOKEN: ${{ secrets.STAABM_TOKEN }}
+            -   name: Setup
+                run: |
+                    php .tools/bin/setup
+            -   name: Create user, update config
+                run: |
+                    php redaxo/bin/console user:create myusername mypassword --admin --ansi
+                    php redaxo/bin/console config:set error_email 'test@redaxo.invalid' --ansi
+            -   name: Import mock data
+                run: |
+                    mkdir -p $GITHUB_WORKSPACE/redaxo/data/addons/backup && cp -r .github/imports/inital-content-for-visual-tests.sql $GITHUB_WORKSPACE/redaxo/data/addons/backup/
+                    cp -r .github/imports/media/* $GITHUB_WORKSPACE/media/
+                    cp -f .github/imports/README.md $GITHUB_WORKSPACE/redaxo/src/addons/project/README.de.md
+                    php redaxo/bin/console setup:run -n --lang=de_de --agree-license --db-password=root --db-setup=import --db-import=inital-content-for-visual-tests --admin-username=myusername --admin-password=mypassword --ansi
+            -   name: Install packages
+                run: |
+                    php redaxo/bin/console package:install phpmailer --ansi
+                    php redaxo/bin/console package:install cronjob --ansi
+                    php redaxo/bin/console package:install cronjob/article_status --ansi
+                    php redaxo/bin/console package:install cronjob/optimize_tables --ansi
+                    php redaxo/bin/console package:install debug --ansi
+                    php redaxo/bin/console package:install structure/history --ansi
+                    php redaxo/bin/console package:install structure/version --ansi
+
+            -   name: Setup nodejs
+                uses: actions/setup-node@v3
+                with:
+                    node-version: "12.x"
+            -   name: Setup Webserver
+                run: |
+                    php -S localhost:8000 &
+                    npm install puppeteer@6 pixelmatch pngjs fs mkdirp
+
+            -   name: Take screenshots (differential)
+                if: github.event_name != 'repository_dispatch'
+                run: |
+                    php redaxo/bin/console config:set setup true -t boolean --ansi
+                    php redaxo/bin/console cache:clear --ansi
+                    node .github/tests-visual/visual-record.js setup
+                    php redaxo/bin/console config:set setup false -t boolean --ansi
+                    php redaxo/bin/console cache:clear --ansi
+                    node .github/tests-visual/visual-record.js
+                    git diff --exit-code --name-only .github/tests-visual/
+            -   name: Force regenerate all screenshots
+                if: github.event_name == 'repository_dispatch'
+                run: |
+                    php redaxo/bin/console config:set setup true -t boolean --ansi
+                    php redaxo/bin/console cache:clear --ansi
+                    node .github/tests-visual/visual-record.js setup regenerate-all
+                    php redaxo/bin/console config:set setup false -t boolean --ansi
+                    php redaxo/bin/console cache:clear --ansi
+                    node .github/tests-visual/visual-record.js regenerate-all
+                    git diff --exit-code --name-only .github/tests-visual/
+
+            -   name: Commit changed files
+                uses: stefanzweifel/git-auto-commit-action@v4
+                if: failure() && env.writable == 1
+                with:
+                    commit_message: Update screenshots
+                    commit_user_name: rex-bot
+                    commit_user_email: rex-bot@users.noreply.github.com
+                    file_pattern: .github/tests-visual/*
+                    # repo dispatch needs the target branch
+                    branch: ${{ github.head_ref }}

@@ -1,75 +1,9 @@
+$easeInCubic: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+$easeOutCubic: cubic-bezier(0.215, 0.61, 0.355, 1);
+$easeInOutCubic: cubic-bezier(0.645, 0.045, 0.355, 1);
+$transitionDuration: 300ms;
+
 .rex-is-logged-in {
-    > .navbar-toggle {
-        background: none !important;
-        border: 0;
-
-        position: fixed;
-        top: 10px;
-        right: 0;
-        z-index: 5;
-        background-color: $color-a;
-
-        @media (max-width: $screen-sm-max) {
-            margin-top: 2px;
-        }
-        > .icon-bar,
-        > .sr-only  {
-            display: none;
-        }
-
-        > .icon-bar:nth-child(2) {
-            display: block;
-            position: absolute;
-            height: 2px;
-            width: 20px;
-            top: 50%;
-            margin-top: -1px;
-            left: 50%;
-            margin-left: -10px;
-            background-color: $navbar-default-toggle-border-color;
-            @include transition(background-color 0.3s 0.3s);
-
-            &:before,
-            &:after {
-                /* upper and lower lines of the menu icon */
-                content: '';
-                position: absolute;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: $navbar-default-toggle-border-color;
-                /* Force Hardware Acceleration */
-                @include translate3d(0, 0, 0);
-                @include backface-visibility(hidden);
-                @include transition-transform(0.3s 0.3s);
-            }
-
-            &:before {
-                @include translate(0, -6px);
-            }
-            &:after {
-                @include translate(0, 6px);
-            }
-        }
-    }
-    .rex-nav-main-is-visible ~ .navbar-toggle > .icon-bar:nth-child(2) {
-        background-color: rgba(255, 255, 255, 0);
-
-        &:before {
-            -webkit-transform: translateY(0) rotate(-45deg);
-               -moz-transform: translateY(0) rotate(-45deg);
-                -ms-transform: translateY(0) rotate(-45deg);
-                 -o-transform: translateY(0) rotate(-45deg);
-                    transform: translateY(0) rotate(-45deg);
-        }
-        &:after {
-            -webkit-transform: translateY(0) rotate(45deg);
-               -moz-transform: translateY(0) rotate(45deg);
-                -ms-transform: translateY(0) rotate(45deg);
-                 -o-transform: translateY(0) rotate(45deg);
-                    transform: translateY(0) rotate(45deg);
-        }
-    }
     .rex-nav-footer {
         a {
             color: $color-a-dark;
@@ -89,11 +23,81 @@
         margin-left: $grid-gutter-width;
     }
 }
+
+// requires more specificity
+.rex-is-logged-in,
+#rex-page-setup {
+
+    .rex-nav-main {
+        display: block;
+        padding: $top-navbar-height 0 0 0;
+
+        @media (max-width: $grid-float-breakpoint-max) {
+            padding-top: $top-mobile-navbar-height;
+        }
+    }
+}
+
 .rex-nav-main {
+    position: relative;
+    z-index: $zindex-navbar-fixed - 1;
+    width: 250px;
+    flex-shrink: 0;
     background-color: $color-a-dark;
+
+    @media (max-width: $grid-float-breakpoint-max) {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: auto;
+        bottom: 0;
+        transform: translateX(-251px);
+        transition: transform $transitionDuration $easeInCubic;
+
+        .rex-nav-main-is-visible & {
+            transform: translateX(0);
+            transition: transform $transitionDuration $easeOutCubic;
+        }
+    }
+
+    // scroll shadow
+    &::before {
+        content: '';
+        position: absolute;
+        z-index: 1;
+        left: 0;
+        right: 0;
+        top: -50px;
+        height: 50px;
+        box-shadow: 0 -5px 20px 5px rgba($color-a-dark, 0.5);
+        clip-path: polygon(0 0, 100% 0, 100% 200%, 0 200%); // clip right
+    }
+
+    .rex-nav-main-navigation {
+        display: block;
+
+        @media (max-width: $grid-float-breakpoint-max) {
+            height: 100%;
+            overflow: hidden;
+            overflow-y: auto;
+        }
+
+        div {
+            display: flex; // avoid collapsing margins
+            flex-direction: column;
+            padding-bottom: $grid-gutter-width;
+        }
+    }
+
+    h4 {
+        padding-left: $navbar-padding-horizontal;
+        padding-right: $navbar-padding-horizontal;
+    }
 
     li {
         > a {
+            padding-left: 30 + $navbar-padding-horizontal;
+            padding-right: $navbar-padding-horizontal;
             color: $color-a;
 
             &:hover,
@@ -102,43 +106,64 @@
                 background-color: $color-a-darker;
             }
         }
-    }
 
-
-    @media(max-width: $grid-float-breakpoint-max) {
-        position: fixed;
-        z-index: 1;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        overflow-x: hidden;
-        visibility: hidden;
-        width: 260px;
-        margin-bottom: 0;
-        @include transition(visibility 0s 0.3s);
-        -webkit-overflow-scrolling: touch;
-        /* Force Hardware Acceleration */
-        @include translate3d(0, 0, 0);
-        @include transition(visibility 0s 0.3s);
-        -webkit-overflow-scrolling: touch;
-
-        &.rex-nav-main-is-visible {
-            visibility: visible;
-            @include transition(visibility 0s 0s);
-        }
-
-        .navbar-collapse {
-            display: block;
-            border: 0;
-            box-shadow: none;
-        }
-        .rex-nav-main-title:first-child {
-            padding-top: 0;
+        &.rex-has-icon {
+            > a {
+                > .rex-icon {
+                    text-align: center;
+                    // slighly adjust position to improve visual appeal
+                    margin-left: -28px;
+                    margin-right: 3px;
+                }
+            }
         }
     }
 }
+
+.rex-nav-main-backdrop {
+    display: none;
+
+    @media (max-width: $grid-float-breakpoint-max) {
+        display: block;
+        position: fixed;
+        z-index: $zindex-navbar-fixed - 2;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: $color-a;
+        cursor: pointer;
+        opacity: 0;
+        transform: translateX(-100%); // hide initially
+        transition: opacity $transitionDuration $easeInCubic, transform 0ms $transitionDuration + 10;
+
+        .rex-nav-main-is-visible & {
+            opacity: 0.3;
+            transform: translateX(0); // show
+            transition: opacity $transitionDuration $easeOutCubic, transform 0ms 0ms; // execute transform immediately
+        }
+    }
+}
+
 .navbar-header {
     position: relative;
+
+    @media (max-width: $grid-float-breakpoint-max) {
+        opacity: 1;
+        transform: translateY(0); // show at target position
+        transition: opacity ($transitionDuration * 2) $easeInOutCubic ($transitionDuration * 2), transform 0ms linear 0ms; // fade in and immediately transform
+
+        .rex-nav-main-is-visible & {
+            opacity: 0;
+            transform: translateY(-$navbar-height); // hide above navbar
+            transition: opacity ($transitionDuration * 2) $easeInOutCubic, transform 0ms linear ($transitionDuration * 2); // fade out and transform afterwards
+        }
+    }
+
+    .rex-is-popup & {
+        margin-left: 0;
+        margin-right: 0;
+    }
 }
 .rex-nav-main-title {
     margin-top: floor($line-height-computed * 2);
@@ -149,10 +174,12 @@
     .navbar-nav {
         > li {
             > a,
-            > a:hover {
+            > a:hover,
+            > a:focus {
                 color: #fff;
             }
-            > a:hover {
+            > a:hover,
+            > a:focus {
                 text-decoration: underline;
             }
         }
@@ -187,70 +214,230 @@
     }
 }
 
-.rex-nav-top {
-    min-height: $top-navbar-height;
-    margin-bottom: 0;
-    padding-top: floor(($top-navbar-height - $navbar-height) / 2);
-    padding-bottom: floor(($top-navbar-height - $navbar-height) / 2);
-    background-color: $color-b;
-    border-color: $color-b;
-    border-radius: 0;
+.rex-is-logged-in,
+#rex-page-setup {
+    .rex-nav-top {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: $zindex-navbar-fixed;
+        transition: transform $transitionDuration $easeOutCubic;
 
-    .rex-is-popup & {
-        padding-top: 0;
-        padding-bottom: 0;
+        .navbar {
+            display: flex;
+            min-height: $top-navbar-height;
+            margin-bottom: 0;
+            background-color: $color-b;
+            border: 0;
+            transition: box-shadow $transitionDuration $easeOutCubic;
+            box-sizing: content-box; // makes it easier to use with customizer styles
+
+            @media (max-width: $grid-float-breakpoint-max) {
+                min-height: $top-mobile-navbar-height;
+            }
+        }
+
+        .navbar-toggle {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border: 0;
+            border-radius: $navbar-height;
+            padding: 0;
+            margin: 0;
+            width: $navbar-height;
+            height: $navbar-height;
+            background: transparent !important;
+            cursor: pointer;
+
+            .icon-bars {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 22px;
+                height: 22px;
+                transform: translate(-50%, -50%) rotate(0);
+                transition: transform $transitionDuration $easeInCubic;
+
+                .rex-nav-main-is-visible& {
+                    transform: translate(-50%, -50%) rotate(-180deg);
+                    transition: transform $transitionDuration $easeOutCubic;
+                }
+            }
+
+            .icon-bar {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 22px;
+                height: 2px;
+                margin: 0;
+                background: #fff;
+                border-radius: 0;
+                opacity: 1;
+                transition: transform $transitionDuration $easeInCubic, opacity $transitionDuration $easeInCubic;
+
+                &:nth-child(1) {
+                    transform: translate(-50%, -7px);
+                }
+
+                &:nth-child(2) {
+                    transform: translate(-50%, -50%);
+                }
+
+                &:nth-child(3) {
+                    transform: translate(-50%, 5px);
+                }
+
+                .rex-nav-main-is-visible& {
+                    transition: transform $transitionDuration $easeOutCubic, opacity $transitionDuration $easeOutCubic;
+
+                    &:nth-child(1) {
+                        transform: translate(-50%, -50%) rotate(45deg);
+                    }
+
+                    &:nth-child(2) {
+                        opacity: 0;
+                    }
+
+                    &:nth-child(3) {
+                        transform: translate(-50%, -50%) rotate(-45deg);
+                    }
+                }
+            }
+
+            @media (min-width: $grid-float-breakpoint) {
+                display: none;
+            }
+        }
+
+        .navbar-brand {
+            float: none;
+            display: block;
+            height: auto !important;
+            line-height: 1 !important;
+            margin: 0;
+            padding: 5px;
+            margin-left: -5px;
+            border-radius: $navbar-height;
+        }
+
+        .rex-nav-meta {
+            flex: 1 0 auto;
+
+            @media (max-width: $grid-float-breakpoint-max) {
+                position: absolute;
+                right: 0;
+                max-width: calc(100% - #{$navbar-height});
+                opacity: 0;
+                transform: translateY(-$navbar-height); // hide above navbar
+                transition: opacity ($transitionDuration * 2) $easeInOutCubic, transform 0ms linear ($transitionDuration * 2); // fade out and transform afterwards
+
+                .rex-nav-main-is-visible& {
+                    display: block;
+                    opacity: 1;
+                    transform: translateY(0); // show at target position
+                    transition: opacity ($transitionDuration * 2) $easeInOutCubic ($transitionDuration * 2), transform 0ms linear 0ms; // fade in and immediately transform
+                }
+
+                > .nav {
+                    margin: 0;
+                }
+            }
+        }
+
+        .rex-is-popup& {
+            z-index: auto;
+
+            .navbar {
+                min-height: $top-popup-navbar-height;
+                box-shadow: none;
+                padding-top: 0;
+                padding-bottom: 0;
+            }
+        }
+    }
+
+    .rex-nav-top-is-fixed {
+        position: fixed;
+    }
+
+    .rex-nav-top-is-elevated,
+    .rex-nav-main-is-visible& {
+        .navbar {
+            box-shadow: 0 2px 2px 0 rgba($color-a-darker, 0.2);
+        }
+    }
+
+    .rex-nav-top-is-hidden {
+        transform: translateY(-100%);
+    }
+
+    .rex-nav-top .container-fluid {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+
+        @media (min-width: $screen-lg-min) {
+            padding-right: $grid-gutter-width;
+        }
+
+        .rex-is-popup& {
+            padding-right: floor($grid-gutter-width / 2);
+            justify-content: flex-start;
+        }
     }
 }
 
 .rex-page-nav {
     .nav-tabs {
-        border-bottom-color: $color-a-light;
+        border-bottom-color: darken($color-a-light, 5%);
         .rex-main-frame & {
             border-bottom-color: #fff;
         }
 
         > li {
-            .rex-main-frame & {
-                margin-bottom: 0;
-            }
-
             &.active {
                 > a:not(.btn),
-                > a:not(.btn):hover {
+                > a:not(.btn):hover,
+                > a:not(.btn):focus {
+                    padding-bottom: 10px;
                     background-color: #fff;
-                    border-top-color: $color-b;
-                    border-top-width: 2px;
+                    border-color: darken($color-a-light, 5%);
+                    border-bottom-color: transparent;
 
                     .rex-main-frame & {
-                        border-left-width: 0;
-                        border-right-width: 0;
-                        border-top-color: $color-b;
+                        background-color: $nav-tabs-active-link-hover-bg;
+                        border-color: $nav-tabs-active-link-hover-bg;
+                        border-bottom-color: transparent;
                     }
                 }
             }
 
             > a:not(.btn) {
                 padding-top: 10px;
-                padding-bottom: 10px;
+                padding-bottom: 9px;
                 background-color: $color-a-light;
                 border-color: $color-a-light;
                 border-bottom-color: transparent;
-                border-top-color: $color-a;
-                border-top-width: 2px;
 
                 border-radius: 4px 4px 0 0;
                 color: $text-color;
 
                 .rex-main-frame & {
-                    padding-bottom: 9px;
-                    border-left-width: 0;
-                    border-right-width: 0;
-                    border-top-color: darken($color-a, 15%);
+                    background-color: darken($color-a-light, 5%);
+                    border-color: darken($color-a-light, 5%);
+                    border-bottom-color: transparent;
                 }
 
-                &:hover {
+                &:hover,
+                &:focus {
                     background-color: $color-a-light;
-                    border-top-color: $color-b;
+                    border-color: $color-a-light;
                     color: $color-b;
                 }
             }
@@ -260,6 +447,7 @@
     .navbar {
         background-color: #fff;
         border-color: $color-a-light;
+
         .rex-main-frame & {
             border-color: #fff;
         }
@@ -277,11 +465,7 @@
         float: left;
         height: $line-height-computed;
         margin-top: 12px;
-        border-right: 2px solid $color-a-light;
-
-        .rex-main-frame & {
-            border-color: darken($color-a-light, 15%);
-        }
+        border-right: 1px solid $color-a-light;
     }
     .navbar-default .navbar-nav > li > a {
         float: left;
@@ -293,10 +477,20 @@
         color: $color-a;
     }
     .navbar-default .navbar-nav > li > a:hover,
+    .navbar-default .navbar-nav > li > a:focus,
     .navbar-default .navbar-nav > .active > a,
     .navbar-default .navbar-nav > .active > a:hover,
     .navbar-default .navbar-nav > .active > a:focus {
         color: $text-color;
+    }
+}
+
+#rex-page-setup {
+    .rex-nav-top .container-fluid {
+        @media (min-width: $grid-float-breakpoint) {
+            // navbar is left aligned on setup page
+            justify-content: flex-start;
+        }
     }
 }
 
@@ -307,48 +501,40 @@
 .panel-heading .nav-tabs {
     border-bottom: 0;
     margin-bottom: -10px;
+    display: flex; // avoid collapsing margins
+
     > li {
         &.active {
             > a:not(.btn),
-            > a:not(.btn):hover {
+            > a:not(.btn):hover,
+            > a:not(.btn):focus {
+                padding-bottom: $padding-small-vertical;
                 background-color: #fff;
-                border-top-color: $color-b;
-                border-top-width: 2px;
-                border-left-width: 0;
-                border-right-width: 0;
 
                 .panel-edit & {
                     background-color: $color-d-lighter;
-                    border-top-color: $color-d-light;
                 }
             }
         }
 
         > a:not(.btn) {
             padding-top: $padding-small-vertical;
-            padding-bottom: $padding-small-vertical;
-            background-color: $color-a-lighter;
-            border-color: $color-a-lighter;
-            border-bottom-color: transparent;
-            border-top-color: $color-a;
-            border-top-width: 2px;
-            border-left-width: 0;
-            border-right-width: 0;
-
+            padding-bottom: $padding-small-vertical - 1;
+            background-color: lighten($color-a-light, 5%);
+            border-color: transparent;
             border-radius: 4px 4px 0 0;
             color: $text-color;
 
             .panel-edit & {
-                background-color: #fff;
-                border-top-color: $color-d-lighter;
+                background-color: $color-d-light;
             }
 
-            &:hover {
-                background-color: $color-a-lighter;
-                border-top-color: $color-b;
+            &:hover,
+            &:focus {
+                background-color: lighten($color-a-light, 8%);
 
                 .panel-edit & {
-                    border-top-color: $color-d-light;
+                    background-color: lighten($color-d-light, 7%);
                 }
             }
         }
@@ -358,7 +544,7 @@
 .rex-nav-toc {
     position: -webkit-sticky;
     position: sticky;
-    top: 0px;
+    top: $top-navbar-height;
     bottom: 20px;
     max-height: 100vh;
     overflow-y: auto;
@@ -366,6 +552,10 @@
     margin-right: $grid-gutter-width / -2;
     padding-top: 26px;
     font-size: $font-size-base;
+
+    @media (max-width: $grid-float-breakpoint-max) {
+        top: $top-mobile-navbar-height;
+    }
 
     ul {
         margin: 0;
@@ -424,8 +614,216 @@
 }
 
 .rex-navbar-without-brand {
-    .container-fluid,
-    .navbar-collapse {
-        padding-left: 0;
+    @media (min-width: $grid-float-breakpoint) {
+        .container-fluid,
+        .navbar-collapse {
+            padding-left: 0;
+        }
+    }
+}
+
+#rex-page-setup {
+    .rex-nav-main {
+        li {
+            > a {
+                padding-left: $navbar-padding-horizontal;
+            }
+            &.active > a {
+                cursor: default;
+            }
+            &.disabled > a {
+                cursor: default;
+                color: $color-a;
+                background-color: transparent;
+            }
+        }
+    }
+}
+
+// ----------------------------------------------------------------------------
+
+@mixin _dark-navs {
+
+    &.rex-is-logged-in {
+        .rex-nav-footer {
+            li,
+            a {
+                color: $color-text-light-inactive;
+            }
+        }
+    }
+
+    .rex-nav-meta {
+        .navbar-nav {
+            > li {
+                > a,
+                > a:hover,
+                > a:focus {
+                    color: $color-text-light;
+                    background-color: transparent;
+                }
+            }
+        }
+    }
+
+    .rex-nav-main {
+        background-color: darken($color-grey-4, 1%); // slightly reduce lightness
+    }
+
+    .rex-nav-main-backdrop {
+        @media (max-width: $grid-float-breakpoint-max) {
+            background: $color-grey-1;
+        }
+    }
+
+    &.rex-is-logged-in,
+    &#rex-page-setup {
+        .rex-nav-top {
+            .navbar {
+                background-color: $color-blue-3;
+            }
+        }
+    }
+
+    .rex-page-nav {
+        .nav-tabs {
+            border-bottom-color: $color-grey-5;
+
+            > li {
+                &.active {
+                    > a:not(.btn),
+                    > a:not(.btn):hover,
+                    > a:not(.btn):focus {
+                        background-color: $color-grey-5;
+                        border-color: $color-grey-5;
+                        border-bottom-color: transparent;
+                        color: $color-text-light;
+                    }
+                }
+
+                > a:not(.btn) {
+                    background-color: $color-grey-3;
+                    border-color: $color-grey-3;
+                    border-bottom-color: transparent;
+                    color: $color-text-light-inactive;
+
+                    &:hover,
+                    &:focus {
+                        background-color: $color-grey-3;
+                        border-color: $color-grey-3;
+                        color: $color-blue-5;
+                    }
+                }
+            }
+        }
+        // Tab subnavigation
+        .navbar {
+            background-color: $color-grey-5;
+            border-color: $color-grey-5;
+        }
+        .navbar-default .navbar-nav > li:not(:last-child):after {
+            border-right-color: $color-grey-1;
+        }
+        .navbar-default .navbar-nav > li > a {
+            color: $color-blue-4;
+        }
+        .navbar-default .navbar-nav > .rex-empty > a {
+            color: $color-text-light-inactive;
+        }
+        .navbar-default .navbar-nav > li > a:hover,
+        .navbar-default .navbar-nav > li > a:focus,
+        .navbar-default .navbar-nav > .active > a,
+        .navbar-default .navbar-nav > .active > a:hover,
+        .navbar-default .navbar-nav > .active > a:focus {
+            color: $color-text-light;
+            background-color: transparent;
+        }
+    }
+
+    // inside of main frame
+    .rex-main-frame {
+        .rex-page-nav {
+            .nav-tabs {
+                border-bottom-color: $color-grey-3;
+
+                > li {
+                    &.active {
+                        > a:not(.btn),
+                        > a:not(.btn):hover,
+                        > a:not(.btn):focus {
+                            background-color: $color-grey-3;
+                            border-color: $color-grey-3;
+                        }
+                    }
+                    > a:not(.btn) {
+                        background-color: $color-grey-1;
+                        border-color: $color-grey-1;
+                    }
+                }
+            }
+            // Tab subnavigation
+            .navbar {
+                background-color: $color-grey-3;
+                border-color: $color-grey-3;
+            }
+        }
+    }
+
+    .panel-heading .nav-tabs {
+        > li {
+            &.active {
+                > a:not(.btn),
+                > a:not(.btn):hover,
+                > a:not(.btn):focus {
+                    background-color: $color-grey-3;
+                    color: $color-text-light;
+                }
+            }
+            > a:not(.btn) {
+                background-color: $color-grey-2;
+                color: $color-text-light-inactive;
+                &:hover,
+                &:focus {
+                    background-color: darken($color-grey-2, 1%);
+                    color: $color-text-light;
+                }
+            }
+        }
+    }
+    .panel-edit .panel-heading .nav-tabs {
+        > li {
+            &.active {
+                > a:not(.btn),
+                > a:not(.btn):hover,
+                > a:not(.btn):focus {
+                    background-color: $color-green-2;
+                    color: $color-text-light;
+                }
+            }
+            > a:not(.btn) {
+                background-color: rgba($color-grey-1, 0.4);
+                color: $color-text-light-inactive;
+                &:hover,
+                &:focus {
+                    color: $color-text-light;
+                }
+            }
+        }
+    }
+
+    .rex-nav-toc {
+        > ul > li > a {
+            background-color: $color-grey-2;
+        }
+    }
+}
+
+body.rex-theme-dark {
+    @include _dark-navs;
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) {
+        @include _dark-navs;
     }
 }

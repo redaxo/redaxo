@@ -88,6 +88,7 @@ abstract class rex_complex_perm
      * Returns all complex perm classes.
      *
      * @return array Class names
+     * @psalm-return array<string, class-string<self>>
      */
     public static function getAll()
     {

@@ -1,5 +1,6 @@
 <?php namespace Clockwork\Helpers;
 
+// Filter stack traces
 class StackFilter
 {
 	protected $classes = [];
@@ -82,6 +83,7 @@ class StackFilter
 		return $this;
 	}
 
+	// Apply the filter to a stack frame
 	public function filter(StackFrame $frame)
 	{
 		return $this->matchesClass($frame)
@@ -91,6 +93,7 @@ class StackFilter
 			&& $this->matchesVendor($frame);
 	}
 
+	// Return a closure calling this filter
 	public function closure()
 	{
 		return function ($frame) { return $this->filter($frame); };
@@ -123,13 +126,13 @@ class StackFilter
 	protected function matchesNamespace(StackFrame $frame)
 	{
 		foreach ($this->notNamespaces as $namespace) {
-			if (strpos($frame->class, "{$namespace}\\") !== false) return false;
+			if ($frame->class !== null && strpos($frame->class, "{$namespace}\\") !== false) return false;
 		}
 
 		if (! count($this->namespaces)) return true;
 
 		foreach ($this->namespaces as $namespace) {
-			if (strpos($frame->class, "{$namespace}\\") !== false) return true;
+			if ($frame->class !== null && strpos($frame->class, "{$namespace}\\") !== false) return true;
 		}
 
 		return false;

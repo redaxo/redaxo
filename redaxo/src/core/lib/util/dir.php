@@ -90,7 +90,16 @@ class rex_dir
      */
     public static function delete($dir, $deleteSelf = true)
     {
-        return !is_dir($dir) || self::deleteIterator(rex_finder::factory($dir)->recursive()->childFirst()->ignoreSystemStuff(false)) && (!$deleteSelf || rmdir($dir));
+        if (!is_dir($dir)) {
+            return true;
+        }
+
+        if (!self::deleteIterator(rex_finder::factory($dir)->recursive()->childFirst()->ignoreSystemStuff(false))) {
+            return false;
+        }
+
+        // ignore warning "Directory not empty", there may already exist new files created by other page views
+        return !$deleteSelf || @rmdir($dir);
     }
 
     /**
@@ -110,7 +119,7 @@ class rex_dir
     /**
      * Deletes files and directories by a rex_dir_iterator.
      *
-     * @param Traversable $iterator Iterator, $iterator->current() must return a SplFileInfo-Object
+     * @param Traversable<array-key, SplFileInfo> $iterator Iterator, $iterator->current() must return a SplFileInfo-Object
      *
      * @return bool TRUE on success, FALSE on failure
      */
@@ -120,9 +129,10 @@ class rex_dir
 
         foreach ($iterator as $file) {
             if ($file->isDir()) {
-                $state = rmdir($file) && $state;
+                // ignore warning "Directory not empty", there may already exist new files created by other page views
+                $state = @rmdir((string) $file) && $state;
             } else {
-                $state = rex_file::delete($file) && $state;
+                $state = rex_file::delete((string) $file) && $state;
             }
         }
 

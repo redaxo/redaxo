@@ -9,24 +9,25 @@ class rex_api_content_slice_status extends rex_api_function
 {
     public function execute()
     {
-        $article_id = rex_request('article_id', 'int');
+        $articleId = rex_request('article_id', 'int');
         $clang = rex_request('clang', 'int');
 
-        $article = rex_article::get($article_id, $clang);
+        $article = rex_article::get($articleId, $clang);
         if (!$article instanceof rex_article) {
-            throw new rex_api_exception('Unable to find article with id "' . $article_id . '" and clang "' . $clang . '"!');
+            throw new rex_api_exception('Unable to find article with id "' . $articleId . '" and clang "' . $clang . '"!');
         }
 
-        $category_id = $article->getCategoryId();
+        $user = rex::getUser();
+        $categoryId = $article->getCategoryId();
 
-        if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
+        if (!$user->hasPerm('publishSlice[]') || !$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
             throw new rex_api_exception(rex_i18n::msg('no_rights_to_this_function'));
         }
 
-        $slice_id = rex_request('slice_id', 'int');
+        $sliceId = rex_request('slice_id', 'int');
         $status = rex_request('status', 'int');
 
-        rex_content_service::sliceStatus($slice_id, $status);
+        rex_content_service::sliceStatus($sliceId, $status);
 
         return new rex_api_result(true);
     }

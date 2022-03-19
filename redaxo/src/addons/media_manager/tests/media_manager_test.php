@@ -41,15 +41,15 @@ class rex_media_manager_test extends TestCase
         rex_file::put($path, base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII='));
 
         try {
-            $manager = rex_media_manager::create('rex_mediapool_preview', $filename);
+            $manager = rex_media_manager::create('rex_media_small', $filename);
 
             static::assertFileExists($manager->getCacheFilename());
             static::assertFileExists($manager->getHeaderCacheFilename());
 
             $manager = rex_media_manager::create('non_existing_type', $filename);
 
-            static::assertFileNotExists($manager->getCacheFilename());
-            static::assertFileNotExists($manager->getHeaderCacheFilename());
+            static::assertFileDoesNotExist($manager->getCacheFilename());
+            static::assertFileDoesNotExist($manager->getHeaderCacheFilename());
         } finally {
             @unlink($path);
         }
@@ -63,9 +63,9 @@ class rex_media_manager_test extends TestCase
         $url = rex_media_manager::getUrl($type, $file, $timestamp);
 
         if (false === $expectedBuster) {
-            static::assertNotContains('buster=', $url);
+            static::assertStringNotContainsString('buster=', $url);
         } else {
-            static::assertContains('buster='.$expectedBuster, $url);
+            static::assertStringContainsString('buster='.$expectedBuster, $url);
         }
     }
 
@@ -79,7 +79,7 @@ class rex_media_manager_test extends TestCase
 
         yield [false, 'non_existing', $media];
 
-        $type = 'rex_mediapool_preview';
+        $type = 'rex_media_small';
 
         yield [false, $type, 'test.jpg'];
 

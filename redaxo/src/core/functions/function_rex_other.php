@@ -10,6 +10,8 @@
  * Deletes the cache.
  *
  * @package redaxo\core
+ *
+ * @return string
  */
 function rex_delete_cache()
 {
@@ -23,6 +25,7 @@ function rex_delete_cache()
         ->ignoreSystemStuff(false);
     rex_dir::deleteIterator($finder);
 
+    rex_autoload::removeCache();
     rex_clang::reset();
 
     if (function_exists('opcache_reset')) {
@@ -34,15 +37,15 @@ function rex_delete_cache()
 }
 
 /**
- * @param string $val
+ * @param string $varname
  *
- * @return mixed
+ * @return int
  *
  * @package redaxo\core
  */
-function rex_ini_get($val)
+function rex_ini_get($varname)
 {
-    $val = trim(ini_get($val));
+    $val = trim(ini_get($varname));
     if ('' != $val) {
         $last = strtolower($val[strlen($val) - 1]);
     } else {

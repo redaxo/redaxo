@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_article_test extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         // generate classVars and add test column
         rex_article::getClassVars();
@@ -22,7 +22,7 @@ class rex_article_test extends TestCase
         );
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         // reset static properties
         $class = new ReflectionClass(rex_article::class);
@@ -35,10 +35,9 @@ class rex_article_test extends TestCase
 
     public function testHasValue()
     {
-        $class = new ReflectionClass(rex_article::class);
-        /** @var rex_article $instance */
-        $instance = $class->newInstanceWithoutConstructor();
+        $instance = $this->createArticleWithoutConstructor();
 
+        /** @psalm-suppress UndefinedPropertyAssignment */
         $instance->art_foo = 'teststring';
 
         static::assertTrue($instance->hasValue('foo'));
@@ -50,10 +49,9 @@ class rex_article_test extends TestCase
 
     public function testGetValue()
     {
-        $class = new ReflectionClass(rex_article::class);
-        /** @var rex_article $instance */
-        $instance = $class->newInstanceWithoutConstructor();
+        $instance = $this->createArticleWithoutConstructor();
 
+        /** @psalm-suppress UndefinedPropertyAssignment */
         $instance->art_foo = 'teststring';
 
         static::assertEquals('teststring', $instance->getValue('foo'));
@@ -61,5 +59,11 @@ class rex_article_test extends TestCase
 
         static::assertNull($instance->getValue('bar'));
         static::assertNull($instance->getValue('art_bar'));
+    }
+
+    private function createArticleWithoutConstructor(): rex_article
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return (new ReflectionClass(rex_article::class))->newInstanceWithoutConstructor();
     }
 }

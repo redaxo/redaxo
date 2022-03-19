@@ -1,5 +1,6 @@
-.php_cs.cache
+.php-cs-fixer.cache
 /.htaccess
+/.phpunit.result.cache
 /composer.lock
 /assets/
 /media/
@@ -23,12 +24,13 @@
 !/redaxo/src/addons/phpmailer/
 !/redaxo/src/addons/project/
 !/redaxo/src/addons/structure/
-!/redaxo/src/addons/tests/
 !/redaxo/src/addons/users/
 
 # PhpStorm setting
 /.idea/*
 !/.idea/encodings.xml
+!/.idea/icon.svg
+!/.idea/jsonSchemas.xml
 !/.idea/modules.xml
 !/.idea/php.xml
 !/.idea/redaxo.iml
@@ -36,4 +38,14 @@
 !/.idea/codeStyles/
 !/.idea/fileTemplates/
 !/.idea/inspectionProfiles/
+!/.idea/runConfigurations/
+/.idea/runConfigurations/*
+!/.idea/runConfigurations/phpunit.xml
 !/.idea/scopes/
+
+# VSCode setting
+.vscode
+
+# Docker
+/.docker
+/docker-compose.*.yml

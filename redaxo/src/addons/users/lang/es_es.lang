@@ -26,7 +26,7 @@ user_options = Opciones
 user_extras = Extras
 last_login = Último acceso
 user_caption = Lista de usuarios
-user_status = Estado
+user_password_change_required = La contraseña debe cambiarse después de iniciar sesión
 startpage = Página de inicio
 
 user_role = Papel(es)

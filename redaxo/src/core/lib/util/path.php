@@ -9,12 +9,15 @@
  */
 class rex_path
 {
+    /**
+     * @var rex_path_default_provider
+     */
     protected static $pathprovider;
 
     /**
      * Initializes the class.
      *
-     * @param mixed $pathprovider A path provider
+     * @param rex_path_default_provider $pathprovider A path provider
      */
     public static function init($pathprovider)
     {
@@ -347,7 +350,7 @@ class rex_path
             }
             // Normaler Ordner
             else {
-                array_push($stack, $dir);
+                $stack[] = $dir;
             }
         }
 
@@ -395,8 +398,10 @@ class rex_path
      */
     public static function basename($path)
     {
+        /** @psalm-taint-escape text */
         $path = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $path);
 
+        /** @psalm-suppress ForbiddenCode */
         return basename($path);
     }
 }

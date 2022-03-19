@@ -36,7 +36,7 @@ class rex_path_default_provider
             $this->backend = $backend;
         } else {
             $this->base = $htdocs;
-            $this->backend = '../' === substr($htdocs, -3) ? '' : $htdocs . $backend . '/';
+            $this->backend = str_ends_with($htdocs, '../') ? '' : $htdocs . $backend . '/';
         }
         $this->provideAbsolutes = $provideAbsolutes;
     }
@@ -47,6 +47,8 @@ class rex_path_default_provider
      * @param string $file File
      *
      * @return string
+     *
+     * @psalm-taint-specialize
      */
     public function base($file)
     {
@@ -84,6 +86,8 @@ class rex_path_default_provider
      * @param string $file File
      *
      * @return string
+     *
+     * @psalm-taint-specialize
      */
     public function backend($file)
     {

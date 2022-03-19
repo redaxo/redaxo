@@ -13,7 +13,7 @@ class rex_template_select extends rex_select
      */
     private $categoryId;
     /**
-     * @var string[]
+     * @var null|string[]
      */
     private $templates;
     /**
@@ -89,7 +89,7 @@ class rex_template_select extends rex_select
      */
     public function getTemplates()
     {
-        if (!isset($this->templates)) {
+        if (null === $this->templates) {
             $this->templates = [];
 
             if (null !== $this->categoryId) {

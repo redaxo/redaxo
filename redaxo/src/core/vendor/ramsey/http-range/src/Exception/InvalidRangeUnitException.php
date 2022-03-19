@@ -9,10 +9,12 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
+declare(strict_types=1);
+
 namespace Ramsey\Http\Range\Exception;
 
 /**
- * Indicates a problem with the range-unit property
+ * Thrown to indicate a problem with the range-unit property.
  */
 class InvalidRangeUnitException extends HttpRangeException
 {

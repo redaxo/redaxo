@@ -1,6 +1,64 @@
 Changelog
 =========
 
+Version 2.9.2 – 16.11.2021
+--------------------------
+
+### Bugfixes
+
+* Core-Update:
+    - Beim Update auf 5.13 kam es teils zu einem Fehler beim Erstellen der Erfolgsmeldung im Log (@gharlan)
+    - Besserer Umgang mit fehlenden Schreibrechten (@gharlan)
+
+
+Version 2.9.0 – 03.03.2021
+--------------------------
+
+### Neu
+
+* Bei Core-/AddOn-Updates wird ein Info-Eintrag ins Systemlog geschrieben (@staabm)
+* Beim Laden neuer Addons wird bei Entwicklungsversionen gewarnt, wie zuvor schon bei Updates (@anveno)
+* In Versionslisten wird das aktuelle Stable-Release hervorgehoben (@skerbis)
+* Bei Nutzung der Suche werden die Ergebnisse nach Relevanz sortiert (@xong)
+* Im Backend-Menü steht der Installer direkt unterhalb von „AddOns“ (@gharlan)
+
+### Bugfixes
+
+* Löschen von AddOn-Versionen:
+    - Lösch-Button erschien auch im Formular zum Hochladen neuer Versionen (@gharlan)
+    - Wenn man den Confirm-Dialog verneint hat, wurde die Speichernroutine ausgelöst, statt gar keiner Aktion (@gharlan)
+    - Nach dem Löschen landete man in der AddOn-Liste statt in der AddOn-Detailseite (@gharlan)
+
+
+Version 2.8.1 – 25.01.2021
+--------------------------
+
+### Security
+
+* Fehlendes Escaping ergänzt (@gharlan)
+
+
+Version 2.8.0 – 01.07.2020
+--------------------------
+
+### Neu
+
+* Neue Klasse `rex_install` mit PHP-Api zum Herunterladen/Aktualisieren von Addons (@bloep)
+* In Addon-Details wird die Addon-Website ausgegeben (@gharlan)
+
+### Bugfixes
+
+* Nach Entpacken werden die Dateirechte entsprechend der `config.yml` angepasst (@Koala, @gharlan)
+
+
+Version 2.7.1 – 08.05.2020
+--------------------------
+
+### Bugfixes
+
+* Die PHP-Mindestversion 7.1 wurde nicht geprüft (@gharlan)
+
+
 Version 2.7.0 – 10.03.2020
 --------------------------
 

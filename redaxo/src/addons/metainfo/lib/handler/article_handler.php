@@ -67,7 +67,7 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
         return $restrictionsCondition;
     }
 
-    protected function renderFormItem($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel)
+    protected function renderFormItem($field, $tag, $tagAttr, $id, $label, $labelIt, $inputType)
     {
         return $field;
     }

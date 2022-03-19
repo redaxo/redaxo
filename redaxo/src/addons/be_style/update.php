@@ -9,7 +9,7 @@ $addon->includeFile(__DIR__.'/install.php');
 foreach ($addon->getInstalledPlugins() as $plugin) {
     $file = __DIR__.'/plugins/'.$plugin->getName().'/install.php';
 
-    if (file_exists($file)) {
+    if (is_file($file)) {
         $plugin->includeFile($file);
     }
 }

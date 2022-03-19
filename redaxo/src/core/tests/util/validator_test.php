@@ -127,25 +127,32 @@ class rex_validator_test extends TestCase
         static::assertTrue($validator->values('ghi', ['def', 'ghi']));
     }
 
-    public function testCustom()
+    /**
+     * @dataProvider dataCustom
+     */
+    public function testCustom(bool $expected, string $value)
     {
         $validator = rex_validator::factory();
 
-        $callback = function ($v) use (&$value, &$isCalled) {
+        $isCalled = false;
+
+        $callback = function ($v) use ($value, &$isCalled) {
             $isCalled = true;
             $this->assertEquals($value, $v);
             return 'abc' === $value;
         };
 
-        $isCalled = false;
-        $value = 'abc';
-        static::assertTrue($validator->custom($value, $callback));
+        static::assertSame($expected, $validator->custom($value, $callback));
         static::assertTrue($isCalled, 'Custom callback is called');
+    }
 
-        $isCalled = false;
-        $value = 'def';
-        static::assertFalse($validator->custom($value, $callback));
-        static::assertTrue($isCalled, 'Custom callback is called');
+    /** @return iterable<int, array{bool, string}> */
+    public function dataCustom(): iterable
+    {
+        return [
+            [true, 'abc'],
+            [false, 'def'],
+        ];
     }
 
     public function testIsValid()
@@ -166,5 +173,18 @@ class rex_validator_test extends TestCase
 
         static::assertTrue($validator->isValid('abc'));
         static::assertNull($validator->getMessage());
+    }
+
+    public function testGetRules()
+    {
+        $validator = rex_validator::factory();
+        // mix of add/addRule should be returned in getRules()
+        $validator->add(rex_validation_rule::NOT_EMPTY, 'not-empty');
+        $validator->addRule(new rex_validation_rule('minLength', 'min-length', 3));
+
+        static::assertCount(2, $validator->getRules());
+        static::assertIsArray($validator->getRules());
+        static::assertArrayHasKey(0, $validator->getRules());
+        static::assertArrayHasKey(1, $validator->getRules());
     }
 }

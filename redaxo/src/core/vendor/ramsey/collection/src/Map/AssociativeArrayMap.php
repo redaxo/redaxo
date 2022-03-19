@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the ramsey/collection library
  *
@@ -7,15 +8,17 @@
  *
  * @copyright Copyright (c) Ben Ramsey <ben@benramsey.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @link https://benramsey.com/projects/ramsey-collection/ Documentation
- * @link https://packagist.org/packages/ramsey/collection Packagist
- * @link https://github.com/ramsey/collection GitHub
  */
+
+declare(strict_types=1);
 
 namespace Ramsey\Collection\Map;
 
 /**
- * AssociativeArrayMap represents a standard associative array object
+ * `AssociativeArrayMap` represents a standard associative array object.
+ *
+ * @template T
+ * @extends AbstractMap<T>
  */
 class AssociativeArrayMap extends AbstractMap
 {

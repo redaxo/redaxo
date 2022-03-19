@@ -62,15 +62,42 @@ class rex_cronjob_article_status extends rex_cronjob
                 $status = $to['after'];
             }
 
-            rex_article_service::articleStatus($sql->getValue('id'), $sql->getValue('clang_id'), $status);
+            rex_article_service::articleStatus((int) $sql->getValue('id'), (int) $sql->getValue('clang_id'), $status);
             $sql->next();
         }
         $this->setMessage('Updated articles: ' . $rows);
+
+        if ($this->getParam('reset_date')) {
+            $sql->setQuery('
+                UPDATE ' . rex::getTablePrefix() . 'article
+                SET '.$from['field'].' = ""
+                WHERE     ' . $from['field'] . ' > 0
+                    AND   ' . $from['field'] . ' < ' . $time
+            );
+            $sql->setQuery('
+                UPDATE ' . rex::getTablePrefix() . 'article
+                SET '.$to['field'].' = ""
+                WHERE ' . $to['field'] . ' > 0
+                AND   ' . $to['field'] . ' < ' . $time
+            );
+        }
         return true;
     }
 
     public function getTypeName()
     {
         return rex_i18n::msg('cronjob_article_status');
+    }
+
+    public function getParamFields()
+    {
+        return [
+            [
+                'name' => 'reset_date',
+                'type' => 'checkbox',
+                'options' => [1 => rex_i18n::rawMsg('cronjob_article_reset_date')],
+                'notice' => rex_i18n::msg('cronjob_article_reset_date_info'),
+            ],
+        ];
     }
 }

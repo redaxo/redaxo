@@ -9,10 +9,12 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
+declare(strict_types=1);
+
 namespace Ramsey\Http\Range\Exception;
 
 /**
- * A general exception for ramsey/http-range
+ * A general exception for ramsey/http-range.
  */
 class HttpRangeException extends \RuntimeException
 {

@@ -1,0 +1,278 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://redaxo.org/schemas/package.json",
+    "title": "JSON schema for REDAXO package.yml",
+    "type": "object",
+    "required": ["package", "version"],
+    "properties": {
+        "package": {
+            "description": "The name of the package (addon or addon/plugin)",
+            "type": "string"
+        },
+        "version": {
+            "description": "Package version",
+            "type": "string",
+            "default": "1.0.0-dev"
+        },
+        "author": {
+            "description": "Package author",
+            "type": "string"
+        },
+        "supportpage": {
+            "description": "Package supportpage",
+            "type": "string",
+            "default": "https://github.com/user/repo"
+        },
+        "page": {
+            "description": "Main page",
+            "$ref": "#/definitions/main-page"
+        },
+        "pages": {
+            "description": "Additional pages",
+            "type": "object",
+            "patternProperties": {
+                "^[^/]*$": {
+                    "$ref": "#/definitions/main-page"
+                }
+            },
+            "additionalProperties": {
+                "$ref": "#/definitions/page"
+            }
+        },
+        "system_plugins": {
+            "description": "Array of plugin names",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^[^/]+$"
+            }
+        },
+        "requires": {
+            "description": "Package requirements",
+            "type": "object",
+            "properties": {
+                "php": {
+                    "description": "Required php version constraint and/or required php extensions",
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "object",
+                            "properties": {
+                                "version": {
+                                    "description": "Required php version constraint",
+                                    "type": "string"
+                                },
+                                "extensions": {
+                                    "description": "Array of required php extension names",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "additionalProperties": false
+                        }
+                    ]
+                },
+                "redaxo": {
+                    "description": "Required REDAXO version constraint",
+                    "type": "string"
+                },
+                "packages": {
+                    "description": "Required packages with version constraints",
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                }
+            },
+            "additionalProperties": false
+        },
+        "conflicts": {
+            "description": "Package conflicts",
+            "type": "object",
+            "properties": {
+                "packages": {
+                    "description": "Conflicted packages with version constraints",
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                }
+            },
+            "additionalProperties": false
+        },
+        "default_config": {
+            "description": "Default values for rex_config",
+            "type": "object"
+        },
+        "console_commands": {
+            "description": "Console command names and their corresponding class",
+            "type": "object",
+            "additionalProperties": {
+                "type": "string"
+            }
+        },
+        "load": {
+            "description": "Loading position",
+            "enum": ["early", "normal", "late"],
+            "default": "normal"
+        },
+        "autoload": {
+            "description": "Additional directories for autoloader",
+            "type": "object",
+            "properties": {
+                "classes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "additionalProperties": false
+        },
+        "installer_ignore": {
+            "description": "Directories/files that should be ignored by installer",
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        }
+    },
+    "additionalProperties": true,
+    "definitions": {
+        "page": {
+            "type": "object",
+            "required": ["title"],
+            "properties": {
+                "title": {
+                    "description": "Page title",
+                    "type": "string"
+                },
+                "hidden": {
+                    "description": "Whether the page is hidden",
+                    "type": "boolean",
+                    "default": true
+                },
+                "hasLayout": {
+                    "description": "Whether the page has layout",
+                    "type": "boolean",
+                    "default": false
+                },
+                "hasNavigation": {
+                    "description": "Whether the page has the navigation",
+                    "type": "boolean",
+                    "default": false
+                },
+                "popup": {
+                    "description": "Whether the page is a popup",
+                    "oneOf": [
+                        {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        {
+                            "description": "onclick attribute",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "pjax": {
+                    "description": "Whether the page uses pjax",
+                    "type": "boolean",
+                    "default": true
+                },
+                "perm": {
+                    "description": "Page permission",
+                    "type": "string",
+                    "default": "admin"
+                },
+                "icon": {
+                    "description": "Icon class name(s)",
+                    "type": "string"
+                },
+                "href": {
+                    "description": "href attribute",
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "description": "href params",
+                            "type": "object"
+                        }
+                    ]
+                },
+                "itemAttr": {
+                    "description": "Attributes for the list item",
+                    "type": "object"
+                },
+                "itemClass": {
+                    "description": "class attributes for the list item",
+                    "type": "string"
+                },
+                "linkAttr": {
+                    "description": "Attributes for the link",
+                    "type": "object"
+                },
+                "linkClass": {
+                    "description": "class attributes for the link",
+                    "type": "string"
+                },
+                "path": {
+                    "description": "Path to the main page file",
+                    "type": "string",
+                    "pattern": "\\.php$"
+                },
+                "subPath": {
+                    "description": "Path to the subpage file",
+                    "type": "string",
+                    "pattern": "\\.(php|md)$"
+                },
+                "subpages": {
+                    "description": "Subpages",
+                    "patternProperties": {
+                        "^[^/]+$": {
+                            "$ref": "#/definitions/page"
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false
+        },
+        "main-page": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/page"
+                },
+                {
+                    "properties": {
+                        "main": {
+                            "description": "Whether it is a main page",
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "block": {
+                            "description": "Block name",
+                            "anyOf": [
+                                {
+                                    "enum": ["system", "addons"]
+                                },
+                                {
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "prio": {
+                            "description": "Page prio",
+                            "type": "integer"
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}

@@ -115,6 +115,8 @@ media_manager_effect_rotate_degree = Drehen um (Grad)
 
 media_manager_effect_mirror = Bild: Wasserspiegelung hinzufügen
 media_manager_effect_mirror_height = Refl. Höhe (50 / 10%)
+media_manager_effect_mirror_opacity = Opazität der Spiegelung (0 - 100)
+media_manager_effect_mirror_opacity_notice = 0% komplett unsichtbare Spiegelung, 100% komplett sichtbare Spiegelung
 media_manager_effect_mirror_background_color = Hintergrundfarbe
 media_manager_effect_mirror_background_r = Hintergrund R (0-255)
 media_manager_effect_mirror_background_g = Hintergrund G (0-255)
@@ -164,3 +166,6 @@ media_manager_effect_contrast_notice = [-100 bis 100]. Leer lassen für Standard
 media_manager_effect_sepia = Bild: Sepia
 
 media_manager_effect_greyscale = Bild: Graustufen
+
+media_manager_effect_image_format = Bild: In JPEG/PNG/GIF/WEBP konvertieren
+media_manager_effect_image_format_convertto = Zielformat

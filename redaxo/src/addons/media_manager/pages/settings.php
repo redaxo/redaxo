@@ -11,10 +11,7 @@
 
 $addon = rex_addon::get('media_manager');
 
-$content = '';
-
 $func = rex_request('func', 'string');
-$jpg_quality = rex_request('jpg_quality', 'int');
 
 if ('update' == $func) {
     $config = rex_post('settings', [

@@ -9,40 +9,44 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
+declare(strict_types=1);
+
 namespace Ramsey\Http\Range\Exception;
 
 use Exception;
 
 /**
- * Indicates the range given cannot be satisfied
+ * Thrown to indicate the range given cannot be satisfied.
  */
 class NotSatisfiableException extends HttpRangeException
 {
     /**
-     * The range string that couldn't be satisfied
-     *
      * @var string
      */
     private $range;
 
     /**
-     * The total size of the entity being requested
-     *
      * @var mixed
      */
     private $totalSize;
 
     /**
-     * Constructs a NotSatisfiableException
+     * Constructs a NotSatisfiableException.
      *
-     * @param string $message
-     * @param string $range
-     * @param mixed $totalSize
-     * @param int $code
-     * @param Exception $previous
+     * @param string $message The exception message.
+     * @param string $range The range value parsed from the request.
+     * @param mixed $totalSize The total size of the entity for which the range
+     *     is requested.
+     * @param int $code A custom error code, if applicable.
+     * @param Exception $previous A previous exception, if applicable.
      */
-    public function __construct($message, $range, $totalSize, $code = 0, Exception $previous = null)
-    {
+    public function __construct(
+        string $message,
+        string $range,
+        $totalSize,
+        int $code = 0,
+        Exception $previous = null
+    ) {
         $this->range = $range;
         $this->totalSize = $totalSize;
 
@@ -50,17 +54,17 @@ class NotSatisfiableException extends HttpRangeException
     }
 
     /**
-     * Returns the range that couldn't be satisfied
+     * Returns the range that couldn't be satisfied.
      *
      * @return string
      */
-    public function getRange()
+    public function getRange(): string
     {
         return $this->range;
     }
 
     /**
-     * Returns the total size of the entity being requested
+     * Returns the total size of the entity being requested.
      *
      * @return mixed
      */

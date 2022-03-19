@@ -10,7 +10,7 @@ class rex_media_category_select extends rex_select
     /**
      * @var bool
      */
-    private $check_perms;
+    private $checkPerms;
 
     /**
      * @var int|int[]|null
@@ -19,9 +19,9 @@ class rex_media_category_select extends rex_select
 
     private $loaded = false;
 
-    public function __construct($check_perms = true)
+    public function __construct($checkPerms = true)
     {
-        $this->check_perms = $check_perms;
+        $this->checkPerms = $checkPerms;
         $this->rootId = null;
 
         parent::__construct();
@@ -60,21 +60,21 @@ class rex_media_category_select extends rex_select
         }
     }
 
-    protected function addCatOption(rex_media_category $mediacat)
+    protected function addCatOption(rex_media_category $mediacat, int $parentId = 0)
     {
-        if (!$this->check_perms ||
-                $this->check_perms && rex::getUser()->getComplexPerm('media')->hasCategoryPerm($mediacat->getId())
+        if (!$this->checkPerms ||
+                $this->checkPerms && rex::getUser()->getComplexPerm('media')->hasCategoryPerm($mediacat->getId())
         ) {
             $mid = $mediacat->getId();
             $mname = $mediacat->getName();
 
-            $this->addOption($mname, $mid, $mid, $mediacat->getParentId());
-            $childs = $mediacat->getChildren();
-            if (is_array($childs)) {
-                foreach ($childs as $child) {
-                    $this->addCatOption($child);
-                }
-            }
+            $this->addOption($mname, $mid, $mid, $parentId);
+
+            $parentId = $mediacat->getId();
+        }
+
+        foreach ($mediacat->getChildren() as $child) {
+            $this->addCatOption($child, $parentId);
         }
     }
 

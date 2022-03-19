@@ -12,6 +12,7 @@ class rex_cronjob_phpcode extends rex_cronjob
 {
     public function execute()
     {
+        /** @psalm-taint-escape eval */ // It is intended to eval code from user input (saved to db)
         $code = preg_replace('/^\<\?(?:php)?/', '', $this->getParam('code'));
         $is = ini_set('display_errors', '1');
         ob_start();
@@ -30,10 +31,7 @@ class rex_cronjob_phpcode extends rex_cronjob
             $output = preg_replace('@in ' . preg_quote(__FILE__, '@') . "\([0-9]*\) : eval\(\)'d code @", '', $output);
             $this->setMessage($output);
         }
-        if (false !== $return) {
-            return true;
-        }
-        return false;
+        return false !== $return;
     }
 
     public function getTypeName()

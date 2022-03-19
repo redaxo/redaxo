@@ -29,14 +29,15 @@
 trait rex_factory_trait
 {
     /**
-     * @var array
+     * @var array<class-string<static>, class-string<static>>
      */
     private static $factoryClasses = [];
 
     /**
      * Sets the class for the factory.
      *
-     * @param string $subclass Classname
+     * @param class-string<static> $subclass Classname
+     * @psalm-param class-string<self> $subclass https://github.com/vimeo/psalm/issues/5535
      *
      * @throws InvalidArgumentException
      */
@@ -49,19 +50,30 @@ trait rex_factory_trait
         if ($subclass != $calledClass && !is_subclass_of($subclass, $calledClass)) {
             throw new InvalidArgumentException('$class "' . $subclass . '" is expected to define a subclass of ' . $calledClass . '!');
         }
-        self::$factoryClasses[$calledClass] = $subclass;
+        /** @psalm-suppress PropertyTypeCoercion */
+        self::$factoryClasses[$calledClass] = $subclass; /** @phpstan-ignore-line */
     }
 
     /**
-     * Returns the class for the factory.
+     * Returns the class for the factory. In case no factory is defined the late static binding class is returned.
      *
-     * @return string
-     * @psalm-return class-string<static>
+     * @return class-string<static>
      */
     public static function getFactoryClass()
     {
         $calledClass = static::class;
-        return isset(self::$factoryClasses[$calledClass]) ? self::$factoryClasses[$calledClass] : $calledClass;
+        return self::$factoryClasses[$calledClass] ?? $calledClass;
+    }
+
+    /**
+     * Returns the explicitly set factory class, otherwise null.
+     *
+     * @return class-string<static>|null
+     */
+    public static function getExplicitFactoryClass(): ?string
+    {
+        $calledClass = static::class;
+        return self::$factoryClasses[$calledClass] ?? null;
     }
 
     /**
@@ -82,6 +94,8 @@ trait rex_factory_trait
      * @param array  $arguments Array of arguments
      *
      * @return mixed Result of the callback
+     *
+     * @deprecated since 5.13, call the method on the factory class by yourself instead.
      */
     protected static function callFactoryClass($method, array $arguments)
     {

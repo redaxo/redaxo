@@ -9,13 +9,15 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
+declare(strict_types=1);
+
 namespace Ramsey\Http\Range\Unit;
 
 use Ramsey\Collection\AbstractCollection;
 use Ramsey\Collection\CollectionInterface;
 
 /**
- * A collection of UnitRangeInterface objects
+ * A collection of `UnitRangeInterface` objects.
  */
 class UnitRangesCollection extends AbstractCollection implements CollectionInterface
 {
@@ -24,7 +26,7 @@ class UnitRangesCollection extends AbstractCollection implements CollectionInter
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return UnitRangeInterface::class;
     }

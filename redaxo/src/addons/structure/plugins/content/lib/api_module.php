@@ -8,53 +8,68 @@ class rex_module
     /**
      * @var int
      */
-    private $module_id;
+    private $id;
     /**
      * @var string|null
      */
     private $key;
 
-    public function __construct(int $module_id)
+    public function __construct(int $moduleId)
     {
-        $this->module_id = $module_id;
+        $this->id = $moduleId;
         $this->key = '';
     }
 
-    public static function forKey(string $module_key): ?self
+    public static function forKey(string $moduleKey): ?self
     {
-        $sql = rex_sql::factory();
-        $sql->setQuery('select id from '. rex::getTable('module') .' where `key`=?', [$module_key]);
+        $mapping = self::getKeyMapping();
 
-        if (1 == $sql->getRows()) {
-            $module_id = $sql->getValue('id');
+        if (false !== $id = array_search($moduleKey, $mapping, true)) {
+            $module = new self($id);
+            $module->key == $moduleKey;
 
-            $module = new self($module_id);
-            $module->key = $module_key;
             return $module;
         }
+
         return null;
     }
 
     public function getId(): int
     {
-        return $this->module_id;
+        return $this->id;
     }
 
     public function getKey(): ?string
     {
         // key will never be empty string in the db
         if ('' === $this->key) {
-            $sql = rex_sql::factory();
-            $sql->setQuery('select `key` from '. rex::getTable('module') .' where id=?', [$this->module_id]);
-
-            if (1 == $sql->getRows()) {
-                $this->key = $sql->getValue('key');
-            } else {
-                $this->key = null;
-            }
+            $this->key = self::getKeyMapping()[$this->id] ?? null;
             assert('' !== $this->key);
         }
 
         return $this->key;
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    private static function getKeyMapping(): array
+    {
+        static $mapping;
+
+        if (null !== $mapping) {
+            return $mapping;
+        }
+
+        $file = rex_module_cache::getKeyMappingPath();
+        $mapping = rex_file::getCache($file, null);
+
+        if (null !== $mapping) {
+            return $mapping;
+        }
+
+        rex_module_cache::generateKeyMapping();
+
+        return $mapping = rex_file::getCache($file);
     }
 }

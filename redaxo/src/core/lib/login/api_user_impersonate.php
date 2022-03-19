@@ -7,6 +7,9 @@
  */
 class rex_api_user_impersonate extends rex_api_function
 {
+    /**
+     * @psalm-return never-return
+     */
     public function execute()
     {
         $impersonate = rex_get('_impersonate');
@@ -19,8 +22,9 @@ class rex_api_user_impersonate extends rex_api_function
             exit;
         }
 
-        if (!rex::getUser()->isAdmin()) {
-            throw new rex_api_exception(sprintf('Current user ("%s") must be admin to impersonate another user.', rex::getUser()->getLogin()));
+        $user = rex::requireUser();
+        if (!$user->isAdmin()) {
+            throw new rex_api_exception(sprintf('Current user ("%s") must be admin to impersonate another user.', $user->getLogin()));
         }
 
         rex::getProperty('login')->impersonate((int) $impersonate);

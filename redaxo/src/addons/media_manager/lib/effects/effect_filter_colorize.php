@@ -23,36 +23,34 @@ class rex_effect_filter_colorize extends rex_effect_abstract
         $this->media->asImage();
         $img = $this->media->getImage();
 
-        if (!($t = imagecolorstotal($img))) {
+        if (!imagecolorstotal($img)) {
             $t = 256;
             imagetruecolortopalette($img, true, $t);
         }
-        $imagex = imagesx($img);
-        $imagey = imagesy($img);
 
         $gdimage = $this->media->getImage();
-        $w = $this->media->getWidth();
-        $h = $this->media->getHeight();
+        $w = (int) $this->media->getWidth();
+        $h = (int) $this->media->getHeight();
 
-        $src_x = (int) ceil($w);
-        $src_y = (int) ceil($h);
-        $dst_x = $src_x;
-        $dst_y = $src_y;
-        $dst_im = imagecreatetruecolor($dst_x, $dst_y);
+        $srcX = (int) ceil($w);
+        $srcY = (int) ceil($h);
+        $dstX = $srcX;
+        $dstY = $srcY;
+        $dstIm = imagecreatetruecolor($dstX, $dstY);
 
-        imagecopyresampled($dst_im, $gdimage, 0, 0, 0, 0, $dst_x, $dst_y, $src_x, $src_y);
-        for ($y = 0; $y < $src_y; ++$y) {
-            for ($x = 0; $x < $src_x; ++$x) {
-                $rgb = imagecolorat($dst_im, $x, $y);
-                $TabColors = imagecolorsforindex($dst_im, $rgb);
-                $color_r = (int) floor($TabColors['red'] * $this->params['filter_r'] / 255);
-                $color_g = (int) floor($TabColors['green'] * $this->params['filter_g'] / 255);
-                $color_b = (int) floor($TabColors['blue'] * $this->params['filter_b'] / 255);
-                $newcol = imagecolorallocate($dst_im, $color_r, $color_g, $color_b);
-                imagesetpixel($dst_im, $x, $y, $newcol);
+        imagecopyresampled($dstIm, $gdimage, 0, 0, 0, 0, $dstX, $dstY, $srcX, $srcY);
+        for ($y = 0; $y < $srcY; ++$y) {
+            for ($x = 0; $x < $srcX; ++$x) {
+                $rgb = imagecolorat($dstIm, $x, $y);
+                $TabColors = imagecolorsforindex($dstIm, $rgb);
+                $colorR = (int) floor($TabColors['red'] * $this->params['filter_r'] / 255);
+                $colorG = (int) floor($TabColors['green'] * $this->params['filter_g'] / 255);
+                $colorB = (int) floor($TabColors['blue'] * $this->params['filter_b'] / 255);
+                $newcol = imagecolorallocate($dstIm, $colorR, $colorG, $colorB);
+                imagesetpixel($dstIm, $x, $y, $newcol);
             }
         }
-        $this->media->setImage($dst_im);
+        $this->media->setImage($dstIm);
     }
 
     public function getName()

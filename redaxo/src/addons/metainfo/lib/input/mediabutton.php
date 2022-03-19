@@ -18,8 +18,8 @@ class rex_input_mediabutton extends rex_input
 
     public function setButtonId($buttonId)
     {
-        $this->buttonId = $buttonId;
-        $this->setAttribute('id', 'REX_MEDIA_' . $buttonId);
+        $this->buttonId = 'METAINFO_'.$buttonId;
+        $this->setAttribute('id', 'REX_MEDIA_' . $this->buttonId);
     }
 
     public function setCategoryId($categoryId)
@@ -44,8 +44,6 @@ class rex_input_mediabutton extends rex_input
         $name = $this->attributes['name'];
         $args = $this->args;
 
-        $field = rex_var_media::getWidget($buttonId, $name, $value, $args);
-
-        return $field;
+        return rex_var_media::getWidget($buttonId, $name, $value, $args);
     }
 }
