@@ -144,8 +144,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             $requiredValue
         );
 
-        $timezones = DateTimeZone::listIdentifiers();
-        assert(is_array($timezones));
+        $timezones = rex_type::array(DateTimeZone::listIdentifiers());
 
         $q = new Question('Choose timezone', $config['timezone']);
         $q->setAutocompleterValues($timezones);
@@ -320,7 +319,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             $io->success('Database successfully updated');
         } elseif ('import' == $createdb) {
             $importName = $input->getOption('db-import') ?? $io->askQuestion(new ChoiceQuestion('Please choose a database export', $backups));
-            assert(is_string($importName));
+            $importName = rex_type::string($importName);
             if (!in_array($importName, $backups, true)) {
                 throw new InvalidArgumentException('Unknown import file "'.$importName.'" specified');
             }
@@ -521,8 +520,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 return $default;
             }
             if ($successMessage) {
-                assert(is_string($optionValue));
-                $this->io->success(sprintf($successMessage, $optionValue));
+                $this->io->success(sprintf($successMessage, rex_type::string($optionValue)));
             }
             return $optionValue;
         }
@@ -530,8 +528,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         if (!$this->input->isInteractive()) {
             if (null !== $default) {
                 if ($successMessage) {
-                    assert(is_string($default));
-                    $this->io->success(sprintf($successMessage, $default));
+                    $this->io->success(sprintf($successMessage, rex_type::string($default)));
                 }
                 return $default;
             }

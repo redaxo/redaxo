@@ -162,6 +162,19 @@ class rex_type
     }
 
     /**
+     * @param mixed $value
+     * @psalm-assert array $value
+     */
+    public static function array($value): array
+    {
+        if (!is_array($value)) {
+            throw new InvalidArgumentException('Exptected an array, but got '.get_debug_type($value));
+        }
+
+        return $value;
+    }
+
+    /**
      * @template T of object
      * @param mixed $value
      * @param class-string<T> $class
