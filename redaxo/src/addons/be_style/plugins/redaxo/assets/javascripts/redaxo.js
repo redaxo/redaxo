@@ -185,7 +185,7 @@
                     this.current = 'auto';
                 }
                 if( prevDarkMode === this.isDarkMode && prevTheme === this.current ) return false;
-                document.body.dispatchEvent(new CustomEvent('rex.theme.change', { detail:{theme:this.current,darkmode:this.isDarkMode}}));
+                document.body.dispatchEvent(new CustomEvent('rex:theme.change', { detail:{theme:this.current,darkmode:this.isDarkMode}}));
                 return true;
             },
             observer: null,
