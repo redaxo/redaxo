@@ -539,8 +539,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             return $this->io->askQuestion($question);
         }
 
-        assert(null === $default || is_string($default));
-        return $this->io->ask($question, $default, $validator);
+        return $this->io->ask($question, rex_type::nullOrString($default), $validator);
     }
 
     private function performSystemcheck(): int

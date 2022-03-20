@@ -996,7 +996,7 @@ class rex_sql_table
                     continue;
                 }
 
-                $offset = rex_type::integer(array_search($after, array_keys($columns)));
+                $offset = rex_type::int(array_search($after, array_keys($columns)));
                 ++$offset;
                 $columns = array_slice($columns, 0, $offset) + $insert + array_slice($columns, $offset);
                 unset($this->positions[$name]);

@@ -150,15 +150,33 @@ class rex_type
 
     /**
      * @param mixed $value
+     * @psalm-assert ?string $value
+     */
+    public static function nullOrString($value): ?string
+    {
+        return null === $value ? null : self::string($value);
+    }
+
+    /**
+     * @param mixed $value
      * @psalm-assert int $value
      */
-    public static function integer($value): int
+    public static function int($value): int
     {
         if (!is_int($value)) {
             throw new InvalidArgumentException('Exptected an integer, but got '.get_debug_type($value));
         }
 
         return $value;
+    }
+
+    /**
+     * @param mixed $value
+     * @psalm-assert ?int $value
+     */
+    public static function nullOrInt($value): ?int
+    {
+        return null === $value ? null : self::int($value);
     }
 
     /**
