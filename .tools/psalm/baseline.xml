@@ -5153,8 +5153,7 @@
     <MixedArrayAssignment occurrences="1">
       <code>$previousPasswords[]</code>
     </MixedArrayAssignment>
-    <MixedAssignment occurrences="2">
-      <code>$previousPasswords</code>
+    <MixedAssignment occurrences="1">
       <code>$previousPasswords</code>
     </MixedAssignment>
   </file>
