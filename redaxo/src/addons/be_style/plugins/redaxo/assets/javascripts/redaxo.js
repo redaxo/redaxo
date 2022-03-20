@@ -166,33 +166,28 @@
     // Theme and Darkmode
     // prerequisites to detect darkmode-changes and have current settings simply available 
     if( typeof rex === 'object' && rex && rex.theme && !redaxo.theme && window.matchMedia ) {
-
         redaxo.theme = {
             matchMediaDark: window.matchMedia('(prefers-color-scheme: dark)'),
-            isDarkMode: false,
             current: rex.theme,
             switched: function() {
-                let prevDarkMode = this.isDarkMode,
-                    prevTheme = this.current;
+                let prevTheme = this.current;
                 if( document.body.classList.contains('rex-theme-light') ){
-                    this.isDarkMode = false;
                     this.current = 'light';
                 } else if ( document.body.classList.contains('rex-theme-dark') ){
-                    this.isDarkMode = true;
                     this.current = 'dark';
                 } else { //auto
-                    this.isDarkMode = this.matchMediaDark.matches;
-                    this.current = 'auto';
+                    this.current = this.matchMediaDark.matches ? 'dark' : 'light';
                 }
-                if( prevDarkMode === this.isDarkMode && prevTheme === this.current ) return false;
-                document.body.dispatchEvent(new CustomEvent('rex:theme.change', { detail:{theme:this.current,darkmode:this.isDarkMode}}));
+                if( prevTheme === this.current ) return false;
+                document.body.dispatchEvent(new CustomEvent('rex:theme.change', { detail:{theme:this.current },bubbles:true}));
                 return true;
             },
             observer: null,
         };
-        // initial darkmode-status based on rex.darkmode to support js running before the DOM is ready
-        // document.body ist not initialized at this point.
-        redaxo.theme.isDarkMode = 'light'===rex.theme ? false : ('dark'===rex.theme || redaxo.theme.matchMediaDark.matches);
+        // finalize initial status in case of auto-theme
+        if ('auto' === redaxo.theme.current) {
+            redaxo.theme.current = redaxo.theme.matchMediaDark.matches ? 'dark' : 'light';
+        }
         // Detect future darkmode-change on system-level
         redaxo.theme.matchMediaDark.addEventListener('change', () => redaxo.theme.switched(),true);
     }
@@ -206,7 +201,7 @@
     // on DOMContentLoaded
     document.addEventListener('DOMContentLoaded', function () {
         redaxo.navigationBar.init();
-        // initialize Observer to detect by js changed darkmode/lightmode-themes on body-tag
+        // initialize Observer to detect changes in darkmode/lightmode-themes on body-tag caused by JS
         if( redaxo.theme && null === redaxo.theme.observer ) {
             redaxo.theme.observer = new MutationObserver( () => redaxo.theme.switched() );
             redaxo.theme.observer.observe( document.body, {attributes:true,attributeFilter:['class']} );
