@@ -1868,7 +1868,7 @@ class rex_sql implements Iterator
      */
     public static function getServerVersion($db = 1)
     {
-        return self::factory($db)->getConnection()->getAttribute(PDO::ATTR_SERVER_VERSION);
+        return rex_type::string(self::factory($db)->getConnection()->getAttribute(PDO::ATTR_SERVER_VERSION));
     }
 
     /**
