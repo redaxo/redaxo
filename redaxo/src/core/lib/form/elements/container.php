@@ -94,7 +94,7 @@ class rex_form_container_element extends rex_form_element
                 $values = [$this->active => $values];
             }
         }
-        assert(is_array($values));
+        $values = rex_type::array($values);
 
         foreach ($this->fields as $group => $groupFields) {
             if (!$this->multiple && $this->active && $this->active !== $group) {

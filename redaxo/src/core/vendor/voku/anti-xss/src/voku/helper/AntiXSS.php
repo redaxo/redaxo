@@ -13,9 +13,23 @@ use const ENT_SUBSTITUTE;
 use const HTML_ENTITIES;
 
 /**
- * AntiXSS
+ * AntiXSS - ported from "CodeIgniter"
  *
- * ported from "CodeIgniter"
+ * ## 🇷🇺 Русским гражданам
+ * В Украине сейчас идет война. Силами РФ наносятся удары по гражданской инфраструктуре в [Харькове][1], [Киеве][2], [Чернигове][3], [Сумах][4], [Ирпене][5] и десятках других городов. Гибнут люди - и гражданское население, и военные, в том числе российские призывники, которых бросили воевать. Чтобы лишить собственный народ доступа к информации, правительство РФ запретило называть войну войной, закрыло независимые СМИ и принимает сейчас ряд диктаторских законов. Эти законы призваны заткнуть рот всем, кто против войны. За обычный призыв к миру сейчас можно получить несколько лет тюрьмы.
+ * Не молчите! Молчание - знак вашего согласия с политикой российского правительства.
+ *  **Вы можете сделать выбор НЕ МОЛЧАТЬ.**
+ * ---
+ * ## 🇺🇸 To people of Russia
+ * There is a war in Ukraine right now. The forces of the Russian Federation are attacking civilian infrastructure in [Kharkiv][1], [Kyiv][2], [Chernihiv][3], [Sumy][4], [Irpin][5] and dozens of other cities. People are dying – both civilians and military servicemen, including Russian conscripts who were thrown into the fighting. In order to deprive its own people of access to information, the government of the Russian Federation has forbidden calling a war a war, shut down independent media and is passing a number of dictatorial laws. These laws are meant to silence all those who are against war. You can be jailed for multiple years for simply calling for peace.
+ * Do not be silent! Silence is a sign that you accept the Russian government's policy.
+ * **You can choose NOT TO BE SILENT.**
+ * ---
+ * - [1] https://cloudfront-us-east-2.images.arcpublishing.com/reuters/P7K2MSZDGFMIJPDD7CI2GIROJI.jpg "Kharkiv under attack"
+ * - [2] https://gdb.voanews.com/01bd0000-0aff-0242-fad0-08d9fc92c5b3_cx0_cy5_cw0_w1023_r1_s.jpg "Kyiv under attack"
+ * - [3] https://ichef.bbci.co.uk/news/976/cpsprodpb/163DD/production/_123510119_hi074310744.jpg "Chernihiv under attack"
+ * - [4] https://www.youtube.com/watch?v=8K-bkqKKf2A "Sumy under attack"
+ * - [5] https://cloudfront-us-east-2.images.arcpublishing.com/reuters/K4MTMLEHTRKGFK3GSKAT4GR3NE.jpg "Irpin under attack"
  *
  * @copyright   Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @copyright   Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
@@ -49,7 +63,22 @@ final class AntiXSS
      *
      * @var string[]
      */
-    private static $_never_allowed_call = [
+    private $_never_allowed_js_callback_regex = [
+        '\(?window\)?\.',
+        '\(?history\)?\.',
+        '\(?location\)?\.',
+        '\(?document\)?\.',
+        '\(?cookie\)?\.',
+        '\(?ScriptElement\)?\.',
+        'd\s*a\s*t\s*a\s*:',
+    ];
+    
+    /**
+     * List of simple never allowed call statements.
+     *
+     * @var string[]
+     */
+    private $_never_allowed_call_strings = [
         // default javascript
         'javascript',
         // Java: jar-protocol is an XSS hazard
@@ -537,7 +566,7 @@ final class AntiXSS
         if (\strpos($str, '=') !== false) {
             $strCopy = $str;
             $matchesTmp = [];
-            while (\preg_match("/[?|&]?[\p{L}0-9_\-\[\]]+\s*=\s*([\"'])(?<attr>[^\1]*?)\\1/u", $strCopy, $matches)) {
+            while (\preg_match("/[?|&]?[\p{L}\d_\-\[\]]+\s*=\s*([\"'])(?<attr>[^\1]*?)\\1/u", $strCopy, $matches)) {
                 $matchesTmp[] = $matches;
                 $strCopy = \str_replace($matches[0], '', $strCopy);
 
@@ -714,7 +743,7 @@ final class AntiXSS
         // ---
 
         $replaceNeverAllowedCall = [];
-        foreach (self::$_never_allowed_call as $call) {
+        foreach ($this->_never_allowed_call_strings as $call) {
             if (\stripos($str, $call) !== false) {
                 $replaceNeverAllowedCall[] = $call;
             }
@@ -801,7 +830,7 @@ final class AntiXSS
                         continue;
                     }
 
-                    $regex = '(?<before>[^\p{L}]|^)(?:' . \implode('|', $events) . ')(?<after>\(.*?\)|.*?>|(?:\s|\[.*?\])*?=(?:\s|\[.*?\])*?|(?:\s|\[.*?\])*?&equals;(?:\s|\[.*?\])*?|[^\p{L}]*?=[^\p{L}]*?|[^\p{L}]*?&equals;[^\p{L}]*?|$|\s*?>*?$)';
+                    $regex = '(?<before>[^\p{L}@.!?>]|^)(?:' . \implode('|', $events) . ')(?<after>\(.*?\)|.*?>|(?:\s|\[.*?\])*?=(?:\s|\[.*?\])*?|(?:\s|\[.*?\])*?&equals;(?:\s|\[.*?\])*?|[^\p{L}]*?=[^\p{L}]*?|[^\p{L}]*?&equals;[^\p{L}]*?|$|\s*?>*?$)';
 
                     do {
                         $count = $temp_count = 0;
@@ -845,7 +874,7 @@ final class AntiXSS
         if (
             \strpos($str, '&') !== false
             &&
-            \preg_match_all('/(?<html_entity>&[A-Za-z]{2,}[;]{0})/', $str, $matches)
+            \preg_match_all('/(?<html_entity>&[A-Za-z]{2,};{0})/', $str, $matches)
         ) {
             if ($HTML_ENTITIES_CACHE === null) {
 
@@ -951,7 +980,7 @@ final class AntiXSS
 
         if (\strpos($str, '=') !== false) {
             $matchesTmp = [];
-            while (\preg_match('#\s*[\p{L}0-9_\-\[\]]+\s*=\s*(["\'])(?:[^\1]*?)\\1#u', $str, $matches)) {
+            while (\preg_match('#\s*[\p{L}\d_\-\[\]]+\s*=\s*(["\'])(?:[^\1]*?)\\1#u', $str, $matches)) {
                 $matchesTmp[] = $matches[0];
                 $str = \str_replace($matches[0], '', $str);
 
@@ -1115,12 +1144,12 @@ final class AntiXSS
             if (!$foundSomethingBad) {
                 // filter for javascript
                 $patternTmp = '';
-                foreach (self::$_never_allowed_call as $callTmp) {
+                foreach ($this->_never_allowed_call_strings as $callTmp) {
                     if (\stripos($match[0], $callTmp) !== false) {
                         $patternTmp .= $callTmp . ':|';
                     }
                 }
-                $pattern = '#' . $search . '=.*(?:' . $patternTmp . '\(?window\)?\.|\(?history\)?\.|\(?location\)?\.|\(?document\)?\.|\(?cookie\)?\.|\(?ScriptElement\)?\.|d\s*a\s*t\s*a\s*:)#ius';
+                $pattern = '#' . $search . '=.*(?:' . $patternTmp . \implode('|', $this->_never_allowed_js_callback_regex) . ')#ius';
                 $matchInner = [];
                 if (\preg_match($pattern, $match[1], $matchInner)) {
                     $replacer = (string) \preg_replace(
@@ -1423,7 +1452,7 @@ final class AntiXSS
         }
 
         return (string) \preg_replace_callback(
-            '#\+([\p{L}0-9]+)-#iu',
+            '#\+([\p{L}\d]+)-#iu',
             function ($matches) {
                 return $this->_repack_utf7_callback($matches);
             },
@@ -1621,7 +1650,7 @@ final class AntiXSS
                 \stripos($fullMatch, '<' . $matches['tagName'] . '<') !== 0
             )
             ||
-            \preg_match('/<[\/]?' . $matches['tagName'] . '\p{L}+>/ius', $fullMatch) === 1
+            \preg_match('/<\/?' . $matches['tagName'] . '\p{L}+>/ius', $fullMatch) === 1
         ) {
             return $fullMatch;
         }
@@ -1698,7 +1727,7 @@ final class AntiXSS
 
             if ($found === true) {
                 $str = (string) \preg_replace(
-                    '#(' . \implode('|', $patterns) . ')(\s*)\((.*)\)#uisU',
+                    '#(?<!\p{L})(' . \implode('|', $patterns) . ')(\s*)\((.*)\)#uisU',
                     '\\1\\2&#40;\\3&#41;',
                     $str
                 );
@@ -1876,6 +1905,48 @@ final class AntiXSS
     }
 
     /**
+     * Add some strings to the "_never_allowed_js_callback_regex"-array.
+     *
+     * @param string[] $strings
+     *
+     * @return $this
+     */
+    public function addNeverAllowedJsCallbackRegex(array $strings): self
+    {
+        if ($strings === []) {
+            return $this;
+        }
+
+        $this->_never_allowed_js_callback_regex = \array_merge(
+            $strings,
+            $this->_never_allowed_js_callback_regex
+        );
+
+        return $this;
+    }
+    
+    /**
+     * Add some strings to the "_never_allowed_call_strings"-array.
+     *
+     * @param string[] $strings
+     *
+     * @return $this
+     */
+    public function addNeverAllowedCallStrings(array $strings): self
+    {
+        if ($strings === []) {
+            return $this;
+        }
+
+        $this->_never_allowed_call_strings = \array_merge(
+            $strings,
+            $this->_never_allowed_call_strings
+        );
+
+        return $this;
+    }
+
+    /**
      * Remove some strings from the "_do_not_close_html_tags"-array.
      *
      * <p>
@@ -2020,6 +2091,58 @@ final class AntiXSS
         $this->_never_allowed_str_afterwards = \array_diff(
             $this->_never_allowed_str_afterwards,
             \array_intersect($strings, $this->_never_allowed_str_afterwards)
+        );
+
+        return $this;
+    }
+
+    /**
+     * Remove some strings from the "_never_allowed_call_strings"-array.
+     *
+     * <p>
+     * <br />
+     * WARNING: Use this method only if you have a really good reason.
+     * </p>
+     *
+     * @param string[] $strings
+     *
+     * @return $this
+     */
+    public function removeNeverAllowedCallStrings(array $strings): self
+    {
+        if ($strings === []) {
+            return $this;
+        }
+
+        $this->_never_allowed_call_strings = \array_diff(
+            $this->_never_allowed_call_strings,
+            \array_intersect($strings, $this->_never_allowed_call_strings)
+        );
+
+        return $this;
+    }
+
+    /**
+     * Remove some strings from the "_never_allowed_js_callback_regex"-array.
+     *
+     * <p>
+     * <br />
+     * WARNING: Use this method only if you have a really good reason.
+     * </p>
+     *
+     * @param string[] $strings
+     *
+     * @return $this
+     */
+    public function removeNeverAllowedJsCallbackRegex(array $strings): self
+    {
+        if ($strings === []) {
+            return $this;
+        }
+
+        $this->_never_allowed_js_callback_regex = \array_diff(
+            $this->_never_allowed_js_callback_regex,
+            \array_intersect($strings, $this->_never_allowed_js_callback_regex)
         );
 
         return $this;

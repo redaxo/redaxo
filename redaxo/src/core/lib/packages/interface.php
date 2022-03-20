@@ -33,7 +33,7 @@ interface rex_package_interface
     /**
      * Returns the package type as string.
      *
-     * @return string
+     * @return 'addon'|'plugin'
      */
     public function getType();
 
@@ -86,7 +86,6 @@ interface rex_package_interface
      * @see rex_config::get()
      *
      * @template T as ?string
-     * @phpstan-template T
      * @psalm-param T $key
      * @psalm-return (T is string ? mixed|null : array<string, mixed>)
      */
