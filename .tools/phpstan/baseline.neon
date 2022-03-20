@@ -226,27 +226,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/response.php
 
 		-
-			message: "#^Call to function assert\\(\\) with false will always evaluate to false\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/table.php
-
-		-
-			message: "#^Call to function is_int\\(\\) with false will always evaluate to false\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/table.php
-
-		-
 			message: "#^Parameter \\#2 \\$createCallback of static method rex_sql_table\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: static\\(rex_sql_table\\)\\|null\\)\\|null, Closure\\(mixed, mixed\\)\\: static\\(rex_sql_table\\) given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/table.php
-
-		-
-			message: "#^Parameter \\#2 \\$offset of function array_slice expects int, string given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/table.php
-
-		-
-			message: "#^Parameter \\#3 \\$length of function array_slice expects int\\|null, string given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/sql/table.php
 

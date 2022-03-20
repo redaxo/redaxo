@@ -273,9 +273,9 @@ $panel = '
                     $thumbnail = '<i class="rex-mime' . $iconClass . '" title="' . $alt . '" data-extension="' . $fileExt . '"></i><span class="sr-only">' . $media->getFileName() . '</span>';
 
                     if (rex_media::isImageType(rex_file::extension($media->getFileName()))) {
-                        $thumbnail = '<img class="thumbnail" src="' . rex_url::media($media->getFileName()) . '?buster=' . $media->getValue('updatedate') . '" width="80" height="80" alt="' . $alt . '" title="' . $alt . '" />';
+                        $thumbnail = '<img class="thumbnail" src="' . rex_url::media($media->getFileName()) . '?buster=' . $media->getValue('updatedate') . '" width="80" height="80" alt="' . $alt . '" title="' . $alt . '" loading="lazy" />';
                         if ($mediaManagerUrl && 'svg' != rex_file::extension($media->getFileName())) {
-                            $thumbnail = '<img class="thumbnail" src="' . $mediaManagerUrl('rex_media_small', urlencode($media->getFileName()), $media->getValue('updatedate')) . '" width="100" alt="' . $alt . '" title="' . $alt . '" />';
+                            $thumbnail = '<img class="thumbnail" src="' . $mediaManagerUrl('rex_media_small', urlencode($media->getFileName()), $media->getValue('updatedate')) . '" width="100" alt="' . $alt . '" title="' . $alt . '" loading="lazy" />';
                         }
                     }
                 }
@@ -301,7 +301,7 @@ $panel = '
 
                 $panel .= '<tr>
                     ' . $addTd . '
-                    <td class="rex-word-break" data-title="' . rex_i18n::msg('pool_file_thumbnail') . '"><a href="' . $ilink . '"><div class="lazyload" data-noscript=""><noscript>' . $thumbnail . '</noscript></div></a></td>
+                    <td class="rex-word-break" data-title="' . rex_i18n::msg('pool_file_thumbnail') . '"><a href="' . $ilink . '">' . $thumbnail . '</a></td>
                     <td class="rex-word-break" data-title="' . rex_i18n::msg('pool_file_info') . '">
                         <h3><a class="rex-link-expanded" href="' . $ilink . '">' . rex_escape($media->getTitle()) . '</a></h3>
                         ' . $desc . '

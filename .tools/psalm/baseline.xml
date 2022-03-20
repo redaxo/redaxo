@@ -5153,8 +5153,7 @@
     <MixedArrayAssignment occurrences="1">
       <code>$previousPasswords[]</code>
     </MixedArrayAssignment>
-    <MixedAssignment occurrences="2">
-      <code>$previousPasswords</code>
+    <MixedAssignment occurrences="1">
       <code>$previousPasswords</code>
     </MixedAssignment>
   </file>
@@ -5618,12 +5617,6 @@
       <code>self::getProperty('table_prefix')</code>
       <code>self::getProperty('temp_prefix')</code>
     </MixedReturnStatement>
-    <MixedReturnTypeCoercion occurrences="4">
-      <code>$config</code>
-      <code>$config</code>
-      <code>array&lt;string, array{install: bool, status: bool, plugins?: array&lt;string, array{install: bool, status: bool}&gt;}&gt;</code>
-      <code>list&lt;string&gt;</code>
-    </MixedReturnTypeCoercion>
   </file>
   <file src="redaxo/src/core/lib/select.php">
     <MixedArgument occurrences="8">
