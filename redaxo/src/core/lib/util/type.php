@@ -138,6 +138,7 @@ class rex_type
     /**
      * @param mixed $value
      * @psalm-assert string $value
+     * @psalm-pure
      */
     public static function string($value): string
     {
@@ -151,6 +152,7 @@ class rex_type
     /**
      * @param mixed $value
      * @psalm-assert ?string $value
+     * @psalm-pure
      */
     public static function nullOrString($value): ?string
     {
@@ -160,6 +162,7 @@ class rex_type
     /**
      * @param mixed $value
      * @psalm-assert int $value
+     * @psalm-pure
      */
     public static function int($value): int
     {
@@ -173,6 +176,7 @@ class rex_type
     /**
      * @param mixed $value
      * @psalm-assert ?int $value
+     * @psalm-pure
      */
     public static function nullOrInt($value): ?int
     {
@@ -182,6 +186,7 @@ class rex_type
     /**
      * @param mixed $value
      * @psalm-assert array $value
+     * @psalm-pure
      */
     public static function array($value): array
     {
@@ -198,6 +203,7 @@ class rex_type
      * @param class-string<T> $class
      * @return T
      * @psalm-assert T $value
+     * @psalm-pure
      */
     public static function instanceOf($value, string $class): object
     {
