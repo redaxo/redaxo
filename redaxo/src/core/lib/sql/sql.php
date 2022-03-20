@@ -105,7 +105,8 @@ class rex_sql implements Iterator
     {
         $this->debug = false;
         $this->flush();
-        $this->selectDB($db);
+
+        $this->DBID = $db;
     }
 
     /**
@@ -152,6 +153,20 @@ class rex_sql implements Iterator
             }
             throw new rex_sql_could_not_connect_exception('Could not connect to database', $e, $this);
         }
+    }
+
+    /**
+     * return the PDO Instance, create database connection when not already created.
+     *
+     * @throws rex_sql_exception
+     */
+    public function getConnection(): PDO
+    {
+        if (!isset(self::$pdo[$this->DBID])) {
+            $this->selectDB($this->DBID);
+        }
+
+        return self::$pdo[$this->DBID];
     }
 
     /**
@@ -336,7 +351,7 @@ class rex_sql implements Iterator
      */
     public function prepareQuery($query)
     {
-        $pdo = self::$pdo[$this->DBID];
+        $pdo = $this->getConnection();
         try {
             $this->query = $query;
             $this->stmt = $pdo->prepare($query);
@@ -363,7 +378,7 @@ class rex_sql implements Iterator
         }
 
         $buffered = null;
-        $pdo = self::$pdo[$this->DBID];
+        $pdo = $this->getConnection();
         if (isset($options[self::OPT_BUFFERED])) {
             $buffered = $pdo->getAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY);
             $pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $options[self::OPT_BUFFERED]);
@@ -388,7 +403,7 @@ class rex_sql implements Iterator
 
             $this->stmt->execute();
             $this->rows = $this->stmt->rowCount();
-            $this->lastInsertId = self::$pdo[$this->DBID]->lastInsertId();
+            $this->lastInsertId = $this->getConnection()->lastInsertId();
         } catch (PDOException $e) {
             throw new rex_sql_exception('Error while executing statement "' . $this->query . '" using params ' . json_encode($params) . '! ' . $e->getMessage(), $e, $this);
         } finally {
@@ -440,7 +455,7 @@ class rex_sql implements Iterator
         }
 
         $buffered = null;
-        $pdo = self::$pdo[$this->DBID];
+        $pdo = $this->getConnection();
         if (isset($options[self::OPT_BUFFERED])) {
             $buffered = $pdo->getAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY);
             $pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $options[self::OPT_BUFFERED]);
@@ -463,7 +478,7 @@ class rex_sql implements Iterator
             });
 
             $this->rows = $this->stmt->rowCount();
-            $this->lastInsertId = self::$pdo[$this->DBID]->lastInsertId();
+            $this->lastInsertId = $this->getConnection()->lastInsertId();
         } catch (PDOException $e) {
             throw new rex_sql_exception('Error while executing statement "' . $query . '": ' . $e->getMessage(), $e, $this);
         } finally {
@@ -1205,7 +1220,7 @@ class rex_sql implements Iterator
             $params = $this->params;
         }
 
-        $pdo = self::$pdo[$this->DBID];
+        $pdo = $this->getConnection();
 
         $pdo->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, false);
         $this->setDBQuery($query, $params);
@@ -1239,7 +1254,7 @@ class rex_sql implements Iterator
             $params = $this->params;
         }
 
-        $pdo = self::$pdo[$this->DBID];
+        $pdo = $this->getConnection();
 
         $pdo->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, false);
         $this->setQuery($query, $params);
@@ -1255,7 +1270,7 @@ class rex_sql implements Iterator
      */
     public function getErrno()
     {
-        return $this->stmt ? $this->stmt->errorCode() : self::$pdo[$this->DBID]->errorCode();
+        return $this->stmt ? $this->stmt->errorCode() : $this->getConnection()->errorCode();
     }
 
     /**
@@ -1263,7 +1278,7 @@ class rex_sql implements Iterator
      */
     public function getMysqlErrno()
     {
-        $errorInfos = $this->stmt ? $this->stmt->errorInfo() : self::$pdo[$this->DBID]->errorInfo();
+        $errorInfos = $this->stmt ? $this->stmt->errorInfo() : $this->getConnection()->errorInfo();
 
         return (int) $errorInfos[1];
     }
@@ -1273,7 +1288,7 @@ class rex_sql implements Iterator
      */
     public function getError()
     {
-        $errorInfos = $this->stmt ? $this->stmt->errorInfo() : self::$pdo[$this->DBID]->errorInfo();
+        $errorInfos = $this->stmt ? $this->stmt->errorInfo() : $this->getConnection()->errorInfo();
         // idx0   SQLSTATE error code (a five characters alphanumeric identifier defined in the ANSI SQL standard).
         // idx1   Driver-specific error code.
         // idx2   Driver-specific error message.
@@ -1419,7 +1434,7 @@ class rex_sql implements Iterator
      */
     public function escape($value)
     {
-        return self::$pdo[$this->DBID]->quote($value);
+        return $this->getConnection()->quote($value);
     }
 
     /**
@@ -1529,10 +1544,10 @@ class rex_sql implements Iterator
      */
     public function beginTransaction()
     {
-        if (self::$pdo[$this->DBID]->inTransaction()) {
+        if ($this->getConnection()->inTransaction()) {
             throw new rex_sql_exception('Transaction already started', null, $this);
         }
-        return self::$pdo[$this->DBID]->beginTransaction();
+        return $this->getConnection()->beginTransaction();
     }
 
     /**
@@ -1544,10 +1559,10 @@ class rex_sql implements Iterator
      */
     public function rollBack()
     {
-        if (!self::$pdo[$this->DBID]->inTransaction()) {
+        if (!$this->getConnection()->inTransaction()) {
             throw new rex_sql_exception('Unable to rollback, no transaction started before', null, $this);
         }
-        return self::$pdo[$this->DBID]->rollBack();
+        return $this->getConnection()->rollBack();
     }
 
     /**
@@ -1559,10 +1574,10 @@ class rex_sql implements Iterator
      */
     public function commit()
     {
-        if (!self::$pdo[$this->DBID]->inTransaction()) {
+        if (!$this->getConnection()->inTransaction()) {
             throw new rex_sql_exception('Unable to commit, no transaction started before', null, $this);
         }
-        return self::$pdo[$this->DBID]->commit();
+        return $this->getConnection()->commit();
     }
 
     /**
@@ -1570,7 +1585,7 @@ class rex_sql implements Iterator
      */
     public function inTransaction()
     {
-        return self::$pdo[$this->DBID]->inTransaction();
+        return $this->getConnection()->inTransaction();
     }
 
     /**
@@ -1586,19 +1601,21 @@ class rex_sql implements Iterator
      */
     public function transactional(callable $callable)
     {
-        $inTransaction = self::$pdo[$this->DBID]->inTransaction();
+        $connection = $this->getConnection();
+        $inTransaction = $connection->inTransaction();
+
         if (!$inTransaction) {
-            self::$pdo[$this->DBID]->beginTransaction();
+            $connection->beginTransaction();
         }
         try {
             $result = $callable();
             if (!$inTransaction) {
-                self::$pdo[$this->DBID]->commit();
+                $connection->commit();
             }
             return $result;
         } catch (Throwable $e) {
             if (!$inTransaction) {
-                self::$pdo[$this->DBID]->rollBack();
+                $connection->rollBack();
             }
             throw $e;
         }
@@ -1851,11 +1868,7 @@ class rex_sql implements Iterator
      */
     public static function getServerVersion($db = 1)
     {
-        if (!isset(self::$pdo[$db])) {
-            // create connection if necessary
-            self::factory($db);
-        }
-        return self::$pdo[$db]->getAttribute(PDO::ATTR_SERVER_VERSION);
+        return rex_type::string(self::factory($db)->getConnection()->getAttribute(PDO::ATTR_SERVER_VERSION));
     }
 
     /**
@@ -1866,7 +1879,7 @@ class rex_sql implements Iterator
      */
     public function getDbType(): string
     {
-        $version = self::$pdo[$this->DBID]->getAttribute(PDO::ATTR_SERVER_VERSION);
+        $version = $this->getConnection()->getAttribute(PDO::ATTR_SERVER_VERSION);
 
         return false === stripos($version, 'mariadb') ? self::MYSQL : self::MARIADB;
     }
@@ -1878,7 +1891,7 @@ class rex_sql implements Iterator
      */
     public function getDbVersion(): string
     {
-        $version = self::$pdo[$this->DBID]->getAttribute(PDO::ATTR_SERVER_VERSION);
+        $version = $this->getConnection()->getAttribute(PDO::ATTR_SERVER_VERSION);
 
         if (preg_match('/^(\d+\.\d+\.\d+)(?:-(\d+\.\d+\.\d+)-mariadb)?/i', $version, $match)) {
             return $match[2] ?? $match[1];

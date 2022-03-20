@@ -5784,10 +5784,9 @@
       <code>$version</code>
       <code>$version</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="4">
+    <MixedInferredReturnType occurrences="3">
       <code>array</code>
       <code>scalar|null</code>
-      <code>string</code>
       <code>string</code>
     </MixedInferredReturnType>
     <MixedOperand occurrences="2">
@@ -5798,11 +5797,10 @@
       <code>$this-&gt;rawFieldnames</code>
       <code>$this-&gt;tablenames</code>
     </MixedPropertyTypeCoercion>
-    <MixedReturnStatement occurrences="4">
+    <MixedReturnStatement occurrences="3">
       <code>$this-&gt;lastRow[$column]</code>
       <code>$version</code>
       <code>json_decode($this-&gt;getValue($column), true)</code>
-      <code>self::$pdo[$db]-&gt;getAttribute(PDO::ATTR_SERVER_VERSION)</code>
     </MixedReturnStatement>
     <NullableReturnStatement occurrences="1">
       <code>$sql-&gt;getValue('Create Table')</code>
