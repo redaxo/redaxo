@@ -134,4 +134,83 @@ class rex_type
 
         return $var;
     }
+
+    /**
+     * @param mixed $value
+     * @psalm-assert string $value
+     * @psalm-pure
+     */
+    public static function string($value): string
+    {
+        if (!is_string($value)) {
+            throw new InvalidArgumentException('Exptected a string, but got '.get_debug_type($value));
+        }
+
+        return $value;
+    }
+
+    /**
+     * @param mixed $value
+     * @psalm-assert ?string $value
+     * @psalm-pure
+     */
+    public static function nullOrString($value): ?string
+    {
+        return null === $value ? null : self::string($value);
+    }
+
+    /**
+     * @param mixed $value
+     * @psalm-assert int $value
+     * @psalm-pure
+     */
+    public static function int($value): int
+    {
+        if (!is_int($value)) {
+            throw new InvalidArgumentException('Exptected an integer, but got '.get_debug_type($value));
+        }
+
+        return $value;
+    }
+
+    /**
+     * @param mixed $value
+     * @psalm-assert ?int $value
+     * @psalm-pure
+     */
+    public static function nullOrInt($value): ?int
+    {
+        return null === $value ? null : self::int($value);
+    }
+
+    /**
+     * @param mixed $value
+     * @psalm-assert array $value
+     * @psalm-pure
+     */
+    public static function array($value): array
+    {
+        if (!is_array($value)) {
+            throw new InvalidArgumentException('Exptected an array, but got '.get_debug_type($value));
+        }
+
+        return $value;
+    }
+
+    /**
+     * @template T of object
+     * @param mixed $value
+     * @param class-string<T> $class
+     * @return T
+     * @psalm-assert T $value
+     * @psalm-pure
+     */
+    public static function instanceOf($value, string $class): object
+    {
+        if (!$value instanceof $class) {
+            throw new InvalidArgumentException('Exptected a '.$class.', but got '.get_debug_type($value));
+        }
+
+        return $value;
+    }
 }
