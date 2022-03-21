@@ -77,6 +77,20 @@ class rex_be_page
     }
 
     /**
+     * Sets the page title
+     * 
+     * @param string title
+     *
+     * @return $this
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+    
+    /**
      * Returns the title.
      *
      * @returns string
