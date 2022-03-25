@@ -386,7 +386,7 @@ if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($categoryId)) 
     $navigation = current($blocks);
     $contentNaviRight = $navigation['navigation'];
 
-    $contentNaviRight[] = ['title' => '<a href="' . rex_getUrl($articleId, $clang) . '" onclick="window.open(this.href); return false;">' . rex_i18n::msg('article') . ' ' . rex_i18n::msg('show') . ' <i class="rex-icon rex-icon-external-link"></i></a>'];
+    $contentNaviRight[] = ['title' => '<a id="rex-article-preview" href="' . rex_getUrl($articleId, $clang) . '" onclick="window.open(this.href); return false;">' . rex_i18n::msg('article') . ' ' . rex_i18n::msg('show') . ' <i class="rex-icon rex-icon-external-link"></i></a>'];
 
     $fragment = new rex_fragment();
     $fragment->setVar('id', 'rex-js-structure-content-nav', false);
