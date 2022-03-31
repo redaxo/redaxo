@@ -606,10 +606,13 @@ if ($SHOW) {
     $list->setColumnFormat('role', 'custom', static function () use ($list, $noRole, $separator) {
         $roles = $list->getValue('role');
         if ($noRole === $roles) {
-            return rex_i18n::msg('user_no_role');
+            return '<span class="label label-warning">'.rex_i18n::msg('user_no_role').'</span>';
+        }
+        if ($list->getValue('admin')) {
+            return '<span class="label label-success">'.rex_i18n::msg('user_admin').'</span>';
         }
 
-        return '<div class="rex-docs"><ul><li>'.implode('</li><li>', explode($separator, rex_escape($roles))).'</li></ul></div>';
+        return '<div class="rex-docs"><ul class="small"><li>'.implode('</li><li>', explode($separator, rex_escape($roles))).'</li></ul></div>';
     }, ['roles' => $roles]);
     $list->setColumnSortable('role');
 
