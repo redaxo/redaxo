@@ -10,7 +10,7 @@ jobs:
 
         steps:
             -   name: Slash Command Dispatch
-                uses: peter-evans/slash-command-dispatch@v2
+                uses: peter-evans/slash-command-dispatch@v3
                 with:
                     token: ${{ secrets.BOT_TOKEN }}
                     # reactions should be reported from github itself
