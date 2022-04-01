@@ -16,19 +16,9 @@ parameters:
 			path: ../../redaxo/src/addons/install/lib/archive.php
 
 		-
-			message: "#^Result of \\|\\| is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/media.php
-
-		-
 			message: "#^Static property rex_media\\:\\:\\$instances \\(array\\<class\\-string, array\\<string, static\\(rex_media\\)\\|null\\>\\>\\) does not accept array\\<class\\-string, array\\<string, rex_media\\|null\\>\\>\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/lib/media.php
-
-		-
-			message: "#^Result of \\|\\| is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/media_category.php
 
 		-
 			message: "#^Static property rex_media_category\\:\\:\\$instances \\(array\\<class\\-string, array\\<string, static\\(rex_media_category\\)\\|null\\>\\>\\) does not accept array\\<class\\-string, array\\<string, rex_media_category\\|null\\>\\>\\.$#"
@@ -51,9 +41,9 @@ parameters:
 			path: ../../redaxo/src/addons/mediapool/lib/service_media_category.php
 
 		-
-			message: "#^Strict comparison using \\=\\=\\= between false and string will always evaluate to false\\.$#"
+			message: "#^Elseif condition is always true\\.$#"
 			count: 1
-			path: ../../redaxo/src/addons/metainfo/functions/function_metainfo.php
+			path: ../../redaxo/src/addons/metainfo/lib/handler/handler.php
 
 		-
 			message: "#^Left side of && is always true\\.$#"
@@ -67,11 +57,6 @@ parameters:
 
 		-
 			message: "#^Parameter \\#3 \\$createListCallback of static method rex_structure_element\\:\\:getInstanceList\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: array\\)\\|null, Closure\\(mixed, mixed\\)\\: array given\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/lib/structure_element.php
-
-		-
-			message: "#^Result of \\|\\| is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/lib/structure_element.php
 
@@ -91,7 +76,17 @@ parameters:
 			path: ../../redaxo/src/addons/structure/plugins/content/pages/content.edit.php
 
 		-
+			message: "#^If condition is always true\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/structure/plugins/content/pages/modules.actions.php
+
+		-
 			message: "#^Comparison operation \"\\>\" between int\\<min, 0\\>\\|null and 0 is always false\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/structure/plugins/content/pages/modules.modules.php
+
+		-
+			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/plugins/content/pages/modules.modules.php
 
@@ -206,14 +201,14 @@ parameters:
 			path: ../../redaxo/src/core/lib/login/user.php
 
 		-
-			message: "#^Result of \\|\\| is always true\\.$#"
+			message: "#^Static property rex_user\\:\\:\\$instances \\(array\\<class\\-string, array\\<string, static\\(rex_user\\)\\|null\\>\\>\\) does not accept array\\<class\\-string, array\\<string, rex_user\\|null\\>\\>\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/login/user.php
 
 		-
-			message: "#^Static property rex_user\\:\\:\\$instances \\(array\\<class\\-string, array\\<string, static\\(rex_user\\)\\|null\\>\\>\\) does not accept array\\<class\\-string, array\\<string, rex_user\\|null\\>\\>\\.$#"
+			message: "#^If condition is always false\\.$#"
 			count: 1
-			path: ../../redaxo/src/core/lib/login/user.php
+			path: ../../redaxo/src/core/lib/packages/manager.php
 
 		-
 			message: "#^Method rex_package_manager\\:\\:factory\\(\\) should return static\\(rex_package_manager\\<T of rex_package\\>\\) but returns rex_addon_manager\\|rex_plugin_manager\\.$#"
@@ -226,32 +221,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/response.php
 
 		-
-			message: "#^Call to function assert\\(\\) with false will always evaluate to false\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/table.php
-
-		-
-			message: "#^Call to function is_int\\(\\) with false will always evaluate to false\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/table.php
-
-		-
 			message: "#^Parameter \\#2 \\$createCallback of static method rex_sql_table\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: static\\(rex_sql_table\\)\\|null\\)\\|null, Closure\\(mixed, mixed\\)\\: static\\(rex_sql_table\\) given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/table.php
-
-		-
-			message: "#^Parameter \\#2 \\$offset of function array_slice expects int, string given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/table.php
-
-		-
-			message: "#^Parameter \\#3 \\$length of function array_slice expects int\\|null, string given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/table.php
-
-		-
-			message: "#^Result of \\|\\| is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/sql/table.php
 
@@ -292,11 +262,6 @@ parameters:
 
 		-
 			message: "#^Parameter \\#2 \\$createCallback of static method rex_test_instance_pool_base\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: rex_test_instance_pool_1\\|null\\)\\|null, Closure\\(mixed, mixed\\)\\: void given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/base/instance_pool_trait_test.php
-
-		-
-			message: "#^Result of \\|\\| is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/base/instance_pool_trait_test.php
 
