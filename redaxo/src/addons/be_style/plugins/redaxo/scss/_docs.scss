@@ -39,6 +39,10 @@ $docs-border-color-muted: $gray-lighter !default;
     p, blockquote, pre, details, dl, ol, ul, table {
         margin-top: 0;
         margin-bottom: 16px;
+
+        table &:last-child {
+            margin-bottom: 0;
+        }
     }
 
     > *:first-child {
@@ -141,6 +145,10 @@ $docs-border-color-muted: $gray-lighter !default;
 
     ul, ol {
         padding-left: 2em;
+
+        table & {
+            padding-left: 1.25em;
+        }
     }
 
     table {
