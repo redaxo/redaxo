@@ -80,7 +80,9 @@ class rex_debug_clockwork
     {
         $coreConfigFile = rex_path::coreData('config.yml');
         $coreConfig = rex_file::getConfig($coreConfigFile);
+        /** @var bool $debugEnabled */
+        $debugEnabled = $coreConfig['debug']['enabled'] ?? false;
 
-        return $coreConfig['debug']['enabled'] ?? false;
+        return $debugEnabled;
     }
 }
