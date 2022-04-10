@@ -375,7 +375,7 @@ abstract class rex_package implements rex_package_interface
         if ($this instanceof rex_addon) {
             $start = $this->getPackageId().'/';
             foreach ($cache as $packageId => $_) {
-                if (str_starts_with($packageId, $start)) {
+                if (str_starts_with((string) $packageId, $start)) {
                     unset($cache[$packageId]);
                 }
             }
