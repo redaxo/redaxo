@@ -524,7 +524,7 @@ class rex_article_slice
      */
     public function getMediaListArray(int $index): ?array
     {
-        $list = $this->linklists[$index - 1];
+        $list = $this->medialists[$index - 1];
 
         if (null === $list) {
             return null;
