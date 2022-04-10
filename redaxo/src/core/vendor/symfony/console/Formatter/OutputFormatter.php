@@ -36,7 +36,7 @@ class OutputFormatter implements WrappableOutputFormatterInterface
     /**
      * Escapes "<" and ">" special chars in given text.
      *
-     * @return string Escaped text
+     * @return string
      */
     public static function escape(string $text)
     {
@@ -140,6 +140,10 @@ class OutputFormatter implements WrappableOutputFormatterInterface
      */
     public function formatAndWrap(?string $message, int $width)
     {
+        if (null === $message) {
+            return '';
+        }
+
         $offset = 0;
         $output = '';
         $openTagRegex = '[a-z](?:[^\\\\<>]*+ | \\\\.)*';

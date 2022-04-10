@@ -101,6 +101,11 @@ parameters:
 			path: ../../redaxo/src/addons/structure/plugins/version/boot.php
 
 		-
+			message: "#^Offset 'children' on array\\<'left'\\|'right', string\\> in isset\\(\\) does not exist\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/fragments/core/navigations/content.php
+
+		-
 			message: "#^Argument of an invalid type rex_api_result supplied for foreach, only iterables are supported\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/api_function.php
