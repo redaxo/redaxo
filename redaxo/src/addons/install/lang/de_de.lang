@@ -64,7 +64,7 @@ install_settings_general = Allgemein
 install_settings_backups = Backups erstellen
 install_settings_backups_note = Vor dem Update von Paketen durch den Installer wird jeweils eine Kopie der aktuellen Version in <code>redaxo/data/addons/install/</code> abgelegt. Diese können bei Fehlern wieder eingespielt werden.<br>Bitte beachten, dass die Datenbank dabei nicht gesichert wird!
 install_settings_myredaxo_account = myREDAXO-Account
-install_settings_myredaxo_notice = Der API-Key wird benötigt, um den Upload deiner AddOns zur REDAXO-Website durchzuführen. Im Installer-AddOn kannst Du auch verschiedene Versionen deiner AddOns erstellen sowie zusätzlich auch Offline-AddOns einsehen.
+install_settings_myredaxo_notice = Der API-Key wird benötigt, um den Upload eigener AddOns zur REDAXO-Website durchzuführen.
 install_settings_api_login = Nutzername
 install_settings_api_key = API-Key
 install_settings_saved = Einstellungen wurden gespeichert!
@@ -74,4 +74,4 @@ install_header_function = Funktion
 install_latest_release = Aktuelles Release
 install_download_unstable = Vorsicht! Es handelt sich hierbei um eine Entwicklungsversion. Installation auf eigene Gefahr.
 
-install_info_myredaxo = Du hast deinen MyREDAXO-Account hinterlegt. Somit erscheinen ggf. auch deine Offline-AddOns.
+install_info_myredaxo = Der MyREDAXO-Account ist hinterlegt. Somit erscheinen ggf. auch eigene Offline-AddOns.
