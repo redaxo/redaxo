@@ -78,10 +78,10 @@ class rex_debug_clockwork
      */
     public static function isRexDebugEnabled(): bool
     {
-        $coreConfigFile = rex_path::coreData('config.yml');
-        $coreConfig = rex_file::getConfig($coreConfigFile);
+        $coreConfigCacheFile = rex_path::coreCache('config.yml.cache');
+        $coreConfigCache = rex_file::getCache($coreConfigCacheFile);
         /** @var bool $debugEnabled */
-        $debugEnabled = $coreConfig['debug']['enabled'] ?? false;
+        $debugEnabled = $coreConfigCache['debug']['enabled'] ?? false;
 
         return $debugEnabled;
     }
