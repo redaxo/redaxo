@@ -14,7 +14,7 @@ try {
 
     $config = rex_file::getCache(rex_path::addonData('install', 'config.json'), []);
     if (isset($config['api_login']) && $config['api_login'] && isset($config['api_key'])) {
-        echo rex_view::info($package->i18n('install_info_myredaxo'));
+        echo rex_view::info($package->i18n('info_myredaxo'));
     }
 } catch (rex_functional_exception $e) {
     echo rex_view::warning($e->getMessage());
