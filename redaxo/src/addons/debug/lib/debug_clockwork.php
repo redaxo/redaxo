@@ -78,6 +78,10 @@ class rex_debug_clockwork
      */
     public static function isRexDebugEnabled(): bool
     {
+        if (PHP_SAPI !== 'cli') {
+            return rex::isDebugMode();
+        }
+
         $coreConfigCacheFile = rex_path::coreCache('config.yml.cache');
         $coreConfigCache = rex_file::getCache($coreConfigCacheFile);
         /** @var bool $debugEnabled */
