@@ -56,6 +56,23 @@ class rex_string
     }
 
     /**
+     * Normalizes a string.
+     *
+     * Only whitespace characters need to be removed in HTML5 id attributes
+     *
+     * @param string $string       Input string
+     * @param string $replaceChar  Character that is used to replace not allowed chars
+     *
+     * @return string
+     */
+    
+    public static function normalizeId($string, $replaceChar = '_')
+    {
+        $string = self::normalizeEncoding($string);
+        return = str_replace([' '], [$replaceChar], $string);
+    }
+
+    /**
      * Splits a string by spaces
      * (Strings with quotes will be regarded).
      *
