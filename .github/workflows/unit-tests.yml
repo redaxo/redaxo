@@ -6,8 +6,13 @@ on:
     pull_request:
         types: [opened, synchronize, reopened, ready_for_review]
 
+permissions:
+  contents: read
+
 jobs:
     phpunit:
+        permissions:
+          contents: write  # for Git to git apply
         runs-on: ${{ matrix.os }}
 
         strategy:

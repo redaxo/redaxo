@@ -4,8 +4,13 @@ on:
     pull_request_target:
         types: [closed]
 
+permissions:
+  contents: read
+
 jobs:
     remove-automerge-label:
+        permissions:
+          contents: none
         runs-on: ubuntu-latest
         if: github.event.pull_request.merged == true
 

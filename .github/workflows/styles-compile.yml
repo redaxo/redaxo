@@ -9,8 +9,13 @@ on:
 env:
     writable: ${{ github.event_name != 'push' && github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' && 1 || 0 }}
 
+permissions:
+  contents: read
+
 jobs:
     compile:
+        permissions:
+          contents: write  # for Git to git apply
         name: be_style:compile
         runs-on: ubuntu-latest
 
