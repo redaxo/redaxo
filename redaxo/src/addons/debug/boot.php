@@ -1,6 +1,6 @@
 <?php
 
-if (!rex::isDebugMode() || 'debug' === rex_get(rex_api_function::REQ_CALL_PARAM)) {
+if (!rex_debug_clockwork::isRexDebugEnabled() || 'debug' === rex_get(rex_api_function::REQ_CALL_PARAM)) {
     return;
 }
 
