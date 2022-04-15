@@ -17,6 +17,8 @@ abstract class rex_package implements rex_package_interface
     public const FILE_UNINSTALL_SQL = 'uninstall.sql';
     public const FILE_UPDATE = 'update.php';
 
+    private const PROPERTIES_CACHE_FILE = 'packages.cache';
+
     /**
      * Name of the package.
      *
@@ -298,7 +300,7 @@ abstract class rex_package implements rex_package_interface
 
         static $cache = null;
         if (null === $cache) {
-            $cache = rex_file::getCache(rex_path::coreCache('packages.cache'));
+            $cache = rex_file::getCache(rex_path::coreCache(self::PROPERTIES_CACHE_FILE));
         }
         $id = $this->getPackageId();
 
@@ -320,7 +322,7 @@ abstract class rex_package implements rex_package_interface
                                 unset($cache[$package]);
                             }
                         }
-                        rex_file::putCache(rex_path::coreCache('packages.cache'), $cache);
+                        rex_file::putCache(rex_path::coreCache(self::PROPERTIES_CACHE_FILE), $cache);
                     });
                 }
             } catch (rex_yaml_parse_exception $exception) {
@@ -359,13 +361,27 @@ abstract class rex_package implements rex_package_interface
     public function clearCache()
     {
         $cacheDir = $this->getCachePath();
-        if (!is_dir($cacheDir)) {
+        if (!rex_dir::delete($cacheDir)) {
+            throw new rex_functional_exception($this->i18n('cache_not_writable', $cacheDir));
+        }
+
+        $cache = rex_file::getCache($path = rex_path::coreCache(self::PROPERTIES_CACHE_FILE));
+        if (!$cache) {
             return;
         }
-        if (rex_dir::delete($cacheDir)) {
-            return;
+
+        unset($cache[$this->getPackageId()]);
+
+        if ($this instanceof rex_addon) {
+            $start = $this->getPackageId().'/';
+            foreach ($cache as $packageId => $_) {
+                if (str_starts_with((string) $packageId, $start)) {
+                    unset($cache[$packageId]);
+                }
+            }
         }
-        throw new rex_functional_exception($this->i18n('cache_not_writable', $cacheDir));
+
+        rex_file::putCache($path, $cache);
     }
 
     public function enlist()
