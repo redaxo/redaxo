@@ -381,6 +381,8 @@ abstract class rex_package_manager
             $this->message = $this->i18n('deleted', $this->package->getName());
         }
 
+        $this->package->clearCache();
+
         return true;
     }
 

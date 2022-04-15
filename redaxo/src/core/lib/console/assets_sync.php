@@ -62,7 +62,21 @@ class rex_command_assets_sync extends rex_console_command
             $errored += $err;
         }
 
-        [$ctd, $upd, $err] = $this->sync($io, rex_path::coreAssets(), rex_path::core('assets/'));
+        $assetsPublicPath = rex_path::coreAssets();
+        $assetsSrcPath = rex_path::core('assets/');
+        if (!is_dir($assetsPublicPath)) {
+            rex_dir::create($assetsPublicPath);
+        }
+        if (!is_dir($assetsSrcPath)) {
+            rex_dir::create($assetsSrcPath);
+        }
+
+        [$ctd, $upd, $err] = $this->sync($io, $assetsPublicPath, $assetsSrcPath);
+        $created += $ctd;
+        $updated += $upd;
+        $errored += $err;
+
+        [$ctd, $upd, $err] = $this->sync($io, $assetsSrcPath, $assetsPublicPath);
         $created += $ctd;
         $updated += $upd;
         $errored += $err;
