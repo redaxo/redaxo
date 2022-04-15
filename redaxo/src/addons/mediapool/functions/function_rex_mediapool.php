@@ -42,7 +42,7 @@ function rex_mediapool_saveMedia($FILE, $rexFileCategory, $FILEINFOS, $userlogin
     if ($FILE) {
         $data['file'] = $FILE;
 
-        if (!isset($data['file']['path']) && isset($FILE['name'])) {
+        if (!isset($data['file']['path']) && isset($FILE['name']) && !isset($FILE['tmp_name'])) {
             $data['file']['path'] = rex_path::media($FILE['name']);
         }
     }
