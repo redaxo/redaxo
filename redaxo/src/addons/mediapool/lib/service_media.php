@@ -352,6 +352,11 @@ final class rex_media_service
             $query .= ' LIMIT '.$pager->getCursor().','.$pager->getRowsPerPage();
         }
 
+        // EP to modify the media list query
+        $query = rex_extension::registerPoint(new rex_extension_point('MEDIA_LIST_QUERY', $query, [
+            'queryParams' => &$queryParams,
+        ]));
+
         $items = [];
 
         /** @var array{filename: string} $media */
