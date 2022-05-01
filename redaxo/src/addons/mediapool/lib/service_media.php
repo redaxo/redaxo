@@ -357,6 +357,8 @@ final class rex_media_service
             'queryParams' => &$queryParams,
         ]));
 
+        assert(is_array($queryParams));
+
         $items = [];
 
         /** @var array{filename: string} $media */
