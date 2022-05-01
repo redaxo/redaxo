@@ -144,7 +144,7 @@ class rex_system_report
         }
 
         $content = rtrim($content);
-        $database = isset($report['Database']['Version']) ? ', '.$report['Database']['Version'] : '';
+        $database = isset($report['Database']['Version']) ? ', '. (string) $report['Database']['Version'] : '';
 
         return <<<OUTPUT
             <details>
