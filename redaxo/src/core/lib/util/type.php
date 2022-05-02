@@ -59,7 +59,11 @@ class rex_type
                     $var = (float) $var;
                     break;
                 case 'string':
-                    $var = (string) $var;
+                    if (is_array($var)) { // https://github.com/redaxo/redaxo/issues/2900
+                        $var = '';
+                    } else {
+                        $var = (string) $var;
+                    }
                     break;
                 case 'object':
                     $var = (object) $var;
