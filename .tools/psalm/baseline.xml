@@ -5926,9 +5926,8 @@
       <code>$label</code>
       <code>$label</code>
     </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="13">
+    <MixedAssignment occurrences="12">
       <code>$browser</code>
-      <code>$database</code>
       <code>$db</code>
       <code>$dbData['Warning']</code>
       <code>$dbId</code>
