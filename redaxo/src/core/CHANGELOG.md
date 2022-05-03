@@ -1,6 +1,22 @@
 Changelog
 =========
 
+Version 5.13.3 – 03.05.2022
+---------------------------
+
+### Bugfixes
+
+* `rex_list`: Über `addLinkAttribute` konnten keine eigenen Classes gesetzt werden (@tbaddade)
+* `rex_form`: Bei Fieldsets mit eckigen Klammern im Namen wurden die Werte nicht gespeichert (@gharlan)
+* `rex_formatter`: Behandlung von `0000-00-00` korrigiert (@tbaddade)
+* `rex_get`/`rex_post` etc. warfen Notice, wenn nach String gecastet wurde, und ein Array gesendet wurde (@gharlan)
+* Rex-Vars: Bei `null`-Werten kam es mit PHP 8.1 zu Deprecation-Notices (@gharlan)
+* Command `assets:sync`: Core-Assets wurden nicht korrekt synchronisiert (@gharlan)
+* Cache-Handling der AddOns korrigiert (@gharlan)
+* Systembericht: Bei fehlerhafter DB-Verbindung kam es zu einem Fehler (@gharlan)
+* Beim Abfragen der REDAXO-Version inkl. Git-Hash (z.B. im Systembericht) kam es zu einem Fehler, wenn `exec` nicht verfügbar ist (@gharlan)
+
+
 Version 5.13.2 – 10.01.2022
 ---------------------------
 
