@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 2.8.1 – 03.05.2022
+--------------------------
+
+### Bugfixes
+
+* Cronjob: Beim Löschen älterer Backups wurden komprimierte Backups nicht berücksichtigt (@VIEWSION)
+* Fehlermeldung optimiert beim Dateiexport (@staabm)
+
+
 Version 2.8.0 – 17.11.2021
 --------------------------
 
