@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 1.2.1 – 03.05.2022
+--------------------------
+
+### Bugfixes
+
+* Console-Commands wurden immer aufgenommen, auch bei deaktiviertem Debug-Modus (@bloep)
+
+
 Version 1.2.0 – 17.11.2021
 --------------------------
 
