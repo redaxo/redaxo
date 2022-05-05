@@ -34,5 +34,17 @@ class rex_be_style
                 rex_file::copy($file['css_file'], $file['copy_dest']);
             }
         }
+
+        $addon = rex_addon::get('be_style');
+
+        // use path relative to __DIR__ to get correct path in update temp dir
+        $files = require __DIR__ . '/../vendor_files.php';
+
+        // copy all vendor files because the new css file could depend on it
+        // also useful for the command when CI wants to refresh the frontend assets
+        foreach ($files as $source => $destination) {
+            // ignore errors, because this file is included very early in setup, before the regular file permissions check
+            rex_file::copy(__DIR__ . '/../' . $source, $addon->getAssetsPath($destination));
+        }
     }
 }
