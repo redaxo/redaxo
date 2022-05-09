@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.12.3 – 09.05.2022
+---------------------------
+
+### Bugfixes
+
+* Effekt `image_format`: Bei `.jpg`-Dateien (nicht `.jpeg`) war die neue Extension im Header nicht korrekt (@gharlan)
+
+
 Version 2.12.2 – 03.05.2022
 ---------------------------
 
