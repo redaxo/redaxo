@@ -93,7 +93,6 @@
       <path value="$PROJECT_DIR$/vendor/redaxo/psalm-plugin" />
       <path value="$PROJECT_DIR$/vendor/redaxo/php-cs-fixer-config" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-mbstring" />
-      <path value="$PROJECT_DIR$/vendor/staabm/phpstan-dba" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.3">
