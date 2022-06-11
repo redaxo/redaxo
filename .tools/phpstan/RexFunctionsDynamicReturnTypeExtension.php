@@ -7,7 +7,6 @@ namespace redaxo\phpstan;
 use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\FunctionReflection;
-use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\BooleanType;
@@ -20,7 +19,6 @@ use PHPStan\Type\ObjectWithoutClassType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
-use PHPStan\Type\UnionType;
 use function count;
 use function in_array;
 
@@ -107,7 +105,7 @@ final class RexFunctionsDynamicReturnTypeExtension implements DynamicFunctionRet
         if (preg_match('/^array\[(.+)\]$/', $vartype, $match)) {
             $valueType = $this->resolveTypeFromString($match[1]);
 
-            if ($valueType === null) {
+            if (null === $valueType) {
                 throw new ShouldNotHappenException();
             }
 
