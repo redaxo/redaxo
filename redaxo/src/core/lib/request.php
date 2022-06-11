@@ -255,7 +255,7 @@ class rex_request
         if ('cli' === PHP_SAPI) {
             return false;
         }
-        
+
         return 'true' == rex::getRequest()->headers->get('X-Pjax');
     }
 
