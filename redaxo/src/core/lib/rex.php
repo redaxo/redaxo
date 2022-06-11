@@ -433,24 +433,20 @@ class rex
 
     /**
      * @return array<string, array{install: bool, status: bool, plugins?: array<string, array{install: bool, status: bool}>}>
+     * @psalm-suppress MixedReturnTypeCoercion
      */
     public static function getPackageConfig(): array
     {
-        $config = self::getConfig('package-config', []);
-        assert(is_array($config));
-
-        return $config;
+        return rex_type::array(self::getConfig('package-config', []));
     }
 
     /**
      * @return list<string>
+     * @psalm-suppress MixedReturnTypeCoercion
      */
     public static function getPackageOrder(): array
     {
-        $config = self::getConfig('package-order', []);
-        assert(is_array($config));
-
-        return $config;
+        return rex_type::array(self::getConfig('package-order', []));
     }
 
     /**

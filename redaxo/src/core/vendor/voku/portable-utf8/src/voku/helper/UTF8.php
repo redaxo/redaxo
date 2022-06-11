@@ -5,6 +5,22 @@ declare(strict_types=1);
 namespace voku\helper;
 
 /**
+ * ## 🇷🇺 Русским гражданам
+ * В Украине сейчас идет война. Силами РФ наносятся удары по гражданской инфраструктуре в [Харькове][1], [Киеве][2], [Чернигове][3], [Сумах][4], [Ирпене][5] и десятках других городов. Гибнут люди - и гражданское население, и военные, в том числе российские призывники, которых бросили воевать. Чтобы лишить собственный народ доступа к информации, правительство РФ запретило называть войну войной, закрыло независимые СМИ и принимает сейчас ряд диктаторских законов. Эти законы призваны заткнуть рот всем, кто против войны. За обычный призыв к миру сейчас можно получить несколько лет тюрьмы.
+ * Не молчите! Молчание - знак вашего согласия с политикой российского правительства.
+ *  **Вы можете сделать выбор НЕ МОЛЧАТЬ.**
+ * ---
+ * ## 🇺🇸 To people of Russia
+ * There is a war in Ukraine right now. The forces of the Russian Federation are attacking civilian infrastructure in [Kharkiv][1], [Kyiv][2], [Chernihiv][3], [Sumy][4], [Irpin][5] and dozens of other cities. People are dying – both civilians and military servicemen, including Russian conscripts who were thrown into the fighting. In order to deprive its own people of access to information, the government of the Russian Federation has forbidden calling a war a war, shut down independent media and is passing a number of dictatorial laws. These laws are meant to silence all those who are against war. You can be jailed for multiple years for simply calling for peace.
+ * Do not be silent! Silence is a sign that you accept the Russian government's policy.
+ * **You can choose NOT TO BE SILENT.**
+ * ---
+ * - [1] https://cloudfront-us-east-2.images.arcpublishing.com/reuters/P7K2MSZDGFMIJPDD7CI2GIROJI.jpg "Kharkiv under attack"
+ * - [2] https://gdb.voanews.com/01bd0000-0aff-0242-fad0-08d9fc92c5b3_cx0_cy5_cw0_w1023_r1_s.jpg "Kyiv under attack"
+ * - [3] https://ichef.bbci.co.uk/news/976/cpsprodpb/163DD/production/_123510119_hi074310744.jpg "Chernihiv under attack"
+ * - [4] https://www.youtube.com/watch?v=8K-bkqKKf2A "Sumy under attack"
+ * - [5] https://cloudfront-us-east-2.images.arcpublishing.com/reuters/K4MTMLEHTRKGFK3GSKAT4GR3NE.jpg "Irpin under attack"
+ *
  * @psalm-immutable
  */
 final class UTF8
@@ -1813,7 +1829,6 @@ final class UTF8
         }
 
         if (\is_int($max_length)) {
-
             if ($max_length < 0) {
                 $max_length = 0;
             }
@@ -2014,38 +2029,38 @@ final class UTF8
      *
      * @see http://php.net/manual/en/function.filter-input-array.php
      *
-     * @param int        $type       <p>
-     *                               One of <b>INPUT_GET</b>, <b>INPUT_POST</b>,
-     *                               <b>INPUT_COOKIE</b>, <b>INPUT_SERVER</b>, or
-     *                               <b>INPUT_ENV</b>.
-     *                               </p>
-     * @param array|null $definition [optional] <p>
-     *                               An array defining the arguments. A valid key is a string
-     *                               containing a variable name and a valid value is either a filter type, or an array
-     *                               optionally specifying the filter, flags and options. If the value is an
-     *                               array, valid keys are filter which specifies the
-     *                               filter type,
-     *                               flags which specifies any flags that apply to the
-     *                               filter, and options which specifies any options that
-     *                               apply to the filter. See the example below for a better understanding.
-     *                               </p>
-     *                               <p>
-     *                               This parameter can be also an integer holding a filter constant. Then all values in the
-     *                               input array are filtered by this filter.
-     *                               </p>
-     * @param bool       $add_empty  [optional] <p>
-     *                               Add missing keys as <b>NULL</b> to the return value.
-     *                               </p>
+     * @param int                       $type       <p>
+     *                                              One of <b>INPUT_GET</b>, <b>INPUT_POST</b>,
+     *                                              <b>INPUT_COOKIE</b>, <b>INPUT_SERVER</b>, or
+     *                                              <b>INPUT_ENV</b>.
+     *                                              </p>
+     * @param array<string, mixed>|null $definition [optional] <p>
+     *                                              An array defining the arguments. A valid key is a string
+     *                                              containing a variable name and a valid value is either a filter type, or an array
+     *                                              optionally specifying the filter, flags and options. If the value is an
+     *                                              array, valid keys are filter which specifies the
+     *                                              filter type,
+     *                                              flags which specifies any flags that apply to the
+     *                                              filter, and options which specifies any options that
+     *                                              apply to the filter. See the example below for a better understanding.
+     *                                              </p>
+     *                                              <p>
+     *                                              This parameter can be also an integer holding a filter constant. Then all values in the
+     *                                              input array are filtered by this filter.
+     *                                              </p>
+     * @param bool                      $add_empty  [optional] <p>
+     *                                              Add missing keys as <b>NULL</b> to the return value.
+     *                                              </p>
      *
      * @psalm-pure
      *
-     * @return mixed
-     *               <p>
-     *               An array containing the values of the requested variables on success, or <b>FALSE</b> on failure.
-     *               An array value will be <b>FALSE</b> if the filter fails, or <b>NULL</b> if the variable is not
-     *               set. Or if the flag <b>FILTER_NULL_ON_FAILURE</b> is used, it returns <b>FALSE</b> if the variable
-     *               is not set and <b>NULL</b> if the filter fails.
-     *               </p>
+     * @return array<string, mixed>|false|null
+     *                                         <p>
+     *                                         An array containing the values of the requested variables on success, or <b>FALSE</b> on failure.
+     *                                         An array value will be <b>FALSE</b> if the filter fails, or <b>NULL</b> if the variable is not
+     *                                         set. Or if the flag <b>FILTER_NULL_ON_FAILURE</b> is used, it returns <b>FALSE</b> if the variable
+     *                                         is not set and <b>NULL</b> if the filter fails.
+     *                                         </p>
      */
     public static function filter_input_array(
         int $type,
@@ -2061,6 +2076,7 @@ final class UTF8
             $a = \filter_input_array($type, $definition, $add_empty);
         }
 
+        /* @phpstan-ignore-next-line | magic frm self::filter :/ */
         return self::filter($a);
     }
 
@@ -2141,6 +2157,7 @@ final class UTF8
             $variable = \filter_var($variable, $filter, $options);
         }
 
+        /* @phpstan-ignore-next-line | magic frm self::filter :/ */
         return self::filter($variable);
     }
 
@@ -2167,36 +2184,36 @@ final class UTF8
      *
      * @see http://php.net/manual/en/function.filter-var-array.php
      *
-     * @param array<mixed>   $data       <p>
-     *                                   An array with string keys containing the data to filter.
-     *                                   </p>
-     * @param array|int|null $definition [optional] <p>
-     *                                   An array defining the arguments. A valid key is a string
-     *                                   containing a variable name and a valid value is either a
-     *                                   filter type, or an
-     *                                   array optionally specifying the filter, flags and options.
-     *                                   If the value is an array, valid keys are filter
-     *                                   which specifies the filter type,
-     *                                   flags which specifies any flags that apply to the
-     *                                   filter, and options which specifies any options that
-     *                                   apply to the filter. See the example below for a better understanding.
-     *                                   </p>
-     *                                   <p>
-     *                                   This parameter can be also an integer holding a filter constant. Then all values
-     *                                   in the input array are filtered by this filter.
-     *                                   </p>
-     * @param bool           $add_empty  [optional] <p>
-     *                                   Add missing keys as <b>NULL</b> to the return value.
-     *                                   </p>
+     * @param array<string, mixed>          $data       <p>
+     *                                                  An array with string keys containing the data to filter.
+     *                                                  </p>
+     * @param array<string, mixed>|int|null $definition [optional] <p>
+     *                                                  An array defining the arguments. A valid key is a string
+     *                                                  containing a variable name and a valid value is either a
+     *                                                  filter type, or an
+     *                                                  array optionally specifying the filter, flags and options.
+     *                                                  If the value is an array, valid keys are filter
+     *                                                  which specifies the filter type,
+     *                                                  flags which specifies any flags that apply to the
+     *                                                  filter, and options which specifies any options that
+     *                                                  apply to the filter. See the example below for a better understanding.
+     *                                                  </p>
+     *                                                  <p>
+     *                                                  This parameter can be also an integer holding a filter constant. Then all values
+     *                                                  in the input array are filtered by this filter.
+     *                                                  </p>
+     * @param bool                          $add_empty  [optional] <p>
+     *                                                  Add missing keys as <b>NULL</b> to the return value.
+     *                                                  </p>
      *
      * @psalm-pure
      *
-     * @return mixed
-     *               <p>
-     *               An array containing the values of the requested variables on success, or <b>FALSE</b> on failure.
-     *               An array value will be <b>FALSE</b> if the filter fails, or <b>NULL</b> if the variable is not
-     *               set.
-     *               </p>
+     * @return array<string, mixed>|false|null
+     *                                         <p>
+     *                                         An array containing the values of the requested variables on success, or <b>FALSE</b> on failure.
+     *                                         An array value will be <b>FALSE</b> if the filter fails, or <b>NULL</b> if the variable is not
+     *                                         set.
+     *                                         </p>
      */
     public static function filter_var_array(
         array $data,
@@ -2212,6 +2229,7 @@ final class UTF8
             $a = \filter_var_array($data, $definition, $add_empty);
         }
 
+        /* @phpstan-ignore-next-line | magic frm self::filter :/ */
         return self::filter($a);
     }
 
@@ -2524,15 +2542,12 @@ final class UTF8
      * Warning: this method only works for some file-types (png, jpg)
      *          if you need more supported types, please use e.g. "finfo"
      *
-     * @param string $str
-     * @param array  $fallback <p>with this keys: 'ext', 'mime', 'type'
+     * @param string                                                        $str
+     * @param array{ext: null|string, mime: null|string, type: null|string} $fallback
+     *
+     * @return array{ext: null|string, mime: null|string, type: null|string}
      *
      * @psalm-pure
-     *
-     * @return null[]|string[]
-     *                         <p>with this keys: 'ext', 'mime', 'type'</p>
-     *
-     * @phpstan-param array{ext: null|string, mime: null|string, type: null|string} $fallback
      */
     public static function get_file_type(
         string $str,
@@ -4319,6 +4334,37 @@ final class UTF8
     }
 
     /**
+     * Calculate Levenshtein distance between two strings.
+     *
+     * For better performance, in a real application with a single input string
+     * matched against many strings from a database, you will probably want to pre-
+     * encode the input only once and use \levenshtein().
+     *
+     * Source: https://github.com/KEINOS/mb_levenshtein
+     *
+     * @see https://www.php.net/manual/en/function.levenshtein
+     *
+     * @param string $str1            <p>One of the strings being evaluated for Levenshtein distance.</p>
+     * @param string $str2            <p>One of the strings being evaluated for Levenshtein distance.</p>
+     * @param int    $insertionCost   [optional] <p>Defines the cost of insertion.</p>
+     * @param int    $replacementCost [optional] <p>Defines the cost of replacement.</p>
+     * @param int    $deletionCost    [optional] <p>Defines the cost of deletion.</p>
+     *
+     * @return int
+     */
+    public static function levenshtein(
+        string $str1,
+        string $str2,
+        int $insertionCost = 1,
+        int $replacementCost = 1,
+        int $deletionCost = 1
+    ): int {
+        $result = ASCII::to_ascii_remap($str1, $str2);
+
+        return \levenshtein($result[0], $result[1], $insertionCost, $replacementCost, $deletionCost);
+    }
+
+    /**
      * Strip whitespace or other characters from the beginning of a UTF-8 string.
      *
      * EXAMPLE: <code>UTF8::ltrim('　中文空白　 '); // '中文空白　 '</code>
@@ -4363,7 +4409,7 @@ final class UTF8
      *
      * EXAMPLE: <code>UTF8::max('abc-äöü-中文空白'); // 'ø'</code>
      *
-     * @param array<string>|string $arg <p>A UTF-8 encoded string or an array of such strings.</p>
+     * @param string|string[] $arg <p>A UTF-8 encoded string or an array of such strings.</p>
      *
      * @psalm-pure
      *
@@ -4780,9 +4826,9 @@ final class UTF8
      *
      * @see http://php.net/manual/en/function.parse-str.php
      *
-     * @param string $str        <p>The input string.</p>
-     * @param array  $result     <p>The result will be returned into this reference parameter.</p>
-     * @param bool   $clean_utf8 [optional] <p>Remove non UTF-8 chars from the string.</p>
+     * @param string               $str        <p>The input string.</p>
+     * @param array<string, mixed> $result     <p>The result will be returned into this reference parameter.</p>
+     * @param bool                 $clean_utf8 [optional] <p>Remove non UTF-8 chars from the string.</p>
      *
      * @psalm-pure
      *
@@ -5266,10 +5312,10 @@ final class UTF8
     /**
      * Replaces all occurrences of $search in $str by $replacement.
      *
-     * @param string       $str            <p>The input string.</p>
-     * @param array        $search         <p>The elements to search for.</p>
-     * @param array|string $replacement    <p>The string to replace with.</p>
-     * @param bool         $case_sensitive [optional] <p>Whether or not to enforce case-sensitivity. Default: true</p>
+     * @param string          $str            <p>The input string.</p>
+     * @param string[]        $search         <p>The elements to search for.</p>
+     * @param string|string[] $replacement    <p>The string to replace with.</p>
+     * @param bool            $case_sensitive [optional] <p>Whether or not to enforce case-sensitivity. Default: true</p>
      *
      * @psalm-pure
      *
@@ -5624,9 +5670,9 @@ final class UTF8
      * default the comparison is case-sensitive, but can be made insensitive by
      * setting $case_sensitive to false.
      *
-     * @param string $haystack       <p>The input string.</p>
-     * @param array  $needles        <p>SubStrings to look for.</p>
-     * @param bool   $case_sensitive [optional] <p>Whether or not to enforce case-sensitivity. Default: true</p>
+     * @param string   $haystack       <p>The input string.</p>
+     * @param scalar[] $needles        <p>SubStrings to look for.</p>
+     * @param bool     $case_sensitive [optional] <p>Whether or not to enforce case-sensitivity. Default: true</p>
      *
      * @psalm-pure
      *
@@ -5644,12 +5690,12 @@ final class UTF8
 
         foreach ($needles as &$needle) {
             if ($case_sensitive) {
-                if (!$needle || \strpos($haystack, $needle) === false) {
+                if (!$needle || \strpos($haystack, (string) $needle) === false) {
                     return false;
                 }
             }
 
-            if (!$needle || \mb_stripos($haystack, $needle) === false) {
+            if (!$needle || \mb_stripos($haystack, (string) $needle) === false) {
                 return false;
             }
         }
@@ -5662,9 +5708,9 @@ final class UTF8
      * default the comparison is case-sensitive, but can be made insensitive by
      * setting $case_sensitive to false.
      *
-     * @param string $haystack       <p>The input string.</p>
-     * @param array  $needles        <p>SubStrings to look for.</p>
-     * @param bool   $case_sensitive [optional] <p>Whether or not to enforce case-sensitivity. Default: true</p>
+     * @param string   $haystack       <p>The input string.</p>
+     * @param scalar[] $needles        <p>SubStrings to look for.</p>
+     * @param bool     $case_sensitive [optional] <p>Whether or not to enforce case-sensitivity. Default: true</p>
      *
      * @psalm-pure
      *
@@ -5686,14 +5732,14 @@ final class UTF8
             }
 
             if ($case_sensitive) {
-                if (\strpos($haystack, $needle) !== false) {
+                if (\strpos($haystack, (string) $needle) !== false) {
                     return true;
                 }
 
                 continue;
             }
 
-            if (\mb_stripos($haystack, $needle) !== false) {
+            if (\mb_stripos($haystack, (string) $needle) !== false) {
                 return true;
             }
         }
@@ -6308,8 +6354,8 @@ final class UTF8
      *
      * - case-insensitive
      *
-     * @param string $str        <p>The input string.</p>
-     * @param array  $substrings <p>Substrings to look for.</p>
+     * @param string   $str        <p>The input string.</p>
+     * @param scalar[] $substrings <p>Substrings to look for.</p>
      *
      * @psalm-pure
      *
@@ -6327,7 +6373,7 @@ final class UTF8
         }
 
         foreach ($substrings as &$substring) {
-            if (self::str_istarts_with($str, $substring)) {
+            if (self::str_istarts_with($str, (string) $substring)) {
                 return true;
             }
         }
@@ -7989,8 +8035,8 @@ final class UTF8
      *
      * - case-sensitive
      *
-     * @param string $str        <p>The input string.</p>
-     * @param array  $substrings <p>Substrings to look for.</p>
+     * @param string   $str        <p>The input string.</p>
+     * @param scalar[] $substrings <p>Substrings to look for.</p>
      *
      * @psalm-pure
      *
@@ -8008,7 +8054,7 @@ final class UTF8
         }
 
         foreach ($substrings as &$substring) {
-            if (self::str_starts_with($str, $substring)) {
+            if (self::str_starts_with($str, (string) $substring)) {
                 return true;
             }
         }
@@ -8309,20 +8355,20 @@ final class UTF8
      * Also accepts an array, $ignore, allowing you to list words not to be
      * capitalized.
      *
-     * @param string              $str
-     * @param array|string[]|null $ignore                        [optional] <p>An array of words not to capitalize or
-     *                                                           null. Default: null</p>
-     * @param string              $encoding                      [optional] <p>Default: 'UTF-8'</p>
-     * @param bool                $clean_utf8                    [optional] <p>Remove non UTF-8 chars from the
-     *                                                           string.</p>
-     * @param string|null         $lang                          [optional] <p>Set the language for special cases: az,
-     *                                                           el, lt, tr</p>
-     * @param bool                $try_to_keep_the_string_length [optional] <p>true === try to keep the string length:
-     *                                                           e.g. ẞ -> ß</p>
-     * @param bool                $use_trim_first                [optional] <p>true === trim the input string,
-     *                                                           first</p>
-     * @param string|null         $word_define_chars             [optional] <p>An string of chars that will be used as
-     *                                                           whitespace separator === words.</p>
+     * @param string        $str
+     * @param string[]|null $ignore                        [optional] <p>An array of words not to capitalize or
+     *                                                     null. Default: null</p>
+     * @param string        $encoding                      [optional] <p>Default: 'UTF-8'</p>
+     * @param bool          $clean_utf8                    [optional] <p>Remove non UTF-8 chars from the
+     *                                                     string.</p>
+     * @param string|null   $lang                          [optional] <p>Set the language for special cases: az,
+     *                                                     el, lt, tr</p>
+     * @param bool          $try_to_keep_the_string_length [optional] <p>true === try to keep the string length:
+     *                                                     e.g. ẞ -> ß</p>
+     * @param bool          $use_trim_first                [optional] <p>true === trim the input string,
+     *                                                     first</p>
+     * @param string|null   $word_define_chars             [optional] <p>An string of chars that will be used as
+     *                                                     whitespace separator === words.</p>
      *
      * @psalm-pure
      *
@@ -8477,9 +8523,9 @@ final class UTF8
      *
      * @see https://gist.github.com/gruber/9f9e8650d68b13ce4d78
      *
-     * @param string $str
-     * @param array  $ignore   <p>An array of words not to capitalize.</p>
-     * @param string $encoding [optional] <p>Set the charset for e.g. "mb_" function</p>
+     * @param string   $str
+     * @param string[] $ignore   <p>An array of words not to capitalize.</p>
+     * @param string   $encoding [optional] <p>Set the charset for e.g. "mb_" function</p>
      *
      * @psalm-pure
      *
@@ -13135,8 +13181,6 @@ final class UTF8
      * @psalm-pure
      *
      * @return bool
-     *
-     * @noinspection ReturnTypeCanBeDeclaredInspection
      */
     private static function is_utf8_string(string $str, bool $strict = false)
     {
@@ -13281,8 +13325,6 @@ final class UTF8
      * @psalm-pure
      *
      * @return string
-     *
-     * @noinspection ReturnTypeCanBeDeclaredInspection
      */
     private static function fixStrCaseHelper(
         string $str,
@@ -13335,8 +13377,6 @@ final class UTF8
      * @psalm-pure
      *
      * @return array
-     *
-     * @noinspection ReturnTypeCanBeDeclaredInspection
      */
     private static function getData(string $file)
     {
@@ -13350,8 +13390,6 @@ final class UTF8
      * @psalm-pure
      *
      * @return true|null
-     *
-     * @noinspection ReturnTypeCanBeDeclaredInspection
      */
     private static function initEmojiData()
     {
@@ -13406,15 +13444,13 @@ final class UTF8
     }
 
     /**
-     * @param array    $strings
+     * @param string[] $strings
      * @param bool     $remove_empty_values
      * @param int|null $remove_short_values
      *
      * @psalm-pure
      *
-     * @return array
-     *
-     * @noinspection ReturnTypeCanBeDeclaredInspection
+     * @return string[]
      */
     private static function reduce_string_array(
         array $strings,
@@ -13454,7 +13490,7 @@ final class UTF8
      * @param string $class
      *
      * @return string
-     *                    *
+     *                *
      * @psalm-pure
      */
     private static function rxClass(string $s, string $class = '')
@@ -13513,8 +13549,6 @@ final class UTF8
      * @psalm-pure
      *
      * @return string
-     *
-     * @noinspection ReturnTypeCanBeDeclaredInspection
      */
     private static function str_capitalize_name_helper(
         string $names,
@@ -13612,8 +13646,6 @@ final class UTF8
      * @psalm-pure
      *
      * @return string|null
-     *
-     * @noinspection ReturnTypeCanBeDeclaredInspection
      */
     private static function strtonatfold(string $str)
     {
@@ -13635,8 +13667,6 @@ final class UTF8
      * @psalm-pure
      *
      * @return string
-     *
-     * @noinspection ReturnTypeCanBeDeclaredInspection
      */
     private static function to_utf8_convert_helper($input)
     {
@@ -13674,8 +13704,6 @@ final class UTF8
      * @psalm-pure
      *
      * @return string
-     *
-     * @noinspection ReturnTypeCanBeDeclaredInspection
      */
     private static function urldecode_unicode_helper(string $str)
     {

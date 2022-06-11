@@ -179,9 +179,8 @@ class rex_sql_table
         $table = static::getInstance([$db, $name], static function ($db, $name) {
             return new static($name, $db);
         });
-        assert($table instanceof self);
 
-        return $table;
+        return rex_type::instanceOf($table, self::class);
     }
 
     /**
@@ -997,8 +996,7 @@ class rex_sql_table
                     continue;
                 }
 
-                $offset = array_search($after, array_keys($columns));
-                assert(is_int($offset));
+                $offset = rex_type::int(array_search($after, array_keys($columns)));
                 ++$offset;
                 $columns = array_slice($columns, 0, $offset) + $insert + array_slice($columns, $offset);
                 unset($this->positions[$name]);

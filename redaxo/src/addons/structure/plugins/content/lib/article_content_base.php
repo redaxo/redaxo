@@ -507,12 +507,9 @@ class rex_article_content_base
         try {
             ob_implicit_flush(0);
 
-            /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
             $__stream = rex_stream::factory($path, $content);
 
-            /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
             $sandbox = function () use ($__stream) {
-                /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
                 require $__stream;
             };
             $sandbox();

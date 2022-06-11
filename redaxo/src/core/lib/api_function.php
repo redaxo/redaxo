@@ -134,8 +134,7 @@ abstract class rex_api_function
         }
 
         // remove the `rex_api_` prefix
-        $name = substr($class, 8);
-        assert(false !== $name);
+        $name = rex_type::string(substr($class, 8));
 
         return sprintf('<input type="hidden" name="%s" value="%s"/>', self::REQ_CALL_PARAM, rex_escape($name))
             .rex_csrf_token::factory($class)->getHiddenField();

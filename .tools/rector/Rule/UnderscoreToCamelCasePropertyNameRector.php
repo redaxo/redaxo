@@ -16,19 +16,13 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 final class UnderscoreToCamelCasePropertyNameRector extends AbstractRector
 {
-    /**
-     * @var PropertyRenameFactory
-     */
+    /** @var PropertyRenameFactory */
     private $propertyRenameFactory;
 
-    /**
-     * @var UnderscoreCamelCasePropertyRenamer
-     */
+    /** @var UnderscoreCamelCasePropertyRenamer */
     private $underscoreCamelCasePropertyRenamer;
 
-    /**
-     * @var UnderscoreCamelCaseExpectedNameResolver
-     */
+    /** @var UnderscoreCamelCaseExpectedNameResolver */
     private $underscoreCamelCaseExpectedNameResolver;
 
     public function __construct(
@@ -72,7 +66,7 @@ final class UnderscoreToCamelCasePropertyNameRector extends AbstractRector
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {
@@ -98,12 +92,7 @@ final class UnderscoreToCamelCasePropertyNameRector extends AbstractRector
         if (!$propertyRename instanceof PropertyRename) {
             return null;
         }
-        $property = $this->underscoreCamelCasePropertyRenamer->rename($propertyRename);
 
-        if (!$property instanceof Property) {
-            return null;
-        }
-
-        return $node;
+        return $this->underscoreCamelCasePropertyRenamer->rename($propertyRename);
     }
 }

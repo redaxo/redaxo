@@ -6,11 +6,11 @@
         "psr/log": "^1.0",
         "ramsey/http-range": "^1.0",
         "roave/security-advisories": "dev-master",
-        "symfony/console": "~5.3.0",
-        "symfony/http-foundation": "~5.3.0",
+        "symfony/console": "^5.4",
+        "symfony/http-foundation": "^5.4",
         "symfony/polyfill-php80": "^1.18",
-        "symfony/var-dumper": "~5.3.0",
-        "symfony/yaml": "~5.3.0",
+        "symfony/var-dumper": "^5.4",
+        "symfony/yaml": "^5.4",
         "voku/anti-xss": "^4.1.24"
     },
 

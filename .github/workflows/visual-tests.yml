@@ -15,7 +15,7 @@ jobs:
 
         steps:
             -   name: Add action run link to trigger comment
-                uses: peter-evans/create-or-update-comment@v1
+                uses: peter-evans/create-or-update-comment@v2
                 if: github.event_name == 'repository_dispatch'
                 with:
                     token: ${{ secrets.BOT_TOKEN }}
@@ -27,16 +27,16 @@ jobs:
                         ```
 
             -   name: Checkout
-                uses: actions/checkout@v2
+                uses: actions/checkout@v3
                 if: env.writable == 1 && github.event_name != 'repository_dispatch'
                 with:
                     ref: ${{ github.head_ref }}
                     token: ${{ secrets.BOT_TOKEN }}
             -   name: Checkout fork
-                uses: actions/checkout@v2
+                uses: actions/checkout@v3
                 if: env.writable == 0
             -   name: Checkout on chat commnad
-                uses: actions/checkout@v2
+                uses: actions/checkout@v3
                 if: github.event_name == 'repository_dispatch'
                 with:
                     token: ${{ secrets.BOT_TOKEN }}
@@ -82,7 +82,7 @@ jobs:
                     php redaxo/bin/console package:install structure/version --ansi
 
             -   name: Setup nodejs
-                uses: actions/setup-node@v2
+                uses: actions/setup-node@v3
                 with:
                     node-version: "12.x"
             -   name: Setup Webserver
