@@ -404,4 +404,21 @@ class rex_path
         /** @psalm-suppress ForbiddenCode */
         return basename($path);
     }
+
+    public static function findBinaryPath(string $commandName): string
+    {
+        $path = '';
+
+        if (function_exists('exec')) {
+            $out = [];
+            $cmd = sprintf('command -v %s || which %s', $commandName, $commandName);
+            exec($cmd, $out, $ret);
+
+            if (0 === $ret) {
+                $path = $out[0];
+            }
+        }
+
+        return $path;
+    }
 }
