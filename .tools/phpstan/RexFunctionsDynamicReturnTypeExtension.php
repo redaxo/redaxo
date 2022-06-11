@@ -35,11 +35,11 @@ final class RexFunctionsDynamicReturnTypeExtension implements DynamicFunctionRet
         FunctionReflection $functionReflection,
         FuncCall $functionCall,
         Scope $scope
-    ): Type {
+    ): ?Type {
         $args = $functionCall->getArgs();
 
         if (count($args) < 2) {
-            return ParametersAcceptorSelector::selectSingle($functionReflection->getVariants())->getReturnType();
+            return null;
         }
 
         $defaultArgType = null;
@@ -59,7 +59,7 @@ final class RexFunctionsDynamicReturnTypeExtension implements DynamicFunctionRet
             }
         }
 
-        return ParametersAcceptorSelector::selectSingle($functionReflection->getVariants())->getReturnType();
+        return null;
     }
 
     private function resolveTypeFromString(string $vartype): ?Type

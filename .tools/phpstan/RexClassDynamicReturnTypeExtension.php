@@ -27,7 +27,7 @@ final class RexClassDynamicReturnTypeExtension implements DynamicStaticMethodRet
         return in_array(strtolower($methodReflection->getName()), ['gettable', 'gettableprefix'], true);
     }
 
-    public function getTypeFromStaticMethodCall(MethodReflection $methodReflection, StaticCall $methodCall, Scope $scope): Type
+    public function getTypeFromStaticMethodCall(MethodReflection $methodReflection, StaticCall $methodCall, Scope $scope): ?Type
     {
         $name = strtolower($methodReflection->getName());
 
@@ -37,7 +37,7 @@ final class RexClassDynamicReturnTypeExtension implements DynamicStaticMethodRet
 
         $args = $methodCall->getArgs();
         if (count($args) < 1) {
-            return ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
+            return null;
         }
 
         $tableName = $scope->getType($args[0]->value);
@@ -46,6 +46,6 @@ final class RexClassDynamicReturnTypeExtension implements DynamicStaticMethodRet
             return new ConstantStringType('rex_'. $tableName->getValue());
         }
 
-        return ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
+        return null;
     }
 }

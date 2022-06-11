@@ -34,10 +34,10 @@ final class RexSqlDynamicReturnTypeExtension implements DynamicMethodReturnTypeE
         MethodReflection $methodReflection,
         MethodCall $methodCall,
         Scope $scope
-    ): Type {
+    ): ?Type {
         $args = $methodCall->getArgs();
         if (0 === count($args)) {
-            return ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
+            return null;
         }
 
         $argType = $scope->getType($args[0]->value);
