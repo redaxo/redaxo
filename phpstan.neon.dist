@@ -1,5 +1,5 @@
 includes:
-	- .tools/phpstan/baseline.neon
+    - .tools/phpstan/baseline.neon
 
 parameters:
     level: 5
@@ -50,3 +50,14 @@ parameters:
         -
             message: '#.*deprecated.*#'
             path: '*/update.php'
+
+services:
+    -
+        class: redaxo\phpstan\RexClassDynamicReturnTypeExtension
+        tags:
+            - phpstan.broker.dynamicStaticMethodReturnTypeExtension
+
+    -
+        class: redaxo\phpstan\RexFunctionsDynamicReturnTypeExtension
+        tags:
+            - phpstan.broker.dynamicFunctionReturnTypeExtension

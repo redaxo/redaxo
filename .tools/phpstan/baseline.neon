@@ -81,6 +81,16 @@ parameters:
 			path: ../../redaxo/src/addons/structure/plugins/content/pages/content.edit.php
 
 		-
+			message: "#^Comparison operation \"\\=\\=\" between 3 and array\\|bool\\|float\\|int\\|string\\|null results in an error\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/structure/plugins/content/pages/modules.actions.php
+
+		-
+			message: "#^Comparison operation \"\\=\\=\" between 7 and array\\|bool\\|float\\|int\\|string\\|null results in an error\\.$#"
+			count: 2
+			path: ../../redaxo/src/addons/structure/plugins/content/pages/modules.actions.php
+
+		-
 			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/plugins/content/pages/modules.actions.php
