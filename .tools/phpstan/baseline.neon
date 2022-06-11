@@ -71,6 +71,11 @@ parameters:
 			path: ../../redaxo/src/addons/structure/pages/index.php
 
 		-
+			message: "#^Variable \\$prevCtype in isset\\(\\) always exists and is not nullable\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/structure/plugins/content/lib/article_content_base.php
+
+		-
 			message: "#^Right side of && is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/plugins/content/pages/content.edit.php
@@ -116,22 +121,12 @@ parameters:
 			path: ../../redaxo/src/core/lib/api_function.php
 
 		-
-			message: "#^If condition is always false\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/autoload.php
-
-		-
 			message: "#^Negated boolean expression is always false\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/autoload.php
 
 		-
 			message: "#^Parameter \\#1 \\$autoload_function of function spl_autoload_register expects callable\\(string\\)\\: void, array\\{'rex_autoload', 'autoload'\\} given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/autoload.php
-
-		-
-			message: "#^Right side of && is always false\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/autoload.php
 
