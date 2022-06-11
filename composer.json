@@ -78,7 +78,8 @@
             "redaxo/src/addons/structure/plugins/history/lib/",
             "redaxo/src/addons/structure/plugins/version/lib/",
             "redaxo/src/addons/users/lib/",
-            "redaxo/src/core/lib/"
+            "redaxo/src/core/lib/",
+            ".tools/phpstan/"
         ],
         "files": [
             "redaxo/src/addons/mediapool/functions/function_rex_mediapool.php",
