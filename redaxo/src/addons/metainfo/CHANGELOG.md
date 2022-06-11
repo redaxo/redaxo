@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.8.5 – 03.05.2022
+--------------------------
+
+### Bugfixes
+
+* Prepared Statements nutzen (@staabm)
+
+
 Version 2.8.4 – 10.01.2022
 --------------------------
 

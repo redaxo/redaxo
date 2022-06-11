@@ -559,10 +559,11 @@ abstract class rex_form_base
 
         // Eigentlichen Feldnamen nochmals speichern
         $fieldName = $name;
+        $fieldset = rex_string::normalize($this->fieldset);
         if (true === $attributes['internal::useArraySyntax']) {
-            $name = $this->fieldset . '[' . $name . ']';
+            $name = $fieldset . '[' . $name . ']';
         } elseif (false === $attributes['internal::useArraySyntax']) {
-            $name = $this->fieldset . '_' . $name;
+            $name = $fieldset . '_' . $name;
         }
         unset($attributes['internal::useArraySyntax']);
 
@@ -933,7 +934,8 @@ abstract class rex_form_base
             return null;
         }
 
-        $normalizedName = rex_string::normalize($fieldsetName . '[' . $elementName . ']', '_', '[]');
+        $normalizedName = rex_string::normalize($fieldsetName);
+        $normalizedName .= '['.rex_string::normalize($elementName).']';
 
         for ($i = 0; $i < count($this->elements[$fieldsetName]); ++$i) {
             if ($this->elements[$fieldsetName][$i]->getAttribute('name') == $normalizedName) {
@@ -1017,15 +1019,7 @@ abstract class rex_form_base
      */
     public function fieldsetPostValues($fieldsetName)
     {
-        // Name normalisieren, da der gepostete Name auch zuvor normalisiert wurde.
-        // Da der Feldname als Ganzes normalisiert wurde, hier Array mit angehängtem '[' simulieren
-        // um das Trimmen von möglichen "_" am Ende durch die normalize-Methode zu vermeiden.
-        // Anschließend "[" wieder entfernen.
-        // https://github.com/redaxo/redaxo/issues/2710
-        $normalizedFieldsetName = rex_string::normalize($fieldsetName.'[', '_', '[]');
-        $normalizedFieldsetName = substr($normalizedFieldsetName, 0, -1);
-
-        return rex_post($normalizedFieldsetName, 'array');
+        return rex_post(rex_string::normalize($fieldsetName), 'array');
     }
 
     /**
@@ -1040,7 +1034,7 @@ abstract class rex_form_base
         $fields = $this->fieldsetPostValues($fieldsetName);
 
         // name attributes are normalized
-        $normalizedFieldName = rex_string::normalize($fieldName, '_', '[]');
+        $normalizedFieldName = rex_string::normalize($fieldName);
 
         if (isset($fields[$normalizedFieldName])) {
             return $fields[$normalizedFieldName];

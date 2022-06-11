@@ -8,20 +8,20 @@
     "packages": [
         {
             "name": "splitbrain/php-archive",
-            "version": "1.2.1",
+            "version": "1.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/splitbrain/php-archive.git",
-                "reference": "211a2198b73b233d7d2b6159462e11cd9a91348a"
+                "reference": "d274e5190ba309777926348900cf9578d9e533c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/splitbrain/php-archive/zipball/211a2198b73b233d7d2b6159462e11cd9a91348a",
-                "reference": "211a2198b73b233d7d2b6159462e11cd9a91348a",
+                "url": "https://api.github.com/repos/splitbrain/php-archive/zipball/d274e5190ba309777926348900cf9578d9e533c9",
+                "reference": "d274e5190ba309777926348900cf9578d9e533c9",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4"
+                "php": ">=7.0"
             },
             "require-dev": {
                 "ext-bz2": "*",
@@ -30,8 +30,10 @@
                 "phpunit/phpunit": "^8"
             },
             "suggest": {
+                "ext-bz2": "For bz2 compression",
                 "ext-iconv": "Used for proper filename encode handling",
-                "ext-mbstring": "Can be used alternatively for handling filename encoding"
+                "ext-mbstring": "Can be used alternatively for handling filename encoding",
+                "ext-zlib": "For zlib compression"
             },
             "type": "library",
             "autoload": {
@@ -60,9 +62,9 @@
             ],
             "support": {
                 "issues": "https://github.com/splitbrain/php-archive/issues",
-                "source": "https://github.com/splitbrain/php-archive/tree/1.2.1"
+                "source": "https://github.com/splitbrain/php-archive/tree/1.3.1"
             },
-            "time": "2021-02-22T17:59:24+00:00"
+            "time": "2022-03-23T09:21:55+00:00"
         }
     ],
     "packages-dev": [],
@@ -76,5 +78,5 @@
     "platform-overrides": {
         "php": "7.3.0"
     },
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }

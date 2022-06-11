@@ -71,4 +71,22 @@ class rex_debug_clockwork
     {
         return rex_addon::get('debug')->getCachePath('clockwork.db');
     }
+
+    /**
+     * We cannot rely on rex::isDebugMode() because it is always true on the console.
+     * So we have to check the config file itself.
+     */
+    public static function isRexDebugEnabled(): bool
+    {
+        if (PHP_SAPI !== 'cli') {
+            return rex::isDebugMode();
+        }
+
+        $coreConfigCacheFile = rex_path::coreCache('config.yml.cache');
+        $coreConfigCache = rex_file::getCache($coreConfigCacheFile);
+        /** @var bool $debugEnabled */
+        $debugEnabled = $coreConfigCache['debug']['enabled'] ?? false;
+
+        return $debugEnabled;
+    }
 }

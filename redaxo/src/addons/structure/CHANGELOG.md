@@ -1,6 +1,16 @@
 Changelog
 =========
 
+Version 2.13.3 – 03.05.2022
+---------------------------
+
+### Bugfixes
+
+* Artikel in Kategorie umwandeln: Der neue Startartikel hatte eine falsche Priorität (@gharlan)
+* `rex_article_slice`: Methode `getMediaListArray` lieferte fälschlich Linklist-Werte (@rhetzer)
+* `REX_VALUE[]`: Mit PHP 8.1 kam es teils zu Deprecation-Notices (@nfission)
+
+
 Version 2.13.2 – 10.01.2022
 ---------------------------
 

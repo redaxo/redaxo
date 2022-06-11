@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.18.1@dda05fa913f4dc6eb3386f2f7ce5a45d37a71bcb">
+<files psalm-version="4.23.0@f1fe6ff483bf325c803df9f510d09a03fd796f88">
   <file src="redaxo/src/addons/backup/lib/backup.php">
     <MixedArgument occurrences="5">
       <code>$column</code>
@@ -4757,41 +4757,30 @@
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/error_handler.php">
-    <MixedArgument occurrences="8">
-      <code>$exception</code>
-      <code>$exception</code>
-      <code>$exception</code>
-      <code>$frame['file']</code>
-      <code>$function</code>
+    <InvalidScalarArgument occurrences="2">
       <code>$line</code>
-      <code>$row[0]</code>
       <code>$row[2]</code>
+    </InvalidScalarArgument>
+    <MixedArgument occurrences="3">
+      <code>$exception</code>
+      <code>$exception</code>
+      <code>$exception</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="2">
       <code>[self::class, 'handleError']</code>
       <code>[self::class, 'handleException']</code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="5">
-      <code>$frame['class']</code>
-      <code>$frame['file']</code>
-      <code>$frame['function']</code>
-      <code>$frame['line']</code>
-      <code>$frame['type']</code>
-    </MixedArrayAccess>
-    <MixedAssignment occurrences="3">
-      <code>$frame</code>
-      <code>$function</code>
-      <code>$line</code>
-    </MixedAssignment>
     <MixedMethodCall occurrences="1">
       <code>getMessage</code>
     </MixedMethodCall>
-    <MixedOperand occurrences="4">
+    <MixedOperand occurrences="2">
       <code>$exception-&gt;getMessage()</code>
-      <code>$frame['class']</code>
-      <code>$function</code>
       <code>rex_server('REQUEST_URI')</code>
     </MixedOperand>
+    <PossiblyUndefinedArrayOffset occurrences="2">
+      <code>$frame['function']</code>
+      <code>$frame['type']</code>
+    </PossiblyUndefinedArrayOffset>
   </file>
   <file src="redaxo/src/core/lib/exception.php">
     <MixedArgument occurrences="1">
@@ -5153,8 +5142,7 @@
     <MixedArrayAssignment occurrences="1">
       <code>$previousPasswords[]</code>
     </MixedArrayAssignment>
-    <MixedAssignment occurrences="2">
-      <code>$previousPasswords</code>
+    <MixedAssignment occurrences="1">
       <code>$previousPasswords</code>
     </MixedAssignment>
   </file>
@@ -5306,12 +5294,12 @@
       <code>rex::getProperty('system_addons')</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="3">
-      <code>$addonName</code>
       <code>$pluginName</code>
+      <code>$this-&gt;plugins</code>
+      <code>$this-&gt;plugins</code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayOffset occurrences="2">
+    <MixedArrayOffset occurrences="1">
       <code>$config[$addonName]['plugins'][$plugin]</code>
-      <code>$config[$addon]</code>
     </MixedArrayOffset>
     <MixedAssignment occurrences="5">
       <code>$addon</code>
@@ -5326,13 +5314,9 @@
     <MixedReturnStatement occurrences="1">
       <code>call_user_func_array([rex_i18n::class, 'msg'], $args)</code>
     </MixedReturnStatement>
-    <MixedReturnTypeCoercion occurrences="6">
+    <MixedReturnTypeCoercion occurrences="2">
       <code>$this-&gt;plugins</code>
-      <code>getAvailablePlugins</code>
-      <code>getInstalledPlugins</code>
       <code>getRegisteredPlugins</code>
-      <code>self::filterPackages($this-&gt;plugins, 'isAvailable')</code>
-      <code>self::filterPackages($this-&gt;plugins, 'isInstalled')</code>
     </MixedReturnTypeCoercion>
     <ParamNameMismatch occurrences="3">
       <code>$addon</code>
@@ -5358,8 +5342,7 @@
       <code>$requirements['redaxo']</code>
       <code>$requires</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="4">
-      <code>$addonName</code>
+    <MixedArgumentTypeCoercion occurrences="3">
       <code>$package</code>
       <code>$package</code>
       <code>$packageId</code>
@@ -5384,9 +5367,6 @@
       <code>$ps[$id]</code>
       <code>$requires[$id]</code>
     </MixedArrayOffset>
-    <MixedArrayTypeCoercion occurrences="1">
-      <code>$config[$addonName]</code>
-    </MixedArrayTypeCoercion>
     <MixedAssignment occurrences="22">
       <code>$addonLoad</code>
       <code>$config[$addonName]['plugins'][$pluginName]['status']</code>
@@ -5462,37 +5442,23 @@
       <code>$cache[$id]</code>
       <code>$cache[$id]</code>
     </MixedArrayAssignment>
-    <MixedArrayOffset occurrences="5">
+    <MixedArrayOffset occurrences="3">
       <code>$cache[$package]</code>
-      <code>$packages[$addon-&gt;getPackageId()]</code>
-      <code>$packages[$plugin-&gt;getPackageId()]</code>
       <code>$this-&gt;properties[$key]</code>
       <code>$this-&gt;properties[$key]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="10">
-      <code>$addon</code>
+    <MixedAssignment occurrences="7">
       <code>$dir</code>
       <code>$key</code>
       <code>$package</code>
-      <code>$packages[$addon-&gt;getPackageId()]</code>
-      <code>$packages[$plugin-&gt;getPackageId()]</code>
       <code>$plugin</code>
       <code>$properties</code>
       <code>$value</code>
       <code>$value</code>
     </MixedAssignment>
-    <MixedMethodCall occurrences="3">
-      <code>$pluginMethod</code>
-      <code>getPackageId</code>
-      <code>getPackageId</code>
-    </MixedMethodCall>
     <MixedOperand occurrences="1">
       <code>$value</code>
     </MixedOperand>
-    <MixedReturnTypeCoercion occurrences="2">
-      <code>$packages</code>
-      <code>self[]</code>
-    </MixedReturnTypeCoercion>
     <PossiblyNullReference occurrences="1">
       <code>isAdmin</code>
     </PossiblyNullReference>
@@ -5640,12 +5606,6 @@
       <code>self::getProperty('table_prefix')</code>
       <code>self::getProperty('temp_prefix')</code>
     </MixedReturnStatement>
-    <MixedReturnTypeCoercion occurrences="4">
-      <code>$config</code>
-      <code>$config</code>
-      <code>array&lt;string, array{install: bool, status: bool, plugins?: array&lt;string, array{install: bool, status: bool}&gt;}&gt;</code>
-      <code>list&lt;string&gt;</code>
-    </MixedReturnTypeCoercion>
   </file>
   <file src="redaxo/src/core/lib/select.php">
     <MixedArgument occurrences="8">
@@ -5813,10 +5773,9 @@
       <code>$version</code>
       <code>$version</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="4">
+    <MixedInferredReturnType occurrences="3">
       <code>array</code>
       <code>scalar|null</code>
-      <code>string</code>
       <code>string</code>
     </MixedInferredReturnType>
     <MixedOperand occurrences="2">
@@ -5827,11 +5786,10 @@
       <code>$this-&gt;rawFieldnames</code>
       <code>$this-&gt;tablenames</code>
     </MixedPropertyTypeCoercion>
-    <MixedReturnStatement occurrences="4">
+    <MixedReturnStatement occurrences="3">
       <code>$this-&gt;lastRow[$column]</code>
       <code>$version</code>
       <code>json_decode($this-&gt;getValue($column), true)</code>
-      <code>self::$pdo[$db]-&gt;getAttribute(PDO::ATTR_SERVER_VERSION)</code>
     </MixedReturnStatement>
     <NullableReturnStatement occurrences="1">
       <code>$sql-&gt;getValue('Create Table')</code>
@@ -5948,9 +5906,8 @@
       <code>$label</code>
       <code>$label</code>
     </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="13">
+    <MixedAssignment occurrences="12">
       <code>$browser</code>
-      <code>$database</code>
       <code>$db</code>
       <code>$dbData['Warning']</code>
       <code>$dbId</code>
@@ -6354,12 +6311,6 @@
     <PossiblyNullReference occurrences="1">
       <code>getSubpages</code>
     </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/core/packages.php">
-    <MixedArgumentTypeCoercion occurrences="2">
-      <code>$packageId</code>
-      <code>$packageId</code>
-    </MixedArgumentTypeCoercion>
   </file>
   <file src="redaxo/src/core/pages/login.php">
     <MixedArgument occurrences="1">

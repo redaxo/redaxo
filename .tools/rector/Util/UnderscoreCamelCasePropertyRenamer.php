@@ -11,20 +11,22 @@ use Rector\Naming\ValueObject\PropertyRename;
 final class UnderscoreCamelCasePropertyRenamer
 {
     /** @var UnderscoreCamelCaseConflictingNameGuard */
-    private $conflictingPropertyNameGuard;
+    private $underscoreCamelCaseConflictingNameGuard;
 
     /** @var PropertyRenamer */
     private $propertyRenamer;
 
-    public function __construct(UnderscoreCamelCaseConflictingNameGuard $underscoreCamelCaseConflictingNameGuard, PropertyRenamer $propertyRenamer)
-    {
-        $this->conflictingPropertyNameGuard = $underscoreCamelCaseConflictingNameGuard;
+    public function __construct(
+        UnderscoreCamelCaseConflictingNameGuard $underscoreCamelCaseConflictingNameGuard,
+        PropertyRenamer $propertyRenamer
+    ) {
+        $this->underscoreCamelCaseConflictingNameGuard = $underscoreCamelCaseConflictingNameGuard;
         $this->propertyRenamer = $propertyRenamer;
     }
 
     public function rename(PropertyRename $propertyRename): ?Property
     {
-        if ($this->conflictingPropertyNameGuard->isConflicting($propertyRename)) {
+        if ($this->underscoreCamelCaseConflictingNameGuard->isConflicting($propertyRename)) {
             return null;
         }
 

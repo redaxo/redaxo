@@ -341,12 +341,16 @@ abstract class rex_var
     /**
      * Quotes the string for php context.
      *
-     * @param string $string
+     * @param string|null $string
      *
      * @return string
      */
     protected static function quote($string)
     {
+        if (null === $string) {
+            return 'null';
+        }
+
         $string = addcslashes($string, "\\'");
         $string = preg_replace('/\v+/', '\' . "$0" . \'', $string);
         $string = addcslashes($string, "\r\n");

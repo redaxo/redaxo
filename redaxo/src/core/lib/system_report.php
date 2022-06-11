@@ -144,11 +144,11 @@ class rex_system_report
         }
 
         $content = rtrim($content);
-        $database = $report['Database']['Version'] ?? $report['Database 1']['Version'];
+        $database = isset($report['Database']['Version']) ? ', '. (string) $report['Database']['Version'] : '';
 
         return <<<OUTPUT
             <details>
-            <summary>System report (REDAXO {$report['REDAXO']['Version']}, PHP {$report['PHP']['Version']}, {$database})</summary>
+            <summary>System report (REDAXO {$report['REDAXO']['Version']}, PHP {$report['PHP']['Version']}{$database})</summary>
 
             $content
 
