@@ -1,0 +1,4 @@
+debug=Hata ayıklama
+debug_activate_debugmode=Hata Ayıklama eklentisini kullanmak için Hata Ayıklama modunu etkinleştirin.
+debug_error_unzip=Varlıklar Clockwork ön uç arşivinden açılırken bir hata oluştu!
+

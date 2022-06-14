@@ -1,0 +1,90 @@
+cronjob_title=Cronjobs
+
+cronjob_add=cronjob ekle
+cronjob_edit=Cronjob'u düzenle
+
+cronjob_caption=Oluşturulan cronjobs listesi
+cronjob_no_cronjobs=Mevcut cron işi yok
+
+cronjob_delete=silmek
+cronjob_really_delete=Gerçekten cronjob'u sildiniz mi?
+cronjob_delete_success=Cronjob "{0}" başarıyla silindi!
+cronjob_delete_error=Cronjob "{0}" silinemedi!
+
+cronjob_execute=Yürütmek
+cronjob_execute_success=Cronjob "{0}" başarıyla idam edildi!
+cronjob_execute_error=Cronjob "{0}" başarıyla çalışmadı!
+
+cronjob_name=Ad
+cronjob_description=Tarif
+cronjob_examples=Örnekler
+
+cronjob_type=Tür
+cronjob_type_not_found=Cronjob "{0}" sınıfı "{1}" bulunamadığı için düzenlenemez. İlgili eklentinin/eklentinin etkinleştirilip etkinleştirilmediğini kontrol edin!
+cronjob_type_phpcode=PHP kodu
+cronjob_type_phpcallback=PHP geri arama
+cronjob_type_urlrequest=URL çağrısı
+cronjob_type_urlrequest_url=URL
+cronjob_type_urlrequest_post=POST Parametreleri
+cronjob_type_urlrequest_httpauth=HTTP kimlik doğrulaması
+cronjob_type_urlrequest_user=Kullanıcı
+cronjob_type_urlrequest_password=Parola
+cronjob_type_parameters=Türe özgü parametreler
+cronjob_type_no_parameters=Bu tip için başka parametrelere gerek yoktur!
+
+cronjob_interval=Ara
+cronjob_interval_minutes=Tutanak
+cronjob_interval_minutes_all=Her 5 dakikada bir
+cronjob_interval_hours=Saat
+cronjob_interval_hours_all=Her saat başı
+cronjob_interval_days=Gün
+cronjob_interval_days_all=Her gün
+cronjob_interval_weekdays=Hafta içi
+cronjob_interval_weekdays_all=Haftanın herhangi bir günü
+cronjob_interval_months=Ay
+cronjob_interval_months_all=Her ay
+
+cronjob_environment=Çevre
+cronjob_environment_notice=Komut Dosyası: <code>{0}</code>'den çalıştırın. Komut dosyası gerçek bir cronjob kullanılarak düzenli olarak çağrılmalıdır.
+cronjob_environment_frontend=Ön uç
+cronjob_environment_backend=Pişirme
+cronjob_environment_script=Betik
+cronjob_environment_console=Betik
+cronjob_environment_backend_manual=Arka uç (manuel)
+
+cronjob_execution=İdam
+cronjob_execution_beginning=Komut dosyasının başlangıcı
+cronjob_execution_ending=Komut dosyasının sonu
+
+cronjob_nexttime=Sonraki çalıştırma
+
+cronjob_status_function=Durum/İşlev
+cronjob_status=Durum
+cronjob_status_activated=Etkinleştirir
+cronjob_status_deactivated=Devre dışı
+cronjob_status_invalid=kusurlu
+cronjob_status_activate_success=Cronjob "{0}" etkinleştirildi!
+cronjob_status_activate_error=Cronjob "{0}" etkinleştirilemedi!
+cronjob_status_deactivate_success=Cronjob "{0}" devre dışı bırakıldı!
+cronjob_status_deactivate_error=Cronjob "{0}" devre dışı bırakılamadı!
+
+cronjob_error_no_name=İsim boş olamaz!
+cronjob_error_no_environment=En az bir ortam seçilmelidir!
+cronjob_error_interval_incomplete=Aralık için, her kategoride bir değer seçilmelidir!
+
+cronjob_not_found=Cronjob bulunamadı!
+cronjob_not_editable=Cronjob düzenlenebilir değil!
+
+cronjob_log=Kütük
+cronjob_log_date=Tarih
+cronjob_log_year=Yıl
+cronjob_log_month=Ay
+cronjob_log_ok=TAMAM
+cronjob_no_log_files=Kullanılabilir günlük dosyası yok.
+cronjob_log_no_data=Kullanılabilir veri yok.
+cronjob_log_caption_1={0} {1}yürütülen cron işlerinin listesi
+cronjob_log_caption_2=Yakın zamanda yürütülen cron işlerinin listesi
+cronjob_log_message=İleti
+
+cronjob_delete_log_msg=Cronjob günlüğünü silmek?
+

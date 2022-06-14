@@ -1,0 +1,171 @@
+media_manager=Medya Yöneticisi
+media_manager_overview_title=Media Manager Addon <small>(sürüm {0})</small>
+
+media_manager_subpage_desc=Açıklama
+media_manager_subpage_config=Konfigürasyon
+media_manager_subpage_types=Medya Türlerini Düzenle
+media_manager_subpage_clear_cache=Önbelleği temizle
+
+media_manager_cache_files_removed=Önbellek dosyalarını silme {0}
+
+media_manager_config_saved=Yapılandırma güncellendi!
+media_manager_config_not_saved=Yapılandırma kaydedilemiyor!
+media_manager_config_not_writable="{0}" yapılandırma dosyası yazılabilir değil!
+
+media_manager_max_resizekb=Medya yöneticisi aracılığıyla dönüştürülebilen kilobayt cinsinden bir dosyanın maksimum boyutu
+media_manager_max_resizepx=Bir dosyanın medya yöneticisi aracılığıyla dönüştürülebilen piksel cinsinden maksimum boyutu
+media_manager_jpg_quality=JPG kalitesi
+media_manager_png_compression=PNG sıkıştırma
+media_manager_png_compression_note=6-7'nin üzerindeki değerler görüntü üretimini büyük ölçüde yavaşlatır.
+media_manager_webp_quality=WebP Kalitesi
+media_manager_interlace=Taramalı/Aşamalı Mod
+
+media_manager_id=KİMLİĞİ
+media_manager_name=Ad
+media_manager_edittype=Medya Türlerini Düzenle
+media_manager_settings=Ayarlar
+
+media_manager_yes=Evet
+media_manager_no=Hayır
+media_manager_back=Geri
+
+media_manager_error_name=Lütfen bir ad girin.
+media_manager_error_settings=Lütfen Ayarlar'a içerik girin.
+media_manager_error_type_name_not_unique=Bu ada sahip bir medya türü zaten mevcut!
+media_manager_error_type_name_invalid=Ad "/" ve "\" karakterlerini içermemelidir!
+
+media_manager_type_caption=Oluşturulan medya türlerinin listesi
+media_manager_type_no_types=Kullanılabilir ortam türü yok
+media_manager_type_create=Medya türü oluşturma
+media_manager_type_edit=düzenlemek
+media_manager_type_copy=yinelenen
+media_manager_type_effekts_edit=Efektleri düzenleme
+media_manager_type_delete=silmek
+media_manager_type_name=Ad
+media_manager_type_name_copy=Kopya etmek
+media_manager_type_priority=Prio
+media_manager_type_description=Tarif
+media_manager_type_functions=Işlev
+media_manager_type_cache_delete=Önbelleği temizle
+media_manager_type_system=Sistem Ortamı Türü
+media_manager_type_deleted=Medya türü silindi
+media_manager_type_copied=Ortam türü çoğaltıldı
+
+media_manager_effect_list_header={0}ortam türü efektleri
+media_manager_effect_edit_header=Ortam türü <mark>{0}</mark>: Düzenleme Efekti
+media_manager_effect_create_header=Ortam türü <mark>{0}</mark>: Efekt oluştur
+media_manager_effect_caption=<mark>{0}</mark>ortam türünde oluşturulan efektlerin listesi
+media_manager_effect_no_effects=Hiçbir etkisi yok
+media_manager_effect_create=Etki yaratın
+media_manager_effect_edit=Efekti Düzenle
+media_manager_effect_delete=Sil efekti
+media_manager_effect_name=Etki
+media_manager_effect_priority=Etki Sırası
+media_manager_effect_parameters=Parametre
+media_manager_effect_functions=Işlev
+media_manager_effect_deleted=Efekt silindi
+
+media_manager_effect_insert_image=Resim: Resim / Filigran Yerleştir
+media_manager_effect_brand_image=Resim
+media_manager_effect_brand_hpos=yatay hizalama
+media_manager_effect_brand_vpos=dikey hizalama
+media_manager_effect_brand_padding_x=kenara yatay mesafe
+media_manager_effect_brand_padding_y=kenara dikey mesafe
+
+media_manager_effect_blur=Resim: Bulanıklık
+media_manager_effect_blur_repeats=Tekrarlamaların
+media_manager_effect_blur_type=Bulanıklaştırma türü
+media_manager_effect_blur_smoothit=pürüzsüz (negatif değerler görüntüleri keskinleştirir)
+
+media_manager_effect_colorize=Resim: Boyama
+media_manager_effect_colorize_r=Kırmızı değer
+media_manager_effect_colorize_g=Yeşil değer
+media_manager_effect_colorize_b=Mavi değer
+
+media_manager_effect_sharpen=Resim: Netleştir
+media_manager_effect_sharpen_amount=Netlik derecesi
+media_manager_effect_sharpen_radius=Netlik matrisinin boyutu
+media_manager_effect_sharpen_threshold=Sınırlamak
+
+media_manager_effect_resize=Görüntü: Ölçeklendirme
+media_manager_effect_resize_width=Hedef genişlik
+media_manager_effect_resize_height=Hedef yükseklik
+media_manager_effect_resize_style=Mod
+media_manager_effect_resize_imgtosmall=Görüntü çok küçükse
+
+media_manager_effect_crop=Resim: Kırpma
+media_manager_effect_crop_width=Hedef genişlik
+media_manager_effect_crop_height=Hedef yükseklik
+media_manager_effect_crop_offset_width=Yatay ofset/ofset
+media_manager_effect_crop_offset_height=Dikey ofset/ofset
+media_manager_effect_crop_position=Referans noktası
+
+media_manager_effect_rounded_corners=Resim: Yuvarlatılmış köşeler
+media_manager_effect_rounded_corners_topleft=Sol üst
+media_manager_effect_rounded_corners_topright=Sağ Üst
+media_manager_effect_rounded_corners_bottomleft=Sol Alt
+media_manager_effect_rounded_corners_bottomright=Sağ alt kısım
+
+media_manager_effect_flip=Resim: Yatay/Dikey Çevir
+media_manager_effect_flip_direction=Yön
+
+media_manager_effect_rotate=Resim: Döndür
+media_manager_effect_rotate_degree=Döndür (derece)
+
+media_manager_effect_mirror=Resim: Su yansıması ekleyin
+media_manager_effect_mirror_height=Refl. Yükseklik (%50/10)
+media_manager_effect_mirror_opacity=Yansımanın opaklığı (0 - 100)
+media_manager_effect_mirror_opacity_notice=% 0 tamamen görünmez yansıma,% 100 tamamen görünür yansıma
+media_manager_effect_mirror_background_color=Arka plan rengi
+media_manager_effect_mirror_background_r=Arka Plan R (0-255)
+media_manager_effect_mirror_background_g=Arka Plan G (0-255)
+media_manager_effect_mirror_background_b=Arka Plan B (0-255)
+
+media_manager_effect_workspace=Resim: Çalışma yüzeyi
+media_manager_effect_workspace_pos=Konum
+
+media_manager_effect_folder=Alternatif klasör varsayılanı: "medya"
+
+media_manager_effect_mediapath=Dosya: Yolu Özelleştir
+media_manager_effect_mediapath_path=Medya Klasörü
+media_manager_effect_mediapath_path_notice=<code>medya</code>yerine REDAXO kurulumuna göre görüntü kaynağının yolu, e.B. görüntüler <code>dizin</code>. Lider/Son Eğik Çizgi (<code>/</code>) gerekli değildir.
+
+media_manager_effect_header=Dosya: Başlığı Özelleştir
+media_manager_effect_header_download=İndirmek
+media_manager_effect_header_cache=Önbellek Kontrolü
+media_manager_effect_header_filename=Dosya adları için kaynak
+media_manager_effect_header_filename_notice=<code>dosya adı</code> , sunucudaki normalleştirilmiş dosya adıdır (e.B. <code>my-download.pdf</code>, <code>orijinal adı</code> yükleme sırasındaki orijinal dosya adıdır (boşluk, büyük/küçük harf duyarlılığı vb. İle birlikte), e.B. <code>İndiriyorum.pdf</code>
+
+
+
+media_manager_effect_convert2img=Dosya: Görüntüye Dönüştür
+media_manager_effect_convert2img_density=Çözünürlük yoğunluğu
+media_manager_effect_convert2img_convertto=Hedef biçim
+media_manager_effect_convert2img_density_notice=PPI cinsinden çözünürlük yoğunluğu (inç başına piksel).
+media_manager_effect_convert2img_convertto_notice=Dosyanın dönüştürüldüğü hedef biçim. Aşağıdaki dosya uzantıları dikkate alınır: <code>.pdf,.ps,.psd,.tif,.tiff,.bmp,.eps,.ico,.svg</code>.
+media_manager_effect_convert2img_noimagemagick=Dikkat: ImageMagick bulunamadı. Bu etki, "imagick" PHP uzantısını veya exec() aracılığıyla yürütülebilen "komut satırı ikilisi" olarak ImageMagick'i gerektirir.
+media_manager_effect_convert2img_color=Saydamlık için renk
+media_manager_effect_convert2img_color_notice="\"#ffffff\" formatlayın, hiçbir şey ayarlanmamışsa, şeffaflık kullanılır. Lütfen JPG için bir renk belirtin."
+
+
+media_manager_effect_image_properties=Resim: Ayarlar (kalite, taramalı, ...)
+media_manager_effect_image_properties_jpg_quality_notice=[0-100]. Varsayılan değer için boş bırakın.
+media_manager_effect_image_properties_png_compression_notice=[0-9]. Varsayılan değer için boş bırakın.
+media_manager_effect_image_properties_webp_quality_notice=[0-100]. Varsayılan değer için boş bırakın.
+media_manager_effect_image_properties_interlace_notice=Varsayılan seçim için boş bırakın.
+
+media_manager_effect_brightness=Resim: Parlaklık
+media_manager_effect_brightness_value=Parlaklık
+media_manager_effect_brightness_notice=[-255 ila 255]. Varsayılan değer (0) için boş bırakın.
+
+media_manager_effect_contrast=Resim: Kontrast
+media_manager_effect_contrast_value=Karşıtlık
+media_manager_effect_contrast_notice=[-100 ila 100]. Varsayılan değer (0) için boş bırakın.
+
+media_manager_effect_sepia=Fotoğraf: Sepya
+
+media_manager_effect_greyscale=Resim: Gri tonlamalı
+
+media_manager_effect_image_format=Resim: JPEG / PNG / GIF / WEBP'ye dönüştürün
+media_manager_effect_image_format_convertto=Hedef biçim
+

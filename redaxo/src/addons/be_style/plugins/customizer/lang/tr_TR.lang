@@ -1,0 +1,33 @@
+customizer=Özelleştirici
+customizer_features=CodeMirror (Kod Aynası)
+
+customizer_codemirror=CodeMirror (Kod Aynası)
+customizer_codemirror_check=CodeMirror'ı etkinleştirme
+customizer_codemirror_selectors=CodeMirror için ek jQuery seçiciler
+customizer_codemirror_selectors_info=CodeMirror'ın uygulandığı jQuery seçicilerinin virgülle ayrılmış listesi.<br>textarea.rex-js-code <code>ve textarea.codemirror</code> <code></code>.
+customizer_codemirror_theme=CodeMirror Teması
+customizer_codemirror_langs=Ek vurgulayıcılar
+customizer_codemirror_langs_text=(markdown, tekstil, gfm, yaml, sql ...)
+customizer_codemirror_tools=Ek Özellikler
+customizer_codemirror_tools_text=(Kod Katlama, Braket Eşleştirme, Etiket Eşleştirme, Parantez Kapatma, Arama)
+customizer_codemirror_autoresize=Otomatik Yeniden Boyutlandırma
+customizer_codemirror_autoresize_text=(CodeMirror içeriğe yükseklik olarak uyum sağlar)
+
+customizer_codemirror_info="CodeMirror etkinleştirilir etkinleştirilmez, şablonlar, modüller, eylemler ve cronjobs için otomatik olarak kullanılır. CodeMirror'ı kendiniz kullanmak istiyorsanız, lütfen aşağıdaki formu kullanın:<br><br><code><textarea class=\"codemirror\" data-codemirror-theme=\"themename\" data-codemirror-mode=\"php/htmlmixed\"></textarea></code><br><br>data-codemirror-theme <i>ve data-codemirror-mode</i> <i></i> parametreler isteğe bağlıdır.<br><br>Tam ekran modu, F11 ve ESC tuşlarıyla çağrılabilir."
+
+customizer_labeling=Takviye -leri
+customizer_labelcolor=Tanıma Rengi
+customizer_labelcolor_notice="Herhangi bir geçerli CSS renk belirtimi (<code>#03f0ab</code>, <code>rgba (255, 100, 0, 0.5)</code> vb.)"
+customizer_showlink=Web sitesine bağlantıyı göster ?
+
+customizer_config_updated=Girişler kaydedildi
+customizer_config_update_failed=Girişler kaydedilmedi
+
+customizer_update=Ayarları kaydetme
+customizer_error_unzip=Varlıklar Codemirror arşivinden açılırken bir hata oluştu!
+
+customizer_projectname=Proje adı
+customizer_textarea=Şablon ve modüller altında geniş metin alanı
+customizer_liquid=Sıvı Düzeni
+customizer_nav_flyout=Açılır pencere ile navigasyon
+

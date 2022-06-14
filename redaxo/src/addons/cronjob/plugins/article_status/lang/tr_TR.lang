@@ -1,0 +1,4 @@
+cronjob_article_status=Öğe Durumu
+cronjob_article_reset_date=Durum değişikliğinden sonra öğe tarihi alanlarını temizle
+cronjob_article_reset_date_info=Bu seçenek, durum değişikliğinden sonra makalenin meta verilerinde online_from "online_to" tarihini veya "<br>" tarihini siler.
+

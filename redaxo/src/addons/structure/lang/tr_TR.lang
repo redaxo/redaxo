@@ -1,0 +1,87 @@
+structure=Yapı
+
+title_structure=Yapı yönetimi
+root_level=Ana
+no_such_category=Kategori mevcut değil!
+category_updated=Kategori güncellendi.
+category_could_not_be_deleted=Kategori silinemedi!
+category_still_contains_articles=Kategori hala makaleler içeriyor.
+category_still_contains_subcategories=Kategori hala alt kategoriler içeriyor.
+category_status_updated=Kategori durumu güncellendi!
+category_added_and_startarticle_created=Kategori eklendi ve makale oluşturuldu!
+article_doesnt_exist=Makale yok!
+article_status_updated=Madde durumu güncellendi.
+article_updated=Makale güncellendi.
+article_added=Makale eklenmiştir.
+header_category=Kategori Adı
+header_priority=Öncelik
+header_status=Durum/İşlev
+header_id=KİMLİĞİ
+add_category=Kategori ekle
+edit_category=Kategori Düzenle
+save_category=Kategoriyi Kaydet
+status_online=çevrimiçi
+status_offline=çevrimdışı
+option_no_template=Şablon yok
+template_default_name=ŞABLON YOK
+header_article_name=Öğe Adı
+header_template=Şablon
+header_date=Oluşturulduğu tarih
+change=değiştirmek
+article_add=Öğe ekleme
+article_edit=Makaleleri düzenleme
+article_save=Makaleyi kaydet
+article=Makale
+start_article=Başlangıç makalesi
+no_article_available=Kullanılabilir öğe yok
+structure_categories_caption=Kategorinin alt kategorilerinin listesi "{0}"
+structure_articles_caption=Kategorideki ürünlerin listesi "{0}"
+structure_root_level_articles_caption="Ana seviye" makalelerinin listesi
+structure_root_level_categories_caption="Ana seviye" kategorilerinin listesi
+article_deleted=Öğe silindi!
+article_could_not_be_generated=Öğe oluşturulamıyor.
+category_deleted=Kategori silindi!
+category_doesnt_exist=Kategori yok!
+cant_delete_sitestartarticle=Web sitesi başlangıç makalesi silinemez!
+cant_delete_notfoundarticle="Bulunamadı" makalesi silinemez!
+structure_copy=Kopya etmek
+category_has_child_elements=Kategori alt öğeler içeriyor
+category_without_child_elements=Alt öğeler içermeyen kategori
+
+all_categories=Tüm kategoriler
+categories=Kategori
+
+perm_options_addArticle[]=Makale oluşturma
+perm_options_addCategory[]=Kategori Oluştur
+perm_options_editArticle[]=Makaleyi düzenle
+perm_options_editCategory[]=Kategori Düzenle
+perm_options_deleteArticle[]=Öğeyi sil
+perm_options_deleteCategory[]=Kategoriyi sil
+perm_options_article2category[]=Öğeleri kategorilere dönüştürme
+perm_options_article2startarticle[]=Makaleleri başlangıç makalelerine dönüştürme
+perm_options_copyArticle[]=Makaleyi kopyala
+perm_options_copyContent[]=Makale içeriğini kopyalama
+perm_options_moveArticle[]=Öğeyi taşı
+perm_options_moveCategory[]=Kategorileri taşıma
+perm_options_publishArticle[]=Makale yayınlama
+perm_options_publishCategory[]=Kategorileri yayınlama
+
+system_setting_start_article_id=Başlangıç makalesi
+system_setting_notfound_article_id=Hata Makaleleri
+system_setting_default_template_id=Varsayılan şablon
+system_setting_start_article_id_invalid=Geçersiz başlangıç öğesi!
+system_setting_notfound_article_id_invalid=Geçersiz hata öğesi!
+system_setting_default_template_id_invalid=Geçersiz varsayılan şablon!
+
+linkmap=Bağlantı Haritası
+linkmap_categories=Kategori
+linkmap_articles=Makale
+linkmap_has_no_template=şablonu yok
+
+var_link_open=Bağlantı seç
+var_link_delete=Seçili bağlantıyı sil
+var_linklist_move_top=Seçili bağlantıyı başa taşıma
+var_linklist_move_up=Seçili bağlantıyı yukarı taşıma
+var_linklist_move_down=Seçili bağlantıyı aşağı taşıma
+var_linklist_move_bottom=Seçili bağlantıyı sonuna taşıma
+

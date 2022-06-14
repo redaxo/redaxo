@@ -1,0 +1,88 @@
+backup_information=Bilgi
+backup_title=Yedek
+backup_file_deleted=Dosya silindi
+backup_file_error_while_delete=Dosya silinemedi
+backup_no_import_file_chosen_or_wrong_version=Hiçbir içe aktarma dosyası seçili veya sürüm yanlış değil
+backup_no_valid_import_file=Bu doğru bir alma dosyası değil
+backup_utf8mb4_not_supported=Yedekleme, karakter kümesi <code>olarak</code>utf8mb4 kullanır ve veritabanı tarafından desteklenmez (<b>{0}</b>) (en azından MySQL 5.7.7 veya MariaDB 10.2 gereklidir).
+backup_database_imported=Veritabanı başarıyla içe aktarıldı
+backup_entry_count=({0} Eintraege)
+backup_file_could_not_be_uploaded=Dosya yüklenemiyor.
+backup_you_have_no_write_permission_in=Bu klasöre yazma izniniz yok {0}.
+backup_no_import_file_chosen=İçe aktarma dosyası seçilmedi.
+backup_file_imported=Dosya başarıyla alındı.
+backup_import=Ithalat
+backup_to_import=Ithalat
+backup_export=Ihracat
+backup_to_export=Ihracat
+backup_download=indirmek
+backup_db_import=Ithalat
+backup_db_export=Ihracat
+backup_filename_updated=Seçilen dosya adı, yanlış karakterler içerdiği için ayarlanmıştır. Bu tutarlıysa, lütfen tekrar Dışa Aktar'a tıklayın.
+backup_please_choose_folder=Lütfen dışa aktarılacak dizinleri seçin.
+backup_intro_import=Bir veritabanı <b>içe aktardığınızda, eski veritabanının</b> silindiğini lütfen unutmayın. Şüpheniz varsa, içe aktarmadan önce geçerli veritabanını kaydedin.
+backup_intro_import_files=Dosyaları içe aktarırken, varolan dosyaların üzerine aynı temelde yazılır, ancak klasörlerdeki ek dosyalar korunur.
+backup_version_warning=Eski REDAXO sürümlerinin veya eklentilerinin yedekleri her zaman tam olarak uyumlu değildir ve içe aktarma işleminden sonra sorunlara neden olabilir.
+backup_database=Veritabanı İçe Aktarma
+backup_filename=Dosyaadı
+backup_filename_notice=Değişkenler: strftime() ile olduğu gibi % <code>REX_SERVER</code>, <code>%REX_VERSION</code> ve tarih değişkenleri ; Dateiendung: <code>.cronjob.sql</code> (wird automatisch ergänzt)
+backup_filesize=Dosya boyutu
+backup_delete=silmek
+backup_files=Dosya içe aktarma
+backup_intro_export=Burada REDAXO'dan mevcut girişlerinizi ve dosyalarınızı kaydedebilirsiniz. Tam bir yedekleme almak için, veritabanını</b><b>VE dosyaları dışa aktarmanız gerekir. Yedeklemeyi yeniden kullanmak istiyorsanız, yedeklemeyi doğrudan sunucuda depolamak ve gerekirse doğrudan içe aktarmak mantıklı olabilir.
+backup_database_export=Veritabanı yedeği oluşturma
+backup_file_export=Dosya yedeklemesi oluşturma
+backup_save_on_server=Sunucuya kaydet
+backup_download_as_file=Dosya olarak indir
+backup_createdate=Oluşturulduğu tarih
+
+backup_import_file=İçe Aktarma Dosyası
+backup_delete_file=Dosya l&ouml ;schen
+backup_download_file=Dosyayı indir
+backup_check_rights_in_directory=Yedekleme klasörlere erişemedi veya hiçbiri seçilmedi ;hlt.
+backup_file_could_not_be_generated=Dosya oluşturulamadı.
+backup_file_generated_in=Veriler şurada yedeklenmiştir:
+
+backup_proceed_db_import=Mevcut veriler (makaleler, şablonlar, modüller,...) kaybolacaktır. Devam etmek?
+backup_proceed_file_import=Mevcut dosyalar silinecektir. Devam etmek?
+
+backup_export_db_caption=Veritabanı Yedeklemesini Geri Yükleme
+backup_export_file_caption=Dosya Yedeklemeyi Geri Yükleme
+
+backup_function=Fonksiyon
+
+backup_send_mail=E-posta ile gönder
+backup_send_mail_notice=Bu seçenek için "phpmailer" eklentisi gereklidir.
+backup_mailaddress=Adres
+backup_mail_subject=Yeni veritabanı yedekleme
+backup_mail_body=Ekli "{0}" web sitesinin yeni bir veritabanı yedeğidir.
+
+backup_compress=Yedeklemeyi Sıkıştır
+
+backup_delete_interval=Eski yedeklemeleri silme
+backup_delete_interval_off=Kaynak
+backup_delete_interval_weekly=Haftada bir yedek tutun
+backup_delete_interval_monthly=Ayda bir yedekleme tutun
+backup_delete_interval_notice=Yalnızca bir aydan eski ve dosya adları .cronjob <code>.sql</code> ile biten yedeklemeler silinir.
+
+backup_exclude_tables=Yedeklemeden hariç tut
+backup_exclude_tables_notice=Seçilirse, bu tablolar yedeklenmez. <code>rex_tmp_*</code> önekine sahip tablolar otomatik olarak hariç tutulur.
+
+perm_general_backup[export]=İhracat web sitesi
+
+backup_export_select=Dışa aktarma varyantı
+backup_export_select_tables=Tabloları seçin
+backup_export_select_dir=Klasör Seç
+backup_export_select_location=Bir konum seçin
+backup_export_select_filename=Dosya adını seçin
+
+backup_file=Dosya
+backup_note=İma
+backup_upload=Karşıya yükleme
+backup_load_from_server=Sunucudan yükle
+
+backup_warning=Uyarı
+backup_upload_disabled=Yüklemelere izin verilmez
+backup_max_uploadsize=yükleme boyutu
+backup_max_uploadtime=yükleme süresi
+

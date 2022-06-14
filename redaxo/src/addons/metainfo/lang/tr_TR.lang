@@ -1,0 +1,86 @@
+media=Medya
+categories=Kategori
+articles=Makale
+
+minfo_title=Meta bilgilerini genişletme
+minfo_metainfos_not_found=Meta bilgi bulunamadı
+
+minfo_field_list_caption=Meta alanların listesi
+
+minfo_field_fieldset=Alanı Düzenle/Oluştur
+minfo_field_label_prefix=Önek
+minfo_field_label_title=Alan adı
+minfo_field_label_name=Sütun
+minfo_field_label_function=Fonksiyon
+minfo_field_label_functions=Işlev
+minfo_field_label_id=Kimliği
+minfo_field_label_type=Alan
+minfo_field_label_attributes=Alan Öznitelikleri
+minfo_field_label_callback=Geri çağırma
+minfo_field_label_callback_templates=Geri Arama Şablonları
+minfo_field_label_default=Temerrüt
+minfo_field_label_nullable=Zorunlu alan
+minfo_field_label_params=Parametre
+minfo_field_label_priority=Saha Konumu
+minfo_field_label_restrictions=Yalnızca aşağıdaki kategorilerde kullanılabilir
+minfo_field_label_no_restrictions=Tüm kategorilerde mevcuttur
+minfo_field_label_all_templates=Tüm şablonlar için kullanılabilir
+minfo_field_label_templates=Yalnızca aşağıdaki şablonlar için kullanılabilir
+
+minfo_field_notice_title="translate:" öneki, değeri I18N aracılığıyla çevirir
+
+minfo_field_first_priority=Başlangıçta
+minfo_field_after_priority="{0}" alanından sonra
+
+minfo_field_params_notice_3="Örnekler:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label, id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_4="Örnekler:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label, id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_5="Örnekler:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label, id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_6="Örnek:<br /> <code>category=\"1\" types=\"gif,jpg\" preview=\"1\"</code>"
+minfo_field_params_notice_7="Örnek:<br /> <code>category=\"1\" types=\"gif,jpg\" preview=\"1\"</code>"
+minfo_field_params_notice_8="Örnek:<br /> <code>category=\"1\"</code>"
+minfo_field_params_notice_9="Örnek:<br /> <code>category=\"1\"</code>"
+minfo_field_params_notice_10="Örnek:<br /> <code>başlangıç-yılı=\"1990\" yıl sonu=\"2030\"</code>"
+minfo_field_params_notice_11="Örnek:<br /> <code>başlangıç-yılı=\"1990\" yıl sonu=\"2030\"</code>"
+
+minfo_field_attributes_notice="Giriş alanındaki HTML nitelikleri ve izinler, örneğin:<br /><code>style=\"color:red" ;" multiple="multiple" class="my_css_class" perm="admin[]"</code>
+minfo_field_label_notice=Alanın değeri değiştirildiğinde çalışan kod.<br /> Okunabilir değişkenler: <code>dize $fieldName, dize $fieldValue, rex_sql $field</code>
+
+minfo_field_error_name=Lütfen sütun adlarını giriniz!
+minfo_field_error_unique_name=Belirtilen sütun adı zaten var!
+minfo_field_error_unique_type=Belirtilen tür adı zaten var!
+minfo_field_error_chars_name=Sütun adı geçersiz karakterler içeriyor (İzin verilen A-Z, 0-9 ve _)!
+minfo_field_error_invalid_prefix=Belirtilen önek geçersiz!
+minfo_field_error_invalid_type=Belirtilen tür geçersiz!
+minfo_field_error_invalid_length=Belirtilen alan uzunluğu geçersiz!
+minfo_field_error_invalid_name=Belirtilen sütun adı geçersiz!
+minfo_field_error_invalid_fieldid=Belirtilen alan kimliği geçersiz!
+minfo_field_error_invalid_typeid=Belirtilen Type-Id geçersiz!
+minfo_field_error_deleted=Alan silinmedi!
+minfo_field_successfull_deleted=Alan başarıyla silindi!
+minfo_field_successfull_saved=Veriler başarıyla kaydedildi!
+
+minfo_default_fields_create=Varsayılan alanlar oluşturma
+minfo_default_fields_created=Varsayılan alanlar başarıyla oluşturuldu!
+
+minfo_edit_metadata=Meta verileri düzenleme
+minfo_metadata_saved=Meta veriler kaydedildi.
+
+minfo_media_in_use_art=Makaleler (meta veriler)
+minfo_media_in_use_cat=Kategoriler (meta veriler)
+minfo_media_in_use_med=Medya (meta veriler)
+minfo_media_in_use_clang=Diller (meta veriler)
+
+minfo_callback_lang_indep_field=Dilden bağımsız alan
+
+# bc: labels aus dem core=
+online_from=Çevrimiçi olarak
+online_to=e kadar
+description=Tarif
+keywords=Anahtar kelime -ler
+header_article_type=Madde
+metadata_image=Meta Dosya/Resim
+teaser=Teaser
+pool_file_copyright=Telif hakkı
+
+metadata=Meta veriler
+

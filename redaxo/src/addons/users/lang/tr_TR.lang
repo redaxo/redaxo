@@ -1,0 +1,46 @@
+user_management=Kullanıcı
+perm_general_users[]=Kullanıcı
+roles=Rolleri
+user=Kullanıcı
+users=Kullanıcı
+admin=Admin
+
+user_deleted=Kullanıcı silindi!
+user_added=Kullanıcı eklendi!
+create_user=Yeni kullanıcı oluşturma
+add_user=Kullanıcı ekleme
+edit_user=Kullanıcıyı Düzenle
+user_reset_tries=Giriş başarısız denemelerini sıfırla (şu anda: {0})
+user_login_exists=Kullanıcı girişi zaten var!
+user_missing_login=Lütfen bir kullanıcı adı girin!
+user_missing_password=Lütfen bir şifre giriniz!
+user_admin=Admin
+user_admin_note=Tüm haklar / Tüm görünür
+user_notdeleteself=Kendinizi silemezsiniz!
+user_general=Genel
+user_save=Kullanıcıyı kaydet
+user_apply=Kullanıcı uygula
+user_delete=silmek
+user_functions=Işlev
+user_options=Seçenekler
+user_extras=Ekstra
+last_login=Son Giriş
+user_caption=Oluşturulan kullanıcıların listesi
+user_password_change_required=Giriş yapıldıktan sonra şifre değiştirilmelidir
+user_status_active=Kullanıcı etkin
+user_status_inactive=Kullanıcı etkin değil
+startpage=Ana sayfa
+
+user_role=Rol(ler)
+user_role_data_updated=Rol güncellendi!
+user_role_deleted=Rol silindi!
+user_role_added=Rol eklendi!
+edit_user_role=Rolü Düzenle
+create_user_role=Yeni rol oluşturma
+add_user_role=Rol Ekle
+user_role_save=Rolü Kaydet
+user_role_apply=Bir rol üstlenin
+user_role_delete=silmek
+user_role_caption=Oluşturulan rollerin listesi
+user_no_role=rol yok
+

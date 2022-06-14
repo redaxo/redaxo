@@ -1,0 +1,16 @@
+version=Sürüm
+
+version_liveversion=Canlı sürüm
+version_workingversion=Çalışma sürümü
+version_working_to_live=canlı sürüm olarak yayınla
+version_preview=Önizleme
+version_clear_workingversion=Boş çalışma sürümü
+version_copy_live_to_workingversion=Çalışma sürümüne kopyala
+version_copy_from_liveversion=Canlı sürümden başvurun
+version_confirm_copy_live_to_workingversion=Canlı sürümü çalışan sürüme mi kopyalayacaksınız? Çalışma sürümünün varolan tüm içeriğinin üzerine yazılır.
+version_info_working_version_to_live=Çalışma versiyonu yayına alındı
+version_info_live_version_to_working=Canlı sürüm, çalışan sürüme kopyalandı
+version_warning_working_version_to_live=Çalışma sürümü boş olduğu için yayınlanamaz
+version_info_clear_workingversion=Çalışma sürümü başarıyla boşaltıldı
+version_confirm_clear_workingversion=Çalışma sürümünü sıfırladınız mı? Çalışma sürümünün mevcut tüm içeriği geri alınamaz bir şekilde silinecektir.
+

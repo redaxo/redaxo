@@ -1,0 +1,75 @@
+install_title=Yükleyici
+install_subpage_packages=Çekirdek & Paketler
+install_subpage_update=Mevcut olanları güncelleme
+install_subpage_add=Yenilerini indirin
+install_subpage_upload=Kendinizinkini yükleyin
+install_subpage_settings=Ayarlar
+
+install_webservice_unreachable=Web hizmeti şu anda kullanılamıyor!
+install_webservice_error=Web hizmeti aşağıdaki hata iletisini döndürür:
+install_archive_unreachable=Zip dosyası mevcut değil!
+
+install_reload=Listeyi yenile
+install_key=Anahtar
+install_information=Bilgi
+install_name=Ad
+install_author=Yaratıcı
+install_shortdescription=Soyut
+install_description=Tarif
+install_website=İnternet Sitesi
+install_files=Dosyaları
+install_version=Sürüm
+install_existing_version=Mevcut sürüm
+install_available_versions=Mevcut sürümler
+install_addon_already_exists=zaten indirilmiş
+install_update=güncelleştirmek
+install_download=indirmek
+install_addons_found={0} Eklentiler bulundu
+install_available_updates={0} güncellemeler mevcut
+install_my_packages=Paketlerim
+install_status=Durum
+install_online=çevrimiçi
+install_offline=çevrimdışı
+install_file_add=Dosya ekle
+install_file_edit=Güncelleme dosyası
+install_send=Gönder
+install_upload_file=Zip dosyası oluşturma ve yükleme
+install_replace_assets=Varlıkları kök varlıklar klasöründen kaldırma
+install_ignore_tests=Testler klasörünü yoksayma
+install_published_on=Yayınlanan
+install_sort=Tür
+install_sort_default=Artan düzende anahtara göre sırala
+
+install_info_core_updated=Çekirdek güncellendi!
+install_warning_core_not_updated=Çekirdek aşağıdaki nedenle güncelleştirilemedi:
+install_warning_core_zip_not_extracted=Zip dosyası "src" dizinine açılamadı!
+
+install_info_addon_downloaded=AddOn <b>{0}</b> indirildi!
+install_warning_addon_not_downloaded=AddOn <b>{0}</b> aşağıdaki nedenle indirilemedi:
+install_info_addon_updated=AddOn <b>{0}</b> güncellendi!
+install_warning_addon_not_updated=AddOn <b>{0}</b> aşağıdaki nedenlerden dolayı güncelleştirilemedi:
+install_info_addon_uploaded=AddOn <b>{0}</b> yüklendi!
+install_info_addon_deleted=<b>{0}</b> 'in AddOn sürümü silindi!
+install_warning_addon_zip_not_extracted=Zip dosyası AddOn dizinine açılırken bir hata oluştu. Yazma izinleri eksik olabilir veya zip dosyasındaki klasör adı AddOn anahtarıyla eşleşmeyebilir.
+install_warning_message_from_addon=AddOn <b>{0}</b> raporları:
+install_warning_message_from_plugin=Eklenti <b>{0}</b> raporları:
+
+install_warning_directory_not_writable=<b>{0}</b> klasör yazılabilir değil!
+install_warning_zip_wrong_checksum=İndirilen zip dosyasının sağlama toplamı beklenenle eşleşmiyor. Lütfen birkaç dakika içinde tekrar deneyin!
+install_warning_zip_wrong_format=Zip dosyası gerekli biçimde değil.
+
+install_to_addon_page=AddOn Yönetimi için
+
+install_settings_general=Genel
+install_settings_backups=Yedekleme oluşturma
+install_settings_backups_note=Yükleyici paketleri güncellemeden önce, geçerli sürümün bir kopyası redaxo/data/addons/install/ <code></code> saklanır. Bunlar hata durumunda tekrar oynatılabilir.<br>Lütfen veritabanının yedeklenmediğini unutmayın!
+install_settings_myredaxo_account=myREDAXO hesabı
+install_settings_api_login=Kullanıcı adı
+install_settings_api_key=API Anahtarı
+install_settings_saved=Ayarlar kaydedildi!
+install_settings_error=Ayarlar kaydedilemiyor, aşağıdakiler için yazma izinlerini kontrol edin: {0}
+
+install_header_function=Fonksiyon
+install_latest_release=Geçerli Sürüm
+install_download_unstable=Dikkat! Bu bir geliştirme sürümüdür. Kurulum riski size aittir.
+

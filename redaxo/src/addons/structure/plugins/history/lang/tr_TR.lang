@@ -1,0 +1,23 @@
+structure_history=Tarih
+structure_history_title_info=Kısa açıklama
+structure_history_snapshot_reactivate=Bu sürümü uygula
+structure_history_snapshot_reactivated=Sürüm kabul edildi
+structure_history_overview_versions=history_overview_versions
+structure_history_current_version=Geçerli sürüm
+structure_history_info_content=<p>Makale içeriğindeki değişiklikleri kaydedebileceğiniz bir geçmiş eklentisi. Sürümün anlık görüntüsü oluşturulur ve bir tarih verilir. Daha sonra eski sürümler yeniden etkinleştirilebilir.</p>
+structure_history_todos=Todos
+structure_history_todos_content=<ul><li>cronjob</li><li>geçmişi devre dışı bırakılabilir hale getirir</li><li>sürüm sayısını sınırlamak için ayarlar içerir. E.B. Bir hafta sonra sadece bir versiyon / gün saklayın. bir ay sonra sadece bir sürüm / ay tutun. Web sitesinin ölçekleme değerlerini ayarlamak</li><li>sunum oldukça ala Time Machine</li><li>?</li></ul>
+
+perm_options_history[article_rollback]=Öğeyi Geri Yükle (Geçmiş)
+
+structure_history_button_delete_history=Geçmişi tamamen silme
+structure_history_deleted=Geçmiş tamamen silindi.
+structure_history_savedby=tarafından güvence altına alınmıştır
+structure_history_close=Iptal
+
+structure_history_cleanup=Makale geçmişini temizleme
+structure_history_cleanup_after=Şu tarihten eskiyse geçmişi sil
+structure_history_days={0} günler
+structure_history_months={0} ay
+structure_history_years={0} yıl
+
