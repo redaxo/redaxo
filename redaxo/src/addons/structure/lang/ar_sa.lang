@@ -1,0 +1,87 @@
+structure=بنية
+
+title_structure=إدارة الهيكل
+root_level=المستوى الرئيسي
+no_such_category=الفئة غير متوفرة!
+category_updated=تم تحديث الفئة.
+category_could_not_be_deleted=لا يمكن حذف الفئة!
+category_still_contains_articles=الفئة لا تزال تحتوي على مقالات.
+category_still_contains_subcategories=لا تزال الفئة تحتوي على فئات فرعية.
+category_status_updated=تم تحديث حالة الفئة!
+category_added_and_startarticle_created=تمت إضافة الفئة وإطلاق المقالة التي تم إنشاؤها!
+article_doesnt_exist=المادة غير موجودة!
+article_status_updated=تم تحديث حالة العنصر.
+article_updated=تم تحديث المادة.
+article_added=تمت إضافة المادة.
+header_category=اسم التصنيف
+header_priority=أولوية
+header_status=الحالة / الوظيفة
+header_id=بطاقة تعريف
+add_category=إضافة فئة
+edit_category=تحرير الفئة
+save_category=حفظ الفئة
+status_online=عبر الانترنت
+status_offline=غير متصل على الانترنت
+option_no_template=لا يوجد قالب
+template_default_name=لا يوجد نموذج
+header_article_name=اسم المنتج
+header_template=قالب
+header_date=تم إنشاؤها على
+change=يتغيرون
+article_add=أضف مقالاً
+article_edit=تحرير المقال
+article_save=احفظ المقال
+article=أداة
+start_article=مقالة البداية
+no_article_available=لا توجد مقالة متاحة
+structure_categories_caption=قائمة الفئات الفرعية للفئة "{0}"
+structure_articles_caption=قائمة مقالات الفئة "{0}"
+structure_root_level_articles_caption=قائمة بعناصر "المستوى الرئيسي"
+structure_root_level_categories_caption=قائمة فئات "المستوى الرئيسي"
+article_deleted=تم حذف المقال!
+article_could_not_be_generated=لا يمكن إنشاء المادة.
+category_deleted=تم حذف الفئة!
+category_doesnt_exist=الفئة غير موجودة!
+cant_delete_sitestartarticle=لا يمكن حذف مقال بدء الموقع!
+cant_delete_notfoundarticle=لا يمكن حذف المقال "غير موجود"!
+structure_copy=ينسخ
+category_has_child_elements=تحتوي الفئة على عناصر فرعية
+category_without_child_elements=فئة لا تحتوي على عناصر فرعية
+
+all_categories=جميع الفئات
+categories=التصنيفات
+
+perm_options_addArticle[]=إنشاء مقال
+perm_options_addCategory[]=إنشاء فئة
+perm_options_editArticle[]=تحرير المقال
+perm_options_editCategory[]=تحرير الفئة
+perm_options_deleteArticle[]=حذف المادة
+perm_options_deleteCategory[]=حذف الفئة
+perm_options_article2category[]=تحويل المقالات إلى فئات
+perm_options_article2startarticle[]=تحويل المادة إلى مقالة البداية
+perm_options_copyArticle[]=نسخ المقال
+perm_options_copyContent[]=نسخ محتوى المقال
+perm_options_moveArticle[]=نقل المادة
+perm_options_moveCategory[]=نقل الفئات
+perm_options_publishArticle[]=نشر المقال
+perm_options_publishCategory[]=نشر الفئات
+
+system_setting_start_article_id=مقالة البداية
+system_setting_notfound_article_id=مقالة خطأ
+system_setting_default_template_id=القالب الافتراضي
+system_setting_start_article_id_invalid=مقالة البداية غير صالحة!
+system_setting_notfound_article_id_invalid=مقالة خطأ غير صالحة!
+system_setting_default_template_id_invalid=نموذج افتراضي غير صالح!
+
+linkmap=خريطة الارتباط
+linkmap_categories=التصنيفات
+linkmap_articles=أداة
+linkmap_has_no_template=لا يوجد لديه قالب
+
+var_link_open=حدد الارتباط
+var_link_delete=حذف الارتباط المحدد
+var_linklist_move_top=انقل الرابط المحدد إلى الأعلى
+var_linklist_move_up=نقل الارتباط المحدد لأعلى
+var_linklist_move_down=نقل الارتباط المحدد لأسفل
+var_linklist_move_bottom=انقل الرابط المحدد إلى الأسفل
+

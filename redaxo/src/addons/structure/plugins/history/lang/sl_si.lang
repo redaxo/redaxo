@@ -1,0 +1,23 @@
+structure_history=Zgodovina
+structure_history_title_info=Kratka razlaga
+structure_history_snapshot_reactivate=Sprejem te različice
+structure_history_snapshot_reactivated=Sprejeta je bila različica
+structure_history_overview_versions=history_overview_versions
+structure_history_current_version=Trenutna različica
+structure_history_info_content=<p>Vtičnik za zgodovino, s katerim lahko beležite spremembe vsebine članka. Ustvari se posnetek različice, ki je opremljen z datumom. Starejše različice lahko pozneje ponovno aktivirate.</p>
+structure_history_todos=Todos
+structure_history_todos_content=<ul><li>pripravi cronjob</li><li>naredi zgodovino neaktivno</li><li>vključi nastavitve za omejitev števila različic. Npr. po enem tednu shranite samo eno različico/dan. po enem mesecu shranite samo eno različico/mesec....</li><li>Nastavite vrednosti skaliranja spletne strani</li><li>Povečajte privlačnost prikaza ala Time Machine ?</li></ul>
+
+perm_options_history[article_rollback]=Obnovitev elementa (zgodovina)
+
+structure_history_button_delete_history=Popolnoma izbrišite zgodovino
+structure_history_deleted=Zgodovina je bila v celoti izbrisana.
+structure_history_savedby=ki jih zagotavlja
+structure_history_close=Prekliči
+
+structure_history_cleanup=Čiščenje zgodovine člankov
+structure_history_cleanup_after=Izbriši zgodovino, če je starejša od
+structure_history_days={0} Dnevi
+structure_history_months={0} Meseci
+structure_history_years={0} leta
+

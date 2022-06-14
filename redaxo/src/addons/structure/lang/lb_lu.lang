@@ -1,0 +1,87 @@
+structure=Struktur
+
+title_structure=Struktur Gestioun
+root_level=Haaptniveau
+no_such_category=Kategorie net verfügbar!
+category_updated=Kategorie gouf aktualiséiert.
+category_could_not_be_deleted=Kategorie konnt net geläscht ginn!
+category_still_contains_articles=D'Kategorie enthält nach ëmmer Artikelen.
+category_still_contains_subcategories=D'Kategorie enthält nach Ënnerkategorien.
+category_status_updated=Kategorie Status gouf aktualiséiert!
+category_added_and_startarticle_created=Kategorie dobäi a starten Artikel erstallt!
+article_doesnt_exist=Artikel gëtt et net!
+article_status_updated=Artikel Status gouf aktualiséiert.
+article_updated=Artikel gouf aktualiséiert.
+article_added=Artikel gouf dobäi.
+header_category=Kategorie Numm
+header_priority=Prioritéit
+header_status=Status / Funktioun
+header_id=ID
+add_category=Kategorie dobäisetzen
+edit_category=Kategorie änneren
+save_category=späicheren Kategorie
+status_online=online
+status_offline=offline
+option_no_template=Keng Schabloun
+template_default_name=KENG Schabloun
+header_article_name=Produit Numm
+header_template=Schabloun
+header_date=Erstellt op
+change=änneren
+article_add=Artikel addéieren
+article_edit=Artikel änneren
+article_save=Artikel späicheren
+article=Artikel
+start_article=ugefaangen Artikel
+no_article_available=Keen Artikel verfügbar
+structure_categories_caption=Lëscht vun Ënnerkategorien vun der Kategorie "{0}"
+structure_articles_caption=Lëscht vun den Artikelen aus der Kategorie "{0}"
+structure_root_level_articles_caption=Lëscht vun "Haaptniveau" Elementer
+structure_root_level_categories_caption=Lëscht vun "Haaptniveau" Kategorien
+article_deleted=Artikel gouf geläscht!
+article_could_not_be_generated=Artikel konnt net erstallt ginn.
+category_deleted=Kategorie gouf geläscht!
+category_doesnt_exist=Kategorie gëtt et net!
+cant_delete_sitestartarticle=D'Websäit Start Artikel kann net geläscht ginn!
+cant_delete_notfoundarticle=Den Artikel "Net fonnt" kann net geläscht ginn!
+structure_copy=Kopie
+category_has_child_elements=Kategorie enthält Kand Elementer
+category_without_child_elements=Kategorie ouni Kand Elementer
+
+all_categories=All Kategorien
+categories=Kategorien
+
+perm_options_addArticle[]=Artikel erstellen
+perm_options_addCategory[]=schafen Kategorie
+perm_options_editArticle[]=Artikel änneren
+perm_options_editCategory[]=Kategorie änneren
+perm_options_deleteArticle[]=läschen Artikel
+perm_options_deleteCategory[]=Kategorie läschen
+perm_options_article2category[]=Konvertéiert Artikelen a Kategorien
+perm_options_article2startarticle[]=Konvertéiert den Artikel an den Startartikel
+perm_options_copyArticle[]=kopéieren Artikel
+perm_options_copyContent[]=Kopie Artikel Inhalt
+perm_options_moveArticle[]=bewegen Artikel
+perm_options_moveCategory[]=réckelen Kategorien
+perm_options_publishArticle[]=Artikel publizéieren
+perm_options_publishCategory[]=Publizéieren Kategorien
+
+system_setting_start_article_id=ugefaangen Artikel
+system_setting_notfound_article_id=Feeler Artikel
+system_setting_default_template_id=Standard Schabloun
+system_setting_start_article_id_invalid=Invalid Start Artikel!
+system_setting_notfound_article_id_invalid=Invalid Feeler Artikel!
+system_setting_default_template_id_invalid=Invalid Standard Schabloun!
+
+linkmap=Link Kaart
+linkmap_categories=Kategorien
+linkmap_articles=Artikel
+linkmap_has_no_template=huet keng Schabloun
+
+var_link_open=wielt Link
+var_link_delete=Läschen ausgewielt Link
+var_linklist_move_top=Beweegt de gewielte Link uewen
+var_linklist_move_up=Beweegt de gewielte Link erop
+var_linklist_move_down=Beweegt de gewielte Link erof
+var_linklist_move_bottom=Beweegt de gewielte Link no ënnen
+

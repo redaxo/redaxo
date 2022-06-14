@@ -1,0 +1,171 @@
+media_manager=Gestionnaire de médias
+media_manager_overview_title=Media Manager Addon <small>(version {0})</small>
+
+media_manager_subpage_desc=Explication
+media_manager_subpage_config=Configuration
+media_manager_subpage_types=Modifier les types de médias
+media_manager_subpage_clear_cache=Effacer le cache
+
+media_manager_cache_files_removed={0} Fichiers cache supprimés
+
+media_manager_config_saved=La configuration a été mise à jour !
+media_manager_config_not_saved=La configuration n'a pas pu être enregistrée !
+media_manager_config_not_writable=Le fichier de configuration "{0}" n'est pas inscriptible !
+
+media_manager_max_resizekb=Taille maximale d'un fichier en kilo-octets pouvant être converti par media-manager
+media_manager_max_resizepx=Taille maximale d'un fichier en pixels pouvant être converti via media-manager
+media_manager_jpg_quality=Qualité JPG
+media_manager_png_compression=Compression PNG
+media_manager_png_compression_note=Les valeurs supérieures à 6-7 ralentissent considérablement la génération d'images.
+media_manager_webp_quality=Qualité WebP
+media_manager_interlace=Mode entrelacé/progressif
+
+media_manager_id=ID
+media_manager_name=Nom
+media_manager_edittype=Modifier les types de médias
+media_manager_settings=Paramètres
+
+media_manager_yes=Oui
+media_manager_no=Non
+media_manager_back=Retour
+
+media_manager_error_name=Veuillez saisir un nom.
+media_manager_error_settings=Veuillez saisir le contenu dans Paramètres.
+media_manager_error_type_name_not_unique=Un type de média portant ce nom existe déjà !
+media_manager_error_type_name_invalid=Le nom ne doit pas contenir les caractères "/" et "\" !
+
+media_manager_type_caption=Liste des types de médias créés
+media_manager_type_no_types=Aucun type de média disponible
+media_manager_type_create=Créer un type de média
+media_manager_type_edit=éditer
+media_manager_type_copy=dupliquer
+media_manager_type_effekts_edit=Modifier les effets
+media_manager_type_delete=supprimer
+media_manager_type_name=Nom
+media_manager_type_name_copy=Copie
+media_manager_type_priority=Prio
+media_manager_type_description=Description
+media_manager_type_functions=Fonctions
+media_manager_type_cache_delete=Effacer le cache
+media_manager_type_system=Système Type de support
+media_manager_type_deleted=Type de média supprimé
+media_manager_type_copied=Type de média dupliqué
+
+media_manager_effect_list_header=Effets du type de média {0}
+media_manager_effect_edit_header=Type de média <mark>{0}</mark>: Modifier l'effet
+media_manager_effect_create_header=Type de média <mark>{0}</mark>: créer un effet
+media_manager_effect_caption=Liste des effets créés pour le type de média <mark>{0}</mark>
+media_manager_effect_no_effects=Aucun effet disponible
+media_manager_effect_create=Créer un effet
+media_manager_effect_edit=Modifier l'effet
+media_manager_effect_delete=Supprimer un effet
+media_manager_effect_name=Effet
+media_manager_effect_priority=Ordre des effets
+media_manager_effect_parameters=Paramètres
+media_manager_effect_functions=Fonctions
+media_manager_effect_deleted=Effet supprimé
+
+media_manager_effect_insert_image=Image : Placer une image / Filigrane
+media_manager_effect_brand_image=Image
+media_manager_effect_brand_hpos=alignement horizontal
+media_manager_effect_brand_vpos=alignement vertical
+media_manager_effect_brand_padding_x=distance horizontale par rapport au bord
+media_manager_effect_brand_padding_y=distance verticale par rapport au bord
+
+media_manager_effect_blur=Image : Flou
+media_manager_effect_blur_repeats=Répétitions
+media_manager_effect_blur_type=Type de flou
+media_manager_effect_blur_smoothit=lisser (les valeurs négatives accentuent les images)
+
+media_manager_effect_colorize=Image : Colorisation
+media_manager_effect_colorize_r=Valeur rouge
+media_manager_effect_colorize_g=Valeur verte
+media_manager_effect_colorize_b=Valeur bleue
+
+media_manager_effect_sharpen=Image : Aiguisage
+media_manager_effect_sharpen_amount=Degré d'acuité
+media_manager_effect_sharpen_radius=Taille de la matrice de netteté
+media_manager_effect_sharpen_threshold=Valeur limite
+
+media_manager_effect_resize=Image : Mise à l'échelle
+media_manager_effect_resize_width=Largeur cible
+media_manager_effect_resize_height=Hauteur cible
+media_manager_effect_resize_style=Mode
+media_manager_effect_resize_imgtosmall=Si l'image est trop petite
+
+media_manager_effect_crop=Image : Détourage
+media_manager_effect_crop_width=Largeur cible
+media_manager_effect_crop_height=Hauteur cible
+media_manager_effect_crop_offset_width=Décalage/déport horizontal
+media_manager_effect_crop_offset_height=Décalage/déport vertical
+media_manager_effect_crop_position=Point de référence
+
+media_manager_effect_rounded_corners=Image : Coins arrondis
+media_manager_effect_rounded_corners_topleft=En haut à gauche
+media_manager_effect_rounded_corners_topright=En haut à droite
+media_manager_effect_rounded_corners_bottomleft=En bas à gauche
+media_manager_effect_rounded_corners_bottomright=En bas à droite
+
+media_manager_effect_flip=l'image : Retourner horizontalement/verticalement
+media_manager_effect_flip_direction=Direction
+
+media_manager_effect_rotate=Image : Tourner
+media_manager_effect_rotate_degree=Rotation de (degrés)
+
+media_manager_effect_mirror=l'image : Ajouter un reflet de l'eau
+media_manager_effect_mirror_height=Refl. Hauteur (50 / 10%)
+media_manager_effect_mirror_opacity=Opacité du reflet (0 - 100)
+media_manager_effect_mirror_opacity_notice=0% reflet complètement invisible, 100% reflet complètement visible
+media_manager_effect_mirror_background_color=Couleur de fond
+media_manager_effect_mirror_background_r=Arrière-plan R (0-255)
+media_manager_effect_mirror_background_g=Arrière-plan G (0-255)
+media_manager_effect_mirror_background_b=Arrière-plan B (0-255)
+
+media_manager_effect_workspace=Image : Surface de travail
+media_manager_effect_workspace_pos=Position
+
+media_manager_effect_folder=Alternatives Dossier par défaut : "media
+
+media_manager_effect_mediapath=Fichier : Personnaliser le chemin d'accès
+media_manager_effect_mediapath_path=Dossier de presse
+media_manager_effect_mediapath_path_notice=Chemin vers la source de l'image relative à l'installation de REDAXO au lieu de <code>media</code>, par exemple le répertoire <code>images</code>. Slash de tête / de queue (<code>/</code>) non nécessaire.
+
+media_manager_effect_header=fichier : Personnaliser l'en-tête
+media_manager_effect_header_download=Télécharger
+media_manager_effect_header_cache=Contrôle du cache
+media_manager_effect_header_filename=Source des noms de fichiers
+media_manager_effect_header_filename_notice=<code>filename</code> est le nom de fichier normalisé sur le serveur, par exemple <code>mon-téléchargement.pdf</code>, <code>nom original</code> est le nom de fichier original au moment du téléchargement (avec espaces, majuscules, etc.), par exemple <code>montéléchargement.pdf</code>
+
+
+
+media_manager_effect_convert2img=Fichier : Convertir en image
+media_manager_effect_convert2img_density=Densité de résolution
+media_manager_effect_convert2img_convertto=Format cible
+media_manager_effect_convert2img_density_notice=Densité de résolution en ppi (pixels par pouce).
+media_manager_effect_convert2img_convertto_notice=Format cible dans lequel le fichier sera converti. Les extensions de fichiers suivantes sont prises en compte : <code>.pdf,.ps,.psd,.tif,.tiff,.bmp,.eps,.ico,.svg</code>.
+media_manager_effect_convert2img_noimagemagick=Attention : ImageMagick n'a pas été trouvé. Cet effet nécessite soit l'extension PHP "imagick", soit ImageMagick en tant que "commandline binary", exécutable par exec().
+media_manager_effect_convert2img_color=Couleur pour la transparence
+media_manager_effect_convert2img_color_notice="Format \"#ffffff\", si rien n'est défini, la transparence sera utilisée. Pour les JPG, veuillez impérativement indiquer une couleur."
+
+
+media_manager_effect_image_properties=Image : Paramètres (qualité, entrelacement, ...)
+media_manager_effect_image_properties_jpg_quality_notice=[0-100]. Laisser vide pour la valeur par défaut.
+media_manager_effect_image_properties_png_compression_notice=[0-9]. Laisser vide pour la valeur par défaut.
+media_manager_effect_image_properties_webp_quality_notice=[0-100]. Laisser vide pour la valeur par défaut.
+media_manager_effect_image_properties_interlace_notice=Laisser vide pour la sélection par défaut.
+
+media_manager_effect_brightness=l'image : Luminosité
+media_manager_effect_brightness_value=Luminosité
+media_manager_effect_brightness_notice=[-255 à 255]. Laisser vide pour la valeur par défaut (0).
+
+media_manager_effect_contrast=Image : Contraste
+media_manager_effect_contrast_value=Contraste
+media_manager_effect_contrast_notice=[-100 à 100]. Laisser vide pour la valeur par défaut (0).
+
+media_manager_effect_sepia=Image : Sépia
+
+media_manager_effect_greyscale=Image : Niveaux de gris
+
+media_manager_effect_image_format=image : Convertir en JPEG/PNG/GIF/WEBP
+media_manager_effect_image_format_convertto=Format cible
+

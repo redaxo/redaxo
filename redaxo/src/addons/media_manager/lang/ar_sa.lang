@@ -1,0 +1,171 @@
+media_manager=مدير الإعلام
+media_manager_overview_title=ملحق مدير الوسائط <small>(الإصدار {0})</small>
+
+media_manager_subpage_desc=تفسير
+media_manager_subpage_config=ترتيب
+media_manager_subpage_types=تحرير أنواع الوسائط
+media_manager_subpage_clear_cache=مسح ذاكرة التخزين المؤقت
+
+media_manager_cache_files_removed=تم حذف {0} ملفات ذاكرة التخزين المؤقت
+
+media_manager_config_saved=تم تحديث التكوين!
+media_manager_config_not_saved=لا يمكن حفظ التكوين!
+media_manager_config_not_writable=ملف التكوين "{0}" غير قابل للكتابة!
+
+media_manager_max_resizekb=الحد الأقصى لحجم الملف بالكيلو بايت الذي يمكن تحويله باستخدام مدير الوسائط
+media_manager_max_resizepx=الحد الأقصى لحجم الملف بالبكسل الذي يمكن تحويله باستخدام مدير الوسائط
+media_manager_jpg_quality=جودة JPG
+media_manager_png_compression=ضغط PNG
+media_manager_png_compression_note=القيم التي تزيد عن 6-7 تبطئ بشكل كبير من إنشاء الصور.
+media_manager_webp_quality=جودة WebP
+media_manager_interlace=متشابك / وضع التدريجي
+
+media_manager_id=بطاقة تعريف
+media_manager_name=اسم العائلة
+media_manager_edittype=تحرير أنواع الوسائط
+media_manager_settings=الإعدادات
+
+media_manager_yes=نعم
+media_manager_no=رقم
+media_manager_back=يعود
+
+media_manager_error_name=الرجاء إدخال اسم.
+media_manager_error_settings=الرجاء إدخال المحتوى في الإعدادات.
+media_manager_error_type_name_not_unique=نوع وسائط بهذا الاسم موجود بالفعل!
+media_manager_error_type_name_invalid=يجب ألا يحتوي الاسم على الحرفين "/" و "\"!
+
+media_manager_type_caption=قائمة أنواع الوسائط التي تم إنشاؤها
+media_manager_type_no_types=لا توجد أنواع وسائط متاحة
+media_manager_type_create=إنشاء نوع الوسائط
+media_manager_type_edit=تعديل
+media_manager_type_copy=مكرر
+media_manager_type_effekts_edit=تحرير التأثيرات
+media_manager_type_delete=حذف
+media_manager_type_name=اسم العائلة
+media_manager_type_name_copy=ينسخ
+media_manager_type_priority=أولوية
+media_manager_type_description=وصف
+media_manager_type_functions=المهام
+media_manager_type_cache_delete=مسح ذاكرة التخزين المؤقت
+media_manager_type_system=نوع وسائط النظام
+media_manager_type_deleted=تم حذف نوع الوسائط
+media_manager_type_copied=نوع الوسائط مكرر
+
+media_manager_effect_list_header=نوع الوسائط {0}تأثيرات
+media_manager_effect_edit_header=نوع الوسائط <mark>{0}</mark>: تحرير التأثير
+media_manager_effect_create_header=نوع الوسائط <mark>{0}</mark>: إنشاء تأثير
+media_manager_effect_caption=قائمة التأثيرات التي تم إنشاؤها لنوع الوسائط <mark>{0}</mark>
+media_manager_effect_no_effects=لا توجد تأثيرات متاحة
+media_manager_effect_create=خلق تأثير
+media_manager_effect_edit=تحرير التأثير
+media_manager_effect_delete=تأثير الحذف
+media_manager_effect_name=تأثير
+media_manager_effect_priority=ترتيب التأثير
+media_manager_effect_parameters=معامل
+media_manager_effect_functions=المهام
+media_manager_effect_deleted=تم حذف التأثير
+
+media_manager_effect_insert_image=الصورة: صورة المكان / العلامة المائية
+media_manager_effect_brand_image=صورة
+media_manager_effect_brand_hpos=اتجاه أفقي
+media_manager_effect_brand_vpos=الاتجاه العمودي
+media_manager_effect_brand_padding_x=المسافة الأفقية إلى الحافة
+media_manager_effect_brand_padding_y=المسافة العمودية إلى الحافة
+
+media_manager_effect_blur=الصورة: طمس
+media_manager_effect_blur_repeats=التكرار
+media_manager_effect_blur_type=نوع طمس
+media_manager_effect_blur_smoothit=ناعم (القيم السالبة تزيد من حدة الصور)
+
+media_manager_effect_colorize=الصورة: تلوين
+media_manager_effect_colorize_r=قيمة حمراء
+media_manager_effect_colorize_g=القيمة الخضراء
+media_manager_effect_colorize_b=قيمة زرقاء
+
+media_manager_effect_sharpen=الصورة: Sharpen
+media_manager_effect_sharpen_amount=درجة الحدة
+media_manager_effect_sharpen_radius=حجم مصفوفة الحدة
+media_manager_effect_sharpen_threshold=حد
+
+media_manager_effect_resize=الصورة: مقياس
+media_manager_effect_resize_width=العرض المستهدف
+media_manager_effect_resize_height=الارتفاع المستهدف
+media_manager_effect_resize_style=الوضع
+media_manager_effect_resize_imgtosmall=إذا كانت الصورة صغيرة جدًا
+
+media_manager_effect_crop=الصورة: التقليم
+media_manager_effect_crop_width=العرض المستهدف
+media_manager_effect_crop_height=الارتفاع المستهدف
+media_manager_effect_crop_offset_width=إزاحة / إزاحة أفقية
+media_manager_effect_crop_offset_height=إزاحة / إزاحة رأسية
+media_manager_effect_crop_position=نقطة مرجعية
+
+media_manager_effect_rounded_corners=الصورة: زوايا مدورة
+media_manager_effect_rounded_corners_topleft=أعلى اليسار
+media_manager_effect_rounded_corners_topright=فوق على اليمين
+media_manager_effect_rounded_corners_bottomleft=أسفل اليسار
+media_manager_effect_rounded_corners_bottomright=أسفل اليمين
+
+media_manager_effect_flip=الصورة: انعكاس أفقي / عمودي
+media_manager_effect_flip_direction=اتجاه
+
+media_manager_effect_rotate=الصورة: تدوير
+media_manager_effect_rotate_degree=استدارة بمقدار (درجات)
+
+media_manager_effect_mirror=الصورة: أضف انعكاس الماء
+media_manager_effect_mirror_height=ارتفاع عاكس (50/10٪)
+media_manager_effect_mirror_opacity=عتامة الانعكاس (0 - 100)
+media_manager_effect_mirror_opacity_notice=0٪ انعكاس غير مرئي تمامًا ، انعكاس مرئي تمامًا بنسبة 100٪
+media_manager_effect_mirror_background_color=لون الخلفية
+media_manager_effect_mirror_background_r=الخلفية ص (0-255)
+media_manager_effect_mirror_background_g=الخلفية ز (0-255)
+media_manager_effect_mirror_background_b=الخلفية ب (0-255)
+
+media_manager_effect_workspace=الصورة: مساحة العمل
+media_manager_effect_workspace_pos=موقع
+
+media_manager_effect_folder=المجلد الافتراضي البديل: "الوسائط"
+
+media_manager_effect_mediapath=ملف: ضبط المسار
+media_manager_effect_mediapath_path=مجلد الوسائط
+media_manager_effect_mediapath_path_notice=المسار إلى مصدر الصورة بالنسبة إلى تثبيت REDAXO بدلاً من <code>وسائط</code>، على سبيل المثال الدليل <code>صور</code>. الشرطة المائلة البادئة</code>اللاحقة (<code>) غير مطلوبة.
+
+media_manager_effect_header=ملف: تخصيص العنوان
+media_manager_effect_header_download=تحميل
+media_manager_effect_header_cache=التحكم في ذاكرة التخزين المؤقت
+media_manager_effect_header_filename=مصدر لأسماء الملفات
+media_manager_effect_header_filename_notice=<code>اسم الملف</code> هو اسم الملف العادي على الخادم ، على سبيل المثال <code>my-download.pdf</code>، <code>originalname</code> هو اسم الملف الأصلي وقت التحميل (مع وجود مسافات وحساسية حالة الأحرف وما إلى ذلك) ، على سبيل المثال <code>تنزيل. PDF</code>
+
+
+
+media_manager_effect_convert2img=ملف: تحويل إلى صورة
+media_manager_effect_convert2img_density=كثافة القرار
+media_manager_effect_convert2img_convertto=الشكل المستهدف
+media_manager_effect_convert2img_density_notice=كثافة الدقة في نقطة في البوصة (بكسل في البوصة).
+media_manager_effect_convert2img_convertto_notice=التنسيق الهدف الذي سيتم تحويل الملف إليه. يتم أخذ امتدادات الملفات التالية في الاعتبار: <code>.pdf ، .ps ، .psd ، .tif ، .tiff ، .bmp ، .eps ، .ico ، .svg</code>.
+media_manager_effect_convert2img_noimagemagick=تحذير: تعذر العثور على ImageMagick. يتطلب هذا التأثير إما امتداد PHP "imagick" أو ImageMagick كـ "ثنائي سطر أوامر" ، قابل للتنفيذ عبر exec ().
+media_manager_effect_convert2img_color=لون للشفافية
+media_manager_effect_convert2img_color_notice="تنسيق \"#ffffff\" ، إذا لم يتم تعيين أي شيء ، فسيتم استخدام الشفافية. الرجاء تحديد لون لـ JPG."
+
+
+media_manager_effect_image_properties=الصورة: الإعدادات (الجودة ، التشابك ، ...)
+media_manager_effect_image_properties_jpg_quality_notice=[0-100]. اتركه فارغا للقيمة الافتراضية.
+media_manager_effect_image_properties_png_compression_notice=[0-9]. اتركه فارغا للقيمة الافتراضية.
+media_manager_effect_image_properties_webp_quality_notice=[0-100]. اتركه فارغا للقيمة الافتراضية.
+media_manager_effect_image_properties_interlace_notice=اتركه فارغا للاختيار الافتراضي.
+
+media_manager_effect_brightness=الصورة: السطوع
+media_manager_effect_brightness_value=سطوع
+media_manager_effect_brightness_notice=[-255 إلى 255]. اتركه فارغا للقيمة الافتراضية (0).
+
+media_manager_effect_contrast=الصورة: التباين
+media_manager_effect_contrast_value=التباين
+media_manager_effect_contrast_notice=[-100 إلى 100]. اتركه فارغا للقيمة الافتراضية (0).
+
+media_manager_effect_sepia=الصورة: بني داكن
+
+media_manager_effect_greyscale=الصورة: تدرج الرمادي
+
+media_manager_effect_image_format=الصورة: قم بالتحويل إلى JPEG / PNG / GIF / WEBP
+media_manager_effect_image_format_convertto=الشكل المستهدف
+

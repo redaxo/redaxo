@@ -1,0 +1,16 @@
+version=Versiunea
+
+version_liveversion=Versiunea live
+version_workingversion=Versiunea de lucru
+version_working_to_live=Lansare ca versiune live
+version_preview=Previzualizare
+version_clear_workingversion=Versiunea de lucru goală
+version_copy_live_to_workingversion=Copiați în versiunea de lucru
+version_copy_from_liveversion=Preluare din versiunea live
+version_confirm_copy_live_to_workingversion=Copiați versiunea live în versiunea de lucru? Tot conținutul existent în versiunea de lucru va fi suprascris.
+version_info_working_version_to_live=Versiunea de lucru a intrat în direct
+version_info_live_version_to_working=Versiunea live a fost copiată în versiunea de lucru
+version_warning_working_version_to_live=Versiunea de lucru nu poate fi pusă în funcțiune deoarece este goală
+version_info_clear_workingversion=Versiunea de lucru a fost golită cu succes
+version_confirm_clear_workingversion=Resetați versiunea de lucru? Tot conținutul existent al versiunii de lucru va fi șters irevocabil.
+

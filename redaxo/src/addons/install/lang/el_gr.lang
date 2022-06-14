@@ -1,0 +1,75 @@
+install_title=Εγκαταστάτης
+install_subpage_packages=Πυρήνας
+install_subpage_update=Ενημέρωση υφιστάμενων
+install_subpage_add=Κατεβάστε το νέο
+install_subpage_upload=Ανεβάστε το δικό σας
+install_subpage_settings=Ρυθμίσεις
+
+install_webservice_unreachable=Η διαδικτυακή υπηρεσία δεν είναι προς το παρόν διαθέσιμη!
+install_webservice_error=Η υπηρεσία ιστού επιστρέφει το ακόλουθο μήνυμα σφάλματος:
+install_archive_unreachable=Το αρχείο zip δεν είναι προσβάσιμο!
+
+install_reload=Λίστα ενημέρωσης
+install_key=Βασικό
+install_information=Πληροφορίες
+install_name=Όνομα
+install_author=Συγγραφέας
+install_shortdescription=Σύντομη περιγραφή
+install_description=Περιγραφή
+install_website=Ιστοσελίδα
+install_files=Αρχεία
+install_version=Έκδοση
+install_existing_version=Υπάρχουσα έκδοση
+install_available_versions=Διαθέσιμες εκδόσεις
+install_addon_already_exists=ήδη κατεβάσει
+install_update=ενημέρωση
+install_download=λήψη
+install_addons_found={0} Βρέθηκαν AddOns
+install_available_updates={0} Διαθέσιμες ενημερώσεις
+install_my_packages=Τα πακέτα μου
+install_status=Κατάσταση
+install_online=online
+install_offline=offline
+install_file_add=Προσθήκη αρχείου
+install_file_edit=Αρχείο ενημέρωσης
+install_send=Στείλτε
+install_upload_file=Δημιουργία και μεταφόρτωση αρχείου zip
+install_replace_assets=Λήψη στοιχείων ενεργητικού από τον ριζικό φάκελο στοιχείων ενεργητικού
+install_ignore_tests=Αγνοήστε το φάκελο "tests
+install_published_on=Δημοσιεύθηκε στις
+install_sort=Ταξινόμηση
+install_sort_default=Ταξινόμηση κατά κλειδί αύξουσα
+
+install_info_core_updated=Ο πυρήνας έχει ενημερωθεί!
+install_warning_core_not_updated=Ο πυρήνας δεν μπορούσε να ενημερωθεί για τον ακόλουθο λόγο:
+install_warning_core_zip_not_extracted=Το αρχείο zip δεν μπόρεσε να αποσυμπιεστεί στον κατάλογο "src"!
+
+install_info_addon_downloaded=Το AddOn <b>{0}</b> έχει ληφθεί!
+install_warning_addon_not_downloaded=Το AddOn <b>{0}</b> δεν μπόρεσε να μεταφορτωθεί για τον ακόλουθο λόγο:
+install_info_addon_updated=Το AddOn <b>{0}</b> έχει ενημερωθεί!
+install_warning_addon_not_updated=Το AddOn <b>{0}</b> δεν μπόρεσε να ενημερωθεί για τον ακόλουθο λόγο:
+install_info_addon_uploaded=Το AddOn <b>{0}</b> έχει μεταφορτωθεί!
+install_info_addon_deleted=Η έκδοση AddOn του <b>{0}</b> έχει διαγραφεί!
+install_warning_addon_zip_not_extracted=Προέκυψε σφάλμα κατά την αποσυμπίεση του αρχείου zip στον κατάλογο AddOn. Ενδεχομένως να λείπουν τα δικαιώματα εγγραφής ή το όνομα του φακέλου μέσα στο αρχείο zip δεν αντιστοιχεί στο κλειδί AddOn.
+install_warning_message_from_addon=AddOn <b>{0}</b> reports:
+install_warning_message_from_plugin=PlugIn <b>{0}</b> reports:
+
+install_warning_directory_not_writable=Ο φάκελος <b>{0}</b> δεν είναι εγγράψιμος!
+install_warning_zip_wrong_checksum=Το άθροισμα ελέγχου του κατεβασμένου αρχείου zip δεν ταιριάζει με το αναμενόμενο. Παρακαλώ δοκιμάστε ξανά σε λίγα λεπτά!
+install_warning_zip_wrong_format=Το αρχείο zip δεν έχει την απαιτούμενη μορφή.
+
+install_to_addon_page=Στη διαχείριση του πρόσθετου
+
+install_settings_general=Γενικά
+install_settings_backups=Δημιουργία αντιγράφων ασφαλείας
+install_settings_backups_note=Πριν από την ενημέρωση των πακέτων από τον εγκαταστάτη, ένα αντίγραφο της τρέχουσας έκδοσης αποθηκεύεται στο <code>redaxo/data/addons/install/</code> . Αυτά μπορούν να επανεγκατασταθούν σε περίπτωση σφαλμάτων.<br>Σημειώστε ότι η βάση δεδομένων δεν έχει δημιουργηθεί αντίγραφο ασφαλείας!
+install_settings_myredaxo_account=λογαριασμός myREDAXO
+install_settings_api_login=Όνομα χρήστη
+install_settings_api_key=Κλειδί API
+install_settings_saved=Οι ρυθμίσεις έχουν αποθηκευτεί!
+install_settings_error=Οι ρυθμίσεις δεν μπόρεσαν να αποθηκευτούν, ελέγξτε τα δικαιώματα εγγραφής για: {0}
+
+install_header_function=Λειτουργία
+install_latest_release=Τρέχουσα έκδοση
+install_download_unstable=Προσοχή! Αυτή είναι μια έκδοση ανάπτυξης. Εγκαταστήστε με δική σας ευθύνη.
+

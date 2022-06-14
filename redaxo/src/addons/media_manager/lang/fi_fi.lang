@@ -1,0 +1,171 @@
+media_manager=Media Manager
+media_manager_overview_title=Media Manager Addon <small>(Versio {0})</small>
+
+media_manager_subpage_desc=Selitys
+media_manager_subpage_config=Konfigurointi
+media_manager_subpage_types=Muokkaa mediatyyppejä
+media_manager_subpage_clear_cache=Tyhjennä välimuisti
+
+media_manager_cache_files_removed={0} Välimuistitiedostot poistettu
+
+media_manager_config_saved=Konfiguraatio on päivitetty!
+media_manager_config_not_saved=Konfiguraatiota ei voitu pelastaa!
+media_manager_config_not_writable=Määritystiedosto "{0}" ei ole kirjoitettavissa!
+
+media_manager_max_resizekb=Tiedoston enimmäiskoko kilotavuina, joka voidaan muuntaa media-managerin kautta.
+media_manager_max_resizepx=Media-managerin kautta muunnettavan tiedoston enimmäiskoko pikseleinä.
+media_manager_jpg_quality=JPG-laatu
+media_manager_png_compression=PNG-pakkaus
+media_manager_png_compression_note=Arvot yli 6-7 hidastavat huomattavasti kuvien luomista.
+media_manager_webp_quality=WebP-laatu
+media_manager_interlace=Interlace/Progressiivinen tila
+
+media_manager_id=ID
+media_manager_name=Nimi
+media_manager_edittype=Muokkaa mediatyyppejä
+media_manager_settings=Asetukset
+
+media_manager_yes=Kyllä
+media_manager_no=Ei
+media_manager_back=Takaisin
+
+media_manager_error_name=Anna nimi.
+media_manager_error_settings=Kirjoita sisältö kohtaan Asetukset.
+media_manager_error_type_name_not_unique=Tämän niminen mediatyyppi on jo olemassa!
+media_manager_error_type_name_invalid=Nimi ei saa sisältää merkkejä "/" ja "\"!
+
+media_manager_type_caption=Luettelo luoduista mediatyypeistä
+media_manager_type_no_types=Ei käytettävissä olevia mediatyyppejä
+media_manager_type_create=Luo mediatyyppi
+media_manager_type_edit=muokkaa
+media_manager_type_copy=kaksoiskappale
+media_manager_type_effekts_edit=Muokkaa tehosteita
+media_manager_type_delete=poista
+media_manager_type_name=Nimi
+media_manager_type_name_copy=Kopioi
+media_manager_type_priority=Prio
+media_manager_type_description=Kuvaus
+media_manager_type_functions=Toiminnot
+media_manager_type_cache_delete=Tyhjennä välimuisti
+media_manager_type_system=Järjestelmä Mediatyyppi
+media_manager_type_deleted=Mediatyyppi poistettu
+media_manager_type_copied=Mediatyyppi päällekkäinen
+
+media_manager_effect_list_header=Mediatyypin vaikutukset {0}
+media_manager_effect_edit_header=Mediatyyppi <mark>{0}</mark>: Muokkaa efektiä.
+media_manager_effect_create_header=Mediatyyppi <mark>{0}</mark>: Luo efekti
+media_manager_effect_caption=Luettelo mediatyypin luoduista efekteistä <mark>{0}</mark>
+media_manager_effect_no_effects=Vaikutuksia ei ole saatavilla
+media_manager_effect_create=Luo vaikutus
+media_manager_effect_edit=Muokkaa vaikutusta
+media_manager_effect_delete=Poista vaikutus
+media_manager_effect_name=Vaikutus
+media_manager_effect_priority=Vaikutusjärjestys
+media_manager_effect_parameters=Parametri
+media_manager_effect_functions=Toiminnot
+media_manager_effect_deleted=Vaikutus poistettu
+
+media_manager_effect_insert_image=Kuva: Aseta kuva / vesileima
+media_manager_effect_brand_image=Kuva
+media_manager_effect_brand_hpos=vaakasuora linjaus
+media_manager_effect_brand_vpos=pystysuora linjaus
+media_manager_effect_brand_padding_x=Vaakasuora etäisyys reunasta
+media_manager_effect_brand_padding_y=Pystysuora etäisyys reunasta
+
+media_manager_effect_blur=Kuva: Suhahdus
+media_manager_effect_blur_repeats=Toistot
+media_manager_effect_blur_type=Sameuden tyyppi
+media_manager_effect_blur_smoothit=sileä (negatiiviset arvot terävöittävät kuvia)
+
+media_manager_effect_colorize=Kuva: Väritys
+media_manager_effect_colorize_r=Punainen arvo
+media_manager_effect_colorize_g=Vihreä arvo
+media_manager_effect_colorize_b=Sininen arvo
+
+media_manager_effect_sharpen=Kuva: Teroitus
+media_manager_effect_sharpen_amount=Vakavuusaste
+media_manager_effect_sharpen_radius=Terävyysmatriisin koko
+media_manager_effect_sharpen_threshold=Raja-arvo
+
+media_manager_effect_resize=Kuva: Skaalaus
+media_manager_effect_resize_width=Tavoitteen leveys
+media_manager_effect_resize_height=Tavoitekorkeus
+media_manager_effect_resize_style=Tila
+media_manager_effect_resize_imgtosmall=Jos kuva liian pieni
+
+media_manager_effect_crop=Kuva: Karsinta
+media_manager_effect_crop_width=Tavoitteen leveys
+media_manager_effect_crop_height=Tavoitekorkeus
+media_manager_effect_crop_offset_width=Vaakasuora siirto/offset
+media_manager_effect_crop_offset_height=Pystysuora siirtymä
+media_manager_effect_crop_position=Viitekohta
+
+media_manager_effect_rounded_corners=Kuva: Pyöristetyt kulmat
+media_manager_effect_rounded_corners_topleft=Ylhäällä vasemmalla
+media_manager_effect_rounded_corners_topright=Ylhäällä oikealla
+media_manager_effect_rounded_corners_bottomleft=Alhaalla vasemmalla
+media_manager_effect_rounded_corners_bottomright=Alhaalla oikealla
+
+media_manager_effect_flip=Kuva: Peili vaakasuoraan/pystysuoraan
+media_manager_effect_flip_direction=Suunta
+
+media_manager_effect_rotate=Kuva: Turning
+media_manager_effect_rotate_degree=Kierrä (astetta)
+
+media_manager_effect_mirror=Kuva: Lisää veden heijastus
+media_manager_effect_mirror_height=Refl. Korkeus (50 / 10%)
+media_manager_effect_mirror_opacity=Heijastuksen läpinäkymättömyys (0 - 100)
+media_manager_effect_mirror_opacity_notice=0 % täysin näkymätön heijastus, 100 % täysin näkyvä heijastus.
+media_manager_effect_mirror_background_color=Taustan väri
+media_manager_effect_mirror_background_r=Tausta R (0-255)
+media_manager_effect_mirror_background_g=Tausta G (0-255)
+media_manager_effect_mirror_background_b=Tausta B (0-255)
+
+media_manager_effect_workspace=Kuva: Työtaso
+media_manager_effect_workspace_pos=Asema
+
+media_manager_effect_folder=Vaihtoehdot Kansio oletus: "media
+
+media_manager_effect_mediapath=Tiedosto: Mukauta polku
+media_manager_effect_mediapath_path=Media-kansio
+media_manager_effect_mediapath_path_notice=Polku kuvalähteeseen suhteessa REDAXO-asennukseen eikä <code>media</code>, esim. hakemisto <code>images</code>. Johtavaa/jälkimmäistä vinoviivaa (<code>/</code>) ei tarvita.
+
+media_manager_effect_header=Tiedosto: Mukauta otsikkoa
+media_manager_effect_header_download=Lataa
+media_manager_effect_header_cache=Välimuistin valvonta
+media_manager_effect_header_filename=Tiedoston nimi lähde
+media_manager_effect_header_filename_notice=<code>tiedostonimi</code> on palvelimen normalisoitu tiedostonimi, esim. <code>my-download.pdf</code>, <code>originalname</code> on alkuperäinen tiedostonimi lataushetkellä (välilyönnit, isot/ pienet kirjaimet jne.), esim. <code>My-download.pdf</code>
+
+
+
+media_manager_effect_convert2img=Tiedosto: Muunna kuvaksi
+media_manager_effect_convert2img_density=Resoluutiotiheys
+media_manager_effect_convert2img_convertto=Tavoiteformaatti
+media_manager_effect_convert2img_density_notice=Resoluutiotiheys ppi:nä (pikseliä tuumaa kohti).
+media_manager_effect_convert2img_convertto_notice=Kohdeformaatti, johon tiedosto muunnetaan. Seuraavat tiedostopäätteet otetaan huomioon: <code>.pdf, .ps, .psd, .tif, .tiff, .bmp, .eps, .ico, .svg</code>.
+media_manager_effect_convert2img_noimagemagick=Huomio: ImageMagickia ei löytynyt. Tämä vaikutus vaatii joko PHP-laajennuksen "imagick" tai ImageMagickin "komentorivin binäärinä", joka voidaan suorittaa exec()-ohjelmalla.
+media_manager_effect_convert2img_color=Läpinäkyvyyttä lisäävä väri
+media_manager_effect_convert2img_color_notice="Muotoilu \"#ffffffff\", jos mitään ei ole asetettu, käytetään läpinäkyvyyttä. Jos kyseessä on JPG, määrittele väri."
+
+
+media_manager_effect_image_properties=Kuva: Asetukset (laatu, lomitus, ...)
+media_manager_effect_image_properties_jpg_quality_notice=[0-100]. Jätä tyhjä oletusarvoksi.
+media_manager_effect_image_properties_png_compression_notice=[0-9]. Jätä tyhjä oletusarvoksi.
+media_manager_effect_image_properties_webp_quality_notice=[0-100]. Jätä tyhjä oletusarvoksi.
+media_manager_effect_image_properties_interlace_notice=Jätä tyhjäksi, jos kyseessä on vakiovalinta.
+
+media_manager_effect_brightness=Kuva: Kirkkaus
+media_manager_effect_brightness_value=Kirkkaus
+media_manager_effect_brightness_notice=[-255-255]. Jätä tyhjäksi oletusarvo (0).
+
+media_manager_effect_contrast=Kuva: Contrast
+media_manager_effect_contrast_value=Kontrasti
+media_manager_effect_contrast_notice=[-100-100]. Jätä tyhjäksi oletusarvo (0).
+
+media_manager_effect_sepia=Kuva: Sepia
+
+media_manager_effect_greyscale=Kuva: greyscale
+
+media_manager_effect_image_format=Kuva: Muunna muotoon JPEG/PNG/GIF/WEBP
+media_manager_effect_image_format_convertto=Tavoiteformaatti
+

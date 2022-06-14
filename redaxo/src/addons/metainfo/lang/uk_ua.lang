@@ -1,0 +1,86 @@
+media=ЗМІ
+categories=категорії
+articles=статті
+
+minfo_title=Розгорніть мета-інформацію
+minfo_metainfos_not_found=Мета інформації не знайдено
+
+minfo_field_list_caption=Список метаполів
+
+minfo_field_fieldset=Редагувати/Створити поле
+minfo_field_label_prefix=префікс
+minfo_field_label_title=етикетка поля
+minfo_field_label_name=ім'я стовпця
+minfo_field_label_function=функція
+minfo_field_label_functions=функції
+minfo_field_label_id=id
+minfo_field_label_type=тип поля
+minfo_field_label_attributes=атрибути поля
+minfo_field_label_callback=зворотний дзвінок
+minfo_field_label_callback_templates=шаблони зворотного дзвінка
+minfo_field_label_default=значення за замовчуванням
+minfo_field_label_nullable=Обов'язкове поле
+minfo_field_label_params=параметр
+minfo_field_label_priority=польове положення
+minfo_field_label_restrictions=Доступно лише в наступних категоріях
+minfo_field_label_no_restrictions=Доступний у всіх категоріях
+minfo_field_label_all_templates=Доступно для всіх шаблонів
+minfo_field_label_templates=Доступно лише для наступних шаблонів
+
+minfo_field_notice_title=Префікс "translate:" перекладає значення через I18N
+
+minfo_field_first_priority=На початку
+minfo_field_after_priority=Після поля "{0}"
+
+minfo_field_params_notice_3="Приклади:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_4="Приклади:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_5="Приклади:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_6="Приклад:<br /> <code>category=\"1\" types=\"gif,jpg\" preview=\"1\"</code>"
+minfo_field_params_notice_7="Приклад:<br /> <code>category=\"1\" types=\"gif,jpg\" preview=\"1\"</code>"
+minfo_field_params_notice_8="Приклад:<br /> <code>category=\"1\"</code>"
+minfo_field_params_notice_9="Приклад:<br /> <code>category=\"1\"</code>"
+minfo_field_params_notice_10="Приклад:<br /> <code>start-year=\"1990\" end-year=\"2030\"</code>"
+minfo_field_params_notice_11="Приклад:<br /> <code>start-year=\"1990\" end-year=\"2030\"</code>"
+
+minfo_field_attributes_notice="Атрибути HTML для поля введення та дозволів, наприклад:<br /><code>style=\"color:red" ;" multiple="multiple" class="my_css_class" perm="admin[]"</code>
+minfo_field_label_notice=Код, який запускається при зміні значення поля.<br /> змінних для читання: <code>рядок $fieldName, рядок $fieldValue, rex_sql $field</code>
+
+minfo_field_error_name=Будь ласка, введіть назви стовпців!
+minfo_field_error_unique_name=Вказана назва стовпця вже існує!
+minfo_field_error_unique_type=Вказана назва типу вже існує!
+minfo_field_error_chars_name=Назва стовпця містить недопустимі символи (дозволені AZ, 0-9 і _)!
+minfo_field_error_invalid_prefix=Вказаний префікс недійсний!
+minfo_field_error_invalid_type=Вказаний тип недійсний!
+minfo_field_error_invalid_length=Вказана довжина поля недійсна!
+minfo_field_error_invalid_name=Вказана назва стовпця недійсна!
+minfo_field_error_invalid_fieldid=Вказаний ідентифікатор поля недійсний!
+minfo_field_error_invalid_typeid=Вказаний ідентифікатор типу недійсний!
+minfo_field_error_deleted=Поле не було видалено!
+minfo_field_successfull_deleted=Поле успішно видалено!
+minfo_field_successfull_saved=Дані успішно збережено!
+
+minfo_default_fields_create=Створіть стандартні поля
+minfo_default_fields_created=Стандартні поля створено успішно!
+
+minfo_edit_metadata=Редагувати метадані
+minfo_metadata_saved=Метадані збережено.
+
+minfo_media_in_use_art=Стаття (метадані)
+minfo_media_in_use_cat=Категорії (метадані)
+minfo_media_in_use_med=медіа (метадані)
+minfo_media_in_use_clang=Мови (метадані)
+
+minfo_callback_lang_indep_field=Незалежне від мови поле
+
+# bc: labels aus dem core=
+online_from=онлайн з
+online_to=доки
+description=опис
+keywords=пошукові терміни
+header_article_type=тип елемента
+metadata_image=метафайл/зображення
+teaser=тізери
+pool_file_copyright=авторське право
+
+metadata=метадані
+

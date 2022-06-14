@@ -1,0 +1,46 @@
+user_management=Upravljanje uporabnikov
+perm_general_users[]=Uporabnik
+roles=Valjčki
+user=Uporabnik
+users=Uporabnik
+admin=Admin
+
+user_deleted=Uporabnik je bil izbrisan!
+user_added=Uporabnik je bil dodan!
+create_user=Ustvari novega uporabnika
+add_user=Dodajanje uporabnika
+edit_user=Urejanje uporabnika
+user_reset_tries=Ponastavitev neuspelih prijav (trenutno: {0})
+user_login_exists=Prijava uporabnika že obstaja!
+user_missing_login=Prosimo, vnesite uporabniško ime!
+user_missing_password=Prosimo, vnesite geslo!
+user_admin=Admin
+user_admin_note=Vse pravice / Vse vidno
+user_notdeleteself=***** Ne morete se izbrisati!
+user_general=Splošno
+user_save=Shrani uporabnika
+user_apply=Prevzem uporabnika
+user_delete=izbriši
+user_functions=Funkcije
+user_options=Možnosti
+user_extras=Dodatki
+last_login=Zadnja prijava
+user_caption=Seznam ustvarjenih uporabnikov
+user_password_change_required=Po prijavi je treba zamenjati geslo
+user_status_active=Uporabnik je aktiven
+user_status_inactive=Uporabnik je neaktiven
+startpage=Domača stran
+
+user_role=Vloga(-e)
+user_role_data_updated=Vloga je bila posodobljena!
+user_role_deleted=Vloga je bila izbrisana!
+user_role_added=Vloga je bila dodana!
+edit_user_role=Urejanje vloge
+create_user_role=Ustvarjanje nove vloge
+add_user_role=Dodajanje vloge
+user_role_save=Shranite zvitek
+user_role_apply=Prevzem vloge
+user_role_delete=izbriši
+user_role_caption=Seznam ustvarjenih vlog
+user_no_role=brez dela
+

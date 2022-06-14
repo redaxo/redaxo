@@ -1,0 +1,87 @@
+structure=Structuur
+
+title_structure=Beheer van de structuur
+root_level=Hoofdverdieping
+no_such_category=Categorie niet beschikbaar!
+category_updated=De categorie is bijgewerkt.
+category_could_not_be_deleted=Categorie kon niet verwijderd worden!
+category_still_contains_articles=De categorie bevat nog steeds artikelen.
+category_still_contains_subcategories=De categorie bevat nog steeds subcategorieën.
+category_status_updated=De categoriestatus is bijgewerkt!
+category_added_and_startarticle_created=Categorie toegevoegd en lanceerartikel aangemaakt!
+article_doesnt_exist=Artikel bestaat niet!
+article_status_updated=De status van het artikel is bijgewerkt.
+article_updated=Het artikel is bijgewerkt.
+article_added=Er is een artikel toegevoegd.
+header_category=Categorienaam
+header_priority=Prioriteit
+header_status=Status/Functie
+header_id=ID
+add_category=Categorie toevoegen
+edit_category=Categorie bewerken
+save_category=Categorie opslaan
+status_online=online
+status_offline=offline
+option_no_template=Geen sjabloon
+template_default_name=GEEN TEMPLATE
+header_article_name=Naam van het voorwerp
+header_template=Sjabloon
+header_date=Gemaakt op
+change=veranderen
+article_add=Artikel toevoegen
+article_edit=Artikel bewerken
+article_save=Artikel opslaan
+article=Artikel
+start_article=Artikel beginnen
+no_article_available=Geen artikel beschikbaar
+structure_categories_caption=Lijst van subcategorieën van de categorie "{0}"
+structure_articles_caption=Lijst van artikelen in categorie "{0}"
+structure_root_level_articles_caption=Lijst van "hoofdniveau"-artikelen
+structure_root_level_categories_caption=Lijst van "hoofdniveau"-categorieën
+article_deleted=Artikel is verwijderd!
+article_could_not_be_generated=Artikel kon niet worden aangemaakt.
+category_deleted=Categorie is verwijderd!
+category_doesnt_exist=Categorie bestaat niet!
+cant_delete_sitestartarticle=Het startartikel van de website kan niet verwijderd worden!
+cant_delete_notfoundarticle=Het item "Niet gevonden" kan niet gewist worden!
+structure_copy=Exemplaar
+category_has_child_elements=Categorie bevat ondergeschikte elementen
+category_without_child_elements=Categorie zonder ondergeschikte elementen
+
+all_categories=Alle categorieën
+categories=Categorieën
+
+perm_options_addArticle[]=Artikel aanmaken
+perm_options_addCategory[]=Categorie maken
+perm_options_editArticle[]=Artikel bewerken
+perm_options_editCategory[]=Categorie bewerken
+perm_options_deleteArticle[]=Artikel verwijderen
+perm_options_deleteCategory[]=Categorie verwijderen
+perm_options_article2category[]=Artikelen omzetten in categorieën
+perm_options_article2startarticle[]=Artikel omzetten naar beginartikel
+perm_options_copyArticle[]=Artikel kopiëren
+perm_options_copyContent[]=Kopieer artikelinhoud
+perm_options_moveArticle[]=Artikel verplaatsen
+perm_options_moveCategory[]=Verplaats categorieën
+perm_options_publishArticle[]=Artikel publiceren
+perm_options_publishCategory[]=Categorieën publiceren
+
+system_setting_start_article_id=Artikel beginnen
+system_setting_notfound_article_id=Fout artikel
+system_setting_default_template_id=Standaardsjabloon
+system_setting_start_article_id_invalid=Ongeldig startartikel!
+system_setting_notfound_article_id_invalid=Ongeldig foutartikel!
+system_setting_default_template_id_invalid=Ongeldig standaardsjabloon!
+
+linkmap=Linkmap
+linkmap_categories=Categorieën
+linkmap_articles=Artikel
+linkmap_has_no_template=heeft geen sjabloon
+
+var_link_open=Selecteer link
+var_link_delete=Verwijder geselecteerde link
+var_linklist_move_top=Verplaats geselecteerde link naar de top
+var_linklist_move_up=Verplaats geselecteerde link naar de top
+var_linklist_move_down=Verplaats geselecteerde link naar beneden
+var_linklist_move_bottom=Verplaats geselecteerde link naar het einde
+

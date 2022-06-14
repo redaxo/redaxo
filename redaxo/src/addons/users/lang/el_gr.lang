@@ -1,0 +1,46 @@
+user_management=Διαχείριση χρηστών
+perm_general_users[]=Χρήστης
+roles=Κύλινδροι
+user=Χρήστης
+users=Χρήστης
+admin=Διαχειριστής
+
+user_deleted=Ο χρήστης έχει διαγραφεί!
+user_added=Ο χρήστης έχει προστεθεί!
+create_user=Δημιουργία νέου χρήστη
+add_user=Προσθήκη χρήστη
+edit_user=Επεξεργασία χρήστη
+user_reset_tries=Επαναφορά αποτυχιών σύνδεσης (τρέχον: {0})
+user_login_exists=Η σύνδεση χρήστη υπάρχει ήδη!
+user_missing_login=Παρακαλώ εισάγετε ένα όνομα χρήστη!
+user_missing_password=Παρακαλώ εισάγετε έναν κωδικό πρόσβασης!
+user_admin=Διαχειριστής
+user_admin_note=Όλα τα δικαιώματα / Όλα τα ορατά
+user_notdeleteself=***** Δεν μπορείτε να διαγράψετε τον εαυτό σας!
+user_general=Γενικά
+user_save=Αποθήκευση χρήστη
+user_apply=Ανάληψη χρήστη
+user_delete=delete
+user_functions=Λειτουργίες
+user_options=Επιλογές
+user_extras=Πρόσθετα
+last_login=Τελευταία σύνδεση
+user_caption=Λίστα δημιουργημένων χρηστών
+user_password_change_required=Ο κωδικός πρόσβασης πρέπει να αντικατασταθεί μετά τη σύνδεση
+user_status_active=Ο χρήστης είναι ενεργός
+user_status_inactive=Ο χρήστης είναι ανενεργός
+startpage=Αρχική σελίδα
+
+user_role=Ρόλος(οι)
+user_role_data_updated=Ο ρόλος έχει ενημερωθεί!
+user_role_deleted=Ο ρόλος έχει διαγραφεί!
+user_role_added=Ο ρόλος έχει προστεθεί!
+edit_user_role=Επεξεργασία ρόλου
+create_user_role=Δημιουργία νέου ρόλου
+add_user_role=Προσθήκη ρόλου
+user_role_save=Αποθήκευση ρολού
+user_role_apply=Ανάληψη ρόλου
+user_role_delete=delete
+user_role_caption=Λίστα δημιουργημένων ρόλων
+user_no_role=κανένα μέρος
+

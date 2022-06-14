@@ -1,0 +1,16 @@
+version=Versioun
+
+version_liveversion=liewen Versioun
+version_workingversion=schaffen Versioun
+version_working_to_live=verëffentlecht als Live Versioun
+version_preview=Virschau
+version_clear_workingversion=Eidel schaffen Versioun
+version_copy_live_to_workingversion=kopéieren ze schaffen Versioun
+version_copy_from_liveversion=iwwerhuelen aus liewen Versioun
+version_confirm_copy_live_to_workingversion=Live Versioun ze schaffen Versioun kopéieren? All existent Inhalt vun der schaffen Versioun gëtt iwwerschriwwe ginn.
+version_info_working_version_to_live=D'Aarbechtsversioun ass live gaangen
+version_info_live_version_to_working=Live Versioun gouf op d'Aarbechtsversioun kopéiert
+version_warning_working_version_to_live=Entworf Versioun kann net live ginn well se eidel ass
+version_info_clear_workingversion=Aarbecht Versioun erfollegräich eidel
+version_confirm_clear_workingversion=Aarbecht Versioun zrécksetzen? All existent Inhalt vun der schaffen Versioun gëtt irrevocably geläscht.
+

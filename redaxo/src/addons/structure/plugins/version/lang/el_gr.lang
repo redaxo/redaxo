@@ -1,0 +1,16 @@
+version=Έκδοση
+
+version_liveversion=Ζωντανή έκδοση
+version_workingversion=Έκδοση εργασίας
+version_working_to_live=Κυκλοφορία ως ζωντανή έκδοση
+version_preview=Προεπισκόπηση
+version_clear_workingversion=Κενή έκδοση εργασίας
+version_copy_live_to_workingversion=Αντιγραφή στην έκδοση εργασίας
+version_copy_from_liveversion=Ανάληψη από τη ζωντανή έκδοση
+version_confirm_copy_live_to_workingversion="Αντιγραφή της ζωντανής έκδοσης στην έκδοση εργασίας; Όλα τα υπάρχοντα περιεχόμενα της έκδοσης εργασίας θα αντικατασταθούν."
+version_info_working_version_to_live=Η έκδοση εργασίας τέθηκε σε λειτουργία
+version_info_live_version_to_working=Η ζωντανή έκδοση αντιγράφηκε στην έκδοση εργασίας
+version_warning_working_version_to_live=Η έκδοση εργασίας δεν μπορεί να τεθεί σε λειτουργία επειδή είναι κενή
+version_info_clear_workingversion=Η έκδοση εργασίας άδειασε επιτυχώς
+version_confirm_clear_workingversion=Επαναφορά έκδοσης εργασίας? Όλα τα υπάρχοντα περιεχόμενα της έκδοσης εργασίας θα διαγραφούν αμετάκλητα.
+

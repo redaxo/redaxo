@@ -1,0 +1,88 @@
+backup_information=Πληροφορίες
+backup_title=Δημιουργία αντιγράφων ασφαλείας
+backup_file_deleted=Το αρχείο διαγράφηκε
+backup_file_error_while_delete=Το αρχείο δεν μπόρεσε να διαγραφεί
+backup_no_import_file_chosen_or_wrong_version=Δεν έχει επιλεγεί αρχείο εισαγωγής ή η έκδοση είναι λανθασμένη
+backup_no_valid_import_file=Αυτό δεν είναι ένα σωστό αρχείο εισαγωγής
+backup_utf8mb4_not_supported=Το αντίγραφο ασφαλείας χρησιμοποιεί <code>utf8mb4</code>ως σετ χαρακτήρων, το οποίο δεν υποστηρίζεται από τη βάση δεδομένων (<b>{0}</b>) (απαιτείται τουλάχιστον MySQL 5.7.7 ή MariaDB 10.2).
+backup_database_imported=Η βάση δεδομένων εισήχθη επιτυχώς
+backup_entry_count=({0} entries)
+backup_file_could_not_be_uploaded=Το αρχείο δεν μπόρεσε να μεταφορτωθεί.
+backup_you_have_no_write_permission_in=Δεν έχετε πρόσβαση εγγραφής σε αυτόν τον φάκελο {0}.
+backup_no_import_file_chosen=Δεν έχει επιλεγεί αρχείο εισαγωγής.
+backup_file_imported=Το αρχείο εισήχθη με επιτυχία.
+backup_import=Εισαγωγή
+backup_to_import=εισαγωγή
+backup_export=Εξαγωγή
+backup_to_export=εξαγωγή
+backup_download=λήψη
+backup_db_import=Εισαγωγή
+backup_db_export=Εξαγωγή
+backup_filename_updated=Το επιλεγμένο όνομα αρχείου προσαρμόστηκε επειδή περιείχε λανθασμένους χαρακτήρες. Εάν είναι σωστό, κάντε κλικ στο κουμπί Εξαγωγή ξανά.
+backup_please_choose_folder=Επιλέξτε τους καταλόγους που θα εξαχθούν.
+backup_intro_import=Λάβετε υπόψη ότι κατά την εισαγωγή μιας βάσης δεδομένων <b>η παλιά βάση δεδομένων διαγράφεται</b> . Αν έχετε αμφιβολίες, δημιουργήστε αντίγραφα ασφαλείας της τρέχουσας βάσης δεδομένων πριν από την εισαγωγή.
+backup_intro_import_files=Κατά την εισαγωγή αρχείων, τα υπάρχοντα αρχεία με το ίδιο όνομα αντικαθίστανται, αλλά επιπλέον διατηρούνται τα υπάρχοντα αρχεία μέσα στους φακέλους.
+backup_version_warning=Τα αντίγραφα ασφαλείας παλαιότερων εκδόσεων REDAXO ή AddOns δεν είναι πάντα πλήρως συμβατά και μπορεί να οδηγήσουν σε προβλήματα μετά την εισαγωγή.
+backup_database=Εισαγωγή βάσης δεδομένων
+backup_filename=Όνομα αρχείου
+backup_filename_notice=Μεταβλητές: <code>%REX_SERVER</code>, <code>%REX_VERSION</code> και μεταβλητές ημερομηνίας όπως στην strftime(). ; Dateiendung: <code>.cronjob.sql</code> (wird automatisch ergänzt)
+backup_filesize=Μέγεθος αρχείου
+backup_delete=delete
+backup_files=Εισαγωγή αρχείων
+backup_intro_export=Εδώ μπορείτε να αποθηκεύσετε τις τρέχουσες καταχωρήσεις και τα αρχεία σας από το REDAXO. Για να λάβετε ένα πλήρες αντίγραφο ασφαλείας θα πρέπει να <b>εξάγετε τη βάση δεδομένων ΚΑΙ τα αρχεία</b>. Αν θέλετε να επαναχρησιμοποιήσετε το αντίγραφο ασφαλείας, μπορεί να έχει νόημα να το αποθηκεύσετε απευθείας στο διακομιστή και να το εισάγετε ξανά αν χρειαστεί.
+backup_database_export=Δημιουργία αντιγράφου ασφαλείας της βάσης δεδομένων
+backup_file_export=Δημιουργία αντιγράφου ασφαλείας αρχείου
+backup_save_on_server=Αποθήκευση στον διακομιστή
+backup_download_as_file=Λήψη ως αρχείο
+backup_createdate=Δημιουργήθηκε στις
+
+backup_import_file=Εισαγωγή αρχείου
+backup_delete_file=Αρχείο l ;schen
+backup_download_file=Λήψη αρχείου
+backup_check_rights_in_directory=Η δημιουργία αντιγράφων ασφαλείας δεν μπορούσε να αποκτήσει πρόσβαση στο φάκελο (ή στους φακέλους) ή δεν είχε επιλεγεί κανένας φάκελος ;hlt.
+backup_file_could_not_be_generated=Το αρχείο δεν μπόρεσε να δημιουργηθεί.
+backup_file_generated_in=Τα δεδομένα αποθηκεύτηκαν σε
+
+backup_proceed_db_import=Τα υπάρχοντα δεδομένα (άρθρα, πρότυπα, ενότητες,...) θα χαθούν. Συνεχίστε?
+backup_proceed_file_import=Τα υπάρχοντα αρχεία διαγράφονται. Συνεχίστε?
+
+backup_export_db_caption=Επαναφορά αντιγράφου ασφαλείας βάσης δεδομένων
+backup_export_file_caption=Επαναφορά αντιγράφων ασφαλείας αρχείων
+
+backup_function=Λειτουργία
+
+backup_send_mail=Αποστολή με ταχυδρομείο
+backup_send_mail_notice=Το πρόσθετο "phpmailer" απαιτείται για αυτή την επιλογή.
+backup_mailaddress=Διεύθυνση αλληλογραφίας
+backup_mail_subject=Νέο αντίγραφο ασφαλείας της βάσης δεδομένων
+backup_mail_body=Επισυνάπτεται ένα νέο αντίγραφο ασφαλείας της βάσης δεδομένων του ιστότοπου "{0}".
+
+backup_compress=Συμπίεση αντιγράφων ασφαλείας
+
+backup_delete_interval=Διαγραφή παλαιών αντιγράφων ασφαλείας
+backup_delete_interval_off=Από το
+backup_delete_interval_weekly=Κρατήστε ένα αντίγραφο ασφαλείας ανά εβδομάδα
+backup_delete_interval_monthly=Κρατήστε ένα αντίγραφο ασφαλείας ανά μήνα
+backup_delete_interval_notice=Διαγράφονται μόνο αντίγραφα ασφαλείας παλαιότερα από ένα μήνα με ονόματα αρχείων που λήγουν σε <code>.cronjob.sql</code> .
+
+backup_exclude_tables=Εξαίρεση από το αντίγραφο ασφαλείας
+backup_exclude_tables_notice=Εάν επιλεγεί, οι πίνακες αυτοί δεν αποθηκεύονται. Οι πίνακες με το πρόθεμα <code>rex_tmp_*</code> αποκλείονται αυτόματα.
+
+perm_general_backup[export]=Ιστοσελίδα εξαγωγής
+
+backup_export_select=Παραλλαγή εξαγωγής
+backup_export_select_tables=Επιλέξτε πίνακες
+backup_export_select_dir=Επιλέξτε φάκελο
+backup_export_select_location=Επιλέξτε θέση αποθήκευσης
+backup_export_select_filename=Επιλέξτε όνομα αρχείου
+
+backup_file=Αρχείο
+backup_note=Σημείωση
+backup_upload=Ανέβασμα
+backup_load_from_server=Φορτίο από το διακομιστή
+
+backup_warning=Προειδοποίηση
+backup_upload_disabled=Δεν επιτρέπονται οι μεταφορτώσεις
+backup_max_uploadsize=Max. Μέγεθος φόρτωσης
+backup_max_uploadtime=Max. Χρόνος φόρτωσης
+

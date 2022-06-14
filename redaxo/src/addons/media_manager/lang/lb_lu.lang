@@ -1,0 +1,171 @@
+media_manager=Media Manager
+media_manager_overview_title=Media Manager Addon <small>(Versioun {0})</small>
+
+media_manager_subpage_desc=Erklärung
+media_manager_subpage_config=Configuratioun
+media_manager_subpage_types=Edit Media Zorte
+media_manager_subpage_clear_cache=De Cache läschen
+
+media_manager_cache_files_removed={0} Cache Dateien geläscht
+
+media_manager_config_saved=Configuratioun gouf aktualiséiert!
+media_manager_config_not_saved=D'Konfiguratioun konnt net gespäichert ginn!
+media_manager_config_not_writable=D'Konfiguratiounsdatei "{0}" ass net schreiwenbar!
+
+media_manager_max_resizekb=Maximal Gréisst vun enger Datei a Kilobytes déi mat Media-Manager ëmgewandelt ka ginn
+media_manager_max_resizepx=Maximal Gréisst vun enger Datei a Pixelen déi mat Media-Manager ëmgewandelt kënne ginn
+media_manager_jpg_quality=JPG Qualitéit
+media_manager_png_compression=PNG Kompressioun
+media_manager_png_compression_note=Wäerter iwwer 6-7 verlangsamt d'Bildgeneratioun massiv.
+media_manager_webp_quality=WebP Qualitéit
+media_manager_interlace=Interlace / Progressive Modus
+
+media_manager_id=ID
+media_manager_name=Familljennumm
+media_manager_edittype=Edit Media Zorte
+media_manager_settings=Astellungen
+
+media_manager_yes=Jo
+media_manager_no=nee
+media_manager_back=Retour
+
+media_manager_error_name=Gitt weg en Numm.
+media_manager_error_settings=Gitt weg Inhalt an Astellungen.
+media_manager_error_type_name_not_unique=E Medientyp mat dësem Numm gëtt et schonn!
+media_manager_error_type_name_invalid=Den Numm däerf net d'Zeeche "/" an "\" enthalen!
+
+media_manager_type_caption=Lëscht vun geschaf Medien Zorte
+media_manager_type_no_types=Keng Medientypen verfügbar
+media_manager_type_create=Erstellt Medientyp
+media_manager_type_edit=änneren
+media_manager_type_copy=duplizéiert
+media_manager_type_effekts_edit=edit Effekter
+media_manager_type_delete=Kloer
+media_manager_type_name=Familljennumm
+media_manager_type_name_copy=Kopie
+media_manager_type_priority=Prioritéit
+media_manager_type_description=Beschreiwung
+media_manager_type_functions=Funktiounen
+media_manager_type_cache_delete=De Cache läschen
+media_manager_type_system=System Medien Typ
+media_manager_type_deleted=Medientyp geläscht
+media_manager_type_copied=Mediatyp duplizéiert
+
+media_manager_effect_list_header=Medien Typ {0}Effekter
+media_manager_effect_edit_header=Media Typ <mark>{0}</mark>: Edit Effekt
+media_manager_effect_create_header=Medientyp <mark>{0}</mark>: Effekt erstellen
+media_manager_effect_caption=Lëscht vun erstallten Effekter vum Medientyp <mark>{0}</mark>
+media_manager_effect_no_effects=Keng Effekter verfügbar
+media_manager_effect_create=schafen Effekt
+media_manager_effect_edit=Edit Effekt
+media_manager_effect_delete=läschen Effekt
+media_manager_effect_name=Effekt
+media_manager_effect_priority=Effekt Uerdnung
+media_manager_effect_parameters=parameter
+media_manager_effect_functions=Funktiounen
+media_manager_effect_deleted=Effekt geläscht
+
+media_manager_effect_insert_image=Bild: Plaz Bild / Waassermark
+media_manager_effect_brand_image=Bild
+media_manager_effect_brand_hpos=horizontal Orientéierung
+media_manager_effect_brand_vpos=vertikal Orientéierung
+media_manager_effect_brand_padding_x=horizontal Distanz zum Rand
+media_manager_effect_brand_padding_y=vertikal Distanz zum Rand
+
+media_manager_effect_blur=Bild: Blur
+media_manager_effect_blur_repeats=Wiederholungen
+media_manager_effect_blur_type=Blur Typ
+media_manager_effect_blur_smoothit=glat (negativ Wäerter schärfen Biller)
+
+media_manager_effect_colorize=Bild: Colorize
+media_manager_effect_colorize_r=roude Wäert
+media_manager_effect_colorize_g=grénge Wäert
+media_manager_effect_colorize_b=blo Wäert
+
+media_manager_effect_sharpen=Bild: Schärfen
+media_manager_effect_sharpen_amount=Grad vun Schärft
+media_manager_effect_sharpen_radius=Gréisst vun der Schärft Matrix
+media_manager_effect_sharpen_threshold=limitéieren
+
+media_manager_effect_resize=Bild: Skala
+media_manager_effect_resize_width=Zil Breet
+media_manager_effect_resize_height=Zil Héicht
+media_manager_effect_resize_style=Modus
+media_manager_effect_resize_imgtosmall=Wann d'Bild ze kleng ass
+
+media_manager_effect_crop=Bild: Pruning
+media_manager_effect_crop_width=Zil Breet
+media_manager_effect_crop_height=Zil Héicht
+media_manager_effect_crop_offset_width=Horizontal Verréckelung / Offset
+media_manager_effect_crop_offset_height=Vertikal Verréckelung / Offset
+media_manager_effect_crop_position=Referenzpunkt
+
+media_manager_effect_rounded_corners=Bild: Ofgerënnt Ecker
+media_manager_effect_rounded_corners_topleft=Uewe lénks
+media_manager_effect_rounded_corners_topright=Uewe riets
+media_manager_effect_rounded_corners_bottomleft=Ënnen lénks
+media_manager_effect_rounded_corners_bottomright=Ënnen riets
+
+media_manager_effect_flip=Bild: Flip horizontal / vertikal
+media_manager_effect_flip_direction=Richtung
+
+media_manager_effect_rotate=Bild: Rotéieren
+media_manager_effect_rotate_degree=ëm (Grad) rotéieren
+
+media_manager_effect_mirror=Bild: Waasser Reflexioun derbäi
+media_manager_effect_mirror_height=Reflektiv Héicht (50/10%)
+media_manager_effect_mirror_opacity=Opazitéit vun der Reflexioun (0 - 100)
+media_manager_effect_mirror_opacity_notice=0% komplett onsiichtbar Reflexioun, 100% komplett sichtbar Reflexioun
+media_manager_effect_mirror_background_color=Hannergrondfaarf
+media_manager_effect_mirror_background_r=Hannergrond R (0-255)
+media_manager_effect_mirror_background_g=Hannergrond G (0-255)
+media_manager_effect_mirror_background_b=Hannergrond B (0-255)
+
+media_manager_effect_workspace=Bild: Aarbechtsberäich
+media_manager_effect_workspace_pos=Positioun
+
+media_manager_effect_folder=Alternativ Dossier Standard: "Media"
+
+media_manager_effect_mediapath=Fichier: ajustéieren Wee
+media_manager_effect_mediapath_path=Medien Dossier
+media_manager_effect_mediapath_path_notice=Wee zu der Bildquell relativ zu der REDAXO Installatioun amplaz <code>Medien</code>, zB de Verzeechnes <code>Biller</code>. Leading /</code>Slash (<code>) net erfuerderlech.
+
+media_manager_effect_header=Datei: Header personaliséieren
+media_manager_effect_header_download=Download
+media_manager_effect_header_cache=Cache Kontroll
+media_manager_effect_header_filename=Quell fir Dateinumm
+media_manager_effect_header_filename_notice=<code>Dateinumm</code> ass den normaliséierten Dateinumm um Server, zB <code>my-download.pdf</code>, <code>originalnumm</code> ass den ursprénglechen Dateinumm zum Zäitpunkt vum Eroplueden (mat Spalten, Case Sensibilitéit, etc.), zB <code>meng Download. PDF</code>
+
+
+
+media_manager_effect_convert2img=Datei: Convertéieren op Bild
+media_manager_effect_convert2img_density=Opléisung Dicht
+media_manager_effect_convert2img_convertto=Zilformat
+media_manager_effect_convert2img_density_notice=Resolutiounsdicht an ppi (Pixel pro Zoll).
+media_manager_effect_convert2img_convertto_notice=Zilformat an deem d'Datei ëmgewandelt gëtt. Déi folgend Dateierweiterunge gi berücksichtegt: <code>.pdf,.ps,.psd,.tif,.tiff,.bmp,.eps,.ico,.svg</code>.
+media_manager_effect_convert2img_noimagemagick=Opgepasst: ImageMagick konnt net fonnt ginn. Dësen Effekt erfuerdert entweder d'PHP Extensioun "imagick" oder ImageMagick als "Commandline binär", ausféierbar iwwer exec().
+media_manager_effect_convert2img_color=Faarf fir Transparenz
+media_manager_effect_convert2img_color_notice="Format \"#ffffff\", wann näischt agestallt ass, da gëtt Transparenz benotzt. Gitt weg eng Faarf fir JPG."
+
+
+media_manager_effect_image_properties=Bild: Astellungen (Qualitéit, Interlace, ...)
+media_manager_effect_image_properties_jpg_quality_notice=[0-100]. Loosst eidel fir Standardwäert.
+media_manager_effect_image_properties_png_compression_notice=[0-9]. Loosst eidel fir Standardwäert.
+media_manager_effect_image_properties_webp_quality_notice=[0-100]. Loosst eidel fir Standardwäert.
+media_manager_effect_image_properties_interlace_notice=Loosst eidel fir Standardauswiel.
+
+media_manager_effect_brightness=Bild: Hellegkeet
+media_manager_effect_brightness_value=Hellegkeet
+media_manager_effect_brightness_notice=[-255 bis 255]. Loosst eidel fir Standardwäert (0).
+
+media_manager_effect_contrast=Bild: Kontrast
+media_manager_effect_contrast_value=Kontrast
+media_manager_effect_contrast_notice=[-100 bis 100]. Loosst eidel fir Standardwäert (0).
+
+media_manager_effect_sepia=Bild: Sepia
+
+media_manager_effect_greyscale=Bild: Greyscale
+
+media_manager_effect_image_format=Bild: Konvertéieren op JPEG/PNG/GIF/WEBP
+media_manager_effect_image_format_convertto=Zilformat
+

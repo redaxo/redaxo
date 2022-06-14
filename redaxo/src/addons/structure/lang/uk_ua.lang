@@ -1,0 +1,87 @@
+structure=структура
+
+title_structure=управління структурою
+root_level=основний рівень
+no_such_category=Категорія недоступна!
+category_updated=Категорію оновлено.
+category_could_not_be_deleted=Не вдалося видалити категорію!
+category_still_contains_articles=Категорія все ще містить статті.
+category_still_contains_subcategories=Категорія все ще містить підкатегорії.
+category_status_updated=Статус категорії оновлено!
+category_added_and_startarticle_created=Додано категорію та створено статтю запуску!
+article_doesnt_exist=Стаття не існує!
+article_status_updated=Статус товару оновлено.
+article_updated=Стаття оновлена.
+article_added=Статтю додано.
+header_category=назва категорії
+header_priority=пріоритет
+header_status=Стан/Функція
+header_id=ID
+add_category=Додати категорію
+edit_category=Редагувати категорію
+save_category=зберегти категорію
+status_online=онлайн
+status_offline=офлайн
+option_no_template=Без шаблону
+template_default_name=НЕМАЄ ШАБЛОНУ
+header_article_name=Назва продукту
+header_template=шаблон
+header_date=Створено на
+change=змінити
+article_add=додати статтю
+article_edit=Редагувати статтю
+article_save=зберегти статтю
+article=статті
+start_article=стартова стаття
+no_article_available=Немає доступної статті
+structure_categories_caption=Список підкатегорій категорії "{0}"
+structure_articles_caption=Список статей категорії «{0}»
+structure_root_level_articles_caption=Список предметів «основного рівня».
+structure_root_level_categories_caption=Список категорій «основного рівня».
+article_deleted=Статтю видалено!
+article_could_not_be_generated=Не вдалося створити статтю.
+category_deleted=Категорію видалено!
+category_doesnt_exist=Категорії не існує!
+cant_delete_sitestartarticle=Початкову статтю сайту видалити не можна!
+cant_delete_notfoundarticle=Статтю "Не знайдено" видалити неможливо!
+structure_copy=Копія
+category_has_child_elements=Категорія містить дочірні елементи
+category_without_child_elements=Категорія без дочірніх елементів
+
+all_categories=всі категорії
+categories=категорії
+
+perm_options_addArticle[]=створити статтю
+perm_options_addCategory[]=створити категорію
+perm_options_editArticle[]=Редагувати статтю
+perm_options_editCategory[]=Редагувати категорію
+perm_options_deleteArticle[]=видалити статтю
+perm_options_deleteCategory[]=Видалити категорію
+perm_options_article2category[]=Перетворіть статті на категорії
+perm_options_article2startarticle[]=Перетворити статтю на початкову
+perm_options_copyArticle[]=копіювати статтю
+perm_options_copyContent[]=Скопіюйте вміст статті
+perm_options_moveArticle[]=перемістити статтю
+perm_options_moveCategory[]=перемістити категорії
+perm_options_publishArticle[]=опублікувати статтю
+perm_options_publishCategory[]=Опублікувати категорії
+
+system_setting_start_article_id=стартова стаття
+system_setting_notfound_article_id=стаття про помилку
+system_setting_default_template_id=шаблон за замовчуванням
+system_setting_start_article_id_invalid=Недійсна початкова стаття!
+system_setting_notfound_article_id_invalid=Недійсна стаття про помилку!
+system_setting_default_template_id_invalid=Недійсний шаблон за замовчуванням!
+
+linkmap=карта посилань
+linkmap_categories=категорії
+linkmap_articles=статті
+linkmap_has_no_template=не має шаблону
+
+var_link_open=виберіть посилання
+var_link_delete=Видалити вибране посилання
+var_linklist_move_top=Перемістити вибране посилання вгору
+var_linklist_move_up=Перемістити вибране посилання вгору
+var_linklist_move_down=Перемістити вибране посилання вниз
+var_linklist_move_bottom=Перемістити вибране посилання вниз
+

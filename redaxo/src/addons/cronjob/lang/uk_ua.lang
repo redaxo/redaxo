@@ -1,0 +1,90 @@
+cronjob_title=вакансії cron
+
+cronjob_add=Додати завдання cron
+cronjob_edit=Редагувати завдання cron
+
+cronjob_caption=Список створених завдань cron
+cronjob_no_cronjobs=Немає доступних вакансій cron
+
+cronjob_delete=Ясно
+cronjob_really_delete=Дійсно видалити завдання cron?
+cronjob_delete_success=Cronjob "{0}" успішно видалено!
+cronjob_delete_error=Не вдалося видалити завдання Cron "{0}"!
+
+cronjob_execute=виконувати
+cronjob_execute_success=Завдання Cron "{0}" виконано успішно!
+cronjob_execute_error=Cronjob "{0}" не було виконано успішно!
+
+cronjob_name=Прізвище
+cronjob_description=опис
+cronjob_examples=приклади
+
+cronjob_type=Тип
+cronjob_type_not_found=Завдання Cron "{0}" не може бути оброблено, оскільки клас "{1}" не знайдено. Перевірте, чи активовано відповідне доповнення/плагін!
+cronjob_type_phpcode=PHP код
+cronjob_type_phpcallback=Зворотний виклик PHP
+cronjob_type_urlrequest=Виклик URL
+cronjob_type_urlrequest_url=URL
+cronjob_type_urlrequest_post=Параметри POST
+cronjob_type_urlrequest_httpauth=HTTP аутентифікація
+cronjob_type_urlrequest_user=користувач
+cronjob_type_urlrequest_password=пароль
+cronjob_type_parameters=Введіть конкретні параметри
+cronjob_type_no_parameters=Для цього типу не потрібні додаткові параметри!
+
+cronjob_interval=інтервал
+cronjob_interval_minutes=хвилин
+cronjob_interval_minutes_all=Кожні 5 хвилин
+cronjob_interval_hours=годин
+cronjob_interval_hours_all=Щогодини
+cronjob_interval_days=днів
+cronjob_interval_days_all=Кожен день
+cronjob_interval_weekdays=дні тижня
+cronjob_interval_weekdays_all=Будь-який день тижня
+cronjob_interval_months=Місяці
+cronjob_interval_months_all=Щомісяця
+
+cronjob_environment=околиці
+cronjob_environment_notice=Сценарій: запустити через <code>{0}</code>. Сценарій слід регулярно викликати, використовуючи справжнє завдання cron.
+cronjob_environment_frontend=передній кінець
+cronjob_environment_backend=бекенд
+cronjob_environment_script=сценарій
+cronjob_environment_console=сценарій
+cronjob_environment_backend_manual=Бекенд (вручну)
+
+cronjob_execution=виконання
+cronjob_execution_beginning=запуск сценарію
+cronjob_execution_ending=кінець сценарію
+
+cronjob_nexttime=наступне виконання
+
+cronjob_status_function=Стан/Функція
+cronjob_status=статус
+cronjob_status_activated=активовано
+cronjob_status_deactivated=інвалід
+cronjob_status_invalid=несправний
+cronjob_status_activate_success=Завдання Cron «{0}» активовано!
+cronjob_status_activate_error=Не вдалося активувати завдання Cron "{0}"!
+cronjob_status_deactivate_success=Завдання Cron «{0}» деактивовано!
+cronjob_status_deactivate_error=Cronjob "{0}" не можна деактивувати!
+
+cronjob_error_no_name=Ім’я не може бути порожнім!
+cronjob_error_no_environment=Потрібно вибрати принаймні одне середовище!
+cronjob_error_interval_incomplete=Для інтервалу потрібно вибрати значення в кожній категорії!
+
+cronjob_not_found=Роботу Cron не знайдено!
+cronjob_not_editable=Cronjob не можна редагувати!
+
+cronjob_log=журнал
+cronjob_log_date=дата
+cronjob_log_year=Рік
+cronjob_log_month=Місяць
+cronjob_log_ok=в порядку
+cronjob_no_log_files=Немає доступних файлів журналів.
+cronjob_log_no_data=Немає даних.
+cronjob_log_caption_1=Список виконаних cronjobs в {0} {1}
+cronjob_log_caption_2=Список нещодавно запущених завдань cron
+cronjob_log_message=Звіт
+
+cronjob_delete_log_msg=Видалити журнал завдань cron?
+

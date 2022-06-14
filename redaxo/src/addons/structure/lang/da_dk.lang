@@ -1,0 +1,87 @@
+structure=Struktur
+
+title_structure=Forvaltning af strukturer
+root_level=Hovedniveau
+no_such_category=Kategori ikke tilgængelig!
+category_updated=Kategorien er blevet opdateret.
+category_could_not_be_deleted=Kategori kunne ikke slettes!
+category_still_contains_articles=Kategorien indeholder stadig artikler.
+category_still_contains_subcategories=Kategorien indeholder stadig underkategorier.
+category_status_updated=Kategori status er blevet opdateret!
+category_added_and_startarticle_created=Kategori tilføjet og artikel om lancering oprettet!
+article_doesnt_exist=Artikel findes ikke!
+article_status_updated=Varenes status er blevet opdateret.
+article_updated=Artiklen er blevet opdateret.
+article_added=Der blev tilføjet en artikel.
+header_category=Kategori navn
+header_priority=Prioritet
+header_status=Status/Funktion
+header_id=ID
+add_category=Tilføj kategori
+edit_category=Rediger kategori
+save_category=Gem kategori
+status_online=online
+status_offline=offline
+option_no_template=Ingen skabelon
+template_default_name=INGEN TEMPLATE
+header_article_name=Varenavn
+header_template=Skabelon
+header_date=Oprettet den
+change=ændre
+article_add=Tilføj artikel
+article_edit=Rediger artikel
+article_save=Gem artikel
+article=Artikel
+start_article=Start artikel
+no_article_available=Ingen artikel tilgængelig
+structure_categories_caption=Liste over underkategorier til kategorien "{0}"
+structure_articles_caption=Liste over artikler i kategorien "{0}"
+structure_root_level_articles_caption=Liste over artikler om "hovedniveau"
+structure_root_level_categories_caption=Liste over kategorier på "hovedniveau"
+article_deleted=Artiklen er blevet slettet!
+article_could_not_be_generated=Artikel kunne ikke oprettes.
+category_deleted=Kategori er blevet slettet!
+category_doesnt_exist=Kategorien findes ikke!
+cant_delete_sitestartarticle=Webstedets startartikel kan ikke slettes!
+cant_delete_notfoundarticle=Punktet "Ikke fundet" kan ikke slettes!
+structure_copy=Kopier
+category_has_child_elements=Kategori indeholder underordnede elementer
+category_without_child_elements=Kategori uden underordnede elementer
+
+all_categories=Alle kategorier
+categories=Kategorier
+
+perm_options_addArticle[]=Opret artikel
+perm_options_addCategory[]=Opret kategori
+perm_options_editArticle[]=Rediger artikel
+perm_options_editCategory[]=Rediger kategori
+perm_options_deleteArticle[]=Slet artikel
+perm_options_deleteCategory[]=Slet kategori
+perm_options_article2category[]=Konverter artikler til kategorier
+perm_options_article2startarticle[]=Konverter artikel til startartikel
+perm_options_copyArticle[]=Kopier artikel
+perm_options_copyContent[]=Kopiering af artiklens indhold
+perm_options_moveArticle[]=Flyt artikel
+perm_options_moveCategory[]=Flyt kategorier
+perm_options_publishArticle[]=Offentliggøre artikel
+perm_options_publishCategory[]=Offentliggøre kategorier
+
+system_setting_start_article_id=Start artikel
+system_setting_notfound_article_id=Fejl artikel
+system_setting_default_template_id=Standardskabelon
+system_setting_start_article_id_invalid=Ugyldig startartikel!
+system_setting_notfound_article_id_invalid=Ugyldig fejlartikel!
+system_setting_default_template_id_invalid=Ugyldig standardskabelon!
+
+linkmap=Linkmap
+linkmap_categories=Kategorier
+linkmap_articles=Artikel
+linkmap_has_no_template=har ingen skabelon
+
+var_link_open=Vælg link
+var_link_delete=Slet det valgte link
+var_linklist_move_top=Flyt det valgte link til toppen
+var_linklist_move_up=Flyt det valgte link til toppen
+var_linklist_move_down=Flyt det valgte link nedad
+var_linklist_move_bottom=Flyt det valgte link til slutningen
+

@@ -1,0 +1,23 @@
+structure_history=Historie
+structure_history_title_info=Krátké vysvětlení
+structure_history_snapshot_reactivate=Přijmout tuto verzi
+structure_history_snapshot_reactivated=Byla přijata verze
+structure_history_overview_versions=history_overview_versions
+structure_history_current_version=Aktuální verze
+structure_history_info_content=<p>Zásuvný modul historie, pomocí kterého můžete zaznamenávat změny v obsahu článku. Vytvoří se snímek verze, který je opatřen datem. Starší verze lze později znovu aktivovat.</p>
+structure_history_todos=Todos
+structure_history_todos_content=<ul><li>připravit cronjob</li><li>deaktivovat historii</li><li>zahrnout nastavení pro omezení počtu verzí. Např. po týdnu uchovávejte pouze jednu verzi/den. po měsíci uchovávejte pouze jednu verzi/měsíc....</li><li>Nastavení hodnot škálování webové stránky</li><li>Zatraktivnění zobrazení ala Time Machine ?</li></ul>
+
+perm_options_history[article_rollback]=Obnovení položky (historie)
+
+structure_history_button_delete_history=Úplné odstranění historie
+structure_history_deleted=Historie byla zcela vymazána.
+structure_history_savedby=zajištěné
+structure_history_close=Zrušit
+
+structure_history_cleanup=Vyčištění historie článků
+structure_history_cleanup_after=Odstranění historie, pokud je starší než
+structure_history_days={0} Dny
+structure_history_months={0} Měsíce
+structure_history_years={0} let
+

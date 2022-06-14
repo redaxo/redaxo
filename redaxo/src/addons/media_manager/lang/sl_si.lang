@@ -1,0 +1,171 @@
+media_manager=Vodja medijev
+media_manager_overview_title=Dodatek Media Manager <small>(različica {0})</small>
+
+media_manager_subpage_desc=Razlaga:
+media_manager_subpage_config=Konfiguracija
+media_manager_subpage_types=Urejanje vrst medijev
+media_manager_subpage_clear_cache=Izbriši predpomnilnik
+
+media_manager_cache_files_removed={0} Datoteke predpomnilnika izbrisane
+
+media_manager_config_saved=Konfiguracija je bila posodobljena!
+media_manager_config_not_saved=Konfiguracije ni bilo mogoče rešiti!
+media_manager_config_not_writable=Konfiguracijska datoteka "{0}" ni zapisljiva!
+
+media_manager_max_resizekb=Največja velikost datoteke v kilobajtih, ki jo je mogoče pretvoriti prek programa media-manager
+media_manager_max_resizepx=Največja velikost datoteke v pikslih, ki jo je mogoče pretvoriti prek upravitelja medijev
+media_manager_jpg_quality=Kakovost JPG
+media_manager_png_compression=Stiskanje PNG
+media_manager_png_compression_note=Vrednosti nad 6-7 močno upočasnijo ustvarjanje slik.
+media_manager_webp_quality=Kakovost WebP
+media_manager_interlace=Prepletanje/progresivni način
+
+media_manager_id=ID
+media_manager_name=Ime
+media_manager_edittype=Urejanje vrst medijev
+media_manager_settings=Nastavitve
+
+media_manager_yes=Da
+media_manager_no=Ne
+media_manager_back=Nazaj
+
+media_manager_error_name=Vnesite ime.
+media_manager_error_settings=Vsebino vnesite v Nastavitve.
+media_manager_error_type_name_not_unique=Medijska vrsta s tem imenom že obstaja!
+media_manager_error_type_name_invalid=Ime ne sme vsebovati znakov "/" in "\"!
+
+media_manager_type_caption=Seznam ustvarjenih vrst medijev
+media_manager_type_no_types=Na voljo ni vrst medijev
+media_manager_type_create=Ustvari vrsto medija
+media_manager_type_edit=uredi
+media_manager_type_copy=podvojitev
+media_manager_type_effekts_edit=Učinki urejanja
+media_manager_type_delete=izbriši
+media_manager_type_name=Ime
+media_manager_type_name_copy=Kopiraj
+media_manager_type_priority=Prio
+media_manager_type_description=Opis
+media_manager_type_functions=Funkcije
+media_manager_type_cache_delete=Izbriši predpomnilnik
+media_manager_type_system=Sistem Vrsta medija
+media_manager_type_deleted=Vrsta medija izbrisana
+media_manager_type_copied=Podvojena vrsta medija
+
+media_manager_effect_list_header=Učinki vrste medija {0}
+media_manager_effect_edit_header=Vrsta medija <mark>{0}</mark>: Učinek urejanja
+media_manager_effect_create_header=Vrsta medija <mark>{0}</mark>: Ustvari učinek
+media_manager_effect_caption=Seznam ustvarjenih učinkov vrste medija <mark>{0}</mark>
+media_manager_effect_no_effects=Učinkov ni na voljo
+media_manager_effect_create=Ustvarjanje učinka
+media_manager_effect_edit=Učinek urejanja
+media_manager_effect_delete=Izbriši učinek
+media_manager_effect_name=Učinek
+media_manager_effect_priority=Zaporedje učinkov
+media_manager_effect_parameters=Parameter
+media_manager_effect_functions=Funkcije
+media_manager_effect_deleted=Učinek izbrisan
+
+media_manager_effect_insert_image=Slika: Kraj slike / vodni znak
+media_manager_effect_brand_image=Slika
+media_manager_effect_brand_hpos=vodoravna poravnava
+media_manager_effect_brand_vpos=navpična poravnava
+media_manager_effect_brand_padding_x=Vodoravna razdalja do roba
+media_manager_effect_brand_padding_y=Navpična razdalja do roba
+
+media_manager_effect_blur=Slika: Blur
+media_manager_effect_blur_repeats=Ponovitve
+media_manager_effect_blur_type=Vrsta zameglitve
+media_manager_effect_blur_smoothit=gladko (negativne vrednosti izostrijo slike)
+
+media_manager_effect_colorize=Slika: Barvanje
+media_manager_effect_colorize_r=Rdeča vrednost
+media_manager_effect_colorize_g=Zelena vrednost
+media_manager_effect_colorize_b=Modra vrednost
+
+media_manager_effect_sharpen=Slika: Izostritev
+media_manager_effect_sharpen_amount=Resnost
+media_manager_effect_sharpen_radius=Velikost matrike ostrine
+media_manager_effect_sharpen_threshold=Mejna vrednost
+
+media_manager_effect_resize=Slika: Merjenje obsega
+media_manager_effect_resize_width=Ciljna širina
+media_manager_effect_resize_height=Ciljna višina
+media_manager_effect_resize_style=Način
+media_manager_effect_resize_imgtosmall=Če je slika premajhna
+
+media_manager_effect_crop=Slika: Obrezovanje
+media_manager_effect_crop_width=Ciljna širina
+media_manager_effect_crop_height=Ciljna višina
+media_manager_effect_crop_offset_width=Vodoravni odmik
+media_manager_effect_crop_offset_height=Vertikalni odmik
+media_manager_effect_crop_position=Referenčna točka
+
+media_manager_effect_rounded_corners=Slika: Zaobljeni vogali
+media_manager_effect_rounded_corners_topleft=Zgornji levi
+media_manager_effect_rounded_corners_topright=Zgornja desna stran
+media_manager_effect_rounded_corners_bottomleft=Levo spodaj
+media_manager_effect_rounded_corners_bottomright=Spodnja desna stran
+
+media_manager_effect_flip=Slika: Zrcalo vodoravno/ navpično
+media_manager_effect_flip_direction=Smer
+
+media_manager_effect_rotate=Slika: Turning
+media_manager_effect_rotate_degree=Obračanje za (stopinje)
+
+media_manager_effect_mirror=Slika: Dodajte odsev vode
+media_manager_effect_mirror_height=Refl. Višina (50 / 10%)
+media_manager_effect_mirror_opacity=Motnost odseva (0 - 100)
+media_manager_effect_mirror_opacity_notice=0 % popolnoma neviden odsev, 100 % popolnoma viden odsev
+media_manager_effect_mirror_background_color=Barva ozadja
+media_manager_effect_mirror_background_r=Ozadje R (0-255)
+media_manager_effect_mirror_background_g=Ozadje G (0-255)
+media_manager_effect_mirror_background_b=Ozadje B (0-255)
+
+media_manager_effect_workspace=Slika: Delovna površina
+media_manager_effect_workspace_pos=Položaj
+
+media_manager_effect_folder=Privzeto za mapo z alternativami: "media
+
+media_manager_effect_mediapath=Datoteka: Prilagoditev poti
+media_manager_effect_mediapath_path=Medijska mapa
+media_manager_effect_mediapath_path_notice=Pot do vira slik glede na namestitev REDAXO namesto <code>media</code>, npr. imenik <code>images</code>. Vodilna/končna poševnica (<code>/</code>) ni potrebna.
+
+media_manager_effect_header=Datoteka: Prilagodite glavo
+media_manager_effect_header_download=Prenesi
+media_manager_effect_header_cache=Nadzor predpomnilnika
+media_manager_effect_header_filename=Vir imena datoteke
+media_manager_effect_header_filename_notice=<code>ime datoteke</code> je normalizirano ime datoteke v strežniku, npr. <code>my-download.pdf</code>, <code>originalname</code> je originalno ime datoteke v času prenosa (s presledki, velikimi/malimi črkami itd.), npr. <code>My-download.pdf</code>
+
+
+
+media_manager_effect_convert2img=Datoteka: Pretvarjanje v sliko
+media_manager_effect_convert2img_density=Gostota ločljivosti
+media_manager_effect_convert2img_convertto=Ciljna oblika
+media_manager_effect_convert2img_density_notice=Gostota ločljivosti v ppi (pikslih na palec).
+media_manager_effect_convert2img_convertto_notice=Ciljna oblika, v katero se pretvori datoteka. Upoštevane so naslednje razširitve datotek: <code>.pdf, .ps, .psd, .tif, .tiff, .bmp, .eps, .ico, .svg</code>.
+media_manager_effect_convert2img_noimagemagick=Pozor: programa ImageMagick ni bilo mogoče najti. Ta učinek zahteva razširitev PHP "imagick" ali ImageMagick kot "binarno datoteko ukazne vrstice", ki se izvede s funkcijo exec().
+media_manager_effect_convert2img_color=Barva za preglednost
+media_manager_effect_convert2img_color_notice="Oblika \"#ffffffff\", če ni nastavljeno nič, se uporabi prosojnost. Za JPG obvezno navedite barvo."
+
+
+media_manager_effect_image_properties=Slika: Nastavitve (kakovost, prepletanje, ...)
+media_manager_effect_image_properties_jpg_quality_notice=[0-100]. Pustite prazno za privzeto vrednost.
+media_manager_effect_image_properties_png_compression_notice=[0-9]. Pustite prazno za privzeto vrednost.
+media_manager_effect_image_properties_webp_quality_notice=[0-100]. Pustite prazno za privzeto vrednost.
+media_manager_effect_image_properties_interlace_notice=Za standardni izbor pustite prazno.
+
+media_manager_effect_brightness=Slika: Svetlost
+media_manager_effect_brightness_value=Svetlost
+media_manager_effect_brightness_notice=[-255 do 255]. Pustite prazno za privzeto vrednost (0).
+
+media_manager_effect_contrast=Slika: Contrast
+media_manager_effect_contrast_value=Kontrast
+media_manager_effect_contrast_notice=[-100 do 100]. Pustite prazno za privzeto vrednost (0).
+
+media_manager_effect_sepia=Slika: Sepia
+
+media_manager_effect_greyscale=Slika: greyscale
+
+media_manager_effect_image_format=Slika: Pretvarjanje v JPEG/PNG/GIF/WEBP
+media_manager_effect_image_format_convertto=Ciljna oblika
+

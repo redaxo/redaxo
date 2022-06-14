@@ -1,0 +1,4 @@
+debug=Depurar
+debug_activate_debugmode=Active el modo de depuración para poder utilizar el complemento de depuración.
+debug_error_unzip=¡Se ha producido un error al desempaquetar los activos del archivo Clockwork Frontend!
+

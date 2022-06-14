@@ -1,0 +1,46 @@
+user_management=إدارةالمستخدم
+perm_general_users[]=المستعمل
+roles=لفافة
+user=المستعمل
+users=المستعمل
+admin=مشرف
+
+user_deleted=تم حذف المستخدم!
+user_added=تمت إضافة المستخدم!
+create_user=إنشاء مستخدم جديد
+add_user=إضافة مستخدم
+edit_user=تحرير العضو
+user_reset_tries=إعادة تعيين محاولات تسجيل الدخول الفاشلة (الحالية: {0})
+user_login_exists=تسجيل دخول المستخدم موجود بالفعل!
+user_missing_login=الرجاء ادخال اسم المستخدم!
+user_missing_password=الرجاء إدخال كلمة المرور!
+user_admin=مشرف
+user_admin_note=جميع الحقوق / كل ما هو مرئي
+user_notdeleteself=***** لا يمكنك حذف نفسك!
+user_general=عام
+user_save=حفظ المستخدم
+user_apply=تولي المستخدم
+user_delete=حذف
+user_functions=المهام
+user_options=والخيارات
+user_extras=إضافات
+last_login=آخر تسجيل دخول
+user_caption=قائمة المستخدمين الذين تم إنشاؤهم
+user_password_change_required=يجب تبادل كلمة المرور بعد تسجيل الدخول
+user_status_active=المستخدم نشط
+user_status_inactive=المستخدم غير نشط
+startpage=الصفحة الرئيسية
+
+user_role=لفافة)
+user_role_data_updated=تم تحديث الدور!
+user_role_deleted=تم حذف الدور!
+user_role_added=تمت إضافة الدور!
+edit_user_role=تحرير الدور
+create_user_role=أنشئ دورًا جديدًا
+add_user_role=أضف دورًا
+user_role_save=حفظ الدور
+user_role_apply=تأخذ على الدور
+user_role_delete=حذف
+user_role_caption=قائمة الأدوار التي تم إنشاؤها
+user_no_role=لا يهم
+

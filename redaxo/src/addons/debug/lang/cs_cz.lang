@@ -1,0 +1,4 @@
+debug=Ladění
+debug_activate_debugmode=Aktivujte režim ladění, abyste mohli používat ladicí doplněk.
+debug_error_unzip=Při rozbalování prostředků z archivu Clockwork Frontend došlo k chybě!
+

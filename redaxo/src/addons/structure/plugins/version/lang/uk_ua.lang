@@ -1,0 +1,16 @@
+version=версія
+
+version_liveversion=жива версія
+version_workingversion=робоча версія
+version_working_to_live=випустити як живу версію
+version_preview=попередній перегляд
+version_clear_workingversion=Порожня робоча версія
+version_copy_live_to_workingversion=копіювати до робочої версії
+version_copy_from_liveversion=перейняти з живої версії
+version_confirm_copy_live_to_workingversion=Скопіювати живу версію в робочу? Весь наявний вміст робочої версії буде перезаписано.
+version_info_working_version_to_live=Вийшла робоча версія
+version_info_live_version_to_working=Живу версію було скопійовано в робочу версію
+version_warning_working_version_to_live=Неможливо опублікувати чернетку, оскільки вона порожня
+version_info_clear_workingversion=Робоча версія успішно очищена
+version_confirm_clear_workingversion=Скинути робочу версію? Весь наявний вміст робочої версії буде безповоротно видалено.
+

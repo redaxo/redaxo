@@ -1,0 +1,23 @@
+structure_history=Historique
+structure_history_title_info=Brève explication
+structure_history_snapshot_reactivate=Adopter cette version
+structure_history_snapshot_reactivated=Version adoptée
+structure_history_overview_versions=history_overview_versions
+structure_history_current_version=Version actuelle
+structure_history_info_content=<p>Un plug-in d'historique qui vous permet d'enregistrer les modifications apportées au contenu de vos articles. Un snapshot de la version est créé et une date lui est attribuée. Les anciennes versions peuvent être réactivées ultérieurement.</p>
+structure_history_todos=Todos
+structure_history_todos_content=<ul><li>préparer une tâche cron</li><li>rendre l'historique désactivable</li><li>intégrer des paramètres pour limiter le nombre de versions. Par exemple, après une semaine, ne garder qu'une version/jour. après un mois, ne garder qu'une version/mois...</li><li>Définir les valeurs de redimensionnement du site</li><li>Améliorer l'affichage à la Time Machine ?</li></ul>
+
+perm_options_history[article_rollback]=Restaurer un article (historique)
+
+structure_history_button_delete_history=Effacer complètement l'historique
+structure_history_deleted=Historique complètement effacé.
+structure_history_savedby=sécurisé par
+structure_history_close=Annuler
+
+structure_history_cleanup=Nettoyer l'historique des articles
+structure_history_cleanup_after=Supprimer l'historique si antérieur à
+structure_history_days={0} jours
+structure_history_months={0} Mois
+structure_history_years={0} Années
+

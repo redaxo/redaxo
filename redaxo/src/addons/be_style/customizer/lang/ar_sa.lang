@@ -1,0 +1,33 @@
+customizer=أدوات التخصيص
+customizer_features=CodeMirror
+
+customizer_codemirror=CodeMirror
+customizer_codemirror_check=قم بتنشيط CodeMirror
+customizer_codemirror_selectors=محددات jQuery إضافية لـ CodeMirror
+customizer_codemirror_selectors_info=قائمة مفصولة بفواصل لمحددات jQuery التي يتم تطبيق CodeMirror عليها.<br>الافتراضي هو <code>textarea.rex-js-code</code> و <code>textarea.codemirror</code>.
+customizer_codemirror_theme=موضوع CodeMirror
+customizer_codemirror_langs=أقلام تمييز إضافية
+customizer_codemirror_langs_text=(تخفيض السعر ، النسيج ، gfm ، yaml ، sql ...)
+customizer_codemirror_tools=ميزات إضافية
+customizer_codemirror_tools_text=(طي الكود ، مطابقة الأقواس ، مطابقة العلامات ، الأقواس القريبة ، البحث)
+customizer_codemirror_autoresize=الحجم التلقائي
+customizer_codemirror_autoresize_text=(يقوم CodeMirror بتعديل ارتفاعه حسب المحتوى)
+
+customizer_codemirror_info="بمجرد تنشيط CodeMirror ، يتم استخدامه تلقائيًا للقوالب والوحدات النمطية والإجراءات ووظائف cron. إذا كنت تريد استخدام CodeMirror بنفسك ، فالرجاء استخدام النموذج التالي:<br><br><code><textarea class=\"codemirror\" data-codemirror-theme=\"themename\" data-codemirror-mode=\"php/htmlmixed\"></textarea></code><br><br>المعلمات <i>data-codemirror-theme</i> and <i>data-codemirror mode</i> اختيارية.<br><br>يمكن استدعاء وضع ملء الشاشة باستخدام مفتاحي F11 و ESC."
+
+customizer_labeling=الاضافات
+customizer_labelcolor=لون الكشف
+customizer_labelcolor_notice="أي مواصفات ألوان CSS صالحة (<code># 03f0ab</code>، <code>rgba (255 ، 100 ، 0 ، 0.5)</code> إلخ.)"
+customizer_showlink=إظهار ارتباط إلى موقع الويب؟
+
+customizer_config_updated=تم حفظ الإدخالات
+customizer_config_update_failed=لم يتم حفظ الإدخالات
+
+customizer_update=احفظ التغييرات
+customizer_error_unzip=حدث خطأ أثناء استخراج الأصول من أرشيف Codemirror!
+
+customizer_projectname=اسم المشروع
+customizer_textarea=مساحة نصية واسعة ضمن النموذج والوحدات النمطية
+customizer_liquid=تخطيط السائل
+customizer_nav_flyout=التنقل مع flyout
+

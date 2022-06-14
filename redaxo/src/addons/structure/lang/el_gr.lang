@@ -1,0 +1,87 @@
+structure=Δομή
+
+title_structure=Διαχείριση δομών
+root_level=Κύριο επίπεδο
+no_such_category=Η κατηγορία δεν είναι διαθέσιμη!
+category_updated=Η κατηγορία έχει ενημερωθεί.
+category_could_not_be_deleted=Η κατηγορία δεν μπόρεσε να διαγραφεί!
+category_still_contains_articles=Η κατηγορία εξακολουθεί να περιέχει άρθρα.
+category_still_contains_subcategories=Η κατηγορία εξακολουθεί να περιέχει υποκατηγορίες.
+category_status_updated=Η κατάσταση της κατηγορίας έχει ενημερωθεί!
+category_added_and_startarticle_created=Προστέθηκε κατηγορία και δημιουργήθηκε άρθρο εκκίνησης!
+article_doesnt_exist=Το άρθρο δεν υπάρχει!
+article_status_updated=Η κατάσταση του στοιχείου έχει ενημερωθεί.
+article_updated=Το άρθρο έχει ενημερωθεί.
+article_added=Το άρθρο προστέθηκε.
+header_category=Όνομα κατηγορίας
+header_priority=Προτεραιότητα
+header_status=Κατάσταση/λειτουργία
+header_id=ID
+add_category=Προσθήκη κατηγορίας
+edit_category=Επεξεργασία κατηγορίας
+save_category=Αποθήκευση κατηγορίας
+status_online=online
+status_offline=offline
+option_no_template=Δεν υπάρχει πρότυπο
+template_default_name=ΟΧΙ ΣΧΕΔΙΟ
+header_article_name=Όνομα στοιχείου
+header_template=Πρότυπο
+header_date=Δημιουργήθηκε στις
+change=αλλαγή
+article_add=Προσθέστε άρθρο
+article_edit=Επεξεργασία άρθρου
+article_save=Αποθήκευση άρθρου
+article=Άρθρο
+start_article=Ξεκινήστε το άρθρο
+no_article_available=Δεν υπάρχει διαθέσιμο άρθρο
+structure_categories_caption=Κατάλογος υποκατηγοριών της κατηγορίας "{0}"
+structure_articles_caption=Λίστα άρθρων στην κατηγορία "{0}"
+structure_root_level_articles_caption=Κατάλογος άρθρων "κύριο επίπεδο"
+structure_root_level_categories_caption=Κατάλογος κατηγοριών "κύριου επιπέδου"
+article_deleted=Το άρθρο έχει διαγραφεί!
+article_could_not_be_generated=Το άρθρο δεν μπόρεσε να δημιουργηθεί.
+category_deleted=Η κατηγορία έχει διαγραφεί!
+category_doesnt_exist=Η κατηγορία δεν υπάρχει!
+cant_delete_sitestartarticle=Το άρθρο έναρξης του ιστότοπου δεν μπορεί να διαγραφεί!
+cant_delete_notfoundarticle=Το στοιχείο "Δεν βρέθηκε" δεν μπορεί να διαγραφεί!
+structure_copy=Αντιγραφή
+category_has_child_elements=Η κατηγορία περιέχει στοιχεία-παιδιά
+category_without_child_elements=Κατηγορία χωρίς στοιχεία-παιδιά
+
+all_categories=Όλες οι κατηγορίες
+categories=Κατηγορίες
+
+perm_options_addArticle[]=Δημιουργία άρθρου
+perm_options_addCategory[]=Δημιουργία κατηγορίας
+perm_options_editArticle[]=Επεξεργασία άρθρου
+perm_options_editCategory[]=Επεξεργασία κατηγορίας
+perm_options_deleteArticle[]=Διαγραφή άρθρου
+perm_options_deleteCategory[]=Διαγραφή κατηγορίας
+perm_options_article2category[]=Μετατροπή άρθρων σε κατηγορίες
+perm_options_article2startarticle[]=Μετατροπή άρθρου σε αρχικό άρθρο
+perm_options_copyArticle[]=Αντιγραφή άρθρου
+perm_options_copyContent[]=Αντιγραφή περιεχομένου άρθρου
+perm_options_moveArticle[]=Μετακινήστε το άρθρο
+perm_options_moveCategory[]=Μετακίνηση κατηγοριών
+perm_options_publishArticle[]=Δημοσίευση άρθρου
+perm_options_publishCategory[]=Δημοσίευση κατηγοριών
+
+system_setting_start_article_id=Ξεκινήστε το άρθρο
+system_setting_notfound_article_id=Άρθρο σφάλματος
+system_setting_default_template_id=Τυποποιημένο πρότυπο
+system_setting_start_article_id_invalid=Άκυρο άρθρο έναρξης!
+system_setting_notfound_article_id_invalid=Άκυρο άρθρο σφάλματος!
+system_setting_default_template_id_invalid=Μη έγκυρο πρότυπο πρότυπο!
+
+linkmap=Χάρτης συνδέσεων
+linkmap_categories=Κατηγορίες
+linkmap_articles=Άρθρο
+linkmap_has_no_template=δεν έχει πρότυπο
+
+var_link_open=Επιλέξτε σύνδεσμο
+var_link_delete=Διαγραφή επιλεγμένου συνδέσμου
+var_linklist_move_top=Μετακίνηση του επιλεγμένου συνδέσμου στην κορυφή
+var_linklist_move_up=Μετακίνηση του επιλεγμένου συνδέσμου στην κορυφή
+var_linklist_move_down=Μετακίνηση επιλεγμένου συνδέσμου προς τα κάτω
+var_linklist_move_bottom=Μετακινήστε τον επιλεγμένο σύνδεσμο στο τέλος
+

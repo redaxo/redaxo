@@ -1,0 +1,87 @@
+structure=Struktura
+
+title_structure=Zarządzanie strukturą
+root_level=Poziom główny
+no_such_category=Kategoria niedostępna!
+category_updated=Kategoria została zaktualizowana.
+category_could_not_be_deleted=Kategoria nie mogła zostać usunięta!
+category_still_contains_articles=Kategoria ta nadal zawiera artykuły.
+category_still_contains_subcategories=Kategoria nadal zawiera podkategorie.
+category_status_updated=Status kategorii został zaktualizowany!
+category_added_and_startarticle_created=Dodano kategorię i utworzono artykuł startowy!
+article_doesnt_exist=Artykuł nie istnieje!
+article_status_updated=Status pozycji został zaktualizowany.
+article_updated=Artykuł został zaktualizowany.
+article_added=Artykuł został dodany.
+header_category=Nazwa kategorii
+header_priority=Priorytet
+header_status=Status/Funkcja
+header_id=ID
+add_category=Dodaj kategorię
+edit_category=Edytuj kategorię
+save_category=Zapisz kategorię
+status_online=online
+status_offline=offline
+option_no_template=Brak szablonu
+template_default_name=BRAK SZABLONU
+header_article_name=Nazwa przedmiotu
+header_template=Szablon
+header_date=Utworzony w dniu
+change=zmiana
+article_add=Dodaj artykuł
+article_edit=Edytuj artykuł
+article_save=Zapisz artykuł
+article=Artykuł
+start_article=Zacznij artykuł
+no_article_available=Brak dostępnego artykułu
+structure_categories_caption=Lista podkategorii kategorii "{0}"
+structure_articles_caption=Lista artykułów w kategorii "{0}"
+structure_root_level_articles_caption=Lista artykułów o "głównym poziomie"
+structure_root_level_categories_caption=Lista kategorii "poziom główny"
+article_deleted=Artykuł został usunięty!
+article_could_not_be_generated=Artykuł nie mógł zostać utworzony.
+category_deleted=Kategoria została usunięta!
+category_doesnt_exist=Kategoria nie istnieje!
+cant_delete_sitestartarticle=Artykuł startowy strony nie może zostać usunięty!
+cant_delete_notfoundarticle=Pozycja "Nie znaleziono" nie może zostać usunięta!
+structure_copy=Kopia
+category_has_child_elements=Kategoria zawiera elementy potomne
+category_without_child_elements=Kategoria bez elementów potomnych
+
+all_categories=Wszystkie kategorie
+categories=Kategorie
+
+perm_options_addArticle[]=Utwórz artykuł
+perm_options_addCategory[]=Utwórz kategorię
+perm_options_editArticle[]=Edytuj artykuł
+perm_options_editCategory[]=Edytuj kategorię
+perm_options_deleteArticle[]=Usuń artykuł
+perm_options_deleteCategory[]=Usuń kategorię
+perm_options_article2category[]=Przekształcanie artykułów w kategorie
+perm_options_article2startarticle[]=Przekształć artykuł w artykuł początkowy
+perm_options_copyArticle[]=Artykuł do skopiowania
+perm_options_copyContent[]=Kopiowanie treści artykułów
+perm_options_moveArticle[]=Przesuń artykuł
+perm_options_moveCategory[]=Przenieść kategorie
+perm_options_publishArticle[]=Opublikuj artykuł
+perm_options_publishCategory[]=Opublikuj kategorie
+
+system_setting_start_article_id=Zacznij artykuł
+system_setting_notfound_article_id=Artykuł o błędach
+system_setting_default_template_id=Standardowy szablon
+system_setting_start_article_id_invalid=Nieprawidłowy artykuł początkowy!
+system_setting_notfound_article_id_invalid=Nieprawidłowy artykuł o błędzie!
+system_setting_default_template_id_invalid=Nieprawidłowy szablon standardowy!
+
+linkmap=Linkmap
+linkmap_categories=Kategorie
+linkmap_articles=Artykuł
+linkmap_has_no_template=nie ma szablonu
+
+var_link_open=Wybierz link
+var_link_delete=Usuń wybrany link
+var_linklist_move_top=Przesunąć wybrany link na górę
+var_linklist_move_up=Przesunąć wybrany link na górę
+var_linklist_move_down=Przesuń wybrany link w dół
+var_linklist_move_bottom=Przesunąć wybrany link na koniec
+

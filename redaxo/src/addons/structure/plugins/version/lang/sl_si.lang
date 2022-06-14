@@ -1,0 +1,16 @@
+version=Različica
+
+version_liveversion=Različica v živo
+version_workingversion=Delovna različica
+version_working_to_live=Izdaja v živo
+version_preview=Predogled
+version_clear_workingversion=Prazna delovna različica
+version_copy_live_to_workingversion=Kopiranje v delovno različico
+version_copy_from_liveversion=Prevzem iz različice v živo
+version_confirm_copy_live_to_workingversion=Kopiranje različice v živo v delovno različico? Vsa obstoječa vsebina delovne različice bo prepisana.
+version_info_working_version_to_live=Delovna različica je živela
+version_info_live_version_to_working=Različica v živo je bila kopirana v delovno različico
+version_warning_working_version_to_live=Delovne različice ni mogoče postaviti v živo, ker je prazna
+version_info_clear_workingversion=Delovna različica uspešno izpraznjena
+version_confirm_clear_workingversion=Ponastavitev delovne različice? Vsa obstoječa vsebina delovne različice bo nepreklicno izbrisana.
+

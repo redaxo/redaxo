@@ -1,0 +1,46 @@
+user_management=Gestion des utilisateurs
+perm_general_users[]=Utilisateur
+roles=Rouleaux
+user=Utilisateur
+users=Utilisateur
+admin=Admin
+
+user_deleted=L'utilisateur a été supprimé !
+user_added=L'utilisateur a été ajouté !
+create_user=Créer un nouvel utilisateur
+add_user=Ajouter un utilisateur
+edit_user=Modifier les utilisateurs
+user_reset_tries=Réinitialiser les échecs de connexion (actuellement : {0})
+user_login_exists=Le login de l'utilisateur existe déjà !
+user_missing_login=Veuillez saisir un nom d'utilisateur !
+user_missing_password=Veuillez saisir un mot de passe !
+user_admin=Admin
+user_admin_note=Tous les droits / Tout est visible
+user_notdeleteself=***** Vous ne pouvez pas vous supprimer vous-même !
+user_general=Généralités
+user_save=Enregistrer les utilisateurs
+user_apply=Reprendre un utilisateur
+user_delete=supprimer
+user_functions=Fonctions
+user_options=Options
+user_extras=Extras
+last_login=Dernière connexion
+user_caption=Liste des utilisateurs créés
+user_password_change_required=Le mot de passe doit être remplacé après la connexion
+user_status_active=L'utilisateur est actif
+user_status_inactive=L'utilisateur est inactif
+startpage=Page d'accueil
+
+user_role=Rôle(s)
+user_role_data_updated=Le rôle a été mis à jour !
+user_role_deleted=Le rôle a été supprimé !
+user_role_added=Le rôle a été ajouté !
+edit_user_role=Modifier le rôle
+create_user_role=Créer un nouveau rôle
+add_user_role=Ajouter un rôle
+user_role_save=Enregistrer le rôle
+user_role_apply=Assumer un rôle
+user_role_delete=supprimer
+user_role_caption=Liste des rôles créés
+user_no_role=aucun rôle
+

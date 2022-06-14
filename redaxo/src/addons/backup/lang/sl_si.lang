@@ -1,0 +1,88 @@
+backup_information=Informacije
+backup_title=Varnostna kopija
+backup_file_deleted=Datoteka je bila izbrisana
+backup_file_error_while_delete=Datoteke ni bilo mogoče izbrisati
+backup_no_import_file_chosen_or_wrong_version=Ni izbrana datoteka za uvoz ali nepravilna različica
+backup_no_valid_import_file=To ni pravilna uvozna datoteka
+backup_utf8mb4_not_supported=Varnostna kopija uporablja <code>utf8mb4</code>kot znakovno množico, ki je podatkovna baza ne podpira (<b>{0}</b>) (potrebna je vsaj MySQL 5.7.7 ali MariaDB 10.2).
+backup_database_imported=Podatkovna baza je bila uspešno uvožena
+backup_entry_count=({0} vnosi)
+backup_file_could_not_be_uploaded=Datoteke ni bilo mogoče naložiti.
+backup_you_have_no_write_permission_in=Do te mape nimate dostopa za pisanje {0}.
+backup_no_import_file_chosen=Ni izbrana nobena datoteka za uvoz.
+backup_file_imported=Datoteka je bila uspešno uvožena.
+backup_import=Uvoz
+backup_to_import=uvoz
+backup_export=Izvoz
+backup_to_export=izvoz
+backup_download=prenesi
+backup_db_import=Uvoz
+backup_db_export=Izvoz
+backup_filename_updated=Izbrano ime datoteke je bilo prilagojeno, ker je vsebovalo napačne znake. Če je pravilen, ponovno kliknite Izvozi.
+backup_please_choose_folder=Izberite imenike, ki jih želite izvoziti.
+backup_intro_import=Upoštevajte, da se pri uvozu zbirke podatkov <b>stara zbirka podatkov izbriše</b> . Če ste v dvomih, pred uvozom naredite varnostno kopijo trenutne zbirke podatkov.
+backup_intro_import_files=Pri uvozu datotek se obstoječe datoteke z istim imenom prepišejo, dodatno pa se ohranijo obstoječe datoteke v mapah.
+backup_version_warning=Varnostne kopije starejših različic REDAXO ali dodatkov niso vedno popolnoma združljive in lahko povzročijo težave po uvozu.
+backup_database=Uvoz podatkovne zbirke
+backup_filename=Ime datoteke
+backup_filename_notice=Spremenljivke: <code>%REX_SERVER</code>, <code>%REX_VERSION</code> in spremenljivke datuma kot v funkciji strftime(). ; Dateiendung: <code>.cronjob.sql</code> (wird automatisch ergänzt)
+backup_filesize=Velikost datoteke
+backup_delete=izbriši
+backup_files=Uvoz datotek
+backup_intro_export=Tu lahko shranite trenutne vnose in datoteke iz programa REDAXO. Za popolno varnostno kopijo morate <b>izvoziti zbirko podatkov IN datoteke</b>. Če želite varnostno kopijo ponovno uporabiti, jo je morda smiselno shraniti neposredno v strežnik in jo po potrebi znova uvoziti.
+backup_database_export=Ustvarjanje varnostne kopije podatkovne zbirke
+backup_file_export=Ustvarjanje varnostne kopije datotek
+backup_save_on_server=Shranjevanje v strežniku
+backup_download_as_file=Prenesi kot datoteko
+backup_createdate=Ustvarjeno na
+
+backup_import_file=Uvozna datoteka
+backup_delete_file=Datoteka l ;schen
+backup_download_file=Prenesite datoteko
+backup_check_rights_in_directory=Varnostno kopiranje ni moglo dostopati do map(e) ali ni bila izbrana nobena. ;hlt.
+backup_file_could_not_be_generated=Datoteke ni bilo mogoče ustvariti.
+backup_file_generated_in=Podatki so bili shranjeni v
+
+backup_proceed_db_import=Obstoječi podatki (članki, predloge, moduli,...) bodo izgubljeni. Nadaljuj ?
+backup_proceed_file_import=Obstoječe datoteke se izbrišejo. Nadaljuj ?
+
+backup_export_db_caption=Obnovitev varnostne kopije podatkovne zbirke
+backup_export_file_caption=Obnovitev varnostne kopije datoteke
+
+backup_function=Funkcija
+
+backup_send_mail=Pošlji po pošti
+backup_send_mail_notice=Za to možnost je potreben dodatek "phpmailer".
+backup_mailaddress=Poštni naslov
+backup_mail_subject=Nova varnostna kopija zbirke podatkov
+backup_mail_body=Priložena je nova varnostna kopija podatkovne zbirke spletnega mesta "{0}".
+
+backup_compress=Stisnite varnostno kopijo
+
+backup_delete_interval=Brisanje starih varnostnih kopij
+backup_delete_interval_off=S spletne strani
+backup_delete_interval_weekly=Na teden naredite eno varnostno kopijo
+backup_delete_interval_monthly=Na mesec naredite eno varnostno kopijo
+backup_delete_interval_notice=Izbrišejo se samo varnostne kopije, starejše od enega meseca, katerih imena datotek se končajo z <code>.cronjob.sql</code> .
+
+backup_exclude_tables=Izključitev iz varnostnega kopiranja
+backup_exclude_tables_notice=Če je ta možnost izbrana, se te tabele ne shranijo. Preglednice s predpono <code>rex_tmp_*</code> so samodejno izključene.
+
+perm_general_backup[export]=Izvozna spletna stran
+
+backup_export_select=Različica izvoza
+backup_export_select_tables=Izberite tabele
+backup_export_select_dir=Izberite mapo
+backup_export_select_location=Izberite mesto shranjevanja
+backup_export_select_filename=Izberite ime datoteke
+
+backup_file=Datoteka
+backup_note=Opomba
+backup_upload=Naložite
+backup_load_from_server=Nalaganje iz strežnika
+
+backup_warning=Opozorilo
+backup_upload_disabled=Nalaganje ni dovoljeno
+backup_max_uploadsize=Max. Velikost prenosa
+backup_max_uploadtime=Max. Čas nalaganja
+

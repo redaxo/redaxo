@@ -1,12 +1,16 @@
-version = 
+version=Versione
 
-version_liveversion = 
-version_workingversion = 
-version_working_to_live = 
-version_preview = 
-version_copy_live_to_workingversion = 
-version_copy_from_liveversion = 
-version_confirm_copy_live_to_workingversion = 
-version_info_working_version_to_live = 
-version_info_live_version_to_working = 
-version_warning_working_version_to_live = 
+version_liveversion=Versione dal vivo
+version_workingversion=Versione di lavoro
+version_working_to_live=Rilascio come versione live
+version_preview=Anteprima
+version_clear_workingversion=Versione di lavoro vuota
+version_copy_live_to_workingversion=Copia nella versione di lavoro
+version_copy_from_liveversion=Riprendere dalla versione dal vivo
+version_confirm_copy_live_to_workingversion=Copiare la versione live nella versione di lavoro? Tutti i contenuti esistenti della versione di lavoro verranno sovrascritti.
+version_info_working_version_to_live=La versione di lavoro è stata resa operativa
+version_info_live_version_to_working=La versione live è stata copiata nella versione di lavoro
+version_warning_working_version_to_live=La versione di lavoro non può essere messa in funzione perché è vuota.
+version_info_clear_workingversion=Versione di lavoro svuotata con successo
+version_confirm_clear_workingversion=Ripristinare la versione funzionante? Tutti i contenuti esistenti della versione di lavoro saranno irrevocabilmente cancellati.
+

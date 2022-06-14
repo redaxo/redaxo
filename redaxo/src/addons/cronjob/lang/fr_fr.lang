@@ -1,0 +1,90 @@
+cronjob_title=Cronjobs
+
+cronjob_add=Ajouter une tâche cron
+cronjob_edit=Édition d'une tâche cron
+
+cronjob_caption=Liste des cronjobs créés
+cronjob_no_cronjobs=Aucune tâche cron n'est disponible
+
+cronjob_delete=supprimer
+cronjob_really_delete=Supprimer vraiment la tâche cron ?
+cronjob_delete_success=La tâche cron "{0}" a été supprimée avec succès !
+cronjob_delete_error=Cronjob "{0}" n'a pas pu être supprimé !
+
+cronjob_execute=exécuter
+cronjob_execute_success=La tâche cron "{0}" a été exécutée avec succès !
+cronjob_execute_error=La tâche cron "{0}" n'a pas été exécutée avec succès !
+
+cronjob_name=Nom
+cronjob_description=Description
+cronjob_examples=Exemples
+
+cronjob_type=Type
+cronjob_type_not_found=La tâche cron "{0}" ne peut pas être traitée car la classe "{1}" n'a pas été trouvée. Vérifiez si l'add-on/plug-in associé est activé !
+cronjob_type_phpcode=Code PHP
+cronjob_type_phpcallback=PHP-Callback
+cronjob_type_urlrequest=Appel de l'URL
+cronjob_type_urlrequest_url=URL
+cronjob_type_urlrequest_post=Paramètre POST
+cronjob_type_urlrequest_httpauth=Authentification HTTP
+cronjob_type_urlrequest_user=Utilisateur
+cronjob_type_urlrequest_password=Mot de passe
+cronjob_type_parameters=Paramètres spécifiques au type
+cronjob_type_no_parameters=Aucun autre paramètre n'est nécessaire pour ce type !
+
+cronjob_interval=Intervalle
+cronjob_interval_minutes=minutes
+cronjob_interval_minutes_all=Toutes les 5 minutes
+cronjob_interval_hours=Heures
+cronjob_interval_hours_all=Chaque heure
+cronjob_interval_days=Jours
+cronjob_interval_days_all=Chaque jour
+cronjob_interval_weekdays=Jours de la semaine
+cronjob_interval_weekdays_all=N'importe quel jour de la semaine
+cronjob_interval_months=Mois
+cronjob_interval_months_all=Chaque mois
+
+cronjob_environment=Environnement
+cronjob_environment_notice=Script : Exécution via <code>{0}</code>. Le script doit être appelé régulièrement au moyen d'une véritable tâche cron.
+cronjob_environment_frontend=Frontend
+cronjob_environment_backend=Backend
+cronjob_environment_script=Script
+cronjob_environment_console=Script
+cronjob_environment_backend_manual=Backend (manuel)
+
+cronjob_execution=Version
+cronjob_execution_beginning=Début du script
+cronjob_execution_ending=Fin du script
+
+cronjob_nexttime=Prochaine exécution
+
+cronjob_status_function=Statut/Fonction
+cronjob_status=Statut
+cronjob_status_activated=active
+cronjob_status_deactivated=désactivé
+cronjob_status_invalid=défectueux
+cronjob_status_activate_success=La tâche cron "{0}" a été activée !
+cronjob_status_activate_error=Cronjob "{0}" n'a pas pu être activé !
+cronjob_status_deactivate_success=La tâche cron "{0}" a été désactivée !
+cronjob_status_deactivate_error=Cronjob "{0}" n'a pas pu être désactivé !
+
+cronjob_error_no_name=Le nom ne doit pas être vide !
+cronjob_error_no_environment=Au moins un environnement doit être sélectionné !
+cronjob_error_interval_incomplete=Pour l'intervalle, une valeur doit être sélectionnée dans chaque catégorie !
+
+cronjob_not_found=Cronjob introuvable !
+cronjob_not_editable=La tâche cron ne peut pas être éditée !
+
+cronjob_log=Log
+cronjob_log_date=Date
+cronjob_log_year=Année
+cronjob_log_month=Mois
+cronjob_log_ok=OK
+cronjob_no_log_files=Aucun fichier journal n'est disponible.
+cronjob_log_no_data=Aucune donnée disponible.
+cronjob_log_caption_1=Liste des cronjobs exécutés dans le {0} {1}
+cronjob_log_caption_2=Liste des dernières tâches cron exécutées
+cronjob_log_message=Déclaration
+
+cronjob_delete_log_msg=Supprimer le journal des cronjobs ?
+

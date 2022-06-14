@@ -1,0 +1,33 @@
+customizer=Customizer
+customizer_features=CodeMirror
+
+customizer_codemirror=CodeMirror
+customizer_codemirror_check=Aktywuj CodeMirror
+customizer_codemirror_selectors=Dodatkowe selektory jQuery dla CodeMirror
+customizer_codemirror_selectors_info=Rozdzielona przecinkami lista selektorów jQuery, dla których zastosowano CodeMirror.<br>Domyślnie są to <code>textarea.rex-js-code</code> i <code>textarea.codemirror</code>.
+customizer_codemirror_theme=Temat CodeMirror
+customizer_codemirror_langs=Dodatkowy zakreślacz
+customizer_codemirror_langs_text=(markdown, textile, gfm, yaml, sql ...)
+customizer_codemirror_tools=Dodatkowe cechy
+customizer_codemirror_tools_text=(Code-Folding, Bracket-Matching, Tag-Matching, Close-Brackets, Search)
+customizer_codemirror_autoresize=AutoResize
+customizer_codemirror_autoresize_text=(CodeMirror dostosowuje swoją wysokość do zawartości)
+
+customizer_codemirror_info="Jak tylko CodeMirror zostanie aktywowany, jest on automatycznie wykorzystywany do szablonów, modułów, akcji i cronjobs. Jeśli chcą Państwo sami korzystać z CodeMirror, proszę skorzystać z poniższego formularza:<br><br><code><textarea class=\"codemirror\" data-codemirror-theme=\"themename\" data-codemirror-mode=\"php/htmlmixed\"></textarea></code><br><br>Parametry <i>data-codemirror-theme</i> i <i>data-codemirror-mode</i> są opcjonalne.<br><br>Za pomocą klawiszy F11 i ESC można przejść do trybu pełnoekranowego."
+
+customizer_labeling=Dodatki
+customizer_labelcolor=Kolor identyfikacyjny
+customizer_labelcolor_notice="Dowolna poprawna specyfikacja kolorów CSS (<code>#03f0ab</code>, <code>rgba(255, 100, 0, 0.5)</code> itd.)"
+customizer_showlink=Pokazać link do strony internetowej?
+
+customizer_config_updated=Wejścia zostały zapisane
+customizer_config_update_failed=Wpisy nie zostały zapisane
+
+customizer_update=Zapisz ustawienia
+customizer_error_unzip=Podczas rozpakowywania zasobów z archiwum codemirror wystąpił błąd!
+
+customizer_projectname=Nazwa projektu
+customizer_textarea=szeroki obszar tekstowy pod szablonem i modułami
+customizer_liquid=Liquid Layout
+customizer_nav_flyout=Nawigacja z wysuwanym menu
+

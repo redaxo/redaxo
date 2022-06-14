@@ -1,0 +1,86 @@
+media=وسائل الإعلام
+categories=التصنيفات
+articles=أداة
+
+minfo_title=قم بتوسيع المعلومات الوصفية
+minfo_metainfos_not_found=لم يتم العثور على معلومات التعريف
+
+minfo_field_list_caption=قائمة الحقول الوصفية
+
+minfo_field_fieldset=تحرير / إنشاء الحقل
+minfo_field_label_prefix=بادئة
+minfo_field_label_title=تسمية الميدان
+minfo_field_label_name=اسم العمود
+minfo_field_label_function=وظيفة
+minfo_field_label_functions=المهام
+minfo_field_label_id=هوية شخصية
+minfo_field_label_type=نوع الحقل
+minfo_field_label_attributes=سمات المجال
+minfo_field_label_callback=أتصل مرة أخرى
+minfo_field_label_callback_templates=قوالب رد الاتصال
+minfo_field_label_default=القيمة الافتراضية
+minfo_field_label_nullable=حقل الزامي
+minfo_field_label_params=معامل
+minfo_field_label_priority=الموقع الميداني
+minfo_field_label_restrictions=متوفر فقط في الفئات التالية
+minfo_field_label_no_restrictions=متوفر بجميع الفئات
+minfo_field_label_all_templates=متاح لجميع القوالب
+minfo_field_label_templates=متاح فقط للقوالب التالية
+
+minfo_field_notice_title=البادئة "ترجم:" تترجم القيمة عبر I18N
+
+minfo_field_first_priority=في البداية
+minfo_field_after_priority=بعد الحقل "{0}"
+
+minfo_field_params_notice_3="أمثلة:<br />أ) <code>الكل | المستخدم | المشرف</code><br />ب) <code>1: الكل | 2: المستخدم | 3: المشرف</code><br />ج) <code>حدد التسمية ، المعرف من الجدول الخاص بي حيث أ = 4</code><br />د) <code>(DB2) حدد التسمية ، المعرف من my_table حيث أ = 4</code>"
+minfo_field_params_notice_4="أمثلة:<br />أ) <code>الكل | المستخدم | المشرف</code><br />ب) <code>1: الكل | 2: المستخدم | 3: المشرف</code><br />ج) <code>حدد التسمية ، المعرف من الجدول الخاص بي حيث أ = 4</code><br />د) <code>(DB2) حدد التسمية ، المعرف من my_table حيث أ = 4</code>"
+minfo_field_params_notice_5="أمثلة:<br />أ) <code>الكل | المستخدم | المشرف</code><br />ب) <code>1: الكل | 2: المستخدم | 3: المشرف</code><br />ج) <code>حدد التسمية ، المعرف من الجدول الخاص بي حيث أ = 4</code><br />د) <code>(DB2) حدد التسمية ، المعرف من my_table حيث أ = 4</code>"
+minfo_field_params_notice_6="مثال: فئة<br /> <code>= \"1\" أنواع = \"gif، jpg\" معاينة = \"1\"</code>"
+minfo_field_params_notice_7="مثال: فئة<br /> <code>= \"1\" أنواع = \"gif، jpg\" معاينة = \"1\"</code>"
+minfo_field_params_notice_8="مثال: فئة<br /> <code>= \"1\"</code>"
+minfo_field_params_notice_9="مثال: فئة<br /> <code>= \"1\"</code>"
+minfo_field_params_notice_10="مثال:<br /> <code>سنة البدء = \"1990\" نهاية السنة = \"2030\"</code>"
+minfo_field_params_notice_11="مثال:<br /> <code>سنة البدء = \"1990\" نهاية السنة = \"2030\"</code>"
+
+minfo_field_attributes_notice="سمات HTML لحقل الإدخال والأذونات ، على سبيل المثال:<br /><code>style = \"color: red" ;" multiple="multiple" class="my_css_class" perm="admin[]"</code>
+minfo_field_label_notice=رمز للتشغيل عند تغيير قيمة الحقل.<br /> متغيرات قابلة للقراءة: <code>سلسلة $fieldName، سلسلة $fieldValue، rex_sql $field</code>
+
+minfo_field_error_name=الرجاء إدخال أسماء الأعمدة!
+minfo_field_error_unique_name=اسم العمود المحدد موجود بالفعل!
+minfo_field_error_unique_type=اسم النوع المحدد موجود بالفعل!
+minfo_field_error_chars_name=يحتوي اسم العمود على أحرف غير صالحة (مسموح بها AZ و0-9 و _)!
+minfo_field_error_invalid_prefix=البادئة المحددة غير صالحة!
+minfo_field_error_invalid_type=النوع المحدد غير صالح!
+minfo_field_error_invalid_length=طول الحقل المحدد غير صالح!
+minfo_field_error_invalid_name=اسم العمود المحدد غير صالح!
+minfo_field_error_invalid_fieldid=معرف الحقل المحدد غير صالح!
+minfo_field_error_invalid_typeid=معرف النوع المحدد غير صالح!
+minfo_field_error_deleted=لم يتم حذف الحقل!
+minfo_field_successfull_deleted=تم حذف الحقل بنجاح!
+minfo_field_successfull_saved=تم حفظ المعلومات بنجاح!
+
+minfo_default_fields_create=إنشاء الحقول القياسية
+minfo_default_fields_created=تم إنشاء الحقول القياسية بنجاح!
+
+minfo_edit_metadata=تحرير البيانات الوصفية
+minfo_metadata_saved=تم حفظ البيانات الوصفية.
+
+minfo_media_in_use_art=مقالة (بيانات وصفية)
+minfo_media_in_use_cat=الفئات (البيانات الوصفية)
+minfo_media_in_use_med=الوسائط (البيانات الوصفية)
+minfo_media_in_use_clang=اللغات (البيانات الوصفية)
+
+minfo_callback_lang_indep_field=مجال اللغة المستقلة
+
+# bc: labels aus dem core=
+online_from=عبر الإنترنت من
+online_to=حتى
+description=وصف
+keywords=مصطلحات البحث
+header_article_type=نوع العنصر
+metadata_image=ملف تعريف / صورة
+teaser=المضايقون
+pool_file_copyright=حقوق النشر
+
+metadata=البيانات الوصفية
+

@@ -1,0 +1,46 @@
+user_management=Gebruikersadministratie
+perm_general_users[]=Gebruiker
+roles=Rollen
+user=Gebruiker
+users=Gebruiker
+admin=Admin
+
+user_deleted=Gebruiker is verwijderd!
+user_added=De gebruiker is toegevoegd!
+create_user=Nieuwe gebruiker aanmaken
+add_user=Gebruiker toevoegen
+edit_user=Gebruiker bewerken
+user_reset_tries=Reset aanmeldingsfouten (huidig: {0})
+user_login_exists=Gebruikers login bestaat al!
+user_missing_login=Gelieve een gebruikersnaam in te voeren!
+user_missing_password=Gelieve een paswoord in te geven!
+user_admin=Admin
+user_admin_note=Alle rechten / Alle zichtbare
+user_notdeleteself=***** U kunt uzelf niet wissen!
+user_general=Algemeen
+user_save=Gebruiker opslaan
+user_apply=Gebruiker overnemen
+user_delete=verwijderen
+user_functions=Functies
+user_options=Opties
+user_extras=Extra's
+last_login=Laatste login
+user_caption=Lijst van aangemaakte gebruikers
+user_password_change_required=Wachtwoord moet verwisseld worden na login
+user_status_active=Gebruiker is actief
+user_status_inactive=Gebruiker is inactief
+startpage=Homepage
+
+user_role=Rol(len)
+user_role_data_updated=De rol is bijgewerkt!
+user_role_deleted=De rol is verwijderd!
+user_role_added=De rol is toegevoegd!
+edit_user_role=Rol bewerken
+create_user_role=Nieuwe rol creëren
+add_user_role=Rol toevoegen
+user_role_save=Rol opslaan
+user_role_apply=Rol overnemen
+user_role_delete=verwijderen
+user_role_caption=Lijst van gecreëerde rollen
+user_no_role=geen onderdeel
+

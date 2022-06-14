@@ -1,0 +1,88 @@
+backup_information=Oplysninger
+backup_title=Backup
+backup_file_deleted=Filen blev slettet
+backup_file_error_while_delete=Filen kunne ikke slettes
+backup_no_import_file_chosen_or_wrong_version=Der er ikke valgt nogen importfil, eller versionen er forkert
+backup_no_valid_import_file=Dette er ikke en korrekt importfil
+backup_utf8mb4_not_supported=Sikkerhedskopien bruger <code>utf8mb4</code>som charset, hvilket ikke understøttes af databasen (<b>{0}</b>) (mindst MySQL 5.7.7.7 eller MariaDB 10.2 er påkrævet).
+backup_database_imported=Database importeret med succes
+backup_entry_count=({0} poster)
+backup_file_could_not_be_uploaded=Filen kunne ikke uploades.
+backup_you_have_no_write_permission_in=Du har ikke skriveadgang til denne mappe {0}.
+backup_no_import_file_chosen=Der er ikke valgt nogen importfil.
+backup_file_imported=Filen blev importeret med succes.
+backup_import=Import
+backup_to_import=importere
+backup_export=Eksport
+backup_to_export=eksport
+backup_download=download
+backup_db_import=Import
+backup_db_export=Eksport
+backup_filename_updated=Det valgte filnavn blev justeret, fordi det indeholdt forkerte tegn. Hvis det er korrekt, skal du klikke på Eksporter igen.
+backup_please_choose_folder=Vælg de mapper, der skal eksporteres.
+backup_intro_import=Bemærk venligst, at når du importerer en database <b>, slettes den gamle database</b> . Hvis du er i tvivl, skal du sikkerhedskopiere den aktuelle database, før du importerer den.
+backup_intro_import_files=Når du importerer filer, overskrives eksisterende filer med samme navn, men derudover bevares eksisterende filer i mapperne.
+backup_version_warning=Sikkerhedskopier af ældre REDAXO-versioner eller AddOns er ikke altid fuldt kompatible og kan føre til problemer efter import.
+backup_database=Import af database
+backup_filename=Filnavn
+backup_filename_notice=Variabler: <code>%REX_SERVER</code>, <code>%REX_VERSION</code> og datovariabler som i strftime(). ; Dateiendung: <code>.cronjob.sql</code> (wird automatisch ergänzt)
+backup_filesize=Filstørrelse
+backup_delete=slet
+backup_files=Import af filer
+backup_intro_export=Her kan du gemme dine aktuelle indtastninger og filer fra REDAXO. For at få en komplet sikkerhedskopi skal du <b>eksportere databasen OG filerne</b>. Hvis du vil genbruge sikkerhedskopien, kan det være fornuftigt at gemme den direkte på serveren og importere den igen, hvis det er nødvendigt.
+backup_database_export=Opret database backup
+backup_file_export=Opret filsikkerhedskopi
+backup_save_on_server=Gem på serveren
+backup_download_as_file=Download som fil
+backup_createdate=Oprettet den
+
+backup_import_file=Import af fil
+backup_delete_file=Fil l ;schen
+backup_download_file=Hent fil
+backup_check_rights_in_directory=Backup kunne ikke få adgang til mappen/mapperne, eller der var ikke valgt nogen ;hlt.
+backup_file_could_not_be_generated=Filen kunne ikke oprettes.
+backup_file_generated_in=Data blev gemt i
+
+backup_proceed_db_import=Eksisterende data (artikler, skabeloner, moduler,...) vil gå tabt. Fortsæt ?
+backup_proceed_file_import=Eksisterende filer slettes. Fortsæt ?
+
+backup_export_db_caption=Gendan backup af database
+backup_export_file_caption=Gendan filbackup
+
+backup_function=Funktion
+
+backup_send_mail=Send med posten
+backup_send_mail_notice=Tilføjelsen "phpmailer" er påkrævet for denne mulighed.
+backup_mailaddress=Postadresse
+backup_mail_subject=Ny database backup
+backup_mail_body=Vedhæftet er en ny database backup af hjemmesiden "{0}".
+
+backup_compress=Komprimere backup
+
+backup_delete_interval=Slet gamle sikkerhedskopier
+backup_delete_interval_off=Fra
+backup_delete_interval_weekly=Opbevar en sikkerhedskopi om ugen
+backup_delete_interval_monthly=Opbevar en sikkerhedskopi om måneden
+backup_delete_interval_notice=Kun sikkerhedskopier, der er ældre end en måned, og hvis filnavne ender på <code>.cronjob.sql</code> , slettes.
+
+backup_exclude_tables=Udelukke fra sikkerhedskopiering
+backup_exclude_tables_notice=Hvis dette felt er markeret, gemmes disse tabeller ikke. Tabeller med præfikset <code>rex_tmp_*</code> er automatisk udelukket.
+
+perm_general_backup[export]=Eksportere websted
+
+backup_export_select=Eksportvariant
+backup_export_select_tables=Vælg tabeller
+backup_export_select_dir=Vælg mappe
+backup_export_select_location=Vælg opbevaringssted
+backup_export_select_filename=Vælg filnavn
+
+backup_file=Fil
+backup_note=Bemærk
+backup_upload=Upload
+backup_load_from_server=Indlæsning fra serveren
+
+backup_warning=Advarsel
+backup_upload_disabled=Uploads er ikke tilladt
+backup_max_uploadsize=Max. Upload størrelse
+backup_max_uploadtime=Max. Tidspunkt for upload
+

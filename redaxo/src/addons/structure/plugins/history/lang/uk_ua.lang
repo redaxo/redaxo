@@ -1,0 +1,23 @@
+structure_history=історії
+structure_history_title_info=Коротке пояснення
+structure_history_snapshot_reactivate=Прийміть цю версію
+structure_history_snapshot_reactivated=версія була прийнята
+structure_history_overview_versions=history_overview_versions
+structure_history_current_version=Поточна версія
+structure_history_info_content=<p>Плагін історії, за допомогою якого ви можете записувати зміни у змісті статті. Створюється знімок версії та вказується дата. Старіші версії можна буде повторно активувати пізніше.</p>
+structure_history_todos=todos
+structure_history_todos_content=<ul><li>Підготуйте cronjob</li><li>Зробіть історію деактивованою</li><li>Встановіть налаштування, щоб обмежити кількість версій. Наприклад, зберігайте лише одну версію/день через тиждень. через місяць зберігати лише одну версію/місяць..</li><li>встановити значення масштабування веб-сайту</li><li>відобразити досить ала Time Machine?</li></ul>
+
+perm_options_history[article_rollback]=Відновити елемент (історію)
+
+structure_history_button_delete_history=Повністю видалити історію
+structure_history_deleted=Історія була повністю стерта.
+structure_history_savedby=забезпечений
+structure_history_close=Перервати
+
+structure_history_cleanup=Очистіть історію статей
+structure_history_cleanup_after=Очистити історію, якщо старше ніж
+structure_history_days={0} днів
+structure_history_months={0} місяців
+structure_history_years={0} років
+

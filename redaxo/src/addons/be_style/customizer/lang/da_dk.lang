@@ -1,0 +1,33 @@
+customizer=Tilpasset
+customizer_features=CodeMirror
+
+customizer_codemirror=CodeMirror
+customizer_codemirror_check=Aktiver CodeMirror
+customizer_codemirror_selectors=Yderligere jQuery-selektorer til CodeMirror
+customizer_codemirror_selectors_info=Komma-separeret liste over jQuery-selektorer, som CodeMirror anvendes på.<br>Standard er <code>textarea.rex-js-code</code> og <code>textarea.codemirror</code>.
+customizer_codemirror_theme=CodeMirror-tema
+customizer_codemirror_langs=Yderligere highlighter
+customizer_codemirror_langs_text=(markdown, tekstil, gfm, yaml, sql ...)
+customizer_codemirror_tools=Yderligere funktioner
+customizer_codemirror_tools_text=(kodefoldning, parentes-matching, tag-matching, lukkede parenteser, søgning)
+customizer_codemirror_autoresize=AutoResize
+customizer_codemirror_autoresize_text=(CodeMirror tilpasser sin højde til indholdet)
+
+customizer_codemirror_info="Så snart CodeMirror er aktiveret, bruges det automatisk til skabeloner, moduler, handlinger og cronjobs. Hvis du selv ønsker at bruge CodeMirror, skal du bruge følgende formular:<br><br><code><code><textarea class=\"codemirror\" data-codemirror-theme=\"themename\" data-codemirror-mode=\"php/htmlmixed\"></textarea></code><br><br>Parametrene <i>data-codemirror-theme</i> og <i>data-codemirror-mode</i> er valgfrie.<br><br>F11- og ESC-tasterne kan bruges til at gå i fuldskærmstilstand."
+
+customizer_labeling=Tilføjelser
+customizer_labelcolor=Identifikationsfarve
+customizer_labelcolor_notice="Enhver gyldig CSS-farvespecifikation (<code>#03f0ab</code>, <code>rgba(255, 100, 0, 0, 0,5)</code> osv.)."
+customizer_showlink=Vis link til websted ?
+
+customizer_config_updated=Indgange blev gemt
+customizer_config_update_failed=Indtastninger blev ikke gemt
+
+customizer_update=Gem indstillinger
+customizer_error_unzip=Der opstod en fejl ved udpakning af aktiverne fra codemirror-arkivet!
+
+customizer_projectname=Projektets navn
+customizer_textarea=bredt tekstområde under skabelon og moduler
+customizer_liquid=Flydende layout
+customizer_nav_flyout=Navigation med flyout
+

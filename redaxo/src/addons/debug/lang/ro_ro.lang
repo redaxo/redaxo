@@ -1,0 +1,4 @@
+debug=Depanare
+debug_activate_debugmode=Activați modul de depanare pentru a putea utiliza addon-ul de depanare.
+debug_error_unzip=A apărut o eroare la despachetarea activelor din arhiva Clockwork Frontend!
+

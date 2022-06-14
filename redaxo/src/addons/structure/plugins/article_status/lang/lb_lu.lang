@@ -1,0 +1,4 @@
+cronjob_article_status=Artikel Status
+cronjob_article_reset_date=Kloer Element Datum Felder no Status änneren
+cronjob_article_reset_date_info=Dës Optioun läscht den "online_from" Datum oder "online_to" Datum<br>an de Metadaten vum Element no der Statusännerung.
+

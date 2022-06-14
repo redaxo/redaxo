@@ -1,0 +1,86 @@
+media=СМИ
+categories=Категории
+articles=Статья
+
+minfo_title=Расширение метаинформации
+minfo_metainfos_not_found=Мета-информация не найдена
+
+minfo_field_list_caption=Список мета-полей
+
+minfo_field_fieldset=Редактировать/Создать поле
+minfo_field_label_prefix=Префикс
+minfo_field_label_title=Название поля
+minfo_field_label_name=Название колонки
+minfo_field_label_function=Функция
+minfo_field_label_functions=Функции
+minfo_field_label_id=Id
+minfo_field_label_type=Тип поля
+minfo_field_label_attributes=Атрибуты поля
+minfo_field_label_callback=Обратный звонок
+minfo_field_label_callback_templates=Шаблоны обратного вызова
+minfo_field_label_default=Значение по умолчанию
+minfo_field_label_nullable=Обязательное поле
+minfo_field_label_params=Параметр
+minfo_field_label_priority=Полевая позиция
+minfo_field_label_restrictions=Доступны только в следующих категориях
+minfo_field_label_no_restrictions=Доступны во всех категориях
+minfo_field_label_all_templates=Доступно для всех шаблонов
+minfo_field_label_templates=Доступно только для следующих шаблонов
+
+minfo_field_notice_title=Префикс "translate:" переводит значение через I18N
+
+minfo_field_first_priority=В начале
+minfo_field_after_priority=После поля "{0}"
+
+minfo_field_params_notice_3="Примеры:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_4="Примеры:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_5="Примеры:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_6="Пример:<br /> <code>category=\"1\" types=\"gif,jpg\" preview=\"1\"</code>"
+minfo_field_params_notice_7="Пример:<br /> <code>category=\"1\" types=\"gif,jpg\" preview=\"1\"</code>"
+minfo_field_params_notice_8="Пример:<br /> <code>category=\"1\"</code>"
+minfo_field_params_notice_9="Пример:<br /> <code>category=\"1\"</code>"
+minfo_field_params_notice_10="Пример:<br /> <code>begin-year=\"1990\" end-year=\"2030\"</code>"
+minfo_field_params_notice_11="Пример:<br /> <code>begin-year=\"1990\" end-year=\"2030\"</code>"
+
+minfo_field_attributes_notice="Атрибуты HTML в поле ввода и разрешения, например:<br /><code>style=\"color:red" ;" multiple="multiple" class="my_css_class" perm="admin[]"</code>
+minfo_field_label_notice=Код, который выполняется при изменении значения поля.<br /> Читаемые переменные: <code>string $fieldName, string $fieldValue, rex_sql $field</code>
+
+minfo_field_error_name=Пожалуйста, введите названия столбцов!
+minfo_field_error_unique_name=Указанное имя колонки уже существует!
+minfo_field_error_unique_type=Указанное имя типа уже существует!
+minfo_field_error_chars_name=Имя столбца содержит недопустимые символы (разрешены A-Z, 0-9 и _)!
+minfo_field_error_invalid_prefix=Указанный префикс недействителен!
+minfo_field_error_invalid_type=Указанный тип недействителен!
+minfo_field_error_invalid_length=Указанная длина поля недопустима!
+minfo_field_error_invalid_name=Указанное имя столбца недействительно!
+minfo_field_error_invalid_fieldid=Указанный идентификатор поля недействителен!
+minfo_field_error_invalid_typeid=Указанный Type-Id недействителен!
+minfo_field_error_deleted=Поле не было удалено!
+minfo_field_successfull_deleted=Поле успешно удалено!
+minfo_field_successfull_saved=Данные успешно сохранены!
+
+minfo_default_fields_create=Создание стандартных полей
+minfo_default_fields_created=Стандартные поля успешно созданы!
+
+minfo_edit_metadata=Редактирование метаданных
+minfo_metadata_saved=Метаданные были сохранены.
+
+minfo_media_in_use_art=Статья (метаданные)
+minfo_media_in_use_cat=Категории (метаданные)
+minfo_media_in_use_med=Медиа (метаданные)
+minfo_media_in_use_clang=Языки (метаданные)
+
+minfo_callback_lang_indep_field=Независимое от языка поле
+
+# bc: labels aus dem core=
+online_from=Онлайн из
+online_to=до
+description=Описание
+keywords=Условия поиска
+header_article_type=Тип статьи
+metadata_image=Метафайл/Изображение
+teaser=Тизер
+pool_file_copyright=Авторское право
+
+metadata=Метаданные
+

@@ -1,0 +1,75 @@
+install_title=Instalator
+install_subpage_packages=Rdzeń
+install_subpage_update=Uaktualnić istniejące
+install_subpage_add=Pobierz nowy
+install_subpage_upload=Prześlij własne
+install_subpage_settings=Ustawienia
+
+install_webservice_unreachable=Serwis internetowy nie jest obecnie dostępny!
+install_webservice_error=Serwis internetowy zwraca następujący komunikat o błędzie:
+install_archive_unreachable=Plik zip nie jest dostępny!
+
+install_reload=Aktualizacja listy
+install_key=Kluczowe
+install_information=Informacje
+install_name=Nazwa
+install_author=Autor
+install_shortdescription=Krótki opis
+install_description=Opis
+install_website=Strona internetowa
+install_files=Pliki
+install_version=Wersja
+install_existing_version=Istniejąca wersja
+install_available_versions=Dostępne wersje
+install_addon_already_exists=już pobrane
+install_update=aktualizacja
+install_download=pobierz
+install_addons_found={0} Znaleziono AddOns
+install_available_updates={0} Dostępne aktualizacje
+install_my_packages=Moje pakiety
+install_status=Status
+install_online=online
+install_offline=offline
+install_file_add=Dodaj plik
+install_file_edit=Aktualizacja pliku
+install_send=Wyślij
+install_upload_file=Tworzenie i przesyłanie pliku zip
+install_replace_assets=Pobieranie zasobów z głównego folderu zasobów
+install_ignore_tests=Zignoruj folder "testy
+install_published_on=Opublikowany na
+install_sort=Sortuj
+install_sort_default=Sortuj według klucza w porządku rosnącym
+
+install_info_core_updated=Rdzeń został zaktualizowany!
+install_warning_core_not_updated=Rdzeń nie mógł zostać zaktualizowany z następującego powodu:
+install_warning_core_zip_not_extracted=Plik zip nie mógł zostać rozpakowany do katalogu "src"!
+
+install_info_addon_downloaded=Dodatek <b>{0}</b> został pobrany!
+install_warning_addon_not_downloaded=Dodatek <b>{0}</b> nie mógł zostać pobrany z następującego powodu:
+install_info_addon_updated=AddOn <b>{0}</b> został zaktualizowany!
+install_warning_addon_not_updated=Dodatek <b>{0}</b> nie mógł zostać zaktualizowany z następującego powodu:
+install_info_addon_uploaded=Dodatek <b>{0}</b> został załadowany!
+install_info_addon_deleted=Wersja AddOn z <b>{0}</b> została usunięta!
+install_warning_addon_zip_not_extracted=Podczas rozpakowywania pliku zip do katalogu AddOn wystąpił błąd. Prawdopodobnie brakuje uprawnień do zapisu lub nazwa folderu w pliku zip nie odpowiada kluczowi AddOn.
+install_warning_message_from_addon=AddOn <b>{0}</b> raporty:
+install_warning_message_from_plugin=Wtyczka <b>{0}</b> zgłasza:
+
+install_warning_directory_not_writable=Folder <b>{0}</b> nie jest zapisywalny!
+install_warning_zip_wrong_checksum=Suma kontrolna pobranego pliku zip nie jest zgodna z oczekiwaną. Proszę spróbować ponownie za kilka minut!
+install_warning_zip_wrong_format=Plik zip nie jest w wymaganym formacie.
+
+install_to_addon_page=Do administracji dodatku
+
+install_settings_general=Ogólne
+install_settings_backups=Tworzenie kopii zapasowych
+install_settings_backups_note=Zanim pakiety zostaną zaktualizowane przez instalatora, kopia aktualnej wersji jest przechowywana w <code>redaxo/data/addons/install/</code> . W przypadku błędów można je ponownie zainstalować.<br>Proszę zwrócić uwagę, że baza danych nie jest zapisywana w kopii zapasowej!
+install_settings_myredaxo_account=konto myREDAXO
+install_settings_api_login=Nazwa użytkownika
+install_settings_api_key=Klucz API
+install_settings_saved=Ustawienia zostały zapisane!
+install_settings_error=Ustawienia nie mogły zostać zapisane, proszę sprawdzić uprawnienia do zapisu dla: {0}
+
+install_header_function=Funkcja
+install_latest_release=Aktualne wydanie
+install_download_unstable=Ostrożnie! To jest wersja rozwojowa. Proszę instalować na własne ryzyko.
+

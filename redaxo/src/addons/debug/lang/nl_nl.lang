@@ -1,0 +1,4 @@
+debug=Debug
+debug_activate_debugmode=Activeer de debug modus om de debug addon te kunnen gebruiken.
+debug_error_unzip=Er is een fout opgetreden bij het uitpakken van de assets uit het Clockwork Frontend archief!
+

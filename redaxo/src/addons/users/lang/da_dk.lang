@@ -1,0 +1,46 @@
+user_management=Administration af brugere
+perm_general_users[]=Bruger
+roles=Ruller
+user=Bruger
+users=Bruger
+admin=Admin
+
+user_deleted=Brugeren er blevet slettet!
+user_added=Bruger er blevet tilføjet!
+create_user=Opret ny bruger
+add_user=Tilføj bruger
+edit_user=Rediger bruger
+user_reset_tries=Nulstiller fejl ved login (aktuelt: {0})
+user_login_exists=Der findes allerede et brugerlogin!
+user_missing_login=Indtast venligst et brugernavn!
+user_missing_password=Indtast venligst en adgangskode!
+user_admin=Admin
+user_admin_note=Alle rettigheder / Alle synlige
+user_notdeleteself=***** Du kan ikke slette dig selv!
+user_general=Generelt
+user_save=Gem bruger
+user_apply=Overtage brugeren
+user_delete=slet
+user_functions=Funktioner
+user_options=Indstillinger
+user_extras=Ekstraudstyr
+last_login=Sidste login
+user_caption=Liste over oprettede brugere
+user_password_change_required=Adgangskode skal udskiftes efter login
+user_status_active=Brugeren er aktiv
+user_status_inactive=Brugeren er inaktiv
+startpage=Hjemmeside
+
+user_role=Rolle(r)
+user_role_data_updated=Rollen er blevet opdateret!
+user_role_deleted=Rollen er blevet slettet!
+user_role_added=Rollen er blevet tilføjet!
+edit_user_role=Rediger rolle
+create_user_role=Opret ny rolle
+add_user_role=Tilføj rolle
+user_role_save=Gem rulle
+user_role_apply=Påtage sig rollen
+user_role_delete=slet
+user_role_caption=Liste over oprettede roller
+user_no_role=ingen del
+

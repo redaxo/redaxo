@@ -1,0 +1,4 @@
+cronjob_article_status=Status do artigo
+cronjob_article_reset_date=Campos de data de item vazios após alteração de estado
+cronjob_article_reset_date_info=Esta opção elimina a data "online_from" ou "online_to" data<br>nos metadados do artigo após a mudança de estado.
+

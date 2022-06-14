@@ -1,0 +1,88 @@
+backup_information=Information
+backup_title=Sauvegarde
+backup_file_deleted=Le fichier a été supprimé
+backup_file_error_while_delete=Le fichier n'a pas pu être supprimé
+backup_no_import_file_chosen_or_wrong_version=Aucun fichier d'importation sélectionné ou version incorrecte
+backup_no_valid_import_file=Ce n'est pas un fichier d'importation correct
+backup_utf8mb4_not_supported=La sauvegarde utilise comme jeu de caractères <code>utf8mb4</code>, ce qui n'est pas supporté par la base de données (<b>{0}</b>) (MySQL 5.7.7 ou MariaDB 10.2 minimum requis).
+backup_database_imported=Base de données importée avec succès
+backup_entry_count=({0} entrées)
+backup_file_could_not_be_uploaded=Le fichier n'a pas pu être téléchargé.
+backup_you_have_no_write_permission_in=Vous n'avez pas les droits d'écriture sur ce dossier {0}.
+backup_no_import_file_chosen=Aucun fichier d'importation sélectionné.
+backup_file_imported=Le fichier a été importé avec succès.
+backup_import=Importation
+backup_to_import=importer
+backup_export=Exportation
+backup_to_export=exporter
+backup_download=télécharger
+backup_db_import=Importation
+backup_db_export=Exportation
+backup_filename_updated=Le nom de fichier sélectionné a été modifié car il contenait des caractères incorrects. S'il est correct, cliquez à nouveau sur Exporter.
+backup_please_choose_folder=Veuillez sélectionner les répertoires à exporter.
+backup_intro_import=Veuillez noter que l'importation d'une base de données <b>entraîne la suppression de l'ancienne base de données</b> . En cas de doute, sauvegardez la base de données actuelle avant l'importation.
+backup_intro_import_files=Lors de l'importation de fichiers, les fichiers existants portant le même nom sont écrasés, mais les fichiers supplémentaires présents dans les dossiers sont conservés.
+backup_version_warning=Les sauvegardes d'anciennes versions de REDAXO ou d'add-ons ne sont pas toujours totalement compatibles et peuvent poser des problèmes après l'importation.
+backup_database=Importation de la base de données
+backup_filename=Nom de fichier
+backup_filename_notice=Variables : <code>%REX_SERVER</code>, <code>%REX_VERSION</code> et variables de date comme pour strftime() ; Dateiendung: <code>.cronjob.sql</code> (wird automatisch ergänzt)
+backup_filesize=Taille du fichier
+backup_delete=supprimer
+backup_files=Importation de fichiers
+backup_intro_export=Ici, vous pouvez sauvegarder vos entrées et fichiers actuels de REDAXO. Pour obtenir une sauvegarde complète, vous devez <b>exporter la base de données ET les fichiers</b>. Si vous souhaitez réutiliser la sauvegarde, il peut être utile de la stocker directement sur le serveur et de la réimporter directement si nécessaire.
+backup_database_export=Créer une sauvegarde de la base de données
+backup_file_export=Créer une sauvegarde de fichier
+backup_save_on_server=Enregistrer sur le serveur
+backup_download_as_file=Télécharger en tant que fichier
+backup_createdate=Créé le
+
+backup_import_file=Importer un fichier
+backup_delete_file=Fichier l ;schen
+backup_download_file=Télécharger le fichier
+backup_check_rights_in_directory=La sauvegarde n'a pas pu accéder au(x) dossier(s) ou aucun n'a été sélectionné. ;hlt.
+backup_file_could_not_be_generated=Le fichier n'a pas pu être créé.
+backup_file_generated_in=Les données ont été sauvegardées dans
+
+backup_proceed_db_import=Les données existantes (articles, modèles, modules,...) sont perdues. Continuer ?
+backup_proceed_file_import=Les fichiers existants seront supprimés. Continuer ?
+
+backup_export_db_caption=Restauration de la sauvegarde de la base de données
+backup_export_file_caption=Restaurer une sauvegarde de fichier
+
+backup_function=Fonction
+
+backup_send_mail=Envoyer par e-mail
+backup_send_mail_notice=Cette option nécessite l'addon "phpmailer".
+backup_mailaddress=Adresse électronique
+backup_mail_subject=Nouvelle sauvegarde de la base de données
+backup_mail_body=Vous trouverez en pièce jointe une nouvelle sauvegarde de la base de données du site "{0}".
+
+backup_compress=Compresser la sauvegarde
+
+backup_delete_interval=Supprimer les anciennes sauvegardes
+backup_delete_interval_off=De
+backup_delete_interval_weekly=Conserver une sauvegarde par semaine
+backup_delete_interval_monthly=Conserver une sauvegarde par mois
+backup_delete_interval_notice=Seules les sauvegardes de plus d'un mois et dont le nom de fichier se termine par <code>.cronjob.sql</code> seront supprimées.
+
+backup_exclude_tables=Exclure de la sauvegarde
+backup_exclude_tables_notice=Si coché, ces tables ne seront pas sauvegardées. Les tables préfixées par <code>rex_tmp_*</code> sont automatiquement exclues.
+
+perm_general_backup[export]=Exporter une page web
+
+backup_export_select=Variante d'exportation
+backup_export_select_tables=Sélectionner des tableaux
+backup_export_select_dir=Sélectionner un dossier
+backup_export_select_location=Choisir l'emplacement
+backup_export_select_filename=Choisir un nom de fichier
+
+backup_file=Fichier
+backup_note=Note
+backup_upload=Téléchargement
+backup_load_from_server=Charger depuis le serveur
+
+backup_warning=Avertissement
+backup_upload_disabled=Les téléchargements ne sont pas autorisés
+backup_max_uploadsize=Taille max. Taille de téléchargement
+backup_max_uploadtime=Max. Temps de téléchargement
+

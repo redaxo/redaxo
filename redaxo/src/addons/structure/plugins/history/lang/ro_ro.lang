@@ -1,0 +1,23 @@
+structure_history=Istorie
+structure_history_title_info=Scurtă explicație
+structure_history_snapshot_reactivate=Adoptați această versiune
+structure_history_snapshot_reactivated=Versiunea a fost adoptată
+structure_history_overview_versions=history_overview_versions
+structure_history_current_version=Versiunea curentă
+structure_history_info_content=<p>Un plug-in de istoric cu ajutorul căruia puteți înregistra modificările aduse conținutului articolului. Se creează un instantaneu al versiunii și se furnizează o dată. Versiunile mai vechi pot fi reactivate ulterior.</p>
+structure_history_todos=Toți
+structure_history_todos_content=<ul><li>pregătiți cronjob</li><li>faceți istoricul dezactivabil</li><li>includeți setări pentru a limita numărul de versiuni. De exemplu, după o săptămână păstrați doar o versiune/zi. după o lună păstrați doar o versiune/lună....</li><li>Setați valorile de scalare ale site-ului</li><li>Faceți afișajul mai atractiv ala Time Machine ?</li></ul>
+
+perm_options_history[article_rollback]=Restaurarea elementului (istoric)
+
+structure_history_button_delete_history=Ștergeți complet istoricul
+structure_history_deleted=Istoria a fost complet ștearsă.
+structure_history_savedby=asigurat de
+structure_history_close=Anulează
+
+structure_history_cleanup=Curățați istoricul articolelor
+structure_history_cleanup_after=Ștergeți istoricul dacă este mai vechi de
+structure_history_days={0} Zile
+structure_history_months={0} Luni
+structure_history_years={0} ani
+

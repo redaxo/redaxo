@@ -1,0 +1,46 @@
+user_management=Администрирование пользователей
+perm_general_users[]=Пользователь
+roles=Ролики
+user=Пользователь
+users=Пользователь
+admin=Администратор
+
+user_deleted=Пользователь был удален!
+user_added=Пользователь добавлен!
+create_user=Создание нового пользователя
+add_user=Добавить пользователя
+edit_user=Редактировать пользователя
+user_reset_tries=Сброс неудач входа в систему (текущий: {0})
+user_login_exists=Логин пользователя уже существует!
+user_missing_login=Пожалуйста, введите имя пользователя!
+user_missing_password=Пожалуйста, введите пароль!
+user_admin=Администратор
+user_admin_note=Все права / Все видимые
+user_notdeleteself=***** Вы не можете удалить себя!
+user_general=Общие сведения
+user_save=Сохранить пользователя
+user_apply=Захватить пользователя
+user_delete=удалить
+user_functions=Функции
+user_options=Опции
+user_extras=Доп. информация
+last_login=Последний вход в систему
+user_caption=Список созданных пользователей
+user_password_change_required=Пароль должен быть заменен после входа в систему
+user_status_active=Пользователь активен
+user_status_inactive=Пользователь неактивен
+startpage=Домашняя страница
+
+user_role=Роль(и)
+user_role_data_updated=Роль была обновлена!
+user_role_deleted=Роль была удалена!
+user_role_added=Роль была добавлена!
+edit_user_role=Редактировать роль
+create_user_role=Создайте новую роль
+add_user_role=Добавить роль
+user_role_save=Сохранить рулон
+user_role_apply=Принять на себя роль
+user_role_delete=удалить
+user_role_caption=Список созданных ролей
+user_no_role=нет части
+

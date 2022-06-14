@@ -1,0 +1,90 @@
+cronjob_title=Cronjobs
+
+cronjob_add=Dodaj cronjob
+cronjob_edit=Edytuj cronjob
+
+cronjob_caption=Lista utworzonych zadań cronjobs
+cronjob_no_cronjobs=Brak dostępnych zadań pilnowania
+
+cronjob_delete=usuń
+cronjob_really_delete=Czy naprawdę chce Pan usunąć cronjob?
+cronjob_delete_success=Cronjob "{0}" został pomyślnie usunięty!
+cronjob_delete_error=Cronjob "{0}" nie mógł zostać usunięty!
+
+cronjob_execute=wykonaj
+cronjob_execute_success=Cronjob "{0}" został pomyślnie wykonany!
+cronjob_execute_error=Cronjob "{0}" nie został wykonany pomyślnie!
+
+cronjob_name=Nazwa
+cronjob_description=Opis
+cronjob_examples=Przykłady
+
+cronjob_type=Typ
+cronjob_type_not_found=Cronjob "{0}" nie może być przetwarzany, ponieważ nie znaleziono klasy "{1}". Sprawdzić, czy powiązany AddOn/PlugIn jest aktywny!
+cronjob_type_phpcode=Kod PHP
+cronjob_type_phpcallback=PHP callback
+cronjob_type_urlrequest=Wywołanie URL
+cronjob_type_urlrequest_url=URL
+cronjob_type_urlrequest_post=Parametr POST
+cronjob_type_urlrequest_httpauth=Uwierzytelnianie HTTP
+cronjob_type_urlrequest_user=Użytkownik
+cronjob_type_urlrequest_password=Hasło
+cronjob_type_parameters=Parametry specyficzne dla typu
+cronjob_type_no_parameters=Dla tego typu nie są potrzebne żadne dalsze parametry!
+
+cronjob_interval=Interwał
+cronjob_interval_minutes=Protokół
+cronjob_interval_minutes_all=Co 5 minut
+cronjob_interval_hours=Godziny
+cronjob_interval_hours_all=Co godzinę
+cronjob_interval_days=Dni
+cronjob_interval_days_all=Każdego dnia
+cronjob_interval_weekdays=Dni powszednie
+cronjob_interval_weekdays_all=Każdy dzień tygodnia
+cronjob_interval_months=Miesiące
+cronjob_interval_months_all=Co miesiąc
+
+cronjob_environment=Okolice
+cronjob_environment_notice=Skrypt: Wykonanie przez <code>{0}</code>. Skrypt powinien być wywoływany regularnie za pomocą prawdziwego zadania cron.
+cronjob_environment_frontend=Frontend
+cronjob_environment_backend=Backend
+cronjob_environment_script=Skrypt
+cronjob_environment_console=Skrypt
+cronjob_environment_backend_manual=Backend (ręcznie)
+
+cronjob_execution=Wersja
+cronjob_execution_beginning=Początek skryptu
+cronjob_execution_ending=Koniec skryptu
+
+cronjob_nexttime=Następna realizacja
+
+cronjob_status_function=Status/Funkcja
+cronjob_status=Status
+cronjob_status_activated=aktywuje
+cronjob_status_deactivated=dezaktywowany
+cronjob_status_invalid=nieprawidłowe
+cronjob_status_activate_success=Cronjob "{0}" został aktywowany!
+cronjob_status_activate_error=Cronjob "{0}" nie mógł zostać aktywowany!
+cronjob_status_deactivate_success=Cronjob "{0}" został dezaktywowany!
+cronjob_status_deactivate_error=Cronjob "{0}" nie mógł zostać dezaktywowany!
+
+cronjob_error_no_name=Nazwa nie może być pusta!
+cronjob_error_no_environment=Przynajmniej jedno środowisko musi zostać wybrane!
+cronjob_error_interval_incomplete=Dla interwału należy wybrać wartość w każdej kategorii!
+
+cronjob_not_found=Cronjob nie został znaleziony!
+cronjob_not_editable=Cronjob nie jest edytowalny!
+
+cronjob_log=Dziennik
+cronjob_log_date=Data
+cronjob_log_year=Rok
+cronjob_log_month=Miesiąc
+cronjob_log_ok=OK
+cronjob_no_log_files=Brak dostępnych plików dziennika.
+cronjob_log_no_data=Brak dostępnych danych.
+cronjob_log_caption_1=Lista wykonanych zadań cronjobs w {0} {1}
+cronjob_log_caption_2=Lista ostatnio wykonanych zadań cronjobs
+cronjob_log_message=Wiadomość
+
+cronjob_delete_log_msg=Usunąć logi cronjob?
+

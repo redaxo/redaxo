@@ -1,0 +1,87 @@
+structure=Struktura
+
+title_structure=Správa struktury
+root_level=Hlavní úroveň
+no_such_category=Kategorie není k dispozici!
+category_updated=Kategorie byla aktualizována.
+category_could_not_be_deleted=Kategorii nelze smazat!
+category_still_contains_articles=Kategorie stále obsahuje články.
+category_still_contains_subcategories=Kategorie stále obsahuje podkategorie.
+category_status_updated=Stav kategorie byl aktualizován!
+category_added_and_startarticle_created=Přidána kategorie a vytvořen článek o spuštění!
+article_doesnt_exist=Článek neexistuje!
+article_status_updated=Stav položky byl aktualizován.
+article_updated=Článek byl aktualizován.
+article_added=Článek byl přidán.
+header_category=Název kategorie
+header_priority=Priorita
+header_status=Stav/funkce
+header_id=ID
+add_category=Přidat kategorii
+edit_category=Upravit kategorii
+save_category=Uložit kategorii
+status_online=online
+status_offline=offline
+option_no_template=Žádná šablona
+template_default_name=ŽÁDNÝ ŠABLONA
+header_article_name=Název položky
+header_template=Šablona
+header_date=Vytvořeno dne
+change=změna
+article_add=Přidat článek
+article_edit=Upravit článek
+article_save=Uložit článek
+article=Článek
+start_article=Začít článek
+no_article_available=Žádný článek není k dispozici
+structure_categories_caption=Seznam podkategorií kategorie "{0}"
+structure_articles_caption=Seznam článků v kategorii "{0}"
+structure_root_level_articles_caption=Seznam článků "hlavní úroveň"
+structure_root_level_categories_caption=Seznam kategorií "hlavní úrovně"
+article_deleted=Článek byl smazán!
+article_could_not_be_generated=Článek se nepodařilo vytvořit.
+category_deleted=Kategorie byla smazána!
+category_doesnt_exist=Kategorie neexistuje!
+cant_delete_sitestartarticle=Úvodní článek webu nelze smazat!
+cant_delete_notfoundarticle=Položku "Nenalezeno" nelze smazat!
+structure_copy=Kopírovat
+category_has_child_elements=Kategorie obsahuje podřízené prvky
+category_without_child_elements=Kategorie bez podřízených prvků
+
+all_categories=Všechny kategorie
+categories=Kategorie
+
+perm_options_addArticle[]=Vytvořit článek
+perm_options_addCategory[]=Vytvořit kategorii
+perm_options_editArticle[]=Upravit článek
+perm_options_editCategory[]=Upravit kategorii
+perm_options_deleteArticle[]=Smazat článek
+perm_options_deleteCategory[]=Odstranit kategorii
+perm_options_article2category[]=Převod článků do kategorií
+perm_options_article2startarticle[]=Převést článek na úvodní článek
+perm_options_copyArticle[]=Kopírovat článek
+perm_options_copyContent[]=Kopírování obsahu článku
+perm_options_moveArticle[]=Přesunout článek
+perm_options_moveCategory[]=Přesun kategorií
+perm_options_publishArticle[]=Zveřejnit článek
+perm_options_publishCategory[]=Zveřejňovat kategorie
+
+system_setting_start_article_id=Začít článek
+system_setting_notfound_article_id=Chybný článek
+system_setting_default_template_id=Standardní šablona
+system_setting_start_article_id_invalid=Neplatný úvodní článek!
+system_setting_notfound_article_id_invalid=Neplatný chybný článek!
+system_setting_default_template_id_invalid=Neplatná standardní šablona!
+
+linkmap=Mapa odkazů
+linkmap_categories=Kategorie
+linkmap_articles=Článek
+linkmap_has_no_template=nemá žádnou šablonu
+
+var_link_open=Vyberte odkaz
+var_link_delete=Odstranění vybraného odkazu
+var_linklist_move_top=Přesunutí vybraného odkazu na začátek
+var_linklist_move_up=Přesunutí vybraného odkazu na začátek
+var_linklist_move_down=Přesun vybraného odkazu dolů
+var_linklist_move_bottom=Přesun vybraného odkazu na konec
+

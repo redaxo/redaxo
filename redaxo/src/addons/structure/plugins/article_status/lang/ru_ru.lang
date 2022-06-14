@@ -1,0 +1,4 @@
+cronjob_article_status=Статус статьи
+cronjob_article_reset_date=Пустые поля даты элемента после изменения статуса
+cronjob_article_reset_date_info=Эта опция удаляет дату "online_from" или "online_to"<br>в метаданных статьи после изменения статуса.
+

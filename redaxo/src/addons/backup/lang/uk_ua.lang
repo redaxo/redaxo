@@ -1,0 +1,88 @@
+backup_information=інформації
+backup_title=резервне копіювання
+backup_file_deleted=Файл видалено
+backup_file_error_while_delete=Не вдалося видалити файл
+backup_no_import_file_chosen_or_wrong_version=Не вибрано файл імпорту або неправильна версія
+backup_no_valid_import_file=Це неправильний файл імпорту
+backup_utf8mb4_not_supported=Резервна копія використовує utf8mb4</code>як набір символів <code>, який не підтримується базою даних (<b>{0}</b>) (потрібен принаймні MySQL 5.7.7 або MariaDB 10.2).
+backup_database_imported=Базу даних успішно імпортовано
+backup_entry_count=({0} записів)
+backup_file_could_not_be_uploaded=Не вдалося завантажити файл.
+backup_you_have_no_write_permission_in=Ви не маєте права запису до цієї папки {0}.
+backup_no_import_file_chosen=Не вибрано файл імпорту.
+backup_file_imported=Файл успішно імпортовано.
+backup_import=імпорт
+backup_to_import=імпорт
+backup_export=експорт
+backup_to_export=експорт
+backup_download=завантажити
+backup_db_import=імпорт
+backup_db_export=експорт
+backup_filename_updated=Вибране ім’я файлу було змінено, оскільки воно містило неправильні символи. Якщо це правильно, натисніть кнопку Експортувати ще раз.
+backup_please_choose_folder=Виберіть каталоги, які потрібно експортувати.
+backup_intro_import=Зверніть увагу, що під час імпортування бази даних <b>стара база даних буде видалена</b> . Якщо ви сумніваєтеся, створіть резервну копію поточної бази даних перед імпортуванням.
+backup_intro_import_files=Коли файли імпортуються, існуючі файли з тим самим іменем перезаписуються, але додаткові файли в папці зберігаються.
+backup_version_warning=Резервні копії зі старих версій або доповнень REDAXO не завжди повністю сумісні і можуть призвести до проблем після імпорту.
+backup_database=Імпорт бази даних
+backup_filename=ім'я файлу
+backup_filename_notice=Змінні: <code>%REX_SERVER</code>, <code>%REX_VERSION</code> і змінні дати, як у strftime() ; Dateiendung: <code>.cronjob.sql</code> (wird automatisch ergänzt)
+backup_filesize=розмір файлу
+backup_delete=Ясно
+backup_files=Імпорт файлів
+backup_intro_export=Тут ви можете зберегти ваші поточні записи та файли з REDAXO. Щоб отримати повну резервну копію, ви повинні <b>експортувати базу даних І файли</b>. Якщо ви хочете повторно використати резервну копію, може мати сенс зберегти її безпосередньо на сервері та знову імпортувати безпосередньо, якщо необхідно.
+backup_database_export=Створити резервну копію бази даних
+backup_file_export=Створити резервну копію файлу
+backup_save_on_server=Зберегти на сервері
+backup_download_as_file=Завантажити як файл
+backup_createdate=Створено на
+
+backup_import_file=імпортувати файл
+backup_delete_file=видалити файл ;schen
+backup_download_file=завантажити файл
+backup_check_rights_in_directory=Резервне копіювання не може отримати доступ до папок (тек) або жодну не вибрано ;hlt.
+backup_file_could_not_be_generated=Не вдалося створити файл.
+backup_file_generated_in=Було створено резервну копію даних
+
+backup_proceed_db_import=Існуючі дані (статті, шаблони, модулі,...) будуть втрачені. Продовжити ?
+backup_proceed_file_import=Існуючі файли будуть видалені. Продовжити ?
+
+backup_export_db_caption=Відновити резервну копію бази даних
+backup_export_file_caption=Відновити резервну копію файлу
+
+backup_function=функція
+
+backup_send_mail=Відправити поштою
+backup_send_mail_notice=Для цієї опції потрібен аддон «phpmailer».
+backup_mailaddress=Поштова адреса
+backup_mail_subject=Нова резервна копія бази даних
+backup_mail_body=Додається нова резервна копія бази даних веб-сайту «{0}».
+
+backup_compress=Стиснути резервну копію
+
+backup_delete_interval=Видаліть старі резервні копії
+backup_delete_interval_off=З
+backup_delete_interval_weekly=Зберігайте одну резервну копію на тиждень
+backup_delete_interval_monthly=Зберігайте одну резервну копію на місяць
+backup_delete_interval_notice=Будуть видалені лише резервні копії старше одного місяця з іменами файлів, що закінчуються на <code>.cronjob.sql</code>.
+
+backup_exclude_tables=Виключити з резервної копії
+backup_exclude_tables_notice=Якщо вибрано, ці таблиці не створюватимуться. Таблиці з префіксом <code>rex_tmp_*</code> автоматично виключаються.
+
+perm_general_backup[export]=Експортувати веб-сторінку
+
+backup_export_select=експортний варіант
+backup_export_select_tables=вибрати таблиці
+backup_export_select_dir=Виберіть папку
+backup_export_select_location=вибрати місце зберігання
+backup_export_select_filename=Виберіть назву файлу
+
+backup_file=файл
+backup_note=повідомлення
+backup_upload=Завантажити
+backup_load_from_server=Завантаження з сервера
+
+backup_warning=УВАГА
+backup_upload_disabled=Завантаження заборонено
+backup_max_uploadsize=Максимальний розмір завантаження
+backup_max_uploadtime=Максимальний час завантаження
+

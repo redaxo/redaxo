@@ -1,0 +1,23 @@
+structure_history=Geschiedenis
+structure_history_title_info=Korte uitleg
+structure_history_snapshot_reactivate=Neem deze versie aan
+structure_history_snapshot_reactivated=De versie werd aangenomen
+structure_history_overview_versions=geschiedenis_overzicht_versies
+structure_history_current_version=Huidige versie
+structure_history_info_content=<p>Een geschiedenis-plug-in waarmee u wijzigingen in de artikelinhoud kunt vastleggen. Er wordt een momentopname van de versie gemaakt en voorzien van een datum. Oudere versies kunnen dan later opnieuw worden geactiveerd.</p>
+structure_history_todos=Todos
+structure_history_todos_content=<ul><li>cronjob voorbereiden</li><li>geschiedenis deactiveerbaar maken</li><li>instellingen opnemen om het aantal versies te beperken. Bv. na een week slechts één versie/dag bewaren. na een maand slechts één versie/maand bewaren....</li><li>Schaalwaarden van de website instellen</li><li>De weergave aantrekkelijker maken ala Time Machine ?</li></ul>
+
+perm_options_history[article_rollback]=Item terugzetten (geschiedenis)
+
+structure_history_button_delete_history=Geschiedenis volledig wissen
+structure_history_deleted=De geschiedenis is volledig gewist.
+structure_history_savedby=beveiligd door
+structure_history_close=Annuleren
+
+structure_history_cleanup=Artikelgeschiedenis opruimen
+structure_history_cleanup_after=Geschiedenis wissen indien ouder dan
+structure_history_days={0} Dagen
+structure_history_months={0} maanden
+structure_history_years={0} jaren
+

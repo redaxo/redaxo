@@ -1,0 +1,46 @@
+user_management=Amministrazione degli utenti
+perm_general_users[]=Utente
+roles=Rulli
+user=Utente
+users=Utente
+admin=Admin
+
+user_deleted=L'utente è stato cancellato!
+user_added=L'utente è stato aggiunto!
+create_user=Creare un nuovo utente
+add_user=Aggiungi utente
+edit_user=Modifica utente
+user_reset_tries=Azzera i fallimenti di login (corrente: {0})
+user_login_exists=Il login utente esiste già!
+user_missing_login=Inserisca un nome utente!
+user_missing_password=La preghiamo di inserire una password!
+user_admin=Admin
+user_admin_note=Tutti i diritti / Tutti visibili
+user_notdeleteself=***** Non può cancellarsi!
+user_general=Generale
+user_save=Salvare l'utente
+user_apply=Acquisire l'utente
+user_delete=eliminare
+user_functions=Funzioni
+user_options=Opzioni
+user_extras=Extra
+last_login=Ultimo accesso
+user_caption=Elenco degli utenti creati
+user_password_change_required=La password deve essere scambiata dopo il login
+user_status_active=L'utente è attivo
+user_status_inactive=L'utente è inattivo
+startpage=Homepage
+
+user_role=Ruolo/i
+user_role_data_updated=Il ruolo è stato aggiornato!
+user_role_deleted=Il ruolo è stato cancellato!
+user_role_added=Il ruolo è stato aggiunto!
+edit_user_role=Modifica ruolo
+create_user_role=Creare un nuovo ruolo
+add_user_role=Aggiungi ruolo
+user_role_save=Salva il rotolo
+user_role_apply=Assumere il ruolo
+user_role_delete=eliminare
+user_role_caption=Elenco dei ruoli creati
+user_no_role=nessuna parte
+

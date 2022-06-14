@@ -1,0 +1,75 @@
+install_title=Asentaja
+install_subpage_packages=Ydin
+install_subpage_update=Päivitetään nykyiset
+install_subpage_add=Lataa uusi
+install_subpage_upload=Lataa oma
+install_subpage_settings=Asetukset
+
+install_webservice_unreachable=Verkkopalvelu ei ole tällä hetkellä käytettävissä!
+install_webservice_error=Verkkopalvelu palauttaa seuraavan virheilmoituksen:
+install_archive_unreachable=Zip-tiedostoon ei pääse käsiksi!
+
+install_reload=Päivitysluettelo
+install_key=Avain
+install_information=Tiedot
+install_name=Nimi
+install_author=Kirjoittaja
+install_shortdescription=Lyhyt kuvaus
+install_description=Kuvaus
+install_website=Verkkosivusto
+install_files=Tiedostot
+install_version=Versio
+install_existing_version=Nykyinen versio
+install_available_versions=Saatavilla olevat versiot
+install_addon_already_exists=jo ladattu
+install_update=päivitys
+install_download=lataa
+install_addons_found={0} AddOns löytyi
+install_available_updates={0} Päivitykset saatavilla
+install_my_packages=Minun pakettini
+install_status=Tila
+install_online=online
+install_offline=offline
+install_file_add=Lisää tiedosto
+install_file_edit=Päivitä tiedosto
+install_send=Lähetä
+install_upload_file=Luo ja lataa zip-tiedosto
+install_replace_assets=Assettien ottaminen juurivarastokansiosta
+install_ignore_tests=Jätä kansio "tests" huomiotta
+install_published_on=Julkaistu
+install_sort=Lajittele
+install_sort_default=Lajittele avaimen mukaan nousevaan järjestykseen
+
+install_info_core_updated=Ydin on päivitetty!
+install_warning_core_not_updated=Ydintä ei voitu päivittää seuraavasta syystä:
+install_warning_core_zip_not_extracted=Zip-tiedostoa ei voitu purkaa "src"-hakemistoon!
+
+install_info_addon_downloaded=Lisäosa <b>{0}</b> on ladattu!
+install_warning_addon_not_downloaded=Lisäosaa <b>{0}</b> ei voitu ladata seuraavasta syystä:
+install_info_addon_updated=Lisäosa <b>{0}</b> on päivitetty!
+install_warning_addon_not_updated=AddOn <b>{0}</b> ei voitu päivittää seuraavasta syystä:
+install_info_addon_uploaded=Lisäosa <b>{0}</b> on ladattu!
+install_info_addon_deleted=AddOn-versio <b>{0}</b> on poistettu!
+install_warning_addon_zip_not_extracted=Zip-tiedoston purkamisessa AddOn-hakemistoon tapahtui virhe. Mahdollisesti kirjoitusoikeudet puuttuvat tai zip-tiedoston kansion nimi ei vastaa AddOn-avainta.
+install_warning_message_from_addon=AddOn <b>{0}</b> reports:
+install_warning_message_from_plugin=PlugIn <b>{0}</b> reports:
+
+install_warning_directory_not_writable=Kansio <b>{0}</b> ei ole kirjoitettavissa!
+install_warning_zip_wrong_checksum=Ladatun zip-tiedoston tarkistussumma ei vastaa odotettua. Yritä uudelleen muutaman minuutin kuluttua!
+install_warning_zip_wrong_format=Zip-tiedosto ei ole vaaditussa muodossa.
+
+install_to_addon_page=Lisäosan hallintaan
+
+install_settings_general=Yleistä
+install_settings_backups=Luo varmuuskopioita
+install_settings_backups_note=Ennen kuin asennusohjelma päivittää paketteja, kopio nykyisestä versiosta tallennetaan osoitteeseen <code>redaxo/data/addons/install/</code> . Nämä voidaan asentaa uudelleen virheiden sattuessa.<br>Huomaa, että tietokannasta ei ole tehty varmuuskopiota!
+install_settings_myredaxo_account=myREDAXO-tili
+install_settings_api_login=Käyttäjän nimi
+install_settings_api_key=API-avain
+install_settings_saved=Asetukset on tallennettu!
+install_settings_error=Asetuksia ei voitu tallentaa, tarkista kirjoitusoikeudet: {0}
+
+install_header_function=Toiminto
+install_latest_release=Nykyinen julkaisu
+install_download_unstable=Varoitus! Tämä on kehitysversio. Asenna omalla vastuullasi.
+

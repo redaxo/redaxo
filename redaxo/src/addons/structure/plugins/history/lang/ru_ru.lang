@@ -1,0 +1,23 @@
+structure_history=История
+structure_history_title_info=Краткое объяснение
+structure_history_snapshot_reactivate=Принять эту версию
+structure_history_snapshot_reactivated=Версия была принята
+structure_history_overview_versions=история_обзора_версий
+structure_history_current_version=Текущая версия
+structure_history_info_content=<p>Плагин истории, с помощью которого Вы можете записывать изменения в содержимом статьи. Создается моментальный снимок версии и снабжается датой. Более старые версии могут быть активированы позже.</p>
+structure_history_todos=Todos
+structure_history_todos_content=<ul><li>подготовить cronjob</li><li>сделать историю деактивируемой</li><li>включить настройки для ограничения количества версий. Например, после недели сохраняйте только одну версию/день. после месяца сохраняйте только одну версию/месяц....</li><li>Установите значения масштабирования сайта</li><li>Сделайте отображение более привлекательным аля Машина времени ?</li></ul>
+
+perm_options_history[article_rollback]=Восстановить элемент (история)
+
+structure_history_button_delete_history=Полностью удалите историю
+structure_history_deleted=История была полностью удалена.
+structure_history_savedby=обеспеченный
+structure_history_close=Отмена
+
+structure_history_cleanup=Очистка истории статей
+structure_history_cleanup_after=Удалите историю, если она старше
+structure_history_days={0} Дни
+structure_history_months={0} Месяцы
+structure_history_years={0} годы
+

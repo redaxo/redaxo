@@ -1,0 +1,171 @@
+media_manager=Media Manager
+media_manager_overview_title=Media Manager Addon <small>(Versie {0})</small>
+
+media_manager_subpage_desc=Verklaring
+media_manager_subpage_config=Configuratie
+media_manager_subpage_types=Mediatypes bewerken
+media_manager_subpage_clear_cache=Cache wissen
+
+media_manager_cache_files_removed={0} cachebestanden verwijderd
+
+media_manager_config_saved=De configuratie is bijgewerkt!
+media_manager_config_not_saved=De configuratie kon niet gered worden!
+media_manager_config_not_writable=Configuratiebestand "{0}" is niet beschrijfbaar!
+
+media_manager_max_resizekb=Maximumgrootte van een bestand in kilobytes dat via media-manager geconverteerd mag worden
+media_manager_max_resizepx=Maximumgrootte van een bestand in pixels dat via media-manager geconverteerd mag worden
+media_manager_jpg_quality=JPG-kwaliteit
+media_manager_png_compression=PNG-compressie
+media_manager_png_compression_note=Waarden hoger dan 6-7 vertragen het genereren van beelden enorm.
+media_manager_webp_quality=WebP-kwaliteit
+media_manager_interlace=Interlace/Progressieve modus
+
+media_manager_id=ID
+media_manager_name=Naam
+media_manager_edittype=Mediatypes bewerken
+media_manager_settings=Instellingen
+
+media_manager_yes=Ja
+media_manager_no=Nee
+media_manager_back=Terug
+
+media_manager_error_name=Gelieve een naam in te voeren.
+media_manager_error_settings=Gelieve inhoud in te voeren bij Instellingen.
+media_manager_error_type_name_not_unique=Een mediatype met deze naam bestaat al!
+media_manager_error_type_name_invalid=De naam mag de tekens "/" en "\" niet bevatten!
+
+media_manager_type_caption=Lijst van aangemaakte mediatypes
+media_manager_type_no_types=Geen mediatypes beschikbaar
+media_manager_type_create=Type media maken
+media_manager_type_edit=bewerken
+media_manager_type_copy=duplicaat
+media_manager_type_effekts_edit=Effecten bewerken
+media_manager_type_delete=verwijderen
+media_manager_type_name=Naam
+media_manager_type_name_copy=Exemplaar
+media_manager_type_priority=Prio
+media_manager_type_description=Beschrijving
+media_manager_type_functions=Functies
+media_manager_type_cache_delete=Cache wissen
+media_manager_type_system=Systeem Type media
+media_manager_type_deleted=Mediatype verwijderd
+media_manager_type_copied=Mediatype gedupliceerd
+
+media_manager_effect_list_header=Mediatype {0}effecten
+media_manager_effect_edit_header=Mediatype <mark>{0}</mark>: Bewerk effect
+media_manager_effect_create_header=Mediatype <mark>{0}</mark>: Effect creëren
+media_manager_effect_caption=Lijst van gecreëerde effecten van het mediatype <mark>{0}</mark>
+media_manager_effect_no_effects=Geen effecten beschikbaar
+media_manager_effect_create=Creëer effect
+media_manager_effect_edit=Bewerk effect
+media_manager_effect_delete=Effect verwijderen
+media_manager_effect_name=Effect
+media_manager_effect_priority=Effectenreeks
+media_manager_effect_parameters=Parameter
+media_manager_effect_functions=Functies
+media_manager_effect_deleted=Effect gewist
+
+media_manager_effect_insert_image=Afbeelding: Plaats afbeelding / watermerk
+media_manager_effect_brand_image=Afbeelding
+media_manager_effect_brand_hpos=horizontale uitlijning
+media_manager_effect_brand_vpos=verticaal alignement
+media_manager_effect_brand_padding_x=Horizontale afstand tot de rand
+media_manager_effect_brand_padding_y=Verticale afstand tot de rand
+
+media_manager_effect_blur=Afbeelding: Waas
+media_manager_effect_blur_repeats=Herhalingen
+media_manager_effect_blur_type=Type vervaging
+media_manager_effect_blur_smoothit=glad (negatieve waarden verscherpen beelden)
+
+media_manager_effect_colorize=Afbeelding: Kleurplaten
+media_manager_effect_colorize_r=Rode waarde
+media_manager_effect_colorize_g=Groene waarde
+media_manager_effect_colorize_b=Blauwe waarde
+
+media_manager_effect_sharpen=Foto: Verscherpen
+media_manager_effect_sharpen_amount=Urgentie
+media_manager_effect_sharpen_radius=Grootte van de scherpte-matrix
+media_manager_effect_sharpen_threshold=Grenswaarde
+
+media_manager_effect_resize=Afbeelding: Schaalverdeling
+media_manager_effect_resize_width=Doelbreedte
+media_manager_effect_resize_height=Streefhoogte
+media_manager_effect_resize_style=Modus
+media_manager_effect_resize_imgtosmall=Als het beeld te klein is
+
+media_manager_effect_crop=Foto: Snoeien
+media_manager_effect_crop_width=Doelbreedte
+media_manager_effect_crop_height=Streefhoogte
+media_manager_effect_crop_offset_width=Horizontale afwijking
+media_manager_effect_crop_offset_height=Verticale afwijking
+media_manager_effect_crop_position=Referentiepunt
+
+media_manager_effect_rounded_corners=Afbeelding: Afgeronde hoeken
+media_manager_effect_rounded_corners_topleft=Boven links
+media_manager_effect_rounded_corners_topright=Boven rechts
+media_manager_effect_rounded_corners_bottomleft=Onderaan links
+media_manager_effect_rounded_corners_bottomright=Onderaan rechts
+
+media_manager_effect_flip=Afbeelding: Horizontaal/verticaal spiegelen
+media_manager_effect_flip_direction=Richting
+
+media_manager_effect_rotate=Afbeelding: Draaien
+media_manager_effect_rotate_degree=Draaien met (graden)
+
+media_manager_effect_mirror=Afbeelding: Waterreflectie toevoegen
+media_manager_effect_mirror_height=Refl. Hoogte (50 / 10%)
+media_manager_effect_mirror_opacity=Ondoorzichtigheid van de weerspiegeling (0 - 100)
+media_manager_effect_mirror_opacity_notice=0% volledig onzichtbare weerkaatsing, 100% volledig zichtbare weerkaatsing
+media_manager_effect_mirror_background_color=Achtergrondkleur
+media_manager_effect_mirror_background_r=Achtergrond R (0-255)
+media_manager_effect_mirror_background_g=Achtergrond G (0-255)
+media_manager_effect_mirror_background_b=Achtergrond B (0-255)
+
+media_manager_effect_workspace=Afbeelding: Werkblad
+media_manager_effect_workspace_pos=Positie
+
+media_manager_effect_folder=Alternatieven Map standaard: "media
+
+media_manager_effect_mediapath=Dossier: Pad aanpassen
+media_manager_effect_mediapath_path=Media-map
+media_manager_effect_mediapath_path_notice=Pad naar de bron van de afbeelding relatief ten opzichte van de REDAXO installatie in plaats van <code>media</code>, b.v. de directory <code>images</code>. Voorgaande / volgende schuine streep (<code>/</code>) niet vereist.
+
+media_manager_effect_header=Dossier: Koptekst aanpassen
+media_manager_effect_header_download=Download
+media_manager_effect_header_cache=Cache Controle
+media_manager_effect_header_filename=Bestandsnaam bron
+media_manager_effect_header_filename_notice=<code>bestandsnaam</code> is de genormaliseerde bestandsnaam op de server, b.v. <code>my-download.pdf</code>, <code>originalname</code> is de oorspronkelijke bestandsnaam op het moment van uploaden (met spaties, hoofdletters/kleine letters, enz.), b.v. <code>My-download.pdf</code>
+
+
+
+media_manager_effect_convert2img=Dossier: Omzetten in beeld
+media_manager_effect_convert2img_density=Resolutie dichtheid
+media_manager_effect_convert2img_convertto=Doelformaat
+media_manager_effect_convert2img_density_notice=Resolutie-dichtheid in ppi (pixels per inch).
+media_manager_effect_convert2img_convertto_notice=Doelformaat waarnaar het bestand wordt geconverteerd. De volgende bestandsextensies komen in aanmerking: <code>.pdf, .ps, .psd, .tif, .bmp, .eps, .ico, .svg</code>.
+media_manager_effect_convert2img_noimagemagick=Opgelet: ImageMagick kon niet gevonden worden. Voor dit effect is ofwel de PHP-extensie "imagick" nodig, ofwel ImageMagick als "commandline binary", uitvoerbaar via exec().
+media_manager_effect_convert2img_color=Kleur voor doorzichtigheid
+media_manager_effect_convert2img_color_notice="Formaat \"#ffffff\", als er niets ingesteld is, wordt transparantie gebruikt. Voor JPG, gelieve zeker een kleur op te geven."
+
+
+media_manager_effect_image_properties=Beeld: Instellingen (kwaliteit, interlace, ...)
+media_manager_effect_image_properties_jpg_quality_notice=[0-100]. Laat leeg voor standaardwaarde.
+media_manager_effect_image_properties_png_compression_notice=[0-9]. Laat leeg voor standaardwaarde.
+media_manager_effect_image_properties_webp_quality_notice=[0-100]. Laat leeg voor standaardwaarde.
+media_manager_effect_image_properties_interlace_notice=Leeg laten voor standaardkeuze.
+
+media_manager_effect_brightness=Foto: Helderheid
+media_manager_effect_brightness_value=Helderheid
+media_manager_effect_brightness_notice=[-255 tot 255]. Laat leeg voor de standaardwaarde (0).
+
+media_manager_effect_contrast=Afbeelding: Contrast
+media_manager_effect_contrast_value=Contrast
+media_manager_effect_contrast_notice=[-100 tot 100]. Laat leeg voor de standaardwaarde (0).
+
+media_manager_effect_sepia=Afbeelding: Sepia
+
+media_manager_effect_greyscale=Afbeelding: grijstinten
+
+media_manager_effect_image_format=Afbeelding: Omzetten naar JPEG/PNG/GIF/WEBP
+media_manager_effect_image_format_convertto=Doelformaat
+

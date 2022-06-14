@@ -1,16 +1,23 @@
-structure_history = 
-structure_history_title_info = 
-structure_history_snapshot_reactivate = 
-structure_history_snapshot_reactivated = 
-structure_history_overview_versions = 
-structure_history_current_version = 
-structure_history_info_content = 
-structure_history_todos = 
-structure_history_todos_content = 
+structure_history=La storia
+structure_history_title_info=Breve spiegazione
+structure_history_snapshot_reactivate=Adotta questa versione
+structure_history_snapshot_reactivated=La versione è stata adottata
+structure_history_overview_versions=storia_overview_versioni
+structure_history_current_version=Versione attuale
+structure_history_info_content=<p>Un plug-in di cronologia con cui puoi registrare le modifiche al contenuto dell'articolo. Viene creata un'istantanea della versione e viene assegnata una data. Le versioni precedenti possono quindi essere riattivate in un secondo momento.</p>
+structure_history_todos=Todos
+structure_history_todos_content=<ul><li>preparare cronjob</li><li>rendere la cronologia disattivabile</li><li>includere impostazioni per limitare il numero di versioni. Ad esempio, dopo una settimana conservi solo una versione/giorno. dopo un mese conservi solo una versione/mese....</li><li>Impostare i valori di scala del sito web</li><li>Rendere la visualizzazione più attraente come Time Machine?</li></ul>
 
-perm_options_history[article_rollback] = 
+perm_options_history[article_rollback]=Ripristina l'articolo (storia)
 
-structure_history_button_delete_history = 
-structure_history_deleted = 
-structure_history_savedby = 
-structure_history_close = 
+structure_history_button_delete_history=Cancellare completamente la cronologia
+structure_history_deleted=La storia è stata completamente cancellata.
+structure_history_savedby=assicurato da
+structure_history_close=Annullamento
+
+structure_history_cleanup=Pulire la cronologia degli articoli
+structure_history_cleanup_after=Cancelli la cronologia se più vecchia di
+structure_history_days={0} Giorni
+structure_history_months={0} mesi
+structure_history_years={0} anni
+

@@ -1,0 +1,4 @@
+cronjob_article_status=Artikkelin tila
+cronjob_article_reset_date=Tyhjät kohteen päivämääräkentät tilan muutoksen jälkeen
+cronjob_article_reset_date_info=Tämä vaihtoehto poistaa artikkelin metatiedoista "online_from"-päivämäärän tai "online_to"-päivämäärän<br>tilanmuutoksen jälkeen.
+

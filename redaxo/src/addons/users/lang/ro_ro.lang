@@ -1,0 +1,46 @@
+user_management=Administrarea utilizatorilor
+perm_general_users[]=Utilizator
+roles=Cilindri
+user=Utilizator
+users=Utilizator
+admin=Admin
+
+user_deleted=Utilizatorul a fost șters!
+user_added=Utilizatorul a fost adăugat!
+create_user=Creați un nou utilizator
+add_user=Adăugați un utilizator
+edit_user=Editați utilizatorul
+user_reset_tries=Resetarea eșecurilor de autentificare (curent: {0})
+user_login_exists=Autentificarea utilizatorului există deja!
+user_missing_login=Vă rugăm să introduceți un nume de utilizator!
+user_missing_password=Vă rugăm să introduceți o parolă!
+user_admin=Admin
+user_admin_note=Toate drepturile / Toate vizibile
+user_notdeleteself=***** Nu te poți șterge!
+user_general=General
+user_save=Salvați utilizatorul
+user_apply=Preia utilizatorul
+user_delete=șterge
+user_functions=Funcții
+user_options=Opțiuni
+user_extras=Extras
+last_login=Ultima autentificare
+user_caption=Lista de utilizatori creați
+user_password_change_required=Parola trebuie schimbată după autentificare
+user_status_active=Utilizatorul este activ
+user_status_inactive=Utilizatorul este inactiv
+startpage=Pagina de start
+
+user_role=Rol(uri)
+user_role_data_updated=Rolul a fost actualizat!
+user_role_deleted=Rolul a fost șters!
+user_role_added=Rolul a fost adăugat!
+edit_user_role=Editarea rolului
+create_user_role=Crearea unui nou rol
+add_user_role=Adăugați un rol
+user_role_save=Salvează rola
+user_role_apply=Asumarea rolului
+user_role_delete=șterge
+user_role_caption=Lista rolurilor create
+user_no_role=nici o parte
+

@@ -1,0 +1,90 @@
+cronjob_title=cron Aarbechtsplazen
+
+cronjob_add=Füügt Cron Job
+cronjob_edit=Cron Job änneren
+
+cronjob_caption=Lëscht vun geschaf Cron Aarbechtsplazen
+cronjob_no_cronjobs=Keng Cron Aarbechtsplaze verfügbar
+
+cronjob_delete=Kloer
+cronjob_really_delete=Wierklech Cron Job läschen?
+cronjob_delete_success=Cronjob "{0}" gouf erfollegräich geläscht!
+cronjob_delete_error=Cron Job "{0}" konnt net geläscht ginn!
+
+cronjob_execute=ausdroen
+cronjob_execute_success=Cron Job "{0}" ass erfollegräich gelaf!
+cronjob_execute_error=Cronjob "{0}" gouf net erfollegräich ausgefouert!
+
+cronjob_name=Familljennumm
+cronjob_description=Beschreiwung
+cronjob_examples=Beispiller
+
+cronjob_type=Typ
+cronjob_type_not_found=Cron Job "{0}" kann net veraarbecht ginn well Klass "{1}" net fonnt gouf. Kontrolléiert ob den assoziéierten AddOn/PlugIn aktivéiert ass!
+cronjob_type_phpcode=PHP Code
+cronjob_type_phpcallback=PHP Réckruff
+cronjob_type_urlrequest=URL Uruff
+cronjob_type_urlrequest_url=URL
+cronjob_type_urlrequest_post=POST Parameteren
+cronjob_type_urlrequest_httpauth=HTTP Authentifikatioun
+cronjob_type_urlrequest_user=Benotzer
+cronjob_type_urlrequest_password=Passwuert
+cronjob_type_parameters=Typ spezifesch Parameteren
+cronjob_type_no_parameters=Fir dësen Typ sinn keng weider Parameteren néideg!
+
+cronjob_interval=Intervall
+cronjob_interval_minutes=Minutten
+cronjob_interval_minutes_all=All 5 Minutten
+cronjob_interval_hours=Stonnen
+cronjob_interval_hours_all=All Stonn
+cronjob_interval_days=Deeg
+cronjob_interval_days_all=All Dag
+cronjob_interval_weekdays=Deeg vun der Woch
+cronjob_interval_weekdays_all=All Dag vun der Woch
+cronjob_interval_months=Méint
+cronjob_interval_months_all=All Mount
+
+cronjob_environment=Ëmgéigend
+cronjob_environment_notice=Skript: Run via <code>{0}</code>. De Skript soll regelméisseg mat engem richtege Cron Job genannt ginn.
+cronjob_environment_frontend=virun Enn
+cronjob_environment_backend=backend
+cronjob_environment_script=Schrëft
+cronjob_environment_console=Schrëft
+cronjob_environment_backend_manual=Backend (manuell)
+
+cronjob_execution=Ausféierung
+cronjob_execution_beginning=Skript ufänken
+cronjob_execution_ending=Schrëft Enn
+
+cronjob_nexttime=nächst Ausféierung
+
+cronjob_status_function=Status / Funktioun
+cronjob_status=Status
+cronjob_status_activated=aktivéiert
+cronjob_status_deactivated=behënnert
+cronjob_status_invalid=fehlerhafter
+cronjob_status_activate_success=Cron Job "{0}" gouf aktivéiert!
+cronjob_status_activate_error=Cron Job "{0}" konnt net aktivéiert ginn!
+cronjob_status_deactivate_success=Cron Job "{0}" gouf deaktivéiert!
+cronjob_status_deactivate_error=Cron Job "{0}" konnt net deaktivéiert ginn!
+
+cronjob_error_no_name=Den Numm kann net eidel sinn!
+cronjob_error_no_environment=Op d'mannst een Ëmfeld muss ausgewielt ginn!
+cronjob_error_interval_incomplete=Fir den Intervall muss e Wäert an all Kategorie ausgewielt ginn!
+
+cronjob_not_found=Cron Aarbecht net fonnt!
+cronjob_not_editable=Cronjob ass net editable!
+
+cronjob_log=aloggen
+cronjob_log_date=daten
+cronjob_log_year=Joer
+cronjob_log_month=Mount
+cronjob_log_ok=ok
+cronjob_no_log_files=Keng Logbicher verfügbar.
+cronjob_log_no_data=Keng Daten verfügbar.
+cronjob_log_caption_1=Lëscht vun ausgefouerten Cronjobs am {0} {1}
+cronjob_log_caption_2=Lëscht vun kuerzem lafen Cron Aarbechtsplazen
+cronjob_log_message=Rapport
+
+cronjob_delete_log_msg=De Cron Job Log läschen?
+

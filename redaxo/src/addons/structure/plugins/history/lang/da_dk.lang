@@ -1,0 +1,23 @@
+structure_history=Historie
+structure_history_title_info=Kort forklaring
+structure_history_snapshot_reactivate=Vedtage denne version
+structure_history_snapshot_reactivated=Version blev vedtaget
+structure_history_overview_versions=history_overview_versioner
+structure_history_current_version=Nuværende version
+structure_history_info_content=<p>Et historik-plugin, som du kan registrere ændringer i artiklens indhold. Der oprettes et øjebliksbillede af versionen, som forsynes med en dato. Ældre versioner kan så genaktiveres senere.</p>
+structure_history_todos=Todos
+structure_history_todos_content=<ul><li>forbered cronjob</li><li>gør historik deaktiverbar</li><li>inkluder indstillinger til at begrænse antallet af versioner. F.eks. efter en uge skal du kun gemme én version/dag. efter en måned skal du kun gemme én version/måned....</li><li>Indstil skaleringsværdierne for webstedet</li><li>Gør visningen mere attraktiv ala Time Machine ?</li></ul>
+
+perm_options_history[article_rollback]=Gendan emne (historik)
+
+structure_history_button_delete_history=Slet historik fuldstændigt
+structure_history_deleted=Historien er blevet slettet fuldstændigt.
+structure_history_savedby=sikret af
+structure_history_close=Annuller
+
+structure_history_cleanup=Ryd op i artikelhistorikken
+structure_history_cleanup_after=Slet historik, hvis den er ældre end
+structure_history_days={0} Dage
+structure_history_months={0} Måneder
+structure_history_years={0} år
+

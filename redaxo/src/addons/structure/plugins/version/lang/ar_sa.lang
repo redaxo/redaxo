@@ -1,0 +1,16 @@
+version=إصدار
+
+version_liveversion=نسخة حية
+version_workingversion=نسخة العمل
+version_working_to_live=الافراج كنسخة حية
+version_preview=معاينة
+version_clear_workingversion=نسخة العمل فارغة
+version_copy_live_to_workingversion=نسخ إلى إصدار العمل
+version_copy_from_liveversion=تولى من النسخة الحية
+version_confirm_copy_live_to_workingversion=هل تريد نسخ النسخة الحية إلى نسخة العمل؟ سيتم الكتابة فوق كل المحتوى الموجود لإصدار العمل.
+version_info_working_version_to_live=تم إطلاق نسخة العمل
+version_info_live_version_to_working=تم نسخ النسخة الحية إلى نسخة العمل
+version_warning_working_version_to_live=لا يمكن نشر نسخة المسودة لأنها فارغة
+version_info_clear_workingversion=تم إفراغ نسخة العمل بنجاح
+version_confirm_clear_workingversion=إعادة تعيين نسخة العمل؟ سيتم حذف جميع المحتويات الموجودة لنسخة العمل بشكل نهائي.
+

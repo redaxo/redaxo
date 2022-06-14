@@ -1,0 +1,33 @@
+customizer=кастомізатори
+customizer_features=CodeMirror
+
+customizer_codemirror=CodeMirror
+customizer_codemirror_check=Активуйте CodeMirror
+customizer_codemirror_selectors=Додаткові селектори jQuery для CodeMirror
+customizer_codemirror_selectors_info=Розділений комами список селекторів jQuery, для яких застосовується CodeMirror.<br>За замовчуванням <code>textarea.rex-js-code</code> і <code>textarea.codemirror</code>.
+customizer_codemirror_theme=Тема CodeMirror
+customizer_codemirror_langs=Додаткові хайлайтери
+customizer_codemirror_langs_text=(markdown, textile, gfm, yaml, sql ...)
+customizer_codemirror_tools=Додаткові можливості
+customizer_codemirror_tools_text=(згортання коду, відповідність дужок, відповідність тегу, закриття дужок, пошук)
+customizer_codemirror_autoresize=Автозміна розміру
+customizer_codemirror_autoresize_text=(CodeMirror налаштовує висоту відповідно до вмісту)
+
+customizer_codemirror_info="Як тільки CodeMirror активується, він автоматично використовується для шаблонів, модулів, дій і завдань cron. Якщо ви хочете використовувати CodeMirror самостійно, скористайтеся такою формою:<br><br><code><textarea class=\"codemirror\" data-codemirror-theme=\"themename\" data-codemirror-mode=\"php/htmlmixed\"></textarea></code><br><br>Параметри <i>data-codemirror-theme</i> і <i>data-codemirror-mode</i> є необов’язковими.<br><br>Повноекранний режим можна викликати за допомогою клавіш F11 та ESC."
+
+customizer_labeling=доповнення
+customizer_labelcolor=колір виявлення
+customizer_labelcolor_notice="Будь-яка дійсна специфікація кольору CSS (<code>#03f0ab</code>, <code>rgba(255, 100, 0, 0,5)</code> тощо)"
+customizer_showlink=Показати посилання на сайт?
+
+customizer_config_updated=Записи збережено
+customizer_config_update_failed=Записи не були збережені
+
+customizer_update=зберегти налаштування
+customizer_error_unzip=Під час вилучення активів з архіву Codemirror сталася помилка!
+
+customizer_projectname=Назва проекту
+customizer_textarea=широка текстова область під шаблоном і модулями
+customizer_liquid=рідкий макет
+customizer_nav_flyout=Навігація з викривленням
+

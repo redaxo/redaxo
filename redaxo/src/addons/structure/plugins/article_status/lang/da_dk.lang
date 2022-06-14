@@ -1,0 +1,4 @@
+cronjob_article_status=Artikelstatus
+cronjob_article_reset_date=Tomme datofelter efter statusændring
+cronjob_article_reset_date_info=Denne indstilling sletter "online_from"-datoen eller "online_to"-datoen<br>i artiklens metadata efter statusændringen.
+

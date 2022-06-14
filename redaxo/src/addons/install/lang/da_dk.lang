@@ -1,0 +1,75 @@
+install_title=Installatør
+install_subpage_packages=Kerne
+install_subpage_update=Opdatering af eksisterende
+install_subpage_add=Hent nyt
+install_subpage_upload=Upload egen
+install_subpage_settings=Indstillinger
+
+install_webservice_unreachable=Webtjenesten er i øjeblikket ikke tilgængelig!
+install_webservice_error=Webtjenesten returnerer følgende fejlmeddelelse:
+install_archive_unreachable=Zip-filen er ikke tilgængelig!
+
+install_reload=Opdatering af listen
+install_key=Nøgle
+install_information=Oplysninger
+install_name=Navn
+install_author=Forfatter
+install_shortdescription=Kort beskrivelse
+install_description=Beskrivelse
+install_website=Websted
+install_files=Filer
+install_version=Version
+install_existing_version=Eksisterende version
+install_available_versions=Tilgængelige versioner
+install_addon_already_exists=Allerede downloadet
+install_update=opdatering
+install_download=download
+install_addons_found={0} AddOns fundet
+install_available_updates={0} Opdateringer tilgængelige
+install_my_packages=Mine pakker
+install_status=Status
+install_online=online
+install_offline=offline
+install_file_add=Tilføj fil
+install_file_edit=Opdatering af fil
+install_send=Send
+install_upload_file=Opret og upload zip-fil
+install_replace_assets=Tag aktiver fra rodmappen Assets fra rodmappen Assets
+install_ignore_tests=Ignorer mappen "tests".
+install_published_on=Offentliggjort den
+install_sort=Sortere
+install_sort_default=Sortere efter nøgle i stigende rækkefølge
+
+install_info_core_updated=Kernen er blevet opdateret!
+install_warning_core_not_updated=Kernen kunne ikke opdateres af følgende årsag:
+install_warning_core_zip_not_extracted=Zip-filen kunne ikke pakkes ud i mappen "src"!
+
+install_info_addon_downloaded=AddOn <b>{0}</b> er blevet downloadet!
+install_warning_addon_not_downloaded=AddOn <b>{0}</b> kunne ikke downloades af følgende årsag:
+install_info_addon_updated=AddOn <b>{0}</b> er blevet opdateret!
+install_warning_addon_not_updated=AddOn <b>{0}</b> kunne ikke opdateres af følgende årsag:
+install_info_addon_uploaded=AddOn <b>{0}</b> er blevet uploadet!
+install_info_addon_deleted=AddOn-versionen af <b>{0}</b> er blevet slettet!
+install_warning_addon_zip_not_extracted=Der opstod en fejl ved udpakning af zip-filen til AddOn-mappen. Muligvis mangler der skrivetilladelser, eller mappenavnet i zip-filen svarer ikke til AddOn-nøglen.
+install_warning_message_from_addon=AddOn <b>{0}</b> rapporter:
+install_warning_message_from_plugin=PlugIn <b>{0}</b> rapporter:
+
+install_warning_directory_not_writable=Mappen <b>{0}</b> kan ikke skrives!
+install_warning_zip_wrong_checksum=Kontrolsummen for den downloadede zip-fil stemmer ikke overens med den forventede. Prøv venligst igen om et par minutter!
+install_warning_zip_wrong_format=Zip-filen er ikke i det krævede format.
+
+install_to_addon_page=Til administrationen af tilføjelsen
+
+install_settings_general=Generelt
+install_settings_backups=Opret sikkerhedskopier
+install_settings_backups_note=Før pakker opdateres af installationsprogrammet, gemmes en kopi af den aktuelle version i <code>redaxo/data/addons/install/</code> . Disse kan geninstalleres i tilfælde af fejl.<br>Bemærk venligst, at der ikke tages backup af databasen!
+install_settings_myredaxo_account=myREDAXO-konto
+install_settings_api_login=Brugernavn
+install_settings_api_key=API-nøgle
+install_settings_saved=Indstillingerne er blevet gemt!
+install_settings_error=Indstillingerne kunne ikke gemmes, kontroller skrivetilladelser for: {0}
+
+install_header_function=Funktion
+install_latest_release=Nuværende udgave
+install_download_unstable=Forsigtig! Dette er en udviklingsversion. Installation sker på eget ansvar.
+

@@ -1,0 +1,90 @@
+cronjob_title=Cronjobs
+
+cronjob_add=Добавьте cronjob
+cronjob_edit=Редактирование cronjob
+
+cronjob_caption=Список созданных cronjobs
+cronjob_no_cronjobs=Нет доступных cronjobs
+
+cronjob_delete=удалить
+cronjob_really_delete=Вы действительно хотите удалить cronjob?
+cronjob_delete_success=Cronjob "{0}" был успешно удален!
+cronjob_delete_error=Cronjob "{0}" не может быть удален!
+
+cronjob_execute=выполнить
+cronjob_execute_success=Cronjob "{0}" был успешно выполнен!
+cronjob_execute_error=Cronjob "{0}" не был успешно выполнен!
+
+cronjob_name=Имя
+cronjob_description=Описание
+cronjob_examples=Примеры
+
+cronjob_type=Тип
+cronjob_type_not_found=Cronjob "{0}" не может быть обработан, потому что класс "{1}" не найден. Проверьте, активирован ли связанный AddOn/PlugIn!
+cronjob_type_phpcode=PHP-код
+cronjob_type_phpcallback=Обратный вызов PHP
+cronjob_type_urlrequest=URL-вызов
+cronjob_type_urlrequest_url=URL
+cronjob_type_urlrequest_post=POST-параметр
+cronjob_type_urlrequest_httpauth=HTTP-аутентификация
+cronjob_type_urlrequest_user=Пользователь
+cronjob_type_urlrequest_password=Пароль
+cronjob_type_parameters=Параметры, зависящие от типа
+cronjob_type_no_parameters=Никаких дополнительных параметров для этого типа не требуется!
+
+cronjob_interval=Интервал
+cronjob_interval_minutes=Протоколы
+cronjob_interval_minutes_all=Каждые 5 минут
+cronjob_interval_hours=Часы
+cronjob_interval_hours_all=Каждый час
+cronjob_interval_days=Дни
+cronjob_interval_days_all=Каждый день
+cronjob_interval_weekdays=Будни
+cronjob_interval_weekdays_all=Любой день недели
+cronjob_interval_months=Месяцы
+cronjob_interval_months_all=Каждый месяц
+
+cronjob_environment=Окружение
+cronjob_environment_notice=Сценарий: Выполнение через <code>{0}</code>. Сценарий должен вызываться регулярно с помощью настоящего задания cron.
+cronjob_environment_frontend=Frontend
+cronjob_environment_backend=Бэкэнд
+cronjob_environment_script=Скрипт
+cronjob_environment_console=Скрипт
+cronjob_environment_backend_manual=Бэкэнд (вручную)
+
+cronjob_execution=Версия
+cronjob_execution_beginning=Начало сценария
+cronjob_execution_ending=Конец сценария
+
+cronjob_nexttime=Следующая публикация
+
+cronjob_status_function=Состояние/функция
+cronjob_status=Статус
+cronjob_status_activated=активирует
+cronjob_status_deactivated=деактивировано
+cronjob_status_invalid=неправильный
+cronjob_status_activate_success=Cronjob "{0}" был активирован!
+cronjob_status_activate_error=Cronjob "{0}" не может быть активирован!
+cronjob_status_deactivate_success=Cronjob "{0}" был деактивирован!
+cronjob_status_deactivate_error=Cronjob "{0}" не может быть деактивирован!
+
+cronjob_error_no_name=Имя не должно быть пустым!
+cronjob_error_no_environment=Необходимо выбрать хотя бы одну среду!
+cronjob_error_interval_incomplete=Для интервала необходимо выбрать значение в каждой категории!
+
+cronjob_not_found=Cronjob не найден!
+cronjob_not_editable=Cronjob не редактируется!
+
+cronjob_log=Журнал
+cronjob_log_date=Дата
+cronjob_log_year=Год
+cronjob_log_month=Месяц
+cronjob_log_ok=OK
+cronjob_no_log_files=Нет доступных файлов журнала.
+cronjob_log_no_data=Данные отсутствуют.
+cronjob_log_caption_1=Список выполненных cronjobs в {0} {1}
+cronjob_log_caption_2=Список последних выполненных cronjobs
+cronjob_log_message=Сообщение
+
+cronjob_delete_log_msg=Удалить журнал cronjob?
+

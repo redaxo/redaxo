@@ -1,0 +1,46 @@
+user_management=керування користувачами
+perm_general_users[]=користувач
+roles=рулон
+user=користувач
+users=користувач
+admin=адмін
+
+user_deleted=Користувача видалено!
+user_added=Користувача додано!
+create_user=Створити нового користувача
+add_user=додати користувача
+edit_user=Редагувати користувача
+user_reset_tries=Скинути невдалі спроби входу (поточні: {0})
+user_login_exists=Вхід користувача вже існує!
+user_missing_login=Будь ласка, введіть ім'я користувача!
+user_missing_password=Будь ласка, введіть пароль!
+user_admin=адмін
+user_admin_note=Всі права / Все видно
+user_notdeleteself=***** Ви не можете видалити себе!
+user_general=Генеральний
+user_save=зберегти користувача
+user_apply=взяти на себе користувача
+user_delete=Ясно
+user_functions=функції
+user_options=варіанти
+user_extras=екстри
+last_login=останній вхід
+user_caption=Список створених користувачів
+user_password_change_required=Пароль необхідно змінити після входу
+user_status_active=Користувач активний
+user_status_inactive=Користувач неактивний
+startpage=Домашня сторінка
+
+user_role=рулет)
+user_role_data_updated=Роль оновлено!
+user_role_deleted=Роль видалена!
+user_role_added=Роль додана!
+edit_user_role=Редагувати роль
+create_user_role=Створіть нову роль
+add_user_role=Додати роль
+user_role_save=зберегти роль
+user_role_apply=взяти на себе роль
+user_role_delete=Ясно
+user_role_caption=Список створених ролей
+user_no_role=не має значення
+

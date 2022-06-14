@@ -1,0 +1,33 @@
+customizer=customizers
+customizer_features=CodeMirror
+
+customizer_codemirror=CodeMirror
+customizer_codemirror_check=Aktivéiert CodeMirror
+customizer_codemirror_selectors=Zousätzlech jQuery Selektor fir CodeMirror
+customizer_codemirror_selectors_info=Komma-getrennt Lëscht vun jQuery Selektor fir déi de CodeMirror applizéiert gëtt.<br>Standard sinn <code>textarea.rex-js-code</code> an <code>textarea.codemirror</code>.
+customizer_codemirror_theme=CodeMirror Thema
+customizer_codemirror_langs=Zousätzlech Highlighter
+customizer_codemirror_langs_text=(Markdown, Textil, gfm, yaml, sql ...)
+customizer_codemirror_tools=Zousätzlech Funktiounen
+customizer_codemirror_tools_text=(Code ausklappen, Klammer Matching, Tag Matching, Zoumaache Klammern, Sich)
+customizer_codemirror_autoresize=AutoResize
+customizer_codemirror_autoresize_text=(CodeMirror passt seng Héicht un den Inhalt un)
+
+customizer_codemirror_info="Soubal CodeMirror aktivéiert ass, gëtt se automatesch fir Templates, Moduler, Aktiounen a Cron Jobs benotzt. Wann Dir de CodeMirror selwer benotze wëllt, benotzt w.e.g. folgend Form:<br><br><code><textarea class=\"codemirror\" data-codemirror-theme=\"themename\" data-codemirror-mode=\"php/htmlmixed\"></textarea></code><br><br>D'Parameteren <i>data-codemirror-theme</i> an <i>data-codemirror-mode</i> sinn fakultativ.<br><br>De Vollbildmodus kann mat de F11- an ESC-Schlësselen opgeruff ginn."
+
+customizer_labeling=Ergänzunge
+customizer_labelcolor=Detektioun Faarf
+customizer_labelcolor_notice="All valabel CSS Faarf Spezifikatioun (<code>#03f0ab</code>, <code>rgba (255, 100, 0, 0.5)</code> etc.)"
+customizer_showlink=Link op Websäit weisen?
+
+customizer_config_updated=Entréen goufen gespäichert
+customizer_config_update_failed=Entréen goufen net gespäichert
+
+customizer_update=späicheren Astellungen
+customizer_error_unzip=E Feeler ass geschitt beim Extrait vun de Verméigen aus dem Codemirror Archiv!
+
+customizer_projectname=Projet Numm
+customizer_textarea=breet Textberäich ënner Schabloun a Moduler
+customizer_liquid=flësseg Layout
+customizer_nav_flyout=Navigatioun mat Flyout
+

@@ -1,0 +1,90 @@
+cronjob_title=Cronjobs
+
+cronjob_add=Přidání cronjobu
+cronjob_edit=Upravit cronjob
+
+cronjob_caption=Seznam vytvořených cronjobs
+cronjob_no_cronjobs=Nejsou k dispozici žádné úlohy cronjobs
+
+cronjob_delete=smazat
+cronjob_really_delete=Opravdu chcete odstranit cronjob?
+cronjob_delete_success=Cronjob "{0}" byl úspěšně odstraněn!
+cronjob_delete_error=Cronjob "{0}" nelze smazat!
+
+cronjob_execute=provést
+cronjob_execute_success=Cronjob "{0}" byl úspěšně proveden!
+cronjob_execute_error=Cronjob "{0}" nebyl úspěšně proveden!
+
+cronjob_name=Název
+cronjob_description=Popis
+cronjob_examples=Příklady
+
+cronjob_type=Typ
+cronjob_type_not_found=Cronjob "{0}" nelze zpracovat, protože třída "{1}" nebyla nalezena. Zkontrolujte, zda je přidružený AddOn/PlugIn aktivován!
+cronjob_type_phpcode=Kód PHP
+cronjob_type_phpcallback=Zpětné volání PHP
+cronjob_type_urlrequest=Volání URL
+cronjob_type_urlrequest_url=ADRESA URL
+cronjob_type_urlrequest_post=Parametr POST
+cronjob_type_urlrequest_httpauth=Ověřování HTTP
+cronjob_type_urlrequest_user=Uživatel
+cronjob_type_urlrequest_password=Heslo
+cronjob_type_parameters=Parametry specifické pro daný typ
+cronjob_type_no_parameters=Pro tento typ nejsou nutné žádné další parametry!
+
+cronjob_interval=Interval
+cronjob_interval_minutes=Zápis
+cronjob_interval_minutes_all=Každých 5 minut
+cronjob_interval_hours=Hodiny
+cronjob_interval_hours_all=Každou hodinu
+cronjob_interval_days=Dny
+cronjob_interval_days_all=Každý den
+cronjob_interval_weekdays=Všední dny
+cronjob_interval_weekdays_all=Kterýkoli den v týdnu
+cronjob_interval_months=Měsíce
+cronjob_interval_months_all=Každý měsíc
+
+cronjob_environment=Okolí
+cronjob_environment_notice=Scénář: Provedení prostřednictvím <code>{0}</code>. Skript by měl být pravidelně volán pomocí skutečné úlohy cron.
+cronjob_environment_frontend=Frontend
+cronjob_environment_backend=Backend
+cronjob_environment_script=Skript
+cronjob_environment_console=Skript
+cronjob_environment_backend_manual=Backend (manuální)
+
+cronjob_execution=Verze
+cronjob_execution_beginning=Začátek scénáře
+cronjob_execution_ending=Konec scénáře
+
+cronjob_nexttime=Další provedení
+
+cronjob_status_function=Stav/funkce
+cronjob_status=Stav
+cronjob_status_activated=aktivuje
+cronjob_status_deactivated=deaktivováno
+cronjob_status_invalid=nesprávné
+cronjob_status_activate_success=Cronjob "{0}" byl aktivován!
+cronjob_status_activate_error=Cronjob "{0}" nelze aktivovat!
+cronjob_status_deactivate_success=Cronjob "{0}" byl deaktivován!
+cronjob_status_deactivate_error=Cronjob "{0}" nelze deaktivovat!
+
+cronjob_error_no_name=Název nesmí být prázdný!
+cronjob_error_no_environment=Je třeba vybrat alespoň jedno prostředí!
+cronjob_error_interval_incomplete=Pro interval je třeba vybrat hodnotu v každé kategorii!
+
+cronjob_not_found=Cronjob nenalezen!
+cronjob_not_editable=Cronjob nelze upravovat!
+
+cronjob_log=Přihlásit se
+cronjob_log_date=Datum
+cronjob_log_year=Rok
+cronjob_log_month=Měsíc
+cronjob_log_ok=OK
+cronjob_no_log_files=Nejsou k dispozici žádné soubory protokolu.
+cronjob_log_no_data=Nejsou k dispozici žádné údaje.
+cronjob_log_caption_1=Seznam provedených cronjobs v {0} {1}
+cronjob_log_caption_2=Seznam naposledy provedených úloh cronjobs
+cronjob_log_message=Zpráva
+
+cronjob_delete_log_msg=Smazat protokol cronjobu?
+

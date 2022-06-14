@@ -1,3 +1,4 @@
 debug=Debug
-debug_activate_debugmode = Activate the debug mode to work with the debug addon.
-debug_error_unzip = An error occurred during unpacking the assets from the Clockwork frontend archive!
+debug_activate_debugmode=Activate the debug mode to work with the debug addon.
+debug_error_unzip=An error occurred during unpacking the assets from the Clockwork frontend archive!
+

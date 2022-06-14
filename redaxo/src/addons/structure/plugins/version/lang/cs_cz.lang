@@ -1,0 +1,16 @@
+version=Verze
+
+version_liveversion=Živá verze
+version_workingversion=Pracovní verze
+version_working_to_live=Vydání v živé verzi
+version_preview=Náhled
+version_clear_workingversion=Prázdná pracovní verze
+version_copy_live_to_workingversion=Kopírování do pracovní verze
+version_copy_from_liveversion=Převzetí z živé verze
+version_confirm_copy_live_to_workingversion=Zkopírovat živou verzi do pracovní verze? Veškerý existující obsah pracovní verze bude přepsán.
+version_info_working_version_to_live=Pracovní verze byla spuštěna
+version_info_live_version_to_working=Verze Live byla zkopírována do pracovní verze
+version_warning_working_version_to_live=Pracovní verzi nelze uvést do provozu, protože je prázdná.
+version_info_clear_workingversion=Pracovní verze úspěšně vyprázdněna
+version_confirm_clear_workingversion=Obnovení funkční verze? Veškerý existující obsah pracovní verze bude nenávratně smazán.
+

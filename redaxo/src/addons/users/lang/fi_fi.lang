@@ -1,0 +1,46 @@
+user_management=Käyttäjien hallinta
+perm_general_users[]=Käyttäjä
+roles=Rullat
+user=Käyttäjä
+users=Käyttäjä
+admin=Admin
+
+user_deleted=Käyttäjä on poistettu!
+user_added=Käyttäjä on lisätty!
+create_user=Luo uusi käyttäjä
+add_user=Lisää käyttäjä
+edit_user=Muokkaa käyttäjää
+user_reset_tries=Nollaa kirjautumishäiriöt (nykyinen: {0})
+user_login_exists=Käyttäjätunnus on jo olemassa!
+user_missing_login=Anna käyttäjätunnus!
+user_missing_password=Anna salasana!
+user_admin=Admin
+user_admin_note=Kaikki oikeudet / Kaikki näkyvissä
+user_notdeleteself=***** Et voi poistaa itseäsi!
+user_general=Yleistä
+user_save=Tallenna käyttäjä
+user_apply=Ota käyttäjä haltuun
+user_delete=poista
+user_functions=Toiminnot
+user_options=Vaihtoehdot
+user_extras=Lisävarusteet
+last_login=Viimeisin kirjautuminen
+user_caption=Luettelo luoduista käyttäjistä
+user_password_change_required=Salasana on vaihdettava kirjautumisen jälkeen
+user_status_active=Käyttäjä on aktiivinen
+user_status_inactive=Käyttäjä on inaktiivinen
+startpage=Kotisivu
+
+user_role=Rooli(t)
+user_role_data_updated=Rooli on päivitetty!
+user_role_deleted=Rooli on poistettu!
+user_role_added=Rooli on lisätty!
+edit_user_role=Muokkaa roolia
+create_user_role=Luo uusi rooli
+add_user_role=Lisää rooli
+user_role_save=Tallenna rulla
+user_role_apply=Ota rooli
+user_role_delete=poista
+user_role_caption=Luettelo luoduista rooleista
+user_no_role=ei osaa
+

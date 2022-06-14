@@ -1,0 +1,33 @@
+customizer=Prilagajalnik
+customizer_features=CodeMirror
+
+customizer_codemirror=CodeMirror
+customizer_codemirror_check=Aktivacija programa CodeMirror
+customizer_codemirror_selectors=Dodatni selektorji jQuery za CodeMirror
+customizer_codemirror_selectors_info=Z vejico ločen seznam izbirnikov jQuery, za katere se uporabi CodeMirror.<br>Privzeta sta <code>textarea.rex-js-code</code> in <code>textarea.codemirror</code>.
+customizer_codemirror_theme=Tema CodeMirror
+customizer_codemirror_langs=Dodatni osvetljevalec
+customizer_codemirror_langs_text=(markdown, tekstil, gfm, yaml, sql ...)
+customizer_codemirror_tools=Dodatne funkcije
+customizer_codemirror_tools_text=(Zlaganje kode, ujemanje oklepajev, ujemanje oznak, zapiranje oklepajev, iskanje)
+customizer_codemirror_autoresize=AutoResize
+customizer_codemirror_autoresize_text=(CodeMirror prilagodi svojo višino vsebini)
+
+customizer_codemirror_info="Takoj ko je CodeMirror aktiviran, se samodejno uporablja za predloge, module, akcije in cronjobe. Če želite CodeMirror uporabljati sami, uporabite naslednji obrazec:<br><br><code><textarea class=\"codemirror\" data-codemirror-theme=\"themename\" data-codemirror-mode=\"php/htmlmixed\"></textarea></code><br><br>Parametra <i>data-codemirror-theme</i> in <i>data-codemirror-mode</i> sta neobvezna.<br><br>Tipki F11 in ESC lahko uporabite za vstop v celozaslonski način."
+
+customizer_labeling=Dodatki
+customizer_labelcolor=Identifikacijska barva
+customizer_labelcolor_notice="Vsaka veljavna specifikacija barve CSS (<code>#03f0ab</code>, <code>rgba(255, 100, 0, 0,5)</code> itd.)."
+customizer_showlink=Prikaži povezavo do spletnega mesta ?
+
+customizer_config_updated=Vnosi so bili shranjeni
+customizer_config_update_failed=Vnosi niso bili shranjeni
+
+customizer_update=Shranjevanje nastavitev
+customizer_error_unzip=Pri razpakiranju sredstev iz arhiva codemirror je prišlo do napake!
+
+customizer_projectname=Ime projekta
+customizer_textarea=širok tekstovni prostor pod predlogo in moduli
+customizer_liquid=Tekoča postavitev
+customizer_nav_flyout=Navigacija z izletom
+

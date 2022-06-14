@@ -1,0 +1,90 @@
+cronjob_title=Cronjobs
+
+cronjob_add=Dodajte cronjob
+cronjob_edit=Uredite cronjob
+
+cronjob_caption=Seznam ustvarjenih programov cronjobs
+cronjob_no_cronjobs=Na voljo ni cronjobs
+
+cronjob_delete=izbriši
+cronjob_really_delete=Ali res želite izbrisati cronjob?
+cronjob_delete_success=Cronjob "{0}" je bil uspešno izbrisan!
+cronjob_delete_error=Cronjob "{0}" ni bilo mogoče izbrisati!
+
+cronjob_execute=izvedba
+cronjob_execute_success=Cronjob "{0}" je bil uspešno izveden!
+cronjob_execute_error=Cronjob "{0}" ni bil uspešno izveden!
+
+cronjob_name=Ime
+cronjob_description=Opis
+cronjob_examples=Primeri
+
+cronjob_type=Tip
+cronjob_type_not_found=Cronjob "{0}" ni mogoče obdelati, ker razred "{1}" ni bil najden. Preverite, ali je povezan dodatek AddOn/PlugIn aktiviran!
+cronjob_type_phpcode=Koda PHP
+cronjob_type_phpcallback=Povratni klic PHP
+cronjob_type_urlrequest=Klic URL
+cronjob_type_urlrequest_url=URL
+cronjob_type_urlrequest_post=Parameter POST
+cronjob_type_urlrequest_httpauth=Preverjanje pristnosti HTTP
+cronjob_type_urlrequest_user=Uporabnik
+cronjob_type_urlrequest_password=Geslo
+cronjob_type_parameters=Parametri, specifični za posamezno vrsto
+cronjob_type_no_parameters=Za to vrsto niso potrebni nobeni dodatni parametri!
+
+cronjob_interval=Interval
+cronjob_interval_minutes=Zapisnik
+cronjob_interval_minutes_all=Vsakih 5 minut
+cronjob_interval_hours=Ure
+cronjob_interval_hours_all=Vsako uro
+cronjob_interval_days=Dnevi
+cronjob_interval_days_all=Vsak dan
+cronjob_interval_weekdays=Ob delavnikih
+cronjob_interval_weekdays_all=Katerikoli dan v tednu
+cronjob_interval_months=Meseci
+cronjob_interval_months_all=Vsak mesec
+
+cronjob_environment=Okolica
+cronjob_environment_notice=Scenarij: Izvajanje prek <code>{0}</code>. Skripto je treba redno klicati s pomočjo pravega opravila cron.
+cronjob_environment_frontend=Frontend
+cronjob_environment_backend=Backend
+cronjob_environment_script=Scenarij
+cronjob_environment_console=Scenarij
+cronjob_environment_backend_manual=Backend (ročno)
+
+cronjob_execution=Različica
+cronjob_execution_beginning=Začetek scenarija
+cronjob_execution_ending=Konec scenarija
+
+cronjob_nexttime=Naslednja izvedba
+
+cronjob_status_function=Status/funkcija
+cronjob_status=Status
+cronjob_status_activated=aktivira .
+cronjob_status_deactivated=deaktivirano
+cronjob_status_invalid=nepravilno
+cronjob_status_activate_success=Cronjob "{0}" je bil aktiviran!
+cronjob_status_activate_error=Cronjob "{0}" ni bilo mogoče aktivirati!
+cronjob_status_deactivate_success=Cronjob "{0}" je bil deaktiviran!
+cronjob_status_deactivate_error=Cronjob "{0}" ni bilo mogoče deaktivirati!
+
+cronjob_error_no_name=Ime ne sme biti prazno!
+cronjob_error_no_environment=Izbrati je treba vsaj eno okolje!
+cronjob_error_interval_incomplete=Za interval je treba izbrati vrednost v vsaki kategoriji!
+
+cronjob_not_found=Cronjob ni bil najden!
+cronjob_not_editable=Cronjob ni mogoče urejati!
+
+cronjob_log=Dnevnik
+cronjob_log_date=Datum
+cronjob_log_year=Leto
+cronjob_log_month=Mesec
+cronjob_log_ok=V REDU
+cronjob_no_log_files=Dnevniške datoteke niso na voljo.
+cronjob_log_no_data=Podatki niso na voljo.
+cronjob_log_caption_1=Seznam izvršenih programov cronjobs v {0} {1}
+cronjob_log_caption_2=Seznam nazadnje izvedenih programov cronjobs
+cronjob_log_message=Sporočilo
+
+cronjob_delete_log_msg=Brisanje dnevnika cronjob?
+

@@ -1,0 +1,4 @@
+debug=Débogage
+debug_activate_debugmode=Activez le mode de débogage pour pouvoir utiliser le module de débogage.
+debug_error_unzip=Une erreur est survenue lors de l'extraction des assets de l'archive du frontal Clockwork !
+

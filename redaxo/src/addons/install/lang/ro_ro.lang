@@ -1,0 +1,75 @@
+install_title=Instalator
+install_subpage_packages=Core
+install_subpage_update=Actualizare existentă
+install_subpage_add=Descărcați noul
+install_subpage_upload=Încărcați propriul
+install_subpage_settings=Setări
+
+install_webservice_unreachable=Serviciul web nu este momentan disponibil!
+install_webservice_error=Serviciul web returnează următorul mesaj de eroare:
+install_archive_unreachable=Fișierul zip nu este accesibil!
+
+install_reload=Lista de actualizare
+install_key=Cheie
+install_information=Informații
+install_name=Nume
+install_author=Autor
+install_shortdescription=Scurtă descriere
+install_description=Descriere
+install_website=Site web
+install_files=Fișiere
+install_version=Versiunea
+install_existing_version=Versiunea existentă
+install_available_versions=Versiuni disponibile
+install_addon_already_exists=deja descărcat
+install_update=actualizare
+install_download=descărcați
+install_addons_found={0} AddOns găsite
+install_available_updates={0} Actualizări disponibile
+install_my_packages=Pachetele mele
+install_status=Stare
+install_online=online
+install_offline=offline
+install_file_add=Adăugați fișierul
+install_file_edit=Fișier de actualizare
+install_send=Trimiteți
+install_upload_file=Creați și încărcați fișierul zip
+install_replace_assets=Preluarea activelor din dosarul rădăcină de active
+install_ignore_tests=Ignoră folderul "tests
+install_published_on=Publicat pe
+install_sort=Sortare
+install_sort_default=Sortează după cheie în ordine crescătoare
+
+install_info_core_updated=Nucleul a fost actualizat!
+install_warning_core_not_updated=Miezul nu a putut fi actualizat din următorul motiv:
+install_warning_core_zip_not_extracted=Fișierul zip nu a putut fi despachetat în directorul "src"!
+
+install_info_addon_downloaded=AddOn <b>{0}</b> a fost descărcat!
+install_warning_addon_not_downloaded=AddOn <b>{0}</b> nu a putut fi descărcat din următorul motiv:
+install_info_addon_updated=AddOn <b>{0}</b> a fost actualizat!
+install_warning_addon_not_updated=AddOn <b>{0}</b> nu a putut fi actualizat din următorul motiv:
+install_info_addon_uploaded=AddOn <b>{0}</b> a fost încărcat!
+install_info_addon_deleted=Versiunea AddOn a <b>{0}</b> a fost ștearsă!
+install_warning_addon_zip_not_extracted=A apărut o eroare la despachetarea fișierului zip în directorul AddOn. Este posibil ca permisiunile de scriere să lipsească sau numele folderului din fișierul zip să nu corespundă cheii AddOn.
+install_warning_message_from_addon=AddOn <b>{0}</b> rapoarte:
+install_warning_message_from_plugin=PlugIn <b>{0}</b> rapoarte:
+
+install_warning_directory_not_writable=Dosarul <b>{0}</b> nu este inscriptibil!
+install_warning_zip_wrong_checksum=Suma de control a fișierului zip descărcat nu corespunde cu cea așteptată. Vă rugăm să încercați din nou în câteva minute!
+install_warning_zip_wrong_format=Fișierul zip nu este în formatul cerut.
+
+install_to_addon_page=La administrarea add-on-ului
+
+install_settings_general=General
+install_settings_backups=Creați copii de rezervă
+install_settings_backups_note=Înainte ca pachetele să fie actualizate de programul de instalare, o copie a versiunii curente este stocată în <code>redaxo/data/addons/install/</code> . Acestea pot fi reinstalate în caz de erori.<br>Vă rugăm să rețineți că baza de date nu este salvată!
+install_settings_myredaxo_account=contul myREDAXO
+install_settings_api_login=Numele utilizatorului
+install_settings_api_key=Cheia API
+install_settings_saved=Setările au fost salvate!
+install_settings_error=Setările nu au putut fi salvate, verificați permisiunile de scriere pentru: {0}
+
+install_header_function=Funcția
+install_latest_release=Versiune curentă
+install_download_unstable=Atenție! Aceasta este o versiune de dezvoltare. Instalați pe propriul risc.
+

@@ -1,0 +1,75 @@
+install_title=Monter
+install_subpage_packages=Jedro
+install_subpage_update=Posodobitev obstoječih
+install_subpage_add=Prenesi nov
+install_subpage_upload=Naložite svoj
+install_subpage_settings=Nastavitve
+
+install_webservice_unreachable=Spletna storitev trenutno ni na voljo!
+install_webservice_error=Spletna storitev vrne naslednje sporočilo o napaki:
+install_archive_unreachable=Datoteka zip ni dostopna!
+
+install_reload=Seznam posodobitev
+install_key=Ključ
+install_information=Informacije
+install_name=Ime
+install_author=Avtor
+install_shortdescription=Kratek opis
+install_description=Opis
+install_website=Spletna stran
+install_files=Datoteke
+install_version=Različica
+install_existing_version=Obstoječa različica
+install_available_versions=Razpoložljive različice
+install_addon_already_exists=že prenesen
+install_update=posodobitev
+install_download=prenesi
+install_addons_found={0} Najdeni dodatki
+install_available_updates={0} Na voljo so posodobitve
+install_my_packages=Moji paketi
+install_status=Status
+install_online=spletna stran
+install_offline=brez povezave
+install_file_add=Dodajte datoteko
+install_file_edit=Datoteka za posodobitev
+install_send=Pošlji
+install_upload_file=Ustvarite in naložite datoteko zip
+install_replace_assets=Prevzemanje sredstev iz korenske mape sredstev
+install_ignore_tests=Ignorirajte mapo "testi
+install_published_on=Objavljeno na
+install_sort=Razvrsti
+install_sort_default=Razvrsti po ključu v naraščajočem vrstnem redu
+
+install_info_core_updated=Jedro je bilo posodobljeno!
+install_warning_core_not_updated=Jedra ni bilo mogoče posodobiti iz naslednjega razloga:
+install_warning_core_zip_not_extracted=Datoteke zip ni bilo mogoče razpakirati v imenik "src"!
+
+install_info_addon_downloaded=Dodatek <b>{0}</b> je bil prenesen!
+install_warning_addon_not_downloaded=Dodatka <b>{0}</b> ni bilo mogoče prenesti iz naslednjega razloga:
+install_info_addon_updated=Dodatek <b>{0}</b> je bil posodobljen!
+install_warning_addon_not_updated=Dodatka <b>{0}</b> ni bilo mogoče posodobiti iz naslednjega razloga:
+install_info_addon_uploaded=Dodatek <b>{0}</b> je bil naložen!
+install_info_addon_deleted=Različica dodatka <b>{0}</b> je bila izbrisana!
+install_warning_addon_zip_not_extracted=Pri razpakiranju datoteke zip v imenik AddOn je prišlo do napake. Morda manjkajo dovoljenja za pisanje ali pa ime mape v datoteki zip ne ustreza ključu AddOn.
+install_warning_message_from_addon=AddOn <b>{0}</b> poročila:
+install_warning_message_from_plugin=Vtičnik <b>{0}</b> poročila:
+
+install_warning_directory_not_writable=V mapo <b>{0}</b> ni mogoče pisati!
+install_warning_zip_wrong_checksum=Kontrolna vsota prenesene datoteke zip se ne ujema s pričakovano. Poskusite znova čez nekaj minut!
+install_warning_zip_wrong_format=Datoteka zip ni v zahtevani obliki.
+
+install_to_addon_page=V administracijo dodatka
+
+install_settings_general=Splošno
+install_settings_backups=Ustvarjanje varnostnih kopij
+install_settings_backups_note=Preden namestitveni program posodobi pakete, je kopija trenutne različice shranjena v <code>redaxo/data/addons/install/</code> . V primeru napak jih lahko ponovno namestite.<br>Upoštevajte, da zbirka podatkov ni varnostno kopirana!
+install_settings_myredaxo_account=račun myREDAXO
+install_settings_api_login=Uporabniško ime
+install_settings_api_key=Ključ API
+install_settings_saved=Nastavitve so shranjene!
+install_settings_error=Nastavitev ni bilo mogoče shraniti, preverite dovoljenja za pisanje za: {0}
+
+install_header_function=Funkcija
+install_latest_release=Trenutna izdaja
+install_download_unstable=Pozor! To je razvojna različica. Namestite ga na lastno odgovornost.
+

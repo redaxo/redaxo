@@ -1,0 +1,23 @@
+structure_history=Ιστορία
+structure_history_title_info=Σύντομη εξήγηση
+structure_history_snapshot_reactivate=Υιοθετήστε αυτή την έκδοση
+structure_history_snapshot_reactivated=Η έκδοση εγκρίθηκε
+structure_history_overview_versions=history_overview_versions
+structure_history_current_version=Τρέχουσα έκδοση
+structure_history_info_content=<p>Ένα πρόσθετο ιστορικού με το οποίο μπορείτε να καταγράφετε τις αλλαγές στο περιεχόμενο του άρθρου. Δημιουργείται ένα στιγμιότυπο της έκδοσης, το οποίο συνοδεύεται από μια ημερομηνία. Οι παλαιότερες εκδόσεις μπορούν στη συνέχεια να ενεργοποιηθούν εκ νέου αργότερα.</p>
+structure_history_todos=Todos
+structure_history_todos_content=<ul><li>προετοιμάστε cronjob</li><li>κάντε το ιστορικό απενεργοποιήσιμο</li><li>συμπεριλάβετε ρυθμίσεις για τον περιορισμό του αριθμού των εκδόσεων. Π.χ. μετά από μια εβδομάδα κρατήστε μόνο μια έκδοση/ημέρα. μετά από ένα μήνα κρατήστε μόνο μια έκδοση/μήνα....</li><li>Ορίστε τις τιμές κλιμάκωσης της ιστοσελίδας</li><li>Κάντε την εμφάνιση πιο ελκυστική ala Time Machine ?</li></ul>
+
+perm_options_history[article_rollback]=Επαναφορά στοιχείου (ιστορικό)
+
+structure_history_button_delete_history=Διαγράψτε εντελώς το ιστορικό
+structure_history_deleted=Η ιστορία έχει διαγραφεί εντελώς.
+structure_history_savedby=εξασφαλισμένη από
+structure_history_close=Ακύρωση
+
+structure_history_cleanup=Καθαρισμός του ιστορικού των άρθρων
+structure_history_cleanup_after=Διαγραφή ιστορικού εάν είναι παλαιότερο από
+structure_history_days={0} Ημέρες
+structure_history_months={0} Μήνες
+structure_history_years={0} έτη
+

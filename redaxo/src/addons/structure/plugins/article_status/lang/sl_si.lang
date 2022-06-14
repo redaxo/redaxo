@@ -1,0 +1,4 @@
+cronjob_article_status=Status člena
+cronjob_article_reset_date=Prazna polja z datumom elementa po spremembi stanja
+cronjob_article_reset_date_info=Ta možnost izbriše datum "online_from" ali "online_to"<br>v metapodatkih članka po spremembi stanja.
+

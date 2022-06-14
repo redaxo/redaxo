@@ -1,0 +1,88 @@
+backup_information=Informatie
+backup_title=Back-up
+backup_file_deleted=Bestand werd verwijderd
+backup_file_error_while_delete=Bestand kon niet worden verwijderd
+backup_no_import_file_chosen_or_wrong_version=Geen importbestand geselecteerd of versie onjuist
+backup_no_valid_import_file=Dit is geen correct importbestand
+backup_utf8mb4_not_supported=De backup gebruikt <code>utf8mb4</code>als charset, die niet door de database wordt ondersteund (<b>{0}</b>) (minstens MySQL 5.7.7 of MariaDB 10.2 vereist).
+backup_database_imported=Databank met succes geïmporteerd
+backup_entry_count=({0} inzendingen)
+backup_file_could_not_be_uploaded=Bestand kon niet worden geüpload.
+backup_you_have_no_write_permission_in=U hebt geen schrijftoegang tot deze map {0}.
+backup_no_import_file_chosen=Geen importbestand geselecteerd.
+backup_file_imported=Het bestand werd met succes geïmporteerd.
+backup_import=Invoeren
+backup_to_import=importeren
+backup_export=Exporteren
+backup_to_export=exporteren
+backup_download=download
+backup_db_import=Invoeren
+backup_db_export=Exporteren
+backup_filename_updated=De gekozen bestandsnaam werd aangepast omdat hij onjuiste tekens bevatte. Als het juist is, klikt u opnieuw op Exporteren.
+backup_please_choose_folder=Kies de mappen die geëxporteerd moeten worden.
+backup_intro_import=Merk op dat bij het importeren van een database <b>de oude database gewist wordt</b> . Maak in geval van twijfel een back-up van de huidige database voordat u importeert.
+backup_intro_import_files=Bij het importeren van bestanden worden bestaande bestanden met dezelfde naam overschreven, maar daarnaast blijven bestaande bestanden binnen de mappen behouden.
+backup_version_warning=Back-ups van oudere REDAXO versies of AddOns zijn niet altijd volledig compatibel en kunnen na import tot problemen leiden.
+backup_database=Databank invoer
+backup_filename=Bestandsnaam
+backup_filename_notice=Variabelen: <code>%REX_SERVER</code>, <code>%REX_VERSION</code> en datumvariabelen zoals in strftime(). ; Dateiendung: <code>.cronjob.sql</code> (wird automatisch ergänzt)
+backup_filesize=Bestandsgrootte
+backup_delete=verwijderen
+backup_files=Bestandsinvoer
+backup_intro_export=Hier kunt u uw huidige ingangen en bestanden van REDAXO opslaan. Om een volledige backup te krijgen moet u <b>de database exporteren EN de bestanden</b>. Als u de backup opnieuw wilt gebruiken, kan het zinvol zijn om hem direct op de server op te slaan en hem zo nodig opnieuw te importeren.
+backup_database_export=Back-up database maken
+backup_file_export=Back-up van bestanden maken
+backup_save_on_server=Opslaan op de server
+backup_download_as_file=Als bestand downloaden
+backup_createdate=Gemaakt op
+
+backup_import_file=Importeren bestand
+backup_delete_file=Bestand l ;schen
+backup_download_file=Bestand downloaden
+backup_check_rights_in_directory=Backup kon geen toegang krijgen tot de map(pen) of er was er geen geselecteerd ;hlt.
+backup_file_could_not_be_generated=Bestand kon niet worden aangemaakt.
+backup_file_generated_in=De gegevens werden opgeslagen in
+
+backup_proceed_db_import=Bestaande gegevens (artikelen, sjablonen, modules, ...) zullen verloren gaan. Doorgaan ?
+backup_proceed_file_import=Bestaande bestanden worden gewist. Doorgaan ?
+
+backup_export_db_caption=Back-up database terugzetten
+backup_export_file_caption=Bestandsback-up terugzetten
+
+backup_function=Functie
+
+backup_send_mail=Per post verzenden
+backup_send_mail_notice=De addon "phpmailer" is nodig voor deze optie.
+backup_mailaddress=Postadres
+backup_mail_subject=Nieuwe database back-up
+backup_mail_body=Bijgevoegd is een nieuwe database back-up van de website "{0}".
+
+backup_compress=Back-up comprimeren
+
+backup_delete_interval=Oude back-ups verwijderen
+backup_delete_interval_off=Van
+backup_delete_interval_weekly=Bewaar één back-up per week
+backup_delete_interval_monthly=Bewaar één back-up per maand
+backup_delete_interval_notice=Alleen back-ups ouder dan een maand met bestandsnamen die eindigen op <code>.cronjob.sql</code> worden gewist.
+
+backup_exclude_tables=Uitsluiten van back-up
+backup_exclude_tables_notice=Indien geselecteerd, worden deze tabellen niet opgeslagen. Tabellen met het voorvoegsel <code>rex_tmp_*</code> worden automatisch uitgesloten.
+
+perm_general_backup[export]=Website exporteren
+
+backup_export_select=Uitvoervariant
+backup_export_select_tables=Kies tabellen
+backup_export_select_dir=Map kiezen
+backup_export_select_location=Kies opslagplaats
+backup_export_select_filename=Kies een bestandsnaam
+
+backup_file=Bestand
+backup_note=Noot
+backup_upload=Upload
+backup_load_from_server=Lading van server
+
+backup_warning=Waarschuwing
+backup_upload_disabled=Uploaden is niet toegestaan
+backup_max_uploadsize=Max. Upload formaat
+backup_max_uploadtime=Max. Upload tijd
+

@@ -1,0 +1,4 @@
+cronjob_article_status=Κατάσταση άρθρου
+cronjob_article_reset_date=Κενά πεδία ημερομηνίας στοιχείου μετά την αλλαγή κατάστασης
+cronjob_article_reset_date_info=Αυτή η επιλογή διαγράφει την ημερομηνία "online_from" ή "online_to"<br>στα μεταδεδομένα του άρθρου μετά την αλλαγή κατάστασης.
+

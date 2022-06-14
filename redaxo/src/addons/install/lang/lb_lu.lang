@@ -1,0 +1,75 @@
+install_title=Installateuren
+install_subpage_packages=Kär & Packagen
+install_subpage_update=Update bestehend
+install_subpage_add=Download neier
+install_subpage_upload=Eroplueden Är eege
+install_subpage_settings=Astellungen
+
+install_webservice_unreachable=De Webservice ass momentan net verfügbar!
+install_webservice_error=De Webservice gëtt déi folgend Fehlermeldung zréck:
+install_archive_unreachable=D'Zip-Datei kann net erreecht ginn!
+
+install_reload=Lëscht opfrëschen
+install_key=Schlëssel
+install_information=Informatiounen
+install_name=Familljennumm
+install_author=Auteur
+install_shortdescription=kuerz Beschreiwung
+install_description=Beschreiwung
+install_website=Site
+install_files=Fichieren
+install_version=Versioun
+install_existing_version=Bestehend Versioun
+install_available_versions=Verfügbar Versiounen
+install_addon_already_exists=scho erofgelueden
+install_update=Fir ze aktualiséieren
+install_download=eroflueden
+install_addons_found={0} Addons fonnt
+install_available_updates={0} Updates verfügbar
+install_my_packages=meng Pakete
+install_status=Status
+install_online=online
+install_offline=offline
+install_file_add=Dobäizemaachen Fichier
+install_file_edit=update Datei
+install_send=Schécken
+install_upload_file=Erstellt an lued eng Zip Datei erop
+install_replace_assets=Huelt Verméigen aus dem Root Assets Dossier
+install_ignore_tests=Ignoréieren "Tester" Dossier
+install_published_on=Verëffentlecht op
+install_sort=sortéieren no
+install_sort_default=Sortéiert no Schlëssel an opsteigend Uerdnung
+
+install_info_core_updated=De Kär gouf aktualiséiert!
+install_warning_core_not_updated=De Kär konnt aus dem folgende Grond net aktualiséiert ginn:
+install_warning_core_zip_not_extracted=D'Zip Datei konnt net an den "src" Verzeichnis extrahéiert ginn!
+
+install_info_addon_downloaded=AddOn <b>{0}</b> gouf erofgelueden!
+install_warning_addon_not_downloaded=AddOn <b>{0}</b> konnt net erofgeluede ginn well:
+install_info_addon_updated=AddOn <b>{0}</b> gouf aktualiséiert!
+install_warning_addon_not_updated=AddOn <b>{0}</b> konnt aus dem folgenden Grond net aktualiséiert ginn:
+install_info_addon_uploaded=AddOn <b>{0}</b> gouf eropgelueden!
+install_info_addon_deleted=AddOn Versioun vum <b>{0}</b> gouf geläscht!
+install_warning_addon_zip_not_extracted=E Feeler ass geschitt beim Extrait vun der Zip Datei an den AddOn Verzeichnis. Schreifrechter kënnen fehlen oder den Dossiernumm an der Zip-Datei entsprécht net dem Add-on-Schlëssel.
+install_warning_message_from_addon=AddOn <b>{0}</b> bericht:
+install_warning_message_from_plugin=Plugin <b>{0}</b> bericht:
+
+install_warning_directory_not_writable=Den Dossier <b>{0}</b> ass net schreiwen!
+install_warning_zip_wrong_checksum=De Checksum vun der erofgelueden Zip-Datei entsprécht net deem wat erwaart gëtt. Probéiert w.e.g. nach eng Kéier an e puer Minutten!
+install_warning_zip_wrong_format=D'Zip-Datei ass net am erfuerderlechen Format.
+
+install_to_addon_page=Fir Add-on Management
+
+install_settings_general=General
+install_settings_backups=erstellen Backups
+install_settings_backups_note=Ier Pakete vum Installateur aktualiséiert ginn, gëtt eng Kopie vun der aktueller Versioun an <code>redaxo/data/addons/install/</code> gespäichert. Dës kënnen am Fall vu Feeler erëm importéiert ginn.<br>Maacht weg datt d'Datebank net gebackupt gëtt!
+install_settings_myredaxo_account=myREDAXO Kont
+install_settings_api_login=Benotzernumm
+install_settings_api_key=API Schlëssel
+install_settings_saved=Astellunge goufen gespäichert!
+install_settings_error=Astellunge konnten net gespäichert ginn, kontrolléiert d'Schreifrechter fir: {0}
+
+install_header_function=Funktioun
+install_latest_release=Aktuell Verëffentlechung
+install_download_unstable=Opgepasst! Dëst ass eng Entwécklung Versioun. Installéiert op Ären eegene Risiko.
+

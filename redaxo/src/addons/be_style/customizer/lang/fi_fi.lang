@@ -1,0 +1,33 @@
+customizer=Mukautusohjelma
+customizer_features=CodeMirror
+
+customizer_codemirror=CodeMirror
+customizer_codemirror_check=Aktivoi CodeMirror
+customizer_codemirror_selectors=Lisää jQuery-valitsimia CodeMirrorille
+customizer_codemirror_selectors_info=Pilkulla erotettu luettelo jQuery-selektoreista, joihin CodeMirroria sovelletaan.<br>Oletuksena ovat <code>textarea.rex-js-code</code> ja <code>textarea.codemirror</code>.
+customizer_codemirror_theme=CodeMirror teema
+customizer_codemirror_langs=Lisää korostusväriä
+customizer_codemirror_langs_text=(markdown, tekstiili, gfm, yaml, sql ...)
+customizer_codemirror_tools=Lisäominaisuudet
+customizer_codemirror_tools_text=(Koodin taitto, sulkujen vertailu, tagien vertailu, suljetut sulut, haku)
+customizer_codemirror_autoresize=AutoResize
+customizer_codemirror_autoresize_text=(CodeMirror säätää korkeutensa sisällön mukaan)
+
+customizer_codemirror_info="Heti kun CodeMirror on aktivoitu, sitä käytetään automaattisesti malleissa, moduuleissa, toiminnoissa ja cronjobeissa. Jos haluat käyttää CodeMirroria itse, käytä seuraavaa lomaketta:<br><br><code><textarea class=\"codemirror\" data-codemirror-theme=\"themename\" data-codemirror-mode=\"php/htmlmixed\"></textarea></code><br><br>Parametrit <i>data-codemirror-theme</i> ja <i>data-codemirror-mode</i> ovat vapaaehtoisia.<br><br>F11- ja ESC-näppäimillä voi siirtyä koko näytön tilaan."
+
+customizer_labeling=Lisäykset
+customizer_labelcolor=Tunnusväri
+customizer_labelcolor_notice="Mikä tahansa kelvollinen CSS-värimäärittely (<code>#03f0ab</code>, <code>rgba(255, 100, 0, 0.5)</code> jne.)."
+customizer_showlink=Näytä linkki verkkosivustolle ?
+
+customizer_config_updated=Syötteet tallennettiin
+customizer_config_update_failed=Kirjauksia ei tallennettu
+
+customizer_update=Tallenna asetukset
+customizer_error_unzip=Virhe tapahtui, kun purettiin varat codemirror-arkistosta!
+
+customizer_projectname=Hankkeen nimi
+customizer_textarea=laaja tekstialue mallin ja moduulien alla
+customizer_liquid=Nesteen asettelu
+customizer_nav_flyout=Navigointi flyoutilla
+

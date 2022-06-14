@@ -1,0 +1,33 @@
+customizer=customizar
+customizer_features=Funções
+
+customizer_codemirror=CodeMirror
+customizer_codemirror_check=Ativar CodeMirror
+customizer_codemirror_selectors=Selectores adicionais de jQuery para CodeMirror
+customizer_codemirror_selectors_info=Lista separada por vírgulas dos selectores jQuery aos quais se aplica o CodeMirror.<br>O padrão é <code>textarea.rex-js-code</code> e <code>textarea.codemirror</code>.
+customizer_codemirror_theme=Tema CodeMirror
+customizer_codemirror_langs=Marcador adicional
+customizer_codemirror_langs_text=(markdown, têxtil, gfm, yaml, sql ...)
+customizer_codemirror_tools=Características adicionais
+customizer_codemirror_tools_text=(Dobragem de códigos, Correspondência de parênteses, Correspondência de etiquetas, Fechamento de fracturas, Pesquisa)
+customizer_codemirror_autoresize=AutoResize
+customizer_codemirror_autoresize_text=(CodeMirror ajusta a sua altura ao conteúdo)
+
+customizer_codemirror_info="Assim que o CodeMirror é activado, é automaticamente utilizado para modelos, módulos, acções e cronjobs. Se quiser utilizar o CodeMirror você mesmo, por favor utilize o seguinte formulário:<br><br><code><textarea class=\"codemirror\" data-codemirror-theme=\"themename\" data-codemirror-mode=\"php/htmlmixed\"></textarea></code><br><br>Os parâmetros <i>tema data-codemirror</i> e <i>modo data-codemirror-mode</i> são opcionais.<br><br>As teclas F11 e ESC podem ser utilizadas para entrar no modo de ecrã inteiro."
+
+customizer_labeling=Complementos
+customizer_labelcolor="Cor (por exemplo: #43a047)"
+customizer_labelcolor_notice="Qualquer especificação de cor CSS válida (<code>#03f0ab</code>, <code>rgba(255, 100, 0, 0, 0.5)</code> etc.)."
+customizer_showlink=mostrar link para o website?
+
+customizer_config_updated=As configurações foram salvas.
+customizer_config_update_failed=As configurações não foram salvas.
+
+customizer_update=Salvar configurações.
+customizer_error_unzip=Ocorreu um erro ao desembalar os bens do arquivo codemirror!
+
+customizer_projectname=Projetar nome
+customizer_textarea=Lagura da área do texto em templates e módulos
+customizer_liquid=Laýout líquido
+customizer_nav_flyout=Navegação com flyout
+

@@ -1,0 +1,87 @@
+structure=Structure
+
+title_structure=Gestion de la structure
+root_level=Niveau principal
+no_such_category=Catégorie non disponible !
+category_updated=La catégorie a été mise à jour.
+category_could_not_be_deleted=La catégorie n'a pas pu être supprimée !
+category_still_contains_articles=La catégorie contient encore des articles.
+category_still_contains_subcategories=La catégorie contient encore des sous-catégories.
+category_status_updated=Le statut de la catégorie a été mis à jour !
+category_added_and_startarticle_created=Catégorie ajoutée et article de départ créé !
+article_doesnt_exist=L'article n'existe pas !
+article_status_updated=Le statut de l'article a été mis à jour.
+article_updated=L'article a été mis à jour.
+article_added=L'article a été ajouté.
+header_category=Nom de la catégorie
+header_priority=Priorité
+header_status=Statut/Fonction
+header_id=ID
+add_category=Ajouter une catégorie
+edit_category=Modifier la catégorie
+save_category=Enregistrer la catégorie
+status_online=en ligne
+status_offline=hors ligne
+option_no_template=Pas de modèle
+template_default_name=PAS DE TEMPLATE
+header_article_name=Nom de l'article
+header_template=Modèle
+header_date=Créé le
+change=changer
+article_add=Ajouter un article
+article_edit=Éditer un article
+article_save=Enregistrer l'article
+article=Article
+start_article=Article de départ
+no_article_available=Aucun article disponible
+structure_categories_caption=Liste des sous-catégories de la catégorie "{0}"
+structure_articles_caption=Liste des articles de la catégorie "{0}"
+structure_root_level_articles_caption=Liste des articles du "niveau principal
+structure_root_level_categories_caption=Liste des catégories du "niveau principal
+article_deleted=L'article a été supprimé !
+article_could_not_be_generated=L'article n'a pas pu être créé.
+category_deleted=La catégorie a été supprimée !
+category_doesnt_exist=La catégorie n'existe pas !
+cant_delete_sitestartarticle=L'article d'accueil du site web ne peut pas être supprimé !
+cant_delete_notfoundarticle=L'article "non trouvé" ne peut pas être supprimé !
+structure_copy=Copie
+category_has_child_elements=La catégorie contient des éléments enfants
+category_without_child_elements=Catégorie sans éléments enfants
+
+all_categories=Toutes les catégories
+categories=Catégories
+
+perm_options_addArticle[]=Créer un article
+perm_options_addCategory[]=Créer une catégorie
+perm_options_editArticle[]=Modifier l'article
+perm_options_editCategory[]=Modifier la catégorie
+perm_options_deleteArticle[]=Supprimer un article
+perm_options_deleteCategory[]=Supprimer une catégorie
+perm_options_article2category[]=Convertir les articles en catégories
+perm_options_article2startarticle[]=Convertir un article en article de départ
+perm_options_copyArticle[]=Copier un article
+perm_options_copyContent[]=Copier le contenu des articles
+perm_options_moveArticle[]=Déplacer l'article
+perm_options_moveCategory[]=Déplacer des catégories
+perm_options_publishArticle[]=Publier un article
+perm_options_publishCategory[]=Publier des catégories
+
+system_setting_start_article_id=Article de départ
+system_setting_notfound_article_id=Article sur les erreurs
+system_setting_default_template_id=Modèle par défaut
+system_setting_start_article_id_invalid=Article de départ non valide !
+system_setting_notfound_article_id_invalid=Article d'erreur non valide !
+system_setting_default_template_id_invalid=Modèle par défaut non valide !
+
+linkmap=Plan des liens
+linkmap_categories=Catégories
+linkmap_articles=Article
+linkmap_has_no_template=n'a pas de modèle
+
+var_link_open=Sélectionner un lien
+var_link_delete=Supprimer le lien sélectionné
+var_linklist_move_top=Déplacer le lien sélectionné vers le début
+var_linklist_move_up=Déplacer le lien sélectionné vers le haut
+var_linklist_move_down=Déplacer le lien sélectionné vers le bas
+var_linklist_move_bottom=Déplacer le lien sélectionné vers la fin
+

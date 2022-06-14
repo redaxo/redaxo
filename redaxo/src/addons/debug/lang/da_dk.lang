@@ -1,0 +1,4 @@
+debug=Fejlfinding
+debug_activate_debugmode=Aktivér debug-tilstand for at kunne bruge debug-tilføjelsen.
+debug_error_unzip=Der opstod en fejl ved udpakning af aktiverne fra Clockwork Frontend-arkivet!
+

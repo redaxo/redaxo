@@ -1,0 +1,23 @@
+structure_history=Geschicht
+structure_history_title_info=Kuerz Erklärung
+structure_history_snapshot_reactivate=Akzeptéieren dës Versioun
+structure_history_snapshot_reactivated=Versioun ugeholl
+structure_history_overview_versions=history_overview_versions
+structure_history_current_version=Aktuell Versioun
+structure_history_info_content=<p>E Historique Plugin mat deem Dir Ännerungen am Artikelinhalt ophuelen kënnt. E Snapshot vun der Versioun gëtt erstallt an en Datum kritt. Eeler Versioune kënnen dann spéider reaktivéiert ginn.</p>
+structure_history_todos=todos
+structure_history_todos_content=<ul><li>Cronjob virbereeden</li><li>Geschicht desaktivéierbar maachen</li><li>Astellunge installéieren fir d'Zuel vu Versiounen ze limitéieren. Zum Beispill, halen nëmmen eng Versioun / Dag no enger Woch. no engem Mount nëmmen eng Versioun / Mount halen ..</li><li>Set Skaléierungswäerter vun der Websäit</li><li>weisen zimlech ala Time Machine?</li></ul>
+
+perm_options_history[article_rollback]=Artikel restauréieren (Geschicht)
+
+structure_history_button_delete_history=Geschicht komplett läschen
+structure_history_deleted=Geschicht ass komplett geläscht.
+structure_history_savedby=geséchert duerch
+structure_history_close=Ofbriechen
+
+structure_history_cleanup=Botzen Artikel Geschicht
+structure_history_cleanup_after=Kloer Geschicht wann méi al wéi
+structure_history_days={0} Deeg
+structure_history_months={0} Méint
+structure_history_years={0} Joer
+

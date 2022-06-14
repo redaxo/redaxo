@@ -1,0 +1,86 @@
+media=Μέσα ενημέρωσης
+categories=Κατηγορίες
+articles=Άρθρο
+
+minfo_title=Επέκταση των μεταπληροφοριών
+minfo_metainfos_not_found=Δεν βρέθηκαν μεταπληροφορίες
+
+minfo_field_list_caption=Κατάλογος μετα-πεδίων
+
+minfo_field_fieldset=Επεξεργασία/δημιουργία πεδίου
+minfo_field_label_prefix=Πρόθεμα
+minfo_field_label_title=Όνομα πεδίου
+minfo_field_label_name=Όνομα στήλης
+minfo_field_label_function=Λειτουργία
+minfo_field_label_functions=Λειτουργίες
+minfo_field_label_id=Id
+minfo_field_label_type=Τύπος πεδίου
+minfo_field_label_attributes=Χαρακτηριστικά πεδίου
+minfo_field_label_callback=Callback
+minfo_field_label_callback_templates=Πρότυπα επανάκλησης
+minfo_field_label_default=Προεπιλεγμένη τιμή
+minfo_field_label_nullable=Υποχρεωτικό πεδίο
+minfo_field_label_params=Παράμετρος
+minfo_field_label_priority=Θέση πεδίου
+minfo_field_label_restrictions=Διατίθεται μόνο στις ακόλουθες κατηγορίες
+minfo_field_label_no_restrictions=Διαθέσιμο σε όλες τις κατηγορίες
+minfo_field_label_all_templates=Διαθέσιμο για όλα τα πρότυπα
+minfo_field_label_templates=Διατίθεται μόνο για τα ακόλουθα πρότυπα
+
+minfo_field_notice_title=Το πρόθεμα "translate:" μεταφράζει την τιμή μέσω I18N
+
+minfo_field_first_priority=Στην αρχή
+minfo_field_after_priority=Μετά το πεδίο "{0}"
+
+minfo_field_params_notice_3="Παραδείγματα:<br />α) <code>all|user|admin</code><br />β) <code>1:all|2:user|3:admin</code><br />γ) <code>SELECT label,id FROM my_table WHERE a=4</code><br />δ) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_4="Παραδείγματα:<br />α) <code>all|user|admin</code><br />β) <code>1:all|2:user|3:admin</code><br />γ) <code>SELECT label,id FROM my_table WHERE a=4</code><br />δ) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_5="Παραδείγματα:<br />α) <code>all|user|admin</code><br />β) <code>1:all|2:user|3:admin</code><br />γ) <code>SELECT label,id FROM my_table WHERE a=4</code><br />δ) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_6="Παράδειγμα:<br /> <code>category=\"1\" types=\"gif,jpg\" preview=\"1\"</code>"
+minfo_field_params_notice_7="Παράδειγμα:<br /> <code>category=\"1\" types=\"gif,jpg\" preview=\"1\"</code>"
+minfo_field_params_notice_8="Παράδειγμα:<br /> <code>category=\"1\"</code>"
+minfo_field_params_notice_9="Παράδειγμα:<br /> <code>category=\"1\"</code>"
+minfo_field_params_notice_10="Παράδειγμα:<br /> <code>start-year=\"1990\" end-year=\"2030\"</code>"
+minfo_field_params_notice_11="Παράδειγμα:<br /> <code>start-year=\"1990\" end-year=\"2030\"</code>"
+
+minfo_field_attributes_notice="Χαρακτηριστικά HTML στο πεδίο εισαγωγής και δικαιώματα, για παράδειγμα:<br /><code>style=\"color:red" ;" multiple="multiple" class="my_css_class" perm="admin[]"</code>
+minfo_field_label_notice=Κώδικας που εκτελείται όταν αλλάζει η τιμή του πεδίου.<br /> Αναγνώσιμες μεταβλητές: <code>string $fieldName, string $fieldValue, rex_sql $field</code>
+
+minfo_field_error_name=Παρακαλώ εισάγετε ονόματα στηλών!
+minfo_field_error_unique_name=Το καθορισμένο όνομα στήλης υπάρχει ήδη!
+minfo_field_error_unique_type=Το καθορισμένο όνομα τύπου υπάρχει ήδη!
+minfo_field_error_chars_name=Το όνομα της στήλης περιέχει μη έγκυρους χαρακτήρες (Επιτρέπονται οι χαρακτήρες A-Z, 0-9 και _)!
+minfo_field_error_invalid_prefix=Το καθορισμένο πρόθεμα είναι άκυρο!
+minfo_field_error_invalid_type=Ο καθορισμένος τύπος είναι άκυρος!
+minfo_field_error_invalid_length=Το καθορισμένο μήκος πεδίου είναι άκυρο!
+minfo_field_error_invalid_name=Το καθορισμένο όνομα στήλης είναι άκυρο!
+minfo_field_error_invalid_fieldid=Το καθορισμένο αναγνωριστικό πεδίου είναι άκυρο!
+minfo_field_error_invalid_typeid=Το καθορισμένο Type-Id είναι άκυρο!
+minfo_field_error_deleted=Το πεδίο δεν διαγράφηκε!
+minfo_field_successfull_deleted=Το πεδίο διαγράφηκε επιτυχώς!
+minfo_field_successfull_saved=Τα δεδομένα αποθηκεύτηκαν επιτυχώς!
+
+minfo_default_fields_create=Δημιουργία τυποποιημένων πεδίων
+minfo_default_fields_created=Τα τυπικά πεδία δημιουργήθηκαν επιτυχώς!
+
+minfo_edit_metadata=Επεξεργασία μεταδεδομένων
+minfo_metadata_saved=Τα μεταδεδομένα έχουν αποθηκευτεί.
+
+minfo_media_in_use_art=Άρθρο (μεταδεδομένα)
+minfo_media_in_use_cat=Κατηγορίες (μεταδεδομένα)
+minfo_media_in_use_med=Μέσα ενημέρωσης (μεταδεδομένα)
+minfo_media_in_use_clang=Γλώσσες (μεταδεδομένα)
+
+minfo_callback_lang_indep_field=Ανεξάρτητο από τη γλώσσα πεδίο
+
+# bc: labels aus dem core=
+online_from=Σε απευθείας σύνδεση από
+online_to=μέχρι το
+description=Περιγραφή
+keywords=Όροι αναζήτησης
+header_article_type=Τύπος άρθρου
+metadata_image=Metafile/Image
+teaser=Teaser
+pool_file_copyright=Πνευματικά δικαιώματα
+
+metadata=Μεταδεδομένα
+

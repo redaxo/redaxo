@@ -1,0 +1,90 @@
+cronjob_title=Cronjobs
+
+cronjob_add=Tilføj cronjob
+cronjob_edit=Rediger cronjob
+
+cronjob_caption=Liste over oprettede cronjobs
+cronjob_no_cronjobs=Ingen cronjobs tilgængelige
+
+cronjob_delete=slet
+cronjob_really_delete=Ønsker du virkelig at slette et cronjob?
+cronjob_delete_success=Cronjob "{0}" blev slettet med succes!
+cronjob_delete_error=Cronjob "{0}" kunne ikke slettes!
+
+cronjob_execute=udfør
+cronjob_execute_success=Cronjob "{0}" blev udført med succes!
+cronjob_execute_error=Cronjob "{0}" blev ikke udført med succes!
+
+cronjob_name=Navn
+cronjob_description=Beskrivelse
+cronjob_examples=Eksempler
+
+cronjob_type=Type
+cronjob_type_not_found=Cronjob "{0}" kan ikke behandles, fordi klassen "{1}" ikke blev fundet. Kontroller, om den tilknyttede AddOn/PlugIn er aktiveret!
+cronjob_type_phpcode=PHP-kode
+cronjob_type_phpcallback=PHP callback
+cronjob_type_urlrequest=URL-opkald
+cronjob_type_urlrequest_url=URL
+cronjob_type_urlrequest_post=POST-parameter
+cronjob_type_urlrequest_httpauth=HTTP-godkendelse
+cronjob_type_urlrequest_user=Bruger
+cronjob_type_urlrequest_password=Adgangskode
+cronjob_type_parameters=Typespecifikke parametre
+cronjob_type_no_parameters=Der er ikke behov for yderligere parametre for denne type!
+
+cronjob_interval=Interval
+cronjob_interval_minutes=Protokol
+cronjob_interval_minutes_all=Hvert 5. minut
+cronjob_interval_hours=Timer
+cronjob_interval_hours_all=Hver time
+cronjob_interval_days=Dage
+cronjob_interval_days_all=Hver dag
+cronjob_interval_weekdays=Hverdage
+cronjob_interval_weekdays_all=Alle ugens dage
+cronjob_interval_months=Måneder
+cronjob_interval_months_all=Hver måned
+
+cronjob_environment=Omgivelser
+cronjob_environment_notice=Script: Udførelse via <code>{0}</code>. Scriptet skal kaldes regelmæssigt ved hjælp af et rigtigt cron-job.
+cronjob_environment_frontend=Frontend
+cronjob_environment_backend=Backend
+cronjob_environment_script=Script
+cronjob_environment_console=Script
+cronjob_environment_backend_manual=Backend (manuel)
+
+cronjob_execution=Version
+cronjob_execution_beginning=Start af script
+cronjob_execution_ending=Slutning af manuskriptet
+
+cronjob_nexttime=Næste udførelse
+
+cronjob_status_function=Status/Funktion
+cronjob_status=Status
+cronjob_status_activated=aktiverer
+cronjob_status_deactivated=deaktiveret
+cronjob_status_invalid=forkert
+cronjob_status_activate_success=Cronjob "{0}" er blevet aktiveret!
+cronjob_status_activate_error=Cronjob "{0}" kunne ikke aktiveres!
+cronjob_status_deactivate_success=Cronjob "{0}" er blevet deaktiveret!
+cronjob_status_deactivate_error=Cronjob "{0}" kunne ikke deaktiveres!
+
+cronjob_error_no_name=Navnet må ikke være tomt!
+cronjob_error_no_environment=Der skal vælges mindst ét miljø!
+cronjob_error_interval_incomplete=For intervallet skal der vælges en værdi i hver kategori!
+
+cronjob_not_found=Cronjob ikke fundet!
+cronjob_not_editable=Cronjob kan ikke redigeres!
+
+cronjob_log=Log
+cronjob_log_date=Dato
+cronjob_log_year=År
+cronjob_log_month=Måned
+cronjob_log_ok=OK
+cronjob_no_log_files=Der findes ingen logfiler.
+cronjob_log_no_data=Ingen data tilgængelige.
+cronjob_log_caption_1=Liste over udførte cronjobs i {0} {1}
+cronjob_log_caption_2=Liste over de senest udførte cronjobs
+cronjob_log_message=Besked
+
+cronjob_delete_log_msg=Slet cronjob-loggen?
+

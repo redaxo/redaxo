@@ -1,0 +1,90 @@
+cronjob_title=Cronjobs
+
+cronjob_add=Lisää cronjob
+cronjob_edit=Muokkaa cronjobia
+
+cronjob_caption=Luettelo luoduista cronjobeista
+cronjob_no_cronjobs=Ei cronjobs käytettävissä
+
+cronjob_delete=poista
+cronjob_really_delete=Haluatko todella poistaa cronjobin?
+cronjob_delete_success=Cronjob "{0}" poistettiin onnistuneesti!
+cronjob_delete_error=Cronjob "{0}" ei voitu poistaa!
+
+cronjob_execute=execute
+cronjob_execute_success=Cronjob "{0}" suoritettiin onnistuneesti!
+cronjob_execute_error=Cronjob "{0}" ei suoritettu onnistuneesti!
+
+cronjob_name=Nimi
+cronjob_description=Kuvaus
+cronjob_examples=Esimerkkejä
+
+cronjob_type=Tyyppi
+cronjob_type_not_found=Cronotyö "{0}" ei voi käsitellä, koska luokkaa "{1}" ei löydetty. Tarkista, onko liitetty AddOn/PlugIn aktivoitu!
+cronjob_type_phpcode=PHP-koodi
+cronjob_type_phpcallback=PHP:n takaisinkutsu
+cronjob_type_urlrequest=URL-kutsu
+cronjob_type_urlrequest_url=URL
+cronjob_type_urlrequest_post=POST-parametri
+cronjob_type_urlrequest_httpauth=HTTP-todennus
+cronjob_type_urlrequest_user=Käyttäjä
+cronjob_type_urlrequest_password=Salasana
+cronjob_type_parameters=Tyyppikohtaiset parametrit
+cronjob_type_no_parameters=Tälle tyypille ei tarvita muita parametreja!
+
+cronjob_interval=Intervalli
+cronjob_interval_minutes=Pöytäkirja
+cronjob_interval_minutes_all=5 minuutin välein
+cronjob_interval_hours=Tunnit
+cronjob_interval_hours_all=Joka tunti
+cronjob_interval_days=Päivät
+cronjob_interval_days_all=Joka päivä
+cronjob_interval_weekdays=Arkisin
+cronjob_interval_weekdays_all=Mikä tahansa viikonpäivä
+cronjob_interval_months=Kuukaudet
+cronjob_interval_months_all=Joka kuukausi
+
+cronjob_environment=Ympäristö
+cronjob_environment_notice=Käsikirjoitus: Suoritus <code>{0}</code>. Skriptiä tulisi kutsua säännöllisesti oikean cron-työn avulla.
+cronjob_environment_frontend=Frontend
+cronjob_environment_backend=Backend
+cronjob_environment_script=Käsikirjoitus
+cronjob_environment_console=Käsikirjoitus
+cronjob_environment_backend_manual=Backend (manuaalinen)
+
+cronjob_execution=Versio
+cronjob_execution_beginning=Käsikirjoituksen alku
+cronjob_execution_ending=Käsikirjoituksen loppu
+
+cronjob_nexttime=Seuraava suoritus
+
+cronjob_status_function=Tila/toiminto
+cronjob_status=Tila
+cronjob_status_activated=aktivoi
+cronjob_status_deactivated=deaktivoitu
+cronjob_status_invalid=virheellinen
+cronjob_status_activate_success=Cronjob "{0}" on aktivoitu!
+cronjob_status_activate_error=Cronjobia "{0}" ei voitu aktivoida!
+cronjob_status_deactivate_success=Cronjob "{0}" on poistettu käytöstä!
+cronjob_status_deactivate_error=Cronjob "{0}" ei voitu poistaa käytöstä!
+
+cronjob_error_no_name=Nimi ei saa olla tyhjä!
+cronjob_error_no_environment=Ainakin yksi ympäristö on valittava!
+cronjob_error_interval_incomplete=Intervallia varten on valittava arvo kussakin luokassa!
+
+cronjob_not_found=Cronjobia ei löydy!
+cronjob_not_editable=Cronjob ei ole muokattavissa!
+
+cronjob_log=Tukki
+cronjob_log_date=Päivämäärä
+cronjob_log_year=Vuosi
+cronjob_log_month=Kuukausi
+cronjob_log_ok=OK
+cronjob_no_log_files=Lokitiedostoja ei ole saatavilla.
+cronjob_log_no_data=Tietoja ei ole saatavilla.
+cronjob_log_caption_1=Luettelo suoritetuista cronjobista {0} {1}:ssä.
+cronjob_log_caption_2=Luettelo viimeisimmistä suoritetuista cronjobeista
+cronjob_log_message=Viesti
+
+cronjob_delete_log_msg=Poistaa cronjob-lokin?
+

@@ -1,0 +1,75 @@
+install_title=Installatore
+install_subpage_packages=Nucleo
+install_subpage_update=Aggiornare l'esistente
+install_subpage_add=Scarica il nuovo
+install_subpage_upload=Carica il tuo
+install_subpage_settings=Impostazioni
+
+install_webservice_unreachable=Il servizio web non è attualmente disponibile!
+install_webservice_error=Il servizio web restituisce il seguente messaggio di errore:
+install_archive_unreachable=Il file zip non è accessibile!
+
+install_reload=Elenco degli aggiornamenti
+install_key=Chiave
+install_information=Informazioni
+install_name=Nome
+install_author=Autore
+install_shortdescription=Breve descrizione
+install_description=Descrizione
+install_website=Sito web
+install_files=File
+install_version=Versione
+install_existing_version=Versione esistente
+install_available_versions=Versioni disponibili
+install_addon_already_exists=Già scaricato
+install_update=aggiornamento
+install_download=scaricare
+install_addons_found={0} AddOns trovati
+install_available_updates={0} Aggiornamenti disponibili
+install_my_packages=I miei pacchetti
+install_status=Stato
+install_online=online
+install_offline=offline
+install_file_add=Aggiungi file
+install_file_edit=Aggiornare il file
+install_send=Inviare
+install_upload_file=Creare e caricare il file zip
+install_replace_assets=Prelevare le risorse dalla cartella principale delle risorse.
+install_ignore_tests=Ignora la cartella "test
+install_published_on=Pubblicato su
+install_sort=Ordinamento
+install_sort_default=Ordina per chiave in ordine crescente
+
+install_info_core_updated=Il Nucleo è stato aggiornato!
+install_warning_core_not_updated=Non è stato possibile aggiornare il nucleo per il seguente motivo:
+install_warning_core_zip_not_extracted=Non è stato possibile decomprimere il file zip nella directory "src"!
+
+install_info_addon_downloaded=L'AddOn <b>{0}</b> è stato scaricato!
+install_warning_addon_not_downloaded=L'AddOn <b>{0}</b> non ha potuto essere scaricato per il seguente motivo:
+install_info_addon_updated=L'AddOn <b>{0}</b> è stato aggiornato!
+install_warning_addon_not_updated=L'AddOn <b>{0}</b> non ha potuto essere aggiornato per il seguente motivo:
+install_info_addon_uploaded=L'AddOn <b>{0}</b> è stato caricato!
+install_info_addon_deleted=La versione AddOn di <b>{0}</b> è stata cancellata!
+install_warning_addon_zip_not_extracted=Si è verificato un errore durante la decompressione del file zip nella directory AddOn. Forse mancano i permessi di scrittura o il nome della cartella all'interno del file zip non corrisponde alla chiave AddOn.
+install_warning_message_from_addon=AddOn <b>{0}</b> rapporti:
+install_warning_message_from_plugin=PlugIn <b>{0}</b> rapporti:
+
+install_warning_directory_not_writable=La cartella <b>{0}</b> non è scrivibile!
+install_warning_zip_wrong_checksum=Il checksum del file zip scaricato non corrisponde a quello previsto. La preghiamo di riprovare tra qualche minuto!
+install_warning_zip_wrong_format=Il file zip non è nel formato richiesto.
+
+install_to_addon_page=All'amministrazione del componente aggiuntivo
+
+install_settings_general=Generale
+install_settings_backups=Creare backup
+install_settings_backups_note=Prima che i pacchetti vengano aggiornati dal programma di installazione, una copia della versione corrente viene memorizzata in <code>redaxo/data/addons/install/</code> . Questi possono essere reinstallati in caso di errori.<br>Si prega di notare che il database non viene sottoposto a backup!
+install_settings_myredaxo_account=Conto myREDAXO
+install_settings_api_login=Nome utente
+install_settings_api_key=Chiave API
+install_settings_saved=Le impostazioni sono state salvate!
+install_settings_error=Impossibile salvare le impostazioni, controllare i permessi di scrittura per: {0}
+
+install_header_function=Funzione
+install_latest_release=Rilascio attuale
+install_download_unstable=Attenzione! Questa è una versione di sviluppo. Installi a suo rischio e pericolo.
+

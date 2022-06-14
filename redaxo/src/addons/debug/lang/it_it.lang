@@ -1,0 +1,4 @@
+debug=Debug
+debug_activate_debugmode=Attivi la modalità di debug per poter utilizzare l'addon di debug.
+debug_error_unzip=Si è verificato un errore durante la decompressione delle risorse dall'archivio Clockwork Frontend!
+

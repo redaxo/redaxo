@@ -1,0 +1,23 @@
+structure_history=Historia
+structure_history_title_info=Lyhyt selitys
+structure_history_snapshot_reactivate=Hyväksytään tämä versio
+structure_history_snapshot_reactivated=Versio hyväksyttiin
+structure_history_overview_versions=history_overview_versions
+structure_history_current_version=Nykyinen versio
+structure_history_info_content=<p>Historia-liitännäinen, jolla voit tallentaa artikkelin sisällön muutokset. Versiosta luodaan tilannekuva, joka varustetaan päivämäärällä. Vanhemmat versiot voidaan aktivoida myöhemmin uudelleen.</p>
+structure_history_todos=Todos
+structure_history_todos_content=<ul><li>valmistele cronjob</li><li>tee historia deaktivoitavaksi</li><li>sisällytä asetukset versioiden määrän rajoittamiseksi. Esim. viikon jälkeen säilytetään vain yksi versio/päivä. kuukauden jälkeen säilytetään vain yksi versio/kuukausi. ....</li><li>Aseta sivuston skaalausarvot</li><li>Tee näytöstä houkuttelevampi ala Aikakone ?</li></ul>
+
+perm_options_history[article_rollback]=Palauta kohde (historia)
+
+structure_history_button_delete_history=Poista historia kokonaan
+structure_history_deleted=Historia on poistettu kokonaan.
+structure_history_savedby=varmistanut
+structure_history_close=Peruuta
+
+structure_history_cleanup=Siivoa artikkelihistoria
+structure_history_cleanup_after=Poista historia, jos se on vanhempi kuin
+structure_history_days={0} Päivät
+structure_history_months={0} Kuukaudet
+structure_history_years={0} vuotta
+

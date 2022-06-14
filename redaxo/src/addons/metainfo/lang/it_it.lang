@@ -1,0 +1,86 @@
+media=Media
+categories=Categorie
+articles=Articolo
+
+minfo_title=Estendere le meta-informazioni
+minfo_metainfos_not_found=Nessuna informazione meta trovata
+
+minfo_field_list_caption=Elenco dei campi meta
+
+minfo_field_fieldset=Modifica/Crea campo
+minfo_field_label_prefix=Prefisso
+minfo_field_label_title=Nome del campo
+minfo_field_label_name=Nome della colonna
+minfo_field_label_function=Funzione
+minfo_field_label_functions=Funzioni
+minfo_field_label_id=Id
+minfo_field_label_type=Tipo di campo
+minfo_field_label_attributes=Attributi del campo
+minfo_field_label_callback=Richiamo
+minfo_field_label_callback_templates=Modelli di callback
+minfo_field_label_default=Valore predefinito
+minfo_field_label_nullable=Campo obbligatorio
+minfo_field_label_params=Parametro
+minfo_field_label_priority=Posizione sul campo
+minfo_field_label_restrictions=Disponibile solo nelle seguenti categorie
+minfo_field_label_no_restrictions=Disponibile in tutte le categorie
+minfo_field_label_all_templates=Disponibile per tutti i modelli
+minfo_field_label_templates=Disponibile solo per i seguenti modelli
+
+minfo_field_notice_title=Il prefisso "translate:" traduce il valore tramite I18N.
+
+minfo_field_first_priority=All'inizio
+minfo_field_after_priority=Dopo il campo "{0}".
+
+minfo_field_params_notice_3="Esempi:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_4="Esempi:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_5="Esempi:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_6="Esempio:<br /> <code>category=\"1\" types=\"gif,jpg\" preview=\"1\"</code>"
+minfo_field_params_notice_7="Esempio:<br /> <code>category=\"1\" types=\"gif,jpg\" preview=\"1\"</code>"
+minfo_field_params_notice_8="Esempio:<br /> <code>category=\"1\"</code>"
+minfo_field_params_notice_9="Esempio:<br /> <code>category=\"1\"</code>"
+minfo_field_params_notice_10="Esempio:<br /> <code>anno di inizio=\"1990\" anno di fine=\"2030\"</code>"
+minfo_field_params_notice_11="Esempio:<br /> <code>anno di inizio=\"1990\" anno di fine=\"2030\"</code>"
+
+minfo_field_attributes_notice="Attributi HTML nel campo di input e autorizzazioni, ad esempio:<br /><code>style=\"color:red" ;" multiple="multiple" class="my_css_class" perm="admin[]"</code>
+minfo_field_label_notice=Codice che viene eseguito quando il valore del campo viene modificato.<br /> Variabili leggibili: <code>stringa $fieldName, stringa $fieldValue, rex_sql $field</code>
+
+minfo_field_error_name=Inserisca i nomi delle colonne!
+minfo_field_error_unique_name=Il nome della colonna specificata esiste già!
+minfo_field_error_unique_type=Il nome del tipo specificato esiste già!
+minfo_field_error_chars_name=Il nome della colonna contiene caratteri non validi (ammessi A-Z, 0-9 e _)!
+minfo_field_error_invalid_prefix=Il prefisso specificato non è valido!
+minfo_field_error_invalid_type=Il tipo specificato non è valido!
+minfo_field_error_invalid_length=La lunghezza del campo specificata non è valida!
+minfo_field_error_invalid_name=Il nome della colonna specificato non è valido!
+minfo_field_error_invalid_fieldid=L'ID del campo specificato non è valido!
+minfo_field_error_invalid_typeid=Il Tipo-Id specificato non è valido!
+minfo_field_error_deleted=Il campo non è stato cancellato!
+minfo_field_successfull_deleted=Campo eliminato con successo!
+minfo_field_successfull_saved=I dati sono stati salvati con successo!
+
+minfo_default_fields_create=Creare campi standard
+minfo_default_fields_created=I campi standard sono stati creati con successo!
+
+minfo_edit_metadata=Modificare i metadati
+minfo_metadata_saved=I metadati sono stati salvati.
+
+minfo_media_in_use_art=Articolo (metadati)
+minfo_media_in_use_cat=Categorie (metadati)
+minfo_media_in_use_med=Media (metadati)
+minfo_media_in_use_clang=Lingue (metadati)
+
+minfo_callback_lang_indep_field=Campo indipendente dalla lingua
+
+# bc: labels aus dem core=
+online_from=Online da
+online_to=fino a quando
+description=Descrizione
+keywords=Termini di ricerca
+header_article_type=Tipo di articolo
+metadata_image=Metafile/Immagine
+teaser=Teaser
+pool_file_copyright=Copyright
+
+metadata=Metadati
+

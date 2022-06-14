@@ -1,0 +1,87 @@
+structure=Структура
+
+title_structure=Управление структурой
+root_level=Главный уровень
+no_such_category=Категория недоступна!
+category_updated=Категория была обновлена.
+category_could_not_be_deleted=Категория не может быть удалена!
+category_still_contains_articles=Категория по-прежнему содержит статьи.
+category_still_contains_subcategories=Категория по-прежнему содержит подкатегории.
+category_status_updated=Статус категории был обновлен!
+category_added_and_startarticle_created=Добавлена категория и создана стартовая статья!
+article_doesnt_exist=Статья не существует!
+article_status_updated=Статус товара был обновлен.
+article_updated=Статья была обновлена.
+article_added=Статья была добавлена.
+header_category=Название категории
+header_priority=Приоритет
+header_status=Состояние/функция
+header_id=ID
+add_category=Добавить категорию
+edit_category=Редактировать категорию
+save_category=Сохранить категорию
+status_online=онлайн
+status_offline=оффлайн
+option_no_template=Нет шаблона
+template_default_name=НЕТ ШАБЛОНА
+header_article_name=Название предмета
+header_template=Шаблон
+header_date=Создано на
+change=изменить
+article_add=Добавить статью
+article_edit=Редактировать статью
+article_save=Сохранить статью
+article=Статья
+start_article=Начало статьи
+no_article_available=Статья отсутствует
+structure_categories_caption=Список подкатегорий категории "{0}"
+structure_articles_caption=Список статей в категории "{0}"
+structure_root_level_articles_caption=Список статей категории "Основной уровень"
+structure_root_level_categories_caption=Список категорий "основного уровня"
+article_deleted=Статья была удалена!
+article_could_not_be_generated=Статья не может быть создана.
+category_deleted=Категория была удалена!
+category_doesnt_exist=Категория не существует!
+cant_delete_sitestartarticle=Начальная статья сайта не может быть удалена!
+cant_delete_notfoundarticle=Элемент "Не найдено" не может быть удален!
+structure_copy=Копировать
+category_has_child_elements=Категория содержит дочерние элементы
+category_without_child_elements=Категория без дочерних элементов
+
+all_categories=Все категории
+categories=Категории
+
+perm_options_addArticle[]=Создать статью
+perm_options_addCategory[]=Создать категорию
+perm_options_editArticle[]=Редактировать статью
+perm_options_editCategory[]=Редактировать категорию
+perm_options_deleteArticle[]=Удалить статью
+perm_options_deleteCategory[]=Удалить категорию
+perm_options_article2category[]=Преобразование статей в категории
+perm_options_article2startarticle[]=Преобразовать статью в начальную статью
+perm_options_copyArticle[]=Копировать статью
+perm_options_copyContent[]=Копировать содержание статьи
+perm_options_moveArticle[]=Перейти статья
+perm_options_moveCategory[]=Перемещение категорий
+perm_options_publishArticle[]=Опубликовать статью
+perm_options_publishCategory[]=Публиковать категории
+
+system_setting_start_article_id=Начало статьи
+system_setting_notfound_article_id=Ошибочная статья
+system_setting_default_template_id=Стандартный шаблон
+system_setting_start_article_id_invalid=Неверная начальная статья!
+system_setting_notfound_article_id_invalid=Неверная статья об ошибке!
+system_setting_default_template_id_invalid=Неверный стандартный шаблон!
+
+linkmap=Linkmap
+linkmap_categories=Категории
+linkmap_articles=Статья
+linkmap_has_no_template=не имеет шаблона
+
+var_link_open=Выберите ссылку
+var_link_delete=Удалить выбранную ссылку
+var_linklist_move_top=Переместить выбранную ссылку на самый верх
+var_linklist_move_up=Переместить выбранную ссылку на самый верх
+var_linklist_move_down=Переместить выбранную ссылку вниз
+var_linklist_move_bottom=Переместите выбранную ссылку в конец
+

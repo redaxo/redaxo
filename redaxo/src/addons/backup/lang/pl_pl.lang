@@ -1,0 +1,88 @@
+backup_information=Informacje
+backup_title=Backup
+backup_file_deleted=Plik został usunięty
+backup_file_error_while_delete=Plik nie mógł zostać usunięty
+backup_no_import_file_chosen_or_wrong_version=Nie wybrano pliku importowego lub wersja jest nieprawidłowa
+backup_no_valid_import_file=To nie jest prawidłowy plik importowy
+backup_utf8mb4_not_supported=Kopia zapasowa używa <code>utf8mb4</code>jako zestawu znaków, który nie jest obsługiwany przez bazę danych (<b>{0}</b>) (wymagany co najmniej MySQL 5.7.7 lub MariaDB 10.2).
+backup_database_imported=Baza danych pomyślnie zaimportowana
+backup_entry_count=({0} wpisy)
+backup_file_could_not_be_uploaded=Plik nie mógł zostać załadowany.
+backup_you_have_no_write_permission_in=Nie mają Państwo dostępu do zapisu w tym folderze {0}.
+backup_no_import_file_chosen=Nie wybrano pliku importowego.
+backup_file_imported=Plik został zaimportowany pomyślnie.
+backup_import=Import
+backup_to_import=import
+backup_export=Eksport
+backup_to_export=eksport
+backup_download=pobierz
+backup_db_import=Import
+backup_db_export=Eksport
+backup_filename_updated=Wybrana nazwa pliku została skorygowana, ponieważ zawierała nieprawidłowe znaki. Jeśli jest prawidłowa, proszę kliknąć na Eksportuj ponownie.
+backup_please_choose_folder=Proszę wybrać katalogi, które mają zostać wyeksportowane.
+backup_intro_import=Proszę pamiętać, że przy imporcie bazy danych <b>stara baza danych jest usuwana</b> . W razie wątpliwości, przed importem należy wykonać kopię zapasową aktualnej bazy danych.
+backup_intro_import_files=Podczas importu plików, istniejące pliki o tej samej nazwie są nadpisywane, ale dodatkowo istniejące pliki w folderach są zachowywane.
+backup_version_warning=Kopie zapasowe starszych wersji REDAXO lub AddOns nie zawsze są w pełni kompatybilne i mogą prowadzić do problemów po imporcie.
+backup_database=Import bazy danych
+backup_filename=Nazwa pliku
+backup_filename_notice=Zmienne: <code>%REX_SERVER</code>, <code>%REX_VERSION</code> i zmienne daty jak w strftime(). ; Dateiendung: <code>.cronjob.sql</code> (wird automatisch ergänzt)
+backup_filesize=Wielkość pliku
+backup_delete=usuń
+backup_files=Import plików
+backup_intro_export=Tutaj mogą Państwo zapisać swoje aktualne wpisy i pliki z REDAXO. Aby uzyskać kompletną kopię zapasową, należy <b>wyeksportować bazę danych ORAZ pliki</b>. Jeżeli chcą Państwo ponownie wykorzystać kopię zapasową, sensowne może być zapisanie jej bezpośrednio na serwerze i ponowne zaimportowanie w razie potrzeby.
+backup_database_export=Tworzenie kopii zapasowej bazy danych
+backup_file_export=Tworzenie kopii zapasowej plików
+backup_save_on_server=Zapisać na serwerze
+backup_download_as_file=Pobierz jako plik
+backup_createdate=Utworzony w dniu
+
+backup_import_file=Importować plik
+backup_delete_file=Plik l ;schen
+backup_download_file=Plik do pobrania
+backup_check_rights_in_directory=Backup nie mógł uzyskać dostępu do folderu(ów) lub nie wybrano żadnego ;hlt.
+backup_file_could_not_be_generated=Plik nie mógł zostać utworzony.
+backup_file_generated_in=Dane zostały zapisane w
+
+backup_proceed_db_import=Istniejące dane (artykuły, szablony, moduły,...) zostaną utracone. Kontynuować ?
+backup_proceed_file_import=Istniejące pliki są usuwane. Kontynuować ?
+
+backup_export_db_caption=Przywracanie kopii zapasowej bazy danych
+backup_export_file_caption=Przywracanie kopii zapasowej plików
+
+backup_function=Funkcja
+
+backup_send_mail=Wyślij pocztą
+backup_send_mail_notice=Do tej opcji wymagany jest dodatek "phpmailer".
+backup_mailaddress=Adres pocztowy
+backup_mail_subject=Nowa kopia zapasowa bazy danych
+backup_mail_body=W załączniku znajduje się nowa kopia zapasowa bazy danych strony internetowej "{0}".
+
+backup_compress=Kompresja kopii zapasowej
+
+backup_delete_interval=Usuń stare kopie zapasowe
+backup_delete_interval_off=Z
+backup_delete_interval_weekly=Wykonywać jedną kopię zapasową na tydzień
+backup_delete_interval_monthly=Wykonywać jedną kopię zapasową miesięcznie
+backup_delete_interval_notice=Usuwane są tylko kopie zapasowe starsze niż jeden miesiąc, których nazwy plików kończą się na <code>.cronjob.sql</code> .
+
+backup_exclude_tables=Wykluczyć z kopii zapasowej
+backup_exclude_tables_notice=Jeśli jest zaznaczone, tabele te nie są zapisywane. Tabele z prefiksem <code>rex_tmp_*</code> są automatycznie wykluczane.
+
+perm_general_backup[export]=Strona eksportowa
+
+backup_export_select=Wariant eksportu
+backup_export_select_tables=Wybierz tabele
+backup_export_select_dir=Wybierz folder
+backup_export_select_location=Wybierz miejsce przechowywania
+backup_export_select_filename=Wybierz nazwę pliku
+
+backup_file=Plik
+backup_note=Notatka
+backup_upload=Prześlij
+backup_load_from_server=Obciążenie z serwera
+
+backup_warning=Ostrzeżenie
+backup_upload_disabled=Wczytywanie nie jest dozwolone
+backup_max_uploadsize=Max. Wielkość uploadu
+backup_max_uploadtime=Max. Czas ładowania
+

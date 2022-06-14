@@ -1,0 +1,87 @@
+structure=Struktura
+
+title_structure=Upravljanje strukture
+root_level=Glavna raven
+no_such_category=Kategorija ni na voljo!
+category_updated=Kategorija je bila posodobljena.
+category_could_not_be_deleted=Kategorije ni bilo mogoče izbrisati!
+category_still_contains_articles=Kategorija še vedno vsebuje članke.
+category_still_contains_subcategories=Kategorija še vedno vsebuje podkategorije.
+category_status_updated=Status kategorije je bil posodobljen!
+category_added_and_startarticle_created=Dodana kategorija in ustvarjen članek za zagon!
+article_doesnt_exist=Člen ne obstaja!
+article_status_updated=Stanje artikla je bilo posodobljeno.
+article_updated=Člen je bil posodobljen.
+article_added=Člen je bil dodan.
+header_category=Ime kategorije
+header_priority=Prednostna naloga
+header_status=Status/funkcija
+header_id=ID
+add_category=Dodajanje kategorije
+edit_category=Uredi kategorijo
+save_category=Shrani kategorijo
+status_online=spletna stran
+status_offline=brez povezave
+option_no_template=Brez predloge
+template_default_name=NE TEMPLATE
+header_article_name=Ime predmeta
+header_template=Predloga
+header_date=Ustvarjeno na
+change=sprememba
+article_add=Dodaj članek
+article_edit=Uredi članek
+article_save=Shrani članek
+article=Člen
+start_article=Začetni članek
+no_article_available=Članek ni na voljo
+structure_categories_caption=Seznam podkategorij kategorije "{0}"
+structure_articles_caption=Seznam člankov v kategoriji "{0}"
+structure_root_level_articles_caption=Seznam člankov "glavna raven"
+structure_root_level_categories_caption=Seznam kategorij "glavne ravni"
+article_deleted=Člen je bil izbrisan!
+article_could_not_be_generated=Članka ni bilo mogoče ustvariti.
+category_deleted=Kategorija je bila izbrisana!
+category_doesnt_exist=Kategorija ne obstaja!
+cant_delete_sitestartarticle=Začetnega članka spletne strani ni mogoče izbrisati!
+cant_delete_notfoundarticle=Elementa "Ni najden" ni mogoče izbrisati!
+structure_copy=Kopiraj
+category_has_child_elements=Kategorija vsebuje podrejene elemente
+category_without_child_elements=Kategorija brez podrejenih elementov
+
+all_categories=Vse kategorije
+categories=Kategorije
+
+perm_options_addArticle[]=Ustvariti članek
+perm_options_addCategory[]=Ustvarjanje kategorije
+perm_options_editArticle[]=Uredi članek
+perm_options_editCategory[]=Uredi kategorijo
+perm_options_deleteArticle[]=Izbriši članek
+perm_options_deleteCategory[]=Izbriši kategorijo
+perm_options_article2category[]=Pretvarjanje člankov v kategorije
+perm_options_article2startarticle[]=Pretvori članek v začetni članek
+perm_options_copyArticle[]=Kopiraj članek
+perm_options_copyContent[]=Kopiranje vsebine članka
+perm_options_moveArticle[]=Premakniti članek
+perm_options_moveCategory[]=Premikanje kategorij
+perm_options_publishArticle[]=Objava članka
+perm_options_publishCategory[]=Objavljanje kategorij
+
+system_setting_start_article_id=Začetni članek
+system_setting_notfound_article_id=Napaka članek
+system_setting_default_template_id=Standardna predloga
+system_setting_start_article_id_invalid=Nepravilen začetni članek!
+system_setting_notfound_article_id_invalid=Nepravilna napaka članek!
+system_setting_default_template_id_invalid=Nepravilna standardna predloga!
+
+linkmap=Zemljevid povezav
+linkmap_categories=Kategorije
+linkmap_articles=Člen
+linkmap_has_no_template=nima predloge
+
+var_link_open=Izberite povezavo
+var_link_delete=Brisanje izbrane povezave
+var_linklist_move_top=Premaknite izbrano povezavo na vrh
+var_linklist_move_up=Premaknite izbrano povezavo na vrh
+var_linklist_move_down=Premaknite izbrano povezavo navzdol
+var_linklist_move_bottom=Premaknite izbrano povezavo na konec
+

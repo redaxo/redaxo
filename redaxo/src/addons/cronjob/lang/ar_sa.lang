@@ -1,0 +1,90 @@
+cronjob_title=كرون الوظائف
+
+cronjob_add=أضف وظيفة كرون
+cronjob_edit=تحرير مهمة كرون
+
+cronjob_caption=قائمة وظائف كرون التي تم إنشاؤها
+cronjob_no_cronjobs=لا توجد وظائف كرون المتاحة
+
+cronjob_delete=حذف
+cronjob_really_delete=حقا حذف وظيفة كرون؟
+cronjob_delete_success=تم حذف Cronjob "{0}" بنجاح!
+cronjob_delete_error=لا يمكن حذف مهمة كرون "{0}"!
+
+cronjob_execute=تنفيذ
+cronjob_execute_success=تم تشغيل مهمة Cron "{0}" بنجاح!
+cronjob_execute_error=لم يتم تنفيذ Cronjob "{0}" بنجاح!
+
+cronjob_name=اسم العائلة
+cronjob_description=وصف
+cronjob_examples=أمثلة
+
+cronjob_type=يكتب
+cronjob_type_not_found=لا يمكن معالجة مهمة Cron "{0}" لأنه لم يتم العثور على الفئة "{1}". تحقق مما إذا تم تنشيط الوظيفة الإضافية / المكون الإضافي المرتبط!
+cronjob_type_phpcode=كود PHP
+cronjob_type_phpcallback=رد اتصال PHP
+cronjob_type_urlrequest=دعوة URL
+cronjob_type_urlrequest_url=URL
+cronjob_type_urlrequest_post=معلمات POST
+cronjob_type_urlrequest_httpauth=مصادقة HTTP
+cronjob_type_urlrequest_user=المستعمل
+cronjob_type_urlrequest_password=كلمه السر
+cronjob_type_parameters=اكتب معلمات محددة
+cronjob_type_no_parameters=لا توجد معلمات أخرى ضرورية لهذا النوع!
+
+cronjob_interval=فترة
+cronjob_interval_minutes=الدقائق
+cronjob_interval_minutes_all=كل 5 دقائق
+cronjob_interval_hours=ساعات
+cronjob_interval_hours_all=كل ساعة
+cronjob_interval_days=أيام
+cronjob_interval_days_all=كل يوم
+cronjob_interval_weekdays=أيام الأسبوع
+cronjob_interval_weekdays_all=أي يوم في الأسبوع
+cronjob_interval_months=شهور
+cronjob_interval_months_all=كل شهر
+
+cronjob_environment=المناطق المجاورة
+cronjob_environment_notice=البرنامج النصي: تشغيل عبر <code>{0}</code>. يجب استدعاء البرنامج النصي بانتظام باستخدام وظيفة cron الحقيقية.
+cronjob_environment_frontend=نهاية المقدمة
+cronjob_environment_backend=الخلفية
+cronjob_environment_script=النصي
+cronjob_environment_console=النصي
+cronjob_environment_backend_manual=الخلفية (يدوي)
+
+cronjob_execution=إعدام
+cronjob_execution_beginning=بدء البرنامج النصي
+cronjob_execution_ending=نهاية البرنامج النصي
+
+cronjob_nexttime=التنفيذ المقبل
+
+cronjob_status_function=الحالة / الوظيفة
+cronjob_status=الحالة
+cronjob_status_activated=مفعل
+cronjob_status_deactivated=معاق
+cronjob_status_invalid=متعطل
+cronjob_status_activate_success=تم تفعيل مهمة Cron "{0}"!
+cronjob_status_activate_error=تعذر تنشيط مهمة Cron "{0}"!
+cronjob_status_deactivate_success=تم إلغاء تنشيط مهمة Cron "{0}"!
+cronjob_status_deactivate_error=لا يمكن تعطيل Cronjob "{0}"!
+
+cronjob_error_no_name=لا يمكن أن يكون الاسم فارغًا!
+cronjob_error_no_environment=يجب اختيار بيئة واحدة على الأقل!
+cronjob_error_interval_incomplete=بالنسبة للفاصل الزمني ، يجب تحديد قيمة في كل فئة!
+
+cronjob_not_found=لم يتم العثور على وظيفة كرون!
+cronjob_not_editable=Cronjob غير قابل للتحرير!
+
+cronjob_log=سجل
+cronjob_log_date=تاريخ
+cronjob_log_year=سنة
+cronjob_log_month=شهر
+cronjob_log_ok=نعم
+cronjob_no_log_files=لا توجد ملفات سجل متاحة.
+cronjob_log_no_data=لا تتوافر بيانات.
+cronjob_log_caption_1=قائمة وظائف cronjobs المنفذة في {0} {1}
+cronjob_log_caption_2=قائمة وظائف cron التي تم تشغيلها مؤخرًا
+cronjob_log_message=تقرير
+
+cronjob_delete_log_msg=حذف سجل عمل كرون؟
+

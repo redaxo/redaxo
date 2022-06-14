@@ -1,0 +1,90 @@
+cronjob_title=Cronjobs
+
+cronjob_add=Cronjob toevoegen
+cronjob_edit=Bewerk cronjob
+
+cronjob_caption=Lijst van aangemaakte cronjobs
+cronjob_no_cronjobs=Geen cronjobs beschikbaar
+
+cronjob_delete=verwijderen
+cronjob_really_delete=Wilt u echt een cronjob verwijderen?
+cronjob_delete_success=Cronjob "{0}" is met succes verwijderd!
+cronjob_delete_error=Cronjob "{0}" kon niet gewist worden!
+
+cronjob_execute=uitvoeren
+cronjob_execute_success=Cronjob "{0}" werd met succes uitgevoerd!
+cronjob_execute_error=Cronjob "{0}" werd niet met succes uitgevoerd!
+
+cronjob_name=Naam
+cronjob_description=Beschrijving
+cronjob_examples=Voorbeelden
+
+cronjob_type=Type
+cronjob_type_not_found=Cronjob "{0}" kan niet verwerkt worden omdat de klasse "{1}" niet gevonden werd. Controleer of de bijbehorende AddOn/PlugIn geactiveerd is!
+cronjob_type_phpcode=PHP-code
+cronjob_type_phpcallback=PHP terugbeloproep
+cronjob_type_urlrequest=URL-oproep
+cronjob_type_urlrequest_url=URL
+cronjob_type_urlrequest_post=POST-parameter
+cronjob_type_urlrequest_httpauth=HTTP-verificatie
+cronjob_type_urlrequest_user=Gebruiker
+cronjob_type_urlrequest_password=Wachtwoord
+cronjob_type_parameters=Type-specifieke parameters
+cronjob_type_no_parameters=Voor dit type zijn geen verdere parameters nodig!
+
+cronjob_interval=Interval
+cronjob_interval_minutes=Notulen
+cronjob_interval_minutes_all=Om de 5 minuten
+cronjob_interval_hours=Uren
+cronjob_interval_hours_all=Elk uur
+cronjob_interval_days=Dagen
+cronjob_interval_days_all=Elke dag
+cronjob_interval_weekdays=Weekdagen
+cronjob_interval_weekdays_all=Elke dag van de week
+cronjob_interval_months=Maanden
+cronjob_interval_months_all=Elke maand
+
+cronjob_environment=Omgeving
+cronjob_environment_notice=Script: Uitvoering via <code>{0}</code>. Het script moet regelmatig aangeroepen worden door middel van een echte cron job.
+cronjob_environment_frontend=Frontend
+cronjob_environment_backend=Backend
+cronjob_environment_script=Script
+cronjob_environment_console=Script
+cronjob_environment_backend_manual=Backend (handmatig)
+
+cronjob_execution=Versie
+cronjob_execution_beginning=Begin van het script
+cronjob_execution_ending=Einde van het script
+
+cronjob_nexttime=Volgende uitvoering
+
+cronjob_status_function=Status/Functie
+cronjob_status=Status
+cronjob_status_activated=activeert
+cronjob_status_deactivated=gedeactiveerd
+cronjob_status_invalid=onjuist
+cronjob_status_activate_success=Cronjob "{0}" is geactiveerd!
+cronjob_status_activate_error=Cronjob "{0}" kon niet geactiveerd worden!
+cronjob_status_deactivate_success=Cronjob "{0}" is gedeactiveerd!
+cronjob_status_deactivate_error=Cronjob "{0}" kon niet gedeactiveerd worden!
+
+cronjob_error_no_name=De naam mag niet leeg zijn!
+cronjob_error_no_environment=Er moet minstens één omgeving gekozen worden!
+cronjob_error_interval_incomplete=Voor het interval moet in elke categorie een waarde gekozen worden!
+
+cronjob_not_found=Cronjob niet gevonden!
+cronjob_not_editable=Cronjob is niet te bewerken!
+
+cronjob_log=Log
+cronjob_log_date=Datum
+cronjob_log_year=Jaar
+cronjob_log_month=Maand
+cronjob_log_ok=OK
+cronjob_no_log_files=Geen logbestanden beschikbaar.
+cronjob_log_no_data=Geen gegevens beschikbaar.
+cronjob_log_caption_1=Lijst van uitgevoerde cronjobs in {0} {1}
+cronjob_log_caption_2=Lijst van de laatst uitgevoerde cronjobs
+cronjob_log_message=Bericht
+
+cronjob_delete_log_msg=Het logboek van de cronjob verwijderen?
+

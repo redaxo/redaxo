@@ -1,0 +1,86 @@
+media=Media
+categories=Categorii
+articles=Articolul
+
+minfo_title=Extindeți informațiile meta
+minfo_metainfos_not_found=Nu s-au găsit informații meta
+
+minfo_field_list_caption=Lista de câmpuri meta
+
+minfo_field_fieldset=Editare/Creare câmp
+minfo_field_label_prefix=Prefix
+minfo_field_label_title=Denumirea câmpului
+minfo_field_label_name=Numele coloanei
+minfo_field_label_function=Funcția
+minfo_field_label_functions=Funcții
+minfo_field_label_id=Id
+minfo_field_label_type=Tipul de câmp
+minfo_field_label_attributes=Atributele câmpului
+minfo_field_label_callback=Callback
+minfo_field_label_callback_templates=Șabloane de rechemare
+minfo_field_label_default=Valoarea implicită
+minfo_field_label_nullable=Câmp obligatoriu
+minfo_field_label_params=Parametru
+minfo_field_label_priority=Poziția pe teren
+minfo_field_label_restrictions=Disponibil numai în următoarele categorii
+minfo_field_label_no_restrictions=Disponibil în toate categoriile
+minfo_field_label_all_templates=Disponibil pentru toate șabloanele
+minfo_field_label_templates=Disponibil numai pentru următoarele șabloane
+
+minfo_field_notice_title=Prefixul "translate:" traduce valoarea prin I18N
+
+minfo_field_first_priority=La început
+minfo_field_after_priority=După câmpul "{0}"
+
+minfo_field_params_notice_3="Exemple:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_4="Exemple:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_5="Exemple:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_6="Exemplu:<br /> <code>category=\"1\" types=\"gif,jpg\" preview=\"1\"</code>"
+minfo_field_params_notice_7="Exemplu:<br /> <code>category=\"1\" types=\"gif,jpg\" preview=\"1\"</code>"
+minfo_field_params_notice_8="Exemplu:<br /> <code>category=\"1\"</code>"
+minfo_field_params_notice_9="Exemplu:<br /> <code>category=\"1\"</code>"
+minfo_field_params_notice_10="Exemplu:<br /> <code>start-year=\"1990\" end-year=\"2030\"</code>"
+minfo_field_params_notice_11="Exemplu:<br /> <code>start-year=\"1990\" end-year=\"2030\"</code>"
+
+minfo_field_attributes_notice="Atribute HTML la câmpul de intrare și permisiuni, de exemplu:<br /><code>style=\"color:red" ;" multiple="multiple" class="my_css_class" perm="admin[]"</code>
+minfo_field_label_notice=Codul care se execută atunci când se modifică valoarea câmpului.<br /> Variabile lizibile: <code>string $fieldName, string $fieldValue, rex_sql $field</code>
+
+minfo_field_error_name=Vă rugăm să introduceți numele coloanelor!
+minfo_field_error_unique_name=Numele coloanei specificate există deja!
+minfo_field_error_unique_type=Numele tipului specificat există deja!
+minfo_field_error_chars_name=Numele coloanei conține caractere invalide (sunt permise caracterele A-Z, 0-9 și _)!
+minfo_field_error_invalid_prefix=Prefixul specificat nu este valid!
+minfo_field_error_invalid_type=Tipul specificat nu este valid!
+minfo_field_error_invalid_length=Lungimea câmpului specificat nu este validă!
+minfo_field_error_invalid_name=Numele coloanei specificate nu este valid!
+minfo_field_error_invalid_fieldid=ID-ul câmpului specificat nu este valid!
+minfo_field_error_invalid_typeid=Type-Id-ul specificat este invalid!
+minfo_field_error_deleted=Câmpul nu a fost șters!
+minfo_field_successfull_deleted=Câmpul a fost șters cu succes!
+minfo_field_successfull_saved=Datele au fost salvate cu succes!
+
+minfo_default_fields_create=Creați câmpuri standard
+minfo_default_fields_created=Câmpuri standard create cu succes!
+
+minfo_edit_metadata=Editarea metadatelor
+minfo_metadata_saved=Metadatele au fost salvate.
+
+minfo_media_in_use_art=Articol (metadate)
+minfo_media_in_use_cat=Categorii (metadate)
+minfo_media_in_use_med=Media (metadate)
+minfo_media_in_use_clang=Limbi (metadate)
+
+minfo_callback_lang_indep_field=Domeniu independent de limbă
+
+# bc: labels aus dem core=
+online_from=Online de la
+online_to=până la
+description=Descriere
+keywords=Termeni de căutare
+header_article_type=Tipul de articol
+metadata_image=Metafișier/Imagine
+teaser=Teaser
+pool_file_copyright=Drepturi de autor
+
+metadata=Metadate
+

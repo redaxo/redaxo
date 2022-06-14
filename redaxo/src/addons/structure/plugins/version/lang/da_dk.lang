@@ -1,0 +1,16 @@
+version=Version
+
+version_liveversion=Live-version
+version_workingversion=Arbejdsversion
+version_working_to_live=Udgives som live-version
+version_preview=Forhåndsvisning
+version_clear_workingversion=Tomme arbejde version
+version_copy_live_to_workingversion=Kopier til arbejdsversion
+version_copy_from_liveversion=Overtagelse fra live-versionen
+version_confirm_copy_live_to_workingversion=Kopier live-version til arbejdsversion? Alt eksisterende indhold i arbejdsversionen vil blive overskrevet.
+version_info_working_version_to_live=Arbejdsversionen blev taget i brug
+version_info_live_version_to_working=Live-versionen blev kopieret til arbejdsversionen
+version_warning_working_version_to_live=Arbejdsversionen kan ikke sættes i drift, fordi den er tom
+version_info_clear_workingversion=Arbejdsversionen blev tømt med succes
+version_confirm_clear_workingversion=Nulstille arbejdsversion? Alt eksisterende indhold i arbejdsversionen vil blive slettet uigenkaldeligt.
+

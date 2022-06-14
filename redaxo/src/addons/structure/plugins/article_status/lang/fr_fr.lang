@@ -1,0 +1,4 @@
+cronjob_article_status=Statut de l'article
+cronjob_article_reset_date=Vider les champs de date d'article après un changement de statut
+cronjob_article_reset_date_info=Cette option supprime la date "online_from" ou "online_to"<br>dans les métadonnées de l'article après le changement de statut.
+

@@ -1,0 +1,46 @@
+user_management=Benotzer Gestioun
+perm_general_users[]=Benotzer
+roles=roll
+user=Benotzer
+users=Benotzer
+admin=admin
+
+user_deleted=Benotzer gouf geläscht!
+user_added=Benotzer gouf dobäi!
+create_user=Erstellt neie Benotzer
+add_user=Benotzer addéieren
+edit_user=Benotzer änneren
+user_reset_tries=Ausgefall Login Versich zrécksetzen (aktuell: {0})
+user_login_exists=Benotzer Login existéiert schonn!
+user_missing_login=Gitt weg e Benotzernumm!
+user_missing_password=Gitt weg e Passwuert!
+user_admin=admin
+user_admin_note=All Rechter / All sichtbar
+user_notdeleteself=***** Dir kënnt Iech net läschen!
+user_general=General
+user_save=Benotzer späicheren
+user_apply=iwwerhuelen Benotzer
+user_delete=Kloer
+user_functions=Funktiounen
+user_options=Optiounen
+user_extras=extras
+last_login=leschte Login
+user_caption=Lëscht vun geschaf Benotzer
+user_password_change_required=Passwuert muss nom Login ausgetosch ginn
+user_status_active=De Benotzer ass aktiv
+user_status_inactive=De Benotzer ass inaktiv
+startpage=Homepage
+
+user_role=Roll)
+user_role_data_updated=Roll gouf aktualiséiert!
+user_role_deleted=Roll gouf geläscht!
+user_role_added=Roll gouf dobäi!
+edit_user_role=Roll änneren
+create_user_role=Schafen nei Roll
+add_user_role=Roll dobäisetzen
+user_role_save=späicheren Roll
+user_role_apply=d'Roll iwwerhuelen
+user_role_delete=Kloer
+user_role_caption=Lëscht vun geschaf Rollen
+user_no_role=egal
+

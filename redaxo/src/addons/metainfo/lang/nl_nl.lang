@@ -1,0 +1,86 @@
+media=Media
+categories=Categorieën
+articles=Artikel
+
+minfo_title=Meta-informatie uitbreiden
+minfo_metainfos_not_found=Geen meta-informatie gevonden
+
+minfo_field_list_caption=Lijst van metavelden
+
+minfo_field_fieldset=Veld bewerken/creëren
+minfo_field_label_prefix=Voorvoegsel
+minfo_field_label_title=Naam van het veld
+minfo_field_label_name=Naam van de kolom
+minfo_field_label_function=Functie
+minfo_field_label_functions=Functies
+minfo_field_label_id=Id
+minfo_field_label_type=Veldtype
+minfo_field_label_attributes=Veldkenmerken
+minfo_field_label_callback=Terugbellen
+minfo_field_label_callback_templates=Callback-sjablonen
+minfo_field_label_default=Standaardwaarde
+minfo_field_label_nullable=Verplicht veld
+minfo_field_label_params=Parameter
+minfo_field_label_priority=Veldpositie
+minfo_field_label_restrictions=Alleen beschikbaar in de volgende categorieën
+minfo_field_label_no_restrictions=Beschikbaar in alle categorieën
+minfo_field_label_all_templates=Beschikbaar voor alle sjablonen
+minfo_field_label_templates=Alleen beschikbaar voor de volgende sjablonen
+
+minfo_field_notice_title=Voorvoegsel "translate:" vertaalt de waarde via I18N
+
+minfo_field_first_priority=In het begin
+minfo_field_after_priority=Na het veld "{0}"
+
+minfo_field_params_notice_3="Voorbeelden:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_4="Voorbeelden:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_5="Voorbeelden:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_6="Voorbeeld:<br /> <code>category=\"1\" types=\"gif,jpg\" preview=\"1\"</code>"
+minfo_field_params_notice_7="Voorbeeld:<br /> <code>category=\"1\" types=\"gif,jpg\" preview=\"1\"</code>"
+minfo_field_params_notice_8="Voorbeeld:<br /> <code>category=\"1\"</code>"
+minfo_field_params_notice_9="Voorbeeld:<br /> <code>category=\"1\"</code>"
+minfo_field_params_notice_10="Voorbeeld:<br /> <code>start-jaar=\"1990\" eind-jaar=\"2030\"</code>"
+minfo_field_params_notice_11="Voorbeeld:<br /> <code>start-jaar=\"1990\" eind-jaar=\"2030\"</code>"
+
+minfo_field_attributes_notice="HTML-attributen bij het invoerveld en de machtigingen, bijvoorbeeld:<br /><code>style=\"color:red" ;" multiple="multiple" class="my_css_class" perm="admin[]"</code>
+minfo_field_label_notice=Code die moet worden uitgevoerd wanneer de waarde van het veld verandert.<br /> leesbare variabelen: <code>string $fieldName, string $fieldValue, rex_sql $field</code>
+
+minfo_field_error_name=Vul kolomnamen in!
+minfo_field_error_unique_name=De opgegeven kolomnaam bestaat al!
+minfo_field_error_unique_type=De opgegeven typenaam bestaat al!
+minfo_field_error_chars_name=De naam van de kolom bevat ongeldige tekens (Toegestaan zijn A-Z, 0-9 en _)!
+minfo_field_error_invalid_prefix=Het opgegeven voorvoegsel is ongeldig!
+minfo_field_error_invalid_type=Het opgegeven type is ongeldig!
+minfo_field_error_invalid_length=De opgegeven veldlengte is ongeldig!
+minfo_field_error_invalid_name=De opgegeven kolomnaam is ongeldig!
+minfo_field_error_invalid_fieldid=De opgegeven veld-ID is ongeldig!
+minfo_field_error_invalid_typeid=Het opgegeven Type-Id is ongeldig!
+minfo_field_error_deleted=Het veld werd niet gewist!
+minfo_field_successfull_deleted=Veld met succes gewist!
+minfo_field_successfull_saved=Gegevens met succes opgeslagen!
+
+minfo_default_fields_create=Standaardvelden maken
+minfo_default_fields_created=Standaardvelden met succes aangemaakt!
+
+minfo_edit_metadata=Metagegevens bewerken
+minfo_metadata_saved=De metadata zijn opgeslagen.
+
+minfo_media_in_use_art=Artikel (metadata)
+minfo_media_in_use_cat=Categorieën (metadata)
+minfo_media_in_use_med=Media (metadata)
+minfo_media_in_use_clang=Talen (metadata)
+
+minfo_callback_lang_indep_field=Taalonafhankelijk veld
+
+# bc: labels aus dem core=
+online_from=Online van
+online_to=tot
+description=Beschrijving
+keywords=Zoektermen
+header_article_type=Soort artikel
+metadata_image=Metafile/afbeelding
+teaser=Teaser
+pool_file_copyright=Copyright
+
+metadata=Metagegevens
+

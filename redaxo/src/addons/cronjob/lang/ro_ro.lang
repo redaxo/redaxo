@@ -1,0 +1,90 @@
+cronjob_title=Cronjobs
+
+cronjob_add=Adăugați cronjob
+cronjob_edit=Editați cronjob
+
+cronjob_caption=Lista de cronjob-uri create
+cronjob_no_cronjobs=Nu există cronjob-uri disponibile
+
+cronjob_delete=șterge
+cronjob_really_delete=Chiar doriți să ștergeți un cronjob?
+cronjob_delete_success=Cronjob "{0}" a fost șters cu succes!
+cronjob_delete_error=Cronjob "{0}" nu a putut fi șters!
+
+cronjob_execute=executați
+cronjob_execute_success=Cronjob "{0}" a fost executat cu succes!
+cronjob_execute_error=Cronjob "{0}" nu a fost executat cu succes!
+
+cronjob_name=Nume
+cronjob_description=Descriere
+cronjob_examples=Exemple
+
+cronjob_type=Tip
+cronjob_type_not_found=Cronjob "{0}" nu poate fi procesat deoarece clasa "{1}" nu a fost găsită. Verificați dacă AddOn/PlugIn-ul asociat este activat!
+cronjob_type_phpcode=Cod PHP
+cronjob_type_phpcallback=PHP callback
+cronjob_type_urlrequest=Apel URL
+cronjob_type_urlrequest_url=URL
+cronjob_type_urlrequest_post=Parametru POST
+cronjob_type_urlrequest_httpauth=Autentificare HTTP
+cronjob_type_urlrequest_user=Utilizator
+cronjob_type_urlrequest_password=Parola
+cronjob_type_parameters=Parametrii specifici de tip
+cronjob_type_no_parameters=Nu sunt necesari alți parametri pentru acest tip!
+
+cronjob_interval=Interval
+cronjob_interval_minutes=Proces-verbal
+cronjob_interval_minutes_all=La fiecare 5 minute
+cronjob_interval_hours=Ore
+cronjob_interval_hours_all=În fiecare oră
+cronjob_interval_days=Zile
+cronjob_interval_days_all=În fiecare zi
+cronjob_interval_weekdays=Zilele săptămânii
+cronjob_interval_weekdays_all=În orice zi a săptămânii
+cronjob_interval_months=Luni
+cronjob_interval_months_all=În fiecare lună
+
+cronjob_environment=Împrejurimi
+cronjob_environment_notice=Scenariu: Execuție prin <code>{0}</code>. Scriptul ar trebui să fie apelat în mod regulat prin intermediul unui adevărat cron job.
+cronjob_environment_frontend=Frontend
+cronjob_environment_backend=Backend
+cronjob_environment_script=Script
+cronjob_environment_console=Script
+cronjob_environment_backend_manual=Backend (manual)
+
+cronjob_execution=Versiunea
+cronjob_execution_beginning=Începutul scriptului
+cronjob_execution_ending=Sfârșitul scriptului
+
+cronjob_nexttime=Următoarea execuție
+
+cronjob_status_function=Stare/Funcție
+cronjob_status=Stare
+cronjob_status_activated=activează
+cronjob_status_deactivated=dezactivat
+cronjob_status_invalid=incorectă
+cronjob_status_activate_success=Cronjob "{0}" a fost activat!
+cronjob_status_activate_error=Cronjob "{0}" nu a putut fi activat!
+cronjob_status_deactivate_success=Cronjob "{0}" a fost dezactivat!
+cronjob_status_deactivate_error=Cronjob "{0}" nu a putut fi dezactivat!
+
+cronjob_error_no_name=Numele nu trebuie să fie gol!
+cronjob_error_no_environment=Trebuie selectat cel puțin un mediu!
+cronjob_error_interval_incomplete=Pentru interval, trebuie selectată o valoare în fiecare categorie!
+
+cronjob_not_found=Cronjob nu a fost găsit!
+cronjob_not_editable=Cronjob nu este editabil!
+
+cronjob_log=Jurnal
+cronjob_log_date=Data
+cronjob_log_year=Anul
+cronjob_log_month=Luna
+cronjob_log_ok=OK
+cronjob_no_log_files=Nu sunt disponibile fișiere jurnal.
+cronjob_log_no_data=Nu există date disponibile.
+cronjob_log_caption_1=Lista de cronjob-uri executate în {0} {1}
+cronjob_log_caption_2=Lista celor mai recente cronjob-uri executate
+cronjob_log_message=Mesaj
+
+cronjob_delete_log_msg=Ștergeți jurnalul cronjob?
+

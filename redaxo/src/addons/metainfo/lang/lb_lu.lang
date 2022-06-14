@@ -1,0 +1,86 @@
+media=Medien
+categories=Kategorien
+articles=Artikel
+
+minfo_title=Erweidert Meta Informatiounen
+minfo_metainfos_not_found=Keng Meta-Informatioun gouf fonnt
+
+minfo_field_list_caption=Lëscht vun metafields
+
+minfo_field_fieldset=Änneren / Erstellen Feld
+minfo_field_label_prefix=Präfix
+minfo_field_label_title=Feld Label
+minfo_field_label_name=Kolonn Numm
+minfo_field_label_function=Funktioun
+minfo_field_label_functions=Funktiounen
+minfo_field_label_id=id
+minfo_field_label_type=Feld Typ
+minfo_field_label_attributes=Feld Attributer
+minfo_field_label_callback=zeréckruffen
+minfo_field_label_callback_templates=Callback Templates
+minfo_field_label_default=Standardwäert
+minfo_field_label_nullable=Obligatoresch Feld
+minfo_field_label_params=parameter
+minfo_field_label_priority=Feld Positioun
+minfo_field_label_restrictions=Nëmme verfügbar an de folgende Kategorien
+minfo_field_label_no_restrictions=Verfügbar an alle Kategorien
+minfo_field_label_all_templates=Verfügbar fir all Templates
+minfo_field_label_templates=Nëmme verfügbar fir déi folgend Templates
+
+minfo_field_notice_title=Präfix "iwwersetzen:" iwwersetzt de Wäert iwwer I18N
+
+minfo_field_first_priority=Am Ufank
+minfo_field_after_priority=Nom Feld "{0}"
+
+minfo_field_params_notice_3="Beispiller:<br />a) <code>all|Benotzer|Admin</code><br />b) <code>1:all|2:Benotzer|3:admin</code><br />c) <code>SELECT Label,ID FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT Label, ID FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_4="Beispiller:<br />a) <code>all|Benotzer|Admin</code><br />b) <code>1:all|2:Benotzer|3:admin</code><br />c) <code>SELECT Label,ID FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT Label, ID FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_5="Beispiller:<br />a) <code>all|Benotzer|Admin</code><br />b) <code>1:all|2:Benotzer|3:admin</code><br />c) <code>SELECT Label,ID FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT Label, ID FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_6="Beispill:<br /> <code>category=\"1\" types=\"gif,jpg\" preview=\"1\"</code>"
+minfo_field_params_notice_7="Beispill:<br /> <code>category=\"1\" types=\"gif,jpg\" preview=\"1\"</code>"
+minfo_field_params_notice_8="Beispill:<br /> <code>category=\"1\"</code>"
+minfo_field_params_notice_9="Beispill:<br /> <code>category=\"1\"</code>"
+minfo_field_params_notice_10="Beispill:<br /> <code>Start-Joer=\"1990\" Enn-Joer=\"2030\"</code>"
+minfo_field_params_notice_11="Beispill:<br /> <code>Start-Joer=\"1990\" Enn-Joer=\"2030\"</code>"
+
+minfo_field_attributes_notice="HTML Attributer fir den Inputfeld an Permissiounen, zum Beispill:<br /><code>style=\"color:red" ;" multiple="multiple" class="my_css_class" perm="admin[]"</code>
+minfo_field_label_notice=Code fir ze lafen wann de Wäert vum Feld ännert.<br /> liesbar Variabelen: <code>String $fieldName, String $fieldValue, rex_sql $field</code>
+
+minfo_field_error_name=Gitt weg Kolonnen Nimm!
+minfo_field_error_unique_name=De spezifizéierte Kolonnennumm gëtt et schonn!
+minfo_field_error_unique_type=De spezifizéierte Typnumm gëtt et schonn!
+minfo_field_error_chars_name=De Kolonnnumm enthält ongëlteg Zeechen (erlaabt sinn AZ, 0-9 an _)!
+minfo_field_error_invalid_prefix=De spezifizéierte Präfix ass ongëlteg!
+minfo_field_error_invalid_type=De spezifizéierte Typ ass ongëlteg!
+minfo_field_error_invalid_length=Déi spezifizéiert Feldlängt ass ongëlteg!
+minfo_field_error_invalid_name=De spezifizéierte Kolonnennumm ass ongëlteg!
+minfo_field_error_invalid_fieldid=Déi spezifizéiert Feld ID ass ongëlteg!
+minfo_field_error_invalid_typeid=Déi spezifizéiert Typ ID ass ongëlteg!
+minfo_field_error_deleted=Feld gouf net geläscht!
+minfo_field_successfull_deleted=Feld erfollegräich geläscht!
+minfo_field_successfull_saved=Daten erfollegräich gespäichert!
+
+minfo_default_fields_create=Schafen Standard Felder
+minfo_default_fields_created=Standard Felder erfollegräich erstallt!
+
+minfo_edit_metadata=Metadaten änneren
+minfo_metadata_saved=D'Metadate goufe gespäichert.
+
+minfo_media_in_use_art=Artikel (Metadaten)
+minfo_media_in_use_cat=Kategorien (Metadaten)
+minfo_media_in_use_med=Medien (Metadaten)
+minfo_media_in_use_clang=Sproochen (Metadaten)
+
+minfo_callback_lang_indep_field=Sprooch onofhängeg Feld
+
+# bc: labels aus dem core=
+online_from=online vun
+online_to=bis
+description=Beschreiwung
+keywords=Sichbegrëffer
+header_article_type=Artikel Typ
+metadata_image=metafile / Bild
+teaser=teasers
+pool_file_copyright=Copyright
+
+metadata=metadaten
+

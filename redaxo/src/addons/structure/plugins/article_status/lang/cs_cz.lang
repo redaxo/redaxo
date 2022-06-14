@@ -1,0 +1,4 @@
+cronjob_article_status=Stav článku
+cronjob_article_reset_date=Prázdná pole s datem položky po změně stavu
+cronjob_article_reset_date_info=Tato možnost odstraní datum "online_od" nebo "online_do"<br>v metadatech článku po změně stavu.
+

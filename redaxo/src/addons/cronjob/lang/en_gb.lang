@@ -1,89 +1,90 @@
-cronjob_title = Cronjobs
+cronjob_title=Cronjobs
 
-cronjob_add = Add cronjob
-cronjob_edit = Edit cronjob
+cronjob_add=Add cronjob
+cronjob_edit=Edit cronjob
 
-cronjob_caption = List of creaded cronjobs
-cronjob_no_cronjobs = No cronjobs created
+cronjob_caption=List of creaded cronjobs
+cronjob_no_cronjobs=No cronjobs created
 
-cronjob_delete = delete
-cronjob_really_delete = Do you really want to delete this cronjob?
-cronjob_delete_success = Cronjob "{0}" was deleted successfully!
-cronjob_delete_error = Cronjob "{0}" could not be deleted!
+cronjob_delete=delete
+cronjob_really_delete=Do you really want to delete this cronjob?
+cronjob_delete_success=Cronjob "{0}" was deleted successfully!
+cronjob_delete_error=Cronjob "{0}" could not be deleted!
 
-cronjob_execute = execute
-cronjob_execute_success = Cronjob "{0}" was executed successfully!
-cronjob_execute_error = Cronjob "{0}" was not executed successfully!
+cronjob_execute=execute
+cronjob_execute_success=Cronjob "{0}" was executed successfully!
+cronjob_execute_error=Cronjob "{0}" was not executed successfully!
 
-cronjob_name = Name
-cronjob_description = Description
-cronjob_examples = Examples
+cronjob_name=Name
+cronjob_description=Description
+cronjob_examples=Examples
 
-cronjob_type = Type
-cronjob_type_not_found = Cronjob "{0}" can not be modified due to a missing class "{1}". Make sure the associated AddOn or plugin is active!
-cronjob_type_phpcode = PHP-Code
-cronjob_type_phpcallback = PHP-Callback
-cronjob_type_urlrequest = URL-Request
-cronjob_type_urlrequest_url = URL
-cronjob_type_urlrequest_post = POST-Parameter
-cronjob_type_urlrequest_httpauth = HTTP-Authentification
-cronjob_type_urlrequest_user = User
-cronjob_type_urlrequest_password = Password
-cronjob_type_parameters = Type-specific parameter
-cronjob_type_no_parameters = No other parameters are required for this type!
+cronjob_type=Type
+cronjob_type_not_found=Cronjob "{0}" can not be modified due to a missing class "{1}". Make sure the associated AddOn or plugin is active!
+cronjob_type_phpcode=PHP code
+cronjob_type_phpcallback=PHP callback
+cronjob_type_urlrequest=URL-Request
+cronjob_type_urlrequest_url=URL
+cronjob_type_urlrequest_post=POST parameter
+cronjob_type_urlrequest_httpauth=HTTP-Authentification
+cronjob_type_urlrequest_user=User
+cronjob_type_urlrequest_password=Password
+cronjob_type_parameters=Type-specific parameter
+cronjob_type_no_parameters=No other parameters are required for this type!
 
-cronjob_interval = Interval
-cronjob_interval_minutes = Minutes
-cronjob_interval_minutes_all = Every 5 minutes
-cronjob_interval_hours = Hours
-cronjob_interval_hours_all = Every hour
-cronjob_interval_days = Days
-cronjob_interval_days_all = Every day
-cronjob_interval_weekdays = Weekdays
-cronjob_interval_weekdays_all = Any weekday
-cronjob_interval_months = Months
-cronjob_interval_months_all = Every month
+cronjob_interval=Interval
+cronjob_interval_minutes=Minutes
+cronjob_interval_minutes_all=Every 5 minutes
+cronjob_interval_hours=Hours
+cronjob_interval_hours_all=Every hour
+cronjob_interval_days=Days
+cronjob_interval_days_all=Every day
+cronjob_interval_weekdays=Weekdays
+cronjob_interval_weekdays_all=Any weekday
+cronjob_interval_months=Months
+cronjob_interval_months_all=Every month
 
-cronjob_environment = Environment
-cronjob_environment_notice = Script: Execution via <code>{0}</code>. The script should be invoked by a real cronjob.
-cronjob_environment_frontend = Frontend
-cronjob_environment_backend = Backend
-cronjob_environment_script = Script
-cronjob_environment_console = Script
-cronjob_environment_backend_manual = Backend (manually)
+cronjob_environment=Environment
+cronjob_environment_notice=Script: Execution via <code>{0}</code>. The script should be invoked by a real cronjob.
+cronjob_environment_frontend=Frontend
+cronjob_environment_backend=Backend
+cronjob_environment_script=Script
+cronjob_environment_console=Script
+cronjob_environment_backend_manual=Backend (manually)
 
-cronjob_execution = Execution
-cronjob_execution_beginning = Execution beginning
-cronjob_execution_ending = Execution ending
+cronjob_execution=Execution
+cronjob_execution_beginning=Execution beginning
+cronjob_execution_ending=Execution ending
 
-cronjob_nexttime = Next execution
+cronjob_nexttime=Next execution
 
-cronjob_status_function = Status/Function
-cronjob_status = Status
-cronjob_status_activated = activated
-cronjob_status_deactivated = deactivated
-cronjob_status_invalid = invalid
-cronjob_status_activate_success = Cronjob "{0}" was activated!
-cronjob_status_activate_error = Cronjob "{0}" could not be activated!
-cronjob_status_deactivate_success = Cronjob "{0}" was deactivated!
-cronjob_status_deactivate_error = Cronjob "{0}" could not be deactivated!
+cronjob_status_function=Status/Function
+cronjob_status=Status
+cronjob_status_activated=activated
+cronjob_status_deactivated=deactivated
+cronjob_status_invalid=invalid
+cronjob_status_activate_success=Cronjob "{0}" was activated!
+cronjob_status_activate_error=Cronjob "{0}" could not be activated!
+cronjob_status_deactivate_success=Cronjob "{0}" was deactivated!
+cronjob_status_deactivate_error=Cronjob "{0}" could not be deactivated!
 
-cronjob_error_no_name = The name must not be empty!
-cronjob_error_no_environment = At least one environment must be selected!
-cronjob_error_interval_incomplete = For the interval, a value must be selected in each category!
+cronjob_error_no_name=The name must not be empty!
+cronjob_error_no_environment=At least one environment must be selected!
+cronjob_error_interval_incomplete=For the interval, a value must be selected in each category!
 
-cronjob_not_found = Cronjob was not found!
-cronjob_not_editable = Cronjob can not be modified!
+cronjob_not_found=Cronjob was not found!
+cronjob_not_editable=Cronjob can not be modified!
 
-cronjob_log = Log
-cronjob_log_date = Date
-cronjob_log_year = Year
-cronjob_log_month = Month
-cronjob_log_ok = OK
-cronjob_no_log_files = No log files available.
-cronjob_log_no_data = No log data available.
-cronjob_log_caption_1 = List of executed cronjobs in {0} {1}
-cronjob_log_caption_2 = List of latest executed cronjobs
-cronjob_log_message = Log message
+cronjob_log=Log
+cronjob_log_date=Date
+cronjob_log_year=Year
+cronjob_log_month=Month
+cronjob_log_ok=OK
+cronjob_no_log_files=No log files available.
+cronjob_log_no_data=No log data available.
+cronjob_log_caption_1=List of executed cronjobs in {0} {1}
+cronjob_log_caption_2=List of latest executed cronjobs
+cronjob_log_message=Log message
 
-cronjob_delete_log_msg = Delete the cronjob log?
+cronjob_delete_log_msg=Delete the cronjob log?
+

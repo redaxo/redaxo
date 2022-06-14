@@ -1,0 +1,86 @@
+media=Média
+categories=Kategorie
+articles=Článek
+
+minfo_title=Rozšíření metainformací
+minfo_metainfos_not_found=Nebyly nalezeny žádné metainformace
+
+minfo_field_list_caption=Seznam metapolí
+
+minfo_field_fieldset=Upravit/vytvořit pole
+minfo_field_label_prefix=Předpona
+minfo_field_label_title=Název pole
+minfo_field_label_name=Název sloupce
+minfo_field_label_function=Funkce
+minfo_field_label_functions=Funkce
+minfo_field_label_id=Id
+minfo_field_label_type=Typ pole
+minfo_field_label_attributes=Atributy pole
+minfo_field_label_callback=Zpětné volání
+minfo_field_label_callback_templates=Šablony zpětných volání
+minfo_field_label_default=Výchozí hodnota
+minfo_field_label_nullable=Povinné pole
+minfo_field_label_params=Parametr
+minfo_field_label_priority=Pozice v poli
+minfo_field_label_restrictions=K dispozici pouze v následujících kategoriích
+minfo_field_label_no_restrictions=K dispozici ve všech kategoriích
+minfo_field_label_all_templates=K dispozici pro všechny šablony
+minfo_field_label_templates=K dispozici pouze pro následující šablony
+
+minfo_field_notice_title=Předpona "translate:" překládá hodnotu pomocí I18N
+
+minfo_field_first_priority=Na začátku
+minfo_field_after_priority=Za polem "{0}"
+
+minfo_field_params_notice_3="Příklady:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_4="Příklady:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_5="Příklady:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_6="Příklad:<br /> <code>category=\"1\" types=\"gif,jpg\" preview=\"1\"</code>"
+minfo_field_params_notice_7="Příklad:<br /> <code>category=\"1\" types=\"gif,jpg\" preview=\"1\"</code>"
+minfo_field_params_notice_8="Příklad:<br /> <code>category=\"1\"</code>"
+minfo_field_params_notice_9="Příklad:<br /> <code>category=\"1\"</code>"
+minfo_field_params_notice_10="Příklad:<br /> <code>start-year=\"1990\" end-year=\"2030\"</code>"
+minfo_field_params_notice_11="Příklad:<br /> <code>start-year=\"1990\" end-year=\"2030\"</code>"
+
+minfo_field_attributes_notice="Atributy HTML u vstupního pole a oprávnění, například:<br /><code>style=\"color:red\"." ;" multiple="multiple" class="my_css_class" perm="admin[]"</code>
+minfo_field_label_notice=Kód, který se provede při změně hodnoty pole.<br /> Čitelné proměnné: <code>string $fieldName, string $fieldValue, rex_sql $field</code>
+
+minfo_field_error_name=Zadejte prosím názvy sloupců!
+minfo_field_error_unique_name=Zadaný název sloupce již existuje!
+minfo_field_error_unique_type=Zadaný název typu již existuje!
+minfo_field_error_chars_name=Název sloupce obsahuje neplatné znaky (Povolené jsou A-Z, 0-9 a _)!
+minfo_field_error_invalid_prefix=Zadaný prefix je neplatný!
+minfo_field_error_invalid_type=Zadaný typ je neplatný!
+minfo_field_error_invalid_length=Zadaná délka pole je neplatná!
+minfo_field_error_invalid_name=Zadaný název sloupce je neplatný!
+minfo_field_error_invalid_fieldid=Zadané ID pole je neplatné!
+minfo_field_error_invalid_typeid=Zadaný Type-Id je neplatný!
+minfo_field_error_deleted=Pole nebylo smazáno!
+minfo_field_successfull_deleted=Pole úspěšně odstraněno!
+minfo_field_successfull_saved=Data byla úspěšně uložena!
+
+minfo_default_fields_create=Vytvoření standardních polí
+minfo_default_fields_created=Standardní pole úspěšně vytvořena!
+
+minfo_edit_metadata=Úprava metadat
+minfo_metadata_saved=Metadata byla uložena.
+
+minfo_media_in_use_art=Článek (metadata)
+minfo_media_in_use_cat=Kategorie (metadata)
+minfo_media_in_use_med=Média (metadata)
+minfo_media_in_use_clang=Jazyky (metadata)
+
+minfo_callback_lang_indep_field=Jazykově nezávislé pole
+
+# bc: labels aus dem core=
+online_from=Online od
+online_to=do
+description=Popis
+keywords=Vyhledávací podmínky
+header_article_type=Typ článku
+metadata_image=Metafile/Image
+teaser=Teaser
+pool_file_copyright=Autorská práva
+
+metadata=Metadata
+

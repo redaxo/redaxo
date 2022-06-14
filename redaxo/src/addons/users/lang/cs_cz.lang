@@ -1,0 +1,46 @@
+user_management=Správa uživatelů
+perm_general_users[]=Uživatel
+roles=Válečky
+user=Uživatel
+users=Uživatel
+admin=Admin
+
+user_deleted=Uživatel byl smazán!
+user_added=Uživatel byl přidán!
+create_user=Vytvoření nového uživatele
+add_user=Přidat uživatele
+edit_user=Upravit uživatele
+user_reset_tries=Obnovení chyb přihlášení (aktuální: {0})
+user_login_exists=Přihlášení uživatele již existuje!
+user_missing_login=Zadejte prosím uživatelské jméno!
+user_missing_password=Zadejte prosím heslo!
+user_admin=Admin
+user_admin_note=Všechna práva / Vše viditelné
+user_notdeleteself=***** Nemůžete se vymazat!
+user_general=Obecné
+user_save=Uložit uživatele
+user_apply=Převzetí uživatele
+user_delete=smazat
+user_functions=Funkce
+user_options=Možnosti
+user_extras=Doplňky
+last_login=Poslední přihlášení
+user_caption=Seznam vytvořených uživatelů
+user_password_change_required=Po přihlášení je třeba vyměnit heslo
+user_status_active=Uživatel je aktivní
+user_status_inactive=Uživatel je neaktivní
+startpage=Domovská stránka
+
+user_role=Role
+user_role_data_updated=Role byla aktualizována!
+user_role_deleted=Role byla smazána!
+user_role_added=Role byla přidána!
+edit_user_role=Upravit roli
+create_user_role=Vytvoření nové role
+add_user_role=Přidat roli
+user_role_save=Uložení role
+user_role_apply=Převzít roli
+user_role_delete=smazat
+user_role_caption=Seznam vytvořených rolí
+user_no_role=žádná část
+

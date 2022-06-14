@@ -1,0 +1,33 @@
+customizer=Personalizator
+customizer_features=CodeMirror
+
+customizer_codemirror=CodeMirror
+customizer_codemirror_check=Activați CodeMirror
+customizer_codemirror_selectors=Selectori jQuery suplimentari pentru CodeMirror
+customizer_codemirror_selectors_info=Listă de selectori jQuery separați prin virgulă pentru care se aplică CodeMirror.<br>Cele implicite sunt <code>textarea.rex-js-code</code> și <code>textarea.codemirror</code>.
+customizer_codemirror_theme=Tema CodeMirror
+customizer_codemirror_langs=Evidențiazător suplimentar
+customizer_codemirror_langs_text=(markdown, textile, gfm, yaml, sql ...)
+customizer_codemirror_tools=Caracteristici suplimentare
+customizer_codemirror_tools_text=(Plierea codurilor, potrivirea parantezelor, potrivirea etichetelor, închiderea parantezelor, căutare)
+customizer_codemirror_autoresize=AutoResize
+customizer_codemirror_autoresize_text=(CodeMirror își ajustează înălțimea la conținut)
+
+customizer_codemirror_info="De îndată ce CodeMirror este activat, acesta este utilizat automat pentru șabloane, module, acțiuni și cronjob-uri. Dacă doriți să utilizați CodeMirror, vă rugăm să folosiți următorul formular:<br><br><code><textarea class=\"codemirror\" data-codemirror-theme=\"themename\" data-codemirror-mode=\"php/htmlmixed\"></textarea></code><br><br>Parametrii <i>data-codemirror-theme</i> și <i>data-codemirror-mode</i> sunt opționali.<br><br>Tastele F11 și ESC pot fi utilizate pentru a intra în modul ecran complet."
+
+customizer_labeling=Adaosuri
+customizer_labelcolor=Culoare de identificare
+customizer_labelcolor_notice="Orice specificație de culoare CSS validă (<code>#03f0ab</code>, <code>rgba(255, 100, 0, 0.5)</code> etc.)."
+customizer_showlink=Afișați linkul către site-ul web ?
+
+customizer_config_updated=Au fost salvate intrările
+customizer_config_update_failed=Nu au fost salvate intrările
+
+customizer_update=Salvați setările
+customizer_error_unzip=A apărut o eroare la despachetarea activelor din arhiva codemirror!
+
+customizer_projectname=Numele proiectului
+customizer_textarea=textarea largă sub șablon și module
+customizer_liquid=Lichid Layout
+customizer_nav_flyout=Navigare cu flyout
+

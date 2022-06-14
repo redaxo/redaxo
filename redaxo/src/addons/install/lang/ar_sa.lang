@@ -1,0 +1,75 @@
+install_title=المثبتين
+install_subpage_packages=الأساسية والحزم
+install_subpage_update=التحديث متوفر
+install_subpage_add=تنزيل ملفات جديدة
+install_subpage_upload=تحميل الخاص بك
+install_subpage_settings=الإعدادات
+
+install_webservice_unreachable=خدمة الويب غير متوفرة حاليا!
+install_webservice_error=تقوم خدمة الويب بإرجاع رسالة الخطأ التالية:
+install_archive_unreachable=لا يمكن الوصول إلى الملف المضغوط!
+
+install_reload=تحديث القائمة
+install_key=مفتاح
+install_information=معلومة
+install_name=اسم العائلة
+install_author=مؤلف
+install_shortdescription=وصف قصير
+install_description=وصف
+install_website=موقع
+install_files=الملفات
+install_version=إصدار
+install_existing_version=الإصدار الحالي
+install_available_versions=الإصدارات المتوفرة
+install_addon_already_exists=تم تنزيله بالفعل
+install_update=للتحديث
+install_download=تحميل
+install_addons_found=تم العثور على {0} الوظائف الإضافية
+install_available_updates={0} تحديثات متوفرة
+install_my_packages=حزمتي
+install_status=الحالة
+install_online=عبر الانترنت
+install_offline=غير متصل على الانترنت
+install_file_add=اضف ملف
+install_file_edit=ملف التحديث
+install_send=إرسال
+install_upload_file=إنشاء وتحميل ملف مضغوط
+install_replace_assets=خذ الأصول من مجلد الأصول الجذر
+install_ignore_tests=تجاهل مجلد "الاختبارات"
+install_published_on=نشرت في
+install_sort=صنف حسب
+install_sort_default=فرز حسب المفتاح بترتيب تصاعدي
+
+install_info_core_updated=تم تحديث النواة!
+install_warning_core_not_updated=لا يمكن تحديث النواة للسبب التالي:
+install_warning_core_zip_not_extracted=تعذر استخراج الملف المضغوط إلى دليل "src"!
+
+install_info_addon_downloaded=تم تنزيل AddOn <b>{0}</b>!
+install_warning_addon_not_downloaded=تعذر تنزيل AddOn <b>{0}</b> للأسباب التالية:
+install_info_addon_updated=تم تحديث AddOn <b>{0}</b>!
+install_warning_addon_not_updated=AddOn <b>{0}</b> لا يمكن تحديثه للسبب التالي:
+install_info_addon_uploaded=AddOn <b>{0}</b> تم تحميله!
+install_info_addon_deleted=تم حذف نسخة AddOn من <b>{0}</b>!
+install_warning_addon_zip_not_extracted=حدث خطأ أثناء استخراج ملف مضغوط إلى الدليل AddOn. قد تكون أذونات الكتابة مفقودة أو أن اسم المجلد داخل الملف المضغوط لا يتوافق مع مفتاح الوظيفة الإضافية.
+install_warning_message_from_addon=AddOn <b>{0}</b> التقارير:
+install_warning_message_from_plugin=تقارير البرنامج المساعد <b>{0}</b>:
+
+install_warning_directory_not_writable=المجلد <b>{0}</b> غير قابل للكتابة!
+install_warning_zip_wrong_checksum=لا يتطابق المجموع الاختباري للملف المضغوط الذي تم تنزيله مع ما هو متوقع. يرجى المحاولة مرة أخرى في بضع دقائق!
+install_warning_zip_wrong_format=الملف المضغوط ليس بالتنسيق المطلوب.
+
+install_to_addon_page=لإدارة الوظائف الإضافية
+
+install_settings_general=عام
+install_settings_backups=إنشاء نسخ احتياطية
+install_settings_backups_note=قبل أن يتم تحديث الحزم بواسطة المثبت ، يتم تخزين نسخة من الإصدار الحالي في <code>redaxo / data / addons / install /</code> . يمكن استيرادها مرة أخرى في حالة حدوث أخطاء.<br>يرجى ملاحظة أن قاعدة البيانات لا يتم نسخها احتياطيًا!
+install_settings_myredaxo_account=حساب myREDAXO
+install_settings_api_login=اسم االمستخدم
+install_settings_api_key=مفتاح API
+install_settings_saved=تم حفظ الإعدادات!
+install_settings_error=تعذر حفظ الإعدادات ، تحقق من أذونات الكتابة لـ: {0}
+
+install_header_function=وظيفة
+install_latest_release=الإصدار الحالي
+install_download_unstable=حذر! هذه نسخة مطورة. تثبيت على مسؤوليتك الخاصة.
+

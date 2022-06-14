@@ -1,0 +1,16 @@
+version=Версия
+
+version_liveversion=Живая версия
+version_workingversion=Рабочая версия
+version_working_to_live=Релиз в качестве концертной версии
+version_preview=Предварительный просмотр
+version_clear_workingversion=Пустая рабочая версия
+version_copy_live_to_workingversion=Копирование в рабочую версию
+version_copy_from_liveversion=Заменить живую версию
+version_confirm_copy_live_to_workingversion=Скопировать живую версию в рабочую? Все существующее содержимое рабочей версии будет перезаписано.
+version_info_working_version_to_live=Рабочая версия запущена
+version_info_live_version_to_working=Живая версия была скопирована в рабочую версию
+version_warning_working_version_to_live=Рабочая версия не может быть установлена в режиме реального времени, потому что она пуста
+version_info_clear_workingversion=Рабочая версия успешно опустошена
+version_confirm_clear_workingversion=Сбросить рабочую версию? Все существующее содержимое рабочей версии будет безвозвратно удалено.
+

@@ -1,0 +1,90 @@
+cronjob_title=Cronjobs
+
+cronjob_add=Προσθήκη cronjob
+cronjob_edit=Επεξεργασία cronjob
+
+cronjob_caption=Λίστα των δημιουργημένων cronjobs
+cronjob_no_cronjobs=Δεν υπάρχουν διαθέσιμες cronjobs
+
+cronjob_delete=delete
+cronjob_really_delete="Θέλετε πραγματικά να διαγράψετε μια εργασία cronjob;"
+cronjob_delete_success=Η εργασία Cronjob "{0}" διαγράφηκε επιτυχώς!
+cronjob_delete_error=Η εργασία Cronjob "{0}" δεν μπόρεσε να διαγραφεί!
+
+cronjob_execute=εκτελέστε
+cronjob_execute_success=Η εργασία Cronjob "{0}" εκτελέστηκε επιτυχώς!
+cronjob_execute_error=Η εργασία Cronjob "{0}" δεν εκτελέστηκε επιτυχώς!
+
+cronjob_name=Όνομα
+cronjob_description=Περιγραφή
+cronjob_examples=Παραδείγματα
+
+cronjob_type=Τύπος
+cronjob_type_not_found=Η εργασία Cronjob "{0}" δεν μπορεί να επεξεργαστεί επειδή δεν βρέθηκε η κλάση "{1}". Ελέγξτε αν το σχετικό AddOn/PlugIn είναι ενεργοποιημένο!
+cronjob_type_phpcode=Κώδικας PHP
+cronjob_type_phpcallback=Επανάκληση PHP
+cronjob_type_urlrequest=Κλήση URL
+cronjob_type_urlrequest_url=URL
+cronjob_type_urlrequest_post=Παράμετρος POST
+cronjob_type_urlrequest_httpauth=Έλεγχος ταυτότητας HTTP
+cronjob_type_urlrequest_user=Χρήστης
+cronjob_type_urlrequest_password=Κωδικός πρόσβασης
+cronjob_type_parameters=Παράμετροι ειδικού τύπου
+cronjob_type_no_parameters=Δεν απαιτούνται περαιτέρω παράμετροι για αυτόν τον τύπο!
+
+cronjob_interval=Διάστημα
+cronjob_interval_minutes=Πρακτικά
+cronjob_interval_minutes_all=Κάθε 5 λεπτά
+cronjob_interval_hours=Ώρες
+cronjob_interval_hours_all=Κάθε ώρα
+cronjob_interval_days=Ημέρες
+cronjob_interval_days_all=Κάθε μέρα
+cronjob_interval_weekdays=Καθημερινές
+cronjob_interval_weekdays_all=Οποιαδήποτε ημέρα της εβδομάδας
+cronjob_interval_months=Μήνες
+cronjob_interval_months_all=Κάθε μήνα
+
+cronjob_environment=Περιβάλλοντα
+cronjob_environment_notice=Σενάριο: Εκτέλεση μέσω <code>{0}</code>. Το σενάριο θα πρέπει να καλείται τακτικά μέσω μιας πραγματικής εργασίας cron.
+cronjob_environment_frontend=Frontend
+cronjob_environment_backend=Backend
+cronjob_environment_script=Σενάριο
+cronjob_environment_console=Σενάριο
+cronjob_environment_backend_manual=Backend (χειροκίνητα)
+
+cronjob_execution=Έκδοση
+cronjob_execution_beginning=Έναρξη του σεναρίου
+cronjob_execution_ending=Τέλος του σεναρίου
+
+cronjob_nexttime=Επόμενη εκτέλεση
+
+cronjob_status_function=Κατάσταση/λειτουργία
+cronjob_status=Κατάσταση
+cronjob_status_activated=ενεργοποιεί το
+cronjob_status_deactivated=απενεργοποιημένο
+cronjob_status_invalid=λανθασμένο
+cronjob_status_activate_success=Η εργασία Cronjob "{0}" έχει ενεργοποιηθεί!
+cronjob_status_activate_error=Η εργασία Cronjob "{0}" δεν μπόρεσε να ενεργοποιηθεί!
+cronjob_status_deactivate_success=Η εργασία Cronjob "{0}" έχει απενεργοποιηθεί!
+cronjob_status_deactivate_error=Η εργασία Cronjob "{0}" δεν μπόρεσε να απενεργοποιηθεί!
+
+cronjob_error_no_name=Το όνομα δεν πρέπει να είναι κενό!
+cronjob_error_no_environment=Πρέπει να επιλεγεί τουλάχιστον ένα περιβάλλον!
+cronjob_error_interval_incomplete=Για το διάστημα, πρέπει να επιλεγεί μια τιμή σε κάθε κατηγορία!
+
+cronjob_not_found=Δεν βρέθηκε το Cronjob!
+cronjob_not_editable=Το Cronjob δεν είναι επεξεργάσιμο!
+
+cronjob_log=Ημερολόγιο
+cronjob_log_date=Ημερομηνία
+cronjob_log_year=Έτος
+cronjob_log_month=Μήνας
+cronjob_log_ok=OK
+cronjob_no_log_files=Δεν υπάρχουν διαθέσιμα αρχεία καταγραφής.
+cronjob_log_no_data=Δεν υπάρχουν διαθέσιμα δεδομένα.
+cronjob_log_caption_1=Λίστα εκτελεσμένων cronjobs στο {0} {1}
+cronjob_log_caption_2=Λίστα των πιο πρόσφατα εκτελεσμένων cronjobs
+cronjob_log_message=Μήνυμα
+
+cronjob_delete_log_msg="Διαγράψτε το αρχείο καταγραφής cronjob;"
+

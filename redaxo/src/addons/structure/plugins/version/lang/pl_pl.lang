@@ -1,0 +1,16 @@
+version=Wersja
+
+version_liveversion=Wersja na żywo
+version_workingversion=Wersja robocza
+version_working_to_live=Wydanie jako wersja live
+version_preview=Podgląd
+version_clear_workingversion=Pusta wersja robocza
+version_copy_live_to_workingversion=Kopiuj do wersji roboczej
+version_copy_from_liveversion=Przejęcie z wersji na żywo
+version_confirm_copy_live_to_workingversion=Skopiować wersję live do wersji roboczej? Cała istniejąca zawartość wersji roboczej zostanie nadpisana.
+version_info_working_version_to_live=Wersja robocza weszła na rynek
+version_info_live_version_to_working=Wersja Live została skopiowana do wersji roboczej
+version_warning_working_version_to_live=Wersji roboczej nie można umieścić na żywo, ponieważ jest pusta
+version_info_clear_workingversion=Wersja robocza opróżniona pomyślnie
+version_confirm_clear_workingversion=Przywrócić działającą wersję? Cała istniejąca zawartość wersji roboczej zostanie nieodwracalnie usunięta.
+

@@ -1,0 +1,87 @@
+structure=Structura
+
+title_structure=Managementul structurii
+root_level=Nivelul principal
+no_such_category=Categoria nu este disponibilă!
+category_updated=Categoria a fost actualizată.
+category_could_not_be_deleted=Categoria nu a putut fi ștearsă!
+category_still_contains_articles=Categoria conține încă articole.
+category_still_contains_subcategories=Categoria conține în continuare subcategorii.
+category_status_updated=Statutul categoriei a fost actualizat!
+category_added_and_startarticle_created=Categorie adăugată și articol de lansare creat!
+article_doesnt_exist=Articolul nu există!
+article_status_updated=Statutul articolului a fost actualizat.
+article_updated=Articolul a fost actualizat.
+article_added=Articolul a fost adăugat.
+header_category=Denumirea categoriei
+header_priority=Prioritate
+header_status=Stare/Funcție
+header_id=ID
+add_category=Adăugați categoria
+edit_category=Editați categoria
+save_category=Salvați categoria
+status_online=online
+status_offline=offline
+option_no_template=Nu există șablon
+template_default_name=NU TEMPLATE
+header_article_name=Denumirea articolului
+header_template=Șablon
+header_date=Creat pe
+change=schimbare
+article_add=Adăugați un articol
+article_edit=Editați articolul
+article_save=Salvați articolul
+article=Articolul
+start_article=Începeți articolul
+no_article_available=Nici un articol disponibil
+structure_categories_caption=Lista subcategoriilor din categoria "{0}"
+structure_articles_caption=Lista de articole din categoria "{0}"
+structure_root_level_articles_caption=Lista de articole "nivel principal"
+structure_root_level_categories_caption=Lista categoriilor de "nivel principal"
+article_deleted=Articolul a fost șters!
+article_could_not_be_generated=Articolul nu a putut fi creat.
+category_deleted=Categoria a fost ștearsă!
+category_doesnt_exist=Categoria nu există!
+cant_delete_sitestartarticle=Articolul de început al site-ului nu poate fi șters!
+cant_delete_notfoundarticle=Elementul "Not found" nu poate fi șters!
+structure_copy=Copiați
+category_has_child_elements=Categoria conține elemente copil
+category_without_child_elements=Categorie fără elemente copil
+
+all_categories=Toate categoriile
+categories=Categorii
+
+perm_options_addArticle[]=Creați un articol
+perm_options_addCategory[]=Creați o categorie
+perm_options_editArticle[]=Editați articolul
+perm_options_editCategory[]=Editați categoria
+perm_options_deleteArticle[]=Ștergeți articolul
+perm_options_deleteCategory[]=Ștergeți categoria
+perm_options_article2category[]=Conversia articolelor în categorii
+perm_options_article2startarticle[]=Conversia articolului în articol de început
+perm_options_copyArticle[]=Copiați articolul
+perm_options_copyContent[]=Copiați conținutul articolului
+perm_options_moveArticle[]=Mutați articolul
+perm_options_moveCategory[]=Mutarea categoriilor
+perm_options_publishArticle[]=Publicarea articolului
+perm_options_publishCategory[]=Publicarea categoriilor
+
+system_setting_start_article_id=Începeți articolul
+system_setting_notfound_article_id=Articol de eroare
+system_setting_default_template_id=Model standard
+system_setting_start_article_id_invalid=Articol de pornire invalid!
+system_setting_notfound_article_id_invalid=Articol de eroare invalid!
+system_setting_default_template_id_invalid=Șablon standard nevalabil!
+
+linkmap=Hartă de legătură
+linkmap_categories=Categorii
+linkmap_articles=Articolul
+linkmap_has_no_template=nu are șablon
+
+var_link_open=Selectați link-ul
+var_link_delete=Ștergeți legătura selectată
+var_linklist_move_top=Mutați link-ul selectat în partea de sus
+var_linklist_move_up=Mutați link-ul selectat în partea de sus
+var_linklist_move_down=Mutarea legăturii selectate în jos
+var_linklist_move_bottom=Mutați link-ul selectat la sfârșit
+

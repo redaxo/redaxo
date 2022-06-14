@@ -1,0 +1,75 @@
+install_title=монтажники
+install_subpage_packages=Ядро та пакети
+install_subpage_update=Оновити наявні
+install_subpage_add=Завантажте нові
+install_subpage_upload=Завантажте власний
+install_subpage_settings=налаштування
+
+install_webservice_unreachable=Веб-сервіс наразі недоступний!
+install_webservice_error=Веб-служба повертає таке повідомлення про помилку:
+install_archive_unreachable=Неможливо дістатися до zip-файлу!
+
+install_reload=оновити список
+install_key=ключ
+install_information=інформації
+install_name=Прізвище
+install_author=автор
+install_shortdescription=Короткий опис
+install_description=опис
+install_website=сайт
+install_files=файли
+install_version=версія
+install_existing_version=Існуюча версія
+install_available_versions=Доступні версії
+install_addon_already_exists=вже завантажено
+install_update=Оновити
+install_download=завантажити
+install_addons_found=Знайдено {0} доповнень
+install_available_updates=Доступно {0} оновлень
+install_my_packages=мої пакети
+install_status=статус
+install_online=онлайн
+install_offline=офлайн
+install_file_add=Додати файл
+install_file_edit=файл оновлення
+install_send=Надіслати
+install_upload_file=Створіть і завантажте zip-файл
+install_replace_assets=Візьміть активи з кореневої папки активів
+install_ignore_tests=Ігноруйте папку «tests».
+install_published_on=Опубліковано на
+install_sort=сортувати за
+install_sort_default=Сортувати за ключем у порядку зростання
+
+install_info_core_updated=Ядро оновлено!
+install_warning_core_not_updated=Не вдалося оновити ядро з наступної причини:
+install_warning_core_zip_not_extracted=Не вдалося розпакувати zip-файл у каталог "src"!
+
+install_info_addon_downloaded=AddOn <b>{0}</b> завантажено!
+install_warning_addon_not_downloaded=Не вдалося завантажити AddOn <b>{0}</b> , оскільки:
+install_info_addon_updated=AddOn <b>{0}</b> оновлено!
+install_warning_addon_not_updated=Не вдалося оновити AddOn <b>{0}</b> з наступної причини:
+install_info_addon_uploaded=AddOn <b>{0}</b> було завантажено!
+install_info_addon_deleted=Версію AddOn від <b>{0}</b> видалено!
+install_warning_addon_zip_not_extracted=Під час розпакування zip-файлу в каталог AddOn сталася помилка. Можливо, немає дозволів на запис або ім’я папки в zip-файлі не відповідає ключу надбудови.
+install_warning_message_from_addon=AddOn <b>{0}</b> повідомляє:
+install_warning_message_from_plugin=Плагін <b>{0}</b> повідомляє:
+
+install_warning_directory_not_writable=Папка <b>{0}</b> недоступна для запису!
+install_warning_zip_wrong_checksum=Контрольна сума завантаженого zip-файлу не відповідає очікуваній. Будь ласка, спробуйте ще раз через кілька хвилин!
+install_warning_zip_wrong_format=Зіп-файл не в потрібному форматі.
+
+install_to_addon_page=Для керування надбудовами
+
+install_settings_general=Генеральний
+install_settings_backups=створювати резервні копії
+install_settings_backups_note=Перед оновленням пакетів інсталятором копія поточної версії зберігається в <code>redaxo/data/addons/install/</code> . У разі помилок їх можна знову імпортувати.<br>Зверніть увагу, що резервна копія бази даних не створена!
+install_settings_myredaxo_account=обліковий запис myREDAXO
+install_settings_api_login=ім'я користувача
+install_settings_api_key=Ключ API
+install_settings_saved=Налаштування збережено!
+install_settings_error=Не вдалося зберегти налаштування, перевірте дозволи на запис: {0}
+
+install_header_function=функція
+install_latest_release=Поточний випуск
+install_download_unstable=Обережно! Це версія для розробки. Встановлюйте на свій страх і ризик.
+

@@ -1,0 +1,86 @@
+media=Medier
+categories=Kategorier
+articles=Artikel
+
+minfo_title=Udvidelse af metainformationer
+minfo_metainfos_not_found=Ingen metainformationer fundet
+
+minfo_field_list_caption=Liste over metafelter
+
+minfo_field_fieldset=Rediger/oprette felt
+minfo_field_label_prefix=Præfiks
+minfo_field_label_title=Feltnavn
+minfo_field_label_name=Kolonnens navn
+minfo_field_label_function=Funktion
+minfo_field_label_functions=Funktioner
+minfo_field_label_id=Id
+minfo_field_label_type=Felttype
+minfo_field_label_attributes=Feltattributter
+minfo_field_label_callback=Tilbagekaldelse
+minfo_field_label_callback_templates=Callback-skabeloner
+minfo_field_label_default=Standardværdi
+minfo_field_label_nullable=Obligatorisk felt
+minfo_field_label_params=Parameter
+minfo_field_label_priority=Position i marken
+minfo_field_label_restrictions=Kun tilgængelig i følgende kategorier
+minfo_field_label_no_restrictions=Fås i alle kategorier
+minfo_field_label_all_templates=Tilgængelig for alle skabeloner
+minfo_field_label_templates=Kun tilgængelig for følgende skabeloner
+
+minfo_field_notice_title=Præfikset "translate:" oversætter værdien via I18N
+
+minfo_field_first_priority=I begyndelsen
+minfo_field_after_priority=Efter feltet "{0}"
+
+minfo_field_params_notice_3="Eksempler:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_4="Eksempler:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_5="Eksempler:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_6="Eksempel:<br /> <code>category=\"1\" types=\"gif,jpg\" preview=\"1\"</code>"
+minfo_field_params_notice_7="Eksempel:<br /> <code>category=\"1\" types=\"gif,jpg\" preview=\"1\"</code>"
+minfo_field_params_notice_8="Eksempel:<br /> <code>category=\"1\"</code>"
+minfo_field_params_notice_9="Eksempel:<br /> <code>category=\"1\"</code>"
+minfo_field_params_notice_10="Eksempel:<br /> <code>start-år=\"1990\" slut-år=\"2030\"</code>"
+minfo_field_params_notice_11="Eksempel:<br /> <code>start-år=\"1990\" slut-år=\"2030\"</code>"
+
+minfo_field_attributes_notice="HTML-attributter ved indtastningsfeltet og tilladelser, f.eks.:<br /><code>style=\"color:red" ;" multiple="multiple" class="my_css_class" perm="admin[]"</code>
+minfo_field_label_notice=Kode, der udføres, når værdien af feltet ændres.<br /> Variabler, der kan læses: <code>string $fieldName, string $fieldValue, rex_sql $field</code>
+
+minfo_field_error_name=Indtast venligst kolonnenavne!
+minfo_field_error_unique_name=Det angivne kolonnenavn findes allerede!
+minfo_field_error_unique_type=Det angivne typenavn findes allerede!
+minfo_field_error_chars_name=Kolonnens navn indeholder ugyldige tegn (tilladte tegn er A-Z, 0-9 og _)!
+minfo_field_error_invalid_prefix=Det angivne præfiks er ugyldigt!
+minfo_field_error_invalid_type=Den angivne type er ugyldig!
+minfo_field_error_invalid_length=Den angivne feltlængde er ugyldig!
+minfo_field_error_invalid_name=Det angivne kolonnenavn er ugyldigt!
+minfo_field_error_invalid_fieldid=Det angivne felt-ID er ugyldigt!
+minfo_field_error_invalid_typeid=Den angivne Type-Id er ugyldig!
+minfo_field_error_deleted=Feltet blev ikke slettet!
+minfo_field_successfull_deleted=Felt slettet med succes!
+minfo_field_successfull_saved=Data er gemt med succes!
+
+minfo_default_fields_create=Opret standardfelter
+minfo_default_fields_created=Standardfelter oprettet med succes!
+
+minfo_edit_metadata=Rediger metadata
+minfo_metadata_saved=Metadataene er blevet gemt.
+
+minfo_media_in_use_art=Artikel (metadata)
+minfo_media_in_use_cat=Kategorier (metadata)
+minfo_media_in_use_med=Medier (metadata)
+minfo_media_in_use_clang=Sprog (metadata)
+
+minfo_callback_lang_indep_field=Sproguafhængigt område
+
+# bc: labels aus dem core=
+online_from=Online fra
+online_to=indtil
+description=Beskrivelse
+keywords=Søgeord
+header_article_type=Artikel type
+metadata_image=Metafil/Billede
+teaser=Teaser
+pool_file_copyright=Copyright
+
+metadata=Metadata
+

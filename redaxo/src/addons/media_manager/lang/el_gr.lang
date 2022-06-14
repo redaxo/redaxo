@@ -1,0 +1,171 @@
+media_manager=Διαχειριστής μέσων ενημέρωσης
+media_manager_overview_title=Addon Media Manager <small>(Έκδοση {0})</small>
+
+media_manager_subpage_desc=Επεξήγηση
+media_manager_subpage_config=Διαμόρφωση
+media_manager_subpage_types=Επεξεργασία τύπων πολυμέσων
+media_manager_subpage_clear_cache=Εκκαθάριση προσωρινής μνήμης cache
+
+media_manager_cache_files_removed={0} Διαγραφή αρχείων cache
+
+media_manager_config_saved=Η διαμόρφωση έχει ενημερωθεί!
+media_manager_config_not_saved=Η διαμόρφωση δεν μπορούσε να σωθεί!
+media_manager_config_not_writable=Το αρχείο ρυθμίσεων "{0}" δεν είναι εγγράψιμο!
+
+media_manager_max_resizekb=Μέγιστο μέγεθος ενός αρχείου σε kilobytes που μπορεί να μετατραπεί μέσω του media-manager
+media_manager_max_resizepx=Μέγιστο μέγεθος ενός αρχείου σε pixels που μπορεί να μετατραπεί μέσω του media-manager
+media_manager_jpg_quality=Ποιότητα JPG
+media_manager_png_compression=Συμπίεση PNG
+media_manager_png_compression_note=Τιμές πάνω από 6-7 επιβραδύνουν μαζικά τη δημιουργία εικόνων.
+media_manager_webp_quality=Ποιότητα WebP
+media_manager_interlace=Λειτουργία Interlace/Progressive
+
+media_manager_id=ID
+media_manager_name=Όνομα
+media_manager_edittype=Επεξεργασία τύπων πολυμέσων
+media_manager_settings=Ρυθμίσεις
+
+media_manager_yes=Ναι
+media_manager_no=Όχι
+media_manager_back=Πίσω
+
+media_manager_error_name=Παρακαλώ εισάγετε ένα όνομα.
+media_manager_error_settings=Παρακαλούμε εισάγετε το περιεχόμενο στις Ρυθμίσεις.
+media_manager_error_type_name_not_unique=Ένας τύπος πολυμέσων με αυτό το όνομα υπάρχει ήδη!
+media_manager_error_type_name_invalid=Το όνομα δεν πρέπει να περιέχει τους χαρακτήρες "/" και "\"!
+
+media_manager_type_caption=Λίστα των δημιουργημένων τύπων πολυμέσων
+media_manager_type_no_types=Δεν υπάρχουν διαθέσιμοι τύποι μέσων
+media_manager_type_create=Δημιουργία τύπου πολυμέσων
+media_manager_type_edit=επεξεργασία
+media_manager_type_copy=διπλότυπο
+media_manager_type_effekts_edit=Επεξεργασία εφέ
+media_manager_type_delete=delete
+media_manager_type_name=Όνομα
+media_manager_type_name_copy=Αντιγραφή
+media_manager_type_priority=Prio
+media_manager_type_description=Περιγραφή
+media_manager_type_functions=Λειτουργίες
+media_manager_type_cache_delete=Εκκαθάριση προσωρινής μνήμης cache
+media_manager_type_system=Σύστημα Τύπος μέσου
+media_manager_type_deleted=Τύπος πολυμέσων διαγράφεται
+media_manager_type_copied=Τύπος πολυμέσων διπλασιασμένος
+
+media_manager_effect_list_header=Αποτελέσματα του τύπου πολυμέσων {0}
+media_manager_effect_edit_header=Τύπος πολυμέσων <mark>{0}</mark>: Επεξεργασία αποτελέσματος
+media_manager_effect_create_header=Τύπος πολυμέσων <mark>{0}</mark>: Δημιουργία εφέ
+media_manager_effect_caption=Λίστα των δημιουργημένων εφέ του τύπου πολυμέσων <mark>{0}</mark>
+media_manager_effect_no_effects=Δεν υπάρχουν διαθέσιμα αποτελέσματα
+media_manager_effect_create=Δημιουργία εφέ
+media_manager_effect_edit=Επεξεργασία εφέ
+media_manager_effect_delete=Διαγραφή αποτελέσματος
+media_manager_effect_name=Επίδραση
+media_manager_effect_priority=Ακολουθία αποτελεσμάτων
+media_manager_effect_parameters=Παράμετρος
+media_manager_effect_functions=Λειτουργίες
+media_manager_effect_deleted=Διαγραφή αποτελέσματος
+
+media_manager_effect_insert_image=Εικόνα: Τοποθετήστε την εικόνα / υδατογράφημα
+media_manager_effect_brand_image=Εικόνα
+media_manager_effect_brand_hpos=οριζόντια ευθυγράμμιση
+media_manager_effect_brand_vpos=κάθετη ευθυγράμμιση
+media_manager_effect_brand_padding_x=Οριζόντια απόσταση από την άκρη
+media_manager_effect_brand_padding_y=Κατακόρυφη απόσταση από την άκρη
+
+media_manager_effect_blur=Εικόνα: Θολούρα
+media_manager_effect_blur_repeats=Επαναλήψεις
+media_manager_effect_blur_type=Τύπος θολούρας
+media_manager_effect_blur_smoothit=ομαλή (αρνητικές τιμές οξύνουν τις εικόνες)
+
+media_manager_effect_colorize=Εικόνα: Χρωματισμός
+media_manager_effect_colorize_r=Κόκκινη τιμή
+media_manager_effect_colorize_g=Πράσινη αξία
+media_manager_effect_colorize_b=Μπλε τιμή
+
+media_manager_effect_sharpen=Εικόνα: Ακόνισμα
+media_manager_effect_sharpen_amount=Σοβαρότητα
+media_manager_effect_sharpen_radius=Μέγεθος του πίνακα ευκρίνειας
+media_manager_effect_sharpen_threshold=Οριακή τιμή
+
+media_manager_effect_resize=Εικόνα: Κλιμάκωση
+media_manager_effect_resize_width=Πλάτος στόχου
+media_manager_effect_resize_height=Ύψος στόχου
+media_manager_effect_resize_style=Λειτουργία
+media_manager_effect_resize_imgtosmall=Εάν η εικόνα είναι πολύ μικρή
+
+media_manager_effect_crop=Εικόνα: Κλάδεμα
+media_manager_effect_crop_width=Πλάτος στόχου
+media_manager_effect_crop_height=Ύψος στόχου
+media_manager_effect_crop_offset_width=Οριζόντια μετατόπιση/μετατόπιση
+media_manager_effect_crop_offset_height=Κάθετη μετατόπιση
+media_manager_effect_crop_position=Σημείο αναφοράς
+
+media_manager_effect_rounded_corners=Εικόνα: Στρογγυλεμένες γωνίες
+media_manager_effect_rounded_corners_topleft=Επάνω αριστερά
+media_manager_effect_rounded_corners_topright=Επάνω δεξιά
+media_manager_effect_rounded_corners_bottomleft=Κάτω αριστερά
+media_manager_effect_rounded_corners_bottomright=Κάτω δεξιά
+
+media_manager_effect_flip=Εικόνα: Καθρέφτης οριζόντια/κατακόρυφα
+media_manager_effect_flip_direction=Κατεύθυνση
+
+media_manager_effect_rotate=Εικόνα: Turning
+media_manager_effect_rotate_degree=Περιστροφή κατά (μοίρες)
+
+media_manager_effect_mirror=Εικόνα: Προσθέστε αντανάκλαση νερού
+media_manager_effect_mirror_height=Refl. Ύψος (50 / 10%)
+media_manager_effect_mirror_opacity=Αδιαφάνεια της αντανάκλασης (0 - 100)
+media_manager_effect_mirror_opacity_notice=0% εντελώς αόρατη αντανάκλαση, 100% εντελώς ορατή αντανάκλαση
+media_manager_effect_mirror_background_color=Χρώμα φόντου
+media_manager_effect_mirror_background_r=Υπόβαθρο R (0-255)
+media_manager_effect_mirror_background_g=Υπόβαθρο G (0-255)
+media_manager_effect_mirror_background_b=Υπόβαθρο Β (0-255)
+
+media_manager_effect_workspace=Εικόνα: Επιφάνεια εργασίας
+media_manager_effect_workspace_pos=Θέση
+
+media_manager_effect_folder=Εναλλακτικές λύσεις Φάκελος προεπιλογή: "media
+
+media_manager_effect_mediapath=Αρχείο: Προσαρμογή διαδρομής
+media_manager_effect_mediapath_path=Φάκελος πολυμέσων
+media_manager_effect_mediapath_path_notice=Διαδρομή προς την πηγή εικόνας σε σχέση με την εγκατάσταση του REDAXO αντί για <code>media</code>, π.χ. ο κατάλογος <code>images</code>. Η επικεφαλής/πίσω κάθετος (<code>/</code>) δεν απαιτείται.
+
+media_manager_effect_header=Αρχείο: Προσαρμογή κεφαλίδας
+media_manager_effect_header_download=Λήψη
+media_manager_effect_header_cache=Έλεγχος κρυφής μνήμης
+media_manager_effect_header_filename=Πηγή ονόματος αρχείου
+media_manager_effect_header_filename_notice=<code>filename</code> είναι το κανονικοποιημένο όνομα αρχείου στον διακομιστή, π.χ. <code>my-download.pdf</code>, <code>originalname</code> είναι το αρχικό όνομα αρχείου κατά τη στιγμή της μεταφόρτωσης (με κενά, κεφαλαία/μικρά γράμματα κ.λπ.), π.χ. <code>My-download.pdf</code>
+
+
+
+media_manager_effect_convert2img=Αρχείο: Μετατροπή σε εικόνα
+media_manager_effect_convert2img_density=Πυκνότητα ανάλυσης
+media_manager_effect_convert2img_convertto=Μορφή στόχου
+media_manager_effect_convert2img_density_notice=Πυκνότητα ανάλυσης σε ppi (εικονοστοιχεία ανά ίντσα).
+media_manager_effect_convert2img_convertto_notice=Μορφή στόχου στην οποία μετατρέπεται το αρχείο. Λαμβάνονται υπόψη οι ακόλουθες επεκτάσεις αρχείων: <code>.pdf, .ps, .psd, .tif, .tiff, .bmp, .eps, .ico, .svg</code>.
+media_manager_effect_convert2img_noimagemagick=Προσοχή: Το ImageMagick δεν βρέθηκε. Αυτό το αποτέλεσμα απαιτεί είτε την επέκταση PHP "imagick" είτε το ImageMagick ως "δυαδικό πρόγραμμα γραμμής εντολών", εκτελέσιμο μέσω της exec().
+media_manager_effect_convert2img_color=Χρώμα για διαφάνεια
+media_manager_effect_convert2img_color_notice="Μορφή \"#ffffffff\", εάν δεν έχει οριστεί τίποτα, χρησιμοποιείται διαφάνεια. Για το JPG, παρακαλούμε φροντίστε να προσδιορίσετε το χρώμα."
+
+
+media_manager_effect_image_properties=Εικόνα: Ρυθμίσεις (ποιότητα, interlace, ...)
+media_manager_effect_image_properties_jpg_quality_notice=[0-100]. Αφήστε κενό για προεπιλεγμένη τιμή.
+media_manager_effect_image_properties_png_compression_notice=[0-9]. Αφήστε κενό για προεπιλεγμένη τιμή.
+media_manager_effect_image_properties_webp_quality_notice=[0-100]. Αφήστε κενό για προεπιλεγμένη τιμή.
+media_manager_effect_image_properties_interlace_notice=Αφήστε κενό για τυπική επιλογή.
+
+media_manager_effect_brightness=Εικόνα: Φωτεινότητα
+media_manager_effect_brightness_value=Φωτεινότητα
+media_manager_effect_brightness_notice=[-255 έως 255]. Αφήστε κενό για την προεπιλεγμένη τιμή (0).
+
+media_manager_effect_contrast=Εικόνα: Αντίθεση
+media_manager_effect_contrast_value=Αντίθεση
+media_manager_effect_contrast_notice=[-100 έως 100]. Αφήστε κενό για την προεπιλεγμένη τιμή (0).
+
+media_manager_effect_sepia=Εικόνα: Sepia
+
+media_manager_effect_greyscale=Εικόνα: greyscale
+
+media_manager_effect_image_format=Εικόνα: Μετατροπή σε JPEG/PNG/GIF/WEBP
+media_manager_effect_image_format_convertto=Μορφή στόχου
+

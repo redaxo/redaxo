@@ -1,0 +1,88 @@
+backup_information=Informatiounen
+backup_title=Backupsatellit
+backup_file_deleted=De Fichier gouf geläscht
+backup_file_error_while_delete=De Fichier konnt net geläscht ginn
+backup_no_import_file_chosen_or_wrong_version=Keen Importdatei ausgewielt oder falsch Versioun
+backup_no_valid_import_file=Dëst ass net eng korrekt Importdatei
+backup_utf8mb4_not_supported=De Backup benotzt utf8mb4</code>als Charset <code>, deen net vun der Datebank (<b>{0}</b>) ënnerstëtzt gëtt (op d'mannst MySQL 5.7.7 oder MariaDB 10.2 erfuerderlech).
+backup_database_imported=Datebank erfollegräich importéiert
+backup_entry_count=({0} Entréen)
+backup_file_could_not_be_uploaded=De Fichier konnt net eropgeluede ginn.
+backup_you_have_no_write_permission_in=Dir hutt kee Schreifzougang zu dësem Dossier {0}.
+backup_no_import_file_chosen=Keen Importdatei ausgewielt.
+backup_file_imported=De Fichier gouf erfollegräich importéiert.
+backup_import=importéieren
+backup_to_import=importéieren
+backup_export=exportéieren
+backup_to_export=exportéieren
+backup_download=eroflueden
+backup_db_import=importéieren
+backup_db_export=exportéieren
+backup_filename_updated=De gewielten Dateinumm gouf ugepasst well et falsch Zeechen enthält. Wann dat richteg ass, klickt w.e.g. nach eng Kéier op Export.
+backup_please_choose_folder=Wielt w.e.g. d'Verzeichnisser fir exportéiert ze ginn.
+backup_intro_import=Maacht weg datt wann Dir eng Datebank <b>importéiert, gëtt déi al Datebank geläscht</b> . Wann Dir Zweifel hutt, backt déi aktuell Datebank virum Import.
+backup_intro_import_files=Wann Dateien importéiert ginn, ginn existent Dateie mam selwechten Numm iwwerschriwwen, awer zousätzlech Dateien am Dossier ginn behalen.
+backup_version_warning=Backups vun eelere REDAXO Versiounen oder Add-ons sinn net ëmmer voll kompatibel a kënnen zu Probleemer nom Import féieren.
+backup_database=Datebank Import
+backup_filename=Numm vum Dossier
+backup_filename_notice=Variablen: <code>%REX_SERVER</code>, <code>%REX_VERSION</code> an Datumvariablen wéi mat strftime() ; Dateiendung: <code>.cronjob.sql</code> (wird automatisch ergänzt)
+backup_filesize=Dateigréisst
+backup_delete=Kloer
+backup_files=Dateiimport
+backup_intro_export=Hei kënnt Dir Är aktuell Entréen an Dateie vu REDAXO späicheren. Fir e komplette Backup ze kréien, musst Dir <b>d'Datebank AN d'Dateien exportéieren</b>. Wann Dir de Backup weiderbenotzen wëllt, da kann et sënnvoll sinn et direkt um Server ze späicheren an erëm direkt z'importéieren wann néideg.
+backup_database_export=Schafen Datebank Backupsatellit
+backup_file_export=Schafen Datei Backupsatellit
+backup_save_on_server=Späicheren op Server
+backup_download_as_file=Download als Datei
+backup_createdate=Erstellt op
+
+backup_import_file=importéieren Datei
+backup_delete_file=läschen Fichier ;schen
+backup_download_file=download Datei
+backup_check_rights_in_directory=Backup konnt net op den Dossier(en) kommen oder kee gouf ausgewielt ;hlt.
+backup_file_could_not_be_generated=De Fichier konnt net erstallt ginn.
+backup_file_generated_in=Date goufe gebackupt
+
+backup_proceed_db_import=Bestehend Donnéeën (Artikelen, Templates, Moduler,...) gi verluer. Fuert weider?
+backup_proceed_file_import=Bestehend Dateie ginn geläscht. Fuert weider?
+
+backup_export_db_caption=Restauréieren Datebank Backupsatellit
+backup_export_file_caption=Restauréieren Datei Backupsatellit
+
+backup_function=Funktioun
+
+backup_send_mail=Schéckt per Mail
+backup_send_mail_notice=Den Addon "phpmailer" ass fir dës Optioun erfuerderlech.
+backup_mailaddress=Mail Adress
+backup_mail_subject=Nei Datebank Backup
+backup_mail_body=Befestegt ass en neien Datebankbackup vun der Websäit "{0}".
+
+backup_compress=Kompriméieren de Backup
+
+backup_delete_interval=Al Backups läschen
+backup_delete_interval_off=Aus
+backup_delete_interval_weekly=Halt ee Backup pro Woch
+backup_delete_interval_monthly=Halt ee Backup pro Mount
+backup_delete_interval_notice=Nëmmen Backups méi al wéi ee Mount mat Dateinumm op <code>.cronjob.sql</code> ginn geläscht.
+
+backup_exclude_tables=Ausgeschloss vum Backup
+backup_exclude_tables_notice=Wann ausgewielt, ginn dës Dëscher net gebacken. Dëscher mam Präfix <code>rex_tmp_*</code> ginn automatesch ausgeschloss.
+
+perm_general_backup[export]=Export Websäit
+
+backup_export_select=exportéieren Variant
+backup_export_select_tables=wielt Dëscher
+backup_export_select_dir=Wielt Dossier
+backup_export_select_location=wielt Stockage Plaz
+backup_export_select_filename=Wielt Dateinumm
+
+backup_file=Fichier
+backup_note=eng Notiz
+backup_upload=Eroplueden
+backup_load_from_server=Lued vum Server
+
+backup_warning=Warnung
+backup_upload_disabled=Eropluede sinn net erlaabt
+backup_max_uploadsize=Max eropluede Gréisst
+backup_max_uploadtime=Max eropluede Zäit
+

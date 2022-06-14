@@ -1,0 +1,86 @@
+media=Mediji
+categories=Kategorije
+articles=Člen
+
+minfo_title=Razširitev metainformacij
+minfo_metainfos_not_found=Ni bilo najdenih metainformacij
+
+minfo_field_list_caption=Seznam meta polj
+
+minfo_field_fieldset=Uredi/ustvari polje
+minfo_field_label_prefix=Predpona
+minfo_field_label_title=Ime polja
+minfo_field_label_name=Ime stolpca
+minfo_field_label_function=Funkcija
+minfo_field_label_functions=Funkcije
+minfo_field_label_id=Id
+minfo_field_label_type=Vrsta polja
+minfo_field_label_attributes=Atributi polja
+minfo_field_label_callback=Povratni klic
+minfo_field_label_callback_templates=Predloge povratnih klicev
+minfo_field_label_default=Privzeta vrednost
+minfo_field_label_nullable=Obvezno polje
+minfo_field_label_params=Parameter
+minfo_field_label_priority=Položaj v polju
+minfo_field_label_restrictions=Na voljo samo v naslednjih kategorijah
+minfo_field_label_no_restrictions=Na voljo v vseh kategorijah
+minfo_field_label_all_templates=Na voljo za vse predloge
+minfo_field_label_templates=Na voljo samo za naslednje predloge
+
+minfo_field_notice_title=Predpona "prevedi:" prevede vrednost prek I18N
+
+minfo_field_first_priority=Na začetku
+minfo_field_after_priority=Za poljem "{0}"
+
+minfo_field_params_notice_3="Primeri:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_4="Primeri:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_5="Primeri:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_6="Primer:<br /> <code>category=\"1\" types=\"gif,jpg\" preview=\"1\"</code>"
+minfo_field_params_notice_7="Primer:<br /> <code>category=\"1\" types=\"gif,jpg\" preview=\"1\"</code>"
+minfo_field_params_notice_8="Primer:<br /> <code>category=\"1\"</code>"
+minfo_field_params_notice_9="Primer:<br /> <code>category=\"1\"</code>"
+minfo_field_params_notice_10="Primer:<br /> <code>start-year=\"1990\" end-year=\"2030\"</code>"
+minfo_field_params_notice_11="Primer:<br /> <code>start-year=\"1990\" end-year=\"2030\"</code>"
+
+minfo_field_attributes_notice="Atributi HTML v vnosnem polju in dovoljenja, na primer:<br /><code>style=\"color:red" ;" multiple="multiple" class="my_css_class" perm="admin[]"</code>
+minfo_field_label_notice=Koda, ki se izvede ob spremembi vrednosti polja.<br /> Spremenljivke za branje: <code>niz $fieldName, niz $fieldValue, rex_sql $field</code>
+
+minfo_field_error_name=Vnesite imena stolpcev!
+minfo_field_error_unique_name=Navedeno ime stolpca že obstaja!
+minfo_field_error_unique_type=Navedeno ime tipa že obstaja!
+minfo_field_error_chars_name=Ime stolpca vsebuje neveljavne znake (dovoljeni so znaki A-Z, 0-9 in _)!
+minfo_field_error_invalid_prefix=Navedena predpona je neveljavna!
+minfo_field_error_invalid_type=Navedeni tip je neveljaven!
+minfo_field_error_invalid_length=Navedena dolžina polja je neveljavna!
+minfo_field_error_invalid_name=Navedeno ime stolpca je neveljavno!
+minfo_field_error_invalid_fieldid=Navedeni ID polja je neveljaven!
+minfo_field_error_invalid_typeid=Navedeni Type-Id je neveljaven!
+minfo_field_error_deleted=Polje ni bilo izbrisano!
+minfo_field_successfull_deleted=Polje je bilo uspešno izbrisano!
+minfo_field_successfull_saved=Podatki so bili uspešno shranjeni!
+
+minfo_default_fields_create=Ustvarjanje standardnih polj
+minfo_default_fields_created=Standardna polja so uspešno ustvarjena!
+
+minfo_edit_metadata=Urejanje metapodatkov
+minfo_metadata_saved=Metapodatki so bili shranjeni.
+
+minfo_media_in_use_art=Člen (metapodatki)
+minfo_media_in_use_cat=Kategorije (metapodatki)
+minfo_media_in_use_med=Mediji (metapodatki)
+minfo_media_in_use_clang=Jeziki (metapodatki)
+
+minfo_callback_lang_indep_field=Jezikovno neodvisno področje
+
+# bc: labels aus dem core=
+online_from=Na spletu od
+online_to=do .
+description=Opis
+keywords=Iskalni izrazi
+header_article_type=Vrsta članka
+metadata_image=Meta datoteka/slika
+teaser=Teaser
+pool_file_copyright=Avtorske pravice
+
+metadata=Metapodatki
+

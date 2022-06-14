@@ -1,0 +1,88 @@
+backup_information=معلومة
+backup_title=دعم
+backup_file_deleted=تم حذف الملف
+backup_file_error_while_delete=لا يمكن حذف الملف
+backup_no_import_file_chosen_or_wrong_version=لم يتم تحديد ملف استيراد أو إصدار خاطئ
+backup_no_valid_import_file=هذا ليس ملف استيراد صحيح
+backup_utf8mb4_not_supported=تستخدم النسخة الاحتياطية utf8mb4</code>كمجموعة أحرف <code>، والتي لا تدعمها قاعدة البيانات (<b>{0}</b>) (على الأقل مطلوب MySQL 5.7.7 أو MariaDB 10.2).
+backup_database_imported=تم استيراد قاعدة البيانات بنجاح
+backup_entry_count=({0} مدخلات)
+backup_file_could_not_be_uploaded=لا يمكن تحميل الملف.
+backup_you_have_no_write_permission_in=ليس لديك حق الوصول للكتابة إلى هذا المجلد {0}.
+backup_no_import_file_chosen=لم يتم تحديد ملف استيراد.
+backup_file_imported=تم استيراد الملف بنجاح.
+backup_import=يستورد
+backup_to_import=يستورد
+backup_export=يصدّر
+backup_to_export=يصدّر
+backup_download=تحميل
+backup_db_import=يستورد
+backup_db_export=يصدّر
+backup_filename_updated=تم تعديل اسم الملف المحدد لأنه يحتوي على أحرف غير صحيحة. إذا كان هذا صحيحًا ، فيرجى النقر فوق تصدير مرة أخرى.
+backup_please_choose_folder=الرجاء تحديد الدلائل المراد تصديرها.
+backup_intro_import=يرجى ملاحظة أنه عند استيراد قاعدة بيانات <b>، سيتم حذف قاعدة البيانات القديمة</b> . إذا كنت في شك ، قم بعمل نسخة احتياطية من قاعدة البيانات الحالية قبل الاستيراد.
+backup_intro_import_files=عند استيراد الملفات ، يتم الكتابة فوق الملفات الموجودة التي تحمل الاسم نفسه ، ولكن يتم الاحتفاظ بالملفات الإضافية داخل المجلد.
+backup_version_warning=لا تكون النسخ الاحتياطية من إصدارات REDAXO القديمة أو الوظائف الإضافية متوافقة تمامًا دائمًا ويمكن أن تؤدي إلى مشاكل بعد الاستيراد.
+backup_database=استيراد قاعدة البيانات
+backup_filename=اسم الملف
+backup_filename_notice=المتغيرات: <code>٪ REX_SERVER</code>، <code>٪ REX_VERSION</code> ومتغيرات التاريخ كما هو الحال مع strftime () ; Dateiendung: <code>.cronjob.sql</code> (wird automatisch ergänzt)
+backup_filesize=حجم الملف
+backup_delete=حذف
+backup_files=استيراد ملف
+backup_intro_export=هنا يمكنك حفظ إدخالاتك وملفاتك الحالية من REDAXO. للحصول على نسخة احتياطية كاملة ، يجب عليك <b>تصدير قاعدة البيانات والملفات</b>. إذا كنت ترغب في إعادة استخدام النسخة الاحتياطية ، فمن المنطقي تخزينها مباشرة على الخادم واستيرادها مرة أخرى مباشرة إذا لزم الأمر.
+backup_database_export=إنشاء نسخة احتياطية لقاعدة البيانات
+backup_file_export=إنشاء ملف النسخ الاحتياطي
+backup_save_on_server=حفظ في الخادم
+backup_download_as_file=تنزيل كملف
+backup_createdate=تم إنشاؤها على
+
+backup_import_file=استيراد ملف
+backup_delete_file=حذف ملف ;schen
+backup_download_file=تحميل الملف
+backup_check_rights_in_directory=تعذر على النسخ الاحتياطي الوصول إلى المجلد (المجلدات) أو لم يتم تحديد أي منها ;hlt.
+backup_file_could_not_be_generated=تعذر إنشاء الملف.
+backup_file_generated_in=تم نسخ البيانات احتياطيًا بتنسيق
+
+backup_proceed_db_import=ستفقد البيانات الموجودة (مقالات ، قوالب ، وحدات ، ...). يكمل ؟
+backup_proceed_file_import=سيتم حذف الملفات الموجودة. يكمل ؟
+
+backup_export_db_caption=استعادة النسخة الاحتياطية لقاعدة البيانات
+backup_export_file_caption=استعادة ملف النسخ الاحتياطي
+
+backup_function=وظيفة
+
+backup_send_mail=ترسل عن طريق البريد الإلكتروني
+backup_send_mail_notice=الملحق "phpmailer" مطلوب لهذا الخيار.
+backup_mailaddress=عنوان البريد
+backup_mail_subject=نسخة احتياطية جديدة لقاعدة البيانات
+backup_mail_body=مرفق نسخة احتياطية جديدة لقاعدة البيانات لموقع الويب "{0}".
+
+backup_compress=ضغط النسخ الاحتياطي
+
+backup_delete_interval=حذف النسخ الاحتياطية القديمة
+backup_delete_interval_off=بعيدا عن المكان
+backup_delete_interval_weekly=احتفظ بنسخة احتياطية واحدة في الأسبوع
+backup_delete_interval_monthly=احتفظ بنسخة احتياطية واحدة كل شهر
+backup_delete_interval_notice=لن يتم حذف سوى النسخ الاحتياطية الأقدم من شهر واحد بأسماء ملفات تنتهي بـ <code>.cronjob.sql</code>.
+
+backup_exclude_tables=استبعاد من النسخ الاحتياطي
+backup_exclude_tables_notice=إذا تم تحديده ، فلن يتم نسخ هذه الجداول احتياطيًا. يتم استبعاد الجداول ذات البادئة <code>rex_tmp_ *</code> تلقائيًا.
+
+perm_general_backup[export]=تصدير صفحة الويب
+
+backup_export_select=متغير التصدير
+backup_export_select_tables=حدد الجداول
+backup_export_select_dir=اختر مجلد
+backup_export_select_location=اختر مكان التخزين
+backup_export_select_filename=اختر اسم الملف
+
+backup_file=ملف
+backup_note=إشعار
+backup_upload=تحميل
+backup_load_from_server=تحميل من الخادم
+
+backup_warning=تحذير
+backup_upload_disabled=التحميلات غير مسموح بها
+backup_max_uploadsize=أقصى حجم للتحميل
+backup_max_uploadtime=أقصى وقت تحميل
+

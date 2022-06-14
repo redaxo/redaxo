@@ -1,0 +1,33 @@
+customizer=Přizpůsobení
+customizer_features=CodeMirror
+
+customizer_codemirror=CodeMirror
+customizer_codemirror_check=Aktivace nástroje CodeMirror
+customizer_codemirror_selectors=Další selektory jQuery pro CodeMirror
+customizer_codemirror_selectors_info=Čárkou oddělený seznam selektorů jQuery, pro které se CodeMirror použije.<br>Výchozí jsou <code>textarea.rex-js-code</code> a <code>textarea.codemirror</code>.
+customizer_codemirror_theme=Téma CodeMirror
+customizer_codemirror_langs=Další zvýrazňovač
+customizer_codemirror_langs_text=(markdown, textile, gfm, yaml, sql...)
+customizer_codemirror_tools=Další funkce
+customizer_codemirror_tools_text=(Skládání kódů, porovnávání závorek, porovnávání značek, uzavírání závorek, vyhledávání)
+customizer_codemirror_autoresize=AutoResize
+customizer_codemirror_autoresize_text=(CodeMirror přizpůsobí svou výšku obsahu)
+
+customizer_codemirror_info="Jakmile je CodeMirror aktivován, je automaticky používán pro šablony, moduly, akce a cronjoby. Pokud chcete CodeMirror používat sami, použijte následující formulář:<br><br><code><textarea class=\"codemirror\" data-codemirror-theme=\"themename\" data-codemirror-mode=\"php/htmlmixed\"></textarea></code><br><br>Parametry <i>data-codemirror-theme</i> a <i>data-codemirror-mode</i> jsou volitelné.<br><br>Klávesy F11 a ESC lze použít pro přechod do celoobrazovkového režimu."
+
+customizer_labeling=Doplňky
+customizer_labelcolor=Identifikační barva
+customizer_labelcolor_notice="Jakákoli platná specifikace barvy CSS (<code>#03f0ab</code>, <code>rgba(255, 100, 0, 0.5)</code> atd.)."
+customizer_showlink=Zobrazit odkaz na webové stránky ?
+
+customizer_config_updated=Vstupy byly uloženy
+customizer_config_update_failed=Záznamy nebyly uloženy
+
+customizer_update=Uložit nastavení
+customizer_error_unzip=Při rozbalování prostředků z archivu codemirror došlo k chybě!
+
+customizer_projectname=Název projektu
+customizer_textarea=široká textová oblast pod šablonou a moduly
+customizer_liquid=Rozložení kapaliny
+customizer_nav_flyout=Navigace s výsuvným oknem
+

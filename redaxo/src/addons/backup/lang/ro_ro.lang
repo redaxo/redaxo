@@ -1,0 +1,88 @@
+backup_information=Informații
+backup_title=Backup
+backup_file_deleted=Fișierul a fost șters
+backup_file_error_while_delete=Fișierul nu a putut fi șters
+backup_no_import_file_chosen_or_wrong_version=Nu a fost selectat niciun fișier de import sau versiunea este incorectă
+backup_no_valid_import_file=Acesta nu este un fișier de import corect
+backup_utf8mb4_not_supported=Copia de rezervă utilizează <code>utf8mb4</code>ca set de caractere, care nu este acceptat de baza de date (<b>{0}</b>) (este necesar cel puțin MySQL 5.7.7 sau MariaDB 10.2).
+backup_database_imported=Baza de date a fost importată cu succes
+backup_entry_count=({0} intrări)
+backup_file_could_not_be_uploaded=Fișierul nu a putut fi încărcat.
+backup_you_have_no_write_permission_in=Nu aveți acces de scriere la acest dosar {0}.
+backup_no_import_file_chosen=Nu este selectat niciun fișier de import.
+backup_file_imported=Fișierul a fost importat cu succes.
+backup_import=Import
+backup_to_import=import
+backup_export=Export
+backup_to_export=export
+backup_download=descărcați
+backup_db_import=Import
+backup_db_export=Export
+backup_filename_updated=Numele fișierului selectat a fost ajustat deoarece conținea caractere incorecte. Dacă este corect, faceți din nou clic pe Export.
+backup_please_choose_folder=Vă rugăm să selectați directoarele care urmează să fie exportate.
+backup_intro_import=Vă rugăm să rețineți că atunci când importați o bază de date <b>vechea bază de date este ștearsă</b> . Dacă aveți îndoieli, faceți o copie de rezervă a bazei de date actuale înainte de a importa.
+backup_intro_import_files=La importarea fișierelor, fișierele existente cu același nume sunt suprascrise, dar, în plus, sunt păstrate și fișierele existente în dosare.
+backup_version_warning=Copiile de rezervă ale versiunilor REDAXO mai vechi sau ale suplimentelor nu sunt întotdeauna pe deplin compatibile și pot duce la probleme după import.
+backup_database=Importul bazei de date
+backup_filename=Numele fișierului
+backup_filename_notice=Variabile: <code>%REX_SERVER</code>, <code>%REX_VERSION</code> și variabile de dată ca în strftime(). ; Dateiendung: <code>.cronjob.sql</code> (wird automatisch ergänzt)
+backup_filesize=Dimensiunea fișierului
+backup_delete=șterge
+backup_files=Importul de fișiere
+backup_intro_export=Aici puteți salva intrările și fișierele curente din REDAXO. Pentru a obține o copie de rezervă completă trebuie să <b>exportați baza de date ȘI fișierele</b>. Dacă doriți să refolosiți copia de rezervă, poate fi util să o stocați direct pe server și să o importați din nou, dacă este necesar.
+backup_database_export=Creați o copie de rezervă a bazei de date
+backup_file_export=Creați o copie de rezervă a fișierelor
+backup_save_on_server=Salvați pe server
+backup_download_as_file=Descărcați ca fișier
+backup_createdate=Creat pe
+
+backup_import_file=Fișier de import
+backup_delete_file=Fișier l ;schen
+backup_download_file=Descărcați fișierul
+backup_check_rights_in_directory=Backup nu a putut accesa folderul (folderele) sau nu a fost selectat niciunul ;hlt.
+backup_file_could_not_be_generated=Fișierul nu a putut fi creat.
+backup_file_generated_in=Datele au fost salvate în
+
+backup_proceed_db_import=Datele existente (articole, șabloane, module,...) vor fi pierdute. Continuați ?
+backup_proceed_file_import=Fișierele existente sunt șterse. Continuați ?
+
+backup_export_db_caption=Restaurați copia de rezervă a bazei de date
+backup_export_file_caption=Restaurați fișierul de rezervă
+
+backup_function=Funcția
+
+backup_send_mail=Trimiteți prin poștă
+backup_send_mail_notice=Addon-ul "phpmailer" este necesar pentru această opțiune.
+backup_mailaddress=Adresa poștală
+backup_mail_subject=Noua copie de rezervă a bazei de date
+backup_mail_body=Atașat este o nouă copie de rezervă a bazei de date a site-ului "{0}".
+
+backup_compress=Comprimați copia de rezervă
+
+backup_delete_interval=Ștergeți copiile de rezervă vechi
+backup_delete_interval_off=De la
+backup_delete_interval_weekly=Păstrați o copie de rezervă pe săptămână
+backup_delete_interval_monthly=Păstrați o copie de rezervă pe lună
+backup_delete_interval_notice=Se șterg numai copiile de rezervă mai vechi de o lună cu nume de fișiere care se termină în <code>.cronjob.sql</code> .
+
+backup_exclude_tables=Excludeți din copia de rezervă
+backup_exclude_tables_notice=Dacă este selectat, aceste tabele nu sunt salvate. Tabelele cu prefixul <code>rex_tmp_*</code> sunt excluse automat.
+
+perm_general_backup[export]=Site de export
+
+backup_export_select=Varianta de export
+backup_export_select_tables=Selectați tabelele
+backup_export_select_dir=Selectați folderul
+backup_export_select_location=Selectați locația de stocare
+backup_export_select_filename=Selectați numele fișierului
+
+backup_file=Fișier
+backup_note=Notă
+backup_upload=Încărcați
+backup_load_from_server=Încărcare de pe server
+
+backup_warning=Avertisment
+backup_upload_disabled=Nu sunt permise încărcările
+backup_max_uploadsize=Max. Încărcați dimensiunea
+backup_max_uploadtime=Max. Timp de încărcare
+

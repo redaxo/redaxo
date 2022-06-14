@@ -1,0 +1,16 @@
+version=Version
+
+version_liveversion=Version live
+version_workingversion=Version de travail
+version_working_to_live=partager en tant que version live
+version_preview=Aperçu
+version_clear_workingversion=Vider la version de travail
+version_copy_live_to_workingversion=copier dans la version de travail
+version_copy_from_liveversion=Reprendre de la version live
+version_confirm_copy_live_to_workingversion=Copier la version live dans la version de travail ? Tout le contenu existant de la version de travail sera écrasé.
+version_info_working_version_to_live=La version de travail a été mise en ligne
+version_info_live_version_to_working=La version live a été copiée dans la version de travail
+version_warning_working_version_to_live=La version de travail ne peut pas être mise en ligne car elle est vide
+version_info_clear_workingversion=Version de travail vidée avec succès
+version_confirm_clear_workingversion=Réinitialiser la version de travail ? Tout le contenu existant de la version de travail sera irrémédiablement supprimé.
+

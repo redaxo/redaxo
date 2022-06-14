@@ -1,0 +1,4 @@
+debug=Vianmääritys
+debug_activate_debugmode=Aktivoi debug-tila, jotta voit käyttää debug-lisäosaa.
+debug_error_unzip=Clockwork Frontend -arkistosta purettaessa aineistoa tapahtui virhe!
+

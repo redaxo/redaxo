@@ -1,0 +1,75 @@
+install_title=Installateur
+install_subpage_packages=Kern
+install_subpage_update=Bijwerken van bestaande
+install_subpage_add=Download nieuw
+install_subpage_upload=Eigen uploaden
+install_subpage_settings=Instellingen
+
+install_webservice_unreachable=De webdienst is momenteel niet beschikbaar!
+install_webservice_error=De webdienst geeft de volgende foutmelding:
+install_archive_unreachable=Het zip-bestand is niet toegankelijk!
+
+install_reload=Lijst bijwerken
+install_key=Key
+install_information=Informatie
+install_name=Naam
+install_author=Auteur
+install_shortdescription=Korte beschrijving
+install_description=Beschrijving
+install_website=Website
+install_files=Bestanden
+install_version=Versie
+install_existing_version=Bestaande versie
+install_available_versions=Beschikbare versies
+install_addon_already_exists=reeds gedownload
+install_update=update
+install_download=download
+install_addons_found={0} toevoegingen gevonden
+install_available_updates={0} updates beschikbaar
+install_my_packages=Mijn pakketten
+install_status=Status
+install_online=online
+install_offline=offline
+install_file_add=Bestand toevoegen
+install_file_edit=Bestand bijwerken
+install_send=Stuur
+install_upload_file=ZIP-bestand maken en uploaden
+install_replace_assets=Assets uit de Hoofdmap Assets halen
+install_ignore_tests=Negeer de map "tests
+install_published_on=Gepubliceerd op
+install_sort=Sorteren
+install_sort_default=Sorteren op sleutel in oplopende volgorde
+
+install_info_core_updated=De Kern is bijgewerkt!
+install_warning_core_not_updated=De kern kon niet worden bijgewerkt om de volgende reden:
+install_warning_core_zip_not_extracted=Het zip-bestand kon niet uitgepakt worden in de map "src"!
+
+install_info_addon_downloaded=AddOn <b>{0}</b> is gedownload!
+install_warning_addon_not_downloaded=AddOn <b>{0}</b> kon niet gedownload worden om de volgende reden:
+install_info_addon_updated=AddOn <b>{0}</b> is bijgewerkt!
+install_warning_addon_not_updated=AddOn <b>{0}</b> kon niet bijgewerkt worden om de volgende reden:
+install_info_addon_uploaded=AddOn <b>{0}</b> is geüpload!
+install_info_addon_deleted=AddOn versie van <b>{0}</b> is verwijderd!
+install_warning_addon_zip_not_extracted=Er is een fout opgetreden bij het uitpakken van het zip-bestand in de AddOn map. Mogelijk ontbreken er schrijfrechten of komt de mapnaam in het zip-bestand niet overeen met de AddOn-sleutel.
+install_warning_message_from_addon=AddOn <b>{0}</b> rapporten:
+install_warning_message_from_plugin=PlugIn <b>{0}</b> rapporten:
+
+install_warning_directory_not_writable=De map <b>{0}</b> is niet beschrijfbaar!
+install_warning_zip_wrong_checksum=De controlesom van het gedownloade zip-bestand komt niet overeen met de verwachte. Probeert u het over een paar minuten nog eens!
+install_warning_zip_wrong_format=Het zip-bestand is niet in het vereiste formaat.
+
+install_to_addon_page=Naar de add-on administratie
+
+install_settings_general=Algemeen
+install_settings_backups=Back-ups maken
+install_settings_backups_note=Voordat pakketten door het installatieprogramma worden bijgewerkt, wordt een kopie van de huidige versie opgeslagen in <code>redaxo/data/addons/install/</code> . Deze kunnen opnieuw geïnstalleerd worden in geval van fouten.<br>Let op: er wordt geen back-up van de database gemaakt!
+install_settings_myredaxo_account=mijnREDAXO-account
+install_settings_api_login=Naam gebruiker
+install_settings_api_key=API-sleutel
+install_settings_saved=De instellingen zijn opgeslagen!
+install_settings_error=Instellingen konden niet worden opgeslagen, controleer schrijfrechten voor: {0}
+
+install_header_function=Functie
+install_latest_release=Huidige versie
+install_download_unstable=Voorzichtig! Dit is een ontwikkelingsversie. Installeer op uw eigen risico.
+

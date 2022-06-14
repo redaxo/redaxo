@@ -1,0 +1,16 @@
+version=Versio
+
+version_liveversion=Live-versio
+version_workingversion=Toimiva versio
+version_working_to_live=Julkaisu liveversiona
+version_preview=Esikatselu
+version_clear_workingversion=Tyhjä työversio
+version_copy_live_to_workingversion=Kopioi työversioon
+version_copy_from_liveversion=Ota haltuun liveversio
+version_confirm_copy_live_to_workingversion=Kopioi live-versio työversioon? Kaikki työversion olemassa oleva sisältö korvataan.
+version_info_working_version_to_live=Työversio tuli käyttöön
+version_info_live_version_to_working=Live-versio kopioitiin työversioon
+version_warning_working_version_to_live=Työversiota ei voi laittaa käyttöön, koska se on tyhjä.
+version_info_clear_workingversion=Työversio tyhjennetty onnistuneesti
+version_confirm_clear_workingversion=Nollaa toimiva versio? Kaikki työversion olemassa oleva sisältö poistetaan peruuttamattomasti.
+

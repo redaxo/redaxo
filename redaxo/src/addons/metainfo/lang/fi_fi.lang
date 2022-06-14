@@ -1,0 +1,86 @@
+media=Media
+categories=Kategoriat
+articles=Artikkeli
+
+minfo_title=Laajenna metatietoja
+minfo_metainfos_not_found=Metatietoja ei löytynyt
+
+minfo_field_list_caption=Luettelo metakentistä
+
+minfo_field_fieldset=Muokkaa/luo kenttä
+minfo_field_label_prefix=Etuliite
+minfo_field_label_title=Kentän nimi
+minfo_field_label_name=Sarakkeen nimi
+minfo_field_label_function=Toiminto
+minfo_field_label_functions=Toiminnot
+minfo_field_label_id=Id
+minfo_field_label_type=Kentän tyyppi
+minfo_field_label_attributes=Kentän ominaisuudet
+minfo_field_label_callback=Takaisinsoitto
+minfo_field_label_callback_templates=Takaisinkutsumallit
+minfo_field_label_default=Oletusarvo
+minfo_field_label_nullable=Pakollinen kenttä
+minfo_field_label_params=Parametri
+minfo_field_label_priority=Kentän sijainti
+minfo_field_label_restrictions=Saatavilla vain seuraavissa luokissa
+minfo_field_label_no_restrictions=Saatavana kaikissa luokissa
+minfo_field_label_all_templates=Käytettävissä kaikissa malleissa
+minfo_field_label_templates=Käytettävissä vain seuraavissa malleissa
+
+minfo_field_notice_title=Etuliite "translate:" kääntää arvon I18N:n kautta.
+
+minfo_field_first_priority=Alussa
+minfo_field_after_priority=Kentän "{0}" jälkeen.
+
+minfo_field_params_notice_3="Esimerkkejä:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_4="Esimerkkejä:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_5="Esimerkkejä:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_6="Esimerkki:<br /> <code>category=\"1\" types=\"gif,jpg\" preview=\"1\"</code>"
+minfo_field_params_notice_7="Esimerkki:<br /> <code>category=\"1\" types=\"gif,jpg\" preview=\"1\"</code>"
+minfo_field_params_notice_8="Esimerkki:<br /> <code>category=\"1\"</code>"
+minfo_field_params_notice_9="Esimerkki:<br /> <code>category=\"1\"</code>"
+minfo_field_params_notice_10="Esimerkki:<br /> <code>alkuvuosi=\"1990\" loppuvuosi=\"2030\"</code>"
+minfo_field_params_notice_11="Esimerkki:<br /> <code>alkuvuosi=\"1990\" loppuvuosi=\"2030\"</code>"
+
+minfo_field_attributes_notice="HTML-attribuutit syöttökentässä ja käyttöoikeudet, esimerkiksi:<br /><code>style=\"color:red\"." ;" multiple="multiple" class="my_css_class" perm="admin[]"</code>
+minfo_field_label_notice=Koodi, joka suoritetaan, kun kentän arvoa muutetaan.<br /> Luettavat muuttujat: <code>string $fieldName, string $fieldValue, rex_sql $field</code>
+
+minfo_field_error_name=Anna sarakkeiden nimet!
+minfo_field_error_unique_name=Määritetty sarakkeen nimi on jo olemassa!
+minfo_field_error_unique_type=Määritetyn tyypin nimi on jo olemassa!
+minfo_field_error_chars_name=Sarakkeen nimi sisältää virheellisiä merkkejä (sallittuja ovat A-Z, 0-9 ja _)!
+minfo_field_error_invalid_prefix=Määritetty etuliite on virheellinen!
+minfo_field_error_invalid_type=Määritetty tyyppi on virheellinen!
+minfo_field_error_invalid_length=Kentän pituus on virheellinen!
+minfo_field_error_invalid_name=Määritetty sarakkeen nimi on virheellinen!
+minfo_field_error_invalid_fieldid=Määritetty kentän tunnus on virheellinen!
+minfo_field_error_invalid_typeid=Määritetty Type-Id on virheellinen!
+minfo_field_error_deleted=Kenttää ei poistettu!
+minfo_field_successfull_deleted=Kenttä onnistuneesti poistettu!
+minfo_field_successfull_saved=Tiedot tallennettu onnistuneesti!
+
+minfo_default_fields_create=Luo vakiokenttiä
+minfo_default_fields_created=Vakiokentät luotu onnistuneesti!
+
+minfo_edit_metadata=Muokkaa metatietoja
+minfo_metadata_saved=Metatiedot on tallennettu.
+
+minfo_media_in_use_art=Artikkeli (metatiedot)
+minfo_media_in_use_cat=Luokat (metatiedot)
+minfo_media_in_use_med=Media (metatiedot)
+minfo_media_in_use_clang=Kielet (metatiedot)
+
+minfo_callback_lang_indep_field=Kielestä riippumaton kenttä
+
+# bc: labels aus dem core=
+online_from=Verkossa osoitteesta
+online_to=kunnes
+description=Kuvaus
+keywords=Hakusanat
+header_article_type=Artikkelityyppi
+metadata_image=Metatiedosto/Kuva
+teaser=Teaser
+pool_file_copyright=Tekijänoikeus
+
+metadata=Metatiedot
+

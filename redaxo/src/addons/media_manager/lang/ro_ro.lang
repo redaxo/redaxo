@@ -1,0 +1,171 @@
+media_manager=Manager media
+media_manager_overview_title=Media Manager Addon <small>(Versiunea {0})</small>
+
+media_manager_subpage_desc=Explicație
+media_manager_subpage_config=Configurație
+media_manager_subpage_types=Editarea tipurilor de suport
+media_manager_subpage_clear_cache=Ștergeți memoria cache
+
+media_manager_cache_files_removed={0} Fișiere cache șterse
+
+media_manager_config_saved=Configurația a fost actualizată!
+media_manager_config_not_saved=Configurația nu a putut fi salvată!
+media_manager_config_not_writable=Fișierul de configurare "{0}" nu este inscriptibil!
+
+media_manager_max_resizekb=Dimensiunea maximă a unui fișier în kilobiți care poate fi convertit prin intermediul media-manager
+media_manager_max_resizepx=Dimensiunea maximă a unui fișier în pixeli care poate fi convertit prin intermediul media-manager
+media_manager_jpg_quality=Calitatea JPG
+media_manager_png_compression=Compresie PNG
+media_manager_png_compression_note=Valorile peste 6-7 încetinesc masiv generarea de imagini.
+media_manager_webp_quality=Calitatea WebP
+media_manager_interlace=Modul Interlace/Progresiv
+
+media_manager_id=ID
+media_manager_name=Nume
+media_manager_edittype=Editarea tipurilor de suport
+media_manager_settings=Setări
+
+media_manager_yes=Da
+media_manager_no=Nu
+media_manager_back=Înapoi
+
+media_manager_error_name=Vă rugăm să introduceți un nume.
+media_manager_error_settings=Vă rugăm să introduceți conținutul la Setări.
+media_manager_error_type_name_not_unique=Un tip de media cu acest nume există deja!
+media_manager_error_type_name_invalid=Numele nu trebuie să conțină caracterele "/" și "\"!
+
+media_manager_type_caption=Lista tipurilor de medii create
+media_manager_type_no_types=Nu sunt disponibile tipuri de medii
+media_manager_type_create=Creați tipul de suport
+media_manager_type_edit=editează
+media_manager_type_copy=duplicat
+media_manager_type_effekts_edit=Editarea efectelor
+media_manager_type_delete=șterge
+media_manager_type_name=Nume
+media_manager_type_name_copy=Copiați
+media_manager_type_priority=Prio
+media_manager_type_description=Descriere
+media_manager_type_functions=Funcții
+media_manager_type_cache_delete=Ștergeți memoria cache
+media_manager_type_system=Sistem Tipul de suport
+media_manager_type_deleted=Tip de suport șters
+media_manager_type_copied=Tip media duplicat
+
+media_manager_effect_list_header=Efecte ale tipului de media {0}
+media_manager_effect_edit_header=Tipul de suport <mark>{0}</mark>: Efect de editare
+media_manager_effect_create_header=Tipul de suport <mark>{0}</mark>: Crearea unui efect
+media_manager_effect_caption=Listă de efecte create de tipul de suport <mark>{0}</mark>
+media_manager_effect_no_effects=Nu există efecte disponibile
+media_manager_effect_create=Creați efectul
+media_manager_effect_edit=Efectul de editare
+media_manager_effect_delete=Ștergeți efectul
+media_manager_effect_name=Efectul
+media_manager_effect_priority=Secvența de efecte
+media_manager_effect_parameters=Parametru
+media_manager_effect_functions=Funcții
+media_manager_effect_deleted=Efect șters
+
+media_manager_effect_insert_image=Imagine: Plasați imaginea / filigranul
+media_manager_effect_brand_image=Imagine
+media_manager_effect_brand_hpos=alinierea orizontală
+media_manager_effect_brand_vpos=alinierea verticală
+media_manager_effect_brand_padding_x=Distanța orizontală până la margine
+media_manager_effect_brand_padding_y=Distanța verticală până la margine
+
+media_manager_effect_blur=Imagine: Blur
+media_manager_effect_blur_repeats=Repetiții
+media_manager_effect_blur_type=Tip de neclaritate
+media_manager_effect_blur_smoothit=netedă (valorile negative accentuează imaginile)
+
+media_manager_effect_colorize=Imagine: Colorare
+media_manager_effect_colorize_r=Valoarea roșie
+media_manager_effect_colorize_g=Valoarea verde
+media_manager_effect_colorize_b=Valoarea albastră
+
+media_manager_effect_sharpen=Imagine: Ascuțire
+media_manager_effect_sharpen_amount=Severitate
+media_manager_effect_sharpen_radius=Dimensiunea matricei de claritate
+media_manager_effect_sharpen_threshold=Valoarea limită
+
+media_manager_effect_resize=Imagine: Scalare
+media_manager_effect_resize_width=Lățimea țintă
+media_manager_effect_resize_height=Înălțimea țintă
+media_manager_effect_resize_style=Mod
+media_manager_effect_resize_imgtosmall=Dacă imaginea este prea mică
+
+media_manager_effect_crop=Imagine: Tunderea
+media_manager_effect_crop_width=Lățimea țintă
+media_manager_effect_crop_height=Înălțimea țintă
+media_manager_effect_crop_offset_width=Decalaj orizontal
+media_manager_effect_crop_offset_height=Decalaj vertical
+media_manager_effect_crop_position=Punct de referință
+
+media_manager_effect_rounded_corners=Imagine: Colțuri rotunjite
+media_manager_effect_rounded_corners_topleft=În stânga sus
+media_manager_effect_rounded_corners_topright=Dreapta sus
+media_manager_effect_rounded_corners_bottomleft=În stânga jos
+media_manager_effect_rounded_corners_bottomright=Partea de jos dreapta
+
+media_manager_effect_flip=Imagine: Oglindă orizontală/verticală
+media_manager_effect_flip_direction=Direcția
+
+media_manager_effect_rotate=Imagine: Turning
+media_manager_effect_rotate_degree=Rotiți cu (grade)
+
+media_manager_effect_mirror=Imagine: Adăugați reflexia apei
+media_manager_effect_mirror_height=Refl. Înălțime (50 / 10%)
+media_manager_effect_mirror_opacity=Opacitatea reflexiei (0 - 100)
+media_manager_effect_mirror_opacity_notice=0% reflecție complet invizibilă, 100% reflecție complet vizibilă
+media_manager_effect_mirror_background_color=Culoarea de fundal
+media_manager_effect_mirror_background_r=Fond R (0-255)
+media_manager_effect_mirror_background_g=Fond G (0-255)
+media_manager_effect_mirror_background_b=Fond B (0-255)
+
+media_manager_effect_workspace=Imagine: Suprafața de lucru
+media_manager_effect_workspace_pos=Poziția
+
+media_manager_effect_folder=Alternative Folder implicit: "media
+
+media_manager_effect_mediapath=Dosar: Adaptați calea
+media_manager_effect_mediapath_path=Dosar media
+media_manager_effect_mediapath_path_notice=Cale de acces la sursa de imagini în raport cu instalarea REDAXO în loc de <code>media</code>, de exemplu, directorul <code>images</code>. Bară oblică de început / sfârșit (<code>/</code>) nu este necesară.
+
+media_manager_effect_header=Dosar: Adaptați antetul
+media_manager_effect_header_download=Descărcați
+media_manager_effect_header_cache=Controlul cache-ului
+media_manager_effect_header_filename=Numele fișierului sursă
+media_manager_effect_header_filename_notice=<code>filename</code> este numele de fișier normalizat pe server, de exemplu <code>my-download.pdf</code>, <code>originalname</code> este numele original al fișierului în momentul încărcării (cu spații, majuscule/minuscule, etc.), de exemplu <code>My-download.pdf</code>
+
+
+
+media_manager_effect_convert2img=Dosar: Conversia în imagine
+media_manager_effect_convert2img_density=Densitate de rezoluție
+media_manager_effect_convert2img_convertto=Format țintă
+media_manager_effect_convert2img_density_notice=Densitatea rezoluției în ppi (pixeli pe inch).
+media_manager_effect_convert2img_convertto_notice=Formatul țintă în care este convertit fișierul. Se iau în considerare următoarele extensii de fișiere: <code>.pdf, .ps, .psd, .tif, .tiff, .bmp, .eps, .ico, .svg</code>.
+media_manager_effect_convert2img_noimagemagick=Atenție: ImageMagick nu a putut fi găsit. Acest efect necesită fie extensia PHP "imagick", fie ImageMagick ca "commandline binary", executabil prin exec().
+media_manager_effect_convert2img_color=Culoare pentru transparență
+media_manager_effect_convert2img_color_notice="Formatul \"#ffffff\", dacă nu este setat nimic, se utilizează transparența. Pentru JPG, nu uitați să specificați o culoare."
+
+
+media_manager_effect_image_properties=Imagine: Setări (calitate, întrepătrundere, ...)
+media_manager_effect_image_properties_jpg_quality_notice=[0-100]. Se lasă gol pentru valoarea implicită.
+media_manager_effect_image_properties_png_compression_notice=[0-9]. Se lasă gol pentru valoarea implicită.
+media_manager_effect_image_properties_webp_quality_notice=[0-100]. Se lasă gol pentru valoarea implicită.
+media_manager_effect_image_properties_interlace_notice=Se lasă în alb pentru selecția standard.
+
+media_manager_effect_brightness=Imagine: Luminozitate
+media_manager_effect_brightness_value=Luminozitate
+media_manager_effect_brightness_notice=[-255 la 255]. Se lasă în alb pentru valoarea implicită (0).
+
+media_manager_effect_contrast=Imagine: Contrast
+media_manager_effect_contrast_value=Contrast
+media_manager_effect_contrast_notice=[-100 la 100]. Se lasă în alb pentru valoarea implicită (0).
+
+media_manager_effect_sepia=Imagine: Sepia
+
+media_manager_effect_greyscale=Imagine: greyscale
+
+media_manager_effect_image_format=Imagine: Conversia în JPEG/PNG/GIF/WEBP
+media_manager_effect_image_format_convertto=Format țintă
+

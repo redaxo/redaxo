@@ -1,0 +1,88 @@
+backup_information=Tiedot
+backup_title=Varmuuskopiointi
+backup_file_deleted=Tiedosto poistettiin
+backup_file_error_while_delete=Tiedostoa ei voitu poistaa
+backup_no_import_file_chosen_or_wrong_version=Tuontitiedostoa ei ole valittu tai versio on väärä
+backup_no_valid_import_file=Tämä ei ole oikea tuontitiedosto
+backup_utf8mb4_not_supported=Varmuuskopiointi käyttää merkistönä <code>utf8mb4</code>, jota tietokanta ei tue (<b>{0}</b>) (vaaditaan vähintään MySQL 5.7.7 tai MariaDB 10.2).
+backup_database_imported=Tietokanta onnistuneesti tuotu
+backup_entry_count=({0} entries)
+backup_file_could_not_be_uploaded=Tiedostoa ei voitu ladata.
+backup_you_have_no_write_permission_in=Sinulla ei ole kirjoitusoikeutta tähän kansioon {0}.
+backup_no_import_file_chosen=Tuontitiedostoa ei ole valittu.
+backup_file_imported=Tiedosto on tuotu onnistuneesti.
+backup_import=Tuo
+backup_to_import=tuonti
+backup_export=Vie
+backup_to_export=vienti
+backup_download=lataa
+backup_db_import=Tuo
+backup_db_export=Vie
+backup_filename_updated=Valittu tiedostonimi oikaistiin, koska se sisälsi virheellisiä merkkejä. Jos se on oikein, napsauta Vie uudelleen.
+backup_please_choose_folder=Valitse vietävät hakemistot.
+backup_intro_import=Huomaa, että tuotaessa tietokanta <b>vanha tietokanta poistetaan</b> . Jos olet epävarma, varmuuskopioi nykyinen tietokanta ennen tuontia.
+backup_intro_import_files=Tiedostoja tuotaessa olemassa olevat samannimiset tiedostot korvataan, mutta lisäksi kansioissa olevat tiedostot säilyvät.
+backup_version_warning=Vanhempien REDAXO-versioiden tai lisäosien varmuuskopiot eivät aina ole täysin yhteensopivia ja voivat aiheuttaa ongelmia tuonnin jälkeen.
+backup_database=Tietokannan tuonti
+backup_filename=Tiedoston nimi
+backup_filename_notice=Muuttujat: <code>%REX_SERVER</code>, <code>%REX_VERSION</code> ja päivämäärämuuttujat kuten strftime()-ohjelmassa. ; Dateiendung: <code>.cronjob.sql</code> (wird automatisch ergänzt)
+backup_filesize=Tiedoston koko
+backup_delete=poista
+backup_files=Tiedoston tuonti
+backup_intro_export=Täällä voit tallentaa nykyiset merkinnät ja tiedostot REDAXOsta. Saadaksesi täydellisen varmuuskopion sinun on <b>vietävä tietokanta JA tiedostot</b>. Jos haluat käyttää varmuuskopiota uudelleen, voi olla järkevää tallentaa se suoraan palvelimelle ja tuoda se tarvittaessa uudelleen.
+backup_database_export=Luo tietokannan varmuuskopio
+backup_file_export=Luo tiedoston varmuuskopio
+backup_save_on_server=Tallenna palvelimelle
+backup_download_as_file=Lataa tiedostona
+backup_createdate=Luotu
+
+backup_import_file=Tuo tiedosto
+backup_delete_file=Tiedosto l ;schen
+backup_download_file=Lataa tiedosto
+backup_check_rights_in_directory=Varmuuskopiointi ei päässyt käsiksi kansioon (kansioihin) tai mikään ei ollut valittuna. ;hlt.
+backup_file_could_not_be_generated=Tiedostoa ei voitu luoda.
+backup_file_generated_in=Tiedot tallennettiin
+
+backup_proceed_db_import=Olemassa olevat tiedot (artikkelit, mallit, moduulit,...) menetetään. Jatka ?
+backup_proceed_file_import=Olemassa olevat tiedostot poistetaan. Jatka ?
+
+backup_export_db_caption=Palauta tietokannan varmuuskopio
+backup_export_file_caption=Palauta tiedostojen varmuuskopiointi
+
+backup_function=Toiminto
+
+backup_send_mail=Lähetä postitse
+backup_send_mail_notice=Tätä vaihtoehtoa varten tarvitaan lisäosa "phpmailer".
+backup_mailaddress=Postiosoite
+backup_mail_subject=Uusi tietokannan varmuuskopiointi
+backup_mail_body=Liitteenä on uusi tietokannan varmuuskopio verkkosivustosta "{0}".
+
+backup_compress=Pakkaa varmuuskopio
+
+backup_delete_interval=Poista vanhat varmuuskopiot
+backup_delete_interval_off=Osoitteesta
+backup_delete_interval_weekly=Pidä yksi varmuuskopio viikossa
+backup_delete_interval_monthly=Pidä yksi varmuuskopio kuukaudessa
+backup_delete_interval_notice=Poistetaan vain yli kuukauden vanhat varmuuskopiot, joiden tiedostonimet päättyvät <code>.cronjob.sql</code> .
+
+backup_exclude_tables=Poissulkeminen varmuuskopioinnista
+backup_exclude_tables_notice=Jos tämä valitaan, näitä taulukoita ei tallenneta. Taulukot, joissa on etuliite <code>rex_tmp_*</code> , jätetään automaattisesti pois.
+
+perm_general_backup[export]=Vientisivusto
+
+backup_export_select=Vientivaihtoehto
+backup_export_select_tables=Valitse taulukot
+backup_export_select_dir=Valitse kansio
+backup_export_select_location=Valitse varastointipaikka
+backup_export_select_filename=Valitse tiedoston nimi
+
+backup_file=Tiedosto
+backup_note=Huomautus
+backup_upload=Lataa
+backup_load_from_server=Lataa palvelimelta
+
+backup_warning=Varoitus
+backup_upload_disabled=Uploadit eivät ole sallittuja
+backup_max_uploadsize=Max. Lataa koko
+backup_max_uploadtime=Max. Latausaika
+

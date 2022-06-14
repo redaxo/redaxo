@@ -1,0 +1,88 @@
+backup_information=Informace
+backup_title=Záloha
+backup_file_deleted=Soubor byl odstraněn
+backup_file_error_while_delete=Soubor nelze odstranit
+backup_no_import_file_chosen_or_wrong_version=Není vybrán žádný importní soubor nebo je verze nesprávná
+backup_no_valid_import_file=Toto není správný importní soubor
+backup_utf8mb4_not_supported=Záloha používá jako znakovou sadu <code>utf8mb4</code>, což databáze nepodporuje (<b>{0}</b>) (vyžadováno alespoň MySQL 5.7.7 nebo MariaDB 10.2).
+backup_database_imported=Databáze byla úspěšně importována
+backup_entry_count=({0} položky)
+backup_file_could_not_be_uploaded=Soubor se nepodařilo nahrát.
+backup_you_have_no_write_permission_in=Do této složky nemáte přístup pro zápis {0}.
+backup_no_import_file_chosen=Není vybrán žádný importní soubor.
+backup_file_imported=Soubor byl úspěšně importován.
+backup_import=Import
+backup_to_import=import
+backup_export=Export
+backup_to_export=export
+backup_download=ke stažení
+backup_db_import=Import
+backup_db_export=Export
+backup_filename_updated=Vybraný název souboru byl upraven, protože obsahoval nesprávné znaky. Pokud je správný, klikněte znovu na Exportovat.
+backup_please_choose_folder=Vyberte adresáře, které se mají exportovat.
+backup_intro_import=Upozorňujeme, že při importu databáze <b>se stará databáze odstraní</b> . V případě pochybností si před importem zálohujte aktuální databázi.
+backup_intro_import_files=Při importu souborů se přepíší stávající soubory se stejným názvem, ale navíc se zachovají stávající soubory ve složkách.
+backup_version_warning=Zálohy starších verzí REDAXO nebo doplňků nejsou vždy plně kompatibilní a mohou vést k problémům po importu.
+backup_database=Import databáze
+backup_filename=Název souboru
+backup_filename_notice=Proměnné: <code>%REX_SERVER</code>, <code>%REX_VERSION</code> a proměnné data jako ve funkci strftime(). ; Dateiendung: <code>.cronjob.sql</code> (wird automatisch ergänzt)
+backup_filesize=Velikost souboru
+backup_delete=smazat
+backup_files=Import souborů
+backup_intro_export=Zde můžete uložit aktuální záznamy a soubory z REDAXO. Chcete-li získat kompletní zálohu, musíte <b>exportovat databázi A soubory</b>. Pokud chcete zálohu použít opakovaně, je vhodné ji uložit přímo na server a v případě potřeby ji znovu importovat.
+backup_database_export=Vytvoření zálohy databáze
+backup_file_export=Vytvoření zálohy souboru
+backup_save_on_server=Uložit na serveru
+backup_download_as_file=Stáhnout jako soubor
+backup_createdate=Vytvořeno dne
+
+backup_import_file=Importní soubor
+backup_delete_file=Soubor l ;schen
+backup_download_file=Stáhnout soubor
+backup_check_rights_in_directory=Zálohování nemohlo získat přístup ke složce (složkám) nebo nebyla vybrána žádná. ;hlt.
+backup_file_could_not_be_generated=Soubor se nepodařilo vytvořit.
+backup_file_generated_in=Data byla uložena do
+
+backup_proceed_db_import=Stávající data (články, šablony, moduly,...) budou ztracena. Pokračovat ?
+backup_proceed_file_import=Existující soubory jsou odstraněny. Pokračovat ?
+
+backup_export_db_caption=Obnovení zálohy databáze
+backup_export_file_caption=Obnovení zálohy souboru
+
+backup_function=Funkce
+
+backup_send_mail=Odeslat poštou
+backup_send_mail_notice=Pro tuto možnost je vyžadován doplněk "phpmailer".
+backup_mailaddress=Poštovní adresa
+backup_mail_subject=Nová záloha databáze
+backup_mail_body=V příloze je nová záloha databáze webové stránky "{0}".
+
+backup_compress=Komprese zálohy
+
+backup_delete_interval=Odstranění starých záloh
+backup_delete_interval_off=Z
+backup_delete_interval_weekly=Uchovávejte jednu zálohu týdně
+backup_delete_interval_monthly=Uchovávejte jednu zálohu měsíčně
+backup_delete_interval_notice=Odstraní se pouze zálohy starší než jeden měsíc s názvy souborů končícími na <code>.cronjob.sql</code> .
+
+backup_exclude_tables=Vyloučit ze zálohování
+backup_exclude_tables_notice=Pokud je tato možnost vybrána, tyto tabulky se neuloží. Tabulky s předponou <code>rex_tmp_*</code> jsou automaticky vyloučeny.
+
+perm_general_backup[export]=Exportní webové stránky
+
+backup_export_select=Varianta exportu
+backup_export_select_tables=Vybrané tabulky
+backup_export_select_dir=Vybrat složku
+backup_export_select_location=Výběr místa uložení
+backup_export_select_filename=Výběr názvu souboru
+
+backup_file=Soubor
+backup_note=Poznámka
+backup_upload=Nahrát
+backup_load_from_server=Načtení ze serveru
+
+backup_warning=Varování
+backup_upload_disabled=Nahrávání není povoleno
+backup_max_uploadsize=Max. Velikost nahrávání
+backup_max_uploadtime=Max. Doba nahrávání
+

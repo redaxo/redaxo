@@ -1,0 +1,87 @@
+structure=Rakenne
+
+title_structure=Rakenteiden hallinta
+root_level=Päätaso
+no_such_category=Kategoria ei ole käytettävissä!
+category_updated=Kategoria on päivitetty.
+category_could_not_be_deleted=Kategoriaa ei voitu poistaa!
+category_still_contains_articles=Luokka sisältää edelleen artikkeleita.
+category_still_contains_subcategories=Kategoria sisältää edelleen alaluokkia.
+category_status_updated=Kategorian tila on päivitetty!
+category_added_and_startarticle_created=Kategoria lisätty ja lanseerausartikkeli luotu!
+article_doesnt_exist=Artikkelia ei ole olemassa!
+article_status_updated=Kohteen tila on päivitetty.
+article_updated=Artikkelia on päivitetty.
+article_added=Artikkeli on lisätty.
+header_category=Kategorian nimi
+header_priority=Prioriteetti
+header_status=Tila/toiminto
+header_id=ID
+add_category=Lisää luokka
+edit_category=Muokkaa luokkaa
+save_category=Tallenna luokka
+status_online=online
+status_offline=offline
+option_no_template=Ei mallia
+template_default_name=NO TEMPLATE
+header_article_name=Kohteen nimi
+header_template=Malli
+header_date=Luotu
+change=muutos
+article_add=Lisää artikkeli
+article_edit=Muokkaa artikkelia
+article_save=Tallenna artikkeli
+article=Artikkeli
+start_article=Aloita artikkeli
+no_article_available=Ei artikkelia saatavilla
+structure_categories_caption=Luettelo luokan alaluokista "{0}"
+structure_articles_caption=Luettelo artikkeleista kategoriassa "{0}"
+structure_root_level_articles_caption=Luettelo "päätason" artikkeleista
+structure_root_level_categories_caption=Luettelo "päätason" luokista
+article_deleted=Artikkeli on poistettu!
+article_could_not_be_generated=Artikkelia ei voitu luoda.
+category_deleted=Kategoria on poistettu!
+category_doesnt_exist=Kategoriaa ei ole olemassa!
+cant_delete_sitestartarticle=Sivuston aloitusartikkelia ei voi poistaa!
+cant_delete_notfoundarticle="Ei löydy" -kohtaa ei voi poistaa!
+structure_copy=Kopioi
+category_has_child_elements=Kategoria sisältää lapsielementtejä
+category_without_child_elements=Luokka ilman lapsielementtejä
+
+all_categories=Kaikki luokat
+categories=Kategoriat
+
+perm_options_addArticle[]=Luo artikkeli
+perm_options_addCategory[]=Luo luokka
+perm_options_editArticle[]=Muokkaa artikkelia
+perm_options_editCategory[]=Muokkaa luokkaa
+perm_options_deleteArticle[]=Poista artikkeli
+perm_options_deleteCategory[]=Poista luokka
+perm_options_article2category[]=Muunna artikkelit kategorioiksi
+perm_options_article2startarticle[]=Muunna artikkeli aloitusartikkeliksi
+perm_options_copyArticle[]=Kopioi artikkeli
+perm_options_copyContent[]=Kopioi artikkelin sisältö
+perm_options_moveArticle[]=Siirrä artikkeli
+perm_options_moveCategory[]=Siirrä luokkia
+perm_options_publishArticle[]=Julkaise artikkeli
+perm_options_publishCategory[]=Julkaise luokat
+
+system_setting_start_article_id=Aloita artikkeli
+system_setting_notfound_article_id=Virheartikkeli
+system_setting_default_template_id=Vakiomalli
+system_setting_start_article_id_invalid=Virheellinen aloitusartikkeli!
+system_setting_notfound_article_id_invalid=Virheellinen artikkeli!
+system_setting_default_template_id_invalid=Väärä vakiomalli!
+
+linkmap=Linkkikartta
+linkmap_categories=Kategoriat
+linkmap_articles=Artikkeli
+linkmap_has_no_template=ei ole mallia
+
+var_link_open=Valitse linkki
+var_link_delete=Poista valittu linkki
+var_linklist_move_top=Siirrä valittu linkki alkuun
+var_linklist_move_up=Siirrä valittu linkki alkuun
+var_linklist_move_down=Siirrä valittu linkki alaspäin
+var_linklist_move_bottom=Siirrä valittu linkki loppuun
+

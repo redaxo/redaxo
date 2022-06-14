@@ -1,0 +1,4 @@
+cronjob_article_status=Statutul articolului
+cronjob_article_reset_date=Câmpuri goale de date ale elementelor după modificarea statutului
+cronjob_article_reset_date_info=Această opțiune șterge data "online_from" sau data "online_to"<br>din metadatele articolului după schimbarea statutului.
+

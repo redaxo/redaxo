@@ -1,0 +1,33 @@
+customizer=Персонализатор
+customizer_features=CodeMirror
+
+customizer_codemirror=CodeMirror
+customizer_codemirror_check=Активировать CodeMirror
+customizer_codemirror_selectors=Дополнительные селекторы jQuery для CodeMirror
+customizer_codemirror_selectors_info=Список селекторов jQuery, для которых применяется CodeMirror, разделенный запятыми.<br>По умолчанию это <code>textarea.rex-js-code</code> и <code>textarea.codemirror</code>.
+customizer_codemirror_theme=Тема CodeMirror
+customizer_codemirror_langs=Дополнительный хайлайтер
+customizer_codemirror_langs_text=(markdown, textile, gfm, yaml, sql ...)
+customizer_codemirror_tools=Дополнительные возможности
+customizer_codemirror_tools_text=(Складывание кода, сопоставление скобок, сопоставление тегов, закрытые скобки, поиск)
+customizer_codemirror_autoresize=AutoResize
+customizer_codemirror_autoresize_text=(CodeMirror подстраивает свою высоту под содержимое)
+
+customizer_codemirror_info="Как только CodeMirror активирован, он автоматически используется для шаблонов, модулей, действий и cronjobs. Если Вы хотите использовать CodeMirror самостоятельно, пожалуйста, воспользуйтесь следующей формой:<br><br><code><textarea class=\"codemirror\" data-codemirror-theme=\"themename\" data-codemirror-mode=\"php/htmlmixed\"></textarea></code><br><br>Параметры <i>data-codemirror-theme</i> и <i>data-codemirror-mode</i> являются необязательными.<br><br>Клавиши F11 и ESC могут быть использованы для входа в полноэкранный режим."
+
+customizer_labeling=Пополнения
+customizer_labelcolor=Идентификационный цвет
+customizer_labelcolor_notice="Любая допустимая спецификация цвета CSS (<code>#03f0ab</code>, <code>rgba(255, 100, 0, 0.5)</code> и т.д.)."
+customizer_showlink=Показать ссылку на сайт ?
+
+customizer_config_updated=Вводы были сохранены
+customizer_config_update_failed=Записи не были сохранены
+
+customizer_update=Сохранить настройки
+customizer_error_unzip=При распаковке активов из архива codemirror произошла ошибка!
+
+customizer_projectname=Название проекта
+customizer_textarea=широкая текстовая область под шаблоном и модулями
+customizer_liquid=Жидкая раскладка
+customizer_nav_flyout=Навигация с выходом на экран
+

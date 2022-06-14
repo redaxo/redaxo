@@ -1,0 +1,16 @@
+version=Versie
+
+version_liveversion=Live versie
+version_workingversion=Werkende versie
+version_working_to_live=Uitgebracht als live versie
+version_preview=Voorbeeld
+version_clear_workingversion=Lege werkversie
+version_copy_live_to_workingversion=Kopiëren naar de werkversie
+version_copy_from_liveversion=Overname van live versie
+version_confirm_copy_live_to_workingversion=Live versie naar werkversie kopiëren? Alle bestaande inhoud van de werkversie zal overschreven worden.
+version_info_working_version_to_live=Werkversie live gegaan
+version_info_live_version_to_working=Live versie werd gekopieerd naar de werkversie
+version_warning_working_version_to_live=Werkversie kan niet live gezet worden omdat hij leeg is
+version_info_clear_workingversion=Werkversie met succes geleegd
+version_confirm_clear_workingversion=Werkende versie terugzetten? Alle bestaande inhoud van de werkversie zal onherroepelijk gewist worden.
+

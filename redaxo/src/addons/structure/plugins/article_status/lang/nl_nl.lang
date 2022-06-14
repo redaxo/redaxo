@@ -1,0 +1,4 @@
+cronjob_article_status=Artikel status
+cronjob_article_reset_date=Lege item datumvelden na statusverandering
+cronjob_article_reset_date_info=Deze optie verwijdert de "online_from" datum of "online_to" datum<br>in de metadata van het artikel na de statusverandering.
+

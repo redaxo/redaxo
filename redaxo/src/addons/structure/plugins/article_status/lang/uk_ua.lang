@@ -1,0 +1,4 @@
+cronjob_article_status=Статус елемента
+cronjob_article_reset_date=Очистіть поля дати товару після зміни статусу
+cronjob_article_reset_date_info=Цей параметр очищає дату "online_from" або "online_to" дату<br>в метаданих елемента після зміни статусу.
+

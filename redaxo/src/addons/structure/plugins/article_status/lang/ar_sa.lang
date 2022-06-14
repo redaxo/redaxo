@@ -1,0 +1,4 @@
+cronjob_article_status=حالة العنصر
+cronjob_article_reset_date=مسح حقول تاريخ البند بعد تغيير الحالة
+cronjob_article_reset_date_info=هذا الخيار يمسح التاريخ "online_from" أو "online_to" date<br>في البيانات الوصفية للعنصر بعد تغيير الحالة.
+

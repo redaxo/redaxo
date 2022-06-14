@@ -1,0 +1,75 @@
+install_title=Instalatér
+install_subpage_packages=Jádro
+install_subpage_update=Aktualizace stávajících
+install_subpage_add=Stáhnout nový
+install_subpage_upload=Nahrát vlastní
+install_subpage_settings=Nastavení
+
+install_webservice_unreachable=Webová služba není v současné době k dispozici!
+install_webservice_error=Webová služba vrátí následující chybovou zprávu:
+install_archive_unreachable=Soubor zip není přístupný!
+
+install_reload=Aktualizace seznamu
+install_key=Klíč
+install_information=Informace
+install_name=Název
+install_author=Autor
+install_shortdescription=Stručný popis
+install_description=Popis
+install_website=Webové stránky
+install_files=Soubory
+install_version=Verze
+install_existing_version=Stávající verze
+install_available_versions=Dostupné verze
+install_addon_already_exists=již stažené
+install_update=aktualizace
+install_download=ke stažení
+install_addons_found={0} Nalezené doplňky
+install_available_updates={0} Dostupné aktualizace
+install_my_packages=Moje balíčky
+install_status=Stav
+install_online=online
+install_offline=offline
+install_file_add=Přidat soubor
+install_file_edit=Aktualizace souboru
+install_send=Odeslat
+install_upload_file=Vytvoření a nahrání souboru zip
+install_replace_assets=Převzetí aktiv z kořenové složky aktiv
+install_ignore_tests=Ignorovat složku "tests
+install_published_on=Zveřejněno dne
+install_sort=Třídit
+install_sort_default=Řazení podle klíče vzestupně
+
+install_info_core_updated=Jádro bylo aktualizováno!
+install_warning_core_not_updated=Jádro nebylo možné aktualizovat z následujícího důvodu:
+install_warning_core_zip_not_extracted=Soubor zip se nepodařilo rozbalit do adresáře "src"!
+
+install_info_addon_downloaded=AddOn <b>{0}</b> byl stažen!
+install_warning_addon_not_downloaded=AddOn <b>{0}</b> nelze stáhnout z následujícího důvodu:
+install_info_addon_updated=AddOn <b>{0}</b> byl aktualizován!
+install_warning_addon_not_updated=AddOn <b>{0}</b> nelze aktualizovat z následujícího důvodu:
+install_info_addon_uploaded=AddOn <b>{0}</b> byl nahrán!
+install_info_addon_deleted=AddOn verze <b>{0}</b> byla odstraněna!
+install_warning_addon_zip_not_extracted=Při rozbalování souboru zip do adresáře AddOn došlo k chybě. Pravděpodobně chybí oprávnění k zápisu nebo název složky v souboru zip neodpovídá klíči AddOn.
+install_warning_message_from_addon=AddOn <b>{0}</b> zprávy:
+install_warning_message_from_plugin=PlugIn <b>{0}</b> zprávy:
+
+install_warning_directory_not_writable=Složka <b>{0}</b> není zapisovatelná!
+install_warning_zip_wrong_checksum=Kontrolní součet staženého souboru zip neodpovídá očekávanému. Zkuste to prosím znovu za několik minut!
+install_warning_zip_wrong_format=Soubor zip není v požadovaném formátu.
+
+install_to_addon_page=Do správy doplňku
+
+install_settings_general=Obecné
+install_settings_backups=Vytváření záloh
+install_settings_backups_note=Před aktualizací balíčků instalátorem je kopie aktuální verze uložena v <code>redaxo/data/addons/install/</code> . V případě chyb je lze znovu nainstalovat.<br>Upozorňujeme, že databáze není zálohována!
+install_settings_myredaxo_account=účet myREDAXO
+install_settings_api_login=Uživatelské jméno
+install_settings_api_key=Klíč API
+install_settings_saved=Nastavení bylo uloženo!
+install_settings_error=Nastavení se nepodařilo uložit, zkontrolujte oprávnění k zápisu pro: {0}
+
+install_header_function=Funkce
+install_latest_release=Aktuální vydání
+install_download_unstable=Pozor! Jedná se o vývojovou verzi. Instalace na vlastní nebezpečí.
+

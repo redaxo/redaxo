@@ -1,0 +1,171 @@
+media_manager=Manažer médií
+media_manager_overview_title=Doplněk Media Manager <small>(Verze {0})</small>
+
+media_manager_subpage_desc=Vysvětlení
+media_manager_subpage_config=Konfigurace
+media_manager_subpage_types=Úprava typů médií
+media_manager_subpage_clear_cache=Vymazat mezipaměť
+
+media_manager_cache_files_removed={0} Smazání souborů mezipaměti
+
+media_manager_config_saved=Konfigurace byla aktualizována!
+media_manager_config_not_saved=Konfiguraci nebylo možné zachránit!
+media_manager_config_not_writable=Konfigurační soubor "{0}" není zapisovatelný!
+
+media_manager_max_resizekb=Maximální velikost souboru v kilobajtech, který lze převést pomocí media-manageru.
+media_manager_max_resizepx=Maximální velikost souboru v pixelech, který lze převést pomocí media-manageru
+media_manager_jpg_quality=Kvalita JPG
+media_manager_png_compression=Komprese PNG
+media_manager_png_compression_note=Hodnoty nad 6-7 výrazně zpomalují generování obrázků.
+media_manager_webp_quality=Kvalita WebP
+media_manager_interlace=Prokládání/Progresivní režim
+
+media_manager_id=ID
+media_manager_name=Název
+media_manager_edittype=Úprava typů médií
+media_manager_settings=Nastavení
+
+media_manager_yes=Ano
+media_manager_no=Ne
+media_manager_back=Zpět
+
+media_manager_error_name=Zadejte prosím jméno.
+media_manager_error_settings=Zadejte obsah v části Nastavení.
+media_manager_error_type_name_not_unique=Typ média s tímto názvem již existuje!
+media_manager_error_type_name_invalid=Název nesmí obsahovat znaky "/" a "\"!
+
+media_manager_type_caption=Seznam vytvořených typů médií
+media_manager_type_no_types=Nejsou k dispozici žádné typy médií
+media_manager_type_create=Vytvořit typ média
+media_manager_type_edit=editovat
+media_manager_type_copy=duplicitní
+media_manager_type_effekts_edit=Efekty úprav
+media_manager_type_delete=smazat
+media_manager_type_name=Název
+media_manager_type_name_copy=Kopírovat
+media_manager_type_priority=Prio
+media_manager_type_description=Popis
+media_manager_type_functions=Funkce
+media_manager_type_cache_delete=Vymazat mezipaměť
+media_manager_type_system=Typ systémového média
+media_manager_type_deleted=Typ média odstraněn
+media_manager_type_copied=Duplikovaný typ média
+
+media_manager_effect_list_header=Účinky typu média {0}
+media_manager_effect_edit_header=Typ média <mark>{0}</mark>: Efekt úprav
+media_manager_effect_create_header=Typ média <mark>{0}</mark>: Vytvoření efektu
+media_manager_effect_caption=Seznam vytvořených efektů typu média <mark>{0}</mark>
+media_manager_effect_no_effects=Žádné účinky nejsou k dispozici
+media_manager_effect_create=Vytvořit efekt
+media_manager_effect_edit=Efekt úprav
+media_manager_effect_delete=Odstranit účinek
+media_manager_effect_name=Efekt
+media_manager_effect_priority=Sekvence efektů
+media_manager_effect_parameters=Parametr
+media_manager_effect_functions=Funkce
+media_manager_effect_deleted=Efekt odstraněn
+
+media_manager_effect_insert_image=Obrázek: Místo obrázku / vodoznak
+media_manager_effect_brand_image=Obrázek
+media_manager_effect_brand_hpos=horizontální zarovnání
+media_manager_effect_brand_vpos=vertikální zarovnání
+media_manager_effect_brand_padding_x=Vodorovná vzdálenost od okraje
+media_manager_effect_brand_padding_y=Svislá vzdálenost od okraje
+
+media_manager_effect_blur=Obrázek: Blur
+media_manager_effect_blur_repeats=Opakování
+media_manager_effect_blur_type=Typ rozmazání
+media_manager_effect_blur_smoothit=vyhlazení (záporné hodnoty snímky zostřují)
+
+media_manager_effect_colorize=Obrázek: Vybarvení
+media_manager_effect_colorize_r=Červená hodnota
+media_manager_effect_colorize_g=Zelená hodnota
+media_manager_effect_colorize_b=Modrá hodnota
+
+media_manager_effect_sharpen=Obrázek: Ostření
+media_manager_effect_sharpen_amount=Závažnost
+media_manager_effect_sharpen_radius=Velikost matice ostrosti
+media_manager_effect_sharpen_threshold=Mezní hodnota
+
+media_manager_effect_resize=Obrázek: Měřítko
+media_manager_effect_resize_width=Cílová šířka
+media_manager_effect_resize_height=Cílová výška
+media_manager_effect_resize_style=Režim
+media_manager_effect_resize_imgtosmall=Pokud je obrázek příliš malý
+
+media_manager_effect_crop=Obrázek: Prořezávání
+media_manager_effect_crop_width=Cílová šířka
+media_manager_effect_crop_height=Cílová výška
+media_manager_effect_crop_offset_width=Horizontální posun/odsazení
+media_manager_effect_crop_offset_height=Vertikální posun
+media_manager_effect_crop_position=Referenční bod
+
+media_manager_effect_rounded_corners=Obrázek: Zaoblené rohy
+media_manager_effect_rounded_corners_topleft=Vlevo nahoře
+media_manager_effect_rounded_corners_topright=Vpravo nahoře
+media_manager_effect_rounded_corners_bottomleft=Vlevo dole
+media_manager_effect_rounded_corners_bottomright=Vpravo dole
+
+media_manager_effect_flip=Obrázek: Zrcadlo ve vodorovné/vertikální poloze
+media_manager_effect_flip_direction=Směr
+
+media_manager_effect_rotate=Obrázek: Turning
+media_manager_effect_rotate_degree=Otočit o (stupně)
+
+media_manager_effect_mirror=Obrázek: Přidání odrazu vody
+media_manager_effect_mirror_height=Refl. Výška (50 / 10%)
+media_manager_effect_mirror_opacity=Neprůhlednost odrazu (0 - 100)
+media_manager_effect_mirror_opacity_notice=0 % zcela neviditelný odraz, 100 % zcela viditelný odraz
+media_manager_effect_mirror_background_color=Barva pozadí
+media_manager_effect_mirror_background_r=Pozadí R (0-255)
+media_manager_effect_mirror_background_g=Pozadí G (0-255)
+media_manager_effect_mirror_background_b=Pozadí B (0-255)
+
+media_manager_effect_workspace=Obrázek: Pracovní plocha
+media_manager_effect_workspace_pos=Pozice
+
+media_manager_effect_folder=Alternativy Výchozí složka: "media
+
+media_manager_effect_mediapath=Soubor: Přizpůsobit cestu
+media_manager_effect_mediapath_path=Složka médií
+media_manager_effect_mediapath_path_notice=Cesta ke zdroji obrázků relativně k instalaci REDAXO místo <code>media</code>, např. adresář <code>images</code>. Úvodní / koncové lomítko (<code>/</code>) není vyžadováno.
+
+media_manager_effect_header=Soubor: Přizpůsobit záhlaví
+media_manager_effect_header_download=Stáhnout
+media_manager_effect_header_cache=Řízení mezipaměti
+media_manager_effect_header_filename=Zdroj názvu souboru
+media_manager_effect_header_filename_notice=<code>název souboru</code> je normalizovaný název souboru na serveru, např. <code>my-download.pdf</code>, <code>originalname</code> je původní název souboru v době nahrání (s mezerami, velkými/malými písmeny atd.), např. <code>My-download.pdf</code>.
+
+
+
+media_manager_effect_convert2img=Soubor: Převést na obrázek
+media_manager_effect_convert2img_density=Hustota rozlišení
+media_manager_effect_convert2img_convertto=Cílový formát
+media_manager_effect_convert2img_density_notice=Hustota rozlišení v ppi (pixelech na palec).
+media_manager_effect_convert2img_convertto_notice=Cílový formát, do kterého se soubor převádí. V úvahu se berou následující přípony souborů: <code>.pdf, .ps, .psd, .tif, .tiff, .bmp, .eps, .ico, .svg</code>.
+media_manager_effect_convert2img_noimagemagick=Pozor: ImageMagick se nepodařilo najít. Tento efekt vyžaduje buď rozšíření PHP "imagick", nebo ImageMagick jako "binární soubor příkazového řádku" spustitelný pomocí funkce exec().
+media_manager_effect_convert2img_color=Barva pro průhlednost
+media_manager_effect_convert2img_color_notice="Formát \"#ffffff\", pokud není nastaveno nic, použije se průhlednost. V případě JPG nezapomeňte uvést barvu."
+
+
+media_manager_effect_image_properties=Obraz: Nastavení (kvalita, prokládání, ...)
+media_manager_effect_image_properties_jpg_quality_notice=[0-100]. Pro výchozí hodnotu ponechte prázdné.
+media_manager_effect_image_properties_png_compression_notice=[0-9]. Pro výchozí hodnotu ponechte prázdné.
+media_manager_effect_image_properties_webp_quality_notice=[0-100]. Pro výchozí hodnotu ponechte prázdné.
+media_manager_effect_image_properties_interlace_notice=Pro standardní výběr ponechte prázdné.
+
+media_manager_effect_brightness=Obrázek: Jas
+media_manager_effect_brightness_value=Jas
+media_manager_effect_brightness_notice=[-255 až 255]. Pro výchozí hodnotu (0) ponechte prázdné.
+
+media_manager_effect_contrast=Obrázek: Kontrast
+media_manager_effect_contrast_value=Kontrast
+media_manager_effect_contrast_notice=[-100 až 100]. Pro výchozí hodnotu (0) ponechte prázdné.
+
+media_manager_effect_sepia=Obrázek: Sepia
+
+media_manager_effect_greyscale=Obrázek: greyscale
+
+media_manager_effect_image_format=Obrázek: Převod do formátu JPEG/PNG/GIF/WEBP
+media_manager_effect_image_format_convertto=Cílový formát
+

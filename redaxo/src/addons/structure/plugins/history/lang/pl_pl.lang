@@ -1,0 +1,23 @@
+structure_history=Historia
+structure_history_title_info=Krótkie wyjaśnienie
+structure_history_snapshot_reactivate=Przyjąć tę wersję
+structure_history_snapshot_reactivated=Wersja została przyjęta
+structure_history_overview_versions=historia_przeglądu_wersji
+structure_history_current_version=Aktualna wersja
+structure_history_info_content=<p>Wtyczka historii, za pomocą której mogą Państwo rejestrować zmiany w treści artykułu. Tworzona jest migawka wersji i opatrzona datą. Starsze wersje można później ponownie aktywować.</p>
+structure_history_todos=Todos
+structure_history_todos_content=<ul><li>prepare cronjob</li><li>make history deactivatable</li><li>include settings to limit number of versions. Np. po tygodniu zachować tylko jedną wersję/dzień. po miesiącu zachować tylko jedną wersję/miesiąc....</li><li>Ustawić wartości skalowania strony</li><li>Uatrakcyjnić wyświetlanie ala Time Machine ?</li></ul>
+
+perm_options_history[article_rollback]=Przywrócić element (historia)
+
+structure_history_button_delete_history=Całkowicie usunąć historię
+structure_history_deleted=Historia została całkowicie usunięta.
+structure_history_savedby=zabezpieczony przez
+structure_history_close=Anuluj
+
+structure_history_cleanup=Wyczyść historię artykułów
+structure_history_cleanup_after=Usuń historię, jeśli jest starsza niż
+structure_history_days={0} Dni
+structure_history_months={0} Miesiące
+structure_history_years={0} lata
+

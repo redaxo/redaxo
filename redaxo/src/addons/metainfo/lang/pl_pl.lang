@@ -1,0 +1,86 @@
+media=Media
+categories=Kategorie
+articles=Artykuł
+
+minfo_title=Rozszerzenie meta informacji
+minfo_metainfos_not_found=Nie znaleziono meta informacji
+
+minfo_field_list_caption=Lista pól meta
+
+minfo_field_fieldset=Edytuj/twórz pole
+minfo_field_label_prefix=Prefiks
+minfo_field_label_title=Nazwa pola
+minfo_field_label_name=Nazwa kolumny
+minfo_field_label_function=Funkcja
+minfo_field_label_functions=Funkcje
+minfo_field_label_id=Id
+minfo_field_label_type=Typ pola
+minfo_field_label_attributes=Atrybuty pola
+minfo_field_label_callback=Callback
+minfo_field_label_callback_templates=Szablony wywołań zwrotnych
+minfo_field_label_default=Wartość domyślna
+minfo_field_label_nullable=Pole obowiązkowe
+minfo_field_label_params=Parametr
+minfo_field_label_priority=Pozycja w terenie
+minfo_field_label_restrictions=Dostępne tylko w następujących kategoriach
+minfo_field_label_no_restrictions=Dostępne we wszystkich kategoriach
+minfo_field_label_all_templates=Dostępne dla wszystkich szablonów
+minfo_field_label_templates=Dostępne tylko dla następujących szablonów
+
+minfo_field_notice_title=Prefiks "translate:" tłumaczy wartość poprzez I18N
+
+minfo_field_first_priority=Na początku
+minfo_field_after_priority=Po polu "{0}"
+
+minfo_field_params_notice_3="Przykłady:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_4="Przykłady:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_5="Przykłady:<br />a) <code>all|user|admin</code><br />b) <code>1:all|2:user|3:admin</code><br />c) <code>SELECT label,id FROM my_table WHERE a=4</code><br />d) <code>(DB2) SELECT label,id FROM my_table WHERE a=4</code>"
+minfo_field_params_notice_6="Przykład:<br /> <code>category=\"1\" types=\"gif,jpg\" preview=\"1\"</code>"
+minfo_field_params_notice_7="Przykład:<br /> <code>category=\"1\" types=\"gif,jpg\" preview=\"1\"</code>"
+minfo_field_params_notice_8="Przykład:<br /> <code>category=\"1\"</code>"
+minfo_field_params_notice_9="Przykład:<br /> <code>category=\"1\"</code>"
+minfo_field_params_notice_10="Przykład:<br /> <code>begin-year=\"1990\" end-year=\"2030\"</code>"
+minfo_field_params_notice_11="Przykład:<br /> <code>begin-year=\"1990\" end-year=\"2030\"</code>"
+
+minfo_field_attributes_notice="Atrybuty HTML przy polu wejściowym i uprawnieniach, na przykład:<br /><code>style=\"color:red" ;" multiple="multiple" class="my_css_class" perm="admin[]"</code>
+minfo_field_label_notice=Kod, który jest wykonywany, gdy wartość pola zostanie zmieniona.<br /> Zmienne do odczytu: <code>string $fieldName, string $fieldValue, rex_sql $field</code>
+
+minfo_field_error_name=Proszę podać nazwy kolumn!
+minfo_field_error_unique_name=Podana nazwa kolumny już istnieje!
+minfo_field_error_unique_type=Podana nazwa typu już istnieje!
+minfo_field_error_chars_name=Nazwa kolumny zawiera nieprawidłowe znaki (Dozwolone są A-Z, 0-9 i _)!
+minfo_field_error_invalid_prefix=Podany prefiks jest nieprawidłowy!
+minfo_field_error_invalid_type=Podany typ jest nieprawidłowy!
+minfo_field_error_invalid_length=Podana długość pola jest nieprawidłowa!
+minfo_field_error_invalid_name=Podana nazwa kolumny jest nieprawidłowa!
+minfo_field_error_invalid_fieldid=Podany identyfikator pola jest nieprawidłowy!
+minfo_field_error_invalid_typeid=Podany Type-Id jest nieważny!
+minfo_field_error_deleted=Pole nie zostało usunięte!
+minfo_field_successfull_deleted=Pole pomyślnie usunięte!
+minfo_field_successfull_saved=Dane zostały pomyślnie zapisane!
+
+minfo_default_fields_create=Tworzenie pól standardowych
+minfo_default_fields_created=Pola standardowe utworzone pomyślnie!
+
+minfo_edit_metadata=Edycja metadanych
+minfo_metadata_saved=Metadane zostały zapisane.
+
+minfo_media_in_use_art=Artykuł (metadane)
+minfo_media_in_use_cat=Kategorie (metadane)
+minfo_media_in_use_med=Media (metadane)
+minfo_media_in_use_clang=Języki (metadane)
+
+minfo_callback_lang_indep_field=Pole niezależne od języka
+
+# bc: labels aus dem core=
+online_from=Online od
+online_to=do
+description=Opis
+keywords=Wyszukiwane pojęcia
+header_article_type=Rodzaj artykułu
+metadata_image=Metafile/obraz
+teaser=Teaser
+pool_file_copyright=Copyright
+
+metadata=Metadane
+

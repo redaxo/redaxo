@@ -1,0 +1,4 @@
+debug=Debug
+debug_activate_debugmode=Aktywować tryb debugowania, aby móc korzystać z dodatku debugowania.
+debug_error_unzip=Podczas rozpakowywania zasobów z archiwum Clockwork Frontend wystąpił błąd!
+

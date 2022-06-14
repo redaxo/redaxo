@@ -1,0 +1,33 @@
+customizer=Customizer
+customizer_features=CodeMirror
+
+customizer_codemirror=CodeMirror
+customizer_codemirror_check=Activer le CodeMirror
+customizer_codemirror_selectors=Sélecteurs jQuery supplémentaires pour CodeMirror
+customizer_codemirror_selectors_info=Liste séparée par des virgules des sélecteurs jQuery pour lesquels le CodeMirror est appliqué.<br>Les valeurs par défaut sont <code>textarea.rex-js-code</code> et <code>textarea.codemirror</code>.
+customizer_codemirror_theme=Thème CodeMirror
+customizer_codemirror_langs=Surligneurs supplémentaires
+customizer_codemirror_langs_text=(markdown, textile, gfm, yaml, sql ...)
+customizer_codemirror_tools=Caractéristiques supplémentaires
+customizer_codemirror_tools_text=(pliage de code, correspondance de bracket, correspondance de tag, brackets fermés, recherche)
+customizer_codemirror_autoresize=AutoResize
+customizer_codemirror_autoresize_text=(CodeMirror s'adapte en hauteur au contenu)
+
+customizer_codemirror_info="Une fois activé, le CodeMirror est automatiquement utilisé pour les modèles, les modules, les actions et les tâches cron. Si vous souhaitez utiliser le CodeMirror vous-même, veuillez utiliser la forme suivante :<br><br><code><textarea class=\"codemirror\" data-codemirror-theme=\"themename\" data-codemirror-mode=\"php/htmlmixed\"></textarea></code><br><br>Les paramètres <i>data-codemirror-theme</i> et <i>data-codemirror-mode</i> sont facultatifs.<br><br>Les touches F11 et ESC permettent d'accéder au mode plein écran."
+
+customizer_labeling=Compléments
+customizer_labelcolor=Couleur d'identification
+customizer_labelcolor_notice="N'importe quelle spécification de couleur CSS valide (<code>#03f0ab</code>, <code>rgba(255, 100, 0, 0.5)</code> etc.)"
+customizer_showlink=Afficher le lien vers le site web ?
+
+customizer_config_updated=Les entrées ont été enregistrées
+customizer_config_update_failed=Les entrées n'ont pas été enregistrées
+
+customizer_update=Enregistrer les paramètres
+customizer_error_unzip=Une erreur s'est produite lors de l'extraction des assets de l'archive codemirror !
+
+customizer_projectname=Nom du projet
+customizer_textarea=large textarea sous Template et Modules
+customizer_liquid=Mise en page liquide
+customizer_nav_flyout=Navigation avec flyout
+
