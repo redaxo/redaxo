@@ -1,3 +1,4 @@
-cronjob_article_status = Estado del artículo
-cronjob_article_reset_date =
-cronjob_article_reset_date_info =
+cronjob_article_status=Estado del artículo
+cronjob_article_reset_date=Campos de fecha de artículo vacíos tras el cambio de estado
+cronjob_article_reset_date_info=Esta opción borra la fecha "online_from" u "online_to"<br>en los metadatos del artículo tras el cambio de estado.
+
