@@ -116,22 +116,12 @@ parameters:
 			path: ../../redaxo/src/core/lib/api_function.php
 
 		-
-			message: "#^If condition is always false\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/autoload.php
-
-		-
 			message: "#^Negated boolean expression is always false\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/autoload.php
 
 		-
 			message: "#^Parameter \\#1 \\$autoload_function of function spl_autoload_register expects callable\\(string\\)\\: void, array\\{'rex_autoload', 'autoload'\\} given\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/autoload.php
-
-		-
-			message: "#^Right side of && is always false\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/autoload.php
 

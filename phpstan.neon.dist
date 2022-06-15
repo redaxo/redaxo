@@ -30,11 +30,6 @@ parameters:
     # https://phpstan.org/config-reference#universal-object-crates
     universalObjectCratesClasses:
         - rex_fragment
-    # make phpstan aware of never returning methods
-    # https://github.com/phpstan/phpstan/issues/2900
-    earlyTerminatingMethodCalls:
-        rex_response:
-            - sendRedirect
     symfony:
         console_application_loader: .tools/phpstan/console.php
     ignoreErrors:

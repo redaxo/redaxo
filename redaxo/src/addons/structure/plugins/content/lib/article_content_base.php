@@ -703,7 +703,7 @@ class rex_article_content_base
                 if ('edit' != $this->mode && !$this->eval) {
                     if (0 == $i) {
                         $articleContent = "<?php\n\nif (\$this->ctype == '".$sliceCtypeId."' || \$this->ctype == '-1') {\n";
-                    } elseif (isset($prevCtype) && $sliceCtypeId != $prevCtype) {
+                    } elseif (null !== $prevCtype && $sliceCtypeId != $prevCtype) {
                         // ----- zwischenstand: ctype .. wenn ctype neu dann if
                         $articleContent .= "}\n\nif (\$this->ctype == '".$sliceCtypeId."' || \$this->ctype == '-1') {\n";
                     }
