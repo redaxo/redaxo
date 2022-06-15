@@ -252,6 +252,10 @@ class rex_request
      */
     public static function isPJAXRequest()
     {
+        if ('cli' === PHP_SAPI) {
+            return false;
+        }
+
         return 'true' == rex::getRequest()->headers->get('X-Pjax');
     }
 
