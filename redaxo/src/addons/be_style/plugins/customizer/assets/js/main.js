@@ -114,10 +114,14 @@ Customizer.init = function (container) {
                         if (cm.doc.somethingSelected()) {
                             return CodeMirror.Pass;
                         }
-                        var spacesPerTab = cm.getOption("indentUnit");
-                        var spacesToInsert = spacesPerTab - (cm.doc.getCursor("start").ch % spacesPerTab);
-                        var spaces = Array(spacesToInsert + 1).join(" ");
-                        cm.replaceSelection(spaces, "end", "+input");
+                        if (!cm.getOption("indentWithTabs")) {
+                            var spacesPerTab = cm.getOption("indentUnit");
+                            var spacesToInsert = spacesPerTab - (cm.doc.getCursor("start").ch % spacesPerTab);
+                            var spaces = Array(spacesToInsert + 1).join(" ");
+                            cm.replaceSelection(spaces, "end", "+input");
+                        } else {
+                            cm.replaceSelection('\t', "end", "+input");
+                        }
                     }
                 }
             }
