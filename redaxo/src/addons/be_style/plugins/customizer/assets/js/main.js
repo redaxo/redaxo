@@ -1,7 +1,7 @@
 $(document).on('rex:ready', function (event, container) {
     if (container.find(rex.customizer_codemirror_selectors).length > 0) {
         // Zusätzliche Themes?
-        themes = '';
+        themes = rex.customizer_codemirror_defaulttheme + ',' + rex.customizer_codemirror_defaultdarktheme + ',';
         container.find(rex.customizer_codemirror_selectors).each(function () {
             $.each(this.attributes, function () {
                 if (this.specified) {
@@ -48,7 +48,7 @@ $(document).on('rex:ready', function (event, container) {
     }
 });
 
-var Customizer = function () {};
+var Customizer = function () { };
 
 Customizer.init = function (container) {
     var cm_editor = {};
@@ -67,8 +67,13 @@ Customizer.init = function (container) {
         var mode = "application/x-httpd-php";
         var theme = rex.customizer_codemirror_defaulttheme;
 
+        if (document.body.classList.contains('rex-theme-dark')) {
+            theme = rex.customizer_codemirror_defaultdarktheme;
+        }
+
         var new_mode = t.attr("data-codemirror-mode");
         var new_theme = t.attr("data-codemirror-theme");
+        var new_options = t.attr("data-codemirror-options");
 
         if (typeof new_mode !== "undefined") {
             mode = new_mode;
@@ -77,9 +82,8 @@ Customizer.init = function (container) {
         if (typeof new_theme !== "undefined") {
             theme = new_theme;
         }
-
         if (typeof CodeMirror === "function") {
-            cm_editor[cm] = CodeMirror.fromTextArea(document.getElementById(id), {
+            cm_options = {
                 mode: mode,
                 theme: theme,
                 autoRefresh: true,
@@ -94,6 +98,7 @@ Customizer.init = function (container) {
                 tabSize: 4,
                 indentUnit: 4,
                 indentWithTabs: false,
+                smartIndent: true,
                 enterMode: "keep",
                 tabMode: "shift",
                 gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
@@ -115,7 +120,26 @@ Customizer.init = function (container) {
                         cm.replaceSelection(spaces, "end", "+input");
                     }
                 }
-            });
+            }
+            try {
+                if (rex.customizer_codemirror_options) {
+                    additional_options = jQuery.parseJSON(rex.customizer_codemirror_options);
+                    $.extend(cm_options, additional_options);
+                }
+            } catch (e) {
+                console.log('Error in global Codemirror-Options! \nOptions: ' + rex.customizer_codemirror_options);
+                console.log(e);
+            }
+            try {
+                if (new_options) {
+                    additional_options = jQuery.parseJSON(new_options);
+                    $.extend(cm_options, additional_options);
+                }
+            } catch (e) {
+                console.log('Error in Textarea-Codemirror-Options! \nOptions: ' + new_options);
+                console.log(e);
+            }
+            cm_editor[cm] = CodeMirror.fromTextArea(document.getElementById(id), cm_options);
         }
     });
 
