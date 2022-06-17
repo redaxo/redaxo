@@ -68,7 +68,7 @@ abstract class rex_effect_abstract
     }
 
     /**
-     * @param resource $gdImage
+     * @param resource|GdImage $gdImage  ready for PHP8: switch from "resource" to "GdImage"
      */
     protected function keepTransparent($gdImage)
     {
