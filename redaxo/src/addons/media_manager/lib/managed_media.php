@@ -29,7 +29,7 @@ class rex_managed_media
     /** @var bool */
     private $asImage = false;
 
-    /** @var array{width: ?int, height: ?int, src?: resource}&array<string, mixed> */
+    /** @var array{width: ?int, height: ?int, src?: resource|GdImage}&array<string, mixed> */
     private $image = [
         'width' => null,
         'height' => null,
@@ -313,7 +313,7 @@ class rex_managed_media
     }
 
     /**
-     * @return resource
+     * @return resource|GdImage     ready for PHP8: switch from "resource" to "GdImage"
      */
     public function getImage()
     {
@@ -325,7 +325,7 @@ class rex_managed_media
     }
 
     /**
-     * @param resource $src
+     * @return resource|GdImage     ready for PHP8: switch from "resource" to "GdImage"
      */
     public function setImage($src)
     {
@@ -344,7 +344,7 @@ class rex_managed_media
         if (!isset($this->image['src'])) {
             return;
         }
-        if (!is_resource($this->image['src'])) {
+        if (is_resource($this->image['src']) || $this->image['src'] instanceof \GdImage) { // ready for PHP8: switch from "resource" to "GdImage"
             return;
         }
         imagedestroy($this->image['src']);
