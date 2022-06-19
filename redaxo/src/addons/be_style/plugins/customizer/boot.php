@@ -131,7 +131,7 @@ if (rex::isBackend() && rex::getUser()) {
             rex_view::setJsProperty('customizer_codemirror_autoresize', $config['codemirror-autoresize']);
         }
         // JsProperty Codemirror-Options
-        rex_view::setJsProperty('customizer_codemirror_options', $config['codemirror-options']);
+        rex_view::setJsProperty('customizer_codemirror_options', str_replace(array("\n", "\r"), '', trim($config['codemirror-options'])));
         // JsProperty JS/CSS-Buster
         $mtimejs = filemtime($plugin->getAssetsUrl('vendor/codemirror/codemirror.min.js'));
         $mtimecss = filemtime($plugin->getAssetsUrl('vendor/codemirror/codemirror.min.css'));
