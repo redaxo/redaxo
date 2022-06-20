@@ -344,7 +344,7 @@ class rex_managed_media
         if (!isset($this->image['src'])) {
             return;
         }
-        if (is_resource($this->image['src']) || $this->image['src'] instanceof \GdImage) { // ready for PHP8: switch from "resource" to "GdImage"
+        if (is_resource($this->image['src'])) {
             return;
         }
         imagedestroy($this->image['src']);
