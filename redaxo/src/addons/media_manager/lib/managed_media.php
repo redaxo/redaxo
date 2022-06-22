@@ -341,11 +341,10 @@ class rex_managed_media
         $this->sourcePath = $path;
 
         $this->asImage = false;
-        // prepared for propper use PHP7 "is_resource($this->image['src'])" and PHP8 "$this->image['src'] instanceof \GdImage)"
-        if (!is_resource($this->image['src']) && !($this->image['src'] instanceof \GdImage)) { 
-            return;
+        // PHP 7 compat
+        if (is_resource($this->image['src'])) { 
+            imagedestroy($this->image['src']);
         }
-        imagedestroy($this->image['src']);
     }
 
     /**
