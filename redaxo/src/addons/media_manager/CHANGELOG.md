@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 2.12.2 – 03.05.2022
+---------------------------
+
+### Bugfixes
+
+* Effekt `image_format`: Bei `.jpeg`-Dateien (nicht `.jpg`) war die neue Extension im Header nicht korrekt (@gharlan)
+* Beim Löschen von Medien wurde deren Verwendung im Media Manager (z.B. als Wasserzeichen) nicht geprüft (@TobiasKrais)
+
+
 Version 2.12.1 – 29.11.2021
 ---------------------------
 
