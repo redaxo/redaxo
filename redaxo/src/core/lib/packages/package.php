@@ -366,22 +366,22 @@ abstract class rex_package implements rex_package_interface
         }
 
         $cache = rex_file::getCache($path = rex_path::coreCache(self::PROPERTIES_CACHE_FILE));
-        if (!$cache) {
-            return;
-        }
+        if ($cache) {
+            unset($cache[$this->getPackageId()]);
 
-        unset($cache[$this->getPackageId()]);
-
-        if ($this instanceof rex_addon) {
-            $start = $this->getPackageId().'/';
-            foreach ($cache as $packageId => $_) {
-                if (str_starts_with((string) $packageId, $start)) {
-                    unset($cache[$packageId]);
+            if ($this instanceof rex_addon) {
+                $start = $this->getPackageId().'/';
+                foreach ($cache as $packageId => $_) {
+                    if (str_starts_with((string) $packageId, $start)) {
+                        unset($cache[$packageId]);
+                    }
                 }
             }
+
+            rex_file::putCache($path, $cache);
         }
 
-        rex_file::putCache($path, $cache);
+        rex_extension::registerPoint(new rex_extension_point('PACKAGE_CACHE_DELETED', $this, [], true));
     }
 
     public function enlist()
