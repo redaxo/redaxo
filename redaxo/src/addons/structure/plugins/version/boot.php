@@ -1,3 +1,11 @@
+<script>
+function switch_to_work(){
+	setTimeout(function(){
+		$('.switch_version ul.dropdown-menu li:not(.active) a').trigger('click');
+	},1500);
+	return false;
+}
+</script>
 <?php
 
 /**
@@ -98,6 +106,11 @@ rex_extension::register('STRUCTURE_CONTENT_BEFORE_SLICES', static function (rex_
             rex_article_revision::copyContent($params['article_id'], $params['clang'], rex_article_revision::LIVE, rex_article_revision::WORK);
             $return .= rex_view::success(rex_i18n::msg('version_info_live_version_to_working'));
         break;
+		case 'copy_live_to_work_switch':
+            rex_article_revision::copyContent($params['article_id'], $params['clang'], rex_article_revision::LIVE, rex_article_revision::WORK);
+			$return .= rex_view::success(rex_i18n::msg('version_info_live_version_to_working'));
+			$return .= '<script>switch_to_work();</script>';
+		break;
         case 'clear_work':
             if (rex_article_revision::clearContent($params['article_id'], $params['clang'], rex_article_revision::WORK)) {
                 $return .= rex_view::success(rex_i18n::msg('version_info_clear_workingversion'));
@@ -148,7 +161,7 @@ rex_extension::register('STRUCTURE_CONTENT_BEFORE_SLICES', static function (rex_
         $fragment->setVar('disabled', true);
     }
 
-    $toolbar .= '<li class="dropdown">' . $fragment->parse('core/dropdowns/dropdown.php') . '</li>';
+    $toolbar .= '<li class="dropdown switch_version">' . $fragment->parse('core/dropdowns/dropdown.php') . '</li>';
 
     if (!rex::getUser()->hasPerm('version[live_version]')) {
         if ($rexVersionArticle[$params['article_id']] > 0) {
@@ -164,6 +177,7 @@ rex_extension::register('STRUCTURE_CONTENT_BEFORE_SLICES', static function (rex_
             $toolbar .= '<li><a href="' . rex_getUrl($params['article_id'], $params['clang'], [rex_version::class => 1]) . '" rel="noopener noreferrer" target="_blank">' . rex_i18n::msg('version_preview') . '</a></li>';
         } else {
             $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_live_to_work']) . '" data-confirm="' . rex_i18n::msg('version_confirm_copy_live_to_workingversion') . '">' . rex_i18n::msg('version_copy_live_to_workingversion') . '</a></li>';
+            $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_live_to_work_switch']) . '" data-confirm="' . rex_i18n::msg('version_confirm_copy_live_to_workingversion') . '">' . rex_i18n::msg('version_copy_live_to_workingversion_switch') . '</a></li>';
         }
     }
 
