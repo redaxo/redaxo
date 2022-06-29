@@ -6,6 +6,7 @@ version_working_to_live = als Liveversion freigeben
 version_preview = Voransicht
 version_clear_workingversion = Arbeitsversion leeren
 version_copy_live_to_workingversion = in Arbeitsversion kopieren
+version_copy_live_to_workingversion_switch = in Arbeitsversion kopieren und direkt wechseln
 version_copy_from_liveversion = aus Liveversion übernehmen
 version_confirm_copy_live_to_workingversion = Liveversion in Arbeitsversion kopieren? Alle bestehenden Inhalte der Arbeitsversion werden überschrieben.
 version_info_working_version_to_live = Arbeitsversion wurde live gestellt
