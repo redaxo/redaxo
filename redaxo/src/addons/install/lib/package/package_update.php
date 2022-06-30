@@ -4,17 +4,16 @@
  * @package redaxo\install
  *
  * @internal
+ *
+ * @psalm-suppress MissingConstructor
  */
 class rex_install_package_update extends rex_install_package_download
 {
     /**
-     * @var rex_addon|null
+     * @var rex_addon
      */
     private $addon;
 
-    /**
-     * @return array
-     */
     protected function getPackages()
     {
         return rex_install_packages::getUpdatePackages();
@@ -28,7 +27,7 @@ class rex_install_package_update extends rex_install_package_download
         $addon = rex_addon::get($this->addonkey);
         assert($addon instanceof rex_addon);
         $this->addon = $addon;
-        if (!rex_string::versionCompare($this->file['version'], $this->addon->getVersion(), '>')) {
+        if (!rex_version::compare($this->file['version'], $this->addon->getVersion(), '>')) {
             throw new rex_functional_exception(sprintf('Existing version of AddOn "%s" (%s) is newer than %s', $this->addonkey, $this->addon->getVersion(), $this->file['version']));
         }
     }
@@ -37,6 +36,7 @@ class rex_install_package_update extends rex_install_package_download
     {
         $path = rex_path::addon($this->addonkey);
         $temppath = rex_path::addon('.new.' . $this->addonkey);
+        $oldVersion = $this->addon->getVersion();
 
         if (true !== ($msg = $this->extractArchiveTo($temppath))) {
             return $msg;
@@ -66,7 +66,7 @@ class rex_install_package_update extends rex_install_package_download
             } catch (rex_sql_exception $e) {
                 return 'SQL error: ' . $e->getMessage();
             }
-            if ('' != ($msg = $this->addon->getProperty('updatemsg', ''))) {
+            if ('' != ($msg = (string) $this->addon->getProperty('updatemsg', ''))) {
                 return $msg;
             }
             if (!$this->addon->getProperty('update', true)) {
@@ -88,7 +88,7 @@ class rex_install_package_update extends rex_install_package_download
         if (isset($installConfig['backups']) && $installConfig['backups']) {
             $archivePath = rex_path::addonData('install', $this->addonkey . '/');
             rex_dir::create($archivePath);
-            $archive = $archivePath . strtolower(preg_replace('/[^a-z0-9-_.]/i', '_', $this->addon->getVersion('0'))) . '.zip';
+            $archive = $archivePath . strtolower(preg_replace('/[^a-z0-9-_.]/i', '_', $this->addon->getVersion() ?: '0')) . '.zip';
             rex_install_archive::copyDirToArchive($path, $archive);
             if (is_dir($assets)) {
                 rex_install_archive::copyDirToArchive($assets, $archive, 'assets');
@@ -127,10 +127,14 @@ class rex_install_package_update extends rex_install_package_download
         $this->addon->setProperty('version', $this->file['version']);
         rex_install_packages::updatedPackage($this->addonkey, $this->fileId);
 
+        rex_logger::factory()->info('AddOn '. $this->addonkey .' updated from '. $oldVersion .' to version '. $this->file['version']);
+
         // re-generate opcache to make sure new/updated classes immediately are available
         if (function_exists('opcache_reset')) {
             opcache_reset();
         }
+
+        return null;
     }
 
     /**
@@ -141,8 +145,11 @@ class rex_install_package_update extends rex_install_package_download
         $temppath = rex_path::addon('.new.' . $this->addonkey);
 
         // ---- update "version", "requires" and "conflicts" properties
+        /** @psalm-var SplObjectStorage<rex_package, string> $versions */
         $versions = new SplObjectStorage();
+        /** @psalm-var SplObjectStorage<rex_package, array> $requirements */
         $requirements = new SplObjectStorage();
+        /** @psalm-var SplObjectStorage<rex_package, array> $conflicts */
         $conflicts = new SplObjectStorage();
 
         $requirements[$this->addon] = $this->addon->getProperty('requires', []);

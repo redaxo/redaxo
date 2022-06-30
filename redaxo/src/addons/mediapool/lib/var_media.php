@@ -52,17 +52,18 @@ class rex_var_media extends rex_var
     }
 
     /**
+     * @param int|string $id
      * @return string
      */
     public static function getWidget($id, $name, $value, array $args = [])
     {
-        $open_params = '';
+        $openParams = '';
         if (isset($args['category']) && ($category = (int) $args['category'])) {
-            $open_params .= '&amp;rex_file_category=' . $category;
+            $openParams .= '&amp;rex_file_category=' . $category;
         }
 
         foreach ($args as $aname => $avalue) {
-            $open_params .= '&amp;args[' . urlencode($aname) . ']=' . urlencode($avalue);
+            $openParams .= '&amp;args[' . urlencode($aname) . ']=' . urlencode($avalue);
         }
 
         $wdgtClass = ' rex-js-widget-media';
@@ -74,32 +75,32 @@ class rex_var_media extends rex_var
         }
 
         $disabled = ' disabled';
-        $open_func = '';
-        $add_func = '';
-        $delete_func = '';
-        $view_func = '';
+        $openFunc = '';
+        $addFunc = '';
+        $deleteFunc = '';
+        $viewFunc = '';
         if (rex::getUser()->getComplexPerm('media')->hasMediaPerm()) {
             $disabled = '';
-            $open_func = 'openREXMedia(' . $id . ',\'' . $open_params . '\');';
-            $add_func = 'addREXMedia(' . $id . ',\'' . $open_params . '\');';
-            $delete_func = 'deleteREXMedia(' . $id . ');';
-            $view_func = 'viewREXMedia(' . $id . ',\'' . $open_params . '\');';
+            $quotedId = "'".rex_escape($id, 'js')."'";
+            $openFunc = 'openREXMedia(' . $quotedId . ', \'' . $openParams . '\');';
+            $addFunc = 'addREXMedia(' . $quotedId . ', \'' . $openParams . '\');';
+            $deleteFunc = 'deleteREXMedia(' . $quotedId . ');';
+            $viewFunc = 'viewREXMedia(' . $quotedId . ', \'' . $openParams . '\');';
         }
 
         $e = [];
         $e['before'] = '<div class="rex-js-widget' . $wdgtClass . '">';
         $e['field'] = '<input class="form-control" type="text" name="' . $name . '" value="' . $value . '" id="REX_MEDIA_' . $id . '" readonly />';
         $e['functionButtons'] = '
-                <a href="#" class="btn btn-popup" onclick="' . $open_func . 'return false;" title="' . rex_i18n::msg('var_media_open') . '"' . $disabled . '><i class="rex-icon rex-icon-open-mediapool"></i></a>
-                <a href="#" class="btn btn-popup" onclick="' . $add_func . 'return false;" title="' . rex_i18n::msg('var_media_new') . '"' . $disabled . '><i class="rex-icon rex-icon-add-media"></i></a>
-                <a href="#" class="btn btn-popup" onclick="' . $delete_func . 'return false;" title="' . rex_i18n::msg('var_media_remove') . '"' . $disabled . '><i class="rex-icon rex-icon-delete-media"></i></a>
-                <a href="#" class="btn btn-popup" onclick="' . $view_func . 'return false;" title="' . rex_i18n::msg('var_media_view') . '"' . $disabled . '><i class="rex-icon rex-icon-view-media"></i></a>';
+                <a href="#" class="btn btn-popup" onclick="' . $openFunc . 'return false;" title="' . rex_i18n::msg('var_media_open') . '"' . $disabled . '><i class="rex-icon rex-icon-open-mediapool"></i></a>
+                <a href="#" class="btn btn-popup" onclick="' . $addFunc . 'return false;" title="' . rex_i18n::msg('var_media_new') . '"' . $disabled . '><i class="rex-icon rex-icon-add-media"></i></a>
+                <a href="#" class="btn btn-popup" onclick="' . $deleteFunc . 'return false;" title="' . rex_i18n::msg('var_media_remove') . '"' . $disabled . '><i class="rex-icon rex-icon-delete-media"></i></a>
+                <a href="#" class="btn btn-popup" onclick="' . $viewFunc . 'return false;" title="' . rex_i18n::msg('var_media_view') . '"' . $disabled . '><i class="rex-icon rex-icon-view-media"></i></a>';
         $e['after'] = '<div class="rex-js-media-preview"></div></div>';
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', [$e], false);
-        $media = $fragment->parse('core/form/widget.php');
 
-        return $media;
+        return $fragment->parse('core/form/widget.php');
     }
 }

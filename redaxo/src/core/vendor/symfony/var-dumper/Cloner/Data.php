@@ -36,7 +36,7 @@ class Data implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * @return string|null The type of the value
+     * @return string|null
      */
     public function getType()
     {
@@ -65,9 +65,11 @@ class Data implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
+     * Returns a native representation of the original value.
+     *
      * @param array|bool $recursive Whether values should be resolved recursively or not
      *
-     * @return string|int|float|bool|array|Data[]|null A native representation of the original value
+     * @return string|int|float|bool|array|Data[]|null
      */
     public function getValue($recursive = false)
     {
@@ -111,6 +113,7 @@ class Data implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * @return int
      */
+    #[\ReturnTypeWillChange]
     public function count()
     {
         return \count($this->getValue());
@@ -119,16 +122,17 @@ class Data implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * @return \Traversable
      */
+    #[\ReturnTypeWillChange]
     public function getIterator()
     {
         if (!\is_array($value = $this->getValue())) {
-            throw new \LogicException(sprintf('"%s" object holds non-iterable type "%s".', self::class, \gettype($value)));
+            throw new \LogicException(sprintf('"%s" object holds non-iterable type "%s".', self::class, get_debug_type($value)));
         }
 
         yield from $value;
     }
 
-    public function __get($key)
+    public function __get(string $key)
     {
         if (null !== $data = $this->seek($key)) {
             $item = $this->getStub($data->data[$data->position][$data->key]);
@@ -142,7 +146,7 @@ class Data implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * @return bool
      */
-    public function __isset($key)
+    public function __isset(string $key)
     {
         return null !== $this->seek($key);
     }
@@ -150,21 +154,34 @@ class Data implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function offsetExists($key)
     {
         return $this->__isset($key);
     }
 
+    /**
+     * @return mixed
+     */
+    #[\ReturnTypeWillChange]
     public function offsetGet($key)
     {
         return $this->__get($key);
     }
 
+    /**
+     * @return void
+     */
+    #[\ReturnTypeWillChange]
     public function offsetSet($key, $value)
     {
         throw new \BadMethodCallException(self::class.' objects are immutable.');
     }
 
+    /**
+     * @return void
+     */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($key)
     {
         throw new \BadMethodCallException(self::class.' objects are immutable.');
@@ -187,14 +204,12 @@ class Data implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * Returns a depth limited clone of $this.
      *
-     * @param int $maxDepth The max dumped depth level
-     *
      * @return static
      */
-    public function withMaxDepth($maxDepth)
+    public function withMaxDepth(int $maxDepth)
     {
         $data = clone $this;
-        $data->maxDepth = (int) $maxDepth;
+        $data->maxDepth = $maxDepth;
 
         return $data;
     }
@@ -202,14 +217,12 @@ class Data implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * Limits the number of elements per depth level.
      *
-     * @param int $maxItemsPerDepth The max number of items dumped per depth level
-     *
      * @return static
      */
-    public function withMaxItemsPerDepth($maxItemsPerDepth)
+    public function withMaxItemsPerDepth(int $maxItemsPerDepth)
     {
         $data = clone $this;
-        $data->maxItemsPerDepth = (int) $maxItemsPerDepth;
+        $data->maxItemsPerDepth = $maxItemsPerDepth;
 
         return $data;
     }
@@ -221,7 +234,7 @@ class Data implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @return static
      */
-    public function withRefHandles($useRefHandles)
+    public function withRefHandles(bool $useRefHandles)
     {
         $data = clone $this;
         $data->useRefHandles = $useRefHandles ? -1 : 0;
@@ -245,7 +258,7 @@ class Data implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @param string|int $key The key to seek to
      *
-     * @return static|null Null if the key is not set
+     * @return static|null
      */
     public function seek($key)
     {
@@ -328,14 +341,14 @@ class Data implements \ArrayAccess, \Countable, \IteratorAggregate
             }
         } elseif (Stub::TYPE_REF === $item->type) {
             if ($item->handle) {
-                if (!isset($refs[$r = $item->handle - (PHP_INT_MAX >> 1)])) {
+                if (!isset($refs[$r = $item->handle - (\PHP_INT_MAX >> 1)])) {
                     $cursor->refIndex = $refs[$r] = $cursor->refIndex ?: ++$refs[0];
                 } else {
                     $firstSeen = false;
                 }
                 $cursor->hardRefTo = $refs[$r];
                 $cursor->hardRefHandle = $this->useRefHandles & $item->handle;
-                $cursor->hardRefCount = $item->refCount;
+                $cursor->hardRefCount = 0 < $item->handle ? $item->refCount : 0;
             }
             $cursor->attr = $item->attr;
             $type = $item->class ?: \gettype($item->value);

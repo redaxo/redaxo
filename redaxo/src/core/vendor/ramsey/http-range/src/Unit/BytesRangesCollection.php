@@ -9,19 +9,21 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
+declare(strict_types=1);
+
 namespace Ramsey\Http\Range\Unit;
 
 /**
- * A collection of BytesRange objects
+ * A collection of `BytesRange` objects.
  */
 class BytesRangesCollection extends UnitRangesCollection
 {
     /**
-     * Returns the data type of the items allowed in this collection
+     * Returns the data type of the items allowed in this collection.
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return BytesRange::class;
     }

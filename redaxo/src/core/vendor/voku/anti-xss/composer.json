@@ -18,15 +18,15 @@
     {
       "name": "Lars Moelleken",
       "email": "lars@moelleken.org",
-      "homepage": "http://www.moelleken.org/"
+      "homepage": "https://www.moelleken.org/"
     }
   ],
   "require": {
     "php": ">=7.0.0",
-    "voku/portable-utf8": "~5.4.27"
+    "voku/portable-utf8": "~6.0.2"
   },
   "require-dev": {
-    "phpunit/phpunit": "~6.0 || ~7.0"
+    "phpunit/phpunit": "~6.0 || ~7.0 || ~9.0"
   },
   "autoload": {
     "psr-4": {

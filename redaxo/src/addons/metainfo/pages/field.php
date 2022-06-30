@@ -8,27 +8,26 @@
  * @package redaxo5
  */
 
-$title = '';
 $content = '';
 
 //------------------------------> Parameter
-if (empty($prefix)) {
+/** @psalm-suppress TypeDoesNotContainType */
+if (empty($prefix) || !is_string($prefix)) {
     throw new rex_exception('Fehler: Prefix nicht definiert!');
 }
 
-if (empty($metaTable)) {
+if (empty($metaTable) || !is_string($metaTable)) {
     throw new rex_exception('Fehler: metaTable nicht definiert!');
 }
 
-$Basedir = __DIR__;
 $func = rex_request('func', 'string');
-$field_id = rex_request('field_id', 'int');
+$fieldId = rex_request('field_id', 'int');
 
 //------------------------------> Feld loeschen
 if ('delete' == $func) {
-    $field_id = rex_request('field_id', 'int', 0);
-    if (0 != $field_id) {
-        if (rex_metainfo_delete_field($field_id)) {
+    $fieldId = rex_request('field_id', 'int', 0);
+    if (0 != $fieldId) {
+        if (rex_metainfo_delete_field($fieldId)) {
             echo rex_view::success(rex_i18n::msg('minfo_field_successfull_deleted'));
         } else {
             echo rex_view::error(rex_i18n::msg('minfo_field_error_deleted'));
@@ -47,10 +46,10 @@ if ('' == $func) {
     $likePrefix = str_replace(['_', '%'], ['\_', '\%'], $prefix);
 
     $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'metainfo_field WHERE `name` LIKE "' . $likePrefix . '%" ORDER BY priority');
-    $list->addTableAttribute('class', 'table-striped');
+    $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-metainfo"></i>';
-    $thIcon = '<a href="' . $list->getUrl(['func' => 'add']) . '"><i class="rex-icon rex-icon-add-metainfo"></i></a>';
+    $thIcon = '<a class="rex-link-expanded" href="' . $list->getUrl(['func' => 'add']) . '"><i class="rex-icon rex-icon-add-metainfo"></i></a>';
     $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-table-icon">###VALUE###</th>', '<td class="rex-table-icon">###VALUE###</td>']);
     $list->setColumnParams($thIcon, ['func' => 'edit', 'field_id' => '###id###']);
 
@@ -95,10 +94,10 @@ if ('' == $func) {
 //------------------------------> Formular
 elseif ('edit' == $func || 'add' == $func) {
     $title = rex_i18n::msg('minfo_field_fieldset');
-    $form = new rex_metainfo_table_expander($prefix, $metaTable, rex::getTablePrefix().'metainfo_field', 'id='.$field_id);
+    $form = new rex_metainfo_table_expander($prefix, $metaTable, rex::getTablePrefix().'metainfo_field', 'id='.$fieldId);
 
     if ('edit' == $func) {
-        $form->addParam('field_id', $field_id);
+        $form->addParam('field_id', $fieldId);
     }
 
     $content .= $form->get();

@@ -1,19 +1,36 @@
 <?php
 
-// don't use REX_MIN_PHP_VERSION or rex_setup::MIN_MYSQL_VERSION here!
+// don't use REX_MIN_PHP_VERSION or rex_setup::MIN_* constants here!
 // while updating the core, the constants contain the old min versions from previous core version
 
-if (PHP_VERSION_ID < 70103) {
-    throw new rex_functional_exception(rex_i18n::msg('setup_301', PHP_VERSION, '7.1.3'));
+if (PHP_VERSION_ID < 70300) {
+    throw new rex_functional_exception(rex_i18n::msg('setup_301', PHP_VERSION, '7.3'));
 }
 
-$mysqlVersion = rex_sql::getServerVersion();
-$minMysqlVersion = '5.5.3';
-if (rex_string::versionCompare($mysqlVersion, $minMysqlVersion, '<')) {
-    // The message was added in REDAXO 5.6.0, so it does not exist while updating from previous versions
-    $message = rex_i18n::hasMsg('sql_database_min_version')
-        ? rex_i18n::msg('sql_database_min_version', $mysqlVersion, $minMysqlVersion)
-        : "The MySQL version $mysqlVersion is too old, you need at least version $minMysqlVersion!";
+$minExtensions = ['ctype', 'fileinfo', 'filter', 'iconv', 'intl', 'mbstring', 'pcre', 'pdo', 'pdo_mysql', 'session', 'tokenizer'];
+$missing = array_filter($minExtensions, static function (string $extension) {
+    return !extension_loaded($extension);
+});
+if ($missing) {
+    throw new rex_functional_exception('Missing required php extension(s): '.implode(', ', $missing));
+}
+
+$minMysqlVersion = '5.6';
+$minMariaDbVersion = '10.1';
+
+$minVersion = $minMysqlVersion;
+$dbType = 'MySQL';
+$dbVersion = rex_sql::getServerVersion();
+if (preg_match('/^(?:\d+\.\d+\.\d+-)?(\d+\.\d+\.\d+)-mariadb/i', $dbVersion, $match)) {
+    $minVersion = $minMariaDbVersion;
+    $dbType = 'MariaDB';
+    $dbVersion = $match[1];
+}
+if (rex_string::versionCompare($dbVersion, $minVersion, '<')) {
+    // The message was added in REDAXO 5.11.1, so it does not exist while updating from previous versions
+    $message = rex_i18n::hasMsg('sql_database_required_version')
+        ? rex_i18n::msg('sql_database_required_version', $dbType, $dbVersion, $minMysqlVersion, $minMariaDbVersion)
+        : "The $dbType version $dbVersion is too old, you need at least MySQL $minMysqlVersion or MariaDB $minMariaDbVersion!";
 
     throw new rex_functional_exception($message);
 }
@@ -23,8 +40,18 @@ if (rex_string::versionCompare(rex::getVersion(), '5.6', '<')) {
     throw new rex_functional_exception(sprintf('The REDAXO version "%s" is too old for this update, please update to 5.6.5 before.', rex::getVersion()));
 }
 
+// Installer >= 2.9.2 required because of https://github.com/redaxo/redaxo/pull/4922
+// (Installer < 2.9.0 also works, because it does not contain the bug)
+$installerVersion = rex_addon::get('install')->getVersion();
+if (rex_string::versionCompare($installerVersion, '2.9.2', '<') && rex_string::versionCompare($installerVersion, '2.9.0', '>=')) {
+    throw new rex_functional_exception('This update requires at least version <b>2.9.2</b> of the <b>install</b> addon!');
+}
+
+$sessionKey = (string) rex::getProperty('instname').'_backend';
+
 if (rex_string::versionCompare(rex::getVersion(), '5.7.0-beta3', '<')) {
-    $_SESSION[rex::getProperty('instname').'_backend']['backend_login'] = $_SESSION[rex::getProperty('instname')]['backend_login'];
+    /** @psalm-suppress MixedArrayAssignment */
+    $_SESSION[$sessionKey]['backend_login'] = $_SESSION[rex::getProperty('instname')]['backend_login'];
 }
 
 if (rex_string::versionCompare(rex::getVersion(), '5.9.0-beta1', '<')) {
@@ -34,10 +61,21 @@ if (rex_string::versionCompare(rex::getVersion(), '5.9.0-beta1', '<')) {
     @rename(rex_path::coreData('system.log.2'), rex_path::data('log/system.log.2'));
 }
 
+if (rex_string::versionCompare(rex::getVersion(), '5.13.1', '<') && ($user = rex::getUser())) {
+    /** @psalm-suppress MixedArrayAssignment */
+    $_SESSION[$sessionKey]['backend_login']['password'] = $user->getValue('password');
+}
+
 $path = rex_path::coreData('config.yml');
-rex_file::putConfig($path, array_merge(
+$config = array_merge(
     rex_file::getConfig(__DIR__.'/default.config.yml'),
     rex_file::getConfig($path)
-));
+);
+
+if (rex_string::versionCompare(rex::getVersion(), '5.12.0-dev', '<')) {
+    $config['setup_addons'][] = 'install';
+}
+
+rex_file::putConfig($path, $config);
 
 require __DIR__.'/install.php';

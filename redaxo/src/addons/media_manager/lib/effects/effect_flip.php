@@ -7,14 +7,7 @@
  */
 class rex_effect_flip extends rex_effect_abstract
 {
-    private $options;
-
-    public function __construct()
-    {
-        $this->options = [
-            'X', 'Y', 'XY',
-        ];
-    }
+    private const OPTIONS = ['X', 'Y', 'XY'];
 
     public function execute()
     {
@@ -55,7 +48,7 @@ class rex_effect_flip extends rex_effect_abstract
                 'label' => rex_i18n::msg('media_manager_effect_flip_direction'),
                 'name' => 'flip',
                 'type' => 'select',
-                'options' => $this->options,
+                'options' => self::OPTIONS,
                 'default' => 'X',
             ],
         ];

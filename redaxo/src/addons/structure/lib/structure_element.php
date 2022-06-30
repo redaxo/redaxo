@@ -5,10 +5,11 @@
  *
  * @package redaxo\structure
  */
+#[AllowDynamicProperties]
 abstract class rex_structure_element
 {
-    use rex_instance_pool_trait;
     use rex_instance_list_pool_trait;
+    use rex_instance_pool_trait;
 
     /** @var int */
     protected $id = 0;
@@ -132,7 +133,7 @@ abstract class rex_structure_element
             $file = rex_path::addonCache('structure', $startId . '.1.article');
             if (!rex::isBackend() && is_file($file)) {
                 // da getClassVars() eine statische Methode ist, können wir hier nicht mit $this->getId() arbeiten!
-                $genVars = rex_file::getCache($file);
+                $genVars = rex_file::getCache($file, []);
                 unset($genVars['last_update_stamp']);
                 foreach ($genVars as $name => $value) {
                     self::$classVars[] = $name;
@@ -178,15 +179,15 @@ abstract class rex_structure_element
 
         $class = static::class;
         return static::getInstance([$id, $clang], static function ($id, $clang) use ($class) {
-            $article_path = rex_path::addonCache('structure', $id . '.' . $clang . '.article');
+            $articlePath = rex_path::addonCache('structure', $id . '.' . $clang . '.article');
 
             // load metadata from cache
-            $metadata = rex_file::getCache($article_path);
+            $metadata = rex_file::getCache($articlePath);
 
             // generate cache if not exists
             if (!$metadata) {
                 rex_article_cache::generateMeta($id, $clang);
-                $metadata = rex_file::getCache($article_path);
+                $metadata = rex_file::getCache($articlePath);
             }
 
             // if cache does not exist after generation, the article id is invalid
@@ -452,10 +453,8 @@ abstract class rex_structure_element
     {
         $attr = '';
 
-        if (null !== $attributes && is_array($attributes)) {
-            foreach ($attributes as $name => $value) {
-                $attr .= ' ' . $name . '="' . $value . '"';
-            }
+        foreach ($attributes as $name => $value) {
+            $attr .= ' ' . $name . '="' . $value . '"';
         }
 
         return $attr;
@@ -465,9 +464,7 @@ abstract class rex_structure_element
      * Get an array of all parentCategories.
      * Returns an array of rex_structure_element objects.
      *
-     * @return rex_category[]
-     *
-     * @psalm-return list<rex_category>
+     * @return list<rex_category>
      */
     public function getParentTree()
     {
@@ -480,15 +477,13 @@ abstract class rex_structure_element
                 $explode = explode('|', $this->path);
             }
 
-            if (is_array($explode)) {
-                foreach ($explode as $var) {
-                    if ('' != $var) {
-                        $cat = rex_category::get((int) $var, $this->clang_id);
-                        if (!$cat) {
-                            throw new LogicException('No category found with id='. $var .' and clang='. $this->clang_id .'.');
-                        }
-                        $return[] = $cat;
+            foreach ($explode as $var) {
+                if ('' != $var) {
+                    $cat = rex_category::get((int) $var, $this->clang_id);
+                    if (!$cat) {
+                        throw new LogicException('No category found with id='. $var .' and clang='. $this->clang_id .'.');
                     }
+                    $return[] = $cat;
                 }
             }
         }
@@ -504,18 +499,13 @@ abstract class rex_structure_element
     public function inParentTree(self $anObj)
     {
         $tree = $this->getParentTree();
-        foreach ($tree as $treeObj) {
-            if ($treeObj == $anObj) {
-                return true;
-            }
-        }
-        return false;
+        return in_array($anObj, $tree);
     }
 
     /**
      * Returns the closest element from parent tree (including itself) where the callback returns true.
      *
-     * @psalm-param callable(self):bool $callback
+     * @param callable(self):bool $callback
      */
     public function getClosest(callable $callback): ?self
     {

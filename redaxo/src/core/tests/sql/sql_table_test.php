@@ -10,7 +10,7 @@ class rex_sql_table_test extends TestCase
     public const TABLE = 'rex_sql_table_test';
     public const TABLE2 = 'rex_sql_table_test2';
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $sql = rex_sql::factory();
         $sql->setQuery('DROP TABLE IF EXISTS `' . self::TABLE2 . '`');
@@ -19,12 +19,12 @@ class rex_sql_table_test extends TestCase
         rex_sql_table::clearInstancePool();
     }
 
-    protected function createTable()
+    protected function createTable(): rex_sql_table
     {
         $table = rex_sql_table::get(self::TABLE);
 
         $table
-            ->addColumn(new rex_sql_column('id', 'int(11)', false, null, 'auto_increment'))
+            ->addColumn(new rex_sql_column('id', 'int(11)', false, null, 'auto_increment', 'initial comment for id col'))
             ->addColumn(new rex_sql_column('title', 'varchar(255)', true, 'Default title'))
             ->setPrimaryKey('id')
             ->addIndex(new rex_sql_index('i_title', ['title']))
@@ -33,7 +33,7 @@ class rex_sql_table_test extends TestCase
         return $table;
     }
 
-    protected function createTable2()
+    protected function createTable2(): rex_sql_table
     {
         $table = rex_sql_table::get(self::TABLE2);
 
@@ -72,6 +72,7 @@ class rex_sql_table_test extends TestCase
         static::assertFalse($id->isNullable());
         static::assertNull($id->getDefault());
         static::assertSame('auto_increment', $id->getExtra());
+        static::assertSame('initial comment for id col', $id->getComment());
 
         $title = $table->getColumn('title');
 
@@ -97,7 +98,6 @@ class rex_sql_table_test extends TestCase
         $table2 = rex_sql_table::get(self::TABLE2);
 
         static::assertCount(1, $table2->getForeignKeys());
-        $a = $table2->hasForeignKey('test2_fk_test1');
         static::assertTrue($table2->hasForeignKey('test2_fk_test1'));
         static::assertFalse($table2->hasForeignKey('foo'));
 
@@ -146,7 +146,7 @@ class rex_sql_table_test extends TestCase
     {
         $table = $this->createTable();
 
-        $description = new rex_sql_column('description', 'text', true);
+        $description = new rex_sql_column('description', 'text', true, null, null, 'description comment');
         $table
             ->addColumn($description)
             ->addColumn(new rex_sql_column('name', 'varchar(255)'), 'id')
@@ -161,6 +161,60 @@ class rex_sql_table_test extends TestCase
         static::assertEquals($description, $table->getColumn('description'));
 
         static::assertSame(['pid', 'id', 'name', 'title', 'description'], array_keys($table->getColumns()));
+    }
+
+    public function testAddColumnComment()
+    {
+        $table = $this->createTable();
+
+        $title = new rex_sql_column('title', 'varchar(20)', false, null, null, 'new title comment');
+        $table
+            ->ensureColumn($title)
+            ->alter();
+
+        static::assertSame($title, $table->getColumn('title'));
+
+        rex_sql_table::clearInstance(self::TABLE);
+        $table = rex_sql_table::get(self::TABLE);
+
+        static::assertEquals($title, $table->getColumn('title'));
+        static::assertSame('new title comment', $table->getColumn('title')->getComment());
+    }
+
+    public function testChangeColumnComment()
+    {
+        $table = $this->createTable();
+
+        $id = new rex_sql_column('id', 'int(11)', false, null, 'auto_increment', 'changed id comment');
+        $table
+            ->ensureColumn($id)
+            ->alter();
+
+        static::assertSame($id, $table->getColumn('id'));
+
+        rex_sql_table::clearInstance(self::TABLE);
+        $table = rex_sql_table::get(self::TABLE);
+
+        static::assertEquals($id, $table->getColumn('id'));
+        static::assertSame('changed id comment', $table->getColumn('id')->getComment());
+    }
+
+    public function testRemoveColumnComment()
+    {
+        $table = $this->createTable();
+
+        $id = new rex_sql_column('id', 'int(11)', false, null, 'auto_increment', null);
+        $table
+            ->ensureColumn($id)
+            ->alter();
+
+        static::assertSame($id, $table->getColumn('id'));
+
+        rex_sql_table::clearInstance(self::TABLE);
+        $table = rex_sql_table::get(self::TABLE);
+
+        static::assertEquals($id, $table->getColumn('id'));
+        static::assertNull($table->getColumn('id')->getComment());
     }
 
     public function testEnsureColumn()
@@ -185,11 +239,12 @@ class rex_sql_table_test extends TestCase
 
         static::assertSame(['id', 'description', 'title'], array_keys($table->getColumns()));
 
+        $status = new rex_sql_column('status', 'tinyint(1)', false, '0');
         $amount = new rex_sql_column('amount', 'int(5)', true);
 
         $table
             ->ensureColumn($title, 'id')
-            ->ensureColumn(new rex_sql_column('status', 'tinyint(1)'), 'id')
+            ->ensureColumn($status, 'id')
             ->ensureColumn(new rex_sql_column('created', 'datetime', false, 'CURRENT_TIMESTAMP'), 'status')
             ->ensureColumn($title, 'status')
             ->ensureColumn($amount)
@@ -203,6 +258,8 @@ class rex_sql_table_test extends TestCase
         $table = rex_sql_table::get(self::TABLE);
 
         static::assertSame($expectedOrder, array_keys($table->getColumns()));
+
+        static::assertEquals($status, $table->getColumn('status'));
 
         $sql = rex_sql::factory();
         if (rex_sql::MYSQL === $sql->getDbType() && 8 <= (int) $sql->getDbVersion()) {
@@ -279,7 +336,7 @@ class rex_sql_table_test extends TestCase
 
     public function testRenameColumnNonExisting()
     {
-        $this->expectException(\rex_exception::class);
+        $this->expectException(rex_exception::class);
 
         $table = $this->createTable();
         $table->renameColumn('foo', 'bar');
@@ -287,7 +344,7 @@ class rex_sql_table_test extends TestCase
 
     public function testRenameColumnToAlreadyExisting()
     {
-        $this->expectException(\rex_exception::class);
+        $this->expectException(rex_exception::class);
 
         $table = $this->createTable();
         $table->renameColumn('id', 'title');
@@ -457,7 +514,7 @@ class rex_sql_table_test extends TestCase
 
     public function testEnsureForeignKey()
     {
-        $table = $this->createTable();
+        $this->createTable();
         $table2 = $this->createTable2();
 
         $fk1 = new rex_sql_foreign_key('test2_fk_test1', self::TABLE, [
@@ -488,7 +545,7 @@ class rex_sql_table_test extends TestCase
 
     public function testRenameForeignKey()
     {
-        $table = $this->createTable();
+        $this->createTable();
         $table2 = $this->createTable2();
 
         $table2->renameForeignKey('test2_fk_test1', 'fk_test2_test1');
@@ -510,7 +567,7 @@ class rex_sql_table_test extends TestCase
 
     public function testRemoveForeignKey()
     {
-        $table = $this->createTable();
+        $this->createTable();
         $table2 = $this->createTable2();
 
         $table2

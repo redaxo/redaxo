@@ -77,6 +77,18 @@ class rex_be_page
     }
 
     /**
+     * Sets the page title.
+     *
+     * @return $this
+     */
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
      * Returns the title.
      *
      * @returns string
@@ -214,7 +226,7 @@ class rex_be_page
             return $this->itemAttr;
         }
 
-        return isset($this->itemAttr[$name]) ? $this->itemAttr[$name] : $default;
+        return $this->itemAttr[$name] ?? $default;
     }
 
     /**
@@ -313,7 +325,7 @@ class rex_be_page
             return $this->linkAttr;
         }
 
-        return isset($this->linkAttr[$name]) ? $this->linkAttr[$name] : $default;
+        return $this->linkAttr[$name] ?? $default;
     }
 
     /**
@@ -469,7 +481,7 @@ class rex_be_page
      */
     public function getSubpage($key)
     {
-        return isset($this->subpages[$key]) ? $this->subpages[$key] : null;
+        return $this->subpages[$key] ?? null;
     }
 
     /**
@@ -505,7 +517,7 @@ class rex_be_page
      */
     public function setIsActive($isActive = true)
     {
-        $this->isActive = $isActive;
+        $this->isActive = (bool) $isActive;
 
         return $this;
     }
@@ -704,15 +716,15 @@ class rex_be_page
      *
      * @return bool
      */
-    public function checkPermission(rex_user $rexUser)
+    public function checkPermission(rex_user $user)
     {
         foreach ($this->requiredPermissions as $perm) {
-            if (!$rexUser->hasPerm($perm)) {
+            if (!$user->hasPerm($perm)) {
                 return false;
             }
         }
         if ($parent = $this->getParent()) {
-            return $parent->checkPermission($rexUser);
+            return $parent->checkPermission($user);
         }
         return true;
     }

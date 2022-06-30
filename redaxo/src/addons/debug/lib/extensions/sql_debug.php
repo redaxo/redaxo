@@ -7,16 +7,16 @@
  */
 class rex_sql_debug extends rex_sql
 {
-    public function setQuery($qry, array $params = [], array $options = [])
+    public function setQuery($query, array $params = [], array $options = [])
     {
         try {
             $timer = new rex_timer();
-            parent::setQuery($qry, $params, $options);
+            parent::setQuery($query, $params, $options);
 
             // to prevent double entries, log only if no params are passed
             if (empty($params)) {
-                rex_debug_clockwork::getInstance()
-                    ->addDatabaseQuery($qry, $params, $timer->getDelta(), ['connection' => $this->DBID] + rex_debug::getTrace());
+                rex_debug_clockwork::getInstance()->getRequest()
+                    ->addDatabaseQuery($query, $params, $timer->getDelta(), ['connection' => $this->DBID] + rex_debug::getTrace());
             }
         } catch (rex_exception $e) {
             $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
@@ -24,14 +24,14 @@ class rex_sql_debug extends rex_sql
             $file = $trace[0]['file'];
             $line = $trace[0]['line'];
             for ($i = 1; $i < count($trace); ++$i) {
-                if (isset($trace[$i]['file']) && false === strpos($trace[$i]['file'], 'sql.php')) {
+                if (isset($trace[$i]['file']) && !str_contains($trace[$i]['file'], 'sql.php')) {
                     $file = $trace[$i]['file'];
                     $line = $trace[$i]['line'];
                     break;
                 }
             }
             rex_debug_clockwork::getInstance()
-                ->error($e->getMessage(), ['file' => $file, 'line' => $line]);
+                ->log('error', $e->getMessage(), ['file' => $file, 'line' => $line]);
             throw $e; // re-throw exception after logging
         }
 
@@ -46,7 +46,7 @@ class rex_sql_debug extends rex_sql
         $timer = new rex_timer();
         parent::execute($params, $options);
 
-        rex_debug_clockwork::getInstance()
+        rex_debug_clockwork::getInstance()->getRequest()
             ->addDatabaseQuery($qry, $params, $timer->getDelta(), ['connection' => $this->DBID] + rex_debug::getTrace());
 
         return $this;

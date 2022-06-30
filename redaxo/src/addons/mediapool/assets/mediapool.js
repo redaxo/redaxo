@@ -83,8 +83,13 @@ function viewREXMedia(id,param)
 
 function deleteREXMedia(id)
 {
-    var a = new getObj("REX_MEDIA_"+id);
-    a.obj.value = "";
+    var input = new getObj("REX_MEDIA_" + id).obj;
+    if (input !== null) {
+        input.value = "";
+        jQuery(input).trigger('change');
+    } else {
+        console.log("Media input field not found");
+    }
 }
 
 function addREXMedia(id,params)
@@ -166,11 +171,11 @@ $(document).ready(function () {
         if($(this).hasClass("rex-js-widget-media"))
         {
             value = $("input[type=text]", this).val();
-            img_type = "rex_mediabutton_preview";
+            img_type = "rex_media_small";
         }else
         {
             value = $("select :selected", this).text();
-            img_type = "rex_medialistbutton_preview";
+            img_type = "rex_media_small";
         }
 
         var div = $(".rex-js-media-preview", this);
@@ -229,9 +234,17 @@ function selectMedia(filename, alt)
     opener.jQuery(window).trigger(event, [filename, alt]);
     if (!event.isDefaultPrevented()) {
         if (rex.mediapoolOpenerInputField) {
-            opener.document.getElementById(rex.mediapoolOpenerInputField).value = filename;
+            var input = opener.document.getElementById(rex.mediapoolOpenerInputField);
+            if (input !== null) {
+                input.value = filename;
+                opener.jQuery(input).trigger('change');
+                self.close();
+            } else {
+                console.log("Media input field not found");
+            }
+        } else {
+            self.close();
         }
-        self.close();
     }
 }
 

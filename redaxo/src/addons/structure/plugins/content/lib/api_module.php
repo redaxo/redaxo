@@ -14,19 +14,19 @@ class rex_module
      */
     private $key;
 
-    public function __construct(int $module_id)
+    public function __construct(int $moduleId)
     {
-        $this->id = $module_id;
+        $this->id = $moduleId;
         $this->key = '';
     }
 
-    public static function forKey(string $module_key): ?self
+    public static function forKey(string $moduleKey): ?self
     {
         $mapping = self::getKeyMapping();
 
-        if (false !== $id = array_search($module_key, $mapping, true)) {
+        if (false !== $id = array_search($moduleKey, $mapping, true)) {
             $module = new self($id);
-            $module->key == $module_key;
+            $module->key == $moduleKey;
 
             return $module;
         }

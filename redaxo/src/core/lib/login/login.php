@@ -6,6 +6,8 @@
 class rex_login
 {
     /**
+     * @psalm-var positive-int
+     *
      * @var int
      */
     protected $DB = 1;
@@ -79,9 +81,9 @@ class rex_login
      * Setzt eine eindeutige System Id, damit mehrere
      * Sessions auf der gleichen Domain unterschieden werden können.
      */
-    public function setSystemId($system_id)
+    public function setSystemId($systemId)
     {
-        $this->systemId = $system_id;
+        $this->systemId = $systemId;
     }
 
     /**
@@ -122,10 +124,12 @@ class rex_login
      *
      * Dieser wird benutzt, um einen bereits eingeloggten User
      * im Verlauf seines Aufenthaltes auf der Webseite zu verifizieren
+     *
+     * @param string $userQuery
      */
-    public function setUserQuery($user_query)
+    public function setUserQuery($userQuery)
     {
-        $this->userQuery = $user_query;
+        $this->userQuery = $userQuery;
     }
 
     /**
@@ -143,10 +147,12 @@ class rex_login
      *
      * Dieser wird benutzt, um den eigentlichne Loginvorgang durchzuführen.
      * Hier wird das eingegebene Password und der Login eingesetzt.
+     *
+     * @param string $loginQuery
      */
-    public function setLoginQuery($login_query)
+    public function setLoginQuery($loginQuery)
     {
-        $this->loginQuery = $login_query;
+        $this->loginQuery = $loginQuery;
     }
 
     /**
@@ -219,6 +225,7 @@ class rex_login
                     $ok = true;
                     self::regenerateSessionId();
                     $this->setSessionVar('UID', $this->user->getValue($this->idColumn));
+                    $this->setSessionVar('password', $this->user->getValue($this->passwordColumn));
                 } else {
                     $this->message = rex_i18n::msg('login_error');
                 }
@@ -243,6 +250,10 @@ class rex_login
                         $ok = false;
                         $this->message = rex_i18n::msg('login_user_not_found');
                     }
+                    if ($this->impersonator->getValue($this->passwordColumn) !== $this->getSessionVar('password')) {
+                        $ok = false;
+                        $this->message = rex_i18n::msg('login_session_expired');
+                    }
                 }
 
                 if ($ok) {
@@ -253,6 +264,10 @@ class rex_login
                     if (!$this->user->getRows()) {
                         $ok = false;
                         $this->message = rex_i18n::msg('login_user_not_found');
+                    }
+                    if (!$this->impersonator && $this->user->getValue($this->passwordColumn) !== $this->getSessionVar('password')) {
+                        $ok = false;
+                        $this->message = rex_i18n::msg('login_session_expired');
                     }
                 }
             }
@@ -276,13 +291,10 @@ class rex_login
             $this->setSessionVar('STAMP', '');
             $this->setSessionVar('UID', '');
             $this->setSessionVar('impersonator', null);
+            $this->setSessionVar('password', null);
         }
 
-        if ($ok) {
-            $this->loginStatus = 1;
-        } else {
-            $this->loginStatus = -1;
-        }
+        $this->loginStatus = $ok ? 1 : -1;
 
         return $ok;
     }
@@ -323,6 +335,11 @@ class rex_login
         $this->setSessionVar('impersonator', null);
     }
 
+    public function changedPassword(string $passwordHash): void
+    {
+        $this->setSessionVar('password', $passwordHash);
+    }
+
     /**
      * @return rex_sql|rex_user|null
      */
@@ -342,10 +359,10 @@ class rex_login
     /**
      * Gibt einen Benutzer-Spezifischen Wert zurück.
      */
-    public function getValue($value, $default = null)
+    public function getValue($key, $default = null)
     {
         if ($this->user) {
-            return $this->user->getValue($value);
+            return $this->user->getValue($key);
         }
 
         return $default;
@@ -477,11 +494,11 @@ class rex_login
         $sessionCookiePrefix = 'Set-Cookie: '. session_name() .'=';
         foreach (headers_list() as $rawHeader) {
             // rewrite the session cookie
-            if (substr($rawHeader, 0, strlen($sessionCookiePrefix)) === $sessionCookiePrefix) {
+            if (str_starts_with($rawHeader, $sessionCookiePrefix)) {
                 $rawHeader .= '; SameSite='. $sameSite;
             }
             // collect all cookies
-            if (substr($rawHeader, 0, strlen($cookieHeadersPrefix)) === $cookieHeadersPrefix) {
+            if (str_starts_with($rawHeader, $cookieHeadersPrefix)) {
                 $cookiesHeaders[] = $rawHeader;
             }
         }

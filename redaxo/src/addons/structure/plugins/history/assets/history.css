@@ -5,7 +5,7 @@
     right: 0;
     bottom: 0;
     left: 0;
-    z-index: 1000;
+    z-index: 1100;
     overflow: hidden;
     overflow-y: auto;
 }
@@ -16,7 +16,7 @@
     right: 0;
     bottom: 0;
     left: 0;
-    background-color: rgba(50, 64, 80, .94);
+    background-color: rgba(50, 64, 80, .95);
     z-index: 1;
 }
 
@@ -190,4 +190,16 @@
 
 .noUi-horizontal .noUi-active .noUi-tooltip {
     display: block;
+}
+
+
+
+body.rex-theme-dark .history-layer-background {
+    background-color: rgba(32, 43, 53, .95);
+}
+
+@media (prefers-color-scheme: dark) {
+    body.rex-has-theme:not(.rex-theme-light) .history-layer-background {
+        background-color: rgba(32, 43, 53, .95);
+    }
 }

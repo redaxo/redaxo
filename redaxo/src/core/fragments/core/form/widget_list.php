@@ -1,4 +1,8 @@
 <?php
+/**
+ * @var rex_fragment $this
+ * @psalm-scope-this rex_fragment
+ */
 
 $out = '';
 
@@ -6,7 +10,7 @@ foreach ($this->elements as $element) {
     $field = $element['field'] ?? '';
     $moveButtons = $element['moveButtons'] ?? '';
     $functionButtons = $element['functionButtons'] ?? '';
-    $addon = '' == trim($moveButtons . $functionButtons) ? false : true;
+    $addon = '' != trim($moveButtons . $functionButtons);
 
     if (isset($element['before']) && '' != $element['before']) {
         $out .= $element['before'];

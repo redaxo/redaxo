@@ -51,7 +51,10 @@ class rex_command_user_set_password extends rex_console_command
         }
 
         if (!$password) {
-            $password = $io->askHidden('Password', static function ($password) use ($id, $passwordPolicy) {
+            $description = $passwordPolicy->getDescription();
+            $description = $description ? ' ('.$description.')' : '';
+
+            $password = $io->askHidden('Password'.$description, static function ($password) use ($id, $passwordPolicy) {
                 if (true !== $msg = $passwordPolicy->check($password, $id)) {
                     throw new InvalidArgumentException($msg);
                 }

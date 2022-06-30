@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the ramsey/collection library
  *
@@ -7,15 +8,16 @@
  *
  * @copyright Copyright (c) Ben Ramsey <ben@benramsey.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @link https://benramsey.com/projects/ramsey-collection/ Documentation
- * @link https://packagist.org/packages/ramsey/collection Packagist
- * @link https://github.com/ramsey/collection GitHub
  */
+
+declare(strict_types=1);
 
 namespace Ramsey\Collection;
 
 /**
- * GenericArray represents a standard array object
+ * `GenericArray` represents a standard array object.
+ *
+ * @extends AbstractArray<mixed>
  */
 class GenericArray extends AbstractArray
 {

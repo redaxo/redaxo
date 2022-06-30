@@ -5,6 +5,7 @@
  *
  * @author gharlan
  *
+ * @implements Iterator<int, rex_log_entry>
  * @package redaxo\core
  */
 class rex_log_file implements Iterator
@@ -15,7 +16,7 @@ class rex_log_file implements Iterator
     /** @var resource */
     private $file;
 
-    /** @var resource */
+    /** @var resource|null */
     private $file2;
 
     /** @var bool */
@@ -37,8 +38,6 @@ class rex_log_file implements Iterator
     private $bufferPos;
 
     /**
-     * Constructor.
-     *
      * @param string   $path        File path
      * @param int|null $maxFileSize Maximum file size
      */
@@ -57,7 +56,7 @@ class rex_log_file implements Iterator
     /**
      * Adds a log entry.
      *
-     * @param array $data Log data
+     * @param list<string|int> $data Log data
      */
     public function add(array $data)
     {
@@ -68,16 +67,23 @@ class rex_log_file implements Iterator
     /**
      * @return rex_log_entry
      */
+    #[ReturnTypeWillChange]
     public function current()
     {
+        if (null === $this->currentLine) {
+            throw new rex_exception('current() can not be used before calling rewind()/next() or after last line');
+        }
+
         return rex_log_entry::createFromString($this->currentLine);
     }
 
     /**
      * Reads the log file backwards line by line (each call reads one line).
      */
+    #[ReturnTypeWillChange]
     public function next()
     {
+        /** @var int $bufferSize */
         static $bufferSize = 500;
 
         if ($this->pos < 0) {
@@ -99,6 +105,7 @@ class rex_log_file implements Iterator
 
         // get current file
         $file = $this->second ? $this->file2 : $this->file;
+        assert(null !== $file);
 
         if (null === $this->pos) {
             // position is not set -> set start position to start of last buffer
@@ -139,13 +146,14 @@ class rex_log_file implements Iterator
             return;
         }
         // found a non-empty line
-        ++$this->key;
+        $this->key = null === $this->key ? 0 : $this->key + 1;
         $this->currentLine = $line;
     }
 
     /**
      * @return int|null
      */
+    #[ReturnTypeWillChange]
     public function key()
     {
         return $this->key;
@@ -154,6 +162,7 @@ class rex_log_file implements Iterator
     /**
      * {@inheritdoc}
      */
+    #[ReturnTypeWillChange]
     public function valid()
     {
         return !empty($this->currentLine);
@@ -162,6 +171,7 @@ class rex_log_file implements Iterator
     /**
      * {@inheritdoc}
      */
+    #[ReturnTypeWillChange]
     public function rewind()
     {
         $this->second = false;
@@ -193,22 +203,22 @@ class rex_log_file implements Iterator
  */
 class rex_log_entry
 {
+    public const DATE_FORMAT = 'Y-m-d H:i:s';
+
     /** @var int */
     private $timestamp;
 
-    /** @var array */
+    /** @var list<string> */
     private $data;
 
     /**
-     * Constructor.
-     *
-     * @param int   $timestamp Timestamp
-     * @param array $data      Log data
+     * @param int $timestamp Timestamp
+     * @param list<string|int> $data Log data
      */
     public function __construct($timestamp, array $data)
     {
         $this->timestamp = $timestamp;
-        $this->data = $data;
+        $this->data = array_map('strval', $data);
     }
 
     /**
@@ -233,7 +243,7 @@ class rex_log_entry
     /**
      * Returns the timestamp.
      *
-     * @param string $format See {@link rex_formatter::strftime}
+     * @param string|null $format Deprecated since 5.13.0, use `rex_formatter::intl*` instead. Format for {@link rex_formatter::strftime}
      *
      * @return int|string Unix timestamp or formatted string if $format is given
      */
@@ -242,13 +252,15 @@ class rex_log_entry
         if (null === $format) {
             return $this->timestamp;
         }
-        return rex_formatter::strftime($this->timestamp, $format);
+
+        /** @psalm-suppress DeprecatedMethod */
+        return rex_formatter::strftime($this->timestamp, $format); /** @phpstan-ignore-line */
     }
 
     /**
      * Returns the log data.
      *
-     * @return array
+     * @return list<string>
      */
     public function getData()
     {
@@ -265,6 +277,6 @@ class rex_log_entry
         }, $this->data);
         $data = implode(' | ', $data);
         $data = str_replace("\r", '', $data);
-        return date('Y-m-d H:i:s', $this->timestamp) . ' | ' . $data;
+        return date(self::DATE_FORMAT, $this->timestamp) . ' | ' . $data;
     }
 }

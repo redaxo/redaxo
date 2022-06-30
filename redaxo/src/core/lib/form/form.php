@@ -28,7 +28,10 @@ class rex_form extends rex_form_base
     protected $whereCondition;
     /** @var string */
     protected $mode;
-    /** @var int */
+    /**
+     * @var int
+     * @psalm-var positive-int
+     */
     protected $db;
     /** @var rex_sql */
     protected $sql;
@@ -41,9 +44,11 @@ class rex_form extends rex_form_base
      * @param string $tableName
      * @param string $fieldset
      * @param string $whereCondition
-     * @param string $method
+     * @param 'post'|'get' $method
      * @param bool   $debug
      * @param int    $db             DB connection ID
+     *
+     * @psalm-param positive-int $db
      */
     protected function __construct($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false, $db = 1)
     {
@@ -86,9 +91,11 @@ class rex_form extends rex_form_base
      * @param string $tableName
      * @param string $fieldset
      * @param string $whereCondition
-     * @param string $method
+     * @param 'post'|'get' $method
      * @param bool   $debug
      * @param int    $db             DB connection ID
+     *
+     * @psalm-param positive-int $db
      *
      * @return static a rex_form instance
      */
@@ -164,7 +171,7 @@ class rex_form extends rex_form_base
      */
     public function addPrioField($name, $value = null, array $attributes = [])
     {
-        $attributes['internal::fieldClass'] = 'rex_form_prio_element';
+        $attributes['internal::fieldClass'] = rex_form_prio_element::class;
         if (!isset($attributes['class'])) {
             $attributes['class'] = 'form-control';
         }
@@ -197,6 +204,8 @@ class rex_form extends rex_form_base
 
     /**
      * Wechselt den Modus des Formulars.
+     *
+     * @param bool $isEditMode
      */
     public function setEditMode($isEditMode)
     {
@@ -233,9 +242,6 @@ class rex_form extends rex_form_base
         return $this->sql;
     }
 
-    /**
-     * @return string
-     */
     protected function getId($name)
     {
         return $this->tableName . '_' . $this->fieldset . '_' . $name;
@@ -253,35 +259,49 @@ class rex_form extends rex_form_base
     /**
      * Callbackfunktion, damit in subklassen der Value noch beeinflusst werden kann
      * kurz vorm speichern.
+     *
+     * @param string          $fieldsetName
+     * @param string          $fieldName
+     * @param string|int|null $fieldValue
+     *
+     * @return string|int|null
      */
     protected function preSave($fieldsetName, $fieldName, $fieldValue, rex_sql $saveSql)
     {
         static $setOnce = false;
 
         if (!$setOnce) {
-            $fieldnames = $this->sql->getFieldnames();
-
-            if (in_array('updateuser', $fieldnames)) {
-                $saveSql->setValue('updateuser', rex::getUser()->getValue('login'));
-            }
-
-            if (in_array('updatedate', $fieldnames)) {
-                $saveSql->setDateTimeValue('updatedate', time());
-            }
-
-            if (!$this->isEditMode()) {
-                if (in_array('createuser', $fieldnames)) {
-                    $saveSql->setValue('createuser', rex::getUser()->getValue('login'));
-                }
-
-                if (in_array('createdate', $fieldnames)) {
-                    $saveSql->setDateTimeValue('createdate', time());
-                }
-            }
+            $this->setGlobalSqlFields($saveSql);
             $setOnce = true;
         }
 
         return $fieldValue;
+    }
+
+    /**
+     * Sets the sql fields `updateuser`, `updatedate`, `createuser` and `createdate` (if available).
+     */
+    private function setGlobalSqlFields(rex_sql $saveSql): void
+    {
+        $fieldnames = $this->sql->getFieldnames();
+
+        if (in_array('updateuser', $fieldnames)) {
+            $saveSql->setValue('updateuser', rex::requireUser()->getValue('login'));
+        }
+
+        if (in_array('updatedate', $fieldnames)) {
+            $saveSql->setDateTimeValue('updatedate', time());
+        }
+
+        if (!$this->isEditMode()) {
+            if (in_array('createuser', $fieldnames)) {
+                $saveSql->setValue('createuser', rex::requireUser()->getValue('login'));
+            }
+
+            if (in_array('createdate', $fieldnames)) {
+                $saveSql->setDateTimeValue('createdate', time());
+            }
+        }
     }
 
     /**
@@ -317,7 +337,7 @@ class rex_form extends rex_form_base
         foreach ($this->getSaveElements() as $fieldsetName => $fieldsetElements) {
             foreach ($fieldsetElements as $element) {
                 // read-only-fields nicht speichern
-                if (false !== strpos($element->getAttribute('class'), 'form-control-static')) {
+                if ($element->isReadOnly()) {
                     continue;
                 }
 
@@ -341,16 +361,15 @@ class rex_form extends rex_form_base
                 $sql->update();
             } else {
                 if (count($this->languageSupport)) {
-                    foreach (rex_clang::getAllIds() as $clang_id) {
+                    foreach (rex_clang::getAllIds() as $clangId) {
                         $sql->setTable($this->tableName);
-                        $sql->addGlobalCreateFields();
-                        $sql->addGlobalUpdateFields();
+                        $this->setGlobalSqlFields($sql);
                         if (!isset($id)) {
                             $id = $sql->setNewId($this->languageSupport['id']);
                         } else {
                             $sql->setValue($this->languageSupport['id'], $id);
                         }
-                        $sql->setValue($this->languageSupport['clang'], $clang_id);
+                        $sql->setValue($this->languageSupport['clang'], $clangId);
                         $sql->setValues($values);
                         $sql->insert();
                     }
@@ -366,12 +385,10 @@ class rex_form extends rex_form_base
 
         // ----- EXTENSION POINT
         if ($saved) {
-            $saved = rex_extension::registerPoint(new rex_extension_point('REX_FORM_SAVED', $saved, ['form' => $this, 'sql' => $sql]));
-        } else {
-            $saved = $sql->getMysqlErrno();
+            return rex_extension::registerPoint(new rex_extension_point('REX_FORM_SAVED', $saved, ['form' => $this, 'sql' => $sql]));
         }
 
-        return $saved;
+        return $sql->getMysqlErrno();
     }
 
     /**
@@ -393,11 +410,9 @@ class rex_form extends rex_form_base
 
         // ----- EXTENSION POINT
         if ($deleted) {
-            $deleted = rex_extension::registerPoint(new rex_extension_point('REX_FORM_DELETED', $deleted, ['form' => $this, 'sql' => $deleteSql]));
-        } else {
-            $deleted = $deleteSql->getMysqlErrno();
+            return rex_extension::registerPoint(new rex_extension_point('REX_FORM_DELETED', $deleted, ['form' => $this, 'sql' => $deleteSql]));
         }
 
-        return $deleted;
+        return $deleteSql->getMysqlErrno();
     }
 }

@@ -16,6 +16,7 @@ install_name = Name
 install_author = Author
 install_shortdescription = Short description
 install_description = Description
+install_website = Website
 install_files = Files
 install_version = Version
 install_existing_version = Existing Version
@@ -53,6 +54,7 @@ install_warning_addon_zip_not_extracted = Zip file could not bee extracted in th
 install_warning_message_from_addon = AddOn <b>{0}</b> reports:
 install_warning_message_from_plugin = PlugIn <b>{0}</b> reports:
 
+install_warning_directory_not_writable = The directory <b>{0}</b> is not writable!
 install_warning_zip_wrong_checksum = The checksum of the downloaded zip file does not match. Please try again in a few minutes!
 install_warning_zip_wrong_format = The zip file is not in the required format.
 
@@ -68,6 +70,5 @@ install_settings_saved = Settings saved!
 install_settings_error = Settings not saved, check file permissions for: {0}
 
 install_header_function = Function
-
-install_clear = Clear
-install_search = Search ...
+install_latest_release = Current release
+install_download_unstable = Warning! This is a development version. Install at your own peril.

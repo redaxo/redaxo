@@ -1,25 +1,34 @@
 <?php
-
 /**
- * Escapes a variable.
+ * Escapes a variable to be used while rendering html.
  *
  * This function is adapted from code coming from Twig.
  * (c) Fabien Potencier
- * https://github.com/twigphp/Twig/blob/69633fc19189699d20114f005efc8851c3fe9288/lib/Twig/Extension/Core.php#L900-L1127
+ * https://github.com/twigphp/Twig/blob/5f20d4a362078e8a066f7dcc146e8005186d9663/src/Extension/EscaperExtension.php#L166
  *
  * @package redaxo\core
  *
  * @param mixed  $value    The value to escape
  * @param string $strategy Supported strategies:
  *                         "html": escapes a string for the HTML context.
+ *                         "html_simplified": escapes a string for the HTML context. Allows some basic tags which are safe regarding XSS.
  *                         "html_attr": escapes a string for the HTML attrubute context. It is only necessary for dynamic attribute names and attribute values without quotes (`data-foo=bar`). For attribute values within quotes you can use default strategy "html".
  *                         "js": escapes a string for the JavaScript/JSON context.
  *                         "css": escapes a string for the CSS context. CSS escaping can be applied to any string being inserted into CSS and escapes everything except alphanumerics.
  *                         "url": escapes a string for the URI or parameter contexts. This should not be used to escape an entire URI; only a subcomponent being inserted.
  *
+ * @psalm-template T
+ * @psalm-param T $value
+ * @psalm-return (T is Stringable ? string : T)
+ *
  * @throws InvalidArgumentException
  *
+ * @psalm-param 'html'|'html_simplified'|'html_attr'|'js'|'css'|'url' $strategy
+ *
  * @return mixed
+ *
+ * @psalm-taint-escape has_quotes
+ * @psalm-taint-escape html
  */
 function rex_escape($value, $strategy = 'html')
 {
@@ -32,7 +41,7 @@ function rex_escape($value, $strategy = 'html')
             return $value;
         }
 
-        if ($value instanceof \stdClass) {
+        if ($value instanceof stdClass) {
             foreach (get_object_vars($value) as $k => $v) {
                 $value->$k = rex_escape($v, $strategy);
             }
@@ -58,11 +67,15 @@ function rex_escape($value, $strategy = 'html')
             // see https://secure.php.net/htmlspecialchars
             return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 
+        case 'html_simplified':
+            $string = rex_escape($string, 'html');
+            return preg_replace('@&lt;(/?(?:b|i|code|kbd|var)|br ?/?)&gt;@i', '<$1>', $string);
+
         case 'js':
             // escape all non-alphanumeric characters
-            // into their \xHH or \uHHHH representations
+            // into their \x or \uHHHH representations
 
-            if (0 === strlen($string) ? false : 1 !== preg_match('/^./su', $string)) {
+            if (!preg_match('//u', $string)) {
                 throw new InvalidArgumentException('The string to escape is not a valid UTF-8 string.');
             }
 
@@ -71,7 +84,7 @@ function rex_escape($value, $strategy = 'html')
 
                 /*
                  * A few characters have short escape sequences in JSON and JavaScript.
-                 * Escape sequences supported only by JavaScript, not JSON, are ommitted.
+                 * Escape sequences supported only by JavaScript, not JSON, are omitted.
                  * \" is also supported but omitted, because the resulting string is not HTML safe.
                  */
                 static $shortMap = [
@@ -88,15 +101,18 @@ function rex_escape($value, $strategy = 'html')
                     return $shortMap[$char];
                 }
 
-                // \uHHHH
-                $char = mb_convert_encoding($char, 'UTF-16BE', 'UTF-8');
-                $char = strtoupper(bin2hex($char));
-
-                if (4 >= strlen($char)) {
-                    return sprintf('\u%04s', $char);
+                $codepoint = mb_ord($char, 'UTF-8');
+                if (0x10000 > $codepoint) {
+                    return sprintf('\u%04X', $codepoint);
                 }
 
-                return sprintf('\u%04s\u%04s', substr($char, 0, -4), substr($char, -4));
+                // Split characters outside the BMP into surrogate pairs
+                // https://tools.ietf.org/html/rfc2781.html#section-2.1
+                $u = $codepoint - 0x10000;
+                $high = 0xD800 | ($u >> 10);
+                $low = 0xDC00 | ($u & 0x3FF);
+
+                return sprintf('\u%04X\u%04X', $high, $low);
             }, $string);
 
             return $string;
@@ -133,7 +149,7 @@ function rex_escape($value, $strategy = 'html')
                  * The following replaces characters undefined in HTML with the
                  * hex entity for the Unicode replacement character.
                  */
-                if (($ord <= 0x1f && "\t" != $chr && "\n" != $chr && "\r" != $chr) || ($ord >= 0x7f && $ord <= 0x9f)) {
+                if (($ord <= 0x1F && "\t" != $chr && "\n" != $chr && "\r" != $chr) || ($ord >= 0x7F && $ord <= 0x9F)) {
                     return '&#xFFFD;';
                 }
 
@@ -175,6 +191,6 @@ function rex_escape($value, $strategy = 'html')
             return rawurlencode($string);
 
         default:
-            throw new InvalidArgumentException(sprintf('Invalid escaping strategy "%s" (valid ones: "html", "html_attr", "css", "js", "url").', $strategy));
+            throw new InvalidArgumentException(sprintf('Invalid escaping strategy "%s" (valid ones: "html", "html_attr", "html_simplified", "css", "js", "url").', $strategy));
     }
 }

@@ -38,7 +38,7 @@ abstract class rex_formatter
      *
      * @see http://www.php.net/manual/en/function.date.php
      *
-     * @param string|int $value  Unix timestamp or datetime string for `strtotime`
+     * @param string|int|null $value  Unix timestamp or datetime string for `strtotime`
      * @param string     $format Default format is `d.m.Y`
      *
      * @return string
@@ -49,11 +49,17 @@ abstract class rex_formatter
             return '';
         }
 
+        $timestamp = self::getTimestamp($value);
+
+        if (null === $timestamp) {
+            return '';
+        }
+
         if ('' == $format) {
             $format = 'd.m.Y';
         }
 
-        return date($format, self::getTimestamp($value));
+        return date($format, $timestamp);
     }
 
     /**
@@ -61,10 +67,12 @@ abstract class rex_formatter
      *
      * @see http://www.php.net/manual/en/function.strftime.php
      *
-     * @param string|int $value  Unix timestamp or datetime string for `strtotime`
+     * @param string|int|null $value  Unix timestamp or datetime string for `strtotime`
      * @param string     $format Possible values are format strings like in `strftime` or "date" or "datetime", default is "date"
      *
      * @return string
+     *
+     * @deprecated since 5.13.0
      */
     public static function strftime($value, $format = '')
     {
@@ -72,17 +80,150 @@ abstract class rex_formatter
             return '';
         }
 
-        if ('' == $format || 'date' == $format) {
-            // Default REX-Dateformat
-            $format = rex_i18n::msg('dateformat');
-        } elseif ('datetime' == $format) {
-            // Default REX-Datetimeformat
-            $format = rex_i18n::msg('datetimeformat');
-        } elseif ('time' == $format) {
-            // Default REX-Timeformat
-            $format = rex_i18n::msg('timeformat');
+        $timestamp = self::getTimestamp($value);
+
+        if (null === $timestamp) {
+            return '';
         }
-        return strftime($format, self::getTimestamp($value));
+
+        if ('' === $format || 'date' === $format) {
+            return self::intlDate($timestamp);
+        }
+        if ('datetime' === $format) {
+            return self::intlDateTime($timestamp);
+        }
+        if ('time' === $format) {
+            return self::intlTime($timestamp);
+        }
+
+        if (function_exists('strftime')) {
+            return strftime($format, $timestamp);
+        }
+
+        // strftime does not exist anymore, return unformatted datetime string
+        if (is_int($value) || ctype_digit($value)) {
+            return date('Y-m-d H:i:s', (int) $value);
+        }
+
+        return $value;
+    }
+
+    /**
+     * Formats a datetime by `IntlDateFormmater`.
+     *
+     * @see https://www.php.net/manual/en/class.intldateformatter.php
+     *
+     * @param string|int|DateTimeInterface|null $value  Unix timestamp, datetime string for `strtotime` or DateTimeInterface object
+     * @param IntlDateFormatter::FULL|IntlDateFormatter::LONG|IntlDateFormatter::MEDIUM|IntlDateFormatter::SHORT|array{0: IntlDateFormatter::FULL|IntlDateFormatter::LONG|IntlDateFormatter::MEDIUM|IntlDateFormatter::SHORT|IntlDateFormatter::NONE, 1: IntlDateFormatter::FULL|IntlDateFormatter::LONG|IntlDateFormatter::MEDIUM|IntlDateFormatter::SHORT|IntlDateFormatter::NONE}|string|null $format
+     *              Possible format values:
+     *                  - `IntlDateFormatter` constant, like `IntlDateFormatter::MEDIUM`
+     *                  - array with two `IntlDateFormatter` constants for date format and time format, like `[IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT]`
+     *                  - string pattern, like `dd.MM.y`
+     *              Defaults to `[IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT]`
+     */
+    public static function intlDateTime($value, $format = null): string
+    {
+        if (empty($value)) {
+            return '';
+        }
+
+        if ($value instanceof DateTimeInterface) {
+            $timeZone = $value->getTimezone()->getName();
+        } else {
+            $value = self::getTimestamp($value);
+
+            if (null === $value) {
+                return '';
+            }
+
+            $timeZone = date_default_timezone_get();
+        }
+
+        if (null === $format || '' === $format) {
+            $format = [IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT];
+        }
+
+        if (is_string($format)) {
+            $pattern = $format;
+            $dateFormat = $timeFormat = IntlDateFormatter::NONE;
+        } elseif (is_array($format)) {
+            $pattern = '';
+            [$dateFormat, $timeFormat] = $format;
+        } else {
+            $pattern = '';
+            $dateFormat = $timeFormat = $format;
+        }
+
+        $cacheKey = $pattern.'-'.$dateFormat.'-'.$timeFormat;
+        $locale = Locale::getDefault();
+
+        /** @var array<string, array<string, array<string, IntlDateFormatter>>> */
+        static $formatters = [];
+
+        $formatter = $formatters[$locale][$timeZone][$cacheKey] ?? null;
+
+        if (!$formatter) {
+            $formatter = new IntlDateFormatter($locale, $dateFormat, $timeFormat, IntlTimeZone::createTimeZone($timeZone), null, $pattern);
+
+            switch ($dateFormat) {
+                case IntlDateFormatter::SHORT:
+                    // Avoid two-digit year format, which is used for some languages in short date format
+                    $formatter->setPattern(str_replace(['yyyy', 'yy'], 'y', $formatter->getPattern()));
+                    break;
+                case IntlDateFormatter::MEDIUM:
+                    // Change german medium date format to "2. Sep. 2020", which is more similar to the medium format of other languages
+                    if ('d' === $locale[0] && 'e' === $locale[1]) {
+                        $formatter->setPattern(str_replace('dd.MM.y', 'd. LLL. y', $formatter->getPattern()));
+                    }
+                    break;
+            }
+
+            $formatters[$locale][$timeZone][$cacheKey] = $formatter;
+        }
+
+        return $formatter->format($value);
+    }
+
+    /**
+     * Formats a date by `IntlDateFormmater`.
+     *
+     * @see https://www.php.net/manual/en/class.intldateformatter.php
+     *
+     * @param string|int|DateTimeInterface|null $value  Unix timestamp, date string for `strtotime` or DateTimeInterface object
+     * @param IntlDateFormatter::FULL|IntlDateFormatter::LONG|IntlDateFormatter::MEDIUM|IntlDateFormatter::SHORT|string|null $format
+     *              Possible format values:
+     *                  - `IntlDateFormatter` constant, like `IntlDateFormatter::MEDIUM`
+     *                  - string pattern, like `dd.MM.y`
+     *              Defaults to `IntlDateFormatter::MEDIUM`
+     */
+    public static function intlDate($value, $format = null): string
+    {
+        if (null === $format || '' === $format) {
+            $format = IntlDateFormatter::MEDIUM;
+        }
+
+        return self::intlDateTime($value, is_string($format) ? $format : [$format, IntlDateFormatter::NONE]);
+    }
+
+    /**
+     * Formats a time by `IntlDateFormmater`.
+     *
+     * @see https://www.php.net/manual/en/class.intldateformatter.php
+     *
+     * @param string|int|DateTimeInterface|null $value  Unix timestamp, time string for `strtotime` or DateTimeInterface object
+     * @param IntlDateFormatter::FULL|IntlDateFormatter::LONG|IntlDateFormatter::MEDIUM|IntlDateFormatter::SHORT|string|null $format
+     *              Possible format values:
+     *                  - `IntlDateFormatter` constant, like `IntlDateFormatter::MEDIUM`
+     *                  - string pattern, like `HH:mm`
+     *              Defaults to `IntlDateFormatter::SHORT`
+     */
+    public static function intlTime($value, $format = IntlDateFormatter::SHORT): string
+    {
+        if (null === $format || '' === $format) {
+            $format = IntlDateFormatter::SHORT;
+        }
+
+        return self::intlDateTime($value, is_string($format) ? $format : [IntlDateFormatter::NONE, $format]);
     }
 
     /**
@@ -129,15 +270,16 @@ abstract class rex_formatter
         $value = (int) $value;
 
         $units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
-        $unit_index = 0;
+        $unitIndex = 0;
         while (($value / 1024) >= 1) {
             $value /= 1024;
-            ++$unit_index;
+            ++$unitIndex;
         }
 
         if (isset($format[0])) {
-            $z = (int) ($value * 10 ** ($precision = (int) ($format[0])));
-            for ($i = 0; $i < (int) $precision; ++$i) {
+            $precision = (int) $format[0];
+            $z = (int) ($value * 10 ** $precision);
+            for ($i = 0; $i < $precision; ++$i) {
                 if (0 == ($z % 10)) {
                     $format[0] = (int) ($format[0]) - 1;
                     $z = (int) ($z / 10);
@@ -147,7 +289,7 @@ abstract class rex_formatter
             }
         }
 
-        return self::number($value, $format) . ' ' . $units[$unit_index];
+        return self::number($value, $format) . ' ' . $units[$unitIndex];
     }
 
     /**
@@ -186,7 +328,7 @@ abstract class rex_formatter
      * Truncates a string.
      *
      * @param string $value  Value
-     * @param array  $format Default format is `array('length' => 80, 'etc' => '...', 'break_words' => false)`
+     * @param array{length?: int, etc?: string, break_words?: bool} $format Default format is `['length' => 80, 'etc' => '...', 'break_words' => false]`
      *
      * @return string
      */
@@ -329,6 +471,7 @@ abstract class rex_formatter
      *
      * @param string         $value  Value
      * @param callable|array $format A callable or an array of a callable and additional params
+     * @psalm-param callable(string):string|array{0: callable(non-empty-array):string, 1: mixed} $format
      *
      * @throws rex_exception
      *
@@ -357,9 +500,17 @@ abstract class rex_formatter
     }
 
     /**
+     * Returns a Unix-Timestamp representing the given $value.
+     *
+     * Note: on a 32-bit php-version Unix-Timestamps cannot express
+     * dates before 13 December 1901 or after 19 January 2038
+     *
+     * @see https://en.m.wikipedia.org/wiki/Unix_time
+     * @see https://en.m.wikipedia.org/wiki/Year_2038_problem
+     *
      * @param string|int $value
      *
-     * @return int
+     * @return int|null
      */
     private static function getTimestamp($value)
     {
@@ -367,12 +518,22 @@ abstract class rex_formatter
             return (int) $value;
         }
 
-        $time = strtotime($value);
-
-        if (false === $time) {
-            throw new InvalidArgumentException(sprintf('"%s" is not a valid datetime string.', $value));
+        if (!is_string($value)) {
+            throw new InvalidArgumentException('$value must be a unix timestamp as int or a date(time) string, but "'.get_debug_type($value).'" given');
         }
 
-        return $time;
+        if (str_starts_with($value, '0000-00-00')) {
+            trigger_error(sprintf('%s: "%s" is not a valid dateime string.', __METHOD__, $value), E_USER_WARNING);
+
+            return null;
+        }
+
+        $time = strtotime($value);
+
+        if (false !== $time) {
+            return $time;
+        }
+
+        throw new InvalidArgumentException(sprintf('"%s" is not a valid datetime string.', $value));
     }
 }

@@ -16,6 +16,7 @@ install_name = Nombre
 install_author = Autor
 install_shortdescription = Breve descripción
 install_description = Descripción
+install_website = Sitio web
 install_files = Archivos
 install_version = Versión
 install_existing_version = Versión existente
@@ -68,6 +69,3 @@ install_settings_saved = Ajustes guardados !
 install_settings_error = La configuración no se ha guardado, compruebe los permisos de archivo para: {0}
 
 install_header_function = Función
-
-install_clear = Claro
-install_search = Buscar...

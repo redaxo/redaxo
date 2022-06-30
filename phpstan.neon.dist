@@ -1,5 +1,10 @@
+includes:
+	- .tools/phpstan/baseline.neon
+
 parameters:
-    level: 2
+    level: 5
+    phpVersion: 70300 # PHP 7.3
+    treatPhpDocTypesAsCertain: false
     paths:
         # restrict to core and core addons, ignore other locally installed addons
         - redaxo/src/core
@@ -14,37 +19,29 @@ parameters:
         - redaxo/src/addons/phpmailer
         - redaxo/src/addons/project
         - redaxo/src/addons/structure
-        - redaxo/src/addons/tests
         - redaxo/src/addons/users
-    excludes_analyse:
-        - redaxo/src/addons/be_style/vendor/
-        - redaxo/src/addons/debug/vendor/
-        - redaxo/src/addons/phpmailer/vendor/
-        - redaxo/src/addons/tests/vendor/
-        - redaxo/src/core/vendor/
-    # make phpstan aware of never returning methods
-    # https://github.com/phpstan/phpstan/issues/2900
-    earlyTerminatingMethodCalls:
-        rex_response:
-            - sendRedirect
+    excludePaths:
+        analyse:
+            - redaxo/src/addons/backup/vendor/
+            - redaxo/src/addons/be_style/vendor/
+            - redaxo/src/addons/debug/vendor/
+            - redaxo/src/addons/phpmailer/vendor/
+            - redaxo/src/core/vendor/
+    # https://phpstan.org/config-reference#universal-object-crates
+    universalObjectCratesClasses:
+        - rex_fragment
+    symfony:
+        console_application_loader: .tools/phpstan/console.php
     ignoreErrors:
         - '#Access to an undefined property rex_media::\$med_foo\.#'
         - '#Access to an undefined property rex_article::\$art_foo\.#'
         - '#Access to an undefined property rex_category::\$cat_foo\.#'
         - '#Access to an undefined property rex_clang::\$clang_foo\.#'
-        -
-            message: '#Using \$this outside a class\.#'
-            path: '*/fragments/*'
-        -
-            message: '#Variable \$this might not be defined\.#'
-            path: '*/fragments/*'
-        -
-            message: '#Access to an undefined property object.+#'
-            path: '*/fragments/*'
-        -
-            message: '#Call to an undefined method object::subfragment\(\)\.#'
-            path: '*/fragments/*'
-
-        - '#Undefined variable: \$this#'
         - '#Unsafe usage of new static\(\)\.#'
         - '#Constructor of class rex_form_.*_element has an unused parameter \$tag.#'
+        - '#^Offset .* on .* always exists#'
+        - '#Attribute class (?:AllowDynamicProperties|JetBrains\\PhpStorm\\Deprecated) does not exist\.#'
+        - '#Parameter \#2 \$algo of function password_.+ expects int, string given\.#'
+        -
+            message: '#.*deprecated.*#'
+            path: '*/update.php'

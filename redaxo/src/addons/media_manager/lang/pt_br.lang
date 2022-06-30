@@ -103,6 +103,8 @@ media_manager_effect_rotate = Girar (graus)
 media_manager_error_type_name_not_unique = Um tipo de imagem com esse nome já existe.
 
 media_manager_effect_mirror_height = Refl. altura (50 / 10%)
+media_manager_effect_mirror_opacity =
+media_manager_effect_mirror_opacity_notice =
 media_manager_effect_mirror_background_color = Cor de fundo
 media_manager_effect_mirror_background_r = Fundo R (0-255)
 media_manager_effect_mirror_background_g = Fundo G (0-255)

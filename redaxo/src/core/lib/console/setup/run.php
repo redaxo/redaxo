@@ -20,31 +20,28 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
     /** @var InputInterface */
     private $input;
 
-    /** @var OutputInterface */
-    private $output;
-
     private $forceAsking = false;
 
     protected function configure()
     {
         $this
             ->setDescription('Perform redaxo setup')
-            ->addOption('--lang', null, InputOption::VALUE_REQUIRED, 'System language e.g. "de_de" or "en_gb"')
-            ->addOption('--agree-license', null, InputOption::VALUE_NONE, 'Accept license terms and conditions')
-            ->addOption('--server', null, InputOption::VALUE_REQUIRED, 'Website URL e.g. "https://example.org/"')
-            ->addOption('--servername', null, InputOption::VALUE_REQUIRED, 'Website name')
-            ->addOption('--error-email', null, InputOption::VALUE_REQUIRED, 'Error mail address e.g. "info@example.org"')
-            ->addOption('--timezone', null, InputOption::VALUE_REQUIRED, 'Timezone e.g. "Europe/Berlin"')
-            ->addOption('--db-host', null, InputOption::VALUE_REQUIRED, 'Database hostname e.g. "localhost" or "127.0.0.1"')
-            ->addOption('--db-login', null, InputOption::VALUE_REQUIRED, 'Database username e.g. "root"')
-            ->addOption('--db-password', null, InputOption::VALUE_REQUIRED, 'Database user password')
-            ->addOption('--db-name', null, InputOption::VALUE_REQUIRED, 'Database name e.g. "redaxo"')
-            ->addOption('--db-createdb', null, InputOption::VALUE_REQUIRED, 'Creates the database "yes" or "no"')
-            ->addOption('--db-setup', null, InputOption::VALUE_REQUIRED, 'Database setup mode e.g. "normal", "override" or "import"')
-            ->addOption('--db-charset', null, InputOption::VALUE_REQUIRED, 'Database charset "utf8" or "utf8mb4"')
-            ->addOption('--db-import', null, InputOption::VALUE_REQUIRED, 'Database import filename if "import" is used as --db-setup')
-            ->addOption('--admin-username', null, InputOption::VALUE_REQUIRED, 'Creates a redaxo admin user with the given username')
-            ->addOption('--admin-password', null, InputOption::VALUE_REQUIRED, 'Sets the password for the admin user account')
+            ->addOption('lang', null, InputOption::VALUE_REQUIRED, 'System language e.g. "de_de" or "en_gb"')
+            ->addOption('agree-license', null, InputOption::VALUE_NONE, 'Accept license terms and conditions')
+            ->addOption('server', null, InputOption::VALUE_REQUIRED, 'Website URL e.g. "https://example.org/"')
+            ->addOption('servername', null, InputOption::VALUE_REQUIRED, 'Website name')
+            ->addOption('error-email', null, InputOption::VALUE_REQUIRED, 'Error mail address e.g. "info@example.org"')
+            ->addOption('timezone', null, InputOption::VALUE_REQUIRED, 'Timezone e.g. "Europe/Berlin"')
+            ->addOption('db-host', null, InputOption::VALUE_REQUIRED, 'Database hostname e.g. "localhost" or "127.0.0.1"')
+            ->addOption('db-login', null, InputOption::VALUE_REQUIRED, 'Database username e.g. "root"')
+            ->addOption('db-password', null, InputOption::VALUE_REQUIRED, 'Database user password')
+            ->addOption('db-name', null, InputOption::VALUE_REQUIRED, 'Database name e.g. "redaxo"')
+            ->addOption('db-createdb', null, InputOption::VALUE_REQUIRED, 'Creates the database "yes" or "no"')
+            ->addOption('db-setup', null, InputOption::VALUE_REQUIRED, 'Database setup mode e.g. "normal", "override" or "import"')
+            ->addOption('db-charset', null, InputOption::VALUE_REQUIRED, 'Database charset "utf8" or "utf8mb4"')
+            ->addOption('db-import', null, InputOption::VALUE_REQUIRED, 'Database import filename if "import" is used as --db-setup')
+            ->addOption('admin-username', null, InputOption::VALUE_REQUIRED, 'Creates a redaxo admin user with the given username')
+            ->addOption('admin-password', null, InputOption::VALUE_REQUIRED, 'Sets the password for the admin user account')
         ;
     }
 
@@ -54,14 +51,12 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
         $this->io = $io;
         $this->input = $input;
-        $this->output = $output;
 
         $configFile = rex_path::coreData('config.yml');
         $config = array_merge(
             rex_file::getConfig(rex_path::core('default.config.yml')),
             rex_file::getConfig($configFile)
         );
-        $config['setup'] = true;
 
         $requiredValue = static function ($value) {
             if (empty($value)) {
@@ -100,25 +95,25 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 return 1;
             }
 
-            $license_file = rex_path::base('LICENSE.md');
-            $license = rex_file::get($license_file);
+            $licenseFile = rex_path::base('LICENSE.md');
+            $license = rex_file::require($licenseFile);
             $io->writeln($license);
             if (!$io->confirm('Accept license terms and conditions?', false)) {
                 $io->error('You need to accept license terms and conditions');
                 return 1;
             }
         } else {
-            if (null === $input->getOption('agree-license')) {
-                $io->error('You need to accept license terms and conditions');
-                return 1;
-            }
             $io->success('You accepted license terms and conditions');
         }
 
         // ---------------------------------- Step 3 . Perms, Environment
         $io->title('Step 3 of 6 / System check');
 
-        $this->performSystemcheck();
+        $io->warning('The checks are executed only in the cli environment and do not guarantee correctness in the web server environment.');
+
+        if (0 !== $code = $this->performSystemcheck()) {
+            return $code;
+        }
 
         // ---------------------------------- step 4 . Config
         $io->title('Step 4 of 6 / Creating config');
@@ -149,13 +144,12 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             $requiredValue
         );
 
-        $timezones = DateTimeZone::listIdentifiers();
-        assert(is_array($timezones));
+        $timezones = rex_type::array(DateTimeZone::listIdentifiers());
 
         $q = new Question('Choose timezone', $config['timezone']);
         $q->setAutocompleterValues($timezones);
         $q->setValidator(static function ($value) {
-            if (false === @date_default_timezone_set($value)) {
+            if (!@date_default_timezone_set($value)) {
                 throw new InvalidArgumentException('Time zone invalid');
             }
             return $value;
@@ -226,7 +220,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
             if (is_string($dbCreate)) {
                 $dbCreate = 'yes' === $dbCreate || 'true' === $dbCreate;
-                $io->success('Database will '.(!$dbCreate ? 'not ' : '').'be created');
+                $io->success('Database will '.($dbCreate ? '' : 'not ').'be created');
             }
 
             $config['db'][1]['host'] = $dbHost;
@@ -268,15 +262,24 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
         // Search for exports
         $backups = [];
-        foreach (rex_backup::getBackupFiles('') as $file) {
-            if ('.sql' != substr($file, strlen($file) - 4)) {
-                continue;
+
+        if (rex_addon::exists('backup')) {
+            // force loading rex_backup class, even if backup addon is not installed
+            require_once rex_path::addon('backup', 'lib/backup.php');
+
+            foreach (rex_backup::getBackupFiles('') as $file) {
+                if ('.sql' != substr($file, strlen($file) - 4)) {
+                    continue;
+                }
+                $backups[] = substr($file, 0, -4);
             }
-            $backups[] = substr($file, 0, -4);
         }
 
-        $tables_complete = ('' == rex_setup_importer::verifyDbSchema()) ? true : false;
+        $tablesComplete = '' == rex_setup_importer::verifyDbSchema();
 
+        // spaces before/after to make sf-console render the array-key instead of
+        // our overlong description text
+        $defaultDbMode = ' normal ';
         $createdbOptions = [
             'normal' => 'Setup database',
             'override' => 'Setup database and overwrite it if it exitsts already (Caution - All existing data will be deleted!)',
@@ -284,7 +287,10 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             'update' => 'Update database (Update from previous version)',
             'import' => 'Import existing database export',
         ];
-        if (!$tables_complete) {
+
+        if ($tablesComplete) {
+            $defaultDbMode = ' existing ';
+        } else {
             unset($createdbOptions['existing']);
         }
         if (0 === count($backups)) {
@@ -292,7 +298,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         }
 
         $createdb = $this->getOptionOrAsk(
-            new ChoiceQuestion('Choose database setup', $createdbOptions, ' normal '),
+            new ChoiceQuestion('Choose database setup', $createdbOptions, $defaultDbMode),
             'db-setup',
             null,
             null,
@@ -312,13 +318,14 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             rex::setConfig('utf8mb4', $useUtf8mb4);
             $io->success('Database successfully updated');
         } elseif ('import' == $createdb) {
-            $import_name = $input->getOption('db-import') ?? $io->askQuestion(new ChoiceQuestion('Please choose a database export', $backups));
-            if (!in_array($import_name, $backups, true)) {
-                throw new InvalidArgumentException('Unknown import file "'.$import_name.'" specified');
+            $importName = $input->getOption('db-import') ?? $io->askQuestion(new ChoiceQuestion('Please choose a database export', $backups));
+            $importName = rex_type::string($importName);
+            if (!in_array($importName, $backups, true)) {
+                throw new InvalidArgumentException('Unknown import file "'.$importName.'" specified');
             }
-            $error = rex_setup_importer::loadExistingImport($import_name);
-            $io->success('Database successfully imported using file "'.$import_name.'"');
-        } elseif ('existing' == $createdb && $tables_complete) {
+            $error = rex_setup_importer::loadExistingImport($importName);
+            $io->success('Database successfully imported using file "'.$importName.'"');
+        } elseif ('existing' == $createdb && $tablesComplete) {
             $error = rex_setup_importer::databaseAlreadyExists();
             $io->success('Skipping database setup');
         } elseif ('override' == $createdb) {
@@ -363,7 +370,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
         // Admin creation not needed, but ask the cli user
         if ($input->isInteractive() && $skipUserCreation) {
-            $skipUserCreation = $io->confirm('Users already exists. Skip user creation?');
+            $skipUserCreation = $io->confirm('User(s) already exist. Skip user creation?');
         }
 
         // Admin account exists already, but the cli user wants to create another one
@@ -403,7 +410,10 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 return $password;
             };
 
-            $pwQuestion = new Question('Password');
+            $description = $passwordPolicy->getDescription();
+            $description = $description ? ' ('.$description.')' : '';
+
+            $pwQuestion = new Question('Password'.$description);
             $pwQuestion->setHidden(true);
             $pwQuestion->setValidator($pwValidator);
             $password = $this->getOptionOrAsk(
@@ -435,7 +445,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
         // ---------------------------------- last step. save config
 
-        $config['setup'] = false;
+        $config['setup'] = is_array($config['setup']) ? $config['setup'] : false;
         if (!rex_file::putConfig($configFile, $config)) {
             $io->error('Writing to config.yml failed.');
             return 1;
@@ -451,7 +461,6 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
      */
     private function getDbCharset()
     {
-        /** @var null|string $charset */
         $charset = $this->input->getOption('db-charset');
 
         if ($charset) {
@@ -499,7 +508,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
      * @param string           $option         cli option name
      * @param string|bool|null $default        default value for ask()
      * @param string|null      $successMessage success message for using the option value
-     * @param callable|null    $validator      validator callback for option value and ask()
+     * @param callable(mixed):mixed|null $validator validator callback for option value and ask()
      *
      * @return mixed
      */
@@ -511,8 +520,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 return $default;
             }
             if ($successMessage) {
-                assert(is_string($optionValue));
-                $this->io->success(sprintf($successMessage, $optionValue));
+                $this->io->success(sprintf($successMessage, rex_type::string($optionValue)));
             }
             return $optionValue;
         }
@@ -520,8 +528,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         if (!$this->input->isInteractive()) {
             if (null !== $default) {
                 if ($successMessage) {
-                    assert(is_string($default));
-                    $this->io->success(sprintf($successMessage, $default));
+                    $this->io->success(sprintf($successMessage, rex_type::string($default)));
                 }
                 return $default;
             }
@@ -532,11 +539,10 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             return $this->io->askQuestion($question);
         }
 
-        assert(null === $default || is_string($default));
-        return $this->io->ask($question, $default, $validator);
+        return $this->io->ask($question, rex_type::nullOrString($default), $validator);
     }
 
-    private function performSystemcheck()
+    private function performSystemcheck(): int
     {
         /** Cloned from comannd setup:check*/
         $errors = rex_setup::checkEnvironment();
@@ -562,7 +568,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 if (count($messages) > 0) {
                     $affectedFiles = [];
                     foreach ($messages as $message) {
-                        $affectedFiles[] = rex_path::relative($message);
+                        $affectedFiles[] = '- '. rex_path::relative($message);
                     }
                     $errors[] = rex_i18n::msg($key) . "\n". implode("\n", $affectedFiles);
                 }
@@ -573,5 +579,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             return 1;
         }
         $this->io->success('Directory permissions ok');
+
+        return 0;
     }
 }

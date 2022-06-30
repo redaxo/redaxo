@@ -1,6 +1,71 @@
 Changelog
 =========
 
+Version 2.8.5 – 03.05.2022
+--------------------------
+
+### Bugfixes
+
+* Prepared Statements nutzen (@staabm)
+
+
+Version 2.8.4 – 10.01.2022
+--------------------------
+
+### Bugfixes
+
+* Bei Datumsfeldern funktionierte die Checkbox mit PHP 8 nicht mehr (@gharlan)
+
+
+Version 2.8.3 – 29.11.2021
+--------------------------
+
+### Bugfixes
+
+* Klickfläche für den Hinzufügen-Link vergrößert (@schuer)
+
+
+Version 2.8.2 – 17.11.2021
+--------------------------
+
+### Bugfixes
+
+* Metainfos wurden teils doppelt gespeichert, teils erneut nach den entsprechenden `*_UPDATED` EPs (@gharlan)
+
+
+Version 2.8.1 – 21.06.2021
+--------------------------
+
+### Bugfixes
+
+* Media(list)- und Link(list)-Widgets hatten teils gleiche IDs wie entsprechende Widgets in den Slices, wodurch es zu Konflikten kam (@gharlan)
+
+
+Version 2.8.0 – 03.03.2021
+--------------------------
+
+### Neu
+
+* Die CSS-Datei wird nur noch auf der Content-Page eingebunden, da sie nur dort benötigt wird (@aeberhard)
+
+
+Version 2.7.3 – 25.01.2021
+--------------------------
+
+### Security
+
+* SQL-Injection in der Feldverwaltung (Adminbereich) verhindert (@gharlan)
+
+
+Version 2.7.2 – 01.07.2020
+--------------------------
+
+### Bugfixes
+
+* Hinweistexte verbessert (@alexplusde)
+* Table-Hover-Effekt fehlte (@tbaddade)
+
+
 Version 2.7.1 – 08.05.2020
 --------------------------
 

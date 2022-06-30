@@ -5,10 +5,11 @@
  *
  * @package redaxo\mediapool
  */
+#[AllowDynamicProperties]
 class rex_media
 {
-    use rex_instance_pool_trait;
     use rex_instance_list_pool_trait;
+    use rex_instance_pool_trait;
 
     // id
     protected $id = '';
@@ -54,12 +55,12 @@ class rex_media
         }
 
         return static::getInstance($name, static function ($name) {
-            $media_path = rex_path::addonCache('mediapool', $name . '.media');
+            $mediaPath = rex_path::addonCache('mediapool', $name . '.media');
 
-            $cache = rex_file::getCache($media_path);
+            $cache = rex_file::getCache($mediaPath, []);
             if (!$cache) {
                 rex_media_cache::generate($name);
-                $cache = rex_file::getCache($media_path);
+                $cache = rex_file::getCache($mediaPath, []);
             }
 
             if ($cache) {
@@ -72,12 +73,12 @@ class rex_media
                 $media = new static();
                 foreach ($cache as $key => $value) {
                     if (isset($aliasMap[$key])) {
-                        $var_name = $aliasMap[$key];
+                        $varName = $aliasMap[$key];
                     } else {
-                        $var_name = $key;
+                        $varName = $key;
                     }
 
-                    $media->$var_name = $value;
+                    $media->$varName = $value;
                 }
 
                 return $media;
@@ -88,17 +89,35 @@ class rex_media
     }
 
     /**
+     * @throws rex_sql_exception
+     * @return null|static
+     */
+    public static function forId(int $mediaId): ?self
+    {
+        $media = rex_sql::factory();
+        $media->setQuery('select filename from ' . rex::getTable('media') . ' where id=?', [$mediaId]);
+
+        if (1 != $media->getRows()) {
+            return null;
+        }
+        return static::get((string) $media->getValue('filename'));
+    }
+
+    /**
      * @return static[]
      */
     public static function getRootMedia()
     {
-        return static::getInstanceList('root_media', ['static', 'get'], static function () {
-            $list_path = rex_path::addonCache('mediapool', '0.mlist');
+        /** @var callable(string):static */
+        $getInstance = [static::class, 'get'];
 
-            $list = rex_file::getCache($list_path, null);
+        return static::getInstanceList('root_media', $getInstance, static function () {
+            $listPath = rex_path::addonCache('mediapool', '0.mlist');
+
+            $list = rex_file::getCache($listPath, null);
             if (null === $list) {
                 rex_media_cache::generateList(0);
-                $list = rex_file::getCache($list_path);
+                $list = rex_file::getCache($listPath);
             }
 
             return $list;
@@ -315,7 +334,7 @@ class rex_media
      */
     public static function isDocType($type)
     {
-        return in_array($type, self :: getDocTypes());
+        return in_array($type, self::getDocTypes());
     }
 
     // allowed image upload types

@@ -29,10 +29,9 @@ class rex_clang_test extends TestCase
 
     public function testHasValue()
     {
-        $clangClass = new ReflectionClass(rex_clang::class);
-        /** @var rex_clang $clang */
-        $clang = $clangClass->newInstanceWithoutConstructor();
+        $clang = $this->createClangWithoutConstructor();
 
+        /** @psalm-suppress UndefinedPropertyAssignment */
         $clang->clang_foo = 'teststring';
 
         static::assertTrue($clang->hasValue('foo'));
@@ -46,10 +45,9 @@ class rex_clang_test extends TestCase
     {
         static::assertIsInt(rex_clang::getCurrent()->getValue('id'));
 
-        $clangClass = new ReflectionClass(rex_clang::class);
-        /** @var rex_clang $clang */
-        $clang = $clangClass->newInstanceWithoutConstructor();
+        $clang = $this->createClangWithoutConstructor();
 
+        /** @psalm-suppress UndefinedPropertyAssignment */
         $clang->clang_foo = 'teststring';
 
         static::assertEquals('teststring', $clang->getValue('foo'));
@@ -57,5 +55,11 @@ class rex_clang_test extends TestCase
 
         static::assertNull($clang->getValue('bar'));
         static::assertNull($clang->getValue('clang_bar'));
+    }
+
+    private function createClangWithoutConstructor(): rex_clang
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return (new ReflectionClass(rex_clang::class))->newInstanceWithoutConstructor();
     }
 }

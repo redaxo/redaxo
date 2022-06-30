@@ -11,6 +11,9 @@ class rex_markdown
 {
     use rex_factory_trait;
 
+    public const SOFT_LINE_BREAKS = 'soft_line_breaks';
+    public const HIGHLIGHT_PHP = 'highlight_php';
+
     private function __construct()
     {
     }
@@ -28,13 +31,18 @@ class rex_markdown
      * Parses markdown code.
      *
      * @param string $code Markdown code
+     * @param array<self::*, bool>|bool $options
      *
      * @return string HTML code
      */
-    public function parse($code)
+    public function parse($code, $options = [])
     {
-        $parser = new ParsedownExtra();
-        $parser->setBreaksEnabled(true);
+        // deprecated bool param
+        $options = is_bool($options) ? [self::SOFT_LINE_BREAKS => $options] : $options;
+
+        $parser = new rex_parsedown();
+        $parser->setBreaksEnabled($options[self::SOFT_LINE_BREAKS] ?? true);
+        $parser->highlightPhp = $options[self::HIGHLIGHT_PHP] ?? false;
 
         return rex_string::sanitizeHtml($parser->text($code));
     }
@@ -45,13 +53,20 @@ class rex_markdown
      * @param string $code        Markdown code
      * @param int    $topLevel    Top included headline level for TOC, e.g. `1` for `<h1>`
      * @param int    $bottomLevel Bottom included headline level for TOC, e.g. `6` for `<h6>`
+     * @param array<self::*, bool>|bool $options
      *
      * @return array tupel of table-of-content and content
      */
-    public function parseWithToc($code, $topLevel = 2, $bottomLevel = 3)
+    public function parseWithToc($code, $topLevel = 2, $bottomLevel = 3, $options = [])
     {
-        $parser = new rex_parsedown_with_toc();
-        $parser->setBreaksEnabled(true);
+        // deprecated bool param
+        $options = is_bool($options) ? [self::SOFT_LINE_BREAKS => $options] : $options;
+
+        $parser = new rex_parsedown();
+        $parser->setBreaksEnabled($options[self::SOFT_LINE_BREAKS] ?? true);
+        $parser->highlightPhp = $options[self::HIGHLIGHT_PHP] ?? false;
+
+        $parser->generateToc = true;
         $parser->topLevel = $topLevel;
         $parser->bottomLevel = $bottomLevel;
 
@@ -103,26 +118,82 @@ class rex_markdown
 /**
  * @internal
  */
-final class rex_parsedown_with_toc extends ParsedownExtra
+final class rex_parsedown extends ParsedownExtra
 {
-    private $ids = [];
+    /** @var bool */
+    public $highlightPhp = false;
 
+    /** @var bool */
+    public $generateToc = false;
     public $topLevel = 2;
     public $bottomLevel = 3;
     public $headers = [];
 
-    protected function blockHeader($line)
+    private $ids = [];
+
+    public function text($text)
     {
-        $block = parent::blockHeader($line);
+        // https://github.com/erusev/parsedown-extra/issues/173
+        $errorReporting = error_reporting(error_reporting() ^ E_DEPRECATED);
+
+        try {
+            return parent::text($text);
+        } finally {
+            error_reporting($errorReporting);
+        }
+    }
+
+    protected function blockHeader($Line)
+    {
+        $block = parent::blockHeader($Line);
 
         return $this->handleHeader($block);
     }
 
-    protected function blockSetextHeader($line, array $block = null)
+    protected function blockSetextHeader($Line, array $Block = null)
     {
-        $block = parent::blockSetextHeader($line, $block);
+        $block = parent::blockSetextHeader($Line, $Block);
 
         return $this->handleHeader($block);
+    }
+
+    protected function blockFencedCodeComplete($Block)
+    {
+        /** @var array $Block */
+        $Block = parent::blockFencedCodeComplete($Block);
+
+        if (!$this->highlightPhp) {
+            return $Block;
+        }
+
+        /** @psalm-suppress MixedArrayAccess */
+        if ('language-php' !== ($Block['element']['text']['attributes']['class'] ?? null)) {
+            return $Block;
+        }
+
+        /**
+         * @var string $text
+         * @psalm-suppress MixedArrayAccess
+         */
+        $text = $Block['element']['text']['text'];
+
+        $missingPhpStart = !str_contains($text, '<?php') && !str_contains($text, '<?=');
+        if ($missingPhpStart) {
+            $text = '<?php '.$text;
+        }
+
+        $text = str_replace("\n", '', highlight_string($text, true));
+
+        if ($missingPhpStart) {
+            $text = preg_replace('@(<span style="color:[^"]+">)&lt;\?php&nbsp;@', '$1', $text, 1);
+        }
+
+        /** @psalm-suppress MixedArrayAssignment */
+        $Block['element']['rawHtml'] = $text;
+        /** @psalm-suppress MixedArrayAccess */
+        unset($Block['element']['text'], $Block['element']['handler']);
+
+        return $Block;
     }
 
     /**
@@ -130,20 +201,23 @@ final class rex_parsedown_with_toc extends ParsedownExtra
      */
     private function handleHeader(array $block = null)
     {
+        if (!$this->generateToc) {
+            return $block;
+        }
+
         if (!$block) {
             return $block;
         }
 
         [$level] = sscanf($block['element']['name'], 'h%d');
 
-        if ($level < $this->topLevel || $level > $this->bottomLevel) {
-            return $block;
-        }
+        $plainText = strip_tags($this->{$block['element']['handler']}($block['element']['text']));
+        $plainText = htmlspecialchars_decode($plainText);
 
         if (!isset($block['element']['attributes']['id'])) {
-            $baseId = $id = 'header-'.rex_string::normalize($block['element']['text'], '-');
+            $baseId = $id = rex_string::normalize($plainText, '-');
 
-            for ($i = 2; isset($this->ids[$id]); ++$i) {
+            for ($i = 1; isset($this->ids[$id]); ++$i) {
                 $id = $baseId.'-'.$i;
             }
 
@@ -153,11 +227,13 @@ final class rex_parsedown_with_toc extends ParsedownExtra
         $id = $block['element']['attributes']['id'];
         $this->ids[$id] = true;
 
-        $this->headers[] = [
-            'level' => $level,
-            'id' => $id,
-            'text' => $block['element']['text'],
-        ];
+        if ($level >= $this->topLevel && $level <= $this->bottomLevel) {
+            $this->headers[] = [
+                'level' => $level,
+                'id' => $id,
+                'text' => $plainText,
+            ];
+        }
 
         return $block;
     }

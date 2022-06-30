@@ -1,4 +1,10 @@
 <?php
+/**
+ * @var rex_fragment $this
+ * @psalm-scope-this rex_fragment
+ */
+?>
+<?php
 
 $this->content = is_string($this->content) ? [$this->content] : $this->content;
 
@@ -8,11 +14,10 @@ $this->classes = isset($this->classes) && (is_array($this->classes) && count($th
 
 switch ($count) {
     case '4':
-
         echo '<div class="row">';
 
         foreach ($this->content as $key => $content) {
-            echo '<div class="' . (isset($this->classes[$key]) ? $this->classes[$key] : 'col-sm-6 col-md-3') . '">' . $content . '</div>';
+            echo '<div class="' . ($this->classes[$key] ?? 'col-sm-6 col-md-3') . '">' . $content . '</div>';
         }
 
         echo '</div>';
@@ -20,11 +25,10 @@ switch ($count) {
         break;
 
     case '3':
-
         echo '<div class="row">';
 
         foreach ($this->content as $key => $content) {
-            echo '<div class="' . (isset($this->classes[$key]) ? $this->classes[$key] : 'col-md-4') . '">' . $content . '</div>';
+            echo '<div class="' . ($this->classes[$key] ?? 'col-md-4') . '">' . $content . '</div>';
         }
 
         echo '</div>';
@@ -32,11 +36,10 @@ switch ($count) {
         break;
 
     case '2':
-
         echo '<div class="row">';
 
         foreach ($this->content as $key => $content) {
-            echo '<div class="' . (isset($this->classes[$key]) ? $this->classes[$key] : 'col-md-6') . '">' . $content . '</div>';
+            echo '<div class="' . ($this->classes[$key] ?? 'col-md-6') . '">' . $content . '</div>';
         }
 
         echo '</div>';
@@ -44,7 +47,6 @@ switch ($count) {
         break;
 
     default:
-
         foreach ($this->content as $content) {
             echo $content;
         }

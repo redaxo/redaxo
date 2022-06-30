@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the ramsey/collection library
  *
@@ -7,57 +8,83 @@
  *
  * @copyright Copyright (c) Ben Ramsey <ben@benramsey.com>
  * @license http://opensource.org/licenses/MIT MIT
- * @link https://benramsey.com/projects/ramsey-collection/ Documentation
- * @link https://packagist.org/packages/ramsey/collection Packagist
- * @link https://github.com/ramsey/collection GitHub
  */
+
+declare(strict_types=1);
 
 namespace Ramsey\Collection\Map;
 
 use Ramsey\Collection\AbstractArray;
+use Ramsey\Collection\Exception\InvalidArgumentException;
+
+use function array_key_exists;
+use function array_keys;
+use function in_array;
 
 /**
- * This class provides an implementation of the MapInterface, to
- * minimize the effort required to implement this interface
+ * This class provides a basic implementation of `MapInterface`, to minimize the
+ * effort required to implement this interface.
+ *
+ * @template T
+ * @extends AbstractArray<T>
+ * @implements MapInterface<T>
  */
 abstract class AbstractMap extends AbstractArray implements MapInterface
 {
-    public function offsetSet($offset, $value)
+    /**
+     * @inheritDoc
+     */
+    public function offsetSet($offset, $value): void
     {
         if ($offset === null) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Map elements are key/value pairs; a key must be provided for '
-                . 'value ' . (string) $value
+                . 'value ' . var_export($value, true)
             );
         }
 
         $this->data[$offset] = $value;
     }
 
-    public function containsKey($key)
+    /**
+     * @inheritDoc
+     */
+    public function containsKey($key): bool
     {
         return array_key_exists($key, $this->data);
     }
 
-    public function containsValue($value)
+    /**
+     * @inheritDoc
+     */
+    public function containsValue($value): bool
     {
         return in_array($value, $this->data, true);
     }
 
-    public function keys()
+    /**
+     * @inheritDoc
+     */
+    public function keys(): array
     {
         return array_keys($this->data);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function get($key, $defaultValue = null)
     {
         if (!$this->containsKey($key)) {
             return $defaultValue;
         }
 
-        return $this->offsetGet($key);
+        return $this[$key];
     }
 
+    /**
+     * @inheritDoc
+     */
     public function put($key, $value)
     {
         $previousValue = $this->get($key);
@@ -66,6 +93,9 @@ abstract class AbstractMap extends AbstractArray implements MapInterface
         return $previousValue;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function putIfAbsent($key, $value)
     {
         $currentValue = $this->get($key);
@@ -77,6 +107,9 @@ abstract class AbstractMap extends AbstractArray implements MapInterface
         return $currentValue;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function remove($key)
     {
         $previousValue = $this->get($key);
@@ -85,7 +118,10 @@ abstract class AbstractMap extends AbstractArray implements MapInterface
         return $previousValue;
     }
 
-    public function removeIf($key, $value)
+    /**
+     * @inheritDoc
+     */
+    public function removeIf($key, $value): bool
     {
         if ($this->get($key) === $value) {
             unset($this[$key]);
@@ -96,6 +132,9 @@ abstract class AbstractMap extends AbstractArray implements MapInterface
         return false;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function replace($key, $value)
     {
         $currentValue = $this->get($key);
@@ -107,7 +146,10 @@ abstract class AbstractMap extends AbstractArray implements MapInterface
         return $currentValue;
     }
 
-    public function replaceIf($key, $oldValue, $newValue)
+    /**
+     * @inheritDoc
+     */
+    public function replaceIf($key, $oldValue, $newValue): bool
     {
         if ($this->get($key) === $oldValue) {
             $this[$key] = $newValue;

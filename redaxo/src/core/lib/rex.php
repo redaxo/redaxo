@@ -15,6 +15,7 @@ class rex
      * Array of properties.
      *
      * @var array
+     * @psalm-var array<string, mixed>
      */
     protected static $properties = [];
 
@@ -113,7 +114,7 @@ class rex
                 break;
             case 'console':
                 if (null !== $value && !$value instanceof rex_console_application) {
-                    throw new InvalidArgumentException(sprintf('"%s" property: expecting $value to be an instance of rex_console_application, "%s" found!', $key, is_object($value) ? get_class($value) : gettype($value)));
+                    throw new InvalidArgumentException(sprintf('"%s" property: expecting $value to be an instance of rex_console_application, "%s" found!', $key, get_debug_type($value)));
                 }
         }
         $exists = isset(self::$properties[$key]);
@@ -180,7 +181,7 @@ class rex
      */
     public static function isSetup()
     {
-        return (bool) self::getProperty('setup', false);
+        return rex_setup::isEnabled();
     }
 
     /**
@@ -210,6 +211,7 @@ class rex
      * Returns the environment.
      *
      * @return string
+     * @psalm-return 'console'|'backend'|'frontend'
      */
     public static function getEnvironment()
     {
@@ -229,17 +231,23 @@ class rex
     {
         $debug = self::getDebugFlags();
 
-        return isset($debug['enabled']) && $debug['enabled'];
+        return $debug['enabled'];
     }
 
     /**
      * Returns the debug flags.
      *
      * @return array
+     * @psalm-return array{enabled: bool, throw_always_exception: bool|int}
      */
     public static function getDebugFlags()
     {
-        return self::getProperty('debug');
+        $flags = self::getProperty('debug', []);
+
+        $flags['enabled'] = $flags['enabled'] ?? false;
+        $flags['throw_always_exception'] = $flags['throw_always_exception'] ?? false;
+
+        return $flags;
     }
 
     /**
@@ -295,6 +303,22 @@ class rex
     }
 
     /**
+     * Returns the current user.
+     *
+     * In contrast to `getUser`, this method throw a `rex_exception` if the user does not exist.
+     */
+    public static function requireUser(): rex_user
+    {
+        $user = self::getProperty('user');
+
+        if (!$user instanceof rex_user) {
+            throw new rex_exception('User object does not exist');
+        }
+
+        return $user;
+    }
+
+    /**
      * Returns the current impersonator user.
      *
      * @return null|rex_user
@@ -314,6 +338,35 @@ class rex
     public static function getConsole()
     {
         return self::getProperty('console', null);
+    }
+
+    public static function getRequest(): Symfony\Component\HttpFoundation\Request
+    {
+        $request = self::getProperty('request');
+
+        if (null === $request) {
+            throw new rex_exception('The request object is not available in cli');
+        }
+
+        return $request;
+    }
+
+    /**
+     * @param positive-int $db
+     *
+     * @throws rex_exception
+     */
+    public static function getDbConfig(int $db = 1): rex_config_db
+    {
+        $config = self::getProperty('db', null);
+
+        if (!$config) {
+            $configFile = rex_path::coreData('config.yml');
+
+            throw new rex_exception('Unable to read db config from config.yml "'. $configFile .'"');
+        }
+
+        return new rex_config_db($config[$db]);
     }
 
     /**
@@ -372,6 +425,7 @@ class rex
     /**
      * @deprecated since 5.10, use `rex_version::gitHash` instead
      */
+    #[\JetBrains\PhpStorm\Deprecated(reason: 'since 5.10, use `rex_version::gitHash` instead', replacement: 'rex_version::gitHash(!%parametersList%)')]
     public static function getVersionHash($path, ?string $repo = null)
     {
         return rex_version::gitHash($path, $repo) ?? false;
@@ -379,24 +433,20 @@ class rex
 
     /**
      * @return array<string, array{install: bool, status: bool, plugins?: array<string, array{install: bool, status: bool}>}>
+     * @psalm-suppress MixedReturnTypeCoercion
      */
     public static function getPackageConfig(): array
     {
-        $config = self::getConfig('package-config', []);
-        assert(is_array($config));
-
-        return $config;
+        return rex_type::array(self::getConfig('package-config', []));
     }
 
     /**
      * @return list<string>
+     * @psalm-suppress MixedReturnTypeCoercion
      */
     public static function getPackageOrder(): array
     {
-        $config = self::getConfig('package-order', []);
-        assert(is_array($config));
-
-        return $config;
+        return rex_type::array(self::getConfig('package-order', []));
     }
 
     /**
@@ -437,5 +487,34 @@ class rex
     public static function getDirPerm()
     {
         return (int) self::getProperty('dirperm', 0775);
+    }
+
+    /**
+     * Returns the current backend theme.
+     *
+     * @return 'dark'|'light'|null
+     */
+    public static function getTheme(): ?string
+    {
+        $themes = ['light', 'dark'];
+
+        // global theme from config.yml
+        $globalTheme = (string) self::getProperty('theme');
+        if (in_array($globalTheme, $themes, true)) {
+            return $globalTheme;
+        }
+
+        $user = self::getUser();
+        if (!$user) {
+            return null;
+        }
+
+        // user selected theme
+        $userTheme = (string) $user->getValue('theme');
+        if (in_array($userTheme, $themes, true)) {
+            return $userTheme;
+        }
+
+        return null;
     }
 }

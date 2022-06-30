@@ -9,36 +9,38 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
+declare(strict_types=1);
+
 namespace Ramsey\Http\Range\Unit;
 
 /**
- * A single range for a unit
+ * `UnitRangeInterface` defines an interface representing a single range for a unit.
  */
 interface UnitRangeInterface
 {
     /**
-     * Returns the raw range
+     * Returns the raw range.
      *
      * @return string
      */
-    public function getRange();
+    public function getRange(): string;
 
     /**
-     * Returns the start of the range
+     * Returns the start of the range.
      *
      * @return mixed
      */
     public function getStart();
 
     /**
-     * Returns the end of the range
+     * Returns the end of the range.
      *
      * @return mixed
      */
     public function getEnd();
 
     /**
-     * Returns the length of this range
+     * Returns the length of this range.
      *
      * For example, if the total size is 1200, and the start is 700 and the end
      * is 1199, then the length is 500.
@@ -48,7 +50,7 @@ interface UnitRangeInterface
     public function getLength();
 
     /**
-     * Returns the total size of the entity this unit range describes
+     * Returns the total size of the entity this unit range describes.
      *
      * For example, if this unit range describes the bytes in a file, then this
      * returns the total bytes of the file.

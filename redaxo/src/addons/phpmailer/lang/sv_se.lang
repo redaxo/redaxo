@@ -9,6 +9,9 @@ phpmailer_dispatch_options = Skicka
 phpmailer_sender_name =  Avsändare (Namn)
 phpmailer_sender_email = Avsändare (E-post)
 phpmailer_checkmail_test_address = Adress till testmail (e-post)
+phpmailer_detour_email_redirect = Omdirigera e-postleverans till testadress
+phpmailer_detour_warning = Fält <b> Adress för teständamål </b> krävs för <b> omdirigera e-post </b>.
+phpmailer_detour_subject = [REDIRECTION] {0} [Original för: {1}]
 phpmailer_confirm = Läsbekräftelse (E-post)
 phpmailer_bcc = Blindkopia (E-post)
 phpmailer_mailertype = Mailertype
@@ -26,6 +29,7 @@ phpmailer_smtp_username = Användarnamn
 phpmailer_smtp_password = Lösenord
 phpmailer_smtp_secure = Kryptering
 phpmailer_security_mode = Kryptering
+phpmailer_security_mode_help = Med "AutoTLS" görs ett försök att förhandla om en TLS-anslutning. Om en TLS-anslutning inte är möjlig är överföringen okrypterad.
 phpmailer_security_mode_auto = AutoTLS
 phpmailer_security_mode_manual = Manuell urval
 phpmailer_smtp_auth = Autentificering
@@ -60,6 +64,12 @@ phpmailer_log_errors = Logga bara fel
 phpmailer_log_all = Logga alla händelser
 phpmailer_archive = E-post arkivering
 phpmailer_archive_info = Arkiv-mappen: <span title="{0}">{1}</span>
+phpmailer_archive_delete = Radera e-post arkiv
+phpmailer_archive_deleted = E-post arkivet raderades.
+phpmailer_archive_delete_confirm = Ska e-postarkivet raderas helt? Denna åtgärd kan inte ångras.
+phpmailer_archivecron = Rensa mailer-arkiv
+phpmailer_archivecron_label = Radera alla mail äldre än
+phpmailer_archivecron_days = Dagar
 phpmailer_log_yes = Ja
 phpmailer_log_no = Nej
 phpmailer_log_title = PHPMailer-log "{0}"
@@ -76,4 +86,5 @@ phpmailer_errormail_30min = 30 minuters check-interval
 phpmailer_errormail_60min = 60 minuters check-interval
 
 system_setting_errormail = Skicka felmeddelanden
+perm_general_phpmailer[] = PHPMailer inställningar
 

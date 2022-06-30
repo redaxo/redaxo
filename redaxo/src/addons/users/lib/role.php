@@ -51,7 +51,7 @@ class rex_user_role implements rex_user_role_interface
                 if (rex_complex_perm::ALL === $role[$key]) {
                     $perms = rex_complex_perm::ALL;
                 } else {
-                    $perms = explode('|', trim($role[$key], '|'));
+                    $perms = $role[$key] ? explode('|', trim($role[$key], '|')) : [];
                     if (1 == count($perms) && '' == $perms[0]) {
                         $perms = [];
                     }
@@ -102,14 +102,14 @@ class rex_user_role implements rex_user_role_interface
     public static function get($ids)
     {
         $sql = rex_sql::factory();
-        $user_roles = $sql->getArray('SELECT perms FROM ' . rex::getTablePrefix() . 'user_role WHERE FIND_IN_SET(id, ?)', [$ids]);
-        if (0 == count($user_roles)) {
+        $userRoles = $sql->getArray('SELECT perms FROM ' . rex::getTablePrefix() . 'user_role WHERE FIND_IN_SET(id, ?)', [$ids]);
+        if (0 == count($userRoles)) {
             return null;
         }
 
         $roles = [];
-        foreach ($user_roles as $user_role) {
-            $roles[] = json_decode($user_role['perms'], true);
+        foreach ($userRoles as $userRole) {
+            $roles[] = json_decode((string) $userRole['perms'], true);
         }
 
         return new static($roles);
@@ -127,7 +127,7 @@ class rex_user_role implements rex_user_role_interface
         $update->prepareQuery('UPDATE ' . rex::getTable('user_role') . ' SET perms = ? WHERE id = ?');
         foreach ($sql as $row) {
             $perms = $row->getArrayValue('perms');
-            if (isset($perms[$key]) && false !== strpos($perms[$key], $item)) {
+            if (isset($perms[$key]) && str_contains($perms[$key], $item)) {
                 $perms[$key] = str_replace($item, $new, $perms[$key]);
                 $update->execute([json_encode($perms), $row->getValue('id')]);
             }

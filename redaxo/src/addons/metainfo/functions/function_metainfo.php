@@ -12,6 +12,12 @@
  * Fügt einen neuen Feldtyp ein.
  *
  * Gibt beim Erfolg die Id des Feldes zurück, bei Fehler die Fehlermeldung
+ *
+ * @param string $label
+ * @param string $dbtype
+ * @param int $dblength
+ *
+ * @return string
  */
 function rex_metainfo_add_field_type($label, $dbtype, $dblength)
 {
@@ -48,17 +54,19 @@ function rex_metainfo_add_field_type($label, $dbtype, $dblength)
  *
  * Gibt beim Erfolg true zurück, sonst eine Fehlermeldung
  *
+ * @param int $fieldTypeId
+ *
  * @return bool|string
  */
-function rex_metainfo_delete_field_type($field_type_id)
+function rex_metainfo_delete_field_type($fieldTypeId)
 {
-    if (!is_int($field_type_id) || empty($field_type_id)) {
+    if (!is_int($fieldTypeId) || empty($fieldTypeId)) {
         return rex_i18n::msg('minfo_field_error_invalid_typeid');
     }
 
     $sql = rex_sql::factory();
     $sql->setTable(rex::getTablePrefix() . 'metainfo_type');
-    $sql->setWhere(['id' => $field_type_id]);
+    $sql->setWhere(['id' => $fieldTypeId]);
 
     $sql->delete();
     return 1 == $sql->getRows();
@@ -66,6 +74,19 @@ function rex_metainfo_delete_field_type($field_type_id)
 
 /**
  * Fügt ein MetaFeld hinzu und legt dafür eine Spalte in der MetaTable an.
+ *
+ * @param string $title
+ * @param string $name
+ * @param int $priority
+ * @param string $attributes
+ * @param int $type
+ * @param string $default
+ * @param string $params
+ * @param string $validate
+ * @param string $restrictions
+ * @param string $callback
+ *
+ * @return bool|string
  */
 function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $default, $params = null, $validate = null, $restrictions = '', $callback = null)
 {
@@ -120,14 +141,19 @@ function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $d
     $sql->insert();
 
     // replace LIKE wildcards
-    $prefix = str_replace(['_', '%'], ['\_', '\%'], $prefix);
+    $prefix = $sql->escape($sql->escapeLikeWildcards($prefix).'%');
 
-    rex_sql_util::organizePriorities(rex::getTablePrefix() . 'metainfo_field', 'priority', 'name LIKE "' . $prefix . '%"', 'priority, updatedate');
+    rex_sql_util::organizePriorities(rex::getTablePrefix() . 'metainfo_field', 'priority', 'name LIKE ' . $prefix, 'priority, updatedate');
 
     $tableManager = new rex_metainfo_table_manager($metaTable);
     return $tableManager->addColumn($name, $fieldDbType, $fieldDbLength, $default);
 }
 
+/**
+ * @param string|int $fieldIdOrName
+ *
+ * @return bool|string
+ */
 function rex_metainfo_delete_field($fieldIdOrName)
 {
     // Löschen anhand der FieldId
@@ -150,8 +176,8 @@ function rex_metainfo_delete_field($fieldIdOrName)
         return $invalidField;
     }
 
-    $name = $sql->getValue('name');
-    $field_id = $sql->getValue('id');
+    $name = (string) $sql->getValue('name');
+    $fieldId = $sql->getValue('id');
 
     $prefix = rex_metainfo_meta_prefix($name);
     $metaTable = rex_metainfo_meta_table($prefix);
@@ -163,7 +189,7 @@ function rex_metainfo_delete_field($fieldIdOrName)
     }
 
     $sql->setTable(rex::getTablePrefix() . 'metainfo_field');
-    $sql->setWhere(['id' => $field_id]);
+    $sql->setWhere(['id' => $fieldId]);
 
     $sql->delete();
 
@@ -211,11 +237,10 @@ function rex_metainfo_extensions_handler(rex_extension_point $ep)
 {
     $page = $ep->getSubject();
     $mainpage = rex_be_controller::getCurrentPagePart(1);
-    $mypage = 'metainfo';
 
     // additional javascripts
     if (in_array($mainpage, ['metainfo', 'mediapool'], true) || in_array($page, ['content/metainfo', 'structure', 'system/lang'], true)) {
-        rex_view::addJsFile(rex_url::addonAssets($mypage, 'metainfo.js'), [rex_view::JS_IMMUTABLE => true]);
+        rex_view::addJsFile(rex_url::addonAssets('metainfo', 'metainfo.js'), [rex_view::JS_IMMUTABLE => true]);
     }
 
     // include extensions

@@ -1,18 +1,20 @@
 <?php
-
-$echo = '';
+/**
+ * @var rex_fragment $this
+ * @psalm-scope-this rex_fragment
+ */
 
 $items = $this->items;
 
 // --------------------- List Items
-$list_items = [];
+$listItems = [];
 
 if (count($items) > 0) {
     foreach ($items as $item) {
-        $list_item = '';
+        $listItem = '';
 
         if (isset($item['title']) && '' != $item['title']) {
-            $list_item .= $item['title'];
+            $listItem .= $item['title'];
         }
 
         $attributes = '';
@@ -21,19 +23,19 @@ if (count($items) > 0) {
         }
 
         if (isset($item['href']) && '' != $item['href']) {
-            $list_item = '<a href="' . $item['href'] . '"' . $attributes . '>' . $list_item . '</a>';
+            $listItem = '<a href="' . $item['href'] . '"' . $attributes . '>' . $listItem . '</a>';
         } elseif ('' != $attributes) {
-            $list_item = '<span' . $attributes . '>' . $list_item . '</span>';
+            $listItem = '<span' . $attributes . '>' . $listItem . '</span>';
         }
 
-        $list_items[] = '<li>' . $list_item . '</li>';
+        $listItems[] = '<li>' . $listItem . '</li>';
     }
 
-    $list_items = rex_extension::registerPoint(new rex_extension_point('META_NAVI', $list_items));
+    $listItems = rex_extension::registerPoint(new rex_extension_point('META_NAVI', $listItems));
 
-    if (count($list_items) > 0) {
+    if (count($listItems) > 0) {
         echo '  <div class="rex-nav-meta">
-                    <ul class="nav navbar-nav navbar-right">' . implode('', $list_items) . '</ul>
+                    <ul class="nav navbar-nav navbar-right">' . implode('', $listItems) . '</ul>
                 </div>';
     }
 }

@@ -1,6 +1,85 @@
 Changelog
 =========
 
+Version 2.11.3 – 03.05.2022
+---------------------------
+
+### Bugfixes
+
+* EP `MEDIA_LIST_QUERY` wieder hinzugefügt, der zwischenzeitlich entfallen war (@eaCe)
+* Standardsortierung wieder nach Updatedate (@TobiasKrais)
+* Wenn bei Bildern (SVGs) die Breite nicht vorhanden war, wurde trotzdem das `width`-Attribut mit Wert 0 gesetzt (@skerbis)
+* Verhalten der alten (deprecated) Funktion `rex_mediapool_saveMedia` an das frühere Verhalten wieder angeglichen (@gharlan)
+* `.php8` in die Liste der blockierten Extensions aufgenommen (@staabm)
+
+
+Version 2.11.2 – 10.01.2022
+---------------------------
+
+### Bugfixes
+
+* Verhalten der alten (deprecated) Funktionen `rex_mediapool_saveMedia` und `rex_mediapool_updateMedia` an das frühere Verhalten wieder angeglichen (@gharlan)
+
+
+Version 2.11.1 – 05.12.2021
+---------------------------
+
+### Bugfixes
+
+* Uploaderrors (insbesondere bei zu großen Dateien) werden besser abgefangen (@gharlan)
+* Widgets: Filterung der Dateitypen hatte keine Auswirkung mehr (@gharlan)
+* Synchronisierung funktionierte teils nicht (@gharlan)
+
+
+Version 2.11.0 – 17.11.2021
+---------------------------
+
+### Neu
+
+* Neue Serviceklassen `rex_mediapool` und `rex_media_service` (entsprechend alte Funktionen als deprecated gesetzt) (@dergel, @gharlan)
+* `rex_media`: Neue Methode `forId`, um ein Medium über die ID zu erhalten (@dergel)
+* Medienpool-Suche trennt die Eingabe in Wörter, die getrennt gesucht werden, und bietet eine Dateitypsuche ("type:jpg,gif") (@gharlan)
+
+### Bugfixes
+
+* Wenn eine Datei im Mediapool ausgewählt wird, wird das `onchange`-Event des MediaButton-Inputs getriggert (@BenJ1337)
+
+
+Version 2.10.1 – 21.06.2021
+---------------------------
+
+### Bugfixes
+
+* `rex_var_media(list)::getWidget`: ID-Parameter mit zusätzlichem Namespace-Anteil (nicht nur integer) wurden nur teilweise unterstützt (@gharlan)
+
+
+Version 2.10.0 – 03.03.2021
+---------------------------
+
+### Neu
+
+* Bei der Darstellung der Metabeschreibung im Backend werden HTML-Tags entfernt (@skerbis)
+
+
+Version 2.9.1 – 25.01.2021
+--------------------------
+
+### Bugfixes
+
+* `rex_media_category_select`:
+    - `setRootId` funktionierte nur mit Root-Kategorien (@gharlan)
+    - Bei eingeschränkten Kategorierechten fehlten berechtigte Kategorien, wenn für deren Root keine Berechtigung vorhanden ist (@gharlan)
+
+
+Version 2.9.0 – 01.07.2020
+--------------------------
+
+### Neu
+
+* Neuer EP `MEDIA_ADD`, über den neue Medien vor dem Speichern weiter validiert werden können (@portux)
+* Neues Recht `media[sync]` um den Zugriff auf die Sync-Page explizit steuern zu können (@skerbis)
+
+
 Version 2.8.1 – 08.05.2020
 --------------------------
 

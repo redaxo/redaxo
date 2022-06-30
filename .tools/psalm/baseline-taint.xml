@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="4.23.0@f1fe6ff483bf325c803df9f510d09a03fd796f88">
+  <file src="redaxo/src/core/lib/response.php">
+    <TaintedHeader occurrences="1">
+      <code>$str</code>
+    </TaintedHeader>
+  </file>
+  <file src="redaxo/src/core/lib/util/socket/socket.php">
+    <TaintedCallable occurrences="1">
+      <code>$data</code>
+    </TaintedCallable>
+  </file>
+</files>

@@ -6,22 +6,21 @@
  * @package redaxo5
  */
 
-$article_id = rex_request('article_id', 'int');
+$articleId = rex_request('article_id', 'int');
 $clang = rex_request('clang', 'int');
-$slice_id = rex_request('slice_id', 'int', '');
-$function = rex_request('function', 'string');
+$sliceId = rex_request('slice_id', 'int', '');
 
-$article_id = rex_article::get($article_id) ? $article_id : 0;
+$articleId = rex_article::get($articleId) ? $articleId : 0;
 $clang = rex_clang::exists($clang) ? $clang : rex_clang::getStartId();
 
-$article_revision = 0;
-$slice_revision = 0;
-$template_attributes = [];
+$articleRevision = 0;
+$sliceRevision = 0;
+$templateAttributes = [];
 
 $warning = '';
-$global_warning = '';
+$globalWarning = '';
 $info = '';
-$global_info = '';
+$globalInfo = '';
 
 $article = rex_sql::factory();
 $article->setQuery('
@@ -33,7 +32,7 @@ $article->setQuery('
             ON template.id=article.template_id
         WHERE
             article.id=?
-            AND clang_id=?', [$article_id, $clang]);
+            AND clang_id=?', [$articleId, $clang]);
 
 if (1 !== $article->getRows()) {
     echo rex_view::title(rex_i18n::msg('content'), '');
@@ -42,14 +41,14 @@ if (1 !== $article->getRows()) {
 }
 
 // ----- ctype holen
-$template_attributes = $article->getArrayValue('template_attributes');
+$templateAttributes = $article->getArrayValue('template_attributes');
 
 // Für Artikel ohne Template
-if (!is_array($template_attributes)) {
-    $template_attributes = [];
+if (!is_array($templateAttributes)) {
+    $templateAttributes = [];
 }
 
-$ctypes = $template_attributes['ctype'] ?? []; // ctypes - aus dem template
+$ctypes = $templateAttributes['ctype'] ?? []; // ctypes - aus dem template
 
 $ctype = rex_request('ctype', 'int', 1);
 if (!array_key_exists($ctype, $ctypes)) {
@@ -57,8 +56,8 @@ if (!array_key_exists($ctype, $ctypes)) {
 }
 
 // ----- Artikel wurde gefunden - Kategorie holen
-$OOArt = rex_article::get($article_id, $clang);
-$category_id = $OOArt->getCategoryId();
+$OOArt = rex_article::get($articleId, $clang);
+$categoryId = $OOArt->getCategoryId();
 
 // ----- Request Parameter
 $subpage = rex_be_controller::getCurrentPagePart(2);
@@ -68,14 +67,14 @@ $info = rex_escape(rex_request('info', 'string'));
 
 $context = new rex_context([
     'page' => rex_be_controller::getCurrentPage(),
-    'article_id' => $article_id,
-    'category_id' => $category_id,
+    'article_id' => $articleId,
+    'category_id' => $categoryId,
     'clang' => $clang,
     'ctype' => $ctype,
 ]);
 
 // ----- Titel anzeigen
-echo rex_view::title(rex_i18n::msg('content'), '');
+echo rex_view::title(rex_i18n::msg('content') . ': ' . $OOArt->getName(), '');
 
 // ----- Languages
 echo rex_view::clangSwitchAsButtons($context);
@@ -85,19 +84,19 @@ require rex_path::addon('structure', 'functions/function_rex_category.php');
 
 // ----- EXTENSION POINT
 echo rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_HEADER', '', [
-    'article_id' => $article_id,
+    'article_id' => $articleId,
     'clang' => $clang,
     'function' => $function,
-    'slice_id' => $slice_id,
+    'slice_id' => $sliceId,
     'page' => rex_be_controller::getCurrentPage(),
     'ctype' => $ctype,
-    'category_id' => $category_id,
-    'article_revision' => &$article_revision,
-    'slice_revision' => &$slice_revision,
+    'category_id' => $categoryId,
+    'article_revision' => &$articleRevision,
+    'slice_revision' => &$sliceRevision,
 ]));
 
 // ----------------- HAT USER DIE RECHTE AN DIESEM ARTICLE ODER NICHT
-if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
+if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
     // ----- hat keine rechte an diesem artikel
     echo rex_view::warning(rex_i18n::msg('no_rights_to_edit'));
 } else {
@@ -108,36 +107,36 @@ if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id))
         // ----- check module
 
         $CM = rex_sql::factory();
-        $module_id = null;
+        $moduleId = null;
         if ('edit' == $function || 'delete' == $function) {
             // edit/ delete
-            $CM->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article_slice LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id WHERE ' . rex::getTablePrefix() . 'article_slice.id=? AND clang_id=?', [$slice_id, $clang]);
+            $CM->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article_slice LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id WHERE ' . rex::getTablePrefix() . 'article_slice.id=? AND clang_id=?', [$sliceId, $clang]);
             if (1 == $CM->getRows()) {
-                $module_id = $CM->getValue('' . rex::getTablePrefix() . 'article_slice.module_id');
+                $moduleId = $CM->getValue('' . rex::getTablePrefix() . 'article_slice.module_id');
             }
         } else {
             // add
-            $module_id = rex_post('module_id', 'int');
-            $CM->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module WHERE id=?', [$module_id]);
+            $moduleId = rex_post('module_id', 'int');
+            $CM->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module WHERE id=?', [$moduleId]);
         }
 
         if (1 != $CM->getRows()) {
             // ------------- MODUL IST NICHT VORHANDEN
-            $global_warning = rex_i18n::msg('module_not_found');
-            $slice_id = '';
+            $globalWarning = rex_i18n::msg('module_not_found');
+            $sliceId = '';
             $function = '';
         } else {
             // ------------- MODUL IST VORHANDEN
 
             // ----- RECHTE AM MODUL ?
-            if ('delete' != $function && !rex_template::hasModule($template_attributes, $ctype, $module_id)) {
-                $global_warning = rex_i18n::msg('no_rights_to_this_function');
-                $slice_id = '';
+            if ('delete' != $function && !rex_template::hasModule($templateAttributes, $ctype, $moduleId)) {
+                $globalWarning = rex_i18n::msg('no_rights_to_this_function');
+                $sliceId = '';
                 $function = '';
-            } elseif (!rex::getUser()->getComplexPerm('modules')->hasPerm($module_id)) {
+            } elseif (!rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId)) {
                 // ----- RECHTE AM MODUL: NEIN
-                $global_warning = rex_i18n::msg('no_rights_to_this_function');
-                $slice_id = '';
+                $globalWarning = rex_i18n::msg('no_rights_to_this_function');
+                $sliceId = '';
                 $function = '';
             } else {
                 // ----- RECHTE AM MODUL: JA
@@ -148,25 +147,25 @@ if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id))
                 // $newsql->setDebug();
 
                 // ----- PRE SAVE ACTION [ADD/EDIT/DELETE]
-                $action = new rex_article_action($module_id, $function, $newsql);
+                $action = new rex_article_action($moduleId, $function, $newsql);
                 $action->setRequestValues();
                 $action->exec(rex_article_action::PRESAVE);
-                $action_message = implode('<br />', $action->getMessages());
+                $actionMessage = implode('<br />', $action->getMessages());
                 // ----- / PRE SAVE ACTION
 
                 // Werte werden aus den REX_ACTIONS übernommen wenn SAVE=true
                 if (!$action->getSave()) {
                     // ----- DONT SAVE/UPDATE SLICE
-                    if ('' != $action_message) {
-                        $warning = $action_message;
+                    if ('' != $actionMessage) {
+                        $warning = $actionMessage;
                     } elseif ('delete' == $function) {
                         $warning = rex_i18n::msg('slice_deleted_error');
                     } else {
                         $warning = rex_i18n::msg('slice_saved_error');
                     }
                 } else {
-                    if ($action_message) {
-                        $action_message .= '<br />';
+                    if ($actionMessage) {
+                        $actionMessage .= '<br />';
                     }
 
                     // clone sql object to preserve values in sql object given to rex_article_action
@@ -179,24 +178,24 @@ if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id))
                         $newsql->setTable($sliceTable);
 
                         if ('edit' == $function) {
-                            $newsql->setWhere(['id' => $slice_id]);
-                        } elseif ('add' == $function) {
+                            $newsql->setWhere(['id' => $sliceId]);
+                        } else {
                             // determine priority value to get the new slice into the right order
                             $prevSlice = rex_sql::factory();
                             // $prevSlice->setDebug();
-                            if (-1 == $slice_id) {
-                                $prevSlice->setQuery('SELECT IFNULL(MAX(priority),0)+1 as priority FROM ' . $sliceTable . ' WHERE article_id=? AND clang_id=? AND ctype_id=? AND revision=?', [$article_id, $clang, $ctype, $slice_revision]);
+                            if (-1 == $sliceId) {
+                                $prevSlice->setQuery('SELECT IFNULL(MAX(priority),0)+1 as priority FROM ' . $sliceTable . ' WHERE article_id=? AND clang_id=? AND ctype_id=? AND revision=?', [$articleId, $clang, $ctype, $sliceRevision]);
                             } else {
-                                $prevSlice->setQuery('SELECT * FROM ' . $sliceTable . ' WHERE id=?', [$slice_id]);
+                                $prevSlice->setQuery('SELECT * FROM ' . $sliceTable . ' WHERE id=?', [$sliceId]);
                             }
 
                             $priority = $prevSlice->getValue('priority');
 
-                            $newsql->setValue('article_id', $article_id);
-                            $newsql->setValue('module_id', $module_id);
+                            $newsql->setValue('article_id', $articleId);
+                            $newsql->setValue('module_id', $moduleId);
                             $newsql->setValue('clang_id', $clang);
                             $newsql->setValue('ctype_id', $ctype);
-                            $newsql->setValue('revision', $slice_revision);
+                            $newsql->setValue('revision', $sliceRevision);
                             $newsql->setValue('priority', $priority);
                         }
 
@@ -204,25 +203,25 @@ if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id))
                             $newsql->addGlobalUpdateFields();
                             try {
                                 rex_extension::registerPoint(new rex_extension_point('SLICE_UPDATE', '', [
-                                    'slice_id' => $slice_id,
-                                    'article_id' => $article_id,
+                                    'slice_id' => $sliceId,
+                                    'article_id' => $articleId,
                                     'clang_id' => $clang,
-                                    'slice_revision' => $slice_revision,
+                                    'slice_revision' => $sliceRevision,
                                 ]));
 
                                 $newsql->update();
-                                $info = $action_message . rex_i18n::msg('block_updated');
+                                $info = $actionMessage . rex_i18n::msg('block_updated');
                                 $epParams = [
-                                    'article_id' => $article_id,
+                                    'article_id' => $articleId,
                                     'clang' => $clang,
                                     'function' => $function,
-                                    'slice_id' => $slice_id,
+                                    'slice_id' => $sliceId,
                                     'page' => rex_be_controller::getCurrentPage(),
                                     'ctype' => $ctype,
-                                    'category_id' => $category_id,
-                                    'module_id' => $module_id,
-                                    'article_revision' => &$article_revision,
-                                    'slice_revision' => &$slice_revision,
+                                    'category_id' => $categoryId,
+                                    'module_id' => $moduleId,
+                                    'article_revision' => &$articleRevision,
+                                    'slice_revision' => &$sliceRevision,
                                 ];
 
                                 // ----- EXTENSION POINT
@@ -230,42 +229,42 @@ if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id))
                                 /* deprecated */ $info = rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_SLICE_UPDATED', $info, $epParams));
                                 $info = rex_extension::registerPoint(new rex_extension_point_art_content_updated($OOArt, 'slice_updated', $info));
                             } catch (rex_sql_exception $e) {
-                                $warning = $action_message . $e->getMessage();
+                                $warning = $actionMessage . $e->getMessage();
                             }
-                        } elseif ('add' == $function) {
+                        } else {
                             $newsql->addGlobalUpdateFields();
                             $newsql->addGlobalCreateFields();
 
                             try {
                                 rex_extension::registerPoint(new rex_extension_point('SLICE_ADD', '', [
-                                    'article_id' => $article_id,
+                                    'article_id' => $articleId,
                                     'clang_id' => $clang,
-                                    'slice_revision' => $slice_revision,
+                                    'slice_revision' => $sliceRevision,
                                 ]));
 
                                 $newsql->insert();
-                                $slice_id = (int) $newsql->getLastId();
+                                $sliceId = (int) $newsql->getLastId();
 
                                 rex_sql_util::organizePriorities(
                                     rex::getTable('article_slice'),
                                     'priority',
-                                    'article_id=' . (int) $article_id . ' AND clang_id=' . (int) $clang . ' AND ctype_id=' . (int) $ctype . ' AND revision=' . (int) $slice_revision,
+                                    'article_id=' . $articleId . ' AND clang_id=' . $clang . ' AND ctype_id=' . $ctype . ' AND revision=' . (int) $sliceRevision,
                                     'priority, updatedate DESC'
                                 );
 
-                                $info = $action_message . rex_i18n::msg('block_added');
+                                $info = $actionMessage . rex_i18n::msg('block_added');
                                 $function = '';
                                 $epParams = [
-                                    'article_id' => $article_id,
+                                    'article_id' => $articleId,
                                     'clang' => $clang,
                                     'function' => $function,
-                                    'slice_id' => $slice_id,
+                                    'slice_id' => $sliceId,
                                     'page' => rex_be_controller::getCurrentPage(),
                                     'ctype' => $ctype,
-                                    'category_id' => $category_id,
-                                    'module_id' => $module_id,
-                                    'article_revision' => &$article_revision,
-                                    'slice_revision' => &$slice_revision,
+                                    'category_id' => $categoryId,
+                                    'module_id' => $moduleId,
+                                    'article_revision' => &$articleRevision,
+                                    'slice_revision' => &$sliceRevision,
                                 ];
 
                                 // ----- EXTENSION POINT
@@ -273,33 +272,33 @@ if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id))
                                 /* deprecated */ $info = rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_SLICE_ADDED', $info, $epParams));
                                 $info = rex_extension::registerPoint(new rex_extension_point_art_content_updated($OOArt, 'slice_added', $info));
                             } catch (rex_sql_exception $e) {
-                                $warning = $action_message . $e->getMessage();
+                                $warning = $actionMessage . $e->getMessage();
                             }
                         }
                     } else {
                         // make delete
 
-                        if (rex_content_service::deleteSlice($slice_id)) {
-                            $global_info = rex_i18n::msg('block_deleted');
+                        if (rex_content_service::deleteSlice($sliceId)) {
+                            $globalInfo = rex_i18n::msg('block_deleted');
                             $epParams = [
-                                'article_id' => $article_id,
+                                'article_id' => $articleId,
                                 'clang' => $clang,
                                 'function' => $function,
-                                'slice_id' => $slice_id,
+                                'slice_id' => $sliceId,
                                 'page' => rex_be_controller::getCurrentPage(),
                                 'ctype' => $ctype,
-                                'category_id' => $category_id,
-                                'module_id' => $module_id,
-                                'article_revision' => &$article_revision,
-                                'slice_revision' => &$slice_revision,
+                                'category_id' => $categoryId,
+                                'module_id' => $moduleId,
+                                'article_revision' => &$articleRevision,
+                                'slice_revision' => &$sliceRevision,
                             ];
 
                             // ----- EXTENSION POINT
-                            $global_info = rex_extension::registerPoint(new rex_extension_point('SLICE_DELETED', $global_info, $epParams));
-                            /* deprecated */ $global_info = rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_SLICE_DELETED', $global_info, $epParams));
-                            $global_info = rex_extension::registerPoint(new rex_extension_point_art_content_updated($OOArt, 'slice_deleted', $global_info));
+                            $globalInfo = rex_extension::registerPoint(new rex_extension_point('SLICE_DELETED', $globalInfo, $epParams));
+                            /* deprecated */ $globalInfo = rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_SLICE_DELETED', $globalInfo, $epParams));
+                            $globalInfo = rex_extension::registerPoint(new rex_extension_point_art_content_updated($OOArt, 'slice_deleted', $globalInfo));
                         } else {
-                            $global_warning = rex_i18n::msg('block_not_deleted');
+                            $globalWarning = rex_i18n::msg('block_not_deleted');
                         }
                     }
                     // ----- / SAVE SLICE
@@ -307,13 +306,13 @@ if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id))
                     // ----- artikel neu generieren
                     $EA = rex_sql::factory();
                     $EA->setTable(rex::getTablePrefix() . 'article');
-                    $EA->setWhere(['id' => $article_id, 'clang_id' => $clang]);
+                    $EA->setWhere(['id' => $articleId, 'clang_id' => $clang]);
                     $EA->addGlobalUpdateFields();
                     $EA->update();
-                    rex_article_cache::delete($article_id, $clang);
+                    rex_article_cache::delete($articleId, $clang);
 
                     rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_ARTICLE_UPDATED', '', [
-                        'id' => $article_id,
+                        'id' => $articleId,
                         'clang' => $clang,
                     ]));
 
@@ -339,12 +338,13 @@ if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id))
     $editPage = rex_be_controller::getPageObject('content/edit');
 
     foreach ($ctypes as $key => $val) {
+        $key = (int) $key;
         $hasSlice = true;
         if ($ctype != $key) {
-            $hasSlice = null !== rex_article_slice::getFirstSliceForCtype($key, $article_id, $clang);
+            $hasSlice = null !== rex_article_slice::getFirstSliceForCtype($key, $articleId, $clang);
         }
         $editPage->addSubpage((new rex_be_page('ctype' . $key, rex_i18n::translate($val)))
-            ->setHref(['page' => 'content/edit', 'article_id' => $article_id, 'clang' => $clang, 'ctype' => $key])
+            ->setHref(['page' => 'content/edit', 'article_id' => $articleId, 'clang' => $clang, 'ctype' => $key])
             ->setIsActive($ctype == $key)
             ->setItemAttr('class', $hasSlice ? '' : 'rex-empty')
         );
@@ -380,29 +380,29 @@ if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id))
 
     $blocks = $leftNav->getNavigation();
     $navigation = current($blocks);
-    $content_navi_left = $navigation['navigation'];
+    $contentNaviLeft = $navigation['navigation'];
 
     $blocks = $rightNav->getNavigation();
     $navigation = current($blocks);
-    $content_navi_right = $navigation['navigation'];
+    $contentNaviRight = $navigation['navigation'];
 
-    $content_navi_right[] = ['title' => '<a href="' . rex_getUrl($article_id, $clang) . '" onclick="window.open(this.href); return false;"><i class="rex-icon rex-icon-view"></i> ' . rex_i18n::msg('article') . ' ' . rex_i18n::msg('show') . '</a>'];
+    $contentNaviRight[] = ['title' => '<a href="' . rex_getUrl($articleId, $clang) . '" onclick="window.open(this.href); return false;">' . rex_i18n::msg('article') . ' ' . rex_i18n::msg('show') . ' <i class="rex-icon rex-icon-external-link"></i></a>'];
 
     $fragment = new rex_fragment();
     $fragment->setVar('id', 'rex-js-structure-content-nav', false);
-    $fragment->setVar('left', $content_navi_left, false);
-    $fragment->setVar('right', $content_navi_right, false);
+    $fragment->setVar('left', $contentNaviLeft, false);
+    $fragment->setVar('right', $contentNaviRight, false);
 
     $contentMain = $fragment->parse('core/navigations/content.php');
 
     // ------------------------------------------ END: CONTENT HEAD MENUE
 
     // ------------------------------------------ WARNING
-    if ('' != $global_warning) {
-        $contentMain .= rex_view::warning($global_warning);
+    if ('' != $globalWarning) {
+        $contentMain .= rex_view::warning($globalWarning);
     }
-    if ('' != $global_info) {
-        $contentMain .= rex_view::success($global_info);
+    if ('' != $globalInfo) {
+        $contentMain .= rex_view::success($globalInfo);
     }
 
     // --------------------------------------------- API MESSAGES
@@ -417,47 +417,47 @@ if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id))
 
     // ----- EXTENSION POINT
     $contentMain .= rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_BEFORE_SLICES', '', [
-        'article_id' => $article_id,
+        'article_id' => $articleId,
         'clang' => $clang,
         'function' => $function,
-        'slice_id' => $slice_id,
+        'slice_id' => $sliceId,
         'page' => rex_be_controller::getCurrentPage(),
         'ctype' => $ctype,
-        'category_id' => $category_id,
-        'article_revision' => &$article_revision,
-        'slice_revision' => &$slice_revision,
+        'category_id' => $categoryId,
+        'article_revision' => &$articleRevision,
+        'slice_revision' => &$sliceRevision,
     ]));
 
     // ------------------------------------------ START: MODULE EDITIEREN/ADDEN ETC.
-    $contentMain .= rex_be_controller::includeCurrentPageSubPath(compact('info', 'warning', 'template_attributes', 'article', 'article_id', 'category_id', 'clang', 'slice_id', 'slice_revision', 'function', 'ctype', 'context'));
+    $contentMain .= rex_be_controller::includeCurrentPageSubPath(compact('info', 'warning', 'templateAttributes', 'article', 'articleId', 'categoryId', 'clang', 'sliceId', 'sliceRevision', 'function', 'ctype', 'context'));
     // ------------------------------------------ END: AUSGABE
 
     // ----- EXTENSION POINT
     $contentMain .= rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_AFTER_SLICES', '', [
-        'article_id' => $article_id,
+        'article_id' => $articleId,
         'clang' => $clang,
         'function' => $function,
-        'slice_id' => $slice_id,
+        'slice_id' => $sliceId,
         'page' => rex_be_controller::getCurrentPage(),
         'ctype' => $ctype,
-        'category_id' => $category_id,
-        'article_revision' => &$article_revision,
-        'slice_revision' => &$slice_revision,
+        'category_id' => $categoryId,
+        'article_revision' => &$articleRevision,
+        'slice_revision' => &$sliceRevision,
     ]));
 
     $contentMain = '<section id="rex-js-page-main-content" data-pjax-container="#rex-js-page-main-content">'.$contentMain.'</section>';
 
     // ----- EXTENSION POINT
     $contentSidebar = rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_SIDEBAR', '', [
-        'article_id' => $article_id,
+        'article_id' => $articleId,
         'clang' => $clang,
         'function' => $function,
-        'slice_id' => $slice_id,
+        'slice_id' => $sliceId,
         'page' => rex_be_controller::getCurrentPage(),
         'ctype' => $ctype,
-        'category_id' => $category_id,
-        'article_revision' => &$article_revision,
-        'slice_revision' => &$slice_revision,
+        'category_id' => $categoryId,
+        'article_revision' => &$articleRevision,
+        'slice_revision' => &$sliceRevision,
     ]));
 
     $fragment = new rex_fragment();

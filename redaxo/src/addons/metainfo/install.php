@@ -8,8 +8,6 @@
  * @package redaxo5
  */
 
-$addon = rex_addon::get('metainfo');
-
 rex_sql_table::get(rex::getTable('metainfo_type'))
     ->ensurePrimaryIdColumn()
     ->ensureColumn(new rex_sql_column('label', 'varchar(255)', true))
@@ -65,7 +63,6 @@ $columns = ['article' => [], 'media' => [], 'clang' => []];
 foreach ($tablePrefixes as $table => $prefixes) {
     foreach (rex_sql::showColumns(rex::getTable($table)) as $column) {
         $column = $column['name'];
-        $prefix = substr($column, 0, 4);
         if (in_array(substr($column, 0, 4), $prefixes)) {
             $columns[$table][$column] = true;
         }
@@ -74,14 +71,13 @@ foreach ($tablePrefixes as $table => $prefixes) {
 
 $sql = rex_sql::factory();
 $sql->setQuery('SELECT p.name, p.default, t.dbtype, t.dblength FROM ' . rex::getTable('metainfo_field') . ' p, ' . rex::getTable('metainfo_type') . ' t WHERE p.type_id = t.id');
-$rows = $sql->getRows();
 $managers = [
     'article' => new rex_metainfo_table_manager(rex::getTable('article')),
     'media' => new rex_metainfo_table_manager(rex::getTable('media')),
     'clang' => new rex_metainfo_table_manager(rex::getTable('clang')),
 ];
 for ($i = 0; $i < $sql->getRows(); ++$i) {
-    $column = $sql->getValue('name');
+    $column = (string) $sql->getValue('name');
     if ('med_' == substr($column, 0, 4)) {
         $table = 'media';
     } elseif ('clang_' == substr($column, 0, 6)) {

@@ -27,6 +27,7 @@ body:after {
 .rex-slice {
   iframe, img, svg, video, object, embed {
     max-width: 100%;
+    height: auto;
   }
 }
 
@@ -234,6 +235,10 @@ body:after {
 }
 .rex-nav-top {
 
+    .navbar-toggle {
+        display: none;
+    }
+
     .rex-is-popup & {
         min-height: $top-popup-navbar-height;
     }
@@ -327,8 +332,9 @@ body:after {
 }
 
 .rex-state-success,
-.rex-state-info
-.rex-state-warnign,
+.rex-state-info,
+.rex-state-notice,
+.rex-state-warning,
 .rex-state-danger,
 .rex-state-error {
     a {
@@ -347,7 +353,8 @@ body:after {
         background-color: darken($alert-success-bg, 10%);
     }
 }
-.rex-state-info {
+.rex-state-info,
+.rex-state-notice {
     background-color: $alert-info-bg;
 
     &, a {

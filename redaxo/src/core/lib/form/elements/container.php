@@ -5,7 +5,7 @@
  */
 class rex_form_container_element extends rex_form_element
 {
-    /** @array */
+    /** @var array<string, rex_form_element[]> */
     private $fields;
     /** @var bool */
     private $multiple;
@@ -14,9 +14,9 @@ class rex_form_container_element extends rex_form_element
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
-    public function __construct($tag = '', rex_form_base $table = null, array $attributes = [])
+    public function __construct($tag = '', rex_form_base $form = null, array $attributes = [])
     {
-        parent::__construct('', $table, $attributes);
+        parent::__construct('', $form, $attributes);
         $this->fields = [];
         $this->multiple = true;
     }
@@ -26,22 +26,38 @@ class rex_form_container_element extends rex_form_element
         $this->value = $value;
     }
 
+    /**
+     * @param bool $multiple
+     */
     public function setMultiple($multiple = true)
     {
         $this->multiple = $multiple;
     }
 
+    /**
+     * @param string $group
+     */
     public function setActive($group)
     {
         $this->active = $group;
     }
 
+    /**
+     * @param string $type
+     * @param string $name
+     *
+     * @return rex_form_element
+     */
     public function addField($type, $name, $value = null, array $attributes = [])
     {
         return $this->addGroupedField('elementContainer', $type, $name, $value, $attributes);
     }
 
     /**
+     * @param string $group
+     * @param string $type
+     * @param string $name
+     *
      * @return rex_form_element
      */
     public function addGroupedField($group, $type, $name, $value = null, array $attributes = [])
@@ -60,6 +76,7 @@ class rex_form_container_element extends rex_form_element
         return $field;
     }
 
+    /** @return array<string, rex_form_element[]> */
     public function getFields()
     {
         return $this->fields;
@@ -77,14 +94,14 @@ class rex_form_container_element extends rex_form_element
                 $values = [$this->active => $values];
             }
         }
-        assert(is_array($values));
+        $values = rex_type::array($values);
 
         foreach ($this->fields as $group => $groupFields) {
             if (!$this->multiple && $this->active && $this->active !== $group) {
                 continue;
             }
 
-            foreach ($groupFields as $key => $field) {
+            foreach ($groupFields as $field) {
                 if (isset($values[$group][$field->getFieldName()])) {
                     $field->setValue($values[$group][$field->getFieldName()]);
                 }
@@ -143,15 +160,15 @@ class rex_form_container_element extends rex_form_element
             foreach ($this->fields as $group => $groupFields) {
                 foreach ($groupFields as $field) {
                     // read-only-fields nicht speichern
-                    if (false === strpos($field->getAttribute('class'), 'form-control-static')) {
+                    if (!$field->isReadOnly()) {
                         $value[$group][$field->getFieldName()] = $field->getSaveValue();
                     }
                 }
             }
-        } elseif (isset($this->active) && isset($this->fields[$this->active])) {
+        } elseif ($this->active && isset($this->fields[$this->active])) {
             foreach ($this->fields[$this->active] as $field) {
                 // read-only-fields nicht speichern
-                if (false === strpos($field->getAttribute('class'), 'form-control-static')) {
+                if (!$field->isReadOnly()) {
                     $value[$field->getFieldName()] = $field->getSaveValue();
                 }
             }

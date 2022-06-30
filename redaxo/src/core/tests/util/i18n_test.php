@@ -17,17 +17,17 @@ class rex_i18n_test extends TestCase
 {
     private $previousLocale;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->previousLocale = rex_i18n::setLocale('de_de', false);
 
         $content = <<<'LANG'
-rex_i18n_test_foo = abc def
-rex_i18n_test_bar =
-rex_i18n_test_baz = ghi
-rex_i18n_test_4=abc=def
+            rex_i18n_test_foo = abc def
+            rex_i18n_test_bar =
+            rex_i18n_test_baz = ghi
+            rex_i18n_test_4=abc=def
 
-LANG;
+            LANG;
         $content .= "rex_i18n_test_5   =   abc def   \n";
 
         rex_file::put($this->getPath().'/de_de.lang', $content ."\nmy=DE");
@@ -37,13 +37,13 @@ LANG;
         rex_file::put($this->getPath().'/en_gb.lang', $content."\nmy=EN");
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         rex_dir::delete($this->getPath());
         rex_i18n::setLocale($this->previousLocale, false);
     }
 
-    private function getPath()
+    private function getPath(): string
     {
         return rex_path::addonData('tests', 'lang');
     }
@@ -95,6 +95,6 @@ LANG;
 
     public function testTranslateCallable()
     {
-        static::assertSame('translated', rex_i18n::translate('translate:my_cb', false, ['rex_i18n_trans_cb', 'mytranslate']));
+        static::assertSame('translated', rex_i18n::translate('translate:my_cb', false, [rex_i18n_trans_cb::class, 'mytranslate']));
     }
 }

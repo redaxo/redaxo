@@ -21,10 +21,10 @@ if (rex::isBackend() && 'css' == rex_request('codemirror_output', 'string', ''))
     $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/addon/display/fullscreen.css');
     $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/theme/'.$config['codemirror_theme'].'.css');
     if ('' != rex_request('themes', 'string', '')) {
-        $_themes = explode(',', rex_request('themes', 'string', ''));
-        foreach ($_themes as $_theme) {
-            if (preg_match('/[a-z0-9\._-]+/i', $_theme)) {
-                $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/theme/'.$_theme.'.css');
+        $themes = explode(',', rex_request('themes', 'string', ''));
+        foreach ($themes as $theme) {
+            if (preg_match('/[a-z0-9\._-]+/i', $theme)) {
+                $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/theme/'.$theme.'.css');
             }
         }
     }
@@ -132,8 +132,8 @@ if (rex::isBackend() && rex::getUser()) {
         $mtimejs = filemtime($plugin->getAssetsUrl('vendor/codemirror/codemirror.min.js'));
         $mtimecss = filemtime($plugin->getAssetsUrl('vendor/codemirror/codemirror.min.css'));
         if (isset($_SESSION['codemirror_reload'])) {
-            $mtimejs = $mtimejs . $_SESSION['codemirror_reload'];
-            $mtimecss = $mtimecss . $_SESSION['codemirror_reload'];
+            $mtimejs .= $_SESSION['codemirror_reload'];
+            $mtimecss .= $_SESSION['codemirror_reload'];
         }
         rex_view::setJsProperty('customizer_codemirror_jsbuster', $mtimejs);
         rex_view::setJsProperty('customizer_codemirror_cssbuster', $mtimecss);
@@ -145,7 +145,6 @@ if (rex::isBackend() && rex::getUser()) {
 
     if ('' != $config['labelcolor']) {
         rex_view::setJsProperty('customizer_labelcolor', $config['labelcolor']);
-        rex_view::addCssFile($plugin->getAssetsUrl('css/styles-labelcolor.css'));
     }
     if ($config['showlink']) {
         rex_view::setJsProperty(

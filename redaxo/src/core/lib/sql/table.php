@@ -30,16 +30,16 @@ class rex_sql_table
     /** @var string */
     private $originalName;
 
-    /** @var rex_sql_column[] */
+    /** @var array<string, rex_sql_column> */
     private $columns = [];
 
-    /** @var string[] mapping from current (new) name to existing (old) name in database */
+    /** @var array<string, string> mapping from current (new) name to existing (old) name in database */
     private $columnsExisting = [];
 
-    /** @var string[] */
+    /** @var list<string> */
     private $implicitOrder = [];
 
-    /** @var string[] */
+    /** @var array<string, string> */
     private $positions = [];
 
     /** @var string[] */
@@ -48,22 +48,25 @@ class rex_sql_table
     /** @var string[] */
     private $primaryKeyExisting = [];
 
-    /** @var rex_sql_index[] */
+    /** @var array<string, rex_sql_index> */
     private $indexes = [];
 
-    /** @var string[] mapping from current (new) name to existing (old) name in database */
+    /** @var array<string, string> mapping from current (new) name to existing (old) name in database */
     private $indexesExisting = [];
 
-    /** @var rex_sql_foreign_key[] */
+    /** @var array<string, rex_sql_foreign_key> */
     private $foreignKeys = [];
 
-    /** @var string[] mapping from current (new) name to existing (old) name in database */
+    /** @var array<string, string> mapping from current (new) name to existing (old) name in database */
     private $foreignKeysExisting = [];
 
-    /** @var string */
+    /** @var string|null */
     private static $explicitCharset;
 
-    private function __construct($name, int $db = 1)
+    /**
+     * @psalm-param positive-int $db
+     */
+    private function __construct(string $name, int $db = 1)
     {
         $this->db = $db;
         $this->sql = rex_sql::factory($db);
@@ -74,8 +77,8 @@ class rex_sql_table
             $columns = rex_sql::showColumns($name, $db);
             $this->new = false;
         } catch (rex_sql_exception $exception) {
-            // Error code 42S02 means: Table does not exist
-            if ($exception->getSql() && '42S02' !== $exception->getSql()->getErrno()) {
+            $sql = $exception->getSql();
+            if ($sql && rex_sql::ERRNO_TABLE_OR_VIEW_DOESNT_EXIST !== $sql->getErrno()) {
                 throw $exception;
             }
 
@@ -101,7 +104,8 @@ class rex_sql_table
                 $type,
                 'YES' === $column['null'],
                 $column['default'],
-                $column['extra'] ?: null
+                $column['extra'] ?: null,
+                $column['comment'] ?: null
             );
 
             $this->columnsExisting[$column['name']] = $column['name'];
@@ -113,6 +117,7 @@ class rex_sql_table
 
         $this->primaryKeyExisting = $this->primaryKey;
 
+        /** @var list<array<string, string>> $indexParts */
         $indexParts = $this->sql->getArray('SHOW INDEXES FROM '.$this->sql->escapeIdentifier($name));
         $indexes = [];
         foreach ($indexParts as $part) {
@@ -139,10 +144,11 @@ class rex_sql_table
             $this->indexesExisting[$indexName] = $indexName;
         }
 
+        /** @var list<array{CONSTRAINT_NAME: string, COLUMN_NAME: string, REFERENCED_TABLE_NAME: string, REFERENCED_COLUMN_NAME: string, UPDATE_RULE: rex_sql_foreign_key::*, DELETE_RULE: rex_sql_foreign_key::*}> $foreignKeyParts */
         $foreignKeyParts = $this->sql->getArray('
             SELECT c.CONSTRAINT_NAME, c.REFERENCED_TABLE_NAME, c.UPDATE_RULE, c.DELETE_RULE, k.COLUMN_NAME, k.REFERENCED_COLUMN_NAME
             FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS c
-            LEFT JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE k ON c.CONSTRAINT_NAME = k.CONSTRAINT_NAME
+            INNER JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE k ON c.CONSTRAINT_NAME = k.CONSTRAINT_NAME
             WHERE c.CONSTRAINT_SCHEMA = DATABASE() AND c.TABLE_NAME = ?', [$name]);
         $foreignKeys = [];
         foreach ($foreignKeyParts as $part) {
@@ -164,19 +170,22 @@ class rex_sql_table
 
     /**
      * @param string $name
+     * @psalm-param positive-int $db
      *
      * @return self
      */
     public static function get($name, int $db = 1)
     {
-        $table = self::getInstance([$db, $name], static function ($db, $name) {
-            return new self($name, $db);
+        $table = static::getInstance([$db, $name], static function ($db, $name) {
+            return new static($name, $db);
         });
-        assert($table instanceof self);
 
-        return $table;
+        return rex_type::instanceOf($table, self::class);
     }
 
+    /**
+     * @param string|array{int, string} $key A table-name or a array[db-id, table-name]
+     */
     public static function clearInstance($key)
     {
         // BC layer for old cache keys without db id
@@ -776,7 +785,7 @@ class rex_sql_table
         $columns = $this->columns;
         $columnsExisting = $this->columnsExisting;
 
-        $handle = function ($name, $after = null) use (&$parts, &$columns, &$columnsExisting) {
+        $handle = function (string $name, ?string $after = null) use (&$parts, &$columns, &$columnsExisting) {
             $column = $columns[$name];
             $new = !isset($columnsExisting[$name]);
             $oldName = $new ? null : $columnsExisting[$name];
@@ -803,7 +812,8 @@ class rex_sql_table
 
         $currentOrder = [];
         $after = self::FIRST;
-        foreach ($columns as $name => $column) {
+        /** @var string $name */
+        foreach ($columns as $name => $_) {
             $currentOrder[$after] = $name;
             $after = $name;
 
@@ -884,7 +894,7 @@ class rex_sql_table
         $this->resetModified();
     }
 
-    private function setPosition($name, $afterColumn)
+    private function setPosition(string $name, ?string $afterColumn): void
     {
         if (null === $afterColumn) {
             $this->implicitOrder[] = $name;
@@ -901,13 +911,10 @@ class rex_sql_table
         $this->positions[$name] = $afterColumn;
     }
 
-    /**
-     * @return string
-     */
-    private function getColumnDefinition(rex_sql_column $column)
+    private function getColumnDefinition(rex_sql_column $column): string
     {
         $default = $column->getDefault();
-        if (!$default) {
+        if (null === $default) {
             $default = '';
         } elseif (
             in_array(strtolower($column->getType()), ['timestamp', 'datetime'], true) &&
@@ -918,20 +925,23 @@ class rex_sql_table
             $default = 'DEFAULT '.$this->sql->escape($column->getDefault());
         }
 
+        $comment = $column->getComment();
+        if (null !== $comment && '' !== $comment) {
+            $comment = 'COMMENT '. $this->sql->escape($comment);
+        }
+
         return sprintf(
-            '%s %s %s %s %s',
+            '%s %s %s %s %s %s',
             $this->sql->escapeIdentifier($column->getName()),
             $column->getType(),
             $default,
             $column->isNullable() ? '' : 'NOT NULL',
-            $column->getExtra()
+            $column->getExtra(),
+            $comment
         );
     }
 
-    /**
-     * @return string
-     */
-    private function getIndexDefinition(rex_sql_index $index)
+    private function getIndexDefinition(rex_sql_index $index): string
     {
         return sprintf(
             '%s %s %s',
@@ -941,10 +951,7 @@ class rex_sql_table
         );
     }
 
-    /**
-     * @return string
-     */
-    private function getForeignKeyDefinition(rex_sql_foreign_key $foreignKey)
+    private function getForeignKeyDefinition(rex_sql_foreign_key $foreignKey): string
     {
         return sprintf(
             'CONSTRAINT %s FOREIGN KEY %s REFERENCES %s %s ON UPDATE %s ON DELETE %s',
@@ -957,17 +964,14 @@ class rex_sql_table
         );
     }
 
-    /**
-     * @return string
-     */
-    private function getKeyColumnsDefintion(array $columns)
+    private function getKeyColumnsDefintion(array $columns): string
     {
         $columns = array_map([$this->sql, 'escapeIdentifier'], $columns);
 
         return '('.implode(', ', $columns).')';
     }
 
-    private function sortColumns()
+    private function sortColumns(): void
     {
         $columns = [];
 
@@ -992,8 +996,7 @@ class rex_sql_table
                     continue;
                 }
 
-                $offset = array_search($after, array_keys($columns));
-                assert(is_int($offset));
+                $offset = rex_type::int(array_search($after, array_keys($columns)));
                 ++$offset;
                 $columns = array_slice($columns, 0, $offset) + $insert + array_slice($columns, $offset);
                 unset($this->positions[$name]);
@@ -1007,7 +1010,7 @@ class rex_sql_table
         $this->columns = $columns;
     }
 
-    private function resetModified()
+    private function resetModified(): void
     {
         $this->new = false;
 

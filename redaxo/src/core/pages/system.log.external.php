@@ -4,8 +4,6 @@
  * @package redaxo5
  */
 
-$func = rex_request('func', 'string');
-
 if (!isset($logFile)) {
     $logFile = ini_get('error_log');
 }
@@ -21,11 +19,11 @@ if (!is_file($logFile) || !is_readable($logFile) || filesize($logFile) <= 0) {
     // TODO make this more effienct with things like rex_log_file->next()
     $file = new SplFileObject($logFile, 'r');
     $file->seek(PHP_INT_MAX);
-    $last_line = $file->key();
+    $lastLine = $file->key();
 
     $limit = 30;
     try {
-        $lines = iterator_to_array(new LimitIterator($file, max(0, $last_line - $limit), $last_line));
+        $lines = iterator_to_array(new LimitIterator($file, max(0, $lastLine - $limit), $lastLine));
     } catch (OutOfBoundsException $exception) {
         // handle logfiles which contain a single line of text, no newlines.
         // "Cannot seek to 0 which is behind offset 0 plus count 0"
@@ -42,11 +40,11 @@ if (!is_file($logFile) || !is_readable($logFile) || filesize($logFile) <= 0) {
         </tr>';
     }
 
-    if ($url = rex_editor::factory()->getUrl($logFile, $last_line)) {
+    if ($url = rex_editor::factory()->getUrl($logFile, $lastLine)) {
         $formElements = [];
 
         $n = [];
-        $n['field'] = '<a class="btn btn-save" href="'. $url .'">' . rex_i18n::msg('system_editor_open_file', basename($logFile)) . '</a>';
+        $n['field'] = '<a class="btn btn-save" href="'. $url .'">' . rex_i18n::msg('system_editor_open_file', rex_path::basename($logFile)) . '</a>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();

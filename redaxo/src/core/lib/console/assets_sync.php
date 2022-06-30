@@ -16,7 +16,14 @@ class rex_command_assets_sync extends rex_console_command
     protected function configure()
     {
         $this
-            ->setDescription('Sync folders and files of /assets with /redaxo/src/addons/my-addon/assets (or plugin) respectively /redaxo/src/core/assets folders');
+            ->setDescription('Sync assets within the assets-dir with the sources-dir')
+            ->setHelp(sprintf(
+                'Sync folders and files of /%s with /%s (or plugin) respectively /%s folders',
+                rtrim(rex_path::relative(rex_path::assets()), '/'),
+                rex_path::relative(rex_path::addon('my-addon', 'assets')),
+                rex_path::relative(rex_path::core('assets')),
+            ))
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -40,7 +47,7 @@ class rex_command_assets_sync extends rex_console_command
 
             // sync 1st way, copies ...
             // - existing in FE but not "src"
-            // - newer in FE then "src"
+            // - newer in FE than "src"
             [$ctd, $upd, $err] = $this->sync($io, $assetsPublicPath, $assetsSrcPath);
             $created += $ctd;
             $updated += $upd;
@@ -48,14 +55,28 @@ class rex_command_assets_sync extends rex_console_command
 
             // sync 2nd way, copies ...
             // - existing in "src" but not FE
-            // - newer in "src" then FE
+            // - newer in "src" than FE
             [$ctd, $upd, $err] = $this->sync($io, $assetsSrcPath, $assetsPublicPath);
             $created += $ctd;
             $updated += $upd;
             $errored += $err;
         }
 
-        [$ctd, $upd, $err] = $this->sync($io, rex_path::coreAssets(), rex_path::core('assets/'));
+        $assetsPublicPath = rex_path::coreAssets();
+        $assetsSrcPath = rex_path::core('assets/');
+        if (!is_dir($assetsPublicPath)) {
+            rex_dir::create($assetsPublicPath);
+        }
+        if (!is_dir($assetsSrcPath)) {
+            rex_dir::create($assetsSrcPath);
+        }
+
+        [$ctd, $upd, $err] = $this->sync($io, $assetsPublicPath, $assetsSrcPath);
+        $created += $ctd;
+        $updated += $upd;
+        $errored += $err;
+
+        [$ctd, $upd, $err] = $this->sync($io, $assetsSrcPath, $assetsPublicPath);
         $created += $ctd;
         $updated += $upd;
         $errored += $err;
@@ -125,7 +146,7 @@ class rex_command_assets_sync extends rex_console_command
                 continue;
             }
 
-            if ($f1Fileinfo->getMtime() > filemtime($f2File)) {
+            if ($f1Fileinfo->getMtime() > filemtime($f2File) && md5_file($f1File) !== md5_file($f2File)) {
                 rex_file::copy($f1File, $f2File);
                 ++$updated;
                 if ($io->isVerbose()) {

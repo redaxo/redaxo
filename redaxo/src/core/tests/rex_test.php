@@ -85,12 +85,14 @@ class rex_rex_test extends TestCase
             rex::setProperty('debug', true);
 
             static::assertTrue(rex::isDebugMode());
-            static::assertArraySubset(['throw_always_exception' => false], rex::getDebugFlags());
+            static::assertArrayHasKey('throw_always_exception', rex::getDebugFlags());
+            static::assertFalse(rex::getDebugFlags()['throw_always_exception']);
 
             rex::setProperty('debug', ['enabled' => false]);
 
             static::assertFalse(rex::isDebugMode());
-            static::assertArraySubset(['throw_always_exception' => false], rex::getDebugFlags());
+            static::assertArrayHasKey('throw_always_exception', rex::getDebugFlags());
+            static::assertFalse(rex::getDebugFlags()['throw_always_exception']);
 
             $debug = [
                 'enabled' => true,
@@ -129,18 +131,6 @@ class rex_rex_test extends TestCase
     public function testGetTempPrefix()
     {
         static::assertEquals(rex::getTempPrefix(), 'tmp_', 'temp prefix defaults to tmp_');
-    }
-
-    public function testGetUser()
-    {
-        // there is no user, when tests are run from CLI
-        if (PHP_SAPI === 'cli') {
-            static::markTestSkipped('there is no user, when tests are run from CLI');
-            return;
-        }
-
-        static::assertNotNull(rex::getUser(), 'user is not null');
-        static::assertInstanceOf('rex_user', rex::getUser(), 'returns a user of correct class');
     }
 
     public function testGetServer()

@@ -17,9 +17,9 @@ class rex_template
      */
     private $key;
 
-    public function __construct($template_id)
+    public function __construct($templateId)
     {
-        $this->id = (int) $template_id;
+        $this->id = (int) $templateId;
         $this->key = '';
     }
 
@@ -28,13 +28,13 @@ class rex_template
         return rex_config::get('structure/content', 'default_template_id', 1);
     }
 
-    public static function forKey(string $template_key): ?self
+    public static function forKey(string $templateKey): ?self
     {
         $mapping = self::getKeyMapping();
 
-        if (false !== $id = array_search($template_key, $mapping, true)) {
+        if (false !== $id = array_search($templateKey, $mapping, true)) {
             $template = new self($id);
-            $template->key == $template_key;
+            $template->key == $templateKey;
 
             return $template;
         }
@@ -84,13 +84,13 @@ class rex_template
      *
      * @return false|string
      */
-    public static function getFilePath($template_id)
+    public static function getFilePath($templateId)
     {
-        if ($template_id < 1) {
+        if ($templateId < 1) {
             return false;
         }
 
-        return rex_template_cache::getPath($template_id);
+        return rex_template_cache::getPath($templateId);
     }
 
     /**
@@ -144,43 +144,43 @@ class rex_template
      * if the category_id is non-positive all templates in the system are returned.
      * if the category_id is invalid an empty array is returned.
      *
-     * @param int  $category_id
-     * @param bool $ignore_inactive
+     * @param int  $categoryId
+     * @param bool $ignoreInactive
      *
-     * @return array
+     * @return array<int, string>
      */
-    public static function getTemplatesForCategory($category_id, $ignore_inactive = true)
+    public static function getTemplatesForCategory($categoryId, $ignoreInactive = true)
     {
         $templates = [];
-        $t_sql = rex_sql::factory();
-        $where = $ignore_inactive ? ' WHERE active=1' : '';
-        $t_sql->setQuery('select id,name,attributes from ' . rex::getTablePrefix() . 'template' . $where . ' order by name');
+        $tSql = rex_sql::factory();
+        $where = $ignoreInactive ? ' WHERE active=1' : '';
+        $tSql->setQuery('select id,name,attributes from ' . rex::getTablePrefix() . 'template' . $where . ' order by name');
 
-        if ($category_id < 1) {
+        if ($categoryId < 1) {
             // Alle globalen Templates
-            foreach ($t_sql as $row) {
+            foreach ($tSql as $row) {
                 $attributes = $row->getArrayValue('attributes');
                 $categories = $attributes['categories'] ?? [];
                 if (!is_array($categories) || (isset($categories['all']) && 1 == $categories['all'])) {
-                    $templates[$row->getValue('id')] = $row->getValue('name');
+                    $templates[(int) $row->getValue('id')] = (string) $row->getValue('name');
                 }
             }
         } else {
-            if ($c = rex_category::get($category_id)) {
+            if ($c = rex_category::get($categoryId)) {
                 $path = $c->getPathAsArray();
-                $path[] = $category_id;
-                foreach ($t_sql as $row) {
+                $path[] = $categoryId;
+                foreach ($tSql as $row) {
                     $attributes = $row->getArrayValue('attributes');
                     $categories = $attributes['categories'] ?? [];
                     // template ist nicht kategoriespezifisch -> includen
                     if (!is_array($categories) || (isset($categories['all']) && 1 == $categories['all'])) {
-                        $templates[$row->getValue('id')] = $row->getValue('name');
+                        $templates[(int) $row->getValue('id')] = (string) $row->getValue('name');
                     } else {
                         // template ist auf kategorien beschraenkt..
                         // nachschauen ob eine davon im pfad der aktuellen kategorie liegt
                         foreach ($path as $p) {
                             if (in_array($p, $categories)) {
-                                $templates[$row->getValue('id')] = $row->getValue('name');
+                                $templates[(int) $row->getValue('id')] = (string) $row->getValue('name');
                                 break;
                             }
                         }
@@ -194,18 +194,14 @@ class rex_template
     /**
      * @return bool
      */
-    public static function hasModule(array $template_attributes, $ctype, $module_id)
+    public static function hasModule(array $templateAttributes, $ctype, $moduleId)
     {
-        $template_modules = $template_attributes['modules'] ?? [];
-        if (!isset($template_modules[$ctype]['all']) || 1 == $template_modules[$ctype]['all']) {
+        $templateModules = $templateAttributes['modules'] ?? [];
+        if (!isset($templateModules[$ctype]['all']) || 1 == $templateModules[$ctype]['all']) {
             return true;
         }
 
-        if (is_array($template_modules[$ctype]) && in_array($module_id, $template_modules[$ctype])) {
-            return true;
-        }
-
-        return false;
+        return is_array($templateModules[$ctype]) && in_array($moduleId, $templateModules[$ctype]);
     }
 
     /**

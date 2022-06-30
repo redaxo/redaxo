@@ -9,12 +9,19 @@ class rex_article_action
     public const PRESAVE = 'presave';
     public const POSTSAVE = 'postsave';
 
+    /** @var int */
     private $moduleId;
+    /** @var string */
     private $event;
+    /** @var int */
     private $mode;
+    /** @var bool */
     private $save = true;
+    /** @var array */
     private $messages = [];
+    /** @var rex_sql */
     private $sql;
+    /** @var array{search: list<string>, replace: list<int>} */
     private $vars;
 
     public function __construct($moduleId, $function, rex_sql $sql)
@@ -58,6 +65,9 @@ class rex_article_action
         }
     }
 
+    /**
+     * @param self::PREVIEW|self::PRESAVE|self::POSTSAVE $type
+     */
     public function exec($type)
     {
         if (!in_array($type, [self::PREVIEW, self::PRESAVE, self::POSTSAVE])) {
@@ -71,10 +81,12 @@ class rex_article_action
         $ga->setQuery('SELECT a.id, `' . $type . '` as code FROM ' . rex::getTable('module_action') . ' ma,' . rex::getTable('action') . ' a WHERE `' . $type . '` != "" AND ma.action_id=a.id AND module_id=? AND (a.' . $type . 'mode & ?)', [$this->moduleId, $this->mode]);
 
         foreach ($ga as $row) {
-            $action = $row->getValue('code');
+            $action = (string) $row->getValue('code');
             $action = str_replace($this->vars['search'], $this->vars['replace'], $action);
             $action = rex_var::parse($action, rex_var::ENV_BACKEND | rex_var::ENV_INPUT, 'action', $this->sql);
-            require rex_stream::factory('action/' . $row->getValue('id') . '/' . $type, $action);
+
+            $articleId = (int) $row->getValue('id');
+            require rex_stream::factory('action/' . $articleId . '/' . $type, $action);
         }
     }
 

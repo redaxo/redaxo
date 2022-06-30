@@ -44,9 +44,12 @@ class rex_timer
      *
      * On sufficient user permissions - or in debug mode - this timings will be sent over the wire to the browser via server timing api http headers.
      *
-     * @param string $label
+     * @template T
      *
-     * @return mixed result of callable
+     * @param string $label
+     * @param callable():T $callable
+     *
+     * @return T result of callable
      */
     public static function measure($label, callable $callable)
     {
@@ -107,7 +110,7 @@ class rex_timer
      */
     public function getDelta($precision = self::MILLISEC)
     {
-        $duration = null === $this->duration ? microtime(true) - $this->start : $this->duration;
+        $duration = $this->duration ?? microtime(true) - $this->start;
 
         return $duration * $precision;
     }

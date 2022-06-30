@@ -1,4 +1,8 @@
 <?php
+/**
+ * @var rex_fragment $this
+ * @psalm-scope-this rex_fragment
+ */
 
 /*
     Tabnavi  -> rex-navi-tab
@@ -11,32 +15,34 @@
 
 */
 
-$navigations = [];
+$navigationArrays = [];
 
 if (isset($this->left)) {
-    $navigations['left'] = $this->left;
+    $navigationArrays['left'] = $this->left;
 }
 
 if (isset($this->right)) {
-    $navigations['right'] = array_reverse($this->right);
+    $navigationArrays['right'] = array_reverse($this->right);
 }
 
-foreach ($navigations as $nav_key => $navigation) {
+foreach ($navigationArrays as $navigation) {
     foreach ($navigation as $navi) {
         if (isset($navi['active']) && $navi['active'] && isset($navi['children']) && count($navi['children']) > 0) {
-            $navigations['children'] = $navi['children'];
+            $navigationArrays['children'] = $navi['children'];
         }
     }
 }
 
-foreach ($navigations as $nav_key => $navigation) {
+$navigations = [];
+
+foreach ($navigationArrays as $navKey => $navigation) {
     $li = [];
     foreach ($navigation as $navi) {
-        $li_a = '';
+        $liA = '';
 
         $attributes = [];
 
-        if ('right' == $nav_key) {
+        if ('right' == $navKey) {
             if (isset($navi['itemClasses']) && is_array($navi['itemClasses'])) {
                 array_unshift($navi['itemClasses'], 'pull-right');
             } else {
@@ -71,7 +77,7 @@ foreach ($navigations as $nav_key => $navigation) {
             }
         }
 
-        $li_a .= '<li' . rex_string::buildAttributes($attributes) . '>';
+        $liA .= '<li' . rex_string::buildAttributes($attributes) . '>';
 
         if (isset($navi['href']) && '' != $navi['href']) {
             $attributes = [];
@@ -89,24 +95,24 @@ foreach ($navigations as $nav_key => $navigation) {
                 }
             }
 
-            $li_a .= '<a' . rex_string::buildAttributes($attributes) . '>';
+            $liA .= '<a' . rex_string::buildAttributes($attributes) . '>';
         }
 
         if (isset($navi['icon']) && '' != $navi['icon']) {
-            $li_a .= '<i class="' . $navi['icon'] . '"></i> ';
+            $liA .= '<i class="' . $navi['icon'] . '"></i> ';
         }
 
-        $li_a .= $navi['title'];
+        $liA .= $navi['title'];
 
         if (isset($navi['href']) && '' != $navi['href']) {
-            $li_a .= '</a>';
+            $liA .= '</a>';
         }
 
-        $li_a .= '</li>';
-        $li[] = $li_a;
+        $liA .= '</li>';
+        $li[] = $liA;
     }
 
-    $navigations[$nav_key] = implode('', $li);
+    $navigations[$navKey] = implode('', $li);
 }
 
 $out = '';

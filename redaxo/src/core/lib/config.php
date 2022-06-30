@@ -91,7 +91,7 @@ class rex_config
         }
 
         $existed = isset(self::$data[$namespace][$key]);
-        if (!$existed || $existed && self::$data[$namespace][$key] !== $value) {
+        if (!$existed || self::$data[$namespace][$key] !== $value) {
             // keep track of changed data
             self::$changedData[$namespace][$key] = $value;
 
@@ -134,7 +134,7 @@ class rex_config
         }
 
         if (null === $key) {
-            return isset(self::$data[$namespace]) ? self::$data[$namespace] : [];
+            return self::$data[$namespace] ?? [];
         }
 
         if (!is_string($key)) {
@@ -389,8 +389,8 @@ class rex_config
                 if (0 === count($nsData)) {
                     continue;
                 }
-                $params = array_merge($params, [$namespace], array_keys($nsData));
-                $where[] = 'namespace = ? AND `key` IN ('.implode(', ', array_fill(0, count($nsData), '?')).')';
+                $params[] = $namespace;
+                $where[] = 'namespace = ? AND `key` IN ('.$sql->in(array_keys($nsData)).')';
             }
             if (count($where) > 0) {
                 $sql->setWhere(implode("\n    OR ", $where), $params);

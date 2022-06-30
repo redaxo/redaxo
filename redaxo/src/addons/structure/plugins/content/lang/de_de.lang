@@ -59,7 +59,7 @@ content_toarticle_failed = Diese Kategorie konnte nicht in einen Artikel umgewan
 content_toarticle_ok = Diese Kategorie wurde erfolgreich in einen Artikel umgewandelt
 move_category = nach
 category_moved = Kategorie wurde verschoben
-content_types = Bereiche (ctypes)
+content_types = Bereiche (ctypes) und Module
 content_type = Bereich (ctype)
 
 perm_options_moveSlice[] = Blöcke verschieben
@@ -116,6 +116,7 @@ module_name = Name
 module_key = Schlüssel
 module_key_notice = Der Schlüssel sollte eindeutig vergeben oder nicht ausgefüllt werden.
 module_key_exists = Der Schlüssel existiert bereits.
+module_actions_notice = Tipp: Mit Aktionen kann zusätzlich PHP-Code ausgeführt werden. Zum Beispiel, um Moduleingaben zu validieren.
 save_module_and_quit = Modul speichern
 save_module_and_continue = Modul übernehmen
 module_description = Modulbezeichnung

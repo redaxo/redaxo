@@ -43,19 +43,31 @@ if (rex::isBackend()) {
         $article = new rex_article_content();
         $article->setCLang(rex_clang::getCurrentId());
 
-        if ($article->setArticleId(rex_article::getCurrentId())) {
-            $content .= $article->getArticleTemplate();
-        } else {
+        if (!$article->setArticleId(rex_article::getCurrentId())) {
+            if (!rex::isDebugMode() && !rex_backend_login::hasSession()) {
+                throw new rex_exception('Article with id '.rex_article::getCurrentId().' does not exist');
+            }
+
             $fragment = new rex_fragment([
-                'content' => '<p><b>Kein Startartikel selektiert - No starting Article selected.</b><br />Please click here to enter <a href="' . rex_url::backendController() . '">redaxo</a>.</p>',
+                'content' => '<p><b>Article with ID '.rex_article::getCurrentId().' not found.</b><br />If this is a fresh setup, an article must be created first.<br />Enter <a href="' . rex_url::backendController() . '">REDAXO</a>.</p>',
             ]);
             $content .= $fragment->parse('core/fe_ooops.php');
             rex_response::sendPage($content);
             exit;
         }
 
-        $art_id = $article->getArticleId();
-        if ($art_id == rex_article::getNotfoundArticleId() && $art_id != rex_article::getSiteStartArticleId()) {
+        try {
+            $content .= $article->getArticleTemplate();
+        } catch (rex_article_not_found_exception $exception) {
+            $article = new rex_article_content();
+            $article->setCLang(rex_clang::getCurrentId());
+            $article->setArticleId(rex_article::getNotfoundArticleId());
+
+            $content .= $article->getArticleTemplate();
+        }
+
+        $artId = $article->getArticleId();
+        if ($artId == rex_article::getNotfoundArticleId() && $artId != rex_article::getSiteStartArticleId()) {
             rex_response::setStatus(rex_response::HTTP_NOT_FOUND);
         }
 

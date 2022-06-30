@@ -1,6 +1,64 @@
 Changelog
 =========
 
+Version 2.8.1 – 03.05.2022
+--------------------------
+
+### Bugfixes
+
+* Cronjob: Beim Löschen älterer Backups wurden komprimierte Backups nicht berücksichtigt (@VIEWSION)
+* Fehlermeldung optimiert beim Dateiexport (@staabm)
+
+
+Version 2.8.0 – 17.11.2021
+--------------------------
+
+### Neu
+
+* Begrifflichkeiten optimiert (@gharlan)
+
+
+Version 2.7.0 – 03.03.2021
+--------------------------
+
+### Neu
+
+* Datenbank-Backups können im Cronjob optional gz-komprimiert werden, solche können auch wieder importiert werden (@staabm)
+* Es können deutlich größere Dateibackups ex-/importiert werden (bei programmatischer Nutzung von `rex_backup::exportFiles` sollte dafür der neue zweite Parameter mit einem Zielpfad gesetzt werden) (@staabm)
+* Code entfernt, der die User-Tabellen anlegt nach Import, falls nicht vorhanden, da die Tabellendefinition veraltet war und die Situation im Normalfall nicht vorkommen kann (@gharlan)
+
+
+Version 2.6.3 – 25.01.2021
+--------------------------
+
+### Security
+
+* Fehlendes Escaping ergänzt (@gharlan)
+
+### Bugfixes
+
+* Nach Import wurde der Cache nicht gelöscht, und die Erfolgsmeldung erschien in rot (@gharlan)
+* Beim Dateiimport wurde der `media`-Ordner grundsätzlich geleert, auch wenn das Backup den `media`-Ordner gar nicht enthält (@gharlan)
+* Beim Download der vorhandenen Backups wurde die Datei immer doppelt geladen (erst über PJAX, dann normal) (@gharlan)
+* Nach Dateiexport wurden im Formular fälschlich Tabellen- und Ordner-Auswahl angezeigt (@gharlan)
+
+
+Version 2.6.2 – 11.11.2020
+--------------------------
+
+### Bugfixes
+
+* Bei Fehlern während des Imports wurde die SQL-Query nicht escaped in der Fehlermeldung (@gharlan)
+
+
+Version 2.6.1 – 01.07.2020
+--------------------------
+
+### Bugfixes
+
+* Backup erstellen: Fehlermeldung bei ungültigen Zeichen im Dateinamen wurde fälschlich als Erfolgsmeldung ausgegeben (@frood)
+
+
 Version 2.6.0 – 10.03.2020
 --------------------------
 

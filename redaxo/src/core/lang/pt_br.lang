@@ -6,9 +6,6 @@ general = geral
 setlocale = en_GB,en_UK,en_US,en_EN,en_AU,en_CA,American,ENG,English
 phpini_settings = PHP.ini Configurações
 
-dateformat = %d/%b/%Y
-datetimeformat = %d/%b/%Y, %H:%M
-timeformat = %H:%M
 ctrl = Seleção múltipla usando <kbd>CTRL</kbd> ou <kbd>CMD</kbd>
 
 # Allgemein
@@ -61,7 +58,7 @@ safemode_deactivate = Desativar modo de segurança
 form_field_first_priority = No começo
 form_field_after_priority = Depois do campo
 
-# redaxo\include\pages\system.php
+# src\core\pages\system.php
 info_updated = Infomação atualizada!
 delete_cache = Deletar cachê
 delete_cache_description = Os templates e os arquivos de linguagem serão criados novamente, o cachê do artigo/categoria será recriado a pedido.
@@ -117,7 +114,7 @@ servername_required = Necessário nome do servidor
 lang_required = Necessário um idioma
 debug_mode = Modo debug
 
-# redaxo\include\pages\medienpool.php\setup.php
+# src\core\pages\setup.php
 setup = Setup
 setup_restart = Recomeçar Setup
 setup_text = Aqui você pode recomeçar o processo setup. Este deve ser utilizado somente em caso de necessidade e não deve ser acionado em circunstâncias normais.
@@ -133,8 +130,7 @@ setup_199 = 1 /  idioma
 
 setup_200 = Setup: passo 2 de 7 /  Licença
 setup_201 = Bem-vindo ao Setup do REDAXO.
-setup_202 = <h3> O que acontece a seguir:</h3><ol><li>Checando os arquivos e permissões de pastas</li><li>Checando acesso ao banco de dados e adicionando credencias às configurações.yml</li><li>Resetando/fazendo o Setup do banco de dados</li><li>Criando uma conta de usuário para administrador</li></ol>
-setup_203 = Aceita os termos e condições da licença e avence para o passo 3
+setup_203 = Aceita os termos e condições da licença
 setup_299 = 2 / Licença
 
 setup_300 = Setup: passo 3 de 7 / Checando o sistema
@@ -151,12 +147,11 @@ setup_310 = Seguir para o passo 4
 setup_312 = Repita o passo 3
 setup_399 = 3 / Checagem de sistema
 
-setup_400 = Setup: passo 4 de 7 / Criando arquivo 'data/config.yml'
-setup_401 = data/config.yml não pôde ser gravada.
+setup_400 = Setup: passo 4 de 7 / Criando arquivo '{0}'
+setup_401 = '{0}' não pôde ser gravada.
 setup_402 = Geral
 setup_403 = Informação do banco de dados
 setup_404 = O banco de dados especificado já existe
-setup_405 = Criando o arquivo 'data/config.yml'
 setup_408 = Nome do banco de dados
 setup_409 = Senha
 setup_410 = Seguir para o passo 5
@@ -207,13 +202,13 @@ setup_700 = Setup: passo 7 de 7 / Uhuul!
 setup_701 = A gravação de config.yml falhou. Por favor, modifique o arquivo manualmente através do FTP.
 setup_702 = Parabéns! O REDAXO foi instalado com sucesso!
 setup_703 = Por favor, note:
-setup_704 = <ol><li>{0} {0}Registre-se{1} com a conta criada</li><li> Importe um demo [depois de se registrar]: vá para Importação/exportação e faça o setup do banco de dados e arquivos.
+setup_704 =
 setup_705 = Divirta-se e boa sorte<br /> Time REDAXO
 setup_706 = Registre-se
 setup_799 = 7 / Uhuul!
 
-setup_security_msg = A pasta no redaxo não é segura. Por favor, proteja-a e recomece o Setup.
-setup_no_js_security_msg = Por favor, certifique-se de que os artigos contidos na pasta redaxo não sejam diretamente acessíveis. Devido a questões de segurança, isso não é permitido.
+setup_security_msg =
+setup_no_js_security_msg =
 
 sql_database_name_missing = Insira um nome para o banco de dados!
 sql_database_already_exists = O banco de dados já existe!
@@ -223,7 +218,7 @@ sql_unable_to_create_database = O banco de dados não pôde ser criado.
 sql_unable_to_find_database = O banco de dados especificado não pôde ser encontrado.
 sql_unable_to_open_database = O banco de dados não pôde ser aberto.
 
-# redaxo\include\pages\addon.php
+# src\core\pages\addon.php
 addon = AddOn
 addons = AddOns
 package_help = Ajuda para
@@ -310,7 +305,7 @@ plugin_systemplugin = Sistema do PlugIn
 plugin_systempackage_delete_not_allowed = Os sistemas dos PlugIns talvez sejam deletados!
 plugin_dir_not_writable = O diretório do PlugIn não é passível de gravações!
 
-# redaxo\include\pages\credits.php
+# src\core\pages\credits.php
 credits = Créditos
 credits_name = Nome
 credits_help = Ajuda
@@ -326,7 +321,7 @@ credits_developer = Programador
 credits_designer = Designer
 credits_license =
 
-# redaxo\include\pages\profile.php
+# src\core\pages\profile.php
 profile_myprofile = Editar meu perfil de usuário
 profile_title = Meu perfil
 profile_save = Salvar perfil

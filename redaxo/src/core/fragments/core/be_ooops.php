@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var rex_fragment $this
+ * @psalm-scope-this rex_fragment
+ */
+?>
 <!doctype html>
 <html lang="en">
 <head>

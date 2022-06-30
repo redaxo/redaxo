@@ -10,9 +10,9 @@ abstract class rex_form_options_element extends rex_form_element
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
-    public function __construct($tag = '', rex_form_base $table = null, array $attributes = [])
+    public function __construct($tag = '', rex_form_base $form = null, array $attributes = [])
     {
-        parent::__construct($tag, $table, $attributes);
+        parent::__construct($tag, $form, $attributes);
         $this->options = [];
     }
 
@@ -31,18 +31,16 @@ abstract class rex_form_options_element extends rex_form_element
      */
     public function addOptions(array $options, $useOnlyValues = false)
     {
-        if (count($options) > 0) {
-            foreach ($options as $key => $option) {
-                $option = (array) $option;
-                if ($useOnlyValues) {
-                    $this->addOption($option[0], $option[0]);
-                } else {
-                    if (!isset($option[1])) {
-                        $option[1] = $key;
-                    }
-
-                    $this->addOption($option[0], $option[1]);
+        foreach ($options as $key => $option) {
+            $option = (array) $option;
+            if ($useOnlyValues) {
+                $this->addOption($option[0], $option[0]);
+            } else {
+                if (!isset($option[1])) {
+                    $option[1] = $key;
                 }
+
+                $this->addOption($option[0], $option[1]);
             }
         }
     }
@@ -63,21 +61,21 @@ abstract class rex_form_options_element extends rex_form_element
     }
 
     /**
-     * @param string $qry
+     * @param string $query
      */
-    public function addSqlOptions($qry)
+    public function addSqlOptions($query)
     {
         $sql = rex_sql::factory();
-        $this->addOptions($sql->getArray($qry, [], PDO::FETCH_NUM));
+        $this->addOptions($sql->getArray($query, [], PDO::FETCH_NUM));
     }
 
     /**
-     * @param string $qry
+     * @param string $query
      */
-    public function addDBSqlOptions($qry)
+    public function addDBSqlOptions($query)
     {
         $sql = rex_sql::factory();
-        $this->addOptions($sql->getDBArray($qry, [], PDO::FETCH_NUM));
+        $this->addOptions($sql->getDBArray($query, [], PDO::FETCH_NUM));
     }
 
     /**

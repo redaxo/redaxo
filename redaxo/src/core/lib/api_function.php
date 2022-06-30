@@ -15,6 +15,8 @@
  *
  * The api functions return meaningfull error messages which the caller may display to the end-user.
  *
+ * Calling a api function with the backend-frontcontroller (index.php) requires a valid page parameter and the current user needs permissions to access the given page.
+ *
  * @author staabm
  *
  * @package redaxo\core
@@ -43,7 +45,7 @@ abstract class rex_api_function
     /**
      * The api function which is bound to the current request.
      *
-     * @var rex_api_function
+     * @var rex_api_function|null
      */
     private static $instance;
 
@@ -132,7 +134,7 @@ abstract class rex_api_function
         }
 
         // remove the `rex_api_` prefix
-        $name = substr($class, 8);
+        $name = rex_type::string(substr($class, 8));
 
         return sprintf('<input type="hidden" name="%s" value="%s"/>', self::REQ_CALL_PARAM, rex_escape($name))
             .rex_csrf_token::factory($class)->getHiddenField();
@@ -143,15 +145,15 @@ abstract class rex_api_function
      */
     public static function handleCall()
     {
-        if (static::hasFactoryClass()) {
-            return static::callFactoryClass(__FUNCTION__, func_get_args());
+        if ($factoryClass = static::getExplicitFactoryClass()) {
+            return $factoryClass::handleCall();
         }
 
         $apiFunc = self::factory();
 
         if (null != $apiFunc) {
-            if (true !== $apiFunc->published) {
-                if (true !== rex::isBackend()) {
+            if (!$apiFunc->published) {
+                if (!rex::isBackend()) {
                     throw new rex_http_exception(new rex_api_exception('the api function ' . get_class($apiFunc) . ' is not published, therefore can only be called from the backend!'), rex_response::HTTP_FORBIDDEN);
                 }
 
@@ -177,7 +179,7 @@ abstract class rex_api_function
                     $result = $apiFunc->execute();
 
                     if (!($result instanceof rex_api_result)) {
-                        throw new rex_exception('Illegal result returned from api-function ' . rex_get(self::REQ_CALL_PARAM) .'. Expected a instance of rex_api_result but got "'. (is_object($result) ? get_class($result) : gettype($result)) .'".');
+                        throw new rex_exception('Illegal result returned from api-function ' . rex_get(self::REQ_CALL_PARAM) .'. Expected a instance of rex_api_result but got "'. (get_debug_type($result)) .'".');
                     }
 
                     $apiFunc->result = $result;
@@ -359,6 +361,11 @@ class rex_api_result
     {
         $result = new self(true);
         $json = json_decode($json, true);
+
+        if (!is_array($json)) {
+            throw new rex_exception('Unable to decode json into an array.');
+        }
+
         foreach ($json as $key => $value) {
             $result->$key = $value;
         }

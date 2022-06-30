@@ -6,6 +6,8 @@
  * @author staabm
  * @author gharlan
  *
+ * @implements IteratorAggregate<string, SplFileInfo>
+ *
  * @package redaxo\core
  */
 class rex_finder implements IteratorAggregate, Countable
@@ -14,15 +16,24 @@ class rex_finder implements IteratorAggregate, Countable
 
     public const ALL = '__ALL__';
 
+    /** @var string */
     private $dir;
+    /** @var bool */
     private $recursive = false;
     private $recursiveMode = RecursiveIteratorIterator::SELF_FIRST;
+    /** @var bool */
     private $dirsOnly = false;
+    /** @var string[] */
     private $ignoreFiles = [];
+    /** @var string[] */
     private $ignoreFilesRecursive = [];
+    /** @var string[] */
     private $ignoreDirs = [];
+    /** @var string[] */
     private $ignoreDirsRecursive = [];
+    /** @var bool */
     private $ignoreSystemStuff = true;
+    /** @psalm-var false|int|callable(mixed, mixed): int $sort*/
     private $sort = false;
 
     /**
@@ -130,7 +141,7 @@ class rex_finder implements IteratorAggregate, Countable
         if (is_array($glob)) {
             $this->$var += $glob;
         } else {
-            array_push($this->$var, $glob);
+            $this->$var[] = $glob;
         }
 
         return $this;
@@ -150,7 +161,7 @@ class rex_finder implements IteratorAggregate, Countable
         if (is_array($glob)) {
             $this->$var += $glob;
         } else {
-            array_push($this->$var, $glob);
+            $this->$var[] = $glob;
         }
 
         return $this;
@@ -174,6 +185,7 @@ class rex_finder implements IteratorAggregate, Countable
      * Sorts the elements.
      *
      * @param int|callable $sort Sort mode, see {@link rex_sortable_iterator::__construct()}
+     * @psalm-param int|callable(mixed, mixed): int $sort
      *
      * @return $this
      */
@@ -188,8 +200,10 @@ class rex_finder implements IteratorAggregate, Countable
      * @return Traversable|SplFileInfo[]
      * @psalm-return Traversable<string, SplFileInfo>
      */
+    #[ReturnTypeWillChange]
     public function getIterator()
     {
+        /** @var RecursiveIterator<string, SplFileInfo> $iterator */
         $iterator = new RecursiveDirectoryIterator($this->dir, FilesystemIterator::KEY_AS_PATHNAME | FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::SKIP_DOTS);
 
         $iterator = new RecursiveCallbackFilterIterator($iterator, function (SplFileInfo $current, $key, $currentIterator) use ($iterator) {
@@ -252,6 +266,7 @@ class rex_finder implements IteratorAggregate, Countable
     /**
      * {@inheritdoc}
      */
+    #[ReturnTypeWillChange]
     public function count()
     {
         return iterator_count($this->getIterator());

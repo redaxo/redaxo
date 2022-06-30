@@ -39,7 +39,7 @@ phpmailer_smtp_debug_1 = Client-Protokoll
 phpmailer_smtp_debug_2 = Server- und Client-Protokoll
 phpmailer_smtp_debug_3 = Verbindungsprotokoll
 phpmailer_smtp_debug_4 = Lowlevel-Protokoll
-phpmailer_smtp_debug_info = Im Produktiveinsatz sollte diese Einstelltung deaktiviert sein
+phpmailer_smtp_debug_info = Im Produktiveinsatz sollte diese Einstellung deaktiviert sein
 phpmailer_config_saved_error = Fehler beim Speichern der Konfiguration!
 phpmailer_config_saved_successful = Konfiguration erfolgreich gespeichert!
 phpmailer_high = Hoch
@@ -64,6 +64,12 @@ phpmailer_log_errors = Nur Fehler loggen
 phpmailer_log_all = Alle Vorgänge loggen
 phpmailer_archive = E-Mail-Archivierung
 phpmailer_archive_info = Archiv-Ordner: <span title="{0}">{1}</span>
+phpmailer_archive_delete = E-Mail-Archiv löschen
+phpmailer_archive_deleted = Das E-Mail-Archiv wurde gelöscht. 
+phpmailer_archive_delete_confirm = Soll das E-Mail-Archiv vollständig gelöscht werden? Dieser Vorgang kann nicht rückgängig gemacht werden. 
+phpmailer_archivecron = Mailer-Archiv bereinigen
+phpmailer_archivecron_label = Lösche Mails älter als 
+phpmailer_archivecron_days = Tage
 phpmailer_log_yes = Ja
 phpmailer_log_no = Nein
 phpmailer_log_title = PHPMailer-Log "{0}"
@@ -80,4 +86,5 @@ phpmailer_errormail_30min = im 30 Minuten-Interval
 phpmailer_errormail_60min = im 60 Minuten-Interval
 
 system_setting_errormail = E-Mail-Benachrichtigung bei Fehlern
+perm_general_phpmailer[] = PHPMailer-Einstellungen
 

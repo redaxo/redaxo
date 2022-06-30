@@ -42,17 +42,18 @@ class rex_var_medialist extends rex_var
     }
 
     /**
+     * @param int|string $id
      * @return string
      */
     public static function getWidget($id, $name, $value, array $args = [])
     {
-        $open_params = '';
+        $openParams = '';
         if (isset($args['category']) && ($category = (int) $args['category'])) {
-            $open_params .= '&amp;rex_file_category=' . $category;
+            $openParams .= '&amp;rex_file_category=' . $category;
         }
 
         foreach ($args as $aname => $avalue) {
-            $open_params .= '&amp;args[' . $aname . ']=' . urlencode($avalue);
+            $openParams .= '&amp;args[' . $aname . ']=' . urlencode($avalue);
         }
 
         $wdgtClass = ' rex-js-widget-medialist';
@@ -65,46 +66,44 @@ class rex_var_medialist extends rex_var
 
         $options = '';
         $medialistarray = explode(',', $value);
-        if (is_array($medialistarray)) {
-            foreach ($medialistarray as $file) {
-                if ('' != $file) {
-                    $options .= '<option value="' . $file . '">' . $file . '</option>';
-                }
+        foreach ($medialistarray as $file) {
+            if ('' != $file) {
+                $options .= '<option value="' . $file . '">' . $file . '</option>';
             }
         }
 
         $disabled = ' disabled';
-        $open_func = '';
-        $add_func = '';
-        $delete_func = '';
-        $view_func = '';
+        $openFunc = '';
+        $addFunc = '';
+        $deleteFunc = '';
+        $viewFunc = '';
+        $quotedId = "'".rex_escape($id, 'js')."'";
         if (rex::getUser()->getComplexPerm('media')->hasMediaPerm()) {
             $disabled = '';
-            $open_func = 'openREXMedialist(' . $id . ',\'' . $open_params . '\');';
-            $add_func = 'addREXMedialist(' . $id . ',\'' . $open_params . '\');';
-            $delete_func = 'deleteREXMedialist(' . $id . ');';
-            $view_func = 'viewREXMedialist(' . $id . ',\'' . $open_params . '\');';
+            $openFunc = 'openREXMedialist(' . $quotedId . ', \'' . $openParams . '\');';
+            $addFunc = 'addREXMedialist(' . $quotedId . ', \'' . $openParams . '\');';
+            $deleteFunc = 'deleteREXMedialist(' . $quotedId . ');';
+            $viewFunc = 'viewREXMedialist(' . $quotedId . ', \'' . $openParams . '\');';
         }
 
         $e = [];
         $e['before'] = '<div class="rex-js-widget' . $wdgtClass . '">';
         $e['field'] = '<select class="form-control" name="REX_MEDIALIST_SELECT[' . $id . ']" id="REX_MEDIALIST_SELECT_' . $id . '" size="10">' . $options . '</select><input type="hidden" name="' . $name . '" id="REX_MEDIALIST_' . $id . '" value="' . $value . '" />';
         $e['moveButtons'] = '
-                <a href="#" class="btn btn-popup" onclick="moveREXMedialist(' . $id . ',\'top\');return false;" title="' . rex_i18n::msg('var_medialist_move_top') . '"><i class="rex-icon rex-icon-top"></i></a>
-                <a href="#" class="btn btn-popup" onclick="moveREXMedialist(' . $id . ',\'up\');return false;" title="' . rex_i18n::msg('var_medialist_move_up') . '"><i class="rex-icon rex-icon-up"></i></a>
-                <a href="#" class="btn btn-popup" onclick="moveREXMedialist(' . $id . ',\'down\');return false;" title="' . rex_i18n::msg('var_medialist_move_down') . '"><i class="rex-icon rex-icon-down"></i></a>
-                <a href="#" class="btn btn-popup" onclick="moveREXMedialist(' . $id . ',\'bottom\');return false;" title="' . rex_i18n::msg('var_medialist_move_bottom') . '"><i class="rex-icon rex-icon-bottom"></i></a>';
+                <a href="#" class="btn btn-popup" onclick="moveREXMedialist(' . $quotedId . ',\'top\');return false;" title="' . rex_i18n::msg('var_medialist_move_top') . '"><i class="rex-icon rex-icon-top"></i></a>
+                <a href="#" class="btn btn-popup" onclick="moveREXMedialist(' . $quotedId . ',\'up\');return false;" title="' . rex_i18n::msg('var_medialist_move_up') . '"><i class="rex-icon rex-icon-up"></i></a>
+                <a href="#" class="btn btn-popup" onclick="moveREXMedialist(' . $quotedId . ',\'down\');return false;" title="' . rex_i18n::msg('var_medialist_move_down') . '"><i class="rex-icon rex-icon-down"></i></a>
+                <a href="#" class="btn btn-popup" onclick="moveREXMedialist(' . $quotedId . ',\'bottom\');return false;" title="' . rex_i18n::msg('var_medialist_move_bottom') . '"><i class="rex-icon rex-icon-bottom"></i></a>';
         $e['functionButtons'] = '
-                <a href="#" class="btn btn-popup" onclick="' . $open_func . 'return false;" title="' . rex_i18n::msg('var_media_open') . '"' . $disabled . '><i class="rex-icon rex-icon-open-mediapool"></i></a>
-                <a href="#" class="btn btn-popup" onclick="' . $add_func . 'return false;" title="' . rex_i18n::msg('var_media_new') . '"' . $disabled . '><i class="rex-icon rex-icon-add-media"></i></a>
-                <a href="#" class="btn btn-popup" onclick="' . $delete_func . 'return false;" title="' . rex_i18n::msg('var_media_remove') . '"' . $disabled . '><i class="rex-icon rex-icon-delete-media"></i></a>
-                <a href="#" class="btn btn-popup" onclick="' . $view_func . 'return false;" title="' . rex_i18n::msg('var_media_view') . '"' . $disabled . '><i class="rex-icon rex-icon-view-media"></i></a>';
+                <a href="#" class="btn btn-popup" onclick="' . $openFunc . 'return false;" title="' . rex_i18n::msg('var_media_open') . '"' . $disabled . '><i class="rex-icon rex-icon-open-mediapool"></i></a>
+                <a href="#" class="btn btn-popup" onclick="' . $addFunc . 'return false;" title="' . rex_i18n::msg('var_media_new') . '"' . $disabled . '><i class="rex-icon rex-icon-add-media"></i></a>
+                <a href="#" class="btn btn-popup" onclick="' . $deleteFunc . 'return false;" title="' . rex_i18n::msg('var_media_remove') . '"' . $disabled . '><i class="rex-icon rex-icon-delete-media"></i></a>
+                <a href="#" class="btn btn-popup" onclick="' . $viewFunc . 'return false;" title="' . rex_i18n::msg('var_media_view') . '"' . $disabled . '><i class="rex-icon rex-icon-view-media"></i></a>';
         $e['after'] = '<div class="rex-js-media-preview"></div></div>';
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', [$e], false);
-        $media = $fragment->parse('core/form/widget_list.php');
 
-        return $media;
+        return $fragment->parse('core/form/widget_list.php');
     }
 }

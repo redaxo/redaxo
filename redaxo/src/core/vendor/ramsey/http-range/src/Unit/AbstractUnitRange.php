@@ -9,13 +9,15 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
+declare(strict_types=1);
+
 namespace Ramsey\Http\Range\Unit;
 
 use Ramsey\Http\Range\Exception\NotSatisfiableException;
 use Ramsey\Http\Range\Exception\ParseException;
 
 /**
- * An abstract unit range to handle common unit range functionality
+ * `AbstractUnitRange` provides a basic implementation for unit ranges.
  */
 abstract class AbstractUnitRange implements UnitRangeInterface
 {
@@ -40,14 +42,15 @@ abstract class AbstractUnitRange implements UnitRangeInterface
     private $end;
 
     /**
-     * Constructs a new unit range
+     * Constructs a new unit range.
      *
-     * @param string $range A single range (i.e. 500-999, 500-, -500)
-     * @param mixed $totalSize The total size of the entity the range describes
-     * @throws ParseException If unable to parse the range
-     * @throws NotSatisfiableException If the range cannot be satisfied
+     * @param string $range A single range (i.e. `500-999`, `500-`, `-500`).
+     * @param mixed $totalSize The total size of the entity the range describes.
+     *
+     * @throws ParseException if unable to parse the range.
+     * @throws NotSatisfiableException if the range cannot be satisfied.
      */
-    public function __construct($range, $totalSize)
+    public function __construct(string $range, $totalSize)
     {
         $this->range = $range;
         $this->totalSize = $totalSize;
@@ -56,17 +59,17 @@ abstract class AbstractUnitRange implements UnitRangeInterface
     }
 
     /**
-     * Returns the raw range
+     * Returns the raw range.
      *
      * @return string
      */
-    public function getRange()
+    public function getRange(): string
     {
         return $this->range;
     }
 
     /**
-     * Returns the start of the range
+     * Returns the start of the range.
      *
      * @return mixed
      */
@@ -76,7 +79,7 @@ abstract class AbstractUnitRange implements UnitRangeInterface
     }
 
     /**
-     * Returns the end of the range
+     * Returns the end of the range.
      *
      * @return mixed
      */
@@ -86,7 +89,7 @@ abstract class AbstractUnitRange implements UnitRangeInterface
     }
 
     /**
-     * Returns the length of this range
+     * Returns the length of this range.
      *
      * For example, if the total size is 1200, and the start is 700 and the end
      * is 1199, then the length is 500.
@@ -99,7 +102,7 @@ abstract class AbstractUnitRange implements UnitRangeInterface
     }
 
     /**
-     * Returns the total size of the entity this unit range describes
+     * Returns the total size of the entity this unit range describes.
      *
      * For example, if this unit range describes the bytes in a file, then this
      * returns the total bytes of the file.
@@ -113,13 +116,17 @@ abstract class AbstractUnitRange implements UnitRangeInterface
 
     /**
      * Parses the given range, returning a 2-tuple where the first value is the
-     * start and the second is the end
+     * start and the second is the end.
      *
-     * @param string $range The range string to parse
-     * @param mixed $totalSize The total size of the entity
+     * @param string $range The range string to parse.
+     * @param mixed $totalSize The total size of the entity.
+     *
      * @return array
+     *
+     * @throws ParseException if unable to parse the range.
+     * @throws NotSatisfiableException if the range cannot be satisfied.
      */
-    private function parseRange($range, $totalSize)
+    private function parseRange(string $range, $totalSize)
     {
         $points = explode('-', $range, 2);
 

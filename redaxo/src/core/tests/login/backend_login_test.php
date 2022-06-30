@@ -7,19 +7,12 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_backend_login_test extends TestCase
 {
-    private $skipped = false;
-
     private $login = 'testusr';
     private $password = 'test1234';
     private $cookiekey = 'mycookie';
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        if (rex::getUser()) {
-            $this->skipped = true;
-            static::markTestSkipped('The rex_backend_login class can not be tested when test suite is running in redaxo backend.');
-        }
-
         $adduser = rex_sql::factory();
         $adduser->setTable(rex::getTablePrefix() . 'user');
         $adduser->setValue('name', 'test user');
@@ -31,17 +24,10 @@ class rex_backend_login_test extends TestCase
         $adduser->insert();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
-        if ($this->skipped) {
-            return;
-        }
-
         $deleteuser = rex_sql::factory();
         $deleteuser->setQuery('DELETE FROM ' . rex::getTablePrefix() . "user WHERE login = '". $this->login ."' LIMIT 1");
-
-        // make sure we don't mess up the global scope
-        session_destroy();
     }
 
     public function testSuccessfullLogin()
