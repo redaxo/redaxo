@@ -45,12 +45,18 @@ rex_extension::register('STRUCTURE_CONTENT_HEADER', static function (rex_extensi
 
     $versionId = rex_request('rex_set_version', 'int', '-1');
 
-    if (0 === $versionId) {
+	###########################################################
+	
+	$start_default = 0;	// Live-Version: 0 | Arbeitsversion: 1
+	
+	###########################################################
+    
+	if (0 === $versionId) {
         $rexVersionArticle[$params['article_id']] = 0;
     } elseif (1 == $versionId) {
         $rexVersionArticle[$params['article_id']] = 1;
     } elseif (!isset($rexVersionArticle[$params['article_id']])) {
-        $rexVersionArticle[$params['article_id']] = 1;
+        $rexVersionArticle[$params['article_id']] = $start_default;
     }
 
     if (!rex::getUser()->hasPerm('version[live_version]')) {
@@ -92,11 +98,13 @@ rex_extension::register('STRUCTURE_CONTENT_BEFORE_SLICES', static function (rex_
 
                 $article = rex_article::get($params['article_id'], $params['clang']);
                 $return = rex_extension::registerPoint(new rex_extension_point_art_content_updated($article, 'work_to_live', $return));
+				$return .= '<script>setTimeout(function(){$(".switch_version ul.dropdown-menu li:not(.active) a").trigger("click");},1200);</script>';
             }
         break;
         case 'copy_live_to_work':
             rex_article_revision::copyContent($params['article_id'], $params['clang'], rex_article_revision::LIVE, rex_article_revision::WORK);
             $return .= rex_view::success(rex_i18n::msg('version_info_live_version_to_working'));
+			$return .= '<script>setTimeout(function(){$(".switch_version ul.dropdown-menu li:not(.active) a").trigger("click");},1200);</script>';
         break;
         case 'clear_work':
             if (rex_article_revision::clearContent($params['article_id'], $params['clang'], rex_article_revision::WORK)) {
@@ -148,7 +156,7 @@ rex_extension::register('STRUCTURE_CONTENT_BEFORE_SLICES', static function (rex_
         $fragment->setVar('disabled', true);
     }
 
-    $toolbar .= '<li class="dropdown">' . $fragment->parse('core/dropdowns/dropdown.php') . '</li>';
+    $toolbar .= '<li class="dropdown switch_version">' . $fragment->parse('core/dropdowns/dropdown.php') . '</li>';
 
     if (!rex::getUser()->hasPerm('version[live_version]')) {
         if ($rexVersionArticle[$params['article_id']] > 0) {
