@@ -64,6 +64,7 @@ class rex_socket
         $this->addHeader('Host', $this->host);
         $this->addHeader('User-Agent', 'REDAXO/' . rex::getVersion());
         $this->addHeader('Connection', 'Close');
+        $this->addHeader('Accept-Encoding', 'gzip, deflate');
     }
 
     /**

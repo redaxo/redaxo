@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_socket_response_test extends TestCase
 {
-    private function getResponse($content)
+    private function getResponse($content): rex_socket_response
     {
         $stream = fopen('php://temp', 'r+');
         fwrite($stream, $content);
@@ -79,5 +79,41 @@ class rex_socket_response_test extends TestCase
         fseek($temp, 0);
         static::assertSame($body, fread($temp, 1024));
         fclose($temp);
+    }
+
+    public function testGetBodyWithEncoding()
+    {
+        $body = "This is the\r\noriginal content";
+
+        static::assertSame($body, $this->createResponseWithEncoding('gzip',
+            zlib_encode($body, ZLIB_ENCODING_GZIP))->getBody());
+
+        static::assertSame($body, $this->createResponseWithEncoding('deflate',
+            zlib_encode($body, ZLIB_ENCODING_DEFLATE))->getBody());
+    }
+
+    public function testEncodingHeader()
+    {
+        static::assertIsArray($this->getResponse("HTTP/1.1 200 OK\r\nKey: Value\r\n\r\nTest")
+            ->getContentEncodings());
+
+        static::assertCount(0, $this->getResponse("HTTP/1.1 200 OK\r\nKey: Value\r\n\r\nTest")
+            ->getContentEncodings());
+
+        static::assertIsArray($this->createResponseWithEncoding('gzip, deflate', 'test')
+            ->getContentEncodings());
+
+        static::assertSame(['gzip', 'deflate'], $this->createResponseWithEncoding('gzip, deflate', 'test')
+            ->getContentEncodings());
+
+        static::assertSame(['gzip'], $this->createResponseWithEncoding('gzip', 'test')
+            ->getContentEncodings());
+    }
+
+    private function createResponseWithEncoding(string $encoding, string $body): rex_socket_response
+    {
+        return $this->getResponse(
+            sprintf("HTTP/1.1 200 OK\r\nContent-Encoding: %s\r\n\r\n%s", $encoding, $body)
+        );
     }
 }

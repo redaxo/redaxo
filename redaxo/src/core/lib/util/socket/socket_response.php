@@ -168,6 +168,22 @@ class rex_socket_response
     }
 
     /**
+     * Returns an array with all applied content encodings.
+     */
+    public function getContentEncodings(): array
+    {
+        $contenEncodingHeader = $this->getHeader('Content-Encoding');
+
+        if (null === $contenEncodingHeader) {
+            return [];
+        }
+
+        return array_map(static function ($encoding) {
+            return trim(strtolower($encoding));
+        }, explode(',', $contenEncodingHeader));
+    }
+
+    /**
      * Returns up to `$length` bytes from the body, or `false` if the end is reached.
      *
      * @param int $length Max number of bytes
@@ -209,11 +225,62 @@ class rex_socket_response
         if (null === $this->body) {
             $this->body = '';
 
+            $appendedZlibStreamFilter = null;
+
+            // Decode the content for gzip and deflate
+            if ($this->isGzipOrDeflateEncoded()) {
+                $appendedZlibStreamFilter = $this->addZlibStreamFilter($this->stream, STREAM_FILTER_READ);
+            }
+
             while (false !== ($buf = $this->getBufferedBody())) {
                 $this->body .= $buf;
             }
+
+            if (is_resource($appendedZlibStreamFilter)) {
+                /** @psalm-suppress UnusedFunctionCall */
+                stream_filter_remove($appendedZlibStreamFilter);
+            }
         }
         return $this->body;
+    }
+
+    public function isGzipOrDeflateEncoded(): bool
+    {
+        $contentEncodings = $this->getContentEncodings();
+        return in_array('gzip', $contentEncodings) || in_array('deflate', $contentEncodings);
+    }
+
+    /**
+     * @param resource $stream
+     * @throws rex_exception
+     * @return resource
+     */
+    private function addZlibStreamFilter($stream, int $mode)
+    {
+        if (!is_resource($stream)) {
+            throw new \rex_exception('The stream has to be a resource.');
+        }
+
+        if (!in_array('zlib.*', stream_get_filters())) {
+            throw new \rex_exception('The zlib filter for streams is missing.');
+        }
+
+        if (!in_array($mode, [STREAM_FILTER_READ, STREAM_FILTER_WRITE])) {
+            throw new \rex_exception('Invalid stream filter mode.');
+        }
+
+        $appendedZlibStreamFilter = stream_filter_append(
+            $stream,
+            'zlib.inflate',
+            $mode,
+            ['window' => 15 + 32]
+        );
+
+        if (!is_resource($appendedZlibStreamFilter)) {
+            throw new \rex_exception('Could not add stream filter for gzip support.');
+        }
+
+        return $appendedZlibStreamFilter;
     }
 
     /**
@@ -233,6 +300,11 @@ class rex_socket_response
         if (!is_resource($resource)) {
             return false;
         }
+
+        if ($this->isGzipOrDeflateEncoded()) {
+            $this->addZlibStreamFilter($resource, STREAM_FILTER_WRITE);
+        }
+
         $success = true;
         while ($success && false !== ($buf = $this->getBufferedBody())) {
             $success = (bool) fwrite($resource, $buf);
