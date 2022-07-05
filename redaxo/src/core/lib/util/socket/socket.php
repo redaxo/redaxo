@@ -5,22 +5,28 @@
  *
  * Example:
  * <code>
- *     try {
- *         $socket = rex_socket::factory('www.example.com');
- *         $socket->setPath('/url/to/my/resource?param=1');
- *         $socket->setOptions([
- *               'ssl' => [
- *                 'verify_peer' => false,
- *                 'verify_peer_name' => false
- *               ]
- *             ]);
- *         $response = $socket->doGet();
- *         if($response->isOk()) {
- *             $body = $response->getBody();
- *         }
- *     } catch(rex_socket_exception $e) {
- *         // error message: $e->getMessage()
- *     }
+ *  try {
+ *      //Open socket connection. (Host, Port, SSL)
+ *      $socket = rex_socket::factory('www.example.com','443', true);
+ *      //set path to rex_socket
+ *      $socket->setPath('/url/to/my/resource?param=1');
+ *      //set PHP Context-Option
+ *      $socket->setOptions([
+ *          'ssl' => [
+ *              'verify_peer' => false,
+ *              'verify_peer_name' => false
+ *          ]
+ *      ]);
+ *      //make request and get rex_socket_request-Objekt back
+ *      $response = $socket->doGet();
+ *      //check if status code is 200
+ *      if($response->isOk()) {
+ *          //get file body
+ *          $body = $response->getBody();
+ *      }
+ *  } catch(rex_socket_exception $e) {
+ *      //error message: $e->getMessage()
+ *  }
  * </code>
  *
  * @author gharlan
