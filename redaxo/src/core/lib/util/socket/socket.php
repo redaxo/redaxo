@@ -47,6 +47,8 @@ class rex_socket
     protected $stream;
     /** @var array<array-key, mixed> */
     protected $options = [];
+    /** @var bool */
+    protected $responseContentEncoding = false;
 
     /**
      * Constructor.
@@ -64,7 +66,9 @@ class rex_socket
         $this->addHeader('Host', $this->host);
         $this->addHeader('User-Agent', 'REDAXO/' . rex::getVersion());
         $this->addHeader('Connection', 'Close');
-        $this->addHeader('Accept-Encoding', 'gzip, deflate');
+        if ($this->responseContentEncoding) {
+            $this->addHeader('Accept-Encoding', 'gzip, deflate');
+        }
     }
 
     /**
@@ -103,6 +107,15 @@ class rex_socket
         $parts = self::parseUrl($url);
 
         return static::factory($parts['host'], $parts['port'], $parts['ssl'])->setPath($parts['path']);
+    }
+
+    /**
+     * @return $this
+     */
+    public function enableResponseContentEncoding(): self
+    {
+        $this->responseContentEncoding = true;
+        return $this;
     }
 
     /**
@@ -418,7 +431,7 @@ class rex_socket
             throw new rex_socket_exception('Timeout!');
         }
 
-        return new rex_socket_response($this->stream);
+        return (new rex_socket_response($this->stream))->setDecodeContent($this->responseContentEncoding);
     }
 
     /**

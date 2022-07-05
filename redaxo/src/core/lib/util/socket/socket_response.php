@@ -27,6 +27,8 @@ class rex_socket_response
     private $headers = [];
     /** @var null|string */
     private $body;
+    /** @var bool */
+    private $decodeContent;
 
     /**
      * Constructor.
@@ -52,6 +54,20 @@ class rex_socket_response
             $this->statusMessage = $matches[2];
         }
         $this->chunked = false !== stripos($this->header, 'transfer-encoding: chunked');
+    }
+
+    /**
+     * @return $this
+     */
+    public function setDecodeContent(bool $decodeContent): self
+    {
+        $this->decodeContent = $decodeContent;
+        return $this;
+    }
+
+    public function getDecodeContent(): bool
+    {
+        return $this->decodeContent;
     }
 
     /**
@@ -228,7 +244,7 @@ class rex_socket_response
             $appendedZlibStreamFilter = null;
 
             // Decode the content for gzip and deflate
-            if ($this->isGzipOrDeflateEncoded()) {
+            if ($this->isGzipOrDeflateEncoded() && $this->decodeContent) {
                 $appendedZlibStreamFilter = $this->addZlibStreamFilter($this->stream, STREAM_FILTER_READ);
             }
 
@@ -273,7 +289,7 @@ class rex_socket_response
             $stream,
             'zlib.inflate',
             $mode,
-            ['window' => 15 + 32]
+            ['window' => 47]    // To detect gzip and zlib header
         );
 
         if (!is_resource($appendedZlibStreamFilter)) {
@@ -301,7 +317,7 @@ class rex_socket_response
             return false;
         }
 
-        if ($this->isGzipOrDeflateEncoded()) {
+        if ($this->isGzipOrDeflateEncoded() && $this->decodeContent) {
             $this->addZlibStreamFilter($resource, STREAM_FILTER_WRITE);
         }
 
