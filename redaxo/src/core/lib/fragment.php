@@ -10,6 +10,7 @@
  *
  * @package redaxo\core
  */
+#[AllowDynamicProperties]
 class rex_fragment
 {
     /**
