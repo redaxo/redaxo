@@ -56,12 +56,14 @@ class rex_socket
      * @param string $host Host name
      * @param int    $port Port number
      * @param bool   $ssl  SSL flag
+     * @param bool   $responseContentEncoding Enable content encoding
      */
-    protected function __construct($host, $port = 80, $ssl = false)
+    protected function __construct($host, $port = 80, $ssl = false, $responseContentEncoding = false)
     {
         $this->host = $host;
         $this->port = $port;
         $this->ssl = $ssl;
+        $this->responseContentEncoding = $responseContentEncoding;
 
         $this->addHeader('Host', $this->host);
         $this->addHeader('User-Agent', 'REDAXO/' . rex::getVersion());
@@ -115,6 +117,7 @@ class rex_socket
     public function enableResponseContentEncoding(): self
     {
         $this->responseContentEncoding = true;
+        $this->addHeader('Accept-Encoding', 'gzip, deflate');
         return $this;
     }
 
