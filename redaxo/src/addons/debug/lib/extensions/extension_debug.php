@@ -7,8 +7,11 @@
  */
 class rex_extension_debug extends rex_extension
 {
+    /** @var array */
     private static $extensionPoints = [];
+    /** @var array */
     private static $extensions = [];
+    /** @var array */
     private static $listeners = [];
 
     public static function registerPoint(rex_extension_point $extensionPoint)

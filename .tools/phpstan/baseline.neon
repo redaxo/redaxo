@@ -71,6 +71,11 @@ parameters:
 			path: ../../redaxo/src/addons/structure/pages/index.php
 
 		-
+			message: "#^Variable \\$prevCtype in isset\\(\\) always exists and is not nullable\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/structure/plugins/content/lib/article_content_base.php
+
+		-
 			message: "#^Right side of && is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/plugins/content/pages/content.edit.php
