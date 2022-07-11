@@ -11,121 +11,6 @@ parameters:
 			path: ../../redaxo/src/addons/backup/lib/backup.php
 
 		-
-			message: "#^Method rex_cronjob_manager\\:\\:factory\\(\\) should return rex_cronjob_manager but return statement is missing\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/manager.php
-
-		-
-			message: "#^Method rex_cronjob_manager\\:\\:getCurrentEnvironment\\(\\) should return string but return statement is missing\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/manager.php
-
-		-
-			message: "#^Method rex_cronjob_manager\\:\\:getMessage\\(\\) should return string but return statement is missing\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/manager.php
-
-		-
-			message: "#^Method rex_cronjob_manager\\:\\:getTypes\\(\\) should return array\\<int, class\\-string\\<rex_cronjob\\>\\> but return statement is missing\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/manager.php
-
-		-
-			message: "#^Method rex_cronjob_manager\\:\\:hasMessage\\(\\) should return bool but return statement is missing\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/manager.php
-
-		-
-			message: "#^Method rex_cronjob_manager\\:\\:tryExecute\\(\\) should return bool but return statement is missing\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/manager.php
-
-		-
-			message: "#^Property rex_cronjob_manager\\:\\:\\$cronjob is unused\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/manager.php
-
-		-
-			message: "#^Property rex_cronjob_manager\\:\\:\\$id is unused\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/manager.php
-
-		-
-			message: "#^Property rex_cronjob_manager\\:\\:\\$message is never read, only written\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/manager.php
-
-		-
-			message: "#^Property rex_cronjob_manager\\:\\:\\$name is unused\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/manager.php
-
-		-
-			message: "#^Static property rex_cronjob_manager\\:\\:\\$types is never read, only written\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/manager.php
-
-		-
-			message: "#^Method rex_cronjob_article_status\\:\\:execute\\(\\) should return bool but return statement is missing\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/plugins/article_status/lib/cronjob.php
-
-		-
-			message: "#^Method rex_cronjob_article_status\\:\\:getParamFields\\(\\) should return array but return statement is missing\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/plugins/article_status/lib/cronjob.php
-
-		-
-			message: "#^Method rex_cronjob_article_status\\:\\:getTypeName\\(\\) should return string but return statement is missing\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/plugins/article_status/lib/cronjob.php
-
-		-
-			message: "#^Method rex_cronjob_optimize_tables\\:\\:execute\\(\\) should return bool but return statement is missing\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/plugins/optimize_tables/lib/cronjob.php
-
-		-
-			message: "#^Method rex_cronjob_optimize_tables\\:\\:getTypeName\\(\\) should return string but return statement is missing\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/plugins/optimize_tables/lib/cronjob.php
-
-		-
-			message: "#^Method rex_api_debug\\:\\:execute\\(\\) should return rex_api_result but return statement is missing\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/debug/lib/api_debug.php
-
-		-
-			message: "#^Method rex_api_debug\\:\\:getUrlParams\\(\\) should return array but return statement is missing\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/debug/lib/api_debug.php
-
-		-
-			message: "#^Method rex_api_debug\\:\\:requiresCsrfProtection\\(\\) should return bool but return statement is missing\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/debug/lib/api_debug.php
-
-		-
-			message: "#^Static method rex_debug_clockwork\\:\\:init\\(\\) is unused\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/debug/lib/debug_clockwork.php
-
-		-
-			message: "#^Static property rex_debug_clockwork\\:\\:\\$instance is unused\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/debug/lib/debug_clockwork.php
-
-		-
-			message: "#^Method rex_sql_debug\\:\\:execute\\(\\) should return \\$this\\(rex_sql_debug\\) but return statement is missing\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/debug/lib/extensions/sql_debug.php
-
-		-
-			message: "#^Method rex_sql_debug\\:\\:setQuery\\(\\) should return \\$this\\(rex_sql_debug\\) but return statement is missing\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/debug/lib/extensions/sql_debug.php
-
-		-
 			message: "#^Parameter \\#3 \\$alias of class PharData constructor expects string, null given\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/install/lib/archive.php
@@ -216,21 +101,6 @@ parameters:
 			path: ../../redaxo/src/addons/structure/plugins/content/pages/modules.modules.php
 
 		-
-			message: "#^Method rex_article_slice_history\\:\\:getSnapshots\\(\\) should return array but return statement is missing\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/plugins/history/lib/article_slice_history.php
-
-		-
-			message: "#^Method rex_article_slice_history\\:\\:getTable\\(\\) should return string but return statement is missing\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/plugins/history/lib/article_slice_history.php
-
-		-
-			message: "#^Method rex_article_slice_history\\:\\:restoreSnapshot\\(\\) should return bool but return statement is missing\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/plugins/history/lib/article_slice_history.php
-
-		-
 			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/plugins/version/boot.php
@@ -251,12 +121,22 @@ parameters:
 			path: ../../redaxo/src/core/lib/api_function.php
 
 		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/autoload.php
+
+		-
 			message: "#^Negated boolean expression is always false\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/autoload.php
 
 		-
 			message: "#^Parameter \\#1 \\$autoload_function of function spl_autoload_register expects callable\\(string\\)\\: void, array\\{'rex_autoload', 'autoload'\\} given\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/autoload.php
+
+		-
+			message: "#^Right side of && is always false\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/autoload.php
 
