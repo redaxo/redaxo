@@ -14,7 +14,7 @@
         "friendsofphp/php-cs-fixer": "3.4.0",
         "friendsofredaxo/linter": "1.3.0",
         "phpstan/extension-installer": "1.1.0",
-        "phpstan/phpstan": "1.7.12",
+        "phpstan/phpstan": "1.8.0",
         "phpstan/phpstan-deprecation-rules": "1.0.0",
         "phpstan/phpstan-phpunit": "1.1.1",
         "phpstan/phpstan-symfony": "1.2.5",
