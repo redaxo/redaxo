@@ -99,9 +99,9 @@ class rex_login
      */
     public function setLogin(
     #[\SensitiveParameter]
-        $login,
+    $login,
     #[\SensitiveParameter]
-        $password,
+    $password,
     $isPreHashed = false
     ) {
         $this->userLogin = $login;
@@ -342,7 +342,7 @@ class rex_login
 
     public function changedPassword(
     #[\SensitiveParameter]
-        string $passwordHash
+    string $passwordHash
     ): void {
         $this->setSessionVar('password', $passwordHash);
     }
