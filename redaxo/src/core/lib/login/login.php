@@ -338,7 +338,9 @@ class rex_login
         $this->setSessionVar('impersonator', null);
     }
 
-    public function changedPassword(#[\SensitiveParameter] string $passwordHash): void
+    public function changedPassword(
+    #[\SensitiveParameter] string $passwordHash
+    ): void
     {
         $this->setSessionVar('password', $passwordHash);
     }
