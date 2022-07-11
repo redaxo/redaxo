@@ -181,7 +181,8 @@ class rex_backend_login extends rex_login
      * @param null|string $passwordHash Passing `null` or ommitting this param is DEPRECATED
      */
     public function changedPassword(
-    #[\SensitiveParameter] ?string $passwordHash = null
+    #[\SensitiveParameter]
+    ?string $passwordHash = null
     ): void {
         $this->setSessionVar(self::SESSION_PASSWORD_CHANGE_REQUIRED, false);
 
