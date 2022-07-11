@@ -98,9 +98,9 @@ class rex_login
      * Setzt den Login und das Password.
      */
     public function setLogin(
-    #[\SensitiveParameter] 
+    #[\SensitiveParameter]
         $login,
-    #[\SensitiveParameter] 
+    #[\SensitiveParameter]
         $password,
     $isPreHashed = false
     ) {
@@ -341,7 +341,7 @@ class rex_login
     }
 
     public function changedPassword(
-    #[\SensitiveParameter] 
+    #[\SensitiveParameter]
         string $passwordHash
     ): void {
         $this->setSessionVar('password', $passwordHash);

@@ -29,7 +29,7 @@ class rex_password_policy
      * @return true|string `true` on success, otherwise an error message
      */
     public function check(
-    #[\SensitiveParameter] 
+    #[\SensitiveParameter]
     $password, $id = null)
     {
         if ($this->isValid($password)) {

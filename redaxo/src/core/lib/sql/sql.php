@@ -179,13 +179,13 @@ class rex_sql implements Iterator
      * @return PDO
      */
     protected static function createConnection(
-        #[\SensitiveParameter] 
+        #[\SensitiveParameter]
         $host,
-        #[\SensitiveParameter] 
+        #[\SensitiveParameter]
         $database,
-        #[\SensitiveParameter] 
+        #[\SensitiveParameter]
         $login,
-        #[\SensitiveParameter] 
+        #[\SensitiveParameter]
         $password,
         $persistent = false,
         array $options = [])
