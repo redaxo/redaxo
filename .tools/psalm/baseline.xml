@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.23.0@f1fe6ff483bf325c803df9f510d09a03fd796f88">
+<files psalm-version="4.24.0@06dd975cb55d36af80f242561738f16c5f58264f">
   <file src="redaxo/src/addons/backup/lib/backup.php">
     <MixedArgument occurrences="5">
       <code>$column</code>
@@ -549,34 +549,16 @@
     </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/debug/lib/extensions/extension_debug.php">
-    <MixedArgument occurrences="2">
-      <code>self::$extensionPoints</code>
-      <code>self::$extensions</code>
-    </MixedArgument>
-    <MixedArrayAccess occurrences="2">
-      <code>self::$listeners[$ep]</code>
-      <code>self::$listeners[$extensionPoint-&gt;getName()]</code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="3">
-      <code>self::$extensionPoints[]</code>
-      <code>self::$extensions[]</code>
-      <code>self::$listeners[$ep]</code>
+    <MixedArrayAssignment occurrences="1">
+      <code>self::$listeners[$ep][]</code>
     </MixedArrayAssignment>
     <MixedAssignment occurrences="1">
       <code>$data['listeners']</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="2">
-      <code>array</code>
-      <code>array</code>
-    </MixedInferredReturnType>
     <MixedOperand occurrences="2">
       <code>$trace['file']</code>
       <code>$trace['line']</code>
     </MixedOperand>
-    <MixedReturnStatement occurrences="2">
-      <code>self::$extensionPoints</code>
-      <code>self::$extensions</code>
-    </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/debug/lib/extensions/logger_debug.php">
     <MixedArgument occurrences="1">
@@ -606,10 +588,8 @@
       <code>$plugin-&gt;getProperty('requires', [])</code>
       <code>$plugin-&gt;getProperty('version')</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="3">
+    <MixedArgumentTypeCoercion occurrences="1">
       <code>$addonkey</code>
-      <code>$manager</code>
-      <code>$manager</code>
     </MixedArgumentTypeCoercion>
     <MixedArrayAccess occurrences="3">
       <code>$config['conflicts']</code>
@@ -686,10 +666,6 @@
       <code>$this-&gt;addon-&gt;getProperty('conflicts', [])</code>
       <code>$this-&gt;addon-&gt;getProperty('requires', [])</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="2">
-      <code>$manager</code>
-      <code>$manager</code>
-    </MixedArgumentTypeCoercion>
     <MixedArrayAccess occurrences="3">
       <code>$config['conflicts']</code>
       <code>$config['requires']</code>
