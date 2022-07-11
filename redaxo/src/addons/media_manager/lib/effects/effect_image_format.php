@@ -87,7 +87,7 @@ class rex_effect_image_format extends rex_effect_abstract
         }
 
         $filename = $media->getMediaFilename();
-        $filenameWoExt = substr($filename, 0, (strlen($filename) - strlen($media->getFormat()))); // do not use $ext because of jpeg vs. jpg
+        $filenameWoExt = substr($filename, 0, (strlen($filename) - strlen(rex_file::extension($filename)))); // do not use $ext or getFormat because of jpeg vs. jpg
         $targetFilename = $filenameWoExt . $convertTo['ext'];
 
         $media->setImage($imageObject);
