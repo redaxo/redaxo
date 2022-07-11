@@ -27,9 +27,6 @@ parameters:
             - redaxo/src/addons/debug/vendor/
             - redaxo/src/addons/phpmailer/vendor/
             - redaxo/src/core/vendor/
-    # https://phpstan.org/config-reference#universal-object-crates
-    universalObjectCratesClasses:
-        - rex_fragment
     symfony:
         console_application_loader: .tools/phpstan/console.php
     ignoreErrors:
