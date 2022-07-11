@@ -528,7 +528,7 @@ class rex_login
      */
     public static function passwordHash(
     #[\SensitiveParameter]
-        $password,
+    $password,
     $isPreHashed = false
     ) {
         $password = $isPreHashed ? $password : sha1($password);
@@ -544,8 +544,8 @@ class rex_login
      */
     public static function passwordVerify(
     #[\SensitiveParameter]
-        $password,
-        #[\SensitiveParameter]
+    $password,
+    #[\SensitiveParameter]
     $hash,
     $isPreHashed = false
     ) {
