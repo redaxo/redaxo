@@ -11,56 +11,6 @@ parameters:
 			path: ../../redaxo/src/addons/backup/lib/backup.php
 
 		-
-			message: "#^Method rex_cronjob\\:\\:factory\\(\\) should return class\\-string\\<rex_cronjob\\>\\|rex_cronjob but return statement is missing\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/cronjob.php
-
-		-
-			message: "#^Method rex_cronjob\\:\\:getEnvironments\\(\\) should return array\\<string\\> but return statement is missing\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/cronjob.php
-
-		-
-			message: "#^Method rex_cronjob\\:\\:getMessage\\(\\) should return string but return statement is missing\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/cronjob.php
-
-		-
-			message: "#^Method rex_cronjob\\:\\:getParamFields\\(\\) should return array but return statement is missing\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/cronjob.php
-
-		-
-			message: "#^Method rex_cronjob\\:\\:getParams\\(\\) should return array but return statement is missing\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/cronjob.php
-
-		-
-			message: "#^Method rex_cronjob\\:\\:getType\\(\\) should return string but return statement is missing\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/cronjob.php
-
-		-
-			message: "#^Method rex_cronjob\\:\\:getTypeName\\(\\) should return string but return statement is missing\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/cronjob.php
-
-		-
-			message: "#^Method rex_cronjob\\:\\:hasMessage\\(\\) should return bool but return statement is missing\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/cronjob.php
-
-		-
-			message: "#^Property rex_cronjob\\:\\:\\$message is never read, only written\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/cronjob.php
-
-		-
-			message: "#^Property rex_cronjob\\:\\:\\$params is never read, only written\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/cronjob.php
-
-		-
 			message: "#^Method rex_cronjob_manager\\:\\:factory\\(\\) should return rex_cronjob_manager but return statement is missing\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/cronjob/lib/manager.php
@@ -154,6 +104,16 @@ parameters:
 			message: "#^Method rex_api_debug\\:\\:requiresCsrfProtection\\(\\) should return bool but return statement is missing\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/debug/lib/api_debug.php
+
+		-
+			message: "#^Static method rex_debug_clockwork\\:\\:init\\(\\) is unused\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/debug/lib/debug_clockwork.php
+
+		-
+			message: "#^Static property rex_debug_clockwork\\:\\:\\$instance is unused\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/debug/lib/debug_clockwork.php
 
 		-
 			message: "#^Method rex_sql_debug\\:\\:execute\\(\\) should return \\$this\\(rex_sql_debug\\) but return statement is missing\\.$#"
