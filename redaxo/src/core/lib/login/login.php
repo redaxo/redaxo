@@ -340,8 +340,7 @@ class rex_login
 
     public function changedPassword(
     #[\SensitiveParameter] string $passwordHash
-    ): void
-    {
+    ): void {
         $this->setSessionVar('password', $passwordHash);
     }
 
