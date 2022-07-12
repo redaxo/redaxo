@@ -38,9 +38,24 @@ class rex_article_content_editor extends rex_article_content
             $sliceCtype = (int) $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.ctype_id');
             $sliceStatus = (int) $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.status');
 
-            $moduleInput = (string) $artDataSql->getValue(rex::getTablePrefix() . 'module.input');
-            $moduleOutput = (string) $artDataSql->getValue(rex::getTablePrefix() . 'module.output');
             $moduleId = (int) $artDataSql->getValue(rex::getTablePrefix() . 'module.id');
+
+            $moduleInput = (string) $artDataSql->getValue(rex::getTablePrefix() . 'module.input');
+            $moduleInput = (string) rex_extension::registerPoint(new rex_extension_point(
+                'STRUCTURE_CONTENT_MODULE_INPUT_EDIT',
+                    $moduleInput,
+                [
+                    'module_id' => $moduleId,
+                ]
+            ));
+            $moduleOutput = (string) $artDataSql->getValue(rex::getTablePrefix() . 'module.output');
+            $moduleOutput = (string) rex_extension::registerPoint(new rex_extension_point(
+                'STRUCTURE_CONTENT_MODULE_OUTPUT',
+                    $moduleOutput,
+                [
+                    'module_id' => $moduleId,
+                ]
+            ));
 
             // ----- add select box einbauen
             $sliceContent = $this->getModuleSelect($sliceId);
@@ -411,7 +426,16 @@ class rex_article_content_editor extends rex_article_content
         $action->exec(rex_article_action::PREVIEW);
         // ----- / PRE VIEW ACTION
 
-        $moduleInput = $this->replaceVars($initDataSql, (string) $MOD->getValue('input'));
+        $moduleInput = (string) $MOD->getValue('input');
+        $moduleInput = (string) rex_extension::registerPoint(new rex_extension_point(
+            'STRUCTURE_CONTENT_MODULE_INPUT_ADD',
+                $moduleInput,
+            [
+                'module_id' => $moduleId,
+            ]
+        ));
+
+        $moduleInput = $this->replaceVars($initDataSql, $moduleInput);
         $moduleInput = $this->getStreamOutput('module/' . $moduleId . '/input', $moduleInput);
 
         $msg = '';
