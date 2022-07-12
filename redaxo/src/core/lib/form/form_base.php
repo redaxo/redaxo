@@ -41,6 +41,9 @@ abstract class rex_form_base
     /** @var rex_csrf_token */
     private $csrfToken;
 
+    /** @var array<string, string> */
+    private $formAttributes;
+
     /**
      * Diese Konstruktor sollte nicht verwendet werden. Instanzen muessen ueber die factory() Methode erstellt werden!
      *
@@ -59,6 +62,7 @@ abstract class rex_form_base
         $this->method = $method;
         $this->elements = [];
         $this->params = [];
+        $this->formAttributes = [];
         $this->addFieldset($fieldset ?: $this->name);
         $this->setMessage('');
 
@@ -999,6 +1003,33 @@ abstract class rex_form_base
     }
 
     /**
+     * @return void
+     */
+    public function setFormAttribute(string $attributeName, ?string $attributeValue)
+    {
+        $attributeName = preg_replace('/[^\w\d\-]/', '', strtolower($attributeName));
+
+        if (0 === mb_strlen($attributeName)) {
+            return;
+        }
+
+        if (null === $attributeValue && array_key_exists($attributeName, $this->formAttributes)) {
+            unset($this->formAttributes[$attributeName]);
+            return;
+        }
+
+        if ('id' === $attributeName) {
+            $this->setFormId($attributeValue);
+        }
+
+        if (in_array($attributeName, ['method', 'action'])) {
+            return;
+        }
+
+        $this->formAttributes[$attributeName] = (string) $attributeValue;
+    }
+
+    /**
      * Callbackfunktion, damit in subklassen der Value noch beeinflusst werden kann
      * wenn das Feld mit Datenbankwerten angezeigt wird.
      *
@@ -1234,7 +1265,12 @@ abstract class rex_form_base
             $id = ' id="'.rex_escape($this->formId).'"';
         }
 
-        $s .= '<form' . $id . ' action="' . rex_url::backendController($actionParams) . '" method="' . $this->method . '">' . "\n";
+        $s .= sprintf('<form %s %s action="%s" method="%s">' . "\n",
+                $id,
+                rex_string::buildAttributes($this->formAttributes),
+                rex_url::backendController($actionParams),
+                $this->method
+            );
         foreach ($fieldsets as $fieldsetName => $fieldsetElements) {
             $s .= '<fieldset>' . "\n";
 
