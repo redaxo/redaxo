@@ -35,6 +35,11 @@ password_policy:
     lowercase: {min: 0}
     uppercase: {min: 0}
     digit: {min: 0}
+    # no_reuse_of_last: 6
+    # format analog https://www.php.net/manual/de/dateinterval.construct.php
+    # no_reuse_within: P6W
+    # force_renew_after: P6W
+    # block_account_after: P3M
 lang: de_de
 lang_fallback: [en_gb, de_de]
 use_https: false

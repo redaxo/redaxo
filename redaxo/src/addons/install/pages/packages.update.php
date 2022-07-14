@@ -15,6 +15,11 @@ $message = rex_api_function::getMessage();
 try {
     $coreVersions = rex_api_install_core_update::getVersions();
     $addons = rex_install_packages::getUpdatePackages();
+
+    $config = rex_file::getCache(rex_path::addonData('install', 'config.json'), []);
+    if (isset($config['api_login']) && $config['api_login'] && isset($config['api_key'])) {
+        echo rex_view::info($package->i18n('install_info_myredaxo'));
+    }
 } catch (rex_functional_exception $e) {
     $message .= rex_view::warning($e->getMessage());
     $addonkey = '';
