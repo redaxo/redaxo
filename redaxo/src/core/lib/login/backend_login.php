@@ -131,9 +131,9 @@ class rex_backend_login extends rex_login
             if ('' != $this->userLogin) {
                 $sql->setQuery('SELECT login_tries FROM ' . $this->tableName . ' WHERE login=? LIMIT 1', [$this->userLogin]);
                 if ($sql->getRows() > 0) {
+                    $loginTries = $sql->getValue('login_tries');
                     $this->increaseLoginTries();
 
-                    $loginTries = $sql->getValue('login_tries');
                     if ($loginTries >= self::LOGIN_TRIES_1 - 1) {
                         $time = $loginTries < self::LOGIN_TRIES_2 ? self::RELOGIN_DELAY_1 : self::RELOGIN_DELAY_2;
                         $hours = floor($time / 3600);
