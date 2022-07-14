@@ -98,10 +98,10 @@ class rex_cronjob_export extends rex_cronjob
                     return false;
                 }
                 $mail = new rex_mailer();
-                $mail->AddAddress($this->getParam('mailaddress'));
+                $mail->addAddress($this->getParam('mailaddress'));
                 $mail->Subject = rex_i18n::rawMsg('backup_mail_subject');
                 $mail->Body = rex_i18n::rawMsg('backup_mail_body', rex::getServerName());
-                $mail->AddAttachment($exportFilePath, $filename . $ext);
+                $mail->addAttachment($exportFilePath, $filename . $ext);
                 if ($mail->Send()) {
                     $this->setMessage($message . ', mail sent');
 
