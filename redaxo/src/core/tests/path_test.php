@@ -49,4 +49,8 @@ class rex_path_test extends TestCase
     {
         return str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $path);
     }
+    
+    public function testLocateBinary() {
+        static::assertsame('', rex_path::findBinaryPath('php'));
+    }
 }
