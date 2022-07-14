@@ -178,6 +178,9 @@ class rex_backend_login extends rex_login
         }
     }
 
+    /**
+     * @return void
+     */
     public static function deleteSession()
     {
         self::startSession();
