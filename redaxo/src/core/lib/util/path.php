@@ -405,9 +405,10 @@ class rex_path
         return basename($path);
     }
 
-    public static function findBinaryPath(string $commandName): string
+    /** @return string|null */
+    public static function findBinaryPath(string $commandName)
     {
-        $path = '';
+        $path = null;
 
         if (function_exists('exec')) {
             $out = [];
