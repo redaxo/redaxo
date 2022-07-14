@@ -85,7 +85,6 @@ $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
 $formElements = [];
-if (1 === rex::getProperty('login')->getLoginPolicy('enable_stay_logged_in')) {
 if (rex::getProperty('login')->getLoginPolicy()->isStayLoggedInEnabled()) {
     $n = [];
     $n['label'] = '<label for="rex-id-login-stay-logged-in">' . rex_i18n::msg('stay_logged_in') . '</label>';
