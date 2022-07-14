@@ -257,7 +257,7 @@ class rex_backend_login extends rex_login
      */
     private function getLoginPolicy(string $key): int
     {
-        $loginPolicy = rex::getProperty('backend_login_policy');
+        $loginPolicy = (array) rex::getProperty('backend_login_policy', []);
 
         if (array_key_exists($key, $loginPolicy)) {
             return (int) $loginPolicy[$key];
