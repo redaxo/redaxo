@@ -16,7 +16,7 @@ if ('' != rex_post('btn_save', 'string')) {
 
     $tempConfig['codemirror-selectors'] = '';
     if (isset($newConfig['codemirror-selectors'])) {
-        $tempConfig['codemirror-selectors'] = $newConfig['codemirror-selectors'];
+        $tempConfig['codemirror-selectors'] = (string) $newConfig['codemirror-selectors'];
     }
 
     $tempConfig['codemirror-langs'] = 0;
@@ -36,14 +36,14 @@ if ('' != rex_post('btn_save', 'string')) {
 
     $tempConfig['codemirror-options'] = '';
     if (isset($newConfig['codemirror-options'])) {
-        $tempConfig['codemirror-options'] = $newConfig['codemirror-options'];
+        $tempConfig['codemirror-options'] = (string) $newConfig['codemirror-options'];
     }
 
-    $tempConfig['codemirror_theme'] = htmlspecialchars($newConfig['codemirror_theme']);
+    $tempConfig['codemirror_theme'] = htmlspecialchars((string) $newConfig['codemirror_theme']);
 
-    $tempConfig['codemirror_darktheme'] = htmlspecialchars($newConfig['codemirror_darktheme']);
+    $tempConfig['codemirror_darktheme'] = htmlspecialchars((string) $newConfig['codemirror_darktheme']);
 
-    $labelcolor = $newConfig['labelcolor'];
+    $labelcolor = (string) $newConfig['labelcolor'];
     if ('' == $labelcolor) {
         $tempConfig['labelcolor'] = '';
     } else {
@@ -67,6 +67,7 @@ if ('' != rex_post('btn_save', 'string')) {
 
 // load config
 
+/** @var array{codemirror_theme: string, codemirror_darktheme: string, codemirror-selectors: string, codemirror-options: string, codemirror: int, codemirror-langs: int, codemirror-tools: int, labelcolor: string, showlink: int} $config */
 $config = rex_plugin::get('be_style', 'customizer')->getConfig();
 
 if (!isset($config['codemirror_darktheme'])) {
