@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author gharlan
+ * @author mstaab
  *
  * @package redaxo\core\login
  */
