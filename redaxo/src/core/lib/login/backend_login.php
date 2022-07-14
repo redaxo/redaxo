@@ -280,6 +280,7 @@ class rex_backend_login extends rex_login
     {
         $loginPolicy = (array) rex::getProperty('backend_login_policy', []);
 
-        return new rex_login_policy($loginPolicy); // @psalm-ignore-line
+        /** @psalm-suppress MixedArgumentTypeCoercion **/
+        return new rex_login_policy($loginPolicy);
     }
 }
