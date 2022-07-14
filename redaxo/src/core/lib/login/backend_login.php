@@ -154,7 +154,7 @@ class rex_backend_login extends rex_login
         return $check;
     }
 
-    public function increaseLoginTries()
+    public function increaseLoginTries(): void
     {
         $sql = rex_sql::factory();
         $sql->setQuery('UPDATE ' . $this->tableName . ' SET login_tries=login_tries+1,session_id="",lasttrydate=? WHERE login=? LIMIT 1', [rex_sql::datetime(), $this->userLogin]);
