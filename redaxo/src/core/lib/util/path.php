@@ -415,8 +415,8 @@ class rex_path
             $cmd = sprintf('command -v %s || which %s', $commandName, $commandName);
             exec($cmd, $out, $ret);
 
-            if (0 === $ret && is_array($out)) {
-                $path = $out[0];
+            if (0 === $ret) {
+                $path = (string) $out[0];
             }
         }
 
