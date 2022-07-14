@@ -50,12 +50,12 @@ class rex_path_test extends TestCase
         return str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $path);
     }
 
-    public function testFindBinaryPath()
+    public function testFindBinaryPath(): void
     {
         static::assertSame('/usr/bin/php', rex_path::findBinaryPath('php'));
     }
 
-    public function testNotFoundBinaryPath()
+    public function testNotFoundBinaryPath(): void
     {
         static::assertNull(rex_path::findBinaryPath('noone-knows'));
     }
