@@ -49,7 +49,11 @@ abstract class rex_error_handler
         // make sure we regenerate the autoload cache, in case a class not found error
         // bubbled up into a oops/whoops error.
         if (preg_match('/^Class ".*" not found$/', $exception->getMessage())) {
-            rex_autoload::removeCache();
+            try {
+                rex_autoload::removeCache();
+            } catch (Throwable $e) {
+                // ignore
+            }
         }
 
         try {
