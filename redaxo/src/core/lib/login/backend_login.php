@@ -131,8 +131,9 @@ class rex_backend_login extends rex_login
             if ('' != $this->userLogin) {
                 $sql->setQuery('SELECT login_tries FROM ' . $this->tableName . ' WHERE login=? LIMIT 1', [$this->userLogin]);
                 if ($sql->getRows() > 0) {
+                    $this->increaseLoginTries();
+
                     $loginTries = $sql->getValue('login_tries');
-                    $sql->setQuery('UPDATE ' . $this->tableName . ' SET login_tries=login_tries+1,session_id="",lasttrydate=? WHERE login=? LIMIT 1', [rex_sql::datetime(), $this->userLogin]);
                     if ($loginTries >= self::LOGIN_TRIES_1 - 1) {
                         $time = $loginTries < self::LOGIN_TRIES_2 ? self::RELOGIN_DELAY_1 : self::RELOGIN_DELAY_2;
                         $hours = floor($time / 3600);
@@ -151,6 +152,11 @@ class rex_backend_login extends rex_login
         }
 
         return $check;
+    }
+
+    public function increaseLoginTries() {
+        $sql = rex_sql::factory();
+        $sql->setQuery('UPDATE ' . $this->tableName . ' SET login_tries=login_tries+1,session_id="",lasttrydate=? WHERE login=? LIMIT 1', [rex_sql::datetime(), $this->userLogin]);
     }
 
     public function requiresPasswordChange(): bool
