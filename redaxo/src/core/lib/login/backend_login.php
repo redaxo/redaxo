@@ -9,10 +9,6 @@
 class rex_backend_login extends rex_login
 {
     public const SYSTEM_ID = 'backend_login';
-    public const LOGIN_TRIES_1 = 3;
-    public const RELOGIN_DELAY_1 = 5;    // relogin delay after LOGIN_TRIES_1 tries
-    public const LOGIN_TRIES_2 = 50;
-    public const RELOGIN_DELAY_2 = 3600; // relogin delay after LOGIN_TRIES_2 tries
 
     private const SESSION_PASSWORD_CHANGE_REQUIRED = 'password_change_required';
 
@@ -42,9 +38,9 @@ class rex_backend_login extends rex_login
         $qry .= ' WHERE
             status = 1
             AND login = :login
-            AND (login_tries < ' . self::LOGIN_TRIES_1 . '
-                OR login_tries < ' . self::LOGIN_TRIES_2 . ' AND lasttrydate < "' . rex_sql::datetime(time() - self::RELOGIN_DELAY_1) . '"
-                OR lasttrydate < "' . rex_sql::datetime(time() - self::RELOGIN_DELAY_2) . '"
+            AND (login_tries < ' . $this->getLoginPolicy('login_tries_1') . '
+                OR login_tries < ' . $this->getLoginPolicy('login_tries_2') . ' AND lasttrydate < "' . rex_sql::datetime(time() - $this->getLoginPolicy('relogin_delay_1')) . '"
+                OR lasttrydate < "' . rex_sql::datetime(time() - $this->getLoginPolicy('relogin_delay_2')) . '"
             )';
 
         if ($blockAccountAfter = $this->passwordPolicy->getBlockAccountAfter()) {
@@ -133,8 +129,8 @@ class rex_backend_login extends rex_login
                 if ($sql->getRows() > 0) {
                     $loginTries = $sql->getValue('login_tries');
                     $sql->setQuery('UPDATE ' . $this->tableName . ' SET login_tries=login_tries+1,session_id="",lasttrydate=? WHERE login=? LIMIT 1', [rex_sql::datetime(), $this->userLogin]);
-                    if ($loginTries >= self::LOGIN_TRIES_1 - 1) {
-                        $time = $loginTries < self::LOGIN_TRIES_2 ? self::RELOGIN_DELAY_1 : self::RELOGIN_DELAY_2;
+                    if ($loginTries >= $this->getLoginPolicy('login_tries_1') - 1) {
+                        $time = $loginTries < $this->getLoginPolicy('login_tries_2') ? $this->getLoginPolicy('relogin_delay_1') : $this->getLoginPolicy('relogin_delay_2');
                         $hours = floor($time / 3600);
                         $mins = floor(($time - ($hours * 3600)) / 60);
                         $secs = $time % 60;
@@ -254,5 +250,18 @@ class rex_backend_login extends rex_login
     protected static function getSessionNamespace()
     {
         return rex::getProperty('instname'). '_backend';
+    }
+
+    /**
+     * @param 'login_tries_1'|'relogin_delay_1'|'login_tries_2'|'relogin_delay_2' $key
+     */
+    private function getLoginPolicy(string $key): int {
+        $loginPolicy = rex::getProperty('backend_login_policy');
+
+        if (array_key_exists($key, $loginPolicy)) {
+            return $loginPolicy[$key];
+        }
+
+        throw new rex_exception('Invalid login policy key: ' . $key);
     }
 }

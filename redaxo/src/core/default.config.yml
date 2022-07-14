@@ -10,6 +10,11 @@ fileperm: '0664'
 dirperm: '0775'
 session_duration: 7200
 session_keep_alive: 21600
+backend_login_policy:
+    login_tries_1: 3
+    relogin_delay_1: 5
+    login_tries_2: 50
+    relogin_delay_2: 3600
 # using separate cookie domains for frontend and backend is more secure,
 # but be warned that some features like detecting a backend user in the frontend
 # will no longer work.
