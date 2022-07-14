@@ -255,7 +255,8 @@ class rex_backend_login extends rex_login
     /**
      * @param 'login_tries_1'|'relogin_delay_1'|'login_tries_2'|'relogin_delay_2' $key
      */
-    private function getLoginPolicy(string $key): int {
+    private function getLoginPolicy(string $key): int
+    {
         $loginPolicy = rex::getProperty('backend_login_policy');
 
         if (array_key_exists($key, $loginPolicy)) {
