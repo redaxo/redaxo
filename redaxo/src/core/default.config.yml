@@ -15,6 +15,7 @@ backend_login_policy:
     relogin_delay_1: 5
     login_tries_2: 50
     relogin_delay_2: 3600
+    enable_stay_logged_in: true
 # using separate cookie domains for frontend and backend is more secure,
 # but be warned that some features like detecting a backend user in the frontend
 # will no longer work.

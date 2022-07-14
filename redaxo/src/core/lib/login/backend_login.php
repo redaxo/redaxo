@@ -53,8 +53,18 @@ class rex_backend_login extends rex_login
         $this->tableName = $tableName;
     }
 
+    /**
+     * @param bool $stayLoggedIn
+     * @return void
+     */
     public function setStayLoggedIn($stayLoggedIn = false)
     {
+        $enableStayLoggedIn = $this->getLoginPolicy('enable_stay_logged_in');
+
+        if ($enableStayLoggedIn !== 1) {
+            $stayLoggedIn = false;
+        }
+
         $this->stayLoggedIn = $stayLoggedIn;
     }
 
@@ -253,7 +263,7 @@ class rex_backend_login extends rex_login
     }
 
     /**
-     * @param 'login_tries_1'|'relogin_delay_1'|'login_tries_2'|'relogin_delay_2' $key
+     * @param 'login_tries_1'|'relogin_delay_1'|'login_tries_2'|'relogin_delay_2'|'enable_stay_logged_in' $key
      */
     public function getLoginPolicy(string $key): int
     {
@@ -274,6 +284,8 @@ class rex_backend_login extends rex_login
                 return 50;
             case 'relogin_delay_2':
                 return 3600;
+            case 'enable_stay_logged_in':
+                return 1; // bool-to-int
         }
 
         throw new rex_exception('Invalid login policy key: ' . $key);
