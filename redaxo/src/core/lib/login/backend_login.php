@@ -260,7 +260,20 @@ class rex_backend_login extends rex_login
         $loginPolicy = rex::getProperty('backend_login_policy');
 
         if (array_key_exists($key, $loginPolicy)) {
-            return $loginPolicy[$key];
+            return (int) $loginPolicy[$key];
+        }
+
+        // defaults, in case config.yml does not define values
+        // e.g. because of a redaxo core update from a version.
+        switch($key) {
+            case 'login_tries_1':
+                return 3;
+            case 'relogin_delay_1':
+                return 5;
+            case 'login_tries_2':
+                return 50;
+            case 'relogin_delay_2':
+                return 3600;
         }
 
         throw new rex_exception('Invalid login policy key: ' . $key);
