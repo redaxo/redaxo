@@ -61,7 +61,7 @@ class rex_backend_login extends rex_login
     {
         $enableStayLoggedIn = $this->getLoginPolicy('enable_stay_logged_in');
 
-        if ($enableStayLoggedIn !== 1) {
+        if (1 !== $enableStayLoggedIn) {
             $stayLoggedIn = false;
         }
 
@@ -275,7 +275,7 @@ class rex_backend_login extends rex_login
 
         // defaults, in case config.yml does not define values
         // e.g. because of a redaxo core update from a version.
-        switch($key) {
+        switch ($key) {
             case 'login_tries_1':
                 return 3;
             case 'relogin_delay_1':
