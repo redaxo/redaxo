@@ -34,13 +34,15 @@ class rex_backend_login extends rex_login
         $this->setImpersonateQuery($qry . ' WHERE id = :id');
         $this->passwordPolicy = rex_backend_password_policy::factory();
 
+        $loginPolicy = $this->getLoginPolicy();
+
         // XXX because with concat the time into the sql query, users of this class should use checkLogin() immediately after creating the object.
         $qry .= ' WHERE
             status = 1
             AND login = :login
-            AND (login_tries < ' . $this->getLoginPolicy('login_tries_1') . '
-                OR login_tries < ' . $this->getLoginPolicy('login_tries_2') . ' AND lasttrydate < "' . rex_sql::datetime(time() - $this->getLoginPolicy('relogin_delay_1')) . '"
-                OR lasttrydate < "' . rex_sql::datetime(time() - $this->getLoginPolicy('relogin_delay_2')) . '"
+            AND (login_tries < ' . $loginPolicy->getSetting('login_tries_1') . '
+                OR login_tries < ' . $loginPolicy->getSetting('login_tries_2') . ' AND lasttrydate < "' . rex_sql::datetime(time() - $loginPolicy->getSetting('relogin_delay_1')) . '"
+                OR lasttrydate < "' . rex_sql::datetime(time() - $loginPolicy->getSetting('relogin_delay_2')) . '"
             )';
 
         if ($blockAccountAfter = $this->passwordPolicy->getBlockAccountAfter()) {
@@ -59,9 +61,7 @@ class rex_backend_login extends rex_login
      */
     public function setStayLoggedIn($stayLoggedIn = false)
     {
-        $enableStayLoggedIn = $this->getLoginPolicy('enable_stay_logged_in');
-
-        if (1 !== $enableStayLoggedIn) {
+        if (!$this->getLoginPolicy()->isStayLoggedInEnabled()) {
             $stayLoggedIn = false;
         }
 
@@ -137,10 +137,12 @@ class rex_backend_login extends rex_login
             if ('' != $this->userLogin) {
                 $sql->setQuery('SELECT login_tries FROM ' . $this->tableName . ' WHERE login=? LIMIT 1', [$this->userLogin]);
                 if ($sql->getRows() > 0) {
+                    $loginPolify = $this->getLoginPolicy();
+
                     $loginTries = $sql->getValue('login_tries');
                     $sql->setQuery('UPDATE ' . $this->tableName . ' SET login_tries=login_tries+1,session_id="",lasttrydate=? WHERE login=? LIMIT 1', [rex_sql::datetime(), $this->userLogin]);
-                    if ($loginTries >= $this->getLoginPolicy('login_tries_1') - 1) {
-                        $time = $loginTries < $this->getLoginPolicy('login_tries_2') ? $this->getLoginPolicy('relogin_delay_1') : $this->getLoginPolicy('relogin_delay_2');
+                    if ($loginTries >= $loginPolify->getSetting('login_tries_1') - 1) {
+                        $time = $loginTries < $loginPolify->getSetting('login_tries_2') ? $loginPolify->getSetting('relogin_delay_1') : $loginPolify->getSetting('relogin_delay_2');
                         $hours = floor($time / 3600);
                         $mins = floor(($time - ($hours * 3600)) / 60);
                         $secs = $time % 60;
@@ -262,32 +264,10 @@ class rex_backend_login extends rex_login
         return rex::getProperty('instname'). '_backend';
     }
 
-    /**
-     * @param 'login_tries_1'|'relogin_delay_1'|'login_tries_2'|'relogin_delay_2'|'enable_stay_logged_in' $key
-     */
-    public function getLoginPolicy(string $key): int
+    public function getLoginPolicy(): rex_login_policy
     {
         $loginPolicy = (array) rex::getProperty('backend_login_policy', []);
 
-        if (array_key_exists($key, $loginPolicy)) {
-            return (int) $loginPolicy[$key];
-        }
-
-        // defaults, in case config.yml does not define values
-        // e.g. because of a redaxo core update from a version.
-        switch ($key) {
-            case 'login_tries_1':
-                return 3;
-            case 'relogin_delay_1':
-                return 5;
-            case 'login_tries_2':
-                return 50;
-            case 'relogin_delay_2':
-                return 3600;
-            case 'enable_stay_logged_in':
-                return 1; // bool-to-int
-        }
-
-        throw new rex_exception('Invalid login policy key: ' . $key);
+        return new rex_login_policy($loginPolicy);
     }
 }

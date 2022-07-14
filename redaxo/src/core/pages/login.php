@@ -86,6 +86,7 @@ $content .= $fragment->parse('core/form/form.php');
 
 $formElements = [];
 if (1 === rex::getProperty('login')->getLoginPolicy('enable_stay_logged_in')) {
+if (rex::getProperty('login')->getLoginPolicy()->isStayLoggedInEnabled()) {
     $n = [];
     $n['label'] = '<label for="rex-id-login-stay-logged-in">' . rex_i18n::msg('stay_logged_in') . '</label>';
     $n['field'] = '<input type="checkbox" name="rex_user_stay_logged_in" id="rex-id-login-stay-logged-in" value="1" />';
