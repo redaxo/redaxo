@@ -31,7 +31,7 @@ class rex_login_policy
 
         // defaults, in case config.yml does not define values
         // e.g. because of a redaxo core update from a version.
-        switch($key) {
+        switch ($key) {
             case 'login_tries_1':
                 return 3;
             case 'relogin_delay_1':
@@ -45,7 +45,8 @@ class rex_login_policy
         throw new rex_exception('Invalid login policy key: ' . $key);
     }
 
-    public function isStayLoggedInEnabled():bool {
+    public function isStayLoggedInEnabled(): bool
+    {
         $key = 'enable_stay_logged_in';
 
         if (array_key_exists($key, $this->options)) {
