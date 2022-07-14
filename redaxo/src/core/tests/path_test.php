@@ -47,7 +47,9 @@ class rex_path_test extends TestCase
 
     public function testFindBinaryPath(): void
     {
-        static::assertSame(PHP_BINARY, realpath(rex_path::findBinaryPath('php')));
+        $path = realpath(rex_path::findBinaryPath('php'));
+        static::assertNotNull($path);
+        static::assertSame(PHP_BINARY, $path);
     }
 
     public function testNotFoundBinaryPath(): void
