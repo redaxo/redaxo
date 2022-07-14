@@ -64,8 +64,9 @@ class rex_backend_login_test extends TestCase
     public function testSuccessfullReLoginAfterLoginTries1Seconds()
     {
         $login = new rex_backend_login();
+        $tries1 = $login->getLoginPolicy('login_tries_1');
 
-        for ($i = 0; $i < rex_backend_login::LOGIN_TRIES_1; ++$i) {
+        for ($i = 0; $i < $tries1; ++$i) {
             $login->setLogin($this->login, 'somethingwhichisnotcorrect', false);
             static::assertFalse($login->checkLogin());
         }
