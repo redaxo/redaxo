@@ -16,6 +16,9 @@ class rex_backend_login extends rex_login
      * @var string
      */
     private $tableName;
+    /**
+     * @var bool|null
+     */
     private $stayLoggedIn;
 
     /** @var rex_backend_password_policy */
