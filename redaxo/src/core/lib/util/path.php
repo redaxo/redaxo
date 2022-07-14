@@ -407,18 +407,18 @@ class rex_path
 
     public static function findBinaryPath(string $commandName): ?string
     {
-        $path = null;
-
-        if (function_exists('exec')) {
-            $out = [];
-            $cmd = sprintf('command -v %s || which %s', $commandName, $commandName);
-            exec($cmd, $out, $ret);
-
-            if (0 === $ret) {
-                $path = (string) $out[0];
-            }
+        if (!function_exists('exec')) {
+            return null;
         }
 
-        return $path;
+        $out = [];
+        $cmd = sprintf('command -v %s || which %s', $commandName, $commandName);
+        exec($cmd, $out, $ret);
+
+        if (0 === $ret) {
+            return (string) $out[0];
+        }
+
+        return null;
     }
 }
