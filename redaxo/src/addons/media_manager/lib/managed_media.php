@@ -342,7 +342,7 @@ class rex_managed_media
 
         $this->asImage = false;
         // PHP 7 compat
-        if (is_resource($this->image['src'])) { 
+        if (isset($this->image['src']) && is_resource($this->image['src'])) { 
             imagedestroy($this->image['src']);
         }
     }
