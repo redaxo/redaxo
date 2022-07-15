@@ -38,11 +38,11 @@ abstract class rex_form_base
     /** @var null|string */
     protected $formId;
 
-    /** @var rex_csrf_token */
-    private $csrfToken;
-
     /** @var array<string, string> */
     private $formAttributes;
+
+    /** @var rex_csrf_token */
+    private $csrfToken;
 
     /**
      * Diese Konstruktor sollte nicht verwendet werden. Instanzen muessen ueber die factory() Methode erstellt werden!
@@ -1002,31 +1002,31 @@ abstract class rex_form_base
         return $message;
     }
 
-    /**
-     * @return void
-     */
-    public function setFormAttribute(string $attributeName, ?string $attributeValue)
+    public function setFormAttribute(string $attributeName, ?string $attributeValue): void
     {
         $attributeName = preg_replace('/[^\w\d\-]/', '', strtolower($attributeName));
 
-        if (0 === mb_strlen($attributeName)) {
-            return;
+        if ('' === $attributeName) {
+            throw new rex_exception('The attribute name cannot be empty.');
         }
 
-        if (null === $attributeValue && array_key_exists($attributeName, $this->formAttributes)) {
-            unset($this->formAttributes[$attributeName]);
+        if (null === $attributeValue) {
+            if (array_key_exists($attributeName, $this->formAttributes)) {
+                unset($this->formAttributes[$attributeName]);
+            }
             return;
         }
 
         if ('id' === $attributeName) {
             $this->setFormId($attributeValue);
-        }
-
-        if (in_array($attributeName, ['method', 'action'])) {
             return;
         }
 
-        $this->formAttributes[$attributeName] = (string) $attributeValue;
+        if (in_array($attributeName, ['method', 'action'], true)) {
+            throw new rex_exception(sprintf('Attribute "%s" can not be set via %s.', $attributeName, __FUNCTION__));
+        }
+
+        $this->formAttributes[$attributeName] = $attributeValue;
     }
 
     /**
