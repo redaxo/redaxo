@@ -67,8 +67,15 @@ Customizer.init = function (container) {
         var mode = "application/x-httpd-php";
         var theme = rex.customizer_codemirror_defaulttheme;
 
-        if (document.body.classList.contains('rex-theme-dark')) {
-            theme = rex.customizer_codemirror_defaultdarktheme;
+        let systemDarkModeDetector = null;
+        if (window.matchMedia) {
+            systemDarkModeDetector = window.matchMedia('(prefers-color-scheme: dark)');
+            // Systemseitige Einstellung abfragen
+            if (systemDarkModeDetector.matches || document.body.classList.contains('rex-theme-dark')) {
+                theme = rex.customizer_codemirror_defaultdarktheme;
+            } else {
+                theme = rex.customizer_codemirror_defaulttheme;
+            }
         }
 
         var new_mode = t.attr("data-codemirror-mode");
