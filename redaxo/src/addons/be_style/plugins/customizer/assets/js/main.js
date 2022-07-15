@@ -71,11 +71,29 @@ Customizer.init = function (container) {
         if (window.matchMedia) {
             systemDarkModeDetector = window.matchMedia('(prefers-color-scheme: dark)');
             // Systemseitige Einstellung abfragen
-            if (systemDarkModeDetector.matches || document.body.classList.contains('rex-theme-dark')) {
+            if (systemDarkModeDetector.matches) {
                 theme = rex.customizer_codemirror_defaultdarktheme;
-            } else {
-                theme = rex.customizer_codemirror_defaulttheme;
             }
+            // Einstellung aus Profil
+            if (document.body.classList.contains('rex-theme-light')) {
+                theme = rex.customizer_codemirror_defaulttheme;
+            } else if (document.body.classList.contains('rex-theme-dark')) {
+                theme = rex.customizer_codemirror_defaultdarktheme;
+            }
+            // Systemseitiges Umschalten Dark/Light erkennen
+            systemDarkModeDetector.addEventListener('change', function (e) {
+                if (systemDarkModeDetector.matches) {
+                    theme = rex.customizer_codemirror_defaultdarktheme;
+                } else {
+                    theme = rex.customizer_codemirror_defaulttheme;
+                }
+                if (document.body.classList.contains('rex-theme-light')) {
+                    theme = rex.customizer_codemirror_defaulttheme;
+                } else if (document.body.classList.contains('rex-theme-dark')) {
+                    theme = rex.customizer_codemirror_defaultdarktheme;
+                }
+                cm_editor[cm].setOption('theme', theme);
+            });
         }
 
         var new_mode = t.attr("data-codemirror-mode");
