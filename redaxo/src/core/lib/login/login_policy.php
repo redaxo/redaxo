@@ -21,28 +21,34 @@ class rex_login_policy
     }
 
     /**
-     * @param 'login_tries_1'|'relogin_delay_1'|'login_tries_2'|'relogin_delay_2' $key
+     * Returns the number of allowed login tries, until a account will be blocked.
      */
-    public function getSetting(string $key): int
-    {
+    public function getMaxTries():int {
+        $key = 'login_tries';
+
         if (array_key_exists($key, $this->options)) {
             return (int) $this->options[$key];
         }
 
         // defaults, in case config.yml does not define values
         // e.g. because of a redaxo core update from a version.
-        switch ($key) {
-            case 'login_tries_1':
-                return 3;
-            case 'relogin_delay_1':
-                return 5;
-            case 'login_tries_2':
-                return 50;
-            case 'relogin_delay_2':
-                return 3600;
+        return 50;
+    }
+
+    /**
+     * Returns the relogin delay in seconds
+     */
+    public function getReloginDelay():int {
+        $key = 'relogin_delay';
+
+        if (array_key_exists($key, $this->options)) {
+            return (int) $this->options[$key];
         }
 
-        throw new rex_exception('Invalid login policy key: ' . $key);
+        // defaults, in case config.yml does not define values
+        // e.g. because of a redaxo core update from a version.
+        return 5;
+
     }
 
     public function isStayLoggedInEnabled(): bool
