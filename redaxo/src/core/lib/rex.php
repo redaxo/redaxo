@@ -134,6 +134,8 @@ class rex
      * @psalm-return (
      *     $key is 'login' ? rex_backend_login :
      *     ($key is 'debug' ? bool|array{enabled: bool, throw_always_exception: bool|int} :
+     *     ($key is 'editor' ? string|null :
+     *     ($key is 'editor_basepath' ? string|null :
      *     ($key is 'timer' ? rex_timer :
      *     ($key is 'timezone' ? string :
      *     ($key is 'table_prefix' ? non-empty-string :
@@ -154,7 +156,7 @@ class rex
      *     ($key is 'system_addons' ? non-empty-string[] :
      *     ($key is 'setup_addons' ? non-empty-string[] :
      *     mixed|null
-     *     ))))))))))))))))))))
+     *     ))))))))))))))))))))))
      * )
      */
     public static function getProperty($key, $default = null)
