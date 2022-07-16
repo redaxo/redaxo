@@ -67,7 +67,7 @@ if ('' != rex_post('btn_save', 'string')) {
 
 // load config
 
-/** @var array{codemirror_theme?: string, codemirror_darktheme?: string, codemirror-selectors?: string, codemirror-options?: string, codemirror: int, codemirror-langs?: int, codemirror-tools?: int, labelcolor: string, showlink: int, codemirror-autoresize?: bool} $config */
+/** @var array{codemirror_theme: string, codemirror_darktheme?: string, codemirror-selectors?: string, codemirror-options?: string, codemirror: int, codemirror-langs?: int, codemirror-tools?: int, labelcolor: string, showlink: int, codemirror-autoresize?: bool} $config */
 $config = rex_plugin::get('be_style', 'customizer')->getConfig();
 
 if (!isset($config['codemirror_darktheme'])) {
