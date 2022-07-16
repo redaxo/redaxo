@@ -19,7 +19,7 @@ class rex_cronjob_mailer_purge extends rex_cronjob
                     }
                 }
             }
-            if ('' != $dir && $dir != rex_mailer::logFolder() && is_dir($dir))) {
+            if ('' != $dir && $dir != rex_mailer::logFolder() && is_dir($dir)) {
                 @rmdir($dir);
             }
         }
