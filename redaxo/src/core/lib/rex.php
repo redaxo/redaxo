@@ -131,7 +131,7 @@ class rex
      * @throws InvalidArgumentException on invalid parameters
      *
      * @return mixed The value for $key or $default if $key cannot be found
-     * @return-psalm (
+     * @psalm-return (
      *     $key is 'login' ? rex_backend_login :
      *     ($key is 'timer' ? rex_timer :
      *     ($key is 'lang' ? string :
