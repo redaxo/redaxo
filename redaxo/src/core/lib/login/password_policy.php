@@ -31,8 +31,7 @@ class rex_password_policy
     public function check(
         #[\SensitiveParameter]
         $password, $id = null
-    )
-    {
+    ) {
         if ($this->isValid($password)) {
             return true;
         }
@@ -78,8 +77,7 @@ class rex_password_policy
     protected function isValid(
         #[\SensitiveParameter]
         $password
-    )
-    {
+    ) {
         foreach ($this->options as $key => $options) {
             switch ($key) {
                 case 'length':

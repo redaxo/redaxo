@@ -188,8 +188,8 @@ class rex_sql implements Iterator
         #[\SensitiveParameter]
         $password,
         $persistent = false,
-        array $options = [])
-    {
+        array $options = []
+    ) {
         if (!$database) {
             throw new InvalidArgumentException('Database name can not be empty.');
         }
