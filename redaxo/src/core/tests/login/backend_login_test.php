@@ -82,12 +82,11 @@ class rex_backend_login_test extends TestCase
         $login->setLogin($this->login, $this->password, false);
         static::assertFalse($login->checkLogin(), 'even seconds later account is locked');
 
-        // FIXME Does not work at travis
-        //sleep(rex_backend_login::RELOGIN_DELAY_1 + 2);
+        sleep($login->getLoginPolicy()->getReloginDelay() + 1);
 
-        //$login = new rex_backend_login();
-        //$login->setLogin($this->login, $this->password, false);
-        //$this->assertTrue($login->checkLogin(), 'after waiting the account should be unlocked');
+        $login = new rex_backend_login();
+        $login->setLogin($this->login, $this->password, false);
+        $this->assertTrue($login->checkLogin(), 'after waiting the account should be unlocked');
     }
 
     public function testLogout()
