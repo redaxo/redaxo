@@ -11,7 +11,7 @@ dirperm: '0775'
 session_duration: 7200
 session_keep_alive: 21600
 backend_login_policy:
-    login_tries: 50
+    login_tries: 3
     relogin_delay: 5
     enable_stay_logged_in: true
 # using separate cookie domains for frontend and backend is more secure,
