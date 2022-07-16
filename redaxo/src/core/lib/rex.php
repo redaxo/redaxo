@@ -159,7 +159,7 @@ class rex
         if (isset(self::$properties[$key])) {
             return self::$properties[$key];
         }
-        /** @psalm-suppress NullableReturnStatement **/
+        /** @psalm-suppress MixedReturnStatement **/
         return $default;
     }
 
