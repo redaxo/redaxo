@@ -1266,11 +1266,11 @@ abstract class rex_form_base
         }
 
         $s .= sprintf('<form %s %s action="%s" method="%s">' . "\n",
-                $id,
-                rex_string::buildAttributes($this->formAttributes),
-                rex_url::backendController($actionParams),
-                $this->method
-            );
+            $id,
+            rex_string::buildAttributes($this->formAttributes),
+            rex_url::backendController($actionParams),
+            $this->method
+        );
         foreach ($fieldsets as $fieldsetName => $fieldsetElements) {
             $s .= '<fieldset>' . "\n";
 
