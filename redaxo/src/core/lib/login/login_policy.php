@@ -5,7 +5,7 @@
  *
  * @package redaxo\core\login
  */
-class rex_login_policy
+final class rex_login_policy
 {
     /**
      * @var array<string, int|bool>
