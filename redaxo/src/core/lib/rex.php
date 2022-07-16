@@ -140,7 +140,7 @@ class rex
      *     ($key is 'start_page' ? string :
      *     ($key is 'socket_proxy' ? string :
      *     ($key is 'password_policy' ? array<string, scalar> :
-     *     ($key is 'backend_login_policy' ? array<string, scalar> :
+     *     ($key is 'backend_login_policy' ? array<string, bool|int> :
      *     ($key is 'db' ? array<int, string[]> :
      *     ($key is 'setup' ? bool|array<string, int> :
      *     ($key is 'system_addons' ? string[] :
@@ -154,9 +154,11 @@ class rex
         if (!is_string($key)) {
             throw new InvalidArgumentException('Expecting $key to be string, but ' . gettype($key) . ' given!');
         }
+        /** @psalm-suppress MixedReturnStatement **/
         if (isset(self::$properties[$key])) {
             return self::$properties[$key];
         }
+        /** @psalm-suppress MixedReturnStatement **/
         return $default;
     }
 
