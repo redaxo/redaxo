@@ -140,9 +140,9 @@ class rex
      *     ($key is 'start_page' ? string :
      *     ($key is 'socket_proxy' ? string :
      *     ($key is 'password_policy' ? array<string, scalar> :
-     *     ($key is 'backend_login_policy' ? string[] :
+     *     ($key is 'backend_login_policy' ? array<string, scalar> :
      *     ($key is 'db' ? array<int, string[]> :
-     *     ($key is 'setup' ? bool :
+     *     ($key is 'setup' ? bool|array<string, int> :
      *     ($key is 'system_addons' ? string[] :
      *     ($key is 'setup_addons' ? string[] :
      *     mixed
