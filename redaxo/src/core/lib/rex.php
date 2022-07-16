@@ -132,13 +132,13 @@ class rex
      *
      * @return mixed The value for $key or $default if $key cannot be found
      * @psalm-return (
-     *     $key is 'login' ? rex_backend_login :
+     *     $key is 'login' ? rex_backend_login|null :
      *     ($key is 'timer' ? rex_timer :
      *     ($key is 'lang' ? string :
      *     ($key is 'instname' ? string :
-     *     ($key is 'theme' ? string :
+     *     ($key is 'theme' ? string|null :
      *     ($key is 'start_page' ? string :
-     *     ($key is 'socket_proxy' ? string :
+     *     ($key is 'socket_proxy' ? string|null :
      *     ($key is 'password_policy' ? array<string, scalar> :
      *     ($key is 'backend_login_policy' ? array<string, bool|int> :
      *     ($key is 'db' ? array<int, string[]> :
