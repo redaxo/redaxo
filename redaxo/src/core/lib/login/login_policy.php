@@ -5,7 +5,7 @@
  *
  * @package redaxo\core\login
  */
-class rex_login_policy
+final class rex_login_policy
 {
     /**
      * @var array<string, int|bool>
@@ -21,28 +21,69 @@ class rex_login_policy
     }
 
     /**
-     * @param 'login_tries_1'|'relogin_delay_1'|'login_tries_2'|'relogin_delay_2' $key
+     * Returns the number of allowed login tries, until login will be delayed.
+     *
+     * @return positive-int
      */
-    public function getSetting(string $key): int
+    public function getMaxTriesUntilDelay(): int
     {
+        $key = 'login_tries_until_delay';
+
         if (array_key_exists($key, $this->options)) {
-            return (int) $this->options[$key];
+            $val = (int) $this->options[$key];
+            if ($val <= 0) {
+                throw new InvalidArgumentException('Invalid value for option "' . $key . '": ' . $val);
+            }
+            return $val;
         }
 
         // defaults, in case config.yml does not define values
         // e.g. because of a redaxo core update from a version.
-        switch ($key) {
-            case 'login_tries_1':
-                return 3;
-            case 'relogin_delay_1':
-                return 5;
-            case 'login_tries_2':
-                return 50;
-            case 'relogin_delay_2':
-                return 3600;
+        return 3;
+    }
+
+    /**
+     * Returns the number of allowed login tries, until login will be blocked.
+     *
+     * @return positive-int
+     */
+    public function getMaxTriesUntilBlock(): int
+    {
+        $key = 'login_tries_until_blocked';
+
+        if (array_key_exists($key, $this->options)) {
+            $val = (int) $this->options[$key];
+            if ($val <= 0) {
+                throw new InvalidArgumentException('Invalid value for option "' . $key . '": ' . $val);
+            }
+            return $val;
         }
 
-        throw new rex_exception('Invalid login policy key: ' . $key);
+        // defaults, in case config.yml does not define values
+        // e.g. because of a redaxo core update from a version.
+        return 50;
+    }
+
+    /**
+     * Returns the relogin delay in seconds.
+     *
+     * @return positive-int
+     */
+    public function getReloginDelay(): int
+    {
+        $key = 'relogin_delay';
+
+        if (array_key_exists($key, $this->options)) {
+            $val = (int) $this->options[$key];
+            if ($val <= 0) {
+                throw new InvalidArgumentException('Invalid value for option "' . $key . '": ' . $val);
+            }
+            return $val;
+        }
+
+        // defaults, in case config.yml does not define values
+        // e.g. because of a redaxo core update from a version.
+        return 5;
     }
 
     public function isStayLoggedInEnabled(): bool

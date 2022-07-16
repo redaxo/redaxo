@@ -44,3 +44,7 @@ parameters:
         -
             message: '#.*deprecated.*#'
             path: '*/update.php'
+        -
+            message: '#Method .*::test.* has no return type specified.#'
+            path: '*/core/tests/*.php'
+

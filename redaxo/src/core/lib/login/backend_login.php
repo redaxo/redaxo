@@ -43,9 +43,11 @@ class rex_backend_login extends rex_login
         $qry .= ' WHERE
             status = 1
             AND login = :login
-            AND (login_tries < ' . $loginPolicy->getSetting('login_tries_1') . '
-                OR login_tries < ' . $loginPolicy->getSetting('login_tries_2') . ' AND lasttrydate < "' . rex_sql::datetime(time() - $loginPolicy->getSetting('relogin_delay_1')) . '"
-                OR lasttrydate < "' . rex_sql::datetime(time() - $loginPolicy->getSetting('relogin_delay_2')) . '"
+            AND login_tries < '. $loginPolicy->getMaxTriesUntilBlock() .'
+            AND (
+                login_tries < ' . $loginPolicy->getMaxTriesUntilDelay() . '
+                OR
+                login_tries >= ' . $loginPolicy->getMaxTriesUntilDelay() . ' AND lasttrydate < "' . rex_sql::datetime(time() - $loginPolicy->getReloginDelay()) . '"
             )';
 
         if ($blockAccountAfter = $this->passwordPolicy->getBlockAccountAfter()) {
@@ -144,8 +146,8 @@ class rex_backend_login extends rex_login
 
                     $loginTries = $sql->getValue('login_tries');
                     $this->increaseLoginTries();
-                    if ($loginTries >= $loginPolify->getSetting('login_tries_1') - 1) {
-                        $time = $loginTries < $loginPolify->getSetting('login_tries_2') ? $loginPolify->getSetting('relogin_delay_1') : $loginPolify->getSetting('relogin_delay_2');
+                    if ($loginTries >= $loginPolify->getMaxTriesUntilDelay() - 1) {
+                        $time = $loginPolify->getReloginDelay();
                         $hours = floor($time / 3600);
                         $mins = floor(($time - ($hours * 3600)) / 60);
                         $secs = $time % 60;
