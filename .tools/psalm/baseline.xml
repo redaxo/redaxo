@@ -108,29 +108,14 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/be_style/plugins/customizer/boot.php">
-    <MixedOperand occurrences="4">
+    <MixedOperand occurrences="2">
       <code>$_SESSION['codemirror_reload']</code>
       <code>$_SESSION['codemirror_reload']</code>
-      <code>$config['codemirror-selectors']</code>
-      <code>$config['codemirror_theme']</code>
     </MixedOperand>
     <PossiblyNullOperand occurrences="2">
       <code>rex_file::get($filename)</code>
       <code>rex_file::get($filename)</code>
     </PossiblyNullOperand>
-  </file>
-  <file src="redaxo/src/addons/be_style/plugins/customizer/pages/system.customizer.php">
-    <MixedArgument occurrences="5">
-      <code>$config['codemirror-selectors']</code>
-      <code>$config['labelcolor']</code>
-      <code>$config['labelcolor']</code>
-      <code>$labelcolor</code>
-      <code>$newConfig['codemirror_theme']</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="2">
-      <code>$labelcolor</code>
-      <code>$tempConfig['codemirror-selectors']</code>
-    </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/be_style/plugins/redaxo/boot.php">
     <MixedArgument occurrences="1">
