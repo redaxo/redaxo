@@ -17,6 +17,7 @@ permissions:
 jobs:
     visual-tests:
         runs-on: ubuntu-latest
+        timeout-minutes: 5
         permissions:
             contents: write  # for Git to git apply
 

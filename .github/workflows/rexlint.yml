@@ -12,6 +12,7 @@ permissions:
 jobs:
     rexlint:
         runs-on: ubuntu-18.04
+        timeout-minutes: 5
         if: github.event.pull_request.draft == false
 
         steps:
