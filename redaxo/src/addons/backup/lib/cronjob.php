@@ -50,8 +50,8 @@ class rex_cronjob_export extends rex_cronjob
 
             if ($this->getParam('delete_interval')) {
                 $allSqlfiles = array_merge(
-                    glob(rex_path::addonData('backup', '*'.$ext)),
-                    glob(rex_path::addonData('backup', '*'.$ext.'.gz'))
+                    glob(rex_path::addonData('backup', '*'.$ext, GLOB_NOSORT)),
+                    glob(rex_path::addonData('backup', '*'.$ext.'.gz', GLOB_NOSORT))
                 );
                 $backups = [];
                 $limit = strtotime('-1 month'); // Generelle Vorhaltezeit: 1 Monat
