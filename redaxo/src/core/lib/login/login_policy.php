@@ -39,7 +39,7 @@ final class rex_login_policy
 
         // defaults, in case config.yml does not define values
         // e.g. because of a redaxo core update from a version.
-        return 5;
+        return 3;
     }
 
     /**
