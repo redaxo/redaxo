@@ -114,7 +114,7 @@ class rex_editor
 
         $editor = array_key_exists('editor', $_COOKIE) ? $_COOKIE['editor'] : rex::getProperty('editor');
 
-        if ($editor !== null && array_key_exists($editor, $supportedEditors)) {
+        if (null !== $editor && array_key_exists($editor, $supportedEditors)) {
             return $editor;
         }
 
