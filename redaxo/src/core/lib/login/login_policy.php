@@ -25,7 +25,8 @@ class rex_login_policy
      *
      * Additional rules might apply via `rex_backend_password_policy`.
      */
-    public function getMaxTries():int {
+    public function getMaxTries(): int
+    {
         $key = 'login_tries';
 
         if (array_key_exists($key, $this->options)) {
@@ -38,9 +39,10 @@ class rex_login_policy
     }
 
     /**
-     * Returns the relogin delay in seconds
+     * Returns the relogin delay in seconds.
      */
-    public function getReloginDelay():int {
+    public function getReloginDelay(): int
+    {
         $key = 'relogin_delay';
 
         if (array_key_exists($key, $this->options)) {
@@ -50,7 +52,6 @@ class rex_login_policy
         // defaults, in case config.yml does not define values
         // e.g. because of a redaxo core update from a version.
         return 5;
-
     }
 
     public function isStayLoggedInEnabled(): bool
