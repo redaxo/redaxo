@@ -131,6 +131,22 @@ class rex
      * @throws InvalidArgumentException on invalid parameters
      *
      * @return mixed The value for $key or $default if $key cannot be found
+     * @return-psalm (
+     *     $key is 'login' ? rex_backend_login :
+     *     ($key is 'timer' ? rex_timer :
+     *     ($key is 'lang' ? string :
+     *     ($key is 'theme' ? string :
+     *     ($key is 'start_page' ? string :
+     *     ($key is 'socket_proxy' ? string :
+     *     ($key is 'password_policy' ? rex_password_policy :
+     *     ($key is 'backend_login_policy' ? rex_login_policy :
+     *     ($key is 'db' ? array<int, string[]> :
+     *     ($key is 'setup' ? bool :
+     *     ($key is 'system_addons' ? string[] :
+     *     ($key is 'setup_addons' ? string[] :
+     *     mixed
+     *     )))))))))))
+     * )
      */
     public static function getProperty($key, $default = null)
     {
