@@ -21,7 +21,9 @@ class rex_login_policy
     }
 
     /**
-     * Returns the number of allowed login tries, until a account will be blocked.
+     * Returns the number of allowed login tries, until login will be delayed.
+     *
+     * Additional rules might apply via `rex_backend_password_policy`.
      */
     public function getMaxTries():int {
         $key = 'login_tries';
