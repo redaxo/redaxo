@@ -145,7 +145,7 @@ class rex
      *     ($key is 'setup' ? bool|array<string, int> :
      *     ($key is 'system_addons' ? string[] :
      *     ($key is 'setup_addons' ? string[] :
-     *     mixed
+     *     mixed|null
      *     ))))))))))))
      * )
      */
