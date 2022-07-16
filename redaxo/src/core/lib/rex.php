@@ -138,6 +138,7 @@ class rex
      *     ($key is 'temp_prefix' ? non-empty-string :
      *     ($key is 'server' ? string :
      *     ($key is 'servername' ? string :
+     *     ($key is 'error_email' ? string :
      *     ($key is 'lang' ? non-empty-string :
      *     ($key is 'instname' ? non-empty-string :
      *     ($key is 'theme' ? non-empty-string :
@@ -150,7 +151,7 @@ class rex
      *     ($key is 'system_addons' ? non-empty-string[] :
      *     ($key is 'setup_addons' ? non-empty-string[] :
      *     mixed|null
-     *     ))))))))))))))))
+     *     )))))))))))))))))
      * )
      */
     public static function getProperty($key, $default = null)
