@@ -43,9 +43,11 @@ class rex_backend_login extends rex_login
         $qry .= ' WHERE
             status = 1
             AND login = :login
-            AND login_tries < ' . $loginPolicy->getMaxTries() . '
-            AND lasttrydate < "' . rex_sql::datetime(time() - $loginPolicy->getReloginDelay()) . '"
-            ';
+            AND (
+                login_tries < ' . $loginPolicy->getMaxTries() . '
+                OR
+                login_tries >= ' . $loginPolicy->getMaxTries() . ' AND lasttrydate < "' . rex_sql::datetime(time() - $loginPolicy->getReloginDelay()) . '"
+            )';
 
         if ($blockAccountAfter = $this->passwordPolicy->getBlockAccountAfter()) {
             $datetime = (new DateTimeImmutable())->sub($blockAccountAfter);

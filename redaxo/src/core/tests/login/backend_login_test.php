@@ -59,9 +59,9 @@ class rex_backend_login_test extends TestCase
     }
 
     /**
-     * After LOGIN_TRIES_1 requests, the account should be not accessible for RELOGIN_DELAY_1 seconds.
+     * After LOGIN_TRIES requests, the account should be not accessible for RELOGIN_DELAY seconds.
      */
-    public function testSuccessfullReLoginAfterLoginTries1Seconds()
+    public function testSuccessfullReLoginAfterLoginTriesSeconds()
     {
         $login = new rex_backend_login();
         $tries = $login->getLoginPolicy()->getMaxTries();
