@@ -24,13 +24,19 @@ final class rex_login_policy
      * Returns the number of allowed login tries, until login will be delayed.
      *
      * Additional rules might apply via `rex_backend_password_policy`.
+     *
+     * @return positive-int
      */
     public function getMaxTries(): int
     {
         $key = 'login_tries';
 
         if (array_key_exists($key, $this->options)) {
-            return (int) $this->options[$key];
+            $val = (int) $this->options[$key];
+            if ($val <= 0) {
+                throw new InvalidArgumentException('Invalid value for option "' . $key . '": ' . $val);
+            }
+            return $val;
         }
 
         // defaults, in case config.yml does not define values
@@ -40,13 +46,19 @@ final class rex_login_policy
 
     /**
      * Returns the relogin delay in seconds.
+     *
+     * @return positive-int
      */
     public function getReloginDelay(): int
     {
         $key = 'relogin_delay';
 
         if (array_key_exists($key, $this->options)) {
-            return (int) $this->options[$key];
+            $val = (int) $this->options[$key];
+            if ($val <= 0) {
+                throw new InvalidArgumentException('Invalid value for option "' . $key . '": ' . $val);
+            }
+            return $val;
         }
 
         // defaults, in case config.yml does not define values
