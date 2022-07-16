@@ -9,10 +9,6 @@
 class rex_backend_login extends rex_login
 {
     public const SYSTEM_ID = 'backend_login';
-    public const LOGIN_TRIES_1 = 3;
-    public const RELOGIN_DELAY_1 = 5;    // relogin delay after LOGIN_TRIES_1 tries
-    public const LOGIN_TRIES_2 = 50;
-    public const RELOGIN_DELAY_2 = 3600; // relogin delay after LOGIN_TRIES_2 tries
 
     private const SESSION_PASSWORD_CHANGE_REQUIRED = 'password_change_required';
 
@@ -20,6 +16,9 @@ class rex_backend_login extends rex_login
      * @var string
      */
     private $tableName;
+    /**
+     * @var bool|null
+     */
     private $stayLoggedIn;
 
     /** @var rex_backend_password_policy */
@@ -38,13 +37,15 @@ class rex_backend_login extends rex_login
         $this->setImpersonateQuery($qry . ' WHERE id = :id');
         $this->passwordPolicy = rex_backend_password_policy::factory();
 
+        $loginPolicy = $this->getLoginPolicy();
+
         // XXX because with concat the time into the sql query, users of this class should use checkLogin() immediately after creating the object.
         $qry .= ' WHERE
             status = 1
             AND login = :login
-            AND (login_tries < ' . self::LOGIN_TRIES_1 . '
-                OR login_tries < ' . self::LOGIN_TRIES_2 . ' AND lasttrydate < "' . rex_sql::datetime(time() - self::RELOGIN_DELAY_1) . '"
-                OR lasttrydate < "' . rex_sql::datetime(time() - self::RELOGIN_DELAY_2) . '"
+            AND (login_tries < ' . $loginPolicy->getSetting('login_tries_1') . '
+                OR login_tries < ' . $loginPolicy->getSetting('login_tries_2') . ' AND lasttrydate < "' . rex_sql::datetime(time() - $loginPolicy->getSetting('relogin_delay_1')) . '"
+                OR lasttrydate < "' . rex_sql::datetime(time() - $loginPolicy->getSetting('relogin_delay_2')) . '"
             )';
 
         if ($blockAccountAfter = $this->passwordPolicy->getBlockAccountAfter()) {
@@ -57,8 +58,16 @@ class rex_backend_login extends rex_login
         $this->tableName = $tableName;
     }
 
+    /**
+     * @param bool $stayLoggedIn
+     * @return void
+     */
     public function setStayLoggedIn($stayLoggedIn = false)
     {
+        if (!$this->getLoginPolicy()->isStayLoggedInEnabled()) {
+            $stayLoggedIn = false;
+        }
+
         $this->stayLoggedIn = $stayLoggedIn;
     }
 
@@ -131,11 +140,12 @@ class rex_backend_login extends rex_login
             if ('' != $this->userLogin) {
                 $sql->setQuery('SELECT login_tries FROM ' . $this->tableName . ' WHERE login=? LIMIT 1', [$this->userLogin]);
                 if ($sql->getRows() > 0) {
+                    $loginPolify = $this->getLoginPolicy();
+
                     $loginTries = $sql->getValue('login_tries');
                     $this->increaseLoginTries();
-
-                    if ($loginTries >= self::LOGIN_TRIES_1 - 1) {
-                        $time = $loginTries < self::LOGIN_TRIES_2 ? self::RELOGIN_DELAY_1 : self::RELOGIN_DELAY_2;
+                    if ($loginTries >= $loginPolify->getSetting('login_tries_1') - 1) {
+                        $time = $loginTries < $loginPolify->getSetting('login_tries_2') ? $loginPolify->getSetting('relogin_delay_1') : $loginPolify->getSetting('relogin_delay_2');
                         $hours = floor($time / 3600);
                         $mins = floor(($time - ($hours * 3600)) / 60);
                         $secs = $time % 60;
@@ -177,6 +187,9 @@ class rex_backend_login extends rex_login
         }
     }
 
+    /**
+     * @return void
+     */
     public static function deleteSession()
     {
         self::startSession();
@@ -261,5 +274,13 @@ class rex_backend_login extends rex_login
     protected static function getSessionNamespace()
     {
         return rex::getProperty('instname'). '_backend';
+    }
+
+    public function getLoginPolicy(): rex_login_policy
+    {
+        $loginPolicy = (array) rex::getProperty('backend_login_policy', []);
+
+        /** @psalm-suppress MixedArgumentTypeCoercion **/
+        return new rex_login_policy($loginPolicy);
     }
 }
