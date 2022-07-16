@@ -20,9 +20,10 @@ requires:
 default_config:
     labelcolor: '#3bb594'
     codemirror_theme: 'eclipse'
+    codemirror_darktheme: 'dracula'
     codemirror-selectors: ''
+    codemirror-options: ''
     codemirror: 1
     codemirror-langs: 0
     codemirror-tools: 0
     showlink: 1
-
