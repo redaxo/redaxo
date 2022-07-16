@@ -97,8 +97,13 @@ class rex_login
     /**
      * Setzt den Login und das Password.
      */
-    public function setLogin($login, $password, $isPreHashed = false)
-    {
+    public function setLogin(
+        #[\SensitiveParameter]
+        $login,
+        #[\SensitiveParameter]
+        $password,
+        $isPreHashed = false
+    ) {
         $this->userLogin = $login;
         $this->userPassword = $isPreHashed ? $password : sha1($password);
     }
@@ -335,8 +340,10 @@ class rex_login
         $this->setSessionVar('impersonator', null);
     }
 
-    public function changedPassword(string $passwordHash): void
-    {
+    public function changedPassword(
+        #[\SensitiveParameter]
+        string $passwordHash
+    ): void {
         $this->setSessionVar('password', $passwordHash);
     }
 
@@ -519,8 +526,11 @@ class rex_login
      *
      * @return string Returns the hashed password
      */
-    public static function passwordHash($password, $isPreHashed = false)
-    {
+    public static function passwordHash(
+        #[\SensitiveParameter]
+        $password,
+        $isPreHashed = false
+    ) {
         $password = $isPreHashed ? $password : sha1($password);
         $hash = password_hash($password, PASSWORD_DEFAULT);
         if (!is_string($hash)) {
@@ -532,8 +542,13 @@ class rex_login
     /**
      * @return bool returns TRUE if the password and hash match, or FALSE otherwise
      */
-    public static function passwordVerify($password, $hash, $isPreHashed = false)
-    {
+    public static function passwordVerify(
+        #[\SensitiveParameter]
+        $password,
+        #[\SensitiveParameter]
+        $hash,
+        $isPreHashed = false
+    ) {
         $password = $isPreHashed ? $password : sha1($password);
         return password_verify($password, $hash);
     }
@@ -541,8 +556,10 @@ class rex_login
     /**
      * @return bool returns TRUE if the hash should be rehashed to match the given algo and options, or FALSE otherwise
      */
-    public static function passwordNeedsRehash($hash)
-    {
+    public static function passwordNeedsRehash(
+        #[\SensitiveParameter]
+        $hash
+    ) {
         return password_needs_rehash($hash, PASSWORD_DEFAULT);
     }
 

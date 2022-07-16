@@ -5092,6 +5092,9 @@
       <code>$this-&gt;userLogin</code>
       <code>rex::getProperty('instname')</code>
     </MixedOperand>
+    <UndefinedAttributeClass occurrences="1">
+      <code>\SensitiveParameter</code>
+    </UndefinedAttributeClass>
   </file>
   <file src="redaxo/src/core/lib/login/backend_password_policy.php">
     <MixedArgument occurrences="1">
@@ -5171,6 +5174,9 @@
     <MixedOperand occurrences="1">
       <code>$this-&gt;sessionDuration</code>
     </MixedOperand>
+    <UndefinedAttributeClass occurrences="1">
+      <code>\SensitiveParameter</code>
+    </UndefinedAttributeClass>
   </file>
   <file src="redaxo/src/core/lib/login/password_policy.php">
     <MixedArgument occurrences="6">
@@ -5184,6 +5190,9 @@
     <PossiblyNullArgument occurrences="1">
       <code>$this-&gt;getDescription()</code>
     </PossiblyNullArgument>
+    <UndefinedAttributeClass occurrences="1">
+      <code>\SensitiveParameter</code>
+    </UndefinedAttributeClass>
   </file>
   <file src="redaxo/src/core/lib/login/perm.php">
     <MixedArgument occurrences="1">
@@ -5245,6 +5254,9 @@
       <code>getComplexPerm</code>
       <code>hasPerm</code>
     </PossiblyNullReference>
+    <UndefinedAttributeClass occurrences="1">
+      <code>\SensitiveParameter</code>
+    </UndefinedAttributeClass>
   </file>
   <file src="redaxo/src/core/lib/packages/addons/addon.php">
     <MixedArgument occurrences="5">
@@ -5766,6 +5778,12 @@
       <code>getValue</code>
       <code>getValue</code>
     </PossiblyNullReference>
+    <UndefinedAttributeClass occurrences="4">
+      <code>\SensitiveParameter</code>
+      <code>\SensitiveParameter</code>
+      <code>\SensitiveParameter</code>
+      <code>\SensitiveParameter</code>
+    </UndefinedAttributeClass>
     <UnusedForeachValue occurrences="3">
       <code>$value</code>
       <code>$value</code>
