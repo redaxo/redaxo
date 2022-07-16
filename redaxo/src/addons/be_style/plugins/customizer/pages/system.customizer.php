@@ -16,7 +16,7 @@ if ('' != rex_post('btn_save', 'string')) {
 
     $tempConfig['codemirror-selectors'] = '';
     if (isset($newConfig['codemirror-selectors'])) {
-        $tempConfig['codemirror-selectors'] = $newConfig['codemirror-selectors'];
+        $tempConfig['codemirror-selectors'] = (string) $newConfig['codemirror-selectors'];
     }
 
     $tempConfig['codemirror-langs'] = 0;
@@ -34,9 +34,16 @@ if ('' != rex_post('btn_save', 'string')) {
         $tempConfig['codemirror-autoresize'] = 1;
     }
 
-    $tempConfig['codemirror_theme'] = htmlspecialchars($newConfig['codemirror_theme']);
+    $tempConfig['codemirror-options'] = '';
+    if (isset($newConfig['codemirror-options'])) {
+        $tempConfig['codemirror-options'] = (string) $newConfig['codemirror-options'];
+    }
 
-    $labelcolor = $newConfig['labelcolor'];
+    $tempConfig['codemirror_theme'] = htmlspecialchars((string) $newConfig['codemirror_theme']);
+
+    $tempConfig['codemirror_darktheme'] = htmlspecialchars((string) $newConfig['codemirror_darktheme']);
+
+    $labelcolor = (string) $newConfig['labelcolor'];
     if ('' == $labelcolor) {
         $tempConfig['labelcolor'] = '';
     } else {
@@ -49,7 +56,6 @@ if ('' != rex_post('btn_save', 'string')) {
     }
 
     // save config
-
     if (rex_plugin::get('be_style', 'customizer')->setConfig($tempConfig)) {
         $success = rex_i18n::msg('customizer_config_updated');
     } else {
@@ -61,7 +67,12 @@ if ('' != rex_post('btn_save', 'string')) {
 
 // load config
 
+/** @var array{codemirror_theme: string, codemirror_darktheme: string, codemirror-selectors: string, codemirror-options: string, codemirror: int, codemirror-langs: int, codemirror-tools: int, labelcolor: string, showlink: int, codemirror-autoresize?: bool} $config */
 $config = rex_plugin::get('be_style', 'customizer')->getConfig();
+
+if (!isset($config['codemirror_darktheme'])) {
+    $config['codemirror_darktheme'] = $config['codemirror_theme'];
+}
 if (!isset($config['codemirror-langs'])) {
     $config['codemirror-langs'] = 0;
 }
@@ -73,6 +84,9 @@ if (!isset($config['codemirror-autoresize'])) {
 }
 if (!isset($config['codemirror-selectors'])) {
     $config['codemirror-selectors'] = '';
+}
+if (!isset($config['codemirror-options'])) {
+    $config['codemirror-options'] = '';
 }
 
 // build elements
@@ -92,8 +106,18 @@ $tselect->setSize(1);
 $tselect->setAttribute('class', 'form-control selectpicker');
 $tselect->setAttribute('data-live-search', 'true');
 $tselect->setSelected($config['codemirror_theme']);
+
+$tselectdark = new rex_select();
+$tselectdark->setId('customizer-codemirror_darktheme');
+$tselectdark->setName('settings[codemirror_darktheme]');
+$tselectdark->setSize(1);
+$tselectdark->setAttribute('class', 'form-control selectpicker');
+$tselectdark->setAttribute('data-live-search', 'true');
+$tselectdark->setSelected($config['codemirror_darktheme']);
+
 foreach ($themes as $theme) {
     $tselect->addOption($theme, $theme);
+    $tselectdark->addOption($theme, $theme);
 }
 
 // messages
@@ -136,8 +160,8 @@ $n['field'] = $tselect->get();
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '';
-$n['field'] = '<p>' . rex_i18n::msg('customizer_codemirror_info') . '</p>';
+$n['label'] = '<label for="customizer-codemirror_darktheme">' . rex_i18n::msg('customizer_codemirror_darktheme') . '</label>';
+$n['field'] = $tselectdark->get();
 $formElements[] = $n;
 
 $n = [];
@@ -156,6 +180,17 @@ $n = [];
 $n['label'] = '<label for="customizer-codemirror-autoresize">' . rex_i18n::msg('customizer_codemirror_autoresize') . '</label>';
 $n['field'] = '<input type="checkbox" id="customizer-codemirror-autoresize" name="settings[codemirror-autoresize]" value="1" ' . ($config['codemirror-autoresize'] ? 'checked="checked" ' : '') . '/>';
 $n['field'] .= ' '.rex_i18n::msg('customizer_codemirror_autoresize_text');
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="customizer-codemirror-options">' . rex_i18n::msg('customizer_codemirror_options') . '</label>';
+$n['field'] = '<textarea rows="4" class="form-control" id="customizer-codemirror-options" name="settings[codemirror-options]">' . htmlspecialchars($config['codemirror-options']) . '</textarea>';
+$n['note'] = rex_i18n::msg('customizer_codemirror_options_info');
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '';
+$n['field'] = '<p>' . rex_i18n::msg('customizer_codemirror_info') . '</p>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();

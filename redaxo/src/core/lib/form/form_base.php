@@ -38,6 +38,9 @@ abstract class rex_form_base
     /** @var null|string */
     protected $formId;
 
+    /** @var array<string, string> */
+    private $formAttributes;
+
     /** @var rex_csrf_token */
     private $csrfToken;
 
@@ -59,6 +62,7 @@ abstract class rex_form_base
         $this->method = $method;
         $this->elements = [];
         $this->params = [];
+        $this->formAttributes = [];
         $this->addFieldset($fieldset ?: $this->name);
         $this->setMessage('');
 
@@ -998,6 +1002,33 @@ abstract class rex_form_base
         return $message;
     }
 
+    public function setFormAttribute(string $attributeName, ?string $attributeValue): void
+    {
+        $attributeName = preg_replace('/[^\w\d\-]/', '', strtolower($attributeName));
+
+        if ('' === $attributeName) {
+            throw new rex_exception('The attribute name cannot be empty.');
+        }
+
+        if (null === $attributeValue) {
+            if (array_key_exists($attributeName, $this->formAttributes)) {
+                unset($this->formAttributes[$attributeName]);
+            }
+            return;
+        }
+
+        if ('id' === $attributeName) {
+            $this->setFormId($attributeValue);
+            return;
+        }
+
+        if (in_array($attributeName, ['method', 'action'], true)) {
+            throw new rex_exception(sprintf('Attribute "%s" can not be set via %s.', $attributeName, __FUNCTION__));
+        }
+
+        $this->formAttributes[$attributeName] = $attributeValue;
+    }
+
     /**
      * Callbackfunktion, damit in subklassen der Value noch beeinflusst werden kann
      * wenn das Feld mit Datenbankwerten angezeigt wird.
@@ -1234,7 +1265,12 @@ abstract class rex_form_base
             $id = ' id="'.rex_escape($this->formId).'"';
         }
 
-        $s .= '<form' . $id . ' action="' . rex_url::backendController($actionParams) . '" method="' . $this->method . '">' . "\n";
+        $s .= sprintf('<form %s %s action="%s" method="%s">' . "\n",
+            $id,
+            rex_string::buildAttributes($this->formAttributes),
+            rex_url::backendController($actionParams),
+            $this->method
+        );
         foreach ($fieldsets as $fieldsetName => $fieldsetElements) {
             $s .= '<fieldset>' . "\n";
 
