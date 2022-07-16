@@ -151,6 +151,7 @@ class rex
      */
     public static function getProperty($key, $default = null)
     {
+        /** @psalm-suppress TypeDoesNotContainType **/
         if (!is_string($key)) {
             throw new InvalidArgumentException('Expecting $key to be string, but ' . gettype($key) . ' given!');
         }
@@ -158,7 +159,7 @@ class rex
         if (isset(self::$properties[$key])) {
             return self::$properties[$key];
         }
-        /** @psalm-suppress MixedReturnStatement **/
+        /** @psalm-suppress NullableReturnStatement **/
         return $default;
     }
 
