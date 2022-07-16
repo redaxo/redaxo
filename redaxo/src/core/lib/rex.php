@@ -132,7 +132,7 @@ class rex
      *
      * @return mixed The value for $key or $default if $key cannot be found
      * @psalm-return (
-     *     $key is 'login' ? rex_backend_login :
+     *     $key is 'login' ? rex_backend_login|null :
      *     ($key is 'debug' ? bool|array{enabled: bool, throw_always_exception: bool|int} :
      *     ($key is 'use_accesskeys' ? bool :
      *     ($key is 'accesskeys' ? array<string, string> :
