@@ -10,7 +10,6 @@ use Rector\CodeQuality\Rector\Identical\SimplifyConditionsRector;
 use Rector\CodeQuality\Rector\If_\SimplifyIfReturnBoolRector;
 use Rector\CodeQuality\Rector\Ternary\UnnecessaryTernaryExpressionRector;
 use Rector\Config\RectorConfig;
-use Rector\Core\Configuration\Option;
 use Rector\Core\ValueObject\PhpVersion;
 use Rector\Php70\Rector\Ternary\TernaryToNullCoalescingRector;
 use Rector\Php80\Rector\Identical\StrEndsWithRector;
@@ -21,7 +20,6 @@ use Redaxo\Rector\Rule\UnderscoreToCamelCaseVariableNameRector;
 use Redaxo\Rector\Util\UnderscoreCamelCaseConflictingNameGuard;
 use Redaxo\Rector\Util\UnderscoreCamelCaseExpectedNameResolver;
 use Redaxo\Rector\Util\UnderscoreCamelCasePropertyRenamer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 require_once __DIR__.'/.tools/rector/autoload.php';
 

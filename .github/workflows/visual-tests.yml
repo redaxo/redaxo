@@ -1,6 +1,8 @@
 name: Visual Regression Testing
 
 on:
+    push:
+        branches: [main, bugfix, temp]
     pull_request:
         types: [opened, synchronize, reopened, ready_for_review]
     repository_dispatch:
@@ -9,9 +11,14 @@ on:
 env:
     writable: ${{ (github.event_name == 'repository_dispatch' || github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') && 1 || 0 }}
 
+permissions:
+    contents: read
+
 jobs:
     visual-tests:
         runs-on: ubuntu-latest
+        permissions:
+            contents: write  # for Git to git apply
 
         steps:
             -   name: Add action run link to trigger comment
