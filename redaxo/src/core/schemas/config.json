@@ -98,7 +98,10 @@
             "description": "backend login policy",
             "type": "object",
             "properties": {
-                "login_tries": {
+                "login_tries_until_blocked": {
+                    "type": "integer"
+                },
+                "login_tries_until_delay": {
                     "type": "integer"
                 },
                 "relogin_delay": {
