@@ -48,7 +48,7 @@ class rex_command_config_get extends rex_console_command
             return 1;
         }
         foreach ($path as $pathPart) {
-            if (!isset($config[$pathPart])) {
+            if (!is_array($config[$pathPart]) || !array_key_exists($pathPart, $config)) {
                 $io->getErrorStyle()->error('Config key not found');
                 return 1;
             }
