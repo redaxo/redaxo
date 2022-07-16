@@ -133,7 +133,7 @@ class rex
      * @return mixed The value for $key or $default if $key cannot be found
      * @psalm-return (
      *     $key is 'login' ? rex_backend_login :
-     *     ($key is 'debug' ? bool|array<string, bool|string[]> :
+     *     ($key is 'debug' ? bool|array{enabled: bool, throw_always_exception: bool|int} :
      *     ($key is 'timer' ? rex_timer :
      *     ($key is 'timezone' ? string :
      *     ($key is 'table_prefix' ? non-empty-string :
