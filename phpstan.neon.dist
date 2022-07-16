@@ -2,7 +2,7 @@ includes:
 	- .tools/phpstan/baseline.neon
 
 parameters:
-    level: 5
+    level: 6
     phpVersion: 70300 # PHP 7.3
     treatPhpDocTypesAsCertain: false
     paths:
