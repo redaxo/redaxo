@@ -63,8 +63,9 @@ class rex_user
     }
 
     public static function forLogin(
-    #[\SensitiveParameter]
-    string $login): ?self
+        #[\SensitiveParameter]
+        string $login
+    ): ?self
     {
         return static::getInstance('login_' . $login, static function () use ($login) {
             $sql = rex_sql::factory()->setQuery('SELECT * FROM '.rex::getTable('user').' WHERE login = ?', [$login]);

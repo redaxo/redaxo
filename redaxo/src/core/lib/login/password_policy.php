@@ -29,8 +29,9 @@ class rex_password_policy
      * @return true|string `true` on success, otherwise an error message
      */
     public function check(
-    #[\SensitiveParameter]
-    $password, $id = null)
+        #[\SensitiveParameter]
+        $password, $id = null
+    )
     {
         if ($this->isValid($password)) {
             return true;
@@ -75,8 +76,9 @@ class rex_password_policy
      * @return bool
      */
     protected function isValid(
-    #[\SensitiveParameter]
-    $password)
+        #[\SensitiveParameter]
+        $password
+    )
     {
         foreach ($this->options as $key => $options) {
             switch ($key) {
