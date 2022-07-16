@@ -134,6 +134,8 @@ class rex
      * @psalm-return (
      *     $key is 'login' ? rex_backend_login :
      *     ($key is 'debug' ? bool|array{enabled: bool, throw_always_exception: bool|int} :
+     *     ($key is 'use_accesskeys' ? bool :
+     *     ($key is 'accesskeys' ? array<string, string> :
      *     ($key is 'editor' ? string|null :
      *     ($key is 'editor_basepath' ? string|null :
      *     ($key is 'timer' ? rex_timer :
@@ -148,7 +150,7 @@ class rex
      *     ($key is 'instname' ? non-empty-string :
      *     ($key is 'theme' ? non-empty-string :
      *     ($key is 'start_page' ? non-empty-string :
-     *     ($key is 'socket_proxy' ? non-empty-string :
+     *     ($key is 'socket_proxy' ? non-empty-string|null :
      *     ($key is 'password_policy' ? array<string, scalar> :
      *     ($key is 'backend_login_policy' ? array<string, bool|int> :
      *     ($key is 'db' ? array<int, string[]> :
@@ -156,7 +158,7 @@ class rex
      *     ($key is 'system_addons' ? non-empty-string[] :
      *     ($key is 'setup_addons' ? non-empty-string[] :
      *     mixed|null
-     *     ))))))))))))))))))))))
+     *     ))))))))))))))))))))))))
      * )
      */
     public static function getProperty($key, $default = null)
