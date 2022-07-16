@@ -381,7 +381,7 @@ abstract class rex_package implements rex_package_interface
             rex_file::putCache($path, $cache);
         }
 
-        rex_extension::registerPoint(new rex_extension_point('PACKAGE_CACHE_DELETED', $this, [], true));
+        rex_extension::registerPoint(new rex_extension_point_package_cache_deleted($this));
     }
 
     public function enlist()
