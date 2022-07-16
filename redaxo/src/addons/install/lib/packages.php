@@ -136,7 +136,7 @@ class rex_install_packages
      *
      * @throws rex_functional_exception
      *
-     * @return array<string, array{name: string, author: string, shortdescription: string, description: string, website: string, created: string, updated: string, status?: bool, files: array<int, array{version: string, description: string, path: string, checksum: string, created: string, updated: string, redaxo_versions?: list<string>, status?: bool}>}>
+     * @return array<string, array{name: string, author: string, shortdescription: string, description: string, website: string, created: string, updated: string, status?: bool, files?: array<int, array{version: string, description: string, path: string, checksum: string, created: string, updated: string, redaxo_versions?: list<string>, status?: bool}>}>
      *
      * @psalm-suppress MixedReturnTypeCoercion
      */

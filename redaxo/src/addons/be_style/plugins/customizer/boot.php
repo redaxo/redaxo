@@ -9,7 +9,7 @@
 
 // Plugin-Config
 $plugin = rex_plugin::get('be_style', 'customizer');
-/** @var array{codemirror_theme: string, codemirror_darktheme: string, codemirror-selectors: string, codemirror-options: string, codemirror: int, codemirror-langs: int, codemirror-tools: int, labelcolor: string, showlink: int, codemirror-autoresize?: bool} $config */
+/** @var array{codemirror_theme: string, codemirror_darktheme: string, codemirror-selectors: string, codemirror-options: string, codemirror: int, codemirror-langs?: int, codemirror-tools?: int, labelcolor: string, showlink: int, codemirror-autoresize?: bool} $config */
 $config = $plugin->getConfig();
 
 /* Output CodeMirror-CSS */
