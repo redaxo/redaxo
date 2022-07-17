@@ -34,7 +34,7 @@ class rex_media_manager
     private $notFound = false;
 
     /** @var string|null */
-    private static $cacheDirectory = null;
+    private static $cacheDirectory;
 
     /** @var list<class-string<rex_effect_abstract>> */
     private static $effects = [];
