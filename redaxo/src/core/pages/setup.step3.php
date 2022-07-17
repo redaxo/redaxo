@@ -17,10 +17,10 @@ if (count($errorArray) > 0) {
     $class = 'error';
     $content .= implode('', $errorArray);
 
-    $buttons = '<a class="btn btn-setup" href="' . $context->getUrl(['step' => 4]) . '">' . rex_i18n::msg('setup_312') . '</a>';
+    $buttons = '<a class="btn btn-setup" href="' . $context->getUrl(['step' => 3]) . '">' . rex_i18n::msg('setup_212') . '</a>';
 } else {
     $class = 'success';
-    $buttons = '<a class="btn btn-setup" href="' . $context->getUrl(['step' => 4]) . '">' . rex_i18n::msg('setup_310') . '</a>';
+    $buttons = '<a class="btn btn-setup" href="' . $context->getUrl(['step' => 3]) . '">' . rex_i18n::msg('setup_210') . '</a>';
 }
 
 $security = '<div class="rex-js-setup-security-message" style="display:none">' . rex_view::error(rex_i18n::msg('setup_security_msg') . '<br />' . rex_i18n::msg('setup_no_js_security_msg')) . '</div>';
@@ -66,11 +66,11 @@ foreach (rex_setup::checkPhpSecurity() as $warning) {
     $security .= rex_view::warning($warning);
 }
 
-echo rex_view::title(rex_i18n::msg('setup_300').$cancelSetupBtn);
+echo rex_view::title(rex_i18n::msg('setup_200').$cancelSetupBtn);
 
 $fragment = new rex_fragment();
 $fragment->setVar('class', $class, false);
-$fragment->setVar('title', rex_i18n::msg('setup_307'), false);
+$fragment->setVar('title', rex_i18n::msg('setup_207'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 echo '<div class="rex-js-setup-section">' . $fragment->parse('core/page/section.php') . '</div>';

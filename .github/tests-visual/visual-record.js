@@ -132,7 +132,7 @@ async function processScreenshot(page, screenshotName) {
     await page.evaluate(function() {
         var changingElements = [
             '.rex-js-script-time',
-            '.rex-js-setup-step-5 .form-control-static',
+            '.rex-js-setup-step-4 .form-control-static',
             'td[data-title="Letzter Login"]',
             '#rex-form-exportfilename',
             '#rex-page-system-settings .col-lg-4 td',
@@ -216,14 +216,14 @@ async function main() {
         if (text.indexOf("Unrecognized feature: 'interest-cohort'.") !== -1) {
             return;
         }
-        
+
         // ajax requests
         const origin = msg.location().url;
         if (origin) {
-            console.log(`BROWSER-CONSOLE: "${origin}" (Ajax)`, text);    
+            console.log(`BROWSER-CONSOLE: "${origin}" (Ajax)`, text);
             return;
         }
-        
+
         console.log('BROWSER-CONSOLE:', text);
     });
 
@@ -237,19 +237,19 @@ async function main() {
             await goToUrlOrThrow(page, START_URL, { waitUntil: 'load' });
             await createScreenshots(page, 'setup.png');
 
-            // setup steps 2-6
-            for (var step = 2; step <= 6; step++) {
-                // step 3: wait until `networkidle0` to finish AJAX requests, see https://github.com/puppeteer/puppeteer/blob/main/docs/api.md#pagegotourl-options
-                await goToUrlOrThrow(page, START_URL + '?page=setup&lang=de_de&step=' + step, { waitUntil: step === 3 ? 'networkidle0' : 'load'});
+            // setup steps 2-5
+            for (var step = 2; step <= 5; step++) {
+                // step 2: wait until `networkidle0` to finish AJAX requests, see https://github.com/puppeteer/puppeteer/blob/main/docs/api.md#pagegotourl-options
+                await goToUrlOrThrow(page, START_URL + '?page=setup&lang=de_de&step=' + step, { waitUntil: step === 2 ? 'networkidle0' : 'load'});
                 await page.waitForTimeout(350); // slight buffer for CSS animations or :focus styles etc.
                 await createScreenshots(page, 'setup_' + step + '.png');
             }
 
-            // step 7
-            // requires form in step 6 to be submitted
+            // step 6
+            // requires form in step 5 to be submitted
             await page.$eval('.rex-js-createadminform', form => form.submit());
             await page.waitForTimeout(1000);
-            await createScreenshots(page, 'setup_7.png');
+            await createScreenshots(page, 'setup_6.png');
 
             break;
 
@@ -284,7 +284,7 @@ async function main() {
                 page.waitForNavigation(),
                 page.click('.btn-safemode-deactivate') // disable safe mode again
             ]);
-            
+
             // test debug
             const interceptClockworkRequest = request => {
                 const url = request.url();
@@ -312,7 +312,7 @@ async function main() {
             await goToUrlOrThrow(page, START_URL + '?page=system/customizer', { waitUntil: 'load' });
             await page.waitForTimeout(350); // slight buffer for CSS animations or :focus styles etc.
             await createScreenshots(page, 'system_customizer.png');
-            
+
             // logout
             await page.click('#rex-js-nav-top .rex-logout');
             await page.waitForSelector('.rex-background--ready');

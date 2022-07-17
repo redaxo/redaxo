@@ -6,13 +6,13 @@ assert(isset($config) && is_array($config));
 assert(isset($cancelSetupBtn));
 
 $configFile = rex_path::coreData('config.yml');
-$headline = rex_view::title(rex_i18n::msg('setup_400', rex_path::relative($configFile)).$cancelSetupBtn);
+$headline = rex_view::title(rex_i18n::msg('setup_300', rex_path::relative($configFile)).$cancelSetupBtn);
 
 $content = '';
 
-$submitMessage = rex_i18n::msg('setup_410');
+$submitMessage = rex_i18n::msg('setup_310');
 if (count($errorArray) > 0) {
-    $submitMessage = rex_i18n::msg('setup_414');
+    $submitMessage = rex_i18n::msg('setup_314');
 }
 
 $content .= '
@@ -42,7 +42,7 @@ if (!rex_request::isHttps()) {
     $httpsRedirectSel->setAttribute('disabled', 'disabled');
 }
 
-$content .= '<legend>' . rex_i18n::msg('setup_402') . '</legend>';
+$content .= '<legend>' . rex_i18n::msg('setup_302') . '</legend>';
 
 $formElements = [];
 
@@ -62,7 +62,7 @@ $n['field'] = '<input class="form-control" type="text" id="rex-form-error-email"
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="rex-form-timezone" class="required">' . rex_i18n::msg('setup_412') . '</label>';
+$n['label'] = '<label for="rex-form-timezone" class="required">' . rex_i18n::msg('setup_312') . '</label>';
 $n['field'] = $timezoneSel->get();
 $formElements[] = $n;
 
@@ -70,7 +70,7 @@ $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
-$content .= '</fieldset><fieldset><legend>' . rex_i18n::msg('setup_403') . '</legend>';
+$content .= '</fieldset><fieldset><legend>' . rex_i18n::msg('setup_303') . '</legend>';
 
 $formElements = [];
 
@@ -85,7 +85,7 @@ $n['field'] = '<input class="form-control" type="text" id="rex-form-db-user-logi
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="rex-form-db-user-pass" class="required">' . rex_i18n::msg('setup_409') . '</label>';
+$n['label'] = '<label for="rex-form-db-user-pass" class="required">' . rex_i18n::msg('setup_309') . '</label>';
 $n['field'] = '<input class="form-control" type="password" id="rex-form-db-user-pass" name="redaxo_db_user_pass" value="'. rex_setup::DEFAULT_DUMMY_PASSWORD .'" />';
 $formElements[] = $n;
 
@@ -94,7 +94,7 @@ $n['field'] = '<p>'.rex_i18n::msg('setup_password_hint').'</p>';
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="rex-form-dbname" class="required">' . rex_i18n::msg('setup_408') . '</label>';
+$n['label'] = '<label for="rex-form-dbname" class="required">' . rex_i18n::msg('setup_308') . '</label>';
 $n['field'] = '<input class="form-control" type="text" value="' . rex_escape($config['db'][1]['name']) . '" id="rex-form-dbname" name="dbname" />';
 $formElements[] = $n;
 
@@ -104,7 +104,7 @@ $content .= $fragment->parse('core/form/form.php');
 
 $formElements = [];
 $n = [];
-$n['label'] = '<label>' . rex_i18n::msg('setup_411') . '</label>';
+$n['label'] = '<label>' . rex_i18n::msg('setup_311') . '</label>';
 $n['field'] = '<input type="checkbox" name="redaxo_db_create" value="1"' . $dbCreateChecked . ' />';
 $formElements[] = $n;
 
@@ -151,9 +151,9 @@ echo $headline;
 echo implode('', $errorArray);
 
 $fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('setup_416'), false);
+$fragment->setVar('title', rex_i18n::msg('setup_316'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
 
-echo '<form action="' . $context->getUrl(['step' => 5]) . '" method="post">' . $content . '</form>';
+echo '<form action="' . $context->getUrl(['step' => 4]) . '" method="post">' . $content . '</form>';
