@@ -347,5 +347,5 @@ if (5 === $step) {
 // ---------------------------------- step 6 . thank you . setup false
 
 if (6 === $step) {
-    require rex_path::core('pages/setup.step7.php');
+    require rex_path::core('pages/setup.step6.php');
 }

@@ -6311,7 +6311,7 @@
       <code>$cancelSetupBtn</code>
     </MixedOperand>
   </file>
-  <file src="redaxo/src/core/pages/setup.step7.php">
+  <file src="redaxo/src/core/pages/setup.step6.php">
     <UnusedVariable occurrences="2">
       <code>$errmsg</code>
       <code>$errmsg</code>
