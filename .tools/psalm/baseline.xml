@@ -6261,11 +6261,6 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/pages/setup.step2.php">
-    <MixedOperand occurrences="1">
-      <code>$cancelSetupBtn</code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/core/pages/setup.step3.php">
     <MixedArgumentTypeCoercion occurrences="2">
       <code>$errorArray</code>
       <code>$successArray</code>
@@ -6278,7 +6273,7 @@
       <code>$class</code>
     </UnusedVariable>
   </file>
-  <file src="redaxo/src/core/pages/setup.step4.php">
+  <file src="redaxo/src/core/pages/setup.step3.php">
     <MixedArgumentTypeCoercion occurrences="1">
       <code>$errorArray</code>
     </MixedArgumentTypeCoercion>
@@ -6297,7 +6292,7 @@
       <code>rex_escape($config['servername'])</code>
     </MixedOperand>
   </file>
-  <file src="redaxo/src/core/pages/setup.step5.php">
+  <file src="redaxo/src/core/pages/setup.step4.php">
     <MixedArgumentTypeCoercion occurrences="1">
       <code>$errors</code>
     </MixedArgumentTypeCoercion>
@@ -6308,7 +6303,7 @@
       <code>$cancelSetupBtn</code>
     </MixedOperand>
   </file>
-  <file src="redaxo/src/core/pages/setup.step6.php">
+  <file src="redaxo/src/core/pages/setup.step5.php">
     <MixedArgumentTypeCoercion occurrences="1">
       <code>$errors</code>
     </MixedArgumentTypeCoercion>
@@ -6316,7 +6311,7 @@
       <code>$cancelSetupBtn</code>
     </MixedOperand>
   </file>
-  <file src="redaxo/src/core/pages/setup.step7.php">
+  <file src="redaxo/src/core/pages/setup.step6.php">
     <UnusedVariable occurrences="2">
       <code>$errmsg</code>
       <code>$errmsg</code>

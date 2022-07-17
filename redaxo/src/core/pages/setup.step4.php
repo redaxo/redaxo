@@ -1,134 +1,180 @@
 <?php
 
 assert(isset($context) && $context instanceof rex_context);
-assert(isset($errorArray) && is_array($errorArray));
-assert(isset($config) && is_array($config));
+assert(isset($errors) && is_array($errors));
 assert(isset($cancelSetupBtn));
 
-$configFile = rex_path::coreData('config.yml');
-$headline = rex_view::title(rex_i18n::msg('setup_400', rex_path::relative($configFile)).$cancelSetupBtn);
+$tablesComplete = '' == rex_setup_importer::verifyDbSchema();
 
-$content = '';
+$createdb = rex_post('createdb', 'int', '');
 
-$submitMessage = rex_i18n::msg('setup_410');
-if (count($errorArray) > 0) {
-    $submitMessage = rex_i18n::msg('setup_414');
+$supportsUtf8mb4 = rex_setup_importer::supportsUtf8mb4();
+$existingUtf8mb4 = false;
+$utf8mb4 = false;
+if ($supportsUtf8mb4) {
+    $utf8mb4 = rex_post('utf8mb4', 'bool', true);
+    $existingUtf8mb4 = $utf8mb4;
+    if ($tablesComplete) {
+        $data = rex_sql::factory()->getArray('SELECT value FROM '.rex::getTable('config').' WHERE namespace="core" AND `key`="utf8mb4"');
+        $existingUtf8mb4 = isset($data[0]['value']) ? json_decode((string) $data[0]['value']) : false;
+    }
 }
 
-$content .= '
-            <fieldset>';
+$headline = rex_view::title(rex_i18n::msg('setup_400').$cancelSetupBtn);
 
-$timezoneSel = new rex_select();
-$timezoneSel->setId('rex-form-timezone');
-$timezoneSel->setStyle('class="form-control selectpicker"');
-$timezoneSel->setAttribute('data-live-search', 'true');
-$timezoneSel->setName('timezone');
-$timezoneSel->setSize(1);
-$timezoneSel->addOptions(DateTimeZone::listIdentifiers(), true);
-$timezoneSel->setSelected($config['timezone']);
+$content = '
+            <fieldset class="rex-js-setup-step-4">
+            ';
 
-$dbCreateChecked = rex_post('redaxo_db_create', 'boolean') ? ' checked="checked"' : '';
-
-$httpsRedirectSel = new rex_select();
-$httpsRedirectSel->setId('rex-form-https');
-$httpsRedirectSel->setStyle('class="form-control selectpicker"');
-$httpsRedirectSel->setName('use_https');
-$httpsRedirectSel->setSize(1);
-$httpsRedirectSel->addArrayOptions(['false' => rex_i18n::msg('https_disable'), 'backend' => rex_i18n::msg('https_only_backend'), 'frontend' => rex_i18n::msg('https_only_frontend'), 'true' => rex_i18n::msg('https_activate')]);
-$httpsRedirectSel->setSelected(true === $config['use_https'] ? 'true' : $config['use_https']);
-
-// If the setup is called over http disable https options to prevent user from being locked out
-if (!rex_request::isHttps()) {
-    $httpsRedirectSel->setAttribute('disabled', 'disabled');
+$submitMessage = rex_i18n::msg('setup_411');
+if (count($errors) > 0) {
+    $errors[] = rex_view::error(rex_i18n::msg('setup_403'));
+    $headline .= implode('', $errors);
+    $submitMessage = rex_i18n::msg('setup_412');
 }
 
-$content .= '<legend>' . rex_i18n::msg('setup_402') . '</legend>';
+foreach (rex_setup::checkDbSecurity() as $message) {
+    $headline .= rex_view::warning($message);
+}
+
+$dbchecked = array_fill(0, 6, '');
+switch ($createdb) {
+    case rex_setup::DB_MODE_SETUP_AND_OVERRIDE:
+    case rex_setup::DB_MODE_SETUP_SKIP:
+    case rex_setup::DB_MODE_SETUP_IMPORT_BACKUP:
+    case rex_setup::DB_MODE_SETUP_UPDATE_FROM_PREVIOUS:
+        $dbchecked[$createdb] = ' checked="checked"';
+        break;
+    default:
+        if ($tablesComplete) {
+            $dbchecked[rex_setup::DB_MODE_SETUP_SKIP] = ' checked="checked"';
+        } else {
+            $dbchecked[rex_setup::DB_MODE_SETUP_NO_OVERRIDE] = ' checked="checked"';
+        }
+}
+
+// Vorhandene Exporte auslesen
+$selExport = new rex_select();
+$selExport->setName('import_name');
+$selExport->setId('rex-form-import-name');
+$selExport->setSize(1);
+$selExport->setStyle('class="form-control selectpicker rex-js-import-name"');
+$selExport->setAttribute('onclick', 'checkInput(\'createdb_3\')');
+$exportDir = rex_backup::getDir();
+$exportsFound = false;
+
+if (is_dir($exportDir)) {
+    $exportSqls = [];
+
+    if ($handle = opendir($exportDir)) {
+        while (false !== ($file = readdir($handle))) {
+            if ('.' == $file || '..' == $file) {
+                continue;
+            }
+
+            $isSql = ('.sql' == substr($file, strlen($file) - 4));
+            if ($isSql) {
+                // cut .sql
+                $exportSqls[] = substr($file, 0, -4);
+                $exportsFound = true;
+            }
+        }
+        closedir($handle);
+    }
+
+    foreach ($exportSqls as $sqlExport) {
+        $selExport->addOption($sqlExport, $sqlExport);
+    }
+}
 
 $formElements = [];
 
 $n = [];
-$n['label'] = '<label for="rex-form-serveraddress" class="required">' . rex_i18n::msg('server') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-form-serveraddress" name="serveraddress" value="' . rex_escape($config['server']) . '" autofocus />';
+$n['label'] = '<label for="rex-form-createdb-0">' . rex_i18n::msg('setup_404') . '</label>';
+$n['field'] = '<input type="radio" id="rex-form-createdb-0" name="createdb" value="'. rex_setup::DB_MODE_SETUP_NO_OVERRIDE .'"' . $dbchecked[0] . ' />';
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="rex-form-servername" class="required">' . rex_i18n::msg('servername') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-form-servername" name="servername" value="' . rex_escape($config['servername']) . '" />';
+$n['label'] = '<label for="rex-form-createdb-1">' . rex_i18n::msg('setup_405') . '</label>';
+$n['field'] = '<input type="radio" id="rex-form-createdb-1" name="createdb" value="'. rex_setup::DB_MODE_SETUP_AND_OVERRIDE .'"' . $dbchecked[1] . ' />';
+$n['note'] = rex_i18n::msg('setup_405_note');
 $formElements[] = $n;
 
-$n = [];
-$n['label'] = '<label for="rex-form-error-email" class="required">' . rex_i18n::msg('error_email') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-form-error-email" name="error_email" value="' . rex_escape($config['error_email']) . '" />';
-$formElements[] = $n;
-
-$n = [];
-$n['label'] = '<label for="rex-form-timezone" class="required">' . rex_i18n::msg('setup_412') . '</label>';
-$n['field'] = $timezoneSel->get();
-$formElements[] = $n;
-
-$fragment = new rex_fragment();
-$fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/form.php');
-
-$content .= '</fieldset><fieldset><legend>' . rex_i18n::msg('setup_403') . '</legend>';
-
-$formElements = [];
-
-$n = [];
-$n['label'] = '<label for=rex-form-mysql-host" class="required">MySQL Host</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-form-mysql-host" name="mysql_host" value="' . rex_escape($config['db'][1]['host']) . '" />';
-$formElements[] = $n;
-
-$n = [];
-$n['label'] = '<label for="rex-form-db-user-login" class="required">Login</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-form-db-user-login" name="redaxo_db_user_login" value="' . rex_escape($config['db'][1]['login']) . '" />';
-$formElements[] = $n;
-
-$n = [];
-$n['label'] = '<label for="rex-form-db-user-pass" class="required">' . rex_i18n::msg('setup_409') . '</label>';
-$n['field'] = '<input class="form-control" type="password" id="rex-form-db-user-pass" name="redaxo_db_user_pass" value="'. rex_setup::DEFAULT_DUMMY_PASSWORD .'" />';
-$formElements[] = $n;
-
-$n = [];
-$n['field'] = '<p>'.rex_i18n::msg('setup_password_hint').'</p>';
-$formElements[] = $n;
-
-$n = [];
-$n['label'] = '<label for="rex-form-dbname" class="required">' . rex_i18n::msg('setup_408') . '</label>';
-$n['field'] = '<input class="form-control" type="text" value="' . rex_escape($config['db'][1]['name']) . '" id="rex-form-dbname" name="dbname" />';
-$formElements[] = $n;
-
-$fragment = new rex_fragment();
-$fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/form.php');
-
-$formElements = [];
-$n = [];
-$n['label'] = '<label>' . rex_i18n::msg('setup_411') . '</label>';
-$n['field'] = '<input type="checkbox" name="redaxo_db_create" value="1"' . $dbCreateChecked . ' />';
-$formElements[] = $n;
-
-$fragment = new rex_fragment();
-$fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/checkbox.php');
-
-$content .= '</fieldset><fieldset><legend>' . rex_i18n::msg('setup_security') . '</legend>';
-
-$formElements = [];
-
-if (!rex_request::isHttps()) {
+if ($tablesComplete) {
     $n = [];
-    $n['field'] = '<label class="form-control-static"><i class="fa fa-warning"></i> '.rex_i18n::msg('https_only_over_https').'</label>';
+    $n['label'] = '<label for="rex-form-createdb-2">' . rex_i18n::msg('setup_406') . '</label>';
+    $n['field'] = '<input type="radio" id="rex-form-createdb-2" name="createdb" value="'. rex_setup::DB_MODE_SETUP_SKIP .'"' . $dbchecked[2] . ' />';
+    $n['note'] = rex_i18n::msg('setup_406_note');
     $formElements[] = $n;
 }
 
 $n = [];
-$n['label'] = '<label>'.rex_i18n::msg('https_activate_redirect_for').'</label>';
-$n['field'] = $httpsRedirectSel->get();
+$n['label'] = '<label for="rex-form-createdb-4">' . rex_i18n::msg('setup_414') . '</label>';
+$n['field'] = '<input type="radio" id="rex-form-createdb-4" name="createdb" value="'. rex_setup::DB_MODE_SETUP_UPDATE_FROM_PREVIOUS .'"' . $dbchecked[4] . ' />';
+$n['note'] = rex_i18n::msg('setup_414_note');
+$formElements[] = $n;
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$mode = $fragment->parse('core/form/radio.php');
+
+if ($exportsFound) {
+    $formElements = [];
+    $n = [];
+    $n['label'] = '<label for="rex-form-createdb-3">' . rex_i18n::msg('setup_407') . '</label>';
+    $n['field'] = '<input type="radio" id="rex-form-createdb-3" name="createdb" value="'. rex_setup::DB_MODE_SETUP_IMPORT_BACKUP .'"' . $dbchecked[3] . ' />';
+    $formElements[] = $n;
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('elements', $formElements, false);
+    $mode .= $fragment->parse('core/form/radio.php');
+
+    $formElements = [];
+    $n = [];
+    $n['field'] = $selExport->get();
+    $n['note'] = rex_i18n::msg('backup_version_warning');
+    $formElements[] = $n;
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('elements', $formElements, false);
+    $mode .= $fragment->parse('core/form/form.php');
+}
+
+$formElements = [];
+
+$n = [];
+$n['label'] = '<label for="rex-form-utf8mb4">'.rex_i18n::msg('setup_charset_utf8mb4').'</label>';
+$n['field'] = '<input type="radio" id="rex-form-utf8mb4" name="utf8mb4" value="1"'.($utf8mb4 ? ' checked' : '').($supportsUtf8mb4 ? '' : ' disabled').' />';
+$n['note'] = rex_i18n::msg('setup_charset_utf8mb4_note');
 $formElements[] = $n;
 
 $n = [];
-$n['field'] = '<p>'.rex_i18n::msg('hsts_more_information').'</p>';
+$n['label'] = '<label for="rex-form-utf8">'.rex_i18n::msg('setup_charset_utf8').'</label>';
+$n['field'] = '<input type="radio" id="rex-form-utf8" name="utf8mb4" value="0"'.($utf8mb4 ? '' : ' checked').' />';
+$n['note'] = rex_i18n::msg('setup_charset_utf8_note');
+$formElements[] = $n;
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$charset = $fragment->parse('core/form/radio.php');
+
+$formElements = [];
+
+$sql = rex_sql::factory();
+
+$n = [];
+$n['label'] = '<label>'.rex_i18n::msg('version').'</label>';
+$n['field'] = '<p class="form-control-static">'.$sql->getDbType().' '.$sql->getDbVersion().'</p>';
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label class="required">'.rex_i18n::msg('mode').'</label>';
+$n['field'] = $mode;
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label class="required">'.rex_i18n::msg('charset').'</label>';
+$n['field'] = $charset;
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -140,18 +186,60 @@ $content .= '</fieldset>';
 $formElements = [];
 
 $n = [];
-$n['field'] = '<button class="btn btn-setup" type="submit" value="' . rex_i18n::msg('system_update') . '">' . $submitMessage . '</button>';
+$n['field'] = '<button class="btn btn-setup" type="submit" value="' . $submitMessage . '">' . $submitMessage . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
 
+$content .= '</form>';
+
+$content .= '
+            <script type="text/javascript">
+                 <!--
+                jQuery(function($) {
+                    var $container = $(".rex-js-setup-step-4");
+
+                    // when opening backup dropdown -> mark corresponding radio button as checked
+                    $container.find(".rex-js-import-name").click(function () {
+                        $container.find("[name=createdb][value='. rex_setup::DB_MODE_SETUP_IMPORT_BACKUP .']").prop("checked", true);
+                    });
+
+                    if (!$container.find("[name=utf8mb4][value='. rex_setup::DB_MODE_SETUP_AND_OVERRIDE .']").prop("disabled")) {
+                        var update = function () {
+                            // when changing mode -> reset disabled state
+                            $container.find("[name=utf8mb4]").prop("disabled", false);
+
+                            switch (parseInt($container.find("[name=createdb]:checked").val())) {
+                                case '. rex_setup::DB_MODE_SETUP_SKIP .':
+                                    // when selecting "existing db" -> select current charset and disable radios
+                                    $container.find("[name=utf8mb4][value='.((int) $existingUtf8mb4).']").prop("checked", true);
+                                    $container.find("[name=utf8mb4]").prop("disabled", true);
+                                    break;
+                                case '. rex_setup::DB_MODE_SETUP_UPDATE_FROM_PREVIOUS .':
+                                    // when selecting "update db" -> select utf8mb4 charset
+                                    $container.find("[name=utf8mb4][value=1]").prop("checked", true);
+                                    break;
+                                case '. rex_setup::DB_MODE_SETUP_IMPORT_BACKUP .':
+                                    // when selecting "import backup" -> disable radios
+                                    $container.find("[name=utf8mb4]").prop("disabled", true);
+                                    break;
+
+                            }
+                        }
+
+                        $container.find("[name=createdb]").click(update);
+                        update();
+                    }
+                });
+                 //-->
+            </script>';
+
 echo $headline;
-echo implode('', $errorArray);
 
 $fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('setup_416'), false);
+$fragment->setVar('title', rex_i18n::msg('setup_401'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');

@@ -162,7 +162,7 @@ if ('setup' == rex_be_controller::getCurrentPagePart(1)) {
     $context = rex_setup::getContext();
 
     $navi = [];
-    $end = $lang ? 7 : 1;
+    $end = $lang ? 6 : 1;
     for ($i = 1; $i <= $end; ++$i) {
         $n = [];
         if (!$step || $i == $step) {
