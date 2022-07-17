@@ -5113,14 +5113,7 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/login/login.php">
-    <MixedArgument occurrences="20">
-      <code>$cookieParams['domain']</code>
-      <code>$cookieParams['httponly']</code>
-      <code>$cookieParams['lifetime']</code>
-      <code>$cookieParams['path']</code>
-      <code>$cookieParams['samesite']</code>
-      <code>$cookieParams['samesite']</code>
-      <code>$cookieParams['secure']</code>
+    <MixedArgument occurrences="13">
       <code>$hash</code>
       <code>$hash</code>
       <code>$id</code>
@@ -5171,6 +5164,17 @@
     <MixedOperand occurrences="1">
       <code>$this-&gt;sessionDuration</code>
     </MixedOperand>
+    <MixedReturnTypeCoercion occurrences="2">
+      <code>$cookieParams</code>
+      <code>array{lifetime: ?int, path: ?string, domain: ?string, secure: ?bool, httponly: ?bool, samesite: ?string}</code>
+    </MixedReturnTypeCoercion>
+    <PossiblyNullArgument occurrences="5">
+      <code>$cookieParams['domain']</code>
+      <code>$cookieParams['httponly']</code>
+      <code>$cookieParams['lifetime']</code>
+      <code>$cookieParams['path']</code>
+      <code>$cookieParams['secure']</code>
+    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/lib/login/password_policy.php">
     <MixedArgument occurrences="6">
