@@ -441,7 +441,8 @@
     </MixedArgument>
   </file>
   <file src="redaxo/src/addons/debug/boot.php">
-    <MixedArgument occurrences="2">
+    <MixedArgument occurrences="3">
+      <code>$_SERVER['REQUEST_URI']</code>
       <code>$query['query']</code>
       <code>rex_debug_clockwork::getInstance()-&gt;getRequest()-&gt;id</code>
     </MixedArgument>
