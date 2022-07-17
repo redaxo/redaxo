@@ -228,15 +228,10 @@ class rex_template
     }
 
     /**
-     * @return array<int, string>
+     * @return array<int, rex_ctype>
      */
     public function getCtypes(): array
     {
-        $sql = rex_sql::factory();
-        $sql->setQuery('SELECT attributes FROM '. rex::getTable('template') .' WHERE id = ?', [$this->id]);
-        $attributes = $sql->getArrayValue('attributes');
-
-        /** @psalm-suppress MixedReturnStatement */
-        return $attributes['ctype'] ?? [];
+        return rex_ctype::forTemplate($this->id);
     }
 }
