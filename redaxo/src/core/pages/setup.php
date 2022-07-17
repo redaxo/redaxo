@@ -339,7 +339,7 @@ if (6 === $step) {
 }
 
 if (5 === $step) {
-    require rex_path::core('pages/setup.step6.php');
+    require rex_path::core('pages/setup.step5.php');
 
     return;
 }
