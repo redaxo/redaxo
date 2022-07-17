@@ -72,4 +72,22 @@ class rex_article_revision
 
         return true;
     }
+
+    public static function setSessionArticleRevision(int $articleId, int $revision): void
+    {
+        $login = rex::getProperty('login');
+        /** @var array<int, 0|1> $revisions */
+        $revisions = $login->getSessionVar('rex_version_article');
+
+        $revisions[$articleId] = $revision;
+        $login->setSessionVar('rex_version_article', $revisions);
+    }
+
+    public static function getSessionArticleRevision(int $articleId): int
+    {
+        /** @var array<int, 0|1> $revisions */
+        $revisions = rex::getProperty('login')->getSessionVar('rex_version_article');
+
+        return $revisions[$articleId] ?? 1;
+    }
 }
