@@ -100,7 +100,7 @@ class rex_template
      */
     public static function getTemplatesDir()
     {
-        return rex_path::addonCache('templates');
+        return rex_path::addonCache('structure', 'templates');
     }
 
     public function getTemplate()
