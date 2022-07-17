@@ -84,7 +84,7 @@ if (count($errorArray) > 0) {
 }
 
 if (2 === $step) {
-    require rex_path::core('pages/setup.step3.php');
+    require rex_path::core('pages/setup.step2.php');
 
     return;
 }
