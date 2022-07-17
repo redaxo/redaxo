@@ -448,7 +448,7 @@ jQuery(function($){
     {
         time = new Date();
         time.setTime(time.getTime() + 1000 * 60 * 60 * 24);
-        
+
         setCookie(
             'rex_htaccess_check',
             '1',

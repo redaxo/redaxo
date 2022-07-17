@@ -463,7 +463,7 @@ class rex_login
     /**
      * Einstellen der Cookie Paramter bevor die session gestartet wird.
      *
-     * @return array
+     * @return array<string, string|bool|int>
      */
     public static function getCookieParams()
     {
