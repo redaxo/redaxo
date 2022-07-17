@@ -226,4 +226,17 @@ class rex_template
 
         return $mapping = rex_file::getCache($file);
     }
+
+    /**
+     * @return array<int, string>
+     */
+    public function getCtypes(): array
+    {
+        $sql = rex_sql::factory();
+        $sql->setQuery('SELECT attributes FROM '. rex::getTable('template') .' WHERE id = ?', [$this->id]);
+        $attributes = $sql->getArrayValue('attributes');
+
+        /** @psalm-suppress MixedReturnStatement */
+        return $attributes['ctype'] ?? [];
+    }
 }
