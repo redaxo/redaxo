@@ -3,7 +3,7 @@
 /**
  * @package redaxo\structure\content
  */
-class rex_ctype
+final class rex_ctype
 {
     /**
      * @var int
