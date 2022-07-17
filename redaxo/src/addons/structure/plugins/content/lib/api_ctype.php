@@ -6,7 +6,7 @@
 final class rex_ctype
 {
     /**
-     * @var int
+     * @var positive-int
      */
     private $id;
 
@@ -15,12 +15,18 @@ final class rex_ctype
      */
     private $name;
 
+    /**
+     * @param positive-int $id
+     */
     private function __construct(int $id, string $name)
     {
         $this->id = $id;
         $this->name = $name;
     }
 
+    /**
+     * @return positive-int
+     */
     public function getId(): int
     {
         return $this->id;
@@ -32,7 +38,7 @@ final class rex_ctype
     }
 
     /**
-     * @return array<int, rex_ctype>
+     * @return list<rex_ctype>
      */
     public static function forTemplate(int $templateId): array
     {
