@@ -228,7 +228,7 @@ class rex_template
     }
 
     /**
-     * @return array<int, rex_ctype>
+     * @return list<rex_ctype>
      */
     public function getCtypes(): array
     {
