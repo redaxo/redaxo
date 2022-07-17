@@ -6260,11 +6260,6 @@
       <code>$cancelSetupBtn</code>
     </MixedOperand>
   </file>
-  <file src="redaxo/src/core/pages/setup.step2.php">
-    <MixedOperand occurrences="1">
-      <code>$cancelSetupBtn</code>
-    </MixedOperand>
-  </file>
   <file src="redaxo/src/core/pages/setup.step3.php">
     <MixedArgumentTypeCoercion occurrences="2">
       <code>$errorArray</code>
