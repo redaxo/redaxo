@@ -465,7 +465,7 @@ class rex_login
      *
      * @return array
      */
-    private static function getCookieParams()
+    public static function getCookieParams()
     {
         $cookieParams = session_get_cookie_params();
 
