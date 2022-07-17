@@ -2,6 +2,8 @@
 
 /**
  * @package redaxo\structure\content
+ *
+ * @extends rex_extension_point<string>
  */
 class rex_extension_point_art_content_updated extends rex_extension_point
 {
@@ -13,7 +15,7 @@ class rex_extension_point_art_content_updated extends rex_extension_point
     /** @var string */
     private $action;
 
-    public function __construct(rex_article $article, string $action, $subject = null, array $params = [], $readonly = false)
+    public function __construct(rex_article $article, string $action, string $subject = '', array $params = [], bool $readonly = false)
     {
         // for BC 'simple' attach params
         $params['article_id'] = $article->getId();

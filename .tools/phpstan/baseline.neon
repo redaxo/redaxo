@@ -3481,11 +3481,6 @@ parameters:
 			path: ../../redaxo/src/addons/structure/plugins/content/lib/event_select.php
 
 		-
-			message: "#^Class rex_extension_point_art_content_updated extends generic class rex_extension_point but does not specify its types\\: T$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/plugins/content/lib/extension_point/art_content_updated.php
-
-		-
 			message: "#^Method rex_extension_point_art_content_updated\\:\\:__construct\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/plugins/content/lib/extension_point/art_content_updated.php
@@ -3659,11 +3654,6 @@ parameters:
 			message: "#^Method rex_history_login\\:\\:verifySessionKey\\(\\) has parameter \\$key2 with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/plugins/history/lib/history_login.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/plugins/version/boot.php
 
 		-
 			message: "#^Method rex_article_test\\:\\:testGetValue\\(\\) has no return type specified\\.$#"

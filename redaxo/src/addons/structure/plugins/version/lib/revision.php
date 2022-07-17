@@ -38,7 +38,7 @@ class rex_article_revision
             $ins->setTable(rex::getTablePrefix() . 'article_slice');
 
             foreach ($cols as $col) {
-                $colname = $col->getValue('Field');
+                $colname = (string) $col->getValue('Field');
                 $ins->setValue($colname, $slice->getValue($colname));
             }
 
