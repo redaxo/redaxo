@@ -6292,7 +6292,7 @@
       <code>rex_escape($config['servername'])</code>
     </MixedOperand>
   </file>
-  <file src="redaxo/src/core/pages/setup.step5.php">
+  <file src="redaxo/src/core/pages/setup.step4.php">
     <MixedArgumentTypeCoercion occurrences="1">
       <code>$errors</code>
     </MixedArgumentTypeCoercion>

@@ -264,7 +264,7 @@ if ($step > 4 && '' == !rex_setup_importer::verifyDbSchema()) {
 }
 
 if (4 === $step) {
-    require rex_path::core('pages/setup.step5.php');
+    require rex_path::core('pages/setup.step4.php');
 
     return;
 }
