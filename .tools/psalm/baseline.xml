@@ -737,25 +737,11 @@
     </MixedArgumentTypeCoercion>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_convert2img.php">
-    <MixedArgument occurrences="1">
-      <code>$imagick-&gt;getImageBlob()</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="4">
+    <MixedAssignment occurrences="3">
       <code>$color</code>
       <code>$convertPath</code>
-      <code>$imagick</code>
       <code>$path</code>
     </MixedAssignment>
-    <MixedMethodCall occurrences="8">
-      <code>getImageBlob</code>
-      <code>mergeImageLayers</code>
-      <code>readImage</code>
-      <code>setImageAlphaChannel</code>
-      <code>setImageBackgroundColor</code>
-      <code>setImageFormat</code>
-      <code>setResolution</code>
-      <code>transformImageColorspace</code>
-    </MixedMethodCall>
     <MixedOperand occurrences="2">
       <code>$color</code>
       <code>$convertPath</code>
