@@ -30,7 +30,11 @@ class rex_api_install_package_upload extends rex_api_function
         try {
             if ($upload['upload_file']) {
                 $archive = rex_path::addonCache('install', md5($addonkey . time()) . '.zip');
-                $exclude = [];
+                $exclude = [
+                    '.gitattributes',
+                    '.github',
+                    '.gitignore',
+                ];
                 if ($upload['replace_assets']) {
                     $exclude[] = 'assets';
                 }
