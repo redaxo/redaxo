@@ -6273,7 +6273,7 @@
       <code>$class</code>
     </UnusedVariable>
   </file>
-  <file src="redaxo/src/core/pages/setup.step4.php">
+  <file src="redaxo/src/core/pages/setup.step3.php">
     <MixedArgumentTypeCoercion occurrences="1">
       <code>$errorArray</code>
     </MixedArgumentTypeCoercion>

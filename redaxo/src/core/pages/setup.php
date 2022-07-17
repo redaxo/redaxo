@@ -187,7 +187,7 @@ if ($step > 3) {
 }
 
 if (3 === $step) {
-    require rex_path::core('pages/setup.step4.php');
+    require rex_path::core('pages/setup.step3.php');
 
     return;
 }
