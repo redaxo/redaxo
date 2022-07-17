@@ -60,7 +60,7 @@
         <UndefinedAttributeClass>
             <errorLevel type="suppress">
                 <referencedClass name="AllowDynamicProperties"/>
-                <referencedClass name="JetBrains\PhpStorm\Deprecated"/>
+                <referencedClass name="SensitiveParameter"/>
             </errorLevel>
         </UndefinedAttributeClass>
         <UnnecessaryVarAnnotation>
