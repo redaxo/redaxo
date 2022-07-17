@@ -17,10 +17,13 @@ rex_extension::register('ART_INIT', static function (rex_extension_point $ep) {
         return;
     }
 
-    rex_login::startSession();
-
     if (!rex_backend_login::hasSession()) {
-        throw new rex_exception('No permission for the working version. You need to be logged into the REDAXO backend at the same time.');
+        $fragment = new rex_fragment([
+            'content' => '<p>No permission for the working version. You need to be logged into the REDAXO backend at the same time.</p>',
+        ]);
+        rex_response::setStatus(rex_response::HTTP_UNAUTHORIZED);
+        rex_response::sendPage($fragment->parse('core/fe_ooops.php'));
+        exit;
     }
 
     $article = $ep->getParam('article');
