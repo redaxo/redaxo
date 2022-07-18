@@ -226,4 +226,12 @@ class rex_template
 
         return $mapping = rex_file::getCache($file);
     }
+
+    /**
+     * @return list<rex_ctype>
+     */
+    public function getCtypes(): array
+    {
+        return rex_ctype::forTemplate($this->id);
+    }
 }
