@@ -241,12 +241,28 @@ class rex_socket_response
             $appendedZlibStreamFilter = null;
 
             // Decode the content for gzip and deflate
-            if ($this->isGzipOrDeflateEncoded() && $this->decompressContent) {
+            if ($this->isGzipOrDeflateEncoded() && $this->decompressContent && !$this->chunked) {
                 $appendedZlibStreamFilter = $this->addZlibStreamFilter($this->stream, STREAM_FILTER_READ);
             }
 
             while (false !== ($buf = $this->getBufferedBody())) {
                 $this->body .= $buf;
+            }
+
+            if ($this->isGzipOrDeflateEncoded() && $this->decompressContent && $this->chunked) {
+                $stream = fopen('php://temp', 'r+');
+                fwrite($stream, $this->body);
+                fseek($stream, 0);
+                $appendedZlibStreamFilter = $this->addZlibStreamFilter($stream, STREAM_FILTER_READ);
+                $decodedContent = '';
+
+                while (!feof($stream)) {
+                    $decodedContent .= fread($stream, 1024);
+                }
+                fclose($stream);
+
+                $this->body = $decodedContent;
+                unset($decodedContent);
             }
 
             if (is_resource($appendedZlibStreamFilter)) {
