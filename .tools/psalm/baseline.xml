@@ -241,20 +241,22 @@
     <InvalidReturnType occurrences="1">
       <code>string</code>
     </InvalidReturnType>
-    <MixedArgument occurrences="11">
+    <MixedArgument occurrences="13">
       <code>$job</code>
       <code>$job['id']</code>
       <code>$job['id']</code>
       <code>$job['id']</code>
       <code>$job['interval']</code>
+      <code>$job['name']</code>
       <code>$job['type']</code>
       <code>$jobs[0]</code>
+      <code>$jobs[0]['name']</code>
       <code>$params</code>
       <code>$status</code>
       <code>$value</code>
       <code>json_decode($interval, true)</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="7">
+    <MixedArrayAccess occurrences="8">
       <code>$job['id']</code>
       <code>$job['id']</code>
       <code>$job['id']</code>
@@ -262,6 +264,7 @@
       <code>$job['type']</code>
       <code>$jobs[0]</code>
       <code>$jobs[0]</code>
+      <code>$jobs[0]['name']</code>
     </MixedArrayAccess>
     <MixedArrayAssignment occurrences="3">
       <code>$job['started']</code>
