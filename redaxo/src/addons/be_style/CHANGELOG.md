@@ -4,10 +4,12 @@ Changelog
 Version 3.1.0 – XX.XX.2022
 --------------------------
 
+* Login-Seite: Neues Hintergrundbild, dazu Styleanpassungen (@schuer)
 * JS-Darkmode-Detektor (`rex:theme.change`) (@christophboecker)
 * CodeMirror-Aktualisierung (@aeberhard)
     - Unterstützung des Darkmodes (Default-Theme `dracula`)
     - Eigene globale Optionen können gesetzt werden
+
 
 Version 3.0.1 – 10.01.2022
 --------------------------
