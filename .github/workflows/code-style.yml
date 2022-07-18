@@ -15,7 +15,7 @@ permissions:
 jobs:
     php-cs-fixer:
         runs-on: ubuntu-latest
-        timeout-minutes: 5
+        timeout-minutes: 15
         if: github.event.pull_request.draft == false
         permissions:
             contents: write  # for stefanzweifel/git-auto-commit-action to push code in repo
@@ -63,7 +63,7 @@ jobs:
         permissions:
             contents: write  # for stefanzweifel/git-auto-commit-action to push code in repo
         runs-on: ubuntu-latest
-        timeout-minutes: 5
+        timeout-minutes: 15
         if: github.event.pull_request.draft == false
 
         steps:
