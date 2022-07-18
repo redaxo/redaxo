@@ -74,7 +74,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         ksort($langs);
 
         $config['lang'] = $this->getOptionOrAsk(
-            new ChoiceQuestion('Please select a language', $langs),
+            new ChoiceQuestion('Please select a language', $langs, $config['lang'] ?? null),
             'lang',
             null,
             'Language "%s" selected.',
