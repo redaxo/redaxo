@@ -185,10 +185,8 @@ if ('setup' == rex_be_controller::getCurrentPagePart(1)) {
         $name = '';
         if (isset($n['href']) && '' != $lang) {
             $name = rex_i18n::msg('setup_' . $i . '99');
-        } elseif ('' != $lang) {
+        } else {
             $name = '<span>' . rex_i18n::msg('setup_' . $i . '99') . '</span>';
-        } elseif (1 == $i) {
-            $name = '<span>Step 1 / Language</span>';
         }
 
         $n['title'] = $name;
