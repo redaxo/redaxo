@@ -5,14 +5,10 @@
  */
 final class rex_ctype
 {
-    /**
-     * @var positive-int
-     */
+    /** @var positive-int */
     private $id;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $name;
 
     /**
@@ -46,7 +42,7 @@ final class rex_ctype
         $sql->setQuery('SELECT attributes FROM '. rex::getTable('template') .' WHERE id = ?', [$templateId]);
         $attributes = $sql->getArrayValue('attributes');
 
-        /** @psalm-suppress MixedReturnStatement */
+        /** @var array<positive-int, string> $ctypesData */
         $ctypesData = $attributes['ctype'] ?? [];
 
         $ctypes = [];
