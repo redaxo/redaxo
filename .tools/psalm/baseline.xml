@@ -585,14 +585,16 @@
       <code>$config['requires']</code>
       <code>$config['version']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="9">
+    <MixedAssignment occurrences="11">
       <code>$config</code>
       <code>$conflicts[$addon]</code>
       <code>$conflicts[$plugin]</code>
       <code>$key</code>
+      <code>$key</code>
       <code>$msg</code>
       <code>$requirements[$addon]</code>
       <code>$requirements[$plugin]</code>
+      <code>$value</code>
       <code>$value</code>
       <code>$versions[$plugin]</code>
     </MixedAssignment>
