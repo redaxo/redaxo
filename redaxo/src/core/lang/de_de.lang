@@ -174,7 +174,8 @@ setup_error2 = Leider konnte die config.yml nicht beschrieben werden. Bitte trag
 
 
 setup_100 = Setup: Schritt 1 von 6 / Sprache
-setup_101 = bitte wähle eine Sprache
+setup_101 = Sprache wählen
+setup_110 = Weiter zu Schritt 2
 setup_199 = 1 / Sprache
 
 setup_200 = Setup: Schritt 2 von 6 / Systemcheck
