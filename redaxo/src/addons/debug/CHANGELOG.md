@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 1.2.2 – 03.05.2022
+Version 1.2.2 – XX.XX.2022
 --------------------------
 
 ### Bugfixes
