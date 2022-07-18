@@ -51,10 +51,10 @@ class rex_var_template extends rex_var
      * @internal
      *
      * @param int|numeric-string $id
-     *
+     * @param mixed $template Param is not used, but the template file is included here so that it is timed between timer param and the execution of this method
      * @return false|string
      */
-    public static function getTemplateOutput($id, ?rex_timer $timer = null)
+    public static function getTemplateOutput($id, ?rex_timer $timer = null, $template = null)
     {
         if ($timer && rex::isDebugMode()) {
             $timer->stop();
