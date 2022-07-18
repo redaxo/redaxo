@@ -11,13 +11,16 @@ class rex_sql_util
     {
         $db = rex_sql::factory();
         $variables = $db->setQuery("show variables like 'slow_query_log_file'");
-        $slowQueryLogPath = $variables->getValue('Value');
+        $slowQueryLogPath = (string) $variables->getValue('Value');
 
         if ('' !== $slowQueryLogPath) {
             if ('.' === dirname($slowQueryLogPath)) {
                 $db->setQuery('select @@datadir as default_data_dir');
-                return $db->getValue('default_data_dir') . $slowQueryLogPath;
+                $defaultDataDir = (string) $db->getValue('default_data_dir');
+
+                return $defaultDataDir . $slowQueryLogPath;
             }
+
             return $slowQueryLogPath;
         }
 
