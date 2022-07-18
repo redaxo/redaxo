@@ -6,7 +6,7 @@
 
 $logFile = rex_sql_util::slowQueryLogPath();
 
-if ($logFile === null) {
+if (null === $logFile) {
     throw new rex_exception('slow query log file not found');
 }
 
