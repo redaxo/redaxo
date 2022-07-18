@@ -248,17 +248,24 @@ class rex_setup
      */
     public static function isInitialSetup(): bool
     {
+        /** @var bool|null $initial */
+        static $initial;
+
+        if (null !== $initial) {
+            return $initial;
+        }
+
         try {
             $userSql = rex_sql::factory();
             $userSql->setQuery('select * from ' . rex::getTable('user') . ' LIMIT 1');
 
-            return 0 == $userSql->getRows();
+            return $initial = 0 == $userSql->getRows();
         } catch (rex_sql_could_not_connect_exception $e) {
-            return true;
+            return $initial = true;
         } catch (rex_sql_exception $e) {
             $sql = $e->getSql();
             if ($sql && rex_sql::ERRNO_TABLE_OR_VIEW_DOESNT_EXIST === $sql->getErrno()) {
-                return true;
+                return $initial = true;
             }
             throw $e;
         }

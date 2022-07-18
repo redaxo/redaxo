@@ -174,7 +174,8 @@ setup_error2 = Unfortunately, the configuration file could not be written to. Pl
 
 
 setup_100 = Setup: step 1 of 6 / Language
-setup_101 = Please select a language
+setup_101 = Select a language
+setup_110 = Continue with step 2
 setup_199 = 1 / Language
 
 setup_200 = Setup: step 2 of 6 / System check
