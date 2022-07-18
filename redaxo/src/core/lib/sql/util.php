@@ -10,8 +10,8 @@ class rex_sql_util
     public static function slowQueryLogPath(): ?string
     {
         $db = rex_sql::factory();
-        $variables = $db->setQuery("show variables like 'slow_query_log_file'");
-        $slowQueryLogPath = (string) $variables->getValue('Value');
+        $db->setQuery("show variables like 'slow_query_log_file'");
+        $slowQueryLogPath = (string) $db->getValue('Value');
 
         if ('' !== $slowQueryLogPath) {
             if ('.' === dirname($slowQueryLogPath)) {
