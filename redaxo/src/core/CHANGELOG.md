@@ -23,6 +23,7 @@ Version 5.14.0 – XX.XX.2022
 * `rex_type`: Neue Type-Assertion-Methoden wie `int`, `nullOrInt` etc. (@gharlan)
 * `rex_sql`: Bei `factory` wird noch nicht die DB-Verbindung geöffnet, sondern erst wenn wirklich notwendig (@Sysix)
 * Neuer EP `PACKAGE_CACHE_DELETED` (@gharlan)
+* Aktualisierung Übersetzungen: schwedisch (@interweave-media)
 * Autoloading: Wenn eine Klasse nicht gefunden wird, wird automatisch der Autoload-Cache geleert (@staabm)
 * PHP 8.2: `SensitiveParameter`-Attribut wird an geeigneten Stellen verwendet (@staabm)
 * Code-Stabilität durch statische Code-Analyse verbessert (@staabm, @gharlan)
