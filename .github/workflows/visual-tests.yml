@@ -129,3 +129,10 @@ jobs:
                     file_pattern: .github/tests-visual/*
                     # repo dispatch needs the target branch
                     branch: ${{ github.head_ref }}
+
+            -   name: Remove automerge label
+                uses: actions-ecosystem/action-remove-labels@v1
+                if: failure() && env.writable == 1
+                with:
+                    github_token: ${{ secrets.BOT_TOKEN }}
+                    labels: automerge

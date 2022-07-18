@@ -3924,39 +3924,6 @@
       <code>$this-&gt;getVar('toc')</code>
     </MixedArgument>
   </file>
-  <file src="redaxo/src/core/fragments/core/page/grid.php">
-    <MixedArgument occurrences="2">
-      <code>$content</code>
-      <code>$this-&gt;content</code>
-    </MixedArgument>
-    <MixedArrayAccess occurrences="3">
-      <code>$this-&gt;classes[$key]</code>
-      <code>$this-&gt;classes[$key]</code>
-      <code>$this-&gt;classes[$key]</code>
-    </MixedArrayAccess>
-    <MixedArrayOffset occurrences="3">
-      <code>$this-&gt;classes[$key]</code>
-      <code>$this-&gt;classes[$key]</code>
-      <code>$this-&gt;classes[$key]</code>
-    </MixedArrayOffset>
-    <MixedAssignment occurrences="7">
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$key</code>
-      <code>$key</code>
-      <code>$key</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="6">
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$this-&gt;classes[$key] ?? 'col-md-4'</code>
-      <code>$this-&gt;classes[$key] ?? 'col-md-6'</code>
-      <code>$this-&gt;classes[$key] ?? 'col-sm-6 col-md-3'</code>
-    </MixedOperand>
-  </file>
   <file src="redaxo/src/core/fragments/core/page/header.php">
     <MixedArgument occurrences="3">
       <code>$this-&gt;heading</code>

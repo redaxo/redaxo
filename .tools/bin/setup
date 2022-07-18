@@ -31,6 +31,7 @@ if (rex::isSetup()) {
     rex::setConfig('utf8mb4', $utf8mb4);
 
     $config['setup'] = false;
+    $config['lang'] = 'de_de';
     if (rex_file::putConfig($configFile, $config)) {
         rex_delete_cache();
         echo 'instance setup successfull', PHP_EOL;
