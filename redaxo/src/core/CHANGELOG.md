@@ -14,7 +14,7 @@ Version 5.14.0 – XX.XX.2022
     - Neue Methode `increaseLoginTries` (@staabm)
 * `rex_form_base`:
     - Neue Methode `setFormAttribute` (@pherzberger)
-    - In `addFieldset` können Attribute als zweiten Param übergeben werden (@gharlan)
+    - In `addFieldset` können Attribute als zweiten Parameter übergeben werden (@gharlan)
 * `rex_select`: Optgroups können per `endOptgroup` beendet werden (@gharlan)
 * `rex_context`: Neue Methoden `getParams`, `hasParam`, `removeParam` (@tbaddade)
 * `rex_be_page`: Neuer Setter `setTitle` (@DanielWeitenauer)
