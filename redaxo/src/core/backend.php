@@ -62,7 +62,7 @@ $pages = [];
 // ----------------- SETUP
 if (rex::isSetup()) {
     // ----------------- SET SETUP LANG
-    $requestLang = rex_request('lang', 'string');
+    $requestLang = rex_request('lang', 'string', rex::getProperty('lang'));
     if (in_array($requestLang, rex_i18n::getLocales())) {
         rex::setProperty('lang', $requestLang);
     } else {
