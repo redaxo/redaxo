@@ -9,6 +9,10 @@ Version 2.10.0 – XX.XX.2022
 * Erläuterung zum API-Key und dass bei Hinterlegung auch eigene Offline-Addons erscheinen (@tbaddade)
 * Beim Upload werden automatisch Git/PhpStorm/VSCode-Dateien ignoriert (@gharlan)
 
+### Bugfixes
+
+* Core-Updates: Neue Default-Config-Werte aus System-Plugins wurden nicht gesetzt (@gharlan)
+
 
 Version 2.9.2 – 16.11.2021
 --------------------------
