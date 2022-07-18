@@ -34,6 +34,8 @@ class rex_api_install_package_upload extends rex_api_function
                     '.gitattributes',
                     '.github',
                     '.gitignore',
+                    '.idea',
+                    '.vscode',
                 ];
                 if ($upload['replace_assets']) {
                     $exclude[] = 'assets';
