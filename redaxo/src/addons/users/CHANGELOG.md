@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.9.0 – XX.XX.2022
+--------------------------
+
+### Neu
+
+* Benutzerliste: Zugewiesene Rollen werden als Liste ausgegeben für bessere Lesbarkeit (@tbaddade)
+
+
 Version 2.8.2 – 29.11.2021
 --------------------------
 

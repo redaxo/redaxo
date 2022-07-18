@@ -1,6 +1,20 @@
 Changelog
 =========
 
+Version 2.14.0 – XX.XX.2022
+---------------------------
+
+### Neu
+
+* Plugin version: 
+    - Voransicht Arbeitsversion: Bei fehlender Backend-Session kommt die Oops-Page mit Erläuterung (statt hartem Fehler mit Logmeldung) (@gharlan)
+    - Nach Kopieren zwischen Live/Arbeitsversion wird in die Zielversion gesprungen (@gharlan)
+
+### Bugfixes
+
+* history-Plugin: Session-Übernahme bei Multidomain korrigiert (@gharlan)
+
+
 Version 2.13.3 – 03.05.2022
 ---------------------------
 

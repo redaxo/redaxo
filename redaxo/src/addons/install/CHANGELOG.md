@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.10.0 – XX.XX.2022
+---------------------------
+
+### Neu
+
+* Erläuterung zum API-Key und dass bei Hinterlegung auch eigene Offline-Addons erscheinen (@tbaddade)
+
+
 Version 2.9.2 – 16.11.2021
 --------------------------
 

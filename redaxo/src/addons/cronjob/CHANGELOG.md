@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.9.0 – XX.XX.2022
+--------------------------
+
+### Neu
+
+* Anzeige Logeinträge auf 100 erhöht (@staabm)
+
+
 Version 2.8.2 – 10.01.2022
 --------------------------
 

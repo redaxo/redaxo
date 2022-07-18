@@ -6,7 +6,26 @@ Version 5.14.0 – XX.XX.2022
 
 ### Neu
 
+* Setup: Lizenzschritt entfernt (@gharlan)
+* `rex_backend_login`:
+    - Neue `backend_login_policy` (in `config.yml`) mit Optionen `login_tries_until_blocked`, `login_tries_until_delay`, `relogin_delay` und `enable_stay_logged_in` (@staabm)
+    - Neue Methode `increaseLoginTries` (@staabm)
+* `rex_context`: Neue Methoden `getParams`, `hasParam`, `removeParam` (@tbaddade)
+* `rex_form_base`: Neue Methode `setFormAttribute` (@pherzberger)
+* `rex_be_page`: Neuer Setter `setTitle` (@DanielWeitenauer)
+* `rex_socket`: Beispiel-Code optimiert (@marcohanke)
+* `rex_path`: Neue Methode `findBinaryPath` (@staabm)
+* `rex_type`: Neue Type-Assertion-Methoden wie `int`, `nullOrInt` etc. (@gharlan)
+* `rex_sql`: Bei `factory` wird noch nicht die DB-Verbindung geöffnet, sondern erst wenn wirklich notwendig (@Sysix)
+* Neuer EP `PACKAGE_CACHE_DELETED` (@gharlan)
+* Autoloading: Wenn eine Klasse nicht gefunden wird, wird automatisch der Autoload-Cache geleert (@staabm)
+* PHP 8.2: `SensitiveParameter`-Attribut wird an geeigneten Stellen verwendet (@staabm)
+* Code-Stabilität durch statische Code-Analyse verbessert (@staabm, @gharlan)
+
 ### Bugfixes
+
+* `rex_request`: Vermeidung von Exceptions in der cli (@staabm)
+* Cookie `rex_htaccess_check` hat nicht die Cookie-Einstellungen aus der `config.yml` verwendet (@staabm)
 
 
 Version 5.13.3 – 03.05.2022

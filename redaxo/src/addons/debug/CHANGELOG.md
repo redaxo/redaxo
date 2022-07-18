@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 1.2.2 – 03.05.2022
+--------------------------
+
+### Bugfixes
+
+* REDAXO-Installationen in einem Unterordner funktionierten nicht (@staabm)
+
+
 Version 1.2.1 – 03.05.2022
 --------------------------
 
