@@ -6,18 +6,19 @@
 ?>
 <?php
 
-$this->content = is_string($this->content) ? [$this->content] : $this->content;
+/** @var array<int, string> $contents */
+$contents = is_string($this->content) ? [$this->content] : $this->content;
+$count = count($contents);
 
-$count = count($this->content);
-
-$this->classes = isset($this->classes) && (is_array($this->classes) && count($this->classes) == $count) ? $this->classes : [];
+/** @var array<int, string> $classes */
+$classes = isset($this->classes) && (is_array($this->classes) && count($this->classes) == $count) ? $this->classes : [];
 
 switch ($count) {
     case '4':
         echo '<div class="row">';
 
-        foreach ($this->content as $key => $content) {
-            echo '<div class="' . ($this->classes[$key] ?? 'col-sm-6 col-md-3') . '">' . $content . '</div>';
+        foreach ($contents as $key => $content) {
+            echo '<div class="' . ($classes[$key] ?? 'col-sm-6 col-md-3') . '">' . $content . '</div>';
         }
 
         echo '</div>';
@@ -27,8 +28,8 @@ switch ($count) {
     case '3':
         echo '<div class="row">';
 
-        foreach ($this->content as $key => $content) {
-            echo '<div class="' . ($this->classes[$key] ?? 'col-md-4') . '">' . $content . '</div>';
+        foreach ($contents as $key => $content) {
+            echo '<div class="' . ($classes[$key] ?? 'col-md-4') . '">' . $content . '</div>';
         }
 
         echo '</div>';
@@ -38,8 +39,8 @@ switch ($count) {
     case '2':
         echo '<div class="row">';
 
-        foreach ($this->content as $key => $content) {
-            echo '<div class="' . ($this->classes[$key] ?? 'col-md-6') . '">' . $content . '</div>';
+        foreach ($contents as $key => $content) {
+            echo '<div class="' . ($classes[$key] ?? 'col-md-6') . '">' . $content . '</div>';
         }
 
         echo '</div>';
@@ -47,7 +48,7 @@ switch ($count) {
         break;
 
     default:
-        foreach ($this->content as $content) {
+        foreach ($contents as $content) {
             echo $content;
         }
 

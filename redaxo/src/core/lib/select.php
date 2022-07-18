@@ -148,6 +148,11 @@ class rex_select
         $this->optgroups[$this->currentOptgroup] = $label;
     }
 
+    public function endOptgroup(): void
+    {
+        ++$this->currentOptgroup;
+    }
+
     /**
      * Fügt eine Option hinzu.
      */
