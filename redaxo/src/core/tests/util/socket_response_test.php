@@ -114,6 +114,6 @@ class rex_socket_response_test extends TestCase
     {
         return $this->getResponse(
             sprintf("HTTP/1.1 200 OK\r\nContent-Encoding: %s\r\n\r\n%s", $encoding, $body)
-        )->setDecodeContent(true);
+        )->decompressContent(true);
     }
 }

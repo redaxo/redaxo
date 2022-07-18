@@ -48,7 +48,7 @@ class rex_socket
     /** @var array<array-key, mixed> */
     protected $options = [];
     /** @var bool */
-    protected $responseContentEncoding = false;
+    protected $acceptCompression = false;
 
     /**
      * Constructor.
@@ -56,21 +56,16 @@ class rex_socket
      * @param string $host Host name
      * @param int    $port Port number
      * @param bool   $ssl  SSL flag
-     * @param bool   $responseContentEncoding Enable content encoding
      */
-    protected function __construct($host, $port = 80, $ssl = false, $responseContentEncoding = false)
+    protected function __construct($host, $port = 80, $ssl = false)
     {
         $this->host = $host;
         $this->port = $port;
         $this->ssl = $ssl;
-        $this->responseContentEncoding = $responseContentEncoding;
 
         $this->addHeader('Host', $this->host);
         $this->addHeader('User-Agent', 'REDAXO/' . rex::getVersion());
         $this->addHeader('Connection', 'Close');
-        if ($this->responseContentEncoding) {
-            $this->addHeader('Accept-Encoding', 'gzip, deflate');
-        }
     }
 
     /**
@@ -114,9 +109,9 @@ class rex_socket
     /**
      * @return $this
      */
-    public function enableResponseContentEncoding(): self
+    public function acceptCompression(): self
     {
-        $this->responseContentEncoding = true;
+        $this->acceptCompression = true;
         $this->addHeader('Accept-Encoding', 'gzip, deflate');
         return $this;
     }
@@ -434,7 +429,7 @@ class rex_socket
             throw new rex_socket_exception('Timeout!');
         }
 
-        return (new rex_socket_response($this->stream))->setDecodeContent($this->responseContentEncoding);
+        return (new rex_socket_response($this->stream))->decompressContent($this->acceptCompression);
     }
 
     /**

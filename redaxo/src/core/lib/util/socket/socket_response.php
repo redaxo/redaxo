@@ -28,7 +28,7 @@ class rex_socket_response
     /** @var null|string */
     private $body;
     /** @var bool */
-    private $decodeContent;
+    private $decompressContent;
 
     /**
      * Constructor.
@@ -59,15 +59,10 @@ class rex_socket_response
     /**
      * @return $this
      */
-    public function setDecodeContent(bool $decodeContent): self
+    public function decompressContent(bool $decodeContent): self
     {
-        $this->decodeContent = $decodeContent;
+        $this->decompressContent = $decodeContent;
         return $this;
-    }
-
-    public function getDecodeContent(): bool
-    {
-        return $this->decodeContent;
     }
 
     /**
@@ -185,6 +180,8 @@ class rex_socket_response
 
     /**
      * Returns an array with all applied content encodings.
+     *
+     * @return string[]
      */
     public function getContentEncodings(): array
     {
@@ -244,7 +241,7 @@ class rex_socket_response
             $appendedZlibStreamFilter = null;
 
             // Decode the content for gzip and deflate
-            if ($this->isGzipOrDeflateEncoded() && $this->decodeContent) {
+            if ($this->isGzipOrDeflateEncoded() && $this->decompressContent) {
                 $appendedZlibStreamFilter = $this->addZlibStreamFilter($this->stream, STREAM_FILTER_READ);
             }
 
@@ -260,7 +257,7 @@ class rex_socket_response
         return $this->body;
     }
 
-    public function isGzipOrDeflateEncoded(): bool
+    protected function isGzipOrDeflateEncoded(): bool
     {
         $contentEncodings = $this->getContentEncodings();
         return in_array('gzip', $contentEncodings) || in_array('deflate', $contentEncodings);
@@ -317,7 +314,7 @@ class rex_socket_response
             return false;
         }
 
-        if ($this->isGzipOrDeflateEncoded() && $this->decodeContent) {
+        if ($this->isGzipOrDeflateEncoded() && $this->decompressContent) {
             $this->addZlibStreamFilter($resource, STREAM_FILTER_WRITE);
         }
 
