@@ -14,10 +14,6 @@ class rex_socket_response
     /** @var bool */
     private $chunked = false;
     /** @var int */
-    private $chunkPos = 0;
-    /** @var int */
-    private $chunkLength = 0;
-    /** @var int */
     private $statusCode;
     /** @var string */
     private $statusMessage;
@@ -227,7 +223,8 @@ class rex_socket_response
             if ($this->chunked) {
                 $appendedDechunkFilter = stream_filter_append(
                     $this->stream,
-                    'dechunk'
+                    'dechunk',
+                    STREAM_FILTER_READ
                 );
             }
 
@@ -311,9 +308,11 @@ class rex_socket_response
         }
 
         if ($this->chunked) {
+            /** @psalm-suppress UnusedFunctionCall */
             stream_filter_append(
                 $this->stream,
-                'dechunk'
+                'dechunk',
+                STREAM_FILTER_READ
             );
         }
 
