@@ -27,7 +27,7 @@ class rex_media_manager
     /** @var bool */
     private $useCache = true;
 
-    /** @var array{media_path: ?string, format: string, headers: array<string, string>}|null */
+    /** @var array{media_path: ?string, media_filename: string, format: string, headers: array<string, string>}|null */
     private $cache;
 
     /** @var bool */
@@ -70,6 +70,7 @@ class rex_media_manager
             $cache = $manager->getHeaderCache();
             assert(null !== $cache);
 
+            $media->setMediaFilename($cache['media_filename']);
             $media->setFormat($cache['format']);
 
             foreach ($cache['headers'] as $key => $value) {
@@ -263,7 +264,7 @@ class rex_media_manager
     }
 
     /**
-     * @return array{media_path: ?string, format: string, headers: array<string, string>}|null
+     * @return array{media_path: ?string, media_filename: string, format: string, headers: array<string, string>}|null
      */
     private function getHeaderCache()
     {
@@ -271,7 +272,7 @@ class rex_media_manager
             return $this->cache;
         }
 
-        /** @var array{media_path: ?string, format: string, headers: array<string, string>}|null $cache */
+        /** @var array{media_path: ?string, media_filename: string, format: string, headers: array<string, string>}|null $cache */
         $cache = rex_file::getCache($this->getHeaderCacheFilename(), null);
 
         return $this->cache = $cache;
