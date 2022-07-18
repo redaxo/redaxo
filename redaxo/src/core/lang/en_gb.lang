@@ -126,6 +126,7 @@ syslog_file = File
 syslog_line = Row
 syslog_title = logfile "{0}"
 syslog_phperrors = PHP errorlog
+syslog_slowqueries = DB Slow-Query log
 syslog_empty = empty logfile
 syslog_download = Download "{0}"
 server = Website URL

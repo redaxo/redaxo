@@ -126,6 +126,7 @@ syslog_file = Datei
 syslog_line = Zeile
 syslog_title = Logdatei "{0}"
 syslog_phperrors = PHP Errorlog
+syslog_slowqueries = DB Slow-Query log
 syslog_empty = Leere Logdatei
 syslog_download = "{0}" herunterladen
 server = URL der Website
