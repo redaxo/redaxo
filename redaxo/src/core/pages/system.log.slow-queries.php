@@ -4,7 +4,10 @@
  * @package redaxo5
  */
 
-/** @psalm-suppress UnusedVariable */
 $logFile = rex_sql_util::slowQueryLogPath();
+
+if ($logFile === null) {
+    throw new rex_exception('slow query log file not found');
+}
 
 require_once __DIR__.'/system.log.external.php';
