@@ -248,7 +248,7 @@ class rex_setup
      */
     public static function isInitialSetup(): bool
     {
-        /** @var bool $initial */
+        /** @var bool|null $initial */
         static $initial;
 
         if (null !== $initial) {
