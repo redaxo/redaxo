@@ -49,6 +49,12 @@ abstract class rex_metainfo_handler
                 unset($attrArray['perm']);
             }
 
+            $note = null;
+            if (isset($attrArray['note'])) {
+                $note = $attrArray['note'];
+                unset($attrArray['note']);
+            }
+
             // `rex_string::split` transforms attributes without value (like `disabled`, `data-foo` etc.) to an int based array element
             // we transform them to array elements with the attribute name as key and empty value
             foreach ($attrArray as $key => $value) {
@@ -107,6 +113,7 @@ abstract class rex_metainfo_handler
                     $e = [];
                     $e['label'] = $label;
                     $e['field'] = $field;
+                    $e['note'] = $note;
                     $fragment = new rex_fragment();
                     $fragment->setVar('elements', [$e], false);
                     $field = $fragment->parse('core/form/form.php');
@@ -182,6 +189,7 @@ abstract class rex_metainfo_handler
                             $e['label'] = '<label for="' . $currentId . '">' . rex_escape($value) . '</label>';
                         }
                         $e['field'] = '<input type="' . rex_escape($typeLabel) . '" name="' . rex_escape($name) . '" value="' . rex_escape($key) . '" id="' . $currentId . '" ' . $attrStr . $selected . ' />';
+                        $e['note'] = $oneValue ? $note : null;
                         $formElements[] = $e;
                     }
 
@@ -202,6 +210,7 @@ abstract class rex_metainfo_handler
                         $e = [];
                         $e['label'] = $label;
                         $e['field'] = $field;
+                        $e['note'] = $note;
                         $fragment = new rex_fragment();
                         $fragment->setVar('elements', [$e], false);
                         $field = $fragment->parse('core/form/form.php');
@@ -264,6 +273,7 @@ abstract class rex_metainfo_handler
                     $e = [];
                     $e['label'] = $label;
                     $e['field'] = $field;
+                    $e['note'] = $note;
                     $fragment = new rex_fragment();
                     $fragment->setVar('elements', [$e], false);
                     $field = $fragment->parse('core/form/form.php');
@@ -320,6 +330,7 @@ abstract class rex_metainfo_handler
                     $e = [];
                     $e['label'] = $label;
                     $e['field'] = $field;
+                    $e['note'] = $note;
                     $fragment = new rex_fragment();
                     $fragment->setVar('elements', [$e], false);
                     $field = $fragment->parse('core/form/form.php');
@@ -342,6 +353,7 @@ abstract class rex_metainfo_handler
                     $e = [];
                     $e['label'] = $label;
                     $e['field'] = $field;
+                    $e['note'] = $note;
                     $fragment = new rex_fragment();
                     $fragment->setVar('elements', [$e], false);
                     $field = $fragment->parse('core/form/form.php');
@@ -387,6 +399,7 @@ abstract class rex_metainfo_handler
                     $e = [];
                     $e['label'] = $label;
                     $e['field'] = $field;
+                    $e['note'] = $note;
                     $fragment = new rex_fragment();
                     $fragment->setVar('elements', [$e], false);
                     $field = $fragment->parse('core/form/form.php');
@@ -422,6 +435,7 @@ abstract class rex_metainfo_handler
                     $e = [];
                     $e['label'] = $label;
                     $e['field'] = $field;
+                    $e['note'] = $note;
                     $fragment = new rex_fragment();
                     $fragment->setVar('elements', [$e], false);
                     $field = $fragment->parse('core/form/form.php');
@@ -452,6 +466,7 @@ abstract class rex_metainfo_handler
                     $e = [];
                     $e['label'] = $label;
                     $e['field'] = $field;
+                    $e['note'] = $note;
                     $fragment = new rex_fragment();
                     $fragment->setVar('elements', [$e], false);
                     $field = $fragment->parse('core/form/form.php');
@@ -483,6 +498,7 @@ abstract class rex_metainfo_handler
                     $e = [];
                     $e['label'] = $label;
                     $e['field'] = $field;
+                    $e['note'] = $note;
                     $fragment = new rex_fragment();
                     $fragment->setVar('elements', [$e], false);
                     $field = $fragment->parse('core/form/form.php');
