@@ -208,23 +208,6 @@ class rex_socket_response
         if (feof($this->stream)) {
             return false;
         }
-        if ($this->chunked) {
-            if (0 == $this->chunkPos) {
-                $this->chunkLength = hexdec(fgets($this->stream));
-                if (0 == $this->chunkLength) {
-                    return false;
-                }
-            }
-            $pos = ftell($this->stream);
-            $buf = fread($this->stream, min($length, $this->chunkLength - $this->chunkPos));
-            $this->chunkPos += ftell($this->stream) - $pos;
-            if ($this->chunkPos >= $this->chunkLength) {
-                fgets($this->stream);
-                $this->chunkPos = 0;
-                $this->chunkLength = 0;
-            }
-            return $buf;
-        }
         return fread($this->stream, $length);
     }
 
@@ -239,9 +222,17 @@ class rex_socket_response
             $this->body = '';
 
             $appendedZlibStreamFilter = null;
+            $appendedDechunkFilter = null;
+
+            if ($this->chunked) {
+                $appendedDechunkFilter = stream_filter_append(
+                    $this->stream,
+                    'dechunk'
+                );
+            }
 
             // Decode the content for gzip and deflate
-            if ($this->isGzipOrDeflateEncoded() && $this->decompressContent && !$this->chunked) {
+            if ($this->isGzipOrDeflateEncoded() && $this->decompressContent) {
                 $appendedZlibStreamFilter = $this->addZlibStreamFilter($this->stream, STREAM_FILTER_READ);
             }
 
@@ -249,25 +240,14 @@ class rex_socket_response
                 $this->body .= $buf;
             }
 
-            if ($this->isGzipOrDeflateEncoded() && $this->decompressContent && $this->chunked) {
-                $stream = fopen('php://temp', 'r+');
-                fwrite($stream, $this->body);
-                fseek($stream, 0);
-                $appendedZlibStreamFilter = $this->addZlibStreamFilter($stream, STREAM_FILTER_READ);
-                $decodedContent = '';
-
-                while (!feof($stream)) {
-                    $decodedContent .= fread($stream, 1024);
-                }
-                fclose($stream);
-
-                $this->body = $decodedContent;
-                unset($decodedContent);
-            }
-
             if (is_resource($appendedZlibStreamFilter)) {
                 /** @psalm-suppress UnusedFunctionCall */
                 stream_filter_remove($appendedZlibStreamFilter);
+            }
+
+            if (is_resource($appendedDechunkFilter)) {
+                /** @psalm-suppress UnusedFunctionCall */
+                stream_filter_remove($appendedDechunkFilter);
             }
         }
         return $this->body;
@@ -328,6 +308,13 @@ class rex_socket_response
         }
         if (!is_resource($resource)) {
             return false;
+        }
+
+        if ($this->chunked) {
+            stream_filter_append(
+                $this->stream,
+                'dechunk'
+            );
         }
 
         if ($this->isGzipOrDeflateEncoded() && $this->decompressContent) {
