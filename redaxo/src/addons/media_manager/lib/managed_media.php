@@ -232,6 +232,7 @@ class rex_managed_media
             if ($save) {
                 rex_file::putCache($headerCachePath, [
                     'media_path' => $this->getMediaPath(),
+                    'media_filename' => $this->getMediaFilename(),
                     'format' => $this->format,
                     'headers' => $this->header,
                 ]);
@@ -251,6 +252,7 @@ class rex_managed_media
             if ($save) {
                 rex_file::putCache($headerCachePath, [
                     'media_path' => $this->getMediaPath(),
+                    'media_filename' => $this->getMediaFilename(),
                     'format' => $this->format,
                     'headers' => $this->header,
                 ]);
@@ -489,6 +491,7 @@ class rex_managed_media
     {
         rex_file::putCache($headerCachePath, [
             'media_path' => $this->getMediaPath(),
+            'media_filename' => $this->getMediaFilename(),
             'format' => $this->format,
             'headers' => $this->header,
         ]);
