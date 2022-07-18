@@ -121,6 +121,14 @@ class rex_api_install_core_update extends rex_api_function
                             $addon->setConfig($key, $value);
                         }
                     }
+                    foreach ($addon->getAvailablePlugins() as $plugin) {
+                        $config = rex_file::getConfig($temppath.'addons/'.$addon->getName().'/plugins/'.$plugin->getName().'/'.rex_package::FILE_PACKAGE);
+                        foreach ($config['default_config'] ?? [] as $key => $value) {
+                            if (!$plugin->hasConfig($key)) {
+                                $plugin->setConfig($key, $value);
+                            }
+                        }
+                    }
                 }
             }
 
