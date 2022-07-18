@@ -182,7 +182,6 @@ if ('setup' == rex_be_controller::getCurrentPagePart(1)) {
             $n['itemAttr']['class'][] = 'disabled';
         }
 
-        $name = '';
         if (isset($n['href']) && '' != $lang) {
             $name = rex_i18n::msg('setup_' . $i . '99');
         } else {
