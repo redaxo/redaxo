@@ -16,7 +16,7 @@ jobs:
     psalm-analysis:
         name: psalm static code analysis
         runs-on: ubuntu-latest
-        timeout-minutes: 15
+        timeout-minutes: 30
         permissions:
             contents: write  # for stefanzweifel/git-auto-commit-action to push code in repo
 
@@ -64,7 +64,7 @@ jobs:
     psalm-taint-analysis:
         name: psalm taint analysis
         runs-on: ubuntu-latest
-        timeout-minutes: 15
+        timeout-minutes: 30
         if: github.event.pull_request.draft == false
         permissions:
             contents: write  # for stefanzweifel/git-auto-commit-action to push code in repo
@@ -113,7 +113,7 @@ jobs:
     phpstan-analysis:
         name: phpstan static code analysis
         runs-on: ubuntu-latest
-        timeout-minutes: 15
+        timeout-minutes: 30
         permissions:
             contents: write  # for Git to git apply
 
