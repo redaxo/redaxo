@@ -6,6 +6,8 @@ Version 2.9.0 – XX.XX.2022
 
 ### Neu
 
+* Skript-Umgebung: Auflistung der ausgeführten Jobs mit Status und Meldung (@gharlan)
+* Im Cronjob-Formular werden teils Checkboxen/Radios statt Selects verwendet (@gharlan)
 * Anzeige Logeinträge auf 100 erhöht (@staabm)
 
 

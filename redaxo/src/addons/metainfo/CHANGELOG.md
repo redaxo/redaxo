@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.9.0 – XX.XX.2022
+--------------------------
+
+### Neu
+
+* Es können Notizen/Hinweise zu Feldern hinzugefügt werden (@gharlan)
+
+
 Version 2.8.5 – 03.05.2022
 --------------------------
 
