@@ -175,6 +175,7 @@ setup_error2 = Tyvärr kunde det inte skrivas på config.yml-filen. Vänligen ä
 
 setup_100 = Installation: Steg 1 av 6 / Språk
 setup_101 = Vänligen välj ett språk
+setup_110 = 
 setup_199 = 1 / Språk
 
 setup_200 = Installation: Steg 2 av 6 / Systemkontroll
@@ -256,8 +257,8 @@ setup_605 = Lycka till!<br />REDAXO teamet
 setup_606 = till login
 setup_699 = 6 / Heureka
 
-setup_security_msg =
-setup_no_js_security_msg =
+setup_security_msg = 
+setup_no_js_security_msg = 
 setup_security_no_https = Setup görs utan HTTPS / kryptering. Det rekommenderas att alla frontend och backend-upprop görs med endast HTTPS för att säkerställa integritet och datasäkerhet.
 setup_security_warn_mod_security = Apache-modulen "mod_security" laddades. Detta kan leda till problem om det är felaktigt konfigurerat.
 setup_security_deprecated_php = Den använda PHP-versionen {0} underhålls inte längre av tillverkaren och bör uppdateras.
@@ -413,7 +414,7 @@ backend_language = Backendspråk
 user_data_updated = Användaruppgifter aktualiserades!
 theme = Backend-Theme
 
-password_change_required =
+password_change_required = Lösenordet har upphört att gälla. Vänligen ange ett nytt lösenord för att fortsätta!
 password_not_changed = Det nya lösenordet måste skilja sig från det föregående!
 password_already_used = Lösenordet har redan använts och kan inte användas igen!
 password_invalid = Lösenordet motsvarar inte de föreskrivna reglerna ({0})!

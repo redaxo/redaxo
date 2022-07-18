@@ -70,6 +70,7 @@ cronjob_status_deactivate_error = Cronjobb "{0}" kunde inte deaktiveras!
 
 cronjob_error_no_name = Ange ett namn!
 cronjob_error_no_environment = Minst ett område måste väljas ut!
+cronjob_error_interval_incomplete = För intervallet måste ett värde väljas i varje kategori!
 
 cronjob_not_found = Cronjobb kunde inte hittas!
 cronjob_not_editable = Cronjobb kan inte redigeras!
