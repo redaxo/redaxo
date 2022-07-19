@@ -25,6 +25,8 @@ class rex_socket_response
     private $body;
     /** @var bool */
     private $decompressContent;
+    /** @var bool */
+    private $streamFiltersInitialized = false;
 
     /**
      * Constructor.
@@ -204,6 +206,25 @@ class rex_socket_response
         if (feof($this->stream)) {
             return false;
         }
+
+        if (!$this->streamFiltersInitialized) {
+            if ($this->chunked) {
+                if (!is_resource(stream_filter_append(
+                        $this->stream,
+                        'dechunk',
+                        STREAM_FILTER_READ
+                    ))) {
+                    throw new \rex_exception('Could not add dechunk filter to socket stream');
+                }
+            }
+
+            if ($this->decompressContent && $this->isGzipOrDeflateEncoded()) {
+                $this->addZlibStreamFilter($this->stream, STREAM_FILTER_READ);
+            }
+
+            $this->streamFiltersInitialized = true;
+        }
+
         return fread($this->stream, $length);
     }
 
@@ -217,34 +238,8 @@ class rex_socket_response
         if (null === $this->body) {
             $this->body = '';
 
-            $appendedZlibStreamFilter = null;
-            $appendedDechunkFilter = null;
-
-            if ($this->chunked) {
-                $appendedDechunkFilter = stream_filter_append(
-                    $this->stream,
-                    'dechunk',
-                    STREAM_FILTER_READ
-                );
-            }
-
-            // Decode the content for gzip and deflate
-            if ($this->isGzipOrDeflateEncoded() && $this->decompressContent) {
-                $appendedZlibStreamFilter = $this->addZlibStreamFilter($this->stream, STREAM_FILTER_READ);
-            }
-
             while (false !== ($buf = $this->getBufferedBody())) {
                 $this->body .= $buf;
-            }
-
-            if (is_resource($appendedZlibStreamFilter)) {
-                /** @psalm-suppress UnusedFunctionCall */
-                stream_filter_remove($appendedZlibStreamFilter);
-            }
-
-            if (is_resource($appendedDechunkFilter)) {
-                /** @psalm-suppress UnusedFunctionCall */
-                stream_filter_remove($appendedDechunkFilter);
             }
         }
         return $this->body;
@@ -305,19 +300,6 @@ class rex_socket_response
         }
         if (!is_resource($resource)) {
             return false;
-        }
-
-        if ($this->chunked) {
-            /** @psalm-suppress UnusedFunctionCall */
-            stream_filter_append(
-                $this->stream,
-                'dechunk',
-                STREAM_FILTER_READ
-            );
-        }
-
-        if ($this->isGzipOrDeflateEncoded() && $this->decompressContent) {
-            $this->addZlibStreamFilter($resource, STREAM_FILTER_WRITE);
         }
 
         $success = true;
