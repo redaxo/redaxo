@@ -6322,6 +6322,9 @@
     <MixedOperand occurrences="1">
       <code>rex_escape($logLine)</code>
     </MixedOperand>
+    <TypeDoesNotContainNull occurrences="1">
+      <code>isset($logFile)</code>
+    </TypeDoesNotContainNull>
   </file>
   <file src="redaxo/src/core/pages/system.report.html.php">
     <MixedArgument occurrences="1">

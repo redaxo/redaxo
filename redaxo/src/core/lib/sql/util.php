@@ -7,6 +7,26 @@
  */
 class rex_sql_util
 {
+    public static function slowQueryLogPath(): ?string
+    {
+        $db = rex_sql::factory();
+        $db->setQuery("show variables like 'slow_query_log_file'");
+        $slowQueryLogPath = (string) $db->getValue('Value');
+
+        if ('' !== $slowQueryLogPath) {
+            if ('.' === dirname($slowQueryLogPath)) {
+                $db->setQuery('select @@datadir as default_data_dir');
+                $defaultDataDir = (string) $db->getValue('default_data_dir');
+
+                return $defaultDataDir . $slowQueryLogPath;
+            }
+
+            return $slowQueryLogPath;
+        }
+
+        return null;
+    }
+
     /**
      * Copy the table structure (without its data) to another table.
      *
