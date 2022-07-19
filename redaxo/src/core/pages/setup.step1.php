@@ -23,7 +23,7 @@ $fragment->setVar('heading', rex_i18n::msg('setup_101'), false);
 $fragment->setVar('content', $content, false);
 
 if (!$initial) {
-    $buttons = '<a class="btn btn-setup" href="' . $context->getUrl(['step' => 2]) . '">' . rex_i18n::msg('setup_110') . '</a>';
+    $buttons = '<a class="btn btn-setup" href="' . $context->getUrl(['lang' => $current, 'step' => 2]) . '">' . rex_i18n::msg('setup_110') . '</a>';
 
     $fragment->setVar('buttons', $buttons, false);
 }
