@@ -10,9 +10,4 @@
       <code>$data</code>
     </TaintedCallable>
   </file>
-  <file src="redaxo/src/core/pages/system.log.external.php">
-    <TaintedFile occurrences="1">
-      <code>$logFile</code>
-    </TaintedFile>
-  </file>
 </files>

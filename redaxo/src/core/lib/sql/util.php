@@ -7,6 +7,9 @@
  */
 class rex_sql_util
 {
+    /**
+     * @psalm-taint-escape file
+     */
     public static function slowQueryLogPath(): ?string
     {
         $db = rex_sql::factory();
