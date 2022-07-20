@@ -100,7 +100,7 @@ class rex_template
      */
     public static function getTemplatesDir()
     {
-        return rex_path::addonCache('templates');
+        return rex_path::addonCache('structure', 'templates');
     }
 
     public function getTemplate()
@@ -225,5 +225,13 @@ class rex_template
         rex_template_cache::generateKeyMapping();
 
         return $mapping = rex_file::getCache($file);
+    }
+
+    /**
+     * @return list<rex_ctype>
+     */
+    public function getCtypes(): array
+    {
+        return rex_ctype::forTemplate($this->id);
     }
 }

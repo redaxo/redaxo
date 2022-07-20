@@ -38,7 +38,7 @@ class rex_article_revision
             $ins->setTable(rex::getTablePrefix() . 'article_slice');
 
             foreach ($cols as $col) {
-                $colname = $col->getValue('Field');
+                $colname = (string) $col->getValue('Field');
                 $ins->setValue($colname, $slice->getValue($colname));
             }
 
@@ -71,5 +71,23 @@ class rex_article_revision
         $dc->setQuery('delete from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=?', [$articleId, $clang, $fromRevisionId]);
 
         return true;
+    }
+
+    public static function setSessionArticleRevision(int $articleId, int $revision): void
+    {
+        $login = rex::getProperty('login');
+        /** @var array<int, 0|1> $revisions */
+        $revisions = $login->getSessionVar('rex_version_article');
+
+        $revisions[$articleId] = $revision;
+        $login->setSessionVar('rex_version_article', $revisions);
+    }
+
+    public static function getSessionArticleRevision(int $articleId): int
+    {
+        /** @var array<int, 0|1> $revisions */
+        $revisions = rex::getProperty('login')->getSessionVar('rex_version_article');
+
+        return $revisions[$articleId] ?? 1;
     }
 }

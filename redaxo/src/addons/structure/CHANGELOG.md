@@ -1,6 +1,23 @@
 Changelog
 =========
 
+Version 2.14.0 – XX.XX.2022
+---------------------------
+
+### Neu
+
+* `rex_template`: Neue Methode `getCtypes` die ein Array von neuen `rex_ctype`-Objekten liefert (@staabm)
+* Beim Löschen von Kategorien/Artikeln wird im confirm-Dialog darauf hingewiesen, dass in allen Sprachen gelöscht wird (@gharlan)
+* version-Plugin: 
+    - Voransicht Arbeitsversion: Bei fehlender Backend-Session kommt die Oops-Page mit Erläuterung (statt hartem Fehler mit Logmeldung) (@gharlan)
+    - Nach Kopieren zwischen Live/Arbeitsversion wird in die Zielversion gesprungen (@gharlan)
+
+### Bugfixes
+
+* history-Plugin: Session-Übernahme bei Multidomain korrigiert (@gharlan)
+* Templates-Cache war fälschlich in `cache/addons/templates` statt im `structure`-Cacheordner (@gharlan)
+
+
 Version 2.13.3 – 03.05.2022
 ---------------------------
 

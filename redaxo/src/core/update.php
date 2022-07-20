@@ -4,7 +4,7 @@
 // while updating the core, the constants contain the old min versions from previous core version
 
 if (PHP_VERSION_ID < 70300) {
-    throw new rex_functional_exception(rex_i18n::msg('setup_301', PHP_VERSION, '7.3'));
+    throw new rex_functional_exception(rex_i18n::msg(rex_string::versionCompare(rex::getVersion(), '5.14.0-dev', '<') ? 'setup_301' : 'setup_201', PHP_VERSION, '7.3'));
 }
 
 $minExtensions = ['ctype', 'fileinfo', 'filter', 'iconv', 'intl', 'mbstring', 'pcre', 'pdo', 'pdo_mysql', 'session', 'tokenizer'];

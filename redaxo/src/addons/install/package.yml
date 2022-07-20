@@ -1,5 +1,5 @@
 package: install
-version: '2.9.3'
+version: '2.10.0-beta1'
 author: Gregor Harlan
 supportpage: https://github.com/redaxo/redaxo
 

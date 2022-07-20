@@ -1,6 +1,41 @@
 Changelog
 =========
 
+Version 5.14.0 – XX.XX.2022
+---------------------------
+
+### Neu
+
+* Setup: 
+    - Lizenzschritt entfernt (@gharlan)
+    - Bei erneutem Setup ist die bisherige Sprache vorausgewählt (@gharlan)
+* `rex_backend_login`:
+    - Neue `backend_login_policy` (in `config.yml`) mit Optionen `login_tries_until_blocked`, `login_tries_until_delay`, `relogin_delay` und `enable_stay_logged_in` (@staabm)
+    - Neue Methode `increaseLoginTries` (@staabm)
+* `rex_form_base`:
+    - Neue Methode `setFormAttribute` (@pherzberger)
+    - In `addFieldset` können Attribute als zweiten Parameter übergeben werden (@gharlan)
+* `rex_select`: Optgroups können per `endOptgroup` beendet werden (@gharlan)
+* `rex_context`: Neue Methoden `getParams`, `hasParam`, `removeParam` (@tbaddade)
+* `rex_be_page`: Neuer Setter `setTitle` (@DanielWeitenauer)
+* `rex_socket`: Beispiel-Code optimiert (@marcohanke)
+* `rex_path`: Neue Methode `findBinaryPath` (@staabm)
+* `rex_type`: Neue Type-Assertion-Methoden wie `int`, `nullOrInt` etc. (@gharlan)
+* `rex_sql`: Bei `factory` wird noch nicht die DB-Verbindung geöffnet, sondern erst wenn wirklich notwendig (@Sysix)
+* Neuer EP `PACKAGE_CACHE_DELETED` (@gharlan)
+* Aktualisierung Übersetzungen: schwedisch (@interweave-media)
+* Autoloading: Wenn eine Klasse nicht gefunden wird, wird automatisch der Autoload-Cache geleert (@staabm)
+* PHP 8.2: `SensitiveParameter`-Attribut wird an geeigneten Stellen verwendet (@staabm)
+* Code-Stabilität durch statische Code-Analyse verbessert (@staabm, @gharlan)
+
+### Bugfixes
+
+* `rex_request`: Vermeidung von Exceptions in der cli (@staabm)
+* `rex_socket_proxy`: Der `Host`-Header wurde fälschlich inkl. Port gesetzt (@gharlan)
+* Cookie `rex_htaccess_check` hat nicht die Cookie-Einstellungen aus der `config.yml` verwendet (@staabm)
+* PHP 8.2: Deprecation-Warnings entfernt (@staabm, @gharlan)
+
+
 Version 5.13.3 – 03.05.2022
 ---------------------------
 

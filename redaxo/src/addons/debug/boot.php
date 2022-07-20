@@ -21,7 +21,7 @@ if (rex::isBackend() && 'debug' === rex_request::get('page') && rex::getUser() &
     }
 
     // prepend backend folder
-    $apiUrl = rex_path::basename(rex_path::backend()).'/'.rex_debug_clockwork::getClockworkApiUrl();
+    $apiUrl = dirname($_SERVER['REQUEST_URI']).'/'.rex_debug_clockwork::getClockworkApiUrl();
     $appearance = rex::getTheme();
     if (!$appearance) {
         $appearance = 'auto';
