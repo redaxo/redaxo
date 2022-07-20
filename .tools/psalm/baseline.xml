@@ -4376,27 +4376,13 @@
     </MixedReturnTypeCoercion>
   </file>
   <file src="redaxo/src/core/lib/console/config/get.php">
-    <MixedArgument occurrences="2">
-      <code>$config</code>
+    <MixedArgument occurrences="1">
       <code>$config</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="1">
-      <code>$config[$pathPart]</code>
-    </MixedArrayAccess>
     <MixedAssignment occurrences="2">
       <code>$config</code>
       <code>$config</code>
     </MixedAssignment>
-    <PossiblyInvalidArgument occurrences="2">
-      <code>$config</code>
-      <code>$config</code>
-    </PossiblyInvalidArgument>
-    <PossiblyInvalidArrayOffset occurrences="1">
-      <code>$config[$pathPart]</code>
-    </PossiblyInvalidArrayOffset>
-    <PossiblyUndefinedMethod occurrences="1">
-      <code>$config</code>
-    </PossiblyUndefinedMethod>
   </file>
   <file src="redaxo/src/core/lib/console/config/set.php">
     <MixedAssignment occurrences="2">
