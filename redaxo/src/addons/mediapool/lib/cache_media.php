@@ -36,7 +36,7 @@ class rex_media_cache
     {
         $cachePath = rex_path::addonCache('mediapool');
 
-        $glob = glob($cachePath . '*.mlist');
+        $glob = glob($cachePath . '*.mlist', GLOB_NOSORT);
         if (is_array($glob)) {
             foreach ($glob as $file) {
                 rex_file::delete($file);
@@ -63,7 +63,7 @@ class rex_media_cache
     {
         $cachePath = rex_path::addonCache('mediapool');
 
-        $glob = glob($cachePath . '*.mclist');
+        $glob = glob($cachePath . '*.mclist', GLOB_NOSORT);
         if (is_array($glob)) {
             foreach ($glob as $file) {
                 rex_file::delete($file);

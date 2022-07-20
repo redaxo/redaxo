@@ -16,7 +16,7 @@ rex_perm::register('history[article_rollback]', null, rex_perm::OPTIONS);
 
 if ('' != $historyDate) {
     $historySession = rex_request('rex_history_session', 'string');
-    $historyLogin = rex_request(rex_history_login::class, 'string');
+    $historyLogin = rex_request('rex_history_login', 'string');
     $historyValidtime = rex_request('rex_history_validtime', 'string');
 
     $user = null;

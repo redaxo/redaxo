@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.8.2 – XX.XX.2022
+--------------------------
+
+### Bugfixes
+
+* Umlaute in Sprachdatei korrigiert (@frood)
+
+
 Version 2.8.1 – 03.05.2022
 --------------------------
 

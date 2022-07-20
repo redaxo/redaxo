@@ -11,10 +11,9 @@ dirperm: '0775'
 session_duration: 7200
 session_keep_alive: 21600
 backend_login_policy:
-    login_tries_1: 3
-    relogin_delay_1: 5
-    login_tries_2: 50
-    relogin_delay_2: 3600
+    login_tries_until_blocked: 50
+    login_tries_until_delay: 3
+    relogin_delay: 5
     enable_stay_logged_in: true
 # using separate cookie domains for frontend and backend is more secure,
 # but be warned that some features like detecting a backend user in the frontend
@@ -46,7 +45,7 @@ password_policy:
     # no_reuse_within: P6W
     # force_renew_after: P6W
     # block_account_after: P3M
-lang: de_de
+lang: en_gb
 lang_fallback: [en_gb, de_de]
 use_https: false
 use_hsts: false

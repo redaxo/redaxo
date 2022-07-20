@@ -98,16 +98,13 @@
             "description": "backend login policy",
             "type": "object",
             "properties": {
-                "login_tries_1": {
+                "login_tries_until_blocked": {
                     "type": "integer"
                 },
-                "relogin_delay_1": {
+                "login_tries_until_delay": {
                     "type": "integer"
                 },
-                "login_tries_2": {
-                    "type": "integer"
-                },
-                "relogin_delay_2": {
+                "relogin_delay": {
                     "type": "integer"
                 },
                 "enable_stay_logged_in": {

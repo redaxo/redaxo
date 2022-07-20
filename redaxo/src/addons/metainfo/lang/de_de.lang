@@ -42,7 +42,7 @@ minfo_field_params_notice_9 = Beispiel:<br /> <code>category="1"</code>
 minfo_field_params_notice_10 = Beispiel:<br /> <code>start-year="1990" end-year="2030"</code>
 minfo_field_params_notice_11 = Beispiel:<br /> <code>start-year="1990" end-year="2030"</code>
 
-minfo_field_attributes_notice = HTML-Attribute beim input-Feld und Permissions, zum Beispiel:<br /><code>style="color:red;" multiple="multiple" class="my_css_class" perm="admin[]"</code>
+minfo_field_attributes_notice = HTML-Attribute beim input-Feld und Permissions, zum Beispiel:<br /><code>style="color:red;" multiple="multiple" class="my_css_class" perm="admin[]" note="Notiz"</code>
 minfo_field_label_notice = Code, der ausgeführt wird, wenn der Wert des Feldes geändert wird.<br /> Lesbare Variablen: <code>string $fieldName, string $fieldValue, rex_sql $field</code>
 
 minfo_field_error_name = Bitte Spaltennamen eingeben!

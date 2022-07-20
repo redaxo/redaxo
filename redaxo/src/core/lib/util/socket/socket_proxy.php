@@ -37,7 +37,7 @@ class rex_socket_proxy extends rex_socket
         $this->destinationPort = $port;
         $this->destinationSsl = $ssl;
 
-        $this->addHeader('Host', $host . ':' . $port);
+        $this->addHeader('Host', $host);
 
         return $this;
     }

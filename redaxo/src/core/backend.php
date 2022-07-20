@@ -62,7 +62,7 @@ $pages = [];
 // ----------------- SETUP
 if (rex::isSetup()) {
     // ----------------- SET SETUP LANG
-    $requestLang = rex_request('lang', 'string');
+    $requestLang = rex_request('lang', 'string', rex::getProperty('lang'));
     if (in_array($requestLang, rex_i18n::getLocales())) {
         rex::setProperty('lang', $requestLang);
     } else {
@@ -195,6 +195,7 @@ rex_view::addJsFile(rex_url::coreAssets('clipboard-copy-element.js'), [rex_view:
 rex_view::setJsProperty('backend', true);
 rex_view::setJsProperty('accesskeys', rex::getProperty('use_accesskeys'));
 rex_view::setJsProperty('session_keep_alive', rex::getProperty('session_keep_alive', 0));
+rex_view::setJsProperty('cookie_params', rex_login::getCookieParams());
 
 // ----- INCLUDE ADDONS
 include_once rex_path::core('packages.php');

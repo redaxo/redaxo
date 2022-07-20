@@ -14,6 +14,9 @@ abstract class rex_form_base
     /** @var string */
     protected $fieldset;
 
+    /** @var array<string, array<string, int|string|list<string>>> */
+    private $fieldsetAttributes = [];
+
     /** @var array<string, list<rex_form_element>> */
     protected $elements;
 
@@ -117,10 +120,12 @@ abstract class rex_form_base
      * Dieses dient dazu ein Formular in mehrere Abschnitte zu gliedern.
      *
      * @param string $fieldset
+     * @param array<string, int|string|list<string>> $attributes
      */
-    public function addFieldset($fieldset)
+    public function addFieldset($fieldset, array $attributes = [])
     {
         $this->fieldset = $fieldset;
+        $this->fieldsetAttributes[$fieldset] = $attributes;
     }
 
     // --------- Fields
@@ -1272,7 +1277,8 @@ abstract class rex_form_base
             $this->method
         );
         foreach ($fieldsets as $fieldsetName => $fieldsetElements) {
-            $s .= '<fieldset>' . "\n";
+            $attributes = $this->fieldsetAttributes[$fieldsetName] ?? [];
+            $s .= '<fieldset '.rex_string::buildAttributes($attributes).'>' . "\n";
 
             if ('' != $fieldsetName && $fieldsetName != $this->name) {
                 $s .= '<legend>' . rex_escape($fieldsetName) . '</legend>' . "\n";
