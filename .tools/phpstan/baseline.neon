@@ -111,6 +111,21 @@ parameters:
 			path: ../../redaxo/src/addons/be_style/lib/scss_compiler.php
 
 		-
+			message: "#^Result of && is always false\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/be_style/plugins/redaxo/boot.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between '' and non\\-empty\\-string will always evaluate to false\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/be_style/plugins/redaxo/boot.php
+
+		-
+			message: "#^Ternary operator condition is always true\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/be_style/plugins/redaxo/boot.php
+
+		-
 			message: "#^Method rex_command_cronjob_run\\:\\:configure\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/cronjob/lib/command/run.php
@@ -3606,11 +3621,6 @@ parameters:
 			path: ../../redaxo/src/addons/structure/plugins/history/lib/cronjob.php
 
 		-
-			message: "#^Attribute class SensitiveParameter does not exist\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/plugins/history/lib/history_login.php
-
-		-
 			message: "#^Method rex_history_login\\:\\:checkTempSession\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/plugins/history/lib/history_login.php
@@ -3781,6 +3791,11 @@ parameters:
 			path: ../../redaxo/src/addons/users/lib/select_element.php
 
 		-
+			message: "#^If condition is always true\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/fragments/core/top.php
+
+		-
 			message: "#^Function rex_set_session\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/functions/function_rex_globals.php
@@ -3789,6 +3804,11 @@ parameters:
 			message: "#^Function rex_unset_session\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/functions/function_rex_globals.php
+
+		-
+			message: "#^If condition is always true\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/layout/top.php
 
 		-
 			message: "#^Argument of an invalid type rex_api_result supplied for foreach, only iterables are supported\\.$#"
@@ -5441,11 +5461,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/login/api_user_impersonate.php
 
 		-
-			message: "#^Attribute class SensitiveParameter does not exist\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/backend_login.php
-
-		-
 			message: "#^Method rex_backend_login\\:\\:deleteStayLoggedInCookie\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/login/backend_login.php
@@ -5489,11 +5504,6 @@ parameters:
 			message: "#^Property rex_complex_perm\\:\\:\\$perms type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/login/complex_perm.php
-
-		-
-			message: "#^Attribute class SensitiveParameter does not exist\\.$#"
-			count: 7
-			path: ../../redaxo/src/core/lib/login/login.php
 
 		-
 			message: "#^If condition is always true\\.$#"
@@ -5766,11 +5776,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/login/login.php
 
 		-
-			message: "#^Attribute class SensitiveParameter does not exist\\.$#"
-			count: 2
-			path: ../../redaxo/src/core/lib/login/password_policy.php
-
-		-
 			message: "#^Method rex_password_policy\\:\\:isValid\\(\\) has parameter \\$password with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/login/password_policy.php
@@ -5794,11 +5799,6 @@ parameters:
 			message: "#^Method rex_user_role_interface\\:\\:hasPerm\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/login/role.php
-
-		-
-			message: "#^Attribute class SensitiveParameter does not exist\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/user.php
 
 		-
 			message: "#^Method rex_user\\:\\:addInstance\\(\\) has no return type specified\\.$#"
@@ -6614,11 +6614,6 @@ parameters:
 			message: "#^Method rex_sql_schema_dumper\\:\\:tableName\\(\\) has parameter \\$name with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/sql/schema_dumper.php
-
-		-
-			message: "#^Attribute class SensitiveParameter does not exist\\.$#"
-			count: 4
-			path: ../../redaxo/src/core/lib/sql/sql.php
 
 		-
 			message: "#^Method rex_sql\\:\\:buildOnDuplicateKeyUpdate\\(\\) has parameter \\$fields with no value type specified in iterable type array\\.$#"
