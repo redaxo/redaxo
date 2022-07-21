@@ -96,11 +96,11 @@ class rex_socket_response_test extends TestCase
             file_get_contents(__DIR__.'/socket_response_testfiles/response_decoded');
 
         static::assertSame($decodedResponseContent, $this->getResponse(
-            file_get_contents(__DIR__.'/socket_response_testfiles/response_chunked')
+            file_get_contents(__DIR__.'/socket_response_testfiles/response_chunked.testresp')
         )->decompressContent(true)->getBody());
 
         static::assertSame($decodedResponseContent, $this->getResponse(
-            file_get_contents(__DIR__.'/socket_response_testfiles/response_chunked_gzip')
+            file_get_contents(__DIR__.'/socket_response_testfiles/response_chunked_gzip.testresp')
         )->decompressContent(true)->getBody());
     }
 
