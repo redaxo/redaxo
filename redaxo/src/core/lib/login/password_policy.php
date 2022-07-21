@@ -61,6 +61,11 @@ class rex_password_policy
     }
 
     /**
+     * Generates the corresponding html attributes `minlength`, `maxlength` and `passwordrules`.
+     *
+     * @see https://github.com/whatwg/html/issues/3518
+     * @see https://www.scottbrady91.com/authentication/perfecting-the-password-field-with-the-html-passwordrules-attribute
+     *
      * @return array<string, string>
      */
     public function getHtmlAttributes(): array
