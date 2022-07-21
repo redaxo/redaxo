@@ -177,8 +177,8 @@ rex_be_controller::setPages($pages);
 
 // ----- Prepare Core Pages
 if (rex::getUser()) {
-    rex_be_controller::appendLoggedInPages();
     rex_be_controller::setCurrentPage(trim(rex_request('page', 'string')));
+    rex_be_controller::appendLoggedInPages();
 
     if ('profile' !== rex_be_controller::getCurrentPage() && rex::getProperty('login')->requiresPasswordChange()) {
         rex_response::sendRedirect(rex_url::backendPage('profile'));
