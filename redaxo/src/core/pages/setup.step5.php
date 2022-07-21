@@ -52,7 +52,7 @@ $formElements[] = $n;
 $passwordPolicy = rex_backend_password_policy::factory();
 $n = [];
 $n['label'] = '<label for="rex-form-redaxo-user-pass" class="required">' . rex_i18n::msg('setup_508') . '</label>';
-$n['field'] = '<input class="form-control" type="password" value="' . rex_escape($redaxoUserPass) . '" id="rex-form-redaxo-user-pass" name="redaxo_user_pass" '.rex_string::buildAttributes($passwordPolicy->getHtmlAttributes()).' />';
+$n['field'] = '<input class="form-control" type="password" value="' . rex_escape($redaxoUserPass) . '" id="rex-form-redaxo-user-pass" name="redaxo_user_pass" autocomplete="new-password" '.rex_string::buildAttributes($passwordPolicy->getHtmlAttributes()).' />';
 $n['note'] = $passwordPolicy->getDescription();
 $formElements[] = $n;
 
