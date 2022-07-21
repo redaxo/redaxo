@@ -51,7 +51,7 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-form-redaxo-user-pass" class="required">' . rex_i18n::msg('setup_508') . '</label>';
-$n['field'] = '<input class="form-control" type="password" value="' . rex_escape($redaxoUserPass) . '" id="rex-form-redaxo-user-pass" name="redaxo_user_pass" />';
+$n['field'] = '<input class="form-control" type="password" value="' . rex_escape($redaxoUserPass) . '" id="rex-form-redaxo-user-pass" name="redaxo_user_pass" autocomplete="new-password" />';
 $n['note'] = rex_backend_password_policy::factory()->getDescription();
 $formElements[] = $n;
 
