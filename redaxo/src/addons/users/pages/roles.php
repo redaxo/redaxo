@@ -67,6 +67,7 @@ if ('' == $func) {
 
     $field = $form->addTextField('name');
     $field->setLabel(rex_i18n::msg('name'));
+    $field->getValidator()->add('notEmpty');
 
     $field = $form->addTextAreaField('description');
     $field->setLabel(rex_i18n::msg('description'));
