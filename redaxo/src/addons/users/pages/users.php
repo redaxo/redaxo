@@ -387,7 +387,7 @@ if ('' != $fUNCADD || $userId > 0) {
             $addAdminChkbox = '';
         }
         $addStatusChkbox = '<input type="checkbox" id="rex-user-status" name="userstatus" value="1" ' . $statuschecked . ' />';
-        $addUserLogin = '<input class="form-control" type="text" id="rex-user-login" name="userlogin" value="' . rex_escape($userlogin) . '" autofocus autocomplete="username" />';
+        $addUserLogin = '<input class="form-control" type="text" id="rex-user-login" name="userlogin" value="' . rex_escape($userlogin) . '" required autofocus autocomplete="username" />';
 
         $formElements = [];
 

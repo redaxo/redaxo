@@ -50,7 +50,7 @@ $formElements = [];
 
 $inputGroups = [];
 $n = [];
-$n['field'] = '<input class="form-control" type="text" value="' . rex_escape($rexUserLogin) . '" id="rex-id-login-user" name="rex_user_login" autofocus />';
+$n['field'] = '<input class="form-control" type="text" value="' . rex_escape($rexUserLogin) . '" id="rex-id-login-user" name="rex_user_login" autocomplete="username" autofocus />';
 $n['left'] = '<i class="rex-icon rex-icon-user"></i>';
 $inputGroups[] = $n;
 
@@ -66,7 +66,7 @@ $formElements[] = $n;
 
 $inputGroups = [];
 $n = [];
-$n['field'] = '<input class="form-control" type="password" name="rex_user_psw" id="rex-id-login-password" />';
+$n['field'] = '<input class="form-control" type="password" name="rex_user_psw" id="rex-id-login-password" autocomplete="current-password" />';
 $n['left'] = '<i class="rex-icon rex-icon-password"></i>';
 $inputGroups[] = $n;
 
