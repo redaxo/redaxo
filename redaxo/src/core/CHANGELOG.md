@@ -19,7 +19,7 @@ Version 5.14.0 – XX.XX.2022
 * `rex_context`: Neue Methoden `getParams`, `hasParam`, `removeParam` (@tbaddade)
 * `rex_be_page`: Neuer Setter `setTitle` (@DanielWeitenauer)
 * `rex_socket`:
-    - gzip-Unterstützung, aktivierbar per `accecptCompression()` (@pherzberger)
+    - gzip-Unterstützung, aktivierbar per `acceptCompression()` (@pherzberger)
     - Beispiel-Code optimiert (@marcohanke)
 * `rex_path`: Neue Methode `findBinaryPath` (@staabm)
 * `rex_type`: Neue Type-Assertion-Methoden wie `int`, `nullOrInt` etc. (@gharlan)
