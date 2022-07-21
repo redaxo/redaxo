@@ -213,7 +213,7 @@ async function main() {
     // log browser errors into the console
     page.on('console', function(msg) {
         const text = msg.text();
-        if (text.indexOf("Unrecognized feature: 'interest-cohort'.") !== -1) {
+        if (text.indexOf("Error with Permissions-Policy header: Origin trial controlled feature not enabled: 'interest-cohort'.") !== -1) {
             return;
         }
 
