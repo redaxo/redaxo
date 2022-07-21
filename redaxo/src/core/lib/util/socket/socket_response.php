@@ -24,7 +24,7 @@ class rex_socket_response
     /** @var null|string */
     private $body;
     /** @var bool */
-    private $decompressContent;
+    private $decompressContent = false;
     /** @var bool */
     private $streamFiltersInitialized = false;
 
