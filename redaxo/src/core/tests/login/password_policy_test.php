@@ -76,6 +76,8 @@ class rex_password_policy_test extends TestCase
 
     /**
      * @dataProvider provideGetHtmlAttributes
+     * @param array<string, string> $expected
+     * @param array<string, array{min?: int, max?: int}> $options
      */
     public function testGetHtmlAttributes(array $expected, array $options): void
     {
@@ -84,6 +86,7 @@ class rex_password_policy_test extends TestCase
         static::assertSame($expected, $policy->getHtmlAttributes());
     }
 
+    /** @return iterable<int, array{array<string, string>, array<string, array{min?: int, max?: int}>}> */
     public function provideGetHtmlAttributes(): iterable
     {
         yield [
