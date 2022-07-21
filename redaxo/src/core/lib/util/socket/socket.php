@@ -53,6 +53,8 @@ class rex_socket
     protected $stream;
     /** @var array<array-key, mixed> */
     protected $options = [];
+    /** @var bool */
+    protected $acceptCompression = false;
 
     /**
      * Constructor.
@@ -108,6 +110,16 @@ class rex_socket
         $parts = self::parseUrl($url);
 
         return static::factory($parts['host'], $parts['port'], $parts['ssl'])->setPath($parts['path']);
+    }
+
+    /**
+     * @return $this
+     */
+    public function acceptCompression(): self
+    {
+        $this->acceptCompression = true;
+        $this->addHeader('Accept-Encoding', 'gzip, deflate');
+        return $this;
     }
 
     /**
@@ -423,7 +435,7 @@ class rex_socket
             throw new rex_socket_exception('Timeout!');
         }
 
-        return new rex_socket_response($this->stream);
+        return (new rex_socket_response($this->stream))->decompressContent($this->acceptCompression);
     }
 
     /**

@@ -14,10 +14,6 @@ class rex_socket_response
     /** @var bool */
     private $chunked = false;
     /** @var int */
-    private $chunkPos = 0;
-    /** @var int */
-    private $chunkLength = 0;
-    /** @var int */
     private $statusCode;
     /** @var string */
     private $statusMessage;
@@ -27,6 +23,10 @@ class rex_socket_response
     private $headers = [];
     /** @var null|string */
     private $body;
+    /** @var bool */
+    private $decompressContent = false;
+    /** @var bool */
+    private $streamFiltersInitialized = false;
 
     /**
      * Constructor.
@@ -52,6 +52,15 @@ class rex_socket_response
             $this->statusMessage = $matches[2];
         }
         $this->chunked = false !== stripos($this->header, 'transfer-encoding: chunked');
+    }
+
+    /**
+     * @return $this
+     */
+    public function decompressContent(bool $decodeContent): self
+    {
+        $this->decompressContent = $decodeContent;
+        return $this;
     }
 
     /**
@@ -168,6 +177,24 @@ class rex_socket_response
     }
 
     /**
+     * Returns an array with all applied content encodings.
+     *
+     * @return string[]
+     */
+    public function getContentEncodings(): array
+    {
+        $contenEncodingHeader = $this->getHeader('Content-Encoding');
+
+        if (null === $contenEncodingHeader) {
+            return [];
+        }
+
+        return array_map(static function ($encoding) {
+            return trim(strtolower($encoding));
+        }, explode(',', $contenEncodingHeader));
+    }
+
+    /**
      * Returns up to `$length` bytes from the body, or `false` if the end is reached.
      *
      * @param int $length Max number of bytes
@@ -179,23 +206,25 @@ class rex_socket_response
         if (feof($this->stream)) {
             return false;
         }
-        if ($this->chunked) {
-            if (0 == $this->chunkPos) {
-                $this->chunkLength = hexdec(fgets($this->stream));
-                if (0 == $this->chunkLength) {
-                    return false;
+
+        if (!$this->streamFiltersInitialized) {
+            if ($this->chunked) {
+                if (!is_resource(stream_filter_append(
+                        $this->stream,
+                        'dechunk',
+                        STREAM_FILTER_READ
+                    ))) {
+                    throw new \rex_exception('Could not add dechunk filter to socket stream');
                 }
             }
-            $pos = ftell($this->stream);
-            $buf = fread($this->stream, min($length, $this->chunkLength - $this->chunkPos));
-            $this->chunkPos += ftell($this->stream) - $pos;
-            if ($this->chunkPos >= $this->chunkLength) {
-                fgets($this->stream);
-                $this->chunkPos = 0;
-                $this->chunkLength = 0;
+
+            if ($this->decompressContent && $this->isGzipOrDeflateEncoded()) {
+                $this->addZlibStreamFilter($this->stream, STREAM_FILTER_READ);
             }
-            return $buf;
+
+            $this->streamFiltersInitialized = true;
         }
+
         return fread($this->stream, $length);
     }
 
@@ -216,6 +245,45 @@ class rex_socket_response
         return $this->body;
     }
 
+    protected function isGzipOrDeflateEncoded(): bool
+    {
+        $contentEncodings = $this->getContentEncodings();
+        return in_array('gzip', $contentEncodings) || in_array('deflate', $contentEncodings);
+    }
+
+    /**
+     * @param resource $stream
+     * @throws rex_exception
+     * @return resource
+     */
+    private function addZlibStreamFilter($stream, int $mode)
+    {
+        if (!is_resource($stream)) {
+            throw new \rex_exception('The stream has to be a resource.');
+        }
+
+        if (!in_array('zlib.*', stream_get_filters())) {
+            throw new \rex_exception('The zlib filter for streams is missing.');
+        }
+
+        if (!in_array($mode, [STREAM_FILTER_READ, STREAM_FILTER_WRITE])) {
+            throw new \rex_exception('Invalid stream filter mode.');
+        }
+
+        $appendedZlibStreamFilter = stream_filter_append(
+            $stream,
+            'zlib.inflate',
+            $mode,
+            ['window' => 47]    // To detect gzip and zlib header
+        );
+
+        if (!is_resource($appendedZlibStreamFilter)) {
+            throw new \rex_exception('Could not add stream filter for gzip support.');
+        }
+
+        return $appendedZlibStreamFilter;
+    }
+
     /**
      * Writes the body to the given resource.
      *
@@ -233,6 +301,7 @@ class rex_socket_response
         if (!is_resource($resource)) {
             return false;
         }
+
         $success = true;
         while ($success && false !== ($buf = $this->getBufferedBody())) {
             $success = (bool) fwrite($resource, $buf);
