@@ -191,6 +191,9 @@ async function logIntoBackend(page, username = 'myusername', password = '91dfd9d
 }
 
 async function goToUrlOrThrow(page, url, options) {
+    // prevent timeouts on slower pages
+    options.timeout = 0;
+    
     const response = await page.goto(url, options);
     if (!response.ok() && response.status() != 304) {
         const error = `Failed to load ${url}: the server responded with a status of ${response.status()} (${response.statusText()})`;
