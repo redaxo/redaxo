@@ -24,7 +24,7 @@
 
 <style>
     #rex-page-login {
-        background-color: #6b6e73;
+        background-color: #2a3444;
     }
     #rex-page-login .panel-default {
         background-color: rgba(33, 38, 41, 0.95);
