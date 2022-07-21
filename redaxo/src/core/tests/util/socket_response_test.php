@@ -90,6 +90,18 @@ class rex_socket_response_test extends TestCase
 
         static::assertSame($body, $this->createResponseWithEncoding('deflate',
             zlib_encode($body, ZLIB_ENCODING_DEFLATE))->getBody());
+
+        // Test combination with chunked with real responses from the redaxo webservice
+        $decodedResponseContent =
+            file_get_contents(__DIR__ . '/socket_reponse_testfiles/response_decoded');
+
+        static::assertSame($decodedResponseContent, $this->getResponse(
+            file_get_contents(__DIR__ . '/socket_reponse_testfiles/response_chunked')
+        )->decompressContent(true)->getBody());
+
+        static::assertSame($decodedResponseContent, $this->getResponse(
+            file_get_contents(__DIR__ . '/socket_reponse_testfiles/response_chunked_gzip')
+        )->decompressContent(true)->getBody());
     }
 
     public function testEncodingHeader()
