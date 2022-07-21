@@ -50,8 +50,8 @@ class rex_cronjob_export extends rex_cronjob
 
             if ($this->getParam('delete_interval')) {
                 $allSqlfiles = array_merge(
-                    glob(rex_path::addonData('backup', '*'.$ext)),
-                    glob(rex_path::addonData('backup', '*'.$ext.'.gz'))
+                    glob(rex_path::addonData('backup', '*'.$ext), GLOB_NOSORT),
+                    glob(rex_path::addonData('backup', '*'.$ext.'.gz'), GLOB_NOSORT)
                 );
                 $backups = [];
                 $limit = strtotime('-1 month'); // Generelle Vorhaltezeit: 1 Monat
@@ -98,10 +98,10 @@ class rex_cronjob_export extends rex_cronjob
                     return false;
                 }
                 $mail = new rex_mailer();
-                $mail->AddAddress($this->getParam('mailaddress'));
+                $mail->addAddress($this->getParam('mailaddress'));
                 $mail->Subject = rex_i18n::rawMsg('backup_mail_subject');
                 $mail->Body = rex_i18n::rawMsg('backup_mail_body', rex::getServerName());
-                $mail->AddAttachment($exportFilePath, $filename . $ext);
+                $mail->addAttachment($exportFilePath, $filename . $ext);
                 if ($mail->Send()) {
                     $this->setMessage($message . ', mail sent');
 

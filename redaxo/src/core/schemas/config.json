@@ -94,6 +94,25 @@
             "description": "Session keep alive (seconds)",
             "type": "integer"
         },
+        "backend_login_policy": {
+            "description": "backend login policy",
+            "type": "object",
+            "properties": {
+                "login_tries_until_blocked": {
+                    "type": "integer"
+                },
+                "login_tries_until_delay": {
+                    "type": "integer"
+                },
+                "relogin_delay": {
+                    "type": "integer"
+                },
+                "enable_stay_logged_in": {
+                    "type": "boolean"
+                }
+            },
+            "additionalProperties": false
+        },
         "session": {
             "description": "Session configuration",
             "type": "object",

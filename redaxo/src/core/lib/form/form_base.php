@@ -14,6 +14,9 @@ abstract class rex_form_base
     /** @var string */
     protected $fieldset;
 
+    /** @var array<string, array<string, int|string|list<string>>> */
+    private $fieldsetAttributes = [];
+
     /** @var array<string, list<rex_form_element>> */
     protected $elements;
 
@@ -38,6 +41,9 @@ abstract class rex_form_base
     /** @var null|string */
     protected $formId;
 
+    /** @var array<string, string> */
+    private $formAttributes;
+
     /** @var rex_csrf_token */
     private $csrfToken;
 
@@ -59,6 +65,7 @@ abstract class rex_form_base
         $this->method = $method;
         $this->elements = [];
         $this->params = [];
+        $this->formAttributes = [];
         $this->addFieldset($fieldset ?: $this->name);
         $this->setMessage('');
 
@@ -113,10 +120,12 @@ abstract class rex_form_base
      * Dieses dient dazu ein Formular in mehrere Abschnitte zu gliedern.
      *
      * @param string $fieldset
+     * @param array<string, int|string|list<string>> $attributes
      */
-    public function addFieldset($fieldset)
+    public function addFieldset($fieldset, array $attributes = [])
     {
         $this->fieldset = $fieldset;
+        $this->fieldsetAttributes[$fieldset] = $attributes;
     }
 
     // --------- Fields
@@ -998,6 +1007,33 @@ abstract class rex_form_base
         return $message;
     }
 
+    public function setFormAttribute(string $attributeName, ?string $attributeValue): void
+    {
+        $attributeName = preg_replace('/[^\w\d\-]/', '', strtolower($attributeName));
+
+        if ('' === $attributeName) {
+            throw new rex_exception('The attribute name cannot be empty.');
+        }
+
+        if (null === $attributeValue) {
+            if (array_key_exists($attributeName, $this->formAttributes)) {
+                unset($this->formAttributes[$attributeName]);
+            }
+            return;
+        }
+
+        if ('id' === $attributeName) {
+            $this->setFormId($attributeValue);
+            return;
+        }
+
+        if (in_array($attributeName, ['method', 'action'], true)) {
+            throw new rex_exception(sprintf('Attribute "%s" can not be set via %s.', $attributeName, __FUNCTION__));
+        }
+
+        $this->formAttributes[$attributeName] = $attributeValue;
+    }
+
     /**
      * Callbackfunktion, damit in subklassen der Value noch beeinflusst werden kann
      * wenn das Feld mit Datenbankwerten angezeigt wird.
@@ -1234,9 +1270,15 @@ abstract class rex_form_base
             $id = ' id="'.rex_escape($this->formId).'"';
         }
 
-        $s .= '<form' . $id . ' action="' . rex_url::backendController($actionParams) . '" method="' . $this->method . '">' . "\n";
+        $s .= sprintf('<form %s %s action="%s" method="%s">' . "\n",
+            $id,
+            rex_string::buildAttributes($this->formAttributes),
+            rex_url::backendController($actionParams),
+            $this->method
+        );
         foreach ($fieldsets as $fieldsetName => $fieldsetElements) {
-            $s .= '<fieldset>' . "\n";
+            $attributes = $this->fieldsetAttributes[$fieldsetName] ?? [];
+            $s .= '<fieldset '.rex_string::buildAttributes($attributes).'>' . "\n";
 
             if ('' != $fieldsetName && $fieldsetName != $this->name) {
                 $s .= '<legend>' . rex_escape($fieldsetName) . '</legend>' . "\n";

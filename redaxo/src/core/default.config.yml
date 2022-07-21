@@ -10,6 +10,11 @@ fileperm: '0664'
 dirperm: '0775'
 session_duration: 7200
 session_keep_alive: 21600
+backend_login_policy:
+    login_tries_until_blocked: 50
+    login_tries_until_delay: 3
+    relogin_delay: 5
+    enable_stay_logged_in: true
 # using separate cookie domains for frontend and backend is more secure,
 # but be warned that some features like detecting a backend user in the frontend
 # will no longer work.
@@ -35,7 +40,12 @@ password_policy:
     lowercase: {min: 0}
     uppercase: {min: 0}
     digit: {min: 0}
-lang: de_de
+    # no_reuse_of_last: 6
+    # format analog https://www.php.net/manual/de/dateinterval.construct.php
+    # no_reuse_within: P6W
+    # force_renew_after: P6W
+    # block_account_after: P3M
+lang: en_gb
 lang_fallback: [en_gb, de_de]
 use_https: false
 use_hsts: false

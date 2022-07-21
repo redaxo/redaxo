@@ -9,10 +9,16 @@ on:
 env:
     writable: ${{ github.event_name != 'push' && github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' && 1 || 0 }}
 
+permissions:
+    contents: read
+
 jobs:
     psalm-analysis:
         name: psalm static code analysis
         runs-on: ubuntu-latest
+        timeout-minutes: 30
+        permissions:
+            contents: write  # for stefanzweifel/git-auto-commit-action to push code in repo
 
         steps:
             -   name: Checkout
@@ -58,7 +64,10 @@ jobs:
     psalm-taint-analysis:
         name: psalm taint analysis
         runs-on: ubuntu-latest
+        timeout-minutes: 30
         if: github.event.pull_request.draft == false
+        permissions:
+            contents: write  # for stefanzweifel/git-auto-commit-action to push code in repo
 
         steps:
             -   name: Checkout
@@ -104,6 +113,9 @@ jobs:
     phpstan-analysis:
         name: phpstan static code analysis
         runs-on: ubuntu-latest
+        timeout-minutes: 30
+        permissions:
+            contents: write  # for Git to git apply
 
         steps:
             -   name: Checkout

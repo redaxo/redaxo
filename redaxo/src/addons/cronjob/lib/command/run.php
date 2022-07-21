@@ -38,7 +38,24 @@ class rex_command_cronjob_run extends rex_console_command
         $nexttime = rex_package::get('cronjob')->getConfig('nexttime', 0);
 
         if (0 != $nexttime && time() >= $nexttime) {
-            rex_cronjob_manager_sql::factory()->check();
+            $manager = rex_cronjob_manager_sql::factory();
+
+            $errors = 0;
+            $manager->check(static function (string $name, bool $success, string $message) use ($io, &$errors) {
+                /** @var int $errors */
+                if ($success) {
+                    $io->success($name.': '.$message);
+                } else {
+                    $io->error($name.': '.$message);
+                    ++$errors;
+                }
+            });
+
+            if ($errors) {
+                /** @var int $errors */
+                $io->error('Cronjobs checked, '.$errors.' failed.');
+                return 1;
+            }
 
             $io->success('Cronjobs checked.');
             return 0;

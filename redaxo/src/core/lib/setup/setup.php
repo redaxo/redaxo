@@ -68,13 +68,13 @@ class rex_setup
 
         // -------------------------- VERSIONSCHECK
         if (1 == version_compare(PHP_VERSION, self::MIN_PHP_VERSION, '<')) {
-            $errors[] = rex_i18n::msg('setup_301', PHP_VERSION, self::MIN_PHP_VERSION);
+            $errors[] = rex_i18n::msg('setup_201', PHP_VERSION, self::MIN_PHP_VERSION);
         }
 
         // -------------------------- EXTENSION CHECK
         foreach (self::MIN_PHP_EXTENSIONS as $extension) {
             if (!extension_loaded($extension)) {
-                $errors[] = rex_i18n::msg('setup_302', $extension);
+                $errors[] = rex_i18n::msg('setup_202', $extension);
             }
         }
 
@@ -103,17 +103,17 @@ class rex_setup
 
         $func = static function ($dir) use (&$func, $getMod) {
             if (!rex_dir::isWritable($dir)) {
-                return ['setup_304' => [$dir]];
+                return ['setup_204' => [$dir]];
             }
             $res = [];
             foreach (rex_finder::factory($dir) as $path => $file) {
                 if ($file->isDir()) {
                     $res = array_merge_recursive($res, $func($path));
                 } elseif (!$file->isWritable()) {
-                    $res['setup_305'][] = $path;
+                    $res['setup_205'][] = $path;
                 } elseif (0 !== strcasecmp(substr(PHP_OS, 0, 3), 'WIN') && str_ends_with($getMod($path), '7')) {
                     // check the "other" filesystem-bit for "all" permission.
-                    $res['setup_311'][] = $path;
+                    $res['setup_211'][] = $path;
                 }
             }
             return $res;
@@ -124,7 +124,7 @@ class rex_setup
             if (@is_dir($dir)) {
                 $res = array_merge_recursive($res, $func($dir));
             } else {
-                $res['setup_306'][] = $dir;
+                $res['setup_206'][] = $dir;
             }
         }
 
@@ -248,17 +248,24 @@ class rex_setup
      */
     public static function isInitialSetup(): bool
     {
+        /** @var bool|null $initial */
+        static $initial;
+
+        if (null !== $initial) {
+            return $initial;
+        }
+
         try {
             $userSql = rex_sql::factory();
             $userSql->setQuery('select * from ' . rex::getTable('user') . ' LIMIT 1');
 
-            return 0 == $userSql->getRows();
+            return $initial = 0 == $userSql->getRows();
         } catch (rex_sql_could_not_connect_exception $e) {
-            return true;
+            return $initial = true;
         } catch (rex_sql_exception $e) {
             $sql = $e->getSql();
             if ($sql && rex_sql::ERRNO_TABLE_OR_VIEW_DOESNT_EXIST === $sql->getErrno()) {
-                return true;
+                return $initial = true;
             }
             throw $e;
         }

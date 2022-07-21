@@ -9,6 +9,7 @@
 
 // Plugin-Config
 $plugin = rex_plugin::get('be_style', 'customizer');
+/** @var array{codemirror_theme: string, codemirror_darktheme: string, codemirror-selectors: string, codemirror-options: string, codemirror: int, codemirror-langs: int, codemirror-tools: int, labelcolor: string, showlink: int, codemirror-autoresize?: bool} $config */
 $config = $plugin->getConfig();
 
 /* Output CodeMirror-CSS */
@@ -119,16 +120,20 @@ if (rex::isBackend() && rex::getUser()) {
     if ($config['codemirror']) {
         // JsProperty CodeMirror-Theme
         rex_view::setJsProperty('customizer_codemirror_defaulttheme', $config['codemirror_theme']);
+        rex_view::setJsProperty('customizer_codemirror_defaultdarktheme', $config['codemirror_darktheme']);
         // JsProperty CodeMirror-Selectors
         $selectors = 'textarea.rex-code, textarea.rex-js-code, textarea.codemirror';
         if (isset($config['codemirror-selectors']) && '' != $config['codemirror-selectors']) {
             $selectors = $selectors . ', ' . $config['codemirror-selectors'];
         }
         rex_view::setJsProperty('customizer_codemirror_selectors', $selectors);
+        // JsProperty CodeMirror-Autoresize
         if (isset($config['codemirror-autoresize'])) {
             rex_view::setJsProperty('customizer_codemirror_autoresize', $config['codemirror-autoresize']);
         }
-
+        // JsProperty Codemirror-Options
+        rex_view::setJsProperty('customizer_codemirror_options', str_replace(["\n", "\r"], '', trim($config['codemirror-options'])));
+        // JsProperty JS/CSS-Buster
         $mtimejs = filemtime($plugin->getAssetsUrl('vendor/codemirror/codemirror.min.js'));
         $mtimecss = filemtime($plugin->getAssetsUrl('vendor/codemirror/codemirror.min.css'));
         if (isset($_SESSION['codemirror_reload'])) {

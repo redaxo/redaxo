@@ -19,6 +19,7 @@ class rex_history_login extends rex_backend_login
                 $this->user = $userSql;
                 $this->setSessionVar('STAMP', time());
                 $this->setSessionVar('UID', $this->user->getValue($this->idColumn));
+                $this->setSessionVar('password', $this->user->getValue($this->passwordColumn));
                 return parent::checkLogin();
             }
         }
@@ -29,8 +30,12 @@ class rex_history_login extends rex_backend_login
     /**
      * @return null|string
      */
-    public static function createSessionKey($login, $session, $validtime)
-    {
+    public static function createSessionKey(
+        #[\SensitiveParameter]
+        $login,
+        $session,
+        $validtime
+    ) {
         return password_hash($login . $session . $validtime, PASSWORD_DEFAULT);
     }
 

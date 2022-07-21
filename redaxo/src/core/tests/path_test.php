@@ -45,6 +45,18 @@ class rex_path_test extends TestCase
         static::assertSame('config.yml', rex_path::basename('..\redaxo\data\core\config.yml'));
     }
 
+    public function testFindBinaryPath(): void
+    {
+        $path = rex_path::findBinaryPath('php');
+        static::assertNotNull($path);
+        static::assertSame(PHP_BINARY, realpath($path));
+    }
+
+    public function testNotFoundBinaryPath(): void
+    {
+        static::assertNull(rex_path::findBinaryPath('noone-knows'));
+    }
+
     private function path($path)
     {
         return str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $path);
