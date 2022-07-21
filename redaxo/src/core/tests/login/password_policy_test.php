@@ -73,4 +73,48 @@ class rex_password_policy_test extends TestCase
 
         static::assertSame('', $rule);
     }
+
+    /**
+     * @dataProvider provideGetHtmlAttributes
+     */
+    public function testGetHtmlAttributes(array $expected, array $options): void
+    {
+        $policy = new rex_password_policy($options);
+
+        static::assertSame($expected, $policy->getHtmlAttributes());
+    }
+
+    public function provideGetHtmlAttributes(): iterable
+    {
+        yield [
+            ['passwordrules' => 'allowed: upper, lower, digit, special'],
+            [],
+        ];
+
+        yield [
+            [
+                'minlength' => '5',
+                'passwordrules' => 'required: digit; allowed: upper, lower, digit, special',
+            ],
+            [
+                'length' => ['min' => 5],
+                'digit' => ['min' => 2],
+            ],
+        ];
+
+        yield [
+            [
+                'minlength' => '8',
+                'maxlength' => '1000',
+                'passwordrules' => 'required: lower; required: digit; allowed: upper, lower, digit',
+            ],
+            [
+                'length' => ['min' => 8, 'max' => 1000],
+                'uppercase' => ['min' => 0, 'max' => 5],
+                'lowercase' => ['min' => 1],
+                'digit' => ['min' => 2],
+                'symbol' => ['max' => 0],
+            ],
+        ];
+    }
 }
