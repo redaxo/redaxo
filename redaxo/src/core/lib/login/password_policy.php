@@ -61,6 +61,47 @@ class rex_password_policy
     }
 
     /**
+     * Generates the corresponding html attributes `minlength`, `maxlength` and `passwordrules`.
+     *
+     * @see https://github.com/whatwg/html/issues/3518
+     * @see https://www.scottbrady91.com/authentication/perfecting-the-password-field-with-the-html-passwordrules-attribute
+     *
+     * @return array<string, string>
+     */
+    public function getHtmlAttributes(): array
+    {
+        $attr = [];
+
+        if (isset($this->options['length']['min'])) {
+            $attr['minlength'] = (string) $this->options['length']['min'];
+        }
+        if (isset($this->options['length']['max'])) {
+            $attr['maxlength'] = (string) $this->options['length']['max'];
+        }
+
+        $rules = [];
+        $mapping = [
+            'uppercase' => 'upper',
+            'lowercase' => 'lower',
+            'digit' => 'digit',
+            'symbol' => 'special',
+        ];
+        $allowed = $mapping;
+        foreach ($mapping as $rexKey => $htmlKey) {
+            if (($this->options[$rexKey]['min'] ?? 0) > 0) {
+                $rules[] = 'required: '.$htmlKey;
+            }
+            if (($this->options[$rexKey]['max'] ?? 1) <= 0) {
+                unset($allowed[$rexKey]);
+            }
+        }
+        $rules[] = 'allowed: '.implode(', ', $allowed);
+        $attr['passwordrules'] = implode('; ', $rules);
+
+        return $attr;
+    }
+
+    /**
      * @return string
      *
      * @deprecated since 5.12, use `getDescription` instead
