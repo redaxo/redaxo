@@ -171,9 +171,11 @@ class rex_be_controller
             $logsPage->addSubpage((new rex_be_page('php', rex_i18n::msg('syslog_phperrors')))->setSubPath(rex_path::core('pages/system.log.external.php')));
         }
 
-        $slowQueryLogPath = rex_sql_util::slowQueryLogPath();
-        if (null !== $slowQueryLogPath && @is_readable($slowQueryLogPath)) {
-            $logsPage->addSubpage((new rex_be_page('slow-queries', rex_i18n::msg('syslog_slowqueries')))->setSubPath(rex_path::core('pages/system.log.slow-queries.php')));
+        if ('system' === self::getCurrentPagePart(1) && 'log' === self::getCurrentPagePart(2)) {
+            $slowQueryLogPath = rex_sql_util::slowQueryLogPath();
+            if (null !== $slowQueryLogPath && @is_readable($slowQueryLogPath)) {
+                $logsPage->addSubpage((new rex_be_page('slow-queries', rex_i18n::msg('syslog_slowqueries')))->setSubPath(rex_path::core('pages/system.log.slow-queries.php')));
+            }
         }
 
         self::$pages['system'] = (new rex_be_page_main('system', 'system', rex_i18n::msg('system')))
