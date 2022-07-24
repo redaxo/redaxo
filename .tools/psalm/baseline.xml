@@ -6419,25 +6419,6 @@
     <MixedArgument occurrences="1">
       <code>$content</code>
     </MixedArgument>
-    <MixedAssignment occurrences="4">
-      <code>$response</code>
-      <code>$response</code>
-      <code>$response</code>
-      <code>$response</code>
-    </MixedAssignment>
-    <MixedMethodCall occurrences="11">
-      <code>$method</code>
-      <code>getBody</code>
-      <code>getHeader</code>
-      <code>getHeader</code>
-      <code>getHeader</code>
-      <code>getHeader</code>
-      <code>getHeader</code>
-      <code>getStatusCode</code>
-      <code>getStatusMessage</code>
-      <code>isOk</code>
-      <code>writeBodyTo</code>
-    </MixedMethodCall>
     <MixedOperand occurrences="1">
       <code>$header</code>
     </MixedOperand>

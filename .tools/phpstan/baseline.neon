@@ -7646,11 +7646,6 @@ parameters:
 			path: ../../redaxo/src/core/tests/util/socket_proxy_test.php
 
 		-
-			message: "#^Method rex_socket_response_test\\:\\:getResponse\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/util/socket_response_test.php
-
-		-
 			message: "#^Method rex_socket_response_test\\:\\:getResponse\\(\\) has parameter \\$content with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/util/socket_response_test.php
