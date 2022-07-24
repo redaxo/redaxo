@@ -354,7 +354,7 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     *  Clears the cache of the package.
+     * Clears the cache of the package.
      *
      * @throws rex_functional_exception
      */
