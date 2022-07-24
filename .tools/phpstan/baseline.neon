@@ -111,6 +111,21 @@ parameters:
 			path: ../../redaxo/src/addons/be_style/lib/scss_compiler.php
 
 		-
+			message: "#^Result of && is always false\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/be_style/plugins/redaxo/boot.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between '' and non\\-empty\\-string will always evaluate to false\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/be_style/plugins/redaxo/boot.php
+
+		-
+			message: "#^Ternary operator condition is always true\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/be_style/plugins/redaxo/boot.php
+
+		-
 			message: "#^Method rex_command_cronjob_run\\:\\:configure\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/cronjob/lib/command/run.php
@@ -3776,6 +3791,11 @@ parameters:
 			path: ../../redaxo/src/addons/users/lib/select_element.php
 
 		-
+			message: "#^If condition is always true\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/fragments/core/top.php
+
+		-
 			message: "#^Function rex_set_session\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/functions/function_rex_globals.php
@@ -3784,6 +3804,11 @@ parameters:
 			message: "#^Function rex_unset_session\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/functions/function_rex_globals.php
+
+		-
+			message: "#^If condition is always true\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/layout/top.php
 
 		-
 			message: "#^Argument of an invalid type rex_api_result supplied for foreach, only iterables are supported\\.$#"

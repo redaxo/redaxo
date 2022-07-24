@@ -3431,7 +3431,7 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/backend.php">
-    <MixedArgument occurrences="10">
+    <MixedArgument occurrences="8">
       <code>$_SERVER['PHP_SELF']</code>
       <code>$assetFile</code>
       <code>$assetFile</code>
@@ -3440,8 +3440,6 @@
       <code>$assetFile</code>
       <code>$userAgent</code>
       <code>$userAgent</code>
-      <code>rex::getProperty('lang')</code>
-      <code>rex::getProperty('lang')</code>
     </MixedArgument>
     <MixedAssignment occurrences="2">
       <code>$assetFile</code>
@@ -3458,14 +3456,13 @@
     </UnusedVariable>
   </file>
   <file src="redaxo/src/core/boot.php">
-    <MixedArgument occurrences="7">
+    <MixedArgument occurrences="6">
       <code>$REX['BACKEND_FOLDER']</code>
       <code>$REX['BACKEND_FOLDER']</code>
       <code>$REX['HTDOCS_PATH']</code>
       <code>$REX['HTDOCS_PATH']</code>
       <code>$_SERVER['REQUEST_TIME_FLOAT']</code>
       <code>$value</code>
-      <code>rex::getProperty('timezone', 'Europe/Berlin')</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="1">
       <code>$key</code>
@@ -4128,7 +4125,7 @@
     </MixedArgumentTypeCoercion>
   </file>
   <file src="redaxo/src/core/lib/be/controller.php">
-    <MixedArgument occurrences="13">
+    <MixedArgument occurrences="12">
       <code>$addon-&gt;getProperty('page')</code>
       <code>$page</code>
       <code>$page</code>
@@ -4141,7 +4138,6 @@
       <code>$subProperties['title']</code>
       <code>$value</code>
       <code>$value</code>
-      <code>rex::getProperty('start_page')</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="11">
       <code>$key</code>
@@ -4383,11 +4379,7 @@
     <MixedArgument occurrences="1">
       <code>$config</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="1">
-      <code>$config[$pathPart]</code>
-    </MixedArrayAccess>
-    <MixedAssignment occurrences="3">
-      <code>$config</code>
+    <MixedAssignment occurrences="2">
       <code>$config</code>
       <code>$config</code>
     </MixedAssignment>
@@ -4962,9 +4954,6 @@
   </file>
   <file src="redaxo/src/core/lib/login/backend_login.php">
     <InvalidArgument occurrences="1"/>
-    <MixedArgument occurrences="1">
-      <code>rex::getProperty('instname')</code>
-    </MixedArgument>
     <MixedArrayAccess occurrences="4">
       <code>$_SESSION[$sessionNs][self::SYSTEM_ID]['UID']</code>
       <code>$_SESSION[static::getSessionNamespace()][self::SYSTEM_ID]</code>
@@ -4975,9 +4964,8 @@
       <code>$sessionConfig</code>
       <code>$userId</code>
     </MixedAssignment>
-    <MixedOperand occurrences="2">
+    <MixedOperand occurrences="1">
       <code>$this-&gt;userLogin</code>
-      <code>rex::getProperty('instname')</code>
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/lib/login/backend_password_policy.php">
@@ -5138,13 +5126,6 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/lib/packages/addons/addon.php">
-    <MixedArgument occurrences="5">
-      <code>$addon</code>
-      <code>$addon</code>
-      <code>$addon</code>
-      <code>$addon</code>
-      <code>rex::getProperty('system_addons')</code>
-    </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="3">
       <code>$pluginName</code>
       <code>$this-&gt;plugins</code>
@@ -5153,10 +5134,7 @@
     <MixedArrayOffset occurrences="1">
       <code>$config[$addonName]['plugins'][$plugin]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="5">
-      <code>$addon</code>
-      <code>$addon</code>
-      <code>$addon</code>
+    <MixedAssignment occurrences="2">
       <code>$plugin</code>
       <code>$plugins</code>
     </MixedAssignment>
@@ -5344,9 +5322,6 @@
     <MixedAssignment occurrences="1">
       <code>$_SESSION[self::getSessionNamespace()][$varname]</code>
     </MixedAssignment>
-    <MixedOperand occurrences="1">
-      <code>rex::getProperty('instname')</code>
-    </MixedOperand>
   </file>
   <file src="redaxo/src/core/lib/response.php">
     <MixedArgument occurrences="3">
@@ -5395,8 +5370,7 @@
     </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/lib/rex.php">
-    <MixedArgument occurrences="10">
-      <code>$config[$db]</code>
+    <MixedArgument occurrences="7">
       <code>$key</code>
       <code>$key</code>
       <code>$key</code>
@@ -5404,59 +5378,27 @@
       <code>$value</code>
       <code>$value</code>
       <code>$value</code>
-      <code>$version</code>
-      <code>self::getProperty('server')</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="3">
-      <code>$config[$db]</code>
-      <code>$flags['enabled']</code>
-      <code>$flags['throw_always_exception']</code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="2">
-      <code>$flags['enabled']</code>
-      <code>$flags['throw_always_exception']</code>
-    </MixedArrayAssignment>
-    <MixedAssignment occurrences="10">
-      <code>$config</code>
-      <code>$flags</code>
-      <code>$flags['enabled']</code>
-      <code>$flags['throw_always_exception']</code>
+    <MixedAssignment occurrences="5">
       <code>$item</code>
       <code>$login</code>
       <code>$request</code>
       <code>$value['throw_always_exception']</code>
-      <code>$version</code>
       <code>self::$properties[$key]</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="9">
+    <MixedInferredReturnType occurrences="2">
       <code>Symfony\Component\HttpFoundation\Request</code>
-      <code>array{enabled: bool, throw_always_exception: bool|int}</code>
       <code>null|rex_user</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
     </MixedInferredReturnType>
     <MixedMethodCall occurrences="1">
       <code>getImpersonator</code>
     </MixedMethodCall>
-    <MixedOperand occurrences="3">
-      <code>$accesskeys[$key]</code>
-      <code>$accesskeys[$key]</code>
+    <MixedOperand occurrences="1">
       <code>$result</code>
     </MixedOperand>
-    <MixedReturnStatement occurrences="9">
-      <code>$flags</code>
+    <MixedReturnStatement occurrences="2">
       <code>$login ? $login-&gt;getImpersonator() : null</code>
       <code>$request</code>
-      <code>$version</code>
-      <code>self::getProperty('error_email')</code>
-      <code>self::getProperty('server')</code>
-      <code>self::getProperty('servername')</code>
-      <code>self::getProperty('table_prefix')</code>
-      <code>self::getProperty('temp_prefix')</code>
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/select.php">
@@ -5515,20 +5457,16 @@
     </MixedPropertyTypeCoercion>
   </file>
   <file src="redaxo/src/core/lib/setup/import.php">
-    <MixedArgument occurrences="6">
+    <MixedArgument occurrences="5">
       <code>$importArchive</code>
       <code>$importArchive</code>
       <code>$installDump</code>
       <code>$installDump</code>
-      <code>$packageRepresentation</code>
       <code>$utf8mb4MinVersions[$sql-&gt;getDbType()]</code>
     </MixedArgument>
     <MixedArrayAccess occurrences="1">
       <code>$utf8mb4MinVersions[$sql-&gt;getDbType()]</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="1">
-      <code>$packageRepresentation</code>
-    </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/setup/setup.php">
     <MixedArgument occurrences="10">
@@ -5549,10 +5487,6 @@
       <code>$config['db'][1]</code>
       <code>$config['db'][1]</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="2">
-      <code>$expire</code>
-      <code>$orgDbConfig</code>
-    </MixedAssignment>
     <MixedFunctionCall occurrences="2">
       <code>$func($dir)</code>
       <code>$func($path)</code>
@@ -5859,10 +5793,6 @@
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/util/i18n.php">
-    <MixedArgument occurrences="2">
-      <code>$fallbackLocale</code>
-      <code>$locale</code>
-    </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="6">
       <code>$args</code>
       <code>$args</code>
@@ -5871,28 +5801,17 @@
       <code>func_get_args()</code>
       <code>func_get_args()</code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayOffset occurrences="4">
-      <code>self::$loaded[$fallbackLocale]</code>
-      <code>self::$loaded[$locale]</code>
-      <code>self::$msg[$fallbackLocale]</code>
-      <code>self::$msg[$locale]</code>
-    </MixedArrayOffset>
-    <MixedAssignment occurrences="5">
+    <MixedAssignment occurrences="2">
       <code>$array[$key]</code>
-      <code>$fallbackLocale</code>
-      <code>$locale</code>
       <code>$value</code>
-      <code>self::$locale</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="5">
-      <code>string</code>
+    <MixedInferredReturnType occurrences="4">
       <code>string</code>
       <code>string</code>
       <code>string</code>
       <code>string</code>
     </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="5">
-      <code>self::$locale</code>
+    <MixedReturnStatement occurrences="4">
       <code>self::getMsg($key, false, $args, $locale)</code>
       <code>self::getMsg($key, false, func_get_args())</code>
       <code>self::getMsg($key, true, $args, $locale)</code>
@@ -5966,13 +5885,12 @@
   </file>
   <file src="redaxo/src/core/lib/util/socket/socket.php">
     <InvalidArgument occurrences="1"/>
-    <MixedArgument occurrences="19">
+    <MixedArgument occurrences="18">
       <code>$parts['host']</code>
       <code>$parts['path']</code>
       <code>$parts['port']</code>
       <code>$parts['ssl']</code>
       <code>$prevError</code>
-      <code>$proxy</code>
       <code>$stream</code>
       <code>$stream</code>
       <code>$stream</code>
@@ -5987,8 +5905,7 @@
       <code>$this-&gt;stream</code>
       <code>$this-&gt;stream</code>
     </MixedArgument>
-    <MixedAssignment occurrences="2">
-      <code>$proxy</code>
+    <MixedAssignment occurrences="1">
       <code>$value</code>
     </MixedAssignment>
     <MixedOperand occurrences="1">
@@ -6407,12 +6324,6 @@
       <code>$path</code>
     </MixedArgument>
   </file>
-  <file src="redaxo/src/core/tests/rex_test.php">
-    <MixedAssignment occurrences="2">
-      <code>$orgDebug</code>
-      <code>$origServer</code>
-    </MixedAssignment>
-  </file>
   <file src="redaxo/src/core/tests/sql/sql_select_test.php">
     <MixedArgument occurrences="1">
       <code>$sql-&gt;getRow()</code>
@@ -6599,9 +6510,6 @@
     <MixedArrayAssignment occurrences="1">
       <code>$config['setup_addons'][]</code>
     </MixedArrayAssignment>
-    <MixedArrayOffset occurrences="1">
-      <code>$_SESSION[rex::getProperty('instname')]</code>
-    </MixedArrayOffset>
     <MixedAssignment occurrences="1">
       <code>$_SESSION[$sessionKey]['backend_login']</code>
     </MixedAssignment>
