@@ -1,5 +1,5 @@
 package: backup
-version: '2.8.2-beta2'
+version: '2.8.2'
 author: 'Jan Kristinus, Markus Staab'
 supportpage: https://github.com/redaxo/redaxo
 
