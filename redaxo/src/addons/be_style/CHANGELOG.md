@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 3.1.0 – XX.XX.2022
+Version 3.1.0 – 25.07.2022
 --------------------------
 
 * Login-Seite: Neues Hintergrundbild, dazu Styleanpassungen (@schuer)
