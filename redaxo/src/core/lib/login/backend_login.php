@@ -206,7 +206,7 @@ class rex_backend_login extends rex_login
 
     private static function setStayLoggedInCookie(string $cookiekey): void
     {
-        $sessionConfig = rex::getProperty('session', [])['backend'] ?? [];
+        $sessionConfig = rex::getProperty('session', [])['backend']['cookie'] ?? [];
 
         rex_response::sendCookie(self::getStayLoggedInCookieName(), $cookiekey, [
             'expires' => strtotime('+1 year'),
