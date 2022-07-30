@@ -603,7 +603,7 @@ class rex_sql implements Iterator
     }
 
     /**
-     * Prueft den Wert einer Spalte der aktuellen Zeile ob ein Wert enthalten ist.
+     * Prueft den Wert der Spalte $column der aktuellen Zeile, ob $value enthalten ist.
      *
      * @param string $column Spaltenname des zu pruefenden Feldes
      * @param string $value  Wert, der enthalten sein soll
