@@ -76,8 +76,9 @@ class rex_article_revision
     public static function setSessionArticleRevision(int $articleId, int $revision): void
     {
         $login = rex::getProperty('login');
-        /** @var array<int, 0|1> $revisions */
-        $revisions = $login->getSessionVar('rex_version_article');
+        /** @var array<int, 0|1>|null $revisions */
+        $revisions = $login->getSessionVar('rex_version_article', []);
+        $revisions = is_array($revisions) ? $revisions : [];
 
         $revisions[$articleId] = $revision;
         $login->setSessionVar('rex_version_article', $revisions);
@@ -86,8 +87,8 @@ class rex_article_revision
     public static function getSessionArticleRevision(int $articleId): int
     {
         /** @var array<int, 0|1> $revisions */
-        $revisions = rex::getProperty('login')->getSessionVar('rex_version_article');
+        $revisions = rex::getProperty('login')->getSessionVar('rex_version_article', []);
 
-        return $revisions[$articleId] ?? 1;
+        return (int) ($revisions[$articleId] ?? 1);
     }
 }
