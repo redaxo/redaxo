@@ -5,6 +5,9 @@
  */
 class rex_form_widget_linklist_element extends rex_form_element
 {
+    /**
+     * @var int
+     */
     private $categoryId = 0;
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
@@ -14,6 +17,10 @@ class rex_form_widget_linklist_element extends rex_form_element
         parent::__construct('', $form, $attributes);
     }
 
+    /**
+     * @param int $categoryId
+     * @return void
+     */
     public function setCategoryId($categoryId)
     {
         $this->categoryId = $categoryId;
