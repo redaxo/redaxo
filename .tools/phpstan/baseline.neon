@@ -4201,11 +4201,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/console/cache/clear.php
 
 		-
-			message: "#^Dead catch \\- TypeError is never thrown in the try block\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/console/command.php
-
-		-
 			message: "#^Method rex_console_command_loader\\:\\:get\\(\\) has parameter \\$name with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/console/command_loader.php
