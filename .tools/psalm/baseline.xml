@@ -2272,11 +2272,9 @@
       <code>$article</code>
       <code>$categoryId</code>
     </MixedAssignment>
-    <MixedOperand occurrences="4">
+    <MixedOperand occurrences="2">
       <code>$liAttr</code>
       <code>$linkAttr</code>
-      <code>$this-&gt;listItem($article, $categoryId)</code>
-      <code>$this-&gt;treeItem($cat, $liclasses, $linkclasses, $subLi, $liIcon)</code>
     </MixedOperand>
     <PossiblyNullReference occurrences="3">
       <code>getArticles</code>
@@ -2711,9 +2709,6 @@
     </UnusedVariable>
   </file>
   <file src="redaxo/src/addons/structure/pages/linkmap.php">
-    <MixedAssignment occurrences="1">
-      <code>$panel</code>
-    </MixedAssignment>
     <UnusedVariable occurrences="1">
       <code>$isRoot</code>
     </UnusedVariable>
