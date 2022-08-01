@@ -910,6 +910,7 @@ class rex_sql implements Iterator
      * Gibt die Anzahl der Zeilen zurueck.
      *
      * @return null|int
+     * @phpstan-impure
      */
     public function getRows()
     {
