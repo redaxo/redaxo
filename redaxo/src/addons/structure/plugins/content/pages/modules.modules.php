@@ -48,8 +48,9 @@ if (('' != $addAction || 'delete' == $functionAction) && !$csrfToken->isValid())
     $action = rex_sql::factory();
     $action->setTable(rex::getTablePrefix() . 'module_action');
     $action->setWhere(['id' => $iactionId]);
+    $action->delete();
 
-    if ($action->delete() && $action->getRows() > 0) {
+    if ($action->getRows() > 0) {
         $success = rex_i18n::msg('action_deleted_from_modul');
     } else {
         $error = $action->getError();
@@ -91,10 +92,7 @@ if ('delete' == $function && !$csrfToken->isValid()) {
         }
 
         $error = rex_i18n::msg('module_cannot_be_deleted', $modulname);
-
-        if ('' != $moduleInUseMessage) {
-            $error .= '<ul>' . $moduleInUseMessage . '</ul>';
-        }
+        $error .= '<ul>' . $moduleInUseMessage . '</ul>';
     } else {
         $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'module WHERE id=?', [$moduleId]);
 

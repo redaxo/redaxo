@@ -38,7 +38,7 @@ abstract class rex_api_function
     /**
      * The result of the function call.
      *
-     * @var rex_api_result
+     * @var rex_api_result|null
      */
     protected $result;
 
@@ -236,7 +236,7 @@ abstract class rex_api_function
     }
 
     /**
-     * @return rex_api_result
+     * @return rex_api_result|null
      */
     public function getResult()
     {
