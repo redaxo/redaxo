@@ -3121,16 +3121,6 @@ parameters:
 			path: ../../redaxo/src/addons/structure/lib/var_category.php
 
 		-
-			message: "#^Left side of && is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/pages/index.php
-
-		-
-			message: "#^PHPDoc tag @var for variable \\$items has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/plugins/content/fragments/module_select.php
-
-		-
 			message: "#^Method rex_template\\:\\:__construct\\(\\) has parameter \\$templateId with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/plugins/content/lib/api_template.php
