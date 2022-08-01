@@ -253,6 +253,18 @@ class rex_sql_select_test extends TestCase
         static::assertEquals('42S22', $sql->getErrno());
         static::assertEquals(1054, $sql->getMysqlErrno());
         static::assertEquals("Unknown column 'idx' in 'where clause'", $sql->getError());
+
+        $exception = null;
+        $sql = rex_sql::factory();
+        try {
+            $sql->setQuery('SELECT * FROM non_existing_table');
+        } catch (rex_sql_exception $exception) {
+        }
+
+        static::assertInstanceOf(rex_sql_exception::class, $exception);
+        $sql = $exception->getSql();
+        static::assertTrue($sql->hasError());
+        static::assertEquals(rex_sql::ERRNO_TABLE_OR_VIEW_DOESNT_EXIST, $sql->getErrno());
     }
 
     public function testUnbufferedQuery()
