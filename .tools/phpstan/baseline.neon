@@ -3466,11 +3466,6 @@ parameters:
 			path: ../../redaxo/src/addons/structure/plugins/content/lib/select_template.php
 
 		-
-			message: "#^Comparison operation \"\\>\" between int\\<min, 0\\>\\|null and 0 is always false\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/plugins/content/pages/modules.modules.php
-
-		-
 			message: "#^Method rex_article_content_base_test\\:\\:testGetValue\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/plugins/content/tests/article_content_base_test.php

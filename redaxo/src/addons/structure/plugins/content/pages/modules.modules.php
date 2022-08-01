@@ -94,9 +94,11 @@ if ('delete' == $function && !$csrfToken->isValid()) {
         $error = rex_i18n::msg('module_cannot_be_deleted', $modulname);
         $error .= '<ul>' . $moduleInUseMessage . '</ul>';
     } else {
+        $del = rex_sql::factory();
         $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'module WHERE id=?', [$moduleId]);
 
         if ($del->getRows() > 0) {
+            $del = rex_sql::factory();
             $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'module_action WHERE module_id=?', [$moduleId]);
             rex_module_cache::delete($moduleId);
             $success = rex_i18n::msg('module_deleted');
