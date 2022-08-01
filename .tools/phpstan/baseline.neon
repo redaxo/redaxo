@@ -3476,27 +3476,12 @@ parameters:
 			path: ../../redaxo/src/addons/structure/plugins/content/lib/select_template.php
 
 		-
-			message: "#^Right side of && is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/plugins/content/pages/content.edit.php
-
-		-
 			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/plugins/content/pages/modules.actions.php
 
 		-
 			message: "#^Comparison operation \"\\>\" between int\\<min, 0\\>\\|null and 0 is always false\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/plugins/content/pages/modules.modules.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/plugins/content/pages/modules.modules.php
-
-		-
-			message: "#^Left side of && is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/plugins/content/pages/modules.modules.php
 
@@ -3747,16 +3732,6 @@ parameters:
 
 		-
 			message: "#^Argument of an invalid type rex_api_result supplied for foreach, only iterables are supported\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/api_function.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/api_function.php
-
-		-
-			message: "#^Left side of && is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/api_function.php
 
