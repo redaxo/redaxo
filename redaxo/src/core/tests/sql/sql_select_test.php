@@ -262,7 +262,7 @@ class rex_sql_select_test extends TestCase
         }
 
         static::assertInstanceOf(rex_sql_exception::class, $exception);
-        $sql = $exception->getSql();
+        static::assertSame($sql, $exception->getSql());
         static::assertTrue($sql->hasError());
         static::assertEquals(rex_sql::ERRNO_TABLE_OR_VIEW_DOESNT_EXIST, $sql->getErrno());
     }
