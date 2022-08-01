@@ -3476,11 +3476,6 @@ parameters:
 			path: ../../redaxo/src/addons/structure/plugins/content/lib/select_template.php
 
 		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/plugins/content/pages/modules.actions.php
-
-		-
 			message: "#^Comparison operation \"\\>\" between int\\<min, 0\\>\\|null and 0 is always false\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/plugins/content/pages/modules.modules.php
