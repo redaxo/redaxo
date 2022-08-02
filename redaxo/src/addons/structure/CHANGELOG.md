@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.14.1 – 02.08.2022
+---------------------------
+
+### Bugfixes
+
+* version-Plugin: Fehler beim Speichern der jeweiligen aktuellen Artikelversionsansicht (Live/Arbeitsversion) in der Session (@gharlan) 
+
+
 Version 2.14.0 – 25.07.2022
 ---------------------------
 
