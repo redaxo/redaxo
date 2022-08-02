@@ -2461,11 +2461,6 @@ parameters:
 			path: ../../redaxo/src/addons/structure/functions/function_rex_url.php
 
 		-
-			message: "#^Function rex_redirect\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/functions/function_rex_url.php
-
-		-
 			message: "#^Function rex_redirect\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/functions/function_rex_url.php
@@ -2476,37 +2471,7 @@ parameters:
 			path: ../../redaxo/src/addons/structure/lib/linkmap/form_element/linklist.php
 
 		-
-			message: "#^Method rex_form_widget_linklist_element\\:\\:setCategoryId\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/lib/linkmap/form_element/linklist.php
-
-		-
-			message: "#^Method rex_form_widget_linklist_element\\:\\:setCategoryId\\(\\) has parameter \\$categoryId with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/lib/linkmap/form_element/linklist.php
-
-		-
-			message: "#^Property rex_form_widget_linklist_element\\:\\:\\$categoryId has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/lib/linkmap/form_element/linklist.php
-
-		-
 			message: "#^Method rex_form_widget_linkmap_element\\:\\:__construct\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/lib/linkmap/form_element/linkmap.php
-
-		-
-			message: "#^Method rex_form_widget_linkmap_element\\:\\:setCategoryId\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/lib/linkmap/form_element/linkmap.php
-
-		-
-			message: "#^Method rex_form_widget_linkmap_element\\:\\:setCategoryId\\(\\) has parameter \\$categoryId with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/lib/linkmap/form_element/linkmap.php
-
-		-
-			message: "#^Property rex_form_widget_linkmap_element\\:\\:\\$categoryId has no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/lib/linkmap/form_element/linkmap.php
 
@@ -2536,27 +2501,7 @@ parameters:
 			path: ../../redaxo/src/addons/structure/lib/linkmap/linkmap.php
 
 		-
-			message: "#^Property rex_linkmap_article_list\\:\\:\\$context has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/lib/linkmap/linkmap.php
-
-		-
-			message: "#^Property rex_linkmap_category_tree\\:\\:\\$context has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/lib/linkmap/linkmap.php
-
-		-
-			message: "#^Method rex_linkmap_article_list_renderer\\:\\:getList\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/lib/linkmap/renderer.php
-
-		-
 			message: "#^Method rex_linkmap_article_list_renderer\\:\\:getList\\(\\) has parameter \\$categoryId with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/lib/linkmap/renderer.php
-
-		-
-			message: "#^Method rex_linkmap_article_list_renderer\\:\\:listItem\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/lib/linkmap/renderer.php
 
@@ -2592,11 +2537,6 @@ parameters:
 
 		-
 			message: "#^Method rex_linkmap_tree_renderer\\:\\:getTree\\(\\) has parameter \\$categoryId with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/lib/linkmap/renderer.php
-
-		-
-			message: "#^Method rex_linkmap_tree_renderer\\:\\:treeItem\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/lib/linkmap/renderer.php
 
@@ -2642,11 +2582,6 @@ parameters:
 
 		-
 			message: "#^Method rex_sitemap_category_tree\\:\\:treeItem\\(\\) has parameter \\$subHtml with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/lib/linkmap/sitemap.php
-
-		-
-			message: "#^Property rex_sitemap_category_tree\\:\\:\\$context has no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/lib/linkmap/sitemap.php
 
@@ -3546,21 +3481,6 @@ parameters:
 			path: ../../redaxo/src/addons/structure/plugins/content/pages/content.edit.php
 
 		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/plugins/content/pages/modules.actions.php
-
-		-
-			message: "#^Comparison operation \"\\>\" between int\\<min, 0\\>\\|null and 0 is always false\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/plugins/content/pages/modules.modules.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/plugins/content/pages/modules.modules.php
-
-		-
 			message: "#^Left side of && is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/plugins/content/pages/modules.modules.php
@@ -4264,11 +4184,6 @@ parameters:
 			message: "#^Method rex_command_cache_clear\\:\\:configure\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/console/cache/clear.php
-
-		-
-			message: "#^Dead catch \\- TypeError is never thrown in the try block\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/console/command.php
 
 		-
 			message: "#^Method rex_console_command_loader\\:\\:get\\(\\) has parameter \\$name with no type specified\\.$#"

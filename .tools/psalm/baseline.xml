@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.24.0@06dd975cb55d36af80f242561738f16c5f58264f">
+<files psalm-version="v4.25.0@d7cd84c4ebca74ba3419b9601f81d177bcbe2aac">
   <file src="redaxo/src/addons/backup/lib/backup.php">
     <MixedArgument occurrences="5">
       <code>$column</code>
@@ -2272,11 +2272,9 @@
       <code>$article</code>
       <code>$categoryId</code>
     </MixedAssignment>
-    <MixedOperand occurrences="4">
+    <MixedOperand occurrences="2">
       <code>$liAttr</code>
       <code>$linkAttr</code>
-      <code>$this-&gt;listItem($article, $categoryId)</code>
-      <code>$this-&gt;treeItem($cat, $liclasses, $linkclasses, $subLi, $liIcon)</code>
     </MixedOperand>
     <PossiblyNullReference occurrences="3">
       <code>getArticles</code>
@@ -2711,9 +2709,6 @@
     </UnusedVariable>
   </file>
   <file src="redaxo/src/addons/structure/pages/linkmap.php">
-    <MixedAssignment occurrences="1">
-      <code>$panel</code>
-    </MixedAssignment>
     <UnusedVariable occurrences="1">
       <code>$isRoot</code>
     </UnusedVariable>
