@@ -5539,8 +5539,7 @@
     <MixedArgumentTypeCoercion occurrences="1">
       <code>$fldName</code>
     </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="13">
-      <code>$buffered</code>
+    <MixedAssignment occurrences="12">
       <code>$buffered</code>
       <code>$errors['error']</code>
       <code>$field</code>
