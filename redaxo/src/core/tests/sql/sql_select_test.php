@@ -255,7 +255,7 @@ class rex_sql_select_test extends TestCase
         static::assertEquals("Unknown column 'idx' in 'where clause'", $sql->getError());
 
         $exception = null;
-        rex_sql::closeConnection();
+        rex_sql::closeConnection(); // https://github.com/redaxo/redaxo/pull/5272#discussion_r935793505
         $sql = rex_sql::factory();
         try {
             $sql->setQuery('SELECT * FROM non_existing_table');
