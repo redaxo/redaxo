@@ -471,11 +471,6 @@ class rex_login
                 }
             });
 
-            $sessionStartTime = rex_request::session('REX_SESS_START_TIME', 'int', null);
-            if (null === $sessionStartTime) {
-                rex_request::setSession('REX_SESS_START_TIME', time());
-            }
-
             if ($cookieParams['samesite']) {
                 self::rewriteSessionCookie($cookieParams['samesite']);
             }
