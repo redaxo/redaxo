@@ -95,6 +95,7 @@ class rex_media_manager
 
     /**
      * @param string $type
+     * @return void
      */
     protected function applyEffects($type)
     {
@@ -189,6 +190,7 @@ class rex_media_manager
 
     /**
      * @param string $path
+     * @return void
      */
     public function setCachePath($path = '')
     {
@@ -205,6 +207,7 @@ class rex_media_manager
 
     /**
      * @param bool $useCache
+     * @return void
      */
     protected function useCache($useCache = true)
     {
@@ -329,7 +332,9 @@ class rex_media_manager
 
         return $counter;
     }
-
+    /**
+     * @return never
+     */
     public function sendMedia()
     {
         rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_BEFORE_SEND', $this, []));
@@ -408,6 +413,7 @@ class rex_media_manager
 
     /**
      * @param class-string<rex_effect_abstract> $class
+     * @return void
      */
     public static function addEffect($class)
     {
@@ -470,11 +476,17 @@ class rex_media_manager
         return $warning;
     }
 
+    /**
+     * @return void
+     */
     public static function mediaUpdated(rex_extension_point $ep)
     {
         self::deleteCache((string) $ep->getParam('filename'));
     }
 
+    /**
+     * @return void
+     */
     public static function init()
     {
         //--- handle image request

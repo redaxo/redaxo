@@ -159,6 +159,9 @@ class rex_effect_convert2img extends rex_effect_abstract
         ];
     }
 
+    /**
+     * @return string
+     */
     private function getConvertPath()
     {
         $path = '';
