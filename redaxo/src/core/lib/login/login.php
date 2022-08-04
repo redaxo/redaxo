@@ -6,6 +6,12 @@
 class rex_login
 {
     /**
+     * a timestamp of the last activiy of the http session.
+     */
+    public const LAST_ACTIVITY = 'STAMP';
+    public const USER_ID = 'UID';
+
+    /**
      * @psalm-var positive-int
      *
      * @var int
@@ -229,17 +235,17 @@ class rex_login
                 if (1 == $this->user->getRows() && self::passwordVerify($this->userPassword, $this->user->getValue($this->passwordColumn), true)) {
                     $ok = true;
                     self::regenerateSessionId();
-                    $this->setSessionVar('UID', $this->user->getValue($this->idColumn));
+                    $this->setSessionVar(self::USER_ID, $this->user->getValue($this->idColumn));
                     $this->setSessionVar('password', $this->user->getValue($this->passwordColumn));
                 } else {
                     $this->message = rex_i18n::msg('login_error');
                 }
-            } elseif ('' != $this->getSessionVar('UID')) {
+            } elseif ('' != $this->getSessionVar(self::USER_ID)) {
                 // wenn kein login und kein logout dann nach sessiontime checken
                 // message schreiben und falls falsch auf error verweisen
 
                 $ok = true;
-                $sessionStartStamp = (int) $this->getSessionVar('STAMP');
+                $sessionStartStamp = (int) $this->getSessionVar(self::LAST_ACTIVITY);
                 if (($sessionStartStamp + $this->sessionDuration) < time()) {
                     $ok = false;
                     $this->message = rex_i18n::msg('login_session_expired');
@@ -264,7 +270,7 @@ class rex_login
                 if ($ok) {
                     $query = $this->impersonator && $this->impersonateQuery ? $this->impersonateQuery : $this->userQuery;
                     $this->user = rex_sql::factory($this->DB);
-                    $this->user->setQuery($query, [':id' => $this->getSessionVar('UID')]);
+                    $this->user->setQuery($query, [':id' => $this->getSessionVar(self::USER_ID)]);
 
                     if (!$this->user->getRows()) {
                         $ok = false;
@@ -284,17 +290,17 @@ class rex_login
 
         if ($ok) {
             // wenn alles ok dann REX[UID][system_id] schreiben
-            $this->setSessionVar('STAMP', time());
+            $this->setSessionVar(self::LAST_ACTIVITY, time());
 
             // each code-path which set $ok=true, must also set a UID
-            $sessUid = $this->getSessionVar('UID');
+            $sessUid = $this->getSessionVar(self::USER_ID);
             if (empty($sessUid)) {
                 throw new rex_exception('Login considered successfull but no UID found');
             }
         } else {
             // wenn nicht, dann UID loeschen und error seite
-            $this->setSessionVar('STAMP', '');
-            $this->setSessionVar('UID', '');
+            $this->setSessionVar(self::LAST_ACTIVITY, '');
+            $this->setSessionVar(self::USER_ID, '');
             $this->setSessionVar('impersonator', null);
             $this->setSessionVar('password', null);
         }
@@ -323,7 +329,7 @@ class rex_login
         $this->impersonator = $this->user;
         $this->user = $user;
 
-        $this->setSessionVar('UID', $id);
+        $this->setSessionVar(self::USER_ID, $id);
         $this->setSessionVar('impersonator', $this->impersonator->getValue($this->idColumn));
     }
 
@@ -336,7 +342,7 @@ class rex_login
         $this->user = $this->impersonator;
         $this->impersonator = null;
 
-        $this->setSessionVar('UID', $this->user->getValue($this->idColumn));
+        $this->setSessionVar(self::USER_ID, $this->user->getValue($this->idColumn));
         $this->setSessionVar('impersonator', null);
     }
 
@@ -453,6 +459,11 @@ class rex_login
                     throw new rex_exception('Unable to start session.');
                 }
             });
+
+            $sessionStartTime = rex_request::session('REX_SESS_START_TIME', 'int', null);
+            if (null === $sessionStartTime) {
+                rex_request::setSession('REX_SESS_START_TIME', time());
+            }
 
             if ($cookieParams['samesite']) {
                 self::rewriteSessionCookie($cookieParams['samesite']);

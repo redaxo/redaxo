@@ -76,7 +76,7 @@ class rex_backend_login extends rex_login
     public function checkLogin()
     {
         $sql = rex_sql::factory();
-        $userId = $this->getSessionVar('UID');
+        $userId = $this->getSessionVar(rex_login::USER_ID);
         $cookiename = self::getStayLoggedInCookieName();
         $loggedInViaCookie = false;
 
@@ -84,7 +84,7 @@ class rex_backend_login extends rex_login
             if (!$userId) {
                 $sql->setQuery('SELECT id, password FROM ' . rex::getTable('user') . ' WHERE cookiekey = ? LIMIT 1', [$cookiekey]);
                 if (1 == $sql->getRows()) {
-                    $this->setSessionVar('UID', $sql->getValue('id'));
+                    $this->setSessionVar(rex_login::USER_ID, $sql->getValue('id'));
                     $this->setSessionVar('password', $sql->getValue('password'));
                     self::setStayLoggedInCookie($cookiekey);
                     $loggedInViaCookie = true;
@@ -92,7 +92,7 @@ class rex_backend_login extends rex_login
                     self::deleteStayLoggedInCookie();
                 }
             }
-            $this->setSessionVar('STAMP', time());
+            $this->setSessionVar(rex_login::LAST_ACTIVITY, time());
         }
 
         $check = parent::checkLogin();
@@ -240,7 +240,7 @@ class rex_backend_login extends rex_login
         self::startSession();
 
         $sessionNs = static::getSessionNamespace();
-        return isset($_SESSION[$sessionNs][self::SYSTEM_ID]['UID']) && $_SESSION[$sessionNs][self::SYSTEM_ID]['UID'] > 0;
+        return isset($_SESSION[$sessionNs][self::SYSTEM_ID][rex_login::USER_ID]) && $_SESSION[$sessionNs][self::SYSTEM_ID][rex_login::USER_ID] > 0;
     }
 
     /**
