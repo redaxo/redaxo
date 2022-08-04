@@ -110,6 +110,8 @@ class rex_login
     /**
      * Setzt eine eindeutige System Id, damit mehrere
      * Sessions auf der gleichen Domain unterschieden werden können.
+     *
+     * @param string $systemId
      */
     public function setSystemId($systemId)
     {
@@ -118,6 +120,8 @@ class rex_login
 
     /**
      * Setzt das Session Timeout.
+     *
+     * @param int $sessionDuration
      */
     public function setSessionDuration($sessionDuration)
     {
@@ -174,6 +178,8 @@ class rex_login
      * Setzt den ImpersonateQuery.
      *
      * Dieser wird benutzt, um den User abzurufen, dessen Identität ein Admin einnehmen möchte.
+     *
+     * @param string $impersonateQuery
      */
     public function setImpersonateQuery($impersonateQuery)
     {
@@ -195,6 +201,8 @@ class rex_login
 
     /**
      * Setzt den Namen der Spalte, der die User-Id enthält.
+     *
+     * @param string $idColumn
      */
     public function setIdColumn($idColumn)
     {
@@ -213,6 +221,8 @@ class rex_login
 
     /**
      * Setzt einen Meldungstext.
+     *
+     * @param string $message
      */
     protected function setMessage($message)
     {
@@ -348,6 +358,9 @@ class rex_login
         return $ok;
     }
 
+    /**
+     * @param int $id
+     */
     public function impersonate($id)
     {
         if (!$this->user) {
@@ -384,6 +397,9 @@ class rex_login
         $this->setSessionVar('impersonator', null);
     }
 
+    /**
+     * @param string $passwordHash
+     */
     public function changedPassword(
         #[\SensitiveParameter]
         string $passwordHash
@@ -409,6 +425,10 @@ class rex_login
 
     /**
      * Gibt einen Benutzer-Spezifischen Wert zurück.
+     *
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
      */
     public function getValue($key, $default = null)
     {
@@ -421,6 +441,9 @@ class rex_login
 
     /**
      * Setzte eine Session-Variable.
+     *
+     * @param string $varname
+     * @param scalar|array $value
      */
     public function setSessionVar($varname, $value)
     {
@@ -429,6 +452,10 @@ class rex_login
 
     /**
      * Gibt den Wert einer Session-Variable zurück.
+     *
+     * @param string $varname
+     * @param mixed $default
+     *  @return mixed
      */
     public function getSessionVar($varname, $default = '')
     {
