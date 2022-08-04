@@ -274,7 +274,7 @@ class rex_login
                 $ok = true;
 
                 // check session max age
-                $sessionStartStamp = (int) $this->getSessionVar(self::START_TIME);
+                $sessionStartStamp = rex_request::session(self::START_TIME, 'int');
                 if (($sessionStartStamp + $this->sessionMaxOverallDuration) < time()) {
                     $ok = false;
                     $this->message = rex_i18n::msg('login_session_expired');
@@ -498,14 +498,16 @@ class rex_login
                 }
             });
 
-            $sessionStartTime = rex_request::session(self::START_TIME, 'int', null);
-            if (null === $sessionStartTime) {
-                rex_request::setSession(self::START_TIME, time());
-            }
-
             if ($cookieParams['samesite']) {
                 self::rewriteSessionCookie($cookieParams['samesite']);
             }
+        }
+
+        // add property if missing from the session.
+        // not only on start, but everytime, to support migration pre-existing sessions
+        $sessionStartTime = rex_request::session(self::START_TIME, 'int', null);
+        if (null === $sessionStartTime) {
+            rex_request::setSession(self::START_TIME, time());
         }
     }
 
