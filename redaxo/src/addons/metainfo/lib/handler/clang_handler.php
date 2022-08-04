@@ -10,6 +10,9 @@ class rex_metainfo_clang_handler extends rex_metainfo_handler
     public const PREFIX = 'clang_';
     public const CONTAINER = 'rex-clang-metainfo';
 
+    /**
+     * @return string
+     */
     public function renderToggleButton(rex_extension_point $ep)
     {
         $fields = parent::getSqlFields(self::PREFIX);
@@ -47,7 +50,9 @@ class rex_metainfo_clang_handler extends rex_metainfo_handler
 
         return $params;
     }
-
+    /**
+     * @return void
+     */
     protected function buildFilterCondition(array $params)
     {
     }

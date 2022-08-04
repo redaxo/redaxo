@@ -18,12 +18,18 @@ class rex_input_select extends rex_input
         $this->setAttribute('class', 'form-control selectpicker');
     }
 
+    /**
+     * @return void
+     */
     public function setValue($value)
     {
         $this->select->setSelected($value);
         parent::setValue($value);
     }
 
+    /**
+     * @return void
+     */
     public function setAttribute($name, $value)
     {
         if ('name' == $name) {
@@ -37,6 +43,9 @@ class rex_input_select extends rex_input
         parent::setAttribute($name, $value);
     }
 
+    /**
+     * @return rex_select
+     */
     public function getSelect()
     {
         return $this->select;
