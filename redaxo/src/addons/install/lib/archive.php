@@ -58,6 +58,7 @@ class rex_install_archive
 
     /**
      * @param string|string[]|null $exclude
+     * @return void
      */
     public static function copyDirToArchive(string $dir, string $archive, ?string $basename = null, $exclude = null)
     {
@@ -94,6 +95,9 @@ class rex_install_archive
         }
     }
 
+    /**
+     * @return void
+     */
     private static function setPermissions(string $dir): void
     {
         @chmod($dir, rex::getDirPerm());

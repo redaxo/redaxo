@@ -7,6 +7,9 @@ class rex_cronjob_export extends rex_cronjob
 {
     public const DEFAULT_FILENAME = '%REX_SERVER_%Y%m%d_%H%M_rex%REX_VERSION';
 
+    /**
+     * @return bool
+     */
     public function execute()
     {
         $filename = $this->getParam('filename', self::DEFAULT_FILENAME);
@@ -121,11 +124,17 @@ class rex_cronjob_export extends rex_cronjob
         return false;
     }
 
+    /**
+     * @return string
+     */
     public function getTypeName()
     {
         return rex_i18n::msg('backup_database_export');
     }
 
+    /**
+     * @return array
+     */
     public function getParamFields()
     {
         $tables = rex_backup::getTables();
