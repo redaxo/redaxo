@@ -324,6 +324,9 @@ class rex_media
     }
 
     // allowed filetypes
+    /**
+     * @return mixed
+     */
     public static function getDocTypes()
     {
         return rex_addon::get('mediapool')->getProperty('allowed_doctypes');
@@ -338,6 +341,9 @@ class rex_media
     }
 
     // allowed image upload types
+    /**
+     * @return mixed
+     */
     public static function getImageTypes()
     {
         return rex_addon::get('mediapool')->getProperty('image_extensions');
@@ -359,6 +365,9 @@ class rex_media
         return isset($this->$value) || isset($this->{'med_' . $value});
     }
 
+    /**
+     * @return mixed
+     */
     public function getValue($value)
     {
         // damit alte rex_article felder wie copyright, description
