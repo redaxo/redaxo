@@ -16,11 +16,11 @@ class rex_login
     /**
      * the encrypted user password.
      */
-    const PASSWORD = 'password';
+    public const PASSWORD = 'password';
     /**
      * the userid of the impersonator user.
      */
-    const IMPERSONATOR = 'impersonator';
+    public const IMPERSONATOR = 'impersonator';
 
     /**
      * @psalm-var positive-int
@@ -264,7 +264,7 @@ class rex_login
                     rex_csrf_token::removeAll();
                 }
 
-                if ($ok && $impersonator = $this->getSessionVar(rex_login::IMPERSONATOR)) {
+                if ($ok && $impersonator = $this->getSessionVar(self::IMPERSONATOR)) {
                     $this->impersonator = rex_sql::factory($this->DB);
                     $this->impersonator->setQuery($this->userQuery, [':id' => $impersonator]);
 
