@@ -8,7 +8,7 @@ class rex_login
     /**
      * the timestamp when the session was initially started.
      */
-    const START_TIME = 'starttime';
+    public const START_TIME = 'starttime';
 
     /**
      * @psalm-var positive-int
@@ -17,13 +17,13 @@ class rex_login
      */
     protected $DB = 1;
     /**
-     * A Session will be closed when not activly used for this timespan (seconds)
+     * A Session will be closed when not activly used for this timespan (seconds).
      *
      * @var int
      */
     protected $sessionDuration;
     /**
-     * A session cannot stay longer then this value, no matter its actively used once in a while (seconds)
+     * A session cannot stay longer then this value, no matter its actively used once in a while (seconds).
      *
      * @var int
      */
