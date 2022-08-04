@@ -17,6 +17,10 @@ class rex_login
      * the encrypted user password.
      */
     const PASSWORD = 'password';
+    /**
+     * the userid of the impersonator user.
+     */
+    const IMPERSONATOR = 'impersonator';
 
     /**
      * @psalm-var positive-int
@@ -260,7 +264,7 @@ class rex_login
                     rex_csrf_token::removeAll();
                 }
 
-                if ($ok && $impersonator = $this->getSessionVar('impersonator')) {
+                if ($ok && $impersonator = $this->getSessionVar(rex_login::IMPERSONATOR)) {
                     $this->impersonator = rex_sql::factory($this->DB);
                     $this->impersonator->setQuery($this->userQuery, [':id' => $impersonator]);
 
@@ -308,7 +312,7 @@ class rex_login
             // wenn nicht, dann UID loeschen und error seite
             $this->setSessionVar(self::LAST_ACTIVITY, '');
             $this->setSessionVar(self::USER_ID, '');
-            $this->setSessionVar('impersonator', null);
+            $this->setSessionVar(self::IMPERSONATOR, null);
             $this->setSessionVar(self::PASSWORD, null);
         }
 
@@ -337,7 +341,7 @@ class rex_login
         $this->user = $user;
 
         $this->setSessionVar(self::USER_ID, $id);
-        $this->setSessionVar('impersonator', $this->impersonator->getValue($this->idColumn));
+        $this->setSessionVar(self::IMPERSONATOR, $this->impersonator->getValue($this->idColumn));
     }
 
     public function depersonate()
@@ -350,7 +354,7 @@ class rex_login
         $this->impersonator = null;
 
         $this->setSessionVar(self::USER_ID, $this->user->getValue($this->idColumn));
-        $this->setSessionVar('impersonator', null);
+        $this->setSessionVar(self::IMPERSONATOR, null);
     }
 
     public function changedPassword(
