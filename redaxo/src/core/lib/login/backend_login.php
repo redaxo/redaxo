@@ -85,7 +85,7 @@ class rex_backend_login extends rex_login
                 $sql->setQuery('SELECT id, password FROM ' . rex::getTable('user') . ' WHERE cookiekey = ? LIMIT 1', [$cookiekey]);
                 if (1 == $sql->getRows()) {
                     $this->setSessionVar(rex_login::USER_ID, $sql->getValue('id'));
-                    $this->setSessionVar('password', $sql->getValue('password'));
+                    $this->setSessionVar(rex_login::PASSWORD, $sql->getValue('password'));
                     self::setStayLoggedInCookie($cookiekey);
                     $loggedInViaCookie = true;
                 } else {

@@ -9,7 +9,14 @@ class rex_login
      * a timestamp of the last activiy of the http session.
      */
     public const LAST_ACTIVITY = 'STAMP';
+    /**
+     * the id of the user.
+     */
     public const USER_ID = 'UID';
+    /**
+     * the encrypted user password.
+     */
+    const PASSWORD = 'password';
 
     /**
      * @psalm-var positive-int
@@ -236,7 +243,7 @@ class rex_login
                     $ok = true;
                     self::regenerateSessionId();
                     $this->setSessionVar(self::USER_ID, $this->user->getValue($this->idColumn));
-                    $this->setSessionVar('password', $this->user->getValue($this->passwordColumn));
+                    $this->setSessionVar(self::PASSWORD, $this->user->getValue($this->passwordColumn));
                 } else {
                     $this->message = rex_i18n::msg('login_error');
                 }
@@ -302,7 +309,7 @@ class rex_login
             $this->setSessionVar(self::LAST_ACTIVITY, '');
             $this->setSessionVar(self::USER_ID, '');
             $this->setSessionVar('impersonator', null);
-            $this->setSessionVar('password', null);
+            $this->setSessionVar(self::PASSWORD, null);
         }
 
         $this->loginStatus = $ok ? 1 : -1;
@@ -350,7 +357,7 @@ class rex_login
         #[\SensitiveParameter]
         string $passwordHash
     ): void {
-        $this->setSessionVar('password', $passwordHash);
+        $this->setSessionVar(self::PASSWORD, $passwordHash);
     }
 
     /**

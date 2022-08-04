@@ -19,7 +19,7 @@ class rex_history_login extends rex_backend_login
                 $this->user = $userSql;
                 $this->setSessionVar(rex_login::LAST_ACTIVITY, time());
                 $this->setSessionVar(rex_login::USER_ID, $this->user->getValue($this->idColumn));
-                $this->setSessionVar('password', $this->user->getValue($this->passwordColumn));
+                $this->setSessionVar(rex_login::PASSWORD, $this->user->getValue($this->passwordColumn));
                 return parent::checkLogin();
             }
         }
