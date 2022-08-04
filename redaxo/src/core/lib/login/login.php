@@ -16,7 +16,7 @@ class rex_login
     /**
      * the encrypted user password.
      */
-    const PASSWORD = 'password';
+    public const PASSWORD = 'password';
 
     /**
      * @psalm-var positive-int
