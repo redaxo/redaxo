@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 5.14.1 – 02.08.2022
+---------------------------
+
+### Bugfixes
+
+* `rex_sql`: Fehlercode stand teils nicht mehr korrekt zur Verfügung, dadurch Fehler im Setup (@gharlan)
+* `rex_backend_login`: Cookie-Einstellungen aus `config.yml` wurden für Eingeloggt-bleiben-Cookie nicht berücksichtigt (@dergel)
+
+
 Version 5.14.0 – 25.07.2022
 ---------------------------
 
