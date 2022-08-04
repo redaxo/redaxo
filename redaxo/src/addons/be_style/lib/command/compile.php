@@ -12,12 +12,18 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class rex_be_style_command_compile extends rex_console_command
 {
+    /**
+     * @return void
+     */
     protected function configure()
     {
         $this->setAliases(['styles:compile'])
             ->setDescription('Converts Backend SCSS files to CSS');
     }
 
+    /**
+     * @return int
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = $this->getStyle($input, $output);
