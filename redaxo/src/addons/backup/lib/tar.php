@@ -51,6 +51,7 @@ class rex_backup_tar
 
     /**
      * @param string $archivePath
+     * @return void
      */
     public function create($archivePath)
     {
