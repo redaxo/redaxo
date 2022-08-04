@@ -6,20 +6,51 @@
 class rex_login
 {
     /**
+     * the timestamp when the session was initially started.
+     */
+    const START_TIME = 'starttime';
+
+    /**
      * @psalm-var positive-int
      *
      * @var int
      */
     protected $DB = 1;
+    /**
+     * A Session will be closed when not activly used for this timespan (seconds)
+     *
+     * @var int
+     */
     protected $sessionDuration;
+    /**
+     * A session cannot stay longer then this value, no matter its actively used once in a while (seconds)
+     *
+     * @var int
+     */
+    protected $sessionMaxOverallDuration;
+    /**
+     * @var string
+     */
     protected $loginQuery;
+    /**
+     * @var string
+     */
     protected $userQuery;
+    /**
+     * @var string
+     */
     protected $impersonateQuery;
     /**
      * @var string
      */
     protected $systemId = 'default';
+    /**
+     * @var string|null
+     */
     protected $userLogin;
+    /**
+     * @var string|null
+     */
     protected $userPassword;
     /**
      * @var bool
@@ -52,11 +83,10 @@ class rex_login
     /** @var rex_sql|rex_user|null */
     protected $impersonator;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
+        $this->sessionMaxOverallDuration = rex::getProperty('session_max_overall_duration', 2419200); // 4 weeks
+
         self::startSession();
     }
 
@@ -96,6 +126,9 @@ class rex_login
 
     /**
      * Setzt den Login und das Password.
+     *
+     * @param string $login
+     * @param string $password
      */
     public function setLogin(
         #[\SensitiveParameter]
@@ -239,8 +272,19 @@ class rex_login
                 // message schreiben und falls falsch auf error verweisen
 
                 $ok = true;
-                $sessionStartStamp = (int) $this->getSessionVar('STAMP');
-                if (($sessionStartStamp + $this->sessionDuration) < time()) {
+
+                // check session max age
+                $sessionStartStamp = (int) $this->getSessionVar(self::START_TIME);
+                if (($sessionStartStamp + $this->sessionMaxOverallDuration) < time()) {
+                    $ok = false;
+                    $this->message = rex_i18n::msg('login_session_expired');
+
+                    rex_csrf_token::removeAll();
+                }
+
+                // check session last activity
+                $sessionLastActivityStamp = (int) $this->getSessionVar('STAMP');
+                if (($sessionLastActivityStamp + $this->sessionDuration) < time()) {
                     $ok = false;
                     $this->message = rex_i18n::msg('login_session_expired');
 
@@ -453,6 +497,11 @@ class rex_login
                     throw new rex_exception('Unable to start session.');
                 }
             });
+
+            $sessionStartTime = rex_request::session(self::START_TIME, 'int', null);
+            if (null === $sessionStartTime) {
+                rex_request::setSession(self::START_TIME, time());
+            }
 
             if ($cookieParams['samesite']) {
                 self::rewriteSessionCookie($cookieParams['samesite']);
