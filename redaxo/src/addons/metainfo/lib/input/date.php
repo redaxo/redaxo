@@ -42,11 +42,17 @@ class rex_input_date extends rex_input
         $this->daySelect->setSize(1);
     }
 
+    /**
+     * @return void
+     */
     public function setStartYear($startYear)
     {
         $this->startYear = $startYear;
     }
 
+    /**
+     * @return void
+     */
     public function setEndYear($endYear)
     {
         $this->endYear = $endYear;
@@ -90,16 +96,25 @@ class rex_input_date extends rex_input
         parent::setAttribute($name, $value);
     }
 
+    /**
+     * @return rex_select
+     */
     public function getDaySelect()
     {
         return $this->daySelect;
     }
 
+    /**
+     * @return rex_select
+     */
     public function getMonthSelect()
     {
         return $this->monthSelect;
     }
 
+    /**
+     * @return rex_select
+     */
     public function getYearSelect()
     {
         return $this->yearSelect;

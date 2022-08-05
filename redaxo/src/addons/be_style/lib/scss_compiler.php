@@ -113,7 +113,7 @@ class rex_scss_compiler
         } catch (Exception $e) {
             // here we could put the exception message, but who cares ...
             echo $e->getMessage();
-            exit();
+            exit(1);
         }
     }
 }
