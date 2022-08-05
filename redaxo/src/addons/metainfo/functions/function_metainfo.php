@@ -218,6 +218,7 @@ function rex_metainfo_meta_prefix(string $name)
 
 /**
  * Gibt die mit dem Prefix verbundenen Tabellennamen zurück.
+ * @return string|false
  */
 function rex_metainfo_meta_table(string $prefix)
 {
@@ -232,6 +233,7 @@ function rex_metainfo_meta_table(string $prefix)
 
 /**
  * Bindet ggf extensions ein.
+ * @return void
  */
 function rex_metainfo_extensions_handler(rex_extension_point $ep)
 {
