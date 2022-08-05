@@ -50,6 +50,7 @@ class rex_metainfo_clang_handler extends rex_metainfo_handler
 
         return $params;
     }
+
     /**
      * @return void
      */
