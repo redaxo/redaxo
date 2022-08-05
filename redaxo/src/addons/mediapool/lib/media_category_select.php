@@ -7,14 +7,10 @@
  */
 class rex_media_category_select extends rex_select
 {
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private $checkPerms;
 
-    /**
-     * @var int|int[]|null
-     */
+    /** @var int|int[]|null */
     private $rootId;
 
     private $loaded = false;

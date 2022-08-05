@@ -4,21 +4,13 @@
  */
 class rex_template_select extends rex_select
 {
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private $loaded = false;
-    /**
-     * @var null|int
-     */
+    /** @var null|int */
     private $categoryId;
-    /**
-     * @var null|string[]
-     */
+    /** @var null|string[] */
     private $templates;
-    /**
-     * @var int
-     */
+    /** @var int */
     private $clangId;
 
     /**
