@@ -71,6 +71,9 @@ class rex_effect_resize extends rex_effect_abstract
         $this->media->refreshImageDimensions();
     }
 
+    /**
+     * @return void
+     */
     private function resizeMax($width, $height)
     {
         if (!empty($this->params['height']) && !empty($this->params['width'])) {
@@ -93,6 +96,9 @@ class rex_effect_resize extends rex_effect_abstract
         }
     }
 
+    /**
+     * @return void
+     */
     private function resizeMin($width, $height)
     {
         if (!empty($this->params['height']) && !empty($this->params['width'])) {

@@ -734,22 +734,12 @@
       <code>rex_escape($config['api_login'])</code>
     </NullOperand>
   </file>
-  <file src="redaxo/src/addons/media_manager/boot.php">
-    <MixedArgumentTypeCoercion occurrences="3">
-      <code>[rex_media_manager::class, 'init']</code>
-      <code>[rex_media_manager::class, 'mediaUpdated']</code>
-      <code>[rex_media_manager::class, 'mediaUpdated']</code>
-    </MixedArgumentTypeCoercion>
-  </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_convert2img.php">
-    <MixedAssignment occurrences="3">
+    <MixedAssignment occurrences="1">
       <code>$color</code>
-      <code>$convertPath</code>
-      <code>$path</code>
     </MixedAssignment>
-    <MixedOperand occurrences="2">
+    <MixedOperand occurrences="1">
       <code>$color</code>
-      <code>$convertPath</code>
     </MixedOperand>
     <PossiblyNullArgument occurrences="2">
       <code>$this-&gt;media-&gt;getMediaPath()</code>
@@ -1097,20 +1087,17 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/mediapool/lib/media.php">
-    <MixedArgument occurrences="6">
+    <MixedArgument occurrences="3">
       <code>$filename</code>
       <code>$name</code>
-      <code>$this-&gt;getValue('med_description')</code>
       <code>$this-&gt;name</code>
-      <code>self::getDocTypes()</code>
-      <code>self::getImageTypes()</code>
     </MixedArgument>
     <MixedAssignment occurrences="3">
       <code>$name</code>
       <code>$value</code>
       <code>$value</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="13">
+    <MixedInferredReturnType occurrences="16">
       <code>int</code>
       <code>int</code>
       <code>int</code>
@@ -1118,12 +1105,15 @@
       <code>int</code>
       <code>int</code>
       <code>int</code>
+      <code>list&lt;string&gt;</code>
+      <code>list&lt;string&gt;</code>
       <code>string</code>
       <code>string</code>
       <code>string</code>
       <code>string</code>
       <code>string</code>
       <code>string</code>
+      <code>string|int|null</code>
     </MixedInferredReturnType>
     <MixedOperand occurrences="6">
       <code>$name</code>
@@ -1133,7 +1123,8 @@
       <code>$value</code>
       <code>$value</code>
     </MixedOperand>
-    <MixedReturnStatement occurrences="13">
+    <MixedReturnStatement occurrences="16">
+      <code>$this-&gt;$value</code>
       <code>$this-&gt;category_id</code>
       <code>$this-&gt;createdate</code>
       <code>$this-&gt;createuser</code>
@@ -1147,7 +1138,12 @@
       <code>$this-&gt;updatedate</code>
       <code>$this-&gt;updateuser</code>
       <code>$this-&gt;width</code>
+      <code>rex_addon::get('mediapool')-&gt;getProperty('allowed_doctypes')</code>
+      <code>rex_addon::get('mediapool')-&gt;getProperty('image_extensions')</code>
     </MixedReturnStatement>
+    <PossiblyNullArgument occurrences="1">
+      <code>$this-&gt;getValue('med_description')</code>
+    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/mediapool/lib/media_category.php">
     <MixedArgument occurrences="5">
@@ -1364,11 +1360,13 @@
       <code>$fileName</code>
       <code>$filename</code>
     </MixedAssignment>
-    <MixedOperand occurrences="3">
+    <MixedOperand occurrences="2">
       <code>$argUrl['args']['types']</code>
-      <code>$media-&gt;getValue('updatedate')</code>
       <code>$mediaManagerUrl('rex_media_small', urlencode($media-&gt;getFileName()), $media-&gt;getValue('updatedate'))</code>
     </MixedOperand>
+    <PossiblyNullOperand occurrences="1">
+      <code>$media-&gt;getValue('updatedate')</code>
+    </PossiblyNullOperand>
     <PossiblyNullReference occurrences="3">
       <code>getComplexPerm</code>
       <code>getComplexPerm</code>
@@ -1445,9 +1443,8 @@
     </UnusedVariable>
   </file>
   <file src="redaxo/src/addons/mediapool/pages/upload.php">
-    <MixedArgument occurrences="2">
+    <MixedArgument occurrences="1">
       <code>$js</code>
-      <code>rex_mediapool_Uploadform($rexFileCategory)</code>
     </MixedArgument>
     <MixedOperand occurrences="2">
       <code>$data['filename']</code>

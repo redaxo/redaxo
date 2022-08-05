@@ -406,6 +406,7 @@ class rex_backup
     /**
      * @param string[] $folders
      * @param string $archivePath
+     * @return void
      */
     private static function streamExport($folders, $archivePath)
     {
@@ -430,6 +431,7 @@ class rex_backup
      *
      * @param string $path
      * @param string $dir
+     * @return void
      */
     private static function addFolderToTar(rex_backup_tar $tar, $path, $dir)
     {
@@ -485,6 +487,7 @@ class rex_backup
      * @param string $filename
      * @param self::IMPORT_ARCHIVE|self::IMPORT_DB $importType
      * @param self::IMPORT_EVENT_* $eventType
+     * @return void
      */
     private static function importScript($filename, $importType, $eventType)
     {
@@ -500,6 +503,7 @@ class rex_backup
      * @param resource $fp
      * @param string $nl
      * @param list<string> $fields
+     * @return void
      */
     private static function exportTable($table, &$start, $max, $fp, $nl, array $fields)
     {

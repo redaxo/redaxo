@@ -46,6 +46,7 @@ class rex_install_packages
     /**
      * @param string $package
      * @param int $fileId
+     * @return void
      */
     public static function updatedPackage($package, $fileId)
     {
@@ -61,6 +62,7 @@ class rex_install_packages
     /**
      * @param string $package
      * @param string $version
+     * @return void
      */
     private static function unsetOlderVersions($package, $version)
     {
@@ -92,6 +94,9 @@ class rex_install_packages
         return self::$addPackages;
     }
 
+    /**
+     * @return void
+     */
     public static function addedPackage($package)
     {
         self::$myPackages = null;
@@ -147,6 +152,7 @@ class rex_install_packages
 
     /**
      * Deletes all locally cached packages.
+     * @return void
      */
     public static function deleteCache()
     {
