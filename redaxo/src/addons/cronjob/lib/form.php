@@ -76,6 +76,9 @@ class rex_cronjob_form_interval_element extends rex_form_element
     /** @var array */
     private $intervalElements = [];
 
+    /**
+     * @return void
+     */
     public function setValue($value)
     {
         if (null === $value && [] === $this->intervalElements) {
