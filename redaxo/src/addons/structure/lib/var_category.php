@@ -31,7 +31,7 @@ class rex_var_category extends rex_var
     }
 
     /**
-     * @return string|int|null|void
+     * @return string|int|null
      */
     public static function getCategoryValue($id, $field, $clang = null)
     {
@@ -42,5 +42,7 @@ class rex_var_category extends rex_var
         if ($cat) {
             return rex_escape($cat->getValue($field));
         }
+
+        return null;
     }
 }

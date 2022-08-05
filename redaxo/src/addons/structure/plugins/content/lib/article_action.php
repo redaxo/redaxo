@@ -190,7 +190,7 @@ class rex_article_action
     }
 
     /**
-     * @return scalar|null
+     * @return string|null
      */
     protected function getValue($id)
     {
@@ -198,7 +198,7 @@ class rex_article_action
     }
 
     /**
-     * @return scalar|null
+     * @return string|null
      */
     protected function getMedia($id)
     {
@@ -206,7 +206,7 @@ class rex_article_action
     }
 
     /**
-     * @return scalar|null
+     * @return string|null
      */
     protected function getMediaList($id)
     {
@@ -214,7 +214,7 @@ class rex_article_action
     }
 
     /**
-     * @return scalar|null
+     * @return string|null
      */
     protected function getLink($id)
     {
@@ -222,7 +222,7 @@ class rex_article_action
     }
 
     /**
-     * @return scalar|null
+     * @return string|null
      */
     protected function getLinkList($id)
     {

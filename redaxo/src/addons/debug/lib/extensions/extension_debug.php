@@ -55,9 +55,6 @@ class rex_extension_debug extends rex_extension
         return $res;
     }
 
-    /**
-     * @return void
-     */
     public static function register($extensionPoint, callable $extension, $level = self::NORMAL, array $params = [])
     {
         parent::register($extensionPoint, $extension, $level, $params);

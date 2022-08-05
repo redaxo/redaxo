@@ -10,7 +10,7 @@
 class rex_history_login extends rex_backend_login
 {
     /**
-     * @return bool|null
+     * @return bool
      */
     public function checkTempSession($historyLogin, $historySession, $historyValidtime)
     {
@@ -27,7 +27,7 @@ class rex_history_login extends rex_backend_login
             }
         }
 
-        return null;
+        return false;
     }
 
     /**
