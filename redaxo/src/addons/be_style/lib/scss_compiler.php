@@ -20,7 +20,7 @@ class rex_scss_compiler
         $this->css_file = rex_path::addon('be_style', 'assets') . 'styles.css';
         $this->formatter = Compressed::class;
     }
-    
+
     /**
      * @return void
      */

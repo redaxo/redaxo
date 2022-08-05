@@ -89,9 +89,8 @@ class rex_install_webservice
      *
      * @param string      $path
      * @param string|null $archive Path to archive
-     * @return void
-     * 
      * @throws rex_functional_exception
+     * @return void
      */
     public static function post($path, array $data, $archive = null)
     {
@@ -128,9 +127,8 @@ class rex_install_webservice
      * Issues a http DELETE to the given path.
      *
      * @param string $path
-     * @return void
-     *
      * @throws rex_functional_exception
+     * @return void
      */
     public static function delete($path)
     {

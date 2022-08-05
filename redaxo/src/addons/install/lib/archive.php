@@ -95,9 +95,6 @@ class rex_install_archive
         }
     }
 
-    /**
-     * @return void
-     */
     private static function setPermissions(string $dir): void
     {
         @chmod($dir, rex::getDirPerm());

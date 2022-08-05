@@ -332,6 +332,7 @@ class rex_media_manager
 
         return $counter;
     }
+
     /**
      * @return never
      */

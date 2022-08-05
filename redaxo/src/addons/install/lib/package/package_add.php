@@ -15,7 +15,7 @@ class rex_install_package_add extends rex_install_package_download
     }
 
     /**
-     * @return void 
+     * @return void
      */
     protected function checkPreConditions()
     {

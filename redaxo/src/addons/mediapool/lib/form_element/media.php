@@ -23,7 +23,7 @@ class rex_form_widget_media_element extends rex_form_element
     }
 
     /**
-     * @return vodi
+     * @return void
      */
     public function setTypes($types)
     {
