@@ -137,6 +137,7 @@ class rex_article_content_base
 
     /**
      * @param int $sr
+     * @return void
      */
     public function setSliceRevision($sr)
     {
@@ -147,6 +148,7 @@ class rex_article_content_base
 
     /**
      * @param int $value
+     * @return void
      */
     public function setSliceId($value)
     {
@@ -155,6 +157,7 @@ class rex_article_content_base
 
     /**
      * @param int $value
+     * @return void
      */
     public function setClang($value)
     {
@@ -182,6 +185,7 @@ class rex_article_content_base
 
     /**
      * @deprecated since redaxo 5.6, use getClangId() instead
+     * @return int
      */
     public function getClang()
     {
@@ -215,6 +219,7 @@ class rex_article_content_base
 
     /**
      * @param int $templateId
+     * @return void
      */
     public function setTemplateId($templateId)
     {
@@ -231,6 +236,7 @@ class rex_article_content_base
 
     /**
      * @param 'view'|'edit' $mode
+     * @return void
      */
     public function setMode($mode)
     {
@@ -239,6 +245,7 @@ class rex_article_content_base
 
     /**
      * @param 'add'|'edit' $function
+     * @return void
      */
     public function setFunction($function)
     {
@@ -247,6 +254,7 @@ class rex_article_content_base
 
     /**
      * @param bool $value
+     * @return void
      */
     public function setEval($value)
     {
