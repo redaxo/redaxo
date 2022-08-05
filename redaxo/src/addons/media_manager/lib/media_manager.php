@@ -503,8 +503,6 @@ class rex_media_manager
             $mediaManager->setCachePath($cachePath);
             $mediaManager->applyEffects($rexMediaManagerType);
             $mediaManager->sendMedia();
-
-            exit();
         }
     }
 

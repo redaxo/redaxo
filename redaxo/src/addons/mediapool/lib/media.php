@@ -325,7 +325,7 @@ class rex_media
 
     // allowed filetypes
     /**
-     * @return mixed
+     * @return list<string>
      */
     public static function getDocTypes()
     {
@@ -342,7 +342,7 @@ class rex_media
 
     // allowed image upload types
     /**
-     * @return mixed
+     * @return list<string>
      */
     public static function getImageTypes()
     {
@@ -366,7 +366,7 @@ class rex_media
     }
 
     /**
-     * @return mixed
+     * @return string|int|null
      */
     public function getValue($value)
     {
@@ -378,6 +378,8 @@ class rex_media
         if (isset($this->{'med_' . $value})) {
             return $this->getValue('med_' . $value);
         }
+
+        return null;
     }
 
     /**

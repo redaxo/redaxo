@@ -121,17 +121,11 @@ class rex_cronjob_export extends rex_cronjob
         return false;
     }
 
-    /**
-     * @return string
-     */
     public function getTypeName()
     {
         return rex_i18n::msg('backup_database_export');
     }
 
-    /**
-     * @return array
-     */
     public function getParamFields()
     {
         $tables = rex_backup::getTables();

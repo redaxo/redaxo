@@ -21,9 +21,6 @@ class rex_be_style_command_compile extends rex_console_command
             ->setDescription('Converts Backend SCSS files to CSS');
     }
 
-    /**
-     * @return int
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = $this->getStyle($input, $output);
