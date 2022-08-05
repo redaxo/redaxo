@@ -21,11 +21,17 @@ class rex_input_datetime extends rex_input
         $this->timeInput = new rex_input_time();
     }
 
+    /**
+     * @return void
+     */
     public function setStartYear($startYear)
     {
         $this->dateInput->setStartYear($startYear);
     }
 
+    /**
+     * @return void
+     */
     public function setEndYear($endYear)
     {
         $this->dateInput->setEndYear($endYear);
@@ -59,26 +65,41 @@ class rex_input_datetime extends rex_input
         parent::setAttribute($name, $value);
     }
 
+    /**
+     * @return rex_select
+     */
     public function getDaySelect()
     {
         return $this->dateInput->getDaySelect();
     }
 
+    /**
+     * @return rex_select
+     */
     public function getMonthSelect()
     {
         return $this->dateInput->getMonthSelect();
     }
 
+    /**
+     * @return rex_select
+     */
     public function getYearSelect()
     {
         return $this->dateInput->getYearSelect();
     }
 
+    /**
+     * @return rex_select
+     */
     public function getHourSelect()
     {
         return $this->timeInput->getHourSelect();
     }
 
+    /**
+     * @return rex_select
+     */
     public function getMinuteSelect()
     {
         return $this->timeInput->getMinuteSelect();
