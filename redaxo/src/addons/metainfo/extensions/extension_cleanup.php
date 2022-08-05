@@ -14,7 +14,7 @@ rex_extension::register('BACKUP_BEFORE_DB_IMPORT', 'rex_metainfo_cleanup');
  * Alle Metafelder löschen, nicht das nach einem Import in der Parameter Tabelle
  * noch Datensätze zu Feldern stehen, welche nicht als Spalten in der
  * rex_article angelegt wurden!
- * @return void|false
+ * @return void
  */
 function rex_metainfo_cleanup($epOrParams)
 {
@@ -30,7 +30,7 @@ function rex_metainfo_cleanup($epOrParams)
     // check wheter tables exists
     $tables = rex_sql::factory()->getTables();
     if (!isset($tables[rex::getTablePrefix() . 'metainfo_field'])) {
-        return false;
+        return;
     }
 
     // since this extension may be used also when the addon is not yet installed,

@@ -58,9 +58,6 @@ class rex_input_date extends rex_input
         $this->endYear = $endYear;
     }
 
-    /**
-     * @return void
-     */
     public function setValue($value)
     {
         if (!is_array($value)) {
@@ -80,9 +77,6 @@ class rex_input_date extends rex_input
         parent::setValue($value);
     }
 
-    /**
-     * @return void
-     */
     public function setAttribute($name, $value)
     {
         if ('name' == $name) {

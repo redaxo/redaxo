@@ -37,9 +37,6 @@ class rex_input_datetime extends rex_input
         $this->dateInput->setEndYear($endYear);
     }
 
-    /**
-     * @return void
-     */
     public function setValue($value)
     {
         if (!is_array($value)) {
@@ -60,9 +57,6 @@ class rex_input_datetime extends rex_input
         return array_merge($this->dateInput->getValue(), $this->timeInput->getValue());
     }
 
-    /**
-     * @return void
-     */
     public function setAttribute($name, $value)
     {
         $this->dateInput->setAttribute($name, $value);
