@@ -143,6 +143,9 @@ class rex_mailer extends PHPMailer
         });
     }
 
+    /**
+     * @return void
+     */
     public function clearQueuedAddresses($kind)
     {
         parent::clearQueuedAddresses($kind);
@@ -174,6 +177,7 @@ class rex_mailer extends PHPMailer
      * @param bool $status
      *
      * @deprecated use `setArchive` instead
+     * @return void
      */
     public function setLog($status)
     {
@@ -184,6 +188,7 @@ class rex_mailer extends PHPMailer
      * Enable/disable the mail archive.
      *
      * It overwrites the global `archive` configuration for the current mailer object.
+     * @return void
      */
     public function setArchive(bool $status)
     {

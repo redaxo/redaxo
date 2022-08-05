@@ -9,6 +9,9 @@
  */
 class rex_history_login extends rex_backend_login
 {
+    /**
+     * @return bool|null
+     */
     public function checkTempSession($historyLogin, $historySession, $historyValidtime)
     {
         $userSql = rex_sql::factory($this->DB);

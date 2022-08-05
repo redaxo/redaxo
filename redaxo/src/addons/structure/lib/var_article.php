@@ -49,6 +49,9 @@ class rex_var_article extends rex_var
         return false;
     }
 
+    /**
+     * @return string|int|null
+     */
     public static function getArticleValue($id, $field, $clang = null)
     {
         if (null === $clang) {

@@ -71,6 +71,7 @@ class rex_user_role implements rex_user_role_interface
 
     /**
      * {@inheritdoc}
+     * @return bool
      */
     public function hasPerm($perm)
     {
@@ -115,6 +116,9 @@ class rex_user_role implements rex_user_role_interface
         return new static($roles);
     }
 
+    /**
+     * @return void
+     */
     public static function removeOrReplaceItem(rex_extension_point $ep)
     {
         $params = $ep->getParams();
