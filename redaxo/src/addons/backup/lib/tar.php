@@ -19,9 +19,7 @@ use splitbrain\PHPArchive\Tar;
  */
 class rex_backup_tar
 {
-    /**
-     * @var Tar
-     */
+    /** @var Tar */
     private $tar;
 
     // constructor to omit warnings

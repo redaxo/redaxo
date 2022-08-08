@@ -14,9 +14,7 @@ class rex_logger extends AbstractLogger
 {
     use rex_factory_trait;
 
-    /**
-     * @var rex_log_file|null
-     */
+    /** @var rex_log_file|null */
     private static $file;
 
     /**

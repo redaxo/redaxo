@@ -7,29 +7,17 @@ class rex_extension_point_slice_menu extends rex_extension_point
 {
     public const NAME = 'SLICE_MENU';
 
-    /**
-     * @var array{label?: string, url?: string, attributes?: array{class: string[], title: string}}
-     */
+    /** @var array{label?: string, url?: string, attributes?: array{class: string[], title: string}} */
     private $menuEditAction = [];
-    /**
-     * @var array{label?: string, url?: string, attributes?: array{class: string[], title: string, data-confirm: string}}
-     */
+    /** @var array{label?: string, url?: string, attributes?: array{class: string[], title: string, data-confirm: string}} */
     private $menuDeleteAction = [];
-    /**
-     * @var array{label?: string, url?: string, attributes?: array{class: string[]}}
-     */
+    /** @var array{label?: string, url?: string, attributes?: array{class: string[]}} */
     private $menuStatusAction = [];
-    /**
-     * @var array{hidden_label?: string, url?: string, icon?: string, attributes?: array{class: string[], title: string}}
-     */
+    /** @var array{hidden_label?: string, url?: string, icon?: string, attributes?: array{class: string[], title: string}} */
     private $menuMoveupAction = [];
-    /**
-     * @var array{hidden_label?: string, url?: string, icon?: string, attributes?: array{class: string[], title: string}}
-     */
+    /** @var array{hidden_label?: string, url?: string, icon?: string, attributes?: array{class: string[], title: string}} */
     private $menuMovedownAction = [];
-    /**
-     * @var array
-     */
+    /** @var array */
     private $additionalActions = [];
 
     /** @var rex_context */
