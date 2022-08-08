@@ -13,6 +13,7 @@ interface rex_user_role_interface
      * Returns if the role has the given permission.
      *
      * @param string $perm Perm key
+     * @return bool
      */
     public function hasPerm($perm);
 

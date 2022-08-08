@@ -402,12 +402,18 @@ class rex_article_service
         return $artStatusTypes;
     }
 
+    /**
+     * @return int
+     */
     public static function nextStatus($currentStatus)
     {
         $artStatusTypes = self::statusTypes();
         return ($currentStatus + 1) % count($artStatusTypes);
     }
 
+    /**
+     * @return int
+     */
     public static function prevStatus($currentStatus)
     {
         $artStatusTypes = self::statusTypes();
@@ -425,6 +431,7 @@ class rex_article_service
      * @param int $clang     ClangId der Kategorie, die erneuert werden soll
      * @param int $newPrio  Neue PrioNr der Kategorie
      * @param int $oldPrio  Alte PrioNr der Kategorie
+     * @return void
      */
     public static function newArtPrio($parentId, $clang, $newPrio, $oldPrio)
     {
@@ -908,6 +915,7 @@ class rex_article_service
      * @param string $keyName The key
      *
      * @throws rex_api_exception
+     * @return void
      */
     protected static function reqKey($array, $keyName)
     {
