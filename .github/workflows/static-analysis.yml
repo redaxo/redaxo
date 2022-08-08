@@ -34,7 +34,7 @@ jobs:
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: 8.1
+                    php-version: '8.2'
                     extensions: gd, intl, imagick
                     coverage: none # disable xdebug, pcov
 
@@ -83,7 +83,7 @@ jobs:
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: 8.1
+                    php-version: '8.2'
                     extensions: gd, intl, imagick
                     coverage: none # disable xdebug, pcov
 
@@ -124,7 +124,7 @@ jobs:
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: 8.1
+                    php-version: '8.2'
                     extensions: gd, intl, imagick, pdo_mysql
                     coverage: none # disable xdebug, pcov
 
