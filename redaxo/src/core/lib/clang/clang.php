@@ -10,38 +10,22 @@
 #[AllowDynamicProperties]
 class rex_clang
 {
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private static $cacheLoaded = false;
-    /**
-     * @var self[]
-     */
+    /** @var self[] */
     private static $clangs = [];
-    /**
-     * @var int|null
-     */
+    /** @var int|null */
     private static $currentId;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     private $id;
-    /**
-     * @var string
-     */
+    /** @var string */
     private $code;
-    /**
-     * @var string
-     */
+    /** @var string */
     private $name;
-    /**
-     * @var int
-     */
+    /** @var int */
     private $priority;
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private $status;
 
     private function __construct()
