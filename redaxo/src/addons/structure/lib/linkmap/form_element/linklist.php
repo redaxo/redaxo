@@ -5,9 +5,7 @@
  */
 class rex_form_widget_linklist_element extends rex_form_element
 {
-    /**
-     * @var int
-     */
+    /** @var int */
     private $categoryId = 0;
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,

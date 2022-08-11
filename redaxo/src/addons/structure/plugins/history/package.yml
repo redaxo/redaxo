@@ -1,5 +1,5 @@
 package: structure/history
-version: '2.14.1'
+version: '2.14.2-dev'
 author: Jan Kristinus
 supportpage: https://github.com/redaxo/redaxo
 
@@ -20,4 +20,4 @@ requires:
     packages:
         structure: '^2.2.0'
         structure/content: '^2.2.0'
-    redaxo: '^5.4'
+    redaxo: '^5.15.0-dev'

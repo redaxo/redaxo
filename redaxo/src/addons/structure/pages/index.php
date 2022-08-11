@@ -501,7 +501,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                 }
 
                 $tdLayoutClass = '';
-                if ($structureContext->hasCategoryPermission() && rex::getUser()->hasPerm('publishArticle[]')) {
+                if (rex::getUser()->hasPerm('publishArticle[]')) {
                     $tdLayoutClass = 'rex-table-action-no-dropdown';
 
                     if (count($artStatusTypes) > 2) {
