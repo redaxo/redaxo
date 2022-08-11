@@ -7,17 +7,11 @@
  */
 class rex_install_packages
 {
-    /**
-     * @var array<string, array{name: string, author: string, shortdescription: string, description: string, website: string, created: string, updated: string, files: array<int, array{version: string, description: string, path: string, checksum: string, created: string, updated: string}>}>|null
-     */
+    /** @var array<string, array{name: string, author: string, shortdescription: string, description: string, website: string, created: string, updated: string, files: array<int, array{version: string, description: string, path: string, checksum: string, created: string, updated: string}>}>|null */
     private static $updatePackages;
-    /**
-     * @var array<string, array{name: string, author: string, shortdescription: string, description: string, website: string, created: string, updated: string, files: array<int, array{version: string, description: string, path: string, checksum: string, created: string, updated: string}>}>|null
-     */
+    /** @var array<string, array{name: string, author: string, shortdescription: string, description: string, website: string, created: string, updated: string, files: array<int, array{version: string, description: string, path: string, checksum: string, created: string, updated: string}>}>|null */
     private static $addPackages;
-    /**
-     * @var array<string, array{name: string, author: string, shortdescription: string, description: string, website: string, created: string, updated: string, status: bool, files: array<int, array{version: string, description: string, path: string, checksum: string, created: string, updated: string, redaxo_versions: list<string>, status: bool}>}>|null
-     */
+    /** @var array<string, array{name: string, author: string, shortdescription: string, description: string, website: string, created: string, updated: string, status: bool, files: array<int, array{version: string, description: string, path: string, checksum: string, created: string, updated: string, redaxo_versions: list<string>, status: bool}>}>|null */
     private static $myPackages;
 
     /**

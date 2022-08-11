@@ -28,9 +28,7 @@
  */
 trait rex_factory_trait
 {
-    /**
-     * @var array<class-string<static>, class-string<static>>
-     */
+    /** @var array<class-string<static>, class-string<static>> */
     private static $factoryClasses = [];
 
     /**

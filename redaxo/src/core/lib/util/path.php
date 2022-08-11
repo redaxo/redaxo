@@ -9,9 +9,7 @@
  */
 class rex_path
 {
-    /**
-     * @var rex_path_default_provider
-     */
+    /** @var rex_path_default_provider */
     protected static $pathprovider;
 
     /**

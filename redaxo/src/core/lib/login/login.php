@@ -15,31 +15,19 @@ class rex_login
     protected $loginQuery;
     protected $userQuery;
     protected $impersonateQuery;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $systemId = 'default';
     protected $userLogin;
     protected $userPassword;
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $logout = false;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $idColumn = 'id';
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $passwordColumn = 'password';
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $cache = false;
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $loginStatus = 0; // 0 = noch checken, 1 = ok, -1 = not ok
     /**
      * @var string

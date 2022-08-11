@@ -93,8 +93,8 @@ rex_extension::register('STRUCTURE_CONTENT_BEFORE_SLICES', static function (rex_
                 $return .= rex_view::success(rex_i18n::msg('version_info_working_version_to_live'));
 
                 $article = rex_type::instanceOf(rex_article::get($articleId, $clangId), rex_article::class);
-                $return = rex_extension::registerPoint(new rex_extension_point_art_content_updated($article, 'work_to_live', $return));
                 rex_article_revision::setSessionArticleRevision($articleId, 0);
+                $return = rex_extension::registerPoint(new rex_extension_point_art_content_updated($article, 'work_to_live', $return));
             }
         break;
         case 'copy_live_to_work':
