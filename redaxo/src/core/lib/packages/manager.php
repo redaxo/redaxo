@@ -17,19 +17,13 @@ abstract class rex_package_manager
      */
     protected $package;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $generatePackageOrder = true;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $message;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $i18nPrefix;
 
     /**

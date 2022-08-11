@@ -4148,7 +4148,7 @@ final class UTF8
      * (PHP 5 &gt;= 5.2.0, PECL json &gt;= 1.2.0)<br/>
      * Returns the JSON representation of a value.
      *
-     * EXAMPLE: <code>UTF8::json_enocde(array(1, '¥', 'ä')); // '[1,"\u00a5","\u00e4"]'</code>
+     * EXAMPLE: <code>UTF8::json_encode(array(1, '¥', 'ä')); // '[1,"\u00a5","\u00e4"]'</code>
      *
      * @see http://php.net/manual/en/function.json-encode.php
      *
@@ -4386,7 +4386,7 @@ final class UTF8
             if ($chars !== null) {
                 /** @noinspection PregQuoteUsageInspection */
                 $chars = \preg_quote($chars);
-                $pattern = "^[${chars}]+";
+                $pattern = "^[{$chars}]+";
             } else {
                 $pattern = '^[\\s]+';
             }
@@ -4396,7 +4396,7 @@ final class UTF8
 
         if ($chars !== null) {
             $chars = \preg_quote($chars, '/');
-            $pattern = "^[${chars}]+";
+            $pattern = "^[{$chars}]+";
         } else {
             $pattern = '^[\\s]+';
         }
@@ -5418,7 +5418,7 @@ final class UTF8
             if ($chars !== null) {
                 /** @noinspection PregQuoteUsageInspection */
                 $chars = \preg_quote($chars);
-                $pattern = "[${chars}]+$";
+                $pattern = "[{$chars}]+$";
             } else {
                 $pattern = '[\\s]+$';
             }
@@ -5428,7 +5428,7 @@ final class UTF8
 
         if ($chars !== null) {
             $chars = \preg_quote($chars, '/');
-            $pattern = "[${chars}]+$";
+            $pattern = "[{$chars}]+$";
         } else {
             $pattern = '[\\s]+$';
         }
@@ -11395,7 +11395,11 @@ final class UTF8
 
         // otherwise we need the string-length
         $str_length = 0;
-        if ($offset || $length === null) {
+        if (
+            $offset
+            ||
+            $length === null /* @phpstan-ignore-line | can be NULL here?! */
+        ) {
             $str_length = self::strlen($str, $encoding);
         }
 
@@ -12629,7 +12633,7 @@ final class UTF8
             if ($chars !== null) {
                 /** @noinspection PregQuoteUsageInspection */
                 $chars = \preg_quote($chars);
-                $pattern = "^[${chars}]+|[${chars}]+\$";
+                $pattern = "^[{$chars}]+|[{$chars}]+\$";
             } else {
                 $pattern = '^[\\s]+|[\\s]+$';
             }
@@ -12639,7 +12643,7 @@ final class UTF8
 
         if ($chars !== null) {
             $chars = \preg_quote($chars, '/');
-            $pattern = "^[${chars}]+|[${chars}]+\$";
+            $pattern = "^[{$chars}]+|[{$chars}]+\$";
         } else {
             $pattern = '^[\\s]+|[\\s]+$';
         }

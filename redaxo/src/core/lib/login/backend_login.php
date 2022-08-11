@@ -12,13 +12,9 @@ class rex_backend_login extends rex_login
 
     private const SESSION_PASSWORD_CHANGE_REQUIRED = 'password_change_required';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $tableName;
-    /**
-     * @var bool|null
-     */
+    /** @var bool|null */
     private $stayLoggedIn;
 
     /** @var rex_backend_password_policy */

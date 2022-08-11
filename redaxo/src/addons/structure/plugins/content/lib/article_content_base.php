@@ -8,43 +8,25 @@
  */
 class rex_article_content_base
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     public $warning;
-    /**
-     * @var string
-     */
+    /** @var string */
     public $info;
-    /**
-     * @var bool
-     */
+    /** @var bool */
     public $debug;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     public $template_id;
-    /**
-     * @var array
-     */
+    /** @var array */
     public $template_attributes;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $category_id;
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $article_id;
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $slice_id;
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $getSlice;
     /**
      * @var 'view'|'edit'
@@ -55,33 +37,21 @@ class rex_article_content_base
      */
     protected $function;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $ctype;
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $clang;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $eval;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $slice_revision;
 
-    /**
-     * @var rex_sql|null
-     */
+    /** @var rex_sql|null */
     protected $ARTICLE;
 
-    /**
-     * @var rex_sql|null
-     */
+    /** @var rex_sql|null */
     private $sliceSql;
 
     /**
@@ -137,6 +107,7 @@ class rex_article_content_base
 
     /**
      * @param int $sr
+     * @return void
      */
     public function setSliceRevision($sr)
     {
@@ -147,6 +118,7 @@ class rex_article_content_base
 
     /**
      * @param int $value
+     * @return void
      */
     public function setSliceId($value)
     {
@@ -155,6 +127,7 @@ class rex_article_content_base
 
     /**
      * @param int $value
+     * @return void
      */
     public function setClang($value)
     {
@@ -182,6 +155,7 @@ class rex_article_content_base
 
     /**
      * @deprecated since redaxo 5.6, use getClangId() instead
+     * @return int
      */
     public function getClang()
     {
@@ -215,6 +189,7 @@ class rex_article_content_base
 
     /**
      * @param int $templateId
+     * @return void
      */
     public function setTemplateId($templateId)
     {
@@ -231,6 +206,7 @@ class rex_article_content_base
 
     /**
      * @param 'view'|'edit' $mode
+     * @return void
      */
     public function setMode($mode)
     {
@@ -239,6 +215,7 @@ class rex_article_content_base
 
     /**
      * @param 'add'|'edit' $function
+     * @return void
      */
     public function setFunction($function)
     {
@@ -247,6 +224,7 @@ class rex_article_content_base
 
     /**
      * @param bool $value
+     * @return void
      */
     public function setEval($value)
     {

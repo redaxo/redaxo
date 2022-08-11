@@ -9,6 +9,7 @@ use Rector\CodeQuality\Rector\Identical\SimplifyBoolIdenticalTrueRector;
 use Rector\CodeQuality\Rector\Identical\SimplifyConditionsRector;
 use Rector\CodeQuality\Rector\If_\SimplifyIfReturnBoolRector;
 use Rector\CodeQuality\Rector\Ternary\UnnecessaryTernaryExpressionRector;
+use Rector\CodingStyle\Rector\Property\InlineSimplePropertyAnnotationRector;
 use Rector\Config\RectorConfig;
 use Rector\Core\ValueObject\PhpVersion;
 use Rector\Php70\Rector\Ternary\TernaryToNullCoalescingRector;
@@ -66,6 +67,7 @@ return static function (RectorConfig $rectorConfig): void {
     // after some basic rectors have been enabled we can finally enable whole-sets (when diffs get stable and reviewable)
     // $services->set(Rector\SOLID\Rector\If_\ChangeAndIfToEarlyReturnRector::class);
     $services->set(CombinedAssignRector::class);
+    $services->set(InlineSimplePropertyAnnotationRector::class);
     $services->set(SimplifyBoolIdenticalTrueRector::class);
     $services->set(SimplifyConditionsRector::class);
     $services->set(SimplifyDeMorganBinaryRector::class);

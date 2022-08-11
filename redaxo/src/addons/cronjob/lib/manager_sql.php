@@ -51,6 +51,7 @@ class rex_cronjob_manager_sql
 
     /**
      * @param string $message
+     * @return void
      */
     public function setMessage($message)
     {
@@ -150,6 +151,7 @@ class rex_cronjob_manager_sql
 
     /**
      * @param null|callable(string,bool,string):void $callback Callback is called after every job execution (params: job name, success status, message)
+     * @return void
      */
     public function check(?callable $callback = null)
     {

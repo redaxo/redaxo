@@ -34,8 +34,6 @@ class rex_user_role implements rex_user_role_interface
     private $complexPerms = [];
 
     /**
-     * Constructor.
-     *
      * @param array[] $roles
      */
     private function __construct(array $roles)
@@ -69,17 +67,11 @@ class rex_user_role implements rex_user_role_interface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function hasPerm($perm)
     {
         return in_array($perm, $this->perms);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getComplexPerm(rex_user $user, $key)
     {
         if (isset($this->complexPerms[$key])) {
@@ -115,6 +107,9 @@ class rex_user_role implements rex_user_role_interface
         return new static($roles);
     }
 
+    /**
+     * @return void
+     */
     public static function removeOrReplaceItem(rex_extension_point $ep)
     {
         $params = $ep->getParams();

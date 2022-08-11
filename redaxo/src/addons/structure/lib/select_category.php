@@ -5,26 +5,16 @@
  */
 class rex_category_select extends rex_select
 {
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private $ignoreOfflines;
-    /**
-     * @var null|int
-     */
+    /** @var null|int */
     private $clang;
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private $checkPerms;
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private $addHomepage;
 
-    /**
-     * @var int|int[]|null
-     */
+    /** @var int|int[]|null */
     private $rootId;
 
     private $loaded;
@@ -45,12 +35,16 @@ class rex_category_select extends rex_select
      * Kategorie-Id oder ein Array von Kategorie-Ids als Wurzelelemente der Select-Box.
      *
      * @param int|int[]|null $rootId Kategorie-Id oder Array von Kategorie-Ids zur Identifikation der Wurzelelemente
+     * @return void
      */
     public function setRootId($rootId)
     {
         $this->rootId = $rootId;
     }
 
+    /**
+     * @return void
+     */
     protected function addCatOptions()
     {
         if ($this->addHomepage) {
@@ -87,6 +81,9 @@ class rex_category_select extends rex_select
         }
     }
 
+    /**
+     * @return void
+     */
     protected function addCatOption(rex_category $cat, $group = null)
     {
         if (!$this->checkPerms ||
