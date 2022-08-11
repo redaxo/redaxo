@@ -235,8 +235,7 @@ class rex_backend_login extends rex_login
         }
         self::startSession();
 
-        $sessionNs = static::getSessionNamespace();
-        return isset($_SESSION[$sessionNs][self::SYSTEM_ID][rex_login::SESSION_USER_ID]) && $_SESSION[$sessionNs][self::SYSTEM_ID][rex_login::SESSION_USER_ID] > 0;
+        return ($_SESSION[static::getSessionNamespace()][self::SYSTEM_ID][rex_login::SESSION_USER_ID] ?? 0) > 0;
     }
 
     /**

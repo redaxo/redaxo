@@ -4993,7 +4993,7 @@
   <file src="redaxo/src/core/lib/login/backend_login.php">
     <InvalidArgument occurrences="1"/>
     <MixedArrayAccess occurrences="4">
-      <code>$_SESSION[$sessionNs][self::SYSTEM_ID]['UID']</code>
+      <code>$_SESSION[static::getSessionNamespace()][self::SYSTEM_ID]</code>
       <code>$_SESSION[static::getSessionNamespace()][self::SYSTEM_ID]</code>
       <code>$sessionConfig['samesite']</code>
       <code>$sessionConfig['secure']</code>
