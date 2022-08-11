@@ -44,27 +44,17 @@ class rex_login
      * @var int
      */
     protected $sessionMaxOverallDuration;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $loginQuery;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $userQuery;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $impersonateQuery;
     /** @var string */
     protected $systemId = 'default';
-    /**
-     * @var string|null
-     */
+    /** @var string|null */
     protected $userLogin;
-    /**
-     * @var string|null
-     */
+    /** @var string|null */
     protected $userPassword;
     /** @var bool */
     protected $logout = false;
