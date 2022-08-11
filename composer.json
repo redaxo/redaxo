@@ -18,14 +18,14 @@
         "phpstan/phpstan": "1.8.2",
         "phpstan/phpstan-deprecation-rules": "1.0.0",
         "phpstan/phpstan-phpunit": "1.1.1",
-        "phpstan/phpstan-symfony": "1.2.8",
+        "phpstan/phpstan-symfony": "1.2.9",
         "phpunit/phpunit": "^9.5",
         "psalm/plugin-phpunit": "0.17.0",
         "psalm/plugin-symfony": "3.1.8",
-        "rector/rector": "0.13.9",
+        "rector/rector": "0.13.10",
         "redaxo/php-cs-fixer-config": "1.0.0",
         "redaxo/psalm-plugin": "1.0.0",
-        "vimeo/psalm": "4.25.0"
+        "vimeo/psalm": "4.26.0"
     },
     "replace": {
         "erusev/parsedown": "1.7.4",
@@ -55,7 +55,7 @@
         "symfony/yaml": "v5.4.11",
         "voku/anti-xss": "4.1.39",
         "voku/portable-ascii": "2.0.1",
-        "voku/portable-utf8": "6.0.4"
+        "voku/portable-utf8": "6.0.5"
     },
     "autoload": {
         "classmap": [
