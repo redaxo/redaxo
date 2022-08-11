@@ -8,19 +8,19 @@ class rex_login
     /**
      * a timestamp of the last activiy of the http session.
      */
-    public const LAST_ACTIVITY = 'STAMP';
+    public const SESSION_LAST_ACTIVITY = 'STAMP';
     /**
      * the id of the user.
      */
-    public const USER_ID = 'UID';
+    public const SESSION_USER_ID = 'UID';
     /**
      * the encrypted user password.
      */
-    public const PASSWORD = 'password';
+    public const SESSION_PASSWORD = 'password';
     /**
      * the userid of the impersonator user.
      */
-    public const IMPERSONATOR = 'impersonator';
+    public const SESSION_IMPERSONATOR = 'impersonator';
 
     /**
      * @psalm-var positive-int
@@ -246,17 +246,17 @@ class rex_login
                 if (1 == $this->user->getRows() && self::passwordVerify($this->userPassword, $this->user->getValue($this->passwordColumn), true)) {
                     $ok = true;
                     self::regenerateSessionId();
-                    $this->setSessionVar(self::USER_ID, $this->user->getValue($this->idColumn));
-                    $this->setSessionVar(self::PASSWORD, $this->user->getValue($this->passwordColumn));
+                    $this->setSessionVar(self::SESSION_USER_ID, $this->user->getValue($this->idColumn));
+                    $this->setSessionVar(self::SESSION_PASSWORD, $this->user->getValue($this->passwordColumn));
                 } else {
                     $this->message = rex_i18n::msg('login_error');
                 }
-            } elseif ('' != $this->getSessionVar(self::USER_ID)) {
+            } elseif ('' != $this->getSessionVar(self::SESSION_USER_ID)) {
                 // wenn kein login und kein logout dann nach sessiontime checken
                 // message schreiben und falls falsch auf error verweisen
 
                 $ok = true;
-                $sessionStartStamp = (int) $this->getSessionVar(self::LAST_ACTIVITY);
+                $sessionStartStamp = (int) $this->getSessionVar(self::SESSION_LAST_ACTIVITY);
                 if (($sessionStartStamp + $this->sessionDuration) < time()) {
                     $ok = false;
                     $this->message = rex_i18n::msg('login_session_expired');
@@ -264,7 +264,7 @@ class rex_login
                     rex_csrf_token::removeAll();
                 }
 
-                if ($ok && $impersonator = $this->getSessionVar(self::IMPERSONATOR)) {
+                if ($ok && $impersonator = $this->getSessionVar(self::SESSION_IMPERSONATOR)) {
                     $this->impersonator = rex_sql::factory($this->DB);
                     $this->impersonator->setQuery($this->userQuery, [':id' => $impersonator]);
 
@@ -281,7 +281,7 @@ class rex_login
                 if ($ok) {
                     $query = $this->impersonator && $this->impersonateQuery ? $this->impersonateQuery : $this->userQuery;
                     $this->user = rex_sql::factory($this->DB);
-                    $this->user->setQuery($query, [':id' => $this->getSessionVar(self::USER_ID)]);
+                    $this->user->setQuery($query, [':id' => $this->getSessionVar(self::SESSION_USER_ID)]);
 
                     if (!$this->user->getRows()) {
                         $ok = false;
@@ -301,19 +301,19 @@ class rex_login
 
         if ($ok) {
             // wenn alles ok dann REX[UID][system_id] schreiben
-            $this->setSessionVar(self::LAST_ACTIVITY, time());
+            $this->setSessionVar(self::SESSION_LAST_ACTIVITY, time());
 
             // each code-path which set $ok=true, must also set a UID
-            $sessUid = $this->getSessionVar(self::USER_ID);
+            $sessUid = $this->getSessionVar(self::SESSION_USER_ID);
             if (empty($sessUid)) {
                 throw new rex_exception('Login considered successfull but no UID found');
             }
         } else {
             // wenn nicht, dann UID loeschen und error seite
-            $this->setSessionVar(self::LAST_ACTIVITY, '');
-            $this->setSessionVar(self::USER_ID, '');
-            $this->setSessionVar(self::IMPERSONATOR, null);
-            $this->setSessionVar(self::PASSWORD, null);
+            $this->setSessionVar(self::SESSION_LAST_ACTIVITY, '');
+            $this->setSessionVar(self::SESSION_USER_ID, '');
+            $this->setSessionVar(self::SESSION_IMPERSONATOR, null);
+            $this->setSessionVar(self::SESSION_PASSWORD, null);
         }
 
         $this->loginStatus = $ok ? 1 : -1;
@@ -340,8 +340,8 @@ class rex_login
         $this->impersonator = $this->user;
         $this->user = $user;
 
-        $this->setSessionVar(self::USER_ID, $id);
-        $this->setSessionVar(self::IMPERSONATOR, $this->impersonator->getValue($this->idColumn));
+        $this->setSessionVar(self::SESSION_USER_ID, $id);
+        $this->setSessionVar(self::SESSION_IMPERSONATOR, $this->impersonator->getValue($this->idColumn));
     }
 
     public function depersonate()
@@ -353,15 +353,15 @@ class rex_login
         $this->user = $this->impersonator;
         $this->impersonator = null;
 
-        $this->setSessionVar(self::USER_ID, $this->user->getValue($this->idColumn));
-        $this->setSessionVar(self::IMPERSONATOR, null);
+        $this->setSessionVar(self::SESSION_USER_ID, $this->user->getValue($this->idColumn));
+        $this->setSessionVar(self::SESSION_IMPERSONATOR, null);
     }
 
     public function changedPassword(
         #[\SensitiveParameter]
         string $passwordHash
     ): void {
-        $this->setSessionVar(self::PASSWORD, $passwordHash);
+        $this->setSessionVar(self::SESSION_PASSWORD, $passwordHash);
     }
 
     /**

@@ -17,9 +17,9 @@ class rex_history_login extends rex_backend_login
         if (1 == $userSql->getRows()) {
             if (self::verifySessionKey($historyLogin . $userSql->getValue('session_id') . $historyValidtime, $historySession)) {
                 $this->user = $userSql;
-                $this->setSessionVar(rex_login::LAST_ACTIVITY, time());
-                $this->setSessionVar(rex_login::USER_ID, $this->user->getValue($this->idColumn));
-                $this->setSessionVar(rex_login::PASSWORD, $this->user->getValue($this->passwordColumn));
+                $this->setSessionVar(rex_login::SESSION_LAST_ACTIVITY, time());
+                $this->setSessionVar(rex_login::SESSION_USER_ID, $this->user->getValue($this->idColumn));
+                $this->setSessionVar(rex_login::SESSION_PASSWORD, $this->user->getValue($this->passwordColumn));
                 return parent::checkLogin();
             }
         }
