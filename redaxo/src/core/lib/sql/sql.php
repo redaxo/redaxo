@@ -79,7 +79,7 @@ class rex_sql implements Iterator
     /**
      * Store the lastInsertId per rex_sql object, so rex_sql objects don't override each other because of the shared static PDO instance.
      *
-     * @var string
+     * @var numeric-string
      */
     private $lastInsertId = '0'; // compatibility to PDO, which uses string '0' as default
 
@@ -1157,7 +1157,7 @@ class rex_sql implements Iterator
     /**
      * Gibt die letzte InsertId zurueck.
      *
-     * @return string
+     * @return numeric-string
      */
     public function getLastId()
     {

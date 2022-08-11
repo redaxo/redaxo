@@ -5624,6 +5624,9 @@
       <code>getValue</code>
       <code>getValue</code>
     </PossiblyNullReference>
+    <PropertyTypeCoercion occurrences="1">
+      <code>$this-&gt;getConnection()-&gt;lastInsertId()</code>
+    </PropertyTypeCoercion>
     <UnusedForeachValue occurrences="3">
       <code>$value</code>
       <code>$value</code>

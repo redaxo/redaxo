@@ -51,21 +51,6 @@ parameters:
 			path: ../../redaxo/src/addons/be_style/lib/scss_compiler.php
 
 		-
-			message: "#^Result of && is always false\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/be_style/plugins/redaxo/boot.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between '' and non\\-empty\\-string will always evaluate to false\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/be_style/plugins/redaxo/boot.php
-
-		-
-			message: "#^Ternary operator condition is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/be_style/plugins/redaxo/boot.php
-
-		-
 			message: "#^Method rex_command_cronjob_run\\:\\:executeSingleJob\\(\\) has parameter \\$id with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/cronjob/lib/command/run.php
@@ -2181,16 +2166,6 @@ parameters:
 			path: ../../redaxo/src/addons/structure/lib/var_category.php
 
 		-
-			message: "#^Left side of && is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/pages/index.php
-
-		-
-			message: "#^PHPDoc tag @var for variable \\$items has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/plugins/content/fragments/module_select.php
-
-		-
 			message: "#^Method rex_template\\:\\:__construct\\(\\) has parameter \\$templateId with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/plugins/content/lib/api_template.php
@@ -2391,16 +2366,6 @@ parameters:
 			path: ../../redaxo/src/addons/structure/plugins/content/lib/module_perm.php
 
 		-
-			message: "#^Right side of && is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/plugins/content/pages/content.edit.php
-
-		-
-			message: "#^Left side of && is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/structure/plugins/content/pages/modules.modules.php
-
-		-
 			message: "#^Method rex_article_content_base_test\\:\\:testGetValue\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/plugins/content/tests/article_content_base_test.php
@@ -2591,11 +2556,6 @@ parameters:
 			path: ../../redaxo/src/addons/users/lib/select_element.php
 
 		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/fragments/core/top.php
-
-		-
 			message: "#^Function rex_set_session\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/functions/function_rex_globals.php
@@ -2606,22 +2566,7 @@ parameters:
 			path: ../../redaxo/src/core/functions/function_rex_globals.php
 
 		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/layout/top.php
-
-		-
 			message: "#^Argument of an invalid type rex_api_result supplied for foreach, only iterables are supported\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/api_function.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/api_function.php
-
-		-
-			message: "#^Left side of && is always true\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/api_function.php
 
@@ -5522,6 +5467,11 @@ parameters:
 
 		-
 			message: "#^Method rex_sql\\:\\:showTables\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/sql/sql.php
+
+		-
+			message: "#^Property rex_sql\\:\\:\\$lastInsertId \\(numeric\\-string\\) does not accept string\\|false\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/sql/sql.php
 
