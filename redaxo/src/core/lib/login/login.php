@@ -9,6 +9,7 @@ class rex_login
      * the timestamp when the session was initially started.
      */
     public const SESSION_START_TIME = 'starttime';
+    /*
      * a timestamp of the last activiy of the http session.
      */
     public const SESSION_LAST_ACTIVITY = 'STAMP';
