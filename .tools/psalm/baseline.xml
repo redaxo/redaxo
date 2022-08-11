@@ -744,9 +744,23 @@
     </NullOperand>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_convert2img.php">
-    <MixedAssignment occurrences="1">
+    <MixedArgument occurrences="1">
+      <code>$imagick-&gt;getImageBlob()</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="2">
       <code>$color</code>
+      <code>$imagick</code>
     </MixedAssignment>
+    <MixedMethodCall occurrences="8">
+      <code>getImageBlob</code>
+      <code>mergeImageLayers</code>
+      <code>readImage</code>
+      <code>setImageAlphaChannel</code>
+      <code>setImageBackgroundColor</code>
+      <code>setImageFormat</code>
+      <code>setResolution</code>
+      <code>transformImageColorspace</code>
+    </MixedMethodCall>
     <MixedOperand occurrences="1">
       <code>$color</code>
     </MixedOperand>
@@ -5624,6 +5638,9 @@
       <code>getValue</code>
       <code>getValue</code>
     </PossiblyNullReference>
+    <PropertyTypeCoercion occurrences="1">
+      <code>$this-&gt;getConnection()-&gt;lastInsertId()</code>
+    </PropertyTypeCoercion>
     <UnusedForeachValue occurrences="3">
       <code>$value</code>
       <code>$value</code>
