@@ -148,6 +148,9 @@ class rex_sql_schema_dumper
         return 'new rex_sql_foreign_key('.implode(', ', $parameters).')';
     }
 
+    /**
+     * @return string
+     */
     private function getPrimaryKey(array $primaryKey)
     {
         if (1 === count($primaryKey)) {
@@ -157,6 +160,9 @@ class rex_sql_schema_dumper
         return $this->simpleArray($primaryKey);
     }
 
+    /**
+     * @return string
+     */
     private function tableName($name)
     {
         if (!str_starts_with($name, rex::getTablePrefix())) {

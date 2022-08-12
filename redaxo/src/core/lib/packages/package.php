@@ -289,6 +289,7 @@ abstract class rex_package implements rex_package_interface
 
     /**
      * Loads the properties of package.yml.
+     * @return void
      */
     public function loadProperties()
     {
@@ -357,6 +358,7 @@ abstract class rex_package implements rex_package_interface
      * Clears the cache of the package.
      *
      * @throws rex_functional_exception
+     * @return void
      */
     public function clearCache()
     {
@@ -384,6 +386,9 @@ abstract class rex_package implements rex_package_interface
         rex_extension::registerPoint(new rex_extension_point_package_cache_deleted($this));
     }
 
+    /**
+     * @return void
+     */
     public function enlist()
     {
         $folder = $this->getPath();
@@ -421,6 +426,9 @@ abstract class rex_package implements rex_package_interface
         }
     }
 
+    /**
+     * @return void
+     */
     public function boot()
     {
         if (is_readable($this->getPath(self::FILE_BOOT))) {

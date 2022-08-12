@@ -73,6 +73,7 @@ class rex_sql_util
      * @param string $whereCondition Where-Bedingung zur Einschränkung des ResultSets
      * @param string $orderBy        Sortierung des ResultSets
      * @param int    $startBy        Startpriorität
+     * @return void
      */
     public static function organizePriorities($tableName, $prioColumnName, $whereCondition = '', $orderBy = '', $startBy = 1)
     {

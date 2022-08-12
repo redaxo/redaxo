@@ -131,6 +131,9 @@ final class rex_parsedown extends ParsedownExtra
 
     private $ids = [];
 
+    /**
+     * @return string|string[]|null
+     */
     public function text($text)
     {
         // https://github.com/erusev/parsedown-extra/issues/173
@@ -143,6 +146,9 @@ final class rex_parsedown extends ParsedownExtra
         }
     }
 
+    /**
+     * @return array|null
+     */
     protected function blockHeader($Line)
     {
         $block = parent::blockHeader($Line);
@@ -150,6 +156,9 @@ final class rex_parsedown extends ParsedownExtra
         return $this->handleHeader($block);
     }
 
+    /**
+     * @return array|null
+     */
     protected function blockSetextHeader($Line, array $Block = null)
     {
         $block = parent::blockSetextHeader($Line, $Block);
@@ -157,6 +166,9 @@ final class rex_parsedown extends ParsedownExtra
         return $this->handleHeader($block);
     }
 
+    /**
+     * @return array
+     */
     protected function blockFencedCodeComplete($Block)
     {
         /** @var array $Block */

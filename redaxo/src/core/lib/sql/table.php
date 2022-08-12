@@ -185,6 +185,7 @@ class rex_sql_table
 
     /**
      * @param string|array{int, string} $key A table-name or a array[db-id, table-name]
+     * @return void
      */
     public static function clearInstance($key)
     {
@@ -641,6 +642,7 @@ class rex_sql_table
 
     /**
      * Ensures that the table exists with the given definition.
+     * @return void
      */
     public function ensure()
     {
@@ -688,6 +690,7 @@ class rex_sql_table
 
     /**
      * Drops the table if it exists.
+     * @return void
      */
     public function drop()
     {
@@ -707,6 +710,7 @@ class rex_sql_table
      * Creates the table.
      *
      * @throws rex_exception
+     * @return void
      */
     public function create()
     {
@@ -752,6 +756,7 @@ class rex_sql_table
      * Alters the table.
      *
      * @throws rex_exception
+     * @return void
      */
     public function alter()
     {

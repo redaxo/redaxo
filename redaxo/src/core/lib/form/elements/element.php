@@ -68,6 +68,7 @@ class rex_form_element
 
     /**
      * @param string|int|null $value
+     * @return void
      */
     public function setDefaultSaveValue($value)
     {
@@ -91,6 +92,9 @@ class rex_form_element
         return $this->value;
     }
 
+    /**
+     * @return void
+     */
     public function setFieldName($name)
     {
         $this->fieldName = $name;
@@ -104,6 +108,9 @@ class rex_form_element
         return $this->fieldName;
     }
 
+    /**
+     * @return void
+     */
     public function setLabel($label)
     {
         $this->label = $label;
@@ -117,6 +124,9 @@ class rex_form_element
         return $this->label;
     }
 
+    /**
+     * @return void
+     */
     public function setNotice($notice)
     {
         $this->notice = $notice;
@@ -138,6 +148,9 @@ class rex_form_element
         return $this->tag;
     }
 
+    /**
+     * @return void
+     */
     public function setSuffix($suffix)
     {
         $this->suffix = $suffix;
@@ -151,6 +164,9 @@ class rex_form_element
         return $this->suffix;
     }
 
+    /**
+     * @return void
+     */
     public function setPrefix($prefix)
     {
         $this->prefix = $prefix;
@@ -164,6 +180,9 @@ class rex_form_element
         return $this->prefix;
     }
 
+    /**
+     * @return void
+     */
     public function setHeader($header)
     {
         $this->header = $header;
@@ -177,6 +196,9 @@ class rex_form_element
         return $this->header;
     }
 
+    /**
+     * @return void
+     */
     public function setFooter($footer)
     {
         $this->footer = $footer;
@@ -193,6 +215,7 @@ class rex_form_element
     /**
      * @param string $name
      * @param int|string $value
+     * @return void
      */
     public function setAttribute($name, $value)
     {
@@ -229,6 +252,7 @@ class rex_form_element
 
     /**
      * @param array<string, int|string> $attributes
+     * @return void
      */
     public function setAttributes(array $attributes)
     {
@@ -277,7 +301,9 @@ class rex_form_element
     }
 
     // --------- Element Methods
-
+    /**
+     * @return string
+     */
     protected function formatClass()
     {
         return $this->getAttribute('class');
@@ -325,6 +351,9 @@ class rex_form_element
         return '<' . $tag . $attr . ' />';
     }
 
+    /**
+     * @return string
+     */
     protected function formatNotice()
     {
         $notice = $this->getNotice();
@@ -380,6 +409,9 @@ class rex_form_element
         return $this->wrapContent($this->_get());
     }
 
+    /**
+     * @return void
+     */
     public function show()
     {
         echo $this->get();

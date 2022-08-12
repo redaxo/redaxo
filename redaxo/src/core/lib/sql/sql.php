@@ -116,6 +116,7 @@ class rex_sql implements Iterator
      * @psalm-param positive-int $db
      *
      * @throws rex_sql_exception
+     * @return void
      */
     protected function selectDB($db)
     {
@@ -1255,6 +1256,7 @@ class rex_sql implements Iterator
 
     /**
      * Gibt den zuletzt aufgetretene Fehler zurueck.
+     * @return string
      */
     public function getError()
     {
@@ -1280,6 +1282,7 @@ class rex_sql implements Iterator
      *
      * @param string $query
      * @param array  $params
+     * @return void
      */
     protected function printError($query, $params)
     {
@@ -1373,6 +1376,7 @@ class rex_sql implements Iterator
     /**
      * @psalm-assert !null $this->fieldnames
      * @psalm-assert !null $this->tablenames
+     * @return void
      */
     private function fetchMeta()
     {
