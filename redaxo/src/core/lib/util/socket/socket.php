@@ -361,6 +361,7 @@ class rex_socket
      * Opens the socket connection.
      *
      * @throws rex_socket_exception
+     * @return void
      */
     protected function openConnection()
     {

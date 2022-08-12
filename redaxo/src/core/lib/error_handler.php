@@ -9,6 +9,7 @@ abstract class rex_error_handler
 
     /**
      * Registers the class as php-error/exception handler.
+     * @return void
      */
     public static function register()
     {
@@ -43,6 +44,7 @@ abstract class rex_error_handler
      * Handles the given Exception.
      *
      * @param Throwable|Exception $exception The Exception to handle
+     * @return never
      */
     public static function handleException($exception)
     {
@@ -281,6 +283,7 @@ abstract class rex_error_handler
      * @param int    $errline The line of the file in which the error occured
      *
      * @throws ErrorException
+     * @return false|void
      */
     public static function handleError($errno, $errstr, $errfile, $errline)
     {
@@ -321,6 +324,7 @@ abstract class rex_error_handler
 
     /**
      * Shutdown-handler which is called at the very end of the request.
+     * @return void
      */
     public static function shutdown()
     {

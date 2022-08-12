@@ -46,17 +46,24 @@ class rex_form_prio_element extends rex_form_select_element
      * Setzt die Datenbankspalte, die das Label für die zu priorisierenden Elemente darstellt.
      *
      * @param string $labelField
+     * @return void
      */
     public function setLabelField($labelField)
     {
         $this->labelField = $labelField;
     }
 
+    /**
+     * @return void
+     */
     public function setLabelCallback(callable $labelCallback)
     {
         $this->labelCallback = $labelCallback;
     }
 
+    /**
+     * @return void
+     */
     public function setWhereCondition($whereCondition)
     {
         $this->whereCondition = $whereCondition;
@@ -64,6 +71,7 @@ class rex_form_prio_element extends rex_form_select_element
 
     /**
      * @deprecated this method has no effect
+     * @return void
      */
     public function setPrimaryKey()
     {
@@ -110,6 +118,9 @@ class rex_form_prio_element extends rex_form_select_element
         return parent::formatElement();
     }
 
+    /**
+     * @return void
+     */
     public function organizePriorities(rex_extension_point $ep)
     {
         if ($this->table->equals($ep->getParam('form'))) {
