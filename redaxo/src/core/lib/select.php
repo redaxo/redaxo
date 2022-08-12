@@ -210,7 +210,7 @@ class rex_select
      * 3.    parent_id
      * 4.    Selected
      * 5.    Attributes
-     * 
+     *
      * @return void
      */
     public function addOptions($options, $useOnlyValues = false)
