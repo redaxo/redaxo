@@ -60,7 +60,6 @@ class rex_extension_point
      * @psalm-param T $subject
      *
      * @throws rex_exception
-     * @return void
      */
     public function setSubject($subject)
     {
@@ -88,7 +87,6 @@ class rex_extension_point
      * @param mixed  $value
      *
      * @throws rex_exception
-     * @return void
      */
     public function setParam($key, $value)
     {
@@ -100,7 +98,6 @@ class rex_extension_point
 
     /**
      * Sets the specific params for the next extension.
-     * @return void
      */
     public function setExtensionParams(array $params)
     {

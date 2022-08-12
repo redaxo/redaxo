@@ -87,7 +87,6 @@ class rex_timer
 
     /**
      * Resets the timer.
-     * @return void
      */
     public function reset()
     {
@@ -96,7 +95,6 @@ class rex_timer
 
     /**
      * Stops the timer.
-     * @return void
      */
     public function stop()
     {

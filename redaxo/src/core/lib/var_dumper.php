@@ -19,9 +19,6 @@ abstract class rex_var_dumper
     /** @var DataDumperInterface */
     private static $dumper;
 
-    /**
-     * @return void
-     */
     public static function register()
     {
         VarDumper::setHandler(static function ($var) {
@@ -39,9 +36,6 @@ abstract class rex_var_dumper
         });
     }
 
-    /**
-     * @return void
-     */
     public static function dump($var)
     {
         if (!self::$cloner) {

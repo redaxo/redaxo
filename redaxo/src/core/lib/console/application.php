@@ -55,9 +55,6 @@ class rex_console_application extends Application
         return $exitCode;
     }
 
-    /**
-     * @return void
-     */
     private function loadPackages(rex_console_command $command)
     {
         // Some packages requires a working db connection in their boot.php

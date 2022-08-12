@@ -16,7 +16,6 @@ class rex_path
      * Initializes the class.
      *
      * @param rex_path_default_provider $pathprovider A path provider
-     * @return void
      */
     public static function init($pathprovider)
     {

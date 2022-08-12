@@ -228,7 +228,6 @@ abstract class rex_var
      * Sets the arguments.
      *
      * @param string $argString
-     * @return void
      */
     private function setArgs($argString)
     {
