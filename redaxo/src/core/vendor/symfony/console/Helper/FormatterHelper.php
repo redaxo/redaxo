@@ -71,7 +71,7 @@ class FormatterHelper extends Helper
      *
      * @return string
      */
-    public function truncate(string $message, int $length, string $suffix = '...')
+    public function truncate(string $message, int $length, string $suffix = '…')
     {
         $computedLength = $length - self::width($suffix);
 
