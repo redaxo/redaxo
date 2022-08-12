@@ -110,26 +110,41 @@ class rex_form_control_element extends rex_form_element
         return is_object($element) && '' != rex_post($element->getAttribute('name'), 'string');
     }
 
+    /**
+     * @return string
+     */
     public function saved()
     {
         return $this->submitted($this->saveElement);
     }
 
+    /**
+     * @return string
+     */
     public function applied()
     {
         return $this->submitted($this->applyElement);
     }
 
+    /**
+     * @return string
+     */
     public function deleted()
     {
         return $this->submitted($this->deleteElement);
     }
 
+    /**
+     * @return string
+     */
     public function resetted()
     {
         return $this->submitted($this->resetElement);
     }
 
+    /**
+     * @return string
+     */
     public function aborted()
     {
         return $this->submitted($this->abortElement);

@@ -79,6 +79,7 @@ class rex_context implements rex_context_provider_interface
      *
      * @param string $name
      * @param mixed  $value
+     * @return void
      */
     public function setParam($name, $value)
     {

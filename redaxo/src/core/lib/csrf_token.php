@@ -93,6 +93,9 @@ class rex_csrf_token
         return hash_equals($tokens[$this->id], $token);
     }
 
+    /**
+     * @return void
+     */
     public function remove()
     {
         $tokens = self::getTokens();
@@ -106,6 +109,9 @@ class rex_csrf_token
         rex_set_session(self::getSessionKey(), $tokens);
     }
 
+    /**
+     * @return void
+     */
     public static function removeAll()
     {
         rex_login::startSession();
@@ -114,6 +120,9 @@ class rex_csrf_token
         rex_unset_session(self::getBaseSessionKey().'_https');
     }
 
+    /**
+     * @return void
+     */
     private static function getTokens()
     {
         rex_login::startSession();
