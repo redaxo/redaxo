@@ -334,6 +334,9 @@ class rex_form_element
         return '';
     }
 
+    /**
+     * @return string
+     */
     protected function wrapContent($content)
     {
         return $content;
@@ -369,6 +372,9 @@ class rex_form_element
         return $fragment->parse($this->getFragment());
     }
 
+    /**
+     * @return string
+     */
     public function get()
     {
         return $this->wrapContent($this->_get());

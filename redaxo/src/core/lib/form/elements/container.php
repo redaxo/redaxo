@@ -28,6 +28,7 @@ class rex_form_container_element extends rex_form_element
 
     /**
      * @param bool $multiple
+     * @return void
      */
     public function setMultiple($multiple = true)
     {
@@ -36,6 +37,7 @@ class rex_form_container_element extends rex_form_element
 
     /**
      * @param string $group
+     * @return void
      */
     public function setActive($group)
     {
@@ -82,6 +84,9 @@ class rex_form_container_element extends rex_form_element
         return $this->fields;
     }
 
+    /**
+     * @return void
+     */
     protected function prepareInnerFields()
     {
         $values = $this->getValue();

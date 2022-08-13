@@ -91,7 +91,7 @@ class rex_be_page
     /**
      * Returns the title.
      *
-     * @returns string
+     * @return string
      */
     public function getTitle()
     {
@@ -233,6 +233,7 @@ class rex_be_page
      * Removes an item attribute.
      *
      * @param string $name
+     * @return void
      */
     public function removeItemAttr($name)
     {
@@ -266,6 +267,7 @@ class rex_be_page
      * Removes an item class.
      *
      * @param string $class
+     * @return void
      */
     public function removeItemClass($class)
     {
@@ -299,6 +301,7 @@ class rex_be_page
      * Removes an link attribute.
      *
      * @param string $name
+     * @return void
      */
     public function removeLinkAttr($name)
     {
@@ -355,6 +358,7 @@ class rex_be_page
      * Removes an link class.
      *
      * @param string $class
+     * @return void
      */
     public function removeLinkClass($class)
     {
@@ -448,6 +452,7 @@ class rex_be_page
 
     /**
      * @param string $key
+     * @return void
      */
     private function setParentKey($key)
     {
@@ -670,7 +675,7 @@ class rex_be_page
     /**
      * Returns the icon.
      *
-     * @returns string
+     * @return string
      */
     public function getIcon()
     {

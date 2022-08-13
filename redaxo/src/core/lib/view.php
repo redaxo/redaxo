@@ -25,6 +25,7 @@ class rex_view
      * @param string $media
      *
      * @throws rex_exception
+     * @return void
      */
     public static function addCssFile($file, $media = 'all')
     {
@@ -52,6 +53,7 @@ class rex_view
      * @psalm-param array<self::JS_*, bool>|array<self::JS_*> $options
      *
      * @throws rex_exception
+     * @return void
      */
     public static function addJsFile($file, array $options = [])
     {
@@ -96,6 +98,7 @@ class rex_view
      *
      * @param string $key
      * @param mixed  $value
+     * @return void
      */
     public static function setJsProperty($key, $value)
     {
@@ -118,6 +121,7 @@ class rex_view
      * Sets the favicon path.
      *
      * @param string $file
+     * @return void
      */
     public static function setFavicon($file)
     {

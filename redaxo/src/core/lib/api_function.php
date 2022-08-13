@@ -297,6 +297,9 @@ class rex_api_result
         $this->message = $message;
     }
 
+    /**
+     * @return void
+     */
     public function setRequiresReboot($requiresReboot)
     {
         $this->requiresReboot = $requiresReboot;

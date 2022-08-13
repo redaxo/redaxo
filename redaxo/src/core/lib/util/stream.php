@@ -167,6 +167,7 @@ class rex_stream
 
     /**
      * @see http://www.php.net/manual/en/streamwrapper.stream-stat.php
+     * @return null
      */
     public function stream_stat()
     {
@@ -175,6 +176,7 @@ class rex_stream
 
     /**
      * @see http://www.php.net/manual/en/streamwrapper.url-stat.php
+     * @return null
      */
     public function url_stat()
     {
