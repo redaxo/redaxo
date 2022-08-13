@@ -67,6 +67,9 @@ class rex_setup_importer
         return $errMsg;
     }
 
+    /**
+     * @return string
+     */
     public static function databaseAlreadyExists()
     {
         // ----- db schon vorhanden, nichts tun

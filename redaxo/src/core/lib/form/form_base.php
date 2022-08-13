@@ -94,6 +94,7 @@ abstract class rex_form_base
 
     /**
      * @param string|null $id
+     * @return void
      */
     public function setFormId($id)
     {
@@ -123,6 +124,7 @@ abstract class rex_form_base
      *
      * @param string $fieldset
      * @param array<string, int|string|list<string>> $attributes
+     * @return void
      */
     public function addFieldset($fieldset, array $attributes = [])
     {
@@ -465,6 +467,7 @@ abstract class rex_form_base
      *
      * @param int $errorCode
      * @param string $errorMessage
+     * @return void
      */
     public function addErrorMessage($errorCode, $errorMessage)
     {
@@ -477,6 +480,7 @@ abstract class rex_form_base
      *
      * @param string          $name
      * @param string|int|bool $value
+     * @return void
      */
     public function addParam($name, $value)
     {
@@ -626,6 +630,7 @@ abstract class rex_form_base
      * Setzt die Url die bei der apply-action genutzt wird.
      *
      * @param string|array $url
+     * @return void
      */
     public function setApplyUrl($url)
     {
@@ -967,6 +972,7 @@ abstract class rex_form_base
 
     /**
      * @param string|null $warning
+     * @return void
      */
     public function setWarning($warning)
     {
@@ -989,6 +995,7 @@ abstract class rex_form_base
 
     /**
      * @param string|null $message
+     * @return void
      */
     public function setMessage($message)
     {
@@ -1119,6 +1126,7 @@ abstract class rex_form_base
 
     /**
      * Übernimmt die POST-Werte in die FormElemente.
+     * @return void
      */
     protected function processPostValues()
     {
@@ -1323,6 +1331,9 @@ abstract class rex_form_base
         return $s;
     }
 
+    /**
+     * @return void
+     */
     public function show()
     {
         echo $this->get();

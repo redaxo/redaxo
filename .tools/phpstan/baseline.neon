@@ -2861,11 +2861,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/error_handler.php
 
 		-
-			message: "#^Method rex_error_handler\\:\\:unregister\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/error_handler.php
-
-		-
 			message: "#^Property rex_error_handler\\:\\:\\$registered has no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/error_handler.php
@@ -2966,37 +2961,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/form/elements/element.php
 
 		-
-			message: "#^Method rex_form_element\\:\\:formatClass\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/elements/element.php
-
-		-
-			message: "#^Method rex_form_element\\:\\:formatNotice\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/elements/element.php
-
-		-
 			message: "#^Method rex_form_element\\:\\:hasAttribute\\(\\) has parameter \\$name with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/elements/element.php
-
-		-
-			message: "#^Method rex_form_element\\:\\:setAttribute\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/elements/element.php
-
-		-
-			message: "#^Method rex_form_element\\:\\:setAttributes\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/elements/element.php
-
-		-
-			message: "#^Method rex_form_element\\:\\:setDefaultSaveValue\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/elements/element.php
-
-		-
-			message: "#^Method rex_form_element\\:\\:setFieldName\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/form/elements/element.php
 
@@ -3006,17 +2971,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/form/elements/element.php
 
 		-
-			message: "#^Method rex_form_element\\:\\:setFooter\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/elements/element.php
-
-		-
 			message: "#^Method rex_form_element\\:\\:setFooter\\(\\) has parameter \\$footer with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/elements/element.php
-
-		-
-			message: "#^Method rex_form_element\\:\\:setHeader\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/form/elements/element.php
 
@@ -3026,17 +2981,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/form/elements/element.php
 
 		-
-			message: "#^Method rex_form_element\\:\\:setLabel\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/elements/element.php
-
-		-
 			message: "#^Method rex_form_element\\:\\:setLabel\\(\\) has parameter \\$label with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/elements/element.php
-
-		-
-			message: "#^Method rex_form_element\\:\\:setNotice\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/form/elements/element.php
 
@@ -3046,17 +2991,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/form/elements/element.php
 
 		-
-			message: "#^Method rex_form_element\\:\\:setPrefix\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/elements/element.php
-
-		-
 			message: "#^Method rex_form_element\\:\\:setPrefix\\(\\) has parameter \\$prefix with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/elements/element.php
-
-		-
-			message: "#^Method rex_form_element\\:\\:setSuffix\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/form/elements/element.php
 
@@ -3067,11 +3002,6 @@ parameters:
 
 		-
 			message: "#^Method rex_form_element\\:\\:setValue\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/elements/element.php
-
-		-
-			message: "#^Method rex_form_element\\:\\:show\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/form/elements/element.php
 
@@ -3131,16 +3061,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/form/elements/select.php
 
 		-
-			message: "#^Method rex_form_select_element\\:\\:setSelect\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/elements/select.php
-
-		-
-			message: "#^Method rex_form_select_element\\:\\:setSeparator\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/elements/select.php
-
-		-
 			message: "#^Method rex_form_select_element\\:\\:setSeparator\\(\\) has parameter \\$separator with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/form/elements/select.php
@@ -3152,16 +3072,6 @@ parameters:
 
 		-
 			message: "#^Method rex_form\\:\\:callFactoryClass\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form.php
-
-		-
-			message: "#^Method rex_form\\:\\:setEditMode\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form.php
-
-		-
-			message: "#^Method rex_form\\:\\:setLanguageSupport\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/form/form.php
 
@@ -3186,17 +3096,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/form/form_base.php
 
 		-
-			message: "#^Method rex_form_base\\:\\:addErrorMessage\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
 			message: "#^Method rex_form_base\\:\\:addField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Method rex_form_base\\:\\:addFieldset\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/form/form_base.php
 
@@ -3227,11 +3127,6 @@ parameters:
 
 		-
 			message: "#^Method rex_form_base\\:\\:addMedialistField\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Method rex_form_base\\:\\:addParam\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/form/form_base.php
 
@@ -3296,11 +3191,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/form/form_base.php
 
 		-
-			message: "#^Method rex_form_base\\:\\:processPostValues\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
 			message: "#^Method rex_form_base\\:\\:redirect\\(\\) has parameter \\$listMessage with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/form/form_base.php
@@ -3316,32 +3206,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/form/form_base.php
 
 		-
-			message: "#^Method rex_form_base\\:\\:setApplyUrl\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
 			message: "#^Method rex_form_base\\:\\:setApplyUrl\\(\\) has parameter \\$url with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Method rex_form_base\\:\\:setFormId\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Method rex_form_base\\:\\:setMessage\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Method rex_form_base\\:\\:setWarning\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
-			message: "#^Method rex_form_base\\:\\:show\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/form/form_base.php
 
@@ -3356,37 +3221,12 @@ parameters:
 			path: ../../redaxo/src/core/lib/fragment.php
 
 		-
-			message: "#^Method rex_fragment\\:\\:addDirectory\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/fragment.php
-
-		-
-			message: "#^Method rex_fragment\\:\\:subfragment\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/fragment.php
-
-		-
 			message: "#^Method rex_list\\:\\:_getAttributeString\\(\\) has parameter \\$array with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/list.php
 
 		-
-			message: "#^Method rex_list\\:\\:addColumn\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/list.php
-
-		-
 			message: "#^Method rex_list\\:\\:addColumn\\(\\) has parameter \\$columnLayout with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/list.php
-
-		-
-			message: "#^Method rex_list\\:\\:addFormAttribute\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/list.php
-
-		-
-			message: "#^Method rex_list\\:\\:addLinkAttribute\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/list.php
 
@@ -3406,27 +3246,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/list.php
 
 		-
-			message: "#^Method rex_list\\:\\:addParam\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/list.php
-
-		-
-			message: "#^Method rex_list\\:\\:addTableAttribute\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/list.php
-
-		-
-			message: "#^Method rex_list\\:\\:addTableColumn\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/list.php
-
-		-
 			message: "#^Method rex_list\\:\\:addTableColumn\\(\\) has parameter \\$class with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/list.php
-
-		-
-			message: "#^Method rex_list\\:\\:addTableColumnGroup\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/list.php
 
@@ -3446,12 +3266,12 @@ parameters:
 			path: ../../redaxo/src/core/lib/list.php
 
 		-
-			message: "#^Method rex_list\\:\\:getArrayValue\\(\\) has no return type specified\\.$#"
+			message: "#^Method rex_list\\:\\:getArrayValue\\(\\) has parameter \\$column with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/list.php
 
 		-
-			message: "#^Method rex_list\\:\\:getArrayValue\\(\\) has parameter \\$column with no type specified\\.$#"
+			message: "#^Method rex_list\\:\\:getArrayValue\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/list.php
 
@@ -3462,11 +3282,6 @@ parameters:
 
 		-
 			message: "#^Method rex_list\\:\\:getColumnLayout\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/list.php
-
-		-
-			message: "#^Method rex_list\\:\\:getColumnLayouts\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/list.php
 
@@ -3496,11 +3311,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/list.php
 
 		-
-			message: "#^Method rex_list\\:\\:getLinkAttributes\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/list.php
-
-		-
 			message: "#^Method rex_list\\:\\:getLinkAttributes\\(\\) has parameter \\$column with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/list.php
@@ -3511,17 +3321,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/list.php
 
 		-
-			message: "#^Method rex_list\\:\\:getNoRowsMessage\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/list.php
-
-		-
 			message: "#^Method rex_list\\:\\:getParsedUrl\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/list.php
-
-		-
-			message: "#^Method rex_list\\:\\:getTableAttributes\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/list.php
 
@@ -3536,32 +3336,12 @@ parameters:
 			path: ../../redaxo/src/core/lib/list.php
 
 		-
-			message: "#^Method rex_list\\:\\:getValue\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/list.php
-
-		-
 			message: "#^Method rex_list\\:\\:getValue\\(\\) has parameter \\$column with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/list.php
 
 		-
-			message: "#^Method rex_list\\:\\:init\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/list.php
-
-		-
 			message: "#^Method rex_list\\:\\:isCustomFormat\\(\\) has parameter \\$format with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/list.php
-
-		-
-			message: "#^Method rex_list\\:\\:loadBackendConfig\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/list.php
-
-		-
-			message: "#^Method rex_list\\:\\:removeColumn\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/list.php
 
@@ -3576,27 +3356,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/list.php
 
 		-
-			message: "#^Method rex_list\\:\\:setCaption\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/list.php
-
-		-
-			message: "#^Method rex_list\\:\\:setColumnFormat\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/list.php
-
-		-
 			message: "#^Method rex_list\\:\\:setColumnFormat\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/list.php
-
-		-
-			message: "#^Method rex_list\\:\\:setColumnLabel\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/list.php
-
-		-
-			message: "#^Method rex_list\\:\\:setColumnLayout\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/list.php
 
@@ -3606,32 +3366,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/list.php
 
 		-
-			message: "#^Method rex_list\\:\\:setColumnOption\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/list.php
-
-		-
-			message: "#^Method rex_list\\:\\:setColumnParams\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/list.php
-
-		-
 			message: "#^Method rex_list\\:\\:setColumnParams\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/list.php
-
-		-
-			message: "#^Method rex_list\\:\\:setColumnSortable\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/list.php
-
-		-
-			message: "#^Method rex_list\\:\\:setNoRowsMessage\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/list.php
-
-		-
-			message: "#^Method rex_list\\:\\:show\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/list.php
 
@@ -3906,11 +3641,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/login/user.php
 
 		-
-			message: "#^Method rex_addon\\:\\:initialize\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/addons/addon.php
-
-		-
 			message: "#^Method rex_addon\\:\\:initialize\\(\\) has parameter \\$dbExists with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/addons/addon.php
@@ -3961,22 +3691,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/packages/manager.php
 
 		-
-			message: "#^Method rex_package_manager\\:\\:generatePackageOrder\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/manager.php
-
-		-
-			message: "#^Method rex_package_manager\\:\\:saveConfig\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/manager.php
-
-		-
 			message: "#^Method rex_package_manager\\:\\:setFactoryClass\\(\\) has parameter \\$subclass with generic class rex_package_manager but does not specify its types\\: T$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/manager.php
-
-		-
-			message: "#^Method rex_package_manager\\:\\:synchronizeWithFileSystem\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/manager.php
 
@@ -4021,21 +3736,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/packages/package.php
 
 		-
-			message: "#^Method rex_package\\:\\:boot\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/package.php
-
-		-
-			message: "#^Method rex_package\\:\\:clearCache\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/package.php
-
-		-
-			message: "#^Method rex_package\\:\\:enlist\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/package.php
-
-		-
 			message: "#^Method rex_package\\:\\:getConfig\\(\\) has parameter \\$default with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/package.php
@@ -4047,11 +3747,6 @@ parameters:
 
 		-
 			message: "#^Method rex_package\\:\\:includeFile\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/packages/package.php
-
-		-
-			message: "#^Method rex_package\\:\\:loadProperties\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/package.php
 
@@ -4086,87 +3781,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/response.php
 
 		-
-			message: "#^Method rex_response\\:\\:cleanOutputBuffers\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/response.php
-
-		-
-			message: "#^Method rex_response\\:\\:enforceHttps\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/response.php
-
-		-
-			message: "#^Method rex_response\\:\\:preload\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/response.php
-
-		-
-			message: "#^Method rex_response\\:\\:sendAdditionalHeaders\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/response.php
-
-		-
-			message: "#^Method rex_response\\:\\:sendCacheControl\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/response.php
-
-		-
 			message: "#^Method rex_response\\:\\:sendCacheControl\\(\\) has parameter \\$cacheControl with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/response.php
-
-		-
-			message: "#^Method rex_response\\:\\:sendContent\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/response.php
-
-		-
-			message: "#^Method rex_response\\:\\:sendContentType\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/response.php
-
-		-
-			message: "#^Method rex_response\\:\\:sendCookie\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/response.php
-
-		-
-			message: "#^Method rex_response\\:\\:sendEtag\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/response.php
-
-		-
-			message: "#^Method rex_response\\:\\:sendFile\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/response.php
-
-		-
-			message: "#^Method rex_response\\:\\:sendLastModified\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/response.php
-
-		-
-			message: "#^Method rex_response\\:\\:sendPage\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/response.php
-
-		-
-			message: "#^Method rex_response\\:\\:sendPreloadHeaders\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/response.php
-
-		-
-			message: "#^Method rex_response\\:\\:sendResource\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/response.php
-
-		-
-			message: "#^Method rex_response\\:\\:setHeader\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/response.php
-
-		-
-			message: "#^Method rex_response\\:\\:setStatus\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/response.php
 
@@ -4182,11 +3797,6 @@ parameters:
 
 		-
 			message: "#^Method rex\\:\\:getConfig\\(\\) has parameter \\$default with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/rex.php
-
-		-
-			message: "#^Method rex\\:\\:getVersionHash\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/rex.php
 
@@ -4216,11 +3826,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/rex.php
 
 		-
-			message: "#^Method rex_select\\:\\:addArrayOptions\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/select.php
-
-		-
 			message: "#^Method rex_select\\:\\:addArrayOptions\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/select.php
@@ -4231,27 +3836,12 @@ parameters:
 			path: ../../redaxo/src/core/lib/select.php
 
 		-
-			message: "#^Method rex_select\\:\\:addDBSqlOptions\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/select.php
-
-		-
 			message: "#^Method rex_select\\:\\:addDBSqlOptions\\(\\) has parameter \\$query with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/select.php
 
 		-
-			message: "#^Method rex_select\\:\\:addOptgroup\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/select.php
-
-		-
 			message: "#^Method rex_select\\:\\:addOptgroup\\(\\) has parameter \\$label with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/select.php
-
-		-
-			message: "#^Method rex_select\\:\\:addOption\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/select.php
 
@@ -4281,22 +3871,12 @@ parameters:
 			path: ../../redaxo/src/core/lib/select.php
 
 		-
-			message: "#^Method rex_select\\:\\:addOptions\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/select.php
-
-		-
 			message: "#^Method rex_select\\:\\:addOptions\\(\\) has parameter \\$options with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/select.php
 
 		-
 			message: "#^Method rex_select\\:\\:addOptions\\(\\) has parameter \\$useOnlyValues with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/select.php
-
-		-
-			message: "#^Method rex_select\\:\\:addSqlOptions\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/select.php
 
@@ -4311,22 +3891,12 @@ parameters:
 			path: ../../redaxo/src/core/lib/select.php
 
 		-
-			message: "#^Method rex_select\\:\\:getAttribute\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/select.php
-
-		-
 			message: "#^Method rex_select\\:\\:getAttribute\\(\\) has parameter \\$default with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/select.php
 
 		-
 			message: "#^Method rex_select\\:\\:getAttribute\\(\\) has parameter \\$name with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/select.php
-
-		-
-			message: "#^Method rex_select\\:\\:getGroup\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/select.php
 
@@ -4341,12 +3911,12 @@ parameters:
 			path: ../../redaxo/src/core/lib/select.php
 
 		-
-			message: "#^Method rex_select\\:\\:hasAttribute\\(\\) has parameter \\$name with no type specified\\.$#"
+			message: "#^Method rex_select\\:\\:getGroup\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/select.php
 
 		-
-			message: "#^Method rex_select\\:\\:init\\(\\) has no return type specified\\.$#"
+			message: "#^Method rex_select\\:\\:hasAttribute\\(\\) has parameter \\$name with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/select.php
 
@@ -4381,16 +3951,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/select.php
 
 		-
-			message: "#^Method rex_select\\:\\:resetSelected\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/select.php
-
-		-
-			message: "#^Method rex_select\\:\\:setAttribute\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/select.php
-
-		-
 			message: "#^Method rex_select\\:\\:setAttribute\\(\\) has parameter \\$name with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/select.php
@@ -4401,17 +3961,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/select.php
 
 		-
-			message: "#^Method rex_select\\:\\:setAttributes\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/select.php
-
-		-
 			message: "#^Method rex_select\\:\\:setAttributes\\(\\) has parameter \\$attributes with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/select.php
-
-		-
-			message: "#^Method rex_select\\:\\:setDisabled\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/select.php
 
@@ -4421,17 +3971,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/select.php
 
 		-
-			message: "#^Method rex_select\\:\\:setId\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/select.php
-
-		-
 			message: "#^Method rex_select\\:\\:setId\\(\\) has parameter \\$id with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/select.php
-
-		-
-			message: "#^Method rex_select\\:\\:setMultiple\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/select.php
 
@@ -4441,17 +3981,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/select.php
 
 		-
-			message: "#^Method rex_select\\:\\:setName\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/select.php
-
-		-
 			message: "#^Method rex_select\\:\\:setName\\(\\) has parameter \\$name with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/select.php
-
-		-
-			message: "#^Method rex_select\\:\\:setSelected\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/select.php
 
@@ -4461,27 +3991,12 @@ parameters:
 			path: ../../redaxo/src/core/lib/select.php
 
 		-
-			message: "#^Method rex_select\\:\\:setSize\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/select.php
-
-		-
 			message: "#^Method rex_select\\:\\:setSize\\(\\) has parameter \\$size with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/select.php
 
 		-
-			message: "#^Method rex_select\\:\\:setStyle\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/select.php
-
-		-
 			message: "#^Method rex_select\\:\\:setStyle\\(\\) has parameter \\$style with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/select.php
-
-		-
-			message: "#^Method rex_select\\:\\:show\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/select.php
 
@@ -4504,11 +4019,6 @@ parameters:
 			message: "#^Property rex_select\\:\\:\\$options type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/select.php
-
-		-
-			message: "#^Method rex_setup_importer\\:\\:databaseAlreadyExists\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/setup/import.php
 
 		-
 			message: "#^Method rex_setup_importer\\:\\:import\\(\\) has parameter \\$importArchive with no type specified\\.$#"
@@ -4541,16 +4051,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/setup/setup.php
 
 		-
-			message: "#^Method rex_setup\\:\\:init\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/setup/setup.php
-
-		-
-			message: "#^Method rex_sql_schema_dumper\\:\\:getPrimaryKey\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/schema_dumper.php
-
-		-
 			message: "#^Method rex_sql_schema_dumper\\:\\:getPrimaryKey\\(\\) has parameter \\$primaryKey with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/sql/schema_dumper.php
@@ -4567,11 +4067,6 @@ parameters:
 
 		-
 			message: "#^Method rex_sql_schema_dumper\\:\\:simpleArray\\(\\) has parameter \\$list with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/schema_dumper.php
-
-		-
-			message: "#^Method rex_sql_schema_dumper\\:\\:tableName\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/sql/schema_dumper.php
 
@@ -4621,11 +4116,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/sql/sql.php
 
 		-
-			message: "#^Method rex_sql\\:\\:fetchMeta\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/sql.php
-
-		-
 			message: "#^Method rex_sql\\:\\:fetchTablesAndViews\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/sql/sql.php
@@ -4646,11 +4136,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/sql/sql.php
 
 		-
-			message: "#^Method rex_sql\\:\\:getError\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/sql.php
-
-		-
 			message: "#^Method rex_sql\\:\\:getTables\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/sql/sql.php
@@ -4666,17 +4151,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/sql/sql.php
 
 		-
-			message: "#^Method rex_sql\\:\\:printError\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/sql.php
-
-		-
 			message: "#^Method rex_sql\\:\\:printError\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/sql.php
-
-		-
-			message: "#^Method rex_sql\\:\\:selectDB\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/sql/sql.php
 
@@ -4746,31 +4221,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/sql/sql.php
 
 		-
-			message: "#^Method rex_sql_table\\:\\:alter\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/table.php
-
-		-
-			message: "#^Method rex_sql_table\\:\\:clearInstance\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/table.php
-
-		-
-			message: "#^Method rex_sql_table\\:\\:create\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/table.php
-
-		-
-			message: "#^Method rex_sql_table\\:\\:drop\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/table.php
-
-		-
-			message: "#^Method rex_sql_table\\:\\:ensure\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/table.php
-
-		-
 			message: "#^Method rex_sql_table\\:\\:getKeyColumnsDefintion\\(\\) has parameter \\$columns with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/sql/table.php
@@ -4791,11 +4241,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/sql/table.php
 
 		-
-			message: "#^Method rex_sql_util\\:\\:organizePriorities\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/util.php
-
-		-
 			message: "#^Method rex_sql_util\\:\\:prepareQuery\\(\\) has parameter \\$query with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/sql/util.php
@@ -4814,16 +4259,6 @@ parameters:
 			message: "#^Method rex_system_report\\:\\:get\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/system_report.php
-
-		-
-			message: "#^Method rex_system_report\\:\\:getBrowser\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/system_report.php
-
-		-
-			message: "#^Method rex_system_setting\\:\\:register\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/system_setting.php
 
 		-
 			message: "#^Method rex_editor\\:\\:callFactoryClass\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
@@ -4901,47 +4336,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/util/formatter.php
 
 		-
-			message: "#^Method rex_i18n\\:\\:addDirectory\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/i18n.php
-
-		-
-			message: "#^Method rex_i18n\\:\\:addMsg\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/i18n.php
-
-		-
-			message: "#^Method rex_i18n\\:\\:loadAll\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/i18n.php
-
-		-
-			message: "#^Method rex_i18n\\:\\:loadFile\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/i18n.php
-
-		-
 			message: "#^Method rex_logger\\:\\:callFactoryClass\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/logger.php
-
-		-
-			message: "#^Method rex_logger\\:\\:close\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/logger.php
-
-		-
-			message: "#^Method rex_logger\\:\\:logError\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/logger.php
-
-		-
-			message: "#^Method rex_logger\\:\\:logException\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/logger.php
-
-		-
-			message: "#^Method rex_logger\\:\\:open\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/logger.php
 
@@ -4956,17 +4351,12 @@ parameters:
 			path: ../../redaxo/src/core/lib/util/markdown.php
 
 		-
-			message: "#^Method rex_parsedown\\:\\:blockFencedCodeComplete\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/markdown.php
-
-		-
 			message: "#^Method rex_parsedown\\:\\:blockFencedCodeComplete\\(\\) has parameter \\$Block with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/markdown.php
 
 		-
-			message: "#^Method rex_parsedown\\:\\:blockHeader\\(\\) has no return type specified\\.$#"
+			message: "#^Method rex_parsedown\\:\\:blockFencedCodeComplete\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/markdown.php
 
@@ -4976,7 +4366,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/util/markdown.php
 
 		-
-			message: "#^Method rex_parsedown\\:\\:blockSetextHeader\\(\\) has no return type specified\\.$#"
+			message: "#^Method rex_parsedown\\:\\:blockHeader\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/markdown.php
 
@@ -4991,17 +4381,17 @@ parameters:
 			path: ../../redaxo/src/core/lib/util/markdown.php
 
 		-
+			message: "#^Method rex_parsedown\\:\\:blockSetextHeader\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/util/markdown.php
+
+		-
 			message: "#^Method rex_parsedown\\:\\:handleHeader\\(\\) has parameter \\$block with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/markdown.php
 
 		-
 			message: "#^Method rex_parsedown\\:\\:handleHeader\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/markdown.php
-
-		-
-			message: "#^Method rex_parsedown\\:\\:text\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/markdown.php
 
@@ -5034,11 +4424,6 @@ parameters:
 			message: "#^Property rex_parsedown\\:\\:\\$topLevel has no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/markdown.php
-
-		-
-			message: "#^Method rex_pager\\:\\:setRowCount\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/pager.php
 
 		-
 			message: "#^Method rex_socket\\:\\:factory\\(\\) should return static\\(rex_socket\\) but returns rex_socket_proxy\\.$#"

@@ -26,6 +26,7 @@ abstract class rex_error_handler
 
     /**
      * Unregisters the logger instance as php-error/exception handler.
+     * @return void
      */
     public static function unregister()
     {

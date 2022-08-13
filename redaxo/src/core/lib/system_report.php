@@ -156,6 +156,9 @@ class rex_system_report
             OUTPUT;
     }
 
+    /**
+     * @return string
+     */
     private function getBrowser()
     {
         if (!isset($_SERVER['HTTP_USER_AGENT'])) {
