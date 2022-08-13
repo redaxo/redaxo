@@ -85,6 +85,7 @@ abstract class rex_form_base
 
     /**
      * Laedt die Konfiguration die noetig ist um rex_form im REDAXO Backend zu verwenden.
+     * @return void
      */
     protected function loadBackendConfig()
     {

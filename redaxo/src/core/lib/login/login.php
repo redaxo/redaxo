@@ -6,18 +6,55 @@
 class rex_login
 {
     /**
+     * the timestamp when the session was initially started.
+     */
+    public const SESSION_START_TIME = 'starttime';
+    /*
+     * a timestamp of the last activiy of the http session.
+     */
+    public const SESSION_LAST_ACTIVITY = 'STAMP';
+    /**
+     * the id of the user.
+     */
+    public const SESSION_USER_ID = 'UID';
+    /**
+     * the encrypted user password.
+     */
+    public const SESSION_PASSWORD = 'password';
+    /**
+     * the userid of the impersonator user.
+     */
+    public const SESSION_IMPERSONATOR = 'impersonator';
+
+    /**
      * @psalm-var positive-int
      *
      * @var int
      */
     protected $DB = 1;
+    /**
+     * A Session will be closed when not activly used for this timespan (seconds).
+     *
+     * @var int
+     */
     protected $sessionDuration;
+    /**
+     * A session cannot stay longer then this value, no matter its actively used once in a while (seconds).
+     *
+     * @var int
+     */
+    protected $sessionMaxOverallDuration;
+    /** @var string */
     protected $loginQuery;
+    /** @var string */
     protected $userQuery;
+    /** @var string */
     protected $impersonateQuery;
     /** @var string */
     protected $systemId = 'default';
+    /** @var string|null */
     protected $userLogin;
+    /** @var string|null */
     protected $userPassword;
     /** @var bool */
     protected $logout = false;
@@ -40,11 +77,10 @@ class rex_login
     /** @var rex_sql|rex_user|null */
     protected $impersonator;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
+        $this->sessionMaxOverallDuration = rex::getProperty('session_max_overall_duration', 2419200); // 4 weeks
+
         self::startSession();
     }
 
@@ -68,6 +104,8 @@ class rex_login
     /**
      * Setzt eine eindeutige System Id, damit mehrere
      * Sessions auf der gleichen Domain unterschieden werden können.
+     *
+     * @param string $systemId
      */
     public function setSystemId($systemId)
     {
@@ -76,6 +114,8 @@ class rex_login
 
     /**
      * Setzt das Session Timeout.
+     *
+     * @param int $sessionDuration
      */
     public function setSessionDuration($sessionDuration)
     {
@@ -84,6 +124,9 @@ class rex_login
 
     /**
      * Setzt den Login und das Password.
+     *
+     * @param string $login
+     * @param string $password
      */
     public function setLogin(
         #[\SensitiveParameter]
@@ -129,6 +172,8 @@ class rex_login
      * Setzt den ImpersonateQuery.
      *
      * Dieser wird benutzt, um den User abzurufen, dessen Identität ein Admin einnehmen möchte.
+     *
+     * @param string $impersonateQuery
      */
     public function setImpersonateQuery($impersonateQuery)
     {
@@ -150,6 +195,8 @@ class rex_login
 
     /**
      * Setzt den Namen der Spalte, der die User-Id enthält.
+     *
+     * @param string $idColumn
      */
     public function setIdColumn($idColumn)
     {
@@ -168,6 +215,8 @@ class rex_login
 
     /**
      * Setzt einen Meldungstext.
+     *
+     * @param string $message
      */
     protected function setMessage($message)
     {
@@ -217,25 +266,42 @@ class rex_login
                 if (1 == $this->user->getRows() && self::passwordVerify($this->userPassword, $this->user->getValue($this->passwordColumn), true)) {
                     $ok = true;
                     self::regenerateSessionId();
-                    $this->setSessionVar('UID', $this->user->getValue($this->idColumn));
-                    $this->setSessionVar('password', $this->user->getValue($this->passwordColumn));
+                    $this->setSessionVar(self::SESSION_USER_ID, $this->user->getValue($this->idColumn));
+                    $this->setSessionVar(self::SESSION_PASSWORD, $this->user->getValue($this->passwordColumn));
                 } else {
                     $this->message = rex_i18n::msg('login_error');
                 }
-            } elseif ('' != $this->getSessionVar('UID')) {
+            } elseif ('' != $this->getSessionVar(self::SESSION_USER_ID)) {
                 // wenn kein login und kein logout dann nach sessiontime checken
                 // message schreiben und falls falsch auf error verweisen
 
                 $ok = true;
-                $sessionStartStamp = (int) $this->getSessionVar('STAMP');
-                if (($sessionStartStamp + $this->sessionDuration) < time()) {
+
+                // add property if missing from the session.
+                // not only on start, but everytime, to support migration of pre-existing sessions
+                $sessionStartTime = $this->getSessionVar(self::SESSION_START_TIME, null);
+                if (null === $sessionStartTime) {
+                    $sessionStartTime = time();
+                    $this->setSessionVar(self::SESSION_START_TIME, $sessionStartTime);
+                }
+                // check session max age
+                if (($sessionStartTime + $this->sessionMaxOverallDuration) < time()) {
                     $ok = false;
                     $this->message = rex_i18n::msg('login_session_expired');
 
                     rex_csrf_token::removeAll();
                 }
 
-                if ($ok && $impersonator = $this->getSessionVar('impersonator')) {
+                // check session last activity
+                $sessionLastActivityStamp = (int) $this->getSessionVar(self::SESSION_LAST_ACTIVITY);
+                if (($sessionLastActivityStamp + $this->sessionDuration) < time()) {
+                    $ok = false;
+                    $this->message = rex_i18n::msg('login_session_expired');
+
+                    rex_csrf_token::removeAll();
+                }
+
+                if ($ok && $impersonator = $this->getSessionVar(self::SESSION_IMPERSONATOR)) {
                     $this->impersonator = rex_sql::factory($this->DB);
                     $this->impersonator->setQuery($this->userQuery, [':id' => $impersonator]);
 
@@ -252,7 +318,7 @@ class rex_login
                 if ($ok) {
                     $query = $this->impersonator && $this->impersonateQuery ? $this->impersonateQuery : $this->userQuery;
                     $this->user = rex_sql::factory($this->DB);
-                    $this->user->setQuery($query, [':id' => $this->getSessionVar('UID')]);
+                    $this->user->setQuery($query, [':id' => $this->getSessionVar(self::SESSION_USER_ID)]);
 
                     if (!$this->user->getRows()) {
                         $ok = false;
@@ -272,19 +338,19 @@ class rex_login
 
         if ($ok) {
             // wenn alles ok dann REX[UID][system_id] schreiben
-            $this->setSessionVar('STAMP', time());
+            $this->setSessionVar(self::SESSION_LAST_ACTIVITY, time());
 
             // each code-path which set $ok=true, must also set a UID
-            $sessUid = $this->getSessionVar('UID');
+            $sessUid = $this->getSessionVar(self::SESSION_USER_ID);
             if (empty($sessUid)) {
                 throw new rex_exception('Login considered successfull but no UID found');
             }
         } else {
             // wenn nicht, dann UID loeschen und error seite
-            $this->setSessionVar('STAMP', '');
-            $this->setSessionVar('UID', '');
-            $this->setSessionVar('impersonator', null);
-            $this->setSessionVar('password', null);
+            $this->setSessionVar(self::SESSION_LAST_ACTIVITY, '');
+            $this->setSessionVar(self::SESSION_USER_ID, '');
+            $this->setSessionVar(self::SESSION_IMPERSONATOR, null);
+            $this->setSessionVar(self::SESSION_PASSWORD, null);
         }
 
         $this->loginStatus = $ok ? 1 : -1;
@@ -292,6 +358,9 @@ class rex_login
         return $ok;
     }
 
+    /**
+     * @param int $id
+     */
     public function impersonate($id)
     {
         if (!$this->user) {
@@ -311,8 +380,8 @@ class rex_login
         $this->impersonator = $this->user;
         $this->user = $user;
 
-        $this->setSessionVar('UID', $id);
-        $this->setSessionVar('impersonator', $this->impersonator->getValue($this->idColumn));
+        $this->setSessionVar(self::SESSION_USER_ID, $id);
+        $this->setSessionVar(self::SESSION_IMPERSONATOR, $this->impersonator->getValue($this->idColumn));
     }
 
     public function depersonate()
@@ -324,15 +393,18 @@ class rex_login
         $this->user = $this->impersonator;
         $this->impersonator = null;
 
-        $this->setSessionVar('UID', $this->user->getValue($this->idColumn));
-        $this->setSessionVar('impersonator', null);
+        $this->setSessionVar(self::SESSION_USER_ID, $this->user->getValue($this->idColumn));
+        $this->setSessionVar(self::SESSION_IMPERSONATOR, null);
     }
 
+    /**
+     * @param string $passwordHash
+     */
     public function changedPassword(
         #[\SensitiveParameter]
         string $passwordHash
     ): void {
-        $this->setSessionVar('password', $passwordHash);
+        $this->setSessionVar(self::SESSION_PASSWORD, $passwordHash);
     }
 
     /**
@@ -353,6 +425,10 @@ class rex_login
 
     /**
      * Gibt einen Benutzer-Spezifischen Wert zurück.
+     *
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
      */
     public function getValue($key, $default = null)
     {
@@ -365,6 +441,9 @@ class rex_login
 
     /**
      * Setzte eine Session-Variable.
+     *
+     * @param string $varname
+     * @param scalar|array $value
      */
     public function setSessionVar($varname, $value)
     {
@@ -373,6 +452,10 @@ class rex_login
 
     /**
      * Gibt den Wert einer Session-Variable zurück.
+     *
+     * @param string $varname
+     * @param mixed $default
+     *  @return mixed
      */
     public function getSessionVar($varname, $default = '')
     {

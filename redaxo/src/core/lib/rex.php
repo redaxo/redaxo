@@ -149,7 +149,7 @@ class rex
      *     ($key is 'error_email' ? string :
      *     ($key is 'lang' ? non-empty-string :
      *     ($key is 'instname' ? non-empty-string :
-     *     ($key is 'theme' ? non-empty-string :
+     *     ($key is 'theme' ? string :
      *     ($key is 'start_page' ? non-empty-string :
      *     ($key is 'socket_proxy' ? non-empty-string|null :
      *     ($key is 'password_policy' ? array<string, scalar> :

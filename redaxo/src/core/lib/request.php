@@ -103,6 +103,7 @@ class rex_request
      * @param mixed  $value   Value
      *
      * @throws rex_exception
+     * @return void
      */
     public static function setSession($varname, $value)
     {
@@ -119,6 +120,7 @@ class rex_request
      * @param string $varname Variable name
      *
      * @throws rex_exception
+     * @return void
      */
     public static function unsetSession($varname)
     {
@@ -133,6 +135,7 @@ class rex_request
      * clear redaxo session contents within the current namespace (the session itself stays alive).
      *
      * @throws rex_exception
+     * @return void
      */
     public static function clearSession()
     {

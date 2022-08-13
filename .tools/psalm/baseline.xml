@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="v4.25.0@d7cd84c4ebca74ba3419b9601f81d177bcbe2aac">
+<files psalm-version="4.26.0@6998fabb2bf528b65777bf9941920888d23c03ac">
   <file src="redaxo/src/addons/backup/lib/backup.php">
     <MixedArgument occurrences="5">
       <code>$column</code>
@@ -1943,10 +1943,6 @@
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/restrictions_element.php">
-    <MixedOperand occurrences="2">
-      <code>$checkbox-&gt;get()</code>
-      <code>parent::get()</code>
-    </MixedOperand>
     <PossiblyNullOperand occurrences="2">
       <code>$id</code>
       <code>$id</code>
@@ -3302,10 +3298,9 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/structure/plugins/history/lib/history_login.php">
-    <MixedArgument occurrences="3">
+    <MixedArgument occurrences="2">
       <code>$key1</code>
       <code>$key2</code>
-      <code>$this-&gt;loginQuery</code>
     </MixedArgument>
     <MixedOperand occurrences="4">
       <code>$historyLogin</code>
@@ -3313,6 +3308,10 @@
       <code>$login</code>
       <code>$validtime</code>
     </MixedOperand>
+    <PossiblyNullArgument occurrences="2">
+      <code>$this-&gt;user-&gt;getValue($this-&gt;idColumn)</code>
+      <code>$this-&gt;user-&gt;getValue($this-&gt;passwordColumn)</code>
+    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/structure/tests/article_test.php">
     <MixedArgument occurrences="1">
@@ -3393,9 +3392,6 @@
     <MixedArgument occurrences="1">
       <code>$this-&gt;checkboxLabel</code>
     </MixedArgument>
-    <MixedOperand occurrences="1">
-      <code>$field-&gt;get()</code>
-    </MixedOperand>
   </file>
   <file src="redaxo/src/addons/users/pages/roles.php">
     <MixedArgument occurrences="5">
@@ -3428,11 +3424,10 @@
       <code>$userrole</code>
       <code>$userrole</code>
     </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="4">
+    <MixedAssignment occurrences="3">
       <code>$login</code>
       <code>$name</code>
       <code>$roles</code>
-      <code>$startpages[$page]</code>
     </MixedAssignment>
     <MixedOperand occurrences="1">
       <code>$login</code>
@@ -4177,7 +4172,7 @@
       <code>$value</code>
       <code>$value</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="11">
+    <MixedArgumentTypeCoercion occurrences="10">
       <code>$key</code>
       <code>$key</code>
       <code>$key</code>
@@ -4188,7 +4183,6 @@
       <code>$key</code>
       <code>$key</code>
       <code>$pageKey</code>
-      <code>$parts</code>
     </MixedArgumentTypeCoercion>
     <MixedArrayAccess occurrences="1">
       <code>$subProperties['title']</code>
@@ -4201,14 +4195,13 @@
       <code>self::$pages[$page[0]]</code>
       <code>self::$pages[$page[0]]</code>
     </MixedArrayTypeCoercion>
-    <MixedAssignment occurrences="11">
+    <MixedAssignment occurrences="10">
       <code>$k</code>
       <code>$page</code>
       <code>$page</code>
       <code>$page</code>
       <code>$pages</code>
       <code>$pages</code>
-      <code>$parts[]</code>
       <code>$subProperties</code>
       <code>$v</code>
       <code>$v</code>
@@ -4231,16 +4224,10 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/lib/be/navigation.php">
-    <MixedArgument occurrences="2">
-      <code>$a-&gt;getTitle()</code>
-      <code>$b-&gt;getTitle()</code>
-    </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="2">
       <code>$blockPages</code>
     </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="4">
-      <code>$n['icon']</code>
-      <code>$n['title']</code>
+    <MixedAssignment occurrences="2">
       <code>$page</code>
       <code>$subpage</code>
     </MixedAssignment>
@@ -4263,7 +4250,7 @@
     <MixedAssignment occurrences="1">
       <code>$perm</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="10">
+    <MixedInferredReturnType occurrences="12">
       <code>array</code>
       <code>bool</code>
       <code>bool</code>
@@ -4273,15 +4260,18 @@
       <code>string</code>
       <code>string</code>
       <code>string</code>
+      <code>string</code>
+      <code>string</code>
       <code>string|null</code>
     </MixedInferredReturnType>
     <MixedOperand occurrences="1">
       <code>$this-&gt;key</code>
     </MixedOperand>
-    <MixedReturnStatement occurrences="10">
+    <MixedReturnStatement occurrences="12">
       <code>$this-&gt;fullKey</code>
       <code>$this-&gt;hidden</code>
       <code>$this-&gt;href</code>
+      <code>$this-&gt;icon</code>
       <code>$this-&gt;isActive</code>
       <code>$this-&gt;key</code>
       <code>$this-&gt;path</code>
@@ -4289,6 +4279,7 @@
       <code>$this-&gt;popup</code>
       <code>$this-&gt;requiredPermissions</code>
       <code>$this-&gt;subPath</code>
+      <code>$this-&gt;title</code>
     </MixedReturnStatement>
     <PossiblyNullReference occurrences="1">
       <code>getParent</code>
@@ -4610,29 +4601,13 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/lib/csrf_token.php">
-    <MixedArgument occurrences="1">
-      <code>$tokens[$this-&gt;id]</code>
-    </MixedArgument>
-    <MixedArrayAccess occurrences="3">
-      <code>$tokens[$this-&gt;id]</code>
-      <code>$tokens[$this-&gt;id]</code>
-      <code>$tokens[$this-&gt;id]</code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="1">
-      <code>$tokens[$this-&gt;id]</code>
-    </MixedArrayAssignment>
-    <MixedAssignment occurrences="4">
+    <MixedAssignment occurrences="1">
       <code>$this-&gt;id</code>
-      <code>$tokens</code>
-      <code>$tokens</code>
-      <code>$tokens</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="1">
-      <code>string</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="1">
-      <code>$tokens[$this-&gt;id]</code>
-    </MixedReturnStatement>
+    <MixedReturnTypeCoercion occurrences="2">
+      <code>array&lt;string, string&gt;</code>
+      <code>rex_session(self::getSessionKey(), 'array')</code>
+    </MixedReturnTypeCoercion>
   </file>
   <file src="redaxo/src/core/lib/error_handler.php">
     <InvalidScalarArgument occurrences="2">
@@ -4644,10 +4619,6 @@
       <code>$exception</code>
       <code>$exception</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="2">
-      <code>[self::class, 'handleError']</code>
-      <code>[self::class, 'handleException']</code>
-    </MixedArgumentTypeCoercion>
     <MixedMethodCall occurrences="1">
       <code>getMessage</code>
     </MixedMethodCall>
@@ -4710,9 +4681,6 @@
       <code>$this-&gt;value</code>
       <code>$values</code>
     </MixedAssignment>
-    <MixedOperand occurrences="1">
-      <code>$field-&gt;get()</code>
-    </MixedOperand>
     <PossiblyNullOperand occurrences="2">
       <code>$this-&gt;getAttribute('id')</code>
       <code>$this-&gt;getAttribute('name')</code>
@@ -4730,9 +4698,6 @@
     </MixedMethodCall>
   </file>
   <file src="redaxo/src/core/lib/form/elements/element.php">
-    <MixedArgument occurrences="1">
-      <code>$this-&gt;get()</code>
-    </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="2">
       <code>$attributes</code>
       <code>$value</code>
@@ -4752,6 +4717,12 @@
       <code>$this-&gt;suffix</code>
       <code>$this-&gt;value</code>
     </MixedAssignment>
+    <MixedInferredReturnType occurrences="1">
+      <code>string</code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement occurrences="1">
+      <code>$content</code>
+    </MixedReturnStatement>
     <NullOperand occurrences="2">
       <code>rex_escape($value)</code>
       <code>rex_escape($value)</code>
@@ -4805,10 +4776,12 @@
     </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/lib/form/elements/raw.php">
-    <MixedInferredReturnType occurrences="1">
+    <MixedInferredReturnType occurrences="2">
       <code>formatElement</code>
+      <code>get</code>
     </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="1">
+    <MixedReturnStatement occurrences="2">
+      <code>$this-&gt;html</code>
       <code>$this-&gt;html</code>
     </MixedReturnStatement>
   </file>
@@ -4848,10 +4821,6 @@
     <MixedInferredReturnType occurrences="1">
       <code>string|null</code>
     </MixedInferredReturnType>
-    <MixedOperand occurrences="2">
-      <code>$element-&gt;get()</code>
-      <code>$element-&gt;get()</code>
-    </MixedOperand>
     <MixedReturnStatement occurrences="1">
       <code>$fields[$normalizedFieldName]</code>
     </MixedReturnStatement>
@@ -4992,8 +4961,11 @@
   </file>
   <file src="redaxo/src/core/lib/login/backend_login.php">
     <InvalidArgument occurrences="1"/>
+    <MixedArgument occurrences="1">
+      <code>rex::getProperty('session_duration')</code>
+    </MixedArgument>
     <MixedArrayAccess occurrences="4">
-      <code>$_SESSION[$sessionNs][self::SYSTEM_ID]['UID']</code>
+      <code>$_SESSION[static::getSessionNamespace()][self::SYSTEM_ID]</code>
       <code>$_SESSION[static::getSessionNamespace()][self::SYSTEM_ID]</code>
       <code>$sessionConfig['samesite']</code>
       <code>$sessionConfig['secure']</code>
@@ -5002,9 +4974,14 @@
       <code>$sessionConfig</code>
       <code>$userId</code>
     </MixedAssignment>
-    <MixedOperand occurrences="1">
+    <PossiblyNullArgument occurrences="3">
+      <code>$sql-&gt;getValue('id')</code>
+      <code>$sql-&gt;getValue('password')</code>
+      <code>rex::getProperty('session_duration')</code>
+    </PossiblyNullArgument>
+    <PossiblyNullOperand occurrences="1">
       <code>$this-&gt;userLogin</code>
-    </MixedOperand>
+    </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/lib/login/backend_password_policy.php">
     <MixedArgument occurrences="1">
@@ -5026,20 +5003,13 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/login/login.php">
-    <MixedArgument occurrences="13">
+    <MixedArgument occurrences="6">
       <code>$hash</code>
       <code>$hash</code>
-      <code>$id</code>
-      <code>$key</code>
       <code>$password</code>
       <code>$password</code>
       <code>$password</code>
       <code>$password</code>
-      <code>$password</code>
-      <code>$query</code>
-      <code>$this-&gt;impersonateQuery ?: $this-&gt;userQuery</code>
-      <code>$this-&gt;loginQuery</code>
-      <code>$this-&gt;userQuery</code>
     </MixedArgument>
     <MixedArrayAccess occurrences="2">
       <code>$_SESSION[static::getSessionNamespace()][$this-&gt;systemId]</code>
@@ -5049,44 +5019,47 @@
       <code>$_SESSION[static::getSessionNamespace()][$this-&gt;systemId]</code>
       <code>$_SESSION[static::getSessionNamespace()][$this-&gt;systemId]</code>
     </MixedArrayAssignment>
-    <MixedArrayOffset occurrences="4">
-      <code>$_SESSION[static::getSessionNamespace()][$this-&gt;systemId][$varname]</code>
-      <code>$_SESSION[static::getSessionNamespace()][$this-&gt;systemId][$varname]</code>
-      <code>$_SESSION[static::getSessionNamespace()][$this-&gt;systemId][$varname]</code>
+    <MixedArrayOffset occurrences="1">
       <code>$cookieParams[$name]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="17">
-      <code>$_SESSION[static::getSessionNamespace()][$this-&gt;systemId][$varname]</code>
+    <MixedAssignment occurrences="14">
       <code>$cookieParams[$name]</code>
       <code>$impersonator</code>
       <code>$name</code>
       <code>$password</code>
       <code>$password</code>
-      <code>$query</code>
       <code>$rexSessId</code>
       <code>$sessUid</code>
       <code>$sessionConfig</code>
+      <code>$sessionStartTime</code>
       <code>$this-&gt;DB</code>
       <code>$this-&gt;cache</code>
-      <code>$this-&gt;idColumn</code>
       <code>$this-&gt;logout</code>
-      <code>$this-&gt;message</code>
-      <code>$this-&gt;systemId</code>
+      <code>$this-&gt;sessionMaxOverallDuration</code>
       <code>$value</code>
     </MixedAssignment>
     <MixedOperand occurrences="1">
-      <code>$this-&gt;sessionDuration</code>
+      <code>$sessionStartTime</code>
     </MixedOperand>
     <MixedReturnTypeCoercion occurrences="2">
       <code>$cookieParams</code>
       <code>array{lifetime: ?int, path: ?string, domain: ?string, secure: ?bool, httponly: ?bool, samesite: ?string}</code>
     </MixedReturnTypeCoercion>
-    <PossiblyNullArgument occurrences="5">
+    <NullArgument occurrences="3">
+      <code>null</code>
+      <code>null</code>
+      <code>null</code>
+    </NullArgument>
+    <PossiblyNullArgument occurrences="9">
       <code>$cookieParams['domain']</code>
       <code>$cookieParams['httponly']</code>
       <code>$cookieParams['lifetime']</code>
       <code>$cookieParams['path']</code>
       <code>$cookieParams['secure']</code>
+      <code>$this-&gt;impersonator-&gt;getValue($this-&gt;idColumn)</code>
+      <code>$this-&gt;user-&gt;getValue($this-&gt;idColumn)</code>
+      <code>$this-&gt;user-&gt;getValue($this-&gt;idColumn)</code>
+      <code>$this-&gt;user-&gt;getValue($this-&gt;passwordColumn)</code>
     </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/lib/login/password_policy.php">
@@ -5624,6 +5597,9 @@
       <code>getValue</code>
       <code>getValue</code>
     </PossiblyNullReference>
+    <PropertyTypeCoercion occurrences="1">
+      <code>$this-&gt;getConnection()-&gt;lastInsertId()</code>
+    </PropertyTypeCoercion>
     <UnusedForeachValue occurrences="3">
       <code>$value</code>
       <code>$value</code>
@@ -6292,9 +6268,6 @@
     <MixedAssignment occurrences="1">
       <code>$config[$key]</code>
     </MixedAssignment>
-    <MixedOperand occurrences="1">
-      <code>$field-&gt;get()</code>
-    </MixedOperand>
     <NullOperand occurrences="1">
       <code>rex_escape($editor-&gt;getBasepath())</code>
     </NullOperand>
@@ -6320,15 +6293,6 @@
       <code>$ep-&gt;getSubject()</code>
       <code>$ep-&gt;getSubject()</code>
       <code>$ep-&gt;getSubject()</code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/core/tests/login/backend_login_test.php">
-    <MixedArgument occurrences="2">
-      <code>$this-&gt;cookiekey</code>
-      <code>$this-&gt;login</code>
-    </MixedArgument>
-    <MixedOperand occurrences="1">
-      <code>$this-&gt;login</code>
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/tests/login/password_policy_test.php">
