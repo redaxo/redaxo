@@ -111,7 +111,7 @@ class rex_form_control_element extends rex_form_element
     }
 
     /**
-     * @return string
+     * @return bool
      */
     public function saved()
     {
@@ -119,7 +119,7 @@ class rex_form_control_element extends rex_form_element
     }
 
     /**
-     * @return string
+     * @return bool
      */
     public function applied()
     {
@@ -127,7 +127,7 @@ class rex_form_control_element extends rex_form_element
     }
 
     /**
-     * @return string
+     * @return bool
      */
     public function deleted()
     {
@@ -135,7 +135,7 @@ class rex_form_control_element extends rex_form_element
     }
 
     /**
-     * @return string
+     * @return bool
      */
     public function resetted()
     {
@@ -143,7 +143,7 @@ class rex_form_control_element extends rex_form_element
     }
 
     /**
-     * @return string
+     * @return bool
      */
     public function aborted()
     {

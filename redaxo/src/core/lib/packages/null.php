@@ -197,6 +197,7 @@ abstract class rex_null_package implements rex_package_interface
      */
     public function includeFile($file, array $context = [])
     {
+        return null;
     }
 
     /**

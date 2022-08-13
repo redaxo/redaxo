@@ -283,7 +283,7 @@ abstract class rex_error_handler
      * @param int    $errline The line of the file in which the error occured
      *
      * @throws ErrorException
-     * @return false|void
+     * @return bool
      */
     public static function handleError($errno, $errstr, $errfile, $errline)
     {
@@ -320,6 +320,8 @@ abstract class rex_error_handler
         }
 
         rex_logger::logError($errno, $errstr, $errfile, $errline);
+
+        return true;
     }
 
     /**

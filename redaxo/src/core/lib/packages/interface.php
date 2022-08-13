@@ -194,7 +194,7 @@ interface rex_package_interface
      *
      * @param string $file    Filename
      * @param array  $context Context values, available as variables in given file
-     * @return void
+     * @return mixed
      */
     public function includeFile($file, array $context = []);
 

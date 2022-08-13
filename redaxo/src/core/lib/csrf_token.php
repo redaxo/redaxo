@@ -121,7 +121,7 @@ class rex_csrf_token
     }
 
     /**
-     * @return void
+     * @return array<string, string>
      */
     private static function getTokens()
     {
