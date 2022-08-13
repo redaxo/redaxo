@@ -7,17 +7,24 @@
  */
 class rex_be_page
 {
+    /** @var string */
     private $key;
+    /** @var string */
     private $fullKey;
+    /** @var string */
     private $title;
 
+    /** @var bool|null */
     private $popup;
+    /** @var string|null */
     private $href;
     /** @var array<string, string> */
     private $itemAttr = [];
     /** @var array<string, string> */
     private $linkAttr = [];
+    /** @var string|null */
     private $path;
+    /** @var string|null */
     private $subPath;
 
     /** @var self|null */
@@ -26,10 +33,15 @@ class rex_be_page
     /** @var self[] */
     private $subpages = [];
 
+    /** @var bool|null */
     private $isActive;
+    /** @var bool */
     private $hidden = false;
+    /** @var bool */
     private $hasLayout = true;
+    /** @var bool */
     private $hasNavigation = true;
+    /** @var bool|null */
     private $pjax;
     private $icon;
     private $requiredPermissions = [];
