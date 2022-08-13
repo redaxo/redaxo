@@ -5,7 +5,7 @@
  */
 class rex_form_element
 {
-    /** @var string|null */
+    /** @var string|int|null */
     protected $value;
     /** @var string|int|null */
     protected $defaultSaveValue = '';
@@ -36,6 +36,8 @@ class rex_form_element
 
     /**
      * @param string $tag
+     * @param array<string, int|string> $attributes
+     * @param bool $separateEnding
      */
     public function __construct($tag, rex_form_base $form = null, array $attributes = [], $separateEnding = false)
     {
@@ -56,6 +58,7 @@ class rex_form_element
     // --------- Attribute setter/getters
 
     /**
+     * @param string|string[]|int|null $value
      * @return void
      */
     public function setValue($value)
@@ -85,7 +88,7 @@ class rex_form_element
     }
 
     /**
-     * @return string|null
+     * @return string|int|null
      */
     public function getValue()
     {
@@ -93,6 +96,7 @@ class rex_form_element
     }
 
     /**
+     * @param string $name
      * @return void
      */
     public function setFieldName($name)
@@ -109,6 +113,7 @@ class rex_form_element
     }
 
     /**
+     * @param string $label
      * @return void
      */
     public function setLabel($label)
@@ -125,6 +130,7 @@ class rex_form_element
     }
 
     /**
+     * @param string $notice
      * @return void
      */
     public function setNotice($notice)
@@ -149,6 +155,7 @@ class rex_form_element
     }
 
     /**
+     * @param string $suffix
      * @return void
      */
     public function setSuffix($suffix)
@@ -165,6 +172,7 @@ class rex_form_element
     }
 
     /**
+     * @param string $prefix
      * @return void
      */
     public function setPrefix($prefix)
@@ -181,6 +189,7 @@ class rex_form_element
     }
 
     /**
+     * @param string $header
      * @return void
      */
     public function setHeader($header)
@@ -197,6 +206,7 @@ class rex_form_element
     }
 
     /**
+     * @param string $footer
      * @return void
      */
     public function setFooter($footer)
@@ -272,6 +282,7 @@ class rex_form_element
     }
 
     /**
+     * @param string $name
      * @return bool
      */
     public function hasAttribute($name)
@@ -364,6 +375,7 @@ class rex_form_element
     }
 
     /**
+     * @param string $content
      * @return string
      */
     protected function wrapContent($content)

@@ -20,6 +20,7 @@ class rex_finder implements IteratorAggregate, Countable
     private $dir;
     /** @var bool */
     private $recursive = false;
+    /** @var RecursiveIteratorIterator::SELF_FIRST|RecursiveIteratorIterator::CHILD_FIRST|RecursiveIteratorIterator::LEAVES_ONLY */
     private $recursiveMode = RecursiveIteratorIterator::SELF_FIRST;
     /** @var bool */
     private $dirsOnly = false;
@@ -33,7 +34,7 @@ class rex_finder implements IteratorAggregate, Countable
     private $ignoreDirsRecursive = [];
     /** @var bool */
     private $ignoreSystemStuff = true;
-    /** @psalm-var false|int|callable(mixed, mixed): int $sort*/
+    /** @psalm-var false|rex_sortable_iterator::*|callable(mixed, mixed): int $sort*/
     private $sort = false;
 
     /**
@@ -185,7 +186,7 @@ class rex_finder implements IteratorAggregate, Countable
      * Sorts the elements.
      *
      * @param int|callable $sort Sort mode, see {@link rex_sortable_iterator::__construct()}
-     * @psalm-param int|callable(mixed, mixed): int $sort
+     * @psalm-param rex_sortable_iterator::*|callable(mixed, mixed): int $sort
      *
      * @return $this
      */

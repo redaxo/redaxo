@@ -43,7 +43,9 @@ class rex_be_page
     private $hasNavigation = true;
     /** @var bool|null */
     private $pjax;
+    /** @var string|null */
     private $icon;
+    /** @var string[] */
     private $requiredPermissions = [];
 
     /**
@@ -437,9 +439,9 @@ class rex_be_page
     }
 
     /**
-     * Returns the subpath which should by used by packages to include this page inside their main page.
+     * Returns the subpath which should be used by packages to include this page inside their main page.
      *
-     * @return string
+     * @return string|null
      */
     public function getSubPath()
     {
@@ -685,7 +687,7 @@ class rex_be_page
     /**
      * Returns the icon.
      *
-     * @return string
+     * @return string|null
      */
     public function getIcon()
     {
@@ -705,7 +707,7 @@ class rex_be_page
     /**
      * Sets the required permissions.
      *
-     * @param array|string $perm
+     * @param string[]|string $perm
      *
      * @return $this
      */
@@ -719,7 +721,7 @@ class rex_be_page
     /**
      * Returns the required permission.
      *
-     * @return array
+     * @return string[]
      */
     public function getRequiredPermissions()
     {

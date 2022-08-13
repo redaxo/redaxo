@@ -5,7 +5,8 @@
  */
 abstract class rex_error_handler
 {
-    private static $registered;
+    /** @var bool */
+    private static $registered = false;
 
     /**
      * Registers the class as php-error/exception handler.
@@ -44,7 +45,7 @@ abstract class rex_error_handler
     /**
      * Handles the given Exception.
      *
-     * @param Throwable|Exception $exception The Exception to handle
+     * @param Throwable $exception The Exception to handle
      * @return never
      */
     public static function handleException($exception)
@@ -110,9 +111,8 @@ abstract class rex_error_handler
     }
 
     /**
-     * @return string[]
-     *
-     * @psalm-return array{0: string, 1: string}
+     * @param Throwable $exception
+     * @return array{string, string}
      */
     private static function renderWhoops($exception)
     {

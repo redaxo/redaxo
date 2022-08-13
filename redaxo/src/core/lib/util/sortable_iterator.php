@@ -16,13 +16,14 @@ class rex_sortable_iterator implements IteratorAggregate
     public const VALUES = 1;
     public const KEYS = 2;
 
+    /** @var Traversable<TKey, TValue> */
     private $iterator;
+    /** @var self::VALUES|self::KEYS|callable(mixed,mixed):int */
     private $sort;
 
     /**
      * @param Traversable<TKey, TValue>  $iterator Inner iterator
-     * @param int|callable $sort     Sort mode, possible values are rex_sortable_iterator::VALUES (default), rex_sortable_iterator::KEYS or a callable
-     * @psalm-param int|callable(mixed, mixed): int $sort
+     * @param self::VALUES|self::KEYS|callable(mixed,mixed):int $sort Sort mode, possible values are rex_sortable_iterator::VALUES (default), rex_sortable_iterator::KEYS or a callable
      */
     public function __construct(Traversable $iterator, $sort = self::VALUES)
     {
@@ -34,7 +35,6 @@ class rex_sortable_iterator implements IteratorAggregate
     public function getIterator()
     {
         $array = iterator_to_array($this->iterator);
-        $sort = is_callable($this->sort) ? 'callback' : $this->sort;
         $normalize = static function ($string) {
             $string = preg_replace("/(?<=[aou])\xcc\x88/i", '', $string);
             $string = mb_strtolower($string);
@@ -45,14 +45,14 @@ class rex_sortable_iterator implements IteratorAggregate
             $b = $normalize($b);
             return strnatcasecmp($a, $b);
         };
-        switch ($sort) {
-            case self::VALUES:
+        switch (true) {
+            case self::VALUES === $this->sort:
                 uasort($array, $sortCallback);
                 break;
-            case self::KEYS:
+            case self::KEYS === $this->sort:
                 uksort($array, $sortCallback);
                 break;
-            case 'callback':
+            case is_callable($this->sort):
                 uasort($array, $this->sort);
                 break;
             default:

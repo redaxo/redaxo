@@ -1,6 +1,7 @@
 <?php
 
 use ScssPhp\ScssPhp\Compiler;
+use ScssPhp\ScssPhp\Formatter;
 use ScssPhp\ScssPhp\Formatter\Compressed;
 
 /**
@@ -8,9 +9,13 @@ use ScssPhp\ScssPhp\Formatter\Compressed;
  */
 class rex_scss_compiler
 {
+    /** @var string */
     protected $root_dir;
+    /** @var string|list<string> */
     protected $scss_file;
+    /** @var string */
     protected $css_file;
+    /** @var class-string<Formatter> */
     protected $formatter;
 
     public function __construct()
@@ -22,6 +27,7 @@ class rex_scss_compiler
     }
 
     /**
+     * @param string $value
      * @return void
      */
     public function setRootDir($value)
@@ -30,6 +36,7 @@ class rex_scss_compiler
     }
 
     /**
+     * @param string|list<string> $value
      * @return void
      */
     public function setScssFile($value)
@@ -38,6 +45,7 @@ class rex_scss_compiler
     }
 
     /**
+     * @param string $value
      * @return void
      */
     public function setCssFile($value)
@@ -46,7 +54,7 @@ class rex_scss_compiler
     }
 
     /**
-     * @param string $value scss_formatter (default) or scss_formatter_nested or scss_formatter_compressed
+     * @param class-string<Formatter> $value scss_formatter (default) or scss_formatter_nested or scss_formatter_compressed
      * @return void
      */
     public function setFormatter($value)

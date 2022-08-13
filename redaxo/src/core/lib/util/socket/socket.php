@@ -49,7 +49,7 @@ class rex_socket
     protected $followRedirects = false;
     /** @var array<string, string> */
     protected $headers = [];
-    /** @vat resource */
+    /** @var resource */
     protected $stream;
     /** @var array<array-key, mixed> */
     protected $options = [];
