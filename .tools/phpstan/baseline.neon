@@ -2446,6 +2446,11 @@ parameters:
 			path: ../../redaxo/src/addons/structure/plugins/history/lib/history_login.php
 
 		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/structure/plugins/version/lib/revision.php
+
+		-
 			message: "#^Method rex_article_test\\:\\:testGetValue\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/tests/article_test.php
