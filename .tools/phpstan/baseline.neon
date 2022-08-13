@@ -6061,21 +6061,6 @@ parameters:
 			path: ../../redaxo/src/core/tests/console/config/set_test.php
 
 		-
-			message: "#^Property rex_backend_login_test\\:\\:\\$cookiekey has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/login/backend_login_test.php
-
-		-
-			message: "#^Property rex_backend_login_test\\:\\:\\$login has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/login/backend_login_test.php
-
-		-
-			message: "#^Property rex_backend_login_test\\:\\:\\$password has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/login/backend_login_test.php
-
-		-
 			message: "#^Method rex_password_policy_test\\:\\:provideCheck\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/login/password_policy_test.php
