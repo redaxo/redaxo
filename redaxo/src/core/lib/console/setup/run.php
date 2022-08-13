@@ -20,6 +20,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
     /** @var InputInterface */
     private $input;
 
+    /** @var bool */
     private $forceAsking = false;
 
     protected function configure()

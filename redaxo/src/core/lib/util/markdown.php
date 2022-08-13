@@ -125,10 +125,14 @@ final class rex_parsedown extends ParsedownExtra
 
     /** @var bool */
     public $generateToc = false;
+    /** @var int */
     public $topLevel = 2;
+    /** @var int */
     public $bottomLevel = 3;
+    /** @var list<array{level: int, id: string, text: string}> */
     public $headers = [];
 
+    /** @var array<string, true> */
     private $ids = [];
 
     /**

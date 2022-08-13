@@ -17,6 +17,7 @@ class rex_category_select extends rex_select
     /** @var int|int[]|null */
     private $rootId;
 
+    /** @var bool */
     private $loaded;
 
     public function __construct($ignoreOfflines = false, $clang = false, $checkPerms = true, $addHomepage = true)
