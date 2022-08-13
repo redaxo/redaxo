@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @package redaxo5
- */
-
 if (!isset($logFile)) {
     $logFile = ini_get('error_log');
 }

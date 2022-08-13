@@ -57,8 +57,6 @@ class rex_socket
     protected $acceptCompression = false;
 
     /**
-     * Constructor.
-     *
      * @param string $host Host name
      * @param int    $port Port number
      * @param bool   $ssl  SSL flag

@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @package redaxo5
- */
-
 $ASTATUS = ['ADD', 'EDIT', 'DELETE'];
 
 $OUT = true;

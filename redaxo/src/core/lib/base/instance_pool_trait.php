@@ -16,9 +16,6 @@ trait rex_instance_pool_trait
      */
     private static $instances = [];
 
-    /**
-     * Constructor.
-     */
     private function __construct()
     {
         // noop

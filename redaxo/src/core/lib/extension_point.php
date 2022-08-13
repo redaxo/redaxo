@@ -28,8 +28,6 @@ class rex_extension_point
     private $readonly = false;
 
     /**
-     * Constructor.
-     *
      * @param string $name
      * @param mixed  $subject
      * @psalm-param T $subject

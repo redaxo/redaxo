@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @package redaxo5
- */
-
 header('X-Robots-Tag: noindex, nofollow, noarchive');
 header('X-Frame-Options: SAMEORIGIN');
 header("Content-Security-Policy: frame-ancestors 'self'");

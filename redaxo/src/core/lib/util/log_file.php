@@ -160,18 +160,12 @@ class rex_log_file implements Iterator
         return $this->key;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     #[ReturnTypeWillChange]
     public function valid()
     {
         return !empty($this->currentLine);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     #[ReturnTypeWillChange]
     public function rewind()
     {

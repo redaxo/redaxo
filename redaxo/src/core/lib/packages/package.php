@@ -41,8 +41,6 @@ abstract class rex_package implements rex_package_interface
     private $propertiesLoaded = false;
 
     /**
-     * Constructor.
-     *
      * @param string $name Name
      */
     public function __construct($name)
@@ -128,49 +126,31 @@ abstract class rex_package implements rex_package_interface
      */
     abstract public function getPackageId();
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName()
     {
         return $this->name;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setConfig($key, $value = null)
     {
         return rex_config::set($this->getPackageId(), $key, $value);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getConfig($key = null, $default = null)
     {
         return rex_config::get($this->getPackageId(), $key, $default);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function hasConfig($key = null)
     {
         return rex_config::has($this->getPackageId(), $key);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function removeConfig($key)
     {
         return rex_config::remove($this->getPackageId(), $key);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setProperty($key, $value)
     {
         if (!is_string($key)) {
@@ -179,9 +159,6 @@ abstract class rex_package implements rex_package_interface
         $this->properties[$key] = $value;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getProperty($key, $default = null)
     {
         if ($this->hasProperty($key)) {
@@ -190,9 +167,6 @@ abstract class rex_package implements rex_package_interface
         return $default;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function hasProperty($key)
     {
         if (!is_string($key)) {
@@ -204,9 +178,6 @@ abstract class rex_package implements rex_package_interface
         return isset($this->properties[$key]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function removeProperty($key)
     {
         if (!is_string($key)) {
@@ -215,25 +186,16 @@ abstract class rex_package implements rex_package_interface
         unset($this->properties[$key]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isAvailable()
     {
         return $this->isInstalled() && (bool) $this->getProperty('status', false);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isInstalled()
     {
         return (bool) $this->getProperty('install', false);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAuthor($default = null)
     {
         $author = (string) $this->getProperty('author', '');
@@ -241,9 +203,6 @@ abstract class rex_package implements rex_package_interface
         return '' === $author ? $default : $author;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getVersion($format = null)
     {
         $version = (string) $this->getProperty('version');
@@ -254,9 +213,6 @@ abstract class rex_package implements rex_package_interface
         return $version;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getSupportPage($default = null)
     {
         $supportPage = (string) $this->getProperty('supportpage', '');
@@ -264,9 +220,6 @@ abstract class rex_package implements rex_package_interface
         return '' === $supportPage ? $default : $supportPage;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function includeFile($file, array $context = [])
     {
         $__file = $file;

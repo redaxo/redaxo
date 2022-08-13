@@ -8,8 +8,6 @@
  * @author <a href="https://www.yakamara.de">www.yakamara.de</a>
  * @author Umsetzung
  * @author thomas[dot]blum[at]redaxo[dot]org Thomas Blum
- *
- * @package redaxo5
  */
 
 $plugin = rex_plugin::get('be_style', 'redaxo');

@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @package redaxo5
- */
-
 $addon = rex_addon::get('structure');
 $structureContext = new rex_structure_context([
     'category_id' => rex_request('category_id', 'int'),

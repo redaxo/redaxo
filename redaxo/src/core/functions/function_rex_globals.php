@@ -2,8 +2,6 @@
 
 /**
  * Getter functions for the superglobals.
- *
- * @package redaxo5
  */
 
 /**

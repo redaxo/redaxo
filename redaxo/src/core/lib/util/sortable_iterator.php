@@ -20,8 +20,6 @@ class rex_sortable_iterator implements IteratorAggregate
     private $sort;
 
     /**
-     * Constructor.
-     *
      * @param Traversable<TKey, TValue>  $iterator Inner iterator
      * @param int|callable $sort     Sort mode, possible values are rex_sortable_iterator::VALUES (default), rex_sortable_iterator::KEYS or a callable
      * @psalm-param int|callable(mixed, mixed): int $sort
@@ -32,9 +30,6 @@ class rex_sortable_iterator implements IteratorAggregate
         $this->sort = $sort;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     #[ReturnTypeWillChange]
     public function getIterator()
     {

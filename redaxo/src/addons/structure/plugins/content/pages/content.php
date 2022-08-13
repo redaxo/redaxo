@@ -2,8 +2,6 @@
 
 /**
  * Verwaltung der Inhalte. EditierModul / Metadaten ...
- *
- * @package redaxo5
  */
 
 $articleId = rex_request('article_id', 'int');

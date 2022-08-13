@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @package redaxo5
- */
-
 $OUT = true;
 
 $function = rex_request('function', 'string');

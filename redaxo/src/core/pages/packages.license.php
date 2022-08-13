@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @package redaxo5
- */
-
 $package = rex_package::get(rex_request('package', 'string'));
 
 $license = null;

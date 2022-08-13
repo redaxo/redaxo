@@ -2,8 +2,6 @@
 
 /**
  * Packages loading.
- *
- * @package redaxo5
  */
 
 rex_addon::initialize(!rex::isSetup());

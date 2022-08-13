@@ -63,9 +63,6 @@ class rex_context implements rex_context_provider_interface
         $this->globalParams = $globalParams;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getUrl(array $params = [], $escape = true)
     {
         // combine global params with local

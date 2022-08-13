@@ -40,9 +40,6 @@ class rex_category extends rex_structure_element
         return self::getChildElements(0, 'clist', $ignoreOfflines, $clang);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPriority()
     {
         return $this->catpriority;
@@ -146,9 +143,6 @@ class rex_category extends rex_structure_element
         return parent::_hasValue($value, ['cat_']);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isPermitted()
     {
         return (bool) rex_extension::registerPoint(new rex_extension_point('CAT_IS_PERMITTED', true, ['element' => $this]));

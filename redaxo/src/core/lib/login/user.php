@@ -37,9 +37,6 @@ class rex_user
      */
     protected static $roleClass;
 
-    /**
-     * Constructor.
-     */
     public function __construct(rex_sql $sql)
     {
         $this->sql = $sql;

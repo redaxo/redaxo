@@ -263,9 +263,6 @@ class rex_finder implements IteratorAggregate, Countable
         return $iterator;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     #[ReturnTypeWillChange]
     public function count()
     {

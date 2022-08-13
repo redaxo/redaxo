@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @package redaxo5
- */
-
 global $rexUserLoginmessage;
 
 $rexUserLogin = rex_post('rex_user_login', 'string');

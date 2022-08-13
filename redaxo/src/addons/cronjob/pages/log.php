@@ -4,8 +4,6 @@
  * Cronjob Addon.
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
- *
- * @package redaxo5
  */
 
 $func = rex_request('func', 'string');

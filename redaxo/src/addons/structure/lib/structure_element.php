@@ -56,9 +56,6 @@ abstract class rex_structure_element
 
     protected static $classVars;
 
-    /**
-     * Constructor.
-     */
     protected function __construct(array $params)
     {
         foreach (self::getClassVars() as $var) {

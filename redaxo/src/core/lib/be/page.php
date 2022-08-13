@@ -35,8 +35,6 @@ class rex_be_page
     private $requiredPermissions = [];
 
     /**
-     * Constructor.
-     *
      * @param string $key
      * @param string $title
      *

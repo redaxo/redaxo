@@ -5,8 +5,6 @@
  *
  * @author markus.staab[at]redaxo[dot]de Markus Staab
  * @author jan.kristinus[at]yakmara[dot]de Jan Kristinus
- *
- * @package redaxo5
  */
 
 $addon = rex_addon::get('media_manager');
