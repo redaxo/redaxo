@@ -4231,42 +4231,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/login/login.php
 
 		-
-			message: "#^Method rex_login\\:\\:getSessionVar\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
-			message: "#^Method rex_login\\:\\:getSessionVar\\(\\) has parameter \\$default with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
-			message: "#^Method rex_login\\:\\:getSessionVar\\(\\) has parameter \\$varname with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
-			message: "#^Method rex_login\\:\\:getValue\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
-			message: "#^Method rex_login\\:\\:getValue\\(\\) has parameter \\$default with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
-			message: "#^Method rex_login\\:\\:getValue\\(\\) has parameter \\$key with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
 			message: "#^Method rex_login\\:\\:impersonate\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
-			message: "#^Method rex_login\\:\\:impersonate\\(\\) has parameter \\$id with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/login/login.php
 
@@ -4331,17 +4296,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/login/login.php
 
 		-
-			message: "#^Method rex_login\\:\\:setIdColumn\\(\\) has parameter \\$idColumn with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
 			message: "#^Method rex_login\\:\\:setImpersonateQuery\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
-			message: "#^Method rex_login\\:\\:setImpersonateQuery\\(\\) has parameter \\$impersonateQuery with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/login/login.php
 
@@ -4352,16 +4307,6 @@ parameters:
 
 		-
 			message: "#^Method rex_login\\:\\:setLogin\\(\\) has parameter \\$isPreHashed with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
-			message: "#^Method rex_login\\:\\:setLogin\\(\\) has parameter \\$login with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
-			message: "#^Method rex_login\\:\\:setLogin\\(\\) has parameter \\$password with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/login/login.php
 
@@ -4386,11 +4331,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/login/login.php
 
 		-
-			message: "#^Method rex_login\\:\\:setMessage\\(\\) has parameter \\$message with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
 			message: "#^Method rex_login\\:\\:setPasswordColumn\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/login/login.php
@@ -4401,22 +4341,12 @@ parameters:
 			path: ../../redaxo/src/core/lib/login/login.php
 
 		-
-			message: "#^Method rex_login\\:\\:setSessionDuration\\(\\) has parameter \\$sessionDuration with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
 			message: "#^Method rex_login\\:\\:setSessionVar\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/login/login.php
 
 		-
-			message: "#^Method rex_login\\:\\:setSessionVar\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
-			message: "#^Method rex_login\\:\\:setSessionVar\\(\\) has parameter \\$varname with no type specified\\.$#"
+			message: "#^Method rex_login\\:\\:setSessionVar\\(\\) has parameter \\$value with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/login/login.php
 
@@ -4436,11 +4366,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/login/login.php
 
 		-
-			message: "#^Method rex_login\\:\\:setSystemId\\(\\) has parameter \\$systemId with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
 			message: "#^Method rex_login\\:\\:setUserQuery\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/login/login.php
@@ -4456,33 +4381,8 @@ parameters:
 			path: ../../redaxo/src/core/lib/login/login.php
 
 		-
-			message: "#^Property rex_login\\:\\:\\$impersonateQuery has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
-			message: "#^Property rex_login\\:\\:\\$loginQuery has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
-			message: "#^Property rex_login\\:\\:\\$sessionDuration has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
-			message: "#^Property rex_login\\:\\:\\$userLogin has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
-			message: "#^Property rex_login\\:\\:\\$userPassword has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/login/login.php
-
-		-
-			message: "#^Property rex_login\\:\\:\\$userQuery has no type specified\\.$#"
-			count: 1
+			message: "#^Parameter \\#2 \\$value of method rex_login\\:\\:setSessionVar\\(\\) expects array\\|bool\\|float\\|int\\|string, null given\\.$#"
+			count: 3
 			path: ../../redaxo/src/core/lib/login/login.php
 
 		-

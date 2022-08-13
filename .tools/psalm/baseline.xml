@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.26.0@6998fabb2bf528b65777bf9941920888d23c03ac">
+<files psalm-version="v4.25.0@d7cd84c4ebca74ba3419b9601f81d177bcbe2aac">
   <file src="redaxo/src/addons/backup/lib/backup.php">
     <MixedArgument occurrences="5">
       <code>$column</code>
@@ -3302,10 +3302,9 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/structure/plugins/history/lib/history_login.php">
-    <MixedArgument occurrences="3">
+    <MixedArgument occurrences="2">
       <code>$key1</code>
       <code>$key2</code>
-      <code>$this-&gt;loginQuery</code>
     </MixedArgument>
     <MixedOperand occurrences="4">
       <code>$historyLogin</code>
@@ -3313,6 +3312,10 @@
       <code>$login</code>
       <code>$validtime</code>
     </MixedOperand>
+    <PossiblyNullArgument occurrences="2">
+      <code>$this-&gt;user-&gt;getValue($this-&gt;idColumn)</code>
+      <code>$this-&gt;user-&gt;getValue($this-&gt;passwordColumn)</code>
+    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/structure/tests/article_test.php">
     <MixedArgument occurrences="1">
@@ -4992,6 +4995,9 @@
   </file>
   <file src="redaxo/src/core/lib/login/backend_login.php">
     <InvalidArgument occurrences="1"/>
+    <MixedArgument occurrences="1">
+      <code>rex::getProperty('session_duration')</code>
+    </MixedArgument>
     <MixedArrayAccess occurrences="4">
       <code>$_SESSION[static::getSessionNamespace()][self::SYSTEM_ID]</code>
       <code>$_SESSION[static::getSessionNamespace()][self::SYSTEM_ID]</code>
@@ -5002,9 +5008,14 @@
       <code>$sessionConfig</code>
       <code>$userId</code>
     </MixedAssignment>
-    <MixedOperand occurrences="1">
+    <PossiblyNullArgument occurrences="3">
+      <code>$sql-&gt;getValue('id')</code>
+      <code>$sql-&gt;getValue('password')</code>
+      <code>rex::getProperty('session_duration')</code>
+    </PossiblyNullArgument>
+    <PossiblyNullOperand occurrences="1">
       <code>$this-&gt;userLogin</code>
-    </MixedOperand>
+    </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/lib/login/backend_password_policy.php">
     <MixedArgument occurrences="1">
@@ -5026,20 +5037,13 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/login/login.php">
-    <MixedArgument occurrences="13">
+    <MixedArgument occurrences="6">
       <code>$hash</code>
       <code>$hash</code>
-      <code>$id</code>
-      <code>$key</code>
       <code>$password</code>
       <code>$password</code>
       <code>$password</code>
       <code>$password</code>
-      <code>$password</code>
-      <code>$query</code>
-      <code>$this-&gt;impersonateQuery ?: $this-&gt;userQuery</code>
-      <code>$this-&gt;loginQuery</code>
-      <code>$this-&gt;userQuery</code>
     </MixedArgument>
     <MixedArrayAccess occurrences="2">
       <code>$_SESSION[static::getSessionNamespace()][$this-&gt;systemId]</code>
@@ -5049,44 +5053,47 @@
       <code>$_SESSION[static::getSessionNamespace()][$this-&gt;systemId]</code>
       <code>$_SESSION[static::getSessionNamespace()][$this-&gt;systemId]</code>
     </MixedArrayAssignment>
-    <MixedArrayOffset occurrences="4">
-      <code>$_SESSION[static::getSessionNamespace()][$this-&gt;systemId][$varname]</code>
-      <code>$_SESSION[static::getSessionNamespace()][$this-&gt;systemId][$varname]</code>
-      <code>$_SESSION[static::getSessionNamespace()][$this-&gt;systemId][$varname]</code>
+    <MixedArrayOffset occurrences="1">
       <code>$cookieParams[$name]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="17">
-      <code>$_SESSION[static::getSessionNamespace()][$this-&gt;systemId][$varname]</code>
+    <MixedAssignment occurrences="14">
       <code>$cookieParams[$name]</code>
       <code>$impersonator</code>
       <code>$name</code>
       <code>$password</code>
       <code>$password</code>
-      <code>$query</code>
       <code>$rexSessId</code>
       <code>$sessUid</code>
       <code>$sessionConfig</code>
+      <code>$sessionStartTime</code>
       <code>$this-&gt;DB</code>
       <code>$this-&gt;cache</code>
-      <code>$this-&gt;idColumn</code>
       <code>$this-&gt;logout</code>
-      <code>$this-&gt;message</code>
-      <code>$this-&gt;systemId</code>
+      <code>$this-&gt;sessionMaxOverallDuration</code>
       <code>$value</code>
     </MixedAssignment>
     <MixedOperand occurrences="1">
-      <code>$this-&gt;sessionDuration</code>
+      <code>$sessionStartTime</code>
     </MixedOperand>
     <MixedReturnTypeCoercion occurrences="2">
       <code>$cookieParams</code>
       <code>array{lifetime: ?int, path: ?string, domain: ?string, secure: ?bool, httponly: ?bool, samesite: ?string}</code>
     </MixedReturnTypeCoercion>
-    <PossiblyNullArgument occurrences="5">
+    <NullArgument occurrences="3">
+      <code>null</code>
+      <code>null</code>
+      <code>null</code>
+    </NullArgument>
+    <PossiblyNullArgument occurrences="9">
       <code>$cookieParams['domain']</code>
       <code>$cookieParams['httponly']</code>
       <code>$cookieParams['lifetime']</code>
       <code>$cookieParams['path']</code>
       <code>$cookieParams['secure']</code>
+      <code>$this-&gt;impersonator-&gt;getValue($this-&gt;idColumn)</code>
+      <code>$this-&gt;user-&gt;getValue($this-&gt;idColumn)</code>
+      <code>$this-&gt;user-&gt;getValue($this-&gt;idColumn)</code>
+      <code>$this-&gt;user-&gt;getValue($this-&gt;passwordColumn)</code>
     </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/lib/login/password_policy.php">
@@ -6323,15 +6330,6 @@
       <code>$ep-&gt;getSubject()</code>
       <code>$ep-&gt;getSubject()</code>
       <code>$ep-&gt;getSubject()</code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/core/tests/login/backend_login_test.php">
-    <MixedArgument occurrences="2">
-      <code>$this-&gt;cookiekey</code>
-      <code>$this-&gt;login</code>
-    </MixedArgument>
-    <MixedOperand occurrences="1">
-      <code>$this-&gt;login</code>
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/tests/login/password_policy_test.php">
