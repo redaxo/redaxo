@@ -10,6 +10,7 @@ fileperm: '0664'
 dirperm: '0775'
 session_duration: 7200
 session_keep_alive: 21600
+session_max_overall_duration: 2419200 # 4 weeks
 backend_login_policy:
     login_tries_until_blocked: 50
     login_tries_until_delay: 3
