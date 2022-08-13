@@ -328,7 +328,7 @@ abstract class rex_formatter
      * Truncates a string.
      *
      * @param string $value  Value
-     * @param array{length?: int, etc?: string, break_words?: bool} $format Default format is `['length' => 80, 'etc' => '...', 'break_words' => false]`
+     * @param array{length?: int, etc?: string, break_words?: bool} $format Default format is `['length' => 80, 'etc' => '…', 'break_words' => false]`
      *
      * @return string
      */
@@ -345,7 +345,7 @@ abstract class rex_formatter
 
         // ETC
         if (empty($format['etc'])) {
-            $format['etc'] = '...';
+            $format['etc'] = '…';
         }
 
         // Break-Words?
