@@ -17,8 +17,6 @@ class rex_plugin extends rex_package implements rex_plugin_interface
     private $addon;
 
     /**
-     * Constructor.
-     *
      * @param string    $name  Name
      * @param rex_addon $addon Parent addon
      */
@@ -88,8 +86,6 @@ class rex_plugin extends rex_package implements rex_plugin_interface
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return rex_addon
      */
     public function getAddon()
@@ -98,8 +94,6 @@ class rex_plugin extends rex_package implements rex_plugin_interface
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return string
      */
     public function getPackageId()
@@ -107,73 +101,46 @@ class rex_plugin extends rex_package implements rex_plugin_interface
         return $this->getAddon()->getName() . '/' . $this->getName();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getType()
     {
         return 'plugin';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPath($file = '')
     {
         return rex_path::plugin($this->getAddon()->getName(), $this->getName(), $file);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAssetsPath($file = '')
     {
         return rex_path::pluginAssets($this->getAddon()->getName(), $this->getName(), $file);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAssetsUrl($file = '')
     {
         return rex_url::pluginAssets($this->getAddon()->getName(), $this->getName(), $file);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getDataPath($file = '')
     {
         return rex_path::pluginData($this->getAddon()->getName(), $this->getName(), $file);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getCachePath($file = '')
     {
         return rex_path::pluginCache($this->getAddon()->getName(), $this->getName(), $file);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isAvailable()
     {
         return $this->getAddon()->isAvailable() && parent::isAvailable();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isSystemPackage()
     {
         return in_array($this->getName(), (array) $this->addon->getProperty('system_plugins', []));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function i18n($key, ...$replacements)
     {
         $args = func_get_args();

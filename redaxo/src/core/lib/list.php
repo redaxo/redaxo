@@ -811,9 +811,6 @@ class rex_list implements rex_url_provider_interface
 
     // ---------------------- Url generation
 
-    /**
-     * {@inheritdoc}
-     */
     public function getUrl(array $params = [], $escape = true)
     {
         $params = array_merge($this->getParams(), $params);

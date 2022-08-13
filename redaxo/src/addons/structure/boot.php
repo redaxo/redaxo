@@ -4,8 +4,6 @@
  * Site Structure Addon.
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- *
- * @package redaxo5
  */
 
 $addon = rex_addon::get('structure');

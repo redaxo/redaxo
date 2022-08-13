@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @package redaxo5
- */
-
 if (rex::isSetup()) {
     rex_response::sendRedirect(rex_url::backendController());
 }

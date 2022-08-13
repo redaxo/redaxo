@@ -71,17 +71,12 @@ class rex_addon extends rex_package implements rex_addon_interface
         return is_string($addon) && isset(self::$addons[$addon]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAddon()
     {
         return $this;
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return string
      */
     public function getPackageId()
@@ -89,65 +84,41 @@ class rex_addon extends rex_package implements rex_addon_interface
         return $this->getName();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getType()
     {
         return 'addon';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPath($file = '')
     {
         return rex_path::addon($this->getName(), $file);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAssetsPath($file = '')
     {
         return rex_path::addonAssets($this->getName(), $file);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAssetsUrl($file = '')
     {
         return rex_url::addonAssets($this->getName(), $file);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getDataPath($file = '')
     {
         return rex_path::addonData($this->getName(), $file);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getCachePath($file = '')
     {
         return rex_path::addonCache($this->getName(), $file);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isSystemPackage()
     {
         return in_array($this->getPackageId(), rex::getProperty('system_addons'));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function i18n($key, ...$replacements)
     {
         $args = func_get_args();
@@ -158,9 +129,6 @@ class rex_addon extends rex_package implements rex_addon_interface
         return call_user_func_array([rex_i18n::class, 'msg'], $args);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPlugin($plugin)
     {
         if (!is_string($plugin)) {
@@ -186,41 +154,26 @@ class rex_addon extends rex_package implements rex_addon_interface
         return $this->plugins[$plugin];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function pluginExists($plugin)
     {
         return is_string($plugin) && isset($this->plugins[$plugin]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getRegisteredPlugins()
     {
         return $this->plugins;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getInstalledPlugins()
     {
         return self::filterPackages($this->plugins, 'isInstalled');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAvailablePlugins()
     {
         return self::filterPackages($this->plugins, 'isAvailable');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getSystemPlugins()
     {
         if (rex::isSetup() || rex::isSafeMode()) {

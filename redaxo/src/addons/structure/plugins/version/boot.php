@@ -4,8 +4,6 @@
  * Version.
  *
  * @author jan@kristinus.de
- *
- * @package redaxo5
  */
 
 rex_perm::register('version[live_version]', null, rex_perm::OPTIONS);

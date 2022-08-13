@@ -7,8 +7,6 @@
  * @author <a href="https://www.yakamara.de">www.yakamara.de</a>
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * @author <a href="https://www.redaxo.org">www.redaxo.org</a>
- *
- * @package redaxo5
  */
 
 $addon = rex_addon::get('be_style');

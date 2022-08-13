@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @package redaxo5
- */
-
 assert(isset($PERMALL) && is_bool($PERMALL));
 assert(isset($argFields) && is_string($argFields));
 assert(isset($argUrl) && is_array($argUrl));

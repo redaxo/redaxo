@@ -88,9 +88,6 @@ class rex_user_role implements rex_user_role_interface
         return $this->complexPerms[$key];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function get($ids)
     {
         $sql = rex_sql::factory();

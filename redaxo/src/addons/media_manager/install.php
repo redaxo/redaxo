@@ -5,8 +5,6 @@
  *
  * @author markus.staab[at]redaxo[dot]de Markus Staab
  * @author jan.kristinus[at]redaxo[dot]de Jan Kristinus
- *
- * @package redaxo5
  */
 
 rex_sql_table::get(rex::getTable('media_manager_type'))

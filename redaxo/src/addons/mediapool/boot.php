@@ -4,8 +4,6 @@
  * Mediapool Addon.
  *
  * @author jan[dot]kristinus[at]redaxo[dot]de Jan Kristinus
- *
- * @package redaxo5
  */
 
 $addon = rex_addon::get('mediapool');

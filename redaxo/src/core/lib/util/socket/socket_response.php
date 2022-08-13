@@ -29,8 +29,6 @@ class rex_socket_response
     private $streamFiltersInitialized = false;
 
     /**
-     * Constructor.
-     *
      * @param resource $stream Socket stream
      *
      * @throws InvalidArgumentException

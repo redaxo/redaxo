@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @package redaxo5
- */
-
 $step = rex_request('step', 'int', 1);
 $lang = rex_request('lang', 'string');
 $func = rex_request('func', 'string');

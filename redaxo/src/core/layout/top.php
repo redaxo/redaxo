@@ -2,8 +2,6 @@
 
 /**
  * Layout Kopf des Backends.
- *
- * @package redaxo5
  */
 
 $curPage = rex_be_controller::getCurrentPageObject();

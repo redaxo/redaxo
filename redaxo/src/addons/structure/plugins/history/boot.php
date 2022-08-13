@@ -4,8 +4,6 @@
  * History.
  *
  * @author jan@kristinus.de
- *
- * @package redaxo5
  */
 
 $plugin = rex_plugin::get('structure', 'history');

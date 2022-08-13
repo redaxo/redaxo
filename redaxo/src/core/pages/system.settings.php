@@ -1,7 +1,4 @@
 <?php
-/**
- * @package redaxo5
- */
 
 $error = [];
 $success = '';

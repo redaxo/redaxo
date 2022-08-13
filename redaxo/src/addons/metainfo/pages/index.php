@@ -4,8 +4,6 @@
  * MetaForm Addon.
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- *
- * @package redaxo5
  */
 
 $subpage = rex_be_controller::getCurrentPagePart(2);

@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @package redaxo5
- */
-
 $error = '';
 $success = '';
 $user = rex::requireUser();

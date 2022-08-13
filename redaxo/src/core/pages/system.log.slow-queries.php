@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @package redaxo5
- */
-
 $logFile = rex_sql_util::slowQueryLogPath();
 
 if (null === $logFile) {

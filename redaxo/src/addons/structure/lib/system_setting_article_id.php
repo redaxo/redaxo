@@ -14,8 +14,6 @@ class rex_system_setting_article_id extends rex_system_setting
     private $key;
 
     /**
-     * Constructor.
-     *
      * @param string $key Key
      */
     public function __construct($key)
