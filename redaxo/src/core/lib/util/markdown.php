@@ -132,7 +132,7 @@ final class rex_parsedown extends ParsedownExtra
     private $ids = [];
 
     /**
-     * @return string|string[]|null
+     * @return string
      */
     public function text($text)
     {

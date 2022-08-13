@@ -194,7 +194,7 @@ class rex_sql_table
             $key = [1, $key];
         }
 
-        return static::baseClearInstance($key);
+        static::baseClearInstance($key);
     }
 
     /**

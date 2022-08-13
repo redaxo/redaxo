@@ -1256,7 +1256,7 @@ class rex_sql implements Iterator
 
     /**
      * Gibt den zuletzt aufgetretene Fehler zurueck.
-     * @return string
+     * @return string|null
      */
     public function getError()
     {

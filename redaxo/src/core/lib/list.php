@@ -298,7 +298,7 @@ class rex_list implements rex_url_provider_interface
     }
 
     /**
-     * @return void
+     * @return string
      */
     public function getNoRowsMessage()
     {
@@ -342,7 +342,7 @@ class rex_list implements rex_url_provider_interface
     }
 
     /**
-     * @return array<string,string|int>
+     * @return array<string, string|int>
      */
     public function getTableAttributes()
     {
@@ -376,7 +376,7 @@ class rex_list implements rex_url_provider_interface
     }
 
     /**
-     * @return array<string,string|int>
+     * @return array<string, string|int>|null
      */
     public function getLinkAttributes($column, $default = null)
     {
@@ -475,7 +475,7 @@ class rex_list implements rex_url_provider_interface
 
     /**
      * Gibt die Layouts aller Spalten zurück.
-     * @return array<string,array{string,string}>
+     * @return array<string, array{string, string}>
      */
     public function getColumnLayouts()
     {
@@ -1142,7 +1142,7 @@ class rex_list implements rex_url_provider_interface
     }
 
     /**
-     * @return mixed
+     * @return array
      */
     public function getArrayValue($column)
     {
