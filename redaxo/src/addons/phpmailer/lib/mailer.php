@@ -130,7 +130,7 @@ class rex_mailer extends PHPMailer
                     $this->log('ERROR');
                 }
                 if ($this->archive) {
-                $this->archive($this->getSentMIMEMessage(),'not_sent_');
+                    $this->archive($this->getSentMIMEMessage(), 'not_sent_');
                 }
                 return false;
             }
