@@ -202,9 +202,9 @@ class rex_mailer extends PHPMailer
     {
         $dir = self::logFolder().'/'.date('Y').'/'.date('m');
         $count = 1;
-        $archiveFile = $dir.'/'.date('Y-m-d_H_i_s').'.eml';
+        $archiveFile = $dir.'/'.$status.date('Y-m-d_H_i_s').'.eml';
         while (is_file($archiveFile)) {
-            $archiveFile = $dir.'/'.date('Y-m-d_H_i_s').'_'.(++$count).'.eml';
+            $archiveFile = $dir.'/'.$status.date('Y-m-d_H_i_s').'_'.(++$count).'.eml';
         }
 
         rex_file::put($archiveFile, $archivedata);
