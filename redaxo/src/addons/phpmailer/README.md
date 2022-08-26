@@ -149,6 +149,10 @@ Most of the time you don't need a level over **server and client protocol**, unl
 
 ## Email log and archiving 
 
+> The use of these functions should be clarified in advance in terms of data privacy. 
+
+### Email log
+
 The Email log can be found under 'System' > 'Log files' > 'PHPMailer'. The logging can be set in the settings of the PHPMailer addon at 3 levels. 
 
 - No: No log will be created.
@@ -162,6 +166,7 @@ The log is stored under `/redaxo/data/log/mail.log`.
 ### Email archiving 
 
 When email archiving is switched on, all emails are saved in complete `.eml` format in the `/redaxo/data/addons/phpmailer/mail_log` folder, chronologically by year and month in subfolders. .eml files can be opened and imported for viewing in common email programs. 
+Emails that are not sent are prefixed with not_sent. 
 
 The archive can be purged periodically via the CronJob "Purge Mailer Archive". 
 
