@@ -129,6 +129,9 @@ class rex_mailer extends PHPMailer
                 if ($addon->getConfig('logging')) {
                     $this->log('ERROR');
                 }
+                if ($this->archive) {
+                $this->archive($this->getSentMIMEMessage(),'not_sent_');
+                }
                 return false;
             }
 
@@ -195,7 +198,7 @@ class rex_mailer extends PHPMailer
         $this->archive = $status;
     }
 
-    private function archive(string $archivedata = ''): void
+    private function archive(string $archivedata = '', string $status = ''): void
     {
         $dir = self::logFolder().'/'.date('Y').'/'.date('m');
         $count = 1;
