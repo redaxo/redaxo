@@ -9,6 +9,10 @@
     .rex-panel-option-title {
         margin-left: ($grid-gutter-width / 2);
     }
+
+    .form-control-clear {
+        color: $color-a-dark;
+    }
 }
 .rex-slice .panel-heading > .rex-panel-options {
     float: right;
@@ -116,7 +120,12 @@
 // ----------------------------------------------------------------------------
 
 @mixin _dark-panels {
-
+    .panel-heading {
+        .form-control-clear {
+            color: $color-text-light;
+        }
+    }
+    
     .panel-add,
     .panel-edit {
         @include panel-variant($color-green-1, $color-text-light, $color-green-1, $color-green-1);
