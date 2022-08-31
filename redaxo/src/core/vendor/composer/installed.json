@@ -1412,17 +1412,17 @@
         },
         {
             "name": "voku/portable-utf8",
-            "version": "6.0.5",
-            "version_normalized": "6.0.5.0",
+            "version": "6.0.6",
+            "version_normalized": "6.0.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/voku/portable-utf8.git",
-                "reference": "6c764c2c4fcad451a0f6622260a4934cfea08aa4"
+                "reference": "51f9b0837c8428ed1413ff84d103b2c4700f2e26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/voku/portable-utf8/zipball/6c764c2c4fcad451a0f6622260a4934cfea08aa4",
-                "reference": "6c764c2c4fcad451a0f6622260a4934cfea08aa4",
+                "url": "https://api.github.com/repos/voku/portable-utf8/zipball/51f9b0837c8428ed1413ff84d103b2c4700f2e26",
+                "reference": "51f9b0837c8428ed1413ff84d103b2c4700f2e26",
                 "shasum": ""
             },
             "require": {
@@ -1435,7 +1435,11 @@
                 "voku/portable-ascii": "~2.0.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~6.0 || ~7.0 || ~9.0"
+                "phpstan/phpstan": "1.8.*@dev",
+                "phpstan/phpstan-strict-rules": "1.4.*@dev",
+                "phpunit/phpunit": "~6.0 || ~7.0 || ~9.0",
+                "thecodingmachine/phpstan-strict-rules": "1.0.*@dev",
+                "voku/phpstan-rules": "3.1.*@dev"
             },
             "suggest": {
                 "ext-ctype": "Use Ctype for e.g. hexadecimal digit detection",
@@ -1445,7 +1449,7 @@
                 "ext-json": "Use JSON for string detection",
                 "ext-mbstring": "Use Mbstring for best performance"
             },
-            "time": "2022-08-10T12:32:31+00:00",
+            "time": "2022-08-31T07:42:29+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1486,7 +1490,7 @@
             ],
             "support": {
                 "issues": "https://github.com/voku/portable-utf8/issues",
-                "source": "https://github.com/voku/portable-utf8/tree/6.0.5"
+                "source": "https://github.com/voku/portable-utf8/tree/6.0.6"
             },
             "funding": [
                 {

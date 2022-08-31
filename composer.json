@@ -55,7 +55,7 @@
         "symfony/yaml": "v5.4.12",
         "voku/anti-xss": "4.1.39",
         "voku/portable-ascii": "2.0.1",
-        "voku/portable-utf8": "6.0.5"
+        "voku/portable-utf8": "6.0.6"
     },
     "autoload": {
         "classmap": [
