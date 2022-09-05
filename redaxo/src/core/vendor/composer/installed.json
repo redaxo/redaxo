@@ -1412,17 +1412,17 @@
         },
         {
             "name": "voku/portable-utf8",
-            "version": "6.0.6",
-            "version_normalized": "6.0.6.0",
+            "version": "6.0.9",
+            "version_normalized": "6.0.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/voku/portable-utf8.git",
-                "reference": "51f9b0837c8428ed1413ff84d103b2c4700f2e26"
+                "reference": "eb2861c34203a9c2a7c275cba7014d6816604e89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/voku/portable-utf8/zipball/51f9b0837c8428ed1413ff84d103b2c4700f2e26",
-                "reference": "51f9b0837c8428ed1413ff84d103b2c4700f2e26",
+                "url": "https://api.github.com/repos/voku/portable-utf8/zipball/eb2861c34203a9c2a7c275cba7014d6816604e89",
+                "reference": "eb2861c34203a9c2a7c275cba7014d6816604e89",
                 "shasum": ""
             },
             "require": {
@@ -1449,7 +1449,7 @@
                 "ext-json": "Use JSON for string detection",
                 "ext-mbstring": "Use Mbstring for best performance"
             },
-            "time": "2022-08-31T07:42:29+00:00",
+            "time": "2022-09-01T09:54:03+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1490,7 +1490,7 @@
             ],
             "support": {
                 "issues": "https://github.com/voku/portable-utf8/issues",
-                "source": "https://github.com/voku/portable-utf8/tree/6.0.6"
+                "source": "https://github.com/voku/portable-utf8/tree/6.0.9"
             },
             "funding": [
                 {

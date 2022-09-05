@@ -661,6 +661,16 @@ parameters:
 			path: ../../redaxo/src/addons/mediapool/lib/media.php
 
 		-
+			message: "#^Parameter \\#2 \\$createCallback of static method rex_media\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: static\\(rex_media\\)\\|null\\)\\|null, Closure\\(mixed\\)\\: static\\(rex_media\\)\\|null given\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/mediapool/lib/media.php
+
+		-
+			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_media\\:\\:getInstanceList\\(\\) expects callable\\(\\.\\.\\.mixed\\)\\: static\\(rex_media\\)\\|null, callable\\(string\\)\\: static\\(rex_media\\) given\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/mediapool/lib/media.php
+
+		-
 			message: "#^Property rex_media\\:\\:\\$category_id has no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/lib/media.php
@@ -738,6 +748,26 @@ parameters:
 		-
 			message: "#^Method rex_media_category\\:\\:addInstanceList\\(\\) has parameter \\$instanceKeyList with no value type specified in iterable type array\\.$#"
 			count: 1
+			path: ../../redaxo/src/addons/mediapool/lib/media_category.php
+
+		-
+			message: "#^Parameter \\#2 \\$createCallback of static method rex_media_category\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: static\\(rex_media_category\\)\\|null\\)\\|null, Closure\\(mixed\\)\\: static\\(rex_media_category\\)\\|null given\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/mediapool/lib/media_category.php
+
+		-
+			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_media_category\\:\\:getInstanceList\\(\\) expects callable\\(\\.\\.\\.mixed\\)\\: rex_media_category\\|null, array\\{'rex_media_category', 'get'\\} given\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/mediapool/lib/media_category.php
+
+		-
+			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_media_category\\:\\:getInstanceList\\(\\) expects callable\\(\\.\\.\\.mixed\\)\\: rex_media\\|null, array\\{'rex_media', 'get'\\} given\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/mediapool/lib/media_category.php
+
+		-
+			message: "#^Parameter \\#3 \\$createListCallback of static method rex_media_category\\:\\:getInstanceList\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: array\\)\\|null, Closure\\(mixed\\)\\: array given\\.$#"
+			count: 2
 			path: ../../redaxo/src/addons/mediapool/lib/media_category.php
 
 		-
@@ -1922,6 +1952,11 @@ parameters:
 
 		-
 			message: "#^Parameter \\#2 \\$createCallback of static method rex_structure_element\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: static\\(rex_structure_element\\)\\|null\\)\\|null, Closure\\(mixed, mixed\\)\\: static\\(rex_structure_element\\)\\|null given\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/structure/lib/structure_element.php
+
+		-
+			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_structure_element\\:\\:getInstanceList\\(\\) expects callable\\(\\.\\.\\.mixed\\)\\: static\\(rex_structure_element\\)\\|null, Closure\\(mixed\\)\\: static\\(rex_structure_element\\)\\|null given\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/lib/structure_element.php
 
@@ -3316,6 +3351,11 @@ parameters:
 			path: ../../redaxo/src/core/lib/login/user.php
 
 		-
+			message: "#^Parameter \\#2 \\$createCallback of static method rex_user\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: static\\(rex_user\\)\\|null\\)\\|null, Closure\\(int\\)\\: static\\(rex_user\\)\\|null given\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/login/user.php
+
+		-
 			message: "#^Static property rex_user\\:\\:\\$instances \\(array\\<class\\-string, array\\<string, static\\(rex_user\\)\\|null\\>\\>\\) does not accept array\\<class\\-string, array\\<string, rex_user\\|null\\>\\>\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/login/user.php
@@ -4216,6 +4256,16 @@ parameters:
 			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
 
 		-
+			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects callable\\(\\.\\.\\.mixed\\)\\: rex_test_instance_list_pool\\|null, array\\{'rex_test_instance_list_pool', 'get'\\} given\\.$#"
+			count: 4
+			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
+
+		-
+			message: "#^Parameter \\#3 \\$createListCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: array\\)\\|null, Closure\\(mixed\\)\\: array\\{1, 2\\} given\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
+
+		-
 			message: "#^Parameter \\#3 \\$createListCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: array\\)\\|null, Closure\\(mixed, mixed\\)\\: array\\{\\} given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
@@ -4236,7 +4286,17 @@ parameters:
 			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
 
 		-
+			message: "#^Parameter \\#2 \\$createCallback of static method rex_test_instance_pool_base\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: rex_test_instance_pool_1\\|null\\)\\|null, Closure\\(mixed\\)\\: rex_test_instance_pool_1 given\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/tests/base/instance_pool_trait_test.php
+
+		-
 			message: "#^Parameter \\#2 \\$createCallback of static method rex_test_instance_pool_base\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: rex_test_instance_pool_1\\|null\\)\\|null, Closure\\(mixed, mixed\\)\\: void given\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/tests/base/instance_pool_trait_test.php
+
+		-
+			message: "#^Parameter \\#2 \\$createCallback of static method rex_test_instance_pool_base\\:\\:getInstance\\(\\) expects \\(callable\\(\\.\\.\\.mixed\\)\\: rex_test_instance_pool_2\\|null\\)\\|null, Closure\\(mixed\\)\\: rex_test_instance_pool_2 given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/base/instance_pool_trait_test.php
 
