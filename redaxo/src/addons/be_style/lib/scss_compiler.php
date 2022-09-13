@@ -1,6 +1,7 @@
 <?php
 
 use ScssPhp\ScssPhp\Compiler;
+use ScssPhp\ScssPhp\Formatter;
 use ScssPhp\ScssPhp\Formatter\Compressed;
 
 /**
@@ -8,9 +9,13 @@ use ScssPhp\ScssPhp\Formatter\Compressed;
  */
 class rex_scss_compiler
 {
+    /** @var string */
     protected $root_dir;
+    /** @var string|list<string> */
     protected $scss_file;
+    /** @var string */
     protected $css_file;
+    /** @var class-string<Formatter> */
     protected $formatter;
 
     public function __construct()
@@ -21,29 +26,45 @@ class rex_scss_compiler
         $this->formatter = Compressed::class;
     }
 
+    /**
+     * @param string $value
+     * @return void
+     */
     public function setRootDir($value)
     {
         $this->root_dir = $value;
     }
 
+    /**
+     * @param string|list<string> $value
+     * @return void
+     */
     public function setScssFile($value)
     {
         $this->scss_file = $value;
     }
 
+    /**
+     * @param string $value
+     * @return void
+     */
     public function setCssFile($value)
     {
         $this->css_file = $value;
     }
 
     /**
-     * @param string $value scss_formatter (default) or scss_formatter_nested or scss_formatter_compressed
+     * @param class-string<Formatter> $value scss_formatter (default) or scss_formatter_nested or scss_formatter_compressed
+     * @return void
      */
     public function setFormatter($value)
     {
         $this->formatter = $value;
     }
 
+    /**
+     * @return void
+     */
     public function compile()
     {
         // go on even if user "stops" the script by closing the browser, closing the terminal etc.
@@ -100,7 +121,7 @@ class rex_scss_compiler
         } catch (Exception $e) {
             // here we could put the exception message, but who cares ...
             echo $e->getMessage();
-            exit();
+            exit(1);
         }
     }
 }

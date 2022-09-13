@@ -47,7 +47,7 @@ class rex_setup_importer
         $importName = rex_path::basename($importName);
 
         if ('' == $importName) {
-            $errMsg .= '<p>' . rex_i18n::msg('setup_508') . '</p>';
+            $errMsg .= '<p>' . rex_i18n::msg('setup_408') . '</p>';
         } else {
             $importSql = rex_backup::getDir() . '/' . $importName . '.sql';
             $importArchiv = rex_backup::getDir() . '/' . $importName . '.tar.gz';
@@ -67,6 +67,9 @@ class rex_setup_importer
         return $errMsg;
     }
 
+    /**
+     * @return string
+     */
     public static function databaseAlreadyExists()
     {
         // ----- db schon vorhanden, nichts tun
@@ -133,7 +136,7 @@ class rex_setup_importer
         $existingTables = rex_sql::factory()->getTables(rex::getTablePrefix());
 
         foreach (array_diff(self::getRequiredTables(), $existingTables) as $missingTable) {
-            $errMsg .= rex_i18n::msg('setup_502', $missingTable) . '<br />';
+            $errMsg .= rex_i18n::msg('setup_402', $missingTable) . '<br />';
         }
         return $errMsg;
     }
@@ -174,7 +177,7 @@ class rex_setup_importer
         $errMsg = '';
 
         if (!is_dir(rex_path::addon('backup'))) {
-            $errMsg .= rex_i18n::msg('setup_510') . '<br />';
+            $errMsg .= rex_i18n::msg('setup_410') . '<br />';
         } else {
             if (is_file($importSql)) {
                 rex_i18n::addDirectory(rex_path::addon('backup', 'lang/'));
@@ -193,7 +196,7 @@ class rex_setup_importer
                     }
                 }
             } else {
-                $errMsg .= rex_i18n::msg('setup_509') . '<br />';
+                $errMsg .= rex_i18n::msg('setup_409') . '<br />';
             }
         }
 
@@ -248,7 +251,7 @@ class rex_setup_importer
         if ('' != $addonErr) {
             $addonErr = '<ul class="rex-ul1">
             <li>
-            <h3 class="rex-hl3">' . rex_i18n::msg('setup_513') . '</h3>
+            <h3 class="rex-hl3">' . rex_i18n::msg('setup_413') . '</h3>
             <ul>' . $addonErr . '</ul>
             </li>
             </ul>';
@@ -286,7 +289,7 @@ class rex_setup_importer
         if ($error) {
             $error = '<ul class="rex-ul1">
             <li>
-            <h3 class="rex-hl3">' . rex_i18n::msg('setup_513') . '</h3>
+            <h3 class="rex-hl3">' . rex_i18n::msg('setup_413') . '</h3>
             <ul>' . $error . '</ul>
             </li>
             </ul>';

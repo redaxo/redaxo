@@ -5,9 +5,7 @@
  */
 abstract class rex_effect_abstract
 {
-    /**
-     * @var rex_managed_media
-     */
+    /** @var rex_managed_media */
     public $media;
 
     /**
@@ -21,6 +19,9 @@ abstract class rex_effect_abstract
     {
     }
 
+    /**
+     * @return void
+     */
     public function setMedia(rex_managed_media $media)
     {
         $this->media = $media;
@@ -28,12 +29,16 @@ abstract class rex_effect_abstract
 
     /**
      * @param array<string, mixed> $params
+     * @return void
      */
     public function setParams(array $params)
     {
         $this->params = $params;
     }
 
+    /**
+     * @return void
+     */
     abstract public function execute();
 
     /**
@@ -69,6 +74,7 @@ abstract class rex_effect_abstract
 
     /**
      * @param resource $gdImage
+     * @return void
      */
     protected function keepTransparent($gdImage)
     {

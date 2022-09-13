@@ -2,8 +2,6 @@
 
 /**
  * Layout Kopf des Backends.
- *
- * @package redaxo5
  */
 
 $curPage = rex_be_controller::getCurrentPageObject();
@@ -162,7 +160,7 @@ if ('setup' == rex_be_controller::getCurrentPagePart(1)) {
     $context = rex_setup::getContext();
 
     $navi = [];
-    $end = $lang ? 7 : 1;
+    $end = $lang ? 6 : 1;
     for ($i = 1; $i <= $end; ++$i) {
         $n = [];
         if (!$step || $i == $step) {
@@ -182,13 +180,10 @@ if ('setup' == rex_be_controller::getCurrentPagePart(1)) {
             $n['itemAttr']['class'][] = 'disabled';
         }
 
-        $name = '';
         if (isset($n['href']) && '' != $lang) {
             $name = rex_i18n::msg('setup_' . $i . '99');
-        } elseif ('' != $lang) {
+        } else {
             $name = '<span>' . rex_i18n::msg('setup_' . $i . '99') . '</span>';
-        } elseif (1 == $i) {
-            $name = '<span>Step 1 / Language</span>';
         }
 
         $n['title'] = $name;

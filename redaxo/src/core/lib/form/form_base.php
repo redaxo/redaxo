@@ -14,6 +14,9 @@ abstract class rex_form_base
     /** @var string */
     protected $fieldset;
 
+    /** @var array<string, array<string, int|string|list<string>>> */
+    private $fieldsetAttributes = [];
+
     /** @var array<string, list<rex_form_element>> */
     protected $elements;
 
@@ -38,6 +41,9 @@ abstract class rex_form_base
     /** @var null|string */
     protected $formId;
 
+    /** @var array<string, string> */
+    private $formAttributes;
+
     /** @var rex_csrf_token */
     private $csrfToken;
 
@@ -59,6 +65,7 @@ abstract class rex_form_base
         $this->method = $method;
         $this->elements = [];
         $this->params = [];
+        $this->formAttributes = [];
         $this->addFieldset($fieldset ?: $this->name);
         $this->setMessage('');
 
@@ -69,6 +76,7 @@ abstract class rex_form_base
 
     /**
      * Initialisiert das Formular.
+     * @return void
      */
     public function init()
     {
@@ -77,6 +85,7 @@ abstract class rex_form_base
 
     /**
      * Laedt die Konfiguration die noetig ist um rex_form im REDAXO Backend zu verwenden.
+     * @return void
      */
     protected function loadBackendConfig()
     {
@@ -85,6 +94,7 @@ abstract class rex_form_base
 
     /**
      * @param string|null $id
+     * @return void
      */
     public function setFormId($id)
     {
@@ -113,10 +123,13 @@ abstract class rex_form_base
      * Dieses dient dazu ein Formular in mehrere Abschnitte zu gliedern.
      *
      * @param string $fieldset
+     * @param array<string, int|string|list<string>> $attributes
+     * @return void
      */
-    public function addFieldset($fieldset)
+    public function addFieldset($fieldset, array $attributes = [])
     {
         $this->fieldset = $fieldset;
+        $this->fieldsetAttributes[$fieldset] = $attributes;
     }
 
     // --------- Fields
@@ -454,6 +467,7 @@ abstract class rex_form_base
      *
      * @param int $errorCode
      * @param string $errorMessage
+     * @return void
      */
     public function addErrorMessage($errorCode, $errorMessage)
     {
@@ -466,6 +480,7 @@ abstract class rex_form_base
      *
      * @param string          $name
      * @param string|int|bool $value
+     * @return void
      */
     public function addParam($name, $value)
     {
@@ -559,10 +574,11 @@ abstract class rex_form_base
 
         // Eigentlichen Feldnamen nochmals speichern
         $fieldName = $name;
+        $fieldset = rex_string::normalize($this->fieldset);
         if (true === $attributes['internal::useArraySyntax']) {
-            $name = $this->fieldset . '[' . $name . ']';
+            $name = $fieldset . '[' . $name . ']';
         } elseif (false === $attributes['internal::useArraySyntax']) {
-            $name = $this->fieldset . '_' . $name;
+            $name = $fieldset . '_' . $name;
         }
         unset($attributes['internal::useArraySyntax']);
 
@@ -614,6 +630,7 @@ abstract class rex_form_base
      * Setzt die Url die bei der apply-action genutzt wird.
      *
      * @param string|array $url
+     * @return void
      */
     public function setApplyUrl($url)
     {
@@ -933,7 +950,8 @@ abstract class rex_form_base
             return null;
         }
 
-        $normalizedName = rex_string::normalize($fieldsetName . '[' . $elementName . ']', '_', '[]');
+        $normalizedName = rex_string::normalize($fieldsetName);
+        $normalizedName .= '['.rex_string::normalize($elementName).']';
 
         for ($i = 0; $i < count($this->elements[$fieldsetName]); ++$i) {
             if ($this->elements[$fieldsetName][$i]->getAttribute('name') == $normalizedName) {
@@ -954,6 +972,7 @@ abstract class rex_form_base
 
     /**
      * @param string|null $warning
+     * @return void
      */
     public function setWarning($warning)
     {
@@ -976,6 +995,7 @@ abstract class rex_form_base
 
     /**
      * @param string|null $message
+     * @return void
      */
     public function setMessage($message)
     {
@@ -994,6 +1014,33 @@ abstract class rex_form_base
             $message .= "\n" . $this->message;
         }
         return $message;
+    }
+
+    public function setFormAttribute(string $attributeName, ?string $attributeValue): void
+    {
+        $attributeName = preg_replace('/[^\w\d\-]/', '', strtolower($attributeName));
+
+        if ('' === $attributeName) {
+            throw new rex_exception('The attribute name cannot be empty.');
+        }
+
+        if (null === $attributeValue) {
+            if (array_key_exists($attributeName, $this->formAttributes)) {
+                unset($this->formAttributes[$attributeName]);
+            }
+            return;
+        }
+
+        if ('id' === $attributeName) {
+            $this->setFormId($attributeValue);
+            return;
+        }
+
+        if (in_array($attributeName, ['method', 'action'], true)) {
+            throw new rex_exception(sprintf('Attribute "%s" can not be set via %s.', $attributeName, __FUNCTION__));
+        }
+
+        $this->formAttributes[$attributeName] = $attributeValue;
     }
 
     /**
@@ -1017,15 +1064,7 @@ abstract class rex_form_base
      */
     public function fieldsetPostValues($fieldsetName)
     {
-        // Name normalisieren, da der gepostete Name auch zuvor normalisiert wurde.
-        // Da der Feldname als Ganzes normalisiert wurde, hier Array mit angehängtem '[' simulieren
-        // um das Trimmen von möglichen "_" am Ende durch die normalize-Methode zu vermeiden.
-        // Anschließend "[" wieder entfernen.
-        // https://github.com/redaxo/redaxo/issues/2710
-        $normalizedFieldsetName = rex_string::normalize($fieldsetName.'[', '_', '[]');
-        $normalizedFieldsetName = substr($normalizedFieldsetName, 0, -1);
-
-        return rex_post($normalizedFieldsetName, 'array');
+        return rex_post(rex_string::normalize($fieldsetName), 'array');
     }
 
     /**
@@ -1040,7 +1079,7 @@ abstract class rex_form_base
         $fields = $this->fieldsetPostValues($fieldsetName);
 
         // name attributes are normalized
-        $normalizedFieldName = rex_string::normalize($fieldName, '_', '[]');
+        $normalizedFieldName = rex_string::normalize($fieldName);
 
         if (isset($fields[$normalizedFieldName])) {
             return $fields[$normalizedFieldName];
@@ -1087,6 +1126,7 @@ abstract class rex_form_base
 
     /**
      * Übernimmt die POST-Werte in die FormElemente.
+     * @return void
      */
     protected function processPostValues()
     {
@@ -1240,9 +1280,15 @@ abstract class rex_form_base
             $id = ' id="'.rex_escape($this->formId).'"';
         }
 
-        $s .= '<form' . $id . ' action="' . rex_url::backendController($actionParams) . '" method="' . $this->method . '">' . "\n";
+        $s .= sprintf('<form %s %s action="%s" method="%s">' . "\n",
+            $id,
+            rex_string::buildAttributes($this->formAttributes),
+            rex_url::backendController($actionParams),
+            $this->method
+        );
         foreach ($fieldsets as $fieldsetName => $fieldsetElements) {
-            $s .= '<fieldset>' . "\n";
+            $attributes = $this->fieldsetAttributes[$fieldsetName] ?? [];
+            $s .= '<fieldset '.rex_string::buildAttributes($attributes).'>' . "\n";
 
             if ('' != $fieldsetName && $fieldsetName != $this->name) {
                 $s .= '<legend>' . rex_escape($fieldsetName) . '</legend>' . "\n";
@@ -1285,6 +1331,9 @@ abstract class rex_form_base
         return $s;
     }
 
+    /**
+     * @return void
+     */
     public function show()
     {
         echo $this->get();

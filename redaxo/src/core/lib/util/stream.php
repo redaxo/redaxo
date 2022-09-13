@@ -32,6 +32,12 @@ class rex_stream
     private $content = '';
 
     /**
+     * @var resource|null
+     * @see https://www.php.net/manual/en/class.streamwrapper.php#streamwrapper.props.context
+     */
+    public $context;
+
+    /**
      * Prepares a new stream.
      *
      * @param string $path    Virtual path which should describe the content (e.g. "template/1"), only relevant for error messages
@@ -161,6 +167,7 @@ class rex_stream
 
     /**
      * @see http://www.php.net/manual/en/streamwrapper.stream-stat.php
+     * @return null
      */
     public function stream_stat()
     {
@@ -169,6 +176,7 @@ class rex_stream
 
     /**
      * @see http://www.php.net/manual/en/streamwrapper.url-stat.php
+     * @return null
      */
     public function url_stat()
     {

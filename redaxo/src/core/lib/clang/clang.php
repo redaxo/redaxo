@@ -10,38 +10,22 @@
 #[AllowDynamicProperties]
 class rex_clang
 {
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private static $cacheLoaded = false;
-    /**
-     * @var self[]
-     */
+    /** @var self[] */
     private static $clangs = [];
-    /**
-     * @var int|null
-     */
+    /** @var int|null */
     private static $currentId;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     private $id;
-    /**
-     * @var string
-     */
+    /** @var string */
     private $code;
-    /**
-     * @var string
-     */
+    /** @var string */
     private $name;
-    /**
-     * @var int
-     */
+    /** @var int */
     private $priority;
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private $status;
 
     private function __construct()
@@ -121,6 +105,7 @@ class rex_clang
      * @param int $id Clang id
      *
      * @throws rex_exception
+     * @return void
      */
     public static function setCurrentId($id)
     {
@@ -260,6 +245,7 @@ class rex_clang
 
     /**
      * Loads the cache if not already loaded.
+     * @return void
      */
     private static function checkCache()
     {
@@ -292,6 +278,7 @@ class rex_clang
 
     /**
      * Resets the intern cache of this class.
+     * @return void
      */
     public static function reset()
     {

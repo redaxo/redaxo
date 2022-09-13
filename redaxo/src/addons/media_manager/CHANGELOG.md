@@ -1,6 +1,35 @@
 Changelog
 =========
 
+Version 2.13.0 – 25.07.2022
+---------------------------
+
+### Neu
+
+* Cache-Order für generierte Bilder kann per `rex_media_manager::setCacheDirectory` geändert werden (@gharlan)
+
+### Bugfixes
+
+* `rex_managed_media::getMediaFilename` lieferte uneinheitliche Ergebnisse, nun einheitlich den neuen Dateinamen (@gharlan)
+
+
+Version 2.12.3 – 09.05.2022
+---------------------------
+
+### Bugfixes
+
+* Effekt `image_format`: Bei `.jpg`-Dateien (nicht `.jpeg`) war die neue Extension im Header nicht korrekt (@gharlan)
+
+
+Version 2.12.2 – 03.05.2022
+---------------------------
+
+### Bugfixes
+
+* Effekt `image_format`: Bei `.jpeg`-Dateien (nicht `.jpg`) war die neue Extension im Header nicht korrekt (@gharlan)
+* Beim Löschen von Medien wurde deren Verwendung im Media Manager (z.B. als Wasserzeichen) nicht geprüft (@TobiasKrais)
+
+
 Version 2.12.1 – 29.11.2021
 ---------------------------
 

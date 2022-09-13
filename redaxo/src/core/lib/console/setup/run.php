@@ -20,6 +20,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
     /** @var InputInterface */
     private $input;
 
+    /** @var bool */
     private $forceAsking = false;
 
     protected function configure()
@@ -27,7 +28,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         $this
             ->setDescription('Perform redaxo setup')
             ->addOption('lang', null, InputOption::VALUE_REQUIRED, 'System language e.g. "de_de" or "en_gb"')
-            ->addOption('agree-license', null, InputOption::VALUE_NONE, 'Accept license terms and conditions')
+            ->addOption('agree-license', null, InputOption::VALUE_NONE, 'Accept license terms and conditions') // BC, not used anymore
             ->addOption('server', null, InputOption::VALUE_REQUIRED, 'Website URL e.g. "https://example.org/"')
             ->addOption('servername', null, InputOption::VALUE_REQUIRED, 'Website name')
             ->addOption('error-email', null, InputOption::VALUE_REQUIRED, 'Error mail address e.g. "info@example.org"')
@@ -66,7 +67,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         };
 
         // ---------------------------------- Step 1 . Language
-        $io->title('Step 1 of 6 / Language');
+        $io->title('Step 1 of 5 / Language');
         $langs = [];
         foreach (rex_i18n::getLocales() as $locale) {
             $langs[$locale] = rex_i18n::msgInLocale('lang', $locale);
@@ -74,7 +75,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         ksort($langs);
 
         $config['lang'] = $this->getOptionOrAsk(
-            new ChoiceQuestion('Please select a language', $langs),
+            new ChoiceQuestion('Please select a language', $langs, $config['lang'] ?? null),
             'lang',
             null,
             'Language "%s" selected.',
@@ -86,35 +87,17 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             }
         );
 
-        // ---------------------------------- Step 2 . license
-        $io->title('Step 2 of 6 / License');
+        // ---------------------------------- Step 2 . Perms, Environment
+        $io->title('Step 2 of 5 / System check');
 
-        if (false === $input->getOption('agree-license')) {
-            if (!$this->input->isInteractive()) {
-                $io->error('You need to accept license terms and conditions');
-                return 1;
-            }
-
-            $licenseFile = rex_path::base('LICENSE.md');
-            $license = rex_file::require($licenseFile);
-            $io->writeln($license);
-            if (!$io->confirm('Accept license terms and conditions?', false)) {
-                $io->error('You need to accept license terms and conditions');
-                return 1;
-            }
-        } else {
-            $io->success('You accepted license terms and conditions');
-        }
-
-        // ---------------------------------- Step 3 . Perms, Environment
-        $io->title('Step 3 of 6 / System check');
+        $io->warning('The checks are executed only in the cli environment and do not guarantee correctness in the web server environment.');
 
         if (0 !== $code = $this->performSystemcheck()) {
             return $code;
         }
 
-        // ---------------------------------- step 4 . Config
-        $io->title('Step 4 of 6 / Creating config');
+        // ---------------------------------- step 3 . Config
+        $io->title('Step 3 of 5 / Creating config');
 
         $io->section('General');
 
@@ -142,8 +125,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             $requiredValue
         );
 
-        $timezones = DateTimeZone::listIdentifiers();
-        assert(is_array($timezones));
+        $timezones = rex_type::array(DateTimeZone::listIdentifiers());
 
         $q = new Question('Choose timezone', $config['timezone']);
         $q->setAutocompleterValues($timezones);
@@ -246,8 +228,8 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
         $io->success('Database connection successfully established');
 
-        // ---------------------------------- step 5 . create db / demo
-        $io->title('Step 5 of 6 / Database');
+        // ---------------------------------- step 4 . create db / demo
+        $io->title('Step 4 of 5 / Database');
 
         $sql = rex_sql::factory();
         $dbEol = rex_setup::checkDbSecurity();
@@ -318,7 +300,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             $io->success('Database successfully updated');
         } elseif ('import' == $createdb) {
             $importName = $input->getOption('db-import') ?? $io->askQuestion(new ChoiceQuestion('Please choose a database export', $backups));
-            assert(is_string($importName));
+            $importName = rex_type::string($importName);
             if (!in_array($importName, $backups, true)) {
                 throw new InvalidArgumentException('Unknown import file "'.$importName.'" specified');
             }
@@ -357,8 +339,8 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         rex_clang_service::generateCache();
         rex::setConfig('version', rex::getVersion());
 
-        // ---------------------------------- Step 6 . Create User
-        $io->title('Step 6 of 6 / User');
+        // ---------------------------------- Step 5 . Create User
+        $io->title('Step 5 of 5 / User');
 
         $user = rex_sql::factory();
         $user
@@ -519,8 +501,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 return $default;
             }
             if ($successMessage) {
-                assert(is_string($optionValue));
-                $this->io->success(sprintf($successMessage, $optionValue));
+                $this->io->success(sprintf($successMessage, rex_type::string($optionValue)));
             }
             return $optionValue;
         }
@@ -528,8 +509,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         if (!$this->input->isInteractive()) {
             if (null !== $default) {
                 if ($successMessage) {
-                    assert(is_string($default));
-                    $this->io->success(sprintf($successMessage, $default));
+                    $this->io->success(sprintf($successMessage, rex_type::string($default)));
                 }
                 return $default;
             }
@@ -540,8 +520,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             return $this->io->askQuestion($question);
         }
 
-        assert(null === $default || is_string($default));
-        return $this->io->ask($question, $default, $validator);
+        return $this->io->ask($question, rex_type::nullOrString($default), $validator);
     }
 
     private function performSystemcheck(): int

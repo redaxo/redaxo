@@ -4,8 +4,6 @@
  * Cronjob Addon.
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
- *
- * @package redaxo5
  */
 
 $addon = rex_addon::get('cronjob');
@@ -153,42 +151,29 @@ if ('' == $func) {
     $field = $form->addTextAreaField('description');
     $field->setLabel($addon->i18n('description'));
 
-    $field = $form->addSelectField('environment');
-    $field->setAttribute('class', 'form-control selectpicker');
+    $field = $form->addCheckboxField('environment');
     $field->setLabel($addon->i18n('environment'));
     $field->setNotice($addon->i18n('environment_notice', rex_path::bin('console').' cronjob:run'));
     $field->getValidator()->add('notEmpty', $addon->i18n('cronjob_error_no_environment'));
-    $field->setAttribute('multiple', 'multiple');
     $envFieldId = rex_escape($field->getAttribute('id'), 'js');
-    $select = $field->getSelect();
-    $select->setSize(3);
-    $select->addOption($addon->i18n('environment_frontend'), 'frontend');
-    $select->addOption($addon->i18n('environment_backend'), 'backend');
-    $select->addOption($addon->i18n('environment_script'), 'script');
-    if ('add' == $func) {
-        $select->setSelected([0, 1]);
-    }
+    $field->addOption($addon->i18n('environment_frontend'), 'frontend');
+    $field->addOption($addon->i18n('environment_backend'), 'backend');
+    $field->addOption($addon->i18n('environment_script'), 'script');
 
-    $field = $form->addSelectField('execution_moment');
-    $field->setAttribute('class', 'form-control selectpicker');
+    $field = $form->addRadioField('execution_moment');
     $field->setLabel($addon->i18n('execution'));
-    $select = $field->getSelect();
-    $select->setSize(1);
-    $select->addOption($addon->i18n('execution_beginning'), 1);
-    $select->addOption($addon->i18n('execution_ending'), 0);
+    $field->addOption($addon->i18n('execution_beginning'), 1);
+    $field->addOption($addon->i18n('execution_ending'), 0);
     if ('add' == $func) {
-        $select->setSelected(0);
+        $field->setValue(0);
     }
 
-    $field = $form->addSelectField('status');
-    $field->setAttribute('class', 'form-control selectpicker');
+    $field = $form->addRadioField('status');
     $field->setLabel($addon->i18n('status'));
-    $select = $field->getSelect();
-    $select->setSize(1);
-    $select->addOption($addon->i18n('status_activated'), 1);
-    $select->addOption($addon->i18n('status_deactivated'), 0);
+    $field->addOption($addon->i18n('status_activated'), 1);
+    $field->addOption($addon->i18n('status_deactivated'), 0);
     if ('add' == $func) {
-        $select->setSelected(1);
+        $field->setValue(1);
     }
 
     $field = $form->addSelectField('type');
@@ -249,7 +234,7 @@ if ('' == $func) {
         if (count($disabled) > 0) {
             $envJs .= '
                 if ($("#' . $typeFieldId . ' option:selected").val() == "' . rex_escape($group, 'js') . '")
-                    $("#' . $envFieldId . ' option[value=\'' . implode('\'], #' . $envFieldId . ' option[value=\'', $disabled) . '\']").prop("disabled","disabled").prop("selected","");
+                    $("#' . $envFieldId . '-' . implode(', #' . $envFieldId . '-', $disabled) . '").prop("disabled","disabled").prop("checked",false);
 ';
         }
 

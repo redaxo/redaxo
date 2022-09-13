@@ -2,8 +2,6 @@
 
 /**
  * Functions.
- *
- * @package redaxo5
  */
 
 /**

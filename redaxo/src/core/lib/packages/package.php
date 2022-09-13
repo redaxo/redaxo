@@ -17,6 +17,8 @@ abstract class rex_package implements rex_package_interface
     public const FILE_UNINSTALL_SQL = 'uninstall.sql';
     public const FILE_UPDATE = 'update.php';
 
+    private const PROPERTIES_CACHE_FILE = 'packages.cache';
+
     /**
      * Name of the package.
      *
@@ -39,8 +41,6 @@ abstract class rex_package implements rex_package_interface
     private $propertiesLoaded = false;
 
     /**
-     * Constructor.
-     *
      * @param string $name Name
      */
     public function __construct($name)
@@ -126,49 +126,31 @@ abstract class rex_package implements rex_package_interface
      */
     abstract public function getPackageId();
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName()
     {
         return $this->name;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setConfig($key, $value = null)
     {
         return rex_config::set($this->getPackageId(), $key, $value);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getConfig($key = null, $default = null)
     {
         return rex_config::get($this->getPackageId(), $key, $default);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function hasConfig($key = null)
     {
         return rex_config::has($this->getPackageId(), $key);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function removeConfig($key)
     {
         return rex_config::remove($this->getPackageId(), $key);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setProperty($key, $value)
     {
         if (!is_string($key)) {
@@ -177,9 +159,6 @@ abstract class rex_package implements rex_package_interface
         $this->properties[$key] = $value;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getProperty($key, $default = null)
     {
         if ($this->hasProperty($key)) {
@@ -188,9 +167,6 @@ abstract class rex_package implements rex_package_interface
         return $default;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function hasProperty($key)
     {
         if (!is_string($key)) {
@@ -202,9 +178,6 @@ abstract class rex_package implements rex_package_interface
         return isset($this->properties[$key]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function removeProperty($key)
     {
         if (!is_string($key)) {
@@ -213,25 +186,16 @@ abstract class rex_package implements rex_package_interface
         unset($this->properties[$key]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isAvailable()
     {
         return $this->isInstalled() && (bool) $this->getProperty('status', false);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isInstalled()
     {
         return (bool) $this->getProperty('install', false);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAuthor($default = null)
     {
         $author = (string) $this->getProperty('author', '');
@@ -239,9 +203,6 @@ abstract class rex_package implements rex_package_interface
         return '' === $author ? $default : $author;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getVersion($format = null)
     {
         $version = (string) $this->getProperty('version');
@@ -252,9 +213,6 @@ abstract class rex_package implements rex_package_interface
         return $version;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getSupportPage($default = null)
     {
         $supportPage = (string) $this->getProperty('supportpage', '');
@@ -262,35 +220,29 @@ abstract class rex_package implements rex_package_interface
         return '' === $supportPage ? $default : $supportPage;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @noRector
-     */
     public function includeFile($file, array $context = [])
     {
-        /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
         $__file = $file;
-        /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
         $__context = $context;
 
         unset($file, $context);
 
-        /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
         extract($__context, EXTR_SKIP);
 
-        /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
-        if (is_file($this->getPath($__file))) {
-            /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
-            return include $this->getPath($__file);
+        if (is_file($__path = $this->getPath($__file))) {
+            return require $__path;
         }
 
-        /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
-        return include $__file;
+        if (is_file($__file)) {
+            return require $__file;
+        }
+
+        throw new rex_exception(sprintf('Package "%s": the page path "%s" neither exists as standalone path nor as package subpath "%s"', $this->getPackageId(), $__file, $__path));
     }
 
     /**
      * Loads the properties of package.yml.
+     * @return void
      */
     public function loadProperties()
     {
@@ -302,7 +254,7 @@ abstract class rex_package implements rex_package_interface
 
         static $cache = null;
         if (null === $cache) {
-            $cache = rex_file::getCache(rex_path::coreCache('packages.cache'));
+            $cache = rex_file::getCache(rex_path::coreCache(self::PROPERTIES_CACHE_FILE));
         }
         $id = $this->getPackageId();
 
@@ -324,7 +276,7 @@ abstract class rex_package implements rex_package_interface
                                 unset($cache[$package]);
                             }
                         }
-                        rex_file::putCache(rex_path::coreCache('packages.cache'), $cache);
+                        rex_file::putCache(rex_path::coreCache(self::PROPERTIES_CACHE_FILE), $cache);
                     });
                 }
             } catch (rex_yaml_parse_exception $exception) {
@@ -356,22 +308,40 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     *  Clears the cache of the package.
+     * Clears the cache of the package.
      *
      * @throws rex_functional_exception
+     * @return void
      */
     public function clearCache()
     {
         $cacheDir = $this->getCachePath();
-        if (!is_dir($cacheDir)) {
-            return;
+        if (!rex_dir::delete($cacheDir)) {
+            throw new rex_functional_exception($this->i18n('cache_not_writable', $cacheDir));
         }
-        if (rex_dir::delete($cacheDir)) {
-            return;
+
+        $cache = rex_file::getCache($path = rex_path::coreCache(self::PROPERTIES_CACHE_FILE));
+        if ($cache) {
+            unset($cache[$this->getPackageId()]);
+
+            if ($this instanceof rex_addon) {
+                $start = $this->getPackageId().'/';
+                foreach ($cache as $packageId => $_) {
+                    if (str_starts_with((string) $packageId, $start)) {
+                        unset($cache[$packageId]);
+                    }
+                }
+            }
+
+            rex_file::putCache($path, $cache);
         }
-        throw new rex_functional_exception($this->i18n('cache_not_writable', $cacheDir));
+
+        rex_extension::registerPoint(new rex_extension_point_package_cache_deleted($this));
     }
 
+    /**
+     * @return void
+     */
     public function enlist()
     {
         $folder = $this->getPath();
@@ -409,6 +379,9 @@ abstract class rex_package implements rex_package_interface
         }
     }
 
+    /**
+     * @return void
+     */
     public function boot()
     {
         if (is_readable($this->getPath(self::FILE_BOOT))) {
@@ -419,7 +392,7 @@ abstract class rex_package implements rex_package_interface
     /**
      * Returns the registered packages.
      *
-     * @return self[]
+     * @return array<string, self>
      */
     public static function getRegisteredPackages()
     {
@@ -429,7 +402,7 @@ abstract class rex_package implements rex_package_interface
     /**
      * Returns the installed packages.
      *
-     * @return self[]
+     * @return array<string, self>
      */
     public static function getInstalledPackages()
     {
@@ -439,7 +412,7 @@ abstract class rex_package implements rex_package_interface
     /**
      * Returns the available packages.
      *
-     * @return self[]
+     * @return array<string, self>
      */
     public static function getAvailablePackages()
     {
@@ -449,7 +422,7 @@ abstract class rex_package implements rex_package_interface
     /**
      * Returns the setup packages.
      *
-     * @return self[]
+     * @return array<string, self>
      */
     public static function getSetupPackages()
     {
@@ -459,7 +432,7 @@ abstract class rex_package implements rex_package_interface
     /**
      * Returns the system packages.
      *
-     * @return self[]
+     * @return array<string, self>
      */
     public static function getSystemPackages()
     {
@@ -469,10 +442,10 @@ abstract class rex_package implements rex_package_interface
     /**
      * Returns the packages by the given method.
      *
-     * @param string $method       Method
-     * @param string $pluginMethod Optional other method for plugins
+     * @param string $method Method
+     * @param string|null $pluginMethod Optional other method for plugins
      *
-     * @return self[]
+     * @return array<string, self>
      */
     private static function getPackages($method, $pluginMethod = null)
     {
@@ -480,8 +453,10 @@ abstract class rex_package implements rex_package_interface
         $addonMethod = 'get' . $method . 'Addons';
         $pluginMethod = 'get' . ($pluginMethod ?: $method) . 'Plugins';
         foreach (rex_addon::$addonMethod() as $addon) {
+            assert($addon instanceof rex_addon);
             $packages[$addon->getPackageId()] = $addon;
             foreach ($addon->$pluginMethod() as $plugin) {
+                assert($plugin instanceof rex_plugin);
                 $packages[$plugin->getPackageId()] = $plugin;
             }
         }

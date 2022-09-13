@@ -72,7 +72,7 @@ class Response
     public const HTTP_PRECONDITION_REQUIRED = 428;                                       // RFC6585
     public const HTTP_TOO_MANY_REQUESTS = 429;                                           // RFC6585
     public const HTTP_REQUEST_HEADER_FIELDS_TOO_LARGE = 431;                             // RFC6585
-    public const HTTP_UNAVAILABLE_FOR_LEGAL_REASONS = 451;
+    public const HTTP_UNAVAILABLE_FOR_LEGAL_REASONS = 451;                               // RFC7725
     public const HTTP_INTERNAL_SERVER_ERROR = 500;
     public const HTTP_NOT_IMPLEMENTED = 501;
     public const HTTP_BAD_GATEWAY = 502;
@@ -138,7 +138,7 @@ class Response
      *
      * The list of codes is complete according to the
      * {@link https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml Hypertext Transfer Protocol (HTTP) Status Code Registry}
-     * (last updated 2018-09-21).
+     * (last updated 2021-10-01).
      *
      * Unless otherwise noted, the status code is defined in RFC2616.
      *
@@ -180,14 +180,14 @@ class Response
         410 => 'Gone',
         411 => 'Length Required',
         412 => 'Precondition Failed',
-        413 => 'Payload Too Large',
+        413 => 'Content Too Large',                                           // RFC-ietf-httpbis-semantics
         414 => 'URI Too Long',
         415 => 'Unsupported Media Type',
         416 => 'Range Not Satisfiable',
         417 => 'Expectation Failed',
         418 => 'I\'m a teapot',                                               // RFC2324
         421 => 'Misdirected Request',                                         // RFC7540
-        422 => 'Unprocessable Entity',                                        // RFC4918
+        422 => 'Unprocessable Content',                                       // RFC-ietf-httpbis-semantics
         423 => 'Locked',                                                      // RFC4918
         424 => 'Failed Dependency',                                           // RFC4918
         425 => 'Too Early',                                                   // RFC-ietf-httpbis-replay-04
@@ -246,7 +246,7 @@ class Response
      * one that will be sent to the client only if the prepare() method
      * has been called before.
      *
-     * @return string The Response as an HTTP string
+     * @return string
      *
      * @see prepare()
      */
@@ -395,6 +395,8 @@ class Response
 
         if (\function_exists('fastcgi_finish_request')) {
             fastcgi_finish_request();
+        } elseif (\function_exists('litespeed_finish_request')) {
+            litespeed_finish_request();
         } elseif (!\in_array(\PHP_SAPI, ['cli', 'phpdbg'], true)) {
             static::closeOutputBuffers(0, true);
         }
@@ -406,8 +408,6 @@ class Response
      * Sets the response content.
      *
      * @return $this
-     *
-     * @throws \UnexpectedValueException
      */
     public function setContent(?string $content)
     {
@@ -1046,10 +1046,10 @@ class Response
 
         $ret = [];
         foreach ($vary as $item) {
-            $ret = array_merge($ret, preg_split('/[\s,]+/', $item));
+            $ret[] = preg_split('/[\s,]+/', $item);
         }
 
-        return $ret;
+        return array_merge([], ...$ret);
     }
 
     /**
@@ -1076,8 +1076,6 @@ class Response
      * If the Response is not modified, it sets the status code to 304 and
      * removes the actual content by calling the setNotModified() method.
      *
-     * @return bool true if the Response validators match the Request, false otherwise
-     *
      * @final
      */
     public function isNotModified(Request $request): bool
@@ -1090,8 +1088,7 @@ class Response
         $lastModified = $this->headers->get('Last-Modified');
         $modifiedSince = $request->headers->get('If-Modified-Since');
 
-        if ($ifNoneMatchEtags = $request->getETags()) {
-            $etag = $this->getEtag();
+        if (($ifNoneMatchEtags = $request->getETags()) && (null !== $etag = $this->getEtag())) {
             if (0 == strncmp($etag, 'W/', 2)) {
                 $etag = substr($etag, 2);
             }
@@ -1248,6 +1245,7 @@ class Response
         while ($level-- > $targetLevel && ($s = $status[$level]) && (!isset($s['del']) ? !isset($s['flags']) || ($s['flags'] & $flags) === $flags : $s['del'])) {
             if ($flush) {
                 ob_end_flush();
+                flush();
             } else {
                 ob_end_clean();
             }

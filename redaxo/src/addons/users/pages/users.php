@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @package redaxo5
- */
-
 $message = '';
 $content = '';
 
@@ -387,7 +383,7 @@ if ('' != $fUNCADD || $userId > 0) {
             $addAdminChkbox = '';
         }
         $addStatusChkbox = '<input type="checkbox" id="rex-user-status" name="userstatus" value="1" ' . $statuschecked . ' />';
-        $addUserLogin = '<input class="form-control" type="text" id="rex-user-login" name="userlogin" value="' . rex_escape($userlogin) . '" autofocus autocomplete="username" />';
+        $addUserLogin = '<input class="form-control" type="text" id="rex-user-login" name="userlogin" value="' . rex_escape($userlogin) . '" required autofocus autocomplete="username" />';
 
         $formElements = [];
 
@@ -416,7 +412,7 @@ if ('' != $fUNCADD || $userId > 0) {
 
     $n = [];
     $n['label'] = '<label for="rex-js-user-password" class="required">' . rex_i18n::msg('password') . '</label>';
-    $n['field'] = '<input class="form-control" type="password" id="rex-js-user-password" name="userpsw" autocomplete="new-password" />';
+    $n['field'] = '<input class="form-control" type="password" id="rex-js-user-password" name="userpsw" autocomplete="new-password" '.rex_string::buildAttributes($passwordPolicy->getHtmlAttributes()).' />';
     $n['note'] = $passwordPolicy->getDescription();
 
     $formElements[] = $n;
@@ -550,14 +546,14 @@ if ('' != $fUNCADD || $userId > 0) {
 if ($SHOW) {
     // use string starting with "_" to have users without role at bottom when sorting by role ASC
     $noRole = '_no_role';
-
+    $separator = "\0,\0";
     $list = rex_list::factory('
         SELECT
             id,
             IF(name <> "", name, login) as name,
             login,
             `admin`,
-            IF(`admin`, "Admin", IFNULL((SELECT GROUP_CONCAT(name ORDER BY name SEPARATOR ",") FROM '.rex::getTable('user_role').' r WHERE FIND_IN_SET(r.id, u.role)), "'.$noRole.'")) as role,
+            IF(`admin`, "Admin", IFNULL((SELECT GROUP_CONCAT(name ORDER BY name SEPARATOR "'.$separator.'") FROM '.rex::getTable('user_role').' r WHERE FIND_IN_SET(r.id, u.role)), "'.$noRole.'")) as role,
             status,
             lastlogin
         FROM ' . rex::getTable('user') . ' u
@@ -603,13 +599,16 @@ if ($SHOW) {
     $list->setColumnSortable('login');
 
     $list->setColumnLabel('role', rex_i18n::msg('user_role'));
-    $list->setColumnFormat('role', 'custom', static function () use ($list, $noRole) {
+    $list->setColumnFormat('role', 'custom', static function () use ($list, $noRole, $separator) {
         $roles = $list->getValue('role');
         if ($noRole === $roles) {
-            return rex_i18n::msg('user_no_role');
+            return '<span class="label label-warning">'.rex_i18n::msg('user_no_role').'</span>';
+        }
+        if ($list->getValue('admin')) {
+            return '<span class="label label-success">'.rex_i18n::msg('user_admin').'</span>';
         }
 
-        return implode('<br />', explode(',', rex_escape($roles)));
+        return '<div class="rex-docs"><ul class="small"><li>'.implode('</li><li>', explode($separator, rex_escape($roles))).'</li></ul></div>';
     }, ['roles' => $roles]);
     $list->setColumnSortable('role');
 

@@ -1,6 +1,24 @@
 Changelog
 =========
 
+Version 2.9.0 – 25.07.2022
+--------------------------
+
+### Neu
+
+* Skript-Umgebung: Auflistung der ausgeführten Jobs mit Status und Meldung (@gharlan)
+* Im Cronjob-Formular werden teils Checkboxen/Radios statt Selects verwendet (@gharlan)
+* Anzeige Logeinträge auf 100 erhöht (@staabm)
+
+
+Version 2.8.2 – 10.01.2022
+--------------------------
+
+### Bugfixes
+
+* Validierung für die Intervall-Felder korrigiert (@gharlan)
+
+
 Version 2.8.0 – 03.03.2021
 --------------------------
 

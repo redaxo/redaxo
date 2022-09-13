@@ -9,20 +9,26 @@ on:
 env:
     writable: ${{ github.event_name != 'push' && github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' && 1 || 0 }}
 
+permissions:
+    contents: read
+
 jobs:
     compile:
         name: be_style:compile
         runs-on: ubuntu-latest
+        timeout-minutes: 30
+        permissions:
+            contents: write  # for Git to git apply
 
         steps:
             -   name: Checkout
-                uses: actions/checkout@v2
+                uses: actions/checkout@v3
                 if: env.writable == 1
                 with:
                     ref: ${{ github.head_ref }}
                     token: ${{ secrets.BOT_TOKEN }}
             -   name: Checkout fork
-                uses: actions/checkout@v2
+                uses: actions/checkout@v3
                 if: env.writable == 0
 
             -   name: Setup PHP

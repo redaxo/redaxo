@@ -5,28 +5,21 @@
  */
 class rex_be_controller
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private static $page;
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     private static $pageParts = [];
 
-    /**
-     * @var rex_be_page|null
-     */
+    /** @var rex_be_page|null */
     private static $pageObject;
 
-    /**
-     * @var array<string, rex_be_page>
-     */
+    /** @var array<string, rex_be_page> */
     private static $pages = [];
 
     /**
      * @param string $page
+     * @return void
      */
     public static function setCurrentPage($page)
     {
@@ -103,6 +96,7 @@ class rex_be_controller
 
     /**
      * @param array<string, rex_be_page> $pages
+     * @return void
      */
     public static function setPages(array $pages)
     {
@@ -149,6 +143,9 @@ class rex_be_controller
         return $page;
     }
 
+    /**
+     * @return void
+     */
     public static function appendLoggedInPages()
     {
         self::$pages['profile'] = (new rex_be_page('profile', rex_i18n::msg('profile')))
@@ -167,8 +164,15 @@ class rex_be_controller
 
         $logsPage = (new rex_be_page('log', rex_i18n::msg('logfiles')))->setSubPath(rex_path::core('pages/system.log.php'));
         $logsPage->addSubpage((new rex_be_page('redaxo', rex_i18n::msg('syslog_redaxo')))->setSubPath(rex_path::core('pages/system.log.redaxo.php')));
-        if (@is_readable(ini_get('error_log'))) {
+        if ('' != ini_get('error_log') && @is_readable(ini_get('error_log'))) {
             $logsPage->addSubpage((new rex_be_page('php', rex_i18n::msg('syslog_phperrors')))->setSubPath(rex_path::core('pages/system.log.external.php')));
+        }
+
+        if ('system' === self::getCurrentPagePart(1) && 'log' === self::getCurrentPagePart(2)) {
+            $slowQueryLogPath = rex_sql_util::slowQueryLogPath();
+            if (null !== $slowQueryLogPath && @is_readable($slowQueryLogPath)) {
+                $logsPage->addSubpage((new rex_be_page('slow-queries', rex_i18n::msg('syslog_slowqueries')))->setSubPath(rex_path::core('pages/system.log.slow-queries.php')));
+            }
         }
 
         self::$pages['system'] = (new rex_be_page_main('system', 'system', rex_i18n::msg('system')))
@@ -191,6 +195,9 @@ class rex_be_controller
             );
     }
 
+    /**
+     * @return void
+     */
     public static function appendPackagePages()
     {
         $insertPages = [];
@@ -286,6 +293,7 @@ class rex_be_controller
 
     /**
      * @param string $prefix
+     * @return void
      */
     private static function pageSetSubPaths(rex_be_page $page, rex_package $package, $prefix = '')
     {
@@ -297,6 +305,9 @@ class rex_be_controller
         }
     }
 
+    /**
+     * @return void
+     */
     private static function pageAddProperties(rex_be_page $page, array $properties, rex_package $package)
     {
         foreach ($properties as $key => $value) {
@@ -347,6 +358,9 @@ class rex_be_controller
         }
     }
 
+    /**
+     * @return void
+     */
     public static function checkPagePermissions(rex_user $user)
     {
         $check = static function (rex_be_page $page) use (&$check, $user) {
@@ -397,6 +411,7 @@ class rex_be_controller
 
     /**
      * Includes the current page. A page may be provided by the core, an addon or plugin.
+     * @return void
      */
     public static function includeCurrentPage()
     {
@@ -465,16 +480,13 @@ class rex_be_controller
             $pattern = '@' . preg_quote(rex_path::src('addons/'), '@') . '([^/\\\]+)(?:[/\\\]plugins[/\\\]([^/\\\]+))?@';
 
             if (!preg_match($pattern, $path, $matches)) {
-                /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
                 $__context = $context;
-                /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
                 $__path = $path;
 
                 unset($context, $path, $pattern, $matches);
 
-                /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
                 extract($__context, EXTR_SKIP);
-                /** @noRector \Rector\Naming\Rector\Variable\UnderscoreToCamelCaseVariableNameRector */
+
                 return include $__path;
             }
 

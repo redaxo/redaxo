@@ -1,6 +1,34 @@
 Changelog
 =========
 
+Version 2.12.0 – 25.07.2022
+---------------------------
+
+### Neu
+
+* Natives Lazy-Loading wird verwendet (@staabm)
+
+
+Version 2.11.3 – 03.05.2022
+---------------------------
+
+### Bugfixes
+
+* EP `MEDIA_LIST_QUERY` wieder hinzugefügt, der zwischenzeitlich entfallen war (@eaCe)
+* Standardsortierung wieder nach Updatedate (@TobiasKrais)
+* Wenn bei Bildern (SVGs) die Breite nicht vorhanden war, wurde trotzdem das `width`-Attribut mit Wert 0 gesetzt (@skerbis)
+* Verhalten der alten (deprecated) Funktion `rex_mediapool_saveMedia` an das frühere Verhalten wieder angeglichen (@gharlan)
+* `.php8` in die Liste der blockierten Extensions aufgenommen (@staabm)
+
+
+Version 2.11.2 – 10.01.2022
+---------------------------
+
+### Bugfixes
+
+* Verhalten der alten (deprecated) Funktionen `rex_mediapool_saveMedia` und `rex_mediapool_updateMedia` an das frühere Verhalten wieder angeglichen (@gharlan)
+
+
 Version 2.11.1 – 05.12.2021
 ---------------------------
 

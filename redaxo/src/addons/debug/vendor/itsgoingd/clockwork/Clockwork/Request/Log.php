@@ -4,11 +4,8 @@ use Clockwork\Helpers\Serializer;
 use Clockwork\Helpers\StackTrace;
 use Clockwork\Helpers\StackFilter;
 
-use Psr\Log\LogLevel;
-use Psr\Log\LoggerInterface;
-
 // Data structure representing a log with timestamped messages
-class Log implements LoggerInterface
+class Log
 {
 	// Array of logged messages
 	public $messages = [];
@@ -121,6 +118,8 @@ class Log implements LoggerInterface
 	// Check if context has serializable exception
 	protected function hasException($context)
 	{
-		return ! empty($context['exception']) && $context['exception'] instanceof \Exception && empty($context['raw']);
+		return ! empty($context['exception'])
+			&& ($context['exception'] instanceof \Throwable || $context['exception'] instanceof \Exception)
+			&& empty($context['raw']);
 	}
 }

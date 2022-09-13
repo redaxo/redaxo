@@ -7,25 +7,15 @@
  */
 class rex_i18n
 {
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     private static $locales = [];
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     private static $directories = [];
-    /**
-     * @var array<string, bool> Holds which locales are loaded. keyed by locale
-     */
+    /** @var array<string, bool> Holds which locales are loaded. keyed by locale */
     private static $loaded = [];
-    /**
-     * @var string|null
-     */
+    /** @var string|null */
     private static $locale;
-    /**
-     * @var string[][]
-     */
+    /** @var string[][] */
     private static $msg = [];
 
     /**
@@ -97,6 +87,7 @@ class rex_i18n
      * Adds a directory with lang files.
      *
      * @param string $dir Path to the directory
+     * @return void
      */
     public static function addDirectory($dir)
     {
@@ -324,6 +315,7 @@ class rex_i18n
      *
      * @param string $key     Key
      * @param string $message Message for the key
+     * @return void
      */
     public static function addMsg($key, $message)
     {
@@ -428,6 +420,7 @@ class rex_i18n
      *
      * @param string $dir    Path to the directory
      * @param string $locale Locale
+     * @return void
      */
     private static function loadFile($dir, $locale)
     {
@@ -449,6 +442,7 @@ class rex_i18n
      * Loads all translation defintions.
      *
      * @param string $locale Locale
+     * @return void
      */
     private static function loadAll($locale)
     {

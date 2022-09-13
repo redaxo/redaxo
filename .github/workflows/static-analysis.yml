@@ -9,31 +9,37 @@ on:
 env:
     writable: ${{ github.event_name != 'push' && github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' && 1 || 0 }}
 
+permissions:
+    contents: read
+
 jobs:
     psalm-analysis:
         name: psalm static code analysis
         runs-on: ubuntu-latest
+        timeout-minutes: 30
+        permissions:
+            contents: write  # for stefanzweifel/git-auto-commit-action to push code in repo
 
         steps:
             -   name: Checkout
-                uses: actions/checkout@v2
+                uses: actions/checkout@v3
                 if: env.writable == 1
                 with:
                     ref: ${{ github.head_ref }}
                     token: ${{ secrets.BOT_TOKEN }}
             -   name: Checkout fork
-                uses: actions/checkout@v2
+                uses: actions/checkout@v3
                 if: env.writable == 0
 
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: 7.4
+                    php-version: '8.2'
                     extensions: gd, intl, imagick
                     coverage: none # disable xdebug, pcov
 
             -   name: Composer install
-                uses: ramsey/composer-install@v1
+                uses: ramsey/composer-install@v2
                 with:
                     composer-options: --ansi --prefer-dist
 
@@ -58,28 +64,31 @@ jobs:
     psalm-taint-analysis:
         name: psalm taint analysis
         runs-on: ubuntu-latest
+        timeout-minutes: 30
         if: github.event.pull_request.draft == false
+        permissions:
+            contents: write  # for stefanzweifel/git-auto-commit-action to push code in repo
 
         steps:
             -   name: Checkout
-                uses: actions/checkout@v2
+                uses: actions/checkout@v3
                 if: env.writable == 1
                 with:
                     ref: ${{ github.head_ref }}
                     token: ${{ secrets.BOT_TOKEN }}
             -   name: Checkout fork
-                uses: actions/checkout@v2
+                uses: actions/checkout@v3
                 if: env.writable == 0
 
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: 7.4
+                    php-version: '8.2'
                     extensions: gd, intl, imagick
                     coverage: none # disable xdebug, pcov
 
             -   name: Composer install
-                uses: ramsey/composer-install@v1
+                uses: ramsey/composer-install@v2
                 with:
                     composer-options: --ansi --prefer-dist
 
@@ -104,20 +113,23 @@ jobs:
     phpstan-analysis:
         name: phpstan static code analysis
         runs-on: ubuntu-latest
+        timeout-minutes: 30
+        permissions:
+            contents: write  # for Git to git apply
 
         steps:
             -   name: Checkout
-                uses: actions/checkout@v2
+                uses: actions/checkout@v3
 
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: 7.4
+                    php-version: '8.2'
                     extensions: gd, intl, imagick, pdo_mysql
                     coverage: none # disable xdebug, pcov
 
             -   name: Composer install
-                uses: ramsey/composer-install@v1
+                uses: ramsey/composer-install@v2
                 with:
                     composer-options: --ansi --prefer-dist
 

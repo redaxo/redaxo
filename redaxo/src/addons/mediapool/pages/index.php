@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @package redaxo5
- */
-
 global $ftitle, $error, $success;
 
 // -------------- Defaults

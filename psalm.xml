@@ -93,6 +93,7 @@
         </RawObjectIteration>
         <RedundantCastGivenDocblockType errorLevel="info" />
         <RedundantConditionGivenDocblockType errorLevel="info" />
+        <RedundantFunctionCallGivenDocblockType errorLevel="info" />
         <UnresolvableInclude errorLevel="suppress" />
         <UnsafeInstantiation errorLevel="info" />
 <!-- level 4 issues -->

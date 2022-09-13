@@ -21,8 +21,6 @@ use Symfony\Component\RateLimiter\RateLimit;
  * fits most use-cases.
  *
  * @author Wouter de Jong <wouter@wouterj.nl>
- *
- * @experimental in 5.3
  */
 abstract class AbstractRequestRateLimiter implements RequestRateLimiterInterface
 {
@@ -37,9 +35,7 @@ abstract class AbstractRequestRateLimiter implements RequestRateLimiterInterface
         foreach ($limiters as $limiter) {
             $rateLimit = $limiter->consume(1);
 
-            if (null === $minimalRateLimit || $rateLimit->getRemainingTokens() < $minimalRateLimit->getRemainingTokens()) {
-                $minimalRateLimit = $rateLimit;
-            }
+            $minimalRateLimit = $minimalRateLimit ? self::getMinimalRateLimit($minimalRateLimit, $rateLimit) : $rateLimit;
         }
 
         return $minimalRateLimit;
@@ -56,4 +52,20 @@ abstract class AbstractRequestRateLimiter implements RequestRateLimiterInterface
      * @return LimiterInterface[] a set of limiters using keys extracted from the request
      */
     abstract protected function getLimiters(Request $request): array;
+
+    private static function getMinimalRateLimit(RateLimit $first, RateLimit $second): RateLimit
+    {
+        if ($first->isAccepted() !== $second->isAccepted()) {
+            return $first->isAccepted() ? $second : $first;
+        }
+
+        $firstRemainingTokens = $first->getRemainingTokens();
+        $secondRemainingTokens = $second->getRemainingTokens();
+
+        if ($firstRemainingTokens === $secondRemainingTokens) {
+            return $first->getRetryAfter() < $second->getRetryAfter() ? $second : $first;
+        }
+
+        return $firstRemainingTokens > $secondRemainingTokens ? $second : $first;
+    }
 }

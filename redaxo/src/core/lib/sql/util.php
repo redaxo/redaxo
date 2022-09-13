@@ -8,6 +8,29 @@
 class rex_sql_util
 {
     /**
+     * @psalm-taint-escape file
+     */
+    public static function slowQueryLogPath(): ?string
+    {
+        $db = rex_sql::factory();
+        $db->setQuery("show variables like 'slow_query_log_file'");
+        $slowQueryLogPath = (string) $db->getValue('Value');
+
+        if ('' !== $slowQueryLogPath) {
+            if ('.' === dirname($slowQueryLogPath)) {
+                $db->setQuery('select @@datadir as default_data_dir');
+                $defaultDataDir = (string) $db->getValue('default_data_dir');
+
+                return $defaultDataDir . $slowQueryLogPath;
+            }
+
+            return $slowQueryLogPath;
+        }
+
+        return null;
+    }
+
+    /**
      * Copy the table structure (without its data) to another table.
      *
      * @throws rex_exception
@@ -50,6 +73,7 @@ class rex_sql_util
      * @param string $whereCondition Where-Bedingung zur Einschränkung des ResultSets
      * @param string $orderBy        Sortierung des ResultSets
      * @param int    $startBy        Startpriorität
+     * @return void
      */
     public static function organizePriorities($tableName, $prioColumnName, $whereCondition = '', $orderBy = '', $startBy = 1)
     {

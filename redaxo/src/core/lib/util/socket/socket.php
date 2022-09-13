@@ -5,22 +5,28 @@
  *
  * Example:
  * <code>
- *     try {
- *         $socket = rex_socket::factory('www.example.com');
- *         $socket->setPath('/url/to/my/resource?param=1');
- *         $socket->setOptions([
- *               'ssl' => [
- *                 'verify_peer' => false,
- *                 'verify_peer_name' => false
- *               ]
- *             ]);
- *         $response = $socket->doGet();
- *         if($response->isOk()) {
- *             $body = $response->getBody();
- *         }
- *     } catch(rex_socket_exception $e) {
- *         // error message: $e->getMessage()
- *     }
+ *  try {
+ *      //Open socket connection. (Host, Port, SSL)
+ *      $socket = rex_socket::factory('www.example.com','443', true);
+ *      //set path to rex_socket
+ *      $socket->setPath('/url/to/my/resource?param=1');
+ *      //set PHP Context-Option
+ *      $socket->setOptions([
+ *          'ssl' => [
+ *              'verify_peer' => false,
+ *              'verify_peer_name' => false
+ *          ]
+ *      ]);
+ *      //make request and get rex_socket_request-Objekt back
+ *      $response = $socket->doGet();
+ *      //check if status code is 200
+ *      if($response->isOk()) {
+ *          //get file body
+ *          $body = $response->getBody();
+ *      }
+ *  } catch(rex_socket_exception $e) {
+ *      //error message: $e->getMessage()
+ *  }
  * </code>
  *
  * @author gharlan
@@ -43,14 +49,14 @@ class rex_socket
     protected $followRedirects = false;
     /** @var array<string, string> */
     protected $headers = [];
-    /** @vat resource */
+    /** @var resource */
     protected $stream;
     /** @var array<array-key, mixed> */
     protected $options = [];
+    /** @var bool */
+    protected $acceptCompression = false;
 
     /**
-     * Constructor.
-     *
      * @param string $host Host name
      * @param int    $port Port number
      * @param bool   $ssl  SSL flag
@@ -102,6 +108,16 @@ class rex_socket
         $parts = self::parseUrl($url);
 
         return static::factory($parts['host'], $parts['port'], $parts['ssl'])->setPath($parts['path']);
+    }
+
+    /**
+     * @return $this
+     */
+    public function acceptCompression(): self
+    {
+        $this->acceptCompression = true;
+        $this->addHeader('Accept-Encoding', 'gzip, deflate');
+        return $this;
     }
 
     /**
@@ -343,6 +359,7 @@ class rex_socket
      * Opens the socket connection.
      *
      * @throws rex_socket_exception
+     * @return void
      */
     protected function openConnection()
     {
@@ -417,7 +434,7 @@ class rex_socket
             throw new rex_socket_exception('Timeout!');
         }
 
-        return new rex_socket_response($this->stream);
+        return (new rex_socket_response($this->stream))->decompressContent($this->acceptCompression);
     }
 
     /**

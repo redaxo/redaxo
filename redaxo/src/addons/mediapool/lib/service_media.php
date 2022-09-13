@@ -341,7 +341,7 @@ final class rex_media_service
         }
 
         if (0 == count($orderbys)) {
-            $orderbys[] = 'm.id DESC';
+            $orderbys[] = 'm.updatedate DESC';
         }
 
         if ($pager) {
@@ -351,6 +351,13 @@ final class rex_media_service
 
             $query .= ' LIMIT '.$pager->getCursor().','.$pager->getRowsPerPage();
         }
+
+        // EP to modify the media list query
+        $query = rex_extension::registerPoint(new rex_extension_point('MEDIA_LIST_QUERY', $query, [
+            'queryParams' => &$queryParams,
+        ]));
+
+        assert(is_array($queryParams));
 
         $items = [];
 

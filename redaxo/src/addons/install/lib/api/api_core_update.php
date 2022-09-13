@@ -121,6 +121,14 @@ class rex_api_install_core_update extends rex_api_function
                             $addon->setConfig($key, $value);
                         }
                     }
+                    foreach ($addon->getAvailablePlugins() as $plugin) {
+                        $config = rex_file::getConfig($temppath.'addons/'.$addon->getName().'/plugins/'.$plugin->getName().'/'.rex_package::FILE_PACKAGE);
+                        foreach ($config['default_config'] ?? [] as $key => $value) {
+                            if (!$plugin->hasConfig($key)) {
+                                $plugin->setConfig($key, $value);
+                            }
+                        }
+                    }
                 }
             }
 
@@ -242,8 +250,8 @@ class rex_api_install_core_update extends rex_api_function
     /**
      * @param string $temppath
      * @param string $version
-     *
      * @throws rex_functional_exception
+     * @return void
      */
     private function checkRequirements($temppath, $version, array $addons)
     {

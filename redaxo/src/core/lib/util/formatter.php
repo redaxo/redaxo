@@ -328,7 +328,7 @@ abstract class rex_formatter
      * Truncates a string.
      *
      * @param string $value  Value
-     * @param array{length?: int, etc?: string, break_words?: bool} $format Default format is `['length' => 80, 'etc' => '...', 'break_words' => false]`
+     * @param array{length?: int, etc?: string, break_words?: bool} $format Default format is `['length' => 80, 'etc' => '…', 'break_words' => false]`
      *
      * @return string
      */
@@ -345,7 +345,7 @@ abstract class rex_formatter
 
         // ETC
         if (empty($format['etc'])) {
-            $format['etc'] = '...';
+            $format['etc'] = '…';
         }
 
         // Break-Words?
@@ -522,16 +522,16 @@ abstract class rex_formatter
             throw new InvalidArgumentException('$value must be a unix timestamp as int or a date(time) string, but "'.get_debug_type($value).'" given');
         }
 
-        $time = strtotime($value);
-
-        if (false !== $time) {
-            return $time;
-        }
-
         if (str_starts_with($value, '0000-00-00')) {
             trigger_error(sprintf('%s: "%s" is not a valid dateime string.', __METHOD__, $value), E_USER_WARNING);
 
             return null;
+        }
+
+        $time = strtotime($value);
+
+        if (false !== $time) {
+            return $time;
         }
 
         throw new InvalidArgumentException(sprintf('"%s" is not a valid datetime string.', $value));

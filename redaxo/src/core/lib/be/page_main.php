@@ -7,18 +7,12 @@
  */
 class rex_be_page_main extends rex_be_page
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $block;
-    /**
-     * @var int
-     */
+    /** @var int */
     private $prio = 0;
 
     /**
-     * Constructor.
-     *
      * @param string $block Navigation block
      * @param string $key
      * @param string $title

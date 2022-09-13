@@ -9,6 +9,7 @@ class rex_media_cache
      * Löscht die gecachte Medium-Datei.
      *
      * @param string $filename Dateiname
+     * @return void
      */
     public static function delete($filename)
     {
@@ -21,6 +22,7 @@ class rex_media_cache
      * Löscht die gecachten Dateien der Media-Kategorie.
      *
      * @param int $categoryId Id der Media-Kategorie
+     * @return void
      */
     public static function deleteCategory($categoryId)
     {
@@ -31,12 +33,13 @@ class rex_media_cache
 
     /**
      * Löscht die gecachten Media-Listen.
+     * @return void
      */
     public static function deleteLists()
     {
         $cachePath = rex_path::addonCache('mediapool');
 
-        $glob = glob($cachePath . '*.mlist');
+        $glob = glob($cachePath . '*.mlist', GLOB_NOSORT);
         if (is_array($glob)) {
             foreach ($glob as $file) {
                 rex_file::delete($file);
@@ -49,6 +52,7 @@ class rex_media_cache
      * Löscht die gecachte Liste mit den Media der Kategorie.
      *
      * @param int $categoryId Id der Media-Kategorie
+     * @return void
      */
     public static function deleteList($categoryId)
     {
@@ -58,12 +62,13 @@ class rex_media_cache
 
     /**
      * Löscht die gecachten Media-Kategorien-Listen.
+     * @return void
      */
     public static function deleteCategoryLists()
     {
         $cachePath = rex_path::addonCache('mediapool');
 
-        $glob = glob($cachePath . '*.mclist');
+        $glob = glob($cachePath . '*.mclist', GLOB_NOSORT);
         if (is_array($glob)) {
             foreach ($glob as $file) {
                 rex_file::delete($file);
@@ -76,6 +81,7 @@ class rex_media_cache
      * Löscht die gecachte Media-Kategorien-Liste.
      *
      * @param int $categoryId Id der Media-Kategorie
+     * @return void
      */
     public static function deleteCategoryList($categoryId)
     {

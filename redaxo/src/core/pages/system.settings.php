@@ -1,7 +1,4 @@
 <?php
-/**
- * @package redaxo5
- */
 
 $error = [];
 $success = '';
@@ -248,12 +245,12 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="rex-id-server" class="required">' . rex_i18n::msg('server') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-server" name="settings[server]" value="' . rex_escape(rex::getServer()) . '" />';
+$n['field'] = '<input class="form-control" type="url" id="rex-id-server" name="settings[server]" value="' . rex_escape(rex::getServer()) . '" required />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-servername" class="required">' . rex_i18n::msg('servername') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-servername" name="settings[servername]" value="' . rex_escape(rex::getServerName()) . '" />';
+$n['field'] = '<input class="form-control" type="text" id="rex-id-servername" name="settings[servername]" value="' . rex_escape(rex::getServerName()) . '" required />';
 $formElements[] = $n;
 
 $n = [];
@@ -263,7 +260,7 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-error-email" class="required">' . rex_i18n::msg('error_email') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-error-email" name="settings[error_email]" value="' . rex_escape(rex::getErrorEmail()) . '" />';
+$n['field'] = '<input class="form-control" type="email" id="rex-id-error-email" name="settings[error_email]" value="' . rex_escape(rex::getErrorEmail()) . '" required />';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();

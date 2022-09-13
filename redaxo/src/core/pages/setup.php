@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @package redaxo5
- */
-
 $step = rex_request('step', 'int', 1);
 $lang = rex_request('lang', 'string');
 $func = rex_request('func', 'string');
@@ -49,15 +45,7 @@ if (1 >= $step) {
     return;
 }
 
-// ---------------------------------- Step 2 . license
-
-if (2 === $step) {
-    require rex_path::core('pages/setup.step2.php');
-
-    return;
-}
-
-// ---------------------------------- Step 3 . Perms, Environment
+// ---------------------------------- Step 2 . Perms, Environment
 
 $errorArray = [];
 $successArray = [];
@@ -68,7 +56,7 @@ if (count($errors) > 0) {
         $errorArray[] = rex_view::error($error);
     }
 } else {
-    $successArray[] = rex_i18n::msg('setup_308');
+    $successArray[] = rex_i18n::msg('setup_208');
 }
 
 $res = rex_setup::checkFilesystem();
@@ -83,21 +71,21 @@ if (count($res) > 0) {
         }
     }
 } else {
-    $successArray[] = rex_i18n::msg('setup_309');
+    $successArray[] = rex_i18n::msg('setup_209');
 }
 
 if (count($errorArray) > 0) {
-    $step = 3;
+    $step = 2;
     $context->setParam('step', $step);
 }
 
-if (3 === $step) {
-    require rex_path::core('pages/setup.step3.php');
+if (2 === $step) {
+    require rex_path::core('pages/setup.step2.php');
 
     return;
 }
 
-// ---------------------------------- step 4 . Config
+// ---------------------------------- step 3 . Config
 
 $errorArray = [];
 
@@ -111,7 +99,7 @@ if (isset($_SERVER['HTTP_HOST']) && 'https://www.redaxo.org/' == $config['server
     $config['server'] = 'https://' . $_SERVER['HTTP_HOST'];
 }
 
-if ($step > 4) {
+if ($step > 3) {
     if ('-1' != rex_post('serveraddress', 'string', '-1')) {
         $config['server'] = rex_post('serveraddress', 'string');
         $config['servername'] = rex_post('servername', 'string');
@@ -143,7 +131,7 @@ if ($step > 4) {
 
     // check if timezone is valid
     if (!@date_default_timezone_set($config['timezone'])) {
-        $errorArray[] = rex_view::error(rex_i18n::msg('setup_413'));
+        $errorArray[] = rex_view::error(rex_i18n::msg('setup_313'));
     }
 
     $check = ['server', 'servername', 'error_email', 'lang'];
@@ -171,7 +159,7 @@ if ($step > 4) {
 
     if (0 == count($errorArray)) {
         if (!rex_file::putConfig($configFile, $config)) {
-            $errorArray[] = rex_view::error(rex_i18n::msg('setup_401', rex_path::relative($configFile)));
+            $errorArray[] = rex_view::error(rex_i18n::msg('setup_301', rex_path::relative($configFile)));
         }
     }
 
@@ -180,7 +168,7 @@ if ($step > 4) {
             rex_sql::closeConnection();
             $err = rex_setup::checkDb($config, $redaxoDbCreate);
         } catch (PDOException $e) {
-            $err = rex_i18n::msg('setup_415', $e->getMessage());
+            $err = rex_i18n::msg('setup_315', $e->getMessage());
         }
 
         if ('' != $err) {
@@ -189,28 +177,28 @@ if ($step > 4) {
     }
 
     if (count($errorArray) > 0) {
-        $step = 4;
+        $step = 3;
         $context->setParam('step', $step);
     }
 }
 
-if (4 === $step) {
-    require rex_path::core('pages/setup.step4.php');
+if (3 === $step) {
+    require rex_path::core('pages/setup.step3.php');
 
     return;
 }
 
-// ---------------------------------- step 5 . create db / demo
+// ---------------------------------- step 4 . create db / demo
 
 $errors = [];
 
 $createdb = rex_post('createdb', 'int', -1);
 
-if ($step > 5 && $createdb > -1) {
+if ($step > 4 && $createdb > -1) {
     $tablesComplete = '' == rex_setup_importer::verifyDbSchema();
 
     $utf8mb4 = null;
-    if (!in_array($step, [2, 3])) {
+    if (!in_array($createdb, [2, 3])) {
         $utf8mb4 = rex_setup_importer::supportsUtf8mb4() && rex_post('utf8mb4', 'bool', true);
         rex_sql_table::setUtf8mb4($utf8mb4);
     }
@@ -261,38 +249,38 @@ if ($step > 5 && $createdb > -1) {
             rex::setConfig('utf8mb4', $utf8mb4);
         }
     } else {
-        $step = 5;
+        $step = 4;
         $context->setParam('step', $step);
     }
 }
 
-if ($step > 5 && '' == !rex_setup_importer::verifyDbSchema()) {
-    $step = 5;
+if ($step > 4 && '' == !rex_setup_importer::verifyDbSchema()) {
+    $step = 4;
     $context->setParam('step', $step);
 }
 
-if (5 === $step) {
-    require rex_path::core('pages/setup.step5.php');
+if (4 === $step) {
+    require rex_path::core('pages/setup.step4.php');
 
     return;
 }
 
-// ---------------------------------- Step 7 . Create User
+// ---------------------------------- Step 5 . Create User
 
 $errors = [];
 
-if (7 === $step) {
+if (6 === $step) {
     $noadmin = rex_post('noadmin', 'int');
     $redaxoUserLogin = rex_post('redaxo_user_login', 'string');
     $redaxoUserPass = rex_post('redaxo_user_pass', 'string');
 
     if (1 != $noadmin) {
         if ('' == $redaxoUserLogin) {
-            $errors[] = rex_view::error(rex_i18n::msg('setup_601'));
+            $errors[] = rex_view::error(rex_i18n::msg('setup_501'));
         }
 
         if ('' == $redaxoUserPass) {
-            $errors[] = rex_view::error(rex_i18n::msg('setup_602'));
+            $errors[] = rex_view::error(rex_i18n::msg('setup_502'));
         }
 
         $passwordPolicy = rex_backend_password_policy::factory();
@@ -305,7 +293,7 @@ if (7 === $step) {
             $ga->setQuery('select * from ' . rex::getTablePrefix() . 'user where login = ? ', [$redaxoUserLogin]);
 
             if ($ga->getRows() > 0) {
-                $errors[] = rex_view::error(rex_i18n::msg('setup_603'));
+                $errors[] = rex_view::error(rex_i18n::msg('setup_503'));
             } else {
                 // the server side encryption of pw is only required
                 // when not already encrypted by client using javascript
@@ -326,7 +314,7 @@ if (7 === $step) {
                 try {
                     $user->insert();
                 } catch (rex_sql_exception $e) {
-                    $errors[] = rex_view::error(rex_i18n::msg('setup_604'));
+                    $errors[] = rex_view::error(rex_i18n::msg('setup_504'));
                 }
             }
         }
@@ -334,26 +322,26 @@ if (7 === $step) {
         $gu = rex_sql::factory();
         $gu->setQuery('select * from ' . rex::getTablePrefix() . 'user LIMIT 1');
         if (0 == $gu->getRows()) {
-            $errors[] = rex_view::error(rex_i18n::msg('setup_605'));
+            $errors[] = rex_view::error(rex_i18n::msg('setup_505'));
         }
     }
 
     if (0 == count($errors)) {
-        $step = 7;
-    } else {
         $step = 6;
+    } else {
+        $step = 5;
     }
     $context->setParam('step', $step);
 }
 
-if (6 === $step) {
-    require rex_path::core('pages/setup.step6.php');
+if (5 === $step) {
+    require rex_path::core('pages/setup.step5.php');
 
     return;
 }
 
-// ---------------------------------- step 7 . thank you . setup false
+// ---------------------------------- step 6 . thank you . setup false
 
-if (7 === $step) {
-    require rex_path::core('pages/setup.step7.php');
+if (6 === $step) {
+    require rex_path::core('pages/setup.step6.php');
 }

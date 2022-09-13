@@ -9,31 +9,37 @@ on:
 env:
     writable: ${{ github.event_name != 'push' && github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' && 1 || 0 }}
 
+permissions:
+    contents: read
+
 jobs:
     php-cs-fixer:
-        runs-on: ubuntu-18.04
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
         if: github.event.pull_request.draft == false
+        permissions:
+            contents: write  # for stefanzweifel/git-auto-commit-action to push code in repo
 
         steps:
             -   name: Checkout
-                uses: actions/checkout@v2
+                uses: actions/checkout@v3
                 if: env.writable == 1
                 with:
                     ref: ${{ github.head_ref }}
                     token: ${{ secrets.BOT_TOKEN }}
             -   name: Checkout fork
-                uses: actions/checkout@v2
+                uses: actions/checkout@v3
                 if: env.writable == 0
 
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: 7.3
+                    php-version: 8.1
                     coverage: none # disable xdebug, pcov
                     tools: cs2pr
 
             -   name: Composer install
-                uses: ramsey/composer-install@v1
+                uses: ramsey/composer-install@v2
                 with:
                     composer-options: --ansi --prefer-dist
 
@@ -54,28 +60,31 @@ jobs:
                 run: vendor/bin/php-cs-fixer fix --ansi --diff --dry-run --format=checkstyle | cs2pr # check whether there are still errors left
 
     rector:
+        permissions:
+            contents: write  # for stefanzweifel/git-auto-commit-action to push code in repo
         runs-on: ubuntu-latest
+        timeout-minutes: 30
         if: github.event.pull_request.draft == false
 
         steps:
             -   name: Checkout
-                uses: actions/checkout@v2
+                uses: actions/checkout@v3
                 if: env.writable == 1
                 with:
                     ref: ${{ github.head_ref }}
                     token: ${{ secrets.BOT_TOKEN }}
             -   name: Checkout fork
-                uses: actions/checkout@v2
+                uses: actions/checkout@v3
                 if: env.writable == 0
 
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: 8.0
+                    php-version: 8.1
                     coverage: none # disable xdebug, pcov
 
             -   name: Composer install
-                uses: ramsey/composer-install@v1
+                uses: ramsey/composer-install@v2
                 with:
                     composer-options: --ansi --prefer-dist
 

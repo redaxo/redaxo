@@ -36,8 +36,6 @@ abstract class rex_complex_perm
     private static $classes = [];
 
     /**
-     * Constructor.
-     *
      * @param rex_user $user  User instance
      * @param mixed    $perms Permissions
      */

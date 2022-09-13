@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 2.9.0 – 25.07.2022
+--------------------------
+
+### Neu
+
+* Benutzerliste: Zugewiesene Rollen werden als Liste ausgegeben für bessere Lesbarkeit (@tbaddade)
+* Rollen können dupliziert werden (@gharlan)
+
+
 Version 2.8.2 – 29.11.2021
 --------------------------
 

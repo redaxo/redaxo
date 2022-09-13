@@ -402,12 +402,18 @@ class rex_article_service
         return $artStatusTypes;
     }
 
+    /**
+     * @return int
+     */
     public static function nextStatus($currentStatus)
     {
         $artStatusTypes = self::statusTypes();
         return ($currentStatus + 1) % count($artStatusTypes);
     }
 
+    /**
+     * @return int
+     */
     public static function prevStatus($currentStatus)
     {
         $artStatusTypes = self::statusTypes();
@@ -425,6 +431,7 @@ class rex_article_service
      * @param int $clang     ClangId der Kategorie, die erneuert werden soll
      * @param int $newPrio  Neue PrioNr der Kategorie
      * @param int $oldPrio  Alte PrioNr der Kategorie
+     * @return void
      */
     public static function newArtPrio($parentId, $clang, $newPrio, $oldPrio)
     {
@@ -481,6 +488,7 @@ class rex_article_service
             $sql->setValue('startarticle', 1);
             $sql->setValue('catname', $sql->getValue('name'));
             $sql->setValue('catpriority', 100);
+            $sql->setValue('priority', 1);
             $sql->update();
 
             rex_category_service::newCatPrio($parentId, $clang, 0, 100);
@@ -520,17 +528,25 @@ class rex_article_service
         // LANG SCHLEIFE
         foreach (rex_clang::getAllIds() as $clang) {
             // artikel
-            $sql->setQuery('select parent_id, name from ' . rex::getTablePrefix() . 'article where id=? and startarticle=1 and clang_id=?', [$artId, $clang]);
+            $sql->setQuery('
+                select parent_id, (select catname FROM '.rex::getTable('article').' parent WHERE parent.id = category.parent_id AND parent.clang_id = category.clang_id) as catname
+                from '.rex::getTable('article').' category
+                where id=? and startarticle=1 and clang_id=?
+            ', [$artId, $clang]);
 
             if (!$parentId) {
                 $parentId = (int) $sql->getValue('parent_id');
             }
 
+            $catname = (string) $sql->getValue('catname');
+
             // artikel updaten
             $sql->setTable(rex::getTablePrefix() . 'article');
             $sql->setWhere(['id' => $artId, 'clang_id' => $clang]);
             $sql->setValue('startarticle', 0);
+            $sql->setValue('catname', $catname);
             $sql->setValue('priority', 100);
+            $sql->setValue('catpriority', 0);
             $sql->update();
 
             self::newArtPrio($parentId, $clang, 0, 100);
@@ -899,6 +915,7 @@ class rex_article_service
      * @param string $keyName The key
      *
      * @throws rex_api_exception
+     * @return void
      */
     protected static function reqKey($array, $keyName)
     {

@@ -20,6 +20,10 @@ class rex_var_value extends rex_var
             return $value ? 'true' : 'false';
         }
 
+        if (!isset($value)) {
+            $value = '';
+        }
+
         $output = $this->getArg('output');
         if ('php' == $output) {
             if ($this->environmentIs(self::ENV_BACKEND)) {

@@ -23,6 +23,9 @@ class rex_select
         $this->init();
     }
 
+    /**
+     * @return void
+     */
     public function init()
     {
         $this->resetSelected();
@@ -32,11 +35,17 @@ class rex_select
         $this->setDisabled(false);
     }
 
+    /**
+     * @return void
+     */
     public function setAttributes($attributes)
     {
         $this->attributes = array_merge($this->attributes, $attributes);
     }
 
+    /**
+     * @return void
+     */
     public function setAttribute($name, $value)
     {
         $this->attributes[$name] = $value;
@@ -62,6 +71,9 @@ class rex_select
         return isset($this->attributes[$name]);
     }
 
+    /**
+     * @return string|int
+     */
     public function getAttribute($name, $default = '')
     {
         if ($this->hasAttribute($name)) {
@@ -70,6 +82,9 @@ class rex_select
         return $default;
     }
 
+    /**
+     * @return void
+     */
     public function setMultiple($multiple = true)
     {
         if ($multiple) {
@@ -82,6 +97,9 @@ class rex_select
         }
     }
 
+    /**
+     * @return void
+     */
     public function setDisabled($disabled = true)
     {
         if ($disabled) {
@@ -91,11 +109,17 @@ class rex_select
         }
     }
 
+    /**
+     * @return void
+     */
     public function setName($name)
     {
         $this->setAttribute('name', $name);
     }
 
+    /**
+     * @return void
+     */
     public function setId($id)
     {
         $this->setAttribute('id', $id);
@@ -109,6 +133,7 @@ class rex_select
      * $sel_media->setStyle('class="inp100"');
      * und/oder
      * $sel_media->setStyle("width:150px;");
+     * @return void
      */
     public function setStyle($style)
     {
@@ -121,11 +146,17 @@ class rex_select
         }
     }
 
+    /**
+     * @return void
+     */
     public function setSize($size)
     {
         $this->setAttribute('size', $size);
     }
 
+    /**
+     * @return void
+     */
     public function setSelected($selected)
     {
         if (is_array($selected)) {
@@ -137,19 +168,31 @@ class rex_select
         }
     }
 
+    /**
+     * @return void
+     */
     public function resetSelected()
     {
         $this->optionSelected = [];
     }
 
+    /**
+     * @return void
+     */
     public function addOptgroup($label)
     {
         ++$this->currentOptgroup;
         $this->optgroups[$this->currentOptgroup] = $label;
     }
 
+    public function endOptgroup(): void
+    {
+        ++$this->currentOptgroup;
+    }
+
     /**
      * Fügt eine Option hinzu.
+     * @return void
      */
     public function addOption($name, $value, $id = 0, $parentId = 0, array $attributes = [])
     {
@@ -167,6 +210,8 @@ class rex_select
      * 3.    parent_id
      * 4.    Selected
      * 5.    Attributes
+     *
+     * @return void
      */
     public function addOptions($options, $useOnlyValues = false)
     {
@@ -203,6 +248,7 @@ class rex_select
     /**
      * Fügt ein Array von Optionen hinzu, dass eine Key/Value Struktur hat.
      * Wenn $useKeys mit false, werden die Array-Keys mit den Array-Values überschrieben.
+     * @return void
      */
     public function addArrayOptions(array $options, $useKeys = true)
     {
@@ -226,6 +272,7 @@ class rex_select
     /**
      * Fügt Optionen anhand der Übergeben SQL-Select-Abfrage hinzu.
      * @psalm-param positive-int $db
+     * @return void
      */
     public function addSqlOptions($query, int $db = 1)
     {
@@ -237,6 +284,7 @@ class rex_select
      * Fügt Optionen anhand der Übergeben DBSQL-Select-Abfrage hinzu.
      *
      * @see rex_sql::setDBQuery()
+     * @return void
      */
     public function addDBSqlOptions($query)
     {
@@ -296,6 +344,9 @@ class rex_select
         return $ausgabe;
     }
 
+    /**
+     * @return void
+     */
     public function show()
     {
         echo $this->get();
@@ -361,6 +412,9 @@ class rex_select
         return '        <option value="' . $value . '"' . $attr . '>' . $bsps . $name . '</option>' . "\n";
     }
 
+    /**
+     * @return false|array
+     */
     protected function getGroup($parentId, $ignoreMainGroup = false)
     {
         if ($ignoreMainGroup && 0 == $parentId) {

@@ -33,7 +33,7 @@ interface rex_package_interface
     /**
      * Returns the package type as string.
      *
-     * @return string
+     * @return 'addon'|'plugin'
      */
     public function getType();
 
@@ -79,6 +79,7 @@ interface rex_package_interface
 
     /**
      * @see rex_config::set()
+     * @return bool
      */
     public function setConfig($key, $value = null);
 
@@ -86,19 +87,21 @@ interface rex_package_interface
      * @see rex_config::get()
      *
      * @template T as ?string
-     * @phpstan-template T
      * @psalm-param T $key
      * @psalm-return (T is string ? mixed|null : array<string, mixed>)
+     * @return mixed
      */
     public function getConfig($key = null, $default = null);
 
     /**
      * @see rex_config::has()
+     * @return bool
      */
     public function hasConfig($key = null);
 
     /**
      * @see rex_config::remove()
+     * @return bool
      */
     public function removeConfig($key);
 
@@ -107,6 +110,7 @@ interface rex_package_interface
      *
      * @param string $key   Key of the property
      * @param mixed  $value New value for the property
+     * @return void
      */
     public function setProperty($key, $value);
 
@@ -133,6 +137,7 @@ interface rex_package_interface
      * Removes a property.
      *
      * @param string $key Key of the property
+     * @return void
      */
     public function removeProperty($key);
 
@@ -189,6 +194,7 @@ interface rex_package_interface
      *
      * @param string $file    Filename
      * @param array  $context Context values, available as variables in given file
+     * @return mixed
      */
     public function includeFile($file, array $context = []);
 

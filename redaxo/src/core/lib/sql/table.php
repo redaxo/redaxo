@@ -179,13 +179,13 @@ class rex_sql_table
         $table = static::getInstance([$db, $name], static function ($db, $name) {
             return new static($name, $db);
         });
-        assert($table instanceof self);
 
-        return $table;
+        return rex_type::instanceOf($table, self::class);
     }
 
     /**
      * @param string|array{int, string} $key A table-name or a array[db-id, table-name]
+     * @return void
      */
     public static function clearInstance($key)
     {
@@ -194,7 +194,7 @@ class rex_sql_table
             $key = [1, $key];
         }
 
-        return static::baseClearInstance($key);
+        static::baseClearInstance($key);
     }
 
     /**
@@ -642,6 +642,7 @@ class rex_sql_table
 
     /**
      * Ensures that the table exists with the given definition.
+     * @return void
      */
     public function ensure()
     {
@@ -689,6 +690,7 @@ class rex_sql_table
 
     /**
      * Drops the table if it exists.
+     * @return void
      */
     public function drop()
     {
@@ -708,6 +710,7 @@ class rex_sql_table
      * Creates the table.
      *
      * @throws rex_exception
+     * @return void
      */
     public function create()
     {
@@ -753,6 +756,7 @@ class rex_sql_table
      * Alters the table.
      *
      * @throws rex_exception
+     * @return void
      */
     public function alter()
     {
@@ -997,8 +1001,7 @@ class rex_sql_table
                     continue;
                 }
 
-                $offset = array_search($after, array_keys($columns));
-                assert(is_int($offset));
+                $offset = rex_type::int(array_search($after, array_keys($columns)));
                 ++$offset;
                 $columns = array_slice($columns, 0, $offset) + $insert + array_slice($columns, $offset);
                 unset($this->positions[$name]);

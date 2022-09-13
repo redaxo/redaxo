@@ -54,6 +54,7 @@ install_warning_addon_zip_not_extracted = Fel uppstod vid uppackningen av zip-fi
 install_warning_message_from_addon = AddOn <b> {0} </b> rapporter:
 install_warning_message_from_plugin = Plugin <b> {0} </b> rapporter:
 
+install_warning_directory_not_writable = Mappen <b>{0}</b> är inte skrivbar!
 install_warning_zip_wrong_checksum = Checksumman av de nedladdade zip-filerna stämmer inte överens med den förväntade summan!
 install_warning_zip_wrong_format = Zip-filen har inte det rätta formatet.
 

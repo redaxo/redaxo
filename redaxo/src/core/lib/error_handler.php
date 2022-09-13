@@ -5,10 +5,12 @@
  */
 abstract class rex_error_handler
 {
-    private static $registered;
+    /** @var bool */
+    private static $registered = false;
 
     /**
      * Registers the class as php-error/exception handler.
+     * @return void
      */
     public static function register()
     {
@@ -25,6 +27,7 @@ abstract class rex_error_handler
 
     /**
      * Unregisters the logger instance as php-error/exception handler.
+     * @return void
      */
     public static function unregister()
     {
@@ -42,10 +45,21 @@ abstract class rex_error_handler
     /**
      * Handles the given Exception.
      *
-     * @param Throwable|Exception $exception The Exception to handle
+     * @param Throwable $exception The Exception to handle
+     * @return never
      */
     public static function handleException($exception)
     {
+        // make sure we regenerate the autoload cache, in case a class not found error
+        // bubbled up into a oops/whoops error.
+        if (preg_match('/^Class ".*" not found$/', $exception->getMessage())) {
+            try {
+                rex_autoload::removeCache();
+            } catch (Throwable $e) {
+                // ignore
+            }
+        }
+
         try {
             rex_logger::logException($exception);
 
@@ -97,9 +111,8 @@ abstract class rex_error_handler
     }
 
     /**
-     * @return string[]
-     *
-     * @psalm-return array{0: string, 1: string}
+     * @param Throwable $exception
+     * @return array{string, string}
      */
     private static function renderWhoops($exception)
     {
@@ -226,8 +239,7 @@ abstract class rex_error_handler
                 "\n". $bugBody;
         }
 
-        $bugBodyCompressed = preg_replace('/ {2,}/u', ' ', $bugBody); // replace multiple spaces with one space
-        assert(is_string($bugBodyCompressed));
+        $bugBodyCompressed = rex_type::string(preg_replace('/ {2,}/u', ' ', $bugBody)); // replace multiple spaces with one space
         $reportBugLink = '<a class="rex-report-bug" href="https://github.com/redaxo/redaxo/issues/new?labels='. rex_escape($bugLabel, 'url') .'&title='. rex_escape($bugTitle, 'url') .'&body='.rex_escape($bugBodyCompressed, 'url').'" rel="noopener noreferrer" target="_blank">Report a REDAXO bug</a>';
 
         $url = rex::isFrontend() ? rex_url::frontendController() : rex_url::backendController();
@@ -272,6 +284,7 @@ abstract class rex_error_handler
      * @param int    $errline The line of the file in which the error occured
      *
      * @throws ErrorException
+     * @return bool
      */
     public static function handleError($errno, $errstr, $errfile, $errline)
     {
@@ -308,10 +321,13 @@ abstract class rex_error_handler
         }
 
         rex_logger::logError($errno, $errstr, $errfile, $errline);
+
+        return true;
     }
 
     /**
      * Shutdown-handler which is called at the very end of the request.
+     * @return void
      */
     public static function shutdown()
     {

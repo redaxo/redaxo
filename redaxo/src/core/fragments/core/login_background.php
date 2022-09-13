@@ -7,35 +7,45 @@
 <picture class="rex-background">
     <source
         srcset="
-            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/jr-korpa-9XngoIpxcEo-unsplash_2100.avif') ?> 2100w,
-            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/jr-korpa-9XngoIpxcEo-unsplash_3300.avif') ?> 3300w"
+            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/dynamic-wang-EHnrP9CanuQ-unsplash_2400.avif') ?> 2400w,
+            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/dynamic-wang-EHnrP9CanuQ-unsplash_3600.avif') ?> 3600w"
         sizes="100vw"
         type="image/avif"
     />
     <img
         alt=""
-        src="<?= rex_url::pluginAssets('be_style', 'redaxo', 'images/jr-korpa-9XngoIpxcEo-unsplash_2100.jpg') ?>"
+        src="<?= rex_url::pluginAssets('be_style', 'redaxo', 'images/dynamic-wang-EHnrP9CanuQ-unsplash_2400.jpg') ?>"
         srcset="
-            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/jr-korpa-9XngoIpxcEo-unsplash_2100.jpg') ?> 2100w,
-            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/jr-korpa-9XngoIpxcEo-unsplash_3300.jpg') ?> 3300w"
+            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/dynamic-wang-EHnrP9CanuQ-unsplash_2400.jpg') ?> 2400w,
+            <?= rex_url::pluginAssets('be_style', 'redaxo', 'images/dynamic-wang-EHnrP9CanuQ-unsplash_3600.jpg') ?> 3600w"
         sizes="100vw"
     />
 </picture>
 
 <style>
     #rex-page-login {
-        background-color: #06061a;
+        background-color: #2a3444;
     }
     #rex-page-login .panel-default {
-        background-color: rgba(15, 17, 51, 0.9);
+        background-color: rgba(33, 38, 41, 0.95);
     }
+
     #rex-page-login .btn-primary {
-        background-color: #4700b3;
+        background-color: #008eff;
         border-color: rgba(0, 0, 0, 0.5);
     }
     #rex-page-login .btn-primary:hover,
     #rex-page-login .btn-primary:focus {
-        background-color: #5b00bd;
+        background-color: #44abfe;
+    }
+
+    #rex-page-login .rex-global-footer {
+        mix-blend-mode: difference;
+    }
+    @supports (mix-blend-mode: plus-lighter) {
+        #rex-page-login .rex-global-footer {
+            mix-blend-mode: plus-lighter;
+        }
     }
 </style>
 
@@ -52,7 +62,7 @@
         <ul class="list-inline">
             <li><a href="https://www.yakamara.de" target="_blank" rel="noreferrer noopener">yakamara.de</a></li>
             <li><a href="https://www.redaxo.org" target="_blank" rel="noreferrer noopener">redaxo.org</a></li>
-            <li class="rex-background-credits"><a href="https://unsplash.com/@jrkorpa" target="_blank" rel="noreferrer noopener">Photo by Jr Korpa on Unsplash</a></li>
+            <li class="rex-background-credits"><a href="https://unsplash.com/@dynamicwang" target="_blank" rel="noreferrer noopener">Photo by Dynamic Wang on Unsplash</a></li>
         </ul>
     </nav>
 </footer>

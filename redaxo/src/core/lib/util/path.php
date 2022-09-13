@@ -9,15 +9,14 @@
  */
 class rex_path
 {
-    /**
-     * @var rex_path_default_provider
-     */
+    /** @var rex_path_default_provider */
     protected static $pathprovider;
 
     /**
      * Initializes the class.
      *
      * @param rex_path_default_provider $pathprovider A path provider
+     * @return void
      */
     public static function init($pathprovider)
     {
@@ -403,5 +402,22 @@ class rex_path
 
         /** @psalm-suppress ForbiddenCode */
         return basename($path);
+    }
+
+    public static function findBinaryPath(string $commandName): ?string
+    {
+        if (!function_exists('exec')) {
+            return null;
+        }
+
+        $out = [];
+        $cmd = sprintf('command -v %s || which %s', $commandName, $commandName);
+        exec($cmd, $out, $ret);
+
+        if (0 === $ret) {
+            return (string) $out[0];
+        }
+
+        return null;
     }
 }

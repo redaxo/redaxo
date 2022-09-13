@@ -1,5 +1,5 @@
 package: mediapool
-version: '2.11.1'
+version: '2.12.0'
 author: 'Jan Kristinus'
 supportpage: https://github.com/redaxo/redaxo
 
@@ -17,7 +17,7 @@ page:
         structure: { title: translate:pool_cat_list,   perm: media/hasAll }
         sync:      { title: translate:pool_sync_files, perm: media[sync] }
 
-blocked_extensions: [php, php3, php4, php5, php6, php7, phar, pht, phtml, hh, pl, asp, aspx, cfm, jsp, jsf, bat, sh, cgi, htaccess, htpasswd]
+blocked_extensions: [php, php3, php4, php5, php6, php7, php8, phar, pht, phtml, hh, pl, asp, aspx, cfm, jsp, jsf, bat, sh, cgi, htaccess, htpasswd]
 
 # optional mime type allowlist. the list is checked after the blocked_extensions check from above has passed.
 # exmaple:

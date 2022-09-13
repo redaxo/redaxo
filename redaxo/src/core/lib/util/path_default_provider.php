@@ -9,17 +9,11 @@
  */
 class rex_path_default_provider
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $base;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $backend;
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $provideAbsolutes;
 
     /**

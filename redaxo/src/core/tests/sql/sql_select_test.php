@@ -127,16 +127,20 @@ class rex_sql_select_test extends TestCase
 
     public function testPreparedSetQuery()
     {
+        $this->insertRow();
+
         $sql = rex_sql::factory();
-        $sql->setQuery('SELECT * FROM ' . self::TABLE . ' WHERE col_str = ? and col_int = ?', ['abc', 5]);
+        $sql->setQuery('SELECT * FROM ' . self::TABLE . ' WHERE col_str = ? and col_int = ? LIMIT ?', ['abc', 5, 1]);
 
         static::assertEquals(1, $sql->getRows());
     }
 
     public function testPreparedNamedSetQuery()
     {
+        $this->insertRow();
+
         $sql = rex_sql::factory();
-        $sql->setQuery('SELECT * FROM ' . self::TABLE . ' WHERE col_str = :mystr and col_int = :myint', ['mystr' => 'abc', ':myint' => 5]);
+        $sql->setQuery('SELECT * FROM ' . self::TABLE . ' WHERE col_str = :mystr and col_int = :myint LIMIT :limit', ['mystr' => 'abc', ':myint' => 5, 'limit' => 1]);
 
         static::assertEquals(1, $sql->getRows());
     }
@@ -249,6 +253,19 @@ class rex_sql_select_test extends TestCase
         static::assertEquals('42S22', $sql->getErrno());
         static::assertEquals(1054, $sql->getMysqlErrno());
         static::assertEquals("Unknown column 'idx' in 'where clause'", $sql->getError());
+
+        $exception = null;
+        rex_sql::closeConnection(); // https://github.com/redaxo/redaxo/pull/5272#discussion_r935793505
+        $sql = rex_sql::factory();
+        try {
+            $sql->setQuery('SELECT * FROM non_existing_table');
+        } catch (rex_sql_exception $exception) {
+        }
+
+        static::assertInstanceOf(rex_sql_exception::class, $exception);
+        static::assertSame($sql, $exception->getSql());
+        static::assertTrue($sql->hasError());
+        static::assertSame(rex_sql::ERRNO_TABLE_OR_VIEW_DOESNT_EXIST, $sql->getErrno());
     }
 
     public function testUnbufferedQuery()

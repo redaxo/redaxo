@@ -22,9 +22,6 @@ class rex_article_content_editor extends rex_article_content
         parent::__construct($articleId, $clang);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function outputSlice(rex_sql $artDataSql, $moduleIdToAdd)
     {
         if ('edit' != $this->mode) {
@@ -327,9 +324,6 @@ class rex_article_content_editor extends rex_article_content
         return '<li class="rex-slice rex-slice-select" id="slice-add-pos-' . $position . '">' . $select . '</li>';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function preArticle($articleContent, $moduleId)
     {
         // ---------- moduleselect: nur module nehmen auf die der user rechte hat
@@ -359,9 +353,6 @@ class rex_article_content_editor extends rex_article_content
         return parent::preArticle($articleContent, $moduleId);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function postArticle($articleContent, $moduleId)
     {
         // special identifier for the slot behind the last slice

@@ -12,7 +12,7 @@
  *
  * @var bool   $block
  * @var string $button_label
- * @var array  $items        array contains all modules
+ * @var array<int, array{id: string, key: string, title: string, href: string}> $items array contains all modules
  *             [0]        the index of array
  *             - [id]     the module id
  *             - [key]    the module key

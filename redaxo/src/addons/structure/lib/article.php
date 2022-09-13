@@ -130,9 +130,6 @@ class rex_article extends rex_structure_element
         return $this->path;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getValue($value)
     {
         if ('category_id' === $value) {
@@ -153,9 +150,6 @@ class rex_article extends rex_structure_element
         return parent::_hasValue($value, ['art_']);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isPermitted()
     {
         return (bool) rex_extension::registerPoint(new rex_extension_point('ART_IS_PERMITTED', true, ['element' => $this]));

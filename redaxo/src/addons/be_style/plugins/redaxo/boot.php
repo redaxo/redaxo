@@ -8,8 +8,6 @@
  * @author <a href="https://www.yakamara.de">www.yakamara.de</a>
  * @author Umsetzung
  * @author thomas[dot]blum[at]redaxo[dot]org Thomas Blum
- *
- * @package redaxo5
  */
 
 $plugin = rex_plugin::get('be_style', 'redaxo');
@@ -33,7 +31,8 @@ if (rex::isBackend()) {
         return $subject;
     });
 
-    if (rex::getUser() && $plugin->getProperty('compile')) {
+    $user = rex::getUser();
+    if ($user && $plugin->getProperty('compile')) {
         rex_addon::get('be_style')->setProperty('compile', true);
     }
 
@@ -61,4 +60,12 @@ if (rex::isBackend()) {
         $icons = implode("\n    ", $icons);
         $ep->setSubject($icons . $ep->getSubject());
     });
+
+    // add theme-information to js-variable rex as rex.theme
+    // (1) System-Settings (2) no systemforced mode: user-mode (3) fallback: "auto"
+    $theme = (string) rex::getProperty('theme');
+    if ('' === $theme && $user) {
+        $theme = (string) $user->getValue('theme');
+    }
+    rex_view::setJsProperty('theme', $theme ?: 'auto');
 }

@@ -20,9 +20,7 @@ class rex_user
      */
     protected $sql;
 
-    /**
-     * @var null|bool
-     */
+    /** @var null|bool */
     private $admin;
 
     /**
@@ -39,9 +37,6 @@ class rex_user
      */
     protected static $roleClass;
 
-    /**
-     * Constructor.
-     */
     public function __construct(rex_sql $sql)
     {
         $this->sql = $sql;
@@ -62,8 +57,10 @@ class rex_user
         });
     }
 
-    public static function forLogin(string $login): ?self
-    {
+    public static function forLogin(
+        #[\SensitiveParameter]
+        string $login
+    ): ?self {
         return static::getInstance('login_' . $login, static function () use ($login) {
             $sql = rex_sql::factory()->setQuery('SELECT * FROM '.rex::getTable('user').' WHERE login = ?', [$login]);
 

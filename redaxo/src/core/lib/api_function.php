@@ -38,7 +38,7 @@ abstract class rex_api_function
     /**
      * The result of the function call.
      *
-     * @var rex_api_result
+     * @var rex_api_result|null
      */
     protected $result;
 
@@ -134,8 +134,7 @@ abstract class rex_api_function
         }
 
         // remove the `rex_api_` prefix
-        $name = substr($class, 8);
-        assert(false !== $name);
+        $name = rex_type::string(substr($class, 8));
 
         return sprintf('<input type="hidden" name="%s" value="%s"/>', self::REQ_CALL_PARAM, rex_escape($name))
             .rex_csrf_token::factory($class)->getHiddenField();
@@ -143,11 +142,14 @@ abstract class rex_api_function
 
     /**
      * checks whether an api function is bound to the current requests. If so, so the api function will be executed.
+     *
+     * @return void
      */
     public static function handleCall()
     {
         if ($factoryClass = static::getExplicitFactoryClass()) {
-            return $factoryClass::handleCall();
+            $factoryClass::handleCall();
+            return;
         }
 
         $apiFunc = self::factory();
@@ -237,7 +239,7 @@ abstract class rex_api_function
     }
 
     /**
-     * @return rex_api_result
+     * @return rex_api_result|null
      */
     public function getResult()
     {
@@ -295,6 +297,9 @@ class rex_api_result
         $this->message = $message;
     }
 
+    /**
+     * @return void
+     */
     public function setRequiresReboot($requiresReboot)
     {
         $this->requiresReboot = $requiresReboot;

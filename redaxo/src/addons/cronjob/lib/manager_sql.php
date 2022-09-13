@@ -51,6 +51,7 @@ class rex_cronjob_manager_sql
 
     /**
      * @param string $message
+     * @return void
      */
     public function setMessage($message)
     {
@@ -148,7 +149,11 @@ class rex_cronjob_manager_sql
         return $success;
     }
 
-    public function check()
+    /**
+     * @param null|callable(string,bool,string):void $callback Callback is called after every job execution (params: job name, success status, message)
+     * @return void
+     */
+    public function check(?callable $callback = null)
     {
         $env = rex_cronjob_manager::getCurrentEnvironment();
         $script = 'script' === $env;
@@ -209,21 +214,32 @@ class rex_cronjob_manager_sql
         if ($script || 1 == $jobs[0]['execution_moment']) {
             foreach ($jobs as &$job) {
                 $job['started'] = true;
-                $this->tryExecuteJob($job, true, true);
+                $success = $this->tryExecuteJob($job, true, true);
+
+                if ($callback) {
+                    $callback($job['name'], $success, $this->getMessage());
+                }
+
                 $job['finished'] = true;
             }
             return;
         }
 
-        rex_extension::register('RESPONSE_SHUTDOWN', function () use (&$jobs) {
+        rex_extension::register('RESPONSE_SHUTDOWN', function () use (&$jobs, $callback) {
             $jobs[0]['started'] = true;
-            $this->tryExecuteJob($jobs[0], true, true);
+            $success = $this->tryExecuteJob($jobs[0], true, true);
+
+            if ($callback) {
+                $callback($jobs[0]['name'], $success, $this->getMessage());
+            }
+
             $jobs[0]['finished'] = true;
         });
     }
 
     /**
      * @param int $id
+     * @param bool $log
      * @return bool
      */
     public function tryExecute($id, $log = true)
@@ -246,11 +262,14 @@ class rex_cronjob_manager_sql
     }
 
     /**
+     * @param array{id: int, interval: string, name: string, parameters: ?string, type: class-string<rex_cronjob>} $job
+     * @param bool $log
+     * @param bool $resetExecutionStart
      * @return bool
      */
     private function tryExecuteJob(array $job, $log = true, $resetExecutionStart = false)
     {
-        $params = json_decode($job['parameters'], true);
+        $params = $job['parameters'] ? json_decode($job['parameters'], true) : [];
         $cronjob = rex_cronjob::factory($job['type']);
 
         $this->setNextTime($job['id'], $job['interval'], $resetExecutionStart);
@@ -259,6 +278,10 @@ class rex_cronjob_manager_sql
     }
 
     /**
+     * @param int $id
+     * @param string $interval
+     * @param bool $resetExecutionStart
+     *
      * @return bool
      */
     public function setNextTime($id, $interval, $resetExecutionStart = false)

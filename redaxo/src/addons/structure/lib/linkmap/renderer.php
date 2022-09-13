@@ -73,6 +73,9 @@ abstract class rex_linkmap_tree_renderer
         return $ul;
     }
 
+    /**
+     * @return string
+     */
     abstract protected function treeItem(rex_category $cat, $liClasses, $linkClasses, $subHtml, $liIcon);
 
     /**
@@ -119,6 +122,9 @@ abstract class rex_linkmap_tree_renderer
  */
 abstract class rex_linkmap_article_list_renderer
 {
+    /**
+     * @return string
+     */
     public function getList($categoryId)
     {
         $isRoot = 0 === $categoryId;
@@ -157,5 +163,8 @@ abstract class rex_linkmap_article_list_renderer
         return $list;
     }
 
+    /**
+     * @return string
+     */
     abstract protected function listItem(rex_article $article, $categoryId);
 }

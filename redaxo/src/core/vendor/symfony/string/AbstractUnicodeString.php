@@ -366,7 +366,7 @@ abstract class AbstractUnicodeString extends AbstractString
 
     public function snake(): parent
     {
-        $str = $this->camel()->title();
+        $str = $this->camel();
         $str->string = mb_strtolower(preg_replace(['/(\p{Lu}+)(\p{Lu}\p{Ll})/u', '/([\p{Ll}0-9])(\p{Lu})/u'], '\1_\2', $str->string), 'UTF-8');
 
         return $str;
@@ -492,14 +492,17 @@ abstract class AbstractUnicodeString extends AbstractString
         foreach (explode("\n", $s) as $s) {
             if ($ignoreAnsiDecoration) {
                 $s = preg_replace('/(?:\x1B(?:
-                    \[ [\x30-\x3F]*+ [\x20-\x2F]*+ [0x40-\x7E]
+                    \[ [\x30-\x3F]*+ [\x20-\x2F]*+ [\x40-\x7E]
                     | [P\]X^_] .*? \x1B\\\\
                     | [\x41-\x7E]
                 )|[\p{Cc}\x7F]++)/xu', '', $s);
             }
 
-            // Non printable characters have been dropped, so wcswidth cannot logically return -1.
-            $width += $this->wcswidth($s);
+            $lineWidth = $this->wcswidth($s);
+
+            if ($lineWidth > $width) {
+                $width = $lineWidth;
+            }
         }
 
         return $width;

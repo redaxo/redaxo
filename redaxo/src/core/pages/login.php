@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @package redaxo5
- */
-
 global $rexUserLoginmessage;
 
 $rexUserLogin = rex_post('rex_user_login', 'string');
@@ -50,7 +46,7 @@ $formElements = [];
 
 $inputGroups = [];
 $n = [];
-$n['field'] = '<input class="form-control" type="text" value="' . rex_escape($rexUserLogin) . '" id="rex-id-login-user" name="rex_user_login" autofocus />';
+$n['field'] = '<input class="form-control" type="text" value="' . rex_escape($rexUserLogin) . '" id="rex-id-login-user" name="rex_user_login" autocomplete="username" autofocus />';
 $n['left'] = '<i class="rex-icon rex-icon-user"></i>';
 $inputGroups[] = $n;
 
@@ -66,7 +62,7 @@ $formElements[] = $n;
 
 $inputGroups = [];
 $n = [];
-$n['field'] = '<input class="form-control" type="password" name="rex_user_psw" id="rex-id-login-password" />';
+$n['field'] = '<input class="form-control" type="password" name="rex_user_psw" id="rex-id-login-password" autocomplete="current-password" />';
 $n['left'] = '<i class="rex-icon rex-icon-password"></i>';
 $inputGroups[] = $n;
 
@@ -85,10 +81,12 @@ $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
 $formElements = [];
-$n = [];
-$n['label'] = '<label for="rex-id-login-stay-logged-in">' . rex_i18n::msg('stay_logged_in') . '</label>';
-$n['field'] = '<input type="checkbox" name="rex_user_stay_logged_in" id="rex-id-login-stay-logged-in" value="1" />';
-$formElements[] = $n;
+if (rex::getProperty('login')->getLoginPolicy()->isStayLoggedInEnabled()) {
+    $n = [];
+    $n['label'] = '<label for="rex-id-login-stay-logged-in">' . rex_i18n::msg('stay_logged_in') . '</label>';
+    $n['field'] = '<input type="checkbox" name="rex_user_stay_logged_in" id="rex-id-login-stay-logged-in" value="1" />';
+    $formElements[] = $n;
+}
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);

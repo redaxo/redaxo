@@ -4,8 +4,6 @@
  * Cronjob Addon.
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
- *
- * @package redaxo5
  */
 
 $func = rex_request('func', 'string');
@@ -47,7 +45,7 @@ $formElements = [];
 $file = new rex_log_file($logFile);
 
 /** @var rex_log_entry $entry */
-foreach (new LimitIterator($file, 0, 30) as $entry) {
+foreach (new LimitIterator($file, 0, 100) as $entry) {
     $data = $entry->getData();
     $class = 'ERROR' == trim($data[0]) ? 'rex-state-error' : 'rex-state-success';
     if ('--' == $data[1]) {

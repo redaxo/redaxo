@@ -4,8 +4,6 @@
  * History.
  *
  * @author jan@kristinus.de
- *
- * @package redaxo5
  */
 
 $plugin = rex_plugin::get('structure', 'history');
@@ -16,7 +14,7 @@ rex_perm::register('history[article_rollback]', null, rex_perm::OPTIONS);
 
 if ('' != $historyDate) {
     $historySession = rex_request('rex_history_session', 'string');
-    $historyLogin = rex_request(rex_history_login::class, 'string');
+    $historyLogin = rex_request('rex_history_login', 'string');
     $historyValidtime = rex_request('rex_history_validtime', 'string');
 
     $user = null;

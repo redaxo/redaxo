@@ -9,7 +9,8 @@ use Rector\CodeQuality\Rector\Identical\SimplifyBoolIdenticalTrueRector;
 use Rector\CodeQuality\Rector\Identical\SimplifyConditionsRector;
 use Rector\CodeQuality\Rector\If_\SimplifyIfReturnBoolRector;
 use Rector\CodeQuality\Rector\Ternary\UnnecessaryTernaryExpressionRector;
-use Rector\Core\Configuration\Option;
+use Rector\CodingStyle\Rector\Property\InlineSimplePropertyAnnotationRector;
+use Rector\Config\RectorConfig;
 use Rector\Core\ValueObject\PhpVersion;
 use Rector\Php70\Rector\Ternary\TernaryToNullCoalescingRector;
 use Rector\Php80\Rector\Identical\StrEndsWithRector;
@@ -20,21 +21,17 @@ use Redaxo\Rector\Rule\UnderscoreToCamelCaseVariableNameRector;
 use Redaxo\Rector\Util\UnderscoreCamelCaseConflictingNameGuard;
 use Redaxo\Rector\Util\UnderscoreCamelCaseExpectedNameResolver;
 use Redaxo\Rector\Util\UnderscoreCamelCasePropertyRenamer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 require_once __DIR__.'/.tools/rector/autoload.php';
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    // get parameters
-    $parameters = $containerConfigurator->parameters();
-
-    $parameters->set(Option::BOOTSTRAP_FILES, [
+return static function (RectorConfig $rectorConfig): void {
+    $rectorConfig->bootstrapFiles([
         __DIR__.'/.tools/constants.php',
     ]);
 
     // this list will grow over time.
     // to make sure we can review every transformation and not introduce unseen bugs
-    $parameters->set(Option::PATHS, [
+    $rectorConfig->paths([
         // restrict to core and core addons, ignore other locally installed addons
         'redaxo/src/core/',
         'redaxo/src/addons/backup/',
@@ -51,7 +48,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         'redaxo/src/addons/users/',
     ]);
 
-    $parameters->set(Option::SKIP, [
+    $rectorConfig->skip([
         'redaxo/src/core/vendor',
         'redaxo/src/addons/backup/vendor',
         'redaxo/src/addons/be_style/vendor',
@@ -59,15 +56,18 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         'redaxo/src/addons/phpmailer/vendor',
     ]);
 
-    $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersion::PHP_80);
+    $rectorConfig->parallel();
+
+    $rectorConfig->phpVersion(PhpVersion::PHP_80);
 
     // get services (needed for register a single rule)
-    $services = $containerConfigurator->services();
+    $services = $rectorConfig->services();
 
     // we will grow this rector list step by step.
     // after some basic rectors have been enabled we can finally enable whole-sets (when diffs get stable and reviewable)
     // $services->set(Rector\SOLID\Rector\If_\ChangeAndIfToEarlyReturnRector::class);
     $services->set(CombinedAssignRector::class);
+    $services->set(InlineSimplePropertyAnnotationRector::class);
     $services->set(SimplifyBoolIdenticalTrueRector::class);
     $services->set(SimplifyConditionsRector::class);
     $services->set(SimplifyDeMorganBinaryRector::class);

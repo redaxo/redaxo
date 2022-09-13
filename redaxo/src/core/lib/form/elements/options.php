@@ -10,6 +10,10 @@ abstract class rex_form_options_element extends rex_form_element
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
+    /**
+     * @param string $tag
+     * @param array<string, int|string> $attributes
+     */
     public function __construct($tag = '', rex_form_base $form = null, array $attributes = [])
     {
         parent::__construct($tag, $form, $attributes);
@@ -19,6 +23,7 @@ abstract class rex_form_options_element extends rex_form_element
     /**
      * @param string     $name
      * @param string|int $value
+     * @return void
      */
     public function addOption($name, $value)
     {
@@ -28,6 +33,7 @@ abstract class rex_form_options_element extends rex_form_element
     /**
      * @param array<string|array{0: string, 1?: string|int}> $options
      * @param bool                                           $useOnlyValues
+     * @return void
      */
     public function addOptions(array $options, $useOnlyValues = false)
     {
@@ -48,6 +54,7 @@ abstract class rex_form_options_element extends rex_form_element
     /**
      * @param string[] $options
      * @param bool     $useKeys
+     * @return void
      */
     public function addArrayOptions(array $options, $useKeys = true)
     {
@@ -62,6 +69,7 @@ abstract class rex_form_options_element extends rex_form_element
 
     /**
      * @param string $query
+     * @return void
      */
     public function addSqlOptions($query)
     {
@@ -71,6 +79,7 @@ abstract class rex_form_options_element extends rex_form_element
 
     /**
      * @param string $query
+     * @return void
      */
     public function addDBSqlOptions($query)
     {

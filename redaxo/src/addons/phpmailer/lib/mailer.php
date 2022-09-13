@@ -129,6 +129,9 @@ class rex_mailer extends PHPMailer
                 if ($addon->getConfig('logging')) {
                     $this->log('ERROR');
                 }
+                if ($this->archive) {
+                    $this->archive($this->getSentMIMEMessage(), 'not_sent_');
+                }
                 return false;
             }
 
@@ -143,6 +146,9 @@ class rex_mailer extends PHPMailer
         });
     }
 
+    /**
+     * @return void
+     */
     public function clearQueuedAddresses($kind)
     {
         parent::clearQueuedAddresses($kind);
@@ -174,6 +180,7 @@ class rex_mailer extends PHPMailer
      * @param bool $status
      *
      * @deprecated use `setArchive` instead
+     * @return void
      */
     public function setLog($status)
     {
@@ -184,19 +191,20 @@ class rex_mailer extends PHPMailer
      * Enable/disable the mail archive.
      *
      * It overwrites the global `archive` configuration for the current mailer object.
+     * @return void
      */
     public function setArchive(bool $status)
     {
         $this->archive = $status;
     }
 
-    private function archive(string $archivedata = ''): void
+    private function archive(string $archivedata = '', string $status = ''): void
     {
         $dir = self::logFolder().'/'.date('Y').'/'.date('m');
         $count = 1;
-        $archiveFile = $dir.'/'.date('Y-m-d_H_i_s').'.eml';
+        $archiveFile = $dir.'/'.$status.date('Y-m-d_H_i_s').'.eml';
         while (is_file($archiveFile)) {
-            $archiveFile = $dir.'/'.date('Y-m-d_H_i_s').'_'.(++$count).'.eml';
+            $archiveFile = $dir.'/'.$status.date('Y-m-d_H_i_s').'_'.(++$count).'.eml';
         }
 
         rex_file::put($archiveFile, $archivedata);
@@ -295,7 +303,7 @@ class rex_mailer extends PHPMailer
         $mail->Subject = rex::getServerName() . ' - error report ';
         $mail->Body = $mailBody;
         $mail->AltBody = strip_tags($mailBody);
-        $mail->setFrom(rex::getErrorEmail(), 'REDAXO error report');
+        $mail->FromName = 'REDAXO error report';
         $mail->addAddress(rex::getErrorEmail());
 
         $addon->setConfig('last_log_file_send_time', time());

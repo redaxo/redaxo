@@ -1,6 +1,30 @@
 Changelog
 =========
 
+Version 2.9.0 – 25.07.2022
+--------------------------
+
+### Neu
+
+* Es können Notizen/Hinweise zu Feldern hinzugefügt werden (@gharlan)
+
+
+Version 2.8.5 – 03.05.2022
+--------------------------
+
+### Bugfixes
+
+* Prepared Statements nutzen (@staabm)
+
+
+Version 2.8.4 – 10.01.2022
+--------------------------
+
+### Bugfixes
+
+* Bei Datumsfeldern funktionierte die Checkbox mit PHP 8 nicht mehr (@gharlan)
+
+
 Version 2.8.3 – 29.11.2021
 --------------------------
 

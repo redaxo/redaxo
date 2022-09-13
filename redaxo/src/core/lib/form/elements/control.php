@@ -5,25 +5,15 @@
  */
 class rex_form_control_element extends rex_form_element
 {
-    /**
-     * @var rex_form_element|null
-     */
+    /** @var rex_form_element|null */
     private $saveElement;
-    /**
-     * @var rex_form_element|null
-     */
+    /** @var rex_form_element|null */
     private $applyElement;
-    /**
-     * @var rex_form_element|null
-     */
+    /** @var rex_form_element|null */
     private $deleteElement;
-    /**
-     * @var rex_form_element|null
-     */
+    /** @var rex_form_element|null */
     private $resetElement;
-    /**
-     * @var rex_form_element|null
-     */
+    /** @var rex_form_element|null */
     private $abortElement;
 
     public function __construct(rex_form_base $form, rex_form_element $saveElement = null, rex_form_element $applyElement = null, rex_form_element $deleteElement = null, rex_form_element $resetElement = null, rex_form_element $abortElement = null)
@@ -120,26 +110,41 @@ class rex_form_control_element extends rex_form_element
         return is_object($element) && '' != rex_post($element->getAttribute('name'), 'string');
     }
 
+    /**
+     * @return bool
+     */
     public function saved()
     {
         return $this->submitted($this->saveElement);
     }
 
+    /**
+     * @return bool
+     */
     public function applied()
     {
         return $this->submitted($this->applyElement);
     }
 
+    /**
+     * @return bool
+     */
     public function deleted()
     {
         return $this->submitted($this->deleteElement);
     }
 
+    /**
+     * @return bool
+     */
     public function resetted()
     {
         return $this->submitted($this->resetElement);
     }
 
+    /**
+     * @return bool
+     */
     public function aborted()
     {
         return $this->submitted($this->abortElement);

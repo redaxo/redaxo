@@ -119,10 +119,8 @@ class rex_fragment
                 $content = rex_timer::measure('Fragment: '.$filename, function () use ($fragment) {
                     ob_start();
                     require $fragment;
-                    $output = ob_get_clean();
-                    assert(false !== $output);
 
-                    return $output;
+                    return rex_type::string(ob_get_clean());
                 });
 
                 if ($this->decorator) {
@@ -197,6 +195,7 @@ class rex_fragment
      *
      * @param string $filename The filename of the fragment to use
      * @param array<string, mixed> $params A array of key-value pairs to pass as local parameters
+     * @return void
      */
     protected function subfragment($filename, array $params = [])
     {
@@ -254,6 +253,7 @@ class rex_fragment
      * Add a path to the fragment search path.
      *
      * @param string $dir A path to a directory where fragments can be found
+     * @return void
      */
     public static function addDirectory($dir)
     {

@@ -28,6 +28,8 @@ abstract class rex_structure_element
 
     /** @var int */
     protected $template_id = 0;
+
+    /** @var string */
     protected $path = '';
 
     /** @var int */
@@ -54,11 +56,9 @@ abstract class rex_structure_element
     /** @var string */
     protected $createuser = '';
 
+    /** @var list<string>|null */
     protected static $classVars;
 
-    /**
-     * Constructor.
-     */
     protected function __construct(array $params)
     {
         foreach (self::getClassVars() as $var) {
@@ -122,7 +122,7 @@ abstract class rex_structure_element
     /**
      * Returns an Array containing article field names.
      *
-     * @return string[]
+     * @return list<string>
      */
     public static function getClassVars()
     {
@@ -136,7 +136,7 @@ abstract class rex_structure_element
                 $genVars = rex_file::getCache($file, []);
                 unset($genVars['last_update_stamp']);
                 foreach ($genVars as $name => $value) {
-                    self::$classVars[] = $name;
+                    self::$classVars[] = (string) $name;
                 }
             } else {
                 // Im Backend die Spalten aus der DB auslesen / via EP holen
@@ -151,6 +151,9 @@ abstract class rex_structure_element
         return self::$classVars;
     }
 
+    /**
+     * @return void
+     */
     public static function resetClassVars()
     {
         self::$classVars = null;

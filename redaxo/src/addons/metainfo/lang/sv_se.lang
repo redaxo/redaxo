@@ -42,7 +42,7 @@ minfo_field_params_notice_9 = Exempel:<br /> <code>category="1"</code>
 minfo_field_params_notice_10 = Exempel:<br /> <code>start-year="1990" end-year="2030"</code>
 minfo_field_params_notice_11 = Exempel:<br /> <code>start-year="1990" end-year="2030"</code>
 
-minfo_field_attributes_notice = Exempel:<br /><code>style="color:red;" multiple="multiple" class="my_css_class" perm="admin[]"</code>
+minfo_field_attributes_notice = Exempel:<br /><code>style="color:red;" multiple="multiple" class="my_css_class" perm="admin[]" note="note"</code>
 minfo_field_label_notice = Kod som utförs om värdet av fältet ändras.<br /> Läsbara variablar: <code>string $fieldName, string $fieldValue, rex_sql $field</code>
 
 minfo_field_error_name = Vänligen ange ett spaltnamn!
