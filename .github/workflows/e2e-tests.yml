@@ -260,15 +260,15 @@ jobs:
                 # directories afterwards
                 if: env.was_autocommit != 'true'
                 run: |
-                for directory in ./ci-artifact-*; do
-                    [ -d "$directory" ] || continue
-                    echo "has_changed_files=true" >> $GITHUB_ENV
-                    if [[ "$directory" == *"e2e"* ]]; then
-                        echo "has_changed_e2e_files=true" >> $GITHUB_ENV
-                    fi
-                    tar -xvf "$directory"/*.tar
-                    rm -rf "$directory"
-                done
+                    for directory in ./ci-artifact-*; do
+                        [ -d "$directory" ] || continue
+                        echo "has_changed_files=true" >> $GITHUB_ENV
+                        if [[ "$directory" == *"e2e"* ]]; then
+                            echo "has_changed_e2e_files=true" >> $GITHUB_ENV
+                        fi
+                        tar -xvf "$directory"/*.tar
+                        rm -rf "$directory"
+                    done
 
             -   name: Update repository 👀
                 # git pull to make sure the repo is not dirty
