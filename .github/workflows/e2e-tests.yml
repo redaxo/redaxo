@@ -78,7 +78,7 @@ jobs:
             -   name: Install playwright browsers (without system dependencies) 🐿️🎒
                 if: ${{ steps.playwright-cache.outputs.cache-hit != 'true' }}
                 # https://playwright.dev/docs/cli#install-browsers
-                run: npx playwright install chromium webkit --prefix=${{ env.e2e_working_directory }}
+                run: npx playwright install chromium webkit
 
             -   name: Create outputs for use in dependent jobs 🍿
                 # create step outputs and let them be aggregated when this job is finished (see above)
@@ -189,7 +189,7 @@ jobs:
                 # browsers should already be cached (from e2e-prepare job before), so this step will be is fast.
                 # unfortunately system dependencies cannot be cached and will take some time to install.
                 # https://playwright.dev/docs/cli#install-system-dependencies
-                run: npx playwright install --with-deps chromium webkit --prefix=${{ env.e2e_working_directory }}
+                run: npx playwright install --with-deps chromium webkit
 
             -   name: E2E tests 🕹️
                 # run e2e tests, see package.json for details.
