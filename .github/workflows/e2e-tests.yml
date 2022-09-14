@@ -292,19 +292,19 @@ jobs:
                 if: env.has_changed_e2e_files && env.was_autocommit != 'true'
                 uses: actions/github-script@v6
                 with:
-                script: |
-                    github.rest.issues.createComment({
-                        issue_number: context.issue.number,
-                        owner: context.repo.owner,
-                        repo: context.repo.repo,
-                        body: `👋🤖 New snapshots for you people. Plz review the <a href="${context.issue.number}/files?file-filters[]=.png">PNG files</a>!`
-                    })
-                    github.rest.issues.addLabels({
-                        issue_number: context.issue.number,
-                        owner: context.repo.owner,
-                        repo: context.repo.repo,
-                        labels: ['e2e review required']
-                    })
+                    script: |
+                        github.rest.issues.createComment({
+                            issue_number: context.issue.number,
+                            owner: context.repo.owner,
+                            repo: context.repo.repo,
+                            body: `👋🤖 New snapshots for you people. Plz review the <a href="${context.issue.number}/files?file-filters[]=.png">PNG files</a>!`
+                        })
+                        github.rest.issues.addLabels({
+                            issue_number: context.issue.number,
+                            owner: context.repo.owner,
+                            repo: context.repo.repo,
+                            labels: ['e2e review required']
+                        })
 
             -   name: Fail after auto-commit 🙋
                 # let the job fail in case of auto-commit
