@@ -256,6 +256,8 @@ jobs:
                 # download artifacts containing changed files
                 if: env.was_autocommit != 'true'
                 uses: actions/download-artifact@v3
+                with:
+                    path: ${{ env.e2e_working_directory }}
 
             -   name: Extract artifacts 📦
                 # extract tar files contained in artifacts
