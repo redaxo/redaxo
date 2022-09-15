@@ -226,7 +226,7 @@ jobs:
                 if: failure() && env.has_changed_files
                 with:
                     name: ci-artifact-${{ github.job }}-${{ strategy.job-index }}
-                    path: ${{ env.e2e_working_directory }}/${{ github.job }}.tar
+                    path: ${{ github.job }}.tar
                     retention-days: 1
 
     # job: aggregate new e2e snapshots and auto-commit to the repo
@@ -256,8 +256,6 @@ jobs:
                 # download artifacts containing changed files
                 if: env.was_autocommit != 'true'
                 uses: actions/download-artifact@v3
-                with:
-                    path: ${{ env.e2e_working_directory }}
 
             -   name: Extract artifacts 📦
                 # extract tar files contained in artifacts
