@@ -10,11 +10,10 @@ const testItems = [
         name: 'templates_add',
         url: '?page=templates&function=add',
     },
-    // TODO: enable again
-    // {
-    //     name: 'templates_edit',
-    //     url: '?page=templates&function=edit&template_id=1',
-    // },
+    {
+        name: 'templates_edit',
+        url: '?page=templates&function=edit&template_id=1',
+    },
 ]
 
 test.describe.parallel('All', () => {
