@@ -20,7 +20,7 @@ test.describe.parallel('All', () => {
     for (const item of testItems) {
 
         test(`${item.name}`, async ({ page, browserName }, testInfo) => {
-            await gotoPage(page, browserName, `${item.url}`, { waitUntil: 'networkidle' }); // wait for networkidle here due to jquery tab shizzle
+            await gotoPage(page, browserName, `${item.url}`);
             await matchPageSnapshot(page, `${testInfo.title}`);
         });
     }
