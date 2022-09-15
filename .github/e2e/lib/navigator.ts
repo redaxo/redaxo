@@ -1,5 +1,5 @@
 import { Page } from '@playwright/test';
-import { maskContent, stopAnimations, waitForImagesLazyloaded } from './layout';
+import { maskContent, stopAnimations, waitForImagesLazyloaded, waitForPJAXtoFinish } from './layout';
 
 export const gotoPage = async (page: Page, browserName: string, slug: string, options = {}) => {
     const response = await page.goto(`${slug}`, {
@@ -11,5 +11,6 @@ export const gotoPage = async (page: Page, browserName: string, slug: string, op
     await stopAnimations(page);
     await maskContent(page);
     await waitForImagesLazyloaded(page);
+    await waitForPJAXtoFinish(page);
     await page.waitForTimeout(100); // add slight buffer for DOM manipulation and UI updates
 };

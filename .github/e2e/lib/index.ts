@@ -1,3 +1,3 @@
-export { stopAnimations, waitForImagesLazyloaded, maskContent } from './layout';
+export { stopAnimations, waitForImagesLazyloaded, maskContent, waitForPJAXtoFinish } from './layout';
 export { gotoPage } from './navigator';
 export { matchPageSnapshot } from './snapshots';

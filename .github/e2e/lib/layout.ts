@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import { expect, Page } from '@playwright/test';
 
 export const stopAnimations = async (page: Page) =>
     await page.addStyleTag({
@@ -56,3 +56,9 @@ export const maskContent = async (page: Page) => {
         })
     });
 };
+
+// wait for PJAX to finish loading dynamic content
+// hint: we just wait for the loader to be hidden here
+export const waitForPJAXtoFinish = async (page: Page) => {
+    await expect(page.locator('#rex-js-ajax-loader')).toBeHidden();
+}
