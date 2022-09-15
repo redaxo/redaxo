@@ -2,11 +2,14 @@ name: E2E Tests
 
 on: pull_request
 
+defaults:
+  run:
+    working-directory: .github/e2e
+
 env:
     writable: ${{ (github.event_name == 'repository_dispatch' || github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') && 1 || 0 }}
     node_version: 18
     snapshot_files_pattern: .github/e2e/tests/**/*.png
-    e2e_working_directory: .github/e2e
     # skip downloading playwright browsers since we download them manually when required
     # https://playwright.dev/docs/browsers#skip-browser-downloads
     PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: true
@@ -42,13 +45,13 @@ jobs:
                     node-version: ${{ env.node_version }}
                     # cache all packages as specified in lockfile
                     cache: "npm"
-                    cache-dependency-path: ${{ env.e2e_working_directory }}/package-lock.json
+                    cache-dependency-path: package-lock.json
 
             -   name: Prepare environment variables 🍿
                 # save some variables we need for processing later on
                 run: |
                     echo "commit_subject=$(git log -1 --format=%s ${{ github.event.pull_request.head.sha }})" >> $GITHUB_ENV
-                    echo "playwright_version_hash=$(printf `npm ls playwright --package-lock-only --prefix=${{ env.e2e_working_directory }} | shasum`)" >> $GITHUB_ENV
+                    echo "playwright_version_hash=$(printf `npm ls playwright --package-lock-only | shasum`)" >> $GITHUB_ENV
                     echo "os_version=$(lsb_release -sr)" >> $GITHUB_ENV
 
             -   name: Check if workflow run was triggerd by auto-commit 👻
@@ -63,13 +66,13 @@ jobs:
                 id: node-modules-cache
                 uses: actions/cache@v3
                 with:
-                    path: ${{ env.e2e_working_directory }}/node_modules
-                    key: node-modules-${{ runner.os }}-${{ hashFiles('${{ env.e2e_working_directory }}/package-lock.json') }}
+                    path: node_modules
+                    key: node-modules-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
             -   name: Install packages 🐿️🎒
                 # install packages only if node_modules cache is missing
                 if: ${{ steps.node-modules-cache.outputs.cache-hit != 'true' }}
-                run: npm ci --audit=false --prefix=${{ env.e2e_working_directory }}
+                run: npm ci --audit=false
 
             -   name: Cache Playwright browsers ♻️
                 uses: actions/cache@v3
@@ -167,19 +170,19 @@ jobs:
                     node-version: ${{ env.node_version }}
                     # cache all packages as specified in lockfile
                     cache: "npm"
-                    cache-dependency-path: ${{ env.e2e_working_directory }}/package-lock.json
+                    cache-dependency-path: package-lock.json
 
             -   name: Restore node_modules from cache ♻️
                 id: node-modules-cache
                 uses: actions/cache@v3
                 with:
-                    path: ${{ env.e2e_working_directory }}/node_modules
-                    key: node-modules-${{ runner.os }}-${{ hashFiles('${{ env.e2e_working_directory }}/package-lock.json') }}
+                    path: node_modules
+                    key: node-modules-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
             -   name: Install packages 🐿️🎒
                 # install packages only if node_modules cache is missing
                 if: ${{ steps.node-modules-cache.outputs.cache-hit != 'true' }}
-                run: npm ci --audit=false --prefix=${{ env.e2e_working_directory }}
+                run: npm ci --audit=false
 
             -   name: Restore Playwright browsers from cache ♻️
                 uses: actions/cache@v3
@@ -200,10 +203,10 @@ jobs:
                 run: |
                     case ${{ matrix.mode }} in
                         [1-9]/[1-9])
-                            npm run test --prefix=${{ env.e2e_working_directory }} -- --shard=${{ matrix.mode }} ./tests/parallel/
+                            npm run test -- --shard=${{ matrix.mode }} ./tests/parallel/
                             ;;
                         *)
-                            npm run test --prefix=${{ env.e2e_working_directory }} -- --workers=1 ./tests/${{ matrix.mode }}/
+                            npm run test -- --workers=1 ./tests/${{ matrix.mode }}/
                             ;;
                     esac
                     if [[ -n $(git status -s -uall ${{ env.snapshot_files_pattern }} | grep "^ M\|^??") ]]; then
@@ -226,7 +229,7 @@ jobs:
                 if: failure() && env.has_changed_files
                 with:
                     name: ci-artifact-${{ github.job }}-${{ strategy.job-index }}
-                    path: ${{ env.e2e_working_directory }}/${{ github.job }}.tar
+                    path: ${{ github.job }}.tar
                     retention-days: 1
 
     # job: aggregate new e2e snapshots and auto-commit to the repo
