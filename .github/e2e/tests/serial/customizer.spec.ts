@@ -1,8 +1,7 @@
-import {expect, test} from '@playwright/test';
-import {gotoPage, matchPageSnapshot} from "../../lib";
-import {selectors} from "playwright";
+import { expect, test } from '@playwright/test';
+import { gotoPage, matchPageSnapshot } from "../../lib";
 
-test(`customizer`, async ({page, browserName}, testInfo) => {
+test(`customizer`, async ({ page, browserName }, testInfo) => {
     // enable customizer
     await gotoPage(page, browserName, `?page=packages`);
     await expect(page.locator('#package-be_style-customizer')).toHaveClass(/rex-package-not-installed/); // fail fast
@@ -11,7 +10,7 @@ test(`customizer`, async ({page, browserName}, testInfo) => {
 
     // snap index page
     await gotoPage(page, browserName, ''); // go to index page
-    await matchPageSnapshot(page, `customizer`, {fullPage: false});
+    await matchPageSnapshot(page, `customizer`, { fullPage: false });
 
     // disable customizer again
     await gotoPage(page, browserName, `?page=packages`);

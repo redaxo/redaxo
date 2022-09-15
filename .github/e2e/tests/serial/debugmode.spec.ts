@@ -1,7 +1,7 @@
-import {expect, test} from '@playwright/test';
-import {gotoPage, matchPageSnapshot} from "../../lib";
+import { expect, test } from '@playwright/test';
+import { gotoPage, matchPageSnapshot } from "../../lib";
 
-test(`debugmode`, async ({page, browserName}, testInfo) => {
+test(`debugmode`, async ({ page, browserName }, testInfo) => {
     // enable debug mode
     await gotoPage(page, browserName, `?page=system/settings`);
     await expect(page.locator('body')).not.toHaveClass(/rex-is-debugmode/); // fail fast
@@ -11,7 +11,7 @@ test(`debugmode`, async ({page, browserName}, testInfo) => {
 
     // snap index page
     await gotoPage(page, browserName, ''); // go to index page
-    await matchPageSnapshot(page, `debugmode`, {fullPage: false});
+    await matchPageSnapshot(page, `debugmode`, { fullPage: false });
 
     // disable debug mode again
     await gotoPage(page, browserName, `?page=system/settings`);

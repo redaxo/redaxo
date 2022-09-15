@@ -1,5 +1,5 @@
-import {test} from '@playwright/test';
-import {gotoPage, matchPageSnapshot} from "../../lib";
+import { test } from '@playwright/test';
+import { gotoPage, matchPageSnapshot } from "../../lib";
 
 const testItems = [
     {
@@ -27,7 +27,7 @@ const testItems = [
 test.describe.parallel('All', () => {
     for (const item of testItems) {
 
-        test(`${item.name}`, async ({page, browserName}, testInfo) => {
+        test(`${item.name}`, async ({ page, browserName }, testInfo) => {
             await gotoPage(page, browserName, `${item.url}`);
             await matchPageSnapshot(page, `${testInfo.title}`);
         });
