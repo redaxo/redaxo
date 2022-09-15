@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 import { gotoPage, matchPageSnapshot } from "../../lib";
 
 const testItems = [
@@ -13,9 +13,10 @@ test.use({ storageState: undefined }); // do not use signed-in state from 'stora
 test.describe.parallel('All', () => {
     for (const item of testItems) {
 
-        test(`${item.name}`, async ({ page, browserName }, testInfo) => {
+        // TODO: wait for playwright issue to be fixed: https://github.com/microsoft/playwright/issues/15977#issuecomment-1246890654
+        test.fixme(`${item.name}`, async ({ page, browserName }, testInfo) => {
             await gotoPage(page, browserName, `${item.url}`);
-            await page.locator('.rex-background--ready').waitFor({ state: 'attached' }); // wait for bg image
+            await expect(page.locator('.rex-background')).toHaveClass(/rex-background--ready/);
             await matchPageSnapshot(page, `${testInfo.title}`);
         });
     }
