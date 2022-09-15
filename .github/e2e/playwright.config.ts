@@ -1,9 +1,6 @@
-import {PlaywrightTestConfig} from '@playwright/test';
+import { PlaywrightTestConfig } from '@playwright/test';
 
 const config: PlaywrightTestConfig = {
-
-    // global setup (disabled)
-    globalSetup: require.resolve('./global-setup'),
 
     // basic options
     // https://playwright.dev/docs/test-configuration#basic-options
@@ -23,7 +20,7 @@ const config: PlaywrightTestConfig = {
             name: 'chromium',
             use: {
                 browserName: 'chromium',
-                viewport: {width: 1280, height: 600},
+                viewport: { width: 1280, height: 600 },
                 colorScheme: 'light',
                 deviceScaleFactor: 1,
                 hasTouch: false,
@@ -35,7 +32,7 @@ const config: PlaywrightTestConfig = {
             name: 'webkit',
             use: {
                 browserName: 'webkit',
-                viewport: {width: 400, height: 600},
+                viewport: { width: 400, height: 600 },
                 colorScheme: 'dark',
                 deviceScaleFactor: 2,
                 hasTouch: true,
@@ -44,12 +41,12 @@ const config: PlaywrightTestConfig = {
         },
     ],
 
-    // advanced configutation
-    // https://playwright.dev/docs/test-advanced
-    preserveOutput: 'never',
-    reportSlowTests: null,
+    // testing options
+    // https://playwright.dev/docs/test-configuration#testing-options
+    forbidOnly: !!process.env.CI, // forbid test.only on CI
+    globalSetup: require.resolve('./global-setup'),
     retries: 1,
-    reporter: 'list'
+    timeout: 15000, // reduce from default 30000
 };
 
 export default config;
