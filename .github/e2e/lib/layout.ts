@@ -1,4 +1,4 @@
-import {Page} from '@playwright/test';
+import { Page } from '@playwright/test';
 
 export const stopAnimations = async (page: Page) =>
     await page.addStyleTag({
@@ -15,6 +15,7 @@ export const stopAnimations = async (page: Page) =>
     });
 
 export const waitForImagesLazyloaded = async (page: Page) => {
+    // trigger preloading of all lazy images
     await page.evaluate(() => {
         document.querySelectorAll<HTMLElement>('.lazyload').forEach(el => {
             // trigger loading
@@ -22,8 +23,14 @@ export const waitForImagesLazyloaded = async (page: Page) => {
             el.classList.add('lazypreload');
         });
     });
-    const locator = page.locator('.lazyload');
-    while (await locator.count()) {
+    // wait for all lazy images being triggered
+    const lazyloading = page.locator('.lazyload');
+    while ((await lazyloading.count()) > 0) {
+        await page.waitForTimeout(100);
+    }
+    // add some final extra buffer for UI refresh if page contains lazy images
+    const lazyloaded = page.locator('.lazyloaded');
+    if ((await lazyloaded.count()) > 0) {
         await page.waitForTimeout(100);
     }
 };

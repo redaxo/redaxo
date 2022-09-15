@@ -1,5 +1,5 @@
-import {Page} from '@playwright/test';
-import {maskContent, stopAnimations, waitForImagesLazyloaded} from './layout';
+import { Page } from '@playwright/test';
+import { maskContent, stopAnimations, waitForImagesLazyloaded } from './layout';
 
 export const gotoPage = async (page: Page, browserName: string, slug: string, options = {}) => {
     const response = await page.goto(`${slug}`, {
