@@ -14,27 +14,6 @@ export const stopAnimations = async (page: Page) =>
         `
     });
 
-export const waitForImagesLazyloaded = async (page: Page) => {
-    // trigger preloading of all lazy images
-    await page.evaluate(() => {
-        document.querySelectorAll<HTMLElement>('.lazyload').forEach(el => {
-            // trigger loading
-            // https://github.com/aFarkas/lazysizes#lazysizesloaderunveildomnode
-            el.classList.add('lazypreload');
-        });
-    });
-    // wait for all lazy images being triggered
-    const lazyloading = page.locator('.lazyload');
-    while ((await lazyloading.count()) > 0) {
-        await page.waitForTimeout(100);
-    }
-    // add some final extra buffer for UI refresh if page contains lazy images
-    const lazyloaded = page.locator('.lazyloaded');
-    if ((await lazyloaded.count()) > 0) {
-        await page.waitForTimeout(100);
-    }
-};
-
 // mask dynamic content like dates or sensible content like system settings
 export const maskContent = async (page: Page) => {
     await page.evaluate(() => {
