@@ -6,10 +6,11 @@ const testItems = [
         name: 'cronjob_cronjobs',
         url: '?page=cronjob/cronjobs',
     },
-    {
-        name: 'cronjob_cronjobs_add',
-        url: '?page=cronjob/cronjobs&func=add',
-    },
+    // TODO: enable again
+    // {
+    //     name: 'cronjob_cronjobs_add',
+    //     url: '?page=cronjob/cronjobs&func=add',
+    // },
 ]
 
 test.describe.parallel('All', () => {
