@@ -295,6 +295,7 @@ jobs:
                 if: env.has_changed_e2e_files && env.was_autocommit != 'true'
                 uses: actions/github-script@v6
                 with:
+                    github-token: ${{ secrets.BOT_TOKEN }}
                     script: |
                         github.rest.issues.createComment({
                             issue_number: context.issue.number,
