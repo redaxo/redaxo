@@ -341,7 +341,7 @@ class rex_login
         if ($ok) {
             // wenn alles ok dann REX[UID][system_id] schreiben
             $this->setSessionVar(self::SESSION_LAST_ACTIVITY, time());
-            rex_user_session::storeCurrentSession();
+            rex_user_session::updateLastActivity();
 
             // each code-path which set $ok=true, must also set a UID
             $sessUid = $this->getSessionVar(self::SESSION_USER_ID);
