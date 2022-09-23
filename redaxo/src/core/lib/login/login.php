@@ -266,6 +266,7 @@ class rex_login
                 if (1 == $this->user->getRows() && self::passwordVerify($this->userPassword, $this->user->getValue($this->passwordColumn), true)) {
                     $ok = true;
                     self::regenerateSessionId();
+                    $this->setSessionVar(self::SESSION_START_TIME, time());
                     $this->setSessionVar(self::SESSION_USER_ID, $this->user->getValue($this->idColumn));
                     $this->setSessionVar(self::SESSION_PASSWORD, $this->user->getValue($this->passwordColumn));
                 } else {
