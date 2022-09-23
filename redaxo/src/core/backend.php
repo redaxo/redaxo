@@ -97,6 +97,8 @@ if (rex::isSetup()) {
             rex_response::setHeader('Clear-Site-Data', '"cache", "storage", "executionContexts"');
         }
 
+        rex_user_session::clearCurrentSession();
+
         // Currently browsers like Safari do not support the header Clear-Site-Data.
         // we dont kill/regenerate the session so e.g. the frontend will not get logged out
         rex_request::clearSession();
