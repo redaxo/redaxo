@@ -334,12 +334,14 @@ class rex_login
         } else {
             $this->message = rex_i18n::msg('login_logged_out');
 
+            rex_user_session::clearCurrentSession();
             rex_csrf_token::removeAll();
         }
 
         if ($ok) {
             // wenn alles ok dann REX[UID][system_id] schreiben
             $this->setSessionVar(self::SESSION_LAST_ACTIVITY, time());
+            rex_user_session::storeCurrentSession();
 
             // each code-path which set $ok=true, must also set a UID
             $sessUid = $this->getSessionVar(self::SESSION_USER_ID);
@@ -352,6 +354,8 @@ class rex_login
             $this->setSessionVar(self::SESSION_USER_ID, '');
             $this->setSessionVar(self::SESSION_IMPERSONATOR, null);
             $this->setSessionVar(self::SESSION_PASSWORD, null);
+
+            rex_user_session::clearCurrentSession();
         }
 
         $this->loginStatus = $ok ? 1 : -1;
