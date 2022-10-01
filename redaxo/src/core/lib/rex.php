@@ -297,6 +297,8 @@ class rex
      * Returns the table prefix.
      *
      * @return string
+     *
+     * @phpstandba-inference-placeholder 'rex_'
      */
     public static function getTablePrefix()
     {
