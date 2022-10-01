@@ -95,6 +95,19 @@ find redaxo/src/addons/phpmailer/vendor -name "*.md" ! -name "LICENSE.md" -type 
 
 printf "\nUpdate root composer.json and vendor/\n"
 .tools/bin/update-root-composer
+composer require --dev --ansi --fixed \
+    friendsofredaxo/linter \
+    phpstan/extension-installer \
+    phpstan/phpstan \
+    phpstan/phpstan-deprecation-rules \
+    phpstan/phpstan-phpunit \
+    phpstan/phpstan-symfony \
+    psalm/plugin-phpunit \
+    psalm/plugin-symfony \
+    rector/rector \
+    redaxo/php-cs-fixer-config \
+    redaxo/psalm-plugin \
+    vimeo/psalm
 composer update --ansi
 
 printf "\nUpdate redaxo/src/core/assets/jquery.min.js\n"
