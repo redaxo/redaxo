@@ -40,8 +40,8 @@ if ('' == $func) {
 
     $title = rex_i18n::msg('minfo_field_list_caption');
 
-    // replace LIKE wildcards
-    $likePrefix = str_replace(['_', '%'], ['\_', '\%'], $prefix);
+    $sql = rex_sql::factory();
+    $likePrefix = $sql->escapeLikeWildcards($prefix);
 
     $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'metainfo_field WHERE `name` LIKE "' . $likePrefix . '%" ORDER BY priority');
     $list->addTableAttribute('class', 'table-striped table-hover');
