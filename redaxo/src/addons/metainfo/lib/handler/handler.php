@@ -642,8 +642,6 @@ abstract class rex_metainfo_handler
     protected static function getSqlFields($prefix, $filterCondition = '')
     {
         $sqlFields = rex_sql::factory();
-
-        // replace LIKE wildcards
         $prefix = $sqlFields->escapeLikeWildcards($prefix);
 
         $qry = 'SELECT
