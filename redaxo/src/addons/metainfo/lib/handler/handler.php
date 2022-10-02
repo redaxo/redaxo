@@ -641,8 +641,10 @@ abstract class rex_metainfo_handler
      */
     protected static function getSqlFields($prefix, $filterCondition = '')
     {
+        $sqlFields = rex_sql::factory();
+
         // replace LIKE wildcards
-        $prefix = str_replace(['_', '%'], ['\_', '\%'], $prefix);
+        $prefix = $sqlFields->escapeLikeWildcards($prefix);
 
         $qry = 'SELECT
                             *
@@ -656,7 +658,6 @@ abstract class rex_metainfo_handler
                             ORDER BY
                             priority';
 
-        $sqlFields = rex_sql::factory();
         //$sqlFields->setDebug();
         $sqlFields->setQuery($qry);
 
