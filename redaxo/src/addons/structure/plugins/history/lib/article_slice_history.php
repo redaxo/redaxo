@@ -9,6 +9,8 @@ class rex_article_slice_history
 {
     /**
      * @return string
+     *
+     * @phpstandba-inference-placeholder 'rex_article_slice_history'
      */
     public static function getTable()
     {
