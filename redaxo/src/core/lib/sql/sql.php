@@ -1405,7 +1405,10 @@ class rex_sql implements Iterator
      * @param string $value den zu escapenden Wert
      *
      * @return string
-     * @psalm-return ($value is numeric-string ? numeric-string : ($value is non-empty-string ? non-empty-string : string))
+     * @psalm-return ($value is numeric-string ? numeric-string :
+     *   ($value is non-falsy-string ? non-falsy-string :
+     *   ($value is non-empty-string ? non-empty-string : string
+     * )))
      */
     public function escape($value)
     {
