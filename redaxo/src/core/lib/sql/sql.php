@@ -1405,7 +1405,10 @@ class rex_sql implements Iterator
      * @param string $value den zu escapenden Wert
      *
      * @return string
-     * @psalm-return ($value is numeric-string ? numeric-string : ($value is non-empty-string ? non-empty-string : string))
+     * @psalm-return ($value is numeric-string ? numeric-string :
+     *   ($value is non-falsy-string ? non-falsy-string :
+     *   ($value is non-empty-string ? non-empty-string : string
+     * )))
      */
     public function escape($value)
     {
@@ -1429,7 +1432,10 @@ class rex_sql implements Iterator
     /**
      * Escapes the `LIKE` wildcard chars "%" and "_" in given value.
      *
-     * @psalm-return ($value is numeric-string ? numeric-string : ($value is non-empty-string ? non-empty-string : string))
+     * @psalm-return ($value is numeric-string ? numeric-string :
+     *   ($value is non-falsy-string ? non-falsy-string :
+     *   ($value is non-empty-string ? non-empty-string : string
+     * )))
      */
     public function escapeLikeWildcards(string $value): string
     {
