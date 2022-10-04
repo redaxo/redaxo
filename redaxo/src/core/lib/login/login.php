@@ -503,7 +503,7 @@ class rex_login
      */
     public static function startSession()
     {
-        if ('' == session_id()) {
+        if (PHP_SAPI !== 'cli' && PHP_SESSION_NONE === session_status()) {
             $cookieParams = static::getCookieParams();
 
             session_set_cookie_params(
