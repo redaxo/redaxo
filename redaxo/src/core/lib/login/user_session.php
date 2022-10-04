@@ -5,9 +5,16 @@
  */
 class rex_user_session
 {
+    use rex_singleton_trait;
+
     private const SESSION_VAR_LAST_DB_UPDATE = 'last_db_update';
 
-    public static function storeCurrentSession(): void
+    private function __construct()
+    {
+        register_shutdown_function([self::class, 'clearExpiredSessions']);
+    }
+
+    public function storeCurrentSession(): void
     {
         if (false === session_id()) {
             return;
@@ -28,7 +35,7 @@ class rex_user_session
         $login->setSessionVar(self::SESSION_VAR_LAST_DB_UPDATE, time());
     }
 
-    public static function clearCurrentSession(): void
+    public function clearCurrentSession(): void
     {
         if (false === session_id()) {
             return;
@@ -40,7 +47,7 @@ class rex_user_session
             ->delete();
     }
 
-    public static function updateLastActivity(): void
+    public function updateLastActivity(): void
     {
         if (false === session_id()) {
             return;
@@ -53,6 +60,14 @@ class rex_user_session
             return;
         }
 
-        self::storeCurrentSession();
+        $this->storeCurrentSession();
+    }
+
+    private static function clearExpiredSessions(): void
+    {
+        rex_sql::factory()
+            ->setTable(rex::getTable('user_session'))
+            ->setWhere('UNIX_TIMESTAMP(last_activity) < ?', [time() - (int) rex::getProperty('session_duration')])
+            ->delete();
     }
 }

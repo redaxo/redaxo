@@ -114,7 +114,7 @@ class rex_backend_login extends rex_login
                 }
                 array_push($params, rex_sql::datetime(), rex_sql::datetime(), session_id(), $this->userLogin);
                 $sql->setQuery('UPDATE ' . $this->tableName . ' SET ' . $add . 'login_tries=0, lasttrydate=?, lastlogin=?, session_id=? WHERE login=? LIMIT 1', $params);
-                rex_user_session::storeCurrentSession();
+                rex_user_session::getInstance()->storeCurrentSession();
             }
 
             assert($this->user instanceof rex_sql);
@@ -134,7 +134,7 @@ class rex_backend_login extends rex_login
                     }
                 }
             }
-            rex_user_session::updateLastActivity();
+            rex_user_session::getInstance()->updateLastActivity();
         } else {
             // fehlversuch speichern | login_tries++
             if ('' != $this->userLogin) {
@@ -158,7 +158,7 @@ class rex_backend_login extends rex_login
         }
 
         // check if session was killed
-        $sql->setQuery('SELECT 1 FROM rex_user_session where session_id = ?', [session_id()]);
+        $sql->setQuery('SELECT 1 FROM '.rex::getTable('user_session').' where session_id = ?', [session_id()]);
         if (0 === $sql->getRows()) {
             $check = false;
             $this->message = rex_i18n::msg('login_session_expired');
@@ -168,7 +168,7 @@ class rex_backend_login extends rex_login
         if ($this->isLoggedOut() && '' != $userId) {
             $sql->setQuery('UPDATE ' . $this->tableName . ' SET session_id="" WHERE id=? LIMIT 1', [$userId]);
             self::deleteStayLoggedInCookie();
-            rex_user_session::clearCurrentSession();
+            rex_user_session::getInstance()->clearCurrentSession();
         }
 
         return $check;
