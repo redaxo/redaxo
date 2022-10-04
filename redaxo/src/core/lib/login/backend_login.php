@@ -134,6 +134,7 @@ class rex_backend_login extends rex_login
                     }
                 }
             }
+            rex_user_session::updateLastActivity();
         } else {
             // fehlversuch speichern | login_tries++
             if ('' != $this->userLogin) {
