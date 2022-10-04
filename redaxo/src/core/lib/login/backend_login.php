@@ -154,6 +154,15 @@ class rex_backend_login extends rex_login
                     }
                 }
             }
+
+        }
+
+        // check if session was killed
+        $sql->setQuery('SELECT 1 FROM rex_user_session where session_id = ?', [session_id()]);
+        if (0 === $sql->getRows()) {
+            $check = false;
+            $this->message = rex_i18n::msg('login_session_expired');
+            rex_csrf_token::removeAll();
         }
 
         if ($this->isLoggedOut() && '' != $userId) {
