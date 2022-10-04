@@ -334,7 +334,6 @@ class rex_login
         } else {
             $this->message = rex_i18n::msg('login_logged_out');
 
-            rex_user_session::clearCurrentSession();
             rex_csrf_token::removeAll();
         }
 
@@ -353,8 +352,6 @@ class rex_login
             $this->setSessionVar(self::SESSION_USER_ID, '');
             $this->setSessionVar(self::SESSION_IMPERSONATOR, null);
             $this->setSessionVar(self::SESSION_PASSWORD, null);
-
-            rex_user_session::clearCurrentSession();
         }
 
         $this->loginStatus = $ok ? 1 : -1;
