@@ -1432,7 +1432,6 @@ class rex_sql implements Iterator
     /**
      * Escapes the `LIKE` wildcard chars "%" and "_" in given value.
      *
-     * @return string
      * @psalm-return ($value is numeric-string ? numeric-string :
      *   ($value is non-falsy-string ? non-falsy-string :
      *   ($value is non-empty-string ? non-empty-string : string
