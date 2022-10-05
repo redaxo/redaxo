@@ -316,6 +316,9 @@ class rex_sql implements Iterator
      * @throws rex_sql_exception on errors
      *
      * @return $this
+     *
+     * @psalm-taint-sink $query
+     * @psalm-taint-specialize
      */
     public function setDBQuery($query, array $params = [], array $options = [])
     {
@@ -359,6 +362,8 @@ class rex_sql implements Iterator
      * @throws rex_sql_exception
      *
      * @return PDOStatement The prepared statement
+     *
+     * @psalm-taint-sink sql $query
      */
     public function prepareQuery($query)
     {
@@ -485,6 +490,8 @@ class rex_sql implements Iterator
      * @param string $value  The raw value
      *
      * @return $this the current rex_sql object
+     *
+     * @psalm-taint-sink sql $value
      */
     public function setRawValue($column, $value)
     {
@@ -950,6 +957,8 @@ class rex_sql implements Iterator
      * @throws rex_sql_exception
      *
      * @return $this
+     *
+     * @psalm-taint-sink sql $columns
      */
     public function select($columns = '*')
     {
@@ -1182,6 +1191,7 @@ class rex_sql implements Iterator
      * @psalm-return list<array<(TFetchType is PDO::FETCH_NUM ? int : string), scalar|null>>
      *
      * @psalm-taint-source input
+     * @psalm-taint-sink sql $query
      * @psalm-suppress MixedReturnTypeCoercion
      */
     public function getDBArray($query = null, array $params = [], $fetchType = PDO::FETCH_ASSOC)
@@ -1216,6 +1226,7 @@ class rex_sql implements Iterator
      * @psalm-return list<array<(TFetchType is PDO::FETCH_NUM ? int : string), scalar|null>>
      *
      * @psalm-taint-source input
+     * @psalm-taint-sink sql $query
      * @psalm-suppress MixedReturnTypeCoercion
      */
     public function getArray($query = null, array $params = [], $fetchType = PDO::FETCH_ASSOC)
@@ -1409,6 +1420,8 @@ class rex_sql implements Iterator
      *   ($value is non-falsy-string ? non-falsy-string :
      *   ($value is non-empty-string ? non-empty-string : string
      * )))
+     *
+     * @psalm-taint-escape sql
      */
     public function escape($value)
     {
