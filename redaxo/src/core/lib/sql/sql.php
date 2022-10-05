@@ -1191,7 +1191,7 @@ class rex_sql implements Iterator
      * @psalm-return list<array<(TFetchType is PDO::FETCH_NUM ? int : string), scalar|null>>
      *
      * @psalm-taint-source input
-     * @psalm-taint-sink $query
+     * @psalm-taint-sink sql $query
      * @psalm-suppress MixedReturnTypeCoercion
      */
     public function getDBArray($query = null, array $params = [], $fetchType = PDO::FETCH_ASSOC)
@@ -1226,7 +1226,7 @@ class rex_sql implements Iterator
      * @psalm-return list<array<(TFetchType is PDO::FETCH_NUM ? int : string), scalar|null>>
      *
      * @psalm-taint-source input
-     * @psalm-taint-sink $query
+     * @psalm-taint-sink sql $query
      * @psalm-suppress MixedReturnTypeCoercion
      */
     public function getArray($query = null, array $params = [], $fetchType = PDO::FETCH_ASSOC)
