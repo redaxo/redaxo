@@ -1981,16 +1981,10 @@
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/metainfo/pages/content.metainfo.php">
-    <MixedArgument occurrences="5">
-      <code>$articleId</code>
-      <code>$articleId</code>
-      <code>$clang</code>
-      <code>$clang</code>
+    <MixedArgument occurrences="1">
       <code>$ctypes</code>
     </MixedArgument>
-    <MixedAssignment occurrences="3">
-      <code>$articleId</code>
-      <code>$clang</code>
+    <MixedAssignment occurrences="1">
       <code>$ctypes</code>
     </MixedAssignment>
     <PossiblyNullOperand occurrences="2">
