@@ -310,7 +310,7 @@ class rex_article_slice
     }
 
     /**
-     * @param string $where
+     * @param literal-string $where
      * @psalm-param self::ORDER_* $orderDirection
      *
      * @return self|null
@@ -322,7 +322,7 @@ class rex_article_slice
     }
 
     /**
-     * @param string $where
+     * @param literal-string $where
      * @psalm-param self::ORDER_* $orderDirection
      *
      * @return self[]
