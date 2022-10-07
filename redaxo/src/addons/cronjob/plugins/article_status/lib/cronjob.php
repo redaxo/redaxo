@@ -18,6 +18,13 @@ class rex_cronjob_article_status extends rex_cronjob
         $from['before'] = (array) $from['before'];
         $to['before'] = (array) $to['before'];
 
+        if (!is_string($from['field'])) {
+            throw new rex_exception('Invalid config for cronjob article_status: from field is not a string!');
+        }
+        if (!is_string($to['field'])) {
+            throw new rex_exception('Invalid config for cronjob article_status: from field is not a string!');
+        }
+
         $sql = rex_sql::factory();
         // $sql->setDebug();
         $sql->setQuery('
