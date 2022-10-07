@@ -30,6 +30,8 @@ class rex_metainfo_table_expander extends rex_form
 
     public function init()
     {
+        $sql = rex_sql::factory();
+
         // ----- EXTENSION POINT
         // IDs aller Feldtypen bei denen das Parameter-Feld eingeblendet werden soll
         $typeFields = rex_extension::registerPoint(new rex_extension_point('METAINFO_TYPE_FIELDS', [rex_metainfo_table_manager::FIELD_SELECT, rex_metainfo_table_manager::FIELD_RADIO, rex_metainfo_table_manager::FIELD_CHECKBOX, rex_metainfo_table_manager::FIELD_REX_MEDIA_WIDGET, rex_metainfo_table_manager::FIELD_REX_MEDIALIST_WIDGET, rex_metainfo_table_manager::FIELD_REX_LINK_WIDGET, rex_metainfo_table_manager::FIELD_REX_LINKLIST_WIDGET, rex_metainfo_table_manager::FIELD_DATE, rex_metainfo_table_manager::FIELD_DATETIME]));
@@ -47,14 +49,13 @@ class rex_metainfo_table_expander extends rex_form
         $select->setSize(1);
         $select->addOption(rex_i18n::msg('minfo_field_first_priority'), 1);
         // Im Edit Mode das Feld selbst nicht als Position einf�gen
-        $qry = 'SELECT name,priority FROM ' . $this->tableName . ' WHERE `name` LIKE :name';
+        $qry = 'SELECT name,priority FROM ' . $sql->escapeIdentifier($this->tableName) . ' WHERE `name` LIKE :name';
         $params = ['name' => $this->metaPrefix . '%'];
         if ($this->isEditMode()) {
             $qry .= ' AND id != :id';
             $params['id'] = $this->getParam('field_id');
         }
         $qry .= ' ORDER BY priority';
-        $sql = rex_sql::factory();
         $sql->setQuery($qry, $params);
         $value = 1;
         for ($i = 0; $i < $sql->getRows(); ++$i) {
@@ -235,7 +236,7 @@ class rex_metainfo_table_expander extends rex_form
 
             // das meta-schema checken
             $sql = rex_sql::factory();
-            $sql->setQuery('SELECT * FROM ' . $this->tableName . ' WHERE name = ? LIMIT 1', [$this->addPrefix($fieldName)]);
+            $sql->setQuery('SELECT * FROM ' . $sql->escapeIdentifier($this->tableName) . ' WHERE name = ? LIMIT 1', [$this->addPrefix($fieldName)]);
             if (1 == $sql->getRows()) {
                 return rex_i18n::msg('minfo_field_error_unique_name');
             }
