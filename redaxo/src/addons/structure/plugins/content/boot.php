@@ -27,7 +27,7 @@ if (rex::isBackend()) {
 
     rex_extension::register('CLANG_DELETED', static function (rex_extension_point $ep) {
         $del = rex_sql::factory();
-        $del->setQuery('delete from ' . rex::getTablePrefix() . "article_slice where clang_id=" . $del->escape($ep->getParam('clang')->getId()));
+        $del->setQuery('delete from ' . rex::getTablePrefix() . 'article_slice where clang_id=' . $del->escape($ep->getParam('clang')->getId()));
     });
 } else {
     rex_extension::register('FE_OUTPUT', static function (rex_extension_point $ep) {
