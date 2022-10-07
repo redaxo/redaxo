@@ -30,6 +30,7 @@ rex_sql_table::get(rex::getTable('metainfo_field'))
     ->ensureIndex(new rex_sql_index('name', ['name'], rex_sql_index::UNIQUE))
     ->ensure();
 
+// keep in sync with rex_metainfo_default_type constants
 $data = [
     ['id' => 1, 'label' => 'text', 'dbtype' => 'text', 'dblength' => 0],
     ['id' => 2, 'label' => 'textarea', 'dbtype' => 'text', 'dblength' => 0],
