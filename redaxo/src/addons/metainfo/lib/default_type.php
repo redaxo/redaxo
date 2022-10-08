@@ -5,7 +5,6 @@
  */
 final class rex_metainfo_default_type
 {
-    // keep in sync with install.sql
     public const TEXT = 1;
     public const TEXTAREA = 2;
     public const SELECT = 3;

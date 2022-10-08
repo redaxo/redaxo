@@ -30,21 +30,20 @@ rex_sql_table::get(rex::getTable('metainfo_field'))
     ->ensureIndex(new rex_sql_index('name', ['name'], rex_sql_index::UNIQUE))
     ->ensure();
 
-// keep in sync with rex_metainfo_default_type constants
 $data = [
-    ['id' => 1, 'label' => 'text', 'dbtype' => 'text', 'dblength' => 0],
-    ['id' => 2, 'label' => 'textarea', 'dbtype' => 'text', 'dblength' => 0],
-    ['id' => 3, 'label' => 'select', 'dbtype' => 'varchar', 'dblength' => 255],
-    ['id' => 4, 'label' => 'radio', 'dbtype' => 'varchar', 'dblength' => 255],
-    ['id' => 5, 'label' => 'checkbox', 'dbtype' => 'varchar', 'dblength' => 255],
-    ['id' => 6, 'label' => 'REX_MEDIA_WIDGET', 'dbtype' => 'varchar', 'dblength' => 255],
-    ['id' => 7, 'label' => 'REX_MEDIALIST_WIDGET', 'dbtype' => 'text', 'dblength' => 0],
-    ['id' => 8, 'label' => 'REX_LINK_WIDGET', 'dbtype' => 'varchar', 'dblength' => 255],
-    ['id' => 9, 'label' => 'REX_LINKLIST_WIDGET', 'dbtype' => 'text', 'dblength' => 0],
-    ['id' => 10, 'label' => 'date', 'dbtype' => 'text', 'dblength' => 0],
-    ['id' => 11, 'label' => 'datetime', 'dbtype' => 'text', 'dblength' => 0],
-    ['id' => 12, 'label' => 'legend', 'dbtype' => 'text', 'dblength' => 0],
-    ['id' => 13, 'label' => 'time', 'dbtype' => 'text', 'dblength' => 0],
+    ['id' => rex_metainfo_default_type::TEXT, 'label' => 'text', 'dbtype' => 'text', 'dblength' => 0],
+    ['id' => rex_metainfo_default_type::TEXTAREA, 'label' => 'textarea', 'dbtype' => 'text', 'dblength' => 0],
+    ['id' => rex_metainfo_default_type::SELECT, 'label' => 'select', 'dbtype' => 'varchar', 'dblength' => 255],
+    ['id' => rex_metainfo_default_type::RADIO, 'label' => 'radio', 'dbtype' => 'varchar', 'dblength' => 255],
+    ['id' => rex_metainfo_default_type::CHECKBOX, 'label' => 'checkbox', 'dbtype' => 'varchar', 'dblength' => 255],
+    ['id' => rex_metainfo_default_type::REX_MEDIA_WIDGET, 'label' => 'REX_MEDIA_WIDGET', 'dbtype' => 'varchar', 'dblength' => 255],
+    ['id' => rex_metainfo_default_type::REX_MEDIALIST_WIDGET, 'label' => 'REX_MEDIALIST_WIDGET', 'dbtype' => 'text', 'dblength' => 0],
+    ['id' => rex_metainfo_default_type::REX_LINK_WIDGET, 'label' => 'REX_LINK_WIDGET', 'dbtype' => 'varchar', 'dblength' => 255],
+    ['id' => rex_metainfo_default_type::REX_LINKLIST_WIDGET, 'label' => 'REX_LINKLIST_WIDGET', 'dbtype' => 'text', 'dblength' => 0],
+    ['id' => rex_metainfo_default_type::DATE, 'label' => 'date', 'dbtype' => 'text', 'dblength' => 0],
+    ['id' => rex_metainfo_default_type::DATETIME, 'label' => 'datetime', 'dbtype' => 'text', 'dblength' => 0],
+    ['id' => rex_metainfo_default_type::LEGEND, 'label' => 'legend', 'dbtype' => 'text', 'dblength' => 0],
+    ['id' => rex_metainfo_default_type::TIME, 'label' => 'time', 'dbtype' => 'text', 'dblength' => 0],
 ];
 
 $sql = rex_sql::factory();
