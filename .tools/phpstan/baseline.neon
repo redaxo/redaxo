@@ -821,11 +821,6 @@ parameters:
 			path: ../../redaxo/src/addons/mediapool/lib/media_category.php
 
 		-
-			message: "#^Left side of && is always true\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/media_category_select.php
-
-		-
 			message: "#^Method rex_media_category_select\\:\\:__construct\\(\\) has parameter \\$checkPerms with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/lib/media_category_select.php
@@ -1802,7 +1797,7 @@ parameters:
 
 		-
 			message: "#^Left side of && is always true\\.$#"
-			count: 3
+			count: 1
 			path: ../../redaxo/src/addons/structure/lib/select_category.php
 
 		-
@@ -1837,6 +1832,11 @@ parameters:
 
 		-
 			message: "#^Method rex_category_select\\:\\:outGroup\\(\\) has parameter \\$parentId with no type specified\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/structure/lib/select_category.php
+
+		-
+			message: "#^Right side of && is always false\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/structure/lib/select_category.php
 
