@@ -306,8 +306,8 @@ class rex_metainfo_table_expander extends rex_form
             return;
         }
 
-        // replace LIKE wildcards
-        $metaPrefix = str_replace(['_', '%'], ['\_', '\%'], $this->metaPrefix);
+        $sql = rex_sql::factory();
+        $metaPrefix = $sql->escapeLikeWildcards($this->metaPrefix);
 
         rex_sql_util::organizePriorities(
             $this->tableName,
