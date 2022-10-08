@@ -44,6 +44,7 @@ $data = [
     ['id' => rex_metainfo_default_type::DATETIME, 'label' => 'datetime', 'dbtype' => 'text', 'dblength' => 0],
     ['id' => rex_metainfo_default_type::LEGEND, 'label' => 'legend', 'dbtype' => 'text', 'dblength' => 0],
     ['id' => rex_metainfo_default_type::TIME, 'label' => 'time', 'dbtype' => 'text', 'dblength' => 0],
+    // XXX neue konstanten koennen hier nicht verwendet werden, da die updatesp mit der vorherigen version der klasse ausgefuehrt werden
 ];
 
 $sql = rex_sql::factory();
