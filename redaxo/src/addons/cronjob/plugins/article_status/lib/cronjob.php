@@ -12,7 +12,7 @@ class rex_cronjob_article_status extends rex_cronjob
 {
     public function execute()
     {
-        $config = rex_plugin::get('cronjob', 'article_status')->getProperty('config');
+        $config = (array) rex_plugin::get('cronjob', 'article_status')->getProperty('config');
         $from = $config['from'];
         $to = $config['to'];
         $from['before'] = (array) $from['before'];
