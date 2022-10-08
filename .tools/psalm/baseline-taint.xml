@@ -5,6 +5,12 @@
       <code>$str</code>
     </TaintedHeader>
   </file>
+  <file src="redaxo/src/core/lib/sql/sql.php">
+    <TaintedSql occurrences="2">
+      <code>$query</code>
+      <code>$query</code>
+    </TaintedSql>
+  </file>
   <file src="redaxo/src/core/lib/util/socket/socket.php">
     <TaintedCallable occurrences="1">
       <code>$data</code>
