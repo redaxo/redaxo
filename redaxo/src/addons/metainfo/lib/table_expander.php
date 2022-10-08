@@ -48,7 +48,7 @@ class rex_metainfo_table_expander extends rex_form
         $select = $field->getSelect();
         $select->setSize(1);
         $select->addOption(rex_i18n::msg('minfo_field_first_priority'), 1);
-        // Im Edit Mode das Feld selbst nicht als Position einf�gen
+        // Im Edit Mode das Feld selbst nicht als Position einfuegen
         $qry = 'SELECT name,priority FROM ' . $sql->escapeIdentifier($this->tableName) . ' WHERE `name` LIKE :name';
         $params = ['name' => $this->metaPrefix . '%'];
         if ($this->isEditMode()) {
