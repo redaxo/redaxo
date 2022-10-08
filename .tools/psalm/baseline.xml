@@ -897,17 +897,15 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_resize.php">
-    <MixedArgument occurrences="18">
+    <MixedArgument occurrences="16">
       <code>$height / $imgFactor</code>
       <code>$height / $imgFactor</code>
       <code>$this-&gt;params['height']</code>
       <code>$this-&gt;params['height']</code>
       <code>$this-&gt;params['height']</code>
       <code>$this-&gt;params['height']</code>
-      <code>$this-&gt;params['height']</code>
       <code>$this-&gt;params['height'] / $height * $width</code>
       <code>$this-&gt;params['height'] / $height * $width</code>
-      <code>$this-&gt;params['width']</code>
       <code>$this-&gt;params['width']</code>
       <code>$this-&gt;params['width']</code>
       <code>$this-&gt;params['width']</code>
