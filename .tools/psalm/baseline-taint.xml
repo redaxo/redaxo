@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.27.0@faf106e717c37b8c81721845dba9de3d8deed8ff">
+<files psalm-version="4.26.0@6998fabb2bf528b65777bf9941920888d23c03ac">
   <file src="redaxo/src/core/lib/response.php">
     <TaintedHeader occurrences="1">
       <code>$str</code>
     </TaintedHeader>
+  </file>
+  <file src="redaxo/src/core/lib/sql/sql.php">
+    <TaintedSql occurrences="2">
+      <code>$query</code>
+      <code>$query</code>
+    </TaintedSql>
   </file>
   <file src="redaxo/src/core/lib/util/socket/socket.php">
     <TaintedCallable occurrences="1">
