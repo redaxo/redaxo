@@ -67,18 +67,11 @@ class rex_effect_crop extends rex_effect_abstract
                 break;
         }
 
-        // create cropped image
-        if (function_exists('ImageCreateTrueColor')) {
-            $des = @imagecreatetruecolor($cropW, $cropH);
-        } else {
-            $des = @imagecreate($cropW, $cropH);
-        }
-
+        $des = @imagecreatetruecolor($cropW, $cropH);
         if (!$des) {
             return;
         }
 
-        // Transparenz erhalten
         $this->keepTransparent($des);
         imagecopyresampled($des, $gdimage, 0, 0, $offsetWidth, $offsetHeight, $cropW, $cropH, $cropW, $cropH);
 
