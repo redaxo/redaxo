@@ -132,7 +132,7 @@ class rex_category_select extends rex_select
             $name = $option[0];
             $value = $option[1];
             $id = $option[2];
-            if (0 == $id || !$this->checkPerms || (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($option[2]))) {
+            if (0 == $id || !$this->checkPerms || rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($option[2])) {
                 $ausgabe .= $this->outOption($name, $value, $level);
             } elseif ($this->checkPerms && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($option[2])) {
                 --$level;
