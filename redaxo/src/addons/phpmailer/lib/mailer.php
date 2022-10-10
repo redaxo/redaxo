@@ -103,7 +103,9 @@ class rex_mailer extends PHPMailer
     {
         return rex_timer::measure(__METHOD__, function () {
             $addon = rex_addon::get('phpmailer');
-
+            
+            rex_extension::registerPoint(new rex_extension_point('PHPMAILER_PRESEND', $this)); 
+            
             $detour = $addon->getConfig('detour_mode') && '' != $addon->getConfig('test_address');
 
             // Clears the CCs and BCCs if detour mode is active
@@ -142,6 +144,9 @@ class rex_mailer extends PHPMailer
             if (self::LOG_ALL == $addon->getConfig('logging')) {
                 $this->log('OK');
             }
+            
+            rex_extension::registerPoint(new rex_extension_point('PHPMAILER_POSTSEND', $this)); 
+            
             return true;
         });
     }
