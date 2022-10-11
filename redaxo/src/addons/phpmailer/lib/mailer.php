@@ -104,7 +104,7 @@ class rex_mailer extends PHPMailer
         return rex_timer::measure(__METHOD__, function () {
             $addon = rex_addon::get('phpmailer');
 
-            rex_extension::registerPoint(new rex_extension_point('PHPMAILER_PRESEND', $this));
+            rex_extension::registerPoint(new rex_extension_point('PHPMAILER_PRE_SEND', $this));
 
             $detour = $addon->getConfig('detour_mode') && '' != $addon->getConfig('test_address');
 
@@ -145,7 +145,7 @@ class rex_mailer extends PHPMailer
                 $this->log('OK');
             }
 
-            rex_extension::registerPoint(new rex_extension_point('PHPMAILER_POSTSEND', $this));
+            rex_extension::registerPoint(new rex_extension_point('PHPMAILER_POST_SEND', $this));
 
             return true;
         });
