@@ -31,10 +31,8 @@ $structureContext = new rex_structure_context([
 
 if (0 == $article->getValue('startarticle')) {
     if (rex::getUser()->hasPerm('publishArticle[]')) {
-        $tdLayoutClass = 'rex-table-action-no-dropdown';
 
         if (count($articleStatusTypes) > 2) {
-            $tdLayoutClass = 'rex-table-action-dropdown';
             $articleStatus = '<div class="dropdown"><a href="#" class="dropdown-toggle '.$articleClass.'" type="button" data-toggle="dropdown"><i class="rex-icon '.$articleIcon.'"></i>&nbsp;'.$articleStatus.'&nbsp;<span class="caret"></span></a><ul class="dropdown-menu dropdown-menu-right">';
             foreach ($articleStatusTypes as $artStatusKey => $artStatusType) {
                 $articleStatus .= '<li><a  class="'.$artStatusType[1].'" href="'.$structureContext->getContext(
