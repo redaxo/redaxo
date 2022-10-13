@@ -186,10 +186,10 @@ if ('add' == $function || 'edit' == $function) {
 
                 if ($check->getRows() > 0 || rex_template::getDefaultId() == $templateId) {
                     $templateInUseMessage = '';
-                    $templatename = $del->getRows() ? $del->getValue('template.name') : null;
-                    while ($del->hasNext()) {
-                        $aid = $del->getValue('article.id');
-                        $clangId = $del->getValue('article.clang_id');
+                    $templatename = $check->getRows() ? $check->getValue('template.name') : null;
+                    while ($check->hasNext()) {
+                        $aid = $check->getValue('article.id');
+                        $clangId = $check->getValue('article.clang_id');
                         $OOArt = rex_article::get($aid, $clangId);
 
                         $label = $OOArt->getName() . ' [' . $aid . ']';
@@ -198,7 +198,7 @@ if ('add' == $function || 'edit' == $function) {
                         }
 
                         $templateInUseMessage .= '<li><a href="' . rex_url::backendPage('content', ['article_id' => $aid, 'clang' => $clangId]) . '">' . rex_escape($label) . '</a></li>';
-                        $del->next();
+                        $check->next();
                     }
 
                     if ('' != $templateInUseMessage) {
@@ -208,8 +208,8 @@ if ('add' == $function || 'edit' == $function) {
 
                     if (rex_template::getDefaultId() == $templateId) {
                         if ('' == $templatename) {
-                            $del->setQuery('SELECT name FROM '.rex::getTable('template'). ' WHERE id = '.$templateId);
-                            $templatename = $del->getValue('name');
+                            $check->setQuery('SELECT name FROM '.rex::getTable('template'). ' WHERE id = '.$templateId);
+                            $templatename = $check->getValue('name');
                         }
                         $error .= rex_i18n::msg('cant_inactivate_template_because_its_default_template', $templatename);
                     }
