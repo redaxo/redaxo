@@ -27,8 +27,15 @@ class rex_api_install_package_add extends rex_api_function
             $message = rex_i18n::msg('install_warning_addon_not_downloaded', $addonkey) . '<br />' . $message;
             $success = false;
         } else {
+            $package = rex_package::get($addonkey);
+            $packageInstallUrl = rex_url::currentBackendPage([
+                    'package' => $package->getPackageId(),
+                    'function' => 'install',
+                ] + rex_api_package::getUrlParams());
+
             $message = rex_i18n::msg('install_info_addon_downloaded', $addonkey)
-                . ' <a href="' . rex_url::backendPage('packages', ['mark' => $addonkey]) . '">' . rex_i18n::msg('install_to_addon_page') . '</a>';
+                . ' <a href="' . rex_url::backendPage('packages', ['mark' => $addonkey]) . '">' . rex_i18n::msg('install_to_addon_page') . '</a>'
+                . ' | <a href="' . $packageInstallUrl . '">' . rex_i18n::msg('install_to_addon_page_install') . '</a>';
 
             $success = true;
             unset($_REQUEST['addonkey']);
