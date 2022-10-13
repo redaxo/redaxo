@@ -294,3 +294,5 @@ $content = '
     </form>';
 
 echo $content;
+
+require rex_path::core('pages/profile.sessions.php');
