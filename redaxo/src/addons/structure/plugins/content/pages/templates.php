@@ -175,8 +175,8 @@ if ('add' == $function || 'edit' == $function) {
 
 
             if($active == 0){
-                $del = rex_sql::factory();
-                $del->setQuery('
+                $check = rex_sql::factory();
+                $check->setQuery('
                 SELECT article.id, article.clang_id, template.name
                 FROM ' . rex::getTable('article') . ' article
                 LEFT JOIN ' . rex::getTable('template') . ' template ON article.template_id=template.id
@@ -184,7 +184,7 @@ if ('add' == $function || 'edit' == $function) {
                 LIMIT 20
             ', [$templateId]);
 
-                if ($del->getRows() > 0 || rex_template::getDefaultId() == $templateId) {
+                if ($check->getRows() > 0 || rex_template::getDefaultId() == $templateId) {
                     $templateInUseMessage = '';
                     $templatename = $del->getRows() ? $del->getValue('template.name') : null;
                     while ($del->hasNext()) {
