@@ -172,6 +172,7 @@ if ($warnings) {
         'user' => $user,
         'password' => $userpsw,
     ], true));
+    rex_user_session::getInstance()->removeSessionExceptCurrent($userId);
 
     if ('' != $fUNCUPDATE) {
         $userId = 0;
