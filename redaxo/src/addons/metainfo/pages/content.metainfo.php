@@ -28,21 +28,38 @@ $articleIcon = $articleStatusTypes[$status][2];
 $structureContext = new rex_structure_context([
     'article_id' => rex_request('article_id', 'int'),
 ]);
-if (rex::getUser()->hasPerm('publishArticle[]')) {
-    $tdLayoutClass = 'rex-table-action-no-dropdown';
 
-    if (count($articleStatusTypes) > 2) {
-        $tdLayoutClass = 'rex-table-action-dropdown';
-        $articleStatus = '<div class="dropdown"><a href="#" class="dropdown-toggle '. $articleClass .'" type="button" data-toggle="dropdown"><i class="rex-icon ' . $articleIcon . '"></i>&nbsp;'.$articleStatus.'&nbsp;<span class="caret"></span></a><ul class="dropdown-menu dropdown-menu-right">';
-        foreach ($articleStatusTypes as $artStatusKey => $artStatusType) {
-            $articleStatus .= '<li><a  class="' . $artStatusType[1] . '" href="' . $structureContext->getContext()->getUrl(['article_id' => $articleId,'page' => 'content/edit','mode' => 'edit',  'art_status' => $artStatusKey] + rex_api_article_status::getUrlParams()) . '">' . $artStatusType[0] . '</a></li>';
+if (0 == $article->getValue('startarticle')) {
+    if (rex::getUser()->hasPerm('publishArticle[]')) {
+        $tdLayoutClass = 'rex-table-action-no-dropdown';
+
+        if (count($articleStatusTypes) > 2) {
+            $tdLayoutClass = 'rex-table-action-dropdown';
+            $articleStatus = '<div class="dropdown"><a href="#" class="dropdown-toggle '.$articleClass.'" type="button" data-toggle="dropdown"><i class="rex-icon '.$articleIcon.'"></i>&nbsp;'.$articleStatus.'&nbsp;<span class="caret"></span></a><ul class="dropdown-menu dropdown-menu-right">';
+            foreach ($articleStatusTypes as $artStatusKey => $artStatusType) {
+                $articleStatus .= '<li><a  class="'.$artStatusType[1].'" href="'.$structureContext->getContext(
+                    )->getUrl(
+                        [
+                            'article_id' => $articleId,
+                            'page' => 'content/edit',
+                            'mode' => 'edit',
+                            'art_status' => $artStatusKey
+                        ] + rex_api_article_status::getUrlParams()
+                    ).'">'.$artStatusType[0].'</a></li>';
+            }
+            $articleStatus .= '</ul></div>';
+        } else {
+            $articleStatus = '<a class="'.$articleClass.'" href="'.$structureContext->getContext()->getUrl(
+                    [
+                        'article_id' => $articleId,
+                        'page' => 'content/edit',
+                        'mode' => 'edit'
+                    ] + rex_api_article_status::getUrlParams()
+                ).'"><i class="rex-icon '.$articleIcon.'"></i>&nbsp;'.$articleStatus.'</a>';
         }
-        $articleStatus .= '</ul></div>';
     } else {
-        $articleStatus = '<a class="' . $articleClass . '" href="' . $structureContext->getContext()->getUrl(['article_id' => $articleId, 'page' => 'content/edit','mode' => 'edit'] + rex_api_article_status::getUrlParams()) . '"><i class="rex-icon ' . $articleIcon . '"></i>&nbsp;' . $articleStatus . '</a>';
+        $articleStatus = '<span class="'.$articleClass.' text-muted"><i class="rex-icon '.$articleIcon.'"></i> '.$articleStatus.'</span>';
     }
-} else {
-    $articleStatus = '<span class="' . $articleClass . ' text-muted"><i class="rex-icon ' . $articleIcon . '"></i> ' . $articleStatus . '</span>';
 }
 
 
