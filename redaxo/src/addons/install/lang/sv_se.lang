@@ -59,6 +59,7 @@ install_warning_zip_wrong_checksum = Checksumman av de nedladdade zip-filerna st
 install_warning_zip_wrong_format = Zip-filen har inte det rätta formatet.
 
 install_to_addon_page = Till AddOn-förvaltningen
+install_to_addon_page_install = AddOn installera & aktivera
 
 install_settings_general = Allmänt
 install_settings_backups = Skapa backups
