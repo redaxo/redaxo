@@ -58,6 +58,7 @@ install_warning_zip_wrong_checksum = La suma de comprobación del archivo zip de
 install_warning_zip_wrong_format = El archivo zip no está en el formato requerido.
 
 install_to_addon_page = Ir a la administración de AddOn
+install_to_addon_page_install = AddOn instalar y activar
 
 install_settings_general = General
 install_settings_backups = Crear copia de seguridad
