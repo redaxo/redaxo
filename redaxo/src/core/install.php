@@ -67,4 +67,5 @@ rex_sql_table::get(rex::getTable('user_session'))
     ->ensureColumn(new rex_sql_column('starttime', 'datetime'))
     ->ensureColumn(new rex_sql_column('last_activity', 'datetime'))
     ->setPrimaryKey('session_id')
+    ->ensureForeignKey(new rex_sql_foreign_key('user_id', rex::getTable('user'), ['user_id' => 'id'], rex_sql_foreign_key::CASCADE, rex_sql_foreign_key::CASCADE))
     ->ensure();
