@@ -256,11 +256,6 @@ parameters:
 			path: ../../redaxo/src/addons/install/lib/package/package_update.php
 
 		-
-			message: "#^Method rex_install_packages\\:\\:addedPackage\\(\\) has parameter \\$package with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/install/lib/packages.php
-
-		-
 			message: "#^Method rex_install_webservice\\:\\:getCache\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/install/lib/webservice.php
