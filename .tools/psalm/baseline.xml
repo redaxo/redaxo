@@ -383,66 +383,10 @@
       <code>$from['before']</code>
       <code>$to['before']</code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="26">
-      <code>$config['from']</code>
-      <code>$config['to']</code>
-      <code>$from['after']</code>
-      <code>$from['before']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$to['after']</code>
-      <code>$to['before']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="2">
-      <code>$from['before']</code>
-      <code>$to['before']</code>
-    </MixedArrayAssignment>
-    <MixedAssignment occurrences="6">
-      <code>$config</code>
-      <code>$field</code>
-      <code>$from</code>
+    <MixedAssignment occurrences="2">
       <code>$status</code>
       <code>$status</code>
-      <code>$to</code>
     </MixedAssignment>
-    <MixedOperand occurrences="18">
-      <code>$field</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-    </MixedOperand>
     <PossiblyNullOperand occurrences="1">
       <code>$rows</code>
     </PossiblyNullOperand>
@@ -1981,16 +1925,10 @@
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/metainfo/pages/content.metainfo.php">
-    <MixedArgument occurrences="5">
-      <code>$articleId</code>
-      <code>$articleId</code>
-      <code>$clang</code>
-      <code>$clang</code>
+    <MixedArgument occurrences="1">
       <code>$ctypes</code>
     </MixedArgument>
-    <MixedAssignment occurrences="3">
-      <code>$articleId</code>
-      <code>$clang</code>
+    <MixedAssignment occurrences="1">
       <code>$ctypes</code>
     </MixedAssignment>
     <PossiblyNullOperand occurrences="2">
@@ -2724,11 +2662,10 @@
     <MixedMethodCall occurrences="1">
       <code>getId</code>
     </MixedMethodCall>
-    <MixedOperand occurrences="4">
+    <MixedOperand occurrences="3">
       <code>$content</code>
       <code>$content</code>
       <code>$content</code>
-      <code>$ep-&gt;getParam('clang')-&gt;getId()</code>
     </MixedOperand>
     <PossiblyNullReference occurrences="1">
       <code>setIsActive</code>
