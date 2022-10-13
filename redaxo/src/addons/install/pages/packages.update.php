@@ -173,6 +173,7 @@ if ($core && !empty($coreVersions)) {
                 <th>' . $package->i18n('name') . '</th>
                 <th>' . $package->i18n('existing_version') . '</th>
                 <th>' . $package->i18n('available_versions') . '</th>
+                <th>' . $package->i18n('published_on') . '</th>
             </tr>
             </thead>
             <tbody>';
@@ -200,6 +201,7 @@ if ($core && !empty($coreVersions)) {
                 <td data-title="' . $package->i18n('name') . '">REDAXO Core</td>
                 <td data-title="' . $package->i18n('existing_version') . '">' . $coreVersion . '</td>
                 <td data-title="' . $package->i18n('available_versions') . '">' . implode(', ', $availableVersions) . '</td>
+                <td data-title="' . $package->i18n('published_on') . '">' . rex_escape(rex_formatter::intlDate($file['created'])) . '</td>
             </tr>';
     }
 
@@ -226,6 +228,7 @@ if ($core && !empty($coreVersions)) {
                 <td data-title="' . $package->i18n('name') . '">' . rex_escape($addon['name']) . '</td>
                 <td data-title="' . $package->i18n('existing_version') . '">' . $packageVersion . '</td>
                 <td data-title="' . $package->i18n('available_versions') . '">' . implode(', ', $availableVersions) . '</td>
+                <td data-title="' . $package->i18n('published_on') . '">' . rex_escape(rex_formatter::intlDate($file['created'])) . '</td>
             </tr>';
     }
 
