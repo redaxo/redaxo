@@ -189,16 +189,33 @@ if ('add' == $function || 'edit' == $function) {
                     $templatename = $check->getRows() ? $check->getValue('template.name') : null;
                     while ($check->hasNext()) {
                         $aid = $check->getValue('article.id');
+                        if($aid == null){
+                            continue;
+                        }
                         $clangId = $check->getValue('article.clang_id');
+                        if($clangId == null){
+                            continue;
+                        }
                         $OOArt = rex_article::get($aid, $clangId);
-
+                        if($OOArt == null){
+                            continue;
+                        }
                         $label = $OOArt->getName() . ' [' . $aid . ']';
                         if (rex_clang::count() > 1) {
+                            $clang = rex_clang::get($clangId);
+                            if($clang == null){
+                                continue;
+                            }
                             $label .= ' [' . rex_clang::get($clangId)->getCode() . ']';
                         }
 
                         $templateInUseMessage .= '<li><a href="' . rex_url::backendPage('content', ['article_id' => $aid, 'clang' => $clangId]) . '">' . rex_escape($label) . '</a></li>';
                         $check->next();
+                    }
+
+                    if (null == $templatename) {
+                        $check->setQuery('SELECT name FROM '.rex::getTable('template'). ' WHERE id = '.$templateId);
+                        $templatename = $check->getValue('name');
                     }
 
                     if ('' != $templateInUseMessage) {
@@ -207,10 +224,7 @@ if ('add' == $function || 'edit' == $function) {
                     }
 
                     if (rex_template::getDefaultId() == $templateId) {
-                        if ('' == $templatename) {
-                            $check->setQuery('SELECT name FROM '.rex::getTable('template'). ' WHERE id = '.$templateId);
-                            $templatename = $check->getValue('name');
-                        }
+
                         $error .= rex_i18n::msg('cant_inactivate_template_because_its_default_template', $templatename);
                     }
                 }
