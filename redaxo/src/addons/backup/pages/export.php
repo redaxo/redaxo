@@ -16,7 +16,7 @@ $EXPTABLES = rex_post('EXPTABLES', 'array');
 $EXPDIR = rex_post('EXPDIR', 'array');
 
 if ('' == $exportfilename) {
-    $exportfilename = rex_string::normalize(rex::getServerName()) . '_' . date('Ymd_Hi') . '_rex' . rex::getVersion();
+   $exportfilename = date('Ymd_Hi') . '_rex' . rex::getVersion() . '_'.rex_string::normalize(rex::getServerName()) ;   
 }
 
 if ($EXPTABLES) {
