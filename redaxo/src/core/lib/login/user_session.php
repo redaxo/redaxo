@@ -63,7 +63,7 @@ class rex_user_session
         $this->storeCurrentSession();
     }
 
-    private static function clearExpiredSessions(): void
+    public static function clearExpiredSessions(): void
     {
         rex_sql::factory()
             ->setTable(rex::getTable('user_session'))
