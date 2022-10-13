@@ -118,7 +118,7 @@ if ($save && ($fUNCADD || $fUNCUPDATE || $fUNCAPPLY)) {
     }
 
     if (!rex::getUser()->isAdmin() && $user->isAdmin()) {
-        $warnings[] = rex_i18n::msg('user_admin_rights');
+        $warnings[] = rex_i18n::msg('user_requires_admin_rights');
     }
 }
 

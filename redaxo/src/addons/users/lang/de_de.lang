@@ -30,7 +30,7 @@ user_password_change_required = Passwort muss nach Login ausgetauscht werden
 user_status_active = Benutzer ist aktiv
 user_status_inactive = Benutzer ist inaktiv
 startpage = Startseite
-user_admin_rights = Keine Berechtigung für diese Aktion!
+user_requires_admin_rights = Keine Berechtigung für diese Aktion!
 
 user_role = Rolle(n)
 user_role_data_updated = Rolle wurde aktualisiert!
