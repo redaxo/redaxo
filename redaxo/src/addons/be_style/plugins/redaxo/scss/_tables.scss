@@ -1,6 +1,10 @@
 
 .table > tbody > tr.mark {
-    background-color: $color-d-lighter;
+    background-color: $btn-warning-bg;
+    color: $btn-warning-color;
+    a{
+        color: $btn-warning-color;
+    }
 }
 
 .table tr .alert {
