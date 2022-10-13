@@ -213,10 +213,7 @@ if ('add' == $function || 'edit' == $function) {
                         }
                         $error .= rex_i18n::msg('cant_inactivate_template_because_its_default_template', $templatename);
                     }
-                    $save = 'nein';
                 }
-
-
 
             }
 
