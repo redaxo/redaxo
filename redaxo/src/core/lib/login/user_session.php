@@ -11,7 +11,7 @@ class rex_user_session
 
     private function __construct()
     {
-        register_shutdown_function([self::class, 'clearExpiredSessions']);
+        rex_extension::register('RESPONSE_SHUTDOWN', [self::class, 'clearExpiredSessions']);
     }
 
     public function storeCurrentSession(): void
