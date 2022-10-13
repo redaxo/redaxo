@@ -148,7 +148,7 @@ if (rex_post('upd_psw_button', 'bool')) {
 
 if ('destroy' === rex_request::get('function', 'string')) {
     $sessionId = rex_request::get('session_id', 'string');
-    if (rex_user_session::getInstance()->destroySession($sessionId)) {
+    if (rex_user_session::getInstance()->removeSession($sessionId, $userId)) {
         $success = rex_i18n::msg('session_destroyed');
     } else {
         $error = rex_i18n::msg('session_destroy_error');

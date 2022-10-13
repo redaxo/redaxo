@@ -75,11 +75,11 @@ class rex_user_session
             ->delete();
     }
 
-    public function destroySession(string $sessionId): bool
+    public function removeSession(string $sessionId, int $userId): bool
     {
         $sql = rex_sql::factory()
             ->setTable(rex::getTable('user_session'))
-            ->setWhere('session_id = ? and user_id = ?', [$sessionId, rex::requireUser()->getId()])
+            ->setWhere('session_id = ? and user_id = ?', [$sessionId, $userId])
             ->delete();
 
         return $sql->getRows() > 0;
