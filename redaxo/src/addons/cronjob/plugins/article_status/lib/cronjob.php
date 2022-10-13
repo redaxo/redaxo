@@ -30,7 +30,8 @@ class rex_cronjob_article_status extends rex_cronjob
         $sql->setQuery('
             SELECT  name
             FROM    ' . rex::getTablePrefix() . 'metainfo_field
-            WHERE   name=' . $sql->escape($from['field']) . ' OR name=' . $sql->escape($to['field'])
+            WHERE   name=? OR name=?',
+            [$from['field'], $to['field']]
         );
         $rows = $sql->getRows();
         if ($rows < 2) {
@@ -50,16 +51,17 @@ class rex_cronjob_article_status extends rex_cronjob
             FROM    ' . rex::getTablePrefix() . 'article
             WHERE
                 (     ' . $sql->escapeIdentifier($from['field']) . ' > 0
-                AND   ' . $sql->escapeIdentifier($from['field']) . ' < ' . $time . '
+                AND   ' . $sql->escapeIdentifier($from['field']) . ' < :time
                 AND   status IN (' . $sql->in($from['before']) . ')
-                AND   (' . $sql->escapeIdentifier($to['field']) . ' > ' . $time . ' OR ' . $sql->escapeIdentifier($to['field']) . ' = 0 OR ' . $sql->escapeIdentifier($to['field']) . ' = "")
+                AND   (' . $sql->escapeIdentifier($to['field']) . ' > :time OR ' . $sql->escapeIdentifier($to['field']) . ' = 0 OR ' . $sql->escapeIdentifier($to['field']) . ' = "")
                 )
             OR
                 (     ' . $sql->escapeIdentifier($to['field']) . ' > 0
-                AND   ' . $sql->escapeIdentifier($to['field']) . ' < ' . $time . '
+                AND   ' . $sql->escapeIdentifier($to['field']) . ' < :time
                 AND   status IN (' . $sql->in($to['before']) . ')
-                )
-        ');
+                )',
+            ['time' => $time]
+        );
         $rows = $sql->getRows();
 
         for ($i = 0; $i < $rows; ++$i) {
@@ -79,13 +81,15 @@ class rex_cronjob_article_status extends rex_cronjob
                 UPDATE ' . rex::getTablePrefix() . 'article
                 SET '.$sql->escapeIdentifier($from['field']).' = ""
                 WHERE     ' . $sql->escapeIdentifier($from['field']) . ' > 0
-                    AND   ' . $sql->escapeIdentifier($from['field']) . ' < ' . $time
+                    AND   ' . $sql->escapeIdentifier($from['field']) . ' < :time',
+                ['time' => $time]
             );
             $sql->setQuery('
                 UPDATE ' . rex::getTablePrefix() . 'article
                 SET '.$sql->escapeIdentifier($to['field']).' = ""
                 WHERE ' . $sql->escapeIdentifier($to['field']) . ' > 0
-                AND   ' . $sql->escapeIdentifier($to['field']) . ' < ' . $time
+                AND   ' . $sql->escapeIdentifier($to['field']) . ' < :time',
+                ['time' => $time]
             );
         }
         return true;
