@@ -154,11 +154,10 @@ class rex_backend_login extends rex_login
                     }
                 }
             }
-
         }
 
         // check if session was killed only if the user is logged in
-        if ($check === true) {
+        if (true === $check) {
             $sql->setQuery('SELECT 1 FROM '.rex::getTable('user_session').' where session_id = ?', [session_id()]);
             if (0 === $sql->getRows()) {
                 $check = false;
