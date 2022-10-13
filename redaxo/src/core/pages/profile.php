@@ -146,12 +146,12 @@ if (rex_post('upd_psw_button', 'bool')) {
     }
 }
 
-if ('destroy' === rex_request::get('function', 'string')) {
+if ('remove_session' === rex_request::get('function', 'string')) {
     $sessionId = rex_request::get('session_id', 'string');
     if (rex_user_session::getInstance()->removeSession($sessionId, $userId)) {
-        $success = rex_i18n::msg('session_destroyed');
+        $success = rex_i18n::msg('session_removed');
     } else {
-        $error = rex_i18n::msg('session_destroy_error');
+        $error = rex_i18n::msg('session_remove_error');
     }
 }
 
