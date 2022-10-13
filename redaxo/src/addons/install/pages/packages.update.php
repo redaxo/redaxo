@@ -184,7 +184,7 @@ if ($core && !empty($coreVersions)) {
             if (class_exists(rex_version::class) && rex_version::isUnstable($availVers)) {
                 $availVers = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $availVers;
             }
-            $availableVersions[] = $availVers . ' - ' . rex_escape(rex_formatter::intlDate($file['created']));
+            $availableVersions[] = $availVers;
         }
         $url = rex_url::currentBackendPage(['core' => 1]);
 
