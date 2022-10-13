@@ -4821,9 +4821,8 @@
       <code>$sessionConfig['samesite']</code>
       <code>$sessionConfig['secure']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="2">
+    <MixedAssignment occurrences="1">
       <code>$sessionConfig</code>
-      <code>$userId</code>
     </MixedAssignment>
     <PossiblyFalseReference occurrences="2">
       <code>format</code>
@@ -4880,16 +4879,13 @@
     <MixedArrayOffset occurrences="1">
       <code>$cookieParams[$name]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="14">
+    <MixedAssignment occurrences="11">
       <code>$cookieParams[$name]</code>
-      <code>$impersonator</code>
       <code>$name</code>
       <code>$password</code>
       <code>$password</code>
       <code>$rexSessId</code>
-      <code>$sessUid</code>
       <code>$sessionConfig</code>
-      <code>$sessionStartTime</code>
       <code>$this-&gt;DB</code>
       <code>$this-&gt;cache</code>
       <code>$this-&gt;logout</code>
