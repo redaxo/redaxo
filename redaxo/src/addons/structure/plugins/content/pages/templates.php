@@ -558,9 +558,14 @@ if ($OUT) {
     $list->setColumnLayout('id', ['<th class="rex-table-id">###VALUE###</th>', '<td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">###VALUE###</td>']);
 
     $list->setColumnLabel('key', rex_i18n::msg('header_template_key'));
+    $list->setColumnParams('key', ['function' => 'edit', 'template_id' => '###id###']);
 
     $list->setColumnLabel('name', rex_i18n::msg('header_template_description'));
-    $list->setColumnParams('name', ['function' => 'edit', 'template_id' => '###id###']);
+    $list->setColumnLayout('name', ['<th class="rex-table-template">###VALUE###</th>', '<td class="rex-table-template" data-title="' . rex_i18n::msg('header_template_description') . '">###VALUE###</td>']);
+    $list->setColumnFormat('name', 'custom', static function () use ($list) {
+        return '<div class="rex-truncate rex-truncate-target" title="'.$list->getValue('name').'" >'.$list->getValue('name').'</div>';
+    });
+
 
     $list->setColumnLabel('active', rex_i18n::msg('header_template_active'));
     $list->setColumnFormat('active', 'custom', static function () use ($list) {
