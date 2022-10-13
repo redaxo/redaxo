@@ -4896,9 +4896,10 @@
       <code>$this-&gt;sessionMaxOverallDuration</code>
       <code>$value</code>
     </MixedAssignment>
-    <MixedOperand occurrences="1">
-      <code>$sessionStartTime</code>
-    </MixedOperand>
+    <MixedReturnStatement occurrences="2">
+      <code>$_SESSION[static::getSessionNamespace()][$this-&gt;systemId][$varname]</code>
+      <code>$default</code>
+    </MixedReturnStatement>
     <MixedReturnTypeCoercion occurrences="2">
       <code>$cookieParams</code>
       <code>array{lifetime: ?int, path: ?string, domain: ?string, secure: ?bool, httponly: ?bool, samesite: ?string}</code>
