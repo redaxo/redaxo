@@ -75,7 +75,7 @@ class rex_user_session
             ->delete();
     }
 
-    public function destroySession($sessionId): bool
+    public function destroySession(string $sessionId): bool
     {
         $sql = rex_sql::factory()
             ->setTable(rex::getTable('user_session'))
