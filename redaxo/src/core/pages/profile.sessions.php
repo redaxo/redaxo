@@ -2,6 +2,10 @@
 
 $list = rex_list::factory('Select session_id, ip, useragent, starttime, last_activity from rex_user_session where user_id = '.rex::requireUser()->getId());
 
+$list->addColumn('destroy', '<i class="rex-icon rex-icon-delete"></i>', 0, ['<th class="rex-table-icon"></th>', '<td class="rex-table-icon">###VALUE###</td>']);
+$list->setColumnParams('destroy', ['function' => 'destroy', 'session_id' => '###session_id###']);
+$list->addLinkAttribute('destroy', 'data-confirm', rex_i18n::msg('confirm_destroy_session'));
+
 $list->setColumnLabel('session_id', rex_i18n::msg('session_id'));
 $list->setColumnLabel('ip', rex_i18n::msg('ip'));
 $list->setColumnLabel('useragent', rex_i18n::msg('user_agent'));

@@ -74,4 +74,14 @@ class rex_user_session
             ->setWhere('UNIX_TIMESTAMP(last_activity) < ?', [time() - (int) rex::getProperty('session_duration')])
             ->delete();
     }
+
+    public function destroySession($sessionId): bool
+    {
+        $sql = rex_sql::factory()
+            ->setTable(rex::getTable('user_session'))
+            ->setWhere('session_id = ? and user_id = ?', [$sessionId, rex::requireUser()->getId()])
+            ->delete();
+
+        return $sql->getRows() > 0;
+    }
 }
