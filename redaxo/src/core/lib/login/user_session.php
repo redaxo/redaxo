@@ -21,15 +21,15 @@ class rex_user_session
         }
 
         $login = new rex_backend_login();
-        $user_id = $login->getSessionVar(rex_login::SESSION_IMPERSONATOR, null);
-        if (null === $user_id) {
-            $user_id = $login->getSessionVar(rex_login::SESSION_USER_ID);
+        $userId = $login->getSessionVar(rex_login::SESSION_IMPERSONATOR, null);
+        if (null === $userId) {
+            $userId = $login->getSessionVar(rex_login::SESSION_USER_ID);
         }
 
         rex_sql::factory()
             ->setTable(rex::getTable('user_session'))
             ->setValue('session_id', session_id())
-            ->setValue('user_id', $user_id)
+            ->setValue('user_id', $userId)
             ->setValue('ip', rex_request::server('REMOTE_ADDR', 'string'))
             ->setValue('useragent', rex_request::server('HTTP_USER_AGENT', 'string'))
             ->setValue('starttime', rex_sql::datetime($login->getSessionVar(rex_login::SESSION_START_TIME, time())))
