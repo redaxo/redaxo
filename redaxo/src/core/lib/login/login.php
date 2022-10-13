@@ -464,7 +464,7 @@ class rex_login
      *     ($varname is 'password' ? string|null :
      *     ($varname is 'impersonator' ? int|null :
      *     ($varname is 'last_db_update' ? int|null :
-     *     mixed|null
+     *     mixed
      *     )))))
      * )
      */
