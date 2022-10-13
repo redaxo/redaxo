@@ -445,6 +445,16 @@ class rex_login
      *
      * @param string $varname
      * @param scalar|array $value
+     * @psalm-param (
+     *     $varname is 'starttime' ? int|null :
+     *     ($varname is 'STAMP' ? int|null :
+     *     ($varname is 'UID' ? int|null :
+     *     ($varname is 'password' ? string|null :
+     *     ($varname is 'impersonator' ? int|null :
+     *     ($varname is 'last_db_update' ? int|null :
+     *     scalar|array
+     *     )))))
+     * ) $value
      */
     public function setSessionVar($varname, $value)
     {
@@ -456,7 +466,17 @@ class rex_login
      *
      * @param string $varname
      * @param mixed $default
-     *  @return mixed
+     * @return mixed
+     * @psalm-return (
+     *     $varname is 'starttime' ? int|null :
+     *     ($varname is 'STAMP' ? int|null :
+     *     ($varname is 'UID' ? int|null :
+     *     ($varname is 'password' ? string|null :
+     *     ($varname is 'impersonator' ? int|null :
+     *     ($varname is 'last_db_update' ? int|null :
+     *     mixed|null
+     *     )))))
+     * )
      */
     public function getSessionVar($varname, $default = '')
     {

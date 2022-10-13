@@ -12,10 +12,10 @@ $list->setColumnFormat('last_activity', 'custom', static function () use ($list)
     if (session_id() === $list->getValue('session_id')) {
         return rex_i18n::msg('active_session');
     }
-    return rex_formatter::date($list->getValue('last_activity'), 'd.m.Y H:i');
+    return rex_formatter::date((string) $list->getValue('last_activity'), 'd.m.Y H:i');
 });
 $list->setColumnFormat('starttime', 'custom', static function () use ($list) {
-    return rex_formatter::date($list->getValue('starttime'), 'd.m.Y H:i');
+    return rex_formatter::date((string) $list->getValue('starttime'), 'd.m.Y H:i');
 });
 $content = $list->get();
 
