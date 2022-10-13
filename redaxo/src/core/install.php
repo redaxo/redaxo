@@ -58,3 +58,13 @@ if (!$hasPasswordChanged) {
         ->setRawValue('password_changed', 'updatedate')
         ->update();
 }
+
+rex_sql_table::get(rex::getTable('user_session'))
+    ->ensureColumn(new rex_sql_column('session_id', 'varchar(255)'))
+    ->ensureColumn(new rex_sql_column('user_id', 'int(10) unsigned'))
+    ->ensureColumn(new rex_sql_column('ip', 'varchar(39)')) // max for ipv6
+    ->ensureColumn(new rex_sql_column('useragent', 'varchar(255)'))
+    ->ensureColumn(new rex_sql_column('starttime', 'datetime'))
+    ->ensureColumn(new rex_sql_column('last_activity', 'datetime'))
+    ->setPrimaryKey('session_id')
+    ->ensure();
