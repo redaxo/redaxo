@@ -13,7 +13,7 @@ $warnings = [];
 
 $user = null;
 
-if (0 != $userId) {
+if (0 !== $userId) {
     $user = rex_user::get($userId);
     if (!$user) {
         $userId = 0;
@@ -123,7 +123,7 @@ if ($warnings) {
     $loginReset = rex_request('logintriesreset', 'int');
     $userstatus = rex_request('userstatus', 'int');
 
-    if (rex::getUser()->isAdmin() && $userId == rex::getUser()->getId()) {
+    if (rex::getUser()->isAdmin() && $userId === rex::getUser()->getId()) {
         $useradmin = 1;
     }
 
