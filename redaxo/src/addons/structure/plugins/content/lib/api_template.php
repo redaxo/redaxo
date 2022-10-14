@@ -240,7 +240,7 @@ class rex_template
     /**
      * @return false|string
      */
-    public static function templateIsInUse(int $templateId, string $msg_key)
+    public static function templateIsInUse(int $templateId, string $msgKey)
     {
         $check = rex_sql::factory();
         $check->setQuery('
@@ -283,7 +283,7 @@ class rex_template
         }
 
         if ('' != $templateInUseMessage && null != $templatename) {
-            $error .= rex_i18n::msg($msg_key, (string) $templatename);
+            $error .= rex_i18n::msg($msgKey, (string) $templatename);
             $error .= '<ul>' . $templateInUseMessage . '</ul>';
         }
 
