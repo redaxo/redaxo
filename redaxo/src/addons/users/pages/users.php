@@ -87,7 +87,7 @@ $userpermStartpage = rex_request('userperm_startpage', 'string');
 $fUNCUPDATE = '';
 $fUNCAPPLY = '';
 $fUNCDELETE = '';
-if (0 !== $userId && (rex::getUser()->isAdmin() || !$user->isAdmin())) {
+if (0 !== $userId && (rex::requireUser()->isAdmin() || !($user && $user->isAdmin()))) {
     $fUNCUPDATE = rex_request('FUNC_UPDATE', 'string');
     $fUNCAPPLY = rex_request('FUNC_APPLY', 'string');
     $fUNCDELETE = rex_request('FUNC_DELETE', 'string');
