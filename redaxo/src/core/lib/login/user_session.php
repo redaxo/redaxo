@@ -13,7 +13,8 @@ class rex_user_session
 
     public function storeCurrentSession(): void
     {
-        if (false === session_id()) {
+        $sessionId = session_id();
+        if (false === $sessionId || '' === $sessionId) {
             return;
         }
 
@@ -38,7 +39,8 @@ class rex_user_session
 
     public function clearCurrentSession(): void
     {
-        if (false === session_id()) {
+        $sessionId = session_id();
+        if (false === $sessionId || '' === $sessionId) {
             return;
         }
 
@@ -50,7 +52,8 @@ class rex_user_session
 
     public function updateLastActivity(): void
     {
-        if (false === session_id()) {
+        $sessionId = session_id();
+        if (false === $sessionId || '' === $sessionId) {
             return;
         }
 
