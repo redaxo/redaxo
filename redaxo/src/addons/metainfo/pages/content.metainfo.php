@@ -30,7 +30,7 @@ $structureContext = new rex_structure_context([
 ]);
 
 if (0 == $article->getValue('startarticle')) {
-    if (rex::getUser()->hasPerm('publishArticle[]')) {
+    if (rex::requireUser()->hasPerm('publishArticle[]')) {
 
         if (count($articleStatusTypes) > 2) {
             $articleStatus = '<div class="dropdown"><a href="#" class="dropdown-toggle '.$articleClass.'" type="button" data-toggle="dropdown"><i class="rex-icon '.$articleIcon.'"></i>&nbsp;'.$articleStatus.'&nbsp;<span class="caret"></span></a><ul class="dropdown-menu dropdown-menu-right">';
