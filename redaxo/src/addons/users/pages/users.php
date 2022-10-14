@@ -174,7 +174,7 @@ if ($warnings) {
     ], true));
 
     if (null !== $passwordHash) {
-        rex_user_session::getInstance()->removeSessionExceptCurrent($userId);
+        rex_user_session::getInstance()->removeSessionsExceptCurrent($userId);
     }
 
     if ('' != $fUNCUPDATE) {
