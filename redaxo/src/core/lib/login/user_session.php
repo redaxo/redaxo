@@ -2,6 +2,8 @@
 
 /**
  * @package redaxo\core\login
+ *
+ * @internal
  */
 class rex_user_session
 {
