@@ -28,45 +28,20 @@ if ('delete' == $function) {
         $error = rex_i18n::msg('csrf_token_invalid');
     } else {
         $del = rex_sql::factory();
-        $del->setQuery('
-            SELECT article.id, article.clang_id, template.name
-            FROM ' . rex::getTable('article') . ' article
-            LEFT JOIN ' . rex::getTable('template') . ' template ON article.template_id=template.id
-            WHERE article.template_id=?
-            LIMIT 20
-        ', [$templateId]);
+        $templateIsInUseError = rex_template::templateIsInUse($templateId, 'cant_delete_template_because_its_in_use');
+        if (false !== $templateIsInUseError) {
+            $error .= $templateIsInUseError;
+        }
 
-        if ($del->getRows() > 0 || rex_template::getDefaultId() == $templateId) {
-            $templateInUseMessage = '';
-            $templatename = $del->getRows() ? $del->getValue('template.name') : null;
-            while ($del->hasNext()) {
-                $aid = $del->getValue('article.id');
-                $clangId = $del->getValue('article.clang_id');
-                $OOArt = rex_article::get($aid, $clangId);
+        if (rex_template::getDefaultId() == $templateId) {
+            $del = rex_sql::factory();
+            $del->setQuery('SELECT name FROM '.rex::getTable('template').' WHERE id = '.$templateId);
+            $templatename = $del->getValue('name');
 
-                $label = $OOArt->getName() . ' [' . $aid . ']';
-                if (rex_clang::count() > 1) {
-                    $label .= ' [' . rex_clang::get($clangId)->getCode() . ']';
-                }
-
-                $templateInUseMessage .= '<li><a href="' . rex_url::backendPage('content', ['article_id' => $aid, 'clang' => $clangId]) . '">' . rex_escape($label) . '</a></li>';
-                $del->next();
-            }
-
-            if ('' != $templateInUseMessage) {
-                $error .= rex_i18n::msg('cant_delete_template_because_its_in_use', $templatename);
-                $error .= '<ul>' . $templateInUseMessage . '</ul>';
-            }
-
-            if (rex_template::getDefaultId() == $templateId) {
-                if ('' == $templatename) {
-                    $del->setQuery('SELECT name FROM '.rex::getTable('template'). ' WHERE id = '.$templateId);
-                    $templatename = $del->getValue('name');
-                }
-                $error .= rex_i18n::msg('cant_delete_template_because_its_default_template', $templatename);
-            }
-        } else {
-            $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'template WHERE id = "' . $templateId . '" LIMIT 1'); // max. ein Datensatz darf loeschbar sein
+            $error .= rex_i18n::msg('cant_delete_template_because_its_default_template', $templatename);
+        }
+        if ('' == $error) {
+            $del->setQuery('DELETE FROM '.rex::getTablePrefix().'template WHERE id = "'.$templateId.'" LIMIT 1'); // max. ein Datensatz darf loeschbar sein
             rex_template_cache::delete($templateId);
             $success = rex_i18n::msg('template_deleted');
             $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_DELETED', $success, [
@@ -172,29 +147,43 @@ if ('add' == $function || 'edit' == $function) {
                 }
             }
         } else {
-            $TPL->setWhere(['id' => $templateId]);
-            $TPL->addGlobalUpdateFields();
+            $templateIsInUseError = rex_template::templateIsInUse($templateId, 'cant_inactivate_template_because_its_in_use');
+            if (false !== $templateIsInUseError) {
+                $error .= $templateIsInUseError;
+            }
+            if (rex_template::getDefaultId() == $templateId) {
+                $query = rex_sql::factory();
+                $query->setQuery('SELECT name FROM '.rex::getTable('template').' WHERE id = '.$templateId);
+                $templatename = $query->getValue('name');
 
-            try {
-                $TPL->update();
-                rex_template_cache::delete($templateId);
-                $success = rex_i18n::msg('template_updated');
-                $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_UPDATED', $success, [
-                    'id' => $templateId,
-                    'key' => $templatekey,
-                    'name' => $templatename,
-                    'content' => $template,
-                    'active' => $active,
-                    'ctype' => $ctypes,
-                    'modules' => $modules,
-                    'categories' => $categories,
-                ]));
-            } catch (rex_sql_exception $e) {
-                if (rex_sql::ERROR_VIOLATE_UNIQUE_KEY == $e->getErrorCode()) {
-                    $error = rex_i18n::msg('template_key_exists');
-                    $save = 'nein';
-                } else {
-                    $error = $e->getMessage();
+                $error .= rex_i18n::msg('cant_inactivate_template_because_its_default_template', $templatename);
+            }
+
+            if ('' == $error) {
+                $TPL->setWhere(['id' => $templateId]);
+                $TPL->addGlobalUpdateFields();
+
+                try {
+                    $TPL->update();
+                    rex_template_cache::delete($templateId);
+                    $success = rex_i18n::msg('template_updated');
+                    $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_UPDATED', $success, [
+                        'id' => $templateId,
+                        'key' => $templatekey,
+                        'name' => $templatename,
+                        'content' => $template,
+                        'active' => $active,
+                        'ctype' => $ctypes,
+                        'modules' => $modules,
+                        'categories' => $categories,
+                    ]));
+                } catch (rex_sql_exception $e) {
+                    if (rex_sql::ERROR_VIOLATE_UNIQUE_KEY == $e->getErrorCode()) {
+                        $error = rex_i18n::msg('template_key_exists');
+                        $save = 'nein';
+                    } else {
+                        $error = $e->getMessage();
+                    }
                 }
             }
         }

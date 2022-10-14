@@ -153,7 +153,7 @@ class rex_sql_test extends TestCase
     {
         $sql = rex_sql::factory();
 
-        static::assertSame('\\%foo\\_bar', $sql->escapeLikeWildcards('%foo_bar'));
+        static::assertSame('\\%foo\\_bar\\\\baz\\\\\\_qux', $sql->escapeLikeWildcards('%foo_bar\\baz\\_qux'));
     }
 
     /** @dataProvider dataIn */
