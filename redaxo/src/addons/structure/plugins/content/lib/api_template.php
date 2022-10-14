@@ -270,7 +270,7 @@ class rex_template
                 if($clang == null){
                     continue;
                 }
-                $label .= ' [' . rex_clang::get($clangId)->getCode() . ']';
+                $label .= ' [' . $clang->getCode() . ']';
             }
 
             $templateInUseMessage .= '<li><a href="' . rex_url::backendPage('content', ['article_id' => $aid, 'clang' => $clangId]) . '">' . rex_escape($label) . '</a></li>';
