@@ -282,7 +282,7 @@ class rex_template
             $templatename = $check->getValue('name');
         }
 
-        if ('' != $templateInUseMessage) {
+        if ('' != $templateInUseMessage && $templatename != null) {
             $error .= rex_i18n::msg($msg_key, $templatename);
             $error .= '<ul>' . $templateInUseMessage . '</ul>';
         }
