@@ -87,9 +87,14 @@ class rex_user_session
 
     public function removeSessionExceptCurrent(int $userId): void
     {
+        $sessionId = session_id();
+        if (false === $sessionId || '' === $sessionId) {
+            return;
+        }
+
         rex_sql::factory()
             ->setTable(rex::getTable('user_session'))
-            ->setWhere('session_id != ? and user_id = ?', [session_id(), $userId])
+            ->setWhere('session_id != ? and user_id = ?', [$sessionId, $userId])
             ->delete();
     }
 }
