@@ -3334,27 +3334,9 @@
     <PossiblyNullArrayOffset occurrences="1">
       <code>$roles</code>
     </PossiblyNullArrayOffset>
-    <PossiblyNullReference occurrences="20">
-      <code>getId</code>
-      <code>getId</code>
-      <code>getId</code>
-      <code>getId</code>
-      <code>getId</code>
+    <PossiblyNullReference occurrences="2">
       <code>getLogin</code>
       <code>getValue</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/backend.php">
