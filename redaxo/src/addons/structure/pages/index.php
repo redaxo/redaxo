@@ -522,7 +522,8 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
             $tmplTd = '';
             if ($templateSelect) {
                 $tmpl = $tEMPLATENAME[(int) $sql->getValue('template_id')] ?? '';
-                $tmplTd = '<td class="rex-table-template" data-title="' . rex_i18n::msg('header_template') . '">' . $tmpl . '</td>';
+                $tmplTd = '<td class="rex-table-template" data-title="' . rex_i18n::msg('header_template') . '">
+                <div class="rex-truncate rex-truncate-target" title="'.$tmpl.'" >' . $tmpl . '</div></td>';
             }
 
             $echo .= '<tr '.$dataArtStatus.' '.$dataArtid.(('' != $classStartarticle) ? ' class="' . trim($classStartarticle) . ' '.$trStatusClass.'"' : ' class="'.$trStatusClass.'"') . '>
