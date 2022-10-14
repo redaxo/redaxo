@@ -108,7 +108,7 @@ class rex_string
      * @param string $version
      * @return list<string>
      */
-    #[\JetBrains\PhpStorm\Deprecated(reason: 'since 5.10, use `rex_version::split` instead', replacement: 'rex_version::split(!%parameter0%)')]
+    #[\JetBrains\PhpStorm\Deprecated(reason: 'since 5.10, use `rex_version::split` instead', replacement: 'rex_version::split(%parameter0%)')]
     public static function versionSplit($version)
     {
         return rex_version::split($version);
@@ -123,7 +123,7 @@ class rex_string
      *
      * @return int|bool
      */
-    #[\JetBrains\PhpStorm\Deprecated(reason: 'since 5.10, use `rex_version::compare` instead', replacement: 'rex_version::compare(!%parametersList%)')]
+    #[\JetBrains\PhpStorm\Deprecated(reason: 'since 5.10, use `rex_version::compare` instead', replacement: 'rex_version::compare(%parametersList%)')]
     public static function versionCompare($version1, $version2, $comparator = '<')
     {
         return rex_version::compare($version1, $version2, $comparator);
