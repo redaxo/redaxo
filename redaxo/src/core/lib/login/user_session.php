@@ -20,7 +20,7 @@ class rex_user_session
             return;
         }
 
-        $login = new rex_backend_login();
+        $login = rex::getProperty('login');
         $userId = $login->getSessionVar(rex_login::SESSION_IMPERSONATOR, null);
         if (null === $userId) {
             $userId = $login->getSessionVar(rex_login::SESSION_USER_ID);
@@ -57,7 +57,7 @@ class rex_user_session
             return;
         }
 
-        $login = new rex_backend_login();
+        $login = rex::getProperty('login');
 
         // only once a minute
         if ($login->getSessionVar(self::SESSION_VAR_LAST_DB_UPDATE, 0) > (time() - 60)) {
