@@ -3076,10 +3076,7 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/pages/templates.php">
-    <InvalidScalarArgument occurrences="5">
-      <code>$aid</code>
-      <code>$clangId</code>
-      <code>$clangId</code>
+    <InvalidScalarArgument occurrences="2">
       <code>$templatename</code>
       <code>$templatename</code>
     </InvalidScalarArgument>
@@ -3107,13 +3104,6 @@
       <code>rex_escape($templatekey)</code>
       <code>rex_escape($templatename)</code>
     </NullOperand>
-    <PossiblyNullOperand occurrences="1">
-      <code>$aid</code>
-    </PossiblyNullOperand>
-    <PossiblyNullReference occurrences="2">
-      <code>getCode</code>
-      <code>getName</code>
-    </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/tests/article_content_test.php">
     <MixedArgument occurrences="1">
