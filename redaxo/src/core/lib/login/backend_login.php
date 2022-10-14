@@ -114,7 +114,9 @@ class rex_backend_login extends rex_login
                 }
                 array_push($params, rex_sql::datetime(), rex_sql::datetime(), session_id(), $this->userLogin);
                 $sql->setQuery('UPDATE ' . $this->tableName . ' SET ' . $add . 'login_tries=0, lasttrydate=?, lastlogin=?, session_id=? WHERE login=? LIMIT 1', $params);
+
                 rex_user_session::getInstance()->storeCurrentSession();
+                rex_user_session::clearExpiredSessions();
             }
 
             assert($this->user instanceof rex_sql);

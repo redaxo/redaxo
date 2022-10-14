@@ -11,11 +11,6 @@ class rex_user_session
 
     private const SESSION_VAR_LAST_DB_UPDATE = 'last_db_update';
 
-    private function __construct()
-    {
-        rex_extension::register('RESPONSE_SHUTDOWN', [self::class, 'clearExpiredSessions']);
-    }
-
     public function storeCurrentSession(): void
     {
         if (false === session_id()) {
