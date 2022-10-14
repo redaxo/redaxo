@@ -250,7 +250,7 @@ class rex_template
                 WHERE article.template_id=?
                 LIMIT 20
             ', [$templateId]);
-        
+
         if (!$check->getRows()) {
             return false;
         }
@@ -258,14 +258,8 @@ class rex_template
         $error = '';
         $templatename = $check->getRows() ? $check->getValue('template.name') : null;
         while ($check->hasNext()) {
-            $aid = $check->getValue('article.id');
-            if($aid == null){
-                continue;
-            }
-            $clangId = $check->getValue('article.clang_id');
-            if($clangId == null){
-                continue;
-            }
+            $aid = (int) $check->getValue('article.id');
+            $clangId = (int) $check->getValue('article.clang_id');
             $OOArt = rex_article::get($aid, $clangId);
             if($OOArt == null){
                 continue;
