@@ -65,8 +65,9 @@ class rex_article_slice_history
      */
     public static function getSnapshots($articleId, $clangId)
     {
-        return rex_sql::factory()->getArray(
-        'select distinct history_date, history_type, history_user from ' . self::getTable() . ' where article_id=? and clang_id=? and revision=? order by history_date desc',
+        $sql = rex_sql::factory();
+        return $sql->getArray(
+        'select distinct history_date, history_type, history_user from ' . $sql->escapeIdentifier(self::getTable()) . ' where article_id=? and clang_id=? and revision=? order by history_date desc',
         [$articleId, $clangId, 0]
         );
     }
@@ -83,7 +84,7 @@ class rex_article_slice_history
         self::checkTables();
 
         $sql = rex_sql::factory();
-        $slices = $sql->getArray('select id from ' . self::getTable() . ' where article_id=? and clang_id=? and revision=? and history_date=?', [$articleId, $clangId, 0, $historyDate]);
+        $slices = $sql->getArray('select id from ' . $sql->escapeIdentifier(self::getTable()) . ' where article_id=? and clang_id=? and revision=? and history_date=?', [$articleId, $clangId, 0, $historyDate]);
 
         if (0 == count($slices)) {
             return false;
@@ -94,10 +95,10 @@ class rex_article_slice_history
         $articleSlicesTable = rex_sql_table::get(rex::getTable('article_slice'));
 
         $sql = rex_sql::factory();
-        $sql->setQuery('delete from ' . rex::getTable('article_slice') . ' where article_id=? and clang_id=? and revision=?', [$articleId, $clangId, 0]);
+        $sql->setQuery('delete from ' . $sql->escapeIdentifier(rex::getTable('article_slice')) . ' where article_id=? and clang_id=? and revision=?', [$articleId, $clangId, 0]);
 
         $slices = rex_sql::factory();
-        $slices = $slices->getArray('select * from ' . self::getTable() . ' where article_id=? and clang_id=? and revision=? and history_date=?', [$articleId, $clangId, 0, $historyDate]);
+        $slices = $slices->getArray('select * from ' . $slices->escapeIdentifier(self::getTable()) . ' where article_id=? and clang_id=? and revision=? and history_date=?', [$articleId, $clangId, 0, $historyDate]);
 
         foreach ($slices as $slice) {
             $sql = rex_sql::factory();
@@ -122,12 +123,14 @@ class rex_article_slice_history
      */
     public static function clearAllHistory()
     {
-        rex_sql::factory()->setQuery('delete from ' . self::getTable());
+        $sql = rex_sql::factory();
+        $sql->setQuery('delete from ' . $sql->escapeIdentifier(self::getTable()));
     }
 
     public static function clearHistoryByDate(DateTimeInterface $deleteDate): void
     {
-        rex_sql::factory()->setQuery('delete from ' . self::getTable() .' where history_date < ?', [$deleteDate->format(rex_sql::FORMAT_DATETIME)]);
+        $sql = rex_sql::factory();
+        $sql->setQuery('delete from ' . $sql->escapeIdentifier(self::getTable()) .' where history_date < ?', [$deleteDate->format(rex_sql::FORMAT_DATETIME)]);
     }
 
     /**

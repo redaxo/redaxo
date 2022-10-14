@@ -415,6 +415,18 @@ backend_language = Backendsprache
 user_data_updated = Benutzerdaten wurden aktualisiert!
 theme = Backend-Theme
 
+# src\core\pages\profile.sessions.php
+session_caption = Liste aller offenen Sitzungen
+session_id = Sitzungs-ID
+ip = IP-Adresse
+user_agent = User-Agent
+last_activity = Letzte Aktivität
+starttime = Startzeit
+active_session = Aktive Sitzung
+confirm_remove_session = Sitzung wirklich beenden?
+session_removed = Sitzung wurde beendet
+session_remove_error = Sitzung konnte nicht beendet werden
+
 password_change_required = Das Passwort ist abgelaufen. Um fortzufahren, bitte ein neues Passwort angeben!
 password_not_changed = Das neue Passwort muss sich vom vorherigen unterscheiden!
 password_already_used = Das Passwort wurde schon benutzt und kann nicht erneut verwendet werden!

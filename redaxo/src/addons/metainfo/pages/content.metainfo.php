@@ -4,8 +4,8 @@ assert(isset($ep) && $ep instanceof rex_extension_point);
 
 $params = $ep->getParams();
 
-$articleId = $params['article_id'];
-$clang = $params['clang'];
+$articleId = (int) $params['article_id'];
+$clang = (int) $params['clang'];
 
 $content = [];
 
