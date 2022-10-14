@@ -563,7 +563,11 @@ if ($OUT) {
     $list->setColumnLabel('name', rex_i18n::msg('header_template_description'));
     $list->setColumnLayout('name', ['<th class="rex-table-template">###VALUE###</th>', '<td class="rex-table-template" data-title="' . rex_i18n::msg('header_template_description') . '">###VALUE###</td>']);
     $list->setColumnFormat('name', 'custom', static function () use ($list) {
-        return '<div class="rex-truncate rex-truncate-target" title="'.$list->getValue('name').'" >'.$list->getValue('name').'</div>';
+        $tmpname = $list->getValue('name');
+        if($tmpname == null){
+            return '';
+        }
+        return '<div class="rex-truncate rex-truncate-target" title="'.$tmpname.'" >'.$tmpname.'</div>';
     });
 
 
