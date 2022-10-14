@@ -244,12 +244,12 @@ class rex_template
     {
         $check = rex_sql::factory();
         $check->setQuery('
-                SELECT article.id, article.clang_id, template.name
-                FROM ' . rex::getTable('article') . ' article
-                LEFT JOIN ' . rex::getTable('template') . ' template ON article.template_id=template.id
-                WHERE article.template_id=?
-                LIMIT 20
-            ', [$templateId]);
+            SELECT article.id, article.clang_id, template.name
+            FROM ' . rex::getTable('article') . ' article
+            LEFT JOIN ' . rex::getTable('template') . ' template ON article.template_id=template.id
+            WHERE article.template_id=?
+            LIMIT 20
+        ', [$templateId]);
 
         if (!$check->getRows()) {
             return false;
@@ -260,14 +260,14 @@ class rex_template
         while ($check->hasNext()) {
             $aid = (int) $check->getValue('article.id');
             $clangId = (int) $check->getValue('article.clang_id');
-            $OOArt = rex_article::get($aid, $clangId);
-            if($OOArt == null){
+            $article = rex_article::get($aid, $clangId);
+            if (null == $article) {
                 continue;
             }
-            $label = $OOArt->getName() . ' [' . $aid . ']';
+            $label = $article->getName() . ' [' . $aid . ']';
             if (rex_clang::count() > 1) {
                 $clang = rex_clang::get($clangId);
-                if($clang == null){
+                if (null == $clang) {
                     continue;
                 }
                 $label .= ' [' . $clang->getCode() . ']';
@@ -282,12 +282,11 @@ class rex_template
             $templatename = $check->getValue('name');
         }
 
-        if ('' != $templateInUseMessage && $templatename != null) {
+        if ('' != $templateInUseMessage && null != $templatename) {
             $error .= rex_i18n::msg($msg_key, (string) $templatename);
             $error .= '<ul>' . $templateInUseMessage . '</ul>';
         }
+
         return $error;
-
-
     }
 }

@@ -29,7 +29,7 @@ if ('delete' == $function) {
     } else {
         $del = rex_sql::factory();
         $templateIsInUseError = rex_template::templateIsInUse($templateId, 'cant_delete_template_because_its_in_use');
-        if ($templateIsInUseError !== false) {
+        if (false !== $templateIsInUseError) {
             $error .= $templateIsInUseError;
         }
 
@@ -40,20 +40,15 @@ if ('delete' == $function) {
 
             $error .= rex_i18n::msg('cant_delete_template_because_its_default_template', $templatename);
         }
-        if ($error == '') {
-            $del->setQuery(
-                'DELETE FROM '.rex::getTablePrefix().'template WHERE id = "'.$templateId.'" LIMIT 1'
-            ); // max. ein Datensatz darf loeschbar sein
+        if ('' == $error) {
+            $del->setQuery('DELETE FROM '.rex::getTablePrefix().'template WHERE id = "'.$templateId.'" LIMIT 1'); // max. ein Datensatz darf loeschbar sein
             rex_template_cache::delete($templateId);
             $success = rex_i18n::msg('template_deleted');
-            $success = rex_extension::registerPoint(
-                new rex_extension_point('TEMPLATE_DELETED', $success, [
-                    'id' => $templateId,
-                ])
-            );
+            $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_DELETED', $success, [
+                'id' => $templateId,
+            ]));
         }
     }
-
 } elseif ('edit' == $function) {
     $hole = rex_sql::factory();
     $hole->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'template WHERE id = "' . $templateId . '"');
@@ -152,21 +147,19 @@ if ('add' == $function || 'edit' == $function) {
                 }
             }
         } else {
-
             $templateIsInUseError = rex_template::templateIsInUse($templateId, 'cant_inactivate_template_because_its_in_use');
-            if($templateIsInUseError !== false){
+            if (false !== $templateIsInUseError) {
                 $error .= $templateIsInUseError;
             }
             if (rex_template::getDefaultId() == $templateId) {
-                    $query = rex_sql::factory();
-                    $query->setQuery('SELECT name FROM '.rex::getTable('template').' WHERE id = '.$templateId);
-                    $templatename = $query->getValue('name');
+                $query = rex_sql::factory();
+                $query->setQuery('SELECT name FROM '.rex::getTable('template').' WHERE id = '.$templateId);
+                $templatename = $query->getValue('name');
 
-                    $error .= rex_i18n::msg('cant_inactivate_template_because_its_default_template', $templatename);
-                }
+                $error .= rex_i18n::msg('cant_inactivate_template_because_its_default_template', $templatename);
+            }
 
-
-            if($error == '') {
+            if ('' == $error) {
                 $TPL->setWhere(['id' => $templateId]);
                 $TPL->addGlobalUpdateFields();
 
@@ -174,18 +167,16 @@ if ('add' == $function || 'edit' == $function) {
                     $TPL->update();
                     rex_template_cache::delete($templateId);
                     $success = rex_i18n::msg('template_updated');
-                    $success = rex_extension::registerPoint(
-                        new rex_extension_point('TEMPLATE_UPDATED', $success, [
-                            'id' => $templateId,
-                            'key' => $templatekey,
-                            'name' => $templatename,
-                            'content' => $template,
-                            'active' => $active,
-                            'ctype' => $ctypes,
-                            'modules' => $modules,
-                            'categories' => $categories,
-                        ])
-                    );
+                    $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_UPDATED', $success, [
+                        'id' => $templateId,
+                        'key' => $templatekey,
+                        'name' => $templatename,
+                        'content' => $template,
+                        'active' => $active,
+                        'ctype' => $ctypes,
+                        'modules' => $modules,
+                        'categories' => $categories,
+                    ]));
                 } catch (rex_sql_exception $e) {
                     if (rex_sql::ERROR_VIOLATE_UNIQUE_KEY == $e->getErrorCode()) {
                         $error = rex_i18n::msg('template_key_exists');
