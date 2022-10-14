@@ -383,66 +383,10 @@
       <code>$from['before']</code>
       <code>$to['before']</code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="26">
-      <code>$config['from']</code>
-      <code>$config['to']</code>
-      <code>$from['after']</code>
-      <code>$from['before']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$to['after']</code>
-      <code>$to['before']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="2">
-      <code>$from['before']</code>
-      <code>$to['before']</code>
-    </MixedArrayAssignment>
-    <MixedAssignment occurrences="6">
-      <code>$config</code>
-      <code>$field</code>
-      <code>$from</code>
+    <MixedAssignment occurrences="2">
       <code>$status</code>
       <code>$status</code>
-      <code>$to</code>
     </MixedAssignment>
-    <MixedOperand occurrences="18">
-      <code>$field</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-    </MixedOperand>
     <PossiblyNullOperand occurrences="1">
       <code>$rows</code>
     </PossiblyNullOperand>
@@ -1981,16 +1925,10 @@
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/metainfo/pages/content.metainfo.php">
-    <MixedArgument occurrences="5">
-      <code>$articleId</code>
-      <code>$articleId</code>
-      <code>$clang</code>
-      <code>$clang</code>
+    <MixedArgument occurrences="1">
       <code>$ctypes</code>
     </MixedArgument>
-    <MixedAssignment occurrences="3">
-      <code>$articleId</code>
-      <code>$clang</code>
+    <MixedAssignment occurrences="1">
       <code>$ctypes</code>
     </MixedAssignment>
     <PossiblyNullOperand occurrences="2">
@@ -2724,11 +2662,10 @@
     <MixedMethodCall occurrences="1">
       <code>getId</code>
     </MixedMethodCall>
-    <MixedOperand occurrences="4">
+    <MixedOperand occurrences="3">
       <code>$content</code>
       <code>$content</code>
       <code>$content</code>
-      <code>$ep-&gt;getParam('clang')-&gt;getId()</code>
     </MixedOperand>
     <PossiblyNullReference occurrences="1">
       <code>setIsActive</code>
@@ -3397,27 +3334,9 @@
     <PossiblyNullArrayOffset occurrences="1">
       <code>$roles</code>
     </PossiblyNullArrayOffset>
-    <PossiblyNullReference occurrences="20">
-      <code>getId</code>
-      <code>getId</code>
-      <code>getId</code>
-      <code>getId</code>
-      <code>getId</code>
+    <PossiblyNullReference occurrences="2">
       <code>getLogin</code>
       <code>getValue</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/backend.php">
@@ -4821,9 +4740,8 @@
       <code>$sessionConfig['samesite']</code>
       <code>$sessionConfig['secure']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="2">
+    <MixedAssignment occurrences="1">
       <code>$sessionConfig</code>
-      <code>$userId</code>
     </MixedAssignment>
     <PossiblyFalseReference occurrences="2">
       <code>format</code>
@@ -4880,25 +4798,23 @@
     <MixedArrayOffset occurrences="1">
       <code>$cookieParams[$name]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="14">
+    <MixedAssignment occurrences="11">
       <code>$cookieParams[$name]</code>
-      <code>$impersonator</code>
       <code>$name</code>
       <code>$password</code>
       <code>$password</code>
       <code>$rexSessId</code>
-      <code>$sessUid</code>
       <code>$sessionConfig</code>
-      <code>$sessionStartTime</code>
       <code>$this-&gt;DB</code>
       <code>$this-&gt;cache</code>
       <code>$this-&gt;logout</code>
       <code>$this-&gt;sessionMaxOverallDuration</code>
       <code>$value</code>
     </MixedAssignment>
-    <MixedOperand occurrences="1">
-      <code>$sessionStartTime</code>
-    </MixedOperand>
+    <MixedReturnStatement occurrences="2">
+      <code>$_SESSION[static::getSessionNamespace()][$this-&gt;systemId][$varname]</code>
+      <code>$default</code>
+    </MixedReturnStatement>
     <MixedReturnTypeCoercion occurrences="2">
       <code>$cookieParams</code>
       <code>array{lifetime: ?int, path: ?string, domain: ?string, secure: ?bool, httponly: ?bool, samesite: ?string}</code>

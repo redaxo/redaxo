@@ -201,7 +201,7 @@ function deleteREX(id, i_list, i_select)
         source.options[position] = null;
         sourcelength--;
 
-        // Wenn das erste gel�scht wurde
+        // Wenn das erste geloescht wurde
         if(position == 0)
         {
             // Und es gibt noch weitere,

@@ -27,7 +27,7 @@ class rex_install_package_add extends rex_install_package_download
             return $msg;
         }
         rex_package_manager::synchronizeWithFileSystem();
-        rex_install_packages::addedPackage($this->addonkey);
+        rex_install_packages::deleteCacheMyPackages();
 
         return null;
     }
