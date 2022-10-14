@@ -69,6 +69,3 @@ rex_sql_table::get(rex::getTable('user_session'))
     ->setPrimaryKey('session_id')
     ->ensureForeignKey(new rex_sql_foreign_key('user_id', rex::getTable('user'), ['user_id' => 'id'], rex_sql_foreign_key::CASCADE, rex_sql_foreign_key::CASCADE))
     ->ensure();
-
-// prevent user loggout during update
-rex_user_session::getInstance()->storeCurrentSession();

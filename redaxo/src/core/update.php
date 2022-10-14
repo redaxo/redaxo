@@ -79,3 +79,6 @@ if (rex_string::versionCompare(rex::getVersion(), '5.12.0-dev', '<')) {
 rex_file::putConfig($path, $config);
 
 require __DIR__.'/install.php';
+
+// prevent admin loggout during update
+rex_user_session::getInstance()->storeCurrentSession();
