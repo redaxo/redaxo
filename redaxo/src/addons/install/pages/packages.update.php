@@ -226,7 +226,7 @@ if ($core && !empty($coreVersions)) {
                 <td data-title="' . $package->i18n('key') . '"><a class="rex-link-expanded" href="' . $url . '">' . rex_escape($key) . '</a></td>
                 <td data-title="' . $package->i18n('name') . '">' . rex_escape($addon['name']) . '</td>
                 <td data-title="' . $package->i18n('existing_version') . '">' . $packageVersion . '</td>
-                <td data-title="' . $package->i18n('available_versions') . '">' . implode(' - ', $availableVersions) . '</td>
+                <td data-title="' . $package->i18n('available_versions') . '">' . implode(' ', $availableVersions) . '</td>
             </tr>';
     }
 
