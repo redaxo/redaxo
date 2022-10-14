@@ -1,5 +1,5 @@
 {
-    "require": { "phpmailer/phpmailer": "^6.6.4" },
+    "require": { "phpmailer/phpmailer": "^6.6.5" },
 
     "config": {
         "platform": {
