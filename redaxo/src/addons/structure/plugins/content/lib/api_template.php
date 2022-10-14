@@ -250,49 +250,50 @@ class rex_template
                 WHERE article.template_id=?
                 LIMIT 20
             ', [$templateId]);
-
-        if ($check->getRows() > 0) {
-            $templateInUseMessage = '';
-            $error = '';
-            $templatename = $check->getRows() ? $check->getValue('template.name') : null;
-            while ($check->hasNext()) {
-                $aid = $check->getValue('article.id');
-                if($aid == null){
+        
+        if (!$check->getRows()) {
+            return false;
+        }
+        $templateInUseMessage = '';
+        $error = '';
+        $templatename = $check->getRows() ? $check->getValue('template.name') : null;
+        while ($check->hasNext()) {
+            $aid = $check->getValue('article.id');
+            if($aid == null){
+                continue;
+            }
+            $clangId = $check->getValue('article.clang_id');
+            if($clangId == null){
+                continue;
+            }
+            $OOArt = rex_article::get($aid, $clangId);
+            if($OOArt == null){
+                continue;
+            }
+            $label = $OOArt->getName() . ' [' . $aid . ']';
+            if (rex_clang::count() > 1) {
+                $clang = rex_clang::get($clangId);
+                if($clang == null){
                     continue;
                 }
-                $clangId = $check->getValue('article.clang_id');
-                if($clangId == null){
-                    continue;
-                }
-                $OOArt = rex_article::get($aid, $clangId);
-                if($OOArt == null){
-                    continue;
-                }
-                $label = $OOArt->getName() . ' [' . $aid . ']';
-                if (rex_clang::count() > 1) {
-                    $clang = rex_clang::get($clangId);
-                    if($clang == null){
-                        continue;
-                    }
-                    $label .= ' [' . rex_clang::get($clangId)->getCode() . ']';
-                }
-
-                $templateInUseMessage .= '<li><a href="' . rex_url::backendPage('content', ['article_id' => $aid, 'clang' => $clangId]) . '">' . rex_escape($label) . '</a></li>';
-                $check->next();
+                $label .= ' [' . rex_clang::get($clangId)->getCode() . ']';
             }
 
-            if (null == $templatename) {
-                $check->setQuery('SELECT name FROM '.rex::getTable('template'). ' WHERE id = '.$templateId);
-                $templatename = $check->getValue('name');
-            }
-
-            if ('' != $templateInUseMessage) {
-                $error .= rex_i18n::msg($msg_key, $templatename);
-                $error .= '<ul>' . $templateInUseMessage . '</ul>';
-            }
-            return $error;
+            $templateInUseMessage .= '<li><a href="' . rex_url::backendPage('content', ['article_id' => $aid, 'clang' => $clangId]) . '">' . rex_escape($label) . '</a></li>';
+            $check->next();
         }
 
-        return false;
+        if (null == $templatename) {
+            $check->setQuery('SELECT name FROM '.rex::getTable('template'). ' WHERE id = '.$templateId);
+            $templatename = $check->getValue('name');
+        }
+
+        if ('' != $templateInUseMessage) {
+            $error .= rex_i18n::msg($msg_key, $templatename);
+            $error .= '<ul>' . $templateInUseMessage . '</ul>';
+        }
+        return $error;
+
+
     }
 }
