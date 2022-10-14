@@ -210,7 +210,7 @@ if ($core && !empty($coreVersions)) {
             if (class_exists(rex_version::class) && rex_version::isUnstable($availVers)) {
                 $availVers = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. $availVers;
             }
-            $availableVersions[] = '<span class="label label-warning" title="'.rex_escape(rex_formatter::intlDate($file['created'])).'">' .$availVers . ' </span>';
+            $availableVersions[] = '<span class="label label-warning" title="'.rex_escape(rex_formatter::intlDate($file['created'])).'">' .$availVers . '</span>';
         }
 
         $url = rex_url::currentBackendPage(['addonkey' => $key]);
