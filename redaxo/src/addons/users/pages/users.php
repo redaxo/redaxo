@@ -567,12 +567,12 @@ if ($SHOW) {
     $thIcon = '<a class="rex-link-expanded" href="' . $list->getUrl(['FUNC_ADD' => '1']) . '"' . rex::getAccesskey(rex_i18n::msg('create_user'), 'add') . ' title="' . rex_i18n::msg('create_user') . '"><i class="rex-icon rex-icon-add-user"></i></a>';
     $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-table-icon">###VALUE###</th>', '<td class="rex-table-icon">###VALUE###</td>']);
     $list->setColumnParams($thIcon, ['user_id' => '###id###']);
-    $list->setColumnFormat($thIcon, 'custom', static function () use ($list, $thIcon, $tdIcon) {
+    $list->setColumnFormat($thIcon, 'custom', static function () use ($currentUser, $list, $thIcon, $tdIcon) {
         if (!$list->getValue('status')) {
             $tdIcon = str_replace('rex-icon-user', 'rex-icon-user-inactive text-muted', $tdIcon);
             $tdIcon = str_replace(rex_i18n::msg('user_status_active'), rex_i18n::msg('user_status_inactive'), $tdIcon);
         }
-        return !$list->getValue('admin') || rex::requireUser()->isAdmin() ? $list->getColumnLink($thIcon, $tdIcon) : $tdIcon;
+        return !$list->getValue('admin') || $currentUser->isAdmin() ? $list->getColumnLink($thIcon, $tdIcon) : $tdIcon;
     });
 
     $list->removeColumn('admin');
@@ -584,9 +584,9 @@ if ($SHOW) {
 
     $list->setColumnLabel('name', rex_i18n::msg('name'));
     $list->setColumnParams('name', ['user_id' => '###id###']);
-    $list->setColumnFormat('name', 'custom', static function () use ($list) {
+    $list->setColumnFormat('name', 'custom', static function () use ($currentUser, $list) {
         $name = rex_escape($list->getValue('name'));
-        return !$list->getValue('admin') || rex::requireUser()->isAdmin() ? $list->getColumnLink('name', $name) : $name;
+        return !$list->getValue('admin') || $currentUser->isAdmin() ? $list->getColumnLink('name', $name) : $name;
     });
     $list->setColumnSortable('name');
 
