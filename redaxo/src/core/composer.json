@@ -1,5 +1,6 @@
 {
     "require": {
+        "composer/semver": "^3.3",
         "erusev/parsedown": "^1.7.4",
         "erusev/parsedown-extra": "^0.8.1",
         "filp/whoops": "^2.14.5",

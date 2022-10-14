@@ -18,7 +18,7 @@ class rex_command_install_download extends rex_console_command
     {
         $this->setDescription('Download an AddOn from redaxo.org')
             ->addArgument('addonkey', InputArgument::REQUIRED, 'AddOn key, e.g. "yform"')
-            ->addArgument('version', InputArgument::OPTIONAL, 'Version, e.g. "3.2.1"');
+            ->addArgument('version', InputArgument::OPTIONAL, 'Version, e.g. "3.2.1", "^3.2" or "3.*"');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -48,17 +48,39 @@ class rex_command_install_download extends rex_console_command
                 $versions[] = $fileMeta['version'];
             }
 
-            $version = $io->choice('Please choose a version', $versions);
+            $version = (string) $io->choice('Please choose a version', $versions);
         }
 
         // search fileId by version
         $fileId = null;
+        $isExactVersion = preg_match('/^[0-9.]+$/', $version);
+        $latestVersion = null;
         foreach ($files as $fId => $fileMeta) {
+            if (!$isExactVersion) {
+                if (!\Composer\Semver\Semver::satisfies($fileMeta['version'], $version)) {
+                    continue;
+                }
+
+                if (null !== $latestVersion
+                    && !\Composer\Semver\Comparator::greaterThan($fileMeta['version'], $latestVersion)) {
+                    continue;
+                }
+
+                $latestVersion = $fileMeta['version'];
+                $fileId = $fId;
+
+                continue;
+            }
             if ($fileMeta['version'] !== $version) {
                 continue;
             }
+
             $fileId = $fId;
             break;
+        }
+
+        if (null !== $latestVersion) {
+            $version = $latestVersion;
         }
 
         if (!$fileId || !isset($files[$fileId])) {

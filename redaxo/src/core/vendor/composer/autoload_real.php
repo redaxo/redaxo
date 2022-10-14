@@ -29,7 +29,6 @@ class ComposerAutoloaderInitRedaxoCore
         require __DIR__ . '/autoload_static.php';
         call_user_func(\Composer\Autoload\ComposerStaticInitRedaxoCore::getInitializer($loader));
 
-        $loader->setClassMapAuthoritative(true);
         $loader->register(false);
 
         $includeFiles = \Composer\Autoload\ComposerStaticInitRedaxoCore::$files;
