@@ -67,10 +67,7 @@ templates = Templates
 
 templates_not_found = Templates não encontrados
 title_templates = Templates
-cant_delete_template_because_its_in_use = template <b>{0}</b> não pode ser deletado pois está em uso
-cant_delete_template_because_its_default_template = template <b>{0}</b>  não pode ser deletado pois  é um template padrão.
-cant_inactivate_template_because_its_in_use = template <b>{0}</b> não pode ser inativado pois está em uso
-cant_inactivate_template_because_its_default_template = template <b>{0}</b>  não pode ser inativado pois  é um template padrão.
+cant_delete_template_because_its_in_use = O template '{0}'  não pode ser deletado pois está em uso ou é um template padrão
 template_deleted = Template deletado.
 template_added = Template adicionado.
 template_updated = Template atualizado.
