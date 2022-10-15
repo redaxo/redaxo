@@ -25,10 +25,8 @@ class rex_version
      * @param string $constraints Constraint list, separated by comma
      *
      * @throws rex_exception
-     *
-     * @return bool
      */
-    public static function matchConstraints($version, $constraints)
+    public static function matchesConstraints(string $version, string $constraints): bool
     {
         $rawConstraints = array_filter(array_map('trim', explode(',', $constraints)));
         $constraints = [];

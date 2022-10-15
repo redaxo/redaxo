@@ -55,7 +55,7 @@ class rex_command_install_download extends rex_console_command
         $fileId = null;
         $latestVersion = null;
         foreach ($files as $fId => $fileMeta) {
-            if (!rex_version::matchConstraints($fileMeta['version'], $version)) {
+            if (!rex_version::matchesConstraints($fileMeta['version'], $version)) {
                 continue;
             }
 

@@ -413,7 +413,7 @@ abstract class rex_package_manager
             if (!is_array($requirements['php'])) {
                 $requirements['php'] = ['version' => $requirements['php']];
             }
-            if (isset($requirements['php']['version']) && !rex_version::matchConstraints(PHP_VERSION, $requirements['php']['version'])) {
+            if (isset($requirements['php']['version']) && !rex_version::matchesConstraints(PHP_VERSION, $requirements['php']['version'])) {
                 $state[] = $this->i18n('requirement_error_php_version', PHP_VERSION, $requirements['php']['version']);
             }
             if (isset($requirements['php']['extensions']) && $requirements['php']['extensions']) {
@@ -453,7 +453,7 @@ abstract class rex_package_manager
     public function checkRedaxoRequirement($redaxoVersion)
     {
         $requirements = $this->package->getProperty('requires', []);
-        if (isset($requirements['redaxo']) && !rex_version::matchConstraints($redaxoVersion, $requirements['redaxo'])) {
+        if (isset($requirements['redaxo']) && !rex_version::matchesConstraints($redaxoVersion, $requirements['redaxo'])) {
             $this->message = $this->i18n('requirement_error_redaxo_version', $redaxoVersion, $requirements['redaxo']);
             return false;
         }
@@ -511,7 +511,7 @@ abstract class rex_package_manager
             return false;
         }
 
-        if (!rex_version::matchConstraints($package->getVersion(), $requirements['packages'][$packageId])) {
+        if (!rex_version::matchesConstraints($package->getVersion(), $requirements['packages'][$packageId])) {
             $this->message = $this->i18n(
                 'requirement_error_' . $package->getType() . '_version',
                 $package->getPackageId(),
@@ -551,7 +551,7 @@ abstract class rex_package_manager
             $constraints = $conflicts['packages'][$this->package->getPackageId()];
             if (!is_string($constraints) || !$constraints || '*' === $constraints) {
                 $state[] = $this->i18n('reverse_conflict_error_' . $package->getType(), $package->getPackageId());
-            } elseif (rex_version::matchConstraints($this->package->getVersion(), $constraints)) {
+            } elseif (rex_version::matchesConstraints($this->package->getVersion(), $constraints)) {
                 $state[] = $this->i18n('reverse_conflict_error_' . $package->getType() . '_version', $package->getPackageId(), $constraints);
             }
         }
@@ -582,7 +582,7 @@ abstract class rex_package_manager
             $this->message = $this->i18n('conflict_error_' . $package->getType(), $package->getPackageId());
             return false;
         }
-        if (rex_version::matchConstraints($package->getVersion(), $constraints)) {
+        if (rex_version::matchesConstraints($package->getVersion(), $constraints)) {
             $this->message = $this->i18n('conflict_error_' . $package->getType() . '_version', $package->getPackageId(), $constraints);
             return false;
         }

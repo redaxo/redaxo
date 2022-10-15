@@ -95,7 +95,7 @@ class rex_version_test extends TestCase
      */
     public function testMatchVersionConstraints(bool $expected, string $version, string $constraints)
     {
-        static::assertSame($expected, rex_version::matchConstraints($version, $constraints));
+        static::assertSame($expected, rex_version::matchesConstraints($version, $constraints));
     }
 
     /**
