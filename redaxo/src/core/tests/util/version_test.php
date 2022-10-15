@@ -98,6 +98,9 @@ class rex_version_test extends TestCase
         static::assertSame($expected, rex_version::matchConstraints($version, $constraints));
     }
 
+    /**
+     * @return list<array{bool, string, string}>
+     */
     public function dataMatchVersionConstraints(): array
     {
         return [
