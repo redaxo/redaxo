@@ -18,11 +18,6 @@ class rex_version
         return (bool) preg_match('/(?<![a-z])(?:dev|alpha|a|beta|b|rc|pl)(?![a-z])/i', $version);
     }
 
-    public static function isExactVersion(string $version): bool
-    {
-        return (bool) preg_match('/^[0-9.]+$/', $version);
-    }
-
     /**
      * Checks the version of the requirement.
      *

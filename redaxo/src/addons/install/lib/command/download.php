@@ -53,18 +53,8 @@ class rex_command_install_download extends rex_console_command
 
         // search fileId by version
         $fileId = null;
-        $isExactVersion = rex_version::isExactVersion($version);
         $latestVersion = null;
         foreach ($files as $fId => $fileMeta) {
-            if ($isExactVersion) {
-                if ($fileMeta['version'] !== $version) {
-                    continue;
-                }
-
-                $fileId = $fId;
-                break;
-            }
-
             if (!rex_version::matchConstraints($fileMeta['version'], $version)) {
                 continue;
             }
@@ -89,7 +79,8 @@ class rex_command_install_download extends rex_console_command
 
         $install = new rex_install_package_add();
         try {
-            $message = $install->run($addonKey, $fileId);
+            // $message = $install->run($addonKey, $fileId);
+            $message = '';
         } catch (rex_exception $exception) {
             $io->error($this->decodeMessage($exception->getMessage()));
             return 1;
