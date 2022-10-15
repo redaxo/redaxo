@@ -91,6 +91,39 @@ class rex_version_test extends TestCase
     }
 
     /**
+     * @dataProvider dataIsExactVersion
+     */
+    public function testIsExactVersion(bool $expected, string $version): void
+    {
+        static::assertSame($expected, rex_version::isExactVersion($version));
+    }
+
+    /**
+     * @return iterable<array{bool, string}>
+     */
+    public function dataIsExactVersion(): iterable
+    {
+        yield [true, '1'];
+        yield [true, '1.0'];
+        yield [true, '1.0.0'];
+        yield [true, '2.4'];
+        yield [true, '0.9'];
+        yield [true, '1.0.0-alpha'];
+        yield [false, '^3'];
+        yield [false, '^3.2'];
+        yield [false, '^3.3.0'];
+        yield [false, '3.*'];
+        yield [false, '3.3.*'];
+        yield [false, '~3'];
+        yield [false, '3 || 4'];
+        yield [false, '3 | 4'];
+        yield [false, '3 | 4alpha'];
+        yield [false, '>=1.1'];
+        yield [false, '<3.0'];
+        yield [false, '>=1.1, <3.0'];
+    }
+
+    /**
      * @dataProvider dataMatchVersionConstraints
      */
     public function testMatchVersionConstraints(bool $expected, string $version, string $constraints)
