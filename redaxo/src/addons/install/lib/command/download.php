@@ -89,8 +89,7 @@ class rex_command_install_download extends rex_console_command
 
         $install = new rex_install_package_add();
         try {
-            //$message = $install->run($addonKey, $fileId);
-            $message = '';
+            $message = $install->run($addonKey, $fileId);
         } catch (rex_exception $exception) {
             $io->error($this->decodeMessage($exception->getMessage()));
             return 1;
