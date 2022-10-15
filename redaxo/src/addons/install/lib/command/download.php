@@ -70,7 +70,7 @@ class rex_command_install_download extends rex_console_command
             }
 
             if (null !== $latestVersion
-                && !rex_version::compare($fileMeta['version'], $latestVersion, '>') ) {
+                && !rex_version::compare($fileMeta['version'], $latestVersion, '>')) {
                 continue;
             }
 
