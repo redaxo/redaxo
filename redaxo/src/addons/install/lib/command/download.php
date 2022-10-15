@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\Console\Completion\CompletionInput;
+use Symfony\Component\Console\Completion\CompletionSuggestions;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -19,6 +21,13 @@ class rex_command_install_download extends rex_console_command
         $this->setDescription('Download an AddOn from redaxo.org')
             ->addArgument('addonkey', InputArgument::REQUIRED, 'AddOn key, e.g. "yform"')
             ->addArgument('version', InputArgument::OPTIONAL, 'Version, e.g. "3.2.1"');
+    }
+
+    public function complete(CompletionInput $input, CompletionSuggestions $suggestions): void
+    {
+        if ($input->mustSuggestOptionValuesFor('addonkey')) {
+            $suggestions->suggestValues(['json', 'xml']);
+        }
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
