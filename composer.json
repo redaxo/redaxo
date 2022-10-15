@@ -15,7 +15,7 @@
         "friendsofredaxo/linter": "1.3.0",
         "jetbrains/phpstorm-attributes": "^1.0",
         "phpstan/extension-installer": "1.1.0",
-        "phpstan/phpstan": "1.8.6",
+        "phpstan/phpstan": "1.8.9",
         "phpstan/phpstan-deprecation-rules": "1.0.0",
         "phpstan/phpstan-phpunit": "1.1.1",
         "phpstan/phpstan-symfony": "1.2.13",
@@ -25,14 +25,14 @@
         "rector/rector": "0.14.5",
         "redaxo/php-cs-fixer-config": "1.0.0",
         "redaxo/psalm-plugin": "1.0.0",
-        "vimeo/psalm": "4.27.0"
+        "vimeo/psalm": "4.29.0"
     },
     "replace": {
         "erusev/parsedown": "1.7.4",
         "erusev/parsedown-extra": "0.8.1",
         "filp/whoops": "2.14.5",
         "itsgoingd/clockwork": "v5.1.8",
-        "phpmailer/phpmailer": "v6.6.4",
+        "phpmailer/phpmailer": "v6.6.5",
         "psr/container": "1.1.1",
         "psr/http-message": "1.0.1",
         "psr/log": "1.1.4",
@@ -40,9 +40,9 @@
         "ramsey/http-range": "1.0.0",
         "scssphp/scssphp": "v1.11.0",
         "splitbrain/php-archive": "1.3.1",
-        "symfony/console": "v5.4.13",
+        "symfony/console": "v5.4.14",
         "symfony/deprecation-contracts": "v2.5.2",
-        "symfony/http-foundation": "v5.4.13",
+        "symfony/http-foundation": "v5.4.14",
         "symfony/polyfill-ctype": "*",
         "symfony/polyfill-php70": "*",
         "symfony/polyfill-php72": "*",
@@ -50,12 +50,12 @@
         "symfony/polyfill-php80": "v1.26.0",
         "symfony/polyfill-php81": "v1.26.0",
         "symfony/service-contracts": "v2.5.2",
-        "symfony/string": "v5.4.13",
-        "symfony/var-dumper": "v5.4.13",
-        "symfony/yaml": "v5.4.12",
+        "symfony/string": "v5.4.14",
+        "symfony/var-dumper": "v5.4.14",
+        "symfony/yaml": "v5.4.14",
         "voku/anti-xss": "4.1.39",
         "voku/portable-ascii": "2.0.1",
-        "voku/portable-utf8": "6.0.9"
+        "voku/portable-utf8": "6.0.10"
     },
     "autoload": {
         "classmap": [
