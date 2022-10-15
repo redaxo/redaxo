@@ -1,7 +1,5 @@
 <?php
 
-use Composer\Semver\Comparator;
-use Composer\Semver\Semver;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -67,12 +65,12 @@ class rex_command_install_download extends rex_console_command
                 break;
             }
 
-            if (!Semver::satisfies($fileMeta['version'], $version)) {
+            if (!rex_version::matchConstraints($fileMeta['version'], $version)) {
                 continue;
             }
 
             if (null !== $latestVersion
-                && !Comparator::greaterThan($fileMeta['version'], $latestVersion)) {
+                && !rex_version::compare($fileMeta['version'], $latestVersion, '>') ) {
                 continue;
             }
 
@@ -91,7 +89,8 @@ class rex_command_install_download extends rex_console_command
 
         $install = new rex_install_package_add();
         try {
-            $message = $install->run($addonKey, $fileId);
+            //$message = $install->run($addonKey, $fileId);
+            $message = '';
         } catch (rex_exception $exception) {
             $io->error($this->decodeMessage($exception->getMessage()));
             return 1;
