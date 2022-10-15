@@ -24,6 +24,71 @@ class rex_version
     }
 
     /**
+     * Checks the version of the requirement.
+     *
+     * @param string $version     Version
+     * @param string $constraints Constraint list, separated by comma
+     *
+     * @throws rex_exception
+     *
+     * @return bool
+     */
+    public static function matchConstraints($version, $constraints)
+    {
+        $rawConstraints = array_filter(array_map('trim', explode(',', $constraints)));
+        $constraints = [];
+        foreach ($rawConstraints as $constraint) {
+            if ('*' === $constraint) {
+                continue;
+            }
+
+            if (!preg_match('/^(?<op>==?|<=?|>=?|!=|~|\^|) ?(?<version>\d+(?:\.\d+)*)(?<wildcard>\.\*)?(?<prerelease>[ -.]?[a-z]+(?:[ -.]?\d+)?)?$/i', $constraint, $match)
+                || isset($match['wildcard']) && $match['wildcard'] && ('' != $match['op'] || isset($match['prerelease']) && $match['prerelease'])
+            ) {
+                throw new rex_exception('Unknown version constraint "' . $constraint . '"!');
+            }
+
+            if (isset($match['wildcard']) && $match['wildcard']) {
+                $constraints[] = ['>=', $match['version']];
+                $pos = strrpos($match['version'], '.');
+                if (false === $pos) {
+                    $constraints[] = ['<', (int) $match['version'] + 1];
+                } else {
+                    ++$pos;
+                    $sub = (int) substr($match['version'], $pos);
+                    $constraints[] = ['<', substr_replace($match['version'], (string) ($sub + 1), $pos)];
+                }
+            } elseif (in_array($match['op'], ['~', '^'])) {
+                $constraints[] = ['>=', $match['version'] . ($match['prerelease'] ?? '')];
+                if ('^' === $match['op'] || false === $pos = strrpos($match['version'], '.')) {
+                    // add "-foo" to get a version lower than a "-dev" version
+                    $constraints[] = ['<', ((int) $match['version'] + 1) . '-foo'];
+                } else {
+                    $main = '';
+                    $sub = substr($match['version'], 0, $pos);
+                    if (false !== ($pos = strrpos($sub, '.'))) {
+                        $main = substr($sub, 0, $pos + 1);
+                        $sub = substr($sub, $pos + 1);
+                    }
+                    // add "-foo" to get a version lower than a "-dev" version
+                    $constraints[] = ['<', $main . ((int) $sub + 1) . '-foo'];
+                }
+            } else {
+                $constraints[] = [$match['op'] ?: '=', $match['version'] . ($match['prerelease'] ?? '')];
+            }
+        }
+
+        /** @psalm-var array{0: '='|'=='|'!='|'<>'|'<'|'<='|'>'|'>=', 1: string} $constraint */
+        foreach ($constraints as $constraint) {
+            if (!self::compare($version, $constraint[1], $constraint[0])) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Splits a version string into its parts.
      *
      * @return list<string>
