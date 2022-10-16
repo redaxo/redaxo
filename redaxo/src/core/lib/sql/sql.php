@@ -1452,7 +1452,7 @@ class rex_sql implements Iterator
      */
     public function escapeLikeWildcards(string $value): string
     {
-        return str_replace(['_', '%'], ['\_', '\%'], $value);
+        return str_replace(['\\', '_', '%'], ['\\\\', '\_', '\%'], $value);
     }
 
     /**
