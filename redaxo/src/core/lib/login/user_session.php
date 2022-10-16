@@ -11,15 +11,10 @@ class rex_user_session
 
     private const SESSION_VAR_LAST_DB_UPDATE = 'last_db_update';
 
-    public function storeCurrentSession(): void
+    public function storeCurrentSession(rex_backend_login $login): void
     {
         $sessionId = session_id();
         if (false === $sessionId || '' === $sessionId) {
-            return;
-        }
-
-        $login = rex::getProperty('login');
-        if (null === $login) {
             return;
         }
 
@@ -54,15 +49,10 @@ class rex_user_session
             ->delete();
     }
 
-    public function updateLastActivity(): void
+    public function updateLastActivity(rex_backend_login $login): void
     {
         $sessionId = session_id();
         if (false === $sessionId || '' === $sessionId) {
-            return;
-        }
-
-        $login = rex::getProperty('login');
-        if (null === $login) {
             return;
         }
 
@@ -71,7 +61,7 @@ class rex_user_session
             return;
         }
 
-        $this->storeCurrentSession();
+        $this->storeCurrentSession($login);
     }
 
     public static function clearExpiredSessions(): void
