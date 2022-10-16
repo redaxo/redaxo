@@ -197,6 +197,9 @@ class rex_backend_login extends rex_login
 
         if (null !== $passwordHash) {
             parent::changedPassword($passwordHash);
+            if (null !== $user = $this->getUser()) {
+                rex_user_session::getInstance()->removeSessionsExceptCurrent($user->getId());
+            }
         }
     }
 
