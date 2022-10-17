@@ -2,6 +2,8 @@
 
 /**
  * @package redaxo\core\login
+ *
+ * @internal
  */
 class rex_user_session
 {
@@ -9,18 +11,13 @@ class rex_user_session
 
     private const SESSION_VAR_LAST_DB_UPDATE = 'last_db_update';
 
-    private function __construct()
+    public function storeCurrentSession(rex_backend_login $login): void
     {
-        rex_extension::register('RESPONSE_SHUTDOWN', [self::class, 'clearExpiredSessions']);
-    }
-
-    public function storeCurrentSession(): void
-    {
-        if (false === session_id()) {
+        $sessionId = session_id();
+        if (false === $sessionId || '' === $sessionId) {
             return;
         }
 
-        $login = new rex_backend_login();
         $userId = $login->getSessionVar(rex_login::SESSION_IMPERSONATOR, null);
         if (null === $userId) {
             $userId = $login->getSessionVar(rex_login::SESSION_USER_ID);
@@ -41,7 +38,8 @@ class rex_user_session
 
     public function clearCurrentSession(): void
     {
-        if (false === session_id()) {
+        $sessionId = session_id();
+        if (false === $sessionId || '' === $sessionId) {
             return;
         }
 
@@ -51,20 +49,19 @@ class rex_user_session
             ->delete();
     }
 
-    public function updateLastActivity(): void
+    public function updateLastActivity(rex_backend_login $login): void
     {
-        if (false === session_id()) {
+        $sessionId = session_id();
+        if (false === $sessionId || '' === $sessionId) {
             return;
         }
-
-        $login = new rex_backend_login();
 
         // only once a minute
         if ($login->getSessionVar(self::SESSION_VAR_LAST_DB_UPDATE, 0) > (time() - 60)) {
             return;
         }
 
-        $this->storeCurrentSession();
+        $this->storeCurrentSession($login);
     }
 
     public static function clearExpiredSessions(): void
@@ -83,5 +80,18 @@ class rex_user_session
             ->delete();
 
         return $sql->getRows() > 0;
+    }
+
+    public function removeSessionsExceptCurrent(int $userId): void
+    {
+        $sessionId = session_id();
+        if (false === $sessionId || '' === $sessionId) {
+            return;
+        }
+
+        rex_sql::factory()
+            ->setTable(rex::getTable('user_session'))
+            ->setWhere('session_id != ? and user_id = ?', [$sessionId, $userId])
+            ->delete();
     }
 }
