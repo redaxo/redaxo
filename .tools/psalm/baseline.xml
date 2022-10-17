@@ -2619,7 +2619,8 @@
       <code>$tmpl</code>
       <code>$tmpl</code>
     </MixedAssignment>
-    <MixedOperand occurrences="2">
+    <MixedOperand occurrences="3">
+      <code>$tmpl</code>
       <code>$tmpl</code>
       <code>$tmpl</code>
     </MixedOperand>
