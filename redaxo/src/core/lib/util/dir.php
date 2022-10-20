@@ -42,6 +42,8 @@ class rex_dir
      * @param string $dir Path of the directory
      *
      * @return bool
+     *
+     * @psalm-assert-if-true =non-empty-string $dir
      */
     public static function isWritable($dir)
     {
