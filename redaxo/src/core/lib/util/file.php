@@ -152,7 +152,8 @@ class rex_file
      *
      * @return bool TRUE on success, FALSE on failure
      *
-     * @psalm-assert-if-true =non-empty-string $file
+     * @psalm-assert-if-true =non-empty-string $srcfile
+     * @psalm-assert-if-true =non-empty-string $dstfile
      */
     public static function copy($srcfile, $dstfile)
     {
