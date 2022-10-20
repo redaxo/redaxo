@@ -15,6 +15,8 @@ class rex_file
      * @throws rex_exception throws when the file cannot be read
      *
      * @return string Content of the file
+     *
+     * @psalm-assert non-empty-string $file
      */
     public static function require(string $file): string
     {
@@ -89,6 +91,8 @@ class rex_file
      * @param string $content Content for the file
      *
      * @return bool TRUE on success, FALSE on failure
+     *
+     * @psalm-assert-if-true =non-empty-string $file
      */
     public static function put($file, $content)
     {
@@ -117,6 +121,8 @@ class rex_file
      * @param int    $inline  The level where you switch to inline YAML
      *
      * @return bool TRUE on success, FALSE on failure
+     *
+     * @psalm-assert-if-true =non-empty-string $file
      */
     public static function putConfig($file, $content, $inline = 3)
     {
@@ -130,6 +136,8 @@ class rex_file
      * @param mixed  $content Content for the file
      *
      * @return bool TRUE on success, FALSE on failure
+     *
+     * @psalm-assert-if-true =non-empty-string $file
      */
     public static function putCache($file, $content)
     {
@@ -143,6 +151,8 @@ class rex_file
      * @param string $dstfile Path of the destination file or directory
      *
      * @return bool TRUE on success, FALSE on failure
+     *
+     * @psalm-assert-if-true =non-empty-string $file
      */
     public static function copy($srcfile, $dstfile)
     {
@@ -173,6 +183,9 @@ class rex_file
      * @param string $dstfile Path of the destination file or directory
      *
      * @return bool TRUE on success, FALSE on failure
+     *
+     * @psalm-assert-if-true =non-empty-string $srcfile
+     * @psalm-assert-if-true =non-empty-string $dstfile
      */
     public static function move(string $srcfile, string $dstfile): bool
     {
@@ -202,6 +215,8 @@ class rex_file
      * @param string $filename Filename
      *
      * @return string Extension of $filename
+     *
+     * @psalm-assert-if-true =non-empty-string $filename
      */
     public static function extension($filename)
     {
