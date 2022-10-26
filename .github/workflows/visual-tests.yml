@@ -64,11 +64,8 @@ jobs:
                 run: |
                     sudo /etc/init.d/mysql start
                     mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
-                    git apply .github/workflows/default.config.yml.github-action.diff
+                    php redaxo/bin/console setup:run -n --lang=de_de --agree-license --db-host=127.0.0.1 --db-name=redaxo5 --db-password=root --db-createdb=no --db-setup=normal --admin-username=admin --admin-password=adminpassword --error-email=test@redaxo.invalid --ansi
 
-            -   name: Setup
-                run: |
-                    php .tools/bin/setup
             -   name: Create user, update config
                 run: |
                     php redaxo/bin/console user:create myusername mypassword --admin --ansi
