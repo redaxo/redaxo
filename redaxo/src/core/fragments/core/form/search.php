@@ -13,8 +13,8 @@ $autofocus = '';
 if (isset($this->autofocus) && $this->autofocus) {
     $autofocus = ' autofocus ';
 }
-$value = $this->getVar('value', '');
-if ($value !== '') {
+$value = (string)$this->getVar('value', '');
+if ('' !== $value) {
     $value = ' value="' . $value . '"';
 }
 
