@@ -15,7 +15,7 @@ if (isset($this->autofocus) && $this->autofocus) {
 }
 $value = (string) $this->getVar('value', '');
 if ('' !== $value) {
-    $value = ' value="' . $value . '"';
+    $value = ' value="'.rex_escape($value).'"';
 }
 
 if ($this->id) {
