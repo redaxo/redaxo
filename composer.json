@@ -18,7 +18,7 @@
         "phpstan/phpstan": "1.8.9",
         "phpstan/phpstan-deprecation-rules": "1.0.0",
         "phpstan/phpstan-phpunit": "1.1.1",
-        "phpstan/phpstan-symfony": "1.2.13",
+        "phpstan/phpstan-symfony": "1.2.14",
         "phpunit/phpunit": "^9.5",
         "psalm/plugin-phpunit": "0.17.0",
         "psalm/plugin-symfony": "v3.1.9",
