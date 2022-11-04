@@ -45,8 +45,9 @@ class rex_api_install_core_update extends rex_api_function
 
         $message = '';
         $temppath = rex_path::coreCache('.new.core/');
+        /** @var array<non-empty-string, non-empty-string> $coreAddons */
         $coreAddons = [];
-        /** @var rex_addon[] $updateAddons */
+        /** @var array<non-empty-string, rex_addon> $updateAddons */
         $updateAddons = [];
         $updateAddonsConfig = [];
         try {

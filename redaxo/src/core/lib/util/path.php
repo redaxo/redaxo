@@ -395,7 +395,7 @@ class rex_path
      *
      * @param string $path
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function basename($path)
     {

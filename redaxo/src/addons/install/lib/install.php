@@ -9,7 +9,7 @@ class rex_install
      * Downloads and unzips a AddOn from redaxo.org into the AddOns folder.
      * Installation and Activation needs to be triggered in a separate step.
      *
-     * @param string $addonKey e.g. "yform"
+     * @param non-empty-string $addonKey e.g. "yform"
      * @param string $version  e.g. "3.2.1"
      *
      * @throws rex_exception
