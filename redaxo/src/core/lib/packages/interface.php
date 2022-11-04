@@ -12,7 +12,7 @@ interface rex_package_interface
     /**
      * Returns the name of the package.
      *
-     * @return string Name
+     * @return non-empty-string Name
      */
     public function getName();
 
@@ -26,7 +26,7 @@ interface rex_package_interface
     /**
      * Returns the package ID.
      *
-     * @return string|null
+     * @return non-empty-string|null
      */
     public function getPackageId();
 

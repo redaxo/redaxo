@@ -65,6 +65,8 @@ class rex_addon extends rex_package implements rex_addon_interface
      * @param string $addon Name of the addon
      *
      * @return bool
+     *
+     * @psalm-assert-if-true =non-empty-string $addon
      */
     public static function exists($addon)
     {
@@ -77,7 +79,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     }
 
     /**
-     * @return string
+     * @return non-empty-string
      */
     public function getPackageId()
     {
