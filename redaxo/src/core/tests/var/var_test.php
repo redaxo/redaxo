@@ -191,4 +191,25 @@ c', "a\nb\nc"],
 
         $this->assertEquals($expected, rex_var_test_var::quote($string));
     }
+
+    public function testVarIterator()
+    {
+        $content = '
+            REX_TEST_VAR[content="ab" suffix=ef]
+            REX_TEST_VAR[content="cd" suffix=ef]
+        ';
+
+        $it = rex_var::varsIterator($content);
+        $firstVar = $it->current();
+        $this->assertInstanceOf(rex_var_test_var::class, $firstVar);
+        $this->assertSame("'ab'", $firstVar->getOutput());
+
+        $it->next();
+        $secondVar = $it->current();
+        $this->assertInstanceOf(rex_var_test_var::class, $secondVar);
+        $this->assertSame("'cd'", $secondVar->getOutput());
+
+        $it->next();
+        $this->assertNull($it->current());
+    }
 }

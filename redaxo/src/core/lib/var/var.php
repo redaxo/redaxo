@@ -126,6 +126,32 @@ abstract class rex_var
     }
 
     /**
+     * @return Iterator<self>
+     */
+    public static function varsIterator(string $content):Iterator
+    {
+        $matches = self::getMatches($content);
+
+        if (empty($matches)) {
+            return $content;
+        }
+
+        $iterator = new AppendIterator();
+        $iterator->append(new ArrayIterator($matches));
+
+        foreach ($iterator as $match) {
+            $var = self::getVar($match[1]);
+
+            if (null !== $var) {
+                $args = str_replace(['\[', '\]'], ['@@@OPEN_BRACKET@@@', '@@@CLOSE_BRACKET@@@'], $match[2]);
+                $var->setArgs($args);
+
+                yield $var;
+            }
+        }
+    }
+
+    /**
      * Returns a rex_var object for the given var name.
      *
      * @param string $var
