@@ -212,7 +212,7 @@ class rex_path_default_provider
     /**
      * Returns the path to the data folder of the given addon.
      *
-     * @param string $addon Addon
+     * @param non-empty-string $addon Addon
      * @param string $file  File
      *
      * @return non-empty-string
@@ -225,8 +225,8 @@ class rex_path_default_provider
     /**
      * Returns the path to the data folder of the given plugin of the given addon.
      *
-     * @param string $addon  Addon
-     * @param string $plugin Plugin
+     * @param non-empty-string $addon  Addon
+     * @param non-empty-string $plugin Plugin
      * @param string $file   File
      *
      * @return non-empty-string
@@ -324,7 +324,7 @@ class rex_path_default_provider
     /**
      * Returns the base path to the folder of the given addon.
      *
-     * @param string $addon Addon
+     * @param non-empty-string $addon Addon
      * @param string $file  File
      *
      * @return non-empty-string
@@ -337,8 +337,8 @@ class rex_path_default_provider
     /**
      * Returns the base path to the folder of the plugin of the given addon.
      *
-     * @param string $addon  Addon
-     * @param string $plugin Plugin
+     * @param non-empty-string $addon  Addon
+     * @param non-empty-string $plugin Plugin
      * @param string $file   File
      *
      * @return non-empty-string
