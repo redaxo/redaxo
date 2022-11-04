@@ -118,7 +118,7 @@ class rex_path
     /**
      * Returns the path to the public assets folder of the given addon.
      *
-     * @param string $addon Addon
+     * @param non-empty-string $addon Addon
      * @param string $file  File
      *
      * @return string
@@ -133,8 +133,8 @@ class rex_path
     /**
      * Returns the path to the public assets folder of the given plugin of the given addon.
      *
-     * @param string $addon  Addon
-     * @param string $plugin Plugin
+     * @param non-empty-string $addon  Addon
+     * @param non-empty-string $plugin Plugin
      * @param string $file   File
      *
      * @return string
@@ -185,7 +185,7 @@ class rex_path
     /**
      * Returns the path to the data folder of the given addon.
      *
-     * @param string $addon Addon
+     * @param non-empty-string $addon Addon
      * @param string $file  File
      *
      * @return string
@@ -290,7 +290,7 @@ class rex_path
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function core($file = '')
     {
@@ -303,7 +303,7 @@ class rex_path
      * @param string $addon Addon
      * @param string $file  File
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function addon($addon, $file = '')
     {
@@ -317,7 +317,7 @@ class rex_path
      * @param string $plugin Plugin
      * @param string $file   File
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function plugin($addon, $plugin, $file = '')
     {
@@ -329,7 +329,7 @@ class rex_path
      *
      * @param string $relPath The relative path
      *
-     * @return string Absolute path
+     * @return non-empty-string Absolute path
      */
     public static function absolute($relPath)
     {
@@ -364,7 +364,7 @@ class rex_path
      * @param string      $absPath
      * @param null|string $basePath Defaults to `rex_path::base()`
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function relative($absPath, $basePath = null)
     {
@@ -404,6 +404,9 @@ class rex_path
         return basename($path);
     }
 
+    /**
+     * @return null|non-empty-string
+     */
     public static function findBinaryPath(string $commandName): ?string
     {
         if (!function_exists('exec')) {

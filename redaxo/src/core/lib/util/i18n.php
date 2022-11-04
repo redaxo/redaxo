@@ -182,7 +182,7 @@ class rex_i18n
      * @param string         $locale       A Locale
      * @psalm-param list<string|int> $replacements
      *
-     * @return string
+     * @return non-empty-string
      */
     private static function getMsgFallback($key, array $replacements, $locale)
     {
@@ -237,7 +237,7 @@ class rex_i18n
      *
      * @psalm-taint-escape ($escape is true ? "html" : null)
      *
-     * @return mixed
+     * @return non-empty-string
      */
     private static function getMsg($key, $escape, array $replacements, $locale = null)
     {
@@ -325,7 +325,7 @@ class rex_i18n
     /**
      * Returns the locales.
      *
-     * @return string[] Array of Locales
+     * @return list<string> Array of Locales
      */
     public static function getLocales()
     {
@@ -355,7 +355,7 @@ class rex_i18n
      * @psalm-taint-escape ($escape is true ? "html" : null)
      * @psalm-taint-specialize
      *
-     * @return string Translated text
+     * @return non-empty-string Translated text
      */
     public static function translate($text, $escape = true, callable $i18nFunction = null)
     {

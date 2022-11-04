@@ -229,7 +229,7 @@ class rex_form extends rex_form_base
     }
 
     /**
-     * @return string
+     * @return non-empty-string
      */
     public function getTableName()
     {

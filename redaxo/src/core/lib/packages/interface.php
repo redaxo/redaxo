@@ -41,7 +41,7 @@ interface rex_package_interface
      * Returns the base path.
      *
      * @param string $file File
-     * @return string
+     * @return non-empty-string
      */
     public function getPath($file = '');
 
@@ -49,7 +49,7 @@ interface rex_package_interface
      * Returns the assets path.
      *
      * @param string $file File
-     * @return string
+     * @return non-empty-string
      */
     public function getAssetsPath($file = '');
 
@@ -57,7 +57,7 @@ interface rex_package_interface
      * Returns the assets url.
      *
      * @param string $file File
-     * @return string
+     * @return non-empty-string
      */
     public function getAssetsUrl($file = '');
 
@@ -65,7 +65,7 @@ interface rex_package_interface
      * Returns the data path.
      *
      * @param string $file File
-     * @return string
+     * @return non-empty-string
      */
     public function getDataPath($file = '');
 
@@ -73,7 +73,7 @@ interface rex_package_interface
      * Returns the cache path.
      *
      * @param string $file File
-     * @return string
+     * @return non-empty-string
      */
     public function getCachePath($file = '');
 
@@ -108,7 +108,7 @@ interface rex_package_interface
     /**
      * Sets a property.
      *
-     * @param string $key   Key of the property
+     * @param non-empty-string $key   Key of the property
      * @param mixed  $value New value for the property
      * @return void
      */
@@ -117,7 +117,7 @@ interface rex_package_interface
     /**
      * Returns a property.
      *
-     * @param string $key     Key of the property
+     * @param non-empty-string $key     Key of the property
      * @param mixed  $default Default value, will be returned if the property isn't set
      *
      * @return mixed
@@ -127,7 +127,7 @@ interface rex_package_interface
     /**
      * Returns if a property is set.
      *
-     * @param string $key Key of the property
+     * @param non-empty-string $key Key of the property
      *
      * @return bool
      */
@@ -136,7 +136,7 @@ interface rex_package_interface
     /**
      * Removes a property.
      *
-     * @param string $key Key of the property
+     * @param non-empty-string $key Key of the property
      * @return void
      */
     public function removeProperty($key);
@@ -192,7 +192,7 @@ interface rex_package_interface
     /**
      * Includes a file in the package context.
      *
-     * @param string $file    Filename
+     * @param non-empty-string $file    Filename
      * @param array  $context Context values, available as variables in given file
      * @return mixed
      */
@@ -204,7 +204,7 @@ interface rex_package_interface
      * @param string     $key             Key
      * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved messag
      *
-     * @return string Translation for the key
+     * @return non-empty-string Translation for the key
      */
     public function i18n($key, ...$replacements);
 }

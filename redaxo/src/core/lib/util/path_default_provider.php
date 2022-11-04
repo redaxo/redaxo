@@ -9,7 +9,7 @@
  */
 class rex_path_default_provider
 {
-    /** @var string */
+    /** @var non-empty-string */
     protected $base;
     /** @var string */
     protected $backend;
@@ -19,8 +19,8 @@ class rex_path_default_provider
     /**
      * Initializes the class.
      *
-     * @param string $htdocs           Htdocs path
-     * @param string $backend          Backend folder name
+     * @param non-empty-string $htdocs           Htdocs path
+     * @param non-empty-string $backend          Backend folder name
      * @param bool   $provideAbsolutes Flag whether to return absolute path, or relative ones
      */
     public function __construct($htdocs, $backend, $provideAbsolutes)
@@ -40,14 +40,19 @@ class rex_path_default_provider
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      *
      * @psalm-taint-specialize
      */
     public function base($file)
     {
         if ($this->provideAbsolutes) {
-            return strtr($this->base . $file, '/\\', DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR);
+            $base = strtr($this->base . $file, '/\\', DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR);
+            // base can never be empty-string here, see https://github.com/phpstan/phpstan-src/pull/1963
+            if ($base === '') {
+                throw new InvalidArgumentException('Empty path given.');
+            }
+            return $base;
         }
         return $this->base . $file;
     }
@@ -57,7 +62,7 @@ class rex_path_default_provider
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      */
     public function frontend($file)
     {
@@ -67,7 +72,7 @@ class rex_path_default_provider
     /**
      * Returns the path to the frontend-controller (index.php from frontend).
      *
-     * @return string
+     * @return non-empty-string
      */
     public function frontendController()
     {
@@ -83,7 +88,7 @@ class rex_path_default_provider
      *
      * @psalm-taint-specialize
      */
-    public function backend($file)
+    public function backend($file = '')
     {
         if ($this->provideAbsolutes) {
             return $this->frontend($this->backend . '/' . $file);
@@ -94,7 +99,7 @@ class rex_path_default_provider
     /**
      * Returns the path to the backend-controller (index.php from backend).
      *
-     * @return string
+     * @return non-empty-string
      */
     public function backendController()
     {
@@ -106,7 +111,7 @@ class rex_path_default_provider
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      */
     public function media($file)
     {
@@ -118,7 +123,7 @@ class rex_path_default_provider
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      */
     public function assets($file)
     {
@@ -130,7 +135,7 @@ class rex_path_default_provider
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      */
     public function coreAssets($file)
     {
@@ -143,7 +148,7 @@ class rex_path_default_provider
      * @param string $addon Addon
      * @param string $file  File
      *
-     * @return string
+     * @return non-empty-string
      *
      * @see assets()
      */
@@ -159,7 +164,7 @@ class rex_path_default_provider
      * @param string $plugin Plugin
      * @param string $file   File
      *
-     * @return string
+     * @return non-empty-string
      *
      * @see assets()
      */
@@ -173,7 +178,7 @@ class rex_path_default_provider
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      */
     public function bin($file)
     {
@@ -185,7 +190,7 @@ class rex_path_default_provider
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      */
     public function data($file)
     {
@@ -197,7 +202,7 @@ class rex_path_default_provider
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      */
     public function coreData($file)
     {
@@ -210,7 +215,7 @@ class rex_path_default_provider
      * @param string $addon Addon
      * @param string $file  File
      *
-     * @return string
+     * @return non-empty-string
      */
     public function addonData($addon, $file)
     {
@@ -224,7 +229,7 @@ class rex_path_default_provider
      * @param string $plugin Plugin
      * @param string $file   File
      *
-     * @return string
+     * @return non-empty-string
      */
     public function pluginData($addon, $plugin, $file)
     {
@@ -233,6 +238,8 @@ class rex_path_default_provider
 
     /**
      * Returns the path to the log folder.
+     *
+     * @return non-empty-string
      */
     public function log(string $file): string
     {
@@ -244,7 +251,7 @@ class rex_path_default_provider
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      */
     public function cache($file)
     {
@@ -256,7 +263,7 @@ class rex_path_default_provider
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      */
     public function coreCache($file)
     {
@@ -269,7 +276,7 @@ class rex_path_default_provider
      * @param string $addon Addon
      * @param string $file  File
      *
-     * @return string
+     * @return non-empty-string
      */
     public function addonCache($addon, $file)
     {
@@ -283,7 +290,7 @@ class rex_path_default_provider
      * @param string $plugin Plugin
      * @param string $file   File
      *
-     * @return string
+     * @return non-empty-string
      */
     public function pluginCache($addon, $plugin, $file)
     {
@@ -295,7 +302,7 @@ class rex_path_default_provider
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      */
     public function src($file)
     {
@@ -307,7 +314,7 @@ class rex_path_default_provider
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      */
     public function core($file)
     {
@@ -320,7 +327,7 @@ class rex_path_default_provider
      * @param string $addon Addon
      * @param string $file  File
      *
-     * @return string
+     * @return non-empty-string
      */
     public function addon($addon, $file)
     {
@@ -334,7 +341,7 @@ class rex_path_default_provider
      * @param string $plugin Plugin
      * @param string $file   File
      *
-     * @return string
+     * @return non-empty-string
      */
     public function plugin($addon, $plugin, $file)
     {

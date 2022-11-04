@@ -296,7 +296,7 @@ class rex
     /**
      * Returns the table prefix.
      *
-     * @return string
+     * @return non-empty-string
      *
      * @phpstandba-inference-placeholder 'rex_'
      */
@@ -310,7 +310,7 @@ class rex
      *
      * @param string $table Table name
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function getTable($table)
     {
@@ -320,7 +320,7 @@ class rex
     /**
      * Returns the temp prefix.
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function getTempPrefix()
     {
