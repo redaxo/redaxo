@@ -206,7 +206,7 @@ c', "a\nb\nc"],
         $firstVar = $it->current();
         $this->assertInstanceOf(rex_var_test_var::class, $firstVar);
         $this->assertSame("'ab'", $firstVar->getOutput());
-        $this->assertSame("'ef'", $firstVar->getArg('suffix'));
+        $this->assertSame("ef", $firstVar->getArg('suffix'));
 
         $it->next();
         $secondVar = $it->current();
