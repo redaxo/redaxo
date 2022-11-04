@@ -132,10 +132,6 @@ abstract class rex_var
     {
         $matches = self::getMatches($content);
 
-        if (empty($matches)) {
-            return $content;
-        }
-
         $iterator = new AppendIterator();
         $iterator->append(new ArrayIterator($matches));
 
