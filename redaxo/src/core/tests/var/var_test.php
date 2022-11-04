@@ -195,19 +195,24 @@ c', "a\nb\nc"],
     public function testVarIterator()
     {
         $content = '
+            hallo
             REX_TEST_VAR[content="ab" suffix=ef]
-            REX_TEST_VAR[content="cd" suffix=ef]
+            welt
+            REX_TEST_VAR[content="cd" suffix=\'gh\']
+            123
         ';
 
         $it = rex_var::varsIterator($content);
         $firstVar = $it->current();
         $this->assertInstanceOf(rex_var_test_var::class, $firstVar);
         $this->assertSame("'ab'", $firstVar->getOutput());
+        $this->assertSame("ef", $firstVar->getArg('suffix'));
 
         $it->next();
         $secondVar = $it->current();
         $this->assertInstanceOf(rex_var_test_var::class, $secondVar);
         $this->assertSame("'cd'", $secondVar->getOutput());
+        $this->assertSame("'gh'", $firstVar->getArg('suffix'));
 
         $it->next();
         $this->assertNull($it->current());
