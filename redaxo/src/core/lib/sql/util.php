@@ -33,6 +33,10 @@ class rex_sql_util
     /**
      * Copy the table structure (without its data) to another table.
      *
+     * @param non-empty-string $sourceTable
+     * @param non-empty-string $destinationTable
+     * @return void
+     *
      * @throws rex_exception
      */
     public static function copyTable(string $sourceTable, string $destinationTable): void
@@ -54,6 +58,10 @@ class rex_sql_util
     /**
      * Copy the table structure and its data to another table.
      *
+     * @param non-empty-string $sourceTable
+     * @param non-empty-string $destinationTable
+     * @return void
+     *
      * @throws rex_exception
      */
     public static function copyTableWithData(string $sourceTable, string $destinationTable): void
@@ -68,8 +76,8 @@ class rex_sql_util
      * Allgemeine funktion die eine Datenbankspalte fortlaufend durchnummeriert.
      * Dies ist z.B. nützlich beim Umgang mit einer Prioritäts-Spalte.
      *
-     * @param string $tableName      Name der Datenbanktabelle
-     * @param string $prioColumnName Name der Spalte in der Tabelle, in der die Priorität (Integer) gespeichert wird
+     * @param non-empty-string $tableName      Name der Datenbanktabelle
+     * @param non-empty-string $prioColumnName Name der Spalte in der Tabelle, in der die Priorität (Integer) gespeichert wird
      * @param string $whereCondition Where-Bedingung zur Einschränkung des ResultSets
      * @param string $orderBy        Sortierung des ResultSets
      * @param int    $startBy        Startpriorität
@@ -99,7 +107,7 @@ class rex_sql_util
     /**
      * Importiert die gegebene SQL-Datei in die Datenbank.
      *
-     * @param string $file
+     * @param non-empty-string $file
      * @param bool   $debug
      *
      * @throws rex_sql_exception
@@ -150,7 +158,7 @@ class rex_sql_util
     /**
      * Reads a file and split all statements in it.
      *
-     * @param string $file Path to the SQL-dump-file
+     * @param non-empty-string $file Path to the SQL-dump-file
      *
      * @return array
      */
