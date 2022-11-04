@@ -198,7 +198,7 @@ c', "a\nb\nc"],
             hallo
             REX_TEST_VAR[content="ab" suffix=ef]
             welt
-            REX_TEST_VAR[content="cd" suffix=\'gh\']
+            REX_TEST_VAR[content="cd" suffix="gh"]
             123
         ';
 
@@ -212,7 +212,7 @@ c', "a\nb\nc"],
         $secondVar = $it->current();
         $this->assertInstanceOf(rex_var_test_var::class, $secondVar);
         $this->assertSame("'cd'", $secondVar->getOutput());
-        $this->assertSame("'gh'", $firstVar->getParsedArg('suffix'));
+        $this->assertSame("'gh'", $secondVar->getParsedArg('suffix'));
 
         $it->next();
         $this->assertNull($it->current());
