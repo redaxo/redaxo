@@ -19,7 +19,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     /**
      * Array of all child plugins.
      *
-     * @var rex_plugin[]
+     * @var array<non-empty-string, rex_plugin>
      */
     private $plugins = [];
 

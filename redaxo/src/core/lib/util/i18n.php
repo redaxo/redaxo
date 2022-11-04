@@ -314,7 +314,7 @@ class rex_i18n
      * Adds a new translation to the catalogue.
      *
      * @param string $key     Key
-     * @param string $message Message for the key
+     * @param non-empty-string $message Message for the key
      * @return void
      */
     public static function addMsg($key, $message)

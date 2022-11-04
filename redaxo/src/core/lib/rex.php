@@ -308,7 +308,7 @@ class rex
     /**
      * Adds the table prefix to the table name.
      *
-     * @param string $table Table name
+     * @param non-empty-string $table Table name
      *
      * @return non-empty-string
      */
@@ -459,7 +459,7 @@ class rex
 
     /**
      * @deprecated since 5.10, use `rex_version::gitHash` instead
-     * @return string|false
+     * @return non-empty-string|false
      */
     #[\JetBrains\PhpStorm\Deprecated(reason: 'since 5.10, use `rex_version::gitHash` instead', replacement: 'rex_version::gitHash(%parametersList%)')]
     public static function getVersionHash($path, ?string $repo = null)
@@ -468,7 +468,7 @@ class rex
     }
 
     /**
-     * @return array<string, array{install: bool, status: bool, plugins?: array<string, array{install: bool, status: bool}>}>
+     * @return array<non-empty-string, array{install: bool, status: bool, plugins?: array<string, array{install: bool, status: bool}>}>
      * @psalm-suppress MixedReturnTypeCoercion
      */
     public static function getPackageConfig(): array
@@ -477,7 +477,7 @@ class rex
     }
 
     /**
-     * @return list<string>
+     * @return list<non-empty-string>
      * @psalm-suppress MixedReturnTypeCoercion
      */
     public static function getPackageOrder(): array
