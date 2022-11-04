@@ -12,6 +12,10 @@ abstract class rex_var
     public const ENV_INPUT = 4;
     public const ENV_OUTPUT = 8;
 
+    private const PLACEHOLDER_BRACKET_OPEN = '@@@OPEN_BRACKET@@@';
+    private const PLACEHOLDER_BRACKET_CLOSE = '@@@CLOSE_BRACKET@@@';
+    private const PLACEHOLDER_INLINE_HTML = '@@@INLINE_HTML_REPLACEMENT_END@@@';
+
     /** @var array<string, class-string<self>> */
     private static $vars = [];
 
@@ -72,9 +76,9 @@ abstract class rex_var
             $add = $token[1];
             switch ($token[0]) {
                 case T_INLINE_HTML:
-                    $format = '<?= %s@@@INLINE_HTML_REPLACEMENT_END@@@';
+                    $format = '<?= %s'.self::PLACEHOLDER_INLINE_HTML;
                     $add = self::replaceVars($add, $format);
-                    $add = preg_replace_callback('/@@@INLINE_HTML_REPLACEMENT_END@@@(\r?\n?)/', static function (array $match) {
+                    $add = preg_replace_callback('/'. self::PLACEHOLDER_INLINE_HTML .'(\r?\n?)/', static function (array $match) {
                         return $match[1]
                             ? ', "'.addcslashes($match[1], "\r\n").'" ?>'.$match[1]
                             : ' ?>';
@@ -139,7 +143,8 @@ abstract class rex_var
             $var = self::getVar($match[1]);
 
             if (null !== $var) {
-                $args = str_replace(['\[', '\]'], ['@@@OPEN_BRACKET@@@', '@@@CLOSE_BRACKET@@@'], $match[2]);
+                // brauchts das?
+                $args = str_replace(['\[', '\]'], [self::PLACEHOLDER_BRACKET_OPEN, ], $match[2]);
                 $var->setArgs($args);
 
                 yield $var;
@@ -198,7 +203,7 @@ abstract class rex_var
             $replaced = false;
 
             if (null !== $var) {
-                $args = str_replace(['\[', '\]'], ['@@@OPEN_BRACKET@@@', '@@@CLOSE_BRACKET@@@'], $match[2]);
+                $args = str_replace(['\[', '\]'], [self::PLACEHOLDER_BRACKET_OPEN, self::PLACEHOLDER_BRACKET_CLOSE], $match[2]);
                 if ($stripslashes) {
                     $args = str_replace(['\\' . $stripslashes, '\\' . $stripslashes], $stripslashes, $args);
                 }
@@ -318,7 +323,7 @@ abstract class rex_var
         $arg = preg_replace_callback("@$begin(.*)$end@Us", static function ($match) {
             return addcslashes($match[1], "\'");
         }, $arg);
-        $arg = str_replace(['@@@OPEN_BRACKET@@@', '@@@CLOSE_BRACKET@@@'], ['[', ']'], $arg);
+        $arg = str_replace([self::PLACEHOLDER_BRACKET_OPEN, self::PLACEHOLDER_BRACKET_CLOSE], ['[', ']'], $arg);
         return is_numeric($arg) ? $arg : "'$arg'";
     }
 
