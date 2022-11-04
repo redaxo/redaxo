@@ -327,9 +327,9 @@ class rex_path
     /**
      * Converts a relative path to an absolute.
      *
-     * @param string $relPath The relative path
+     * @param non-empty-string $relPath The relative path
      *
-     * @return non-empty-string Absolute path
+     * @return string Absolute path
      */
     public static function absolute($relPath)
     {
@@ -364,7 +364,7 @@ class rex_path
      * @param string      $absPath
      * @param null|string $basePath Defaults to `rex_path::base()`
      *
-     * @return non-empty-string
+     * @return string
      */
     public static function relative($absPath, $basePath = null)
     {
@@ -418,6 +418,9 @@ class rex_path
         exec($cmd, $out, $ret);
 
         if (0 === $ret) {
+            if ($out[0] === '') {
+                throw new rex_exception('empty binary path found.');
+            }
             return (string) $out[0];
         }
 

@@ -12,7 +12,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     /**
      * Array of all addons.
      *
-     * @var array<string, self>
+     * @var array<non-empty-string, self>
      */
     private static $addons = [];
 
@@ -197,7 +197,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     /**
      * Returns the registered addons.
      *
-     * @return array<string, self>
+     * @return array<non-empty-string, self>
      */
     public static function getRegisteredAddons()
     {
@@ -207,7 +207,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     /**
      * Returns the installed addons.
      *
-     * @return array<string, self>
+     * @return array<non-empty-string, self>
      */
     public static function getInstalledAddons()
     {
@@ -217,7 +217,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     /**
      * Returns the available addons.
      *
-     * @return array<string, self>
+     * @return array<non-empty-string, self>
      */
     public static function getAvailableAddons()
     {
@@ -299,9 +299,9 @@ class rex_addon extends rex_package implements rex_addon_interface
      * Filters packages by the given method.
      *
      * @template T of rex_package
-     * @param array<string, T> $packages Array of packages
+     * @param array<non-empty-string, T> $packages Array of packages
      * @param string $method   A rex_package method
-     * @return array<string, T>
+     * @return array<non-empty-string, T>
      */
     private static function filterPackages(array $packages, $method)
     {

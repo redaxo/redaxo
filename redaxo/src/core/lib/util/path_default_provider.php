@@ -84,7 +84,7 @@ class rex_path_default_provider
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      *
      * @psalm-taint-specialize
      */
@@ -92,6 +92,10 @@ class rex_path_default_provider
     {
         if ($this->provideAbsolutes) {
             return $this->frontend($this->backend . '/' . $file);
+        }
+
+        if ($this->backend . $file === '') {
+            throw new InvalidArgumentException('Empty path given.');
         }
         return $this->backend . $file;
     }
