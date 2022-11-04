@@ -16,6 +16,8 @@ class rex_dir
      * @param bool   $recursive When FALSE, nested directories won't be created
      *
      * @return bool TRUE on success, FALSE on failure
+     *
+     * @psalm-assert-if-true =non-empty-string $dir
      */
     public static function create($dir, $recursive = true)
     {
@@ -42,6 +44,8 @@ class rex_dir
      * @param string $dir Path of the directory
      *
      * @return bool
+     *
+     * @psalm-assert-if-true =non-empty-string $dir
      */
     public static function isWritable($dir)
     {
@@ -56,6 +60,9 @@ class rex_dir
      * @param string $dstdir Path of the destination directory
      *
      * @return bool TRUE on success, FALSE on failure
+     *
+     * @psalm-assert-if-true =non-empty-string $srcdir
+     * @psalm-assert-if-true =non-empty-string $dstdir
      */
     public static function copy($srcdir, $dstdir)
     {
