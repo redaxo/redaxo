@@ -15,7 +15,7 @@ class rex_i18n
     private static $loaded = [];
     /** @var string|null */
     private static $locale;
-    /** @var string[][] */
+    /** @var non-empty-string[][] */
     private static $msg = [];
 
     /**
@@ -61,7 +61,7 @@ class rex_i18n
     /**
      * Returns the current locale, e.g. de_de.
      *
-     * @return string The current locale
+     * @return non-empty-string The current locale
      */
     public static function getLocale()
     {
@@ -75,7 +75,7 @@ class rex_i18n
     /**
      * Returns the current language, e.g. "de".
      *
-     * @return string The current language
+     * @return non-empty-string The current language
      */
     public static function getLanguage()
     {
@@ -110,7 +110,7 @@ class rex_i18n
      * @param string     $key             A Language-Key
      * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
-     * @return string Translation for the key
+     * @return non-empty-string Translation for the key
      *
      * @psalm-taint-escape has_quotes
      * @psalm-taint-escape html
@@ -126,7 +126,7 @@ class rex_i18n
      * @param string     $key             A Language-Key
      * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
-     * @return string Translation for the key
+     * @return non-empty-string Translation for the key
      *
      * @psalm-taint-specialize
      */
@@ -142,7 +142,7 @@ class rex_i18n
      * @param string     $locale          A Locale
      * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
-     * @return string Translation for the key
+     * @return non-empty-string Translation for the key
      *
      * @psalm-taint-escape has_quotes
      * @psalm-taint-escape html
@@ -163,7 +163,7 @@ class rex_i18n
      * @param string     $locale          A Locale
      * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
-     * @return string Translation for the key
+     * @return non-empty-string Translation for the key
      */
     public static function rawMsgInLocale($key, $locale, ...$replacements)
     {
