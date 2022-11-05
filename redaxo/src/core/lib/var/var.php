@@ -132,19 +132,16 @@ abstract class rex_var
     /**
      * @return Iterator<self>
      */
-    public static function varsIterator(string $content):Iterator
+    public static function varsIterator(string $content): Iterator
     {
         $matches = self::getMatches($content);
 
-        $iterator = new AppendIterator();
-        $iterator->append(new ArrayIterator($matches));
-
-        foreach ($iterator as $match) {
+        foreach ($matches as $match) {
             $var = self::getVar($match[1]);
 
             if (null !== $var) {
                 // brauchts das?
-                $args = str_replace(['\[', '\]'], [self::PLACEHOLDER_BRACKET_OPEN, ], $match[2]);
+                $args = str_replace(['\[', '\]'], [self::PLACEHOLDER_BRACKET_OPEN], $match[2]);
                 $var->setArgs($args);
 
                 yield $var;
@@ -243,7 +240,7 @@ abstract class rex_var
      *
      * @param string $content
      *
-     * @return array
+     * @return list<array{string, string, string}>
      */
     private static function getMatches($content)
     {
@@ -311,7 +308,7 @@ abstract class rex_var
      * @psalm-param T $default
      * @psalm-return string|T
      */
-    protected function getParsedArg($key, $default = null, $defaultArg = false)
+    public function getParsedArg($key, $default = null, $defaultArg = false)
     {
         if (!$this->hasArg($key, $defaultArg)) {
             return $default;
