@@ -308,7 +308,7 @@ abstract class rex_var
      * @psalm-param T $default
      * @psalm-return string|T
      */
-    public function getParsedArg($key, $default = null, $defaultArg = false)
+    protected function getParsedArg($key, $default = null, $defaultArg = false)
     {
         if (!$this->hasArg($key, $defaultArg)) {
             return $default;
