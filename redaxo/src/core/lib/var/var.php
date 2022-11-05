@@ -141,7 +141,7 @@ abstract class rex_var
 
             if (null !== $var) {
                 // brauchts das?
-                $args = str_replace(['\[', '\]'], [self::PLACEHOLDER_BRACKET_OPEN], $match[2]);
+                $args = str_replace(['\[', '\]'], [self::PLACEHOLDER_BRACKET_OPEN, self::PLACEHOLDER_BRACKET_CLOSE], $match[2]);
                 $var->setArgs($args);
 
                 yield $var;
