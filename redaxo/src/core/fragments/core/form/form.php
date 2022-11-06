@@ -19,7 +19,7 @@ foreach ($this->elements as $element) {
 
     $note = isset($element['note']) && '' != $element['note'] ? '<p class="help-block rex-note">' . $element['note'] . '</p>' : '';
 
-    $classes = 'rex-form-group'.(($element['direction'] ?? false) ? '-vertical' : '').' form-group';
+    $classes = 'rex-form-group'.(($element['vertical'] ?? false) ? '-vertical' : '').' form-group';
 
     $error = '';
     if (isset($element['error']) && '' != $element['error']) {
