@@ -72,6 +72,9 @@ class rex_media_manager
 
             $media->setMediaFilename($cache['media_filename']);
             $media->setFormat($cache['format']);
+            if (!empty($cache['media_path'])) {
+                $media->setMediaPath($cache['media_path']);
+            }
 
             foreach ($cache['headers'] as $key => $value) {
                 $media->setHeader($key, $value);
@@ -277,6 +280,9 @@ class rex_media_manager
 
         /** @var array{media_path: ?string, media_filename: string, format: string, headers: array<string, string>}|null $cache */
         $cache = rex_file::getCache($this->getHeaderCacheFilename(), null);
+        if (!empty($cache['media_path'])) {
+            $this->media->setMediaPath($cache['media_path']);
+        }
 
         return $this->cache = $cache;
     }
