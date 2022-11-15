@@ -38,7 +38,7 @@ class rex_var_template extends rex_var
     public static function getTemplateStream($id, rex_article_content_base $article = null)
     {
         ob_start(); // will be closed in getTemplateOutput()
-        
+
         $tmpl = new rex_template($id);
         $tmpl = $tmpl->getTemplate();
         if ($article) {
