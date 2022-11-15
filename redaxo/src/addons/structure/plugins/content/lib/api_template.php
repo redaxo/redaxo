@@ -289,7 +289,7 @@ class rex_template
 
         return $error;
     }
-    
+
     public static function exists(int $templateId): bool
     {
         $sql = rex_sql::factory();
