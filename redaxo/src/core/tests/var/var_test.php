@@ -208,14 +208,14 @@ c', "a\nb\nc"],
         $firstVar = $it->current();
         $this->assertInstanceOf(rex_var_test_var::class, $firstVar);
         $this->assertSame("'ab'", $firstVar->getOutput());
-        $this->assertSame('ef', $firstVar->getArg('suffix'));
+        $this->assertSame("'ef'", $firstVar->getParsedArg('suffix'));
 
         $it->next();
         $this->assertTrue($it->valid());
         $secondVar = $it->current();
         $this->assertInstanceOf(rex_var_test_var::class, $secondVar);
         $this->assertSame("'cd'", $secondVar->getOutput());
-        $this->assertSame("'gh'", $secondVar->getArg('suffix'));
+        $this->assertSame("'gh'", $secondVar->getParsedArg('suffix'));
 
         $it->next();
         $this->assertFalse($it->valid());
@@ -234,7 +234,7 @@ c', "a\nb\nc"],
         $firstVar = $it->current();
         $this->assertInstanceOf(rex_var_test_var::class, $firstVar);
         $this->assertSame("'ab'", $firstVar->getOutput());
-        $this->assertSame('REX_TEST_VAR[content=cd suffix=gh]', $firstVar->getArg('suffix'));
+        $this->assertSame('REX_TEST_VAR[content=cd suffix=gh]', $firstVar->getParsedArg('suffix'));
 
         $it->next();
         $this->assertFalse($it->valid());
