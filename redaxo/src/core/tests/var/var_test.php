@@ -217,4 +217,22 @@ c', "a\nb\nc"],
         $it->next();
         $this->assertNull($it->current());
     }
+
+    public function testVarNested()
+    {
+        $content = '
+            hallo
+            REX_TEST_VAR[content="ab" suffix="REX_TEST_VAR[content=cd suffix=gh]"]
+            welt
+        ';
+
+        $it = rex_var::varsIterator($content);
+        $firstVar = $it->current();
+        $this->assertInstanceOf(rex_var_test_var::class, $firstVar);
+        $this->assertSame("'ab'", $firstVar->getOutput());
+        $this->assertSame('REX_TEST_VAR[content=cd suffix=gh]', $firstVar->getArg('suffix'));
+        $it->next();
+        $this->assertNull($it->current());
+    }
+
 }
