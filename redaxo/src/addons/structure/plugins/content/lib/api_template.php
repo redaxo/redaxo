@@ -289,11 +289,4 @@ class rex_template
 
         return $error;
     }
-
-    public static function exists(int $templateId): bool
-    {
-        $sql = rex_sql::factory();
-        $sql->setQuery('SELECT * FROM '.rex::getTable('template').' WHERE id = ?', [$templateId]);
-        return 1 === $sql->getRows();
-    }
 }
