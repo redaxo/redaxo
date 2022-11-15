@@ -293,7 +293,7 @@ class rex_template
     public static function exists(int $templateId): bool
     {
         $sql = rex_sql::factory();
-        $sql->setQuery('SELECT * FROM '.rex::getTable('template').' WHERE id = ?', [$templateId]);
+        $sql->setQuery('SELECT 1 FROM '.rex::getTable('template').' WHERE id = ?', [$templateId]);
         return 1 === $sql->getRows();
     }
 }
