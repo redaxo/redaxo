@@ -20,7 +20,41 @@ $panels[] = '<dt>'.rex_i18n::msg('created_by').'</dt><dd>'.rex_escape($article->
 $panels[] = '<dt>'.rex_i18n::msg('created_on').'</dt><dd>'.rex_formatter::intlDate($article->getValue('createdate')).'</dd>';
 $panels[] = '<dt>'.rex_i18n::msg('updated_by').'</dt><dd>'.rex_escape($article->getValue('updateuser')).'</dd>';
 $panels[] = '<dt>'.rex_i18n::msg('updated_on').'</dt><dd>'.rex_formatter::intlDate($article->getValue('updatedate')).'</dd>';
-$panels[] = '<dt>'.rex_i18n::msg('status').'</dt><dd class="'.$articleStatusTypes[$status][1].'">'.$articleStatusTypes[$status][0].'</dd>';
+
+$articleClass = $articleStatusTypes[$status][1];
+$articleStatus = $articleStatusTypes[$status][0];
+$articleIcon = $articleStatusTypes[$status][2];
+$structureContext = new rex_structure_context([
+    'article_id' => rex_request('article_id', 'int'),
+]);
+
+if (0 == $article->getValue('startarticle')) {
+    if (rex::requireUser()->hasPerm('publishArticle[]')) {
+        if (count($articleStatusTypes) > 2) {
+            $articleStatus = '<div class="dropdown"><a href="#" class="dropdown-toggle '.$articleClass.'" type="button" data-toggle="dropdown"><i class="rex-icon '.$articleIcon.'"></i>&nbsp;'.$articleStatus.'&nbsp;<span class="caret"></span></a><ul class="dropdown-menu dropdown-menu-right">';
+            foreach ($articleStatusTypes as $artStatusKey => $artStatusType) {
+                $articleStatus .= '<li><a  class="'.$artStatusType[1].'" href="'.$structureContext->getContext()->getUrl([
+                    'article_id' => $articleId,
+                    'page' => 'content/edit',
+                    'mode' => 'edit',
+                    'art_status' => $artStatusKey,
+                ] + rex_api_article_status::getUrlParams()).'">'.$artStatusType[0].'</a></li>';
+            }
+            $articleStatus .= '</ul></div>';
+        } else {
+            $articleStatus = '<a class="'.$articleClass.'" href="'.$structureContext->getContext()->getUrl([
+                'article_id' => $articleId,
+                'page' => 'content/edit',
+                'mode' => 'edit',
+            ] + rex_api_article_status::getUrlParams()).'"><i class="rex-icon '.$articleIcon.'"></i>&nbsp;'.$articleStatus.'</a>';
+        }
+    } else {
+        $articleStatus = '<span class="'.$articleClass.' text-muted"><i class="rex-icon '.$articleIcon.'"></i> '.$articleStatus.'</span>';
+    }
+}
+
+$panels[] = '<dt>'.rex_i18n::msg('status').'</dt><dd class="'.$articleStatusTypes[$status][1].'">'.$articleStatus.'</dd>';
+
 $content[] = '<dl class="dl-horizontal text-left">' . implode('', $panels) . '</dl>';
 
 // ------------------
