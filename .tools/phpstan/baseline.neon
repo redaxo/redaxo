@@ -2886,11 +2886,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/form/form_base.php
 
 		-
-			message: "#^Method rex_form_base\\:\\:getControlElement\\(\\) should return rex_form_control_element\\|null but returns rex_form_element\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/form/form_base.php
-
-		-
 			message: "#^Method rex_form_base\\:\\:getInputAttributes\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/form/form_base.php
