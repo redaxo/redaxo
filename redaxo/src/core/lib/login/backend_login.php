@@ -114,7 +114,9 @@ class rex_backend_login extends rex_login
                 }
                 array_push($params, rex_sql::datetime(), rex_sql::datetime(), session_id(), $this->userLogin);
                 $sql->setQuery('UPDATE ' . $this->tableName . ' SET ' . $add . 'login_tries=0, lasttrydate=?, lastlogin=?, session_id=? WHERE login=? LIMIT 1', $params);
-                rex_user_session::getInstance()->storeCurrentSession();
+
+                rex_user_session::getInstance()->storeCurrentSession($this);
+                rex_user_session::clearExpiredSessions();
             }
 
             assert($this->user instanceof rex_sql);
@@ -134,7 +136,7 @@ class rex_backend_login extends rex_login
                     }
                 }
             }
-            rex_user_session::getInstance()->updateLastActivity();
+            rex_user_session::getInstance()->updateLastActivity($this);
         } else {
             // fehlversuch speichern | login_tries++
             if ('' != $this->userLogin) {
@@ -197,6 +199,9 @@ class rex_backend_login extends rex_login
 
         if (null !== $passwordHash) {
             parent::changedPassword($passwordHash);
+            if (null !== $user = $this->getUser()) {
+                rex_user_session::getInstance()->removeSessionsExceptCurrent($user->getId());
+            }
         }
     }
 

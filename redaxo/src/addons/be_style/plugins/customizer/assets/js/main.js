@@ -113,7 +113,7 @@ Customizer.init = function (container) {
                 theme: theme,
                 autoRefresh: true,
                 lineNumbers: true,
-                lineWrapping: true,
+                lineWrapping: false,
                 styleActiveLine: true,
                 matchBrackets: true,
                 autoCloseBrackets: true,
