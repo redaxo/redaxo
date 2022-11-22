@@ -602,24 +602,6 @@
       <code>isAdmin</code>
     </PossiblyNullReference>
   </file>
-  <file src="redaxo/src/addons/install/lib/command/download.php">
-    <MixedArgument occurrences="2">
-      <code>$version</code>
-      <code>$version</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="1">
-      <code>$version</code>
-    </MixedAssignment>
-  </file>
-  <file src="redaxo/src/addons/install/lib/command/update.php">
-    <MixedArgument occurrences="2">
-      <code>$version</code>
-      <code>$version</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="1">
-      <code>$version</code>
-    </MixedAssignment>
-  </file>
   <file src="redaxo/src/addons/install/lib/package/package_download.php">
     <MixedArgument occurrences="1">
       <code>$dir</code>
@@ -4963,13 +4945,12 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/packages/manager.php">
-    <MixedArgument occurrences="10">
+    <MixedArgument occurrences="9">
       <code>$instmsg</code>
       <code>$instmsg</code>
       <code>$normal</code>
       <code>$normal</code>
       <code>$packageId</code>
-      <code>$pos</code>
       <code>$requirements['packages'][$packageId]</code>
       <code>$requirements['php']['version']</code>
       <code>$requirements['redaxo']</code>
@@ -5791,6 +5772,11 @@
       <code>$var</code>
       <code>$var[$key]</code>
     </MixedAssignment>
+  </file>
+  <file src="redaxo/src/core/lib/util/version.php">
+    <MixedArgument occurrences="1">
+      <code>$pos</code>
+    </MixedArgument>
   </file>
   <file src="redaxo/src/core/lib/var/var.php">
     <MixedArgument occurrences="4">

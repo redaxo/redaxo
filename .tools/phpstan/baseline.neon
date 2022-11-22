@@ -4351,26 +4351,6 @@ parameters:
 			path: ../../redaxo/src/core/tests/login/password_policy_test.php
 
 		-
-			message: "#^Method rex_package_manager_test\\:\\:dataMatchVersionConstraints\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/packages/manager_test.php
-
-		-
-			message: "#^Method rex_package_manager_test\\:\\:testMatchVersionConstraints\\(\\) has parameter \\$constraints with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/packages/manager_test.php
-
-		-
-			message: "#^Method rex_package_manager_test\\:\\:testMatchVersionConstraints\\(\\) has parameter \\$expected with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/packages/manager_test.php
-
-		-
-			message: "#^Method rex_package_manager_test\\:\\:testMatchVersionConstraints\\(\\) has parameter \\$version with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/packages/manager_test.php
-
-		-
 			message: "#^Method rex_package_test\\:\\:dataSplitId\\(\\) return type has no value type specified in iterable type iterable\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/packages/package_test.php
