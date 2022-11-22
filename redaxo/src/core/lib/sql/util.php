@@ -35,7 +35,6 @@ class rex_sql_util
      *
      * @param non-empty-string $sourceTable
      * @param non-empty-string $destinationTable
-     * @return void
      *
      * @throws rex_exception
      */
@@ -60,7 +59,6 @@ class rex_sql_util
      *
      * @param non-empty-string $sourceTable
      * @param non-empty-string $destinationTable
-     * @return void
      *
      * @throws rex_exception
      */

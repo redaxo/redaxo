@@ -21,7 +21,6 @@ abstract class rex_install_package_download
 
     /**
      * @param non-empty-string $addonkey
-     * @param int    $fileId
      */
     public function run(string $addonkey, int $fileId): string
     {

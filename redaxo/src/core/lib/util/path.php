@@ -420,7 +420,7 @@ class rex_path
         exec($cmd, $out, $ret);
 
         if (0 === $ret) {
-            if ($out[0] === '') {
+            if ('' === $out[0]) {
                 throw new rex_exception('empty binary path found.');
             }
             return (string) $out[0];
