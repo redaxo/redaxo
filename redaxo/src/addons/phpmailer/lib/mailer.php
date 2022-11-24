@@ -170,9 +170,9 @@ class rex_mailer extends PHPMailer
 
     private function log(string $success): void
     {
-        $replytos ='';
+        $replytos = '';
         if (count($this->getReplyToAddresses())) {
-        $replytos = implode(', ', array_column($this->getReplyToAddresses(), 0));
+            $replytos = implode(', ', array_column($this->getReplyToAddresses(), 0));
         }
         $log = new rex_log_file(self::logFile(), 2000000);
         $data = [
