@@ -72,6 +72,7 @@ media_manager_effect_brand_hpos = horizontale Ausrichtung
 media_manager_effect_brand_vpos = vertikale Ausrichtung
 media_manager_effect_brand_padding_x = horizontaler Abstand zum Rand
 media_manager_effect_brand_padding_y = vertikaler Abstand zum Rand
+media_manager_effect_brand_layerpos = Bildposition
 
 media_manager_effect_blur = Bild: Unschärfe
 media_manager_effect_blur_repeats = Wiederholungen
