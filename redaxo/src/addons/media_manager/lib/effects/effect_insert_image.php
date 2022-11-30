@@ -39,6 +39,12 @@ class rex_effect_insert_image extends rex_effect_abstract
         if (isset($this->params['vpos'])) {
             $vpos = (string) $this->params['vpos'];
         }
+		
+		// Stapelreihenfolge:   above/behind
+        $layerpos = 'above';
+        if (isset($this->params['layerpos'])) {
+            $layerpos = (string) $this->params['layerpos'];
+        }
 
         // -------------------------------------- /CONFIG
         $brand = new rex_managed_media($brandimage);
@@ -75,10 +81,21 @@ class rex_effect_insert_image extends rex_effect_abstract
                 $dstY = $imageHeight - $brandHeight - $paddingY;
         }
 
-        imagealphablending($gdimage, true);
-        imagecopy($gdimage, $gdbrand, $dstX, $dstY, 0, 0, $brandWidth, $brandHeight);
+        switch ($layerpos) {
+            case 'behind':
+                $layer1 = $gdbrand;
+                $layer2 = $gdimage;
+                break;
+            case 'above':
+            default:
+				$layer1 = $gdimage;
+                $layer2 = $gdbrand;
+        }
 
-        $this->media->setImage($gdimage);
+        imagealphablending($layer1, true);
+        imagecopy($layer1, $layer2, $dstX, $dstY, 0, 0, $brandWidth, $brandHeight);
+
+        $this->media->setImage($layer1);
     }
 
     public function getName()
@@ -94,6 +111,13 @@ class rex_effect_insert_image extends rex_effect_abstract
                 'name' => 'brandimage',
                 'type' => 'media',
                 'default' => '',
+            ],
+			[
+                'label' => rex_i18n::msg('media_manager_effect_brand_layerpos'),
+                'name' => 'layerpos',
+                'type' => 'select',
+                'options' => ['above', 'behind'],
+                'default' => 'above',
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_brand_hpos'),
