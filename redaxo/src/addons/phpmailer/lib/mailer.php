@@ -177,7 +177,7 @@ class rex_mailer extends PHPMailer
         $log = new rex_log_file(self::logFile(), 2000000);
         $data = [
             $success,
-            $this->From.($replytos ? ', '.$replytos : ''),
+            $this->From.($replytos ? '; reply-to: '.$replytos : ''),
             implode(', ', array_column($this->getToAddresses(), 0)),
             $this->Subject,
             trim(str_replace('https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting', '', strip_tags($this->ErrorInfo))),
