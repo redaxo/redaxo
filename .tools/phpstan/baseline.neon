@@ -4191,11 +4191,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/util/validator.php
 
 		-
-			message: "#^Method rex_var\\:\\:getMatches\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/var/var.php
-
-		-
 			message: "#^Method rex_var\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/var/var.php
