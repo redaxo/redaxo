@@ -1000,10 +1000,6 @@ class Application implements ResetInterface
                         });
                     }
                 }
-
-                foreach ($commandSignals as $signal) {
-                    $this->signalRegistry->register($signal, [$command, 'handleSignal']);
-                }
             }
 
             if (null !== $this->dispatcher) {
@@ -1021,6 +1017,10 @@ class Application implements ResetInterface
                         }
                     });
                 }
+            }
+
+            foreach ($commandSignals as $signal) {
+                $this->signalRegistry->register($signal, [$command, 'handleSignal']);
             }
         }
 
