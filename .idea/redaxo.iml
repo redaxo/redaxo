@@ -98,6 +98,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/theseer/tokenizer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/vimeo/psalm" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/webmozart/assert" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/deprecations" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/webmozart/path-util" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/rector/rector" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/redaxo/psalm-plugin" />

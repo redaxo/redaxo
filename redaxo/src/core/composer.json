@@ -2,14 +2,14 @@
     "require": {
         "erusev/parsedown": "^1.7.4",
         "erusev/parsedown-extra": "^0.8.1",
-        "filp/whoops": "^2.14.5",
+        "filp/whoops": "^2.14.6",
         "psr/log": "^1.1.4",
         "ramsey/http-range": "^1.0",
-        "symfony/console": "^5.4.14",
-        "symfony/http-foundation": "^5.4.14",
-        "symfony/polyfill-php80": "^1.26",
+        "symfony/console": "^5.4.16",
+        "symfony/http-foundation": "^5.4.16",
+        "symfony/polyfill-php80": "^1.27",
         "symfony/var-dumper": "^5.4.14",
-        "symfony/yaml": "^5.4.14",
+        "symfony/yaml": "^5.4.16",
         "voku/anti-xss": "^4.1.39"
     },
 
