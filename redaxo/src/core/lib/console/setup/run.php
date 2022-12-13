@@ -425,6 +425,10 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
         // ---------------------------------- last step. save config
 
+        if (empty($config['instname'])) {
+            $config['instname'] = 'rex' . date('YmdHis');
+        }
+
         $config['setup'] = is_array($config['setup']) ? $config['setup'] : false;
         if (!rex_file::putConfig($configFile, $config)) {
             $io->error('Writing to config.yml failed.');
