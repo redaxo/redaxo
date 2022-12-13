@@ -113,8 +113,10 @@ class rex_logger extends AbstractLogger
         }
         self::$file->add($logData);
 
-        // forward the error into phps' error log
-        error_log($message, 0);
+        // forward the error into phps' error log if error_log function is not disabled
+        if (function_exists('error_log')) {
+            error_log($message, 0);
+        }
     }
 
     /**
