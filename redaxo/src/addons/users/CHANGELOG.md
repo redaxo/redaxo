@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.9.1 – 13.12.2022
+--------------------------
+
+### Bugfixes
+
+* Nicht-Admins mit Zugriff auf die Benutzerverwaltung konnten Admins bearbeiten (@bloep)
+
+
 Version 2.9.0 – 25.07.2022
 --------------------------
 
