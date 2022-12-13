@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.13.1 – 13.12.2022
+---------------------------
+
+### Bugfixes
+
+* Wenn die Datei aus dem Cache kommt, war im Objekt der `media_path` nicht korrekt gesetzt (relevant für EPs etc.) (@dergel)
+
+
 Version 2.13.0 – 25.07.2022
 ---------------------------
 
