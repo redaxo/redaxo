@@ -8,7 +8,7 @@
 
 <p align="center"><img src="https://raw.githubusercontent.com/redaxo/redaxo/assets/redaxo_02.png" width="100%" alt="Screenshots"></p>
 
-&nbsp;
+&nbsp;test
 
 <p align="center">
 	<a href="https://github.com/redaxo/redaxo/blob/main/redaxo/src/core/CHANGELOG.md">Changelog</a> &nbsp;|&nbsp;
