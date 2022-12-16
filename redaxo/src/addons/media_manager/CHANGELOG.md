@@ -1,12 +1,20 @@
 Changelog
 =========
 
+Version 2.13.2 – 16.12.2022
+---------------------------
+
+### Bugfixes
+
+* Seit 2.13.1 kam es bei Nutzung von `rex_media_manager::create` teils zur Auslieferung der Bilder in Originalgröße (@gharlan)
+
+
 Version 2.13.1 – 13.12.2022
 ---------------------------
 
 ### Bugfixes
 
-* Wenn die Datei aus dem Cache kommt, war im Objekt der `media_path` nicht korrekt gesetzt (relevant für EPs etc.) (@dergel)
+* Wenn die Datei aus dem Cache kommt, war im Objekt der `media_path` nicht korrekt gesetzt (relevant für EPs etc.) (@dergel, @gharlan)
 
 
 Version 2.13.0 – 25.07.2022

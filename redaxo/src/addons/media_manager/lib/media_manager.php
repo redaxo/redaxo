@@ -64,7 +64,7 @@ class rex_media_manager
         $manager->setCachePath($cachePath);
         $manager->applyEffects($type);
 
-        if ($manager->useCache && !$manager->notFound) {
+        if (!$manager->isCached() && $manager->useCache && !$manager->notFound) {
             $media->save($manager->getCacheFilename(), $manager->getHeaderCacheFilename());
         }
 
@@ -125,14 +125,15 @@ class rex_media_manager
         }
 
         if ($this->useCache && $this->isCached()) {
-            $this->media->setSourcePath($this->getCacheFilename());
-
             $cache = $this->getHeaderCache();
             assert(null !== $cache);
 
             $this->media->setMediaPath($cache['media_path']);
             $this->media->setMediaFilename($cache['media_filename']);
             $this->media->setFormat($cache['format']);
+
+            // must be called after setMediaPath, because setMediaPath overwrites sourcePath, too
+            $this->media->setSourcePath($this->getCacheFilename());
 
             foreach ($cache['headers'] as $key => $value) {
                 $this->media->setHeader($key, $value);
