@@ -47,12 +47,7 @@ class rex_path_default_provider
     public function base($file)
     {
         if ($this->provideAbsolutes) {
-            $base = strtr($this->base . $file, '/\\', DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR);
-            // base can never be empty-string here, see https://github.com/phpstan/phpstan-src/pull/1963
-            if ('' === $base) {
-                throw new InvalidArgumentException('Empty path given.');
-            }
-            return $base;
+            return strtr($this->base . $file, '/\\', DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR);
         }
         return $this->base . $file;
     }
