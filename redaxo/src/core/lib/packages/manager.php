@@ -764,7 +764,7 @@ abstract class rex_package_manager
      *
      * @param string $folder Folder
      *
-     * @return string[]
+     * @return non-empty-string[]
      */
     private static function readPackageFolder($folder)
     {

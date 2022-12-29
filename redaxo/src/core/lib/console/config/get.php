@@ -33,7 +33,6 @@ class rex_command_config_get extends rex_console_command
         }
 
         $path = explode('.', $key);
-
         $propertyKey = array_shift($path);
 
         $package = $input->getOption('package');

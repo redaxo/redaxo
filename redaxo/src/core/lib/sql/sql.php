@@ -837,6 +837,11 @@ class rex_sql implements Iterator
      * @param string $column Name der Spalte
      *
      * @return bool
+     *
+     * @template T
+     * @psalm-param T $column
+     * @psalm-assert-if-true !null $this->isNull(T)
+     * @psalm-assert-if-false !null $this->isNull(T)
      */
     public function hasValue($column)
     {
