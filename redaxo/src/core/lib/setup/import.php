@@ -42,7 +42,7 @@ class rex_setup_importer
      */
     public static function loadExistingImport($importName)
     {
-        if ('' == $importName) {
+        if ('' == $importName || '/' === $importName) {
             return '<p>' . rex_i18n::msg('setup_408') . '</p>';
         }
 
