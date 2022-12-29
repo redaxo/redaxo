@@ -16,7 +16,7 @@
         "jetbrains/phpstorm-attributes": "^1.0",
         "phpstan/extension-installer": "1.2.0",
         "phpstan/phpstan": "1.9.4",
-        "phpstan/phpstan-deprecation-rules": "1.1.0",
+        "phpstan/phpstan-deprecation-rules": "1.1.1",
         "phpstan/phpstan-phpunit": "1.2.2",
         "phpstan/phpstan-symfony": "1.2.13",
         "phpunit/phpunit": "^9.5",
