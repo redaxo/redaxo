@@ -152,6 +152,7 @@ interface rex_package_interface
      * Returns if the package is installed.
      *
      * @return bool
+     * @psalm-assert-if-false false $this->isAvailable()
      */
     public function isInstalled();
 
