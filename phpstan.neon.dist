@@ -3,7 +3,7 @@ includes:
 
 parameters:
     level: 6
-    phpVersion: 70300 # PHP 7.3
+    phpVersion: 80100 # PHP 8.1
     treatPhpDocTypesAsCertain: false
     paths:
         # restrict to core and core addons, ignore other locally installed addons
