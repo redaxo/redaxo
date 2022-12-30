@@ -614,11 +614,8 @@ class rex_login
         $isPreHashed = false
     ) {
         $password = $isPreHashed ? $password : sha1($password);
-        $hash = password_hash($password, PASSWORD_DEFAULT);
-        if (!is_string($hash)) {
-            throw new rex_exception('error while hashing password');
-        }
-        return $hash;
+
+        return password_hash($password, PASSWORD_DEFAULT);
     }
 
     /**

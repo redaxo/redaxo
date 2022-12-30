@@ -24,7 +24,7 @@ foreach (array('HTDOCS_PATH', 'BACKEND_FOLDER', 'REDAXO') as $key) {
 // start output buffering as early as possible, so we can be sure
 // we can set http header whenever we want/need to
 ob_start();
-ob_implicit_flush(0);
+ob_implicit_flush(false);
 
 if ('cli' !== PHP_SAPI) {
     // deactivate session cache limiter

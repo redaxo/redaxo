@@ -306,7 +306,7 @@ class rex_managed_media
         $format = 'jpeg' === $format ? 'jpg' : $format;
 
         $interlace = (array) $this->getImageProperty(self::PROP_INTERLACE, $addon->getConfig('interlace'));
-        imageinterlace($this->image['src'], in_array($format, $interlace) ? 1 : 0);
+        imageinterlace($this->image['src'], in_array($format, $interlace));
 
         ob_start();
         if ('jpg' == $format) {

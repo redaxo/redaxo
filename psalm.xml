@@ -96,13 +96,5 @@
         <RedundantFunctionCallGivenDocblockType errorLevel="info" />
         <UnresolvableInclude errorLevel="suppress" />
         <UnsafeInstantiation errorLevel="info" />
-<!-- level 4 issues -->
-        <InvalidScalarArgument>
-            <errorLevel type="suppress">
-                <!-- https://github.com/vimeo/psalm/issues/3454 -->
-                <referencedFunction name="password_hash"/>
-                <referencedFunction name="password_needs_rehash"/>
-            </errorLevel>
-        </InvalidScalarArgument>
     </issueHandlers>
 </psalm>

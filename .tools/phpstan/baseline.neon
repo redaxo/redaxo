@@ -226,11 +226,6 @@ parameters:
 			path: ../../redaxo/src/addons/install/lib/api/api_core_update.php
 
 		-
-			message: "#^Parameter \\#3 \\$alias of class PharData constructor expects string, null given\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/install/lib/archive.php
-
-		-
 			message: "#^Method rex_install_package_download\\:\\:extractArchiveTo\\(\\) has parameter \\$dir with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/install/lib/package/package_download.php
@@ -1261,12 +1256,12 @@ parameters:
 			path: ../../redaxo/src/addons/metainfo/lib/input/datetime.php
 
 		-
-			message: "#^Parameter \\#1 \\$arr1 of function array_merge expects array, string given\\.$#"
+			message: "#^Parameter \\#1 \\.\\.\\.\\$arrays of function array_merge expects array, string given\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/metainfo/lib/input/datetime.php
 
 		-
-			message: "#^Parameter \\#2 \\.\\.\\.\\$args of function array_merge expects array, string given\\.$#"
+			message: "#^Parameter \\#2 \\.\\.\\.\\$arrays of function array_merge expects array, string given\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/metainfo/lib/input/datetime.php
 
@@ -2471,7 +2466,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/autoload.php
 
 		-
-			message: "#^Parameter \\#1 \\$autoload_function of function spl_autoload_register expects callable\\(string\\)\\: void, array\\{'rex_autoload', 'autoload'\\} given\\.$#"
+			message: "#^Parameter \\#1 \\$callback of function spl_autoload_register expects \\(callable\\(string\\)\\: void\\)\\|null, array\\{'rex_autoload', 'autoload'\\} given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/autoload.php
 
@@ -4206,7 +4201,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/util/socket/socket.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int, array\\)\\: bool\\)\\|null, Closure\\(mixed, mixed\\)\\: void given\\.$#"
+			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int\\)\\: bool\\)\\|null, Closure\\(mixed, mixed\\)\\: void given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/socket/socket.php
 
