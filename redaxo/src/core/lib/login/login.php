@@ -503,7 +503,7 @@ class rex_login
      */
     public static function startSession()
     {
-        if (PHP_SESSION_NONE === session_status()) {
+        if (PHP_SESSION_ACTIVE !== session_status()) {
             $cookieParams = static::getCookieParams();
 
             session_set_cookie_params(
