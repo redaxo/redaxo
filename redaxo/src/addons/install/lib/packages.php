@@ -91,7 +91,7 @@ class rex_install_packages
     /**
      * @return void
      */
-    public static function addedPackage($package)
+    public static function deleteCacheMyPackages()
     {
         self::$myPackages = null;
     }

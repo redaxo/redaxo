@@ -266,6 +266,7 @@ class rex_login
                 if (1 == $this->user->getRows() && self::passwordVerify($this->userPassword, $this->user->getValue($this->passwordColumn), true)) {
                     $ok = true;
                     self::regenerateSessionId();
+                    $this->setSessionVar(self::SESSION_START_TIME, time());
                     $this->setSessionVar(self::SESSION_USER_ID, $this->user->getValue($this->idColumn));
                     $this->setSessionVar(self::SESSION_PASSWORD, $this->user->getValue($this->passwordColumn));
                 } else {
@@ -455,7 +456,17 @@ class rex_login
      *
      * @param string $varname
      * @param mixed $default
-     *  @return mixed
+     * @return mixed
+     * @psalm-return (
+     *     $varname is 'starttime' ? int|null :
+     *     ($varname is 'STAMP' ? int|null :
+     *     ($varname is 'UID' ? int|null :
+     *     ($varname is 'password' ? string|null :
+     *     ($varname is 'impersonator' ? int|null :
+     *     ($varname is 'last_db_update' ? int|null :
+     *     mixed
+     *     )))))
+     * )
      */
     public function getSessionVar($varname, $default = '')
     {

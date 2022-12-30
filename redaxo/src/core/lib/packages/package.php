@@ -22,7 +22,7 @@ abstract class rex_package implements rex_package_interface
     /**
      * Name of the package.
      *
-     * @var string
+     * @var non-empty-string
      */
     private $name;
 
@@ -41,7 +41,7 @@ abstract class rex_package implements rex_package_interface
     private $propertiesLoaded = false;
 
     /**
-     * @param string $name Name
+     * @param non-empty-string $name Name
      */
     public function __construct($name)
     {

@@ -192,7 +192,7 @@ $(document).ready(function () {
 
         if(value && value.length != 0 && $.inArray(value.split('.').pop(), rex.imageExtensions))
         {
-            // img tag nur einmalig einf�gen, ggf erzeugen wenn nicht vorhanden
+            // img tag nur einmalig einfuegen, ggf erzeugen wenn nicht vorhanden
             var img = $('img', div);
             if(img.length == 0)
             {

@@ -53,12 +53,7 @@ class rex_effect_resize extends rex_effect_abstract
             $this->params['height'] = $h;
         }
 
-        if (function_exists('ImageCreateTrueColor')) {
-            $des = @imagecreatetruecolor($this->params['width'], $this->params['height']);
-        } else {
-            $des = @imagecreate($this->params['width'], $this->params['height']);
-        }
-
+        $des = @imagecreatetruecolor($this->params['width'], $this->params['height']);
         if (!$des) {
             return;
         }

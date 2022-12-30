@@ -42,26 +42,26 @@ class rex_setup_importer
      */
     public static function loadExistingImport($importName)
     {
+        if ('' == $importName || '/' === $importName) {
+            return '<p>' . rex_i18n::msg('setup_408') . '</p>';
+        }
+
         // ----- vorhandenen Export importieren
         $errMsg = '';
         $importName = rex_path::basename($importName);
 
-        if ('' == $importName) {
-            $errMsg .= '<p>' . rex_i18n::msg('setup_408') . '</p>';
-        } else {
-            $importSql = rex_backup::getDir() . '/' . $importName . '.sql';
-            $importArchiv = rex_backup::getDir() . '/' . $importName . '.tar.gz';
+        $importSql = rex_backup::getDir() . '/' . $importName . '.sql';
+        $importArchiv = rex_backup::getDir() . '/' . $importName . '.tar.gz';
 
-            // Nur hier zuerst die Addons installieren
-            // Da sonst Daten aus dem eingespielten Export
-            // Überschrieben würden
-            // Da für das Installieren der Addons die rex_config benötigt wird,
-            // mit overrideExisting() eine saubere, komplette Basis schaffen
-            $errMsg .= self::overrideExisting();
+        // Nur hier zuerst die Addons installieren
+        // Da sonst Daten aus dem eingespielten Export
+        // Überschrieben würden
+        // Da für das Installieren der Addons die rex_config benötigt wird,
+        // mit overrideExisting() eine saubere, komplette Basis schaffen
+        $errMsg .= self::overrideExisting();
 
-            if ('' == $errMsg) {
-                $errMsg .= self::import($importSql, $importArchiv);
-            }
+        if ('' == $errMsg) {
+            $errMsg .= self::import($importSql, $importArchiv);
         }
 
         return $errMsg;
@@ -162,6 +162,7 @@ class rex_setup_importer
     {
         return [
             rex::getTablePrefix() . 'clang',
+            rex::getTablePrefix() . 'user_session',
             rex::getTablePrefix() . 'user',
             rex::getTablePrefix() . 'config',
         ];

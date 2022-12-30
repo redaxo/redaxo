@@ -49,7 +49,7 @@ class rex_command_install_update extends rex_console_command
                 $versions[] = $fileMeta['version'];
             }
 
-            $version = $io->choice('Please choose a version', $versions);
+            $version = (string) $io->choice('Please choose a version', $versions);
         }
 
         // search fileId by version

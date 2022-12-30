@@ -316,6 +316,9 @@ class rex_sql implements Iterator
      * @throws rex_sql_exception on errors
      *
      * @return $this
+     *
+     * @psalm-taint-sink $query
+     * @psalm-taint-specialize
      */
     public function setDBQuery($query, array $params = [], array $options = [])
     {
@@ -359,6 +362,8 @@ class rex_sql implements Iterator
      * @throws rex_sql_exception
      *
      * @return PDOStatement The prepared statement
+     *
+     * @psalm-taint-sink sql $query
      */
     public function prepareQuery($query)
     {
@@ -485,6 +490,8 @@ class rex_sql implements Iterator
      * @param string $value  The raw value
      *
      * @return $this the current rex_sql object
+     *
+     * @psalm-taint-sink sql $value
      */
     public function setRawValue($column, $value)
     {
@@ -830,6 +837,11 @@ class rex_sql implements Iterator
      * @param string $column Name der Spalte
      *
      * @return bool
+     *
+     * @template T
+     * @psalm-param T $column
+     * @psalm-assert-if-true !null $this->isNull(T)
+     * @psalm-assert-if-false !null $this->isNull(T)
      */
     public function hasValue($column)
     {
@@ -950,6 +962,8 @@ class rex_sql implements Iterator
      * @throws rex_sql_exception
      *
      * @return $this
+     *
+     * @psalm-taint-sink sql $columns
      */
     public function select($columns = '*')
     {
@@ -1182,6 +1196,7 @@ class rex_sql implements Iterator
      * @psalm-return list<array<(TFetchType is PDO::FETCH_NUM ? int : string), scalar|null>>
      *
      * @psalm-taint-source input
+     * @psalm-taint-sink sql $query
      * @psalm-suppress MixedReturnTypeCoercion
      */
     public function getDBArray($query = null, array $params = [], $fetchType = PDO::FETCH_ASSOC)
@@ -1216,6 +1231,7 @@ class rex_sql implements Iterator
      * @psalm-return list<array<(TFetchType is PDO::FETCH_NUM ? int : string), scalar|null>>
      *
      * @psalm-taint-source input
+     * @psalm-taint-sink sql $query
      * @psalm-suppress MixedReturnTypeCoercion
      */
     public function getArray($query = null, array $params = [], $fetchType = PDO::FETCH_ASSOC)
@@ -1405,7 +1421,12 @@ class rex_sql implements Iterator
      * @param string $value den zu escapenden Wert
      *
      * @return string
-     * @psalm-return ($value is numeric-string ? numeric-string : ($value is non-empty-string ? non-empty-string : string))
+     * @psalm-return ($value is numeric-string ? numeric-string :
+     *   ($value is non-falsy-string ? non-falsy-string :
+     *   ($value is non-empty-string ? non-empty-string : string
+     * )))
+     *
+     * @psalm-taint-escape sql
      */
     public function escape($value)
     {
@@ -1429,11 +1450,14 @@ class rex_sql implements Iterator
     /**
      * Escapes the `LIKE` wildcard chars "%" and "_" in given value.
      *
-     * @psalm-return ($value is numeric-string ? numeric-string : ($value is non-empty-string ? non-empty-string : string))
+     * @psalm-return ($value is numeric-string ? numeric-string :
+     *   ($value is non-falsy-string ? non-falsy-string :
+     *   ($value is non-empty-string ? non-empty-string : string
+     * )))
      */
     public function escapeLikeWildcards(string $value): string
     {
-        return str_replace(['_', '%'], ['\_', '\%'], $value);
+        return str_replace(['\\', '_', '%'], ['\\\\', '\_', '\%'], $value);
     }
 
     /**
