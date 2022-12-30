@@ -3,7 +3,7 @@
     errorLevel="1"
     autoloader=".tools/constants.php"
     findUnusedPsalmSuppress="true"
-    errorBaseline=".tools/psalm/baseline.xml"
+    errorBaseline=".tools/psalm/baseline-taint.xml"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"

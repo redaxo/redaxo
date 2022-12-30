@@ -21,11 +21,11 @@
         "phpstan/phpstan-symfony": "1.2.13",
         "phpunit/phpunit": "^9.5",
         "psalm/plugin-phpunit": "0.18.4",
-        "psalm/plugin-symfony": "v3.1.10",
+        "psalm/plugin-symfony": "v5.0.0",
         "rector/rector": "0.15.2",
         "redaxo/php-cs-fixer-config": "1.0.0",
-        "redaxo/psalm-plugin": "1.0.0",
-        "vimeo/psalm": "4.30.0"
+        "redaxo/psalm-plugin": "2.0.0",
+        "vimeo/psalm": "5.4.0"
     },
     "replace": {
         "erusev/parsedown": "1.7.4",
