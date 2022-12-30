@@ -22,7 +22,7 @@ class rex_form extends rex_form_base
 
     public const ERROR_VIOLATE_UNIQUE_KEY = 1062;
 
-    /** @var string */
+    /** @var non-empty-string */
     protected $tableName;
     /** @var string */
     protected $whereCondition;
@@ -41,7 +41,7 @@ class rex_form extends rex_form_base
     /**
      * Diese Konstruktor sollte nicht verwendet werden. Instanzen muessen ueber die factory() Methode erstellt werden!
      *
-     * @param string $tableName
+     * @param non-empty-string $tableName
      * @param string $fieldset
      * @param string $whereCondition
      * @param 'post'|'get' $method
@@ -229,7 +229,7 @@ class rex_form extends rex_form_base
     }
 
     /**
-     * @return string
+     * @return non-empty-string
      */
     public function getTableName()
     {

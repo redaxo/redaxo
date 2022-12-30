@@ -28,7 +28,7 @@ class rex_url
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function base($file = '')
     {
@@ -40,7 +40,7 @@ class rex_url
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function frontend($file = '')
     {
@@ -53,7 +53,7 @@ class rex_url
      * @param array $params Params
      * @param bool  $escape Flag whether the argument separator "&" should be escaped (&amp;)
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function frontendController(array $params = [], $escape = true)
     {
@@ -67,7 +67,7 @@ class rex_url
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function backend($file = '')
     {
@@ -80,7 +80,7 @@ class rex_url
      * @param array $params Params
      * @param bool  $escape Flag whether the argument separator "&" should be escaped (&amp;)
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function backendController(array $params = [], $escape = true)
     {
@@ -96,7 +96,7 @@ class rex_url
      * @param array  $params Params
      * @param bool   $escape Flag whether the argument separator "&" should be escaped (&amp;)
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function backendPage($page, array $params = [], $escape = true)
     {
@@ -109,7 +109,7 @@ class rex_url
      * @param array $params Params
      * @param bool  $escape Flag whether the argument separator "&" should be escaped (&amp;)
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function currentBackendPage(array $params = [], $escape = true)
     {
@@ -121,7 +121,7 @@ class rex_url
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function media($file = '')
     {
@@ -133,7 +133,7 @@ class rex_url
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function assets($file = '')
     {
@@ -145,7 +145,7 @@ class rex_url
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function coreAssets($file = '')
     {
@@ -158,7 +158,7 @@ class rex_url
      * @param string $addon Addon
      * @param string $file  File
      *
-     * @return string
+     * @return non-empty-string
      *
      * @see assets()
      */
@@ -174,7 +174,7 @@ class rex_url
      * @param string $plugin Plugin
      * @param string $file   File
      *
-     * @return string
+     * @return non-empty-string
      *
      * @see assets()
      */

@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.14.2 – 13.12.2022
+---------------------------
+
+### Bugfixes
+
+* version-Plugin: Über EP `ART_CONTENT_UPDATED` kann nun bei `work_to_live`-Action gesteuert werden, in welcher Version man nach der Aktion im Backend landet (@gharlan)
+
+
 Version 2.14.1 – 02.08.2022
 ---------------------------
 

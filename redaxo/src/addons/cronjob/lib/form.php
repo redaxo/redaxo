@@ -18,7 +18,7 @@ class rex_cronjob_form extends rex_form
     private $intervalField;
 
     /**
-     * @param string $tableName
+     * @param non-empty-string $tableName
      * @param string $fieldset
      * @param string $whereCondition
      * @param 'post'|'get' $method

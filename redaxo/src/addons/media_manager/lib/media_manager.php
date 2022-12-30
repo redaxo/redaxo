@@ -64,19 +64,7 @@ class rex_media_manager
         $manager->setCachePath($cachePath);
         $manager->applyEffects($type);
 
-        if ($manager->useCache && $manager->isCached()) {
-            $media->setSourcePath($manager->getCacheFilename());
-
-            $cache = $manager->getHeaderCache();
-            assert(null !== $cache);
-
-            $media->setMediaFilename($cache['media_filename']);
-            $media->setFormat($cache['format']);
-
-            foreach ($cache['headers'] as $key => $value) {
-                $media->setHeader($key, $value);
-            }
-        } elseif ($manager->useCache && !$manager->notFound) {
+        if (!$manager->isCached() && $manager->useCache && !$manager->notFound) {
             $media->save($manager->getCacheFilename(), $manager->getHeaderCacheFilename());
         }
 
@@ -134,6 +122,22 @@ class rex_media_manager
             }
 
             $this->notFound = !$this->media->exists();
+        }
+
+        if ($this->useCache && $this->isCached()) {
+            $cache = $this->getHeaderCache();
+            assert(null !== $cache);
+
+            $this->media->setMediaPath($cache['media_path']);
+            $this->media->setMediaFilename($cache['media_filename']);
+            $this->media->setFormat($cache['format']);
+
+            // must be called after setMediaPath, because setMediaPath overwrites sourcePath, too
+            $this->media->setSourcePath($this->getCacheFilename());
+
+            foreach ($cache['headers'] as $key => $value) {
+                $this->media->setHeader($key, $value);
+            }
         }
     }
 

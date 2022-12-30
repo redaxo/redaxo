@@ -8,7 +8,7 @@
 class rex_article_slice_history
 {
     /**
-     * @return string
+     * @return non-empty-string
      *
      * @phpstandba-inference-placeholder 'rex_article_slice_history'
      */
