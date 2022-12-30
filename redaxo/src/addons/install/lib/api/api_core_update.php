@@ -46,7 +46,6 @@ class rex_api_install_core_update extends rex_api_function
         $message = '';
         $temppath = rex_path::coreCache('.new.core/');
         $coreAddons = [];
-        /** @var rex_addon[] $updateAddons */
         $updateAddons = [];
         $updateAddonsConfig = [];
         try {
@@ -69,6 +68,7 @@ class rex_api_install_core_update extends rex_api_function
 
                     $config = rex_file::getConfig($addonPath . rex_package::FILE_PACKAGE);
                     if (
+                        '' == $addonkey ||
                         !isset($config['version']) ||
                         rex_addon::exists($addonkey) && rex_version::compare($config['version'], rex_addon::get($addonkey)->getVersion(), '<')
                     ) {

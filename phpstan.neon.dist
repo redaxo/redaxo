@@ -5,6 +5,7 @@ parameters:
     level: 6
     phpVersion: 70300 # PHP 7.3
     treatPhpDocTypesAsCertain: false
+    editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
     paths:
         # restrict to core and core addons, ignore other locally installed addons
         - redaxo/src/core

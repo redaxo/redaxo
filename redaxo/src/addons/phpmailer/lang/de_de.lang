@@ -81,9 +81,9 @@ phpmailer_log_to = An
 phpmailer_log_subject = Betreff
 phpmailer_log_msg = Meldung
 phpmailer_errormail_disabled = deaktiviert
-phpmailer_errormail_15min = im 15 Minuten-Interval
-phpmailer_errormail_30min = im 30 Minuten-Interval
-phpmailer_errormail_60min = im 60 Minuten-Interval
+phpmailer_errormail_15min = im 15 Minuten-Intervall
+phpmailer_errormail_30min = im 30 Minuten-Intervall
+phpmailer_errormail_60min = im 60 Minuten-Intervall
 
 system_setting_errormail = E-Mail-Benachrichtigung bei Fehlern
 perm_general_phpmailer[] = PHPMailer-Einstellungen
