@@ -218,7 +218,7 @@ The `PHPMAILER_POST_SEND` is useful to perform custom processing steps after sen
 
 ### Example: Save sent message to IMAP folder: 
 
-``php
+```php
 rex_extension::register('PHPMAILER_POST_SEND', function(rex_extension_point $ep)
 {
     $subject = $ep->getSubject(); 
