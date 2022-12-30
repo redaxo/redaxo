@@ -7,7 +7,7 @@
  */
 abstract class rex_install_package_download
 {
-    /** @var string */
+    /** @var non-empty-string */
     protected $addonkey;
 
     /** @var int */
@@ -19,6 +19,9 @@ abstract class rex_install_package_download
     /** @var string */
     protected $archive;
 
+    /**
+     * @param non-empty-string $addonkey
+     */
     public function run(string $addonkey, int $fileId): string
     {
         $this->addonkey = rex_path::basename($addonkey); // the addonkey is used in file paths

@@ -236,6 +236,11 @@ parameters:
 			path: ../../redaxo/src/addons/install/lib/package/package_download.php
 
 		-
+			message: "#^Property rex_install_package_download\\:\\:\\$addonkey \\(non\\-empty\\-string\\) does not accept string\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/install/lib/package/package_download.php
+
+		-
 			message: "#^Method rex_install_package_update\\:\\:checkRequirements\\(\\) has parameter \\$config with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/install/lib/package/package_update.php
@@ -2411,6 +2416,11 @@ parameters:
 			path: ../../redaxo/src/addons/users/lib/select_element.php
 
 		-
+			message: "#^Parameter \\#1 \\$relPath of static method rex_path\\:\\:absolute\\(\\) expects non\\-empty\\-string, string given\\.$#"
+			count: 2
+			path: ../../redaxo/src/core/fragments/core/top.php
+
+		-
 			message: "#^Argument of an invalid type rex_api_result supplied for foreach, only iterables are supported\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/api_function.php
@@ -2491,6 +2501,11 @@ parameters:
 			path: ../../redaxo/src/core/lib/be/controller.php
 
 		-
+			message: "#^Parameter \\#1 \\$file of method rex_package_interface\\:\\:includeFile\\(\\) expects non\\-empty\\-string, string given\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/be/controller.php
+
+		-
 			message: "#^Method rex_be_navigation\\:\\:_getNavigation\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/be/navigation.php
@@ -2556,6 +2571,11 @@ parameters:
 			path: ../../redaxo/src/core/lib/console/config/get.php
 
 		-
+			message: "#^Parameter \\#1 \\$key of method rex_package_interface\\:\\:getProperty\\(\\) expects non\\-empty\\-string, string given\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/console/config/get.php
+
+		-
 			message: "#^Method rex_command_config_set\\:\\:configure\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/console/config/set.php
@@ -2567,6 +2587,11 @@ parameters:
 
 		-
 			message: "#^Method rex_command_db_dump_schema\\:\\:configure\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/console/db/dump_schema.php
+
+		-
+			message: "#^Parameter \\#1 \\$name of static method rex_sql_table\\:\\:get\\(\\) expects non\\-empty\\-string, string given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/console/db/dump_schema.php
 
@@ -2767,6 +2792,11 @@ parameters:
 
 		-
 			message: "#^Method rex_form_prio_element\\:\\:setWhereCondition\\(\\) has parameter \\$whereCondition with no type specified\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/form/elements/prio.php
+
+		-
+			message: "#^Parameter \\#2 \\$prioColumnName of static method rex_sql_util\\:\\:organizePriorities\\(\\) expects non\\-empty\\-string, string given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/form/elements/prio.php
 
@@ -3356,6 +3386,11 @@ parameters:
 			path: ../../redaxo/src/core/lib/packages/addons/addon.php
 
 		-
+			message: "#^Property rex_addon\\:\\:\\$plugins \\(array\\<non\\-empty\\-string, rex_plugin\\>\\) does not accept non\\-empty\\-array\\<int\\|string, rex_plugin\\>\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/packages/addons/addon.php
+
+		-
 			message: "#^Method rex_package_interface\\:\\:getConfig\\(\\) has parameter \\$default with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/interface.php
@@ -3397,6 +3432,11 @@ parameters:
 
 		-
 			message: "#^Method rex_package_manager\\:\\:factory\\(\\) return type with generic class rex_package_manager does not specify its types\\: T$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/packages/manager.php
+
+		-
+			message: "#^Method rex_package_manager\\:\\:readPackageFolder\\(\\) should return array\\<non\\-empty\\-string\\> but returns array\\<int, string\\>\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/packages/manager.php
 
@@ -3481,6 +3521,11 @@ parameters:
 			path: ../../redaxo/src/core/lib/packages/package.php
 
 		-
+			message: "#^Parameter \\#1 \\$name of method rex_package\\:\\:__construct\\(\\) expects non\\-empty\\-string, string given\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/packages/plugins/plugin.php
+
+		-
 			message: "#^Method rex_request\\:\\:arrayKeyCast\\(\\) has parameter \\$haystack with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/request.php
@@ -3507,6 +3552,11 @@ parameters:
 
 		-
 			message: "#^Method rex\\:\\:getConfig\\(\\) has parameter \\$default with no type specified\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/rex.php
+
+		-
+			message: "#^Method rex\\:\\:getPackageConfig\\(\\) should return array\\<non\\-empty\\-string, array\\{install\\: bool, status\\: bool, plugins\\?\\: array\\<string, array\\{install\\: bool, status\\: bool\\}\\>\\}\\> but returns array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/rex.php
 
@@ -4041,6 +4091,31 @@ parameters:
 			path: ../../redaxo/src/core/lib/util/formatter.php
 
 		-
+			message: "#^Method rex_i18n\\:\\:getLanguage\\(\\) should return non\\-empty\\-string but returns string\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/util/i18n.php
+
+		-
+			message: "#^Method rex_i18n\\:\\:getMsg\\(\\) should return non\\-empty\\-string but returns string\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/util/i18n.php
+
+		-
+			message: "#^Method rex_i18n\\:\\:getMsgFallback\\(\\) should return non\\-empty\\-string but returns string\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/util/i18n.php
+
+		-
+			message: "#^Method rex_i18n\\:\\:translate\\(\\) should return non\\-empty\\-string but returns string\\.$#"
+			count: 2
+			path: ../../redaxo/src/core/lib/util/i18n.php
+
+		-
+			message: "#^Static property rex_i18n\\:\\:\\$msg \\(array\\<array\\<non\\-empty\\-string\\>\\>\\) does not accept non\\-empty\\-array\\<array\\<string\\>\\>\\.$#"
+			count: 1
+			path: ../../redaxo/src/core/lib/util/i18n.php
+
+		-
 			message: "#^Method rex_logger\\:\\:callFactoryClass\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/logger.php
@@ -4189,11 +4264,6 @@ parameters:
 			message: "#^Method rex_validator\\:\\:values\\(\\) has parameter \\$validValues with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/validator.php
-
-		-
-			message: "#^Method rex_var\\:\\:getMatches\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/var/var.php
 
 		-
 			message: "#^Method rex_var\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
@@ -4349,26 +4419,6 @@ parameters:
 			message: "#^Method rex_password_policy_test\\:\\:testCheck\\(\\) has parameter \\$password with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/tests/login/password_policy_test.php
-
-		-
-			message: "#^Method rex_package_manager_test\\:\\:dataMatchVersionConstraints\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/packages/manager_test.php
-
-		-
-			message: "#^Method rex_package_manager_test\\:\\:testMatchVersionConstraints\\(\\) has parameter \\$constraints with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/packages/manager_test.php
-
-		-
-			message: "#^Method rex_package_manager_test\\:\\:testMatchVersionConstraints\\(\\) has parameter \\$expected with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/packages/manager_test.php
-
-		-
-			message: "#^Method rex_package_manager_test\\:\\:testMatchVersionConstraints\\(\\) has parameter \\$version with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/tests/packages/manager_test.php
 
 		-
 			message: "#^Method rex_package_test\\:\\:dataSplitId\\(\\) return type has no value type specified in iterable type iterable\\.$#"
