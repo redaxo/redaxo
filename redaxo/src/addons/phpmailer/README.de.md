@@ -203,7 +203,7 @@ rex_extension::register('PHPMAILER_CONFIG', function (rex_extension_point $ep) {
 });
 ```
 
-## Extenstion-Point `PHPMAILER_PRE_SEND`
+## Extension-Point `PHPMAILER_PRE_SEND`
 
 Dieser Extension-Point bietet sich an um E-Mails vor dem Versand zu überprüfen. So könnte an dieser Stelle ein Spamfilter greifen oder ein Virusscanner eingesezt werden.
 
