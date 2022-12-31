@@ -322,13 +322,15 @@ class rex_form_element
         return $this->labelOnTop;
     }
 
-    public function setLabelOnTop(bool $onTop = true)
+    public function setLabelOnTop(bool $onTop = true): void
     {
         $this->labelOnTop = $onTop;
     }
 
     // --------- Element Methods
-
+    /**
+     * @return string
+     */
     protected function formatClass()
     {
         return $this->getAttribute('class');
