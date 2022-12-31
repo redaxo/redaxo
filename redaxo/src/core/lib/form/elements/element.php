@@ -314,10 +314,7 @@ class rex_form_element
         return $this->validator;
     }
 
-    /**
-     * @return bool
-     */
-    public function getLabelOnTop()
+    public function isLabelOnTop(): bool
     {
         return $this->labelOnTop;
     }
