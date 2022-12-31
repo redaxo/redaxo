@@ -208,13 +208,11 @@ rex_extension::register('PHPMAILER_CONFIG', function (rex_extension_point $ep) {
 Dieser Extension-Point bietet sich an um E-Mails vor dem Versand zu überprüfen. So könnte an dieser Stelle ein Spamfilter greifen oder ein Virusscanner eingesezt werden.
 
 ```php
-rex_extension::register('PHPMAILER_PRE_SEND', function(rex_extension_point $ep)
-{
-    $subject          = $ep->getSubject(); 
-    if (str_contains('bad word',$subject->Body) { 
-    do_something(); 
+rex_extension::register('PHPMAILER_PRE_SEND', function (rex_extension_point $ep) {
+    $subject = $ep->getSubject(); 
+    if (str_contains('bad word', $subject->Body) { 
+        do_something(); 
     }
-
 });
 ```
 
