@@ -550,6 +550,9 @@ if ($OUT) {
 
     $list->setColumnLabel('name', rex_i18n::msg('header_template_description'));
     $list->setColumnParams('name', ['function' => 'edit', 'template_id' => '###id###']);
+    $list->setColumnFormat('name', 'custom', static function () use ($list) {
+        return $list->getColumnLink('name', rex_i18n::translate((string) $list->getValue('name')));
+    });
 
     $list->setColumnLabel('active', rex_i18n::msg('header_template_active'));
     $list->setColumnFormat('active', 'custom', static function () use ($list) {
