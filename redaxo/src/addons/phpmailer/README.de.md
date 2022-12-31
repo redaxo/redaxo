@@ -224,8 +224,7 @@ Der `PHPMAILER_POST_SEND` bietet sich an um nach dem Versand noch eigene Verarbe
 
 
 ```php
-rex_extension::register('PHPMAILER_POST_SEND', function(rex_extension_point $ep)
-{
+rex_extension::register('PHPMAILER_POST_SEND', function (rex_extension_point $ep) {
     $subject          = $ep->getSubject(); 
     $host             = $subject->Host;
     $port             = '993';
