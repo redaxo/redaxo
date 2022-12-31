@@ -34,18 +34,18 @@
   </file>
   <file src="redaxo/src/addons/backup/lib/cronjob.php">
     <MixedArgument occurrences="4">
+      <code>$excludedTables</code>
       <code>$filename</code>
       <code>$this-&gt;getParam('delete_interval')</code>
-      <code>$this-&gt;getParam('exclude_tables')</code>
       <code>$this-&gt;getParam('mailaddress')</code>
     </MixedArgument>
-    <MixedAssignment occurrences="1">
+    <MixedAssignment occurrences="2">
+      <code>$excludedTables</code>
       <code>$filename</code>
     </MixedAssignment>
-    <PossiblyNullArgument occurrences="4">
+    <PossiblyNullArgument occurrences="3">
       <code>$filename</code>
       <code>$this-&gt;getParam('delete_interval')</code>
-      <code>$this-&gt;getParam('exclude_tables')</code>
       <code>$this-&gt;getParam('mailaddress')</code>
     </PossiblyNullArgument>
   </file>
