@@ -419,7 +419,7 @@ class rex_form_element
         $n['after'] = $this->getSuffix();
         $n['note'] = $this->formatNotice();
         $n['footer'] = $this->getFooter();
-        $n['vertical'] = $this->getLabelOnTop();
+        $n['vertical'] = $this->isLabelOnTop();
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
