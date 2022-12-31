@@ -174,6 +174,10 @@ class rex_form_element
         return $this->suffix;
     }
 
+    /**
+     * @param string $prefix
+     * @return void
+     */
     public function setPrefix($prefix)
     {
         $this->prefix = $prefix;
