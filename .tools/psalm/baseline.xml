@@ -6359,5 +6359,8 @@
     <MixedAssignment occurrences="1">
       <code>$_SESSION[$sessionKey]['backend_login']</code>
     </MixedAssignment>
+    <RedundantCondition occurrences="1">
+      <code>rex::getProperty('login')</code>
+    </RedundantCondition>
   </file>
 </files>
