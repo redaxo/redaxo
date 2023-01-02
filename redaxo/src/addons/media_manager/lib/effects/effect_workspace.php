@@ -46,31 +46,55 @@ class rex_effect_workspace extends rex_effect_abstract
             $trans = true;
         }
 
-        $workspace = imagecreatetruecolor($this->params['width'], $this->params['height']);
-        if ($trans) {
-            $transparent = imagecolorallocatealpha($workspace, 0, 0, 0, 127);
-            imagefill($workspace, 0, 0, $transparent);
-            $this->keepTransparent($workspace);
-        } else {
-            imagefill($workspace, 0, 0, imagecolorallocate($workspace, $this->params['bg_r'], $this->params['bg_g'], $this->params['bg_b']));
-        }
-
+		$workspace = imagecreatetruecolor($this->params['width'], $this->params['height']);
+		if ($trans) {
+			$transparent = imagecolorallocatealpha($workspace, 0, 0, 0, 127);
+			imagefill($workspace, 0, 0, $transparent);
+			$this->keepTransparent($workspace);
+		} else {
+			imagefill($workspace, 0, 0, imagecolorallocate($workspace, $this->params['bg_r'], $this->params['bg_g'], $this->params['bg_b']));
+		}
+		
         $srcW = $w;
         $srcH = $h;
         $dstX = 0;
         $dstY = 0;
         $srcX = 0;
         $srcY = 0;
-
+		$paddingX = 0;
+		$paddingY = 0;
+		$params_height = $this->params['height'];
+		$params_width = $this->params['width'];
+		
+		// Bild als Hintergrund ------------------------------
+		$bgimage = rex_path::media($this->params['bgimage']);
+        if ('image' == $this->params['set_transparent'] && is_file($bgimage)) {
+			$bg = new rex_managed_media($bgimage);
+			$bg->asImage();
+			$workspace = $bg->getImage();
+			imagealphablending($workspace, true);
+			$params_height = (int) $bg->getHeight();
+			$params_width = (int) $bg->getWidth();
+			// Abstand vom Rand
+			$paddingX = -10;
+			if (isset($this->params['padding_x'])) {
+				$paddingX = (int) $this->params['padding_x'];
+			}
+			$paddingY = -10;
+			if (isset($this->params['padding_y'])) {
+				$paddingY = (int) $this->params['padding_y'];
+			}
+		}
+		
         switch ($this->params['vpos']) {
             case 'top':
                 break;
             case 'bottom':
-                $dstY = $this->params['height'] - $h;
+                $dstY = $params_height - $h;
                 break;
             case 'middle':
             default: // center
-                $dstY = (int) (($this->params['height'] - $h) / 2);
+                $dstY = (int) (($params_height - $h) / 2);
                 break;
         }
 
@@ -78,13 +102,16 @@ class rex_effect_workspace extends rex_effect_abstract
             case 'left':
                 break;
             case 'right':
-                $dstX = $this->params['width'] - $w;
+                $dstX = $params_width - $w;
                 break;
             case 'center':
             default: // center
-                $dstX = (int) (($this->params['width'] - $w) / 2);
+                $dstX = (int) (($params_width - $w) / 2);
                 break;
         }
+		
+		$dstX += $paddingX;
+		$dstY += $paddingY;
 
         imagecopy($workspace, $gdimage, $dstX, $dstY, $srcX, $srcY, $srcW, $srcH);
         $this->media->setImage($workspace);
@@ -109,14 +136,66 @@ class rex_effect_workspace extends rex_effect_abstract
     {
         return [
             [
+                'label' => rex_i18n::msg('media_manager_effect_mirror_background_color'),
+                'name' => 'set_transparent',
+                'type' => 'select',
+                'options' => ['colored', 'transparent', 'image'],
+                'default' => 'colored',
+                'suffix' => '
+<script type="text/javascript">
+<!--
+
+$(function() {
+    var $fx_workspace_select_trans = $("#media-manager-rex-effect-workspace-set-transparent-select");
+    var $fx_workspace_width = $("#media-manager-rex-effect-workspace-width-text");
+	var $fx_workspace_height = $("#media-manager-rex-effect-workspace-height-text");
+    var $fx_workspace_bgimage = $("#REX_MEDIA_1").closest(".rex-form-group");
+    var $fx_workspace_padding_x = $("#media-manager-rex-effect-workspace-padding-x-text").closest(".rex-form-group");
+    var $fx_workspace_padding_y = $("#media-manager-rex-effect-workspace-padding-y-text").closest(".rex-form-group");
+	var $fx_workspace_bg_r = $("#media-manager-rex-effect-workspace-bg-r-text").closest(".rex-form-group");
+    var $fx_workspace_bg_g = $("#media-manager-rex-effect-workspace-bg-g-text").closest(".rex-form-group");
+    var $fx_workspace_bg_b = $("#media-manager-rex-effect-workspace-bg-b-text").closest(".rex-form-group");
+
+    $fx_workspace_select_trans.change(function(){
+		$fx_workspace_bg_r.hide();
+		$fx_workspace_bg_g.hide();
+		$fx_workspace_bg_b.hide();
+		$fx_workspace_bgimage.hide();
+		$fx_workspace_padding_x.hide(); 
+		$fx_workspace_padding_y.hide();
+		$fx_workspace_width.show().parent().find(".form-control-static").hide();
+		$fx_workspace_height.show().parent().find(".form-control-static").hide();
+		
+		if(jQuery(this).val() == "colored"){
+            $fx_workspace_bg_r.show();
+            $fx_workspace_bg_g.show();
+            $fx_workspace_bg_b.show();
+        }
+		
+		if(jQuery(this).val() == "image"){
+			$fx_workspace_bgimage.show();
+			$fx_workspace_padding_x.show(); 
+			$fx_workspace_padding_y.show();
+			$fx_workspace_width.hide().parent().find(".form-control-static").show();
+			$fx_workspace_height.hide().parent().find(".form-control-static").show();
+		}
+		
+    }).change();
+});
+
+//--></script>',
+            ],
+			[
                 'label' => rex_i18n::msg('media_manager_effect_resize_width'),
                 'name' => 'width',
                 'type' => 'int',
+                'suffix' => '<p class="form-control-static">'.rex_i18n::msg("media_manager_effect_bgimage_size").'</p>',
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_resize_height'),
                 'name' => 'height',
                 'type' => 'int',
+				'suffix' => '<p class="form-control-static">'.rex_i18n::msg("media_manager_effect_bgimage_size").'</p>',
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_brand_hpos'),
@@ -133,39 +212,6 @@ class rex_effect_workspace extends rex_effect_abstract
                 'default' => 'top',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_mirror_background_color'),
-                'name' => 'set_transparent',
-                'type' => 'select',
-                'options' => ['colored', 'transparent'],
-                'default' => 'colored',
-                'suffix' => '
-<script type="text/javascript">
-<!--
-
-$(function() {
-    var $fx_workspace_select_trans = $("#media-manager-rex-effect-workspace-set-transparent-select");
-    var $fx_workspace_bg_r = $("#media-manager-rex-effect-workspace-bg-r-text").closest(".rex-form-group");
-    var $fx_workspace_bg_g = $("#media-manager-rex-effect-workspace-bg-g-text").closest(".rex-form-group");
-    var $fx_workspace_bg_b = $("#media-manager-rex-effect-workspace-bg-b-text").closest(".rex-form-group");
-
-    $fx_workspace_select_trans.change(function(){
-        if(jQuery(this).val() != "colored")
-        {
-            $fx_workspace_bg_r.hide();
-            $fx_workspace_bg_g.hide();
-            $fx_workspace_bg_b.hide();
-        }else
-        {
-            $fx_workspace_bg_r.show();
-            $fx_workspace_bg_g.show();
-            $fx_workspace_bg_b.show();
-        }
-    }).change();
-});
-
-//--></script>',
-            ],
-            [
                 'label' => rex_i18n::msg('media_manager_effect_mirror_background_r'),
                 'name' => 'bg_r',
                 'type' => 'int',
@@ -179,6 +225,24 @@ $(function() {
                 'label' => rex_i18n::msg('media_manager_effect_mirror_background_b'),
                 'name' => 'bg_b',
                 'type' => 'int',
+            ],
+			[
+                'label' => rex_i18n::msg('media_manager_effect_bgimage'),
+                'name' => 'bgimage',
+                'type' => 'media',
+                'default' => '',
+            ],
+			[
+                'label' => rex_i18n::msg('media_manager_effect_brand_padding_x'),
+                'name' => 'padding_x',
+                'type' => 'int',
+                'default' => '0',
+            ],
+            [
+                'label' => rex_i18n::msg('media_manager_effect_brand_padding_y'),
+                'name' => 'padding_y',
+                'type' => 'int',
+                'default' => '0',
             ],
         ];
     }
