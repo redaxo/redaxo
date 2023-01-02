@@ -28,7 +28,7 @@ class rex_path
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function base($file = '')
     {
@@ -40,7 +40,7 @@ class rex_path
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function frontend($file = '')
     {
@@ -50,7 +50,7 @@ class rex_path
     /**
      * Returns the path to the frontend-controller (index.php from frontend).
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function frontendController()
     {
@@ -62,7 +62,7 @@ class rex_path
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function backend($file = '')
     {
@@ -72,7 +72,7 @@ class rex_path
     /**
      * Returns the path to the backend-controller (index.php from backend).
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function backendController()
     {
@@ -84,7 +84,7 @@ class rex_path
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function media($file = '')
     {
@@ -96,7 +96,7 @@ class rex_path
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function assets($file = '')
     {
@@ -108,7 +108,7 @@ class rex_path
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function coreAssets($file = '')
     {
@@ -118,10 +118,10 @@ class rex_path
     /**
      * Returns the path to the public assets folder of the given addon.
      *
-     * @param string $addon Addon
+     * @param non-empty-string $addon Addon
      * @param string $file  File
      *
-     * @return string
+     * @return non-empty-string
      *
      * @see assets()
      */
@@ -133,11 +133,11 @@ class rex_path
     /**
      * Returns the path to the public assets folder of the given plugin of the given addon.
      *
-     * @param string $addon  Addon
-     * @param string $plugin Plugin
+     * @param non-empty-string $addon  Addon
+     * @param non-empty-string $plugin Plugin
      * @param string $file   File
      *
-     * @return string
+     * @return non-empty-string
      *
      * @see assets()
      */
@@ -151,7 +151,7 @@ class rex_path
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function bin($file = '')
     {
@@ -163,7 +163,7 @@ class rex_path
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function data($file = '')
     {
@@ -175,7 +175,7 @@ class rex_path
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function coreData($file = '')
     {
@@ -185,10 +185,10 @@ class rex_path
     /**
      * Returns the path to the data folder of the given addon.
      *
-     * @param string $addon Addon
+     * @param non-empty-string $addon Addon
      * @param string $file  File
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function addonData($addon, $file = '')
     {
@@ -198,11 +198,11 @@ class rex_path
     /**
      * Returns the path to the data folder of the given plugin of the given addon.
      *
-     * @param string $addon  Addon
-     * @param string $plugin Plugin
+     * @param non-empty-string $addon  Addon
+     * @param non-empty-string $plugin Plugin
      * @param string $file   File
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function pluginData($addon, $plugin, $file = '')
     {
@@ -211,6 +211,8 @@ class rex_path
 
     /**
      * Returns the path to the cache folder.
+     *
+     * @return non-empty-string
      */
     public static function log(string $file = ''): string
     {
@@ -227,7 +229,7 @@ class rex_path
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function cache($file = '')
     {
@@ -239,7 +241,7 @@ class rex_path
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function coreCache($file = '')
     {
@@ -249,10 +251,10 @@ class rex_path
     /**
      * Returns the path to the cache folder of the given addon.
      *
-     * @param string $addon Addon
+     * @param non-empty-string $addon Addon
      * @param string $file  File
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function addonCache($addon, $file = '')
     {
@@ -262,11 +264,11 @@ class rex_path
     /**
      * Returns the path to the cache folder of the given plugin.
      *
-     * @param string $addon  Addon
-     * @param string $plugin Plugin
+     * @param non-empty-string $addon  Addon
+     * @param non-empty-string $plugin Plugin
      * @param string $file   File
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function pluginCache($addon, $plugin, $file = '')
     {
@@ -278,7 +280,7 @@ class rex_path
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function src($file = '')
     {
@@ -290,7 +292,7 @@ class rex_path
      *
      * @param string $file File
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function core($file = '')
     {
@@ -300,10 +302,10 @@ class rex_path
     /**
      * Returns the base path to the folder of the given addon.
      *
-     * @param string $addon Addon
+     * @param non-empty-string $addon Addon
      * @param string $file  File
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function addon($addon, $file = '')
     {
@@ -313,11 +315,11 @@ class rex_path
     /**
      * Returns the base path to the folder of the plugin of the given addon.
      *
-     * @param string $addon  Addon
-     * @param string $plugin Plugin
+     * @param non-empty-string $addon  Addon
+     * @param non-empty-string $plugin Plugin
      * @param string $file   File
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function plugin($addon, $plugin, $file = '')
     {
@@ -327,7 +329,7 @@ class rex_path
     /**
      * Converts a relative path to an absolute.
      *
-     * @param string $relPath The relative path
+     * @param non-empty-string $relPath The relative path
      *
      * @return string Absolute path
      */
@@ -404,6 +406,9 @@ class rex_path
         return basename($path);
     }
 
+    /**
+     * @return null|non-empty-string
+     */
     public static function findBinaryPath(string $commandName): ?string
     {
         if (!function_exists('exec')) {
@@ -415,6 +420,9 @@ class rex_path
         exec($cmd, $out, $ret);
 
         if (0 === $ret) {
+            if ('' === $out[0]) {
+                throw new rex_exception('empty binary path found.');
+            }
             return (string) $out[0];
         }
 

@@ -170,6 +170,7 @@ class rex_sql_table
 
     /**
      * @param string $name
+     * @psalm-param non-empty-string $name
      * @psalm-param positive-int $db
      *
      * @return self
