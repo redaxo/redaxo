@@ -63,8 +63,8 @@ class rex_effect_workspace extends rex_effect_abstract
         $srcY = 0;
 		$paddingX = 0;
 		$paddingY = 0;
-		$params_height = $this->params['height'];
-		$params_width = $this->params['width'];
+		$paramsHeight = (int) $this->params['height'];
+		$paramsWidth = (int) $this->params['width'];
 		
 		// Bild als Hintergrund ------------------------------
 		$bgimage = rex_path::media($this->params['bgimage']);
@@ -73,8 +73,8 @@ class rex_effect_workspace extends rex_effect_abstract
 			$bg->asImage();
 			$workspace = $bg->getImage();
 			imagealphablending($workspace, true);
-			$params_height = (int) $bg->getHeight();
-			$params_width = (int) $bg->getWidth();
+			$paramsHeight = (int) $bg->getHeight();
+			$paramsWidth = (int) $bg->getWidth();
 			// Abstand vom Rand
 			$paddingX = -10;
 			if (isset($this->params['padding_x'])) {
@@ -90,11 +90,11 @@ class rex_effect_workspace extends rex_effect_abstract
             case 'top':
                 break;
             case 'bottom':
-                $dstY = $params_height - $h;
+                $dstY = $paramsHeight - $h;
                 break;
             case 'middle':
             default: // center
-                $dstY = (int) (($params_height - $h) / 2);
+                $dstY = (int) (($paramsHeight - $h) / 2);
                 break;
         }
 
@@ -102,11 +102,11 @@ class rex_effect_workspace extends rex_effect_abstract
             case 'left':
                 break;
             case 'right':
-                $dstX = $params_width - $w;
+                $dstX = $paramsWidth - $w;
                 break;
             case 'center':
             default: // center
-                $dstX = (int) (($params_width - $w) / 2);
+                $dstX = (int) (($paramsWidth - $w) / 2);
                 break;
         }
 		
