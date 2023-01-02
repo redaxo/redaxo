@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @package redaxo5
- */
-
 assert(isset($csrf) && $csrf instanceof rex_csrf_token);
 assert(isset($rexFileCategory) && is_int($rexFileCategory));
 assert(isset($openerInputField) && is_string($openerInputField));
@@ -333,7 +329,6 @@ $panel = '
 
                 $panel .= '</td>
                 </tr>';
-
             }
 
             // ----- no items found
