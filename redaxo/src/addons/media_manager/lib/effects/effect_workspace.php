@@ -67,22 +67,24 @@ class rex_effect_workspace extends rex_effect_abstract
 		$paramsWidth = (int) $this->params['width'];
 		
 		// Bild als Hintergrund ------------------------------
-		$bgimage = rex_path::media($this->params['bgimage']);
-        if ('image' == $this->params['set_transparent'] && is_file($bgimage)) {
-			$bg = new rex_managed_media($bgimage);
-			$bg->asImage();
-			$workspace = $bg->getImage();
-			imagealphablending($workspace, true);
-			$paramsHeight = (int) $bg->getHeight();
-			$paramsWidth = (int) $bg->getWidth();
-			// Abstand vom Rand
-			$paddingX = -10;
-			if (isset($this->params['padding_x'])) {
-				$paddingX = (int) $this->params['padding_x'];
-			}
-			$paddingY = -10;
-			if (isset($this->params['padding_y'])) {
-				$paddingY = (int) $this->params['padding_y'];
+		if('' != $this->params['bgimage']) {
+			$bgimage = rex_path::media($this->params['bgimage']);
+			if ('image' == $this->params['set_transparent'] && is_file($bgimage)) {
+				$bg = new rex_managed_media($bgimage);
+				$bg->asImage();
+				$workspace = $bg->getImage();
+				imagealphablending($workspace, true);
+				$paramsHeight = (int) $bg->getHeight();
+				$paramsWidth = (int) $bg->getWidth();
+				// Abstand vom Rand
+				$paddingX = -10;
+				if (isset($this->params['padding_x'])) {
+					$paddingX = (int) $this->params['padding_x'];
+				}
+				$paddingY = -10;
+				if (isset($this->params['padding_y'])) {
+					$paddingY = (int) $this->params['padding_y'];
+				}
 			}
 		}
 		
