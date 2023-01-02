@@ -136,7 +136,7 @@ class rex_effect_workspace extends rex_effect_abstract
     {
         return [
             [
-                'label' => rex_i18n::msg('media_manager_effect_mirror_background_color'),
+                'label' => rex_i18n::msg('media_manager_effect_workspace_bg'),
                 'name' => 'set_transparent',
                 'type' => 'select',
                 'options' => ['colored', 'transparent', 'image'],
@@ -189,13 +189,13 @@ $(function() {
                 'label' => rex_i18n::msg('media_manager_effect_resize_width'),
                 'name' => 'width',
                 'type' => 'int',
-                'suffix' => '<p class="form-control-static">'.rex_i18n::msg("media_manager_effect_bgimage_size").'</p>',
+                'suffix' => '<p class="form-control-static">'.rex_i18n::msg("media_manager_effect_workspace_bgimage_size").'</p>',
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_resize_height'),
                 'name' => 'height',
                 'type' => 'int',
-				'suffix' => '<p class="form-control-static">'.rex_i18n::msg("media_manager_effect_bgimage_size").'</p>',
+				'suffix' => '<p class="form-control-static">'.rex_i18n::msg("media_manager_effect_workspace_bgimage_size").'</p>',
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_brand_hpos'),
@@ -227,7 +227,7 @@ $(function() {
                 'type' => 'int',
             ],
 			[
-                'label' => rex_i18n::msg('media_manager_effect_bgimage'),
+                'label' => rex_i18n::msg('media_manager_effect_workspace_bgimage'),
                 'name' => 'bgimage',
                 'type' => 'media',
                 'default' => '',
