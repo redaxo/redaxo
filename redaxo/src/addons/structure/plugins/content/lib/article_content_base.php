@@ -401,7 +401,7 @@ class rex_article_content_base
         // ----- start: article caching
         ob_start();
         try {
-            ob_implicit_flush(0);
+            ob_implicit_flush(false);
 
             $this->renderSlices($articleLimit, $sliceLimit);
         } finally {
@@ -450,7 +450,7 @@ class rex_article_content_base
         if (0 != $this->template_id && 0 != $this->article_id) {
             ob_start();
             try {
-                ob_implicit_flush(0);
+                ob_implicit_flush(false);
 
                 $TEMPLATE = new rex_template($this->template_id);
 
@@ -483,7 +483,7 @@ class rex_article_content_base
 
         ob_start();
         try {
-            ob_implicit_flush(0);
+            ob_implicit_flush(false);
 
             $__stream = rex_stream::factory($path, $content);
 

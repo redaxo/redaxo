@@ -4873,12 +4873,8 @@
     <PossiblyInvalidArrayOffset occurrences="1">
       <code>$_SESSION[static::getSessionNamespace()]</code>
     </PossiblyInvalidArrayOffset>
-    <PossiblyNullArgument occurrences="9">
-      <code>$cookieParams['domain']</code>
-      <code>$cookieParams['httponly']</code>
+    <PossiblyNullArgument occurrences="5">
       <code>$cookieParams['lifetime']</code>
-      <code>$cookieParams['path']</code>
-      <code>$cookieParams['secure']</code>
       <code>$this-&gt;impersonator-&gt;getValue($this-&gt;idColumn)</code>
       <code>$this-&gt;user-&gt;getValue($this-&gt;idColumn)</code>
       <code>$this-&gt;user-&gt;getValue($this-&gt;idColumn)</code>
