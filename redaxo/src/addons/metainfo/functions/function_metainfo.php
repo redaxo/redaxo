@@ -209,7 +209,7 @@ function rex_metainfo_meta_prefix(string $name)
     }
 
     $prefix = substr(strtolower($name), 0, $pos + 1);
-    if (false === $prefix) {
+    if ('' === $prefix) {
         throw new InvalidArgumentException('$name must be like "prefix_name".');
     }
 

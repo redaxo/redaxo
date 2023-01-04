@@ -73,7 +73,7 @@ abstract class rex_effect_abstract
     }
 
     /**
-     * @param resource $gdImage
+     * @param GdImage $gdImage
      * @return void
      */
     protected function keepTransparent($gdImage)
