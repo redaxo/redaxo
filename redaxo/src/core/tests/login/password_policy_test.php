@@ -54,7 +54,6 @@ class rex_password_policy_test extends TestCase
     public function testGetRule(): void
     {
         $getRule = new ReflectionMethod(rex_password_policy::class, 'getRule');
-        $getRule->setAccessible(true);
 
         $policy = new rex_password_policy(['length' => ['min' => 5, 'max' => 25]]);
         $rule = $getRule->invoke($policy);
