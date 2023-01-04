@@ -21,7 +21,6 @@ class rex_stream_test extends TestCase
     public function testStreamIncludeWithRealFile()
     {
         $property = new ReflectionProperty(rex_stream::class, 'useRealFiles');
-        $property->setAccessible(true);
         $property->setValue(true);
 
         $content = 'foo <?php echo "bar";';
