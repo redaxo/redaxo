@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "169f19d463624bce2f838d155fc951da",
+    "content-hash": "99f874ceeb89217fa35f4a6047beb1bb",
     "packages": [
         {
             "name": "erusev/parsedown",
@@ -177,6 +177,51 @@
                 }
             ],
             "time": "2022-11-02T16:23:29+00:00"
+        },
+        {
+            "name": "lbuchs/webauthn",
+            "version": "v1.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lbuchs/WebAuthn.git",
+                "reference": "4780c7b017ccc74a023c6ae05b5847e478f5b97d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lbuchs/WebAuthn/zipball/4780c7b017ccc74a023c6ae05b5847e478f5b97d",
+                "reference": "4780c7b017ccc74a023c6ae05b5847e478f5b97d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "lbuchs\\WebAuthn\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lukas Buchs",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A simple PHP WebAuthn (FIDO2) server library",
+            "homepage": "https://github.com/lbuchs/webauthn",
+            "keywords": [
+                "Authentication",
+                "webauthn"
+            ],
+            "support": {
+                "issues": "https://github.com/lbuchs/WebAuthn/issues",
+                "source": "https://github.com/lbuchs/WebAuthn/tree/v1.1.3"
+            },
+            "time": "2022-11-21T08:46:34+00:00"
         },
         {
             "name": "psr/container",

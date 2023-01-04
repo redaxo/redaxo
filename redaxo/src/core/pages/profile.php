@@ -9,6 +9,7 @@ $passwordChangeRequired = rex::getProperty('login')->requiresPasswordChange();
 
 // Allgemeine Infos
 $userpsw = rex_request('userpsw', 'string');
+$passkey = rex_request('passkey', 'string');
 $userpswNew1 = rex_request('userpsw_new_1', 'string');
 $userpswNew2 = rex_request('userpsw_new_2', 'string');
 
@@ -19,6 +20,7 @@ $usertheme = rex_request('usertheme', 'string', $user->getValue('theme')) ?: nul
 $userlogin = $user->getLogin();
 $csrfToken = rex_csrf_token::factory('profile');
 $passwordPolicy = rex_backend_password_policy::factory();
+$webauthn = new rex_webauthn();
 
 // --------------------------------- Title
 echo rex_view::title(rex_i18n::msg('profile_title'), '');
@@ -104,23 +106,38 @@ if ($update && !$error) {
 if (rex_post('upd_psw_button', 'bool')) {
     if (!$csrfToken->isValid()) {
         $error = rex_i18n::msg('csrf_token_invalid');
-    } elseif (!$userpsw || !$userpswNew1 || $userpswNew1 != $userpswNew2 || !rex_login::passwordVerify($userpsw, $user->getValue('password'))) {
+    } elseif (!$userpsw || !rex_login::passwordVerify($userpsw, $user->getValue('password'))) {
+        $error = rex_i18n::msg('user_psw_error');
+    } elseif ($passkey) {
+    } elseif (!$userpswNew1 || $userpswNew1 != $userpswNew2) {
         $error = rex_i18n::msg('user_psw_error');
     } elseif (true !== $msg = $passwordPolicy->check($userpswNew1, $userId)) {
         $error = $msg;
     } elseif ($passwordChangeRequired && $userpsw === $userpswNew1) {
         $error = rex_i18n::msg('password_not_changed');
-    } else {
-        $userpswNew1 = rex_login::passwordHash($userpswNew1);
+    }
 
+    if (!$error) {
         $updateuser = rex_sql::factory();
         $updateuser->setTable(rex::getTablePrefix() . 'user');
         $updateuser->setWhere(['id' => $userId]);
-        $updateuser->setValue('password', $userpswNew1);
+
+        if ($passkey) {
+            [$passkeyId, $passkeyPublicKey] = $webauthn->processCreate($passkey);
+            $updateuser->setValue('passkey_id', $passkeyId);
+            $updateuser->setValue('passkey_public_key', $passkeyPublicKey);
+            $updateuser->setValue('password', null);
+        } else {
+            $userpswNew1 = rex_login::passwordHash($userpswNew1);
+            $updateuser->setValue('password', $userpswNew1);
+            $updateuser->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords($user, $userpswNew1));
+            $updateuser->setValue('passkey_id', null);
+            $updateuser->setValue('passkey_public_key', null);
+        }
+
         $updateuser->addGlobalUpdateFields();
         $updateuser->setValue('password_change_required', 0);
         $updateuser->setDateTimeValue('password_changed', time());
-        $updateuser->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords($user, $userpswNew1));
         // On password change the "stay logged in" cookies must be invalidated
         $updateuser->setValue('cookiekey', null);
 
@@ -259,6 +276,17 @@ $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
 $formElements = [];
+$n = [];
+$n['label'] = '<label>'.rex_i18n::msg('use_passkey').'</label>';
+$n['note'] = rex_i18n::msg('use_passkey_note');
+$n['field'] = '<input type="checkbox" id="rex-id-userpsw-passkey" name="passkey" value="0"/>';
+$formElements[] = $n;
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$content .= '<div data-auth-passkey="'.rex_escape($webauthn->getCreateArgs()).'" class="hidden">'.$fragment->parse('core/form/checkbox.php').'</div>';
+
+$formElements = [];
 
 $n = [];
 $n['label'] = '<label for="rex-id-userpsw-new-1">' . rex_i18n::msg('new_password') . '</label>';
@@ -275,14 +303,14 @@ $fragment = new rex_fragment();
 $fragment->setVar('flush', true);
 $fragment->setVar('group', true);
 $fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/form.php');
+$content .= '<div data-auth-password>'.$fragment->parse('core/form/form.php').'</div>';
 
 $content .= '</fieldset>';
 
 $formElements = [];
 
 $n = [];
-$n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" value="1" name="upd_psw_button" ' . rex::getAccesskey(rex_i18n::msg('profile_save_psw'), 'save') . '>' . rex_i18n::msg('profile_save_psw') . '</button>';
+$n['field'] = '<button class="btn btn-save rex-form-aligned" data-auth-save type="submit" value="1" name="upd_psw_button" ' . rex::getAccesskey(rex_i18n::msg('profile_save_psw'), 'save') . '>' . rex_i18n::msg('profile_save_psw') . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -297,7 +325,7 @@ $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
 
 $content = '
-    <form class="rex-js-form-profile-password" action="' . rex_url::currentBackendPage() . '" method="post">
+    <form class="rex-js-form-profile-password" action="' . rex_url::currentBackendPage() . '" method="post" data-auth-change>
         ' . $csrfToken->getHiddenField() . '
         ' . $content . '
     </form>';

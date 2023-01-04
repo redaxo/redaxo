@@ -77,6 +77,7 @@ if (rex::isSetup()) {
     $login = new rex_backend_login();
     rex::setProperty('login', $login);
 
+    $passkey = rex_post('rex_user_passkey', 'string');
     $rexUserLogin = rex_post('rex_user_login', 'string');
     $rexUserPsw = rex_post('rex_user_psw', 'string');
     $rexUserStayLoggedIn = rex_post('rex_user_stay_logged_in', 'boolean', false);
@@ -108,12 +109,13 @@ if (rex::isSetup()) {
 
     $rexUserLoginmessage = '';
 
-    if ($rexUserLogin && !rex_csrf_token::factory('backend_login')->isValid()) {
+    if (($rexUserLogin || $passkey) && !rex_csrf_token::factory('backend_login')->isValid()) {
         $loginCheck = rex_i18n::msg('csrf_token_invalid');
     } else {
         // the server side encryption of pw is only required
         // when not already encrypted by client using javascript
         $login->setLogin($rexUserLogin, $rexUserPsw, rex_post('javascript', 'boolean'));
+        $login->setPasskey($passkey);
         $login->setStayLoggedIn($rexUserStayLoggedIn);
         $loginCheck = $login->checkLogin();
     }
@@ -224,6 +226,10 @@ rex_view::setJsProperty('page', $page);
 // ----- EXTENSION POINT
 // page variable validated
 rex_extension::registerPoint(new rex_extension_point('PAGE_CHECKED', $page, ['pages' => $pages], true));
+
+if (in_array($page, ['profile', 'login'], true)) {
+    rex_view::addJsFile(rex_url::coreAssets('webauthn.js'), [rex_view::JS_IMMUTABLE => true]);
+}
 
 if ($page) {
     // trigger api functions after PAGE_CHECKED, if page param is set

@@ -46,7 +46,7 @@ $formElements = [];
 
 $inputGroups = [];
 $n = [];
-$n['field'] = '<input class="form-control" type="text" value="' . rex_escape($rexUserLogin) . '" id="rex-id-login-user" name="rex_user_login" autocomplete="username" autofocus />';
+$n['field'] = '<input class="form-control" type="text" value="' . rex_escape($rexUserLogin) . '" id="rex-id-login-user" name="rex_user_login" autocomplete="username webauthn" autofocus />';
 $n['left'] = '<i class="rex-icon rex-icon-user"></i>';
 $inputGroups[] = $n;
 
@@ -108,10 +108,13 @@ $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
 
+$webauthn = new rex_webauthn();
+
 $content = '
-<form id="rex-form-login" action="' . rex_url::backendController() . '" method="post">
+<form id="rex-form-login" action="' . rex_url::backendController() . '" method="post" data-auth-login>
     ' . $content . '
     ' . rex_csrf_token::factory('backend_login')->getHiddenField() . '
+    <input type="hidden" name="rex_user_passkey" data-auth-passkey="'.rex_escape($webauthn->getGetArgs()).'"/>
 </form>
 <script type="text/javascript">
      <!--

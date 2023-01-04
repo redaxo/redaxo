@@ -14,6 +14,9 @@ class rex_backend_login extends rex_login
 
     /** @var string */
     private $tableName;
+
+    private ?string $passkey = null;
+
     /** @var bool|null */
     private $stayLoggedIn;
 
@@ -56,6 +59,11 @@ class rex_backend_login extends rex_login
         $this->tableName = $tableName;
     }
 
+    public function setPasskey(string $data): void
+    {
+        $this->passkey = $data;
+    }
+
     /**
      * @param bool $stayLoggedIn
      * @return void
@@ -91,6 +99,20 @@ class rex_backend_login extends rex_login
             $this->setSessionVar(rex_login::SESSION_LAST_ACTIVITY, time());
         }
 
+        if ($this->passkey) {
+            $webauthn = new rex_webauthn();
+            $user = $webauthn->processGet($this->passkey);
+
+            if ($user) {
+                $this->setSessionVar(self::SESSION_USER_ID, $user->getId());
+                $this->setSessionVar(self::SESSION_PASSWORD, $user->getValue('password'));
+                $this->setSessionVar(self::SESSION_START_TIME, time());
+                $this->setSessionVar(self::SESSION_LAST_ACTIVITY, time());
+            } else {
+                $this->message = rex_i18n::msg('login_error');
+            }
+        }
+
         $check = parent::checkLogin();
 
         if ($check) {
@@ -108,7 +130,7 @@ class rex_backend_login extends rex_login
                     }
                     self::setStayLoggedInCookie($cookiekey);
                 }
-                if (self::passwordNeedsRehash($this->user->getValue('password'))) {
+                if (($password = $this->user->getValue('password')) && self::passwordNeedsRehash($password)) {
                     $add .= 'password = ?, ';
                     $params[] = self::passwordHash($this->userPassword, true);
                 }

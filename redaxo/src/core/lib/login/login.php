@@ -263,7 +263,7 @@ class rex_login
                 $this->user = rex_sql::factory($this->DB);
 
                 $this->user->setQuery($this->loginQuery, [':login' => $this->userLogin]);
-                if (1 == $this->user->getRows() && self::passwordVerify($this->userPassword, $this->user->getValue($this->passwordColumn), true)) {
+                if (1 == $this->user->getRows() && self::passwordVerify($this->userPassword, (string) $this->user->getValue($this->passwordColumn), true)) {
                     $ok = true;
                     self::regenerateSessionId();
                     $this->setSessionVar(self::SESSION_START_TIME, time());
@@ -310,7 +310,7 @@ class rex_login
                         $ok = false;
                         $this->message = rex_i18n::msg('login_user_not_found');
                     }
-                    if ($this->impersonator->getValue($this->passwordColumn) !== $this->getSessionVar('password')) {
+                    if ($this->impersonator->getValue($this->passwordColumn) !== $this->getSessionVar(self::SESSION_PASSWORD)) {
                         $ok = false;
                         $this->message = rex_i18n::msg('login_session_expired');
                     }
@@ -325,7 +325,7 @@ class rex_login
                         $ok = false;
                         $this->message = rex_i18n::msg('login_user_not_found');
                     }
-                    if (!$this->impersonator && $this->user->getValue($this->passwordColumn) !== $this->getSessionVar('password')) {
+                    if (!$this->impersonator && (string) $this->user->getValue($this->passwordColumn) !== $this->getSessionVar(self::SESSION_PASSWORD)) {
                         $ok = false;
                         $this->message = rex_i18n::msg('login_session_expired');
                     }
