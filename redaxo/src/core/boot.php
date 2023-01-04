@@ -9,7 +9,7 @@
  * @global boolean $REX['LOAD_PAGE']      [Optional] Wether the front controller should be loaded or not. Default value is false.
  */
 
-define('REX_MIN_PHP_VERSION', '7.3');
+define('REX_MIN_PHP_VERSION', '8.1');
 
 if (version_compare(PHP_VERSION, REX_MIN_PHP_VERSION) < 0) {
     throw new Exception('PHP version >=' . REX_MIN_PHP_VERSION . ' needed!');
@@ -24,7 +24,7 @@ foreach (array('HTDOCS_PATH', 'BACKEND_FOLDER', 'REDAXO') as $key) {
 // start output buffering as early as possible, so we can be sure
 // we can set http header whenever we want/need to
 ob_start();
-ob_implicit_flush(0);
+ob_implicit_flush(false);
 
 if ('cli' !== PHP_SAPI) {
     // deactivate session cache limiter

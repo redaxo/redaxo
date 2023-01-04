@@ -514,7 +514,7 @@ class rex_login
      */
     public static function startSession()
     {
-        if ('' == session_id()) {
+        if (PHP_SESSION_ACTIVE !== session_status()) {
             $cookieParams = static::getCookieParams();
 
             session_set_cookie_params(
@@ -614,11 +614,8 @@ class rex_login
         $isPreHashed = false
     ) {
         $password = $isPreHashed ? $password : sha1($password);
-        $hash = password_hash($password, PASSWORD_DEFAULT);
-        if (!is_string($hash)) {
-            throw new rex_exception('error while hashing password');
-        }
-        return $hash;
+
+        return password_hash($password, PASSWORD_DEFAULT);
     }
 
     /**

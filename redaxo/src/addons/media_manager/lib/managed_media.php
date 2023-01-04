@@ -29,7 +29,7 @@ class rex_managed_media
     /** @var bool */
     private $asImage = false;
 
-    /** @var array{width: ?int, height: ?int, src?: resource}&array<string, mixed> */
+    /** @var array{width: ?int, height: ?int, src?: GdImage}&array<string, mixed> */
     private $image = [
         'width' => null,
         'height' => null,
@@ -306,7 +306,7 @@ class rex_managed_media
         $format = 'jpeg' === $format ? 'jpg' : $format;
 
         $interlace = (array) $this->getImageProperty(self::PROP_INTERLACE, $addon->getConfig('interlace'));
-        imageinterlace($this->image['src'], in_array($format, $interlace) ? 1 : 0);
+        imageinterlace($this->image['src'], in_array($format, $interlace));
 
         ob_start();
         if ('jpg' == $format) {
@@ -327,7 +327,7 @@ class rex_managed_media
     }
 
     /**
-     * @return resource
+     * @return GdImage
      */
     public function getImage()
     {
@@ -339,7 +339,7 @@ class rex_managed_media
     }
 
     /**
-     * @param resource $src
+     * @param GdImage $src
      * @return void
      */
     public function setImage($src)
@@ -357,10 +357,6 @@ class rex_managed_media
         $this->sourcePath = $path;
 
         $this->asImage = false;
-        // PHP 7 compat
-        if (isset($this->image['src']) && is_resource($this->image['src'])) {
-            imagedestroy($this->image['src']);
-        }
     }
 
     /**
