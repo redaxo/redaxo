@@ -5818,6 +5818,11 @@
       <code>$country</code>
     </UnusedVariable>
   </file>
+  <file src="redaxo/src/core/lib/util/log_file.php">
+    <MethodSignatureMustProvideReturnType occurrences="1">
+      <code>__toString</code>
+    </MethodSignatureMustProvideReturnType>
+  </file>
   <file src="redaxo/src/core/lib/util/logger.php">
     <InvalidArgument occurrences="1">
       <code>$logData</code>
