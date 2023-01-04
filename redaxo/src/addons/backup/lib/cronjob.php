@@ -22,7 +22,8 @@ class rex_cronjob_export extends rex_cronjob
         $dir = rex_backup::getDir() . '/';
         $ext = '.cronjob.sql';
 
-        $excludedTables = explode('|', $this->getParam('exclude_tables'));
+        $excludedTables = $this->getParam('exclude_tables');
+        $excludedTables = $excludedTables ? explode('|', $excludedTables) : [];
         $tables = array_diff(rex_backup::getTables(), $excludedTables);
 
         if (is_file($dir . $file . $ext)) {

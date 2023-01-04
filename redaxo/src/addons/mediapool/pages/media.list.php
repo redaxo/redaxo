@@ -276,6 +276,14 @@ $panel = '
                     }
                 }
 
+                // Register new EP MEDIA_LIST_THUMBNAIL - fuer Vorschau-Manipulation z.B. fuer Plyr/Lottie
+                // ----- EXTENSION POINT
+                $thumbnail = rex_extension::registerPoint(new rex_extension_point('MEDIA_LIST_THUMBNAIL', $thumbnail, [
+                    'id' => $media->getId(),
+                    'filename' => $media->getFileName(),
+                    'media' => $media,
+                ]));
+
                 if ('' == $media->getTitle()) {
                     $fileTitle = '[' . rex_i18n::msg('pool_file_notitle') . ']';
                 }

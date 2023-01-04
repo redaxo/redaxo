@@ -3,7 +3,7 @@ includes:
 
 parameters:
     level: 6
-    phpVersion: 70300 # PHP 7.3
+    phpVersion: 80100 # PHP 8.1
     treatPhpDocTypesAsCertain: false
     editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
     paths:
@@ -41,7 +41,6 @@ parameters:
         - '#Unsafe usage of new static\(\)\.#'
         - '#Constructor of class rex_form_.*_element has an unused parameter \$tag.#'
         - '#^Offset .* on .* always exists#'
-        - '#Parameter \#2 \$algo of function password_.+ expects int, string given\.#'
         -
             message: '#.*deprecated.*#'
             path: '*/update.php'

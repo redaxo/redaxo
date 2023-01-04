@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d4babb7447bbbf84c8f2b952293a75f7",
+    "content-hash": "f41301478a8091f91c1d6b0876ca0c5b",
     "packages": [
         {
             "name": "scssphp/scssphp",
@@ -96,7 +96,7 @@
     "platform": [],
     "platform-dev": [],
     "platform-overrides": {
-        "php": "7.3.0"
+        "php": "8.1.13"
     },
     "plugin-api-version": "2.3.0"
 }

@@ -129,7 +129,7 @@ class rex_effect_mirror extends rex_effect_abstract
     }
 
     /**
-     * @return resource
+     * @return GdImage
      */
     private function imagereflection(&$image, $reflectionHeight, $reflectionOpacity, $transparent, $bgColor)
     {
