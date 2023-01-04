@@ -21,6 +21,7 @@
     display: inline-block;
     max-width: 150px;
     overflow: hidden;
+    vertical-align: top;
     white-space: nowrap;
 
     .rex-truncate-expandable&:hover,
