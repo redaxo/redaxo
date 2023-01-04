@@ -274,7 +274,6 @@ class rex_sql_select_test extends TestCase
 
         // get DB 1 PDO object
         $property = new ReflectionProperty(rex_sql::class, 'pdo');
-        $property->setAccessible(true);
         /** @var PDO $pdo */
         $pdo = $property->getValue()[1];
 
