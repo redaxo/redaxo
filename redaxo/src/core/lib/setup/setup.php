@@ -193,6 +193,8 @@ class rex_setup
             $security[] = rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION);
         } elseif (1 == version_compare(PHP_VERSION, '8.3', '<') && time() > strtotime('25 Nov 2025')) {
             $security[] = rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION);
+        } elseif (1 == version_compare(PHP_VERSION, '8.3', '<') && time() > strtotime('8 Dec 2025')) {
+            $security[] = rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION);
         }
 
         return $security;
@@ -222,7 +224,15 @@ class rex_setup
                 $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
             } elseif (1 == version_compare($dbVersion, '10.6', '<') && time() > strtotime('1 Jun 2025')) {
                 $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
-            } elseif (1 == version_compare($dbVersion, '10.7', '<') && time() > strtotime('1 Jul 2026')) {
+            } elseif (1 == version_compare($dbVersion, '10.7', '<') && time() > strtotime('1 Jul 2026')) { // LTS
+                $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
+            } elseif (1 == version_compare($dbVersion, '10.8', '<') && time() > strtotime('1 Feb 2023')) {
+                $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
+            } elseif (1 == version_compare($dbVersion, '10.9', '<') && time() > strtotime('1 May 2023')) {
+                $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
+            } elseif (1 == version_compare($dbVersion, '10.10', '<') && time() > strtotime('1 Aug 2023')) {
+                $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
+            } elseif (1 == version_compare($dbVersion, '10.11', '<') && time() > strtotime('1 Nov 2023')) {
                 $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
             }
         } elseif (rex_sql::MYSQL === $dbType) {
