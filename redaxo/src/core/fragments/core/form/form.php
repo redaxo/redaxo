@@ -19,7 +19,8 @@ foreach ($this->elements as $element) {
 
     $note = isset($element['note']) && '' != $element['note'] ? '<p class="help-block rex-note">' . $element['note'] . '</p>' : '';
 
-    $classes = '';
+    $vertical = isset($element['vertical']) && true === $element['vertical'] ? '-vertical' : '';
+    $classes = 'rex-form-group' . $vertical . ' form-group';
 
     $error = '';
     if (isset($element['error']) && '' != $element['error']) {
@@ -34,7 +35,7 @@ foreach ($this->elements as $element) {
     }
 
     $out .= $header;
-    $out .= '<dl class="rex-form-group form-group' . $classes . '"' . $id . '>';
+    $out .= '<dl class="' . $classes . '"' . $id . '>';
     $out .= $label;
     $out .= '<dd>' . $before . $field . $after . $note . $error . '</dd>';
     $out .= '</dl>';

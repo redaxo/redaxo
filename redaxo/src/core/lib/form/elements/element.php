@@ -33,6 +33,8 @@ class rex_form_element
     protected $notice;
     /** @var rex_validator */
     protected $validator;
+    /** @var bool */
+    protected $labelOnTop;
 
     /**
      * @param string $tag
@@ -51,6 +53,7 @@ class rex_form_element
         $this->setFooter('');
         $this->setPrefix('');
         $this->setSuffix('');
+        $this->setLabelOnTop(false);
         $this->fieldName = '';
         $this->validator = rex_validator::factory();
     }
@@ -311,6 +314,16 @@ class rex_form_element
         return $this->validator;
     }
 
+    public function isLabelOnTop(): bool
+    {
+        return $this->labelOnTop;
+    }
+
+    public function setLabelOnTop(bool $onTop = true): void
+    {
+        $this->labelOnTop = $onTop;
+    }
+
     // --------- Element Methods
     /**
      * @return string
@@ -406,6 +419,7 @@ class rex_form_element
         $n['after'] = $this->getSuffix();
         $n['note'] = $this->formatNotice();
         $n['footer'] = $this->getFooter();
+        $n['vertical'] = $this->isLabelOnTop();
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
