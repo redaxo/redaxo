@@ -13,7 +13,6 @@ class rex_article_test extends TestCase
         rex_article::getClassVars();
         $class = new ReflectionClass(rex_article::class);
         $classVarsProperty = $class->getProperty('classVars');
-        $classVarsProperty->setAccessible(true);
         $classVarsProperty->setValue(
             array_merge(
                 $classVarsProperty->getValue(),
@@ -27,7 +26,6 @@ class rex_article_test extends TestCase
         // reset static properties
         $class = new ReflectionClass(rex_article::class);
         $classVarsProperty = $class->getProperty('classVars');
-        $classVarsProperty->setAccessible(true);
         $classVarsProperty->setValue(null);
 
         rex_article::clearInstancePool();

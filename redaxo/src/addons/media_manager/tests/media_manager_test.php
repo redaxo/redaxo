@@ -18,7 +18,6 @@ class rex_media_manager_test extends TestCase
         $media->setMediaPath(__DIR__.'/bar.gif');
 
         $property = new ReflectionProperty(rex_media_manager::class, 'type');
-        $property->setAccessible(true);
         $property->setValue($manager, 'test');
 
         static::assertSame($cachePath.'test/foo.jpg', $manager->getCacheFilename());
