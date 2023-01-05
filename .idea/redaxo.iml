@@ -40,7 +40,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/php-parallel-lint/php-parallel-lint" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/netresearch/jsonmapper" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/nikic/php-parser" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/openlss/lib-array2xml" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phar-io/manifest" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dnoegel/php-xdg-base-dir" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phar-io/version" />
@@ -99,13 +98,14 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/vimeo/psalm" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/webmozart/assert" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/deprecations" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/webmozart/path-util" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/rector/rector" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/redaxo/psalm-plugin" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/redaxo/php-cs-fixer-config" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-mbstring" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/bin" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/jetbrains/phpstorm-attributes" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/fidry/cpu-core-counter" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/spatie/array-to-xml" />
       <excludePattern pattern=".php_cs.cache" />
       <excludePattern pattern=".phpunit.result.cache" />
       <excludePattern pattern="composer.lock" />

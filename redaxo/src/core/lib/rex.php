@@ -299,6 +299,7 @@ class rex
      * @return non-empty-string
      *
      * @phpstandba-inference-placeholder 'rex_'
+     * @psalm-taint-escape sql
      */
     public static function getTablePrefix()
     {
