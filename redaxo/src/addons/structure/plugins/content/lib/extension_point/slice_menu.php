@@ -59,7 +59,7 @@ class rex_extension_point_slice_menu extends rex_extension_point
         int $ctype,
         int $moduleId,
         int $sliceId,
-        bool $hasPerm
+        bool $hasPerm,
     ) {
         parent::__construct(self::NAME);
 
@@ -176,7 +176,7 @@ class rex_extension_point_slice_menu extends rex_extension_point
                     'module_id' => $this->moduleId,
                     'slice_id' => $this->sliceId,
                     'perm' => $this->hasPerm,
-                ]
+                ],
             ));
 
         return array_merge($this->additionalActions, $menuItemsEp);

@@ -24,7 +24,7 @@ final class UnderscoreCamelCaseConflictingNameGuard
     public function __construct(
         UnderscoreCamelCaseExpectedNameResolver $underscoreCamelCaseExpectedNameResolver,
         NodeNameResolver $nodeNameResolver,
-        ArrayFilter $arrayFilter
+        ArrayFilter $arrayFilter,
     ) {
         $this->underscoreCamelCaseExpectedNameResolver = $underscoreCamelCaseExpectedNameResolver;
         $this->nodeNameResolver = $nodeNameResolver;

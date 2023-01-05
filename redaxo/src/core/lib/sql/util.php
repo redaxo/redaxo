@@ -197,7 +197,7 @@ class rex_sql_util
     public static function splitSqlFile(&$queries, $sql, $release)
     {
         // do not trim, see bug #1030644
-        //$sql          = trim($sql);
+        // $sql          = trim($sql);
         $sql = rtrim($sql, "\n\r");
         $sqlLen = strlen($sql);
         $stringStart = '';

@@ -157,11 +157,11 @@ abstract class rex_api_function
         if (null != $apiFunc) {
             if (!$apiFunc->published) {
                 if (!rex::isBackend()) {
-                    throw new rex_http_exception(new rex_api_exception('the api function ' . get_class($apiFunc) . ' is not published, therefore can only be called from the backend!'), rex_response::HTTP_FORBIDDEN);
+                    throw new rex_http_exception(new rex_api_exception('the api function ' . $apiFunc::class . ' is not published, therefore can only be called from the backend!'), rex_response::HTTP_FORBIDDEN);
                 }
 
                 if (!rex::getUser()) {
-                    throw new rex_http_exception(new rex_api_exception('missing backend session to call api function ' . get_class($apiFunc) . '!'), rex_response::HTTP_UNAUTHORIZED);
+                    throw new rex_http_exception(new rex_api_exception('missing backend session to call api function ' . $apiFunc::class . '!'), rex_response::HTTP_UNAUTHORIZED);
                 }
             }
 
@@ -171,7 +171,7 @@ abstract class rex_api_function
                 $result = rex_api_result::fromJSON($urlResult);
                 $apiFunc->result = $result;
             } else {
-                if ($apiFunc->requiresCsrfProtection() && !rex_csrf_token::factory(get_class($apiFunc))->isValid()) {
+                if ($apiFunc->requiresCsrfProtection() && !rex_csrf_token::factory($apiFunc::class)->isValid()) {
                     $result = new rex_api_result(false, rex_i18n::msg('csrf_token_invalid'));
                     $apiFunc->result = $result;
 

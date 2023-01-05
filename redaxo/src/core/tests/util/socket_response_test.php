@@ -86,46 +86,46 @@ class rex_socket_response_test extends TestCase
         $body = "This is the\r\noriginal content";
 
         static::assertSame($body, $this->createResponseWithEncoding('gzip',
-            zlib_encode($body, ZLIB_ENCODING_GZIP))->getBody());
+            zlib_encode($body, ZLIB_ENCODING_GZIP), )->getBody());
 
         static::assertSame($body, $this->createResponseWithEncoding('deflate',
-            zlib_encode($body, ZLIB_ENCODING_DEFLATE))->getBody());
+            zlib_encode($body, ZLIB_ENCODING_DEFLATE), )->getBody());
 
         // Test combination with chunked with real responses from the redaxo webservice
         $decodedResponseContent =
             file_get_contents(__DIR__.'/socket_response_testfiles/response_decoded');
 
         static::assertSame($decodedResponseContent, $this->getResponse(
-            file_get_contents(__DIR__.'/socket_response_testfiles/response_chunked.testresp')
+            file_get_contents(__DIR__.'/socket_response_testfiles/response_chunked.testresp'),
         )->decompressContent(true)->getBody());
 
         static::assertSame($decodedResponseContent, $this->getResponse(
-            file_get_contents(__DIR__.'/socket_response_testfiles/response_chunked_gzip.testresp')
+            file_get_contents(__DIR__.'/socket_response_testfiles/response_chunked_gzip.testresp'),
         )->decompressContent(true)->getBody());
     }
 
     public function testEncodingHeader()
     {
         static::assertIsArray($this->getResponse("HTTP/1.1 200 OK\r\nKey: Value\r\n\r\nTest")
-            ->getContentEncodings());
+            ->getContentEncodings(), );
 
         static::assertCount(0, $this->getResponse("HTTP/1.1 200 OK\r\nKey: Value\r\n\r\nTest")
-            ->getContentEncodings());
+            ->getContentEncodings(), );
 
         static::assertIsArray($this->createResponseWithEncoding('gzip, deflate', 'test')
-            ->getContentEncodings());
+            ->getContentEncodings(), );
 
         static::assertSame(['gzip', 'deflate'], $this->createResponseWithEncoding('gzip, deflate', 'test')
-            ->getContentEncodings());
+            ->getContentEncodings(), );
 
         static::assertSame(['gzip'], $this->createResponseWithEncoding('gzip', 'test')
-            ->getContentEncodings());
+            ->getContentEncodings(), );
     }
 
     private function createResponseWithEncoding(string $encoding, string $body): rex_socket_response
     {
         return $this->getResponse(
-            sprintf("HTTP/1.1 200 OK\r\nContent-Encoding: %s\r\n\r\n%s", $encoding, $body)
+            sprintf("HTTP/1.1 200 OK\r\nContent-Encoding: %s\r\n\r\n%s", $encoding, $body),
         )->decompressContent(true);
     }
 }

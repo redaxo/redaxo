@@ -53,7 +53,7 @@ $getTableRow = static function (rex_package $package) use ($getLink) {
         $uninstall = $getLink($package, 'uninstall', 'rex-icon-package-uninstall', true);
     } else {
         $install = $getLink($package, 'install', 'rex-icon-package-not-installed');
-        //$uninstall = rex_i18n::msg('package_notinstalled');
+        // $uninstall = rex_i18n::msg('package_notinstalled');
     }
 
     $class = '';

@@ -129,7 +129,7 @@ if (!empty($argUrl['args']['types'])) {
     echo rex_view::info(rex_i18n::msg('pool_file_filter') . ' <code>' . $argUrl['args']['types'] . '</code>');
 }
 
-//deletefilelist und cat change
+// deletefilelist und cat change
 $panel = '
 <form action="' . rex_url::currentBackendPage() . '" method="post" enctype="multipart/form-data">
     <fieldset>
@@ -183,7 +183,7 @@ $panel = '
                 $button['attributes']['onclick'][] = 'if(confirm(\'' . rex_i18n::msg('delete') . ' ?\')){var needle=new getObj(\'media_method\');needle.obj.value=\'delete_selectedmedia\';}else{return false;}';
                 $buttons[] = $button;
 
-                //$buttons = '<button class="btn btn-delete" type="submit" onclick="if(confirm(\'' . rex_i18n::msg('delete') . ' ?\')){var needle=new getObj(\'media_method\');needle.obj.value=\'delete_selectedmedia\';}else{return false;}">' . rex_i18n::msg('pool_delete_selectedmedia') . '</button>';
+                // $buttons = '<button class="btn btn-delete" type="submit" onclick="if(confirm(\'' . rex_i18n::msg('delete') . ' ?\')){var needle=new getObj(\'media_method\');needle.obj.value=\'delete_selectedmedia\';}else{return false;}">' . rex_i18n::msg('pool_delete_selectedmedia') . '</button>';
                 if ('REX_MEDIALIST_' == substr($openerInputField, 0, 14)) {
                     $button = [];
                     $button['label'] = rex_i18n::msg('pool_get_selectedmedia');

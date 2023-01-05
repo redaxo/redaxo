@@ -43,7 +43,7 @@ if ($PERMALL) {
                     }
                     $success = rex_media_category_service::addCategory(
                         rex_request('catname', 'string'),
-                        $parent
+                        $parent,
                     );
                 }
             }

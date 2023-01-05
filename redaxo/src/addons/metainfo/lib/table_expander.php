@@ -62,7 +62,7 @@ class rex_metainfo_table_expander extends rex_form
             $value = (int) $sql->getValue('priority') + 1;
             $select->addOption(
                 rex_i18n::rawMsg('minfo_field_after_priority', (string) $sql->getValue('name')),
-                $value
+                $value,
             );
             $sql->next();
         }
@@ -314,7 +314,7 @@ class rex_metainfo_table_expander extends rex_form
             $this->tableName,
             'priority',
             'name LIKE "' . $metaPrefix . '%"',
-            'priority, updatedate desc'
+            'priority, updatedate desc',
         );
     }
 }

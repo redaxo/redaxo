@@ -28,7 +28,7 @@ class rex_article_content_editor extends rex_article_content
             // ----- wenn mode nicht edit
             $sliceContent = parent::outputSlice(
                 $artDataSql,
-                $moduleIdToAdd
+                $moduleIdToAdd,
             );
         } else {
             $sliceId = (int) $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.id');
@@ -48,7 +48,7 @@ class rex_article_content_editor extends rex_article_content
 
             $panel = '';
             // ----- Display message at current slice
-            //if(rex::requireUser()->getComplexPerm('modules')->hasPerm($moduleId)) {
+            // if(rex::requireUser()->getComplexPerm('modules')->hasPerm($moduleId)) {
             if ('add' != $this->function && $this->slice_id == $sliceId) {
                 $msg = '';
                 if ('' != $this->warning) {
@@ -59,7 +59,7 @@ class rex_article_content_editor extends rex_article_content
                 }
                 $panel .= $msg;
             }
-            //}
+            // }
 
             // ----- EDIT/DELETE BLOCK - Wenn Rechte vorhanden
             if (rex::requireUser()->getComplexPerm('modules')->hasPerm($moduleId)) {
@@ -251,7 +251,7 @@ class rex_article_content_editor extends rex_article_content
             $headerRight .= $fragment->parse('slice_menu_move.php');
         }
 
-        //$header_right = $header_right != '' ? '<div class="col-md-4 text-right">' . $header_right . '</div>' : '';
+        // $header_right = $header_right != '' ? '<div class="col-md-4 text-right">' . $header_right . '</div>' : '';
 
         return $headerRight;
     }
@@ -319,7 +319,7 @@ class rex_article_content_editor extends rex_article_content
                 'clang' => $this->clang,
                 'ctype' => $this->ctype,
                 'slice_id' => $sliceId,
-            ]
+            ],
         ));
         return '<li class="rex-slice rex-slice-select" id="slice-add-pos-' . $position . '">' . $select . '</li>';
     }

@@ -521,7 +521,7 @@ abstract class rex_metainfo_handler
                                 'rawvalues' => $dbvalues,
                                 'type' => $typeLabel,
                                 'sql' => $sqlFields,
-                            ]
+                            ],
                         ));
             }
 
@@ -656,7 +656,7 @@ abstract class rex_metainfo_handler
                             ORDER BY
                             priority';
 
-        //$sqlFields->setDebug();
+        // $sqlFields->setDebug();
         $sqlFields->setQuery($qry);
 
         return $sqlFields;

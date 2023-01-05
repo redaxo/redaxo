@@ -30,7 +30,7 @@ final class rex_media_service
             throw new rex_api_exception(rex_i18n::msg('pool_file_upload_error'));
         }
 
-        $data['file']['path'] = $data['file']['path'] ?? $data['file']['tmp_name'] ?? null;
+        $data['file']['path'] ??= $data['file']['tmp_name'] ?? null;
 
         if (empty($data['file']) || empty($data['file']['name']) || empty($data['file']['path'])) {
             throw new rex_api_exception(rex_i18n::msg('pool_file_not_found'));

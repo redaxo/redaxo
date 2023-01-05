@@ -116,7 +116,7 @@ abstract class rex_package implements rex_package_interface
     public static function splitId(string $packageId): array
     {
         $parts = explode('/', $packageId, 2);
-        $parts[1] = $parts[1] ?? null;
+        $parts[1] ??= null;
 
         return $parts;
     }

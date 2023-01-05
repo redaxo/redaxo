@@ -430,7 +430,7 @@ class rex_media_manager
         return str_replace(
             ['effect_', '.php'],
             '',
-            rex_path::basename($effectFile)
+            rex_path::basename($effectFile),
         );
     }
 
@@ -443,7 +443,7 @@ class rex_media_manager
         return 'rex_' . str_replace(
             '.php',
             '',
-            rex_path::basename($effectFile)
+            rex_path::basename($effectFile),
         );
     }
 
@@ -494,7 +494,7 @@ class rex_media_manager
      */
     public static function init()
     {
-        //--- handle image request
+        // --- handle image request
         $rexMediaManagerFile = self::getMediaFile();
         $rexMediaManagerType = self::getMediaType();
 

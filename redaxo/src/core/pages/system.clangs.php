@@ -108,7 +108,7 @@ if ('addclang' == $func) {
     // ----- EXTENSION POINT
     $metaButtons = rex_extension::registerPoint(new rex_extension_point('CLANG_FORM_BUTTONS', ''));
 
-    //ggf wiederanzeige des add forms, falls ungueltige id uebermittelt
+    // ggf wiederanzeige des add forms, falls ungueltige id uebermittelt
     $content .= '
                 <tr class="mark">
                     <td class="rex-table-icon"><i class="rex-icon rex-icon-language"></i></td>

@@ -80,7 +80,7 @@ class rex_cronjob_manager
         if (!$cronjob instanceof rex_cronjob) {
             $success = false;
             if (is_object($cronjob)) {
-                $message = 'Invalid cronjob class "' . get_class($cronjob) . '"';
+                $message = 'Invalid cronjob class "' . $cronjob::class . '"';
             } else {
                 $message = 'Class "' . $cronjob . '" not found';
             }

@@ -56,7 +56,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         $configFile = rex_path::coreData('config.yml');
         $config = array_merge(
             rex_file::getConfig(rex_path::core('default.config.yml')),
-            rex_file::getConfig($configFile)
+            rex_file::getConfig($configFile),
         );
 
         $requiredValue = static function ($value) {
@@ -84,7 +84,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                     throw new InvalidArgumentException('Unknown language "' . $value . '" specified');
                 }
                 return $value;
-            }
+            },
         );
 
         // ---------------------------------- Step 2 . Perms, Environment
@@ -106,7 +106,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             'server',
             $config['server'],
             'Using website URL "%s"',
-            $requiredValue
+            $requiredValue,
         );
 
         $config['servername'] = $this->getOptionOrAsk(
@@ -114,7 +114,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             'servername',
             $config['servername'],
             'Using website name "%s"',
-            $requiredValue
+            $requiredValue,
         );
 
         $config['error_email'] = $this->getOptionOrAsk(
@@ -122,7 +122,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             'error-email',
             $config['error_email'],
             'Using "%s" in case of errors',
-            $requiredValue
+            $requiredValue,
         );
 
         $timezones = rex_type::array(DateTimeZone::listIdentifiers());
@@ -146,7 +146,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                     throw new InvalidArgumentException('Unknown timezone "'.$value.'" specified');
                 }
                 return $value;
-            }
+            },
         );
 
         $io->section('Database information');
@@ -157,14 +157,14 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 'db-host',
                 $config['db'][1]['host'],
                 'Using MySQL Host "%s"',
-                $requiredValue
+                $requiredValue,
             );
             $dbLogin = $this->getOptionOrAsk(
                 'Login',
                 'db-login',
                 $config['db'][1]['login'],
                 'Using database login "%s"',
-                $requiredValue
+                $requiredValue,
             );
 
             $q = new Question('Password');
@@ -175,7 +175,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 'db-password',
                 '',
                 'Using database password *secret*',
-                null
+                null,
             );
 
             $dbName = $this->getOptionOrAsk(
@@ -183,7 +183,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 'db-name',
                 $config['db'][1]['name'],
                 'Using database name "%s"',
-                $requiredValue
+                $requiredValue,
             );
 
             $dbCreate = $this->getOptionOrAsk(
@@ -196,7 +196,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                         throw new InvalidArgumentException('Unknown value "'.$value.'" specified');
                     }
                     return $value;
-                }
+                },
             );
 
             if (is_string($dbCreate)) {
@@ -288,7 +288,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                     throw new InvalidArgumentException('Unknown db-setup value "'.$value.'".');
                 }
                 return $value;
-            }
+            },
         );
         $io->success('Using "'.$createdb.'" database setup');
 
@@ -379,7 +379,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                         throw new InvalidArgumentException(sprintf('User "%s" already exists.', $login));
                     }
                     return $login;
-                }
+                },
             );
 
             $passwordPolicy = rex_backend_password_policy::factory();
@@ -402,7 +402,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 'admin-password',
                 null,
                 'Setting admin password: *secret*',
-                $pwValidator
+                $pwValidator,
             );
 
             $passwordHash = rex_backend_login::passwordHash($password);

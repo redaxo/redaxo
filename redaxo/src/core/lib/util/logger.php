@@ -39,7 +39,7 @@ class rex_logger extends AbstractLogger
             self::logError($exception->getSeverity(), $exception->getMessage(), $exception->getFile(), $exception->getLine());
         } else {
             $logger = self::factory();
-            $logger->log(get_class($exception), $exception->getMessage(), [], $exception->getFile(), $exception->getLine());
+            $logger->log($exception::class, $exception->getMessage(), [], $exception->getFile(), $exception->getLine());
         }
     }
 

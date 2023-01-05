@@ -207,11 +207,7 @@ class rex_socket_response
 
         if (!$this->streamFiltersInitialized) {
             if ($this->chunked) {
-                if (!is_resource(stream_filter_append(
-                        $this->stream,
-                        'dechunk',
-                        STREAM_FILTER_READ
-                    ))) {
+                if (!is_resource(stream_filter_append($this->stream, 'dechunk', STREAM_FILTER_READ))) {
                     throw new \rex_exception('Could not add dechunk filter to socket stream');
                 }
             }
@@ -272,7 +268,7 @@ class rex_socket_response
             $stream,
             'zlib.inflate',
             $mode,
-            ['window' => 47]    // To detect gzip and zlib header
+            ['window' => 47],    // To detect gzip and zlib header
         );
 
         if (!is_resource($appendedZlibStreamFilter)) {

@@ -65,7 +65,7 @@ class rex_instance_list_pool_trait_test extends TestCase
             },
             static function () {
                 return [[3, 'test']];
-            }
+            },
         );
     }
 

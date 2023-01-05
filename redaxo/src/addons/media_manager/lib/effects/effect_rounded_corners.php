@@ -34,7 +34,7 @@ class rex_effect_rounded_corners extends rex_effect_abstract
                 $cornerImage,
                 hexdec(substr($colour, 0, 2)),
                 hexdec(substr($colour, 2, 2)),
-                hexdec(substr($colour, 4, 2))
+                hexdec(substr($colour, 4, 2)),
             );
 
             imagecolortransparent($cornerImage, $clearColour);
@@ -66,11 +66,11 @@ class rex_effect_rounded_corners extends rex_effect_abstract
         }
 
         // Transparenz erhalten
-        //$this->keepTransparent($des);
-        //imagecopyresampled($des, $gdimage, 0, 0, $offset_width, $offset_height, $this->params['width'], $this->params['height'], $this->params['width'], $this->params['height']);
+        // $this->keepTransparent($des);
+        // imagecopyresampled($des, $gdimage, 0, 0, $offset_width, $offset_height, $this->params['width'], $this->params['height'], $this->params['width'], $this->params['height']);
 
-        //$gdimage = $des;
-        //$this->image->refreshDimensions();
+        // $gdimage = $des;
+        // $this->image->refreshDimensions();
     }
 
     public function getName()
