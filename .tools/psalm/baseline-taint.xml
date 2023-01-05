@@ -1,7 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.30.0@d0bc6e25d89f649e4f36a534f330f8bb4643dd69">
-  <file src="redaxo/src/core/lib/response.php">
+<files psalm-version="5.4.0@62db5d4f6a7ae0a20f7cc5a4952d730272fc0863">
+  <file src="redaxo/src/addons/backup/lib/backup.php">
+    <TaintedFile occurrences="2">
+      <code>$filename</code>
+      <code>$filename</code>
+    </TaintedFile>
+  </file>
+  <file src="redaxo/src/addons/backup/lib/compressor.php">
+    <TaintedFile occurrences="1">
+      <code>$source</code>
+    </TaintedFile>
+  </file>
+  <file src="redaxo/src/addons/cronjob/lib/cronjob.php">
+    <TaintedCallable occurrences="2">
+      <code>$class</code>
+      <code>$class</code>
+    </TaintedCallable>
+  </file>
+  <file src="redaxo/src/addons/structure/plugins/history/fragments/history/layer.php">
+    <TaintedHtml occurrences="4">
+      <code>$this-&gt;getVar('content1iframe')</code>
+      <code>$this-&gt;getVar('content1select')</code>
+      <code>$this-&gt;getVar('content2iframe')</code>
+      <code>$this-&gt;getVar('content2select')</code>
+    </TaintedHtml>
+    <TaintedTextWithQuotes occurrences="4">
+      <code>$this-&gt;getVar('content1iframe')</code>
+      <code>$this-&gt;getVar('content1select')</code>
+      <code>$this-&gt;getVar('content2iframe')</code>
+      <code>$this-&gt;getVar('content2select')</code>
+    </TaintedTextWithQuotes>
+  </file>
+  <file src="redaxo/src/core/fragments/core/fe_ooops.php">
+    <TaintedHtml occurrences="1">
+      <code>$this-&gt;getVar('content', '')</code>
+    </TaintedHtml>
+    <TaintedTextWithQuotes occurrences="1">
+      <code>$this-&gt;getVar('content', '')</code>
+    </TaintedTextWithQuotes>
+  </file>
+  <file src="redaxo/src/core/fragments/core/form/search.php">
+    <TaintedHtml occurrences="1"/>
+    <TaintedTextWithQuotes occurrences="1"/>
+  </file>
+  <file src="redaxo/src/core/fragments/core/page/docs.php">
+    <TaintedHtml occurrences="3">
+      <code>$this-&gt;getVar('content')</code>
+      <code>$this-&gt;getVar('sidebar')</code>
+      <code>$this-&gt;getVar('toc')</code>
+    </TaintedHtml>
+    <TaintedTextWithQuotes occurrences="3">
+      <code>$this-&gt;getVar('content')</code>
+      <code>$this-&gt;getVar('sidebar')</code>
+      <code>$this-&gt;getVar('toc')</code>
+    </TaintedTextWithQuotes>
+  </file>
+  <file src="redaxo/src/core/fragments/core/page/readme.php">
+    <TaintedHtml occurrences="1">
+      <code>$this-&gt;getVar('content')</code>
+    </TaintedHtml>
+    <TaintedTextWithQuotes occurrences="1">
+      <code>$this-&gt;getVar('content')</code>
+    </TaintedTextWithQuotes>
+  </file>
+  <file src="redaxo/src/core/lib/api_function.php">
+    <TaintedCallable occurrences="1">
+      <code>$apiClass</code>
+    </TaintedCallable>
+  </file>
+  <file src="redaxo/src/core/lib/be/controller.php">
+    <TaintedCallable occurrences="3">
+      <code>$adder</code>
+      <code>$setter</code>
+      <code>$setter</code>
+    </TaintedCallable>
+  </file>
+  <file src="redaxo/src/core/lib/console/command_loader.php">
+    <TaintedCallable occurrences="1">
+      <code>$class</code>
+    </TaintedCallable>
+  </file>
+  <file src="redaxo/src/core/lib/login/login.php">
     <TaintedHeader occurrences="1">
+      <code>$rawHeader</code>
+    </TaintedHeader>
+  </file>
+  <file src="redaxo/src/core/lib/response.php">
+    <TaintedHeader occurrences="2">
+      <code>$name .': ' . $value</code>
       <code>$str</code>
     </TaintedHeader>
   </file>
@@ -10,6 +96,12 @@
       <code>$query</code>
       <code>$query</code>
     </TaintedSql>
+  </file>
+  <file src="redaxo/src/core/lib/util/file.php">
+    <TaintedFile occurrences="2">
+      <code>$file</code>
+      <code>$file</code>
+    </TaintedFile>
   </file>
   <file src="redaxo/src/core/lib/util/socket/socket.php">
     <TaintedCallable occurrences="1">
