@@ -10,6 +10,7 @@
 class rex_sql_foreign_key
 {
     public const RESTRICT = 'RESTRICT';
+    public const NO_ACTION = 'NO ACTION';
     public const CASCADE = 'CASCADE';
     public const SET_NULL = 'SET NULL';
 
