@@ -510,13 +510,17 @@
     <MixedArrayAssignment occurrences="1">
       <code>self::$listeners[$ep][]</code>
     </MixedArrayAssignment>
-    <MixedAssignment occurrences="1">
+    <MixedAssignment occurrences="2">
       <code>$data['listeners']</code>
+      <code>$res</code>
     </MixedAssignment>
     <MixedOperand occurrences="2">
       <code>$trace['file']</code>
       <code>$trace['line']</code>
     </MixedOperand>
+    <MixedReturnStatement occurrences="1">
+      <code>$res</code>
+    </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/debug/lib/extensions/logger_debug.php">
     <MixedArgument occurrences="1">
@@ -722,9 +726,23 @@
     </NullOperand>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_convert2img.php">
-    <MixedAssignment occurrences="1">
+    <MixedArgument occurrences="1">
+      <code>$imagick-&gt;getImageBlob()</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="2">
       <code>$color</code>
+      <code>$imagick</code>
     </MixedAssignment>
+    <MixedMethodCall occurrences="8">
+      <code>getImageBlob</code>
+      <code>mergeImageLayers</code>
+      <code>readImage</code>
+      <code>setImageAlphaChannel</code>
+      <code>setImageBackgroundColor</code>
+      <code>setImageFormat</code>
+      <code>setResolution</code>
+      <code>transformImageColorspace</code>
+    </MixedMethodCall>
     <MixedOperand occurrences="1">
       <code>$color</code>
     </MixedOperand>
@@ -1184,10 +1202,11 @@
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/mediapool/lib/service_media.php">
-    <MixedArgument occurrences="7">
+    <MixedArgument occurrences="8">
       <code>$data['file']['type']</code>
       <code>$data['height']</code>
       <code>$data['width']</code>
+      <code>$errorMessage</code>
       <code>$jpgExtensions</code>
       <code>$jpgExtensions</code>
       <code>$size[0]</code>
@@ -1197,10 +1216,11 @@
       <code>$allowedExtensions</code>
       <code>rex_mediapool::getBlockedExtensions()</code>
     </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="4">
+    <MixedAssignment occurrences="5">
       <code>$data['file']['type']</code>
       <code>$data['height']</code>
       <code>$data['width']</code>
+      <code>$errorMessage</code>
       <code>$return['type']</code>
     </MixedAssignment>
     <PossiblyNullOperand occurrences="1">
@@ -2820,15 +2840,17 @@
     </MoreSpecificReturnType>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/article_content_base.php">
-    <ArgumentTypeCoercion occurrences="1">
+    <MixedArgument occurrences="1">
       <code>$output</code>
-    </ArgumentTypeCoercion>
+    </MixedArgument>
+    <MixedAssignment occurrences="1">
+      <code>$output</code>
+    </MixedAssignment>
     <PossiblyFalseArgument occurrences="1">
       <code>$TEMPLATE-&gt;getTemplate()</code>
     </PossiblyFalseArgument>
-    <PossiblyNullArgument occurrences="3">
+    <PossiblyNullArgument occurrences="2">
       <code>$TEMPLATE-&gt;getTemplate()</code>
-      <code>$output</code>
       <code>$template-&gt;getKey()</code>
     </PossiblyNullArgument>
     <PossiblyNullReference occurrences="2">
@@ -4564,6 +4586,9 @@
     <MixedOperand occurrences="1">
       <code>$level</code>
     </MixedOperand>
+    <MixedReturnStatement occurrences="1">
+      <code>$factoryClass::registerPoint($extensionPoint)</code>
+    </MixedReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/form/config_form.php">
     <PossiblyNullOperand occurrences="1">
@@ -5703,12 +5728,13 @@
     </PossiblyUndefinedArrayOffset>
   </file>
   <file src="redaxo/src/core/lib/util/editor.php">
-    <MixedArgument occurrences="4">
-      <code>$filePath</code>
-      <code>$filePath</code>
-      <code>$filePath</code>
+    <MixedInferredReturnType occurrences="1">
+      <code>string|null</code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement occurrences="2"/>
+    <PossiblyInvalidArgument occurrences="1">
       <code>$line</code>
-    </MixedArgument>
+    </PossiblyInvalidArgument>
   </file>
   <file src="redaxo/src/core/lib/util/file.php">
     <MixedArgument occurrences="1">
@@ -6066,6 +6092,11 @@
       <code>$value</code>
     </UnusedForeachValue>
   </file>
+  <file src="redaxo/src/core/lib/var_dumper.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$line</code>
+    </ArgumentTypeCoercion>
+  </file>
   <file src="redaxo/src/core/lib/view.php">
     <MixedArgument occurrences="1">
       <code>$pageObj</code>
@@ -6235,7 +6266,8 @@
     </UnusedForeachValue>
   </file>
   <file src="redaxo/src/core/pages/system.log.external.php">
-    <MixedArgument occurrences="8">
+    <MixedArgument occurrences="9">
+      <code>$logFile</code>
       <code>$logFile</code>
       <code>$logFile</code>
       <code>$logFile</code>
@@ -6254,6 +6286,11 @@
     <TypeDoesNotContainNull occurrences="1">
       <code>isset($logFile)</code>
     </TypeDoesNotContainNull>
+  </file>
+  <file src="redaxo/src/core/pages/system.log.redaxo.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$data[3] ?? 1</code>
+    </ArgumentTypeCoercion>
   </file>
   <file src="redaxo/src/core/pages/system.report.html.php">
     <MixedArgument occurrences="1">

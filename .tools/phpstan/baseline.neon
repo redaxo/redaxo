@@ -156,6 +156,11 @@ parameters:
 			path: ../../redaxo/src/addons/debug/lib/debug.php
 
 		-
+			message: "#^Conditional return type uses subject type T which is not part of PHPDoc @template tags\\.$#"
+			count: 1
+			path: ../../redaxo/src/addons/debug/lib/extensions/extension_debug.php
+
+		-
 			message: "#^Method rex_extension_debug\\:\\:getExtensionPoints\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/debug/lib/extensions/extension_debug.php
@@ -3962,16 +3967,6 @@ parameters:
 
 		-
 			message: "#^Method rex_editor\\:\\:callFactoryClass\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/editor.php
-
-		-
-			message: "#^Method rex_editor\\:\\:getUrl\\(\\) has parameter \\$filePath with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/util/editor.php
-
-		-
-			message: "#^Method rex_editor\\:\\:getUrl\\(\\) has parameter \\$line with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/util/editor.php
 

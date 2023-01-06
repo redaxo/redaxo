@@ -51,7 +51,7 @@ class rex_editor
 
     /**
      * @param string $filePath
-     * @param numeric-string $line
+     * @param int|numeric-string $line
      *
      * @return string|null
      */
