@@ -73,7 +73,7 @@ expectedArguments(\rex_sql_column::__construct(), 4, argumentsSet('column_extra'
 expectedArguments(\rex_sql_column::setExtra(), 0, argumentsSet('column_extra'));
 expectedReturnValues(\rex_sql_column::getExtra(), argumentsSet('column_extra'));
 
-registerArgumentsSet('foreign_key_on_clause', \rex_sql_foreign_key::CASCADE, \rex_sql_foreign_key::RESTRICT, \rex_sql_foreign_key::SET_NULL);
+registerArgumentsSet('foreign_key_on_clause', \rex_sql_foreign_key::CASCADE, \rex_sql_foreign_key::RESTRICT, \rex_sql_foreign_key::NO_ACTION, \rex_sql_foreign_key::SET_NULL);
 expectedArguments(\rex_sql_foreign_key::__construct(), 3, argumentsSet('foreign_key_on_clause'));
 expectedArguments(\rex_sql_foreign_key::__construct(), 4, argumentsSet('foreign_key_on_clause'));
 expectedArguments(\rex_sql_foreign_key::setOnUpdate(), 0, argumentsSet('foreign_key_on_clause'));
