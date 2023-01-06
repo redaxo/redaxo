@@ -50,6 +50,9 @@ class rex_editor
     }
 
     /**
+     * @param string $filePath
+     * @param int|numeric-string $line
+     *
      * @return string|null
      */
     public function getUrl($filePath, $line)
