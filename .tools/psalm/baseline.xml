@@ -45,11 +45,6 @@
       <code>$excludedTables</code>
       <code>$filename</code>
     </MixedAssignment>
-    <PossiblyNullArgument occurrences="3">
-      <code>$filename</code>
-      <code>$this-&gt;getParam('delete_interval')</code>
-      <code>$this-&gt;getParam('mailaddress')</code>
-    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/backup/pages/export.php">
     <MixedArgument occurrences="2">
@@ -162,18 +157,11 @@
       <code>$nexttime</code>
     </MixedAssignment>
   </file>
-  <file src="redaxo/src/addons/cronjob/lib/cronjob.php">
-    <MixedArgument occurrences="2">
-      <code>$key</code>
-      <code>$key</code>
-    </MixedArgument>
-  </file>
   <file src="redaxo/src/addons/cronjob/lib/form.php">
-    <MixedArgument occurrences="6">
+    <MixedArgument occurrences="5">
       <code>$attributes</code>
       <code>$high</code>
       <code>$low</code>
-      <code>$name</code>
       <code>$step</code>
       <code>$value[$key]</code>
     </MixedArgument>
@@ -284,9 +272,6 @@
     <MixedArgument occurrences="1">
       <code>$this-&gt;getParam('callback')</code>
     </MixedArgument>
-    <PossiblyNullArgument occurrences="1">
-      <code>$this-&gt;getParam('callback')</code>
-    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/cronjob/lib/types/phpcode.php">
     <MixedArgument occurrences="1">
@@ -295,9 +280,6 @@
     <MixedAssignment occurrences="1">
       <code>$return</code>
     </MixedAssignment>
-    <PossiblyNullArgument occurrences="1">
-      <code>$this-&gt;getParam('code')</code>
-    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/cronjob/lib/types/urlrequest.php">
     <MixedArgument occurrences="4">
@@ -309,12 +291,6 @@
     <MixedAssignment occurrences="1">
       <code>$post</code>
     </MixedAssignment>
-    <PossiblyNullArgument occurrences="4">
-      <code>$post</code>
-      <code>$this-&gt;getParam('password')</code>
-      <code>$this-&gt;getParam('url')</code>
-      <code>$this-&gt;getParam('user')</code>
-    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/cronjob/pages/cronjobs.php">
     <ArgumentTypeCoercion occurrences="6">
@@ -1623,7 +1599,14 @@
       <code>$itemValue</code>
       <code>$itemValue</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="1">
+    <MixedArgumentTypeCoercion occurrences="8">
+      <code>$attrArray</code>
+      <code>$attrArray</code>
+      <code>$attrArray</code>
+      <code>$attrArray</code>
+      <code>$attrArray</code>
+      <code>$attrArray</code>
+      <code>$attrArray</code>
       <code>$postValue</code>
     </MixedArgumentTypeCoercion>
     <MixedAssignment occurrences="9">
@@ -1730,14 +1713,7 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/input.php">
-    <MixedArrayOffset occurrences="3">
-      <code>$this-&gt;attributes[$name]</code>
-      <code>$this-&gt;attributes[$name]</code>
-      <code>$this-&gt;attributes[$name]</code>
-    </MixedArrayOffset>
-    <MixedAssignment occurrences="4">
-      <code>$name</code>
-      <code>$name</code>
+    <MixedAssignment occurrences="2">
       <code>$value</code>
       <code>$value</code>
     </MixedAssignment>
