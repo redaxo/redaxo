@@ -11,6 +11,7 @@ class rex_effect_image_format extends rex_effect_abstract
         'png',
         'gif',
         'webp',
+        'avif',
     ];
 
     private const CONVERT_TO = [
@@ -30,9 +31,13 @@ class rex_effect_image_format extends rex_effect_abstract
             'ext' => 'webp',
             'content-type' => 'image/webp',
         ],
+        'avif' => [
+            'ext' => 'avif',
+            'content-type' => 'image/avif',
+        ],
     ];
 
-    private const CONVERT_TOS = ['jpg', 'png', 'gif', 'webp'];
+    private const CONVERT_TOS = ['jpg', 'png', 'gif', 'webp', 'avif'];
     private const CONVERT_TO_DEFAULT = 'webp';
 
     public function execute()

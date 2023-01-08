@@ -167,5 +167,5 @@ media_manager_effect_sepia = Bild: sepia
 
 media_manager_effect_greyscale = Bild: grånyanser
 
-media_manager_effect_image_format = Bild: konvertera till JPEG/PNG/GIF/WEBP
+media_manager_effect_image_format = Bild: konvertera till JPEG/PNG/GIF/WEBP/AVIF
 media_manager_effect_image_format_convertto = Målformat
