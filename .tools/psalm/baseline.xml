@@ -3146,8 +3146,7 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/pages/templates.php">
-    <ArgumentTypeCoercion occurrences="2">
-      <code>$templatename</code>
+    <ArgumentTypeCoercion occurrences="1">
       <code>$templatename</code>
     </ArgumentTypeCoercion>
     <MixedArgument occurrences="1">
@@ -3174,8 +3173,7 @@
       <code>rex_escape($templatekey)</code>
       <code>rex_escape($templatename)</code>
     </NullOperand>
-    <PossiblyNullArgument occurrences="2">
-      <code>$templatename</code>
+    <PossiblyNullArgument occurrences="1">
       <code>$templatename</code>
     </PossiblyNullArgument>
   </file>
