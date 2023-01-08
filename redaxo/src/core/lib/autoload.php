@@ -12,42 +12,24 @@
  */
 class rex_autoload
 {
-    /**
-     * @var Composer\Autoload\ClassLoader
-     */
+    /** @var Composer\Autoload\ClassLoader */
     protected static $composerLoader;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected static $registered = false;
-    /**
-     * @var null|string
-     */
+    /** @var null|string */
     protected static $cacheFile;
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected static $cacheChanged = false;
-    /**
-     * @var bool remember the cache was deleted, to make sure we don't generate a stale cache file
-     */
+    /** @var bool remember the cache was deleted, to make sure we don't generate a stale cache file */
     protected static $cacheDeleted = false;
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected static $reloaded = false;
-    /**
-     * @var string[][]
-     */
+    /** @var string[][] */
     protected static $dirs = [];
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected static $addedDirs = [];
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected static $classes = [];
 
     /**

@@ -20,9 +20,7 @@ class rex_user
      */
     protected $sql;
 
-    /**
-     * @var null|bool
-     */
+    /** @var null|bool */
     private $admin;
 
     /**

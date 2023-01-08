@@ -68,6 +68,9 @@ abstract class rex_install_package_download
      */
     abstract protected function getPackages();
 
+    /**
+     * @return void
+     */
     abstract protected function checkPreConditions();
 
     /**

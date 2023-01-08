@@ -8,13 +8,9 @@
  */
 class rex_template
 {
-    /**
-     * @var int
-     */
+    /** @var int */
     private $id;
-    /**
-     * @var string|null
-     */
+    /** @var string|null */
     private $key;
 
     public function __construct($templateId)
@@ -23,6 +19,9 @@ class rex_template
         $this->key = '';
     }
 
+    /**
+     * @return int
+     */
     public static function getDefaultId()
     {
         return rex_config::get('structure/content', 'default_template_id', 1);
@@ -103,6 +102,9 @@ class rex_template
         return rex_path::addonCache('structure', 'templates');
     }
 
+    /**
+     * @return false|null|string
+     */
     public function getTemplate()
     {
         $file = $this->getFile();

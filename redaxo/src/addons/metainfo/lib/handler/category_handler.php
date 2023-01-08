@@ -10,6 +10,9 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
     public const PREFIX = 'cat_';
     public const CONTAINER = 'rex-structure-category-metainfo';
 
+    /**
+     * @return string
+     */
     public function renderToggleButton(rex_extension_point $ep)
     {
         $restrictionsCondition = $this->buildFilterCondition($ep->getParams());

@@ -13,8 +13,7 @@ $warnings = [];
 
 $user = null;
 
-$sql = rex_sql::factory();
-if (0 != $userId) {
+if (0 !== $userId) {
     $user = rex_user::get($userId);
     if (!$user) {
         $userId = 0;
@@ -88,7 +87,7 @@ $userpermStartpage = rex_request('userperm_startpage', 'string');
 $fUNCUPDATE = '';
 $fUNCAPPLY = '';
 $fUNCDELETE = '';
-if (0 != $userId && (rex::getUser()->isAdmin() || !$sql->getValue('admin'))) {
+if (0 !== $userId && (rex::requireUser()->isAdmin() || !$user->isAdmin())) {
     $fUNCUPDATE = rex_request('FUNC_UPDATE', 'string');
     $fUNCAPPLY = rex_request('FUNC_APPLY', 'string');
     $fUNCDELETE = rex_request('FUNC_DELETE', 'string');
@@ -124,7 +123,7 @@ if ($warnings) {
     $loginReset = rex_request('logintriesreset', 'int');
     $userstatus = rex_request('userstatus', 'int');
 
-    if (rex::getUser()->isAdmin() && $userId == rex::getUser()->getId()) {
+    if (rex::getUser()->isAdmin() && $userId === rex::getUser()->getId()) {
         $useradmin = 1;
     }
 

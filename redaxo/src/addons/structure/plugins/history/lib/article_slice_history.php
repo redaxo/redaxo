@@ -21,6 +21,7 @@ class rex_article_slice_history
      * @param int $articleId
      * @param int $clangId
      * @param string $historyType
+     * @return void
      */
     public static function makeSnapshot($articleId, $clangId, $historyType)
     {
@@ -114,6 +115,9 @@ class rex_article_slice_history
         return true;
     }
 
+    /**
+     * @return void
+     */
     public static function clearAllHistory()
     {
         rex_sql::factory()->setQuery('delete from ' . self::getTable());
@@ -124,6 +128,9 @@ class rex_article_slice_history
         rex_sql::factory()->setQuery('delete from ' . self::getTable() .' where history_date < ?', [$deleteDate->format(rex_sql::FORMAT_DATETIME)]);
     }
 
+    /**
+     * @return void
+     */
     public static function checkTables()
     {
         $slicesTable = rex_sql_table::get(rex::getTable('article_slice'));

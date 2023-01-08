@@ -12,13 +12,9 @@ class rex_backend_login extends rex_login
 
     private const SESSION_PASSWORD_CHANGE_REQUIRED = 'password_change_required';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $tableName;
-    /**
-     * @var bool|null
-     */
+    /** @var bool|null */
     private $stayLoggedIn;
 
     /** @var rex_backend_password_policy */
@@ -206,7 +202,7 @@ class rex_backend_login extends rex_login
 
     private static function setStayLoggedInCookie(string $cookiekey): void
     {
-        $sessionConfig = rex::getProperty('session', [])['backend'] ?? [];
+        $sessionConfig = rex::getProperty('session', [])['backend']['cookie'] ?? [];
 
         rex_response::sendCookie(self::getStayLoggedInCookieName(), $cookiekey, [
             'expires' => strtotime('+1 year'),
@@ -284,7 +280,6 @@ class rex_backend_login extends rex_login
     {
         $loginPolicy = (array) rex::getProperty('backend_login_policy', []);
 
-        /** @psalm-suppress MixedArgumentTypeCoercion **/
         return new rex_login_policy($loginPolicy);
     }
 }

@@ -9,7 +9,7 @@ on:
         types: [visual-test-command] # triggered by /visual-test PR comment
 
 env:
-    writable: ${{ (github.event_name == 'repository_dispatch' || github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') && 1 || 0 }}
+    writable: ${{ (github.event_name == 'repository_dispatch' || github.ref == 'refs/heads/temp' || github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') && 1 || 0 }}
 
 permissions:
     contents: read
@@ -54,7 +54,7 @@ jobs:
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: '8.1'
+                    php-version: '8.2'
                     ini-values: 'error_reporting=E_ALL, display_errors=On, display_startup_errors=On'
                     extensions: gd, pdo_mysql
                     coverage: none # disable xdebug, pcov

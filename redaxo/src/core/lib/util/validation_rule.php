@@ -22,13 +22,9 @@ final class rex_validation_rule
      * @psalm-var rex_validation_rule::*|string $type
      */
     private $type;
-    /**
-     * @var null|string
-     */
+    /** @var null|string */
     private $message;
-    /**
-     * @var mixed
-     */
+    /** @var mixed */
     private $option;
 
     /**

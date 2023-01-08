@@ -11,6 +11,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class rex_command_install_list extends rex_console_command
 {
+    /**
+     * @return void
+     */
     protected function configure()
     {
         $this->setDescription('List available packages on redaxo.org')

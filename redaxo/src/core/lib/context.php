@@ -49,9 +49,7 @@ interface rex_context_provider_interface extends rex_url_provider_interface
  */
 class rex_context implements rex_context_provider_interface
 {
-    /**
-     * @psalm-var array<string, mixed>
-     */
+    /** @psalm-var array<string, mixed> */
     private $globalParams;
 
     /**

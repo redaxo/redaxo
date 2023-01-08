@@ -76,6 +76,7 @@ abstract class rex_form_base
 
     /**
      * Initialisiert das Formular.
+     * @return void
      */
     public function init()
     {

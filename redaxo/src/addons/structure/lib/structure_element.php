@@ -151,6 +151,9 @@ abstract class rex_structure_element
         return self::$classVars;
     }
 
+    /**
+     * @return void
+     */
     public static function resetClassVars()
     {
         self::$classVars = null;

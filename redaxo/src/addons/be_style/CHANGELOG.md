@@ -1,7 +1,14 @@
 Changelog
 =========
 
-Version 3.1.0 – XX.XX.2022
+Version 3.1.1 – 13.12.2022
+--------------------------
+
+* Suchfeld: Bei eigener Nutzung war je nach Wrapper teils der Clear-Button nicht sichtbar (@eaCe)
+* scss-compiler: Bei Exceptions kam trotzdem Exit-Code 0 (@staabm)
+
+
+Version 3.1.0 – 25.07.2022
 --------------------------
 
 * Login-Seite: Neues Hintergrundbild, dazu Styleanpassungen (@schuer)

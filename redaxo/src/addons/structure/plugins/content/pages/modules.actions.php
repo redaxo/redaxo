@@ -47,10 +47,7 @@ if ('delete' == $function && !$csrfToken->isValid()) {
             $del->next();
         }
 
-        if ('' != $actionInUseMsg) {
-            $actionInUseMsg = '<ul>' . $actionInUseMsg . '</ul>';
-        }
-
+        $actionInUseMsg = '<ul>' . $actionInUseMsg . '</ul>';
         $error = rex_i18n::msg('action_cannot_be_deleted', $actionName) . $actionInUseMsg;
     } else {
         $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'action WHERE id=? LIMIT 1', [$actionId]);

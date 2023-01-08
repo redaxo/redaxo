@@ -5,24 +5,16 @@
  */
 class rex_be_controller
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private static $page;
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     private static $pageParts = [];
 
-    /**
-     * @var rex_be_page|null
-     */
+    /** @var rex_be_page|null */
     private static $pageObject;
 
-    /**
-     * @var array<string, rex_be_page>
-     */
+    /** @var array<string, rex_be_page> */
     private static $pages = [];
 
     /**

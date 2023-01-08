@@ -1,7 +1,28 @@
 Changelog
 =========
 
-Version 5.14.0 – XX.XX.2022
+Version 5.14.2 – 13.12.2022
+---------------------------
+
+### Bugfixes
+
+* Update der externen Bibliotheken, dadurch Deprecation-Meldungen in PHP 8.2 entfernt (@gharlan)
+* Nach Setup über die Console war der `instname` nicht gesetzt (@gharlan)
+* `rex_sql`: Bei `escapeLikeWildcards` wurde der Backslash nicht escaped (@gharlan)
+* PHP-Funktion `error_log` nur aufrufen, wenn vorhanden (ist bei manchen Hostern deaktiviert) (@gharlan)
+* Rechtschreibung korrigiert (@eaCe)
+
+
+Version 5.14.1 – 02.08.2022
+---------------------------
+
+### Bugfixes
+
+* `rex_sql`: Fehlercode stand teils nicht mehr korrekt zur Verfügung, dadurch Fehler im Setup (@gharlan)
+* `rex_backend_login`: Cookie-Einstellungen aus `config.yml` wurden für Eingeloggt-bleiben-Cookie nicht berücksichtigt (@dergel)
+
+
+Version 5.14.0 – 25.07.2022
 ---------------------------
 
 ### Neu

@@ -64,19 +64,7 @@ class rex_media_manager
         $manager->setCachePath($cachePath);
         $manager->applyEffects($type);
 
-        if ($manager->useCache && $manager->isCached()) {
-            $media->setSourcePath($manager->getCacheFilename());
-
-            $cache = $manager->getHeaderCache();
-            assert(null !== $cache);
-
-            $media->setMediaFilename($cache['media_filename']);
-            $media->setFormat($cache['format']);
-
-            foreach ($cache['headers'] as $key => $value) {
-                $media->setHeader($key, $value);
-            }
-        } elseif ($manager->useCache && !$manager->notFound) {
+        if (!$manager->isCached() && $manager->useCache && !$manager->notFound) {
             $media->save($manager->getCacheFilename(), $manager->getHeaderCacheFilename());
         }
 
@@ -95,6 +83,7 @@ class rex_media_manager
 
     /**
      * @param string $type
+     * @return void
      */
     protected function applyEffects($type)
     {
@@ -133,6 +122,22 @@ class rex_media_manager
             }
 
             $this->notFound = !$this->media->exists();
+        }
+
+        if ($this->useCache && $this->isCached()) {
+            $cache = $this->getHeaderCache();
+            assert(null !== $cache);
+
+            $this->media->setMediaPath($cache['media_path']);
+            $this->media->setMediaFilename($cache['media_filename']);
+            $this->media->setFormat($cache['format']);
+
+            // must be called after setMediaPath, because setMediaPath overwrites sourcePath, too
+            $this->media->setSourcePath($this->getCacheFilename());
+
+            foreach ($cache['headers'] as $key => $value) {
+                $this->media->setHeader($key, $value);
+            }
         }
     }
 
@@ -189,6 +194,7 @@ class rex_media_manager
 
     /**
      * @param string $path
+     * @return void
      */
     public function setCachePath($path = '')
     {
@@ -205,6 +211,7 @@ class rex_media_manager
 
     /**
      * @param bool $useCache
+     * @return void
      */
     protected function useCache($useCache = true)
     {
@@ -330,6 +337,9 @@ class rex_media_manager
         return $counter;
     }
 
+    /**
+     * @return never
+     */
     public function sendMedia()
     {
         rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_BEFORE_SEND', $this, []));
@@ -408,6 +418,7 @@ class rex_media_manager
 
     /**
      * @param class-string<rex_effect_abstract> $class
+     * @return void
      */
     public static function addEffect($class)
     {
@@ -470,11 +481,17 @@ class rex_media_manager
         return $warning;
     }
 
+    /**
+     * @return void
+     */
     public static function mediaUpdated(rex_extension_point $ep)
     {
         self::deleteCache((string) $ep->getParam('filename'));
     }
 
+    /**
+     * @return void
+     */
     public static function init()
     {
         //--- handle image request
@@ -490,8 +507,6 @@ class rex_media_manager
             $mediaManager->setCachePath($cachePath);
             $mediaManager->applyEffects($rexMediaManagerType);
             $mediaManager->sendMedia();
-
-            exit();
         }
     }
 

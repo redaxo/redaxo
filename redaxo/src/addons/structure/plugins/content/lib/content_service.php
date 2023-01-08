@@ -198,6 +198,9 @@ class rex_content_service
         return 1 == $curr->getRows();
     }
 
+    /**
+     * @return void
+     */
     public static function sliceStatus(int $sliceId, int $status)
     {
         $sql = rex_sql::factory();

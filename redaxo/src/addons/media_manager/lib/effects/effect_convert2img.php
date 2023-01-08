@@ -159,6 +159,9 @@ class rex_effect_convert2img extends rex_effect_abstract
         ];
     }
 
+    /**
+     * @return string
+     */
     private function getConvertPath()
     {
         $path = '';
@@ -169,7 +172,7 @@ class rex_effect_convert2img extends rex_effect_abstract
             exec($cmd, $out, $ret);
 
             if (0 === $ret) {
-                $path = $out[0];
+                $path = (string) $out[0];
             }
         }
         return $path;

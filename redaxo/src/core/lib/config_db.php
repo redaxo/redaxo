@@ -7,38 +7,22 @@
  */
 final class rex_config_db
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     public $host;
-    /**
-     * @var string
-     */
+    /** @var string */
     public $login;
-    /**
-     * @var string
-     */
+    /** @var string */
     public $password;
-    /**
-     * @var string
-     */
+    /** @var string */
     public $name;
-    /**
-     * @var bool
-     */
+    /** @var bool */
     public $persistent;
 
-    /**
-     * @var string|null
-     */
+    /** @var string|null */
     public $sslKey;
-    /**
-     * @var string|null
-     */
+    /** @var string|null */
     public $sslCert;
-    /**
-     * @var string|null
-     */
+    /** @var string|null */
     public $sslCa;
 
     public function __construct(array $dbConfig)

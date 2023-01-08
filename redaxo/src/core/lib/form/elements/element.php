@@ -55,6 +55,9 @@ class rex_form_element
 
     // --------- Attribute setter/getters
 
+    /**
+     * @return void
+     */
     public function setValue($value)
     {
         if (is_array($value)) {

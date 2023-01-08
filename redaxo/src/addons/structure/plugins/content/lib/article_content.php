@@ -32,6 +32,7 @@ class rex_article_content extends rex_article_content_base
 
     /**
      * @param bool $viasql
+     * @return void
      */
     public function getContentAsQuery($viasql = true)
     {

@@ -232,7 +232,7 @@ setup_414_note = Update von vorheriger Version
 setup_charset_utf8mb4 = utf8mb4 [empfohlen]
 setup_charset_utf8mb4_note = Erfordert mindestens MySQL 5.7.7 oder MariaDB 10.2. Vollständiger Unicode-Support, einschließlich Emojis und weiterer Sonderzeichen.
 setup_charset_utf8 = utf8 [deprecated]
-setup_charset_utf8_note = Nicht-Standardkonformer UTF8-Modus. Wird in späteren Versionen von REDAXO nicht mehr unterstützt.
+setup_charset_utf8_note = Nicht-Standardkonformer UTF-8-Modus. Wird in späteren Versionen von REDAXO nicht mehr unterstützt.
 setup_499 = 4 / Datenbank
 
 setup_500 = Setup: Schritt 5 von 6 / Administrator
@@ -284,7 +284,7 @@ https_activate_redirect_for = Automatische HTTPS-Umleitung
 https_disable = deaktivieren
 https_only_frontend = nur für Frontend aktivieren
 https_only_backend = nur für Backend aktivieren
-https_activate = für Frontend und Backend aktiveren
+https_activate = für Frontend und Backend aktivieren
 
 setup_password_hint = Zur Vergabe eines neuen Passwortes dieses eintragen. Sonst unverändert lassen.
 hsts_more_information = HSTS sollte in den Hosting-Einstellungen der Domain/s (empfohlen) aktiviert werden, kann aber auch in der config.yml von REDAXO nachträglich aktiviert werden. Weitere Informationen in der REDAXO-Doku.

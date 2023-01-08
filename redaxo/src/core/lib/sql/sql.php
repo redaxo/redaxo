@@ -79,7 +79,7 @@ class rex_sql implements Iterator
     /**
      * Store the lastInsertId per rex_sql object, so rex_sql objects don't override each other because of the shared static PDO instance.
      *
-     * @var string
+     * @var numeric-string
      */
     private $lastInsertId = '0'; // compatibility to PDO, which uses string '0' as default
 
@@ -457,49 +457,8 @@ class rex_sql implements Iterator
         $this->params = $params;
         $this->stmt = null;
 
-        if (!empty($params)) {
-            $this->prepareQuery($query);
-            $this->execute($params, $options);
-
-            return $this;
-        }
-
-        $buffered = null;
-        $pdo = $this->getConnection();
-        if (isset($options[self::OPT_BUFFERED])) {
-            $buffered = $pdo->getAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY);
-            $pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $options[self::OPT_BUFFERED]);
-        }
-
-        try {
-            $this->stmt = rex_timer::measure(__METHOD__, function () use ($pdo, $query) {
-                error_clear_last();
-
-                // since we are in Exception-Mode, PDO should throw in case of errors.
-                // it seems there are rare cases where it still returns false, which we try to handle here
-                if (false !== $stmt = @$pdo->query($query)) {
-                    return $stmt;
-                }
-
-                if ($error = error_get_last()) {
-                    throw new rex_sql_exception('Error while executing statement "' . $query . '": ' . $error['message'], null, $this);
-                }
-                throw new rex_sql_exception('Error while executing statement "' . $query . '".', null, $this);
-            });
-
-            $this->rows = $this->stmt->rowCount();
-            $this->lastInsertId = $this->getConnection()->lastInsertId();
-        } catch (PDOException $e) {
-            throw new rex_sql_exception('Error while executing statement "' . $query . '": ' . $e->getMessage(), $e, $this);
-        } finally {
-            if (null !== $buffered) {
-                $pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $buffered);
-            }
-
-            if ($this->debug) {
-                $this->printError($query, $params);
-            }
-        }
+        $this->prepareQuery($query);
+        $this->execute($params, $options);
 
         return $this;
     }
@@ -603,7 +562,7 @@ class rex_sql implements Iterator
     }
 
     /**
-     * Prueft den Wert einer Spalte der aktuellen Zeile ob ein Wert enthalten ist.
+     * Prueft den Wert der Spalte $column der aktuellen Zeile, ob $value enthalten ist.
      *
      * @param string $column Spaltenname des zu pruefenden Feldes
      * @param string $value  Wert, der enthalten sein soll
@@ -910,6 +869,7 @@ class rex_sql implements Iterator
      * Gibt die Anzahl der Zeilen zurueck.
      *
      * @return null|int
+     * @phpstan-impure
      */
     public function getRows()
     {
@@ -1197,7 +1157,7 @@ class rex_sql implements Iterator
     /**
      * Gibt die letzte InsertId zurueck.
      *
-     * @return string
+     * @return numeric-string
      */
     public function getLastId()
     {
@@ -1469,7 +1429,7 @@ class rex_sql implements Iterator
      */
     public function escapeLikeWildcards(string $value): string
     {
-        return str_replace(['_', '%'], ['\_', '\%'], $value);
+        return str_replace(['\\', '_', '%'], ['\\\\', '\_', '\%'], $value);
     }
 
     /**
