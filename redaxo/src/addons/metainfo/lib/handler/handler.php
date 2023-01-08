@@ -51,7 +51,7 @@ abstract class rex_metainfo_handler
 
             $note = null;
             if (isset($attrArray['note'])) {
-                $note = $attrArray['note'];
+                $note = rex_i18n::translate($attrArray['note']);
                 unset($attrArray['note']);
             }
 
