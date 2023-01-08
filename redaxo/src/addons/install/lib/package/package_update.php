@@ -96,8 +96,10 @@ class rex_install_package_update extends rex_install_package_download
         // ---- copy plugins to new addon dir
         foreach ($this->addon->getRegisteredPlugins() as $plugin) {
             $pluginPath = $temppath . '/plugins/' . $plugin->getName();
-            if (!is_dir($pluginPath)) {
-                rex_dir::copy($plugin->getPath(), $pluginPath);
+            if (!is_dir($pluginPath) && is_dir($plugin->getPath())) {
+                if (is_dir($plugin->getPath())) {
+                    rex_dir::copy($plugin->getPath(), $pluginPath);
+                }
             } elseif ($plugin->isInstalled() && is_dir($pluginPath . '/assets')) {
                 rex_dir::copy($pluginPath . '/assets', $plugin->getAssetsPath());
             }
