@@ -4368,12 +4368,9 @@
     </MissingTemplateParam>
   </file>
   <file src="redaxo/src/core/lib/console/package/install.php">
-    <MixedAssignment occurrences="1">
-      <code>$helper</code>
-    </MixedAssignment>
-    <MixedMethodCall occurrences="1">
+    <UndefinedInterfaceMethod occurrences="1">
       <code>ask</code>
-    </MixedMethodCall>
+    </UndefinedInterfaceMethod>
   </file>
   <file src="redaxo/src/core/lib/console/setup/check.php">
     <MixedArgument occurrences="3">
@@ -5280,21 +5277,11 @@
       <code>$preloadFile['mimeType']</code>
       <code>$preloadFile['type']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="4">
+    <MixedAssignment occurrences="3">
       <code>$chunkSize</code>
       <code>$preloadFile</code>
-      <code>$range</code>
       <code>$value</code>
     </MixedAssignment>
-    <MixedMethodCall occurrences="7">
-      <code>getEnd</code>
-      <code>getEnd</code>
-      <code>getLength</code>
-      <code>getLength</code>
-      <code>getLength</code>
-      <code>getStart</code>
-      <code>getStart</code>
-    </MixedMethodCall>
     <MixedOperand occurrences="8">
       <code>$cacheControl</code>
       <code>$preloadFile['file']</code>
