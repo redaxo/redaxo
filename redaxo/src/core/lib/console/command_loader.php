@@ -67,11 +67,7 @@ class rex_console_command_loader implements CommandLoaderInterface
         }
     }
 
-    /**
-     * @param string $name
-     * @return rex_console_command
-     */
-    public function get($name)
+    public function get(string $name): rex_console_command
     {
         if (!isset($this->commands[$name])) {
             throw new CommandNotFoundException(sprintf('Command "%s" does not exist.', $name));
@@ -89,11 +85,7 @@ class rex_console_command_loader implements CommandLoaderInterface
         return $command;
     }
 
-    /**
-     * @param string $name
-     * @return bool
-     */
-    public function has($name)
+    public function has(string $name): bool
     {
         return isset($this->commands[$name]);
     }
@@ -101,7 +93,7 @@ class rex_console_command_loader implements CommandLoaderInterface
     /**
      * @return list<string>
      */
-    public function getNames()
+    public function getNames(): array
     {
         return array_keys($this->commands);
     }

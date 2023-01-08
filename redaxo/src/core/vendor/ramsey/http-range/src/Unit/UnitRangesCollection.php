@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the ramsey/http-range library
  *
@@ -18,13 +19,14 @@ use Ramsey\Collection\CollectionInterface;
 
 /**
  * A collection of `UnitRangeInterface` objects.
+ *
+ * @extends AbstractCollection<UnitRangeInterface>
+ * @implements CollectionInterface<UnitRangeInterface>
  */
 class UnitRangesCollection extends AbstractCollection implements CollectionInterface
 {
     /**
      * Returns the data type of the items allowed in this collection
-     *
-     * @return string
      */
     public function getType(): string
     {
