@@ -87,7 +87,7 @@ if ('' != $historyDate) {
     });
 }
 
-if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[article_rollback]')) {
+if (rex::isBackend() && rex::getUser()?->hasPerm('history[article_rollback]')) {
     rex_extension::register(
         ['ART_SLICES_COPY', 'SLICE_ADD', 'SLICE_UPDATE', 'SLICE_MOVE', 'SLICE_DELETE'],
         static function (rex_extension_point $ep) {
@@ -167,7 +167,7 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
         if ('content/edit' == $ep->getParam('page')) {
             $articleLink = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), [], '&');
             if ('http' == substr($articleLink, 0, 4)) {
-                $user = rex::getUser();
+                $user = rex::requireUser();
                 $userLogin = $user->getLogin();
                 $historyValidTime = new DateTime();
                 $historyValidTime = $historyValidTime->modify('+10 Minutes')->format('YmdHis'); // 10 minutes valid key

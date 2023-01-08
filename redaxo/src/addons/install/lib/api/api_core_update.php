@@ -17,7 +17,7 @@ class rex_api_install_core_update extends rex_api_function
 
     public function execute()
     {
-        if (!rex::getUser()->isAdmin()) {
+        if (!rex::getUser()?->isAdmin()) {
             throw new rex_api_exception('You do not have the permission!');
         }
         $installAddon = rex_addon::get('install');

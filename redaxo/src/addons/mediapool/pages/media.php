@@ -20,7 +20,7 @@ $selMedia->setAttribute('onchange', 'this.form.submit();');
 $selMedia->setAttribute('class', 'selectpicker');
 $selMedia->setAttribute('data-live-search', 'true');
 
-if (rex::getUser()->getComplexPerm('media')->hasAll()) {
+if (rex::requireUser()->getComplexPerm('media')->hasAll()) {
     $selMedia->addOption(rex_i18n::msg('pool_kats_no'), '0');
 }
 

@@ -7,7 +7,7 @@ if (!isset($rexFileCategory)) {
     $rexFileCategory = 0;
 }
 
-if (!$PERMALL && !rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rexFileCategory)) {
+if (!$PERMALL && !rex::requireUser()->getComplexPerm('media')->hasCategoryPerm($rexFileCategory)) {
     $rexFileCategory = 0;
 }
 

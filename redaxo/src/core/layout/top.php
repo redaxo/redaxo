@@ -29,7 +29,7 @@ $bodyAttr['id'] = ['rex-page-' . $bodyId];
 $bodyAttr['onunload'] = ['closeAll();'];
 
 $bodyAttr['class'] = ['rex-is-logged-out'];
-if (rex::getUser()) {
+if ($user) {
     $bodyAttr['class'] = ['rex-is-logged-in'];
 }
 if (rex::isDebugMode()) {

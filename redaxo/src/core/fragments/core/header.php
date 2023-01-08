@@ -30,7 +30,7 @@ $isSetup = ('setup' === rex_be_controller::getCurrentPage());
                         <?php else: ?>
                             <a class="navbar-brand" href="<?= rex_url::backendController() ?>"><?= rex_file::get(rex_path::coreAssets('redaxo-logo.svg')) ?></a>
                         <?php endif; ?>
-                        <?php if (!$isPopup && rex::getUser() && rex::getUser()->isAdmin() && rex::isDebugMode()): ?>
+                        <?php if (!$isPopup && rex::getUser()?->isAdmin() && rex::isDebugMode()): ?>
                             <a class="rex-marker-debugmode" href="<?= rex_url::backendPage('system/settings') ?>" title="<?= rex_i18n::msg('debug_mode_marker') ?>">
                                 <i class="rex-icon rex-icon-heartbeat rex-pulse"></i>
                             </a>

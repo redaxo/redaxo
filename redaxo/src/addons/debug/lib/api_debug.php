@@ -9,7 +9,7 @@ class rex_api_debug extends rex_api_function
 {
     public function execute()
     {
-        if (!rex::isDebugMode() || !(rex::getUser() && rex::getUser()->isAdmin())) {
+        if (!rex::isDebugMode() || !rex::getUser()?->isAdmin()) {
             return new rex_api_result(false);
         }
 

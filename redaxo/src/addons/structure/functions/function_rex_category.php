@@ -27,7 +27,7 @@ if ($object) {
     }
     foreach ($tree as $parent) {
         $id = $parent->getId();
-        if (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($id)) {
+        if (rex::requireUser()->getComplexPerm('structure')->hasCategoryPerm($id)) {
             $n = [];
             $n['title'] = str_replace(' ', '&nbsp;', rex_escape($parent->getName()));
             if ($parent->isStartarticle()) {
