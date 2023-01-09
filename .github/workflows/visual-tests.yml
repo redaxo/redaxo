@@ -92,11 +92,15 @@ jobs:
             -   name: Setup nodejs
                 uses: actions/setup-node@v3
                 with:
-                    node-version: 18
+                    node-version: 19
+
+            -   name: Install nodejs packages
+                run: |
+                    npm install puppeteer pixelmatch pngjs fs mkdirp
+
             -   name: Setup Webserver
                 run: |
                     php -S localhost:8000 &
-                    npm install puppeteer pixelmatch pngjs fs mkdirp
 
             -   name: Take screenshots (differential)
                 if: github.event_name != 'repository_dispatch'
