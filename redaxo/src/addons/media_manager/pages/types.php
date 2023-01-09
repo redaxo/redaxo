@@ -53,7 +53,8 @@ if ('copy' == $func && $typeId > 0) {
     try {
         $sql->setQuery('INSERT INTO '.rex::getTablePrefix() . 'media_manager_type (status, name, description) SELECT 0, CONCAT(name, \' '.rex_i18n::msg('media_manager_type_name_copy').'\'), description FROM '.rex::getTablePrefix() . 'media_manager_type WHERE id = ?', [$typeId]);
         $newTypeId = $sql->getLastId();
-        $sql->setQuery('INSERT INTO '.rex::getTablePrefix() . 'media_manager_type_effect (type_id, effect, parameters, priority, updatedate, updateuser, createdate, createuser) SELECT ?, effect, parameters, priority, ?, ?, ?, ? FROM '.rex::getTablePrefix() . 'media_manager_type_effect WHERE type_id = ?', [$newTypeId, date(rex_sql::FORMAT_DATETIME), rex::getUser()->getLogin(), date(rex_sql::FORMAT_DATETIME), rex::getUser()->getLogin(), $typeId]);
+        $login = rex::requireUser()->getLogin();
+        $sql->setQuery('INSERT INTO '.rex::getTablePrefix() . 'media_manager_type_effect (type_id, effect, parameters, priority, updatedate, updateuser, createdate, createuser) SELECT ?, effect, parameters, priority, ?, ?, ?, ? FROM '.rex::getTablePrefix() . 'media_manager_type_effect WHERE type_id = ?', [$newTypeId, date(rex_sql::FORMAT_DATETIME), $login, date(rex_sql::FORMAT_DATETIME), $login, $typeId]);
 
         $success = rex_i18n::msg('media_manager_type_copied');
     } catch (rex_sql_exception $e) {

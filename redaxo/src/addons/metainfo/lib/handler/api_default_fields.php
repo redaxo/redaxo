@@ -9,7 +9,7 @@ class rex_api_metainfo_default_fields_create extends rex_api_function
 {
     public function execute()
     {
-        if (!rex::getUser()->isAdmin()) {
+        if (!rex::getUser()?->isAdmin()) {
             throw new rex_api_exception('user has no permission for this operation!');
         }
 

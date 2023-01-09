@@ -15,10 +15,7 @@ class rex_api_sitemap_tree extends rex_api_function
         $categoryId = rex_request('toggle_category_id', 'int', -1);
         $categoryId = rex_category::get($categoryId) ? $categoryId : -1;
 
-        /**
-         * @var rex_user
-         */
-        $user = rex::getUser();
+        $user = rex::requireUser();
 
         if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
             throw new rex_api_exception('user has no permission for this category!');

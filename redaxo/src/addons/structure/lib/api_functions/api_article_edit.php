@@ -8,7 +8,7 @@ class rex_api_article_edit extends rex_api_function
 {
     public function execute()
     {
-        if (!rex::getUser()->hasPerm('editArticle[]')) {
+        if (!rex::requireUser()->hasPerm('editArticle[]')) {
             throw new rex_api_exception('User has no permission to edit articles!');
         }
 
@@ -17,7 +17,7 @@ class rex_api_article_edit extends rex_api_function
         $clang = rex_request('clang', 'int');
 
         // check permissions
-        if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
+        if (!rex::requireUser()->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
             throw new rex_api_exception('user has no permission for this category!');
         }
 

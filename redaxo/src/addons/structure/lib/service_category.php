@@ -587,10 +587,6 @@ class rex_category_service
      */
     private static function getUser()
     {
-        if (rex::getUser()) {
-            return rex::getUser()->getLogin();
-        }
-
-        return rex::getEnvironment();
+        return rex::getUser()?->getLogin() ?? rex::getEnvironment();
     }
 }

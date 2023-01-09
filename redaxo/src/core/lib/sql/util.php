@@ -143,7 +143,7 @@ class rex_sql_util
     {
         // rex::getUser() gibts im Setup nicht
         /** @psalm-taint-escape sql */ // we trust the user db table
-        $user = rex::getUser() ? rex::getUser()->getValue('login') : '';
+        $user = rex::getUser()?->getLogin() ?? '';
 
         $query = str_replace('%USER%', $user, $query);
         $query = str_replace('%TIME%', (string) time(), $query);
