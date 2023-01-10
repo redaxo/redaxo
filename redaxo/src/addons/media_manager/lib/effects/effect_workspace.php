@@ -76,7 +76,7 @@ class rex_effect_workspace extends rex_effect_abstract
 			$bg = new rex_managed_media($bgimage);
 			$bg->asImage();
 			$workspace = $bg->getImage();
-			imagealphablending($workspace, true);
+			$this->keepTransparent($workspace);
 			$paramsHeight = (int) $bg->getHeight();
 			$paramsWidth = (int) $bg->getWidth();
 			// Abstand vom Rand
