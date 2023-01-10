@@ -1,7 +1,7 @@
 <?php
 
-use Core\Fragment\Component\Button;
-use Core\Fragment\Component\ButtonVariant;
+use Redaxo\Core\Fragment\Component\Button;
+use Redaxo\Core\Fragment\Component\ButtonVariant;
 
 $error = [];
 $success = '';
