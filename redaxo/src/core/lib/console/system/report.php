@@ -44,7 +44,6 @@ class rex_command_system_report extends rex_console_command
 
         $io->title('System report');
 
-        /** @var Table[] $tables */
         $tables = [];
         $maxLabelLength = 0;
 
