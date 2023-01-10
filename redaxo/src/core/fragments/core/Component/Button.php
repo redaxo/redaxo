@@ -1,10 +1,10 @@
 <?php
 /**
  * @var Button $this
- * @psalm-scope-this \Core\Fragment\Component\Button
+ * @psalm-scope-this Button
  */
 
-use Core\Fragment\Component\Button;
+use Redaxo\Core\Fragment\Component\Button;
 
 if ($this->prefix && !str_contains($this->prefix, 'slot="prefix"')) {
     throw new rex_functional_exception('The prefix property requires the attribute `slot="prefix"`');

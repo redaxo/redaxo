@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Fragment\Component;
+namespace Redaxo\Core\Fragment\Component;
 
 use rex_fragment;
 
