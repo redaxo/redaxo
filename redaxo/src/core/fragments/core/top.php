@@ -79,6 +79,13 @@
     <?php echo $this->favicon ? '<link rel="shortcut icon" href="' . $this->favicon . '" />' : '' ?>
 
     <?php echo $this->pageHeader ?>
+    <link rel="stylesheet" href="<?= rex_url::coreAssets('shoelace/dist/themes/light.css') ?>" />
+    <script type="module" src="<?= rex_url::coreAssets('shoelace/dist/shoelace.js') ?>"></script>
+    <style>
+        html {
+            font-size: 1rem !important;
+        }
+    </style>
 
 </head>
 <body<?php echo $this->bodyAttr; ?>>
