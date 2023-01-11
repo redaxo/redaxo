@@ -33,4 +33,5 @@ enum IconLibrary
 {
     case Add;
     case Debug;
+    case Save;
 }

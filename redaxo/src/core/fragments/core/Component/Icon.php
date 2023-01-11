@@ -10,6 +10,7 @@ use Redaxo\Core\Fragment\Component\IconLibrary;
 $name = match ($this->name) {
     IconLibrary::Add => 'plus-lg',
     IconLibrary::Debug => 'heart-pulse',
+    IconLibrary::Save => 'database-up',
 };
 ?>
 <sl-icon name="<?= $name ?>"
