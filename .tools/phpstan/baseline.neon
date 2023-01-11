@@ -5506,11 +5506,6 @@ parameters:
 			path: ../../redaxo/src/core/lib/sql/sql.php
 
 		-
-			message: "#^Property rex_sql\\:\\:\\$lastInsertId \\(numeric\\-string\\) does not accept string\\|false\\.$#"
-			count: 1
-			path: ../../redaxo/src/core/lib/sql/sql.php
-
-		-
 			message: "#^Property rex_sql\\:\\:\\$lastRow type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/sql/sql.php
