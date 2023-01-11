@@ -43,7 +43,7 @@ abstract class rex_metainfo_handler
 
             $attrArray = rex_string::split($attr);
             if (isset($attrArray['perm'])) {
-                if (!rex::getUser()->hasPerm($attrArray['perm'])) {
+                if (!rex::requireUser()->hasPerm($attrArray['perm'])) {
                     continue;
                 }
                 unset($attrArray['perm']);
@@ -51,7 +51,7 @@ abstract class rex_metainfo_handler
 
             $note = null;
             if (isset($attrArray['note'])) {
-                $note = $attrArray['note'];
+                $note = rex_i18n::translate($attrArray['note']);
                 unset($attrArray['note']);
             }
 
@@ -553,7 +553,7 @@ abstract class rex_metainfo_handler
             // dont save restricted fields
             $attrArray = rex_string::split($fieldAttributes);
             if (isset($attrArray['perm'])) {
-                if (!rex::getUser()->hasPerm($attrArray['perm'])) {
+                if (!rex::requireUser()->hasPerm($attrArray['perm'])) {
                     continue;
                 }
                 unset($attrArray['perm']);

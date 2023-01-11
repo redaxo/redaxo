@@ -13,6 +13,8 @@ $structureContext = new rex_structure_context([
     'rows_per_page' => $addon->getProperty('rows_per_page', 50),
 ]);
 
+$user = rex::requireUser();
+
 if (0 == $structureContext->getClangId()) {
     if (rex_clang::exists(0)) {
         echo rex_view::error('Oooops. Your clang ids start with <code>0</code>. Looks like a broken REDAXO 4.x to 5.x upgrade. Please update all your database tables, php code (if there are any hard coded clang ids) aswell as additional configurations in add-ons, e.g. YRewrite. You may start with updating those tables: <code>rex_article</code>, <code>rex_article_slice</code>, <code>rex_clang</code>, by increasing every clang id <code>+ 1</code>.');
@@ -54,7 +56,7 @@ if ($category) {
 }
 
 $addCategory = '';
-if (rex::getUser()->hasPerm('addCategory[]') && $structureContext->hasCategoryPermission()) {
+if ($user->hasPerm('addCategory[]') && $structureContext->hasCategoryPermission()) {
     $addCategory = '<a class="rex-link-expanded" href="' . $structureContext->getContext()->getUrl(['function' => 'add_cat', 'catstart' => $structureContext->getCatStart()]) . '"' . rex::getAccesskey(rex_i18n::msg('add_category'), 'add') . '><i class="rex-icon rex-icon-add-category"></i></a>';
 }
 
@@ -110,8 +112,8 @@ if ('add_cat' == $structureContext->getFunction() || 'edit_cat' == $structureCon
             <input type="hidden" name="edit_id" value="' . $structureContext->getEditId() . '" />';
 }
 
-$canEdit = rex::getUser()->hasPerm('editCategory[]');
-$canDelete = rex::getUser()->hasPerm('deleteCategory[]');
+$canEdit = $user->hasPerm('editCategory[]');
+$canDelete = $user->hasPerm('deleteCategory[]');
 $colspan = (int) $canEdit + (int) $canDelete + 1;
 
 // --------------------- PRINT CATS/SUBCATS
@@ -130,7 +132,7 @@ $echo .= '
 
 // --------------------- KATEGORIE ADD FORM
 
-if ('add_cat' == $structureContext->getFunction() && rex::getUser()->hasPerm('addCategory[]') && $structureContext->hasCategoryPermission()) {
+if ('add_cat' == $structureContext->getFunction() && $user->hasPerm('addCategory[]') && $structureContext->hasCategoryPermission()) {
     $metaButtons = rex_extension::registerPoint(new rex_extension_point('CAT_FORM_BUTTONS', '', [
         'id' => $structureContext->getCategoryId(),
         'clang' => $structureContext->getClangId(),
@@ -180,7 +182,7 @@ if ($KAT->getRows() > 0) {
 
         $tdLayoutClass = '';
         if ($structureContext->hasCategoryPermission()) {
-            if (rex::getUser()->hasPerm('publishCategory[]')) {
+            if ($user->hasPerm('publishCategory[]')) {
                 $tdLayoutClass = 'rex-table-action-no-dropdown';
                 if (count($catStatusTypes) > 2) {
                     $tdLayoutClass = 'rex-table-action-dropdown';
@@ -253,7 +255,7 @@ if ($KAT->getRows() > 0) {
                         <td class="rex-table-action '.$tdLayoutClass.'">' . $katStatus . '</td>
                     </tr>';
             }
-        } elseif (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($iCategoryId)) {
+        } elseif ($user->getComplexPerm('structure')->hasCategoryPerm($iCategoryId)) {
             // --------------------- KATEGORIE WITH READ
 
             $echo .= '
@@ -318,7 +320,7 @@ if ($addon->getPlugin('content')->isAvailable()) {
     $templateSelect = new rex_template_select($categoryId, $clang);
 }
 
-if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCategoryId() && !rex::getUser()->getComplexPerm('structure')->hasMountpoints())) {
+if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCategoryId() && !$user->getComplexPerm('structure')->hasMountpoints())) {
     $tmplHead = '';
     if ($templateSelect) {
         $templateSelect->setName('template_id');
@@ -333,7 +335,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
 
     // --------------------- ARTIKEL LIST
     $artAddLink = '';
-    if (rex::getUser()->hasPerm('addArticle[]') && $structureContext->hasCategoryPermission()) {
+    if ($user->hasPerm('addArticle[]') && $structureContext->hasCategoryPermission()) {
         $artAddLink = '<a class="rex-link-expanded" href="' . $structureContext->getContext()->getUrl(['function' => 'add_art', 'artstart' => $structureContext->getArtStart()]) . '"' . rex::getAccesskey(rex_i18n::msg('article_add'), 'add_2') . '><i class="rex-icon rex-icon-add-article"></i></a>';
     }
 
@@ -402,12 +404,12 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                 <tbody>
                 ';
 
-    $canEdit = rex::getUser()->hasPerm('editArticle[]');
-    $canDelete = rex::getUser()->hasPerm('deleteArticle[]');
+    $canEdit = $user->hasPerm('editArticle[]');
+    $canDelete = $user->hasPerm('deleteArticle[]');
     $colspan = (int) $canEdit + (int) $canDelete + 1;
 
     // --------------------- ARTIKEL ADD FORM
-    if ('add_art' == $structureContext->getFunction() && rex::getUser()->hasPerm('addArticle[]') && $structureContext->hasCategoryPermission()) {
+    if ('add_art' == $structureContext->getFunction() && $user->hasPerm('addArticle[]') && $structureContext->hasCategoryPermission()) {
         $tmplTd = '';
         if ($templateSelect) {
             $templateSelect->setSelectedFromStartArticle();
@@ -497,7 +499,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                 }
 
                 $tdLayoutClass = '';
-                if (rex::getUser()->hasPerm('publishArticle[]')) {
+                if ($user->hasPerm('publishArticle[]')) {
                     $tdLayoutClass = 'rex-table-action-no-dropdown';
 
                     if (count($artStatusTypes) > 2) {

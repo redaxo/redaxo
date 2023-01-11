@@ -11,7 +11,7 @@ class rex_api_category_status extends rex_api_function
         $categoryId = rex_request('category-id', 'int');
         $clang = rex_request('clang', 'int');
         $status = rex_request('cat_status', 'int', null);
-        $user = rex::getUser();
+        $user = rex::requireUser();
 
         // Check permissions
         if ($user->getComplexPerm('structure')->hasCategoryPerm($categoryId) && $user->hasPerm('publishCategory[]')) {

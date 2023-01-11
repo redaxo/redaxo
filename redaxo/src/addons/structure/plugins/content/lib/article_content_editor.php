@@ -48,7 +48,7 @@ class rex_article_content_editor extends rex_article_content
 
             $panel = '';
             // ----- Display message at current slice
-            //if(rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId)) {
+            //if(rex::requireUser()->getComplexPerm('modules')->hasPerm($moduleId)) {
             if ('add' != $this->function && $this->slice_id == $sliceId) {
                 $msg = '';
                 if ('' != $this->warning) {
@@ -62,7 +62,7 @@ class rex_article_content_editor extends rex_article_content
             //}
 
             // ----- EDIT/DELETE BLOCK - Wenn Rechte vorhanden
-            if (rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId)) {
+            if (rex::requireUser()->getComplexPerm('modules')->hasPerm($moduleId)) {
                 if ('edit' == $this->function && $this->slice_id == $sliceId) {
                     // **************** Aktueller Slice
 
@@ -141,7 +141,7 @@ class rex_article_content_editor extends rex_article_content
         $menuStatusAction = [];
         $menuMoveupAction = [];
         $menuMovedownAction = [];
-        if (rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId)) {
+        if (rex::requireUser()->getComplexPerm('modules')->hasPerm($moduleId)) {
             $templateHasModule = rex_template::hasModule($this->template_attributes, $this->ctype, $moduleId);
             if ($templateHasModule) {
                 // edit
@@ -162,7 +162,7 @@ class rex_article_content_editor extends rex_article_content
             $item['attributes']['data-confirm'] = rex_i18n::msg('confirm_delete_block');
             $menuDeleteAction = $item;
 
-            if ($templateHasModule && rex::getUser()->hasPerm('publishSlice[]')) {
+            if ($templateHasModule && rex::requireUser()->hasPerm('publishSlice[]')) {
                 // status
                 $item = [];
                 $statusName = $sliceStatus ? 'online' : 'offline';
@@ -173,7 +173,7 @@ class rex_article_content_editor extends rex_article_content
                 $menuStatusAction = $item;
             }
 
-            if ($templateHasModule && rex::getUser()->hasPerm('moveSlice[]')) {
+            if ($templateHasModule && rex::requireUser()->hasPerm('moveSlice[]')) {
                 // moveup
                 $item = [];
                 $item['hidden_label'] = rex_i18n::msg('module') . ' ' . $moduleName . ' ' . rex_i18n::msg('move_slice_up');
@@ -210,7 +210,7 @@ class rex_article_content_editor extends rex_article_content
             $sliceCtype,
             $moduleId,
             $sliceId,
-            rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId),
+            rex::requireUser()->getComplexPerm('modules')->hasPerm($moduleId),
         ));
 
         $actionItems = [];
@@ -341,7 +341,7 @@ class rex_article_content_editor extends rex_article_content
             foreach ($templateCtypes as $ctId => $ctName) {
                 foreach ($modules as $m) {
                     $id = (int) $m['id'];
-                    if (rex::getUser()->getComplexPerm('modules')->hasPerm($id)) {
+                    if (rex::requireUser()->getComplexPerm('modules')->hasPerm($id)) {
                         if (rex_template::hasModule($this->template_attributes, $ctId, $id)) {
                             $this->MODULESELECT[$ctId][] = ['name' => rex_i18n::translate((string) $m['name'], false), 'id' => $id, 'key' => (string) $m['key']];
                         }

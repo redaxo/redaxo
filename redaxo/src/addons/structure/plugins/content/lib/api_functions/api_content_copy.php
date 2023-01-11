@@ -15,7 +15,7 @@ class rex_api_content_copy extends rex_api_function
         $clangA = rex_request('clang_a', 'int');
         $clangB = rex_request('clang_b', 'int');
 
-        $user = rex::getUser();
+        $user = rex::requireUser();
 
         // Check permissions
         if ($user->hasPerm('copyContent[]') &&

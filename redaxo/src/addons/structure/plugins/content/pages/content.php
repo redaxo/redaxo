@@ -93,8 +93,10 @@ echo rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_HEA
     'slice_revision' => &$sliceRevision,
 ]));
 
+$user = rex::requireUser();
+
 // ----------------- HAT USER DIE RECHTE AN DIESEM ARTICLE ODER NICHT
-if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
+if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
     // ----- hat keine rechte an diesem artikel
     echo rex_view::warning(rex_i18n::msg('no_rights_to_edit'));
 } else {
@@ -131,7 +133,7 @@ if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($categoryId)) 
                 $globalWarning = rex_i18n::msg('no_rights_to_this_function');
                 $sliceId = '';
                 $function = '';
-            } elseif (!rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId)) {
+            } elseif (!$user->getComplexPerm('modules')->hasPerm($moduleId)) {
                 // ----- RECHTE AM MODUL: NEIN
                 $globalWarning = rex_i18n::msg('no_rights_to_this_function');
                 $sliceId = '';
@@ -350,8 +352,6 @@ if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($categoryId)) 
 
     $leftNav = rex_be_navigation::factory();
     $rightNav = rex_be_navigation::factory();
-
-    $user = rex::getUser();
 
     foreach (rex_be_controller::getPageObject('content')->getSubpages() as $subpage) {
         if (!$subpage->hasHref()) {

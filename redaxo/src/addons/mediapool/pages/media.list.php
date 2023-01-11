@@ -23,7 +23,8 @@ if (!isset($argUrl)) {
 
 $mediaMethod = rex_request('media_method', 'string');
 
-$hasCategoryPerm = rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rexFileCategory);
+$perm = rex::requireUser()->getComplexPerm('media');
+$hasCategoryPerm = $perm->hasCategoryPerm($rexFileCategory);
 
 if ($hasCategoryPerm && 'updatecat_selectedmedia' == $mediaMethod) {
     if (!$csrf->isValid()) {
@@ -70,7 +71,7 @@ if ($hasCategoryPerm && 'delete_selectedmedia' == $mediaMethod) {
             foreach ($selectedmedia as $filename) {
                 $media = rex_media::get($filename);
                 if ($media) {
-                    if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($media->getCategoryId())) {
+                    if ($perm->hasCategoryPerm($media->getCategoryId())) {
                         try {
                             rex_media_service::deleteMedia($filename);
                             ++$countDeleted;
@@ -102,7 +103,7 @@ $catsSel->setAttribute('class', 'selectpicker form-control');
 $catsSel->setAttribute('data-live-search', 'true');
 $catsSel->setSelected($rexFileCategory);
 
-if (rex::getUser()->getComplexPerm('media')->hasAll()) {
+if ($perm->hasAll()) {
     $catsSel->addOption(rex_i18n::msg('pool_kats_no'), '0');
 }
 

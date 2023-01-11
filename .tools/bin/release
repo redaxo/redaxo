@@ -187,7 +187,6 @@ class rex_release
             ->filesOnly()
         ;
 
-        /** @var SplFileInfo $file */
         foreach ($finder as $path => $file) {
             if (!$this->shouldIgnore($path)) {
                 $zip->addFile($path, $base.substr($path, strlen($dir)));
