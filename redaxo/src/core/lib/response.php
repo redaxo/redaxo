@@ -65,7 +65,7 @@ class rex_response
     }
 
     /**
-     * Returns a request save NONCE für CSP Headers and Implemntations
+     * Returns a request save NONCE für CSP Headers and Implemntations.
      *
      * @return string
      */
