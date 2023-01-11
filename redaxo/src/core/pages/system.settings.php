@@ -1,6 +1,8 @@
 <?php
 
 use Redaxo\Core\Fragment\Component\Button;
+use Redaxo\Core\Fragment\Component\ButtonSize;
+use Redaxo\Core\Fragment\Component\ButtonType;
 use Redaxo\Core\Fragment\Component\ButtonVariant;
 use Redaxo\Core\Fragment\Component\Icon;
 use Redaxo\Core\Fragment\Component\IconLibrary;
@@ -161,69 +163,71 @@ if (rex_version::isUnstable($rexVersion)) {
     $rexVersion = '<i class="rex-icon rex-icon-unstable-version" title="'. rex_i18n::msg('unstable_version') .'"></i> '. rex_escape($rexVersion);
 }
 
-$mainContent = [];
-$sideContent = [];
-$debugConfirm = '';
-
-if (!rex::isDebugMode()) {
-    $debugConfirm = ' data-confirm="' . rex_i18n::msg('debug_confirm') . '" ';
-}
-
 $buttonDeleteCache = new Button(
     label: rex_i18n::msg('delete_cache'),
     href: (rex_url::currentBackendPage(['func' => 'generate'] + $csrfToken->getUrlParams())),
     variant: ButtonVariant::Danger,
 );
+
 $icon = new Icon(
     name: IconLibrary::Debug,
     slot: 'prefix',
 );
+$attributes = [
+    'data-pjax' => 'false',
+];
+if (!rex::isDebugMode()) {
+    $attributes['data-confirm'] = rex_i18n::msg('debug_confirm');
+}
 $buttonDebugMode = new Button(
     label: (rex::isDebugMode() ? rex_i18n::msg('debug_mode_off') : rex_i18n::msg('debug_mode_on')),
     href: (rex_url::currentBackendPage(['func' => 'debugmode'] + $csrfToken->getUrlParams())),
     prefix: $icon->parse(),
     variant: ButtonVariant::Warning,
-    attributes: [
-        'data-pjax' => 'false',
-    ]
+    attributes: $attributes,
 );
-
-$content = '
-    <h3>' . rex_i18n::msg('delete_cache') . '</h3>
-    <p>' . rex_i18n::msg('delete_cache_description') . '</p>
-    <p>'.$buttonDeleteCache->parse().'<a class="btn btn-delete" href="' . rex_url::currentBackendPage(['func' => 'generate'] + $csrfToken->getUrlParams()) . '">' . rex_i18n::msg('delete_cache') . '</a></p>
-
-    <h3>' . rex_i18n::msg('debug_mode') . '</h3>
-    <p>' . rex_i18n::msg('debug_mode_note') . '</p>
-    <p>'.$buttonDebugMode->parse().'<a class="btn btn-debug-mode" href="' . rex_url::currentBackendPage(['func' => 'debugmode'] + $csrfToken->getUrlParams()) . '" data-pjax="false"'.$debugConfirm.'><i class="rex-icon rex-icon-heartbeat"></i> ' . (rex::isDebugMode() ? rex_i18n::msg('debug_mode_off') : rex_i18n::msg('debug_mode_on')) . '</a></p>
-
-    <h3>' . rex_i18n::msg('safemode') . '</h3>
-    <p>' . rex_i18n::msg('safemode_text') . '</p>';
 
 $safemodeUrl = rex_url::currentBackendPage(['safemode' => '1'] + $csrfToken->getUrlParams());
 if (rex::isSafeMode()) {
     $safemodeUrl = rex_url::currentBackendPage(['safemode' => '0'] + $csrfToken->getUrlParams());
 }
-
 $buttonSaveMode = new Button(
     label: (rex::isSafeMode() ? rex_i18n::msg('safemode_deactivate') : rex_i18n::msg('safemode_activate')),
     href: $safemodeUrl,
     variant: ButtonVariant::Warning,
-    outline: true,
+    attributes: [
+        'data-pjax' => 'false',
+    ],
 );
 $buttonSetup = new Button(
     label: rex_i18n::msg('setup'),
     href: rex_url::currentBackendPage(['func' => 'setup'] + $csrfToken->getUrlParams()),
     variant: ButtonVariant::Primary,
+    attributes: [
+        'data-pjax' => 'false',
+        'data-confirm' => rex_i18n::msg('setup_restart'),
+    ],
 );
 
-$content .= '
-    <p>'.$buttonSaveMode->parse().'<a class="btn btn-safemode-activate" href="' . $safemodeUrl . '" data-pjax="false">' . (rex::isSafeMode() ? rex_i18n::msg('safemode_deactivate') : rex_i18n::msg('safemode_activate')) . '</a></p>
+$content = '
+    <h3>' . rex_i18n::msg('delete_cache') . '</h3>
+    <p>' . rex_i18n::msg('delete_cache_description') . '</p>
+    <p>'.$buttonDeleteCache->parse().'</p>
 
+    <h3>' . rex_i18n::msg('debug_mode') . '</h3>
+    <p>' . rex_i18n::msg('debug_mode_note') . '</p>
+    <p>'.$buttonDebugMode->parse().'</p>
+
+    <h3>' . rex_i18n::msg('safemode') . '</h3>
+    <p>' . rex_i18n::msg('safemode_text') . '</p>
+    <p>'.$buttonSaveMode->parse().'</p>
 
     <h3>' . rex_i18n::msg('setup') . '</h3>
     <p>' . rex_i18n::msg('setup_text') . '</p>
-    <p>'.$buttonSetup->parse().'<a class="btn btn-setup" href="' . rex_url::currentBackendPage(['func' => 'setup'] + $csrfToken->getUrlParams()) . '" data-confirm="' . rex_i18n::msg('setup_restart') . '?" data-pjax="false">' . rex_i18n::msg('setup') . '</a></p>';
+    <p>'.$buttonSetup->parse().'</p>';
+
+$mainContent = [];
+$sideContent = [];
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', rex_i18n::msg('system_features'));
@@ -318,9 +322,16 @@ $formElements = [];
 $editor = rex_editor::factory();
 $configYml = rex_path::coreData('config.yml');
 if ($url = $editor->getUrl($configYml, 0)) {
+    $buttonEditor = new Button(
+        label: rex_i18n::msg('system_editor_open_file', rex_path::basename($configYml)),
+        href: $url,
+        variant: ButtonVariant::Primary,
+        size: ButtonSize::Small,
+    );
+
     $n = [];
     $n['label'] = '';
-    $n['field'] = $n['field'] = '<a class="btn btn-sm btn-primary" href="'. $url .'">' . rex_i18n::msg('system_editor_open_file', rex_path::basename($configYml)) . '</a>';
+    $n['field'] = $buttonEditor->parse();
     $n['note'] = rex_i18n::msg('system_edit_config_note');
     $formElements[] = $n;
 }
@@ -331,8 +342,11 @@ $content .= $fragment->parse('core/form/form.php');
 
 $formElements = [];
 
+$buttonSave = new Button\Save(
+    name: 'sendit',
+);
 $n = [];
-$n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" name="sendit"' . rex::getAccesskey(rex_i18n::msg('system_update'), 'save') . '>' . rex_i18n::msg('system_update') . '</button>';
+$n['field'] = $buttonSave->parse();
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -390,19 +404,36 @@ $formElements = [];
 $class = 'rex-form-aligned';
 
 if (!$viaCookie) {
+    $buttonSave = new Button\Save(
+        label: rex_i18n::msg('system_editor_update_configyml'),
+        name: 'editor[update_cookie]',
+        value: '0'
+    );
     $n = [];
-    $n['field'] = '<button class="btn btn-save '.$class.'" type="submit" name="editor[update_cookie]" value="0">' . rex_i18n::msg('system_editor_update_configyml') . '</button>';
+    $n['field'] = $buttonSave->parse();
     $formElements[] = $n;
     $class = '';
 }
 
+$buttonSave = new Button\Save(
+    label: rex_i18n::msg('system_editor_update_cookie'),
+    name: 'editor[update_cookie]',
+    value: '1'
+);
 $n = [];
-$n['field'] = '<button class="btn btn-save '.$class.'" type="submit" name="editor[update_cookie]" value="1">' . rex_i18n::msg('system_editor_update_cookie') . '</button>';
+$n['field'] = $buttonSave->parse();
 $formElements[] = $n;
 
 if ($viaCookie) {
+    $buttonDelete = new Button(
+        label: rex_i18n::msg('system_editor_delete_cookie'),
+        variant: ButtonVariant::Danger,
+        type: ButtonType::Submit,
+        name: 'editor[delete_cookie]',
+        value: '1'
+    );
     $n = [];
-    $n['field'] = '<button class="btn btn-delete" type="submit" name="editor[delete_cookie]" value="1">' . rex_i18n::msg('system_editor_delete_cookie') . '</button>';
+    $n['field'] = $buttonDelete->parse();
     $formElements[] = $n;
 }
 

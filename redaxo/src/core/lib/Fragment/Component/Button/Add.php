@@ -30,6 +30,7 @@ class Add
             href: $this->href,
             prefix: $icon->parse(),
             variant: ButtonVariant::Primary,
+            slot: $this->slot,
             attributes: $this->attributes,
         );
 
