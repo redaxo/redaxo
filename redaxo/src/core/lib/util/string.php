@@ -164,7 +164,7 @@ class rex_string
         }
 
         if (!is_array($result)) {
-            throw new rex_exception(__FUNCTION__.' does not support YAML content containing a single scalar value (given "'.$value.'")');
+            throw new rex_yaml_parse_exception(__FUNCTION__.' does not support YAML content containing a single scalar value (given "'.$value.'")');
         }
 
         return $result;
