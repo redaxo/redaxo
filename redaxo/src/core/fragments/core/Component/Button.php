@@ -24,7 +24,7 @@ if ($this->suffix && !str_contains($this->suffix, 'slot="suffix"')) {
     <?= $this->circle ? 'circle' : '' ?>
     <?= $this->type ? 'type="'.$this->type->value.'"' : '' ?>
     <?= $this->name ? 'name="'.$this->name.'"' : '' ?>
-    <?= $this->value ? 'name="'.$this->value.'"' : '' ?>
+    <?= $this->value ? 'value="'.$this->value.'"' : '' ?>
     <?= $this->href ? 'href="'.$this->href.'"' : '' ?>
     <?= $this->target ? 'target="'.$this->target->value.'"' : '' ?>
     <?= $this->slot ? 'slot="'.$this->slot.'"' : '' ?>
