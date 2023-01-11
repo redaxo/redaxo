@@ -5730,12 +5730,6 @@
     <MixedFunctionCall occurrences="1">
       <code>$func($value, $key)</code>
     </MixedFunctionCall>
-    <MixedInferredReturnType occurrences="1">
-      <code>array</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="1">
-      <code>Symfony\Component\Yaml\Yaml::parse($value)</code>
-    </MixedReturnStatement>
     <MixedReturnTypeCoercion occurrences="2">
       <code>$result</code>
       <code>string[]</code>
