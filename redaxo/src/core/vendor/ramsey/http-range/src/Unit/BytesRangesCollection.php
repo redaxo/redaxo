@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the ramsey/http-range library
  *
@@ -13,15 +14,17 @@ declare(strict_types=1);
 
 namespace Ramsey\Http\Range\Unit;
 
+use Ramsey\Collection\CollectionInterface;
+
 /**
  * A collection of `BytesRange` objects.
+ *
+ * @implements CollectionInterface<BytesRange>
  */
-class BytesRangesCollection extends UnitRangesCollection
+class BytesRangesCollection extends UnitRangesCollection implements CollectionInterface
 {
     /**
      * Returns the data type of the items allowed in this collection.
-     *
-     * @return string
      */
     public function getType(): string
     {

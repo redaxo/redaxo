@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the ramsey/http-range library
  *
@@ -23,8 +24,6 @@ class BytesUnit extends AbstractUnit implements UnitInterface
 {
     /**
      * Returns the "bytes" unit token for this unit.
-     *
-     * @return string
      */
     public function getRangeUnit(): string
     {
@@ -33,8 +32,6 @@ class BytesUnit extends AbstractUnit implements UnitInterface
 
     /**
      * Returns a new collection for this range unit.
-     *
-     * @return UnitRangesCollection
      */
     public function newCollection(): UnitRangesCollection
     {
@@ -46,8 +43,6 @@ class BytesUnit extends AbstractUnit implements UnitInterface
      *
      * @param string $range A single range (i.e. `500-999`, `500-`, `-500`).
      * @param mixed $totalSize The total size of the entity the range describes.
-     *
-     * @return UnitRangeInterface
      */
     public function newRange(string $range, $totalSize): UnitRangeInterface
     {
