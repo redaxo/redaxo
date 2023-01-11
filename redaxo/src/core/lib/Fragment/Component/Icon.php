@@ -33,12 +33,4 @@ enum IconLibrary
 {
     case Add;
     case Debug;
-
-    public function get(): string
-    {
-        return match ($this) {
-            self::Add => 'plus',
-            self::Debug => 'heart-pulse',
-        };
-    }
 }
