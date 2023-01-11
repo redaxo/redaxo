@@ -2,6 +2,8 @@
 
 use Redaxo\Core\Fragment\Component\Button;
 use Redaxo\Core\Fragment\Component\ButtonVariant;
+use Redaxo\Core\Fragment\Component\Icon;
+use Redaxo\Core\Fragment\Component\IconLibrary;
 
 $error = [];
 $success = '';
@@ -172,10 +174,14 @@ $buttonDeleteCache = new Button(
     href: (rex_url::currentBackendPage(['func' => 'generate'] + $csrfToken->getUrlParams())),
     variant: ButtonVariant::Danger,
 );
-$buttonDebugeMode = new Button(
+$icon = new Icon(
+    name: IconLibrary::Debug,
+    slot: 'prefix',
+);
+$buttonDebugMode = new Button(
     label: (rex::isDebugMode() ? rex_i18n::msg('debug_mode_off') : rex_i18n::msg('debug_mode_on')),
     href: (rex_url::currentBackendPage(['func' => 'debugmode'] + $csrfToken->getUrlParams())),
-    prefix: '<i slot="prefix" class="rex-icon rex-icon-heartbeat"></i>',
+    prefix: $icon->parse(),
     variant: ButtonVariant::Warning,
 );
 
@@ -186,7 +192,7 @@ $content = '
 
     <h3>' . rex_i18n::msg('debug_mode') . '</h3>
     <p>' . rex_i18n::msg('debug_mode_note') . '</p>
-    <p>'.$buttonDebugeMode->parse().'<a class="btn btn-debug-mode" href="' . rex_url::currentBackendPage(['func' => 'debugmode'] + $csrfToken->getUrlParams()) . '" data-pjax="false"'.$debugConfirm.'><i class="rex-icon rex-icon-heartbeat"></i> ' . (rex::isDebugMode() ? rex_i18n::msg('debug_mode_off') : rex_i18n::msg('debug_mode_on')) . '</a></p>
+    <p>'.$buttonDebugMode->parse().'<a class="btn btn-debug-mode" href="' . rex_url::currentBackendPage(['func' => 'debugmode'] + $csrfToken->getUrlParams()) . '" data-pjax="false"'.$debugConfirm.'><i class="rex-icon rex-icon-heartbeat"></i> ' . (rex::isDebugMode() ? rex_i18n::msg('debug_mode_off') : rex_i18n::msg('debug_mode_on')) . '</a></p>
 
     <h3>' . rex_i18n::msg('safemode') . '</h3>
     <p>' . rex_i18n::msg('safemode_text') . '</p>';
