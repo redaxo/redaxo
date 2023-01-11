@@ -183,6 +183,9 @@ $buttonDebugMode = new Button(
     href: (rex_url::currentBackendPage(['func' => 'debugmode'] + $csrfToken->getUrlParams())),
     prefix: $icon->parse(),
     variant: ButtonVariant::Warning,
+    attributes: [
+        'data-pjax' => 'false',
+    ]
 );
 
 $content = '

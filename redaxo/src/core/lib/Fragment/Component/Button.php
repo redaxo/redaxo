@@ -25,6 +25,8 @@ class Button extends rex_fragment
         public ?string $name = null,
         public ?string $value = null,
         public ?string $slot = null,
+        /** @var array<string, string>|null */
+        public ?array $attributes = null,
     ) {
         parent::__construct([]);
     }

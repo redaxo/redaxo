@@ -28,6 +28,7 @@ if ($this->suffix && !str_contains($this->suffix, 'slot="suffix"')) {
     <?= $this->href ? 'href="'.$this->href.'"' : '' ?>
     <?= $this->target ? 'target="'.$this->target->value.'"' : '' ?>
     <?= $this->slot ? 'slot="'.$this->slot.'"' : '' ?>
+    <?= $this->attributes ? rex_string::buildAttributes($this->attributes) : '' ?>
 >
     <?= $this->prefix ?: '' ?>
     <?= $this->suffix ?: '' ?>
