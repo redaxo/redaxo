@@ -1,9 +1,12 @@
 <?php
 
+use Fragment\Slot;
 use Redaxo\Core\Fragment\Component\Button;
 use Redaxo\Core\Fragment\Component\ButtonSize;
+use Redaxo\Core\Fragment\Component\ButtonSlot;
 use Redaxo\Core\Fragment\Component\ButtonType;
 use Redaxo\Core\Fragment\Component\ButtonVariant;
+use Redaxo\Core\Fragment\Component\Card;
 use Redaxo\Core\Fragment\Component\Icon;
 use Redaxo\Core\Fragment\Component\IconLibrary;
 
@@ -164,14 +167,13 @@ if (rex_version::isUnstable($rexVersion)) {
 }
 
 $buttonDeleteCache = new Button(
-    label: rex_i18n::msg('delete_cache'),
+    slotDefault: new Slot(rex_i18n::msg('delete_cache')),
     href: (rex_url::currentBackendPage(['func' => 'generate'] + $csrfToken->getUrlParams())),
     variant: ButtonVariant::Danger,
 );
 
 $icon = new Icon(
     name: IconLibrary::Debug,
-    slot: 'prefix',
 );
 $attributes = [
     'data-pjax' => 'false',
@@ -180,9 +182,9 @@ if (!rex::isDebugMode()) {
     $attributes['data-confirm'] = rex_i18n::msg('debug_confirm');
 }
 $buttonDebugMode = new Button(
-    label: (rex::isDebugMode() ? rex_i18n::msg('debug_mode_off') : rex_i18n::msg('debug_mode_on')),
+    slotDefault: new Slot((rex::isDebugMode() ? rex_i18n::msg('debug_mode_off') : rex_i18n::msg('debug_mode_on'))),
+    slotPrefix: new Slot($icon->parse()),
     href: (rex_url::currentBackendPage(['func' => 'debugmode'] + $csrfToken->getUrlParams())),
-    prefix: $icon->parse(),
     variant: ButtonVariant::Warning,
     attributes: $attributes,
 );
@@ -192,7 +194,7 @@ if (rex::isSafeMode()) {
     $safemodeUrl = rex_url::currentBackendPage(['safemode' => '0'] + $csrfToken->getUrlParams());
 }
 $buttonSaveMode = new Button(
-    label: (rex::isSafeMode() ? rex_i18n::msg('safemode_deactivate') : rex_i18n::msg('safemode_activate')),
+    slotDefault: new Slot(rex::isSafeMode() ? rex_i18n::msg('safemode_deactivate') : rex_i18n::msg('safemode_activate')),
     href: $safemodeUrl,
     variant: ButtonVariant::Warning,
     attributes: [
@@ -200,7 +202,7 @@ $buttonSaveMode = new Button(
     ],
 );
 $buttonSetup = new Button(
-    label: rex_i18n::msg('setup'),
+    slotDefault: new Slot(rex_i18n::msg('setup')),
     href: rex_url::currentBackendPage(['func' => 'setup'] + $csrfToken->getUrlParams()),
     variant: ButtonVariant::Primary,
     attributes: [
@@ -229,10 +231,11 @@ $content = '
 $mainContent = [];
 $sideContent = [];
 
-$fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('system_features'));
-$fragment->setVar('body', $content, false);
-$sideContent[] = $fragment->parse('core/page/section.php');
+$card = new Card(
+    slotDefault: new Slot($content),
+    slotHeader: new Slot('<div>'.rex_i18n::msg('system_features').'</div>')
+);
+$sideContent[] = $card->parse();
 
 $content = '
     <table class="table">
@@ -246,16 +249,17 @@ $content = '
         </tr>
         <tr>
             <th>'.rex_i18n::msg('path').'</th>
-			<td>
-			<div class="rex-word-break">'. rex_path::base() .'</div>
-			</td>
+            <td>
+                <div class="rex-word-break">'. rex_path::base() .'</div>
+            </td>
         </tr>
     </table>';
 
-$fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('installation'));
-$fragment->setVar('content', $content, false);
-$sideContent[] = $fragment->parse('core/page/section.php');
+$card = new Card(
+    slotDefault: new Slot($content),
+    slotHeader: new Slot('<div>'.rex_i18n::msg('installation').'</div>')
+);
+$sideContent[] = $card->parse();
 
 $sql = rex_sql::factory();
 
@@ -275,10 +279,11 @@ $content = '
         </tr>
     </table>';
 
-$fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('database'));
-$fragment->setVar('content', $content, false);
-$sideContent[] = $fragment->parse('core/page/section.php');
+$card = new Card(
+    slotDefault: new Slot($content),
+    slotHeader: new Slot('<div>'.rex_i18n::msg('database').'</div>')
+);
+$sideContent[] = $card->parse();
 
 $content = '';
 
@@ -323,7 +328,7 @@ $editor = rex_editor::factory();
 $configYml = rex_path::coreData('config.yml');
 if ($url = $editor->getUrl($configYml, 0)) {
     $buttonEditor = new Button(
-        label: rex_i18n::msg('system_editor_open_file', rex_path::basename($configYml)),
+        slotDefault: new Slot(rex_i18n::msg('system_editor_open_file', rex_path::basename($configYml))),
         href: $url,
         variant: ButtonVariant::Primary,
         size: ButtonSize::Small,
@@ -405,7 +410,7 @@ $class = 'rex-form-aligned';
 
 if (!$viaCookie) {
     $buttonSave = new Button\Save(
-        label: rex_i18n::msg('system_editor_update_configyml'),
+        slotDefault: new Slot(rex_i18n::msg('system_editor_update_configyml')),
         name: 'editor[update_cookie]',
         value: '0'
     );
@@ -416,7 +421,7 @@ if (!$viaCookie) {
 }
 
 $buttonSave = new Button\Save(
-    label: rex_i18n::msg('system_editor_update_cookie'),
+    slotDefault: new Slot(rex_i18n::msg('system_editor_update_cookie')),
     name: 'editor[update_cookie]',
     value: '1'
 );
@@ -426,7 +431,7 @@ $formElements[] = $n;
 
 if ($viaCookie) {
     $buttonDelete = new Button(
-        label: rex_i18n::msg('system_editor_delete_cookie'),
+        slotDefault: new Slot(rex_i18n::msg('system_editor_delete_cookie')),
         variant: ButtonVariant::Danger,
         type: ButtonType::Submit,
         name: 'editor[delete_cookie]',
