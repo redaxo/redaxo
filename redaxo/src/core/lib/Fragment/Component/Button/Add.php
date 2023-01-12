@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\Fragment\Component\Button;
 
+use Fragment\Slot;
 use Redaxo\Core\Fragment\Component\Button;
 use Redaxo\Core\Fragment\Component\ButtonVariant;
 use Redaxo\Core\Fragment\Component\Icon;
@@ -12,7 +13,6 @@ class Add
 {
     public function __construct(
         public ?string $href = null,
-        public ?string $slot = null,
         /** @var array<string, string>|null */
         public ?array $attributes = null,
     ) {
@@ -22,15 +22,13 @@ class Add
     {
         $icon = new Icon(
             name: IconLibrary::Add,
-            slot: 'prefix'
         );
 
         $button = new Button(
-            label: rex_i18n::msg('add'),
+            slotDefault: new Slot(rex_i18n::msg('add')),
+            slotPrefix: new Slot($icon->parse()),
             href: $this->href,
-            prefix: $icon->parse(),
             variant: ButtonVariant::Primary,
-            slot: $this->slot,
             attributes: $this->attributes,
         );
 

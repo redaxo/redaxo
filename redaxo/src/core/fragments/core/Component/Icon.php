@@ -16,6 +16,5 @@ $name = match ($this->name) {
 <sl-icon name="<?= $name ?>"
     <?= $this->label ? 'label="'.$this->label.'"' : '' ?>
     <?= $this->src ? 'src="'.$this->src.'"' : '' ?>
-    <?= $this->slot ? 'slot="'.$this->slot.'"' : '' ?>
 >
 </sl-icon>

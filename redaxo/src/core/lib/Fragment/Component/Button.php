@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\Fragment\Component;
 
+use Fragment\Slot;
 use rex_fragment;
 
 class Button extends rex_fragment
@@ -9,11 +10,11 @@ class Button extends rex_fragment
     private string $fileName = 'core/Component/Button.php';
 
     public function __construct(
-        public string $label,
+        public Slot $slotDefault,
+        public ?Slot $slotPrefix = null,
+        public ?Slot $slotSuffix = null,
         public ?string $href = null,
         public ?ButtonTarget $target = null,
-        public ?string $prefix = null,
-        public ?string $suffix = null,
         public ?ButtonVariant $variant = null,
         public ?ButtonSize $size = null,
         public ?ButtonType $type = null,
@@ -24,7 +25,7 @@ class Button extends rex_fragment
         public bool $circle = false,
         public ?string $name = null,
         public ?string $value = null,
-        public ?string $slot = null,
+
         /** @var array<string, string>|null */
         public ?array $attributes = null,
     ) {
