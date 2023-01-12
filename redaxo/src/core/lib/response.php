@@ -34,6 +34,8 @@ class rex_response
     private static $additionalHeaders = [];
     /** @var array */
     private static $preloadFiles = [];
+    /** @var string */
+    private static $nonce = '';
 
     /**
      * Sets the HTTP Status code.
@@ -60,6 +62,17 @@ class rex_response
     public static function getStatus()
     {
         return self::$httpStatus;
+    }
+
+    /**
+     * Returns a request save NONCE für CSP Headers and Implemntations.
+     */
+    public static function getNonce(): string
+    {
+        if (!self::$nonce) {
+            self::$nonce = bin2hex(random_bytes(16));
+        }
+        return self::$nonce;
     }
 
     /**
