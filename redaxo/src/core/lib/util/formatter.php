@@ -101,7 +101,7 @@ abstract class rex_formatter
         }
 
         // strftime does not exist anymore, return unformatted datetime string
-        if (is_int($value) || ctype_digit($value)) {
+        if (is_int($value) || preg_match('/^[0-9]+$/', $value) === 1) {
             return date('Y-m-d H:i:s', (int) $value);
         }
 
@@ -514,7 +514,7 @@ abstract class rex_formatter
      */
     private static function getTimestamp($value)
     {
-        if (is_int($value) || ctype_digit($value)) {
+        if (is_int($value) || preg_match('/^[0-9]+$/', $value) === 1) {
             return (int) $value;
         }
 
