@@ -27,7 +27,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
     {
         $this
             ->setDescription('Perform redaxo setup')
-            ->addOption('lang', null, InputOption::VALUE_REQUIRED, 'System language e.g. "de_de" or "en_gb"', null, fn () => rex_i18n::getLocales())
+            ->addOption('lang', null, InputOption::VALUE_REQUIRED, 'System language e.g. "de_de" or "en_gb"', null, static fn () => rex_i18n::getLocales())
             ->addOption('agree-license', null, InputOption::VALUE_NONE, 'Accept license terms and conditions') // BC, not used anymore
             ->addOption('server', null, InputOption::VALUE_REQUIRED, 'Website URL e.g. "https://example.org/"')
             ->addOption('servername', null, InputOption::VALUE_REQUIRED, 'Website name')
