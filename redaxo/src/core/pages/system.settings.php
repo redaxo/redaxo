@@ -7,9 +7,9 @@ $func = rex_request('func', 'string');
 
 $csrfToken = rex_csrf_token::factory('system');
 
-  if (rex_request('rex_debug_updated', 'bool', false)) {
-      $success = (rex::isDebugMode()) ? rex_i18n::msg('debug_mode_info_on') : rex_i18n::msg('debug_mode_info_off');
-  }
+if (rex_request('rex_debug_updated', 'bool', false)) {
+    $success = (rex::isDebugMode()) ? rex_i18n::msg('debug_mode_info_on') : rex_i18n::msg('debug_mode_info_off');
+}
 
 if ($func && !$csrfToken->isValid()) {
     $error[] = rex_i18n::msg('csrf_token_invalid');

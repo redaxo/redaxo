@@ -8,6 +8,7 @@ use PhpParser\Node\Stmt\ClassLike;
 use Rector\Naming\PhpArray\ArrayFilter;
 use Rector\Naming\ValueObject\PropertyRename;
 use Rector\NodeNameResolver\NodeNameResolver;
+
 use function in_array;
 
 final class UnderscoreCamelCaseConflictingNameGuard

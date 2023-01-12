@@ -94,7 +94,7 @@ class rex_effect_convert2img extends rex_effect_abstract
         }
 
         $filename = $this->media->getMediaFilename();
-        $filenameWoExt = substr($filename, 0, (strlen($filename) - strlen($ext)));
+        $filenameWoExt = substr($filename, 0, strlen($filename) - strlen($ext));
 
         $toPath = rex_path::addonCache('media_manager', 'media_manager__convert2img_' . md5($this->media->getMediaPath()) . '_' . $filenameWoExt . $convertTo['ext']);
 

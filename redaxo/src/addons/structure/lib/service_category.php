@@ -543,7 +543,7 @@ class rex_category_service
             $up->setWhere(['id' => $fromCat, 'clang_id' => $clang]);
             $up->setValue('path', $toPath);
             $up->setValue('parent_id', $toCat);
-            $up->setValue('catpriority', ($catpriority + 1));
+            $up->setValue('catpriority', $catpriority + 1);
             $up->update();
         }
 

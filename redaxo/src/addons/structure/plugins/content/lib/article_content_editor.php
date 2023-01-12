@@ -312,7 +312,7 @@ class rex_article_content_editor extends rex_article_content
         $select = $fragment->parse('module_select.php');
         $select = rex_extension::registerPoint(new rex_extension_point(
             'STRUCTURE_CONTENT_MODULE_SELECT',
-                $select,
+            $select,
             [
                 'page' => rex_be_controller::getCurrentPage(),
                 'article_id' => $this->article_id,

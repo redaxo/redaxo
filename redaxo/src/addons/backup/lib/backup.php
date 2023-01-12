@@ -558,7 +558,7 @@ class rex_backup
                                 $record[] = "'" . $column . "'";
                                 break;
                             }
-                        // no break
+                            // no break
                         default:
                             $record[] = $sql->escape($column);
                             break;

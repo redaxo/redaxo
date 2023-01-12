@@ -21,7 +21,7 @@ class rex_command_package_list extends rex_console_command
             ->addOption('activated-only', 'a', InputOption::VALUE_NONE, 'only list active packages')
             ->addOption('error-when-empty', null, InputOption::VALUE_NONE, 'if no package matches your filter the command exits with error-code 1, otherwise with 0')
             ->addOption('json', null, InputOption::VALUE_NONE, 'output table as json')
-            ;
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

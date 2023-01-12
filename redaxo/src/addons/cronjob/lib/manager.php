@@ -144,8 +144,8 @@ class rex_cronjob_manager
 
         $log = new rex_log_file(rex_path::log('cronjob.log'), 2000000);
         $data = [
-            ($success ? 'SUCCESS' : 'ERROR'),
-            ($this->id ?: '--'),
+            $success ? 'SUCCESS' : 'ERROR',
+            $this->id ?: '--',
             $name,
             strip_tags($message),
             $environment,

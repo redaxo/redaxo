@@ -167,17 +167,17 @@ class rex_extension_point_slice_menu extends rex_extension_point
         $menuItemsEp = [];
 
         $menuItemsEp = rex_extension::registerPoint(new rex_extension_point(
-                'STRUCTURE_CONTENT_SLICE_MENU',
-                $menuItemsEp,
-                [
-                    'article_id' => $this->articleId,
-                    'clang' => $this->clang,
-                    'ctype' => $this->ctype,
-                    'module_id' => $this->moduleId,
-                    'slice_id' => $this->sliceId,
-                    'perm' => $this->hasPerm,
-                ],
-            ));
+            'STRUCTURE_CONTENT_SLICE_MENU',
+            $menuItemsEp,
+            [
+                'article_id' => $this->articleId,
+                'clang' => $this->clang,
+                'ctype' => $this->ctype,
+                'module_id' => $this->moduleId,
+                'slice_id' => $this->sliceId,
+                'perm' => $this->hasPerm,
+            ],
+        ));
 
         return array_merge($this->additionalActions, $menuItemsEp);
     }

@@ -1180,11 +1180,11 @@ abstract class rex_form_base
 
         if ($this->debug) {
             echo 'redirect to: ' . rex_escape($this->applyUrl . $paramString);
-            exit();
+            exit;
         }
 
         header('Location: ' . $this->applyUrl . $paramString);
-        exit();
+        exit;
     }
 
     /**

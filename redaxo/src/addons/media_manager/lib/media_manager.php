@@ -291,7 +291,7 @@ class rex_media_manager
      */
     public static function deleteCacheByType($typeId)
     {
-        $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type' . ' WHERE id=?';
+        $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type WHERE id=?';
         $sql = rex_sql::factory();
         //  $sql->setDebug();
         $sql->setQuery($qry, [$typeId]);

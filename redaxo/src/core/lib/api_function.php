@@ -182,7 +182,7 @@ abstract class rex_api_function
                     $result = $apiFunc->execute();
 
                     if (!($result instanceof rex_api_result)) {
-                        throw new rex_exception('Illegal result returned from api-function ' . rex_get(self::REQ_CALL_PARAM) .'. Expected a instance of rex_api_result but got "'. (get_debug_type($result)) .'".');
+                        throw new rex_exception('Illegal result returned from api-function ' . rex_get(self::REQ_CALL_PARAM) .'. Expected a instance of rex_api_result but got "'. get_debug_type($result) .'".');
                     }
 
                     $apiFunc->result = $result;
