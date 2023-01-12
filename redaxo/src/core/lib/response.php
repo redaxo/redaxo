@@ -66,10 +66,8 @@ class rex_response
 
     /**
      * Returns a request save NONCE für CSP Headers and Implemntations.
-     *
-     * @return string
      */
-    public static function getNonce()
+    public static function getNonce(): string
     {
         if (!self::$nonce) {
             self::$nonce = bin2hex(random_bytes(16));
