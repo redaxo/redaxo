@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the ramsey/http-range library
  *
@@ -28,8 +29,6 @@ interface UnitInterface
      * other-range-set = 1*VCHAR
      * ```
      *
-     * @return string
-     *
      * @link https://tools.ietf.org/html/rfc7233#section-3.1 RFC 7233 § 3.1
      */
     public function getRangeSet(): string;
@@ -40,8 +39,6 @@ interface UnitInterface
      * ```
      * other-range-unit = token
      * ```
-     *
-     * @return string
      *
      * @link https://tools.ietf.org/html/rfc7233#section-2.2 RFC 7233 § 2.2
      */
@@ -54,16 +51,12 @@ interface UnitInterface
      * other-ranges-specifier = other-range-unit "=" other-range-set
      * ```
      *
-     * @return string
-     *
      * @link https://tools.ietf.org/html/rfc7233#section-3.1 RFC 7233 § 3.1
      */
     public function getRangesSpecifier(): string;
 
     /**
      * Returns an iterable collection of unit ranges.
-     *
-     * @return UnitRangesCollection
      */
     public function getRanges(): UnitRangesCollection;
 
