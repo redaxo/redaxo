@@ -10,6 +10,7 @@
 class rex_sql_foreign_key
 {
     public const RESTRICT = 'RESTRICT';
+    public const NO_ACTION = 'NO ACTION';
     public const CASCADE = 'CASCADE';
     public const SET_NULL = 'SET NULL';
 
@@ -22,10 +23,10 @@ class rex_sql_foreign_key
     /** @var array<string, string> */
     private $columns;
 
-    /** @var self::RESTRICT|self::CASCADE|self::SET_NULL */
+    /** @var self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL */
     private $onUpdate;
 
-    /** @var self::RESTRICT|self::CASCADE|self::SET_NULL */
+    /** @var self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL */
     private $onDelete;
 
     /** @var bool */
@@ -35,8 +36,8 @@ class rex_sql_foreign_key
      * @param string $name
      * @param string $table
      * @param array<string, string> $columns  Mapping of locale column to column in foreign table
-     * @param self::RESTRICT|self::CASCADE|self::SET_NULL $onUpdate
-     * @param self::RESTRICT|self::CASCADE|self::SET_NULL $onDelete
+     * @param self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL $onUpdate
+     * @param self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL $onDelete
      */
     public function __construct($name, $table, array $columns, $onUpdate = self::RESTRICT, $onDelete = self::RESTRICT)
     {
@@ -128,7 +129,7 @@ class rex_sql_foreign_key
     }
 
     /**
-     * @param self::RESTRICT|self::CASCADE|self::SET_NULL $onUpdate
+     * @param self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL $onUpdate
      *
      * @return $this
      */
@@ -140,7 +141,7 @@ class rex_sql_foreign_key
     }
 
     /**
-     * @return self::RESTRICT|self::CASCADE|self::SET_NULL
+     * @return self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL
      */
     public function getOnUpdate()
     {
@@ -148,7 +149,7 @@ class rex_sql_foreign_key
     }
 
     /**
-     * @param self::RESTRICT|self::CASCADE|self::SET_NULL $onDelete
+     * @param self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL $onDelete
      *
      * @return $this
      */
@@ -160,7 +161,7 @@ class rex_sql_foreign_key
     }
 
     /**
-     * @return self::RESTRICT|self::CASCADE|self::SET_NULL
+     * @return self::RESTRICT|self::NO_ACTION|self::CASCADE|self::SET_NULL
      */
     public function getOnDelete()
     {

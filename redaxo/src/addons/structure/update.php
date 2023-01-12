@@ -6,7 +6,6 @@ if (rex_addon::get('users')->isInstalled() && rex_string::versionCompare($addon-
     $sql = rex_sql::factory();
     $sql->transactional(static function () use ($sql) {
         $roles = rex_sql::factory()->setQuery('SELECT * FROM '.rex::getTable('user_role'));
-        /** @var rex_sql $role */
         foreach ($roles as $role) {
             $perms = $role->getArrayValue('perms');
             $perms['options'] = $perms['options'] ?? '|';
@@ -25,7 +24,6 @@ if (rex_addon::get('users')->isInstalled() && $addon->getPlugin('content')->isIn
     $sql = rex_sql::factory();
     $sql->transactional(static function () use ($sql) {
         $roles = rex_sql::factory()->setQuery('SELECT * FROM '.rex::getTable('user_role'));
-        /** @var rex_sql $role */
         foreach ($roles as $role) {
             $perms = $role->getArrayValue('perms');
             $perms['options'] = $perms['options'] ?? '|';

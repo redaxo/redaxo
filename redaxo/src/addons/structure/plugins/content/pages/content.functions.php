@@ -164,7 +164,6 @@ if ($isStartpage && $user->hasPerm('article2category[]') && $user->getComplexPer
 // --------------------------------------------------- IN ARTIKEL UMWANDELN END
 
 // --------------------------------------------------- INHALTE KOPIEREN START
-$user = $user;
 if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() > 1) {
     $clangPerm = $user->getComplexPerm('clang')->getClangs();
 
