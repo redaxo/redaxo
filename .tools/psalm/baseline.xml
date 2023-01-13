@@ -205,9 +205,6 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/cronjob/lib/manager.php">
-    <MixedArgument occurrences="1">
-      <code>$cronjob</code>
-    </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="1">
       <code>$key</code>
     </MixedArgumentTypeCoercion>
@@ -2207,8 +2204,8 @@
       <code>$f['metafield']</code>
       <code>$f['type']</code>
       <code>$f['value']</code>
-      <code>$this-&gt;classes[($depth - 1)]</code>
-      <code>$this-&gt;linkclasses[($depth - 1)]</code>
+      <code>$this-&gt;classes[$depth - 1]</code>
+      <code>$this-&gt;linkclasses[$depth - 1]</code>
     </MixedArrayAccess>
     <MixedArrayAssignment occurrences="10">
       <code>$a['class']</code>
