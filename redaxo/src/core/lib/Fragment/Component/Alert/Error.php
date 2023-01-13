@@ -7,7 +7,6 @@ use Redaxo\Core\Fragment\Component\AlertType;
 use Redaxo\Core\Fragment\Component\Icon;
 use Redaxo\Core\Fragment\Component\IconLibrary;
 use Redaxo\Core\Fragment\Slot;
-use rex_i18n;
 
 class Error
 {
