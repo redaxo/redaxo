@@ -2,12 +2,12 @@
 
 namespace Redaxo\Core\Fragment\Component\Button;
 
-use Fragment\Slot;
 use Redaxo\Core\Fragment\Component\Button;
 use Redaxo\Core\Fragment\Component\ButtonType;
 use Redaxo\Core\Fragment\Component\ButtonVariant;
 use Redaxo\Core\Fragment\Component\Icon;
 use Redaxo\Core\Fragment\Component\IconLibrary;
+use Redaxo\Core\Fragment\Slot;
 use rex_i18n;
 
 class Save

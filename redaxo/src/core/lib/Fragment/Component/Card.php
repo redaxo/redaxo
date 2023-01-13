@@ -2,7 +2,7 @@
 
 namespace Redaxo\Core\Fragment\Component;
 
-use Fragment\Slot;
+use Redaxo\Core\Fragment\Slot;
 use rex_fragment;
 
 class Card extends rex_fragment

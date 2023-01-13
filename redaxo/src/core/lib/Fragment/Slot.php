@@ -1,6 +1,6 @@
 <?php
 
-namespace Fragment;
+namespace Redaxo\Core\Fragment;
 
 use DOMDocument;
 use rex_functional_exception;

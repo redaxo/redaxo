@@ -1,14 +1,13 @@
 <?php
 
-use Fragment\Slot;
 use Redaxo\Core\Fragment\Component\Button;
 use Redaxo\Core\Fragment\Component\ButtonSize;
-use Redaxo\Core\Fragment\Component\ButtonSlot;
 use Redaxo\Core\Fragment\Component\ButtonType;
 use Redaxo\Core\Fragment\Component\ButtonVariant;
 use Redaxo\Core\Fragment\Component\Card;
 use Redaxo\Core\Fragment\Component\Icon;
 use Redaxo\Core\Fragment\Component\IconLibrary;
+use Redaxo\Core\Fragment\Slot;
 
 $error = [];
 $success = '';
@@ -371,6 +370,8 @@ $mainContent[] = '
     ' . $csrfToken->getHiddenField() . '
     ' . $content . '
 </form>';
+
+
 
 $content = '<p>' . rex_i18n::msg('system_editor_note') . '</p>';
 
