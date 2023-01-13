@@ -38,6 +38,11 @@ class Icon extends rex_fragment
 enum IconLibrary
 {
     case Add;
+    case AlertError;
+    case AlertInfo;
+    case AlertNeutral;
+    case AlertSuccess;
+    case AlertWarning;
     case Debug;
     case Save;
 }

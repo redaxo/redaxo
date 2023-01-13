@@ -1,5 +1,6 @@
 <?php
 
+use Redaxo\Core\Fragment\Component\Alert\Info;
 use Redaxo\Core\Fragment\Component\Button;
 use Redaxo\Core\Fragment\Component\ButtonSize;
 use Redaxo\Core\Fragment\Component\ButtonType;
@@ -377,7 +378,10 @@ $content = '<p>' . rex_i18n::msg('system_editor_note') . '</p>';
 
 $viaCookie = array_key_exists('editor', $_COOKIE);
 if ($viaCookie) {
-    $content .= rex_view::info(rex_i18n::msg('system_editor_note_cookie'));
+    $alert = new Info(
+        slotDefault: new Slot(rex_i18n::msg('system_editor_note_cookie'))
+    );
+    $content .= $alert->parse();
 }
 
 $formElements = [];
