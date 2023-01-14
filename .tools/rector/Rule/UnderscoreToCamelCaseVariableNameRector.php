@@ -43,7 +43,7 @@ final class UnderscoreToCamelCaseVariableNameRector extends AbstractRector
         ReservedKeywordAnalyzer $reservedKeywordAnalyzer,
         ParamRenameFactory $paramRenameFactory,
         ParamRenamer $underscoreCamelCaseParamRenamer,
-        UnderscoreCamelCaseExpectedNameResolver $underscoreCamelCaseExpectedNameResolver
+        UnderscoreCamelCaseExpectedNameResolver $underscoreCamelCaseExpectedNameResolver,
     ) {
         $this->reservedKeywordAnalyzer = $reservedKeywordAnalyzer;
         $this->paramRenameFactory = $paramRenameFactory;
@@ -72,7 +72,7 @@ final class UnderscoreToCamelCaseVariableNameRector extends AbstractRector
                             $someValue = $aB;
                         }
                     }
-                    CODE_SAMPLE
+                    CODE_SAMPLE,
             ),
         ]);
     }

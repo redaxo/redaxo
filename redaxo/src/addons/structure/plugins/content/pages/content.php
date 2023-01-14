@@ -249,7 +249,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
                                     rex::getTable('article_slice'),
                                     'priority',
                                     'article_id=' . $articleId . ' AND clang_id=' . $clang . ' AND ctype_id=' . $ctype . ' AND revision=' . (int) $sliceRevision,
-                                    'priority, updatedate DESC'
+                                    'priority, updatedate DESC',
                                 );
 
                                 $info = $actionMessage . rex_i18n::msg('block_added');
@@ -346,7 +346,7 @@ if (!$user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {
         $editPage->addSubpage((new rex_be_page('ctype' . $key, rex_i18n::translate($val)))
             ->setHref(['page' => 'content/edit', 'article_id' => $articleId, 'clang' => $clang, 'ctype' => $key])
             ->setIsActive($ctype == $key)
-            ->setItemAttr('class', $hasSlice ? '' : 'rex-empty')
+            ->setItemAttr('class', $hasSlice ? '' : 'rex-empty'),
         );
     }
 

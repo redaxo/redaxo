@@ -95,7 +95,7 @@ abstract class rex_var_dumper
                     {
                         /** @var rex_editor|null $editor */
                         static $editor;
-                        $editor = $editor ?? rex_editor::factory();
+                        $editor ??= rex_editor::factory();
 
                         return $editor->getUrl($file, $line);
                     }

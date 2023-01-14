@@ -21,14 +21,14 @@ class rex_cronjob_phpcode extends rex_cronjob
         try {
             $return = eval($code);
         } catch (Throwable $exception) {
-            echo get_class($exception).': '.$exception->getMessage();
+            echo $exception::class.': '.$exception->getMessage();
         }
 
         $output = ob_get_clean();
         ini_set('display_errors', $is);
         if ($output) {
             $output = str_replace(["\r\n\r\n", "\n\n"], "\n", trim(strip_tags($output)));
-            $output = preg_replace('@in ' . preg_quote(__FILE__, '@') . "\([0-9]*\) : eval\(\)'d code @", '', $output);
+            $output = preg_replace('@in ' . preg_quote(__FILE__, '@') . "\\([0-9]*\\) : eval\\(\\)'d code @", '', $output);
             $this->setMessage($output);
         }
         return false !== $return;

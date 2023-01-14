@@ -13,7 +13,7 @@ if (rex_request('effects', 'boolean')) {
 $success = '';
 $error = '';
 
-//-------------- delete type
+// -------------- delete type
 if ('delete' == $func && $typeId > 0) {
     // must be called before deletion, otherwise the method can not resolve the id to type name
     rex_media_manager::deleteCacheByType($typeId);
@@ -39,14 +39,14 @@ if ('delete' == $func && $typeId > 0) {
     $func = '';
 }
 
-//-------------- delete cache by type-id
+// -------------- delete cache by type-id
 if ('delete_cache' == $func && $typeId > 0) {
     $counter = rex_media_manager::deleteCacheByType($typeId);
     $success = rex_i18n::msg('media_manager_cache_files_removed', $counter);
     $func = '';
 }
 
-//-------------- copy type
+// -------------- copy type
 if ('copy' == $func && $typeId > 0) {
     $sql = rex_sql::factory();
 
@@ -64,7 +64,7 @@ if ('copy' == $func && $typeId > 0) {
     $func = '';
 }
 
-//-------------- output messages
+// -------------- output messages
 if ('' != $success) {
     echo rex_view::success($success);
 }

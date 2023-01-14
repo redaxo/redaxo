@@ -516,7 +516,7 @@ abstract class rex_package_manager
                 'requirement_error_' . $package->getType() . '_version',
                 $package->getPackageId(),
                 $package->getVersion(),
-                $requirements['packages'][$packageId]
+                $requirements['packages'][$packageId],
             );
             return false;
         }

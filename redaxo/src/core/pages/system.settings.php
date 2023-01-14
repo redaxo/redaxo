@@ -7,9 +7,9 @@ $func = rex_request('func', 'string');
 
 $csrfToken = rex_csrf_token::factory('system');
 
-  if (rex_request('rex_debug_updated', 'bool', false)) {
-      $success = (rex::isDebugMode()) ? rex_i18n::msg('debug_mode_info_on') : rex_i18n::msg('debug_mode_info_off');
-  }
+if (rex_request('rex_debug_updated', 'bool', false)) {
+    $success = (rex::isDebugMode()) ? rex_i18n::msg('debug_mode_info_on') : rex_i18n::msg('debug_mode_info_off');
+}
 
 if ($func && !$csrfToken->isValid()) {
     $error[] = rex_i18n::msg('csrf_token_invalid');
@@ -30,7 +30,7 @@ if ($func && !$csrfToken->isValid()) {
     $configFile = rex_path::coreData('config.yml');
     $config = array_merge(
         rex_file::getConfig(rex_path::core('default.config.yml')),
-        rex_file::getConfig($configFile)
+        rex_file::getConfig($configFile),
     );
 
     if (!is_array($config['debug'])) {
@@ -47,7 +47,7 @@ if ($func && !$csrfToken->isValid()) {
     $configFile = rex_path::coreData('config.yml');
     $config = array_merge(
         rex_file::getConfig(rex_path::core('default.config.yml')),
-        rex_file::getConfig($configFile)
+        rex_file::getConfig($configFile),
     );
 
     $settings = rex_post('settings', 'array', []);
@@ -270,7 +270,7 @@ $content .= $fragment->parse('core/form/form.php');
 foreach (rex_system_setting::getAll() as $setting) {
     $field = $setting->getField();
     if (!($field instanceof rex_form_element)) {
-        throw new rex_exception(get_class($setting) . '::getField() must return a rex_form_element!');
+        throw new rex_exception($setting::class . '::getField() must return a rex_form_element!');
     }
     $field->setAttribute('name', 'settings[' . $setting->getKey() . ']');
     $content .= $field->get();

@@ -376,7 +376,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
         [
             'category_id' => $structureContext->getCategoryId(),
             'clang_id' => $structureContext->getClangId(),
-        ]
+        ],
     );
 
     // ---------- INLINE THE EDIT/ADD FORM

@@ -28,7 +28,7 @@ final class UnderscoreToCamelCasePropertyNameRector extends AbstractRector
     public function __construct(
         UnderscoreCamelCasePropertyRenamer $underscoreCamelCasePropertyRenamer,
         PropertyRenameFactory $propertyRenameFactory,
-        UnderscoreCamelCaseExpectedNameResolver $underscoreCamelCaseExpectedNameResolver
+        UnderscoreCamelCaseExpectedNameResolver $underscoreCamelCaseExpectedNameResolver,
     ) {
         $this->underscoreCamelCasePropertyRenamer = $underscoreCamelCasePropertyRenamer;
         $this->propertyRenameFactory = $propertyRenameFactory;
@@ -60,7 +60,7 @@ final class UnderscoreToCamelCasePropertyNameRector extends AbstractRector
                             $this->propertyName = 5;
                         }
                     }
-                    CODE_SAMPLE
+                    CODE_SAMPLE,
             ),
         ]);
     }

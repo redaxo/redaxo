@@ -84,7 +84,7 @@ class rex_string_test extends TestCase
                 'checked',
                 'data-foo' => '<foo> & "bar"',
                 'href' => 'index.php?foo=1&amp;bar=2',
-            ])
+            ]),
         );
     }
 

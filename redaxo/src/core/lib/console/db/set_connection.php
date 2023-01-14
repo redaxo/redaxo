@@ -60,7 +60,7 @@ class rex_command_db_set_connection extends rex_console_command implements rex_c
             $db['login'],
             $db['password'],
             $db['name'],
-            false
+            false,
         );
 
         if (true !== $settingsValid) {

@@ -8,7 +8,7 @@ if (rex_addon::get('users')->isInstalled() && rex_string::versionCompare($addon-
         $roles = rex_sql::factory()->setQuery('SELECT * FROM '.rex::getTable('user_role'));
         foreach ($roles as $role) {
             $perms = $role->getArrayValue('perms');
-            $perms['options'] = $perms['options'] ?? '|';
+            $perms['options'] ??= '|';
             $perms['options'] .= 'addArticle[]|addCategory[]|editArticle[]|editCategory[]|deleteArticle[]|deleteCategory[]|';
 
             $sql
@@ -26,7 +26,7 @@ if (rex_addon::get('users')->isInstalled() && $addon->getPlugin('content')->isIn
         $roles = rex_sql::factory()->setQuery('SELECT * FROM '.rex::getTable('user_role'));
         foreach ($roles as $role) {
             $perms = $role->getArrayValue('perms');
-            $perms['options'] = $perms['options'] ?? '|';
+            $perms['options'] ??= '|';
             $perms['options'] .= 'publishSlice[]|';
 
             $sql

@@ -54,7 +54,7 @@ $sectionAttributes['class'][] = 'rex-page-section';
         ?>
 
         <?php if (isset($this->collapse) && $this->collapse): ?>
-            <div id="<?= $collapseId; ?>" class="panel-collapse collapse<?= ($collapsed ? '' : ' in'); ?>">
+            <div id="<?= $collapseId; ?>" class="panel-collapse collapse<?= $collapsed ? '' : ' in'; ?>">
         <?php endif; ?>
 
         <?php if (isset($this->body) && '' != $this->body): ?>

@@ -43,7 +43,7 @@ class rex_sql_schema_dumper
     ->ensureColumn(new rex_sql_column('updateuser', 'varchar(255)'))",
             '
     ->ensureGlobalColumns()',
-            $code
+            $code,
         );
 
         if ($setPrimaryKey && $table->getPrimaryKey()) {

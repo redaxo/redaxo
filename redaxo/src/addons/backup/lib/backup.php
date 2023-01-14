@@ -299,7 +299,7 @@ class rex_backup
             $tables = self::getTables();
         }
         foreach ($tables as $table) {
-            //---- export metadata
+            // ---- export metadata
             $create = rex_sql::showCreateTable($table);
 
             fwrite($fp, 'DROP TABLE IF EXISTS ' . $sql->escapeIdentifier($table) . ';' . $nl);
@@ -325,7 +325,7 @@ class rex_backup
                 $fields[] = $type;
             }
 
-            //---- export tabledata
+            // ---- export tabledata
             $start = 0;
             $max = $insertSize;
 
@@ -558,7 +558,7 @@ class rex_backup
                                 $record[] = "'" . $column . "'";
                                 break;
                             }
-                        // no break
+                            // no break
                         default:
                             $record[] = $sql->escape($column);
                             break;

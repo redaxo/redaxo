@@ -163,7 +163,7 @@ $content = '
 
 echo $content;
 
-//echo '<h2>' . rex_i18n::msg('backup_files') . '</h2>';
+// echo '<h2>' . rex_i18n::msg('backup_files') . '</h2>';
 
 $content = '<fieldset>
                 <input type="hidden" name="function" value="fileimport" />';

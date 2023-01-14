@@ -186,12 +186,12 @@ class rex_be_controller
             ->addSubpage($logsPage)
             ->addSubpage((new rex_be_page('report', rex_i18n::msg('system_report')))
                 ->addSubpage((new rex_be_page('html', rex_i18n::msg('system_report')))->setSubPath(rex_path::core('pages/system.report.html.php')))
-                ->addSubpage((new rex_be_page('markdown', rex_i18n::msg('system_report_markdown')))->setSubPath(rex_path::core('pages/system.report.markdown.php')))
+                ->addSubpage((new rex_be_page('markdown', rex_i18n::msg('system_report_markdown')))->setSubPath(rex_path::core('pages/system.report.markdown.php'))),
             )
             ->addSubpage((new rex_be_page('phpinfo', 'phpinfo'))
                 ->setHidden(true)
                 ->setHasLayout(false)
-                ->setPath(rex_path::core('pages/system.phpinfo.php'))
+                ->setPath(rex_path::core('pages/system.phpinfo.php')),
             );
     }
 

@@ -98,7 +98,7 @@ class rex_stream
 
         $this->position = 0;
         $this->content = self::$nextContent[$path];
-        //unset(self::$nextContent[$path]);
+        // unset(self::$nextContent[$path]);
 
         return true;
     }

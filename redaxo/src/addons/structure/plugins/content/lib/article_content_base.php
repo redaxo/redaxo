@@ -333,7 +333,7 @@ class rex_article_content_base
                 'article_id' => $this->article_id,
                 'clang' => $this->clang,
                 'slice_data' => $artDataSql,
-            ]
+            ],
         ));
         $output = $this->replaceVars($artDataSql, $output);
         $moduleId = (int) $artDataSql->getValue(rex::getTablePrefix() . 'module.id');
@@ -520,7 +520,7 @@ class rex_article_content_base
                 (string) $sql->getValue(rex::getTable('article_slice') . '.id'),
                 (string) $sql->getValue('ctype_id'),
             ],
-            $content
+            $content,
         );
 
         $content = $this->replaceObjectVars($sql, $content);
@@ -618,7 +618,7 @@ class rex_article_content_base
             function (array $matches) {
                 return rex_getUrl((int) $matches[1], (int) ($matches[2] ?? $this->clang));
             },
-            $content
+            $content,
         );
 
         if (null === $result) {
@@ -693,7 +693,7 @@ class rex_article_content_base
                 // ------------- EINZELNER SLICE - AUSGABE
                 $sliceContent = $this->outputSlice(
                     $artDataSql,
-                    $moduleId
+                    $moduleId,
                 );
                 // --------------- ENDE EINZELNER SLICE
 
@@ -711,8 +711,8 @@ class rex_article_content_base
                             'function' => $this->function,
                             'function_slice_id' => $this->slice_id,
                             'sql' => $artDataSql,
-                        ]
-                    )
+                        ],
+                    ),
                 );
 
                 // ---------- slice in ausgabe speichern wenn ctype richtig

@@ -158,8 +158,8 @@ class rex_article_service
         }
 
         // complete remaining optional aprams
-        $data['path'] = $data['path'] ?? $thisArt->getValue('path');
-        $data['priority'] = $data['priority'] ?? $thisArt->getValue('priority');
+        $data['path'] ??= $thisArt->getValue('path');
+        $data['priority'] ??= $thisArt->getValue('priority');
 
         $EA = rex_sql::factory();
         $EA->setTable(rex::getTablePrefix() . 'article');
@@ -448,7 +448,7 @@ class rex_article_service
                 rex::getTable('article'),
                 'priority',
                 'clang_id=' . (int) $clang . ' AND ((startarticle<>1 AND parent_id=' . $parentId . ') OR (startarticle=1 AND id=' . $parentId . '))',
-                'priority,updatedate ' . $addsql
+                'priority,updatedate ' . $addsql,
             );
 
             rex_article_cache::deleteLists($parentId);
@@ -866,7 +866,7 @@ class rex_article_service
                     }
 
                     $artSql = rex_sql::factory();
-                    //$art_sql->setDebug();
+                    // $art_sql->setDebug();
 
                     $artSql->setTable(rex::getTablePrefix() . 'article');
                     $artSql->setValue('parent_id', $parentId);
