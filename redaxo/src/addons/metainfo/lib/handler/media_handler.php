@@ -203,10 +203,10 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
 
 $mediaHandler = new rex_metainfo_media_handler();
 
-rex_extension::register('MEDIA_FORM_EDIT', [$mediaHandler, 'extendForm']);
-rex_extension::register('MEDIA_FORM_ADD', [$mediaHandler, 'extendForm']);
+rex_extension::register('MEDIA_FORM_EDIT', $mediaHandler->extendForm(...));
+rex_extension::register('MEDIA_FORM_ADD', $mediaHandler->extendForm(...));
 
-rex_extension::register('MEDIA_ADDED', [$mediaHandler, 'extendForm'], rex_extension::EARLY);
-rex_extension::register('MEDIA_UPDATED', [$mediaHandler, 'extendForm'], rex_extension::EARLY);
+rex_extension::register('MEDIA_ADDED', $mediaHandler->extendForm(...), rex_extension::EARLY);
+rex_extension::register('MEDIA_UPDATED', $mediaHandler->extendForm(...), rex_extension::EARLY);
 
-rex_extension::register('MEDIA_IS_IN_USE', [rex_metainfo_media_handler::class, 'isMediaInUse']);
+rex_extension::register('MEDIA_IS_IN_USE', rex_metainfo_media_handler::isMediaInUse(...));

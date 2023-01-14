@@ -20,8 +20,8 @@ abstract class rex_error_handler
 
         self::$registered = true;
 
-        set_error_handler([self::class, 'handleError']);
-        set_exception_handler([self::class, 'handleException']);
+        set_error_handler(self::handleError(...));
+        set_exception_handler(self::handleException(...));
         register_shutdown_function([self::class, 'shutdown']);
     }
 

@@ -109,7 +109,7 @@ class rex_media
     public static function getRootMedia()
     {
         /** @var callable(string):static */
-        $getInstance = [static::class, 'get'];
+        $getInstance = static::get(...);
 
         return static::getInstanceList('root_media', $getInstance, static function () {
             $listPath = rex_path::addonCache('mediapool', '0.mlist');

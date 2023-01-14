@@ -2061,7 +2061,7 @@ class rex_sql implements Iterator
         }
 
         $query = $verb.' INTO '.$this->escapeIdentifier($this->table)."\n";
-        $query .= '('.implode(', ', array_map([$this, 'escapeIdentifier'], $fields)).")\n";
+        $query .= '('.implode(', ', array_map($this->escapeIdentifier(...), $fields)).")\n";
         $query .= "VALUES\n";
         $query .= implode(",\n", $rows);
 
