@@ -541,7 +541,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 $this->io->success('PHP version ok');
             }
         } else {
-            $errors = array_map([$this, 'decodeMessage'], $errors);
+            $errors = array_map($this->decodeMessage(...), $errors);
             $this->io->error("PHP version errors:\n" .implode("\n", $errors));
             return 1;
         }
@@ -559,7 +559,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 }
             }
 
-            $errors = array_map([$this, 'decodeMessage'], $errors);
+            $errors = array_map($this->decodeMessage(...), $errors);
             $this->io->error("Directory permissions error:\n" .implode("\n", $errors));
             return 1;
         }

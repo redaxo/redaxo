@@ -81,7 +81,7 @@ class rex_metainfo_table_manager
         try {
             $sql->setQuery($qry);
             return true;
-        } catch (rex_sql_exception $e) {
+        } catch (rex_sql_exception) {
             return false;
         }
     }
@@ -118,7 +118,7 @@ class rex_metainfo_table_manager
         try {
             $sql->setQuery($qry);
             return true;
-        } catch (rex_sql_exception $e) {
+        } catch (rex_sql_exception) {
             return false;
         }
     }
@@ -136,7 +136,7 @@ class rex_metainfo_table_manager
         try {
             $sql->setQuery($qry);
             return true;
-        } catch (rex_sql_exception $e) {
+        } catch (rex_sql_exception) {
             return false;
         }
     }

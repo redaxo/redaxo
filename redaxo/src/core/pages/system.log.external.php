@@ -20,7 +20,7 @@ if (!is_file($logFile) || !is_readable($logFile) || filesize($logFile) <= 0) {
     $limit = 30;
     try {
         $lines = iterator_to_array(new LimitIterator($file, max(0, $lastLine - $limit), $lastLine));
-    } catch (OutOfBoundsException $exception) {
+    } catch (OutOfBoundsException) {
         // handle logfiles which contain a single line of text, no newlines.
         // "Cannot seek to 0 which is behind offset 0 plus count 0"
         $lines = file($logFile);

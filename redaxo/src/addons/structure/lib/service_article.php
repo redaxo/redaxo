@@ -602,7 +602,7 @@ class rex_article_service
         $params = ['path', 'priority', 'catname', 'startarticle', 'catpriority', 'status'];
         $dbFields = rex_structure_element::getClassVars();
         foreach ($dbFields as $field) {
-            if ('cat_' == substr($field, 0, 4)) {
+            if (str_starts_with($field, 'cat_')) {
                 $params[] = $field;
             }
         }

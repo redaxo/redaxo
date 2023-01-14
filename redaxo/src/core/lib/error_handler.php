@@ -20,8 +20,8 @@ abstract class rex_error_handler
 
         self::$registered = true;
 
-        set_error_handler([self::class, 'handleError']);
-        set_exception_handler([self::class, 'handleException']);
+        set_error_handler(self::handleError(...));
+        set_exception_handler(self::handleException(...));
         register_shutdown_function([self::class, 'shutdown']);
     }
 
@@ -55,7 +55,7 @@ abstract class rex_error_handler
         if (preg_match('/^Class ".*" not found$/', $exception->getMessage())) {
             try {
                 rex_autoload::removeCache();
-            } catch (Throwable $e) {
+            } catch (Throwable) {
                 // ignore
             }
         }
@@ -90,7 +90,7 @@ abstract class rex_error_handler
                 rex_response::sendContent($errPage, $contentType);
                 exit(1);
             }
-        } catch (Throwable $e) {
+        } catch (Throwable) {
             // fallback to the less feature rich error pages, when whoops rendering fails
         }
 
@@ -101,7 +101,7 @@ abstract class rex_error_handler
             } else {
                 $errorPage = $fragment->parse('core/fe_ooops.php');
             }
-        } catch (Throwable $e) {
+        } catch (Throwable) {
             // we werent even able to render the error page, without an error
             $errorPage = 'Oooops, an internal error occured!';
         }

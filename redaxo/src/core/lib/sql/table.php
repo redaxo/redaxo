@@ -972,7 +972,7 @@ class rex_sql_table
 
     private function getKeyColumnsDefintion(array $columns): string
     {
-        $columns = array_map([$this->sql, 'escapeIdentifier'], $columns);
+        $columns = array_map($this->sql->escapeIdentifier(...), $columns);
 
         return '('.implode(', ', $columns).')';
     }

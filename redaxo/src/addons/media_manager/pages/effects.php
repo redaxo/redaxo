@@ -44,7 +44,7 @@ if ('delete' == $func && $effectId > 0) {
             ->setWhere(['id' => $typeId])
             ->addGlobalUpdateFields()
             ->update();
-    } catch (rex_sql_exception $e) {
+    } catch (rex_sql_exception) {
         $warning = $sql->getError();
     }
     $func = '';

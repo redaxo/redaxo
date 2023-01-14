@@ -184,7 +184,7 @@ if ($hasCategoryPerm) {
     $buttons[] = $button;
 
     // $buttons = '<button class="btn btn-delete" type="submit" onclick="if(confirm(\'' . rex_i18n::msg('delete') . ' ?\')){var needle=new getObj(\'media_method\');needle.obj.value=\'delete_selectedmedia\';}else{return false;}">' . rex_i18n::msg('pool_delete_selectedmedia') . '</button>';
-    if ('REX_MEDIALIST_' == substr($openerInputField, 0, 14)) {
+    if (str_starts_with($openerInputField, 'REX_MEDIALIST_')) {
         $button = [];
         $button['label'] = rex_i18n::msg('pool_get_selectedmedia');
         $button['attributes']['class'][] = 'btn-apply';
@@ -292,7 +292,7 @@ foreach ($items as $media) {
     $openerLink = '';
     if ('' != $openerInputField) {
         $openerLink = '<a class="btn btn-xs btn-select" onclick="selectMedia(\'' . $media->getFileName() . '\', \'' . rex_escape($media->getTitle(), 'js') . '\'); return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
-        if ('REX_MEDIALIST_' == substr($openerInputField, 0, 14)) {
+        if (str_starts_with($openerInputField, 'REX_MEDIALIST_')) {
             $openerLink = '<a class="btn btn-xs btn-select btn-highlight" onclick="selectMedialist(\'' . $media->getFileName() . '\', this);return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
         }
     }

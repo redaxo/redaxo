@@ -381,7 +381,7 @@ class rex_form extends rex_form_base
                 }
             }
             $saved = true;
-        } catch (rex_sql_exception $e) {
+        } catch (rex_sql_exception) {
             $saved = false;
         }
 
@@ -406,7 +406,7 @@ class rex_form extends rex_form_base
         try {
             $deleteSql->delete();
             $deleted = true;
-        } catch (rex_sql_exception $e) {
+        } catch (rex_sql_exception) {
             $deleted = false;
         }
 

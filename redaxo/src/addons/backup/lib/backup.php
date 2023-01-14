@@ -452,7 +452,7 @@ class rex_backup
                 continue;
             }
 
-            if (substr($file, 0, strlen(rex::getTempPrefix())) == rex::getTempPrefix()) {
+            if (str_starts_with($file, rex::getTempPrefix())) {
                 continue;
             }
 
@@ -476,7 +476,7 @@ class rex_backup
     {
         $tables = [];
         foreach (rex_sql::factory()->getTables(rex::getTablePrefix()) as $table) {
-            if (substr($table, 0, strlen(rex::getTablePrefix() . rex::getTempPrefix())) != rex::getTablePrefix() . rex::getTempPrefix()) { // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
+            if (!str_starts_with($table, rex::getTablePrefix() . rex::getTempPrefix())) { // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
                 $tables[] = $table;
             }
         }

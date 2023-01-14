@@ -114,7 +114,7 @@ class rex_media_manager
 
                 try {
                     $effect->execute();
-                } catch (rex_media_manager_not_found_exception $exception) {
+                } catch (rex_media_manager_not_found_exception) {
                     $this->notFound = true;
 
                     return;

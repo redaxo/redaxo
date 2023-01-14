@@ -33,7 +33,7 @@ if ('delete' == $func && $typeId > 0) {
         });
 
         $success = rex_i18n::msg('media_manager_type_deleted');
-    } catch (rex_sql_exception $e) {
+    } catch (rex_sql_exception) {
         $error = $sql->getError();
     }
     $func = '';
@@ -57,7 +57,7 @@ if ('copy' == $func && $typeId > 0) {
         $sql->setQuery('INSERT INTO '.rex::getTablePrefix() . 'media_manager_type_effect (type_id, effect, parameters, priority, updatedate, updateuser, createdate, createuser) SELECT ?, effect, parameters, priority, ?, ?, ?, ? FROM '.rex::getTablePrefix() . 'media_manager_type_effect WHERE type_id = ?', [$newTypeId, date(rex_sql::FORMAT_DATETIME), $login, date(rex_sql::FORMAT_DATETIME), $login, $typeId]);
 
         $success = rex_i18n::msg('media_manager_type_copied');
-    } catch (rex_sql_exception $e) {
+    } catch (rex_sql_exception) {
         $error = $sql->getError();
     }
 

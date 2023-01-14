@@ -633,7 +633,7 @@ abstract class rex_package_manager
         }
         $args[0] = $key;
 
-        return call_user_func_array([rex_i18n::class, 'msg'], $args);
+        return call_user_func_array(rex_i18n::msg(...), $args);
     }
 
     /**
