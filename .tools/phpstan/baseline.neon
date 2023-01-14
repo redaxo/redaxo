@@ -21,16 +21,6 @@ parameters:
 			path: ../../redaxo/src/addons/cronjob/lib/command/run.php
 
 		-
-			message: "#^Method rex_cronjob\\:\\:__get\\(\\) has parameter \\$key with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/cronjob.php
-
-		-
-			message: "#^Method rex_cronjob\\:\\:__set\\(\\) has parameter \\$key with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/cronjob.php
-
-		-
 			message: "#^Method rex_cronjob\\:\\:__set\\(\\) has parameter \\$value with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/cronjob/lib/cronjob.php
@@ -46,32 +36,12 @@ parameters:
 			path: ../../redaxo/src/addons/cronjob/lib/cronjob.php
 
 		-
-			message: "#^Method rex_cronjob\\:\\:getParams\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/cronjob.php
-
-		-
 			message: "#^Method rex_cronjob\\:\\:setParam\\(\\) has parameter \\$value with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/cronjob/lib/cronjob.php
 
 		-
-			message: "#^Method rex_cronjob\\:\\:setParams\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/cronjob.php
-
-		-
-			message: "#^Property rex_cronjob\\:\\:\\$params type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/cronjob.php
-
-		-
 			message: "#^Method rex_cronjob_form\\:\\:addIntervalField\\(\\) has parameter \\$attributes with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/cronjob/lib/form.php
-
-		-
-			message: "#^Method rex_cronjob_form\\:\\:addIntervalField\\(\\) has parameter \\$name with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/cronjob/lib/form.php
 
@@ -586,16 +556,6 @@ parameters:
 			path: ../../redaxo/src/addons/mediapool/functions/function_rex_mediapool.php
 
 		-
-			message: "#^Method rex_form_widget_media_element\\:\\:setCategoryId\\(\\) has parameter \\$categoryId with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/form_element/media.php
-
-		-
-			message: "#^Method rex_form_widget_media_element\\:\\:setPreview\\(\\) has parameter \\$preview with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/form_element/media.php
-
-		-
 			message: "#^Method rex_form_widget_media_element\\:\\:setTypes\\(\\) has parameter \\$types with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/lib/form_element/media.php
@@ -604,16 +564,6 @@ parameters:
 			message: "#^Property rex_form_widget_media_element\\:\\:\\$args has no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/lib/form_element/media.php
-
-		-
-			message: "#^Method rex_form_widget_medialist_element\\:\\:setCategoryId\\(\\) has parameter \\$categoryId with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/form_element/medialist.php
-
-		-
-			message: "#^Method rex_form_widget_medialist_element\\:\\:setPreview\\(\\) has parameter \\$preview with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/form_element/medialist.php
 
 		-
 			message: "#^Method rex_form_widget_medialist_element\\:\\:setTypes\\(\\) has parameter \\$types with no type specified\\.$#"
@@ -751,12 +701,12 @@ parameters:
 			path: ../../redaxo/src/addons/mediapool/lib/media_category.php
 
 		-
-			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_media_category\\:\\:getInstanceList\\(\\) expects callable\\(\\.\\.\\.mixed\\)\\: rex_media_category\\|null, array\\{'rex_media_category', 'get'\\} given\\.$#"
+			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_media_category\\:\\:getInstanceList\\(\\) expects callable\\(\\.\\.\\.mixed\\)\\: rex_media\\|null, Closure\\(string\\)\\: rex_media\\|null given\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/lib/media_category.php
 
 		-
-			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_media_category\\:\\:getInstanceList\\(\\) expects callable\\(\\.\\.\\.mixed\\)\\: rex_media\\|null, array\\{'rex_media', 'get'\\} given\\.$#"
+			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_media_category\\:\\:getInstanceList\\(\\) expects callable\\(\\.\\.\\.mixed\\)\\: static\\(rex_media_category\\)\\|null, Closure\\(int\\)\\: static\\(rex_media_category\\)\\|null given\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/lib/media_category.php
 
@@ -1131,37 +1081,12 @@ parameters:
 			path: ../../redaxo/src/addons/metainfo/lib/handler/media_handler.php
 
 		-
-			message: "#^Method rex_input\\:\\:addAttributes\\(\\) has parameter \\$attributes with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input.php
-
-		-
 			message: "#^Method rex_input\\:\\:getAttribute\\(\\) has parameter \\$default with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/metainfo/lib/input.php
 
 		-
-			message: "#^Method rex_input\\:\\:getAttribute\\(\\) has parameter \\$name with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input.php
-
-		-
-			message: "#^Method rex_input\\:\\:hasAttribute\\(\\) has parameter \\$name with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input.php
-
-		-
-			message: "#^Method rex_input\\:\\:setAttribute\\(\\) has parameter \\$name with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input.php
-
-		-
 			message: "#^Method rex_input\\:\\:setAttribute\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input.php
-
-		-
-			message: "#^Method rex_input\\:\\:setAttributes\\(\\) has parameter \\$attributes with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/metainfo/lib/input.php
 
@@ -1174,11 +1099,6 @@ parameters:
 			message: "#^Property rex_input\\:\\:\\$value has no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/metainfo/lib/input.php
-
-		-
-			message: "#^Method rex_input_date\\:\\:setAttribute\\(\\) has parameter \\$name with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/date.php
 
 		-
 			message: "#^Method rex_input_date\\:\\:setAttribute\\(\\) has parameter \\$value with no type specified\\.$#"
@@ -1227,11 +1147,6 @@ parameters:
 
 		-
 			message: "#^Method rex_input_datetime\\:\\:getValue\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/datetime.php
-
-		-
-			message: "#^Method rex_input_datetime\\:\\:setAttribute\\(\\) has parameter \\$name with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/metainfo/lib/input/datetime.php
 
@@ -1371,11 +1286,6 @@ parameters:
 			path: ../../redaxo/src/addons/metainfo/lib/input/medialistbutton.php
 
 		-
-			message: "#^Method rex_input_select\\:\\:setAttribute\\(\\) has parameter \\$name with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/select.php
-
-		-
 			message: "#^Method rex_input_select\\:\\:setAttribute\\(\\) has parameter \\$value with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/metainfo/lib/input/select.php
@@ -1384,11 +1294,6 @@ parameters:
 			message: "#^Method rex_input_select\\:\\:setValue\\(\\) has parameter \\$value with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/metainfo/lib/input/select.php
-
-		-
-			message: "#^Method rex_input_time\\:\\:setAttribute\\(\\) has parameter \\$name with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/time.php
 
 		-
 			message: "#^Method rex_input_time\\:\\:setAttribute\\(\\) has parameter \\$value with no type specified\\.$#"
@@ -2461,7 +2366,7 @@ parameters:
 			path: ../../redaxo/src/core/lib/autoload.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function spl_autoload_register expects \\(callable\\(string\\)\\: void\\)\\|null, array\\{'rex_autoload', 'autoload'\\} given\\.$#"
+			message: "#^Parameter \\#1 \\$callback of function spl_autoload_register expects \\(callable\\(string\\)\\: void\\)\\|null, Closure\\(string\\)\\: bool given\\.$#"
 			count: 1
 			path: ../../redaxo/src/core/lib/autoload.php
 
@@ -4226,7 +4131,7 @@ parameters:
 			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
 
 		-
-			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects callable\\(\\.\\.\\.mixed\\)\\: rex_test_instance_list_pool\\|null, array\\{'rex_test_instance_list_pool', 'get'\\} given\\.$#"
+			message: "#^Parameter \\#2 \\$getInstanceCallback of static method rex_test_instance_list_pool\\:\\:getInstanceList\\(\\) expects callable\\(\\.\\.\\.mixed\\)\\: rex_test_instance_list_pool\\|null, Closure\\(mixed\\)\\: rex_test_instance_list_pool given\\.$#"
 			count: 4
 			path: ../../redaxo/src/core/tests/base/instance_list_pool_trait_test.php
 

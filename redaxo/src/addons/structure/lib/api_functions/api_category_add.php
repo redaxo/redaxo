@@ -8,14 +8,14 @@ class rex_api_category_add extends rex_api_function
 {
     public function execute()
     {
-        if (!rex::getUser()->hasPerm('addCategory[]')) {
+        if (!rex::requireUser()->hasPerm('addCategory[]')) {
             throw new rex_api_exception('User has no permission to add categories!');
         }
 
         $parentId = rex_request('parent-category-id', 'int');
 
         // check permissions
-        if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($parentId)) {
+        if (!rex::requireUser()->getComplexPerm('structure')->hasCategoryPerm($parentId)) {
             throw new rex_api_exception('user has no permission for this category!');
         }
 

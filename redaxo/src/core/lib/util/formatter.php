@@ -10,9 +10,7 @@ abstract class rex_formatter
     /**
      * It's not allowed to create instances of this class.
      */
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 
     /**
      * Formats a string by the given format type.
@@ -281,7 +279,7 @@ abstract class rex_formatter
             $z = (int) ($value * 10 ** $precision);
             for ($i = 0; $i < $precision; ++$i) {
                 if (0 == ($z % 10)) {
-                    $format[0] = (int) ($format[0]) - 1;
+                    $format[0] = (int) $format[0] - 1;
                     $z = (int) ($z / 10);
                 } else {
                     break;

@@ -59,7 +59,7 @@ if (rex_string::versionCompare($addon->getVersion(), '2.1-dev', '<')) {
                     break;
                 }
                 $count = round($count / 4);
-            // no break;
+                // no break;
             case 'm':
                 $interval['days'] = [1];
                 if ($count > 6) {

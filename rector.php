@@ -13,9 +13,11 @@ use Rector\CodingStyle\Rector\Property\InlineSimplePropertyAnnotationRector;
 use Rector\Config\RectorConfig;
 use Rector\Core\ValueObject\PhpVersion;
 use Rector\Php70\Rector\Ternary\TernaryToNullCoalescingRector;
+use Rector\Php80\Rector\Catch_\RemoveUnusedVariableInCatchRector;
 use Rector\Php80\Rector\Identical\StrEndsWithRector;
 use Rector\Php80\Rector\Identical\StrStartsWithRector;
 use Rector\Php80\Rector\NotIdentical\StrContainsRector;
+use Rector\Php81\Rector\Array_\FirstClassCallableRector;
 use Redaxo\Rector\Rule\UnderscoreToCamelCasePropertyNameRector;
 use Redaxo\Rector\Rule\UnderscoreToCamelCaseVariableNameRector;
 use Redaxo\Rector\Util\UnderscoreCamelCaseConflictingNameGuard;
@@ -65,9 +67,10 @@ return static function (RectorConfig $rectorConfig): void {
 
     // we will grow this rector list step by step.
     // after some basic rectors have been enabled we can finally enable whole-sets (when diffs get stable and reviewable)
-    // $services->set(Rector\SOLID\Rector\If_\ChangeAndIfToEarlyReturnRector::class);
     $services->set(CombinedAssignRector::class);
+    $services->set(FirstClassCallableRector::class);
     $services->set(InlineSimplePropertyAnnotationRector::class);
+    $services->set(RemoveUnusedVariableInCatchRector::class);
     $services->set(SimplifyBoolIdenticalTrueRector::class);
     $services->set(SimplifyConditionsRector::class);
     $services->set(SimplifyDeMorganBinaryRector::class);

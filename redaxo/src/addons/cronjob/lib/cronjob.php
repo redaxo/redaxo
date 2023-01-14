@@ -10,7 +10,7 @@
 
 abstract class rex_cronjob
 {
-    /** @var array */
+    /** @var array<string, mixed> */
     private $params = [];
     /** @var string */
     private $message = '';
@@ -39,6 +39,7 @@ abstract class rex_cronjob
     }
 
     /**
+     * @param array<string, mixed> $params
      * @return void
      */
     public function setParams(array $params)
@@ -48,7 +49,7 @@ abstract class rex_cronjob
 
     /**
      * @param string $key
-     * @return mixed|null
+     * @return mixed
      */
     public function getParam($key, $default = null)
     {
@@ -60,7 +61,7 @@ abstract class rex_cronjob
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function getParams()
     {
@@ -68,6 +69,8 @@ abstract class rex_cronjob
     }
 
     /**
+     * @param string $key
+     *
      * @return void
      */
     public function __set($key, $value)
@@ -76,6 +79,8 @@ abstract class rex_cronjob
     }
 
     /**
+     * @param string $key
+     *
      * @return mixed
      */
     public function __get($key)

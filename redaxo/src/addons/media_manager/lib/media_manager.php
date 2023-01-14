@@ -114,7 +114,7 @@ class rex_media_manager
 
                 try {
                     $effect->execute();
-                } catch (rex_media_manager_not_found_exception $exception) {
+                } catch (rex_media_manager_not_found_exception) {
                     $this->notFound = true;
 
                     return;
@@ -291,7 +291,7 @@ class rex_media_manager
      */
     public static function deleteCacheByType($typeId)
     {
-        $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type' . ' WHERE id=?';
+        $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type WHERE id=?';
         $sql = rex_sql::factory();
         //  $sql->setDebug();
         $sql->setQuery($qry, [$typeId]);
@@ -430,7 +430,7 @@ class rex_media_manager
         return str_replace(
             ['effect_', '.php'],
             '',
-            rex_path::basename($effectFile)
+            rex_path::basename($effectFile),
         );
     }
 
@@ -443,7 +443,7 @@ class rex_media_manager
         return 'rex_' . str_replace(
             '.php',
             '',
-            rex_path::basename($effectFile)
+            rex_path::basename($effectFile),
         );
     }
 
@@ -494,7 +494,7 @@ class rex_media_manager
      */
     public static function init()
     {
-        //--- handle image request
+        // --- handle image request
         $rexMediaManagerFile = self::getMediaFile();
         $rexMediaManagerType = self::getMediaType();
 

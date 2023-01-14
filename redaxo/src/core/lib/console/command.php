@@ -31,7 +31,7 @@ abstract class rex_console_command extends Command
         return $this->package;
     }
 
-    public function run(InputInterface $input, OutputInterface $output)
+    public function run(InputInterface $input, OutputInterface $output): int
     {
         try {
             return parent::run($input, $output);

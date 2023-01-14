@@ -184,7 +184,7 @@ c', "a\nb\nc"],
 
     public function testQuote()
     {
-        $string = "abc 'de' \"fg\" \ \nh\r\ni";
+        $string = "abc 'de' \"fg\" \\ \nh\r\ni";
         $expected = <<<'EOD'
             'abc \'de\' "fg" \\ ' . "\n" . 'h' . "\r\n" . 'i'
             EOD;

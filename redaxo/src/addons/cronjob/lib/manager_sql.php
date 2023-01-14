@@ -107,7 +107,7 @@ class rex_cronjob_manager_sql
         try {
             $this->sql->update();
             $success = true;
-        } catch (rex_sql_exception $e) {
+        } catch (rex_sql_exception) {
             $success = false;
         }
         $this->saveNextTime();
@@ -126,7 +126,7 @@ class rex_cronjob_manager_sql
         try {
             $this->sql->update();
             return true;
-        } catch (rex_sql_exception $e) {
+        } catch (rex_sql_exception) {
             return false;
         }
     }
@@ -142,7 +142,7 @@ class rex_cronjob_manager_sql
         try {
             $this->sql->delete();
             $success = true;
-        } catch (rex_sql_exception $e) {
+        } catch (rex_sql_exception) {
             $success = false;
         }
         $this->saveNextTime();
@@ -296,7 +296,7 @@ class rex_cronjob_manager_sql
                 WHERE   id = ?
             ', [$nexttime, $id]);
             $success = true;
-        } catch (rex_sql_exception $e) {
+        } catch (rex_sql_exception) {
             $success = false;
         }
         $this->saveNextTime();

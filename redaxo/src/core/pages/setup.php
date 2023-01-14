@@ -92,7 +92,7 @@ $errorArray = [];
 $configFile = rex_path::coreData('config.yml');
 $config = array_merge(
     rex_file::getConfig(rex_path::core('default.config.yml')),
-    rex_file::getConfig($configFile)
+    rex_file::getConfig($configFile),
 );
 
 if (isset($_SERVER['HTTP_HOST']) && 'https://www.redaxo.org/' == $config['server']) {

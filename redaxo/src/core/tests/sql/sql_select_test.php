@@ -289,7 +289,7 @@ class rex_sql_select_test extends TestCase
             $sql->setQuery('SELECT '.self::TABLE, [], [
                 rex_sql::OPT_BUFFERED => false,
             ]);
-        } catch (rex_sql_exception $e) {
+        } catch (rex_sql_exception) {
         }
 
         static::assertEquals(1, $pdo->getAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY));

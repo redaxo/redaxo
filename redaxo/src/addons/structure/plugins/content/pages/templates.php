@@ -72,6 +72,7 @@ if ('add' == $function || 'edit' == $function) {
     }
 
     if ('ja' == $save) {
+        $previousActive = $active;
         $active = rex_post('active', 'int');
         $templatename = rex_post('templatename', 'string');
         $template = rex_post('content', 'string');
@@ -147,16 +148,15 @@ if ('add' == $function || 'edit' == $function) {
                 }
             }
         } else {
-            $templateIsInUseError = rex_template::templateIsInUse($templateId, 'cant_inactivate_template_because_its_in_use');
-            if (false !== $templateIsInUseError) {
-                $error .= $templateIsInUseError;
-            }
-            if (rex_template::getDefaultId() == $templateId) {
-                $query = rex_sql::factory();
-                $query->setQuery('SELECT name FROM '.rex::getTable('template').' WHERE id = '.$templateId);
-                $templatename = $query->getValue('name');
+            if ($previousActive && !$active) {
+                if (rex_template::getDefaultId() == $templateId) {
+                    $error .= rex_i18n::msg('cant_inactivate_template_because_its_default_template', $templatename);
+                }
 
-                $error .= rex_i18n::msg('cant_inactivate_template_because_its_default_template', $templatename);
+                $templateIsInUseError = rex_template::templateIsInUse($templateId, 'cant_inactivate_template_because_its_in_use');
+                if (false !== $templateIsInUseError) {
+                    $error .= ($error ? '<br><br>' : '').$templateIsInUseError;
+                }
             }
 
             if ('' == $error) {

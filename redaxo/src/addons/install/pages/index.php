@@ -20,9 +20,9 @@ $markdown = static function (string $content): string {
             $parser->setSafeMode(true);
             $parser->setBreaksEnabled(true);
 
-            $markdown = [$parser, 'text'];
+            $markdown = $parser->text(...);
         } else {
-            $markdown = [rex_markdown::factory(), 'parse'];
+            $markdown = rex_markdown::factory()->parse(...);
         }
     }
 

@@ -49,7 +49,7 @@ if (rex_get('asset') && rex_get('buster')) {
         rex_response::setStatus(rex_response::HTTP_NOT_FOUND);
         rex_response::sendContent('file not found');
     }
-    exit();
+    exit;
 }
 
 // ----- verfuegbare seiten

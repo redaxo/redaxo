@@ -46,7 +46,7 @@ class rex_effect_crop extends rex_effect_abstract
                 $offsetHeight += $this->params['offset_height'];
                 break;
             case 'bottom':
-                $offsetHeight = (int) (($h - $cropH)) + $this->params['offset_height'];
+                $offsetHeight = (int) ($h - $cropH) + $this->params['offset_height'];
                 break;
             case 'middle':
             default: // center

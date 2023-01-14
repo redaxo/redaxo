@@ -29,7 +29,7 @@ $bodyAttr['id'] = ['rex-page-' . $bodyId];
 $bodyAttr['onunload'] = ['closeAll();'];
 
 $bodyAttr['class'] = ['rex-is-logged-out'];
-if (rex::getUser()) {
+if ($user) {
     $bodyAttr['class'] = ['rex-is-logged-in'];
 }
 if (rex::isDebugMode()) {
@@ -152,7 +152,7 @@ if ($user && $hasNavigation) {
     }
 }
 
-/* Setup Navigation ***********************************************************/
+/* Setup Navigation ********************************************************** */
 if ('setup' == rex_be_controller::getCurrentPagePart(1)) {
     $step = rex_request('step', 'float');
     $lang = rex_request('lang', 'string', '');
@@ -197,7 +197,7 @@ if ('setup' == rex_be_controller::getCurrentPagePart(1)) {
     $navigation = $fragment->parse('core/navigations/main.php');
 }
 
-/* PJAX Footer Header ***********************************************************/
+/* PJAX Footer Header ********************************************************** */
 if (!rex_request::isPJAXContainer('#rex-js-page-container')) {
     $fragment = new rex_fragment();
     $fragment->setVar('pageTitle', rex_be_controller::getPageTitle());

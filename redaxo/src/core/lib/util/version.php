@@ -108,7 +108,7 @@ class rex_version
     public static function compare(string $version1, string $version2, ?string $comparator = '<')
     {
         // bc
-        $comparator = $comparator ?? '<';
+        $comparator ??= '<';
 
         if (!in_array($comparator, ['=', '==', '!=', '<>', '<', '<=', '>', '>='], true)) {
             throw new InvalidArgumentException(sprintf('Unknown comparator "%s".', $comparator));

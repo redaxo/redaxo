@@ -375,11 +375,11 @@ class rex_navigation
                 } else {
                     $li['class'][] = 'rex-normal';
                 }
-                if (isset($this->linkclasses[($depth - 1)])) {
-                    $a['class'][] = $this->linkclasses[($depth - 1)];
+                if (isset($this->linkclasses[$depth - 1])) {
+                    $a['class'][] = $this->linkclasses[$depth - 1];
                 }
-                if (isset($this->classes[($depth - 1)])) {
-                    $li['class'][] = $this->classes[($depth - 1)];
+                if (isset($this->classes[$depth - 1])) {
+                    $li['class'][] = $this->classes[$depth - 1];
                 }
 
                 $link = $this->getLinkTag($nav, $aContent, $a, $depth);

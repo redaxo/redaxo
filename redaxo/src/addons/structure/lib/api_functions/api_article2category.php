@@ -10,7 +10,7 @@ class rex_api_article2category extends rex_api_function
     {
         $articleId = rex_request('article_id', 'int');
         $categoryId = rex_article::get($articleId)->getCategoryId();
-        $user = rex::getUser();
+        $user = rex::requireUser();
 
         // Check permissions
         if ($user->hasPerm('article2category[]') && $user->getComplexPerm('structure')->hasCategoryPerm($categoryId)) {

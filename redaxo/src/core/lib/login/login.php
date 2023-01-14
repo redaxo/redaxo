@@ -128,13 +128,8 @@ class rex_login
      * @param string $login
      * @param string $password
      */
-    public function setLogin(
-        #[\SensitiveParameter]
-        $login,
-        #[\SensitiveParameter]
-        $password,
-        $isPreHashed = false
-    ) {
+    public function setLogin(#[\SensitiveParameter] $login, #[\SensitiveParameter] $password, $isPreHashed = false)
+    {
         $this->userLogin = $login;
         $this->userPassword = $isPreHashed ? $password : sha1($password);
     }
@@ -401,10 +396,8 @@ class rex_login
     /**
      * @param string $passwordHash
      */
-    public function changedPassword(
-        #[\SensitiveParameter]
-        string $passwordHash
-    ): void {
+    public function changedPassword(#[\SensitiveParameter] string $passwordHash): void
+    {
         $this->setSessionVar(self::SESSION_PASSWORD, $passwordHash);
     }
 
@@ -522,7 +515,7 @@ class rex_login
                 $cookieParams['path'],
                 $cookieParams['domain'],
                 $cookieParams['secure'],
-                $cookieParams['httponly']
+                $cookieParams['httponly'],
             );
 
             rex_timer::measure(__METHOD__, static function () {
@@ -608,11 +601,8 @@ class rex_login
      *
      * @return string Returns the hashed password
      */
-    public static function passwordHash(
-        #[\SensitiveParameter]
-        $password,
-        $isPreHashed = false
-    ) {
+    public static function passwordHash(#[\SensitiveParameter] $password, $isPreHashed = false)
+    {
         $password = $isPreHashed ? $password : sha1($password);
 
         return password_hash($password, PASSWORD_DEFAULT);
@@ -621,13 +611,8 @@ class rex_login
     /**
      * @return bool returns TRUE if the password and hash match, or FALSE otherwise
      */
-    public static function passwordVerify(
-        #[\SensitiveParameter]
-        $password,
-        #[\SensitiveParameter]
-        $hash,
-        $isPreHashed = false
-    ) {
+    public static function passwordVerify(#[\SensitiveParameter] $password, #[\SensitiveParameter] $hash, $isPreHashed = false)
+    {
         $password = $isPreHashed ? $password : sha1($password);
         return password_verify($password, $hash);
     }
@@ -635,10 +620,8 @@ class rex_login
     /**
      * @return bool returns TRUE if the hash should be rehashed to match the given algo and options, or FALSE otherwise
      */
-    public static function passwordNeedsRehash(
-        #[\SensitiveParameter]
-        $hash
-    ) {
+    public static function passwordNeedsRehash(#[\SensitiveParameter] $hash)
+    {
         return password_needs_rehash($hash, PASSWORD_DEFAULT);
     }
 

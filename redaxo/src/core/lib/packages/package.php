@@ -116,7 +116,7 @@ abstract class rex_package implements rex_package_interface
     public static function splitId(string $packageId): array
     {
         $parts = explode('/', $packageId, 2);
-        $parts[1] = $parts[1] ?? null;
+        $parts[1] ??= null;
 
         return $parts;
     }
@@ -259,7 +259,7 @@ abstract class rex_package implements rex_package_interface
         $id = $this->getPackageId();
 
         $isCached = isset($cache[$id]);
-        $isBackendAdmin = rex::isBackend() && rex::getUser() && rex::getUser()->isAdmin();
+        $isBackendAdmin = rex::isBackend() && rex::getUser()?->isAdmin();
         if (!$isCached || (rex::getConsole() || $isBackendAdmin) && $cache[$id]['timestamp'] < filemtime($file)) {
             try {
                 $properties = rex_file::getConfig($file);
@@ -297,7 +297,7 @@ abstract class rex_package implements rex_package_interface
                     continue;
                 }
                 if ('supportpage' !== $key) {
-                    $value = rex_i18n::translateArray($value, false, [$this, 'i18n']);
+                    $value = rex_i18n::translateArray($value, false, $this->i18n(...));
                 } elseif (!preg_match('@^https?://@i', $value)) {
                     $value = 'https://'.$value;
                 }
