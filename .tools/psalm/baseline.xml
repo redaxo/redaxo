@@ -381,11 +381,6 @@
       <code>$rows</code>
     </PossiblyNullOperand>
   </file>
-  <file src="redaxo/src/addons/cronjob/plugins/optimize_tables/lib/cronjob.php">
-    <MixedArgument occurrences="1">
-      <code>$tables</code>
-    </MixedArgument>
-  </file>
   <file src="redaxo/src/addons/debug/boot.php">
     <MixedArgument occurrences="2">
       <code>$query['query']</code>
@@ -1470,10 +1465,10 @@
       <code>$params['id']</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="4">
-      <code>[$catHandler, 'extendForm']</code>
-      <code>[$catHandler, 'extendForm']</code>
-      <code>[$catHandler, 'extendForm']</code>
-      <code>[$catHandler, 'extendForm']</code>
+      <code>$catHandler-&gt;extendForm(...)</code>
+      <code>$catHandler-&gt;extendForm(...)</code>
+      <code>$catHandler-&gt;extendForm(...)</code>
+      <code>$catHandler-&gt;extendForm(...)</code>
     </MixedArgumentTypeCoercion>
     <MixedAssignment occurrences="1">
       <code>$params['activeItem']</code>
@@ -1503,10 +1498,10 @@
       <code>void</code>
     </ImplementedReturnTypeMismatch>
     <MixedArgumentTypeCoercion occurrences="4">
-      <code>[$clangHandler, 'extendForm']</code>
-      <code>[$clangHandler, 'extendForm']</code>
-      <code>[$clangHandler, 'extendForm']</code>
-      <code>[$clangHandler, 'extendForm']</code>
+      <code>$clangHandler-&gt;extendForm(...)</code>
+      <code>$clangHandler-&gt;extendForm(...)</code>
+      <code>$clangHandler-&gt;extendForm(...)</code>
+      <code>$clangHandler-&gt;extendForm(...)</code>
     </MixedArgumentTypeCoercion>
     <MixedAssignment occurrences="1">
       <code>$params['activeItem']</code>
@@ -1603,10 +1598,10 @@
       <code>$params['filename']</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="4">
-      <code>[$mediaHandler, 'extendForm']</code>
-      <code>[$mediaHandler, 'extendForm']</code>
-      <code>[$mediaHandler, 'extendForm']</code>
-      <code>[$mediaHandler, 'extendForm']</code>
+      <code>$mediaHandler-&gt;extendForm(...)</code>
+      <code>$mediaHandler-&gt;extendForm(...)</code>
+      <code>$mediaHandler-&gt;extendForm(...)</code>
+      <code>$mediaHandler-&gt;extendForm(...)</code>
     </MixedArgumentTypeCoercion>
     <MixedArrayAssignment occurrences="4">
       <code>$warning[]</code>
@@ -4155,8 +4150,7 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="redaxo/src/core/lib/console/setup/check.php">
-    <MixedArgument occurrences="3">
-      <code>$errors</code>
+    <MixedArgument occurrences="2">
       <code>$message</code>
       <code>$messages</code>
     </MixedArgument>
@@ -4169,7 +4163,7 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/console/setup/run.php">
-    <MixedArgument occurrences="19">
+    <MixedArgument occurrences="18">
       <code>$config['db'][1]['host']</code>
       <code>$config['db'][1]['login']</code>
       <code>$config['db'][1]['name']</code>
@@ -4179,7 +4173,6 @@
       <code>$config['timezone']</code>
       <code>$config['timezone']</code>
       <code>$dbCreate</code>
-      <code>$errors</code>
       <code>$login</code>
       <code>$login</code>
       <code>$login</code>
@@ -4816,6 +4809,13 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/lib/packages/addons/addon.php">
+    <InvalidScalarArgument occurrences="1">
+      <code>$args</code>
+    </InvalidScalarArgument>
+    <MixedArgument occurrences="2">
+      <code>$args</code>
+      <code>$args</code>
+    </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="1">
       <code>$pluginName</code>
     </MixedArgumentTypeCoercion>
@@ -4829,15 +4829,9 @@
       <code>$plugin</code>
       <code>$plugins</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="1">
-      <code>i18n</code>
-    </MixedInferredReturnType>
     <MixedPropertyTypeCoercion occurrences="1">
       <code>$addon-&gt;plugins</code>
     </MixedPropertyTypeCoercion>
-    <MixedReturnStatement occurrences="1">
-      <code>call_user_func_array([rex_i18n::class, 'msg'], $args)</code>
-    </MixedReturnStatement>
     <ParamNameMismatch occurrences="3">
       <code>$addon</code>
       <code>$addon</code>
@@ -4853,7 +4847,8 @@
     <LessSpecificReturnStatement occurrences="1">
       <code>$packages</code>
     </LessSpecificReturnStatement>
-    <MixedArgument occurrences="9">
+    <MixedArgument occurrences="10">
+      <code>$args</code>
       <code>$instmsg</code>
       <code>$instmsg</code>
       <code>$normal</code>
@@ -4925,18 +4920,12 @@
       <code>$add($id)</code>
       <code>$add($rp)</code>
     </MixedFunctionCall>
-    <MixedInferredReturnType occurrences="1">
-      <code>string</code>
-    </MixedInferredReturnType>
     <MixedOperand occurrences="4">
       <code>$args[0]</code>
       <code>$args[0]</code>
       <code>$requirements['packages'][$packageId]</code>
       <code>$successMessage</code>
     </MixedOperand>
-    <MixedReturnStatement occurrences="1">
-      <code>call_user_func_array([rex_i18n::class, 'msg'], $args)</code>
-    </MixedReturnStatement>
     <MoreSpecificReturnType occurrences="1">
       <code>non-empty-string[]</code>
     </MoreSpecificReturnType>
@@ -4945,12 +4934,12 @@
     </UnusedForeachValue>
   </file>
   <file src="redaxo/src/core/lib/packages/null.php">
-    <MixedInferredReturnType occurrences="1">
-      <code>i18n</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="2">
+    <MixedArgument occurrences="2">
+      <code>$args</code>
+      <code>$args</code>
+    </MixedArgument>
+    <MixedReturnStatement occurrences="1">
       <code>$default</code>
-      <code>call_user_func_array([rex_i18n::class, 'msg'], $args)</code>
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/packages/package.php">
@@ -5013,12 +5002,14 @@
     <LessSpecificImplementedReturnType occurrences="1">
       <code>string</code>
     </LessSpecificImplementedReturnType>
+    <MixedArgument occurrences="1">
+      <code>$args</code>
+    </MixedArgument>
     <MixedInferredReturnType occurrences="1">
       <code>i18n</code>
     </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="2">
+    <MixedReturnStatement occurrences="1">
       <code>call_user_func_array([$this-&gt;getAddon(), 'i18n'], $args)</code>
-      <code>call_user_func_array([rex_i18n::class, 'msg'], $args)</code>
     </MixedReturnStatement>
     <PossiblyNullArgument occurrences="1">
       <code>$plugin</code>
@@ -5355,9 +5346,8 @@
     </UnusedVariable>
   </file>
   <file src="redaxo/src/core/lib/sql/table.php">
-    <MixedArgument occurrences="7">
+    <MixedArgument occurrences="6">
       <code>$column</code>
-      <code>$columns</code>
       <code>$db</code>
       <code>$name</code>
       <code>$oldName</code>
@@ -6176,7 +6166,7 @@
       <code>$this-&gt;previousLocale</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="1">
-      <code>[rex_i18n_trans_cb::class, 'mytranslate']</code>
+      <code>rex_i18n_trans_cb::mytranslate(...)</code>
     </MixedArgumentTypeCoercion>
   </file>
   <file src="redaxo/src/core/tests/util/markdown_test.php">
