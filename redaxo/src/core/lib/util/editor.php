@@ -34,9 +34,7 @@ class rex_editor
     ];
 
     // we expect instantiation via factory()
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 
     /**
      * Creates a rex_editor instance.

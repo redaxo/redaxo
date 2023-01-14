@@ -10,9 +10,7 @@ abstract class rex_formatter
     /**
      * It's not allowed to create instances of this class.
      */
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 
     /**
      * Formats a string by the given format type.

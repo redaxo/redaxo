@@ -14,9 +14,7 @@ class rex_markdown
     public const SOFT_LINE_BREAKS = 'soft_line_breaks';
     public const HIGHLIGHT_PHP = 'highlight_php';
 
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 
     /**
      * @return static
