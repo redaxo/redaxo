@@ -4112,6 +4112,9 @@
     <ArgumentTypeCoercion occurrences="1">
       <code>$input-&gt;getArgument('table')</code>
     </ArgumentTypeCoercion>
+    <PossiblyNullArgument occurrences="1">
+      <code>$input-&gt;getArgument('table')</code>
+    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/lib/console/db/set_connection.php">
     <MixedArgument occurrences="4">
@@ -4268,6 +4271,10 @@
     <MixedAssignment occurrences="1">
       <code>$password</code>
     </MixedAssignment>
+    <PossiblyNullArgument occurrences="2">
+      <code>$username</code>
+      <code>$username</code>
+    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/lib/context.php">
     <InvalidArgument occurrences="3">
