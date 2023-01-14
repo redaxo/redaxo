@@ -60,7 +60,7 @@ if ($func && !$csrfToken->isValid()) {
         $config[$key] = $settings[$key];
         try {
             rex::setProperty($key, $settings[$key]);
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
             $error[] = rex_i18n::msg($key . '_invalid');
         }
     }

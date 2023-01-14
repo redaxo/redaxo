@@ -226,7 +226,7 @@ class rex_response
                     // Send Error if file couldn't be read
                     header('HTTP/1.1 ' . self::HTTP_INTERNAL_ERROR);
                 }
-            } catch (\Ramsey\Http\Range\Exception\HttpRangeException $exception) {
+            } catch (\Ramsey\Http\Range\Exception\HttpRangeException) {
                 header('HTTP/1.1 ' . self::HTTP_RANGE_NOT_SATISFIABLE);
             }
             return;

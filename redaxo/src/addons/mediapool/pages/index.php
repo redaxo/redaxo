@@ -30,7 +30,7 @@ if ('' != $openerInputField) {
     }
 
     $openerId = null;
-    if ('REX_MEDIALIST_' == substr($openerInputField, 0, 14)) {
+    if (str_starts_with($openerInputField, 'REX_MEDIALIST_')) {
         $openerId = (int) substr($openerInputField, 14, strlen($openerInputField));
     }
 

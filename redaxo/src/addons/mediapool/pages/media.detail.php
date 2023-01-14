@@ -176,7 +176,7 @@ if ('' != $success) {
 
 if ('' != $openerInputField) {
     $openerLink = '<a class="btn btn-xs btn-select" onclick="selectMedia(\'' . $encodedFname . '\', \'' . rex_escape($gf->getValue('title'), 'js') . '\'); return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
-    if ('REX_MEDIALIST_' == substr($openerInputField, 0, 14)) {
+    if (str_starts_with($openerInputField, 'REX_MEDIALIST_')) {
         $openerLink = '<a class="btn btn-xs btn-select btn-highlight" onclick="selectMedialist(\'' . $encodedFname . '\'); return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
     }
 }
