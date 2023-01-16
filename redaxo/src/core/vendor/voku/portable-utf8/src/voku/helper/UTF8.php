@@ -1045,6 +1045,7 @@ final class UTF8
             );
         }
 
+        /* @phpstan-ignore-next-line | FP? */
         return $arg;
     }
 
@@ -1885,17 +1886,19 @@ final class UTF8
             return false;
         }
 
-        if ($convert_to_utf8) {
-            if (
+        if (
+            $convert_to_utf8
+            &&
+            (
                 !self::is_binary($data, true)
                 ||
                 self::is_utf16($data, false) !== false
                 ||
                 self::is_utf32($data, false) !== false
-            ) {
-                $data = self::encode('UTF-8', $data, false, $from_encoding);
-                $data = self::cleanup($data);
-            }
+            )
+        ) {
+            $data = self::encode('UTF-8', $data, false, $from_encoding);
+            $data = self::cleanup($data);
         }
 
         return $data;
@@ -5037,7 +5040,8 @@ final class UTF8
      *
      * @return mixed
      */
-    public static function getUrlParamFromArray(string $param, array $data) {
+    public static function getUrlParamFromArray(string $param, array $data)
+    {
         /**
          * @param array<array-key, mixed> $searchArray
          * @param array<array-key, mixed> $array
@@ -5062,7 +5066,7 @@ final class UTF8
          * @param string $string
          * @return array|null
          */
-        $getUrlKeyArgsFromString = static function(string $string) {
+        $getUrlKeyArgsFromString = static function (string $string) {
             if (!self::str_contains($string, '?')) {
                 $string = '?' . $string;
             }
@@ -5405,6 +5409,87 @@ final class UTF8
                 $str,
                 0,
                 (int) self::strlen($str, $encoding) - (int) self::strlen($substring, $encoding),
+                $encoding
+            );
+        }
+
+        return $str;
+    }
+
+    /**
+     * Returns a new string with the suffix $substring removed, if present and case-insensitive.
+     *
+     * @param string $str
+     * @param string $substring <p>The suffix to remove.</p>
+     * @param string $encoding  [optional] <p>Default: 'UTF-8'</p>
+     *
+     * @psalm-pure
+     *
+     * @return string
+     *                <p>A string having a $str without the suffix $substring.</p>
+     */
+    public static function remove_iright(
+        string $str,
+        string $substring,
+        string $encoding = 'UTF-8'
+    ): string {
+        if ($substring && self::strtoupper(\substr($str, -\strlen($substring)), $encoding) === self::strtoupper($substring, $encoding)) {
+            if ($encoding === 'UTF-8') {
+                return (string) \mb_substr(
+                    $str,
+                    0,
+                    (int) \mb_strlen($str) - (int) \mb_strlen($substring)
+                );
+            }
+
+            $encoding = self::normalize_encoding($encoding, 'UTF-8');
+
+            return (string) self::substr(
+                $str,
+                0,
+                (int) self::strlen($str, $encoding) - (int) self::strlen($substring, $encoding),
+                $encoding
+            );
+        }
+
+        return $str;
+    }
+
+    /**
+     * Returns a new string with the prefix $substring removed, if present and case-insensitive.
+     *
+     * @param string $str       <p>The input string.</p>
+     * @param string $substring <p>The prefix to remove.</p>
+     * @param string $encoding  [optional] <p>Default: 'UTF-8'</p>
+     *
+     * @psalm-pure
+     *
+     * @return string
+     *                <p>A string without the prefix $substring.</p>
+     */
+    public static function remove_ileft(
+        string $str,
+        string $substring,
+        string $encoding = 'UTF-8'
+    ): string {
+        if (
+            $substring
+            &&
+            \strpos(self::strtoupper($str, $encoding), self::strtoupper($substring, $encoding)) === 0
+        ) {
+            if ($encoding === 'UTF-8') {
+                return (string) \mb_substr(
+                    $str,
+                    (int) \mb_strlen($substring)
+                );
+            }
+
+            $encoding = self::normalize_encoding($encoding, 'UTF-8');
+
+            return (string) self::substr(
+                $str,
+                (int) self::strlen($substring, $encoding),
+                null,
                 $encoding
             );
         }
@@ -5828,10 +5913,12 @@ final class UTF8
         }
 
         foreach ($needles as &$needle) {
-            if ($case_sensitive) {
-                if (!$needle || \strpos($haystack, (string) $needle) === false) {
-                    return false;
-                }
+            if (
+                $case_sensitive
+                &&
+                (!$needle || \strpos($haystack, (string)$needle) === false)
+            ) {
+                return false;
             }
 
             if (!$needle || \mb_stripos($haystack, (string) $needle) === false) {
@@ -8106,6 +8193,7 @@ final class UTF8
         if ($length > 1) {
             return \array_map(
                 static function (array $item): string {
+                    /* @phpstan-ignore-next-line | "array_map + array_chunk" is not supported by phpstan?! */
                     return \implode('', $item);
                 },
                 \array_chunk($ret, $length)
@@ -8776,16 +8864,16 @@ final class UTF8
 
         // the main substitutions
         $str = (string) \preg_replace_callback(
-            '~\\b (_*) (?:                                                           # 1. Leading underscore and
-                        ( (?<=[ ][/\\\\]) [[:alpha:]]+ [-_[:alpha:]/\\\\]+ |                # 2. file path or 
+            '~\\b (_*) (?:                                                                  # 1. Leading underscore and
+                        ( (?<=[ ][/\\\\]) [[:alpha:]]+ [-_[:alpha:]/\\\\]+ |                # 2. file path or
                           [-_[:alpha:]]+ [@.:] [-_[:alpha:]@.:/]+ ' . $apostrophe_rx . ' )  #    URL, domain, or email
-                        |
+                        |                                                                   #
                         ( (?i: ' . $small_words_rx . ' ) ' . $apostrophe_rx . ' )           # 3. or small word (case-insensitive)
-                        |
-                        ( [[:alpha:]] [[:lower:]\'’()\[\]{}]* ' . $apostrophe_rx . ' )     # 4. or word w/o internal caps
-                        |
-                        ( [[:alpha:]] [[:alpha:]\'’()\[\]{}]* ' . $apostrophe_rx . ' )     # 5. or some other word
-                      ) (_*) \\b                                                          # 6. With trailing underscore
+                        |                                                                   #
+                        ( [[:alpha:]] [[:lower:]\'’()\[\]{}]* ' . $apostrophe_rx . ' )      # 4. or word w/o internal caps
+                        |                                                                   #
+                        ( [[:alpha:]] [[:alpha:]\'’()\[\]{}]* ' . $apostrophe_rx . ' )      # 5. or some other word
+                      ) (_*) \\b                                                            # 6. With trailing underscore
                     ~ux',
             /**
              * @param string[] $matches
@@ -11807,15 +11895,7 @@ final class UTF8
             return false;
         }
 
-        if ($haystack === '') {
-            if (\PHP_VERSION_ID >= 80000) {
-                return 0;
-            }
-
-            return 0;
-        }
-
-        if ($length === 0) {
+        if ($haystack === '' || $length === 0) {
             return 0;
         }
 
@@ -12831,6 +12911,7 @@ final class UTF8
             ||
             $input_type === 'double'
         ) {
+            /* @phpstan-ignore-next-line | "gettype" is not supported by phpstan?! */
             return (string) $input;
         }
 
