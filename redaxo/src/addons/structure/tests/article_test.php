@@ -61,7 +61,6 @@ class rex_article_test extends TestCase
 
     private function createArticleWithoutConstructor(): rex_article
     {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return (new ReflectionClass(rex_article::class))->newInstanceWithoutConstructor();
     }
 }

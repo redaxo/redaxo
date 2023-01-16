@@ -59,7 +59,6 @@ class rex_clang_test extends TestCase
 
     private function createClangWithoutConstructor(): rex_clang
     {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return (new ReflectionClass(rex_clang::class))->newInstanceWithoutConstructor();
     }
 }

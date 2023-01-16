@@ -252,8 +252,6 @@ function rex_metainfo_extensions_handler(rex_extension_point $ep)
         require_once __DIR__ . '/../lib/handler/media_handler.php';
     } elseif ('system/lang' == $page) {
         require_once __DIR__ . '/../lib/handler/clang_handler.php';
-    } elseif ('content' == $mainpage) {
-        require_once __DIR__ . '/../extensions/extension_content_sidebar.php';
     } elseif ('backup' == $page) {
         require_once __DIR__ . '/../extensions/extension_cleanup.php';
     }

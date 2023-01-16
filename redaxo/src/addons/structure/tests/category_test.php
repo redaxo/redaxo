@@ -159,7 +159,6 @@ class rex_category_test extends TestCase
 
     private function createCategoryWithoutConstructor(): rex_category
     {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return (new ReflectionClass(rex_category::class))->newInstanceWithoutConstructor();
     }
 

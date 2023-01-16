@@ -55,7 +55,6 @@ class rex_article_content_base_test extends TestCase
 
     private function createArticleContentBaseWithoutConstructor(): rex_article_content_base
     {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return (new ReflectionClass(rex_article_content_base::class))->newInstanceWithoutConstructor();
     }
 }
