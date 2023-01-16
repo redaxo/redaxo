@@ -292,6 +292,32 @@ label.required::after {
     padding-right: 25px;
 }
 
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+    input[type="date"],
+    input[type="time"],
+    input[type="datetime-local"],
+    input[type="month"] {
+        &.form-control {
+            display: inline-flex;
+            padding-left: $padding-base-horizontal - 2;
+            height: $input-height-base;
+            line-height: inherit
+        }
+
+        &.input-sm,
+        .input-group-sm & {
+            height: $input-height-small;
+            line-height: inherit
+        }
+
+        &.input-lg,
+        .input-group-lg & {
+            height: $input-height-large;
+            line-height: inherit;
+        }
+    }
+}
 // ----------------------------------------------------------------------------
 
 @mixin _dark-form {
