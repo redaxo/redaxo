@@ -10,7 +10,7 @@ class rex_content_service
      */
     public static function addSlice(int $articleId, int $clangId, int $ctypeId, int $moduleId, array $data = []): string
     {
-        $data['revision'] = $data['revision'] ?? 0;
+        $data['revision'] ??= 0;
 
         $where = 'article_id=' . $articleId . ' AND clang_id=' . $clangId . ' AND ctype_id=' . $ctypeId . ' AND revision=' . (int) $data['revision'];
 
@@ -45,7 +45,7 @@ class rex_content_service
                 rex::getTable('article_slice'),
                 'priority',
                 $where,
-                'priority, updatedate DESC'
+                'priority, updatedate DESC',
             );
         } catch (rex_sql_exception $e) {
             throw new rex_api_exception($e->getMessage(), $e);
@@ -134,7 +134,7 @@ class rex_content_service
                     rex::getTable('article_slice'),
                     'priority',
                     'article_id=' . (int) $articleId . ' AND clang_id=' . (int) $clang . ' AND ctype_id=' . (int) $ctype . ' AND revision=' . (int) $sliceRevision,
-                    'priority, updatedate ' . $updSort
+                    'priority, updatedate ' . $updSort,
                 );
 
                 // check if the slice moved at all (first cannot be moved up, last not down)
@@ -191,7 +191,7 @@ class rex_content_service
             rex::getTable('article_slice'),
             'priority',
             'article_id=' . (int) $curr->getValue('article_id') . ' AND clang_id=' . (int) $curr->getValue('clang_id') . ' AND ctype_id=' . (int) $curr->getValue('ctype_id') . ' AND revision=' . (int) $curr->getValue('revision'),
-            'priority'
+            'priority',
         );
 
         // check if delete was successfull
@@ -257,16 +257,16 @@ class rex_content_service
         ]));
 
         $ins = rex_sql::factory();
-        //$ins->setDebug();
+        // $ins->setDebug();
         $ctypes = [];
 
         $cols = rex_sql::factory();
-        //$cols->setDebug();
+        // $cols->setDebug();
         $cols->setQuery('SHOW COLUMNS FROM ' . rex::getTablePrefix() . 'article_slice');
 
         $maxPriorityRaw = rex_sql::factory()->getArray(
             'SELECT `ctype_id`, `revision`, MAX(`priority`) as max FROM ' . rex::getTable('article_slice') . ' WHERE `article_id` = :to_id AND `clang_id` = :to_clang GROUP BY `ctype_id`, `revision`',
-            ['to_id' => $toId, 'to_clang' => $toClang]
+            ['to_id' => $toId, 'to_clang' => $toClang],
         );
         $maxPriority = [];
         foreach ($maxPriorityRaw as $row) {
@@ -312,7 +312,7 @@ class rex_content_service
                     rex::getTable('article_slice'),
                     'priority',
                     'article_id=' . (int) $toId . ' AND clang_id=' . (int) $toClang . ' AND ctype_id=' . (int) $ctype . ' AND revision=' . $revision,
-                    'priority, updatedate'
+                    'priority, updatedate',
                 );
             }
         }
@@ -377,10 +377,6 @@ class rex_content_service
      */
     private static function getUser()
     {
-        if (rex::getUser()) {
-            return rex::getUser()->getLogin();
-        }
-
-        return rex::getEnvironment();
+        return rex::getUser()?->getLogin() ?? rex::getEnvironment();
     }
 }

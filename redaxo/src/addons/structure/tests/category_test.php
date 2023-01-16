@@ -16,8 +16,8 @@ class rex_category_test extends TestCase
         $classVarsProperty->setValue(
             array_merge(
                 $classVarsProperty->getValue(),
-                ['cat_foo']
-            )
+                ['cat_foo'],
+            ),
         );
     }
 

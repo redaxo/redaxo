@@ -41,7 +41,7 @@ class rex_install_archive
                     return false;
                 }
 
-                if (!is_dir($tempdir . '/' . $basename) || !rename($tempdir . '/' . $basename, $dir)) {
+                if (!is_dir($tempdir.DIRECTORY_SEPARATOR.$basename) || !rename($tempdir.DIRECTORY_SEPARATOR.$basename, $dir.DIRECTORY_SEPARATOR)) {
                     return false;
                 }
 

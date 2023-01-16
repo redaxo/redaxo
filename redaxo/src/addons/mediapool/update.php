@@ -12,7 +12,7 @@ if (rex_addon::get('users')->isInstalled() && rex_string::versionCompare($addon-
                 continue;
             }
 
-            $perms['general'] = $perms['general'] ?? '|';
+            $perms['general'] ??= '|';
             $perms['general'] .= 'media[sync]|';
             $sql
                 ->setTable(rex::getTable('user_role'))

@@ -77,9 +77,9 @@ $managers = [
 ];
 for ($i = 0; $i < $sql->getRows(); ++$i) {
     $column = (string) $sql->getValue('name');
-    if ('med_' == substr($column, 0, 4)) {
+    if (str_starts_with($column, 'med_')) {
         $table = 'media';
-    } elseif ('clang_' == substr($column, 0, 6)) {
+    } elseif (str_starts_with($column, 'clang_')) {
         $table = 'clang';
     } else {
         $table = 'article';

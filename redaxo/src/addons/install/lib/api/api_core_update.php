@@ -17,7 +17,7 @@ class rex_api_install_core_update extends rex_api_function
 
     public function execute()
     {
-        if (!rex::getUser()->isAdmin()) {
+        if (!rex::getUser()?->isAdmin()) {
             throw new rex_api_exception('You do not have the permission!');
         }
         $installAddon = rex_addon::get('install');
@@ -88,12 +88,12 @@ class rex_api_install_core_update extends rex_api_function
                     }
                 }
             }
-            //$config = rex_file::getConfig($temppath . 'core/default.config.yml');
-            //foreach ($config['system_addons'] as $addonkey) {
+            // $config = rex_file::getConfig($temppath . 'core/default.config.yml');
+            // foreach ($config['system_addons'] as $addonkey) {
             //    if (is_dir($temppath . 'addons/' . $addonkey) && rex_addon::exists($addonkey)) {
             //        $updateAddons[$addonkey] = rex_addon::get($addonkey);
             //    }
-            //}
+            // }
             $this->checkRequirements($temppath, $version['version'], $updateAddonsConfig);
             if (is_file($temppath . 'core/update.php')) {
                 include $temppath . 'core/update.php';

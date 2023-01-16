@@ -94,16 +94,16 @@ rex_extension::register('STRUCTURE_CONTENT_BEFORE_SLICES', static function (rex_
                 rex_article_revision::setSessionArticleRevision($articleId, rex_article_revision::LIVE);
                 $return = rex_extension::registerPoint(new rex_extension_point_art_content_updated($article, 'work_to_live', $return));
             }
-        break;
+            break;
         case 'copy_live_to_work':
             rex_article_revision::copyContent($articleId, $clangId, rex_article_revision::LIVE, rex_article_revision::WORK);
             $return .= rex_view::success(rex_i18n::msg('version_info_live_version_to_working'));
             rex_article_revision::setSessionArticleRevision($articleId, rex_article_revision::WORK);
-        break;
+            break;
         case 'clear_work':
             rex_article_revision::clearContent($articleId, $clangId, rex_article_revision::WORK);
             $return .= rex_view::success(rex_i18n::msg('version_info_clear_workingversion'));
-        break;
+            break;
     }
 
     $revision = rex_article_revision::getSessionArticleRevision($articleId);

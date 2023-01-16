@@ -18,7 +18,7 @@ class rex_command_system_report extends rex_console_command
     {
         $this
             ->setDescription('Shows the system report')
-            ->addOption('format', 'f', InputOption::VALUE_REQUIRED, 'Output format ("cli", "markdown")', 'cli')
+            ->addOption('format', 'f', InputOption::VALUE_REQUIRED, 'Output format ("cli", "markdown")', 'cli', ['cli', 'markdown'])
         ;
     }
 
@@ -44,7 +44,6 @@ class rex_command_system_report extends rex_console_command
 
         $io->title('System report');
 
-        /** @var Table[] $tables */
         $tables = [];
         $maxLabelLength = 0;
 

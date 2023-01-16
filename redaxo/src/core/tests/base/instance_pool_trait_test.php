@@ -11,9 +11,7 @@ class rex_test_instance_pool_base
         getInstancePoolKey as public;
     }
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 }
 
 final class rex_test_instance_pool_1 extends rex_test_instance_pool_base

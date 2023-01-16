@@ -13,11 +13,11 @@ class rex_formatter_test extends TestCase
 
         static::assertEquals(
             '12.05.2012 10:24',
-            rex_formatter::date(1336811080, $format)
+            rex_formatter::date(1336811080, $format),
         );
         static::assertEquals(
             '27.06.2016 21:40',
-            rex_formatter::date('2016-06-27 21:40:00', $format)
+            rex_formatter::date('2016-06-27 21:40:00', $format),
         );
     }
 
@@ -38,24 +38,24 @@ class rex_formatter_test extends TestCase
         $format = '%d.%m.%Y %H:%M';
         static::assertEquals(
             '12.05.2012 10:24',
-            $strftime($value, $format)
+            $strftime($value, $format),
         );
 
         static::assertEquals(
             '27.06.2016 21:40',
-            $strftime('2016-06-27 21:40:00', $format)
+            $strftime('2016-06-27 21:40:00', $format),
         );
 
         $format = 'date';
         static::assertEquals(
             '12 May 2012',
-            $strftime($value, $format)
+            $strftime($value, $format),
         );
 
         $format = 'datetime';
         static::assertEquals(
             '12 May 2012, 10:24',
-            $strftime($value, $format)
+            $strftime($value, $format),
         );
 
         rex_i18n::setLocale($oldLocale);
@@ -170,13 +170,13 @@ class rex_formatter_test extends TestCase
         $format = [];
         static::assertEquals(
             '1 336 811 080,23',
-            rex_formatter::number($value, $format)
+            rex_formatter::number($value, $format),
         );
 
         $format = [5, ':', '`'];
         static::assertEquals(
             '1`336`811`080:23000',
-            rex_formatter::number($value, $format)
+            rex_formatter::number($value, $format),
         );
     }
 
@@ -186,40 +186,40 @@ class rex_formatter_test extends TestCase
 
         static::assertEquals(
             '1 000,00 B',
-            rex_formatter::bytes($value)
+            rex_formatter::bytes($value),
         );
 
         static::assertEquals(
             '976,56 KiB',
-            rex_formatter::bytes($value * 1000)
+            rex_formatter::bytes($value * 1000),
         );
 
         static::assertEquals(
             '953,67 MiB',
-            rex_formatter::bytes($value * 1000 * 1000)
+            rex_formatter::bytes($value * 1000 * 1000),
         );
 
         // in 32 bit php the following tests use too big numbers
         if (PHP_INT_SIZE > 4) {
             static::assertEquals(
                 '931,32 GiB',
-                rex_formatter::bytes($value * 1000 * 1000 * 1000)
+                rex_formatter::bytes($value * 1000 * 1000 * 1000),
             );
 
             static::assertEquals(
                 '909,49 TiB',
-                rex_formatter::bytes($value * 1000 * 1000 * 1000 * 1000)
+                rex_formatter::bytes($value * 1000 * 1000 * 1000 * 1000),
             );
 
             static::assertEquals(
                 '888,18 PiB',
-                rex_formatter::bytes($value * 1000 * 1000 * 1000 * 1000 * 1000)
+                rex_formatter::bytes($value * 1000 * 1000 * 1000 * 1000 * 1000),
             );
 
             $format = [5]; // number of signs behind comma
             static::assertEquals(
                 '953,67432 MiB',
-                rex_formatter::bytes($value * 1000 * 1000, $format)
+                rex_formatter::bytes($value * 1000 * 1000, $format),
             );
         }
     }
@@ -231,7 +231,7 @@ class rex_formatter_test extends TestCase
 
         static::assertEquals(
             'XhalloX',
-            rex_formatter::sprintf($value, $format)
+            rex_formatter::sprintf($value, $format),
         );
     }
 
@@ -241,7 +241,7 @@ class rex_formatter_test extends TestCase
 
         static::assertEquals(
             "very<br />\nloooooong<br />\ntext lala",
-            rex_formatter::nl2br($value)
+            rex_formatter::nl2br($value),
         );
     }
 
@@ -256,7 +256,7 @@ class rex_formatter_test extends TestCase
         ];
         static::assertEquals(
             'very  usw.',
-            rex_formatter::truncate($value, $format)
+            rex_formatter::truncate($value, $format),
         );
 
         // XXX hmm seems not to be correct
@@ -267,7 +267,7 @@ class rex_formatter_test extends TestCase
         ];
         static::assertEquals(
             'very usw.',
-            rex_formatter::truncate($value, $format)
+            rex_formatter::truncate($value, $format),
         );
     }
 
@@ -277,12 +277,12 @@ class rex_formatter_test extends TestCase
 
         static::assertEquals(
             '5_1',
-            rex_formatter::version($value, '%s_%s')
+            rex_formatter::version($value, '%s_%s'),
         );
 
         static::assertEquals(
             '2-1-5',
-            rex_formatter::version($value, '%3$s-%2$s-%1$s')
+            rex_formatter::version($value, '%3$s-%2$s-%1$s'),
         );
     }
 
@@ -296,7 +296,7 @@ class rex_formatter_test extends TestCase
         ];
         static::assertEquals(
             '<a href="http://example.org?ilike=+1" data-haha="foo">http://example.org</a>',
-            rex_formatter::url($value, $format)
+            rex_formatter::url($value, $format),
         );
     }
 
@@ -310,7 +310,7 @@ class rex_formatter_test extends TestCase
         ];
         static::assertEquals(
             '<a href="mailto:dude@example.org?ilike=+1" data-haha="foo">dude@example.org</a>',
-            rex_formatter::email($value, $format)
+            rex_formatter::email($value, $format),
         );
     }
 
@@ -319,7 +319,7 @@ class rex_formatter_test extends TestCase
         $format = 'strtoupper';
         static::assertEquals(
             'TEST',
-            rex_formatter::custom('test', $format)
+            rex_formatter::custom('test', $format),
         );
 
         $format = [
@@ -331,7 +331,7 @@ class rex_formatter_test extends TestCase
 
         static::assertEquals(
             '77 more params',
-            rex_formatter::custom('77', $format)
+            rex_formatter::custom('77', $format),
         );
     }
 }

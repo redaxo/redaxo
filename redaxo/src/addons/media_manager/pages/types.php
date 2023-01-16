@@ -13,7 +13,7 @@ if (rex_request('effects', 'boolean')) {
 $success = '';
 $error = '';
 
-//-------------- delete type
+// -------------- delete type
 if ('delete' == $func && $typeId > 0) {
     // must be called before deletion, otherwise the method can not resolve the id to type name
     rex_media_manager::deleteCacheByType($typeId);
@@ -33,37 +33,38 @@ if ('delete' == $func && $typeId > 0) {
         });
 
         $success = rex_i18n::msg('media_manager_type_deleted');
-    } catch (rex_sql_exception $e) {
+    } catch (rex_sql_exception) {
         $error = $sql->getError();
     }
     $func = '';
 }
 
-//-------------- delete cache by type-id
+// -------------- delete cache by type-id
 if ('delete_cache' == $func && $typeId > 0) {
     $counter = rex_media_manager::deleteCacheByType($typeId);
     $success = rex_i18n::msg('media_manager_cache_files_removed', $counter);
     $func = '';
 }
 
-//-------------- copy type
+// -------------- copy type
 if ('copy' == $func && $typeId > 0) {
     $sql = rex_sql::factory();
 
     try {
         $sql->setQuery('INSERT INTO '.rex::getTablePrefix() . 'media_manager_type (status, name, description) SELECT 0, CONCAT(name, \' '.rex_i18n::msg('media_manager_type_name_copy').'\'), description FROM '.rex::getTablePrefix() . 'media_manager_type WHERE id = ?', [$typeId]);
         $newTypeId = $sql->getLastId();
-        $sql->setQuery('INSERT INTO '.rex::getTablePrefix() . 'media_manager_type_effect (type_id, effect, parameters, priority, updatedate, updateuser, createdate, createuser) SELECT ?, effect, parameters, priority, ?, ?, ?, ? FROM '.rex::getTablePrefix() . 'media_manager_type_effect WHERE type_id = ?', [$newTypeId, date(rex_sql::FORMAT_DATETIME), rex::getUser()->getLogin(), date(rex_sql::FORMAT_DATETIME), rex::getUser()->getLogin(), $typeId]);
+        $login = rex::requireUser()->getLogin();
+        $sql->setQuery('INSERT INTO '.rex::getTablePrefix() . 'media_manager_type_effect (type_id, effect, parameters, priority, updatedate, updateuser, createdate, createuser) SELECT ?, effect, parameters, priority, ?, ?, ?, ? FROM '.rex::getTablePrefix() . 'media_manager_type_effect WHERE type_id = ?', [$newTypeId, date(rex_sql::FORMAT_DATETIME), $login, date(rex_sql::FORMAT_DATETIME), $login, $typeId]);
 
         $success = rex_i18n::msg('media_manager_type_copied');
-    } catch (rex_sql_exception $e) {
+    } catch (rex_sql_exception) {
         $error = $sql->getError();
     }
 
     $func = '';
 }
 
-//-------------- output messages
+// -------------- output messages
 if ('' != $success) {
     echo rex_view::success($success);
 }

@@ -765,7 +765,7 @@ abstract class rex_form_base
                 return [
                     'internal::fieldSeparateEnding' => true,
                     'class' => 'form-control',
-                    //'cols' => 50,
+                    // 'cols' => 50,
                     'rows' => 6,
                 ];
             case 'readonly':
@@ -1180,11 +1180,11 @@ abstract class rex_form_base
 
         if ($this->debug) {
             echo 'redirect to: ' . rex_escape($this->applyUrl . $paramString);
-            exit();
+            exit;
         }
 
         header('Location: ' . $this->applyUrl . $paramString);
-        exit();
+        exit;
     }
 
     /**
@@ -1284,7 +1284,7 @@ abstract class rex_form_base
             $id,
             rex_string::buildAttributes($this->formAttributes),
             rex_url::backendController($actionParams),
-            $this->method
+            $this->method,
         );
         foreach ($fieldsets as $fieldsetName => $fieldsetElements) {
             $attributes = $this->fieldsetAttributes[$fieldsetName] ?? [];

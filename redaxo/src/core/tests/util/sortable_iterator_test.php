@@ -24,7 +24,7 @@ class rex_sortable_iterator_test extends TestCase
         static::assertSame(
             [3 => 1, 0 => 2, 2 => 'a2', 5 => 'ä3', 4 => "a\xcc\x884", 1 => 'a10', 6 => 'b'],
             iterator_to_array($iterator),
-            'On default the iterator sorts by value'
+            'On default the iterator sorts by value',
         );
     }
 

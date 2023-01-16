@@ -105,7 +105,7 @@ class rex_sql_table
                 'YES' === $column['null'],
                 $column['default'],
                 $column['extra'] ?: null,
-                $column['comment'] ?: null
+                $column['comment'] ?: null,
             );
 
             $this->columnsExisting[$column['name']] = $column['name'];
@@ -943,7 +943,7 @@ class rex_sql_table
             $default,
             $column->isNullable() ? '' : 'NOT NULL',
             $column->getExtra(),
-            $comment
+            $comment,
         );
     }
 
@@ -953,7 +953,7 @@ class rex_sql_table
             '%s %s %s',
             $index->getType(),
             $this->sql->escapeIdentifier($index->getName()),
-            $this->getKeyColumnsDefintion($index->getColumns())
+            $this->getKeyColumnsDefintion($index->getColumns()),
         );
     }
 
@@ -966,13 +966,13 @@ class rex_sql_table
             $this->sql->escapeIdentifier($foreignKey->getTable()),
             $this->getKeyColumnsDefintion($foreignKey->getColumns()),
             $foreignKey->getOnUpdate(),
-            $foreignKey->getOnDelete()
+            $foreignKey->getOnDelete(),
         );
     }
 
     private function getKeyColumnsDefintion(array $columns): string
     {
-        $columns = array_map([$this->sql, 'escapeIdentifier'], $columns);
+        $columns = array_map($this->sql->escapeIdentifier(...), $columns);
 
         return '('.implode(', ', $columns).')';
     }

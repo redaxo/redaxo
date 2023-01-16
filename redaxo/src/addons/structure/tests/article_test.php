@@ -16,8 +16,8 @@ class rex_article_test extends TestCase
         $classVarsProperty->setValue(
             array_merge(
                 $classVarsProperty->getValue(),
-                ['art_foo']
-            )
+                ['art_foo'],
+            ),
         );
     }
 

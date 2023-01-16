@@ -99,7 +99,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
             $items = $sql->getArray('SELECT id, name FROM ' . rex::getTablePrefix() . 'clang WHERE ' . implode(' OR ', $where['clangs']));
             foreach ($items as $clangArr) {
                 $name = (string) $clangArr['name'];
-                if (rex::getUser() && rex::getUser()->isAdmin()) {
+                if (rex::getUser()?->isAdmin()) {
                     $clangs .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('system/lang', ['clang_id' => $clangArr['id'], 'func' => 'editclang']) . '\')">' . $name . '</a></li>';
                 } else {
                     $clangs .= '<li>' . $name . '</li>';
@@ -203,10 +203,10 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
 
 $mediaHandler = new rex_metainfo_media_handler();
 
-rex_extension::register('MEDIA_FORM_EDIT', [$mediaHandler, 'extendForm']);
-rex_extension::register('MEDIA_FORM_ADD', [$mediaHandler, 'extendForm']);
+rex_extension::register('MEDIA_FORM_EDIT', $mediaHandler->extendForm(...));
+rex_extension::register('MEDIA_FORM_ADD', $mediaHandler->extendForm(...));
 
-rex_extension::register('MEDIA_ADDED', [$mediaHandler, 'extendForm'], rex_extension::EARLY);
-rex_extension::register('MEDIA_UPDATED', [$mediaHandler, 'extendForm'], rex_extension::EARLY);
+rex_extension::register('MEDIA_ADDED', $mediaHandler->extendForm(...), rex_extension::EARLY);
+rex_extension::register('MEDIA_UPDATED', $mediaHandler->extendForm(...), rex_extension::EARLY);
 
-rex_extension::register('MEDIA_IS_IN_USE', [rex_metainfo_media_handler::class, 'isMediaInUse']);
+rex_extension::register('MEDIA_IS_IN_USE', rex_metainfo_media_handler::isMediaInUse(...));

@@ -43,7 +43,7 @@ class rex_sql_schema_dumper
     ->ensureColumn(new rex_sql_column('updateuser', 'varchar(255)'))",
             '
     ->ensureGlobalColumns()',
-            $code
+            $code,
         );
 
         if ($setPrimaryKey && $table->getPrimaryKey()) {
@@ -131,6 +131,7 @@ class rex_sql_schema_dumper
 
         static $options = [
             rex_sql_foreign_key::RESTRICT => 'rex_sql_foreign_key::RESTRICT',
+            rex_sql_foreign_key::NO_ACTION => 'rex_sql_foreign_key::NO_ACTION',
             rex_sql_foreign_key::CASCADE => 'rex_sql_foreign_key::CASCADE',
             rex_sql_foreign_key::SET_NULL => 'rex_sql_foreign_key::SET_NULL',
         ];

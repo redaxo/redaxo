@@ -28,9 +28,7 @@ class rex_clang
     /** @var bool */
     private $status;
 
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 
     /**
      * Checks if the given clang exists.

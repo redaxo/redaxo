@@ -69,7 +69,7 @@ $article->setQuery('
                 ON template.id=article.template_id
             WHERE
                 article.id='$articleId'
-                AND clang_id=$clang"
+                AND clang_id=$clang",
 );
 
 if (1 == $article->getRows()) {

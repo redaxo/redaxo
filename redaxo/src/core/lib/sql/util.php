@@ -143,7 +143,7 @@ class rex_sql_util
     {
         // rex::getUser() gibts im Setup nicht
         /** @psalm-taint-escape sql */ // we trust the user db table
-        $user = rex::getUser() ? rex::getUser()->getValue('login') : '';
+        $user = rex::getUser()?->getLogin() ?? '';
 
         $query = str_replace('%USER%', $user, $query);
         $query = str_replace('%TIME%', (string) time(), $query);
@@ -197,7 +197,7 @@ class rex_sql_util
     public static function splitSqlFile(&$queries, $sql, $release)
     {
         // do not trim, see bug #1030644
-        //$sql          = trim($sql);
+        // $sql          = trim($sql);
         $sql = rtrim($sql, "\n\r");
         $sqlLen = strlen($sql);
         $stringStart = '';

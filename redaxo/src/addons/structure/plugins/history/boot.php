@@ -87,7 +87,7 @@ if ('' != $historyDate) {
     });
 }
 
-if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[article_rollback]')) {
+if (rex::isBackend() && rex::getUser()?->hasPerm('history[article_rollback]')) {
     rex_extension::register(
         ['ART_SLICES_COPY', 'SLICE_ADD', 'SLICE_UPDATE', 'SLICE_MOVE', 'SLICE_DELETE'],
         static function (rex_extension_point $ep) {
@@ -109,7 +109,7 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
             if (0 == $sliceRevision) {
                 rex_article_slice_history::makeSnapshot($articleId, $clangId, $type);
             }
-        }
+        },
     );
 
     rex_view::addCssFile($plugin->getAssetsUrl('noUiSlider/nouislider.css'));
@@ -166,8 +166,8 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
     rex_extension::register('STRUCTURE_CONTENT_HEADER', static function (rex_extension_point $ep) {
         if ('content/edit' == $ep->getParam('page')) {
             $articleLink = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), [], '&');
-            if ('http' == substr($articleLink, 0, 4)) {
-                $user = rex::getUser();
+            if (str_starts_with($articleLink, 'http')) {
+                $user = rex::requireUser();
                 $userLogin = $user->getLogin();
                 $historyValidTime = new DateTime();
                 $historyValidTime = $historyValidTime->modify('+10 Minutes')->format('YmdHis'); // 10 minutes valid key
@@ -182,7 +182,7 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
                     var history_article_link = "' . $articleLink . '";
                     </script>';
         }
-    }
+    },
     );
 }
 

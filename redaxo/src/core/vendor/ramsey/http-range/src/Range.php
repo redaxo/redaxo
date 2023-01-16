@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the ramsey/http-range library
  *
@@ -17,6 +18,9 @@ use Psr\Http\Message\RequestInterface;
 use Ramsey\Http\Range\Exception\NoRangeException;
 use Ramsey\Http\Range\Unit\UnitInterface;
 
+use function count;
+use function trim;
+
 /**
  * `Range` represents an HTTP Range request header.
  *
@@ -25,20 +29,14 @@ use Ramsey\Http\Range\Unit\UnitInterface;
  */
 class Range
 {
-    /**
-     * @var RequestInterface
-     */
-    private $request;
+    private RequestInterface $request;
 
     /**
      * @var mixed
      */
     private $totalSize;
 
-    /**
-     * @var UnitFactoryInterface
-     */
-    private $unitFactory;
+    private UnitFactoryInterface $unitFactory;
 
     /**
      * Constructs an HTTP Range request header.
@@ -46,13 +44,13 @@ class Range
      * @param RequestInterface $request A PSR-7-compatible HTTP request.
      * @param mixed $totalSize The total size of the entity for which a range is
      *     requested (this may be in bytes, items, etc.).
-     * @param UnitFactoryInterface $unitFactory An optional factory to use for
+     * @param UnitFactoryInterface|null $unitFactory An optional factory to use for
      *     parsing range units.
      */
     public function __construct(
         RequestInterface $request,
         $totalSize,
-        UnitFactoryInterface $unitFactory = null
+        ?UnitFactoryInterface $unitFactory = null
     ) {
         $this->request = $request;
         $this->totalSize = $totalSize;
@@ -66,8 +64,6 @@ class Range
 
     /**
      * Returns the PSR-7 HTTP request object.
-     *
-     * @return RequestInterface
      */
     public function getRequest(): RequestInterface
     {
@@ -86,8 +82,6 @@ class Range
 
     /**
      * Returns the unit factory used by this range.
-     *
-     * @return UnitFactoryInterface
      */
     public function getUnitFactory(): UnitFactoryInterface
     {
@@ -97,15 +91,13 @@ class Range
     /**
      * Returns the unit parsed for this range request.
      *
-     * @return UnitInterface
-     *
      * @throws NoRangeException if a range request header could not be found.
      */
     public function getUnit(): UnitInterface
     {
         $rangeHeader = $this->getRequest()->getHeader('Range');
 
-        if (empty($rangeHeader)) {
+        if (count($rangeHeader) === 0) {
             throw new NoRangeException();
         }
 

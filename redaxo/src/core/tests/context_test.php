@@ -27,37 +27,37 @@ class rex_context_test extends TestCase
         static::assertEquals(
             '<input type="hidden" name="int" value="25" /><input type="hidden" name="str" value="&lt;a b$c&amp;?&gt;" />',
             $context->getHiddenInputFields(),
-            'parameters get properly encoded'
+            'parameters get properly encoded',
         );
 
         static::assertEquals(
             '<input type="hidden" name="int" value="25" /><input type="hidden" name="str" value="&lt;a b$c&amp;?&gt;" /><input type="hidden" name="&lt;mystr&gt;" value="abc" />',
             $context->getHiddenInputFields(['<mystr>' => 'abc']),
-            'names get properly encoded'
+            'names get properly encoded',
         );
 
         static::assertEquals(
             '<input type="hidden" name="int" value="25" /><input type="hidden" name="str" value="xyz" />',
             $context->getHiddenInputFields(['str' => 'xyz']),
-            'local params override global params'
+            'local params override global params',
         );
 
         static::assertEquals(
             '<input type="hidden" name="int" value="25" /><input type="hidden" name="str" value="&lt;a b$c&amp;?&gt;" /><input type="hidden" name="str2" value="xyz" />',
             $context->getHiddenInputFields(['str2' => 'xyz']),
-            'new params are appended'
+            'new params are appended',
         );
 
         static::assertEquals(
             '<input type="hidden" name="int" value="25" /><input type="hidden" name="str" value="&lt;a b$c&amp;?&gt;" /><input type="hidden" name="myarr[0]" value="xyz" /><input type="hidden" name="myarr[1]" value="123" />',
             $context->getHiddenInputFields(['myarr' => ['xyz', 123]]),
-            'numeric arrays are handled'
+            'numeric arrays are handled',
         );
 
         static::assertEquals(
             '<input type="hidden" name="int" value="25" /><input type="hidden" name="str" value="&lt;a b$c&amp;?&gt;" /><input type="hidden" name="myarr[a]" value="xyz" /><input type="hidden" name="myarr[b]" value="123" />',
             $context->getHiddenInputFields(['myarr' => ['a' => 'xyz', 'b' => 123]]),
-            'assoc arrays are handled'
+            'assoc arrays are handled',
         );
     }
 
