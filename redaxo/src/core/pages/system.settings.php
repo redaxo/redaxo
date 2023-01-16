@@ -183,7 +183,7 @@ if (!rex::isDebugMode()) {
 }
 $buttonDebugMode = new Button(
     slotDefault: new Slot((rex::isDebugMode() ? rex_i18n::msg('debug_mode_off') : rex_i18n::msg('debug_mode_on'))),
-    slotPrefix: new Slot($icon->parse()),
+    slotPrefix: new Slot($icon->render()),
     href: (rex_url::currentBackendPage(['func' => 'debugmode'] + $csrfToken->getUrlParams())),
     variant: ButtonVariant::Warning,
     attributes: $attributes,
@@ -214,19 +214,19 @@ $buttonSetup = new Button(
 $content = '
     <h3>' . rex_i18n::msg('delete_cache') . '</h3>
     <p>' . rex_i18n::msg('delete_cache_description') . '</p>
-    <p>'.$buttonDeleteCache->parse().'</p>
+    <p>'.$buttonDeleteCache->render().'</p>
 
     <h3>' . rex_i18n::msg('debug_mode') . '</h3>
     <p>' . rex_i18n::msg('debug_mode_note') . '</p>
-    <p>'.$buttonDebugMode->parse().'</p>
+    <p>'.$buttonDebugMode->render().'</p>
 
     <h3>' . rex_i18n::msg('safemode') . '</h3>
     <p>' . rex_i18n::msg('safemode_text') . '</p>
-    <p>'.$buttonSaveMode->parse().'</p>
+    <p>'.$buttonSaveMode->render().'</p>
 
     <h3>' . rex_i18n::msg('setup') . '</h3>
     <p>' . rex_i18n::msg('setup_text') . '</p>
-    <p>'.$buttonSetup->parse().'</p>';
+    <p>'.$buttonSetup->render().'</p>';
 
 $mainContent = [];
 $sideContent = [];
@@ -235,7 +235,7 @@ $card = new Card(
     slotDefault: new Slot($content),
     slotHeader: new Slot('<div>'.rex_i18n::msg('system_features').'</div>')
 );
-$sideContent[] = $card->parse();
+$sideContent[] = $card->render();
 
 $content = '
     <table class="table">
@@ -259,7 +259,7 @@ $card = new Card(
     slotDefault: new Slot($content),
     slotHeader: new Slot('<div>'.rex_i18n::msg('installation').'</div>')
 );
-$sideContent[] = $card->parse();
+$sideContent[] = $card->render();
 
 $sql = rex_sql::factory();
 
@@ -283,7 +283,7 @@ $card = new Card(
     slotDefault: new Slot($content),
     slotHeader: new Slot('<div>'.rex_i18n::msg('database').'</div>')
 );
-$sideContent[] = $card->parse();
+$sideContent[] = $card->render();
 
 $content = '';
 
@@ -336,7 +336,7 @@ if ($url = $editor->getUrl($configYml, 0)) {
 
     $n = [];
     $n['label'] = '';
-    $n['field'] = $buttonEditor->parse();
+    $n['field'] = $buttonEditor->render();
     $n['note'] = rex_i18n::msg('system_edit_config_note');
     $formElements[] = $n;
 }
@@ -351,7 +351,7 @@ $buttonSave = new Button\Save(
     name: 'sendit',
 );
 $n = [];
-$n['field'] = $buttonSave->parse();
+$n['field'] = $buttonSave->render();
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -381,7 +381,7 @@ if ($viaCookie) {
     $alert = new Info(
         slotDefault: new Slot(rex_i18n::msg('system_editor_note_cookie'))
     );
-    $content .= $alert->parse();
+    $content .= $alert->render();
 }
 
 $formElements = [];
@@ -420,7 +420,7 @@ if (!$viaCookie) {
         value: '0'
     );
     $n = [];
-    $n['field'] = $buttonSave->parse();
+    $n['field'] = $buttonSave->render();
     $formElements[] = $n;
     $class = '';
 }
@@ -431,7 +431,7 @@ $buttonSave = new Button\Save(
     value: '1'
 );
 $n = [];
-$n['field'] = $buttonSave->parse();
+$n['field'] = $buttonSave->render();
 $formElements[] = $n;
 
 if ($viaCookie) {
@@ -443,7 +443,7 @@ if ($viaCookie) {
         value: '1'
     );
     $n = [];
-    $n['field'] = $buttonDelete->parse();
+    $n['field'] = $buttonDelete->render();
     $formElements[] = $n;
 }
 

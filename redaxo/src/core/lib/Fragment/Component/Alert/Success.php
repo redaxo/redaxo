@@ -22,7 +22,7 @@ class Success
     ) {
     }
 
-    public function parse(): string
+    public function render(): string
     {
         $icon = new Icon(
             name: IconLibrary::AlertSuccess,
@@ -30,12 +30,12 @@ class Success
 
         $alert = new Alert(
             slotDefault: $this->slotDefault,
-            slotIcon: new Slot($icon->parse()),
+            slotIcon: new Slot($icon->render()),
             open: true,
             type: AlertType::Success,
             attributes: $this->attributes,
         );
 
-        return $alert->parse();
+        return $alert->render();
     }
 }

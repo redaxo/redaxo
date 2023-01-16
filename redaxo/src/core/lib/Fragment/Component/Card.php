@@ -37,11 +37,8 @@ class Card extends rex_fragment
         parent::__construct([]);
     }
 
-    public function parse($filename = null): string
+    public function render(): string
     {
-        if (!$filename) {
-            $filename = $this->fileName;
-        }
-        return parent::parse($filename);
+        return parent::parse($this->fileName);
     }
 }

@@ -18,7 +18,7 @@ class Add
     ) {
     }
 
-    public function parse(): string
+    public function render(): string
     {
         $icon = new Icon(
             name: IconLibrary::Add,
@@ -26,12 +26,12 @@ class Add
 
         $button = new Button(
             slotDefault: new Slot(rex_i18n::msg('add')),
-            slotPrefix: new Slot($icon->parse()),
+            slotPrefix: new Slot($icon->render()),
             href: $this->href,
             variant: ButtonVariant::Primary,
             attributes: $this->attributes,
         );
 
-        return $button->parse();
+        return $button->render();
     }
 }

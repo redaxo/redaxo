@@ -21,7 +21,7 @@ class Save
     ) {
     }
 
-    public function parse(): string
+    public function render(): string
     {
         $icon = new Icon(
             name: IconLibrary::Save,
@@ -29,7 +29,7 @@ class Save
 
         $button = new Button(
             slotDefault: $this->slotDefault ?: new Slot(rex_i18n::msg('save')),
-            slotPrefix: new Slot($icon->parse()),
+            slotPrefix: new Slot($icon->render()),
             variant: ButtonVariant::Success,
             type: ButtonType::Submit,
             name: $this->name,
@@ -37,6 +37,6 @@ class Save
             attributes: $this->attributes,
         );
 
-        return $button->parse();
+        return $button->render();
     }
 }

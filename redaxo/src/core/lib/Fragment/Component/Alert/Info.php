@@ -22,7 +22,7 @@ class Info
     ) {
     }
 
-    public function parse(): string
+    public function render(): string
     {
         $icon = new Icon(
             name: IconLibrary::AlertInfo,
@@ -30,12 +30,12 @@ class Info
 
         $alert = new Alert(
             slotDefault: $this->slotDefault,
-            slotIcon: new Slot($icon->parse()),
+            slotIcon: new Slot($icon->render()),
             open: true,
             type: AlertType::Info,
             attributes: $this->attributes,
         );
 
-        return $alert->parse();
+        return $alert->render();
     }
 }

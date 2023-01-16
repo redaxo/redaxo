@@ -22,7 +22,7 @@ class Error
     ) {
     }
 
-    public function parse(): string
+    public function render(): string
     {
         $icon = new Icon(
             name: IconLibrary::AlertError,
@@ -30,12 +30,12 @@ class Error
 
         $alert = new Alert(
             slotDefault: $this->slotDefault,
-            slotIcon: new Slot($icon->parse()),
+            slotIcon: new Slot($icon->render()),
             open: true,
             type: AlertType::Error,
             attributes: $this->attributes,
         );
 
-        return $alert->parse();
+        return $alert->render();
     }
 }
