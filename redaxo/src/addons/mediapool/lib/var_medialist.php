@@ -65,7 +65,7 @@ class rex_var_medialist extends rex_var
         }
 
         $options = '';
-        $medialistarray = explode(',', $value);
+        $medialistarray = null === $value ? [] : explode(',', $value);
         foreach ($medialistarray as $file) {
             if ('' != $file) {
                 $options .= '<option value="' . $file . '">' . $file . '</option>';
