@@ -100,7 +100,7 @@ class rex_metainfo_table_expander extends rex_form
             }
         }
         $notices .= '
-        <script type="text/javascript">
+        <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
             var needle = new getObj("' . $field->getAttribute('id') . '");
             meta_checkConditionalFields(needle.obj, new Array(' . implode(',', $typeFields) . '), new Array(' . implode(',', $textFields) . '));
         </script>';

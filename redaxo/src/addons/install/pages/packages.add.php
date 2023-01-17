@@ -176,7 +176,7 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
     $content .= '</tbody></table>';
 
     $content .= '
-        <script type="text/javascript">
+        <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
         <!--
         jQuery(function($) {
             var table = $("#rex-js-table-install-packages-addons");

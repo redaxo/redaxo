@@ -113,7 +113,7 @@ $content = '
     ' . $content . '
     ' . rex_csrf_token::factory('backend_login')->getHiddenField() . '
 </form>
-<script type="text/javascript">
+<script type="text/javascript" nonce="' . rex_response::getNonce() . '">
      <!--
     jQuery(function($) {
         $("#rex-form-login")

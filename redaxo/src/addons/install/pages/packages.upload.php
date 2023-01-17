@@ -125,7 +125,7 @@ if ($addonkey && isset($addons[$addonkey])) {
 
         if (!$new) {
             echo '
-    <script type="text/javascript"><!--
+    <script type="text/javascript" nonce="' . rex_response::getNonce() . '"><!--
 
         jQuery(function($) {
             $("#rex-js-install-packages-upload-upload-file").change(function(){

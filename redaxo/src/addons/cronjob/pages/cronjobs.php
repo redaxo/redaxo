@@ -341,7 +341,7 @@ if ('' == $func) {
 
     echo $content; ?>
 
-    <script type="text/javascript">
+    <script type="text/javascript" nonce="<?php echo rex_response::getNonce(); ?>">
     // <![CDATA[
         jQuery(function($){
             var currentShown = null;
