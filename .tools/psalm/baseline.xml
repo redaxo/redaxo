@@ -1392,25 +1392,6 @@
       <code>$params</code>
     </MixedAssignment>
   </file>
-  <file src="redaxo/src/addons/metainfo/extensions/extension_content_sidebar.php">
-    <MixedArgument occurrences="2">
-      <code>$params['article_id']</code>
-      <code>$params['clang']</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="1">
-      <code>$subject</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="1">
-      <code>$subject</code>
-    </MixedOperand>
-    <PossiblyNullOperand occurrences="2">
-      <code>$article-&gt;getValue('createuser')</code>
-      <code>$article-&gt;getValue('updateuser')</code>
-    </PossiblyNullOperand>
-    <PossiblyNullReference occurrences="1">
-      <code>getValue</code>
-    </PossiblyNullReference>
-  </file>
   <file src="redaxo/src/addons/metainfo/functions/function_metainfo.php">
     <MixedArrayAccess occurrences="1">
       <code>$metaTables[$prefix]</code>
