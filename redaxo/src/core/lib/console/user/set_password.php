@@ -73,6 +73,7 @@ class rex_command_user_set_password extends rex_console_command
             ->setTable(rex::getTable('user'))
             ->setWhere(['id' => $id])
             ->setValue('password', $passwordHash)
+            ->setValue('login_tries', 0)
             ->addGlobalUpdateFields('console')
             ->setDateTimeValue('password_changed', time())
             ->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords($user, $passwordHash))
