@@ -8,6 +8,8 @@ use Redaxo\Core\Fragment\Component\ButtonVariant;
 use Redaxo\Core\Fragment\Component\Card;
 use Redaxo\Core\Fragment\Component\Icon;
 use Redaxo\Core\Fragment\Component\IconLibrary;
+use Redaxo\Core\Fragment\Component\Input;
+use Redaxo\Core\Fragment\Component\InputType;
 use Redaxo\Core\Fragment\Slot;
 
 $error = [];
@@ -345,25 +347,44 @@ $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
-$formElements = [];
+
+$formFields = [
+    new Input(
+        slotLabel: new Slot('<b>'.rex_i18n::msg('server').'</b>'),
+        type: InputType::Url,
+        name: 'settings[server]',
+        value: rex::getServer(),
+        required: true,
+    ),
+    new Input(
+        label: rex_i18n::msg('servername'),
+        name: 'settings[servername]',
+        value: rex::getServerName(),
+        required: true,
+    ),
+    new Input(
+        label: rex_i18n::msg('error_email'),
+        name: 'settings[error_email]',
+        value: rex::getErrorEmail(),
+        required: true,
+    ),
+];
+
+foreach ($formFields as $formField) {
+    $content .= $formField->render().'<br />';
+}
+
 
 $buttonSave = new Button\Save(
     name: 'sendit',
 );
-$n = [];
-$n['field'] = $buttonSave->render();
-$formElements[] = $n;
 
-$fragment = new rex_fragment();
-$fragment->setVar('elements', $formElements, false);
-$buttons = $fragment->parse('core/form/submit.php');
-
-$fragment = new rex_fragment();
-$fragment->setVar('class', 'edit', false);
-$fragment->setVar('title', rex_i18n::msg('system_settings'));
-$fragment->setVar('body', $content, false);
-$fragment->setVar('buttons', $buttons, false);
-$content = $fragment->parse('core/page/section.php');
+$card = new Card(
+    slotDefault: new Slot($content),
+    slotHeader: new Slot('<div>'.rex_i18n::msg('system_settings').'</div>'),
+    slotFooter: new Slot($buttonSave->render()),
+);
+$content = $card->render();
 
 $mainContent[] = '
 <form id="rex-form-system-setup" action="' . rex_url::currentBackendPage() . '" method="post">
@@ -410,19 +431,14 @@ $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
-$formElements = [];
-$class = 'rex-form-aligned';
-
+$buttons = [];
 if (!$viaCookie) {
     $buttonSave = new Button\Save(
         slotDefault: new Slot(rex_i18n::msg('system_editor_update_configyml')),
         name: 'editor[update_cookie]',
         value: '0'
     );
-    $n = [];
-    $n['field'] = $buttonSave->render();
-    $formElements[] = $n;
-    $class = '';
+    $buttons[] = $buttonSave->render();
 }
 
 $buttonSave = new Button\Save(
@@ -430,9 +446,7 @@ $buttonSave = new Button\Save(
     name: 'editor[update_cookie]',
     value: '1'
 );
-$n = [];
-$n['field'] = $buttonSave->render();
-$formElements[] = $n;
+$buttons[] = $buttonSave->render();
 
 if ($viaCookie) {
     $buttonDelete = new Button(
@@ -442,21 +456,15 @@ if ($viaCookie) {
         name: 'editor[delete_cookie]',
         value: '1'
     );
-    $n = [];
-    $n['field'] = $buttonDelete->render();
-    $formElements[] = $n;
+    $buttons[] = $buttonDelete->render();
 }
 
-$fragment = new rex_fragment();
-$fragment->setVar('elements', $formElements, false);
-$buttons = $fragment->parse('core/form/submit.php');
-
-$fragment = new rex_fragment();
-$fragment->setVar('class', 'edit', false);
-$fragment->setVar('title', rex_i18n::msg('system_editor'));
-$fragment->setVar('body', $content, false);
-$fragment->setVar('buttons', $buttons, false);
-$content = $fragment->parse('core/page/section.php');
+$card = new Card(
+    slotDefault: new Slot($content),
+    slotHeader: new Slot('<div>'.rex_i18n::msg('system_editor').'</div>'),
+    slotFooter: new Slot('<div>'.implode('', $buttons).'</div>'),
+);
+$content = $card->render();
 
 $mainContent[] = '
 <form id="rex-form-system-setup" action="' . rex_url::currentBackendPage() . '" method="post">
