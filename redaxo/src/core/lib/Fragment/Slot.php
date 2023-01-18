@@ -2,7 +2,6 @@
 
 namespace Redaxo\Core\Fragment;
 
-use DOMDocument;
 use rex_functional_exception;
 
 class Slot
@@ -17,19 +16,17 @@ class Slot
         return $this->value;
     }
 
-    public function prepare(string $value): static
+    public function prepare(string $slot): static
     {
-        $document = new DOMDocument('1.0', 'UTF-8');
-        libxml_use_internal_errors(true);
-        $document->loadHTML($this->value, LIBXML_COMPACT | LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD | LIBXML_NOENT | LIBXML_NOWARNING);
-        $element = $document->firstElementChild;
-        if (!$element) {
-            throw new rex_functional_exception('Element not found. The element requires the attribute `slot="'.$value.'"`');
+        $this->value = trim($this->value);
+        if (!str_contains($this->value, 'slot="'.$slot.'"')) {
+            $this->value = preg_replace('/\A(<[a-z-]+)/', '$1 slot="'.$slot.'"', $this->value);
         }
-        if (!$element->hasAttribute('slot')) {
-            $element->setAttribute('slot', $value);
+
+        if (!str_contains($this->value, 'slot="'.$slot.'"')) {
+            throw new rex_functional_exception('The '.$slot.' property requires the attribute `slot="'.$slot.'"`');
         }
-        $this->value = $document->saveHTML();
+
         return $this;
     }
 }
