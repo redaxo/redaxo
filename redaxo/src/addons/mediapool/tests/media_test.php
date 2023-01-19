@@ -37,7 +37,6 @@ class rex_media_test extends TestCase
 
     private function createMediaWithoutConstructor(): rex_media
     {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return (new ReflectionClass(rex_media::class))->newInstanceWithoutConstructor();
     }
 }
