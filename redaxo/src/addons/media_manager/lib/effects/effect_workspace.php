@@ -139,7 +139,7 @@ class rex_effect_workspace extends rex_effect_abstract
                 'options' => ['colored', 'transparent'],
                 'default' => 'colored',
                 'suffix' => '
-<script type="text/javascript">
+<script type="text/javascript" nonce="' . rex_response::getNonce() . '">
 <!--
 
 $(function() {

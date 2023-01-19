@@ -35,7 +35,7 @@ pages:
             actions: { title: translate:actions }
 
 requires:
-    redaxo: ^5.13.0
+    redaxo: ^5.15.0-dev
 
 conflicts:
     packages:

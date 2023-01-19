@@ -141,7 +141,7 @@ class rex_effect_resize extends rex_effect_abstract
                 'options' => self::OPTIONS,
                 'default' => 'fit',
                 'suffix' => '
-<script type="text/javascript">
+<script type="text/javascript" nonce="' . rex_response::getNonce() . '">
 <!--
 
 $(function() {

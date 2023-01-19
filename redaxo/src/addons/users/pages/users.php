@@ -528,7 +528,7 @@ if ('' != $fUNCADD || $userId > 0) {
             ' . $content . '
         </form>
 
-        <script type="text/javascript">
+        <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
         <!--
         jQuery(function($) {
             $("#rex-js-user-admin").change(function() {

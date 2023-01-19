@@ -31,4 +31,4 @@ image_extensions: [bmp, gif, jpeg, jpg, png, svg, tif, tiff, webp]
 
 requires:
     php: '>=8.1'
-    redaxo: ^5.13.0
+    redaxo: ^5.15.0-dev

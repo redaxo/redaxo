@@ -50,7 +50,7 @@ class rex_form_restrictons_element extends rex_form_select_element
         $html = '';
 
         $html .= '
-        <script type="text/javascript">
+        <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
         <!--
 
         jQuery(function($) {

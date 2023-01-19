@@ -93,7 +93,7 @@ if ('' != $error) {
 
 if (!rex_request::isXmlHttpRequest()) {
     ?>
-    <script type="text/javascript">
+    <script type="text/javascript" nonce="<?= rex_response::getNonce() ?>">
         rex_retain_popup_event_handlers("rex:selectMedia");
         <?= $openerInputField ? 'rex.mediapoolOpenerInputField = "'.rex_escape($openerInputField, 'js').'";' : '' ?>
     </script>

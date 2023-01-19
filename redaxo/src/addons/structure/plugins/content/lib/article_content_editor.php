@@ -453,7 +453,7 @@ class rex_article_content_editor extends rex_article_content
                     <form action="' . rex_url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $sliceId, 'clang' => $this->clang, 'ctype' => $this->ctype]) . '#slice-add-pos-' . $this->sliceAddPosition . '" method="post" id="REX_FORM" enctype="multipart/form-data">
                         ' . $sliceContent . '
                     </form>
-                    <script type="text/javascript">
+                    <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
                          <!--
                         jQuery(function($) {
                             $(":input:visible:enabled:not([readonly]):first", $("#REX_FORM")).focus();
@@ -531,7 +531,7 @@ class rex_article_content_editor extends rex_article_content
                 <form enctype="multipart/form-data" action="' . rex_url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $sliceId, 'ctype' => $ctypeId, 'clang' => $this->clang, 'function' => 'edit']) . '#slice' . $sliceId . '" method="post" id="REX_FORM">
                     ' . $sliceContent . '
                 </form>
-                <script type="text/javascript">
+                <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
                      <!--
                     jQuery(function($) {
                         $(":input:visible:enabled:not([readonly]):first", $("#REX_FORM")).focus();
