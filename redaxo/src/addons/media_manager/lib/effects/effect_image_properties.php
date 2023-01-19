@@ -66,7 +66,7 @@ class rex_effect_image_properties extends rex_effect_abstract
                 'options' => [self::NO_INTERLACING, 'jpg', 'png', 'gif'],
                 'attributes' => ['multiple' => true, 'class' => 'selectpicker form-control'],
                 'suffix' => '
-<script type="text/javascript">
+<script type="text/javascript" nonce="' . rex_response::getNonce() . '">
     $(function() {
         var $field = $("#media-manager-rex-effect-image-properties-interlace-select");
 

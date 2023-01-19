@@ -24,7 +24,7 @@
         $colorScheme = rex_escape($user->getValue('theme'));
     }
     echo "\n" . '    <meta name="color-scheme" content="' . $colorScheme . '">';
-    echo "\n" . '    <style>:root { color-scheme: ' . $colorScheme . ' }</style>';
+    echo "\n" . '    <style nonce="' . rex_response::getNonce() . '">:root { color-scheme: ' . $colorScheme . ' }</style>';
 
     $assetDir = rex_path::assets();
 
@@ -41,7 +41,7 @@
         }
     }
     echo "\n";
-    echo "\n" . '    <script type="text/javascript">';
+    echo "\n" . '    <script type="text/javascript" nonce="' . rex_response::getNonce() . '">';
     echo "\n" . '    <!--';
     echo "\n" . '    var rex = '.$this->jsProperties.';';
     echo "\n" . '    //-->';
@@ -72,7 +72,7 @@
             $attributes[] = 'defer="defer"';
         }
 
-        echo "\n" . '    <script type="text/javascript" src="' . $file .'" '. implode(' ', $attributes) .'></script>';
+        echo "\n" . '    <script type="text/javascript" src="' . $file .'" '. implode(' ', $attributes) .' nonce="' . rex_response::getNonce() . '"></script>';
     }
 ?>
 

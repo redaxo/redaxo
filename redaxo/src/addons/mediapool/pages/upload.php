@@ -42,7 +42,7 @@ if ('add_file' == $mediaMethod) {
                         }
                     }
 
-                    echo '<script type="text/javascript">';
+                    echo '<script type="text/javascript" nonce="' . rex_response::getNonce() . '">';
                     if (isset($js)) {
                         echo $js;
                     }
