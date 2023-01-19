@@ -68,7 +68,7 @@ if (!rex_request::isXmlHttpRequest()) {
 }
 
 ?>
-<script type="text/javascript" nonce="<?php echo rex_response::getNonce(); ?>">
+<script type="text/javascript" nonce="<?= rex_response::getNonce() ?>">
     <?php echo $retainEventHandlers ?>
 
     function insertLink(link,name){
