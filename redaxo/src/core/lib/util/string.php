@@ -176,7 +176,7 @@ class rex_string
                 if (is_array($value)) {
                     $func($value, $key);
                 } else {
-                    $query[] = $key . '=' . str_replace('%2F', '/', urlencode($value ?? ''));
+                    $query[] = $key . '=' . str_replace('%2F', '/', urlencode((string) $value));
                 }
             }
         };
