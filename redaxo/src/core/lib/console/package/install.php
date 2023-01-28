@@ -20,10 +20,6 @@ class rex_command_package_install extends rex_console_command
                 $packageNames = [];
 
                 foreach(rex_package::getRegisteredPackages() as $package) {
-                    if ($package->isInstalled()) {
-                        continue;
-                    }
-
                     $packageNames[] = $package->getPackageId();
                 }
 
