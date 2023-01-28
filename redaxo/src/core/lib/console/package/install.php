@@ -20,6 +20,7 @@ class rex_command_package_install extends rex_console_command
                 $packageNames = [];
 
                 foreach(rex_package::getRegisteredPackages() as $package) {
+                    // allow all packages, because we support --re-intall for already installed ones
                     $packageNames[] = $package->getPackageId();
                 }
 
