@@ -15,7 +15,19 @@ class rex_command_package_delete extends rex_console_command
     {
         $this
             ->setDescription('Deletes the selected package')
-            ->addArgument('package-id', InputArgument::REQUIRED, 'The id of the package (addon or plugin); e.g. "cronjob" or "structure/content"');
+            ->addArgument('package-id', InputArgument::REQUIRED, 'The id of the package (addon or plugin); e.g. "cronjob" or "structure/content"', null, static function() {
+                $packageNames = [];
+
+                foreach(rex_package::getRegisteredPackages() as $package) {
+                    if ($package->isSystemPackage()) {
+                        continue;
+                    }
+
+                    $packageNames[] = $package->getPackageId();
+                }
+
+                return $packageNames;
+            });
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
