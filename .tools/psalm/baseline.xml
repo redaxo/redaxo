@@ -6004,9 +6004,8 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/util/string.php">
-    <MixedArgument occurrences="2">
+    <MixedArgument occurrences="1">
       <code>$query</code>
-      <code>$value</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="2">
       <code>$key</code>
