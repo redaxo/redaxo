@@ -4125,10 +4125,56 @@
       <code>rex_extension_point_console_shutdown</code>
     </MissingTemplateParam>
   </file>
+  <file src="redaxo/src/core/lib/console/package/activate.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$packageId</code>
+    </PossiblyNullArgument>
+    <PossiblyNullOperand occurrences="1">
+      <code>$packageId</code>
+    </PossiblyNullOperand>
+  </file>
+  <file src="redaxo/src/core/lib/console/package/deactivate.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$packageId</code>
+    </PossiblyNullArgument>
+    <PossiblyNullOperand occurrences="1">
+      <code>$packageId</code>
+    </PossiblyNullOperand>
+  </file>
+  <file src="redaxo/src/core/lib/console/package/delete.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$packageId</code>
+    </PossiblyNullArgument>
+    <PossiblyNullOperand occurrences="1">
+      <code>$packageId</code>
+    </PossiblyNullOperand>
+  </file>
   <file src="redaxo/src/core/lib/console/package/install.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$packageId</code>
+    </PossiblyNullArgument>
+    <PossiblyNullOperand occurrences="1">
+      <code>$packageId</code>
+    </PossiblyNullOperand>
     <UndefinedInterfaceMethod occurrences="1">
       <code>ask</code>
     </UndefinedInterfaceMethod>
+  </file>
+  <file src="redaxo/src/core/lib/console/package/run_update_script.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$packageId</code>
+    </PossiblyNullArgument>
+    <PossiblyNullOperand occurrences="1">
+      <code>$packageId</code>
+    </PossiblyNullOperand>
+  </file>
+  <file src="redaxo/src/core/lib/console/package/uninstall.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$packageId</code>
+    </PossiblyNullArgument>
+    <PossiblyNullOperand occurrences="1">
+      <code>$packageId</code>
+    </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/lib/console/setup/check.php">
     <MixedArgument occurrences="2">
