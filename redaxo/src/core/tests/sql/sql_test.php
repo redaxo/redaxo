@@ -474,6 +474,21 @@ class rex_sql_test extends TestCase
         static::assertEquals(1, $sql->getRows());
     }
 
+    public function testSelect(): void
+    {
+        $this->testInsertRow();
+
+        // https://github.com/redaxo/redaxo/issues/5518
+        rex_sql::closeConnection();
+
+        $sql = rex_sql::factory();
+        $sql->setTable(self::TABLE);
+        $sql->setWhere('col_str = '.$sql->escape('abc'));
+        $sql->select();
+
+        static::assertEquals(1, $sql->getRows());
+    }
+
     public function testGetLastId(): void
     {
         $sql = rex_sql::factory();
