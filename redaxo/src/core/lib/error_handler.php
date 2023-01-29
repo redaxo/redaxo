@@ -122,7 +122,7 @@ abstract class rex_error_handler
 
         $handler->setEditor([rex_editor::factory(), 'getUrl']);
 
-        $handler->hideSuperglobalKey('_SESSION', 'REX_SESSID');
+        $handler->hideSuperglobalKey('_SESSION', rex_login::SESSION_ID);
         $handler->hideSuperglobalKey('_COOKIE', session_name());
         $handler->hideSuperglobalKey('_COOKIE', rex_backend_login::getStayLoggedInCookieName());
 
