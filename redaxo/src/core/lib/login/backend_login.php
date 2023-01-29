@@ -219,7 +219,7 @@ class rex_backend_login extends rex_login
     /**
      * @return string
      */
-    private static function getStayLoggedInCookieName()
+    public static function getStayLoggedInCookieName()
     {
         return 'rex_user_' . sha1(rex::getProperty('instname'));
     }
