@@ -50,11 +50,11 @@ class rex_template_cache
 
     public static function getPath(int $id): string
     {
-        return rex_path::addonCache('templates', $id.'.template');
+        return rex_path::addonCache('structure', 'templates/'.$id.'.template');
     }
 
     public static function getKeyMappingPath(): string
     {
-        return rex_path::addonCache('templates', 'template_key_mapping.cache');
+        return rex_path::addonCache('structure', 'templates/template_key_mapping.cache');
     }
 }

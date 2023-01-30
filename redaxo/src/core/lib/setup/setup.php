@@ -29,6 +29,7 @@ class rex_setup
      *
      * @param string $skinAddon
      * @param string $skinPlugin
+     * @return void
      */
     public static function init($skinAddon = 'be_style', $skinPlugin = 'redaxo')
     {
@@ -68,13 +69,13 @@ class rex_setup
 
         // -------------------------- VERSIONSCHECK
         if (1 == version_compare(PHP_VERSION, self::MIN_PHP_VERSION, '<')) {
-            $errors[] = rex_i18n::msg('setup_301', PHP_VERSION, self::MIN_PHP_VERSION);
+            $errors[] = rex_i18n::msg('setup_201', PHP_VERSION, self::MIN_PHP_VERSION);
         }
 
         // -------------------------- EXTENSION CHECK
         foreach (self::MIN_PHP_EXTENSIONS as $extension) {
             if (!extension_loaded($extension)) {
-                $errors[] = rex_i18n::msg('setup_302', $extension);
+                $errors[] = rex_i18n::msg('setup_202', $extension);
             }
         }
 
@@ -103,17 +104,17 @@ class rex_setup
 
         $func = static function ($dir) use (&$func, $getMod) {
             if (!rex_dir::isWritable($dir)) {
-                return ['setup_304' => [$dir]];
+                return ['setup_204' => [$dir]];
             }
             $res = [];
             foreach (rex_finder::factory($dir) as $path => $file) {
                 if ($file->isDir()) {
                     $res = array_merge_recursive($res, $func($path));
                 } elseif (!$file->isWritable()) {
-                    $res['setup_305'][] = $path;
+                    $res['setup_205'][] = $path;
                 } elseif (0 !== strcasecmp(substr(PHP_OS, 0, 3), 'WIN') && str_ends_with($getMod($path), '7')) {
                     // check the "other" filesystem-bit for "all" permission.
-                    $res['setup_311'][] = $path;
+                    $res['setup_211'][] = $path;
                 }
             }
             return $res;
@@ -124,7 +125,7 @@ class rex_setup
             if (@is_dir($dir)) {
                 $res = array_merge_recursive($res, $func($dir));
             } else {
-                $res['setup_306'][] = $dir;
+                $res['setup_206'][] = $dir;
             }
         }
 
@@ -188,13 +189,9 @@ class rex_setup
         }
 
         // https://www.php.net/supported-versions.php
-        if (1 == version_compare(PHP_VERSION, '7.4', '<') && time() > strtotime('6 Dec 2021')) {
+        if (1 == version_compare(PHP_VERSION, '8.2', '<') && time() > strtotime('25 Nov 2024')) {
             $security[] = rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION);
-        } elseif (1 == version_compare(PHP_VERSION, '8.0', '<') && time() > strtotime('28 Nov 2022')) {
-            $security[] = rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION);
-        } elseif (1 == version_compare(PHP_VERSION, '8.1', '<') && time() > strtotime('26 Nov 2023')) {
-            $security[] = rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION);
-        } elseif (1 == version_compare(PHP_VERSION, '8.2', '<') && time() > strtotime('25 Nov 2024')) {
+        } elseif (1 == version_compare(PHP_VERSION, '8.3', '<') && time() > strtotime('8 Dec 2025')) {
             $security[] = rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION);
         }
 
@@ -225,7 +222,15 @@ class rex_setup
                 $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
             } elseif (1 == version_compare($dbVersion, '10.6', '<') && time() > strtotime('1 Jun 2025')) {
                 $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
-            } elseif (1 == version_compare($dbVersion, '10.7', '<') && time() > strtotime('1 Jul 2026')) {
+            } elseif (1 == version_compare($dbVersion, '10.7', '<') && time() > strtotime('1 Jul 2026')) { // LTS
+                $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
+            } elseif (1 == version_compare($dbVersion, '10.8', '<') && time() > strtotime('1 Feb 2023')) {
+                $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
+            } elseif (1 == version_compare($dbVersion, '10.9', '<') && time() > strtotime('1 May 2023')) {
+                $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
+            } elseif (1 == version_compare($dbVersion, '10.10', '<') && time() > strtotime('1 Aug 2023')) {
+                $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
+            } elseif (1 == version_compare($dbVersion, '10.11', '<') && time() > strtotime('1 Nov 2023')) {
                 $security[] = rex_i18n::msg('setup_security_deprecated_mariadb', $dbVersion);
             }
         } elseif (rex_sql::MYSQL === $dbType) {
@@ -248,17 +253,24 @@ class rex_setup
      */
     public static function isInitialSetup(): bool
     {
+        /** @var bool|null $initial */
+        static $initial;
+
+        if (null !== $initial) {
+            return $initial;
+        }
+
         try {
             $userSql = rex_sql::factory();
             $userSql->setQuery('select * from ' . rex::getTable('user') . ' LIMIT 1');
 
-            return 0 == $userSql->getRows();
+            return $initial = 0 == $userSql->getRows();
         } catch (rex_sql_could_not_connect_exception $e) {
-            return true;
+            return $initial = true;
         } catch (rex_sql_exception $e) {
             $sql = $e->getSql();
             if ($sql && rex_sql::ERRNO_TABLE_OR_VIEW_DOESNT_EXIST === $sql->getErrno()) {
-                return true;
+                return $initial = true;
             }
             throw $e;
         }
@@ -343,7 +355,7 @@ class rex_setup
         $configFile = rex_path::coreData('config.yml');
         $config = array_merge(
             rex_file::getConfig(rex_path::core('default.config.yml')),
-            rex_file::getConfig($configFile)
+            rex_file::getConfig($configFile),
         );
 
         if (is_array($config['setup'])) {

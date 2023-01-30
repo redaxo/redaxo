@@ -43,10 +43,16 @@ abstract class rex_metainfo_handler
 
             $attrArray = rex_string::split($attr);
             if (isset($attrArray['perm'])) {
-                if (!rex::getUser()->hasPerm($attrArray['perm'])) {
+                if (!rex::requireUser()->hasPerm($attrArray['perm'])) {
                     continue;
                 }
                 unset($attrArray['perm']);
+            }
+
+            $note = null;
+            if (isset($attrArray['note'])) {
+                $note = rex_i18n::translate($attrArray['note']);
+                unset($attrArray['note']);
             }
 
             // `rex_string::split` transforms attributes without value (like `disabled`, `data-foo` etc.) to an int based array element
@@ -107,6 +113,7 @@ abstract class rex_metainfo_handler
                     $e = [];
                     $e['label'] = $label;
                     $e['field'] = $field;
+                    $e['note'] = $note;
                     $fragment = new rex_fragment();
                     $fragment->setVar('elements', [$e], false);
                     $field = $fragment->parse('core/form/form.php');
@@ -182,6 +189,7 @@ abstract class rex_metainfo_handler
                             $e['label'] = '<label for="' . $currentId . '">' . rex_escape($value) . '</label>';
                         }
                         $e['field'] = '<input type="' . rex_escape($typeLabel) . '" name="' . rex_escape($name) . '" value="' . rex_escape($key) . '" id="' . $currentId . '" ' . $attrStr . $selected . ' />';
+                        $e['note'] = $oneValue ? $note : null;
                         $formElements[] = $e;
                     }
 
@@ -202,6 +210,7 @@ abstract class rex_metainfo_handler
                         $e = [];
                         $e['label'] = $label;
                         $e['field'] = $field;
+                        $e['note'] = $note;
                         $fragment = new rex_fragment();
                         $fragment->setVar('elements', [$e], false);
                         $field = $fragment->parse('core/form/form.php');
@@ -264,6 +273,7 @@ abstract class rex_metainfo_handler
                     $e = [];
                     $e['label'] = $label;
                     $e['field'] = $field;
+                    $e['note'] = $note;
                     $fragment = new rex_fragment();
                     $fragment->setVar('elements', [$e], false);
                     $field = $fragment->parse('core/form/form.php');
@@ -320,6 +330,7 @@ abstract class rex_metainfo_handler
                     $e = [];
                     $e['label'] = $label;
                     $e['field'] = $field;
+                    $e['note'] = $note;
                     $fragment = new rex_fragment();
                     $fragment->setVar('elements', [$e], false);
                     $field = $fragment->parse('core/form/form.php');
@@ -342,6 +353,7 @@ abstract class rex_metainfo_handler
                     $e = [];
                     $e['label'] = $label;
                     $e['field'] = $field;
+                    $e['note'] = $note;
                     $fragment = new rex_fragment();
                     $fragment->setVar('elements', [$e], false);
                     $field = $fragment->parse('core/form/form.php');
@@ -387,6 +399,7 @@ abstract class rex_metainfo_handler
                     $e = [];
                     $e['label'] = $label;
                     $e['field'] = $field;
+                    $e['note'] = $note;
                     $fragment = new rex_fragment();
                     $fragment->setVar('elements', [$e], false);
                     $field = $fragment->parse('core/form/form.php');
@@ -422,6 +435,7 @@ abstract class rex_metainfo_handler
                     $e = [];
                     $e['label'] = $label;
                     $e['field'] = $field;
+                    $e['note'] = $note;
                     $fragment = new rex_fragment();
                     $fragment->setVar('elements', [$e], false);
                     $field = $fragment->parse('core/form/form.php');
@@ -452,6 +466,7 @@ abstract class rex_metainfo_handler
                     $e = [];
                     $e['label'] = $label;
                     $e['field'] = $field;
+                    $e['note'] = $note;
                     $fragment = new rex_fragment();
                     $fragment->setVar('elements', [$e], false);
                     $field = $fragment->parse('core/form/form.php');
@@ -483,6 +498,7 @@ abstract class rex_metainfo_handler
                     $e = [];
                     $e['label'] = $label;
                     $e['field'] = $field;
+                    $e['note'] = $note;
                     $fragment = new rex_fragment();
                     $fragment->setVar('elements', [$e], false);
                     $field = $fragment->parse('core/form/form.php');
@@ -505,7 +521,7 @@ abstract class rex_metainfo_handler
                                 'rawvalues' => $dbvalues,
                                 'type' => $typeLabel,
                                 'sql' => $sqlFields,
-                            ]
+                            ],
                         ));
             }
 
@@ -521,6 +537,7 @@ abstract class rex_metainfo_handler
      * @param array   $params
      * @param rex_sql $sqlSave   rex_sql-objekt, in das die aktuellen Werte gespeichert werden sollen
      * @param rex_sql $sqlFields rex_sql-objekt, dass die zu verarbeitenden Felder enthält
+     * @return void
      */
     public static function fetchRequestValues(&$params, &$sqlSave, $sqlFields)
     {
@@ -536,7 +553,7 @@ abstract class rex_metainfo_handler
             // dont save restricted fields
             $attrArray = rex_string::split($fieldAttributes);
             if (isset($attrArray['perm'])) {
-                if (!rex::getUser()->hasPerm($attrArray['perm'])) {
+                if (!rex::requireUser()->hasPerm($attrArray['perm'])) {
                     continue;
                 }
                 unset($attrArray['perm']);
@@ -624,8 +641,8 @@ abstract class rex_metainfo_handler
      */
     protected static function getSqlFields($prefix, $filterCondition = '')
     {
-        // replace LIKE wildcards
-        $prefix = str_replace(['_', '%'], ['\_', '\%'], $prefix);
+        $sqlFields = rex_sql::factory();
+        $prefix = $sqlFields->escapeLikeWildcards($prefix);
 
         $qry = 'SELECT
                             *
@@ -639,8 +656,7 @@ abstract class rex_metainfo_handler
                             ORDER BY
                             priority';
 
-        $sqlFields = rex_sql::factory();
-        //$sqlFields->setDebug();
+        // $sqlFields->setDebug();
         $sqlFields->setQuery($qry);
 
         return $sqlFields;
@@ -668,6 +684,9 @@ abstract class rex_metainfo_handler
         return self::renderMetaFields($sqlFields, $params);
     }
 
+    /**
+     * @return void
+     */
     protected function fireCallbacks(rex_sql $sqlFields)
     {
         foreach ($sqlFields as $row) {
@@ -693,6 +712,7 @@ abstract class rex_metainfo_handler
      * Build a SQL Filter String which fits for the current context params.
      *
      * @param array $params EP Params
+     * @return string
      */
     abstract protected function buildFilterCondition(array $params);
 
@@ -721,6 +741,7 @@ abstract class rex_metainfo_handler
 
     /**
      * Retrieves the POST values from the metaform, fill it into a rex_sql object and save it to a database table.
+     * @return array
      */
     abstract protected function handleSave(array $params, rex_sql $sqlFields);
 }

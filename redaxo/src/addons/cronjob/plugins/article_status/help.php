@@ -2,10 +2,6 @@
 
 /**
  * Cronjob Addon - Plugin article_status.
- *
- * @author gharlan[at]web[dot]de Gregor Harlan
- *
- * @package redaxo5
  */
 
 ?>

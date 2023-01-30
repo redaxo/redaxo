@@ -388,12 +388,18 @@ class rex_category_service
         return $catStatusTypes;
     }
 
+    /**
+     * @return int
+     */
     public static function nextStatus($currentStatus)
     {
         $catStatusTypes = self::statusTypes();
         return ($currentStatus + 1) % count($catStatusTypes);
     }
 
+    /**
+     * @return int
+     */
     public static function prevStatus($currentStatus)
     {
         $catStatusTypes = self::statusTypes();
@@ -409,6 +415,7 @@ class rex_category_service
      *
      * @param int $fromCat KategorieId der Kategorie, die kopiert werden soll (Quelle)
      * @param int $toCat   KategorieId der Kategorie, IN die kopiert werden soll (Ziel)
+     * @return void
      */
     public static function copyCategory($fromCat, $toCat)
     {
@@ -422,6 +429,7 @@ class rex_category_service
      * @param int $clang     ClangId der Kategorie, die erneuert werden soll
      * @param int $newPrio  Neue PrioNr der Kategorie
      * @param int $oldPrio  Alte PrioNr der Kategorie
+     * @return void
      */
     public static function newCatPrio($parentId, $clang, $newPrio, $oldPrio)
     {
@@ -436,7 +444,7 @@ class rex_category_service
                 rex::getTable('article'),
                 'catpriority',
                 'clang_id=' . (int) $clang . ' AND parent_id=' . (int) $parentId . ' AND startarticle=1',
-                'catpriority,updatedate ' . $addsql
+                'catpriority,updatedate ' . $addsql,
             );
 
             rex_article_cache::deleteLists($parentId);
@@ -535,7 +543,7 @@ class rex_category_service
             $up->setWhere(['id' => $fromCat, 'clang_id' => $clang]);
             $up->setValue('path', $toPath);
             $up->setValue('parent_id', $toCat);
-            $up->setValue('catpriority', ($catpriority + 1));
+            $up->setValue('catpriority', $catpriority + 1);
             $up->update();
         }
 
@@ -565,6 +573,7 @@ class rex_category_service
      * @param string $keyName The key
      *
      * @throws rex_api_exception
+     * @return void
      */
     protected static function reqKey(array $array, $keyName)
     {
@@ -578,10 +587,6 @@ class rex_category_service
      */
     private static function getUser()
     {
-        if (rex::getUser()) {
-            return rex::getUser()->getLogin();
-        }
-
-        return rex::getEnvironment();
+        return rex::getUser()?->getLogin() ?? rex::getEnvironment();
     }
 }

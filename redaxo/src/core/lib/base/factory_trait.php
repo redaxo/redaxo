@@ -28,9 +28,7 @@
  */
 trait rex_factory_trait
 {
-    /**
-     * @var array<class-string<static>, class-string<static>>
-     */
+    /** @var array<class-string<static>, class-string<static>> */
     private static $factoryClasses = [];
 
     /**
@@ -40,6 +38,7 @@ trait rex_factory_trait
      * @psalm-param class-string<self> $subclass https://github.com/vimeo/psalm/issues/5535
      *
      * @throws InvalidArgumentException
+     * @return void
      */
     public static function setFactoryClass($subclass)
     {

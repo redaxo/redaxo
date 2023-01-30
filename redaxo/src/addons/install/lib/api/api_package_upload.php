@@ -9,7 +9,7 @@ class rex_api_install_package_upload extends rex_api_function
 {
     public function execute()
     {
-        if (!rex::getUser()->isAdmin()) {
+        if (!rex::getUser()?->isAdmin()) {
             throw new rex_api_exception('You do not have the permission!');
         }
         $addonkey = rex_request('addonkey', 'string');
@@ -30,7 +30,13 @@ class rex_api_install_package_upload extends rex_api_function
         try {
             if ($upload['upload_file']) {
                 $archive = rex_path::addonCache('install', md5($addonkey . time()) . '.zip');
-                $exclude = [];
+                $exclude = [
+                    '.gitattributes',
+                    '.github',
+                    '.gitignore',
+                    '.idea',
+                    '.vscode',
+                ];
                 if ($upload['replace_assets']) {
                     $exclude[] = 'assets';
                 }

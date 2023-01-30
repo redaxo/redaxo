@@ -33,7 +33,6 @@ class rex_command_config_get extends rex_console_command
         }
 
         $path = explode('.', $key);
-
         $propertyKey = array_shift($path);
 
         $package = $input->getOption('package');
@@ -48,7 +47,7 @@ class rex_command_config_get extends rex_console_command
             return 1;
         }
         foreach ($path as $pathPart) {
-            if (!isset($config[$pathPart])) {
+            if (!is_array($config) || !isset($config[$pathPart])) {
                 $io->getErrorStyle()->error('Config key not found');
                 return 1;
             }

@@ -2,8 +2,6 @@
 
 /**
  * Layout Kopf des Backends.
- *
- * @package redaxo5
  */
 
 $curPage = rex_be_controller::getCurrentPageObject();
@@ -31,7 +29,7 @@ $bodyAttr['id'] = ['rex-page-' . $bodyId];
 $bodyAttr['onunload'] = ['closeAll();'];
 
 $bodyAttr['class'] = ['rex-is-logged-out'];
-if (rex::getUser()) {
+if ($user) {
     $bodyAttr['class'] = ['rex-is-logged-in'];
 }
 if (rex::isDebugMode()) {
@@ -154,7 +152,7 @@ if ($user && $hasNavigation) {
     }
 }
 
-/* Setup Navigation ***********************************************************/
+/* Setup Navigation ********************************************************** */
 if ('setup' == rex_be_controller::getCurrentPagePart(1)) {
     $step = rex_request('step', 'float');
     $lang = rex_request('lang', 'string', '');
@@ -162,7 +160,7 @@ if ('setup' == rex_be_controller::getCurrentPagePart(1)) {
     $context = rex_setup::getContext();
 
     $navi = [];
-    $end = $lang ? 7 : 1;
+    $end = $lang ? 6 : 1;
     for ($i = 1; $i <= $end; ++$i) {
         $n = [];
         if (!$step || $i == $step) {
@@ -182,13 +180,10 @@ if ('setup' == rex_be_controller::getCurrentPagePart(1)) {
             $n['itemAttr']['class'][] = 'disabled';
         }
 
-        $name = '';
         if (isset($n['href']) && '' != $lang) {
             $name = rex_i18n::msg('setup_' . $i . '99');
-        } elseif ('' != $lang) {
+        } else {
             $name = '<span>' . rex_i18n::msg('setup_' . $i . '99') . '</span>';
-        } elseif (1 == $i) {
-            $name = '<span>Step 1 / Language</span>';
         }
 
         $n['title'] = $name;
@@ -202,7 +197,7 @@ if ('setup' == rex_be_controller::getCurrentPagePart(1)) {
     $navigation = $fragment->parse('core/navigations/main.php');
 }
 
-/* PJAX Footer Header ***********************************************************/
+/* PJAX Footer Header ********************************************************** */
 if (!rex_request::isPJAXContainer('#rex-js-page-container')) {
     $fragment = new rex_fragment();
     $fragment->setVar('pageTitle', rex_be_controller::getPageTitle());

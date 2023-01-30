@@ -17,7 +17,9 @@ class rex_command_db_dump_schema extends rex_console_command
     {
         $this
             ->setDescription('Dumps the schema of db tables as php code')
-            ->addArgument('table', InputArgument::REQUIRED, 'Database table')
+            ->addArgument('table', InputArgument::REQUIRED, 'Database table', null, static function () {
+                return rex_sql::factory()->getTables(rex::getTablePrefix());
+            })
         ;
     }
 

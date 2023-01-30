@@ -7,25 +7,15 @@
  */
 class rex_i18n
 {
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     private static $locales = [];
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     private static $directories = [];
-    /**
-     * @var array<string, bool> Holds which locales are loaded. keyed by locale
-     */
+    /** @var array<string, bool> Holds which locales are loaded. keyed by locale */
     private static $loaded = [];
-    /**
-     * @var string|null
-     */
+    /** @var string|null */
     private static $locale;
-    /**
-     * @var string[][]
-     */
+    /** @var non-empty-string[][] */
     private static $msg = [];
 
     /**
@@ -71,7 +61,7 @@ class rex_i18n
     /**
      * Returns the current locale, e.g. de_de.
      *
-     * @return string The current locale
+     * @return non-empty-string The current locale
      */
     public static function getLocale()
     {
@@ -85,7 +75,7 @@ class rex_i18n
     /**
      * Returns the current language, e.g. "de".
      *
-     * @return string The current language
+     * @return non-empty-string The current language
      */
     public static function getLanguage()
     {
@@ -97,6 +87,7 @@ class rex_i18n
      * Adds a directory with lang files.
      *
      * @param string $dir Path to the directory
+     * @return void
      */
     public static function addDirectory($dir)
     {
@@ -119,7 +110,7 @@ class rex_i18n
      * @param string     $key             A Language-Key
      * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
-     * @return string Translation for the key
+     * @return non-empty-string Translation for the key
      *
      * @psalm-taint-escape has_quotes
      * @psalm-taint-escape html
@@ -135,7 +126,7 @@ class rex_i18n
      * @param string     $key             A Language-Key
      * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
-     * @return string Translation for the key
+     * @return non-empty-string Translation for the key
      *
      * @psalm-taint-specialize
      */
@@ -151,7 +142,7 @@ class rex_i18n
      * @param string     $locale          A Locale
      * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
-     * @return string Translation for the key
+     * @return non-empty-string Translation for the key
      *
      * @psalm-taint-escape has_quotes
      * @psalm-taint-escape html
@@ -172,7 +163,7 @@ class rex_i18n
      * @param string     $locale          A Locale
      * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
-     * @return string Translation for the key
+     * @return non-empty-string Translation for the key
      */
     public static function rawMsgInLocale($key, $locale, ...$replacements)
     {
@@ -191,7 +182,7 @@ class rex_i18n
      * @param string         $locale       A Locale
      * @psalm-param list<string|int> $replacements
      *
-     * @return string
+     * @return non-empty-string
      */
     private static function getMsgFallback($key, array $replacements, $locale)
     {
@@ -246,7 +237,7 @@ class rex_i18n
      *
      * @psalm-taint-escape ($escape is true ? "html" : null)
      *
-     * @return mixed
+     * @return non-empty-string
      */
     private static function getMsg($key, $escape, array $replacements, $locale = null)
     {
@@ -323,7 +314,8 @@ class rex_i18n
      * Adds a new translation to the catalogue.
      *
      * @param string $key     Key
-     * @param string $message Message for the key
+     * @param non-empty-string $message Message for the key
+     * @return void
      */
     public static function addMsg($key, $message)
     {
@@ -333,7 +325,7 @@ class rex_i18n
     /**
      * Returns the locales.
      *
-     * @return string[] Array of Locales
+     * @return list<string> Array of Locales
      */
     public static function getLocales()
     {
@@ -341,7 +333,7 @@ class rex_i18n
             self::$locales = [];
 
             foreach (rex_finder::factory(self::$directories[0])->filesOnly() as $file) {
-                if (preg_match("/^(\w+)\.lang$/", $file->getFilename(), $matches)) {
+                if (preg_match('/^(\\w+)\\.lang$/', $file->getFilename(), $matches)) {
                     self::$locales[] = $matches[1];
                 }
             }
@@ -363,7 +355,7 @@ class rex_i18n
      * @psalm-taint-escape ($escape is true ? "html" : null)
      * @psalm-taint-specialize
      *
-     * @return string Translated text
+     * @return non-empty-string Translated text
      */
     public static function translate($text, $escape = true, callable $i18nFunction = null)
     {
@@ -428,6 +420,7 @@ class rex_i18n
      *
      * @param string $dir    Path to the directory
      * @param string $locale Locale
+     * @return void
      */
     private static function loadFile($dir, $locale)
     {
@@ -449,6 +442,7 @@ class rex_i18n
      * Loads all translation defintions.
      *
      * @param string $locale Locale
+     * @return void
      */
     private static function loadAll($locale)
     {

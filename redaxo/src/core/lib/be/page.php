@@ -7,17 +7,24 @@
  */
 class rex_be_page
 {
+    /** @var string */
     private $key;
+    /** @var string */
     private $fullKey;
+    /** @var string */
     private $title;
 
+    /** @var bool|null */
     private $popup;
+    /** @var string|null */
     private $href;
     /** @var array<string, string> */
     private $itemAttr = [];
     /** @var array<string, string> */
     private $linkAttr = [];
+    /** @var string|null */
     private $path;
+    /** @var string|null */
     private $subPath;
 
     /** @var self|null */
@@ -26,17 +33,22 @@ class rex_be_page
     /** @var self[] */
     private $subpages = [];
 
+    /** @var bool|null */
     private $isActive;
+    /** @var bool */
     private $hidden = false;
+    /** @var bool */
     private $hasLayout = true;
+    /** @var bool */
     private $hasNavigation = true;
+    /** @var bool|null */
     private $pjax;
+    /** @var string|null */
     private $icon;
+    /** @var string[] */
     private $requiredPermissions = [];
 
     /**
-     * Constructor.
-     *
      * @param string $key
      * @param string $title
      *
@@ -91,7 +103,7 @@ class rex_be_page
     /**
      * Returns the title.
      *
-     * @returns string
+     * @return string
      */
     public function getTitle()
     {
@@ -233,6 +245,7 @@ class rex_be_page
      * Removes an item attribute.
      *
      * @param string $name
+     * @return void
      */
     public function removeItemAttr($name)
     {
@@ -266,6 +279,7 @@ class rex_be_page
      * Removes an item class.
      *
      * @param string $class
+     * @return void
      */
     public function removeItemClass($class)
     {
@@ -299,6 +313,7 @@ class rex_be_page
      * Removes an link attribute.
      *
      * @param string $name
+     * @return void
      */
     public function removeLinkAttr($name)
     {
@@ -355,6 +370,7 @@ class rex_be_page
      * Removes an link class.
      *
      * @param string $class
+     * @return void
      */
     public function removeLinkClass($class)
     {
@@ -423,9 +439,9 @@ class rex_be_page
     }
 
     /**
-     * Returns the subpath which should by used by packages to include this page inside their main page.
+     * Returns the subpath which should be used by packages to include this page inside their main page.
      *
-     * @return string
+     * @return string|null
      */
     public function getSubPath()
     {
@@ -448,6 +464,7 @@ class rex_be_page
 
     /**
      * @param string $key
+     * @return void
      */
     private function setParentKey($key)
     {
@@ -467,7 +484,7 @@ class rex_be_page
     public function setSubpages(array $subpages)
     {
         $this->subpages = [];
-        array_walk($subpages, [$this, 'addSubpage']);
+        array_walk($subpages, $this->addSubpage(...));
 
         return $this;
     }
@@ -670,7 +687,7 @@ class rex_be_page
     /**
      * Returns the icon.
      *
-     * @returns string
+     * @return string|null
      */
     public function getIcon()
     {
@@ -690,7 +707,7 @@ class rex_be_page
     /**
      * Sets the required permissions.
      *
-     * @param array|string $perm
+     * @param string[]|string $perm
      *
      * @return $this
      */
@@ -704,7 +721,7 @@ class rex_be_page
     /**
      * Returns the required permission.
      *
-     * @return array
+     * @return string[]
      */
     public function getRequiredPermissions()
     {

@@ -38,7 +38,7 @@ abstract class rex_api_function
     /**
      * The result of the function call.
      *
-     * @var rex_api_result
+     * @var rex_api_result|null
      */
     protected $result;
 
@@ -142,11 +142,14 @@ abstract class rex_api_function
 
     /**
      * checks whether an api function is bound to the current requests. If so, so the api function will be executed.
+     *
+     * @return void
      */
     public static function handleCall()
     {
         if ($factoryClass = static::getExplicitFactoryClass()) {
-            return $factoryClass::handleCall();
+            $factoryClass::handleCall();
+            return;
         }
 
         $apiFunc = self::factory();
@@ -154,11 +157,11 @@ abstract class rex_api_function
         if (null != $apiFunc) {
             if (!$apiFunc->published) {
                 if (!rex::isBackend()) {
-                    throw new rex_http_exception(new rex_api_exception('the api function ' . get_class($apiFunc) . ' is not published, therefore can only be called from the backend!'), rex_response::HTTP_FORBIDDEN);
+                    throw new rex_http_exception(new rex_api_exception('the api function ' . $apiFunc::class . ' is not published, therefore can only be called from the backend!'), rex_response::HTTP_FORBIDDEN);
                 }
 
                 if (!rex::getUser()) {
-                    throw new rex_http_exception(new rex_api_exception('missing backend session to call api function ' . get_class($apiFunc) . '!'), rex_response::HTTP_UNAUTHORIZED);
+                    throw new rex_http_exception(new rex_api_exception('missing backend session to call api function ' . $apiFunc::class . '!'), rex_response::HTTP_UNAUTHORIZED);
                 }
             }
 
@@ -168,7 +171,7 @@ abstract class rex_api_function
                 $result = rex_api_result::fromJSON($urlResult);
                 $apiFunc->result = $result;
             } else {
-                if ($apiFunc->requiresCsrfProtection() && !rex_csrf_token::factory(get_class($apiFunc))->isValid()) {
+                if ($apiFunc->requiresCsrfProtection() && !rex_csrf_token::factory($apiFunc::class)->isValid()) {
                     $result = new rex_api_result(false, rex_i18n::msg('csrf_token_invalid'));
                     $apiFunc->result = $result;
 
@@ -179,7 +182,7 @@ abstract class rex_api_function
                     $result = $apiFunc->execute();
 
                     if (!($result instanceof rex_api_result)) {
-                        throw new rex_exception('Illegal result returned from api-function ' . rex_get(self::REQ_CALL_PARAM) .'. Expected a instance of rex_api_result but got "'. (get_debug_type($result)) .'".');
+                        throw new rex_exception('Illegal result returned from api-function ' . rex_get(self::REQ_CALL_PARAM) .'. Expected a instance of rex_api_result but got "'. get_debug_type($result) .'".');
                     }
 
                     $apiFunc->result = $result;
@@ -236,7 +239,7 @@ abstract class rex_api_function
     }
 
     /**
-     * @return rex_api_result
+     * @return rex_api_result|null
      */
     public function getResult()
     {
@@ -294,6 +297,9 @@ class rex_api_result
         $this->message = $message;
     }
 
+    /**
+     * @return void
+     */
     public function setRequiresReboot($requiresReboot)
     {
         $this->requiresReboot = $requiresReboot;

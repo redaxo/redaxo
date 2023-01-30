@@ -4,8 +4,6 @@
  * Version.
  *
  * @author jan@kristinus.de
- *
- * @package redaxo5
  */
 
 $createSql = rex_sql::factory();

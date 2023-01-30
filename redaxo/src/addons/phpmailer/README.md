@@ -149,6 +149,10 @@ Most of the time you don't need a level over **server and client protocol**, unl
 
 ## Email log and archiving 
 
+> The use of these functions should be clarified in advance in terms of data privacy. 
+
+### Email log
+
 The Email log can be found under 'System' > 'Log files' > 'PHPMailer'. The logging can be set in the settings of the PHPMailer addon at 3 levels. 
 
 - No: No log will be created.
@@ -162,6 +166,7 @@ The log is stored under `/redaxo/data/log/mail.log`.
 ### Email archiving 
 
 When email archiving is switched on, all emails are saved in complete `.eml` format in the `/redaxo/data/addons/phpmailer/mail_log` folder, chronologically by year and month in subfolders. .eml files can be opened and imported for viewing in common email programs. 
+Emails that are not sent are prefixed with `not_sent_`. 
 
 The archive can be purged periodically via the CronJob "Purge Mailer Archive". 
 
@@ -191,6 +196,53 @@ rex_extension::register('PHPMAILER_CONFIG', function (rex_extension_point $ep) {
     ];
 });
 ```
+
+## Extension point `PHPMAILER_PRE_SEND`
+
+This extension point can be used to check e-mails before they are sent. So a spam filter or a virus scanner could be used at this point for example.
+
+```php
+rex_extension::register('PHPMAILER_PRE_SEND', function (rex_extension_point $ep) {
+    $subject = $ep->getSubject(); 
+    if (str_contains('bad word', $subject->Body) { 
+        do_something(); 
+    }
+});
+```
+
+## Extension point `PHPMAILER_POST_SEND`
+
+The `PHPMAILER_POST_SEND` is useful to perform custom processing steps after sending. 
+
+### Example: Save sent message to IMAP folder: 
+
+```php
+rex_extension::register('PHPMAILER_POST_SEND', function (rex_extension_point $ep) {
+    $subject = $ep->getSubject(); 
+    $host = $subject->host;
+    $port = '993';
+    $user = 'user@domain.tld';
+    $pass = 'XYZ12324';
+    $imap_path_prefix = 'INBOX';
+    $server = '{' . $host . ':' . $port . '/imap/ssl}';
+    
+    // set IMAP timeout
+    imap_timeout(IMAP_OPENTIMEOUT, 14);
+    // establish secure connection 
+    if ($connection = imap_open($server, $user, $pass)) {
+        // get all mailboxes as array for testing  
+        // $mailboxes = imap_getmailboxes($connection, "{'.$host.'}", "*");
+        // dump($mailboxes);
+        $result = imap_append($connection, "{'.$host.'}" . $imap_path_prefix . '.Sent', $subject->getSentMIMEMessage());
+        imap_close($connection);
+    } else {
+        // error handling
+       throw new rex_exception(sprintf('IMAP Error: "%s"', imap_last_error()));
+    }
+});
+```
+
+
 
 ## Tips
 

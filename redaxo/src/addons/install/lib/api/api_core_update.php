@@ -17,7 +17,7 @@ class rex_api_install_core_update extends rex_api_function
 
     public function execute()
     {
-        if (!rex::getUser()->isAdmin()) {
+        if (!rex::getUser()?->isAdmin()) {
             throw new rex_api_exception('You do not have the permission!');
         }
         $installAddon = rex_addon::get('install');
@@ -46,7 +46,6 @@ class rex_api_install_core_update extends rex_api_function
         $message = '';
         $temppath = rex_path::coreCache('.new.core/');
         $coreAddons = [];
-        /** @var rex_addon[] $updateAddons */
         $updateAddons = [];
         $updateAddonsConfig = [];
         try {
@@ -69,6 +68,7 @@ class rex_api_install_core_update extends rex_api_function
 
                     $config = rex_file::getConfig($addonPath . rex_package::FILE_PACKAGE);
                     if (
+                        '' == $addonkey ||
                         !isset($config['version']) ||
                         rex_addon::exists($addonkey) && rex_version::compare($config['version'], rex_addon::get($addonkey)->getVersion(), '<')
                     ) {
@@ -88,12 +88,12 @@ class rex_api_install_core_update extends rex_api_function
                     }
                 }
             }
-            //$config = rex_file::getConfig($temppath . 'core/default.config.yml');
-            //foreach ($config['system_addons'] as $addonkey) {
+            // $config = rex_file::getConfig($temppath . 'core/default.config.yml');
+            // foreach ($config['system_addons'] as $addonkey) {
             //    if (is_dir($temppath . 'addons/' . $addonkey) && rex_addon::exists($addonkey)) {
             //        $updateAddons[$addonkey] = rex_addon::get($addonkey);
             //    }
-            //}
+            // }
             $this->checkRequirements($temppath, $version['version'], $updateAddonsConfig);
             if (is_file($temppath . 'core/update.php')) {
                 include $temppath . 'core/update.php';
@@ -119,6 +119,14 @@ class rex_api_install_core_update extends rex_api_function
                     foreach ($addon->getProperty('default_config', []) as $key => $value) {
                         if (!$addon->hasConfig($key)) {
                             $addon->setConfig($key, $value);
+                        }
+                    }
+                    foreach ($addon->getAvailablePlugins() as $plugin) {
+                        $config = rex_file::getConfig($temppath.'addons/'.$addon->getName().'/plugins/'.$plugin->getName().'/'.rex_package::FILE_PACKAGE);
+                        foreach ($config['default_config'] ?? [] as $key => $value) {
+                            if (!$plugin->hasConfig($key)) {
+                                $plugin->setConfig($key, $value);
+                            }
                         }
                     }
                 }
@@ -242,8 +250,8 @@ class rex_api_install_core_update extends rex_api_function
     /**
      * @param string $temppath
      * @param string $version
-     *
      * @throws rex_functional_exception
+     * @return void
      */
     private function checkRequirements($temppath, $version, array $addons)
     {

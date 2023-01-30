@@ -9,19 +9,20 @@ use Rector\CodeQuality\Rector\Identical\SimplifyBoolIdenticalTrueRector;
 use Rector\CodeQuality\Rector\Identical\SimplifyConditionsRector;
 use Rector\CodeQuality\Rector\If_\SimplifyIfReturnBoolRector;
 use Rector\CodeQuality\Rector\Ternary\UnnecessaryTernaryExpressionRector;
+use Rector\CodingStyle\Rector\Property\InlineSimplePropertyAnnotationRector;
 use Rector\Config\RectorConfig;
-use Rector\Core\Configuration\Option;
 use Rector\Core\ValueObject\PhpVersion;
 use Rector\Php70\Rector\Ternary\TernaryToNullCoalescingRector;
+use Rector\Php80\Rector\Catch_\RemoveUnusedVariableInCatchRector;
 use Rector\Php80\Rector\Identical\StrEndsWithRector;
 use Rector\Php80\Rector\Identical\StrStartsWithRector;
 use Rector\Php80\Rector\NotIdentical\StrContainsRector;
+use Rector\Php81\Rector\Array_\FirstClassCallableRector;
 use Redaxo\Rector\Rule\UnderscoreToCamelCasePropertyNameRector;
 use Redaxo\Rector\Rule\UnderscoreToCamelCaseVariableNameRector;
 use Redaxo\Rector\Util\UnderscoreCamelCaseConflictingNameGuard;
 use Redaxo\Rector\Util\UnderscoreCamelCaseExpectedNameResolver;
 use Redaxo\Rector\Util\UnderscoreCamelCasePropertyRenamer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 require_once __DIR__.'/.tools/rector/autoload.php';
 
@@ -59,15 +60,17 @@ return static function (RectorConfig $rectorConfig): void {
 
     $rectorConfig->parallel();
 
-    $rectorConfig->phpVersion(PhpVersion::PHP_80);
+    $rectorConfig->phpVersion(PhpVersion::PHP_81);
 
     // get services (needed for register a single rule)
     $services = $rectorConfig->services();
 
     // we will grow this rector list step by step.
     // after some basic rectors have been enabled we can finally enable whole-sets (when diffs get stable and reviewable)
-    // $services->set(Rector\SOLID\Rector\If_\ChangeAndIfToEarlyReturnRector::class);
     $services->set(CombinedAssignRector::class);
+    $services->set(FirstClassCallableRector::class);
+    $services->set(InlineSimplePropertyAnnotationRector::class);
+    $services->set(RemoveUnusedVariableInCatchRector::class);
     $services->set(SimplifyBoolIdenticalTrueRector::class);
     $services->set(SimplifyConditionsRector::class);
     $services->set(SimplifyDeMorganBinaryRector::class);

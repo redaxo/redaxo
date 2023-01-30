@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.12.0 – 25.07.2022
+---------------------------
+
+### Neu
+
+* Natives Lazy-Loading wird verwendet (@staabm)
+
+
 Version 2.11.3 – 03.05.2022
 ---------------------------
 

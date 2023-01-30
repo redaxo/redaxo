@@ -22,7 +22,7 @@ class rex_form extends rex_form_base
 
     public const ERROR_VIOLATE_UNIQUE_KEY = 1062;
 
-    /** @var string */
+    /** @var non-empty-string */
     protected $tableName;
     /** @var string */
     protected $whereCondition;
@@ -41,7 +41,7 @@ class rex_form extends rex_form_base
     /**
      * Diese Konstruktor sollte nicht verwendet werden. Instanzen muessen ueber die factory() Methode erstellt werden!
      *
-     * @param string $tableName
+     * @param non-empty-string $tableName
      * @param string $fieldset
      * @param string $whereCondition
      * @param 'post'|'get' $method
@@ -121,7 +121,7 @@ class rex_form extends rex_form_base
         $controlFields['save'] = rex_i18n::msg('form_save');
         $controlFields['apply'] = 'edit' == $func ? rex_i18n::msg('form_apply') : '';
         $controlFields['delete'] = 'edit' == $func ? rex_i18n::msg('form_delete') : '';
-        $controlFields['reset'] = ''; //rex_i18n::msg('form_reset');
+        $controlFields['reset'] = ''; // rex_i18n::msg('form_reset');
         $controlFields['abort'] = rex_i18n::msg('form_abort');
 
         // ----- EXTENSION POINT
@@ -145,7 +145,7 @@ class rex_form extends rex_form_base
                     $name,
                     $label,
                     $attr,
-                    false
+                    false,
                 );
             } else {
                 $controlElements[$name] = null;
@@ -157,7 +157,7 @@ class rex_form extends rex_form_base
             $controlElements['apply'],
             $controlElements['delete'],
             $controlElements['reset'],
-            $controlElements['abort']
+            $controlElements['abort'],
         );
     }
 
@@ -195,6 +195,7 @@ class rex_form extends rex_form_base
      *
      * @param string $idField
      * @param string $clangField
+     * @return void
      */
     public function setLanguageSupport($idField, $clangField)
     {
@@ -206,6 +207,7 @@ class rex_form extends rex_form_base
      * Wechselt den Modus des Formulars.
      *
      * @param bool $isEditMode
+     * @return void
      */
     public function setEditMode($isEditMode)
     {
@@ -227,7 +229,7 @@ class rex_form extends rex_form_base
     }
 
     /**
-     * @return string
+     * @return non-empty-string
      */
     public function getTableName()
     {
@@ -379,7 +381,7 @@ class rex_form extends rex_form_base
                 }
             }
             $saved = true;
-        } catch (rex_sql_exception $e) {
+        } catch (rex_sql_exception) {
             $saved = false;
         }
 
@@ -404,7 +406,7 @@ class rex_form extends rex_form_base
         try {
             $deleteSql->delete();
             $deleted = true;
-        } catch (rex_sql_exception $e) {
+        } catch (rex_sql_exception) {
             $deleted = false;
         }
 

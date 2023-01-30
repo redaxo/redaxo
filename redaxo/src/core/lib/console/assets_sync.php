@@ -103,7 +103,6 @@ class rex_command_assets_sync extends rex_console_command
         $folder1 = realpath($folder1);
         $folder2 = realpath($folder2);
 
-        /** @var rex_finder $finder */
         $finder = rex_finder::factory($folder1)
             ->recursive()
             ->ignoreDirs('plugins')

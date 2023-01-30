@@ -19,17 +19,17 @@ class rex_api_has_user_session extends rex_api_function
         $user = rex::getUser();
         if (!$user) {
             rex_response::sendJson(false);
-            exit();
+            exit;
         }
 
         $perm = rex_get('perm');
         if ($perm) {
             rex_response::sendJson($user->hasPerm($perm));
-            exit();
+            exit;
         }
 
         rex_response::sendJson(true);
-        exit();
+        exit;
     }
 
     protected function requiresCsrfProtection()

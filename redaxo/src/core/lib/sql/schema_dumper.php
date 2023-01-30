@@ -43,7 +43,7 @@ class rex_sql_schema_dumper
     ->ensureColumn(new rex_sql_column('updateuser', 'varchar(255)'))",
             '
     ->ensureGlobalColumns()',
-            $code
+            $code,
         );
 
         if ($setPrimaryKey && $table->getPrimaryKey()) {
@@ -131,6 +131,7 @@ class rex_sql_schema_dumper
 
         static $options = [
             rex_sql_foreign_key::RESTRICT => 'rex_sql_foreign_key::RESTRICT',
+            rex_sql_foreign_key::NO_ACTION => 'rex_sql_foreign_key::NO_ACTION',
             rex_sql_foreign_key::CASCADE => 'rex_sql_foreign_key::CASCADE',
             rex_sql_foreign_key::SET_NULL => 'rex_sql_foreign_key::SET_NULL',
         ];
@@ -148,6 +149,9 @@ class rex_sql_schema_dumper
         return 'new rex_sql_foreign_key('.implode(', ', $parameters).')';
     }
 
+    /**
+     * @return string
+     */
     private function getPrimaryKey(array $primaryKey)
     {
         if (1 === count($primaryKey)) {
@@ -157,6 +161,9 @@ class rex_sql_schema_dumper
         return $this->simpleArray($primaryKey);
     }
 
+    /**
+     * @return string
+     */
     private function tableName($name)
     {
         if (!str_starts_with($name, rex::getTablePrefix())) {

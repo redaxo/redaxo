@@ -7,7 +7,7 @@ if (!isset($rexFileCategory)) {
     $rexFileCategory = 0;
 }
 
-if (!$PERMALL && !rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rexFileCategory)) {
+if (!$PERMALL && !rex::requireUser()->getComplexPerm('media')->hasCategoryPerm($rexFileCategory)) {
     $rexFileCategory = 0;
 }
 
@@ -34,7 +34,7 @@ if ('add_file' == $mediaMethod) {
                 $info = rex_i18n::msg('pool_file_added');
                 if (rex_post('saveandexit', 'boolean')) {
                     if ('' != $openerInputField) {
-                        if ('REX_MEDIALIST_' == substr($openerInputField, 0, 14)) {
+                        if (str_starts_with($openerInputField, 'REX_MEDIALIST_')) {
                             $js = "selectMedialist('" . $data['filename'] . "');";
                             $js .= 'location.href = "' . rex_url::backendPage('mediapool', ['info' => $info, 'opener_input_field' => $openerInputField], false) . '";';
                         } else {
@@ -42,7 +42,7 @@ if ('add_file' == $mediaMethod) {
                         }
                     }
 
-                    echo '<script type="text/javascript">';
+                    echo '<script type="text/javascript" nonce="' . rex_response::getNonce() . '">';
                     if (isset($js)) {
                         echo $js;
                     }

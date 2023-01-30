@@ -40,6 +40,7 @@ create_user_role = Neue Rolle anlegen
 add_user_role = Rolle hinzufügen
 user_role_save = Rolle speichern
 user_role_apply = Rolle übernehmen
+user_role_duplicate = duplizieren
 user_role_delete = löschen
 user_role_caption = Liste der angelegten Rollen
 user_no_role = keine Rolle

@@ -153,6 +153,8 @@ Meist benötigt man keinen Level über **Server-und Client-Protokoll**, es sei d
 
 Das Addon stellt ein E-Mail-Log sowie eine E-Mail-Archivierung bereit. 
 
+> Die Nutzung dieser Funktionen sollten datenschutzrechtlich vorab geklärt werden.  
+
 ### E-Mail-Log
 
 Das E-Mail-Log findet man unter `System` > `Logdateien` > `PHPMailer`. Das Logging kann in den Einstellungen des PHPMailer-Addons in 3 Stufen eingestellt werden. 
@@ -165,12 +167,13 @@ Das Log liefert Informationen zu Zeit, Absender, Empfänger, Betreff und Meldung
 
 Das Log wird in der Datei `/redaxo/data/log/mail.log` gespeichert.
 
-### E-Mail-Archivierung 
+
+### E-Mail-Archivierung
 
 Bei eingeschalteter E-Mail-Archivierung werden alle E-Mails im Ordner `/redaxo/data/addons/phpmailer/mail_log` im `.eml`-Format chronologisch nach Jahr und Monat in Unterordnern vollständig archiviert. .eml-Dateien können in gängigen E-Mail-Programmen zur Betrachtung geöffnet und importiert werden. 
+Nicht versendete E-Mails erhalten das Präfix `not_sent_`. 
 
 Das Archiv kann über den CronJob "Mailer-Archiv bereinigen" regelmäßig bereinigt werden. 
-
 
 ## Extension-Point `PHPMAILER_CONFIG`
 
@@ -199,6 +202,53 @@ rex_extension::register('PHPMAILER_CONFIG', function (rex_extension_point $ep) {
     ];
 });
 ```
+
+## Extension-Point `PHPMAILER_PRE_SEND`
+
+Dieser Extension-Point bietet sich an um E-Mails vor dem Versand zu überprüfen. So könnte an dieser Stelle ein Spamfilter greifen oder ein Virusscanner eingesezt werden.
+
+```php
+rex_extension::register('PHPMAILER_PRE_SEND', function (rex_extension_point $ep) {
+    $subject = $ep->getSubject(); 
+    if (str_contains('bad word', $subject->Body) { 
+        do_something(); 
+    }
+});
+```
+
+## Extension-Point `PHPMAILER_POST_SEND`
+
+Der `PHPMAILER_POST_SEND` bietet sich an um nach dem Versand noch eigene Verarbeitungsschritte durchzuführen. 
+
+### Beispiel: Gesendete Nachricht in IMAP-Ordner speichern: 
+
+
+```php
+rex_extension::register('PHPMAILER_POST_SEND', function (rex_extension_point $ep) {
+    $subject          = $ep->getSubject(); 
+    $host             = $subject->Host;
+    $port             = '993';
+    $user             = 'user@domain.tld';
+    $pass             = 'XYZ12324';
+    $imap_path_prefix = 'INBOX';
+    $server           = '{' . $host . ':' . $port . '/imap/ssl}';
+    
+    // set IMAP Timeout
+    imap_timeout(IMAP_OPENTIMEOUT, 14);
+    // establish secure connection 
+    if ($connection = imap_open($server, $user, $pass)) {
+        // get all mailboxes as Array for testing  
+        // $mailboxes = imap_getmailboxes($connection, "{'.$host.'}", "*");
+        // dump($mailboxes);
+        $result = imap_append($connection, "{'.$host.'}" . $imap_path_prefix . '.Sent', $subject->getSentMIMEMessage());
+        imap_close($connection);
+    } else {
+        // Errorhandling
+       throw new rex_exception(sprintf('IMAP Error: "%s"',  imap_last_error()));
+    }
+});
+```
+
 
 
 ## Tipps

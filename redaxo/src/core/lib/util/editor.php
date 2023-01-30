@@ -34,9 +34,7 @@ class rex_editor
     ];
 
     // we expect instantiation via factory()
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 
     /**
      * Creates a rex_editor instance.
@@ -50,6 +48,9 @@ class rex_editor
     }
 
     /**
+     * @param string $filePath
+     * @param int|numeric-string $line
+     *
      * @return string|null
      */
     public function getUrl($filePath, $line)
@@ -114,7 +115,7 @@ class rex_editor
 
         $editor = array_key_exists('editor', $_COOKIE) ? $_COOKIE['editor'] : rex::getProperty('editor');
 
-        if (array_key_exists($editor, $supportedEditors)) {
+        if (null !== $editor && array_key_exists($editor, $supportedEditors)) {
             return $editor;
         }
 

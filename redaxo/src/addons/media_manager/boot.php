@@ -5,8 +5,6 @@
  *
  * @author markus.staab[at]redaxo[dot]de Markus Staab
  * @author jan.kristinus[at]redaxo[dot]de Jan Kristinus
- *
- * @package redaxo5
  */
 
 rex_extension::register('PACKAGES_INCLUDED', [rex_media_manager::class, 'init'], rex_extension::EARLY);

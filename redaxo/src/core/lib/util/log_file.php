@@ -57,6 +57,7 @@ class rex_log_file implements Iterator
      * Adds a log entry.
      *
      * @param list<string|int> $data Log data
+     * @return void
      */
     public function add(array $data)
     {
@@ -159,18 +160,12 @@ class rex_log_file implements Iterator
         return $this->key;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     #[ReturnTypeWillChange]
     public function valid()
     {
         return !empty($this->currentLine);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     #[ReturnTypeWillChange]
     public function rewind()
     {

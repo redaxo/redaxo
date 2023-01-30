@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @package redaxo5
- */
-
 // Für größere Exports den Speicher für PHP erhöhen.
 if (rex_ini_get('memory_limit') < 67108864) {
     @ini_set('memory_limit', '64M');
@@ -92,7 +88,7 @@ if ($export && !$csrfToken->isValid()) {
                 exit;
             }
             $success = rex_i18n::msg('backup_file_generated_in') . ' ' . strtr($filename . $ext, '\\', '/');
-        } elseif (empty($error)) { //if the user selected no files to export $error is already filled
+        } elseif (empty($error)) { // if the user selected no files to export $error is already filled
             $error = rex_i18n::msg('backup_file_could_not_be_generated') . ' ' . rex_i18n::msg('backup_check_rights_in_directory') . ' ' . $exportPath;
         }
     }
@@ -158,9 +154,19 @@ $tableSelect->setAttribute('class', 'form-control');
 $tables = rex_sql::factory()->getTables();
 foreach ($tables as $table) {
     $tableSelect->addOption($table, $table);
-    if ($table != rex::getTable('user') && str_starts_with($table, rex::getTablePrefix()) && !str_starts_with($table, rex::getTablePrefix() . rex::getTempPrefix())) {
-        $tableSelect->setSelected($table);
+    if ($table === rex::getTable('user') || $table === rex::getTable('user_session')) {
+        continue;
     }
+    // skip non rex_ tables
+    if (!str_starts_with($table, rex::getTablePrefix())) {
+        continue;
+    }
+    // skip rex_tmp_ tables
+    if (str_starts_with($table, rex::getTablePrefix().rex::getTempPrefix())) {
+        continue;
+    }
+
+    $tableSelect->setSelected($table);
 }
 
 $formElements = [];
@@ -276,7 +282,7 @@ $content = '
     ' . $content . '
 </form>
 
-<script type="text/javascript">
+<script type="text/javascript" nonce="' . rex_response::getNonce() . '">
     <!--
 
     (function($) {

@@ -11,6 +11,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class rex_command_install_update extends rex_console_command
 {
+    /**
+     * @return void
+     */
     protected function configure()
     {
         $this->setDescription('Updates an AddOn from redaxo.org')
@@ -46,7 +49,7 @@ class rex_command_install_update extends rex_console_command
                 $versions[] = $fileMeta['version'];
             }
 
-            $version = $io->choice('Please choose a version', $versions);
+            $version = (string) $io->choice('Please choose a version', $versions);
         }
 
         // search fileId by version

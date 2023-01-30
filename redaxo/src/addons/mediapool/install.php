@@ -1,13 +1,5 @@
 <?php
 
-/**
- * Mediapool Addon.
- *
- * @author redaxo
- *
- * @package redaxo5
- */
-
 rex_sql_table::get(rex::getTable('media'))
     ->ensurePrimaryIdColumn()
     ->ensureColumn(new rex_sql_column('category_id', 'int(10) unsigned'))

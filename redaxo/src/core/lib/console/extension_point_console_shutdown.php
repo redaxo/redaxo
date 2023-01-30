@@ -8,9 +8,13 @@ class rex_extension_point_console_shutdown extends rex_extension_point
 {
     public const NAME = 'CONSOLE_SHUTDOWN';
 
+    /** @var Command */
     private $command;
+    /** @var InputInterface */
     private $input;
+    /** @var OutputInterface */
     private $output;
+    /** @var int */
     private $exitCode;
 
     public function __construct(Command $command, InputInterface $input, OutputInterface $output, int $exitCode)

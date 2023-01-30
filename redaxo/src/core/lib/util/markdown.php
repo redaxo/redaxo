@@ -14,9 +14,7 @@ class rex_markdown
     public const SOFT_LINE_BREAKS = 'soft_line_breaks';
     public const HIGHLIGHT_PHP = 'highlight_php';
 
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 
     /**
      * @return static
@@ -125,16 +123,23 @@ final class rex_parsedown extends ParsedownExtra
 
     /** @var bool */
     public $generateToc = false;
+    /** @var int */
     public $topLevel = 2;
+    /** @var int */
     public $bottomLevel = 3;
+    /** @var list<array{level: int, id: string, text: string}> */
     public $headers = [];
 
+    /** @var array<string, true> */
     private $ids = [];
 
+    /**
+     * @return string
+     */
     public function text($text)
     {
         // https://github.com/erusev/parsedown-extra/issues/173
-        $errorReporting = error_reporting(error_reporting() ^ E_DEPRECATED);
+        $errorReporting = error_reporting(error_reporting() & ~E_DEPRECATED);
 
         try {
             return parent::text($text);
@@ -143,6 +148,9 @@ final class rex_parsedown extends ParsedownExtra
         }
     }
 
+    /**
+     * @return array|null
+     */
     protected function blockHeader($Line)
     {
         $block = parent::blockHeader($Line);
@@ -150,6 +158,9 @@ final class rex_parsedown extends ParsedownExtra
         return $this->handleHeader($block);
     }
 
+    /**
+     * @return array|null
+     */
     protected function blockSetextHeader($Line, array $Block = null)
     {
         $block = parent::blockSetextHeader($Line, $Block);
@@ -157,6 +168,9 @@ final class rex_parsedown extends ParsedownExtra
         return $this->handleHeader($block);
     }
 
+    /**
+     * @return array
+     */
     protected function blockFencedCodeComplete($Block)
     {
         /** @var array $Block */

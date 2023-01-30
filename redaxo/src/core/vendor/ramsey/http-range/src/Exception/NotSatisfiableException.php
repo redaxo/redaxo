@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the ramsey/http-range library
  *
@@ -14,16 +15,14 @@ declare(strict_types=1);
 namespace Ramsey\Http\Range\Exception;
 
 use Exception;
+use Throwable;
 
 /**
  * Thrown to indicate the range given cannot be satisfied.
  */
 class NotSatisfiableException extends HttpRangeException
 {
-    /**
-     * @var string
-     */
-    private $range;
+    private string $range;
 
     /**
      * @var mixed
@@ -45,7 +44,7 @@ class NotSatisfiableException extends HttpRangeException
         string $range,
         $totalSize,
         int $code = 0,
-        Exception $previous = null
+        ?Throwable $previous = null
     ) {
         $this->range = $range;
         $this->totalSize = $totalSize;
@@ -55,8 +54,6 @@ class NotSatisfiableException extends HttpRangeException
 
     /**
      * Returns the range that couldn't be satisfied.
-     *
-     * @return string
      */
     public function getRange(): string
     {

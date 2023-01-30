@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @package redaxo5
- */
-
 echo rex_view::title(rex_i18n::msg('title_templates'));
 
 $OUT = true;
@@ -32,45 +28,20 @@ if ('delete' == $function) {
         $error = rex_i18n::msg('csrf_token_invalid');
     } else {
         $del = rex_sql::factory();
-        $del->setQuery('
-            SELECT article.id, article.clang_id, template.name
-            FROM ' . rex::getTable('article') . ' article
-            LEFT JOIN ' . rex::getTable('template') . ' template ON article.template_id=template.id
-            WHERE article.template_id=?
-            LIMIT 20
-        ', [$templateId]);
+        $templateIsInUseError = rex_template::templateIsInUse($templateId, 'cant_delete_template_because_its_in_use');
+        if (false !== $templateIsInUseError) {
+            $error .= $templateIsInUseError;
+        }
 
-        if ($del->getRows() > 0 || rex_template::getDefaultId() == $templateId) {
-            $templateInUseMessage = '';
-            $templatename = $del->getRows() ? $del->getValue('template.name') : null;
-            while ($del->hasNext()) {
-                $aid = $del->getValue('article.id');
-                $clangId = $del->getValue('article.clang_id');
-                $OOArt = rex_article::get($aid, $clangId);
+        if (rex_template::getDefaultId() == $templateId) {
+            $del = rex_sql::factory();
+            $del->setQuery('SELECT name FROM '.rex::getTable('template').' WHERE id = '.$templateId);
+            $templatename = $del->getValue('name');
 
-                $label = $OOArt->getName() . ' [' . $aid . ']';
-                if (rex_clang::count() > 1) {
-                    $label .= ' [' . rex_clang::get($clangId)->getCode() . ']';
-                }
-
-                $templateInUseMessage .= '<li><a href="' . rex_url::backendPage('content', ['article_id' => $aid, 'clang' => $clangId]) . '">' . rex_escape($label) . '</a></li>';
-                $del->next();
-            }
-
-            if ('' != $templateInUseMessage) {
-                $error .= rex_i18n::msg('cant_delete_template_because_its_in_use', $templatename);
-                $error .= '<ul>' . $templateInUseMessage . '</ul>';
-            }
-
-            if (rex_template::getDefaultId() == $templateId) {
-                if ('' == $templatename) {
-                    $del->setQuery('SELECT name FROM '.rex::getTable('template'). ' WHERE id = '.$templateId);
-                    $templatename = $del->getValue('name');
-                }
-                $error .= rex_i18n::msg('cant_delete_template_because_its_default_template', $templatename);
-            }
-        } else {
-            $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'template WHERE id = "' . $templateId . '" LIMIT 1'); // max. ein Datensatz darf loeschbar sein
+            $error .= rex_i18n::msg('cant_delete_template_because_its_default_template', $templatename);
+        }
+        if ('' == $error) {
+            $del->setQuery('DELETE FROM '.rex::getTablePrefix().'template WHERE id = "'.$templateId.'" LIMIT 1'); // max. ein Datensatz darf loeschbar sein
             rex_template_cache::delete($templateId);
             $success = rex_i18n::msg('template_deleted');
             $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_DELETED', $success, [
@@ -101,6 +72,7 @@ if ('add' == $function || 'edit' == $function) {
     }
 
     if ('ja' == $save) {
+        $previousActive = $active;
         $active = rex_post('active', 'int');
         $templatename = rex_post('templatename', 'string');
         $template = rex_post('content', 'string');
@@ -176,29 +148,42 @@ if ('add' == $function || 'edit' == $function) {
                 }
             }
         } else {
-            $TPL->setWhere(['id' => $templateId]);
-            $TPL->addGlobalUpdateFields();
+            if ($previousActive && !$active) {
+                if (rex_template::getDefaultId() == $templateId) {
+                    $error .= rex_i18n::msg('cant_inactivate_template_because_its_default_template', $templatename);
+                }
 
-            try {
-                $TPL->update();
-                rex_template_cache::delete($templateId);
-                $success = rex_i18n::msg('template_updated');
-                $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_UPDATED', $success, [
-                    'id' => $templateId,
-                    'key' => $templatekey,
-                    'name' => $templatename,
-                    'content' => $template,
-                    'active' => $active,
-                    'ctype' => $ctypes,
-                    'modules' => $modules,
-                    'categories' => $categories,
-                ]));
-            } catch (rex_sql_exception $e) {
-                if (rex_sql::ERROR_VIOLATE_UNIQUE_KEY == $e->getErrorCode()) {
-                    $error = rex_i18n::msg('template_key_exists');
-                    $save = 'nein';
-                } else {
-                    $error = $e->getMessage();
+                $templateIsInUseError = rex_template::templateIsInUse($templateId, 'cant_inactivate_template_because_its_in_use');
+                if (false !== $templateIsInUseError) {
+                    $error .= ($error ? '<br><br>' : '').$templateIsInUseError;
+                }
+            }
+
+            if ('' == $error) {
+                $TPL->setWhere(['id' => $templateId]);
+                $TPL->addGlobalUpdateFields();
+
+                try {
+                    $TPL->update();
+                    rex_template_cache::delete($templateId);
+                    $success = rex_i18n::msg('template_updated');
+                    $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_UPDATED', $success, [
+                        'id' => $templateId,
+                        'key' => $templatekey,
+                        'name' => $templatename,
+                        'content' => $template,
+                        'active' => $active,
+                        'ctype' => $ctypes,
+                        'modules' => $modules,
+                        'categories' => $categories,
+                    ]));
+                } catch (rex_sql_exception $e) {
+                    if (rex_sql::ERROR_VIOLATE_UNIQUE_KEY == $e->getErrorCode()) {
+                        $error = rex_i18n::msg('template_key_exists');
+                        $save = 'nein';
+                    } else {
+                        $error = $e->getMessage();
+                    }
                 }
             }
         }
@@ -321,7 +306,7 @@ if ('add' == $function || 'edit' == $function) {
         }
 
         $ctypesOut .= '
-            <script type="text/javascript">
+            <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
             <!--
             jQuery(function($) {
         ';
@@ -501,7 +486,7 @@ if ('add' == $function || 'edit' == $function) {
                 ' . $content . '
             </form>
 
-            <script type="text/javascript">
+            <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
             <!--
             jQuery(function($) {
                 // store the currently selected tab in the hidden input#rex-js-form-template-tab
@@ -565,6 +550,9 @@ if ($OUT) {
 
     $list->setColumnLabel('name', rex_i18n::msg('header_template_description'));
     $list->setColumnParams('name', ['function' => 'edit', 'template_id' => '###id###']);
+    $list->setColumnFormat('name', 'custom', static function () use ($list) {
+        return $list->getColumnLink('name', rex_i18n::translate((string) $list->getValue('name')));
+    });
 
     $list->setColumnLabel('active', rex_i18n::msg('header_template_active'));
     $list->setColumnFormat('active', 'custom', static function () use ($list) {

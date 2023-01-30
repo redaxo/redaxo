@@ -29,7 +29,7 @@ class rex_system_setting_default_template_id extends rex_system_setting
         if (empty($templates)) {
             $select->addOption(rex_i18n::msg('option_no_template'), 0);
         } else {
-            $select->addArrayOptions($templates);
+            $select->addArrayOptions(array_map(rex_i18n::translate(...), $templates));
         }
         return $field;
     }

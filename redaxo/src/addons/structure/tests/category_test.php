@@ -13,12 +13,11 @@ class rex_category_test extends TestCase
         rex_category::getClassVars();
         $class = new ReflectionClass(rex_category::class);
         $classVarsProperty = $class->getProperty('classVars');
-        $classVarsProperty->setAccessible(true);
         $classVarsProperty->setValue(
             array_merge(
                 $classVarsProperty->getValue(),
-                ['cat_foo']
-            )
+                ['cat_foo'],
+            ),
         );
     }
 
@@ -27,7 +26,6 @@ class rex_category_test extends TestCase
         // reset static properties
         $class = new ReflectionClass(rex_article::class);
         $classVarsProperty = $class->getProperty('classVars');
-        $classVarsProperty->setAccessible(true);
         $classVarsProperty->setValue(null);
 
         rex_category::clearInstancePool();
@@ -161,7 +159,6 @@ class rex_category_test extends TestCase
 
     private function createCategoryWithoutConstructor(): rex_category
     {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return (new ReflectionClass(rex_category::class))->newInstanceWithoutConstructor();
     }
 

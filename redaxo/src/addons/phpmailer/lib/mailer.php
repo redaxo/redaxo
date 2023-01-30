@@ -104,6 +104,8 @@ class rex_mailer extends PHPMailer
         return rex_timer::measure(__METHOD__, function () {
             $addon = rex_addon::get('phpmailer');
 
+            rex_extension::registerPoint(new rex_extension_point('PHPMAILER_PRE_SEND', $this));
+
             $detour = $addon->getConfig('detour_mode') && '' != $addon->getConfig('test_address');
 
             // Clears the CCs and BCCs if detour mode is active
@@ -129,6 +131,9 @@ class rex_mailer extends PHPMailer
                 if ($addon->getConfig('logging')) {
                     $this->log('ERROR');
                 }
+                if ($this->archive) {
+                    $this->archive($this->getSentMIMEMessage(), 'not_sent_');
+                }
                 return false;
             }
 
@@ -139,10 +144,16 @@ class rex_mailer extends PHPMailer
             if (self::LOG_ALL == $addon->getConfig('logging')) {
                 $this->log('OK');
             }
+
+            rex_extension::registerPoint(new rex_extension_point('PHPMAILER_POST_SEND', $this));
+
             return true;
         });
     }
 
+    /**
+     * @return void
+     */
     public function clearQueuedAddresses($kind)
     {
         parent::clearQueuedAddresses($kind);
@@ -159,10 +170,15 @@ class rex_mailer extends PHPMailer
 
     private function log(string $success): void
     {
+        $replytos = '';
+        if (count($this->getReplyToAddresses()) > 0) {
+            $replytos = implode(', ', array_column($this->getReplyToAddresses(), 0));
+        }
+
         $log = new rex_log_file(self::logFile(), 2000000);
         $data = [
             $success,
-            $this->From,
+            $this->From.($replytos ? '; reply-to: '.$replytos : ''),
             implode(', ', array_column($this->getToAddresses(), 0)),
             $this->Subject,
             trim(str_replace('https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting', '', strip_tags($this->ErrorInfo))),
@@ -174,6 +190,7 @@ class rex_mailer extends PHPMailer
      * @param bool $status
      *
      * @deprecated use `setArchive` instead
+     * @return void
      */
     public function setLog($status)
     {
@@ -184,19 +201,20 @@ class rex_mailer extends PHPMailer
      * Enable/disable the mail archive.
      *
      * It overwrites the global `archive` configuration for the current mailer object.
+     * @return void
      */
     public function setArchive(bool $status)
     {
         $this->archive = $status;
     }
 
-    private function archive(string $archivedata = ''): void
+    private function archive(string $archivedata = '', string $status = ''): void
     {
         $dir = self::logFolder().'/'.date('Y').'/'.date('m');
         $count = 1;
-        $archiveFile = $dir.'/'.date('Y-m-d_H_i_s').'.eml';
+        $archiveFile = $dir.'/'.$status.date('Y-m-d_H_i_s').'.eml';
         while (is_file($archiveFile)) {
-            $archiveFile = $dir.'/'.date('Y-m-d_H_i_s').'_'.(++$count).'.eml';
+            $archiveFile = $dir.'/'.$status.date('Y-m-d_H_i_s').'_'.(++$count).'.eml';
         }
 
         rex_file::put($archiveFile, $archivedata);
@@ -236,7 +254,7 @@ class rex_mailer extends PHPMailer
 
         $logevent = false;
 
-        //Start - generate mailbody
+        // Start - generate mailbody
         $mailBody = '<h2>Error protocol for: ' . rex::getServerName() . '</h2>';
         $mailBody .= '<style> .errorbg {background: #F6C4AF; } .eventbg {background: #E1E1E1; } td, th {padding: 5px;} table {width: 100%; border: 1px solid #ccc; } th {background: #b00; color: #fff;} td { border: 0; border-bottom: 1px solid #b00;} </style> ';
         $mailBody .= '<table>';
@@ -289,7 +307,7 @@ class rex_mailer extends PHPMailer
 
         $mailBody .= '    </tbody>';
         $mailBody .= '</table>';
-        //End - generate mailbody
+        // End - generate mailbody
 
         $mail = new self();
         $mail->Subject = rex::getServerName() . ' - error report ';

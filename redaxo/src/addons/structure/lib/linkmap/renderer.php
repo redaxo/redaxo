@@ -14,7 +14,7 @@ abstract class rex_linkmap_tree_renderer
     {
         $category = rex_category::get($categoryId);
 
-        $mountpoints = rex::getUser()->getComplexPerm('structure')->getMountpointCategories();
+        $mountpoints = rex::requireUser()->getComplexPerm('structure')->getMountpointCategories();
         if (count($mountpoints) > 0) {
             $roots = $mountpoints;
             if (!$category && 1 === count($roots)) {
@@ -73,6 +73,9 @@ abstract class rex_linkmap_tree_renderer
         return $ul;
     }
 
+    /**
+     * @return string
+     */
     abstract protected function treeItem(rex_category $cat, $liClasses, $linkClasses, $subHtml, $liIcon);
 
     /**
@@ -119,10 +122,13 @@ abstract class rex_linkmap_tree_renderer
  */
 abstract class rex_linkmap_article_list_renderer
 {
+    /**
+     * @return string
+     */
     public function getList($categoryId)
     {
         $isRoot = 0 === $categoryId;
-        $mountpoints = rex::getUser()->getComplexPerm('structure')->getMountpoints();
+        $mountpoints = rex::requireUser()->getComplexPerm('structure')->getMountpoints();
 
         if ($isRoot && 1 === count($mountpoints)) {
             $categoryId = reset($mountpoints);
@@ -157,5 +163,8 @@ abstract class rex_linkmap_article_list_renderer
         return $list;
     }
 
+    /**
+     * @return string
+     */
     abstract protected function listItem(rex_article $article, $categoryId);
 }

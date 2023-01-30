@@ -79,7 +79,7 @@ class rex_sql implements Iterator
     /**
      * Store the lastInsertId per rex_sql object, so rex_sql objects don't override each other because of the shared static PDO instance.
      *
-     * @var string
+     * @var numeric-string
      */
     private $lastInsertId = '0'; // compatibility to PDO, which uses string '0' as default
 
@@ -116,6 +116,7 @@ class rex_sql implements Iterator
      * @psalm-param positive-int $db
      *
      * @throws rex_sql_exception
+     * @return void
      */
     protected function selectDB($db)
     {
@@ -140,7 +141,7 @@ class rex_sql implements Iterator
                     $dbconfig->login,
                     $dbconfig->password,
                     $dbconfig->persistent,
-                    $options
+                    $options,
                 );
                 self::$pdo[$db] = $conn;
 
@@ -178,8 +179,14 @@ class rex_sql implements Iterator
      *
      * @return PDO
      */
-    protected static function createConnection($host, $database, $login, $password, $persistent = false, array $options = [])
-    {
+    protected static function createConnection(
+        #[\SensitiveParameter] $host,
+        #[\SensitiveParameter] $database,
+        #[\SensitiveParameter] $login,
+        #[\SensitiveParameter] $password,
+        $persistent = false,
+        array $options = [],
+    ) {
         if (!$database) {
             throw new InvalidArgumentException('Database name can not be empty.');
         }
@@ -305,6 +312,9 @@ class rex_sql implements Iterator
      * @throws rex_sql_exception on errors
      *
      * @return $this
+     *
+     * @psalm-taint-sink $query
+     * @psalm-taint-specialize
      */
     public function setDBQuery($query, array $params = [], array $options = [])
     {
@@ -348,6 +358,8 @@ class rex_sql implements Iterator
      * @throws rex_sql_exception
      *
      * @return PDOStatement The prepared statement
+     *
+     * @psalm-taint-sink sql $query
      */
     public function prepareQuery($query)
     {
@@ -447,49 +459,8 @@ class rex_sql implements Iterator
         $this->params = $params;
         $this->stmt = null;
 
-        if (!empty($params)) {
-            $this->prepareQuery($query);
-            $this->execute($params, $options);
-
-            return $this;
-        }
-
-        $buffered = null;
-        $pdo = $this->getConnection();
-        if (isset($options[self::OPT_BUFFERED])) {
-            $buffered = $pdo->getAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY);
-            $pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $options[self::OPT_BUFFERED]);
-        }
-
-        try {
-            $this->stmt = rex_timer::measure(__METHOD__, function () use ($pdo, $query) {
-                error_clear_last();
-
-                // since we are in Exception-Mode, PDO should throw in case of errors.
-                // it seems there are rare cases where it still returns false, which we try to handle here
-                if (false !== $stmt = @$pdo->query($query)) {
-                    return $stmt;
-                }
-
-                if ($error = error_get_last()) {
-                    throw new rex_sql_exception('Error while executing statement "' . $query . '": ' . $error['message'], null, $this);
-                }
-                throw new rex_sql_exception('Error while executing statement "' . $query . '".', null, $this);
-            });
-
-            $this->rows = $this->stmt->rowCount();
-            $this->lastInsertId = $this->getConnection()->lastInsertId();
-        } catch (PDOException $e) {
-            throw new rex_sql_exception('Error while executing statement "' . $query . '": ' . $e->getMessage(), $e, $this);
-        } finally {
-            if (null !== $buffered) {
-                $pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $buffered);
-            }
-
-            if ($this->debug) {
-                $this->printError($query, $params);
-            }
-        }
+        $this->prepareQuery($query);
+        $this->execute($params, $options);
 
         return $this;
     }
@@ -515,6 +486,8 @@ class rex_sql implements Iterator
      * @param string $value  The raw value
      *
      * @return $this the current rex_sql object
+     *
+     * @psalm-taint-sink sql $value
      */
     public function setRawValue($column, $value)
     {
@@ -593,7 +566,7 @@ class rex_sql implements Iterator
     }
 
     /**
-     * Prueft den Wert einer Spalte der aktuellen Zeile ob ein Wert enthalten ist.
+     * Prueft den Wert der Spalte $column der aktuellen Zeile, ob $value enthalten ist.
      *
      * @param string $column Spaltenname des zu pruefenden Feldes
      * @param string $value  Wert, der enthalten sein soll
@@ -667,9 +640,9 @@ class rex_sql implements Iterator
             $this->wherevar = 'WHERE ' . $where;
             $this->whereParams = $params;
         } elseif (is_string($where)) {
-            //$trace = debug_backtrace();
-            //$loc = $trace[0];
-            //trigger_error('you have to take care to provide escaped values for your where-string in file "'. $loc['file'] .'" on line '. $loc['line'] .'!', E_USER_WARNING);
+            // $trace = debug_backtrace();
+            // $loc = $trace[0];
+            // trigger_error('you have to take care to provide escaped values for your where-string in file "'. $loc['file'] .'" on line '. $loc['line'] .'!', E_USER_WARNING);
 
             $this->wherevar = 'WHERE ' . $where;
             $this->whereParams = [];
@@ -860,6 +833,11 @@ class rex_sql implements Iterator
      * @param string $column Name der Spalte
      *
      * @return bool
+     *
+     * @template T
+     * @psalm-param T $column
+     * @psalm-assert-if-true !null $this->isNull(T)
+     * @psalm-assert-if-false !null $this->isNull(T)
      */
     public function hasValue($column)
     {
@@ -900,6 +878,7 @@ class rex_sql implements Iterator
      * Gibt die Anzahl der Zeilen zurueck.
      *
      * @return null|int
+     * @phpstan-impure
      */
     public function getRows()
     {
@@ -979,6 +958,8 @@ class rex_sql implements Iterator
      * @throws rex_sql_exception
      *
      * @return $this
+     *
+     * @psalm-taint-sink sql $columns
      */
     public function select($columns = '*')
     {
@@ -986,7 +967,7 @@ class rex_sql implements Iterator
 
         $this->setQuery(
             'SELECT ' . $columns . ' FROM ' . $this->escapeIdentifier($this->table) . ' ' . $where,
-            $whereParams
+            $whereParams,
         );
         return $this;
     }
@@ -1005,7 +986,7 @@ class rex_sql implements Iterator
 
         $this->setQuery(
             'UPDATE ' . $this->escapeIdentifier($this->table) . ' SET ' . $this->buildPreparedValues() . ' ' . $where,
-            array_merge($this->values, $whereParams)
+            array_merge($this->values, $whereParams),
         );
         return $this;
     }
@@ -1036,7 +1017,7 @@ class rex_sql implements Iterator
 
         $this->setQuery(
             'INSERT INTO ' . $this->escapeIdentifier($this->table) . ' ' . $setValues,
-            $this->values
+            $this->values,
         );
 
         // provide debug infos, if insert is considered successfull, but no rows were inserted.
@@ -1064,7 +1045,7 @@ class rex_sql implements Iterator
         $onDuplicateKeyUpdate = $this->buildOnDuplicateKeyUpdate(array_keys(array_merge($this->values, $this->rawValues)));
         $this->setQuery(
             'INSERT INTO ' . $this->escapeIdentifier($this->table) . ' SET ' . $this->buildPreparedValues() . ' ' . $onDuplicateKeyUpdate,
-            $this->values
+            $this->values,
         );
 
         return $this;
@@ -1092,7 +1073,7 @@ class rex_sql implements Iterator
 
         $this->setQuery(
             'REPLACE INTO ' . $this->escapeIdentifier($this->table) . ' SET ' . $this->buildPreparedValues() . ' ' . $where,
-            array_merge($this->values, $whereParams)
+            array_merge($this->values, $whereParams),
         );
         return $this;
     }
@@ -1111,7 +1092,7 @@ class rex_sql implements Iterator
 
         $this->setQuery(
             'DELETE FROM ' . $this->escapeIdentifier($this->table) . ' ' . $where,
-            $whereParams
+            $whereParams,
         );
         return $this;
     }
@@ -1187,7 +1168,7 @@ class rex_sql implements Iterator
     /**
      * Gibt die letzte InsertId zurueck.
      *
-     * @return string
+     * @return numeric-string
      */
     public function getLastId()
     {
@@ -1211,6 +1192,7 @@ class rex_sql implements Iterator
      * @psalm-return list<array<(TFetchType is PDO::FETCH_NUM ? int : string), scalar|null>>
      *
      * @psalm-taint-source input
+     * @psalm-taint-sink sql $query
      * @psalm-suppress MixedReturnTypeCoercion
      */
     public function getDBArray($query = null, array $params = [], $fetchType = PDO::FETCH_ASSOC)
@@ -1245,6 +1227,7 @@ class rex_sql implements Iterator
      * @psalm-return list<array<(TFetchType is PDO::FETCH_NUM ? int : string), scalar|null>>
      *
      * @psalm-taint-source input
+     * @psalm-taint-sink sql $query
      * @psalm-suppress MixedReturnTypeCoercion
      */
     public function getArray($query = null, array $params = [], $fetchType = PDO::FETCH_ASSOC)
@@ -1285,6 +1268,7 @@ class rex_sql implements Iterator
 
     /**
      * Gibt den zuletzt aufgetretene Fehler zurueck.
+     * @return string|null
      */
     public function getError()
     {
@@ -1310,6 +1294,7 @@ class rex_sql implements Iterator
      *
      * @param string $query
      * @param array  $params
+     * @return void
      */
     protected function printError($query, $params)
     {
@@ -1338,7 +1323,7 @@ class rex_sql implements Iterator
 
                     return $matches[0];
                 },
-                $query
+                $query,
             );
         }
         if ($this->getRows()) {
@@ -1403,6 +1388,7 @@ class rex_sql implements Iterator
     /**
      * @psalm-assert !null $this->fieldnames
      * @psalm-assert !null $this->tablenames
+     * @return void
      */
     private function fetchMeta()
     {
@@ -1431,7 +1417,12 @@ class rex_sql implements Iterator
      * @param string $value den zu escapenden Wert
      *
      * @return string
-     * @psalm-return ($value is numeric-string ? numeric-string : ($value is non-empty-string ? non-empty-string : string))
+     * @psalm-return ($value is numeric-string ? numeric-string :
+     *   ($value is non-falsy-string ? non-falsy-string :
+     *   ($value is non-empty-string ? non-empty-string : string
+     * )))
+     *
+     * @psalm-taint-escape sql
      */
     public function escape($value)
     {
@@ -1455,11 +1446,14 @@ class rex_sql implements Iterator
     /**
      * Escapes the `LIKE` wildcard chars "%" and "_" in given value.
      *
-     * @psalm-return ($value is numeric-string ? numeric-string : ($value is non-empty-string ? non-empty-string : string))
+     * @psalm-return ($value is numeric-string ? numeric-string :
+     *   ($value is non-falsy-string ? non-falsy-string :
+     *   ($value is non-empty-string ? non-empty-string : string
+     * )))
      */
     public function escapeLikeWildcards(string $value): string
     {
-        return str_replace(['_', '%'], ['\_', '\%'], $value);
+        return str_replace(['\\', '_', '%'], ['\\\\', '\_', '\%'], $value);
     }
 
     /**
@@ -1504,11 +1498,7 @@ class rex_sql implements Iterator
     public function addGlobalUpdateFields($user = null)
     {
         if (!$user) {
-            if (rex::getUser()) {
-                $user = rex::getUser()->getValue('login');
-            } else {
-                $user = rex::getEnvironment();
-            }
+            $user = rex::getUser()?->getLogin() ?? rex::getEnvironment();
         }
 
         $this->setDateTimeValue('updatedate', time());
@@ -1525,11 +1515,7 @@ class rex_sql implements Iterator
     public function addGlobalCreateFields($user = null)
     {
         if (!$user) {
-            if (rex::getUser()) {
-                $user = rex::getUser()->getValue('login');
-            } else {
-                $user = rex::getEnvironment();
-            }
+            $user = rex::getUser()?->getLogin() ?? rex::getEnvironment();
         }
 
         $this->setDateTimeValue('createdate', time());
@@ -1958,7 +1944,7 @@ class rex_sql implements Iterator
                 $host,
                 $database,
                 $login,
-                $password
+                $password,
             );
 
             // db connection was successfully established, but we were meant to create the db
@@ -1985,7 +1971,7 @@ class rex_sql implements Iterator
                             $host,
                             'mysql',
                             $login,
-                            $password
+                            $password,
                         );
                         if (1 !== $conn->exec('CREATE DATABASE ' . $database . ' CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci')) {
                             // unable to create db
@@ -2075,7 +2061,7 @@ class rex_sql implements Iterator
         }
 
         $query = $verb.' INTO '.$this->escapeIdentifier($this->table)."\n";
-        $query .= '('.implode(', ', array_map([$this, 'escapeIdentifier'], $fields)).")\n";
+        $query .= '('.implode(', ', array_map($this->escapeIdentifier(...), $fields)).")\n";
         $query .= "VALUES\n";
         $query .= implode(",\n", $rows);
 

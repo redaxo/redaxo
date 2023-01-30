@@ -53,12 +53,7 @@ class rex_effect_resize extends rex_effect_abstract
             $this->params['height'] = $h;
         }
 
-        if (function_exists('ImageCreateTrueColor')) {
-            $des = @imagecreatetruecolor($this->params['width'], $this->params['height']);
-        } else {
-            $des = @imagecreate($this->params['width'], $this->params['height']);
-        }
-
+        $des = @imagecreatetruecolor($this->params['width'], $this->params['height']);
         if (!$des) {
             return;
         }
@@ -71,6 +66,9 @@ class rex_effect_resize extends rex_effect_abstract
         $this->media->refreshImageDimensions();
     }
 
+    /**
+     * @return void
+     */
     private function resizeMax($width, $height)
     {
         if (!empty($this->params['height']) && !empty($this->params['width'])) {
@@ -93,6 +91,9 @@ class rex_effect_resize extends rex_effect_abstract
         }
     }
 
+    /**
+     * @return void
+     */
     private function resizeMin($width, $height)
     {
         if (!empty($this->params['height']) && !empty($this->params['width'])) {
@@ -140,7 +141,7 @@ class rex_effect_resize extends rex_effect_abstract
                 'options' => self::OPTIONS,
                 'default' => 'fit',
                 'suffix' => '
-<script type="text/javascript">
+<script type="text/javascript" nonce="' . rex_response::getNonce() . '">
 <!--
 
 $(function() {

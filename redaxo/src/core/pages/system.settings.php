@@ -1,7 +1,4 @@
 <?php
-/**
- * @package redaxo5
- */
 
 $error = [];
 $success = '';
@@ -10,9 +7,9 @@ $func = rex_request('func', 'string');
 
 $csrfToken = rex_csrf_token::factory('system');
 
-  if (rex_request('rex_debug_updated', 'bool', false)) {
-      $success = (rex::isDebugMode()) ? rex_i18n::msg('debug_mode_info_on') : rex_i18n::msg('debug_mode_info_off');
-  }
+if (rex_request('rex_debug_updated', 'bool', false)) {
+    $success = (rex::isDebugMode()) ? rex_i18n::msg('debug_mode_info_on') : rex_i18n::msg('debug_mode_info_off');
+}
 
 if ($func && !$csrfToken->isValid()) {
     $error[] = rex_i18n::msg('csrf_token_invalid');
@@ -33,7 +30,7 @@ if ($func && !$csrfToken->isValid()) {
     $configFile = rex_path::coreData('config.yml');
     $config = array_merge(
         rex_file::getConfig(rex_path::core('default.config.yml')),
-        rex_file::getConfig($configFile)
+        rex_file::getConfig($configFile),
     );
 
     if (!is_array($config['debug'])) {
@@ -50,7 +47,7 @@ if ($func && !$csrfToken->isValid()) {
     $configFile = rex_path::coreData('config.yml');
     $config = array_merge(
         rex_file::getConfig(rex_path::core('default.config.yml')),
-        rex_file::getConfig($configFile)
+        rex_file::getConfig($configFile),
     );
 
     $settings = rex_post('settings', 'array', []);
@@ -63,7 +60,7 @@ if ($func && !$csrfToken->isValid()) {
         $config[$key] = $settings[$key];
         try {
             rex::setProperty($key, $settings[$key]);
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
             $error[] = rex_i18n::msg($key . '_invalid');
         }
     }
@@ -248,12 +245,12 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="rex-id-server" class="required">' . rex_i18n::msg('server') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-server" name="settings[server]" value="' . rex_escape(rex::getServer()) . '" />';
+$n['field'] = '<input class="form-control" type="url" id="rex-id-server" name="settings[server]" value="' . rex_escape(rex::getServer()) . '" required />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-servername" class="required">' . rex_i18n::msg('servername') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-servername" name="settings[servername]" value="' . rex_escape(rex::getServerName()) . '" />';
+$n['field'] = '<input class="form-control" type="text" id="rex-id-servername" name="settings[servername]" value="' . rex_escape(rex::getServerName()) . '" required />';
 $formElements[] = $n;
 
 $n = [];
@@ -263,7 +260,7 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-error-email" class="required">' . rex_i18n::msg('error_email') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-error-email" name="settings[error_email]" value="' . rex_escape(rex::getErrorEmail()) . '" />';
+$n['field'] = '<input class="form-control" type="email" id="rex-id-error-email" name="settings[error_email]" value="' . rex_escape(rex::getErrorEmail()) . '" required />';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -273,7 +270,7 @@ $content .= $fragment->parse('core/form/form.php');
 foreach (rex_system_setting::getAll() as $setting) {
     $field = $setting->getField();
     if (!($field instanceof rex_form_element)) {
-        throw new rex_exception(get_class($setting) . '::getField() must return a rex_form_element!');
+        throw new rex_exception($setting::class . '::getField() must return a rex_form_element!');
     }
     $field->setAttribute('name', 'settings[' . $setting->getKey() . ']');
     $content .= $field->get();

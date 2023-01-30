@@ -10,6 +10,9 @@ class rex_metainfo_clang_handler extends rex_metainfo_handler
     public const PREFIX = 'clang_';
     public const CONTAINER = 'rex-clang-metainfo';
 
+    /**
+     * @return string
+     */
     public function renderToggleButton(rex_extension_point $ep)
     {
         $fields = parent::getSqlFields(self::PREFIX);
@@ -48,6 +51,9 @@ class rex_metainfo_clang_handler extends rex_metainfo_handler
         return $params;
     }
 
+    /**
+     * @return void
+     */
     protected function buildFilterCondition(array $params)
     {
     }
@@ -88,10 +94,10 @@ class rex_metainfo_clang_handler extends rex_metainfo_handler
 
 $clangHandler = new rex_metainfo_clang_handler();
 
-rex_extension::register('CLANG_FORM_ADD', [$clangHandler, 'extendForm']);
-rex_extension::register('CLANG_FORM_EDIT', [$clangHandler, 'extendForm']);
+rex_extension::register('CLANG_FORM_ADD', $clangHandler->extendForm(...));
+rex_extension::register('CLANG_FORM_EDIT', $clangHandler->extendForm(...));
 
-rex_extension::register('CLANG_ADDED', [$clangHandler, 'extendForm'], rex_extension::EARLY);
-rex_extension::register('CLANG_UPDATED', [$clangHandler, 'extendForm'], rex_extension::EARLY);
+rex_extension::register('CLANG_ADDED', $clangHandler->extendForm(...), rex_extension::EARLY);
+rex_extension::register('CLANG_UPDATED', $clangHandler->extendForm(...), rex_extension::EARLY);
 
-rex_extension::register('CLANG_FORM_BUTTONS', [$clangHandler, 'renderToggleButton']);
+rex_extension::register('CLANG_FORM_BUTTONS', $clangHandler->renderToggleButton(...));

@@ -105,7 +105,7 @@ class rex_sql_table
                 'YES' === $column['null'],
                 $column['default'],
                 $column['extra'] ?: null,
-                $column['comment'] ?: null
+                $column['comment'] ?: null,
             );
 
             $this->columnsExisting[$column['name']] = $column['name'];
@@ -170,6 +170,7 @@ class rex_sql_table
 
     /**
      * @param string $name
+     * @psalm-param non-empty-string $name
      * @psalm-param positive-int $db
      *
      * @return self
@@ -185,6 +186,7 @@ class rex_sql_table
 
     /**
      * @param string|array{int, string} $key A table-name or a array[db-id, table-name]
+     * @return void
      */
     public static function clearInstance($key)
     {
@@ -193,7 +195,7 @@ class rex_sql_table
             $key = [1, $key];
         }
 
-        return static::baseClearInstance($key);
+        static::baseClearInstance($key);
     }
 
     /**
@@ -641,6 +643,7 @@ class rex_sql_table
 
     /**
      * Ensures that the table exists with the given definition.
+     * @return void
      */
     public function ensure()
     {
@@ -688,6 +691,7 @@ class rex_sql_table
 
     /**
      * Drops the table if it exists.
+     * @return void
      */
     public function drop()
     {
@@ -707,6 +711,7 @@ class rex_sql_table
      * Creates the table.
      *
      * @throws rex_exception
+     * @return void
      */
     public function create()
     {
@@ -752,6 +757,7 @@ class rex_sql_table
      * Alters the table.
      *
      * @throws rex_exception
+     * @return void
      */
     public function alter()
     {
@@ -937,7 +943,7 @@ class rex_sql_table
             $default,
             $column->isNullable() ? '' : 'NOT NULL',
             $column->getExtra(),
-            $comment
+            $comment,
         );
     }
 
@@ -947,7 +953,7 @@ class rex_sql_table
             '%s %s %s',
             $index->getType(),
             $this->sql->escapeIdentifier($index->getName()),
-            $this->getKeyColumnsDefintion($index->getColumns())
+            $this->getKeyColumnsDefintion($index->getColumns()),
         );
     }
 
@@ -960,13 +966,13 @@ class rex_sql_table
             $this->sql->escapeIdentifier($foreignKey->getTable()),
             $this->getKeyColumnsDefintion($foreignKey->getColumns()),
             $foreignKey->getOnUpdate(),
-            $foreignKey->getOnDelete()
+            $foreignKey->getOnDelete(),
         );
     }
 
     private function getKeyColumnsDefintion(array $columns): string
     {
-        $columns = array_map([$this->sql, 'escapeIdentifier'], $columns);
+        $columns = array_map($this->sql->escapeIdentifier(...), $columns);
 
         return '('.implode(', ', $columns).')';
     }

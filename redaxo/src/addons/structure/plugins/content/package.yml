@@ -1,5 +1,5 @@
 package: structure/content
-version: '2.13.3'
+version: '2.14.3-dev'
 author: Markus Staab
 supportpage: https://github.com/redaxo/redaxo
 
@@ -35,7 +35,7 @@ pages:
             actions: { title: translate:actions }
 
 requires:
-    redaxo: ^5.13.0
+    redaxo: ^5.15.0-dev
 
 conflicts:
     packages:

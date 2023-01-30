@@ -34,6 +34,8 @@ class rex_response
     private static $additionalHeaders = [];
     /** @var array */
     private static $preloadFiles = [];
+    /** @var string */
+    private static $nonce = '';
 
     /**
      * Sets the HTTP Status code.
@@ -41,6 +43,7 @@ class rex_response
      * @param string $httpStatus
      *
      * @throws InvalidArgumentException
+     * @return void
      */
     public static function setStatus($httpStatus)
     {
@@ -62,16 +65,31 @@ class rex_response
     }
 
     /**
+     * Returns a request save NONCE für CSP Headers and Implemntations.
+     */
+    public static function getNonce(): string
+    {
+        if (!self::$nonce) {
+            self::$nonce = bin2hex(random_bytes(16));
+        }
+        return self::$nonce;
+    }
+
+    /**
      * Set a http response header. A existing header with the same name will be overridden.
      *
      * @param string $name
      * @param string $value
+     * @return void
      */
     public static function setHeader($name, $value)
     {
         self::$additionalHeaders[$name] = $value;
     }
 
+    /**
+     * @return void
+     */
     private static function sendAdditionalHeaders()
     {
         foreach (self::$additionalHeaders as $name => $value) {
@@ -85,6 +103,7 @@ class rex_response
      * @param string $file
      * @param string $type
      * @param string $mimeType
+     * @return void
      */
     public static function preload($file, $type, $mimeType)
     {
@@ -95,6 +114,9 @@ class rex_response
         ];
     }
 
+    /**
+     * @return void
+     */
     private static function sendPreloadHeaders()
     {
         foreach (self::$preloadFiles as $preloadFile) {
@@ -140,6 +162,7 @@ class rex_response
      * @param string      $contentType        Content type
      * @param string      $contentDisposition Content disposition ("inline" or "attachment")
      * @param null|string $filename           Custom Filename
+     * @return void|never
      */
     public static function sendFile($file, $contentType, $contentDisposition = 'inline', $filename = null)
     {
@@ -203,7 +226,7 @@ class rex_response
                     // Send Error if file couldn't be read
                     header('HTTP/1.1 ' . self::HTTP_INTERNAL_ERROR);
                 }
-            } catch (\Ramsey\Http\Range\Exception\HttpRangeException $exception) {
+            } catch (\Ramsey\Http\Range\Exception\HttpRangeException) {
                 header('HTTP/1.1 ' . self::HTTP_RANGE_NOT_SATISFIABLE);
             }
             return;
@@ -221,6 +244,7 @@ class rex_response
      * @param null|string $etag               HTTP Cachekey to identify the cache
      * @param null|string $contentDisposition Content disposition ("inline" or "attachment")
      * @param null|string $filename           Filename
+     * @return void
      */
     public static function sendResource($content, $contentType = null, $lastModified = null, $etag = null, $contentDisposition = null, $filename = null)
     {
@@ -241,6 +265,7 @@ class rex_response
      *
      * @param string $content      Content of page
      * @param int    $lastModified HTTP Last-Modified Timestamp
+     * @return void
      */
     public static function sendPage($content, $lastModified = null)
     {
@@ -270,6 +295,7 @@ class rex_response
      * @param string|null $contentType  Content type
      * @param int|null    $lastModified HTTP Last-Modified Timestamp
      * @param string|null $etag         HTTP Cachekey to identify the cache
+     * @return void
      */
     public static function sendContent($content, $contentType = null, $lastModified = null, $etag = null)
     {
@@ -332,6 +358,7 @@ class rex_response
 
     /**
      * Cleans all output buffers.
+     * @return void
      */
     public static function cleanOutputBuffers()
     {
@@ -344,6 +371,7 @@ class rex_response
      * Sends the content type header.
      *
      * @param string $contentType
+     * @return void
      */
     public static function sendContentType($contentType = null)
     {
@@ -353,6 +381,7 @@ class rex_response
 
     /**
      * Sends the cache control header.
+     * @return void
      */
     public static function sendCacheControl($cacheControl = 'must-revalidate, proxy-revalidate, private, no-cache, max-age=0')
     {
@@ -366,6 +395,7 @@ class rex_response
      * HTTP_IF_MODIFIED_SINCE feature
      *
      * @param int $lastModified HTTP Last-Modified Timestamp
+     * @return void|never
      */
     public static function sendLastModified($lastModified = null)
     {
@@ -395,6 +425,7 @@ class rex_response
      * HTTP_IF_NONE_MATCH feature
      *
      * @param string $cacheKey HTTP Cachekey to identify the cache
+     * @return void|never
      */
     public static function sendEtag($cacheKey)
     {
@@ -467,6 +498,7 @@ class rex_response
      * @psalm-param array{expires?: int|string|DateTimeInterface, path?: string, domain?: ?string, secure?: bool, httponly?: bool, samesite?: ?string, raw?: bool} $options
      *
      * @throws InvalidArgumentException
+     * @return void
      */
     public static function sendCookie($name, $value, array $options = [])
     {
@@ -572,6 +604,9 @@ class rex_response
         return md5(preg_replace('@<!--DYN-->.*<!--/DYN-->@U', '', $content));
     }
 
+    /**
+     * @return void
+     */
     public static function enforceHttps()
     {
         if (!rex_request::isHttps()) {

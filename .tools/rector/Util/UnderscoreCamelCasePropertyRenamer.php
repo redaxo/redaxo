@@ -18,7 +18,7 @@ final class UnderscoreCamelCasePropertyRenamer
 
     public function __construct(
         UnderscoreCamelCaseConflictingNameGuard $underscoreCamelCaseConflictingNameGuard,
-        PropertyRenamer $propertyRenamer
+        PropertyRenamer $propertyRenamer,
     ) {
         $this->underscoreCamelCaseConflictingNameGuard = $underscoreCamelCaseConflictingNameGuard;
         $this->propertyRenamer = $propertyRenamer;

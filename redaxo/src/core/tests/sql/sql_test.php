@@ -153,7 +153,7 @@ class rex_sql_test extends TestCase
     {
         $sql = rex_sql::factory();
 
-        static::assertSame('\\%foo\\_bar', $sql->escapeLikeWildcards('%foo_bar'));
+        static::assertSame('\\%foo\\_bar\\\\baz\\\\\\_qux', $sql->escapeLikeWildcards('%foo_bar\\baz\\_qux'));
     }
 
     /** @dataProvider dataIn */
@@ -214,8 +214,8 @@ class rex_sql_test extends TestCase
         $sql->insert();
         static::assertEquals(1, $sql->getRows());
         // failing at the moment
-//     $this->assertEquals('abc', $sql->getValue('col_str'));
-//     $this->assertEquals(5, $sql->getValue('col_int'));
+        // $this->assertEquals('abc', $sql->getValue('col_str'));
+        // $this->assertEquals(5, $sql->getValue('col_int'));
     }
 
     public function testInsertRawValue()

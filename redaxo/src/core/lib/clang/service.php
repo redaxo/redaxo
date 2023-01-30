@@ -12,6 +12,7 @@ class rex_clang_service
      * @param string $name     Name
      * @param int    $priority Priority
      * @param bool   $status   Status
+     * @return void
      */
     public static function addCLang($code, $name, $priority, $status = false)
     {
@@ -92,6 +93,7 @@ class rex_clang_service
      * @param int $id Zu löschende ClangId
      *
      * @throws rex_exception
+     * @return void
      */
     public static function deleteCLang($id)
     {
@@ -125,6 +127,7 @@ class rex_clang_service
      * Schreibt Spracheigenschaften in die Datei include/clang.php.
      *
      * @throws rex_exception
+     * @return void
      */
     public static function generateCache()
     {

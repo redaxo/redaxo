@@ -9,9 +9,7 @@
  */
 class rex_install_package_update extends rex_install_package_download
 {
-    /**
-     * @var rex_addon
-     */
+    /** @var rex_addon */
     private $addon;
 
     protected function getPackages()
@@ -99,7 +97,9 @@ class rex_install_package_update extends rex_install_package_download
         foreach ($this->addon->getRegisteredPlugins() as $plugin) {
             $pluginPath = $temppath . '/plugins/' . $plugin->getName();
             if (!is_dir($pluginPath)) {
-                rex_dir::copy($plugin->getPath(), $pluginPath);
+                if (is_dir($plugin->getPath())) {
+                    rex_dir::copy($plugin->getPath(), $pluginPath);
+                }
             } elseif ($plugin->isInstalled() && is_dir($pluginPath . '/assets')) {
                 rex_dir::copy($pluginPath . '/assets', $plugin->getAssetsPath());
             }

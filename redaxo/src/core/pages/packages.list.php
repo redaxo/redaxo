@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @package redaxo5
- */
-
 echo rex_view::title(rex_i18n::msg('addons'), '');
 
 // the package manager don't know new packages in the addon folder
@@ -57,7 +53,7 @@ $getTableRow = static function (rex_package $package) use ($getLink) {
         $uninstall = $getLink($package, 'uninstall', 'rex-icon-package-uninstall', true);
     } else {
         $install = $getLink($package, 'install', 'rex-icon-package-not-installed');
-        //$uninstall = rex_i18n::msg('package_notinstalled');
+        // $uninstall = rex_i18n::msg('package_notinstalled');
     }
 
     $class = '';
@@ -141,7 +137,7 @@ $content .= '</tbody>
         </table>';
 
 $content .= '
-    <script type="text/javascript">
+    <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
     <!--
     jQuery(function($) {
         var table = $("#rex-js-table-available-packages-addons");

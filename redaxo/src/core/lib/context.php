@@ -49,9 +49,7 @@ interface rex_context_provider_interface extends rex_url_provider_interface
  */
 class rex_context implements rex_context_provider_interface
 {
-    /**
-     * @psalm-var array<string, mixed>
-     */
+    /** @var array<string, mixed> */
     private $globalParams;
 
     /**
@@ -65,9 +63,6 @@ class rex_context implements rex_context_provider_interface
         $this->globalParams = $globalParams;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getUrl(array $params = [], $escape = true)
     {
         // combine global params with local
@@ -81,6 +76,7 @@ class rex_context implements rex_context_provider_interface
      *
      * @param string $name
      * @param mixed  $value
+     * @return void
      */
     public function setParam($name, $value)
     {

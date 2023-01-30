@@ -10,21 +10,13 @@
  */
 class rex_pager
 {
-    /**
-     * @var int
-     */
+    /** @var int */
     private $rowCount;
-    /**
-     * @var int
-     */
+    /** @var int */
     private $rowsPerPage;
-    /**
-     * @var string
-     */
+    /** @var string */
     private $cursorName;
-    /**
-     * @var int|null
-     */
+    /** @var int|null */
     private $cursor;
 
     /**
@@ -43,6 +35,7 @@ class rex_pager
      * Sets the row count.
      *
      * @param int $rowCount
+     * @return void
      */
     public function setRowCount($rowCount)
     {

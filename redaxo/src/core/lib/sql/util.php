@@ -8,7 +8,33 @@
 class rex_sql_util
 {
     /**
+     * @psalm-taint-escape file
+     */
+    public static function slowQueryLogPath(): ?string
+    {
+        $db = rex_sql::factory();
+        $db->setQuery("show variables like 'slow_query_log_file'");
+        $slowQueryLogPath = (string) $db->getValue('Value');
+
+        if ('' !== $slowQueryLogPath) {
+            if ('.' === dirname($slowQueryLogPath)) {
+                $db->setQuery('select @@datadir as default_data_dir');
+                $defaultDataDir = (string) $db->getValue('default_data_dir');
+
+                return $defaultDataDir . $slowQueryLogPath;
+            }
+
+            return $slowQueryLogPath;
+        }
+
+        return null;
+    }
+
+    /**
      * Copy the table structure (without its data) to another table.
+     *
+     * @param non-empty-string $sourceTable
+     * @param non-empty-string $destinationTable
      *
      * @throws rex_exception
      */
@@ -31,6 +57,9 @@ class rex_sql_util
     /**
      * Copy the table structure and its data to another table.
      *
+     * @param non-empty-string $sourceTable
+     * @param non-empty-string $destinationTable
+     *
      * @throws rex_exception
      */
     public static function copyTableWithData(string $sourceTable, string $destinationTable): void
@@ -45,11 +74,12 @@ class rex_sql_util
      * Allgemeine funktion die eine Datenbankspalte fortlaufend durchnummeriert.
      * Dies ist z.B. nützlich beim Umgang mit einer Prioritäts-Spalte.
      *
-     * @param string $tableName      Name der Datenbanktabelle
-     * @param string $prioColumnName Name der Spalte in der Tabelle, in der die Priorität (Integer) gespeichert wird
+     * @param non-empty-string $tableName      Name der Datenbanktabelle
+     * @param non-empty-string $prioColumnName Name der Spalte in der Tabelle, in der die Priorität (Integer) gespeichert wird
      * @param string $whereCondition Where-Bedingung zur Einschränkung des ResultSets
      * @param string $orderBy        Sortierung des ResultSets
      * @param int    $startBy        Startpriorität
+     * @return void
      */
     public static function organizePriorities($tableName, $prioColumnName, $whereCondition = '', $orderBy = '', $startBy = 1)
     {
@@ -75,7 +105,7 @@ class rex_sql_util
     /**
      * Importiert die gegebene SQL-Datei in die Datenbank.
      *
-     * @param string $file
+     * @param non-empty-string $file
      * @param bool   $debug
      *
      * @throws rex_sql_exception
@@ -113,7 +143,7 @@ class rex_sql_util
     {
         // rex::getUser() gibts im Setup nicht
         /** @psalm-taint-escape sql */ // we trust the user db table
-        $user = rex::getUser() ? rex::getUser()->getValue('login') : '';
+        $user = rex::getUser()?->getLogin() ?? '';
 
         $query = str_replace('%USER%', $user, $query);
         $query = str_replace('%TIME%', (string) time(), $query);
@@ -126,7 +156,7 @@ class rex_sql_util
     /**
      * Reads a file and split all statements in it.
      *
-     * @param string $file Path to the SQL-dump-file
+     * @param non-empty-string $file Path to the SQL-dump-file
      *
      * @return array
      */
@@ -167,7 +197,7 @@ class rex_sql_util
     public static function splitSqlFile(&$queries, $sql, $release)
     {
         // do not trim, see bug #1030644
-        //$sql          = trim($sql);
+        // $sql          = trim($sql);
         $sql = rtrim($sql, "\n\r");
         $sqlLen = strlen($sql);
         $stringStart = '';

@@ -4,8 +4,6 @@
  * Page Content Addon.
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- *
- * @package redaxo5
  */
 
 rex_perm::register('moveSlice[]', null, rex_perm::OPTIONS);
@@ -29,7 +27,7 @@ if (rex::isBackend()) {
 
     rex_extension::register('CLANG_DELETED', static function (rex_extension_point $ep) {
         $del = rex_sql::factory();
-        $del->setQuery('delete from ' . rex::getTablePrefix() . "article_slice where clang_id='" . $ep->getParam('clang')->getId() . "'");
+        $del->setQuery('delete from ' . rex::getTablePrefix() . 'article_slice where clang_id=?', [$ep->getParam('clang')->getId()]);
     });
 } else {
     rex_extension::register('FE_OUTPUT', static function (rex_extension_point $ep) {
@@ -58,7 +56,7 @@ if (rex::isBackend()) {
 
         try {
             $content .= $article->getArticleTemplate();
-        } catch (rex_article_not_found_exception $exception) {
+        } catch (rex_article_not_found_exception) {
             $article = new rex_article_content();
             $article->setCLang(rex_clang::getCurrentId());
             $article->setArticleId(rex_article::getNotfoundArticleId());

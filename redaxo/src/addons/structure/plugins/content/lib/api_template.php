@@ -8,13 +8,9 @@
  */
 class rex_template
 {
-    /**
-     * @var int
-     */
+    /** @var int */
     private $id;
-    /**
-     * @var string|null
-     */
+    /** @var string|null */
     private $key;
 
     public function __construct($templateId)
@@ -23,6 +19,9 @@ class rex_template
         $this->key = '';
     }
 
+    /**
+     * @return int
+     */
     public static function getDefaultId()
     {
         return rex_config::get('structure/content', 'default_template_id', 1);
@@ -100,9 +99,12 @@ class rex_template
      */
     public static function getTemplatesDir()
     {
-        return rex_path::addonCache('templates');
+        return rex_path::addonCache('structure', 'templates');
     }
 
+    /**
+     * @return false|null|string
+     */
     public function getTemplate()
     {
         $file = $this->getFile();
@@ -225,5 +227,73 @@ class rex_template
         rex_template_cache::generateKeyMapping();
 
         return $mapping = rex_file::getCache($file);
+    }
+
+    /**
+     * @return list<rex_ctype>
+     */
+    public function getCtypes(): array
+    {
+        return rex_ctype::forTemplate($this->id);
+    }
+
+    /**
+     * @return false|string
+     */
+    public static function templateIsInUse(int $templateId, string $msgKey)
+    {
+        $check = rex_sql::factory();
+        $check->setQuery('
+            SELECT article.id, article.clang_id, template.name
+            FROM ' . rex::getTable('article') . ' article
+            LEFT JOIN ' . rex::getTable('template') . ' template ON article.template_id=template.id
+            WHERE article.template_id=?
+            LIMIT 20
+        ', [$templateId]);
+
+        if (!$check->getRows()) {
+            return false;
+        }
+        $templateInUseMessage = '';
+        $error = '';
+        $templatename = $check->getRows() ? $check->getValue('template.name') : null;
+        while ($check->hasNext()) {
+            $aid = (int) $check->getValue('article.id');
+            $clangId = (int) $check->getValue('article.clang_id');
+            $article = rex_article::get($aid, $clangId);
+            if (null == $article) {
+                continue;
+            }
+            $label = $article->getName() . ' [' . $aid . ']';
+            if (rex_clang::count() > 1) {
+                $clang = rex_clang::get($clangId);
+                if (null == $clang) {
+                    continue;
+                }
+                $label .= ' [' . $clang->getCode() . ']';
+            }
+
+            $templateInUseMessage .= '<li><a href="' . rex_url::backendPage('content', ['article_id' => $aid, 'clang' => $clangId]) . '">' . rex_escape($label) . '</a></li>';
+            $check->next();
+        }
+
+        if (null == $templatename) {
+            $check->setQuery('SELECT name FROM '.rex::getTable('template'). ' WHERE id = '.$templateId);
+            $templatename = $check->getValue('name');
+        }
+
+        if ('' != $templateInUseMessage && null != $templatename) {
+            $error .= rex_i18n::msg($msgKey, (string) $templatename);
+            $error .= '<ul>' . $templateInUseMessage . '</ul>';
+        }
+
+        return $error;
+    }
+
+    public static function exists(int $templateId): bool
+    {
+        $sql = rex_sql::factory();
+        $sql->setQuery('SELECT 1 FROM '.rex::getTable('template').' WHERE id = ?', [$templateId]);
+        return 1 === $sql->getRows();
     }
 }

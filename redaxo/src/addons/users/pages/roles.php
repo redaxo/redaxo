@@ -37,8 +37,13 @@ if ('' == $func) {
 
     $list->addColumn('edit', '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));
     $list->setColumnLabel('edit', rex_i18n::msg('user_functions'));
-    $list->setColumnLayout('edit', ['<th class="rex-table-action" colspan="2">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
+    $list->setColumnLayout('edit', ['<th class="rex-table-action" colspan="3">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('edit', ['func' => 'edit', 'id' => '###id###']);
+
+    $list->addColumn('duplicate', '<i class="rex-icon rex-icon-duplicate"></i> ' . rex_i18n::msg('user_role_duplicate'));
+    $list->setColumnLabel('duplicate', rex_i18n::msg('user_functions'));
+    $list->setColumnLayout('duplicate', ['', '<td class="rex-table-action">###VALUE###</td>']);
+    $list->setColumnParams('duplicate', ['func' => 'duplicate', 'id' => '###id###']);
 
     $list->addColumn('funcs', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('user_role_delete'));
     $list->setColumnLabel('funcs', rex_i18n::msg('user_functions'));
@@ -62,6 +67,7 @@ if ('' == $func) {
 
     $field = $form->addTextField('name');
     $field->setLabel(rex_i18n::msg('name'));
+    $field->getValidator()->add('notEmpty');
 
     $field = $form->addTextAreaField('description');
     $field->setLabel(rex_i18n::msg('description'));
@@ -133,7 +139,7 @@ if ('' == $func) {
 
     if ($fieldIds) {
         $content .= '
-            <script type="text/javascript">
+            <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
             <!--
 
             jQuery(function($) {

@@ -4,13 +4,11 @@
  * MetaForm Addon.
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- *
- * @package redaxo5
  */
 
 $content = '';
 
-//------------------------------> Parameter
+// ------------------------------> Parameter
 /** @psalm-suppress TypeDoesNotContainType */
 if (empty($prefix) || !is_string($prefix)) {
     throw new rex_exception('Fehler: Prefix nicht definiert!');
@@ -23,7 +21,7 @@ if (empty($metaTable) || !is_string($metaTable)) {
 $func = rex_request('func', 'string');
 $fieldId = rex_request('field_id', 'int');
 
-//------------------------------> Feld loeschen
+// ------------------------------> Feld loeschen
 if ('delete' == $func) {
     $fieldId = rex_request('field_id', 'int', 0);
     if (0 != $fieldId) {
@@ -36,14 +34,14 @@ if ('delete' == $func) {
     $func = '';
 }
 
-//------------------------------> Eintragsliste
+// ------------------------------> Eintragsliste
 if ('' == $func) {
     echo rex_api_function::getMessage();
 
     $title = rex_i18n::msg('minfo_field_list_caption');
 
-    // replace LIKE wildcards
-    $likePrefix = str_replace(['_', '%'], ['\_', '\%'], $prefix);
+    $sql = rex_sql::factory();
+    $likePrefix = $sql->escapeLikeWildcards($prefix);
 
     $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'metainfo_field WHERE `name` LIKE "' . $likePrefix . '%" ORDER BY priority');
     $list->addTableAttribute('class', 'table-striped table-hover');
@@ -83,7 +81,7 @@ if ('' == $func) {
         $defaultFields = sprintf(
             '<div class="btn-group btn-group-xs"><a href="%s" class="btn btn-default">%s</a></div>',
             rex_url::currentBackendPage(['type' => rex_be_controller::getCurrentPagePart(2)] + rex_api_metainfo_default_fields_create::getUrlParams()),
-            rex_i18n::msg('minfo_default_fields_create')
+            rex_i18n::msg('minfo_default_fields_create'),
         );
         $fragment->setVar('options', $defaultFields, false);
     }
@@ -91,7 +89,7 @@ if ('' == $func) {
     $fragment->setVar('content', $content, false);
     $content = $fragment->parse('core/page/section.php');
 }
-//------------------------------> Formular
+// ------------------------------> Formular
 elseif ('edit' == $func || 'add' == $func) {
     $title = rex_i18n::msg('minfo_field_fieldset');
     $form = new rex_metainfo_table_expander($prefix, $metaTable, rex::getTablePrefix().'metainfo_field', 'id='.$fieldId);

@@ -189,7 +189,7 @@ function rex_mediapool_Mediaform($formTitle, $buttonTitle, $rexFileCategory, $fi
     $catsSel->setAttribute('onchange', 'this.form.submit()');
     $catsSel->setSelected($rexFileCategory);
 
-    if (rex::getUser()->getComplexPerm('media')->hasAll()) {
+    if (rex::requireUser()->getComplexPerm('media')->hasAll()) {
         $catsSel->addOption(rex_i18n::msg('pool_kats_no'), '0');
     }
 
@@ -310,6 +310,7 @@ function rex_mediapool_Mediaform($formTitle, $buttonTitle, $rexFileCategory, $fi
 
 /**
  * Ausgabe des Medienpool Upload-Formulars.
+ * @return string
  */
 function rex_mediapool_Uploadform($rexFileCategory)
 {
@@ -318,6 +319,7 @@ function rex_mediapool_Uploadform($rexFileCategory)
 
 /**
  * Ausgabe des Medienpool Sync-Formulars.
+ * @return string
  */
 function rex_mediapool_Syncform($rexFileCategory)
 {

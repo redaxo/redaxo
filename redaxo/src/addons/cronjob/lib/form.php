@@ -18,7 +18,7 @@ class rex_cronjob_form extends rex_form
     private $intervalField;
 
     /**
-     * @param string $tableName
+     * @param non-empty-string $tableName
      * @param string $fieldset
      * @param string $whereCondition
      * @param 'post'|'get' $method
@@ -34,6 +34,8 @@ class rex_cronjob_form extends rex_form
     }
 
     /**
+     * @param string $name
+     *
      * @return rex_cronjob_form_interval_element
      */
     public function addIntervalField($name, $value = null, $attributes = [])
@@ -168,7 +170,7 @@ class rex_cronjob_form_interval_element extends rex_form_element
         $element = $fragment->parse('core/form/form.php');
 
         $element .= '
-            <script type="text/javascript">
+            <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
             // <![CDATA[
                 jQuery(function($){
                     $(".rex-js-cronjob-interval-all").each(function () {

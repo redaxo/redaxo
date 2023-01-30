@@ -24,7 +24,7 @@ class rex_socket_test extends TestCase
     {
         $socket = rex_socket::factory('www.example.com');
         $socket->setOptions([]);
-        static::assertEquals(rex_socket::class, get_class($socket));
+        static::assertEquals(rex_socket::class, $socket::class);
         return $socket;
     }
 
@@ -33,14 +33,14 @@ class rex_socket_test extends TestCase
         rex::setProperty('socket_proxy', 'proxy.example.com:8888');
         $socket = rex_socket::factory('www.example.com');
         $socket->setOptions([]);
-        static::assertEquals(rex_socket_proxy::class, get_class($socket));
+        static::assertEquals(rex_socket_proxy::class, $socket::class);
     }
 
     public function testFactoryUrl()
     {
         $socket = rex_socket::factoryUrl('www.example.com');
         $socket->setOptions([]);
-        static::assertEquals(rex_socket::class, get_class($socket));
+        static::assertEquals(rex_socket::class, $socket::class);
     }
 
     public function testFactoryUrlProxy()
@@ -48,7 +48,7 @@ class rex_socket_test extends TestCase
         rex::setProperty('socket_proxy', 'proxy.example.com:8888');
         $socket = rex_socket::factoryUrl('www.example.com');
         $socket->setOptions([]);
-        static::assertEquals(rex_socket_proxy::class, get_class($socket));
+        static::assertEquals(rex_socket_proxy::class, $socket::class);
     }
 
     /**
@@ -58,9 +58,7 @@ class rex_socket_test extends TestCase
     {
         $class = new ReflectionClass(rex_socket::class);
         $property = $class->getProperty('stream');
-        $property->setAccessible(true);
         $method = $class->getMethod('writeRequest');
-        $method->setAccessible(true);
 
         $stream = fopen('php://temp', 'r+');
         $property->setValue($socket, $stream);
@@ -103,7 +101,6 @@ class rex_socket_test extends TestCase
     public function testParseUrl($url, $expectedHost, $expectedPort, $expectedSsl, $expectedPath)
     {
         $method = new ReflectionMethod(rex_socket::class, 'parseUrl');
-        $method->setAccessible(true);
         $result = $method->invoke(null, $url);
         $expected = [
             'host' => $expectedHost,
@@ -131,7 +128,6 @@ class rex_socket_test extends TestCase
         $this->expectException(rex_socket_exception::class);
 
         $method = new ReflectionMethod(rex_socket::class, 'parseUrl');
-        $method->setAccessible(true);
         $method->invoke(null, $url);
     }
 }

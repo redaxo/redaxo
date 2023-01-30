@@ -22,17 +22,17 @@ class rex_effect_mirror extends rex_effect_abstract
         }
 
         $this->params['bg_r'] = (int) $this->params['bg_r'];
-        if (!isset($this->params['bg_r']) || $this->params['bg_r'] > 255 || $this->params['bg_r'] < 0) {
+        if ($this->params['bg_r'] > 255 || $this->params['bg_r'] < 0) {
             $this->params['bg_r'] = 255;
         }
 
         $this->params['bg_g'] = (int) $this->params['bg_g'];
-        if (!isset($this->params['bg_g']) || $this->params['bg_g'] > 255 || $this->params['bg_g'] < 0) {
+        if ($this->params['bg_g'] > 255 || $this->params['bg_g'] < 0) {
             $this->params['bg_g'] = 255;
         }
 
         $this->params['bg_b'] = (int) $this->params['bg_b'];
-        if (!isset($this->params['bg_b']) || $this->params['bg_b'] > 255 || $this->params['bg_b'] < 0) {
+        if ($this->params['bg_b'] > 255 || $this->params['bg_b'] < 0) {
             $this->params['bg_b'] = 255;
         }
 
@@ -81,7 +81,7 @@ class rex_effect_mirror extends rex_effect_abstract
                 'options' => ['colored', 'transparent / png24'],
                 'default' => 'colored',
                 'suffix' => '
-<script type="text/javascript">
+<script type="text/javascript" nonce="' . rex_response::getNonce() . '">
 <!--
 
 (function($) {
@@ -129,7 +129,7 @@ class rex_effect_mirror extends rex_effect_abstract
     }
 
     /**
-     * @return resource
+     * @return GdImage
      */
     private function imagereflection(&$image, $reflectionHeight, $reflectionOpacity, $transparent, $bgColor)
     {

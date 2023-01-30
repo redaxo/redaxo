@@ -253,6 +253,19 @@ class rex_sql_select_test extends TestCase
         static::assertEquals('42S22', $sql->getErrno());
         static::assertEquals(1054, $sql->getMysqlErrno());
         static::assertEquals("Unknown column 'idx' in 'where clause'", $sql->getError());
+
+        $exception = null;
+        rex_sql::closeConnection(); // https://github.com/redaxo/redaxo/pull/5272#discussion_r935793505
+        $sql = rex_sql::factory();
+        try {
+            $sql->setQuery('SELECT * FROM non_existing_table');
+        } catch (rex_sql_exception $exception) {
+        }
+
+        static::assertInstanceOf(rex_sql_exception::class, $exception);
+        static::assertSame($sql, $exception->getSql());
+        static::assertTrue($sql->hasError());
+        static::assertSame(rex_sql::ERRNO_TABLE_OR_VIEW_DOESNT_EXIST, $sql->getErrno());
     }
 
     public function testUnbufferedQuery()
@@ -261,7 +274,6 @@ class rex_sql_select_test extends TestCase
 
         // get DB 1 PDO object
         $property = new ReflectionProperty(rex_sql::class, 'pdo');
-        $property->setAccessible(true);
         /** @var PDO $pdo */
         $pdo = $property->getValue()[1];
 
@@ -277,7 +289,7 @@ class rex_sql_select_test extends TestCase
             $sql->setQuery('SELECT '.self::TABLE, [], [
                 rex_sql::OPT_BUFFERED => false,
             ]);
-        } catch (rex_sql_exception $e) {
+        } catch (rex_sql_exception) {
         }
 
         static::assertEquals(1, $pdo->getAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY));

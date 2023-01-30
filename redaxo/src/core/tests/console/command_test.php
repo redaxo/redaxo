@@ -10,7 +10,6 @@ class rex_console_command_test extends TestCase
     public function testDecodeMessage()
     {
         $method = new ReflectionMethod(rex_console_command::class, 'decodeMessage');
-        $method->setAccessible(true);
 
         $command = $this->getMockForAbstractClass(rex_console_command::class);
 
@@ -20,7 +19,6 @@ class rex_console_command_test extends TestCase
     public function testDecodeMessageSingleQuotes()
     {
         $method = new ReflectionMethod(rex_console_command::class, 'decodeMessage');
-        $method->setAccessible(true);
 
         $command = $this->getMockForAbstractClass(rex_console_command::class);
 

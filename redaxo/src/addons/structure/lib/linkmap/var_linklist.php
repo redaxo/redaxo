@@ -55,7 +55,7 @@ class rex_var_linklist extends rex_var
         $openParams = '&clang=' . rex_clang::getCurrentId() . '&category_id=' . $category;
 
         $options = '';
-        $linklistarray = explode(',', $value);
+        $linklistarray = null === $value ? [] : explode(',', $value);
         foreach ($linklistarray as $link) {
             if ('' == $link) {
                 continue;
@@ -69,7 +69,7 @@ class rex_var_linklist extends rex_var
         $openFunc = '';
         $deleteFunc = '';
         $quotedId = "'".rex_escape($id, 'js')."'";
-        if (rex::getUser()->getComplexPerm('structure')->hasStructurePerm()) {
+        if (rex::requireUser()->getComplexPerm('structure')->hasStructurePerm()) {
             $disabled = '';
             $openFunc = 'openREXLinklist(' . $quotedId . ', \'' . $openParams . '\');';
             $deleteFunc = 'deleteREXLinklist(' . $quotedId . ');';

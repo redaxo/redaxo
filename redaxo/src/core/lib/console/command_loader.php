@@ -10,6 +10,7 @@ use Symfony\Component\Console\Exception\CommandNotFoundException;
  */
 class rex_console_command_loader implements CommandLoaderInterface
 {
+    /** @var array<string, array{class: class-string<rex_console_command>, package?: rex_package}> */
     private $commands = [];
 
     public function __construct()
@@ -46,6 +47,7 @@ class rex_console_command_loader implements CommandLoaderInterface
         }
 
         foreach (rex_package::getAvailablePackages() as $package) {
+            /** @var array<string, class-string<rex_console_command>> $commands */
             $commands = $package->getProperty('console_commands');
 
             if (!$commands) {
@@ -65,7 +67,7 @@ class rex_console_command_loader implements CommandLoaderInterface
         }
     }
 
-    public function get($name)
+    public function get(string $name): rex_console_command
     {
         if (!isset($this->commands[$name])) {
             throw new CommandNotFoundException(sprintf('Command "%s" does not exist.', $name));
@@ -73,7 +75,6 @@ class rex_console_command_loader implements CommandLoaderInterface
 
         $class = $this->commands[$name]['class'];
 
-        /** @var rex_console_command $command */
         $command = new $class();
         $command->setName($name);
 
@@ -84,12 +85,15 @@ class rex_console_command_loader implements CommandLoaderInterface
         return $command;
     }
 
-    public function has($name)
+    public function has(string $name): bool
     {
         return isset($this->commands[$name]);
     }
 
-    public function getNames()
+    /**
+     * @return list<string>
+     */
+    public function getNames(): array
     {
         return array_keys($this->commands);
     }

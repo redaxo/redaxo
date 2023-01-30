@@ -37,6 +37,9 @@ class rex_input_select extends rex_input
         parent::setAttribute($name, $value);
     }
 
+    /**
+     * @return rex_select
+     */
     public function getSelect()
     {
         return $this->select;

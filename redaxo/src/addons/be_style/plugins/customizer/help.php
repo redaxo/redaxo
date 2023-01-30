@@ -4,8 +4,6 @@
  * Page Content Addon.
  *
  * @author thiel[dot]peter[at]googlemail[dot]com Peter Thiel
- *
- * @package redaxo5
  */
 
 ?>

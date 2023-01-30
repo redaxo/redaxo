@@ -5,9 +5,7 @@
  */
 class rex_effect_mediapath extends rex_effect_abstract
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function execute()
     {

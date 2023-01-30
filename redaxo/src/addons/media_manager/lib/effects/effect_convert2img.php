@@ -94,7 +94,7 @@ class rex_effect_convert2img extends rex_effect_abstract
         }
 
         $filename = $this->media->getMediaFilename();
-        $filenameWoExt = substr($filename, 0, (strlen($filename) - strlen($ext)));
+        $filenameWoExt = substr($filename, 0, strlen($filename) - strlen($ext));
 
         $toPath = rex_path::addonCache('media_manager', 'media_manager__convert2img_' . md5($this->media->getMediaPath()) . '_' . $filenameWoExt . $convertTo['ext']);
 
@@ -159,6 +159,9 @@ class rex_effect_convert2img extends rex_effect_abstract
         ];
     }
 
+    /**
+     * @return string
+     */
     private function getConvertPath()
     {
         $path = '';
@@ -169,7 +172,7 @@ class rex_effect_convert2img extends rex_effect_abstract
             exec($cmd, $out, $ret);
 
             if (0 === $ret) {
-                $path = $out[0];
+                $path = (string) $out[0];
             }
         }
         return $path;

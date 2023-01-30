@@ -33,7 +33,7 @@ class rex_release
 
         $this->updateVersions();
 
-        if (false === strpos($this->version, '-')) {
+        if (!str_contains($this->version, '-')) {
             $this->setReleaseDate();
         }
 
@@ -187,7 +187,6 @@ class rex_release
             ->filesOnly()
         ;
 
-        /** @var SplFileInfo $file */
         foreach ($finder as $path => $file) {
             if (!$this->shouldIgnore($path)) {
                 $zip->addFile($path, $base.substr($path, strlen($dir)));
@@ -208,7 +207,7 @@ class rex_release
 
         $subpath = substr($path, strlen(rex_path::base()) - 1);
         foreach ($ignore as $pattern) {
-            if (0 === strpos($subpath, $pattern)) {
+            if (str_starts_with($subpath, $pattern)) {
                 return true;
             }
         }

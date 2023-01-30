@@ -209,7 +209,7 @@ function rex_metainfo_meta_prefix(string $name)
     }
 
     $prefix = substr(strtolower($name), 0, $pos + 1);
-    if (false === $prefix) {
+    if ('' === $prefix) {
         throw new InvalidArgumentException('$name must be like "prefix_name".');
     }
 
@@ -218,6 +218,7 @@ function rex_metainfo_meta_prefix(string $name)
 
 /**
  * Gibt die mit dem Prefix verbundenen Tabellennamen zurück.
+ * @return string|false
  */
 function rex_metainfo_meta_table(string $prefix)
 {
@@ -232,6 +233,7 @@ function rex_metainfo_meta_table(string $prefix)
 
 /**
  * Bindet ggf extensions ein.
+ * @return void
  */
 function rex_metainfo_extensions_handler(rex_extension_point $ep)
 {
@@ -250,8 +252,6 @@ function rex_metainfo_extensions_handler(rex_extension_point $ep)
         require_once __DIR__ . '/../lib/handler/media_handler.php';
     } elseif ('system/lang' == $page) {
         require_once __DIR__ . '/../lib/handler/clang_handler.php';
-    } elseif ('content' == $mainpage) {
-        require_once __DIR__ . '/../extensions/extension_content_sidebar.php';
     } elseif ('backup' == $page) {
         require_once __DIR__ . '/../extensions/extension_cleanup.php';
     }

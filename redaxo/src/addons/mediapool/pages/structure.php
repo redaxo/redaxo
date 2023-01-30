@@ -1,20 +1,16 @@
 <?php
 
-/**
- * @package redaxo5
- */
-
 assert(isset($PERMALL) && is_bool($PERMALL));
 assert(isset($argFields) && is_string($argFields));
 assert(isset($argUrl) && is_array($argUrl));
 
 // defaults for globals passed in from index.php
- if (!isset($success)) {
-     $success = '';
- }
- if (!isset($error)) {
-     $error = '';
- }
+if (!isset($success)) {
+    $success = '';
+}
+if (!isset($error)) {
+    $error = '';
+}
 
 // *************************************** SUBPAGE: KATEGORIEN
 
@@ -47,7 +43,7 @@ if ($PERMALL) {
                     }
                     $success = rex_media_category_service::addCategory(
                         rex_request('catname', 'string'),
-                        $parent
+                        $parent,
                     );
                 }
             }

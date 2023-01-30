@@ -43,6 +43,7 @@ abstract class rex_system_setting
      * Registers a setting object.
      *
      * @param self $setting Setting object
+     * @return void
      */
     public static function register(self $setting)
     {

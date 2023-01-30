@@ -41,7 +41,7 @@ class rex_install_archive
                     return false;
                 }
 
-                if (!is_dir($tempdir . '/' . $basename) || !rename($tempdir . '/' . $basename, $dir)) {
+                if (!is_dir($tempdir.DIRECTORY_SEPARATOR.$basename) || !rename($tempdir.DIRECTORY_SEPARATOR.$basename, $dir.DIRECTORY_SEPARATOR)) {
                     return false;
                 }
 
@@ -58,6 +58,7 @@ class rex_install_archive
 
     /**
      * @param string|string[]|null $exclude
+     * @return void
      */
     public static function copyDirToArchive(string $dir, string $archive, ?string $basename = null, $exclude = null)
     {

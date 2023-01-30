@@ -15,6 +15,7 @@ pool_sync_no_diffs = Kunde inte fastställa några skillnader!
 pool_sync_files_synced = Filerna synkroniserades.
 pool_file_not_found = Filen kunde inte hittas
 pool_file_upload_error = Fel vid filuppladdningen
+pool_file_upload_error_size = Filen överskrider den maximala uppladdningsstorleken {0}!
 pool_file_upload_errortype = Denna fil kan inte användas för filbyte eftersom den är av en annan typ av filformat.
 pool_file_title = Titel
 pool_file_file = Fil

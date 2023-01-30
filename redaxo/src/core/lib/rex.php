@@ -131,15 +131,48 @@ class rex
      * @throws InvalidArgumentException on invalid parameters
      *
      * @return mixed The value for $key or $default if $key cannot be found
+     * @psalm-return (
+     *     $key is 'login' ? rex_backend_login|null :
+     *     ($key is 'debug' ? array{enabled: bool, throw_always_exception: bool|int} :
+     *     ($key is 'lang_fallback' ? string[] :
+     *     ($key is 'use_accesskeys' ? bool :
+     *     ($key is 'accesskeys' ? array<string, string> :
+     *     ($key is 'editor' ? string|null :
+     *     ($key is 'editor_basepath' ? string|null :
+     *     ($key is 'timer' ? rex_timer :
+     *     ($key is 'timezone' ? string :
+     *     ($key is 'table_prefix' ? non-empty-string :
+     *     ($key is 'temp_prefix' ? non-empty-string :
+     *     ($key is 'version' ? string :
+     *     ($key is 'server' ? string :
+     *     ($key is 'servername' ? string :
+     *     ($key is 'error_email' ? string :
+     *     ($key is 'lang' ? non-empty-string :
+     *     ($key is 'instname' ? non-empty-string :
+     *     ($key is 'theme' ? string :
+     *     ($key is 'start_page' ? non-empty-string :
+     *     ($key is 'socket_proxy' ? non-empty-string|null :
+     *     ($key is 'password_policy' ? array<string, scalar> :
+     *     ($key is 'backend_login_policy' ? array<string, bool|int> :
+     *     ($key is 'db' ? array<int, string[]> :
+     *     ($key is 'setup' ? bool|array<string, int> :
+     *     ($key is 'system_addons' ? non-empty-string[] :
+     *     ($key is 'setup_addons' ? non-empty-string[] :
+     *     mixed|null
+     *     )))))))))))))))))))))))))
+     * )
      */
     public static function getProperty($key, $default = null)
     {
+        /** @psalm-suppress TypeDoesNotContainType */
         if (!is_string($key)) {
             throw new InvalidArgumentException('Expecting $key to be string, but ' . gettype($key) . ' given!');
         }
+        /** @psalm-suppress MixedReturnStatement */
         if (isset(self::$properties[$key])) {
             return self::$properties[$key];
         }
+        /** @psalm-suppress MixedReturnStatement */
         return $default;
     }
 
@@ -244,8 +277,8 @@ class rex
     {
         $flags = self::getProperty('debug', []);
 
-        $flags['enabled'] = $flags['enabled'] ?? false;
-        $flags['throw_always_exception'] = $flags['throw_always_exception'] ?? false;
+        $flags['enabled'] ??= false;
+        $flags['throw_always_exception'] ??= false;
 
         return $flags;
     }
@@ -263,7 +296,10 @@ class rex
     /**
      * Returns the table prefix.
      *
-     * @return string
+     * @return non-empty-string
+     *
+     * @phpstandba-inference-placeholder 'rex_'
+     * @psalm-taint-escape sql
      */
     public static function getTablePrefix()
     {
@@ -273,9 +309,9 @@ class rex
     /**
      * Adds the table prefix to the table name.
      *
-     * @param string $table Table name
+     * @param non-empty-string $table Table name
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function getTable($table)
     {
@@ -285,7 +321,7 @@ class rex
     /**
      * Returns the temp prefix.
      *
-     * @return string
+     * @return non-empty-string
      */
     public static function getTempPrefix()
     {
@@ -424,15 +460,16 @@ class rex
 
     /**
      * @deprecated since 5.10, use `rex_version::gitHash` instead
+     * @return non-empty-string|false
      */
-    #[\JetBrains\PhpStorm\Deprecated(reason: 'since 5.10, use `rex_version::gitHash` instead', replacement: 'rex_version::gitHash(!%parametersList%)')]
+    #[\JetBrains\PhpStorm\Deprecated(reason: 'since 5.10, use `rex_version::gitHash` instead', replacement: 'rex_version::gitHash(%parametersList%)')]
     public static function getVersionHash($path, ?string $repo = null)
     {
         return rex_version::gitHash($path, $repo) ?? false;
     }
 
     /**
-     * @return array<string, array{install: bool, status: bool, plugins?: array<string, array{install: bool, status: bool}>}>
+     * @return array<non-empty-string, array{install: bool, status: bool, plugins?: array<string, array{install: bool, status: bool}>}>
      * @psalm-suppress MixedReturnTypeCoercion
      */
     public static function getPackageConfig(): array
@@ -441,7 +478,7 @@ class rex
     }
 
     /**
-     * @return list<string>
+     * @return list<non-empty-string>
      * @psalm-suppress MixedReturnTypeCoercion
      */
     public static function getPackageOrder(): array
@@ -476,7 +513,7 @@ class rex
      */
     public static function getFilePerm()
     {
-        return (int) self::getProperty('fileperm', 0664);
+        return (int) self::getProperty('fileperm', 0o664);
     }
 
     /**
@@ -486,7 +523,7 @@ class rex
      */
     public static function getDirPerm()
     {
-        return (int) self::getProperty('dirperm', 0775);
+        return (int) self::getProperty('dirperm', 0o775);
     }
 
     /**

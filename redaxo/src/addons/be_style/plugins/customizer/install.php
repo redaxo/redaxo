@@ -22,6 +22,13 @@ try {
     $message .= '<br>' . $e->getMessage();
 }
 
+if (!$plugin->hasConfig('codemirror_darktheme')) {
+    $plugin->setConfig('codemirror_darktheme', 'dracula');
+}
+if (!$plugin->hasConfig('codemirror-options')) {
+    $plugin->setConfig('codemirror-options', '');
+}
+
  if ('' != $message) {
      throw new rex_functional_exception($message);
  }

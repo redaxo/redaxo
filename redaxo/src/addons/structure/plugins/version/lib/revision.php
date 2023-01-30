@@ -11,8 +11,8 @@ class rex_article_revision
     /**
      * @param int $articleId
      * @param int $clang
-     * @param int $fromRevisionId
-     * @param int $toRevisionId
+     * @param self::LIVE|self::WORK $fromRevisionId
+     * @param self::LIVE|self::WORK $toRevisionId
      *
      * @return bool
      */
@@ -38,7 +38,7 @@ class rex_article_revision
             $ins->setTable(rex::getTablePrefix() . 'article_slice');
 
             foreach ($cols as $col) {
-                $colname = $col->getValue('Field');
+                $colname = (string) $col->getValue('Field');
                 $ins->setValue($colname, $slice->getValue($colname));
             }
 
@@ -56,7 +56,7 @@ class rex_article_revision
     /**
      * @param int $articleId
      * @param int $clang
-     * @param int $fromRevisionId
+     * @param self::WORK $fromRevisionId
      *
      * @return true
      */
@@ -71,5 +71,26 @@ class rex_article_revision
         $dc->setQuery('delete from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=?', [$articleId, $clang, $fromRevisionId]);
 
         return true;
+    }
+
+    /** @param self::LIVE|self::WORK $revision */
+    public static function setSessionArticleRevision(int $articleId, int $revision): void
+    {
+        $login = rex::getProperty('login');
+        /** @var array<int, self::LIVE|self::WORK>|null $revisions */
+        $revisions = $login->getSessionVar('rex_version_article', []);
+        $revisions = is_array($revisions) ? $revisions : [];
+
+        $revisions[$articleId] = $revision;
+        $login->setSessionVar('rex_version_article', $revisions);
+    }
+
+    /** @return self::LIVE|self::WORK */
+    public static function getSessionArticleRevision(int $articleId): int
+    {
+        /** @var array<int, self::LIVE|self::WORK> $revisions */
+        $revisions = rex::getProperty('login')->getSessionVar('rex_version_article', []);
+
+        return (int) ($revisions[$articleId] ?? self::WORK);
     }
 }

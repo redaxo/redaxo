@@ -30,7 +30,7 @@ final class rex_media_service
             throw new rex_api_exception(rex_i18n::msg('pool_file_upload_error'));
         }
 
-        $data['file']['path'] = $data['file']['path'] ?? $data['file']['tmp_name'] ?? null;
+        $data['file']['path'] ??= $data['file']['tmp_name'] ?? null;
 
         if (empty($data['file']) || empty($data['file']['name']) || empty($data['file']['path'])) {
             throw new rex_api_exception(rex_i18n::msg('pool_file_not_found'));
@@ -67,7 +67,6 @@ final class rex_media_service
         // Sobald ein Addon eine negative Entscheidung getroffen hat, sollten
         // Addons, fuer die der Extension-Point spaeter ausgefuehrt wird, diese
         // Entscheidung respektieren
-        /** @var string|null $errorMessage */
         $errorMessage = null;
         $errorMessage = rex_extension::registerPoint(new rex_extension_point('MEDIA_ADD', $errorMessage, [
             'file' => $data['file'],

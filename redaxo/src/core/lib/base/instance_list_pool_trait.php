@@ -20,6 +20,7 @@ trait rex_instance_list_pool_trait
      *
      * @param mixed $key             Key
      * @param array $instanceKeyList Array of instance keys
+     * @return void
      */
     protected static function addInstanceList($key, array $instanceKeyList)
     {
@@ -81,6 +82,7 @@ trait rex_instance_list_pool_trait
      * Clears the instance list of the given key.
      *
      * @param mixed $key Key
+     * @return void
      */
     public static function clearInstanceList($key)
     {
@@ -90,6 +92,7 @@ trait rex_instance_list_pool_trait
 
     /**
      * Clears the instance list pool.
+     * @return void
      */
     public static function clearInstanceListPool()
     {

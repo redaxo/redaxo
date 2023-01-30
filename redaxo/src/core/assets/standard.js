@@ -201,7 +201,7 @@ function deleteREX(id, i_list, i_select)
         source.options[position] = null;
         sourcelength--;
 
-        // Wenn das erste gel�scht wurde
+        // Wenn das erste geloescht wurde
         if(position == 0)
         {
             // Und es gibt noch weitere,
@@ -448,7 +448,16 @@ jQuery(function($){
     {
         time = new Date();
         time.setTime(time.getTime() + 1000 * 60 * 60 * 24);
-        setCookie('rex_htaccess_check', '1', time.toGMTString(), '', '', false, 'lax');
+
+        setCookie(
+            'rex_htaccess_check',
+            '1',
+            time.toGMTString(),
+            rex.cookie_params.path,
+            rex.cookie_params.domain,
+            rex.cookie_params.secure,
+            rex.cookie_params.samesite.toLowerCase()
+        );
 
         var allowedUrl = 'index.php';
 

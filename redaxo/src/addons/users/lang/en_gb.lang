@@ -40,6 +40,7 @@ create_user_role = Create new role
 add_user_role = Add role
 user_role_save = Save role
 user_role_apply = Apply role changes
+user_role_duplicate = duplicate
 user_role_delete = delete
 user_role_caption = List of all roles
 user_no_role = No roles

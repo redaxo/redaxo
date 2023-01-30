@@ -4,8 +4,6 @@
  * Cronjob Addon - Plugin optimize_tables.
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
- *
- * @package redaxo5
  */
 
 ?>

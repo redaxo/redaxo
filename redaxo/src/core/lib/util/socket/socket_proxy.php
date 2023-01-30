@@ -9,17 +9,11 @@
  */
 class rex_socket_proxy extends rex_socket
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $destinationHost;
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $destinationPort;
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $destinationSsl;
 
     /**
@@ -37,7 +31,7 @@ class rex_socket_proxy extends rex_socket
         $this->destinationPort = $port;
         $this->destinationSsl = $ssl;
 
-        $this->addHeader('Host', $host . ':' . $port);
+        $this->addHeader('Host', $host);
 
         return $this;
     }
@@ -56,9 +50,6 @@ class rex_socket_proxy extends rex_socket
         return $this->setDestination($parts['host'], $parts['port'], $parts['ssl'])->setPath($parts['path']);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function openConnection()
     {
         parent::openConnection();

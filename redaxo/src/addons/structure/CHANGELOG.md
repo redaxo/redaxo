@@ -1,6 +1,39 @@
 Changelog
 =========
 
+Version 2.14.2 – 13.12.2022
+---------------------------
+
+### Bugfixes
+
+* version-Plugin: Über EP `ART_CONTENT_UPDATED` kann nun bei `work_to_live`-Action gesteuert werden, in welcher Version man nach der Aktion im Backend landet (@gharlan)
+
+
+Version 2.14.1 – 02.08.2022
+---------------------------
+
+### Bugfixes
+
+* version-Plugin: Fehler beim Speichern der jeweiligen aktuellen Artikelversionsansicht (Live/Arbeitsversion) in der Session (@gharlan) 
+
+
+Version 2.14.0 – 25.07.2022
+---------------------------
+
+### Neu
+
+* `rex_template`: Neue Methode `getCtypes` die ein Array von neuen `rex_ctype`-Objekten liefert (@staabm)
+* Beim Löschen von Kategorien/Artikeln wird im confirm-Dialog darauf hingewiesen, dass in allen Sprachen gelöscht wird (@gharlan)
+* version-Plugin: 
+    - Voransicht Arbeitsversion: Bei fehlender Backend-Session kommt die Oops-Page mit Erläuterung (statt hartem Fehler mit Logmeldung) (@gharlan)
+    - Nach Kopieren zwischen Live/Arbeitsversion wird in die Zielversion gesprungen (@gharlan)
+
+### Bugfixes
+
+* history-Plugin: Session-Übernahme bei Multidomain korrigiert (@gharlan)
+* Templates-Cache war fälschlich in `cache/addons/templates` statt im `structure`-Cacheordner (@gharlan)
+
+
 Version 2.13.3 – 03.05.2022
 ---------------------------
 

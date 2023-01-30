@@ -12,7 +12,7 @@ interface rex_package_interface
     /**
      * Returns the name of the package.
      *
-     * @return string Name
+     * @return non-empty-string Name
      */
     public function getName();
 
@@ -26,7 +26,7 @@ interface rex_package_interface
     /**
      * Returns the package ID.
      *
-     * @return string|null
+     * @return non-empty-string|null
      */
     public function getPackageId();
 
@@ -41,7 +41,7 @@ interface rex_package_interface
      * Returns the base path.
      *
      * @param string $file File
-     * @return string
+     * @return non-empty-string
      */
     public function getPath($file = '');
 
@@ -49,7 +49,7 @@ interface rex_package_interface
      * Returns the assets path.
      *
      * @param string $file File
-     * @return string
+     * @return non-empty-string
      */
     public function getAssetsPath($file = '');
 
@@ -57,7 +57,7 @@ interface rex_package_interface
      * Returns the assets url.
      *
      * @param string $file File
-     * @return string
+     * @return non-empty-string
      */
     public function getAssetsUrl($file = '');
 
@@ -65,7 +65,7 @@ interface rex_package_interface
      * Returns the data path.
      *
      * @param string $file File
-     * @return string
+     * @return non-empty-string
      */
     public function getDataPath($file = '');
 
@@ -73,12 +73,13 @@ interface rex_package_interface
      * Returns the cache path.
      *
      * @param string $file File
-     * @return string
+     * @return non-empty-string
      */
     public function getCachePath($file = '');
 
     /**
      * @see rex_config::set()
+     * @return bool
      */
     public function setConfig($key, $value = null);
 
@@ -88,31 +89,35 @@ interface rex_package_interface
      * @template T as ?string
      * @psalm-param T $key
      * @psalm-return (T is string ? mixed|null : array<string, mixed>)
+     * @return mixed
      */
     public function getConfig($key = null, $default = null);
 
     /**
      * @see rex_config::has()
+     * @return bool
      */
     public function hasConfig($key = null);
 
     /**
      * @see rex_config::remove()
+     * @return bool
      */
     public function removeConfig($key);
 
     /**
      * Sets a property.
      *
-     * @param string $key   Key of the property
+     * @param non-empty-string $key   Key of the property
      * @param mixed  $value New value for the property
+     * @return void
      */
     public function setProperty($key, $value);
 
     /**
      * Returns a property.
      *
-     * @param string $key     Key of the property
+     * @param non-empty-string $key     Key of the property
      * @param mixed  $default Default value, will be returned if the property isn't set
      *
      * @return mixed
@@ -122,7 +127,7 @@ interface rex_package_interface
     /**
      * Returns if a property is set.
      *
-     * @param string $key Key of the property
+     * @param non-empty-string $key Key of the property
      *
      * @return bool
      */
@@ -131,7 +136,8 @@ interface rex_package_interface
     /**
      * Removes a property.
      *
-     * @param string $key Key of the property
+     * @param non-empty-string $key Key of the property
+     * @return void
      */
     public function removeProperty($key);
 
@@ -186,8 +192,9 @@ interface rex_package_interface
     /**
      * Includes a file in the package context.
      *
-     * @param string $file    Filename
+     * @param non-empty-string $file    Filename
      * @param array  $context Context values, available as variables in given file
+     * @return mixed
      */
     public function includeFile($file, array $context = []);
 
@@ -197,7 +204,7 @@ interface rex_package_interface
      * @param string     $key             Key
      * @param string|int ...$replacements A arbritary number of strings used for interpolating within the resolved messag
      *
-     * @return string Translation for the key
+     * @return non-empty-string Translation for the key
      */
     public function i18n($key, ...$replacements);
 }

@@ -87,12 +87,35 @@
             "pattern": "^0\\d{3}$"
         },
         "session_duration": {
-            "description": "Session duration (seconds)",
+            "description": "A Session will be closed when not activly used for this timespan (seconds)",
             "type": "integer"
         },
         "session_keep_alive": {
-            "description": "Session keep alive (seconds)",
+            "description": "A open browser window will auto extended the session for this timespan (seconds)",
             "type": "integer"
+        },
+        "session_max_overall_duration": {
+            "description": "A session cannot stay longer then this value, no matter its actively used once in a while (seconds)",
+            "type": "integer"
+        },
+        "backend_login_policy": {
+            "description": "backend login policy",
+            "type": "object",
+            "properties": {
+                "login_tries_until_blocked": {
+                    "type": "integer"
+                },
+                "login_tries_until_delay": {
+                    "type": "integer"
+                },
+                "relogin_delay": {
+                    "type": "integer"
+                },
+                "enable_stay_logged_in": {
+                    "type": "boolean"
+                }
+            },
+            "additionalProperties": false
         },
         "session": {
             "description": "Session configuration",

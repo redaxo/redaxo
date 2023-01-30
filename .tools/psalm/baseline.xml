@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.23.0@f1fe6ff483bf325c803df9f510d09a03fd796f88">
+<files psalm-version="5.4.0@62db5d4f6a7ae0a20f7cc5a4952d730272fc0863">
   <file src="redaxo/src/addons/backup/lib/backup.php">
+    <LessSpecificReturnStatement occurrences="1">
+      <code>$tables</code>
+    </LessSpecificReturnStatement>
     <MixedArgument occurrences="5">
       <code>$column</code>
       <code>$column</code>
@@ -23,10 +26,9 @@
       <code>$column</code>
       <code>$column</code>
     </MixedOperand>
-    <MixedReturnTypeCoercion occurrences="2">
-      <code>$tables</code>
+    <MoreSpecificReturnType occurrences="1">
       <code>list&lt;string&gt;</code>
-    </MixedReturnTypeCoercion>
+    </MoreSpecificReturnType>
     <UnusedParam occurrences="2">
       <code>$eventType</code>
       <code>$importType</code>
@@ -34,12 +36,13 @@
   </file>
   <file src="redaxo/src/addons/backup/lib/cronjob.php">
     <MixedArgument occurrences="4">
+      <code>$excludedTables</code>
       <code>$filename</code>
       <code>$this-&gt;getParam('delete_interval')</code>
-      <code>$this-&gt;getParam('exclude_tables')</code>
       <code>$this-&gt;getParam('mailaddress')</code>
     </MixedArgument>
-    <MixedAssignment occurrences="1">
+    <MixedAssignment occurrences="2">
+      <code>$excludedTables</code>
       <code>$filename</code>
     </MixedAssignment>
   </file>
@@ -61,28 +64,32 @@
     </NullOperand>
   </file>
   <file src="redaxo/src/addons/backup/pages/import.server.php">
+    <InvalidArrayAccess occurrences="2">
+      <code>$_FILES['FORM']['size']['importfile']</code>
+      <code>$_FILES['FORM']['size']['importfile']</code>
+    </InvalidArrayAccess>
+    <InvalidArrayOffset occurrences="2">
+      <code>$_FILES['FORM']['tmp_name']['importfile']</code>
+      <code>$_FILES['FORM']['tmp_name']['importfile']</code>
+    </InvalidArrayOffset>
     <MixedArgument occurrences="2">
       <code>$_FILES['FORM']['tmp_name']['importfile']</code>
       <code>$_FILES['FORM']['tmp_name']['importfile']</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="4">
-      <code>$_FILES['FORM']['size']</code>
-      <code>$_FILES['FORM']['size']</code>
-      <code>$_FILES['FORM']['tmp_name']</code>
-      <code>$_FILES['FORM']['tmp_name']</code>
-    </MixedArrayAccess>
   </file>
   <file src="redaxo/src/addons/backup/pages/import.upload.php">
+    <InvalidArrayAccess occurrences="2">
+      <code>$_FILES['FORM']['size']['importfile']</code>
+      <code>$_FILES['FORM']['size']['importfile']</code>
+    </InvalidArrayAccess>
+    <InvalidArrayOffset occurrences="2">
+      <code>$_FILES['FORM']['tmp_name']['importfile']</code>
+      <code>$_FILES['FORM']['tmp_name']['importfile']</code>
+    </InvalidArrayOffset>
     <MixedArgument occurrences="2">
       <code>$_FILES['FORM']['tmp_name']['importfile']</code>
       <code>$_FILES['FORM']['tmp_name']['importfile']</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="4">
-      <code>$_FILES['FORM']['size']</code>
-      <code>$_FILES['FORM']['size']</code>
-      <code>$_FILES['FORM']['tmp_name']</code>
-      <code>$_FILES['FORM']['tmp_name']</code>
-    </MixedArrayAccess>
   </file>
   <file src="redaxo/src/addons/be_style/boot.php">
     <MixedArrayAssignment occurrences="1">
@@ -93,44 +100,19 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/be_style/lib/scss_compiler.php">
-    <MixedArgument occurrences="4">
-      <code>$scssFile</code>
-      <code>$this-&gt;css_file</code>
-      <code>$this-&gt;formatter</code>
-      <code>$this-&gt;scss_file</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="2">
-      <code>$rootDir</code>
-      <code>$scssFile</code>
-    </MixedAssignment>
     <MixedOperand occurrences="1">
-      <code>$rootDir</code>
+      <code>$path</code>
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/be_style/plugins/customizer/boot.php">
-    <MixedOperand occurrences="4">
+    <MixedOperand occurrences="2">
       <code>$_SESSION['codemirror_reload']</code>
       <code>$_SESSION['codemirror_reload']</code>
-      <code>$config['codemirror-selectors']</code>
-      <code>$config['codemirror_theme']</code>
     </MixedOperand>
     <PossiblyNullOperand occurrences="2">
       <code>rex_file::get($filename)</code>
       <code>rex_file::get($filename)</code>
     </PossiblyNullOperand>
-  </file>
-  <file src="redaxo/src/addons/be_style/plugins/customizer/pages/system.customizer.php">
-    <MixedArgument occurrences="5">
-      <code>$config['codemirror-selectors']</code>
-      <code>$config['labelcolor']</code>
-      <code>$config['labelcolor']</code>
-      <code>$labelcolor</code>
-      <code>$newConfig['codemirror_theme']</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="2">
-      <code>$labelcolor</code>
-      <code>$tempConfig['codemirror-selectors']</code>
-    </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/be_style/plugins/redaxo/boot.php">
     <MixedArgument occurrences="1">
@@ -174,25 +156,12 @@
       <code>$name</code>
       <code>$nexttime</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="1">
-      <code>execute</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="1">
-      <code>$this-&gt;executeSingleJob($io, $job)</code>
-    </MixedReturnStatement>
-  </file>
-  <file src="redaxo/src/addons/cronjob/lib/cronjob.php">
-    <MixedArgument occurrences="2">
-      <code>$key</code>
-      <code>$key</code>
-    </MixedArgument>
   </file>
   <file src="redaxo/src/addons/cronjob/lib/form.php">
-    <MixedArgument occurrences="6">
+    <MixedArgument occurrences="5">
       <code>$attributes</code>
       <code>$high</code>
       <code>$low</code>
-      <code>$name</code>
       <code>$step</code>
       <code>$value[$key]</code>
     </MixedArgument>
@@ -236,9 +205,6 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/cronjob/lib/manager.php">
-    <MixedArgument occurrences="1">
-      <code>$cronjob</code>
-    </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="1">
       <code>$key</code>
     </MixedArgumentTypeCoercion>
@@ -247,29 +213,28 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/cronjob/lib/manager_sql.php">
-    <InvalidArgument occurrences="1">
+    <ArgumentTypeCoercion occurrences="1">
       <code>$jobs[0]</code>
-    </InvalidArgument>
-    <InvalidReturnStatement occurrences="1">
+    </ArgumentTypeCoercion>
+    <LessSpecificReturnStatement occurrences="1">
       <code>$this-&gt;sql-&gt;getValue('name')</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>string</code>
-    </InvalidReturnType>
-    <MixedArgument occurrences="11">
+    </LessSpecificReturnStatement>
+    <MixedArgument occurrences="13">
       <code>$job</code>
       <code>$job['id']</code>
       <code>$job['id']</code>
       <code>$job['id']</code>
       <code>$job['interval']</code>
+      <code>$job['name']</code>
       <code>$job['type']</code>
       <code>$jobs[0]</code>
+      <code>$jobs[0]['name']</code>
       <code>$params</code>
       <code>$status</code>
       <code>$value</code>
       <code>json_decode($interval, true)</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="7">
+    <MixedArrayAccess occurrences="9">
       <code>$job['id']</code>
       <code>$job['id']</code>
       <code>$job['id']</code>
@@ -277,11 +242,15 @@
       <code>$job['type']</code>
       <code>$jobs[0]</code>
       <code>$jobs[0]</code>
+      <code>$jobs[0]['execution_moment']</code>
+      <code>$jobs[0]['name']</code>
     </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="3">
+    <MixedArrayAssignment occurrences="5">
       <code>$job['started']</code>
       <code>$jobs[0]</code>
       <code>$jobs[0]</code>
+      <code>$jobs[0]['finished']</code>
+      <code>$jobs[0]['started']</code>
     </MixedArrayAssignment>
     <MixedAssignment occurrences="4">
       <code>$job</code>
@@ -289,6 +258,9 @@
       <code>$job</code>
       <code>$params</code>
     </MixedAssignment>
+    <MoreSpecificReturnType occurrences="1">
+      <code>string</code>
+    </MoreSpecificReturnType>
     <NullableReturnStatement occurrences="1">
       <code>$this-&gt;sql-&gt;getValue('name')</code>
     </NullableReturnStatement>
@@ -318,22 +290,29 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/cronjob/pages/cronjobs.php">
-    <MixedArgument occurrences="15">
-      <code>$attributes</code>
-      <code>$attributes</code>
-      <code>$attributes</code>
+    <ArgumentTypeCoercion occurrences="6">
       <code>$list-&gt;getValue('environment')</code>
       <code>$list-&gt;getValue('type')</code>
       <code>$list-&gt;getValue('type')</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+    </ArgumentTypeCoercion>
+    <MixedArgument occurrences="14">
+      <code>$attributes</code>
+      <code>$attributes</code>
+      <code>$attributes</code>
+      <code>$label</code>
+      <code>$label</code>
+      <code>$param['notice']</code>
+      <code>$param['notice']</code>
+      <code>$param['notice']</code>
       <code>$param['options']</code>
       <code>$param['options']</code>
       <code>$param['type']</code>
       <code>$type</code>
       <code>$type</code>
       <code>$type</code>
-      <code>$value</code>
-      <code>$value</code>
-      <code>$value</code>
     </MixedArgument>
     <MixedArrayAccess occurrences="12">
       <code>$param['attributes']</code>
@@ -354,7 +333,7 @@
       <code>$visible[$key][$value]</code>
       <code>$visible[$key][$value]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="8">
+    <MixedAssignment occurrences="7">
       <code>$attributes</code>
       <code>$label</code>
       <code>$param</code>
@@ -362,14 +341,22 @@
       <code>$value</code>
       <code>$value</code>
       <code>$value</code>
-      <code>$value</code>
     </MixedAssignment>
     <MixedOperand occurrences="1">
       <code>$param['name']</code>
     </MixedOperand>
-    <PossiblyNullArgument occurrences="2">
+    <PossiblyInvalidArgument occurrences="1">
+      <code>$activeType</code>
+    </PossiblyInvalidArgument>
+    <PossiblyNullArgument occurrences="8">
       <code>$activeType</code>
       <code>$field-&gt;getValue()</code>
+      <code>$list-&gt;getValue('environment')</code>
+      <code>$list-&gt;getValue('type')</code>
+      <code>$list-&gt;getValue('type')</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
     </PossiblyNullArgument>
     <PossiblyNullOperand occurrences="4">
       <code>$envFieldId</code>
@@ -386,74 +373,13 @@
       <code>$from['before']</code>
       <code>$to['before']</code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="26">
-      <code>$config['from']</code>
-      <code>$config['to']</code>
-      <code>$from['after']</code>
-      <code>$from['before']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$to['after']</code>
-      <code>$to['before']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="2">
-      <code>$from['before']</code>
-      <code>$to['before']</code>
-    </MixedArrayAssignment>
-    <MixedAssignment occurrences="6">
-      <code>$config</code>
-      <code>$field</code>
-      <code>$from</code>
+    <MixedAssignment occurrences="2">
       <code>$status</code>
       <code>$status</code>
-      <code>$to</code>
     </MixedAssignment>
-    <MixedOperand occurrences="18">
-      <code>$field</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$from['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-      <code>$to['field']</code>
-    </MixedOperand>
     <PossiblyNullOperand occurrences="1">
       <code>$rows</code>
     </PossiblyNullOperand>
-  </file>
-  <file src="redaxo/src/addons/cronjob/plugins/optimize_tables/lib/cronjob.php">
-    <MixedArgument occurrences="1">
-      <code>$tables</code>
-    </MixedArgument>
   </file>
   <file src="redaxo/src/addons/debug/boot.php">
     <MixedArgument occurrences="2">
@@ -509,14 +435,10 @@
       <code>$req-&gt;databaseUpdates</code>
       <code>rex_debug_clockwork::getInstance()-&gt;getRequest()-&gt;id</code>
     </MixedPropertyFetch>
-    <PossiblyNullReference occurrences="1">
-      <code>isAdmin</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/addons/debug/lib/api_debug.php">
-    <PossiblyNullReference occurrences="1">
-      <code>isAdmin</code>
-    </PossiblyNullReference>
+    <PossiblyUndefinedArrayOffset occurrences="2">
+      <code>$_SERVER['REQUEST_URI']</code>
+      <code>$_SERVER['REQUEST_URI']</code>
+    </PossiblyUndefinedArrayOffset>
   </file>
   <file src="redaxo/src/addons/debug/lib/debug.php">
     <PossiblyUndefinedArrayOffset occurrences="1">
@@ -524,16 +446,8 @@
     </PossiblyUndefinedArrayOffset>
   </file>
   <file src="redaxo/src/addons/debug/lib/debug_clockwork.php">
-    <MixedArgument occurrences="3">
-      <code>$_SERVER['REQUEST_URI']</code>
-      <code>$storagePath</code>
-      <code>$storagePath</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="5">
+    <MixedAssignment occurrences="2">
       <code>$clockwork</code>
-      <code>$host</code>
-      <code>$port</code>
-      <code>$storagePath</code>
       <code>self::$instance</code>
     </MixedAssignment>
     <MixedInferredReturnType occurrences="1">
@@ -542,6 +456,10 @@
     <MixedReturnStatement occurrences="1">
       <code>self::getHelper()-&gt;getClockwork()</code>
     </MixedReturnStatement>
+    <PossiblyUndefinedArrayOffset occurrences="2">
+      <code>$_SERVER['HTTP_HOST']</code>
+      <code>$_SERVER['REQUEST_URI']</code>
+    </PossiblyUndefinedArrayOffset>
   </file>
   <file src="redaxo/src/addons/debug/lib/extensions/api_function_debug.php">
     <PossiblyNullArgument occurrences="1">
@@ -549,33 +467,19 @@
     </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/debug/lib/extensions/extension_debug.php">
-    <MixedArgument occurrences="2">
-      <code>self::$extensionPoints</code>
-      <code>self::$extensions</code>
-    </MixedArgument>
-    <MixedArrayAccess occurrences="2">
-      <code>self::$listeners[$ep]</code>
-      <code>self::$listeners[$extensionPoint-&gt;getName()]</code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="3">
-      <code>self::$extensionPoints[]</code>
-      <code>self::$extensions[]</code>
-      <code>self::$listeners[$ep]</code>
+    <MixedArrayAssignment occurrences="1">
+      <code>self::$listeners[$ep][]</code>
     </MixedArrayAssignment>
-    <MixedAssignment occurrences="1">
+    <MixedAssignment occurrences="2">
       <code>$data['listeners']</code>
+      <code>$res</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="2">
-      <code>array</code>
-      <code>array</code>
-    </MixedInferredReturnType>
     <MixedOperand occurrences="2">
       <code>$trace['file']</code>
       <code>$trace['line']</code>
     </MixedOperand>
-    <MixedReturnStatement occurrences="2">
-      <code>self::$extensionPoints</code>
-      <code>self::$extensions</code>
+    <MixedReturnStatement occurrences="1">
+      <code>$res</code>
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/debug/lib/extensions/logger_debug.php">
@@ -588,9 +492,6 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/debug/lib/extensions/sql_debug.php">
-    <MixedAssignment occurrences="1">
-      <code>$qry</code>
-    </MixedAssignment>
     <MixedMethodCall occurrences="2">
       <code>addDatabaseQuery</code>
       <code>addDatabaseQuery</code>
@@ -606,24 +507,24 @@
       <code>$plugin-&gt;getProperty('requires', [])</code>
       <code>$plugin-&gt;getProperty('version')</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="3">
+    <MixedArgumentTypeCoercion occurrences="1">
       <code>$addonkey</code>
-      <code>$manager</code>
-      <code>$manager</code>
     </MixedArgumentTypeCoercion>
     <MixedArrayAccess occurrences="3">
       <code>$config['conflicts']</code>
       <code>$config['requires']</code>
       <code>$config['version']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="9">
+    <MixedAssignment occurrences="11">
       <code>$config</code>
       <code>$conflicts[$addon]</code>
       <code>$conflicts[$plugin]</code>
       <code>$key</code>
+      <code>$key</code>
       <code>$msg</code>
       <code>$requirements[$addon]</code>
       <code>$requirements[$plugin]</code>
+      <code>$value</code>
       <code>$value</code>
       <code>$versions[$plugin]</code>
     </MixedAssignment>
@@ -631,52 +532,39 @@
       <code>array&lt;int, array{version: string, description: string, path: string, checksum: string}&gt;</code>
       <code>rex_install_webservice::getJson('core')</code>
     </MixedReturnTypeCoercion>
-    <PossiblyNullReference occurrences="1">
-      <code>isAdmin</code>
-    </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/install/lib/api/api_package_add.php">
-    <PossiblyNullReference occurrences="1">
-      <code>isAdmin</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/addons/install/lib/api/api_package_delete.php">
-    <PossiblyNullReference occurrences="1">
-      <code>isAdmin</code>
-    </PossiblyNullReference>
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$addonkey</code>
+    </ArgumentTypeCoercion>
   </file>
   <file src="redaxo/src/addons/install/lib/api/api_package_update.php">
-    <PossiblyNullReference occurrences="1">
-      <code>isAdmin</code>
-    </PossiblyNullReference>
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$addonkey</code>
+    </ArgumentTypeCoercion>
   </file>
   <file src="redaxo/src/addons/install/lib/api/api_package_upload.php">
-    <PossiblyNullReference occurrences="1">
-      <code>isAdmin</code>
-    </PossiblyNullReference>
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$addonkey</code>
+    </ArgumentTypeCoercion>
   </file>
   <file src="redaxo/src/addons/install/lib/command/download.php">
-    <MixedArgument occurrences="2">
-      <code>$version</code>
-      <code>$version</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="1">
-      <code>$version</code>
-    </MixedAssignment>
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$addonKey</code>
+    </ArgumentTypeCoercion>
   </file>
   <file src="redaxo/src/addons/install/lib/command/update.php">
-    <MixedArgument occurrences="2">
-      <code>$version</code>
-      <code>$version</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="1">
-      <code>$version</code>
-    </MixedAssignment>
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$addonKey</code>
+    </ArgumentTypeCoercion>
   </file>
   <file src="redaxo/src/addons/install/lib/package/package_download.php">
     <MixedArgument occurrences="1">
       <code>$dir</code>
     </MixedArgument>
+    <PropertyTypeCoercion occurrences="1">
+      <code>rex_path::basename($addonkey)</code>
+    </PropertyTypeCoercion>
   </file>
   <file src="redaxo/src/addons/install/lib/package/package_update.php">
     <MixedArgument occurrences="5">
@@ -686,10 +574,6 @@
       <code>$this-&gt;addon-&gt;getProperty('conflicts', [])</code>
       <code>$this-&gt;addon-&gt;getProperty('requires', [])</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="2">
-      <code>$manager</code>
-      <code>$manager</code>
-    </MixedArgumentTypeCoercion>
     <MixedArrayAccess occurrences="3">
       <code>$config['conflicts']</code>
       <code>$config['requires']</code>
@@ -704,6 +588,20 @@
       <code>$value</code>
       <code>$versions[$plugin]</code>
     </MixedAssignment>
+  </file>
+  <file src="redaxo/src/addons/install/lib/packages.php">
+    <LessSpecificReturnStatement occurrences="2">
+      <code>self::$addPackages</code>
+      <code>self::$updatePackages</code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType occurrences="2">
+      <code>array&lt;string, array{name: string, author: string, shortdescription: string, description: string, website: string, created: string, updated: string, files: array&lt;int, array{version: string, description: string, path: string, checksum: string, created: string, updated: string}&gt;}&gt;</code>
+      <code>array&lt;string, array{name: string, author: string, shortdescription: string, description: string, website: string, created: string, updated: string, files: array&lt;int, array{version: string, description: string, path: string, checksum: string, created: string, updated: string}&gt;}&gt;</code>
+    </MoreSpecificReturnType>
+    <PropertyTypeCoercion occurrences="2">
+      <code>self::getPackages()</code>
+      <code>self::getPackages()</code>
+    </PropertyTypeCoercion>
   </file>
   <file src="redaxo/src/addons/install/lib/webservice.php">
     <MixedArgument occurrences="2">
@@ -721,6 +619,9 @@
       <code>$data['error']</code>
       <code>$data['error']</code>
     </MixedOperand>
+    <RedundantCast occurrences="1">
+      <code>(array) rex_file::getCache(rex_path::addonCache('install', 'webservice.cache'))</code>
+    </RedundantCast>
   </file>
   <file src="redaxo/src/addons/install/pages/packages.add.php">
     <MixedArgument occurrences="4">
@@ -767,22 +668,12 @@
       <code>rex_escape($config['api_login'])</code>
     </NullOperand>
   </file>
-  <file src="redaxo/src/addons/media_manager/boot.php">
-    <MixedArgumentTypeCoercion occurrences="3">
-      <code>[rex_media_manager::class, 'init']</code>
-      <code>[rex_media_manager::class, 'mediaUpdated']</code>
-      <code>[rex_media_manager::class, 'mediaUpdated']</code>
-    </MixedArgumentTypeCoercion>
-  </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_convert2img.php">
-    <MixedAssignment occurrences="3">
+    <MixedAssignment occurrences="1">
       <code>$color</code>
-      <code>$convertPath</code>
-      <code>$path</code>
     </MixedAssignment>
-    <MixedOperand occurrences="2">
+    <MixedOperand occurrences="1">
       <code>$color</code>
-      <code>$convertPath</code>
     </MixedOperand>
     <PossiblyNullArgument occurrences="2">
       <code>$this-&gt;media-&gt;getMediaPath()</code>
@@ -812,14 +703,16 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_filter_blur.php">
+    <MixedArgument occurrences="1">
+      <code>$options[$this-&gt;params['type']]</code>
+    </MixedArgument>
     <MixedArrayOffset occurrences="1">
       <code>$options[$this-&gt;params['type']]</code>
     </MixedArrayOffset>
-  </file>
-  <file src="redaxo/src/addons/media_manager/lib/effects/effect_filter_brightness.php">
-    <MixedArgument occurrences="1">
-      <code>$this-&gt;params['brightness']</code>
-    </MixedArgument>
+    <PossiblyUndefinedArrayOffset occurrences="2">
+      <code>$this-&gt;params['smoothit']</code>
+      <code>$this-&gt;params['type']</code>
+    </PossiblyUndefinedArrayOffset>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_filter_colorize.php">
     <MixedArgument occurrences="3">
@@ -833,35 +726,11 @@
       <code>$TabColors['red']</code>
     </MixedOperand>
   </file>
-  <file src="redaxo/src/addons/media_manager/lib/effects/effect_filter_contrast.php">
-    <MixedArgument occurrences="1">
-      <code>$this-&gt;params['contrast']</code>
-    </MixedArgument>
-  </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_filter_sharpen.php">
-    <MixedArgument occurrences="1">
+    <PossiblyUndefinedArrayOffset occurrences="2">
       <code>$this-&gt;params['radius']</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="7">
-      <code>$bNew</code>
-      <code>$bNew</code>
-      <code>$gNew</code>
-      <code>$gNew</code>
-      <code>$rNew</code>
-      <code>$rNew</code>
-      <code>$rgbNew</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="9">
-      <code>$gNew</code>
-      <code>$rNew</code>
-      <code>$this-&gt;params['amount']</code>
-      <code>$this-&gt;params['amount']</code>
-      <code>$this-&gt;params['amount']</code>
-      <code>$this-&gt;params['amount']</code>
-      <code>$this-&gt;params['amount']</code>
-      <code>$this-&gt;params['amount']</code>
-      <code>($rNew &lt;&lt; 16) + ($gNew &lt;&lt; 8)</code>
-    </MixedOperand>
+      <code>$this-&gt;params['threshold']</code>
+    </PossiblyUndefinedArrayOffset>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_header.php">
     <MixedArgument occurrences="1">
@@ -924,27 +793,32 @@
       <code>$destHeight</code>
       <code>$transparency</code>
     </MixedAssignment>
-    <MixedOperand occurrences="6">
+    <MixedOperand occurrences="7">
       <code>$alphaStep</code>
       <code>$reflectionHeight</code>
       <code>$reflectionHeight</code>
       <code>$reflectionOpacity</code>
+      <code>$reflectionOpacity / 100</code>
       <code>$transparency</code>
       <code>$y * $alphaStep</code>
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_resize.php">
-    <MixedArgument occurrences="18">
-      <code>$height / $imgFactor</code>
-      <code>$height / $imgFactor</code>
+    <InvalidScalarArgument occurrences="4">
       <code>$this-&gt;params['height']</code>
       <code>$this-&gt;params['height']</code>
-      <code>$this-&gt;params['height']</code>
-      <code>$this-&gt;params['height']</code>
-      <code>$this-&gt;params['height']</code>
-      <code>$this-&gt;params['height'] / $height * $width</code>
-      <code>$this-&gt;params['height'] / $height * $width</code>
       <code>$this-&gt;params['width']</code>
+      <code>$this-&gt;params['width']</code>
+    </InvalidScalarArgument>
+    <MixedArgument occurrences="16">
+      <code>$height / $imgFactor</code>
+      <code>$height / $imgFactor</code>
+      <code>$this-&gt;params['height']</code>
+      <code>$this-&gt;params['height']</code>
+      <code>$this-&gt;params['height']</code>
+      <code>$this-&gt;params['height']</code>
+      <code>$this-&gt;params['height'] / $height * $width</code>
+      <code>$this-&gt;params['height'] / $height * $width</code>
       <code>$this-&gt;params['width']</code>
       <code>$this-&gt;params['width']</code>
       <code>$this-&gt;params['width']</code>
@@ -982,6 +856,11 @@
       <code>$width</code>
       <code>$width</code>
     </MixedOperand>
+    <PossiblyUndefinedArrayOffset occurrences="3">
+      <code>$this-&gt;params['height']</code>
+      <code>$this-&gt;params['width']</code>
+      <code>$this-&gt;params['width']</code>
+    </PossiblyUndefinedArrayOffset>
   </file>
   <file src="redaxo/src/addons/media_manager/lib/effects/effect_rotate.php">
     <MixedArgument occurrences="1">
@@ -995,9 +874,6 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/media_manager/pages/effects.php">
-    <MixedArgument occurrences="1">
-      <code>$warning</code>
-    </MixedArgument>
     <MixedArrayAccess occurrences="1">
       <code>$params['value']</code>
     </MixedArrayAccess>
@@ -1005,10 +881,12 @@
       <code>$effects[$shortName]</code>
       <code>$effects[$shortName]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="2">
+    <MixedAssignment occurrences="1">
       <code>$shortName</code>
-      <code>$warning</code>
     </MixedAssignment>
+    <PossiblyNullArgument occurrences="1">
+      <code>$warning</code>
+    </PossiblyNullArgument>
     <PossiblyNullOperand occurrences="1">
       <code>$field-&gt;getAttribute('id')</code>
     </PossiblyNullOperand>
@@ -1024,16 +902,11 @@
     </NullOperand>
   </file>
   <file src="redaxo/src/addons/media_manager/pages/types.php">
-    <MixedArgument occurrences="1">
-      <code>$error</code>
-    </MixedArgument>
     <MixedArrayAssignment occurrences="1">
       <code>$controlFields['delete']</code>
     </MixedArrayAssignment>
-    <MixedAssignment occurrences="5">
+    <MixedAssignment occurrences="3">
       <code>$controlFields</code>
-      <code>$error</code>
-      <code>$error</code>
       <code>$form</code>
       <code>$sql</code>
     </MixedAssignment>
@@ -1042,14 +915,13 @@
       <code>getSql</code>
       <code>getValue</code>
     </MixedMethodCall>
-    <MixedOperand occurrences="2">
+    <NullOperand occurrences="2">
       <code>rex_escape($list-&gt;getValue('description'))</code>
       <code>rex_escape($list-&gt;getValue('name'))</code>
-    </MixedOperand>
-    <PossiblyNullReference occurrences="2">
-      <code>getLogin</code>
-      <code>getLogin</code>
-    </PossiblyNullReference>
+    </NullOperand>
+    <PossiblyNullArgument occurrences="1">
+      <code>$error</code>
+    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/media_manager/tests/media_manager_test.php">
     <MixedArgument occurrences="3">
@@ -1069,6 +941,9 @@
     <ArgumentTypeCoercion occurrences="1">
       <code>$data</code>
     </ArgumentTypeCoercion>
+    <InvalidArgument occurrences="1">
+      <code>$data</code>
+    </InvalidArgument>
     <MixedArgument occurrences="5">
       <code>$FILEINFOS['filename']</code>
       <code>$FILE['name']</code>
@@ -1076,8 +951,7 @@
       <code>$info</code>
       <code>$warning</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="3">
-      <code>$data</code>
+    <MixedArgumentTypeCoercion occurrences="2">
       <code>$info</code>
       <code>$warning</code>
     </MixedArgumentTypeCoercion>
@@ -1091,9 +965,6 @@
       <code>rex_escape($argValue)</code>
       <code>rex_escape($ftitle)</code>
     </MixedOperand>
-    <PossiblyNullReference occurrences="1">
-      <code>getComplexPerm</code>
-    </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/mediapool/lib/form_element/media.php">
     <MixedArgument occurrences="2">
@@ -1130,20 +1001,17 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/mediapool/lib/media.php">
-    <MixedArgument occurrences="6">
+    <MixedArgument occurrences="3">
       <code>$filename</code>
       <code>$name</code>
-      <code>$this-&gt;getValue('med_description')</code>
       <code>$this-&gt;name</code>
-      <code>self::getDocTypes()</code>
-      <code>self::getImageTypes()</code>
     </MixedArgument>
     <MixedAssignment occurrences="3">
       <code>$name</code>
       <code>$value</code>
       <code>$value</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="13">
+    <MixedInferredReturnType occurrences="16">
       <code>int</code>
       <code>int</code>
       <code>int</code>
@@ -1151,12 +1019,15 @@
       <code>int</code>
       <code>int</code>
       <code>int</code>
+      <code>list&lt;string&gt;</code>
+      <code>list&lt;string&gt;</code>
       <code>string</code>
       <code>string</code>
       <code>string</code>
       <code>string</code>
       <code>string</code>
       <code>string</code>
+      <code>string|int|null</code>
     </MixedInferredReturnType>
     <MixedOperand occurrences="6">
       <code>$name</code>
@@ -1166,7 +1037,8 @@
       <code>$value</code>
       <code>$value</code>
     </MixedOperand>
-    <MixedReturnStatement occurrences="13">
+    <MixedReturnStatement occurrences="16">
+      <code>$this-&gt;$value</code>
       <code>$this-&gt;category_id</code>
       <code>$this-&gt;createdate</code>
       <code>$this-&gt;createuser</code>
@@ -1180,7 +1052,12 @@
       <code>$this-&gt;updatedate</code>
       <code>$this-&gt;updateuser</code>
       <code>$this-&gt;width</code>
+      <code>rex_addon::get('mediapool')-&gt;getProperty('allowed_doctypes')</code>
+      <code>rex_addon::get('mediapool')-&gt;getProperty('image_extensions')</code>
     </MixedReturnStatement>
+    <PossiblyNullArgument occurrences="1">
+      <code>$this-&gt;getValue('med_description')</code>
+    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/mediapool/lib/media_category.php">
     <MixedArgument occurrences="5">
@@ -1220,9 +1097,6 @@
     <MixedAssignment occurrences="1">
       <code>$this-&gt;checkPerms</code>
     </MixedAssignment>
-    <PossiblyNullReference occurrences="1">
-      <code>getComplexPerm</code>
-    </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/mediapool/lib/mediapool.php">
     <MixedArgument occurrences="2">
@@ -1247,10 +1121,11 @@
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/mediapool/lib/service_media.php">
-    <MixedArgument occurrences="7">
+    <MixedArgument occurrences="8">
       <code>$data['file']['type']</code>
       <code>$data['height']</code>
       <code>$data['width']</code>
+      <code>$errorMessage</code>
       <code>$jpgExtensions</code>
       <code>$jpgExtensions</code>
       <code>$size[0]</code>
@@ -1260,10 +1135,11 @@
       <code>$allowedExtensions</code>
       <code>rex_mediapool::getBlockedExtensions()</code>
     </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="4">
+    <MixedAssignment occurrences="5">
       <code>$data['file']['type']</code>
       <code>$data['height']</code>
       <code>$data['width']</code>
+      <code>$errorMessage</code>
       <code>$return['type']</code>
     </MixedAssignment>
     <PossiblyNullOperand occurrences="1">
@@ -1278,6 +1154,9 @@
     <MixedAssignment occurrences="1">
       <code>$catName</code>
     </MixedAssignment>
+    <NoValue occurrences="1">
+      <code>$warning</code>
+    </NoValue>
   </file>
   <file src="redaxo/src/addons/mediapool/lib/var_media.php">
     <MixedArgument occurrences="4">
@@ -1300,9 +1179,6 @@
       <code>$name</code>
       <code>$value</code>
     </MixedOperand>
-    <PossiblyNullReference occurrences="1">
-      <code>getComplexPerm</code>
-    </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/mediapool/lib/var_medialist.php">
     <MixedArgument occurrences="3">
@@ -1321,9 +1197,6 @@
       <code>$name</code>
       <code>$value</code>
     </MixedOperand>
-    <PossiblyNullReference occurrences="1">
-      <code>getComplexPerm</code>
-    </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/mediapool/pages/index.php">
     <MixedAssignment occurrences="1">
@@ -1332,11 +1205,11 @@
     <MixedOperand occurrences="1">
       <code>rex_escape($argValue)</code>
     </MixedOperand>
-    <PossiblyNullReference occurrences="2">
-      <code>getComplexPerm</code>
+    <PossiblyNullReference occurrences="1">
       <code>getSubpages</code>
     </PossiblyNullReference>
-    <UnusedVariable occurrences="4">
+    <UnusedVariable occurrences="5">
+      <code>$ftitle</code>
       <code>$func</code>
       <code>$openerId</code>
       <code>$openerId</code>
@@ -1363,13 +1236,6 @@
     <PossiblyNullOperand occurrences="1">
       <code>$gf-&gt;getDateTimeValue('updatedate')</code>
     </PossiblyNullOperand>
-    <PossiblyNullReference occurrences="5">
-      <code>getComplexPerm</code>
-      <code>getComplexPerm</code>
-      <code>getComplexPerm</code>
-      <code>getComplexPerm</code>
-      <code>getComplexPerm</code>
-    </PossiblyNullReference>
     <UnusedVariable occurrences="5">
       <code>$error</code>
       <code>$error</code>
@@ -1397,16 +1263,13 @@
       <code>$fileName</code>
       <code>$filename</code>
     </MixedAssignment>
-    <MixedOperand occurrences="3">
+    <MixedOperand occurrences="2">
       <code>$argUrl['args']['types']</code>
-      <code>$media-&gt;getValue('updatedate')</code>
       <code>$mediaManagerUrl('rex_media_small', urlencode($media-&gt;getFileName()), $media-&gt;getValue('updatedate'))</code>
     </MixedOperand>
-    <PossiblyNullReference occurrences="3">
-      <code>getComplexPerm</code>
-      <code>getComplexPerm</code>
-      <code>getComplexPerm</code>
-    </PossiblyNullReference>
+    <PossiblyNullOperand occurrences="1">
+      <code>$media-&gt;getValue('updatedate')</code>
+    </PossiblyNullOperand>
     <UnusedVariable occurrences="4">
       <code>$addInput</code>
       <code>$error</code>
@@ -1415,9 +1278,6 @@
     </UnusedVariable>
   </file>
   <file src="redaxo/src/addons/mediapool/pages/media.php">
-    <PossiblyNullReference occurrences="1">
-      <code>getComplexPerm</code>
-    </PossiblyNullReference>
     <UnusedVariable occurrences="3">
       <code>$context</code>
       <code>$csrf</code>
@@ -1468,6 +1328,9 @@
     </UnusedVariable>
   </file>
   <file src="redaxo/src/addons/mediapool/pages/sync.php">
+    <InvalidArgument occurrences="1">
+      <code>$data</code>
+    </InvalidArgument>
     <MixedArgument occurrences="2">
       <code>$size[0]</code>
       <code>$size[1]</code>
@@ -1478,20 +1341,13 @@
     </UnusedVariable>
   </file>
   <file src="redaxo/src/addons/mediapool/pages/upload.php">
-    <MixedArgument occurrences="2">
+    <MixedArgument occurrences="1">
       <code>$js</code>
-      <code>rex_mediapool_Uploadform($rexFileCategory)</code>
     </MixedArgument>
     <MixedOperand occurrences="2">
       <code>$data['filename']</code>
       <code>$data['filename']</code>
     </MixedOperand>
-    <PossiblyNullReference occurrences="1">
-      <code>getComplexPerm</code>
-    </PossiblyNullReference>
-    <UnusedVariable occurrences="1">
-      <code>$warning</code>
-    </UnusedVariable>
   </file>
   <file src="redaxo/src/addons/mediapool/tests/mediapool_test.php">
     <MixedArgument occurrences="3">
@@ -1515,9 +1371,6 @@
     <MixedArgument occurrences="1">
       <code>$ep-&gt;getParam('file')</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="1">
-      <code>'rex_metainfo_extensions_handler'</code>
-    </MixedArgumentTypeCoercion>
     <MixedArrayAccess occurrences="1">
       <code>$pages[$prefix]</code>
     </MixedArrayAccess>
@@ -1535,55 +1388,32 @@
       <code>$params['content']</code>
       <code>$params['content']</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="1">
-      <code>'rex_metainfo_cleanup'</code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="2">
-      <code>$params</code>
-      <code>$table</code>
-    </MixedAssignment>
-  </file>
-  <file src="redaxo/src/addons/metainfo/extensions/extension_content_sidebar.php">
-    <MixedArgument occurrences="2">
-      <code>$params['article_id']</code>
-      <code>$params['clang']</code>
-    </MixedArgument>
     <MixedAssignment occurrences="1">
-      <code>$subject</code>
+      <code>$params</code>
     </MixedAssignment>
-    <MixedOperand occurrences="1">
-      <code>$subject</code>
-    </MixedOperand>
-    <PossiblyNullOperand occurrences="2">
-      <code>$article-&gt;getValue('createuser')</code>
-      <code>$article-&gt;getValue('updateuser')</code>
-    </PossiblyNullOperand>
-    <PossiblyNullReference occurrences="1">
-      <code>getValue</code>
-    </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/metainfo/functions/function_metainfo.php">
     <MixedArrayAccess occurrences="1">
       <code>$metaTables[$prefix]</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="4">
-      <code>$metaTable</code>
-      <code>$metaTable</code>
+    <MixedAssignment occurrences="2">
       <code>$metaTables</code>
       <code>$page</code>
     </MixedAssignment>
-    <MixedOperand occurrences="2">
+    <MixedInferredReturnType occurrences="1">
+      <code>string|false</code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement occurrences="1">
+      <code>$metaTables[$prefix]</code>
+    </MixedReturnStatement>
+    <PossiblyFalseOperand occurrences="1">
       <code>$metaTable</code>
-      <code>$metaTable</code>
-    </MixedOperand>
+    </PossiblyFalseOperand>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/handler/api_default_fields.php">
     <MixedAssignment occurrences="1">
       <code>$return</code>
     </MixedAssignment>
-    <PossiblyNullReference occurrences="1">
-      <code>isAdmin</code>
-    </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/handler/article_handler.php">
     <MixedArgument occurrences="6">
@@ -1615,18 +1445,18 @@
       <code>$params['id']</code>
       <code>$params['id']</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="5">
-      <code>[$catHandler, 'extendForm']</code>
-      <code>[$catHandler, 'extendForm']</code>
-      <code>[$catHandler, 'extendForm']</code>
-      <code>[$catHandler, 'extendForm']</code>
-      <code>[$catHandler, 'renderToggleButton']</code>
+    <MixedArgumentTypeCoercion occurrences="4">
+      <code>$catHandler-&gt;extendForm(...)</code>
+      <code>$catHandler-&gt;extendForm(...)</code>
+      <code>$catHandler-&gt;extendForm(...)</code>
+      <code>$catHandler-&gt;extendForm(...)</code>
     </MixedArgumentTypeCoercion>
     <MixedAssignment occurrences="1">
       <code>$params['activeItem']</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="1">
+    <MixedInferredReturnType occurrences="2">
       <code>extendForm</code>
+      <code>string</code>
     </MixedInferredReturnType>
     <MixedMethodCall occurrences="1">
       <code>setValue</code>
@@ -1636,7 +1466,8 @@
       <code>$ep-&gt;getSubject()</code>
       <code>$params['id']</code>
     </MixedOperand>
-    <MixedReturnStatement occurrences="1">
+    <MixedReturnStatement occurrences="2">
+      <code>$ep-&gt;getSubject()</code>
       <code>$ep-&gt;getSubject()</code>
     </MixedReturnStatement>
     <PossiblyNullReference occurrences="1">
@@ -1644,51 +1475,58 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/handler/clang_handler.php">
-    <MixedArgumentTypeCoercion occurrences="5">
-      <code>[$clangHandler, 'extendForm']</code>
-      <code>[$clangHandler, 'extendForm']</code>
-      <code>[$clangHandler, 'extendForm']</code>
-      <code>[$clangHandler, 'extendForm']</code>
-      <code>[$clangHandler, 'renderToggleButton']</code>
+    <ImplementedReturnTypeMismatch occurrences="1">
+      <code>void</code>
+    </ImplementedReturnTypeMismatch>
+    <MixedArgumentTypeCoercion occurrences="4">
+      <code>$clangHandler-&gt;extendForm(...)</code>
+      <code>$clangHandler-&gt;extendForm(...)</code>
+      <code>$clangHandler-&gt;extendForm(...)</code>
+      <code>$clangHandler-&gt;extendForm(...)</code>
     </MixedArgumentTypeCoercion>
     <MixedAssignment occurrences="1">
       <code>$params['activeItem']</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="1">
+    <MixedInferredReturnType occurrences="2">
       <code>extendForm</code>
+      <code>string</code>
     </MixedInferredReturnType>
     <MixedOperand occurrences="2">
       <code>$ep-&gt;getSubject()</code>
       <code>$ep-&gt;getSubject()</code>
     </MixedOperand>
-    <MixedReturnStatement occurrences="1">
+    <MixedReturnStatement occurrences="2">
+      <code>$ep-&gt;getSubject()</code>
       <code>$ep-&gt;getSubject()</code>
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/handler/handler.php">
-    <MixedArgument occurrences="8">
+    <MixedArgument occurrences="6">
       <code>$field-&gt;getValue('callback')</code>
       <code>$fieldAttributes</code>
       <code>$fieldName</code>
       <code>$fieldType</code>
-      <code>$filterCondition</code>
       <code>$itemValue</code>
       <code>$itemValue</code>
-      <code>$params</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="1">
+    <MixedArgumentTypeCoercion occurrences="8">
+      <code>$attrArray</code>
+      <code>$attrArray</code>
+      <code>$attrArray</code>
+      <code>$attrArray</code>
+      <code>$attrArray</code>
+      <code>$attrArray</code>
+      <code>$attrArray</code>
       <code>$postValue</code>
     </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="11">
+    <MixedAssignment occurrences="9">
       <code>$activeItem</code>
       <code>$category</code>
       <code>$category</code>
       <code>$fieldAttributes</code>
       <code>$fieldName</code>
       <code>$fieldType</code>
-      <code>$filterCondition</code>
       <code>$itemValue</code>
-      <code>$params</code>
       <code>$postValue</code>
       <code>$saveValue</code>
     </MixedAssignment>
@@ -1711,7 +1549,8 @@
     <MixedOperand occurrences="1">
       <code>$postValue</code>
     </MixedOperand>
-    <MixedReturnStatement occurrences="1">
+    <MixedReturnStatement occurrences="2">
+      <code>$saveValue</code>
       <code>$saveValue</code>
     </MixedReturnStatement>
     <NullOperand occurrences="1">
@@ -1720,10 +1559,13 @@
     <PossiblyNullArgument occurrences="1">
       <code>$id</code>
     </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="2">
-      <code>hasPerm</code>
-      <code>hasPerm</code>
-    </PossiblyNullReference>
+    <PossiblyUndefinedArrayOffset occurrences="5">
+      <code>$dbvalues[0]</code>
+      <code>$dbvalues[0]</code>
+      <code>$dbvalues[0]</code>
+      <code>$dbvalues[0]</code>
+      <code>$dbvalues[0]</code>
+    </PossiblyUndefinedArrayOffset>
     <RedundantCondition occurrences="1">
       <code>'datetime' == $typeLabel</code>
     </RedundantCondition>
@@ -1737,10 +1579,10 @@
       <code>$params['filename']</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="4">
-      <code>[$mediaHandler, 'extendForm']</code>
-      <code>[$mediaHandler, 'extendForm']</code>
-      <code>[$mediaHandler, 'extendForm']</code>
-      <code>[$mediaHandler, 'extendForm']</code>
+      <code>$mediaHandler-&gt;extendForm(...)</code>
+      <code>$mediaHandler-&gt;extendForm(...)</code>
+      <code>$mediaHandler-&gt;extendForm(...)</code>
+      <code>$mediaHandler-&gt;extendForm(...)</code>
     </MixedArgumentTypeCoercion>
     <MixedArrayAssignment occurrences="4">
       <code>$warning[]</code>
@@ -1763,31 +1605,25 @@
       <code>$catId</code>
       <code>$ep-&gt;getSubject()</code>
     </MixedOperand>
-    <MixedReturnStatement occurrences="2">
+    <MixedReturnStatement occurrences="3">
+      <code>$warning</code>
       <code>$warning</code>
       <code>$warning</code>
     </MixedReturnStatement>
     <PossiblyNullOperand occurrences="1">
       <code>$sql-&gt;getValue('type_id')</code>
     </PossiblyNullOperand>
-    <PossiblyNullReference occurrences="2">
+    <PossiblyNullReference occurrences="1">
       <code>getPathAsArray</code>
-      <code>isAdmin</code>
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/input.php">
-    <MixedArrayOffset occurrences="3">
-      <code>$this-&gt;attributes[$name]</code>
-      <code>$this-&gt;attributes[$name]</code>
-      <code>$this-&gt;attributes[$name]</code>
-    </MixedArrayOffset>
-    <MixedAssignment occurrences="4">
-      <code>$name</code>
-      <code>$name</code>
+    <MixedAssignment occurrences="2">
       <code>$value</code>
       <code>$value</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="1">
+    <MixedInferredReturnType occurrences="2">
+      <code>string</code>
       <code>string|null</code>
     </MixedInferredReturnType>
     <MixedPropertyTypeCoercion occurrences="1">
@@ -1795,7 +1631,7 @@
     </MixedPropertyTypeCoercion>
     <MixedReturnStatement occurrences="2">
       <code>$default</code>
-      <code>$this-&gt;getValue()</code>
+      <code>$this-&gt;value</code>
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/input/date.php">
@@ -1811,6 +1647,11 @@
     <MixedClone occurrences="1">
       <code>clone $this-&gt;yearSelect</code>
     </MixedClone>
+    <MixedInferredReturnType occurrences="3">
+      <code>rex_select</code>
+      <code>rex_select</code>
+      <code>rex_select</code>
+    </MixedInferredReturnType>
     <MixedMethodCall occurrences="16">
       <code>addOptions</code>
       <code>get</code>
@@ -1838,12 +1679,20 @@
       <code>$value</code>
       <code>$yearSelect-&gt;get()</code>
     </MixedOperand>
+    <MixedReturnStatement occurrences="3">
+      <code>$this-&gt;daySelect</code>
+      <code>$this-&gt;monthSelect</code>
+      <code>$this-&gt;yearSelect</code>
+    </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/input/datetime.php">
-    <MixedArgument occurrences="2">
+    <ImplementedReturnTypeMismatch occurrences="1">
+      <code>array</code>
+    </ImplementedReturnTypeMismatch>
+    <InvalidArgument occurrences="2">
       <code>$this-&gt;dateInput-&gt;getValue()</code>
       <code>$this-&gt;timeInput-&gt;getValue()</code>
-    </MixedArgument>
+    </InvalidArgument>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/input/linkbutton.php">
     <MixedArgument occurrences="1">
@@ -1930,6 +1779,10 @@
       <code>$end</code>
       <code>$start</code>
     </MixedArgument>
+    <MixedInferredReturnType occurrences="2">
+      <code>rex_select</code>
+      <code>rex_select</code>
+    </MixedInferredReturnType>
     <MixedMethodCall occurrences="10">
       <code>get</code>
       <code>get</code>
@@ -1949,18 +1802,21 @@
       <code>$value</code>
       <code>$value</code>
     </MixedOperand>
+    <MixedReturnStatement occurrences="2">
+      <code>$this-&gt;hourSelect</code>
+      <code>$this-&gt;minuteSelect</code>
+    </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/restrictions_element.php">
-    <MixedOperand occurrences="2">
-      <code>$checkbox-&gt;get()</code>
-      <code>parent::get()</code>
-    </MixedOperand>
     <PossiblyNullOperand occurrences="2">
       <code>$id</code>
       <code>$id</code>
     </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/table_expander.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$tableName</code>
+    </ArgumentTypeCoercion>
     <MixedAssignment occurrences="1">
       <code>$params['id']</code>
     </MixedAssignment>
@@ -1974,41 +1830,37 @@
     </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/table_manager.php">
-    <MixedArgument occurrences="12">
+    <MixedArgument occurrences="8">
       <code>$default</code>
       <code>$default</code>
       <code>$name</code>
       <code>$name</code>
       <code>$name</code>
       <code>$oldname</code>
-      <code>$this-&gt;getTableName()</code>
-      <code>$this-&gt;getTableName()</code>
-      <code>$this-&gt;getTableName()</code>
-      <code>$this-&gt;getTableName()</code>
       <code>$type</code>
       <code>$type</code>
     </MixedArgument>
     <MixedAssignment occurrences="1">
       <code>$this-&gt;DBID</code>
     </MixedAssignment>
+    <MixedInferredReturnType occurrences="1">
+      <code>string</code>
+    </MixedInferredReturnType>
     <MixedOperand occurrences="4">
       <code>$type</code>
       <code>$type</code>
       <code>$type</code>
       <code>$type</code>
     </MixedOperand>
+    <MixedReturnStatement occurrences="1">
+      <code>$this-&gt;tableName</code>
+    </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/metainfo/pages/content.metainfo.php">
-    <MixedArgument occurrences="5">
-      <code>$articleId</code>
-      <code>$articleId</code>
-      <code>$clang</code>
-      <code>$clang</code>
+    <MixedArgument occurrences="1">
       <code>$ctypes</code>
     </MixedArgument>
-    <MixedAssignment occurrences="3">
-      <code>$articleId</code>
-      <code>$clang</code>
+    <MixedAssignment occurrences="1">
       <code>$ctypes</code>
     </MixedAssignment>
     <PossiblyNullOperand occurrences="2">
@@ -2020,10 +1872,12 @@
       <code>getValue</code>
     </PossiblyNullReference>
   </file>
+  <file src="redaxo/src/addons/metainfo/pages/field.php">
+    <TypeDoesNotContainType occurrences="1">
+      <code>!is_string($metaTable)</code>
+    </TypeDoesNotContainType>
+  </file>
   <file src="redaxo/src/addons/metainfo/pages/index.php">
-    <MixedAssignment occurrences="1">
-      <code>$metaTable</code>
-    </MixedAssignment>
     <UnusedVariable occurrences="1">
       <code>$metaTable</code>
     </UnusedVariable>
@@ -2043,16 +1897,21 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/phpmailer/lib/mailer.php">
-    <MixedArgument occurrences="5">
+    <MixedArgument occurrences="6">
       <code>$address</code>
       <code>$bcc</code>
       <code>$exceptions</code>
+      <code>$kind</code>
       <code>$this-&gt;xHeader[$kind]</code>
       <code>$this-&gt;xHeader['to']</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="1">
+    <MixedArgumentTypeCoercion occurrences="2">
+      <code>array_column($this-&gt;getReplyToAddresses(), 0)</code>
       <code>array_column($this-&gt;getToAddresses(), 0)</code>
     </MixedArgumentTypeCoercion>
+    <MixedArrayOffset occurrences="1">
+      <code>$this-&gt;xHeader[$kind]</code>
+    </MixedArrayOffset>
     <MixedAssignment occurrences="22">
       <code>$address</code>
       <code>$bcc</code>
@@ -2097,8 +1956,7 @@
     <MixedAssignment occurrences="1">
       <code>$securityMode</code>
     </MixedAssignment>
-    <MixedOperand occurrences="5">
-      <code>$_SERVER['HTTP_HOST']</code>
+    <MixedOperand occurrences="4">
       <code>$addon-&gt;getConfig('mailer')</code>
       <code>$addon-&gt;getConfig('smtpsecure')</code>
       <code>$mailerDebug</code>
@@ -2112,6 +1970,9 @@
     <PossiblyNullArgument occurrences="1">
       <code>$addon-&gt;getConfig('test_address')</code>
     </PossiblyNullArgument>
+    <PossiblyUndefinedArrayOffset occurrences="1">
+      <code>$_SERVER['HTTP_HOST']</code>
+    </PossiblyUndefinedArrayOffset>
   </file>
   <file src="redaxo/src/addons/phpmailer/pages/config.php">
     <NullOperand occurrences="11">
@@ -2143,117 +2004,46 @@
     </MixedMethodCall>
   </file>
   <file src="redaxo/src/addons/structure/functions/function_rex_category.php">
-    <PossiblyNullReference occurrences="1">
-      <code>getComplexPerm</code>
-    </PossiblyNullReference>
     <UnusedVariable occurrences="2">
       <code>$KATout</code>
       <code>$KAToutARR</code>
     </UnusedVariable>
   </file>
   <file src="redaxo/src/addons/structure/lib/api_functions/api_article2category.php">
-    <PossiblyNullReference occurrences="2">
+    <PossiblyNullReference occurrences="1">
       <code>getCategoryId</code>
-      <code>hasPerm</code>
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/lib/api_functions/api_article2startarticle.php">
-    <PossiblyNullReference occurrences="2">
-      <code>getCategoryId</code>
-      <code>hasPerm</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/addons/structure/lib/api_functions/api_article_add.php">
-    <PossiblyNullReference occurrences="2">
-      <code>getComplexPerm</code>
-      <code>hasPerm</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/addons/structure/lib/api_functions/api_article_copy.php">
     <PossiblyNullReference occurrences="1">
-      <code>hasPerm</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/addons/structure/lib/api_functions/api_article_delete.php">
-    <PossiblyNullReference occurrences="2">
-      <code>getComplexPerm</code>
-      <code>hasPerm</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/addons/structure/lib/api_functions/api_article_edit.php">
-    <PossiblyNullReference occurrences="2">
-      <code>getComplexPerm</code>
-      <code>hasPerm</code>
+      <code>getCategoryId</code>
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/lib/api_functions/api_article_move.php">
-    <PossiblyNullReference occurrences="2">
-      <code>getCategoryId</code>
-      <code>hasPerm</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/addons/structure/lib/api_functions/api_article_status.php">
     <PossiblyNullReference occurrences="1">
-      <code>getComplexPerm</code>
+      <code>getCategoryId</code>
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/lib/api_functions/api_category2article.php">
-    <PossiblyNullReference occurrences="2">
-      <code>getCategoryId</code>
-      <code>hasPerm</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/addons/structure/lib/api_functions/api_category_add.php">
-    <PossiblyNullReference occurrences="2">
-      <code>getComplexPerm</code>
-      <code>hasPerm</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/addons/structure/lib/api_functions/api_category_delete.php">
-    <PossiblyNullReference occurrences="2">
-      <code>getComplexPerm</code>
-      <code>hasPerm</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/addons/structure/lib/api_functions/api_category_edit.php">
     <PossiblyNullReference occurrences="1">
-      <code>hasPerm</code>
+      <code>getCategoryId</code>
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/lib/api_functions/api_category_move.php">
-    <PossiblyNullReference occurrences="2">
-      <code>getCategoryId</code>
-      <code>hasPerm</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/addons/structure/lib/api_functions/api_category_status.php">
     <PossiblyNullReference occurrences="1">
-      <code>getComplexPerm</code>
+      <code>getCategoryId</code>
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/lib/article.php">
-    <MixedInferredReturnType occurrences="4">
+    <MixedInferredReturnType occurrences="3">
       <code>int</code>
       <code>int</code>
       <code>int</code>
-      <code>string</code>
     </MixedInferredReturnType>
-    <MixedOperand occurrences="1">
-      <code>$this-&gt;path</code>
-    </MixedOperand>
-    <MixedReturnStatement occurrences="4">
-      <code>$this-&gt;path</code>
+    <MixedReturnStatement occurrences="3">
       <code>rex_addon::get('structure')-&gt;getProperty('article_id', 1)</code>
       <code>rex_addon::get('structure')-&gt;getProperty('notfound_article_id', 1)</code>
       <code>rex_addon::get('structure')-&gt;getProperty('start_article_id', 1)</code>
-    </MixedReturnStatement>
-  </file>
-  <file src="redaxo/src/addons/structure/lib/category.php">
-    <MixedInferredReturnType occurrences="1">
-      <code>string</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="1">
-      <code>$this-&gt;path</code>
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/structure/lib/linkmap/api_sitemap.php">
@@ -2305,16 +2095,12 @@
       <code>$article</code>
       <code>$categoryId</code>
     </MixedAssignment>
-    <MixedOperand occurrences="4">
+    <MixedOperand occurrences="2">
       <code>$liAttr</code>
       <code>$linkAttr</code>
-      <code>$this-&gt;listItem($article, $categoryId)</code>
-      <code>$this-&gt;treeItem($cat, $liclasses, $linkclasses, $subLi, $liIcon)</code>
     </MixedOperand>
-    <PossiblyNullReference occurrences="3">
+    <PossiblyNullReference occurrences="1">
       <code>getArticles</code>
-      <code>getComplexPerm</code>
-      <code>getComplexPerm</code>
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/lib/linkmap/sitemap.php">
@@ -2343,8 +2129,7 @@
       <code>$name</code>
       <code>$value</code>
     </MixedOperand>
-    <PossiblyNullReference occurrences="2">
-      <code>getComplexPerm</code>
+    <PossiblyNullReference occurrences="1">
       <code>getId</code>
     </PossiblyNullReference>
   </file>
@@ -2363,8 +2148,7 @@
       <code>$name</code>
       <code>$value</code>
     </MixedOperand>
-    <PossiblyNullReference occurrences="2">
-      <code>getComplexPerm</code>
+    <PossiblyNullReference occurrences="1">
       <code>getId</code>
     </PossiblyNullReference>
   </file>
@@ -2396,8 +2180,8 @@
       <code>$f['metafield']</code>
       <code>$f['type']</code>
       <code>$f['value']</code>
-      <code>$this-&gt;classes[($depth - 1)]</code>
-      <code>$this-&gt;linkclasses[($depth - 1)]</code>
+      <code>$this-&gt;classes[$depth - 1]</code>
+      <code>$this-&gt;linkclasses[$depth - 1]</code>
     </MixedArrayAccess>
     <MixedArrayAssignment occurrences="10">
       <code>$a['class']</code>
@@ -2460,12 +2244,11 @@
       <code>$option[2]</code>
       <code>$option[2]</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="10">
+    <MixedAssignment occurrences="9">
       <code>$id</code>
       <code>$level</code>
       <code>$name</code>
       <code>$option</code>
-      <code>$subgroup</code>
       <code>$this-&gt;addHomepage</code>
       <code>$this-&gt;checkPerms</code>
       <code>$this-&gt;clang</code>
@@ -2476,18 +2259,12 @@
       <code>$level</code>
       <code>$level</code>
     </MixedOperand>
-    <PossiblyNullReference occurrences="6">
-      <code>getComplexPerm</code>
-      <code>getComplexPerm</code>
-      <code>getComplexPerm</code>
-      <code>getComplexPerm</code>
-      <code>getComplexPerm</code>
-      <code>getComplexPerm</code>
-    </PossiblyNullReference>
+    <RedundantCondition occurrences="1">
+      <code>$this-&gt;checkPerms</code>
+    </RedundantCondition>
   </file>
   <file src="redaxo/src/addons/structure/lib/service_article.php">
-    <MixedArgument occurrences="20">
-      <code>$data['category_id']</code>
+    <MixedArgument occurrences="16">
       <code>$data['category_id']</code>
       <code>$data['category_id']</code>
       <code>$data['category_id']</code>
@@ -2498,13 +2275,10 @@
       <code>$data['priority']</code>
       <code>$data['priority']</code>
       <code>$data['priority']</code>
-      <code>$data['priority']</code>
-      <code>$data['priority']</code>
       <code>$data['template_id']</code>
       <code>$data['template_id']</code>
       <code>$id</code>
       <code>$id</code>
-      <code>$newstatus</code>
       <code>$value</code>
       <code>$value</code>
     </MixedArgument>
@@ -2512,13 +2286,13 @@
       <code>$templates[$data['template_id']]</code>
       <code>$templates[$data['template_id']]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="4">
+    <MixedAssignment occurrences="3">
       <code>$data['path']</code>
       <code>$data['priority']</code>
-      <code>$newstatus</code>
       <code>$value</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="2">
+    <MixedInferredReturnType occurrences="3">
+      <code>int</code>
       <code>int</code>
       <code>list&lt;string[]&gt;</code>
     </MixedInferredReturnType>
@@ -2527,9 +2301,11 @@
       <code>$currentStatus</code>
       <code>$currentStatus</code>
     </MixedOperand>
-    <MixedReturnStatement occurrences="2">
+    <MixedReturnStatement occurrences="4">
       <code>$artStatusTypes</code>
-      <code>$newstatus</code>
+      <code>$artStatusTypes</code>
+      <code>($currentStatus + 1) % count($artStatusTypes)</code>
+      <code>($currentStatus - 1) % count($artStatusTypes)</code>
     </MixedReturnStatement>
     <PossiblyNullArgument occurrences="1">
       <code>$data['priority']</code>
@@ -2541,16 +2317,19 @@
       <code>$toSql-&gt;getValue('path')</code>
       <code>$toSql-&gt;getValue('path')</code>
     </PossiblyNullOperand>
-    <PossiblyNullReference occurrences="2">
+    <PossiblyNullReference occurrences="1">
       <code>getCategoryId</code>
-      <code>getLogin</code>
     </PossiblyNullReference>
+    <PossiblyUndefinedArrayOffset occurrences="2">
+      <code>$data['template_id']</code>
+      <code>$data['template_id']</code>
+    </PossiblyUndefinedArrayOffset>
     <UnusedVariable occurrences="1">
       <code>$message</code>
     </UnusedVariable>
   </file>
   <file src="redaxo/src/addons/structure/lib/service_category.php">
-    <MixedArgument occurrences="12">
+    <MixedArgument occurrences="11">
       <code>$data['catname']</code>
       <code>$data['catname']</code>
       <code>$data['catname']</code>
@@ -2562,18 +2341,19 @@
       <code>$data['name']</code>
       <code>$data['status']</code>
       <code>$id</code>
-      <code>$newstatus</code>
     </MixedArgument>
     <MixedArrayOffset occurrences="1">
       <code>$templates[$templateId]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="4">
+    <MixedArrayTypeCoercion occurrences="1">
+      <code>$templates[$templateId]</code>
+    </MixedArrayTypeCoercion>
+    <MixedAssignment occurrences="2">
       <code>$data['name']</code>
-      <code>$newstatus</code>
-      <code>$templateId</code>
       <code>$templateId</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="2">
+    <MixedInferredReturnType occurrences="3">
+      <code>int</code>
       <code>int</code>
       <code>list&lt;string[]&gt;</code>
     </MixedInferredReturnType>
@@ -2582,20 +2362,16 @@
       <code>$currentStatus</code>
       <code>$currentStatus</code>
     </MixedOperand>
-    <MixedReturnStatement occurrences="2">
+    <MixedReturnStatement occurrences="4">
       <code>$catStatusTypes</code>
-      <code>$newstatus</code>
+      <code>$catStatusTypes</code>
+      <code>($currentStatus + 1) % count($catStatusTypes)</code>
+      <code>($currentStatus - 1) % count($catStatusTypes)</code>
     </MixedReturnStatement>
     <PossiblyNullOperand occurrences="2">
       <code>$fcat-&gt;getValue('path')</code>
       <code>$tcat-&gt;getValue('path')</code>
     </PossiblyNullOperand>
-    <PossiblyNullReference occurrences="1">
-      <code>getLogin</code>
-    </PossiblyNullReference>
-    <PossiblyUndefinedArrayOffset occurrences="1">
-      <code>$data['catpriority']</code>
-    </PossiblyUndefinedArrayOffset>
     <UnusedForeachValue occurrences="1">
       <code>$key</code>
     </UnusedForeachValue>
@@ -2609,42 +2385,32 @@
     <MixedAssignment occurrences="1">
       <code>$params['category_id']</code>
     </MixedAssignment>
-    <PossiblyNullReference occurrences="4">
-      <code>getComplexPerm</code>
-      <code>getComplexPerm</code>
-      <code>getComplexPerm</code>
-      <code>getComplexPerm</code>
-    </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/lib/structure_element.php">
-    <MixedArgument occurrences="5">
+    <MixedArgument occurrences="4">
       <code>$clang</code>
       <code>$id</code>
       <code>$id</code>
       <code>$parentId</code>
-      <code>$this-&gt;path</code>
     </MixedArgument>
     <MixedAssignment occurrences="3">
       <code>$prefix</code>
       <code>$value</code>
       <code>$value</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="2">
-      <code>string[]</code>
+    <MixedInferredReturnType occurrences="1">
       <code>string|int|null</code>
     </MixedInferredReturnType>
-    <MixedOperand occurrences="7">
+    <MixedOperand occurrences="6">
       <code>$clang</code>
       <code>$id</code>
       <code>$listType</code>
       <code>$parentId</code>
       <code>$prefix</code>
-      <code>$this-&gt;path</code>
       <code>$value</code>
     </MixedOperand>
-    <MixedReturnStatement occurrences="2">
+    <MixedReturnStatement occurrences="1">
       <code>$this-&gt;$val</code>
-      <code>self::$classVars</code>
     </MixedReturnStatement>
     <UnusedForeachValue occurrences="1">
       <code>$value</code>
@@ -2652,18 +2418,8 @@
   </file>
   <file src="redaxo/src/addons/structure/lib/system_setting_article_id.php">
     <MixedArgument occurrences="1">
-      <code>$this-&gt;key</code>
+      <code>rex_config::get('structure', $this-&gt;key, 1)</code>
     </MixedArgument>
-    <MixedInferredReturnType occurrences="1">
-      <code>getKey</code>
-    </MixedInferredReturnType>
-    <MixedOperand occurrences="2">
-      <code>$this-&gt;key</code>
-      <code>$this-&gt;key</code>
-    </MixedOperand>
-    <MixedReturnStatement occurrences="1">
-      <code>$this-&gt;key</code>
-    </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/structure/lib/var_article.php">
     <MixedArgument occurrences="6">
@@ -2698,7 +2454,8 @@
       <code>$tmpl</code>
       <code>$tmpl</code>
     </MixedAssignment>
-    <MixedOperand occurrences="2">
+    <MixedOperand occurrences="3">
+      <code>$tmpl</code>
       <code>$tmpl</code>
       <code>$tmpl</code>
     </MixedOperand>
@@ -2725,71 +2482,42 @@
     <PossiblyNullOperand occurrences="1">
       <code>$sql-&gt;getValue('id')</code>
     </PossiblyNullOperand>
-    <PossiblyNullReference occurrences="12">
-      <code>getComplexPerm</code>
-      <code>getComplexPerm</code>
-      <code>hasPerm</code>
-      <code>hasPerm</code>
-      <code>hasPerm</code>
-      <code>hasPerm</code>
-      <code>hasPerm</code>
-      <code>hasPerm</code>
-      <code>hasPerm</code>
-      <code>hasPerm</code>
-      <code>hasPerm</code>
-      <code>hasPerm</code>
-    </PossiblyNullReference>
     <UnusedVariable occurrences="1">
       <code>$articleId</code>
     </UnusedVariable>
   </file>
   <file src="redaxo/src/addons/structure/pages/linkmap.php">
-    <MixedAssignment occurrences="1">
-      <code>$panel</code>
-    </MixedAssignment>
     <UnusedVariable occurrences="1">
       <code>$isRoot</code>
     </UnusedVariable>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/boot.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$article-&gt;getValue('updatedate')</code>
-    </InvalidScalarArgument>
     <MixedArgument occurrences="2">
       <code>$ep-&gt;getParam('file')</code>
       <code>$urls[$match[1]][0]</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="2">
+    <MixedArrayAccess occurrences="4">
       <code>$urls[$match[1]]</code>
       <code>$urls[$match[1]]</code>
+      <code>$urls[$match[1]][0]</code>
+      <code>$urls[$match[1]][1]</code>
     </MixedArrayAccess>
-    <MixedArrayOffset occurrences="1">
-      <code>['function' =&gt; 'edit', $urls[$match[1]][1] =&gt; $match[2]]</code>
-    </MixedArrayOffset>
     <MixedAssignment occurrences="1">
       <code>$content</code>
     </MixedAssignment>
     <MixedMethodCall occurrences="1">
       <code>getId</code>
     </MixedMethodCall>
-    <MixedOperand occurrences="4">
+    <MixedOperand occurrences="3">
       <code>$content</code>
       <code>$content</code>
       <code>$content</code>
-      <code>$ep-&gt;getParam('clang')-&gt;getId()</code>
     </MixedOperand>
+    <PossiblyInvalidArgument occurrences="1">
+      <code>$article-&gt;getValue('updatedate')</code>
+    </PossiblyInvalidArgument>
     <PossiblyNullReference occurrences="1">
       <code>setIsActive</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/addons/structure/plugins/content/lib/api_functions/api_content_copy.php">
-    <PossiblyNullReference occurrences="1">
-      <code>hasPerm</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="redaxo/src/addons/structure/plugins/content/lib/api_functions/api_content_slice_status.php">
-    <PossiblyNullReference occurrences="1">
-      <code>hasPerm</code>
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/api_module.php">
@@ -2816,18 +2544,31 @@
       <code>$categories</code>
       <code>$templateModules</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="1">
+    <MixedInferredReturnType occurrences="2">
       <code>array&lt;int, string&gt;</code>
+      <code>int</code>
     </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="1">
+    <MixedReturnStatement occurrences="3">
       <code>$mapping</code>
+      <code>rex_config::get('structure/content', 'default_template_id', 1)</code>
+      <code>rex_config::get('structure/content', 'default_template_id', 1)</code>
     </MixedReturnStatement>
     <MixedReturnTypeCoercion occurrences="2">
       <code>$mapping</code>
       <code>$mapping = rex_file::getCache($file)</code>
     </MixedReturnTypeCoercion>
+    <NullableReturnStatement occurrences="1">
+      <code>rex_config::get('structure/content', 'default_template_id', 1)</code>
+    </NullableReturnStatement>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/article_action.php">
+    <LessSpecificReturnStatement occurrences="5">
+      <code>$this-&gt;sql-&gt;getValue('link' . $id)</code>
+      <code>$this-&gt;sql-&gt;getValue('linklist' . $id)</code>
+      <code>$this-&gt;sql-&gt;getValue('media' . $id)</code>
+      <code>$this-&gt;sql-&gt;getValue('medialist' . $id)</code>
+      <code>$this-&gt;sql-&gt;getValue('value' . $id)</code>
+    </LessSpecificReturnStatement>
     <MixedArgument occurrences="6">
       <code>$value</code>
       <code>$value</code>
@@ -2853,21 +2594,28 @@
       <code>$id</code>
       <code>$id</code>
     </MixedOperand>
+    <MoreSpecificReturnType occurrences="5">
+      <code>string|null</code>
+      <code>string|null</code>
+      <code>string|null</code>
+      <code>string|null</code>
+      <code>string|null</code>
+    </MoreSpecificReturnType>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/article_content_base.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$output</code>
-    </InvalidScalarArgument>
     <MixedArgument occurrences="1">
-      <code>$TEMPLATE-&gt;getTemplate()</code>
+      <code>$output</code>
     </MixedArgument>
-    <PossiblyNullArgument occurrences="1">
+    <MixedAssignment occurrences="1">
+      <code>$output</code>
+    </MixedAssignment>
+    <PossiblyFalseArgument occurrences="1">
+      <code>$TEMPLATE-&gt;getTemplate()</code>
+    </PossiblyFalseArgument>
+    <PossiblyNullArgument occurrences="2">
+      <code>$TEMPLATE-&gt;getTemplate()</code>
       <code>$template-&gt;getKey()</code>
     </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="2">
-      <code>getId</code>
-      <code>getLogin</code>
-    </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/article_content_editor.php">
     <MixedArgument occurrences="1">
@@ -2884,32 +2632,20 @@
     <MixedPropertyTypeCoercion occurrences="1">
       <code>$this-&gt;MODULESELECT</code>
     </MixedPropertyTypeCoercion>
-    <PossiblyNullReference occurrences="6">
-      <code>getComplexPerm</code>
-      <code>getComplexPerm</code>
-      <code>getComplexPerm</code>
-      <code>getComplexPerm</code>
-      <code>hasPerm</code>
-      <code>hasPerm</code>
-    </PossiblyNullReference>
     <UnusedForeachValue occurrences="1">
       <code>$ctName</code>
     </UnusedForeachValue>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/cache_template.php">
-    <InvalidScalarArgument occurrences="1">
+    <ArgumentTypeCoercion occurrences="1">
       <code>$content</code>
-    </InvalidScalarArgument>
+    </ArgumentTypeCoercion>
+    <PossiblyNullArgument occurrences="1">
+      <code>$content</code>
+    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/content_service.php">
-    <InvalidArrayOffset occurrences="1">
-      <code>$maxPriority[$ctypeId]</code>
-    </InvalidArrayOffset>
-    <InvalidOperand occurrences="2">
-      <code>$CM-&gt;getValue('priority')</code>
-      <code>$CM-&gt;getValue('priority')</code>
-    </InvalidOperand>
-    <InvalidScalarArgument occurrences="7">
+    <ArgumentTypeCoercion occurrences="7">
       <code>$articleId</code>
       <code>$articleId</code>
       <code>$colname</code>
@@ -2917,29 +2653,33 @@
       <code>$colname</code>
       <code>$sql-&gt;getValue('article_id')</code>
       <code>$sql-&gt;getValue('clang_id')</code>
-    </InvalidScalarArgument>
+    </ArgumentTypeCoercion>
+    <InvalidArrayOffset occurrences="1">
+      <code>$maxPriority[$ctypeId]</code>
+    </InvalidArrayOffset>
+    <InvalidOperand occurrences="2">
+      <code>$CM-&gt;getValue('priority')</code>
+      <code>$CM-&gt;getValue('priority')</code>
+    </InvalidOperand>
     <MixedArgument occurrences="1">
       <code>$value</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="1">
       <code>$key</code>
     </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="3">
+    <MixedAssignment occurrences="2">
       <code>$data['revision']</code>
-      <code>$info</code>
       <code>$value</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="2">
-      <code>string</code>
-      <code>string</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="2">
-      <code>$info</code>
-      <code>rex_extension::registerPoint(new rex_extension_point_art_content_updated($article, 'slice_added', $message))</code>
-    </MixedReturnStatement>
-    <PossiblyNullArgument occurrences="2">
+    <PossiblyNullArgument occurrences="8">
       <code>$article</code>
       <code>$article</code>
+      <code>$articleId</code>
+      <code>$articleId</code>
+      <code>$colname</code>
+      <code>$colname</code>
+      <code>$colname</code>
+      <code>$sql-&gt;getValue('article_id')</code>
     </PossiblyNullArgument>
     <PossiblyNullArrayOffset occurrences="1">
       <code>$ctypes</code>
@@ -2948,10 +2688,9 @@
       <code>$CM-&gt;getValue('priority')</code>
       <code>$CM-&gt;getValue('priority')</code>
     </PossiblyNullOperand>
-    <PossiblyNullReference occurrences="3">
+    <PossiblyNullReference occurrences="2">
       <code>getCategoryId</code>
       <code>getId</code>
-      <code>getLogin</code>
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/event_select.php">
@@ -2963,37 +2702,35 @@
       <code>$value</code>
     </MixedAssignment>
   </file>
-  <file src="redaxo/src/addons/structure/plugins/content/lib/extension_point/art_content_updated.php">
-    <MixedArgument occurrences="1">
-      <code>$readonly</code>
-    </MixedArgument>
+  <file src="redaxo/src/addons/structure/plugins/content/lib/extension_point/slice_menu.php">
+    <MissingTemplateParam occurrences="1">
+      <code>rex_extension_point_slice_menu</code>
+    </MissingTemplateParam>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/select_template.php">
-    <InvalidArrayOffset occurrences="1">
+    <InvalidArrayOffset occurrences="2">
+      <code>$templates[$selected]</code>
       <code>$templates[$selected]</code>
     </InvalidArrayOffset>
     <MixedArgument occurrences="1">
       <code>$templateName</code>
     </MixedArgument>
-    <MixedArrayOffset occurrences="1">
-      <code>$templates[$selected]</code>
-    </MixedArrayOffset>
-    <MixedAssignment occurrences="2">
-      <code>$selected</code>
+    <MixedAssignment occurrences="1">
       <code>$templateName</code>
     </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/var_template.php">
-    <InvalidScalarArgument occurrences="1">
+    <PossiblyFalseArgument occurrences="2">
+      <code>$tmpl</code>
+      <code>$tmpl</code>
+    </PossiblyFalseArgument>
+    <PossiblyInvalidArgument occurrences="1">
       <code>$id</code>
-    </InvalidScalarArgument>
-    <MixedArgument occurrences="2">
+    </PossiblyInvalidArgument>
+    <PossiblyNullArgument occurrences="2">
       <code>$tmpl</code>
       <code>$tmpl</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="1">
-      <code>$tmpl</code>
-    </MixedAssignment>
+    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/lib/var_value.php">
     <MixedArgument occurrences="5">
@@ -3012,10 +2749,10 @@
     </MixedMethodCall>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/pages/content.functions.php">
-    <InvalidScalarArgument occurrences="2">
+    <ArgumentTypeCoercion occurrences="2">
       <code>$article-&gt;getValue('parent_id')</code>
       <code>$article-&gt;getValue('parent_id')</code>
-    </InvalidScalarArgument>
+    </ArgumentTypeCoercion>
     <MixedArgument occurrences="2">
       <code>$key</code>
       <code>$key</code>
@@ -3027,21 +2764,13 @@
     <MixedOperand occurrences="1">
       <code>rex_escape($hiddenFields)</code>
     </MixedOperand>
-    <PossiblyNullReference occurrences="14">
-      <code>getComplexPerm</code>
-      <code>getComplexPerm</code>
-      <code>getComplexPerm</code>
-      <code>getComplexPerm</code>
-      <code>getComplexPerm</code>
+    <PossiblyNullArgument occurrences="2">
+      <code>$article-&gt;getValue('parent_id')</code>
+      <code>$article-&gt;getValue('parent_id')</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="2">
       <code>getName</code>
       <code>getName</code>
-      <code>hasPerm</code>
-      <code>hasPerm</code>
-      <code>hasPerm</code>
-      <code>hasPerm</code>
-      <code>hasPerm</code>
-      <code>hasPerm</code>
-      <code>hasPerm</code>
     </PossiblyNullReference>
     <UnusedVariable occurrences="2">
       <code>$grid</code>
@@ -3049,15 +2778,15 @@
     </UnusedVariable>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/pages/content.php">
-    <MixedArgument occurrences="7">
-      <code>$action-&gt;getMessages()</code>
+    <MixedArgument occurrences="3">
       <code>$ctypes</code>
-      <code>$globalInfo</code>
-      <code>$info</code>
-      <code>$messages</code>
       <code>$sliceRevision</code>
       <code>$val</code>
     </MixedArgument>
+    <MixedArgumentTypeCoercion occurrences="2">
+      <code>$action-&gt;getMessages()</code>
+      <code>$messages</code>
+    </MixedArgumentTypeCoercion>
     <MixedArrayAccess occurrences="2">
       <code>$navigation['navigation']</code>
       <code>$navigation['navigation']</code>
@@ -3065,35 +2794,22 @@
     <MixedArrayAssignment occurrences="1">
       <code>$contentNaviRight[]</code>
     </MixedArrayAssignment>
-    <MixedAssignment occurrences="11">
+    <MixedAssignment occurrences="7">
       <code>$contentNaviLeft</code>
       <code>$contentNaviRight</code>
       <code>$ctypes</code>
-      <code>$globalInfo</code>
-      <code>$info</code>
-      <code>$info</code>
       <code>$key</code>
-      <code>$messages</code>
       <code>$navigation</code>
       <code>$navigation</code>
       <code>$val</code>
     </MixedAssignment>
-    <MixedOperand occurrences="2">
-      <code>$info</code>
+    <MixedOperand occurrences="1">
       <code>rex_be_controller::includeCurrentPageSubPath(compact('info', 'warning', 'templateAttributes', 'article', 'articleId', 'categoryId', 'clang', 'sliceId', 'sliceRevision', 'function', 'ctype', 'context'))</code>
     </MixedOperand>
-    <PossiblyNullReference occurrences="11">
+    <PossiblyNullReference occurrences="3">
       <code>addSubpage</code>
       <code>getCategoryId</code>
-      <code>getComplexPerm</code>
-      <code>getComplexPerm</code>
       <code>getSubpages</code>
-      <code>hasPerm</code>
-      <code>hasPerm</code>
-      <code>hasPerm</code>
-      <code>hasPerm</code>
-      <code>hasPerm</code>
-      <code>hasPerm</code>
     </PossiblyNullReference>
     <UnusedVariable occurrences="4">
       <code>$info</code>
@@ -3103,14 +2819,14 @@
     </UnusedVariable>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/pages/modules.actions.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$actionName</code>
+    </ArgumentTypeCoercion>
     <InvalidOperand occurrences="3">
       <code>$sql-&gt;getValue('postsavemode')</code>
       <code>$sql-&gt;getValue('presavemode')</code>
       <code>$sql-&gt;getValue('previewmode')</code>
     </InvalidOperand>
-    <InvalidScalarArgument occurrences="1">
-      <code>$actionName</code>
-    </InvalidScalarArgument>
     <MixedArgument occurrences="3">
       <code>$postsavemode</code>
       <code>$presavemode</code>
@@ -3146,6 +2862,9 @@
       <code>$var</code>
       <code>$var</code>
     </PossiblyInvalidOperand>
+    <PossiblyNullArgument occurrences="1">
+      <code>$actionName</code>
+    </PossiblyNullArgument>
     <PossiblyNullOperand occurrences="6">
       <code>$postsavestatus</code>
       <code>$presavestatus</code>
@@ -3156,33 +2875,36 @@
     </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/pages/modules.modules.php">
-    <InvalidScalarArgument occurrences="7">
+    <ArgumentTypeCoercion occurrences="8">
       <code>$aid</code>
       <code>$clangId</code>
       <code>$clangId</code>
       <code>$gaa-&gt;getValue('name')</code>
       <code>$gc-&gt;getValue(rex::getTablePrefix() . 'article.id')</code>
       <code>$gma-&gt;getValue('name')</code>
-      <code>$modulname</code>
-    </InvalidScalarArgument>
-    <MixedArgument occurrences="3">
-      <code>$error</code>
-      <code>$error</code>
       <code>$list-&gt;getValue('name')</code>
-    </MixedArgument>
-    <MixedArrayOffset occurrences="1">
+      <code>$modulname</code>
+    </ArgumentTypeCoercion>
+    <InvalidArrayOffset occurrences="1">
       <code>$usedIds[$list-&gt;getValue('id')]</code>
-    </MixedArrayOffset>
-    <MixedAssignment occurrences="2">
-      <code>$error</code>
-      <code>$error</code>
-    </MixedAssignment>
+    </InvalidArrayOffset>
     <NullOperand occurrences="4">
       <code>rex_escape($ausgabe)</code>
       <code>rex_escape($eingabe)</code>
       <code>rex_escape($mkey)</code>
       <code>rex_escape($mname)</code>
     </NullOperand>
+    <PossiblyNullArgument occurrences="9">
+      <code>$aid</code>
+      <code>$clangId</code>
+      <code>$error</code>
+      <code>$error</code>
+      <code>$gaa-&gt;getValue('name')</code>
+      <code>$gc-&gt;getValue(rex::getTablePrefix() . 'article.id')</code>
+      <code>$gma-&gt;getValue('name')</code>
+      <code>$list-&gt;getValue('name')</code>
+      <code>$modulname</code>
+    </PossiblyNullArgument>
     <PossiblyNullOperand occurrences="1">
       <code>$aid</code>
     </PossiblyNullOperand>
@@ -3192,13 +2914,9 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/pages/templates.php">
-    <InvalidScalarArgument occurrences="5">
-      <code>$aid</code>
-      <code>$clangId</code>
-      <code>$clangId</code>
+    <ArgumentTypeCoercion occurrences="1">
       <code>$templatename</code>
-      <code>$templatename</code>
-    </InvalidScalarArgument>
+    </ArgumentTypeCoercion>
     <MixedArgument occurrences="1">
       <code>$modules[$i]</code>
     </MixedArgument>
@@ -3223,13 +2941,9 @@
       <code>rex_escape($templatekey)</code>
       <code>rex_escape($templatename)</code>
     </NullOperand>
-    <PossiblyNullOperand occurrences="1">
-      <code>$aid</code>
-    </PossiblyNullOperand>
-    <PossiblyNullReference occurrences="2">
-      <code>getCode</code>
-      <code>getName</code>
-    </PossiblyNullReference>
+    <PossiblyNullArgument occurrences="1">
+      <code>$templatename</code>
+    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/addons/structure/plugins/content/tests/article_content_test.php">
     <MixedArgument occurrences="1">
@@ -3279,10 +2993,6 @@
       <code>rex_escape($historyInfo)</code>
       <code>rex_escape($version['history_date'])</code>
     </MixedOperand>
-    <PossiblyNullReference occurrences="2">
-      <code>getLogin</code>
-      <code>hasPerm</code>
-    </PossiblyNullReference>
     <UnusedClosureParam occurrences="1">
       <code>$ep</code>
     </UnusedClosureParam>
@@ -3295,11 +3005,6 @@
       <code>$this-&gt;getVar('content2select')</code>
     </MixedArgument>
   </file>
-  <file src="redaxo/src/addons/structure/plugins/history/lib/article_slice_history.php">
-    <PossiblyNullReference occurrences="1">
-      <code>getValue</code>
-    </PossiblyNullReference>
-  </file>
   <file src="redaxo/src/addons/structure/plugins/history/lib/cronjob.php">
     <MixedAssignment occurrences="1">
       <code>$period</code>
@@ -3311,10 +3016,9 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/addons/structure/plugins/history/lib/history_login.php">
-    <MixedArgument occurrences="3">
+    <MixedArgument occurrences="2">
       <code>$key1</code>
       <code>$key2</code>
-      <code>$this-&gt;loginQuery</code>
     </MixedArgument>
     <MixedOperand occurrences="4">
       <code>$historyLogin</code>
@@ -3322,72 +3026,15 @@
       <code>$login</code>
       <code>$validtime</code>
     </MixedOperand>
-  </file>
-  <file src="redaxo/src/addons/structure/plugins/version/boot.php">
-    <MixedArgument occurrences="14">
-      <code>$params['article_id']</code>
-      <code>$params['article_id']</code>
-      <code>$params['article_id']</code>
-      <code>$params['article_id']</code>
-      <code>$params['article_id']</code>
-      <code>$params['article_id']</code>
-      <code>$params['article_id']</code>
-      <code>$params['clang']</code>
-      <code>$params['clang']</code>
-      <code>$params['clang']</code>
-      <code>$params['clang']</code>
-      <code>$params['clang']</code>
-      <code>$params['clang']</code>
-      <code>$params['clang']</code>
-    </MixedArgument>
-    <MixedArrayOffset occurrences="11">
-      <code>$rexVersionArticle[$params['article_id']]</code>
-      <code>$rexVersionArticle[$params['article_id']]</code>
-      <code>$rexVersionArticle[$params['article_id']]</code>
-      <code>$rexVersionArticle[$params['article_id']]</code>
-      <code>$rexVersionArticle[$params['article_id']]</code>
-      <code>$rexVersionArticle[$params['article_id']]</code>
-      <code>$rexVersionArticle[$params['article_id']]</code>
-      <code>$rexVersionArticle[$params['article_id']]</code>
-      <code>$rexVersionArticle[$params['article_id']]</code>
-      <code>$rexVersionArticle[$params['article_id']]</code>
-      <code>$rexVersionArticle[$params['article_id']]</code>
-    </MixedArrayOffset>
-    <MixedAssignment occurrences="6">
-      <code>$article</code>
-      <code>$params['slice_revision']</code>
-      <code>$return</code>
-      <code>$return</code>
-      <code>$rexVersionArticle</code>
-      <code>$rexVersionArticle</code>
-    </MixedAssignment>
-    <MixedMethodCall occurrences="2">
-      <code>setEval</code>
-      <code>setSliceRevision</code>
-    </MixedMethodCall>
-    <MixedOperand occurrences="5">
-      <code>$return</code>
-      <code>$return</code>
-      <code>$return</code>
-      <code>$return</code>
-      <code>$return</code>
-    </MixedOperand>
-    <PossiblyNullArgument occurrences="1">
-      <code>$article</code>
+    <PossiblyNullArgument occurrences="2">
+      <code>$this-&gt;user-&gt;getValue($this-&gt;idColumn)</code>
+      <code>$this-&gt;user-&gt;getValue($this-&gt;passwordColumn)</code>
     </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="5">
-      <code>hasPerm</code>
-      <code>hasPerm</code>
-      <code>hasPerm</code>
-      <code>hasPerm</code>
-      <code>hasPerm</code>
-    </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/plugins/version/lib/revision.php">
-    <InvalidScalarArgument occurrences="2">
-      <code>$colname</code>
-      <code>$colname</code>
-    </InvalidScalarArgument>
+    <NoValue occurrences="1">
+      <code>$fromRevisionId</code>
+    </NoValue>
   </file>
   <file src="redaxo/src/addons/structure/tests/article_test.php">
     <MixedArgument occurrences="1">
@@ -3429,12 +3076,6 @@
       <code>$perms['options']</code>
     </MixedOperand>
   </file>
-  <file src="redaxo/src/addons/users/boot.php">
-    <MixedArgumentTypeCoercion occurrences="2">
-      <code>[rex_user_role::class, 'removeOrReplaceItem']</code>
-      <code>[rex_user_role::class, 'removeOrReplaceItem']</code>
-    </MixedArgumentTypeCoercion>
-  </file>
   <file src="redaxo/src/addons/users/lib/role.php">
     <MixedArgument occurrences="4">
       <code>$perms[$key]</code>
@@ -3471,15 +3112,16 @@
     </UnusedForeachValue>
   </file>
   <file src="redaxo/src/addons/users/lib/select_element.php">
+    <InvalidScalarArgument occurrences="1">
+      <code>$value</code>
+    </InvalidScalarArgument>
     <MixedArgument occurrences="1">
       <code>$this-&gt;checkboxLabel</code>
     </MixedArgument>
-    <MixedOperand occurrences="1">
-      <code>$field-&gt;get()</code>
-    </MixedOperand>
   </file>
   <file src="redaxo/src/addons/users/pages/roles.php">
-    <MixedArgument occurrences="5">
+    <MixedArgument occurrences="6">
+      <code>$params['label']</code>
       <code>$params['options']</code>
       <code>$params['select']</code>
       <code>$perm</code>
@@ -3499,59 +3141,36 @@
     </MixedMethodCall>
   </file>
   <file src="redaxo/src/addons/users/pages/users.php">
-    <InvalidScalarArgument occurrences="1">
+    <ArgumentTypeCoercion occurrences="1">
       <code>$userrole</code>
-    </InvalidScalarArgument>
-    <MixedArgument occurrences="1">
-      <code>rex_escape($roles)</code>
-    </MixedArgument>
+    </ArgumentTypeCoercion>
     <MixedArgumentTypeCoercion occurrences="2">
       <code>$userrole</code>
       <code>$userrole</code>
     </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="4">
+    <NullArgument occurrences="1">
+      <code>rex_escape($roles)</code>
+    </NullArgument>
+    <NullOperand occurrences="4">
       <code>$login</code>
-      <code>$name</code>
-      <code>$roles</code>
-      <code>$startpages[$page]</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="1">
-      <code>$login</code>
-    </MixedOperand>
-    <NullOperand occurrences="3">
       <code>rex_escape($userdesc)</code>
       <code>rex_escape($useremail)</code>
       <code>rex_escape($username)</code>
     </NullOperand>
+    <PossiblyNullArgument occurrences="1">
+      <code>$userrole</code>
+    </PossiblyNullArgument>
     <PossiblyNullArrayOffset occurrences="1">
       <code>$roles</code>
     </PossiblyNullArrayOffset>
-    <PossiblyNullReference occurrences="20">
-      <code>getId</code>
-      <code>getId</code>
-      <code>getId</code>
-      <code>getId</code>
-      <code>getId</code>
+    <PossiblyNullReference occurrences="3">
       <code>getLogin</code>
       <code>getValue</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
-      <code>isAdmin</code>
       <code>isAdmin</code>
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/backend.php">
-    <MixedArgument occurrences="10">
-      <code>$_SERVER['PHP_SELF']</code>
+    <MixedArgument occurrences="7">
       <code>$assetFile</code>
       <code>$assetFile</code>
       <code>$assetFile</code>
@@ -3559,8 +3178,6 @@
       <code>$assetFile</code>
       <code>$userAgent</code>
       <code>$userAgent</code>
-      <code>rex::getProperty('lang')</code>
-      <code>rex::getProperty('lang')</code>
     </MixedArgument>
     <MixedAssignment occurrences="2">
       <code>$assetFile</code>
@@ -3572,19 +3189,20 @@
     <PossiblyNullReference occurrences="1">
       <code>getLanguage</code>
     </PossiblyNullReference>
+    <PossiblyUndefinedArrayOffset occurrences="1">
+      <code>$_SERVER['PHP_SELF']</code>
+    </PossiblyUndefinedArrayOffset>
     <UnusedVariable occurrences="1">
       <code>$rexUserLoginmessage</code>
     </UnusedVariable>
   </file>
   <file src="redaxo/src/core/boot.php">
-    <MixedArgument occurrences="7">
+    <MixedArgument occurrences="5">
       <code>$REX['BACKEND_FOLDER']</code>
       <code>$REX['BACKEND_FOLDER']</code>
       <code>$REX['HTDOCS_PATH']</code>
       <code>$REX['HTDOCS_PATH']</code>
-      <code>$_SERVER['REQUEST_TIME_FLOAT']</code>
       <code>$value</code>
-      <code>rex::getProperty('timezone', 'Europe/Berlin')</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="1">
       <code>$key</code>
@@ -3602,6 +3220,9 @@
     <MixedOperand occurrences="1">
       <code>rex::getProperty('hsts_max_age', 31536000)</code>
     </MixedOperand>
+    <PossiblyUndefinedArrayOffset occurrences="1">
+      <code>$_SERVER['REQUEST_TIME_FLOAT']</code>
+    </PossiblyUndefinedArrayOffset>
   </file>
   <file src="redaxo/src/core/console.php">
     <PossiblyNullArgument occurrences="1">
@@ -3614,21 +3235,25 @@
       <code>$button['attributes']['class']</code>
       <code>$button['attributes']['class']</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="9">
+    <MixedArrayAccess occurrences="11">
       <code>$button['attributes']</code>
       <code>$button['attributes']</code>
       <code>$button['attributes']</code>
       <code>$button['attributes']</code>
       <code>$button['attributes']</code>
+      <code>$button['attributes']['class']</code>
+      <code>$button['attributes']['class']</code>
       <code>$button['hidden_label']</code>
       <code>$button['icon']</code>
       <code>$button['label']</code>
       <code>$button['url']</code>
     </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="5">
+    <MixedArrayAssignment occurrences="7">
       <code>$button['attributes']</code>
       <code>$button['attributes']</code>
       <code>$button['attributes']</code>
+      <code>$button['attributes']['class']</code>
+      <code>$button['attributes']['class']</code>
       <code>$button['label']</code>
       <code>$button['label']</code>
     </MixedArrayAssignment>
@@ -3681,9 +3306,6 @@
     <MixedArgument occurrences="1">
       <code>$this-&gt;time</code>
     </MixedArgument>
-    <PossiblyNullReference occurrences="1">
-      <code>isAdmin</code>
-    </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/fragments/core/form/checkbox.php">
     <MixedArgument occurrences="1">
@@ -3918,8 +3540,7 @@
     <MixedArgument occurrences="1">
       <code>$this-&gt;meta_navigation</code>
     </MixedArgument>
-    <PossiblyNullReference occurrences="2">
-      <code>isAdmin</code>
+    <PossiblyNullReference occurrences="1">
       <code>isPopup</code>
     </PossiblyNullReference>
   </file>
@@ -4045,39 +3666,6 @@
       <code>$this-&gt;getVar('toc')</code>
     </MixedArgument>
   </file>
-  <file src="redaxo/src/core/fragments/core/page/grid.php">
-    <MixedArgument occurrences="2">
-      <code>$content</code>
-      <code>$this-&gt;content</code>
-    </MixedArgument>
-    <MixedArrayAccess occurrences="3">
-      <code>$this-&gt;classes[$key]</code>
-      <code>$this-&gt;classes[$key]</code>
-      <code>$this-&gt;classes[$key]</code>
-    </MixedArrayAccess>
-    <MixedArrayOffset occurrences="3">
-      <code>$this-&gt;classes[$key]</code>
-      <code>$this-&gt;classes[$key]</code>
-      <code>$this-&gt;classes[$key]</code>
-    </MixedArrayOffset>
-    <MixedAssignment occurrences="7">
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$key</code>
-      <code>$key</code>
-      <code>$key</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="6">
-      <code>$content</code>
-      <code>$content</code>
-      <code>$content</code>
-      <code>$this-&gt;classes[$key] ?? 'col-md-4'</code>
-      <code>$this-&gt;classes[$key] ?? 'col-md-6'</code>
-      <code>$this-&gt;classes[$key] ?? 'col-sm-6 col-md-3'</code>
-    </MixedOperand>
-  </file>
   <file src="redaxo/src/core/fragments/core/page/header.php">
     <MixedArgument occurrences="3">
       <code>$this-&gt;heading</code>
@@ -4133,6 +3721,10 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/fragments/core/top.php">
+    <ArgumentTypeCoercion occurrences="2">
+      <code>$file</code>
+      <code>$file</code>
+    </ArgumentTypeCoercion>
     <MixedArgument occurrences="6">
       <code>$options</code>
       <code>$options</code>
@@ -4141,12 +3733,9 @@
       <code>$this-&gt;pageHeader</code>
       <code>$this-&gt;pageTitle</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="5">
+    <MixedArrayAccess occurrences="2">
       <code>$file</code>
       <code>$options</code>
-      <code>$options[rex_view::JS_ASYNC]</code>
-      <code>$options[rex_view::JS_DEFERED]</code>
-      <code>$options[rex_view::JS_IMMUTABLE]</code>
     </MixedArrayAccess>
     <MixedAssignment occurrences="5">
       <code>$file</code>
@@ -4187,6 +3776,9 @@
       <code>$v</code>
       <code>$value[$k]</code>
     </MixedAssignment>
+    <NoValue occurrences="1">
+      <code>$strategy</code>
+    </NoValue>
   </file>
   <file src="redaxo/src/core/layout/bottom.php">
     <PossiblyNullReference occurrences="1">
@@ -4258,6 +3850,9 @@
       <code>self::$cacheFile</code>
       <code>self::$cacheFile</code>
     </PossiblyNullArgument>
+    <PossiblyNullOperand occurrences="1">
+      <code>self::$cacheFile</code>
+    </PossiblyNullOperand>
     <UnusedForeachValue occurrences="1">
       <code>$files</code>
     </UnusedForeachValue>
@@ -4280,7 +3875,10 @@
     </MixedArgumentTypeCoercion>
   </file>
   <file src="redaxo/src/core/lib/be/controller.php">
-    <MixedArgument occurrences="13">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>str_replace($package-&gt;getPath(), '', $path)</code>
+    </ArgumentTypeCoercion>
+    <MixedArgument occurrences="12">
       <code>$addon-&gt;getProperty('page')</code>
       <code>$page</code>
       <code>$page</code>
@@ -4293,9 +3891,8 @@
       <code>$subProperties['title']</code>
       <code>$value</code>
       <code>$value</code>
-      <code>rex::getProperty('start_page')</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="11">
+    <MixedArgumentTypeCoercion occurrences="10">
       <code>$key</code>
       <code>$key</code>
       <code>$key</code>
@@ -4306,7 +3903,6 @@
       <code>$key</code>
       <code>$key</code>
       <code>$pageKey</code>
-      <code>$parts</code>
     </MixedArgumentTypeCoercion>
     <MixedArrayAccess occurrences="1">
       <code>$subProperties['title']</code>
@@ -4315,18 +3911,13 @@
       <code>self::$pages[$page[0]]</code>
       <code>self::$pages[$page[0]]</code>
     </MixedArrayOffset>
-    <MixedArrayTypeCoercion occurrences="2">
-      <code>self::$pages[$page[0]]</code>
-      <code>self::$pages[$page[0]]</code>
-    </MixedArrayTypeCoercion>
-    <MixedAssignment occurrences="11">
+    <MixedAssignment occurrences="10">
       <code>$k</code>
       <code>$page</code>
       <code>$page</code>
       <code>$page</code>
       <code>$pages</code>
       <code>$pages</code>
-      <code>$parts[]</code>
       <code>$subProperties</code>
       <code>$v</code>
       <code>$v</code>
@@ -4336,8 +3927,12 @@
       <code>$check($page)</code>
       <code>$check($subpage)</code>
     </MixedFunctionCall>
-    <PossiblyNullArgument occurrences="1">
+    <PossiblyNullArgument occurrences="5">
       <code>$currentPage-&gt;getPath()</code>
+      <code>$path</code>
+      <code>$path</code>
+      <code>$path</code>
+      <code>$path</code>
     </PossiblyNullArgument>
     <PossiblyNullReference occurrences="6">
       <code>getHref</code>
@@ -4349,16 +3944,10 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/lib/be/navigation.php">
-    <MixedArgument occurrences="2">
-      <code>$a-&gt;getTitle()</code>
-      <code>$b-&gt;getTitle()</code>
-    </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="2">
       <code>$blockPages</code>
     </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="4">
-      <code>$n['icon']</code>
-      <code>$n['title']</code>
+    <MixedAssignment occurrences="2">
       <code>$page</code>
       <code>$subpage</code>
     </MixedAssignment>
@@ -4371,43 +3960,10 @@
     </MixedMethodCall>
   </file>
   <file src="redaxo/src/core/lib/be/page.php">
-    <MixedArgument occurrences="1">
-      <code>$perm</code>
-    </MixedArgument>
     <MixedArrayTypeCoercion occurrences="2">
       <code>$this-&gt;itemAttr[$name]</code>
       <code>$this-&gt;linkAttr[$name]</code>
     </MixedArrayTypeCoercion>
-    <MixedAssignment occurrences="1">
-      <code>$perm</code>
-    </MixedAssignment>
-    <MixedInferredReturnType occurrences="10">
-      <code>array</code>
-      <code>bool</code>
-      <code>bool</code>
-      <code>bool</code>
-      <code>bool</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string|null</code>
-    </MixedInferredReturnType>
-    <MixedOperand occurrences="1">
-      <code>$this-&gt;key</code>
-    </MixedOperand>
-    <MixedReturnStatement occurrences="10">
-      <code>$this-&gt;fullKey</code>
-      <code>$this-&gt;hidden</code>
-      <code>$this-&gt;href</code>
-      <code>$this-&gt;isActive</code>
-      <code>$this-&gt;key</code>
-      <code>$this-&gt;path</code>
-      <code>$this-&gt;pjax</code>
-      <code>$this-&gt;popup</code>
-      <code>$this-&gt;requiredPermissions</code>
-      <code>$this-&gt;subPath</code>
-    </MixedReturnStatement>
     <PossiblyNullReference occurrences="1">
       <code>getParent</code>
     </PossiblyNullReference>
@@ -4444,12 +4000,9 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/lib/config.php">
-    <InvalidPropertyAssignmentValue occurrences="1">
-      <code>self::$data</code>
-    </InvalidPropertyAssignmentValue>
-    <InvalidScalarArgument occurrences="1">
+    <ArgumentTypeCoercion occurrences="1">
       <code>$cfg-&gt;getValue('value')</code>
-    </InvalidScalarArgument>
+    </ArgumentTypeCoercion>
     <MixedArgumentTypeCoercion occurrences="1">
       <code>$k</code>
     </MixedArgumentTypeCoercion>
@@ -4468,9 +4021,16 @@
       <code>$default</code>
       <code>self::$data[$namespace][$key]</code>
     </MixedReturnStatement>
-    <PossiblyNullArrayOffset occurrences="1">
+    <PossiblyNullArgument occurrences="1">
+      <code>$cfg-&gt;getValue('value')</code>
+    </PossiblyNullArgument>
+    <PossiblyNullArrayOffset occurrences="2">
       <code>self::$data</code>
+      <code>self::$data[$cfg-&gt;getValue('namespace')]</code>
     </PossiblyNullArrayOffset>
+    <PropertyTypeCoercion occurrences="1">
+      <code>self::$data</code>
+    </PropertyTypeCoercion>
     <UnusedForeachValue occurrences="1">
       <code>$value</code>
     </UnusedForeachValue>
@@ -4499,47 +4059,18 @@
     </MixedArgument>
   </file>
   <file src="redaxo/src/core/lib/console/command_loader.php">
-    <MixedArgument occurrences="4">
-      <code>$name</code>
-      <code>$name</code>
-      <code>$this-&gt;commands</code>
-      <code>$this-&gt;commands[$name]['package']</code>
-    </MixedArgument>
-    <MixedArrayAccess occurrences="2">
-      <code>$this-&gt;commands[$name]</code>
-      <code>$this-&gt;commands[$name]</code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="2">
-      <code>$this-&gt;commands[$command]</code>
-      <code>$this-&gt;commands[$command]</code>
-    </MixedArrayAssignment>
-    <MixedArrayOffset occurrences="3">
-      <code>$this-&gt;commands[$name]</code>
-      <code>$this-&gt;commands[$name]</code>
-      <code>$this-&gt;commands[$name]</code>
-    </MixedArrayOffset>
-    <MixedAssignment occurrences="3">
-      <code>$class</code>
-      <code>$class</code>
-      <code>$commands</code>
-    </MixedAssignment>
-    <MixedMethodCall occurrences="1">
-      <code>new $class()</code>
-    </MixedMethodCall>
-    <MixedReturnTypeCoercion occurrences="2">
-      <code>array_keys($this-&gt;commands)</code>
-      <code>getNames</code>
-    </MixedReturnTypeCoercion>
+    <TypeDoesNotContainType occurrences="1">
+      <code>is_array($commands)</code>
+    </TypeDoesNotContainType>
   </file>
   <file src="redaxo/src/core/lib/console/config/get.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$propertyKey</code>
+    </ArgumentTypeCoercion>
     <MixedArgument occurrences="1">
       <code>$config</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="1">
-      <code>$config[$pathPart]</code>
-    </MixedArrayAccess>
-    <MixedAssignment occurrences="3">
-      <code>$config</code>
+    <MixedAssignment occurrences="2">
       <code>$config</code>
       <code>$config</code>
     </MixedAssignment>
@@ -4552,6 +4083,14 @@
     <PossiblyNullOperand occurrences="1">
       <code>$value</code>
     </PossiblyNullOperand>
+  </file>
+  <file src="redaxo/src/core/lib/console/db/dump_schema.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$input-&gt;getArgument('table')</code>
+    </ArgumentTypeCoercion>
+    <PossiblyNullArgument occurrences="1">
+      <code>$input-&gt;getArgument('table')</code>
+    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/lib/console/db/set_connection.php">
     <MixedArgument occurrences="4">
@@ -4582,30 +4121,63 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/lib/console/extension_point_console_shutdown.php">
-    <MixedInferredReturnType occurrences="4">
-      <code>Command</code>
-      <code>InputInterface</code>
-      <code>OutputInterface</code>
-      <code>int</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="4">
-      <code>$this-&gt;command</code>
-      <code>$this-&gt;exitCode</code>
-      <code>$this-&gt;input</code>
-      <code>$this-&gt;output</code>
-    </MixedReturnStatement>
+    <MissingTemplateParam occurrences="1">
+      <code>rex_extension_point_console_shutdown</code>
+    </MissingTemplateParam>
+  </file>
+  <file src="redaxo/src/core/lib/console/package/activate.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$packageId</code>
+    </PossiblyNullArgument>
+    <PossiblyNullOperand occurrences="1">
+      <code>$packageId</code>
+    </PossiblyNullOperand>
+  </file>
+  <file src="redaxo/src/core/lib/console/package/deactivate.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$packageId</code>
+    </PossiblyNullArgument>
+    <PossiblyNullOperand occurrences="1">
+      <code>$packageId</code>
+    </PossiblyNullOperand>
+  </file>
+  <file src="redaxo/src/core/lib/console/package/delete.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$packageId</code>
+    </PossiblyNullArgument>
+    <PossiblyNullOperand occurrences="1">
+      <code>$packageId</code>
+    </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/lib/console/package/install.php">
-    <MixedAssignment occurrences="1">
-      <code>$helper</code>
-    </MixedAssignment>
-    <MixedMethodCall occurrences="1">
+    <PossiblyNullArgument occurrences="1">
+      <code>$packageId</code>
+    </PossiblyNullArgument>
+    <PossiblyNullOperand occurrences="1">
+      <code>$packageId</code>
+    </PossiblyNullOperand>
+    <UndefinedInterfaceMethod occurrences="1">
       <code>ask</code>
-    </MixedMethodCall>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="redaxo/src/core/lib/console/package/run_update_script.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$packageId</code>
+    </PossiblyNullArgument>
+    <PossiblyNullOperand occurrences="1">
+      <code>$packageId</code>
+    </PossiblyNullOperand>
+  </file>
+  <file src="redaxo/src/core/lib/console/package/uninstall.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$packageId</code>
+    </PossiblyNullArgument>
+    <PossiblyNullOperand occurrences="1">
+      <code>$packageId</code>
+    </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/lib/console/setup/check.php">
-    <MixedArgument occurrences="3">
-      <code>$errors</code>
+    <MixedArgument occurrences="2">
       <code>$message</code>
       <code>$messages</code>
     </MixedArgument>
@@ -4618,7 +4190,7 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/console/setup/run.php">
-    <MixedArgument occurrences="20">
+    <MixedArgument occurrences="18">
       <code>$config['db'][1]['host']</code>
       <code>$config['db'][1]['login']</code>
       <code>$config['db'][1]['name']</code>
@@ -4628,8 +4200,6 @@
       <code>$config['timezone']</code>
       <code>$config['timezone']</code>
       <code>$dbCreate</code>
-      <code>$error</code>
-      <code>$errors</code>
       <code>$login</code>
       <code>$login</code>
       <code>$login</code>
@@ -4643,18 +4213,25 @@
     <MixedArgumentTypeCoercion occurrences="1">
       <code>$key</code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="3">
+    <MixedArrayAccess occurrences="6">
       <code>$config['db'][1]</code>
       <code>$config['db'][1]</code>
       <code>$config['db'][1]</code>
+      <code>$config['db'][1]['host']</code>
+      <code>$config['db'][1]['login']</code>
+      <code>$config['db'][1]['name']</code>
     </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="4">
+    <MixedArrayAssignment occurrences="8">
       <code>$config['db'][1]</code>
       <code>$config['db'][1]</code>
       <code>$config['db'][1]</code>
       <code>$config['db'][1]</code>
+      <code>$config['db'][1]['host']</code>
+      <code>$config['db'][1]['login']</code>
+      <code>$config['db'][1]['name']</code>
+      <code>$config['db'][1]['password']</code>
     </MixedArrayAssignment>
-    <MixedAssignment occurrences="21">
+    <MixedAssignment occurrences="20">
       <code>$charset</code>
       <code>$config['db'][1]['host']</code>
       <code>$config['db'][1]['login']</code>
@@ -4671,7 +4248,6 @@
       <code>$dbLogin</code>
       <code>$dbName</code>
       <code>$dbPassword</code>
-      <code>$error</code>
       <code>$login</code>
       <code>$message</code>
       <code>$messages</code>
@@ -4715,13 +4291,17 @@
     <MixedAssignment occurrences="1">
       <code>$password</code>
     </MixedAssignment>
+    <PossiblyNullArgument occurrences="2">
+      <code>$username</code>
+      <code>$username</code>
+    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/lib/context.php">
-    <MixedArgumentTypeCoercion occurrences="3">
+    <InvalidArgument occurrences="3">
       <code>$_GET</code>
       <code>$_GET + $_POST</code>
       <code>$_POST</code>
-    </MixedArgumentTypeCoercion>
+    </InvalidArgument>
     <MixedAssignment occurrences="2">
       <code>$valVal</code>
       <code>$value</code>
@@ -4732,49 +4312,20 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/lib/csrf_token.php">
-    <MixedArgument occurrences="1">
-      <code>$tokens[$this-&gt;id]</code>
-    </MixedArgument>
-    <MixedArrayAccess occurrences="3">
-      <code>$tokens[$this-&gt;id]</code>
-      <code>$tokens[$this-&gt;id]</code>
-      <code>$tokens[$this-&gt;id]</code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="1">
-      <code>$tokens[$this-&gt;id]</code>
-    </MixedArrayAssignment>
-    <MixedAssignment occurrences="4">
+    <MixedAssignment occurrences="1">
       <code>$this-&gt;id</code>
-      <code>$tokens</code>
-      <code>$tokens</code>
-      <code>$tokens</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="1">
-      <code>string</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="1">
-      <code>$tokens[$this-&gt;id]</code>
-    </MixedReturnStatement>
+    <MixedReturnTypeCoercion occurrences="2">
+      <code>array&lt;string, string&gt;</code>
+      <code>rex_session(self::getSessionKey(), 'array')</code>
+    </MixedReturnTypeCoercion>
   </file>
   <file src="redaxo/src/core/lib/error_handler.php">
     <InvalidScalarArgument occurrences="2">
       <code>$line</code>
       <code>$row[2]</code>
     </InvalidScalarArgument>
-    <MixedArgument occurrences="3">
-      <code>$exception</code>
-      <code>$exception</code>
-      <code>$exception</code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="2">
-      <code>[self::class, 'handleError']</code>
-      <code>[self::class, 'handleException']</code>
-    </MixedArgumentTypeCoercion>
-    <MixedMethodCall occurrences="1">
-      <code>getMessage</code>
-    </MixedMethodCall>
-    <MixedOperand occurrences="2">
-      <code>$exception-&gt;getMessage()</code>
+    <MixedOperand occurrences="1">
       <code>rex_server('REQUEST_URI')</code>
     </MixedOperand>
     <PossiblyUndefinedArrayOffset occurrences="2">
@@ -4786,13 +4337,11 @@
     <MixedArgument occurrences="1">
       <code>$message</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="1">
-      <code>$previous-&gt;errorInfo[1]</code>
-    </MixedArrayAccess>
     <MixedInferredReturnType occurrences="1">
       <code>?int</code>
     </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="1">
+    <MixedReturnStatement occurrences="2">
+      <code>$previous-&gt;errorInfo[1] ?? null</code>
       <code>$previous-&gt;errorInfo[1] ?? null</code>
     </MixedReturnStatement>
   </file>
@@ -4800,6 +4349,9 @@
     <MixedOperand occurrences="1">
       <code>$level</code>
     </MixedOperand>
+    <MixedReturnStatement occurrences="1">
+      <code>$factoryClass::registerPoint($extensionPoint)</code>
+    </MixedReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/form/config_form.php">
     <PossiblyNullOperand occurrences="1">
@@ -4807,6 +4359,9 @@
     </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/lib/form/elements/checkbox.php">
+    <InvalidScalarArgument occurrences="1">
+      <code>$this-&gt;getValue() ?? ''</code>
+    </InvalidScalarArgument>
     <MixedArgument occurrences="1">
       <code>$optValue</code>
     </MixedArgument>
@@ -4825,16 +4380,19 @@
     </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/lib/form/elements/container.php">
+    <MixedArgument occurrences="2">
+      <code>$value</code>
+      <code>$values[$group][$field-&gt;getFieldName()]</code>
+    </MixedArgument>
     <MixedArrayAccess occurrences="1">
       <code>$values[$group][$field-&gt;getFieldName()]</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="2">
-      <code>$this-&gt;value</code>
+    <MixedAssignment occurrences="1">
       <code>$values</code>
     </MixedAssignment>
-    <MixedOperand occurrences="1">
-      <code>$field-&gt;get()</code>
-    </MixedOperand>
+    <PossiblyInvalidPropertyAssignmentValue occurrences="1">
+      <code>$value</code>
+    </PossiblyInvalidPropertyAssignmentValue>
     <PossiblyNullOperand occurrences="2">
       <code>$this-&gt;getAttribute('id')</code>
       <code>$this-&gt;getAttribute('name')</code>
@@ -4852,53 +4410,36 @@
     </MixedMethodCall>
   </file>
   <file src="redaxo/src/core/lib/form/elements/element.php">
-    <MixedArgument occurrences="1">
-      <code>$this-&gt;get()</code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="2">
-      <code>$attributes</code>
-      <code>$value</code>
-    </MixedArgumentTypeCoercion>
-    <MixedArrayOffset occurrences="1">
-      <code>$this-&gt;attributes[$name]</code>
-    </MixedArrayOffset>
-    <MixedAssignment occurrences="10">
-      <code>$n['note']</code>
-      <code>$this-&gt;fieldName</code>
-      <code>$this-&gt;footer</code>
-      <code>$this-&gt;header</code>
-      <code>$this-&gt;label</code>
-      <code>$this-&gt;notice</code>
-      <code>$this-&gt;prefix</code>
-      <code>$this-&gt;separateEnding</code>
-      <code>$this-&gt;suffix</code>
-      <code>$this-&gt;value</code>
-    </MixedAssignment>
-    <NullOperand occurrences="2">
-      <code>rex_escape($value)</code>
-      <code>rex_escape($value)</code>
-    </NullOperand>
-    <PossiblyNullOperand occurrences="1">
+    <InvalidReturnStatement occurrences="1">
+      <code>$this-&gt;getAttribute('class')</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="1">
+      <code>string</code>
+    </InvalidReturnType>
+    <NullableReturnStatement occurrences="1">
+      <code>$this-&gt;getAttribute('class')</code>
+    </NullableReturnStatement>
+    <PossiblyNullOperand occurrences="3">
       <code>$this-&gt;getAttribute('id')</code>
+      <code>rex_escape($value)</code>
+      <code>rex_escape($value)</code>
     </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/lib/form/elements/options.php">
-    <InvalidArgument occurrences="2">
+    <ArgumentTypeCoercion occurrences="2">
       <code>$sql-&gt;getArray($query, [], PDO::FETCH_NUM)</code>
       <code>$sql-&gt;getDBArray($query, [], PDO::FETCH_NUM)</code>
-    </InvalidArgument>
-    <MixedArgument occurrences="1">
-      <code>$tag</code>
-    </MixedArgument>
+    </ArgumentTypeCoercion>
   </file>
   <file src="redaxo/src/core/lib/form/elements/prio.php">
+    <ArgumentTypeCoercion occurrences="3">
+      <code>$label</code>
+      <code>$label</code>
+      <code>$name</code>
+    </ArgumentTypeCoercion>
     <InvalidOperand occurrences="1">
       <code>$opt-&gt;getValue($name)</code>
     </InvalidOperand>
-    <InvalidScalarArgument occurrences="2">
-      <code>$label</code>
-      <code>$label</code>
-    </InvalidScalarArgument>
     <MixedArgument occurrences="1">
       <code>$ep-&gt;getParam('form')</code>
     </MixedArgument>
@@ -4908,6 +4449,10 @@
     <MixedPropertyTypeCoercion occurrences="1">
       <code>$labelCallback</code>
     </MixedPropertyTypeCoercion>
+    <PossiblyNullArgument occurrences="2">
+      <code>$label</code>
+      <code>$label</code>
+    </PossiblyNullArgument>
     <PossiblyNullOperand occurrences="1">
       <code>$opt-&gt;getValue($name)</code>
     </PossiblyNullOperand>
@@ -4926,18 +4471,10 @@
       <code>$id</code>
     </PossiblyNullOperand>
   </file>
-  <file src="redaxo/src/core/lib/form/elements/raw.php">
-    <MixedInferredReturnType occurrences="1">
-      <code>formatElement</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="1">
-      <code>$this-&gt;html</code>
-    </MixedReturnStatement>
-  </file>
   <file src="redaxo/src/core/lib/form/elements/select.php">
-    <MixedArgument occurrences="1">
-      <code>$select-&gt;getAttribute('multiple')</code>
-    </MixedArgument>
+    <InvalidScalarArgument occurrences="1">
+      <code>$this-&gt;getValue() ?? ''</code>
+    </InvalidScalarArgument>
     <MixedAssignment occurrences="1">
       <code>$this-&gt;separator</code>
     </MixedAssignment>
@@ -4954,8 +4491,12 @@
     </MixedArgument>
   </file>
   <file src="redaxo/src/core/lib/form/form_base.php">
-    <MixedArgument occurrences="1">
+    <MixedArgument occurrences="5">
       <code>$result</code>
+      <code>$this-&gt;preView($fieldsetName, $element-&gt;getFieldName(), $element-&gt;getValue())</code>
+      <code>$this-&gt;preView($fieldsetName, $element-&gt;getFieldName(), $element-&gt;getValue())</code>
+      <code>$this-&gt;preView($fieldsetName, $element-&gt;getFieldName(), $element-&gt;getValue())</code>
+      <code>$value</code>
     </MixedArgument>
     <MixedArrayOffset occurrences="2">
       <code>$this-&gt;errorMessages[$result]</code>
@@ -4970,13 +4511,13 @@
     <MixedInferredReturnType occurrences="1">
       <code>string|null</code>
     </MixedInferredReturnType>
-    <MixedOperand occurrences="2">
-      <code>$element-&gt;get()</code>
-      <code>$element-&gt;get()</code>
-    </MixedOperand>
     <MixedReturnStatement occurrences="1">
       <code>$fields[$normalizedFieldName]</code>
     </MixedReturnStatement>
+    <NoValue occurrences="2">
+      <code>return $className;</code>
+      <code>return $inputTag;</code>
+    </NoValue>
     <PossiblyNullOperand occurrences="4">
       <code>$this-&gt;applyUrl</code>
       <code>$this-&gt;applyUrl</code>
@@ -4986,10 +4527,6 @@
     <UnusedForeachValue occurrences="1">
       <code>$fieldsetElementsArray</code>
     </UnusedForeachValue>
-    <UnusedVariable occurrences="2">
-      <code>$result</code>
-      <code>$result</code>
-    </UnusedVariable>
   </file>
   <file src="redaxo/src/core/lib/fragment.php">
     <MixedArgument occurrences="1">
@@ -5000,7 +4537,11 @@
     </MixedPropertyAssignment>
   </file>
   <file src="redaxo/src/core/lib/list.php">
-    <MixedArgument occurrences="22">
+    <ArgumentTypeCoercion occurrences="2">
+      <code>$this-&gt;getValue($column)</code>
+      <code>$this-&gt;getValue($columnName)</code>
+    </ArgumentTypeCoercion>
+    <MixedArgument occurrences="20">
       <code>$column</code>
       <code>$column</code>
       <code>$columnName</code>
@@ -5020,29 +4561,26 @@
       <code>$layout[1]</code>
       <code>$params</code>
       <code>$string</code>
-      <code>$this-&gt;getValue($column)</code>
-      <code>$this-&gt;getValue($columnName)</code>
       <code>$v</code>
     </MixedArgument>
     <MixedArrayAccess occurrences="2">
       <code>$tableColumnGroup['columns']</code>
       <code>$tableColumnGroup['columns']</code>
     </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="2">
-      <code>$attributes['class']</code>
+    <MixedArrayAssignment occurrences="1">
       <code>$groupColumns[]</code>
     </MixedArrayAssignment>
-    <MixedArrayOffset occurrences="7">
+    <MixedArrayOffset occurrences="8">
       <code>$columnFormates[$columnName]</code>
       <code>$columnFormates[$columnName]</code>
       <code>$this-&gt;customColumns[$columnName]</code>
       <code>$this-&gt;customColumns[$columnName]</code>
       <code>$this-&gt;customColumns[$column]</code>
       <code>$this-&gt;linkAttributes[$columnName]</code>
+      <code>$this-&gt;linkAttributes[$columnName][$attrName]</code>
       <code>$this-&gt;linkAttributes[$column]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="22">
-      <code>$attributes</code>
+    <MixedAssignment occurrences="21">
       <code>$column</code>
       <code>$columnName</code>
       <code>$columnName</code>
@@ -5065,39 +4603,49 @@
       <code>$value</code>
       <code>$value</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="2">
+    <MixedInferredReturnType occurrences="4">
+      <code>array</code>
+      <code>array&lt;string, string|int&gt;|null</code>
       <code>array|null</code>
       <code>string|null</code>
     </MixedInferredReturnType>
-    <MixedOperand occurrences="5">
+    <MixedOperand occurrences="4">
       <code>$columnValue</code>
-      <code>$this-&gt;getNoRowsMessage()</code>
       <code>$varname</code>
       <code>rex_escape($name, 'html_attr')</code>
       <code>rex_escape($value)</code>
     </MixedOperand>
-    <MixedPropertyTypeCoercion occurrences="3">
+    <MixedPropertyTypeCoercion occurrences="2">
       <code>$attr</code>
-      <code>$this-&gt;columnLayouts</code>
       <code>$this-&gt;linkAttributes</code>
     </MixedPropertyTypeCoercion>
-    <MixedReturnStatement occurrences="2">
+    <MixedReturnStatement occurrences="7">
       <code>$default</code>
       <code>$default</code>
+      <code>$default</code>
+      <code>$default</code>
+      <code>$this-&gt;linkAttributes[$column] ?? $default</code>
+      <code>$this-&gt;linkAttributes[$column] ?? $default</code>
+      <code>json_decode($this-&gt;getValue($column), true)</code>
     </MixedReturnStatement>
     <MixedReturnTypeCoercion occurrences="2">
       <code>$default ?? $columnName</code>
       <code>(T is null ? string : ?string)</code>
     </MixedReturnTypeCoercion>
-    <PossiblyNullArgument occurrences="3">
+    <PossiblyNullArgument occurrences="5">
       <code>$columnLayout</code>
       <code>$column['width'] ?? null</code>
       <code>$sortColumn</code>
+      <code>$this-&gt;getValue($column)</code>
+      <code>$this-&gt;getValue($columnName)</code>
     </PossiblyNullArgument>
     <PossiblyNullOperand occurrences="2">
       <code>$sortType</code>
       <code>$sortType</code>
     </PossiblyNullOperand>
+    <PropertyTypeCoercion occurrences="1">
+      <code>$this-&gt;columnLayouts</code>
+    </PropertyTypeCoercion>
   </file>
   <file src="redaxo/src/core/lib/login/api_has_user_session.php">
     <MixedArgument occurrences="1">
@@ -5115,30 +4663,36 @@
   <file src="redaxo/src/core/lib/login/backend_login.php">
     <InvalidArgument occurrences="1"/>
     <MixedArgument occurrences="1">
-      <code>rex::getProperty('instname')</code>
+      <code>rex::getProperty('session_duration')</code>
     </MixedArgument>
     <MixedArrayAccess occurrences="4">
-      <code>$_SESSION[$sessionNs][self::SYSTEM_ID]['UID']</code>
+      <code>$_SESSION[static::getSessionNamespace()][self::SYSTEM_ID]</code>
       <code>$_SESSION[static::getSessionNamespace()][self::SYSTEM_ID]</code>
       <code>$sessionConfig['samesite']</code>
       <code>$sessionConfig['secure']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="2">
+    <MixedAssignment occurrences="1">
       <code>$sessionConfig</code>
-      <code>$userId</code>
     </MixedAssignment>
-    <MixedOperand occurrences="2">
+    <PossiblyInvalidArrayOffset occurrences="1">
+      <code>$_SESSION[static::getSessionNamespace()]</code>
+    </PossiblyInvalidArrayOffset>
+    <PossiblyNullArgument occurrences="3">
+      <code>$sql-&gt;getValue('id')</code>
+      <code>$sql-&gt;getValue('password')</code>
+      <code>rex::getProperty('session_duration')</code>
+    </PossiblyNullArgument>
+    <PossiblyNullOperand occurrences="1">
       <code>$this-&gt;userLogin</code>
-      <code>rex::getProperty('instname')</code>
-    </MixedOperand>
+    </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/core/lib/login/backend_password_policy.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$previousPasswords</code>
+    </ArgumentTypeCoercion>
     <MixedArgument occurrences="1">
       <code>$previousPasswords</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="1">
-      <code>$previousPasswords</code>
-    </MixedArgumentTypeCoercion>
     <MixedArrayAssignment occurrences="1">
       <code>$previousPasswords[]</code>
     </MixedArrayAssignment>
@@ -5152,64 +4706,63 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/login/login.php">
-    <MixedArgument occurrences="20">
-      <code>$cookieParams['domain']</code>
-      <code>$cookieParams['httponly']</code>
-      <code>$cookieParams['lifetime']</code>
-      <code>$cookieParams['path']</code>
-      <code>$cookieParams['samesite']</code>
-      <code>$cookieParams['samesite']</code>
-      <code>$cookieParams['secure']</code>
+    <MixedArgument occurrences="6">
       <code>$hash</code>
       <code>$hash</code>
-      <code>$id</code>
-      <code>$key</code>
       <code>$password</code>
       <code>$password</code>
       <code>$password</code>
       <code>$password</code>
-      <code>$password</code>
-      <code>$query</code>
-      <code>$this-&gt;impersonateQuery ?: $this-&gt;userQuery</code>
-      <code>$this-&gt;loginQuery</code>
-      <code>$this-&gt;userQuery</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="2">
+    <MixedArrayAccess occurrences="3">
       <code>$_SESSION[static::getSessionNamespace()][$this-&gt;systemId]</code>
       <code>$sessionConfig[$key]</code>
+      <code>$sessionConfig[$key]['cookie']</code>
     </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="2">
+    <MixedArrayAssignment occurrences="3">
       <code>$_SESSION[static::getSessionNamespace()][$this-&gt;systemId]</code>
       <code>$_SESSION[static::getSessionNamespace()][$this-&gt;systemId]</code>
+      <code>$_SESSION[static::getSessionNamespace()][$this-&gt;systemId][$varname]</code>
     </MixedArrayAssignment>
-    <MixedArrayOffset occurrences="4">
-      <code>$_SESSION[static::getSessionNamespace()][$this-&gt;systemId][$varname]</code>
-      <code>$_SESSION[static::getSessionNamespace()][$this-&gt;systemId][$varname]</code>
-      <code>$_SESSION[static::getSessionNamespace()][$this-&gt;systemId][$varname]</code>
+    <MixedArrayOffset occurrences="1">
       <code>$cookieParams[$name]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="17">
-      <code>$_SESSION[static::getSessionNamespace()][$this-&gt;systemId][$varname]</code>
+    <MixedAssignment occurrences="11">
       <code>$cookieParams[$name]</code>
-      <code>$impersonator</code>
       <code>$name</code>
       <code>$password</code>
       <code>$password</code>
-      <code>$query</code>
       <code>$rexSessId</code>
-      <code>$sessUid</code>
       <code>$sessionConfig</code>
       <code>$this-&gt;DB</code>
       <code>$this-&gt;cache</code>
-      <code>$this-&gt;idColumn</code>
       <code>$this-&gt;logout</code>
-      <code>$this-&gt;message</code>
-      <code>$this-&gt;systemId</code>
+      <code>$this-&gt;sessionMaxOverallDuration</code>
       <code>$value</code>
     </MixedAssignment>
-    <MixedOperand occurrences="1">
-      <code>$this-&gt;sessionDuration</code>
-    </MixedOperand>
+    <MixedReturnStatement occurrences="2">
+      <code>$_SESSION[static::getSessionNamespace()][$this-&gt;systemId][$varname]</code>
+      <code>$default</code>
+    </MixedReturnStatement>
+    <MixedReturnTypeCoercion occurrences="2">
+      <code>$cookieParams</code>
+      <code>array{lifetime: ?int, path: ?string, domain: ?string, secure: ?bool, httponly: ?bool, samesite: ?string}</code>
+    </MixedReturnTypeCoercion>
+    <NullArgument occurrences="3">
+      <code>null</code>
+      <code>null</code>
+      <code>null</code>
+    </NullArgument>
+    <PossiblyInvalidArrayOffset occurrences="1">
+      <code>$_SESSION[static::getSessionNamespace()]</code>
+    </PossiblyInvalidArrayOffset>
+    <PossiblyNullArgument occurrences="5">
+      <code>$cookieParams['lifetime']</code>
+      <code>$this-&gt;impersonator-&gt;getValue($this-&gt;idColumn)</code>
+      <code>$this-&gt;user-&gt;getValue($this-&gt;idColumn)</code>
+      <code>$this-&gt;user-&gt;getValue($this-&gt;idColumn)</code>
+      <code>$this-&gt;user-&gt;getValue($this-&gt;passwordColumn)</code>
+    </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/lib/login/password_policy.php">
     <MixedArgument occurrences="6">
@@ -5243,35 +4796,32 @@
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/login/user.php">
-    <InvalidReturnStatement occurrences="6">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$role</code>
+    </ArgumentTypeCoercion>
+    <LessSpecificReturnStatement occurrences="6">
       <code>$this-&gt;sql-&gt;getValue($key)</code>
       <code>$this-&gt;sql-&gt;getValue('email')</code>
       <code>$this-&gt;sql-&gt;getValue('language')</code>
       <code>$this-&gt;sql-&gt;getValue('login')</code>
       <code>$this-&gt;sql-&gt;getValue('name')</code>
       <code>$this-&gt;sql-&gt;getValue('startpage')</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="6">
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-    </InvalidReturnType>
-    <InvalidScalarArgument occurrences="1">
-      <code>$role</code>
-    </InvalidScalarArgument>
-    <MixedAssignment occurrences="1">
-      <code>$result</code>
-    </MixedAssignment>
+    </LessSpecificReturnStatement>
     <MixedInferredReturnType occurrences="1">
       <code>bool</code>
     </MixedInferredReturnType>
     <MixedReturnStatement occurrences="2">
       <code>$complexPerm ? $complexPerm-&gt;$method() : false</code>
-      <code>$result</code>
+      <code>$complexPerm ? $complexPerm-&gt;$method() : false</code>
     </MixedReturnStatement>
+    <MoreSpecificReturnType occurrences="6">
+      <code>string</code>
+      <code>string</code>
+      <code>string</code>
+      <code>string</code>
+      <code>string</code>
+      <code>string</code>
+    </MoreSpecificReturnType>
     <NullableReturnStatement occurrences="6">
       <code>$this-&gt;sql-&gt;getValue($key)</code>
       <code>$this-&gt;sql-&gt;getValue('email')</code>
@@ -5286,38 +4836,29 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/lib/packages/addons/addon.php">
-    <MixedArgument occurrences="5">
-      <code>$addon</code>
-      <code>$addon</code>
-      <code>$addon</code>
-      <code>$addon</code>
-      <code>rex::getProperty('system_addons')</code>
+    <InvalidScalarArgument occurrences="1">
+      <code>$args</code>
+    </InvalidScalarArgument>
+    <MixedArgument occurrences="2">
+      <code>$args</code>
+      <code>$args</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="3">
+    <MixedArgumentTypeCoercion occurrences="1">
       <code>$pluginName</code>
-      <code>$this-&gt;plugins</code>
-      <code>$this-&gt;plugins</code>
     </MixedArgumentTypeCoercion>
     <MixedArrayOffset occurrences="1">
       <code>$config[$addonName]['plugins'][$plugin]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="5">
-      <code>$addon</code>
-      <code>$addon</code>
-      <code>$addon</code>
+    <MixedArrayTypeCoercion occurrences="1">
+      <code>$plugins[$pluginName]</code>
+    </MixedArrayTypeCoercion>
+    <MixedAssignment occurrences="2">
       <code>$plugin</code>
       <code>$plugins</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="1">
-      <code>i18n</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="1">
-      <code>call_user_func_array([rex_i18n::class, 'msg'], $args)</code>
-    </MixedReturnStatement>
-    <MixedReturnTypeCoercion occurrences="2">
-      <code>$this-&gt;plugins</code>
-      <code>getRegisteredPlugins</code>
-    </MixedReturnTypeCoercion>
+    <MixedPropertyTypeCoercion occurrences="1">
+      <code>$addon-&gt;plugins</code>
+    </MixedPropertyTypeCoercion>
     <ParamNameMismatch occurrences="3">
       <code>$addon</code>
       <code>$addon</code>
@@ -5330,13 +4871,16 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/packages/manager.php">
+    <LessSpecificReturnStatement occurrences="1">
+      <code>$packages</code>
+    </LessSpecificReturnStatement>
     <MixedArgument occurrences="10">
+      <code>$args</code>
       <code>$instmsg</code>
       <code>$instmsg</code>
       <code>$normal</code>
       <code>$normal</code>
       <code>$packageId</code>
-      <code>$pos</code>
       <code>$requirements['packages'][$packageId]</code>
       <code>$requirements['php']['version']</code>
       <code>$requirements['redaxo']</code>
@@ -5347,21 +4891,29 @@
       <code>$package</code>
       <code>$packageId</code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="9">
+    <MixedArrayAccess occurrences="15">
       <code>$conflicts['packages']</code>
+      <code>$conflicts['packages'][$packageId]</code>
+      <code>$conflicts['packages'][$this-&gt;package-&gt;getPackageId()]</code>
       <code>$ps[$id]</code>
       <code>$req['packages']</code>
       <code>$requirements['packages']</code>
       <code>$requirements['packages']</code>
       <code>$requirements['packages']</code>
       <code>$requirements['packages']</code>
+      <code>$requirements['packages'][$packageId]</code>
+      <code>$requirements['packages'][$packageId]</code>
+      <code>$requirements['packages'][$packageId]</code>
+      <code>$requirements['packages'][$packageId]</code>
       <code>$requires[$id]</code>
       <code>$requires[$id]</code>
     </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="3">
+    <MixedArrayAssignment occurrences="5">
       <code>$normal[]</code>
       <code>$req['packages']</code>
+      <code>$req['packages'][$package-&gt;getAddon()-&gt;getPackageId()]</code>
       <code>$requires[$id]</code>
+      <code>$requires[$id][$packageId]</code>
     </MixedArrayAssignment>
     <MixedArrayOffset occurrences="2">
       <code>$ps[$id]</code>
@@ -5395,32 +4947,38 @@
       <code>$add($id)</code>
       <code>$add($rp)</code>
     </MixedFunctionCall>
-    <MixedInferredReturnType occurrences="1">
-      <code>string</code>
-    </MixedInferredReturnType>
     <MixedOperand occurrences="4">
       <code>$args[0]</code>
       <code>$args[0]</code>
       <code>$requirements['packages'][$packageId]</code>
       <code>$successMessage</code>
     </MixedOperand>
-    <MixedReturnStatement occurrences="1">
-      <code>call_user_func_array([rex_i18n::class, 'msg'], $args)</code>
-    </MixedReturnStatement>
+    <MoreSpecificReturnType occurrences="1">
+      <code>non-empty-string[]</code>
+    </MoreSpecificReturnType>
     <UnusedForeachValue occurrences="1">
       <code>$reqP</code>
     </UnusedForeachValue>
   </file>
   <file src="redaxo/src/core/lib/packages/null.php">
-    <MixedInferredReturnType occurrences="1">
-      <code>i18n</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="2">
+    <MixedArgument occurrences="2">
+      <code>$args</code>
+      <code>$args</code>
+    </MixedArgument>
+    <MixedReturnStatement occurrences="1">
       <code>$default</code>
-      <code>call_user_func_array([rex_i18n::class, 'msg'], $args)</code>
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/packages/package.php">
+    <InvalidReturnStatement occurrences="1">
+      <code>$parts</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="1">
+      <code>array{string, ?string}</code>
+    </InvalidReturnType>
+    <LessSpecificImplementedReturnType occurrences="1">
+      <code>string</code>
+    </LessSpecificImplementedReturnType>
     <MixedArgument occurrences="9">
       <code>$__file</code>
       <code>$__file</code>
@@ -5432,15 +4990,19 @@
       <code>$package</code>
       <code>$value</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="4">
+    <MixedArrayAccess occurrences="6">
       <code>$cache[$id]</code>
       <code>$cache[$id]</code>
       <code>$cache[$id]</code>
+      <code>$cache[$id]['data']</code>
+      <code>$cache[$id]['timestamp']</code>
       <code>$cache[$package]</code>
     </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="2">
+    <MixedArrayAssignment occurrences="4">
       <code>$cache[$id]</code>
       <code>$cache[$id]</code>
+      <code>$cache[$id]['data']</code>
+      <code>$cache[$id]['timestamp']</code>
     </MixedArrayAssignment>
     <MixedArrayOffset occurrences="3">
       <code>$cache[$package]</code>
@@ -5459,17 +5021,22 @@
     <MixedOperand occurrences="1">
       <code>$value</code>
     </MixedOperand>
-    <PossiblyNullReference occurrences="1">
-      <code>isAdmin</code>
-    </PossiblyNullReference>
   </file>
   <file src="redaxo/src/core/lib/packages/plugins/plugin.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$name</code>
+    </ArgumentTypeCoercion>
+    <LessSpecificImplementedReturnType occurrences="1">
+      <code>string</code>
+    </LessSpecificImplementedReturnType>
+    <MixedArgument occurrences="1">
+      <code>$args</code>
+    </MixedArgument>
     <MixedInferredReturnType occurrences="1">
       <code>i18n</code>
     </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="2">
+    <MixedReturnStatement occurrences="1">
       <code>call_user_func_array([$this-&gt;getAddon(), 'i18n'], $args)</code>
-      <code>call_user_func_array([rex_i18n::class, 'msg'], $args)</code>
     </MixedReturnStatement>
     <PossiblyNullArgument occurrences="1">
       <code>$plugin</code>
@@ -5492,13 +5059,17 @@
     <MixedAssignment occurrences="1">
       <code>$_SESSION[self::getSessionNamespace()][$varname]</code>
     </MixedAssignment>
-    <MixedOperand occurrences="1">
-      <code>rex::getProperty('instname')</code>
-    </MixedOperand>
+    <PossiblyInvalidArrayOffset occurrences="1">
+      <code>$_SESSION[self::getSessionNamespace()]</code>
+    </PossiblyInvalidArrayOffset>
   </file>
   <file src="redaxo/src/core/lib/response.php">
-    <MixedArgument occurrences="3">
-      <code>$_SERVER['HTTP_ACCEPT_ENCODING']</code>
+    <InvalidReturnType occurrences="3">
+      <code>void|never</code>
+      <code>void|never</code>
+      <code>void|never</code>
+    </InvalidReturnType>
+    <MixedArgument occurrences="2">
       <code>$chunkSize</code>
       <code>$range-&gt;getStart()</code>
     </MixedArgument>
@@ -5507,24 +5078,12 @@
       <code>$preloadFile['mimeType']</code>
       <code>$preloadFile['type']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="4">
+    <MixedAssignment occurrences="3">
       <code>$chunkSize</code>
       <code>$preloadFile</code>
-      <code>$range</code>
       <code>$value</code>
     </MixedAssignment>
-    <MixedMethodCall occurrences="7">
-      <code>getEnd</code>
-      <code>getEnd</code>
-      <code>getLength</code>
-      <code>getLength</code>
-      <code>getLength</code>
-      <code>getStart</code>
-      <code>getStart</code>
-    </MixedMethodCall>
-    <MixedOperand occurrences="10">
-      <code>$_SERVER['HTTP_HOST']</code>
-      <code>$_SERVER['REQUEST_URI']</code>
+    <MixedOperand occurrences="8">
       <code>$cacheControl</code>
       <code>$preloadFile['file']</code>
       <code>$preloadFile['mimeType']</code>
@@ -5541,10 +5100,20 @@
       <code>$filename</code>
       <code>$raw ? $value : rawurlencode($value)</code>
     </PossiblyNullOperand>
+    <PossiblyUndefinedArrayOffset occurrences="2">
+      <code>$_SERVER['HTTP_HOST']</code>
+      <code>$_SERVER['REQUEST_URI']</code>
+    </PossiblyUndefinedArrayOffset>
+    <RedundantCondition occurrences="1">
+      <code>$path</code>
+    </RedundantCondition>
   </file>
   <file src="redaxo/src/core/lib/rex.php">
-    <MixedArgument occurrences="10">
-      <code>$config[$db]</code>
+    <LessSpecificReturnStatement occurrences="2">
+      <code>rex_type::array(self::getConfig('package-order', []))</code>
+      <code>rex_version::gitHash($path, $repo) ?? false</code>
+    </LessSpecificReturnStatement>
+    <MixedArgument occurrences="7">
       <code>$key</code>
       <code>$key</code>
       <code>$key</code>
@@ -5552,60 +5121,36 @@
       <code>$value</code>
       <code>$value</code>
       <code>$value</code>
-      <code>$version</code>
-      <code>self::getProperty('server')</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="3">
-      <code>$config[$db]</code>
-      <code>$flags['enabled']</code>
-      <code>$flags['throw_always_exception']</code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="2">
-      <code>$flags['enabled']</code>
-      <code>$flags['throw_always_exception']</code>
-    </MixedArrayAssignment>
-    <MixedAssignment occurrences="10">
-      <code>$config</code>
-      <code>$flags</code>
-      <code>$flags['enabled']</code>
-      <code>$flags['throw_always_exception']</code>
+    <MixedAssignment occurrences="5">
       <code>$item</code>
       <code>$login</code>
       <code>$request</code>
       <code>$value['throw_always_exception']</code>
-      <code>$version</code>
       <code>self::$properties[$key]</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="9">
+    <MixedInferredReturnType occurrences="2">
       <code>Symfony\Component\HttpFoundation\Request</code>
-      <code>array{enabled: bool, throw_always_exception: bool|int}</code>
       <code>null|rex_user</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
     </MixedInferredReturnType>
     <MixedMethodCall occurrences="1">
       <code>getImpersonator</code>
     </MixedMethodCall>
-    <MixedOperand occurrences="3">
-      <code>$accesskeys[$key]</code>
-      <code>$accesskeys[$key]</code>
+    <MixedOperand occurrences="1">
       <code>$result</code>
     </MixedOperand>
-    <MixedReturnStatement occurrences="9">
-      <code>$flags</code>
+    <MixedReturnStatement occurrences="3">
+      <code>$login ? $login-&gt;getImpersonator() : null</code>
       <code>$login ? $login-&gt;getImpersonator() : null</code>
       <code>$request</code>
-      <code>$version</code>
-      <code>self::getProperty('error_email')</code>
-      <code>self::getProperty('server')</code>
-      <code>self::getProperty('servername')</code>
-      <code>self::getProperty('table_prefix')</code>
-      <code>self::getProperty('temp_prefix')</code>
     </MixedReturnStatement>
+    <MoreSpecificReturnType occurrences="2">
+      <code>list&lt;non-empty-string&gt;</code>
+      <code>non-empty-string|false</code>
+    </MoreSpecificReturnType>
+    <UnusedPsalmSuppress occurrences="1">
+      <code>MixedReturnTypeCoercion</code>
+    </UnusedPsalmSuppress>
   </file>
   <file src="redaxo/src/core/lib/select.php">
     <MixedArgument occurrences="8">
@@ -5634,7 +5179,7 @@
       <code>$this-&gt;options[$this-&gt;currentOptgroup][$parentId]</code>
       <code>$this-&gt;options[$this-&gt;currentOptgroup][$parentId]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="15">
+    <MixedAssignment occurrences="14">
       <code>$attributes</code>
       <code>$id</code>
       <code>$key</code>
@@ -5645,12 +5190,15 @@
       <code>$option</code>
       <code>$options</code>
       <code>$sectvalue</code>
-      <code>$subgroup</code>
       <code>$v</code>
       <code>$value</code>
       <code>$value</code>
       <code>$value</code>
     </MixedAssignment>
+    <MixedInferredReturnType occurrences="2">
+      <code>false|array</code>
+      <code>string|int</code>
+    </MixedInferredReturnType>
     <MixedOperand occurrences="5">
       <code>$level</code>
       <code>$name</code>
@@ -5661,22 +5209,23 @@
     <MixedPropertyTypeCoercion occurrences="1">
       <code>$optgroup</code>
     </MixedPropertyTypeCoercion>
+    <MixedReturnStatement occurrences="3">
+      <code>$default</code>
+      <code>$this-&gt;attributes[$name]</code>
+      <code>$this-&gt;options[$this-&gt;currentOptgroup][$parentId]</code>
+    </MixedReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/setup/import.php">
-    <MixedArgument occurrences="6">
+    <MixedArgument occurrences="5">
       <code>$importArchive</code>
       <code>$importArchive</code>
       <code>$installDump</code>
       <code>$installDump</code>
-      <code>$packageRepresentation</code>
       <code>$utf8mb4MinVersions[$sql-&gt;getDbType()]</code>
     </MixedArgument>
     <MixedArrayAccess occurrences="1">
       <code>$utf8mb4MinVersions[$sql-&gt;getDbType()]</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="1">
-      <code>$packageRepresentation</code>
-    </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/setup/setup.php">
     <MixedArgument occurrences="10">
@@ -5691,16 +5240,16 @@
       <code>self::MIN_PHP_VERSION</code>
       <code>self::MIN_PHP_VERSION</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="4">
+    <MixedArrayAccess occurrences="8">
       <code>$config['db'][1]</code>
       <code>$config['db'][1]</code>
       <code>$config['db'][1]</code>
       <code>$config['db'][1]</code>
+      <code>$config['db'][1]['host']</code>
+      <code>$config['db'][1]['login']</code>
+      <code>$config['db'][1]['name']</code>
+      <code>$config['db'][1]['password']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="2">
-      <code>$expire</code>
-      <code>$orgDbConfig</code>
-    </MixedAssignment>
     <MixedFunctionCall occurrences="2">
       <code>$func($dir)</code>
       <code>$func($path)</code>
@@ -5728,25 +5277,20 @@
       <code>$value</code>
       <code>$value</code>
     </MixedAssignment>
-    <MixedOperand occurrences="2">
-      <code>$this-&gt;getPrimaryKey($table-&gt;getPrimaryKey())</code>
-      <code>$this-&gt;tableName($table-&gt;getName())</code>
-    </MixedOperand>
     <PossiblyNullArgument occurrences="1">
       <code>$table-&gt;getPrimaryKey()</code>
     </PossiblyNullArgument>
   </file>
   <file src="redaxo/src/core/lib/sql/sql.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>$sql-&gt;getValue('Create Table')</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>string</code>
-    </InvalidReturnType>
-    <InvalidScalarArgument occurrences="2">
+    <ArgumentTypeCoercion occurrences="2">
       <code>$this-&gt;getValue($column)</code>
       <code>$value</code>
-    </InvalidScalarArgument>
+    </ArgumentTypeCoercion>
+    <LessSpecificReturnStatement occurrences="3">
+      <code>$sql-&gt;getValue('Create Table')</code>
+      <code>$this-&gt;stmt-&gt;fetchAll($fetchType)</code>
+      <code>$this-&gt;stmt-&gt;fetchAll($fetchType)</code>
+    </LessSpecificReturnStatement>
     <MixedArgument occurrences="6">
       <code>$field</code>
       <code>$key</code>
@@ -5755,13 +5299,16 @@
       <code>$version</code>
       <code>$version</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="1">
+    <MixedArgumentTypeCoercion occurrences="3">
+      <code>$column</code>
+      <code>$column</code>
       <code>$fldName</code>
     </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="13">
+    <MixedArrayTypeCoercion occurrences="1">
+      <code>$this-&gt;values[$column]</code>
+    </MixedArrayTypeCoercion>
+    <MixedAssignment occurrences="11">
       <code>$buffered</code>
-      <code>$buffered</code>
-      <code>$errors['error']</code>
       <code>$field</code>
       <code>$i</code>
       <code>$key</code>
@@ -5791,33 +5338,43 @@
       <code>$version</code>
       <code>json_decode($this-&gt;getValue($column), true)</code>
     </MixedReturnStatement>
+    <MoreSpecificReturnType occurrences="3">
+      <code>list&lt;array&lt;(TFetchType is PDO::FETCH_NUM ? int : string), scalar|null&gt;&gt;</code>
+      <code>list&lt;array&lt;(TFetchType is PDO::FETCH_NUM ? int : string), scalar|null&gt;&gt;</code>
+      <code>string</code>
+    </MoreSpecificReturnType>
     <NullableReturnStatement occurrences="1">
       <code>$sql-&gt;getValue('Create Table')</code>
     </NullableReturnStatement>
-    <PossiblyNullArgument occurrences="1">
+    <PossiblyNullArgument occurrences="2">
+      <code>$this-&gt;getValue($column)</code>
       <code>$this-&gt;rawFieldnames</code>
     </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="6">
+    <PossiblyNullReference occurrences="4">
       <code>fetch</code>
       <code>fetchAll</code>
       <code>fetchAll</code>
       <code>getColumnMeta</code>
-      <code>getValue</code>
-      <code>getValue</code>
     </PossiblyNullReference>
+    <PropertyTypeCoercion occurrences="1">
+      <code>$this-&gt;getConnection()-&gt;lastInsertId()</code>
+    </PropertyTypeCoercion>
     <UnusedForeachValue occurrences="3">
       <code>$value</code>
       <code>$value</code>
       <code>$value</code>
     </UnusedForeachValue>
+    <UnusedPsalmSuppress occurrences="2">
+      <code>MixedReturnTypeCoercion</code>
+      <code>MixedReturnTypeCoercion</code>
+    </UnusedPsalmSuppress>
     <UnusedVariable occurrences="1">
       <code>$port</code>
     </UnusedVariable>
   </file>
   <file src="redaxo/src/core/lib/sql/table.php">
-    <MixedArgument occurrences="7">
+    <MixedArgument occurrences="6">
       <code>$column</code>
-      <code>$columns</code>
       <code>$db</code>
       <code>$name</code>
       <code>$oldName</code>
@@ -5874,27 +5431,13 @@
       <code>$query</code>
       <code>$ret[]</code>
     </MixedAssignment>
-    <PossiblyNullReference occurrences="1">
-      <code>getValue</code>
-    </PossiblyNullReference>
-    <UnusedVariable occurrences="4">
-      <code>$inString</code>
-      <code>$inString</code>
-      <code>$stringStart</code>
-      <code>$stringStart</code>
-    </UnusedVariable>
+    <UnusedPsalmSuppress occurrences="2">
+      <code>LoopInvalidation</code>
+      <code>LoopInvalidation</code>
+    </UnusedPsalmSuppress>
   </file>
   <file src="redaxo/src/core/lib/system_report.php">
-    <MixedArgument occurrences="13">
-      <code>$_SERVER['SERVER_SOFTWARE']</code>
-      <code>$browser</code>
-      <code>$browser</code>
-      <code>$browser</code>
-      <code>$browser</code>
-      <code>$browser</code>
-      <code>$browser</code>
-      <code>$browser</code>
-      <code>$browser</code>
+    <MixedArgument occurrences="4">
       <code>$security</code>
       <code>$security</code>
       <code>$value</code>
@@ -5906,8 +5449,7 @@
       <code>$label</code>
       <code>$label</code>
     </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="12">
-      <code>$browser</code>
+    <MixedAssignment occurrences="11">
       <code>$db</code>
       <code>$dbData['Warning']</code>
       <code>$dbId</code>
@@ -5923,20 +5465,18 @@
     <MixedOperand occurrences="1">
       <code>$dbId</code>
     </MixedOperand>
+    <PossiblyUndefinedArrayOffset occurrences="1">
+      <code>$_SERVER['SERVER_PROTOCOL']</code>
+    </PossiblyUndefinedArrayOffset>
   </file>
   <file src="redaxo/src/core/lib/util/editor.php">
-    <MixedArgument occurrences="6">
-      <code>$editor</code>
-      <code>$filePath</code>
-      <code>$filePath</code>
-      <code>$filePath</code>
+    <MixedInferredReturnType occurrences="1">
+      <code>string|null</code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement occurrences="2"/>
+    <PossiblyInvalidArgument occurrences="1">
       <code>$line</code>
-      <code>$path</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="2">
-      <code>$editor</code>
-      <code>$path</code>
-    </MixedAssignment>
+    </PossiblyInvalidArgument>
   </file>
   <file src="redaxo/src/core/lib/util/file.php">
     <MixedArgument occurrences="1">
@@ -5953,19 +5493,19 @@
       <code>array|T</code>
       <code>null|string</code>
     </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="3">
+    <MixedReturnStatement occurrences="5">
       <code>$extensions[strtolower(self::extension($file))] ?? $mimeType</code>
+      <code>$extensions[strtolower(self::extension($file))] ?? $mimeType</code>
+      <code>$mimeType ?: null</code>
       <code>$mimeType ?: null</code>
       <code>null === $content ? $default : json_decode($content, true)</code>
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/util/finder.php">
-    <InvalidArgument occurrences="1"/>
-    <MixedArgument occurrences="4">
+    <MixedArgument occurrences="3">
       <code>$filename</code>
       <code>$pattern</code>
       <code>$systemStuffFile</code>
-      <code>$this-&gt;recursiveMode</code>
     </MixedArgument>
     <MixedArrayAssignment occurrences="2">
       <code>$this-&gt;$var[]</code>
@@ -5983,6 +5523,9 @@
     </UnusedClosureParam>
   </file>
   <file src="redaxo/src/core/lib/util/formatter.php">
+    <InvalidArrayOffset occurrences="1">
+      <code>$units[$unitIndex]</code>
+    </InvalidArrayOffset>
     <MixedArgument occurrences="5">
       <code>$format['params']</code>
       <code>$format['params']</code>
@@ -5996,131 +5539,139 @@
     <MixedInferredReturnType occurrences="1">
       <code>string</code>
     </MixedInferredReturnType>
-    <MixedOperand occurrences="4">
+    <MixedOperand occurrences="5">
       <code>$format['attr']</code>
       <code>$format['attr']</code>
       <code>$format['params']</code>
       <code>$format['params']</code>
+      <code>$units[$unitIndex]</code>
     </MixedOperand>
     <MixedReturnStatement occurrences="1">
       <code>self::$formatType($value, $format)</code>
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/util/i18n.php">
-    <MixedArgument occurrences="2">
-      <code>$fallbackLocale</code>
-      <code>$locale</code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="6">
+    <ArgumentTypeCoercion occurrences="4">
       <code>$args</code>
       <code>$args</code>
-      <code>$i18nFunction</code>
-      <code>$i18nFunction</code>
       <code>func_get_args()</code>
       <code>func_get_args()</code>
+    </ArgumentTypeCoercion>
+    <LessSpecificReturnStatement occurrences="6">
+      <code>$lang</code>
+      <code>$msg</code>
+      <code>$text</code>
+      <code>call_user_func($i18nFunction, substr($text, $transKeyLen))</code>
+      <code>rex_escape($text)</code>
+      <code>self::$locales</code>
+    </LessSpecificReturnStatement>
+    <MixedArgumentTypeCoercion occurrences="2">
+      <code>$i18nFunction</code>
+      <code>$i18nFunction</code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayOffset occurrences="4">
-      <code>self::$loaded[$fallbackLocale]</code>
-      <code>self::$loaded[$locale]</code>
-      <code>self::$msg[$fallbackLocale]</code>
-      <code>self::$msg[$locale]</code>
-    </MixedArrayOffset>
-    <MixedAssignment occurrences="5">
+    <MixedAssignment occurrences="2">
       <code>$array[$key]</code>
-      <code>$fallbackLocale</code>
-      <code>$locale</code>
       <code>$value</code>
-      <code>self::$locale</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="5">
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="5">
-      <code>self::$locale</code>
-      <code>self::getMsg($key, false, $args, $locale)</code>
-      <code>self::getMsg($key, false, func_get_args())</code>
-      <code>self::getMsg($key, true, $args, $locale)</code>
-      <code>self::getMsg($key, true, func_get_args())</code>
-    </MixedReturnStatement>
+    <MoreSpecificReturnType occurrences="4">
+      <code>list&lt;string&gt;</code>
+      <code>non-empty-string</code>
+      <code>non-empty-string</code>
+      <code>non-empty-string</code>
+    </MoreSpecificReturnType>
+    <PropertyTypeCoercion occurrences="1">
+      <code>self::$msg</code>
+    </PropertyTypeCoercion>
     <UnusedVariable occurrences="1">
       <code>$country</code>
     </UnusedVariable>
   </file>
+  <file src="redaxo/src/core/lib/util/log_file.php">
+    <MethodSignatureMustProvideReturnType occurrences="1">
+      <code>__toString</code>
+    </MethodSignatureMustProvideReturnType>
+  </file>
   <file src="redaxo/src/core/lib/util/logger.php">
+    <InvalidArgument occurrences="1">
+      <code>$logData</code>
+    </InvalidArgument>
     <MixedArgument occurrences="2">
       <code>$level</code>
       <code>$level</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="1">
-      <code>$logData</code>
-    </MixedArgumentTypeCoercion>
     <MixedAssignment occurrences="2">
       <code>$replace['{' . $key . '}']</code>
       <code>$val</code>
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/util/markdown.php">
-    <MixedArgument occurrences="6">
+    <InvalidPropertyAssignmentValue occurrences="1">
+      <code>$this-&gt;headers</code>
+    </InvalidPropertyAssignmentValue>
+    <MixedArgument occurrences="4">
       <code>$block</code>
       <code>$block</code>
       <code>$block['element']['name']</code>
-      <code>$parser-&gt;text($code)</code>
-      <code>$parser-&gt;text($code)</code>
       <code>$this-&gt;{$block['element']['handler']}($block['element']['text'])</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="7">
+    <MixedArrayAccess occurrences="5">
       <code>$block['element']['attributes']</code>
+      <code>$block['element']['attributes']['id']</code>
       <code>$block['element']['handler']</code>
       <code>$block['element']['name']</code>
       <code>$block['element']['text']</code>
-      <code>$header['id']</code>
-      <code>$header['level']</code>
-      <code>$header['text']</code>
     </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="3">
+    <MixedArrayAssignment occurrences="2">
       <code>$block['element']['attributes']</code>
-      <code>$this-&gt;headers[]</code>
-      <code>$this-&gt;ids[$id]</code>
+      <code>$block['element']['attributes']['id']</code>
     </MixedArrayAssignment>
     <MixedArrayOffset occurrences="1">
       <code>$this-&gt;ids[$id]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="9">
+    <MixedAssignment occurrences="3">
       <code>$block</code>
       <code>$block</code>
-      <code>$header</code>
-      <code>$headers</code>
       <code>$id</code>
-      <code>$level</code>
-      <code>$previous</code>
-      <code>$previous</code>
-      <code>$previous</code>
     </MixedAssignment>
-    <MixedOperand occurrences="6">
-      <code>$previous</code>
-      <code>$previous</code>
-      <code>$previous</code>
-      <code>$previous</code>
-      <code>rex_escape($header['id'])</code>
-      <code>rex_escape($header['text'])</code>
-    </MixedOperand>
-    <PossiblyNullArrayAccess occurrences="1">
+    <MixedInferredReturnType occurrences="1">
+      <code>string</code>
+    </MixedInferredReturnType>
+    <MixedPropertyTypeCoercion occurrences="1">
+      <code>$this-&gt;ids</code>
+    </MixedPropertyTypeCoercion>
+    <MixedReturnStatement occurrences="1">
+      <code>parent::text($text)</code>
+    </MixedReturnStatement>
+    <PossiblyUndefinedArrayOffset occurrences="1">
       <code>$level</code>
-    </PossiblyNullArrayAccess>
+    </PossiblyUndefinedArrayOffset>
+  </file>
+  <file src="redaxo/src/core/lib/util/path.php">
+    <LessSpecificReturnStatement occurrences="1">
+      <code>(string) $out[0]</code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType occurrences="1">
+      <code>null|non-empty-string</code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="redaxo/src/core/lib/util/path_default_provider.php">
+    <LessSpecificReturnStatement occurrences="2">
+      <code>$this-&gt;backend . $file</code>
+      <code>strtr($this-&gt;base . $file, '/\\', DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR)</code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType occurrences="2">
+      <code>non-empty-string</code>
+      <code>non-empty-string</code>
+    </MoreSpecificReturnType>
   </file>
   <file src="redaxo/src/core/lib/util/socket/socket.php">
     <InvalidArgument occurrences="1"/>
-    <MixedArgument occurrences="19">
+    <MixedArgument occurrences="12">
       <code>$parts['host']</code>
       <code>$parts['path']</code>
       <code>$parts['port']</code>
       <code>$parts['ssl']</code>
       <code>$prevError</code>
-      <code>$proxy</code>
       <code>$stream</code>
       <code>$stream</code>
       <code>$stream</code>
@@ -6128,15 +5679,8 @@
       <code>$stream</code>
       <code>$stream</code>
       <code>$stream</code>
-      <code>$this-&gt;stream</code>
-      <code>$this-&gt;stream</code>
-      <code>$this-&gt;stream</code>
-      <code>$this-&gt;stream</code>
-      <code>$this-&gt;stream</code>
-      <code>$this-&gt;stream</code>
     </MixedArgument>
-    <MixedAssignment occurrences="2">
-      <code>$proxy</code>
+    <MixedAssignment occurrences="1">
       <code>$value</code>
     </MixedAssignment>
     <MixedOperand occurrences="1">
@@ -6147,12 +5691,11 @@
     </UnusedClosureParam>
   </file>
   <file src="redaxo/src/core/lib/util/socket/socket_proxy.php">
-    <MixedArgument occurrences="5">
+    <MixedArgument occurrences="4">
       <code>$parts['host']</code>
       <code>$parts['path']</code>
       <code>$parts['port']</code>
       <code>$parts['ssl']</code>
-      <code>$this-&gt;stream</code>
     </MixedArgument>
   </file>
   <file src="redaxo/src/core/lib/util/socket/socket_response.php">
@@ -6164,13 +5707,9 @@
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/core/lib/util/sortable_iterator.php">
-    <MixedArgument occurrences="2">
+    <MixedArgument occurrences="1">
       <code>$string</code>
-      <code>$this-&gt;sort</code>
     </MixedArgument>
-    <MixedAssignment occurrences="1">
-      <code>$sort</code>
-    </MixedAssignment>
   </file>
   <file src="redaxo/src/core/lib/util/string.php">
     <MixedArgument occurrences="2">
@@ -6199,12 +5738,6 @@
     <MixedFunctionCall occurrences="1">
       <code>$func($value, $key)</code>
     </MixedFunctionCall>
-    <MixedInferredReturnType occurrences="1">
-      <code>array</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="1">
-      <code>Symfony\Component\Yaml\Yaml::parse($value)</code>
-    </MixedReturnStatement>
     <MixedReturnTypeCoercion occurrences="2">
       <code>$result</code>
       <code>string[]</code>
@@ -6241,6 +5774,14 @@
       <code>$var</code>
       <code>$var[$key]</code>
     </MixedAssignment>
+  </file>
+  <file src="redaxo/src/core/lib/util/version.php">
+    <MixedArgument occurrences="1">
+      <code>$pos</code>
+    </MixedArgument>
+    <NoValue occurrences="1">
+      <code>$comparator</code>
+    </NoValue>
   </file>
   <file src="redaxo/src/core/lib/var/var.php">
     <MixedArgument occurrences="4">
@@ -6286,6 +5827,11 @@
     <UnusedForeachValue occurrences="1">
       <code>$value</code>
     </UnusedForeachValue>
+  </file>
+  <file src="redaxo/src/core/lib/var_dumper.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$line</code>
+    </ArgumentTypeCoercion>
   </file>
   <file src="redaxo/src/core/lib/view.php">
     <MixedArgument occurrences="1">
@@ -6341,9 +5887,8 @@
     </UnusedVariable>
   </file>
   <file src="redaxo/src/core/pages/setup.php">
-    <MixedArgument occurrences="6">
+    <MixedArgument occurrences="5">
       <code>$config['timezone']</code>
-      <code>$error</code>
       <code>$error</code>
       <code>$message</code>
       <code>$messages</code>
@@ -6353,22 +5898,22 @@
       <code>$key</code>
       <code>$key</code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayAssignment occurrences="4">
+    <MixedArrayAssignment occurrences="8">
       <code>$config['db'][1]</code>
       <code>$config['db'][1]</code>
       <code>$config['db'][1]</code>
       <code>$config['db'][1]</code>
+      <code>$config['db'][1]['host']</code>
+      <code>$config['db'][1]['login']</code>
+      <code>$config['db'][1]['name']</code>
+      <code>$config['db'][1]['password']</code>
     </MixedArrayAssignment>
-    <MixedAssignment occurrences="5">
-      <code>$error</code>
+    <MixedAssignment occurrences="4">
       <code>$error</code>
       <code>$message</code>
       <code>$messages</code>
       <code>$value</code>
     </MixedAssignment>
-    <MixedOperand occurrences="1">
-      <code>$_SERVER['HTTP_HOST']</code>
-    </MixedOperand>
     <UnusedVariable occurrences="3">
       <code>$cancelSetupBtn</code>
       <code>$cancelSetupBtn</code>
@@ -6381,11 +5926,6 @@
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/pages/setup.step2.php">
-    <MixedOperand occurrences="1">
-      <code>$cancelSetupBtn</code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/core/pages/setup.step3.php">
     <MixedArgumentTypeCoercion occurrences="2">
       <code>$errorArray</code>
       <code>$successArray</code>
@@ -6398,14 +5938,17 @@
       <code>$class</code>
     </UnusedVariable>
   </file>
-  <file src="redaxo/src/core/pages/setup.step4.php">
+  <file src="redaxo/src/core/pages/setup.step3.php">
     <MixedArgumentTypeCoercion occurrences="1">
       <code>$errorArray</code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="3">
+    <MixedArrayAccess occurrences="6">
       <code>$config['db'][1]</code>
       <code>$config['db'][1]</code>
       <code>$config['db'][1]</code>
+      <code>$config['db'][1]['host']</code>
+      <code>$config['db'][1]['login']</code>
+      <code>$config['db'][1]['name']</code>
     </MixedArrayAccess>
     <MixedOperand occurrences="7">
       <code>$cancelSetupBtn</code>
@@ -6417,7 +5960,7 @@
       <code>rex_escape($config['servername'])</code>
     </MixedOperand>
   </file>
-  <file src="redaxo/src/core/pages/setup.step5.php">
+  <file src="redaxo/src/core/pages/setup.step4.php">
     <MixedArgumentTypeCoercion occurrences="1">
       <code>$errors</code>
     </MixedArgumentTypeCoercion>
@@ -6428,7 +5971,7 @@
       <code>$cancelSetupBtn</code>
     </MixedOperand>
   </file>
-  <file src="redaxo/src/core/pages/setup.step6.php">
+  <file src="redaxo/src/core/pages/setup.step5.php">
     <MixedArgumentTypeCoercion occurrences="1">
       <code>$errors</code>
     </MixedArgumentTypeCoercion>
@@ -6436,7 +5979,7 @@
       <code>$cancelSetupBtn</code>
     </MixedOperand>
   </file>
-  <file src="redaxo/src/core/pages/setup.step7.php">
+  <file src="redaxo/src/core/pages/setup.step6.php">
     <UnusedVariable occurrences="2">
       <code>$errmsg</code>
       <code>$errmsg</code>
@@ -6459,7 +6002,8 @@
     </UnusedForeachValue>
   </file>
   <file src="redaxo/src/core/pages/system.log.external.php">
-    <MixedArgument occurrences="8">
+    <MixedArgument occurrences="9">
+      <code>$logFile</code>
       <code>$logFile</code>
       <code>$logFile</code>
       <code>$logFile</code>
@@ -6475,6 +6019,14 @@
     <MixedOperand occurrences="1">
       <code>rex_escape($logLine)</code>
     </MixedOperand>
+    <TypeDoesNotContainNull occurrences="1">
+      <code>isset($logFile)</code>
+    </TypeDoesNotContainNull>
+  </file>
+  <file src="redaxo/src/core/pages/system.log.redaxo.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$data[3] ?? 1</code>
+    </ArgumentTypeCoercion>
   </file>
   <file src="redaxo/src/core/pages/system.report.html.php">
     <MixedArgument occurrences="1">
@@ -6492,18 +6044,18 @@
     <MixedAssignment occurrences="1">
       <code>$config[$key]</code>
     </MixedAssignment>
-    <MixedOperand occurrences="1">
-      <code>$field-&gt;get()</code>
-    </MixedOperand>
     <NullOperand occurrences="1">
       <code>rex_escape($editor-&gt;getBasepath())</code>
     </NullOperand>
   </file>
   <file src="redaxo/src/core/tests/be/navigation_test.php">
-    <MixedArrayAccess occurrences="3">
+    <MixedArrayAccess occurrences="6">
       <code>$navi[0]['headline']</code>
+      <code>$navi[0]['headline']['title']</code>
       <code>$navi[1]['headline']</code>
+      <code>$navi[1]['headline']['title']</code>
       <code>$navi[2]['headline']</code>
+      <code>$navi[2]['headline']['title']</code>
     </MixedArrayAccess>
   </file>
   <file src="redaxo/src/core/tests/console/config/set_test.php">
@@ -6520,15 +6072,6 @@
       <code>$ep-&gt;getSubject()</code>
       <code>$ep-&gt;getSubject()</code>
       <code>$ep-&gt;getSubject()</code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/core/tests/login/backend_login_test.php">
-    <MixedArgument occurrences="2">
-      <code>$this-&gt;cookiekey</code>
-      <code>$this-&gt;login</code>
-    </MixedArgument>
-    <MixedOperand occurrences="1">
-      <code>$this-&gt;login</code>
     </MixedOperand>
   </file>
   <file src="redaxo/src/core/tests/login/password_policy_test.php">
@@ -6556,12 +6099,6 @@
       <code>$path</code>
       <code>$path</code>
     </MixedArgument>
-  </file>
-  <file src="redaxo/src/core/tests/rex_test.php">
-    <MixedAssignment occurrences="2">
-      <code>$orgDebug</code>
-      <code>$origServer</code>
-    </MixedAssignment>
   </file>
   <file src="redaxo/src/core/tests/sql/sql_select_test.php">
     <MixedArgument occurrences="1">
@@ -6632,10 +6169,20 @@
     </MixedAssignment>
   </file>
   <file src="redaxo/src/core/tests/util/formatter_test.php">
+    <InvalidDocblock occurrences="3">
+      <code>public function dataIntlDate(): array</code>
+      <code>public function dataIntlDateTime(): array</code>
+      <code>public function dataIntlTime(): array</code>
+    </InvalidDocblock>
     <MixedArrayAccess occurrences="2">
       <code>$params['some']</code>
       <code>$params['subject']</code>
     </MixedArrayAccess>
+    <MixedInferredReturnType occurrences="3">
+      <code>list&lt;array{string, string|int|DateTimeInterface|null, 3?: null|int|array{int, int}|string}&gt;</code>
+      <code>list&lt;array{string, string|int|DateTimeInterface|null, 3?: null|int|string}&gt;</code>
+      <code>list&lt;array{string, string|int|DateTimeInterface|null, 3?: null|int|string}&gt;</code>
+    </MixedInferredReturnType>
     <MixedOperand occurrences="2">
       <code>$params['some']</code>
       <code>$params['subject']</code>
@@ -6646,7 +6193,7 @@
       <code>$this-&gt;previousLocale</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="1">
-      <code>[rex_i18n_trans_cb::class, 'mytranslate']</code>
+      <code>rex_i18n_trans_cb::mytranslate(...)</code>
     </MixedArgumentTypeCoercion>
   </file>
   <file src="redaxo/src/core/tests/util/markdown_test.php">
@@ -6658,25 +6205,6 @@
     <MixedArgument occurrences="1">
       <code>$content</code>
     </MixedArgument>
-    <MixedAssignment occurrences="4">
-      <code>$response</code>
-      <code>$response</code>
-      <code>$response</code>
-      <code>$response</code>
-    </MixedAssignment>
-    <MixedMethodCall occurrences="11">
-      <code>$method</code>
-      <code>getBody</code>
-      <code>getHeader</code>
-      <code>getHeader</code>
-      <code>getHeader</code>
-      <code>getHeader</code>
-      <code>getHeader</code>
-      <code>getStatusCode</code>
-      <code>getStatusMessage</code>
-      <code>isOk</code>
-      <code>writeBodyTo</code>
-    </MixedMethodCall>
     <MixedOperand occurrences="1">
       <code>$header</code>
     </MixedOperand>
@@ -6710,8 +6238,9 @@
     <MixedAssignment occurrences="1">
       <code>$i</code>
     </MixedAssignment>
-    <MixedOperand occurrences="1">
+    <MixedOperand occurrences="2">
       <code>$i</code>
+      <code>$i++</code>
     </MixedOperand>
     <UnusedVariable occurrences="1">
       <code>$exception</code>
@@ -6768,11 +6297,11 @@
     <MixedArrayAssignment occurrences="1">
       <code>$config['setup_addons'][]</code>
     </MixedArrayAssignment>
-    <MixedArrayOffset occurrences="1">
-      <code>$_SESSION[rex::getProperty('instname')]</code>
-    </MixedArrayOffset>
     <MixedAssignment occurrences="1">
       <code>$_SESSION[$sessionKey]['backend_login']</code>
     </MixedAssignment>
+    <RedundantCondition occurrences="1">
+      <code>rex::getProperty('login')</code>
+    </RedundantCondition>
   </file>
 </files>

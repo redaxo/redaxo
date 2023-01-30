@@ -86,8 +86,8 @@ class rex_article_slice
     protected function __construct(
         $id, $articleId, $clang, $ctype, $moduleId, $priority, $status,
         $createdate, $updatedate, $createuser, $updateuser, $revision,
-        $values, $media, $medialists, $links, $linklists)
-    {
+        $values, $media, $medialists, $links, $linklists,
+    ) {
         $this->id = $id;
         $this->articleId = $articleId;
         $this->clang = $clang;
@@ -160,7 +160,7 @@ class rex_article_slice
 
         return self::getSliceWhere(
             'id=? AND clang_id=? and revision=?',
-            [$anId, $clang, $revision]
+            [$anId, $clang, $revision],
         );
     }
 
@@ -212,7 +212,7 @@ class rex_article_slice
 
         return self::getSliceWhere(
             'article_id=? AND clang_id=? AND ctype_id=? AND priority=1 AND revision=?'.($ignoreOfflines ? ' AND status = 1' : ''),
-            [$anArticleId, $clang, $ctype, $revision]
+            [$anArticleId, $clang, $ctype, $revision],
         );
     }
 
@@ -235,7 +235,7 @@ class rex_article_slice
 
         return self::getSlicesWhere(
             'article_id=? AND clang_id=? AND revision=?'.($ignoreOfflines ? ' AND status = 1' : ''),
-            [$anArticleId, $clang, $revision]
+            [$anArticleId, $clang, $revision],
         );
     }
 
@@ -259,7 +259,7 @@ class rex_article_slice
 
         return self::getSlicesWhere(
             'article_id=? AND clang_id=? AND module_id=? AND revision=?'.($ignoreOfflines ? ' AND status = 1' : ''),
-            [$anArticleId, $clang, $aModuletypeId, $revision]
+            [$anArticleId, $clang, $aModuletypeId, $revision],
         );
     }
 
@@ -274,7 +274,7 @@ class rex_article_slice
     {
         return self::getSliceWhere(
             'priority '.($ignoreOfflines ? '>=' : '=').' ? AND article_id=? AND clang_id = ? AND ctype_id = ? AND revision=?'.($ignoreOfflines ? ' AND status = 1' : ''),
-            [$this->priority + 1, $this->articleId, $this->clang, $this->ctype, $this->revision]
+            [$this->priority + 1, $this->articleId, $this->clang, $this->ctype, $this->revision],
         );
     }
 
@@ -288,7 +288,7 @@ class rex_article_slice
         return self::getSliceWhere(
             'priority '.($ignoreOfflines ? '<=' : '=').' ? AND article_id=? AND clang_id = ? AND ctype_id = ? AND revision=?'.($ignoreOfflines ? ' AND status = 1' : ''),
             [$this->priority - 1, $this->articleId, $this->clang, $this->ctype, $this->revision],
-            self::ORDER_DESC
+            self::ORDER_DESC,
         );
     }
 
@@ -310,7 +310,7 @@ class rex_article_slice
     }
 
     /**
-     * @param string $where
+     * @param literal-string $where
      * @psalm-param self::ORDER_* $orderDirection
      *
      * @return self|null
@@ -322,7 +322,7 @@ class rex_article_slice
     }
 
     /**
-     * @param string $where
+     * @param literal-string $where
      * @psalm-param self::ORDER_* $orderDirection
      *
      * @return self[]

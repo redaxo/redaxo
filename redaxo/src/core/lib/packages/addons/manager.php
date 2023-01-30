@@ -8,8 +8,6 @@
 class rex_addon_manager extends rex_package_manager
 {
     /**
-     * Constructor.
-     *
      * @param rex_addon $addon Addon
      */
     protected function __construct(rex_addon $addon)
@@ -17,9 +15,6 @@ class rex_addon_manager extends rex_package_manager
         parent::__construct($addon, 'addon_');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function install($installDump = true)
     {
         $installed = $this->package->isInstalled();
@@ -42,9 +37,6 @@ class rex_addon_manager extends rex_package_manager
         return $return;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function uninstall($installDump = true)
     {
         $isActivated = $this->package->isAvailable();
@@ -62,9 +54,6 @@ class rex_addon_manager extends rex_package_manager
         return parent::uninstall($installDump);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function activate()
     {
         $this->generatePackageOrder = false;
@@ -108,9 +97,6 @@ class rex_addon_manager extends rex_package_manager
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function checkDependencies()
     {
         $check = $addonCheck = parent::checkDependencies();
@@ -131,9 +117,6 @@ class rex_addon_manager extends rex_package_manager
         return $check;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function wrongPackageId($addonName, $pluginName = null)
     {
         if (null !== $pluginName) {

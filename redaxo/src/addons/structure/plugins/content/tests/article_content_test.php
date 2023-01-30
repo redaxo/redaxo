@@ -37,12 +37,11 @@ class rex_article_content_test extends TestCase
         rex_article::getClassVars();
         $class = new ReflectionClass(rex_article::class);
         $classVarsProperty = $class->getProperty('classVars');
-        $classVarsProperty->setAccessible(true);
         $classVarsProperty->setValue(
             array_merge(
                 $classVarsProperty->getValue(),
-                ['art_foo']
-            )
+                ['art_foo'],
+            ),
         );
     }
 
@@ -58,7 +57,6 @@ class rex_article_content_test extends TestCase
         // reset static properties
         $class = new ReflectionClass(rex_article::class);
         $classVarsProperty = $class->getProperty('classVars');
-        $classVarsProperty->setAccessible(true);
         $classVarsProperty->setValue(null);
 
         rex_article::clearInstancePool();
@@ -69,12 +67,10 @@ class rex_article_content_test extends TestCase
         $instance = new rex_article_content(1, 1);
 
         $viaSql = new ReflectionProperty(rex_article_content::class, 'viasql');
-        $viaSql->setAccessible(true);
         $viaSql->setValue($instance, true);
 
         // fake meta field in database structure
         $propArticle = new ReflectionProperty(rex_article_content_base::class, 'ARTICLE');
-        $propArticle->setAccessible(true);
         $propArticle->setValue($instance, rex_sql::factory()->setValue('art_foo', 'teststring'));
 
         static::assertTrue($instance->hasValue('foo'));
@@ -89,12 +85,10 @@ class rex_article_content_test extends TestCase
         $instance = new rex_article_content(1, 1);
 
         $viaSql = new ReflectionProperty(rex_article_content::class, 'viasql');
-        $viaSql->setAccessible(true);
         $viaSql->setValue($instance, true);
 
         // fake meta field in database structure
         $propArticle = new ReflectionProperty(rex_article_content_base::class, 'ARTICLE');
-        $propArticle->setAccessible(true);
         $propArticle->setValue($instance, rex_sql::factory()->setValue('art_foo', 'teststring'));
 
         static::assertEquals('teststring', $instance->getValue('foo'));
@@ -107,7 +101,6 @@ class rex_article_content_test extends TestCase
         $instance = new rex_article_content(1, 1);
 
         $viaSql = new ReflectionProperty(rex_article_content::class, 'viasql');
-        $viaSql->setAccessible(true);
         $viaSql->setValue($instance, true);
 
         $this->expectException(rex_exception::class);

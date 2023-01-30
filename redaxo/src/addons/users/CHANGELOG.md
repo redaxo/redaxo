@@ -1,6 +1,23 @@
 Changelog
 =========
 
+Version 2.9.1 – 13.12.2022
+--------------------------
+
+### Bugfixes
+
+* Nicht-Admins mit Zugriff auf die Benutzerverwaltung konnten Admins bearbeiten (@bloep)
+
+
+Version 2.9.0 – 25.07.2022
+--------------------------
+
+### Neu
+
+* Benutzerliste: Zugewiesene Rollen werden als Liste ausgegeben für bessere Lesbarkeit (@tbaddade)
+* Rollen können dupliziert werden (@gharlan)
+
+
 Version 2.8.2 – 29.11.2021
 --------------------------
 

@@ -4,7 +4,7 @@ if (!rex_debug_clockwork::isRexDebugEnabled() || 'debug' === rex_get(rex_api_fun
     return;
 }
 
-if (rex::isBackend() && 'debug' === rex_request::get('page') && rex::getUser() && rex::getUser()->isAdmin()) {
+if (rex::isBackend() && 'debug' === rex_request::get('page') && rex::getUser()?->isAdmin()) {
     $index = file_get_contents(rex_addon::get('debug')->getAssetsPath('clockwork/index.html'));
 
     $editor = rex_editor::factory();
@@ -21,7 +21,7 @@ if (rex::isBackend() && 'debug' === rex_request::get('page') && rex::getUser() &
     }
 
     // prepend backend folder
-    $apiUrl = rex_path::basename(rex_path::backend()).'/'.rex_debug_clockwork::getClockworkApiUrl();
+    $apiUrl = dirname($_SERVER['REQUEST_URI']).'/'.rex_debug_clockwork::getClockworkApiUrl();
     $appearance = rex::getTheme();
     if (!$appearance) {
         $appearance = 'auto';
@@ -143,7 +143,7 @@ if ('cli' === PHP_SAPI) {
                 array_diff($input->getArguments(), $command->getDefinition()->getArgumentDefaults()),
                 array_diff($input->getOptions(), $command->getDefinition()->getOptionDefaults()),
                 $command->getDefinition()->getArgumentDefaults(),
-                $command->getDefinition()->getOptionDefaults()
+                $command->getDefinition()->getOptionDefaults(),
                 // $output->fetch()
             )
         ->storeRequest();

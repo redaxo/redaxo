@@ -72,9 +72,9 @@ rex_sql_table::get(rex::getTable('article_slice'))
     ->ensureGlobalColumns()
     ->setPrimaryKey('id')
     ->ensureIndex(new rex_sql_index('slice_priority', ['article_id', 'priority', 'module_id']))
-    ->ensureIndex(new rex_sql_index('clang_id', ['clang_id']))
-    ->ensureIndex(new rex_sql_index('article_id', ['article_id']))
     ->ensureIndex(new rex_sql_index('find_slices', ['clang_id', 'article_id']))
+    ->removeIndex('clang_id')
+    ->removeIndex('article_id')
     ->ensure();
 
 rex_sql_table::get(rex::getTable('template'))

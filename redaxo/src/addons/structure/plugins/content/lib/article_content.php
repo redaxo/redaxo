@@ -32,6 +32,7 @@ class rex_article_content extends rex_article_content_base
 
     /**
      * @param bool $viasql
+     * @return void
      */
     public function getContentAsQuery($viasql = true)
     {
@@ -111,7 +112,7 @@ class rex_article_content extends rex_article_content_base
             // article caching
             ob_start();
             try {
-                ob_implicit_flush(0);
+                ob_implicit_flush(false);
 
                 $articleContentFile = rex_path::addonCache('structure', $this->article_id . '.' . $this->clang . '.content');
 

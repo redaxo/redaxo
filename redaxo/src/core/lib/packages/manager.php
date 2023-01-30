@@ -17,19 +17,13 @@ abstract class rex_package_manager
      */
     protected $package;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $generatePackageOrder = true;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $message;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $i18nPrefix;
 
     /**
@@ -419,7 +413,7 @@ abstract class rex_package_manager
             if (!is_array($requirements['php'])) {
                 $requirements['php'] = ['version' => $requirements['php']];
             }
-            if (isset($requirements['php']['version']) && !self::matchVersionConstraints(PHP_VERSION, $requirements['php']['version'])) {
+            if (isset($requirements['php']['version']) && !rex_version::matchesConstraints(PHP_VERSION, $requirements['php']['version'])) {
                 $state[] = $this->i18n('requirement_error_php_version', PHP_VERSION, $requirements['php']['version']);
             }
             if (isset($requirements['php']['extensions']) && $requirements['php']['extensions']) {
@@ -459,7 +453,7 @@ abstract class rex_package_manager
     public function checkRedaxoRequirement($redaxoVersion)
     {
         $requirements = $this->package->getProperty('requires', []);
-        if (isset($requirements['redaxo']) && !self::matchVersionConstraints($redaxoVersion, $requirements['redaxo'])) {
+        if (isset($requirements['redaxo']) && !rex_version::matchesConstraints($redaxoVersion, $requirements['redaxo'])) {
             $this->message = $this->i18n('requirement_error_redaxo_version', $redaxoVersion, $requirements['redaxo']);
             return false;
         }
@@ -517,12 +511,12 @@ abstract class rex_package_manager
             return false;
         }
 
-        if (!self::matchVersionConstraints($package->getVersion(), $requirements['packages'][$packageId])) {
+        if (!rex_version::matchesConstraints($package->getVersion(), $requirements['packages'][$packageId])) {
             $this->message = $this->i18n(
                 'requirement_error_' . $package->getType() . '_version',
                 $package->getPackageId(),
                 $package->getVersion(),
-                $requirements['packages'][$packageId]
+                $requirements['packages'][$packageId],
             );
             return false;
         }
@@ -557,7 +551,7 @@ abstract class rex_package_manager
             $constraints = $conflicts['packages'][$this->package->getPackageId()];
             if (!is_string($constraints) || !$constraints || '*' === $constraints) {
                 $state[] = $this->i18n('reverse_conflict_error_' . $package->getType(), $package->getPackageId());
-            } elseif (self::matchVersionConstraints($this->package->getVersion(), $constraints)) {
+            } elseif (rex_version::matchesConstraints($this->package->getVersion(), $constraints)) {
                 $state[] = $this->i18n('reverse_conflict_error_' . $package->getType() . '_version', $package->getPackageId(), $constraints);
             }
         }
@@ -588,7 +582,7 @@ abstract class rex_package_manager
             $this->message = $this->i18n('conflict_error_' . $package->getType(), $package->getPackageId());
             return false;
         }
-        if (self::matchVersionConstraints($package->getVersion(), $constraints)) {
+        if (rex_version::matchesConstraints($package->getVersion(), $constraints)) {
             $this->message = $this->i18n('conflict_error_' . $package->getType() . '_version', $package->getPackageId(), $constraints);
             return false;
         }
@@ -639,11 +633,12 @@ abstract class rex_package_manager
         }
         $args[0] = $key;
 
-        return call_user_func_array([rex_i18n::class, 'msg'], $args);
+        return call_user_func_array(rex_i18n::msg(...), $args);
     }
 
     /**
      * Generates the package order.
+     * @return void
      */
     public static function generatePackageOrder()
     {
@@ -702,6 +697,7 @@ abstract class rex_package_manager
 
     /**
      * Saves the package config.
+     * @return void
      */
     protected static function saveConfig()
     {
@@ -719,6 +715,7 @@ abstract class rex_package_manager
 
     /**
      * Synchronizes the packages with the file system.
+     * @return void
      */
     public static function synchronizeWithFileSystem()
     {
@@ -763,76 +760,11 @@ abstract class rex_package_manager
     }
 
     /**
-     * Checks the version of the requirement.
-     *
-     * @param string $version     Version
-     * @param string $constraints Constraint list, separated by comma
-     *
-     * @throws rex_exception
-     *
-     * @return bool
-     */
-    private static function matchVersionConstraints($version, $constraints)
-    {
-        $rawConstraints = array_filter(array_map('trim', explode(',', $constraints)));
-        $constraints = [];
-        foreach ($rawConstraints as $constraint) {
-            if ('*' === $constraint) {
-                continue;
-            }
-
-            if (!preg_match('/^(?<op>==?|<=?|>=?|!=|~|\^|) ?(?<version>\d+(?:\.\d+)*)(?<wildcard>\.\*)?(?<prerelease>[ -.]?[a-z]+(?:[ -.]?\d+)?)?$/i', $constraint, $match)
-                || isset($match['wildcard']) && $match['wildcard'] && ('' != $match['op'] || isset($match['prerelease']) && $match['prerelease'])
-            ) {
-                throw new rex_exception('Unknown version constraint "' . $constraint . '"!');
-            }
-
-            if (isset($match['wildcard']) && $match['wildcard']) {
-                $constraints[] = ['>=', $match['version']];
-                $pos = strrpos($match['version'], '.');
-                if (false === $pos) {
-                    $constraints[] = ['<', (int) $match['version'] + 1];
-                } else {
-                    ++$pos;
-                    $sub = (int) substr($match['version'], $pos);
-                    $constraints[] = ['<', substr_replace($match['version'], (string) ($sub + 1), $pos)];
-                }
-            } elseif (in_array($match['op'], ['~', '^'])) {
-                $constraints[] = ['>=', $match['version'] . ($match['prerelease'] ?? '')];
-                if ('^' === $match['op'] || false === $pos = strrpos($match['version'], '.')) {
-                    // add "-foo" to get a version lower than a "-dev" version
-                    $constraints[] = ['<', ((int) $match['version'] + 1) . '-foo'];
-                } else {
-                    $main = '';
-                    $sub = substr($match['version'], 0, $pos);
-                    if (false !== ($pos = strrpos($sub, '.'))) {
-                        $main = substr($sub, 0, $pos + 1);
-                        $sub = substr($sub, $pos + 1);
-                    }
-                    // add "-foo" to get a version lower than a "-dev" version
-                    $constraints[] = ['<', $main . ((int) $sub + 1) . '-foo'];
-                }
-            } else {
-                $constraints[] = [$match['op'] ?: '=', $match['version'] . ($match['prerelease'] ?? '')];
-            }
-        }
-
-        /** @psalm-var array{0: '='|'=='|'!='|'<>'|'<'|'<='|'>'|'>=', 1: string} $constraint */
-        foreach ($constraints as $constraint) {
-            if (!rex_version::compare($version, $constraint[1], $constraint[0])) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
      * Returns the subfolders of the given folder.
      *
      * @param string $folder Folder
      *
-     * @return string[]
+     * @return non-empty-string[]
      */
     private static function readPackageFolder($folder)
     {

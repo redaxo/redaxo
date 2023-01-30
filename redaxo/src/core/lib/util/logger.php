@@ -14,9 +14,7 @@ class rex_logger extends AbstractLogger
 {
     use rex_factory_trait;
 
-    /**
-     * @var rex_log_file|null
-     */
+    /** @var rex_log_file|null */
     private static $file;
 
     /**
@@ -33,6 +31,7 @@ class rex_logger extends AbstractLogger
      * Shorthand: Logs the given Exception.
      *
      * @param Throwable|Exception $exception The Exception to log
+     * @return void
      */
     public static function logException($exception)
     {
@@ -40,7 +39,7 @@ class rex_logger extends AbstractLogger
             self::logError($exception->getSeverity(), $exception->getMessage(), $exception->getFile(), $exception->getLine());
         } else {
             $logger = self::factory();
-            $logger->log(get_class($exception), $exception->getMessage(), [], $exception->getFile(), $exception->getLine());
+            $logger->log($exception::class, $exception->getMessage(), [], $exception->getFile(), $exception->getLine());
         }
     }
 
@@ -53,6 +52,7 @@ class rex_logger extends AbstractLogger
      * @param int    $errline The line of the file in which the error occured
      *
      * @throws InvalidArgumentException
+     * @return void
      */
     public static function logError($errno, $errstr, $errfile, $errline)
     {
@@ -115,14 +115,17 @@ class rex_logger extends AbstractLogger
         }
         self::$file->add($logData);
 
-        // forward the error into phps' error log
-        error_log($message, 0);
+        // forward the error into phps' error log if error_log function is not disabled
+        if (function_exists('error_log')) {
+            error_log($message, 0);
+        }
     }
 
     /**
      * Prepares the logifle for later use.
      *
      * @psalm-assert !null self::$file
+     * @return void
      */
     public static function open()
     {
@@ -136,6 +139,7 @@ class rex_logger extends AbstractLogger
      * Closes the logfile. The logfile is not be able to log further message after beeing closed.
      *
      * You dont need to close the logfile manually when it was registered during the request.
+     * @return void
      */
     public static function close()
     {

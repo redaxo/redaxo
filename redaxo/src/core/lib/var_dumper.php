@@ -19,11 +19,14 @@ abstract class rex_var_dumper
     /** @var DataDumperInterface */
     private static $dumper;
 
+    /**
+     * @return void
+     */
     public static function register()
     {
         VarDumper::setHandler(static function ($var) {
             if (rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin()) {
-                VarDumper::setHandler([self::class, 'dump']);
+                VarDumper::setHandler(self::dump(...));
                 self::dump($var);
 
                 return;
@@ -36,6 +39,9 @@ abstract class rex_var_dumper
         });
     }
 
+    /**
+     * @return void
+     */
     public static function dump($var)
     {
         if (!self::$cloner) {
@@ -89,7 +95,7 @@ abstract class rex_var_dumper
                     {
                         /** @var rex_editor|null $editor */
                         static $editor;
-                        $editor = $editor ?? rex_editor::factory();
+                        $editor ??= rex_editor::factory();
 
                         return $editor->getUrl($file, $line);
                     }

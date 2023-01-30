@@ -1,11 +1,11 @@
 {
     "require": {
-        "scssphp/scssphp": "^1.5"
+        "scssphp/scssphp": "^1.11"
     },
 
     "config": {
         "platform": {
-            "php": "7.3.0"
+            "php": "8.1.13"
         },
         "platform-check": false
     }

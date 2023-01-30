@@ -109,7 +109,7 @@ class rex_media
     public static function getRootMedia()
     {
         /** @var callable(string):static */
-        $getInstance = [static::class, 'get'];
+        $getInstance = static::get(...);
 
         return static::getInstanceList('root_media', $getInstance, static function () {
             $listPath = rex_path::addonCache('mediapool', '0.mlist');
@@ -324,6 +324,9 @@ class rex_media
     }
 
     // allowed filetypes
+    /**
+     * @return list<string>
+     */
     public static function getDocTypes()
     {
         return rex_addon::get('mediapool')->getProperty('allowed_doctypes');
@@ -338,6 +341,9 @@ class rex_media
     }
 
     // allowed image upload types
+    /**
+     * @return list<string>
+     */
     public static function getImageTypes()
     {
         return rex_addon::get('mediapool')->getProperty('image_extensions');
@@ -359,6 +365,9 @@ class rex_media
         return isset($this->$value) || isset($this->{'med_' . $value});
     }
 
+    /**
+     * @return string|int|null
+     */
     public function getValue($value)
     {
         // damit alte rex_article felder wie copyright, description
@@ -369,6 +378,8 @@ class rex_media
         if (isset($this->{'med_' . $value})) {
             return $this->getValue('med_' . $value);
         }
+
+        return null;
     }
 
     /**

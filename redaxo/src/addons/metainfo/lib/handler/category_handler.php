@@ -10,6 +10,9 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
     public const PREFIX = 'cat_';
     public const CONTAINER = 'rex-structure-category-metainfo';
 
+    /**
+     * @return string
+     */
     public function renderToggleButton(rex_extension_point $ep)
     {
         $restrictionsCondition = $this->buildFilterCondition($ep->getParams());
@@ -114,10 +117,10 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
 
 $catHandler = new rex_metainfo_category_handler();
 
-rex_extension::register('CAT_FORM_ADD', [$catHandler, 'extendForm']);
-rex_extension::register('CAT_FORM_EDIT', [$catHandler, 'extendForm']);
+rex_extension::register('CAT_FORM_ADD', $catHandler->extendForm(...));
+rex_extension::register('CAT_FORM_EDIT', $catHandler->extendForm(...));
 
-rex_extension::register('CAT_ADDED', [$catHandler, 'extendForm'], rex_extension::EARLY);
-rex_extension::register('CAT_UPDATED', [$catHandler, 'extendForm'], rex_extension::EARLY);
+rex_extension::register('CAT_ADDED', $catHandler->extendForm(...), rex_extension::EARLY);
+rex_extension::register('CAT_UPDATED', $catHandler->extendForm(...), rex_extension::EARLY);
 
-rex_extension::register('CAT_FORM_BUTTONS', [$catHandler, 'renderToggleButton']);
+rex_extension::register('CAT_FORM_BUTTONS', $catHandler->renderToggleButton(...));

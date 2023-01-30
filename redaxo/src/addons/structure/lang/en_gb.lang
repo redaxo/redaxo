@@ -48,6 +48,7 @@ cant_delete_notfoundarticle = Not-found article can not be deleted
 structure_copy = Copy
 category_has_child_elements = Category has child elements
 category_without_child_elements = Category without child elements
+structure_delete_all_clangs = Delete in all languages?
 
 all_categories = All categories
 categories = Categories

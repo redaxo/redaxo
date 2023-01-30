@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @package redaxo5
- */
-
 global $ftitle, $error, $success;
 
 // -------------- Defaults
@@ -34,7 +30,7 @@ if ('' != $openerInputField) {
     }
 
     $openerId = null;
-    if ('REX_MEDIALIST_' == substr($openerInputField, 0, 14)) {
+    if (str_starts_with($openerInputField, 'REX_MEDIALIST_')) {
         $openerId = (int) substr($openerInputField, 14, strlen($openerInputField));
     }
 
@@ -72,13 +68,15 @@ if (1 != $gc->getRows()) {
 rex_set_session('media[rex_file_category]', $rexFileCategory);
 
 // -------------- PERMS
-$PERMALL = rex::getUser()->getComplexPerm('media')->hasCategoryPerm(0);
+$PERMALL = rex::requireUser()->getComplexPerm('media')->hasCategoryPerm(0);
 
 // -------------- Header
 $subline = rex_be_controller::getPageObject('mediapool')->getSubpages();
 
+$argUrlString = rex_string::buildQuery($argUrl);
+$argUrlString = $argUrlString ? '&'.$argUrlString : '';
 foreach ($subline as $sp) {
-    $sp->setHref(rex_url::backendPage($sp->getFullKey(), $argUrl, false));
+    $sp->setHref($sp->getHref().$argUrlString);
 }
 
 echo rex_view::title(rex_i18n::msg('pool_media'), $subline);
@@ -95,7 +93,7 @@ if ('' != $error) {
 
 if (!rex_request::isXmlHttpRequest()) {
     ?>
-    <script type="text/javascript">
+    <script type="text/javascript" nonce="<?= rex_response::getNonce() ?>">
         rex_retain_popup_event_handlers("rex:selectMedia");
         <?= $openerInputField ? 'rex.mediapoolOpenerInputField = "'.rex_escape($openerInputField, 'js').'";' : '' ?>
     </script>

@@ -9,9 +9,7 @@ class rex_system_report
     public const TITLE_PACKAGES = 'Packages';
     public const TITLE_PHP = 'PHP';
 
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 
     /**
      * @return self
@@ -156,6 +154,9 @@ class rex_system_report
             OUTPUT;
     }
 
+    /**
+     * @return string
+     */
     private function getBrowser()
     {
         if (!isset($_SERVER['HTTP_USER_AGENT'])) {

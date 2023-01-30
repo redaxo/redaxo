@@ -1,17 +1,15 @@
 {
     "require": {
-        "erusev/parsedown": "^1.7",
-        "erusev/parsedown-extra": "^0.8",
-        "filp/whoops": "^2.14",
-        "psr/log": "^1.0",
-        "ramsey/http-range": "^1.0",
-        "roave/security-advisories": "dev-master",
-        "symfony/console": "^5.4",
-        "symfony/http-foundation": "^5.4",
-        "symfony/polyfill-php80": "^1.18",
-        "symfony/var-dumper": "^5.4",
-        "symfony/yaml": "^5.4",
-        "voku/anti-xss": "^4.1.24"
+        "erusev/parsedown": "^1.7.4",
+        "erusev/parsedown-extra": "^0.8.1",
+        "filp/whoops": "^2.14.6",
+        "psr/log": "^1.1.4",
+        "ramsey/http-range": "^1.1",
+        "symfony/console": "^6.2.3",
+        "symfony/http-foundation": "^6.2.2",
+        "symfony/var-dumper": "^6.2.3",
+        "symfony/yaml": "^6.2.2",
+        "voku/anti-xss": "^4.1.39"
     },
 
     "replace": {
@@ -21,7 +19,10 @@
         "symfony/polyfill-intl-normalizer": "*",
         "symfony/polyfill-mbstring": "*",
         "symfony/polyfill-php72": "*",
-        "symfony/polyfill-php73": "*"
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php74": "*",
+        "symfony/polyfill-php80": "*",
+        "symfony/polyfill-php81": "*"
     },
 
     "config": {
@@ -29,7 +30,7 @@
         "optimize-autoloader": true,
         "sort-packages": true,
         "platform": {
-            "php": "7.3.0"
+            "php": "8.1.13"
         },
         "platform-check": false,
         "prepend-autoloader": false

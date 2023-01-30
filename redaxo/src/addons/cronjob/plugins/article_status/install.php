@@ -4,8 +4,6 @@
  * Cronjob Addon - Plugin article_status.
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
- *
- * @package redaxo5
  */
 
 $plugin = rex_plugin::get('cronjob', 'article_status');

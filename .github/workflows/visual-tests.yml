@@ -1,17 +1,25 @@
 name: Visual Regression Testing
 
 on:
+    push:
+        branches: [main, bugfix, temp]
     pull_request:
         types: [opened, synchronize, reopened, ready_for_review]
     repository_dispatch:
         types: [visual-test-command] # triggered by /visual-test PR comment
 
 env:
-    writable: ${{ (github.event_name == 'repository_dispatch' || github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') && 1 || 0 }}
+    writable: ${{ (github.event_name == 'repository_dispatch' || github.ref == 'refs/heads/temp' || github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') && 1 || 0 }}
+
+permissions:
+    contents: read
 
 jobs:
     visual-tests:
         runs-on: ubuntu-latest
+        timeout-minutes: 30
+        permissions:
+            contents: write  # for Git to git apply
 
         steps:
             -   name: Add action run link to trigger comment
@@ -46,7 +54,7 @@ jobs:
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: '8.1'
+                    php-version: '8.2'
                     ini-values: 'error_reporting=E_ALL, display_errors=On, display_startup_errors=On'
                     extensions: gd, pdo_mysql
                     coverage: none # disable xdebug, pcov
@@ -84,7 +92,7 @@ jobs:
             -   name: Setup nodejs
                 uses: actions/setup-node@v3
                 with:
-                    node-version: "12.x"
+                    node-version: 19
             -   name: Setup Webserver
                 run: |
                     php -S localhost:8000 &
@@ -121,3 +129,10 @@ jobs:
                     file_pattern: .github/tests-visual/*
                     # repo dispatch needs the target branch
                     branch: ${{ github.head_ref }}
+
+            -   name: Remove automerge label
+                uses: actions-ecosystem/action-remove-labels@v1
+                if: failure() && env.writable == 1
+                with:
+                    github_token: ${{ secrets.BOT_TOKEN }}
+                    labels: automerge

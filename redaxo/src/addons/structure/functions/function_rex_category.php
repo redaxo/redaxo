@@ -3,8 +3,6 @@
 /**
  * Regelt die Rechte an den einzelnen Kategorien und gibt den Pfad aus
  * Kategorien = Startartikel und Bezüge.
- *
- * @package redaxo5
  */
 
 /** @psalm-suppress RedundantCondition */
@@ -29,7 +27,7 @@ if ($object) {
     }
     foreach ($tree as $parent) {
         $id = $parent->getId();
-        if (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($id)) {
+        if (rex::requireUser()->getComplexPerm('structure')->hasCategoryPerm($id)) {
             $n = [];
             $n['title'] = str_replace(' ', '&nbsp;', rex_escape($parent->getName()));
             if ($parent->isStartarticle()) {
