@@ -55,19 +55,20 @@ class rex_effect_workspace extends rex_effect_abstract
 			imagefill($workspace, 0, 0, imagecolorallocate($workspace, $this->params['bg_r'], $this->params['bg_g'], $this->params['bg_b']));
 		}
 		
-        $srcW = $w;
-        $srcH = $h;
-        $dstX = 0;
-        $dstY = 0;
-        $srcX = 0;
-        $srcY = 0;
+		// Abstand vom Rand
 		$paddingX = 0;
+		if (isset($this->params['padding_x'])) {
+			$paddingX = (int) $this->params['padding_x'];
+		}
 		$paddingY = 0;
+		if (isset($this->params['padding_y'])) {
+			$paddingY = (int) $this->params['padding_y'];
+		}
+
 		$paramsHeight = (int) $this->params['height'];
 		$paramsWidth = (int) $this->params['width'];
 		
 		// Bild als Hintergrund ------------------------------
-
 		if ('image' == $this->params['set_transparent']) {
 			$bgimage = rex_path::media($this->params['bgimage']);
 			if (!is_file($bgimage)) {
@@ -79,18 +80,9 @@ class rex_effect_workspace extends rex_effect_abstract
 			$this->keepTransparent($workspace);
 			$paramsHeight = (int) $bg->getHeight();
 			$paramsWidth = (int) $bg->getWidth();
-			// Abstand vom Rand
-			$paddingX = -10;
-			if (isset($this->params['padding_x'])) {
-				$paddingX = (int) $this->params['padding_x'];
-			}
-			$paddingY = -10;
-			if (isset($this->params['padding_y'])) {
-				$paddingY = (int) $this->params['padding_y'];
-			}
 		}
 		
-		
+		$dstY = 0;
         switch ($this->params['vpos']) {
             case 'top':
                 break;
@@ -102,7 +94,7 @@ class rex_effect_workspace extends rex_effect_abstract
                 $dstY = (int) (($paramsHeight - $h) / 2);
                 break;
         }
-
+		$dstX = 0;
         switch ($this->params['hpos']) {
             case 'left':
                 break;
@@ -118,7 +110,7 @@ class rex_effect_workspace extends rex_effect_abstract
 		$dstX += $paddingX;
 		$dstY += $paddingY;
 
-        imagecopy($workspace, $gdimage, $dstX, $dstY, $srcX, $srcY, $srcW, $srcH);
+        imagecopy($workspace, $gdimage, $dstX, $dstY, 0, 0, $w, $h);
         $this->media->setImage($workspace);
         $this->media->refreshImageDimensions();
 
@@ -166,8 +158,6 @@ $(function() {
 		$fx_workspace_bg_g.hide();
 		$fx_workspace_bg_b.hide();
 		$fx_workspace_bgimage.hide();
-		$fx_workspace_padding_x.hide(); 
-		$fx_workspace_padding_y.hide();
 		$fx_workspace_width.show().parent().find(".form-control-static").hide();
 		$fx_workspace_height.show().parent().find(".form-control-static").hide();
 		
@@ -179,8 +169,6 @@ $(function() {
 		
 		if(jQuery(this).val() == "image"){
 			$fx_workspace_bgimage.show();
-			$fx_workspace_padding_x.show(); 
-			$fx_workspace_padding_y.show();
 			$fx_workspace_width.hide().parent().find(".form-control-static").show();
 			$fx_workspace_height.hide().parent().find(".form-control-static").show();
 		}
