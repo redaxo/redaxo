@@ -205,6 +205,18 @@ $(function() {
                 'default' => 'top',
             ],
             [
+                'label' => rex_i18n::msg('media_manager_effect_brand_padding_x'),
+                'name' => 'padding_x',
+                'type' => 'int',
+                'default' => '0',
+            ],
+            [
+                'label' => rex_i18n::msg('media_manager_effect_brand_padding_y'),
+                'name' => 'padding_y',
+                'type' => 'int',
+                'default' => '0',
+            ],
+            [
                 'label' => rex_i18n::msg('media_manager_effect_mirror_background_r'),
                 'name' => 'bg_r',
                 'type' => 'int',
@@ -224,18 +236,6 @@ $(function() {
                 'name' => 'bgimage',
                 'type' => 'media',
                 'default' => '',
-            ],
-            [
-                'label' => rex_i18n::msg('media_manager_effect_brand_padding_x'),
-                'name' => 'padding_x',
-                'type' => 'int',
-                'default' => '0',
-            ],
-            [
-                'label' => rex_i18n::msg('media_manager_effect_brand_padding_y'),
-                'name' => 'padding_y',
-                'type' => 'int',
-                'default' => '0',
             ],
         ];
     }
