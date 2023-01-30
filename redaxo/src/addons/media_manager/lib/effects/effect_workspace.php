@@ -46,43 +46,43 @@ class rex_effect_workspace extends rex_effect_abstract
             $trans = true;
         }
 
-		$workspace = imagecreatetruecolor($this->params['width'], $this->params['height']);
-		if ($trans) {
-			$transparent = imagecolorallocatealpha($workspace, 0, 0, 0, 127);
-			imagefill($workspace, 0, 0, $transparent);
-			$this->keepTransparent($workspace);
-		} else {
-			imagefill($workspace, 0, 0, imagecolorallocate($workspace, $this->params['bg_r'], $this->params['bg_g'], $this->params['bg_b']));
-		}
-		
-		// Abstand vom Rand
-		$paddingX = 0;
-		if (isset($this->params['padding_x'])) {
-			$paddingX = (int) $this->params['padding_x'];
-		}
-		$paddingY = 0;
-		if (isset($this->params['padding_y'])) {
-			$paddingY = (int) $this->params['padding_y'];
-		}
+        $workspace = imagecreatetruecolor($this->params['width'], $this->params['height']);
+        if ($trans) {
+            $transparent = imagecolorallocatealpha($workspace, 0, 0, 0, 127);
+            imagefill($workspace, 0, 0, $transparent);
+            $this->keepTransparent($workspace);
+        } else {
+            imagefill($workspace, 0, 0, imagecolorallocate($workspace, $this->params['bg_r'], $this->params['bg_g'], $this->params['bg_b']));
+        }
 
-		$paramsHeight = (int) $this->params['height'];
-		$paramsWidth = (int) $this->params['width'];
-		
-		// Bild als Hintergrund ------------------------------
-		if ('image' == $this->params['set_transparent']) {
-			$bgimage = rex_path::media($this->params['bgimage']);
-			if (!is_file($bgimage)) {
-				return;
-			}
-			$bg = new rex_managed_media($bgimage);
-			$bg->asImage();
-			$workspace = $bg->getImage();
-			$this->keepTransparent($workspace);
-			$paramsHeight = (int) $bg->getHeight();
-			$paramsWidth = (int) $bg->getWidth();
-		}
-		
-		$dstY = 0;
+        // Abstand vom Rand
+        $paddingX = 0;
+        if (isset($this->params['padding_x'])) {
+            $paddingX = (int) $this->params['padding_x'];
+        }
+        $paddingY = 0;
+        if (isset($this->params['padding_y'])) {
+            $paddingY = (int) $this->params['padding_y'];
+        }
+
+        $paramsHeight = (int) $this->params['height'];
+        $paramsWidth = (int) $this->params['width'];
+
+        // Bild als Hintergrund ------------------------------
+        if ('image' == $this->params['set_transparent']) {
+            $bgimage = rex_path::media($this->params['bgimage']);
+            if (!is_file($bgimage)) {
+                return;
+            }
+            $bg = new rex_managed_media($bgimage);
+            $bg->asImage();
+            $workspace = $bg->getImage();
+            $this->keepTransparent($workspace);
+            $paramsHeight = (int) $bg->getHeight();
+            $paramsWidth = (int) $bg->getWidth();
+        }
+
+        $dstY = 0;
         switch ($this->params['vpos']) {
             case 'top':
                 break;
@@ -94,7 +94,7 @@ class rex_effect_workspace extends rex_effect_abstract
                 $dstY = (int) (($paramsHeight - $h) / 2);
                 break;
         }
-		$dstX = 0;
+        $dstX = 0;
         switch ($this->params['hpos']) {
             case 'left':
                 break;
@@ -106,9 +106,9 @@ class rex_effect_workspace extends rex_effect_abstract
                 $dstX = (int) (($paramsWidth - $w) / 2);
                 break;
         }
-		
-		$dstX += $paddingX;
-		$dstY += $paddingY;
+
+        $dstX += $paddingX;
+        $dstY += $paddingY;
 
         imagecopy($workspace, $gdimage, $dstX, $dstY, 0, 0, $w, $h);
         $this->media->setImage($workspace);
@@ -160,35 +160,35 @@ $(function() {
 		$fx_workspace_bgimage.hide();
 		$fx_workspace_width.show().parent().find(".form-control-static").hide();
 		$fx_workspace_height.show().parent().find(".form-control-static").hide();
-		
+
 		if(jQuery(this).val() == "colored"){
             $fx_workspace_bg_r.show();
             $fx_workspace_bg_g.show();
             $fx_workspace_bg_b.show();
         }
-		
+
 		if(jQuery(this).val() == "image"){
 			$fx_workspace_bgimage.show();
 			$fx_workspace_width.hide().parent().find(".form-control-static").show();
 			$fx_workspace_height.hide().parent().find(".form-control-static").show();
 		}
-		
+
     }).change();
 });
 
 //--></script>',
             ],
-			[
+            [
                 'label' => rex_i18n::msg('media_manager_effect_resize_width'),
                 'name' => 'width',
                 'type' => 'int',
-                'suffix' => '<p class="form-control-static">'.rex_i18n::msg("media_manager_effect_workspace_bgimage_size").'</p>',
+                'suffix' => '<p class="form-control-static">'.rex_i18n::msg('media_manager_effect_workspace_bgimage_size').'</p>',
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_resize_height'),
                 'name' => 'height',
                 'type' => 'int',
-				'suffix' => '<p class="form-control-static">'.rex_i18n::msg("media_manager_effect_workspace_bgimage_size").'</p>',
+                'suffix' => '<p class="form-control-static">'.rex_i18n::msg('media_manager_effect_workspace_bgimage_size').'</p>',
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_brand_hpos'),
@@ -219,13 +219,13 @@ $(function() {
                 'name' => 'bg_b',
                 'type' => 'int',
             ],
-			[
+            [
                 'label' => rex_i18n::msg('media_manager_effect_workspace_bgimage'),
                 'name' => 'bgimage',
                 'type' => 'media',
                 'default' => '',
             ],
-			[
+            [
                 'label' => rex_i18n::msg('media_manager_effect_brand_padding_x'),
                 'name' => 'padding_x',
                 'type' => 'int',
