@@ -72,7 +72,7 @@ class rex_formatter_test extends TestCase
         if (null === $format) {
             $string = rex_formatter::intlDateTime($value);
         } else {
-            /** @psalm-suppress ArgumentTypeCoercion */
+            /** @psalm-suppress PossiblyInvalidArgument */
             $string = rex_formatter::intlDateTime($value, $format);
         }
 
