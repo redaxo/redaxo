@@ -137,11 +137,14 @@ class Input extends rex_fragment
         /** @var array<string, string>|null */
         public ?array $attributes = null,
     ) {
+        if ($this->min && !in_array($this->type, $this->minMaxTypes())) {
+            throw new rex_functional_exception('The min property applies to date and number input types. The current type is '.$this->type->name.'.');
+        }
         if ($this->max && !in_array($this->type, $this->minMaxTypes())) {
             throw new rex_functional_exception('The max property applies to date and number input types. The current type is '.$this->type->name.'.');
         }
-        if ($this->min && !in_array($this->type, $this->minMaxTypes())) {
-            throw new rex_functional_exception('The min property applies to date and number input types. The current type is '.$this->type->name.'.');
+        if ($this->step && !in_array($this->type, $this->stepTypes())) {
+            throw new rex_functional_exception('The step property applies to date and number input types. The current type is '.$this->type->name.'.');
         }
 
         parent::__construct([]);
@@ -152,7 +155,21 @@ class Input extends rex_fragment
         return parent::parse($this->fileName);
     }
 
+    /**
+     * @psalm-return array{InputType}
+     */
     private function minMaxTypes(): array
+    {
+        return [
+            InputType::Date,
+            InputType::Number,
+        ];
+    }
+
+    /**
+     * @psalm-return array{InputType}
+     */
+    private function stepTypes(): array
     {
         return [
             InputType::Date,
