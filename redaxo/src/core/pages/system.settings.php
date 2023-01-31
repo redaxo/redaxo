@@ -6,6 +6,8 @@ use Redaxo\Core\Fragment\Component\ButtonSize;
 use Redaxo\Core\Fragment\Component\ButtonType;
 use Redaxo\Core\Fragment\Component\ButtonVariant;
 use Redaxo\Core\Fragment\Component\Card;
+use Redaxo\Core\Fragment\Component\Choice;
+use Redaxo\Core\Fragment\Component\ChoiceType;
 use Redaxo\Core\Fragment\Component\Icon;
 use Redaxo\Core\Fragment\Component\IconLibrary;
 use Redaxo\Core\Fragment\Component\Input;
@@ -347,10 +349,16 @@ $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
+$locales = rex_i18n::getLocales();
+asort($locales);
+$langChoices = [];
+foreach ($locales as $locale) {
+    $langChoices[rex_i18n::msgInLocale('lang', $locale).' ('.$locale.')'] = $locale;
+}
 
 $formFields = [
     new Input(
-        slotLabel: new Slot('<b>'.rex_i18n::msg('server').'</b>'),
+        label: rex_i18n::msg('server'),
         type: InputType::Url,
         name: 'settings[server]',
         value: rex::getServer(),
@@ -360,6 +368,13 @@ $formFields = [
         label: rex_i18n::msg('servername'),
         name: 'settings[servername]',
         value: rex::getServerName(),
+        required: true,
+    ),
+    new Choice(
+        label: rex_i18n::msg('backend_language'),
+        name: 'settings[lang]',
+        value: rex::getProperty('lang'),
+        choices: $langChoices,
         required: true,
     ),
     new Input(
@@ -373,7 +388,6 @@ $formFields = [
 foreach ($formFields as $formField) {
     $content .= $formField->render().'<br />';
 }
-
 
 $buttonSave = new Button\Save(
     name: 'sendit',
@@ -392,8 +406,6 @@ $mainContent[] = '
     ' . $csrfToken->getHiddenField() . '
     ' . $content . '
 </form>';
-
-
 
 $content = '<p>' . rex_i18n::msg('system_editor_note') . '</p>';
 
