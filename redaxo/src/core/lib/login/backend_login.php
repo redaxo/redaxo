@@ -235,7 +235,7 @@ class rex_backend_login extends rex_login
     /**
      * @return string
      */
-    private static function getStayLoggedInCookieName()
+    public static function getStayLoggedInCookieName()
     {
         $instname = rex::getProperty('instname');
         if (!$instname) {

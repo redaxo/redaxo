@@ -856,8 +856,10 @@
       <code>$width</code>
       <code>$width</code>
     </MixedOperand>
-    <PossiblyUndefinedArrayOffset occurrences="3">
+    <PossiblyUndefinedArrayOffset occurrences="5">
       <code>$this-&gt;params['height']</code>
+      <code>$this-&gt;params['height']</code>
+      <code>$this-&gt;params['width']</code>
       <code>$this-&gt;params['width']</code>
       <code>$this-&gt;params['width']</code>
     </PossiblyUndefinedArrayOffset>
@@ -5712,9 +5714,8 @@
     </MixedArgument>
   </file>
   <file src="redaxo/src/core/lib/util/string.php">
-    <MixedArgument occurrences="2">
+    <MixedArgument occurrences="1">
       <code>$query</code>
-      <code>$value</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="2">
       <code>$key</code>

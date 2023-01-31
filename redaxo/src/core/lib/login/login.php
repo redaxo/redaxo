@@ -6,6 +6,10 @@
 class rex_login
 {
     /**
+     * Session ID is saved in session under this key for session fixation prevention.
+     */
+    public const SESSION_ID = 'REX_SESSID';
+    /**
      * the timestamp when the session was initially started.
      */
     public const SESSION_START_TIME = 'starttime';
@@ -466,7 +470,7 @@ class rex_login
         static $sessChecked = false;
         // validate session-id - once per request - to prevent fixation
         if (!$sessChecked) {
-            $rexSessId = !empty($_SESSION['REX_SESSID']) ? $_SESSION['REX_SESSID'] : '';
+            $rexSessId = !empty($_SESSION[self::SESSION_ID]) ? $_SESSION[self::SESSION_ID] : '';
 
             if (!empty($rexSessId) && $rexSessId !== session_id()) {
                 // clear redaxo related session properties on a possible attack
@@ -499,7 +503,7 @@ class rex_login
         }
 
         // session-id is shared between frontend/backend or even redaxo instances per server because it's the same http session
-        $_SESSION['REX_SESSID'] = session_id();
+        $_SESSION[self::SESSION_ID] = session_id();
     }
 
     /**
