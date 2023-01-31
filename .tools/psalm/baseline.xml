@@ -926,10 +926,6 @@
     <MixedOperand>
       <code>$expectedBuster</code>
     </MixedOperand>
-    <PossiblyNullOperand>
-      <code>$typeTimestamp</code>
-      <code>$typeTimestamp</code>
-    </PossiblyNullOperand>
   </file>
   <file src="redaxo/src/addons/mediapool/functions/function_rex_mediapool.php">
     <ArgumentTypeCoercion>
@@ -6116,9 +6112,6 @@
     <MixedArgument>
       <code>$file</code>
     </MixedArgument>
-    <MixedInferredReturnType>
-      <code>iterable</code>
-    </MixedInferredReturnType>
   </file>
   <file src="redaxo/src/core/tests/util/finder_test.php">
     <MixedArgument>
@@ -6154,9 +6147,6 @@
     <MixedArgument>
       <code>$this-&gt;previousLocale</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code>rex_i18n_trans_cb::mytranslate(...)</code>
-    </MixedArgumentTypeCoercion>
   </file>
   <file src="redaxo/src/core/tests/util/markdown_test.php">
     <MixedArgument>

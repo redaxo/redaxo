@@ -240,6 +240,7 @@ class rex_user
      * Sets the role class.
      *
      * @param class-string<rex_user_role_interface> $class Class name
+     * @return void
      */
     public static function setRoleClass($class)
     {
@@ -250,6 +251,7 @@ class rex_user
      * Removes the instance of the given key.
      *
      * @param mixed $key Key
+     * @return void
      */
     public static function clearInstance($key)
     {

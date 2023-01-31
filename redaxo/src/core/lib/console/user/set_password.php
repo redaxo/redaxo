@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class rex_command_user_set_password extends rex_console_command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Sets a new password for a user')
@@ -25,7 +25,7 @@ class rex_command_user_set_password extends rex_console_command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = $this->getStyle($input, $output);
 

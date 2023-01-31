@@ -10,12 +10,13 @@ class rex_markdown_test extends TestCase
     /**
      * @dataProvider parseProvider
      */
-    public function testParse($expected, $code)
+    public function testParse($expected, $code): void
     {
         static::assertSame($expected, rex_markdown::factory()->parse($code));
     }
 
-    public function parseProvider()
+    /** @return list<array{string, string}> */
+    public function parseProvider(): array
     {
         return [
             ['', ''],
@@ -37,7 +38,7 @@ class rex_markdown_test extends TestCase
         ];
     }
 
-    public function testParseWithToc()
+    public function testParseWithToc(): void
     {
         $input = <<<'MARKDOWN'
             Test

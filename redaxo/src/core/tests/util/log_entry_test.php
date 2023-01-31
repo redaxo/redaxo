@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_log_entry_test extends TestCase
 {
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $time = time();
         $data = ['test1', 'test2'];
@@ -17,7 +17,7 @@ class rex_log_entry_test extends TestCase
         static::assertSame($data, $entry->getData());
     }
 
-    public function testCreateFromString()
+    public function testCreateFromString(): void
     {
         $time = time();
         $entry = rex_log_entry::createFromString(date(rex_log_entry::DATE_FORMAT, $time) . ' | test1 |  |  test2\nt \| test3 |');
@@ -30,7 +30,7 @@ class rex_log_entry_test extends TestCase
     /**
      * @depends testConstruct
      */
-    public function testGetTimestamp()
+    public function testGetTimestamp(): void
     {
         $time = time();
         $entry = new rex_log_entry($time, []);
@@ -46,7 +46,7 @@ class rex_log_entry_test extends TestCase
     /**
      * @depends testConstruct
      */
-    public function testToString()
+    public function testToString(): void
     {
         $time = time();
         $entry = new rex_log_entry($time, ['test1', ' ', " test2\nt | test3\r\ntest4 "]);

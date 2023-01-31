@@ -14,14 +14,14 @@ class rex_command_install_update extends rex_console_command
     /**
      * @return void
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setDescription('Updates an AddOn from redaxo.org')
             ->addArgument('addonkey', InputArgument::REQUIRED, 'AddOn key, e.g. "yform"')
             ->addArgument('version', InputArgument::OPTIONAL, 'Version, e.g. "3.2.1"');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = $this->getStyle($input, $output);
 

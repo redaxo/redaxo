@@ -91,6 +91,8 @@ class rex_login
     /**
      * Setzt, ob die Ergebnisse der Login-Abfrage
      * pro Seitenaufruf gecached werden sollen.
+     *
+     * @return void
      */
     public function setCache($status = true)
     {
@@ -99,6 +101,8 @@ class rex_login
 
     /**
      * Setzt die Id der zu verwendenden SQL Connection.
+     *
+     * @return void
      */
     public function setSqlDb($DB)
     {
@@ -110,6 +114,7 @@ class rex_login
      * Sessions auf der gleichen Domain unterschieden werden können.
      *
      * @param string $systemId
+     * @return void
      */
     public function setSystemId($systemId)
     {
@@ -120,6 +125,7 @@ class rex_login
      * Setzt das Session Timeout.
      *
      * @param int $sessionDuration
+     * @return void
      */
     public function setSessionDuration($sessionDuration)
     {
@@ -131,6 +137,7 @@ class rex_login
      *
      * @param string $login
      * @param string $password
+     * @return void
      */
     public function setLogin(#[\SensitiveParameter] $login, #[\SensitiveParameter] $password, $isPreHashed = false)
     {
@@ -140,6 +147,8 @@ class rex_login
 
     /**
      * Markiert die aktuelle Session als ausgeloggt.
+     *
+     * @return void
      */
     public function setLogout($logout)
     {
@@ -148,6 +157,8 @@ class rex_login
 
     /**
      * Prüft, ob die aktuelle Session ausgeloggt ist.
+     *
+     * @return bool
      */
     public function isLoggedOut()
     {
@@ -161,6 +172,7 @@ class rex_login
      * im Verlauf seines Aufenthaltes auf der Webseite zu verifizieren
      *
      * @param string $userQuery
+     * @return void
      */
     public function setUserQuery($userQuery)
     {
@@ -173,6 +185,7 @@ class rex_login
      * Dieser wird benutzt, um den User abzurufen, dessen Identität ein Admin einnehmen möchte.
      *
      * @param string $impersonateQuery
+     * @return void
      */
     public function setImpersonateQuery($impersonateQuery)
     {
@@ -186,6 +199,7 @@ class rex_login
      * Hier wird das eingegebene Password und der Login eingesetzt.
      *
      * @param string $loginQuery
+     * @return void
      */
     public function setLoginQuery($loginQuery)
     {
@@ -196,6 +210,7 @@ class rex_login
      * Setzt den Namen der Spalte, der die User-Id enthält.
      *
      * @param string $idColumn
+     * @return void
      */
     public function setIdColumn($idColumn)
     {
@@ -206,6 +221,7 @@ class rex_login
      * Sets the password column.
      *
      * @param string $passwordColumn
+     * @return void
      */
     public function setPasswordColumn($passwordColumn)
     {
@@ -216,6 +232,7 @@ class rex_login
      * Setzt einen Meldungstext.
      *
      * @param string $message
+     * @return void
      */
     protected function setMessage($message)
     {
@@ -360,6 +377,7 @@ class rex_login
 
     /**
      * @param int $id
+     * @return void
      */
     public function impersonate($id)
     {
@@ -384,6 +402,9 @@ class rex_login
         $this->setSessionVar(self::SESSION_IMPERSONATOR, $this->impersonator->getValue($this->idColumn));
     }
 
+    /**
+     * @return void
+     */
     public function depersonate()
     {
         if (!$this->impersonator) {
@@ -442,6 +463,7 @@ class rex_login
      *
      * @param string $varname
      * @param scalar|array $value
+     * @return void
      */
     public function setSessionVar($varname, $value)
     {
@@ -486,8 +508,10 @@ class rex_login
         return $default;
     }
 
-    /*
-     * refresh session on permission elevation for security reasons
+    /**
+     * refresh session on permission elevation for security reasons.
+     *
+     * @return void
      */
     protected static function regenerateSessionId()
     {
@@ -508,6 +532,8 @@ class rex_login
 
     /**
      * starts a http-session if not already started.
+     *
+     * @return void
      */
     public static function startSession()
     {
@@ -570,7 +596,7 @@ class rex_login
      *
      * @param string $sameSite
      */
-    private static function rewriteSessionCookie($sameSite)
+    private static function rewriteSessionCookie($sameSite): void
     {
         $cookiesHeaders = [];
 

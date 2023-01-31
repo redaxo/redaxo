@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class rex_command_package_list extends rex_console_command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('List available packages')
@@ -24,7 +24,7 @@ class rex_command_package_list extends rex_console_command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = $this->getStyle($input, $output);
 

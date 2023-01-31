@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class rex_command_package_run_update_script extends rex_console_command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Runs the update.php of the given package with given previous version')

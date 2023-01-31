@@ -23,7 +23,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
     /** @var bool */
     private $forceAsking = false;
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Perform redaxo setup')
@@ -46,7 +46,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = $this->getStyle($input, $output);
 
