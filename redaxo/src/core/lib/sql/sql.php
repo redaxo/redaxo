@@ -1193,7 +1193,6 @@ class rex_sql implements Iterator
      *
      * @psalm-taint-source input
      * @psalm-taint-sink sql $query
-     * @psalm-suppress MixedReturnTypeCoercion
      */
     public function getDBArray($query = null, array $params = [], $fetchType = PDO::FETCH_ASSOC)
     {
@@ -1228,7 +1227,6 @@ class rex_sql implements Iterator
      *
      * @psalm-taint-source input
      * @psalm-taint-sink sql $query
-     * @psalm-suppress MixedReturnTypeCoercion
      */
     public function getArray($query = null, array $params = [], $fetchType = PDO::FETCH_ASSOC)
     {
