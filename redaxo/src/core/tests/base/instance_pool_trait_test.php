@@ -27,7 +27,7 @@ final class rex_test_instance_pool_2 extends rex_test_instance_pool_base
  */
 class rex_instance_pool_trait_test extends TestCase
 {
-    public function testAddHasInstance()
+    public function testAddHasInstance(): void
     {
         static::assertFalse(rex_test_instance_pool_1::hasInstance(1), 'hasInstance returns false for non-existing instance');
         rex_test_instance_pool_1::addInstance(1, new rex_test_instance_pool_1());
@@ -35,7 +35,7 @@ class rex_instance_pool_trait_test extends TestCase
         static::assertFalse(rex_test_instance_pool_2::hasInstance(1), 'hasInstance uses LSB, instance is only added for subclass 1');
     }
 
-    public function testGetInstance()
+    public function testGetInstance(): void
     {
         static::assertNull(rex_test_instance_pool_1::getInstance(2), 'getInstance returns null for non-existing key');
         $instance1 = new rex_test_instance_pool_1();
@@ -65,7 +65,7 @@ class rex_instance_pool_trait_test extends TestCase
     /**
      * @depends testGetInstance
      */
-    public function testClearInstance()
+    public function testClearInstance(): void
     {
         rex_test_instance_pool_1::clearInstance(2);
         static::assertFalse(rex_test_instance_pool_1::hasInstance(2), 'instance is cleared after clearInstance()');
@@ -75,7 +75,7 @@ class rex_instance_pool_trait_test extends TestCase
     /**
      * @depends testClearInstance
      */
-    public function testClearInstancePool()
+    public function testClearInstancePool(): void
     {
         rex_test_instance_pool_2::clearInstancePool();
         static::assertFalse(rex_test_instance_pool_2::hasInstance(2), 'instances are cleared after clearInstancePool()');
@@ -84,7 +84,7 @@ class rex_instance_pool_trait_test extends TestCase
         static::assertFalse(rex_test_instance_pool_1::hasInstance(1), 'baseClass::clearInstancePool clears all instances');
     }
 
-    public function testGetInstancePoolKey()
+    public function testGetInstancePoolKey(): void
     {
         static::assertEquals('1', rex_test_instance_pool_1::getInstancePoolKey(1));
         static::assertEquals('2###test', rex_test_instance_pool_1::getInstancePoolKey([2, 'test']));

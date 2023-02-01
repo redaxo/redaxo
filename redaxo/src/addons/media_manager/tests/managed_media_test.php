@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_managed_media_test extends TestCase
 {
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $filename = 'CHANGELOG.md';
         $path = rex_path::addon('media_manager', $filename);

@@ -24,7 +24,8 @@ class rex_var_2nd_test_var extends rex_var
 
 class rex_var_test extends rex_var_base_test
 {
-    public function parseTokensProvider()
+    /** @return list<array{string, string}> */
+    public function parseTokensProvider(): array
     {
         return [
             ['aREX_TEST_VAR[content=b]c', 'abc'],
@@ -49,12 +50,13 @@ c', "a\nb\nc"],
     /**
      * @dataProvider parseTokensProvider
      */
-    public function testParseTokens($content, $expectedOutput)
+    public function testParseTokens($content, $expectedOutput): void
     {
         $this->assertParseOutputEquals($expectedOutput, $content);
     }
 
-    public function parseArgsSyntaxProvider()
+    /** @return list<array{string, string}> */
+    public function parseArgsSyntaxProvider(): array
     {
         return [
             ['REX_TEST_VAR[]', 'default'],
@@ -116,12 +118,13 @@ c', "a\nb\nc"],
     /**
      * @dataProvider parseArgsSyntaxProvider
      */
-    public function testParseArgsSyntax($content, $expectedOutput)
+    public function testParseArgsSyntax($content, $expectedOutput): void
     {
         $this->assertParseOutputEquals($expectedOutput, $content);
     }
 
-    public function parseGlobalArgsProvider()
+    /** @return list<array{string, string}> */
+    public function parseGlobalArgsProvider(): array
     {
         return [
             ['REX_TEST_VAR[content=ab instead=cd]', 'cd'],
@@ -145,7 +148,7 @@ c', "a\nb\nc"],
         ];
     }
 
-    public static function varCallback($params)
+    public static function varCallback($params): string
     {
         return sprintf('var:%s class:%s subject:%s content:%s suffix:%s', $params['var'], $params['class'], $params['subject'], $params['content'], $params['suffix']);
     }
@@ -153,12 +156,12 @@ c', "a\nb\nc"],
     /**
      * @dataProvider parseGlobalArgsProvider
      */
-    public function testParseGlobalArgs($content, $expectedOutput)
+    public function testParseGlobalArgs($content, $expectedOutput): void
     {
         $this->assertParseOutputEquals($expectedOutput, $content);
     }
 
-    public function testToArray()
+    public function testToArray(): void
     {
         $content = '<?php echo rex_var::toArray("REX_TEST_VAR[content=\'test\']") === null ? "null" : "";';
         $this->assertParseOutputEquals('null', $content, 'toArray() returns null for non-arrays');
@@ -182,7 +185,7 @@ c', "a\nb\nc"],
         $this->assertParseOutputEquals(print_r($unescapedArray, true), $content, 'toArray() rebuilds HTML');
     }
 
-    public function testQuote()
+    public function testQuote(): void
     {
         $string = "abc 'de' \"fg\" \\ \nh\r\ni";
         $expected = <<<'EOD'

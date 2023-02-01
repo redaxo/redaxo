@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class rex_command_db_connection_options extends rex_console_command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Dumps the db connection options for the mysql cli tool')
@@ -32,7 +32,7 @@ class rex_command_db_connection_options extends rex_console_command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $db = rex::getDbConfig(1);
 

@@ -71,8 +71,8 @@ abstract class rex_complex_perm
      * @param string $key   Key for the complex perm
      * @param string $class Class name
      * @psalm-param class-string<self> $class
-     *
      * @throws InvalidArgumentException
+     * @return void
      */
     public static function register($key, $class)
     {
@@ -116,6 +116,7 @@ abstract class rex_complex_perm
      *
      * @param string     $key  Key
      * @param string|int $item Item
+     * @return void
      */
     public static function removeItem($key, $item)
     {
@@ -128,6 +129,7 @@ abstract class rex_complex_perm
      * @param string     $key  Key
      * @param string|int $item Old item
      * @param string|int $new  New item
+     * @return void
      */
     public static function replaceItem($key, $item, $new)
     {

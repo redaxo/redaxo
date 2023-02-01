@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_view_test extends TestCase
 {
-    public function testAddGetCss()
+    public function testAddGetCss(): void
     {
         rex_view::addCssFile('my.css');
         $files = rex_view::getCssFiles()['all'];
@@ -18,14 +18,14 @@ class rex_view_test extends TestCase
         static::assertTrue('print.css' == end($files));
     }
 
-    public function testAddGetJs()
+    public function testAddGetJs(): void
     {
         rex_view::addJsFile('my.js');
         $files = rex_view::getJsFiles();
         static::assertTrue('my.js' == end($files));
     }
 
-    public function testAddGetJsWithOptions()
+    public function testAddGetJsWithOptions(): void
     {
         rex_view::addJsFile('my.js');
         $files = rex_view::getJsFilesWithOptions();

@@ -10,7 +10,7 @@ class rex_password_policy_test extends TestCase
     /**
      * @dataProvider provideCheck
      */
-    public function testCheck(array $options, $expected, $password)
+    public function testCheck(array $options, $expected, $password): void
     {
         $policy = new rex_password_policy($options);
 
@@ -23,7 +23,8 @@ class rex_password_policy_test extends TestCase
         }
     }
 
-    public function provideCheck()
+    /** @return iterable<int, array{array<string, array{min?: int, max?: int}>, bool, string}> */
+    public function provideCheck(): iterable
     {
         yield [[], true, 'foo'];
 

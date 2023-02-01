@@ -31,7 +31,7 @@ class rex_category_test extends TestCase
         rex_category::clearInstancePool();
     }
 
-    public function testHasValue()
+    public function testHasValue(): void
     {
         $instance = $this->createCategoryWithoutConstructor();
 
@@ -45,7 +45,7 @@ class rex_category_test extends TestCase
         static::assertFalse($instance->hasValue('cat_bar'));
     }
 
-    public function testGetValue()
+    public function testGetValue(): void
     {
         $instance = $this->createCategoryWithoutConstructor();
 

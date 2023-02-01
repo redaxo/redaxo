@@ -227,7 +227,7 @@ class rex_backend_login extends rex_login
         ]);
     }
 
-    private static function deleteStayLoggedInCookie()
+    private static function deleteStayLoggedInCookie(): void
     {
         rex_response::sendCookie(self::getStayLoggedInCookieName(), '');
     }

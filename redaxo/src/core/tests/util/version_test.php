@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_version_test extends TestCase
 {
-    public function testIsUnstable()
+    public function testIsUnstable(): void
     {
         static::assertTrue(rex_version::isUnstable('1.0-dev'));
         static::assertTrue(rex_version::isUnstable('2.1.0beta'));
@@ -22,7 +22,8 @@ class rex_version_test extends TestCase
         static::assertFalse(rex_version::isUnstable('1.0 codename starship'));
     }
 
-    public function splitProvider()
+    /** @return list<array{string, list<string>}> */
+    public function splitProvider(): array
     {
         return [
             ['1.1.2',      ['1', '1', '2']],
@@ -35,12 +36,13 @@ class rex_version_test extends TestCase
     /**
      * @dataProvider splitProvider
      */
-    public function testSplit($version, $expected)
+    public function testSplit($version, $expected): void
     {
         static::assertEquals($expected, rex_version::split($version));
     }
 
-    public function compareProvider()
+    /** @return list<array{bool, string, string, null|'='|'=='|'!='|'<>'|'<'|'<='|'>'|'>='}> */
+    public function compareProvider(): array
     {
         return [
             [true, '1',      '1',      '='],
@@ -78,7 +80,7 @@ class rex_version_test extends TestCase
      *
      * @param null|'='|'=='|'!='|'<>'|'<'|'<='|'>'|'>=' $comparator
      */
-    public function testCompare($expected, string $version1, string $version2, ?string $comparator)
+    public function testCompare($expected, string $version1, string $version2, ?string $comparator): void
     {
         static::assertSame($expected, rex_version::compare($version1, $version2, $comparator));
     }
@@ -93,7 +95,7 @@ class rex_version_test extends TestCase
     /**
      * @dataProvider dataMatchVersionConstraints
      */
-    public function testMatchVersionConstraints(bool $expected, string $version, string $constraints)
+    public function testMatchVersionConstraints(bool $expected, string $version, string $constraints): void
     {
         static::assertSame($expected, rex_version::matchesConstraints($version, $constraints));
     }

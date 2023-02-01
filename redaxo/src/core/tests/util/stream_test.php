@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_stream_test extends TestCase
 {
-    public function testStreamInclude()
+    public function testStreamInclude(): void
     {
         $content = 'foo <?php echo "bar";';
         $streamUrl = rex_stream::factory('test-stream/1', $content);
@@ -18,7 +18,7 @@ class rex_stream_test extends TestCase
         static::assertEquals('foo bar', $result);
     }
 
-    public function testStreamIncludeWithRealFile()
+    public function testStreamIncludeWithRealFile(): void
     {
         $property = new ReflectionProperty(rex_stream::class, 'useRealFiles');
         $property->setValue(true);
