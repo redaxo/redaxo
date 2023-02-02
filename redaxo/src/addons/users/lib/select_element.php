@@ -7,7 +7,7 @@
  */
 class rex_form_perm_select_element extends rex_form_select_element
 {
-    protected $checkboxLabel = 'All';
+    protected string $checkboxLabel = 'All';
 
     public function getSaveValue()
     {
@@ -21,6 +21,7 @@ class rex_form_perm_select_element extends rex_form_select_element
     }
 
     /**
+     * @param string $label
      * @return void
      */
     public function setCheckboxLabel($label)

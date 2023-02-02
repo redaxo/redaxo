@@ -15,7 +15,7 @@ class rex_i18n_trans_cb
  */
 class rex_i18n_test extends TestCase
 {
-    private $previousLocale;
+    private string $previousLocale;
 
     protected function setUp(): void
     {

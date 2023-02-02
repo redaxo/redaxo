@@ -2625,14 +2625,10 @@
       <code>$value</code>
     </MixedAssignment>
     <MixedInferredReturnType>
-      <code>getParent</code>
       <code>iterable</code>
       <code>iterable</code>
       <code>iterable</code>
     </MixedInferredReturnType>
-    <MixedReturnStatement>
-      <code>$this-&gt;parent</code>
-    </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/structure/tests/function_rex_url_test.php">
     <MixedArgument>
@@ -2685,12 +2681,10 @@
     <InvalidScalarArgument>
       <code>$value</code>
     </InvalidScalarArgument>
-    <MixedArgument>
-      <code>$this-&gt;checkboxLabel</code>
-    </MixedArgument>
   </file>
   <file src="redaxo/src/addons/users/pages/roles.php">
     <MixedArgument>
+      <code>$params['all_label']</code>
       <code>$params['label']</code>
       <code>$params['options']</code>
       <code>$params['select']</code>
@@ -5688,11 +5682,6 @@
       <code>$navi[2]['headline']['title']</code>
     </MixedArrayAccess>
   </file>
-  <file src="redaxo/src/core/tests/console/config/set_test.php">
-    <MixedArgument>
-      <code>$this-&gt;initialConfig</code>
-    </MixedArgument>
-  </file>
   <file src="redaxo/src/core/tests/extension_test.php">
     <MixedAssignment>
       <code>$myparamActual</code>
@@ -5814,11 +5803,6 @@
       <code>$params['some']</code>
       <code>$params['subject']</code>
     </MixedOperand>
-  </file>
-  <file src="redaxo/src/core/tests/util/i18n_test.php">
-    <MixedArgument>
-      <code>$this-&gt;previousLocale</code>
-    </MixedArgument>
   </file>
   <file src="redaxo/src/core/tests/util/markdown_test.php">
     <MixedArgument>
