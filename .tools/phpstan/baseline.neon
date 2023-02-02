@@ -526,26 +526,6 @@ parameters:
 			path: ../../redaxo/src/addons/mediapool/functions/function_rex_mediapool.php
 
 		-
-			message: "#^Method rex_form_widget_media_element\\:\\:setTypes\\(\\) has parameter \\$types with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/form_element/media.php
-
-		-
-			message: "#^Property rex_form_widget_media_element\\:\\:\\$args has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/form_element/media.php
-
-		-
-			message: "#^Method rex_form_widget_medialist_element\\:\\:setTypes\\(\\) has parameter \\$types with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/form_element/medialist.php
-
-		-
-			message: "#^Property rex_form_widget_medialist_element\\:\\:\\$args has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/form_element/medialist.php
-
-		-
 			message: "#^Method rex_media\\:\\:addInstanceList\\(\\) has parameter \\$instanceKeyList with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/lib/media.php
@@ -586,72 +566,7 @@ parameters:
 			path: ../../redaxo/src/addons/mediapool/lib/media.php
 
 		-
-			message: "#^Property rex_media\\:\\:\\$category_id has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/media.php
-
-		-
-			message: "#^Property rex_media\\:\\:\\$createdate has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/media.php
-
-		-
-			message: "#^Property rex_media\\:\\:\\$createuser has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/media.php
-
-		-
-			message: "#^Property rex_media\\:\\:\\$height has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/media.php
-
-		-
-			message: "#^Property rex_media\\:\\:\\$id has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/media.php
-
-		-
 			message: "#^Property rex_media\\:\\:\\$instanceLists type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/media.php
-
-		-
-			message: "#^Property rex_media\\:\\:\\$name has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/media.php
-
-		-
-			message: "#^Property rex_media\\:\\:\\$originalname has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/media.php
-
-		-
-			message: "#^Property rex_media\\:\\:\\$size has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/media.php
-
-		-
-			message: "#^Property rex_media\\:\\:\\$title has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/media.php
-
-		-
-			message: "#^Property rex_media\\:\\:\\$type has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/media.php
-
-		-
-			message: "#^Property rex_media\\:\\:\\$updatedate has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/media.php
-
-		-
-			message: "#^Property rex_media\\:\\:\\$updateuser has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/media.php
-
-		-
-			message: "#^Property rex_media\\:\\:\\$width has no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/lib/media.php
 
@@ -686,47 +601,7 @@ parameters:
 			path: ../../redaxo/src/addons/mediapool/lib/media_category.php
 
 		-
-			message: "#^Property rex_media_category\\:\\:\\$createdate has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/media_category.php
-
-		-
-			message: "#^Property rex_media_category\\:\\:\\$createuser has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/media_category.php
-
-		-
-			message: "#^Property rex_media_category\\:\\:\\$id has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/media_category.php
-
-		-
 			message: "#^Property rex_media_category\\:\\:\\$instanceLists type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/media_category.php
-
-		-
-			message: "#^Property rex_media_category\\:\\:\\$name has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/media_category.php
-
-		-
-			message: "#^Property rex_media_category\\:\\:\\$parentId has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/media_category.php
-
-		-
-			message: "#^Property rex_media_category\\:\\:\\$path has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/media_category.php
-
-		-
-			message: "#^Property rex_media_category\\:\\:\\$updatedate has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/media_category.php
-
-		-
-			message: "#^Property rex_media_category\\:\\:\\$updateuser has no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/lib/media_category.php
 
@@ -737,11 +612,6 @@ parameters:
 
 		-
 			message: "#^Method rex_media_category_select\\:\\:__construct\\(\\) has parameter \\$checkPerms with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/mediapool/lib/media_category_select.php
-
-		-
-			message: "#^Property rex_media_category_select\\:\\:\\$loaded has no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/mediapool/lib/media_category_select.php
 

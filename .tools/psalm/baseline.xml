@@ -956,45 +956,10 @@
       <code>rex_escape($ftitle)</code>
     </MixedOperand>
   </file>
-  <file src="redaxo/src/addons/mediapool/lib/form_element/media.php">
-    <MixedArgument>
-      <code>$this-&gt;args</code>
-      <code>$widgetCounter</code>
-    </MixedArgument>
-    <MixedArrayAssignment>
-      <code>$this-&gt;args['category']</code>
-      <code>$this-&gt;args['preview']</code>
-      <code>$this-&gt;args['types']</code>
-    </MixedArrayAssignment>
-    <MixedAssignment>
-      <code>$widgetCounter</code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code>$widgetCounter</code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/addons/mediapool/lib/form_element/medialist.php">
-    <MixedArgument>
-      <code>$this-&gt;args</code>
-      <code>$widgetCounter</code>
-    </MixedArgument>
-    <MixedArrayAssignment>
-      <code>$this-&gt;args['category']</code>
-      <code>$this-&gt;args['preview']</code>
-      <code>$this-&gt;args['types']</code>
-    </MixedArrayAssignment>
-    <MixedAssignment>
-      <code>$widgetCounter</code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code>$widgetCounter</code>
-    </MixedOperand>
-  </file>
   <file src="redaxo/src/addons/mediapool/lib/media.php">
     <MixedArgument>
       <code>$filename</code>
       <code>$name</code>
-      <code>$this-&gt;name</code>
     </MixedArgument>
     <MixedAssignment>
       <code>$name</code>
@@ -1002,21 +967,8 @@
       <code>$value</code>
     </MixedAssignment>
     <MixedInferredReturnType>
-      <code>int</code>
-      <code>int</code>
-      <code>int</code>
-      <code>int</code>
-      <code>int</code>
-      <code>int</code>
-      <code>int</code>
       <code>list&lt;string&gt;</code>
       <code>list&lt;string&gt;</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
       <code>string|int|null</code>
     </MixedInferredReturnType>
     <MixedOperand>
@@ -1029,19 +981,6 @@
     </MixedOperand>
     <MixedReturnStatement>
       <code>$this-&gt;$value</code>
-      <code>$this-&gt;category_id</code>
-      <code>$this-&gt;createdate</code>
-      <code>$this-&gt;createuser</code>
-      <code>$this-&gt;height</code>
-      <code>$this-&gt;id</code>
-      <code>$this-&gt;name</code>
-      <code>$this-&gt;originalname</code>
-      <code>$this-&gt;size</code>
-      <code>$this-&gt;title</code>
-      <code>$this-&gt;type</code>
-      <code>$this-&gt;updatedate</code>
-      <code>$this-&gt;updateuser</code>
-      <code>$this-&gt;width</code>
       <code>rex_addon::get('mediapool')-&gt;getProperty('allowed_doctypes')</code>
       <code>rex_addon::get('mediapool')-&gt;getProperty('image_extensions')</code>
     </MixedReturnStatement>
@@ -1054,34 +993,12 @@
       <code>$id</code>
       <code>$id</code>
       <code>$parentId</code>
-      <code>$this-&gt;path</code>
-      <code>$this-&gt;path</code>
     </MixedArgument>
-    <MixedInferredReturnType>
-      <code>int</code>
-      <code>int</code>
-      <code>int</code>
-      <code>int</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-      <code>string</code>
-    </MixedInferredReturnType>
     <MixedOperand>
       <code>$id</code>
       <code>$id</code>
       <code>$parentId</code>
     </MixedOperand>
-    <MixedReturnStatement>
-      <code>$this-&gt;createdate</code>
-      <code>$this-&gt;createuser</code>
-      <code>$this-&gt;id</code>
-      <code>$this-&gt;name</code>
-      <code>$this-&gt;parentId</code>
-      <code>$this-&gt;path</code>
-      <code>$this-&gt;updatedate</code>
-      <code>$this-&gt;updateuser</code>
-    </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/mediapool/lib/media_category_select.php">
     <MixedAssignment>
