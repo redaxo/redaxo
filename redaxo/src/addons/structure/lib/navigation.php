@@ -35,18 +35,23 @@ class rex_navigation
 {
     use rex_factory_trait;
 
-    private $depth; // Wieviele Ebene tief, ab der Startebene
-    private $open; // alles aufgeklappt, z.b. Sitemap
-    private $path = [];
-    private $classes = [];
-    private $linkclasses = [];
-    private $filter = [];
-    private $callbacks = [];
+    private int $depth = -1; // Wieviele Ebene tief, ab der Startebene
+    private bool $open = false; // alles aufgeklappt, z.b. Sitemap
+    /** @var list<int> */
+    private array $path = [];
+    /** @var array<int, string> */
+    private array $classes = [];
+    /** @var array<int, string> */
+    private array $linkclasses = [];
+    /** @var list<array{metafield: string, value: int|string, type: string, depth: int|''}> */
+    private array$filter = [];
+    /** @var list<array{callback: callable(rex_category,int,array<int|string, int|string|list<string>>,array<int|string, int|string|list<string>>,string):bool, depth: int|''}> */
+    private array $callbacks = [];
 
-    private $currentArticleId = -1; // Aktueller Artikel
-    private $currentCategoryId = -1; // Aktuelle Katgorie
+    private int $currentArticleId = -1; // Aktueller Artikel
+    private int $currentCategoryId = -1; // Aktuelle Katgorie
 
-    private static $factoryCall = false;
+    private static bool $factoryCall = false;
 
     public function __construct()
     {
@@ -94,6 +99,11 @@ class rex_navigation
 
     /**
      * @see get()
+     *
+     * @param int $categoryId
+     * @param int $depth
+     * @param bool $open
+     * @param bool $ignoreOfflines
      * @return void
      */
     public function show($categoryId = 0, $depth = 3, $open = false, $ignoreOfflines = false)
@@ -104,7 +114,7 @@ class rex_navigation
     /**
      * Generiert eine Breadcrumb-Navigation.
      *
-     * @param string $startPageLabel Label der Startseite, falls FALSE keine Start-Page anzeigen
+     * @param string|false $startPageLabel Label der Startseite, falls FALSE keine Start-Page anzeigen
      * @param bool   $includeCurrent True wenn der aktuelle Artikel enthalten sein soll, sonst FALSE
      * @param int    $categoryId    Id der Wurzelkategorie
      *
@@ -178,6 +188,10 @@ class rex_navigation
 
     /**
      * @see getBreadcrumb()
+     *
+     * @param string|false $startPageLabel
+     * @param bool $includeCurrent
+     * @param int $categoryId
      * @return void
      */
     public function showBreadcrumb($startPageLabel = false, $includeCurrent = false, $categoryId = 0)
@@ -186,6 +200,7 @@ class rex_navigation
     }
 
     /**
+     * @param array<int, string> $classes
      * @return void
      */
     public function setClasses($classes)
@@ -194,6 +209,7 @@ class rex_navigation
     }
 
     /**
+     * @param array<int, string> $classes
      * @return void
      */
     public function setLinkClasses($classes)
@@ -205,9 +221,9 @@ class rex_navigation
      * Fügt einen Filter hinzu.
      *
      * @param string     $metafield Datenbankfeld der Kategorie
-     * @param mixed      $value     Wert für den Vergleich
-     * @param string     $type      art des Vergleichs =/</
-     * @param int|string $depth     "" wenn auf allen Ebenen, wenn definiert, dann wird der Filter nur auf dieser Ebene angewendet
+     * @param int|string $value    Wert für den Vergleich
+     * @param string     $type     art des Vergleichs =/</
+     * @param int|''     $depth    "" wenn auf allen Ebenen, wenn definiert, dann wird der Filter nur auf dieser Ebene angewendet
      * @return void
      */
     public function addFilter($metafield = 'id', $value = '1', $type = '=', $depth = '')
@@ -218,8 +234,8 @@ class rex_navigation
     /**
      * Fügt einen Callback hinzu.
      *
-     * @param callable   $callback z.B. myFunc oder myClass::myMethod
-     * @param int|string $depth    "" wenn auf allen Ebenen, wenn definiert, dann wird der Filter nur auf dieser Ebene angewendet
+     * @param callable(rex_category,int,array<int|string, int|string|list<string>>,array<int|string, int|string|list<string>>,string):bool $callback z.B. myFunc oder myClass::myMethod
+     * @param int|''  $depth    "" wenn auf allen Ebenen, wenn definiert, dann wird der Filter nur auf dieser Ebene angewendet
      *
      * @return $this
      */
@@ -242,7 +258,7 @@ class rex_navigation
 
             $this->path = [];
             if ('' != $path) {
-                $this->path = explode('|', $path);
+                $this->path = array_map(intval(...), explode('|', $path));
             }
 
             $this->currentArticleId = $articleId;
@@ -254,6 +270,7 @@ class rex_navigation
     }
 
     /**
+     * @param int $depth
      * @return bool
      */
     private function checkFilter(rex_category $category, $depth)
@@ -292,7 +309,7 @@ class rex_navigation
                         }
                         break;
                     case 'regex':
-                        if (!preg_match($va, (string) $mf)) {
+                        if (!preg_match((string) $va, (string) $mf)) {
                             return false;
                         }
                         break;
@@ -310,6 +327,10 @@ class rex_navigation
     }
 
     /**
+     * @param int $depth
+     * @param array<int|string, int|string|list<string>> $li
+     * @param array<int|string, int|string|list<string>> $a
+     * @param string $aContent
      * @return bool
      */
     private function checkCallbacks(rex_category $category, $depth, &$li, &$a, &$aContent)
