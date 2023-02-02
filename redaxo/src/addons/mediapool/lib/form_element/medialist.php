@@ -5,6 +5,7 @@
  */
 class rex_form_widget_medialist_element extends rex_form_element
 {
+    /** @var array{category?: int, types?: string, preview?: bool} */
     private $args = [];
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
@@ -29,6 +30,7 @@ class rex_form_widget_medialist_element extends rex_form_element
     }
 
     /**
+     * @param string $types
      * @return void
      */
     public function setTypes($types)
@@ -48,6 +50,7 @@ class rex_form_widget_medialist_element extends rex_form_element
 
     public function formatElement()
     {
+        /** @var int $widgetCounter */
         static $widgetCounter = 1;
 
         $html = rex_var_medialist::getWidget($widgetCounter, $this->getAttribute('name'), $this->getValue(), $this->args);

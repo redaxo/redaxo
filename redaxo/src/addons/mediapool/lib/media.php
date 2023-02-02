@@ -11,36 +11,36 @@ class rex_media
     use rex_instance_list_pool_trait;
     use rex_instance_pool_trait;
 
-    // id
-    protected $id = '';
-    // categoryid
-    protected $category_id = '';
+    /** @var int */
+    protected $id;
+    /** @var int */
+    protected $category_id;
 
-    // filename
+    /** @var string */
     protected $name = '';
-    // originalname
+    /** @var string */
     protected $originalname = '';
-    // filetype
+    /** @var string */
     protected $type = '';
-    // filesize
-    protected $size = '';
+    /** @var int */
+    protected $size;
 
-    // filewidth
-    protected $width = '';
-    // fileheight
-    protected $height = '';
+    /** @var int|null */
+    protected $width;
+    /** @var int|null */
+    protected $height;
 
-    // filetitle
+    /** @var string */
     protected $title = '';
 
-    // updatedate
-    protected $updatedate = '';
-    // createdate
-    protected $createdate = '';
+    /** @var int */
+    protected $updatedate;
+    /** @var int */
+    protected $createdate;
 
-    // updateuser
+    /** @var string */
     protected $updateuser = '';
-    // createuser
+    /** @var string */
     protected $createuser = '';
 
     /**
@@ -78,7 +78,11 @@ class rex_media
                         $varName = $key;
                     }
 
-                    $media->$varName = $value;
+                    $media->$varName = match ($varName) {
+                        'id', 'category_id', 'size', 'createdate', 'updatedate' => (int) $value,
+                        'width', 'height' => null === $value ? $value : (int) $value,
+                        default => $value,
+                    };
                 }
 
                 return $media;
@@ -182,7 +186,7 @@ class rex_media
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getWidth()
     {
@@ -190,7 +194,7 @@ class rex_media
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getHeight()
     {
