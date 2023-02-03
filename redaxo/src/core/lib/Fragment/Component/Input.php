@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\Fragment\Component;
 
+use Redaxo\Core\Fragment\Enum\FormControl\Autocapitalize;
 use Redaxo\Core\Fragment\Slot;
 use rex_fragment;
 use rex_functional_exception;
@@ -127,6 +128,18 @@ class Input extends rex_fragment
          * string = 'any'
          */
         public null|int|float|string $step = null,
+
+        /**
+         * Controls whether and how text input is
+         * automatically capitalized as it is entered by
+         * the user.
+         */
+        public ?Autocapitalize $autocapitalize = null,
+
+        /**
+         * Enables spell checking on the textarea.
+         */
+        public bool $spellcheck = true,
 
         /**
          * Indicates that the input should receive focus on

@@ -23,6 +23,8 @@ use Redaxo\Core\Fragment\Component\Input;
     <?= $this->min ? 'min="'.rex_escape($this->min).'"' : '' ?>
     <?= $this->max ? 'max="'.rex_escape($this->max).'"' : '' ?>
     <?= $this->step ? 'step="'.rex_escape($this->step).'"' : '' ?>
+    <?= $this->autocapitalize ? 'autocapitalize="'.$this->autocapitalize->value.'"' : '' ?>
+    <?= $this->spellcheck ? 'spellcheck="true"' : 'spellcheck="false"' ?>
     <?= $this->attributes ? rex_string::buildAttributes($this->attributes) : '' ?>
 >
     <?= $this->slotLabel ? $this->slotLabel->prepare('label')->get() : '' ?>
