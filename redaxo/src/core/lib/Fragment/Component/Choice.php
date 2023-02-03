@@ -33,17 +33,6 @@ class Choice extends rex_fragment
         public ?Slot $slotNotice = null,
 
         /**
-         * Used to prepend a presentational icon or similar
-         * element to the input.
-         */
-        public ?Slot $slotPrefix = null,
-
-        /**
-         * A presentational suffix icon or similar element.
-         */
-        public ?Slot $slotSuffix = null,
-
-        /**
          * The choice label. If you need to display HTML,
          * use the label slot instead.
          */
@@ -52,7 +41,7 @@ class Choice extends rex_fragment
         /**
          * The name of the choice.
          */
-        public string $name = '',
+        public ?string $name = null,
 
         /**
          * The current values of the choice.
@@ -100,12 +89,19 @@ class Choice extends rex_fragment
         /**
          * The choice type.
          */
-        public ?ChoiceType $type = null,
+        public ChoiceType $type = ChoiceType::Select,
 
         /** @var array<string, string>|null */
         public ?array $attributes = null,
 
+        /**
+         * By default, the array key of each item in the
+         * choices option is used as the text that's shown
+         * to the user. The choiceLabel option allows you
+         * to take more control.
+         */
         public null|string|Closure $choiceLabel = null,
+
     ) {
         foreach ($this->choices as $choiceLabel => $choiceValue) {
             if (!is_array($choiceValue)) {
@@ -139,7 +135,7 @@ class Choice extends rex_fragment
             }
         }
 
-        if ($this->multiple) {
+        if ($this->multiple && $this->name) {
             $this->name .= '[]';
         }
 
@@ -149,11 +145,6 @@ class Choice extends rex_fragment
     public function render(): string
     {
         return parent::parse($this->fileName);
-    }
-
-    public function getName(): string
-    {
-        return $this->multiple ? $this->name.'[]' : $this->name;
     }
 
     /**

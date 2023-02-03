@@ -14,6 +14,7 @@ $counter = 1;
     <?= $this->label ? 'label="'.rex_escape($this->label).'"' : '' ?>
     <?= $this->notice ? 'help-text="'.rex_escape($this->notice).'"' : '' ?>
     <?= $this->required ? 'required' : '' ?>
+    <?= $this->attributes ? rex_string::buildAttributes($this->attributes) : '' ?>
 >
     <?php foreach ($this->getChoices() as $label => $value): ?>
         <?php if (!is_array($value)): ?>
@@ -29,4 +30,6 @@ $counter = 1;
         <?php endif ?>
         <?php $counter++ ?>
     <?php endforeach; ?>
+    <?= $this->slotLabel ? $this->slotLabel->prepare('label')->get() : '' ?>
+    <?= $this->slotNotice ? $this->slotNotice->prepare('help-text')->get() : '' ?>
 </sl-radio-group>

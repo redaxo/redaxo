@@ -17,6 +17,7 @@ $counter = 1;
     <?= $this->disabled ? 'disabled' : '' ?>
     <?= $this->placeholder ? 'placeholder="'.rex_escape($this->placeholder).'"' : '' ?>
     <?= $this->required ? 'required' : '' ?>
+    <?= $this->attributes ? rex_string::buildAttributes($this->attributes) : '' ?>
 >
     <?php foreach ($this->getChoices() as $label => $value): ?>
         <?php if (!is_array($value)): ?>
@@ -32,4 +33,6 @@ $counter = 1;
         <?php endif ?>
         <?php $counter++ ?>
     <?php endforeach; ?>
+    <?= $this->slotLabel ? $this->slotLabel->prepare('label')->get() : '' ?>
+    <?= $this->slotNotice ? $this->slotNotice->prepare('help-text')->get() : '' ?>
 </sl-select>

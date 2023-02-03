@@ -7,7 +7,6 @@ use Redaxo\Core\Fragment\Component\ButtonType;
 use Redaxo\Core\Fragment\Component\ButtonVariant;
 use Redaxo\Core\Fragment\Component\Card;
 use Redaxo\Core\Fragment\Component\Choice;
-use Redaxo\Core\Fragment\Component\ChoiceType;
 use Redaxo\Core\Fragment\Component\Icon;
 use Redaxo\Core\Fragment\Component\IconLibrary;
 use Redaxo\Core\Fragment\Component\Input;
