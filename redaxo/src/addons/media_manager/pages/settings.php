@@ -86,8 +86,8 @@ $formElements[] = $n;
 $inputGroups = [];
 $n = [];
 $n['class'] = 'rex-range-input-group';
-$n['left'] = '<input id="rex-js-rating-source-avif-quality" type="range" min="0" max="100" step="1" value="' . rex_escape($addon->getConfig('avif_quality')) . '" />';
-$n['field'] = '<input class="form-control" id="rex-js-rating-text-avif-quality" type="text" name="settings[avif_quality]" value="' . rex_escape($addon->getConfig('avif_quality')) . '" />';
+$n['left'] = '<input id="rex-js-rating-source-avif-quality" type="range" min="0" max="100" step="1" value="' . rex_escape((int) $addon->getConfig('avif_quality')) . '" />';
+$n['field'] = '<input class="form-control" id="rex-js-rating-text-avif-quality" type="text" name="settings[avif_quality]" value="' . rex_escape((int) $addon->getConfig('avif_quality')) . '" />';
 $inputGroups[] = $n;
 
 $fragment = new rex_fragment();
@@ -102,8 +102,8 @@ $formElements[] = $n;
 $inputGroups = [];
 $n = [];
 $n['class'] = 'rex-range-input-group';
-$n['left'] = '<input id="rex-js-rating-source-avif-speed" type="range" min="0" max="10" step="1" value="' . rex_escape($addon->getConfig('avif_speed')) . '" />';
-$n['field'] = '<input class="form-control" id="rex-js-rating-text-avif-speed" type="text" name="settings[avif_speed]" value="' . rex_escape($addon->getConfig('avif_speed')) . '" />';
+$n['left'] = '<input id="rex-js-rating-source-avif-speed" type="range" min="0" max="10" step="1" value="' . rex_escape((int) $addon->getConfig('avif_speed')) . '" />';
+$n['field'] = '<input class="form-control" id="rex-js-rating-text-avif-speed" type="text" name="settings[avif_speed]" value="' . rex_escape((int) $addon->getConfig('avif_speed')) . '" />';
 $inputGroups[] = $n;
 
 $fragment = new rex_fragment();
