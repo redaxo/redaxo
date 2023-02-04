@@ -479,7 +479,6 @@ class rex
 
     /**
      * @return list<non-empty-string>
-     * @psalm-suppress MixedReturnTypeCoercion
      */
     public static function getPackageOrder(): array
     {

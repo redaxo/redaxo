@@ -212,7 +212,6 @@ class rex_sql_util
             // backquotes that can't be escaped
             if ($inString) {
                 for (;;) {
-                    /** @psalm-suppress LoopInvalidation */
                     $i = strpos($sql, $stringStart, $i);
                     // No end of string found -> add the current substring to the
                     // returned array
@@ -253,7 +252,6 @@ class rex_sql_util
 
             // lets skip comments (/*, -- and #)
             elseif (('-' == $char && $sqlLen > $i + 2 && '-' == $sql[$i + 1] && $sql[$i + 2] <= ' ') || '#' == $char || ('/' == $char && $sqlLen > $i + 1 && '*' == $sql[$i + 1])) {
-                /** @psalm-suppress LoopInvalidation */
                 $i = strpos($sql, '/' == $char ? '*/' : "\n", $i);
                 // didn't we hit end of string?
                 if (false === $i) {

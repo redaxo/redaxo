@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_formatter_test extends TestCase
 {
-    public function testDate()
+    public function testDate(): void
     {
         $format = 'd.m.Y H:i';
 
@@ -72,7 +72,7 @@ class rex_formatter_test extends TestCase
         if (null === $format) {
             $string = rex_formatter::intlDateTime($value);
         } else {
-            /** @psalm-suppress ArgumentTypeCoercion */
+            /** @psalm-suppress PossiblyInvalidArgument */
             $string = rex_formatter::intlDateTime($value, $format);
         }
 
@@ -163,7 +163,7 @@ class rex_formatter_test extends TestCase
         ];
     }
 
-    public function testNumber()
+    public function testNumber(): void
     {
         $value = 1336811080.23;
 
@@ -180,7 +180,7 @@ class rex_formatter_test extends TestCase
         );
     }
 
-    public function testBytes()
+    public function testBytes(): void
     {
         $value = 1000;
 
@@ -224,7 +224,7 @@ class rex_formatter_test extends TestCase
         }
     }
 
-    public function testSprintf()
+    public function testSprintf(): void
     {
         $value = 'hallo';
         $format = 'X%sX';
@@ -235,7 +235,7 @@ class rex_formatter_test extends TestCase
         );
     }
 
-    public function testNl2br()
+    public function testNl2br(): void
     {
         $value = "very\nloooooong\ntext lala";
 
@@ -245,7 +245,7 @@ class rex_formatter_test extends TestCase
         );
     }
 
-    public function testTruncate()
+    public function testTruncate(): void
     {
         $value = 'very loooooong text lala';
 
@@ -271,7 +271,7 @@ class rex_formatter_test extends TestCase
         );
     }
 
-    public function testVersion()
+    public function testVersion(): void
     {
         $value = '5.1.2-alpha1';
 
@@ -286,7 +286,7 @@ class rex_formatter_test extends TestCase
         );
     }
 
-    public function testUrl()
+    public function testUrl(): void
     {
         $value = 'http://example.org';
 
@@ -300,7 +300,7 @@ class rex_formatter_test extends TestCase
         );
     }
 
-    public function testEmail()
+    public function testEmail(): void
     {
         $value = 'dude@example.org';
 
@@ -314,7 +314,7 @@ class rex_formatter_test extends TestCase
         );
     }
 
-    public function testCustom()
+    public function testCustom(): void
     {
         $format = 'strtoupper';
         static::assertEquals(

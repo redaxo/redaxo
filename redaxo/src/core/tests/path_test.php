@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_path_test extends TestCase
 {
-    public function testAbsoluteConversion()
+    public function testAbsoluteConversion(): void
     {
         $path = rex_path::absolute('c:/abc/../def/./xy');
         static::assertEquals($this->path('c:/def/xy'), $path, 'resolves .. and .');
@@ -19,12 +19,13 @@ class rex_path_test extends TestCase
     /**
      * @dataProvider dataRelative
      */
-    public function testRelative($expected, $path, $basePath = null)
+    public function testRelative($expected, $path, $basePath = null): void
     {
         static::assertSame($this->path($expected), rex_path::relative($path, $basePath));
     }
 
-    public function dataRelative()
+    /** @return list<array{0: string, 1: string, 2?: string}> */
+    public function dataRelative(): array
     {
         return [
             ['redaxo/src/core/boot.php', rex_path::core('boot.php')],
@@ -38,7 +39,7 @@ class rex_path_test extends TestCase
         ];
     }
 
-    public function testBasename()
+    public function testBasename(): void
     {
         static::assertSame('config.yml', rex_path::basename('../redaxo/data/core/config.yml'));
 
@@ -57,7 +58,7 @@ class rex_path_test extends TestCase
         static::assertNull(rex_path::findBinaryPath('noone-knows'));
     }
 
-    private function path($path)
+    private function path($path): string
     {
         return str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $path);
     }

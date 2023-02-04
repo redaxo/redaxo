@@ -26,14 +26,14 @@ class rex_test_instance_list_pool
  */
 class rex_instance_list_pool_trait_test extends TestCase
 {
-    public function testAddHasInstanceList()
+    public function testAddHasInstanceList(): void
     {
         static::assertFalse(rex_test_instance_list_pool::hasInstanceList(1), 'hasInstanceList returns false for non-existing instance');
         rex_test_instance_list_pool::addInstanceList(1, [2, 3]);
         static::assertTrue(rex_test_instance_list_pool::hasInstanceList(1), 'hasInstanceList returns true for added instance');
     }
 
-    public function testGetInstanceList()
+    public function testGetInstanceList(): void
     {
         static::assertSame([], rex_test_instance_list_pool::getInstanceList(2, rex_test_instance_list_pool::get(...)), 'getInstanceList returns empty array for non-existing key');
 
@@ -72,7 +72,7 @@ class rex_instance_list_pool_trait_test extends TestCase
     /**
      * @depends testGetInstanceList
      */
-    public function testClearInstanceList()
+    public function testClearInstanceList(): void
     {
         rex_test_instance_list_pool::clearInstanceList(2);
         static::assertFalse(rex_test_instance_list_pool::hasInstanceList(2), 'instance list is cleared after clearInstanceList()');
@@ -81,13 +81,13 @@ class rex_instance_list_pool_trait_test extends TestCase
     /**
      * @depends testClearInstanceList
      */
-    public function testClearInstanceListPool()
+    public function testClearInstanceListPool(): void
     {
         rex_test_instance_list_pool::clearInstanceListPool();
         static::assertFalse(rex_test_instance_list_pool::hasInstanceList(1), 'instance lists are cleared after clearInstanceListPool()');
     }
 
-    public function testGetInstanceListPoolKey()
+    public function testGetInstanceListPoolKey(): void
     {
         static::assertEquals('1', rex_test_instance_list_pool::getInstanceListPoolKey(1));
         static::assertEquals('2###test', rex_test_instance_list_pool::getInstanceListPoolKey([2, 'test']));

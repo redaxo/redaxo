@@ -25,7 +25,7 @@ class rex_command_config_set_test extends TestCase
     /**
      * @dataProvider dataSetBoolean
      */
-    public function testSetBoolean($expectedValue, $value)
+    public function testSetBoolean($expectedValue, $value): void
     {
         $commandTester = new CommandTester(new rex_command_config_set());
         $commandTester->execute([
@@ -40,7 +40,8 @@ class rex_command_config_set_test extends TestCase
         static::assertEquals(0, $commandTester->getStatusCode());
     }
 
-    public function dataSetBoolean()
+    /** @return list<array{bool, string}> */
+    public function dataSetBoolean(): array
     {
         return [
             [true, '1'],

@@ -13,6 +13,7 @@ class rex_media_category_select extends rex_select
     /** @var int|int[]|null */
     private $rootId;
 
+    /** @var bool */
     private $loaded = false;
 
     public function __construct($checkPerms = true)

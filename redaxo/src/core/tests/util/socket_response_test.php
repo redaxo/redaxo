@@ -16,7 +16,8 @@ class rex_socket_response_test extends TestCase
         return new rex_socket_response($stream);
     }
 
-    public function getStatusProvider()
+    /** @return list<array{string, ?int, ?string, string}> */
+    public function getStatusProvider(): array
     {
         return [
             ['',                              null, null,                'isInvalid'],
@@ -35,7 +36,7 @@ class rex_socket_response_test extends TestCase
     /**
      * @dataProvider getStatusProvider
      */
-    public function testGetStatus($header, $statusCode, $statusMessage, $positiveMethod)
+    public function testGetStatus($header, $statusCode, $statusMessage, $positiveMethod): void
     {
         $response = $this->getResponse($header . "\r\n");
 
@@ -49,7 +50,7 @@ class rex_socket_response_test extends TestCase
         }
     }
 
-    public function testGetHeader()
+    public function testGetHeader(): void
     {
         $header = "HTTP/1.1 200 OK\r\nKey1: Value1\r\nkey2: Value2";
         $response = $this->getResponse($header . "\r\n\r\nbody\r\nbody");
@@ -61,7 +62,7 @@ class rex_socket_response_test extends TestCase
         static::assertSame('default', $response->getHeader('Key3', 'default'), 'getHeader($key, $default) returns $default for non-existing keys');
     }
 
-    public function testGetBody()
+    public function testGetBody(): void
     {
         $body = "body1\r\nbody2";
         $response = $this->getResponse("HTTP/1.1 200 OK\r\nKey: Value\r\n\r\n" . $body);
@@ -69,7 +70,7 @@ class rex_socket_response_test extends TestCase
         static::assertSame($body, $response->getBody());
     }
 
-    public function testWriteBodyTo()
+    public function testWriteBodyTo(): void
     {
         $body = "body1\r\nbody2";
         $response = $this->getResponse("HTTP/1.1 200 OK\r\nKey: Value\r\n\r\n" . $body);
@@ -81,7 +82,7 @@ class rex_socket_response_test extends TestCase
         fclose($temp);
     }
 
-    public function testGetBodyWithEncoding()
+    public function testGetBodyWithEncoding(): void
     {
         $body = "This is the\r\noriginal content";
 
@@ -104,7 +105,7 @@ class rex_socket_response_test extends TestCase
         )->decompressContent(true)->getBody());
     }
 
-    public function testEncodingHeader()
+    public function testEncodingHeader(): void
     {
         static::assertIsArray($this->getResponse("HTTP/1.1 200 OK\r\nKey: Value\r\n\r\nTest")
             ->getContentEncodings(), );

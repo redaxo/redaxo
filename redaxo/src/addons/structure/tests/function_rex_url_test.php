@@ -9,6 +9,7 @@ class rex_structure_function_url_test extends TestCase
 {
     /**
      * @dataProvider provideRedirectException
+     * @return never
      */
     public function testRedirectException($articleId)
     {
@@ -17,7 +18,8 @@ class rex_structure_function_url_test extends TestCase
         rex_redirect($articleId);
     }
 
-    public function provideRedirectException()
+    /** @return list<array{string}> */
+    public function provideRedirectException(): array
     {
         return [
             ['http://www.example.com'],
