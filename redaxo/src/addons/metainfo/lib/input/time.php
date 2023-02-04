@@ -4,11 +4,13 @@
  * @package redaxo\metainfo
  *
  * @internal
+ *
+ * @extends rex_input<array{hour: numeric-string, minute: numeric-string, year?: numeric-string, month?: numeric-string, day?: numeric-string}>
  */
 class rex_input_time extends rex_input
 {
-    private $hourSelect;
-    private $minuteSelect;
+    private rex_select $hourSelect;
+    private rex_select $minuteSelect;
 
     public function __construct()
     {

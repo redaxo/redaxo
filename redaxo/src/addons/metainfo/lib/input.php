@@ -4,21 +4,21 @@
  * @package redaxo\metainfo
  *
  * @internal
+ *
+ * @template T
  */
 abstract class rex_input
 {
+    /** @var T */
     protected $value;
-    /** @var string[] */
-    protected $attributes;
+    /** @var array<string, string|int> */
+    protected array $attributes = [];
 
-    public function __construct()
-    {
-        $this->value = '';
-        $this->attributes = [];
-    }
+    public function __construct() {}
 
     /**
      * Setzt den Value des Input-Feldes.
+     * @param T $value
      * @return void
      */
     public function setValue($value)
@@ -28,7 +28,7 @@ abstract class rex_input
 
     /**
      * Gibt den Wert des Input-Feldes zurueck.
-     * @return string
+     * @return T
      */
     public function getValue()
     {
@@ -39,6 +39,7 @@ abstract class rex_input
      * Setzt ein HTML-Attribut des Input-Feldes.
      *
      * @param string $name
+     * @param string|int $value
      *
      * @return void
      */
@@ -56,7 +57,7 @@ abstract class rex_input
      *
      * @param string $name
      *
-     * @return string|null
+     * @return string|int|null
      */
     public function getAttribute($name, $default = null)
     {
@@ -85,7 +86,7 @@ abstract class rex_input
     /**
      * Fuegt dem Input-Feld die Attribute $attributes hinzu.
      *
-     * @param array<string, mixed> $attributes
+     * @param array<string, string|int> $attributes
      *
      * @return void
      */
@@ -100,7 +101,7 @@ abstract class rex_input
      * Setzt die Attribute des Input-Feldes auf $attributes.
      * Alle vorher vorhanden Attribute werden geloescht/ueberschrieben.
      *
-     * @param array<string, mixed> $attributes
+     * @param array<string, string|int> $attributes
      *
      * @return void
      */
@@ -116,7 +117,7 @@ abstract class rex_input
     /**
      * Gibt alle Attribute in Form eines Array zurueck.
      *
-     * @return string[]
+     * @return array<string, string|int>
      */
     public function getAttributes()
     {

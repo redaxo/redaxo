@@ -165,7 +165,7 @@ class rex_metainfo_table_expander extends rex_form
         $sql->setTable($this->tableName);
         $sql->setWhere($this->whereCondition);
         $sql->select('name');
-        $columnName = $sql->getValue('name');
+        $columnName = (string) $sql->getValue('name');
 
         if (true === ($result = parent::delete())) {
             // Prios neu setzen, damit keine lücken entstehen
@@ -256,7 +256,7 @@ class rex_metainfo_table_expander extends rex_form
         $fieldOldName = '';
         $fieldOldPriority = 9999999999999; // dirty, damit die prio richtig laeuft...
         if (1 == $this->sql->getRows()) {
-            $fieldOldName = $this->sql->getValue('name');
+            $fieldOldName = (string) $this->sql->getValue('name');
             $fieldOldPriority = (int) $this->sql->getValue('priority');
         }
 
@@ -271,8 +271,8 @@ class rex_metainfo_table_expander extends rex_form
             $sql = rex_sql::factory();
             $sql->setDebug($this->debug);
             $result = $sql->getArray('SELECT `dbtype`, `dblength` FROM `' . rex::getTablePrefix() . 'metainfo_type` WHERE id=' . $fieldType);
-            $fieldDbType = $result[0]['dbtype'];
-            $fieldDbLength = $result[0]['dblength'];
+            $fieldDbType = (string) $result[0]['dbtype'];
+            $fieldDbLength = (int) $result[0]['dblength'];
 
             if (
                 strlen($fieldDefault) &&
