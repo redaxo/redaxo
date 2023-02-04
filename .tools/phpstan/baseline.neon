@@ -736,7 +736,12 @@ parameters:
 			path: ../../redaxo/src/addons/mediapool/tests/mediapool_test.php
 
 		-
-			message: "#^Function rex_metainfo_cleanup\\(\\) has parameter \\$epOrParams with no type specified\\.$#"
+			message: "#^Function rex_metainfo_cleanup\\(\\) has parameter \\$epOrParams with generic class rex_extension_point but does not specify its types\\: T$#"
+			count: 1
+			path: ../../redaxo/src/addons/metainfo/extensions/extension_cleanup.php
+
+		-
+			message: "#^Function rex_metainfo_cleanup\\(\\) has parameter \\$epOrParams with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/metainfo/extensions/extension_cleanup.php
 
@@ -891,319 +896,29 @@ parameters:
 			path: ../../redaxo/src/addons/metainfo/lib/handler/media_handler.php
 
 		-
+			message: "#^Method rex_input\\:\\:factory\\(\\) return type with generic class rex_input does not specify its types\\: T$#"
+			count: 1
+			path: ../../redaxo/src/addons/metainfo/lib/input.php
+
+		-
 			message: "#^Method rex_input\\:\\:getAttribute\\(\\) has parameter \\$default with no type specified\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/metainfo/lib/input.php
 
 		-
-			message: "#^Method rex_input\\:\\:setAttribute\\(\\) has parameter \\$value with no type specified\\.$#"
+			message: "#^PHPDoc tag @var for variable \\$class contains generic class rex_input but does not specify its types\\: T$#"
 			count: 1
 			path: ../../redaxo/src/addons/metainfo/lib/input.php
 
 		-
-			message: "#^Method rex_input\\:\\:setValue\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input.php
-
-		-
-			message: "#^Property rex_input\\:\\:\\$value has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input.php
-
-		-
-			message: "#^Method rex_input_date\\:\\:setAttribute\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/date.php
-
-		-
-			message: "#^Method rex_input_date\\:\\:setEndYear\\(\\) has parameter \\$endYear with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/date.php
-
-		-
-			message: "#^Method rex_input_date\\:\\:setStartYear\\(\\) has parameter \\$startYear with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/date.php
-
-		-
-			message: "#^Method rex_input_date\\:\\:setValue\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/date.php
-
-		-
-			message: "#^Property rex_input_date\\:\\:\\$daySelect has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/date.php
-
-		-
-			message: "#^Property rex_input_date\\:\\:\\$endYear has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/date.php
-
-		-
-			message: "#^Property rex_input_date\\:\\:\\$monthSelect has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/date.php
-
-		-
-			message: "#^Property rex_input_date\\:\\:\\$startYear has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/date.php
-
-		-
-			message: "#^Property rex_input_date\\:\\:\\$yearSelect has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/date.php
-
-		-
-			message: "#^Method rex_input_datetime\\:\\:getValue\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/datetime.php
-
-		-
-			message: "#^Method rex_input_datetime\\:\\:setAttribute\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/datetime.php
-
-		-
-			message: "#^Method rex_input_datetime\\:\\:setEndYear\\(\\) has parameter \\$endYear with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/datetime.php
-
-		-
-			message: "#^Method rex_input_datetime\\:\\:setStartYear\\(\\) has parameter \\$startYear with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/datetime.php
-
-		-
-			message: "#^Method rex_input_datetime\\:\\:setValue\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/datetime.php
-
-		-
-			message: "#^Parameter \\#1 \\.\\.\\.\\$arrays of function array_merge expects array, string given\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/datetime.php
-
-		-
-			message: "#^Parameter \\#2 \\.\\.\\.\\$arrays of function array_merge expects array, string given\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/datetime.php
-
-		-
-			message: "#^Return type \\(array\\) of method rex_input_datetime\\:\\:getValue\\(\\) should be compatible with return type \\(string\\) of method rex_input\\:\\:getValue\\(\\)$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/datetime.php
-
-		-
-			message: "#^Method rex_input_linkbutton\\:\\:setButtonId\\(\\) has parameter \\$buttonId with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/linkbutton.php
-
-		-
-			message: "#^Method rex_input_linkbutton\\:\\:setCategoryId\\(\\) has parameter \\$categoryId with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/linkbutton.php
-
-		-
-			message: "#^Property rex_input_linkbutton\\:\\:\\$buttonId has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/linkbutton.php
-
-		-
-			message: "#^Property rex_input_linkbutton\\:\\:\\$categoryId has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/linkbutton.php
-
-		-
-			message: "#^Method rex_input_linklistbutton\\:\\:setButtonId\\(\\) has parameter \\$buttonId with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/linklistbutton.php
-
-		-
-			message: "#^Method rex_input_linklistbutton\\:\\:setCategoryId\\(\\) has parameter \\$categoryId with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/linklistbutton.php
-
-		-
-			message: "#^Property rex_input_linklistbutton\\:\\:\\$buttonId has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/linklistbutton.php
-
-		-
-			message: "#^Property rex_input_linklistbutton\\:\\:\\$categoryId has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/linklistbutton.php
-
-		-
-			message: "#^Method rex_input_mediabutton\\:\\:setButtonId\\(\\) has parameter \\$buttonId with no type specified\\.$#"
+			message: "#^Property rex_input_mediabutton\\:\\:\\$args type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/metainfo/lib/input/mediabutton.php
 
 		-
-			message: "#^Method rex_input_mediabutton\\:\\:setCategoryId\\(\\) has parameter \\$categoryId with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/mediabutton.php
-
-		-
-			message: "#^Method rex_input_mediabutton\\:\\:setPreview\\(\\) has parameter \\$preview with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/mediabutton.php
-
-		-
-			message: "#^Method rex_input_mediabutton\\:\\:setTypes\\(\\) has parameter \\$types with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/mediabutton.php
-
-		-
-			message: "#^Property rex_input_mediabutton\\:\\:\\$args has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/mediabutton.php
-
-		-
-			message: "#^Property rex_input_mediabutton\\:\\:\\$buttonId has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/mediabutton.php
-
-		-
-			message: "#^Method rex_input_medialistbutton\\:\\:setButtonId\\(\\) has parameter \\$buttonId with no type specified\\.$#"
+			message: "#^Property rex_input_medialistbutton\\:\\:\\$args type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../redaxo/src/addons/metainfo/lib/input/medialistbutton.php
-
-		-
-			message: "#^Method rex_input_medialistbutton\\:\\:setCategoryId\\(\\) has parameter \\$categoryId with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/medialistbutton.php
-
-		-
-			message: "#^Method rex_input_medialistbutton\\:\\:setPreview\\(\\) has parameter \\$preview with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/medialistbutton.php
-
-		-
-			message: "#^Method rex_input_medialistbutton\\:\\:setTypes\\(\\) has parameter \\$types with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/medialistbutton.php
-
-		-
-			message: "#^Property rex_input_medialistbutton\\:\\:\\$args has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/medialistbutton.php
-
-		-
-			message: "#^Property rex_input_medialistbutton\\:\\:\\$buttonId has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/medialistbutton.php
-
-		-
-			message: "#^Method rex_input_select\\:\\:setAttribute\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/select.php
-
-		-
-			message: "#^Method rex_input_select\\:\\:setValue\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/select.php
-
-		-
-			message: "#^Method rex_input_time\\:\\:setAttribute\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/time.php
-
-		-
-			message: "#^Method rex_input_time\\:\\:setValue\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/time.php
-
-		-
-			message: "#^Property rex_input_time\\:\\:\\$hourSelect has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/time.php
-
-		-
-			message: "#^Property rex_input_time\\:\\:\\$minuteSelect has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/input/time.php
-
-		-
-			message: "#^Method rex_metainfo_table_manager\\:\\:__construct\\(\\) has parameter \\$DBID with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/table_manager.php
-
-		-
-			message: "#^Method rex_metainfo_table_manager\\:\\:__construct\\(\\) has parameter \\$tableName with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/table_manager.php
-
-		-
-			message: "#^Method rex_metainfo_table_manager\\:\\:addColumn\\(\\) has parameter \\$default with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/table_manager.php
-
-		-
-			message: "#^Method rex_metainfo_table_manager\\:\\:addColumn\\(\\) has parameter \\$length with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/table_manager.php
-
-		-
-			message: "#^Method rex_metainfo_table_manager\\:\\:addColumn\\(\\) has parameter \\$name with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/table_manager.php
-
-		-
-			message: "#^Method rex_metainfo_table_manager\\:\\:addColumn\\(\\) has parameter \\$nullable with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/table_manager.php
-
-		-
-			message: "#^Method rex_metainfo_table_manager\\:\\:addColumn\\(\\) has parameter \\$type with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/table_manager.php
-
-		-
-			message: "#^Method rex_metainfo_table_manager\\:\\:deleteColumn\\(\\) has parameter \\$name with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/table_manager.php
-
-		-
-			message: "#^Method rex_metainfo_table_manager\\:\\:editColumn\\(\\) has parameter \\$default with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/table_manager.php
-
-		-
-			message: "#^Method rex_metainfo_table_manager\\:\\:editColumn\\(\\) has parameter \\$length with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/table_manager.php
-
-		-
-			message: "#^Method rex_metainfo_table_manager\\:\\:editColumn\\(\\) has parameter \\$name with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/table_manager.php
-
-		-
-			message: "#^Method rex_metainfo_table_manager\\:\\:editColumn\\(\\) has parameter \\$nullable with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/table_manager.php
-
-		-
-			message: "#^Method rex_metainfo_table_manager\\:\\:editColumn\\(\\) has parameter \\$oldname with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/table_manager.php
-
-		-
-			message: "#^Method rex_metainfo_table_manager\\:\\:editColumn\\(\\) has parameter \\$type with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/table_manager.php
-
-		-
-			message: "#^Method rex_metainfo_table_manager\\:\\:hasColumn\\(\\) has parameter \\$name with no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/table_manager.php
-
-		-
-			message: "#^Property rex_metainfo_table_manager\\:\\:\\$tableName has no type specified\\.$#"
-			count: 1
-			path: ../../redaxo/src/addons/metainfo/lib/table_manager.php
 
 		-
 			message: "#^Method rex_cronjob_mailer_purge\\:\\:getParamFields\\(\\) return type has no value type specified in iterable type array\\.$#"
