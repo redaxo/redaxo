@@ -24,6 +24,6 @@ default_config:
     jpg_quality: 80
     png_compression: 5
     webp_quality: 85
-    avif_quality: 30
+    avif_quality: 60
     avif_speed: 6
     interlace: [jpg]
