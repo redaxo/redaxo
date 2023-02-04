@@ -20,10 +20,7 @@ class rex_api_content_move_slice extends rex_api_function
         }
         $categoryId = $ooArt->getCategoryId();
 
-        /**
-         * @var rex_user
-         */
-        $user = rex::getUser();
+        $user = rex::requireUser();
 
         // check permissions
         if (!$user->hasPerm('moveSlice[]')) {

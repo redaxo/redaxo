@@ -32,7 +32,7 @@ $funcBody = '';
 if ('' != $openerInputField && '' == $openerInputFieldName) {
     $openerInputFieldName = $openerInputField . '_NAME';
 }
-if ('REX_LINKLIST_' == substr($openerInputField, 0, 13)) {
+if (str_starts_with($openerInputField, 'REX_LINKLIST_')) {
     $id = rex_escape((string) substr($openerInputField, 13, strlen($openerInputField)), 'js');
     $funcBody .= 'var linklist = "REX_LINKLIST_SELECT_' . $id . '";
                              var linkid = link.replace("redaxo://","");
@@ -68,7 +68,7 @@ if (!rex_request::isXmlHttpRequest()) {
 }
 
 ?>
-<script type="text/javascript">
+<script type="text/javascript" nonce="<?= rex_response::getNonce() ?>">
     <?php echo $retainEventHandlers ?>
 
     function insertLink(link,name){

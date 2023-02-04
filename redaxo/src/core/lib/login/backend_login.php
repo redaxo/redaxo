@@ -191,10 +191,8 @@ class rex_backend_login extends rex_login
     /**
      * @param null|string $passwordHash Passing `null` or ommitting this param is DEPRECATED
      */
-    public function changedPassword(
-        #[\SensitiveParameter]
-        ?string $passwordHash = null
-    ): void {
+    public function changedPassword(#[\SensitiveParameter] ?string $passwordHash = null): void
+    {
         $this->setSessionVar(self::SESSION_PASSWORD_CHANGE_REQUIRED, false);
 
         if (null !== $passwordHash) {
@@ -229,7 +227,7 @@ class rex_backend_login extends rex_login
         ]);
     }
 
-    private static function deleteStayLoggedInCookie()
+    private static function deleteStayLoggedInCookie(): void
     {
         rex_response::sendCookie(self::getStayLoggedInCookieName(), '');
     }
@@ -237,9 +235,14 @@ class rex_backend_login extends rex_login
     /**
      * @return string
      */
-    private static function getStayLoggedInCookieName()
+    public static function getStayLoggedInCookieName()
     {
-        return 'rex_user_' . sha1(rex::getProperty('instname'));
+        $instname = rex::getProperty('instname');
+        if (!$instname) {
+            throw new rex_exception('Property "instname" is empty');
+        }
+
+        return 'rex_user_' . sha1($instname);
     }
 
     /**

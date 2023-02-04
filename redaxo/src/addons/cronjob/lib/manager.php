@@ -80,7 +80,7 @@ class rex_cronjob_manager
         if (!$cronjob instanceof rex_cronjob) {
             $success = false;
             if (is_object($cronjob)) {
-                $message = 'Invalid cronjob class "' . get_class($cronjob) . '"';
+                $message = 'Invalid cronjob class "' . $cronjob::class . '"';
             } else {
                 $message = 'Class "' . $cronjob . '" not found';
             }
@@ -144,8 +144,8 @@ class rex_cronjob_manager
 
         $log = new rex_log_file(rex_path::log('cronjob.log'), 2000000);
         $data = [
-            ($success ? 'SUCCESS' : 'ERROR'),
-            ($this->id ?: '--'),
+            $success ? 'SUCCESS' : 'ERROR',
+            $this->id ?: '--',
             $name,
             strip_tags($message),
             $environment,

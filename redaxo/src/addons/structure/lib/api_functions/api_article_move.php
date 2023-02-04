@@ -17,7 +17,7 @@ class rex_api_article_move extends rex_api_function
         // The destination category in which the given category will be moved
         $categoryIdNew = rex_request('category_id_new', 'int');
 
-        $user = rex::getUser();
+        $user = rex::requireUser();
 
         // Check permissions
         if ($user->hasPerm('moveArticle[]') &&

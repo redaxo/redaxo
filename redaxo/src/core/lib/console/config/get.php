@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class rex_command_config_get extends rex_console_command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setDescription('Get config variables')
             ->addArgument('config-key', InputArgument::REQUIRED, 'config path separated by periods, e.g. "setup" or "db.1.host"')
@@ -22,7 +22,7 @@ class rex_command_config_get extends rex_console_command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = $this->getStyle($input, $output);
         $key = $input->getArgument('config-key');

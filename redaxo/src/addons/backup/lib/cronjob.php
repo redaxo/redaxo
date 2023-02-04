@@ -16,7 +16,7 @@ class rex_cronjob_export extends rex_cronjob
         $filename = str_replace(
             ['%Y', '%m', '%d', '%H', '%M', '%S'],
             [$now->format('Y'), $now->format('m'), $now->format('d'), $now->format('H'), $now->format('i'), $now->format('s')],
-            $filename
+            $filename,
         );
         $file = $filename;
         $dir = rex_backup::getDir() . '/';
@@ -52,7 +52,7 @@ class rex_cronjob_export extends rex_cronjob
             if ($this->getParam('delete_interval')) {
                 $allSqlfiles = array_merge(
                     glob(rex_path::addonData('backup', '*'.$ext), GLOB_NOSORT),
-                    glob(rex_path::addonData('backup', '*'.$ext.'.gz'), GLOB_NOSORT)
+                    glob(rex_path::addonData('backup', '*'.$ext.'.gz'), GLOB_NOSORT),
                 );
                 $backups = [];
                 $limit = strtotime('-1 month'); // Generelle Vorhaltezeit: 1 Monat

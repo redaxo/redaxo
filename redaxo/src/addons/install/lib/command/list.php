@@ -11,19 +11,16 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class rex_command_install_list extends rex_console_command
 {
-    /**
-     * @return void
-     */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setDescription('List available packages on redaxo.org')
             ->addOption('search', 's', InputOption::VALUE_REQUIRED, 'filter list')
             ->addOption('updates-only', 'u', InputOption::VALUE_NONE, 'only list packages with available updates')
             ->addOption('json', null, InputOption::VALUE_NONE, 'output table as json')
-            ;
+        ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = $this->getStyle($input, $output);
 

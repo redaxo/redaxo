@@ -17,7 +17,7 @@ rex_sql_table::get(rex::getTable('article'))
     ->ensureColumn(new rex_sql_column('revision', 'int(10) unsigned'))
     ->setPrimaryKey('pid')
     ->ensureIndex(new rex_sql_index('find_articles', ['id', 'clang_id'], rex_sql_index::UNIQUE))
-    ->ensureIndex(new rex_sql_index('id', ['id']))
     ->ensureIndex(new rex_sql_index('clang_id', ['clang_id']))
     ->ensureIndex(new rex_sql_index('parent_id', ['parent_id']))
+    ->removeIndex('id')
     ->ensure();

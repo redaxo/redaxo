@@ -11,7 +11,7 @@ class rex_command_config_get_test extends TestCase
     /**
      * @dataProvider dataKeyFound
      */
-    public function testKeyFound($expectedValue, $key)
+    public function testKeyFound($expectedValue, $key): void
     {
         $commandTester = new CommandTester(new rex_command_config_get());
         $commandTester->execute([
@@ -21,7 +21,8 @@ class rex_command_config_get_test extends TestCase
         static::assertEquals(0, $commandTester->getStatusCode());
     }
 
-    public function dataKeyFound()
+    /** @return list<array{string, string}> */
+    public function dataKeyFound(): array
     {
         return [
             ["false\n", 'setup'],
@@ -29,7 +30,7 @@ class rex_command_config_get_test extends TestCase
         ];
     }
 
-    public function testKeyNotFound()
+    public function testKeyNotFound(): void
     {
         $commandTester = new CommandTester(new rex_command_config_get());
         $commandTester->execute([
@@ -38,12 +39,12 @@ class rex_command_config_get_test extends TestCase
         static::assertEquals(1, $commandTester->getStatusCode());
     }
 
-    public function testPackageKeyFound()
+    public function testPackageKeyFound(): void
     {
         $commandTester = new CommandTester(new rex_command_config_get());
         $commandTester->execute([
             'config-key' => 'author',
-            '--package' => 'backup', ]
+            '--package' => 'backup', ],
         );
         static::assertEquals("\"Jan Kristinus, Markus Staab\"\n", $commandTester->getDisplay(true));
         static::assertEquals(0, $commandTester->getStatusCode());

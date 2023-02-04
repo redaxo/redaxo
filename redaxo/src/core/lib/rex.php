@@ -164,15 +164,15 @@ class rex
      */
     public static function getProperty($key, $default = null)
     {
-        /** @psalm-suppress TypeDoesNotContainType **/
+        /** @psalm-suppress TypeDoesNotContainType */
         if (!is_string($key)) {
             throw new InvalidArgumentException('Expecting $key to be string, but ' . gettype($key) . ' given!');
         }
-        /** @psalm-suppress MixedReturnStatement **/
+        /** @psalm-suppress MixedReturnStatement */
         if (isset(self::$properties[$key])) {
             return self::$properties[$key];
         }
-        /** @psalm-suppress MixedReturnStatement **/
+        /** @psalm-suppress MixedReturnStatement */
         return $default;
     }
 
@@ -277,8 +277,8 @@ class rex
     {
         $flags = self::getProperty('debug', []);
 
-        $flags['enabled'] = $flags['enabled'] ?? false;
-        $flags['throw_always_exception'] = $flags['throw_always_exception'] ?? false;
+        $flags['enabled'] ??= false;
+        $flags['throw_always_exception'] ??= false;
 
         return $flags;
     }
@@ -479,7 +479,6 @@ class rex
 
     /**
      * @return list<non-empty-string>
-     * @psalm-suppress MixedReturnTypeCoercion
      */
     public static function getPackageOrder(): array
     {
@@ -513,7 +512,7 @@ class rex
      */
     public static function getFilePerm()
     {
-        return (int) self::getProperty('fileperm', 0664);
+        return (int) self::getProperty('fileperm', 0o664);
     }
 
     /**
@@ -523,7 +522,7 @@ class rex
      */
     public static function getDirPerm()
     {
-        return (int) self::getProperty('dirperm', 0775);
+        return (int) self::getProperty('dirperm', 0o775);
     }
 
     /**

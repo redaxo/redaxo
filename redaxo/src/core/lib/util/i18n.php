@@ -333,7 +333,7 @@ class rex_i18n
             self::$locales = [];
 
             foreach (rex_finder::factory(self::$directories[0])->filesOnly() as $file) {
-                if (preg_match("/^(\w+)\.lang$/", $file->getFilename(), $matches)) {
+                if (preg_match('/^(\\w+)\\.lang$/', $file->getFilename(), $matches)) {
                     self::$locales[] = $matches[1];
                 }
             }

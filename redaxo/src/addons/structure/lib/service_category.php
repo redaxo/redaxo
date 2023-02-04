@@ -444,7 +444,7 @@ class rex_category_service
                 rex::getTable('article'),
                 'catpriority',
                 'clang_id=' . (int) $clang . ' AND parent_id=' . (int) $parentId . ' AND startarticle=1',
-                'catpriority,updatedate ' . $addsql
+                'catpriority,updatedate ' . $addsql,
             );
 
             rex_article_cache::deleteLists($parentId);
@@ -543,7 +543,7 @@ class rex_category_service
             $up->setWhere(['id' => $fromCat, 'clang_id' => $clang]);
             $up->setValue('path', $toPath);
             $up->setValue('parent_id', $toCat);
-            $up->setValue('catpriority', ($catpriority + 1));
+            $up->setValue('catpriority', $catpriority + 1);
             $up->update();
         }
 
@@ -587,10 +587,6 @@ class rex_category_service
      */
     private static function getUser()
     {
-        if (rex::getUser()) {
-            return rex::getUser()->getLogin();
-        }
-
-        return rex::getEnvironment();
+        return rex::getUser()?->getLogin() ?? rex::getEnvironment();
     }
 }

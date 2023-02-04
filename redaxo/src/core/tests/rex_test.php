@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_rex_test extends TestCase
 {
-    public function testRexConfig()
+    public function testRexConfig(): void
     {
         $key = 'aTestKey:'. __METHOD__;
         // initial test on empty config
@@ -32,7 +32,7 @@ class rex_rex_test extends TestCase
         static::assertEquals(rex::getConfig($key, 'defVal'), 'defVal', 'getting non existing key returns a given default');
     }
 
-    public function testRexProperty()
+    public function testRexProperty(): void
     {
         $key = 'aTestKey:'. __METHOD__;
         // initial test on empty config
@@ -57,19 +57,19 @@ class rex_rex_test extends TestCase
         static::assertEquals(rex::getProperty($key, 'defVal'), 'defVal', 'getting non existing key returns a given default');
     }
 
-    public function testIsSetup()
+    public function testIsSetup(): void
     {
         static::assertFalse(rex::isSetup(), 'test run not within the setup');
         // TODO find more appropriate tests
     }
 
-    public function testIsBackend()
+    public function testIsBackend(): void
     {
         static::assertTrue(rex::isBackend(), 'test run in the backend');
         // TODO find more appropriate tests
     }
 
-    public function testDebugFlags()
+    public function testDebugFlags(): void
     {
         $orgDebug = rex::getProperty('debug');
         try {
@@ -118,22 +118,22 @@ class rex_rex_test extends TestCase
         }
     }
 
-    public function testGetTablePrefix()
+    public function testGetTablePrefix(): void
     {
         static::assertEquals(rex::getTablePrefix(), 'rex_', 'table prefix defauts to rex_');
     }
 
-    public function testGetTable()
+    public function testGetTable(): void
     {
         static::assertEquals(rex::getTable('mytable'), 'rex_mytable', 'tablename gets properly prefixed');
     }
 
-    public function testGetTempPrefix()
+    public function testGetTempPrefix(): void
     {
         static::assertEquals(rex::getTempPrefix(), 'tmp_', 'temp prefix defaults to tmp_');
     }
 
-    public function testGetServer()
+    public function testGetServer(): void
     {
         $origServer = rex::getProperty('server');
 
@@ -147,7 +147,7 @@ class rex_rex_test extends TestCase
         }
     }
 
-    public function testGetVersion()
+    public function testGetVersion(): void
     {
         static::assertTrue('' != rex::getVersion(), 'a version string is returned');
         $vers = rex::getVersion();

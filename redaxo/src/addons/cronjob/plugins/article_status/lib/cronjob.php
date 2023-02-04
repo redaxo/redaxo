@@ -31,7 +31,7 @@ class rex_cronjob_article_status extends rex_cronjob
             SELECT  name
             FROM    ' . rex::getTablePrefix() . 'metainfo_field
             WHERE   name=? OR name=?',
-            [$from['field'], $to['field']]
+            [$from['field'], $to['field']],
         );
         $rows = $sql->getRows();
         if ($rows < 2) {
@@ -60,7 +60,7 @@ class rex_cronjob_article_status extends rex_cronjob
                 AND   ' . $sql->escapeIdentifier($to['field']) . ' < :time
                 AND   status IN (' . $sql->in($to['before']) . ')
                 )',
-            ['time' => $time]
+            ['time' => $time],
         );
         $rows = $sql->getRows();
 
@@ -82,14 +82,14 @@ class rex_cronjob_article_status extends rex_cronjob
                 SET '.$sql->escapeIdentifier($from['field']).' = ""
                 WHERE     ' . $sql->escapeIdentifier($from['field']) . ' > 0
                     AND   ' . $sql->escapeIdentifier($from['field']) . ' < :time',
-                ['time' => $time]
+                ['time' => $time],
             );
             $sql->setQuery('
                 UPDATE ' . rex::getTablePrefix() . 'article
                 SET '.$sql->escapeIdentifier($to['field']).' = ""
                 WHERE ' . $sql->escapeIdentifier($to['field']) . ' > 0
                 AND   ' . $sql->escapeIdentifier($to['field']) . ' < :time',
-                ['time' => $time]
+                ['time' => $time],
             );
         }
         return true;

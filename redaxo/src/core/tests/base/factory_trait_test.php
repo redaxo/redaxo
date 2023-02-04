@@ -64,7 +64,7 @@ class rex_alternative_test_factory extends rex_test_factory
  */
 class rex_factory_trait_test extends TestCase
 {
-    public function testFactoryCreation()
+    public function testFactoryCreation(): void
     {
         static::assertFalse(rex_test_factory::hasFactoryClass(), 'initially no factory class is set');
         static::assertEquals(rex_test_factory::class, rex_test_factory::getFactoryClass(), 'original factory class will be returned');

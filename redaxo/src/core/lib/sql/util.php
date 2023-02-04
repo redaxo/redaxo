@@ -143,7 +143,7 @@ class rex_sql_util
     {
         // rex::getUser() gibts im Setup nicht
         /** @psalm-taint-escape sql */ // we trust the user db table
-        $user = rex::getUser() ? rex::getUser()->getValue('login') : '';
+        $user = rex::getUser()?->getLogin() ?? '';
 
         $query = str_replace('%USER%', $user, $query);
         $query = str_replace('%TIME%', (string) time(), $query);
@@ -197,7 +197,7 @@ class rex_sql_util
     public static function splitSqlFile(&$queries, $sql, $release)
     {
         // do not trim, see bug #1030644
-        //$sql          = trim($sql);
+        // $sql          = trim($sql);
         $sql = rtrim($sql, "\n\r");
         $sqlLen = strlen($sql);
         $stringStart = '';
@@ -212,7 +212,6 @@ class rex_sql_util
             // backquotes that can't be escaped
             if ($inString) {
                 for (;;) {
-                    /** @psalm-suppress LoopInvalidation */
                     $i = strpos($sql, $stringStart, $i);
                     // No end of string found -> add the current substring to the
                     // returned array
@@ -253,7 +252,6 @@ class rex_sql_util
 
             // lets skip comments (/*, -- and #)
             elseif (('-' == $char && $sqlLen > $i + 2 && '-' == $sql[$i + 1] && $sql[$i + 2] <= ' ') || '#' == $char || ('/' == $char && $sqlLen > $i + 1 && '*' == $sql[$i + 1])) {
-                /** @psalm-suppress LoopInvalidation */
                 $i = strpos($sql, '/' == $char ? '*/' : "\n", $i);
                 // didn't we hit end of string?
                 if (false === $i) {

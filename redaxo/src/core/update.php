@@ -69,7 +69,7 @@ if (rex_string::versionCompare(rex::getVersion(), '5.13.1', '<') && ($user = rex
 $path = rex_path::coreData('config.yml');
 $config = array_merge(
     rex_file::getConfig(__DIR__.'/default.config.yml'),
-    rex_file::getConfig($path)
+    rex_file::getConfig($path),
 );
 
 if (rex_string::versionCompare(rex::getVersion(), '5.12.0-dev', '<')) {

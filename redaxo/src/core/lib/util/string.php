@@ -153,11 +153,21 @@ class rex_string
      */
     public static function yamlDecode($value)
     {
+        if ('' === $value) {
+            return [];
+        }
+
         try {
-            return Symfony\Component\Yaml\Yaml::parse($value);
+            $result = Symfony\Component\Yaml\Yaml::parse($value);
         } catch (Symfony\Component\Yaml\Exception\ParseException $exception) {
             throw new rex_yaml_parse_exception($exception->getMessage(), $exception);
         }
+
+        if (!is_array($result)) {
+            throw new rex_yaml_parse_exception(__FUNCTION__.' does not support YAML content containing a single scalar value (given "'.$value.'")');
+        }
+
+        return $result;
     }
 
     /**
@@ -176,7 +186,7 @@ class rex_string
                 if (is_array($value)) {
                     $func($value, $key);
                 } else {
-                    $query[] = $key . '=' . str_replace('%2F', '/', urlencode($value));
+                    $query[] = $key . '=' . str_replace('%2F', '/', urlencode((string) $value));
                 }
             }
         };

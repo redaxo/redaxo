@@ -306,7 +306,7 @@ if ('add' == $function || 'edit' == $function) {
         }
 
         $ctypesOut .= '
-            <script type="text/javascript">
+            <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
             <!--
             jQuery(function($) {
         ';
@@ -486,7 +486,7 @@ if ('add' == $function || 'edit' == $function) {
                 ' . $content . '
             </form>
 
-            <script type="text/javascript">
+            <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
             <!--
             jQuery(function($) {
                 // store the currently selected tab in the hidden input#rex-js-form-template-tab

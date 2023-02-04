@@ -62,7 +62,7 @@ class rex_metainfo_table_expander extends rex_form
             $value = (int) $sql->getValue('priority') + 1;
             $select->addOption(
                 rex_i18n::rawMsg('minfo_field_after_priority', (string) $sql->getValue('name')),
-                $value
+                $value,
             );
             $sql->next();
         }
@@ -100,7 +100,7 @@ class rex_metainfo_table_expander extends rex_form
             }
         }
         $notices .= '
-        <script type="text/javascript">
+        <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
             var needle = new getObj("' . $field->getAttribute('id') . '");
             meta_checkConditionalFields(needle.obj, new Array(' . implode(',', $typeFields) . '), new Array(' . implode(',', $textFields) . '));
         </script>';
@@ -137,7 +137,7 @@ class rex_metainfo_table_expander extends rex_form
             }
         }
 
-        if (rex_metainfo_article_handler::PREFIX === $this->metaPrefix && class_exists(rex_template_select::class)) {
+        if (rex_metainfo_article_handler::PREFIX === $this->metaPrefix) {
             $field = $this->addRestrictionsField('templates');
             $field->setLabel(rex_i18n::msg('minfo_field_label_templates'));
             $field->setAllCheckboxLabel(rex_i18n::msg('minfo_field_label_all_templates'));
@@ -314,7 +314,7 @@ class rex_metainfo_table_expander extends rex_form
             $this->tableName,
             'priority',
             'name LIKE "' . $metaPrefix . '%"',
-            'priority, updatedate desc'
+            'priority, updatedate desc',
         );
     }
 }

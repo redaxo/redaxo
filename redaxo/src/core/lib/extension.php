@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Klasse die Einsprungpunkte zur Erweiterung der Kernfunktionalitaetet bietet.
+ * Klasse die Einsprungpunkte zur Erweiterung der Kernfunktionalitaet bietet.
  *
  * @author Markus Staab
  *

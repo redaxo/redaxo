@@ -14,7 +14,8 @@ class rex_var_config_test extends rex_var_base_test
         rex_addon::get('project')->removeConfig('tests');
     }
 
-    public function configReplaceProvider()
+    /** @return list<array{string, string}> */
+    public function configReplaceProvider(): array
     {
         return [
             ['REX_CONFIG[key=myCoreConfig]', 'myCoreConfigValue'],
@@ -25,7 +26,7 @@ class rex_var_config_test extends rex_var_base_test
     /**
      * @dataProvider configReplaceProvider
      */
-    public function testConfigReplace($content, $expectedOutput)
+    public function testConfigReplace($content, $expectedOutput): void
     {
         $this->assertParseOutputEquals($expectedOutput, $content);
     }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the ramsey/http-range library
  *
@@ -18,10 +19,7 @@ namespace Ramsey\Http\Range\Unit;
  */
 class GenericUnit extends AbstractUnit implements UnitInterface
 {
-    /**
-     * @var string
-     */
-    private $rangeUnit;
+    private string $rangeUnit;
 
     /**
      * Constructs a new generic unit.
@@ -36,11 +34,8 @@ class GenericUnit extends AbstractUnit implements UnitInterface
         parent::__construct($rangeSet, $totalSize);
     }
 
-
     /**
      * Returns the range unit token for this unit.
-     *
-     * @return string
      */
     public function getRangeUnit(): string
     {
@@ -49,8 +44,6 @@ class GenericUnit extends AbstractUnit implements UnitInterface
 
     /**
      * Returns a new collection for this range unit.
-     *
-     * @return UnitRangesCollection
      */
     public function newCollection(): UnitRangesCollection
     {
@@ -62,8 +55,6 @@ class GenericUnit extends AbstractUnit implements UnitInterface
      *
      * @param string $range A single range (i.e. `500-999`, `500-`, `-500`).
      * @param mixed $totalSize The total size of the entity the range describes.
-     *
-     * @return UnitRangeInterface
      */
     public function newRange(string $range, $totalSize): UnitRangeInterface
     {

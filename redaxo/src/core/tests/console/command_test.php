@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_console_command_test extends TestCase
 {
-    public function testDecodeMessage()
+    public function testDecodeMessage(): void
     {
         $method = new ReflectionMethod(rex_console_command::class, 'decodeMessage');
 
@@ -16,7 +16,7 @@ class rex_console_command_test extends TestCase
         static::assertSame("\"Foo\"\nbar\nbaz\nabc\ndef", $method->invoke($command, "&quot;Foo&quot;<br><b>bar</b><br />\nbaz<br/>\rabc<br>\r\ndef"));
     }
 
-    public function testDecodeMessageSingleQuotes()
+    public function testDecodeMessageSingleQuotes(): void
     {
         $method = new ReflectionMethod(rex_console_command::class, 'decodeMessage');
 

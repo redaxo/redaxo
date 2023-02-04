@@ -14,10 +14,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class rex_command_cronjob_run extends rex_console_command
 {
-    /**
-     * @return void
-     */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Executes cronjobs of the "script" environment')
@@ -25,7 +22,7 @@ class rex_command_cronjob_run extends rex_console_command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = $this->getStyle($input, $output);
 

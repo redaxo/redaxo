@@ -39,7 +39,7 @@ class rex_sql_select_test extends TestCase
         $sql->setQuery('DROP TABLE `' . self::TABLE . '`');
     }
 
-    public function testGetRow()
+    public function testGetRow(): void
     {
         // we need some rows for this test
         $this->insertRow();
@@ -63,7 +63,7 @@ class rex_sql_select_test extends TestCase
         }
     }
 
-    public function testGetRowAsObject()
+    public function testGetRowAsObject(): void
     {
         $this->insertRow();
         $this->insertRow();
@@ -83,7 +83,7 @@ class rex_sql_select_test extends TestCase
         static::assertEquals(2, $row->{self::TABLE.'.id'});
     }
 
-    public function testGetVariations()
+    public function testGetVariations(): void
     {
         $sql = rex_sql::factory();
         $sql->setQuery('SELECT * FROM ' . self::TABLE . ' WHERE col_int = 5');
@@ -97,7 +97,7 @@ class rex_sql_select_test extends TestCase
         static::assertEquals('abc', $sql->getValue(self::TABLE . '.col_str'), 'getValue() retrievs field by table.fieldname');
     }
 
-    public function testGetArray()
+    public function testGetArray(): void
     {
         $sql = rex_sql::factory();
         $array = $sql->getArray('SELECT * FROM ' . self::TABLE . ' WHERE col_int = 5');
@@ -111,7 +111,7 @@ class rex_sql_select_test extends TestCase
         static::assertEquals('5', $row1['col_int']);
     }
 
-    public function testGetDbArray()
+    public function testGetDbArray(): void
     {
         $sql = rex_sql::factory();
         $array = $sql->getDBArray('(DB1) SELECT * FROM ' . self::TABLE . ' WHERE col_int = 5');
@@ -125,7 +125,7 @@ class rex_sql_select_test extends TestCase
         static::assertEquals('5', $row1['col_int']);
     }
 
-    public function testPreparedSetQuery()
+    public function testPreparedSetQuery(): void
     {
         $this->insertRow();
 
@@ -135,7 +135,7 @@ class rex_sql_select_test extends TestCase
         static::assertEquals(1, $sql->getRows());
     }
 
-    public function testPreparedNamedSetQuery()
+    public function testPreparedNamedSetQuery(): void
     {
         $this->insertRow();
 
@@ -145,7 +145,7 @@ class rex_sql_select_test extends TestCase
         static::assertEquals(1, $sql->getRows());
     }
 
-    public function testPreparedSetQueryWithReset()
+    public function testPreparedSetQueryWithReset(): void
     {
         $sql = rex_sql::factory();
         $sql->setQuery('SELECT * FROM ' . self::TABLE . ' WHERE col_str = ? and col_int = ?', ['abc', 5]);
@@ -155,7 +155,7 @@ class rex_sql_select_test extends TestCase
         static::assertEquals(1, $sql->getRows());
     }
 
-    public function testGetArrayAfterPreparedSetQuery()
+    public function testGetArrayAfterPreparedSetQuery(): void
     {
         $sql = rex_sql::factory();
         $sql->setQuery('SELECT * FROM ' . self::TABLE . ' WHERE col_int = ?', [5]);
@@ -169,7 +169,7 @@ class rex_sql_select_test extends TestCase
         static::assertEquals('5', $row1['col_int']);
     }
 
-    public function testGetArrayAfterSetQuery()
+    public function testGetArrayAfterSetQuery(): void
     {
         $sql = rex_sql::factory();
         $sql->setQuery('SELECT * FROM ' . self::TABLE . ' WHERE col_int = 5');
@@ -183,7 +183,7 @@ class rex_sql_select_test extends TestCase
         static::assertEquals('5', $row1['col_int']);
     }
 
-    public function testArrayFetchTypeNum()
+    public function testArrayFetchTypeNum(): void
     {
         $sql = rex_sql::factory();
         $array = $sql->getArray('SELECT * FROM ' . self::TABLE . ' WHERE col_int = 5', [], PDO::FETCH_NUM);
@@ -195,7 +195,7 @@ class rex_sql_select_test extends TestCase
         static::assertEquals('mytext', $row1[5]);
     }
 
-    public function testDBArrayFetchTypeNum()
+    public function testDBArrayFetchTypeNum(): void
     {
         $sql = rex_sql::factory();
         $array = $sql->getDBArray('SELECT * FROM ' . self::TABLE . ' WHERE col_int = 5', [], PDO::FETCH_NUM);
@@ -207,7 +207,7 @@ class rex_sql_select_test extends TestCase
         static::assertEquals('mytext', $row1[5]);
     }
 
-    public function testHasNext()
+    public function testHasNext(): void
     {
         $sql = rex_sql::factory();
         $sql->setQuery('SELECT * FROM ' . self::TABLE);
@@ -221,7 +221,7 @@ class rex_sql_select_test extends TestCase
         static::assertFalse($sql->hasNext());
     }
 
-    public function testError()
+    public function testError(): void
     {
         $sql = rex_sql::factory();
 
@@ -268,7 +268,7 @@ class rex_sql_select_test extends TestCase
         static::assertSame(rex_sql::ERRNO_TABLE_OR_VIEW_DOESNT_EXIST, $sql->getErrno());
     }
 
-    public function testUnbufferedQuery()
+    public function testUnbufferedQuery(): void
     {
         $sql = rex_sql::factory();
 
@@ -289,13 +289,13 @@ class rex_sql_select_test extends TestCase
             $sql->setQuery('SELECT '.self::TABLE, [], [
                 rex_sql::OPT_BUFFERED => false,
             ]);
-        } catch (rex_sql_exception $e) {
+        } catch (rex_sql_exception) {
         }
 
         static::assertEquals(1, $pdo->getAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY));
     }
 
-    private function insertRow()
+    private function insertRow(): void
     {
         $sql = rex_sql::factory();
         $sql->setTable(self::TABLE);

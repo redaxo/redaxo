@@ -124,6 +124,9 @@ media_manager_effect_mirror_background_b = Hintergrund B (0-255)
 
 media_manager_effect_workspace = Bild: Arbeitsfläche
 media_manager_effect_workspace_pos = Position
+media_manager_effect_workspace_bg = Hintergund
+media_manager_effect_workspace_bgimage = Hintergundbild
+media_manager_effect_workspace_bgimage_size = wird durch Hintergrundbild bestimmt
 
 media_manager_effect_folder = Alternativen Ordner default: "media"
 

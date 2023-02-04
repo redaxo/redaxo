@@ -35,7 +35,7 @@ class rex_article_slice_history
                 $articleId,
                 $clangId,
                 0,
-            ]
+            ],
         );
 
         $historyDate = date(rex_sql::FORMAT_DATETIME);
@@ -52,7 +52,7 @@ class rex_article_slice_history
             }
             $sql->setValue('history_type', $historyType);
             $sql->setValue('history_date', $historyDate);
-            $sql->setValue('history_user', rex::getUser()->getValue('login'));
+            $sql->setValue('history_user', rex::requireUser()->getValue('login'));
             $sql->insert();
         }
     }
@@ -67,8 +67,8 @@ class rex_article_slice_history
     {
         $sql = rex_sql::factory();
         return $sql->getArray(
-        'select distinct history_date, history_type, history_user from ' . $sql->escapeIdentifier(self::getTable()) . ' where article_id=? and clang_id=? and revision=? order by history_date desc',
-        [$articleId, $clangId, 0]
+            'select distinct history_date, history_type, history_user from ' . $sql->escapeIdentifier(self::getTable()) . ' where article_id=? and clang_id=? and revision=? order by history_date desc',
+            [$articleId, $clangId, 0],
         );
     }
 

@@ -7,7 +7,8 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_type_test extends TestCase
 {
-    public function castProvider()
+    /** @return list<array{mixed, string|callable(mixed):mixed|list<array{string, string, mixed}>, mixed}> */
+    public function castProvider(): array
     {
         $callback = static function ($var) {
             return $var . 'b';
@@ -45,12 +46,13 @@ class rex_type_test extends TestCase
     /**
      * @dataProvider castProvider
      */
-    public function testCast($var, $vartype, $expectedResult)
+    public function testCast($var, $vartype, $expectedResult): void
     {
         static::assertSame($expectedResult, rex_type::cast($var, $vartype));
     }
 
-    public function castWrongVartypeProvider()
+    /** @return list<array{mixed}> */
+    public function castWrongVartypeProvider(): array
     {
         return [
             ['wrongVartype'],
@@ -66,7 +68,7 @@ class rex_type_test extends TestCase
     /**
      * @dataProvider castWrongVartypeProvider
      */
-    public function testCastWrongVartype($vartype)
+    public function testCastWrongVartype($vartype): void
     {
         $this->expectException(InvalidArgumentException::class);
 

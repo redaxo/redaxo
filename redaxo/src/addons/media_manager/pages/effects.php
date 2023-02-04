@@ -18,7 +18,7 @@ $typeName = (string) $sql->getValue('name');
 $info = '';
 $warning = '';
 
-//-------------- delete effect
+// -------------- delete effect
 if ('delete' == $func && $effectId > 0) {
     $sql = rex_sql::factory();
     //  $sql->setDebug();
@@ -32,7 +32,7 @@ if ('delete' == $func && $effectId > 0) {
             rex::getTablePrefix() . 'media_manager_type_effect',
             'priority',
             'type_id = '.$typeId,
-            'priority, updatedate desc'
+            'priority, updatedate desc',
         );
 
         $info = rex_i18n::msg('media_manager_effect_deleted');
@@ -44,7 +44,7 @@ if ('delete' == $func && $effectId > 0) {
             ->setWhere(['id' => $typeId])
             ->addGlobalUpdateFields()
             ->update();
-    } catch (rex_sql_exception $e) {
+    } catch (rex_sql_exception) {
         $warning = $sql->getError();
     }
     $func = '';
@@ -157,7 +157,7 @@ if ('' == $func) {
     $select->setSize(1);
 
     $script = '
-    <script type="text/javascript">
+    <script type="text/javascript" nonce="' . rex_response::getNonce() . '">
     <!--
 
     (function($) {
@@ -179,7 +179,7 @@ if ('' == $func) {
     $fieldContainer->setSuffix($script);
 
     foreach ($effects as $effectObj) {
-        $effectClass = get_class($effectObj);
+        $effectClass = $effectObj::class;
         $effectParams = $effectObj->getParams();
         $group = $effectClass;
 

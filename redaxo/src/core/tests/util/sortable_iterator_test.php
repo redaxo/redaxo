@@ -17,25 +17,25 @@ class rex_sortable_iterator_test extends TestCase
         parent::tearDown();
     }
 
-    public function testValuesMode()
+    public function testValuesMode(): void
     {
         $array = [2, 'a10', 'a2', 1, "a\xcc\x884", 'ä3', 'b'];
         $iterator = new rex_sortable_iterator(new ArrayIterator($array));
         static::assertSame(
             [3 => 1, 0 => 2, 2 => 'a2', 5 => 'ä3', 4 => "a\xcc\x884", 1 => 'a10', 6 => 'b'],
             iterator_to_array($iterator),
-            'On default the iterator sorts by value'
+            'On default the iterator sorts by value',
         );
     }
 
-    public function testKeysMode()
+    public function testKeysMode(): void
     {
         $array = [2 => 0, 'a' => 1, 1 => 2, 'b' => 3];
         $iterator = new rex_sortable_iterator(new ArrayIterator($array), rex_sortable_iterator::KEYS);
         static::assertEquals(['a' => 1, 'b' => 3, 1 => 2, 2 => 0], iterator_to_array($iterator), 'In KEYS mode the iterator sorts by keys');
     }
 
-    public function testCallbackMode()
+    public function testCallbackMode(): void
     {
         $array = [2, 'a', 1, 'b'];
         $callback = static function ($a, $b) {

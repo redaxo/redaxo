@@ -247,7 +247,7 @@ abstract class rex_structure_element
                     $list = rex_file::getCache($listFile);
                 }
                 return $list;
-            }
+            },
         );
     }
 

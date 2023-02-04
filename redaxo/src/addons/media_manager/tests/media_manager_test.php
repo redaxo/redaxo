@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_media_manager_test extends TestCase
 {
-    public function testGetCacheFilename()
+    public function testGetCacheFilename(): void
     {
         $media = new rex_managed_media(__DIR__.'/foo.jpg');
         $manager = new rex_media_manager($media);
@@ -23,7 +23,7 @@ class rex_media_manager_test extends TestCase
         static::assertSame($cachePath.'test/foo.jpg', $manager->getCacheFilename());
     }
 
-    public function testGetMediaFile()
+    public function testGetMediaFile(): void
     {
         $_GET['rex_media_file'] = '../foo/bar/baz.jpg';
         static::assertSame('baz.jpg', rex_media_manager::getMediaFile());
@@ -32,7 +32,7 @@ class rex_media_manager_test extends TestCase
         static::assertSame('baz.jpg', rex_media_manager::getMediaFile());
     }
 
-    public function testCreate()
+    public function testCreate(): void
     {
         $filename = '_media_manager_test.png';
         $path = rex_path::media($filename);
@@ -57,7 +57,7 @@ class rex_media_manager_test extends TestCase
     /**
      * @dataProvider dataGetUrl
      */
-    public function testGetUrl($expectedBuster, $type, $file, $timestamp = null)
+    public function testGetUrl($expectedBuster, $type, $file, $timestamp = null): void
     {
         $url = rex_media_manager::getUrl($type, $file, $timestamp);
 
@@ -68,7 +68,8 @@ class rex_media_manager_test extends TestCase
         }
     }
 
-    public function dataGetUrl()
+    /** @return iterable<int, array{0: false|int, 1: string, 2: string|rex_media, 3?: int}> */
+    public function dataGetUrl(): iterable
     {
         yield [false, 'non_existing', 'test.jpg', time()];
 
@@ -82,7 +83,7 @@ class rex_media_manager_test extends TestCase
 
         yield [false, $type, 'test.jpg'];
 
-        $typeTimestamp = rex_sql::factory()
+        $typeTimestamp = (int) rex_sql::factory()
             ->setQuery('SELECT updatedate FROM '.rex::getTable('media_manager_type').' WHERE name = ?', [$type])
             ->getDateTimeValue('updatedate');
 

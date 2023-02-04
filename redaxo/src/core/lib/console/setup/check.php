@@ -12,14 +12,14 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class rex_command_setup_check extends rex_console_command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Check the commandline interface (CLI) environment for REDAXO requirements')
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $exitCode = 0;
         $io = $this->getStyle($input, $output);
@@ -29,7 +29,7 @@ class rex_command_setup_check extends rex_console_command
             $io->success('PHP version ok');
         } else {
             $exitCode = 1;
-            $errors = array_map([$this, 'decodeMessage'], $errors);
+            $errors = array_map($this->decodeMessage(...), $errors);
             $io->error("PHP version errors:\n" .implode("\n", $errors));
         }
 
@@ -47,7 +47,7 @@ class rex_command_setup_check extends rex_console_command
             }
 
             $exitCode = 2;
-            $errors = array_map([$this, 'decodeMessage'], $errors);
+            $errors = array_map($this->decodeMessage(...), $errors);
             $io->error("Directory permissions error:\n" .implode("\n", $errors));
         } else {
             $io->success('Directory permissions ok');

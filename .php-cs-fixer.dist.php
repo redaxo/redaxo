@@ -23,6 +23,7 @@ $finder = PhpCsFixer\Finder::create()
     ])
     ->append([
         __FILE__,
+        __DIR__.'/rector.php',
         $tools.'/bin/clone-addon',
         $tools.'/bin/release',
         $tools.'/bin/setup',
