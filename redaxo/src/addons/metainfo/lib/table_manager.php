@@ -76,7 +76,7 @@ class rex_metainfo_table_manager
             $qry .= ' DEFAULT ' . $sql->escape($default);
         }
 
-        if (true !== $nullable) {
+        if (!$nullable) {
             $qry .= ' NOT NULL';
         }
 
@@ -119,7 +119,7 @@ class rex_metainfo_table_manager
             $qry .= ' DEFAULT ' . $sql->escape($default);
         }
 
-        if (true !== $nullable) {
+        if (!$nullable) {
             $qry .= ' NOT NULL';
         }
 
