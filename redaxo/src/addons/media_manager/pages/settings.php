@@ -15,13 +15,17 @@ if ('update' == $func) {
     $config = rex_post('settings', [
         ['jpg_quality', 'int'],
         ['png_compression', 'int'],
-        ['interlace', 'array[string]'],
         ['webp_quality', 'int'],
+        ['avif_quality', 'int'],
+        ['avif_speed', 'int'],
+        ['interlace', 'array[string]'],
     ]);
 
     $config['jpg_quality'] = max(0, min(100, $config['jpg_quality']));
     $config['png_compression'] = max(-1, min(9, $config['png_compression']));
     $config['webp_quality'] = max(0, min(100, $config['webp_quality']));
+    $config['avif_quality'] = max(0, min(100, $config['avif_quality']));
+    $config['avif_speed'] = max(0, min(10, $config['avif_speed']));
 
     $addon->setConfig($config);
     rex_media_manager::deleteCache();
@@ -49,6 +53,23 @@ $formElements[] = $n;
 $inputGroups = [];
 $n = [];
 $n['class'] = 'rex-range-input-group';
+$n['left'] = '<input id="rex-js-rating-source-png-compression" type="range" min="0" max="9" step="1" value="' . rex_escape($addon->getConfig('png_compression')) . '" />';
+$n['field'] = '<input class="form-control" id="rex-js-rating-text-png-compression" type="text" name="settings[png_compression]" value="' . rex_escape($addon->getConfig('png_compression')) . '" />';
+$inputGroups[] = $n;
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $inputGroups, false);
+$inputGroup = $fragment->parse('core/form/input_group.php');
+
+$n = [];
+$n['label'] = '<label for="rex-js-rating-text-png-compression">' . $addon->i18n('png_compression') . '</label>';
+$n['field'] = $inputGroup;
+$n['note'] = $addon->i18n('png_compression_note');
+$formElements[] = $n;
+
+$inputGroups = [];
+$n = [];
+$n['class'] = 'rex-range-input-group';
 $n['left'] = '<input id="rex-js-rating-source-webp-quality" type="range" min="0" max="100" step="1" value="' . rex_escape($addon->getConfig('webp_quality')) . '" />';
 $n['field'] = '<input class="form-control" id="rex-js-rating-text-webp-quality" type="text" name="settings[webp_quality]" value="' . rex_escape($addon->getConfig('webp_quality')) . '" />';
 $inputGroups[] = $n;
@@ -65,8 +86,8 @@ $formElements[] = $n;
 $inputGroups = [];
 $n = [];
 $n['class'] = 'rex-range-input-group';
-$n['left'] = '<input id="rex-js-rating-source-png-compression" type="range" min="0" max="9" step="1" value="' . rex_escape($addon->getConfig('png_compression')) . '" />';
-$n['field'] = '<input class="form-control" id="rex-js-rating-text-png-compression" type="text" name="settings[png_compression]" value="' . rex_escape($addon->getConfig('png_compression')) . '" />';
+$n['left'] = '<input id="rex-js-rating-source-avif-quality" type="range" min="0" max="100" step="1" value="' . rex_escape($addon->getConfig('avif_quality')) . '" />';
+$n['field'] = '<input class="form-control" id="rex-js-rating-text-avif-quality" type="text" name="settings[avif_quality]" value="' . rex_escape($addon->getConfig('avif_quality')) . '" />';
 $inputGroups[] = $n;
 
 $fragment = new rex_fragment();
@@ -74,9 +95,24 @@ $fragment->setVar('elements', $inputGroups, false);
 $inputGroup = $fragment->parse('core/form/input_group.php');
 
 $n = [];
-$n['label'] = '<label for="rex-js-rating-text-png-compression">' . $addon->i18n('png_compression') . '</label>';
+$n['label'] = '<label for="rex-js-rating-text-avif-quality">' . $addon->i18n('avif_quality') . '</label>';
 $n['field'] = $inputGroup;
-$n['note'] = $addon->i18n('png_compression_note');
+$formElements[] = $n;
+
+$inputGroups = [];
+$n = [];
+$n['class'] = 'rex-range-input-group';
+$n['left'] = '<input id="rex-js-rating-source-avif-speed" type="range" min="0" max="10" step="1" value="' . rex_escape($addon->getConfig('avif_speed')) . '" />';
+$n['field'] = '<input class="form-control" id="rex-js-rating-text-avif-speed" type="text" name="settings[avif_speed]" value="' . rex_escape($addon->getConfig('avif_speed')) . '" />';
+$inputGroups[] = $n;
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $inputGroups, false);
+$inputGroup = $fragment->parse('core/form/input_group.php');
+
+$n = [];
+$n['label'] = '<label for="rex-js-rating-text-avif-quality">' . $addon->i18n('avif_speed') . '</label>';
+$n['field'] = $inputGroup;
 $formElements[] = $n;
 
 $select = new rex_select();

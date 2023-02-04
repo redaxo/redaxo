@@ -8,6 +8,8 @@ class rex_managed_media
     public const PROP_JPG_QUALITY = 'jpg_quality';
     public const PROP_PNG_COMPRESSION = 'png_compression';
     public const PROP_WEBP_QUALITY = 'webp_quality';
+    public const PROP_AVIF_QUALITY = 'avif_quality';
+    public const PROP_AVIF_SPEED = 'avif_speed';
     public const PROP_INTERLACE = 'interlace';
 
     private const MIMETYPE_MAP = [
@@ -331,7 +333,9 @@ class rex_managed_media
             $quality = (int) $this->getImageProperty(self::PROP_WEBP_QUALITY, $addon->getConfig('webp_quality'));
             imagewebp($this->image['src'], null, $quality);
         } elseif ('avif' == $format) {
-            imageavif($this->image['src']);
+            $quality = (int) $this->getImageProperty(self::PROP_AVIF_QUALITY, $addon->getConfig('avif_quality'));
+            $speed = (int) $this->getImageProperty(self::PROP_AVIF_SPEED, $addon->getConfig('avif_speed'));
+            imageavif($this->image['src'], null, $quality, $speed);
         }
         return ob_get_clean();
     }

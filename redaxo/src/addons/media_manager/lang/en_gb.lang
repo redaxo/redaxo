@@ -18,6 +18,8 @@ media_manager_jpg_quality = JPG quality
 media_manager_png_compression = PNG compression
 media_manager_png_compression_note = Values above 6-7 massively slow down the image creation.
 media_manager_webp_quality = WebP quality
+media_manager_avif_quality = AVIF quality
+media_manager_avif_speed = AVIF speed
 media_manager_interlace = Interlace/progressive mode
 
 media_manager_id = ID
