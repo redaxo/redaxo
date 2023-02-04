@@ -4,11 +4,13 @@
  * @package redaxo\metainfo
  *
  * @internal
+ *
+ * @extends rex_input<string>
  */
 class rex_input_medialistbutton extends rex_input
 {
-    private $buttonId;
-    private $args = [];
+    private string $buttonId = '';
+    private array $args = [];
 
     public function __construct()
     {
@@ -17,6 +19,7 @@ class rex_input_medialistbutton extends rex_input
     }
 
     /**
+     * @param int $buttonId
      * @return void
      */
     public function setButtonId($buttonId)
@@ -26,6 +29,7 @@ class rex_input_medialistbutton extends rex_input
     }
 
     /**
+     * @param int|null $categoryId
      * @return void
      */
     public function setCategoryId($categoryId)
@@ -34,6 +38,7 @@ class rex_input_medialistbutton extends rex_input
     }
 
     /**
+     * @param string $types
      * @return void
      */
     public function setTypes($types)
@@ -42,6 +47,7 @@ class rex_input_medialistbutton extends rex_input
     }
 
     /**
+     * @param bool $preview
      * @return void
      */
     public function setPreview($preview = true)

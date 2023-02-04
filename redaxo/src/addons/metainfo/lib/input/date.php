@@ -4,15 +4,17 @@
  * @package redaxo\metainfo
  *
  * @internal
+ *
+ * @extends rex_input<array{year: numeric-string, month: numeric-string, day: numeric-string, hour?: numeric-string, minute?: numeric-string}>
  */
 class rex_input_date extends rex_input
 {
-    private $startYear;
-    private $endYear;
+    private ?int $startYear = null;
+    private ?int $endYear = null;
 
-    private $yearSelect;
-    private $monthSelect;
-    private $daySelect;
+    private rex_select $yearSelect;
+    private rex_select $monthSelect;
+    private rex_select $daySelect;
 
     public function __construct()
     {
@@ -43,6 +45,7 @@ class rex_input_date extends rex_input
     }
 
     /**
+     * @param int|null $startYear
      * @return void
      */
     public function setStartYear($startYear)
@@ -51,6 +54,7 @@ class rex_input_date extends rex_input
     }
 
     /**
+     * @param int|null $endYear
      * @return void
      */
     public function setEndYear($endYear)

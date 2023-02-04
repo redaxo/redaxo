@@ -4,6 +4,8 @@
  * @package redaxo\metainfo
  *
  * @internal
+ *
+ * @extends rex_input<array{year: numeric-string, month: numeric-string, day: numeric-string, hour: numeric-string, minute: numeric-string}>
  */
 class rex_input_datetime extends rex_input
 {
@@ -22,6 +24,7 @@ class rex_input_datetime extends rex_input
     }
 
     /**
+     * @param int|null $startYear
      * @return void
      */
     public function setStartYear($startYear)
@@ -30,6 +33,7 @@ class rex_input_datetime extends rex_input
     }
 
     /**
+     * @param int|null $endYear
      * @return void
      */
     public function setEndYear($endYear)
@@ -49,9 +53,6 @@ class rex_input_datetime extends rex_input
         parent::setValue($value);
     }
 
-    /**
-     * @return array
-     */
     public function getValue()
     {
         return array_merge($this->dateInput->getValue(), $this->timeInput->getValue());
