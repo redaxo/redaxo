@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_socket_proxy_test extends TestCase
 {
-    private $proxy;
+    private ?string $proxy = null;
 
     protected function setUp(): void
     {
