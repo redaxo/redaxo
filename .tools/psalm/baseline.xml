@@ -2002,63 +2002,11 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/structure/lib/navigation.php">
-    <MixedArgument>
-      <code>$a</code>
-      <code>$aContent</code>
-      <code>$categoryId</code>
-      <code>$categoryId</code>
-      <code>$depth</code>
-      <code>$f['metafield']</code>
-      <code>$ignoreOfflines</code>
-      <code>$includeCurrent</code>
-      <code>$li</code>
-      <code>$open</code>
-      <code>$pathItem</code>
-      <code>$startPageLabel</code>
-      <code>$this-&gt;currentArticleId</code>
-      <code>$this-&gt;currentArticleId</code>
-      <code>$this-&gt;path</code>
-      <code>$this-&gt;path</code>
-      <code>$va</code>
-    </MixedArgument>
-    <MixedArrayAccess>
-      <code>$c['callback']</code>
-      <code>$c['depth']</code>
-      <code>$f['depth']</code>
-      <code>$f['metafield']</code>
-      <code>$f['type']</code>
-      <code>$f['value']</code>
-      <code>$this-&gt;classes[$depth - 1]</code>
-      <code>$this-&gt;linkclasses[$depth - 1]</code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment>
-      <code>$a['class']</code>
-      <code>$a['class']</code>
-      <code>$a['class']</code>
-      <code>$li['class']</code>
-      <code>$li['class']</code>
-      <code>$li['class']</code>
-      <code>$li['class']</code>
-      <code>$li['class']</code>
-      <code>$this-&gt;callbacks[]</code>
-      <code>$this-&gt;filter[]</code>
-    </MixedArrayAssignment>
     <MixedAssignment>
-      <code>$a['class'][]</code>
-      <code>$c</code>
-      <code>$callback</code>
-      <code>$f</code>
-      <code>$li['class'][]</code>
-      <code>$path</code>
-      <code>$pathItem</code>
       <code>$result</code>
       <code>$result</code>
       <code>$result</code>
-      <code>$va</code>
     </MixedAssignment>
-    <MixedFunctionCall>
-      <code>$callback($category, $depth, $li, $a, $aContent)</code>
-    </MixedFunctionCall>
     <MixedMethodCall>
       <code>$class::$method($category, $depth, $li, $a, $aContent)</code>
       <code>$method</code>
