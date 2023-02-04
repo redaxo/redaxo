@@ -155,7 +155,7 @@ media_manager_effect_convert2img_color_notice = Format "#ffffff", wenn nichts ge
 media_manager_effect_image_properties = Bild: Einstellungen (Qualität, Interlace, ...)
 media_manager_effect_image_properties_jpg_quality_notice = [0-100]. Leer lassen für Standardwert.
 media_manager_effect_image_properties_png_compression_notice = [0-9]. Leer lassen für Standardwert.
-media_manager_effect_image_properties_webp_quality_notice = [0-100]. Leer lassen für Standardwert.
+media_manager_effect_image_properties_webp_quality_notice = [0-101]. Leer lassen für Standardwert.
 media_manager_effect_image_properties_interlace_notice = Leer lassen für Standardauswahl.
 
 media_manager_effect_brightness = Bild: Helligkeit
