@@ -18,6 +18,8 @@ media_manager_jpg_quality = JPG quality
 media_manager_png_compression = PNG compression
 media_manager_png_compression_note = Values above 6-7 massively slow down the image creation.
 media_manager_webp_quality = WebP quality
+media_manager_avif_quality = AVIF quality
+media_manager_avif_speed = AVIF speed
 media_manager_interlace = Interlace/progressive mode
 
 media_manager_id = ID
@@ -153,6 +155,8 @@ media_manager_effect_image_properties = Image: settings (quality, interlace, ...
 media_manager_effect_image_properties_jpg_quality_notice = [0-100]. Leave empty for default value.
 media_manager_effect_image_properties_png_compression_notice = [0-9]. Leave empty for default value.
 media_manager_effect_image_properties_webp_quality_notice = [0-101]. Leave empty for default value.
+media_manager_effect_image_properties_avif_quality_notice = [0-100]. Leave empty for default value.
+media_manager_effect_image_properties_avif_speed_notice = [0-10]. Leave empty for default value.
 media_manager_effect_image_properties_interlace_notice = Leave empty for default value.
 
 media_manager_effect_brightness = Image: brightness
@@ -167,5 +171,5 @@ media_manager_effect_sepia = Image: sepia
 
 media_manager_effect_greyscale = Image: greyscale
 
-media_manager_effect_image_format = Image: convert to JPEG/PNG/GIF/WEBP
+media_manager_effect_image_format = Image: convert to JPEG/PNG/GIF/WEBP/AVIF
 media_manager_effect_image_format_convertto = Target format
