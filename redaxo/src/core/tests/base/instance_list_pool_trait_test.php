@@ -11,13 +11,13 @@ class rex_test_instance_list_pool
         getInstanceListPoolKey as public;
     }
 
-    protected $id;
+    private function __construct(
+        protected int $id,
+    ) {}
 
-    public static function get($id): self
+    public static function get(int $id): self
     {
-        $instance = new self();
-        $instance->id = $id;
-        return $instance;
+        return new self($id);
     }
 }
 

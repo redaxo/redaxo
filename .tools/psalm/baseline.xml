@@ -1260,9 +1260,6 @@
       <code>$params['content']</code>
       <code>$params['content']</code>
     </MixedArgument>
-    <MixedAssignment>
-      <code>$params</code>
-    </MixedAssignment>
   </file>
   <file src="redaxo/src/addons/metainfo/functions/function_metainfo.php">
     <MixedArrayAccess>
@@ -1278,9 +1275,6 @@
     <MixedReturnStatement>
       <code>$metaTables[$prefix]</code>
     </MixedReturnStatement>
-    <PossiblyFalseOperand>
-      <code>$metaTable</code>
-    </PossiblyFalseOperand>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/handler/api_default_fields.php">
     <MixedAssignment>
@@ -1373,7 +1367,14 @@
     </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/handler/handler.php">
+    <ArgumentTypeCoercion>
+      <code>$dbvalues[0]</code>
+      <code>$dbvalues[0]</code>
+      <code>$dbvalues[0]</code>
+    </ArgumentTypeCoercion>
     <MixedArgument>
+      <code>$activeItem-&gt;getValue($name)</code>
+      <code>$activeItem-&gt;getValue($name)</code>
       <code>$field-&gt;getValue('callback')</code>
       <code>$fieldAttributes</code>
       <code>$fieldName</code>
@@ -1428,9 +1429,6 @@
     <NullOperand>
       <code>rex_escape(preg_replace('/[^a-zA-Z0-9_-]/', '_', $name))</code>
     </NullOperand>
-    <PossiblyNullArgument>
-      <code>$id</code>
-    </PossiblyNullArgument>
     <PossiblyUndefinedArrayOffset>
       <code>$dbvalues[0]</code>
       <code>$dbvalues[0]</code>
@@ -1488,194 +1486,30 @@
     </PossiblyNullReference>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/input.php">
-    <MixedAssignment>
+    <InvalidPropertyAssignmentValue>
       <code>$value</code>
-      <code>$value</code>
-    </MixedAssignment>
+    </InvalidPropertyAssignmentValue>
     <MixedInferredReturnType>
-      <code>string</code>
-      <code>string|null</code>
+      <code>string|int|null</code>
     </MixedInferredReturnType>
-    <MixedPropertyTypeCoercion>
-      <code>$this-&gt;attributes</code>
-    </MixedPropertyTypeCoercion>
     <MixedReturnStatement>
       <code>$default</code>
-      <code>$this-&gt;value</code>
     </MixedReturnStatement>
+    <MixedReturnTypeCoercion>
+      <code>$this-&gt;getValue()</code>
+    </MixedReturnTypeCoercion>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/input/date.php">
     <MixedArgument>
       <code>$end</code>
       <code>$start</code>
-      <code>$this-&gt;endYear ?: idate('Y') + 10</code>
-      <code>$this-&gt;startYear ?: 2005</code>
     </MixedArgument>
-    <MixedAssignment>
-      <code>$yearSelect</code>
-    </MixedAssignment>
-    <MixedClone>
-      <code>clone $this-&gt;yearSelect</code>
-    </MixedClone>
-    <MixedInferredReturnType>
-      <code>rex_select</code>
-      <code>rex_select</code>
-      <code>rex_select</code>
-    </MixedInferredReturnType>
-    <MixedMethodCall>
-      <code>addOptions</code>
-      <code>get</code>
-      <code>get</code>
-      <code>get</code>
-      <code>setAttribute</code>
-      <code>setAttribute</code>
-      <code>setAttribute</code>
-      <code>setId</code>
-      <code>setId</code>
-      <code>setId</code>
-      <code>setName</code>
-      <code>setName</code>
-      <code>setName</code>
-      <code>setSelected</code>
-      <code>setSelected</code>
-      <code>setSelected</code>
-    </MixedMethodCall>
-    <MixedOperand>
-      <code>$this-&gt;daySelect-&gt;get()</code>
-      <code>$value</code>
-      <code>$value</code>
-      <code>$value</code>
-      <code>$value</code>
-      <code>$value</code>
-      <code>$yearSelect-&gt;get()</code>
-    </MixedOperand>
-    <MixedReturnStatement>
-      <code>$this-&gt;daySelect</code>
-      <code>$this-&gt;monthSelect</code>
-      <code>$this-&gt;yearSelect</code>
-    </MixedReturnStatement>
-  </file>
-  <file src="redaxo/src/addons/metainfo/lib/input/datetime.php">
-    <ImplementedReturnTypeMismatch>
-      <code>array</code>
-    </ImplementedReturnTypeMismatch>
-    <InvalidArgument>
-      <code>$this-&gt;dateInput-&gt;getValue()</code>
-      <code>$this-&gt;timeInput-&gt;getValue()</code>
-    </InvalidArgument>
-  </file>
-  <file src="redaxo/src/addons/metainfo/lib/input/linkbutton.php">
-    <MixedArgument>
-      <code>$buttonId</code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code>$buttonId</code>
-      <code>$categoryId</code>
-      <code>$value</code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code>$buttonId</code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/addons/metainfo/lib/input/linklistbutton.php">
-    <MixedArgument>
-      <code>$buttonId</code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code>$buttonId</code>
-      <code>$category</code>
-      <code>$value</code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code>$buttonId</code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/addons/metainfo/lib/input/mediabutton.php">
-    <MixedArgument>
-      <code>$args</code>
-      <code>$buttonId</code>
-    </MixedArgument>
-    <MixedArrayAssignment>
-      <code>$this-&gt;args['category']</code>
-      <code>$this-&gt;args['preview']</code>
-      <code>$this-&gt;args['types']</code>
-    </MixedArrayAssignment>
-    <MixedAssignment>
-      <code>$args</code>
-      <code>$buttonId</code>
-      <code>$value</code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code>$buttonId</code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/addons/metainfo/lib/input/medialistbutton.php">
-    <MixedArgument>
-      <code>$args</code>
-      <code>$buttonId</code>
-    </MixedArgument>
-    <MixedArrayAssignment>
-      <code>$this-&gt;args['category']</code>
-      <code>$this-&gt;args['preview']</code>
-      <code>$this-&gt;args['types']</code>
-    </MixedArrayAssignment>
-    <MixedAssignment>
-      <code>$args</code>
-      <code>$buttonId</code>
-      <code>$value</code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code>$buttonId</code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/addons/metainfo/lib/input/text.php">
-    <MixedAssignment>
-      <code>$value</code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code>$value</code>
-    </MixedOperand>
-  </file>
-  <file src="redaxo/src/addons/metainfo/lib/input/textarea.php">
-    <MixedAssignment>
-      <code>$value</code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code>$value</code>
-    </MixedOperand>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/input/time.php">
     <MixedArgument>
       <code>$end</code>
       <code>$start</code>
     </MixedArgument>
-    <MixedInferredReturnType>
-      <code>rex_select</code>
-      <code>rex_select</code>
-    </MixedInferredReturnType>
-    <MixedMethodCall>
-      <code>get</code>
-      <code>get</code>
-      <code>setAttribute</code>
-      <code>setAttribute</code>
-      <code>setId</code>
-      <code>setId</code>
-      <code>setName</code>
-      <code>setName</code>
-      <code>setSelected</code>
-      <code>setSelected</code>
-    </MixedMethodCall>
-    <MixedOperand>
-      <code>$this-&gt;hourSelect-&gt;get()</code>
-      <code>$value</code>
-      <code>$value</code>
-      <code>$value</code>
-      <code>$value</code>
-    </MixedOperand>
-    <MixedReturnStatement>
-      <code>$this-&gt;hourSelect</code>
-      <code>$this-&gt;minuteSelect</code>
-    </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/metainfo/lib/restrictions_element.php">
     <PossiblyNullOperand>
@@ -1698,33 +1532,6 @@
     <PossiblyNullOperand>
       <code>$field-&gt;getAttribute('id')</code>
     </PossiblyNullOperand>
-  </file>
-  <file src="redaxo/src/addons/metainfo/lib/table_manager.php">
-    <MixedArgument>
-      <code>$default</code>
-      <code>$default</code>
-      <code>$name</code>
-      <code>$name</code>
-      <code>$name</code>
-      <code>$oldname</code>
-      <code>$type</code>
-      <code>$type</code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code>$this-&gt;DBID</code>
-    </MixedAssignment>
-    <MixedInferredReturnType>
-      <code>string</code>
-    </MixedInferredReturnType>
-    <MixedOperand>
-      <code>$type</code>
-      <code>$type</code>
-      <code>$type</code>
-      <code>$type</code>
-    </MixedOperand>
-    <MixedReturnStatement>
-      <code>$this-&gt;tableName</code>
-    </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/metainfo/pages/content.metainfo.php">
     <MixedArgument>
@@ -2818,14 +2625,10 @@
       <code>$value</code>
     </MixedAssignment>
     <MixedInferredReturnType>
-      <code>getParent</code>
       <code>iterable</code>
       <code>iterable</code>
       <code>iterable</code>
     </MixedInferredReturnType>
-    <MixedReturnStatement>
-      <code>$this-&gt;parent</code>
-    </MixedReturnStatement>
   </file>
   <file src="redaxo/src/addons/structure/tests/function_rex_url_test.php">
     <MixedArgument>
@@ -2878,12 +2681,10 @@
     <InvalidScalarArgument>
       <code>$value</code>
     </InvalidScalarArgument>
-    <MixedArgument>
-      <code>$this-&gt;checkboxLabel</code>
-    </MixedArgument>
   </file>
   <file src="redaxo/src/addons/users/pages/roles.php">
     <MixedArgument>
+      <code>$params['all_label']</code>
       <code>$params['label']</code>
       <code>$params['options']</code>
       <code>$params['select']</code>
@@ -5881,11 +5682,6 @@
       <code>$navi[2]['headline']['title']</code>
     </MixedArrayAccess>
   </file>
-  <file src="redaxo/src/core/tests/console/config/set_test.php">
-    <MixedArgument>
-      <code>$this-&gt;initialConfig</code>
-    </MixedArgument>
-  </file>
   <file src="redaxo/src/core/tests/extension_test.php">
     <MixedAssignment>
       <code>$myparamActual</code>
@@ -6007,11 +5803,6 @@
       <code>$params['some']</code>
       <code>$params['subject']</code>
     </MixedOperand>
-  </file>
-  <file src="redaxo/src/core/tests/util/i18n_test.php">
-    <MixedArgument>
-      <code>$this-&gt;previousLocale</code>
-    </MixedArgument>
   </file>
   <file src="redaxo/src/core/tests/util/markdown_test.php">
     <MixedArgument>

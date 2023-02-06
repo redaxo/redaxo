@@ -152,7 +152,7 @@ media_manager_effect_convert2img_color_notice = Formatee "#ffffff", si no se est
 media_manager_effect_image_properties = Imagen: Configuración (Calidad, Entrelazado, ...)
 media_manager_effect_image_properties_jpg_quality_notice = [0-100]. Dejar en blanco para el valor por defecto.
 media_manager_effect_image_properties_png_compression_notice = [0-9]. Dejar en blanco para el valor por defecto.
-media_manager_effect_image_properties_webp_quality_notice = [0-100]. Dejar en blanco para el valor por defecto.
+media_manager_effect_image_properties_webp_quality_notice = [0-101]. Dejar en blanco para el valor por defecto.
 media_manager_effect_image_properties_interlace_notice = Dejar en blanco para el valor por defecto.
 
 media_manager_effect_brightness = Imagen: Brillo

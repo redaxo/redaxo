@@ -23,7 +23,7 @@ if ('update' == $func) {
 
     $config['jpg_quality'] = max(0, min(100, $config['jpg_quality']));
     $config['png_compression'] = max(-1, min(9, $config['png_compression']));
-    $config['webp_quality'] = max(0, min(100, $config['webp_quality']));
+    $config['webp_quality'] = max(0, min(101, $config['webp_quality']));
     $config['avif_quality'] = max(0, min(100, $config['avif_quality']));
     $config['avif_speed'] = max(0, min(10, $config['avif_speed']));
 
@@ -70,7 +70,7 @@ $formElements[] = $n;
 $inputGroups = [];
 $n = [];
 $n['class'] = 'rex-range-input-group';
-$n['left'] = '<input id="rex-js-rating-source-webp-quality" type="range" min="0" max="100" step="1" value="' . rex_escape($addon->getConfig('webp_quality')) . '" />';
+$n['left'] = '<input id="rex-js-rating-source-webp-quality" type="range" min="0" max="101" step="1" value="' . rex_escape($addon->getConfig('webp_quality')) . '" />';
 $n['field'] = '<input class="form-control" id="rex-js-rating-text-webp-quality" type="text" name="settings[webp_quality]" value="' . rex_escape($addon->getConfig('webp_quality')) . '" />';
 $inputGroups[] = $n;
 

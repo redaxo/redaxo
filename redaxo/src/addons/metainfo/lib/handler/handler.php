@@ -315,10 +315,10 @@ abstract class rex_metainfo_handler
                         $paramArray = rex_string::split($params);
 
                         if (isset($paramArray['start-year'])) {
-                            $rexInput->setStartYear($paramArray['start-year']);
+                            $rexInput->setStartYear((int) $paramArray['start-year']);
                         }
                         if (isset($paramArray['end-year'])) {
-                            $rexInput->setEndYear($paramArray['end-year']);
+                            $rexInput->setEndYear((int) $paramArray['end-year']);
                         }
                     }
 
@@ -384,16 +384,16 @@ abstract class rex_metainfo_handler
                     $rexInput->setValue($dbvalues[0]);
 
                     if (isset($paramArray['category'])) {
-                        $rexInput->setCategoryId($paramArray['category']);
+                        $rexInput->setCategoryId((int) $paramArray['category']);
                     }
                     if (isset($paramArray['types'])) {
                         $rexInput->setTypes($paramArray['types']);
                     }
                     if (isset($paramArray['preview'])) {
-                        $rexInput->setPreview($paramArray['preview']);
+                        $rexInput->setPreview((bool) $paramArray['preview']);
                     }
 
-                    $id = $rexInput->getAttribute('id');
+                    $id = (string) $rexInput->getAttribute('id');
                     $field = $rexInput->getHtml();
 
                     $e = [];
@@ -420,16 +420,16 @@ abstract class rex_metainfo_handler
                     $rexInput->setValue($dbvalues[0]);
 
                     if (isset($paramArray['category'])) {
-                        $rexInput->setCategoryId($paramArray['category']);
+                        $rexInput->setCategoryId((int) $paramArray['category']);
                     }
                     if (isset($paramArray['types'])) {
                         $rexInput->setTypes($paramArray['types']);
                     }
                     if (isset($paramArray['preview'])) {
-                        $rexInput->setPreview($paramArray['preview']);
+                        $rexInput->setPreview((bool) $paramArray['preview']);
                     }
 
-                    $id = $rexInput->getAttribute('id');
+                    $id = (string) $rexInput->getAttribute('id');
                     $field = $rexInput->getHtml();
 
                     $e = [];
@@ -447,7 +447,7 @@ abstract class rex_metainfo_handler
                     $tagAttr = ' class="rex-form-widget"';
 
                     $paramArray = rex_string::split($params);
-                    $category = '';
+                    $category = null;
                     if (isset($paramArray['category'])) {
                         $category = $paramArray['category'];
                     } elseif ($activeItem) {
@@ -457,10 +457,10 @@ abstract class rex_metainfo_handler
                     $rexInput = new rex_input_linkbutton();
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setButtonId($linkId);
-                    $rexInput->setCategoryId($category);
+                    $rexInput->setCategoryId($category ? (int) $category : null);
                     $rexInput->setAttribute('name', $name);
                     $rexInput->setValue($dbvalues[0]);
-                    $id = $rexInput->getAttribute('id');
+                    $id = (string) $rexInput->getAttribute('id');
                     $field = $rexInput->getHtml();
 
                     $e = [];
@@ -489,10 +489,10 @@ abstract class rex_metainfo_handler
                     $rexInput = new rex_input_linklistbutton();
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setButtonId($llistId);
-                    $rexInput->setCategoryId($category);
+                    $rexInput->setCategoryId($category ? (int) $category : null);
                     $rexInput->setAttribute('name', $name);
                     $rexInput->setValue(implode(',', $dbvalues));
-                    $id = $rexInput->getAttribute('id');
+                    $id = (string) $rexInput->getAttribute('id');
                     $field = $rexInput->getHtml();
 
                     $e = [];

@@ -85,7 +85,6 @@
             </errorLevel>
         </MissingConstructor>
         <MissingParamType errorLevel="info" />
-        <MissingPropertyType errorLevel="info" />
         <PropertyNotSetInConstructor errorLevel="info" />
         <RawObjectIteration>
             <errorLevel type="info">

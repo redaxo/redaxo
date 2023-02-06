@@ -4,20 +4,21 @@
  * @package redaxo\metainfo
  *
  * @internal
+ *
+ * @extends rex_input<string>
  */
 class rex_input_linklistbutton extends rex_input
 {
-    private $buttonId;
-    private $categoryId;
+    private string $buttonId = '';
+    private ?int $categoryId = null;
 
     public function __construct()
     {
         parent::__construct();
-        $this->buttonId = '';
-        $this->categoryId = '';
     }
 
     /**
+     * @param int $buttonId
      * @return void
      */
     public function setButtonId($buttonId)
@@ -27,6 +28,7 @@ class rex_input_linklistbutton extends rex_input
     }
 
     /**
+     * @param int|null $categoryId
      * @return void
      */
     public function setCategoryId($categoryId)

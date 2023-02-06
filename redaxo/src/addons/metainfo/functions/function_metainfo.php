@@ -107,8 +107,8 @@ function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $d
         return rex_i18n::msg('minfo_field_error_invalid_type');
     }
 
-    $fieldDbType = $typeInfos[0]['dbtype'];
-    $fieldDbLength = $typeInfos[0]['dblength'];
+    $fieldDbType = (string) $typeInfos[0]['dbtype'];
+    $fieldDbLength = (int) $typeInfos[0]['dblength'];
 
     // Spalte existiert schon?
     $sql->setQuery('SELECT * FROM ' . $metaTable . ' LIMIT 1');
@@ -180,7 +180,7 @@ function rex_metainfo_delete_field($fieldIdOrName)
     $fieldId = $sql->getValue('id');
 
     $prefix = rex_metainfo_meta_prefix($name);
-    $metaTable = rex_metainfo_meta_table($prefix);
+    $metaTable = rex_type::string(rex_metainfo_meta_table($prefix));
 
     // Spalte existiert?
     $sql->setQuery('SELECT * FROM ' . $metaTable . ' LIMIT 1');
