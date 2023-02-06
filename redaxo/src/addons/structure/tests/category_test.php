@@ -174,7 +174,7 @@ class rex_category_test extends TestCase
     private function createCategory(?rex_category $parent, array $params): rex_category
     {
         return new class($parent, $params) extends rex_category {
-            private $parent;
+            private ?rex_category $parent;
 
             public function __construct(?rex_category $parent, array $params)
             {
@@ -187,6 +187,7 @@ class rex_category_test extends TestCase
 
             public function getParent()
             {
+                /** @var static */
                 return $this->parent;
             }
         };

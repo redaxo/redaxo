@@ -8,7 +8,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  */
 class rex_command_config_set_test extends TestCase
 {
-    private $initialConfig;
+    private string $initialConfig;
 
     protected function setUp(): void
     {

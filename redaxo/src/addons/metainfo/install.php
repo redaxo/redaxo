@@ -85,10 +85,13 @@ for ($i = 0; $i < $sql->getRows(); ++$i) {
         $table = 'article';
     }
 
+    $default = $sql->getValue('default');
+    $default = null === $default ? $default : (string) $default;
+
     if (isset($columns[$table][$column])) {
-        $managers[$table]->editColumn($column, $column, $sql->getValue('dbtype'), $sql->getValue('dblength'), $sql->getValue('default'));
+        $managers[$table]->editColumn($column, $column, (string) $sql->getValue('dbtype'), (int) $sql->getValue('dblength'), $default);
     } else {
-        $managers[$table]->addColumn($column, $sql->getValue('dbtype'), $sql->getValue('dblength'), $sql->getValue('default'));
+        $managers[$table]->addColumn($column, (string) $sql->getValue('dbtype'), (int) $sql->getValue('dblength'), $default);
     }
 
     unset($columns[$table][$column]);

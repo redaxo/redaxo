@@ -14,6 +14,7 @@ rex_extension::register('BACKUP_BEFORE_DB_IMPORT', 'rex_metainfo_cleanup');
  * Alle Metafelder löschen, nicht das nach einem Import in der Parameter Tabelle
  * noch Datensätze zu Feldern stehen, welche nicht als Spalten in der
  * rex_article angelegt wurden!
+ * @param rex_extension_point|array $epOrParams
  * @return void
  */
 function rex_metainfo_cleanup($epOrParams)
@@ -42,10 +43,10 @@ function rex_metainfo_cleanup($epOrParams)
 
     for ($i = 0; $i < $sql->getRows(); ++$i) {
         $prefix = rex_metainfo_meta_prefix((string) $sql->getValue('name'));
-        $table = rex_metainfo_meta_table($prefix);
+        $table = rex_type::string(rex_metainfo_meta_table($prefix));
         $tableManager = new rex_metainfo_table_manager($table);
 
-        $tableManager->deleteColumn($sql->getValue('name'));
+        $tableManager->deleteColumn((string) $sql->getValue('name'));
 
         $sql->next();
     }
