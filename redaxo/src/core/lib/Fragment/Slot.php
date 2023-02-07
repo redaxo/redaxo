@@ -8,8 +8,7 @@ class Slot
 {
     public function __construct(
         public string $value,
-    ) {
-    }
+    ) {}
 
     public function get(): string
     {

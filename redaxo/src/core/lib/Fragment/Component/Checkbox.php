@@ -4,7 +4,6 @@ namespace Redaxo\Core\Fragment\Component;
 
 use Redaxo\Core\Fragment\Slot;
 use rex_fragment;
-use rex_functional_exception;
 
 class Checkbox extends rex_fragment
 {

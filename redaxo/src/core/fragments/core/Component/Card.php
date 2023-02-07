@@ -5,6 +5,7 @@
  */
 
 use Redaxo\Core\Fragment\Component\Card;
+
 ?>
 
 <sl-card

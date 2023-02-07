@@ -5,6 +5,7 @@ namespace Redaxo\Core\Fragment\Component;
 use Closure;
 use Redaxo\Core\Fragment\Slot;
 use rex_fragment;
+
 use function call_user_func;
 use function is_array;
 use function is_callable;

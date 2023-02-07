@@ -19,8 +19,7 @@ class Info
 
         /** @var array<string, string>|null */
         public ?array $attributes = null,
-    ) {
-    }
+    ) {}
 
     public function render(): string
     {

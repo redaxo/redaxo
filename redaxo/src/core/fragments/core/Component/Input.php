@@ -5,6 +5,7 @@
  */
 
 use Redaxo\Core\Fragment\Component\Input;
+
 ?>
 
 <sl-input

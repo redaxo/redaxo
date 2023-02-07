@@ -7,6 +7,8 @@ use Redaxo\Core\Fragment\Slot;
 use rex_fragment;
 use rex_functional_exception;
 
+use function in_array;
+
 class Input extends rex_fragment
 {
     private string $fileName = 'core/Component/Input.php';
@@ -204,4 +206,3 @@ enum InputType: string
     case Time = 'time';
     case Url = 'url';
 }
-

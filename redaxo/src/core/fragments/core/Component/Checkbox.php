@@ -5,6 +5,7 @@
  */
 
 use Redaxo\Core\Fragment\Component\Checkbox;
+
 ?>
 <sl-checkbox
     <?= $this->name ? 'name="'.rex_escape($this->name).'"' : '' ?>

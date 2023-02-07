@@ -12,7 +12,7 @@ $variant = match ($this->type) {
     AlertType::Info => 'primary',
     AlertType::Success => 'success',
     AlertType::Warning => 'warning',
-    default => 'neutral'
+    default => 'neutral',
 };
 ?>
 

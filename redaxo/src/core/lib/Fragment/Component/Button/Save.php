@@ -18,8 +18,7 @@ class Save
         public ?string $value = null,
         /** @var array<string, string>|null */
         public ?array $attributes = null,
-    ) {
-    }
+    ) {}
 
     public function render(): string
     {

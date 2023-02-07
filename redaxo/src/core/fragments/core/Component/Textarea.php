@@ -5,6 +5,7 @@
  */
 
 use Redaxo\Core\Fragment\Component\Textarea;
+
 ?>
 
 <sl-textarea

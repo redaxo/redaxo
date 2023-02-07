@@ -185,7 +185,7 @@ if (!rex::isDebugMode()) {
     $attributes['data-confirm'] = rex_i18n::msg('debug_confirm');
 }
 $buttonDebugMode = new Button(
-    slotDefault: new Slot((rex::isDebugMode() ? rex_i18n::msg('debug_mode_off') : rex_i18n::msg('debug_mode_on'))),
+    slotDefault: new Slot(rex::isDebugMode() ? rex_i18n::msg('debug_mode_off') : rex_i18n::msg('debug_mode_on')),
     slotPrefix: new Slot($icon->render()),
     href: (rex_url::currentBackendPage(['func' => 'debugmode'] + $csrfToken->getUrlParams())),
     variant: ButtonVariant::Warning,
@@ -236,7 +236,7 @@ $sideContent = [];
 
 $card = new Card(
     slotDefault: new Slot($content),
-    slotHeader: new Slot('<div>'.rex_i18n::msg('system_features').'</div>')
+    slotHeader: new Slot('<div>'.rex_i18n::msg('system_features').'</div>'),
 );
 $sideContent[] = $card->render();
 
@@ -260,7 +260,7 @@ $content = '
 
 $card = new Card(
     slotDefault: new Slot($content),
-    slotHeader: new Slot('<div>'.rex_i18n::msg('installation').'</div>')
+    slotHeader: new Slot('<div>'.rex_i18n::msg('installation').'</div>'),
 );
 $sideContent[] = $card->render();
 
@@ -284,7 +284,7 @@ $content = '
 
 $card = new Card(
     slotDefault: new Slot($content),
-    slotHeader: new Slot('<div>'.rex_i18n::msg('database').'</div>')
+    slotHeader: new Slot('<div>'.rex_i18n::msg('database').'</div>'),
 );
 $sideContent[] = $card->render();
 
@@ -411,7 +411,7 @@ $content = '<p>' . rex_i18n::msg('system_editor_note') . '</p>';
 $viaCookie = array_key_exists('editor', $_COOKIE);
 if ($viaCookie) {
     $alert = new Info(
-        slotDefault: new Slot(rex_i18n::msg('system_editor_note_cookie'))
+        slotDefault: new Slot(rex_i18n::msg('system_editor_note_cookie')),
     );
     $content .= $alert->render();
 }
@@ -447,7 +447,7 @@ if (!$viaCookie) {
     $buttonSave = new Button\Save(
         slotDefault: new Slot(rex_i18n::msg('system_editor_update_configyml')),
         name: 'editor[update_cookie]',
-        value: '0'
+        value: '0',
     );
     $buttons[] = $buttonSave->render();
 }
@@ -455,7 +455,7 @@ if (!$viaCookie) {
 $buttonSave = new Button\Save(
     slotDefault: new Slot(rex_i18n::msg('system_editor_update_cookie')),
     name: 'editor[update_cookie]',
-    value: '1'
+    value: '1',
 );
 $buttons[] = $buttonSave->render();
 
@@ -465,7 +465,7 @@ if ($viaCookie) {
         variant: ButtonVariant::Danger,
         type: ButtonType::Submit,
         name: 'editor[delete_cookie]',
-        value: '1'
+        value: '1',
     );
     $buttons[] = $buttonDelete->render();
 }
