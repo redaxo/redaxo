@@ -325,6 +325,6 @@ class rex_backend_login extends rex_login
             return;
         }
 
-        rex_user_session::updateSessionId($ep->getParam('previous_id'), $ep->getParam('new_id'));
+        rex_user_session::updateSessionId(rex_type::string($ep->getParam('previous_id')), rex_type::string($ep->getParam('new_id')));
     }
 }
