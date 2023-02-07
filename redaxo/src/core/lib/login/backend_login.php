@@ -20,6 +20,8 @@ class rex_backend_login extends rex_login
     /** @var rex_backend_password_policy */
     private $passwordPolicy;
 
+    private static bool $sessionRegenerationForBackendLogin = false;
+
     public function __construct()
     {
         parent::__construct();
@@ -301,5 +303,28 @@ class rex_backend_login extends rex_login
         $loginPolicy = (array) rex::getProperty('backend_login_policy', []);
 
         return new rex_login_policy($loginPolicy);
+    }
+
+    public static function regenerateSessionId()
+    {
+        self::$sessionRegenerationForBackendLogin = true;
+        try {
+            parent::regenerateSessionId();
+        } finally {
+            self::$sessionRegenerationForBackendLogin = false;
+        }
+    }
+
+    /**
+     * @internal
+     * @param rex_extension_point<null> $ep
+     */
+    public static function sessionRegenerated(rex_extension_point $ep): void
+    {
+        if (self::$sessionRegenerationForBackendLogin) {
+            return;
+        }
+
+        rex_user_session::updateSessionId(rex_type::string($ep->getParam('previous_id')), rex_type::string($ep->getParam('new_id')));
     }
 }

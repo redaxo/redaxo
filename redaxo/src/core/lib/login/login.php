@@ -281,7 +281,7 @@ class rex_login
                 $this->user->setQuery($this->loginQuery, [':login' => $this->userLogin]);
                 if (1 == $this->user->getRows() && self::passwordVerify($this->userPassword, $this->user->getValue($this->passwordColumn), true)) {
                     $ok = true;
-                    self::regenerateSessionId();
+                    static::regenerateSessionId();
                     $this->setSessionVar(self::SESSION_START_TIME, time());
                     $this->setSessionVar(self::SESSION_USER_ID, $this->user->getValue($this->idColumn));
                     $this->setSessionVar(self::SESSION_PASSWORD, $this->user->getValue($this->passwordColumn));
@@ -513,9 +513,17 @@ class rex_login
      *
      * @return void
      */
-    protected static function regenerateSessionId()
+    public static function regenerateSessionId()
     {
-        if ('' != session_id()) {
+        /** @var bool $regenerated */
+        static $regenerated = false;
+        if ($regenerated) {
+            return;
+        }
+
+        if ('' != $previous = session_id()) {
+            $regenerated = true;
+
             session_regenerate_id(true);
 
             $cookieParams = static::getCookieParams();
@@ -524,6 +532,11 @@ class rex_login
             }
 
             rex_csrf_token::removeAll();
+
+            rex_extension::registerPoint(new rex_extension_point('SESSION_REGENERATED', null, [
+                'previous_id' => $previous,
+                'new_id' => session_id(),
+            ], true));
         }
 
         // session-id is shared between frontend/backend or even redaxo instances per server because it's the same http session
